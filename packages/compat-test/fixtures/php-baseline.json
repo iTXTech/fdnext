@@ -1,0 +1,657 @@
+{
+  "fixtures": [
+    {
+      "name": "decode-chs-known",
+      "endpoint": "decode",
+      "params": {
+        "pn": "MT29F64G08CBABA",
+        "lang": "chs"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "MT29F64G08CBABA",
+          "vendor": "美光",
+          "type": "NAND",
+          "density": "64Gb",
+          "deviceWidth": "x8",
+          "processNode": "20nm",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 1,
+            "ch": 1,
+            "rb": 1,
+            "die": 1
+          },
+          "voltage": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V)",
+          "generation": "2",
+          "接口": {
+            "async": "是",
+            "sync": "否"
+          },
+          "package": "未知",
+          "extraInfo": {
+            "企业级": "否"
+          },
+          "flashId": [
+            "2C64444BA900",
+            "2C84C54BA900",
+            "2C644443A9",
+            "2C64643CA004"
+          ],
+          "controller": [
+            "SM3255AB",
+            "SM3255ENA1",
+            "SM3257AA",
+            "SM3257ENAA",
+            "SM3257ENAA_8CE",
+            "SM3257ENBA",
+            "SM3257ENBB",
+            "SM3257ENLT",
+            "SM3259AA",
+            "SM3259AB",
+            "SM3260AA",
+            "SM3260AB",
+            "SM3260AD",
+            "SM3261AB",
+            "SM3263AA",
+            "SM3263AB",
+            "SM3265AB",
+            "SM3265AC",
+            "SM3267AA",
+            "SM3267AB",
+            "SM3267AB_COB",
+            "SM3267AC",
+            "SM3267AE",
+            "SM3268AA",
+            "SM3268AB",
+            "SM3269AA",
+            "SM3269AA_COB",
+            "SM3270AA",
+            "SM3270AB",
+            "SM3270AC",
+            "SM3271AB",
+            "SM2244LT",
+            "SM2246EN",
+            "SF2141",
+            "SF2181",
+            "SF2281",
+            "SF2282",
+            "SF2241",
+            "SF2581",
+            "AU6989SN",
+            "AU6989SN-G",
+            "AU6989SN-GT",
+            "AU6989SNL",
+            "AU6989SNL-B",
+            "AU6989SN-GTA",
+            "AU6989SN-GTB",
+            "AU6989SN-GTC",
+            "AU6989SN-GTD",
+            "AU6989SN-GTE",
+            "CBM2096P",
+            "CBM2096",
+            "CBM2098P",
+            "CBM2098E",
+            "CBM2099",
+            "CBM2099E",
+            "CBM2098S",
+            "CBM2099S",
+            "CBM2199",
+            "CBM2199S",
+            "CBM2199E",
+            "CBM2199ES",
+            "IS902E",
+            "IS902",
+            "IS903",
+            "IS916EN",
+            "IS916",
+            "IS917"
+          ],
+          "remark": "1way&2way $prog enable from Fset",
+          "url": {
+            "美光官网": "https://www.micron.com/support/tools-and-utilities/fbga?matpart=MT29F64G08CBABA"
+          },
+          "urls": [
+            {
+              "url": "https://www.micron.com/support/tools-and-utilities/fbga?matpart=MT29F64G08CBABA",
+              "desc": "美光官网",
+              "img": "logo",
+              "hint": ""
+            }
+          ],
+          "rawDensity": 65536,
+          "interface": {
+            "async": true,
+            "sync": false
+          },
+          "rawVendor": "micron"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-known",
+      "endpoint": "decode",
+      "params": {
+        "pn": "MT29F64G08CBABA",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "MT29F64G08CBABA",
+          "vendor": "Micron",
+          "type": "NAND",
+          "density": "64Gb",
+          "deviceWidth": "x8",
+          "processNode": "20nm",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 1,
+            "ch": 1,
+            "rb": 1,
+            "die": 1
+          },
+          "voltage": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V)",
+          "generation": "2",
+          "Interface": {
+            "async": "Yes",
+            "sync": "No"
+          },
+          "package": "Unknown",
+          "extraInfo": {
+            "Enterprise": "No"
+          },
+          "flashId": [
+            "2C64444BA900",
+            "2C84C54BA900",
+            "2C644443A9",
+            "2C64643CA004"
+          ],
+          "controller": [
+            "SM3255AB",
+            "SM3255ENA1",
+            "SM3257AA",
+            "SM3257ENAA",
+            "SM3257ENAA_8CE",
+            "SM3257ENBA",
+            "SM3257ENBB",
+            "SM3257ENLT",
+            "SM3259AA",
+            "SM3259AB",
+            "SM3260AA",
+            "SM3260AB",
+            "SM3260AD",
+            "SM3261AB",
+            "SM3263AA",
+            "SM3263AB",
+            "SM3265AB",
+            "SM3265AC",
+            "SM3267AA",
+            "SM3267AB",
+            "SM3267AB_COB",
+            "SM3267AC",
+            "SM3267AE",
+            "SM3268AA",
+            "SM3268AB",
+            "SM3269AA",
+            "SM3269AA_COB",
+            "SM3270AA",
+            "SM3270AB",
+            "SM3270AC",
+            "SM3271AB",
+            "SM2244LT",
+            "SM2246EN",
+            "SF2141",
+            "SF2181",
+            "SF2281",
+            "SF2282",
+            "SF2241",
+            "SF2581",
+            "AU6989SN",
+            "AU6989SN-G",
+            "AU6989SN-GT",
+            "AU6989SNL",
+            "AU6989SNL-B",
+            "AU6989SN-GTA",
+            "AU6989SN-GTB",
+            "AU6989SN-GTC",
+            "AU6989SN-GTD",
+            "AU6989SN-GTE",
+            "CBM2096P",
+            "CBM2096",
+            "CBM2098P",
+            "CBM2098E",
+            "CBM2099",
+            "CBM2099E",
+            "CBM2098S",
+            "CBM2099S",
+            "CBM2199",
+            "CBM2199S",
+            "CBM2199E",
+            "CBM2199ES",
+            "IS902E",
+            "IS902",
+            "IS903",
+            "IS916EN",
+            "IS916",
+            "IS917"
+          ],
+          "remark": "1way&2way $prog enable from Fset",
+          "url": {
+            "Micron Website": "https://www.micron.com/support/tools-and-utilities/fbga?matpart=MT29F64G08CBABA"
+          },
+          "urls": [
+            {
+              "url": "https://www.micron.com/support/tools-and-utilities/fbga?matpart=MT29F64G08CBABA",
+              "desc": "Micron Website",
+              "img": "logo",
+              "hint": ""
+            }
+          ],
+          "rawDensity": 65536,
+          "interface": {
+            "async": true,
+            "sync": false
+          },
+          "rawVendor": "micron"
+        }
+      }
+    },
+    {
+      "name": "decode-missing-pn",
+      "endpoint": "decode",
+      "params": {
+        "lang": "eng"
+      },
+      "php": {
+        "result": false,
+        "message": "Missing part number"
+      }
+    },
+    {
+      "name": "decode-id-known",
+      "endpoint": "decodeId",
+      "params": {
+        "id": "2C64444BA900",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "id": "2C64444BA900",
+          "vendor": "Micron",
+          "density": "Unknown",
+          "die": 1,
+          "plane": 2,
+          "pageSize": 8,
+          "blockSize": "Unknown",
+          "processNode": "Unknown",
+          "cellLevel": "MLC",
+          "voltage": "Vcc: 3.3V",
+          "ext": {
+            "Blocks Per Lun": "2049~4096",
+            "Timing Mode Async": "5 (20ns)",
+            "Revision": 1,
+            "Enterprise": "No"
+          },
+          "controllers": [
+            "SM3255AB",
+            "SM3255ENA1",
+            "SM3257AA",
+            "SM3257ENAA",
+            "SM3257ENAA_8CE",
+            "SM3257ENBA",
+            "SM3257ENBB",
+            "SM3257ENLT",
+            "SM3259AA",
+            "SM3259AB",
+            "SM3260AA",
+            "SM3260AB",
+            "SM3260AD",
+            "SM3261AB",
+            "SM3263AA",
+            "SM3263AB",
+            "SM3265AB",
+            "SM3265AC",
+            "SM3267AA",
+            "SM3267AB",
+            "SM3267AB_COB",
+            "SM3267AC",
+            "SM3267AE",
+            "SM3268AA",
+            "SM3268AB",
+            "SM3269AA",
+            "SM3269AA_COB",
+            "SM3270AA",
+            "SM3270AB",
+            "SM3270AC",
+            "SM3271AB",
+            "SM2244LT",
+            "SM2246EN",
+            "SM2246XT",
+            "JMF608",
+            "CBM2096P",
+            "CBM2096",
+            "CBM2098P",
+            "CBM2098E",
+            "CBM2098S",
+            "CBM2099",
+            "CBM2099E",
+            "CBM2099S",
+            "CBM2199",
+            "CBM2199S",
+            "CBM2199E",
+            "CBM2199ES",
+            "IS902E",
+            "IS902",
+            "IS903",
+            "IS916EN",
+            "IS916",
+            "IS917"
+          ],
+          "partNumbers": [
+            "Micron MT29F64G08CBABA",
+            "Micron MT29F64G08CBABB",
+            "Micron MT29F64G08CBCBB",
+            "Micron MT29F128G08CECBB",
+            "Micron MT29F128G08CFABA",
+            "Micron MT29F128G08CFABB",
+            "Micron MT29F256G08CMCBB",
+            "Micron MT29F64G08CFACB",
+            "Micron MT29F64G08CBEBB"
+          ],
+          "url": [],
+          "urls": [],
+          "rawVendor": "micron"
+        }
+      }
+    },
+    {
+      "name": "decode-id-missing",
+      "endpoint": "decodeId",
+      "params": {
+        "lang": "chs"
+      },
+      "php": {
+        "result": false,
+        "message": "Missing Flash Id"
+      }
+    },
+    {
+      "name": "search-pn-micron",
+      "endpoint": "searchPn",
+      "params": {
+        "pn": "MT29",
+        "lang": "eng",
+        "limit": 5
+      },
+      "php": {
+        "result": true,
+        "data": [
+          "Samsung MT29F4G08ABBEA(M70M)",
+          "Samsung MT29F8G08QAA",
+          "SKhynix MT29F32G08CBABA(L83)",
+          "SKhynix MT29F2G16ABA",
+          "SKhynix MT29F8G16ADBDA"
+        ]
+      }
+    },
+    {
+      "name": "search-pn-sandisk",
+      "endpoint": "searchPn",
+      "params": {
+        "pn": "SDIN",
+        "lang": "chs",
+        "limit": 5
+      },
+      "php": {
+        "result": true,
+        "data": [
+          "西数 SDIN5C2-32G",
+          "西数 SDIN5C4-32G",
+          "西数 SDIN5C4-64G",
+          "西数 INANDSDIN7DP4-16G",
+          "西数 SDIN7DU2-32G"
+        ]
+      }
+    },
+    {
+      "name": "search-id-micron",
+      "endpoint": "searchId",
+      "params": {
+        "id": "2C64",
+        "lang": "eng",
+        "limit": 5
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "2C6428D64A00": {
+            "partNumbers": [
+              "micron 29F32G08EBCAB"
+            ],
+            "pageSize": "4K",
+            "pagesPerBlock": 384,
+            "blocks": 80,
+            "controllers": []
+          },
+          "2C6488764A00": {
+            "partNumbers": [
+              "micron 29F32G08EBAAA"
+            ],
+            "pageSize": "4K",
+            "pagesPerBlock": 384,
+            "blocks": 80,
+            "controllers": []
+          },
+          "2C644432A500": {
+            "partNumbers": [
+              "micron 29F64G08CBCGB",
+              "micron MT29F64G08CBCGB",
+              "micron MT29F64G08CBHGB",
+              "micron MT29F128G08CEHGB",
+              "micron MT29F256G08CMHGB"
+            ],
+            "pageSize": "16K",
+            "pagesPerBlock": 512,
+            "blocks": 1088,
+            "controllers": [
+              "SM3259AA",
+              "SM3268AB",
+              "SM3270AB",
+              "SM3270AC",
+              "SM3271AB",
+              "SM3281AB",
+              "SM3281BB",
+              "SM2246EN",
+              "CBM2099E",
+              "CBM2199",
+              "CBM2199E",
+              "IS917"
+            ]
+          },
+          "2C64444BA900": {
+            "partNumbers": [
+              "micron MT29F64G08CBABA",
+              "micron MT29F64G08CBABB",
+              "micron MT29F64G08CBCBB",
+              "micron MT29F128G08CECBB",
+              "micron MT29F128G08CFABA",
+              "micron MT29F128G08CFABB",
+              "micron MT29F256G08CMCBB",
+              "micron MT29F64G08CFACB",
+              "micron MT29F64G08CBEBB"
+            ],
+            "pageSize": "8K",
+            "pagesPerBlock": 256,
+            "blocks": 4096,
+            "controllers": [
+              "SM3255AB",
+              "SM3255ENA1",
+              "SM3257AA",
+              "SM3257ENAA",
+              "SM3257ENAA_8CE",
+              "SM3257ENBA",
+              "SM3257ENBB",
+              "SM3257ENLT",
+              "SM3259AA",
+              "SM3259AB",
+              "SM3260AA",
+              "SM3260AB",
+              "SM3260AD",
+              "SM3261AB",
+              "SM3263AA",
+              "SM3263AB",
+              "SM3265AB",
+              "SM3265AC",
+              "SM3267AA",
+              "SM3267AB",
+              "SM3267AB_COB",
+              "SM3267AC",
+              "SM3267AE",
+              "SM3268AA",
+              "SM3268AB",
+              "SM3269AA",
+              "SM3269AA_COB",
+              "SM3270AA",
+              "SM3270AB",
+              "SM3270AC",
+              "SM3271AB",
+              "SM2244LT",
+              "SM2246EN",
+              "SM2246XT",
+              "JMF608",
+              "CBM2096P",
+              "CBM2096",
+              "CBM2098P",
+              "CBM2098E",
+              "CBM2098S",
+              "CBM2099",
+              "CBM2099E",
+              "CBM2099S",
+              "CBM2199",
+              "CBM2199S",
+              "CBM2199E",
+              "CBM2199ES",
+              "IS902E",
+              "IS902",
+              "IS903",
+              "IS916EN",
+              "IS916",
+              "IS917"
+            ]
+          },
+          "2C64643CA504": {
+            "partNumbers": [
+              "micron MT29F64G08CBEDB",
+              "micron MT29F64G08CBCDB",
+              "micron MT29F128G08CEEDB",
+              "micron MT29F256G08CMEDB",
+              "micron MT29F128G08CECDB",
+              "micron MT29F256G08CMCDB"
+            ],
+            "pageSize": "16K",
+            "pagesPerBlock": 512,
+            "blocks": 1048,
+            "controllers": [
+              "SM3257ENAA",
+              "SM3257ENAA_8CE",
+              "SM3257ENBA",
+              "SM3257ENBB",
+              "SM3257ENLT",
+              "SM3259AA",
+              "SM3259AB",
+              "SM3260AD",
+              "SM3267AB",
+              "SM3267AB_COB",
+              "SM3267AC",
+              "SM3267AE",
+              "SM3268AA",
+              "SM3268AB",
+              "SM3269AA",
+              "SM3269AA_COB",
+              "SM3270AA",
+              "SM3270AB",
+              "SM3270AC",
+              "SM3271AB",
+              "SM2244LT",
+              "SM2246EN",
+              "JMF608",
+              "CBM2098P",
+              "CBM2098E",
+              "CBM2099",
+              "CBM2099E",
+              "CBM2199",
+              "CBM2199E",
+              "CBM2199ES",
+              "IS902E",
+              "IS903",
+              "IS916EN",
+              "IS916",
+              "IS917"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "search-id-missing",
+      "endpoint": "searchId",
+      "params": {
+        "lang": "eng",
+        "limit": 5
+      },
+      "php": {
+        "result": false,
+        "message": "Missing Flash Id"
+      }
+    },
+    {
+      "name": "summary-eng-known",
+      "endpoint": "summary",
+      "params": {
+        "pn": "MT29F64G08CBABA",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": "Part Number: MT29F64G08CBABA, Vendor: Micron, Type: NAND, Density: 64Gb\nDevice Width: x8, Cell Level: MLC, Process Node: 20nm, Generation: 2\nSync: No, Async: Yes, CE: 1, Ch: 1, Die: 1, R/B: 1\nVoltage: Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V)\nPackage: Unknown\nController: SM3255AB, SM3255ENA1, SM3257AA, SM3257ENAA, SM3257ENAA_8CE, SM3257ENBA, SM3257ENBB, SM3257ENLT, SM3259AA, SM3259AB, SM3260AA, SM3260AB, SM3260AD, SM3261AB, SM3263AA, SM3263AB, SM3265AB, SM3265AC, SM3267AA, SM3267AB, SM3267AB_COB, SM3267AC, SM3267AE, SM3268AA, SM3268AB, SM3269AA, SM3269AA_COB, SM3270AA, SM3270AB, SM3270AC, SM3271AB, SM2244LT, SM2246EN, SF2141, SF2181, SF2281, SF2282, SF2241, SF2581, AU6989SN, AU6989SN-G, AU6989SN-GT, AU6989SNL, AU6989SNL-B, AU6989SN-GTA, AU6989SN-GTB, AU6989SN-GTC, AU6989SN-GTD, AU6989SN-GTE, CBM2096P, CBM2096, CBM2098P, CBM2098E, CBM2099, CBM2099E, CBM2098S, CBM2099S, CBM2199, CBM2199S, CBM2199E, CBM2199ES, IS902E, IS902, IS903, IS916EN, IS916, IS917\nRemark: 1way&2way $prog enable from Fset\nAdditional Info: Enterprise: No\nFlash ID: 2C64444BA900, 2C84C54BA900, 2C644443A9, 2C64643CA004\nPowered by FlashMaster https://nand.gq"
+      }
+    },
+    {
+      "name": "summary-missing-pn",
+      "endpoint": "summary",
+      "params": {
+        "lang": "eng"
+      },
+      "php": {
+        "result": false,
+        "message": "Missing part number"
+      }
+    },
+    {
+      "name": "summary-id-eng-known",
+      "endpoint": "summaryId",
+      "params": {
+        "id": "2C64444BA900",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": "FlashId: 2C64444BA900, Vendor: Micron, Cell Level: MLC, Density: Unknown\nProcess Node: Unknown, Die: 1, Plane: 2, Voltage: Vcc: 3.3V\nPage Size: 8, Block Size: Unknown\nControllers: SM3255AB, SM3255ENA1, SM3257AA, SM3257ENAA, SM3257ENAA_8CE, SM3257ENBA, SM3257ENBB, SM3257ENLT, SM3259AA, SM3259AB, SM3260AA, SM3260AB, SM3260AD, SM3261AB, SM3263AA, SM3263AB, SM3265AB, SM3265AC, SM3267AA, SM3267AB, SM3267AB_COB, SM3267AC, SM3267AE, SM3268AA, SM3268AB, SM3269AA, SM3269AA_COB, SM3270AA, SM3270AB, SM3270AC, SM3271AB, SM2244LT, SM2246EN, SM2246XT, JMF608, CBM2096P, CBM2096, CBM2098P, CBM2098E, CBM2098S, CBM2099, CBM2099E, CBM2099S, CBM2199, CBM2199S, CBM2199E, CBM2199ES, IS902E, IS902, IS903, IS916EN, IS916, IS917\nAdditional Info: Blocks Per Lun: 2049~4096, Timing Mode Async: 5 (20ns), Revision: 1, Enterprise: No\nPart Numbers: Micron MT29F64G08CBABA, Micron MT29F64G08CBABB, Micron MT29F64G08CBCBB, Micron MT29F128G08CECBB, Micron MT29F128G08CFABA, Micron MT29F128G08CFABB, Micron MT29F256G08CMCBB, Micron MT29F64G08CFACB, Micron MT29F64G08CBEBB\nPowered by FlashMaster https://nand.gq"
+      }
+    },
+    {
+      "name": "summary-id-missing",
+      "endpoint": "summaryId",
+      "params": {
+        "lang": "chs"
+      },
+      "php": {
+        "result": false,
+        "message": "Missing flash Id"
+      }
+    }
+  ]
+}
