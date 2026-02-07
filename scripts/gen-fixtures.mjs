@@ -12,6 +12,22 @@ const OUTPUT_PATH = resolve(process.env.FDNEXT_FIXTURES ?? resolve(ROOT, "packag
 const CASES = [
   { name: "decode-chs-known", endpoint: "decode", params: { pn: "MT29F64G08CBABA", lang: "chs" } },
   { name: "decode-eng-known", endpoint: "decode", params: { pn: "MT29F64G08CBABA", lang: "eng" } },
+  { name: "decode-eng-samsung", endpoint: "decode", params: { pn: "K9OMGY8S7M", lang: "eng" } },
+  { name: "decode-eng-skhynix", endpoint: "decode", params: { pn: "H27UCG8V5A", lang: "eng" } },
+  { name: "decode-eng-skhynix-3d", endpoint: "decode", params: { pn: "H25QEM8A1B", lang: "eng" } },
+  { name: "decode-eng-skhynix-legacy", endpoint: "decode", params: { pn: "HY27UV08BG5M", lang: "eng" } },
+  { name: "decode-eng-intel", endpoint: "decode", params: { pn: "JS29F16G08AAND2", lang: "eng" } },
+  { name: "decode-eng-kioxia-tc", endpoint: "decode", params: { pn: "TC58NVG3D2ETA00", lang: "eng" } },
+  { name: "decode-eng-kioxia-th", endpoint: "decode", params: { pn: "TH58NVG5T2ETA20", lang: "eng" } },
+  { name: "decode-eng-kioxia-tc-bga-detail", endpoint: "decode", params: { pn: "TC58NVG3D2EXB01", lang: "eng" } },
+  { name: "decode-eng-kioxia-tc-lga-detail", endpoint: "decode", params: { pn: "TC58NVG3D2ELA01", lang: "eng" } },
+  { name: "decode-eng-wd-sdtn", endpoint: "decode", params: { pn: "SDTNMNAHEM-002G", lang: "eng" } },
+  { name: "decode-eng-wd-shortcode-fdb", endpoint: "decode", params: { pn: "05131-032G", lang: "eng" } },
+  { name: "decode-eng-ymtc", endpoint: "decode", params: { pn: "YMN06MB1B1AC1A", lang: "eng" } },
+  { name: "decode-eng-phison", endpoint: "decode", params: { pn: "TA17GABCH0", lang: "eng" } },
+  { name: "decode-eng-spectek", endpoint: "decode", params: { pn: "FBNL06B256G1KDBAB", lang: "eng" } },
+  { name: "decode-eng-micron-fbga", endpoint: "decode", params: { pn: "NW101", lang: "eng" } },
+  { name: "decode-eng-micron-fbga-meta", endpoint: "decode", params: { pn: "1A0D1NW101", lang: "eng" } },
   { name: "decode-missing-pn", endpoint: "decode", params: { lang: "eng" } },
   { name: "decode-id-known", endpoint: "decodeId", params: { id: "2C64444BA900", lang: "eng" } },
   { name: "decode-id-missing", endpoint: "decodeId", params: { lang: "chs" } },
@@ -89,4 +105,3 @@ const fixtures = CASES.map((caseDef) => ({ ...caseDef, php: runPhp(caseDef) }));
 mkdirSync(dirname(OUTPUT_PATH), { recursive: true });
 writeFileSync(OUTPUT_PATH, `${JSON.stringify({ fixtures }, null, 2)}\n`, "utf8");
 process.stdout.write(`Generated ${fixtures.length} fixtures -> ${OUTPUT_PATH}\n`);
-

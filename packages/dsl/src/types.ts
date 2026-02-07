@@ -32,6 +32,58 @@ export interface DslTokenStepTake {
   to: string;
 }
 
+export interface DslTokenStepStripIfPrefix {
+  op: "stripIfPrefix";
+  prefix: string;
+  to?: string;
+}
+
+export interface DslTokenStepTemplate {
+  op: "tpl";
+  template: string;
+  to: string;
+}
+
+export interface DslTokenStepFallback {
+  op: "fallback";
+  primary: string;
+  secondary: string;
+  to: string;
+}
+
+export interface DslTokenStepMul {
+  op: "mul";
+  a: string;
+  b: string;
+  to: string;
+  default?: number;
+}
+
+export interface DslTokenStepSet {
+  op: "set";
+  to: string;
+  value: DslJson;
+}
+
+export interface DslTokenStepMerge {
+  op: "merge";
+  into: string;
+  from: string;
+}
+
+export interface DslTokenStepNotEmpty {
+  op: "notEmpty";
+  from: string;
+  to: string;
+}
+
+export interface DslTokenStepMergeIf {
+  op: "mergeIf";
+  into: string;
+  from: string;
+  if: string;
+}
+
 export interface DslTokenStepTakeLongest {
   op: "takeLongest";
   table: string;
@@ -47,7 +99,18 @@ export interface DslTokenStepMap {
   default?: DslJson;
 }
 
-export type DslTokenStep = DslTokenStepTake | DslTokenStepTakeLongest | DslTokenStepMap;
+export type DslTokenStep =
+  | DslTokenStepTake
+  | DslTokenStepStripIfPrefix
+  | DslTokenStepTemplate
+  | DslTokenStepFallback
+  | DslTokenStepMul
+  | DslTokenStepSet
+  | DslTokenStepMerge
+  | DslTokenStepNotEmpty
+  | DslTokenStepMergeIf
+  | DslTokenStepTakeLongest
+  | DslTokenStepMap;
 
 export interface DslTokenDecoder {
   stripPrefixes?: string[];

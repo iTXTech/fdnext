@@ -1,0 +1,119 @@
+[
+  {
+    "id": "vendor.skhynix.3d.token.mlc",
+    "priority": 960,
+    "normalize": [
+      "trim",
+      "uppercase",
+      { "remove": [" ", ",", "&", ".", "|"] }
+    ],
+    "match": { "kind": "regex", "value": "^H25..M" },
+    "tokenDecoder": {
+      "stripPrefixes": ["H25"],
+      "tables": {
+        "toggleVer": { "B": "4.0", "Q": "2.0" },
+        "cellLevel": { "M": 2, "T": 3 },
+        "density": { "A": 262144 },
+        "generation": {
+          "M": 1,
+          "A": 2,
+          "B": 3,
+          "C": 4,
+          "D": 5,
+          "E": 6,
+          "F": 7,
+          "G": 8,
+          "H": 9,
+          "Y": 25,
+          "Z": 26
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "toggleCode" },
+        { "op": "map", "from": "toggleCode", "table": "toggleVer", "to": "toggleVer", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "skip" },
+        { "op": "take", "len": 1, "to": "cellLevelCode" },
+        { "op": "map", "from": "cellLevelCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
+        { "op": "take", "len": 1, "to": "skip2" },
+        { "op": "take", "len": 1, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 1, "to": "skip3" },
+        { "op": "take", "len": 1, "to": "generationCode" },
+        { "op": "map", "from": "generationCode", "table": "generation", "to": "generation", "default": -1 }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "nand",
+        "interface": { "toggle": true },
+        "extraInfo": { "toggle": { "$var": "toggleVer" } },
+        "voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
+        "cellLevel": { "$var": "cellLevel" },
+        "deviceWidth": 8,
+        "density": { "$var": "density" },
+        "generation": { "$var": "generation" }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.3d.token.tlc",
+    "priority": 960,
+    "normalize": [
+      "trim",
+      "uppercase",
+      { "remove": [" ", ",", "&", ".", "|"] }
+    ],
+    "match": { "kind": "regex", "value": "^H25..T" },
+    "tokenDecoder": {
+      "stripPrefixes": ["H25"],
+      "tables": {
+        "toggleVer": { "B": "4.0", "Q": "2.0" },
+        "cellLevel": { "M": 2, "T": 3 },
+        "density": {
+          "A": 524288,
+          "B": 1048576,
+          "D": 2097152,
+          "F": 4194304,
+          "G": 8388608
+        },
+        "generation": {
+          "M": 1,
+          "A": 2,
+          "B": 3,
+          "C": 4,
+          "D": 5,
+          "E": 6,
+          "F": 7,
+          "G": 8,
+          "H": 9,
+          "Y": 25,
+          "Z": 26
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "toggleCode" },
+        { "op": "map", "from": "toggleCode", "table": "toggleVer", "to": "toggleVer", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "skip" },
+        { "op": "take", "len": 1, "to": "cellLevelCode" },
+        { "op": "map", "from": "cellLevelCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
+        { "op": "take", "len": 1, "to": "skip2" },
+        { "op": "take", "len": 1, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 1, "to": "skip3" },
+        { "op": "take", "len": 1, "to": "generationCode" },
+        { "op": "map", "from": "generationCode", "table": "generation", "to": "generation", "default": -1 }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "nand",
+        "interface": { "toggle": true },
+        "extraInfo": { "toggle": { "$var": "toggleVer" } },
+        "voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
+        "cellLevel": { "$var": "cellLevel" },
+        "deviceWidth": 8,
+        "density": { "$var": "density" },
+        "generation": { "$var": "generation" }
+      }
+    }
+  }
+]
+

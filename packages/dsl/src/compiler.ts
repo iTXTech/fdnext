@@ -87,6 +87,82 @@ function runTokenDecoder(partNumber: string, decoder: DslTokenDecoder): Partial<
       continue;
     }
 
+    if (step.op === "stripIfPrefix") {
+      const rest = String(context.rest ?? "");
+      const matched = rest.startsWith(step.prefix);
+      if (matched) {
+        context.rest = rest.slice(step.prefix.length);
+      }
+      if (step.to) {
+        context[step.to] = matched;
+      }
+      continue;
+    }
+
+    if (step.op === "tpl") {
+      const value = step.template.replaceAll(/\{\{([a-zA-Z0-9_]+)\}\}/g, (_, key: string) => String(context[key] ?? ""));
+      context[step.to] = value;
+      continue;
+    }
+
+    if (step.op === "fallback") {
+      const primary = context[step.primary];
+      const secondary = context[step.secondary];
+      if (primary === undefined || primary === null) {
+        context[step.to] = secondary;
+        continue;
+      }
+      if (typeof primary === "string") {
+        context[step.to] = primary.length > 0 ? primary : secondary;
+        continue;
+      }
+      context[step.to] = primary;
+      continue;
+    }
+
+    if (step.op === "set") {
+      context[step.to] = step.value;
+      continue;
+    }
+
+    if (step.op === "mul") {
+      const a = Number(context[step.a]);
+      const b = Number(context[step.b]);
+      if (Number.isFinite(a) && Number.isFinite(b)) {
+        context[step.to] = a * b;
+      } else {
+        context[step.to] = step.default ?? 0;
+      }
+      continue;
+    }
+
+    if (step.op === "merge") {
+      const into = context[step.into];
+      const from = context[step.from];
+      if (into && typeof into === "object" && !Array.isArray(into) && from && typeof from === "object" && !Array.isArray(from)) {
+        Object.assign(into as Record<string, unknown>, from as Record<string, unknown>);
+      }
+      continue;
+    }
+
+    if (step.op === "notEmpty") {
+      const value = String(context[step.from] ?? "");
+      context[step.to] = value.length > 0;
+      continue;
+    }
+
+    if (step.op === "mergeIf") {
+      if (!context[step.if]) {
+        continue;
+      }
+      const into = context[step.into];
+      const from = context[step.from];
+      if (into && typeof into === "object" && !Array.isArray(into) && from && typeof from === "object" && !Array.isArray(from)) {
+        Object.assign(into as Record<string, unknown>, from as Record<string, unknown>);
+      }
+      continue;
+    }
+
     if (step.op === "takeLongest") {
       const rest = String(context.rest ?? "");
       const table = decoder.tables?.[step.table] ?? {};

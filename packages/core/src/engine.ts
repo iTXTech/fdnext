@@ -35,6 +35,13 @@ function getHumanReadableDensity(density: number, useByte = false): string {
 
 function toPublicFlashInfo(info: FlashInfo, langPacks: LangPacks, fallbackLang: string, lang?: string | null): FlashInfo {
   const output = cloneObject(info);
+  const defaultValues: Record<string, unknown> = {
+    extraInfo: [],
+    flashId: [],
+    controller: [],
+    url: [],
+    urls: []
+  };
   const requiredKeys = [
     "partNumber",
     "vendor",
@@ -58,15 +65,22 @@ function toPublicFlashInfo(info: FlashInfo, langPacks: LangPacks, fallbackLang: 
   const outputRecord = output as Record<string, unknown>;
   for (const key of requiredKeys) {
     if (!(key in outputRecord)) {
-      outputRecord[key] = null;
+      outputRecord[key] = key in defaultValues ? defaultValues[key] : null;
     }
   }
   const interfaceValue = output.interface;
+  const classification = output.classification;
+  if (classification && typeof classification === "object" && !Array.isArray(classification)) {
+    const record = classification as Record<string, unknown>;
+    for (const key of ["ce", "ch", "die", "rb"] as const) {
+      if (!(key in record)) record[key] = -1;
+    }
+  }
 
   if (typeof output.density === "number" && output.density > 0) {
     output.rawDensity = output.density;
     output.density = getHumanReadableDensity(output.density);
-  } else if (output.density == null) {
+  } else if (output.density == null || (typeof output.density === "number" && output.density <= 0)) {
     output.density = UNKNOWN;
   }
 
@@ -74,6 +88,28 @@ function toPublicFlashInfo(info: FlashInfo, langPacks: LangPacks, fallbackLang: 
     output.deviceWidth = UNKNOWN;
   } else if (typeof output.deviceWidth === "number") {
     output.deviceWidth = `x${output.deviceWidth}`;
+  }
+
+  if (typeof output.cellLevel === "number") {
+    const cellLevelMap: Record<number, string> = {
+      1: "SLC",
+      2: "MLC",
+      3: "TLC",
+      4: "QLC"
+    };
+    output.cellLevel = cellLevelMap[output.cellLevel] ?? output.cellLevel;
+  }
+
+  if (typeof output.generation === "number") {
+    output.generation = String(output.generation);
+  }
+
+  // PHP json_encode(empty associative array) yields [], not {}.
+  if (output.extraInfo && typeof output.extraInfo === "object" && !Array.isArray(output.extraInfo)) {
+    if (Object.keys(output.extraInfo).length === 0) output.extraInfo = [];
+  }
+  if (output.url && typeof output.url === "object" && !Array.isArray(output.url)) {
+    if (Object.keys(output.url).length === 0) output.url = [];
   }
 
   for (const [key, value] of Object.entries(output)) {
@@ -210,6 +246,12 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
   };
 
   const combineFromFdb = (info: FlashInfo): FlashInfo => {
+    // PHP uses `self::` in Micron::getFlashInfoFromFdb(), so SpecTek (which inherits it) looks up Micron FDB entries
+    // instead of SpecTek ones. This means SpecTek part numbers generally do not get FDB-combined fields in PHP.
+    if (info.vendor === "spectek") {
+      return info;
+    }
+
     const byVendor = getPartNumberRecord(fdb, info.vendor, info.partNumber);
     const byAny = byVendor ? undefined : findPartNumberAcrossVendors(fdb, info.partNumber);
     const record = byVendor ?? byAny?.record;
@@ -233,11 +275,42 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
       info.cellLevel = record.c;
     }
 
-    if (record.m) {
-      info.remark = record.m;
+    info.remark = record.m ?? "";
+
+    if (info.vendor === "westerndigital" && typeof info.remark === "string" && info.remark.length > 0) {
+      // PHP WesternDigital decoder encodes special flags inside the remark string (e.g. "CODE/Txxxx/...").
+      // It then moves those flags into extraInfo and cleans up the remark.
+      const parts = info.remark.split("/");
+      const remarkParts: string[] = [];
+      const extraInfo =
+        info.extraInfo && typeof info.extraInfo === "object" && !Array.isArray(info.extraInfo) ? (info.extraInfo as Record<string, unknown>) : {};
+      for (const part of parts) {
+        if (!part) continue;
+        if (part === "CODE") {
+          extraInfo.sandisk_code = true;
+          continue;
+        }
+        if (/^T[0-9A-Z]{4}$/.test(part)) {
+          extraInfo.kioxia = part.slice(1);
+          continue;
+        }
+        remarkParts.push(part);
+      }
+      info.extraInfo = extraInfo;
+      info.remark = remarkParts.join("/");
     }
 
-    const classification = info.classification ?? {};
+    const classification = (info.classification && typeof info.classification === "object" ? info.classification : null) ?? {
+      die: -1,
+      ce: -1,
+      rb: -1,
+      ch: -1
+    };
+    for (const key of ["die", "ce", "rb", "ch"] as const) {
+      if (!(key in (classification as Record<string, unknown>))) {
+        (classification as Record<string, unknown>)[key] = -1;
+      }
+    }
     if (record.d != null && record.d !== -1) {
       classification.die = record.d;
     }
@@ -263,6 +336,122 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
       }
     }
     return next;
+  };
+
+  const MICRON_FBGA_HEADERS = ["NW", "NX", "NQ", "PF", "NY", "NC"] as const;
+  const MICRON_FBGA_COUNTRY: Record<string, string> = {
+    "1": "cty_us",
+    "2": "cty_sg",
+    "3": "cty_it",
+    "4": "cty_jp",
+    "5": "cty_cn",
+    "7": "cty_tw",
+    "8": "cty_kr",
+    "9": "cty_mixed",
+    B: "cty_il",
+    C: "cty_ie",
+    D: "cty_my",
+    F: "cty_ph"
+  };
+
+  const parseMicronFbgaCode = (
+    input: string
+  ): { key: string; display: string; prod?: { prodDate: string; diffusion: string; encapsulation: string } } | null => {
+    const normalized = input.toUpperCase();
+    for (const header of MICRON_FBGA_HEADERS) {
+      if (normalized.startsWith(header)) {
+        return { key: normalized, display: normalized };
+      }
+      if (normalized.length === 10 && normalized.slice(5, 7) === header) {
+        const meta = normalized.slice(0, 5);
+        const key = normalized.slice(5);
+
+        const year = meta.slice(0, 1);
+        const weekCode = meta.slice(1, 2);
+        const week = (weekCode.charCodeAt(0) - 64) * 2;
+        const weekStr = Number.isFinite(week) && week > 0 ? String(week).padStart(2, "0") : "00";
+        const prodDate = `${year}${weekStr}`;
+
+        const diffusionCode = meta.slice(3, 4);
+        const encapsulationCode = meta.slice(4, 5);
+        const diffusion = MICRON_FBGA_COUNTRY[diffusionCode] ?? UNKNOWN;
+        const encapsulation = MICRON_FBGA_COUNTRY[encapsulationCode] ?? UNKNOWN;
+
+        return { key, display: key, prod: { prodDate, diffusion, encapsulation } };
+      }
+    }
+    return null;
+  };
+
+  const detectRaw = (partNumber: string, opts: DecodeOptions, allowMicronFbga: boolean): FlashInfo => {
+    if (allowMicronFbga) {
+      const fbga = parseMicronFbgaCode(partNumber);
+      if (fbga) {
+        const micronHit = mdb.micron[fbga.key];
+        const spectekHit = mdb.spectek[fbga.key];
+        const candidates = micronHit ? [micronHit] : spectekHit ? [...spectekHit] : [];
+        const resolved = candidates[0];
+        if (!resolved) {
+          return { partNumber: fbga.display, vendor: UNKNOWN };
+        }
+
+        const base = detectRaw(resolved, opts, false);
+        base.partNumber = fbga.display;
+
+        const extra =
+          base.extraInfo && typeof base.extraInfo === "object" && !Array.isArray(base.extraInfo) ? (base.extraInfo as Record<string, unknown>) : {};
+        extra.micronPartNumber = resolved;
+        if (fbga.prod) {
+          extra.prod_date = fbga.prod.prodDate;
+          extra.diffusion_loc = fbga.prod.diffusion;
+          extra.encapsulation_loc = fbga.prod.encapsulation;
+        }
+        base.extraInfo = extra;
+
+        if (base.vendor === "micron") {
+          const url = `https://www.micron.com/support/tools-and-utilities/fbga?fbga=${fbga.display}`;
+          base.url = { micron_website: url };
+          base.urls = [{ url, desc: "micron_website", img: "logo", hint: "" }];
+        }
+
+        return base;
+      }
+    }
+
+    let info: FlashInfo | null = null;
+
+    for (const decoder of decoders) {
+      if (decoder.check(partNumber)) {
+        const decoded = decoder.decode(partNumber);
+        if (decoded) {
+          info = {
+            partNumber,
+            vendor: UNKNOWN,
+            ...decoded
+          };
+          break;
+        }
+      }
+    }
+
+    if (!info) {
+      const found = findPartNumberAcrossVendors(fdb, partNumber);
+      info = {
+        partNumber,
+        vendor: found?.vendor ?? UNKNOWN
+      };
+    }
+
+    if (opts.combineFdb ?? true) {
+      combineFromFdb(info);
+    }
+
+    return applyFlashInfoProcessors(info);
+  };
+
+  const detectPublic = (partNumber: string, opts: DecodeOptions, allowMicronFbga: boolean): FlashInfo => {
+    const processed = detectRaw(partNumber, opts, allowMicronFbga);
+    return toPublicFlashInfo(processed, langPacks, fallbackLang, opts.lang);
   };
 
   const applyFlashIdProcessors = (info: FlashIdInfo): FlashIdInfo => {
@@ -322,36 +511,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
 
     detect(partNumber: string, opts: DecodeOptions = {}): FlashInfo {
       const normalized = normalizePartNumber(partNumber);
-      let info: FlashInfo | null = null;
-
-      for (const decoder of decoders) {
-        if (decoder.check(normalized)) {
-          const decoded = decoder.decode(normalized);
-          if (decoded) {
-            info = {
-              partNumber: normalized,
-              vendor: UNKNOWN,
-              ...decoded
-            };
-            break;
-          }
-        }
-      }
-
-      if (!info) {
-        const found = findPartNumberAcrossVendors(fdb, normalized);
-        info = {
-          partNumber: normalized,
-          vendor: found?.vendor ?? UNKNOWN
-        };
-      }
-
-      if (opts.combineFdb ?? true) {
-        combineFromFdb(info);
-      }
-
-      const processed = applyFlashInfoProcessors(info);
-      return toPublicFlashInfo(processed, langPacks, fallbackLang, opts.lang);
+      return detectPublic(normalized, opts, true);
     },
 
     decodeFlashId(id: string, opts: DecodeOptions = {}): FlashIdInfo {

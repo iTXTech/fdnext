@@ -36,11 +36,12 @@ export interface FlashInfo {
   generation?: string | number;
   interface?: FlashInterface;
   package?: string;
-  extraInfo?: Record<string, unknown>;
+  // PHP json_encode uses `[]` for empty arrays even when later used as a map. Keep this flexible for compat.
+  extraInfo?: Record<string, unknown> | unknown[];
   flashId?: string[];
   controller?: string[];
   remark?: string;
-  url?: Record<string, string>;
+  url?: Record<string, string> | unknown[];
   urls?: UrlLink[];
   rawVendor?: string;
   [key: string]: unknown;
@@ -60,7 +61,7 @@ export interface FlashIdInfo {
   ext?: Record<string, unknown>;
   controllers?: string[];
   partNumbers?: string[];
-  url?: Record<string, string>;
+  url?: Record<string, string> | unknown[];
   urls?: UrlLink[];
   rawVendor?: string;
   [key: string]: unknown;

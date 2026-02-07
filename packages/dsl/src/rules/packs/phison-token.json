@@ -1,0 +1,144 @@
+[
+  {
+    "id": "vendor.phison.token.v1",
+    "priority": 940,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
+    "match": { "kind": "regex", "value": "^[TIKHDCN][APCOKFTBY][135678ABC][0-9A-Z]{7}$" },
+    "tokenDecoder": {
+      "tables": {
+        "originalVendor": {
+          "T": "kioxia",
+          "I": "micron",
+          "K": "micron",
+          "H": "skhynix",
+          "D": "westerndigital",
+          "C": "ymtc",
+          "N": "intel"
+        },
+        "package": {
+          "A": "BGA132",
+          "P": "BGA152",
+          "C": "BGA272",
+          "O": "LGA60-SAT",
+          "K": "LGA60-SAT",
+          "F": "TSOP48",
+          "T": "TSOP48",
+          "B": "BGA132 / LGA110",
+          "Y": "BGA56-UFS"
+        },
+        "ce": {
+          "1": 1,
+          "3": 1,
+          "5": 2,
+          "6": 2,
+          "7": 4,
+          "8": 4,
+          "A": 4,
+          "B": 8,
+          "C": 8
+        },
+        "die": {
+          "1": 1,
+          "3": 2,
+          "5": 2,
+          "6": 4,
+          "7": 4,
+          "8": 8,
+          "A": 16,
+          "B": 8,
+          "C": 16
+        },
+        "density": {
+          "7G": 131072,
+          "8G": 262144,
+          "9G": 524288,
+          "AG": 1048576,
+          "BG": 2097152,
+          "EG": 3145728,
+          "HG": 4194304,
+          "IG": 8388608,
+          "JG": 16777216
+        },
+        "nodeVendorOverride": {
+          "micron": "intel",
+          "westerndigital": "kioxia"
+        },
+        "processNode": {
+          "kioxia:H": "24nm 2plane",
+          "kioxia:P": "A19nm 4plane",
+          "kioxia:R": "15nm",
+          "kioxia:S": "15nm 2plane",
+          "kioxia:U": "15nm 4plane",
+          "kioxia:V": "BiCS2",
+          "kioxia:I": "BICS3",
+          "kioxia:W": "BiCS4",
+          "kioxia:X": "BiCS4.5",
+          "kioxia:Y": "BiCS5",
+          "intel:N": "20nm",
+          "intel:P": "16nm",
+          "intel:O": "L06B/B16A/N18A 32L",
+          "intel:V": "B16A/B27A",
+          "intel:I": "B27B",
+          "intel:X": "B37R",
+          "intel:Y": "B47R",
+          "skhynix:P": "16nm",
+          "skhynix:O": "3DV4",
+          "ymtc:O": "JGS"
+        },
+        "cellLevel": {
+          "kioxia:H": 2,
+          "kioxia:P": 2,
+          "kioxia:R": 3,
+          "kioxia:S": 2,
+          "kioxia:U": 2,
+          "kioxia:V": 3,
+          "kioxia:I": 3,
+          "kioxia:W": 3,
+          "kioxia:X": 3,
+          "kioxia:Y": 3,
+          "intel:N": 2,
+          "intel:P": 2,
+          "intel:O": -1,
+          "intel:V": 3,
+          "intel:I": 3,
+          "intel:X": 3,
+          "intel:Y": 3,
+          "skhynix:P": 3,
+          "skhynix:O": 3,
+          "ymtc:O": 3
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "vendorCode" },
+        { "op": "map", "from": "vendorCode", "table": "originalVendor", "to": "originalVendor", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "classCode" },
+        { "op": "map", "from": "classCode", "table": "ce", "to": "ce", "default": -1 },
+        { "op": "map", "from": "classCode", "table": "die", "to": "die", "default": -1 },
+        { "op": "take", "len": 2, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 3, "to": "skip" },
+        { "op": "take", "len": 1, "to": "nodeCode" },
+        { "op": "map", "from": "originalVendor", "table": "nodeVendorOverride", "to": "nodeVendorOverride", "default": "" },
+        { "op": "fallback", "primary": "nodeVendorOverride", "secondary": "originalVendor", "to": "nodeVendor" },
+        { "op": "tpl", "template": "{{nodeVendor}}:{{nodeCode}}", "to": "nodeKey" },
+        { "op": "map", "from": "nodeKey", "table": "processNode", "to": "processNode", "default": "Unknown" },
+        { "op": "map", "from": "nodeKey", "table": "cellLevel", "to": "cellLevel", "default": -1 }
+      ],
+      "assign": {
+        "vendor": "phison",
+        "type": "nand",
+        "package": { "$var": "package" },
+        "deviceWidth": 8,
+        "density": { "$var": "density" },
+        "processNode": { "$var": "processNode" },
+        "cellLevel": { "$var": "cellLevel" },
+        "interface": { "async": true, "sync": true },
+        "classification": { "ce": { "$var": "ce" }, "die": { "$var": "die" } },
+        "extraInfo": { "original_vendor": { "$var": "originalVendor" } }
+      }
+    }
+  }
+]
+

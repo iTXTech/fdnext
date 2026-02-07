@@ -259,6 +259,1069 @@
       }
     },
     {
+      "name": "decode-eng-samsung",
+      "endpoint": "decode",
+      "params": {
+        "pn": "K9OMGY8S7M",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "K9OMGY8S7M",
+          "vendor": "Samsung",
+          "type": "NAND",
+          "density": "2Tb",
+          "deviceWidth": "x8",
+          "processNode": "Unknown",
+          "cellLevel": "TLC",
+          "classification": {
+            "ce": 8,
+            "ch": "Unknown",
+            "rb": 4,
+            "die": 8
+          },
+          "voltage": "Vcc: 3.3V (3V~3.6V), VccQ: 1.8V (1.65V~1.95V)",
+          "generation": "1",
+          "Interface": {
+            "Toggle DDR version": "Yes"
+          },
+          "package": "Unknown",
+          "extraInfo": {
+            "Toggle DDR version": "2.0",
+            "Lead free": "No",
+            "Halogen free": "No",
+            "CU": "No",
+            "Operation Temperature": "Unknown",
+            "Bad block": "Unknown"
+          },
+          "flashId": [
+            "EC1C982F84C9"
+          ],
+          "controller": [
+            "SM2258XT",
+            "SM2258",
+            "SM2259XT2",
+            "SM2263XT"
+          ],
+          "remark": "",
+          "url": [],
+          "urls": [],
+          "rawDensity": 2097152,
+          "interface": {
+            "toggle": true
+          },
+          "rawVendor": "samsung"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-skhynix",
+      "endpoint": "decode",
+      "params": {
+        "pn": "H27UCG8V5A",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "H27UCG8V5A",
+          "vendor": "SKhynix",
+          "type": "NAND",
+          "density": "64Gb",
+          "deviceWidth": "x8",
+          "processNode": "41nm",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 2,
+            "ch": 1,
+            "rb": 2,
+            "die": 4
+          },
+          "voltage": "Vcc: 3.3V, VccQ: 3.3V",
+          "generation": "2",
+          "Interface": {
+            "async": "Yes",
+            "sync": "No"
+          },
+          "package": "Unknown",
+          "extraInfo": {
+            "Bad block": "Unknown",
+            "Operation Temperature": "Unknown"
+          },
+          "flashId": [
+            "AD0000000000",
+            "ADD794254841",
+            "ADD795254841",
+            "ADD7952548AD",
+            "ADD795258000",
+            "ADD795254600"
+          ],
+          "controller": [
+            "SM3252C",
+            "SM3255AA",
+            "SM3255AB",
+            "SM3255ENA1",
+            "SM3257AA",
+            "SM3257ENAA",
+            "SM3257ENAA_8CE",
+            "SM3257ENBA",
+            "SM3257ENBB",
+            "SM3257ENLT",
+            "SM3259AA",
+            "SM3259AB",
+            "SM325AC",
+            "SM3260AA",
+            "SM3260AB",
+            "SM3260AD",
+            "SM3267AB",
+            "SM3267AC",
+            "SM3267AE",
+            "SM3268AA",
+            "SM3268AB",
+            "SM3269AA",
+            "SM3269AA_COB",
+            "SM3270AA",
+            "SM3270AB",
+            "SM3270AC",
+            "SM3271AB",
+            "SM2242",
+            "SM2244LT",
+            "SM2246EN",
+            "SM2250",
+            "AU6987(AN)",
+            "AU6989SN",
+            "AU6989SN-G",
+            "AU6989SNL",
+            "AU6989SNL-B",
+            "AU6989SN-GTA",
+            "AU6989SN-GTB",
+            "AU6989SN-GTC",
+            "AU6989SN-GTD",
+            "AU6989SN-GTE",
+            "CBM2092",
+            "CBM2093",
+            "CBM2093P",
+            "CBM2095",
+            "CBM2096P",
+            "CBM2096",
+            "CBM2098P",
+            "CBM2098E",
+            "CBM2098S",
+            "CBM2099",
+            "CBM2099E",
+            "CBM2099S",
+            "CBM2199",
+            "CBM2199S",
+            "CBM2199E",
+            "CBM2199ES"
+          ],
+          "remark": "",
+          "url": [],
+          "urls": [],
+          "rawDensity": 65536,
+          "interface": {
+            "async": true,
+            "sync": false
+          },
+          "rawVendor": "skhynix"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-skhynix-3d",
+      "endpoint": "decode",
+      "params": {
+        "pn": "H25QEM8A1B",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "H25QEM8A1B",
+          "vendor": "SKhynix",
+          "type": "NAND",
+          "density": "256Gb",
+          "deviceWidth": "x8",
+          "processNode": "16nm 3D",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": "Unknown",
+            "ch": "Unknown",
+            "rb": "Unknown",
+            "die": "Unknown"
+          },
+          "voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
+          "generation": "3",
+          "Interface": {
+            "Toggle DDR version": "Yes"
+          },
+          "package": "Unknown",
+          "extraInfo": {
+            "Toggle DDR version": "2.0"
+          },
+          "flashId": [
+            "AD5C14630890"
+          ],
+          "controller": [
+            "SM3271AB",
+            "SM3281AB",
+            "SM3281BB",
+            "SM2258XT",
+            "SM2259XT2"
+          ],
+          "remark": "",
+          "url": [],
+          "urls": [],
+          "rawDensity": 262144,
+          "interface": {
+            "toggle": true
+          },
+          "rawVendor": "skhynix"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-skhynix-legacy",
+      "endpoint": "decode",
+      "params": {
+        "pn": "HY27UV08BG5M",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "HY27UV08BG5M",
+          "vendor": "SKhynix",
+          "type": "NAND",
+          "density": "32Gb",
+          "deviceWidth": "x8",
+          "processNode": "60nm",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 2,
+            "ch": 1,
+            "rb": 2,
+            "die": 4
+          },
+          "voltage": "Vcc: 3.3V, VccQ: 3.3V",
+          "generation": "1",
+          "Interface": {
+            "async": "Yes",
+            "sync": "Yes"
+          },
+          "package": "Unknown",
+          "extraInfo": [],
+          "flashId": [
+            "ADD555A568AD",
+            "ADD555A58680",
+            "ADD555A58480",
+            "ADD555A58000",
+            "ADD555A54600",
+            "ADD555A59090"
+          ],
+          "controller": [
+            "SM321AC",
+            "SM321BB",
+            "SM321BC",
+            "SM324BB",
+            "SM324BC",
+            "SM3252A",
+            "SM3252B",
+            "SM3252C",
+            "SM3255AA",
+            "SM325AB",
+            "SM325AC",
+            "SM2231",
+            "SM2232",
+            "SM2240",
+            "SM2242",
+            "SM2244LT",
+            "SM2246EN",
+            "SM2250",
+            "AU6987(AN)",
+            "AU6989SNL-B",
+            "AU6989SN-GTC",
+            "AU6989SN-GTD",
+            "AU6989SN-GTE",
+            "CBM2092",
+            "CBM2093",
+            "CBM2093P",
+            "CBM2095",
+            "CBM2096P",
+            "CBM2096",
+            "CBM2098P",
+            "CBM2098E",
+            "CBM2093E",
+            "CBM2098S",
+            "CBM2099",
+            "CBM2099E",
+            "CBM2099S",
+            "CBM2199",
+            "CBM2199S",
+            "CBM2199E",
+            "CBM2199ES"
+          ],
+          "remark": "",
+          "url": [],
+          "urls": [],
+          "rawDensity": 32768,
+          "interface": {
+            "async": true,
+            "sync": true
+          },
+          "rawVendor": "skhynix"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-intel",
+      "endpoint": "decode",
+      "params": {
+        "pn": "JS29F16G08AAND2",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "JS29F16G08AAND2",
+          "vendor": "Intel",
+          "type": "NAND",
+          "density": "16Gb",
+          "deviceWidth": "x8",
+          "processNode": "34 nm",
+          "cellLevel": "SLC",
+          "classification": {
+            "ce": 1,
+            "ch": 1,
+            "rb": 1,
+            "die": 1
+          },
+          "voltage": "3.3V (2.70V-3.60V)",
+          "generation": "2",
+          "Interface": {
+            "async": "Yes",
+            "sync": "Yes"
+          },
+          "package": "TSOP48",
+          "extraInfo": {
+            "Wafer": "No",
+            "Lead free": "Yes"
+          },
+          "flashId": [
+            "89480026A900",
+            "89482026A900",
+            "894880AEA900",
+            "894820268900"
+          ],
+          "controller": [
+            "SM3257ENAA",
+            "SM3257ENAA_8CE",
+            "SM3257ENBA",
+            "SM3257ENBB",
+            "SM3257ENLT",
+            "SM2242",
+            "SM2244LT",
+            "SM2246EN",
+            "SM2250",
+            "JMF670H",
+            "AU6987(AN)",
+            "AU6989SN",
+            "AU6989SN-G",
+            "AU6989SNL",
+            "AU6989SNL-B",
+            "AU6989SN-GTA",
+            "AU6989SN-GTB",
+            "AU6989SN-GTC",
+            "AU6989SN-GTD",
+            "AU6989SN-GTE",
+            "CBM2092",
+            "CBM2093",
+            "CBM2093P",
+            "CBM2095",
+            "CBM2096P",
+            "CBM2096",
+            "CBM2098P",
+            "CBM2098E",
+            "CBM2098S",
+            "CBM2099",
+            "CBM2099E",
+            "CBM2099S",
+            "CBM2199",
+            "CBM2199S",
+            "CBM2199E",
+            "CBM2199ES",
+            "IS902E",
+            "IS902",
+            "IS916EN",
+            "IS916",
+            "IS917"
+          ],
+          "remark": "",
+          "url": [],
+          "urls": [],
+          "rawDensity": 16384,
+          "interface": {
+            "async": true,
+            "sync": true
+          },
+          "rawVendor": "intel"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-kioxia-tc",
+      "endpoint": "decode",
+      "params": {
+        "pn": "TC58NVG3D2ETA00",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "TC58NVG3D2ETA00",
+          "vendor": "Kioxia",
+          "type": "NAND",
+          "density": "8Gb",
+          "deviceWidth": "x8",
+          "processNode": "43 nm",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 1,
+            "ch": 1,
+            "rb": "Unknown",
+            "die": 1
+          },
+          "voltage": "3.3V",
+          "generation": "Unknown",
+          "Interface": {
+            "Toggle DDR version": "No"
+          },
+          "package": "TSOP48",
+          "extraInfo": {
+            "Multi chip": "No",
+            "Enterprise": "No",
+            "Page size": ">4KB",
+            "Block size": ">512KB",
+            "Lead free": "Yes",
+            "Halogen free": "No"
+          },
+          "flashId": [
+            "98D384327254",
+            "98D384322800"
+          ],
+          "controller": [
+            "SM3255AB",
+            "SM3255ENA1",
+            "SM3255ENAA",
+            "SM3257AA",
+            "SM3257ENAA",
+            "SM3257ENAA_8CE",
+            "SM3257ENBA",
+            "SM3257ENBB",
+            "SM3257ENLT",
+            "SM3259AA",
+            "SM3259AB",
+            "SM3260AA",
+            "SM3260AB",
+            "SM3260AD",
+            "SM3267AB",
+            "SM3267AC",
+            "SM3267AE",
+            "SM3268AA",
+            "SM3268AB",
+            "SM3269AA",
+            "SM3269AA_COB",
+            "SM3270AA",
+            "SM3270AB",
+            "SM3270AC",
+            "SM3271AB",
+            "AU6987(AN)",
+            "AU6989SN",
+            "AU6989SN-G",
+            "AU6989SNL",
+            "AU6989SNL-B",
+            "AU6989SN-GTA",
+            "AU6989SN-GTB",
+            "AU6989SN-GTC",
+            "AU6989SN-GTD",
+            "AU6989SN-GTE",
+            "CBM2093",
+            "CBM2093P",
+            "CBM2095",
+            "CBM2096P",
+            "CBM2096",
+            "CBM2098P",
+            "CBM2098E",
+            "CBM2098S",
+            "CBM2099",
+            "CBM2099E",
+            "CBM2099S",
+            "CBM2199",
+            "CBM2199S",
+            "CBM2199E",
+            "CBM2199ES"
+          ],
+          "remark": "",
+          "url": [],
+          "urls": [],
+          "rawDensity": 8192,
+          "interface": {
+            "toggle": false
+          },
+          "rawVendor": "kioxia"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-kioxia-th",
+      "endpoint": "decode",
+      "params": {
+        "pn": "TH58NVG5T2ETA20",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "TH58NVG5T2ETA20",
+          "vendor": "Kioxia",
+          "type": "NAND",
+          "density": "32Gb",
+          "deviceWidth": "x8",
+          "processNode": "43 nm",
+          "cellLevel": "TLC",
+          "classification": {
+            "ce": 2,
+            "ch": 1,
+            "rb": "Unknown",
+            "die": "Unknown"
+          },
+          "voltage": "3.3V",
+          "generation": "Unknown",
+          "Interface": {
+            "Toggle DDR version": "No"
+          },
+          "package": "TSOP48",
+          "extraInfo": {
+            "Multi chip": "Yes",
+            "Enterprise": "No",
+            "Page size": ">4KB",
+            "Block size": ">512KB",
+            "Lead free": "Yes",
+            "Halogen free": "No"
+          },
+          "flashId": [
+            "98D598B27654"
+          ],
+          "controller": [
+            "AU6987(AN)",
+            "AU6989SN",
+            "AU6989SNL",
+            "AU6989SNL-B",
+            "AU6989SN-GTA",
+            "CBM2093P",
+            "CBM2095",
+            "CBM2096P",
+            "CBM2096",
+            "CBM2098P",
+            "CBM2098E",
+            "CBM2098S",
+            "CBM2099",
+            "CBM2099E",
+            "CBM2099S",
+            "CBM2199",
+            "CBM2199S",
+            "CBM2199E",
+            "CBM2199ES"
+          ],
+          "remark": "",
+          "url": [],
+          "urls": [],
+          "rawDensity": 32768,
+          "interface": {
+            "toggle": false
+          },
+          "rawVendor": "kioxia"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-kioxia-tc-bga-detail",
+      "endpoint": "decode",
+      "params": {
+        "pn": "TC58NVG3D2EXB01",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "TC58NVG3D2EXB01",
+          "vendor": "Kioxia",
+          "type": "NAND",
+          "density": "8Gb",
+          "deviceWidth": "x8",
+          "processNode": "43 nm",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 1,
+            "ch": 1,
+            "rb": "Unknown",
+            "die": 1
+          },
+          "voltage": "3.3V",
+          "generation": "Unknown",
+          "Interface": {
+            "Toggle DDR version": "No"
+          },
+          "package": "BGA224 (14 x 18 x 1.46)",
+          "extraInfo": {
+            "Multi chip": "No",
+            "Enterprise": "No",
+            "Page size": ">4KB",
+            "Block size": ">512KB",
+            "Lead free": "Yes",
+            "Halogen free": "No"
+          },
+          "flashId": [],
+          "controller": [],
+          "remark": "Unknown",
+          "url": [],
+          "urls": [],
+          "rawDensity": 8192,
+          "interface": {
+            "toggle": false
+          },
+          "rawVendor": "kioxia"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-kioxia-tc-lga-detail",
+      "endpoint": "decode",
+      "params": {
+        "pn": "TC58NVG3D2ELA01",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "TC58NVG3D2ELA01",
+          "vendor": "Kioxia",
+          "type": "NAND",
+          "density": "8Gb",
+          "deviceWidth": "x8",
+          "processNode": "43 nm",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 1,
+            "ch": 1,
+            "rb": "Unknown",
+            "die": 1
+          },
+          "voltage": "3.3V",
+          "generation": "Unknown",
+          "Interface": {
+            "Toggle DDR version": "No"
+          },
+          "package": "LGA40 (12 x 18 x 0.7)",
+          "extraInfo": {
+            "Multi chip": "No",
+            "Enterprise": "No",
+            "Page size": ">4KB",
+            "Block size": ">512KB",
+            "Lead free": "Yes",
+            "Halogen free": "No"
+          },
+          "flashId": [],
+          "controller": [],
+          "remark": "Unknown",
+          "url": [],
+          "urls": [],
+          "rawDensity": 8192,
+          "interface": {
+            "toggle": false
+          },
+          "rawVendor": "kioxia"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-wd-sdtn",
+      "endpoint": "decode",
+      "params": {
+        "pn": "SDTNMNAHEM-002G",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "SDTNMNAHEM-002G",
+          "vendor": "WesternDigital",
+          "type": "NAND",
+          "density": "16Gb",
+          "deviceWidth": "x8",
+          "processNode": "43 nm",
+          "cellLevel": "TLC",
+          "classification": {
+            "ce": "Unknown",
+            "ch": "Unknown",
+            "rb": "Unknown",
+            "die": 1
+          },
+          "voltage": "2.7V~3.6V",
+          "generation": "Unknown",
+          "Interface": "Unknown",
+          "package": "TSOP",
+          "extraInfo": {
+            "Lead free": "Yes"
+          },
+          "flashId": [
+            "45C598B27654",
+            "45D598B27654"
+          ],
+          "controller": [
+            "CBM2093P",
+            "CBM2095",
+            "CBM2096P",
+            "CBM2096",
+            "CBM2098P",
+            "CBM2098E",
+            "CBM2098S",
+            "CBM2099",
+            "CBM2099E",
+            "CBM2099S",
+            "CBM2199",
+            "CBM2199S",
+            "CBM2199E",
+            "CBM2199ES",
+            "IS902E",
+            "IS916EN",
+            "IS916",
+            "IS917"
+          ],
+          "remark": "",
+          "url": [],
+          "urls": [],
+          "rawDensity": 16384,
+          "interface": null,
+          "rawVendor": "westerndigital"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-wd-shortcode-fdb",
+      "endpoint": "decode",
+      "params": {
+        "pn": "05131-032G",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "05131-032G",
+          "vendor": "WesternDigital",
+          "type": "Unknown",
+          "density": "256Gb",
+          "deviceWidth": "Unknown",
+          "processNode": "A19nm",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 1,
+            "ch": "Unknown",
+            "rb": "Unknown",
+            "die": 4
+          },
+          "voltage": "Unknown",
+          "generation": "Unknown",
+          "Interface": "Unknown",
+          "package": "Unknown",
+          "extraInfo": {
+            "Code locked": "Yes",
+            "Kioxia": "8DDK"
+          },
+          "flashId": [
+            "453CA6927E57"
+          ],
+          "controller": [
+            "IS917"
+          ],
+          "remark": "W12R120(IS917)",
+          "url": [],
+          "urls": [],
+          "rawDensity": 262144,
+          "interface": null,
+          "rawVendor": "westerndigital"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-ymtc",
+      "endpoint": "decode",
+      "params": {
+        "pn": "YMN06MB1B1AC1A",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "YMN06MB1B1AC1A",
+          "vendor": "YMTC",
+          "type": "NAND",
+          "density": "64Gb",
+          "deviceWidth": "x8",
+          "processNode": "Unknown",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 1,
+            "ch": 1,
+            "rb": 1,
+            "die": 1
+          },
+          "voltage": "Vcc=2.7~3.6V; VccQ=1.8V",
+          "generation": "1",
+          "Interface": {
+            "async": "Yes",
+            "sync": "Yes"
+          },
+          "package": "BGA-132; 12 x 18 x 1.x",
+          "extraInfo": {
+            "Operation Temperature": "0°C ~ 70°C",
+            "Speed Grade": "ONFI 3.2; Max Speed=533MB/s"
+          },
+          "flashId": [
+            "9B4901009B49",
+            "9B4901000000"
+          ],
+          "controller": [
+            "SM2258"
+          ],
+          "remark": "",
+          "url": [],
+          "urls": [],
+          "rawDensity": 65536,
+          "interface": {
+            "async": true,
+            "sync": true
+          },
+          "rawVendor": "ymtc"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-phison",
+      "endpoint": "decode",
+      "params": {
+        "pn": "TA17GABCH0",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "TA17GABCH0",
+          "vendor": "Phison",
+          "type": "NAND",
+          "density": "128Gb",
+          "deviceWidth": "x8",
+          "processNode": "24nm 2plane",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 1,
+            "ch": "Unknown",
+            "rb": "Unknown",
+            "die": 1
+          },
+          "voltage": "Unknown",
+          "generation": "Unknown",
+          "Interface": {
+            "async": "Yes",
+            "sync": "Yes"
+          },
+          "package": "BGA132",
+          "extraInfo": {
+            "Original Vendor": "Kioxia"
+          },
+          "flashId": [],
+          "controller": [],
+          "remark": "Unknown",
+          "url": [],
+          "urls": [],
+          "rawDensity": 131072,
+          "interface": {
+            "async": true,
+            "sync": true
+          },
+          "rawVendor": "phison"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-spectek",
+      "endpoint": "decode",
+      "params": {
+        "pn": "FBNL06B256G1KDBAB",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "FBNL06B256G1KDBAB",
+          "vendor": "SpecTek",
+          "type": "NAND",
+          "density": "256Gb",
+          "deviceWidth": "x8",
+          "processNode": "L06B",
+          "cellLevel": "MLC",
+          "classification": {
+            "ce": 1,
+            "ch": 1,
+            "rb": 1,
+            "die": 1
+          },
+          "voltage": "Vcc: 3.3V, VccQ: 1.8V, VssQ: 0V",
+          "generation": "Unknown",
+          "Interface": {
+            "async": "Yes",
+            "sync": "Yes"
+          },
+          "package": "Unknown",
+          "extraInfo": {
+            "ECC enabled": "No",
+            "Half page and size": "No",
+            "Density grade": "94-100%",
+            "Package functionality partial type": "All CE(s) are valid and usable"
+          },
+          "flashId": [],
+          "controller": [],
+          "remark": "Unknown",
+          "url": [],
+          "urls": [],
+          "rawDensity": 262144,
+          "interface": {
+            "async": true,
+            "sync": true
+          },
+          "rawVendor": "spectek"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-micron-fbga",
+      "endpoint": "decode",
+      "params": {
+        "pn": "NW101",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "NW101",
+          "vendor": "Micron",
+          "type": "NAND",
+          "density": "2Gb",
+          "deviceWidth": "x8",
+          "processNode": "Unknown",
+          "cellLevel": "SLC",
+          "classification": {
+            "ce": 1,
+            "ch": 1,
+            "rb": 1,
+            "die": 1
+          },
+          "voltage": "Unknown",
+          "generation": "Unknown",
+          "Interface": {
+            "async": "No",
+            "sync": "Yes"
+          },
+          "package": "Unknown",
+          "extraInfo": {
+            "Enterprise": "No",
+            "Micron Part Number": "MT29F2G08ABDHC-ET:D"
+          },
+          "flashId": [],
+          "controller": [],
+          "remark": "Unknown",
+          "url": {
+            "Micron Website": "https://www.micron.com/support/tools-and-utilities/fbga?fbga=NW101"
+          },
+          "urls": [
+            {
+              "url": "https://www.micron.com/support/tools-and-utilities/fbga?fbga=NW101",
+              "desc": "Micron Website",
+              "img": "logo",
+              "hint": ""
+            }
+          ],
+          "rawDensity": 2048,
+          "interface": {
+            "async": false,
+            "sync": true
+          },
+          "rawVendor": "micron"
+        }
+      }
+    },
+    {
+      "name": "decode-eng-micron-fbga-meta",
+      "endpoint": "decode",
+      "params": {
+        "pn": "1A0D1NW101",
+        "lang": "eng"
+      },
+      "php": {
+        "result": true,
+        "data": {
+          "partNumber": "NW101",
+          "vendor": "Micron",
+          "type": "NAND",
+          "density": "2Gb",
+          "deviceWidth": "x8",
+          "processNode": "Unknown",
+          "cellLevel": "SLC",
+          "classification": {
+            "ce": 1,
+            "ch": 1,
+            "rb": 1,
+            "die": 1
+          },
+          "voltage": "Unknown",
+          "generation": "Unknown",
+          "Interface": {
+            "async": "No",
+            "sync": "Yes"
+          },
+          "package": "Unknown",
+          "extraInfo": {
+            "Enterprise": "No",
+            "Micron Part Number": "MT29F2G08ABDHC-ET:D",
+            "Production Date": "102",
+            "Diffusion Location": "Malaysia",
+            "Encapsulation Location": "USA"
+          },
+          "flashId": [],
+          "controller": [],
+          "remark": "Unknown",
+          "url": {
+            "Micron Website": "https://www.micron.com/support/tools-and-utilities/fbga?fbga=NW101"
+          },
+          "urls": [
+            {
+              "url": "https://www.micron.com/support/tools-and-utilities/fbga?fbga=NW101",
+              "desc": "Micron Website",
+              "img": "logo",
+              "hint": ""
+            }
+          ],
+          "rawDensity": 2048,
+          "interface": {
+            "async": false,
+            "sync": true
+          },
+          "rawVendor": "micron"
+        }
+      }
+    },
+    {
       "name": "decode-missing-pn",
       "endpoint": "decode",
       "params": {

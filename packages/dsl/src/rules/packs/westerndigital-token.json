@@ -1,0 +1,145 @@
+[
+  {
+    "id": "vendor.westerndigital.unsupported.inand",
+    "priority": 999,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
+    "match": { "kind": "prefix", "value": "SDIN" },
+    "tokenDecoder": {
+      "steps": [],
+      "assign": {
+        "vendor": "westerndigital",
+        "type": "inand",
+        "extraInfo": { "unsupportedReason": "sandisk_inand_not_supported" }
+      }
+    }
+  },
+  {
+    "id": "vendor.westerndigital.unsupported.issd",
+    "priority": 999,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
+    "match": { "kind": "prefix", "value": "SDIS" },
+    "tokenDecoder": {
+      "steps": [],
+      "assign": {
+        "vendor": "westerndigital",
+        "type": "issd",
+        "extraInfo": { "unsupportedReason": "sandisk_issd_not_supported" }
+      }
+    }
+  },
+  {
+    "id": "vendor.westerndigital.shortcode.v1",
+    "priority": 980,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
+    "match": { "kind": "regex", "value": "^[0-9]{5}-[0-9A-Z]{4}$" },
+    "tokenDecoder": {
+      "tables": {
+        "density": {
+          "1024": 1024,
+          "2048": 2048,
+          "4096": 4096,
+          "001G": 8192,
+          "002G": 16384,
+          "004G": 32768,
+          "008G": 65536,
+          "016G": 131072,
+          "032G": 262144,
+          "064G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304,
+          "1T00": 8388608
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 5, "to": "skip" },
+        { "op": "stripIfPrefix", "prefix": "-" },
+        { "op": "takeLongest", "table": "density", "to": "density", "default": 0 }
+      ],
+      "assign": {
+        "vendor": "westerndigital",
+        "density": { "$var": "density" }
+      }
+    }
+  },
+  {
+    "id": "vendor.westerndigital.token.v1",
+    "priority": 910,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
+    "match": { "kind": "prefix", "value": "SD" },
+    "tokenDecoder": {
+      "stripPrefixes": ["SD"],
+      "tables": {
+        "package": { "T": "TSOP", "Y": "BGA", "Z": "LGA", "Q": "BGA" },
+        "processNode": {
+          "A": "BiCS2",
+          "B": "BiCS3",
+          "C": "BiCS4",
+          "L": "56 nm",
+          "M": "43 nm",
+          "N": "32 nm",
+          "P": "24 nm",
+          "Q": "19 nm",
+          "R": "1y nm",
+          "S": "15 nm"
+        },
+        "cellLevel": { "C": 3, "F": 2, "G": 2, "H": 2, "I": 3, "M": 2, "N": 3, "Q": 2 },
+        "die": { "A": 1, "B": 2, "C": 4, "D": 8 },
+        "voltage": { "H": "2.7V~3.6V" },
+        "deviceWidth": { "E": 8, "S": 16 },
+        "density": {
+          "1024": 1024,
+          "2048": 2048,
+          "4096": 4096,
+          "001G": 8192,
+          "002G": 16384,
+          "004G": 32768,
+          "008G": 65536,
+          "016G": 131072,
+          "032G": 262144,
+          "064G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304,
+          "1T00": 8388608
+        },
+        "leadFreeObj": { "true": { "leadFree": true }, "false": {} }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "Unknown" },
+        { "op": "stripIfPrefix", "prefix": "N" },
+        { "op": "take", "len": 1, "to": "processCode" },
+        { "op": "map", "from": "processCode", "table": "processNode", "to": "processNode", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "cellCode" },
+        { "op": "map", "from": "cellCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
+        { "op": "take", "len": 1, "to": "dieCode" },
+        { "op": "map", "from": "dieCode", "table": "die", "to": "die", "default": -1 },
+        { "op": "take", "len": 1, "to": "voltageCode" },
+        { "op": "map", "from": "voltageCode", "table": "voltage", "to": "voltage", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "widthCode" },
+        { "op": "map", "from": "widthCode", "table": "deviceWidth", "to": "deviceWidth", "default": -1 },
+        { "op": "stripIfPrefix", "prefix": "M", "to": "hasM" },
+        { "op": "tpl", "template": "{{hasM}}", "to": "hasMKey" },
+        { "op": "map", "from": "hasMKey", "table": "leadFreeObj", "to": "leadFreeObj", "default": {} },
+        { "op": "set", "to": "extra", "value": {} },
+        { "op": "merge", "into": "extra", "from": "leadFreeObj" },
+        { "op": "stripIfPrefix", "prefix": "-" },
+        { "op": "takeLongest", "table": "density", "to": "density", "default": 0 }
+      ],
+      "assign": {
+        "vendor": "westerndigital",
+        "type": "nand",
+        "package": { "$var": "package" },
+        "processNode": { "$var": "processNode" },
+        "cellLevel": { "$var": "cellLevel" },
+        "voltage": { "$var": "voltage" },
+        "deviceWidth": { "$var": "deviceWidth" },
+        "density": { "$var": "density" },
+        "classification": { "die": { "$var": "die" } },
+        "extraInfo": { "$var": "extra" }
+      }
+    }
+  }
+]
+
