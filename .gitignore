@@ -6,3 +6,4 @@ coverage
 *.log
 .tmp
 *.tsbuildinfo
+.idea

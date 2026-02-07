@@ -17,6 +17,8 @@ export interface FlashInterface {
 export interface UrlLink {
   desc: string;
   url: string;
+  img?: string;
+  hint?: string;
   icon?: string;
 }
 

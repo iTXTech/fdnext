@@ -1,6 +1,7 @@
 import { LANGUAGES, UNKNOWN } from "./constants.js";
 import { buildDefaultDecoders } from "./decoders.js";
 import { buildFdb, buildMdb, findFlashIdRecord, findPartNumberAcrossVendors, getPartNumberRecord } from "./fdb.js";
+import { buildDefaultFlashIdDecoders } from "./flash-id-decoders.js";
 import { translateString as doTranslateString, translateValue } from "./translate.js";
 import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize.js";
 import { contains } from "./utils/string.js";
@@ -35,6 +36,32 @@ function getHumanReadableDensity(density: number, useByte = false): string {
 
 function toPublicFlashInfo(info: FlashInfo, langPacks: LangPacks, fallbackLang: string, lang?: string | null): FlashInfo {
   const output = cloneObject(info);
+  const requiredKeys = [
+    "partNumber",
+    "vendor",
+    "type",
+    "density",
+    "deviceWidth",
+    "processNode",
+    "cellLevel",
+    "classification",
+    "voltage",
+    "generation",
+    "interface",
+    "package",
+    "extraInfo",
+    "flashId",
+    "controller",
+    "remark",
+    "url",
+    "urls"
+  ] as const;
+  const outputRecord = output as Record<string, unknown>;
+  for (const key of requiredKeys) {
+    if (!(key in outputRecord)) {
+      outputRecord[key] = null;
+    }
+  }
   const interfaceValue = output.interface;
 
   if (typeof output.density === "number" && output.density > 0) {
@@ -64,6 +91,36 @@ function toPublicFlashInfo(info: FlashInfo, langPacks: LangPacks, fallbackLang: 
 
 function toPublicFlashIdInfo(info: FlashIdInfo, langPacks: LangPacks, fallbackLang: string, lang?: string | null): FlashIdInfo {
   const output = cloneObject(info);
+  const defaultValues: Record<string, unknown> = {
+    ext: {},
+    controllers: [],
+    partNumbers: [],
+    url: [],
+    urls: []
+  };
+  const requiredKeys = [
+    "id",
+    "vendor",
+    "density",
+    "die",
+    "plane",
+    "pageSize",
+    "blockSize",
+    "processNode",
+    "cellLevel",
+    "voltage",
+    "ext",
+    "controllers",
+    "partNumbers",
+    "url",
+    "urls"
+  ] as const;
+  const outputRecord = output as Record<string, unknown>;
+  for (const key of requiredKeys) {
+    if (!(key in outputRecord)) {
+      outputRecord[key] = key in defaultValues ? defaultValues[key] : null;
+    }
+  }
 
   for (const [key, value] of Object.entries(output)) {
     if (value == null) {
@@ -72,6 +129,34 @@ function toPublicFlashIdInfo(info: FlashIdInfo, langPacks: LangPacks, fallbackLa
   }
 
   const translated = translateValue(langPacks, fallbackLang, output, lang, false) as FlashIdInfo;
+  const cellLevelMap: Record<number, string> = {
+    1: "SLC",
+    2: "MLC",
+    3: "TLC",
+    4: "QLC"
+  };
+  if (typeof translated.cellLevel === "number") {
+    translated.cellLevel = cellLevelMap[translated.cellLevel] ?? translated.cellLevel;
+  }
+  if (Array.isArray(translated.partNumbers)) {
+    translated.partNumbers = translated.partNumbers.map((item) => {
+      if (typeof item !== "string") {
+        return String(item);
+      }
+      const [vendor, ...rest] = item.split(" ");
+      if (!vendor || rest.length === 0) {
+        return item;
+      }
+      return `${doTranslateString(langPacks, fallbackLang, vendor, lang)} ${rest.join(" ")}`;
+    });
+  }
+  if (translated.ext && typeof translated.ext === "object" && !Array.isArray(translated.ext)) {
+    const mappedExt: Record<string, unknown> = {};
+    for (const [key, value] of Object.entries(translated.ext)) {
+      mappedExt[doTranslateString(langPacks, fallbackLang, key, lang)] = value;
+    }
+    translated.ext = mappedExt;
+  }
   translated.rawVendor = info.vendor;
   return translated;
 }
@@ -97,6 +182,11 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
   const flashIdDecoders: FlashIdDecoder[] = [...(options.flashIdDecoders ?? [])].sort(
+    (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
+  );
+  const defaultFlashIdDecoders = buildDefaultFlashIdDecoders();
+  flashIdDecoders.unshift(...defaultFlashIdDecoders);
+  flashIdDecoders.sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
 
@@ -298,11 +388,6 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
 
       const flashIdRecord = findFlashIdRecord(fdb, padded);
       if (flashIdRecord) {
-        info.pageSize = flashIdRecord.s;
-        info.blockSize =
-          flashIdRecord.s != null && flashIdRecord.p != null
-            ? flashIdRecord.s * flashIdRecord.p
-            : undefined;
         info.controllers = flashIdRecord.t ?? [];
         info.partNumbers = flashIdRecord.n ?? [];
       }
