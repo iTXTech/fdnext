@@ -22,8 +22,8 @@ pnpm -r build
 
 ## 快速入口
 
-- 服务端：见 `/Users/peratx/dev/fdnext/docs/INTEGRATION_SERVER.md`
-- 浏览器：见 `/Users/peratx/dev/fdnext/docs/INTEGRATION_BROWSER.md`
+- 服务端：见 `docs/INTEGRATION_SERVER.md`
+- 浏览器：见 `docs/INTEGRATION_BROWSER.md`
 
 ## 主要包
 
@@ -43,12 +43,12 @@ pnpm compat:ci
 
 可通过环境变量指定依赖路径：
 
-- `SF_HOME=/Users/peratx/dev/SimpleFramework`
-- `FDNEXT_FLASHDETECTOR=/Users/peratx/dev/FlashDetector`
+- `SF_HOME=/path/to/SimpleFramework`
+- `FDNEXT_FLASHDETECTOR=/path/to/FlashDetector`
 
 ## 相关文档
 
-- 设计分层：`/Users/peratx/dev/fdnext/docs/ARCHITECTURE.md`
-- DSL 说明：`/Users/peratx/dev/fdnext/docs/DSL_SPEC.md`
-- 迁移说明：`/Users/peratx/dev/fdnext/docs/MIGRATION.md`
-- 实现计划：`/Users/peratx/dev/fdnext/docs/PLAN.md`
+- 设计分层：`docs/ARCHITECTURE.md`
+- DSL 说明：`docs/DSL_SPEC.md`
+- 迁移说明：`docs/MIGRATION.md`
+- 实现计划：`docs/PLAN.md`

@@ -11,13 +11,13 @@
 pnpm install
 pnpm sync:resources
 pnpm -r build
-node /Users/peratx/dev/fdnext/packages/server/dist/bin.js --host 0.0.0.0 --port 8080 --resources /Users/peratx/dev/fdnext/resources
+node packages/server/dist/bin.js --host 0.0.0.0 --port 8080 --resources ./resources
 ```
 
 也可以使用 CLI 启动服务：
 
 ```bash
-node /Users/peratx/dev/fdnext/packages/cli/dist/index.js serve 0.0.0.0 8080
+node packages/cli/dist/index.js serve 0.0.0.0 8080
 ```
 
 ## 2. HTTP 路由
@@ -42,7 +42,7 @@ node /Users/peratx/dev/fdnext/packages/cli/dist/index.js serve 0.0.0.0 8080
 - `lang/chs.json`
 - `lang/eng.json`
 
-在仓库内可用 `pnpm sync:resources` 从旧项目同步资源到 `/Users/peratx/dev/fdnext/resources`。
+在仓库内可用 `pnpm sync:resources` 从旧项目同步资源到 `./resources`。
 
 ## 4. 自定义规则/解码器（推荐方式）
 
@@ -61,4 +61,3 @@ const engine = createEngine({
 ```
 
 如果你想在 HTTP 层也做定制，建议复用 `engine` 自己封装路由，而不是修改 vendor decoder 文件（核心思想是 “规则数据化”）。
-

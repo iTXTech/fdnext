@@ -20,8 +20,11 @@ interface FixtureRecord extends FixtureCase {
 }
 
 const ROOT = resolve(__dirname, "..");
-const DEFAULT_FLASHDETECTOR_ROOT = "/Users/peratx/dev/FlashDetector";
-const DEFAULT_SIMPLE_FRAMEWORK_HOME = "/Users/peratx/dev/SimpleFramework";
+// Defaults assume the legacy repos live next to this repo:
+//   ../FlashDetector
+//   ../SimpleFramework
+const DEFAULT_FLASHDETECTOR_ROOT = resolve(ROOT, "..", "FlashDetector");
+const DEFAULT_SIMPLE_FRAMEWORK_HOME = resolve(ROOT, "..", "SimpleFramework");
 const FLASHDETECTOR_ROOT = resolve(process.env.FDNEXT_FLASHDETECTOR ?? DEFAULT_FLASHDETECTOR_ROOT);
 const SIMPLE_FRAMEWORK_HOME = resolve(process.env.SF_HOME ?? DEFAULT_SIMPLE_FRAMEWORK_HOME);
 const OUTPUT_PATH = resolve(process.env.FDNEXT_FIXTURES ?? resolve(ROOT, "packages/compat-test/fixtures/php-baseline.json"));

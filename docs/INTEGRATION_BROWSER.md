@@ -70,6 +70,5 @@ console.log(engine.decodeFlashId("2C64444BA900", { lang: "eng" }));
 
 规则文件位置（仓库内）：
 
-- `PN` 规则包：`/Users/peratx/dev/fdnext/packages/dsl/src/rules/packs`
-- `FlashId` 规则包：`/Users/peratx/dev/fdnext/packages/dsl/src/flashid/packs`
-
+- `PN` 规则包：`packages/dsl/src/rules/packs`
+- `FlashId` 规则包：`packages/dsl/src/flashid/packs`

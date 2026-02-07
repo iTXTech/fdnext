@@ -149,8 +149,8 @@ DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前），最终�
 
 推荐把每个厂商的规则放到单独 pack 文件（JSON 数组）：
 
-- 目录：`/Users/peratx/dev/fdnext/packages/dsl/src/rules/packs`
-- 接入：`/Users/peratx/dev/fdnext/packages/dsl/src/rules/default-rules.ts:1`
+- 目录：`packages/dsl/src/rules/packs`
+- 接入：`packages/dsl/src/rules/default-rules.ts:1`
 
 源码里用 JSON module 直接导入：
 
@@ -164,7 +164,7 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 - 新增 pack：`packages/dsl/src/rules/packs/<vendor>-token.json`
 - 在 `default-rules.ts` 中导入并加入 `defaultDslRules`
-- 添加/更新夹具：`/Users/peratx/dev/fdnext/scripts/gen-fixtures.mjs:1`
+- 添加/更新夹具：`scripts/gen-fixtures.mjs:1`
 - 运行回归：`pnpm compat:ci`
 
 ## 7. FlashId DSL（概览）
