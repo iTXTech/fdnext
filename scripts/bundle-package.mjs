@@ -1,0 +1,142 @@
+import { mkdirSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+
+async function loadEsbuild() {
+  try {
+    return await import("esbuild");
+  } catch {
+    // pnpm does not always link transitive deps to the workspace root. Fall back to the pnpm store path.
+    // This keeps the repo self-contained without adding a direct esbuild dependency.
+    const root = resolve(import.meta.dirname, "..");
+    const esbuildMain = resolve(root, "node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js");
+    return await import(esbuildMain);
+  }
+}
+
+function repoRoot() {
+  return resolve(import.meta.dirname, "..");
+}
+
+function repoTsconfig() {
+  return resolve(repoRoot(), "tsconfig.base.json");
+}
+
+function pkgNameFromCwd() {
+  const cwd = resolve(process.cwd());
+  const root = repoRoot();
+  const rel = cwd.startsWith(root) ? cwd.slice(root.length + 1) : cwd;
+  // expected: packages/<name>
+  return rel.split("/")[1] ?? "";
+}
+
+function ensureDir(path) {
+  mkdirSync(dirname(path), { recursive: true });
+}
+
+async function bundleEntry(
+  esbuild,
+  opts
+) {
+  ensureDir(opts.outfile);
+  await esbuild.build({
+    entryPoints: [opts.entry],
+    outfile: opts.outfile,
+    bundle: true,
+    format: "esm",
+    platform: opts.platform,
+    target: "esnext",
+    sourcemap: false,
+    minify: false,
+    treeShaking: true,
+    legalComments: "none",
+    tsconfig: repoTsconfig(),
+    banner: opts.banner ? { js: opts.banner } : undefined,
+    loader: {
+      ".json": "json"
+    }
+  });
+}
+
+function nodeRequireShim() {
+  // Some CJS dependencies use `require()` at runtime. In ESM bundles, esbuild emits a require shim that needs a real
+  // `require` function to exist. Providing it via createRequire keeps Node-only bundles runnable.
+  return ['import { createRequire } from "node:module";', "const require = createRequire(import.meta.url);"].join("\n");
+}
+
+function nodeBanner({ shebang }) {
+  const parts = [];
+  if (shebang) parts.push("#!/usr/bin/env node");
+  parts.push(nodeRequireShim());
+  return parts.join("\n");
+}
+
+async function main() {
+  const esbuild = await loadEsbuild();
+  const root = repoRoot();
+  const pkg = pkgNameFromCwd();
+
+  switch (pkg) {
+    case "core": {
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/core/src/index.ts"),
+        outfile: resolve(root, "packages/core/dist/index.js"),
+        platform: "neutral"
+      });
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/core/src/loaders/node.ts"),
+        outfile: resolve(root, "packages/core/dist/loaders/node.js"),
+        platform: "node",
+        banner: nodeBanner({ shebang: false })
+      });
+      return;
+    }
+    case "dsl": {
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/dsl/src/index.ts"),
+        outfile: resolve(root, "packages/dsl/dist/index.js"),
+        platform: "neutral"
+      });
+      return;
+    }
+    case "server": {
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/server/src/index.ts"),
+        outfile: resolve(root, "packages/server/dist/index.js"),
+        platform: "node",
+        banner: nodeBanner({ shebang: false })
+      });
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/server/src/bin.ts"),
+        outfile: resolve(root, "packages/server/dist/bin.js"),
+        platform: "node",
+        banner: nodeBanner({ shebang: true })
+      });
+      return;
+    }
+    case "cli": {
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/cli/src/index.ts"),
+        outfile: resolve(root, "packages/cli/dist/index.js"),
+        platform: "node",
+        banner: nodeBanner({ shebang: true })
+      });
+      return;
+    }
+    case "compat-test": {
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/compat-test/src/index.ts"),
+        outfile: resolve(root, "packages/compat-test/dist/index.js"),
+        platform: "node",
+        banner: nodeBanner({ shebang: false })
+      });
+      return;
+    }
+    default:
+      throw new Error(`Unknown package for bundling: ${pkg} (cwd=${process.cwd()})`);
+  }
+}
+
+main().catch((err) => {
+  process.stderr.write(`${err?.stack ?? err}\n`);
+  process.exit(1);
+});

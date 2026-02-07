@@ -1,0 +1,463 @@
+[
+  {
+    "id": "vendor.micron.token.v1",
+    "priority": 1000,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^(MT|29)"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT",
+        "29"
+      ],
+      "tables": {
+        "enterprise_flag": {
+          "E": true
+        },
+        "density": {
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096,
+          "8G": 8192,
+          "16G": 16384,
+          "21G": 21504,
+          "32G": 32768,
+          "42G": 43008,
+          "64G": 65536,
+          "84G": 86016,
+          "128G": 131072,
+          "168G": 172032,
+          "192G": 196608,
+          "256G": 262144,
+          "336G": 344064,
+          "384G": 393216,
+          "512G": 524288,
+          "768G": 786432,
+          "1T": 1048576,
+          "1T2": 1179648,
+          "1HT": 1572864,
+          "2T": 2097152,
+          "3T": 3145728,
+          "4T": 4194304,
+          "6T": 6291456,
+          "8T": 8388608,
+          "16T": 16777216
+        },
+        "device_width": {
+          "16": 16,
+          "01": 1,
+          "08": 8
+        },
+        "cell_level": {
+          "A": "SLC",
+          "C": "MLC",
+          "E": "TLC",
+          "G": "QLC"
+        },
+        "classification": {
+          "1": {
+            "ce": 2,
+            "ch": 1,
+            "rb": -1,
+            "die": 16
+          },
+          "2": {
+            "ce": 8,
+            "ch": 2,
+            "rb": -1,
+            "die": 64
+          },
+          "3": {
+            "ce": 4,
+            "ch": 2,
+            "rb": -1,
+            "die": 8
+          },
+          "4": {
+            "ce": 4,
+            "ch": 1,
+            "rb": -1,
+            "die": 4
+          },
+          "A": {
+            "ce": 0,
+            "ch": 1,
+            "rb": 0,
+            "die": 1
+          },
+          "B": {
+            "ce": 1,
+            "ch": 1,
+            "rb": 1,
+            "die": 1
+          },
+          "D": {
+            "ce": 1,
+            "ch": 1,
+            "rb": 1,
+            "die": 2
+          },
+          "E": {
+            "ce": 2,
+            "ch": 2,
+            "rb": 2,
+            "die": 2
+          },
+          "F": {
+            "ce": 2,
+            "ch": 1,
+            "rb": 2,
+            "die": 2
+          },
+          "G": {
+            "ce": 3,
+            "ch": 3,
+            "rb": 3,
+            "die": 3
+          },
+          "J": {
+            "ce": 2,
+            "ch": 1,
+            "rb": 2,
+            "die": 4
+          },
+          "K": {
+            "ce": 2,
+            "ch": 2,
+            "rb": 2,
+            "die": 4
+          },
+          "L": {
+            "ce": 4,
+            "ch": 4,
+            "rb": 4,
+            "die": 4
+          },
+          "M": {
+            "ce": 4,
+            "ch": 2,
+            "rb": 4,
+            "die": 4
+          },
+          "Q": {
+            "ce": 4,
+            "ch": 4,
+            "rb": 4,
+            "die": 8
+          },
+          "R": {
+            "ce": 2,
+            "ch": 2,
+            "rb": 2,
+            "die": 8
+          },
+          "T": {
+            "ce": 8,
+            "ch": 2,
+            "rb": 4,
+            "die": 16
+          },
+          "U": {
+            "ce": 4,
+            "ch": 2,
+            "rb": 4,
+            "die": 8
+          },
+          "V": {
+            "ce": 8,
+            "ch": 4,
+            "rb": 4,
+            "die": 16
+          },
+          "C": {
+            "ce": 3,
+            "ch": 2,
+            "rb": -1,
+            "die": 3
+          },
+          "H": {
+            "ce": 1,
+            "ch": 1,
+            "rb": -1,
+            "die": 4
+          },
+          "N": {
+            "ce": 6,
+            "ch": 3,
+            "rb": -1,
+            "die": 6
+          },
+          "P": {
+            "ce": 8,
+            "ch": 2,
+            "rb": -1,
+            "die": 8
+          },
+          "W": {
+            "ce": 4,
+            "ch": 2,
+            "rb": -1,
+            "die": 16
+          },
+          "X": {
+            "ce": 4,
+            "ch": 2,
+            "rb": -1,
+            "die": 4
+          },
+          "Y": {
+            "ce": 7,
+            "ch": 4,
+            "rb": -1,
+            "die": 11
+          },
+          "S": {
+            "ce": 4,
+            "ch": 4,
+            "rb": -1,
+            "die": 16
+          }
+        },
+        "voltage": {
+          "A": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V)",
+          "B": "1.8V (1.70–1.95V)",
+          "C": "Vcc: 3.3V (2.70–3.60V), VccQ: 1.8V (1.70–1.95V)",
+          "E": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V) or 1.8V (1.70–1.95V)",
+          "F": "Vcc: 3.3V (2.50–3.60V), VccQ: 1.2V (1.14–1.26V)",
+          "G": "Vcc: 3.3V (2.60–3.60V), VccQ: 1.8V (1.70–1.95V)",
+          "H": "Vcc: 3.3V (2.50–3.60V), VccQ: 1.2V (1.14–1.26) or 1.8V (1.70–1.95V)",
+          "J": "Vcc: 3.3V (2.50–3.60V), VccQ: 1.8V (1.70–1.95V)",
+          "K": "Vcc: 3.3V (2.60–3.60V), VccQ: 3.3V (2.60–3.60V)",
+          "L": "Vcc: 2.5V (2.35–3.60V), VccQ: 1.2V (1.14–1.26V)"
+        },
+        "generation": {
+          "A": "1",
+          "B": "2",
+          "C": "3",
+          "D": "4",
+          "E": "5",
+          "F": "6"
+        },
+        "interface": {
+          "A": {
+            "async": true,
+            "sync": false
+          },
+          "B": {
+            "async": true,
+            "sync": true
+          },
+          "C": {
+            "async": false,
+            "sync": true
+          },
+          "D": {
+            "spi": true
+          },
+          "E": {
+            "async": true,
+            "sync": true
+          },
+          "F": {
+            "async": true,
+            "sync": true
+          },
+          "G": {
+            "async": true,
+            "sync": true
+          },
+          "M": {
+            "async": false,
+            "sync": false
+          },
+          "N": {
+            "async": true,
+            "sync": true
+          },
+          "H": {
+            "async": true,
+            "sync": true
+          }
+        },
+        "package": {
+          "WP": "48-pin TSOP I Center Package Leads (CPL) PB free",
+          "WC": "48-pin TSOP I Off-center Package Leads (OCPL) PB free"
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "enterprise_token"
+        },
+        {
+          "op": "map",
+          "from": "enterprise_token",
+          "table": "enterprise_flag",
+          "to": "enterprise",
+          "default": false
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": null
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "device_token"
+        },
+        {
+          "op": "map",
+          "from": "device_token",
+          "table": "device_width",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cell_token"
+        },
+        {
+          "op": "map",
+          "from": "cell_token",
+          "table": "cell_level",
+          "to": "cellLevel",
+          "default": null
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "class_token"
+        },
+        {
+          "op": "map",
+          "from": "class_token",
+          "table": "classification",
+          "to": "classification",
+          "default": {
+            "ce": -1,
+            "ch": -1,
+            "rb": -1,
+            "die": -1
+          }
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltage_token"
+        },
+        {
+          "op": "map",
+          "from": "voltage_token",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generation_token"
+        },
+        {
+          "op": "map",
+          "from": "generation_token",
+          "table": "generation",
+          "to": "generation",
+          "default": null
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "interface_token"
+        },
+        {
+          "op": "map",
+          "from": "interface_token",
+          "table": "interface",
+          "to": "interface",
+          "default": {
+            "async": false,
+            "sync": false
+          }
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "package_token"
+        },
+        {
+          "op": "map",
+          "from": "package_token",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        }
+      ],
+      "assign": {
+        "vendor": "micron",
+        "type": "nand",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "cellLevel": {
+          "$var": "cellLevel"
+        },
+        "classification": {
+          "$var": "classification"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "generation": {
+          "$var": "generation"
+        },
+        "interface": {
+          "$var": "interface"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "enterprise": {
+            "$var": "enterprise"
+          }
+        },
+        "url": {
+          "micron_website": {
+            "$tpl": "https://www.micron.com/support/tools-and-utilities/fbga?matpart={{partNumber}}"
+          }
+        },
+        "urls": [
+          {
+            "url": {
+              "$tpl": "https://www.micron.com/support/tools-and-utilities/fbga?matpart={{partNumber}}"
+            },
+            "desc": "micron_website",
+            "img": "logo",
+            "hint": ""
+          }
+        ]
+      }
+    }
+  }
+]

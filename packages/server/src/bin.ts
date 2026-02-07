@@ -1,6 +1,5 @@
-#!/usr/bin/env node
 import { resolve } from "node:path";
-import { createHttpServer } from "./index.js";
+import { createHttpServer } from "./index";
 
 function readArg(name: string, fallback: string): string {
   const idx = process.argv.indexOf(name);

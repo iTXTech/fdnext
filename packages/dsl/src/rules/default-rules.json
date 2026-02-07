@@ -1,9 +1,0 @@
-[
-  {
-    "id": "vendor.micron.prefix.mt",
-    "priority": 50,
-    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
-    "match": { "kind": "prefix", "value": "MT" },
-    "set": { "vendor": "micron", "type": "nand" }
-  }
-]

@@ -1,48 +1,29 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { createEngine } from "../packages/core/src/engine";
-import { loadResourcesFromDir } from "../packages/core/src/loaders/node";
-import { compileFlashIdRulesToDecoders, compileRulesToDecoders } from "../packages/dsl/src/compiler";
-import { defaultFlashIdRules } from "../packages/dsl/src/flashid/default-rules";
-import { defaultDslRules } from "../packages/dsl/src/rules/default-rules";
+import { createEngine } from "../packages/core/dist/index.js";
+import { loadResourcesFromDir } from "../packages/core/dist/loaders/node.js";
+import {
+  compileFlashIdRulesToDecoders,
+  compileRulesToDecoders,
+  defaultDslRules,
+  defaultFlashIdRules
+} from "../packages/dsl/dist/index.js";
 
-type Endpoint = "decode" | "decodeId" | "searchPn" | "searchId" | "summary" | "summaryId";
-
-interface FixtureRecord {
-  name: string;
-  endpoint: Endpoint;
-  params: {
-    pn?: string;
-    id?: string;
-    lang?: string | null;
-    limit?: number;
-  };
-  php: unknown;
-}
-
-interface FixtureBundle {
-  fixtures: FixtureRecord[];
-}
-
-const ROOT = resolve(__dirname, "..");
+const ROOT = resolve(import.meta.dirname, "..");
 const FIXTURE_PATH = resolve(process.env.FDNEXT_FIXTURES ?? resolve(ROOT, "packages/compat-test/fixtures/php-baseline.json"));
 const RESOURCE_DIR = resolve(process.env.FDNEXT_RESOURCES ?? resolve(ROOT, "resources"));
 
-function stable(value: unknown): unknown {
-  if (Array.isArray(value)) {
-    return value.map((item) => stable(item));
-  }
+function stable(value) {
+  if (Array.isArray(value)) return value.map(stable);
   if (value && typeof value === "object") {
-    const result: Record<string, unknown> = {};
-    for (const key of Object.keys(value as Record<string, unknown>).sort()) {
-      result[key] = stable((value as Record<string, unknown>)[key]);
-    }
+    const result = {};
+    for (const key of Object.keys(value).sort()) result[key] = stable(value[key]);
     return result;
   }
   return value;
 }
 
-function executeTs(caseDef: FixtureRecord): unknown {
+function executeTs(caseDef) {
   const engine = createEngine({
     resources: loadResourcesFromDir(RESOURCE_DIR),
     decoders: compileRulesToDecoders(defaultDslRules),
@@ -82,29 +63,17 @@ function executeTs(caseDef: FixtureRecord): unknown {
   }
 }
 
-function main(): void {
-  const fixture = JSON.parse(readFileSync(FIXTURE_PATH, "utf8")) as FixtureBundle;
-  const failures: Array<{ name: string; endpoint: string; params: FixtureRecord["params"]; php: unknown; ts: unknown }> = [];
+const fixture = JSON.parse(readFileSync(FIXTURE_PATH, "utf8"));
+const failures = [];
+for (const item of fixture.fixtures) {
+  const tsActual = executeTs(item);
+  const same = JSON.stringify(stable(item.php)) === JSON.stringify(stable(tsActual));
+  if (!same) failures.push({ name: item.name, endpoint: item.endpoint, params: item.params, php: item.php, ts: tsActual });
+}
 
-  for (const item of fixture.fixtures) {
-    const tsActual = executeTs(item);
-    const same = JSON.stringify(stable(item.php)) === JSON.stringify(stable(tsActual));
-    if (!same) {
-      failures.push({
-        name: item.name,
-        endpoint: item.endpoint,
-        params: item.params,
-        php: item.php,
-        ts: tsActual
-      });
-    }
-  }
-
-  if (failures.length === 0) {
-    process.stdout.write(`Compat diff passed: ${fixture.fixtures.length}/${fixture.fixtures.length}\n`);
-    return;
-  }
-
+if (failures.length === 0) {
+  process.stdout.write(`Compat diff passed: ${fixture.fixtures.length}/${fixture.fixtures.length}\n`);
+} else {
   process.stdout.write(`Compat diff failed: ${fixture.fixtures.length - failures.length}/${fixture.fixtures.length} passed\n`);
   for (const failure of failures) {
     process.stdout.write(`\n[${failure.name}] ${failure.endpoint}\n`);
@@ -114,5 +83,3 @@ function main(): void {
   }
   process.exitCode = 1;
 }
-
-main();

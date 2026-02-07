@@ -9,10 +9,11 @@
   },
   "dependencies": {
     "@fdnext/core": "workspace:*",
-    "@fdnext/dsl": "workspace:*"
+    "@fdnext/dsl": "workspace:*",
+    "@hapi/hapi": "^21.4.4"
   },
   "scripts": {
-    "build": "tsc -b",
-    "typecheck": "tsc -b --pretty false"
+    "build": "tsc -b --emitDeclarationOnly && node ../../scripts/bundle-package.mjs",
+    "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   }
 }

@@ -1,18 +1,5 @@
-import type { DslRule } from "../types.js";
+import type { DslRule } from "../types";
+import micronTokenRules from "./packs/micron-token.json" with { type: "json" };
+import vendorPrefixRules from "./packs/vendor-prefix.json" with { type: "json" };
 
-export const defaultDslRules: DslRule[] = [
-  {
-    id: "vendor.micron.prefix.mt",
-    priority: 200,
-    normalize: ["trim", "uppercase", { remove: [" ", ",", "&", ".", "|"] }],
-    match: { kind: "prefix", value: "MT" },
-    set: { vendor: "micron", type: "nand" }
-  },
-  {
-    id: "vendor.kioxia.prefix.tc58",
-    priority: 150,
-    normalize: ["trim", "uppercase", { remove: [" ", ",", "&", ".", "|"] }],
-    match: { kind: "prefix", value: "TC58" },
-    set: { vendor: "kioxia" }
-  }
-];
+export const defaultDslRules = [...micronTokenRules, ...vendorPrefixRules] as DslRule[];

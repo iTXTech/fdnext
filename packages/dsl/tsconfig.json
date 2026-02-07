@@ -8,5 +8,5 @@
   "references": [
     { "path": "../core" }
   ],
-  "include": ["src/**/*.ts"]
+  "include": ["src", "src/**/*.json"]
 }

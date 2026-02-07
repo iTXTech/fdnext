@@ -1,5 +1,5 @@
-import { UNKNOWN } from "./constants.js";
-import type { LangPacks } from "./types.js";
+import { UNKNOWN } from "./constants";
+import type { LangPacks } from "./types";
 
 export function translateString(langPacks: LangPacks, fallbackLang: string, key: string, lang?: string | null): string {
   const targetLang = lang ?? fallbackLang;

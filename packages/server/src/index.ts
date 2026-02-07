@@ -1,8 +1,8 @@
-import { createServer as createNodeServer } from "node:http";
-import { URL } from "node:url";
+import { server as createHapiServer } from "@hapi/hapi";
+import type { ResponseToolkit } from "@hapi/hapi";
 import { createEngine, type FlashDetectorEngine } from "@fdnext/core";
 import { loadResourcesFromDir } from "@fdnext/core/node";
-import { compileRulesToDecoders, defaultDslRules } from "@fdnext/dsl";
+import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@fdnext/dsl";
 
 export interface HttpServerOptions {
   host?: string;
@@ -10,19 +10,6 @@ export interface HttpServerOptions {
   resourceDir: string;
   serverName?: string;
   simpleFrameworkHeader?: string;
-}
-
-function sendJson(
-  res: import("node:http").ServerResponse,
-  payload: unknown,
-  simpleFrameworkHeader: string
-): void {
-  res.statusCode = 200;
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "*");
-  res.setHeader("Content-Type", "application/json");
-  res.setHeader("X-SimpleFramework", simpleFrameworkHeader);
-  res.end(JSON.stringify(payload));
 }
 
 function parseLimit(value: string | null): number {
@@ -33,136 +20,176 @@ function parseLimit(value: string | null): number {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
 }
 
+function replyJson(h: ResponseToolkit, payload: any, simpleFrameworkHeader: string) {
+  const response = h.response(payload);
+  response.code(200);
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header("Access-Control-Allow-Headers", "*");
+  response.header("X-SimpleFramework", simpleFrameworkHeader);
+  return response;
+}
+
 export function createHttpServer(options: HttpServerOptions) {
   const resources = loadResourcesFromDir(options.resourceDir);
   const engine = createEngine({
     resources,
-    decoders: compileRulesToDecoders(defaultDslRules)
+    decoders: compileRulesToDecoders(defaultDslRules),
+    flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
   });
   const serverName = options.serverName ?? "FDWebServer-TS";
   const simpleFrameworkHeader = options.simpleFrameworkHeader ?? `ts-${engine.getVersion()}`;
 
-  const server = createNodeServer((req, res) => {
-    const url = new URL(req.url ?? "/", `http://${req.headers.host ?? "127.0.0.1"}`);
-    const lang = url.searchParams.get("lang");
-
-    if (req.method === "OPTIONS") {
-      res.statusCode = 204;
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader("Access-Control-Allow-Headers", "*");
-      res.end();
-      return;
+  const server = createHapiServer({
+    host: options.host ?? "0.0.0.0",
+    port: options.port ?? 8080,
+    routes: {
+      cors: {
+        origin: ["*"],
+        additionalHeaders: ["*"]
+      }
     }
+  });
 
-    switch (url.pathname) {
-      case "/":
-        sendJson(
-          res,
-          { result: true, time: Math.floor(Date.now() / 1000), server: serverName },
-          simpleFrameworkHeader
-        );
-        return;
-      case "/info":
-        sendJson(
-          res,
-          { result: true, ver: engine.getVersion(), info: engine.getInfo() },
-          simpleFrameworkHeader
-        );
-        return;
-      case "/decode": {
-        const pn = url.searchParams.get("pn");
-        sendJson(
-          res,
-          pn
-            ? { result: true, data: engine.detect(pn, { lang, combineFdb: true }) }
-            : { result: false, message: "Missing part number" },
-          simpleFrameworkHeader
-        );
-        return;
-      }
-      case "/decodeId": {
-        const id = url.searchParams.get("id");
-        sendJson(
-          res,
-          id
-            ? { result: true, data: engine.decodeFlashId(id, { lang, combineFdb: true }) }
-            : { result: false, message: "Missing Flash Id" },
-          simpleFrameworkHeader
-        );
-        return;
-      }
-      case "/searchPn": {
-        const pn = url.searchParams.get("pn");
-        sendJson(
-          res,
-          pn
-            ? {
-                result: true,
-                data: engine.searchPartNumber(pn, {
-                  lang,
-                  limit: parseLimit(url.searchParams.get("limit")),
-                  partialMatch: true
-                })
-              }
-            : { result: false, message: "Missing part number" },
-          simpleFrameworkHeader
-        );
-        return;
-      }
-      case "/searchId": {
-        const id = url.searchParams.get("id");
-        sendJson(
-          res,
-          id
-            ? {
-                result: true,
-                data: engine.searchFlashId(id, {
-                  lang,
-                  limit: parseLimit(url.searchParams.get("limit")),
-                  partialMatch: true
-                })
-              }
-            : { result: false, message: "Missing Flash Id" },
-          simpleFrameworkHeader
-        );
-        return;
-      }
-      case "/summary": {
-        const pn = url.searchParams.get("pn");
-        sendJson(
-          res,
-          pn ? { result: true, data: engine.getSummary(pn, lang) } : { result: false, message: "Missing part number" },
-          simpleFrameworkHeader
-        );
-        return;
-      }
-      case "/summaryId": {
-        const id = url.searchParams.get("id");
-        sendJson(
-          res,
-          id ? { result: true, data: engine.getIdSummary(id, lang) } : { result: false, message: "Missing flash Id" },
-          simpleFrameworkHeader
-        );
-        return;
-      }
-      default:
-        sendJson(res, { result: false, message: "Not found" }, simpleFrameworkHeader);
+  server.route({
+    method: "GET",
+    path: "/",
+    handler: (_request, h) =>
+      replyJson(h, { result: true, time: Math.floor(Date.now() / 1000), server: serverName }, simpleFrameworkHeader)
+  });
+
+  server.route({
+    method: "GET",
+    path: "/info",
+    handler: (_request, h) =>
+      replyJson(h, { result: true, ver: engine.getVersion(), info: engine.getInfo() }, simpleFrameworkHeader)
+  });
+
+  server.route({
+    method: "GET",
+    path: "/decode",
+    handler: (request, h) => {
+      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
+      const pn = typeof request.query.pn === "string" ? request.query.pn : null;
+      return replyJson(
+        h,
+        pn ? { result: true, data: engine.detect(pn, { lang, combineFdb: true }) } : { result: false, message: "Missing part number" },
+        simpleFrameworkHeader
+      );
     }
+  });
+
+  server.route({
+    method: "GET",
+    path: "/decodeId",
+    handler: (request, h) => {
+      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
+      const id = typeof request.query.id === "string" ? request.query.id : null;
+      return replyJson(
+        h,
+        id ? { result: true, data: engine.decodeFlashId(id, { lang, combineFdb: true }) } : { result: false, message: "Missing Flash Id" },
+        simpleFrameworkHeader
+      );
+    }
+  });
+
+  server.route({
+    method: "GET",
+    path: "/searchPn",
+    handler: (request, h) => {
+      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
+      const pn = typeof request.query.pn === "string" ? request.query.pn : null;
+      const limitStr = typeof request.query.limit === "string" ? request.query.limit : null;
+      return replyJson(
+        h,
+        pn
+          ? {
+              result: true,
+              data: engine.searchPartNumber(pn, { lang, limit: parseLimit(limitStr), partialMatch: true })
+            }
+          : { result: false, message: "Missing part number" },
+        simpleFrameworkHeader
+      );
+    }
+  });
+
+  server.route({
+    method: "GET",
+    path: "/searchId",
+    handler: (request, h) => {
+      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
+      const id = typeof request.query.id === "string" ? request.query.id : null;
+      const limitStr = typeof request.query.limit === "string" ? request.query.limit : null;
+      return replyJson(
+        h,
+        id
+          ? {
+              result: true,
+              data: engine.searchFlashId(id, { lang, limit: parseLimit(limitStr), partialMatch: true })
+            }
+          : { result: false, message: "Missing Flash Id" },
+        simpleFrameworkHeader
+      );
+    }
+  });
+
+  server.route({
+    method: "GET",
+    path: "/summary",
+    handler: (request, h) => {
+      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
+      const pn = typeof request.query.pn === "string" ? request.query.pn : null;
+      return replyJson(
+        h,
+        pn ? { result: true, data: engine.getSummary(pn, lang) } : { result: false, message: "Missing part number" },
+        simpleFrameworkHeader
+      );
+    }
+  });
+
+  server.route({
+    method: "GET",
+    path: "/summaryId",
+    handler: (request, h) => {
+      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
+      const id = typeof request.query.id === "string" ? request.query.id : null;
+      return replyJson(
+        h,
+        id ? { result: true, data: engine.getIdSummary(id, lang) } : { result: false, message: "Missing flash Id" },
+        simpleFrameworkHeader
+      );
+    }
+  });
+
+  server.route({
+    method: "OPTIONS",
+    path: "/{p*}",
+    handler: (_request, h) =>
+      h.response().code(204).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Headers", "*")
+  });
+
+  server.route({
+    method: "*",
+    path: "/{p*}",
+    handler: (_request, h) => replyJson(h, { result: false, message: "Not found" }, simpleFrameworkHeader)
   });
 
   return {
     engine,
     server,
-    listen: (port = options.port ?? 8080, host = options.host ?? "0.0.0.0") =>
-      new Promise<void>((resolve) => {
-        server.listen(port, host, () => resolve());
-      })
+    listen: async (port = options.port ?? 8080, host = options.host ?? "0.0.0.0") => {
+      // Hapi reads host/port from server.settings when starting.
+      // Keep the existing createHttpServer().listen(port, host) API shape for callers.
+      (server.settings as any).port = port;
+      (server.settings as any).host = host;
+      await server.start();
+    }
   };
 }
 
 export function createDefaultEngine(resourceDir: string): FlashDetectorEngine {
   return createEngine({
     resources: loadResourcesFromDir(resourceDir),
-    decoders: compileRulesToDecoders(defaultDslRules)
+    decoders: compileRulesToDecoders(defaultDslRules),
+    flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
   });
 }

@@ -19,3 +19,5 @@
 - browser and node portability for core
 - deterministic behavior with no runtime network dependency
 - explicit extension points for processors and decoders
+- low coupling: `@fdnext/core` does not embed vendor decode logic
+- high cohesion: vendor parsing lives in `@fdnext/dsl` rule packs

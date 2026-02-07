@@ -1,5 +1,5 @@
-import { VENDOR_PATCH } from "./constants.js";
-import type { FdbDataset, FlashIdRecord, MdbDataset, PartNumberRecord } from "./types.js";
+import { VENDOR_PATCH } from "./constants";
+import type { FdbDataset, FlashIdRecord, MdbDataset, PartNumberRecord } from "./types";
 
 function normalizeVendor(vendor: string): string {
   const key = vendor.trim().toLowerCase();

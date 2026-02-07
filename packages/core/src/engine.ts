@@ -1,10 +1,9 @@
-import { LANGUAGES, UNKNOWN } from "./constants.js";
-import { buildDefaultDecoders } from "./decoders.js";
-import { buildFdb, buildMdb, findFlashIdRecord, findPartNumberAcrossVendors, getPartNumberRecord } from "./fdb.js";
-import { buildDefaultFlashIdDecoders } from "./flash-id-decoders.js";
-import { translateString as doTranslateString, translateValue } from "./translate.js";
-import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize.js";
-import { contains } from "./utils/string.js";
+import { LANGUAGES, UNKNOWN } from "./constants";
+import { buildDefaultDecoders } from "./decoders";
+import { buildFdb, buildMdb, findFlashIdRecord, findPartNumberAcrossVendors, getPartNumberRecord } from "./fdb";
+import { translateString as doTranslateString, translateValue } from "./translate";
+import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize";
+import { contains } from "./utils/string";
 import type {
   DecodeOptions,
   EngineOptions,
@@ -17,7 +16,7 @@ import type {
   PartNumberDecoder,
   ProcessorHooks,
   SearchOptions
-} from "./types.js";
+} from "./types";
 
 function cloneObject<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
@@ -182,11 +181,6 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
   const flashIdDecoders: FlashIdDecoder[] = [...(options.flashIdDecoders ?? [])].sort(
-    (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
-  );
-  const defaultFlashIdDecoders = buildDefaultFlashIdDecoders();
-  flashIdDecoders.unshift(...defaultFlashIdDecoders);
-  flashIdDecoders.sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
 
@@ -440,7 +434,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
       return result;
     },
 
-    searchFlashId(id: string, opts: SearchOptions = {}): Record<string, unknown> | import("./types.js").FlashIdRecord | [] {
+    searchFlashId(id: string, opts: SearchOptions = {}): Record<string, unknown> | import("./types").FlashIdRecord | [] {
       const query = normalizeFlashId(id);
       const partMatch = opts.partialMatch ?? true;
       const limit = opts.limit ?? 0;

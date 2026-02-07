@@ -1,8 +1,7 @@
-#!/usr/bin/env node
 import { resolve } from "node:path";
 import { createEngine } from "@fdnext/core";
 import { loadResourcesFromDir } from "@fdnext/core/node";
-import { compileRulesToDecoders, defaultDslRules } from "@fdnext/dsl";
+import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@fdnext/dsl";
 import { createHttpServer } from "@fdnext/server";
 
 function resourceDir(): string {
@@ -38,7 +37,8 @@ async function main() {
 
   const engine = createEngine({
     resources: loadResourcesFromDir(resourceDir()),
-    decoders: compileRulesToDecoders(defaultDslRules)
+    decoders: compileRulesToDecoders(defaultDslRules),
+    flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
   });
 
   switch (command) {

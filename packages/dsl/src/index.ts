@@ -1,3 +1,4 @@
-export * from "./types.js";
-export * from "./compiler.js";
-export { defaultDslRules } from "./rules/default-rules.js";
+export * from "./types";
+export * from "./compiler";
+export { defaultDslRules } from "./rules/default-rules";
+export { defaultFlashIdRules } from "./flashid/default-rules";

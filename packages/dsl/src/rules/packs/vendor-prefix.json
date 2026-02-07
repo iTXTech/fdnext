@@ -1,0 +1,315 @@
+[
+  {
+    "id": "vendor.micron.prefix.mt",
+    "priority": 100,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "MT"
+    },
+    "set": {
+      "vendor": "micron",
+      "type": "nand"
+    }
+  },
+  {
+    "id": "vendor.samsung.prefix.k",
+    "priority": 90,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "K"
+    },
+    "set": {
+      "vendor": "samsung"
+    }
+  },
+  {
+    "id": "vendor.skhynix.prefix.hy",
+    "priority": 90,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "HY"
+    },
+    "set": {
+      "vendor": "skhynix"
+    }
+  },
+  {
+    "id": "vendor.skhynix.prefix.h",
+    "priority": 89,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "H"
+    },
+    "set": {
+      "vendor": "skhynix"
+    }
+  },
+  {
+    "id": "vendor.kioxia.prefix.tc58",
+    "priority": 90,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "TC58"
+    },
+    "set": {
+      "vendor": "kioxia"
+    }
+  },
+  {
+    "id": "vendor.kioxia.prefix.th58",
+    "priority": 90,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "TH58"
+    },
+    "set": {
+      "vendor": "kioxia"
+    }
+  },
+  {
+    "id": "vendor.wd.prefix.sd",
+    "priority": 85,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "SD"
+    },
+    "set": {
+      "vendor": "westerndigital"
+    }
+  },
+  {
+    "id": "vendor.wd.prefix.s34",
+    "priority": 85,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "S34"
+    },
+    "set": {
+      "vendor": "westerndigital"
+    }
+  },
+  {
+    "id": "vendor.wd.prefix.s35",
+    "priority": 85,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "S35"
+    },
+    "set": {
+      "vendor": "westerndigital"
+    }
+  },
+  {
+    "id": "vendor.intel.prefix.js",
+    "priority": 80,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "JS"
+    },
+    "set": {
+      "vendor": "intel"
+    }
+  },
+  {
+    "id": "vendor.intel.prefix.29f",
+    "priority": 80,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "29F"
+    },
+    "set": {
+      "vendor": "intel"
+    }
+  },
+  {
+    "id": "vendor.ymtc.prefix.xt",
+    "priority": 70,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "XT"
+    },
+    "set": {
+      "vendor": "ymtc"
+    }
+  },
+  {
+    "id": "vendor.phison.prefix.ph",
+    "priority": 70,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "PH"
+    },
+    "set": {
+      "vendor": "phison"
+    }
+  }
+]

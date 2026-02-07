@@ -1,4 +1,4 @@
-import { removeChars } from "./string.js";
+import { removeChars } from "./string";
 
 const PN_REMOVALS = [" ", ",", "&", ".", "|"];
 
