@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@fdnext/core": ["packages/core/src/index.ts"],
+      "@fdnext/core/node": ["packages/core/src/loaders/node.ts"],
+      "@fdnext/dsl": ["packages/dsl/src/index.ts"],
+      "@fdnext/server": ["packages/server/src/index.ts"],
+      "@fdnext/cli": ["packages/cli/src/index.ts"],
+      "@fdnext/compat-test": ["packages/compat-test/src/index.ts"]
+    },
+    "target": "ESNext",
+    "lib": ["ESNext"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "types": ["node"],
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "fdnext",
+  "private": true,
+  "version": "0.1.0",
+  "description": "FlashDetector TypeScript Next",
+  "license": "AGPL-3.0-or-later",
+  "packageManager": "pnpm@10.28.2",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "scripts": {
+    "build": "pnpm -r --if-present build",
+    "test": "pnpm -r --if-present test",
+    "lint": "pnpm -r --if-present lint",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "sync:resources": "bash ./scripts/sync-resources.sh"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.1",
+    "typescript": "^5.7.3"
+  }
+}

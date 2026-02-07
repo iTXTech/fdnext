@@ -1,0 +1,19 @@
+{
+  "name": "@fdnext/cli",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "fdnext": "dist/index.js"
+  },
+  "dependencies": {
+    "@fdnext/core": "workspace:*",
+    "@fdnext/dsl": "workspace:*",
+    "@fdnext/server": "workspace:*"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc -b --pretty false"
+  }
+}
