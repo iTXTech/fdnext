@@ -29,6 +29,11 @@ const THIS_DIR = typeof __dirname === "string" ? __dirname : pathDirname(fileURL
 const ROOT = resolve(THIS_DIR, "..");
 const FIXTURE_PATH = resolve(process.env.FDNEXT_FIXTURES ?? resolve(ROOT, "packages/compat-test/fixtures/php-baseline.json"));
 const RESOURCE_DIR = resolve(process.env.FDNEXT_RESOURCES ?? resolve(ROOT, "resources"));
+const ENGINE = createEngine({
+  resources: loadResourcesFromDir(RESOURCE_DIR),
+  decoders: compileRulesToDecoders(defaultDslRules),
+  flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
+});
 
 function stable(value: unknown): unknown {
   if (Array.isArray(value)) {
@@ -45,39 +50,33 @@ function stable(value: unknown): unknown {
 }
 
 function executeTs(caseDef: FixtureRecord): unknown {
-  const engine = createEngine({
-    resources: loadResourcesFromDir(RESOURCE_DIR),
-    decoders: compileRulesToDecoders(defaultDslRules),
-    flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
-  });
-
   const lang = caseDef.params.lang ?? null;
   const limit = Number(caseDef.params.limit ?? 0) || 0;
 
   switch (caseDef.endpoint) {
     case "decode":
       return caseDef.params.pn
-        ? { result: true, data: engine.detect(caseDef.params.pn, { lang, combineFdb: true }) }
+        ? { result: true, data: ENGINE.detect(caseDef.params.pn, { lang, combineFdb: true }) }
         : { result: false, message: "Missing part number" };
     case "decodeId":
       return caseDef.params.id
-        ? { result: true, data: engine.decodeFlashId(caseDef.params.id, { lang, combineFdb: true }) }
+        ? { result: true, data: ENGINE.decodeFlashId(caseDef.params.id, { lang, combineFdb: true }) }
         : { result: false, message: "Missing Flash Id" };
     case "searchPn":
       return caseDef.params.pn
-        ? { result: true, data: engine.searchPartNumber(caseDef.params.pn, { lang, partialMatch: true, limit }) }
+        ? { result: true, data: ENGINE.searchPartNumber(caseDef.params.pn, { lang, partialMatch: true, limit }) }
         : { result: false, message: "Missing part number" };
     case "searchId":
       return caseDef.params.id
-        ? { result: true, data: engine.searchFlashId(caseDef.params.id, { lang, partialMatch: true, limit }) }
+        ? { result: true, data: ENGINE.searchFlashId(caseDef.params.id, { lang, partialMatch: true, limit }) }
         : { result: false, message: "Missing Flash Id" };
     case "summary":
       return caseDef.params.pn
-        ? { result: true, data: engine.getSummary(caseDef.params.pn, lang) }
+        ? { result: true, data: ENGINE.getSummary(caseDef.params.pn, lang) }
         : { result: false, message: "Missing part number" };
     case "summaryId":
       return caseDef.params.id
-        ? { result: true, data: engine.getIdSummary(caseDef.params.id, lang) }
+        ? { result: true, data: ENGINE.getIdSummary(caseDef.params.id, lang) }
         : { result: false, message: "Missing flash Id" };
     default:
       return { result: false, message: "Not found" };

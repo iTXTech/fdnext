@@ -1,6 +1,27 @@
-import { mkdirSync } from "node:fs";
+import { existsSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname as pathDirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+
+function resolveEsbuildFromPnpmStore(root: string): string | null {
+  const pnpmDir = resolve(root, "node_modules", ".pnpm");
+  if (!existsSync(pnpmDir)) {
+    return null;
+  }
+
+  const entries = readdirSync(pnpmDir)
+    .filter((name) => name.startsWith("esbuild@"))
+    .sort()
+    .reverse();
+
+  for (const entry of entries) {
+    const candidate = resolve(pnpmDir, entry, "node_modules", "esbuild", "lib", "main.js");
+    if (existsSync(candidate)) {
+      return candidate;
+    }
+  }
+
+  return null;
+}
 
 async function loadEsbuild() {
   try {
@@ -9,7 +30,10 @@ async function loadEsbuild() {
     // pnpm does not always link transitive deps to the workspace root. Fall back to the pnpm store path.
     // This keeps the repo self-contained without adding a direct esbuild dependency.
     const root = resolve(THIS_DIR, "..");
-    const esbuildMain = resolve(root, "node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js");
+    const esbuildMain = resolveEsbuildFromPnpmStore(root);
+    if (!esbuildMain) {
+      throw new Error("Unable to locate esbuild from pnpm store. Run pnpm install to restore dependencies.");
+    }
     return await import(esbuildMain);
   }
 }

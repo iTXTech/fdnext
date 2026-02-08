@@ -11,6 +11,16 @@ export interface HttpServerOptions {
   serverName?: string;
 }
 
+function parsePort(value: number | undefined): number {
+  if (value == null) {
+    return 8080;
+  }
+  if (Number.isInteger(value) && value > 0 && value <= 65535) {
+    return value;
+  }
+  throw new Error(`Invalid port: ${value}`);
+}
+
 function parseLimit(value: string | null): number {
   if (!value) {
     return 0;
@@ -19,12 +29,18 @@ function parseLimit(value: string | null): number {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
 }
 
-function replyJson(h: ResponseToolkit, payload: any) {
+function hasHeaderMethod(value: unknown): value is { header: (name: string, value: string) => unknown } {
+  return !!value && typeof value === "object" && "header" in value && typeof value.header === "function";
+}
+
+function replyJson(h: ResponseToolkit, payload: Record<string, unknown>) {
   return h.response(payload).code(200);
 }
 
 export function createHttpServer(options: HttpServerOptions) {
   const resources = loadResourcesFromDir(options.resourceDir);
+  const host = options.host ?? "0.0.0.0";
+  const port = parsePort(options.port);
   const engine = createEngine({
     resources,
     decoders: compileRulesToDecoders(defaultDslRules),
@@ -33,8 +49,8 @@ export function createHttpServer(options: HttpServerOptions) {
   const serverName = options.serverName ?? "FDWebServer-TS";
 
   const server = createHapiServer({
-    host: options.host ?? "0.0.0.0",
-    port: options.port ?? 8080,
+    host,
+    port,
     routes: {
       cors: {
         origin: ["*"],
@@ -45,7 +61,7 @@ export function createHttpServer(options: HttpServerOptions) {
 
   server.ext("onPreResponse", (request, h) => {
     const response = request.response;
-    if ("header" in response) {
+    if (hasHeaderMethod(response)) {
       response.header("X-Powered-By", "fdnext/1.0.0");
     }
     return h.continue;
@@ -164,9 +180,7 @@ export function createHttpServer(options: HttpServerOptions) {
   return {
     engine,
     server,
-    listen: async (port = options.port ?? 8080, host = options.host ?? "0.0.0.0") => {
-      (server.settings as any).port = port;
-      (server.settings as any).host = host;
+    listen: async () => {
       await server.start();
     }
   };

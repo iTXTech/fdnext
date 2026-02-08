@@ -9,13 +9,21 @@ function readArg(name: string, fallback: string): string {
   return process.argv[idx + 1] ?? fallback;
 }
 
+function parsePort(raw: string): number {
+  const port = Number.parseInt(raw, 10);
+  if (Number.isInteger(port) && port > 0 && port <= 65535) {
+    return port;
+  }
+  throw new Error(`Invalid --port value: ${raw}`);
+}
+
 async function main() {
   const host = readArg("--host", "0.0.0.0");
-  const port = Number.parseInt(readArg("--port", "8080"), 10);
+  const port = parsePort(readArg("--port", "8080"));
   const resourceDir = resolve(readArg("--resources", resolve(process.cwd(), "resources")));
 
   const app = createHttpServer({ host, port, resourceDir });
-  await app.listen(port, host);
+  await app.listen();
   process.stdout.write(`fdnext server listening on http://${host}:${port}\n`);
 }
 

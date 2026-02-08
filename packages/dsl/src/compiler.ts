@@ -178,7 +178,7 @@ function runTokenDecoder(partNumber: string, decoder: DslTokenDecoder): Partial<
 
     const table = decoder.tables?.[step.table] ?? {};
     const source = String(context[step.from] ?? "");
-    if (source in table) {
+    if (Object.hasOwn(table, source)) {
       context[step.to] = table[source];
     } else {
       context[step.to] = step.default;

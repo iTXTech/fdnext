@@ -106,5 +106,4 @@ pm2 logs fdnext-server
 
 - 所有路由返回 JSON
 - CORS 允许所有来源（`Access-Control-Allow-Origin: *`）
-- 服务端响应会包含 `X-SimpleFramework` header（用于兼容上游生态）
-
+- 服务端响应会包含 `X-Powered-By` header（用于运维识别）
