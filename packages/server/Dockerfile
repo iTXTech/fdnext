@@ -16,7 +16,6 @@ ENV NODE_ENV=production
 COPY --from=build /repo/packages/server/package.json ./package.json
 
 COPY --from=build /repo/packages/server/dist ./dist
-COPY --from=build /repo/resources ./resources
 
 EXPOSE 8080
-CMD ["node", "./dist/bin.js", "--host", "0.0.0.0", "--port", "8080", "--resources", "./resources"]
+CMD ["node", "./dist/bin.js", "--host", "0.0.0.0", "--port", "8080"]

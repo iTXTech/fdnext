@@ -13,6 +13,7 @@
 ## 包结构
 
 - `@itxtech/fdnext-core`：解码与搜索引擎、SDK 能力
+- `@itxtech/fdnext-resources`：可发布的数据资源包（`fdb/mdb/lang`）
 - `@itxtech/fdnext-dsl`：DSL 规则与解码器编译器
 - `@itxtech/fdnext-server`：基于 Hapi 的 HTTP 服务
 - `@itxtech/fdnext-cli`：命令行工具
@@ -28,7 +29,6 @@
 
 ```bash
 pnpm install
-pnpm sync:resources
 pnpm build
 ```
 

@@ -1,22 +1,30 @@
 # 集成指南（Node / 浏览器 / 服务端）
 
-本项目核心是 `@itxtech/fdnext-core`（纯逻辑、无运行时网络依赖），解码规则由 `@itxtech/fdnext-dsl` 的 JSON DSL packs 提供。
+本项目核心是 `@itxtech/fdnext-core`（纯逻辑、无运行时网络依赖），解码规则由 `@itxtech/fdnext-dsl` 的 JSON DSL packs 提供，默认数据由 `@itxtech/fdnext-resources` 提供。
 
 ## 1. Node.js（作为库集成）
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
-import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
 import { compileRulesToDecoders, defaultDslRules, compileFlashIdRulesToDecoders, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
+import { embeddedResources } from "@itxtech/fdnext-resources";
 
 const engine = createEngine({
-  resources: loadResourcesFromDir("./resources"),
+  resources: embeddedResources,
   decoders: compileRulesToDecoders(defaultDslRules),
   flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
 });
 
 console.log(engine.detect("MT29F64G08CBABA", { lang: "eng", combineFdb: true }));
 console.log(engine.decodeFlashId("2C64444BA900", { lang: "eng", combineFdb: true }));
+```
+
+如需覆盖默认资源（例如热更新数据）：
+
+```ts
+import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
+
+const resources = process.env.FDNEXT_RESOURCES ? loadResourcesFromDir(process.env.FDNEXT_RESOURCES) : embeddedResources;
 ```
 
 ### 1.1 Processor 管线与 SDK 方法
@@ -102,9 +110,14 @@ const engine = createEngine({
 
 ```bash
 pnpm install
-pnpm sync:resources
 pnpm -C packages/server build
-node packages/server/dist/bin.js --host 0.0.0.0 --port 8080 --resources ./resources
+node packages/server/dist/bin.js --host 0.0.0.0 --port 8080
+```
+
+如需指定外部资源目录，增加参数：
+
+```bash
+node packages/server/dist/bin.js --host 0.0.0.0 --port 8080 --resources /path/to/resources
 ```
 
 ### 3.2 Docker（最小镜像）

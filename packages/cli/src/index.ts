@@ -2,9 +2,14 @@ import { resolve } from "node:path";
 import { createEngine } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
 import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
+import { embeddedResources } from "@itxtech/fdnext-resources";
 
-function resourceDir(): string {
-  return resolve(process.env.FDNEXT_RESOURCES ?? resolve(process.cwd(), "resources"));
+function resourceDirFromEnv(): string | null {
+  const fromEnv = process.env.FDNEXT_RESOURCES?.trim();
+  if (!fromEnv) {
+    return null;
+  }
+  return resolve(fromEnv);
 }
 
 function print(value: unknown): void {
@@ -54,7 +59,10 @@ async function main() {
   }
 
   const engine = createEngine({
-    resources: loadResourcesFromDir(resourceDir()),
+    resources: (() => {
+      const resourceDir = resourceDirFromEnv();
+      return resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResources;
+    })(),
     decoders: compileRulesToDecoders(defaultDslRules),
     flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
   });

@@ -3,11 +3,12 @@ import type { Request, ResponseToolkit } from "@hapi/hapi";
 import { createEngine, type FlashDetectorEngine } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
 import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
+import { embeddedResources } from "@itxtech/fdnext-resources";
 
 export interface HttpServerOptions {
   host?: string;
   port?: number;
-  resourceDir: string;
+  resourceDir?: string;
   serverName?: string;
 }
 
@@ -58,7 +59,7 @@ function replyJson(h: ResponseToolkit, payload: Record<string, unknown>) {
 }
 
 export function createHttpServer(options: HttpServerOptions) {
-  const resources = loadResourcesFromDir(options.resourceDir);
+  const resources = options.resourceDir ? loadResourcesFromDir(options.resourceDir) : embeddedResources;
   const host = options.host ?? "0.0.0.0";
   const port = parsePort(options.port);
   const engine = createEngine({

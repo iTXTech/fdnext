@@ -13,7 +13,6 @@
     "test": "pnpm -r --if-present test",
     "lint": "pnpm -r --if-present lint",
     "typecheck": "pnpm -r --if-present typecheck",
-    "sync:resources": "pnpm -s tsx ./scripts/sync-resources.ts",
     "fdbgen:build": "pnpm -C packages/fdbgen build",
     "fdbgen:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build",
     "fdbgen:crawl-mdb": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb",

@@ -173,6 +173,14 @@ async function main() {
       });
       return;
     }
+    case "resources": {
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/resources/index.ts"),
+        outfile: resolve(root, "packages/resources/dist/index.js"),
+        platform: "neutral"
+      });
+      return;
+    }
     default:
       throw new Error(`Unknown package for bundling: ${pkg} (cwd=${process.cwd()})`);
   }
