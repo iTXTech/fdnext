@@ -1,6 +1,9 @@
 import { LANGUAGES, UNKNOWN } from "./constants";
 import { buildDefaultDecoders } from "./decoders";
 import { buildFdb, buildMdb, findFlashIdRecord, findPartNumberAcrossVendors, getPartNumberRecord } from "./fdb";
+import { createDefaultFlashIdProcessor } from "./flashid/postprocess";
+import { inferVendorFromFlashId } from "./flashid/vendor";
+import { applyMicronFbgaMeta, parseMicronFbgaCode } from "./micron/fbga";
 import { translateString as doTranslateString, translateValue } from "./translate";
 import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize";
 import { contains } from "./utils/string";
@@ -229,87 +232,8 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
 
   const translateString = (key: string, lang?: string | null) => doTranslateString(langPacks, fallbackLang, key, lang);
 
-  const inferVendorFromId = (id: string): string => {
-    const vendorCode = id.slice(0, 2);
-    switch (vendorCode) {
-      case "2C":
-        return "micron";
-      case "EC":
-        return "samsung";
-      case "AD":
-        return "skhynix";
-      case "98":
-        return "kioxia";
-      case "89":
-        return "intel";
-      case "9B":
-        return "ymtc";
-      case "B5":
-        return "spectek";
-      case "45":
-      case "EF":
-        return "westerndigital";
-      default:
-        return UNKNOWN;
-    }
-  };
-
-  const flashIdByteAt = (id: string, offset: number): number => {
-    const idx = (offset - 1) * 2;
-    return Number.parseInt(id.slice(idx, idx + 2), 16);
-  };
-
-  // Some FlashId decoders in the PHP reference include post-processing that is not expressible as pure bitfield DSL.
-  // Keep this logic in core so callers (CLI/server/browser) get consistent outputs.
-  processors.unshift({
-    flashIdInfo: (info): FlashIdInfo => {
-      if (!info?.id || typeof info.id !== "string") {
-        return info;
-      }
-
-      const id = info.id;
-      const vendor = info.vendor;
-      let next: FlashIdInfo | null = null;
-
-      const setIfChanged = (patch: Partial<FlashIdInfo>) => {
-        next = next ?? { ...info };
-        Object.assign(next, patch);
-      };
-
-      if (vendor === "samsung") {
-        // FlashDetector: if byte2 == 0xDE, density is 64Gbit (special case).
-        if (flashIdByteAt(id, 2) === 0xde) {
-          setIfChanged({ density: 65536 });
-        }
-      }
-
-      if (vendor === "skhynix") {
-        const ext = info.ext && typeof info.ext === "object" && !Array.isArray(info.ext) ? (info.ext as Record<string, unknown>) : null;
-        const spp = ext?.simultaneouslyProgrammedPages;
-        if (typeof spp === "number" && Number.isFinite(spp) && spp > 0) {
-          setIfChanged({ plane: spp });
-        }
-
-        // FlashDetector: for 14nm+ IDs (byte6 >= 0x50), clear ext and blockSize.
-        if (flashIdByteAt(id, 6) >= 0x50) {
-          setIfChanged({ ext: [], blockSize: undefined });
-        }
-      }
-
-      if (vendor === "kioxia" || vendor === "westerndigital") {
-        const plane = typeof info.plane === "number" ? info.plane : null;
-        const die = typeof info.die === "number" ? info.die : null;
-        if (plane && die && plane > 0 && die > 0 && plane >= die) {
-          const div = plane / die;
-          if (Number.isInteger(div) && div > 0) {
-            setIfChanged({ plane: div });
-          }
-        }
-      }
-
-      return next ?? info;
-    }
-  } satisfies ProcessorHooks);
+  // Default processors should run before user-injected ones.
+  processors.unshift(createDefaultFlashIdProcessor());
 
   const combineFromFdb = (info: FlashInfo): FlashInfo => {
     // PHP uses `self::` in Micron::getFlashInfoFromFdb(), so SpecTek (which inherits it) looks up Micron FDB entries
@@ -404,51 +328,6 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     return next;
   };
 
-  const MICRON_FBGA_HEADERS = ["NW", "NX", "NQ", "PF", "NY", "NC"] as const;
-  const MICRON_FBGA_COUNTRY: Record<string, string> = {
-    "1": "cty_us",
-    "2": "cty_sg",
-    "3": "cty_it",
-    "4": "cty_jp",
-    "5": "cty_cn",
-    "7": "cty_tw",
-    "8": "cty_kr",
-    "9": "cty_mixed",
-    B: "cty_il",
-    C: "cty_ie",
-    D: "cty_my",
-    F: "cty_ph"
-  };
-
-  const parseMicronFbgaCode = (
-    input: string
-  ): { key: string; display: string; prod?: { prodDate: string; diffusion: string; encapsulation: string } } | null => {
-    const normalized = input.toUpperCase();
-    for (const header of MICRON_FBGA_HEADERS) {
-      if (normalized.startsWith(header)) {
-        return { key: normalized, display: normalized };
-      }
-      if (normalized.length === 10 && normalized.slice(5, 7) === header) {
-        const meta = normalized.slice(0, 5);
-        const key = normalized.slice(5);
-
-        const year = meta.slice(0, 1);
-        const weekCode = meta.slice(1, 2);
-        const week = (weekCode.charCodeAt(0) - 64) * 2;
-        const weekStr = Number.isFinite(week) && week > 0 ? String(week).padStart(2, "0") : "00";
-        const prodDate = `${year}${weekStr}`;
-
-        const diffusionCode = meta.slice(3, 4);
-        const encapsulationCode = meta.slice(4, 5);
-        const diffusion = MICRON_FBGA_COUNTRY[diffusionCode] ?? UNKNOWN;
-        const encapsulation = MICRON_FBGA_COUNTRY[encapsulationCode] ?? UNKNOWN;
-
-        return { key, display: key, prod: { prodDate, diffusion, encapsulation } };
-      }
-    }
-    return null;
-  };
-
   const detectRaw = (partNumber: string, opts: DecodeOptions, allowMicronFbga: boolean): FlashInfo => {
     if (allowMicronFbga) {
       const fbga = parseMicronFbgaCode(partNumber);
@@ -462,25 +341,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
         }
 
         const base = detectRaw(resolved, opts, false);
-        base.partNumber = fbga.display;
-
-        const extra =
-          base.extraInfo && typeof base.extraInfo === "object" && !Array.isArray(base.extraInfo) ? (base.extraInfo as Record<string, unknown>) : {};
-        extra.micronPartNumber = resolved;
-        if (fbga.prod) {
-          extra.prod_date = fbga.prod.prodDate;
-          extra.diffusion_loc = fbga.prod.diffusion;
-          extra.encapsulation_loc = fbga.prod.encapsulation;
-        }
-        base.extraInfo = extra;
-
-        if (base.vendor === "micron") {
-          const url = `https://www.micron.com/support/tools-and-utilities/fbga?fbga=${fbga.display}`;
-          base.url = { micron_website: url };
-          base.urls = [{ url, desc: "micron_website", img: "logo", hint: "" }];
-        }
-
-        return base;
+        return applyMicronFbgaMeta(base, fbga, resolved);
       }
     }
 
@@ -602,7 +463,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
       if (!info) {
         info = {
           id: padded,
-          vendor: inferVendorFromId(padded)
+          vendor: inferVendorFromFlashId(padded)
         };
       }
 
