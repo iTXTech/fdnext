@@ -164,7 +164,7 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 - 新增 pack：`packages/dsl/src/rules/packs/<vendor>-token.json`
 - 在 `default-rules.ts` 中导入并加入 `defaultDslRules`
-- 添加/更新夹具：`scripts/gen-fixtures.mjs:1`
+- 添加/更新夹具：`scripts/gen-fixtures.ts:1`
 - 运行回归：`pnpm compat:ci`
 
 ## 7. FlashId DSL（概览）

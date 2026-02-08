@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
-import { resolve } from "node:path";
+import { dirname as pathDirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { createEngine } from "../packages/core/src/engine";
 import { loadResourcesFromDir } from "../packages/core/src/loaders/node";
 import { compileFlashIdRulesToDecoders, compileRulesToDecoders } from "../packages/dsl/src/compiler";
@@ -24,7 +25,8 @@ interface FixtureBundle {
   fixtures: FixtureRecord[];
 }
 
-const ROOT = resolve(__dirname, "..");
+const THIS_DIR = typeof __dirname === "string" ? __dirname : pathDirname(fileURLToPath(import.meta.url));
+const ROOT = resolve(THIS_DIR, "..");
 const FIXTURE_PATH = resolve(process.env.FDNEXT_FIXTURES ?? resolve(ROOT, "packages/compat-test/fixtures/php-baseline.json"));
 const RESOURCE_DIR = resolve(process.env.FDNEXT_RESOURCES ?? resolve(ROOT, "resources"));
 

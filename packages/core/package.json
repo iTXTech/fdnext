@@ -15,7 +15,7 @@
     }
   },
   "scripts": {
-    "build": "tsc -b --emitDeclarationOnly && node ../../scripts/bundle-package.mjs",
+    "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   }
 }

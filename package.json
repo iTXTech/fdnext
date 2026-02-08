@@ -13,9 +13,9 @@
     "test": "pnpm -r --if-present test",
     "lint": "pnpm -r --if-present lint",
     "typecheck": "pnpm -r --if-present typecheck",
-    "sync:resources": "bash ./scripts/sync-resources.sh",
-    "fixtures:gen": "node ./scripts/gen-fixtures.mjs",
-    "compat:diff": "node ./scripts/diff-php-ts.mjs",
+    "sync:resources": "pnpm -s tsx ./scripts/sync-resources.ts",
+    "fixtures:gen": "pnpm -s tsx ./scripts/gen-fixtures.ts",
+    "compat:diff": "pnpm -s tsx ./scripts/diff-php-ts.ts",
     "compat:ci": "pnpm build && pnpm fixtures:gen && pnpm compat:diff"
   },
   "devDependencies": {

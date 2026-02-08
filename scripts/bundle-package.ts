@@ -1,5 +1,6 @@
 import { mkdirSync } from "node:fs";
-import { dirname, resolve } from "node:path";
+import { dirname as pathDirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 
 async function loadEsbuild() {
   try {
@@ -7,14 +8,16 @@ async function loadEsbuild() {
   } catch {
     // pnpm does not always link transitive deps to the workspace root. Fall back to the pnpm store path.
     // This keeps the repo self-contained without adding a direct esbuild dependency.
-    const root = resolve(import.meta.dirname, "..");
+    const root = resolve(THIS_DIR, "..");
     const esbuildMain = resolve(root, "node_modules/.pnpm/esbuild@0.27.3/node_modules/esbuild/lib/main.js");
     return await import(esbuildMain);
   }
 }
 
+const THIS_DIR = typeof __dirname === "string" ? __dirname : pathDirname(fileURLToPath(import.meta.url));
+
 function repoRoot() {
-  return resolve(import.meta.dirname, "..");
+  return resolve(THIS_DIR, "..");
 }
 
 function repoTsconfig() {
@@ -29,13 +32,13 @@ function pkgNameFromCwd() {
   return rel.split("/")[1] ?? "";
 }
 
-function ensureDir(path) {
-  mkdirSync(dirname(path), { recursive: true });
+function ensureDir(path: string) {
+  mkdirSync(pathDirname(path), { recursive: true });
 }
 
 async function bundleEntry(
-  esbuild,
-  opts
+  esbuild: typeof import("esbuild"),
+  opts: { entry: string; outfile: string; platform: "node" | "neutral"; banner?: string }
 ) {
   ensureDir(opts.outfile);
   await esbuild.build({
@@ -63,8 +66,8 @@ function nodeRequireShim() {
   return ['import { createRequire } from "node:module";', "const require = createRequire(import.meta.url);"].join("\n");
 }
 
-function nodeBanner({ shebang }) {
-  const parts = [];
+function nodeBanner({ shebang }: { shebang: boolean }) {
+  const parts: string[] = [];
   if (shebang) parts.push("#!/usr/bin/env node");
   parts.push(nodeRequireShim());
   return parts.join("\n");
@@ -137,6 +140,6 @@ async function main() {
 }
 
 main().catch((err) => {
-  process.stderr.write(`${err?.stack ?? err}\n`);
+  process.stderr.write(`${(err as { stack?: string })?.stack ?? err}\n`);
   process.exit(1);
 });
