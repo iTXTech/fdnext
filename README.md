@@ -32,6 +32,15 @@ pnpm install
 pnpm build
 ```
 
+## Docker 运行
+
+在仓库根目录执行：
+
+```bash
+docker build -t fdnext-server .
+docker run -d --name fdnext -p 8080:8080 fdnext-server
+```
+
 ## 文档
 
 - [集成指南](docs/INTEGRATION.md)
