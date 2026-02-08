@@ -170,3 +170,66 @@ import rules from "./packs/xxx.json" with { type: "json" };
 ## 7. FlashId DSL（概览）
 
 FlashId 解码同样支持 DSL：按“字节偏移 + bitfield 规则”描述（输入为 12 位 hex 字符串），编译为 `FlashIdDecoder`。
+
+### 7.1 规则包位置
+
+- FlashId packs：`packages/dsl/src/flashid/packs/*.json`
+- 接入入口：`packages/dsl/src/flashid/default-rules.ts:1`
+
+源码里同样用 JSON module 直接导入：
+
+```ts
+import rules from "./packs/xxx.json" with { type: "json" };
+```
+
+### 7.2 FlashIdDslRule 结构
+
+每个 pack 文件是一个 JSON 数组，元素结构如下：
+
+```json
+{
+  "id": "flashid.micron.inteldef.v1",
+  "priority": 400,
+  "match": { "kind": "prefix", "value": "2C" },
+  "vendor": "micron",
+  "definition": {
+    "2": {
+      "density": { "dq": [7, 6, 5, 4, 3], "def": { "9": 32768 } }
+    }
+  }
+}
+```
+
+字段说明：
+
+- `id`: 规则唯一标识
+- `priority`: 优先级（越大越优先）
+- `match`: 匹配 FlashId（支持 `prefix` / `regex`）
+- `vendor`: 厂商 key（用于语言包翻译与展示）
+- `definition`: bitfield 规则定义
+
+### 7.3 definition（字节偏移 + bitfield）
+
+- `definition` 的第一层 key 是 **字节偏移（字符串数字）**，并且是 **1-based**。
+  - 例如 `"1"` 表示第 1 个字节（厂商 ID），`"2"` 表示第 2 个字节。
+- 输入 FlashId 以 12 个 hex 字符（6 字节）为基准；不足会由 core 的 `padFlashId()` 在末尾补 `0`。
+- 每个字段由：
+  - `dq`: bit 位列表（与 PHP 参考实现一致，顺序影响拼接）
+  - `def`: 从 bitfield 数值（字符串）映射到输出值（number/string/bool）
+- 字段名以 `ext:` 开头会写入 `ext` 字段（例如 `ext:edo`）。
+
+### 7.4 与 PHP 兼容的后处理（core 内置）
+
+部分 PHP 参考实现包含“解码后再修正”的逻辑，无法用纯 bitfield DSL 表达，因此在 `@fdnext/core` 内置了 FlashId post-process：
+
+- Samsung：当 byte2 == `0xDE`，密度强制为 64Gbit
+- SKHynix：`plane = ext.simultaneouslyProgrammedPages`
+- SKHynix：当 byte6 >= `0x50`（14nm+）清空 `ext`，并把 `blockSize` 置空
+- Kioxia / WesternDigital：当 `plane` 与 `die` 都有效时，`plane = plane / die`
+
+### 7.5 如何新增/验证 FlashId 解码器
+
+- 新增 pack：`packages/dsl/src/flashid/packs/<vendor>.json`
+- 在 `packages/dsl/src/flashid/default-rules.ts:1` 中导入并加入 `defaultFlashIdRules`
+- 添加/更新夹具：`scripts/gen-fixtures.ts:1`（推荐新增 `decodeId` case）
+- 运行回归：`pnpm compat:ci`

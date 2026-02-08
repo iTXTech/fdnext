@@ -163,6 +163,11 @@ function toPublicFlashIdInfo(info: FlashIdInfo, langPacks: LangPacks, fallbackLa
     }
   }
 
+  // PHP json_encode(empty associative array) yields [], not {}.
+  if (output.ext && typeof output.ext === "object" && !Array.isArray(output.ext)) {
+    if (Object.keys(output.ext).length === 0) output.ext = [];
+  }
+
   const translated = translateValue(langPacks, fallbackLang, output, lang, false) as FlashIdInfo;
   const cellLevelMap: Record<number, string> = {
     1: "SLC",
@@ -232,11 +237,15 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
       case "EC":
         return "samsung";
       case "AD":
-        return "hynix";
+        return "skhynix";
       case "98":
         return "kioxia";
       case "89":
         return "intel";
+      case "9B":
+        return "ymtc";
+      case "B5":
+        return "spectek";
       case "45":
       case "EF":
         return "westerndigital";
@@ -244,6 +253,63 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
         return UNKNOWN;
     }
   };
+
+  const flashIdByteAt = (id: string, offset: number): number => {
+    const idx = (offset - 1) * 2;
+    return Number.parseInt(id.slice(idx, idx + 2), 16);
+  };
+
+  // Some FlashId decoders in the PHP reference include post-processing that is not expressible as pure bitfield DSL.
+  // Keep this logic in core so callers (CLI/server/browser) get consistent outputs.
+  processors.unshift({
+    flashIdInfo: (info): FlashIdInfo => {
+      if (!info?.id || typeof info.id !== "string") {
+        return info;
+      }
+
+      const id = info.id;
+      const vendor = info.vendor;
+      let next: FlashIdInfo | null = null;
+
+      const setIfChanged = (patch: Partial<FlashIdInfo>) => {
+        next = next ?? { ...info };
+        Object.assign(next, patch);
+      };
+
+      if (vendor === "samsung") {
+        // FlashDetector: if byte2 == 0xDE, density is 64Gbit (special case).
+        if (flashIdByteAt(id, 2) === 0xde) {
+          setIfChanged({ density: 65536 });
+        }
+      }
+
+      if (vendor === "skhynix") {
+        const ext = info.ext && typeof info.ext === "object" && !Array.isArray(info.ext) ? (info.ext as Record<string, unknown>) : null;
+        const spp = ext?.simultaneouslyProgrammedPages;
+        if (typeof spp === "number" && Number.isFinite(spp) && spp > 0) {
+          setIfChanged({ plane: spp });
+        }
+
+        // FlashDetector: for 14nm+ IDs (byte6 >= 0x50), clear ext and blockSize.
+        if (flashIdByteAt(id, 6) >= 0x50) {
+          setIfChanged({ ext: [], blockSize: undefined });
+        }
+      }
+
+      if (vendor === "kioxia" || vendor === "westerndigital") {
+        const plane = typeof info.plane === "number" ? info.plane : null;
+        const die = typeof info.die === "number" ? info.die : null;
+        if (plane && die && plane > 0 && die > 0 && plane >= die) {
+          const div = plane / die;
+          if (Number.isInteger(div) && div > 0) {
+            setIfChanged({ plane: div });
+          }
+        }
+      }
+
+      return next ?? info;
+    }
+  } satisfies ProcessorHooks);
 
   const combineFromFdb = (info: FlashInfo): FlashInfo => {
     // PHP uses `self::` in Micron::getFlashInfoFromFdb(), so SpecTek (which inherits it) looks up Micron FDB entries

@@ -58,7 +58,8 @@ export interface FlashIdInfo {
   processNode?: string;
   cellLevel?: number | string;
   voltage?: string;
-  ext?: Record<string, unknown>;
+  // PHP json_encode(empty associative array) yields [], not {}.
+  ext?: Record<string, unknown> | unknown[];
   controllers?: string[];
   partNumbers?: string[];
   url?: Record<string, string> | unknown[];
