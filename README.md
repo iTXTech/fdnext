@@ -1,11 +1,17 @@
 # fdnext
 
-`FlashDetector` 的 TypeScript 重写版本，目标是：
+`FlashDetector` 的 TypeScript 重写版本（上游：<https://github.com/iTXTech/FlashDetector>），目标是：
 
 - 模块化：核心引擎、HTTP 服务、CLI、DSL 解码规则分层清晰
 - 低耦合：`@fdnext/core` 不内置厂商解析逻辑
 - 高内聚：厂商解析逻辑以 DSL 规则包形式沉淀在 `@fdnext/dsl`
 - 可集成：核心引擎可在浏览器/Node.js 环境使用（无运行时网络依赖）
+
+## 上游与数据来源
+
+- 上游项目：<https://github.com/iTXTech/FlashDetector>
+- Flash 数据库（RAW fdfdb）：<https://github.com/iTXTech/fdfdb>
+- 说明：本仓库的 `resources/` 与解码行为以 FlashDetector 为兼容基准，并通过 `pnpm compat:ci` 做回归对齐。
 
 ## 运行环境
 
@@ -17,13 +23,13 @@
 ```bash
 pnpm install
 pnpm sync:resources
-pnpm -r build
+pnpm build
 ```
 
 ## 快速入口
 
-- 服务端：见 `docs/INTEGRATION_SERVER.md`
-- 浏览器：见 `docs/INTEGRATION_BROWSER.md`
+- 集成（Node/浏览器/服务端）：见 `docs/INTEGRATION.md`
+- DSL 规范（PN + FlashId）：见 `docs/DSL_SPEC.md`
 
 ## 主要包
 
@@ -32,6 +38,11 @@ pnpm -r build
 - `@fdnext/server`：HTTP 服务（兼容原 FDWebServer 的接口形状）
 - `@fdnext/cli`：命令行工具
 - `@fdnext/compat-test`：兼容性测试夹具与 diff 工具
+
+## 支持范围（对齐上游）
+
+- Flash Vendors：Intel/Solidigm、Micron、Samsung、SK hynix、Kioxia/Toshiba、Western Digital/SanDisk、YMTC、SpecTek
+- Controller Vendors：Silicon Motion、ASolid、JMicron、Maxio、SandForce/Seagate、Chipsbank、Alcor Micro、Phison
 
 ## 兼容性回归
 
@@ -46,9 +57,7 @@ pnpm compat:ci
 - `SF_HOME=/path/to/SimpleFramework`
 - `FDNEXT_FLASHDETECTOR=/path/to/FlashDetector`
 
-## 相关文档
+## 许可证与声明（重要）
 
-- 设计分层：`docs/ARCHITECTURE.md`
-- DSL 说明：`docs/DSL_SPEC.md`
-- 迁移说明：`docs/MIGRATION.md`
-- 实现计划：`docs/PLAN.md`
+- 上游 FlashDetector 自版本 69 起采用 `AGPL-3.0-or-later` 开源；衍生项目（包括以网络服务形式提供）需遵循 AGPL 的开源义务。
+- 本仓库同样以 `AGPL-3.0-or-later` 发布，详情以 `LICENSE` 为准。
