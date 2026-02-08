@@ -9,8 +9,7 @@
   },
   "dependencies": {
     "@fdnext/core": "workspace:*",
-    "@fdnext/dsl": "workspace:*",
-    "@fdnext/server": "workspace:*"
+    "@fdnext/dsl": "workspace:*"
   },
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",

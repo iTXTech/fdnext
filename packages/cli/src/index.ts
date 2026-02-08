@@ -2,7 +2,6 @@ import { resolve } from "node:path";
 import { createEngine } from "@fdnext/core";
 import { loadResourcesFromDir } from "@fdnext/core/node";
 import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@fdnext/dsl";
-import { createHttpServer } from "@fdnext/server";
 
 function resourceDir(): string {
   return resolve(process.env.FDNEXT_RESOURCES ?? resolve(process.cwd(), "resources"));
@@ -22,8 +21,7 @@ function usage(): void {
       "  fdnext summary-id <flashId> [lang]",
       "  fdnext search-pn <partNumber> [lang] [limit]",
       "  fdnext search-id <flashId> [lang] [limit]",
-      "  fdnext info",
-      "  fdnext serve [host] [port]"
+      "  fdnext info"
     ].join("\n") + "\n"
   );
 }
@@ -106,14 +104,6 @@ async function main() {
     }
     case "info": {
       print({ ver: engine.getVersion(), info: engine.getInfo() });
-      return;
-    }
-    case "serve": {
-      const host = process.argv[3] ?? "0.0.0.0";
-      const port = Number.parseInt(process.argv[4] ?? "8080", 10);
-      const app = createHttpServer({ host, port, resourceDir: resourceDir() });
-      await app.listen(port, host);
-      process.stdout.write(`fdnext server listening on http://${host}:${port}\n`);
       return;
     }
     default:

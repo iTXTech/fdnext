@@ -9,7 +9,6 @@ export interface HttpServerOptions {
   port?: number;
   resourceDir: string;
   serverName?: string;
-  simpleFrameworkHeader?: string;
 }
 
 function parseLimit(value: string | null): number {
@@ -20,13 +19,8 @@ function parseLimit(value: string | null): number {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
 }
 
-function replyJson(h: ResponseToolkit, payload: any, simpleFrameworkHeader: string) {
-  const response = h.response(payload);
-  response.code(200);
-  response.header("Access-Control-Allow-Origin", "*");
-  response.header("Access-Control-Allow-Headers", "*");
-  response.header("X-SimpleFramework", simpleFrameworkHeader);
-  return response;
+function replyJson(h: ResponseToolkit, payload: any) {
+  return h.response(payload).code(200);
 }
 
 export function createHttpServer(options: HttpServerOptions) {
@@ -37,7 +31,6 @@ export function createHttpServer(options: HttpServerOptions) {
     flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
   });
   const serverName = options.serverName ?? "FDWebServer-TS";
-  const simpleFrameworkHeader = options.simpleFrameworkHeader ?? `ts-${engine.getVersion()}`;
 
   const server = createHapiServer({
     host: options.host ?? "0.0.0.0",
@@ -50,18 +43,26 @@ export function createHttpServer(options: HttpServerOptions) {
     }
   });
 
+  server.ext("onPreResponse", (request, h) => {
+    const response = request.response;
+    if ("header" in response) {
+      response.header("X-Powered-By", "fdnext/1.0.0");
+    }
+    return h.continue;
+  });
+
   server.route({
     method: "GET",
     path: "/",
     handler: (_request, h) =>
-      replyJson(h, { result: true, time: Math.floor(Date.now() / 1000), server: serverName }, simpleFrameworkHeader)
+      replyJson(h, { result: true, time: Math.floor(Date.now() / 1000), server: serverName })
   });
 
   server.route({
     method: "GET",
     path: "/info",
     handler: (_request, h) =>
-      replyJson(h, { result: true, ver: engine.getVersion(), info: engine.getInfo() }, simpleFrameworkHeader)
+      replyJson(h, { result: true, ver: engine.getVersion(), info: engine.getInfo() })
   });
 
   server.route({
@@ -72,8 +73,7 @@ export function createHttpServer(options: HttpServerOptions) {
       const pn = typeof request.query.pn === "string" ? request.query.pn : null;
       return replyJson(
         h,
-        pn ? { result: true, data: engine.detect(pn, { lang, combineFdb: true }) } : { result: false, message: "Missing part number" },
-        simpleFrameworkHeader
+        pn ? { result: true, data: engine.detect(pn, { lang, combineFdb: true }) } : { result: false, message: "Missing part number" }
       );
     }
   });
@@ -86,8 +86,7 @@ export function createHttpServer(options: HttpServerOptions) {
       const id = typeof request.query.id === "string" ? request.query.id : null;
       return replyJson(
         h,
-        id ? { result: true, data: engine.decodeFlashId(id, { lang, combineFdb: true }) } : { result: false, message: "Missing Flash Id" },
-        simpleFrameworkHeader
+        id ? { result: true, data: engine.decodeFlashId(id, { lang, combineFdb: true }) } : { result: false, message: "Missing Flash Id" }
       );
     }
   });
@@ -106,8 +105,7 @@ export function createHttpServer(options: HttpServerOptions) {
               result: true,
               data: engine.searchPartNumber(pn, { lang, limit: parseLimit(limitStr), partialMatch: true })
             }
-          : { result: false, message: "Missing part number" },
-        simpleFrameworkHeader
+          : { result: false, message: "Missing part number" }
       );
     }
   });
@@ -126,8 +124,7 @@ export function createHttpServer(options: HttpServerOptions) {
               result: true,
               data: engine.searchFlashId(id, { lang, limit: parseLimit(limitStr), partialMatch: true })
             }
-          : { result: false, message: "Missing Flash Id" },
-        simpleFrameworkHeader
+          : { result: false, message: "Missing Flash Id" }
       );
     }
   });
@@ -140,8 +137,7 @@ export function createHttpServer(options: HttpServerOptions) {
       const pn = typeof request.query.pn === "string" ? request.query.pn : null;
       return replyJson(
         h,
-        pn ? { result: true, data: engine.getSummary(pn, lang) } : { result: false, message: "Missing part number" },
-        simpleFrameworkHeader
+        pn ? { result: true, data: engine.getSummary(pn, lang) } : { result: false, message: "Missing part number" }
       );
     }
   });
@@ -154,31 +150,21 @@ export function createHttpServer(options: HttpServerOptions) {
       const id = typeof request.query.id === "string" ? request.query.id : null;
       return replyJson(
         h,
-        id ? { result: true, data: engine.getIdSummary(id, lang) } : { result: false, message: "Missing flash Id" },
-        simpleFrameworkHeader
+        id ? { result: true, data: engine.getIdSummary(id, lang) } : { result: false, message: "Missing flash Id" }
       );
     }
   });
 
   server.route({
-    method: "OPTIONS",
-    path: "/{p*}",
-    handler: (_request, h) =>
-      h.response().code(204).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Headers", "*")
-  });
-
-  server.route({
     method: "*",
     path: "/{p*}",
-    handler: (_request, h) => replyJson(h, { result: false, message: "Not found" }, simpleFrameworkHeader)
+    handler: (_request, h) => replyJson(h, { result: false, message: "Not found" })
   });
 
   return {
     engine,
     server,
     listen: async (port = options.port ?? 8080, host = options.host ?? "0.0.0.0") => {
-      // Hapi reads host/port from server.settings when starting.
-      // Keep the existing createHttpServer().listen(port, host) API shape for callers.
       (server.settings as any).port = port;
       (server.settings as any).host = host;
       await server.start();

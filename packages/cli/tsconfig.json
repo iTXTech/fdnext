@@ -7,8 +7,7 @@
   },
   "references": [
     { "path": "../core" },
-    { "path": "../dsl" },
-    { "path": "../server" }
+    { "path": "../dsl" }
   ],
   "include": ["src/**/*.ts"]
 }

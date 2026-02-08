@@ -4,8 +4,8 @@
 
 - `@fdnext/core`: pure decoding/search engine
 - `@fdnext/dsl`: JSON DSL schema + compiler to core decoders
-- `@fdnext/server`: Node HTTP server with legacy-compatible routes
-- `@fdnext/cli`: command tools for local usage
+- `@fdnext/server`: Node HTTP server (Hapi), standalone deployment via PM2 or direct invocation
+- `@fdnext/cli`: command-line decode/search tool (does not depend on server)
 - `@fdnext/compat-test`: fixture and diff helpers
 
 ## Layers
@@ -21,3 +21,4 @@
 - explicit extension points for processors and decoders
 - low coupling: `@fdnext/core` does not embed vendor decode logic
 - high cohesion: vendor parsing lives in `@fdnext/dsl` rule packs
+- CLI and server are independent — CLI depends only on core + dsl
