@@ -148,9 +148,33 @@ export interface FlashIdDecoder {
   decode(id: string): Partial<FlashIdInfo> | null;
 }
 
+export type ProcessorEndpoint = "index" | "info" | "decode" | "decodeId" | "searchPn" | "searchId" | "summary" | "summaryId";
+
+export interface ProcessorRequestContext {
+  endpoint: ProcessorEndpoint;
+  query: string;
+  remote: string;
+  userAgent: string;
+  serverName?: string;
+  lang?: Language | null;
+  pn?: string | null;
+  id?: string | null;
+  limit?: number;
+}
+
+export type RequestProcessorHandler = (context: ProcessorRequestContext, payload: Record<string, unknown>) => boolean | void;
+
 export interface ProcessorHooks {
   flashInfo?(flashInfo: FlashInfo): FlashInfo;
   flashIdInfo?(idInfo: FlashIdInfo): FlashIdInfo;
+  index?: RequestProcessorHandler;
+  info?: RequestProcessorHandler;
+  decode?: RequestProcessorHandler;
+  decodeId?: RequestProcessorHandler;
+  searchPn?: RequestProcessorHandler;
+  searchId?: RequestProcessorHandler;
+  summary?: RequestProcessorHandler;
+  summaryId?: RequestProcessorHandler;
 }
 
 export interface EngineOptions {
@@ -171,6 +195,11 @@ export interface FlashDetectorInfo {
 export interface FlashDetectorEngine {
   getVersion(): string;
   getInfo(): FlashDetectorInfo;
+  getVendor(partNumber: string): string;
+  getFdb(): FdbDataset;
+  getMdb(): MdbDataset;
+  getLang(): LangPacks;
+  getProcessors(): readonly ProcessorHooks[];
   detect(partNumber: string, opts?: DecodeOptions): FlashInfo;
   decodeFlashId(id: string, opts?: DecodeOptions): FlashIdInfo;
   searchPartNumber(pn: string, opts?: SearchOptions): string[];
@@ -179,6 +208,10 @@ export interface FlashDetectorEngine {
   getSummary(partNumber: string, lang?: string | null): string;
   getIdSummary(id: string, lang?: string | null): string;
   translateString(key: string, lang?: string | null): string;
+  translate(value: unknown, lang?: string | null): unknown;
+  translateArray(value: Record<string, unknown>, translateKey: boolean, lang?: string | null): Record<string, unknown>;
+  getHumanReadableDensity(density: number, useByte?: boolean): string;
+  dispatch(endpoint: ProcessorEndpoint, context?: Partial<Omit<ProcessorRequestContext, "endpoint">>): Record<string, unknown>;
   registerDecoder(decoder: PartNumberDecoder): void;
   registerFlashIdDecoder(decoder: FlashIdDecoder): void;
   registerProcessor(processor: ProcessorHooks): void;

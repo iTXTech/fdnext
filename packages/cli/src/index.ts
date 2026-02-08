@@ -26,6 +26,26 @@ function usage(): void {
   );
 }
 
+function cliContext(
+  extra: Partial<{
+    lang: string | null;
+    pn: string | null;
+    id: string | null;
+    limit: number;
+  }> = {}
+) {
+  return {
+    query: process.argv.slice(2).join(" "),
+    remote: "cli",
+    userAgent: "fdnext-cli",
+    ...extra
+  };
+}
+
+function isSuccessPayload(payload: Record<string, unknown>): payload is { result: true; data?: unknown } {
+  return payload.result === true;
+}
+
 async function main() {
   const command = process.argv[2];
   if (!command) {
@@ -47,7 +67,12 @@ async function main() {
         process.stderr.write("Missing part number\n");
         process.exit(1);
       }
-      print(engine.detect(pn, { lang }));
+      const payload = engine.dispatch("decode", cliContext({ pn, lang }));
+      if (isSuccessPayload(payload) && "data" in payload) {
+        print(payload.data);
+        return;
+      }
+      print(payload);
       return;
     }
     case "fid": {
@@ -57,7 +82,12 @@ async function main() {
         process.stderr.write("Missing Flash Id\n");
         process.exit(1);
       }
-      print(engine.decodeFlashId(id, { lang }));
+      const payload = engine.dispatch("decodeId", cliContext({ id, lang }));
+      if (isSuccessPayload(payload) && "data" in payload) {
+        print(payload.data);
+        return;
+      }
+      print(payload);
       return;
     }
     case "summary": {
@@ -67,7 +97,12 @@ async function main() {
         process.stderr.write("Missing part number\n");
         process.exit(1);
       }
-      process.stdout.write(`${engine.getSummary(pn, lang)}\n`);
+      const payload = engine.dispatch("summary", cliContext({ pn, lang }));
+      if (isSuccessPayload(payload) && typeof payload.data === "string") {
+        process.stdout.write(`${payload.data}\n`);
+        return;
+      }
+      print(payload);
       return;
     }
     case "summary-id": {
@@ -77,7 +112,12 @@ async function main() {
         process.stderr.write("Missing flash Id\n");
         process.exit(1);
       }
-      process.stdout.write(`${engine.getIdSummary(id, lang)}\n`);
+      const payload = engine.dispatch("summaryId", cliContext({ id, lang }));
+      if (isSuccessPayload(payload) && typeof payload.data === "string") {
+        process.stdout.write(`${payload.data}\n`);
+        return;
+      }
+      print(payload);
       return;
     }
     case "search-pn": {
@@ -88,7 +128,12 @@ async function main() {
         process.stderr.write("Missing part number\n");
         process.exit(1);
       }
-      print(engine.searchPartNumber(pn, { lang, limit, partialMatch: true }));
+      const payload = engine.dispatch("searchPn", cliContext({ pn, lang, limit }));
+      if (isSuccessPayload(payload) && "data" in payload) {
+        print(payload.data);
+        return;
+      }
+      print(payload);
       return;
     }
     case "search-id": {
@@ -99,11 +144,16 @@ async function main() {
         process.stderr.write("Missing Flash Id\n");
         process.exit(1);
       }
-      print(engine.searchFlashId(id, { lang, limit, partialMatch: true }));
+      const payload = engine.dispatch("searchId", cliContext({ id, lang, limit }));
+      if (isSuccessPayload(payload) && "data" in payload) {
+        print(payload.data);
+        return;
+      }
+      print(payload);
       return;
     }
     case "info": {
-      print({ ver: engine.getVersion(), info: engine.getInfo() });
+      print(engine.dispatch("info", cliContext()));
       return;
     }
     default:

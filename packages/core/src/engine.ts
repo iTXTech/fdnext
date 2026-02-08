@@ -17,6 +17,8 @@ import type {
   FlashInfo,
   LangPacks,
   PartNumberDecoder,
+  ProcessorEndpoint,
+  ProcessorRequestContext,
   ProcessorHooks,
   SearchOptions
 } from "./types";
@@ -391,275 +393,396 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     return next;
   };
 
-  return {
-    getVersion(): string {
-      return String(fdb.info.version);
-    },
+  const getVersion = (): string => String(fdb.info.version);
 
-    getInfo(): FlashDetectorInfo {
-      if (cachedInfo) {
-        return cachedInfo;
-      }
-
-      let flashCnt = 0;
-      for (const vendorMap of fdb.vendors.values()) {
-        flashCnt += vendorMap.size;
-      }
-
-      let mdbCnt = 0;
-      mdbCnt += Object.keys(mdb.micron).length;
-      for (const values of Object.values(mdb.spectek)) {
-        mdbCnt += values.length;
-      }
-
-      cachedInfo = {
-        fdb: fdb.info,
-        flash_cnt: flashCnt,
-        id_cnt: fdb.flashIds.size,
-        mdb_cnt: mdbCnt
-      };
-
+  const getInfo = (): FlashDetectorInfo => {
+    if (cachedInfo) {
       return cachedInfo;
-    },
+    }
 
-    registerDecoder(decoder: PartNumberDecoder): void {
-      decoders.push(decoder);
-      decoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
-    },
+    let flashCnt = 0;
+    for (const vendorMap of fdb.vendors.values()) {
+      flashCnt += vendorMap.size;
+    }
 
-    registerFlashIdDecoder(decoder: FlashIdDecoder): void {
-      flashIdDecoders.push(decoder);
-      flashIdDecoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
-    },
+    let mdbCnt = 0;
+    mdbCnt += Object.keys(mdb.micron).length;
+    for (const values of Object.values(mdb.spectek)) {
+      mdbCnt += values.length;
+    }
 
-    registerProcessor(processor: ProcessorHooks): void {
-      processors.push(processor);
-    },
+    cachedInfo = {
+      fdb: fdb.info,
+      flash_cnt: flashCnt,
+      id_cnt: fdb.flashIds.size,
+      mdb_cnt: mdbCnt
+    };
 
-    detect(partNumber: string, opts: DecodeOptions = {}): FlashInfo {
-      const normalized = normalizePartNumber(partNumber);
-      return detectPublic(normalized, opts, true);
-    },
+    return cachedInfo;
+  };
 
-    decodeFlashId(id: string, opts: DecodeOptions = {}): FlashIdInfo {
-      const normalized = normalizeFlashId(id);
-      const padded = padFlashId(normalized);
-      let info: FlashIdInfo | null = null;
+  const detect = (partNumber: string, opts: DecodeOptions = {}): FlashInfo => {
+    const normalized = normalizePartNumber(partNumber);
+    return detectPublic(normalized, opts, true);
+  };
 
-      for (const decoder of flashIdDecoders) {
-        if (decoder.check(padded)) {
-          const decoded = decoder.decode(padded);
-          if (decoded) {
-            info = {
-              id: padded,
-              vendor: UNKNOWN,
-              ...decoded
-            };
-            break;
-          }
+  const decodeFlashId = (id: string, opts: DecodeOptions = {}): FlashIdInfo => {
+    const normalized = normalizeFlashId(id);
+    const padded = padFlashId(normalized);
+    let info: FlashIdInfo | null = null;
+
+    for (const decoder of flashIdDecoders) {
+      if (decoder.check(padded)) {
+        const decoded = decoder.decode(padded);
+        if (decoded) {
+          info = {
+            id: padded,
+            vendor: UNKNOWN,
+            ...decoded
+          };
+          break;
         }
       }
+    }
 
-      if (!info) {
-        info = {
-          id: padded,
-          vendor: inferVendorFromFlashId(padded)
-        };
-      }
+    if (!info) {
+      info = {
+        id: padded,
+        vendor: inferVendorFromFlashId(padded)
+      };
+    }
 
-      const flashIdRecord = findFlashIdRecord(fdb, padded);
-      if (flashIdRecord) {
-        info.controllers = flashIdRecord.t ?? [];
-        info.partNumbers = flashIdRecord.n ?? [];
-      }
+    const flashIdRecord = findFlashIdRecord(fdb, padded);
+    if (flashIdRecord) {
+      info.controllers = flashIdRecord.t ?? [];
+      info.partNumbers = flashIdRecord.n ?? [];
+    }
 
-      const processed = applyFlashIdProcessors(info);
-      return toPublicFlashIdInfo(processed, langPacks, fallbackLang, opts.lang);
-    },
+    const processed = applyFlashIdProcessors(info);
+    return toPublicFlashIdInfo(processed, langPacks, fallbackLang, opts.lang);
+  };
 
-    searchPartNumber(pn: string, opts: SearchOptions = {}): string[] {
-      const query = normalizePartNumber(pn);
-      const partMatch = opts.partialMatch ?? true;
-      const limit = opts.limit ?? 0;
-      const result: string[] = [];
+  const searchPartNumber = (pn: string, opts: SearchOptions = {}): string[] => {
+    const query = normalizePartNumber(pn);
+    const partMatch = opts.partialMatch ?? true;
+    const limit = opts.limit ?? 0;
+    const result: string[] = [];
 
-      for (const [vendor, partNumbers] of fdb.vendors.entries()) {
-        for (const partNumber of partNumbers.keys()) {
-          if (limit > 0 && result.length >= limit) {
-            return result;
-          }
-          const hit = partMatch ? contains(partNumber, query) : partNumber === query;
-          if (hit) {
-            result.push(`${translateString(vendor, opts.lang)} ${partNumber}`);
-          }
+    for (const [vendor, partNumbers] of fdb.vendors.entries()) {
+      for (const partNumber of partNumbers.keys()) {
+        if (limit > 0 && result.length >= limit) {
+          return result;
+        }
+        const hit = partMatch ? contains(partNumber, query) : partNumber === query;
+        if (hit) {
+          result.push(`${translateString(vendor, opts.lang)} ${partNumber}`);
         }
       }
+    }
 
-      for (const [code, partNumber] of Object.entries(mdb.micron)) {
+    for (const [code, partNumber] of Object.entries(mdb.micron)) {
+      if (limit > 0 && result.length >= limit) {
+        break;
+      }
+      if (contains(partNumber, query)) {
+        result.push(`${translateString("micron", opts.lang)} ${code} ${partNumber}`);
+      }
+    }
+
+    for (const [code, partNumbers] of Object.entries(mdb.spectek)) {
+      if (limit > 0 && result.length >= limit) {
+        break;
+      }
+      for (const partNumber of partNumbers) {
         if (limit > 0 && result.length >= limit) {
           break;
         }
         if (contains(partNumber, query)) {
-          result.push(`${translateString("micron", opts.lang)} ${code} ${partNumber}`);
+          result.push(`${translateString("spectek", opts.lang)} ${code} ${partNumber}`);
         }
       }
+    }
 
-      for (const [code, partNumbers] of Object.entries(mdb.spectek)) {
-        if (limit > 0 && result.length >= limit) {
+    return result;
+  };
+
+  const searchFlashId = (id: string, opts: SearchOptions = {}): Record<string, unknown> | import("./types").FlashIdRecord | [] => {
+    const query = normalizeFlashId(id);
+    const partMatch = opts.partialMatch ?? true;
+    const limit = opts.limit ?? 0;
+
+    if (!partMatch) {
+      const exact = findFlashIdRecord(fdb, query);
+      return exact ?? [];
+    }
+
+    const result: Record<string, unknown> = {};
+    let resultCount = 0;
+
+    for (const [flashId, record] of fdb.flashIds.entries()) {
+      if (limit > 0 && resultCount >= limit) {
+        break;
+      }
+      if (!contains(flashId, query)) {
+        continue;
+      }
+
+      let pageSize: string | number | undefined = record.s;
+      if (pageSize != null && pageSize !== -1) {
+        pageSize = pageSize < 1 ? `${pageSize * 1024}B` : `${pageSize}K`;
+      }
+
+      const data = {
+        partNumbers: record.n ?? [],
+        pageSize,
+        pagesPerBlock: record.p,
+        blocks: record.b,
+        controllers: record.t ?? []
+      };
+
+      result[flashId] = translateValue(langPacks, fallbackLang, data, opts.lang, false);
+      resultCount += 1;
+    }
+
+    return result;
+  };
+
+  const searchMicronFbgaCode = (code: string): string[] => {
+    const target = code.toUpperCase();
+    if (mdb.micron[target]) {
+      return [mdb.micron[target]];
+    }
+    if (mdb.spectek[target]) {
+      return [...mdb.spectek[target]];
+    }
+    return [];
+  };
+
+  const getSummary = (partNumber: string, lang?: string | null): string => {
+    const info = detect(partNumber, { lang, combineFdb: true });
+    const base = translateString("summary", lang);
+    const unknown = translateString(UNKNOWN, lang);
+
+    const interfaceValue = typeof info.interface === "object" && info.interface ? info.interface : undefined;
+    let sync = unknown;
+    let async = unknown;
+    if (interfaceValue && "toggle" in interfaceValue) {
+      async = String(translateValue(langPacks, fallbackLang, true, lang));
+      sync = String(translateValue(langPacks, fallbackLang, interfaceValue.toggle, lang));
+    } else if (interfaceValue) {
+      async = String(translateValue(langPacks, fallbackLang, interfaceValue.async, lang));
+      sync = String(translateValue(langPacks, fallbackLang, interfaceValue.sync, lang));
+    }
+
+    const extraInfo =
+      info.extraInfo && typeof info.extraInfo === "object"
+        ? Object.entries(info.extraInfo)
+            .map(([key, value]) => `${key}: ${String(value)}`)
+            .join(", ")
+        : "";
+
+    const replacements = [
+      info.partNumber,
+      info.vendor,
+      info.type,
+      info.density,
+      info.deviceWidth,
+      info.cellLevel,
+      info.processNode,
+      info.generation,
+      sync,
+      async,
+      (info.classification as Record<string, unknown> | undefined)?.ce ?? unknown,
+      (info.classification as Record<string, unknown> | undefined)?.ch ?? unknown,
+      (info.classification as Record<string, unknown> | undefined)?.die ?? unknown,
+      (info.classification as Record<string, unknown> | undefined)?.rb ?? unknown,
+      info.voltage,
+      info.package,
+      Array.isArray(info.controller) ? info.controller.join(", ") : "",
+      info.remark,
+      extraInfo,
+      Array.isArray(info.flashId) ? info.flashId.join(", ") : ""
+    ];
+
+    let result = base;
+    for (let i = 0; i < replacements.length; i += 1) {
+      result = result.replaceAll(`{${i}}`, String(replacements[i] ?? unknown));
+    }
+    return result;
+  };
+
+  const getIdSummary = (id: string, lang?: string | null): string => {
+    const info = decodeFlashId(id, { lang, combineFdb: true });
+    const base = translateString("idSummary", lang);
+
+    const extInfo =
+      info.ext && typeof info.ext === "object"
+        ? Object.entries(info.ext)
+            .map(([key, value]) => `${key}: ${String(value)}`)
+            .join(", ")
+        : "";
+
+    const density = typeof info.density === "number" ? getHumanReadableDensity(info.density) : info.density;
+
+    const replacements = [
+      info.id,
+      info.vendor,
+      info.cellLevel,
+      density,
+      info.processNode,
+      info.die,
+      info.plane,
+      info.voltage,
+      info.pageSize,
+      info.blockSize,
+      Array.isArray(info.controllers) ? info.controllers.join(", ") : "",
+      extInfo,
+      Array.isArray(info.partNumbers) ? info.partNumbers.join(", ") : ""
+    ];
+
+    let result = base;
+    for (let i = 0; i < replacements.length; i += 1) {
+      result = result.replaceAll(`{${i}}`, String(replacements[i] ?? UNKNOWN));
+    }
+    return result;
+  };
+
+  const getVendor = (partNumber: string): string => {
+    const normalized = normalizePartNumber(partNumber);
+    for (const decoder of decoders) {
+      if (decoder.check(normalized)) {
+        const decoded = decoder.decode(normalized);
+        if (decoded && typeof decoded.vendor === "string" && decoded.vendor.length > 0) {
+          return decoded.vendor;
+        }
+      }
+    }
+    return findPartNumberAcrossVendors(fdb, normalized)?.vendor ?? UNKNOWN;
+  };
+
+  const translate = (value: unknown, lang?: string | null): unknown => {
+    return translateValue(langPacks, fallbackLang, value, lang, true);
+  };
+
+  const translateArray = (value: Record<string, unknown>, translateKey: boolean, lang?: string | null): Record<string, unknown> => {
+    const translated = translateValue(langPacks, fallbackLang, value, lang, translateKey);
+    if (translated && typeof translated === "object" && !Array.isArray(translated)) {
+      return translated as Record<string, unknown>;
+    }
+    return {};
+  };
+
+  const dispatch = (
+    endpoint: ProcessorEndpoint,
+    context: Partial<Omit<ProcessorRequestContext, "endpoint">> = {}
+  ): Record<string, unknown> => {
+    const limitValue = context.limit;
+    const requestContext: ProcessorRequestContext = {
+      endpoint,
+      query: context.query ?? "",
+      remote: context.remote ?? "",
+      userAgent: context.userAgent ?? "",
+      serverName: context.serverName,
+      lang: context.lang ?? null,
+      pn: context.pn ?? null,
+      id: context.id ?? null,
+      limit: Number.isFinite(limitValue) ? Number(limitValue) : 0
+    };
+
+    const payload = (() => {
+      switch (requestContext.endpoint) {
+        case "index":
+          return {
+            result: true,
+            time: Math.floor(Date.now() / 1000),
+            server: requestContext.serverName ?? "FDWebServer-TS"
+          };
+        case "info":
+          return { result: true, ver: getVersion(), info: getInfo() };
+        case "decode":
+          return requestContext.pn
+            ? { result: true, data: detect(requestContext.pn, { lang: requestContext.lang, combineFdb: true }) }
+            : { result: false, message: "Missing part number" };
+        case "decodeId":
+          return requestContext.id
+            ? { result: true, data: decodeFlashId(requestContext.id, { lang: requestContext.lang, combineFdb: true }) }
+            : { result: false, message: "Missing Flash Id" };
+        case "searchPn":
+          return requestContext.pn
+            ? {
+                result: true,
+                data: searchPartNumber(requestContext.pn, {
+                  lang: requestContext.lang,
+                  partialMatch: true,
+                  limit: requestContext.limit ?? 0
+                })
+              }
+            : { result: false, message: "Missing part number" };
+        case "searchId":
+          return requestContext.id
+            ? {
+                result: true,
+                data: searchFlashId(requestContext.id, {
+                  lang: requestContext.lang,
+                  partialMatch: true,
+                  limit: requestContext.limit ?? 0
+                })
+              }
+            : { result: false, message: "Missing Flash Id" };
+        case "summary":
+          return requestContext.pn
+            ? { result: true, data: getSummary(requestContext.pn, requestContext.lang) }
+            : { result: false, message: "Missing part number" };
+        case "summaryId":
+          return requestContext.id
+            ? { result: true, data: getIdSummary(requestContext.id, requestContext.lang) }
+            : { result: false, message: "Missing flash Id" };
+      }
+    })();
+
+    for (const processor of processors) {
+      const handler = processor[endpoint];
+      if (typeof handler === "function") {
+        const shouldContinue = handler(requestContext, payload);
+        if (shouldContinue === false) {
           break;
         }
-        for (const partNumber of partNumbers) {
-          if (limit > 0 && result.length >= limit) {
-            break;
-          }
-          if (contains(partNumber, query)) {
-            result.push(`${translateString("spectek", opts.lang)} ${code} ${partNumber}`);
-          }
-        }
       }
+    }
 
-      return result;
+    return payload;
+  };
+
+  return {
+    getVersion,
+    getInfo,
+    getVendor,
+    getFdb: () => fdb,
+    getMdb: () => mdb,
+    getLang: () => langPacks,
+    getProcessors: () => processors,
+    detect,
+    decodeFlashId,
+    searchPartNumber,
+    searchFlashId,
+    searchMicronFbgaCode,
+    getSummary,
+    getIdSummary,
+    translateString,
+    translate,
+    translateArray,
+    getHumanReadableDensity,
+    dispatch,
+    registerDecoder(decoder: PartNumberDecoder): void {
+      decoders.push(decoder);
+      decoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
     },
-
-    searchFlashId(id: string, opts: SearchOptions = {}): Record<string, unknown> | import("./types").FlashIdRecord | [] {
-      const query = normalizeFlashId(id);
-      const partMatch = opts.partialMatch ?? true;
-      const limit = opts.limit ?? 0;
-
-      if (!partMatch) {
-        const exact = findFlashIdRecord(fdb, query);
-        return exact ?? [];
-      }
-
-      const result: Record<string, unknown> = {};
-
-      for (const [flashId, record] of fdb.flashIds.entries()) {
-        if (limit > 0 && Object.keys(result).length >= limit) {
-          break;
-        }
-        if (!contains(flashId, query)) {
-          continue;
-        }
-
-        let pageSize: string | number | undefined = record.s;
-        if (pageSize != null && pageSize !== -1) {
-          pageSize = pageSize < 1 ? `${pageSize * 1024}B` : `${pageSize}K`;
-        }
-
-        const data = {
-          partNumbers: record.n ?? [],
-          pageSize,
-          pagesPerBlock: record.p,
-          blocks: record.b,
-          controllers: record.t ?? []
-        };
-
-        result[flashId] = translateValue(langPacks, fallbackLang, data, opts.lang, false);
-      }
-
-      return result;
+    registerFlashIdDecoder(decoder: FlashIdDecoder): void {
+      flashIdDecoders.push(decoder);
+      flashIdDecoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
     },
-
-    searchMicronFbgaCode(code: string): string[] {
-      const target = code.toUpperCase();
-      if (mdb.micron[target]) {
-        return [mdb.micron[target]];
-      }
-      if (mdb.spectek[target]) {
-        return [...mdb.spectek[target]];
-      }
-      return [];
-    },
-
-    getSummary(partNumber: string, lang?: string | null): string {
-      const info = this.detect(partNumber, { lang, combineFdb: true });
-      const base = translateString("summary", lang);
-      const unknown = translateString(UNKNOWN, lang);
-
-      const interfaceValue = typeof info.interface === "object" && info.interface ? info.interface : undefined;
-      let sync = unknown;
-      let async = unknown;
-      if (interfaceValue && "toggle" in interfaceValue) {
-        async = String(translateValue(langPacks, fallbackLang, true, lang));
-        sync = String(translateValue(langPacks, fallbackLang, interfaceValue.toggle, lang));
-      } else if (interfaceValue) {
-        async = String(translateValue(langPacks, fallbackLang, interfaceValue.async, lang));
-        sync = String(translateValue(langPacks, fallbackLang, interfaceValue.sync, lang));
-      }
-
-      const extraInfo =
-        info.extraInfo && typeof info.extraInfo === "object"
-          ? Object.entries(info.extraInfo)
-              .map(([key, value]) => `${key}: ${String(value)}`)
-              .join(", ")
-          : "";
-
-      const replacements = [
-        info.partNumber,
-        info.vendor,
-        info.type,
-        info.density,
-        info.deviceWidth,
-        info.cellLevel,
-        info.processNode,
-        info.generation,
-        sync,
-        async,
-        (info.classification as Record<string, unknown> | undefined)?.ce ?? unknown,
-        (info.classification as Record<string, unknown> | undefined)?.ch ?? unknown,
-        (info.classification as Record<string, unknown> | undefined)?.die ?? unknown,
-        (info.classification as Record<string, unknown> | undefined)?.rb ?? unknown,
-        info.voltage,
-        info.package,
-        Array.isArray(info.controller) ? info.controller.join(", ") : "",
-        info.remark,
-        extraInfo,
-        Array.isArray(info.flashId) ? info.flashId.join(", ") : ""
-      ];
-
-      let result = base;
-      for (let i = 0; i < replacements.length; i += 1) {
-        result = result.replaceAll(`{${i}}`, String(replacements[i] ?? unknown));
-      }
-      return result;
-    },
-
-    getIdSummary(id: string, lang?: string | null): string {
-      const info = this.decodeFlashId(id, { lang, combineFdb: true });
-      const base = translateString("idSummary", lang);
-
-      const extInfo =
-        info.ext && typeof info.ext === "object"
-          ? Object.entries(info.ext)
-              .map(([key, value]) => `${key}: ${String(value)}`)
-              .join(", ")
-          : "";
-
-      const density = typeof info.density === "number" ? getHumanReadableDensity(info.density) : info.density;
-
-      const replacements = [
-        info.id,
-        info.vendor,
-        info.cellLevel,
-        density,
-        info.processNode,
-        info.die,
-        info.plane,
-        info.voltage,
-        info.pageSize,
-        info.blockSize,
-        Array.isArray(info.controllers) ? info.controllers.join(", ") : "",
-        extInfo,
-        Array.isArray(info.partNumbers) ? info.partNumbers.join(", ") : ""
-      ];
-
-      let result = base;
-      for (let i = 0; i < replacements.length; i += 1) {
-        result = result.replaceAll(`{${i}}`, String(replacements[i] ?? UNKNOWN));
-      }
-      return result;
-    },
-
-    translateString
+    registerProcessor(processor: ProcessorHooks): void {
+      processors.push(processor);
+    }
   };
 }

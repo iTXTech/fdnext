@@ -33,7 +33,7 @@ pnpm build
 
 ## 主要包
 
-- `@fdnext/core`：纯解码/搜索引擎（可在浏览器运行）
+- `@fdnext/core`：纯解码/搜索引擎（可在浏览器运行，支持请求级 Processor 管线与扩展 SDK）
 - `@fdnext/dsl`：DSL schema + 编译器（把规则编译为 core 可用的 decoder）
 - `@fdnext/server`：HTTP 服务（兼容原 FDWebServer 的接口形状）
 - `@fdnext/cli`：命令行工具

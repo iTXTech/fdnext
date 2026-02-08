@@ -19,6 +19,36 @@ console.log(engine.detect("MT29F64G08CBABA", { lang: "eng", combineFdb: true }))
 console.log(engine.decodeFlashId("2C64444BA900", { lang: "eng", combineFdb: true }));
 ```
 
+### 1.1 Processor 管线与 SDK 方法
+
+`@fdnext/core` 支持请求级 Processor 管线（可读取请求上下文并短路）：
+
+```ts
+engine.registerProcessor({
+  info(ctx, payload) {
+    if (ctx.userAgent.includes("health-check")) {
+      payload.info = { lightweight: true };
+      return false;
+    }
+    return true;
+  }
+});
+
+const response = engine.dispatch("info", {
+  query: "",
+  remote: "127.0.0.1",
+  userAgent: "my-client/1.0"
+});
+```
+
+常用 SDK 方法：
+
+- `engine.getVendor(partNumber)`
+- `engine.getFdb()` / `engine.getMdb()` / `engine.getLang()`
+- `engine.getProcessors()`
+- `engine.translate(value, lang)` / `engine.translateArray(value, translateKey, lang)`
+- `engine.getHumanReadableDensity(density, useByte)`
+
 ## 2. 浏览器（Web / Frontend）
 
 浏览器侧推荐用 Vite / Webpack / Rollup / esbuild 打包，关键点：
