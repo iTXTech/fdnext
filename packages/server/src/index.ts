@@ -1,8 +1,8 @@
 import { server as createHapiServer } from "@hapi/hapi";
 import type { Request, ResponseToolkit } from "@hapi/hapi";
-import { createEngine, type FlashDetectorEngine } from "@fdnext/core";
-import { loadResourcesFromDir } from "@fdnext/core/node";
-import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@fdnext/dsl";
+import { createEngine, type FlashDetectorEngine } from "@itxtech/fdnext-core";
+import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
+import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
 
 export interface HttpServerOptions {
   host?: string;

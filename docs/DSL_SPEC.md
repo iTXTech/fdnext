@@ -1,6 +1,6 @@
 # DSL 规范（JSON）
 
-本仓库把“厂商料号解码”做成纯数据的 DSL（JSON）。`@fdnext/dsl` 负责把规则编译成 `@fdnext/core` 可消费的 `PartNumberDecoder`，从而避免“每个厂商写一个 TS 文件”。
+本仓库把“厂商料号解码”做成纯数据的 DSL（JSON）。`@itxtech/fdnext-dsl` 负责把规则编译成 `@itxtech/fdnext-core` 可消费的 `PartNumberDecoder`，从而避免“每个厂商写一个 TS 文件”。
 
 ## 1. 规则（Rule）
 
@@ -134,7 +134,7 @@
 
 ## 4. 输出字段与翻译约定
 
-DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前），最终通过 `@fdnext/core` 的 `toPublicFlashInfo()` 做：
+DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前），最终通过 `@itxtech/fdnext-core` 的 `toPublicFlashInfo()` 做：
 
 - 必填 key 补齐（缺失时填 `Unknown` 或 `[]`）
 - `cellLevel`、`generation` 等字段做兼容转换
@@ -220,7 +220,7 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 ### 7.4 与 PHP 兼容的后处理（core 内置）
 
-部分 PHP 参考实现包含“解码后再修正”的逻辑，无法用纯 bitfield DSL 表达，因此在 `@fdnext/core` 内置了 FlashId post-process：
+部分 PHP 参考实现包含“解码后再修正”的逻辑，无法用纯 bitfield DSL 表达，因此在 `@itxtech/fdnext-core` 内置了 FlashId post-process：
 
 - Samsung：当 byte2 == `0xDE`，密度强制为 64Gbit
 - SKHynix：`plane = ext.simultaneouslyProgrammedPages`

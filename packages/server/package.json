@@ -1,5 +1,5 @@
 {
-  "name": "@fdnext/server",
+  "name": "@itxtech/fdnext-server",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -8,8 +8,8 @@
     "fdnext-server": "dist/bin.js"
   },
   "dependencies": {
-    "@fdnext/core": "workspace:*",
-    "@fdnext/dsl": "workspace:*",
+    "@itxtech/fdnext-core": "workspace:*",
+    "@itxtech/fdnext-dsl": "workspace:*",
     "@hapi/hapi": "^21.4.4"
   },
   "scripts": {

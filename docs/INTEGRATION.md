@@ -1,13 +1,13 @@
 # 集成指南（Node / 浏览器 / 服务端）
 
-本项目核心是 `@fdnext/core`（纯逻辑、无运行时网络依赖），解码规则由 `@fdnext/dsl` 的 JSON DSL packs 提供。
+本项目核心是 `@itxtech/fdnext-core`（纯逻辑、无运行时网络依赖），解码规则由 `@itxtech/fdnext-dsl` 的 JSON DSL packs 提供。
 
 ## 1. Node.js（作为库集成）
 
 ```ts
-import { createEngine } from "@fdnext/core";
-import { loadResourcesFromDir } from "@fdnext/core/node";
-import { compileRulesToDecoders, defaultDslRules, compileFlashIdRulesToDecoders, defaultFlashIdRules } from "@fdnext/dsl";
+import { createEngine } from "@itxtech/fdnext-core";
+import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
+import { compileRulesToDecoders, defaultDslRules, compileFlashIdRulesToDecoders, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
 
 const engine = createEngine({
   resources: loadResourcesFromDir("./resources"),
@@ -21,7 +21,7 @@ console.log(engine.decodeFlashId("2C64444BA900", { lang: "eng", combineFdb: true
 
 ### 1.1 Processor 管线与 SDK 方法
 
-`@fdnext/core` 支持请求级 Processor 管线（可读取请求上下文并短路）：
+`@itxtech/fdnext-core` 支持请求级 Processor 管线（可读取请求上下文并短路）：
 
 ```ts
 engine.registerProcessor({
@@ -53,9 +53,9 @@ const response = engine.dispatch("info", {
 
 浏览器侧推荐用 Vite / Webpack / Rollup / esbuild 打包，关键点：
 
-- 不要在浏览器使用 `@fdnext/core/node`（它依赖 Node 的 `fs`）
+- 不要在浏览器使用 `@itxtech/fdnext-core/node`（它依赖 Node 的 `fs`）
 - 资源（`fdb/mdb/lang`）建议用 `fetch()` 加载静态 JSON
-- 解码器（PN / FlashId）来自 `@fdnext/dsl` 的默认规则包（JSON import attributes：`with { type: "json" }`）
+- 解码器（PN / FlashId）来自 `@itxtech/fdnext-dsl` 的默认规则包（JSON import attributes：`with { type: "json" }`）
 
 ### 2.1 方式 A：fetch 静态 JSON（推荐）
 
@@ -67,8 +67,8 @@ const response = engine.dispatch("info", {
 - `/resources/lang/eng.json`
 
 ```ts
-import { createEngine } from "@fdnext/core";
-import { compileRulesToDecoders, defaultDslRules, compileFlashIdRulesToDecoders, defaultFlashIdRules } from "@fdnext/dsl";
+import { createEngine } from "@itxtech/fdnext-core";
+import { compileRulesToDecoders, defaultDslRules, compileFlashIdRulesToDecoders, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
 
 async function loadJson(path: string) {
   const res = await fetch(path);
@@ -96,7 +96,7 @@ const engine = createEngine({
 
 ## 3. 服务端（HTTP Server）
 
-`@fdnext/server` 是基于 Hapi 的标准实现（方便直接部署或二次封装）。
+`@itxtech/fdnext-server` 是基于 Hapi 的标准实现（方便直接部署或二次封装）。
 
 ### 3.1 仓库内运行
 

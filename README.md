@@ -5,19 +5,19 @@
 ## 主要特性
 
 - ESM 优先的 monorepo，使用严格 TypeScript 配置
-- `@fdnext/core` 可用于 Node.js 与浏览器环境，无运行时网络依赖
+- `@itxtech/fdnext-core` 可用于 Node.js 与浏览器环境，无运行时网络依赖
 - 基于 JSON DSL 的 PN / FlashId 规则编译与扩展
 - 支持请求级 Processor 管线，可在 SDK、Server、CLI 统一接入
-- 提供独立的 TypeScript FDB 生成器 `@fdnext/fdbgen`
+- 提供独立的 TypeScript FDB 生成器 `@itxtech/fdnext-fdbgen`
 
 ## 包结构
 
-- `@fdnext/core`：解码与搜索引擎、SDK 能力
-- `@fdnext/dsl`：DSL 规则与解码器编译器
-- `@fdnext/server`：基于 Hapi 的 HTTP 服务
-- `@fdnext/cli`：命令行工具
-- `@fdnext/fdbgen`：独立 FDB 生成器与 CLI
-- `@fdnext/compat-test`：兼容性夹具与差异对比工具
+- `@itxtech/fdnext-core`：解码与搜索引擎、SDK 能力
+- `@itxtech/fdnext-dsl`：DSL 规则与解码器编译器
+- `@itxtech/fdnext-server`：基于 Hapi 的 HTTP 服务
+- `@itxtech/fdnext-cli`：命令行工具
+- `@itxtech/fdnext-fdbgen`：独立 FDB 生成器与 CLI
+- `@itxtech/fdnext-compat-test`：兼容性夹具与差异对比工具
 
 ## 环境要求
 
@@ -40,7 +40,7 @@ pnpm build
 
 ## FDBGen 使用说明
 
-`@fdnext/fdbgen` 可从本地数据集生成 `fdb.json`：
+`@itxtech/fdnext-fdbgen` 可从本地数据集生成 `fdb.json`：
 
 ```bash
 fdnext-fdbgen build --input <dataset-dir> --output <fdb.json> [options]

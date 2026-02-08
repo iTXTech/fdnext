@@ -1,4 +1,4 @@
-import type { FlashIdDecoder, FlashIdInfo, FlashInfo, PartNumberDecoder } from "@fdnext/core";
+import type { FlashIdDecoder, FlashIdInfo, FlashInfo, PartNumberDecoder } from "@itxtech/fdnext-core";
 import type { DslExpr, DslJson, DslRule, FlashIdDslRule, NormalizeStep, DslTokenDecoder } from "./types";
 
 function normalize(input: string, steps: NormalizeStep[] = []): string {

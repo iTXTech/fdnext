@@ -1,5 +1,5 @@
 {
-  "name": "@fdnext/cli",
+  "name": "@itxtech/fdnext-cli",
   "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
@@ -8,8 +8,8 @@
     "fdnext": "dist/index.js"
   },
   "dependencies": {
-    "@fdnext/core": "workspace:*",
-    "@fdnext/dsl": "workspace:*"
+    "@itxtech/fdnext-core": "workspace:*",
+    "@itxtech/fdnext-dsl": "workspace:*"
   },
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",

@@ -1,6 +1,6 @@
 # FDBGen 文档
 
-`@fdnext/fdbgen` 是 `fdnext` 内置的独立 TypeScript 实现，用于从本地数据目录生成 `fdb.json`，不依赖上游 PHP 脚本。
+`@itxtech/fdnext-fdbgen` 是 `fdnext` 内置的独立 TypeScript 实现，用于从本地数据目录生成 `fdb.json`，不依赖上游 PHP 脚本。
 
 ## 功能范围
 
@@ -189,7 +189,7 @@ dataset/
 ## SDK 调用
 
 ```ts
-import { generateFdb } from "@fdnext/fdbgen";
+import { generateFdb } from "@itxtech/fdnext-fdbgen";
 
 const fdb = generateFdb({
   inputDir: "./dataset",

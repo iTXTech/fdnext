@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
-import { createEngine } from "@fdnext/core";
-import { loadResourcesFromDir } from "@fdnext/core/node";
-import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@fdnext/dsl";
+import { createEngine } from "@itxtech/fdnext-core";
+import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
+import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
 
 function resourceDir(): string {
   return resolve(process.env.FDNEXT_RESOURCES ?? resolve(process.cwd(), "resources"));
