@@ -5,6 +5,7 @@
     { "path": "./packages/dsl" },
     { "path": "./packages/server" },
     { "path": "./packages/cli" },
-    { "path": "./packages/compat-test" }
+    { "path": "./packages/compat-test" },
+    { "path": "./packages/fdbgen" }
   ]
 }

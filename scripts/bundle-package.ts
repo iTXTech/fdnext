@@ -158,6 +158,21 @@ async function main() {
       });
       return;
     }
+    case "fdbgen": {
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/fdbgen/src/index.ts"),
+        outfile: resolve(root, "packages/fdbgen/dist/index.js"),
+        platform: "node",
+        banner: nodeBanner({ shebang: false })
+      });
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/fdbgen/src/cli.ts"),
+        outfile: resolve(root, "packages/fdbgen/dist/cli.js"),
+        platform: "node",
+        banner: nodeBanner({ shebang: true })
+      });
+      return;
+    }
     default:
       throw new Error(`Unknown package for bundling: ${pkg} (cwd=${process.cwd()})`);
   }

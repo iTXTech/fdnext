@@ -1,0 +1,20 @@
+{
+  "name": "@fdnext/fdbgen",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "fdnext-fdbgen": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
+    "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
+  }
+}

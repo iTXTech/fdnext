@@ -1,24 +1,30 @@
 # fdnext
 
-`FlashDetector` 的 TypeScript 重写版本（上游：<https://github.com/iTXTech/FlashDetector>），目标是：
+`fdnext` 是 [FlashDetector](https://github.com/iTXTech/FlashDetector) 的 TypeScript 实现，采用多包架构，覆盖核心解码引擎、DSL 规则编译、HTTP 服务、CLI 工具、兼容性回归和独立 FDB 生成能力。
 
-- 模块化：核心引擎、HTTP 服务、CLI、DSL 解码规则分层清晰
-- 低耦合：`@fdnext/core` 不内置厂商解析逻辑
-- 高内聚：厂商解析逻辑以 DSL 规则包形式沉淀在 `@fdnext/dsl`
-- 可集成：核心引擎可在浏览器/Node.js 环境使用（无运行时网络依赖）
+## 主要特性
 
-## 上游与数据来源
+- ESM 优先的 monorepo，使用严格 TypeScript 配置
+- `@fdnext/core` 可用于 Node.js 与浏览器环境，无运行时网络依赖
+- 基于 JSON DSL 的 PN / FlashId 规则编译与扩展
+- 支持请求级 Processor 管线，可在 SDK、Server、CLI 统一接入
+- 提供独立的 TypeScript FDB 生成器 `@fdnext/fdbgen`
 
-- 上游项目：<https://github.com/iTXTech/FlashDetector>
-- Flash 数据库（RAW fdfdb）：<https://github.com/iTXTech/fdfdb>
-- 说明：本仓库的 `resources/` 与解码行为以 FlashDetector 为兼容基准，并通过 `pnpm compat:ci` 做回归对齐。
+## 包结构
 
-## 运行环境
+- `@fdnext/core`：解码与搜索引擎、SDK 能力
+- `@fdnext/dsl`：DSL 规则与解码器编译器
+- `@fdnext/server`：基于 Hapi 的 HTTP 服务
+- `@fdnext/cli`：命令行工具
+- `@fdnext/fdbgen`：独立 FDB 生成器与 CLI
+- `@fdnext/compat-test`：兼容性夹具与差异对比工具
 
-- Node.js: `>= 24`
-- 包管理器: `pnpm`
+## 环境要求
 
-## 开发（仓库内）
+- Node.js `>= 24`
+- `pnpm`
+
+## 快速开始
 
 ```bash
 pnpm install
@@ -26,38 +32,56 @@ pnpm sync:resources
 pnpm build
 ```
 
-## 快速入口
+## 文档
 
-- 集成（Node/浏览器/服务端）：见 `docs/INTEGRATION.md`
-- DSL 规范（PN + FlashId）：见 `docs/DSL_SPEC.md`
+- [集成指南](docs/INTEGRATION.md)
+- [DSL 规范](docs/DSL_SPEC.md)
+- [FDBGen 文档](docs/FDBGEN.md)
 
-## 主要包
+## FDBGen 使用说明
 
-- `@fdnext/core`：纯解码/搜索引擎（可在浏览器运行，支持请求级 Processor 管线与扩展 SDK）
-- `@fdnext/dsl`：DSL schema + 编译器（把规则编译为 core 可用的 decoder）
-- `@fdnext/server`：HTTP 服务（兼容原 FDWebServer 的接口形状）
-- `@fdnext/cli`：命令行工具
-- `@fdnext/compat-test`：兼容性测试夹具与 diff 工具
+`@fdnext/fdbgen` 可从本地数据集生成 `fdb.json`：
 
-## 支持范围（对齐上游）
+```bash
+fdnext-fdbgen build --input <dataset-dir> --output <fdb.json> [options]
+```
 
-- Flash Vendors：Intel/Solidigm、Micron、Samsung、SK hynix、Kioxia/Toshiba、Western Digital/SanDisk、YMTC、SpecTek
-- Controller Vendors：Silicon Motion、ASolid、JMicron、Maxio、SandForce/Seagate、Chipsbank、Alcor Micro、Phison
+可选参数：
+
+- `--meta <file>`：元信息覆盖文件
+- `--extra <file>`：额外合并补丁文件
+- `--version <ver>`：覆盖 `info.version`
+- `--name <name>`：覆盖 `info.name`
+- `--website <url>`：覆盖 `info.website`
+- `--time <text>`：覆盖 `info.time`
+- `--pretty`：格式化输出 JSON
+
+输入目录约定（均为可选）：
+
+- `fdb.json`：基础数据
+- `vendors/*.json`：按厂商拆分的 PN 记录
+- `iddb/*.json` 或 `flashids/*.json`：FlashId 记录
+- `meta.json`：默认元信息
+- `extra.json`：对 `info/vendors/iddb` 的补丁合并
 
 ## 兼容性回归
 
-该仓库内置 “PHP vs TS” 夹具对比（用于迁移/重构时的行为回归控制）：
+仓库内置 PHP 与 TS 的行为对比流程：
 
 ```bash
 pnpm compat:ci
 ```
 
-可通过环境变量指定依赖路径：
+夹具工具依赖的环境变量：
 
 - `SF_HOME=/path/to/SimpleFramework`
 - `FDNEXT_FLASHDETECTOR=/path/to/FlashDetector`
 
-## 许可证与声明（重要）
+## 数据来源
 
-- 上游 FlashDetector 自版本 69 起采用 `AGPL-3.0-or-later` 开源；衍生项目（包括以网络服务形式提供）需遵循 AGPL 的开源义务。
-- 本仓库同样以 `AGPL-3.0-or-later` 发布，详情以 `LICENSE` 为准。
+- 上游项目：[iTXTech/FlashDetector](https://github.com/iTXTech/FlashDetector)
+- Flash 数据源：[iTXTech/fdfdb](https://github.com/iTXTech/fdfdb)
+
+## 许可证
+
+本项目以 `AGPL-3.0-or-later` 发布，详见 [LICENSE](LICENSE)。
