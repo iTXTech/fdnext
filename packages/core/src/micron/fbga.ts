@@ -1,7 +1,7 @@
 import { UNKNOWN } from "../constants";
 import type { FlashInfo } from "../types";
 
-const MICRON_FBGA_HEADERS = ["NW", "NX", "NQ", "PF", "NY", "NC"] as const;
+const MICRON_FBGA_HEADERS = ["NW", "NX", "NQ", "PF", "NY", "NC", "NV"] as const;
 
 const MICRON_FBGA_COUNTRY: Record<string, string> = {
   "1": "cty_us",
@@ -79,4 +79,3 @@ export function applyMicronFbgaMeta(base: FlashInfo, parsed: MicronFbgaParsed, r
 
   return out;
 }
-

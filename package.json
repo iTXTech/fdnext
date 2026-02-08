@@ -16,6 +16,7 @@
     "sync:resources": "pnpm -s tsx ./scripts/sync-resources.ts",
     "fdbgen:build": "pnpm -C packages/fdbgen build",
     "fdbgen:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build",
+    "fdbgen:crawl-mdb": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb",
     "fixtures:gen": "pnpm -s tsx ./scripts/gen-fixtures.ts",
     "compat:diff": "pnpm -s tsx ./scripts/diff-php-ts.ts",
     "compat:ci": "pnpm build && pnpm fixtures:gen && pnpm compat:diff"

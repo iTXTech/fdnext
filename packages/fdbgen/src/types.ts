@@ -43,3 +43,49 @@ export interface GenerateFdbOptions {
   time?: string;
   pretty?: boolean;
 }
+
+export interface MdbPayload {
+  micron: Record<string, string>;
+  spectek: Record<string, string[]>;
+}
+
+export interface MdbCrawlSectionStats {
+  requests: number;
+  hits: number;
+  misses: number;
+  skips: number;
+  errors: number;
+}
+
+export interface MdbCrawlStats {
+  micron: MdbCrawlSectionStats;
+  spectek: MdbCrawlSectionStats;
+  durationMs: number;
+}
+
+export interface CrawlMdbResult {
+  data: MdbPayload;
+  stats: MdbCrawlStats;
+}
+
+export interface MdbQueryOptions {
+  userAgent?: string;
+  timeoutMs?: number;
+  fetchImpl?: (
+    input: string,
+    init?: { method?: string; headers?: Record<string, string>; body?: string; signal?: AbortSignal }
+  ) => Promise<{ ok: boolean; status: number; text(): Promise<string>; json(): Promise<unknown> }>;
+}
+
+export interface CrawlMdbOptions extends MdbQueryOptions {
+  file?: string;
+  pretty?: boolean;
+  saveEachHit?: boolean;
+  delayMs?: number;
+  micronHeaders?: string[];
+  spectekHeaders?: string[];
+  micronStartFrom?: Record<string, number>;
+  micronMax?: number;
+  spectekMax?: number;
+  logger?: (message: string) => void;
+}

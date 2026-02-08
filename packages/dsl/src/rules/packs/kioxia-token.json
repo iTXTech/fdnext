@@ -128,7 +128,9 @@
           "3": "BiCS3",
           "4": "BiCS4",
           "M": "BiCS4.5",
-          "5": "BiCS5"
+          "5": "BiCS5",
+          "6": "BiCS6",
+          "8": "BiCS8"
         },
         "basePackage": { "FT": "TSOP48", "TG": "TSOP48", "TA": "TSOP48", "XB": "BGA", "XG": "BGA", "BA": "BGA", "BB": "BGA", "XL": "LGA", "LA": "LGA" },
         "ch": { "0": 1, "I": 1, "2": 1, "K": 1, "4": 2, "M": 2, "7": 1, "R": 1, "8": 2, "S": 2, "A": 2, "U": 2, "B": 2, "V": 2, "D": 4, "E": 4 },
@@ -166,7 +168,8 @@
           "BGA:J": "BGA152",
           "BGA:K": "BGA152",
           "BGA:N": "BGA152",
-          "BGA:P": "BGA132"
+          "BGA:P": "BGA132",
+          "BGA:S": "BGA154"
         }
       },
       "steps": [
@@ -333,7 +336,9 @@
           "3": "BiCS3",
           "4": "BiCS4",
           "M": "BiCS4.5",
-          "5": "BiCS5"
+          "5": "BiCS5",
+          "6": "BiCS6",
+          "8": "BiCS8"
         },
         "basePackage": { "FT": "TSOP48", "TG": "TSOP48", "TA": "TSOP48", "XB": "BGA", "XG": "BGA", "BA": "BGA", "BB": "BGA", "XL": "LGA", "LA": "LGA" },
         "ch": { "0": 1, "I": 1, "2": 1, "K": 1, "4": 2, "M": 2, "7": 1, "R": 1, "8": 2, "S": 2, "A": 2, "U": 2, "B": 2, "V": 2, "D": 4, "E": 4 },
@@ -371,7 +376,8 @@
           "BGA:J": "BGA152",
           "BGA:K": "BGA152",
           "BGA:N": "BGA152",
-          "BGA:P": "BGA132"
+          "BGA:P": "BGA132",
+          "BGA:S": "BGA154"
         }
       },
       "steps": [

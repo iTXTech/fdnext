@@ -31,6 +31,20 @@ node packages/fdbgen/dist/cli.js build --input <dataset-dir> --output <fdb.json>
 pnpm fdbgen:generate -- --input <dataset-dir> --output <fdb.json> [options]
 ```
 
+`mdb` 爬取工具（参考 FlashDetector 的 `microndb` 流程）：
+
+```bash
+node packages/fdbgen/dist/cli.js crawl-mdb --file <mdb.json> [options]
+```
+
+或使用根脚本：
+
+```bash
+pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
+```
+
+说明：SpecTek 查询沿用旧版 ASPX 页面流程（`https://www.spectek.com/menus/mark_code.aspx`），通过提交表单后解析页面 DOM 表格，不依赖新接口。
+
 ### 参数
 
 - `--input <dir>`：输入目录（必填）
@@ -42,6 +56,15 @@ pnpm fdbgen:generate -- --input <dataset-dir> --output <fdb.json> [options]
 - `--website <url>`：覆盖 `info.website`
 - `--time <text>`：覆盖 `info.time`
 - `--pretty`：格式化输出 JSON
+
+`crawl-mdb` 额外参数：
+
+- `--file <path>`：`mdb.json` 文件路径（必填）
+- `--micron-max <n>`：Micron 爬取上界（不含，默认 `1000`）
+- `--spectek-max <n>`：SpecTek 爬取上界（不含，默认按前缀自动计算）
+- `--delay-ms <n>`：每次请求间隔（毫秒）
+- `--user-agent <ua>`：自定义请求 UA
+- `--no-save-each-hit`：仅在结束时写盘（默认命中即写盘，便于中断续跑）
 
 ## 输入目录约定
 
@@ -194,6 +217,17 @@ import { generateFdb } from "@itxtech/fdnext-fdbgen";
 const fdb = generateFdb({
   inputDir: "./dataset",
   outputFile: "./resources/fdb.json",
+  pretty: true
+});
+```
+
+`mdb` 爬取 SDK：
+
+```ts
+import { crawlMdb } from "@itxtech/fdnext-fdbgen";
+
+await crawlMdb({
+  file: "./resources/mdb.json",
   pretty: true
 });
 ```

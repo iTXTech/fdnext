@@ -64,6 +64,12 @@ fdnext-fdbgen build --input <dataset-dir> --output <fdb.json> [options]
 - `meta.json`：默认元信息
 - `extra.json`：对 `info/vendors/iddb` 的补丁合并
 
+`mdb` 爬取（Micron + SpecTek）：
+
+```bash
+pnpm fdbgen:crawl-mdb -- --file resources/mdb.json
+```
+
 ## 兼容性回归
 
 仓库内置 PHP 与 TS 的行为对比流程：

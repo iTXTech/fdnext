@@ -2,6 +2,7 @@
 
 import { resolve } from "node:path";
 import { generateFdb } from "./fdbgen";
+import { crawlMdb } from "./mdb";
 
 interface CliOptions {
   inputDir?: string;
@@ -13,14 +14,21 @@ interface CliOptions {
   website?: string;
   time?: string;
   pretty?: boolean;
+  file?: string;
+  micronMax?: number;
+  spectekMax?: number;
+  delayMs?: number;
+  saveEachHit?: boolean;
+  userAgent?: string;
 }
 
 function usage(): string {
   return [
     "Usage:",
     "  fdnext-fdbgen build --input <dir> --output <file> [options]",
+    "  fdnext-fdbgen crawl-mdb --file <mdb.json> [options]",
     "",
-    "Options:",
+    "Build options:",
     "  --input <dir>       Input dataset directory",
     "  --output <file>     Output fdb.json path",
     "  --meta <file>       Optional metadata JSON path",
@@ -30,6 +38,14 @@ function usage(): string {
     "  --website <url>     Override info.website",
     "  --time <text>       Override info.time",
     "  --pretty            Write pretty JSON",
+    "",
+    "MDB crawl options:",
+    "  --file <path>       mdb.json file path for read/write",
+    "  --micron-max <n>    Micron upper bound (exclusive, default 1000)",
+    "  --spectek-max <n>   SpecTek upper bound (exclusive, optional)",
+    "  --delay-ms <n>      Delay between requests in milliseconds",
+    "  --user-agent <ua>   Custom HTTP User-Agent",
+    "  --no-save-each-hit  Save only once at the end",
     "  -h, --help          Show help"
   ].join("\n");
 }
@@ -99,6 +115,67 @@ function parseBuildOptions(args: string[]): CliOptions {
   return options;
 }
 
+function parseIntegerFlag(args: string[], index: number, flag: string): number {
+  const raw = requireValue(args, index, flag);
+  const value = Number.parseInt(raw, 10);
+  if (!Number.isFinite(value)) {
+    throw new Error(`Invalid value for ${flag}: ${raw}`);
+  }
+  return value;
+}
+
+function parseCrawlOptions(args: string[]): CliOptions {
+  const options: CliOptions = {
+    saveEachHit: true
+  };
+  for (let i = 0; i < args.length; i += 1) {
+    const arg = args[i];
+    if (arg === "--file") {
+      options.file = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--pretty") {
+      options.pretty = true;
+      continue;
+    }
+    if (arg === "--micron-max") {
+      options.micronMax = parseIntegerFlag(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--spectek-max") {
+      options.spectekMax = parseIntegerFlag(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--delay-ms") {
+      options.delayMs = parseIntegerFlag(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--user-agent") {
+      options.userAgent = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--no-save-each-hit") {
+      options.saveEachHit = false;
+      continue;
+    }
+    if (arg === "--save-each-hit") {
+      options.saveEachHit = true;
+      continue;
+    }
+    if (arg === "-h" || arg === "--help") {
+      process.stdout.write(`${usage()}\n`);
+      process.exit(0);
+    }
+    throw new Error(`Unknown argument: ${arg}`);
+  }
+  return options;
+}
+
 function runBuild(args: string[]): void {
   const opts = parseBuildOptions(args);
   if (!opts.inputDir) {
@@ -123,7 +200,37 @@ function runBuild(args: string[]): void {
   process.stdout.write(`FDB generated: ${resolve(opts.outputFile)}\n`);
 }
 
-function main(): void {
+async function runCrawlMdb(args: string[]): Promise<void> {
+  const opts = parseCrawlOptions(args);
+  if (!opts.file) {
+    throw new Error("Missing required --file");
+  }
+
+  const targetFile = resolve(opts.file);
+  const result = await crawlMdb({
+    file: targetFile,
+    pretty: opts.pretty ?? false,
+    saveEachHit: opts.saveEachHit ?? true,
+    micronMax: opts.micronMax,
+    spectekMax: opts.spectekMax,
+    delayMs: opts.delayMs,
+    userAgent: opts.userAgent,
+    logger: (line) => {
+      console.debug(line);
+    }
+  });
+
+  process.stdout.write(`MDB crawl completed: ${targetFile}\n`);
+  process.stdout.write(
+    `Micron req=${result.stats.micron.requests} hit=${result.stats.micron.hits} miss=${result.stats.micron.misses} skip=${result.stats.micron.skips} err=${result.stats.micron.errors}\n`
+  );
+  process.stdout.write(
+    `SpecTek req=${result.stats.spectek.requests} hit=${result.stats.spectek.hits} miss=${result.stats.spectek.misses} skip=${result.stats.spectek.skips} err=${result.stats.spectek.errors}\n`
+  );
+  process.stdout.write(`Duration=${result.stats.durationMs}ms\n`);
+}
+
+async function main(): Promise<void> {
   const command = process.argv[2];
   if (!command || command === "-h" || command === "--help") {
     process.stdout.write(`${usage()}\n`);
@@ -133,11 +240,15 @@ function main(): void {
     runBuild(process.argv.slice(3));
     return;
   }
+  if (command === "crawl-mdb") {
+    await runCrawlMdb(process.argv.slice(3));
+    return;
+  }
   throw new Error(`Unknown command: ${command}`);
 }
 
 try {
-  main();
+  await main();
 } catch (error: unknown) {
   const text = error instanceof Error ? error.message : String(error);
   process.stderr.write(`${text}\n`);
