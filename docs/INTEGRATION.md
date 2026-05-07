@@ -110,14 +110,20 @@ const engine = createEngine({
 
 ```bash
 pnpm install
-pnpm -C packages/server build
-node packages/server/dist/bin.js --host 0.0.0.0 --port 8080
+pnpm server:dev
 ```
 
 如需指定外部资源目录，增加参数：
 
 ```bash
-node packages/server/dist/bin.js --host 0.0.0.0 --port 8080 --resources /path/to/resources
+pnpm -C packages/server dev -- --resources /path/to/resources
+```
+
+构建后运行生产入口：
+
+```bash
+pnpm -C packages/server build
+pnpm server:start
 ```
 
 ### 3.2 Docker（最小镜像）
