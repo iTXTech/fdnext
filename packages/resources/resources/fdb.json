@@ -8654,9 +8654,7 @@
                 "SM3282BB"
             ],
             "n": [
-                "micron EMT29F1T08EEHAF",
-                "micron EMT29F2T08EMHAF",
-                "micron EMT29F512G08EBHAF",
+                "micron MT29F1T08EEHAF",
                 "micron MT29F2T08EMHAF",
                 "micron MT29F512G08EBHAF"
             ]
@@ -9796,7 +9794,6 @@
                 "SM3280BB"
             ],
             "n": [
-                "micron EMT29F4T08EUHAF",
                 "micron FBMB17A4T1KDUAN",
                 "micron MT29F256G08EBHAF",
                 "micron MT29F4T08EUHAF",
@@ -64416,42 +64413,6 @@
                 "CBM2098P"
             ]
         },
-        "EMT29F1T08EEHAF": {
-            "id": [
-                "2CC40832A601"
-            ],
-            "t": [
-                "MAS0902",
-                "MAS1102"
-            ]
-        },
-        "EMT29F2T08EMHAF": {
-            "id": [
-                "2CC40832A601"
-            ],
-            "t": [
-                "MAS0902",
-                "MAS1102"
-            ]
-        },
-        "EMT29F4T08EUHAF": {
-            "id": [
-                "2CD48932A601"
-            ],
-            "t": [
-                "MAS0902",
-                "MAS1102"
-            ]
-        },
-        "EMT29F512G08EBHAF": {
-            "id": [
-                "2CC40832A601"
-            ],
-            "t": [
-                "MAS0902",
-                "MAS1102"
-            ]
-        },
         "FBMB17A4T1KDUAN": {
             "id": [
                 "2CD48932A601"
@@ -66989,7 +66950,8 @@
         },
         "MT29F1T08EEHAF": {
             "id": [
-                "2CC40832A600"
+                "2CC40832A600",
+                "2CC40832A601"
             ],
             "l": "B17A 3D",
             "c": "TLC",

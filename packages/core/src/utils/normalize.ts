@@ -2,8 +2,12 @@ import { removeChars } from "./string";
 
 const PN_REMOVALS = [" ", ",", "&", ".", "|"];
 
+function normalizePartNumberAlias(partNumber: string): string {
+  return partNumber.replace(/^EMT29F/, "MT29F");
+}
+
 export function normalizePartNumber(partNumber: string): string {
-  return removeChars(partNumber.toUpperCase().replace(/\uFFFD/g, "-"), PN_REMOVALS);
+  return normalizePartNumberAlias(removeChars(partNumber.toUpperCase().replace(/\uFFFD/g, "-"), PN_REMOVALS));
 }
 
 export function normalizeFlashId(id: string): string {

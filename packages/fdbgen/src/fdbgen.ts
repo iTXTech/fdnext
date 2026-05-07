@@ -17,11 +17,12 @@ function readJson(path: string): unknown {
 }
 
 function normalizePartNumber(partNumber: string): string {
-  return partNumber
+  const normalized = partNumber
     .trim()
     .toUpperCase()
     .replace(/\uFFFD/g, "-")
     .replace(/[ ,&.|]/g, "");
+  return normalized.replace(/^EMT29F/, "MT29F");
 }
 
 function normalizeFlashId(id: string): string | null {

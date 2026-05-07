@@ -248,6 +248,67 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
   // Default processors should run before user-injected ones.
   processors.unshift(createDefaultFlashIdProcessor());
 
+  const applyFlashIdProcessors = (info: FlashIdInfo): FlashIdInfo => {
+    let next = info;
+    for (const processor of processors) {
+      if (processor.flashIdInfo) {
+        next = processor.flashIdInfo(next);
+      }
+    }
+    return next;
+  };
+
+  const decodeFlashIdRaw = (id: string): FlashIdInfo => {
+    const normalized = normalizeFlashId(id);
+    const padded = padFlashId(normalized);
+    let info: FlashIdInfo | null = null;
+
+    for (const decoder of flashIdDecoders) {
+      if (decoder.check(padded)) {
+        const decoded = decoder.decode(padded);
+        if (decoded) {
+          info = {
+            id: padded,
+            vendor: UNKNOWN,
+            ...decoded
+          };
+          break;
+        }
+      }
+    }
+
+    if (!info) {
+      info = {
+        id: padded,
+        vendor: inferVendorFromFlashId(padded)
+      };
+    }
+
+    const flashIdRecord = findFlashIdRecord(fdb, padded);
+    if (flashIdRecord) {
+      info.controllers = flashIdRecord.t ?? [];
+      info.partNumbers = flashIdRecord.n ?? [];
+      const fdbVendor = inferSingleVendorFromPartReferences(flashIdRecord.n);
+      if (fdbVendor && info.vendor !== fdbVendor) {
+        info.vendor = fdbVendor;
+      }
+    }
+
+    return applyFlashIdProcessors(info);
+  };
+
+  const processNodeFromFlashIds = (ids: string[] | undefined): string | undefined => {
+    const nodes = new Set<string>();
+    for (const id of ids ?? []) {
+      const decoded = decodeFlashIdRaw(id);
+      const processNode = typeof decoded.processNode === "string" ? decoded.processNode.trim() : "";
+      if (processNode && processNode !== UNKNOWN) {
+        nodes.add(processNode);
+      }
+    }
+    return nodes.size > 0 ? [...nodes].join(" / ") : undefined;
+  };
+
   const combineFromFdb = (info: FlashInfo): FlashInfo => {
     // PHP uses `self::` in Micron::getFlashInfoFromFdb(), so SpecTek (which inherits it) looks up Micron FDB entries
     // instead of SpecTek ones. This means SpecTek part numbers generally do not get FDB-combined fields in PHP.
@@ -272,6 +333,13 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
 
     if ((info.processNode == null || info.processNode === UNKNOWN) && record.l) {
       info.processNode = record.l;
+    }
+
+    if (info.processNode == null || info.processNode === UNKNOWN) {
+      const processNode = processNodeFromFlashIds(record.id);
+      if (processNode) {
+        info.processNode = processNode;
+      }
     }
 
     if (info.cellLevel == null && record.c) {
@@ -394,16 +462,6 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     return toPublicFlashInfo(processed, langPacks, fallbackLang, opts.lang);
   };
 
-  const applyFlashIdProcessors = (info: FlashIdInfo): FlashIdInfo => {
-    let next = info;
-    for (const processor of processors) {
-      if (processor.flashIdInfo) {
-        next = processor.flashIdInfo(next);
-      }
-    }
-    return next;
-  };
-
   const getVersion = (): string => String(fdb.info.version);
 
   const getInfo = (): FlashDetectorInfo => {
@@ -438,42 +496,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
   };
 
   const decodeFlashId = (id: string, opts: DecodeOptions = {}): FlashIdInfo => {
-    const normalized = normalizeFlashId(id);
-    const padded = padFlashId(normalized);
-    let info: FlashIdInfo | null = null;
-
-    for (const decoder of flashIdDecoders) {
-      if (decoder.check(padded)) {
-        const decoded = decoder.decode(padded);
-        if (decoded) {
-          info = {
-            id: padded,
-            vendor: UNKNOWN,
-            ...decoded
-          };
-          break;
-        }
-      }
-    }
-
-    if (!info) {
-      info = {
-        id: padded,
-        vendor: inferVendorFromFlashId(padded)
-      };
-    }
-
-    const flashIdRecord = findFlashIdRecord(fdb, padded);
-    if (flashIdRecord) {
-      info.controllers = flashIdRecord.t ?? [];
-      info.partNumbers = flashIdRecord.n ?? [];
-      const fdbVendor = inferSingleVendorFromPartReferences(flashIdRecord.n);
-      if (fdbVendor && info.vendor !== fdbVendor) {
-        info.vendor = fdbVendor;
-      }
-    }
-
-    const processed = applyFlashIdProcessors(info);
+    const processed = decodeFlashIdRaw(id);
     return toPublicFlashIdInfo(processed, langPacks, fallbackLang, opts.lang);
   };
 

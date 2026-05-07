@@ -24,6 +24,8 @@
   "renesas": "Renesas",
   "smic": "SMIC",
   "spansion": "Spansion",
+  "fujitsu": "Fujitsu",
+  "qimonda": "Qimonda",
   "winbond": "Winbond",
   "original_vendor": "Original Vendor",
   "nand": "NAND",
