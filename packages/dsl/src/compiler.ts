@@ -29,6 +29,13 @@ function isTplExpr(value: unknown): value is { $tpl: string } {
   return typeof value === "object" && value !== null && "$tpl" in value;
 }
 
+function cloneJson<T>(value: T): T {
+  if (value && typeof value === "object") {
+    return JSON.parse(JSON.stringify(value)) as T;
+  }
+  return value;
+}
+
 function evaluateExpr(expr: DslExpr, context: Record<string, unknown>): unknown {
   if (isVarExpr(expr)) {
     return context[expr.$var];
@@ -121,7 +128,7 @@ function runTokenDecoder(partNumber: string, decoder: DslTokenDecoder): Partial<
     }
 
     if (step.op === "set") {
-      context[step.to] = step.value;
+      context[step.to] = cloneJson(step.value);
       continue;
     }
 

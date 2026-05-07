@@ -1,5 +1,322 @@
 [
   {
+    "id": "vendor.samsung.ufs.token.v1",
+    "priority": 960,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|", "-"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^KLU(?:AG|BG|CG|DG|EG|FG|GG|HG)[1248A][GJKVURNL][1H][BCDEFGHJYZ][0-9A-Z](?:[BCEF][0-9A-Z][BCDEFG][12PQ])?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["KLU"],
+      "tables": {
+        "density": {
+          "AG": 131072,
+          "BG": 262144,
+          "CG": 524288,
+          "DG": 1048576,
+          "EG": 2097152,
+          "FG": 4194304,
+          "GG": 8388608,
+          "HG": 16777216
+        },
+        "dieStack": {
+          "1": 1,
+          "2": 2,
+          "4": 4,
+          "8": 8,
+          "A": 16
+        },
+        "dieStackInfo": {
+          "1": { "die_stack": "SDP (1-die)" },
+          "2": { "die_stack": "DDP (2-die)" },
+          "4": { "die_stack": "QDP (4-die)" },
+          "8": { "die_stack": "ODP (8-die)" },
+          "A": { "die_stack": "HDP (16-die)" }
+        },
+        "cellLevel": {
+          "G": 2,
+          "J": 2,
+          "K": 2,
+          "V": 3,
+          "U": 3,
+          "R": 3,
+          "N": 3,
+          "L": 4
+        },
+        "dieDensityObj": {
+          "G": { "die_density": "64Gb" },
+          "J": { "die_density": "128Gb" },
+          "K": { "die_density": "256Gb" },
+          "V": { "die_density": "128Gb" },
+          "U": { "die_density": "256Gb" },
+          "R": { "die_density": "512Gb" },
+          "N": { "die_density": "1Tb" },
+          "L": { "die_density": "1Tb" }
+        },
+        "voltage": {
+          "1": "Vcc: 3.30V, VccQ: 1.80V",
+          "H": "Vcc: 2.50V, VccQ: 1.20V"
+        },
+        "controller": {
+          "B": { "controller": "UFS 2.0 G2-2Lane Controller" },
+          "C": { "controller": "UFS 2.0 G3-1Lane Controller" },
+          "D": { "controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller" },
+          "E": { "controller": "UFS 2.1/2.0 G3-2Lane Controller" },
+          "F": { "controller": "UFS 2.1 G3-2Lane Controller" },
+          "G": { "controller": "UFS 3.1 G4-2Lane Controller" },
+          "H": { "controller": "UFS 4.0 G5-2Lane Controller" },
+          "J": { "controller": "UFS 3.1 G4-2Lane Controller" },
+          "Y": { "controller": "UFS 3.1/2.1 G4-2Lane Controller (Automotive Grade only)" },
+          "Z": { "controller": "UFS 2.1 G3-2Lane Controller (Automotive Grade only)" }
+        },
+        "nandGeneration": {
+          "G:D": "16nm",
+          "G:E": "14nm",
+          "G:F": "14nm",
+          "J:B": "14nm",
+          "J:D": "14nm",
+          "K:A": "V4 64L",
+          "V:E": "V3 48L",
+          "V:M": "V3 48L",
+          "U:A": "V4 64L",
+          "U:B": "V5 92L",
+          "U:C": "V6 128L",
+          "R:M": "V4 64L",
+          "R:A": "V5 92L",
+          "R:B": "V6 128L",
+          "R:D": "V7 176L",
+          "R:E": "V6P 133L",
+          "R:F": "V8 236L",
+          "N:B": "V8 236L",
+          "N:D": "V9 280L",
+          "L:C": "V7 176L",
+          "L:D": "V9 280L"
+        },
+        "package": {
+          "B": "BGA-153 11.5x13 / 11x13",
+          "C": "BGA-153 11.5x13 Revision",
+          "E": "BGA-95 11.5x13",
+          "F": "BGA-153 9x13"
+        },
+        "versionObj": {
+          "B": { "product_version": "UFS 2.0" },
+          "C": { "product_version": "UFS 2.1" },
+          "D": { "product_version": "UFS 3.0" },
+          "E": { "product_version": "UFS 3.1" },
+          "F": { "product_version": "UFS 2.2" },
+          "G": { "product_version": "UFS 4.0" }
+        },
+        "temperature": {
+          "1": { "opTemp": "-25°C ~ 85°C Extended Commercial" },
+          "2": { "opTemp": "-40°C ~ 85°C" },
+          "P": { "opTemp": "-40°C ~ 95°C Automotive Grade 3" },
+          "Q": { "opTemp": "-40°C ~ 105°C Automotive Grade 2" }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 2, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 1, "to": "dieStackCode" },
+        { "op": "map", "from": "dieStackCode", "table": "dieStack", "to": "die", "default": -1 },
+        { "op": "map", "from": "dieStackCode", "table": "dieStackInfo", "to": "dieStackObj", "default": {} },
+        { "op": "take", "len": 1, "to": "dieTypeCode" },
+        { "op": "map", "from": "dieTypeCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
+        { "op": "map", "from": "dieTypeCode", "table": "dieDensityObj", "to": "dieDensityObj", "default": {} },
+        { "op": "take", "len": 1, "to": "voltageCode" },
+        { "op": "map", "from": "voltageCode", "table": "voltage", "to": "voltage", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "controllerCode" },
+        { "op": "map", "from": "controllerCode", "table": "controller", "to": "controllerObj", "default": {} },
+        { "op": "take", "len": 1, "to": "generationCode" },
+        { "op": "tpl", "template": "{{dieTypeCode}}:{{generationCode}}", "to": "nandGenerationKey" },
+        { "op": "map", "from": "nandGenerationKey", "table": "nandGeneration", "to": "processNode", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "reservedCode" },
+        { "op": "take", "len": 1, "to": "versionCode" },
+        { "op": "map", "from": "versionCode", "table": "versionObj", "to": "versionObj", "default": {} },
+        { "op": "take", "len": 1, "to": "temperatureCode" },
+        { "op": "map", "from": "temperatureCode", "table": "temperature", "to": "temperatureObj", "default": {} },
+        { "op": "set", "to": "extra", "value": { "system": "moviNAND/MCP", "group": "UFS" } },
+        { "op": "merge", "into": "extra", "from": "dieStackObj" },
+        { "op": "merge", "into": "extra", "from": "dieDensityObj" },
+        { "op": "merge", "into": "extra", "from": "controllerObj" },
+        { "op": "merge", "into": "extra", "from": "versionObj" },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+      ],
+      "assign": {
+        "vendor": "samsung",
+        "type": "ufs",
+        "density": { "$var": "density" },
+        "cellLevel": { "$var": "cellLevel" },
+        "voltage": { "$var": "voltage" },
+        "processNode": { "$var": "processNode" },
+        "package": { "$var": "package" },
+        "classification": { "die": { "$var": "die" } },
+        "extraInfo": { "$var": "extra" }
+      }
+    }
+  },
+  {
+    "id": "vendor.samsung.emmc.token.v1",
+    "priority": 960,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^KLM(?:4G|8G|AG|BG|CG|DG|EG|FG)[1248AI][FGJKVURNL][CE][0-9A-Z][0-9A-Z](?:-[BCEF][0-9A-Z][0-9A-Z][12PQ])?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["KLM"],
+      "tables": {
+        "density": {
+          "4G": 32768,
+          "8G": 65536,
+          "AG": 131072,
+          "BG": 262144,
+          "CG": 524288,
+          "DG": 1048576,
+          "EG": 2097152,
+          "FG": 4194304
+        },
+        "dieStack": {
+          "1": 1,
+          "2": 2,
+          "4": 4,
+          "8": 8,
+          "A": 16,
+          "I": 1
+        },
+        "dieStackInfo": {
+          "1": { "die_stack": "SDP (1-die)" },
+          "2": { "die_stack": "DDP (2-die)" },
+          "4": { "die_stack": "QDP (4-die)" },
+          "8": { "die_stack": "ODP (8-die)" },
+          "A": { "die_stack": "HDP (16-die)" },
+          "I": { "die_stack": "SDP (1-die)" }
+        },
+        "cellLevel": {
+          "F": 2,
+          "G": 2,
+          "J": 2,
+          "K": 2,
+          "V": 3,
+          "U": 3,
+          "R": 3,
+          "N": 3,
+          "L": 4
+        },
+        "dieDensityObj": {
+          "F": { "die_density": "32Gb" },
+          "G": { "die_density": "64Gb" },
+          "J": { "die_density": "128Gb" },
+          "K": { "die_density": "256Gb" },
+          "V": { "die_density": "128Gb" },
+          "U": { "die_density": "256Gb" },
+          "R": { "die_density": "512Gb" },
+          "N": { "die_density": "1Tb" },
+          "L": { "die_density": "1Tb" }
+        },
+        "voltage": {
+          "C": "VDD: 2.7V ~ 3.6V, VDDQ: 1.7V ~ 1.95V / 2.7V ~ 3.6V",
+          "E": "VDD: 2.7V ~ 3.6V, VDDQ: 1.7V ~ 1.95V / 2.7V ~ 3.6V"
+        },
+        "controller": {
+          "M": { "controller": "eMMC 5.1 Controller" },
+          "N": { "controller": "eMMC 5.1 Controller" },
+          "T": { "controller": "eMMC 5.1 Controller" }
+        },
+        "nandGeneration": {
+          "G:D": "16nm",
+          "G:E": "14nm",
+          "G:F": "14nm",
+          "J:B": "14nm",
+          "J:D": "14nm",
+          "K:A": "V4 64L",
+          "V:E": "V3 48L",
+          "V:M": "V3 48L",
+          "U:A": "V4 64L",
+          "U:B": "V5 92L",
+          "U:C": "V6 128L",
+          "R:M": "V4 64L",
+          "R:A": "V5 92L",
+          "R:B": "V6 128L",
+          "R:D": "V7 176L",
+          "R:E": "V6P 133L",
+          "R:F": "V8 236L",
+          "N:B": "V8 236L",
+          "N:D": "V9 280L",
+          "L:C": "V7 176L",
+          "L:D": "V9 280L"
+        },
+        "package": {
+          "B": "BGA-153 11.5x13"
+        },
+        "versionObj": {
+          "4": { "product_version": "eMMC 5.1" }
+        },
+        "temperature": {
+          "1": { "opTemp": "-25°C ~ 85°C" },
+          "2": { "opTemp": "-40°C ~ 85°C" },
+          "P": { "opTemp": "-40°C ~ 95°C Automotive Grade 3" },
+          "Q": { "opTemp": "-40°C ~ 105°C Automotive Grade 2" }
+        }
+      },
+      "steps": [
+        { "op": "takeLongest", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 1, "to": "dieStackCode" },
+        { "op": "map", "from": "dieStackCode", "table": "dieStack", "to": "die", "default": -1 },
+        { "op": "map", "from": "dieStackCode", "table": "dieStackInfo", "to": "dieStackObj", "default": {} },
+        { "op": "take", "len": 1, "to": "dieTypeCode" },
+        { "op": "map", "from": "dieTypeCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
+        { "op": "map", "from": "dieTypeCode", "table": "dieDensityObj", "to": "dieDensityObj", "default": {} },
+        { "op": "take", "len": 1, "to": "voltageCode" },
+        { "op": "map", "from": "voltageCode", "table": "voltage", "to": "voltage", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "controllerCode" },
+        { "op": "map", "from": "controllerCode", "table": "controller", "to": "controllerObj", "default": {} },
+        { "op": "take", "len": 1, "to": "generationCode" },
+        { "op": "tpl", "template": "{{dieTypeCode}}:{{generationCode}}", "to": "nandGenerationKey" },
+        { "op": "map", "from": "nandGenerationKey", "table": "nandGeneration", "to": "processNode", "default": "Unknown" },
+        { "op": "stripIfPrefix", "prefix": "-" },
+        { "op": "take", "len": 1, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "reservedCode" },
+        { "op": "take", "len": 1, "to": "versionCode" },
+        { "op": "map", "from": "versionCode", "table": "versionObj", "to": "versionObj", "default": {} },
+        { "op": "take", "len": 1, "to": "temperatureCode" },
+        { "op": "map", "from": "temperatureCode", "table": "temperature", "to": "temperatureObj", "default": {} },
+        { "op": "set", "to": "extra", "value": { "system": "moviNAND/MCP", "group": "eMMC", "interfaceInfo": "HS400" } },
+        { "op": "merge", "into": "extra", "from": "dieStackObj" },
+        { "op": "merge", "into": "extra", "from": "dieDensityObj" },
+        { "op": "merge", "into": "extra", "from": "controllerObj" },
+        { "op": "merge", "into": "extra", "from": "versionObj" },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+      ],
+      "assign": {
+        "vendor": "samsung",
+        "type": "emmc",
+        "density": { "$var": "density" },
+        "cellLevel": { "$var": "cellLevel" },
+        "voltage": { "$var": "voltage" },
+        "processNode": { "$var": "processNode" },
+        "package": { "$var": "package" },
+        "classification": { "die": { "$var": "die" } },
+        "extraInfo": { "$var": "extra" }
+      }
+    }
+  },
+  {
     "id": "vendor.samsung.token.v1",
     "priority": 950,
     "normalize": [
