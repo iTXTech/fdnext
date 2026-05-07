@@ -138,7 +138,7 @@ DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前），最终�
 
 - 必填 key 补齐（缺失时填 `Unknown` 或 `[]`）
 - `cellLevel`、`generation` 等字段做兼容转换
-- 基于 `resources/lang/*.json` 的 key 翻译为最终 `vendor/type/extraInfo/...` 的展示值
+- 基于 `packages/resources/resources/lang/*.json` 的 key 翻译为最终 `vendor/type/extraInfo/...` 的展示值
 
 重要约定：
 

@@ -7,6 +7,7 @@ import { maxiotekController } from "./maxiotek";
 import { phisonController } from "./phison";
 import { sandForceController } from "./sand-force";
 import { siliconMotionController } from "./silicon-motion";
+import { yeestorController } from "./yeestor";
 
 export const CONTROLLER_GENERATORS = [
   siliconMotionController,
@@ -17,7 +18,8 @@ export const CONTROLLER_GENERATORS = [
   alcorMicroController,
   chipsBankController,
   innostorController,
-  phisonController
+  phisonController,
+  yeestorController
 ] as const;
 
 export type { ControllerGenerator, ControllerMergeContext, ControllerRawFile } from "./types";

@@ -37,7 +37,7 @@ pnpm fdbgen:generate --input <dataset-dir> --output <fdb.json> --version <ver> [
 当前 raw FlashDB 生成命令：
 
 ```bash
-pnpm -s tsx ./packages/fdbgen/src/cli.ts build --input ../fdfdb --output resources/fdb.json --version 79 --pretty
+pnpm -s tsx ./packages/fdbgen/src/cli.ts build --input ../fdfdb --output packages/resources/resources/fdb.json --version 79 --pretty
 ```
 
 `mdb` 爬取工具（参考 FlashDetector 的 `microndb` 流程）：
@@ -82,7 +82,7 @@ pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 
 ### Raw FlashDB
 
-当前底层数据目录为 `../fdfdb`，它是独立 raw 数据文件夹，不是已生成的 `resources/fdb.json`。生成器发现以下任一子目录时会按 raw 模式加载，并按 PHP `FDBGen` 的生成器顺序合并：
+当前底层数据目录为 `../fdfdb`，它是独立 raw 数据文件夹，不是已生成的 `packages/resources/resources/fdb.json`。生成器发现以下任一子目录时会按 raw 模式加载，并按 PHP `FDBGen` 的生成器顺序合并：
 
 ```text
 smff/
@@ -310,7 +310,7 @@ import { generateFdb } from "@itxtech/fdnext-fdbgen";
 const fdb = generateFdb({
   inputDir: "./dataset",
   version: "79",
-  outputFile: "./resources/fdb.json",
+  outputFile: "./packages/resources/resources/fdb.json",
   pretty: true
 });
 ```
@@ -321,7 +321,7 @@ const fdb = generateFdb({
 import { crawlMdb } from "@itxtech/fdnext-fdbgen";
 
 await crawlMdb({
-  file: "./resources/mdb.json",
+  file: "./packages/resources/resources/mdb.json",
   pretty: true
 });
 ```

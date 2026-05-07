@@ -82,7 +82,7 @@ fdnext-fdbgen build --input <dataset-dir> --output <fdb.json> --version <ver> [o
 `mdb` 爬取（Micron + SpecTek）：
 
 ```bash
-pnpm fdbgen:crawl-mdb -- --file resources/mdb.json
+pnpm fdbgen:crawl-mdb -- --file packages/resources/resources/mdb.json
 ```
 
 ## 兼容性回归

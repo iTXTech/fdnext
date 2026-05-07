@@ -16,6 +16,7 @@ import type {
   FlashIdInfo,
   FlashInfo,
   LangPacks,
+  PartNumberRecord,
   PartNumberDecoder,
   ProcessorEndpoint,
   ProcessorRequestContext,
@@ -124,6 +125,7 @@ function toPublicFlashInfo(info: FlashInfo, langPacks: LangPacks, fallbackLang: 
   }
 
   const translated = translateValue(langPacks, fallbackLang, output, lang, true) as FlashInfo;
+  translated.controller = Array.isArray(output.controller) ? output.controller : [];
   translated.interface = interfaceValue;
   translated.rawVendor = info.vendor;
   return translated;
@@ -215,6 +217,17 @@ function inferSingleVendorFromPartReferences(refs: string[] | undefined): string
     }
   }
   return vendors.size === 1 ? [...vendors][0] : undefined;
+}
+
+function mergeStringArray(target: string[] | undefined, source: string[] | undefined): string[] {
+  const merged = new Set<string>();
+  for (const item of [...(target ?? []), ...(source ?? [])]) {
+    const text = String(item).trim();
+    if (text) {
+      merged.add(text);
+    }
+  }
+  return [...merged];
 }
 
 export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
@@ -309,15 +322,58 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     return nodes.size > 0 ? [...nodes].join(" / ") : undefined;
   };
 
-  const combineFromFdb = (info: FlashInfo): FlashInfo => {
+  const matchingFdbRecords = (partNumbers: string[]): Array<{ vendor: string; record: PartNumberRecord }> => {
+    const result: Array<{ vendor: string; record: PartNumberRecord }> = [];
+    const seen = new Set<string>();
+    for (const rawPartNumber of partNumbers) {
+      const target = normalizePartNumber(rawPartNumber);
+      for (const [vendor, partNumberMap] of fdb.vendors.entries()) {
+        const record = partNumberMap.get(target);
+        if (!record) {
+          continue;
+        }
+        const key = `${vendor}\0${record.pn}`;
+        if (seen.has(key)) {
+          continue;
+        }
+        seen.add(key);
+        result.push({ vendor, record });
+      }
+    }
+    return result;
+  };
+
+  const combineFromFdb = (info: FlashInfo, lookupPartNumber = info.partNumber): FlashInfo => {
+    const lookupPartNumbers = [...new Set([info.partNumber, lookupPartNumber].map((item) => normalizePartNumber(item)).filter(Boolean))];
+    const allMatches = matchingFdbRecords(lookupPartNumbers);
+    const allControllers = allMatches.flatMap(({ record }) => record.t ?? []);
+    if (allControllers.length > 0) {
+      info.controller = mergeStringArray(info.controller, allControllers);
+    }
+
     // PHP uses `self::` in Micron::getFlashInfoFromFdb(), so SpecTek (which inherits it) looks up Micron FDB entries
     // instead of SpecTek ones. This means SpecTek part numbers generally do not get FDB-combined fields in PHP.
     if (info.vendor === "spectek") {
       return info;
     }
 
-    const byVendor = getPartNumberRecord(fdb, info.vendor, info.partNumber);
-    const byAny = byVendor ? undefined : findPartNumberAcrossVendors(fdb, info.partNumber);
+    let byVendor: PartNumberRecord | undefined;
+    for (const partNumber of lookupPartNumbers) {
+      byVendor = getPartNumberRecord(fdb, info.vendor, partNumber);
+      if (byVendor) {
+        break;
+      }
+    }
+
+    let byAny: { vendor: string; record: PartNumberRecord } | undefined;
+    if (!byVendor) {
+      for (const partNumber of lookupPartNumbers) {
+        byAny = findPartNumberAcrossVendors(fdb, partNumber);
+        if (byAny) {
+          break;
+        }
+      }
+    }
     const record = byVendor ?? byAny?.record;
 
     if (!record) {
@@ -329,7 +385,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     }
 
     info.flashId = record.id ?? [];
-    info.controller = record.t ?? [];
+    info.controller = mergeStringArray(info.controller, record.t ?? []);
 
     if ((info.processNode == null || info.processNode === UNKNOWN) && record.l) {
       info.processNode = record.l;
@@ -422,7 +478,11 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
         }
 
         const base = detectRaw(resolved, opts, false);
-        return applyMicronFbgaMeta(base, fbga, resolved);
+        const withMeta = applyMicronFbgaMeta(base, fbga, resolved);
+        if (opts.combineFdb ?? true) {
+          combineFromFdb(withMeta, partNumber);
+        }
+        return withMeta;
       }
     }
 
@@ -451,7 +511,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     }
 
     if (opts.combineFdb ?? true) {
-      combineFromFdb(info);
+      combineFromFdb(info, partNumber);
     }
 
     return applyFlashInfoProcessors(info);

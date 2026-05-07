@@ -67,12 +67,12 @@ const response = engine.dispatch("info", {
 
 ### 2.1 方式 A：fetch 静态 JSON（推荐）
 
-将 `resources/` 作为静态目录发布：
+将仓库内的 `packages/resources/resources/` 目录作为静态资源发布。下面示例假设挂载到 `/fdnext-resources/`：
 
-- `/resources/fdb.json`
-- `/resources/mdb.json`
-- `/resources/lang/chs.json`
-- `/resources/lang/eng.json`
+- `/fdnext-resources/fdb.json`
+- `/fdnext-resources/mdb.json`
+- `/fdnext-resources/lang/chs.json`
+- `/fdnext-resources/lang/eng.json`
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
@@ -85,10 +85,10 @@ async function loadJson(path: string) {
 }
 
 const [fdbRaw, mdbRaw, chs, eng] = await Promise.all([
-  loadJson("/resources/fdb.json"),
-  loadJson("/resources/mdb.json"),
-  loadJson("/resources/lang/chs.json"),
-  loadJson("/resources/lang/eng.json")
+  loadJson("/fdnext-resources/fdb.json"),
+  loadJson("/fdnext-resources/mdb.json"),
+  loadJson("/fdnext-resources/lang/chs.json"),
+  loadJson("/fdnext-resources/lang/eng.json")
 ]);
 
 const engine = createEngine({
@@ -116,7 +116,7 @@ pnpm server:dev
 如需指定外部资源目录，增加参数：
 
 ```bash
-pnpm -C packages/server dev -- --resources /path/to/resources
+pnpm -C packages/server dev -- --resources /path/to/packages/resources/resources
 ```
 
 构建后运行生产入口：

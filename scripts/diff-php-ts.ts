@@ -28,7 +28,7 @@ interface FixtureBundle {
 const THIS_DIR = typeof __dirname === "string" ? __dirname : pathDirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(THIS_DIR, "..");
 const FIXTURE_PATH = resolve(process.env.FDNEXT_FIXTURES ?? resolve(ROOT, "packages/compat-test/fixtures/php-baseline.json"));
-const RESOURCE_DIR = resolve(process.env.FDNEXT_RESOURCES ?? resolve(ROOT, "resources"));
+const RESOURCE_DIR = resolve(process.env.FDNEXT_RESOURCES ?? resolve(ROOT, "packages/resources/resources"));
 const ENGINE = createEngine({
   resources: loadResourcesFromDir(RESOURCE_DIR),
   decoders: compileRulesToDecoders(defaultDslRules),

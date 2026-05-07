@@ -3,7 +3,7 @@ module.exports = {
     {
       name: "fdnext-server",
       script: "packages/server/dist/bin.js",
-      args: "--host 0.0.0.0 --port 8080 --resources ./resources",
+      args: "--host 0.0.0.0 --port 8080 --resources ./packages/resources/resources",
       instances: 1,
       exec_mode: "fork",
       watch: false,
