@@ -326,9 +326,8 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     const result: Array<{ vendor: string; record: PartNumberRecord }> = [];
     const seen = new Set<string>();
     for (const rawPartNumber of partNumbers) {
-      const target = normalizePartNumber(rawPartNumber);
-      for (const [vendor, partNumberMap] of fdb.vendors.entries()) {
-        const record = partNumberMap.get(target);
+      for (const vendor of fdb.vendors.keys()) {
+        const record = getPartNumberRecord(fdb, vendor, rawPartNumber);
         if (!record) {
           continue;
         }

@@ -1,11 +1,6 @@
-import { VENDOR_PATCH } from "./constants";
+import { getPartNumberLookupKeys, inferVendorFromPartNumber, normalizeVendor } from "./fdb-lookup";
 import type { FdbDataset, FlashIdRecord, MdbDataset, PartNumberRecord } from "./types";
 import { normalizePartNumber } from "./utils/normalize";
-
-function normalizeVendor(vendor: string): string {
-  const key = vendor.trim().toLowerCase();
-  return VENDOR_PATCH[key] ?? key;
-}
 
 function normalizeFlashIdKey(id: string): string | null {
   const normalized = id.replace(/\s+/g, "").toUpperCase();
@@ -13,40 +8,6 @@ function normalizeFlashIdKey(id: string): string | null {
     return null;
   }
   return /^[0-9A-F]+$/.test(normalized) ? normalized : null;
-}
-
-function inferVendorFromPartNumber(partNumber: string): string | null {
-  if (/^(MT29|MTFC|MTFD|NW[0-9A-Z]{3,})/.test(partNumber)) {
-    return "micron";
-  }
-  if (/^(K9|KLM|KLU|KMD|KMF|KMN|KMV)/.test(partNumber)) {
-    return "samsung";
-  }
-  if (/^(HY27|H27|H25|H26|H2D|H2J|H9T|HYNIX)/.test(partNumber)) {
-    return "skhynix";
-  }
-  if (/^(TC58|TH58)/.test(partNumber)) {
-    return "kioxia";
-  }
-  if (/^(SD|S34|S35|SANDISK|SNDK|DFT|MDT|05[0-9]{3})/.test(partNumber)) {
-    return "sndk";
-  }
-  if (/^(JS29F|I29F|PF29F|PC29F|PD29F)/.test(partNumber)) {
-    return "intel";
-  }
-  if (/^(FBNL|FNNL|FNN|FXXL)/.test(partNumber)) {
-    return "spectek";
-  }
-  if (/^(NAND|M29F)/.test(partNumber)) {
-    return "st";
-  }
-  if (/^(YM|YMN|XT)/.test(partNumber)) {
-    return "ymtc";
-  }
-  if (/^[TIKHDCN][APCOKFTBY][135678ABC][0-9A-Z]{7}$/.test(partNumber)) {
-    return "phison";
-  }
-  return null;
 }
 
 function mergeStringArray(target: string[] | undefined, source: string[]): string[] {
@@ -97,6 +58,14 @@ function toPartReference(value: unknown, vendors: Map<string, Map<string, PartNu
 }
 
 function canonicalPartNumberKey(partNumber: string, partNumbers: Map<string, PartNumberRecord>): string {
+  const inferredVendor = inferVendorFromPartNumber(partNumber);
+  if (inferredVendor) {
+    for (const candidate of getPartNumberLookupKeys(inferredVendor, partNumber)) {
+      if (candidate !== partNumber && partNumbers.has(candidate)) {
+        return candidate;
+      }
+    }
+  }
   const duplicateSuffix = /^(.*)_1$/.exec(partNumber);
   if (duplicateSuffix?.[1] && partNumbers.has(duplicateSuffix[1])) {
     return duplicateSuffix[1];
@@ -260,7 +229,13 @@ export function getPartNumberRecord(
   partNumber: string
 ): PartNumberRecord | undefined {
   const vendorData = fdb.vendors.get(normalizeVendor(vendor));
-  return vendorData?.get(normalizePartNumber(partNumber));
+  for (const lookupKey of getPartNumberLookupKeys(vendor, partNumber)) {
+    const record = vendorData?.get(lookupKey);
+    if (record) {
+      return record;
+    }
+  }
+  return undefined;
 }
 
 export function findPartNumberAcrossVendors(
@@ -268,10 +243,19 @@ export function findPartNumberAcrossVendors(
   partNumber: string
 ): { vendor: string; record: PartNumberRecord } | undefined {
   const target = normalizePartNumber(partNumber);
-  for (const [vendor, partNumbers] of fdb.vendors.entries()) {
-    const record = partNumbers.get(target);
+  const inferredVendor = inferVendorFromPartNumber(target);
+  if (inferredVendor) {
+    const record = getPartNumberRecord(fdb, inferredVendor, target);
     if (record) {
-      return { vendor, record };
+      return { vendor: inferredVendor, record };
+    }
+  }
+  for (const [vendor, partNumbers] of fdb.vendors.entries()) {
+    for (const lookupKey of getPartNumberLookupKeys(vendor, target)) {
+      const record = partNumbers.get(lookupKey);
+      if (record) {
+        return { vendor, record };
+      }
     }
   }
   return undefined;
