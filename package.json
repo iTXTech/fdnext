@@ -1,7 +1,7 @@
 {
   "name": "fdnext",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "FlashDetector TypeScript Next",
   "license": "AGPL-3.0-or-later",
   "packageManager": "pnpm@10.28.2",
