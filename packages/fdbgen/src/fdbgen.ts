@@ -528,7 +528,11 @@ function sortObjectKeys<T>(input: Record<string, T>): Record<string, T> {
   return output;
 }
 
-function buildOutput(infoInput: FdbInfoPayload, vendors: VendorMap, iddb: FlashIdMap): Record<string, unknown> {
+function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: VendorMap, iddb: FlashIdMap): Record<string, unknown> {
+  if (!infoInput.version) {
+    throw new Error("Missing required info.version");
+  }
+
   const controllers = new Set<string>(toStringArray(infoInput.controllers, false));
 
   for (const [vendor, parts] of vendors.entries()) {
@@ -557,8 +561,8 @@ function buildOutput(infoInput: FdbInfoPayload, vendors: VendorMap, iddb: FlashI
   const info = {
     name: infoInput.name ?? "iTXTech FlashDetector Flash Database",
     website: infoInput.website ?? "https://github.com/iTXTech/FlashDetector",
-    version: infoInput.version ?? "Undefined",
-    time: infoInput.time ?? new Date().toUTCString(),
+    version: infoInput.version,
+    time: new Date().toUTCString(),
     controllers: [...controllers].sort()
   };
 
@@ -601,6 +605,11 @@ function buildOutput(infoInput: FdbInfoPayload, vendors: VendorMap, iddb: FlashI
 }
 
 export function generateFdb(options: GenerateFdbOptions): Record<string, unknown> {
+  const version = options.version.trim();
+  if (!version) {
+    throw new Error("Missing required version");
+  }
+
   const inputDir = resolve(options.inputDir);
   if (!existsSync(inputDir)) {
     throw new Error(`Input directory not found: ${inputDir}`);
@@ -621,14 +630,13 @@ export function generateFdb(options: GenerateFdbOptions): Record<string, unknown
   canonicalizeIddbReferences(iddb, vendors);
 
   const extraInfo = extra.info ?? {};
-  const infoInput: FdbInfoPayload = {
+  const infoInput: FdbInfoPayload & { version: string } = {
     ...rawInfo,
     ...extraInfo,
     controllers: mergeStringArray(toStringArray(rawInfo.controllers, false), toStringArray(extraInfo.controllers, false), false),
     ...(options.name ? { name: options.name } : {}),
     ...(options.website ? { website: options.website } : {}),
-    ...(options.version ? { version: options.version } : {}),
-    ...(options.time ? { time: options.time } : {})
+    version
   };
 
   const output = buildOutput(infoInput, vendors, iddb);

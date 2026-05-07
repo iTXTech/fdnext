@@ -52,18 +52,24 @@ docker run -d --name fdnext -p 8080:8080 fdnext-server
 `@itxtech/fdnext-fdbgen` 可从本地数据集生成 `fdb.json`：
 
 ```bash
-fdnext-fdbgen build --input <dataset-dir> --output <fdb.json> [options]
+fdnext-fdbgen build --input <dataset-dir> --output <fdb.json> --version <ver> [options]
 ```
+
+必填参数：
+
+- `--input <dir>`：输入目录
+- `--output <file>`：输出文件路径
+- `--version <ver>`：写入 `info.version`
 
 可选参数：
 
 - `--meta <file>`：元信息覆盖文件
 - `--extra <file>`：额外合并补丁文件
-- `--version <ver>`：覆盖 `info.version`
 - `--name <name>`：覆盖 `info.name`
 - `--website <url>`：覆盖 `info.website`
-- `--time <text>`：覆盖 `info.time`
 - `--pretty`：格式化输出 JSON
+
+`info.time` 始终在生成时写入当前 UTC 时间。
 
 输入目录约定（均为可选）：
 

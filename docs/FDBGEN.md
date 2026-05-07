@@ -25,19 +25,19 @@ pnpm -C packages/fdbgen build
 构建后可直接运行：
 
 ```bash
-node packages/fdbgen/dist/cli.js build --input <dataset-dir> --output <fdb.json> [options]
+node packages/fdbgen/dist/cli.js build --input <dataset-dir> --output <fdb.json> --version <ver> [options]
 ```
 
 仓库根目录也提供脚本入口：
 
 ```bash
-pnpm fdbgen:generate -- --input <dataset-dir> --output <fdb.json> [options]
+pnpm fdbgen:generate --input <dataset-dir> --output <fdb.json> --version <ver> [options]
 ```
 
 当前 raw FlashDB 生成命令：
 
 ```bash
-pnpm -s tsx ./packages/fdbgen/src/cli.ts build --input ../fdfdb --output resources/fdb.json --version 79 --time "Wed, 03 May 2023 06:23:02 +0000" --pretty
+pnpm -s tsx ./packages/fdbgen/src/cli.ts build --input ../fdfdb --output resources/fdb.json --version 79 --pretty
 ```
 
 `mdb` 爬取工具（参考 FlashDetector 的 `microndb` 流程）：
@@ -58,13 +58,14 @@ pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 
 - `--input <dir>`：输入目录（必填）
 - `--output <file>`：输出文件路径（必填）
+- `--version <ver>`：写入 `info.version`（必填）
 - `--meta <file>`：元信息 JSON 覆盖文件（可选）
 - `--extra <file>`：额外合并补丁文件（可选）
-- `--version <ver>`：覆盖 `info.version`
 - `--name <name>`：覆盖 `info.name`
 - `--website <url>`：覆盖 `info.website`
-- `--time <text>`：覆盖 `info.time`
 - `--pretty`：格式化输出 JSON
+
+`info.version` 必须显式传入。`info.time` 始终在生成时写入当前 UTC 时间，不从 `meta.json` / `extra.json` 或命令行覆盖。
 
 `crawl-mdb` 额外参数：
 
@@ -165,8 +166,6 @@ dataset/
   "info": {
     "name": "iTXTech FlashDetector Flash Database",
     "website": "https://github.com/iTXTech/FlashDetector",
-    "version": "custom",
-    "time": "Mon, 01 Jan 2026 00:00:00 GMT",
     "controllers": ["SM2258XT"]
   }
 }
@@ -310,6 +309,7 @@ import { generateFdb } from "@itxtech/fdnext-fdbgen";
 
 const fdb = generateFdb({
   inputDir: "./dataset",
+  version: "79",
   outputFile: "./resources/fdb.json",
   pretty: true
 });

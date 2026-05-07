@@ -1,8 +1,6 @@
 export interface FdbInfoPayload {
   name?: string;
   website?: string;
-  version?: string;
-  time?: string;
   controllers?: string[];
 }
 
@@ -34,13 +32,12 @@ export interface ExtraPayload {
 
 export interface GenerateFdbOptions {
   inputDir: string;
+  version: string;
   outputFile?: string;
   metaFile?: string;
   extraFile?: string;
-  version?: string;
   name?: string;
   website?: string;
-  time?: string;
   pretty?: boolean;
 }
 

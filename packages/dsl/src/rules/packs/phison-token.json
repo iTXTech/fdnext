@@ -28,7 +28,7 @@
         },
         "ce": {
           "1": 1,
-          "3": 1,
+          "3": 2,
           "5": 2,
           "6": 2,
           "7": 4,
@@ -64,20 +64,20 @@
           "sndk": "kioxia"
         },
         "processNode": {
-          "kioxia:H": "24nm 2plane",
-          "kioxia:P": "A19nm 4plane",
-          "kioxia:R": "15nm",
-          "kioxia:S": "15nm 2plane",
-          "kioxia:U": "15nm 4plane",
+          "kioxia:H": "24nm 2p (D2H)",
+          "kioxia:P": "A19nm 4p (DFK)",
+          "kioxia:R": "15nm (THL)",
+          "kioxia:S": "15nm 2p (DDL)",
+          "kioxia:U": "15nm 4p (DFL)",
           "kioxia:V": "BiCS2",
-          "kioxia:I": "BICS3",
+          "kioxia:I": "BiCS3",
           "kioxia:W": "BiCS4",
           "kioxia:X": "BiCS4.5",
           "kioxia:Y": "BiCS5",
-          "intel:N": "20nm",
-          "intel:P": "16nm",
-          "intel:O": "L06B/B16A/N18A 32L",
-          "intel:V": "B16A/B27A",
+          "intel:N": "20nm (L85A)",
+          "intel:P": "16nm (L95B)",
+          "intel:O": "L06B/B16A/N18A",
+          "intel:V": "B27A",
           "intel:I": "B27B",
           "intel:X": "B37R",
           "intel:Y": "B47R",
@@ -141,4 +141,3 @@
     }
   }
 ]
-

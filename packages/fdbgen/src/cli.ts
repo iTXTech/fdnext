@@ -12,7 +12,6 @@ interface CliOptions {
   version?: string;
   name?: string;
   website?: string;
-  time?: string;
   pretty?: boolean;
   file?: string;
   micronMax?: number;
@@ -25,7 +24,7 @@ interface CliOptions {
 function usage(): string {
   return [
     "Usage:",
-    "  fdnext-fdbgen build --input <dir> --output <file> [options]",
+    "  fdnext-fdbgen build --input <dir> --output <file> --version <ver> [options]",
     "  fdnext-fdbgen crawl-mdb --file <mdb.json> [options]",
     "",
     "Build options:",
@@ -33,10 +32,9 @@ function usage(): string {
     "  --output <file>     Output fdb.json path",
     "  --meta <file>       Optional metadata JSON path",
     "  --extra <file>      Optional extra merge JSON path",
-    "  --version <ver>     Override info.version",
+    "  --version <ver>     Required info.version",
     "  --name <name>       Override info.name",
     "  --website <url>     Override info.website",
-    "  --time <text>       Override info.time",
     "  --pretty            Write pretty JSON",
     "",
     "MDB crawl options:",
@@ -94,11 +92,6 @@ function parseBuildOptions(args: string[]): CliOptions {
     }
     if (arg === "--website") {
       options.website = requireValue(args, i, arg);
-      i += 1;
-      continue;
-    }
-    if (arg === "--time") {
-      options.time = requireValue(args, i, arg);
       i += 1;
       continue;
     }
@@ -184,6 +177,9 @@ function runBuild(args: string[]): void {
   if (!opts.outputFile) {
     throw new Error("Missing required --output");
   }
+  if (!opts.version) {
+    throw new Error("Missing required --version");
+  }
 
   generateFdb({
     inputDir: resolve(opts.inputDir),
@@ -193,7 +189,6 @@ function runBuild(args: string[]): void {
     version: opts.version,
     name: opts.name,
     website: opts.website,
-    time: opts.time,
     pretty: opts.pretty ?? false
   });
 
