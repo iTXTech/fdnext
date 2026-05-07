@@ -59,7 +59,7 @@
           "T3": 8388608,
           "TG": 1572864
         },
-        "cellLevel": { "S": 1, "H": 1, "D": 2, "E": 2, "J": 2, "C": 2, "T": 3, "U": 3, "V": 3, "X": 3, "W": 3, "F": 4 },
+        "cellLevel": { "S": 1, "H": 1, "D": 2, "E": 2, "J": 2, "C": 2, "T": 3, "U": 3, "V": 3, "X": 3, "W": 3, "Y": 3, "F": 4 },
         "enterpriseFlag": { "H": true, "E": true, "U": true, "V": true },
         "deviceWidth": {
           "0": 8,
@@ -111,6 +111,13 @@
           "C": "4MB",
           "D": "4MB",
           "F": "4MB"
+        },
+        "plane": {
+          "C": 1,
+          "D": 2,
+          "F": 4,
+          "2": 2,
+          "4": 4
         },
         "processNode": {
           "A": "130 nm",
@@ -187,6 +194,7 @@
         { "op": "map", "from": "widthCode", "table": "deviceWidth", "to": "deviceWidth", "default": -1 },
         { "op": "map", "from": "widthCode", "table": "pageSize", "to": "pageSize", "default": "Unknown" },
         { "op": "map", "from": "widthCode", "table": "blockSize", "to": "blockSize", "default": "Unknown" },
+        { "op": "map", "from": "widthCode", "table": "plane", "to": "plane", "default": -1 },
         { "op": "take", "len": 1, "to": "processCode" },
         { "op": "map", "from": "processCode", "table": "processNode", "to": "processNode", "default": "Unknown" },
         { "op": "take", "len": 2, "to": "packageCode" },
@@ -215,6 +223,7 @@
           "enterprise": { "$var": "enterprise" },
           "pageSize": { "$var": "pageSize" },
           "blockSize": { "$var": "blockSize" },
+          "plane": { "$var": "plane" },
           "leadFree": true,
           "halogenFree": false
         }
@@ -267,7 +276,7 @@
           "T3": 8388608,
           "TG": 1572864
         },
-        "cellLevel": { "S": 1, "H": 1, "D": 2, "E": 2, "J": 2, "C": 2, "T": 3, "U": 3, "V": 3, "X": 3, "W": 3, "F": 4 },
+        "cellLevel": { "S": 1, "H": 1, "D": 2, "E": 2, "J": 2, "C": 2, "T": 3, "U": 3, "V": 3, "X": 3, "W": 3, "Y": 3, "F": 4 },
         "enterpriseFlag": { "H": true, "E": true, "U": true, "V": true },
         "deviceWidth": {
           "0": 8,
@@ -319,6 +328,13 @@
           "C": "4MB",
           "D": "4MB",
           "F": "4MB"
+        },
+        "plane": {
+          "C": 1,
+          "D": 2,
+          "F": 4,
+          "2": 2,
+          "4": 4
         },
         "processNode": {
           "A": "130 nm",
@@ -395,6 +411,7 @@
         { "op": "map", "from": "widthCode", "table": "deviceWidth", "to": "deviceWidth", "default": -1 },
         { "op": "map", "from": "widthCode", "table": "pageSize", "to": "pageSize", "default": "Unknown" },
         { "op": "map", "from": "widthCode", "table": "blockSize", "to": "blockSize", "default": "Unknown" },
+        { "op": "map", "from": "widthCode", "table": "plane", "to": "plane", "default": -1 },
         { "op": "take", "len": 1, "to": "processCode" },
         { "op": "map", "from": "processCode", "table": "processNode", "to": "processNode", "default": "Unknown" },
         { "op": "take", "len": 2, "to": "packageCode" },
@@ -423,6 +440,7 @@
           "enterprise": { "$var": "enterprise" },
           "pageSize": { "$var": "pageSize" },
           "blockSize": { "$var": "blockSize" },
+          "plane": { "$var": "plane" },
           "leadFree": true,
           "halogenFree": false
         }

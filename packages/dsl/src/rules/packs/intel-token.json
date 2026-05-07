@@ -147,7 +147,12 @@
           "G": "3D1 32L",
           "H": "3D2 64L",
           "J": "3D3 96L",
-          "K": "3D4 144L"
+          "K": "144L"
+        },
+        "processNodeOverride": {
+          "K1": "N38A 144L",
+          "KA": "N38B 144L",
+          "L1": "N4PA 192L"
         },
         "generationDigit": {
           "0": "0",
@@ -159,7 +164,8 @@
           "6": "6",
           "7": "7",
           "8": "8",
-          "9": "9"
+          "9": "9",
+          "A": "A"
         },
         "skuObj": { "S": { "sku": "intel_sku_s" } }
       },
@@ -184,8 +190,11 @@
         { "op": "take", "len": 1, "to": "cellCode" },
         { "op": "map", "from": "cellCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
         { "op": "take", "len": 1, "to": "processCode" },
-        { "op": "map", "from": "processCode", "table": "processNode", "to": "processNode", "default": "Unknown" },
+        { "op": "map", "from": "processCode", "table": "processNode", "to": "processNodeBase", "default": "Unknown" },
         { "op": "take", "len": 1, "to": "genCode" },
+        { "op": "tpl", "template": "{{processCode}}{{genCode}}", "to": "processGenKey" },
+        { "op": "map", "from": "processGenKey", "table": "processNodeOverride", "to": "processNodeOverride", "default": "" },
+        { "op": "fallback", "primary": "processNodeOverride", "secondary": "processNodeBase", "to": "processNodeFinal" },
         { "op": "map", "from": "genCode", "table": "generationDigit", "to": "generation", "default": null },
         { "op": "map", "from": "genCode", "table": "skuObj", "to": "skuObj", "default": {} },
         { "op": "tpl", "template": "{{isWafer}}", "to": "waferKey" },
@@ -202,7 +211,7 @@
         "deviceWidth": { "$var": "deviceWidth" },
         "voltage": { "$var": "voltage" },
         "cellLevel": { "$var": "cellLevel" },
-        "processNode": { "$var": "processNode" },
+        "processNode": { "$var": "processNodeFinal" },
         "generation": { "$var": "generation" },
         "package": { "$var": "package" },
         "interface": { "async": true, "sync": { "$var": "sync" } },

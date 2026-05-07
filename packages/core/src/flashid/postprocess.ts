@@ -1,5 +1,6 @@
 import { patchMicronPartNumberProcessNode } from "../micron/process-node";
 import type { FlashIdInfo, FlashInfo, ProcessorHooks } from "../types";
+import { normalizePartNumber } from "../utils/normalize";
 import { flashIdByteAt } from "./bytes";
 
 type ProcessLookup = {
@@ -83,8 +84,15 @@ const MICRON_LIKE_PROCESS_LOOKUPS: ProcessLookup[] = [
   { start: 1, hex: "D30832E8", processNode: "232L(B58R)" },
   { start: 1, hex: "E38932E8", processNode: "232L(B58R)" },
   { start: 1, hex: "F38A32E8", processNode: "232L(B58R)" },
-  { start: 0, hex: "89D3AC32C6", processNode: "144L" },
-  { start: 0, hex: "89D3AC32C2", processNode: "144L" }
+  { start: 0, hex: "89D3AC32C600", processNode: "N38A 144L" },
+  { start: 0, hex: "89E3AD32C600", processNode: "N38A 144L" },
+  { start: 0, hex: "89F3AE32C600", processNode: "N38A 144L" },
+  { start: 0, hex: "89D3AC32C204", processNode: "N38B 144L" },
+  { start: 0, hex: "89E3AD32C204", processNode: "N38B 144L" },
+  { start: 0, hex: "89F3AE32C204", processNode: "N38B 144L" },
+  { start: 0, hex: "89092832C200", processNode: "N4PA 192L" },
+  { start: 0, hex: "89092932C200", processNode: "N4PA 192L" },
+  { start: 0, hex: "89092A32C200", processNode: "N4PA 192L" }
 ];
 
 const MICRON_LIKE_DENSITY_BY_BYTE2: Record<number, number> = {
@@ -123,7 +131,8 @@ const KIOXIA_LIKE_PROCESS_BY_MASKED_BYTE6: Record<number, string> = {
   0x22: "BiCS3 64L",
   0x23: "BiCS4 96L",
   0x24: "BiCS5 112L",
-  0x25: "BiCS6 162L"
+  0x25: "BiCS6 162L",
+  0x26: "BiCS8 218L"
 };
 
 const KIOXIA_LIKE_DENSITY_BY_BYTE2: Record<number, number> = {
@@ -278,6 +287,27 @@ function lookupString(table: Record<number, string>, byte: number): string | und
   return table[byte];
 }
 
+function patchIntelPartNumberProcessNode(info: FlashInfo): Partial<FlashInfo> | null {
+  if (info.vendor !== "intel") {
+    return null;
+  }
+
+  const normalized = normalizePartNumber(info.partNumber);
+  let processNode: string | undefined;
+  if (normalized.includes("QKA")) {
+    processNode = "N38B 144L";
+  } else if (normalized.includes("QK1")) {
+    processNode = "N38A 144L";
+  } else if (normalized.includes("QL1")) {
+    processNode = "N4PA 192L";
+  }
+
+  if (!processNode || info.processNode === processNode) {
+    return null;
+  }
+  return { processNode };
+}
+
 function patchMicronLike(info: FlashIdInfo): Partial<FlashIdInfo> | null {
   const patch: Partial<FlashIdInfo> = {};
   let changed = false;
@@ -421,11 +451,12 @@ function patchYmtc(info: FlashIdInfo): Partial<FlashIdInfo> | null {
 export function createDefaultFlashIdProcessor(): ProcessorHooks {
   return {
     flashInfo: (info): FlashInfo => {
-      const patch = patchMicronPartNumberProcessNode(info);
-      if (!patch) {
+      const micronPatch = patchMicronPartNumberProcessNode(info);
+      const intelPatch = patchIntelPartNumberProcessNode(info);
+      if (!micronPatch && !intelPatch) {
         return info;
       }
-      return { ...info, ...patch };
+      return { ...info, ...micronPatch, ...intelPatch };
     },
     flashIdInfo: (info): FlashIdInfo => {
       const vendor = info.vendor;
