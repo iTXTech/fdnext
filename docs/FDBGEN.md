@@ -196,6 +196,32 @@ dataset/
 
 ## 合并与归一化规则
 
+### 厂商解码模块
+
+厂商相关规则不直接写在主生成流程里。`packages/fdbgen/src/vendors/` 下每个支持的厂商使用独立文件维护：
+
+- 厂商别名（如 `westerndigital` / `wd` / `sandisk` → `sndk`）
+- PN 前缀归属判断（如 `MT29*` → `micron`）
+- 厂商特有 PN 封装后缀清理（如 Micron / SK hynix / SpecTek）
+
+主生成器只负责 raw 控制器数据解析、合并和输出，厂商归属与 PN 清理由 vendor registry 统一调用。
+
+### 控制器厂商模块
+
+控制器 raw 数据解析也不直接写在主生成流程里。`packages/fdbgen/src/controllers/` 下按控制器厂商拆分：
+
+- `silicon-motion.ts`：`smff` / `smufd` / `smssd`
+- `jmicron.ts`：`jm`
+- `maxiotek.ts`：`mk`
+- `maxio.ts`：`ma`
+- `sand-force.ts`：`sf`
+- `alcor-micro.ts`：`al`
+- `chips-bank.ts`：`cbm`
+- `innostor.ts`：`is`
+- `phison.ts`：`ps`
+
+主生成器通过 controller registry 维持 PHP `FDBGen` 的加载顺序，具体解析逻辑由对应控制器厂商文件负责。
+
 ### 加载顺序
 
 Raw FlashDB 模式：
