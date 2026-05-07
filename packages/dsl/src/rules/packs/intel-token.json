@@ -11,6 +11,10 @@
         "waferObj": { "true": { "wafer": true }, "false": { "wafer": false } },
         "type": { "F": "nand", "P": "3dxpoint" },
         "density": {
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096,
+          "8G": 8192,
           "01G": 1024,
           "02G": 2048,
           "04G": 4096,
@@ -18,11 +22,21 @@
           "16G": 16384,
           "32G": 32768,
           "64G": 65536,
+          "128G": 131072,
+          "256G": 262144,
+          "384G": 393216,
+          "512G": 524288,
           "16B": 131072,
           "32B": 262144,
           "48B": 393216,
           "64B": 524288,
           "96B": 786432,
+          "1T": 1048576,
+          "2T": 2097152,
+          "3T": 3145728,
+          "4T": 4194304,
+          "6T": 6291456,
+          "8T": 8388608,
           "01T": 1048576,
           "02T": 2097152,
           "03T": 3145728,
@@ -156,8 +170,7 @@
         { "op": "stripIfPrefix", "prefix": "29" },
         { "op": "take", "len": 1, "to": "typeCode" },
         { "op": "map", "from": "typeCode", "table": "type", "to": "type", "default": "Unknown" },
-        { "op": "take", "len": 3, "to": "densityCode" },
-        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "takeLongest", "table": "density", "to": "density", "default": 0 },
         { "op": "take", "len": 2, "to": "widthCode" },
         { "op": "map", "from": "widthCode", "table": "deviceWidth", "to": "deviceWidth", "default": -1 },
         { "op": "map", "from": "widthCode", "table": "ch", "to": "ch", "default": 1 },
@@ -196,6 +209,16 @@
         "classification": { "ce": { "$var": "ce" }, "rb": { "$var": "rb" }, "ch": { "$var": "ch" }, "die": { "$var": "die" } },
         "extraInfo": { "$var": "extra" }
       }
+    }
+  },
+  {
+    "id": "vendor.intel.i29.prefix.v1",
+    "priority": 934,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
+    "match": { "kind": "prefix", "value": "I29F" },
+    "set": {
+      "vendor": "intel",
+      "type": "nand"
     }
   }
 ]

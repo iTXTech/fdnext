@@ -1,4 +1,5 @@
-import type { FlashIdInfo, ProcessorHooks } from "../types";
+import { patchMicronPartNumberProcessNode } from "../micron/process-node";
+import type { FlashIdInfo, FlashInfo, ProcessorHooks } from "../types";
 import { flashIdByteAt } from "./bytes";
 
 type ProcessLookup = {
@@ -419,6 +420,13 @@ function patchYmtc(info: FlashIdInfo): Partial<FlashIdInfo> | null {
 
 export function createDefaultFlashIdProcessor(): ProcessorHooks {
   return {
+    flashInfo: (info): FlashInfo => {
+      const patch = patchMicronPartNumberProcessNode(info);
+      if (!patch) {
+        return info;
+      }
+      return { ...info, ...patch };
+    },
     flashIdInfo: (info): FlashIdInfo => {
       const vendor = info.vendor;
 

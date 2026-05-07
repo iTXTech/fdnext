@@ -55,7 +55,8 @@
           "4T": 4194304,
           "6T": 6291456,
           "8T": 8388608,
-          "16T": 16777216
+          "16T": 16777216,
+          "32T": 33554432
         },
         "device_width": {
           "16": 16,
@@ -236,21 +237,27 @@
           "A": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V)",
           "B": "1.8V (1.70–1.95V)",
           "C": "Vcc: 3.3V (2.70–3.60V), VccQ: 1.8V (1.70–1.95V)",
+          "D": "Vcc: 3.3V (2.70–3.60V), VccQ: 1.8V (1.70–1.95V)",
           "E": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V) or 1.8V (1.70–1.95V)",
           "F": "Vcc: 3.3V (2.50–3.60V), VccQ: 1.2V (1.14–1.26V)",
           "G": "Vcc: 3.3V (2.60–3.60V), VccQ: 1.8V (1.70–1.95V)",
           "H": "Vcc: 3.3V (2.50–3.60V), VccQ: 1.2V (1.14–1.26) or 1.8V (1.70–1.95V)",
           "J": "Vcc: 3.3V (2.50–3.60V), VccQ: 1.8V (1.70–1.95V)",
           "K": "Vcc: 3.3V (2.60–3.60V), VccQ: 3.3V (2.60–3.60V)",
-          "L": "Vcc: 2.5V (2.35–3.60V), VccQ: 1.2V (1.14–1.26V)"
+          "L": "Vcc: 2.5V/3.3V, VccQ: 1.2V",
+          "S": "Vcc: 3.3V, VccQ: 3.3V",
+          "T": "Vcc: 3.3V, VccQ: 1.2V/1.8V"
         },
-        "generation": {
-          "A": "1",
-          "B": "2",
-          "C": "3",
-          "D": "4",
-          "E": "5",
-          "F": "6"
+        "die_code": {
+          "A": "A-Die",
+          "B": "B-Die",
+          "C": "C-Die",
+          "D": "D-Die",
+          "E": "E-Die",
+          "F": "F-Die",
+          "G": "G-Die",
+          "K": "K-Die",
+          "L": "L-Die"
         },
         "interface": {
           "A": {
@@ -293,7 +300,72 @@
             "sync": true
           }
         },
+        "interface_info": {
+          "A": "Async",
+          "B": "Sync/Async",
+          "C": "Sync",
+          "E": "NVDDR3",
+          "F": "NVDDR3/2/Async",
+          "H": "NVDDR3/NVLPDDR4",
+          "N": "NVDDR2/Async"
+        },
         "package": {
+          "C3": "LGA52",
+          "C4": "LGA52",
+          "C5": "LGA52",
+          "C6": "LGA52",
+          "C7": "LGA48",
+          "C8": "LGA52",
+          "D1": "LGA52",
+          "D4": "BGA154",
+          "D5": "BGA154",
+          "D6": "BGA154",
+          "D7": "BGA154",
+          "D8": "BGA154",
+          "G1": "BGA272",
+          "G2": "BGA272",
+          "G4": "BGA252",
+          "G5": "BGA272",
+          "G6": "BGA272",
+          "G7": "BGA252",
+          "G8": "BGA252",
+          "G9": "BGA252",
+          "H1": "BGA100",
+          "H2": "BGA100",
+          "H3": "BGA100",
+          "H4": "BGA63",
+          "H5": "BGA56",
+          "H6": "BGA152",
+          "H7": "BGA152",
+          "H8": "BGA152",
+          "H9": "BGA152",
+          "HC": "BGA63",
+          "J1": "BGA132",
+          "J2": "BGA132",
+          "J3": "BGA132",
+          "J4": "BGA132",
+          "J5": "BGA132",
+          "J6": "BGA132",
+          "J7": "BGA152",
+          "J9": "BGA132",
+          "K3": "BGA100",
+          "K4": "BGA100",
+          "K6": "BGA152",
+          "K7": "BGA152",
+          "K8": "BGA152",
+          "K9": "BGA132",
+          "L4": "BGA160",
+          "L5": "BGA160",
+          "L6": "BGA160",
+          "L7": "BGA160",
+          "L8": "BGA160",
+          "M4": "BGA132",
+          "M5": "BGA132",
+          "M6": "BGA132",
+          "M8": "BGA55",
+          "M9": "BGA252",
+          "MD": "BGA130",
+          "M8Z": "BGA55",
           "WP": "48-pin TSOP I Center Package Leads (CPL) PB free",
           "WC": "48-pin TSOP I Off-center Package Leads (OCPL) PB free"
         }
@@ -373,14 +445,14 @@
         {
           "op": "take",
           "len": 1,
-          "to": "generation_token"
+          "to": "die_token"
         },
         {
           "op": "map",
-          "from": "generation_token",
-          "table": "generation",
-          "to": "generation",
-          "default": null
+          "from": "die_token",
+          "table": "die_code",
+          "to": "dieCode",
+          "default": "Unknown"
         },
         {
           "op": "take",
@@ -398,13 +470,14 @@
           }
         },
         {
-          "op": "take",
-          "len": 2,
-          "to": "package_token"
+          "op": "map",
+          "from": "interface_token",
+          "table": "interface_info",
+          "to": "interfaceInfo",
+          "default": "Unknown"
         },
         {
-          "op": "map",
-          "from": "package_token",
+          "op": "takeLongest",
           "table": "package",
           "to": "package",
           "default": "Unknown"
@@ -428,9 +501,6 @@
         "voltage": {
           "$var": "voltage"
         },
-        "generation": {
-          "$var": "generation"
-        },
         "interface": {
           "$var": "interface"
         },
@@ -440,6 +510,12 @@
         "extraInfo": {
           "enterprise": {
             "$var": "enterprise"
+          },
+          "dieCode": {
+            "$var": "dieCode"
+          },
+          "interfaceInfo": {
+            "$var": "interfaceInfo"
           }
         },
         "url": {

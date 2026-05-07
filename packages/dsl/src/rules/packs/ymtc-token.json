@@ -1,36 +1,133 @@
 [
   {
-    "id": "vendor.ymtc.token.v1",
-    "priority": 930,
-    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
-    "match": { "kind": "prefix", "value": "YM" },
+    "id": "vendor.ymtc.process-alias.v1",
+    "priority": 936,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", "."] }],
+    "match": { "kind": "regex", "value": "^X[0-9]-[0-9A-Z]+$" },
     "tokenDecoder": {
-      "stripPrefixes": ["YM"],
       "tables": {
-        "type": { "N": "nand" },
+        "processAlias": {
+          "X0-A030": "X0-A030",
+          "X1-9050": "X1-9050",
+          "X2-9060": "X2-9060",
+          "X2-6070": "X2-6070",
+          "X3-9060": "X3-9060",
+          "X3-9070": "X3-9070",
+          "X3-6070": "X3-6070",
+          "X4-9060": "X4-9060",
+          "X4-9070": "X4-9070",
+          "X4-6080": "X4-6080"
+        },
+        "processNode": {
+          "X0-A030": "X0-A030 / DBS",
+          "X1-9050": "X1-9050 / JGS",
+          "X2-9060": "X2-9060 / TAS",
+          "X2-6070": "X2-6070 / HUS",
+          "X3-9060": "X3-9060 / WYS",
+          "X3-9070": "X3-9070 / WDS",
+          "X3-6070": "X3-6070 / EMS",
+          "X4-9060": "X4-9060 / WT",
+          "X4-9070": "X4-9070",
+          "X4-6080": "X4-6080"
+        },
+        "cellLevel": {
+          "X0-A030": 2,
+          "X1-9050": 3,
+          "X2-9060": 3,
+          "X2-6070": 4,
+          "X3-9060": 3,
+          "X3-9070": 3,
+          "X3-6070": 4,
+          "X4-9060": 3,
+          "X4-9070": 3,
+          "X4-6080": 4
+        },
+        "generation": {
+          "X0-A030": 1,
+          "X1-9050": 2,
+          "X2-9060": 3,
+          "X2-6070": 3,
+          "X3-9060": 4,
+          "X3-9070": 4,
+          "X3-6070": 4,
+          "X4-9060": 5,
+          "X4-9070": 5,
+          "X4-6080": 5
+        }
+      },
+      "steps": [
+        { "op": "takeLongest", "table": "processAlias", "to": "processKey", "default": "" },
+        { "op": "map", "from": "processKey", "table": "processNode", "to": "processNode", "default": "Unknown" },
+        { "op": "map", "from": "processKey", "table": "cellLevel", "to": "cellLevel", "default": -1 },
+        { "op": "map", "from": "processKey", "table": "generation", "to": "generation", "default": "Unknown" }
+      ],
+      "assign": {
+        "vendor": "ymtc",
+        "type": "nand",
+        "processNode": { "$var": "processNode" },
+        "cellLevel": { "$var": "cellLevel" },
+        "generation": { "$var": "generation" }
+      }
+    }
+  },
+  {
+    "id": "vendor.ymtc.nand-label.v2",
+    "priority": 930,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": {
+      "kind": "regex",
+      "value": "^(?:YM|KR|BP|BR|BW)[NS][0A][6789AW][SMTQ][A-F][12](?:W0|T1|L1|B1|B2|B3|B4|B5|B)[0-9A-Z][DUMCPEFX][0-9ABX][A-E][0-9A-Z]*$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "system": {
+          "YM": { "system": "YMTC" },
+          "KR": { "system": "KRYSTOR" },
+          "BP": { "system": "YMTC Business Partner" },
+          "BR": { "system": "KRYSTOR Business Partner" },
+          "BW": { "system": "BIWIN Label" }
+        },
+        "type": { "N": "nand", "S": "nand" },
+        "group": { "N": "NAND Flash", "S": "NAND Flash (SATA)" },
+        "groupInfo": { "N": { "group": "NAND Flash" }, "S": { "group": "NAND Flash (SATA)" } },
+        "productVersion": { "0": "Version 0", "A": "Version A" },
+        "productVersionInfo": { "0": { "product_version": "Version 0" }, "A": { "product_version": "Version A" } },
         "dieSize": {
-          "06": 65536,
-          "07": 131072,
-          "08": 262144,
-          "09": 524288,
-          "10": 1048576
+          "6": 65536,
+          "7": 131072,
+          "8": 262144,
+          "9": 524288,
+          "A": 1048576,
+          "W": 1394606.08
+        },
+        "dieDensityInfo": {
+          "6": { "die_density": "64Gb" },
+          "7": { "die_density": "128Gb" },
+          "8": { "die_density": "256Gb" },
+          "9": { "die_density": "512Gb" },
+          "A": { "die_density": "1Tb" },
+          "W": { "die_density": "1.33Tb" }
         },
         "cellLevel": { "S": 1, "M": 2, "T": 3, "Q": 4 },
         "voltage": {
-          "A": "Vcc=2.7~3.6V; VccQ=3.3V",
-          "B": "Vcc=2.7~3.6V; VccQ=1.8V",
-          "C": "Vcc=2.35~3.6V; VccQ=1.2V",
-          "D": "Vcc=2.35~3.6V; VccQ=3.3/1.8V",
-          "E": "Vcc=2.35~3.6V; VccQ=1.8/1.2V"
+          "A": "Vcc: 3.30V (2.70V~3.60V), VccQ: 3.30V (2.70V~3.60V)",
+          "B": "Vcc: 3.30V (2.70V~3.60V), VccQ: 1.80V (1.70V~1.95V)",
+          "C": "Vcc: 3.30V (2.70V~3.60V) / 2.50V (2.35V~2.75V), VccQ: 1.20V (1.14V~1.26V)",
+          "D": "Vcc: 3.30V (2.70V~3.60V) / 2.50V (2.35V~2.75V), VccQ: 3.30V (2.70V~3.60V) / 1.80V (1.70V~1.95V)",
+          "E": "Vcc: 3.30V (2.70V~3.60V) / 2.50V (2.35V~2.75V), VccQ: 1.80V (1.70V~1.95V) / 1.20V (1.14V~1.26V)",
+          "F": "Vcc: 2.50V (2.35V~2.75V), VccQ: 1.20V (1.14V~1.26V)"
         },
         "deviceWidth": { "1": 8, "2": 16 },
         "package": {
           "W0": "Wafer",
-          "T1": "TSOP-48; 12 x 20 x 1.x",
-          "B1": "BGA-132; 12 x 18 x 1.x",
-          "B2": "BGA-152; 14 x 18 x 1.x",
-          "B3": "BGA-272; 14 x 18 x 1.x",
-          "L1": "LGA-52; 12 x 17 x 1.x"
+          "T1": "TSOP-48 12x20",
+          "L1": "LGA-52 12x17",
+          "B1": "BGA-132 12x18",
+          "B2": "BGA-152 14x18",
+          "B3": "BGA-272 14x18",
+          "B4": "BGA-252 12x18",
+          "B5": "BGA-154 11.5x13.5",
+          "B": "BGA Special Custom"
         },
         "dieCount": {
           "A": 1,
@@ -50,7 +147,9 @@
           "M": 16,
           "N": 16,
           "O": 16,
-          "P": 16
+          "P": 16,
+          "S": 16,
+          "0": 1
         },
         "ce": {
           "A": 1,
@@ -70,7 +169,9 @@
           "M": 4,
           "N": 4,
           "O": 8,
-          "P": 8
+          "P": 8,
+          "S": 16,
+          "0": -1
         },
         "rb": {
           "A": 1,
@@ -90,7 +191,9 @@
           "M": 4,
           "N": 4,
           "O": 4,
-          "P": 4
+          "P": 4,
+          "S": 4,
+          "0": -1
         },
         "ch": {
           "A": 1,
@@ -110,42 +213,96 @@
           "M": 2,
           "N": 4,
           "O": 2,
-          "P": 4
+          "P": 4,
+          "S": 4,
+          "0": -1
         },
-        "additionalInfo": {
-          "C0": { "opTemp": "0°C ~ 70°C", "speed_grade": "ONFI 3.2; Max Speed=400MB/s" },
-          "C1": { "opTemp": "0°C ~ 70°C", "speed_grade": "ONFI 3.2; Max Speed=533MB/s" },
-          "C2": { "opTemp": "0°C ~ 70°C", "speed_grade": "ONFI 4.0; Max Speed=667MB/s" },
-          "C3": { "opTemp": "0°C ~ 70°C", "speed_grade": "ONFI 4.0; Max Speed=800MB/s" },
-          "C4": { "opTemp": "0°C ~ 70°C", "speed_grade": "ONFI 4.0; Max Speed=1200MB/s (UNOFFICIAL)" },
-          "C5": { "opTemp": "0°C ~ 70°C", "speed_grade": "ONFI 4.0; Max Speed=1333MB/s (UNOFFICIAL)" },
-          "C6": { "opTemp": "0°C ~ 70°C", "speed_grade": "ONFI 4.0; Max Speed=1600MB/s (UNOFFICIAL)" }
+        "productClass": {
+          "D": { "product_class": "Downgrade", "opTemp": "0°C ~ 70°C" },
+          "U": { "product_class": "Low Speed", "opTemp": "0°C ~ 70°C" },
+          "M": { "product_class": "Client MLC", "opTemp": "0°C ~ 70°C" },
+          "C": { "product_class": "Client", "opTemp": "0°C ~ 70°C" },
+          "P": { "product_class": "Client", "opTemp": "0°C ~ 70°C" },
+          "E": { "product_class": "Enterprise", "opTemp": "0°C ~ 70°C" },
+          "F": { "product_class": "Enterprise", "opTemp": "0°C ~ 70°C" },
+          "X": { "product_class": "Undefined" }
         },
-        "generation": { "A": 1, "B": 2, "C": 3, "D": 4, "E": 5 }
+        "speedClass": {
+          "0": { "speed_grade": "ONFI 3.2; Max Speed=400MT/s" },
+          "1": { "speed_grade": "ONFI 3.2; Max Speed=533MT/s" },
+          "2": { "speed_grade": "ONFI 4.0; Max Speed=667MT/s" },
+          "3": { "speed_grade": "ONFI 4.0; Max Speed=800MT/s" },
+          "4": { "speed_grade": "ONFI 4.1; Max Speed=1200MT/s" },
+          "5": { "speed_grade": "ONFI 4.2; Max Speed=1333MT/s" },
+          "6": { "speed_grade": "ONFI 4.2; Max Speed=1600MT/s" },
+          "8": { "speed_grade": "Undefined" },
+          "A": { "speed_grade": "ONFI 5.0; Max Speed=2400MT/s" },
+          "B": { "speed_grade": "ONFI 5.1; Max Speed=3600MT/s" },
+          "X": { "speed_grade": "Undefined" }
+        },
+        "generation": { "A": 1, "B": 2, "C": 3, "D": 4, "E": 5 },
+        "generationInfo": {
+          "A": { "generation_info": "Gen 1" },
+          "B": { "generation_info": "Gen 2 Xtacking 1.0" },
+          "C": { "generation_info": "Gen 3 Xtacking 2.0" },
+          "D": { "generation_info": "Gen 4 Xtacking 3.0" },
+          "E": { "generation_info": "Gen 5 Xtacking 4.0" }
+        },
+        "processNode": {
+          "A:6:M": "X0-A030 / DBS",
+          "B:8:T": "X1-9050 / JGS",
+          "C:9:T": "X2-9060 / TAS",
+          "C:W:Q": "X2-6070 / HUS",
+          "D:9:T": "X3-9060 / WYS",
+          "D:A:T": "X3-9070 / WDS",
+          "D:A:Q": "X3-6070 / EMS",
+          "E:9:T": "X4-9060 / WT",
+          "E:A:T": "X4-9070",
+          "E:W:Q": "X4-6080"
+        }
       },
       "steps": [
-        { "op": "take", "len": 1, "to": "typeCode" },
-        { "op": "map", "from": "typeCode", "table": "type", "to": "type", "default": "Unknown" },
-        { "op": "take", "len": 2, "to": "dieSizeCode" },
+        { "op": "takeLongest", "table": "system", "to": "systemObj", "default": {} },
+        { "op": "take", "len": 1, "to": "groupCode" },
+        { "op": "map", "from": "groupCode", "table": "type", "to": "type", "default": "Unknown" },
+        { "op": "map", "from": "groupCode", "table": "group", "to": "group", "default": "Unknown" },
+        { "op": "map", "from": "groupCode", "table": "groupInfo", "to": "groupObj", "default": {} },
+        { "op": "take", "len": 1, "to": "productVersionCode" },
+        { "op": "map", "from": "productVersionCode", "table": "productVersion", "to": "productVersion", "default": "Unknown" },
+        { "op": "map", "from": "productVersionCode", "table": "productVersionInfo", "to": "productVersionObj", "default": {} },
+        { "op": "take", "len": 1, "to": "dieSizeCode" },
         { "op": "map", "from": "dieSizeCode", "table": "dieSize", "to": "dieSize", "default": 0 },
+        { "op": "map", "from": "dieSizeCode", "table": "dieDensityInfo", "to": "dieDensityObj", "default": {} },
         { "op": "take", "len": 1, "to": "cellCode" },
         { "op": "map", "from": "cellCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
         { "op": "take", "len": 1, "to": "voltageCode" },
         { "op": "map", "from": "voltageCode", "table": "voltage", "to": "voltage", "default": "Unknown" },
         { "op": "take", "len": 1, "to": "widthCode" },
         { "op": "map", "from": "widthCode", "table": "deviceWidth", "to": "deviceWidth", "default": -1 },
-        { "op": "take", "len": 2, "to": "packageCode" },
-        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "Unknown" },
+        { "op": "takeLongest", "table": "package", "to": "package", "default": "Unknown" },
         { "op": "take", "len": 1, "to": "classCode" },
         { "op": "map", "from": "classCode", "table": "dieCount", "to": "die", "default": -1 },
         { "op": "map", "from": "classCode", "table": "ce", "to": "ce", "default": -1 },
         { "op": "map", "from": "classCode", "table": "rb", "to": "rb", "default": -1 },
         { "op": "map", "from": "classCode", "table": "ch", "to": "ch", "default": -1 },
         { "op": "mul", "a": "dieSize", "b": "die", "to": "density", "default": 0 },
-        { "op": "take", "len": 2, "to": "additionalCode" },
-        { "op": "map", "from": "additionalCode", "table": "additionalInfo", "to": "additionalObj", "default": {} },
+        { "op": "take", "len": 1, "to": "productClassCode" },
+        { "op": "map", "from": "productClassCode", "table": "productClass", "to": "productClassObj", "default": {} },
+        { "op": "take", "len": 1, "to": "speedCode" },
+        { "op": "map", "from": "speedCode", "table": "speedClass", "to": "speedObj", "default": {} },
         { "op": "take", "len": 1, "to": "generationCode" },
-        { "op": "map", "from": "generationCode", "table": "generation", "to": "generation", "default": "Unknown" }
+        { "op": "map", "from": "generationCode", "table": "generation", "to": "generation", "default": "Unknown" },
+        { "op": "map", "from": "generationCode", "table": "generationInfo", "to": "generationObj", "default": {} },
+        { "op": "tpl", "template": "{{generationCode}}:{{dieSizeCode}}:{{cellCode}}", "to": "processKey" },
+        { "op": "map", "from": "processKey", "table": "processNode", "to": "processNode", "default": "Unknown" },
+        { "op": "set", "to": "extra", "value": {} },
+        { "op": "merge", "into": "extra", "from": "systemObj" },
+        { "op": "merge", "into": "extra", "from": "groupObj" },
+        { "op": "merge", "into": "extra", "from": "productVersionObj" },
+        { "op": "merge", "into": "extra", "from": "dieDensityObj" },
+        { "op": "merge", "into": "extra", "from": "productClassObj" },
+        { "op": "merge", "into": "extra", "from": "speedObj" },
+        { "op": "merge", "into": "extra", "from": "generationObj" }
       ],
       "assign": {
         "vendor": "ymtc",
@@ -153,6 +310,7 @@
         "density": { "$var": "density" },
         "deviceWidth": { "$var": "deviceWidth" },
         "cellLevel": { "$var": "cellLevel" },
+        "processNode": { "$var": "processNode" },
         "voltage": { "$var": "voltage" },
         "generation": { "$var": "generation" },
         "interface": { "async": true, "sync": true },
@@ -163,9 +321,285 @@
           "rb": { "$var": "rb" },
           "die": { "$var": "die" }
         },
-        "extraInfo": { "$var": "additionalObj" }
+        "extraInfo": { "$var": "extra" }
+      }
+    }
+  },
+  {
+    "id": "vendor.ymtc.unimos-label.v1",
+    "priority": 929,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": {
+      "kind": "regex",
+      "value": "^YMC(?:2G|3G|4G|6G|7G|8G)(?:001TB|0W1TB|002TB|004TB|0W3TB|008TB|016TB)[567G][12348A][A-F]A[123]C[0-9A-Z]?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["YMC"],
+      "tables": {
+        "generation": { "2G": 2, "3G": 3, "4G": 3, "6G": 4, "7G": 4, "8G": 4 },
+        "processNode": {
+          "2G": "X1-9050 / JGS",
+          "3G": "X2-9060 / TAS",
+          "4G": "X2-6070 / HUS",
+          "6G": "X3-9070 / WDS",
+          "7G": "X3-9060 / WYS",
+          "8G": "X3-6070 / EMS"
+        },
+        "cellLevel": { "2G": 3, "3G": 3, "4G": 4, "6G": 3, "7G": 3, "8G": 4 },
+        "generationInfo": {
+          "2G": { "generation_info": "Gen 2 Xtacking 1.0", "die_density": "256Gb" },
+          "3G": { "generation_info": "Gen 3 Xtacking 2.0", "die_density": "512Gb" },
+          "4G": { "generation_info": "Gen 3 Xtacking 2.0", "die_density": "1.33Tb" },
+          "6G": { "generation_info": "Gen 4 Xtacking 3.0", "die_density": "1Tb" },
+          "7G": { "generation_info": "Gen 4 Xtacking 3.0", "die_density": "512Gb" },
+          "8G": { "generation_info": "Gen 4 Xtacking 3.0", "die_density": "1Tb" }
+        },
+        "deviceDensity": {
+          "001TB": 1048576,
+          "0W1TB": 1394606.08,
+          "002TB": 2097152,
+          "004TB": 4194304,
+          "0W3TB": 4194304,
+          "008TB": 8388608,
+          "016TB": 16777216
+        },
+        "dieDensityInfo": {
+          "5": { "die_density": "256Gb" },
+          "6": { "die_density": "512Gb" },
+          "7": { "die_density": "1Tb" },
+          "G": { "die_density": "1.33Tb" }
+        },
+        "dieStack": { "1": 1, "2": 2, "3": 3, "4": 4, "8": 8, "A": 16 },
+        "dieStackInfo": {
+          "1": { "die_stack": "SDP (1-die)" },
+          "2": { "die_stack": "DDP (2-die)" },
+          "3": { "die_stack": "3-die" },
+          "4": { "die_stack": "QDP (4-die)" },
+          "8": { "die_stack": "ODP (8-die)" },
+          "A": { "die_stack": "HDP (16-die)" }
+        },
+        "ce": { "A": 1, "B": 2, "C": 4, "D": 8, "E": 3, "F": 8 },
+        "rb": { "A": 1, "B": 2, "C": 4, "D": 4, "E": 3, "F": 4 },
+        "ch": { "A": 1, "B": 2, "C": 2, "D": 2, "E": 2, "F": 4 },
+        "package": {
+          "A1": "BGA-132 12x18",
+          "A2": "BGA-152 14x18",
+          "A3": "BGA-272 14x18"
+        },
+        "productClass": { "C": { "product_class": "Commercial" } }
+      },
+      "steps": [
+        { "op": "take", "len": 2, "to": "generationCode" },
+        { "op": "map", "from": "generationCode", "table": "generation", "to": "generation", "default": "Unknown" },
+        { "op": "map", "from": "generationCode", "table": "processNode", "to": "processNode", "default": "Unknown" },
+        { "op": "map", "from": "generationCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
+        { "op": "map", "from": "generationCode", "table": "generationInfo", "to": "generationObj", "default": {} },
+        { "op": "take", "len": 5, "to": "deviceDensityCode" },
+        { "op": "map", "from": "deviceDensityCode", "table": "deviceDensity", "to": "density", "default": 0 },
+        { "op": "take", "len": 1, "to": "dieDensityCode" },
+        { "op": "map", "from": "dieDensityCode", "table": "dieDensityInfo", "to": "dieDensityObj", "default": {} },
+        { "op": "take", "len": 1, "to": "dieStackCode" },
+        { "op": "map", "from": "dieStackCode", "table": "dieStack", "to": "die", "default": -1 },
+        { "op": "map", "from": "dieStackCode", "table": "dieStackInfo", "to": "dieStackObj", "default": {} },
+        { "op": "take", "len": 1, "to": "configCode" },
+        { "op": "map", "from": "configCode", "table": "ce", "to": "ce", "default": -1 },
+        { "op": "map", "from": "configCode", "table": "rb", "to": "rb", "default": -1 },
+        { "op": "map", "from": "configCode", "table": "ch", "to": "ch", "default": -1 },
+        { "op": "takeLongest", "table": "package", "to": "package", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "productClassCode" },
+        { "op": "map", "from": "productClassCode", "table": "productClass", "to": "productClassObj", "default": {} },
+        { "op": "take", "len": 1, "to": "reservedCode" },
+        { "op": "set", "to": "extra", "value": { "system": "UNIMOS" } },
+        { "op": "merge", "into": "extra", "from": "generationObj" },
+        { "op": "merge", "into": "extra", "from": "dieDensityObj" },
+        { "op": "merge", "into": "extra", "from": "dieStackObj" },
+        { "op": "merge", "into": "extra", "from": "productClassObj" }
+      ],
+      "assign": {
+        "vendor": "ymtc",
+        "type": "nand",
+        "density": { "$var": "density" },
+        "cellLevel": { "$var": "cellLevel" },
+        "processNode": { "$var": "processNode" },
+        "generation": { "$var": "generation" },
+        "interface": { "async": true, "sync": true },
+        "package": { "$var": "package" },
+        "classification": {
+          "ce": { "$var": "ce" },
+          "ch": { "$var": "ch" },
+          "rb": { "$var": "rb" },
+          "die": { "$var": "die" }
+        },
+        "extraInfo": { "$var": "extra" }
+      }
+    }
+  },
+  {
+    "id": "vendor.ymtc.emmc-label.v1",
+    "priority": 929,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": {
+      "kind": "regex",
+      "value": "^YMEC[456789A](?:A1|A2|B0)[MT][ABCE][12345]A2C[13]$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["YMEC"],
+      "tables": {
+        "deviceDensity": {
+          "4": 65536,
+          "5": 131072,
+          "6": 262144,
+          "7": 524288,
+          "8": 1048576,
+          "9": 2097152,
+          "A": 4194304
+        },
+        "controller": {
+          "A1": { "controller": "eMMC 5.1 Controller EC000" },
+          "A2": { "controller": "eMMC 5.1 Controller EC110" },
+          "B0": { "controller": "eMMC 5.1 Controller EC230" }
+        },
+        "cellLevel": { "M": 2, "T": 3 },
+        "processNode": {
+          "A": "X0-A030 / DBS",
+          "B": "X1-9050 / JGS",
+          "C": "X2-9060 / TAS",
+          "E": "X3-9060 / WYS"
+        },
+        "generation": { "A": 1, "B": 2, "C": 3, "E": 4 },
+        "dieStack": { "1": 1, "2": 2, "3": 4, "4": 8, "5": 16 },
+        "dieStackInfo": {
+          "1": { "die_stack": "SDP (1-die)" },
+          "2": { "die_stack": "DDP (2-die)" },
+          "3": { "die_stack": "QDP (4-die)" },
+          "4": { "die_stack": "ODP (8-die)" },
+          "5": { "die_stack": "HDP (16-die)" }
+        },
+        "package": { "A2": "BGA-153 11.5x13x1.0" },
+        "productClass": { "C": { "product_class": "Commercial" } },
+        "temperature": {
+          "1": { "opTemp": "-20°C ~ 85°C" },
+          "3": { "opTemp": "-25°C ~ 85°C" }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "deviceDensity", "to": "density", "default": 0 },
+        { "op": "take", "len": 2, "to": "controllerCode" },
+        { "op": "map", "from": "controllerCode", "table": "controller", "to": "controllerObj", "default": {} },
+        { "op": "take", "len": 1, "to": "cellCode" },
+        { "op": "map", "from": "cellCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
+        { "op": "take", "len": 1, "to": "generationCode" },
+        { "op": "map", "from": "generationCode", "table": "processNode", "to": "processNode", "default": "Unknown" },
+        { "op": "map", "from": "generationCode", "table": "generation", "to": "generation", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "dieStackCode" },
+        { "op": "map", "from": "dieStackCode", "table": "dieStack", "to": "die", "default": -1 },
+        { "op": "map", "from": "dieStackCode", "table": "dieStackInfo", "to": "dieStackObj", "default": {} },
+        { "op": "takeLongest", "table": "package", "to": "package", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "productClassCode" },
+        { "op": "map", "from": "productClassCode", "table": "productClass", "to": "productClassObj", "default": {} },
+        { "op": "take", "len": 1, "to": "temperatureCode" },
+        { "op": "map", "from": "temperatureCode", "table": "temperature", "to": "temperatureObj", "default": {} },
+        { "op": "set", "to": "extra", "value": { "system": "YMTC", "group": "eMMC" } },
+        { "op": "merge", "into": "extra", "from": "controllerObj" },
+        { "op": "merge", "into": "extra", "from": "dieStackObj" },
+        { "op": "merge", "into": "extra", "from": "productClassObj" },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+      ],
+      "assign": {
+        "vendor": "ymtc",
+        "type": "emmc",
+        "density": { "$var": "density" },
+        "cellLevel": { "$var": "cellLevel" },
+        "processNode": { "$var": "processNode" },
+        "generation": { "$var": "generation" },
+        "package": { "$var": "package" },
+        "classification": { "die": { "$var": "die" } },
+        "extraInfo": { "$var": "extra" }
+      }
+    }
+  },
+  {
+    "id": "vendor.ymtc.ufs-label.v1",
+    "priority": 929,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": {
+      "kind": "regex",
+      "value": "^YMUS[6789A](?:A1|A4|B2)[TQ][BCE][12345](?:A2|D1|D2)C1$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["YMUS"],
+      "tables": {
+        "deviceDensity": {
+          "6": 262144,
+          "7": 524288,
+          "8": 1048576,
+          "9": 2097152,
+          "A": 4194304
+        },
+        "controller": {
+          "A1": { "controller": "UFS 3.1 Controller" },
+          "A4": { "controller": "UFS 2.2 Controller UC114" },
+          "B2": { "controller": "UFS 2.2 Controller UC234" }
+        },
+        "cellLevel": { "T": 3, "Q": 4 },
+        "processNode": {
+          "B": "X1-9050 / JGS",
+          "C": "X2-9060 / TAS",
+          "E": "X3-9060 / WYS"
+        },
+        "generation": { "B": 2, "C": 3, "E": 4 },
+        "dieStack": { "1": 1, "2": 2, "3": 4, "4": 8, "5": 16 },
+        "dieStackInfo": {
+          "1": { "die_stack": "SDP (1-die)" },
+          "2": { "die_stack": "DDP (2-die)" },
+          "3": { "die_stack": "QDP (4-die)" },
+          "4": { "die_stack": "ODP (8-die)" },
+          "5": { "die_stack": "HDP (16-die)" }
+        },
+        "package": {
+          "A2": "BGA-153 11.5x13x1.0/1.2",
+          "D1": "BGA-153 11x13x0.8",
+          "D2": "BGA-153 11x13x1.0"
+        },
+        "productClass": { "C": { "product_class": "Commercial" } },
+        "temperature": { "1": { "opTemp": "-25°C ~ 85°C" } }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "deviceDensity", "to": "density", "default": 0 },
+        { "op": "take", "len": 2, "to": "controllerCode" },
+        { "op": "map", "from": "controllerCode", "table": "controller", "to": "controllerObj", "default": {} },
+        { "op": "take", "len": 1, "to": "cellCode" },
+        { "op": "map", "from": "cellCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
+        { "op": "take", "len": 1, "to": "generationCode" },
+        { "op": "map", "from": "generationCode", "table": "processNode", "to": "processNode", "default": "Unknown" },
+        { "op": "map", "from": "generationCode", "table": "generation", "to": "generation", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "dieStackCode" },
+        { "op": "map", "from": "dieStackCode", "table": "dieStack", "to": "die", "default": -1 },
+        { "op": "map", "from": "dieStackCode", "table": "dieStackInfo", "to": "dieStackObj", "default": {} },
+        { "op": "takeLongest", "table": "package", "to": "package", "default": "Unknown" },
+        { "op": "take", "len": 1, "to": "productClassCode" },
+        { "op": "map", "from": "productClassCode", "table": "productClass", "to": "productClassObj", "default": {} },
+        { "op": "take", "len": 1, "to": "temperatureCode" },
+        { "op": "map", "from": "temperatureCode", "table": "temperature", "to": "temperatureObj", "default": {} },
+        { "op": "set", "to": "extra", "value": { "system": "YMTC", "group": "UFS" } },
+        { "op": "merge", "into": "extra", "from": "controllerObj" },
+        { "op": "merge", "into": "extra", "from": "dieStackObj" },
+        { "op": "merge", "into": "extra", "from": "productClassObj" },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+      ],
+      "assign": {
+        "vendor": "ymtc",
+        "type": "ufs",
+        "density": { "$var": "density" },
+        "cellLevel": { "$var": "cellLevel" },
+        "processNode": { "$var": "processNode" },
+        "generation": { "$var": "generation" },
+        "package": { "$var": "package" },
+        "classification": { "die": { "$var": "die" } },
+        "extraInfo": { "$var": "extra" }
       }
     }
   }
 ]
-

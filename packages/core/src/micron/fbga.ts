@@ -30,8 +30,12 @@ export interface MicronFbgaParsed {
 
 export function parseMicronFbgaCode(input: string): MicronFbgaParsed | null {
   const normalized = input.toUpperCase();
+  if (normalized.length !== 5 && normalized.length !== 10) {
+    return null;
+  }
+
   for (const header of MICRON_FBGA_HEADERS) {
-    if (normalized.startsWith(header)) {
+    if (normalized.length === 5 && normalized.startsWith(header)) {
       return { key: normalized, display: normalized };
     }
     if (normalized.length === 10 && normalized.slice(5, 7) === header) {
