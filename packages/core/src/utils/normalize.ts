@@ -3,7 +3,7 @@ import { removeChars } from "./string";
 const PN_REMOVALS = [" ", ",", "&", ".", "|"];
 
 export function normalizePartNumber(partNumber: string): string {
-  return removeChars(partNumber.toUpperCase(), PN_REMOVALS);
+  return removeChars(partNumber.toUpperCase().replace(/\uFFFD/g, "-"), PN_REMOVALS);
 }
 
 export function normalizeFlashId(id: string): string {

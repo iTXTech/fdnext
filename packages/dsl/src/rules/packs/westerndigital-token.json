@@ -1,34 +1,34 @@
 [
   {
-    "id": "vendor.westerndigital.unsupported.inand",
+    "id": "vendor.sndk.unsupported.inand",
     "priority": 999,
     "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
     "match": { "kind": "prefix", "value": "SDIN" },
     "tokenDecoder": {
       "steps": [],
       "assign": {
-        "vendor": "westerndigital",
+        "vendor": "sndk",
         "type": "inand",
         "extraInfo": { "unsupportedReason": "sandisk_inand_not_supported" }
       }
     }
   },
   {
-    "id": "vendor.westerndigital.unsupported.issd",
+    "id": "vendor.sndk.unsupported.issd",
     "priority": 999,
     "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
     "match": { "kind": "prefix", "value": "SDIS" },
     "tokenDecoder": {
       "steps": [],
       "assign": {
-        "vendor": "westerndigital",
+        "vendor": "sndk",
         "type": "issd",
         "extraInfo": { "unsupportedReason": "sandisk_issd_not_supported" }
       }
     }
   },
   {
-    "id": "vendor.westerndigital.shortcode.v1",
+    "id": "vendor.sndk.shortcode.v1",
     "priority": 980,
     "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
     "match": { "kind": "regex", "value": "^[0-9]{5}-[0-9A-Z]{4}$" },
@@ -57,13 +57,13 @@
         { "op": "takeLongest", "table": "density", "to": "density", "default": 0 }
       ],
       "assign": {
-        "vendor": "westerndigital",
+        "vendor": "sndk",
         "density": { "$var": "density" }
       }
     }
   },
   {
-    "id": "vendor.westerndigital.token.v1",
+    "id": "vendor.sndk.token.v1",
     "priority": 910,
     "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
     "match": { "kind": "prefix", "value": "SD" },
@@ -129,7 +129,7 @@
         { "op": "takeLongest", "table": "density", "to": "density", "default": 0 }
       ],
       "assign": {
-        "vendor": "westerndigital",
+        "vendor": "sndk",
         "type": "nand",
         "package": { "$var": "package" },
         "processNode": { "$var": "processNode" },

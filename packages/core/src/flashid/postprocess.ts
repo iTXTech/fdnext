@@ -56,7 +56,7 @@ export function createDefaultFlashIdProcessor(): ProcessorHooks {
       let patch: Partial<FlashIdInfo> | null = null;
       if (vendor === "samsung") patch = patchSamsung(info);
       else if (vendor === "skhynix") patch = patchSkhynix(info);
-      else if (vendor === "kioxia" || vendor === "westerndigital") patch = patchKioxiaLike(info);
+      else if (vendor === "kioxia" || vendor === "sndk") patch = patchKioxiaLike(info);
 
       if (!patch) {
         return info;
@@ -65,4 +65,3 @@ export function createDefaultFlashIdProcessor(): ProcessorHooks {
     }
   } satisfies ProcessorHooks;
 }
-

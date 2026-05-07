@@ -1,9 +1,9 @@
 [
   {
-    "id": "flashid.westerndigital.v1",
+    "id": "flashid.sndk.v1",
     "priority": 390,
     "match": { "kind": "prefix", "value": "45" },
-    "vendor": "westerndigital",
+    "vendor": "sndk",
     "definition": {
       "2": {
         "density": {
@@ -104,4 +104,3 @@
     }
   }
 ]
-

@@ -206,6 +206,17 @@ function toPublicFlashIdInfo(info: FlashIdInfo, langPacks: LangPacks, fallbackLa
   return translated;
 }
 
+function inferSingleVendorFromPartReferences(refs: string[] | undefined): string | undefined {
+  const vendors = new Set<string>();
+  for (const ref of refs ?? []) {
+    const match = /^(\S+)\s+/.exec(ref);
+    if (match?.[1] && match[1] !== UNKNOWN) {
+      vendors.add(match[1]);
+    }
+  }
+  return vendors.size === 1 ? [...vendors][0] : undefined;
+}
+
 export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
   const fallbackLang = options.fallbackLang && LANGUAGES.includes(options.fallbackLang as (typeof LANGUAGES)[number])
     ? options.fallbackLang
@@ -269,8 +280,8 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
 
     info.remark = record.m ?? "";
 
-    if (info.vendor === "westerndigital" && typeof info.remark === "string" && info.remark.length > 0) {
-      // PHP WesternDigital decoder encodes special flags inside the remark string (e.g. "CODE/Txxxx/...").
+    if (info.vendor === "sndk" && typeof info.remark === "string" && info.remark.length > 0) {
+      // Legacy SanDisk records encode special flags inside the remark string (e.g. "CODE/Txxxx/...").
       // It then moves those flags into extraInfo and cleans up the remark.
       const parts = info.remark.split("/");
       const remarkParts: string[] = [];
@@ -456,6 +467,10 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     if (flashIdRecord) {
       info.controllers = flashIdRecord.t ?? [];
       info.partNumbers = flashIdRecord.n ?? [];
+      const fdbVendor = inferSingleVendorFromPartReferences(flashIdRecord.n);
+      if (fdbVendor && info.vendor !== fdbVendor) {
+        info.vendor = fdbVendor;
+      }
     }
 
     const processed = applyFlashIdProcessors(info);

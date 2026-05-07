@@ -1,11 +1,14 @@
 # FDBGen 文档
 
-`@itxtech/fdnext-fdbgen` 是 `fdnext` 内置的独立 TypeScript 实现，用于从本地数据目录生成 `fdb.json`，不依赖上游 PHP 脚本。
+`@itxtech/fdnext-fdbgen` 是 `fdnext` 内置的独立 TypeScript 实现，用于从本地数据目录生成 `fdb.json`。当前 raw FlashDB 数据目录是仓库外部的 `../fdfdb`，raw 目录解析逻辑参考 PHP 版 `../FlashDetector/FDBGen`。
 
 ## 功能范围
 
 - 从多种输入来源合并 PN 与 FlashId 数据
+- 兼容 FlashDetector raw FlashDB 子目录（`smff/smufd/smssd/jm/mk/ma/sf/al/cbm/is/ps`）
 - 归一化厂商名与主键格式（Vendor/PN/FlashId）
+- 按确定性 PN 前缀校正厂商归属，避免 `MT29F...` 被放入 Samsung 等错误厂商桶
+- 清理无效 FlashId、残缺 PN 别名与悬空 `iddb.n` 反向引用
 - 自动回填 `iddb.n`（`vendor partNumber` 反向引用）
 - 聚合并去重 `info.controllers`
 - 生成稳定排序的输出 JSON，便于 diff 与审阅
@@ -29,6 +32,12 @@ node packages/fdbgen/dist/cli.js build --input <dataset-dir> --output <fdb.json>
 
 ```bash
 pnpm fdbgen:generate -- --input <dataset-dir> --output <fdb.json> [options]
+```
+
+当前 raw FlashDB 生成命令：
+
+```bash
+pnpm -s tsx ./packages/fdbgen/src/cli.ts build --input ../fdfdb --output resources/fdb.json --version 79 --time "Wed, 03 May 2023 06:23:02 +0000" --pretty
 ```
 
 `mdb` 爬取工具（参考 FlashDetector 的 `microndb` 流程）：
@@ -68,7 +77,30 @@ pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 
 ## 输入目录约定
 
-输入目录支持以下文件/子目录（均可选）：
+输入目录支持两种来源。
+
+### Raw FlashDB
+
+当前底层数据目录为 `../fdfdb`，它是独立 raw 数据文件夹，不是已生成的 `resources/fdb.json`。生成器发现以下任一子目录时会按 raw 模式加载，并按 PHP `FDBGen` 的生成器顺序合并：
+
+```text
+smff/
+smufd/
+smssd/
+jm/
+mk/
+ma/
+sf/
+al/
+cbm/
+is/
+ps/
+extra.json
+```
+
+### 结构化输入
+
+未发现 raw 子目录时，输入目录支持以下文件/子目录（均可选）：
 
 - `fdb.json`
 - `meta.json`
@@ -166,6 +198,24 @@ dataset/
 
 ### 加载顺序
 
+Raw FlashDB 模式：
+
+1. `smff`
+2. `smufd`
+3. `smssd`
+4. `jm`
+5. `mk`
+6. `ma`
+7. `sf`
+8. `al`
+9. `cbm`
+10. `is`
+11. `ps`
+12. `extra.json`
+13. 命令行参数覆盖 `info` 字段
+
+结构化输入模式：
+
 1. `fdb.json`
 2. `vendors/*.json`
 3. `iddb/*.json`
@@ -177,16 +227,34 @@ dataset/
 
 以下别名会自动修正：
 
-- `sandisk` / `sndk` → `westerndigital`
+- `western digital` / `westerndigital` / `wd` / `sandisk` / `sndk` → `sndk`
 - `toshiba` / `toshiba-iver` → `kioxia`
 - `hynix` → `skhynix`
+- `septeck` → `spectek`
+- `stm` → `st`
+
+### 厂商归属校正
+
+生成器会按高置信 PN 前缀重新分配 vendor：
+
+- `MT29*` / `MTFC*` / `MTFD*` → `micron`
+- `K9*` / `KLM*` / `KLU*` / `KMD*` / `KMF*` / `KMN*` / `KMV*` → `samsung`
+- `HY27*` / `H27*` / `H25*` / `H26*` / `H2D*` / `H2J*` / `H9T*` → `skhynix`
+- `TC58*` / `TH58*` → `kioxia`
+- `SD*` / `S34*` / `S35*` / `SANDISK*` / `SNDK*` / `DFT*` / `MDT*` / `05xxx*` → `sndk`
+- `JS29F*` / `I29F*` / `PF29F*` / `PC29F*` / `PD29F*` → `intel`
+- `FBNL*` / `FNNL*` / `FNN*` / `FXXL*` → `spectek`
+- `NAND*` / `M29F*` → `st`
+- `YM*` / `YMN*` / `XT*` → `ymtc`
 
 ### 键与字段处理
 
-- PN key 统一转大写
-- FlashId key 统一转大写
+- PN key 统一转大写，并移除空格、逗号、`&`、`.`、`|`
+- FlashId key 统一移除空白、转大写；非十六进制、奇数字节长度或异常长度的 ID 会被丢弃
 - 数组字段（如 `id/t/n/controllers`）会去重
 - 数值字段（`s/p/b/d/e/r/n`）仅接受有限数值
+- 如果 `*_1` 或尾部 `-` PN 有明确 base PN，会合并回 base PN
+- `iddb.n` 只保留能在 vendor PN 表中找到的反向引用
 
 ### 自动回填
 

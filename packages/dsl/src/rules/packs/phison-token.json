@@ -11,7 +11,7 @@
           "I": "micron",
           "K": "micron",
           "H": "skhynix",
-          "D": "westerndigital",
+          "D": "sndk",
           "C": "ymtc",
           "N": "intel"
         },
@@ -61,7 +61,7 @@
         },
         "nodeVendorOverride": {
           "micron": "intel",
-          "westerndigital": "kioxia"
+          "sndk": "kioxia"
         },
         "processNode": {
           "kioxia:H": "24nm 2plane",

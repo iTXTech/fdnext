@@ -18,10 +18,10 @@ export function inferVendorFromFlashId(id: string): string {
     case "B5":
       return "spectek";
     case "45":
+      return "sndk";
     case "EF":
-      return "westerndigital";
+      return "winbond";
     default:
       return UNKNOWN;
   }
 }
-
