@@ -34,7 +34,7 @@
   <https://aphnetworks.com/reviews/ballistix-elite-pc4-28800-4x8gb/2>
 - Micron 官方 `Legacy LPDRAM Part Numbering System / Legacy DDR4, DDR3/L, & DDR2 SDRAM Part Numbering System` PDF 记录了 Micron 收购 Elpida 后的 legacy Elpida PN 命名；Micron FBGA code 反查可能返回 `EDB/EDF...` Elpida LPDRAM PN，也可能返回 `ED/EE + 40/41/47/...` 这类 legacy PN。
   <https://assets.micron.com/adobe/assets/urn:aaid:aem:0b279ea9-4e4c-49fa-98c6-c18ad4c67279/original/as/legacy-elpida-pns.pdf>
-- Preduo 公开 `Micron Part Number List`，列出 FBGA code 与 Micron/Crucial PN 映射，并明确提示这些映射并非一对一；本项目只把其中落在 Micron / Crucial DRAM family 的记录写入补全和 FBGA 查询资源，不把它作为解码规则。
+- Preduo 公开 `Micron Part Number List`，列出 FBGA code 与 PN 文本；本项目只将其作为一次性 5 位 code 提取来源，不信任页面中的 PN 对应关系。PN 映射必须由 Micron 官方 FBGA decoder API 重新生成。
   <https://www.preduo.com/part-number-list/micron-part-number-list>
 
 ## DSL 范围
@@ -47,8 +47,9 @@
 ## 搜索资源
 
 - `packages/resources/resources/dram-pn.json` 收录已知 Micron / Crucial DRAM PN，用于 PN 补全和 `searchPartNumber()`，不是解码依据。
-- `packages/resources/resources/micron-dram-fbga.json` 收录 Micron / Crucial DRAM FBGA code 到完整 PN 的映射，也兼容 Micron legacy Elpida PN，例如 `C9BHZ -> EDB2432B4MA-1DAAT-F-D`、`D9BCS -> EE51K256M32HF-60:B`。它用于 `searchMicronFbgaCode()`、`searchPartNumber()` code 查询，以及 `detect("C9BJZ")` / `detect("C9BHZ")` 这类 code 输入时先反查 PN 再走 DSL。
-- Preduo 的部分行带有非 PN 注记或同 code 多 PN 情况，资源导入时只保留规范化 PN 和 code；真正输出的 `density`、`package`、`dram_type`、`dram_die_stack` 等字段仍由 DSL token 解析。
+- `packages/resources/resources/micron-dram-fbga-codes.json` 只保存一次性提取的 5 位 FBGA code；`pnpm fdbgen:crawl-mdb-dram` 读取该 code list，通过 Micron 官方 FBGA decoder API 写入 `packages/resources/resources/mdb-dram.json`。
+- `packages/resources/resources/mdb-dram.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchMicronFbgaCode()`、`searchPartNumber()` code 查询，以及 `detect("C9BJZ")` 这类 code 输入时先反查 PN 再走 DSL。
+- 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA 表为 `code/pn`。真正输出的 `density`、`package`、`dram_type`、`dram_die_stack` 等字段仍由 DSL token 解析。
 
 ## PN 结构
 

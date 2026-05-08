@@ -18,6 +18,7 @@
     "fdbgen:build": "pnpm -C packages/fdbgen build",
     "fdbgen:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build",
     "fdbgen:crawl-mdb": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb",
+    "fdbgen:crawl-mdb-dram": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb-dram",
     "baseline:gen": "pnpm -s tsx ./scripts/gen-baseline.ts",
     "baseline:check": "pnpm -C packages/compat-test test"
   },

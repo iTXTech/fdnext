@@ -1,1046 +1,834 @@
-{
-  "schemaVersion": 1,
-  "updated": "2026-05-08",
-  "entries": [
-    {
-      "pn": "BWCMMQ511G08G",
-      "vendor": "biwin",
-      "type": "emmc"
-    },
-    {
-      "pn": "BWCTAKL11X128G",
-      "vendor": "biwin",
-      "type": "emmc"
-    },
-    {
-      "pn": "BWCA2EZA-32G",
-      "vendor": "biwin",
-      "type": "emcp"
-    },
-    {
-      "pn": "BWCA2KZA-128G",
-      "vendor": "biwin",
-      "type": "emcp"
-    },
-    {
-      "pn": "BWCA2KZC-32G",
-      "vendor": "biwin",
-      "type": "emcp"
-    },
-    {
-      "pn": "BWCA2KZC-64G",
-      "vendor": "biwin",
-      "type": "emcp"
-    },
-    {
-      "pn": "BWCK1KZC02-64G",
-      "vendor": "biwin",
-      "type": "epop"
-    },
-    {
-      "pn": "BW2A2KZC02-64G",
-      "vendor": "biwin",
-      "type": "umcp"
-    },
-    {
-      "pn": "BW2A2LEI02-128G",
-      "vendor": "biwin",
-      "type": "umcp"
-    },
-    {
-      "pn": "BW2A2MZC02-128G",
-      "vendor": "biwin",
-      "type": "umcp"
-    },
-    {
-      "pn": "BW2A2MZC02-256G",
-      "vendor": "biwin",
-      "type": "umcp"
-    },
-    {
-      "pn": "BW2A2MZCNY-512G",
-      "vendor": "biwin",
-      "type": "umcp"
-    },
-    {
-      "pn": "BWU2A0516B064G",
-      "vendor": "biwin",
-      "type": "ufs"
-    },
-    {
-      "pn": "BWU2A0526B128G",
-      "vendor": "biwin",
-      "type": "ufs"
-    },
-    {
-      "pn": "BWU2A0546B256G",
-      "vendor": "biwin",
-      "type": "ufs"
-    },
-    {
-      "pn": "BWU2ANY46B512G",
-      "vendor": "biwin",
-      "type": "ufs"
-    },
-    {
-      "pn": "EMMC04G-CT32",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC04G-MT32",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC04G-WT32",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC08G-CT32",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC08G-MV28",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC08G-WV28",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC16G-MW28",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC16G-WW28",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC32G-TS0A",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC32G-TY29",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC64G-IY29",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC64G-TB9F",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC64G-TY29",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC128-IY29",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC128-TY29",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC256-IY29",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "EMMC256-TY29",
-      "vendor": "kingston",
-      "type": "emmc"
-    },
-    {
-      "pn": "08EM08-N3GMV36",
-      "vendor": "kingston",
-      "type": "emcp"
-    },
-    {
-      "pn": "16EM16-N3GMW8E",
-      "vendor": "kingston",
-      "type": "emcp"
-    },
-    {
-      "pn": "32EM16-M4JTQ0A",
-      "vendor": "kingston",
-      "type": "emcp"
-    },
-    {
-      "pn": "32EM32-M4KTQ0A",
-      "vendor": "kingston",
-      "type": "emcp"
-    },
-    {
-      "pn": "64EM32-M4GTY9B",
-      "vendor": "kingston",
-      "type": "emcp"
-    },
-    {
-      "pn": "128EM32-M4GTY9B",
-      "vendor": "kingston",
-      "type": "emcp"
-    },
-    {
-      "pn": "128EM64-M4HTY9B",
-      "vendor": "kingston",
-      "type": "emcp"
-    },
-    {
-      "pn": "UFS64G-CY14",
-      "vendor": "kingston",
-      "type": "ufs"
-    },
-    {
-      "pn": "UFS128-CY14",
-      "vendor": "kingston",
-      "type": "ufs"
-    },
-    {
-      "pn": "UFS256-CY14",
-      "vendor": "kingston",
-      "type": "ufs"
-    },
-    {
-      "pn": "TCGVX1G7D2GLA08",
-      "vendor": "kioxia",
-      "type": "e2nand"
-    },
-    {
-      "pn": "THGBR2G5D1JTA00",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMJG6C1LBAB7",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMJG6C1LBAU7",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMJG7C2LBAB8",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMJG7C2LBAU8",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMJG8C4LBAB8",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMJG8C4LBAU8",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMJG9C8LBAB8",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMJG9C8LBAU8",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMNG5D1LBAIT",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMTG5D1LBAIL",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMUG6C1LBAIL",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMUG7C1LBAIL",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBMUG8C2LBAIL",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGAMSG9T24BAIL",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGAMST0T24BAIL",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGAMVG7T13BAIL",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGAMVG8T13BAIL",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGAMVG9T23BAIL",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGAMVT0T43BAB8",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGAMVT0T43BAIR",
-      "vendor": "kioxia",
-      "type": "emmc"
-    },
-    {
-      "pn": "THGBX2G7D2JLA01",
-      "vendor": "kioxia",
-      "type": "e2nand"
-    },
-    {
-      "pn": "THGBX2G8D4JLA01",
-      "vendor": "kioxia",
-      "type": "e2nand"
-    },
-    {
-      "pn": "THGBX2G9D8JLA01",
-      "vendor": "kioxia",
-      "type": "e2nand"
-    },
-    {
-      "pn": "THGVR1G7D2GLA09",
-      "vendor": "kioxia",
-      "type": "e2nand"
-    },
-    {
-      "pn": "THGVX1G7D2GLA08",
-      "vendor": "kioxia",
-      "type": "e2nand"
-    },
-    {
-      "pn": "THGVX1G8D4GLA08",
-      "vendor": "kioxia",
-      "type": "e2nand"
-    },
-    {
-      "pn": "THGVX1G9D8GLA08",
-      "vendor": "kioxia",
-      "type": "e2nand"
-    },
-    {
-      "pn": "THGAFBT1T83BAA5",
-      "vendor": "kioxia",
-      "type": "ufs"
-    },
-    {
-      "pn": "THGAFBT1T83BAB5",
-      "vendor": "kioxia",
-      "type": "ufs"
-    },
-    {
-      "pn": "THGJFJT1T45BAB8",
-      "vendor": "kioxia",
-      "type": "ufs"
-    },
-    {
-      "pn": "THGJFJT3E88BAB5",
-      "vendor": "kioxia",
-      "type": "ufs"
-    },
-    {
-      "pn": "THGJFPT0E18BAIP",
-      "vendor": "kioxia",
-      "type": "ufs"
-    },
-    {
-      "pn": "THGJFRT1E45BATV",
-      "vendor": "kioxia",
-      "type": "ufs"
-    },
-    {
-      "pn": "THGJFRT3E88BATW",
-      "vendor": "kioxia",
-      "type": "ufs"
-    },
-    {
-      "pn": "FEMDNN032G-A3A56",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMDNN032G-B5A56",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMDNN064G-A3A56",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMDNN064G-B5A56",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMDNN128G-A3A56",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMDNN128G-B5A56",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMDNN256G-A3A56",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMDNN256G-A3A5607-08",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMDNN256G-B5A56",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMJNM032G-58C29",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMKNN004G-58A42",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEMKNN008G-58A42",
-      "vendor": "longsys",
-      "type": "emmc"
-    },
-    {
-      "pn": "FEPRF6432-58A1930",
-      "vendor": "longsys",
-      "type": "emcp"
-    },
-    {
-      "pn": "FUPRFA832-C2A56N1",
-      "vendor": "longsys",
-      "type": "umcp"
-    },
-    {
-      "pn": "FEUDME064G-B8A19",
-      "vendor": "longsys",
-      "type": "ufs"
-    },
-    {
-      "pn": "FEUDME128G-B8A19",
-      "vendor": "longsys",
-      "type": "ufs"
-    },
-    {
-      "pn": "FEUDME128G-C8H09",
-      "vendor": "longsys",
-      "type": "ufs"
-    },
-    {
-      "pn": "FEUDME256G-C8H09",
-      "vendor": "longsys",
-      "type": "ufs"
-    },
-    {
-      "pn": "FEUDNN064G-C2G07",
-      "vendor": "longsys",
-      "type": "ufs"
-    },
-    {
-      "pn": "FEUDNN128G-C2G07",
-      "vendor": "longsys",
-      "type": "ufs"
-    },
-    {
-      "pn": "FEUDNN128G-C2H14",
-      "vendor": "longsys",
-      "type": "ufs"
-    },
-    {
-      "pn": "FEUDNN256G-C2G07",
-      "vendor": "longsys",
-      "type": "ufs"
-    },
-    {
-      "pn": "FEUDNN256G-C2H14",
-      "vendor": "longsys",
-      "type": "ufs"
-    },
-    {
-      "pn": "FEUDNN512G-C2G07",
-      "vendor": "longsys",
-      "type": "ufs"
-    },
-    {
-      "pn": "MTFC4GACAJCN-1M WT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC4GMTEA-IT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC8GLTEA-WT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC32GBCAQTC-AAT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC64GBCAQDQ-AAT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC64GBCAQTC-AAT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC64GBCAQTC-AIT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC64GBCAQTC-IT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC128GBCAQTC-AAT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC128GBCAQTC-AIT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC128GBCAQTC-IT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC256GBCAQTC-AAT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC256GBCAQTC-AIT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC256GBCAQTC-IT",
-      "vendor": "micron",
-      "type": "emmc"
-    },
-    {
-      "pn": "MTFC32GASAONS-IT",
-      "vendor": "micron",
-      "type": "ufs"
-    },
-    {
-      "pn": "MTFC64GASAONS-IT",
-      "vendor": "micron",
-      "type": "ufs"
-    },
-    {
-      "pn": "MTFC64GBCAVAL-AIT",
-      "vendor": "micron",
-      "type": "ufs"
-    },
-    {
-      "pn": "MTFC128GASAONS-IT",
-      "vendor": "micron",
-      "type": "ufs"
-    },
-    {
-      "pn": "MTFC256GASAONS-IT",
-      "vendor": "micron",
-      "type": "ufs"
-    },
-    {
-      "pn": "MTFC256GBCAVTC-AAT",
-      "vendor": "micron",
-      "type": "ufs"
-    },
-    {
-      "pn": "MTFC1TAYAXHR-WT",
-      "vendor": "micron",
-      "type": "ufs"
-    },
-    {
-      "pn": "KLM8G1GETF-B041",
-      "vendor": "samsung",
-      "type": "emmc"
-    },
-    {
-      "pn": "KLMAG1JETD-B041",
-      "vendor": "samsung",
-      "type": "emmc"
-    },
-    {
-      "pn": "KLMBG2JETD-B041",
-      "vendor": "samsung",
-      "type": "emmc"
-    },
-    {
-      "pn": "KLMCG4JETD-B041",
-      "vendor": "samsung",
-      "type": "emmc"
-    },
-    {
-      "pn": "KMGD6001BM-B421",
-      "vendor": "samsung",
-      "type": "emcp"
-    },
-    {
-      "pn": "KMGE6001BM-B421",
-      "vendor": "samsung",
-      "type": "emcp"
-    },
-    {
-      "pn": "KLUEG4RHKF-F0H1",
-      "vendor": "samsung",
-      "type": "ufs"
-    },
-    {
-      "pn": "KLUEG8UHDB-C2E1",
-      "vendor": "samsung",
-      "type": "ufs"
-    },
-    {
-      "pn": "KLUFG8RHHF-F0G1",
-      "vendor": "samsung",
-      "type": "ufs"
-    },
-    {
-      "pn": "KLUGGAR1FA",
-      "vendor": "samsung",
-      "type": "ufs"
-    },
-    {
-      "pn": "H26M78208CMRN",
-      "vendor": "skhynix",
-      "type": "emmc"
-    },
-    {
-      "pn": "H26M78208CMRX",
-      "vendor": "skhynix",
-      "type": "emmc"
-    },
-    {
-      "pn": "H27UCG8T2E",
-      "vendor": "skhynix",
-      "type": "e2nand"
-    },
-    {
-      "pn": "H9AG9G5ANBX100",
-      "vendor": "skhynix",
-      "type": "emcp"
-    },
-    {
-      "pn": "H9HP52ACPMADAR-KMM",
-      "vendor": "skhynix",
-      "type": "emcp"
-    },
-    {
-      "pn": "H9TP32A4GDBCPR-KGM",
-      "vendor": "skhynix",
-      "type": "emcp"
-    },
-    {
-      "pn": "H9TQ17ABJTMCUR-KUM",
-      "vendor": "skhynix",
-      "type": "emcp"
-    },
-    {
-      "pn": "H9HQ15ACPMADAR-KEM",
-      "vendor": "skhynix",
-      "type": "umcp"
-    },
-    {
-      "pn": "H9QT0GECN6X145",
-      "vendor": "skhynix",
-      "type": "umcp"
-    },
-    {
-      "pn": "H28S6D302BMR",
-      "vendor": "skhynix",
-      "type": "ufs"
-    },
-    {
-      "pn": "H28S8Q302CMR",
-      "vendor": "skhynix",
-      "type": "ufs"
-    },
-    {
-      "pn": "H28SAO301MMR",
-      "vendor": "skhynix",
-      "type": "ufs"
-    },
-    {
-      "pn": "HN8G962EHKX037N",
-      "vendor": "skhynix",
-      "type": "ufs"
-    },
-    {
-      "pn": "HN8T05DEHKX073",
-      "vendor": "skhynix",
-      "type": "ufs"
-    },
-    {
-      "pn": "HN8T15DEHKX075",
-      "vendor": "skhynix",
-      "type": "ufs"
-    },
-    {
-      "pn": "HN8T25DEHKX077N",
-      "vendor": "skhynix",
-      "type": "ufs"
-    },
-    {
-      "pn": "HN8T35DZHKX079",
-      "vendor": "skhynix",
-      "type": "ufs"
-    },
-    {
-      "pn": "INANDSDIN7DP4-16G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDIN5C2-32G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDIN5C4-32G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDIN5C4-64G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDIN7DP4-16G_32G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDIN7DU2-8G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDIN7DU2-16G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDIN7DU2-32G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDIN7LP4-64G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDIN7LP4_H45-64G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-16G-I1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-32G-I1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-32G-XI1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-64G-I1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-64G-XI1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-128G-I1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-128G-XI1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-128G-ZA1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-256G-I1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-256G-XI1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDA6-256G-ZA1",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDG4-8G-I2",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDG4-8G-XI2",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDG4-16G-I2",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDG4-16G-XI2",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDG4-32G-I2",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDG4-32G-XI2",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDG4-32G-ZA3",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDG4-64G",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDG4-64G-I2",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINBDG4-64G-XI2",
-      "vendor": "sndk",
-      "type": "emmc"
-    },
-    {
-      "pn": "SDINDDH4-32G",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINDDH6-128G-XI",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINDDH6-128G-ZA2",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINDDH6-256G-XI",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINDDH6-256G-ZA2",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINEDK4-128G",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINFDK4-128G",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINFDO4-128G",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINFDQ6-64G-XA1",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINFDQ6-64G-ZA1",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINFDQ6-128G-XA1",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINFDQ6-128G-ZA1",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINFDQ6-256G-XA1",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINFDQ6-256G-ZA1",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINFDQ6-512G-XA1",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINFDQ6-512G-ZA1",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINHDL6-256G-ZA",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINHDL6-512G-ZA",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "SDINHDL6-1T00-ZA",
-      "vendor": "sndk",
-      "type": "ufs"
-    },
-    {
-      "pn": "YMEC6A1TC1A2C1",
-      "vendor": "ymtc",
-      "type": "emmc"
-    },
-    {
-      "pn": "YMEC6A2TB1A2C3",
-      "vendor": "ymtc",
-      "type": "emmc"
-    },
-    {
-      "pn": "YMEC7A2TB2A2C3",
-      "vendor": "ymtc",
-      "type": "emmc"
-    },
-    {
-      "pn": "YMEC8A2TB3A2C3",
-      "vendor": "ymtc",
-      "type": "emmc"
-    },
-    {
-      "pn": "YMC6G001TB51AA1C0",
-      "vendor": "ymtc",
-      "type": "emmc"
-    },
-    {
-      "pn": "YMUS8A1TC1A2C1",
-      "vendor": "ymtc",
-      "type": "ufs"
-    },
-    {
-      "pn": "YMUSAB5TH3A1C1",
-      "vendor": "ymtc",
-      "type": "ufs"
-    }
-  ]
-}
+[
+  {
+    "vendor": "biwin",
+    "pn": "BWCMMQ511G08G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWCTAKL11X128G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWCA2EZA-32G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWCA2KZA-128G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWCA2KZC-32G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWCA2KZC-64G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWCK1KZC02-64G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BW2A2KZC02-64G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BW2A2LEI02-128G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BW2A2MZC02-128G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BW2A2MZC02-256G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BW2A2MZCNY-512G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWU2A0516B064G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWU2A0526B128G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWU2A0546B256G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWU2ANY46B512G"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC04G-CT32"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC04G-MT32"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC04G-WT32"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC08G-CT32"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC08G-MV28"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC08G-WV28"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC16G-MW28"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC16G-WW28"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC32G-TS0A"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC32G-TY29"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC64G-IY29"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC64G-TB9F"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC64G-TY29"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC128-IY29"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC128-TY29"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC256-IY29"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "EMMC256-TY29"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "08EM08-N3GMV36"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "16EM16-N3GMW8E"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "32EM16-M4JTQ0A"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "32EM32-M4KTQ0A"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "64EM32-M4GTY9B"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "128EM32-M4GTY9B"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "128EM64-M4HTY9B"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "UFS64G-CY14"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "UFS128-CY14"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "UFS256-CY14"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "TCGVX1G7D2GLA08"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBR2G5D1JTA00"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMJG6C1LBAB7"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMJG6C1LBAU7"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMJG7C2LBAB8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMJG7C2LBAU8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMJG8C4LBAB8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMJG8C4LBAU8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMJG9C8LBAB8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMJG9C8LBAU8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMNG5D1LBAIT"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMTG5D1LBAIL"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMUG6C1LBAIL"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMUG7C1LBAIL"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBMUG8C2LBAIL"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMSG9T24BAIL"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMST0T24BAIL"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVG7T13BAIL"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVG8T13BAIL"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVG9T23BAIL"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVT0T43BAB8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVT0T43BAIR"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBX2G7D2JLA01"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBX2G8D4JLA01"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGBX2G9D8JLA01"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGVR1G7D2GLA09"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGVX1G7D2GLA08"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGVX1G8D4GLA08"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGVX1G9D8GLA08"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAFBT1T83BAA5"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAFBT1T83BAB5"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFJT1T45BAB8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFJT3E88BAB5"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFPT0E18BAIP"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFRT1E45BATV"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFRT3E88BATW"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMDNN032G-A3A56"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMDNN032G-B5A56"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMDNN064G-A3A56"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMDNN064G-B5A56"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMDNN128G-A3A56"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMDNN128G-B5A56"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMDNN256G-A3A56"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMDNN256G-A3A5607-08"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMDNN256G-B5A56"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMJNM032G-58C29"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMKNN004G-58A42"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEMKNN008G-58A42"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEPRF6432-58A1930"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FUPRFA832-C2A56N1"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDME064G-B8A19"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDME128G-B8A19"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDME128G-C8H09"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDME256G-C8H09"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDNN064G-C2G07"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDNN128G-C2G07"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDNN128G-C2H14"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDNN256G-C2G07"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDNN256G-C2H14"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDNN512G-C2G07"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC4GACAJCN-1M WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC4GMTEA-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC8GLTEA-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GBCAQTC-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GBCAQDQ-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GBCAQTC-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GBCAQTC-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GBCAQTC-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GBCAQTC-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GBCAQTC-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GBCAQTC-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GBCAQTC-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GBCAQTC-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GBCAQTC-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GASAONS-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GASAONS-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GBCAVAL-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GASAONS-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GASAONS-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GBCAVTC-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC1TAYAXHR-WT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLM8G1GETF-B041"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLMAG1JETD-B041"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLMBG2JETD-B041"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLMCG4JETD-B041"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMGD6001BM-B421"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMGE6001BM-B421"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUEG4RHKF-F0H1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUEG8UHDB-C2E1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUFG8RHHF-F0G1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUGGAR1FA"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M78208CMRN"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M78208CMRX"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H27UCG8T2E"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9AG9G5ANBX100"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HP52ACPMADAR-KMM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9TP32A4GDBCPR-KGM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9TQ17ABJTMCUR-KUM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HQ15ACPMADAR-KEM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9QT0GECN6X145"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H28S6D302BMR"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H28S8Q302CMR"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H28SAO301MMR"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8G962EHKX037N"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T05DEHKX073"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T15DEHKX075"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T25DEHKX077N"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T35DZHKX079"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "INANDSDIN7DP4-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN5C2-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN5C4-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN5C4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DP4-16G_32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DU2-8G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DU2-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DU2-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7LP4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7LP4_H45-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-16G-I1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-32G-I1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-32G-XI1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-64G-I1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-64G-XI1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-128G-I1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-128G-XI1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-128G-ZA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-256G-I1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-256G-XI1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-256G-ZA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-8G-I2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-8G-XI2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-16G-I2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-16G-XI2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-32G-I2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-32G-XI2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-32G-ZA3"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-64G-I2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-64G-XI2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINDDH4-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINDDH6-128G-XI"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINDDH6-128G-ZA2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINDDH6-256G-XI"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINDDH6-256G-ZA2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINEDK4-128G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDK4-128G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDO4-128G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDQ6-64G-XA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDQ6-64G-ZA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDQ6-128G-XA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDQ6-128G-ZA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDQ6-256G-XA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDQ6-256G-ZA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDQ6-512G-XA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDQ6-512G-ZA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINHDL6-256G-ZA"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINHDL6-512G-ZA"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINHDL6-1T00-ZA"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC6A1TC1A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC6A2TB1A2C3"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC7A2TB2A2C3"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC8A2TB3A2C3"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMC6G001TB51AA1C0"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS8A1TC1A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUSAB5TH3A1C1"
+  }
+]

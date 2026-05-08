@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import type { FlashInfo } from "../../core/src/index";
 import { createEngine } from "../../core/src/index";
 import dramPnJson from "../../resources/resources/dram-pn.json" with { type: "json" };
-import micronDramFbgaJson from "../../resources/resources/micron-dram-fbga.json" with { type: "json" };
+import mdbDramJson from "../../resources/resources/mdb-dram.json" with { type: "json" };
 import { embeddedResources } from "../../resources/index";
 import { compileRulesToDecoders, defaultDslRules } from "../src/index";
 
@@ -126,21 +126,34 @@ function assertUnknown(partNumber: string): void {
   assert.equal(info.type, "Unknown", `${partNumber} should not be decoded as a known type`);
 }
 
-const dramPn = dramPnJson as { entries?: unknown[] };
-const micronDramFbga = micronDramFbgaJson as { entries?: unknown[] };
+function resourceEntries(raw: unknown): unknown[] {
+  if (Array.isArray(raw)) {
+    return raw;
+  }
+  if (!raw || typeof raw !== "object") {
+    return [];
+  }
+  const entries = (raw as Record<string, unknown>).entries;
+  return Array.isArray(entries) ? entries : [];
+}
+
+assert.ok(Array.isArray(dramPnJson), "DRAM PN resource should be a top-level minimal array");
+assert.ok(Array.isArray(mdbDramJson), "Micron DRAM MDB resource should be a top-level minimal array");
+const dramPn = resourceEntries(dramPnJson);
+const micronDramFbga = resourceEntries(mdbDramJson);
 const dramPnForbiddenKeys = new Set(["source", "status", "reference", "inference_source", "external_confirmed", "external_table_confirmed"]);
 const seenDramPn = new Set<string>();
-for (const entry of dramPn.entries ?? []) {
+for (const entry of dramPn) {
   assert.equal(typeof entry, "object", "DRAM PN entry should be an object");
   assert.ok(entry !== null && !Array.isArray(entry), "DRAM PN entry should be keyed");
 
   const record = entry as Record<string, unknown>;
   assert.equal(typeof record.pn, "string", "DRAM PN entry should include pn");
   assert.equal(typeof record.vendor, "string", `${String(record.pn)} should include vendor`);
-  assert.equal(record.type, "dram", `${String(record.pn)} should be a DRAM catalog entry`);
-  assert.equal(typeof record.standard, "string", `${String(record.pn)} should include standard`);
-  assert.ok(!seenDramPn.has(String(record.pn)), `${String(record.pn)} should only appear once`);
-  seenDramPn.add(String(record.pn));
+  assert.deepEqual(Object.keys(record).sort(), ["pn", "vendor"], `${String(record.pn)} should only include vendor and pn`);
+  const dedupeKey = `${String(record.vendor)}\0${String(record.pn)}`;
+  assert.ok(!seenDramPn.has(dedupeKey), `${String(record.pn)} should only appear once for ${String(record.vendor)}`);
+  seenDramPn.add(dedupeKey);
 
   const keys = Object.keys(record);
   assert.deepEqual(
@@ -151,7 +164,7 @@ for (const entry of dramPn.entries ?? []) {
 }
 
 const seenMicronDramFbga = new Set<string>();
-for (const entry of micronDramFbga.entries ?? []) {
+for (const entry of micronDramFbga) {
   assert.equal(typeof entry, "object", "Micron DRAM FBGA entry should be an object");
   assert.ok(entry !== null && !Array.isArray(entry), "Micron DRAM FBGA entry should be keyed");
 
@@ -159,14 +172,12 @@ for (const entry of micronDramFbga.entries ?? []) {
   assert.equal(typeof record.code, "string", "Micron DRAM FBGA entry should include code");
   assert.match(String(record.code), /^[0-9A-Z]{5}$/, `${String(record.code)} should be a five-character FBGA code`);
   assert.equal(typeof record.pn, "string", `${String(record.code)} should include pn`);
+  assert.deepEqual(Object.keys(record).sort(), ["code", "pn"], `${String(record.code)} should only include code and pn`);
   assert.match(
     String(record.pn),
     /^(?:MT|CT|ED|EE)/,
     `${String(record.code)} should map only to Micron MT/Crucial CT or Micron legacy Elpida DRAM PN`
   );
-  assert.equal(record.vendor, "micron", `${String(record.code)} should be a Micron/Crucial DRAM FBGA entry`);
-  assert.equal(record.type, "dram", `${String(record.code)} should be a DRAM FBGA entry`);
-  assert.equal(typeof record.standard, "string", `${String(record.code)} should include standard`);
 
   const key = `${String(record.code)}\0${String(record.pn)}`;
   assert.ok(!seenMicronDramFbga.has(key), `${String(record.code)} ${String(record.pn)} should only appear once`);
@@ -222,7 +233,8 @@ assertDram("C9BJZ", {
   }
 });
 assert.deepEqual(engine.searchMicronFbgaCode("C9BJZ"), ["CT40A1G8SA-62M:E"]);
-assertDram("C9BHZ", {
+assert.deepEqual(engine.searchMicronFbgaCode("FX454"), []);
+assertDram("EDB2432B4MA-1DAAT-F-D", {
   rawVendor: "elpida",
   rawDensity: 2048,
   density: "2Gb",
@@ -234,12 +246,10 @@ assertDram("C9BHZ", {
     "DRAM Die Stack": "Single die, 1 CS",
     "Package Code": "B4MA",
     "Config Code": "2432",
-    "DRAM Speed": "LPDDR2-1066",
-    "Micron Part Number": "EDB2432B4MA-1DAAT-F-D"
+    "DRAM Speed": "LPDDR2-1066"
   }
 });
-assert.deepEqual(engine.searchMicronFbgaCode("C9BHZ"), ["EDB2432B4MA-1DAAT-F-D"]);
-assertDram("CZZZG", {
+assertDram("EE40A512M16HA-093E:A", {
   rawDensity: 8192,
   density: "8Gb",
   deviceWidth: "x16",
@@ -249,12 +259,10 @@ assertDram("CZZZG", {
     "DRAM Type": "DDR4 SDRAM",
     "Config Code": "512M16",
     "Operation Temperature": "Commercial",
-    "Die Revision": "Rev H",
-    "Micron Part Number": "EE40A512M16HA-093E:A"
+    "Die Revision": "Rev H"
   }
 });
-assert.deepEqual(engine.searchMicronFbgaCode("CZZZG"), ["EE40A512M16HA-093E:A"]);
-assertDram("D9BCS", {
+assertDram("EE51K256M32HF-60:B", {
   rawDensity: 8192,
   density: "8Gb",
   deviceWidth: "x32",
@@ -264,11 +272,10 @@ assertDram("D9BCS", {
     "DRAM Type": "GDDR5 SGRAM",
     "Package Code": "HF",
     "Config Code": "256M32",
-    "Operation Temperature": "Commercial",
-    "Micron Part Number": "EE51K256M32HF-60:B"
+    "Operation Temperature": "Commercial"
   }
 });
-assert.deepEqual(engine.searchMicronFbgaCode("D9BCS"), ["EE51K256M32HF-60:B"]);
+assert.deepEqual(engine.searchMicronFbgaCode("B9DHG"), ["MT47H32M16BT-3E"]);
 assertUnknown("AMD41J128M16HA-107G:D");
 assertUnknown("79JMM");
 
@@ -1615,6 +1622,6 @@ assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
 assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");
 assertSearchPnIncludes("CXDB5C", "CXMT CXDB5CCAM-MK");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
-assertSearchPnIncludes("MT40A4G4DVN", "Micron MT40A4G4DVN-062H:E");
-assertSearchPnIncludes("FX454", "Micron FX454 MT40A4G4DVN-062H:E");
-assertSearchPnIncludes("C9BJZ", "Micron C9BJZ CT40A1G8SA-62M:E");
+assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
+assertSearchPnIncludes("C9BJZ", "Micron / C9BJZ / CT40A1G8SA-62M:E");
+assertSearchPnIncludes("B9DHG", "Micron / B9DHG / MT47H32M16BT-3E");

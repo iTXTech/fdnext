@@ -399,8 +399,19 @@ function mergeStringArray(target: string[] | undefined, source: string[] | undef
   return [...merged];
 }
 
-function buildKnownPartNumbers(raw: Record<string, unknown>): KnownPartNumberEntry[] {
-  const rawEntries = Array.isArray(raw.entries) ? raw.entries : [];
+function resourceEntries(raw: unknown): unknown[] {
+  if (Array.isArray(raw)) {
+    return raw;
+  }
+  if (!raw || typeof raw !== "object") {
+    return [];
+  }
+  const entries = (raw as Record<string, unknown>).entries;
+  return Array.isArray(entries) ? entries : [];
+}
+
+function buildKnownPartNumbers(raw: unknown): KnownPartNumberEntry[] {
+  const rawEntries = resourceEntries(raw);
   const entries: KnownPartNumberEntry[] = [];
   const seen = new Set<string>();
 
@@ -412,8 +423,6 @@ function buildKnownPartNumbers(raw: Record<string, unknown>): KnownPartNumberEnt
     const record = item as Record<string, unknown>;
     const pn = typeof record.pn === "string" ? normalizePartNumber(record.pn) : "";
     const vendor = typeof record.vendor === "string" ? record.vendor.trim() : "";
-    const type = typeof record.type === "string" ? record.type.trim() : "";
-    const standard = typeof record.standard === "string" ? record.standard.trim() : "";
     if (!pn || !vendor) {
       continue;
     }
@@ -423,19 +432,14 @@ function buildKnownPartNumbers(raw: Record<string, unknown>): KnownPartNumberEnt
       continue;
     }
     seen.add(key);
-    entries.push({
-      pn,
-      vendor,
-      ...(type ? { type } : {}),
-      ...(standard ? { standard } : {})
-    });
+    entries.push({ pn, vendor });
   }
 
   return entries;
 }
 
-function buildMicronDramFbgaCodes(raw: Record<string, unknown>): Map<string, string[]> {
-  const rawEntries = Array.isArray(raw.entries) ? raw.entries : [];
+function buildMicronDramFbgaCodes(raw: unknown): Map<string, string[]> {
+  const rawEntries = resourceEntries(raw);
   const entries = new Map<string, string[]>();
   const seen = new Set<string>();
 
@@ -475,9 +479,9 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
 
   const rawFdb = (options.resources?.fdbRaw ?? {}) as Record<string, unknown>;
   const rawMdb = (options.resources?.mdbRaw ?? {}) as Record<string, unknown>;
-  const rawManagedNandPn = (options.resources?.managedNandPnRaw ?? {}) as Record<string, unknown>;
-  const rawDramPn = (options.resources?.dramPnRaw ?? {}) as Record<string, unknown>;
-  const rawMicronDramFbga = (options.resources?.micronDramFbgaRaw ?? {}) as Record<string, unknown>;
+  const rawManagedNandPn = options.resources?.managedNandPnRaw ?? [];
+  const rawDramPn = options.resources?.dramPnRaw ?? [];
+  const rawMicronDramFbga = options.resources?.micronDramFbgaRaw ?? [];
   const langRaw = (options.resources?.langRaw ?? {}) as LangPacks;
 
   const fdb = buildFdb(rawFdb);
@@ -859,7 +863,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
         return;
       }
       seenFbgaSuggestions.add(key);
-      result.push(`${translateString("micron", opts.lang)} ${code} ${normalizedPartNumber}`);
+      result.push(`${translateString("micron", opts.lang)} / ${code} / ${normalizedPartNumber}`);
     };
 
     for (const entry of managedNandPartNumbers) {

@@ -2,7 +2,7 @@
 
 import { resolve } from "node:path";
 import { generateFdb } from "./fdbgen";
-import { crawlMdb } from "./mdb";
+import { crawlMdb, crawlMdbDram } from "./mdb";
 
 interface CliOptions {
   inputDir?: string;
@@ -19,6 +19,7 @@ interface CliOptions {
   delayMs?: number;
   saveEachHit?: boolean;
   userAgent?: string;
+  codesFile?: string;
 }
 
 function usage(): string {
@@ -26,6 +27,7 @@ function usage(): string {
     "Usage:",
     "  fdnext-fdbgen build --input <dir> --output <file> --version <ver> [options]",
     "  fdnext-fdbgen crawl-mdb --file <mdb.json> [options]",
+    "  fdnext-fdbgen crawl-mdb-dram --codes <fbga-codes.json> --file <mdb-dram.json> [options]",
     "",
     "Build options:",
     "  --input <dir>       Input dataset directory",
@@ -41,6 +43,13 @@ function usage(): string {
     "  --file <path>       mdb.json file path for read/write",
     "  --micron-max <n>    Micron upper bound (exclusive, default 1000)",
     "  --spectek-max <n>   SpecTek upper bound (exclusive, optional)",
+    "  --delay-ms <n>      Delay between requests in milliseconds",
+    "  --user-agent <ua>   Custom HTTP User-Agent",
+    "  --no-save-each-hit  Save only once at the end",
+    "",
+    "Micron DRAM MDB options:",
+    "  --codes <path>      Predefined FBGA code JSON (top-level string array)",
+    "  --file <path>       mdb-dram.json file path for read/write",
     "  --delay-ms <n>      Delay between requests in milliseconds",
     "  --user-agent <ua>   Custom HTTP User-Agent",
     "  --no-save-each-hit  Save only once at the end",
@@ -60,6 +69,9 @@ function parseBuildOptions(args: string[]): CliOptions {
   const options: CliOptions = {};
   for (let i = 0; i < args.length; i += 1) {
     const arg = args[i];
+    if (arg === "--") {
+      continue;
+    }
     if (arg === "--input") {
       options.inputDir = requireValue(args, i, arg);
       i += 1;
@@ -123,6 +135,9 @@ function parseCrawlOptions(args: string[]): CliOptions {
   };
   for (let i = 0; i < args.length; i += 1) {
     const arg = args[i];
+    if (arg === "--") {
+      continue;
+    }
     if (arg === "--file") {
       options.file = requireValue(args, i, arg);
       i += 1;
@@ -140,6 +155,56 @@ function parseCrawlOptions(args: string[]): CliOptions {
     if (arg === "--spectek-max") {
       options.spectekMax = parseIntegerFlag(args, i, arg);
       i += 1;
+      continue;
+    }
+    if (arg === "--delay-ms") {
+      options.delayMs = parseIntegerFlag(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--user-agent") {
+      options.userAgent = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--no-save-each-hit") {
+      options.saveEachHit = false;
+      continue;
+    }
+    if (arg === "--save-each-hit") {
+      options.saveEachHit = true;
+      continue;
+    }
+    if (arg === "-h" || arg === "--help") {
+      process.stdout.write(`${usage()}\n`);
+      process.exit(0);
+    }
+    throw new Error(`Unknown argument: ${arg}`);
+  }
+  return options;
+}
+
+function parseCrawlMdbDramOptions(args: string[]): CliOptions {
+  const options: CliOptions = {
+    saveEachHit: true
+  };
+  for (let i = 0; i < args.length; i += 1) {
+    const arg = args[i];
+    if (arg === "--") {
+      continue;
+    }
+    if (arg === "--codes") {
+      options.codesFile = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--file") {
+      options.file = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--pretty") {
+      options.pretty = true;
       continue;
     }
     if (arg === "--delay-ms") {
@@ -225,6 +290,35 @@ async function runCrawlMdb(args: string[]): Promise<void> {
   process.stdout.write(`Duration=${result.stats.durationMs}ms\n`);
 }
 
+async function runCrawlMdbDram(args: string[]): Promise<void> {
+  const opts = parseCrawlMdbDramOptions(args);
+  if (!opts.codesFile) {
+    throw new Error("Missing required --codes");
+  }
+  if (!opts.file) {
+    throw new Error("Missing required --file");
+  }
+
+  const targetFile = resolve(opts.file);
+  const result = await crawlMdbDram({
+    codesFile: resolve(opts.codesFile),
+    file: targetFile,
+    pretty: opts.pretty ?? false,
+    saveEachHit: opts.saveEachHit ?? true,
+    delayMs: opts.delayMs,
+    userAgent: opts.userAgent,
+    logger: (line) => {
+      console.debug(line);
+    }
+  });
+
+  process.stdout.write(`DRAM MDB crawl completed: ${targetFile}\n`);
+  process.stdout.write(
+    `Micron DRAM req=${result.stats.requests} hit=${result.stats.hits} miss=${result.stats.misses} skip=${result.stats.skips} err=${result.stats.errors}\n`
+  );
+  process.stdout.write(`Duration=${result.stats.durationMs}ms\n`);
+}
+
 async function main(): Promise<void> {
   const command = process.argv[2];
   if (!command || command === "-h" || command === "--help") {
@@ -237,6 +331,10 @@ async function main(): Promise<void> {
   }
   if (command === "crawl-mdb") {
     await runCrawlMdb(process.argv.slice(3));
+    return;
+  }
+  if (command === "crawl-mdb-dram") {
+    await runCrawlMdbDram(process.argv.slice(3));
     return;
   }
   throw new Error(`Unknown command: ${command}`);

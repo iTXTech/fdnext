@@ -1,6 +1,15 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
-import type { CrawlMdbOptions, CrawlMdbResult, MdbCrawlSectionStats, MdbPayload, MdbQueryOptions } from "./types";
+import type {
+  CrawlMdbDramOptions,
+  CrawlMdbDramResult,
+  CrawlMdbOptions,
+  CrawlMdbResult,
+  MdbCrawlSectionStats,
+  MdbDramEntry,
+  MdbPayload,
+  MdbQueryOptions
+} from "./types";
 
 export const DEFAULT_MICRON_HEADERS = ["NC", "NW", "NY", "NX", "NQ", "NV"] as const;
 export const DEFAULT_SPECTEK_HEADERS = ["PF", "PFA", "PFB", "PFC", "PFD", "PFE", "PFF", "PFG", "PFH"] as const;
@@ -53,6 +62,13 @@ function normalizePartList(value: unknown): string[] {
 
 function sortUnique(values: string[]): string[] {
   return [...new Set(values)].sort();
+}
+
+function writeJson(file: string, data: unknown, pretty = false): void {
+  const fullPath = resolve(file);
+  mkdirSync(dirname(fullPath), { recursive: true });
+  const indent = pretty ? 2 : undefined;
+  writeFileSync(fullPath, JSON.stringify(data, null, indent));
 }
 
 function ensureMdbShape(input: unknown): MdbPayload {
@@ -185,10 +201,7 @@ export function loadMdb(file: string): MdbPayload {
 }
 
 export function saveMdb(file: string, data: MdbPayload, pretty = false): void {
-  const fullPath = resolve(file);
-  mkdirSync(dirname(fullPath), { recursive: true });
-  const indent = pretty ? 2 : undefined;
-  writeFileSync(fullPath, JSON.stringify(data, null, indent));
+  writeJson(file, data, pretty);
 }
 
 export async function queryMicronByFbgaCode(code: string, options?: MdbQueryOptions): Promise<string | null> {
@@ -221,6 +234,133 @@ export async function queryMicronByFbgaCode(code: string, options?: MdbQueryOpti
     }
   }
   return null;
+}
+
+function normalizeFbgaCode(input: unknown): string {
+  return String(input).trim().toUpperCase().replace(/[^0-9A-Z]/g, "");
+}
+
+function isFiveDigitFbgaCode(input: string): boolean {
+  return /^[0-9A-Z]{5}$/.test(input);
+}
+
+export function loadMicronFbgaCodes(file: string): string[] {
+  const raw = JSON.parse(readFileSync(resolve(file), "utf8")) as unknown;
+  const values = Array.isArray(raw) ? raw : Array.isArray(asRecord(raw).codes) ? (asRecord(raw).codes as unknown[]) : [];
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const value of values) {
+    const code = normalizeFbgaCode(typeof value === "object" && value !== null && !Array.isArray(value) ? asRecord(value).code : value);
+    if (!isFiveDigitFbgaCode(code) || seen.has(code)) {
+      continue;
+    }
+    seen.add(code);
+    out.push(code);
+  }
+  return out;
+}
+
+function normalizeMdbDramEntries(input: unknown): MdbDramEntry[] {
+  const values = Array.isArray(input) ? input : Array.isArray(asRecord(input).entries) ? (asRecord(input).entries as unknown[]) : [];
+  const out: MdbDramEntry[] = [];
+  const seen = new Set<string>();
+  for (const value of values) {
+    const row = asRecord(value);
+    const code = normalizeFbgaCode(row.code);
+    const pn = normalizePartNumber(String(row.pn ?? ""));
+    if (!isFiveDigitFbgaCode(code) || !pn) {
+      continue;
+    }
+    const key = `${code}\0${pn}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    out.push({ code, pn });
+  }
+  return out;
+}
+
+export function loadMdbDram(file: string): MdbDramEntry[] {
+  const fullPath = resolve(file);
+  if (!existsSync(fullPath)) {
+    return [];
+  }
+  return normalizeMdbDramEntries(JSON.parse(readFileSync(fullPath, "utf8")) as unknown);
+}
+
+export function saveMdbDram(file: string, data: MdbDramEntry[], pretty = false): void {
+  writeJson(file, data, pretty);
+}
+
+function isDramPartNumber(partNumber: string): boolean {
+  return /^(?:MT|CT)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
+    /^(?:ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
+    /^ED(?:B|D|E|F|J|S|W)/.test(partNumber);
+}
+
+export async function crawlMdbDram(options: CrawlMdbDramOptions): Promise<CrawlMdbDramResult> {
+  const file = options.file ? resolve(options.file) : undefined;
+  const pretty = options.pretty ?? false;
+  const saveEachHit = options.saveEachHit ?? true;
+  const logger = options.logger ?? (() => {});
+  const delayMs = Number.isFinite(options.delayMs) && options.delayMs ? Math.max(0, options.delayMs) : 0;
+  const codes = loadMicronFbgaCodes(options.codesFile);
+  const existing = file ? loadMdbDram(file) : [];
+  const byCode = new Map<string, MdbDramEntry>();
+  const order: string[] = [];
+
+  for (const entry of existing) {
+    if (!byCode.has(entry.code)) {
+      order.push(entry.code);
+    }
+    byCode.set(entry.code, entry);
+  }
+
+  const stats = { ...emptySectionStats(), durationMs: 0 };
+  const startAt = Date.now();
+
+  for (const code of codes) {
+    if (byCode.has(code)) {
+      stats.skips += 1;
+      continue;
+    }
+
+    stats.requests += 1;
+    if (stats.requests % 200 === 0) {
+      logger(`[mdb-dram] progress requests=${stats.requests} hit=${stats.hits} miss=${stats.misses} skip=${stats.skips} err=${stats.errors}`);
+    }
+
+    try {
+      const partNumber = await queryMicronByFbgaCode(code, options);
+      if (partNumber && isDramPartNumber(partNumber)) {
+        const entry = { code, pn: partNumber };
+        byCode.set(code, entry);
+        order.push(code);
+        stats.hits += 1;
+        logger(`[mdb-dram] ${code} => ${partNumber}`);
+        if (file && saveEachHit) {
+          saveMdbDram(file, order.map((item) => byCode.get(item)).filter((item): item is MdbDramEntry => !!item), pretty);
+        }
+      } else {
+        stats.misses += 1;
+      }
+    } catch (error: unknown) {
+      stats.errors += 1;
+      const text = error instanceof Error ? error.message : String(error);
+      logger(`[mdb-dram] ${code} failed: ${text}`);
+    }
+
+    await delay(delayMs);
+  }
+
+  const data = order.map((code) => byCode.get(code)).filter((item): item is MdbDramEntry => !!item);
+  if (file) {
+    saveMdbDram(file, data, pretty);
+  }
+
+  stats.durationMs = Date.now() - startAt;
+  return { data, stats };
 }
 
 async function loadSpectekFormState(options?: MdbQueryOptions): Promise<SpectekFormState> {

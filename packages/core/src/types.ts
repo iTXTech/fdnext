@@ -112,32 +112,20 @@ export interface MdbDataset {
 export interface KnownPartNumberEntry {
   pn: string;
   vendor: string;
-  type?: string;
-  standard?: string;
 }
 
-export interface ManagedNandPartNumberEntry extends KnownPartNumberEntry {
-}
+export type ManagedNandPartNumberEntry = KnownPartNumberEntry;
 
-export interface ManagedNandPartNumberDataset {
-  entries: ManagedNandPartNumberEntry[];
-}
+export type ManagedNandPartNumberDataset = ManagedNandPartNumberEntry[];
 
-export interface KnownPartNumberDataset {
-  entries: KnownPartNumberEntry[];
-}
+export type KnownPartNumberDataset = KnownPartNumberEntry[];
 
 export interface MicronDramFbgaEntry {
   code: string;
   pn: string;
-  vendor?: string;
-  type?: string;
-  standard?: string;
 }
 
-export interface MicronDramFbgaDataset {
-  entries: MicronDramFbgaEntry[];
-}
+export type MicronDramFbgaDataset = MicronDramFbgaEntry[];
 
 export interface LangPack {
   [key: string]: string;
@@ -147,13 +135,15 @@ export interface LangPacks {
   [language: string]: LangPack;
 }
 
+export type ResourceJson = Record<string, unknown> | unknown[];
+
 export interface EngineResources {
   fdbRaw: Record<string, unknown>;
   mdbRaw: Record<string, unknown>;
   langRaw: LangPacks;
-  managedNandPnRaw?: Record<string, unknown>;
-  dramPnRaw?: Record<string, unknown>;
-  micronDramFbgaRaw?: Record<string, unknown>;
+  managedNandPnRaw?: ResourceJson;
+  dramPnRaw?: ResourceJson;
+  micronDramFbgaRaw?: ResourceJson;
 }
 
 export interface DecodeOptions {

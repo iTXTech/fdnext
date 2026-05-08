@@ -46,6 +46,11 @@ export interface MdbPayload {
   spectek: Record<string, string[]>;
 }
 
+export interface MdbDramEntry {
+  code: string;
+  pn: string;
+}
+
 export interface MdbCrawlSectionStats {
   requests: number;
   hits: number;
@@ -63,6 +68,11 @@ export interface MdbCrawlStats {
 export interface CrawlMdbResult {
   data: MdbPayload;
   stats: MdbCrawlStats;
+}
+
+export interface CrawlMdbDramResult {
+  data: MdbDramEntry[];
+  stats: MdbCrawlSectionStats & { durationMs: number };
 }
 
 export interface MdbQueryOptions {
@@ -84,5 +94,14 @@ export interface CrawlMdbOptions extends MdbQueryOptions {
   micronStartFrom?: Record<string, number>;
   micronMax?: number;
   spectekMax?: number;
+  logger?: (message: string) => void;
+}
+
+export interface CrawlMdbDramOptions extends MdbQueryOptions {
+  codesFile: string;
+  file?: string;
+  pretty?: boolean;
+  saveEachHit?: boolean;
+  delayMs?: number;
   logger?: (message: string) => void;
 }

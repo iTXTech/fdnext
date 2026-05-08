@@ -77,12 +77,33 @@ function assertSearchPnFirst(query: string, expected: string): void {
   assert.deepEqual(result, [expected], `${query} should prefer managed NAND PN suggestions`);
 }
 
-const managedNandPn = managedNandPnJson as { entries?: unknown[] };
+function resourceEntries(raw: unknown): unknown[] {
+  if (Array.isArray(raw)) {
+    return raw;
+  }
+  if (!raw || typeof raw !== "object") {
+    return [];
+  }
+  const entries = (raw as Record<string, unknown>).entries;
+  return Array.isArray(entries) ? entries : [];
+}
+
+assert.ok(Array.isArray(managedNandPnJson), "managed NAND PN resource should be a top-level minimal array");
+const managedNandPn = resourceEntries(managedNandPnJson);
 const managedNandPnForbiddenKeys = new Set(["source", "status", "reference", "inference_source", "external_confirmed", "external_table_confirmed"]);
-for (const entry of managedNandPn.entries ?? []) {
+const seenManagedNandPn = new Set<string>();
+for (const entry of managedNandPn) {
   assert.equal(typeof entry, "object", "managed NAND PN entry should be an object");
   assert.ok(entry !== null && !Array.isArray(entry), "managed NAND PN entry should be keyed");
-  const keys = Object.keys(entry as Record<string, unknown>);
+  const record = entry as Record<string, unknown>;
+  assert.equal(typeof record.pn, "string", "managed NAND PN entry should include pn");
+  assert.equal(typeof record.vendor, "string", `${String(record.pn)} should include vendor`);
+  assert.deepEqual(Object.keys(record).sort(), ["pn", "vendor"], `${String(record.pn)} should only include vendor and pn`);
+  const key = `${String(record.vendor)}\0${String(record.pn)}`;
+  assert.ok(!seenManagedNandPn.has(key), `${String(record.pn)} should only appear once for ${String(record.vendor)}`);
+  seenManagedNandPn.add(key);
+
+  const keys = Object.keys(record);
   assert.deepEqual(
     keys.filter((key) => managedNandPnForbiddenKeys.has(key)),
     [],

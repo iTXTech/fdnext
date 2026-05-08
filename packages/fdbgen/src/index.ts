@@ -1,9 +1,12 @@
 export type {
   CrawlMdbOptions,
+  CrawlMdbDramOptions,
+  CrawlMdbDramResult,
   CrawlMdbResult,
   ExtraPayload,
   MdbCrawlSectionStats,
   MdbCrawlStats,
+  MdbDramEntry,
   MdbPayload,
   MdbQueryOptions,
   FdbInfoPayload,
@@ -17,9 +20,13 @@ export {
   DEFAULT_MICRON_START_FROM,
   DEFAULT_SPECTEK_HEADERS,
   crawlMdb,
+  crawlMdbDram,
   createEmptyMdb,
+  loadMdbDram,
+  loadMicronFbgaCodes,
   loadMdb,
   queryMicronByFbgaCode,
   querySpectekByMarkCode,
-  saveMdb
+  saveMdb,
+  saveMdbDram
 } from "./mdb";
