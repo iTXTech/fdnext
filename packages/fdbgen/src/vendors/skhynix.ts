@@ -7,6 +7,6 @@ export function removeSkhynixPackage(partNumber: string): string {
 export const skhynixVendor: VendorDecoder = {
   id: "skhynix",
   aliases: ["hynix"],
-  identify: (partNumber) => /^(HY27|H27|H25|H26|H2D|H2J|H9T|HYNIX)/.test(partNumber),
+  identify: (partNumber) => /^(HY27|H27|H25|H26|H2D|H2J|H9[ATHQ]|HYNIX)/.test(partNumber),
   normalizePartNumber: removeSkhynixPackage
 };

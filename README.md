@@ -46,7 +46,7 @@ docker run -d --name fdnext -p 8080:8080 fdnext-server
 - [集成指南](docs/INTEGRATION.md)
 - [DSL 规范](docs/DSL_SPEC.md)
 - [FDBGen 文档](docs/FDBGEN.md)
-- [eMMC / UFS PN 编码资料](docs/PN_CODE_DATA.md)
+- [PN 编码资料](docs/pn_code/README.md)
 
 ## FDBGen 使用说明
 

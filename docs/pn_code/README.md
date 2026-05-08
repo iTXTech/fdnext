@@ -4,6 +4,14 @@
 
 这份资料先覆盖公开页面或公开 product brief 能直接验证的 managed NAND 料号编码。部分厂商没有公开完整逐位编码手册，因此规则库只记录能从公开 PN 表稳定归纳出的字段含义：厂商、类型、容量、产品族、接口版本、温度/等级后缀。更细的封装高度、controller revision、NAND die 代际需要继续补 datasheet 或厂商资料。
 
+## 厂商拆分文档
+
+后续 PN code 资料按厂商和产品类型拆分到 `docs/pn_code/`，总览文档只保留索引和跨厂商摘要。
+
+| 厂商 | NAND | eMMC | UFS | eMCP / uMCP |
+| --- | --- | --- | --- | --- |
+| SK hynix | [skhynix_nand.md](skhynix_nand.md) | [skhynix_emmc.md](skhynix_emmc.md) | [skhynix_ufs.md](skhynix_ufs.md) | [skhynix_emcp.md](skhynix_emcp.md) |
+
 ## 通用约定
 
 - DSL 中 `density` 继续使用项目现有单位：Mbit。例：8GB = `65536`，128GB = `1048576`。
@@ -145,43 +153,14 @@
 
 注意：Samsung UFS 4.0/4.1 不能只看 `KLU` 前缀，必须继续按 controller/version token 组合解析。`G` 仍保留为 UFS 4.0，新增 `H` version token 表示 UFS 4.1。
 
-## SK hynix e-NAND / UFS
+## SK hynix
 
-来源：
+SK hynix 资料已拆分为独立文档：
 
-- SK hynix eMMC brochure / catalog mirror 给出 eMMC 5.1 line-up，可归纳出 `H26M/H26T` 托管 NAND 结构、容量位和 automotive grade 后缀。
-  <https://netlist.com/wp-content/uploads/2023/06/SK-Hynix_Managed-NAND_eMMC.pdf>
-- SK hynix e-NAND H26M Series datasheet mirror 给出 8GB/16GB/32GB/64GB eMMC 5.1、VCC 3.3V / VCCQ 1.8V、HS400+CMDQ、153FBGA 以及 automotive grade 示例。
-  <https://media.digikey.com/pdf/Data%20Sheets/Netlist%20Inc%20PDF/H26M%20Series.pdf>
-- SK hynix UFS3.1 3D V7 datasheet mirror 给出 `HN8Tx5DxHKX07x` 结构、`HN8`=UFS、`5`=UFS3.1、`K`=Mobile -25~85°C、`T0/T1/T2/T3`=128GB/256GB/512GB/1TB，以及 `HN8T05DEHKX073` / `HN8T15DEHKX075` / `HN8T25DEHKX077` / `HN8T35DZHKX079` line-up。
-  <https://www.uttc.com.tw/wp-content/uploads/2025/12/SK-hynix-UFS3.1-3D-V7-Datasheet-128GB-1TB-V1.1.pdf>
-- SK hynix UFS 2.1 分销页给出 `H28SAO301MMR`，类型 UFS、Sub-Type UFS 2.1、FBGA、512GB；同页相关型号列出 `H28S6D302BMR` 32GB / `H28S8Q302CMR` 128GB。
-  <https://www.preduo.com/product/ufs/ufs-2-1/h28sao301mmr>
-
-已采集编码：
-
-| PN 结构 | 字段 |
-| --- | --- |
-| `H26` + media(1) + density(1) + revision/config(7) + optional grade | SK hynix e-NAND / eMMC |
-| media `M` / `T` | managed e-NAND / eMMC 族 |
-| density `4/5/6/7/8` | 8GB / 16GB / 32GB / 64GB / 128GB |
-| eMMC grade `N/A` | Commercial / Mobile, -25~85°C |
-| eMMC grade `I` | Industrial, -40~85°C |
-| trailing `X` | brochure placeholder：按 grade 变化，当前记录为 Automotive Grade 2/3 |
-| trailing `Q` | 已按 automotive grade 2 先收敛，需更多 datasheet 复核 |
-| `HN8` + density token + series(2) + package/temp/feature + serial | SK hynix UFS |
-| `HN8` density `T0/T1/T2/T3` | 128GB / 256GB / 512GB / 1TB |
-| `HN8` density `G96/T06/T16/T25/T35` | 64GB / 128GB / 256GB / 512GB / 1TB，兼容公开 line-up 的完整 density token |
-| `HN8` series `2E/DE/DZ` | UFS 3.1, 176-layer 4D NAND (V7) |
-| `HN8` temp `K` | Mobile, -25~85°C |
-| `H28S` + density(1) + product serial | SK hynix older UFS 2.1 |
-| `H28S` density `6/7/8/9/A` | 32GB / 64GB / 128GB / 256GB / 512GB |
-
-示例：`H26M78208CMRX` -> SK hynix eMMC, 64GB, automotive grade token `X`。
-
-示例：`HN8T25DEHKX077N` -> SK hynix UFS, 512GB, UFS 3.1, V7, Mobile。
-
-注意：灰市/分销页常见 `H9HQ...` 多为 uMCP (UFS + LPDDR)，不能直接当作纯 UFS parser；本轮不把 `H9*` 纳入 UFS 规则。
+- [SK hynix NAND](skhynix_nand.md)
+- [SK hynix eMMC / e-NAND](skhynix_emmc.md)
+- [SK hynix UFS](skhynix_ufs.md)
+- [SK hynix eMCP / uMCP](skhynix_emcp.md)
 
 ## 本轮落地
 
@@ -194,12 +173,19 @@
   - `vendor.skhynix.emmc.managed.v1`
   - `vendor.skhynix.ufs.hn8.v1`
   - `vendor.skhynix.ufs.h28s.v1`
+  - `vendor.skhynix.emcp.h9t_h9h.v1`
+  - `vendor.skhynix.emcp.h9a.v1`
+  - `vendor.skhynix.umcp.h9q.v1`
+  - `vendor.skhynix.umcp.h9hq.v1`
+  - `vendor.skhynix.e2nand.h27.t2.v1`
+- `packages/dsl/src/rules/packs/skhynix-3d-token.json`
+  - `vendor.skhynix.4d.package.h25t.v1`
 - `packages/dsl/src/rules/packs/samsung-token.json`
   - 扩展 Samsung UFS 4.1 controller/version token
 - `packages/dsl/src/rules/packs/micron-token.json`
   - `vendor.micron.managed.mtfc.nextgen.v1`
   - `vendor.micron.emmc.mtfc.legacy.v1`
 - `packages/dsl/test/managed-nand.test.ts`
-  - 覆盖 SanDisk / KIOXIA / SK hynix / Micron / Samsung 的 eMMC/UFS positive cases，以及 unknown-token fallback cases
-- `packages/core/src/fdb-lookup.ts` / `packages/fdbgen/src/vendors/kioxia.ts`
-  - KIOXIA managed NAND `THG*` 归属识别
+  - 覆盖 SanDisk / KIOXIA / SK hynix / Micron / Samsung 的 eMMC/UFS positive cases，以及 SK hynix H25T 4D NAND、H27 E2NAND3.0 catalog family、H9 eMCP/uMCP cases
+- `packages/core/src/fdb-lookup.ts` / `packages/fdbgen/src/vendors/kioxia.ts` / `packages/fdbgen/src/vendors/skhynix.ts`
+  - KIOXIA managed NAND `THG*` 和 SK hynix `H9A/H9H/H9Q/H9T*` 归属识别

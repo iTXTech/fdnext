@@ -192,6 +192,113 @@ assertPart("H28S8Q302CMR", {
   }
 });
 
+assertPart("H25T2TB88E-X321-N", {
+  rawVendor: "skhynix",
+  type: "NAND",
+  rawDensity: 2097152,
+  extra: {
+    System: "SK hynix 4D NAND",
+    "Density Code": "2T",
+    "Product Generation": "176-layer 4D NAND (V7)",
+    "Product Class": "TLC"
+  }
+});
+
+assertPart("H25T1TD48C-X630", {
+  rawVendor: "skhynix",
+  type: "NAND",
+  extra: {
+    System: "SK hynix 4D NAND",
+    "Density Code": "1T",
+    "Product Generation": "238-layer 4D NAND (V9 / H25FTD0)",
+    "Die Density": "512Gb"
+  }
+});
+
+assertPart("H27UCG8T2E", {
+  rawVendor: "skhynix",
+  type: "NAND",
+  rawDensity: 65536,
+  extra: {
+    System: "SK hynix E2NAND3.0 catalog family",
+    "Product Family": "H27 T2 family",
+    "Density Code": "CG"
+  }
+});
+
+assertPart("H9TQ17ABJTMCUR-KUM", {
+  rawVendor: "skhynix",
+  type: "eMCP",
+  rawDensity: 131072,
+  package: "221Ball FBGA",
+  extra: {
+    System: "SK hynix CI-MCP",
+    "Product Mode": "CI-MCP NAND DDR3",
+    "Storage Density": "16GB e-NAND",
+    "DRAM Density": "16Gb LPDDR3"
+  }
+});
+
+assertPart("H9TP32A4GDBCPR-KGM", {
+  rawVendor: "skhynix",
+  type: "eMCP",
+  rawDensity: 32768,
+  package: "162Ball FBGA",
+  extra: {
+    System: "SK hynix CI-MCP",
+    "Product Mode": "CI-MCP NAND DDR2",
+    "Storage Density": "4GB e-NAND"
+  }
+});
+
+assertPart("H9HP52ACPMADAR-KMM", {
+  rawVendor: "skhynix",
+  type: "eMCP",
+  rawDensity: 524288,
+  package: "254Ball FBGA",
+  extra: {
+    System: "SK hynix eMCP",
+    "Product Mode": "eMCP NAND DDR4",
+    "Storage Density": "64GB eMMC"
+  }
+});
+
+assertPart("H9AG9G5ANBX100", {
+  rawVendor: "skhynix",
+  type: "eMCP",
+  rawDensity: 524288,
+  package: "254Ball FBGA",
+  extra: {
+    System: "SK hynix eMCP",
+    "Product Mode": "LPDDR4 eMCP",
+    "Storage Interface": "eMMC 5.0"
+  }
+});
+
+assertPart("H9QT0GECN6X145", {
+  rawVendor: "skhynix",
+  type: "uMCP",
+  rawDensity: 1048576,
+  package: "254Ball FBGA",
+  extra: {
+    System: "SK hynix uMCP",
+    "Product Mode": "LPDDR4 uMCP",
+    "Storage Interface": "UFS 2.2"
+  }
+});
+
+assertPart("H9HQ15ACPMADAR-KEM", {
+  rawVendor: "skhynix",
+  type: "uMCP",
+  rawDensity: 1048576,
+  package: "254Ball FBGA",
+  extra: {
+    System: "SK hynix uMCP",
+    "Storage Density": "128GB UFS",
+    "DRAM Density": "32Gb LPDDR4X"
+  }
+});
+
 assertPart("MTFC4GACAJCN-1M WT", {
   rawVendor: "micron",
   type: "eMMC",

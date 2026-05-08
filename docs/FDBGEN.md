@@ -264,7 +264,7 @@ Raw FlashDB 模式：
 
 - `MT29*` / `MTFC*` / `MTFD*` → `micron`
 - `K9*` / `KLM*` / `KLU*` / `KMD*` / `KMF*` / `KMN*` / `KMV*` → `samsung`
-- `HY27*` / `H27*` / `H25*` / `H26*` / `H2D*` / `H2J*` / `H9T*` → `skhynix`
+- `HY27*` / `H27*` / `H25*` / `H26*` / `H2D*` / `H2J*` / `H9A*` / `H9H*` / `H9Q*` / `H9T*` → `skhynix`
 - `TC58*` / `TH58*` / `THG*` → `kioxia`
 - `SD*` / `S34*` / `S35*` / `SANDISK*` / `SNDK*` / `DFT*` / `MDT*` / `05xxx*` → `sndk`
 - `JS29F*` / `I29F*` / `PF29F*` / `PC29F*` / `PD29F*` → `intel`
@@ -335,4 +335,4 @@ await crawlMdb({
 - [项目主页](../README.md)
 - [集成指南](./INTEGRATION.md)
 - [DSL 规范](./DSL_SPEC.md)
-- [eMMC / UFS PN 编码资料](./PN_CODE_DATA.md)
+- [PN 编码资料](./pn_code/README.md)

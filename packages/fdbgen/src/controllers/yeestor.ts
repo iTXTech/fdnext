@@ -17,7 +17,7 @@ const PART_PREFIX_BY_VENDOR: Record<string, RegExp> = {
   kioxia: /^(?:TC58|TH58|THG)/,
   micron: /^(?:MT29|MTFC|MTFD|NW[0-9A-Z]{3,})/,
   samsung: /^(?:K9|KLM|KLU|KMD|KMF|KMN|KMV)/,
-  skhynix: /^(?:HY27|H27|H25|H26|H2D|H2J|H9T|HYNIX)/,
+  skhynix: /^(?:HY27|H27|H25|H26|H2D|H2J|H9[ATHQ]|HYNIX)/,
   sndk: /^(?:SD[A-Z0-9]{3,}|S34|S35|SANDISK|SNDK|DFT|MDT|05[0-9]{3})/,
   spectek: /^(?:FBNL|FNNL|FNN|FXXL)/,
   ymtc: /^(?:YM|YMN|XT)/

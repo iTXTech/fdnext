@@ -137,7 +137,7 @@ export function inferVendorFromPartNumber(partNumber: string): string | null {
   if (/^(K9|KLM|KLU|KMD|KMF|KMN|KMV)/.test(normalized)) {
     return "samsung";
   }
-  if (/^(HY27|H27|H25|H26|H2D|H2J|H9T|HYNIX)/.test(normalized)) {
+  if (/^(HY27|H27|H25|H26|H2D|H2J|H9[ATHQ]|HYNIX)/.test(normalized)) {
     return "skhynix";
   }
   if (/^(TC58|TH58|THG)/.test(normalized)) {
