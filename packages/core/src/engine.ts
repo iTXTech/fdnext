@@ -16,6 +16,7 @@ import type {
   FlashIdInfo,
   FlashInfo,
   LangPacks,
+  ManagedNandPartNumberEntry,
   PartNumberRecord,
   PartNumberDecoder,
   ProcessorEndpoint,
@@ -363,6 +364,35 @@ function mergeStringArray(target: string[] | undefined, source: string[] | undef
   return [...merged];
 }
 
+function buildManagedNandPartNumbers(raw: Record<string, unknown>): ManagedNandPartNumberEntry[] {
+  const rawEntries = Array.isArray(raw.entries) ? raw.entries : [];
+  const entries: ManagedNandPartNumberEntry[] = [];
+  const seen = new Set<string>();
+
+  for (const item of rawEntries) {
+    if (!item || typeof item !== "object" || Array.isArray(item)) {
+      continue;
+    }
+
+    const record = item as Record<string, unknown>;
+    const pn = typeof record.pn === "string" ? normalizePartNumber(record.pn) : "";
+    const vendor = typeof record.vendor === "string" ? record.vendor.trim() : "";
+    const type = typeof record.type === "string" ? record.type.trim() : "";
+    if (!pn || !vendor) {
+      continue;
+    }
+
+    const key = `${vendor}\0${pn}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+    entries.push(type ? { pn, vendor, type } : { pn, vendor });
+  }
+
+  return entries;
+}
+
 export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
   const fallbackLang = options.fallbackLang && LANGUAGES.includes(options.fallbackLang as (typeof LANGUAGES)[number])
     ? options.fallbackLang
@@ -370,10 +400,12 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
 
   const rawFdb = (options.resources?.fdbRaw ?? {}) as Record<string, unknown>;
   const rawMdb = (options.resources?.mdbRaw ?? {}) as Record<string, unknown>;
+  const rawManagedNandPn = (options.resources?.managedNandPnRaw ?? {}) as Record<string, unknown>;
   const langRaw = (options.resources?.langRaw ?? {}) as LangPacks;
 
   const fdb = buildFdb(rawFdb);
   const mdb = buildMdb(rawMdb);
+  const managedNandPartNumbers = buildManagedNandPartNumbers(rawManagedNandPn);
   const langPacks: LangPacks = {
     [fallbackLang]: {},
     ...langRaw
@@ -697,21 +729,49 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     const partMatch = opts.partialMatch ?? true;
     const limit = opts.limit ?? 0;
     const result: string[] = [];
+    const seenPartNumbers = new Set<string>();
+
+    const atLimit = (): boolean => limit > 0 && result.length >= limit;
+    const appendPartNumberSuggestion = (vendor: string, partNumber: string): void => {
+      if (atLimit()) {
+        return;
+      }
+      const normalizedPartNumber = normalizePartNumber(partNumber);
+      if (!normalizedPartNumber) {
+        return;
+      }
+      const key = `${vendor}\0${normalizedPartNumber}`;
+      if (seenPartNumbers.has(key)) {
+        return;
+      }
+      seenPartNumbers.add(key);
+      result.push(`${translateString(vendor, opts.lang)} ${normalizedPartNumber}`);
+    };
 
     for (const [vendor, partNumbers] of fdb.vendors.entries()) {
       for (const partNumber of partNumbers.keys()) {
-        if (limit > 0 && result.length >= limit) {
+        if (atLimit()) {
           return result;
         }
         const hit = partMatch ? contains(partNumber, query) : partNumber === query;
         if (hit) {
-          result.push(`${translateString(vendor, opts.lang)} ${partNumber}`);
+          appendPartNumberSuggestion(vendor, partNumber);
         }
       }
     }
 
+    for (const entry of managedNandPartNumbers) {
+      if (atLimit()) {
+        return result;
+      }
+      const hit = partMatch ? contains(entry.pn, query) : entry.pn === query;
+      if (hit) {
+        appendPartNumberSuggestion(entry.vendor, entry.pn);
+      }
+    }
+
     for (const [code, partNumber] of Object.entries(mdb.micron)) {
-      if (limit > 0 && result.length >= limit) {
+      if (atLimit()) {
         break;
       }
       if (contains(partNumber, query)) {
@@ -720,11 +780,11 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     }
 
     for (const [code, partNumbers] of Object.entries(mdb.spectek)) {
-      if (limit > 0 && result.length >= limit) {
+      if (atLimit()) {
         break;
       }
       for (const partNumber of partNumbers) {
-        if (limit > 0 && result.length >= limit) {
+        if (atLimit()) {
           break;
         }
         if (contains(partNumber, query)) {

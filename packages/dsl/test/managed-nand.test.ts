@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import type { FlashInfo } from "../../core/src/index";
 import { createEngine } from "../../core/src/index";
 import { embeddedResources } from "../../resources/index";
+import managedNandPnJson from "../../resources/resources/managed-nand-pn.json" with { type: "json" };
 import { compileRulesToDecoders, defaultDslRules } from "../src/index";
 
 const engine = createEngine({
@@ -64,6 +65,24 @@ function assertPart(
       assert.equal(Object.hasOwn(extraInfo, key), false, `${partNumber} should not expose extraInfo.${key}`);
     }
   }
+}
+
+function assertSearchPnIncludes(query: string, expected: string): void {
+  const result = engine.searchPartNumber(query, { lang: "eng", limit: 50 });
+  assert.ok(result.includes(expected), `${query} should suggest ${expected}; got ${result.join(", ")}`);
+}
+
+const managedNandPn = managedNandPnJson as { entries?: unknown[] };
+const managedNandPnForbiddenKeys = new Set(["source", "status", "reference", "inference_source", "external_confirmed", "external_table_confirmed"]);
+for (const entry of managedNandPn.entries ?? []) {
+  assert.equal(typeof entry, "object", "managed NAND PN entry should be an object");
+  assert.ok(entry !== null && !Array.isArray(entry), "managed NAND PN entry should be keyed");
+  const keys = Object.keys(entry as Record<string, unknown>);
+  assert.deepEqual(
+    keys.filter((key) => managedNandPnForbiddenKeys.has(key)),
+    [],
+    `managed NAND PN entry should not expose maintenance keys: ${JSON.stringify(entry)}`
+  );
 }
 
 assertPart("SDINBDA6-256G-XI1", {
@@ -1054,3 +1073,9 @@ assertPart("BW2A2MZC02-256G", {
   },
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
+
+assertSearchPnIncludes("BW2A2MZCNY", "BIWIN BW2A2MZCNY-512G");
+assertSearchPnIncludes("FEUDME256G", "Longsys FEUDME256G-C8H09");
+assertSearchPnIncludes("KMGD6001BM", "Samsung KMGD6001BM-B421");
+assertSearchPnIncludes("THGJFRT1E45", "Kioxia THGJFRT1E45BATV");
+assertSearchPnIncludes("YMUSAB5", "YMTC YMUSAB5TH3A1C1");

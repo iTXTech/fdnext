@@ -109,6 +109,16 @@ export interface MdbDataset {
   spectek: Record<string, string[]>;
 }
 
+export interface ManagedNandPartNumberEntry {
+  pn: string;
+  vendor: string;
+  type?: string;
+}
+
+export interface ManagedNandPartNumberDataset {
+  entries: ManagedNandPartNumberEntry[];
+}
+
 export interface LangPack {
   [key: string]: string;
 }
@@ -121,6 +131,7 @@ export interface EngineResources {
   fdbRaw: Record<string, unknown>;
   mdbRaw: Record<string, unknown>;
   langRaw: LangPacks;
+  managedNandPnRaw?: Record<string, unknown>;
 }
 
 export interface DecodeOptions {
