@@ -11,12 +11,20 @@
 | 厂商 | NAND | eMMC | UFS | eMCP / uMCP |
 | --- | --- | --- | --- | --- |
 | SK hynix | [skhynix_nand.md](skhynix_nand.md) | [skhynix_emmc.md](skhynix_emmc.md) | [skhynix_ufs.md](skhynix_ufs.md) | [skhynix_emcp.md](skhynix_emcp.md) |
+| Samsung | raw NAND 规则见本页 Samsung 段落 | [samsung_emmc.md](samsung_emmc.md) | [samsung_ufs.md](samsung_ufs.md) | [samsung_emcp.md](samsung_emcp.md) |
+
+跨厂商约定：
+
+- [输出术语](terminology.md)
+- [PN 规则可信度策略](reference_policy.md)
+- [Samsung E2NAND / eNAND 产品线记录](samsung_e2nand.md)
 
 ## 通用约定
 
 - DSL 中 `density` 继续使用项目现有单位：Mbit。例：8GB = `65536`，128GB = `1048576`。
 - eMMC / UFS 这类带控制器产品的 `type` 使用 `emmc` / `ufs`，补充信息放入 `extraInfo`。
 - 公开资料主要是订购型号表，不等价于厂商正式 PN decoder。实现上禁止以完整 PN 白名单做匹配，只允许按 PN 结构切 token，再用规则库解释已知 token；未知 token 应尽量保留已能解析的字段。
+- 用户可见字段统一使用 `component_density`、`die_density`、`die_stack`、`generation_info` 等跨厂商术语；维护用可信度 metadata 只能留在 DSL 内部 `tables.reference`，不得输出到 `extraInfo`。
 
 ## SanDisk / WD iNAND
 
@@ -123,6 +131,13 @@
 - `MTFC256GZZZZZZ-WT` -> Micron NAND with Controller, 256GB, 未知 family，但保留 `ZZ/ZZ/ZZ` token。
 
 ## Samsung eMMC / UFS
+
+Samsung eMMC / UFS 已拆分为独立文档：
+
+- [Samsung eMMC](samsung_emmc.md)
+- [Samsung UFS](samsung_ufs.md)
+- [Samsung eMCP / uMCP](samsung_emcp.md)
+- [Samsung E2NAND / eNAND 产品线记录](samsung_e2nand.md)
 
 来源：
 

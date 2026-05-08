@@ -501,60 +501,95 @@ assertPart("KLMAG1JETD-B041", {
   rawVendor: "samsung",
   type: "eMMC",
   rawDensity: 131072,
+  processNode: "14nm",
   extra: {
+    "Component Density": "16GB package",
+    "Die Density": "128Gb",
+    "Die Stack": "SDP (1-die)",
+    "Product Generation": "14nm",
     "Product Version": "eMMC 5.1",
     "Interface info": "HS400"
-  }
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLM8G1GETF-B041", {
   rawVendor: "samsung",
   type: "eMMC",
   rawDensity: 65536,
+  processNode: "14nm",
   extra: {
+    "Component Density": "8GB package",
+    "Die Density": "64Gb",
+    "Die Stack": "SDP (1-die)",
+    "Product Generation": "14nm",
     "Product Version": "eMMC 5.1",
     "Interface info": "HS400"
-  }
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLMBG2JETD-B041", {
   rawVendor: "samsung",
   type: "eMMC",
   rawDensity: 262144,
+  processNode: "14nm",
   extra: {
+    "Component Density": "32GB package",
+    "Die Density": "128Gb",
+    "Product Generation": "14nm",
     "Product Version": "eMMC 5.1",
     "Die Stack": "DDP (2-die)"
-  }
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLUEG8UHDB-C2E1", {
   rawVendor: "samsung",
   type: "UFS",
   rawDensity: 2097152,
+  processNode: "V5 92L",
   extra: {
+    "Component Density": "256GB package",
+    "Die Density": "256Gb",
+    "Die Stack": "ODP (8-die)",
+    "Product Generation": "V5 92L",
     "Product Version": "UFS 3.1",
     "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller"
-  }
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLUFG8RHHF-F0G1", {
   rawVendor: "samsung",
   type: "UFS",
   rawDensity: 4194304,
+  processNode: "V8 236L",
   package: "BGA-153 9x13",
   extra: {
+    "Component Density": "512GB package",
+    "Die Density": "512Gb",
+    "Die Stack": "ODP (8-die)",
+    "Product Generation": "V8 236L",
     "Product Version": "UFS 4.0",
     "Controller": "UFS 4.0 G5-2Lane Controller"
-  }
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLUEG4RHKF-F0H1", {
   rawVendor: "samsung",
   type: "UFS",
   rawDensity: 2097152,
+  processNode: "V8 236L",
   package: "BGA-153 9x13",
   extra: {
+    "Component Density": "256GB package",
+    "Die Density": "512Gb",
+    "Die Stack": "QDP (4-die)",
+    "Product Generation": "V8 236L",
     "Product Version": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"
-  }
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
