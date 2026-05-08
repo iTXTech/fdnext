@@ -14,6 +14,9 @@
 | Samsung | raw NAND 规则见本页 Samsung 段落 | [samsung_emmc.md](samsung_emmc.md) | [samsung_ufs.md](samsung_ufs.md) | [samsung_emcp.md](samsung_emcp.md) | - |
 | SanDisk | raw NAND 规则见 SanDisk raw packs | [sandisk_emmc.md](sandisk_emmc.md) | [sandisk_ufs.md](sandisk_ufs.md) | [sandisk_emcp.md](sandisk_emcp.md) | - |
 | KIOXIA | raw NAND 规则见 KIOXIA raw packs | [kioxia_emmc.md](kioxia_emmc.md) | [kioxia_ufs.md](kioxia_ufs.md) | [kioxia_emcp.md](kioxia_emcp.md) | - |
+| Kingston | - | [kingston_emmc.md](kingston_emmc.md) | [kingston_ufs.md](kingston_ufs.md) | [kingston_emcp.md](kingston_emcp.md) | - |
+| Longsys | - | [longsys_emmc.md](longsys_emmc.md) | [longsys_ufs.md](longsys_ufs.md) | [longsys_emcp.md](longsys_emcp.md) | - |
+| BIWIN | - | [biwin_emmc.md](biwin_emmc.md) | [biwin_ufs.md](biwin_ufs.md) | [biwin_emcp.md](biwin_emcp.md) | - |
 
 跨厂商约定：
 
@@ -218,6 +221,8 @@ SK hynix 资料已拆分为独立文档：
 ## 本轮落地
 
 - DSL pack 已按厂商 + 芯片 / 产品类型拆分，避免单个 JSON 同时承载 eMMC、UFS、raw NAND、MCP 等不同解析规则。
+- 补入 Kingston eMMC / UFS / eMCP、Longsys eMMC / UFS / eMCP / uMCP、BIWIN eMMC / UFS / eMCP / uMCP 文档和规则包。
+- 新增测试覆盖官方 ordering table 中的典型 PN，继续避免完整 PN 白名单匹配。
 - `packages/dsl/src/rules/packs/sandisk-inand-emmc-token.json`
   - `vendor.sndk.inand.emmc.v1`
 - `packages/dsl/src/rules/packs/sandisk-inand-ufs-token.json`

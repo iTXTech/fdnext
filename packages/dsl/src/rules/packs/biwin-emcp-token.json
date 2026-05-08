@@ -1,0 +1,324 @@
+[
+  {
+    "id": "vendor.biwin.emcp.v1",
+    "priority": 1001,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^BWCA2(?:EZA|KZC|KZA)(?:32G|64G|128G)$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "BWCA2"
+      ],
+      "tables": {
+        "reference": {
+          "biwin_official_emcp4x_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN eMCP LPDDR4X order information"
+          }
+        },
+        "configCode": {
+          "EZA": "EZA",
+          "KZC": "KZC",
+          "KZA": "KZA"
+        },
+        "densityCode": {
+          "32G": "32G",
+          "64G": "64G",
+          "128G": "128G"
+        },
+        "density": {
+          "32G": 262144,
+          "64G": 524288,
+          "128G": 1048576
+        },
+        "densityKeyObj": {
+          "EZA:32G": {
+            "product_family": "BIWIN eMCP4X",
+            "product_version": "eMMC 5.1 / LPDDR4X",
+            "storage_interface": "eMMC 5.1",
+            "storage_density": "32GB eMMC",
+            "dram_density": "16Gb",
+            "dram_type": "LPDDR4X",
+            "package_code": "FBGA254",
+            "opTemp": "-25°C ~ +85°C"
+          },
+          "KZC:32G": {
+            "product_family": "BIWIN eMCP4X",
+            "product_version": "eMMC 5.1 / LPDDR4X",
+            "storage_interface": "eMMC 5.1",
+            "storage_density": "32GB eMMC",
+            "dram_density": "32Gb",
+            "dram_type": "LPDDR4X",
+            "package_code": "FBGA254",
+            "opTemp": "-25°C ~ +85°C"
+          },
+          "KZC:64G": {
+            "product_family": "BIWIN eMCP4X",
+            "product_version": "eMMC 5.1 / LPDDR4X",
+            "storage_interface": "eMMC 5.1",
+            "storage_density": "64GB eMMC",
+            "dram_density": "32Gb",
+            "dram_type": "LPDDR4X",
+            "package_code": "FBGA254",
+            "opTemp": "-25°C ~ +85°C"
+          },
+          "KZA:128G": {
+            "product_family": "BIWIN eMCP4X",
+            "product_version": "eMMC 5.1 / LPDDR4X",
+            "storage_interface": "eMMC 5.1",
+            "storage_density": "128GB eMMC",
+            "dram_type": "LPDDR4X",
+            "package_code": "FBGA254",
+            "opTemp": "-25°C ~ +85°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "configCode",
+          "to": "configCode",
+          "default": ""
+        },
+        {
+          "op": "takeLongest",
+          "table": "densityCode",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "tpl",
+          "template": "{{configCode}}:{{densityCode}}",
+          "to": "densityKey"
+        },
+        {
+          "op": "map",
+          "from": "densityKey",
+          "table": "densityKeyObj",
+          "to": "densityKeyObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "BIWIN eMCP",
+            "group": "eMCP",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "density_code": {
+              "$var": "densityCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityKeyObj"
+        }
+      ],
+      "assign": {
+        "vendor": "biwin",
+        "type": "emcp",
+        "density": {
+          "$var": "density"
+        },
+        "package": "FBGA254 11.50x13.00",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.biwin.umcp.v1",
+    "priority": 1001,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^BW2A2(?:KZC02|LEI02|MZC02|MZCNY)(?:64G|128G|256G|512G)$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "BW2A2"
+      ],
+      "tables": {
+        "reference": {
+          "biwin_official_umcp4x_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN uMCP LPDDR4X order information"
+          }
+        },
+        "configCode": {
+          "KZC02": "KZC02",
+          "LEI02": "LEI02",
+          "MZC02": "MZC02",
+          "MZCNY": "MZCNY"
+        },
+        "densityCode": {
+          "64G": "64G",
+          "128G": "128G",
+          "256G": "256G",
+          "512G": "512G"
+        },
+        "density": {
+          "64G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304
+        },
+        "densityKeyObj": {
+          "KZC02:64G": {
+            "product_family": "BIWIN uMCP LPDDR4X",
+            "product_version": "UFS 2.2 / LPDDR4X",
+            "storage_interface": "UFS 2.2",
+            "storage_density": "64GB UFS",
+            "dram_density": "32Gb",
+            "dram_type": "LPDDR4X",
+            "package_code": "FBGA254",
+            "opTemp": "-25°C ~ +85°C"
+          },
+          "LEI02:128G": {
+            "product_family": "BIWIN uMCP LPDDR4X",
+            "product_version": "UFS 2.2 / LPDDR4X",
+            "storage_interface": "UFS 2.2",
+            "storage_density": "128GB UFS",
+            "dram_density": "48Gb",
+            "dram_type": "LPDDR4X",
+            "package_code": "FBGA254",
+            "opTemp": "-25°C ~ +85°C"
+          },
+          "MZC02:128G": {
+            "product_family": "BIWIN uMCP LPDDR4X",
+            "product_version": "UFS 2.2 / LPDDR4X",
+            "storage_interface": "UFS 2.2",
+            "storage_density": "128GB UFS",
+            "dram_density": "64Gb",
+            "dram_type": "LPDDR4X",
+            "package_code": "FBGA254",
+            "opTemp": "-25°C ~ +85°C"
+          },
+          "MZC02:256G": {
+            "product_family": "BIWIN uMCP LPDDR4X",
+            "product_version": "UFS 2.2 / LPDDR4X",
+            "storage_interface": "UFS 2.2",
+            "storage_density": "256GB UFS",
+            "dram_density": "64Gb",
+            "dram_type": "LPDDR4X",
+            "package_code": "FBGA254",
+            "opTemp": "-25°C ~ +85°C"
+          },
+          "MZCNY:512G": {
+            "product_family": "BIWIN uMCP LPDDR4X",
+            "product_version": "UFS 2.2 / LPDDR4X",
+            "storage_interface": "UFS 2.2",
+            "storage_density": "512GB UFS",
+            "dram_density": "64Gb",
+            "dram_type": "LPDDR4X",
+            "package_code": "FBGA254",
+            "opTemp": "-25°C ~ +85°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "configCode",
+          "to": "configCode",
+          "default": ""
+        },
+        {
+          "op": "takeLongest",
+          "table": "densityCode",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "tpl",
+          "template": "{{configCode}}:{{densityCode}}",
+          "to": "densityKey"
+        },
+        {
+          "op": "map",
+          "from": "densityKey",
+          "table": "densityKeyObj",
+          "to": "densityKeyObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "BIWIN uMCP",
+            "group": "uMCP",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "density_code": {
+              "$var": "densityCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityKeyObj"
+        }
+      ],
+      "assign": {
+        "vendor": "biwin",
+        "type": "umcp",
+        "density": {
+          "$var": "density"
+        },
+        "package": "FBGA254 11.50x13.00",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

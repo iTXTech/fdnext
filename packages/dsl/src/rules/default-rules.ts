@@ -26,6 +26,15 @@ import sandiskInandTokenRules from "./packs/sandisk-inand-token.json" with { typ
 import sandiskIssdTokenRules from "./packs/sandisk-issd-token.json" with { type: "json" };
 import sandiskMarkingTokenRules from "./packs/sandisk-marking-token.json" with { type: "json" };
 import sandiskRawTokenRules from "./packs/sandisk-raw-token.json" with { type: "json" };
+import kingstonEmmcTokenRules from "./packs/kingston-emmc-token.json" with { type: "json" };
+import kingstonUfsTokenRules from "./packs/kingston-ufs-token.json" with { type: "json" };
+import kingstonEmcpTokenRules from "./packs/kingston-emcp-token.json" with { type: "json" };
+import longsysEmmcTokenRules from "./packs/longsys-emmc-token.json" with { type: "json" };
+import longsysUfsTokenRules from "./packs/longsys-ufs-token.json" with { type: "json" };
+import longsysEmcpTokenRules from "./packs/longsys-emcp-token.json" with { type: "json" };
+import biwinEmmcTokenRules from "./packs/biwin-emmc-token.json" with { type: "json" };
+import biwinUfsTokenRules from "./packs/biwin-ufs-token.json" with { type: "json" };
+import biwinEmcpTokenRules from "./packs/biwin-emcp-token.json" with { type: "json" };
 import ymtcProcessTokenRules from "./packs/ymtc-process-token.json" with { type: "json" };
 import ymtcNandTokenRules from "./packs/ymtc-nand-token.json" with { type: "json" };
 import ymtcUnimosTokenRules from "./packs/ymtc-unimos-token.json" with { type: "json" };
@@ -64,6 +73,15 @@ export const defaultDslRules = [
   ...sandiskIssdTokenRules,
   ...sandiskMarkingTokenRules,
   ...sandiskRawTokenRules,
+  ...kingstonEmmcTokenRules,
+  ...kingstonUfsTokenRules,
+  ...kingstonEmcpTokenRules,
+  ...longsysEmmcTokenRules,
+  ...longsysUfsTokenRules,
+  ...longsysEmcpTokenRules,
+  ...biwinEmmcTokenRules,
+  ...biwinUfsTokenRules,
+  ...biwinEmcpTokenRules,
   ...ymtcProcessTokenRules,
   ...ymtcNandTokenRules,
   ...ymtcUnimosTokenRules,

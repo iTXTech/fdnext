@@ -1,0 +1,280 @@
+[
+  {
+    "id": "vendor.longsys.foresee.emmc.v1",
+    "priority": 1001,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^FEM(?:DME|DRM|DRW|DMW|DNN|KNN|JNM)(?:004G|008G|016G|032G|064G|0128G|128G|256G)[0-9A-Z]{5,}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "FEM"
+      ],
+      "tables": {
+        "reference": {
+          "foresee_catalog_emmc_table": {
+            "status": "external_table_confirmed",
+            "source": "FORESEE Embedded Storage Product Catalogue 2023"
+          },
+          "foresee_emmc_datasheet_package_check": {
+            "status": "external_table_confirmed",
+            "source": "FORESEE eMMC datasheets and distributor package tables"
+          },
+          "foresee_subsize_emmc_table": {
+            "status": "external_table_confirmed",
+            "source": "Longsys and Lexar Enterprise Subsize eMMC tables"
+          }
+        },
+        "seriesObj": {
+          "DME": {
+            "system": "FORESEE eMMC",
+            "product_family": "Automotive eMMC Grade2",
+            "product_class": "Automotive AEC-Q100 Grade 2",
+            "storage_interface": "eMMC 5.1",
+            "product_version": "eMMC 5.1",
+            "opTemp": "-40°C ~ +105°C"
+          },
+          "DRM": {
+            "system": "FORESEE eMMC",
+            "product_family": "Industrial eMMC",
+            "product_class": "Industrial",
+            "storage_interface": "eMMC 5.1",
+            "product_version": "eMMC 5.1",
+            "opTemp": "-25°C ~ +85°C"
+          },
+          "DRW": {
+            "system": "FORESEE eMMC",
+            "product_family": "Industrial Wide-temperature eMMC",
+            "product_class": "Industrial Wide Temperature",
+            "storage_interface": "eMMC 5.1",
+            "product_version": "eMMC 5.1",
+            "opTemp": "-40°C ~ +85°C"
+          },
+          "DMW": {
+            "system": "FORESEE eMMC",
+            "product_family": "Automotive eMMC Grade3",
+            "product_class": "Automotive AEC-Q100 Grade 3",
+            "storage_interface": "eMMC 5.1",
+            "product_version": "eMMC 5.1",
+            "opTemp": "-40°C ~ +85°C"
+          },
+          "DNN": {
+            "system": "FORESEE eMMC",
+            "product_family": "Commercial eMMC",
+            "product_class": "Commercial",
+            "storage_interface": "eMMC 5.1",
+            "product_version": "eMMC 5.1",
+            "opTemp": "-25°C ~ +85°C",
+            "nand_technology": "3D TLC"
+          },
+          "KNN": {
+            "system": "FORESEE eMMC",
+            "product_family": "Commercial Subsize eMMC",
+            "product_class": "Commercial Subsize",
+            "storage_interface": "eMMC 5.1",
+            "product_version": "eMMC 5.1",
+            "opTemp": "-25°C ~ +85°C",
+            "nand_technology": "MLC"
+          },
+          "JNM": {
+            "system": "FORESEE eMMC",
+            "product_family": "Commercial Subsize eMMC",
+            "product_class": "Commercial Subsize",
+            "storage_interface": "eMMC 5.1",
+            "product_version": "eMMC 5.1",
+            "opTemp": "-25°C ~ +85°C",
+            "nand_technology": "TLC"
+          }
+        },
+        "packageBase": {
+          "DME": "FBGA153 11.5x13x1.0",
+          "DRM": "FBGA153 11.5x13x1.0",
+          "DRW": "FBGA153 11.5x13x1.0",
+          "DMW": "FBGA153 11.5x13x1.0",
+          "DNN": "FBGA153",
+          "KNN": "FBGA153 9x7.5x0.8",
+          "JNM": "FBGA153 9x10x0.8"
+        },
+        "packageSpecific": {
+          "DME:004G": "FBGA153 11.5x13x1.0",
+          "DME:008G": "FBGA153 11.5x13x1.0",
+          "DME:016G": "FBGA153 11.5x13x1.0",
+          "DME:032G": "FBGA153 11.5x13x1.0",
+          "DME:064G": "FBGA153 11.5x13x1.2",
+          "DNN:064G": "FBGA153 11.5x13x0.8",
+          "DNN:128G": "FBGA153 11.5x13x0.8",
+          "DNN:256G": "FBGA153 11.5x13x1.0",
+          "KNN:004G": "FBGA153 9x7.5x0.8",
+          "KNN:008G": "FBGA153 9x7.5x0.8",
+          "JNM:032G": "FBGA153 9x10x0.8"
+        },
+        "densityCode": {
+          "004G": "004G",
+          "008G": "008G",
+          "016G": "016G",
+          "032G": "032G",
+          "064G": "064G",
+          "0128G": "0128G",
+          "128G": "128G",
+          "256G": "256G"
+        },
+        "density": {
+          "004G": 32768,
+          "008G": 65536,
+          "016G": 131072,
+          "032G": 262144,
+          "064G": 524288,
+          "0128G": 1048576,
+          "128G": 1048576,
+          "256G": 2097152
+        },
+        "densityObj": {
+          "004G": {
+            "storage_density": "4GB eMMC"
+          },
+          "008G": {
+            "storage_density": "8GB eMMC"
+          },
+          "016G": {
+            "storage_density": "16GB eMMC"
+          },
+          "032G": {
+            "storage_density": "32GB eMMC"
+          },
+          "064G": {
+            "storage_density": "64GB eMMC"
+          },
+          "0128G": {
+            "storage_density": "128GB eMMC"
+          },
+          "128G": {
+            "storage_density": "128GB eMMC"
+          },
+          "256G": {
+            "storage_density": "256GB eMMC"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 3,
+          "to": "seriesCode"
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "seriesObj",
+          "to": "seriesObj",
+          "default": {
+            "system": "FORESEE eMMC",
+            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1"
+          }
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "packageBase",
+          "to": "packageBase",
+          "default": "FBGA153"
+        },
+        {
+          "op": "takeLongest",
+          "table": "densityCode",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{seriesCode}}:{{densityCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageSpecific",
+          "to": "packageSpecific",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "packageSpecific",
+          "secondary": "packageBase",
+          "to": "package"
+        },
+        {
+          "op": "take",
+          "len": 5,
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "series_code": {
+              "$var": "seriesCode"
+            },
+            "density_code": {
+              "$var": "densityCode"
+            },
+            "config_code": {
+              "$var": "configCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "seriesObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        }
+      ],
+      "assign": {
+        "vendor": "longsys",
+        "type": "emmc",
+        "density": {
+          "$var": "density"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

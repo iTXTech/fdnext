@@ -1,0 +1,279 @@
+[
+  {
+    "id": "vendor.kingston.emmc.v1",
+    "priority": 1002,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^EMMC(?:04G|08G|16G|32G|64G|128|256)[0-9A-Z]{4,}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "EMMC"
+      ],
+      "tables": {
+        "reference": {
+          "kingston_official_emmc_table": {
+            "status": "external_table_confirmed",
+            "source": "Kingston eMMC Part Numbers and Specifications"
+          },
+          "kingston_emmc_flyer_package_check": {
+            "status": "external_table_confirmed",
+            "source": "Kingston eMMC and I-Temp eMMC product flyers"
+          }
+        },
+        "densityCode": {
+          "04G": "04G",
+          "08G": "08G",
+          "16G": "16G",
+          "32G": "32G",
+          "64G": "64G",
+          "128": "128",
+          "256": "256"
+        },
+        "density": {
+          "04G": 32768,
+          "08G": 65536,
+          "16G": 131072,
+          "32G": 262144,
+          "64G": 524288,
+          "128": 1048576,
+          "256": 2097152
+        },
+        "densityObj": {
+          "04G": {
+            "storage_density": "4GB eMMC"
+          },
+          "08G": {
+            "storage_density": "8GB eMMC"
+          },
+          "16G": {
+            "storage_density": "16GB eMMC"
+          },
+          "32G": {
+            "storage_density": "32GB eMMC"
+          },
+          "64G": {
+            "storage_density": "64GB eMMC"
+          },
+          "128": {
+            "storage_density": "128GB eMMC"
+          },
+          "256": {
+            "storage_density": "256GB eMMC"
+          }
+        },
+        "configObj": {
+          "MT32": {
+            "package_code": "MT32",
+            "nand_technology": "MLC",
+            "product_class": "Commercial"
+          },
+          "CT32": {
+            "package_code": "CT32",
+            "nand_technology": "MLC",
+            "product_class": "Commercial compact"
+          },
+          "MV28": {
+            "package_code": "MV28",
+            "nand_technology": "MLC",
+            "product_class": "Commercial"
+          },
+          "MW28": {
+            "package_code": "MW28",
+            "nand_technology": "MLC",
+            "product_class": "Commercial"
+          },
+          "TS0A": {
+            "package_code": "TS0A",
+            "nand_technology": "3D TLC",
+            "product_class": "Commercial"
+          },
+          "TB9F": {
+            "package_code": "TB9F",
+            "nand_technology": "3D TLC",
+            "product_class": "Commercial compact"
+          },
+          "TY29": {
+            "package_code": "TY29",
+            "nand_technology": "3D TLC",
+            "product_class": "Commercial"
+          },
+          "WT32": {
+            "package_code": "WT32",
+            "nand_technology": "MLC",
+            "product_class": "Industrial Temperature",
+            "opTemp": "-40°C ~ +85°C"
+          },
+          "WV28": {
+            "package_code": "WV28",
+            "nand_technology": "MLC",
+            "product_class": "Industrial Temperature",
+            "opTemp": "-40°C ~ +85°C"
+          },
+          "WW28": {
+            "package_code": "WW28",
+            "nand_technology": "3D TLC",
+            "product_class": "Industrial Temperature",
+            "opTemp": "-40°C ~ +85°C"
+          },
+          "IY29": {
+            "package_code": "IY29",
+            "nand_technology": "3D TLC",
+            "product_class": "Industrial Temperature",
+            "opTemp": "-40°C ~ +85°C"
+          }
+        },
+        "package": {
+          "MT32": "11.5x13.0x0.8",
+          "CT32": "9.0x7.5x0.8",
+          "MV28": "11.5x13.0x0.8",
+          "MW28": "11.5x13.0x0.9",
+          "TS0A": "11.5x13.0x1.0",
+          "TB9F": "8.0x8.5x0.8",
+          "TY29": "11.5x13.0x0.8",
+          "WT32": "11.5x13.0x0.8",
+          "WV28": "11.5x13.0x0.8",
+          "WW28": "11.5x13.0x0.9",
+          "IY29": "11.5x13.0x0.8"
+        },
+        "packageSpecific": {
+          "256:TY29": "11.5x13.0x1.0",
+          "256:IY29": "11.5x13.0x1.0"
+        },
+        "cellLevel": {
+          "MT32": 2,
+          "CT32": 2,
+          "MV28": 2,
+          "MW28": 2,
+          "TS0A": 3,
+          "TB9F": 3,
+          "TY29": 3,
+          "WT32": 2,
+          "WV28": 2,
+          "WW28": 3,
+          "IY29": 3
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "densityCode",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 4,
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "package",
+          "to": "packageBase",
+          "default": "Unknown"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{configCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageSpecific",
+          "to": "packageSpecific",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "packageSpecific",
+          "secondary": "packageBase",
+          "to": "package"
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "Kingston eMMC",
+            "managed_family": "eMMC",
+            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
+            "interfaceInfo": "HS400",
+            "config_code": {
+              "$var": "configCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "configObj"
+        }
+      ],
+      "assign": {
+        "vendor": "kingston",
+        "type": "emmc",
+        "density": {
+          "$var": "density"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "cellLevel": {
+          "$var": "cellLevel"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

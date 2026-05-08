@@ -1,0 +1,235 @@
+[
+  {
+    "id": "vendor.longsys.foresee.ufs.v1",
+    "priority": 1001,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^FEUD(?:NN|ME)(?:064G|128G|256G|512G)[0-9A-Z]{5,}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "FEUD"
+      ],
+      "tables": {
+        "reference": {
+          "foresee_catalog_ufs_table": {
+            "status": "external_table_confirmed",
+            "source": "FORESEE Embedded Storage Product Catalogue 2023"
+          },
+          "foresee_automotive_ufs_table": {
+            "status": "external_table_confirmed",
+            "source": "Longsys Automotive UFS product table"
+          },
+          "lexar_enterprise_ufs22_table": {
+            "status": "external_table_confirmed",
+            "source": "Lexar Enterprise UFS 2.2 product table"
+          }
+        },
+        "seriesObj": {
+          "NN": {
+            "system": "FORESEE UFS",
+            "product_family": "Commercial UFS",
+            "product_class": "Commercial",
+            "opTemp": "-25°C ~ +85°C"
+          },
+          "ME": {
+            "system": "FORESEE UFS",
+            "product_family": "Automotive UFS",
+            "product_class": "Automotive",
+            "opTemp": "-40°C ~ +105°C"
+          }
+        },
+        "package": {
+          "NN": "FBGA153 11.5x13x1.0",
+          "ME": "FBGA153 11.5x13x1.2"
+        },
+        "densityCode": {
+          "064G": "064G",
+          "128G": "128G",
+          "256G": "256G",
+          "512G": "512G"
+        },
+        "density": {
+          "064G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304
+        },
+        "densityObj": {
+          "064G": {
+            "storage_density": "64GB UFS"
+          },
+          "128G": {
+            "storage_density": "128GB UFS"
+          },
+          "256G": {
+            "storage_density": "256GB UFS"
+          },
+          "512G": {
+            "storage_density": "512GB UFS"
+          }
+        },
+        "configCode": {
+          "C2A56": "C2A56",
+          "C2H14": "C2H14",
+          "C2A44": "C2A44",
+          "C2G07": "C2G07",
+          "B8A19": "B8A19",
+          "C8H09": "C8H09"
+        },
+        "configObj": {
+          "C2A56": {
+            "product_version": "UFS 2.2",
+            "storage_interface": "UFS 2.2",
+            "speed_grade": "UFS 2.2",
+            "nand_technology": "3D NAND"
+          },
+          "C2H14": {
+            "product_version": "UFS 2.2",
+            "storage_interface": "UFS 2.2",
+            "speed_grade": "UFS 2.2",
+            "nand_technology": "3D NAND"
+          },
+          "C2A44": {
+            "product_version": "UFS 2.2",
+            "storage_interface": "UFS 2.2",
+            "speed_grade": "UFS 2.2",
+            "nand_technology": "3D NAND"
+          },
+          "C2G07": {
+            "product_version": "UFS 2.2",
+            "storage_interface": "UFS 2.2",
+            "speed_grade": "UFS 2.2 HS-Gear3",
+            "nand_technology": "TLC"
+          },
+          "B8A19": {
+            "product_version": "UFS 2.1",
+            "storage_interface": "UFS 2.1",
+            "speed_grade": "Gear3 2L",
+            "nand_technology": "3D NAND"
+          },
+          "C8H09": {
+            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
+            "speed_grade": "Gear4 2L",
+            "nand_technology": "3D NAND"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "seriesCode"
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "seriesObj",
+          "to": "seriesObj",
+          "default": {
+            "system": "FORESEE UFS"
+          }
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "package",
+          "to": "package",
+          "default": "FBGA153"
+        },
+        {
+          "op": "takeLongest",
+          "table": "densityCode",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "configCode",
+          "to": "configCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "series_code": {
+              "$var": "seriesCode"
+            },
+            "density_code": {
+              "$var": "densityCode"
+            },
+            "config_code": {
+              "$var": "configCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "seriesObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "configObj"
+        }
+      ],
+      "assign": {
+        "vendor": "longsys",
+        "type": "ufs",
+        "density": {
+          "$var": "density"
+        },
+        "cellLevel": 3,
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

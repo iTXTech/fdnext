@@ -1,0 +1,177 @@
+[
+  {
+    "id": "vendor.biwin.emmc.v1",
+    "priority": 1001,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^BWC(?:MAB811G|MMQ511G|TAK611G|TARJ11X|TAKC11X|TAKL11X|TAKL21X|TAKL41X)(?:04G|08G|16G|32G|64G|128G|256G|512G)$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "BWC"
+      ],
+      "tables": {
+        "reference": {
+          "biwin_official_emmc_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN eMMC 5.1 order information"
+          },
+          "biwin_emmc51_pdf_package_check": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN eMMC 5.1 specifications PDF"
+          }
+        },
+        "configCode": {
+          "MAB811G": "MAB811G",
+          "MMQ511G": "MMQ511G",
+          "TAK611G": "TAK611G",
+          "TARJ11X": "TARJ11X",
+          "TAKC11X": "TAKC11X",
+          "TAKL11X": "TAKL11X",
+          "TAKL21X": "TAKL21X",
+          "TAKL41X": "TAKL41X"
+        },
+        "densityCode": {
+          "04G": "04G",
+          "08G": "08G",
+          "16G": "16G",
+          "32G": "32G",
+          "64G": "64G",
+          "128G": "128G",
+          "256G": "256G",
+          "512G": "512G"
+        },
+        "density": {
+          "04G": 32768,
+          "08G": 65536,
+          "16G": 131072,
+          "32G": 262144,
+          "64G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304
+        },
+        "densityObj": {
+          "04G": {
+            "storage_density": "4GB eMMC"
+          },
+          "08G": {
+            "storage_density": "8GB eMMC"
+          },
+          "16G": {
+            "storage_density": "16GB eMMC"
+          },
+          "32G": {
+            "storage_density": "32GB eMMC"
+          },
+          "64G": {
+            "storage_density": "64GB eMMC"
+          },
+          "128G": {
+            "storage_density": "128GB eMMC"
+          },
+          "256G": {
+            "storage_density": "256GB eMMC"
+          },
+          "512G": {
+            "storage_density": "512GB eMMC"
+          }
+        },
+        "package": {
+          "04G": "FBGA153 11.50x13.00",
+          "08G": "FBGA153 9.00x11.00",
+          "16G": "FBGA153 11.50x13.00",
+          "32G": "FBGA153 11.50x13.00",
+          "64G": "FBGA153 11.50x13.00",
+          "128G": "FBGA153 11.50x13.00",
+          "256G": "FBGA153 11.50x13.00",
+          "512G": "FBGA153 11.50x13.00"
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "configCode",
+          "to": "configCode",
+          "default": ""
+        },
+        {
+          "op": "takeLongest",
+          "table": "densityCode",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "package",
+          "to": "package",
+          "default": "FBGA153"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "BIWIN eMMC",
+            "product_family": "BIWIN eMMC 5.1",
+            "product_class": "Consumer",
+            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
+            "nand_technology": "3D TLC",
+            "interfaceInfo": "HS400",
+            "config_code": {
+              "$var": "configCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        }
+      ],
+      "assign": {
+        "vendor": "biwin",
+        "type": "emmc",
+        "density": {
+          "$var": "density"
+        },
+        "cellLevel": 3,
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

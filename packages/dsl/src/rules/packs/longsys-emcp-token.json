@@ -1,0 +1,300 @@
+[
+  {
+    "id": "vendor.longsys.foresee.emcp.v1",
+    "priority": 1001,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^FEP(?:NA1608|NA3208|RF6432|RB6432|RFA832)[0-9A-Z]+$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "FEP"
+      ],
+      "tables": {
+        "reference": {
+          "foresee_catalog_emcp_table": {
+            "status": "external_table_confirmed",
+            "source": "FORESEE Embedded Storage Product Catalogue 2023"
+          }
+        },
+        "densityPairCode": {
+          "NA1608": "NA1608",
+          "NA3208": "NA3208",
+          "RF6432": "RF6432",
+          "RB6432": "RB6432",
+          "RFA832": "RFA832"
+        },
+        "density": {
+          "NA1608": 131072,
+          "NA3208": 262144,
+          "RF6432": 524288,
+          "RB6432": 524288,
+          "RFA832": 1048576
+        },
+        "densityPairObj": {
+          "NA1608": {
+            "product_family": "FORESEE eMCP3",
+            "product_version": "eMMC / LPDDR3",
+            "storage_interface": "eMMC",
+            "storage_density": "16GB eMMC",
+            "dram_density": "8Gb",
+            "dram_type": "LPDDR3",
+            "nand_technology": "MLC",
+            "package_code": "FBGA221"
+          },
+          "NA3208": {
+            "product_family": "FORESEE eMCP3",
+            "product_version": "eMMC / LPDDR3",
+            "storage_interface": "eMMC",
+            "storage_density": "32GB eMMC",
+            "dram_density": "8Gb",
+            "dram_type": "LPDDR3",
+            "nand_technology": "3D NAND",
+            "package_code": "FBGA221"
+          },
+          "RF6432": {
+            "product_family": "FORESEE eMCP4x",
+            "product_version": "eMMC / LPDDR4X",
+            "storage_interface": "eMMC",
+            "storage_density": "64GB eMMC",
+            "dram_density": "32Gb",
+            "dram_type": "LPDDR4X",
+            "nand_technology": "3D NAND",
+            "package_code": "FBGA254"
+          },
+          "RB6432": {
+            "product_family": "FORESEE eMCP4x",
+            "product_version": "eMMC / LPDDR4X",
+            "storage_interface": "eMMC",
+            "storage_density": "64GB eMMC",
+            "dram_density": "32Gb",
+            "dram_type": "LPDDR4X",
+            "nand_technology": "3D NAND",
+            "package_code": "FBGA254"
+          },
+          "RFA832": {
+            "product_family": "FORESEE eMCP4x",
+            "product_version": "eMMC / LPDDR4X",
+            "storage_interface": "eMMC",
+            "storage_density": "128GB eMMC",
+            "dram_density": "32Gb",
+            "dram_type": "LPDDR4X",
+            "nand_technology": "3D NAND",
+            "package_code": "FBGA254"
+          }
+        },
+        "package": {
+          "NA1608": "FBGA221 11.5x13x1.0",
+          "NA3208": "FBGA221 11.5x13x1.0",
+          "RF6432": "FBGA254 11.5x13x1.0",
+          "RB6432": "FBGA254 11.5x13x1.0",
+          "RFA832": "FBGA254 11.5x13x1.0"
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "densityPairCode",
+          "to": "densityPairCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityPairCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityPairCode",
+          "table": "densityPairObj",
+          "to": "densityPairObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "densityPairCode",
+          "table": "package",
+          "to": "package",
+          "default": "FBGA"
+        },
+        {
+          "op": "take",
+          "len": 7,
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "FORESEE eMCP",
+            "group": "eMCP",
+            "density_code": {
+              "$var": "densityPairCode"
+            },
+            "config_code": {
+              "$var": "configCode"
+            },
+            "opTemp": "-25°C ~ +85°C"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityPairObj"
+        }
+      ],
+      "assign": {
+        "vendor": "longsys",
+        "type": "emcp",
+        "density": {
+          "$var": "density"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.longsys.foresee.umcp.v1",
+    "priority": 1001,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^FUP(?:RB6432|RFA832)[0-9A-Z]+$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "FUP"
+      ],
+      "tables": {
+        "reference": {
+          "foresee_catalog_umcp_table": {
+            "status": "external_table_confirmed",
+            "source": "FORESEE Embedded Storage Product Catalogue 2023"
+          }
+        },
+        "densityPairCode": {
+          "RB6432": "RB6432",
+          "RFA832": "RFA832"
+        },
+        "density": {
+          "RB6432": 524288,
+          "RFA832": 1048576
+        },
+        "densityPairObj": {
+          "RB6432": {
+            "product_family": "FORESEE uMCP4x",
+            "product_version": "UFS / LPDDR4X",
+            "storage_interface": "UFS",
+            "storage_density": "64GB UFS",
+            "dram_density": "32Gb",
+            "dram_type": "LPDDR4X",
+            "nand_technology": "3D NAND",
+            "package_code": "FBGA254"
+          },
+          "RFA832": {
+            "product_family": "FORESEE uMCP4x",
+            "product_version": "UFS / LPDDR4X",
+            "storage_interface": "UFS",
+            "storage_density": "128GB UFS",
+            "dram_density": "32Gb",
+            "dram_type": "LPDDR4X",
+            "nand_technology": "3D NAND",
+            "package_code": "FBGA254"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "densityPairCode",
+          "to": "densityPairCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityPairCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityPairCode",
+          "table": "densityPairObj",
+          "to": "densityPairObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 7,
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "FORESEE uMCP",
+            "group": "uMCP",
+            "density_code": {
+              "$var": "densityPairCode"
+            },
+            "config_code": {
+              "$var": "configCode"
+            },
+            "opTemp": "-25°C ~ +85°C"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityPairObj"
+        }
+      ],
+      "assign": {
+        "vendor": "longsys",
+        "type": "umcp",
+        "density": {
+          "$var": "density"
+        },
+        "package": "FBGA254 11.5x13x1.0",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

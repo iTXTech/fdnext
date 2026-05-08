@@ -727,3 +727,215 @@ assertPart("KLUEG4RHKF-F0H1", {
   },
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
+
+assertPart("EMMC64G-TY29", {
+  rawVendor: "kingston",
+  type: "eMMC",
+  rawDensity: 524288,
+  package: "11.5x13.0x0.8",
+  cellLevel: "TLC",
+  extra: {
+    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
+    "Config Code": "TY29",
+    "Storage Density": "64GB eMMC",
+    "Product Class": "Commercial"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("EMMC128-IY29", {
+  rawVendor: "kingston",
+  type: "eMMC",
+  rawDensity: 1048576,
+  package: "11.5x13.0x0.8",
+  cellLevel: "TLC",
+  extra: {
+    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
+    "Product Class": "Industrial Temperature"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("UFS128-CY14", {
+  rawVendor: "kingston",
+  type: "UFS",
+  rawDensity: 1048576,
+  package: "11x13x0.85",
+  cellLevel: "TLC",
+  extra: {
+    "Product Version": "UFS 3.1",
+    "Speed Grade": "G4 4P",
+    "Storage Density": "128GB UFS"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("64EM32-M4GTY9B", {
+  rawVendor: "kingston",
+  type: "eMCP",
+  rawDensity: 524288,
+  package: "FBGA254 11.5x13.0x1.0",
+  extra: {
+    "Product Version": "eMMC 5.1 / LPDDR4X",
+    "Storage Density": "64GB eMMC",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR4X"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("FEMDNN256G-A3A5607-08", {
+  rawVendor: "longsys",
+  type: "eMMC",
+  rawDensity: 2097152,
+  package: "FBGA153 11.5x13x1.0",
+  extra: {
+    "Product Family": "Commercial eMMC",
+    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
+    "Storage Density": "256GB eMMC"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("FEUDNN128G-C2H14", {
+  rawVendor: "longsys",
+  type: "UFS",
+  rawDensity: 1048576,
+  package: "FBGA153 11.5x13x1.0",
+  cellLevel: "TLC",
+  extra: {
+    "Product Version": "UFS 2.2",
+    "Storage Interface": "UFS 2.2",
+    "Product Class": "Commercial"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("FEPRF6432-58A1930", {
+  rawVendor: "longsys",
+  type: "eMCP",
+  rawDensity: 524288,
+  package: "FBGA254 11.5x13x1.0",
+  extra: {
+    "Product Family": "FORESEE eMCP4x",
+    "Storage Density": "64GB eMMC",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR4X"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("FUPRFA832-C2A56N1", {
+  rawVendor: "longsys",
+  type: "uMCP",
+  rawDensity: 1048576,
+  package: "FBGA254 11.5x13x1.0",
+  extra: {
+    "Product Family": "FORESEE uMCP4x",
+    "Storage Density": "128GB UFS",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR4X"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("BWCTAKL11X128G", {
+  rawVendor: "biwin",
+  type: "eMMC",
+  rawDensity: 1048576,
+  package: "FBGA153 11.50x13.00",
+  cellLevel: "TLC",
+  extra: {
+    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
+    "NAND Technology": "3D TLC"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("BWCMMQ511G08G", {
+  rawVendor: "biwin",
+  type: "eMMC",
+  rawDensity: 65536,
+  package: "FBGA153 9.00x11.00",
+  cellLevel: "TLC",
+  extra: {
+    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
+    "Storage Density": "8GB eMMC"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("BWU2A0526B128G", {
+  rawVendor: "biwin",
+  type: "UFS",
+  rawDensity: 1048576,
+  package: "FBGA153 11.50x13.00",
+  extra: {
+    "Product Version": "UFS 2.2",
+    "Storage Interface": "UFS 2.2",
+    "Storage Density": "128GB UFS"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("FEUDME128G-C8H09", {
+  rawVendor: "longsys",
+  type: "UFS",
+  rawDensity: 1048576,
+  package: "FBGA153 11.5x13x1.2",
+  cellLevel: "TLC",
+  extra: {
+    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
+    "Speed Grade": "Gear4 2L",
+    "Product Class": "Automotive"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("FEUDNN512G-C2G07", {
+  rawVendor: "longsys",
+  type: "UFS",
+  rawDensity: 4194304,
+  package: "FBGA153 11.5x13x1.0",
+  cellLevel: "TLC",
+  extra: {
+    "Product Version": "UFS 2.2",
+    "Storage Interface": "UFS 2.2",
+    "Storage Density": "512GB UFS"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("BWCA2KZC-64G", {
+  rawVendor: "biwin",
+  type: "eMCP",
+  rawDensity: 524288,
+  package: "FBGA254 11.50x13.00",
+  extra: {
+    "Product Family": "BIWIN eMCP4X",
+    "Storage Density": "64GB eMMC",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR4X"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("BW2A2MZC02-256G", {
+  rawVendor: "biwin",
+  type: "uMCP",
+  rawDensity: 2097152,
+  package: "FBGA254 11.50x13.00",
+  extra: {
+    "Product Family": "BIWIN uMCP LPDDR4X",
+    "Storage Density": "256GB UFS",
+    "DRAM Density": "64Gb",
+    "Storage Interface": "UFS 2.2"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});

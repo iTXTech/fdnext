@@ -1,0 +1,129 @@
+[
+  {
+    "id": "vendor.biwin.ufs.v1",
+    "priority": 1001,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^BWU2A(?:0516B|0526B|0546B|NY46B)(?:064G|128G|256G|512G)$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "BWU2A"
+      ],
+      "tables": {
+        "reference": {
+          "biwin_official_ufs22_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN UFS 2.2 order information"
+          }
+        },
+        "configCode": {
+          "0516B": "0516B",
+          "0526B": "0526B",
+          "0546B": "0546B",
+          "NY46B": "NY46B"
+        },
+        "densityCode": {
+          "064G": "064G",
+          "128G": "128G",
+          "256G": "256G",
+          "512G": "512G"
+        },
+        "density": {
+          "064G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304
+        },
+        "densityObj": {
+          "064G": {
+            "storage_density": "64GB UFS"
+          },
+          "128G": {
+            "storage_density": "128GB UFS"
+          },
+          "256G": {
+            "storage_density": "256GB UFS"
+          },
+          "512G": {
+            "storage_density": "512GB UFS"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "configCode",
+          "to": "configCode",
+          "default": ""
+        },
+        {
+          "op": "takeLongest",
+          "table": "densityCode",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "BIWIN UFS",
+            "product_family": "BIWIN UFS 2.2",
+            "product_class": "Consumer",
+            "product_version": "UFS 2.2",
+            "storage_interface": "UFS 2.2",
+            "speed_grade": "1000 MB/s read / 800 MB/s write",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "opTemp": "-25°C ~ +85°C"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        }
+      ],
+      "assign": {
+        "vendor": "biwin",
+        "type": "ufs",
+        "density": {
+          "$var": "density"
+        },
+        "package": "FBGA153 11.50x13.00",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

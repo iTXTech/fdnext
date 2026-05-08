@@ -1,0 +1,151 @@
+[
+  {
+    "id": "vendor.kingston.ufs.v1",
+    "priority": 1002,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^UFS(?:64G|128|256)[0-9A-Z]{4}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "UFS"
+      ],
+      "tables": {
+        "reference": {
+          "kingston_official_ufs_table": {
+            "status": "external_table_confirmed",
+            "source": "Kingston UFS Part Numbers and Specifications"
+          }
+        },
+        "densityCode": {
+          "64G": "64G",
+          "128": "128",
+          "256": "256"
+        },
+        "density": {
+          "64G": 524288,
+          "128": 1048576,
+          "256": 2097152
+        },
+        "densityObj": {
+          "64G": {
+            "storage_density": "64GB UFS"
+          },
+          "128": {
+            "storage_density": "128GB UFS"
+          },
+          "256": {
+            "storage_density": "256GB UFS"
+          }
+        },
+        "package": {
+          "64G": "11x13x0.85",
+          "128": "11x13x0.85",
+          "256": "11x13x0.95"
+        },
+        "configObj": {
+          "CY14": {
+            "config_code": "CY14",
+            "product_family": "Kingston UFS",
+            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
+            "speed_grade": "G4 4P",
+            "nand_technology": "TLC",
+            "package_code": "153B",
+            "opTemp": "-25°C ~ +85°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "densityCode",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 4,
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "Kingston UFS",
+            "managed_family": "UFS",
+            "config_code": {
+              "$var": "configCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "configObj"
+        }
+      ],
+      "assign": {
+        "vendor": "kingston",
+        "type": "ufs",
+        "density": {
+          "$var": "density"
+        },
+        "cellLevel": 3,
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]
