@@ -24,6 +24,25 @@
         "MTFC"
       ],
       "tables": {
+        "reference": {
+          "BC:AQ:TC": {
+            "status": "external_confirmed",
+            "source": "Micron e.MMC 5.1 32GB-256GB automotive data sheet",
+            "examples": [
+              "MTFC32GBCAQTC-AIT",
+              "MTFC128GBCAQTC-AAT",
+              "MTFC256GBCAQTC-AAT"
+            ]
+          },
+          "BC:AQ:DQ": {
+            "status": "external_confirmed",
+            "source": "Micron e.MMC 5.1 32GB-256GB automotive data sheet",
+            "examples": [
+              "MTFC32GBCAQDQ-AAT",
+              "MTFC64GBCAQDQ-AAT"
+            ]
+          }
+        },
         "density": {
           "12M": 4096,
           "1G": 8192,
@@ -131,6 +150,10 @@
             "component_width": "x8",
             "component_density": "128Gb",
             "generation_info": "Eighth"
+          },
+          "BC": {
+            "component_width": "x8",
+            "component_density": "512Gb"
           }
         },
         "familyType": {
@@ -237,7 +260,8 @@
           "GT": "153-ball WFBGA 11.5x13x0.8 (SAC302)",
           "JP": "153-ball VFBGA 11.5x13x1",
           "NA": "100-ball TBGA 14x18x1.2",
-          "NS": "153-ball TFBGA 11.5x13x1.2"
+          "NS": "153-ball TFBGA 11.5x13x1.2",
+          "TC": "153-ball LFBGA 11.5x13x1.3"
         },
         "specialOptionObj": {
           "0F": {

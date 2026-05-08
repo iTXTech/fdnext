@@ -5,6 +5,7 @@ import micronRawTokenRules from "./packs/micron-raw-token.json" with { type: "js
 import intelRawTokenRules from "./packs/intel-raw-token.json" with { type: "json" };
 import samsungUfsTokenRules from "./packs/samsung-ufs-token.json" with { type: "json" };
 import samsungEmmcTokenRules from "./packs/samsung-emmc-token.json" with { type: "json" };
+import samsungEmcpTokenRules from "./packs/samsung-emcp-token.json" with { type: "json" };
 import samsungRawTokenRules from "./packs/samsung-raw-token.json" with { type: "json" };
 import skhynix4dTokenRules from "./packs/skhynix-4d-token.json" with { type: "json" };
 import skhynix3dTokenRules from "./packs/skhynix-3d-token.json" with { type: "json" };
@@ -52,6 +53,7 @@ export const defaultDslRules = [
   ...intelRawTokenRules,
   ...samsungUfsTokenRules,
   ...samsungEmmcTokenRules,
+  ...samsungEmcpTokenRules,
   ...samsungRawTokenRules,
   ...skhynix4dTokenRules,
   ...skhynix3dTokenRules,

@@ -25,6 +25,12 @@
         "YMUS"
       ],
       "tables": {
+        "reference": {
+          "YMTC_UC260": {
+            "status": "external_confirmed",
+            "source": "YMTC UC260 official product page"
+          }
+        },
         "deviceDensity": {
           "6": 262144,
           "7": 524288,
@@ -32,15 +38,35 @@
           "9": 2097152,
           "A": 4194304
         },
+        "storageDensityObj": {
+          "6": {
+            "storage_density": "32GB UFS"
+          },
+          "7": {
+            "storage_density": "64GB UFS"
+          },
+          "8": {
+            "storage_density": "128GB UFS"
+          },
+          "9": {
+            "storage_density": "256GB UFS"
+          },
+          "A": {
+            "storage_density": "512GB UFS"
+          }
+        },
         "controller": {
           "A1": {
-            "controller": "UFS 3.1 Controller"
+            "controller": "UFS 3.1 Controller",
+            "storage_interface": "UFS 3.1"
           },
           "A4": {
-            "controller": "UFS 2.2 Controller UC114"
+            "controller": "UFS 2.2 Controller UC114",
+            "storage_interface": "UFS 2.2"
           },
           "B2": {
-            "controller": "UFS 2.2 Controller UC234"
+            "controller": "UFS 2.2 Controller UC234",
+            "storage_interface": "UFS 2.2"
           }
         },
         "cellLevel": {
@@ -109,6 +135,13 @@
           "table": "deviceDensity",
           "to": "density",
           "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "storageDensityObj",
+          "to": "storageDensityObj",
+          "default": {}
         },
         {
           "op": "take",
@@ -214,6 +247,11 @@
           "op": "merge",
           "into": "extra",
           "from": "controllerObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "storageDensityObj"
         },
         {
           "op": "merge",

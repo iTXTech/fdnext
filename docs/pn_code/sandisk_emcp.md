@@ -6,6 +6,8 @@
 
 本轮未找到 SanDisk 官方公开 eMCP PN ordering table。公开资料主要覆盖 iNAND eMMC、UFS、SD、microSD、SSD 等 embedded storage 产品线，未能确认可解析的 eMCP family token。
 
+2026-05-08 复查 `fdb/fdfdb` 与公开网页后，仍未找到 SanDisk eMCP PN 与本地 flash id 记录的高置信交叉样本；不新增规则。
+
 ## 规则状态
 
 暂不新增 DSL 规则。

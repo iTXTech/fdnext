@@ -10,6 +10,7 @@
   <https://www.micron.com/products/storage/managed-nand/universal-flash-storage>
 - Micron UFS part detail 页面确认 `MTFC...` 位于 Universal Flash Storage 目录。
   <https://www.micron.com/products/storage/managed-nand/universal-flash-storage/part-catalog/part-detail/mtfc256gbcavtc-aat>
+- 2026-05-08 复查 Micron UFS 4.1 公开页和 part catalog 搜索结果：能确认 UFS 4.1 产品线与容量范围，但暂未找到公开 ordering table 或可进入 `MTFC` token 规则的新 part detail。
 
 ## 规则状态
 
@@ -44,3 +45,4 @@ PN 结构：
 ## 注意
 
 UFS 与 eMMC 共用 `MTFC` 前缀，必须通过 component/controller 组合和外部资料确认产品线，不能用完整 PN 白名单匹配。
+UFS 4.1 目前只记录为待确认方向，不新增 DSL token 映射。

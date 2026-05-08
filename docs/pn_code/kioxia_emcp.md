@@ -6,6 +6,8 @@
 
 本轮未找到 KIOXIA 官方公开 eMCP PN ordering table。网络上可见少量 Toshiba/KIOXIA eMCP 料号的第三方库存页或维修供应页，但信息通常只给出组合容量、LPDDR 类型或封装，缺少可验证的逐 token 规则表。
 
+2026-05-08 复查 `fdb/fdfdb` 后，未发现这些候选 PN 与本地 flash id 表形成可用交叉验证；因此仍停留在记录层。
+
 ## 已见候选
 
 以下候选只作为待确认线索，不进入规则：

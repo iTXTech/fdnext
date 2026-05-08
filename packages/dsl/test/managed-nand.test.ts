@@ -604,6 +604,23 @@ assertPart("MTFC64GBCAVAL-AIT", {
   absentExtra: ["Group"]
 });
 
+assertPart("MTFC128GBCAQTC-AIT", {
+  rawVendor: "micron",
+  type: "eMMC",
+  rawDensity: 1048576,
+  package: "153-ball LFBGA 11.5x13x1.3",
+  extra: {
+    "NAND Component": "BC",
+    "Controller Code": "AQ",
+    "Package Code": "TC",
+    "Component Density": "512Gb",
+    "Component Width": "x8",
+    "Product Family": "Micron e.MMC 5.1 TLC Pearl",
+    "Product Version": "eMMC 5.1"
+  },
+  absentExtra: ["Group", "Reference Status", "Inference Source", "source", "status"]
+});
+
 assertPart("MTFC1TAYAXHR-WT", {
   rawVendor: "micron",
   type: "UFS",
@@ -638,10 +655,32 @@ assertPart("YMEC6A1TC1A2C1", {
   package: "BGA-153 11.5x13x1.0",
   extra: {
     Controller: "eMMC 5.1 Controller EC000",
+    "Product Family": "YMTC EC000 eMMC",
+    "Storage Density": "32GB eMMC",
+    "Storage Interface": "eMMC 5.1",
     "Die Stack": "SDP (1-die)",
     "Product Class": "Commercial"
   },
-  absentExtra: ["System", "Group"]
+  absentExtra: ["System", "Group", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("YMEC8A2TB3A2C3", {
+  rawVendor: "ymtc",
+  type: "eMMC",
+  rawDensity: 1048576,
+  processNode: "X1-9050 / JGS",
+  cellLevel: "TLC",
+  package: "BGA-153 11.5x13x1.0",
+  extra: {
+    Controller: "eMMC 5.1 Controller EC110",
+    "Product Family": "YMTC EC110 eMMC",
+    "Storage Density": "128GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "Die Stack": "QDP (4-die)",
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("YMUS8A1TC1A2C1", {
@@ -653,10 +692,12 @@ assertPart("YMUS8A1TC1A2C1", {
   package: "BGA-153 11.5x13x1.0/1.2",
   extra: {
     Controller: "UFS 3.1 Controller",
+    "Storage Density": "128GB UFS",
+    "Storage Interface": "UFS 3.1",
     "Die Stack": "SDP (1-die)",
     "Product Class": "Commercial"
   },
-  absentExtra: ["System", "Group"]
+  absentExtra: ["System", "Group", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("YMC6G001TB51AA1C0", {
@@ -720,6 +761,43 @@ assertPart("KLMBG2JETD-B041", {
     "Die Stack": "DDP (2-die)"
   },
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KMGD6001BM-B421", {
+  rawVendor: "samsung",
+  type: "eMCP",
+  rawDensity: 262144,
+  package: "221Ball FBGA 11.5x13x1.0",
+  extra: {
+    "Product Mode": "eMCP",
+    "Product Family": "eMMC + LPDDR3",
+    "Storage Density": "32GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "24Gb",
+    "DRAM Type": "LPDDR3",
+    "Package Code": "221 FBGA",
+    "Config Code": "B421"
+  },
+  absentExtra: ["Group", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KMGE6001BM-B421", {
+  rawVendor: "samsung",
+  type: "eMCP",
+  rawDensity: 131072,
+  package: "BGA221",
+  extra: {
+    "Product Mode": "eMCP",
+    "Product Family": "eMMC + LPDDR3",
+    "Storage Density": "16GB eMMC",
+    "Storage Interface": "eMMC",
+    "DRAM Density": "24Gb",
+    "DRAM Type": "LPDDR3",
+    "DRAM Speed": "LPDDR3-1866",
+    "Package Code": "221 FBGA",
+    "Config Code": "B421"
+  },
+  absentExtra: ["Group", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLUEG8UHDB-C2E1", {
