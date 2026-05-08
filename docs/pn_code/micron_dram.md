@@ -32,13 +32,23 @@
   <https://docslib.org/doc/10329358/dram-component-part-numbering-system>
 - 公开评测记录了 Crucial/Ballistix 颗粒 `C9BJZ` / `CT40A1G8SA-62M:E` 的实物和 Micron FBGA decoder 结果；该资料只用于确认 `CT40` namespace 形态，不作为完整 PN 白名单。
   <https://aphnetworks.com/reviews/ballistix-elite-pc4-28800-4x8gb/2>
+- Micron 官方 `Legacy LPDRAM Part Numbering System / Legacy DDR4, DDR3/L, & DDR2 SDRAM Part Numbering System` PDF 记录了 Micron 收购 Elpida 后的 legacy Elpida PN 命名；Micron FBGA code 反查可能返回 `EDB/EDF...` Elpida LPDRAM PN，也可能返回 `ED/EE + 40/41/47/...` 这类 legacy PN。
+  <https://assets.micron.com/adobe/assets/urn:aaid:aem:0b279ea9-4e4c-49fa-98c6-c18ad4c67279/original/as/legacy-elpida-pns.pdf>
+- Preduo 公开 `Micron Part Number List`，列出 FBGA code 与 Micron/Crucial PN 映射，并明确提示这些映射并非一对一；本项目只把其中落在 Micron / Crucial DRAM family 的记录写入补全和 FBGA 查询资源，不把它作为解码规则。
+  <https://www.preduo.com/part-number-list/micron-part-number-list>
 
 ## DSL 范围
 
 - 规则文件：`packages/dsl/src/rules/packs/micron-dram-token.json`
 - 规则 ID：`vendor.micron.dram.component.v1`
-- 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62/68` 和 Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62/68`。
+- 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62/68`、Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62/68`，以及 Micron legacy Elpida namespace `ED/EE + 40/41/42/44/46/47/48/49/51/52/53/58/60/61/62/68`。
 - 不使用完整 PN 白名单；只按 Micron DRAM part-numbering token 解析字段。
+
+## 搜索资源
+
+- `packages/resources/resources/dram-pn.json` 收录已知 Micron / Crucial DRAM PN，用于 PN 补全和 `searchPartNumber()`，不是解码依据。
+- `packages/resources/resources/micron-dram-fbga.json` 收录 Micron / Crucial DRAM FBGA code 到完整 PN 的映射，也兼容 Micron legacy Elpida PN，例如 `C9BHZ -> EDB2432B4MA-1DAAT-F-D`、`D9BCS -> EE51K256M32HF-60:B`。它用于 `searchMicronFbgaCode()`、`searchPartNumber()` code 查询，以及 `detect("C9BJZ")` / `detect("C9BHZ")` 这类 code 输入时先反查 PN 再走 DSL。
+- Preduo 的部分行带有非 PN 注记或同 code 多 PN 情况，资源导入时只保留规范化 PN 和 code；真正输出的 `density`、`package`、`dram_type`、`dram_die_stack` 等字段仍由 DSL token 解析。
 
 ## PN 结构
 

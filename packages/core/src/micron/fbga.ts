@@ -28,6 +28,23 @@ export interface MicronFbgaParsed {
   };
 }
 
+function parseProductionMeta(normalized: string, key: string): MicronFbgaParsed {
+  const meta = normalized.slice(0, 5);
+
+  const year = meta.slice(0, 1);
+  const weekCode = meta.slice(1, 2);
+  const week = (weekCode.charCodeAt(0) - 64) * 2;
+  const weekStr = Number.isFinite(week) && week > 0 ? String(week).padStart(2, "0") : "00";
+  const prodDate = `${year}${weekStr}`;
+
+  const diffusionCode = meta.slice(3, 4);
+  const encapsulationCode = meta.slice(4, 5);
+  const diffusion = MICRON_FBGA_COUNTRY[diffusionCode] ?? UNKNOWN;
+  const encapsulation = MICRON_FBGA_COUNTRY[encapsulationCode] ?? UNKNOWN;
+
+  return { key, display: key, prod: { prodDate, diffusion, encapsulation } };
+}
+
 export function parseMicronFbgaCode(input: string): MicronFbgaParsed | null {
   const normalized = input.toUpperCase();
   if (normalized.length !== 5 && normalized.length !== 10) {
@@ -39,21 +56,22 @@ export function parseMicronFbgaCode(input: string): MicronFbgaParsed | null {
       return { key: normalized, display: normalized };
     }
     if (normalized.length === 10 && normalized.slice(5, 7) === header) {
-      const meta = normalized.slice(0, 5);
       const key = normalized.slice(5);
+      return parseProductionMeta(normalized, key);
+    }
+  }
+  return null;
+}
 
-      const year = meta.slice(0, 1);
-      const weekCode = meta.slice(1, 2);
-      const week = (weekCode.charCodeAt(0) - 64) * 2;
-      const weekStr = Number.isFinite(week) && week > 0 ? String(week).padStart(2, "0") : "00";
-      const prodDate = `${year}${weekStr}`;
-
-      const diffusionCode = meta.slice(3, 4);
-      const encapsulationCode = meta.slice(4, 5);
-      const diffusion = MICRON_FBGA_COUNTRY[diffusionCode] ?? UNKNOWN;
-      const encapsulation = MICRON_FBGA_COUNTRY[encapsulationCode] ?? UNKNOWN;
-
-      return { key, display: key, prod: { prodDate, diffusion, encapsulation } };
+export function parseKnownMicronFbgaCode(input: string, knownCodes: ReadonlySet<string>): MicronFbgaParsed | null {
+  const normalized = input.toUpperCase();
+  if (normalized.length === 5 && knownCodes.has(normalized)) {
+    return { key: normalized, display: normalized };
+  }
+  if (normalized.length === 10) {
+    const key = normalized.slice(5);
+    if (knownCodes.has(key)) {
+      return parseProductionMeta(normalized, key);
     }
   }
   return null;
@@ -74,12 +92,6 @@ export function applyMicronFbgaMeta(base: FlashInfo, parsed: MicronFbgaParsed, r
     extra.encapsulation_loc = parsed.prod.encapsulation;
   }
   out.extraInfo = extra;
-
-  if (out.vendor === "micron") {
-    const url = `https://www.micron.com/support/tools-and-utilities/fbga?fbga=${parsed.display}`;
-    out.url = { micron_website: url };
-    out.urls = [{ url, desc: "micron_website", img: "logo", hint: "" }];
-  }
 
   return out;
 }

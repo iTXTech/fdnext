@@ -32,6 +32,14 @@ export interface DslTokenStepTake {
   to: string;
 }
 
+export interface DslTokenStepTakeRegex {
+  op: "takeRegex";
+  pattern: string;
+  to?: string;
+  groups?: Record<string, string | number>;
+  default?: DslJson;
+}
+
 export interface DslTokenStepStripIfPrefix {
   op: "stripIfPrefix";
   prefix: string;
@@ -101,6 +109,7 @@ export interface DslTokenStepMap {
 
 export type DslTokenStep =
   | DslTokenStepTake
+  | DslTokenStepTakeRegex
   | DslTokenStepStripIfPrefix
   | DslTokenStepTemplate
   | DslTokenStepFallback

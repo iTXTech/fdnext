@@ -17,12 +17,14 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(?:MT|CT)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
+      "value": "^(?:MT|CT|ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
         "MT",
-        "CT"
+        "CT",
+        "ED",
+        "EE"
       ],
       "tables": {
         "familyObj": {
@@ -1011,22 +1013,7 @@
         },
         "extraInfo": {
           "$var": "extra"
-        },
-        "url": {
-          "micron_website": {
-            "$tpl": "https://www.micron.com/support/tools-and-utilities/fbga?matpart={{partNumber}}"
-          }
-        },
-        "urls": [
-          {
-            "url": {
-              "$tpl": "https://www.micron.com/support/tools-and-utilities/fbga?matpart={{partNumber}}"
-            },
-            "desc": "micron_website",
-            "img": "logo",
-            "hint": ""
-          }
-        ]
+        }
       }
     }
   }

@@ -62,7 +62,7 @@ const response = engine.dispatch("info", {
 浏览器侧推荐用 Vite / Webpack / Rollup / esbuild 打包，关键点：
 
 - 不要在浏览器使用 `@itxtech/fdnext-core/node`（它依赖 Node 的 `fs`）
-- 资源（`fdb/mdb/lang`）建议用 `fetch()` 加载静态 JSON
+- 资源（`fdb/mdb/lang`，以及用于 PN 补全和 Micron DRAM FBGA 查询的 `managed-nand-pn/dram-pn/micron-dram-fbga`）建议用 `fetch()` 加载静态 JSON
 - 解码器（PN / FlashId）来自 `@itxtech/fdnext-dsl` 的默认规则包（JSON import attributes：`with { type: "json" }`）
 
 ### 2.1 方式 A：fetch 静态 JSON（推荐）
@@ -71,6 +71,9 @@ const response = engine.dispatch("info", {
 
 - `/fdnext-resources/fdb.json`
 - `/fdnext-resources/mdb.json`
+- `/fdnext-resources/managed-nand-pn.json`
+- `/fdnext-resources/dram-pn.json`
+- `/fdnext-resources/micron-dram-fbga.json`
 - `/fdnext-resources/lang/chs.json`
 - `/fdnext-resources/lang/eng.json`
 
@@ -84,15 +87,18 @@ async function loadJson(path: string) {
   return res.json();
 }
 
-const [fdbRaw, mdbRaw, chs, eng] = await Promise.all([
+const [fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, micronDramFbgaRaw, chs, eng] = await Promise.all([
   loadJson("/fdnext-resources/fdb.json"),
   loadJson("/fdnext-resources/mdb.json"),
+  loadJson("/fdnext-resources/managed-nand-pn.json"),
+  loadJson("/fdnext-resources/dram-pn.json"),
+  loadJson("/fdnext-resources/micron-dram-fbga.json"),
   loadJson("/fdnext-resources/lang/chs.json"),
   loadJson("/fdnext-resources/lang/eng.json")
 ]);
 
 const engine = createEngine({
-  resources: { fdbRaw, mdbRaw, langRaw: { chs, eng } },
+  resources: { fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, micronDramFbgaRaw, langRaw: { chs, eng } },
   decoders: compileRulesToDecoders(defaultDslRules),
   flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
 });

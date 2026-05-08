@@ -94,6 +94,29 @@ function runTokenDecoder(partNumber: string, decoder: DslTokenDecoder): Partial<
       continue;
     }
 
+    if (step.op === "takeRegex") {
+      const rest = String(context.rest ?? "");
+      const match = new RegExp(step.pattern).exec(rest);
+      const matched = match && match.index === 0;
+      if (matched) {
+        if (step.to) {
+          context[step.to] = match[0];
+        }
+        context.rest = rest.slice(match[0].length);
+        for (const [to, group] of Object.entries(step.groups ?? {})) {
+          context[to] = typeof group === "number" ? (match[group] ?? "") : (match.groups?.[group] ?? "");
+        }
+      } else {
+        if (step.to) {
+          context[step.to] = step.default ?? "";
+        }
+        for (const [to] of Object.entries(step.groups ?? {})) {
+          context[to] = "";
+        }
+      }
+      continue;
+    }
+
     if (step.op === "stripIfPrefix") {
       const rest = String(context.rest ?? "");
       const matched = rest.startsWith(step.prefix);

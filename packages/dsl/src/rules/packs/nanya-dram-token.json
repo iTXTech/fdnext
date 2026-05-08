@@ -1,0 +1,622 @@
+[
+  {
+    "id": "vendor.nanya.dram.standard.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^NT5(?:DS|TU|CB|CC|AD|FF)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "NT"
+      ],
+      "tables": {
+        "familyObj": {
+          "5TU": {
+            "dram_type": "DDR2 SDRAM"
+          },
+          "5DS": {
+            "dram_type": "DDR SDRAM"
+          },
+          "5CB": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "5CC": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "5AD": {
+            "dram_type": "DDR4 SDRAM"
+          },
+          "5FF": {
+            "dram_type": "DDR5 SDRAM"
+          }
+        },
+        "voltage": {
+          "5TU": "1.8V VDD",
+          "5DS": "2.5V VDD",
+          "5CB": "1.5V VDD",
+          "5CC": "1.35V VDD",
+          "5AD": "1.2V VDD",
+          "5FF": "1.1V VDD"
+        },
+        "stackObj": {
+          "M": {
+            "dram_die_stack": "Single die, 1 CS"
+          },
+          "T": {
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          },
+          "F": {
+            "dram_die_stack": "QDP (4-die), 2 CS"
+          }
+        },
+        "packageActual": {
+          "5TU:FE": "60-ball BGA",
+          "5TU:FG": "84-ball BGA",
+          "5TU:HE": "60-ball BGA",
+          "5TU:HG": "84-ball BGA",
+          "5DS:BS": "66-pin TSOP-II",
+          "5DS:CS": "66-pin TSOP-II",
+          "5CB:GN": "78-ball BGA",
+          "5CB:GP": "96-ball BGA",
+          "5CB:EQ": "78-ball BGA",
+          "5CB:ER": "96-ball BGA",
+          "5CB:EH": "96-ball BGA",
+          "5CB:JR": "96-ball BGA",
+          "5CB:FP": "96-ball BGA",
+          "5CC:JR": "96-ball BGA",
+          "5AD:C3": "78-ball BGA",
+          "5AD:H3": "78-ball BGA",
+          "5AD:A4": "96-ball BGA",
+          "5FF:A3": "82-ball BGA",
+          "5FF:A4": "106-ball BGA",
+          "5FF:EL": "102-ball BGA"
+        },
+        "speedObj": {
+          "AC": {
+            "dram_speed": "DDR2-800"
+          },
+          "BE": {
+            "dram_speed": "DDR2-1066"
+          },
+          "5T": {
+            "dram_speed": "DDR-400"
+          },
+          "6K": {
+            "dram_speed": "DDR-333"
+          },
+          "DI": {
+            "dram_speed": "DDR3-1600"
+          },
+          "EK": {
+            "dram_speed": "DDR3-1866"
+          },
+          "FL": {
+            "dram_speed": "DDR3-2133"
+          },
+          "HR": {
+            "dram_speed": "DDR4-2666"
+          },
+          "JR": {
+            "dram_speed": "DDR4-3200"
+          },
+          "Q5": {
+            "dram_speed": "DDR5-5600"
+          },
+          "WE": {
+            "dram_speed": "DDR5-8000"
+          }
+        },
+        "gradeObj": {
+          "": {
+            "operation_temperature": "Commercial (0C~95C)"
+          },
+          "A": {
+            "operation_temperature": "Automotive (-40C~95C)"
+          },
+          "H": {
+            "operation_temperature": "Automotive (-40C~105C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "T": {
+            "operation_temperature": "Wide temperature (-40C~95C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 3,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9]+)([MTF])([0-9]+)",
+          "to": "configCode",
+          "groups": {
+            "depth": 1,
+            "stackCode": 2,
+            "width": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "mul",
+          "a": "depth",
+          "b": "width",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "set",
+          "to": "one",
+          "value": 1
+        },
+        {
+          "op": "mul",
+          "a": "width",
+          "b": "one",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "stackCode",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "speedCode"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "gradeCode"
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_die_stack": "Single die, 1 CS",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "gradeObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "nanya",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.nanya.dram.low_power.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^NT6(?:TL|CL|AN|AP|AT|BR)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "NT"
+      ],
+      "tables": {
+        "familyObj": {
+          "6TL": {
+            "dram_type": "LPDDR2 SDRAM"
+          },
+          "6CL": {
+            "dram_type": "LPDDR3 SDRAM"
+          },
+          "6AN": {
+            "dram_type": "LPDDR4 SDRAM"
+          },
+          "6AP": {
+            "dram_type": "LPDDR4X SDRAM"
+          },
+          "6AT": {
+            "dram_type": "LPDDR4X SDRAM"
+          },
+          "6BR": {
+            "dram_type": "LPDDR5 SDRAM"
+          }
+        },
+        "voltage": {
+          "6TL": "1.8V VDD1 / 1.2V VDD2/VDDQ",
+          "6CL": "1.8V VDD1 / 1.2V VDD2/VDDQ",
+          "6AN": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+          "6AP": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+          "6AT": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+          "6BR": "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ"
+        },
+        "stackObj": {
+          "M": {
+            "dram_die_stack": "Single die, 1 CS"
+          },
+          "T": {
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          },
+          "F": {
+            "dram_die_stack": "QDP (4-die), 2 CS"
+          }
+        },
+        "packageActual": {
+          "6TL:BA": "134-ball BGA",
+          "6TL:BQ": "168-ball PoP",
+          "6TL:CA": "134-ball BGA",
+          "6CL:DM": "178-ball BGA",
+          "6CL:AM": "178-ball BGA",
+          "6CL:AP": "178-ball BGA",
+          "6AN:AV": "200-ball BGA",
+          "6AN:DV": "200-ball BGA",
+          "6AP:AV": "200-ball BGA",
+          "6AP:BL": "200-ball BGA",
+          "6AP:BV": "200-ball BGA",
+          "6AP:BY": "200-ball BGA",
+          "6AT:DV": "200-ball BGA",
+          "6AT:DN": "376-ball PoP",
+          "6BR:A3": "315-ball BGA"
+        },
+        "speedObj": {
+          "6TL:G0": {
+            "dram_speed": "LPDDR2-1066"
+          },
+          "6CL:H0": {
+            "dram_speed": "LPDDR3-2133"
+          },
+          "6CL:H1": {
+            "dram_speed": "LPDDR3-1866"
+          },
+          "6AN:J1": {
+            "dram_speed": "LPDDR4-4267"
+          },
+          "6AP:J1": {
+            "dram_speed": "LPDDR4X-4267"
+          },
+          "6AT:J1": {
+            "dram_speed": "LPDDR4X-4267"
+          },
+          "6BR:K1": {
+            "dram_type": "LPDDR5X SDRAM",
+            "dram_speed": "LPDDR5X-8533"
+          },
+          "6BR:K2": {
+            "dram_type": "LPDDR5 SDRAM",
+            "dram_speed": "LPDDR5-7500"
+          },
+          "6BR:K3": {
+            "dram_type": "LPDDR5 SDRAM",
+            "dram_speed": "LPDDR5-6400"
+          }
+        },
+        "gradeObj": {
+          "6TL:": {
+            "operation_temperature": "Commercial (-25C~85C)"
+          },
+          "6TL:I": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "6TL:H": {
+            "operation_temperature": "Automotive (-40C~105C)"
+          },
+          "6CL:": {
+            "operation_temperature": "Commercial (-30C~105C)"
+          },
+          "6AN:": {
+            "operation_temperature": "Commercial (-30C~105C)"
+          },
+          "6AP:": {
+            "operation_temperature": "Commercial (-30C~105C)"
+          },
+          "6AP:I": {
+            "operation_temperature": "Industrial (-40C~105C)"
+          },
+          "6AP:H": {
+            "operation_temperature": "Automotive (-40C~105C)"
+          },
+          "6AT:": {
+            "operation_temperature": "Commercial (-30C~105C)"
+          },
+          "6AT:J": {
+            "operation_temperature": "Automotive (-40C~95C)"
+          },
+          "6BR:": {
+            "operation_temperature": "Commercial (-30C~105C)"
+          },
+          "6BR:H": {
+            "operation_temperature": "Automotive (-40C~105C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 3,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9]+)([MTF])([0-9]+)",
+          "to": "configCode",
+          "groups": {
+            "depth": 1,
+            "stackCode": 2,
+            "width": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "mul",
+          "a": "depth",
+          "b": "width",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "set",
+          "to": "one",
+          "value": 1
+        },
+        {
+          "op": "mul",
+          "a": "width",
+          "b": "one",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "stackCode",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "speedCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "gradeCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{gradeCode}}",
+          "to": "gradeKey"
+        },
+        {
+          "op": "map",
+          "from": "gradeKey",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "gradeObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "nanya",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

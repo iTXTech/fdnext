@@ -15,10 +15,12 @@ export function loadResourcesFromDir(resourceDir: string): EngineResources {
   const fdbRaw = readJson(join(root, "fdb.json"));
   const mdbRaw = readJson(join(root, "mdb.json"));
   const managedNandPnRaw = readJsonIfExists(join(root, "managed-nand-pn.json"));
+  const dramPnRaw = readJsonIfExists(join(root, "dram-pn.json"));
+  const micronDramFbgaRaw = readJsonIfExists(join(root, "micron-dram-fbga.json"));
   const langRaw: LangPacks = {
     chs: readJson(join(root, "lang", "chs.json")) as Record<string, string>,
     eng: readJson(join(root, "lang", "eng.json")) as Record<string, string>
   };
 
-  return { fdbRaw, mdbRaw, langRaw, managedNandPnRaw };
+  return { fdbRaw, mdbRaw, langRaw, managedNandPnRaw, dramPnRaw, micronDramFbgaRaw };
 }

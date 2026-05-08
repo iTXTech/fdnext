@@ -13,7 +13,7 @@
 ## 包结构
 
 - `@itxtech/fdnext-core`：解码与搜索引擎、SDK 能力
-- `@itxtech/fdnext-resources`：可发布的数据资源包（`fdb/mdb/lang`）
+- `@itxtech/fdnext-resources`：可发布的数据资源包（`fdb/mdb/lang`、PN 补全 catalog 与 Micron DRAM FBGA code DB）
 - `@itxtech/fdnext-dsl`：DSL 规则与解码器编译器
 - `@itxtech/fdnext-server`：基于 Hapi 的 HTTP 服务
 - `@itxtech/fdnext-cli`：命令行工具

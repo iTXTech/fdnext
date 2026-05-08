@@ -3,7 +3,7 @@ import { buildDefaultDecoders } from "./decoders";
 import { buildFdb, buildMdb, findFlashIdRecord, findPartNumberAcrossVendors, getPartNumberRecord } from "./fdb";
 import { createDefaultFlashIdProcessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
-import { applyMicronFbgaMeta, parseMicronFbgaCode } from "./micron/fbga";
+import { applyMicronFbgaMeta, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
 import { translateString as doTranslateString, translateValue } from "./translate";
 import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize";
 import { contains } from "./utils/string";
@@ -15,8 +15,9 @@ import type {
   FlashIdDecoder,
   FlashIdInfo,
   FlashInfo,
+  KnownPartNumberEntry,
   LangPacks,
-  ManagedNandPartNumberEntry,
+  MicronDramFbgaEntry,
   PartNumberRecord,
   PartNumberDecoder,
   ProcessorEndpoint,
@@ -398,9 +399,9 @@ function mergeStringArray(target: string[] | undefined, source: string[] | undef
   return [...merged];
 }
 
-function buildManagedNandPartNumbers(raw: Record<string, unknown>): ManagedNandPartNumberEntry[] {
+function buildKnownPartNumbers(raw: Record<string, unknown>): KnownPartNumberEntry[] {
   const rawEntries = Array.isArray(raw.entries) ? raw.entries : [];
-  const entries: ManagedNandPartNumberEntry[] = [];
+  const entries: KnownPartNumberEntry[] = [];
   const seen = new Set<string>();
 
   for (const item of rawEntries) {
@@ -412,6 +413,7 @@ function buildManagedNandPartNumbers(raw: Record<string, unknown>): ManagedNandP
     const pn = typeof record.pn === "string" ? normalizePartNumber(record.pn) : "";
     const vendor = typeof record.vendor === "string" ? record.vendor.trim() : "";
     const type = typeof record.type === "string" ? record.type.trim() : "";
+    const standard = typeof record.standard === "string" ? record.standard.trim() : "";
     if (!pn || !vendor) {
       continue;
     }
@@ -421,7 +423,46 @@ function buildManagedNandPartNumbers(raw: Record<string, unknown>): ManagedNandP
       continue;
     }
     seen.add(key);
-    entries.push(type ? { pn, vendor, type } : { pn, vendor });
+    entries.push({
+      pn,
+      vendor,
+      ...(type ? { type } : {}),
+      ...(standard ? { standard } : {})
+    });
+  }
+
+  return entries;
+}
+
+function buildMicronDramFbgaCodes(raw: Record<string, unknown>): Map<string, string[]> {
+  const rawEntries = Array.isArray(raw.entries) ? raw.entries : [];
+  const entries = new Map<string, string[]>();
+  const seen = new Set<string>();
+
+  for (const item of rawEntries) {
+    if (!item || typeof item !== "object" || Array.isArray(item)) {
+      continue;
+    }
+
+    const record = item as Partial<MicronDramFbgaEntry>;
+    const code = typeof record.code === "string" ? record.code.toUpperCase().replace(/[^0-9A-Z]/g, "") : "";
+    const pn = typeof record.pn === "string" ? normalizePartNumber(record.pn) : "";
+    if (code.length !== 5 || !pn) {
+      continue;
+    }
+
+    const key = `${code}\0${pn}`;
+    if (seen.has(key)) {
+      continue;
+    }
+    seen.add(key);
+
+    const partNumbers = entries.get(code);
+    if (partNumbers) {
+      partNumbers.push(pn);
+    } else {
+      entries.set(code, [pn]);
+    }
   }
 
   return entries;
@@ -435,11 +476,16 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
   const rawFdb = (options.resources?.fdbRaw ?? {}) as Record<string, unknown>;
   const rawMdb = (options.resources?.mdbRaw ?? {}) as Record<string, unknown>;
   const rawManagedNandPn = (options.resources?.managedNandPnRaw ?? {}) as Record<string, unknown>;
+  const rawDramPn = (options.resources?.dramPnRaw ?? {}) as Record<string, unknown>;
+  const rawMicronDramFbga = (options.resources?.micronDramFbgaRaw ?? {}) as Record<string, unknown>;
   const langRaw = (options.resources?.langRaw ?? {}) as LangPacks;
 
   const fdb = buildFdb(rawFdb);
   const mdb = buildMdb(rawMdb);
-  const managedNandPartNumbers = buildManagedNandPartNumbers(rawManagedNandPn);
+  const managedNandPartNumbers = buildKnownPartNumbers(rawManagedNandPn);
+  const dramPartNumbers = buildKnownPartNumbers(rawDramPn);
+  const micronDramFbgaCodes = buildMicronDramFbgaCodes(rawMicronDramFbga);
+  const micronDramFbgaCodeSet = new Set(micronDramFbgaCodes.keys());
   const langPacks: LangPacks = {
     [fallbackLang]: {},
     ...langRaw
@@ -671,16 +717,37 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
         const spectekHit = mdb.spectek[fbga.key];
         const candidates = micronHit ? [micronHit] : spectekHit ? [...spectekHit] : [];
         const resolved = candidates[0];
-        if (!resolved) {
-          return { partNumber: fbga.display, vendor: UNKNOWN };
+        if (resolved) {
+          const base = detectRaw(resolved, opts, false);
+          const withMeta = applyMicronFbgaMeta(base, fbga, resolved);
+          if (opts.combineFdb ?? true) {
+            combineFromFdb(withMeta, partNumber);
+          }
+          return withMeta;
+        }
+      }
+
+      const knownDramFbga = parseKnownMicronFbgaCode(partNumber, micronDramFbgaCodeSet);
+      if (knownDramFbga) {
+        const candidates = micronDramFbgaCodes.get(knownDramFbga.key) ?? [];
+        for (const resolved of candidates) {
+          const base = detectRaw(resolved, opts, false);
+          if (base.vendor === UNKNOWN && base.rawVendor == null) {
+            continue;
+          }
+
+          const withMeta = applyMicronFbgaMeta(base, knownDramFbga, resolved);
+          if (opts.combineFdb ?? true) {
+            combineFromFdb(withMeta, partNumber);
+          }
+          return withMeta;
         }
 
-        const base = detectRaw(resolved, opts, false);
-        const withMeta = applyMicronFbgaMeta(base, fbga, resolved);
-        if (opts.combineFdb ?? true) {
-          combineFromFdb(withMeta, partNumber);
-        }
-        return withMeta;
+        return { partNumber: knownDramFbga.display, vendor: UNKNOWN };
+      }
+
+      if (fbga) {
+        return { partNumber: fbga.display, vendor: UNKNOWN };
       }
     }
 
@@ -764,6 +831,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
     const limit = opts.limit ?? 0;
     const result: string[] = [];
     const seenPartNumbers = new Set<string>();
+    const seenFbgaSuggestions = new Set<string>();
 
     const atLimit = (): boolean => limit > 0 && result.length >= limit;
     const appendPartNumberSuggestion = (vendor: string, partNumber: string): void => {
@@ -781,6 +849,18 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
       seenPartNumbers.add(key);
       result.push(`${translateString(vendor, opts.lang)} ${normalizedPartNumber}`);
     };
+    const appendMicronFbgaSuggestion = (code: string, partNumber: string): void => {
+      if (atLimit()) {
+        return;
+      }
+      const normalizedPartNumber = normalizePartNumber(partNumber);
+      const key = `${code}\0${normalizedPartNumber}`;
+      if (!normalizedPartNumber || seenFbgaSuggestions.has(key)) {
+        return;
+      }
+      seenFbgaSuggestions.add(key);
+      result.push(`${translateString("micron", opts.lang)} ${code} ${normalizedPartNumber}`);
+    };
 
     for (const entry of managedNandPartNumbers) {
       if (atLimit()) {
@@ -789,6 +869,34 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
       const hit = partMatch ? contains(entry.pn, query) : entry.pn === query;
       if (hit) {
         appendPartNumberSuggestion(entry.vendor, entry.pn);
+      }
+    }
+
+    for (const entry of dramPartNumbers) {
+      if (atLimit()) {
+        return result;
+      }
+      const hit = partMatch ? contains(entry.pn, query) : entry.pn === query;
+      if (hit) {
+        appendPartNumberSuggestion(entry.vendor, entry.pn);
+      }
+    }
+
+    for (const [code, partNumbers] of micronDramFbgaCodes.entries()) {
+      if (atLimit()) {
+        return result;
+      }
+      const codeHit = contains(code, query);
+      if (codeHit && (mdb.micron[code] || mdb.spectek[code])) {
+        continue;
+      }
+      for (const partNumber of partNumbers) {
+        if (atLimit()) {
+          return result;
+        }
+        if (codeHit || contains(partNumber, query)) {
+          appendMicronFbgaSuggestion(code, partNumber);
+        }
       }
     }
 
@@ -872,14 +980,35 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
   };
 
   const searchMicronFbgaCode = (code: string): string[] => {
-    const target = code.toUpperCase();
+    const knownDramFbga = parseKnownMicronFbgaCode(code, micronDramFbgaCodeSet);
+    const parsed = knownDramFbga ?? parseMicronFbgaCode(code);
+    const target = parsed?.key ?? code.toUpperCase();
+    const result: string[] = [];
+    const seen = new Set<string>();
+    const append = (partNumber: string): void => {
+      const normalized = normalizePartNumber(partNumber);
+      if (!normalized || seen.has(normalized)) {
+        return;
+      }
+      seen.add(normalized);
+      result.push(normalized);
+    };
+
     if (mdb.micron[target]) {
-      return [mdb.micron[target]];
+      append(mdb.micron[target]);
     }
     if (mdb.spectek[target]) {
-      return [...mdb.spectek[target]];
+      for (const partNumber of mdb.spectek[target]) {
+        append(partNumber);
+      }
     }
-    return [];
+    if (result.length > 0) {
+      return result;
+    }
+    for (const partNumber of micronDramFbgaCodes.get(target) ?? []) {
+      append(partNumber);
+    }
+    return result;
   };
 
   const getSummary = (partNumber: string, lang?: string | null): string => {

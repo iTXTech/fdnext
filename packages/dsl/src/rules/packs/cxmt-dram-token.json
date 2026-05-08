@@ -1,0 +1,329 @@
+[
+  {
+    "id": "vendor.cxmt.dram.ddr4.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^CXDQ[0-9A-Z]+(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "CXDQ"
+      ],
+      "tables": {
+        "densityMb": {
+          "3": 8192
+        },
+        "deviceWidth": {
+          "B": 16
+        },
+        "packageActual": {
+          "FAM": "96-ball FBGA"
+        },
+        "speedObj": {
+          "CQ": {
+            "dram_speed": "DDR4-2666",
+            "operation_temperature": "Commercial (0C~95C)"
+          },
+          "CJ": {
+            "dram_speed": "DDR4-3200",
+            "operation_temperature": "Commercial (0C~95C)"
+          },
+          "IJ": {
+            "dram_speed": "DDR4-3200",
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "WQ": {
+            "dram_speed": "DDR4-2666",
+            "operation_temperature": "Wide temperature (-40C~95C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9])([A-Z])([0-9A-Z]{3})(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "widthCode": 2,
+            "packageCode": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{widthCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR4 SDRAM",
+            "dram_die_stack": "Single die, 1 CS",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "cxmt",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": "1.2V VDD",
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.cxmt.dram.lpddr4x.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^CXDB[0-9A-Z]+(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "CXDB"
+      ],
+      "tables": {
+        "densityMb": {
+          "4": 16384,
+          "5": 32768
+        },
+        "deviceWidth": {
+          "A": 32,
+          "B": 32,
+          "C": 32
+        },
+        "dieStackObj": {
+          "BAM": {
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          },
+          "CAM": {
+            "dram_die_stack": "QDP (4-die), 2 CS"
+          }
+        },
+        "packageActual": {
+          "BAM": "200-ball FBGA",
+          "CAM": "200-ball FBGA"
+        },
+        "speedObj": {
+          "MJ": {
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "MK": {
+            "dram_speed": "LPDDR4X-3733"
+          },
+          "ML": {
+            "dram_speed": "LPDDR4X-4266"
+          },
+          "MA": {
+            "dram_speed": "LPDDR4X speed bin MA"
+          }
+        },
+        "gradeObj": {
+          "A": {
+            "operation_temperature": "-25C~85C"
+          },
+          "B": {
+            "operation_temperature": "-25C~85C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9])([A-Z])([0-9A-Z]{3})(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "widthCode": 2,
+            "packageCode": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{widthCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "dieStackObj",
+          "to": "dieStackObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR4X SDRAM",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieStackObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "gradeObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "cxmt",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

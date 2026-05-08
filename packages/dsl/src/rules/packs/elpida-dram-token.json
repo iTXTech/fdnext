@@ -1,0 +1,728 @@
+[
+  {
+    "id": "vendor.elpida.dram.sdr_ddr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^ED[SD][0-9A-Z]+(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "ED"
+      ],
+      "tables": {
+        "familyObj": {
+          "S": {
+            "dram_type": "SDR SDRAM"
+          },
+          "D": {
+            "dram_type": "DDR SDRAM"
+          }
+        },
+        "voltage": {
+          "S": "3.3V VDD",
+          "D": "2.5V VDD"
+        },
+        "densityMb": {
+          "12": 128,
+          "25": 256,
+          "51": 512
+        },
+        "packageActual": {
+          "S:AATA": "54-pin TSOP-II",
+          "S:AABH": "90-ball FBGA",
+          "D:AATA": "66-pin TSOP-II",
+          "D:AFTA": "66-pin TSOP-II",
+          "D:AKTA": "66-pin TSOP-II"
+        },
+        "speedObj": {
+          "75": {
+            "dram_speed": "133 MHz speed bin"
+          },
+          "10": {
+            "dram_speed": "100 MHz speed bin"
+          },
+          "5": {
+            "dram_speed": "DDR-400"
+          },
+          "5B": {
+            "dram_speed": "DDR-400"
+          },
+          "5C": {
+            "dram_speed": "DDR-400"
+          },
+          "6B": {
+            "dram_speed": "DDR-333"
+          },
+          "7A": {
+            "dram_speed": "DDR-266"
+          },
+          "7B": {
+            "dram_speed": "DDR-266"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9]{2})([0-9]{2})([0-9A-Z]{4})(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "width": 2,
+            "packageCode": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{width}}",
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "set",
+          "to": "one",
+          "value": 1
+        },
+        {
+          "op": "mul",
+          "a": "width",
+          "b": "one",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_die_stack": "Single die, 1 CS",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "elpida",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.elpida.dram.ddr2_ddr3.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^ED[JE][0-9A-Z]+(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "ED"
+      ],
+      "tables": {
+        "familyObj": {
+          "E": {
+            "dram_type": "DDR2 SDRAM"
+          },
+          "J": {
+            "dram_type": "DDR3 SDRAM"
+          }
+        },
+        "voltage": {
+          "E": "1.8V VDD",
+          "J": "1.5V VDD"
+        },
+        "densityMb": {
+          "11": 1024,
+          "21": 2048,
+          "42": 4096
+        },
+        "packageActual": {
+          "E:ACBG": "84-ball FBGA",
+          "E:ACSE": "60-ball FBGA",
+          "J:BDBG": "78-ball FBGA",
+          "J:BBSE": "78-ball FBGA",
+          "J:BASE": "78-ball FBGA",
+          "J:BFBG": "78-ball FBGA",
+          "J:EFBG": "78-ball FBGA"
+        },
+        "speedObj": {
+          "5C": {
+            "dram_speed": "DDR2-400"
+          },
+          "6E": {
+            "dram_speed": "DDR2-667"
+          },
+          "8E": {
+            "dram_speed": "DDR2-800"
+          },
+          "AE": {
+            "dram_speed": "DDR3-1066F (7-7-7)"
+          },
+          "DJ": {
+            "dram_speed": "DDR3-1333H (9-9-9)"
+          },
+          "GL": {
+            "dram_speed": "DDR3-1600J (10-10-10)"
+          },
+          "GN": {
+            "dram_speed": "DDR3-1600K (11-11-11)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9]{2})([0-9]{2})([0-9A-Z]{4})(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "width": 2,
+            "packageCode": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{width}}",
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "set",
+          "to": "one",
+          "value": 1
+        },
+        {
+          "op": "mul",
+          "a": "width",
+          "b": "one",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_die_stack": "Single die, 1 CS",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "elpida",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.elpida.dram.lpddr2_lpddr3.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^ED[BF][0-9A-Z]+(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "ED"
+      ],
+      "tables": {
+        "familyObj": {
+          "B": {
+            "dram_type": "LPDDR2 SDRAM"
+          },
+          "F": {
+            "dram_type": "LPDDR3 SDRAM"
+          }
+        },
+        "densityMb": {
+          "2": 2048,
+          "8": 8192,
+          "A": 16384
+        },
+        "stackObj": {
+          "B:2:4": {
+            "dram_die_stack": "Single die, 1 CS"
+          },
+          "B:8:1": {
+            "dram_die_stack": "DDP (2-die), 2 CS"
+          },
+          "F:8:1": {
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          },
+          "F:A:1": {
+            "dram_die_stack": "QDP (4-die), 2 CS"
+          }
+        },
+        "packageActual": {
+          "B:B3PF": "216-ball FBGA",
+          "B:B3MC": "134-ball FBGA",
+          "F:A2MA": "216-ball FBGA",
+          "F:A3MA": "216-ball FBGA"
+        },
+        "speedObj": {
+          "8D": {
+            "dram_speed": "LPDDR2-1066"
+          },
+          "1D": {
+            "dram_speed": "LPDDR2-1066"
+          },
+          "GD": {
+            "dram_speed": "LPDDR3-1066 validation bin"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z])([0-9A-Z])([0-9]{2})([0-9A-Z]{4})(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "stackCode": 2,
+            "width": 3,
+            "packageCode": 4
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{stackCode}}{{width}}",
+          "to": "configCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{densityCode}}:{{stackCode}}",
+          "to": "stackKey"
+        },
+        {
+          "op": "map",
+          "from": "stackKey",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "set",
+          "to": "one",
+          "value": 1
+        },
+        {
+          "op": "mul",
+          "a": "width",
+          "b": "one",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "elpida",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": "1.8V VDD1 / 1.2V VDD2/VDDQ",
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.elpida.dram.gddr5.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^EDW[0-9A-Z]+(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "EDW"
+      ],
+      "tables": {
+        "densityMb": {
+          "20": 2048
+        },
+        "speedObj": {
+          "50": {
+            "dram_speed": "GDDR5-5.0Gbps"
+          },
+          "60": {
+            "dram_speed": "GDDR5-6.0Gbps"
+          },
+          "70": {
+            "dram_speed": "GDDR5-7.0Gbps"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9]{2})([0-9]{2})([0-9A-Z]{4})(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "width": 2,
+            "packageCode": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{width}}",
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "set",
+          "to": "one",
+          "value": 1
+        },
+        {
+          "op": "mul",
+          "a": "width",
+          "b": "one",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "GDDR5 SGRAM",
+            "dram_die_stack": "Single die, 1 CS",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "elpida",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
+        "package": "170-ball FBGA",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

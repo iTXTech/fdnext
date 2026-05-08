@@ -112,17 +112,8 @@
           "rawVendor": "micron",
           "remark": "1way&2way $prog enable from Fset",
           "type": "NAND",
-          "url": {
-            "美光官网": "https://www.micron.com/support/tools-and-utilities/fbga?matpart=MT29F64G08CBABA"
-          },
-          "urls": [
-            {
-              "desc": "美光官网",
-              "hint": "",
-              "img": "logo",
-              "url": "https://www.micron.com/support/tools-and-utilities/fbga?matpart=MT29F64G08CBABA"
-            }
-          ],
+          "url": [],
+          "urls": [],
           "vendor": "美光",
           "voltage": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V)",
           "接口": {
@@ -385,17 +376,8 @@
           "rawVendor": "micron",
           "remark": "1way&2way $prog enable from Fset",
           "type": "NAND",
-          "url": {
-            "Micron Website": "https://www.micron.com/support/tools-and-utilities/fbga?matpart=MT29F64G08CBABA"
-          },
-          "urls": [
-            {
-              "desc": "Micron Website",
-              "hint": "",
-              "img": "logo",
-              "url": "https://www.micron.com/support/tools-and-utilities/fbga?matpart=MT29F64G08CBABA"
-            }
-          ],
+          "url": [],
+          "urls": [],
           "vendor": "Micron",
           "voltage": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V)"
         },
@@ -1660,17 +1642,8 @@
           "rawVendor": "micron",
           "remark": "Unknown",
           "type": "NAND",
-          "url": {
-            "Micron Website": "https://www.micron.com/support/tools-and-utilities/fbga?fbga=NW101"
-          },
-          "urls": [
-            {
-              "desc": "Micron Website",
-              "hint": "",
-              "img": "logo",
-              "url": "https://www.micron.com/support/tools-and-utilities/fbga?fbga=NW101"
-            }
-          ],
+          "url": [],
+          "urls": [],
           "vendor": "Micron",
           "voltage": "Vcc: 3.3V (2.70–3.60V), VccQ: 1.8V (1.70–1.95V)"
         },
@@ -1723,17 +1696,8 @@
           "rawVendor": "micron",
           "remark": "Unknown",
           "type": "NAND",
-          "url": {
-            "Micron Website": "https://www.micron.com/support/tools-and-utilities/fbga?fbga=NW101"
-          },
-          "urls": [
-            {
-              "desc": "Micron Website",
-              "hint": "",
-              "img": "logo",
-              "url": "https://www.micron.com/support/tools-and-utilities/fbga?fbga=NW101"
-            }
-          ],
+          "url": [],
+          "urls": [],
           "vendor": "Micron",
           "voltage": "Vcc: 3.3V (2.70–3.60V), VccQ: 1.8V (1.70–1.95V)"
         },

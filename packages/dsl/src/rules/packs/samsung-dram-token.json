@@ -1,0 +1,1668 @@
+[
+  {
+    "id": "vendor.samsung.dram.legacy_standard.component.v1",
+    "priority": 1020,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^K4(?:S|H|T|B)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "K4"
+      ],
+      "tables": {
+        "familyObj": {
+          "S": {
+            "dram_type": "SDR SDRAM"
+          },
+          "H": {
+            "dram_type": "DDR SDRAM"
+          },
+          "T": {
+            "dram_type": "DDR2 SDRAM"
+          },
+          "B": {
+            "dram_type": "DDR3 SDRAM"
+          }
+        },
+        "voltage": {
+          "S": "3.3V VDD",
+          "H": "2.5V VDD",
+          "T": "1.8V VDD",
+          "B": "1.5V VDD"
+        },
+        "densityMb": {
+          "16": 16,
+          "28": 128,
+          "56": 256,
+          "64": 64,
+          "12": 128,
+          "25": 256,
+          "51": 512,
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096
+        },
+        "packageActual": {
+          "S:16:U": "54-pin TSOP-II",
+          "H:08:H": "60-ball FBGA",
+          "T:16:Z": "84-ball FBGA",
+          "B:08:H": "82-ball FBGA"
+        },
+        "tempObj": {
+          "C": {
+            "operation_temperature": "Commercial"
+          },
+          "L": {
+            "operation_temperature": "Commercial low power"
+          },
+          "I": {
+            "operation_temperature": "Industrial"
+          }
+        },
+        "speedObj": {
+          "S:75": {
+            "dram_speed": "SDR-133"
+          },
+          "S:60": {
+            "dram_speed": "SDR-166"
+          },
+          "H:CC": {
+            "dram_speed": "DDR-400"
+          },
+          "H:B3": {
+            "dram_speed": "DDR-333"
+          },
+          "H:A2": {
+            "dram_speed": "DDR-266"
+          },
+          "H:B0": {
+            "dram_speed": "DDR-266"
+          },
+          "T:E6": {
+            "dram_speed": "DDR2-667"
+          },
+          "T:F7": {
+            "dram_speed": "DDR2-800"
+          },
+          "T:E7": {
+            "dram_speed": "DDR2-800 CL5"
+          },
+          "B:F7": {
+            "dram_speed": "DDR3-800"
+          },
+          "B:F8": {
+            "dram_speed": "DDR3-1066"
+          },
+          "B:H9": {
+            "dram_speed": "DDR3-1333"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]{2})([0-9]{2})([0-9])([0-9A-Z])([0-9A-Z])(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "width": 2,
+            "bankCode": 3,
+            "interfaceCode": 4,
+            "revisionCode": 5
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{width}}",
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "set",
+          "to": "one",
+          "value": 1
+        },
+        {
+          "op": "mul",
+          "a": "width",
+          "b": "one",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{width}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "tempCode"
+        },
+        {
+          "op": "map",
+          "from": "tempCode",
+          "table": "tempObj",
+          "to": "tempObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "speedToken"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{speedToken}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_die_stack": "Single die, 1 CS",
+            "config_code": {
+              "$var": "configCode"
+            }
+          }
+        },
+        {
+          "op": "set",
+          "to": "packageObj",
+          "value": {
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "packageObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "tempObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "samsung",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.samsung.dram.standard.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^K4(?:S|H|T|B|A)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "K4"
+      ],
+      "tables": {
+        "familyObj": {
+          "S": {
+            "dram_type": "SDR SDRAM"
+          },
+          "H": {
+            "dram_type": "DDR SDRAM"
+          },
+          "T": {
+            "dram_type": "DDR2 SDRAM"
+          },
+          "B": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "A": {
+            "dram_type": "DDR4 SDRAM"
+          }
+        },
+        "voltage": {
+          "S": "3.3V VDD",
+          "H": "2.5V VDD",
+          "T": "1.8V VDD",
+          "B": "1.5V VDD",
+          "A": "1.2V VDD"
+        },
+        "densityMb": {
+          "16": 16,
+          "28": 128,
+          "56": 256,
+          "64": 64,
+          "12": 128,
+          "25": 256,
+          "51": 512,
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096,
+          "8G": 8192,
+          "16G": 16384
+        },
+        "packageActual": {
+          "S:32H": "54-pin TSOP-II",
+          "H:38J": "66-pin TSOP-II",
+          "T:4QF": "60-ball FBGA",
+          "B:46D": "96-ball FBGA",
+          "B:46Q": "96-ball FBGA",
+          "A:5WB": "78-ball FBGA",
+          "A:5WC": "78-ball FBGA"
+        },
+        "speedObj": {
+          "UC75": {
+            "dram_speed": "SDR-133"
+          },
+          "UCCC": {
+            "dram_speed": "DDR-400"
+          },
+          "BCF7": {
+            "dram_speed": "DDR2-800"
+          },
+          "BCK0": {
+            "dram_speed": "DDR3-1600",
+            "operation_temperature": "Commercial (0C~85C)"
+          },
+          "BHMA": {
+            "dram_speed": "DDR3-1866",
+            "operation_temperature": "Automotive (-40C~105C)"
+          },
+          "BCRC": {
+            "dram_speed": "DDR4-2400",
+            "operation_temperature": "Commercial (0C~85C)"
+          },
+          "BIRC": {
+            "dram_speed": "DDR4-2400",
+            "operation_temperature": "Industrial (-40C~95C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9]+)([MG]?)([0-9]{2})(?=[0-9A-Z]{3}(?:-|$))",
+          "to": "configCode",
+          "groups": {
+            "densityValue": 1,
+            "densityUnit": 2,
+            "width": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityValue}}{{densityUnit}}",
+          "to": "densityKey"
+        },
+        {
+          "op": "map",
+          "from": "densityKey",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "set",
+          "to": "one",
+          "value": 1
+        },
+        {
+          "op": "mul",
+          "a": "width",
+          "b": "one",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_die_stack": "Single die, 1 CS",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "samsung",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.samsung.dram.ddr5.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^K4R[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "K4R"
+      ],
+      "tables": {
+        "densityMb": {
+          "AH": 16384
+        },
+        "packageActual": {
+          "08:6VB": "82-ball FBGA",
+          "16:5VB": "106-ball FBGA"
+        },
+        "speedObj": {
+          "BCQK": {
+            "dram_speed": "DDR5-4800",
+            "operation_temperature": "Commercial (0C~85C)"
+          },
+          "BCWM": {
+            "dram_speed": "DDR5-5600",
+            "operation_temperature": "Commercial (0C~85C)"
+          },
+          "BIWM": {
+            "dram_speed": "DDR5-5600",
+            "operation_temperature": "Industrial (-40C~95C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([A-Z]{2})([0-9]{2})(?=[0-9A-Z]{3}(?:-|$))",
+          "to": "configCode",
+          "groups": {
+            "densityCode": 1,
+            "width": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "set",
+          "to": "one",
+          "value": 1
+        },
+        {
+          "op": "mul",
+          "a": "width",
+          "b": "one",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{width}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR5 SDRAM",
+            "dram_die_stack": "Single die, 1 CS",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "samsung",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": "1.1V VDD",
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.samsung.dram.lpddr1.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^K4X[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "K4X"
+      ],
+      "tables": {
+        "densityMb": {
+          "56": 256,
+          "51": 512,
+          "1G": 1024,
+          "2G": 2048
+        },
+        "deviceWidth": {
+          "02": 2,
+          "04": 4,
+          "06": 4,
+          "07": 8,
+          "08": 8,
+          "15": 16,
+          "16": 16,
+          "26": 4,
+          "27": 8,
+          "30": 32,
+          "31": 32,
+          "32": 32
+        },
+        "dieStack": {
+          "06": "Stacked x4 Flexframe, CS not decoded",
+          "07": "Stacked x8 Flexframe, CS not decoded",
+          "15": "Stacked x16, 2 CS",
+          "26": "Stacked x4 JEDEC, CS not decoded",
+          "27": "Stacked x8 JEDEC, CS not decoded",
+          "30": "Stacked x32, 2 CS, 2 CKE",
+          "31": "Stacked x32, 2 CS"
+        },
+        "packageActual": {
+          "1": "MCP",
+          "2": "90-ball FBGA DDP",
+          "3": "90-ball FBGA DDP",
+          "4": "96-ball FBGA",
+          "5": "96-ball FBGA",
+          "6": "FBGA POP",
+          "7": "90-ball FBGA",
+          "8": "90-ball FBGA",
+          "9": "110-ball FBGA",
+          "A": "168-ball FBGA DDP",
+          "F": "60-ball FBGA",
+          "G": "60-ball LGA",
+          "K": "104-ball FBGA",
+          "L": "WBGA 0.8mm",
+          "M": "152-ball FBGA POP",
+          "N": "168-ball FBGA POP",
+          "P": "60-ball FBGA DDP",
+          "Q": "ISM",
+          "R": "102-ball FBGA",
+          "S": "POP DDP"
+        },
+        "tempObj": {
+          "C": {
+            "operation_temperature": "Commercial (-25C~70C), normal"
+          },
+          "L": {
+            "operation_temperature": "Commercial, low power, i-TCSR"
+          },
+          "F": {
+            "operation_temperature": "Commercial, low power, i-TCSR, PASR, DS"
+          },
+          "E": {
+            "operation_temperature": "Extended (-25C~85C), normal"
+          },
+          "N": {
+            "operation_temperature": "Extended, low power, i-TCSR"
+          },
+          "G": {
+            "operation_temperature": "Extended, low power, i-TCSR, PASR, DS"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40C~85C), normal"
+          },
+          "P": {
+            "operation_temperature": "Industrial (-40C~85C), low power"
+          },
+          "H": {
+            "operation_temperature": "Industrial, low power, i-TCSR, PASR, DS"
+          }
+        },
+        "speedObj": {
+          "C3": {
+            "dram_speed": "Mobile DDR-133 CL3"
+          },
+          "C2": {
+            "dram_speed": "Mobile DDR-100 CL3"
+          },
+          "C0": {
+            "dram_speed": "Mobile DDR-66 CL3"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]{2})([0-9]{2})([0-9])([A-Z0-9])([A-Z])(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "bitOrgCode": 2,
+            "bankCode": 3,
+            "interfaceCode": 4,
+            "revisionCode": 5
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{bitOrgCode}}{{bankCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "bitOrgCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "bitOrgCode",
+          "table": "dieStack",
+          "to": "dieStack",
+          "default": "Single die, 1 CS"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "tempCode"
+        },
+        {
+          "op": "map",
+          "from": "tempCode",
+          "table": "tempObj",
+          "to": "tempObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR SDRAM",
+            "dram_die_stack": {
+              "$var": "dieStack"
+            },
+            "config_code": {
+              "$var": "configCode"
+            }
+          }
+        },
+        {
+          "op": "set",
+          "to": "packageObj",
+          "value": {
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "packageObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "tempObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "samsung",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": "1.8V VDD/VDDQ",
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.samsung.dram.lpddr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^K(?:3P|3Q|3L|4F6|4U6)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "K"
+      ],
+      "tables": {
+        "densityStackToken": {
+          "E7": "E7",
+          "E0": "E0",
+          "F1": "F1",
+          "F2": "F2",
+          "F4": "F4",
+          "FA": "FA",
+          "KB": "KB",
+          "6": "6"
+        },
+        "configObj": {
+          "3P:E7": {
+            "dram_type": "LPDDR2 SDRAM",
+            "dram_die_stack": "DDP (2-die), 2 CS"
+          },
+          "3P:E0": {
+            "dram_type": "LPDDR2 SDRAM",
+            "dram_die_stack": "QDP (4-die), 2 CS"
+          },
+          "3Q:F1": {
+            "dram_type": "LPDDR3 SDRAM",
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          },
+          "3Q:F2": {
+            "dram_type": "LPDDR3 SDRAM",
+            "dram_die_stack": "QDP (4-die), 2 CS"
+          },
+          "3Q:F4": {
+            "dram_type": "LPDDR3 SDRAM",
+            "dram_die_stack": "QDP (4-die), 2 CS"
+          },
+          "3Q:FA": {
+            "dram_type": "LPDDR3 SDRAM",
+            "dram_die_stack": "ODP (8-die), 2 CS"
+          },
+          "4F:6": {
+            "dram_type": "LPDDR4 SDRAM",
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          },
+          "4U:6": {
+            "dram_type": "LPDDR4X SDRAM",
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          },
+          "3L:KB": {
+            "dram_type": "LPDDR5 SDRAM",
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          }
+        },
+        "densityMb": {
+          "3P:E7": 8192,
+          "3P:E0": 16384,
+          "3Q:F1": 8192,
+          "3Q:F2": 16384,
+          "3Q:F4": 32768,
+          "3Q:FA": 65536,
+          "4F:6": 16384,
+          "4U:6": 16384,
+          "3L:KB": 32768
+        },
+        "deviceWidth": {
+          "3P:E7": 64,
+          "3P:E0": 64,
+          "3Q:F1": 64,
+          "3Q:F2": 64,
+          "3Q:F4": 64,
+          "3Q:FA": 64,
+          "4F:6": 32,
+          "4U:6": 32,
+          "3L:KB": 32
+        },
+        "voltage": {
+          "3P:E7": "1.8V VDD1 / 1.2V VDD2/VDDQ",
+          "3P:E0": "1.8V VDD1 / 1.2V VDD2/VDDQ",
+          "3Q:F1": "1.8V / 1.2V / 1.2V",
+          "3Q:F2": "1.8V / 1.2V / 1.2V",
+          "3Q:F4": "1.8V / 1.2V / 1.2V",
+          "3Q:FA": "1.8V / 1.2V / 1.2V",
+          "4F:6": "1.8V / 1.1V / 1.1V",
+          "4U:6": "1.8V / 1.1V / 0.6V",
+          "3L:KB": "1.8V / 1.05V / 0.9V / 0.5V"
+        },
+        "packageActual": {
+          "3P:E700M": "216-ball FBGA",
+          "3P:E000A": "220-ball FBGA",
+          "3Q:F10DM": "253-ball FBGA",
+          "3Q:F20DM": "253-ball FBGA",
+          "3Q:F40CM": "253-ball FBGA",
+          "3Q:FA0CM": "253-ball FBGA",
+          "4F:E304HB": "200-ball FBGA",
+          "4F:E3S4HB": "200-ball FBGA",
+          "4F:E3S4HM": "200-ball FBGA",
+          "4U:E3S4AA": "200-ball FBGA",
+          "4U:E3S4AB": "200-ball FBGA",
+          "3L:KB0BM": "315-ball FBGA"
+        },
+        "speedObj": {
+          "3P:XGC1": {
+            "dram_speed": "LPDDR2-1066",
+            "operation_temperature": "-25C~85C"
+          },
+          "3Q:AGCE": {
+            "dram_speed": "LPDDR3-1600",
+            "operation_temperature": "-25C~70C"
+          },
+          "3Q:AGCF": {
+            "dram_speed": "LPDDR3-1866",
+            "operation_temperature": "-25C~85C"
+          },
+          "4F:MGCJ": {
+            "dram_speed": "LPDDR4-3733",
+            "operation_temperature": "-25C~85C"
+          },
+          "4F:GHCL": {
+            "dram_speed": "LPDDR4-4266",
+            "operation_temperature": "-40C~105C"
+          },
+          "4F:KHCL": {
+            "dram_speed": "LPDDR4-4266",
+            "operation_temperature": "-40C~105C"
+          },
+          "4F:KUCL": {
+            "dram_speed": "LPDDR4-4266",
+            "operation_temperature": "-40C~125C"
+          },
+          "4U:MGCL": {
+            "dram_speed": "LPDDR4X-4266",
+            "operation_temperature": "-25C~85C"
+          },
+          "4U:KFCL": {
+            "dram_speed": "LPDDR4X-4266",
+            "operation_temperature": "-40C~95C"
+          },
+          "4U:KUCL": {
+            "dram_speed": "LPDDR4X-4266",
+            "operation_temperature": "-40C~125C"
+          },
+          "3L:MGCP": {
+            "dram_speed": "LPDDR5-6400",
+            "operation_temperature": "-25C~85C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "familyCode"
+        },
+        {
+          "op": "takeLongest",
+          "table": "densityStackToken",
+          "to": "densityStackCode",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{densityStackCode}}",
+          "to": "configKey"
+        },
+        {
+          "op": "map",
+          "from": "configKey",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "configKey",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "configKey",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "configKey",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]+)",
+          "to": "packageCode",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]+)",
+          "to": "speedCode",
+          "groups": {
+            "speedCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}{{densityStackCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "configObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "samsung",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.samsung.dram.legacy_gddr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^K4(?:D|N|J|U)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "K4"
+      ],
+      "tables": {
+        "familyObj": {
+          "D": {
+            "dram_type": "GDDR SGRAM"
+          },
+          "N": {
+            "dram_type": "GDDR2 SGRAM"
+          },
+          "J": {
+            "dram_type": "GDDR3 SGRAM"
+          },
+          "U": {
+            "dram_type": "GDDR4 SGRAM"
+          }
+        },
+        "voltageDefault": {
+          "D": "2.5V/2.8V VDD/VDDQ",
+          "N": "1.8V/2.0V VDD/VDDQ",
+          "J": "1.8V/2.0V VDD/VDDQ",
+          "U": "1.8V VDD/VDDQ"
+        },
+        "densityMb": {
+          "26": 128,
+          "51": 512,
+          "52": 512,
+          "55": 256,
+          "56": 256,
+          "1G": 1024
+        },
+        "packageActual": {
+          "D:E": "144-ball FBGA",
+          "D:F": "144-ball FBGA",
+          "N:QF": "84-ball FBGA",
+          "N:QG": "84-ball FBGA",
+          "J:QC": "136-ball FBGA",
+          "J:QE": "136-ball FBGA",
+          "U:QE": "136-ball FBGA"
+        },
+        "voltageBySpeed": {
+          "GC25": "2.8V VDD/VDDQ",
+          "GC2A": "2.5V VDD/VDDQ",
+          "GC33": "2.5V VDD/VDDQ",
+          "GC36": "2.5V VDD/VDDQ",
+          "GC37": "1.8V VDD/VDDQ",
+          "GC40": "2.5V VDD/VDDQ",
+          "GC45": "2.5V VDD/VDDQ",
+          "BJ12": "2.0V VDD/VDDQ",
+          "BJ14": "2.0V VDD/VDDQ",
+          "BC07": "1.8V VDD/VDDQ",
+          "BC08": "1.8V VDD/VDDQ",
+          "BC09": "1.8V VDD/VDDQ",
+          "BC14": "1.8V VDD/VDDQ",
+          "BC16": "1.8V VDD/VDDQ",
+          "BC20": "1.8V VDD/VDDQ",
+          "ZC25": "1.8V VDD/VDDQ",
+          "ZC2A": "1.8V VDD/VDDQ"
+        },
+        "speedObj": {
+          "GC25": {
+            "dram_speed": "GDDR speed bin GC25"
+          },
+          "GC33": {
+            "dram_speed": "GDDR speed bin GC33"
+          },
+          "GC37": {
+            "dram_speed": "GDDR2-533Mbps/pin"
+          },
+          "BC07": {
+            "dram_speed": "GDDR4 speed bin BC07"
+          },
+          "BC08": {
+            "dram_speed": "GDDR4 speed bin BC08"
+          },
+          "BC09": {
+            "dram_speed": "GDDR4 speed bin BC09"
+          },
+          "BC14": {
+            "dram_speed": "GDDR3-1.4Gbps/pin"
+          },
+          "BC16": {
+            "dram_speed": "GDDR3-1.2Gbps/pin"
+          },
+          "BC20": {
+            "dram_speed": "GDDR3-1.0Gbps/pin"
+          },
+          "BJ12": {
+            "dram_speed": "GDDR3-1.6Gbps/pin"
+          },
+          "BJ14": {
+            "dram_speed": "GDDR3-1.4Gbps/pin"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltageDefault",
+          "to": "voltageDefault",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]{2})([0-9]{2})([0-9A-Z]*?)([A-Z]{1,2})(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "width": 2,
+            "orgCode": 3,
+            "packageCode": 4
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{width}}{{orgCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "set",
+          "to": "one",
+          "value": 1
+        },
+        {
+          "op": "mul",
+          "a": "width",
+          "b": "one",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([A-Z]{2}[0-9A-Z]{2})",
+          "to": "speedCode",
+          "groups": {
+            "speedCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "voltageBySpeed",
+          "to": "voltageOverride",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "voltageOverride",
+          "secondary": "voltageDefault",
+          "to": "voltage"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_die_stack": "Single die, 1 CS",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "samsung",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.samsung.dram.gddr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^K4(?:G|Z|V)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "K4"
+      ],
+      "tables": {
+        "familyObj": {
+          "G": {
+            "dram_type": "GDDR5 SGRAM"
+          },
+          "Z": {
+            "dram_type": "GDDR6 SGRAM"
+          },
+          "V": {
+            "dram_type": "GDDR7 SGRAM"
+          }
+        },
+        "voltage": {
+          "G": "1.35V/1.5V/1.6V VDD/VDDQ",
+          "Z": "1.35V VDD",
+          "V": "1.2V VDD"
+        },
+        "densityMb": {
+          "41": 4096,
+          "80": 8192,
+          "AF": 16384,
+          "CF": 24576
+        },
+        "packageActual": {
+          "G": "170-ball FBGA",
+          "Z": "180-ball FBGA",
+          "V": "266-ball FBGA"
+        },
+        "speedObj": {
+          "HC28": {
+            "dram_speed": "GDDR5-7.0Gbps"
+          },
+          "HC25": {
+            "dram_speed": "GDDR5-8.0Gbps"
+          },
+          "HC14": {
+            "dram_speed": "GDDR6-14.0Gbps"
+          },
+          "HC16": {
+            "dram_speed": "GDDR6-16.0Gbps"
+          },
+          "SC28": {
+            "dram_speed": "GDDR7-28.0Gbps"
+          },
+          "SC32": {
+            "dram_speed": "GDDR7-32.0Gbps"
+          },
+          "SC36": {
+            "dram_speed": "GDDR7-36.0Gbps"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]{2})(325)([0-9A-Z]{2})(?=-|$)",
+          "to": "configBase",
+          "groups": {
+            "densityCode": 1,
+            "orgCode": 2,
+            "packageCode": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{orgCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_die_stack": "Single die, 1 CS",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "vendor": "samsung",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": 32,
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

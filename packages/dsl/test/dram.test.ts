@@ -1,6 +1,8 @@
 import assert from "node:assert/strict";
 import type { FlashInfo } from "../../core/src/index";
 import { createEngine } from "../../core/src/index";
+import dramPnJson from "../../resources/resources/dram-pn.json" with { type: "json" };
+import micronDramFbgaJson from "../../resources/resources/micron-dram-fbga.json" with { type: "json" };
 import { embeddedResources } from "../../resources/index";
 import { compileRulesToDecoders, defaultDslRules } from "../src/index";
 
@@ -28,7 +30,8 @@ const standaloneDramExtraKeys = new Set([
   "DRAM Speed",
   "Operation Temperature",
   "Production Status",
-  "Die Revision"
+  "Die Revision",
+  "Micron Part Number"
 ]);
 
 const standardDramTypes = new Set([
@@ -69,6 +72,16 @@ function extra(info: FlashInfo): Record<string, unknown> {
   return info.extraInfo as Record<string, unknown>;
 }
 
+function assertSearchPnIncludes(query: string, expected: string): void {
+  const result = engine.searchPartNumber(query, { lang: "eng", limit: 50 });
+  assert.ok(result.includes(expected), `${query} should suggest ${expected}; got ${result.join(", ")}`);
+}
+
+function assertSearchPnFirst(query: string, expected: string): void {
+  const result = engine.searchPartNumber(query, { lang: "eng", limit: 1 });
+  assert.deepEqual(result, [expected], `${query} should prefer known DRAM PN suggestions`);
+}
+
 function assertDram(
   partNumber: string,
   expected: {
@@ -107,6 +120,66 @@ function assertDram(
   }
 }
 
+function assertUnknown(partNumber: string): void {
+  const info = detect(partNumber);
+  assert.equal(info.rawVendor, "Unknown", `${partNumber} should not be decoded as a known vendor`);
+  assert.equal(info.type, "Unknown", `${partNumber} should not be decoded as a known type`);
+}
+
+const dramPn = dramPnJson as { entries?: unknown[] };
+const micronDramFbga = micronDramFbgaJson as { entries?: unknown[] };
+const dramPnForbiddenKeys = new Set(["source", "status", "reference", "inference_source", "external_confirmed", "external_table_confirmed"]);
+const seenDramPn = new Set<string>();
+for (const entry of dramPn.entries ?? []) {
+  assert.equal(typeof entry, "object", "DRAM PN entry should be an object");
+  assert.ok(entry !== null && !Array.isArray(entry), "DRAM PN entry should be keyed");
+
+  const record = entry as Record<string, unknown>;
+  assert.equal(typeof record.pn, "string", "DRAM PN entry should include pn");
+  assert.equal(typeof record.vendor, "string", `${String(record.pn)} should include vendor`);
+  assert.equal(record.type, "dram", `${String(record.pn)} should be a DRAM catalog entry`);
+  assert.equal(typeof record.standard, "string", `${String(record.pn)} should include standard`);
+  assert.ok(!seenDramPn.has(String(record.pn)), `${String(record.pn)} should only appear once`);
+  seenDramPn.add(String(record.pn));
+
+  const keys = Object.keys(record);
+  assert.deepEqual(
+    keys.filter((key) => dramPnForbiddenKeys.has(key)),
+    [],
+    `DRAM PN entry should not expose maintenance keys: ${JSON.stringify(entry)}`
+  );
+}
+
+const seenMicronDramFbga = new Set<string>();
+for (const entry of micronDramFbga.entries ?? []) {
+  assert.equal(typeof entry, "object", "Micron DRAM FBGA entry should be an object");
+  assert.ok(entry !== null && !Array.isArray(entry), "Micron DRAM FBGA entry should be keyed");
+
+  const record = entry as Record<string, unknown>;
+  assert.equal(typeof record.code, "string", "Micron DRAM FBGA entry should include code");
+  assert.match(String(record.code), /^[0-9A-Z]{5}$/, `${String(record.code)} should be a five-character FBGA code`);
+  assert.equal(typeof record.pn, "string", `${String(record.code)} should include pn`);
+  assert.match(
+    String(record.pn),
+    /^(?:MT|CT|ED|EE)/,
+    `${String(record.code)} should map only to Micron MT/Crucial CT or Micron legacy Elpida DRAM PN`
+  );
+  assert.equal(record.vendor, "micron", `${String(record.code)} should be a Micron/Crucial DRAM FBGA entry`);
+  assert.equal(record.type, "dram", `${String(record.code)} should be a DRAM FBGA entry`);
+  assert.equal(typeof record.standard, "string", `${String(record.code)} should include standard`);
+
+  const key = `${String(record.code)}\0${String(record.pn)}`;
+  assert.ok(!seenMicronDramFbga.has(key), `${String(record.code)} ${String(record.pn)} should only appear once`);
+  seenMicronDramFbga.add(key);
+
+  const keys = Object.keys(record);
+  assert.deepEqual(
+    keys.filter((keyName) => dramPnForbiddenKeys.has(keyName)),
+    [],
+    `Micron DRAM FBGA entry should not expose maintenance keys: ${JSON.stringify(entry)}`
+  );
+}
+
 assertDram("MT40A1G8SA-075-E", {
   rawDensity: 8192,
   density: "8Gb",
@@ -141,6 +214,63 @@ const crucialDdr4Expected = {
 
 assertDram("CT40A1G8SA-62M:E", crucialDdr4Expected);
 assertDram("CT40A1G8SA-062M:E", crucialDdr4Expected);
+assertDram("C9BJZ", {
+  ...crucialDdr4Expected,
+  extra: {
+    ...crucialDdr4Expected.extra,
+    "Micron Part Number": "CT40A1G8SA-62M:E"
+  }
+});
+assert.deepEqual(engine.searchMicronFbgaCode("C9BJZ"), ["CT40A1G8SA-62M:E"]);
+assertDram("C9BHZ", {
+  rawVendor: "elpida",
+  rawDensity: 2048,
+  density: "2Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "LPDDR2 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "B4MA",
+    "Config Code": "2432",
+    "DRAM Speed": "LPDDR2-1066",
+    "Micron Part Number": "EDB2432B4MA-1DAAT-F-D"
+  }
+});
+assert.deepEqual(engine.searchMicronFbgaCode("C9BHZ"), ["EDB2432B4MA-1DAAT-F-D"]);
+assertDram("CZZZG", {
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x16",
+  voltage: "1.2V VDD",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "Config Code": "512M16",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev H",
+    "Micron Part Number": "EE40A512M16HA-093E:A"
+  }
+});
+assert.deepEqual(engine.searchMicronFbgaCode("CZZZG"), ["EE40A512M16HA-093E:A"]);
+assertDram("D9BCS", {
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x32",
+  voltage: "1.35V VDD",
+  package: "170-ball FBGA (12x14)",
+  extra: {
+    "DRAM Type": "GDDR5 SGRAM",
+    "Package Code": "HF",
+    "Config Code": "256M32",
+    "Operation Temperature": "Commercial",
+    "Micron Part Number": "EE51K256M32HF-60:B"
+  }
+});
+assert.deepEqual(engine.searchMicronFbgaCode("D9BCS"), ["EE51K256M32HF-60:B"]);
+assertUnknown("AMD41J128M16HA-107G:D");
+assertUnknown("79JMM");
 
 const ddr5Expected = {
   rawDensity: 16384,
@@ -772,3 +902,719 @@ assertDram("H56C8H24MJR-S2C", {
     "Die Revision": "MJR"
   }
 });
+
+assertDram("K4A8G085WB-BCRC", {
+  rawVendor: "samsung",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "5WB",
+    "Config Code": "8G08",
+    "DRAM Speed": "DDR4-2400",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
+assertDram("K4A8G085WB", {
+  rawVendor: "samsung",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "5WB",
+    "Config Code": "8G08"
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature"]
+});
+
+assertDram("K4S511632D-UC75", {
+  rawVendor: "samsung",
+  rawDensity: 512,
+  density: "512Mb",
+  deviceWidth: "x16",
+  voltage: "3.3V VDD",
+  package: "54-pin TSOP-II",
+  extra: {
+    "DRAM Type": "SDR SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "U",
+    "Config Code": "5116",
+    "DRAM Speed": "SDR-133",
+    "Operation Temperature": "Commercial"
+  }
+});
+
+assertDram("K4H510838F-HCCC", {
+  rawVendor: "samsung",
+  rawDensity: 512,
+  density: "512Mb",
+  deviceWidth: "x8",
+  voltage: "2.5V VDD",
+  package: "60-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "H",
+    "Config Code": "5108",
+    "DRAM Speed": "DDR-400",
+    "Operation Temperature": "Commercial"
+  }
+});
+
+assertDram("K4T56163QI-ZCE6", {
+  rawVendor: "samsung",
+  rawDensity: 256,
+  density: "256Mb",
+  deviceWidth: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR2 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "Z",
+    "Config Code": "5616",
+    "DRAM Speed": "DDR2-667",
+    "Operation Temperature": "Commercial"
+  }
+});
+
+assertDram("K4B1G0846D-HCF7", {
+  rawVendor: "samsung",
+  rawDensity: 1024,
+  density: "1Gb",
+  deviceWidth: "x8",
+  voltage: "1.5V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "H",
+    "Config Code": "1G08",
+    "DRAM Speed": "DDR3-800",
+    "Operation Temperature": "Commercial"
+  }
+});
+
+assertDram("K4RAH086VB-BCQK", {
+  rawVendor: "samsung",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x8",
+  voltage: "1.1V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "6VB",
+    "Config Code": "AH08",
+    "DRAM Speed": "DDR5-4800",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
+assertDram("K3PE7E700M-XGC1", {
+  rawVendor: "samsung",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x64",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "216-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR2 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 2 CS",
+    "Package Code": "E700M",
+    "Config Code": "3PE7",
+    "DRAM Speed": "LPDDR2-1066",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("K3QF1F10DM-AGCE", {
+  rawVendor: "samsung",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x64",
+  voltage: "1.8V / 1.2V / 1.2V",
+  package: "253-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR3 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "F10DM",
+    "Config Code": "3QF1",
+    "DRAM Speed": "LPDDR3-1600",
+    "Operation Temperature": "-25C~70C"
+  }
+});
+
+assertDram("K4F6E304HB-MGCJ", {
+  rawVendor: "samsung",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V / 1.1V / 1.1V",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "E304HB",
+    "Config Code": "4F6",
+    "DRAM Speed": "LPDDR4-3733",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("K3LKBKB0BM-MGCP", {
+  rawVendor: "samsung",
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "315-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR5 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "KB0BM",
+    "Config Code": "3LKB",
+    "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("K4U6E3S4AA-MGCL", {
+  rawVendor: "samsung",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V / 1.1V / 0.6V",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "E3S4AA",
+    "Config Code": "4U6",
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("K4X51163PC", {
+  rawVendor: "samsung",
+  rawDensity: 512,
+  density: "512Mb",
+  deviceWidth: "x16",
+  voltage: "1.8V VDD/VDDQ",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "LPDDR SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Config Code": "51163"
+  },
+  absentExtra: ["Package Code", "DRAM Speed", "Operation Temperature"]
+});
+
+assertDram("K4X51163PC-FGC3", {
+  rawVendor: "samsung",
+  rawDensity: 512,
+  density: "512Mb",
+  deviceWidth: "x16",
+  voltage: "1.8V VDD/VDDQ",
+  package: "60-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "F",
+    "Config Code": "51163",
+    "DRAM Speed": "Mobile DDR-133 CL3",
+    "Operation Temperature": "Extended, low power, i-TCSR, PASR, DS"
+  }
+});
+
+assertDram("K4D263238E-GC33", {
+  rawVendor: "samsung",
+  rawDensity: 128,
+  density: "128Mb",
+  deviceWidth: "x32",
+  voltage: "2.5V VDD/VDDQ",
+  package: "144-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR SGRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "E",
+    "Config Code": "263238",
+    "DRAM Speed": "GDDR speed bin GC33"
+  }
+});
+
+assertDram("K4N56163QF-GC37", {
+  rawVendor: "samsung",
+  rawDensity: 256,
+  density: "256Mb",
+  deviceWidth: "x16",
+  voltage: "1.8V VDD/VDDQ",
+  package: "84-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR2 SGRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "QF",
+    "Config Code": "56163",
+    "DRAM Speed": "GDDR2-533Mbps/pin"
+  }
+});
+
+assertDram("K4J52324QC-BC14", {
+  rawVendor: "samsung",
+  rawDensity: 512,
+  density: "512Mb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD/VDDQ",
+  package: "136-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR3 SGRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "QC",
+    "Config Code": "52324",
+    "DRAM Speed": "GDDR3-1.4Gbps/pin"
+  }
+});
+
+assertDram("K4U52324QE-BC08", {
+  rawVendor: "samsung",
+  rawDensity: 512,
+  density: "512Mb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD/VDDQ",
+  package: "136-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR4 SGRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "QE",
+    "Config Code": "52324",
+    "DRAM Speed": "GDDR4 speed bin BC08"
+  }
+});
+
+assertDram("K4G80325FB-HC25", {
+  rawVendor: "samsung",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x32",
+  voltage: "1.35V/1.5V/1.6V VDD/VDDQ",
+  package: "170-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR5 SGRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "FB",
+    "Config Code": "80325",
+    "DRAM Speed": "GDDR5-8.0Gbps"
+  }
+});
+
+assertDram("K4Z80325BC-HC14", {
+  rawVendor: "samsung",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x32",
+  voltage: "1.35V VDD",
+  package: "180-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR6 SGRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "BC",
+    "Config Code": "80325",
+    "DRAM Speed": "GDDR6-14.0Gbps"
+  }
+});
+
+assertDram("K4VAF325ZC-SC32", {
+  rawVendor: "samsung",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x32",
+  voltage: "1.2V VDD",
+  package: "266-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR7 SGRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "ZC",
+    "Config Code": "AF325",
+    "DRAM Speed": "GDDR7-32.0Gbps"
+  }
+});
+
+assertDram("NT5DS32M16CS-5T", {
+  rawVendor: "nanya",
+  rawDensity: 512,
+  density: "512Mb",
+  deviceWidth: "x16",
+  voltage: "2.5V VDD",
+  package: "66-pin TSOP-II",
+  extra: {
+    "DRAM Type": "DDR SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "CS",
+    "Config Code": "32M16",
+    "DRAM Speed": "DDR-400"
+  }
+});
+
+assertDram("NT5TU32M16FG-ACI", {
+  rawVendor: "nanya",
+  rawDensity: 512,
+  density: "512Mb",
+  deviceWidth: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball BGA",
+  extra: {
+    "DRAM Type": "DDR2 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "FG",
+    "Config Code": "32M16",
+    "DRAM Speed": "DDR2-800",
+    "Operation Temperature": "Industrial (-40C~95C)"
+  }
+});
+
+assertDram("NT5CB128M16JR-DI", {
+  rawVendor: "nanya",
+  rawDensity: 2048,
+  density: "2Gb",
+  deviceWidth: "x16",
+  voltage: "1.5V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "JR",
+    "Config Code": "128M16",
+    "DRAM Speed": "DDR3-1600"
+  }
+});
+
+assertDram("NT5CC128M16JR-DI", {
+  rawVendor: "nanya",
+  rawDensity: 2048,
+  density: "2Gb",
+  deviceWidth: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "JR",
+    "Config Code": "128M16",
+    "DRAM Speed": "DDR3-1600"
+  }
+});
+
+assertDram("NT5AD1024M8C3-HR", {
+  rawVendor: "nanya",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball BGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "C3",
+    "Config Code": "1024M8",
+    "DRAM Speed": "DDR4-2666"
+  }
+});
+
+assertDram("NT5AD1024M8C3", {
+  rawVendor: "nanya",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball BGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "C3",
+    "Config Code": "1024M8"
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature"]
+});
+
+assertDram("NT5FF1024M16A4-Q5", {
+  rawVendor: "nanya",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x16",
+  voltage: "1.1V VDD",
+  package: "106-ball BGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "A4",
+    "Config Code": "1024M16",
+    "DRAM Speed": "DDR5-5600",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("NT6TL128M32BA-G0", {
+  rawVendor: "nanya",
+  rawDensity: 4096,
+  density: "4Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "134-ball BGA",
+  extra: {
+    "DRAM Type": "LPDDR2 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "BA",
+    "Config Code": "128M32",
+    "DRAM Speed": "LPDDR2-1066",
+    "Operation Temperature": "Commercial (-25C~85C)"
+  }
+});
+
+assertDram("NT6CL256M32AM-H0", {
+  rawVendor: "nanya",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "178-ball BGA",
+  extra: {
+    "DRAM Type": "LPDDR3 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "AM",
+    "Config Code": "256M32",
+    "DRAM Speed": "LPDDR3-2133",
+    "Operation Temperature": "Commercial (-30C~105C)"
+  }
+});
+
+assertDram("NT6AP512T32AV-J1", {
+  rawVendor: "nanya",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball BGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "AV",
+    "Config Code": "512T32",
+    "DRAM Speed": "LPDDR4X-4267",
+    "Operation Temperature": "Commercial (-30C~105C)"
+  }
+});
+
+assertDram("NT6BR1024M16A3-K2", {
+  rawVendor: "nanya",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x16",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "315-ball BGA",
+  extra: {
+    "DRAM Type": "LPDDR5 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "A3",
+    "Config Code": "1024M16",
+    "DRAM Speed": "LPDDR5-7500",
+    "Operation Temperature": "Commercial (-30C~105C)"
+  }
+});
+
+assertDram("NT6BR1024M16A3-K1", {
+  rawVendor: "nanya",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x16",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "315-ball BGA",
+  extra: {
+    "DRAM Type": "LPDDR5X SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "A3",
+    "Config Code": "1024M16",
+    "DRAM Speed": "LPDDR5X-8533",
+    "Operation Temperature": "Commercial (-30C~105C)"
+  }
+});
+
+assertDram("EDS1216AATA-75", {
+  rawVendor: "elpida",
+  rawDensity: 128,
+  density: "128Mb",
+  deviceWidth: "x16",
+  voltage: "3.3V VDD",
+  package: "54-pin TSOP-II",
+  extra: {
+    "DRAM Type": "SDR SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "AATA",
+    "Config Code": "1216",
+    "DRAM Speed": "133 MHz speed bin"
+  }
+});
+
+assertDram("EDD2516AKTA-5B", {
+  rawVendor: "elpida",
+  rawDensity: 256,
+  density: "256Mb",
+  deviceWidth: "x16",
+  voltage: "2.5V VDD",
+  package: "66-pin TSOP-II",
+  extra: {
+    "DRAM Type": "DDR SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "AKTA",
+    "Config Code": "2516",
+    "DRAM Speed": "DDR-400"
+  }
+});
+
+assertDram("EDE1116ACBG-8E", {
+  rawVendor: "elpida",
+  rawDensity: 1024,
+  density: "1Gb",
+  deviceWidth: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR2 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "ACBG",
+    "Config Code": "1116",
+    "DRAM Speed": "DDR2-800"
+  }
+});
+
+assertDram("EDJ4208BASE-GN", {
+  rawVendor: "elpida",
+  rawDensity: 4096,
+  density: "4Gb",
+  deviceWidth: "x8",
+  voltage: "1.5V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "BASE",
+    "Config Code": "4208",
+    "DRAM Speed": "DDR3-1600K (11-11-11)"
+  }
+});
+
+assertDram("EDF8164A3MA-GD-F", {
+  rawVendor: "elpida",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x64",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "216-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR3 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "A3MA",
+    "Config Code": "8164",
+    "DRAM Speed": "LPDDR3-1066 validation bin"
+  }
+});
+
+assertDram("EDB8164B3PF-8D", {
+  rawVendor: "elpida",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x64",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "216-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR2 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 2 CS",
+    "Package Code": "B3PF",
+    "Config Code": "8164",
+    "DRAM Speed": "LPDDR2-1066"
+  }
+});
+
+assertDram("EDW2032BBBG-60", {
+  rawVendor: "elpida",
+  rawDensity: 2048,
+  density: "2Gb",
+  deviceWidth: "x32",
+  voltage: "1.35V/1.5V/1.6V VDD/VDDQ",
+  package: "170-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR5 SGRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "BBBG",
+    "Config Code": "2032",
+    "DRAM Speed": "GDDR5-6.0Gbps"
+  }
+});
+
+assertDram("CXDQ3BFAM-CJ", {
+  rawVendor: "cxmt",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "FAM",
+    "Config Code": "3B",
+    "DRAM Speed": "DDR4-3200",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("CXDQ3BFAM", {
+  rawVendor: "cxmt",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "FAM",
+    "Config Code": "3B"
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature"]
+});
+
+assertDram("CXDB5CCAM-MK", {
+  rawVendor: "cxmt",
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "DRAM Die Stack": "QDP (4-die), 2 CS",
+    "Package Code": "CAM",
+    "Config Code": "5C",
+    "DRAM Speed": "LPDDR4X-3733"
+  }
+});
+
+assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC32");
+assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
+assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");
+assertSearchPnIncludes("CXDB5C", "CXMT CXDB5CCAM-MK");
+assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
+assertSearchPnIncludes("MT40A4G4DVN", "Micron MT40A4G4DVN-062H:E");
+assertSearchPnIncludes("FX454", "Micron FX454 MT40A4G4DVN-062H:E");
+assertSearchPnIncludes("C9BJZ", "Micron C9BJZ CT40A1G8SA-62M:E");

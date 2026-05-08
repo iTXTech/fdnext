@@ -517,22 +517,7 @@
           "interface_type": {
             "$var": "interface_type"
           }
-        },
-        "url": {
-          "micron_website": {
-            "$tpl": "https://www.micron.com/support/tools-and-utilities/fbga?matpart={{partNumber}}"
-          }
-        },
-        "urls": [
-          {
-            "url": {
-              "$tpl": "https://www.micron.com/support/tools-and-utilities/fbga?matpart={{partNumber}}"
-            },
-            "desc": "micron_website",
-            "img": "logo",
-            "hint": ""
-          }
-        ]
+        }
       }
     }
   }
