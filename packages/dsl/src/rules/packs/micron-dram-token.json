@@ -392,6 +392,24 @@
             "package_code": "MA"
           }
         },
+        "packageActual": {
+          "40:SA": "78-ball FBGA (7.5x11)",
+          "41:DA": "78-ball FBGA (8x10.5)",
+          "42:LF": "168-ball WFBGA (12x12)",
+          "46:B5": "90-ball VFBGA (8x13)",
+          "46:P": "66-pin TSOP",
+          "47:RT": "84-ball FBGA (9x12.5)",
+          "48:B5": "90-ball VFBGA (8x13)",
+          "48:P": "54-pin TSOP II",
+          "51:HF": "170-ball FBGA (12x14)",
+          "52:PF": "178-ball FBGA (11.5x11)",
+          "53:FW": "200-ball TFBGA (10x14.5)",
+          "58:JA": "190-ball FBGA (10x14)",
+          "60:HB": "82-ball VFBGA (9x11)",
+          "61:JE": "180-ball FBGA (12x14)",
+          "61:KPA": "180-ball FBGA (12x14)",
+          "62:DS": "200-ball WFBGA (10x14.5)"
+        },
         "speedToken": {
           "5": "5",
           "12": "12",
@@ -791,6 +809,18 @@
           "default": {}
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
           "op": "stripIfPrefix",
           "prefix": "-"
         },
@@ -910,6 +940,9 @@
         },
         "voltage": {
           "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
         },
         "extraInfo": {
           "$var": "extra"

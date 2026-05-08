@@ -69,6 +69,7 @@ function assertDram(
     density: string;
     deviceWidth: string;
     voltage: string;
+    package: string;
     extra: Record<string, unknown>;
     absentExtra?: string[];
   }
@@ -80,6 +81,7 @@ function assertDram(
   assert.equal(info.density, expected.density, partNumber);
   assert.equal(info.deviceWidth, expected.deviceWidth, partNumber);
   assert.equal(info.voltage, expected.voltage, partNumber);
+  assert.equal(info.package, expected.package, partNumber);
 
   const extraInfo = extra(info);
   for (const key of Object.keys(extraInfo)) {
@@ -102,6 +104,7 @@ assertDram("MT40A1G8SA-075-E", {
   density: "8Gb",
   deviceWidth: "x8",
   voltage: "1.2V VDD",
+  package: "78-ball FBGA (7.5x11)",
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "Package Code": "SA",
@@ -117,6 +120,7 @@ const ddr5Expected = {
   density: "16Gb",
   deviceWidth: "x8",
   voltage: "1.1V VDD",
+  package: "82-ball VFBGA (9x11)",
   extra: {
     "DRAM Type": "DDR5 SDRAM",
     "Package Code": "HB",
@@ -135,6 +139,7 @@ assertDram("MT53E1G32D2FW-046-AIT-A", {
   density: "32Gb",
   deviceWidth: "x32",
   voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
+  package: "200-ball TFBGA (10x14.5)",
   extra: {
     "DRAM Type": "LPDDR4 SDRAM",
     "DRAM Die Stack": "2-die stack",
@@ -151,6 +156,7 @@ assertDram("MT62F1G32D4DS-031-WT-B", {
   density: "32Gb",
   deviceWidth: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
+  package: "200-ball WFBGA (10x14.5)",
   extra: {
     "DRAM Type": "LPDDR5 SDRAM",
     "DRAM Die Stack": "4-die stack",
@@ -167,6 +173,7 @@ assertDram("MT41K512M8DA-107:P", {
   density: "4Gb",
   deviceWidth: "x8",
   voltage: "1.35V VDD",
+  package: "78-ball FBGA (8x10.5)",
   extra: {
     "DRAM Type": "DDR3 SDRAM",
     "Package Code": "DA",
@@ -182,6 +189,7 @@ assertDram("MT47H128M16RT-25E:C", {
   density: "2Gb",
   deviceWidth: "x16",
   voltage: "1.8V VDD",
+  package: "84-ball FBGA (9x12.5)",
   extra: {
     "DRAM Type": "DDR2 SDRAM",
     "Package Code": "RT",
@@ -197,6 +205,7 @@ assertDram("MT46V32M16P-5B-IT-J", {
   density: "512Mb",
   deviceWidth: "x16",
   voltage: "2.5V VDD",
+  package: "66-pin TSOP",
   extra: {
     "DRAM Type": "DDR SDRAM",
     "Package Code": "P",
@@ -212,6 +221,7 @@ assertDram("MT46H32M32LFB5-5 IT:B", {
   density: "1Gb",
   deviceWidth: "x32",
   voltage: "1.8V VDD",
+  package: "90-ball VFBGA (8x13)",
   extra: {
     "DRAM Type": "LPDDR SDRAM",
     "DRAM Die Stack": "Single die",
@@ -228,6 +238,7 @@ assertDram("MT48LC16M8A2P-6A:L", {
   density: "128Mb",
   deviceWidth: "x8",
   voltage: "3.3V VDD",
+  package: "54-pin TSOP II",
   extra: {
     "DRAM Type": "SDR SDRAM",
     "Package Code": "P",
@@ -243,6 +254,7 @@ assertDram("MT48H16M32LFB5-75:A", {
   density: "512Mb",
   deviceWidth: "x32",
   voltage: "1.8V VDD",
+  package: "90-ball VFBGA (8x13)",
   extra: {
     "DRAM Type": "LPSDR SDRAM",
     "DRAM Die Stack": "Single die",
@@ -259,6 +271,7 @@ assertDram("MT42L128M32D1LF-25 WT:A", {
   density: "4Gb",
   deviceWidth: "x32",
   voltage: "1.2V VDD",
+  package: "168-ball WFBGA (12x12)",
   extra: {
     "DRAM Type": "LPDDR2 SDRAM",
     "DRAM Die Stack": "Single die",
@@ -275,6 +288,7 @@ assertDram("MT52L512M32D2PF-107 WT:B", {
   density: "16Gb",
   deviceWidth: "x32",
   voltage: "1.2V VDD",
+  package: "178-ball FBGA (11.5x11)",
   extra: {
     "DRAM Type": "LPDDR3 SDRAM",
     "DRAM Die Stack": "2-die stack",
@@ -291,6 +305,7 @@ assertDram("MT51J256M32HF-80:A", {
   density: "8Gb",
   deviceWidth: "x32",
   voltage: "1.5V VDD",
+  package: "170-ball FBGA (12x14)",
   extra: {
     "DRAM Type": "GDDR5 SGRAM",
     "Package Code": "HF",
@@ -306,6 +321,7 @@ assertDram("MT58K256M32JA-100:A", {
   density: "8Gb",
   deviceWidth: "x32",
   voltage: "1.35V VDD",
+  package: "190-ball FBGA (10x14)",
   extra: {
     "DRAM Type": "GDDR5X SGRAM",
     "Package Code": "JA",
@@ -321,6 +337,7 @@ assertDram("MT61K256M32JE-14:A", {
   density: "8Gb",
   deviceWidth: "x32",
   voltage: "1.35V VDD",
+  package: "180-ball FBGA (12x14)",
   extra: {
     "DRAM Type": "GDDR6 SGRAM",
     "Package Code": "JE",
@@ -336,6 +353,7 @@ assertDram("MT61K512M32KPA-24-U", {
   density: "16Gb",
   deviceWidth: "x32",
   voltage: "1.35V VDD",
+  package: "180-ball FBGA (12x14)",
   extra: {
     "DRAM Type": "GDDR6X SGRAM",
     "Package Code": "KPA",

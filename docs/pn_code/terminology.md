@@ -55,6 +55,7 @@ standalone DRAM 顶层字段：
 | `density` | 当前 DRAM component 总容量，单位仍为 Mbit |
 | `deviceWidth` | 当前 DRAM component 组织位宽 |
 | `voltage` | 主电源或 VDD/VDDQ 组合 |
+| `package` | 实际封装，只在外部资料可确认 package style / pin 或 ball count 时输出 |
 
 standalone DRAM `extraInfo` 只输出以下补充字段：
 
@@ -66,7 +67,7 @@ standalone DRAM `extraInfo` 只输出以下补充字段：
 | `operation_temperature` | 温度等级或范围 |
 | `die_revision` | die/design revision |
 | `config_code` | 厂商配置 token |
-| `package_code` | 厂商封装 token |
+| `package_code` | 厂商封装 token；不替代顶层 `package` |
 | `prod_status` | ES/MS/QS 等生产状态 |
 
 `dram_type` 规范值优先使用：
@@ -83,6 +84,7 @@ standalone DRAM `extraInfo` 只输出以下补充字段：
 - 不在 `dram_type` 里写厂商名，例如不要输出 `Micron DDR5 SDRAM`。
 - 不同时输出 `product_family` / `product_version` 和 `dram_type` 来描述同一件事。
 - standalone DRAM 不重复输出已经在顶层表达的 `dram_density` / `dram_width`。
+- 不用 `package_code` 代替顶层 `package`；若只能解析出厂商 token，继续只输出 `package_code`，不要推定成实际封装。
 - 不输出 `DDR SDRAM / LPDDR SDRAM`、`GDDR6/GDDR6X SGRAM` 这类组合候选；无法确认时应输出更保守的单一标准值，或等待后续 token 细化。
 
 MCP/eMCP/uMCP 同时有 NAND 和 DRAM 时：
