@@ -3,6 +3,7 @@ import type { FlashInfo } from "../../core/src/index";
 import { createEngine } from "../../core/src/index";
 import dramPnJson from "../../resources/resources/dram-pn.json" with { type: "json" };
 import mdbDramJson from "../../resources/resources/mdb-dram.json" with { type: "json" };
+import micronDramFbgaCodesJson from "../../resources/resources/micron-dram-fbga-codes.json" with { type: "json" };
 import { embeddedResources } from "../../resources/index";
 import { compileRulesToDecoders, defaultDslRules } from "../src/index";
 
@@ -139,9 +140,12 @@ function resourceEntries(raw: unknown): unknown[] {
 
 assert.ok(Array.isArray(dramPnJson), "DRAM PN resource should be a top-level minimal array");
 assert.ok(Array.isArray(mdbDramJson), "Micron DRAM MDB resource should be a top-level minimal array");
+assert.ok(Array.isArray(micronDramFbgaCodesJson), "Micron DRAM FBGA code resource should be a top-level array");
 const dramPn = resourceEntries(dramPnJson);
 const micronDramFbga = resourceEntries(mdbDramJson);
+const micronDramFbgaCodes = micronDramFbgaCodesJson as unknown[];
 const dramPnForbiddenKeys = new Set(["source", "status", "reference", "inference_source", "external_confirmed", "external_table_confirmed"]);
+const micronNandFbgaHeaders = ["NC", "NW", "NY", "NX", "NQ", "NV"];
 const seenDramPn = new Set<string>();
 for (const entry of dramPn) {
   assert.equal(typeof entry, "object", "DRAM PN entry should be an object");
@@ -164,6 +168,19 @@ for (const entry of dramPn) {
 }
 
 const seenMicronDramFbga = new Set<string>();
+const seenMicronDramFbgaCodes = new Set<string>();
+for (const code of micronDramFbgaCodes) {
+  assert.equal(typeof code, "string", "Micron DRAM FBGA code entry should be a string");
+  assert.match(String(code), /^[0-9A-Z]{5}$/, `${String(code)} should be a five-character FBGA code`);
+  assert.equal(
+    micronNandFbgaHeaders.some((header) => String(code).startsWith(header)),
+    false,
+    `${String(code)} should not duplicate Micron NAND MDB crawl segments`
+  );
+  assert.ok(!seenMicronDramFbgaCodes.has(String(code)), `${String(code)} should only appear once`);
+  seenMicronDramFbgaCodes.add(String(code));
+}
+
 for (const entry of micronDramFbga) {
   assert.equal(typeof entry, "object", "Micron DRAM FBGA entry should be an object");
   assert.ok(entry !== null && !Array.isArray(entry), "Micron DRAM FBGA entry should be keyed");

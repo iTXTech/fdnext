@@ -76,14 +76,14 @@ pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 - `--user-agent <ua>`：自定义请求 UA
 - `--no-save-each-hit`：仅在结束时写盘（默认命中即写盘，便于中断续跑）
 
-`crawl-mdb-dram` 用一次性提取的 Micron FBGA code JSON 作为输入，只信 Micron 官方 FBGA decoder API 返回的 PN，并写入独立的 `mdb-dram.json`：
+`crawl-mdb-from-fbga` 用一次性提取的 Micron FBGA code JSON 作为输入，只信 Micron 官方 FBGA decoder API 返回的 PN，并写入统一 `mdb.json`：
 
 ```bash
-pnpm fdbgen:crawl-mdb-dram -- --codes packages/resources/resources/micron-dram-fbga-codes.json --file packages/resources/resources/mdb-dram.json --pretty
+pnpm fdbgen:crawl-mdb-from-fbga -- --codes packages/resources/resources/micron-dram-fbga-codes.json --file packages/resources/resources/mdb.json --pretty
 ```
 
-- `--codes <path>`：预定义 FBGA code JSON，当前为顶层字符串数组
-- `--file <path>`：`mdb-dram.json` 文件路径（必填）
+- `--codes <path>`：预定义 DRAM FBGA code JSON，当前为顶层字符串数组；读取时会跳过 `crawl-mdb` 使用的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`
+- `--file <path>`：`mdb.json` 文件路径（必填）
 - `--delay-ms <n>`：每次请求间隔（毫秒）
 - `--user-agent <ua>`：自定义请求 UA
 - `--no-save-each-hit`：仅在结束时写盘（默认命中即写盘，便于中断续跑）

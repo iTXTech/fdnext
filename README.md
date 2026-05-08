@@ -86,10 +86,10 @@ fdnext-fdbgen build --input <dataset-dir> --output <fdb.json> --version <ver> [o
 pnpm fdbgen:crawl-mdb -- --file packages/resources/resources/mdb.json
 ```
 
-Micron DRAM FBGA code list 是一次性从页面存档提取出的左侧 5 位 code。后续只用 Micron 官方 FBGA decoder API 写入独立的 `mdb-dram.json`：
+Micron DRAM FBGA code list 是一次性从页面存档提取出的左侧 5 位 code。后续只用 Micron 官方 FBGA decoder API 写入统一的 `mdb.json`：
 
 ```bash
-pnpm fdbgen:crawl-mdb-dram -- --codes packages/resources/resources/micron-dram-fbga-codes.json --file packages/resources/resources/mdb-dram.json --pretty
+pnpm fdbgen:crawl-mdb-from-fbga -- --codes packages/resources/resources/micron-dram-fbga-codes.json --file packages/resources/resources/mdb.json --pretty
 ```
 
 ## 基线确认

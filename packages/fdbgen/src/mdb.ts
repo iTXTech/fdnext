@@ -13,6 +13,7 @@ import type {
 
 export const DEFAULT_MICRON_HEADERS = ["NC", "NW", "NY", "NX", "NQ", "NV"] as const;
 export const DEFAULT_SPECTEK_HEADERS = ["PF", "PFA", "PFB", "PFC", "PFD", "PFE", "PFF", "PFG", "PFH"] as const;
+export const DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST = ["D9", "C8", "C9"] as const;
 export const DEFAULT_MICRON_START_FROM: Record<string, number> = {
   NC: 101,
   NW: 101,
@@ -293,12 +294,6 @@ export function saveMdbDram(file: string, data: MdbDramEntry[], pretty = false):
   writeJson(file, data, pretty);
 }
 
-function isDramPartNumber(partNumber: string): boolean {
-  return /^(?:MT|CT)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
-    /^(?:ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
-    /^ED(?:B|D|E|F|J|S|W)/.test(partNumber);
-}
-
 export async function crawlMdbDram(options: CrawlMdbDramOptions): Promise<CrawlMdbDramResult> {
   const file = options.file ? resolve(options.file) : undefined;
   const pretty = options.pretty ?? false;
@@ -306,21 +301,51 @@ export async function crawlMdbDram(options: CrawlMdbDramOptions): Promise<CrawlM
   const logger = options.logger ?? (() => {});
   const delayMs = Number.isFinite(options.delayMs) && options.delayMs ? Math.max(0, options.delayMs) : 0;
   const codes = loadMicronFbgaCodes(options.codesFile);
-  const existing = file ? loadMdbDram(file) : [];
+  const existing = file ? loadMdb(file) : createEmptyMdb();
+  const legacy = file ? loadMdbDram(file) : [];
   const byCode = new Map<string, MdbDramEntry>();
   const order: string[] = [];
 
-  for (const entry of existing) {
-    if (!byCode.has(entry.code)) {
-      order.push(entry.code);
+  for (const [code, partNumber] of Object.entries(existing.micron)) {
+    if (!byCode.has(code)) {
+      order.push(code);
+    }
+    byCode.set(code, { code, pn: partNumber });
+  }
+
+  for (const entry of legacy) {
+    if (byCode.has(entry.code)) {
+      continue;
     }
     byCode.set(entry.code, entry);
+    order.push(entry.code);
+  }
+
+  const emit = (): void => {
+    if (!file) {
+      return;
+    }
+    const merged: MdbPayload = {
+      micron: Object.fromEntries(order.map((code) => [code, byCode.get(code)?.pn]).filter(([, partNumber]) => Boolean(partNumber))) as Record<
+        string,
+        string
+      >,
+      spectek: existing.spectek
+    };
+    saveMdb(file, merged, pretty);
   }
 
   const stats = { ...emptySectionStats(), durationMs: 0 };
   const startAt = Date.now();
+  const allowedPrefixes = new Set(DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST);
 
   for (const code of codes) {
+    const prefix = code.slice(0, 2);
+    if (!allowedPrefixes.has(prefix)) {
+      stats.skips += 1;
+      continue;
+    }
+
     if (byCode.has(code)) {
       stats.skips += 1;
       continue;
@@ -328,19 +353,19 @@ export async function crawlMdbDram(options: CrawlMdbDramOptions): Promise<CrawlM
 
     stats.requests += 1;
     if (stats.requests % 200 === 0) {
-      logger(`[mdb-dram] progress requests=${stats.requests} hit=${stats.hits} miss=${stats.misses} skip=${stats.skips} err=${stats.errors}`);
+      logger(`[mdb-fbga] progress requests=${stats.requests} hit=${stats.hits} miss=${stats.misses} skip=${stats.skips} err=${stats.errors}`);
     }
 
     try {
       const partNumber = await queryMicronByFbgaCode(code, options);
-      if (partNumber && isDramPartNumber(partNumber)) {
+      if (partNumber) {
         const entry = { code, pn: partNumber };
         byCode.set(code, entry);
         order.push(code);
         stats.hits += 1;
-        logger(`[mdb-dram] ${code} => ${partNumber}`);
+        logger(`[mdb-fbga] ${code} => ${partNumber}`);
         if (file && saveEachHit) {
-          saveMdbDram(file, order.map((item) => byCode.get(item)).filter((item): item is MdbDramEntry => !!item), pretty);
+          emit();
         }
       } else {
         stats.misses += 1;
@@ -348,7 +373,7 @@ export async function crawlMdbDram(options: CrawlMdbDramOptions): Promise<CrawlM
     } catch (error: unknown) {
       stats.errors += 1;
       const text = error instanceof Error ? error.message : String(error);
-      logger(`[mdb-dram] ${code} failed: ${text}`);
+      logger(`[mdb-fbga] ${code} failed: ${text}`);
     }
 
     await delay(delayMs);
@@ -356,7 +381,7 @@ export async function crawlMdbDram(options: CrawlMdbDramOptions): Promise<CrawlM
 
   const data = order.map((code) => byCode.get(code)).filter((item): item is MdbDramEntry => !!item);
   if (file) {
-    saveMdbDram(file, data, pretty);
+    emit();
   }
 
   stats.durationMs = Date.now() - startAt;

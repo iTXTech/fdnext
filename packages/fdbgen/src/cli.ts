@@ -27,7 +27,7 @@ function usage(): string {
     "Usage:",
     "  fdnext-fdbgen build --input <dir> --output <file> --version <ver> [options]",
     "  fdnext-fdbgen crawl-mdb --file <mdb.json> [options]",
-    "  fdnext-fdbgen crawl-mdb-dram --codes <fbga-codes.json> --file <mdb-dram.json> [options]",
+    "  fdnext-fdbgen crawl-mdb-from-fbga --codes <fbga-codes.json> --file <mdb.json> [options]",
     "",
     "Build options:",
     "  --input <dir>       Input dataset directory",
@@ -47,9 +47,9 @@ function usage(): string {
     "  --user-agent <ua>   Custom HTTP User-Agent",
     "  --no-save-each-hit  Save only once at the end",
     "",
-    "Micron DRAM MDB options:",
+    "FBGA to MDB options:",
     "  --codes <path>      Predefined FBGA code JSON (top-level string array)",
-    "  --file <path>       mdb-dram.json file path for read/write",
+    "  --file <path>       mdb.json file path for read/write",
     "  --delay-ms <n>      Delay between requests in milliseconds",
     "  --user-agent <ua>   Custom HTTP User-Agent",
     "  --no-save-each-hit  Save only once at the end",
@@ -290,7 +290,7 @@ async function runCrawlMdb(args: string[]): Promise<void> {
   process.stdout.write(`Duration=${result.stats.durationMs}ms\n`);
 }
 
-async function runCrawlMdbDram(args: string[]): Promise<void> {
+async function runCrawlMdbFromFbga(args: string[]): Promise<void> {
   const opts = parseCrawlMdbDramOptions(args);
   if (!opts.codesFile) {
     throw new Error("Missing required --codes");
@@ -312,9 +312,9 @@ async function runCrawlMdbDram(args: string[]): Promise<void> {
     }
   });
 
-  process.stdout.write(`DRAM MDB crawl completed: ${targetFile}\n`);
+  process.stdout.write(`FDB FBGA to MDB crawl completed: ${targetFile}\n`);
   process.stdout.write(
-    `Micron DRAM req=${result.stats.requests} hit=${result.stats.hits} miss=${result.stats.misses} skip=${result.stats.skips} err=${result.stats.errors}\n`
+    `MDB FBGA req=${result.stats.requests} hit=${result.stats.hits} miss=${result.stats.misses} skip=${result.stats.skips} err=${result.stats.errors}\n`
   );
   process.stdout.write(`Duration=${result.stats.durationMs}ms\n`);
 }
@@ -333,8 +333,8 @@ async function main(): Promise<void> {
     await runCrawlMdb(process.argv.slice(3));
     return;
   }
-  if (command === "crawl-mdb-dram") {
-    await runCrawlMdbDram(process.argv.slice(3));
+  if (command === "crawl-mdb-from-fbga") {
+    await runCrawlMdbFromFbga(process.argv.slice(3));
     return;
   }
   throw new Error(`Unknown command: ${command}`);

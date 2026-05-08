@@ -89,6 +89,10 @@ function removeVendorPrefix(value: string, vendor: unknown): string {
   return normalized;
 }
 
+function asRecord(value: unknown): Record<string, unknown> {
+  return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
+}
+
 function isRedundantSystem(value: unknown, info: FlashInfo): boolean {
   const text = normalizeInfoText(value);
   if (text.length === 0) {
@@ -410,6 +414,16 @@ function resourceEntries(raw: unknown): unknown[] {
   return Array.isArray(entries) ? entries : [];
 }
 
+function isDramPartNumber(partNumber: string): boolean {
+  return /^(?:MT|CT)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
+    /^(?:ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
+    /^ED(?:B|D|E|F|J|S|W)/.test(partNumber);
+}
+
+function isFiveDigitFbgaCode(value: string): boolean {
+  return /^[0-9A-Z]{5}$/.test(value);
+}
+
 function buildKnownPartNumbers(raw: unknown): KnownPartNumberEntry[] {
   const rawEntries = resourceEntries(raw);
   const entries: KnownPartNumberEntry[] = [];
@@ -469,6 +483,25 @@ function buildMicronDramFbgaCodes(raw: unknown): Map<string, string[]> {
     }
   }
 
+  if (rawEntries.length === 0) {
+    const rawObject = asRecord(raw);
+    const rawMicron = asRecord(rawObject.micron);
+    for (const [codeRaw, pnRaw] of Object.entries(rawMicron)) {
+      const code = String(codeRaw).trim().toUpperCase().replace(/[^0-9A-Z]/g, "");
+      const pn = normalizePartNumber(String(pnRaw));
+      if (!isFiveDigitFbgaCode(code) || !isDramPartNumber(pn) || seen.has(`${code}\0${pn}`)) {
+        continue;
+      }
+      seen.add(`${code}\0${pn}`);
+      const partNumbers = entries.get(code);
+      if (partNumbers) {
+        partNumbers.push(pn);
+      } else {
+        entries.set(code, [pn]);
+      }
+    }
+  }
+
   return entries;
 }
 
@@ -481,7 +514,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
   const rawMdb = (options.resources?.mdbRaw ?? {}) as Record<string, unknown>;
   const rawManagedNandPn = options.resources?.managedNandPnRaw ?? [];
   const rawDramPn = options.resources?.dramPnRaw ?? [];
-  const rawMicronDramFbga = options.resources?.micronDramFbgaRaw ?? [];
+  const rawMicronDramFbga = options.resources?.micronDramFbgaRaw ?? rawMdb;
   const langRaw = (options.resources?.langRaw ?? {}) as LangPacks;
 
   const fdb = buildFdb(rawFdb);
