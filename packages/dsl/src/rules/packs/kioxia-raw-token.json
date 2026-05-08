@@ -445,21 +445,21 @@
           "die": 1
         },
         "extraInfo": {
-          "multiChip": false,
+          "multi_chip": false,
           "enterprise": {
             "$var": "enterprise"
           },
-          "pageSize": {
+          "page_size": {
             "$var": "pageSize"
           },
-          "blockSize": {
+          "block_size": {
             "$var": "blockSize"
           },
           "plane": {
             "$var": "plane"
           },
-          "leadFree": true,
-          "halogenFree": false
+          "lead_free": true,
+          "halogen_free": false
         }
       }
     }
@@ -909,21 +909,21 @@
           }
         },
         "extraInfo": {
-          "multiChip": true,
+          "multi_chip": true,
           "enterprise": {
             "$var": "enterprise"
           },
-          "pageSize": {
+          "page_size": {
             "$var": "pageSize"
           },
-          "blockSize": {
+          "block_size": {
             "$var": "blockSize"
           },
           "plane": {
             "$var": "plane"
           },
-          "leadFree": true,
-          "halogenFree": false
+          "lead_free": true,
+          "halogen_free": false
         }
       }
     }

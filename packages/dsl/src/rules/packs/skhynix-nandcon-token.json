@@ -29,7 +29,7 @@
         "vendor": "skhynix",
         "type": "nandcon",
         "extraInfo": {
-          "unsupportedReason": "skhynix_unsupported"
+          "unsupported_reason": "skhynix_unsupported"
         }
       }
     }

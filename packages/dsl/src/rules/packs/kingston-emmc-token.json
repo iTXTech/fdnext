@@ -116,25 +116,25 @@
             "package_code": "WT32",
             "nand_technology": "MLC",
             "product_class": "Industrial Temperature",
-            "opTemp": "-40°C ~ +85°C"
+            "operation_temperature": "-40°C ~ +85°C"
           },
           "WV28": {
             "package_code": "WV28",
             "nand_technology": "MLC",
             "product_class": "Industrial Temperature",
-            "opTemp": "-40°C ~ +85°C"
+            "operation_temperature": "-40°C ~ +85°C"
           },
           "WW28": {
             "package_code": "WW28",
             "nand_technology": "3D TLC",
             "product_class": "Industrial Temperature",
-            "opTemp": "-40°C ~ +85°C"
+            "operation_temperature": "-40°C ~ +85°C"
           },
           "IY29": {
             "package_code": "IY29",
             "nand_technology": "3D TLC",
             "product_class": "Industrial Temperature",
-            "opTemp": "-40°C ~ +85°C"
+            "operation_temperature": "-40°C ~ +85°C"
           }
         },
         "package": {
@@ -238,7 +238,7 @@
           "to": "extra",
           "value": {
             "storage_interface": "eMMC 5.1",
-            "interfaceInfo": "HS400",
+            "interface_type": "HS400",
             "config_code": {
               "$var": "configCode"
             }

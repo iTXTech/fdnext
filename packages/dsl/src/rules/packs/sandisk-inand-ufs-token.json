@@ -30,14 +30,14 @@
             "group": "UFS",
             "product_version": "UFS 2.1",
             "storage_interface": "UFS 2.1",
-            "interfaceInfo": "Gear 3 / 2-Lane"
+            "interface_type": "Gear 3 / 2-Lane"
           },
           "DDH6": {
             "product_family": "iNAND AT EU312",
             "group": "UFS",
             "product_version": "UFS 2.1",
             "storage_interface": "UFS 2.1",
-            "interfaceInfo": "UFS 2.1",
+            "interface_type": "UFS 2.1",
             "nand_technology": "3D NAND",
             "generation_info": "3D NAND"
           },
@@ -46,35 +46,35 @@
             "group": "UFS",
             "product_version": "UFS 3.0",
             "storage_interface": "UFS 3.0",
-            "interfaceInfo": "Gear 4 / 2-Lane"
+            "interface_type": "Gear 4 / 2-Lane"
           },
           "FDK4": {
             "product_family": "iNAND MC EU521",
             "group": "UFS",
             "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1",
-            "interfaceInfo": "Gear 4 / 2-Lane"
+            "interface_type": "Gear 4 / 2-Lane"
           },
           "FDO2": {
             "product_family": "iNAND MC EU551",
             "group": "UFS",
             "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1",
-            "interfaceInfo": "Gear 4 / 2-Lane"
+            "interface_type": "Gear 4 / 2-Lane"
           },
           "FDO4": {
             "product_family": "iNAND MC EU551",
             "group": "UFS",
             "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1",
-            "interfaceInfo": "Gear 4 / 2-Lane"
+            "interface_type": "Gear 4 / 2-Lane"
           },
           "FDQ6": {
             "product_family": "iNAND AT EU552",
             "group": "UFS",
             "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1",
-            "interfaceInfo": "WriteBooster",
+            "interface_type": "WriteBooster",
             "nand_technology": "112L 3D NAND",
             "generation_info": "112L 3D NAND"
           },
@@ -83,7 +83,7 @@
             "group": "UFS",
             "product_version": "UFS 4.1",
             "storage_interface": "UFS 4.1",
-            "interfaceInfo": "WriteBooster",
+            "interface_type": "WriteBooster",
             "nand_technology": "BiCS8 218L 3D NAND",
             "generation_info": "BiCS8 218L 3D NAND"
           }
@@ -117,39 +117,39 @@
         "suffixObj": {
           "I1": {
             "product_class": "Industrial Wide Temperature",
-            "opTemp": "-25°C ~ 85°C"
+            "operation_temperature": "-25°C ~ 85°C"
           },
           "I2": {
             "product_class": "Industrial Wide Temperature",
-            "opTemp": "-25°C ~ 85°C"
+            "operation_temperature": "-25°C ~ 85°C"
           },
           "XI1": {
             "product_class": "Industrial Extended Temperature",
-            "opTemp": "-40°C ~ 85°C"
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "XI2": {
             "product_class": "Industrial Extended Temperature",
-            "opTemp": "-40°C ~ 85°C"
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "XA1": {
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ 85°C"
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "XA2": {
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ 85°C"
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "ZA": {
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ 105°C"
+            "operation_temperature": "-40°C ~ 105°C"
           },
           "ZA1": {
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ 105°C"
+            "operation_temperature": "-40°C ~ 105°C"
           },
           "ZA2": {
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ 105°C"
+            "operation_temperature": "-40°C ~ 105°C"
           },
           "DG": {
             "product_class": "Engineering / DG"

@@ -44,45 +44,45 @@
             "product_family": "Automotive eMMC Grade2",
             "product_class": "Automotive AEC-Q100 Grade 2",
             "storage_interface": "eMMC 5.1",
-            "opTemp": "-40°C ~ +105°C"
+            "operation_temperature": "-40°C ~ +105°C"
           },
           "DRM": {
             "product_family": "Industrial eMMC",
             "product_class": "Industrial",
             "storage_interface": "eMMC 5.1",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           },
           "DRW": {
             "product_family": "Industrial Wide-temperature eMMC",
             "product_class": "Industrial Wide Temperature",
             "storage_interface": "eMMC 5.1",
-            "opTemp": "-40°C ~ +85°C"
+            "operation_temperature": "-40°C ~ +85°C"
           },
           "DMW": {
             "product_family": "Automotive eMMC Grade3",
             "product_class": "Automotive AEC-Q100 Grade 3",
             "storage_interface": "eMMC 5.1",
-            "opTemp": "-40°C ~ +85°C"
+            "operation_temperature": "-40°C ~ +85°C"
           },
           "DNN": {
             "product_family": "Commercial eMMC",
             "product_class": "Commercial",
             "storage_interface": "eMMC 5.1",
-            "opTemp": "-25°C ~ +85°C",
+            "operation_temperature": "-25°C ~ +85°C",
             "nand_technology": "3D TLC"
           },
           "KNN": {
             "product_family": "Commercial Subsize eMMC",
             "product_class": "Commercial Subsize",
             "storage_interface": "eMMC 5.1",
-            "opTemp": "-25°C ~ +85°C",
+            "operation_temperature": "-25°C ~ +85°C",
             "nand_technology": "MLC"
           },
           "JNM": {
             "product_family": "Commercial Subsize eMMC",
             "product_class": "Commercial Subsize",
             "storage_interface": "eMMC 5.1",
-            "opTemp": "-25°C ~ +85°C",
+            "operation_temperature": "-25°C ~ +85°C",
             "nand_technology": "TLC"
           }
         },

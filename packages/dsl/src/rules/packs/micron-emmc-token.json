@@ -201,16 +201,16 @@
         },
         "temperatureObj": {
           "WT": {
-            "opTemp": "Standard (-25°C ~ 85°C)"
+            "operation_temperature": "Standard (-25°C ~ 85°C)"
           },
           "IT": {
-            "opTemp": "Industrial (-40°C ~ 85°C)"
+            "operation_temperature": "Industrial (-40°C ~ 85°C)"
           },
           "AIT": {
-            "opTemp": "Industrial (-40°C ~ 85°C + HR certified test flow)"
+            "operation_temperature": "Industrial (-40°C ~ 85°C + HR certified test flow)"
           },
           "AITI": {
-            "opTemp": "Industrial (-40°C ~ 85°C + HR certified test flow)"
+            "operation_temperature": "Industrial (-40°C ~ 85°C + HR certified test flow)"
           }
         },
         "productionStatusObj": {

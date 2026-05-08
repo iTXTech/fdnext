@@ -96,7 +96,7 @@
         "vendor": "sndk",
         "type": "inand",
         "extraInfo": {
-          "unsupportedReason": "sandisk_inand_not_supported"
+          "unsupported_reason": "sandisk_inand_not_supported"
         }
       }
     }

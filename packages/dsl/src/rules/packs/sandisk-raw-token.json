@@ -91,15 +91,15 @@
         },
         "assemblyObj": {
           "M": {
-            "leadFree": true,
+            "lead_free": true,
             "assembly": "Pb-free (100% tin)"
           },
           "P": {
-            "leadFree": true,
+            "lead_free": true,
             "assembly": "Pb-free (SAC 105)"
           },
           "R": {
-            "leadFree": true,
+            "lead_free": true,
             "assembly": "Pb-free (others)"
           }
         },
@@ -190,11 +190,11 @@
         {
           "op": "take",
           "len": 1,
-          "to": "dieCode"
+          "to": "die_code"
         },
         {
           "op": "map",
-          "from": "dieCode",
+          "from": "die_code",
           "table": "die",
           "to": "die",
           "default": -1

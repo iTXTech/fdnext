@@ -39,23 +39,23 @@
         "gradeObj": {
           "A": {
             "product_class": "Commercial / Mobile",
-            "opTemp": "-25°C ~ 85°C"
+            "operation_temperature": "-25°C ~ 85°C"
           },
           "I": {
             "product_class": "Industrial",
-            "opTemp": "-40°C ~ 85°C"
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "N": {
             "product_class": "Commercial / Mobile",
-            "opTemp": "-25°C ~ 85°C"
+            "operation_temperature": "-25°C ~ 85°C"
           },
           "X": {
             "product_class": "Automotive Grade 2/3",
-            "opTemp": "-40°C ~ 105°C"
+            "operation_temperature": "-40°C ~ 105°C"
           },
           "Q": {
             "product_class": "Automotive Grade 2",
-            "opTemp": "-40°C ~ 105°C"
+            "operation_temperature": "-40°C ~ 105°C"
           }
         }
       },
@@ -107,7 +107,7 @@
             "system": "SK hynix e-NAND",
             "group": "eMMC",
             "product_version": "eMMC 5.1",
-            "interfaceInfo": "HS400+CMD Q"
+            "interface_type": "HS400+CMD Q"
           }
         },
         {

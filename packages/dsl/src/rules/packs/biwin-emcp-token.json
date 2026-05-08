@@ -54,7 +54,7 @@
             "dram_density": "16Gb",
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           },
           "KZC:32G": {
             "product_family": "eMCP4X",
@@ -63,7 +63,7 @@
             "dram_density": "32Gb",
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           },
           "KZC:64G": {
             "product_family": "eMCP4X",
@@ -72,7 +72,7 @@
             "dram_density": "32Gb",
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           },
           "KZA:128G": {
             "product_family": "eMCP4X",
@@ -80,7 +80,7 @@
             "storage_density": "128GB eMMC",
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           }
         }
       },
@@ -206,7 +206,7 @@
             "dram_density": "32Gb",
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           },
           "LEI02:128G": {
             "product_family": "uMCP LPDDR4X",
@@ -215,7 +215,7 @@
             "dram_density": "48Gb",
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           },
           "MZC02:128G": {
             "product_family": "uMCP LPDDR4X",
@@ -224,7 +224,7 @@
             "dram_density": "64Gb",
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           },
           "MZC02:256G": {
             "product_family": "uMCP LPDDR4X",
@@ -233,7 +233,7 @@
             "dram_density": "64Gb",
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           },
           "MZCNY:512G": {
             "product_family": "uMCP LPDDR4X",
@@ -242,7 +242,7 @@
             "dram_density": "64Gb",
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           }
         }
       },

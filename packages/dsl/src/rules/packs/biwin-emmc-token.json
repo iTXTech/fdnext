@@ -143,7 +143,7 @@
             "product_class": "Consumer",
             "storage_interface": "eMMC 5.1",
             "nand_technology": "3D TLC",
-            "interfaceInfo": "HS400",
+            "interface_type": "HS400",
             "config_code": {
               "$var": "configCode"
             }

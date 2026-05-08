@@ -27,7 +27,7 @@
 - `generation_info` 与顶层 `processNode` 可以同源，但 `generation_info` 用于 `extraInfo` 展示，`processNode` 保持引擎字段。
 - 用户可见 `extraInfo` 避免重复顶层字段：`system` / `managed_family` / `group` 这类只重复 vendor/type 的字段不输出。
 - 若 `product_version` 与 `storage_interface` 完全相同，优先只输出 `storage_interface`；`product_family` 只在表达真实系列、等级或 MCP 组合时输出。
-- 输出层会兼容历史别名并合并到 canonical snake_case key。新增规则不要继续使用旧 camelCase key。
+- 输出层不维护历史别名，也不把旧 camelCase key 自动转换为 canonical key。新增规则必须直接使用 canonical snake_case key；旧 key 只应保留在审计测试的禁止列表里。
 
 ## DRAM 预留字段
 

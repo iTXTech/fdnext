@@ -451,7 +451,7 @@
           "op": "map",
           "from": "die_token",
           "table": "die_code",
-          "to": "dieCode",
+          "to": "die_code",
           "default": "Unknown"
         },
         {
@@ -473,7 +473,7 @@
           "op": "map",
           "from": "interface_token",
           "table": "interface_info",
-          "to": "interfaceInfo",
+          "to": "interface_type",
           "default": "Unknown"
         },
         {
@@ -511,11 +511,11 @@
           "enterprise": {
             "$var": "enterprise"
           },
-          "dieCode": {
-            "$var": "dieCode"
+          "die_code": {
+            "$var": "die_code"
           },
-          "interfaceInfo": {
-            "$var": "interfaceInfo"
+          "interface_type": {
+            "$var": "interface_type"
           }
         },
         "url": {

@@ -43,12 +43,12 @@
           "NN": {
             "product_family": "Commercial UFS",
             "product_class": "Commercial",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           },
           "ME": {
             "product_family": "Automotive UFS",
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ +105°C"
+            "operation_temperature": "-40°C ~ +105°C"
           }
         },
         "package": {

@@ -25,7 +25,7 @@
         "vendor": "spectek",
         "type": "nand",
         "extraInfo": {
-          "unsupportedReason": "spectek_old_numbering"
+          "unsupported_reason": "spectek_old_numbering"
         }
       }
     }

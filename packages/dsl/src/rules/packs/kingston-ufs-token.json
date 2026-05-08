@@ -64,7 +64,7 @@
             "speed_grade": "G4 4P",
             "nand_technology": "TLC",
             "package_code": "153B",
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           }
         }
       },

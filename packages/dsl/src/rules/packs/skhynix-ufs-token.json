@@ -57,7 +57,7 @@
         "temperatureObj": {
           "K": {
             "product_class": "Mobile",
-            "opTemp": "-25°C ~ 85°C"
+            "operation_temperature": "-25°C ~ 85°C"
           }
         },
         "featureObj": {

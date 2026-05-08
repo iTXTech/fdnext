@@ -25,7 +25,7 @@
         "vendor": "sndk",
         "type": "issd",
         "extraInfo": {
-          "unsupportedReason": "sandisk_issd_not_supported"
+          "unsupported_reason": "sandisk_issd_not_supported"
         }
       }
     }

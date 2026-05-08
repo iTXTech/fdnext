@@ -364,7 +364,7 @@ function patchSkhynix(info: FlashIdInfo): Partial<FlashIdInfo> | null {
   }
 
   if (isExtRecord(info.ext)) {
-    const spp = info.ext.simultaneously_programmed_pages ?? info.ext.simultaneouslyProgrammedPages;
+    const spp = info.ext.simultaneously_programmed_pages;
     if (typeof spp === "number" && Number.isFinite(spp) && spp > 0) {
       patch.plane = spp;
       changed = true;

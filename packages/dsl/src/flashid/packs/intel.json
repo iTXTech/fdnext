@@ -48,7 +48,7 @@
             "3": 4
           }
         },
-        "ext:pagesPerBlock": {
+        "ext:pages_per_block": {
           "dq": [6, 5, 4],
           "def": {
             "6": "512/1024/1536",
@@ -77,7 +77,7 @@
             "2": 4
           }
         },
-        "ext:blocksPerLun": {
+        "ext:blocks_per_lun": {
           "dq": [4, 3, 2],
           "def": {
             "0": "1024",
@@ -85,7 +85,7 @@
             "2": "2049~4096"
           }
         },
-        "ext:timingModeAsync": {
+        "ext:timing_mode_async": {
           "dq": [7, 6, 5],
           "def": {
             "0": "0 (100ns)",

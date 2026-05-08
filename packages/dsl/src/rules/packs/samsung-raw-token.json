@@ -211,7 +211,7 @@
           "Z": "WELP",
           "X": "BGA108"
         },
-        "leadFree": {
+        "lead_free": {
           "8": true,
           "9": true,
           "B": true,
@@ -229,7 +229,7 @@
           "T": true,
           "Z": true
         },
-        "halogenFree": {
+        "halogen_free": {
           "8": true,
           "9": true,
           "B": true,
@@ -245,14 +245,14 @@
           "8": true,
           "9": true
         },
-        "opTemp": {
+        "operation_temperature": {
           "0": "samsung_none",
           "C": "samsung_temp_c",
           "S": "samsung_temp_s",
           "B": "samsung_temp_b",
           "I": "samsung_temp_i"
         },
-        "badBlock": {
+        "bad_block": {
           "0": "samsung_none",
           "B": "samsung_cbb_b",
           "D": "samsung_cbb_d",
@@ -387,15 +387,15 @@
         {
           "op": "map",
           "from": "packageCode",
-          "table": "leadFree",
-          "to": "leadFree",
+          "table": "lead_free",
+          "to": "lead_free",
           "default": false
         },
         {
           "op": "map",
           "from": "packageCode",
-          "table": "halogenFree",
-          "to": "halogenFree",
+          "table": "halogen_free",
+          "to": "halogen_free",
           "default": false
         },
         {
@@ -413,8 +413,8 @@
         {
           "op": "map",
           "from": "opTempCode",
-          "table": "opTemp",
-          "to": "opTemp",
+          "table": "operation_temperature",
+          "to": "operation_temperature",
           "default": "Unknown"
         },
         {
@@ -425,8 +425,8 @@
         {
           "op": "map",
           "from": "badBlockCode",
-          "table": "badBlock",
-          "to": "badBlock",
+          "table": "bad_block",
+          "to": "bad_block",
           "default": "Unknown"
         }
       ],
@@ -471,20 +471,20 @@
           "toggle": {
             "$var": "toggleVer"
           },
-          "leadFree": {
-            "$var": "leadFree"
+          "lead_free": {
+            "$var": "lead_free"
           },
-          "halogenFree": {
-            "$var": "halogenFree"
+          "halogen_free": {
+            "$var": "halogen_free"
           },
           "cu": {
             "$var": "cu"
           },
-          "opTemp": {
-            "$var": "opTemp"
+          "operation_temperature": {
+            "$var": "operation_temperature"
           },
-          "badBlock": {
-            "$var": "badBlock"
+          "bad_block": {
+            "$var": "bad_block"
           }
         }
       }

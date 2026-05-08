@@ -61,35 +61,35 @@
         },
         "densityGradeObj": {
           "0": {
-            "densityGrade": "spectek_density_grade_zero"
+            "density_grade": "spectek_density_grade_zero"
           },
           "1": {
-            "densityGrade": "94-100%"
+            "density_grade": "94-100%"
           },
           "5": {
-            "densityGrade": "40-60%"
+            "density_grade": "40-60%"
           },
           "6": {
-            "densityGrade": "50-90%"
+            "density_grade": "50-90%"
           },
           "9": {
-            "densityGrade": "90-100%"
+            "density_grade": "90-100%"
           },
           "A": {
-            "densityGrade": "spectek_density_grade_zero"
+            "density_grade": "spectek_density_grade_zero"
           }
         },
         "eccObj": {
           "G": {
-            "eccEnabled": true
+            "ecc_enabled": true
           },
           "P": {
-            "eccEnabled": true
+            "ecc_enabled": true
           }
         },
         "halfObj": {
           "M": {
-            "halfPageAndSize": true
+            "half_page_and_size": true
           }
         },
         "deviceWidth": {
@@ -233,16 +233,16 @@
         },
         "pfptObj": {
           "A": {
-            "packageFunctionalityPartialType": "spectek_pfpt_a"
+            "package_functionality_partial_type": "spectek_pfpt_a"
           },
           "B": {
-            "packageFunctionalityPartialType": "spectek_pfpt_b"
+            "package_functionality_partial_type": "spectek_pfpt_b"
           },
           "C": {
-            "packageFunctionalityPartialType": "spectek_pfpt_c"
+            "package_functionality_partial_type": "spectek_pfpt_c"
           },
           "D": {
-            "packageFunctionalityPartialType": "spectek_pfpt_d"
+            "package_functionality_partial_type": "spectek_pfpt_d"
           }
         },
         "interfaceObj": {
@@ -345,8 +345,8 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "eccEnabled": false,
-            "halfPageAndSize": false
+            "ecc_enabled": false,
+            "half_page_and_size": false
           }
         },
         {

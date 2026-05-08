@@ -30,21 +30,21 @@
             "group": "eMMC",
             "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
-            "interfaceInfo": "HS400"
+            "interface_type": "HS400"
           },
           "BDA4": {
             "product_family": "iNAND MC EM131",
             "group": "eMMC",
             "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
-            "interfaceInfo": "HS400"
+            "interface_type": "HS400"
           },
           "BDA6": {
             "product_family": "iNAND IX EM132",
             "group": "eMMC",
             "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
-            "interfaceInfo": "HS400",
+            "interface_type": "HS400",
             "nand_technology": "BiCS3 64L 3D NAND",
             "generation_info": "BiCS3 64L 3D NAND",
             "component_voltage": "VCC 2.7-3.6V / VCCQ 1.7-1.95V or 2.7-3.6V"
@@ -54,7 +54,7 @@
             "group": "eMMC",
             "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
-            "interfaceInfo": "HS400",
+            "interface_type": "HS400",
             "nand_technology": "2D NAND",
             "generation_info": "2D NAND"
           },
@@ -63,7 +63,7 @@
             "group": "eMMC",
             "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
-            "interfaceInfo": "HS400"
+            "interface_type": "HS400"
           }
         },
         "processNode": {
@@ -87,43 +87,43 @@
         "suffixObj": {
           "H": {
             "product_class": "Connected Home",
-            "opTemp": "-25°C ~ 95°C"
+            "operation_temperature": "-25°C ~ 95°C"
           },
           "I1": {
             "product_class": "Industrial Wide Temperature",
-            "opTemp": "-25°C ~ 85°C"
+            "operation_temperature": "-25°C ~ 85°C"
           },
           "I2": {
             "product_class": "Industrial Wide Temperature",
-            "opTemp": "-25°C ~ 85°C"
+            "operation_temperature": "-25°C ~ 85°C"
           },
           "XI1": {
             "product_class": "Industrial Extended Temperature",
-            "opTemp": "-40°C ~ 85°C"
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "XI2": {
             "product_class": "Industrial Extended Temperature",
-            "opTemp": "-40°C ~ 85°C"
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "XA1": {
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ 85°C"
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "XA3": {
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ 85°C"
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "ZA": {
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ 105°C"
+            "operation_temperature": "-40°C ~ 105°C"
           },
           "ZA1": {
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ 105°C"
+            "operation_temperature": "-40°C ~ 105°C"
           },
           "ZA3": {
             "product_class": "Automotive",
-            "opTemp": "-40°C ~ 105°C"
+            "operation_temperature": "-40°C ~ 105°C"
           },
           "DG": {
             "product_class": "Engineering / DG"

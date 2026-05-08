@@ -215,14 +215,14 @@
         },
         "packageMaterialExtra": {
           "P": {
-            "leadFree": true
+            "lead_free": true
           },
           "R": {
-            "leadFree": true,
-            "halogenFree": true
+            "lead_free": true,
+            "halogen_free": true
           },
           "L": {
-            "leadFree": false
+            "lead_free": false
           },
           "A": {
             "wafer": true
@@ -230,37 +230,37 @@
         },
         "badBlockObj": {
           "B": {
-            "badBlock": "samsung_cbb_b"
+            "bad_block": "samsung_cbb_b"
           },
           "S": {
-            "badBlock": "samsung_cbb_l"
+            "bad_block": "samsung_cbb_l"
           },
           "P": {
-            "badBlock": "samsung_cbb_s"
+            "bad_block": "samsung_cbb_s"
           }
         },
         "opTempObj": {
           "C": {
-            "opTemp": "skhynix_ot_c"
+            "operation_temperature": "skhynix_ot_c"
           },
           "E": {
-            "opTemp": "skhynix_ot_e"
+            "operation_temperature": "skhynix_ot_e"
           },
           "M": {
-            "opTemp": "skhynix_ot_m"
+            "operation_temperature": "skhynix_ot_m"
           },
           "I": {
-            "opTemp": "skhynix_ot_i"
+            "operation_temperature": "skhynix_ot_i"
           }
         },
         "unknownBadBlock": {
           "_": {
-            "badBlock": "Unknown"
+            "bad_block": "Unknown"
           }
         },
         "unknownOpTemp": {
           "_": {
-            "opTemp": "Unknown"
+            "operation_temperature": "Unknown"
           }
         }
       },
@@ -420,7 +420,7 @@
           "table": "badBlockObj",
           "to": "badBlockObj",
           "default": {
-            "badBlock": "Unknown"
+            "bad_block": "Unknown"
           }
         },
         {
@@ -439,7 +439,7 @@
           "table": "opTempObj",
           "to": "opTempObj",
           "default": {
-            "opTemp": "Unknown"
+            "operation_temperature": "Unknown"
           }
         },
         {

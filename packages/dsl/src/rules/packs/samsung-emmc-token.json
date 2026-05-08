@@ -183,16 +183,16 @@
         },
         "temperature": {
           "1": {
-            "opTemp": "-25°C ~ 85°C"
+            "operation_temperature": "-25°C ~ 85°C"
           },
           "2": {
-            "opTemp": "-40°C ~ 85°C"
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "P": {
-            "opTemp": "-40°C ~ 95°C Automotive Grade 3"
+            "operation_temperature": "-40°C ~ 95°C Automotive Grade 3"
           },
           "Q": {
-            "opTemp": "-40°C ~ 105°C Automotive Grade 2"
+            "operation_temperature": "-40°C ~ 105°C Automotive Grade 2"
           }
         },
         "reference": {
@@ -355,7 +355,7 @@
           "value": {
             "system": "moviNAND/MCP",
             "group": "eMMC",
-            "interfaceInfo": "HS400"
+            "interface_type": "HS400"
           }
         },
         {

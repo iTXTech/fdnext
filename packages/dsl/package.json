@@ -10,6 +10,6 @@
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
-    "test": "tsx test/managed-nand.test.ts"
+    "test": "tsx test/managed-nand.test.ts && tsx test/metadata-audit.test.ts"
   }
 }

@@ -53,32 +53,6 @@ const vendorAliases: Record<string, string[]> = {
   ymtc: ["ymtc"]
 };
 
-const extraInfoKeyAliases: Record<string, string> = {
-  badBlock: "bad_block",
-  blockSize: "block_size",
-  blocksPerLun: "blocks_per_lun",
-  component_generation: "generation_info",
-  densityGrade: "density_grade",
-  dieCode: "die_code",
-  eccEnabled: "ecc_enabled",
-  eccLevel: "ecc_level",
-  halogenFree: "halogen_free",
-  halfPageAndSize: "half_page_and_size",
-  interfaceInfo: "interface_type",
-  leadFree: "lead_free",
-  micronPartNumber: "micron_part_number",
-  multiChip: "multi_chip",
-  opTemp: "operation_temperature",
-  packageFunctionalityPartialType: "package_functionality_partial_type",
-  pageSize: "page_size",
-  pagesPerBlock: "pages_per_block",
-  redundantAreaSize: "redundant_area_size",
-  simultaneouslyProgrammedPages: "simultaneously_programmed_pages",
-  spareAreaSizePer512B: "spare_area_size_per_512b",
-  timingModeAsync: "timing_mode_async",
-  unsupportedReason: "unsupported_reason"
-};
-
 function normalizeInfoText(value: unknown): string {
   if (typeof value !== "string") {
     return "";
@@ -111,72 +85,6 @@ function removeVendorPrefix(value: string, vendor: unknown): string {
     }
   }
   return normalized;
-}
-
-function normalizeExtraInfoKey(key: string): string {
-  return extraInfoKeyAliases[key] ?? key;
-}
-
-function stringifyExtraInfoValue(value: unknown): string {
-  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
-    return String(value);
-  }
-  return JSON.stringify(value) ?? String(value);
-}
-
-function mergeExtraInfoValue(existing: unknown, next: unknown): unknown {
-  if (normalizeInfoText(existing) === normalizeInfoText(next)) {
-    return existing;
-  }
-
-  const values: unknown[] = [];
-  const seen = new Set<string>();
-  const append = (value: unknown): void => {
-    const normalized = normalizeInfoText(value) || stringifyExtraInfoValue(value);
-    if (seen.has(normalized)) {
-      return;
-    }
-    seen.add(normalized);
-    values.push(value);
-  };
-
-  append(existing);
-  append(next);
-  return values.map((value) => stringifyExtraInfoValue(value)).join(" / ");
-}
-
-function canonicalizeRecordKeys(record: Record<string, unknown>): void {
-  const canonical: Record<string, unknown> = {};
-  for (const [key, value] of Object.entries(record)) {
-    const canonicalKey = normalizeExtraInfoKey(key);
-    canonical[canonicalKey] =
-      Object.hasOwn(canonical, canonicalKey) ? mergeExtraInfoValue(canonical[canonicalKey], value) : value;
-  }
-
-  for (const key of Object.keys(record)) {
-    delete record[key];
-  }
-  for (const [key, value] of Object.entries(canonical)) {
-    record[key] = value;
-  }
-}
-
-function canonicalizeExtraInfoKeys(info: FlashInfo): void {
-  const extra = info.extraInfo;
-  if (!extra || typeof extra !== "object" || Array.isArray(extra)) {
-    return;
-  }
-
-  canonicalizeRecordKeys(extra);
-}
-
-function canonicalizeFlashIdExtKeys(info: FlashIdInfo): void {
-  const ext = info.ext;
-  if (!ext || typeof ext !== "object" || Array.isArray(ext)) {
-    return;
-  }
-
-  canonicalizeRecordKeys(ext);
 }
 
 function isRedundantSystem(value: unknown, info: FlashInfo): boolean {
@@ -333,7 +241,6 @@ function toPublicFlashInfo(info: FlashInfo, langPacks: LangPacks, fallbackLang: 
     output.generation = String(output.generation);
   }
 
-  canonicalizeExtraInfoKeys(output);
   pruneRedundantExtraInfo(output);
 
   // PHP json_encode(empty associative array) yields [], not {}.
@@ -395,8 +302,6 @@ function toPublicFlashIdInfo(info: FlashIdInfo, langPacks: LangPacks, fallbackLa
       output[key] = UNKNOWN;
     }
   }
-
-  canonicalizeFlashIdExtKeys(output);
 
   // PHP json_encode(empty associative array) yields [], not {}.
   if (output.ext && typeof output.ext === "object" && !Array.isArray(output.ext)) {
@@ -860,7 +765,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
       const data = {
         partNumbers: record.n ?? [],
         pageSize,
-        pagesPerBlock: record.p,
+        pages_per_block: record.p,
         blocks: record.b,
         controllers: record.t ?? []
       };

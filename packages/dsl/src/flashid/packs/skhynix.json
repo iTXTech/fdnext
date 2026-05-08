@@ -42,7 +42,7 @@
             "3": 4
           }
         },
-        "ext:simultaneouslyProgrammedPages": {
+        "ext:simultaneously_programmed_pages": {
           "dq": [5, 4],
           "def": {
             "0": 1,
@@ -87,7 +87,7 @@
             "5": 2048
           }
         },
-        "ext:redundantAreaSize": {
+        "ext:redundant_area_size": {
           "dq": [6, 3, 2],
           "def": {
             "0": "128B",
@@ -110,7 +110,7 @@
             "3": 8
           }
         },
-        "ext:eccLevel": {
+        "ext:ecc_level": {
           "dq": [6, 5, 4],
           "def": {
             "0": "None",
@@ -182,7 +182,7 @@
             "3": 4
           }
         },
-        "ext:simultaneouslyProgrammedPages": {
+        "ext:simultaneously_programmed_pages": {
           "dq": [5, 4],
           "def": {
             "0": 1,
@@ -227,7 +227,7 @@
             "5": 2048
           }
         },
-        "ext:redundantAreaSize": {
+        "ext:redundant_area_size": {
           "dq": [6, 3, 2],
           "def": {
             "0": "128B",
@@ -250,7 +250,7 @@
             "3": 8
           }
         },
-        "ext:eccLevel": {
+        "ext:ecc_level": {
           "dq": [6, 5, 4],
           "def": {
             "0": "None",

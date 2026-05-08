@@ -144,7 +144,7 @@
             "config_code": {
               "$var": "configCode"
             },
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           }
         },
         {
@@ -266,7 +266,7 @@
             "config_code": {
               "$var": "configCode"
             },
-            "opTemp": "-25°C ~ +85°C"
+            "operation_temperature": "-25°C ~ +85°C"
           }
         },
         {

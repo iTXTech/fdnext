@@ -95,10 +95,10 @@
         },
         "temperature": {
           "1": {
-            "opTemp": "-20°C ~ 85°C"
+            "operation_temperature": "-20°C ~ 85°C"
           },
           "3": {
-            "opTemp": "-25°C ~ 85°C"
+            "operation_temperature": "-25°C ~ 85°C"
           }
         }
       },

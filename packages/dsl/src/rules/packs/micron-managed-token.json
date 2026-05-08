@@ -60,77 +60,77 @@
           "AA": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "component_generation": "Second"
+            "generation_info": "Second"
           },
           "AB": {
             "component_width": "x8",
             "component_density": "32Gb",
-            "component_generation": "Third"
+            "generation_info": "Third"
           },
           "AC": {
             "component_width": "x8",
             "component_density": "32Gb",
-            "component_generation": "Fourth"
+            "generation_info": "Fourth"
           },
           "AD": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "component_generation": "Sixth"
+            "generation_info": "Sixth"
           },
           "AE": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "component_generation": "Fifth"
+            "generation_info": "Fifth"
           },
           "AF": {
             "component_width": "x8",
             "component_density": "128Gb",
-            "component_generation": "Fourth"
+            "generation_info": "Fourth"
           },
           "AG": {
             "component_width": "x8",
             "component_density": "128Gb",
-            "component_generation": "Fifth"
+            "generation_info": "Fifth"
           },
           "AH": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "component_generation": "Third"
+            "generation_info": "Third"
           },
           "AJ": {
             "component_width": "x8",
             "component_density": "128Gb",
-            "component_generation": "Sixth"
+            "generation_info": "Sixth"
           },
           "AK": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "component_generation": "Fourth"
+            "generation_info": "Fourth"
           },
           "AL": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "component_generation": "Seventh"
+            "generation_info": "Seventh"
           },
           "AM": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "component_generation": "Eighth"
+            "generation_info": "Eighth"
           },
           "AN": {
             "component_width": "x8",
             "component_density": "128Gb",
-            "component_generation": "Seventh"
+            "generation_info": "Seventh"
           },
           "AO": {
             "component_width": "x8",
             "component_density": "256Gb",
-            "component_generation": "Fourth"
+            "generation_info": "Fourth"
           },
           "AP": {
             "component_width": "x8",
             "component_density": "128Gb",
-            "component_generation": "Eighth"
+            "generation_info": "Eighth"
           }
         },
         "familyType": {
@@ -291,22 +291,22 @@
         },
         "temperatureObj": {
           "CT": {
-            "opTemp": "Commercial (0°C ~ 70°C)"
+            "operation_temperature": "Commercial (0°C ~ 70°C)"
           },
           "WT": {
-            "opTemp": "Standard (-25°C ~ 85°C)"
+            "operation_temperature": "Standard (-25°C ~ 85°C)"
           },
           "IT": {
-            "opTemp": "Extended (-40°C ~ 85°C)"
+            "operation_temperature": "Extended (-40°C ~ 85°C)"
           },
           "AIT": {
-            "opTemp": "Industrial (-40°C ~ 85°C + HR certified test flow)"
+            "operation_temperature": "Industrial (-40°C ~ 85°C + HR certified test flow)"
           },
           "AAT": {
-            "opTemp": "Industrial (-40°C ~ 105°C + HR certified test flow)"
+            "operation_temperature": "Industrial (-40°C ~ 105°C + HR certified test flow)"
           },
           "AITI": {
-            "opTemp": "Industrial (-40°C ~ 85°C + HR certified test flow)"
+            "operation_temperature": "Industrial (-40°C ~ 85°C + HR certified test flow)"
           }
         },
         "productionStatusObj": {

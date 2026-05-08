@@ -21,7 +21,7 @@
     },
     "tokenDecoder": {
       "tables": {
-        "multiChip": {
+        "multi_chip": {
           "TC": false,
           "TH": true
         },
@@ -173,8 +173,8 @@
         {
           "op": "map",
           "from": "prefixCode",
-          "table": "multiChip",
-          "to": "multiChip",
+          "table": "multi_chip",
+          "to": "multi_chip",
           "default": false
         },
         {
@@ -345,7 +345,7 @@
           "to": "extra",
           "value": {
             "system": "E2NAND",
-            "eccEnabled": true,
+            "ecc_enabled": true,
             "pageSize": {
               "$var": "pageSize"
             },
@@ -355,11 +355,11 @@
             "plane": {
               "$var": "plane"
             },
-            "multiChip": {
-              "$var": "multiChip"
+            "multi_chip": {
+              "$var": "multi_chip"
             },
-            "leadFree": true,
-            "halogenFree": false
+            "lead_free": true,
+            "halogen_free": false
           }
         },
         {

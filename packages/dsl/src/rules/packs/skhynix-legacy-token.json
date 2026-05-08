@@ -194,20 +194,20 @@
           "4": "BGA-132"
         },
         "packageMaterialExtra": {
-          "P": { "leadFree": true },
-          "R": { "leadFree": true, "halogenFree": true },
-          "H": { "halogenFree": true }
+          "P": { "lead_free": true },
+          "R": { "lead_free": true, "halogen_free": true },
+          "H": { "halogen_free": true }
         },
         "opTempObj": {
-          "C": { "opTemp": "skhynix_ot_c" },
-          "E": { "opTemp": "skhynix_ot_e" },
-          "M": { "opTemp": "skhynix_ot_m" },
-          "I": { "opTemp": "skhynix_ot_i" }
+          "C": { "operation_temperature": "skhynix_ot_c" },
+          "E": { "operation_temperature": "skhynix_ot_e" },
+          "M": { "operation_temperature": "skhynix_ot_m" },
+          "I": { "operation_temperature": "skhynix_ot_i" }
         },
         "badBlockObj": {
-          "B": { "badBlock": "samsung_cbb_b" },
-          "S": { "badBlock": "samsung_cbb_l" },
-          "P": { "badBlock": "samsung_cbb_s" }
+          "B": { "bad_block": "samsung_cbb_b" },
+          "S": { "bad_block": "samsung_cbb_l" },
+          "P": { "bad_block": "samsung_cbb_s" }
         }
       },
       "steps": [
@@ -236,11 +236,11 @@
         { "op": "mergeIf", "into": "extra", "from": "extraMat", "if": "hasTail1" },
         { "op": "notEmpty", "from": "rest", "to": "hasTail2" },
         { "op": "take", "len": 1, "to": "opTempCode" },
-        { "op": "map", "from": "opTempCode", "table": "opTempObj", "to": "opTempObj", "default": { "opTemp": "Unknown" } },
+        { "op": "map", "from": "opTempCode", "table": "opTempObj", "to": "opTempObj", "default": { "operation_temperature": "Unknown" } },
         { "op": "mergeIf", "into": "extra", "from": "opTempObj", "if": "hasTail2" },
         { "op": "notEmpty", "from": "rest", "to": "hasTail3" },
         { "op": "take", "len": 1, "to": "badBlockCode" },
-        { "op": "map", "from": "badBlockCode", "table": "badBlockObj", "to": "badBlockObj", "default": { "badBlock": "Unknown" } },
+        { "op": "map", "from": "badBlockCode", "table": "badBlockObj", "to": "badBlockObj", "default": { "bad_block": "Unknown" } },
         { "op": "mergeIf", "into": "extra", "from": "badBlockObj", "if": "hasTail3" }
       ],
       "assign": {

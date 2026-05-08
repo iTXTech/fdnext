@@ -29,13 +29,13 @@
         },
         "leadFreeObjByPackage": {
           "TSOP48": {
-            "leadFree": true
+            "lead_free": true
           },
           "BGA": {
-            "leadFree": true
+            "lead_free": true
           },
           "LGA": {
-            "leadFree": true
+            "lead_free": true
           }
         },
         "waferObj": {

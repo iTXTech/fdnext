@@ -49,6 +49,7 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - 新 pack 需要在 `packages/dsl/src/rules/default-rules.ts` 导入并加入 `defaultDslRules`。
 - 顶层 `density` 继续使用项目既有单位 Mbit，例如 8GB = `65536`。
 - `assign.extraInfo` 使用内部 key，例如 `component_density`、`generation_info`、`storage_interface`，不要直接写展示文本。
+- 不维护历史 metadata alias 或运行时兼容转换。新增或清理字段时，直接迁移 DSL 源规则、语言包和 testcase，并把旧 key 加入审计测试的禁止列表。
 
 特别禁止：
 
@@ -132,7 +133,7 @@ pnpm compat:ci
 - 对应 `docs/pn_code/<vendor>_<product>.md`
 - `docs/pn_code/README.md` 的索引或摘要
 - 需要时更新 `docs/pn_code/terminology.md`
+- 如果新增或重命名用户可见字段，更新语言包和审计测试；不要新增 alias 兼容层。
 - 如果引用可信度策略变化，更新 `docs/pn_code/reference_policy.md`
 
 文档中要区分“外部资料确认”和“本地数据推测”。没有外部 reference 的内容不要写成确定事实。
-

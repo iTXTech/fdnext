@@ -215,31 +215,31 @@
         "productClass": {
           "D": {
             "product_class": "Downgrade",
-            "opTemp": "0°C ~ 70°C"
+            "operation_temperature": "0°C ~ 70°C"
           },
           "U": {
             "product_class": "Low Speed",
-            "opTemp": "0°C ~ 70°C"
+            "operation_temperature": "0°C ~ 70°C"
           },
           "M": {
             "product_class": "Client MLC",
-            "opTemp": "0°C ~ 70°C"
+            "operation_temperature": "0°C ~ 70°C"
           },
           "C": {
             "product_class": "Client",
-            "opTemp": "0°C ~ 70°C"
+            "operation_temperature": "0°C ~ 70°C"
           },
           "P": {
             "product_class": "Client",
-            "opTemp": "0°C ~ 70°C"
+            "operation_temperature": "0°C ~ 70°C"
           },
           "E": {
             "product_class": "Enterprise",
-            "opTemp": "0°C ~ 70°C"
+            "operation_temperature": "0°C ~ 70°C"
           },
           "F": {
             "product_class": "Enterprise",
-            "opTemp": "0°C ~ 70°C"
+            "operation_temperature": "0°C ~ 70°C"
           },
           "X": {
             "product_class": "Undefined"
