@@ -35,10 +35,10 @@ DRAM / MCP DRAM 子系统解析使用以下字段，避免和 NAND 字段混用�
 
 | 字段 | 含义 | 示例 |
 | --- | --- | --- |
-| `dram_type` | DRAM 类型 | `LPDDR4X`, `LPDDR5`, `DDR5` |
+| `dram_type` | DRAM 类型 | `LPDDR4X SDRAM`, `LPDDR5X SDRAM`, `DDR5 SDRAM`, `GDDR7 SGRAM` |
 | `dram_density` | DRAM 子系统总容量 | `32Gb`, `12GB` |
 | `dram_die_density` | 单颗 DRAM die 容量 | `16Gb`, `24Gb` |
-| `dram_die_stack` | DRAM die 数量或封装堆叠 | `2-die`, `4-die` |
+| `dram_die_stack` | DRAM die / stack / CS 数量 | `Single die`, `2-die stack`, `DDP (2-die), 1 CS` |
 | `dram_generation` | DRAM 工艺/代际 | `1y-nm LPDDR4X`, `LPDDR5X` |
 | `dram_speed` | DRAM 速率 | `4266 Mbps`, `8533 Mbps` |
 | `dram_width` | DRAM 组织位宽 | `x16`, `x32` |
@@ -75,9 +75,16 @@ standalone DRAM `extraInfo` 只输出以下补充字段：
 | 类别 | 标准值 |
 | --- | --- |
 | SDR / DDR | `SDR SDRAM`, `LPSDR SDRAM`, `DDR SDRAM`, `DDR2 SDRAM`, `DDR3 SDRAM`, `DDR4 SDRAM`, `DDR5 SDRAM` |
-| LPDDR | `LPDDR SDRAM`, `LPDDR2 SDRAM`, `LPDDR3 SDRAM`, `LPDDR4 SDRAM`, `LPDDR5 SDRAM` |
-| Graphics DRAM | `GDDR5 SGRAM`, `GDDR5X SGRAM`, `GDDR6 SGRAM`, `GDDR6X SGRAM` |
+| LPDDR | `LPDDR SDRAM`, `LPDDR2 SDRAM`, `LPDDR3 SDRAM`, `LPDDR4 SDRAM`, `LPDDR4X SDRAM`, `LPDDR5 SDRAM`, `LPDDR5X SDRAM` |
+| Graphics DRAM | `GDDR SGRAM`, `GDDR2 SGRAM`, `GDDR3 SGRAM`, `GDDR4 SGRAM`, `GDDR5 SGRAM`, `GDDR5X SGRAM`, `GDDR6 SGRAM`, `GDDR6X SGRAM`, `GDDR7 SGRAM` |
 | RLDRAM | `RLDRAM`, `RLDRAM 3` |
+
+DRAM 厂商 pack 的覆盖原则：
+
+- standalone DRAM 厂商规则必须按世代矩阵组织，而不是只为少量热门 PN 写局部规则。
+- 新增 DRAM 厂商时，至少要明确 DDR/SDR、LPDDR、Graphics DRAM 三条产品线中哪些有公开 PN 资料；有公开 ordering table 或 part catalog 的世代应优先补入 DSL 和 testcase。
+- 同一厂商内遇到 `LPDDR4`/`LPDDR4X`、`LPDDR5`/`LPDDR5X`、`GDDR6`/`GDDR6X` 等同 family 不同 speed/voltage/package token 的情况，要由后续 token 细化成单一标准值，不输出组合候选。
+- `-` 后面的 speed / temperature / revision 后缀不作为主结构强制条件；缺失时仍应输出 vendor、type、density、width、package code、die stack 等已能确认的信息，只减少 frequency、temperature、revision 等后缀字段。
 
 不符合标准的输出：
 

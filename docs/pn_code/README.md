@@ -8,7 +8,7 @@
 
 | 厂商 | NAND / Controller | eMMC | UFS | eMCP / uMCP | E2NAND | DRAM |
 | --- | --- | --- | --- | --- | --- | --- |
-| SK hynix | [skhynix_nand.md](skhynix_nand.md) | [skhynix_emmc.md](skhynix_emmc.md) | [skhynix_ufs.md](skhynix_ufs.md) | [skhynix_emcp.md](skhynix_emcp.md) | [skhynix_nand.md](skhynix_nand.md) | - |
+| SK hynix | [skhynix_nand.md](skhynix_nand.md) | [skhynix_emmc.md](skhynix_emmc.md) | [skhynix_ufs.md](skhynix_ufs.md) | [skhynix_emcp.md](skhynix_emcp.md) | [skhynix_nand.md](skhynix_nand.md) | [skhynix_dram.md](skhynix_dram.md) |
 | Samsung | - | [samsung_emmc.md](samsung_emmc.md) | [samsung_ufs.md](samsung_ufs.md) | [samsung_emcp.md](samsung_emcp.md) | - | - |
 | SanDisk | - | [sandisk_emmc.md](sandisk_emmc.md) | [sandisk_ufs.md](sandisk_ufs.md) | [sandisk_emcp.md](sandisk_emcp.md) | - | - |
 | KIOXIA | - | [kioxia_emmc.md](kioxia_emmc.md) | [kioxia_ufs.md](kioxia_ufs.md) | [kioxia_emcp.md](kioxia_emcp.md) | [kioxia_e2nand.md](kioxia_e2nand.md) | - |
@@ -20,6 +20,7 @@
 
 ## 跨厂商文档
 
+- [DRAM 世代覆盖约定](dram_coverage.md)
 - [输出术语](terminology.md)
 - [PN 规则可信度策略](reference_policy.md)
 

@@ -43,11 +43,18 @@ const standardDramTypes = new Set([
   "LPDDR2 SDRAM",
   "LPDDR3 SDRAM",
   "LPDDR4 SDRAM",
+  "LPDDR4X SDRAM",
   "LPDDR5 SDRAM",
+  "LPDDR5X SDRAM",
+  "GDDR SGRAM",
+  "GDDR2 SGRAM",
+  "GDDR3 SGRAM",
+  "GDDR4 SGRAM",
   "GDDR5 SGRAM",
   "GDDR5X SGRAM",
   "GDDR6 SGRAM",
   "GDDR6X SGRAM",
+  "GDDR7 SGRAM",
   "RLDRAM",
   "RLDRAM 3"
 ]);
@@ -65,6 +72,7 @@ function extra(info: FlashInfo): Record<string, unknown> {
 function assertDram(
   partNumber: string,
   expected: {
+    rawVendor?: string;
     rawDensity: number;
     density: string;
     deviceWidth: string;
@@ -75,7 +83,7 @@ function assertDram(
   }
 ): void {
   const info = detect(partNumber);
-  assert.equal(info.rawVendor, "micron", partNumber);
+  assert.equal(info.rawVendor, expected.rawVendor ?? "micron", partNumber);
   assert.equal(info.type, "DRAM", partNumber);
   assert.equal(info.rawDensity, expected.rawDensity, partNumber);
   assert.equal(info.density, expected.density, partNumber);
@@ -160,7 +168,7 @@ assertDram("MT53E1G32D2FW-046-AIT-A", {
   voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
   package: "200-ball TFBGA (10x14.5)",
   extra: {
-    "DRAM Type": "LPDDR4 SDRAM",
+    "DRAM Type": "LPDDR4X SDRAM",
     "DRAM Die Stack": "2-die stack",
     "Package Code": "FW",
     "Config Code": "1G32",
@@ -185,6 +193,39 @@ assertDram("MT62F1G32D4DS-031-WT-B", {
     "Operation Temperature": "Wireless (-25°C ~ 85°C)",
     "Die Revision": "Rev B"
   }
+});
+
+assertDram("MT62F1G64D4EK-023 WT:B", {
+  rawDensity: 65536,
+  density: "64Gb",
+  deviceWidth: "x64",
+  voltage: "1.05V VDD / 0.5V VDDQ",
+  package: "441-ball TFBGA",
+  extra: {
+    "DRAM Type": "LPDDR5X SDRAM",
+    "DRAM Die Stack": "4-die stack",
+    "Package Code": "EK",
+    "Config Code": "1G64",
+    "DRAM Speed": "LPDDR5X-8533 (4266 MHz)",
+    "Operation Temperature": "Wireless (-25°C ~ 85°C)",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT62F1G32D4DS", {
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x32",
+  voltage: "1.05V VDD / 0.5V VDDQ",
+  package: "200-ball WFBGA (10x14.5)",
+  extra: {
+    "DRAM Type": "LPDDR5 SDRAM",
+    "DRAM Die Stack": "4-die stack",
+    "Package Code": "DS",
+    "Config Code": "1G32",
+    "Operation Temperature": "Commercial"
+  },
+  absentExtra: ["DRAM Speed", "Die Revision"]
 });
 
 assertDram("MT41K512M8DA-107:P", {
@@ -380,5 +421,354 @@ assertDram("MT61K512M32KPA-24-U", {
     "DRAM Speed": "GDDR6X-24Gbps",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev U"
+  }
+});
+
+assertDram("MT68A512M32DF-32:A", {
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x32",
+  voltage: "1.2V VDD",
+  package: "266-ball FBGA (12x14x1.1)",
+  extra: {
+    "DRAM Type": "GDDR7 SGRAM",
+    "Package Code": "DF",
+    "Config Code": "512M32",
+    "DRAM Speed": "GDDR7-32Gbps",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("H5TQ4G63AFR-TEC", {
+  rawVendor: "skhynix",
+  rawDensity: 4096,
+  density: "4Gb",
+  deviceWidth: "x16",
+  voltage: "1.5V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "Package Code": "F",
+    "Config Code": "4G63",
+    "DRAM Speed": "DDR3-2133 14-14-14",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "AFR"
+  }
+});
+
+assertDram("H5TC4G83CFR-PBA", {
+  rawVendor: "skhynix",
+  rawDensity: 4096,
+  density: "4Gb",
+  deviceWidth: "x8",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "Package Code": "F",
+    "Config Code": "4G83",
+    "DRAM Speed": "DDR3L-1600 11-11-11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "CFR"
+  }
+});
+
+assertDram("H5AN8G8NAFR-UHC", {
+  rawVendor: "skhynix",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "Package Code": "F",
+    "Config Code": "8G8N",
+    "DRAM Speed": "DDR4-2400T 17-17-17",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "AFR"
+  }
+});
+
+assertDram("H5AN8G8NCJR-XNC", {
+  rawVendor: "skhynix",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "Package Code": "J",
+    "Config Code": "8G8N",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "CJR"
+  }
+});
+
+assertDram("H5CG48AGBD-X018", {
+  rawVendor: "skhynix",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x8",
+  voltage: "1.1V VDD",
+  package: "BGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die",
+    "Package Code": "X018",
+    "Config Code": "G48",
+    "DRAM Speed": "DDR5-5600",
+    "Die Revision": "A-die"
+  }
+});
+
+assertDram("H5AN8G8NAFR", {
+  rawVendor: "skhynix",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "Package Code": "F",
+    "Config Code": "8G8N",
+    "Die Revision": "AFR"
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature"]
+});
+
+assertDram("H5GQ2H24AFR-R0C", {
+  rawVendor: "skhynix",
+  rawDensity: 2048,
+  density: "2Gb",
+  deviceWidth: "x32",
+  voltage: "1.35V/1.5V/1.6V VDD/VDDQ",
+  package: "170-ball BGA",
+  extra: {
+    "DRAM Type": "GDDR5 SGRAM",
+    "Package Code": "F",
+    "Config Code": "2H24",
+    "DRAM Speed": "GDDR5-6.0Gbps/pin",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "AFR"
+  }
+});
+
+assertDram("H9HCNNN8KUMLHR-NME", {
+  rawVendor: "skhynix",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "UMLHR",
+    "Config Code": "8K",
+    "DRAM Speed": "LPDDR4-3733",
+    "Operation Temperature": "-25°C ~ 85°C"
+  }
+});
+
+assertDram("H9HCNNNCPUMLXR-NEE", {
+  rawVendor: "skhynix",
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4 SDRAM",
+    "DRAM Die Stack": "QDP (4-die), 2 CS",
+    "Package Code": "UMLXR",
+    "Config Code": "CP",
+    "DRAM Speed": "LPDDR4-4266",
+    "Operation Temperature": "-25°C ~ 85°C"
+  }
+});
+
+assertDram("H9HCNNNCPMMLXR-NEE", {
+  rawVendor: "skhynix",
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "DRAM Die Stack": "QDP (4-die), 2 CS",
+    "Package Code": "MMLXR",
+    "Config Code": "CP",
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-25°C ~ 85°C"
+  }
+});
+
+assertDram("HY57V561620FTP-H", {
+  rawVendor: "skhynix",
+  rawDensity: 256,
+  density: "256Mb",
+  deviceWidth: "x16",
+  voltage: "3.3V VDD",
+  package: "54-pin TSOP-II",
+  extra: {
+    "DRAM Type": "SDR SDRAM",
+    "Package Code": "FTP",
+    "Config Code": "561620",
+    "DRAM Speed": "SDR speed bin H"
+  }
+});
+
+assertDram("HY5DU121622DTP-D43", {
+  rawVendor: "skhynix",
+  rawDensity: 512,
+  density: "512Mb",
+  deviceWidth: "x16",
+  voltage: "2.6V VDD",
+  package: "66-pin TSOP-II",
+  extra: {
+    "DRAM Type": "DDR SDRAM",
+    "Package Code": "DTP",
+    "Config Code": "121622",
+    "DRAM Speed": "DDR-400B (3-3-3)"
+  }
+});
+
+assertDram("HY5PS121621CFP-Y5", {
+  rawVendor: "skhynix",
+  rawDensity: 512,
+  density: "512Mb",
+  deviceWidth: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR2 SDRAM",
+    "Package Code": "CFP",
+    "Config Code": "121621",
+    "DRAM Speed": "DDR2 speed bin Y5"
+  }
+});
+
+assertDram("H9JCNNNCP3MLYR-N6E", {
+  rawVendor: "skhynix",
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "315-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR5 SDRAM",
+    "DRAM Die Stack": "QDP (4-die), 2 CS",
+    "Package Code": "MLYR",
+    "Config Code": "CP3",
+    "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-25°C ~ 85°C"
+  }
+});
+
+assertDram("H9JCNNNBK3MLYR-N6E", {
+  rawVendor: "skhynix",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "315-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR5 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "MLYR",
+    "Config Code": "BK3",
+    "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-25°C ~ 85°C"
+  }
+});
+
+assertDram("H9JCNNNFA5MLYR-N6E", {
+  rawVendor: "skhynix",
+  rawDensity: 65536,
+  density: "64Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "315-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR5 SDRAM",
+    "DRAM Die Stack": "ODP (8-die), 2 CS",
+    "Package Code": "MLYR",
+    "Config Code": "FA5",
+    "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-25°C ~ 85°C"
+  }
+});
+
+assertDram("H58G56CK8BX146", {
+  rawVendor: "skhynix",
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "Unknown",
+  voltage: "0.5V to 1.8V",
+  package: "315-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR5X SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "CK8BX146",
+    "Config Code": "56",
+    "DRAM Speed": "LPDDR5X-8533",
+    "Operation Temperature": "-40°C ~ 90°C"
+  }
+});
+
+assertDram("H58G66CK8BX147", {
+  rawVendor: "skhynix",
+  rawDensity: 65536,
+  density: "64Gb",
+  deviceWidth: "Unknown",
+  voltage: "0.5V to 1.8V",
+  package: "315-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR5X SDRAM",
+    "DRAM Die Stack": "QDP (4-die), 2 CS",
+    "Package Code": "CK8BX147",
+    "Config Code": "66",
+    "DRAM Speed": "LPDDR5X-8533",
+    "Operation Temperature": "-40°C ~ 90°C"
+  }
+});
+
+assertDram("H58G78CK8BX185", {
+  rawVendor: "skhynix",
+  rawDensity: 131072,
+  density: "128Gb",
+  deviceWidth: "Unknown",
+  voltage: "0.5V to 1.8V",
+  package: "315-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR5X SDRAM",
+    "DRAM Die Stack": "2Ch 2CS",
+    "Package Code": "CK8BX185",
+    "Config Code": "78",
+    "DRAM Speed": "LPDDR5X-8533",
+    "Operation Temperature": "-40°C ~ 90°C"
+  }
+});
+
+assertDram("H56C8H24MJR-S2C", {
+  rawVendor: "skhynix",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V / 1.35V / 1.35V",
+  package: "180-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR6 SGRAM",
+    "Package Code": "FBGA-180",
+    "Config Code": "C8H24",
+    "DRAM Speed": "GDDR6 speed bin S2",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "MJR"
   }
 });

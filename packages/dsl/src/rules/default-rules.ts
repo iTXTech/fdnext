@@ -8,6 +8,7 @@ import samsungUfsTokenRules from "./packs/samsung-ufs-token.json" with { type: "
 import samsungEmmcTokenRules from "./packs/samsung-emmc-token.json" with { type: "json" };
 import samsungEmcpTokenRules from "./packs/samsung-emcp-token.json" with { type: "json" };
 import samsungRawTokenRules from "./packs/samsung-raw-token.json" with { type: "json" };
+import skhynixDramTokenRules from "./packs/skhynix-dram-token.json" with { type: "json" };
 import skhynix4dTokenRules from "./packs/skhynix-4d-token.json" with { type: "json" };
 import skhynix3dTokenRules from "./packs/skhynix-3d-token.json" with { type: "json" };
 import skhynixLegacyTokenRules from "./packs/skhynix-legacy-token.json" with { type: "json" };
@@ -57,6 +58,7 @@ export const defaultDslRules = [
   ...samsungEmmcTokenRules,
   ...samsungEmcpTokenRules,
   ...samsungRawTokenRules,
+  ...skhynixDramTokenRules,
   ...skhynix4dTokenRules,
   ...skhynix3dTokenRules,
   ...skhynixLegacyTokenRules,

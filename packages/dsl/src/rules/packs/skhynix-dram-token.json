@@ -1,0 +1,1461 @@
+[
+  {
+    "id": "vendor.skhynix.dram.ddr3_ddr4.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H5(?:TQ|TC|AN)(?:1G|2G|4G|8G)[468][0-9A-Z]{4}(?:-[0-9A-Z]{3,4})?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H5"
+      ],
+      "tables": {
+        "familyObj": {
+          "TQ": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "TC": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "AN": {
+            "dram_type": "DDR4 SDRAM"
+          }
+        },
+        "voltage": {
+          "TQ": "1.5V VDD",
+          "TC": "1.35V VDD",
+          "AN": "1.2V VDD"
+        },
+        "densityToken": {
+          "1G": "1G",
+          "2G": "2G",
+          "4G": "4G",
+          "8G": "8G"
+        },
+        "density": {
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096,
+          "8G": 8192
+        },
+        "deviceWidth": {
+          "4": 4,
+          "8": 8,
+          "6": 16
+        },
+        "packageActual": {
+          "4": "78-ball FBGA",
+          "8": "78-ball FBGA",
+          "6": "96-ball FBGA"
+        },
+        "speedToken": {
+          "G7": "G7",
+          "H9": "H9",
+          "PB": "PB",
+          "RD": "RD",
+          "TE": "TE",
+          "TF": "TF",
+          "UH": "UH",
+          "VK": "VK",
+          "XN": "XN"
+        },
+        "speedObj": {
+          "TQ:G7": {
+            "dram_speed": "DDR3-1066 7-7-7"
+          },
+          "TQ:H9": {
+            "dram_speed": "DDR3-1333 9-9-9"
+          },
+          "TQ:PB": {
+            "dram_speed": "DDR3-1600 11-11-11"
+          },
+          "TQ:RD": {
+            "dram_speed": "DDR3-1866 13-13-13"
+          },
+          "TQ:TE": {
+            "dram_speed": "DDR3-2133 14-14-14"
+          },
+          "TC:H9": {
+            "dram_speed": "DDR3L-1333 9-9-9"
+          },
+          "TC:PB": {
+            "dram_speed": "DDR3L-1600 11-11-11"
+          },
+          "TC:RD": {
+            "dram_speed": "DDR3L-1866 13-13-13"
+          },
+          "AN:PB": {
+            "dram_speed": "DDR4-1600 11-11-11"
+          },
+          "AN:RD": {
+            "dram_speed": "DDR4-1866 13-13-13"
+          },
+          "AN:TF": {
+            "dram_speed": "DDR4-2133 15-15-15"
+          },
+          "AN:UH": {
+            "dram_speed": "DDR4-2400T 17-17-17"
+          },
+          "AN:VK": {
+            "dram_speed": "DDR4-2666V CL19"
+          },
+          "AN:XN": {
+            "dram_speed": "DDR4-3200 CL22"
+          }
+        },
+        "temperatureObj": {
+          "A": {
+            "operation_temperature": "Commercial"
+          },
+          "C": {
+            "operation_temperature": "Commercial"
+          },
+          "I": {
+            "operation_temperature": "Industrial"
+          },
+          "J": {
+            "operation_temperature": "Industrial"
+          },
+          "L": {
+            "operation_temperature": "Commercial low-power IDD6"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeLongest",
+          "table": "densityToken",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "configTail"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "revisionCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{widthCode}}{{configTail}}",
+          "to": "configCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{dieCode}}{{packageCode}}{{revisionCode}}",
+          "to": "dieRevision"
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedToken",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            },
+            "die_revision": {
+              "$var": "dieRevision"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.ddr5.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H5CG4[468][0-9A-Z][0-9A-Z]{2}[A-Z](?:-?X[0-9A-Z]{3})?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H5C"
+      ],
+      "tables": {
+        "densityToken": {
+          "G4": "G4"
+        },
+        "density": {
+          "G4": 16384
+        },
+        "deviceWidth": {
+          "4": 4,
+          "8": 8,
+          "6": 16
+        },
+        "dieObj": {
+          "A": {
+            "die_revision": "A-die"
+          },
+          "M": {
+            "die_revision": "M-die"
+          }
+        },
+        "speedToken": {
+          "GB": "GB"
+        },
+        "speedObj": {
+          "GB": {
+            "dram_speed": "DDR5-5600"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "densityToken",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieCode"
+        },
+        {
+          "op": "map",
+          "from": "dieCode",
+          "table": "dieObj",
+          "to": "dieObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedToken",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "temperatureCode"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packagePrefix"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageOption"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{widthCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{packagePrefix}}{{packageOption}}",
+          "to": "packageCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR5 SDRAM",
+            "dram_die_stack": "Single die",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": "1.1V VDD",
+        "package": "BGA",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.gddr5.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H5GQ(?:1H|2H|4H|8H)24[0-9A-Z]{3}(?:-[0-9A-Z]{3})?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H5GQ"
+      ],
+      "tables": {
+        "densityToken": {
+          "1H": "1H",
+          "2H": "2H",
+          "4H": "4H",
+          "8H": "8H"
+        },
+        "density": {
+          "1H": 1024,
+          "2H": 2048,
+          "4H": 4096,
+          "8H": 8192
+        },
+        "speedToken": {
+          "R0": "R0",
+          "T2": "T2",
+          "T0": "T0"
+        },
+        "speedObj": {
+          "2H:R0": {
+            "dram_speed": "GDDR5-6.0Gbps/pin"
+          },
+          "2H:T2": {
+            "dram_speed": "GDDR5-5.0Gbps/pin"
+          },
+          "2H:T0": {
+            "dram_speed": "GDDR5-4.0Gbps/pin"
+          }
+        },
+        "temperatureObj": {
+          "C": {
+            "operation_temperature": "Commercial"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "densityToken",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "ioConfigCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "revisionCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{ioConfigCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{dieCode}}{{packageCode}}{{revisionCode}}",
+          "to": "dieRevision"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedToken",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{speedCode}}",
+          "to": "densitySpeedKey"
+        },
+        {
+          "op": "map",
+          "from": "densitySpeedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "GDDR5 SGRAM",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            },
+            "die_revision": {
+              "$var": "dieRevision"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": 32,
+        "voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
+        "package": "170-ball BGA",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.lpddr4.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H9HCNNN(?:[48]K|CP)(?:UM|MM)L[HX]R(?:-[0-9A-Z]{3,4})?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H9HCNNN"
+      ],
+      "tables": {
+        "densityToken": {
+          "4K": "4K",
+          "8K": "8K",
+          "CP": "CP"
+        },
+        "density": {
+          "4K": 4096,
+          "8K": 8192,
+          "CP": 32768
+        },
+        "dieStackObj": {
+          "8K": {
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          },
+          "CP": {
+            "dram_die_stack": "QDP (4-die), 2 CS"
+          }
+        },
+        "packageObj": {
+          "UMLHR": {
+            "dram_type": "LPDDR4 SDRAM",
+            "dram_speed": "LPDDR4-3733"
+          },
+          "UMLXR": {
+            "dram_type": "LPDDR4 SDRAM",
+            "dram_speed": "LPDDR4-4266"
+          },
+          "MMLHR": {
+            "dram_type": "LPDDR4X SDRAM",
+            "dram_speed": "LPDDR4X-3733"
+          },
+          "MMLXR": {
+            "dram_type": "LPDDR4X SDRAM",
+            "dram_speed": "LPDDR4X-4266"
+          }
+        },
+        "packageVoltage": {
+          "UMLHR": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+          "UMLXR": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+          "MMLHR": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+          "MMLXR": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ"
+        },
+        "suffixToken": {
+          "NEE": "NEE",
+          "NEI": "NEI",
+          "NME": "NME",
+          "NMI": "NMI",
+          "NMIR": "NMIR",
+          "NMN": "NMN",
+          "NMOR": "NMOR"
+        },
+        "suffixObj": {
+          "NEE": {
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "NEI": {
+            "operation_temperature": "-40°C ~ 95°C"
+          },
+          "NME": {
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "NMI": {
+            "operation_temperature": "-40°C ~ 95°C"
+          },
+          "NMIR": {
+            "operation_temperature": "-40°C ~ 95°C"
+          },
+          "NMOR": {
+            "operation_temperature": "-40°C ~ 95°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "densityToken",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "dieStackObj",
+          "to": "dieStackObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 5,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageVoltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "suffixToken",
+          "to": "suffixCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "suffixCode",
+          "table": "suffixObj",
+          "to": "suffixObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "densityCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieStackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "suffixObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": 32,
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": "200-ball FBGA",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.legacy_sdr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^HY57V561620[A-Z]{2,3}(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "HY57V"
+      ],
+      "tables": {
+        "density": {
+          "561620": 256
+        },
+        "speedObj": {
+          "H": {
+            "dram_speed": "SDR speed bin H"
+          },
+          "6": {
+            "dram_speed": "SDR speed bin 6"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 6,
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageCode"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "speedCode"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "SDR SDRAM",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": 16,
+        "voltage": "3.3V VDD",
+        "package": "54-pin TSOP-II",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.legacy_ddr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^HY5(?:DU|PS)12162[12][A-Z]{3}(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "HY5"
+      ],
+      "tables": {
+        "familyObj": {
+          "DU": {
+            "dram_type": "DDR SDRAM"
+          },
+          "PS": {
+            "dram_type": "DDR2 SDRAM"
+          }
+        },
+        "voltage": {
+          "DU": "2.6V VDD",
+          "PS": "1.8V VDD"
+        },
+        "packageActual": {
+          "DTP": "66-pin TSOP-II",
+          "CFP": "84-ball FBGA"
+        },
+        "speedObj": {
+          "DU:D43": {
+            "dram_speed": "DDR-400B (3-3-3)"
+          },
+          "PS:Y5": {
+            "dram_speed": "DDR2 speed bin Y5"
+          },
+          "PS:C4": {
+            "dram_speed": "DDR2 speed bin C4"
+          }
+        },
+        "speedToken": {
+          "D43": "D43",
+          "Y5": "Y5",
+          "C4": "C4"
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 6,
+          "to": "configCode"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedToken",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "dram",
+        "density": 512,
+        "deviceWidth": 16,
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.lpddr5.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H9JCNNN(?:BK3|CP3|FA5)MLYR(?:-[0-9A-Z]{3})?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H9JCNNN"
+      ],
+      "tables": {
+        "density": {
+          "BK3": 16384,
+          "CP3": 32768,
+          "FA5": 65536
+        },
+        "dieStackObj": {
+          "BK3": {
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          },
+          "CP3": {
+            "dram_die_stack": "QDP (4-die), 2 CS"
+          },
+          "FA5": {
+            "dram_die_stack": "ODP (8-die), 2 CS"
+          }
+        },
+        "speedObj": {
+          "N6E": {
+            "dram_speed": "LPDDR5-6400",
+            "operation_temperature": "-25°C ~ 85°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 3,
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "dieStackObj",
+          "to": "dieStackObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 4,
+          "to": "packageCode"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "speedCode"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR5 SDRAM",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieStackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": 32,
+        "voltage": "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+        "package": "315-ball FBGA",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.lpddr5x.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H58G(?:56|66|76|78)[0-9A-Z]{8}N?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H58G"
+      ],
+      "tables": {
+        "density": {
+          "56": 32768,
+          "66": 65536,
+          "76": 131072,
+          "78": 131072
+        },
+        "packageActual": {
+          "CK8BX146": "315-ball FBGA",
+          "CK8BX147": "315-ball FBGA",
+          "CK8BX185": "315-ball FBGA"
+        },
+        "dieStackObj": {
+          "56:CK8BX146": {
+            "dram_die_stack": "DDP (2-die), 1 CS"
+          },
+          "66:CK8BX147": {
+            "dram_die_stack": "QDP (4-die), 2 CS"
+          },
+          "78:CK8BX185": {
+            "dram_die_stack": "2Ch 2CS"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 8,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "FBGA"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{packageCode}}",
+          "to": "densityPackageKey"
+        },
+        {
+          "op": "map",
+          "from": "densityPackageKey",
+          "table": "dieStackObj",
+          "to": "dieStackObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR5X SDRAM",
+            "config_code": {
+              "$var": "densityCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            },
+            "dram_speed": "LPDDR5X-8533",
+            "operation_temperature": "-40°C ~ 90°C"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieStackObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": -1,
+        "voltage": "0.5V to 1.8V",
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.gddr6.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H56C8H24[0-9A-Z]{3}(?:-[0-9A-Z]{3})?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H56"
+      ],
+      "tables": {
+        "speedObj": {
+          "S2": {
+            "dram_speed": "GDDR6 speed bin S2",
+            "operation_temperature": "Commercial"
+          },
+          "S0": {
+            "dram_speed": "GDDR6 speed bin S0",
+            "operation_temperature": "Commercial"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 5,
+          "to": "configCode"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "dieRevision"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "speedCode"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "temperatureCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "GDDR6 SGRAM",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": "FBGA-180",
+            "die_revision": {
+              "$var": "dieRevision"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "dram",
+        "density": 8192,
+        "deviceWidth": 32,
+        "voltage": "1.8V / 1.35V / 1.35V",
+        "package": "180-ball FBGA",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

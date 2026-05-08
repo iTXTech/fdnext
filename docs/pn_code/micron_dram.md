@@ -15,8 +15,11 @@
   - DDR2 `MT47H128M16RT-25E-IT`: <https://www.micron.com/products/memory/dram-components/ddr2-sdram/part-catalog/part-detail/mt47h128m16rt-25e-it>
   - LPDDR4 `MT53E1G32D2FW-046-AIT-A`: <https://www.micron.com/products/memory/dram-components/lpddr4/part-catalog/part-detail/mt53e1g32d2fw-046-ait-a>
   - LPDDR5 `MT62F1G32D4DS-031-WT-B`: <https://www.micron.com/products/memory/dram-components/lpddr5/part-catalog/part-detail/mt62f1g32d4ds-031-wt-b>
+  - LPDDR5X `MT62F1G64D4EK-023 WT:B`: <https://www.micron.com/products/memory/dram-components/lpddr5x/part-catalog>、分销页交叉确认 `LPDDR5X SDRAM` / `8533 Mbps` / `441-ball TFBGA`: <https://www.absunshine.com/en/parts/MT62F1G64D4EK-023-WT-B-MICRON-5778871>
   - LPDDR3 `MT52L512M32D2PF-107-WT-B`: <https://www.micron.com/products/memory/dram-components/lpddr-components/part-catalog/part-detail/mt52l512m32d2pf-107-wt-b>
   - GDDR6X `MT61K512M32KPA-24-U`: <https://www.micron.com/products/memory/graphics-memory/gddr6x/part-catalog/part-detail/mt61k512m32kpa-24-u>
+  - GDDR7 `MT68A512M32DF-32:A`: Micron GDDR7 product brief 明确 `68 = GDDR7 SGRAM`、`A = 1.2V`、`512M32`、`DF = 266-ball FBGA 12.0mm x 14.0mm x 1.1mm`、`-28/-32 = 28/32Gbps`。
+    <https://www.micron.com/content/dam/micron/global/public/products/product-flyer/gddr7-product-brief.pdf>
 - 公开分销页面和 datasheet 镜像用于交叉确认实际封装输出，例如 DigiKey `MT40A1G8SA-075:E` / `MT41K512M8DA-107:P` / `MT61K256M32JE-14:A` / `MT61K512M32KPA-24:U`、Microchip USA `MT53E1G32D2FW-046 WT:B`、Allelco `MT62F1G32D4DS-031 WT:B`，以及公开的 Micron GDDR5X datasheet 镜像。
   - <https://www.digikey.kr/ko/products/detail/micron-technology-inc/MT40A1G8SA-075-E/7597774>
   - <https://www.digikey.com/en/products/detail/micron-technology-inc/MT41K512M8DA-107-P-TR/23331051>
@@ -34,7 +37,7 @@
 
 - 规则文件：`packages/dsl/src/rules/packs/micron-dram-token.json`
 - 规则 ID：`vendor.micron.dram.component.v1`
-- 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62` 和 Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62`。
+- 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62/68` 和 Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62/68`。
 - 不使用完整 PN 白名单；只按 Micron DRAM part-numbering token 解析字段。
 
 ## PN 结构
@@ -61,11 +64,12 @@
 | `49` | RLDRAM 1/2 | `dram_type=RLDRAM` |
 | `51` | GDDR5 | `dram_type=GDDR5 SGRAM` |
 | `52` | Mobile LPDDR3 | `dram_type=LPDDR3 SDRAM` |
-| `53` | Mobile LPDDR4 | `dram_type=LPDDR4 SDRAM` |
+| `53` | Mobile LPDDR4 / LPDDR4X | 默认 `dram_type=LPDDR4 SDRAM`，`D/E` voltage token 细化为 `LPDDR4X SDRAM` |
 | `58` | GDDR5X | `dram_type=GDDR5X SGRAM` |
 | `60` | DDR5 SDRAM | `dram_type=DDR5 SDRAM` |
 | `61` | GDDR6 / GDDR6X | 默认 `dram_type=GDDR6 SGRAM`，部分 speed bin 细化为 `GDDR6X SGRAM` |
-| `62` | Mobile LPDDR5 | `dram_type=LPDDR5 SDRAM` |
+| `62` | Mobile LPDDR5 / LPDDR5X | 默认 `dram_type=LPDDR5 SDRAM`，`020/020F/023` 等 LPDDR5X speed bin 细化为 `LPDDR5X SDRAM` |
+| `68` | GDDR7 | `dram_type=GDDR7 SGRAM` |
 
 ## 输出约定
 
@@ -75,6 +79,8 @@
 - 顶层 `package` 输出实际封装，例如 `78-ball FBGA (7.5x11)`；仅对 part detail、datasheet 或外部分销页可确认的 `family + package code` 组合输出。
 - standalone DRAM 的 `extraInfo` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
 - `extraInfo` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`dram_speed`、`operation_temperature`、`die_revision`、`config_code`、`package_code`。
+- `device version` 中的 `D1/D2/D4/D6/D8/LF/L2/L4` 需要输出 die stack / CS 相关信息，例如 `D4` 输出 `4-die stack`。
+- `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / die stack，只减少 `dram_speed` / `die_revision` 等后缀信息。
 - `dram_type` 必须使用跨厂商标准名，不带厂商名，不写组合候选。
 - `package_code` 保留 Micron 原始封装 token；不要用它替代顶层 `package`，也不把未确认的 token 硬推成封装尺寸或 ball count。
 - Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4 speed bin ...`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
@@ -102,6 +108,8 @@
 | `61:JE` | `180-ball FBGA (12x14)` |
 | `61:KPA` | `180-ball FBGA (12x14)` |
 | `62:DS` | `200-ball WFBGA (10x14.5)` |
+| `62:EK` | `441-ball TFBGA` |
+| `68:DF` | `266-ball FBGA (12x14x1.1)` |
 
 ## 首批样例
 
