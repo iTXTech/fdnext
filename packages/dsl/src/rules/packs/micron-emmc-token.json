@@ -1,0 +1,356 @@
+[
+  {
+    "id": "vendor.micron.emmc.mtfc.legacy.v1",
+    "priority": 1006,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MTFC(?:12M|[0-9]{1,3}G)[0-9A-Z]{4}(?:-[0-9A-Z]+)?(?:ES|MS|QS)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MTFC"
+      ],
+      "tables": {
+        "density": {
+          "12M": 4096,
+          "1G": 8192,
+          "2G": 16384,
+          "4G": 32768,
+          "8G": 65536,
+          "16G": 131072,
+          "32G": 262144,
+          "64G": 524288
+        },
+        "componentObj": {
+          "A": {
+            "component_density": "2Gb",
+            "component_width": "x8",
+            "component_voltage": "1.8V"
+          },
+          "B": {
+            "component_density": "4Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "C": {
+            "component_density": "8Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "D": {
+            "component_density": "8Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "E": {
+            "component_density": "8Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "F": {
+            "component_density": "4Gb",
+            "component_width": "x8/x16"
+          },
+          "G": {
+            "component_density": "16Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "J": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "K": {
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "L": {
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "M": {
+            "component_density": "16Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "P": {
+            "component_density": "8Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "Q": {
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "R": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          }
+        },
+        "controllerRevision": {
+          "0": {
+            "controller_revision": "No silicon in package"
+          },
+          "A": {
+            "controller_revision": "Rev 1"
+          },
+          "B": {
+            "controller_revision": "Rev 2"
+          },
+          "C": {
+            "controller_revision": "Rev 3"
+          },
+          "D": {
+            "controller_revision": "Rev 4"
+          },
+          "E": {
+            "controller_revision": "Rev 5"
+          },
+          "F": {
+            "controller_revision": "Rev 6"
+          },
+          "G": {
+            "controller_revision": "Rev 7"
+          },
+          "H": {
+            "controller_revision": "Rev 8"
+          },
+          "I": {
+            "controller_revision": "Rev 9"
+          },
+          "J": {
+            "controller_revision": "Rev 10"
+          },
+          "K": {
+            "controller_revision": "Rev 11"
+          },
+          "L": {
+            "controller_revision": "Rev 12"
+          },
+          "M": {
+            "controller_revision": "Rev 13"
+          },
+          "N": {
+            "controller_revision": "Rev 14"
+          },
+          "P": {
+            "controller_revision": "Rev 15"
+          },
+          "Q": {
+            "controller_revision": "Rev 16"
+          },
+          "R": {
+            "controller_revision": "Rev 17"
+          },
+          "S": {
+            "controller_revision": "Rev 18"
+          },
+          "T": {
+            "controller_revision": "Rev 19"
+          },
+          "W": {
+            "controller_revision": "Rev 20"
+          },
+          "X": {
+            "controller_revision": "Rev 21"
+          },
+          "Y": {
+            "controller_revision": "Rev 22"
+          },
+          "Z": {
+            "controller_revision": "Rev 23"
+          }
+        },
+        "package": {
+          "AM": "153-ball VFBGA 11.5x13x1.0",
+          "DE": "153-ball LFBGA 11.5x13x1.4",
+          "DG": "169-ball LFBGA 12x16x1.5",
+          "DH": "169-ball LFBGA 12x18x1.4",
+          "DI": "169-ball TFBGA 12x16x1.2",
+          "DK": "169-ball LFBGA 12x16x1.4",
+          "DL": "169-ball TFBGA 12x18x1.2",
+          "DM": "153-ball TFBGA 11.5x13x1.2",
+          "DN": "169-ball LFBGA 14x18x1.4",
+          "DP": "169-ball LFBGA 14x18x1.7",
+          "DQ": "100-ball LBGA 14x18x1.4",
+          "DV": "169-ball VFBGA 12x16x1.0",
+          "EA": "153-ball WFBGA 11.5x13x0.8",
+          "EC": "169-ball WFBGA 14x18x0.8",
+          "ED": "169-ball VFBGA 14x18x1.0",
+          "EF": "169-ball TFBGA 14.0x18x1.2",
+          "EG": "169-ball WFBGA 12x16x0.8",
+          "EJ": "169-ball LFBGA 14x18x1.3"
+        },
+        "temperatureObj": {
+          "WT": {
+            "opTemp": "Standard (-25°C ~ 85°C)"
+          },
+          "IT": {
+            "opTemp": "Industrial (-40°C ~ 85°C)"
+          },
+          "AIT": {
+            "opTemp": "Industrial (-40°C ~ 85°C + HR certified test flow)"
+          },
+          "AITI": {
+            "opTemp": "Industrial (-40°C ~ 85°C + HR certified test flow)"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Sample"
+          },
+          "MS": {
+            "prod_status": "Mechanical Sample"
+          },
+          "QS": {
+            "prod_status": "Qualification Sample"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "componentCode"
+        },
+        {
+          "op": "map",
+          "from": "componentCode",
+          "table": "componentObj",
+          "to": "componentObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "controllerCode"
+        },
+        {
+          "op": "map",
+          "from": "controllerCode",
+          "table": "controllerRevision",
+          "to": "controllerObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "Micron managed NAND",
+            "group": "eMMC",
+            "product_version": "eMMC",
+            "nand_component": {
+              "$var": "componentCode"
+            },
+            "controller_code": {
+              "$var": "controllerCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "componentObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "controllerObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        }
+      ],
+      "assign": {
+        "vendor": "micron",
+        "type": "emmc",
+        "density": {
+          "$var": "density"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        },
+        "url": {
+          "micron_website": {
+            "$tpl": "https://www.micron.com/support/tools-and-utilities/fbga?matpart={{partNumber}}"
+          }
+        },
+        "urls": [
+          {
+            "url": {
+              "$tpl": "https://www.micron.com/support/tools-and-utilities/fbga?matpart={{partNumber}}"
+            },
+            "desc": "micron_website",
+            "img": "logo",
+            "hint": ""
+          }
+        ]
+      }
+    }
+  }
+]

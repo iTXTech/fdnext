@@ -1,0 +1,33 @@
+[
+  {
+    "id": "vendor.sndk.unsupported.issd",
+    "priority": 999,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "SDIS"
+    },
+    "tokenDecoder": {
+      "steps": [],
+      "assign": {
+        "vendor": "sndk",
+        "type": "issd",
+        "extraInfo": {
+          "unsupportedReason": "sandisk_issd_not_supported"
+        }
+      }
+    }
+  }
+]

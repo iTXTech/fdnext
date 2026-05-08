@@ -1,0 +1,33 @@
+[
+  {
+    "id": "vendor.kioxia.unsupported.controller",
+    "priority": 999,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^(?:TC|TH)(?:GV|GB)"
+    },
+    "tokenDecoder": {
+      "steps": [],
+      "assign": {
+        "vendor": "kioxia",
+        "type": "nandcon",
+        "extraInfo": {
+          "unsupportedReason": "toshiba_unsupported"
+        }
+      }
+    }
+  }
+]

@@ -1,28 +1,72 @@
 import type { DslRule } from "../types";
-import micronTokenRules from "./packs/micron-token.json" with { type: "json" };
-import intelTokenRules from "./packs/intel-token.json" with { type: "json" };
-import samsungTokenRules from "./packs/samsung-token.json" with { type: "json" };
+import micronManagedTokenRules from "./packs/micron-managed-token.json" with { type: "json" };
+import micronEmmcTokenRules from "./packs/micron-emmc-token.json" with { type: "json" };
+import micronRawTokenRules from "./packs/micron-raw-token.json" with { type: "json" };
+import intelRawTokenRules from "./packs/intel-raw-token.json" with { type: "json" };
+import samsungUfsTokenRules from "./packs/samsung-ufs-token.json" with { type: "json" };
+import samsungEmmcTokenRules from "./packs/samsung-emmc-token.json" with { type: "json" };
+import samsungRawTokenRules from "./packs/samsung-raw-token.json" with { type: "json" };
+import skhynix4dTokenRules from "./packs/skhynix-4d-token.json" with { type: "json" };
 import skhynix3dTokenRules from "./packs/skhynix-3d-token.json" with { type: "json" };
 import skhynixLegacyTokenRules from "./packs/skhynix-legacy-token.json" with { type: "json" };
-import skhynixTokenRules from "./packs/skhynix-token.json" with { type: "json" };
-import kioxiaTokenRules from "./packs/kioxia-token.json" with { type: "json" };
-import westerndigitalTokenRules from "./packs/westerndigital-token.json" with { type: "json" };
-import ymtcTokenRules from "./packs/ymtc-token.json" with { type: "json" };
+import skhynixUfsTokenRules from "./packs/skhynix-ufs-token.json" with { type: "json" };
+import skhynixEmmcTokenRules from "./packs/skhynix-emmc-token.json" with { type: "json" };
+import skhynixEmcpTokenRules from "./packs/skhynix-emcp-token.json" with { type: "json" };
+import skhynixUmcpTokenRules from "./packs/skhynix-umcp-token.json" with { type: "json" };
+import skhynixE2nandTokenRules from "./packs/skhynix-e2nand-token.json" with { type: "json" };
+import skhynixNandconTokenRules from "./packs/skhynix-nandcon-token.json" with { type: "json" };
+import skhynixRawTokenRules from "./packs/skhynix-raw-token.json" with { type: "json" };
+import kioxiaEmmcTokenRules from "./packs/kioxia-emmc-token.json" with { type: "json" };
+import kioxiaUfsTokenRules from "./packs/kioxia-ufs-token.json" with { type: "json" };
+import kioxiaNandconTokenRules from "./packs/kioxia-nandcon-token.json" with { type: "json" };
+import kioxiaRawTokenRules from "./packs/kioxia-raw-token.json" with { type: "json" };
+import westerndigitalInandTokenRules from "./packs/westerndigital-inand-token.json" with { type: "json" };
+import westerndigitalIssdTokenRules from "./packs/westerndigital-issd-token.json" with { type: "json" };
+import westerndigitalMarkingTokenRules from "./packs/westerndigital-marking-token.json" with { type: "json" };
+import westerndigitalRawTokenRules from "./packs/westerndigital-raw-token.json" with { type: "json" };
+import ymtcProcessTokenRules from "./packs/ymtc-process-token.json" with { type: "json" };
+import ymtcNandTokenRules from "./packs/ymtc-nand-token.json" with { type: "json" };
+import ymtcUnimosTokenRules from "./packs/ymtc-unimos-token.json" with { type: "json" };
+import ymtcEmmcTokenRules from "./packs/ymtc-emmc-token.json" with { type: "json" };
+import ymtcUfsTokenRules from "./packs/ymtc-ufs-token.json" with { type: "json" };
 import phisonTokenRules from "./packs/phison-token.json" with { type: "json" };
-import spectekTokenRules from "./packs/spectek-token.json" with { type: "json" };
+import spectekUnsupportedTokenRules from "./packs/spectek-unsupported-token.json" with { type: "json" };
+import spectekRawTokenRules from "./packs/spectek-raw-token.json" with { type: "json" };
 import vendorPrefixRules from "./packs/vendor-prefix.json" with { type: "json" };
 
 export const defaultDslRules = [
-  ...micronTokenRules,
-  ...intelTokenRules,
-  ...samsungTokenRules,
+  ...micronManagedTokenRules,
+  ...micronEmmcTokenRules,
+  ...micronRawTokenRules,
+  ...intelRawTokenRules,
+  ...samsungUfsTokenRules,
+  ...samsungEmmcTokenRules,
+  ...samsungRawTokenRules,
+  ...skhynix4dTokenRules,
   ...skhynix3dTokenRules,
   ...skhynixLegacyTokenRules,
-  ...skhynixTokenRules,
-  ...kioxiaTokenRules,
-  ...westerndigitalTokenRules,
-  ...ymtcTokenRules,
+  ...skhynixUfsTokenRules,
+  ...skhynixEmmcTokenRules,
+  ...skhynixEmcpTokenRules,
+  ...skhynixUmcpTokenRules,
+  ...skhynixE2nandTokenRules,
+  ...skhynixNandconTokenRules,
+  ...skhynixRawTokenRules,
+  ...kioxiaEmmcTokenRules,
+  ...kioxiaUfsTokenRules,
+  ...kioxiaNandconTokenRules,
+  ...kioxiaRawTokenRules,
+  ...westerndigitalInandTokenRules,
+  ...westerndigitalIssdTokenRules,
+  ...westerndigitalMarkingTokenRules,
+  ...westerndigitalRawTokenRules,
+  ...ymtcProcessTokenRules,
+  ...ymtcNandTokenRules,
+  ...ymtcUnimosTokenRules,
+  ...ymtcEmmcTokenRules,
+  ...ymtcUfsTokenRules,
   ...phisonTokenRules,
-  ...spectekTokenRules,
+  ...spectekUnsupportedTokenRules,
+  ...spectekRawTokenRules,
   ...vendorPrefixRules
 ] as DslRule[];

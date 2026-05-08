@@ -1,0 +1,116 @@
+[
+  {
+    "id": "vendor.ymtc.process-alias.v1",
+    "priority": 936,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          "."
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^X[0-9]-[0-9A-Z]+$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "processAlias": {
+          "X0-A030": "X0-A030",
+          "X1-9050": "X1-9050",
+          "X2-9060": "X2-9060",
+          "X2-6070": "X2-6070",
+          "X3-9060": "X3-9060",
+          "X3-9070": "X3-9070",
+          "X3-6070": "X3-6070",
+          "X4-9060": "X4-9060",
+          "X4-9070": "X4-9070",
+          "X4-6080": "X4-6080"
+        },
+        "processNode": {
+          "X0-A030": "X0-A030 / DBS",
+          "X1-9050": "X1-9050 / JGS",
+          "X2-9060": "X2-9060 / TAS",
+          "X2-6070": "X2-6070 / HUS",
+          "X3-9060": "X3-9060 / WYS",
+          "X3-9070": "X3-9070 / WDS",
+          "X3-6070": "X3-6070 / EMS",
+          "X4-9060": "X4-9060 / WT",
+          "X4-9070": "X4-9070",
+          "X4-6080": "X4-6080"
+        },
+        "cellLevel": {
+          "X0-A030": 2,
+          "X1-9050": 3,
+          "X2-9060": 3,
+          "X2-6070": 4,
+          "X3-9060": 3,
+          "X3-9070": 3,
+          "X3-6070": 4,
+          "X4-9060": 3,
+          "X4-9070": 3,
+          "X4-6080": 4
+        },
+        "generation": {
+          "X0-A030": 1,
+          "X1-9050": 2,
+          "X2-9060": 3,
+          "X2-6070": 3,
+          "X3-9060": 4,
+          "X3-9070": 4,
+          "X3-6070": 4,
+          "X4-9060": 5,
+          "X4-9070": 5,
+          "X4-6080": 5
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "processAlias",
+          "to": "processKey",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "processNode",
+          "to": "processNode",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "generation",
+          "to": "generation",
+          "default": "Unknown"
+        }
+      ],
+      "assign": {
+        "vendor": "ymtc",
+        "type": "nand",
+        "processNode": {
+          "$var": "processNode"
+        },
+        "cellLevel": {
+          "$var": "cellLevel"
+        },
+        "generation": {
+          "$var": "generation"
+        }
+      }
+    }
+  }
+]

@@ -13,7 +13,7 @@
 
 ## 规则入口
 
-- 规则文件：`packages/dsl/src/rules/packs/skhynix-token.json`
+- 规则文件：`packages/dsl/src/rules/packs/skhynix-emmc-token.json`
 - 规则 ID：`vendor.skhynix.emmc.managed.v1`
 - 优先级：`1005`
 - testcase：`packages/dsl/test/managed-nand.test.ts`

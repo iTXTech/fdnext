@@ -23,7 +23,9 @@
 
 ## 规则入口
 
-- 规则文件：`packages/dsl/src/rules/packs/skhynix-token.json`
+- 规则文件：
+  - `packages/dsl/src/rules/packs/skhynix-emcp-token.json`
+  - `packages/dsl/src/rules/packs/skhynix-umcp-token.json`
 - 规则 ID：
   - `vendor.skhynix.emcp.h9t_h9h.v1`
   - `vendor.skhynix.emcp.h9a.v1`

@@ -1,0 +1,268 @@
+[
+  {
+    "id": "vendor.ymtc.emmc-label.v1",
+    "priority": 929,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^YMEC[456789A](?:A1|A2|B0)[MT][ABCE][12345]A2C[13]$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "YMEC"
+      ],
+      "tables": {
+        "deviceDensity": {
+          "4": 65536,
+          "5": 131072,
+          "6": 262144,
+          "7": 524288,
+          "8": 1048576,
+          "9": 2097152,
+          "A": 4194304
+        },
+        "controller": {
+          "A1": {
+            "controller": "eMMC 5.1 Controller EC000"
+          },
+          "A2": {
+            "controller": "eMMC 5.1 Controller EC110"
+          },
+          "B0": {
+            "controller": "eMMC 5.1 Controller EC230"
+          }
+        },
+        "cellLevel": {
+          "M": 2,
+          "T": 3
+        },
+        "processNode": {
+          "A": "X0-A030 / DBS",
+          "B": "X1-9050 / JGS",
+          "C": "X2-9060 / TAS",
+          "E": "X3-9060 / WYS"
+        },
+        "generation": {
+          "A": 1,
+          "B": 2,
+          "C": 3,
+          "E": 4
+        },
+        "dieStack": {
+          "1": 1,
+          "2": 2,
+          "3": 4,
+          "4": 8,
+          "5": 16
+        },
+        "dieStackInfo": {
+          "1": {
+            "die_stack": "SDP (1-die)"
+          },
+          "2": {
+            "die_stack": "DDP (2-die)"
+          },
+          "3": {
+            "die_stack": "QDP (4-die)"
+          },
+          "4": {
+            "die_stack": "ODP (8-die)"
+          },
+          "5": {
+            "die_stack": "HDP (16-die)"
+          }
+        },
+        "package": {
+          "A2": "BGA-153 11.5x13x1.0"
+        },
+        "productClass": {
+          "C": {
+            "product_class": "Commercial"
+          }
+        },
+        "temperature": {
+          "1": {
+            "opTemp": "-20°C ~ 85°C"
+          },
+          "3": {
+            "opTemp": "-25°C ~ 85°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "deviceDensity",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "controllerCode"
+        },
+        {
+          "op": "map",
+          "from": "controllerCode",
+          "table": "controller",
+          "to": "controllerObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellCode"
+        },
+        {
+          "op": "map",
+          "from": "cellCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "map",
+          "from": "generationCode",
+          "table": "processNode",
+          "to": "processNode",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "generationCode",
+          "table": "generation",
+          "to": "generation",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieStackCode"
+        },
+        {
+          "op": "map",
+          "from": "dieStackCode",
+          "table": "dieStack",
+          "to": "die",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "dieStackCode",
+          "table": "dieStackInfo",
+          "to": "dieStackObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "productClassCode"
+        },
+        {
+          "op": "map",
+          "from": "productClassCode",
+          "table": "productClass",
+          "to": "productClassObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "temperatureCode"
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperature",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "YMTC",
+            "group": "eMMC"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "controllerObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieStackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productClassObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        }
+      ],
+      "assign": {
+        "vendor": "ymtc",
+        "type": "emmc",
+        "density": {
+          "$var": "density"
+        },
+        "cellLevel": {
+          "$var": "cellLevel"
+        },
+        "processNode": {
+          "$var": "processNode"
+        },
+        "generation": {
+          "$var": "generation"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "classification": {
+          "die": {
+            "$var": "die"
+          }
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,267 @@
+[
+  {
+    "id": "vendor.skhynix.umcp.h9q.v1",
+    "priority": 1004,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H9Q[0-9A-Z]{11}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H9Q"
+      ],
+      "tables": {
+        "density": {
+          "T0GE": 1048576
+        },
+        "densityObj": {
+          "T0GE": {
+            "storage_density": "128GB UFS",
+            "dram_density": "6GB LPDDR4X"
+          }
+        },
+        "generationObj": {
+          "C": {
+            "generation_info": "4th generation uMCP"
+          }
+        },
+        "speedObj": {
+          "N": {
+            "speed_grade": "LPDDR4X 4266"
+          }
+        },
+        "interfaceObj": {
+          "6": {
+            "product_version": "UFS 2.2 / LPDDR4X",
+            "storage_interface": "UFS 2.2"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 4,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "map",
+          "from": "generationCode",
+          "table": "generationObj",
+          "to": "generationObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "speedCode"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "interfaceCode"
+        },
+        {
+          "op": "map",
+          "from": "interfaceCode",
+          "table": "interfaceObj",
+          "to": "interfaceObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "reservedCode"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "serialCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix uMCP",
+            "group": "uMCP",
+            "product_mode": "LPDDR4 uMCP",
+            "product_family": "UFS + LPDDR4X",
+            "density_code": {
+              "$var": "densityCode"
+            },
+            "config_code": {
+              "$tpl": "{{generationCode}}{{speedCode}}{{interfaceCode}}{{reservedCode}}{{serialCode}}"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "generationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "interfaceObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "umcp",
+        "density": {
+          "$var": "density"
+        },
+        "voltage": "UFS Vcc: 2.7V~3.6V, LPDDR4X: 1.8V/1.1V/0.6V",
+        "package": "254Ball FBGA",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.umcp.h9hq.v1",
+    "priority": 1004,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H9HQ[0-9A-Z]{12,}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H9HQ"
+      ],
+      "tables": {
+        "density": {
+          "15": 1048576
+        },
+        "densityObj": {
+          "15": {
+            "storage_density": "128GB UFS",
+            "dram_density": "32Gb LPDDR4X",
+            "product_version": "UFS + LPDDR4X"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 8,
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix uMCP",
+            "group": "uMCP",
+            "product_family": "UFS + LPDDR4X",
+            "density_code": {
+              "$var": "densityCode"
+            },
+            "config_code": {
+              "$var": "configCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "umcp",
+        "density": {
+          "$var": "density"
+        },
+        "package": "254Ball FBGA",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

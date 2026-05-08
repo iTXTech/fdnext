@@ -1,0 +1,37 @@
+[
+  {
+    "id": "vendor.skhynix.unsupported.h2j_h2d_h23_h26",
+    "priority": 999,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H2(?:J|D|3|6)"
+    },
+    "set": {
+      "vendor": "skhynix",
+      "type": "nandcon"
+    },
+    "tokenDecoder": {
+      "steps": [],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "nandcon",
+        "extraInfo": {
+          "unsupportedReason": "skhynix_unsupported"
+        }
+      }
+    }
+  }
+]

@@ -164,26 +164,33 @@ SK hynix 资料已拆分为独立文档：
 
 ## 本轮落地
 
-- `packages/dsl/src/rules/packs/westerndigital-token.json`
+- DSL pack 已按厂商 + 芯片 / 产品类型拆分，避免单个 JSON 同时承载 eMMC、UFS、raw NAND、MCP 等不同解析规则。
+- `packages/dsl/src/rules/packs/westerndigital-inand-token.json`
   - `vendor.sndk.inand.managed.v1`
-- `packages/dsl/src/rules/packs/kioxia-token.json`
+- `packages/dsl/src/rules/packs/kioxia-emmc-token.json`
   - `vendor.kioxia.emmc.managed.v1`
+- `packages/dsl/src/rules/packs/kioxia-ufs-token.json`
   - `vendor.kioxia.ufs.managed.v1`
-- `packages/dsl/src/rules/packs/skhynix-token.json`
+- `packages/dsl/src/rules/packs/skhynix-emmc-token.json`
   - `vendor.skhynix.emmc.managed.v1`
+- `packages/dsl/src/rules/packs/skhynix-ufs-token.json`
   - `vendor.skhynix.ufs.hn8.v1`
   - `vendor.skhynix.ufs.h28s.v1`
+- `packages/dsl/src/rules/packs/skhynix-emcp-token.json`
   - `vendor.skhynix.emcp.h9t_h9h.v1`
   - `vendor.skhynix.emcp.h9a.v1`
+- `packages/dsl/src/rules/packs/skhynix-umcp-token.json`
   - `vendor.skhynix.umcp.h9q.v1`
   - `vendor.skhynix.umcp.h9hq.v1`
+- `packages/dsl/src/rules/packs/skhynix-e2nand-token.json`
   - `vendor.skhynix.e2nand.h27.t2.v1`
-- `packages/dsl/src/rules/packs/skhynix-3d-token.json`
+- `packages/dsl/src/rules/packs/skhynix-4d-token.json`
   - `vendor.skhynix.4d.package.h25t.v1`
-- `packages/dsl/src/rules/packs/samsung-token.json`
+- `packages/dsl/src/rules/packs/samsung-ufs-token.json`
   - 扩展 Samsung UFS 4.1 controller/version token
-- `packages/dsl/src/rules/packs/micron-token.json`
+- `packages/dsl/src/rules/packs/micron-managed-token.json`
   - `vendor.micron.managed.mtfc.nextgen.v1`
+- `packages/dsl/src/rules/packs/micron-emmc-token.json`
   - `vendor.micron.emmc.mtfc.legacy.v1`
 - `packages/dsl/test/managed-nand.test.ts`
   - 覆盖 SanDisk / KIOXIA / SK hynix / Micron / Samsung 的 eMMC/UFS positive cases，以及 SK hynix H25T 4D NAND、H27 E2NAND3.0 catalog family、H9 eMCP/uMCP cases

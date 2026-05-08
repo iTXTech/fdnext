@@ -1,0 +1,33 @@
+[
+  {
+    "id": "vendor.spectek.unsupported.old-numbering",
+    "priority": 999,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^(?:FN|FT|FB|FX|CB).{11}$"
+    },
+    "tokenDecoder": {
+      "steps": [],
+      "assign": {
+        "vendor": "spectek",
+        "type": "nand",
+        "extraInfo": {
+          "unsupportedReason": "spectek_old_numbering"
+        }
+      }
+    }
+  }
+]

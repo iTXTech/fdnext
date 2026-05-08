@@ -1,0 +1,314 @@
+[
+  {
+    "id": "vendor.sndk.token.v1",
+    "priority": 910,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "SD"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "SD"
+      ],
+      "tables": {
+        "package": {
+          "T": "TSOP",
+          "Q": "BGA132",
+          "R": "BGA304",
+          "S": "BGA272",
+          "X": "BGA132+MUX",
+          "Y": "BGA170",
+          "Z": "LGA"
+        },
+        "processNode": {
+          "A": "BiCS2",
+          "B": "BiCS3",
+          "C": "BiCS4",
+          "D": "BiCS5",
+          "E": "BiCS6",
+          "L": "56 nm",
+          "M": "43 nm",
+          "N": "32 nm",
+          "P": "24 nm",
+          "Q": "19 nm",
+          "R": "1y nm",
+          "S": "1Znm (15nm)",
+          "O": "A19nm[1y]"
+        },
+        "cellLevel": {
+          "C": 3,
+          "F": 2,
+          "G": 2,
+          "H": 2,
+          "I": 3,
+          "J": 4,
+          "K": 3,
+          "L": 4,
+          "M": 2,
+          "N": 3,
+          "Q": 2
+        },
+        "planeObj": {
+          "G": {
+            "plane": 2
+          },
+          "H": {
+            "plane": 4
+          },
+          "I": {
+            "plane": 2
+          },
+          "J": {
+            "plane": 2
+          },
+          "K": {
+            "plane": 4
+          },
+          "L": {
+            "plane": 4
+          }
+        },
+        "die": {
+          "A": 1,
+          "B": 2,
+          "C": 4,
+          "D": 8,
+          "E": 16,
+          "F": 12
+        },
+        "assemblyObj": {
+          "M": {
+            "leadFree": true,
+            "assembly": "Pb-free (100% tin)"
+          },
+          "P": {
+            "leadFree": true,
+            "assembly": "Pb-free (SAC 105)"
+          },
+          "R": {
+            "leadFree": true,
+            "assembly": "Pb-free (others)"
+          }
+        },
+        "channel": {
+          "A": 1,
+          "B": 2,
+          "C": 4
+        },
+        "segmentObj": {
+          "E": {
+            "segment": "Enterprise Component"
+          },
+          "C": {
+            "segment": "Client Component"
+          },
+          "M": {
+            "segment": "Mobile / Embedded"
+          },
+          "G": {
+            "segment": "Gaming Component"
+          }
+        },
+        "density": {
+          "1024": 1024,
+          "2048": 2048,
+          "4096": 4096,
+          "001G": 8192,
+          "002G": 16384,
+          "004G": 32768,
+          "008G": 65536,
+          "016G": 131072,
+          "032G": 262144,
+          "064G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304,
+          "1T00": 8388608
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "N"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "processCode"
+        },
+        {
+          "op": "map",
+          "from": "processCode",
+          "table": "processNode",
+          "to": "processNode",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellCode"
+        },
+        {
+          "op": "map",
+          "from": "cellCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "cellCode",
+          "table": "planeObj",
+          "to": "planeObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieCode"
+        },
+        {
+          "op": "map",
+          "from": "dieCode",
+          "table": "die",
+          "to": "die",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "assemblyCode"
+        },
+        {
+          "op": "map",
+          "from": "assemblyCode",
+          "table": "assemblyObj",
+          "to": "assemblyObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "tailCode"
+        },
+        {
+          "op": "map",
+          "from": "tailCode",
+          "table": "channel",
+          "to": "channel",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "tailCode",
+          "table": "segmentObj",
+          "to": "tailSegmentObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "planeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "assemblyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "tailSegmentObj"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "suffixSegmentCode"
+        },
+        {
+          "op": "map",
+          "from": "suffixSegmentCode",
+          "table": "segmentObj",
+          "to": "suffixSegmentObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "suffixSegmentObj"
+        }
+      ],
+      "assign": {
+        "vendor": "sndk",
+        "type": "nand",
+        "package": {
+          "$var": "package"
+        },
+        "processNode": {
+          "$var": "processNode"
+        },
+        "cellLevel": {
+          "$var": "cellLevel"
+        },
+        "density": {
+          "$var": "density"
+        },
+        "classification": {
+          "ch": {
+            "$var": "channel"
+          },
+          "die": {
+            "$var": "die"
+          }
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

@@ -1,0 +1,268 @@
+[
+  {
+    "id": "vendor.skhynix.ufs.hn8.v1",
+    "priority": 1007,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^HN8[0-9A-Z]{11,12}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "HN8"
+      ],
+      "tables": {
+        "density": {
+          "G96": 524288,
+          "T05": 1048576,
+          "T06": 1048576,
+          "T15": 2097152,
+          "T16": 2097152,
+          "T25": 4194304,
+          "T35": 8388608
+        },
+        "seriesObj": {
+          "2E": {
+            "product_family": "SK hynix UFS 3.1",
+            "product_version": "UFS 3.1",
+            "generation_info": "176-layer 4D NAND (V7)"
+          },
+          "DE": {
+            "product_family": "SK hynix UFS 3.1",
+            "product_version": "UFS 3.1",
+            "generation_info": "176-layer 4D NAND (V7)"
+          },
+          "DZ": {
+            "product_family": "SK hynix UFS 3.1",
+            "product_version": "UFS 3.1",
+            "generation_info": "176-layer 4D NAND (V7)"
+          }
+        },
+        "package": {
+          "H": "153FBGA"
+        },
+        "temperatureObj": {
+          "K": {
+            "product_class": "Mobile",
+            "opTemp": "-25°C ~ 85°C"
+          }
+        },
+        "featureObj": {
+          "X": {
+            "feature_code": "Reserved"
+          }
+        },
+        "suffixObj": {
+          "N": {
+            "prod_status": "Mass Production"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "seriesCode"
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "seriesObj",
+          "to": "seriesObj",
+          "default": {
+            "product_version": "UFS"
+          }
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "temperatureCode"
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "featureCode"
+        },
+        {
+          "op": "map",
+          "from": "featureCode",
+          "table": "featureObj",
+          "to": "featureObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "productSerial"
+        },
+        {
+          "op": "takeLongest",
+          "table": "suffixObj",
+          "to": "suffixObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix UFS",
+            "group": "UFS",
+            "series_code": {
+              "$var": "seriesCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "seriesObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "featureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "suffixObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "ufs",
+        "density": {
+          "$var": "density"
+        },
+        "voltage": "Vcc: 2.5V, VccQ: 1.2V",
+        "package": {
+          "$var": "package"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.ufs.h28s.v1",
+    "priority": 1006,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H28S[0-9A-Z]{8}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H28S"
+      ],
+      "tables": {
+        "density": {
+          "6": 262144,
+          "7": 524288,
+          "8": 1048576,
+          "9": 2097152,
+          "A": 4194304
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 7,
+          "to": "productSerial"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix UFS",
+            "group": "UFS",
+            "product_version": "UFS 2.1"
+          }
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "ufs",
+        "density": {
+          "$var": "density"
+        },
+        "package": "FBGA",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

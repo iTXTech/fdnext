@@ -1,0 +1,185 @@
+[
+  {
+    "id": "vendor.sndk.shortcode.v1",
+    "priority": 980,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^[0-9]{5}-[0-9A-Z]{4}$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "density": {
+          "1024": 1024,
+          "2048": 2048,
+          "4096": 4096,
+          "001G": 8192,
+          "002G": 16384,
+          "004G": 32768,
+          "008G": 65536,
+          "016G": 131072,
+          "032G": 262144,
+          "064G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304,
+          "1T00": 8388608
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 5,
+          "to": "skip"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        }
+      ],
+      "assign": {
+        "vendor": "sndk",
+        "density": {
+          "$var": "density"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.sndk.marking.12digit.v1",
+    "priority": 920,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^[0-9]{4}[0-9A-Z][HKRPQVXEFCJGU][0-9A-Z]{6}$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "processNode": {
+          "H": "19nm",
+          "K": "19nm",
+          "R": "15nm",
+          "P": "15nm",
+          "Q": "15nm",
+          "V": "BiCS3",
+          "X": "BiCS4",
+          "E": "BiCS4",
+          "F": "BiCS4.5",
+          "C": "BiCS5",
+          "J": "BiCS5",
+          "G": "BiCS6",
+          "U": "BiCS6"
+        },
+        "cellLevel": {
+          "H": 2,
+          "K": 3,
+          "R": 3,
+          "P": 2,
+          "Q": 2,
+          "V": 3,
+          "X": 3,
+          "E": 4,
+          "F": 3,
+          "C": 3,
+          "J": 4,
+          "G": 3,
+          "U": 4
+        },
+        "planeObj": {
+          "P": {
+            "plane": 2
+          },
+          "Q": {
+            "plane": 4
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 5,
+          "to": "skip"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "processCode"
+        },
+        {
+          "op": "map",
+          "from": "processCode",
+          "table": "processNode",
+          "to": "processNode",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "processCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "processCode",
+          "table": "planeObj",
+          "to": "planeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "planeObj"
+        }
+      ],
+      "assign": {
+        "vendor": "sndk",
+        "type": "nand",
+        "processNode": {
+          "$var": "processNode"
+        },
+        "cellLevel": {
+          "$var": "cellLevel"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

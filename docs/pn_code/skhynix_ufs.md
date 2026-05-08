@@ -15,7 +15,7 @@
 
 ## 规则入口
 
-- 规则文件：`packages/dsl/src/rules/packs/skhynix-token.json`
+- 规则文件：`packages/dsl/src/rules/packs/skhynix-ufs-token.json`
 - 规则 ID：
   - `vendor.skhynix.ufs.hn8.v1`
   - `vendor.skhynix.ufs.h28s.v1`

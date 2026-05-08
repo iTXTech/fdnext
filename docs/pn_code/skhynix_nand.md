@@ -24,15 +24,16 @@
 
 ## 规则入口
 
-- 新式 raw NAND：`packages/dsl/src/rules/packs/skhynix-token.json`
+- 新式 raw NAND：`packages/dsl/src/rules/packs/skhynix-raw-token.json`
   - 规则 ID：`vendor.skhynix.token.v1`
 - legacy raw NAND：`packages/dsl/src/rules/packs/skhynix-legacy-token.json`
   - 规则 ID：`vendor.skhynix.legacy.token.v1`
-- 3D NAND：`packages/dsl/src/rules/packs/skhynix-3d-token.json`
+- 4D NAND package：`packages/dsl/src/rules/packs/skhynix-4d-token.json`
   - 规则 ID：`vendor.skhynix.4d.package.h25t.v1`
+- 3D NAND：`packages/dsl/src/rules/packs/skhynix-3d-token.json`
   - 规则 ID：`vendor.skhynix.3d.token.mlc`
   - 规则 ID：`vendor.skhynix.3d.token.tlc`
-- E2NAND3.0 catalog family：`packages/dsl/src/rules/packs/skhynix-token.json`
+- E2NAND3.0 catalog family：`packages/dsl/src/rules/packs/skhynix-e2nand-token.json`
   - 规则 ID：`vendor.skhynix.e2nand.h27.t2.v1`
 
 ## 覆盖范围

@@ -1,0 +1,508 @@
+[
+  {
+    "id": "vendor.intel.token.v1",
+    "priority": 935,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^(?:JS|PF|BK|CU|29|X)"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "package": {
+          "JS": "TSOP48",
+          "BK": "LGA",
+          "PF": "BGA",
+          "CU": "LSOP"
+        },
+        "leadFreeObjByPackage": {
+          "TSOP48": {
+            "leadFree": true
+          },
+          "BGA": {
+            "leadFree": true
+          },
+          "LGA": {
+            "leadFree": true
+          }
+        },
+        "waferObj": {
+          "true": {
+            "wafer": true
+          },
+          "false": {
+            "wafer": false
+          }
+        },
+        "type": {
+          "F": "nand",
+          "P": "3dxpoint"
+        },
+        "density": {
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096,
+          "8G": 8192,
+          "01G": 1024,
+          "02G": 2048,
+          "04G": 4096,
+          "08G": 8192,
+          "16G": 16384,
+          "32G": 32768,
+          "64G": 65536,
+          "128G": 131072,
+          "256G": 262144,
+          "384G": 393216,
+          "512G": 524288,
+          "16B": 131072,
+          "32B": 262144,
+          "48B": 393216,
+          "64B": 524288,
+          "96B": 786432,
+          "1T": 1048576,
+          "2T": 2097152,
+          "3T": 3145728,
+          "4T": 4194304,
+          "6T": 6291456,
+          "8T": 8388608,
+          "01T": 1048576,
+          "02T": 2097152,
+          "03T": 3145728,
+          "04T": 4194304,
+          "06T": 6291456,
+          "08T": 8388608,
+          "16T": 16777216
+        },
+        "deviceWidth": {
+          "16": 16,
+          "08": 8,
+          "2A": 8,
+          "4A": 8,
+          "A8": 8
+        },
+        "ch": {
+          "4A": 4,
+          "2A": 2
+        },
+        "die": {
+          "A": 1,
+          "B": 2,
+          "C": 2,
+          "D": 2,
+          "E": 2,
+          "F": 4,
+          "G": 4,
+          "H": 8,
+          "J": 4,
+          "K": 8,
+          "L": 1,
+          "M": 2,
+          "N": 4,
+          "O": 8,
+          "P": 8,
+          "Q": 8,
+          "S": 16,
+          "W": 16,
+          "Y": 16
+        },
+        "ce": {
+          "A": 1,
+          "B": 1,
+          "C": 2,
+          "D": 2,
+          "E": 2,
+          "F": 2,
+          "G": 2,
+          "H": 4,
+          "J": 4,
+          "K": 4,
+          "L": 1,
+          "M": 2,
+          "N": 4,
+          "O": 8,
+          "P": 8,
+          "Q": 2,
+          "S": 4,
+          "W": 8,
+          "Y": 4
+        },
+        "rb": {
+          "A": 1,
+          "B": 1,
+          "C": 2,
+          "D": 2,
+          "E": 2,
+          "F": 2,
+          "G": 2,
+          "H": 4,
+          "J": 4,
+          "K": 4,
+          "L": 1,
+          "M": 2,
+          "N": 4,
+          "O": 4,
+          "P": 4,
+          "Q": -1,
+          "S": 4,
+          "W": 4,
+          "Y": 4
+        },
+        "sync": {
+          "A": true,
+          "B": true,
+          "C": true,
+          "D": true,
+          "E": false,
+          "F": true,
+          "G": false,
+          "H": true,
+          "J": true,
+          "K": false,
+          "L": true,
+          "M": true,
+          "N": true,
+          "O": true,
+          "P": true,
+          "Q": true,
+          "S": true,
+          "W": true,
+          "Y": true
+        },
+        "voltage": {
+          "A": "3.3V (2.70V-3.60V)",
+          "B": "1.8V (1.70V-1.95V)",
+          "C": "Vcc: 3.3V, VccQ: 1.8V/1.2V"
+        },
+        "cellLevel": {
+          "N": 1,
+          "M": 2,
+          "T": 3,
+          "Q": 4
+        },
+        "processNode": {
+          "A": "90 nm",
+          "B": "72 nm",
+          "C": "50 nm",
+          "D": "34 nm",
+          "E": "25 nm",
+          "F": "20 nm",
+          "G": "3D1 32L",
+          "H": "3D2 64L",
+          "J": "3D3 96L",
+          "K": "144L"
+        },
+        "processNodeOverride": {
+          "K1": "N38A 144L",
+          "KA": "N38B 144L",
+          "L1": "N4PA 192L"
+        },
+        "generationDigit": {
+          "0": "0",
+          "1": "1",
+          "2": "2",
+          "3": "3",
+          "4": "4",
+          "5": "5",
+          "6": "6",
+          "7": "7",
+          "8": "8",
+          "9": "9",
+          "A": "A"
+        },
+        "skuObj": {
+          "S": {
+            "sku": "intel_sku_s"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "stripIfPrefix",
+          "prefix": "X",
+          "to": "isWafer"
+        },
+        {
+          "op": "takeLongest",
+          "table": "package",
+          "to": "package",
+          "default": null
+        },
+        {
+          "op": "map",
+          "from": "package",
+          "table": "leadFreeObjByPackage",
+          "to": "leadFreeObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "29"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "typeCode"
+        },
+        {
+          "op": "map",
+          "from": "typeCode",
+          "table": "type",
+          "to": "type",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "widthCode"
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "ch",
+          "to": "ch",
+          "default": 1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "classificationCode"
+        },
+        {
+          "op": "map",
+          "from": "classificationCode",
+          "table": "die",
+          "to": "die",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "classificationCode",
+          "table": "ce",
+          "to": "ce",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "classificationCode",
+          "table": "rb",
+          "to": "rb",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "classificationCode",
+          "table": "sync",
+          "to": "sync",
+          "default": false
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellCode"
+        },
+        {
+          "op": "map",
+          "from": "cellCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "processCode"
+        },
+        {
+          "op": "map",
+          "from": "processCode",
+          "table": "processNode",
+          "to": "processNodeBase",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "genCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{processCode}}{{genCode}}",
+          "to": "processGenKey"
+        },
+        {
+          "op": "map",
+          "from": "processGenKey",
+          "table": "processNodeOverride",
+          "to": "processNodeOverride",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "processNodeOverride",
+          "secondary": "processNodeBase",
+          "to": "processNodeFinal"
+        },
+        {
+          "op": "map",
+          "from": "genCode",
+          "table": "generationDigit",
+          "to": "generation",
+          "default": null
+        },
+        {
+          "op": "map",
+          "from": "genCode",
+          "table": "skuObj",
+          "to": "skuObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{isWafer}}",
+          "to": "waferKey"
+        },
+        {
+          "op": "map",
+          "from": "waferKey",
+          "table": "waferObj",
+          "to": "waferObj",
+          "default": {
+            "wafer": false
+          }
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "waferObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "leadFreeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "skuObj"
+        }
+      ],
+      "assign": {
+        "vendor": "intel",
+        "type": {
+          "$var": "type"
+        },
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "cellLevel": {
+          "$var": "cellLevel"
+        },
+        "processNode": {
+          "$var": "processNodeFinal"
+        },
+        "generation": {
+          "$var": "generation"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "interface": {
+          "async": true,
+          "sync": {
+            "$var": "sync"
+          }
+        },
+        "classification": {
+          "ce": {
+            "$var": "ce"
+          },
+          "rb": {
+            "$var": "rb"
+          },
+          "ch": {
+            "$var": "ch"
+          },
+          "die": {
+            "$var": "die"
+          }
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.intel.i29.prefix.v1",
+    "priority": 934,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "I29F"
+    },
+    "set": {
+      "vendor": "intel",
+      "type": "nand"
+    }
+  }
+]

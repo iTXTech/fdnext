@@ -1,0 +1,145 @@
+[
+  {
+    "id": "vendor.skhynix.e2nand.h27.t2.v1",
+    "priority": 958,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H27[UQT][BCD]G8T2[A-Z]"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H27"
+      ],
+      "tables": {
+        "voltage": {
+          "U": "Vcc: 3.3V, VccQ: 3.3V",
+          "Q": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/2.7V~3.6V",
+          "T": "Vcc: 3.3V, VccQ: 1.8V/3.3V"
+        },
+        "density": {
+          "BG": 32768,
+          "CG": 65536,
+          "DG": 131072
+        },
+        "generation": {
+          "A": 2,
+          "B": 3,
+          "C": 4,
+          "D": 5,
+          "E": 6,
+          "F": 7,
+          "M": 1
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "modeCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "map",
+          "from": "generationCode",
+          "table": "generation",
+          "to": "generation",
+          "default": -1
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix E2NAND3.0 catalog family",
+            "group": "Raw NAND / E2NAND3.0",
+            "product_family": "H27 T2 family",
+            "density_code": {
+              "$var": "densityCode"
+            },
+            "generation_code": {
+              "$var": "generationCode"
+            }
+          }
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "nand",
+        "voltage": {
+          "$var": "voltage"
+        },
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": 8,
+        "cellLevel": 2,
+        "generation": {
+          "$var": "generation"
+        },
+        "interface": {
+          "async": true,
+          "sync": false
+        },
+        "classification": {
+          "ce": 1,
+          "rb": 1,
+          "ch": 1,
+          "die": 1
+        },
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

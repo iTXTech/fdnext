@@ -1,0 +1,138 @@
+[
+  {
+    "id": "vendor.skhynix.emmc.managed.v1",
+    "priority": 1005,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H26[MT][0-9A-Z]{8}(?:[A-Z])?$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "density": {
+          "4": 65536,
+          "5": 131072,
+          "6": 262144,
+          "7": 524288,
+          "8": 1048576
+        },
+        "mediaObj": {
+          "M": {
+            "managed_family": "e-NAND"
+          },
+          "T": {
+            "managed_family": "e-NAND"
+          }
+        },
+        "gradeObj": {
+          "A": {
+            "product_class": "Commercial / Mobile",
+            "opTemp": "-25°C ~ 85°C"
+          },
+          "I": {
+            "product_class": "Industrial",
+            "opTemp": "-40°C ~ 85°C"
+          },
+          "N": {
+            "product_class": "Commercial / Mobile",
+            "opTemp": "-25°C ~ 85°C"
+          },
+          "X": {
+            "product_class": "Automotive Grade 2/3",
+            "opTemp": "-40°C ~ 105°C"
+          },
+          "Q": {
+            "product_class": "Automotive Grade 2",
+            "opTemp": "-40°C ~ 105°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 3,
+          "to": "skipPrefix"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "mediaCode"
+        },
+        {
+          "op": "map",
+          "from": "mediaCode",
+          "table": "mediaObj",
+          "to": "mediaObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 7,
+          "to": "skipRevision"
+        },
+        {
+          "op": "takeLongest",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix e-NAND",
+            "group": "eMMC",
+            "product_version": "eMMC 5.1",
+            "interfaceInfo": "HS400+CMD Q"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "mediaObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "gradeObj"
+        }
+      ],
+      "assign": {
+        "vendor": "skhynix",
+        "type": "emmc",
+        "density": {
+          "$var": "density"
+        },
+        "voltage": "VCC: 3.3V, VCCQ: 1.8V",
+        "package": "153FBGA",
+        "extraInfo": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]
