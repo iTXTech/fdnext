@@ -47,10 +47,9 @@ PN 结构：
 - `storage_density`
 - `product_family`
 - `product_class`
-- `product_version`
 - `storage_interface`
 - `nand_technology`
-- `opTemp`
+- `operation_temperature`
 
 ## 测试样例
 

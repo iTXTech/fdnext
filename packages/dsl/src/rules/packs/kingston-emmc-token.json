@@ -237,9 +237,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "system": "Kingston eMMC",
-            "managed_family": "eMMC",
-            "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
             "interfaceInfo": "HS400",
             "config_code": {

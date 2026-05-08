@@ -39,6 +39,229 @@ function getHumanReadableDensity(density: number, useByte = false): string {
   return `${numeric}${unit[idx]}`;
 }
 
+const vendorAliases: Record<string, string[]> = {
+  biwin: ["biwin"],
+  intel: ["intel"],
+  kingston: ["kingston"],
+  kioxia: ["kioxia", "toshiba"],
+  longsys: ["longsys", "foresee", "lexar"],
+  micron: ["micron"],
+  samsung: ["samsung"],
+  sndk: ["sandisk", "western digital", "wd"],
+  skhynix: ["sk hynix", "skhynix"],
+  spectek: ["spectek"],
+  ymtc: ["ymtc"]
+};
+
+const extraInfoKeyAliases: Record<string, string> = {
+  badBlock: "bad_block",
+  blockSize: "block_size",
+  blocksPerLun: "blocks_per_lun",
+  component_generation: "generation_info",
+  densityGrade: "density_grade",
+  dieCode: "die_code",
+  eccEnabled: "ecc_enabled",
+  eccLevel: "ecc_level",
+  halogenFree: "halogen_free",
+  halfPageAndSize: "half_page_and_size",
+  interfaceInfo: "interface_type",
+  leadFree: "lead_free",
+  micronPartNumber: "micron_part_number",
+  multiChip: "multi_chip",
+  opTemp: "operation_temperature",
+  packageFunctionalityPartialType: "package_functionality_partial_type",
+  pageSize: "page_size",
+  pagesPerBlock: "pages_per_block",
+  redundantAreaSize: "redundant_area_size",
+  simultaneouslyProgrammedPages: "simultaneously_programmed_pages",
+  spareAreaSizePer512B: "spare_area_size_per_512b",
+  timingModeAsync: "timing_mode_async",
+  unsupportedReason: "unsupported_reason"
+};
+
+function normalizeInfoText(value: unknown): string {
+  if (typeof value !== "string") {
+    return "";
+  }
+  return value
+    .toLowerCase()
+    .replaceAll(/[^a-z0-9]+/g, " ")
+    .replaceAll(/\be\s+mmc\b/g, "emmc")
+    .replaceAll(/\be\s+mcp\b/g, "emcp")
+    .replaceAll(/\bu\s+mcp\b/g, "umcp")
+    .replaceAll(/\bv(?=\d)/g, "")
+    .trim()
+    .replaceAll(/\s+/g, " ");
+}
+
+function aliasesForVendor(vendor: unknown): string[] {
+  if (typeof vendor !== "string") {
+    return [];
+  }
+  return vendorAliases[vendor] ?? [vendor];
+}
+
+function removeVendorPrefix(value: string, vendor: unknown): string {
+  let normalized = normalizeInfoText(value);
+  for (const alias of aliasesForVendor(vendor)) {
+    const aliasText = normalizeInfoText(alias);
+    if (aliasText.length > 0 && normalized.startsWith(`${aliasText} `)) {
+      normalized = normalized.slice(aliasText.length + 1);
+      break;
+    }
+  }
+  return normalized;
+}
+
+function normalizeExtraInfoKey(key: string): string {
+  return extraInfoKeyAliases[key] ?? key;
+}
+
+function stringifyExtraInfoValue(value: unknown): string {
+  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+    return String(value);
+  }
+  return JSON.stringify(value) ?? String(value);
+}
+
+function mergeExtraInfoValue(existing: unknown, next: unknown): unknown {
+  if (normalizeInfoText(existing) === normalizeInfoText(next)) {
+    return existing;
+  }
+
+  const values: unknown[] = [];
+  const seen = new Set<string>();
+  const append = (value: unknown): void => {
+    const normalized = normalizeInfoText(value) || stringifyExtraInfoValue(value);
+    if (seen.has(normalized)) {
+      return;
+    }
+    seen.add(normalized);
+    values.push(value);
+  };
+
+  append(existing);
+  append(next);
+  return values.map((value) => stringifyExtraInfoValue(value)).join(" / ");
+}
+
+function canonicalizeRecordKeys(record: Record<string, unknown>): void {
+  const canonical: Record<string, unknown> = {};
+  for (const [key, value] of Object.entries(record)) {
+    const canonicalKey = normalizeExtraInfoKey(key);
+    canonical[canonicalKey] =
+      Object.hasOwn(canonical, canonicalKey) ? mergeExtraInfoValue(canonical[canonicalKey], value) : value;
+  }
+
+  for (const key of Object.keys(record)) {
+    delete record[key];
+  }
+  for (const [key, value] of Object.entries(canonical)) {
+    record[key] = value;
+  }
+}
+
+function canonicalizeExtraInfoKeys(info: FlashInfo): void {
+  const extra = info.extraInfo;
+  if (!extra || typeof extra !== "object" || Array.isArray(extra)) {
+    return;
+  }
+
+  canonicalizeRecordKeys(extra);
+}
+
+function canonicalizeFlashIdExtKeys(info: FlashIdInfo): void {
+  const ext = info.ext;
+  if (!ext || typeof ext !== "object" || Array.isArray(ext)) {
+    return;
+  }
+
+  canonicalizeRecordKeys(ext);
+}
+
+function isRedundantSystem(value: unknown, info: FlashInfo): boolean {
+  const text = normalizeInfoText(value);
+  if (text.length === 0) {
+    return false;
+  }
+  const type = normalizeInfoText(info.type);
+  const aliases = aliasesForVendor(info.vendor).map((alias) => normalizeInfoText(alias)).filter((alias) => alias.length > 0);
+
+  if (type.length > 0 && text === type) {
+    return true;
+  }
+  if (aliases.includes(text)) {
+    return true;
+  }
+  if (aliases.some((alias) => text === `${alias} managed nand`)) {
+    return true;
+  }
+  if (type.length > 0 && aliases.some((alias) => text === `${alias} ${type}`)) {
+    return true;
+  }
+  return false;
+}
+
+function isRedundantManagedFamily(value: unknown, info: FlashInfo, extra: Record<string, unknown>): boolean {
+  const text = normalizeInfoText(value);
+  if (text.length === 0) {
+    return false;
+  }
+  return (
+    text === normalizeInfoText(info.type) ||
+    text === normalizeInfoText(extra.system) ||
+    text === normalizeInfoText(extra.product_family)
+  );
+}
+
+function isRedundantGroup(value: unknown, info: FlashInfo): boolean {
+  const text = normalizeInfoText(value);
+  const type = normalizeInfoText(info.type);
+  if (text.length === 0 || type.length === 0) {
+    return false;
+  }
+  return text === type || text === `${type} flash`;
+}
+
+function pruneRedundantExtraInfo(info: FlashInfo): void {
+  const extra = info.extraInfo;
+  if (!extra || typeof extra !== "object" || Array.isArray(extra)) {
+    return;
+  }
+
+  const productVersion = extra.product_version;
+  const storageInterface = extra.storage_interface;
+  const productFamily = extra.product_family;
+
+  if (isRedundantSystem(extra.system, info)) {
+    delete extra.system;
+  }
+  if (isRedundantManagedFamily(extra.managed_family, info, extra)) {
+    delete extra.managed_family;
+  }
+  if (isRedundantGroup(extra.group, info)) {
+    delete extra.group;
+  }
+
+  const productVersionText = normalizeInfoText(productVersion);
+  if (
+    productVersionText.length > 0 &&
+    (productVersionText === normalizeInfoText(storageInterface) || productVersionText === normalizeInfoText(info.type))
+  ) {
+    delete extra.product_version;
+  }
+
+  const productFamilyText = removeVendorPrefix(String(productFamily ?? ""), info.vendor);
+  if (
+    productFamilyText.length > 0 &&
+    (productFamilyText === normalizeInfoText(productVersion) ||
+      productFamilyText === normalizeInfoText(storageInterface) ||
+      productFamilyText === normalizeInfoText(info.type))
+  ) {
+    delete extra.product_family;
+  }
+}
+
 function toPublicFlashInfo(info: FlashInfo, langPacks: LangPacks, fallbackLang: string, lang?: string | null): FlashInfo {
   const output = cloneObject(info);
   const defaultValues: Record<string, unknown> = {
@@ -110,6 +333,9 @@ function toPublicFlashInfo(info: FlashInfo, langPacks: LangPacks, fallbackLang: 
     output.generation = String(output.generation);
   }
 
+  canonicalizeExtraInfoKeys(output);
+  pruneRedundantExtraInfo(output);
+
   // PHP json_encode(empty associative array) yields [], not {}.
   if (output.extraInfo && typeof output.extraInfo === "object" && !Array.isArray(output.extraInfo)) {
     if (Object.keys(output.extraInfo).length === 0) output.extraInfo = [];
@@ -169,6 +395,8 @@ function toPublicFlashIdInfo(info: FlashIdInfo, langPacks: LangPacks, fallbackLa
       output[key] = UNKNOWN;
     }
   }
+
+  canonicalizeFlashIdExtKeys(output);
 
   // PHP json_encode(empty associative array) yields [], not {}.
   if (output.ext && typeof output.ext === "object" && !Array.isArray(output.ext)) {
@@ -710,7 +938,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
 
   const getIdSummary = (id: string, lang?: string | null): string => {
     const info = decodeFlashId(id, { lang, combineFdb: true });
-    const base = translateString("idSummary", lang);
+    const base = translateString("id_summary", lang);
 
     const extInfo =
       info.ext && typeof info.ext === "object"

@@ -47,8 +47,7 @@
         },
         "densityPairObj": {
           "NA1608": {
-            "product_family": "FORESEE eMCP3",
-            "product_version": "eMMC / LPDDR3",
+            "product_family": "eMCP3",
             "storage_interface": "eMMC",
             "storage_density": "16GB eMMC",
             "dram_density": "8Gb",
@@ -57,8 +56,7 @@
             "package_code": "FBGA221"
           },
           "NA3208": {
-            "product_family": "FORESEE eMCP3",
-            "product_version": "eMMC / LPDDR3",
+            "product_family": "eMCP3",
             "storage_interface": "eMMC",
             "storage_density": "32GB eMMC",
             "dram_density": "8Gb",
@@ -67,8 +65,7 @@
             "package_code": "FBGA221"
           },
           "RF6432": {
-            "product_family": "FORESEE eMCP4x",
-            "product_version": "eMMC / LPDDR4X",
+            "product_family": "eMCP4x",
             "storage_interface": "eMMC",
             "storage_density": "64GB eMMC",
             "dram_density": "32Gb",
@@ -77,8 +74,7 @@
             "package_code": "FBGA254"
           },
           "RB6432": {
-            "product_family": "FORESEE eMCP4x",
-            "product_version": "eMMC / LPDDR4X",
+            "product_family": "eMCP4x",
             "storage_interface": "eMMC",
             "storage_density": "64GB eMMC",
             "dram_density": "32Gb",
@@ -87,8 +83,7 @@
             "package_code": "FBGA254"
           },
           "RFA832": {
-            "product_family": "FORESEE eMCP4x",
-            "product_version": "eMMC / LPDDR4X",
+            "product_family": "eMCP4x",
             "storage_interface": "eMMC",
             "storage_density": "128GB eMMC",
             "dram_density": "32Gb",
@@ -142,7 +137,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "system": "FORESEE eMCP",
             "group": "eMCP",
             "density_code": {
               "$var": "densityPairCode"
@@ -216,8 +210,7 @@
         },
         "densityPairObj": {
           "RB6432": {
-            "product_family": "FORESEE uMCP4x",
-            "product_version": "UFS / LPDDR4X",
+            "product_family": "uMCP4x",
             "storage_interface": "UFS",
             "storage_density": "64GB UFS",
             "dram_density": "32Gb",
@@ -226,8 +219,7 @@
             "package_code": "FBGA254"
           },
           "RFA832": {
-            "product_family": "FORESEE uMCP4x",
-            "product_version": "UFS / LPDDR4X",
+            "product_family": "uMCP4x",
             "storage_interface": "UFS",
             "storage_density": "128GB UFS",
             "dram_density": "32Gb",
@@ -267,7 +259,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "system": "FORESEE uMCP",
             "group": "uMCP",
             "density_code": {
               "$var": "densityPairCode"

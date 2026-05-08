@@ -1,10 +1,41 @@
 import { UNKNOWN } from "./constants";
 import type { LangPacks } from "./types";
 
+const TRANSLATION_KEY_ALIASES: Record<string, string> = {
+  badBlock: "bad_block",
+  blockSize: "block_size",
+  blocksPerLun: "blocks_per_lun",
+  densityGrade: "density_grade",
+  dieCode: "die_code",
+  eccEnabled: "ecc_enabled",
+  eccLevel: "ecc_level",
+  halogenFree: "halogen_free",
+  halfPageAndSize: "half_page_and_size",
+  idSummary: "id_summary",
+  interfaceInfo: "interface_type",
+  leadFree: "lead_free",
+  micronPartNumber: "micron_part_number",
+  multiChip: "multi_chip",
+  opTemp: "operation_temperature",
+  packageFunctionalityPartialType: "package_functionality_partial_type",
+  pageSize: "page_size",
+  pagesPerBlock: "pages_per_block",
+  redundantAreaSize: "redundant_area_size",
+  simultaneouslyProgrammedPages: "simultaneously_programmed_pages",
+  spareAreaSizePer512B: "spare_area_size_per_512b",
+  timingModeAsync: "timing_mode_async",
+  unsupportedReason: "unsupported_reason"
+};
+
+function normalizeTranslationKey(key: string): string {
+  return TRANSLATION_KEY_ALIASES[key] ?? key;
+}
+
 export function translateString(langPacks: LangPacks, fallbackLang: string, key: string, lang?: string | null): string {
   const targetLang = lang ?? fallbackLang;
-  const fallback = langPacks[fallbackLang]?.[key] ?? key;
-  const value = langPacks[targetLang]?.[key] ?? fallback;
+  const normalizedKey = normalizeTranslationKey(key);
+  const fallback = langPacks[fallbackLang]?.[normalizedKey] ?? langPacks[fallbackLang]?.[key] ?? normalizedKey;
+  const value = langPacks[targetLang]?.[normalizedKey] ?? langPacks[targetLang]?.[key] ?? fallback;
   return value.replaceAll("<br>", "\n");
 }
 

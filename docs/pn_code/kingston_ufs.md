@@ -25,12 +25,11 @@ PN 结构：
 ## 输出字段
 
 - `storage_density`
-- `product_version`
 - `storage_interface`
 - `speed_grade`
 - `nand_technology`
 - `package_code`
-- `opTemp`
+- `operation_temperature`
 
 ## 测试样例
 

@@ -41,13 +41,11 @@
         },
         "seriesObj": {
           "NN": {
-            "system": "FORESEE UFS",
             "product_family": "Commercial UFS",
             "product_class": "Commercial",
             "opTemp": "-25°C ~ +85°C"
           },
           "ME": {
-            "system": "FORESEE UFS",
             "product_family": "Automotive UFS",
             "product_class": "Automotive",
             "opTemp": "-40°C ~ +105°C"
@@ -93,37 +91,28 @@
         },
         "configObj": {
           "C2A56": {
-            "product_version": "UFS 2.2",
             "storage_interface": "UFS 2.2",
-            "speed_grade": "UFS 2.2",
             "nand_technology": "3D NAND"
           },
           "C2H14": {
-            "product_version": "UFS 2.2",
             "storage_interface": "UFS 2.2",
-            "speed_grade": "UFS 2.2",
             "nand_technology": "3D NAND"
           },
           "C2A44": {
-            "product_version": "UFS 2.2",
             "storage_interface": "UFS 2.2",
-            "speed_grade": "UFS 2.2",
             "nand_technology": "3D NAND"
           },
           "C2G07": {
-            "product_version": "UFS 2.2",
             "storage_interface": "UFS 2.2",
             "speed_grade": "UFS 2.2 HS-Gear3",
             "nand_technology": "TLC"
           },
           "B8A19": {
-            "product_version": "UFS 2.1",
             "storage_interface": "UFS 2.1",
             "speed_grade": "Gear3 2L",
             "nand_technology": "3D NAND"
           },
           "C8H09": {
-            "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1",
             "speed_grade": "Gear4 2L",
             "nand_technology": "3D NAND"
@@ -141,9 +130,7 @@
           "from": "seriesCode",
           "table": "seriesObj",
           "to": "seriesObj",
-          "default": {
-            "system": "FORESEE UFS"
-          }
+          "default": {}
         },
         {
           "op": "map",

@@ -42,11 +42,11 @@ PN 结构：
 - `product_family`
 - `product_version`
 - `storage_interface`
-- `interfaceInfo`
+- `interface_type`
 - `nand_technology`
 - `generation_info`
 - `product_class`
-- `opTemp`
+- `operation_temperature`
 
 ## 测试样例
 

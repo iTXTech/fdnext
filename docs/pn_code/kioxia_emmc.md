@@ -38,7 +38,7 @@ PN 结构：
 - `speed_grade`
 - `nand_technology`
 - `product_class`
-- `opTemp`
+- `operation_temperature`
 
 ## 测试样例
 

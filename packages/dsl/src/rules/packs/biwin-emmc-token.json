@@ -140,10 +140,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "system": "BIWIN eMMC",
-            "product_family": "BIWIN eMMC 5.1",
             "product_class": "Consumer",
-            "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
             "nand_technology": "3D TLC",
             "interfaceInfo": "HS400",

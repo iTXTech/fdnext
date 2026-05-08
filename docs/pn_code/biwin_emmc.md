@@ -32,11 +32,9 @@ PN 结构：
 ## 输出字段
 
 - `storage_density`
-- `product_family`
-- `product_version`
 - `storage_interface`
 - `nand_technology`
-- `interfaceInfo`
+- `interface_type`
 - `product_class`
 - `config_code`
 

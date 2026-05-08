@@ -34,9 +34,8 @@ PN 结构：
 - `dram_density`
 - `dram_type`
 - `product_family`
-- `product_version`
 - `package_code`
-- `opTemp`
+- `operation_temperature`
 
 ## 测试样例
 

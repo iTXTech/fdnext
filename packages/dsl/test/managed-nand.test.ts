@@ -73,12 +73,11 @@ assertPart("SDINBDA6-256G-XI1", {
   processNode: "BiCS3 64L",
   extra: {
     "Product Family": "iNAND IX EM132",
-    "Product Version": "eMMC 5.1",
     "Storage Interface": "eMMC 5.1",
     "Product Class": "Industrial Extended Temperature",
     "Product Generation": "BiCS3 64L 3D NAND"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("SDINBDG4-32G-ZA3", {
@@ -88,11 +87,10 @@ assertPart("SDINBDG4-32G-ZA3", {
   processNode: "2D NAND",
   extra: {
     "Product Family": "iNAND 7250 / EM122-class",
-    "Product Version": "eMMC 5.1",
     "Storage Interface": "eMMC 5.1",
     "Product Class": "Automotive"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("SDINFDK4-128G", {
@@ -102,10 +100,9 @@ assertPart("SDINFDK4-128G", {
   processNode: "3D NAND",
   extra: {
     "Product Family": "iNAND MC EU521",
-    "Product Version": "UFS 3.1",
     "Storage Interface": "UFS 3.1"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("SDINDDH6-128G-ZA2", {
@@ -115,20 +112,16 @@ assertPart("SDINDDH6-128G-ZA2", {
   processNode: "3D NAND",
   extra: {
     "Product Family": "iNAND AT EU312",
-    "Product Version": "UFS 2.1",
     "Storage Interface": "UFS 2.1",
     "Product Class": "Automotive"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("SDINZZZ9-128G-ABC", {
   rawVendor: "sndk",
   type: "iNAND",
-  rawDensity: 1048576,
-  extra: {
-    System: "iNAND"
-  }
+  rawDensity: 1048576
 });
 
 assertPart("THGBMNG5D1LBAIT", {
@@ -138,10 +131,10 @@ assertPart("THGBMNG5D1LBAIT", {
   processNode: "FG NAND",
   extra: {
     "Series Code": "BMN",
-    "Product Version": "eMMC 5.0",
     "Storage Interface": "eMMC 5.0",
     "NAND Technology": "FG NAND"
-  }
+  },
+  absentExtra: ["Product Version"]
 });
 
 assertPart("THGAMVT0T43BAB8", {
@@ -151,11 +144,11 @@ assertPart("THGAMVT0T43BAB8", {
   processNode: "BiCS FLASH",
   extra: {
     "Series Code": "AMV",
-    "Product Version": "eMMC 5.1",
     "Storage Interface": "eMMC 5.1",
     "NAND Technology": "BiCS FLASH",
     "Product Class": "Automotive AEC-Q100 Grade 2"
-  }
+  },
+  absentExtra: ["Product Version"]
 });
 
 assertPart("THGJFRT3E88BATW", {
@@ -165,10 +158,10 @@ assertPart("THGJFRT3E88BATW", {
   processNode: "BiCS FLASH",
   extra: {
     "Series Code": "JFR",
-    "Product Version": "UFS 4.1",
     "Storage Interface": "UFS 4.1",
     "Speed Grade": "4640 MB/s"
-  }
+  },
+  absentExtra: ["Product Version"]
 });
 
 assertPart("THGJFJT1T45BAB8", {
@@ -178,11 +171,11 @@ assertPart("THGJFJT1T45BAB8", {
   processNode: "BiCS FLASH",
   extra: {
     "Series Code": "JFJ",
-    "Product Version": "UFS 4.0",
     "Storage Interface": "UFS 4.0",
     "Product Class": "Automotive AEC-Q100 Grade 2",
     "Speed Grade": "4640 MB/s"
-  }
+  },
+  absentExtra: ["Product Version"]
 });
 
 assertPart("THGAFBT1T83BAA5", {
@@ -192,11 +185,11 @@ assertPart("THGAFBT1T83BAA5", {
   processNode: "BiCS FLASH",
   extra: {
     "Series Code": "AFB",
-    "Product Version": "UFS 2.1",
     "Storage Interface": "UFS 2.1",
     "Product Class": "Automotive AEC-Q100 Grade 3",
     "Speed Grade": "1160 MB/s"
-  }
+  },
+  absentExtra: ["Product Version"]
 });
 
 assertPart("THGVX1G7D2GLA08", {
@@ -207,13 +200,12 @@ assertPart("THGVX1G7D2GLA08", {
   cellLevel: "MLC",
   package: "LGA52 (14 x 18 x 1.04)",
   extra: {
-    System: "E2NAND",
-    "Product Family": "E2NAND",
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
     Plane: 2
-  }
+  },
+  absentExtra: ["System", "Product Family"]
 });
 
 assertPart("TCGVX1G7D2GLA08", {
@@ -224,13 +216,12 @@ assertPart("TCGVX1G7D2GLA08", {
   cellLevel: "MLC",
   package: "LGA52 (14 x 18 x 1.04)",
   extra: {
-    System: "E2NAND",
-    "Product Family": "E2NAND",
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
     Plane: 2
-  }
+  },
+  absentExtra: ["System", "Product Family"]
 });
 
 assertPart("THGBX2G7D2JLA01", {
@@ -241,13 +232,12 @@ assertPart("THGBX2G7D2JLA01", {
   cellLevel: "MLC",
   package: "LGA40 (12 x 18 x 0.7)",
   extra: {
-    System: "E2NAND",
-    "Product Family": "E2NAND",
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
     Plane: 2
-  }
+  },
+  absentExtra: ["System", "Product Family"]
 });
 
 assertPart("H26M78208CMRX", {
@@ -295,7 +285,8 @@ assertPart("HN8T25DEHKX077N", {
     "Product Version": "UFS 3.1",
     "Product Generation": "176-layer 4D NAND (V7)",
     "Product Class": "Mobile"
-  }
+  },
+  absentExtra: ["System", "Product Family"]
 });
 
 assertPart("HN8T35DZHKX079", {
@@ -307,7 +298,8 @@ assertPart("HN8T35DZHKX079", {
     "Series Code": "DZ",
     "Product Version": "UFS 3.1",
     "Product Generation": "176-layer 4D NAND (V7)"
-  }
+  },
+  absentExtra: ["System", "Product Family"]
 });
 
 assertPart("HN8G962EHKX037N", {
@@ -318,7 +310,8 @@ assertPart("HN8G962EHKX037N", {
   extra: {
     "Series Code": "2E",
     "Product Version": "UFS 3.1"
-  }
+  },
+  absentExtra: ["System", "Product Family"]
 });
 
 assertPart("H28SAO301MMR", {
@@ -513,10 +506,10 @@ assertPart("H9HP52ACPMADAR-KMM", {
   rawDensity: 524288,
   package: "254Ball FBGA",
   extra: {
-    System: "SK hynix eMCP",
     "Product Mode": "eMCP NAND DDR4",
     "Storage Density": "64GB eMMC"
-  }
+  },
+  absentExtra: ["System"]
 });
 
 assertPart("H9AG9G5ANBX100", {
@@ -525,10 +518,10 @@ assertPart("H9AG9G5ANBX100", {
   rawDensity: 524288,
   package: "254Ball FBGA",
   extra: {
-    System: "SK hynix eMCP",
     "Product Mode": "LPDDR4 eMCP",
     "Storage Interface": "eMMC 5.0"
-  }
+  },
+  absentExtra: ["System"]
 });
 
 assertPart("H9QT0GECN6X145", {
@@ -537,10 +530,10 @@ assertPart("H9QT0GECN6X145", {
   rawDensity: 1048576,
   package: "254Ball FBGA",
   extra: {
-    System: "SK hynix uMCP",
     "Product Mode": "LPDDR4 uMCP",
     "Storage Interface": "UFS 2.2"
-  }
+  },
+  absentExtra: ["System"]
 });
 
 assertPart("H9HQ15ACPMADAR-KEM", {
@@ -549,10 +542,10 @@ assertPart("H9HQ15ACPMADAR-KEM", {
   rawDensity: 1048576,
   package: "254Ball FBGA",
   extra: {
-    System: "SK hynix uMCP",
     "Storage Density": "128GB UFS",
     "DRAM Density": "32Gb LPDDR4X"
-  }
+  },
+  absentExtra: ["System"]
 });
 
 assertPart("MTFC4GACAJCN-1M WT", {
@@ -564,9 +557,11 @@ assertPart("MTFC4GACAJCN-1M WT", {
     "NAND Component": "AC",
     "Controller Code": "AJ",
     "Package Code": "CN",
+    "Product Generation": "Fourth",
     "Product Version": "eMMC 5.0",
     "Special Option": "2MB MAX boot area / 100% MAX enhanced"
-  }
+  },
+  absentExtra: ["Component Generation", "Product Family", "Group"]
 });
 
 assertPart("MTFC8GLTEA-WT", {
@@ -592,7 +587,8 @@ assertPart("MTFC256GASAONS-IT", {
     "Controller Code": "AO",
     "Package Code": "NS",
     "Product Version": "UFS 2.1"
-  }
+  },
+  absentExtra: ["Product Family", "Group"]
 });
 
 assertPart("MTFC64GBCAVAL-AIT", {
@@ -604,7 +600,8 @@ assertPart("MTFC64GBCAVAL-AIT", {
     "Controller Code": "AV",
     "Package Code": "AL",
     "Product Version": "UFS 3.1"
-  }
+  },
+  absentExtra: ["Group"]
 });
 
 assertPart("MTFC1TAYAXHR-WT", {
@@ -616,7 +613,8 @@ assertPart("MTFC1TAYAXHR-WT", {
     "Controller Code": "AX",
     "Package Code": "HR",
     "Product Version": "UFS 4.0"
-  }
+  },
+  absentExtra: ["Group"]
 });
 
 assertPart("MTFC256GZZZZZZ-WT", {
@@ -631,6 +629,52 @@ assertPart("MTFC256GZZZZZZ-WT", {
   }
 });
 
+assertPart("YMEC6A1TC1A2C1", {
+  rawVendor: "ymtc",
+  type: "eMMC",
+  rawDensity: 262144,
+  processNode: "X2-9060 / TAS",
+  cellLevel: "TLC",
+  package: "BGA-153 11.5x13x1.0",
+  extra: {
+    Controller: "eMMC 5.1 Controller EC000",
+    "Die Stack": "SDP (1-die)",
+    "Product Class": "Commercial"
+  },
+  absentExtra: ["System", "Group"]
+});
+
+assertPart("YMUS8A1TC1A2C1", {
+  rawVendor: "ymtc",
+  type: "UFS",
+  rawDensity: 1048576,
+  processNode: "X2-9060 / TAS",
+  cellLevel: "TLC",
+  package: "BGA-153 11.5x13x1.0/1.2",
+  extra: {
+    Controller: "UFS 3.1 Controller",
+    "Die Stack": "SDP (1-die)",
+    "Product Class": "Commercial"
+  },
+  absentExtra: ["System", "Group"]
+});
+
+assertPart("YMC6G001TB51AA1C0", {
+  rawVendor: "ymtc",
+  type: "NAND",
+  rawDensity: 1048576,
+  processNode: "X3-9070 / WDS",
+  cellLevel: "TLC",
+  package: "BGA-132 12x18",
+  extra: {
+    System: "UNIMOS",
+    "Product Generation": "Gen 4 Xtacking 3.0",
+    "Die Density": "256Gb",
+    "Die Stack": "SDP (1-die)",
+    "Product Class": "Commercial"
+  }
+});
+
 assertPart("KLMAG1JETD-B041", {
   rawVendor: "samsung",
   type: "eMMC",
@@ -642,9 +686,9 @@ assertPart("KLMAG1JETD-B041", {
     "Die Stack": "SDP (1-die)",
     "Product Generation": "14nm",
     "Product Version": "eMMC 5.1",
-    "Interface info": "HS400"
+    "Interface Type": "HS400"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Interface info", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLM8G1GETF-B041", {
@@ -658,9 +702,9 @@ assertPart("KLM8G1GETF-B041", {
     "Die Stack": "SDP (1-die)",
     "Product Generation": "14nm",
     "Product Version": "eMMC 5.1",
-    "Interface info": "HS400"
+    "Interface Type": "HS400"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Interface info", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLMBG2JETD-B041", {
@@ -735,7 +779,6 @@ assertPart("EMMC64G-TY29", {
   package: "11.5x13.0x0.8",
   cellLevel: "TLC",
   extra: {
-    "Product Version": "eMMC 5.1",
     "Storage Interface": "eMMC 5.1",
     "Config Code": "TY29",
     "Storage Density": "64GB eMMC",
@@ -751,7 +794,6 @@ assertPart("EMMC128-IY29", {
   package: "11.5x13.0x0.8",
   cellLevel: "TLC",
   extra: {
-    "Product Version": "eMMC 5.1",
     "Storage Interface": "eMMC 5.1",
     "Product Class": "Industrial Temperature"
   },
@@ -765,7 +807,7 @@ assertPart("UFS128-CY14", {
   package: "11x13x0.85",
   cellLevel: "TLC",
   extra: {
-    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
     "Speed Grade": "G4 4P",
     "Storage Density": "128GB UFS"
   },
@@ -778,7 +820,8 @@ assertPart("64EM32-M4GTY9B", {
   rawDensity: 524288,
   package: "FBGA254 11.5x13.0x1.0",
   extra: {
-    "Product Version": "eMMC 5.1 / LPDDR4X",
+    "Product Family": "eMCP LPDDR4X",
+    "Storage Interface": "eMMC 5.1",
     "Storage Density": "64GB eMMC",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
@@ -793,7 +836,6 @@ assertPart("FEMDNN256G-A3A5607-08", {
   package: "FBGA153 11.5x13x1.0",
   extra: {
     "Product Family": "Commercial eMMC",
-    "Product Version": "eMMC 5.1",
     "Storage Interface": "eMMC 5.1",
     "Storage Density": "256GB eMMC"
   },
@@ -807,7 +849,6 @@ assertPart("FEUDNN128G-C2H14", {
   package: "FBGA153 11.5x13x1.0",
   cellLevel: "TLC",
   extra: {
-    "Product Version": "UFS 2.2",
     "Storage Interface": "UFS 2.2",
     "Product Class": "Commercial"
   },
@@ -820,7 +861,7 @@ assertPart("FEPRF6432-58A1930", {
   rawDensity: 524288,
   package: "FBGA254 11.5x13x1.0",
   extra: {
-    "Product Family": "FORESEE eMCP4x",
+    "Product Family": "eMCP4x",
     "Storage Density": "64GB eMMC",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
@@ -834,7 +875,7 @@ assertPart("FUPRFA832-C2A56N1", {
   rawDensity: 1048576,
   package: "FBGA254 11.5x13x1.0",
   extra: {
-    "Product Family": "FORESEE uMCP4x",
+    "Product Family": "uMCP4x",
     "Storage Density": "128GB UFS",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
@@ -849,11 +890,10 @@ assertPart("BWCTAKL11X128G", {
   package: "FBGA153 11.50x13.00",
   cellLevel: "TLC",
   extra: {
-    "Product Version": "eMMC 5.1",
     "Storage Interface": "eMMC 5.1",
     "NAND Technology": "3D TLC"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["System", "Product Family", "Product Version", "Managed Family", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("BWCMMQ511G08G", {
@@ -863,11 +903,11 @@ assertPart("BWCMMQ511G08G", {
   package: "FBGA153 9.00x11.00",
   cellLevel: "TLC",
   extra: {
-    "Product Version": "eMMC 5.1",
     "Storage Interface": "eMMC 5.1",
+    "Interface Type": "HS400",
     "Storage Density": "8GB eMMC"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Interface info", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("BWU2A0526B128G", {
@@ -876,7 +916,6 @@ assertPart("BWU2A0526B128G", {
   rawDensity: 1048576,
   package: "FBGA153 11.50x13.00",
   extra: {
-    "Product Version": "UFS 2.2",
     "Storage Interface": "UFS 2.2",
     "Storage Density": "128GB UFS"
   },
@@ -890,7 +929,6 @@ assertPart("FEUDME128G-C8H09", {
   package: "FBGA153 11.5x13x1.2",
   cellLevel: "TLC",
   extra: {
-    "Product Version": "UFS 3.1",
     "Storage Interface": "UFS 3.1",
     "Speed Grade": "Gear4 2L",
     "Product Class": "Automotive"
@@ -905,7 +943,6 @@ assertPart("FEUDNN512G-C2G07", {
   package: "FBGA153 11.5x13x1.0",
   cellLevel: "TLC",
   extra: {
-    "Product Version": "UFS 2.2",
     "Storage Interface": "UFS 2.2",
     "Storage Density": "512GB UFS"
   },
@@ -918,7 +955,7 @@ assertPart("BWCA2KZC-64G", {
   rawDensity: 524288,
   package: "FBGA254 11.50x13.00",
   extra: {
-    "Product Family": "BIWIN eMCP4X",
+    "Product Family": "eMCP4X",
     "Storage Density": "64GB eMMC",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
@@ -932,7 +969,7 @@ assertPart("BW2A2MZC02-256G", {
   rawDensity: 2097152,
   package: "FBGA254 11.50x13.00",
   extra: {
-    "Product Family": "BIWIN uMCP LPDDR4X",
+    "Product Family": "uMCP LPDDR4X",
     "Storage Density": "256GB UFS",
     "DRAM Density": "64Gb",
     "Storage Interface": "UFS 2.2"

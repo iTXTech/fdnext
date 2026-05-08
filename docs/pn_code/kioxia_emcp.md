@@ -31,4 +31,4 @@
 
 - storage: `storage_density`、`storage_interface`
 - DRAM: `dram_type`、`dram_density`、`dram_speed`、`dram_voltage`
-- package/class: `package`、`product_class`、`opTemp`
+- package/class: `package`、`product_class`、`operation_temperature`

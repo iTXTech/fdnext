@@ -60,8 +60,6 @@
         "configObj": {
           "CY14": {
             "config_code": "CY14",
-            "product_family": "Kingston UFS",
-            "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1",
             "speed_grade": "G4 4P",
             "nand_technology": "TLC",
@@ -114,8 +112,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "system": "Kingston UFS",
-            "managed_family": "UFS",
             "config_code": {
               "$var": "configCode"
             }

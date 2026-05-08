@@ -95,10 +95,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "system": "BIWIN UFS",
-            "product_family": "BIWIN UFS 2.2",
             "product_class": "Consumer",
-            "product_version": "UFS 2.2",
             "storage_interface": "UFS 2.2",
             "speed_grade": "1000 MB/s read / 800 MB/s write",
             "config_code": {

@@ -67,7 +67,7 @@ export function applyMicronFbgaMeta(base: FlashInfo, parsed: MicronFbgaParsed, r
   const out: FlashInfo = { ...base, partNumber: parsed.display };
   const extra = isRecord(out.extraInfo) ? { ...out.extraInfo } : {};
 
-  extra.micronPartNumber = resolvedPn;
+  extra.micron_part_number = resolvedPn;
   if (parsed.prod) {
     extra.prod_date = parsed.prod.prodDate;
     extra.diffusion_loc = parsed.prod.diffusion;

@@ -43,7 +43,7 @@
 | `extraInfo.system` | `SK hynix e-NAND` |
 | `extraInfo.group` | `eMMC` |
 | `extraInfo.product_version` | `eMMC 5.1` |
-| `extraInfo.interfaceInfo` | `HS400+CMD Q` |
+| `extraInfo.interface_type` | `HS400+CMD Q` |
 | `extraInfo.managed_family` | `e-NAND` |
 
 ## 示例

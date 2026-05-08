@@ -85,16 +85,14 @@
         },
         "dramTypeObj": {
           "N3": {
-            "product_family": "Kingston eMCP LPDDR3",
-            "product_version": "eMMC 5.1 / LPDDR3",
+            "product_family": "eMCP LPDDR3",
             "storage_interface": "eMMC 5.1",
             "dram_type": "LPDDR3",
             "package_code": "221 FBGA",
             "opTemp": "-25°C ~ +85°C"
           },
           "M4": {
-            "product_family": "Kingston eMCP LPDDR4X",
-            "product_version": "eMMC 5.1 / LPDDR4X",
+            "product_family": "eMCP LPDDR4X",
             "storage_interface": "eMMC 5.1",
             "dram_type": "LPDDR4X",
             "package_code": "254 FBGA",
@@ -193,7 +191,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "system": "Kingston eMCP",
             "group": "eMCP",
             "config_code": {
               "$var": "configCode"
