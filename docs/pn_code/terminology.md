@@ -29,9 +29,9 @@
 - 若 `product_version` 与 `storage_interface` 完全相同，优先只输出 `storage_interface`；`product_family` 只在表达真实系列、等级或 MCP 组合时输出。
 - 输出层不维护历史别名，也不把旧 camelCase key 自动转换为 canonical key。新增规则必须直接使用 canonical snake_case key；旧 key 只应保留在审计测试的禁止列表里。
 
-## DRAM 预留字段
+## DRAM
 
-后续加入 DRAM / MCP DRAM 子系统解析时，使用以下字段，避免和 NAND 字段混用：
+DRAM / MCP DRAM 子系统解析使用以下字段，避免和 NAND 字段混用：
 
 | 字段 | 含义 | 示例 |
 | --- | --- | --- |
@@ -43,9 +43,52 @@
 | `dram_speed` | DRAM 速率 | `4266 Mbps`, `8533 Mbps` |
 | `dram_width` | DRAM 组织位宽 | `x16`, `x32` |
 | `dram_voltage` | DRAM 电压/I/O 信息 | `VDD2 1.8V / VDDQ 0.6V` |
+| `die_revision` | DRAM die 修订或设计修订 | `Rev A`, `Rev E` |
+
+### DRAM 标准输出格式
+
+standalone DRAM 顶层字段：
+
+| 顶层字段 | 含义 |
+| --- | --- |
+| `type` | 固定输出 `dram`，展示为 `DRAM` |
+| `density` | 当前 DRAM component 总容量，单位仍为 Mbit |
+| `deviceWidth` | 当前 DRAM component 组织位宽 |
+| `voltage` | 主电源或 VDD/VDDQ 组合 |
+
+standalone DRAM `extraInfo` 只输出以下补充字段：
+
+| 字段 | 输出要求 |
+| --- | --- |
+| `dram_type` | 必须是规范 DRAM 类型名，不带厂商名，不输出组合候选 |
+| `dram_die_stack` | 只在 PN 明确给出 die stack / addressing token 时输出 |
+| `dram_speed` | 速率、speed bin 或 JEDEC bin |
+| `operation_temperature` | 温度等级或范围 |
+| `die_revision` | die/design revision |
+| `config_code` | 厂商配置 token |
+| `package_code` | 厂商封装 token |
+| `prod_status` | ES/MS/QS 等生产状态 |
+
+`dram_type` 规范值优先使用：
+
+| 类别 | 标准值 |
+| --- | --- |
+| SDR / DDR | `SDR SDRAM`, `LPSDR SDRAM`, `DDR SDRAM`, `DDR2 SDRAM`, `DDR3 SDRAM`, `DDR4 SDRAM`, `DDR5 SDRAM` |
+| LPDDR | `LPDDR SDRAM`, `LPDDR2 SDRAM`, `LPDDR3 SDRAM`, `LPDDR4 SDRAM`, `LPDDR5 SDRAM` |
+| Graphics DRAM | `GDDR5 SGRAM`, `GDDR5X SGRAM`, `GDDR6 SGRAM`, `GDDR6X SGRAM` |
+| RLDRAM | `RLDRAM`, `RLDRAM 3` |
+
+不符合标准的输出：
+
+- 不在 `dram_type` 里写厂商名，例如不要输出 `Micron DDR5 SDRAM`。
+- 不同时输出 `product_family` / `product_version` 和 `dram_type` 来描述同一件事。
+- standalone DRAM 不重复输出已经在顶层表达的 `dram_density` / `dram_width`。
+- 不输出 `DDR SDRAM / LPDDR SDRAM`、`GDDR6/GDDR6X SGRAM` 这类组合候选；无法确认时应输出更保守的单一标准值，或等待后续 token 细化。
 
 MCP/eMCP/uMCP 同时有 NAND 和 DRAM 时：
 
 - NAND storage 使用 `storage_*`、`component_density`、`die_density`、`generation_info`。
 - DRAM 使用 `dram_*`。
 - 不要用 `component_density` 表示 DRAM 容量。
+- 只在外部资料确认封装尺寸/ball map 时输出具体封装；否则优先输出 `package_code`。
+- standalone DRAM 若顶层已经输出 `density` / `deviceWidth`，`extraInfo` 不再重复输出 `dram_density` / `dram_width`。

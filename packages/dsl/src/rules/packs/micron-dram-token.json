@@ -1,0 +1,935 @@
+[
+  {
+    "id": "vendor.micron.dram.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MT(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62)[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT"
+      ],
+      "tables": {
+        "familyObj": {
+          "40": {
+            "dram_type": "DDR4 SDRAM"
+          },
+          "41": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "42": {
+            "dram_type": "LPDDR2 SDRAM"
+          },
+          "44": {
+            "dram_type": "RLDRAM 3"
+          },
+          "46": {
+            "dram_type": "DDR SDRAM"
+          },
+          "47": {
+            "dram_type": "DDR2 SDRAM"
+          },
+          "48": {
+            "dram_type": "SDR SDRAM"
+          },
+          "49": {
+            "dram_type": "RLDRAM"
+          },
+          "51": {
+            "dram_type": "GDDR5 SGRAM"
+          },
+          "52": {
+            "dram_type": "LPDDR3 SDRAM"
+          },
+          "53": {
+            "dram_type": "LPDDR4 SDRAM"
+          },
+          "58": {
+            "dram_type": "GDDR5X SGRAM"
+          },
+          "60": {
+            "dram_type": "DDR5 SDRAM"
+          },
+          "61": {
+            "dram_type": "GDDR6 SGRAM"
+          },
+          "62": {
+            "dram_type": "LPDDR5 SDRAM"
+          }
+        },
+        "voltage": {
+          "AX": "1.275V VDD",
+          "HC": "1.8V VDD / 1.2V I/O",
+          "A": "1.2V VDD",
+          "B": "1.1V VDD",
+          "D": "1.1V VDD / 0.6V VDDQ",
+          "E": "1.1V VDD / 1.1V or 0.6V VDDQ",
+          "F": "1.05V VDD / 0.5V VDDQ",
+          "G": "3.0V VDD",
+          "H": "1.8V VDD",
+          "J": "1.5V VDD",
+          "K": "1.35V VDD",
+          "L": "1.2V VDD",
+          "LC": "3.3V VDD",
+          "M": "1.25V VDD",
+          "N": "1.0V VDD",
+          "R": "1.55V VDD",
+          "V": "2.5V VDD"
+        },
+        "configToken": {
+          "16M8": "16M8",
+          "16M16": "16M16",
+          "32M8": "32M8",
+          "32M16": "32M16",
+          "64M4": "64M4",
+          "64M8": "64M8",
+          "64M16": "64M16",
+          "64M32": "64M32",
+          "128M4": "128M4",
+          "128M8": "128M8",
+          "128M16": "128M16",
+          "128M32": "128M32",
+          "256M4": "256M4",
+          "256M8": "256M8",
+          "256M16": "256M16",
+          "256M32": "256M32",
+          "256M64": "256M64",
+          "384M32": "384M32",
+          "384M64": "384M64",
+          "512M4": "512M4",
+          "512M8": "512M8",
+          "512M16": "512M16",
+          "512M32": "512M32",
+          "512M64": "512M64",
+          "768M32": "768M32",
+          "768M64": "768M64",
+          "1536M32": "1536M32",
+          "1536M64": "1536M64",
+          "1G4": "1G4",
+          "1G8": "1G8",
+          "1G16": "1G16",
+          "1G32": "1G32",
+          "1G64": "1G64",
+          "2G4": "2G4",
+          "2G8": "2G8",
+          "2G16": "2G16",
+          "2G32": "2G32",
+          "2G64": "2G64",
+          "4G4": "4G4",
+          "4G8": "4G8",
+          "4G16": "4G16",
+          "4G32": "4G32",
+          "6G4": "6G4",
+          "16M32": "16M32",
+          "32M32": "32M32"
+        },
+        "density": {
+          "16M8": 128,
+          "16M16": 256,
+          "32M8": 256,
+          "32M16": 512,
+          "64M4": 256,
+          "64M8": 512,
+          "64M16": 1024,
+          "64M32": 2048,
+          "128M4": 512,
+          "128M8": 1024,
+          "128M16": 2048,
+          "128M32": 4096,
+          "256M4": 1024,
+          "256M8": 2048,
+          "256M16": 4096,
+          "256M32": 8192,
+          "256M64": 16384,
+          "384M32": 12288,
+          "384M64": 24576,
+          "512M4": 2048,
+          "512M8": 4096,
+          "512M16": 8192,
+          "512M32": 16384,
+          "512M64": 32768,
+          "768M32": 24576,
+          "768M64": 49152,
+          "1536M32": 49152,
+          "1536M64": 98304,
+          "1G4": 4096,
+          "1G8": 8192,
+          "1G16": 16384,
+          "1G32": 32768,
+          "1G64": 65536,
+          "2G4": 8192,
+          "2G8": 16384,
+          "2G16": 32768,
+          "2G32": 65536,
+          "2G64": 131072,
+          "4G4": 16384,
+          "4G8": 32768,
+          "4G16": 65536,
+          "4G32": 131072,
+          "6G4": 24576,
+          "16M32": 512,
+          "32M32": 1024
+        },
+        "deviceWidth": {
+          "16M8": 8,
+          "16M16": 16,
+          "32M8": 8,
+          "32M16": 16,
+          "64M4": 4,
+          "64M8": 8,
+          "64M16": 16,
+          "64M32": 32,
+          "128M4": 4,
+          "128M8": 8,
+          "128M16": 16,
+          "128M32": 32,
+          "256M4": 4,
+          "256M8": 8,
+          "256M16": 16,
+          "256M32": 32,
+          "256M64": 64,
+          "384M32": 32,
+          "384M64": 64,
+          "512M4": 4,
+          "512M8": 8,
+          "512M16": 16,
+          "512M32": 32,
+          "512M64": 64,
+          "768M32": 32,
+          "768M64": 64,
+          "1536M32": 32,
+          "1536M64": 64,
+          "1G4": 4,
+          "1G8": 8,
+          "1G16": 16,
+          "1G32": 32,
+          "1G64": 64,
+          "2G4": 4,
+          "2G8": 8,
+          "2G16": 16,
+          "2G32": 32,
+          "2G64": 64,
+          "4G4": 4,
+          "4G8": 8,
+          "4G16": 16,
+          "4G32": 32,
+          "6G4": 4,
+          "16M32": 32,
+          "32M32": 32
+        },
+        "deviceVersionToken": {
+          "A2": "A2",
+          "D1": "D1",
+          "D2": "D2",
+          "D4": "D4",
+          "D6": "D6",
+          "D8": "D8",
+          "LF": "LF",
+          "LG": "LG",
+          "L2": "L2",
+          "L4": "L4"
+        },
+        "deviceVersionObj": {
+          "D1": {
+            "dram_die_stack": "Single die"
+          },
+          "D2": {
+            "dram_die_stack": "2-die stack"
+          },
+          "D4": {
+            "dram_die_stack": "4-die stack"
+          },
+          "D6": {
+            "dram_die_stack": "6-die stack"
+          },
+          "D8": {
+            "dram_die_stack": "8-die stack"
+          },
+          "LF": {
+            "dram_die_stack": "Single die"
+          },
+          "LG": {
+            "dram_die_stack": "Single die, reduced page-size addressing"
+          },
+          "L2": {
+            "dram_die_stack": "2-die stack"
+          },
+          "L4": {
+            "dram_die_stack": "4-die stack"
+          }
+        },
+        "packageToken": {
+          "DA": "DA",
+          "DE": "DE",
+          "DH": "DH",
+          "DS": "DS",
+          "FW": "FW",
+          "HB": "HB",
+          "HC": "HC",
+          "HF": "HF",
+          "HJ": "HJ",
+          "JA": "JA",
+          "JE": "JE",
+          "JT": "JT",
+          "KL": "KL",
+          "KPA": "KPA",
+          "LF": "LF",
+          "P": "P",
+          "PF": "PF",
+          "RT": "RT",
+          "RW": "RW",
+          "RZ": "RZ",
+          "SA": "SA",
+          "TB": "TB",
+          "TC": "TC",
+          "TG": "TG",
+          "ZW": "ZW",
+          "B5": "B5",
+          "CM": "CM",
+          "KQ": "KQ",
+          "MA": "MA"
+        },
+        "packageObj": {
+          "DA": {
+            "package_code": "DA"
+          },
+          "DE": {
+            "package_code": "DE"
+          },
+          "DH": {
+            "package_code": "DH"
+          },
+          "DS": {
+            "package_code": "DS"
+          },
+          "FW": {
+            "package_code": "FW"
+          },
+          "HB": {
+            "package_code": "HB"
+          },
+          "HC": {
+            "package_code": "HC"
+          },
+          "HF": {
+            "package_code": "HF"
+          },
+          "HJ": {
+            "package_code": "HJ"
+          },
+          "JA": {
+            "package_code": "JA"
+          },
+          "JE": {
+            "package_code": "JE"
+          },
+          "JT": {
+            "package_code": "JT"
+          },
+          "KL": {
+            "package_code": "KL"
+          },
+          "KPA": {
+            "package_code": "KPA"
+          },
+          "LF": {
+            "package_code": "LF"
+          },
+          "P": {
+            "package_code": "P"
+          },
+          "PF": {
+            "package_code": "PF"
+          },
+          "RT": {
+            "package_code": "RT"
+          },
+          "RW": {
+            "package_code": "RW"
+          },
+          "RZ": {
+            "package_code": "RZ"
+          },
+          "SA": {
+            "package_code": "SA"
+          },
+          "TB": {
+            "package_code": "TB"
+          },
+          "TC": {
+            "package_code": "TC"
+          },
+          "TG": {
+            "package_code": "TG"
+          },
+          "ZW": {
+            "package_code": "ZW"
+          },
+          "B5": {
+            "package_code": "B5"
+          },
+          "CM": {
+            "package_code": "CM"
+          },
+          "KQ": {
+            "package_code": "KQ"
+          },
+          "MA": {
+            "package_code": "MA"
+          }
+        },
+        "speedToken": {
+          "5": "5",
+          "12": "12",
+          "13": "13",
+          "14": "14",
+          "16": "16",
+          "21": "21",
+          "24": "24",
+          "25": "25",
+          "75": "75",
+          "80": "80",
+          "100": "100",
+          "107": "107",
+          "020F": "020F",
+          "031": "031",
+          "036": "036",
+          "046": "046",
+          "053": "053",
+          "062E": "062E",
+          "062H": "062H",
+          "062": "062",
+          "068E": "068E",
+          "068H": "068H",
+          "068": "068",
+          "075E": "075E",
+          "075H": "075H",
+          "075": "075",
+          "083E": "083E",
+          "083H": "083H",
+          "083J": "083J",
+          "083": "083",
+          "093E": "093E",
+          "093H": "093H",
+          "093": "093",
+          "48B": "48B",
+          "52B": "52B",
+          "56B": "56B",
+          "60B": "60B",
+          "64B": "64B",
+          "68B": "68B",
+          "72B": "72B",
+          "76B": "76B",
+          "80B": "80B",
+          "88B": "88B",
+          "5B": "5B",
+          "6A": "6A",
+          "25E": "25E",
+          "19G": "19G"
+        },
+        "speedObj": {
+          "5": {
+            "dram_speed": "200 MHz speed bin"
+          },
+          "12": {
+            "dram_speed": "GDDR6-12Gbps",
+            "dram_type": "GDDR6 SGRAM"
+          },
+          "13": {
+            "dram_speed": "GDDR6-13Gbps",
+            "dram_type": "GDDR6 SGRAM"
+          },
+          "14": {
+            "dram_speed": "GDDR6-14Gbps",
+            "dram_type": "GDDR6 SGRAM"
+          },
+          "16": {
+            "dram_speed": "GDDR6-16Gbps",
+            "dram_type": "GDDR6 SGRAM"
+          },
+          "21": {
+            "dram_speed": "GDDR6X-21Gbps",
+            "dram_type": "GDDR6X SGRAM"
+          },
+          "24": {
+            "dram_speed": "GDDR6X-24Gbps",
+            "dram_type": "GDDR6X SGRAM"
+          },
+          "25": {
+            "dram_speed": "400 MHz speed bin"
+          },
+          "75": {
+            "dram_speed": "133 MHz speed bin"
+          },
+          "80": {
+            "dram_speed": "GDDR5-8Gbps"
+          },
+          "100": {
+            "dram_speed": "GDDR5X-10Gbps"
+          },
+          "107": {
+            "dram_speed": "1866 MT/s / 933 MHz speed bin"
+          },
+          "020F": {
+            "dram_speed": "LPDDR5-9600 (4800 MHz)"
+          },
+          "031": {
+            "dram_speed": "LPDDR5-6400 (3200 MHz)"
+          },
+          "036": {
+            "dram_speed": "LPDDR5-5500 (2750 MHz)"
+          },
+          "046": {
+            "dram_speed": "LPDDR4-4266 (2133 MHz)"
+          },
+          "053": {
+            "dram_speed": "LPDDR4-3733 (1866 MHz)"
+          },
+          "062E": {
+            "dram_speed": "DDR4-3200 CL22"
+          },
+          "062H": {
+            "dram_speed": "DDR4-3200 CL26"
+          },
+          "062": {
+            "dram_speed": "LPDDR4-3200 (1600 MHz)"
+          },
+          "068E": {
+            "dram_speed": "DDR4-2933 CL20"
+          },
+          "068H": {
+            "dram_speed": "DDR4-2933 CL24"
+          },
+          "068": {
+            "dram_speed": "DDR4-2933 CL21"
+          },
+          "075E": {
+            "dram_speed": "DDR4-2666 CL18"
+          },
+          "075H": {
+            "dram_speed": "DDR4-2666 CL22"
+          },
+          "075": {
+            "dram_speed": "DDR4-2666 CL19"
+          },
+          "083E": {
+            "dram_speed": "DDR4-2400 CL16"
+          },
+          "083H": {
+            "dram_speed": "DDR4-2400 CL20"
+          },
+          "083J": {
+            "dram_speed": "DDR4-2400 CL19"
+          },
+          "083": {
+            "dram_speed": "DDR4-2400 CL17"
+          },
+          "093E": {
+            "dram_speed": "DDR4-2133 CL15"
+          },
+          "093H": {
+            "dram_speed": "DDR4-2133 CL18"
+          },
+          "093": {
+            "dram_speed": "LPDDR4-2133 (1066 MHz)"
+          },
+          "48B": {
+            "dram_speed": "DDR5-4800B"
+          },
+          "52B": {
+            "dram_speed": "DDR5-5200B"
+          },
+          "56B": {
+            "dram_speed": "DDR5-5600B"
+          },
+          "60B": {
+            "dram_speed": "DDR5-6000B"
+          },
+          "64B": {
+            "dram_speed": "DDR5-6400B"
+          },
+          "68B": {
+            "dram_speed": "DDR5-6800B"
+          },
+          "72B": {
+            "dram_speed": "DDR5-7200B"
+          },
+          "76B": {
+            "dram_speed": "DDR5-7600B"
+          },
+          "80B": {
+            "dram_speed": "DDR5-8000B"
+          },
+          "88B": {
+            "dram_speed": "DDR5-8800B"
+          },
+          "5B": {
+            "dram_speed": "DDR-400"
+          },
+          "6A": {
+            "dram_speed": "166 MHz speed bin"
+          },
+          "25E": {
+            "dram_speed": "DDR2-800"
+          },
+          "19G": {
+            "dram_speed": "GDDR6X-19Gbps",
+            "dram_type": "GDDR6X SGRAM"
+          }
+        },
+        "temperatureObj": {
+          "AAT": {
+            "operation_temperature": "Automotive Grade (-40°C ~ 105°C)"
+          },
+          "AIT": {
+            "operation_temperature": "Automotive Industrial (-40°C ~ 85°C)"
+          },
+          "AUT": {
+            "operation_temperature": "Automotive Ultra (-40°C ~ 125°C)"
+          },
+          "IT": {
+            "operation_temperature": "Industrial (-40°C ~ 85°C)"
+          },
+          "AT": {
+            "operation_temperature": "Automotive"
+          },
+          "WT": {
+            "operation_temperature": "Wireless (-25°C ~ 85°C)"
+          },
+          "XT": {
+            "operation_temperature": "Wide temperature"
+          },
+          "UT": {
+            "operation_temperature": "Ultra temperature"
+          },
+          "ET": {
+            "operation_temperature": "Extreme temperature"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Sample"
+          },
+          "MS": {
+            "prod_status": "Mechanical Sample"
+          },
+          "QS": {
+            "prod_status": "Qualification Sample"
+          }
+        },
+        "revisionObj": {
+          "A": {
+            "die_revision": "Rev A"
+          },
+          "B": {
+            "die_revision": "Rev B"
+          },
+          "C": {
+            "die_revision": "Rev C"
+          },
+          "D": {
+            "die_revision": "Rev D"
+          },
+          "E": {
+            "die_revision": "Rev E"
+          },
+          "F": {
+            "die_revision": "Rev F"
+          },
+          "G": {
+            "die_revision": "Rev G"
+          },
+          "H": {
+            "die_revision": "Rev H"
+          },
+          "R": {
+            "die_revision": "Rev R"
+          },
+          "J": {
+            "die_revision": "Rev J"
+          },
+          "K": {
+            "die_revision": "Rev K"
+          },
+          "L": {
+            "die_revision": "Rev L"
+          },
+          "P": {
+            "die_revision": "Rev P"
+          },
+          "U": {
+            "die_revision": "Rev U"
+          }
+        },
+        "voltageToken": {
+          "AX": "AX",
+          "HC": "HC",
+          "A": "A",
+          "B": "B",
+          "D": "D",
+          "E": "E",
+          "F": "F",
+          "G": "G",
+          "H": "H",
+          "J": "J",
+          "K": "K",
+          "L": "L",
+          "LC": "LC",
+          "M": "M",
+          "N": "N",
+          "R": "R",
+          "V": "V"
+        },
+        "dramTypeOverrideObj": {
+          "46:H": {
+            "dram_type": "LPDDR SDRAM"
+          },
+          "46:HC": {
+            "dram_type": "LPDDR SDRAM"
+          },
+          "48:H": {
+            "dram_type": "LPSDR SDRAM"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "voltageToken",
+          "to": "voltageCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{voltageCode}}",
+          "to": "familyVoltageKey"
+        },
+        {
+          "op": "map",
+          "from": "familyVoltageKey",
+          "table": "dramTypeOverrideObj",
+          "to": "dramTypeOverrideObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "configToken",
+          "to": "configCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "takeLongest",
+          "table": "deviceVersionToken",
+          "to": "deviceVersionCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "deviceVersionCode",
+          "table": "deviceVersionObj",
+          "to": "deviceVersionObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "packageToken",
+          "to": "packageCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedToken",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {
+            "operation_temperature": "Commercial"
+          }
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": ":"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "revisionCode"
+        },
+        {
+          "op": "map",
+          "from": "revisionCode",
+          "table": "revisionObj",
+          "to": "revisionObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramTypeOverrideObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "deviceVersionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "revisionObj"
+        }
+      ],
+      "assign": {
+        "vendor": "micron",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "extraInfo": {
+          "$var": "extra"
+        },
+        "url": {
+          "micron_website": {
+            "$tpl": "https://www.micron.com/support/tools-and-utilities/fbga?matpart={{partNumber}}"
+          }
+        },
+        "urls": [
+          {
+            "url": {
+              "$tpl": "https://www.micron.com/support/tools-and-utilities/fbga?matpart={{partNumber}}"
+            },
+            "desc": "micron_website",
+            "img": "logo",
+            "hint": ""
+          }
+        ]
+      }
+    }
+  }
+]
