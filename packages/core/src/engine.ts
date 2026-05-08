@@ -132,6 +132,29 @@ function isRedundantGroup(value: unknown, info: FlashInfo): boolean {
   return text === type || text === `${type} flash`;
 }
 
+function matchesProcessNode(value: unknown, info: FlashInfo): boolean {
+  const text = normalizeInfoText(value);
+  const processNode = normalizeInfoText(info.processNode);
+  return text.length > 0 && processNode.length > 0 && text === processNode;
+}
+
+function isRedundantNandTechnology(value: unknown, info: FlashInfo, extra: Record<string, unknown>): boolean {
+  const text = normalizeInfoText(value);
+  if (text.length === 0) {
+    return false;
+  }
+  if (matchesProcessNode(value, info) || text === normalizeInfoText(extra.generation_info)) {
+    return true;
+  }
+
+  const processNode = normalizeInfoText(info.processNode);
+  return text === "bics flash" && processNode.startsWith("bics");
+}
+
+function isManagedNandType(info: FlashInfo): boolean {
+  return ["emmc", "ufs", "emcp", "umcp", "inand", "e2nand"].includes(normalizeInfoText(info.type));
+}
+
 function pruneRedundantExtraInfo(info: FlashInfo): void {
   const extra = info.extraInfo;
   if (!extra || typeof extra !== "object" || Array.isArray(extra)) {
@@ -141,6 +164,7 @@ function pruneRedundantExtraInfo(info: FlashInfo): void {
   const productVersion = extra.product_version;
   const storageInterface = extra.storage_interface;
   const productFamily = extra.product_family;
+  const managedNandType = isManagedNandType(info);
 
   if (isRedundantSystem(extra.system, info)) {
     delete extra.system;
@@ -150,6 +174,12 @@ function pruneRedundantExtraInfo(info: FlashInfo): void {
   }
   if (isRedundantGroup(extra.group, info)) {
     delete extra.group;
+  }
+  if (managedNandType && matchesProcessNode(extra.generation_info, info)) {
+    delete extra.generation_info;
+  }
+  if (managedNandType && isRedundantNandTechnology(extra.nand_technology, info, extra)) {
+    delete extra.nand_technology;
   }
 
   const productVersionText = normalizeInfoText(productVersion);
@@ -168,6 +198,10 @@ function pruneRedundantExtraInfo(info: FlashInfo): void {
       productFamilyText === normalizeInfoText(info.type))
   ) {
     delete extra.product_family;
+  }
+
+  if (managedNandType && normalizeInfoText(storageInterface) === normalizeInfoText(info.type)) {
+    delete extra.storage_interface;
   }
 }
 
@@ -748,6 +782,16 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
       result.push(`${translateString(vendor, opts.lang)} ${normalizedPartNumber}`);
     };
 
+    for (const entry of managedNandPartNumbers) {
+      if (atLimit()) {
+        return result;
+      }
+      const hit = partMatch ? contains(entry.pn, query) : entry.pn === query;
+      if (hit) {
+        appendPartNumberSuggestion(entry.vendor, entry.pn);
+      }
+    }
+
     for (const [vendor, partNumbers] of fdb.vendors.entries()) {
       for (const partNumber of partNumbers.keys()) {
         if (atLimit()) {
@@ -757,16 +801,6 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
         if (hit) {
           appendPartNumberSuggestion(vendor, partNumber);
         }
-      }
-    }
-
-    for (const entry of managedNandPartNumbers) {
-      if (atLimit()) {
-        return result;
-      }
-      const hit = partMatch ? contains(entry.pn, query) : entry.pn === query;
-      if (hit) {
-        appendPartNumberSuggestion(entry.vendor, entry.pn);
       }
     }
 

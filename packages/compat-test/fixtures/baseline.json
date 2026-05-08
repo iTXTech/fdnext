@@ -2386,6 +2386,25 @@
       }
     },
     {
+      "name": "search-pn-managed-emmc",
+      "endpoint": "searchPn",
+      "params": {
+        "lang": "eng",
+        "limit": 5,
+        "pn": "EMMC"
+      },
+      "expected": {
+        "data": [
+          "Kingston EMMC04G-CT32",
+          "Kingston EMMC04G-MT32",
+          "Kingston EMMC04G-WT32",
+          "Kingston EMMC08G-CT32",
+          "Kingston EMMC08G-MV28"
+        ],
+        "result": true
+      }
+    },
+    {
       "name": "search-id-micron",
       "endpoint": "searchId",
       "params": {

@@ -108,6 +108,33 @@
           "JFJ": "BiCS FLASH",
           "JFR": "BiCS FLASH"
         },
+        "processFamily": {
+          "AFB": "BICS",
+          "AFE": "BICS",
+          "JFG": "BICS",
+          "JFM": "BICS",
+          "JFP": "BICS",
+          "JFJ": "BICS",
+          "JFR": "BICS"
+        },
+        "bicsProcessNode": {
+          "BICS:2": "BiCS2",
+          "BICS:3": "BiCS3",
+          "BICS:4": "BiCS4",
+          "BICS:5": "BiCS5",
+          "BICS:6": "BiCS6",
+          "BICS:8": "BiCS8",
+          "BICS:M": "BiCS4.5"
+        },
+        "bicsGenerationObj": {
+          "BICS:2": { "generation_info": "BiCS2" },
+          "BICS:3": { "generation_info": "BiCS3" },
+          "BICS:4": { "generation_info": "BiCS4" },
+          "BICS:5": { "generation_info": "BiCS5" },
+          "BICS:6": { "generation_info": "BiCS6" },
+          "BICS:8": { "generation_info": "BiCS8" },
+          "BICS:M": { "generation_info": "BiCS4.5" }
+        },
         "classObj": {
           "BAI": {
             "product_class": "Consumer / Industrial",
@@ -125,6 +152,14 @@
             "product_class": "Automotive AEC-Q100 Grade 3",
             "operation_temperature": "-40°C ~ 85°C"
           }
+        },
+        "packageBase": {
+          "BA": "BGA",
+          "LA": "LGA"
+        },
+        "packageExact": {
+          "BAIT": "BGA153",
+          "LA01": "LGA60"
         }
       },
       "steps": [
@@ -143,8 +178,15 @@
         {
           "op": "map",
           "from": "seriesCode",
+          "table": "processFamily",
+          "to": "processFamily",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
           "table": "processNode",
-          "to": "processNode",
+          "to": "seriesProcessNode",
           "default": "Unknown"
         },
         {
@@ -170,13 +212,68 @@
         },
         {
           "op": "take",
-          "len": 3,
-          "to": "skipPackagePrefix"
+          "len": 1,
+          "to": "packagePrefixCode"
         },
         {
           "op": "take",
-          "len": 3,
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{processFamily}}:{{generationCode}}",
+          "to": "bicsProcessKey"
+        },
+        {
+          "op": "map",
+          "from": "bicsProcessKey",
+          "table": "bicsProcessNode",
+          "to": "bicsProcessNode",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "bicsProcessNode",
+          "secondary": "seriesProcessNode",
+          "to": "processNode"
+        },
+        {
+          "op": "map",
+          "from": "bicsProcessKey",
+          "table": "bicsGenerationObj",
+          "to": "bicsGenerationObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "revisionCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageBaseCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "classSuffixCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{packageBaseCode}}{{classSuffixCode}}",
           "to": "classCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageDetailCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{classCode}}{{packageDetailCode}}",
+          "to": "packageExactCode"
         },
         {
           "op": "map",
@@ -184,6 +281,26 @@
           "table": "classObj",
           "to": "classObj",
           "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageExactCode",
+          "table": "packageExact",
+          "to": "packageExact",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "packageBaseCode",
+          "table": "packageBase",
+          "to": "packageBase",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "packageExact",
+          "secondary": "packageBase",
+          "to": "package"
         },
         {
           "op": "set",
@@ -206,6 +323,11 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "bicsGenerationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "classObj"
         }
       ],
@@ -217,6 +339,9 @@
         },
         "processNode": {
           "$var": "processNode"
+        },
+        "package": {
+          "$var": "package"
         },
         "extraInfo": {
           "$var": "extra"

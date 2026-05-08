@@ -26,6 +26,8 @@ PN 结构：
 | series `JFM/JFJ` | UFS 4.0 |
 | series `JFR` | UFS 4.1 |
 | density `G8/G9/T0/T1/T2/T3` | 32GB/64GB/128GB/256GB/512GB/1TB |
+| package/revision 第 2 位 `2/3/4/5/6/8/M` | 复用 raw NAND 工艺映射，输出 `BiCS2/3/4/5/6/8/4.5` |
+| package suffix `BA` / exact `BAIT` | 顶层 `package` 输出 `BGA` / `BGA153`，精确后缀优先 |
 | class `BAI/BAT` | Consumer / Industrial, -25°C to 85°C |
 | class `BAB` | Automotive AEC-Q100 Grade 2, -40°C to 105°C |
 | class `BAA` | Automotive AEC-Q100 Grade 3, -40°C to 85°C |
@@ -49,4 +51,4 @@ PN 结构：
 ## 注意
 
 KIOXIA automotive UFS 4.0 使用 `JFJ` series；consumer/industrial UFS 4.0 使用 `JFM` series；UFS 4.1 当前使用 `JFR` series。
-
+BiCS generation 优先从 package/revision token 的第 2 位推定，并复用 raw NAND `processNode` 表。推定结果写入顶层 `processNode`，不在 `extraInfo` 里重复输出 `generation_info`。未知 code 仍回退为 `BiCS FLASH`。

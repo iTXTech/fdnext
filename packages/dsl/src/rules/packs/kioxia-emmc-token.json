@@ -99,6 +99,58 @@
           "AMV": "BiCS FLASH",
           "AMS": "BiCS FLASH"
         },
+        "processFamily": {
+          "BMN": "FG",
+          "BMT": "FG",
+          "BMU": "FG",
+          "BMJ": "FG",
+          "AMV": "BICS",
+          "AMS": "BICS"
+        },
+        "twoDimensionalProcessNode": {
+          "FG:A": "130 nm",
+          "FG:B": "90 nm",
+          "FG:C": "70 nm",
+          "FG:D": "56 nm",
+          "FG:E": "43 nm",
+          "FG:F": "32 nm",
+          "FG:G": "24 nm A-type",
+          "FG:H": "24 nm B-type",
+          "FG:J": "19 nm/1x",
+          "FG:K": "A19 nm/1y",
+          "FG:L": "15 nm/1z"
+        },
+        "bicsProcessNode": {
+          "BICS:2": "BiCS2",
+          "BICS:3": "BiCS3",
+          "BICS:4": "BiCS4",
+          "BICS:5": "BiCS5",
+          "BICS:6": "BiCS6",
+          "BICS:8": "BiCS8",
+          "BICS:M": "BiCS4.5"
+        },
+        "twoDimensionalGenerationObj": {
+          "FG:A": { "generation_info": "130 nm" },
+          "FG:B": { "generation_info": "90 nm" },
+          "FG:C": { "generation_info": "70 nm" },
+          "FG:D": { "generation_info": "56 nm" },
+          "FG:E": { "generation_info": "43 nm" },
+          "FG:F": { "generation_info": "32 nm" },
+          "FG:G": { "generation_info": "24 nm A-type" },
+          "FG:H": { "generation_info": "24 nm B-type" },
+          "FG:J": { "generation_info": "19 nm/1x" },
+          "FG:K": { "generation_info": "A19 nm/1y" },
+          "FG:L": { "generation_info": "15 nm/1z" }
+        },
+        "bicsGenerationObj": {
+          "BICS:2": { "generation_info": "BiCS2" },
+          "BICS:3": { "generation_info": "BiCS3" },
+          "BICS:4": { "generation_info": "BiCS4" },
+          "BICS:5": { "generation_info": "BiCS5" },
+          "BICS:6": { "generation_info": "BiCS6" },
+          "BICS:8": { "generation_info": "BiCS8" },
+          "BICS:M": { "generation_info": "BiCS4.5" }
+        },
         "classObj": {
           "BAI": {
             "product_class": "Consumer",
@@ -120,6 +172,14 @@
             "product_class": "Automotive AEC-Q100 Grade 3",
             "operation_temperature": "-40°C ~ 85°C"
           }
+        },
+        "packageBase": {
+          "BA": "BGA",
+          "LA": "LGA"
+        },
+        "packageExact": {
+          "BAIT": "BGA153",
+          "LA01": "LGA60"
         }
       },
       "steps": [
@@ -138,8 +198,15 @@
         {
           "op": "map",
           "from": "seriesCode",
+          "table": "processFamily",
+          "to": "processFamily",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
           "table": "processNode",
-          "to": "processNode",
+          "to": "seriesProcessNode",
           "default": "Unknown"
         },
         {
@@ -165,13 +232,93 @@
         },
         {
           "op": "take",
-          "len": 3,
-          "to": "skipPackagePrefix"
+          "len": 1,
+          "to": "packagePrefixCode"
         },
         {
           "op": "take",
-          "len": 3,
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "revisionCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{processFamily}}:{{revisionCode}}",
+          "to": "twoDimensionalProcessKey"
+        },
+        {
+          "op": "map",
+          "from": "twoDimensionalProcessKey",
+          "table": "twoDimensionalProcessNode",
+          "to": "twoDimensionalProcessNode",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{processFamily}}:{{generationCode}}",
+          "to": "bicsProcessKey"
+        },
+        {
+          "op": "map",
+          "from": "bicsProcessKey",
+          "table": "bicsProcessNode",
+          "to": "bicsProcessNode",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "bicsProcessNode",
+          "secondary": "twoDimensionalProcessNode",
+          "to": "inferredProcessNode"
+        },
+        {
+          "op": "fallback",
+          "primary": "inferredProcessNode",
+          "secondary": "seriesProcessNode",
+          "to": "processNode"
+        },
+        {
+          "op": "map",
+          "from": "twoDimensionalProcessKey",
+          "table": "twoDimensionalGenerationObj",
+          "to": "twoDimensionalGenerationObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "bicsProcessKey",
+          "table": "bicsGenerationObj",
+          "to": "bicsGenerationObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageBaseCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "classSuffixCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{packageBaseCode}}{{classSuffixCode}}",
           "to": "classCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageDetailCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{classCode}}{{packageDetailCode}}",
+          "to": "packageExactCode"
         },
         {
           "op": "map",
@@ -179,6 +326,26 @@
           "table": "classObj",
           "to": "classObj",
           "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageExactCode",
+          "table": "packageExact",
+          "to": "packageExact",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "packageBaseCode",
+          "table": "packageBase",
+          "to": "packageBase",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "packageExact",
+          "secondary": "packageBase",
+          "to": "package"
         },
         {
           "op": "set",
@@ -201,6 +368,16 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "twoDimensionalGenerationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "bicsGenerationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "classObj"
         }
       ],
@@ -212,6 +389,9 @@
         },
         "processNode": {
           "$var": "processNode"
+        },
+        "package": {
+          "$var": "package"
         },
         "extraInfo": {
           "$var": "extra"

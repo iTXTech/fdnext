@@ -71,6 +71,7 @@ export const DEFAULT_BASELINE_CASES: Array<Omit<BaselineFixture, "expected">> = 
   { name: "decode-id-missing", endpoint: "decodeId", params: { lang: "chs" } },
   { name: "search-pn-micron", endpoint: "searchPn", params: { pn: "MT29", lang: "eng", limit: 5 } },
   { name: "search-pn-sandisk", endpoint: "searchPn", params: { pn: "SDIN", lang: "chs", limit: 5 } },
+  { name: "search-pn-managed-emmc", endpoint: "searchPn", params: { pn: "EMMC", lang: "eng", limit: 5 } },
   { name: "search-id-micron", endpoint: "searchId", params: { id: "2C64", lang: "eng", limit: 5 } },
   { name: "search-id-missing", endpoint: "searchId", params: { lang: "eng", limit: 5 } },
   { name: "summary-eng-known", endpoint: "summary", params: { pn: "MT29F64G08CBABA", lang: "eng" } },

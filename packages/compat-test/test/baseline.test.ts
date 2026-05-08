@@ -8,11 +8,11 @@ const baselinePath = resolve(thisDir, "..", "fixtures", "baseline.json");
 
 const summary = confirmBaseline(baselinePath);
 
-assert.equal(summary.checked, 38);
+assert.equal(summary.checked, 39);
 assert.deepEqual(summary.endpointCounts, {
   decode: 19,
   decodeId: 11,
-  searchPn: 2,
+  searchPn: 3,
   searchId: 2,
   summary: 2,
   summaryId: 2

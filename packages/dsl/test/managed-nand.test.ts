@@ -72,6 +72,11 @@ function assertSearchPnIncludes(query: string, expected: string): void {
   assert.ok(result.includes(expected), `${query} should suggest ${expected}; got ${result.join(", ")}`);
 }
 
+function assertSearchPnFirst(query: string, expected: string): void {
+  const result = engine.searchPartNumber(query, { lang: "eng", limit: 1 });
+  assert.deepEqual(result, [expected], `${query} should prefer managed NAND PN suggestions`);
+}
+
 const managedNandPn = managedNandPnJson as { entries?: unknown[] };
 const managedNandPnForbiddenKeys = new Set(["source", "status", "reference", "inference_source", "external_confirmed", "external_table_confirmed"]);
 for (const entry of managedNandPn.entries ?? []) {
@@ -147,68 +152,72 @@ assertPart("THGBMNG5D1LBAIT", {
   rawVendor: "kioxia",
   type: "eMMC",
   rawDensity: 32768,
-  processNode: "FG NAND",
+  processNode: "15 nm/1z",
+  package: "BGA153",
   extra: {
     "Series Code": "BMN",
     "Storage Interface": "eMMC 5.0",
     "NAND Technology": "FG NAND"
   },
-  absentExtra: ["Product Version"]
+  absentExtra: ["Product Version", "Product Generation"]
 });
 
 assertPart("THGAMVT0T43BAB8", {
   rawVendor: "kioxia",
   type: "eMMC",
   rawDensity: 1048576,
-  processNode: "BiCS FLASH",
+  processNode: "BiCS4",
+  package: "BGA",
   extra: {
     "Series Code": "AMV",
     "Storage Interface": "eMMC 5.1",
-    "NAND Technology": "BiCS FLASH",
     "Product Class": "Automotive AEC-Q100 Grade 2"
   },
-  absentExtra: ["Product Version"]
+  absentExtra: ["Product Version", "NAND Technology", "Product Generation"]
 });
 
 assertPart("THGJFRT3E88BATW", {
   rawVendor: "kioxia",
   type: "UFS",
   rawDensity: 8388608,
-  processNode: "BiCS FLASH",
+  processNode: "BiCS8",
+  package: "BGA",
   extra: {
     "Series Code": "JFR",
     "Storage Interface": "UFS 4.1",
     "Speed Grade": "4640 MB/s"
   },
-  absentExtra: ["Product Version"]
+  absentExtra: ["Product Version", "NAND Technology", "Product Generation"]
 });
 
 assertPart("THGJFJT1T45BAB8", {
   rawVendor: "kioxia",
   type: "UFS",
   rawDensity: 2097152,
-  processNode: "BiCS FLASH",
+  processNode: "BiCS4",
+  package: "BGA",
   extra: {
     "Series Code": "JFJ",
     "Storage Interface": "UFS 4.0",
     "Product Class": "Automotive AEC-Q100 Grade 2",
     "Speed Grade": "4640 MB/s"
   },
-  absentExtra: ["Product Version"]
+  absentExtra: ["Product Version", "NAND Technology", "Product Generation"]
 });
 
 assertPart("THGAFBT1T83BAA5", {
   rawVendor: "kioxia",
   type: "UFS",
   rawDensity: 2097152,
-  processNode: "BiCS FLASH",
+  processNode: "BiCS8",
+  package: "BGA",
   extra: {
     "Series Code": "AFB",
     "Storage Interface": "UFS 2.1",
     "Product Class": "Automotive AEC-Q100 Grade 3",
     "Speed Grade": "1160 MB/s"
   },
-  absentExtra: ["Product Version"]
+  absentExtra: ["Product Version", "NAND Technology", "Product Generation"]
 });
 
 assertPart("THGVX1G7D2GLA08", {
@@ -249,7 +258,7 @@ assertPart("THGBX2G7D2JLA01", {
   rawDensity: 131072,
   processNode: "19 nm/1x",
   cellLevel: "MLC",
-  package: "LGA40 (12 x 18 x 0.7)",
+  package: "LGA60",
   extra: {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
@@ -744,11 +753,10 @@ assertPart("KLMAG1JETD-B041", {
     "Component Density": "16GB package",
     "Die Density": "128Gb",
     "Die Stack": "SDP (1-die)",
-    "Product Generation": "14nm",
     "Product Version": "eMMC 5.1",
     "Interface Type": "HS400"
   },
-  absentExtra: ["Interface info", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Generation", "Interface info", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLM8G1GETF-B041", {
@@ -760,11 +768,10 @@ assertPart("KLM8G1GETF-B041", {
     "Component Density": "8GB package",
     "Die Density": "64Gb",
     "Die Stack": "SDP (1-die)",
-    "Product Generation": "14nm",
     "Product Version": "eMMC 5.1",
     "Interface Type": "HS400"
   },
-  absentExtra: ["Interface info", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Generation", "Interface info", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLMBG2JETD-B041", {
@@ -775,11 +782,10 @@ assertPart("KLMBG2JETD-B041", {
   extra: {
     "Component Density": "32GB package",
     "Die Density": "128Gb",
-    "Product Generation": "14nm",
     "Product Version": "eMMC 5.1",
     "Die Stack": "DDP (2-die)"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KMGD6001BM-B421", {
@@ -828,11 +834,10 @@ assertPart("KLUEG8UHDB-C2E1", {
     "Component Density": "256GB package",
     "Die Density": "256Gb",
     "Die Stack": "ODP (8-die)",
-    "Product Generation": "V5 92L",
     "Product Version": "UFS 3.1",
     "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLUFG8RHHF-F0G1", {
@@ -845,11 +850,10 @@ assertPart("KLUFG8RHHF-F0G1", {
     "Component Density": "512GB package",
     "Die Density": "512Gb",
     "Die Stack": "ODP (8-die)",
-    "Product Generation": "V8 236L",
     "Product Version": "UFS 4.0",
     "Controller": "UFS 4.0 G5-2Lane Controller"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("KLUEG4RHKF-F0H1", {
@@ -862,11 +866,10 @@ assertPart("KLUEG4RHKF-F0H1", {
     "Component Density": "256GB package",
     "Die Density": "512Gb",
     "Die Stack": "QDP (4-die)",
-    "Product Generation": "V8 236L",
     "Product Version": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("EMMC64G-TY29", {
@@ -1079,3 +1082,4 @@ assertSearchPnIncludes("FEUDME256G", "Longsys FEUDME256G-C8H09");
 assertSearchPnIncludes("KMGD6001BM", "Samsung KMGD6001BM-B421");
 assertSearchPnIncludes("THGJFRT1E45", "Kioxia THGJFRT1E45BATV");
 assertSearchPnIncludes("YMUSAB5", "YMTC YMUSAB5TH3A1C1");
+assertSearchPnFirst("EMMC", "Kingston EMMC04G-CT32");

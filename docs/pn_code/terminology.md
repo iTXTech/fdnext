@@ -24,8 +24,8 @@
 
 - 顶层 `density` 继续使用项目既有单位 Mbit。
 - `component_density` 是用户可见字段，可以表达封装总容量；不要把内部 reference 状态塞进此字段。
-- `generation_info` 与顶层 `processNode` 可以同源，但 `generation_info` 用于 `extraInfo` 展示，`processNode` 保持引擎字段。
-- 用户可见 `extraInfo` 避免重复顶层字段：`system` / `managed_family` / `group` 这类只重复 vendor/type 的字段不输出。
+- `generation_info` 可以在 DSL 内部承接产品代际、层数或制程节点；若与顶层 `processNode` 完全相同，用户可见 `extraInfo` 不再重复输出。
+- 用户可见 `extraInfo` 避免重复顶层字段：`system` / `managed_family` / `group` 这类只重复 vendor/type 的字段不输出，`storage_interface` 与顶层 type 完全相同时也不输出。
 - 若 `product_version` 与 `storage_interface` 完全相同，优先只输出 `storage_interface`；`product_family` 只在表达真实系列、等级或 MCP 组合时输出。
 - 输出层不维护历史别名，也不把旧 camelCase key 自动转换为 canonical key。新增规则必须直接使用 canonical snake_case key；旧 key 只应保留在审计测试的禁止列表里。
 

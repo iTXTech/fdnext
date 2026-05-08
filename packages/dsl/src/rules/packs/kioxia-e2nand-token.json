@@ -108,6 +108,7 @@
           "L": "15 nm/1z"
         },
         "basePackage": {
+          "BA": "BGA",
           "XL": "LGA",
           "LA": "LGA"
         },
@@ -131,6 +132,9 @@
           "LGA:7": "LGA52 (14 x 18 x 1.4)",
           "LGA:8": "LGA52 (14 x 18 x 1.04)",
           "LGA:9": "LGA52 (14 x 18 x 1.0)"
+        },
+        "exactPackage": {
+          "LA01": "LGA60"
         },
         "familyObj": {
           "GV": {
@@ -328,6 +332,18 @@
           "to": "detailKey"
         },
         {
+          "op": "tpl",
+          "template": "{{packageCode}}{{classificationCode}}{{detailCode}}",
+          "to": "exactPackageCode"
+        },
+        {
+          "op": "map",
+          "from": "exactPackageCode",
+          "table": "exactPackage",
+          "to": "exactPackageValue",
+          "default": ""
+        },
+        {
           "op": "map",
           "from": "detailKey",
           "table": "detailPackage",
@@ -336,7 +352,13 @@
         },
         {
           "op": "fallback",
-          "primary": "detailPackageValue",
+          "primary": "exactPackageValue",
+          "secondary": "detailPackageValue",
+          "to": "detailedPackageValue"
+        },
+        {
+          "op": "fallback",
+          "primary": "detailedPackageValue",
           "secondary": "basePackage",
           "to": "packageFinal"
         },
