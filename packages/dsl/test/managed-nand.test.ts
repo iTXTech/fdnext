@@ -26,8 +26,11 @@ function assertPart(
     type: string;
     rawDensity?: number;
     density?: string;
+    processNode?: string;
+    cellLevel?: string;
     package?: string;
     extra?: Record<string, unknown>;
+    absentExtra?: string[];
   }
 ): void {
   const info = detect(partNumber);
@@ -40,6 +43,12 @@ function assertPart(
   if (expected.density !== undefined) {
     assert.equal(info.density, expected.density, partNumber);
   }
+  if (expected.processNode !== undefined) {
+    assert.equal(info.processNode, expected.processNode, partNumber);
+  }
+  if (expected.cellLevel !== undefined) {
+    assert.equal(info.cellLevel, expected.cellLevel, partNumber);
+  }
   if (expected.package !== undefined) {
     assert.equal(info.package, expected.package, partNumber);
   }
@@ -47,6 +56,12 @@ function assertPart(
     const extraInfo = extra(info);
     for (const [key, value] of Object.entries(expected.extra)) {
       assert.equal(extraInfo[key], value, `${partNumber} extraInfo.${key}`);
+    }
+  }
+  if (expected.absentExtra) {
+    const extraInfo = extra(info);
+    for (const key of expected.absentExtra) {
+      assert.equal(Object.hasOwn(extraInfo, key), false, `${partNumber} should not expose extraInfo.${key}`);
     }
   }
 }
@@ -195,24 +210,131 @@ assertPart("H28S8Q302CMR", {
 assertPart("H25T2TB88E-X321-N", {
   rawVendor: "skhynix",
   type: "NAND",
-  rawDensity: 2097152,
+  rawDensity: 4194304,
+  processNode: "128L 4D NAND (V6 / H25FTB0)",
+  cellLevel: "TLC",
   extra: {
-    System: "SK hynix 4D NAND",
+    System: "SK hynix H25T NAND package",
     "Density Code": "2T",
-    "Product Generation": "176-layer 4D NAND (V7)",
+    "Product Generation": "128-layer 4D NAND (V6 / H25FTB0)",
+    "Component Density": "4Tbit package",
     "Product Class": "TLC"
-  }
+  },
+  absentExtra: ["Reference Status", "Inference Source"]
 });
 
 assertPart("H25T1TD48C-X630", {
   rawVendor: "skhynix",
   type: "NAND",
+  rawDensity: 2097152,
+  processNode: "238L 4D NAND (V8)",
+  cellLevel: "TLC",
   extra: {
-    System: "SK hynix 4D NAND",
+    System: "SK hynix H25T NAND package",
     "Density Code": "1T",
-    "Product Generation": "238-layer 4D NAND (V9 / H25FTD0)",
+    "Product Generation": "238-layer 4D NAND (V8 / H25FTD0)",
     "Die Density": "512Gb"
-  }
+  },
+  absentExtra: ["Reference Status", "Inference Source"]
+});
+
+assertPart("H25T2TC88C", {
+  rawVendor: "skhynix",
+  type: "NAND",
+  rawDensity: 4194304,
+  processNode: "176L 4D NAND (V7 / H25FTC0)",
+  cellLevel: "TLC",
+  extra: {
+    System: "SK hynix H25T NAND package",
+    "Product Generation": "176-layer 4D NAND (V7 / H25FTC0)",
+    "Component Density": "4Tbit package"
+  },
+  absentExtra: ["Reference Status", "Inference Source"]
+});
+
+assertPart("H25T2TD88C-X682", {
+  rawVendor: "skhynix",
+  type: "NAND",
+  rawDensity: 4194304,
+  processNode: "238L 4D NAND (V8 / H25FTD0)",
+  cellLevel: "TLC",
+  extra: {
+    System: "SK hynix H25T NAND package",
+    "Product Generation": "238-layer 4D NAND (V8 / H25FTD0)",
+    "Component Density": "4Tbit package"
+  },
+  absentExtra: ["Reference Status", "Inference Source"]
+});
+
+assertPart("H25T0QA18CX542", {
+  rawVendor: "skhynix",
+  type: "NAND",
+  rawDensity: 1048576,
+  processNode: "176L 4D NAND QLC (V7Q)",
+  cellLevel: "QLC",
+  extra: {
+    System: "SK hynix H25T NAND package",
+    "Product Generation": "176-layer 4D NAND QLC (V7Q)",
+    "Product Class": "QLC"
+  },
+  absentExtra: ["Reference Status", "Inference Source"]
+});
+
+assertPart("H25T4QM88G", {
+  rawVendor: "skhynix",
+  type: "NAND",
+  rawDensity: 2097152,
+  processNode: "321-layer 4D NAND QLC (V9Q)",
+  cellLevel: "QLC",
+  extra: {
+    System: "SK hynix H25T NAND package",
+    "Product Generation": "321-layer 4D NAND QLC (V9Q)",
+    "Component Density": "2Tb die",
+    "Product Class": "QLC"
+  },
+  absentExtra: ["Reference Status", "Inference Source"]
+});
+
+assertPart("H25QEM8A1B", {
+  rawVendor: "skhynix",
+  type: "NAND",
+  rawDensity: 262144,
+  processNode: "3D NAND V4 MLC",
+  cellLevel: "MLC",
+  extra: {
+    System: "SK hynix H25 NAND",
+    "Product Generation": "3D NAND V4 MLC",
+    "Product Class": "MLC"
+  },
+  absentExtra: ["Reference Status", "Inference Source"]
+});
+
+assertPart("H25JGQ8A1M8R", {
+  rawVendor: "skhynix",
+  type: "NAND",
+  rawDensity: 1048576,
+  processNode: "3D NAND V5 QLC",
+  cellLevel: "QLC",
+  extra: {
+    System: "SK hynix H25 NAND",
+    "Product Generation": "3D NAND V5 QLC",
+    "Product Class": "QLC"
+  },
+  absentExtra: ["Reference Status", "Inference Source"]
+});
+
+assertPart("H25G9TC18CX488", {
+  rawVendor: "skhynix",
+  type: "NAND",
+  rawDensity: 524288,
+  processNode: "176L 4D NAND (V7)",
+  cellLevel: "TLC",
+  extra: {
+    System: "SK hynix H25 NAND",
+    "Product Generation": "176L 4D NAND (V7)",
+    "Product Class": "TLC"
+  },
+  absentExtra: ["Reference Status", "Inference Source"]
 });
 
 assertPart("H27UCG8T2E", {
