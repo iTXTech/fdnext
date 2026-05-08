@@ -166,8 +166,9 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 - 新增 pack：`packages/dsl/src/rules/packs/<vendor>-token.json`
 - 在 `default-rules.ts` 中导入并加入 `defaultDslRules`
-- 添加/更新夹具：`scripts/gen-fixtures.ts:1`
-- 运行回归：`pnpm compat:ci`
+- 添加/更新统一 baseline case：`packages/compat-test/src/index.ts:1`
+- 需要重置基线时运行：`pnpm baseline:gen`
+- 验证：`pnpm test`
 
 ## 7. FlashId DSL（概览）
 
@@ -233,5 +234,6 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 - 新增 pack：`packages/dsl/src/flashid/packs/<vendor>.json`
 - 在 `packages/dsl/src/flashid/default-rules.ts:1` 中导入并加入 `defaultFlashIdRules`
-- 添加/更新夹具：`scripts/gen-fixtures.ts:1`（推荐新增 `decodeId` case）
-- 运行回归：`pnpm compat:ci`
+- 添加/更新统一 baseline case：`packages/compat-test/src/index.ts:1`（推荐新增 `decodeId` case）
+- 需要重置基线时运行：`pnpm baseline:gen`
+- 验证：`pnpm test`

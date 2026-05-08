@@ -5,5 +5,10 @@
     "rootDir": "src",
     "outDir": "dist"
   },
+  "references": [
+    { "path": "../core" },
+    { "path": "../dsl" },
+    { "path": "../resources" }
+  ],
   "include": ["src/**/*.ts"]
 }

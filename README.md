@@ -1,6 +1,6 @@
 # fdnext
 
-`fdnext` 是 [FlashDetector](https://github.com/iTXTech/FlashDetector) 的 TypeScript 实现，采用多包架构，覆盖核心解码引擎、DSL 规则编译、HTTP 服务、CLI 工具、兼容性回归和独立 FDB 生成能力。
+`fdnext` 是 [FlashDetector](https://github.com/iTXTech/FlashDetector) 的 TypeScript 实现，采用多包架构，覆盖核心解码引擎、DSL 规则编译、HTTP 服务、CLI 工具、统一基线测试和独立 FDB 生成能力。
 
 ## 主要特性
 
@@ -18,7 +18,7 @@
 - `@itxtech/fdnext-server`：基于 Hapi 的 HTTP 服务
 - `@itxtech/fdnext-cli`：命令行工具
 - `@itxtech/fdnext-fdbgen`：独立 FDB 生成器与 CLI
-- `@itxtech/fdnext-compat-test`：兼容性夹具与差异对比工具
+- `@itxtech/fdnext-compat-test`：统一 dispatch 基线夹具与确认工具
 
 ## 环境要求
 
@@ -86,18 +86,20 @@ fdnext-fdbgen build --input <dataset-dir> --output <fdb.json> --version <ver> [o
 pnpm fdbgen:crawl-mdb -- --file packages/resources/resources/mdb.json
 ```
 
-## 兼容性回归
+## 基线确认
 
-仓库内置 PHP 与 TS 的行为对比流程：
+仓库测试只确认已提交的统一 dispatch baseline，不再执行 PHP 与 TS 的兼容性回归：
 
 ```bash
-pnpm compat:ci
+pnpm test
 ```
 
-夹具工具依赖的环境变量：
+更新 baseline 时运行：
 
-- `SF_HOME=/path/to/SimpleFramework`
-- `FDNEXT_FLASHDETECTOR=/path/to/FlashDetector`
+```bash
+pnpm baseline:gen
+pnpm baseline:check
+```
 
 ## 数据来源
 

@@ -4,8 +4,14 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "dependencies": {
+    "@itxtech/fdnext-core": "workspace:*",
+    "@itxtech/fdnext-dsl": "workspace:*",
+    "@itxtech/fdnext-resources": "workspace:*"
+  },
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
-    "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
+    "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
+    "test": "tsx test/baseline.test.ts"
   }
 }
