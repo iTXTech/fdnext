@@ -16,14 +16,16 @@ import skhynixUmcpTokenRules from "./packs/skhynix-umcp-token.json" with { type:
 import skhynixE2nandTokenRules from "./packs/skhynix-e2nand-token.json" with { type: "json" };
 import skhynixNandconTokenRules from "./packs/skhynix-nandcon-token.json" with { type: "json" };
 import skhynixRawTokenRules from "./packs/skhynix-raw-token.json" with { type: "json" };
+import kioxiaE2nandTokenRules from "./packs/kioxia-e2nand-token.json" with { type: "json" };
 import kioxiaEmmcTokenRules from "./packs/kioxia-emmc-token.json" with { type: "json" };
 import kioxiaUfsTokenRules from "./packs/kioxia-ufs-token.json" with { type: "json" };
-import kioxiaNandconTokenRules from "./packs/kioxia-nandcon-token.json" with { type: "json" };
 import kioxiaRawTokenRules from "./packs/kioxia-raw-token.json" with { type: "json" };
-import westerndigitalInandTokenRules from "./packs/westerndigital-inand-token.json" with { type: "json" };
-import westerndigitalIssdTokenRules from "./packs/westerndigital-issd-token.json" with { type: "json" };
-import westerndigitalMarkingTokenRules from "./packs/westerndigital-marking-token.json" with { type: "json" };
-import westerndigitalRawTokenRules from "./packs/westerndigital-raw-token.json" with { type: "json" };
+import sandiskInandEmmcTokenRules from "./packs/sandisk-inand-emmc-token.json" with { type: "json" };
+import sandiskInandUfsTokenRules from "./packs/sandisk-inand-ufs-token.json" with { type: "json" };
+import sandiskInandTokenRules from "./packs/sandisk-inand-token.json" with { type: "json" };
+import sandiskIssdTokenRules from "./packs/sandisk-issd-token.json" with { type: "json" };
+import sandiskMarkingTokenRules from "./packs/sandisk-marking-token.json" with { type: "json" };
+import sandiskRawTokenRules from "./packs/sandisk-raw-token.json" with { type: "json" };
 import ymtcProcessTokenRules from "./packs/ymtc-process-token.json" with { type: "json" };
 import ymtcNandTokenRules from "./packs/ymtc-nand-token.json" with { type: "json" };
 import ymtcUnimosTokenRules from "./packs/ymtc-unimos-token.json" with { type: "json" };
@@ -52,14 +54,16 @@ export const defaultDslRules = [
   ...skhynixE2nandTokenRules,
   ...skhynixNandconTokenRules,
   ...skhynixRawTokenRules,
+  ...kioxiaE2nandTokenRules,
   ...kioxiaEmmcTokenRules,
   ...kioxiaUfsTokenRules,
-  ...kioxiaNandconTokenRules,
   ...kioxiaRawTokenRules,
-  ...westerndigitalInandTokenRules,
-  ...westerndigitalIssdTokenRules,
-  ...westerndigitalMarkingTokenRules,
-  ...westerndigitalRawTokenRules,
+  ...sandiskInandEmmcTokenRules,
+  ...sandiskInandUfsTokenRules,
+  ...sandiskInandTokenRules,
+  ...sandiskIssdTokenRules,
+  ...sandiskMarkingTokenRules,
+  ...sandiskRawTokenRules,
   ...ymtcProcessTokenRules,
   ...ymtcNandTokenRules,
   ...ymtcUnimosTokenRules,

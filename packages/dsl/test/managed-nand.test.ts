@@ -70,21 +70,56 @@ assertPart("SDINBDA6-256G-XI1", {
   rawVendor: "sndk",
   type: "eMMC",
   rawDensity: 2097152,
+  processNode: "BiCS3 64L",
   extra: {
     "Product Family": "iNAND IX EM132",
     "Product Version": "eMMC 5.1",
-    "Product Class": "Industrial Extended Temperature"
-  }
+    "Storage Interface": "eMMC 5.1",
+    "Product Class": "Industrial Extended Temperature",
+    "Product Generation": "BiCS3 64L 3D NAND"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("SDINBDG4-32G-ZA3", {
+  rawVendor: "sndk",
+  type: "eMMC",
+  rawDensity: 262144,
+  processNode: "2D NAND",
+  extra: {
+    "Product Family": "iNAND 7250 / EM122-class",
+    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
+    "Product Class": "Automotive"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("SDINFDK4-128G", {
   rawVendor: "sndk",
   type: "UFS",
   rawDensity: 1048576,
+  processNode: "3D NAND",
   extra: {
     "Product Family": "iNAND MC EU521",
-    "Product Version": "UFS 3.1"
-  }
+    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("SDINDDH6-128G-ZA2", {
+  rawVendor: "sndk",
+  type: "UFS",
+  rawDensity: 1048576,
+  processNode: "3D NAND",
+  extra: {
+    "Product Family": "iNAND AT EU312",
+    "Product Version": "UFS 2.1",
+    "Storage Interface": "UFS 2.1",
+    "Product Class": "Automotive"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("SDINZZZ9-128G-ABC", {
@@ -100,9 +135,26 @@ assertPart("THGBMNG5D1LBAIT", {
   rawVendor: "kioxia",
   type: "eMMC",
   rawDensity: 32768,
+  processNode: "FG NAND",
   extra: {
     "Series Code": "BMN",
-    "Product Version": "eMMC 5.0"
+    "Product Version": "eMMC 5.0",
+    "Storage Interface": "eMMC 5.0",
+    "NAND Technology": "FG NAND"
+  }
+});
+
+assertPart("THGAMVT0T43BAB8", {
+  rawVendor: "kioxia",
+  type: "eMMC",
+  rawDensity: 1048576,
+  processNode: "BiCS FLASH",
+  extra: {
+    "Series Code": "AMV",
+    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
+    "NAND Technology": "BiCS FLASH",
+    "Product Class": "Automotive AEC-Q100 Grade 2"
   }
 });
 
@@ -110,9 +162,91 @@ assertPart("THGJFRT3E88BATW", {
   rawVendor: "kioxia",
   type: "UFS",
   rawDensity: 8388608,
+  processNode: "BiCS FLASH",
   extra: {
     "Series Code": "JFR",
-    "Product Version": "UFS 4.1"
+    "Product Version": "UFS 4.1",
+    "Storage Interface": "UFS 4.1",
+    "Speed Grade": "4640 MB/s"
+  }
+});
+
+assertPart("THGJFJT1T45BAB8", {
+  rawVendor: "kioxia",
+  type: "UFS",
+  rawDensity: 2097152,
+  processNode: "BiCS FLASH",
+  extra: {
+    "Series Code": "JFJ",
+    "Product Version": "UFS 4.0",
+    "Storage Interface": "UFS 4.0",
+    "Product Class": "Automotive AEC-Q100 Grade 2",
+    "Speed Grade": "4640 MB/s"
+  }
+});
+
+assertPart("THGAFBT1T83BAA5", {
+  rawVendor: "kioxia",
+  type: "UFS",
+  rawDensity: 2097152,
+  processNode: "BiCS FLASH",
+  extra: {
+    "Series Code": "AFB",
+    "Product Version": "UFS 2.1",
+    "Storage Interface": "UFS 2.1",
+    "Product Class": "Automotive AEC-Q100 Grade 3",
+    "Speed Grade": "1160 MB/s"
+  }
+});
+
+assertPart("THGVX1G7D2GLA08", {
+  rawVendor: "kioxia",
+  type: "E2NAND",
+  rawDensity: 131072,
+  processNode: "24 nm A-type",
+  cellLevel: "MLC",
+  package: "LGA52 (14 x 18 x 1.04)",
+  extra: {
+    System: "E2NAND",
+    "Product Family": "E2NAND",
+    "Managed Family": "SmartNAND",
+    Controller: "Embedded ECC",
+    "ECC enabled": "Yes",
+    Plane: 2
+  }
+});
+
+assertPart("TCGVX1G7D2GLA08", {
+  rawVendor: "kioxia",
+  type: "E2NAND",
+  rawDensity: 131072,
+  processNode: "24 nm A-type",
+  cellLevel: "MLC",
+  package: "LGA52 (14 x 18 x 1.04)",
+  extra: {
+    System: "E2NAND",
+    "Product Family": "E2NAND",
+    "Managed Family": "SmartNAND",
+    Controller: "Embedded ECC",
+    "ECC enabled": "Yes",
+    Plane: 2
+  }
+});
+
+assertPart("THGBX2G7D2JLA01", {
+  rawVendor: "kioxia",
+  type: "E2NAND",
+  rawDensity: 131072,
+  processNode: "19 nm/1x",
+  cellLevel: "MLC",
+  package: "LGA40 (12 x 18 x 0.7)",
+  extra: {
+    System: "E2NAND",
+    "Product Family": "E2NAND",
+    "Managed Family": "SmartNAND",
+    Controller: "Embedded ECC",
+    "ECC enabled": "Yes",
+    Plane: 2
   }
 });
 

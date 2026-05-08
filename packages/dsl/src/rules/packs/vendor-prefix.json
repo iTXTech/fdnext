@@ -170,7 +170,7 @@
     }
   },
   {
-    "id": "vendor.wd.prefix.sd",
+    "id": "vendor.sandisk.prefix.sd",
     "priority": 85,
     "normalize": [
       "trim",
@@ -194,7 +194,7 @@
     }
   },
   {
-    "id": "vendor.wd.prefix.s34",
+    "id": "vendor.sandisk.prefix.s34",
     "priority": 85,
     "normalize": [
       "trim",
@@ -218,7 +218,7 @@
     }
   },
   {
-    "id": "vendor.wd.prefix.s35",
+    "id": "vendor.sandisk.prefix.s35",
     "priority": 85,
     "normalize": [
       "trim",

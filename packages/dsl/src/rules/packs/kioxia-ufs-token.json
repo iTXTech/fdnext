@@ -34,49 +34,79 @@
         },
         "seriesObj": {
           "AFB": {
-            "series_code": "AFB"
+            "series_code": "AFB",
+            "nand_technology": "BiCS FLASH"
           },
           "AFE": {
-            "series_code": "AFE"
+            "series_code": "AFE",
+            "nand_technology": "BiCS FLASH"
           },
           "JFG": {
-            "series_code": "JFG"
+            "series_code": "JFG",
+            "nand_technology": "BiCS FLASH"
           },
           "JFM": {
-            "series_code": "JFM"
+            "series_code": "JFM",
+            "nand_technology": "BiCS FLASH"
           },
           "JFP": {
-            "series_code": "JFP"
+            "series_code": "JFP",
+            "nand_technology": "BiCS FLASH"
           },
           "JFJ": {
-            "series_code": "JFJ"
+            "series_code": "JFJ",
+            "nand_technology": "BiCS FLASH"
           },
           "JFR": {
-            "series_code": "JFR"
+            "series_code": "JFR",
+            "nand_technology": "BiCS FLASH"
           }
         },
         "versionObj": {
           "AFB": {
-            "product_version": "UFS 2.1"
+            "product_version": "UFS 2.1",
+            "storage_interface": "UFS 2.1",
+            "speed_grade": "1160 MB/s"
           },
           "AFE": {
-            "product_version": "UFS 2.1"
+            "product_version": "UFS 2.1",
+            "storage_interface": "UFS 2.1",
+            "speed_grade": "1160 MB/s"
           },
           "JFG": {
-            "product_version": "UFS 3.1"
+            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
+            "speed_grade": "2320 MB/s"
           },
           "JFP": {
-            "product_version": "UFS 3.1"
+            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
+            "speed_grade": "2320 MB/s"
           },
           "JFM": {
-            "product_version": "UFS 4.0"
+            "product_version": "UFS 4.0",
+            "storage_interface": "UFS 4.0",
+            "speed_grade": "4640 MB/s"
           },
           "JFJ": {
-            "product_version": "UFS 4.0"
+            "product_version": "UFS 4.0",
+            "storage_interface": "UFS 4.0",
+            "speed_grade": "4640 MB/s"
           },
           "JFR": {
-            "product_version": "UFS 4.1"
+            "product_version": "UFS 4.1",
+            "storage_interface": "UFS 4.1",
+            "speed_grade": "4640 MB/s"
           }
+        },
+        "processNode": {
+          "AFB": "BiCS FLASH",
+          "AFE": "BiCS FLASH",
+          "JFG": "BiCS FLASH",
+          "JFP": "BiCS FLASH",
+          "JFM": "BiCS FLASH",
+          "JFJ": "BiCS FLASH",
+          "JFR": "BiCS FLASH"
         },
         "classObj": {
           "BAI": {
@@ -109,6 +139,13 @@
           "table": "seriesObj",
           "to": "seriesObj",
           "default": {}
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "processNode",
+          "to": "processNode",
+          "default": "Unknown"
         },
         {
           "op": "map",
@@ -177,6 +214,9 @@
         "type": "ufs",
         "density": {
           "$var": "density"
+        },
+        "processNode": {
+          "$var": "processNode"
         },
         "extraInfo": {
           "$var": "extra"

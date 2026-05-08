@@ -1,7 +1,7 @@
 [
   {
-    "id": "vendor.sndk.inand.managed.v1",
-    "priority": 1005,
+    "id": "vendor.sndk.inand.emmc.v1",
+    "priority": 1007,
     "normalize": [
       "trim",
       "uppercase",
@@ -17,115 +17,58 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^SDIN[0-9A-Z]{4}-?(?:[0-9]{1,3}G|1T00)(?:-[0-9A-Z]+)?$"
+      "value": "^SDIN(?:ADF4|BDA4|BDA6|BDG4|BDV4)-?(?:00[48]G|0(?:16|32|64)G|4G|8G|16G|32G|64G|128G|256G)(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
         "SDIN"
       ],
       "tables": {
-        "familyType": {
-          "BDA6": "emmc",
-          "ADF4": "emmc",
-          "BDA4": "emmc",
-          "BDG4": "emmc",
-          "BDV4": "emmc",
-          "DDH4": "ufs",
-          "EDK4": "ufs",
-          "FDK4": "ufs",
-          "FDO2": "ufs",
-          "FDO4": "ufs",
-          "FDQ6": "ufs",
-          "HDL6": "ufs"
-        },
         "familyObj": {
           "ADF4": {
             "product_family": "iNAND MC EM111",
             "group": "eMMC",
             "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "interfaceInfo": "HS400"
           },
           "BDA4": {
             "product_family": "iNAND MC EM131",
             "group": "eMMC",
             "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "interfaceInfo": "HS400"
           },
           "BDA6": {
             "product_family": "iNAND IX EM132",
             "group": "eMMC",
             "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "interfaceInfo": "HS400",
-            "nand_technology": "BiCS3 64L 3D NAND"
+            "nand_technology": "BiCS3 64L 3D NAND",
+            "generation_info": "BiCS3 64L 3D NAND",
+            "component_voltage": "VCC 2.7-3.6V / VCCQ 1.7-1.95V or 2.7-3.6V"
           },
           "BDG4": {
             "product_family": "iNAND 7250 / EM122-class",
             "group": "eMMC",
             "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "interfaceInfo": "HS400",
-            "nand_technology": "2D NAND"
+            "nand_technology": "2D NAND",
+            "generation_info": "2D NAND"
           },
           "BDV4": {
             "product_family": "iNAND MC EM141",
             "group": "eMMC",
             "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "interfaceInfo": "HS400"
-          },
-          "DDH4": {
-            "product_family": "iNAND MC EU311",
-            "group": "UFS",
-            "product_version": "UFS 2.1",
-            "interfaceInfo": "Gear 3 / 2-Lane"
-          },
-          "EDK4": {
-            "product_family": "iNAND MC EU511",
-            "group": "UFS",
-            "product_version": "UFS 3.0",
-            "interfaceInfo": "Gear 4 / 2-Lane"
-          },
-          "FDK4": {
-            "product_family": "iNAND MC EU521",
-            "group": "UFS",
-            "product_version": "UFS 3.1",
-            "interfaceInfo": "Gear 4 / 2-Lane"
-          },
-          "FDO2": {
-            "product_family": "iNAND MC EU551",
-            "group": "UFS",
-            "product_version": "UFS 3.1",
-            "interfaceInfo": "Gear 4 / 2-Lane"
-          },
-          "FDO4": {
-            "product_family": "iNAND MC EU551",
-            "group": "UFS",
-            "product_version": "UFS 3.1",
-            "interfaceInfo": "Gear 4 / 2-Lane"
-          },
-          "FDQ6": {
-            "product_family": "iNAND AT EU552",
-            "group": "UFS",
-            "product_version": "UFS 3.1",
-            "interfaceInfo": "WriteBooster",
-            "nand_technology": "112L 3D NAND"
-          },
-          "HDL6": {
-            "product_family": "iNAND AT EU752",
-            "group": "UFS",
-            "product_version": "UFS 4.1",
-            "interfaceInfo": "WriteBooster",
-            "nand_technology": "BiCS8 218L 3D NAND"
           }
         },
         "processNode": {
           "BDA6": "BiCS3 64L",
-          "BDG4": "2D NAND",
-          "DDH4": "3D NAND",
-          "EDK4": "3D NAND",
-          "FDK4": "3D NAND",
-          "FDO2": "3D NAND",
-          "FDO4": "3D NAND",
-          "FDQ6": "112L 3D NAND",
-          "HDL6": "BiCS8 218L"
+          "BDG4": "2D NAND"
         },
         "density": {
           "4G": 32768,
@@ -139,9 +82,7 @@
           "64G": 524288,
           "064G": 524288,
           "128G": 1048576,
-          "256G": 2097152,
-          "512G": 4194304,
-          "1T00": 8388608
+          "256G": 2097152
         },
         "suffixObj": {
           "H": {
@@ -168,11 +109,19 @@
             "product_class": "Automotive",
             "opTemp": "-40°C ~ 85°C"
           },
+          "XA3": {
+            "product_class": "Automotive",
+            "opTemp": "-40°C ~ 85°C"
+          },
           "ZA": {
             "product_class": "Automotive",
             "opTemp": "-40°C ~ 105°C"
           },
           "ZA1": {
+            "product_class": "Automotive",
+            "opTemp": "-40°C ~ 105°C"
+          },
+          "ZA3": {
             "product_class": "Automotive",
             "opTemp": "-40°C ~ 105°C"
           },
@@ -182,6 +131,24 @@
           "QUAL": {
             "product_class": "Qualification Sample"
           }
+        },
+        "reference": {
+          "BDA6": {
+            "status": "external_confirmed",
+            "source": "Sandisk iNAND IX EM132 product brief and automotive brochure",
+            "examples": [
+              "SDINBDA6-256G-XI1",
+              "SDINBDA6-##G-ZA1"
+            ]
+          },
+          "BDG4": {
+            "status": "external_confirmed",
+            "source": "Western Digital mobile brochure and Sandisk automotive brochure",
+            "examples": [
+              "SDINBDG4-32G",
+              "SDINBDG4-##G-ZA3"
+            ]
+          }
         }
       },
       "steps": [
@@ -189,13 +156,6 @@
           "op": "take",
           "len": 4,
           "to": "familyCode"
-        },
-        {
-          "op": "map",
-          "from": "familyCode",
-          "table": "familyType",
-          "to": "type",
-          "default": "inand"
         },
         {
           "op": "map",
@@ -251,9 +211,7 @@
       ],
       "assign": {
         "vendor": "sndk",
-        "type": {
-          "$var": "type"
-        },
+        "type": "emmc",
         "density": {
           "$var": "density"
         },
@@ -262,37 +220,6 @@
         },
         "extraInfo": {
           "$var": "extra"
-        }
-      }
-    }
-  },
-  {
-    "id": "vendor.sndk.unsupported.inand",
-    "priority": 999,
-    "normalize": [
-      "trim",
-      "uppercase",
-      {
-        "remove": [
-          " ",
-          ",",
-          "&",
-          ".",
-          "|"
-        ]
-      }
-    ],
-    "match": {
-      "kind": "prefix",
-      "value": "SDIN"
-    },
-    "tokenDecoder": {
-      "steps": [],
-      "assign": {
-        "vendor": "sndk",
-        "type": "inand",
-        "extraInfo": {
-          "unsupportedReason": "sandisk_inand_not_supported"
         }
       }
     }

@@ -35,43 +35,69 @@
         },
         "seriesObj": {
           "BMN": {
-            "series_code": "BMN"
+            "series_code": "BMN",
+            "nand_technology": "FG NAND"
           },
           "BMT": {
-            "series_code": "BMT"
+            "series_code": "BMT",
+            "nand_technology": "FG NAND"
           },
           "BMU": {
-            "series_code": "BMU"
+            "series_code": "BMU",
+            "nand_technology": "FG NAND"
           },
           "BMJ": {
-            "series_code": "BMJ"
+            "series_code": "BMJ",
+            "nand_technology": "FG NAND"
           },
           "AMV": {
-            "series_code": "AMV"
+            "series_code": "AMV",
+            "nand_technology": "BiCS FLASH"
           },
           "AMS": {
-            "series_code": "AMS"
+            "series_code": "AMS",
+            "nand_technology": "BiCS FLASH"
           }
         },
         "versionObj": {
           "BMN": {
-            "product_version": "eMMC 5.0"
+            "product_version": "eMMC 5.0",
+            "storage_interface": "eMMC 5.0",
+            "speed_grade": "400 MB/s"
           },
           "BMT": {
-            "product_version": "eMMC 5.0"
+            "product_version": "eMMC 5.0",
+            "storage_interface": "eMMC 5.0",
+            "speed_grade": "400 MB/s"
           },
           "BMU": {
-            "product_version": "eMMC 5.1"
+            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
+            "speed_grade": "400 MB/s"
           },
           "BMJ": {
-            "product_version": "eMMC 5.1"
+            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
+            "speed_grade": "400 MB/s"
           },
           "AMV": {
-            "product_version": "eMMC 5.1"
+            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
+            "speed_grade": "400 MB/s"
           },
           "AMS": {
-            "product_version": "eMMC 5.1"
+            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
+            "speed_grade": "400 MB/s"
           }
+        },
+        "processNode": {
+          "BMN": "FG NAND",
+          "BMT": "FG NAND",
+          "BMU": "FG NAND",
+          "BMJ": "FG NAND",
+          "AMV": "BiCS FLASH",
+          "AMS": "BiCS FLASH"
         },
         "classObj": {
           "BAI": {
@@ -108,6 +134,13 @@
           "table": "seriesObj",
           "to": "seriesObj",
           "default": {}
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "processNode",
+          "to": "processNode",
+          "default": "Unknown"
         },
         {
           "op": "take",
@@ -176,6 +209,9 @@
         "type": "emmc",
         "density": {
           "$var": "density"
+        },
+        "processNode": {
+          "$var": "processNode"
         },
         "extraInfo": {
           "$var": "extra"

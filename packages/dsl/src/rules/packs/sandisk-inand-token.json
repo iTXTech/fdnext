@@ -1,0 +1,104 @@
+[
+  {
+    "id": "vendor.sndk.inand.generic.v1",
+    "priority": 1004,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^SDIN[0-9A-Z]{4}-?(?:[0-9]{1,3}G|1T00)(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "SDIN"
+      ],
+      "tables": {
+        "density": {
+          "4G": 32768,
+          "004G": 32768,
+          "8G": 65536,
+          "008G": 65536,
+          "16G": 131072,
+          "016G": 131072,
+          "32G": 262144,
+          "032G": 262144,
+          "64G": 524288,
+          "064G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304,
+          "1T00": 8388608
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 4,
+          "to": "familyCode"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        }
+      ],
+      "assign": {
+        "vendor": "sndk",
+        "type": "inand",
+        "density": {
+          "$var": "density"
+        },
+        "extraInfo": {
+          "system": "iNAND"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.sndk.unsupported.inand",
+    "priority": 1003,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "prefix",
+      "value": "SDIN"
+    },
+    "tokenDecoder": {
+      "steps": [],
+      "assign": {
+        "vendor": "sndk",
+        "type": "inand",
+        "extraInfo": {
+          "unsupportedReason": "sandisk_inand_not_supported"
+        }
+      }
+    }
+  }
+]

@@ -199,7 +199,7 @@ dataset/
 
 厂商相关规则不直接写在主生成流程里。`packages/fdbgen/src/vendors/` 下每个支持的厂商使用独立文件维护：
 
-- 厂商别名（如 `westerndigital` / `wd` / `sandisk` → `sndk`）
+- 厂商别名（如 `sandisk` / `sndk`，兼容 `westerndigital` / `wd` → `sndk`）
 - PN 前缀归属判断（如 `MT29*` → `micron`）
 - 厂商特有 PN 封装后缀清理（如 Micron / SK hynix / SpecTek）
 
@@ -252,7 +252,7 @@ Raw FlashDB 模式：
 
 以下别名会自动修正：
 
-- `western digital` / `westerndigital` / `wd` / `sandisk` / `sndk` → `sndk`
+- `sandisk` / `sndk`，兼容 `western digital` / `westerndigital` / `wd` → `sndk`
 - `toshiba` / `toshiba-iver` → `kioxia`
 - `hynix` → `skhynix`
 - `septeck` → `spectek`

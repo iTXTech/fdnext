@@ -8,16 +8,17 @@
 
 后续 PN code 资料按厂商和产品类型拆分到 `docs/pn_code/`，总览文档只保留索引和跨厂商摘要。
 
-| 厂商 | NAND | eMMC | UFS | eMCP / uMCP |
-| --- | --- | --- | --- | --- |
-| SK hynix | [skhynix_nand.md](skhynix_nand.md) | [skhynix_emmc.md](skhynix_emmc.md) | [skhynix_ufs.md](skhynix_ufs.md) | [skhynix_emcp.md](skhynix_emcp.md) |
-| Samsung | raw NAND 规则见本页 Samsung 段落 | [samsung_emmc.md](samsung_emmc.md) | [samsung_ufs.md](samsung_ufs.md) | [samsung_emcp.md](samsung_emcp.md) |
+| 厂商 | NAND | eMMC | UFS | eMCP / uMCP | E2NAND |
+| --- | --- | --- | --- | --- | --- |
+| SK hynix | [skhynix_nand.md](skhynix_nand.md) | [skhynix_emmc.md](skhynix_emmc.md) | [skhynix_ufs.md](skhynix_ufs.md) | [skhynix_emcp.md](skhynix_emcp.md) | [skhynix_nand.md](skhynix_nand.md) |
+| Samsung | raw NAND 规则见本页 Samsung 段落 | [samsung_emmc.md](samsung_emmc.md) | [samsung_ufs.md](samsung_ufs.md) | [samsung_emcp.md](samsung_emcp.md) | - |
+| SanDisk | raw NAND 规则见 SanDisk raw packs | [sandisk_emmc.md](sandisk_emmc.md) | [sandisk_ufs.md](sandisk_ufs.md) | [sandisk_emcp.md](sandisk_emcp.md) | - |
+| KIOXIA | raw NAND 规则见 KIOXIA raw packs | [kioxia_emmc.md](kioxia_emmc.md) | [kioxia_ufs.md](kioxia_ufs.md) | [kioxia_emcp.md](kioxia_emcp.md) | - |
 
 跨厂商约定：
 
 - [输出术语](terminology.md)
 - [PN 规则可信度策略](reference_policy.md)
-- [Samsung E2NAND / eNAND 产品线记录](samsung_e2nand.md)
 
 ## 通用约定
 
@@ -26,7 +27,13 @@
 - 公开资料主要是订购型号表，不等价于厂商正式 PN decoder。实现上禁止以完整 PN 白名单做匹配，只允许按 PN 结构切 token，再用规则库解释已知 token；未知 token 应尽量保留已能解析的字段。
 - 用户可见字段统一使用 `component_density`、`die_density`、`die_stack`、`generation_info` 等跨厂商术语；维护用可信度 metadata 只能留在 DSL 内部 `tables.reference`，不得输出到 `extraInfo`。
 
-## SanDisk / WD iNAND
+## SanDisk iNAND
+
+SanDisk iNAND eMMC / UFS 资料已拆分为独立文档：
+
+- [SanDisk iNAND eMMC](sandisk_emmc.md)
+- [SanDisk iNAND UFS](sandisk_ufs.md)
+- [SanDisk eMCP PN 记录](sandisk_emcp.md)
 
 来源：
 
@@ -36,6 +43,8 @@
   <https://www.sandisk.com/products/embedded-flash/connected-home-inand-emmc-drives?sku=SDINBDG4-32G-H>
 - iNAND IX EM132 product brief 给出 `SDINBDA6-16G/32G/64G/128G/256G`，接口 eMMC 5.1 HS400，BiCS3 64L 3D NAND。
   <https://documents.sandisk.com/content/dam/asset-library/en_us/assets/public/sandisk/product/embedded-flash/product-brief/product-brief-inand-ix-em132-industrial-embedded-flash-devices.pdf>
+- Sandisk automotive eMMC/UFS brochure 给出 AT EU752 / EU552 / EU312 / EM132 / EM122 的容量范围、接口和 ordering pattern，如 `SDINDDH6-##G-ZA2|XA2`、`SDINBDA6-##G-ZA1|XA1`、`SDINBDG4-##G-ZA3|XA3`。
+  <https://documents.sandisk.com/content/dam/asset-library/en_us/assets/public/sandisk/product/embedded-flash/brochure/brochure-sandisk-automotive-ufs-emmc.pdf>
 - SanDisk Commercial UFS 页面列出 `SDINFDO4-128G/256G/512G`，接口 UFS 3.1，并说明 EU551 是 UFS 3.1 Gear 4 / 2-Lane。
   <https://shop.sandisk.com/products/embedded-flash/mobile-inand-ufs-drives?sku=SDINEDK4-256G>
 - Western Digital Mobile and Compute brochure 汇总了 MC EU551/EU521/EU511/EU311 与 MC EM141/EM131/EM122/EM111 的接口、容量和订购信息。
@@ -52,20 +61,28 @@
 | `SDIN` + family + `-` + capacity + optional suffix | iNAND managed NAND |
 | family token | `SDIN` 后 4 位，规则库解释为 eMMC/UFS 及产品族；未知 family 不阻断容量/后缀解析 |
 | `ADF4` / `BDA4` / `BDA6` / `BDG4` / `BDV4` | eMMC 族；规则库分别补 EM111 / EM131 / IX EM132 / EM122-class / EM141 等公开资料字段 |
-| `DDH4` / `EDK4` / `FDK4` / `FDO2` / `FDO4` / `FDQ6` / `HDL6` | UFS 族；规则库分别补 EU311 / EU511 / EU521 / EU551 / EU552 / EU752 等公开资料字段 |
+| `DDH4` / `DDH6` / `EDK4` / `FDK4` / `FDO2` / `FDO4` / `FDQ6` / `HDL6` | UFS 族；规则库分别补 EU311 / EU312 / EU511 / EU521 / EU551 / EU552 / EU752 等公开资料字段 |
 | `4G/8G/16G/32G/64G/128G/256G/512G/1T00` | 容量；兼容 `004G/008G/...` |
 | `H` | Connected Home, -25~95°C |
 | `I1/I2` | Industrial Wide Temperature, -25~85°C |
 | `XI1/XI2` | Industrial Extended Temperature, -40~85°C |
-| `XA1` | Automotive, -40~85°C |
-| `ZA/ZA1` | Automotive, -40~105°C |
+| `XA1/XA2/XA3` | Automotive, -40~85°C |
+| `ZA/ZA1/ZA2/ZA3` | Automotive, -40~105°C |
 
 ## KIOXIA e-MMC / UFS
+
+KIOXIA eMMC / UFS 资料已拆分为独立文档：
+
+- [KIOXIA e-MMC](kioxia_emmc.md)
+- [KIOXIA UFS](kioxia_ufs.md)
+- [KIOXIA eMCP PN 记录](kioxia_emcp.md)
 
 来源：
 
 - KIOXIA Memory Selector 官方页面列出 e-MMC 4GB~256GB 和 UFS 32GB~1TB 型号、接口版本、温度等级和封装尺寸。
   <https://americas.kioxia.com/en-us/business/memory/selector.html>
+- KIOXIA e-MMC product brief 给出 `THGBMNG5D1LBAIT`、`THGAMVT0T43BAIR`、`THGBMJG8C4LBAU8` 等 part number、容量、eMMC 版本、FG NAND / BiCS FLASH 和 400 MB/s。
+  <https://www.kioxia.com/content/dam/kioxia/shared/business/memory/mlc-nand/asset/productbrief/KIOXIA_e-MMC_Product_Brief.pdf>
 - KIOXIA UFS 4.0/4.1 页面说明 UFS 4.x 面向 256GB/512GB/1TB，使用 BiCS FLASH managed NAND。
   <https://americas.kioxia.com/en-us/business/memory/mlc-nand/ufs4.html>
 
@@ -89,6 +106,28 @@
 | class `BAA` | Automotive AEC-Q100 Grade 3, -40~85°C |
 
 示例：`THGJFMT1E45BATV` -> KIOXIA UFS, 256GB, UFS 4.0, Consumer / Industrial。
+
+### KIOXIA E2NAND
+
+`THGV*`、`TCGV*`、`THGBX*` 这类 LGA PN 属于 E2NAND，内部带 ECC，不按普通 raw NAND 输出。
+
+外部资料：
+
+- Toshiba SmartNAND 官方新闻说明 24nm SmartNAND 将 NAND flash 与支持 ECC 的 control chip 集成在 NAND package 中，并列出 `THGVR1G7D2GLA09` 等 LGA52 产品线。
+  <https://www.global.toshiba/ww/news/corporate/2011/04/pr0601.html>
+- 本地 `fdb` / `fdfdb` 多源记录 `THGVX1G7D2GLA08`、`TCGVX1G7D2GLA08`、`THGBX2G7D2JLA01` 等 E2Nand 条目。
+
+已采集编码：
+
+| PN 结构 | 字段 |
+| --- | --- |
+| `TC/TH` + `GV/GB` + interface + voltage + density + cell + width + process + package | E2NAND |
+| `TC` / `TH` | single-chip / multi-chip 族 |
+| `GV` / `GB` | E2NAND LGA family |
+| density `G7/G8/G9` | 128Gb / 256Gb / 512Gb |
+| process `G/J/K/L` | 24nm / 19nm / A19nm / 15nm |
+
+示例：`THGVX1G7D2GLA08` -> KIOXIA E2NAND, 128Gb, MLC, LGA52, embedded ECC。
 
 ## Micron e.MMC / UFS
 
@@ -137,7 +176,6 @@ Samsung eMMC / UFS 已拆分为独立文档：
 - [Samsung eMMC](samsung_emmc.md)
 - [Samsung UFS](samsung_ufs.md)
 - [Samsung eMCP / uMCP](samsung_emcp.md)
-- [Samsung E2NAND / eNAND 产品线记录](samsung_e2nand.md)
 
 来源：
 
@@ -180,8 +218,12 @@ SK hynix 资料已拆分为独立文档：
 ## 本轮落地
 
 - DSL pack 已按厂商 + 芯片 / 产品类型拆分，避免单个 JSON 同时承载 eMMC、UFS、raw NAND、MCP 等不同解析规则。
-- `packages/dsl/src/rules/packs/westerndigital-inand-token.json`
-  - `vendor.sndk.inand.managed.v1`
+- `packages/dsl/src/rules/packs/sandisk-inand-emmc-token.json`
+  - `vendor.sndk.inand.emmc.v1`
+- `packages/dsl/src/rules/packs/sandisk-inand-ufs-token.json`
+  - `vendor.sndk.inand.ufs.v1`
+- `packages/dsl/src/rules/packs/sandisk-inand-token.json`
+  - `vendor.sndk.inand.generic.v1`
 - `packages/dsl/src/rules/packs/kioxia-emmc-token.json`
   - `vendor.kioxia.emmc.managed.v1`
 - `packages/dsl/src/rules/packs/kioxia-ufs-token.json`
@@ -209,5 +251,6 @@ SK hynix 资料已拆分为独立文档：
   - `vendor.micron.emmc.mtfc.legacy.v1`
 - `packages/dsl/test/managed-nand.test.ts`
   - 覆盖 SanDisk / KIOXIA / SK hynix / Micron / Samsung 的 eMMC/UFS positive cases，以及 SK hynix H25T 4D NAND、H27 E2NAND3.0 catalog family、H9 eMCP/uMCP cases
+  - 新增 SanDisk automotive iNAND `DDH6` / `ZA2`、`BDG4` / `ZA3`，以及 KIOXIA automotive eMMC/UFS cases
 - `packages/core/src/fdb-lookup.ts` / `packages/fdbgen/src/vendors/kioxia.ts` / `packages/fdbgen/src/vendors/skhynix.ts`
   - KIOXIA managed NAND `THG*` 和 SK hynix `H9A/H9H/H9Q/H9T*` 归属识别
