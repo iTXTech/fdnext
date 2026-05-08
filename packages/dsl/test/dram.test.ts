@@ -115,6 +115,25 @@ assertDram("MT40A1G8SA-075-E", {
   }
 });
 
+const crucialDdr4Expected = {
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA (7.5x11)",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "Package Code": "SA",
+    "Config Code": "1G8",
+    "DRAM Speed": "Crucial DDR4 speed bin 62M",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev E"
+  }
+};
+
+assertDram("CT40A1G8SA-62M:E", crucialDdr4Expected);
+assertDram("CT40A1G8SA-062M:E", crucialDdr4Expected);
+
 const ddr5Expected = {
   rawDensity: 16384,
   density: "16Gb",

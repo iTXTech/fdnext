@@ -6,6 +6,8 @@
 
 - Micron 官方 Packaging and shipping information 页面列出 `DRAM Component Part Numbering System`，版本日期为 2022-07-14，覆盖 DDR4/3/2/DDR/SDRAM、LPDDR5/4/3/2、RLDRAM 与 GDDR 系列；下载入口当前需要 Micron 登录/NDA。
   <https://www.micron.com/sales-support/sales/packaging-and-shipping-information>
+- Micron 官方 FBGA and component marking decoder 会返回 Micron `MT...` 或 Crucial namespace `CT...` 的完整 PN；例如 `C9BJZ` 反查为 `CT40A1G8SA-62M:E`。
+  <https://www.micron.com/sales-support/design-tools/fbga-parts-decoder>
 - Micron 官方 part detail / part catalog 页面可直接确认样例 PN 属于对应 DRAM 产品线。
   - DDR4 `MT40A1G8SA-075-E`: <https://www.micron.com/products/memory/dram-components/ddr4-sdram/part-catalog/part-detail/mt40a1g8sa-075-e>
   - DDR5 `MT60B2G8HB-48B-IT-A`: <https://www.micron.com/products/memory/dram-components/ddr5-sdram/part-catalog/part-detail/mt60b2g8hb-48b-it-a>
@@ -25,12 +27,14 @@
   - <https://datasheet.octopart.com/MT58K256M32JA-100%3AA-Micron-datasheet-180658177.pdf>
 - 公开镜像 `DRAM Component Part Numbering System` 可核对字段顺序、family/voltage/device version/temperature/status/revision/speed 等 token 含义；镜像版本较旧，只用于字段结构交叉验证。
   <https://docslib.org/doc/10329358/dram-component-part-numbering-system>
+- 公开评测记录了 Crucial/Ballistix 颗粒 `C9BJZ` / `CT40A1G8SA-62M:E` 的实物和 Micron FBGA decoder 结果；该资料只用于确认 `CT40` namespace 形态，不作为完整 PN 白名单。
+  <https://aphnetworks.com/reviews/ballistix-elite-pc4-28800-4x8gb/2>
 
 ## DSL 范围
 
 - 规则文件：`packages/dsl/src/rules/packs/micron-dram-token.json`
 - 规则 ID：`vendor.micron.dram.component.v1`
-- 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 `MT40/41/42/46/47/48/51/52/53/58/60/61/62`。
+- 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62` 和 Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62`。
 - 不使用完整 PN 白名单；只按 Micron DRAM part-numbering token 解析字段。
 
 ## PN 结构
@@ -38,8 +42,10 @@
 典型结构：
 
 ```text
-MT + family + voltage + component configuration + device version + package code + -speed + -temperature + production status + :/ -revision
+(MT|CT) + family + voltage + component configuration + device version + package code + -speed + -temperature + production status + :/ -revision
 ```
+
+`CT` 前缀来自 Crucial / Ballistix namespace，后续 token 仍沿用 Micron DRAM 结构解析。输出保留原始 `CT...` PN，不强行改写为 `MT...`，因为 Crucial 的 speed/bin token 不一定与公开 `MT...` catalog token 一一对应。
 
 首批 family token：
 
@@ -71,6 +77,7 @@ MT + family + voltage + component configuration + device version + package code 
 - `extraInfo` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`dram_speed`、`operation_temperature`、`die_revision`、`config_code`、`package_code`。
 - `dram_type` 必须使用跨厂商标准名，不带厂商名，不写组合候选。
 - `package_code` 保留 Micron 原始封装 token；不要用它替代顶层 `package`，也不把未确认的 token 硬推成封装尺寸或 ball count。
+- Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4 speed bin ...`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
 - 维护用来源、外部确认状态或推断来源不得进入 `extraInfo`。
 
 ## 封装映射
@@ -101,6 +108,7 @@ MT + family + voltage + component configuration + device version + package code 
 | PN | 产品线 | 关键输出 |
 | --- | --- | --- |
 | `MT40A1G8SA-075-E` | DDR4 SDRAM | `8Gb`, `x8`, `78-ball FBGA`, `DDR4-2666 CL19`, `Rev E` |
+| `CT40A1G8SA-62M:E` | Crucial DDR4 SDRAM | `8Gb`, `x8`, `78-ball FBGA`, `Crucial DDR4 speed bin 62M`, `Rev E` |
 | `MT60B2G8HB-48B-IT-A` | DDR5 SDRAM | `16Gb`, `x8`, `82-ball VFBGA`, `DDR5-4800B`, `Industrial`, `Rev A` |
 | `MT41K512M8DA-107:P` | DDR3 SDRAM | `4Gb`, `x8`, `78-ball FBGA`, `1866 MT/s / 933 MHz`, `Rev P` |
 | `MT47H128M16RT-25E:C` | DDR2 SDRAM | `2Gb`, `x16`, `84-ball FBGA`, `DDR2-800`, `Rev C` |

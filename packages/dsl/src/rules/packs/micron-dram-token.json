@@ -17,11 +17,12 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^MT(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62)[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
+      "value": "^(?:MT|CT)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62)[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
-        "MT"
+        "MT",
+        "CT"
       ],
       "tables": {
         "familyObj": {
@@ -419,6 +420,7 @@
           "21": "21",
           "24": "24",
           "25": "25",
+          "45M": "45M",
           "75": "75",
           "80": "80",
           "100": "100",
@@ -426,10 +428,13 @@
           "020F": "020F",
           "031": "031",
           "036": "036",
+          "045M": "045M",
           "046": "046",
           "053": "053",
+          "055M": "055M",
           "062E": "062E",
           "062H": "062H",
+          "062M": "062M",
           "062": "062",
           "068E": "068E",
           "068H": "068H",
@@ -455,7 +460,9 @@
           "80B": "80B",
           "88B": "88B",
           "5B": "5B",
+          "55M": "55M",
           "6A": "6A",
+          "62M": "62M",
           "25E": "25E",
           "19G": "19G"
         },
@@ -511,17 +518,26 @@
           "036": {
             "dram_speed": "LPDDR5-5500 (2750 MHz)"
           },
+          "045M": {
+            "dram_speed": "Crucial DDR4 speed bin 45M"
+          },
           "046": {
             "dram_speed": "LPDDR4-4266 (2133 MHz)"
           },
           "053": {
             "dram_speed": "LPDDR4-3733 (1866 MHz)"
           },
+          "055M": {
+            "dram_speed": "Crucial DDR4 speed bin 55M"
+          },
           "062E": {
             "dram_speed": "DDR4-3200 CL22"
           },
           "062H": {
             "dram_speed": "DDR4-3200 CL26"
+          },
+          "062M": {
+            "dram_speed": "Crucial DDR4 speed bin 62M"
           },
           "062": {
             "dram_speed": "LPDDR4-3200 (1600 MHz)"
@@ -603,6 +619,15 @@
           },
           "25E": {
             "dram_speed": "DDR2-800"
+          },
+          "45M": {
+            "dram_speed": "Crucial DDR4 speed bin 45M"
+          },
+          "55M": {
+            "dram_speed": "Crucial DDR4 speed bin 55M"
+          },
+          "62M": {
+            "dram_speed": "Crucial DDR4 speed bin 62M"
           },
           "19G": {
             "dram_speed": "GDDR6X-19Gbps",
