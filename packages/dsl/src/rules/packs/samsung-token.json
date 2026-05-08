@@ -11,7 +11,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^KLU(?:AG|BG|CG|DG|EG|FG|GG|HG)[1248A][GJKVURNL][1H][BCDEFGHJYZ][0-9A-Z](?:[BCEF][0-9A-Z][BCDEFG][12PQ])?$"
+      "value": "^KLU(?:AG|BG|CG|DG|EG|FG|GG|HG)[1248A][GJKVURNL][1H][BCDEFGHJKYZ][0-9A-Z](?:[BCEF][0-9A-Z][BCDEFGH][12PQ])?$"
     },
     "tokenDecoder": {
       "stripPrefixes": ["KLU"],
@@ -73,6 +73,7 @@
           "G": { "controller": "UFS 3.1 G4-2Lane Controller" },
           "H": { "controller": "UFS 4.0 G5-2Lane Controller" },
           "J": { "controller": "UFS 3.1 G4-2Lane Controller" },
+          "K": { "controller": "UFS 4.1 G5-2Lane Controller" },
           "Y": { "controller": "UFS 3.1/2.1 G4-2Lane Controller (Automotive Grade only)" },
           "Z": { "controller": "UFS 2.1 G3-2Lane Controller (Automotive Grade only)" }
         },
@@ -111,7 +112,8 @@
           "D": { "product_version": "UFS 3.0" },
           "E": { "product_version": "UFS 3.1" },
           "F": { "product_version": "UFS 2.2" },
-          "G": { "product_version": "UFS 4.0" }
+          "G": { "product_version": "UFS 4.0" },
+          "H": { "product_version": "UFS 4.1" }
         },
         "temperature": {
           "1": { "opTemp": "-25°C ~ 85°C Extended Commercial" },

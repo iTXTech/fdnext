@@ -140,7 +140,7 @@ export function inferVendorFromPartNumber(partNumber: string): string | null {
   if (/^(HY27|H27|H25|H26|H2D|H2J|H9T|HYNIX)/.test(normalized)) {
     return "skhynix";
   }
-  if (/^(TC58|TH58)/.test(normalized)) {
+  if (/^(TC58|TH58|THG)/.test(normalized)) {
     return "kioxia";
   }
   if (

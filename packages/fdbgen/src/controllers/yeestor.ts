@@ -14,7 +14,7 @@ const VENDOR_BY_ID_PREFIX: Record<string, string> = {
 
 const PART_PREFIX_BY_VENDOR: Record<string, RegExp> = {
   intel: /^(?:JS29F|I29F|PF29F|PC29F|PD29F)/,
-  kioxia: /^(?:TC58|TH58)/,
+  kioxia: /^(?:TC58|TH58|THG)/,
   micron: /^(?:MT29|MTFC|MTFD|NW[0-9A-Z]{3,})/,
   samsung: /^(?:K9|KLM|KLU|KMD|KMF|KMN|KMV)/,
   skhynix: /^(?:HY27|H27|H25|H26|H2D|H2J|H9T|HYNIX)/,

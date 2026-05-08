@@ -128,7 +128,7 @@ function runTokenDecoder(partNumber: string, decoder: DslTokenDecoder): Partial<
     }
 
     if (step.op === "set") {
-      context[step.to] = cloneJson(step.value);
+      context[step.to] = evaluateExpr(cloneJson(step.value), context);
       continue;
     }
 

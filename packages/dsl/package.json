@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
-    "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
+    "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
+    "test": "tsx test/managed-nand.test.ts"
   }
 }

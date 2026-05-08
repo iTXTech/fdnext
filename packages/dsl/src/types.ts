@@ -62,7 +62,7 @@ export interface DslTokenStepMul {
 export interface DslTokenStepSet {
   op: "set";
   to: string;
-  value: DslJson;
+  value: DslExpr;
 }
 
 export interface DslTokenStepMerge {

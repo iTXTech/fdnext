@@ -1,5 +1,131 @@
 [
   {
+    "id": "vendor.kioxia.emmc.managed.v1",
+    "priority": 1005,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
+    "match": { "kind": "regex", "value": "^THG[AB]M[0-9A-Z]{10,13}$" },
+    "tokenDecoder": {
+      "stripPrefixes": ["THG"],
+      "tables": {
+        "density": {
+          "G5": 32768,
+          "G6": 65536,
+          "G7": 131072,
+          "G8": 262144,
+          "G9": 524288,
+          "T0": 1048576,
+          "T1": 2097152
+        },
+        "seriesObj": {
+          "BMN": { "series_code": "BMN" },
+          "BMT": { "series_code": "BMT" },
+          "BMU": { "series_code": "BMU" },
+          "BMJ": { "series_code": "BMJ" },
+          "AMV": { "series_code": "AMV" },
+          "AMS": { "series_code": "AMS" }
+        },
+        "versionObj": {
+          "BMN": { "product_version": "eMMC 5.0" },
+          "BMT": { "product_version": "eMMC 5.0" },
+          "BMU": { "product_version": "eMMC 5.1" },
+          "BMJ": { "product_version": "eMMC 5.1" },
+          "AMV": { "product_version": "eMMC 5.1" },
+          "AMS": { "product_version": "eMMC 5.1" }
+        },
+        "classObj": {
+          "BAI": { "product_class": "Consumer", "opTemp": "-25°C ~ 85°C" },
+          "BAU": { "product_class": "Industrial", "opTemp": "-40°C ~ 105°C" },
+          "BAC": { "product_class": "Automotive AEC-Q100 Grade 2", "opTemp": "-40°C ~ 105°C" },
+          "BAB": { "product_class": "Automotive AEC-Q100 Grade 2", "opTemp": "-40°C ~ 105°C" },
+          "BAA": { "product_class": "Automotive AEC-Q100 Grade 3", "opTemp": "-40°C ~ 85°C" }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 3, "to": "seriesCode" },
+        { "op": "map", "from": "seriesCode", "table": "seriesObj", "to": "seriesObj", "default": {} },
+        { "op": "take", "len": 2, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "map", "from": "seriesCode", "table": "versionObj", "to": "versionObj", "default": { "product_version": "eMMC" } },
+        { "op": "take", "len": 3, "to": "skipPackagePrefix" },
+        { "op": "take", "len": 3, "to": "classCode" },
+        { "op": "map", "from": "classCode", "table": "classObj", "to": "classObj", "default": {} },
+        { "op": "set", "to": "extra", "value": { "system": "KIOXIA managed NAND", "group": "eMMC" } },
+        { "op": "merge", "into": "extra", "from": "seriesObj" },
+        { "op": "merge", "into": "extra", "from": "versionObj" },
+        { "op": "merge", "into": "extra", "from": "classObj" }
+      ],
+      "assign": {
+        "vendor": "kioxia",
+        "type": "emmc",
+        "density": { "$var": "density" },
+        "extraInfo": { "$var": "extra" }
+      }
+    }
+  },
+  {
+    "id": "vendor.kioxia.ufs.managed.v1",
+    "priority": 1005,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
+    "match": { "kind": "regex", "value": "^THG(?:AF|JF)[0-9A-Z]{10,13}$" },
+    "tokenDecoder": {
+      "stripPrefixes": ["THG"],
+      "tables": {
+        "density": {
+          "G8": 262144,
+          "G9": 524288,
+          "T0": 1048576,
+          "T1": 2097152,
+          "T2": 4194304,
+          "T3": 8388608
+        },
+        "seriesObj": {
+          "AFB": { "series_code": "AFB" },
+          "AFE": { "series_code": "AFE" },
+          "JFG": { "series_code": "JFG" },
+          "JFM": { "series_code": "JFM" },
+          "JFP": { "series_code": "JFP" },
+          "JFJ": { "series_code": "JFJ" },
+          "JFR": { "series_code": "JFR" }
+        },
+        "versionObj": {
+          "AFB": { "product_version": "UFS 2.1" },
+          "AFE": { "product_version": "UFS 2.1" },
+          "JFG": { "product_version": "UFS 3.1" },
+          "JFP": { "product_version": "UFS 3.1" },
+          "JFM": { "product_version": "UFS 4.0" },
+          "JFJ": { "product_version": "UFS 4.0" },
+          "JFR": { "product_version": "UFS 4.1" }
+        },
+        "classObj": {
+          "BAI": { "product_class": "Consumer / Industrial", "opTemp": "-25°C ~ 85°C" },
+          "BAT": { "product_class": "Consumer / Industrial", "opTemp": "-25°C ~ 85°C" },
+          "BAB": { "product_class": "Automotive AEC-Q100 Grade 2", "opTemp": "-40°C ~ 105°C" },
+          "BAA": { "product_class": "Automotive AEC-Q100 Grade 3", "opTemp": "-40°C ~ 85°C" }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 3, "to": "seriesCode" },
+        { "op": "map", "from": "seriesCode", "table": "seriesObj", "to": "seriesObj", "default": {} },
+        { "op": "map", "from": "seriesCode", "table": "versionObj", "to": "versionObj", "default": { "product_version": "UFS" } },
+        { "op": "take", "len": 2, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 3, "to": "skipPackagePrefix" },
+        { "op": "take", "len": 3, "to": "classCode" },
+        { "op": "map", "from": "classCode", "table": "classObj", "to": "classObj", "default": {} },
+        { "op": "set", "to": "extra", "value": { "system": "KIOXIA managed NAND", "group": "UFS" } },
+        { "op": "merge", "into": "extra", "from": "seriesObj" },
+        { "op": "merge", "into": "extra", "from": "versionObj" },
+        { "op": "merge", "into": "extra", "from": "classObj" }
+      ],
+      "assign": {
+        "vendor": "kioxia",
+        "type": "ufs",
+        "density": { "$var": "density" },
+        "extraInfo": { "$var": "extra" }
+      }
+    }
+  },
+  {
     "id": "vendor.kioxia.unsupported.controller",
     "priority": 999,
     "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
