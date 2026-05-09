@@ -1,10 +1,18 @@
 import { UNKNOWN } from "./constants";
+import {
+  asRecord,
+  inferChipKindFromInfo,
+  inferProductTypeFromInfo,
+  isKnownInfoValue,
+  normalizeInfoText
+} from "./device-inference";
 import { createFdnextFieldValue, fdnextFieldRegistry, type FdnextFieldKey } from "./field-registry";
 import { getFdnextFieldProfile } from "./field-profiles";
 import {
   FDNEXT_CAPABILITIES_SCHEMA_VERSION,
   FDNEXT_RESULT_SCHEMA_VERSION,
   type Action,
+  type Candidate,
   type Capability,
   type DeviceIdentity,
   type FieldValue,
@@ -21,6 +29,7 @@ import {
   type PartSearchResult,
   type Relation,
   type ResultBlock,
+  type ResultWarning,
   type SearchResultItem,
   type VendorIdentity
 } from "./result";
@@ -35,46 +44,16 @@ export interface ResultBuilderContext {
 export interface PartSearchSuggestion {
   vendor: string;
   partNumber: string;
+  chipKind?: FdnextChipKind;
+  productType?: FdnextProductType;
   markingCode?: string;
-}
-
-function normalizeText(value: unknown): string {
-  if (typeof value !== "string") {
-    return "";
-  }
-  return value
-    .toLowerCase()
-    .replaceAll(/[^a-z0-9]+/g, " ")
-    .replaceAll(/\be\s+mmc\b/g, "emmc")
-    .replaceAll(/\be\s+mcp\b/g, "emcp")
-    .replaceAll(/\bu\s+mcp\b/g, "umcp")
-    .trim()
-    .replaceAll(/\s+/g, " ");
+  rawDensity?: number;
+  badges?: string[];
+  warnings?: ResultWarning[];
 }
 
 function slug(value: unknown): string {
-  return normalizeText(value).replaceAll(" ", "_");
-}
-
-function isKnown(value: unknown): boolean {
-  if (value == null || value === -1 || value === UNKNOWN) {
-    return false;
-  }
-  if (typeof value === "string") {
-    const text = normalizeText(value);
-    return text.length > 0 && text !== normalizeText(UNKNOWN);
-  }
-  if (Array.isArray(value)) {
-    return value.length > 0;
-  }
-  if (typeof value === "object") {
-    return Object.keys(value).length > 0;
-  }
-  return true;
-}
-
-function asRecord(value: unknown): Record<string, unknown> {
-  return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
+  return normalizeInfoText(value).replaceAll(" ", "_");
 }
 
 function asNumber(value: unknown): number | undefined {
@@ -123,55 +102,14 @@ function vendorIdentity(vendor: unknown, ctx: ResultBuilderContext, lang?: strin
   };
 }
 
-function inferProductType(info: FlashInfo): FdnextProductType | undefined {
-  const type = normalizeText(info.type);
-  const extra = asRecord(info.extraInfo);
-  const dramType = normalizeText(extra.dram_type);
-  if (["emmc", "ufs", "emcp", "umcp", "e2nand", "inand"].includes(type)) {
-    return type;
-  }
-  if (dramType) {
-    return dramType.replaceAll(" sdram", "").replaceAll(" sgram", "").replaceAll(" ", "") as FdnextProductType;
-  }
-  if (/^(?:sdr|lpsdr|lpddr|ddr|gddr|rldram)/.test(type)) {
-    return type.replaceAll(" ", "") as FdnextProductType;
-  }
-  return undefined;
-}
-
-function inferChipKind(info: FlashInfo, constraints: OperationConstraints = {}): FdnextChipKind {
-  if (constraints.chipKind) {
-    return constraints.chipKind;
-  }
-
-  const type = normalizeText(info.type);
-  const productType = inferProductType(info);
-  if (type === "on die ecc nand" || type === "片上 ecc nand") {
-    return "on_die_ecc_nand";
-  }
-  if (productType && ["emmc", "ufs", "emcp", "umcp", "e2nand", "inand"].includes(String(productType))) {
-    return "managed_nand";
-  }
-  if (productType && /^(?:sdr|lpsdr|lpddr|ddr|gddr|rldram)/.test(String(productType))) {
-    return "dram";
-  }
-  if (type === "dram") {
-    return "dram";
-  }
-  if (info.vendor === UNKNOWN && !isKnown(info.density) && !isKnown(info.cellLevel)) {
-    return "unknown";
-  }
-  return "raw_nand";
-}
-
 function deviceIdentityFromPart(
   info: FlashInfo,
   constraints: OperationConstraints,
   ctx: ResultBuilderContext,
   lang?: string | null
 ): DeviceIdentity {
-  const chipKind = inferChipKind(info, constraints);
-  const productType = constraints.productType ?? inferProductType(info);
+  const chipKind = inferChipKindFromInfo(info, constraints);
+  const productType = constraints.productType ?? inferProductTypeFromInfo(info);
   return {
     domain: "memory",
     chipKind,
@@ -199,7 +137,7 @@ function fieldMapFromPart(info: FlashInfo, device: DeviceIdentity, ctx: ResultBu
     addField(fields, createField("product_type", device.productType, ctx, lang));
   }
   addField(fields, createField("part_number", info.partNumber, ctx, lang));
-  if (device.chipKind === "dram" && isKnown(info.type)) {
+  if (device.chipKind === "dram" && isKnownInfoValue(info.type)) {
     addField(fields, createField("dram_type", String(info.type), ctx, lang));
   }
 
@@ -210,17 +148,17 @@ function fieldMapFromPart(info: FlashInfo, device: DeviceIdentity, ctx: ResultBu
   if (typeof info.cellLevel === "number") {
     const cellLevels: Record<number, string> = { 1: "SLC", 2: "MLC", 3: "TLC", 4: "QLC" };
     addField(fields, createField("cell_level", cellLevels[info.cellLevel] ?? String(info.cellLevel), ctx, lang));
-  } else if (isKnown(info.cellLevel)) {
+  } else if (isKnownInfoValue(info.cellLevel)) {
     addField(fields, createField("cell_level", String(info.cellLevel), ctx, lang));
   }
   const deviceWidth = asNumber(info.deviceWidth);
   if (deviceWidth) {
     addField(fields, createField(device.chipKind === "dram" ? "dram_width" : "device_width", deviceWidth, ctx, lang));
   }
-  if (isKnown(info.processNode)) addField(fields, createField("process_node", String(info.processNode), ctx, lang));
-  if (isKnown(info.voltage)) addField(fields, createField(device.chipKind === "dram" ? "dram_voltage" : "voltage", String(info.voltage), ctx, lang));
-  if (isKnown(info.package)) addField(fields, createField("package", String(info.package), ctx, lang));
-  if (isKnown(info.generation)) addField(fields, createField("generation_info", String(info.generation), ctx, lang));
+  if (isKnownInfoValue(info.processNode)) addField(fields, createField("process_node", String(info.processNode), ctx, lang));
+  if (isKnownInfoValue(info.voltage)) addField(fields, createField(device.chipKind === "dram" ? "dram_voltage" : "voltage", String(info.voltage), ctx, lang));
+  if (isKnownInfoValue(info.package)) addField(fields, createField("package", String(info.package), ctx, lang));
+  if (isKnownInfoValue(info.generation)) addField(fields, createField("generation_info", String(info.generation), ctx, lang));
 
   const classification = asRecord(info.classification);
   if (asNumber(classification.die)) {
@@ -229,11 +167,11 @@ function fieldMapFromPart(info: FlashInfo, device: DeviceIdentity, ctx: ResultBu
 
   const extra = asRecord(info.extraInfo);
   for (const [key, value] of Object.entries(extra)) {
-    if (!Object.hasOwn(fdnextFieldRegistry, key) || !isKnown(value)) {
+    if (!Object.hasOwn(fdnextFieldRegistry, key) || !isKnownInfoValue(value)) {
       continue;
     }
     const fieldKey = key as FdnextFieldKey;
-    if (fieldKey === "group" && device.chipKind === "raw_nand" && normalizeText(value) === "raw nand") {
+    if (fieldKey === "group" && device.chipKind === "raw_nand" && normalizeInfoText(value) === "raw nand") {
       continue;
     }
     let fieldValue: FdnextFieldValueData = value as FdnextFieldValueData;
@@ -247,7 +185,7 @@ function fieldMapFromPart(info: FlashInfo, device: DeviceIdentity, ctx: ResultBu
   }
 
   for (const controller of info.controller ?? []) {
-    if (isKnown(controller)) {
+    if (isKnownInfoValue(controller)) {
       addField(fields, createField("controller", controller, ctx, lang));
       break;
     }
@@ -290,7 +228,7 @@ function buildBlocks(profileId: FdnextChipKind | "nand.flash_id", fields: Map<Fd
 }
 
 function isKnownPart(info: FlashInfo): boolean {
-  return info.vendor !== UNKNOWN || isKnown(info.type) || isKnown(info.density) || isKnown(info.cellLevel);
+  return info.vendor !== UNKNOWN || isKnownInfoValue(info.type) || isKnownInfoValue(info.density) || isKnownInfoValue(info.cellLevel);
 }
 
 function baseInput(query: string, normalized: string, constraints: OperationConstraints, lang?: string | null): NormalizedOperationInput {
@@ -336,6 +274,25 @@ function partRelations(info: FlashInfo, device: DeviceIdentity): Relation[] {
   return relations;
 }
 
+function deviceIdentityFromSuggestion(suggestion: PartSearchSuggestion, ctx: ResultBuilderContext, lang?: string | null): DeviceIdentity {
+  return {
+    domain: "memory",
+    chipKind: suggestion.chipKind ?? (suggestion.markingCode ? "dram" : "unknown"),
+    ...(suggestion.productType ? { productType: suggestion.productType } : {}),
+    partNumber: suggestion.partNumber,
+    ...(suggestion.markingCode ? { markingCode: suggestion.markingCode } : {}),
+    vendor: vendorIdentity(suggestion.vendor, ctx, lang)
+  };
+}
+
+export function buildPartCandidate(suggestion: PartSearchSuggestion, ctx: ResultBuilderContext, lang?: string | null): Candidate {
+  return {
+    device: deviceIdentityFromSuggestion(suggestion, ctx, lang),
+    ...(suggestion.rawDensity ? { fields: [createField(suggestion.chipKind === "dram" ? "dram_density" : "density", suggestion.rawDensity, ctx, lang)] } : {}),
+    ...(suggestion.warnings?.length ? { warnings: suggestion.warnings } : {})
+  };
+}
+
 export function buildPartDecodeResult(
   info: FlashInfo,
   input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null },
@@ -377,16 +334,16 @@ function fieldMapFromIdentifier(info: FlashIdInfo, device: DeviceIdentity, ctx: 
   if (asNumber(info.plane)) addField(fields, createField("plane_count", Number(info.plane), ctx, lang));
   if (asNumber(info.pageSize)) addField(fields, createField("page_size", Number(info.pageSize) * 1024, ctx, lang));
   if (asNumber(info.blockSize)) addField(fields, createField("block_size", Number(info.blockSize) * 1024, ctx, lang));
-  if (isKnown(info.processNode)) addField(fields, createField("process_node", String(info.processNode), ctx, lang));
+  if (isKnownInfoValue(info.processNode)) addField(fields, createField("process_node", String(info.processNode), ctx, lang));
   if (typeof info.cellLevel === "number") {
     const cellLevels: Record<number, string> = { 1: "SLC", 2: "MLC", 3: "TLC", 4: "QLC" };
     addField(fields, createField("cell_level", cellLevels[info.cellLevel] ?? String(info.cellLevel), ctx, lang));
-  } else if (isKnown(info.cellLevel)) {
+  } else if (isKnownInfoValue(info.cellLevel)) {
     addField(fields, createField("cell_level", String(info.cellLevel), ctx, lang));
   }
-  if (isKnown(info.voltage)) addField(fields, createField("voltage", String(info.voltage), ctx, lang));
+  if (isKnownInfoValue(info.voltage)) addField(fields, createField("voltage", String(info.voltage), ctx, lang));
   for (const controller of info.controllers ?? []) {
-    if (isKnown(controller)) {
+    if (isKnownInfoValue(controller)) {
       addField(fields, createField("controller", controller, ctx, lang));
       break;
     }
@@ -415,7 +372,7 @@ export function buildIdentifierDecodeResult(
 ): IdentifierDecodeResult {
   const constraints = { idScheme: "nand.flash_id", ...(input.constraints ?? {}) } as OperationConstraints;
   const device = deviceIdentityFromIdentifier(info, ctx, input.lang);
-  const known = info.vendor !== UNKNOWN || isKnown(info.density) || isKnown(info.cellLevel);
+  const known = info.vendor !== UNKNOWN || isKnownInfoValue(info.density) || isKnownInfoValue(info.cellLevel);
   const fields = fieldMapFromIdentifier(info, device, ctx, input.lang);
   return {
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
@@ -437,19 +394,25 @@ export function buildPartSearchResult(
 ): PartSearchResult {
   const constraints = input.constraints ?? {};
   const items: SearchResultItem[] = suggestions.map((suggestion) => {
-    const chipKind = suggestion.markingCode ? "dram" : constraints.chipKind ?? "unknown";
-    const device: DeviceIdentity = {
-      domain: "memory",
-      chipKind,
-      ...(constraints.productType ? { productType: constraints.productType } : {}),
-      partNumber: suggestion.partNumber,
-      ...(suggestion.markingCode ? { markingCode: suggestion.markingCode } : {}),
-      vendor: vendorIdentity(suggestion.vendor, ctx, input.lang)
-    };
+    const chipKind = suggestion.chipKind ?? constraints.chipKind ?? (suggestion.markingCode ? "dram" : "unknown");
+    const productType = suggestion.productType ?? constraints.productType;
+    const device: DeviceIdentity = deviceIdentityFromSuggestion({ ...suggestion, chipKind, ...(productType ? { productType } : {}) }, ctx, input.lang);
+    const fields: FieldValue[] = [];
+    if (suggestion.markingCode) {
+      fields.push(createField("marking_code", suggestion.markingCode, ctx, input.lang));
+    }
+    if (suggestion.rawDensity) {
+      fields.push(createField(chipKind === "dram" ? "dram_density" : "density", suggestion.rawDensity, ctx, input.lang));
+    }
+    const badges = suggestion.badges ?? [
+      ...(suggestion.markingCode ? [`${device.vendor.name} FBGA`] : [device.vendor.name]),
+      ...(productType ? [String(productType).toUpperCase()] : chipKind !== "unknown" ? [chipKind] : [])
+    ];
     return {
-      label: suggestion.markingCode ? `${suggestion.markingCode} ${suggestion.partNumber}` : suggestion.partNumber,
+      label: suggestion.partNumber,
       device,
-      badges: [device.vendor.name, ...(suggestion.markingCode ? ["FBGA"] : [])],
+      badges,
+      ...(fields.length > 0 ? { fields } : {}),
       actions: [
         {
           name: "part.decode",
@@ -459,7 +422,8 @@ export function buildPartSearchResult(
             query: suggestion.partNumber,
             constraints: {
               vendor: suggestion.vendor,
-              ...(chipKind !== "unknown" ? { chipKind } : {})
+              ...(chipKind !== "unknown" ? { chipKind } : {}),
+              ...(productType ? { productType } : {})
             }
           }
         }
@@ -471,11 +435,20 @@ export function buildPartSearchResult(
     .filter((suggestion) => suggestion.markingCode)
     .map((suggestion) => ({
       kind: "marking_for",
+      label: "FBGA marking relation",
       source: {
-        markingCode: suggestion.markingCode
+        markingCode: suggestion.markingCode,
+        label: `FBGA marking ${suggestion.markingCode}`
       },
       target: {
-        partNumber: suggestion.partNumber
+        partNumber: suggestion.partNumber,
+        device: {
+          domain: "memory",
+          chipKind: suggestion.chipKind ?? "dram",
+          ...(suggestion.productType ? { productType: suggestion.productType } : {}),
+          partNumber: suggestion.partNumber,
+          vendor: vendorIdentity(suggestion.vendor, ctx, input.lang)
+        }
       }
     }));
 

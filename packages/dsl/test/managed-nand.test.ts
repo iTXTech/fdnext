@@ -1313,4 +1313,4 @@ assertSearchPnIncludes("FEUDME256G", "Longsys FEUDME256G-C8H09");
 assertSearchPnIncludes("KMGD6001BM", "Samsung KMGD6001BM-B421");
 assertSearchPnIncludes("THGJFRT1E45", "Kioxia THGJFRT1E45BATV");
 assertSearchPnIncludes("YMUSAB5", "YMTC YMUSAB5TH3A1C1");
-assertSearchPnFirst("EMMC", "Kingston EMMC04G-CT32");
+assertSearchPnFirst("EMMC", "Kingston EMMC04G-WT32");

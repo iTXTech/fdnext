@@ -5,7 +5,13 @@ import { createDefaultFlashIdProcessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
 import { applyMicronFbgaMeta, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
 import {
+  buildNormalizedIndexes,
+  classifyPart,
+  type PartClassificationCandidate
+} from "./part-index";
+import {
   buildCapabilities,
+  buildPartCandidate,
   buildIdentifierDecodeResult,
   buildIdentifierSearchResult,
   buildPartDecodeResult,
@@ -35,6 +41,7 @@ import type {
 import type {
   DecodeIdentifierInput,
   DecodePartInput,
+  Candidate,
   FdnextCapabilities,
   FdnextOperation,
   FdnextResult,
@@ -446,6 +453,13 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const dramPartNumbers = buildKnownPartNumbers(rawDramPn);
   const micronDramFbgaCodes = buildMicronDramFbgaCodes(rawMdb);
   const micronDramFbgaCodeSet = new Set(micronDramFbgaCodes.keys());
+  const normalizedIndexes = buildNormalizedIndexes({
+    fdb,
+    mdb,
+    managedNandPartNumbers,
+    dramPartNumbers,
+    micronDramFbgaCodes
+  });
   const langPacks: LangPacks = {
     [fallbackLang]: {},
     ...langRaw
@@ -773,6 +787,53 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return applyFlashInfoProcessors(info);
   };
 
+  const partDecoderPriority = (partNumber: string): number => {
+    let priority = 0;
+    for (const decoder of decoders) {
+      if (decoder.check(partNumber)) {
+        priority = Math.max(priority, decoder.priority ?? 0);
+      }
+    }
+    return priority;
+  };
+
+  const inspectPartForClassification = (partNumber: string): FlashInfo => {
+    const info = detectRaw(partNumber, { combineFdb: true }, true);
+    applyDramClassification(info);
+    applyDramPublicType(info);
+    pruneRedundantExtraInfo(info);
+    return info;
+  };
+
+  const partClassificationOptions = (mode: "decode" | "search", limit?: number) => ({
+    indexes: normalizedIndexes,
+    mode,
+    ...(limit ? { limit } : {}),
+    inspectPart: inspectPartForClassification,
+    decoderPriority: partDecoderPriority
+  });
+
+  const suggestionFromPartCandidate = (candidate: PartClassificationCandidate): PartSearchSuggestion => {
+    const info = candidate.info ?? inspectPartForClassification(candidate.partNumber);
+    const density = typeof info.density === "number" && Number.isFinite(info.density) && info.density > 0
+      ? info.density
+      : typeof info.rawDensity === "number" && Number.isFinite(info.rawDensity) && info.rawDensity > 0
+        ? info.rawDensity
+        : undefined;
+    return {
+      vendor: candidate.vendor,
+      partNumber: candidate.partNumber,
+      chipKind: candidate.chipKind,
+      ...(candidate.productType ? { productType: candidate.productType } : {}),
+      ...(candidate.markingCode ? { markingCode: candidate.markingCode } : {}),
+      ...(density ? { rawDensity: density } : {}),
+      ...(candidate.warnings.length > 0 ? { warnings: candidate.warnings } : {})
+    };
+  };
+
+  const publicCandidatesFromPartClassification = (candidates: PartClassificationCandidate[], lang?: string | null): Candidate[] =>
+    candidates.slice(0, 5).map((candidate) => buildPartCandidate(suggestionFromPartCandidate(candidate), resultBuilderContext, lang));
+
   const getVersion = (): string => String(fdb.info.version);
 
   const getInfo = (): FlashDetectorInfo => {
@@ -801,114 +862,19 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return cachedInfo;
   };
 
-  const searchPartSuggestions = (pn: string, opts: SearchOptions = {}): PartSearchSuggestion[] => {
-    const query = normalizePartNumber(pn);
-    const partMatch = opts.partialMatch ?? true;
-    const limit = opts.limit ?? 0;
-    const result: PartSearchSuggestion[] = [];
-    const seenPartNumbers = new Set<string>();
-    const seenFbgaSuggestions = new Set<string>();
-
-    const atLimit = (): boolean => limit > 0 && result.length >= limit;
-    const appendPartNumberSuggestion = (vendor: string, partNumber: string): void => {
-      if (atLimit()) {
-        return;
-      }
-      const normalizedPartNumber = normalizePartNumber(partNumber);
-      if (!normalizedPartNumber) {
-        return;
-      }
-      const key = `${vendor}\0${normalizedPartNumber}`;
-      if (seenPartNumbers.has(key)) {
-        return;
-      }
-      seenPartNumbers.add(key);
-      result.push({ vendor, partNumber: normalizedPartNumber });
+  const searchPartSuggestions = (
+    query: string,
+    constraints: Omit<OperationConstraints, "idScheme"> | undefined,
+    opts: SearchOptions = {}
+  ): { suggestions: PartSearchSuggestion[]; warnings: FdnextResult["warnings"] } => {
+    const classification = classifyPart(query, constraints, {
+      ...partClassificationOptions("search", opts.limit),
+      partialMatch: opts.partialMatch
+    });
+    return {
+      suggestions: classification.candidates.map(suggestionFromPartCandidate),
+      warnings: classification.warnings
     };
-    const appendMicronFbgaSuggestion = (code: string, partNumber: string): void => {
-      if (atLimit()) {
-        return;
-      }
-      const normalizedPartNumber = normalizePartNumber(partNumber);
-      const key = `${code}\0${normalizedPartNumber}`;
-      if (!normalizedPartNumber || seenFbgaSuggestions.has(key)) {
-        return;
-      }
-      seenFbgaSuggestions.add(key);
-      result.push({ vendor: "micron", markingCode: code, partNumber: normalizedPartNumber });
-    };
-
-    for (const entry of managedNandPartNumbers) {
-      if (atLimit()) {
-        return result;
-      }
-      const hit = partMatch ? contains(entry.pn, query) : entry.pn === query;
-      if (hit) {
-        appendPartNumberSuggestion(entry.vendor, entry.pn);
-      }
-    }
-
-    for (const entry of dramPartNumbers) {
-      if (atLimit()) {
-        return result;
-      }
-      const hit = partMatch ? contains(entry.pn, query) : entry.pn === query;
-      if (hit) {
-        appendPartNumberSuggestion(entry.vendor, entry.pn);
-      }
-    }
-
-    for (const [code, partNumbers] of micronDramFbgaCodes.entries()) {
-      if (atLimit()) {
-        return result;
-      }
-      const codeHit = contains(code, query);
-      for (const partNumber of partNumbers) {
-        if (atLimit()) {
-          return result;
-        }
-        if (codeHit || contains(partNumber, query)) {
-          appendMicronFbgaSuggestion(code, partNumber);
-        }
-      }
-    }
-
-    for (const [vendor, partNumbers] of fdb.vendors.entries()) {
-      for (const partNumber of partNumbers.keys()) {
-        if (atLimit()) {
-          return result;
-        }
-        const hit = partMatch ? contains(partNumber, query) : partNumber === query;
-        if (hit) {
-          appendPartNumberSuggestion(vendor, partNumber);
-        }
-      }
-    }
-
-    for (const [code, partNumber] of Object.entries(mdb.micron)) {
-      if (atLimit()) {
-        break;
-      }
-      if (contains(code, query) || contains(partNumber, query)) {
-        appendMicronFbgaSuggestion(code, partNumber);
-      }
-    }
-
-    for (const [code, partNumbers] of Object.entries(mdb.spectek)) {
-      if (atLimit()) {
-        break;
-      }
-      for (const partNumber of partNumbers) {
-        if (atLimit()) {
-          break;
-        }
-        if (contains(code, query) || contains(partNumber, query)) {
-          result.push({ vendor: "spectek", markingCode: code, partNumber });
-        }
-      }
-    }
-
-    return result;
   };
 
   const searchFlashIdRecords = (id: string, opts: SearchOptions = {}): Record<string, import("./types").FlashIdRecord> => {
@@ -917,21 +883,21 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     const limit = opts.limit ?? 0;
 
     if (!partMatch) {
-      const exact = findFlashIdRecord(fdb, query);
-      return exact ? { [query]: exact } : {};
+      const exact = normalizedIndexes.identifierIndex.get(query);
+      return exact ? { [query]: exact.record } : {};
     }
 
     const result: Record<string, import("./types").FlashIdRecord> = {};
     let resultCount = 0;
 
-    for (const [flashId, record] of fdb.flashIds.entries()) {
+    for (const [flashId, record] of normalizedIndexes.identifierIndex.entries()) {
       if (limit > 0 && resultCount >= limit) {
         break;
       }
       if (!contains(flashId, query)) {
         continue;
       }
-      result[flashId] = record;
+      result[flashId] = record.record;
       resultCount += 1;
     }
 
@@ -960,28 +926,71 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           warnings: [{ code: "empty_query", message: "Part query is empty", severity: "warning" }]
         };
       }
-      const info = detectRaw(normalized, { combineFdb: true }, true);
-      applyDramClassification(info);
-      applyDramPublicType(info);
-      pruneRedundantExtraInfo(info);
-      return buildPartDecodeResult(
+      const classification = classifyPart(input.query, input.constraints, partClassificationOptions("decode"));
+      if (classification.status === "not_found" || !classification.selected) {
+        return {
+          schemaVersion: "fdnext.result.v1",
+          operation: "part.decode",
+          status: "not_found",
+          input: {
+            query: input.query,
+            normalized,
+            ...(input.lang ? { lang: input.lang } : {}),
+            constraints: input.constraints ?? {}
+          },
+          blocks: [],
+          relations: [],
+          actions: [],
+          warnings: classification.warnings
+        };
+      }
+      if (classification.status === "ambiguous") {
+        return {
+          schemaVersion: "fdnext.result.v1",
+          operation: "part.decode",
+          status: "ambiguous",
+          input: {
+            query: input.query,
+            normalized,
+            ...(input.lang ? { lang: input.lang } : {}),
+            constraints: input.constraints ?? {}
+          },
+          blocks: [],
+          relations: [],
+          actions: [],
+          candidates: publicCandidatesFromPartClassification(classification.candidates, input.lang),
+          warnings: classification.warnings
+        };
+      }
+      const decodeTarget = classification.selected.markingCode && classification.selected.matchKind === "exact"
+        ? normalized
+        : classification.selected.partNumber;
+      const info = decodeTarget === classification.selected.partNumber
+        ? classification.selected.info ?? inspectPartForClassification(classification.selected.partNumber)
+        : inspectPartForClassification(decodeTarget);
+      const result = buildPartDecodeResult(
         info,
         {
           query: input.query,
-          normalized,
+          normalized: classification.selected.markingCode ?? normalized,
           constraints: input.constraints as OperationConstraints | undefined,
           lang: input.lang
         },
         resultBuilderContext
       );
+      result.warnings.push(...classification.warnings, ...classification.selected.warnings);
+      return result;
     });
   };
 
   const searchParts = (input: SearchPartsInput): PartSearchResult => {
     return runOperation("part.search", input, () => {
       const normalized = normalizePartNumber(input.query);
-      return buildPartSearchResult(
-        normalized ? searchPartSuggestions(normalized, { lang: input.lang, limit: input.limit }) : [],
+      const search = normalized
+        ? searchPartSuggestions(input.query, input.constraints, { lang: input.lang, limit: input.limit })
+        : { suggestions: [], warnings: [] };
+      const result = buildPartSearchResult(
+        search.suggestions,
         {
           query: input.query,
           normalized: normalized || input.query,
@@ -990,6 +999,8 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         },
         resultBuilderContext
       );
+      result.warnings.push(...search.warnings);
+      return result;
     });
   };
 

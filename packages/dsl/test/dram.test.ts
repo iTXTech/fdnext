@@ -160,6 +160,34 @@ function searchFbgaParts(query: string): string[] {
     .filter((partNumber): partNumber is string => Boolean(partNumber));
 }
 
+function assertSearchMarkingRelation(query: string, expectedPartNumber: string): void {
+  const result = engine.searchParts({ query, lang: "eng", limit: 20 });
+  const item = result.items.find((candidate) => candidate.device.markingCode === query && candidate.device.partNumber === expectedPartNumber);
+  assert.ok(item, `${query} should return a structured marking candidate for ${expectedPartNumber}`);
+  assert.equal(item.device.chipKind, "dram", `${query} should classify marking search as DRAM`);
+  assert.ok(item.badges?.includes("Micron FBGA"), `${query} should expose a marking badge`);
+  assert.ok(
+    item.fields?.some((field) => field.key === "marking_code" && field.value === query),
+    `${query} should expose marking_code as a field`
+  );
+  assert.ok(
+    result.relations?.some((relation) =>
+      relation.kind === "marking_for" &&
+      relation.source?.markingCode === query &&
+      relation.target.partNumber === expectedPartNumber
+    ),
+    `${query} should expose a marking_for relation`
+  );
+  assert.ok(
+    item.actions?.some((action) =>
+      action.operation === "part.decode" &&
+      action.input.query === expectedPartNumber &&
+      action.input.constraints?.chipKind === "dram"
+    ),
+    `${query} should include a ready-to-run DRAM decode action`
+  );
+}
+
 function publicDramType(value: unknown): string | undefined {
   return typeof value === "string" ? value.trim().replace(/\s+(?:SDRAM|SGRAM)$/i, "") : undefined;
 }
@@ -2311,5 +2339,7 @@ assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");
 assertSearchPnIncludes("CXDB5C", "CXMT CXDB5CCAM-MK");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
 assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
-assertSearchPnIncludes("C9BJZ", "Micron C9BJZ CT40A1G8SA-62M:E");
-assertSearchPnIncludes("B9DHG", "Micron B9DHG MT47H32M16BT-3E");
+assertSearchPnIncludes("C9BJZ", "Micron CT40A1G8SA-62M:E");
+assertSearchPnIncludes("B9DHG", "Micron MT47H32M16BT-3E");
+assertSearchMarkingRelation("C9BJZ", "CT40A1G8SA-62M:E");
+assertSearchMarkingRelation("B9DHG", "MT47H32M16BT-3E");

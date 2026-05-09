@@ -193,35 +193,46 @@ Implementation evidence:
 
 ## Phase 2: Unified Classification and Index Foundation
 
+Status: Complete on 2026-05-10. Added normalized in-memory indexes, routed PN decode/search through `classifyPart`, supported explicit constraints and ambiguity, and made marking search return structured records and relations.
+
 Goal: PN type inference becomes a first-class stage before decoding, and search stops depending on translated string suggestions.
 
 Tasks:
 
-- Introduce the normalized internal records needed by classification before the full resource cleanup:
+- [x] Introduce the normalized internal records needed by classification before the full resource cleanup:
   - `partIndex`
   - `identifierIndex`
   - `markingIndex`
   - `vendorIndex`
-- Populate these indexes from the existing FDB, MDB, managed NAND PN, and DRAM PN resources without changing the on-disk resource package yet.
-- Add `classifyPart(query, constraints)` as the first internal stage for decode and search.
-- Support explicit constraints:
+- [x] Populate these indexes from the existing FDB, MDB, managed NAND PN, and DRAM PN resources without changing the on-disk resource package yet.
+- [x] Add `classifyPart(query, constraints)` as the first internal stage for decode and search.
+- [x] Support explicit constraints:
   - `chipKind`
   - `productType`
   - `vendor`
   - `strict`
-- Rank candidates internally by rule priority, match specificity, resource hit, token completeness, and vendor-prefix consistency.
-- Return `ambiguous` when candidates are close instead of silently choosing a misleading result.
-- Make `decodePart` consume the selected candidate and emit its result blocks.
-- Make `searchParts` use the same classifier so suggestions include `vendor`, `chipKind`, `productType`, `badges`, and a ready-to-run decode request.
-- Make marking-code search return structured relations to candidate parts instead of display strings.
-- Keep internal ranking scores out of normal API responses. Use `status`, candidate order, and warnings for public behavior.
+- [x] Rank candidates internally by rule priority, match specificity, resource hit, token completeness, and vendor-prefix consistency.
+- [x] Return `ambiguous` when candidates are close instead of silently choosing a misleading result.
+- [x] Make `decodePart` consume the selected candidate and emit its result blocks.
+- [x] Make `searchParts` use the same classifier so suggestions include `vendor`, `chipKind`, `productType`, `badges`, and a ready-to-run decode request.
+- [x] Make marking-code search return structured relations to candidate parts instead of display strings.
+- [x] Keep internal ranking scores out of normal API responses. Use `status`, candidate order, and warnings for public behavior.
 
 Exit criteria:
 
-- Auto mode can distinguish current NAND, Managed NAND, and DRAM samples.
-- Explicit mode can force or reject a chip kind cleanly.
-- Search suggestions are structured objects, not parsed display strings.
-- Micron FBGA lookup works through `markingIndex` and returns related part records.
+- [x] Auto mode can distinguish current NAND, Managed NAND, and DRAM samples.
+- [x] Explicit mode can force or reject a chip kind cleanly.
+- [x] Search suggestions are structured objects, not parsed display strings.
+- [x] Micron FBGA lookup works through `markingIndex` and returns related part records.
+
+Implementation evidence:
+
+- `packages/core/src/part-index.ts` builds normalized `partIndex`, `identifierIndex`, `markingIndex`, and `vendorIndex` records from current resources and implements `classifyPart`.
+- `packages/core/src/device-inference.ts` centralizes product/chip-kind inference shared by classification and result building.
+- `packages/core/src/engine.ts` now runs `classifyPart` before PN decode/search, uses `identifierIndex` for identifier search, handles strict constraint rejection, and emits ambiguous decode results without exposing internal scores.
+- `packages/core/src/result-builder.ts` builds structured search suggestions with device identity, badges, fields, actions, and `marking_for` relations for marking-code hits.
+- `packages/compat-test/test/contract.test.ts` covers auto NAND/Managed NAND/DRAM classification, explicit force/reject constraints, structured Micron FBGA search relations, and an ambiguous classification case.
+- `packages/dsl/test/dram.test.ts` verifies FBGA marking search through structured fields, decode actions, and relations instead of parsing display strings.
 
 ## Phase 3: DSL v2
 
