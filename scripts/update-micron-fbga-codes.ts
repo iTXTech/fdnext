@@ -112,11 +112,12 @@ function extractCodesFromHtml(html: string): string[] {
   const out: string[] = [];
 
   for (const rowMatch of rowMatches) {
-    const rowHtml = rowMatch[1];
+    const rowHtml = rowMatch[1] ?? "";
     const cellValues = [...rowHtml.matchAll(/<t[dh]\b[^>]*>([\s\S]*?)<\/t[hd]>/gi)]
-      .map((cellMatch) =>
-        decodeHtmlEntities(
-          cellMatch[1]
+      .map((cellMatch) => {
+        const cellHtml = cellMatch[1] ?? "";
+        return decodeHtmlEntities(
+          cellHtml
             .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, " ")
             .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, " ")
             .replace(/<br\s*\/?>/gi, " ")
@@ -124,8 +125,8 @@ function extractCodesFromHtml(html: string): string[] {
             .replace(/\u00a0/g, " ")
             .replace(/\s+/g, " ")
             .trim()
-        )
-      );
+        );
+      });
 
     if (cellValues.length === 0) {
       continue;

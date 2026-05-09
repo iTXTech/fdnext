@@ -394,10 +394,12 @@
       "expected": {
         "data": {
           "Controller": [
+            "FC3379",
             "SM2258",
             "SM2259XT2",
             "SM2259XT3",
-            "SM2263XT"
+            "SM2263XT",
+            "ZC3281"
           ],
           "Interface": {
             "Toggle DDR version": "Yes"
@@ -410,10 +412,12 @@
             "rb": 4
           },
           "controller": [
+            "FC3379",
             "SM2258",
             "SM2259XT2",
             "SM2259XT3",
-            "SM2263XT"
+            "SM2263XT",
+            "ZC3281"
           ],
           "density": "2Tb",
           "deviceWidth": "x8",
@@ -629,12 +633,14 @@
       "expected": {
         "data": {
           "Controller": [
+            "FC3379",
             "SM2258XT",
             "SM2259XT2",
             "SM2259XT3",
             "SM3271AB",
             "SM3281AB",
-            "SM3281BB"
+            "SM3281BB",
+            "ZC3281"
           ],
           "Interface": {
             "Toggle DDR version": "Yes"
@@ -647,12 +653,14 @@
             "rb": "Unknown"
           },
           "controller": [
+            "FC3379",
             "SM2258XT",
             "SM2259XT2",
             "SM2259XT3",
             "SM3271AB",
             "SM3281AB",
-            "SM3281BB"
+            "SM3281BB",
+            "ZC3281"
           ],
           "density": "256Gb",
           "deviceWidth": "x8",
@@ -1432,8 +1440,10 @@
       "expected": {
         "data": {
           "Controller": [
+            "FC3379",
             "SM2258",
-            "SM2259"
+            "SM2259",
+            "ZC3281"
           ],
           "Interface": {
             "async": "Yes",
@@ -1447,8 +1457,10 @@
             "rb": 1
           },
           "controller": [
+            "FC3379",
             "SM2258",
-            "SM2259"
+            "SM2259",
+            "ZC3281"
           ],
           "density": "64Gb",
           "deviceWidth": "x8",
@@ -1878,6 +1890,7 @@
           "blockSize": 512,
           "cellLevel": "TLC",
           "controllers": [
+            "FC3379",
             "SM2258",
             "SM2259XT2",
             "SM2259XT3",
@@ -1887,7 +1900,8 @@
             "YS9082HC",
             "YS9082HP",
             "YS9083XT",
-            "YS9085N"
+            "YS9085N",
+            "ZC3281"
           ],
           "density": 262144,
           "die": 1,

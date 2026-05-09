@@ -1,8 +1,10 @@
 {
-  "files": [],
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "extends": "./tsconfig.base.json",
   "references": [
     { "path": "./packages/core" },
     { "path": "./packages/dsl" },
+    { "path": "./packages/resources" },
     { "path": "./packages/server" },
     { "path": "./packages/cli" },
     { "path": "./packages/compat-test" },

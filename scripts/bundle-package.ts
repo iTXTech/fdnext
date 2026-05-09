@@ -2,6 +2,10 @@ import { existsSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname as pathDirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+interface EsbuildModule {
+  build(options: Record<string, unknown>): Promise<void>;
+}
+
 function resolveEsbuildFromPnpmStore(root: string): string | null {
   const pnpmDir = resolve(root, "node_modules", ".pnpm");
   if (!existsSync(pnpmDir)) {
@@ -23,9 +27,10 @@ function resolveEsbuildFromPnpmStore(root: string): string | null {
   return null;
 }
 
-async function loadEsbuild() {
+async function loadEsbuild(): Promise<EsbuildModule> {
+  const esbuildPackage = "esbuild";
   try {
-    return await import("esbuild");
+    return (await import(esbuildPackage)) as EsbuildModule;
   } catch {
     // pnpm does not always link transitive deps to the workspace root. Fall back to the pnpm store path.
     // This keeps the repo self-contained without adding a direct esbuild dependency.
@@ -34,7 +39,7 @@ async function loadEsbuild() {
     if (!esbuildMain) {
       throw new Error("Unable to locate esbuild from pnpm store. Run pnpm install to restore dependencies.");
     }
-    return await import(esbuildMain);
+    return (await import(esbuildMain)) as EsbuildModule;
   }
 }
 
@@ -61,7 +66,7 @@ function ensureDir(path: string) {
 }
 
 async function bundleEntry(
-  esbuild: typeof import("esbuild"),
+  esbuild: EsbuildModule,
   opts: { entry: string; outfile: string; platform: "node" | "neutral"; banner?: string }
 ) {
   ensureDir(opts.outfile);

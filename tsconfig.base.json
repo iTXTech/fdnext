@@ -1,15 +1,15 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "baseUrl": ".",
     "paths": {
-      "@itxtech/fdnext-core": ["packages/core/src/index.ts"],
-      "@itxtech/fdnext-core/node": ["packages/core/src/loaders/node.ts"],
-      "@itxtech/fdnext-dsl": ["packages/dsl/src/index.ts"],
-      "@itxtech/fdnext-server": ["packages/server/src/index.ts"],
-      "@itxtech/fdnext-cli": ["packages/cli/src/index.ts"],
-      "@itxtech/fdnext-compat-test": ["packages/compat-test/src/index.ts"],
-      "@itxtech/fdnext-fdbgen": ["packages/fdbgen/src/index.ts"],
-      "@itxtech/fdnext-resources": ["packages/resources/index.ts"]
+      "@itxtech/fdnext-core": ["./packages/core/src/index.ts"],
+      "@itxtech/fdnext-core/node": ["./packages/core/src/loaders/node.ts"],
+      "@itxtech/fdnext-dsl": ["./packages/dsl/src/index.ts"],
+      "@itxtech/fdnext-server": ["./packages/server/src/index.ts"],
+      "@itxtech/fdnext-cli": ["./packages/cli/src/index.ts"],
+      "@itxtech/fdnext-compat-test": ["./packages/compat-test/src/index.ts"],
+      "@itxtech/fdnext-fdbgen": ["./packages/fdbgen/src/index.ts"],
+      "@itxtech/fdnext-resources": ["./packages/resources/index.ts"]
     },
     "target": "ESNext",
     "lib": ["ESNext"],
@@ -26,5 +26,6 @@
     "types": ["node"],
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true
-  }
+  },
+  "include": ["scripts/**/*.ts"]
 }
