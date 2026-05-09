@@ -136,7 +136,7 @@
         "cellLevel": { "$var": "cellLevel" },
         "interface": { "async": true, "sync": true },
         "classification": { "ce": { "$var": "ce" }, "die": { "$var": "die" } },
-        "extraInfo": { "original_vendor": { "$var": "originalVendor" } }
+        "fields": { "original_vendor": { "$var": "originalVendor" } }
       }
     }
   }

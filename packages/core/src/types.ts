@@ -38,7 +38,7 @@ export interface UrlLink {
   icon?: string;
 }
 
-export interface FlashInfo {
+export interface InternalPartInfo {
   partNumber: string;
   vendor: string;
   type?: string;
@@ -52,8 +52,7 @@ export interface FlashInfo {
   generation?: string | number;
   interface?: FlashInterface;
   package?: string;
-  // PHP json_encode uses `[]` for empty arrays even when later used as a map. Keep this flexible for compat.
-  extraInfo?: Record<string, unknown> | unknown[];
+  fields?: Record<string, unknown> | unknown[];
   flashId?: string[];
   controller?: string[];
   remark?: string;
@@ -63,7 +62,7 @@ export interface FlashInfo {
   [key: string]: unknown;
 }
 
-export interface FlashIdInfo {
+export interface InternalIdentifierInfo {
   id: string;
   vendor: string;
   density?: number | string;
@@ -172,7 +171,7 @@ export interface FdnextResourceBundle {
   translationIndex?: LangPacks;
 }
 
-export interface DecodeOptions {
+export interface InternalPartDecodeOptions {
   lang?: Language | null;
   combineFdb?: boolean;
 }
@@ -187,7 +186,7 @@ export interface PartNumberDecoder {
   id: string;
   priority?: number;
   check(partNumber: string): boolean;
-  decode(partNumber: string): Partial<FlashInfo> | null;
+  decode(partNumber: string): Partial<InternalPartInfo> | null;
 }
 
 export interface IdentifierDecoder {
@@ -195,7 +194,7 @@ export interface IdentifierDecoder {
   idScheme: FdnextIdScheme;
   priority?: number;
   check(id: string): boolean;
-  decode(id: string): Partial<FlashIdInfo> | null;
+  decode(id: string): Partial<InternalIdentifierInfo> | null;
 }
 
 export interface ProcessorOperationContext {
@@ -220,30 +219,16 @@ export interface ProcessorHooks {
   afterOperation?: AfterOperationHandler;
 }
 
-export interface InternalDecodeProcessorHooks {
-  flashInfo?(flashInfo: FlashInfo): FlashInfo;
-  flashIdInfo?(idInfo: FlashIdInfo): FlashIdInfo;
-}
-
 export interface EngineOptions {
   resources?: FdnextResourceBundle;
   fallbackLang?: string;
   decoders?: PartNumberDecoder[];
   identifierDecoders?: IdentifierDecoder[];
   processors?: ProcessorHooks[];
-  internalDecodeProcessors?: InternalDecodeProcessorHooks[];
-}
-
-export interface FlashDetectorInfo {
-  fdb: FdbInfo;
-  flash_cnt: number;
-  id_cnt: number;
-  mdb_cnt: number;
 }
 
 export interface FdnextEngine {
   getVersion(): string;
-  getInfo(): FlashDetectorInfo;
   getCapabilities(): FdnextCapabilities;
   getFdb(): FdbDataset;
   getMdb(): MdbDataset;

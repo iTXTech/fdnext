@@ -629,11 +629,11 @@ export function generateFdb(options: GenerateFdbOptions): Record<string, unknown
   canonicalizeVendorRecords(vendors);
   canonicalizeIddbReferences(iddb, vendors);
 
-  const extraInfo = extra.info ?? {};
+  const supplementalInfo = extra.info ?? {};
   const infoInput: FdbInfoPayload & { version: string } = {
     ...rawInfo,
-    ...extraInfo,
-    controllers: mergeStringArray(toStringArray(rawInfo.controllers, false), toStringArray(extraInfo.controllers, false), false),
+    ...supplementalInfo,
+    controllers: mergeStringArray(toStringArray(rawInfo.controllers, false), toStringArray(supplementalInfo.controllers, false), false),
     ...(options.name ? { name: options.name } : {}),
     ...(options.website ? { website: options.website } : {}),
     version

@@ -1,4 +1,4 @@
-import type { FlashInfo } from "../types";
+import type { InternalPartInfo } from "../types";
 import { normalizePartNumber } from "../utils/normalize";
 
 const GBIT_TO_MBIT = 1024;
@@ -178,7 +178,7 @@ function parseMicronProcessKey(partNumber: string): string | null {
   return `${dieCapacity}:${cellLevel}:${dieCode}`;
 }
 
-export function patchMicronPartNumberProcessNode(info: FlashInfo): Partial<FlashInfo> | null {
+export function patchMicronPartNumberProcessNode(info: InternalPartInfo): Partial<InternalPartInfo> | null {
   if (info.vendor !== "micron") {
     return null;
   }

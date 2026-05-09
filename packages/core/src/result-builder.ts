@@ -33,7 +33,7 @@ import {
   type SearchResultItem,
   type VendorIdentity
 } from "./result";
-import type { FlashIdInfo, FlashIdRecord, FlashInfo, LangPacks } from "./types";
+import type { InternalIdentifierInfo, FlashIdRecord, InternalPartInfo, LangPacks } from "./types";
 import { normalizeFlashId } from "./utils/normalize";
 
 export interface ResultBuilderContext {
@@ -64,7 +64,7 @@ function asNumber(value: unknown): number | undefined {
   return undefined;
 }
 
-function fdnextMetadata(info: FlashInfo): Record<string, unknown> {
+function fdnextMetadata(info: InternalPartInfo): Record<string, unknown> {
   return asRecord((info as Record<string, unknown>).__fdnext);
 }
 
@@ -123,7 +123,7 @@ function vendorIdentity(vendor: unknown, ctx: ResultBuilderContext, lang?: strin
 }
 
 function deviceIdentityFromPart(
-  info: FlashInfo,
+  info: InternalPartInfo,
   constraints: OperationConstraints,
   ctx: ResultBuilderContext,
   lang?: string | null
@@ -141,8 +141,8 @@ function deviceIdentityFromPart(
     chipKind,
     ...(productType ? { productType } : {}),
     partNumber: info.partNumber,
-    ...(typeof info.extraInfo === "object" && !Array.isArray(info.extraInfo) && typeof info.extraInfo.marking_code === "string"
-      ? { markingCode: info.extraInfo.marking_code }
+    ...(typeof info.fields === "object" && !Array.isArray(info.fields) && typeof info.fields.marking_code === "string"
+      ? { markingCode: info.fields.marking_code }
       : {}),
     vendor: vendorIdentity(info.vendor, ctx, lang)
   };
@@ -155,7 +155,7 @@ function addField(fields: Map<FdnextFieldKey, FieldValue>, field: FieldValue | u
   fields.set(field.key as FdnextFieldKey, field);
 }
 
-function fieldMapFromPart(info: FlashInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Map<FdnextFieldKey, FieldValue> {
+function fieldMapFromPart(info: InternalPartInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Map<FdnextFieldKey, FieldValue> {
   const fields = new Map<FdnextFieldKey, FieldValue>();
   addField(fields, createField("vendor", device.vendor.name, ctx, lang));
   addField(fields, createField("chip_kind", device.chipKind, ctx, lang));
@@ -191,7 +191,7 @@ function fieldMapFromPart(info: FlashInfo, device: DeviceIdentity, ctx: ResultBu
     addField(fields, createField("die_count", Number(classification.die), ctx, lang));
   }
 
-  const extra = asRecord(info.extraInfo);
+  const extra = asRecord(info.fields);
   for (const [key, value] of Object.entries(extra)) {
     if (!Object.hasOwn(fdnextFieldRegistry, key) || !isKnownInfoValue(value)) {
       continue;
@@ -263,7 +263,7 @@ function buildBlocks(profileId: FdnextChipKind | "nand.flash_id", fields: Map<Fd
   return blocks;
 }
 
-function isKnownPart(info: FlashInfo): boolean {
+function isKnownPart(info: InternalPartInfo): boolean {
   return info.vendor !== UNKNOWN || isKnownInfoValue(info.type) || isKnownInfoValue(info.density) || isKnownInfoValue(info.cellLevel);
 }
 
@@ -276,7 +276,7 @@ function baseInput(query: string, normalized: string, constraints: OperationCons
   };
 }
 
-function partActions(info: FlashInfo): Action[] {
+function partActions(info: InternalPartInfo): Action[] {
   if (!Array.isArray(info.flashId) || info.flashId.length === 0) {
     return [];
   }
@@ -299,7 +299,7 @@ function partActions(info: FlashInfo): Action[] {
   ];
 }
 
-function partRelations(info: FlashInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Relation[] {
+function partRelations(info: InternalPartInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Relation[] {
   const relations: Relation[] = [];
   if (device.markingCode && device.partNumber) {
     relations.push({
@@ -378,7 +378,7 @@ export function buildPartCandidate(suggestion: PartSearchSuggestion, ctx: Result
 }
 
 export function buildPartDecodeResult(
-  info: FlashInfo,
+  info: InternalPartInfo,
   input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null },
   ctx: ResultBuilderContext
 ): PartDecodeResult {
@@ -400,7 +400,7 @@ export function buildPartDecodeResult(
   };
 }
 
-function deviceIdentityFromIdentifier(info: FlashIdInfo, ctx: ResultBuilderContext, lang?: string | null): DeviceIdentity {
+function deviceIdentityFromIdentifier(info: InternalIdentifierInfo, ctx: ResultBuilderContext, lang?: string | null): DeviceIdentity {
   return {
     domain: "memory",
     chipKind: "raw_nand",
@@ -410,7 +410,7 @@ function deviceIdentityFromIdentifier(info: FlashIdInfo, ctx: ResultBuilderConte
   };
 }
 
-function fieldMapFromIdentifier(info: FlashIdInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Map<FdnextFieldKey, FieldValue> {
+function fieldMapFromIdentifier(info: InternalIdentifierInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Map<FdnextFieldKey, FieldValue> {
   const fields = new Map<FdnextFieldKey, FieldValue>();
   addField(fields, createField("vendor", device.vendor.name, ctx, lang));
   addField(fields, createField("identifier", info.id, ctx, lang));
@@ -449,7 +449,7 @@ function fieldMapFromIdentifier(info: FlashIdInfo, device: DeviceIdentity, ctx: 
   return fields;
 }
 
-function identifierRelations(info: FlashIdInfo, device: DeviceIdentity): Relation[] {
+function identifierRelations(info: InternalIdentifierInfo, device: DeviceIdentity): Relation[] {
   return (info.partNumbers ?? []).map((partNumber) => ({
     kind: "identifier_for",
     source: {
@@ -464,7 +464,7 @@ function identifierRelations(info: FlashIdInfo, device: DeviceIdentity): Relatio
 }
 
 export function buildIdentifierDecodeResult(
-  info: FlashIdInfo,
+  info: InternalIdentifierInfo,
   input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null },
   ctx: ResultBuilderContext
 ): IdentifierDecodeResult {

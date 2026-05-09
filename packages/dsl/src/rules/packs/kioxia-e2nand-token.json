@@ -424,7 +424,7 @@
             "$var": "ch"
           }
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

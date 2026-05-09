@@ -278,7 +278,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -571,7 +571,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -719,7 +719,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -971,7 +971,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -1340,7 +1340,7 @@
         "package": {
           "$var": "packageFinal"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -1605,7 +1605,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -1786,7 +1786,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

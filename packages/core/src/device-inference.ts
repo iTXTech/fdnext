@@ -1,6 +1,6 @@
 import { UNKNOWN } from "./constants";
 import type { FdnextChipKind, FdnextProductType, OperationConstraints } from "./result";
-import type { FlashInfo } from "./types";
+import type { InternalPartInfo } from "./types";
 
 export function normalizeInfoText(value: unknown): string {
   if (typeof value !== "string") {
@@ -37,9 +37,9 @@ export function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
 }
 
-export function inferProductTypeFromInfo(info: FlashInfo): FdnextProductType | undefined {
+export function inferProductTypeFromInfo(info: InternalPartInfo): FdnextProductType | undefined {
   const type = normalizeInfoText(info.type);
-  const extra = asRecord(info.extraInfo);
+  const extra = asRecord(info.fields);
   const dramType = normalizeInfoText(extra.dram_type);
   if (["emmc", "ufs", "emcp", "umcp", "e2nand", "inand"].includes(type)) {
     return type;
@@ -53,7 +53,7 @@ export function inferProductTypeFromInfo(info: FlashInfo): FdnextProductType | u
   return undefined;
 }
 
-export function inferChipKindFromInfo(info: FlashInfo, constraints: OperationConstraints = {}): FdnextChipKind {
+export function inferChipKindFromInfo(info: InternalPartInfo, constraints: OperationConstraints = {}): FdnextChipKind {
   if (constraints.chipKind) {
     return constraints.chipKind;
   }

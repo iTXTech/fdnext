@@ -15,14 +15,10 @@ Phase 0 defines the public result contract before engine internals are replaced:
 
 The contract uses canonical, untranslated data keys. Display labels and formatted strings are generated from the field registry and language layer, while canonical values stay in `key`, `value`, `unit`, identity IDs, relations, and operation names.
 
-## Temporary Internal Bridge Rule
+## Phase 8 Cleanup Rule
 
-Legacy `FlashInfo` and `FlashIdInfo` objects may be consumed by internal core adapters while the engine is being migrated. Those adapters are implementation scaffolding only:
+Phase 8 removed the temporary core bridge that translated old decode objects into fdnext results. Current SDK, HTTP, CLI, and fixture work must target `FdnextResult` and operation inputs directly:
 
-- They must stay inside `packages/core`.
-- They must not be exported as new SDK behavior.
-- They must not appear in HTTP routes, CLI output, documentation examples, or schema fixtures.
-- They must not preserve old endpoint names, response aliases, translated keys, or `extraInfo` metadata leakage as public behavior.
-- They must be removed before Phase 8 can be considered complete.
-
-New public SDK, HTTP, CLI, and fixture work should target `FdnextResult` and the operation inputs directly.
+- Do not add old endpoint names, response aliases, translated display-key maps, or bridge adapters.
+- Internal DSL output should use canonical `fields` data and explicit `emit` metadata.
+- Public behavior must stay on structured `device`, `blocks`, `relations`, `actions`, `warnings`, and operation-level hooks.

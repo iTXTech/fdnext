@@ -129,7 +129,7 @@
         },
         "voltage": "VCC: 3.3V, VCCQ: 1.8V",
         "package": "153FBGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

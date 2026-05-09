@@ -184,7 +184,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -259,7 +259,7 @@
           "$var": "density"
         },
         "package": "FBGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

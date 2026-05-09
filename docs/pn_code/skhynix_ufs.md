@@ -59,9 +59,9 @@
 | `density` | 按 density token 映射为 Mbit | 按 density token 映射为 Mbit |
 | `voltage` | `Vcc: 2.5V, VccQ: 1.2V` | 未确认，输出 `Unknown` |
 | `package` | `153FBGA` | `FBGA` |
-| `extraInfo.group` | `UFS` | `UFS` |
-| `extraInfo.product_version` | `UFS 3.1` | `UFS 2.1` |
-| `extraInfo.generation_info` | `176-layer 4D NAND (V7)` | 未确认 |
+| `fields.group` | `UFS` | `UFS` |
+| `fields.product_version` | `UFS 3.1` | `UFS 2.1` |
+| `fields.generation_info` | `176-layer 4D NAND (V7)` | 未确认 |
 
 ## 示例
 

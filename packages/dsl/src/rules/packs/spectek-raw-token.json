@@ -555,7 +555,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

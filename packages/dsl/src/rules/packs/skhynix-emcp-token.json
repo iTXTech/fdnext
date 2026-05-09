@@ -183,7 +183,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -352,7 +352,7 @@
         },
         "voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
         "package": "254Ball FBGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

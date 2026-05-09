@@ -1,7 +1,7 @@
 import { LANGUAGES, UNKNOWN } from "./constants";
 import { buildDefaultDecoders } from "./decoders";
 import { buildFdb, buildMdb, findFlashIdRecord, findPartNumberAcrossVendors, getPartNumberRecord } from "./fdb";
-import { createDefaultFlashIdProcessor } from "./flashid/postprocess";
+import { createDefaultIdentifierPostprocessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
 import { applyMicronFbgaMeta, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
 import {
@@ -22,14 +22,12 @@ import { translateString as doTranslateString } from "./translate";
 import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize";
 import { contains } from "./utils/string";
 import type {
-  DecodeOptions,
+  InternalPartDecodeOptions,
   EngineOptions,
-  FlashDetectorInfo,
-  FlashIdInfo,
-  FlashInfo,
+  InternalIdentifierInfo,
+  InternalPartInfo,
   FdnextEngine,
   IdentifierDecoder,
-  InternalDecodeProcessorHooks,
   KnownPartNumberEntry,
   LangPacks,
   PartNumberRecord,
@@ -121,7 +119,7 @@ function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
 }
 
-function isRedundantSystem(value: unknown, info: FlashInfo): boolean {
+function isRedundantSystem(value: unknown, info: InternalPartInfo): boolean {
   const text = normalizeInfoText(value);
   if (text.length === 0) {
     return false;
@@ -144,7 +142,7 @@ function isRedundantSystem(value: unknown, info: FlashInfo): boolean {
   return false;
 }
 
-function isRedundantManagedFamily(value: unknown, info: FlashInfo, extra: Record<string, unknown>): boolean {
+function isRedundantManagedFamily(value: unknown, info: InternalPartInfo, extra: Record<string, unknown>): boolean {
   const text = normalizeInfoText(value);
   if (text.length === 0) {
     return false;
@@ -156,7 +154,7 @@ function isRedundantManagedFamily(value: unknown, info: FlashInfo, extra: Record
   );
 }
 
-function isRedundantGroup(value: unknown, info: FlashInfo): boolean {
+function isRedundantGroup(value: unknown, info: InternalPartInfo): boolean {
   const text = normalizeInfoText(value);
   const type = normalizeInfoText(info.type);
   if (text.length === 0 || type.length === 0) {
@@ -165,13 +163,13 @@ function isRedundantGroup(value: unknown, info: FlashInfo): boolean {
   return text === type || text === `${type} flash`;
 }
 
-function matchesProcessNode(value: unknown, info: FlashInfo): boolean {
+function matchesProcessNode(value: unknown, info: InternalPartInfo): boolean {
   const text = normalizeInfoText(value);
   const processNode = normalizeInfoText(info.processNode);
   return text.length > 0 && processNode.length > 0 && text === processNode;
 }
 
-function isRedundantNandTechnology(value: unknown, info: FlashInfo, extra: Record<string, unknown>): boolean {
+function isRedundantNandTechnology(value: unknown, info: InternalPartInfo, extra: Record<string, unknown>): boolean {
   const text = normalizeInfoText(value);
   if (text.length === 0) {
     return false;
@@ -184,7 +182,7 @@ function isRedundantNandTechnology(value: unknown, info: FlashInfo, extra: Recor
   return text === "bics flash" && processNode.startsWith("bics");
 }
 
-function isManagedNandType(info: FlashInfo): boolean {
+function isManagedNandType(info: InternalPartInfo): boolean {
   return ["emmc", "ufs", "emcp", "umcp", "inand", "e2nand"].includes(normalizeInfoText(info.type));
 }
 
@@ -248,12 +246,12 @@ function isKnownClassificationValue(value: unknown): boolean {
   return true;
 }
 
-function applyDramClassification(info: FlashInfo): void {
+function applyDramClassification(info: InternalPartInfo): void {
   if (normalizeInfoText(info.type) !== "dram") {
     return;
   }
 
-  const extra = asRecord(info.extraInfo);
+  const extra = asRecord(info.fields);
   const die = parseDramDieStackCount(extra.dram_die_stack);
   const ce = parseDramCsCount(extra.dram_die_stack);
   const defaultDieClassification = isDdrFamilyDramType(extra.dram_type);
@@ -278,12 +276,12 @@ function applyDramClassification(info: FlashInfo): void {
   info.classification = classification;
 }
 
-function applyDramPublicType(info: FlashInfo): void {
+function applyDramPublicType(info: InternalPartInfo): void {
   if (normalizeInfoText(info.type) !== "dram") {
     return;
   }
 
-  const extra = asRecord(info.extraInfo);
+  const extra = asRecord(info.fields);
   const type = publicDramType(extra.dram_type);
   if (type) {
     info.type = type;
@@ -291,8 +289,8 @@ function applyDramPublicType(info: FlashInfo): void {
   delete extra.dram_type;
 }
 
-function pruneRedundantExtraInfo(info: FlashInfo): void {
-  const extra = info.extraInfo;
+function pruneRedundantFields(info: InternalPartInfo): void {
+  const extra = info.fields;
   if (!extra || typeof extra !== "object" || Array.isArray(extra)) {
     return;
   }
@@ -477,15 +475,13 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   };
 
   const processors: ProcessorHooks[] = [...(options.processors ?? [])];
-  const internalDecodeProcessors: InternalDecodeProcessorHooks[] = [...(options.internalDecodeProcessors ?? [])];
+  const internalDecodeHooks = [createDefaultIdentifierPostprocessor()];
   const decoders: PartNumberDecoder[] = [...buildDefaultDecoders(), ...(options.decoders ?? [])].sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
   const identifierDecoders: IdentifierDecoder[] = [...(options.identifierDecoders ?? [])].sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
-
-  let cachedInfo: FlashDetectorInfo | null = null;
 
   const translateString = (key: string, lang?: string | null) => doTranslateString(langPacks, fallbackLang, key, lang);
   const resultBuilderContext = { langPacks, fallbackLang, translateString };
@@ -519,23 +515,20 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return result;
   };
 
-  // Default decode processors run before user-injected ones while result builders consume internal decode objects.
-  internalDecodeProcessors.unshift(createDefaultFlashIdProcessor());
-
-  const applyFlashIdProcessors = (info: FlashIdInfo): FlashIdInfo => {
+  const applyIdentifierInfoHooks = (info: InternalIdentifierInfo): InternalIdentifierInfo => {
     let next = info;
-    for (const processor of internalDecodeProcessors) {
-      if (processor.flashIdInfo) {
-        next = processor.flashIdInfo(next);
+    for (const processor of internalDecodeHooks) {
+      if (processor.identifierInfo) {
+        next = processor.identifierInfo(next);
       }
     }
     return next;
   };
 
-  const decodeFlashIdRaw = (id: string): FlashIdInfo => {
+  const decodeNandFlashIdRaw = (id: string): InternalIdentifierInfo => {
     const normalized = normalizeFlashId(id);
     const padded = padFlashId(normalized);
-    let info: FlashIdInfo | null = null;
+    let info: InternalIdentifierInfo | null = null;
 
     for (const decoder of identifierDecoders) {
       if (decoder.idScheme === "nand.flash_id" && decoder.check(padded)) {
@@ -568,13 +561,13 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       }
     }
 
-    return applyFlashIdProcessors(info);
+    return applyIdentifierInfoHooks(info);
   };
 
-  const processNodeFromFlashIds = (ids: string[] | undefined): string | undefined => {
+  const processNodeFromIdentifiers = (ids: string[] | undefined): string | undefined => {
     const nodes = new Set<string>();
     for (const id of ids ?? []) {
-      const decoded = decodeFlashIdRaw(id);
+      const decoded = decodeNandFlashIdRaw(id);
       const processNode = typeof decoded.processNode === "string" ? decoded.processNode.trim() : "";
       if (processNode && processNode !== UNKNOWN) {
         nodes.add(processNode);
@@ -603,7 +596,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return result;
   };
 
-  const combineFromFdb = (info: FlashInfo, lookupPartNumber = info.partNumber): FlashInfo => {
+  const combineFromFdb = (info: InternalPartInfo, lookupPartNumber = info.partNumber): InternalPartInfo => {
     const lookupPartNumbers = [...new Set([info.partNumber, lookupPartNumber].map((item) => normalizePartNumber(item)).filter(Boolean))];
     const allMatches = matchingFdbRecords(lookupPartNumbers);
     const allControllers = allMatches.flatMap(({ record }) => record.t ?? []);
@@ -611,7 +604,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       info.controller = mergeStringArray(info.controller, allControllers);
     }
 
-    // PHP uses `self::` in Micron::getFlashInfoFromFdb(), so SpecTek (which inherits it) looks up Micron FDB entries
+    // PHP uses `self::` in Micron's FDB lookup, so SpecTek (which inherits it) looks up Micron FDB entries
     // instead of SpecTek ones. This means SpecTek part numbers generally do not get FDB-combined fields in PHP.
     if (info.vendor === "spectek") {
       return info;
@@ -652,7 +645,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
 
     if (info.processNode == null || info.processNode === UNKNOWN) {
-      const processNode = processNodeFromFlashIds(record.id);
+      const processNode = processNodeFromIdentifiers(record.id);
       if (processNode) {
         info.processNode = processNode;
       }
@@ -665,25 +658,25 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     info.remark = record.m ?? "";
 
     if (info.vendor === "sndk" && typeof info.remark === "string" && info.remark.length > 0) {
-      // Older SanDisk records encode special flags inside the remark string (e.g. "CODE/Txxxx/...").
-      // Move those flags into extraInfo and clean up the remark before building fields.
+      // Some SanDisk records encode special flags inside the remark string (e.g. "CODE/Txxxx/...").
+      // Move those flags into fields and clean up the remark before building fields.
       const parts = info.remark.split("/");
       const remarkParts: string[] = [];
-      const extraInfo =
-        info.extraInfo && typeof info.extraInfo === "object" && !Array.isArray(info.extraInfo) ? (info.extraInfo as Record<string, unknown>) : {};
+      const fields =
+        info.fields && typeof info.fields === "object" && !Array.isArray(info.fields) ? (info.fields as Record<string, unknown>) : {};
       for (const part of parts) {
         if (!part) continue;
         if (part === "CODE") {
-          extraInfo.sandisk_code = true;
+          fields.sandisk_code = true;
           continue;
         }
         if (/^T[0-9A-Z]{4}$/.test(part)) {
-          extraInfo.kioxia = part.slice(1);
+          fields.kioxia = part.slice(1);
           continue;
         }
         remarkParts.push(part);
       }
-      info.extraInfo = extraInfo;
+      info.fields = fields;
       info.remark = remarkParts.join("/");
     }
 
@@ -715,17 +708,17 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return info;
   };
 
-  const applyFlashInfoProcessors = (info: FlashInfo): FlashInfo => {
+  const applyPartInfoHooks = (info: InternalPartInfo): InternalPartInfo => {
     let next = info;
-    for (const processor of internalDecodeProcessors) {
-      if (processor.flashInfo) {
-        next = processor.flashInfo(next);
+    for (const processor of internalDecodeHooks) {
+      if (processor.partInfo) {
+        next = processor.partInfo(next);
       }
     }
     return next;
   };
 
-  const detectRaw = (partNumber: string, opts: DecodeOptions, allowMicronFbga: boolean): FlashInfo => {
+  const detectRaw = (partNumber: string, opts: InternalPartDecodeOptions, allowMicronFbga: boolean): InternalPartInfo => {
     if (allowMicronFbga) {
       const fbga = parseMicronFbgaCode(partNumber);
       if (fbga) {
@@ -767,7 +760,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       }
     }
 
-    let info: FlashInfo | null = null;
+    let info: InternalPartInfo | null = null;
 
     for (const decoder of decoders) {
       if (decoder.check(partNumber)) {
@@ -795,7 +788,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       combineFromFdb(info, partNumber);
     }
 
-    return applyFlashInfoProcessors(info);
+    return applyPartInfoHooks(info);
   };
 
   const partDecoderPriority = (partNumber: string): number => {
@@ -808,11 +801,11 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return priority;
   };
 
-  const inspectPartForClassification = (partNumber: string): FlashInfo => {
+  const inspectPartForClassification = (partNumber: string): InternalPartInfo => {
     const info = detectRaw(partNumber, { combineFdb: true }, true);
     applyDramClassification(info);
     applyDramPublicType(info);
-    pruneRedundantExtraInfo(info);
+    pruneRedundantFields(info);
     return info;
   };
 
@@ -845,49 +838,23 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const publicCandidatesFromPartClassification = (candidates: PartClassificationCandidate[], lang?: string | null): Candidate[] =>
     candidates.slice(0, 5).map((candidate) => buildPartCandidate(suggestionFromPartCandidate(candidate), resultBuilderContext, lang));
 
-  const withMarkingCode = (info: FlashInfo, markingCode: string | undefined): FlashInfo => {
+  const withMarkingCode = (info: InternalPartInfo, markingCode: string | undefined): InternalPartInfo => {
     if (!markingCode) {
       return info;
     }
-    const existingExtra = info.extraInfo && typeof info.extraInfo === "object" && !Array.isArray(info.extraInfo)
-      ? info.extraInfo
+    const existingFields = info.fields && typeof info.fields === "object" && !Array.isArray(info.fields)
+      ? info.fields
       : {};
     return {
       ...info,
-      extraInfo: {
-        ...existingExtra,
+      fields: {
+        ...existingFields,
         marking_code: markingCode
       }
     };
   };
 
   const getVersion = (): string => String(fdb.info.version);
-
-  const getInfo = (): FlashDetectorInfo => {
-    if (cachedInfo) {
-      return cachedInfo;
-    }
-
-    let flashCnt = 0;
-    for (const vendorMap of fdb.vendors.values()) {
-      flashCnt += vendorMap.size;
-    }
-
-    let mdbCnt = 0;
-    mdbCnt += Object.keys(mdb.micron).length;
-    for (const values of Object.values(mdb.spectek)) {
-      mdbCnt += values.length;
-    }
-
-    cachedInfo = {
-      fdb: fdb.info,
-      flash_cnt: flashCnt,
-      id_cnt: fdb.flashIds.size,
-      mdb_cnt: mdbCnt
-    };
-
-    return cachedInfo;
-  };
 
   const searchPartSuggestions = (
     query: string,
@@ -904,7 +871,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     };
   };
 
-  const searchFlashIdRecords = (id: string, opts: SearchOptions = {}): Record<string, import("./types").FlashIdRecord> => {
+  const searchNandFlashIdRecords = (id: string, opts: SearchOptions = {}): Record<string, import("./types").FlashIdRecord> => {
     const query = normalizeFlashId(id);
     const partMatch = opts.partialMatch ?? true;
     const limit = opts.limit ?? 0;
@@ -1099,7 +1066,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           warnings: [{ code: "invalid_nand_flash_id", message: "NAND Flash ID must be an even-length hexadecimal byte string", severity: "warning" }]
         };
       }
-      const info = decodeFlashIdRaw(input.query);
+      const info = decodeNandFlashIdRaw(input.query);
       return buildIdentifierDecodeResult(
         info,
         {
@@ -1165,7 +1132,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         };
       }
       return buildIdentifierSearchResult(
-        normalized ? searchFlashIdRecords(normalized, { lang: input.lang, limit: input.limit }) : {},
+        normalized ? searchNandFlashIdRecords(normalized, { lang: input.lang, limit: input.limit }) : {},
         {
           query: input.query,
           normalized: normalized || input.query,
@@ -1179,7 +1146,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
   return {
     getVersion,
-    getInfo,
     getCapabilities,
     getFdb: () => fdb,
     getMdb: () => mdb,

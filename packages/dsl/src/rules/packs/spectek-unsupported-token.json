@@ -24,7 +24,7 @@
       "assign": {
         "vendor": "spectek",
         "type": "nand",
-        "extraInfo": {
+        "fields": {
           "unsupported_reason": "spectek_old_numbering"
         }
       }

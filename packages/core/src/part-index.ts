@@ -1,7 +1,7 @@
 import { UNKNOWN } from "./constants";
 import { asRecord, inferChipKindFromInfo, inferProductTypeFromInfo, isKnownInfoValue, normalizeInfoText } from "./device-inference";
 import type { FdnextChipKind, FdnextProductType, OperationConstraints, ResultWarning } from "./result";
-import type { FdbDataset, FlashIdRecord, FlashInfo, KnownPartNumberEntry, MdbDataset } from "./types";
+import type { FdbDataset, FlashIdRecord, InternalPartInfo, KnownPartNumberEntry, MdbDataset } from "./types";
 import { normalizeFlashId, normalizePartNumber } from "./utils/normalize";
 import { contains } from "./utils/string";
 
@@ -60,7 +60,7 @@ export interface PartClassificationCandidate {
   source: PartIndexSource | MarkingIndexSource;
   matchKind: "exact" | "prefix" | "contains" | "fallback";
   score: number;
-  info?: FlashInfo;
+  info?: InternalPartInfo;
   warnings: ResultWarning[];
 }
 
@@ -87,7 +87,7 @@ export interface ClassifyPartOptions {
   mode: "decode" | "search";
   limit?: number;
   partialMatch?: boolean;
-  inspectPart(partNumber: string): FlashInfo;
+  inspectPart(partNumber: string): InternalPartInfo;
   decoderPriority(partNumber: string): number;
 }
 
@@ -298,19 +298,19 @@ function matchWeight(kind: PartClassificationCandidate["matchKind"]): number {
   }
 }
 
-function tokenCompleteness(info: FlashInfo): number {
+function tokenCompleteness(info: InternalPartInfo): number {
   let score = 0;
   if (isKnownInfoValue(info.type)) score += 6;
   if (isKnownInfoValue(info.density)) score += 6;
   if (isKnownInfoValue(info.package)) score += 4;
   if (isKnownInfoValue(info.processNode)) score += 3;
   if (isKnownInfoValue(info.cellLevel)) score += 3;
-  const extra = asRecord(info.extraInfo);
+  const extra = asRecord(info.fields);
   score += Math.min(8, Object.keys(extra).filter((key) => isKnownInfoValue(extra[key])).length);
   return score;
 }
 
-function vendorConsistency(candidateVendor: string, info: FlashInfo): number {
+function vendorConsistency(candidateVendor: string, info: InternalPartInfo): number {
   if (!isKnownInfoValue(info.vendor)) {
     return 0;
   }

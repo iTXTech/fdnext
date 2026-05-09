@@ -296,7 +296,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -617,7 +617,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

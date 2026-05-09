@@ -444,7 +444,7 @@
           },
           "die": 1
         },
-        "extraInfo": {
+        "fields": {
           "multi_chip": false,
           "enterprise": {
             "$var": "enterprise"
@@ -908,7 +908,7 @@
             "$var": "ch"
           }
         },
-        "extraInfo": {
+        "fields": {
           "multi_chip": true,
           "enterprise": {
             "$var": "enterprise"

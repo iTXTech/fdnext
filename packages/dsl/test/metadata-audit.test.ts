@@ -37,9 +37,9 @@ const legacyMetadataKeys = new Set([
 ]);
 const structuredLegacyMetadataKeys = new Set(["blockSize", "pageSize"]);
 
-function walkRules(value: unknown, path: string, findings: string[], inExtraInfo = false): void {
+function walkRules(value: unknown, path: string, findings: string[], inCanonicalFields = false): void {
   if (Array.isArray(value)) {
-    value.forEach((item, index) => walkRules(item, `${path}[${index}]`, findings, inExtraInfo));
+    value.forEach((item, index) => walkRules(item, `${path}[${index}]`, findings, inCanonicalFields));
     return;
   }
   if (!value || typeof value !== "object") {
@@ -48,16 +48,16 @@ function walkRules(value: unknown, path: string, findings: string[], inExtraInfo
 
   for (const [key, item] of Object.entries(value)) {
     const extKey = key.startsWith("ext:") ? key.slice("ext:".length) : "";
-    const nextInExtraInfo = inExtraInfo || key === "extraInfo";
+    const nextInCanonicalFields = inCanonicalFields || key === "fields";
     if (
       legacyMetadataKeys.has(key) ||
-      (nextInExtraInfo && structuredLegacyMetadataKeys.has(key)) ||
+      (nextInCanonicalFields && structuredLegacyMetadataKeys.has(key)) ||
       legacyMetadataKeys.has(extKey) ||
       structuredLegacyMetadataKeys.has(extKey)
     ) {
       findings.push(`${path}.${key}`);
     }
-    walkRules(item, `${path}.${key}`, findings, nextInExtraInfo);
+    walkRules(item, `${path}.${key}`, findings, nextInCanonicalFields);
   }
 }
 

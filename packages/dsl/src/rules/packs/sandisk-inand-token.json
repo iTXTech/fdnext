@@ -64,7 +64,7 @@
         "density": {
           "$var": "density"
         },
-        "extraInfo": {
+        "fields": {
           "system": "iNAND"
         }
       }
@@ -95,7 +95,7 @@
       "assign": {
         "vendor": "sndk",
         "type": "inand",
-        "extraInfo": {
+        "fields": {
           "unsupported_reason": "sandisk_inand_not_supported"
         }
       }

@@ -32,9 +32,9 @@ Samsung eMMC 现在与 SK hynix 共用：
 - `component_density`：封装总容量，例如 `16GB package`
 - `die_density`：单 die 容量，例如 `128Gb`
 - `die_stack`：封装堆叠，例如 `SDP (1-die)`
-- `processNode`：NAND 代际/制程，例如 `14nm`；不在 `extraInfo` 里重复输出相同的 `generation_info`
+- `processNode`：NAND 代际/制程，例如 `14nm`；不在 `fields` 里重复输出相同的 `generation_info`
 
-可信度 metadata 只在 DSL `tables.reference` 内维护，不进入 `extraInfo`。
+可信度 metadata 只在 DSL `tables.reference` 内维护，不进入 `fields`。
 
 ## 示例
 

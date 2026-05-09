@@ -176,7 +176,7 @@
         "cellLevel": {
           "$var": "cellLevel"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

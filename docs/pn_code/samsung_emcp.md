@@ -52,7 +52,7 @@ DSL:
 | `dram_speed` | DRAM 速率 |
 | `package` | 144 FBGA / 254 FBGA 等 |
 
-可信度 metadata 必须留在 DSL `tables.reference`，不得输出到 `extraInfo`。
+可信度 metadata 必须留在 DSL `tables.reference`，不得输出到 `fields`。
 
 ## 待确认
 

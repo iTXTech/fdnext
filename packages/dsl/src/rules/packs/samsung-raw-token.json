@@ -467,7 +467,7 @@
             "$var": "die"
           }
         },
-        "extraInfo": {
+        "fields": {
           "toggle": {
             "$var": "toggleVer"
           },

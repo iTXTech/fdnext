@@ -193,7 +193,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -392,7 +392,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -594,7 +594,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -719,7 +719,7 @@
         },
         "voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
         "package": "170-ball FBGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

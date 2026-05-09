@@ -98,14 +98,14 @@
 - 顶层 `deviceWidth` 输出组织位宽，例如 `1G32` 输出 `x32`。
 - 顶层 `voltage` 输出 Micron voltage token 对应说明。
 - 顶层 `package` 输出实际封装，例如 `78-ball FBGA (7.5x11)`；仅对 part detail、datasheet 或外部分销页可确认的 `family + package code` 组合输出。
-- standalone DRAM 的 `extraInfo` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
-- `extraInfo` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`dram_speed`、`operation_temperature`、`die_revision`、`config_code`、`package_code`。
+- standalone DRAM 的 `fields` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
+- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`dram_speed`、`operation_temperature`、`die_revision`、`config_code`、`package_code`。
 - `device version` 中的 `D1/D2/D4/D6/D8/LF/L2/L4` 需要输出 die stack / CS 相关信息，例如 `D4` 输出 `4-die stack`。
 - `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / die stack，只减少 `dram_speed` / `die_revision` 等后缀信息。
 - `dram_type` 必须使用跨厂商标准名，不带厂商名，不写组合候选。
 - `package_code` 保留 Micron 原始封装 token；不要用它替代顶层 `package`，也不把未确认的 token 硬推成封装尺寸或 ball count。
 - Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4 speed bin ...`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
-- 维护用来源、外部确认状态或推断来源不得进入 `extraInfo`。
+- 维护用来源、外部确认状态或推断来源不得进入 `fields`。
 
 ## DDR3 / DDR3L TwinDie
 

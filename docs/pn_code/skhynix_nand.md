@@ -25,8 +25,8 @@
 - TechPowerUp SSD database 给出 `H25T2TB88E-X259` 和 `H25T2TD88C-X682` 的封装容量、die 数与 die 容量，可用于校准 H25T package density。
   <https://www.techpowerup.com/ssd-specs/sk-hynix-gold-p31-1-tb.d444>
   <https://www.techpowerup.com/ssd-specs/sk-hynix-platinum-p51-1-tb.d1967>
-- FlashInfo、Wuyou、SSD dump 与分销页面用于低一档外部交叉验证；这类来源不等同原厂资料，但可与本地 fdb/fdfdb 共同标注 `external_table_confirmed`。
-  <https://flashinfo.top/FlashInfo?pn=H25T0TC28C>
+- flashinfo.top、Wuyou、SSD dump 与分销页面用于低一档外部交叉验证；这类来源不等同原厂资料，但可与本地 fdb/fdfdb 共同标注 `external_table_confirmed`。
+  <https://flashinfo.top/>
   <https://bbs.wuyou.net/forum.php?extra=&mod=viewthread&tid=449091>
   <https://hisubway.online/blog/ssd/>
   <https://www.puris.net/dir/product/flash/rawnand>
@@ -48,7 +48,7 @@
 | 状态 | 含义 | 处理 |
 | --- | --- | --- |
 | `external_confirmed` | 原厂、TechInsights、TechPowerUp 等拆解/规格资料直接确认 PN、层数、die 或 package 容量 | 可作为确定规则与 testcase |
-| `external_table_confirmed` | FlashInfo、论坛 flash-id 表、SSD dump、分销页面等外部网页与本地 fdb/fdfdb 同向 | 可进规则，但只在 DSL `tables.reference` 内标明来源档位，不输出到 `extraInfo` |
+| `external_table_confirmed` | flashinfo.top、论坛 flash-id 表、SSD dump、分销页面等外部网页与本地 fdb/fdfdb 同向 | 可进规则，但只在 DSL `tables.reference` 内标明来源档位，不输出到 `fields` |
 | `local_pending_external_reference` | 仅本地 fdb/fdfdb 或 MPTool 数据，暂未找到外部网页 | 不删除候选，只在 DSL 内部 metadata 标记；不作为“已确定”结论 |
 
 单个 MPTool / fdfdb 条目可能乱写，不能单独提升为确定结论；至少需要本地多源一致或外部网页交叉确认。
@@ -121,9 +121,9 @@ H2D / H2J 系列不是通用 raw NAND fallback。公开 catalog mirror 与 USBDe
 | `H2` + series + product + density(2) + config(3) + tech + package(3) + optional suffix | H2D/H2J E2NAND |
 | series `D/J` | `D` -> E2NAND2.0；`J` -> E2NAND3.0 |
 | density `CG/DF/DG/EG/FG/VG/1T` | 64Gb / 64Gb / 128Gb / 256Gb / 512Gb / 768Gb / 1024Gb |
-| config | 例如 `8UD` / `8VD` / `8YD`，原样输出到 `extraInfo.config_code` |
+| config | 例如 `8UD` / `8VD` / `8YD`，原样输出到 `fields.config_code` |
 | tech | 与 series 组合判断 process node，例如 `D:1` -> 26nm，`J:1` -> 1xnm class，`J:2` -> 20nm class |
-| package | VLGA，原始 package code 原样输出到 `extraInfo.package_code` |
+| package | VLGA，原始 package code 原样输出到 `fields.package_code` |
 
 | 示例 | 输出重点 | 佐证状态 |
 | --- | --- | --- |

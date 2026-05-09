@@ -46,4 +46,4 @@ PN 结构：
 ## 注意
 
 本轮只用 YMTC 官方产品页补强 `storage_interface` 与 `storage_density` 等 canonical 字段，不把 UC341 转载资料中的未验证 ordering 信息扩展成新 DSL 样本。
-可信度 metadata 只保留在 DSL `tables.reference`，不得输出到 `extraInfo`。
+可信度 metadata 只保留在 DSL `tables.reference`，不得输出到 `fields`。

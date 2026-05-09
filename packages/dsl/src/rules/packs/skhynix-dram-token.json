@@ -331,7 +331,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -512,7 +512,7 @@
         },
         "voltage": "1.1V VDD",
         "package": "BGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -685,7 +685,7 @@
         "deviceWidth": 32,
         "voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
         "package": "170-ball BGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -884,7 +884,7 @@
           "$var": "voltage"
         },
         "package": "200-ball FBGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -989,7 +989,7 @@
         "deviceWidth": 16,
         "voltage": "3.3V VDD",
         "package": "54-pin TSOP-II",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -1146,7 +1146,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -1274,7 +1274,7 @@
         "deviceWidth": 32,
         "voltage": "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
         "package": "315-ball FBGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -1397,7 +1397,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -1498,7 +1498,7 @@
         "deviceWidth": 32,
         "voltage": "1.8V / 1.35V / 1.35V",
         "package": "180-ball FBGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

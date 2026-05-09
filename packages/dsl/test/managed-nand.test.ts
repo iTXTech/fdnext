@@ -22,7 +22,7 @@ interface TestPartInfo {
   voltage?: string;
   interface?: Record<string, unknown>;
   package?: string;
-  extraInfo: Record<string, unknown>;
+  detailFields: Record<string, unknown>;
 }
 
 function fields(result: PartDecodeResult): FieldValue[] {
@@ -58,10 +58,10 @@ function densityField(result: PartDecodeResult): FieldValue | undefined {
 function detect(partNumber: string): TestPartInfo {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   const density = densityField(result);
-  const extraInfo: Record<string, unknown> = {};
+  const detailFields: Record<string, unknown> = {};
   for (const field of fields(result)) {
     if (["vendor", "chip_kind", "product_type", "part_number"].includes(field.key)) continue;
-    extraInfo[field.label] = fieldText(field);
+    detailFields[field.label] = fieldText(field);
   }
   return {
     partNumber,
@@ -73,12 +73,12 @@ function detect(partNumber: string): TestPartInfo {
     cellLevel: fieldText(firstField(result, "cell_level")) as string | undefined,
     voltage: fieldText(firstField(result, "voltage", "dram_voltage")) as string | undefined,
     package: fieldText(firstField(result, "package")) as string | undefined,
-    extraInfo
+    detailFields
   };
 }
 
 function extra(info: TestPartInfo): Record<string, unknown> {
-  return info.extraInfo;
+  return info.detailFields;
 }
 
 function assertKnownOrOmitted(actual: unknown, expected: unknown, message: string): void {
@@ -134,15 +134,15 @@ function assertPart(
     assertKnownOrOmitted(info.package, expected.package, partNumber);
   }
   if (expected.extra) {
-    const extraInfo = extra(info);
+    const detailFields = extra(info);
     for (const [key, value] of Object.entries(expected.extra)) {
-      assert.equal(extraInfo[key], value, `${partNumber} extraInfo.${key}`);
+      assert.equal(detailFields[key], value, `${partNumber} detailFields.${key}`);
     }
   }
   if (expected.absentExtra) {
-    const extraInfo = extra(info);
+    const detailFields = extra(info);
     for (const key of expected.absentExtra) {
-      assert.equal(Object.hasOwn(extraInfo, key), false, `${partNumber} should not expose extraInfo.${key}`);
+      assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
     }
   }
 }

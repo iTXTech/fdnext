@@ -72,7 +72,7 @@ interface TestPartInfo {
   voltage?: string;
   package?: string;
   classification?: Record<string, unknown>;
-  extraInfo: Record<string, unknown>;
+  detailFields: Record<string, unknown>;
 }
 
 function fields(result: PartDecodeResult): FieldValue[] {
@@ -96,7 +96,7 @@ function detect(partNumber: string): TestPartInfo {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   const density = firstField(result, "dram_density", "density", "storage_density");
   const width = firstField(result, "dram_width", "device_width");
-  const extraInfo: Record<string, unknown> = {};
+  const detailFields: Record<string, unknown> = {};
   for (const field of fields(result)) {
     if ([
       "vendor",
@@ -117,7 +117,7 @@ function detect(partNumber: string): TestPartInfo {
     ].includes(field.key)) {
       continue;
     }
-    extraInfo[field.label] = fieldText(field);
+    detailFields[field.label] = fieldText(field);
   }
   return {
     partNumber,
@@ -128,12 +128,12 @@ function detect(partNumber: string): TestPartInfo {
     deviceWidth: typeof width?.value === "number" ? `x${width.value}` : fieldText(width) as string | undefined,
     voltage: fieldText(firstField(result, "dram_voltage", "voltage")) as string | undefined,
     package: fieldText(firstField(result, "package")) as string | undefined,
-    extraInfo
+    detailFields
   };
 }
 
 function extra(info: TestPartInfo): Record<string, unknown> {
-  return info.extraInfo;
+  return info.detailFields;
 }
 
 function assertKnownOrOmitted(actual: unknown, expected: unknown, message: string): void {
@@ -221,20 +221,20 @@ function assertDram(
     assert.ok(info.classification == null || typeof info.classification === "object", `${partNumber} should not expose NAND-shaped defaults`);
   }
 
-  const extraInfo = extra(info);
-  for (const key of Object.keys(extraInfo)) {
+  const detailFields = extra(info);
+  for (const key of Object.keys(detailFields)) {
     assert.ok(standaloneDramExtraKeys.has(key), `${partNumber} should use standardized DRAM extra key ${key}`);
   }
-  assert.equal(Object.hasOwn(extraInfo, "DRAM Type"), false, `${partNumber} should expose DRAM generation in type, not extraInfo.DRAM Type`);
+  assert.equal(Object.hasOwn(detailFields, "DRAM Type"), false, `${partNumber} should expose DRAM generation in type, not detailFields.DRAM Type`);
 
   for (const [key, value] of Object.entries(expected.extra)) {
     if (key === "DRAM Type") {
       continue;
     }
-    assert.equal(extraInfo[key], value, `${partNumber} extraInfo.${key}`);
+    assert.equal(detailFields[key], value, `${partNumber} detailFields.${key}`);
   }
   for (const key of [...redundantStandaloneExtra, ...(expected.absentExtra ?? [])]) {
-    assert.equal(Object.hasOwn(extraInfo, key), false, `${partNumber} should not expose extraInfo.${key}`);
+    assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
   }
 }
 

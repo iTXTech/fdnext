@@ -51,4 +51,4 @@ PN 结构：
 ## 注意
 
 KIOXIA `THG*` 还覆盖 UFS，不能只靠 `THG` 前缀判断。当前规则按 `BM*` / `AM*` series 进入 eMMC pack。
-FG NAND 系列从 package/revision token 末位推定 2D 制程；BiCS 系列从第 2 位推定 BiCS 代际。推定结果写入顶层 `processNode`，不在 `extraInfo` 里重复输出 `generation_info`。未知 code 仍回退为 `FG NAND` / `BiCS FLASH`。
+FG NAND 系列从 package/revision token 末位推定 2D 制程；BiCS 系列从第 2 位推定 BiCS 代际。推定结果写入顶层 `processNode`，不在 `fields` 里重复输出 `generation_info`。未知 code 仍回退为 `FG NAND` / `BiCS FLASH`。

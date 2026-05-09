@@ -167,7 +167,7 @@
           "$var": "voltage"
         },
         "package": "VLGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

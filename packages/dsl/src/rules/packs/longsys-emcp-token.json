@@ -162,7 +162,7 @@
         "package": {
           "$var": "package"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -282,7 +282,7 @@
           "$var": "density"
         },
         "package": "FBGA254 11.5x13x1.0",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

@@ -46,4 +46,4 @@ PN 结构：
 ## 注意
 
 EC000 / EC110 flyer 中出现的样本进入 testcase。EC150 官方页只确认产品线、接口、容量和封装范围；若后续要扩展 EC150 具体 PN，需要公开 ordering table 或多源一致样本。
-可信度 metadata 只保留在 DSL `tables.reference`，不得输出到 `extraInfo`。
+可信度 metadata 只保留在 DSL `tables.reference`，不得输出到 `fields`。

@@ -117,7 +117,7 @@
           "$var": "density"
         },
         "package": "FBGA153 11.50x13.00",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

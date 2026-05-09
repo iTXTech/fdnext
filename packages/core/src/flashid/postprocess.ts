@@ -1,5 +1,10 @@
 import { patchMicronPartNumberProcessNode } from "../micron/process-node";
-import type { FlashIdInfo, FlashInfo, InternalDecodeProcessorHooks } from "../types";
+import type { InternalIdentifierInfo, InternalPartInfo } from "../types";
+
+interface InternalDecodePostprocessor {
+  partInfo?(partInfo: InternalPartInfo): InternalPartInfo;
+  identifierInfo?(identifierInfo: InternalIdentifierInfo): InternalIdentifierInfo;
+}
 import { normalizePartNumber } from "../utils/normalize";
 import { flashIdByteAt } from "./bytes";
 
@@ -287,7 +292,7 @@ function lookupString(table: Record<number, string>, byte: number): string | und
   return table[byte];
 }
 
-function patchIntelPartNumberProcessNode(info: FlashInfo): Partial<FlashInfo> | null {
+function patchIntelPartNumberProcessNode(info: InternalPartInfo): Partial<InternalPartInfo> | null {
   if (info.vendor !== "intel") {
     return null;
   }
@@ -308,8 +313,8 @@ function patchIntelPartNumberProcessNode(info: FlashInfo): Partial<FlashInfo> | 
   return { processNode };
 }
 
-function patchMicronLike(info: FlashIdInfo): Partial<FlashIdInfo> | null {
-  const patch: Partial<FlashIdInfo> = {};
+function patchMicronLike(info: InternalIdentifierInfo): Partial<InternalIdentifierInfo> | null {
+  const patch: Partial<InternalIdentifierInfo> = {};
   let changed = false;
 
   const processNode = lookupProcessNode(info.id, MICRON_LIKE_PROCESS_LOOKUPS);
@@ -327,8 +332,8 @@ function patchMicronLike(info: FlashIdInfo): Partial<FlashIdInfo> | null {
   return changed ? patch : null;
 }
 
-function patchSamsung(info: FlashIdInfo): Partial<FlashIdInfo> | null {
-  const patch: Partial<FlashIdInfo> = {};
+function patchSamsung(info: InternalIdentifierInfo): Partial<InternalIdentifierInfo> | null {
+  const patch: Partial<InternalIdentifierInfo> = {};
   let changed = false;
 
   const density = lookupNumber(SAMSUNG_DENSITY_BY_BYTE2, flashIdByteAt(info.id, 2));
@@ -347,8 +352,8 @@ function patchSamsung(info: FlashIdInfo): Partial<FlashIdInfo> | null {
   return changed ? patch : null;
 }
 
-function patchSkhynix(info: FlashIdInfo): Partial<FlashIdInfo> | null {
-  const patch: Partial<FlashIdInfo> = {};
+function patchSkhynix(info: InternalIdentifierInfo): Partial<InternalIdentifierInfo> | null {
+  const patch: Partial<InternalIdentifierInfo> = {};
   let changed = false;
 
   const density = lookupNumber(SKHYNIX_DENSITY_BY_BYTE2, flashIdByteAt(info.id, 2));
@@ -381,8 +386,8 @@ function patchSkhynix(info: FlashIdInfo): Partial<FlashIdInfo> | null {
   return changed ? patch : null;
 }
 
-function patchKioxiaLike(info: FlashIdInfo): Partial<FlashIdInfo> | null {
-  const patch: Partial<FlashIdInfo> = {};
+function patchKioxiaLike(info: InternalIdentifierInfo): Partial<InternalIdentifierInfo> | null {
+  const patch: Partial<InternalIdentifierInfo> = {};
   let changed = false;
 
   const density = lookupNumber(KIOXIA_LIKE_DENSITY_BY_BYTE2, flashIdByteAt(info.id, 2));
@@ -421,8 +426,8 @@ function joinYmtcProcess(base: string | undefined, suffix: string | undefined): 
   return suffix.startsWith("-") ? `${base}${suffix}` : `${base} ${suffix}`;
 }
 
-function patchYmtc(info: FlashIdInfo): Partial<FlashIdInfo> | null {
-  const patch: Partial<FlashIdInfo> = {};
+function patchYmtc(info: InternalIdentifierInfo): Partial<InternalIdentifierInfo> | null {
+  const patch: Partial<InternalIdentifierInfo> = {};
   let changed = false;
 
   const density = lookupNumber(YMTC_DENSITY_BY_BYTE2, flashIdByteAt(info.id, 2));
@@ -448,9 +453,9 @@ function patchYmtc(info: FlashIdInfo): Partial<FlashIdInfo> | null {
   return changed ? patch : null;
 }
 
-export function createDefaultFlashIdProcessor(): InternalDecodeProcessorHooks {
+export function createDefaultIdentifierPostprocessor(): InternalDecodePostprocessor {
   return {
-    flashInfo: (info): FlashInfo => {
+    partInfo: (info): InternalPartInfo => {
       const micronPatch = patchMicronPartNumberProcessNode(info);
       const intelPatch = patchIntelPartNumberProcessNode(info);
       if (!micronPatch && !intelPatch) {
@@ -458,10 +463,10 @@ export function createDefaultFlashIdProcessor(): InternalDecodeProcessorHooks {
       }
       return { ...info, ...micronPatch, ...intelPatch };
     },
-    flashIdInfo: (info): FlashIdInfo => {
+    identifierInfo: (info): InternalIdentifierInfo => {
       const vendor = info.vendor;
 
-      let patch: Partial<FlashIdInfo> | null = null;
+      let patch: Partial<InternalIdentifierInfo> | null = null;
       if (vendor === "micron" || vendor === "intel" || vendor === "spectek") patch = patchMicronLike(info);
       else if (vendor === "samsung") patch = patchSamsung(info);
       else if (vendor === "skhynix") patch = patchSkhynix(info);
@@ -473,5 +478,5 @@ export function createDefaultFlashIdProcessor(): InternalDecodeProcessorHooks {
       }
       return { ...info, ...patch };
     }
-  } satisfies InternalDecodeProcessorHooks;
+  } satisfies InternalDecodePostprocessor;
 }

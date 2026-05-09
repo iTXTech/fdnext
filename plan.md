@@ -50,7 +50,7 @@ HTTP routes should mirror the operation names directly:
 - `POST /identifiers/search`
 - `GET /capabilities`
 
-Do not keep `/decode`, `/searchPn`, `/decodeId`, `/searchId`, `/summary`, or `/summaryId`.
+Do not keep the old decode, PN search, identifier decode/search, or summary routes.
 
 ## Target Response Shape
 
@@ -124,7 +124,7 @@ Field design rules:
 - Avoid old paired fields such as `density` plus `rawDensity`. A single typed field should carry `value`, `unit`, and optional `display`.
 - Omit unknown fields instead of filling public results with `Unknown`, empty arrays, or NAND-shaped defaults.
 - Keep canonical data in `key`, `value`, `unit`, and identity IDs. Treat `label` and `display` as presentation fields generated from the field registry and language pack.
-- Use structured `warnings` for partial or inferred output. Do not encode uncertainty by leaking reference metadata or adding vague fields to `extraInfo`.
+- Use structured `warnings` for partial or inferred output. Do not encode uncertainty by leaking reference metadata or adding vague fields to `fields`.
 
 ## Phase 0: Schema and Migration Guardrails
 
@@ -143,11 +143,11 @@ Tasks:
 - [x] Create representative schema fixtures for raw NAND, On-die ECC NAND, eMMC, UFS, eMCP/uMCP, DRAM, Micron FBGA marking lookup, and NAND Flash ID.
 - [x] Add snapshot/schema tests for the fixtures before broad implementation work starts.
 - [x] Add metadata leakage tests that reject DSL maintenance metadata such as reference, source, reference status, and inference notes inside public device fields.
-- [x] Document the temporary internal bridge rule: legacy `FlashInfo` / `FlashIdInfo` adapters may exist only inside core while migrating and must be removed in Phase 8.
+- [x] Document the temporary internal bridge rule: old FlashDetector part / identifier payload adapters may exist only inside core while migrating and must be removed in Phase 8.
 
 Exit criteria:
 
-- [x] The new public schema is reviewable without reading old `FlashInfo` code.
+- [x] The new public schema is reviewable without reading old FlashDetector payload code.
 - [x] At least one fixture per current product family validates against schema.
 - [x] The migration can add new operations behind tests before deleting old internals.
 
@@ -168,12 +168,12 @@ Goal: remove NAND-shaped public types as the center of the engine.
 
 Tasks:
 
-- [x] Replace public `FlashInfo` / `FlashIdInfo` output contracts with `FdnextResult`, `DeviceIdentity`, `FieldValue`, `ResultBlock`, `Relation`, `Action`, and `Capability`.
+- [x] Replace public old part / identifier output contracts with `FdnextResult`, `DeviceIdentity`, `FieldValue`, `ResultBlock`, `Relation`, `Action`, and `Capability`.
 - [x] Move language translation to label/display generation only; never translate object keys.
 - [x] Create field profiles for `raw_nand`, `on_die_ecc_nand`, `managed_nand`, `dram`, and `nand.flash_id`.
 - [x] Replace public response shaping with schema builders. During the migration, the builders may consume legacy internal decode objects, but the public SDK must expose only the new result envelope.
 - [x] Remove response fields that exist only for old FlashDetector shape, such as mandatory empty `flashId`, `controller`, `url`, `interface`, or NAND classification defaults on non-NAND devices.
-- [x] Replace endpoint-specific processor hooks with operation-level hooks such as `beforeOperation` / `afterOperation`, so processors are not tied to old names like `decode`, `searchPn`, or `summaryId`.
+- [x] Replace endpoint-specific processor hooks with operation-level hooks such as `beforeOperation` / `afterOperation`, so processors are not tied to old route or command names.
 
 Exit criteria:
 
@@ -249,7 +249,7 @@ Tasks:
   - `capabilities`
   - `fieldProfile`
   - `emit`
-- [x] Keep token operations, but make `assign` produce canonical internal fields instead of old `FlashInfo` fields.
+- [x] Keep token operations, but make `assign` produce canonical internal fields instead of old FlashDetector fields.
 - [x] Add explicit `fields` emission:
   - scalar fields
   - typed numeric fields with units
@@ -418,36 +418,39 @@ Implementation evidence:
 
 ## Phase 8: Breaking Release Readiness
 
+Status: Complete on 2026-05-10. Removed the remaining migration bridge names, old summary resources, old info surface, and public-facing documentation references for the breaking fdnext API.
+
 Goal: ship a clean fdnext major version with no hidden compatibility paths.
 
 Tasks:
 
-- Remove dead code for old dispatch processors and old endpoint names.
-- Remove old summary-template code; summaries should be generated from blocks and fields.
-- Remove temporary internal bridge adapters from legacy `FlashInfo` / `FlashIdInfo` objects to `FdnextResult`.
-- Remove old resource option names and loader compatibility that only existed for migration.
-- Run repository-wide searches for old names:
-  - `FlashInfo`
-  - `FlashIdInfo`
-  - `searchPn`
-  - `decodeId`
-  - `summaryId`
-  - `extraInfo` translated display keys
-  - `toPublicFlashInfo`
-  - `toPublicFlashIdInfo`
-  - old processor hook names
-- Run full validation:
-  - `pnpm build`
-  - `pnpm test`
-  - `pnpm typecheck`
-  - package-specific DSL/resource/server checks
-- Tag as a breaking fdnext release.
+- [x] Remove dead code for old dispatch processors and old endpoint names.
+- [x] Remove old summary-template code; summaries should be generated from blocks and fields.
+- [x] Remove temporary internal bridge adapters from old part / identifier decode objects to `FdnextResult`.
+- [x] Remove old resource option names and loader compatibility that only existed for migration.
+- [x] Run repository-wide searches for retired public API names, bridge names, summary keys, translated display-key maps, and old processor hook names.
+- [x] Run full validation:
+  - [x] `pnpm build`
+  - [x] `pnpm test`
+  - [x] `pnpm typecheck`
+  - [x] package-specific DSL/resource/server checks
+- [x] Tag as a breaking fdnext release: package metadata now marks `2.0.0`; the local `v2.0.0` tag will point at the Phase 8 commit.
 
 Exit criteria:
 
-- No public old API remains.
-- No old response schema remains.
-- New API can cover current NAND, Managed NAND, and DRAM, and has obvious extension points for NOR and PMIC.
+- [x] No public old API remains.
+- [x] No old response schema remains.
+- [x] New API can cover current NAND, Managed NAND, and DRAM, and has obvious extension points for NOR and PMIC.
+
+Implementation evidence:
+
+- `packages/core/src/types.ts`, `packages/core/src/engine.ts`, and `packages/core/src/result-builder.ts` now use fdnext internal part / identifier carriers, canonical `fields`, operation hooks, and no old info method.
+- `packages/dsl/src/rules/packs/*.json` now assign canonical `fields`; DSL audit tests track field-key drift without a legacy display-key carrier.
+- `packages/resources/resources/lang/eng.json` and `packages/resources/resources/lang/chs.json` no longer contain summary template keys.
+- `docs/API_MIGRATION.md` and PN-code docs describe Phase 8 cleanup and canonical fields instead of old response slots.
+- `package.json` and package-local manifests now identify the breaking fdnext release as `2.0.0`.
+- Retired-name audit passed across packages, docs, READMEs, and this plan.
+- Verification passed: `pnpm build`, `pnpm test`, `pnpm typecheck`, `pnpm contract:check`, `pnpm -C packages/dsl test`, `pnpm -C packages/dsl typecheck`, `pnpm -C packages/resources typecheck`, `pnpm -C packages/server typecheck`, and `git diff --check`.
 
 ## Non-Goals
 

@@ -1,4 +1,4 @@
-import type { FlashIdInfo, FlashInfo, IdentifierDecoder, PartNumberDecoder } from "@itxtech/fdnext-core";
+import type { InternalIdentifierInfo, InternalPartInfo, IdentifierDecoder, PartNumberDecoder } from "@itxtech/fdnext-core";
 import type { DslEmit, DslEmitComponent, DslEmitField, DslExpr, DslJson, DslRule, IdentifierDslRule, NormalizeStep, DslTokenDecoder } from "./types";
 
 function normalize(input: string, steps: NormalizeStep[] = []): string {
@@ -143,7 +143,7 @@ function matchFromStart(
   return { matched: false, rest: value };
 }
 
-function runTokenDecoder(partNumber: string, rule: DslRule, decoder: DslTokenDecoder): Partial<FlashInfo> {
+function runTokenDecoder(partNumber: string, rule: DslRule, decoder: DslTokenDecoder): Partial<InternalPartInfo> {
   const context: Record<string, unknown> = {
     partNumber,
     rest: partNumber
@@ -301,7 +301,7 @@ function runTokenDecoder(partNumber: string, rule: DslRule, decoder: DslTokenDec
   }
   applyRuleMetadata(out, rule, context);
 
-  return out as Partial<FlashInfo>;
+  return out as Partial<InternalPartInfo>;
 }
 
 function checkMatch(normalized: string, match: { kind: "prefix"; value: string } | { kind: "regex"; value: string; flags?: string }): boolean {
@@ -318,7 +318,7 @@ export function compileRulesToDecoders(rules: DslRule[]): PartNumberDecoder[] {
       return checkMatch(normalized, rule.match);
     };
 
-    const decode = (partNumber: string): Partial<FlashInfo> | null => {
+    const decode = (partNumber: string): Partial<InternalPartInfo> | null => {
       const normalized = normalize(partNumber, rule.normalize);
       if (!check(normalized)) {
         return null;
@@ -331,7 +331,7 @@ export function compileRulesToDecoders(rules: DslRule[]): PartNumberDecoder[] {
         ...(rule.set ?? {})
       };
       applyRuleMetadata(out, rule, { partNumber: normalized, rest: normalized });
-      return out as Partial<FlashInfo>;
+      return out as Partial<InternalPartInfo>;
     };
 
     return {
@@ -348,8 +348,8 @@ function byteAt(id: string, offset: number): number {
   return Number.parseInt(id.slice(idx, idx + 2), 16);
 }
 
-function decodeIdentifierByDefinition(id: string, definition: Record<string, Record<string, { dq: number[]; def: Record<string, DslJson> }>>): Partial<FlashIdInfo> {
-  const out: Partial<FlashIdInfo> = {};
+function decodeIdentifierByDefinition(id: string, definition: Record<string, Record<string, { dq: number[]; def: Record<string, DslJson> }>>): Partial<InternalIdentifierInfo> {
+  const out: Partial<InternalIdentifierInfo> = {};
   const ext: Record<string, unknown> = {};
 
   for (const [offsetKey, rules] of Object.entries(definition)) {
@@ -378,7 +378,7 @@ function decodeIdentifierByDefinition(id: string, definition: Record<string, Rec
 export function compileIdentifierRulesToDecoders(rules: IdentifierDslRule[]): IdentifierDecoder[] {
   return rules.map((rule) => {
     const check = (id: string): boolean => checkMatch(id.toUpperCase(), rule.match);
-    const decode = (id: string): Partial<FlashIdInfo> | null => {
+    const decode = (id: string): Partial<InternalIdentifierInfo> | null => {
       const normalized = id.toUpperCase();
       if (!check(normalized)) {
         return null;

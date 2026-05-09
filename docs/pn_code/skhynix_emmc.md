@@ -40,11 +40,11 @@
 | `density` | 按 density token 映射为 Mbit |
 | `voltage` | `VCC: 3.3V, VCCQ: 1.8V` |
 | `package` | `153FBGA` |
-| `extraInfo.system` | `SK hynix e-NAND` |
-| `extraInfo.group` | `eMMC` |
-| `extraInfo.product_version` | `eMMC 5.1` |
-| `extraInfo.interface_type` | `HS400+CMD Q` |
-| `extraInfo.managed_family` | `e-NAND` |
+| `fields.system` | `SK hynix e-NAND` |
+| `fields.group` | `eMMC` |
+| `fields.product_version` | `eMMC 5.1` |
+| `fields.interface_type` | `HS400+CMD Q` |
+| `fields.managed_family` | `e-NAND` |
 
 ## 示例
 

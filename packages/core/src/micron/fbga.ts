@@ -1,5 +1,5 @@
 import { UNKNOWN } from "../constants";
-import type { FlashInfo } from "../types";
+import type { InternalPartInfo } from "../types";
 
 const MICRON_FBGA_HEADERS = ["NW", "NX", "NQ", "PF", "NY", "NC", "NV"] as const;
 
@@ -81,9 +81,9 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === "object" && !Array.isArray(value);
 }
 
-export function applyMicronFbgaMeta(base: FlashInfo, parsed: MicronFbgaParsed, resolvedPn: string): FlashInfo {
-  const out: FlashInfo = { ...base, partNumber: parsed.display };
-  const extra = isRecord(out.extraInfo) ? { ...out.extraInfo } : {};
+export function applyMicronFbgaMeta(base: InternalPartInfo, parsed: MicronFbgaParsed, resolvedPn: string): InternalPartInfo {
+  const out: InternalPartInfo = { ...base, partNumber: parsed.display };
+  const extra = isRecord(out.fields) ? { ...out.fields } : {};
 
   extra.micron_part_number = resolvedPn;
   if (parsed.prod) {
@@ -91,7 +91,7 @@ export function applyMicronFbgaMeta(base: FlashInfo, parsed: MicronFbgaParsed, r
     extra.diffusion_loc = parsed.prod.diffusion;
     extra.encapsulation_loc = parsed.prod.encapsulation;
   }
-  out.extraInfo = extra;
+  out.fields = extra;
 
   return out;
 }

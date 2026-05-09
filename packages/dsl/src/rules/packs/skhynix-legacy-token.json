@@ -254,7 +254,7 @@
         "package": { "$var": "package" },
         "interface": { "async": true, "sync": true },
         "classification": { "ce": { "$var": "ce" }, "rb": { "$var": "rb" }, "ch": { "$var": "ch" }, "die": { "$var": "die" } },
-        "extraInfo": { "$var": "extra" }
+        "fields": { "$var": "extra" }
       }
     }
   }

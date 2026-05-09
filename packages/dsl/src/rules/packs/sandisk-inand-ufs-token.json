@@ -251,7 +251,7 @@
         "processNode": {
           "$var": "processNode"
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

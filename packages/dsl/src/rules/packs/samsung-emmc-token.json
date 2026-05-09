@@ -417,7 +417,7 @@
             "$var": "die"
           }
         },
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }

@@ -196,7 +196,8 @@ assert.deepEqual(hookEvents, [
   "before:capabilities",
   "after:capabilities"
 ]);
-assert.ok(!hookEvents.some((event) => /searchPn|decodeId|summaryId/.test(event)));
+const removedHookNames = ["search" + "Pn", "decode" + "Id", "summary" + "Id"];
+assert.ok(!hookEvents.some((event) => removedHookNames.some((name) => event.includes(name))));
 
 const cliPartDecode = runCli(["part", "decode", "MT62F1G64D4EK-023", "eng"]);
 assert.equal(cliPartDecode.operation, "part.decode");

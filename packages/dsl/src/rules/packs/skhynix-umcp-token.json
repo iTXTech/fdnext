@@ -162,7 +162,7 @@
         },
         "voltage": "UFS Vcc: 2.7V~3.6V, LPDDR4X: 1.8V/1.1V/0.6V",
         "package": "254Ball FBGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
@@ -258,7 +258,7 @@
           "$var": "density"
         },
         "package": "254Ball FBGA",
-        "extraInfo": {
+        "fields": {
           "$var": "extra"
         }
       }
