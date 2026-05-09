@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "fdnext.result.v1",
+  "operation": "identifier.decode",
+  "status": "ok",
+  "input": {
+    "query": "2C DA 90 95 56",
+    "normalized": "2CDA909556",
+    "constraints": {
+      "idScheme": "nand.flash_id"
+    }
+  },
+  "device": {
+    "domain": "memory",
+    "chipKind": "raw_nand",
+    "identifier": "2CDA909556",
+    "idScheme": "nand.flash_id",
+    "vendor": {
+      "id": "micron",
+      "name": "Micron"
+    }
+  },
+  "blocks": [
+    {
+      "id": "identity",
+      "label": "Identity",
+      "fields": [
+        {
+          "key": "vendor",
+          "label": "Vendor",
+          "value": "Micron",
+          "importance": "primary"
+        },
+        {
+          "key": "identifier",
+          "label": "Identifier",
+          "value": "2CDA909556",
+          "importance": "primary"
+        },
+        {
+          "key": "id_scheme",
+          "label": "Identifier Scheme",
+          "value": "nand.flash_id",
+          "display": "NAND Flash ID",
+          "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "geometry",
+      "label": "Geometry",
+      "fields": [
+        {
+          "key": "density",
+          "label": "Density",
+          "value": 32768,
+          "unit": "Mbit",
+          "display": "32Gb",
+          "importance": "primary"
+        },
+        {
+          "key": "page_size",
+          "label": "Page Size",
+          "value": 8192,
+          "unit": "byte",
+          "display": "8KiB",
+          "importance": "secondary"
+        },
+        {
+          "key": "block_size",
+          "label": "Block Size",
+          "value": 1048576,
+          "unit": "byte",
+          "display": "1MiB",
+          "importance": "secondary"
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "kind": "identifier_for",
+      "target": {
+        "identifier": "2CDA909556",
+        "idScheme": "nand.flash_id"
+      }
+    }
+  ],
+  "actions": [
+    {
+      "name": "part.search",
+      "label": "Search Related Parts",
+      "operation": "part.search",
+      "input": {
+        "query": "2CDA909556",
+        "constraints": {
+          "vendor": "micron",
+          "chipKind": "raw_nand"
+        }
+      }
+    }
+  ],
+  "warnings": []
+}

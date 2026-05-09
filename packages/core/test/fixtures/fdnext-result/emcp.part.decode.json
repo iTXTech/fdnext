@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "fdnext.result.v1",
+  "operation": "part.decode",
+  "status": "ok",
+  "input": {
+    "query": "KM2V8001CM-B707",
+    "normalized": "KM2V8001CM-B707",
+    "constraints": {
+      "productType": "emcp"
+    }
+  },
+  "device": {
+    "domain": "memory",
+    "chipKind": "managed_nand",
+    "productType": "emcp",
+    "partNumber": "KM2V8001CM-B707",
+    "vendor": {
+      "id": "samsung",
+      "name": "Samsung"
+    }
+  },
+  "blocks": [
+    {
+      "id": "identity",
+      "label": "Identity",
+      "fields": [
+        {
+          "key": "vendor",
+          "label": "Vendor",
+          "value": "Samsung",
+          "importance": "primary"
+        },
+        {
+          "key": "product_type",
+          "label": "Product Type",
+          "value": "emcp",
+          "display": "eMCP",
+          "importance": "primary"
+        },
+        {
+          "key": "part_number",
+          "label": "Part Number",
+          "value": "KM2V8001CM-B707",
+          "importance": "primary"
+        }
+      ]
+    },
+    {
+      "id": "components",
+      "label": "Components",
+      "fields": [
+        {
+          "key": "storage_density",
+          "label": "Storage Density",
+          "value": 65536,
+          "unit": "Mbit",
+          "display": "64Gb",
+          "importance": "primary"
+        },
+        {
+          "key": "dram_density",
+          "label": "DRAM Density",
+          "value": 32768,
+          "unit": "Mbit",
+          "display": "32Gb",
+          "importance": "primary"
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "kind": "component",
+      "label": "Storage component",
+      "target": {
+        "role": "storage",
+        "device": {
+          "domain": "memory",
+          "chipKind": "managed_nand",
+          "productType": "emmc",
+          "vendor": {
+            "id": "samsung",
+            "name": "Samsung"
+          }
+        }
+      },
+      "fields": [
+        {
+          "key": "storage_density",
+          "label": "Storage Density",
+          "value": 65536,
+          "unit": "Mbit",
+          "display": "64Gb",
+          "importance": "primary"
+        }
+      ]
+    },
+    {
+      "kind": "component",
+      "label": "DRAM component",
+      "target": {
+        "role": "dram",
+        "device": {
+          "domain": "memory",
+          "chipKind": "dram",
+          "productType": "lpddr4x",
+          "vendor": {
+            "id": "samsung",
+            "name": "Samsung"
+          }
+        }
+      },
+      "fields": [
+        {
+          "key": "dram_density",
+          "label": "DRAM Density",
+          "value": 32768,
+          "unit": "Mbit",
+          "display": "32Gb",
+          "importance": "primary"
+        }
+      ]
+    }
+  ],
+  "actions": [],
+  "warnings": []
+}

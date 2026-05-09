@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "fdnext.result.v1",
+  "operation": "part.decode",
+  "status": "ok",
+  "input": {
+    "query": "MTFC8GAKAJCN-4M",
+    "normalized": "MTFC8GAKAJCN-4M",
+    "constraints": {
+      "productType": "emmc"
+    }
+  },
+  "device": {
+    "domain": "memory",
+    "chipKind": "managed_nand",
+    "productType": "emmc",
+    "partNumber": "MTFC8GAKAJCN-4M",
+    "vendor": {
+      "id": "micron",
+      "name": "Micron"
+    }
+  },
+  "blocks": [
+    {
+      "id": "identity",
+      "label": "Identity",
+      "fields": [
+        {
+          "key": "vendor",
+          "label": "Vendor",
+          "value": "Micron",
+          "importance": "primary"
+        },
+        {
+          "key": "product_type",
+          "label": "Product Type",
+          "value": "emmc",
+          "display": "eMMC",
+          "importance": "primary"
+        },
+        {
+          "key": "part_number",
+          "label": "Part Number",
+          "value": "MTFC8GAKAJCN-4M",
+          "importance": "primary"
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "label": "Storage",
+      "fields": [
+        {
+          "key": "storage_density",
+          "label": "Storage Density",
+          "value": 65536,
+          "unit": "Mbit",
+          "display": "64Gb",
+          "importance": "primary"
+        },
+        {
+          "key": "storage_interface",
+          "label": "Storage Interface",
+          "value": "eMMC 5.1",
+          "importance": "primary"
+        }
+      ]
+    }
+  ],
+  "relations": [],
+  "actions": [],
+  "warnings": []
+}

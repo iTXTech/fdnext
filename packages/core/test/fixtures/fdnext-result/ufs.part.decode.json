@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "fdnext.result.v1",
+  "operation": "part.decode",
+  "status": "ok",
+  "input": {
+    "query": "KLUEG8UHDC-B0E1",
+    "normalized": "KLUEG8UHDC-B0E1",
+    "constraints": {
+      "productType": "ufs"
+    }
+  },
+  "device": {
+    "domain": "memory",
+    "chipKind": "managed_nand",
+    "productType": "ufs",
+    "partNumber": "KLUEG8UHDC-B0E1",
+    "vendor": {
+      "id": "samsung",
+      "name": "Samsung"
+    }
+  },
+  "blocks": [
+    {
+      "id": "identity",
+      "label": "Identity",
+      "fields": [
+        {
+          "key": "vendor",
+          "label": "Vendor",
+          "value": "Samsung",
+          "importance": "primary"
+        },
+        {
+          "key": "product_type",
+          "label": "Product Type",
+          "value": "ufs",
+          "display": "UFS",
+          "importance": "primary"
+        },
+        {
+          "key": "part_number",
+          "label": "Part Number",
+          "value": "KLUEG8UHDC-B0E1",
+          "importance": "primary"
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "label": "Storage",
+      "fields": [
+        {
+          "key": "storage_density",
+          "label": "Storage Density",
+          "value": 524288,
+          "unit": "Mbit",
+          "display": "512Gb",
+          "importance": "primary"
+        },
+        {
+          "key": "storage_interface",
+          "label": "Storage Interface",
+          "value": "UFS",
+          "importance": "primary"
+        }
+      ]
+    }
+  ],
+  "relations": [],
+  "actions": [],
+  "warnings": []
+}

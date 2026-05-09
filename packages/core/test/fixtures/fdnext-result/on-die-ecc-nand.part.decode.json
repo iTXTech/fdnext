@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "fdnext.result.v1",
+  "operation": "part.decode",
+  "status": "ok",
+  "input": {
+    "query": "MT29FBG08ABACA",
+    "normalized": "MT29FBG08ABACA",
+    "constraints": {
+      "chipKind": "on_die_ecc_nand"
+    }
+  },
+  "device": {
+    "domain": "memory",
+    "chipKind": "on_die_ecc_nand",
+    "partNumber": "MT29FBG08ABACA",
+    "vendor": {
+      "id": "micron",
+      "name": "Micron"
+    }
+  },
+  "blocks": [
+    {
+      "id": "identity",
+      "label": "Identity",
+      "importance": "primary",
+      "fields": [
+        {
+          "key": "vendor",
+          "label": "Vendor",
+          "value": "Micron",
+          "importance": "primary"
+        },
+        {
+          "key": "chip_kind",
+          "label": "Chip Kind",
+          "value": "on_die_ecc_nand",
+          "display": "On-die ECC NAND",
+          "importance": "primary"
+        },
+        {
+          "key": "part_number",
+          "label": "Part Number",
+          "value": "MT29FBG08ABACA",
+          "importance": "primary"
+        }
+      ]
+    },
+    {
+      "id": "storage",
+      "label": "Storage",
+      "fields": [
+        {
+          "key": "density",
+          "label": "Density",
+          "value": 32768,
+          "unit": "Mbit",
+          "display": "32Gb",
+          "importance": "primary"
+        },
+        {
+          "key": "cell_level",
+          "label": "Cell Level",
+          "value": "MLC",
+          "importance": "primary"
+        },
+        {
+          "key": "generation_info",
+          "label": "Generation",
+          "value": "On-die ECC",
+          "importance": "secondary"
+        }
+      ]
+    }
+  ],
+  "relations": [],
+  "actions": [],
+  "warnings": []
+}

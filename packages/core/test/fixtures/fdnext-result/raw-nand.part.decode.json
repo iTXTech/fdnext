@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "fdnext.result.v1",
+  "operation": "part.decode",
+  "status": "ok",
+  "input": {
+    "query": "MT29F4G08ABAEA",
+    "normalized": "MT29F4G08ABAEA",
+    "constraints": {
+      "chipKind": "raw_nand"
+    }
+  },
+  "device": {
+    "domain": "memory",
+    "chipKind": "raw_nand",
+    "partNumber": "MT29F4G08ABAEA",
+    "vendor": {
+      "id": "micron",
+      "name": "Micron"
+    }
+  },
+  "blocks": [
+    {
+      "id": "identity",
+      "label": "Identity",
+      "importance": "primary",
+      "fields": [
+        {
+          "key": "vendor",
+          "label": "Vendor",
+          "value": "Micron",
+          "importance": "primary"
+        },
+        {
+          "key": "chip_kind",
+          "label": "Chip Kind",
+          "value": "raw_nand",
+          "display": "Raw NAND",
+          "importance": "primary"
+        },
+        {
+          "key": "part_number",
+          "label": "Part Number",
+          "value": "MT29F4G08ABAEA",
+          "importance": "primary"
+        }
+      ]
+    },
+    {
+      "id": "geometry",
+      "label": "Geometry",
+      "fields": [
+        {
+          "key": "density",
+          "label": "Density",
+          "value": 4096,
+          "unit": "Mbit",
+          "display": "4Gb",
+          "importance": "primary"
+        },
+        {
+          "key": "cell_level",
+          "label": "Cell Level",
+          "value": "SLC",
+          "importance": "primary"
+        },
+        {
+          "key": "device_width",
+          "label": "Device Width",
+          "value": 8,
+          "unit": "bit",
+          "importance": "secondary"
+        }
+      ]
+    }
+  ],
+  "relations": [],
+  "actions": [
+    {
+      "name": "identifier.search",
+      "label": "Search NAND Flash IDs",
+      "operation": "identifier.search",
+      "input": {
+        "query": "MT29F4G08ABAEA",
+        "constraints": {
+          "idScheme": "nand.flash_id"
+        }
+      }
+    }
+  ],
+  "warnings": []
+}

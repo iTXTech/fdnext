@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "fdnext.result.v1",
+  "operation": "part.decode",
+  "status": "ok",
+  "input": {
+    "query": "MT62F1G64D4EK-023 WT:B",
+    "normalized": "MT62F1G64D4EK-023WT:B",
+    "constraints": {
+      "chipKind": "dram"
+    }
+  },
+  "device": {
+    "domain": "memory",
+    "chipKind": "dram",
+    "productType": "lpddr5x",
+    "partNumber": "MT62F1G64D4EK-023WT:B",
+    "vendor": {
+      "id": "micron",
+      "name": "Micron"
+    }
+  },
+  "blocks": [
+    {
+      "id": "identity",
+      "label": "Identity",
+      "fields": [
+        {
+          "key": "vendor",
+          "label": "Vendor",
+          "value": "Micron",
+          "importance": "primary"
+        },
+        {
+          "key": "product_type",
+          "label": "Product Type",
+          "value": "lpddr5x",
+          "display": "LPDDR5X",
+          "importance": "primary"
+        },
+        {
+          "key": "part_number",
+          "label": "Part Number",
+          "value": "MT62F1G64D4EK-023WT:B",
+          "importance": "primary"
+        }
+      ]
+    },
+    {
+      "id": "dram",
+      "label": "DRAM",
+      "fields": [
+        {
+          "key": "dram_type",
+          "label": "DRAM Type",
+          "value": "LPDDR5X",
+          "importance": "primary"
+        },
+        {
+          "key": "dram_density",
+          "label": "DRAM Density",
+          "value": 65536,
+          "unit": "Mbit",
+          "display": "64Gb",
+          "importance": "primary"
+        },
+        {
+          "key": "dram_width",
+          "label": "DRAM Width",
+          "value": 64,
+          "unit": "bit",
+          "importance": "secondary"
+        },
+        {
+          "key": "dram_speed",
+          "label": "DRAM Speed",
+          "value": "023",
+          "importance": "secondary"
+        }
+      ]
+    }
+  ],
+  "relations": [],
+  "actions": [],
+  "warnings": []
+}
