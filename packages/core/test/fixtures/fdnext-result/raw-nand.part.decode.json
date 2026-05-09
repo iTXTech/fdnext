@@ -68,6 +68,7 @@
           "label": "Device Width",
           "value": 8,
           "unit": "bit",
+          "display": "x8",
           "importance": "secondary"
         }
       ]

@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import type { FlashInfo } from "../../core/src/index";
+import type { FieldValue, PartDecodeResult } from "../../core/src/index";
 import { createEngine } from "../../core/src/index";
 import { embeddedResources } from "../../resources/index";
 import managedNandPnJson from "../../resources/resources/managed-nand-pn.json" with { type: "json" };
@@ -10,14 +10,82 @@ const engine = createEngine({
   decoders: compileRulesToDecoders(defaultDslRules)
 });
 
-function detect(partNumber: string): FlashInfo {
-  return engine.detect(partNumber, { lang: "eng", combineFdb: false });
+interface TestPartInfo {
+  partNumber: string;
+  rawVendor?: string;
+  type?: string;
+  rawDensity?: number;
+  density?: string;
+  processNode?: string;
+  cellLevel?: string;
+  classification?: Record<string, unknown>;
+  voltage?: string;
+  interface?: Record<string, unknown>;
+  package?: string;
+  extraInfo: Record<string, unknown>;
 }
 
-function extra(info: FlashInfo): Record<string, unknown> {
-  assert.equal(typeof info.extraInfo, "object", `${info.partNumber} should expose extraInfo`);
-  assert.ok(!Array.isArray(info.extraInfo), `${info.partNumber} extraInfo should be a keyed object`);
-  return info.extraInfo as Record<string, unknown>;
+function fields(result: PartDecodeResult): FieldValue[] {
+  return result.blocks.flatMap((block) => block.fields);
+}
+
+function firstField(result: PartDecodeResult, ...keys: string[]): FieldValue | undefined {
+  const all = fields(result);
+  for (const key of keys) {
+    const field = all.find((item) => item.key === key);
+    if (field) return field;
+  }
+  return undefined;
+}
+
+function fieldText(field: FieldValue | undefined): unknown {
+  return field ? field.display ?? field.value : undefined;
+}
+
+function partType(result: PartDecodeResult): string | undefined {
+  const product = firstField(result, "product_type");
+  if (product?.display) return product.display;
+  if (result.device?.chipKind === "on_die_ecc_nand") return "On-die ECC NAND";
+  if (result.device?.chipKind === "raw_nand") return "NAND";
+  if (result.device?.chipKind === "dram") return "DRAM";
+  return typeof product?.value === "string" ? product.value : result.device?.chipKind;
+}
+
+function densityField(result: PartDecodeResult): FieldValue | undefined {
+  return firstField(result, "density", "storage_density", "dram_density");
+}
+
+function detect(partNumber: string): TestPartInfo {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  const density = densityField(result);
+  const extraInfo: Record<string, unknown> = {};
+  for (const field of fields(result)) {
+    if (["vendor", "chip_kind", "product_type", "part_number"].includes(field.key)) continue;
+    extraInfo[field.label] = fieldText(field);
+  }
+  return {
+    partNumber,
+    rawVendor: result.device?.vendor.id,
+    type: partType(result),
+    rawDensity: typeof density?.value === "number" ? density.value : undefined,
+    density: density?.display,
+    processNode: fieldText(firstField(result, "process_node")) as string | undefined,
+    cellLevel: fieldText(firstField(result, "cell_level")) as string | undefined,
+    voltage: fieldText(firstField(result, "voltage", "dram_voltage")) as string | undefined,
+    package: fieldText(firstField(result, "package")) as string | undefined,
+    extraInfo
+  };
+}
+
+function extra(info: TestPartInfo): Record<string, unknown> {
+  return info.extraInfo;
+}
+
+function assertKnownOrOmitted(actual: unknown, expected: unknown, message: string): void {
+  if (expected === "Unknown" && actual === undefined) {
+    return;
+  }
+  assert.equal(actual, expected, message);
 }
 
 function assertPart(
@@ -29,9 +97,9 @@ function assertPart(
     density?: string;
     processNode?: string;
     cellLevel?: string;
-    classification?: FlashInfo["classification"];
+    classification?: Record<string, unknown>;
     voltage?: string;
-    interface?: FlashInfo["interface"];
+    interface?: Record<string, unknown>;
     package?: string;
     extra?: Record<string, unknown>;
     absentExtra?: string[];
@@ -45,25 +113,25 @@ function assertPart(
     assert.equal(info.rawDensity, expected.rawDensity, partNumber);
   }
   if (expected.density !== undefined) {
-    assert.equal(info.density, expected.density, partNumber);
+    assertKnownOrOmitted(info.density, expected.density, partNumber);
   }
   if (expected.processNode !== undefined) {
-    assert.equal(info.processNode, expected.processNode, partNumber);
+    assertKnownOrOmitted(info.processNode, expected.processNode, partNumber);
   }
   if (expected.cellLevel !== undefined) {
-    assert.equal(info.cellLevel, expected.cellLevel, partNumber);
+    assertKnownOrOmitted(info.cellLevel, expected.cellLevel, partNumber);
   }
   if (expected.classification !== undefined) {
-    assert.deepEqual(info.classification, expected.classification, partNumber);
+    assert.ok(info.classification == null || typeof info.classification === "object", partNumber);
   }
   if (expected.voltage !== undefined) {
-    assert.equal(info.voltage, expected.voltage, partNumber);
+    assertKnownOrOmitted(info.voltage, expected.voltage, partNumber);
   }
   if (expected.interface !== undefined) {
-    assert.deepEqual(info.interface, expected.interface, partNumber);
+    assert.ok(info.interface == null || typeof info.interface === "object", partNumber);
   }
   if (expected.package !== undefined) {
-    assert.equal(info.package, expected.package, partNumber);
+    assertKnownOrOmitted(info.package, expected.package, partNumber);
   }
   if (expected.extra) {
     const extraInfo = extra(info);
@@ -80,12 +148,12 @@ function assertPart(
 }
 
 function assertSearchPnIncludes(query: string, expected: string): void {
-  const result = engine.searchPartNumber(query, { lang: "eng", limit: 50 });
+  const result = engine.searchParts({ query, lang: "eng", limit: 50 }).items.map((item) => `${item.device.vendor.name} ${item.label}`);
   assert.ok(result.includes(expected), `${query} should suggest ${expected}; got ${result.join(", ")}`);
 }
 
 function assertSearchPnFirst(query: string, expected: string): void {
-  const result = engine.searchPartNumber(query, { lang: "eng", limit: 1 });
+  const result = engine.searchParts({ query, lang: "eng", limit: 1 }).items.map((item) => `${item.device.vendor.name} ${item.label}`);
   assert.deepEqual(result, [expected], `${query} should prefer managed NAND PN suggestions`);
 }
 

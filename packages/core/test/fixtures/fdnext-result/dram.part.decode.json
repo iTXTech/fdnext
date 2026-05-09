@@ -68,6 +68,7 @@
           "label": "DRAM Width",
           "value": 64,
           "unit": "bit",
+          "display": "x64",
           "importance": "secondary"
         },
         {

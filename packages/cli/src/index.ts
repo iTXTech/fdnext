@@ -20,40 +20,27 @@ function usage(): void {
   process.stdout.write(
     [
       "Usage:",
-      "  fdnext fd <partNumber> [lang]",
-      "  fdnext fid <flashId> [lang]",
-      "  fdnext summary <partNumber> [lang]",
-      "  fdnext summary-id <flashId> [lang]",
-      "  fdnext search-pn <partNumber> [lang] [limit]",
-      "  fdnext search-id <flashId> [lang] [limit]",
-      "  fdnext info"
+      "  fdnext part decode <partNumber> [lang]",
+      "  fdnext part search <query> [lang] [limit]",
+      "  fdnext id decode <identifier> [lang] [idScheme]",
+      "  fdnext id search <query> [lang] [limit] [idScheme]",
+      "  fdnext capabilities"
     ].join("\n") + "\n"
   );
 }
 
-function cliContext(
-  extra: Partial<{
-    lang: string | null;
-    pn: string | null;
-    id: string | null;
-    limit: number;
-  }> = {}
-) {
-  return {
-    query: process.argv.slice(2).join(" "),
-    remote: "cli",
-    userAgent: "fdnext-cli",
-    ...extra
-  };
-}
-
-function isSuccessPayload(payload: Record<string, unknown>): payload is { result: true; data?: unknown } {
-  return payload.result === true;
+function limitArg(value: string | undefined): number | undefined {
+  if (!value) {
+    return undefined;
+  }
+  const parsed = Number.parseInt(value, 10);
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 }
 
 async function main() {
-  const command = process.argv[2];
-  if (!command) {
+  const scope = process.argv[2];
+  const command = process.argv[3];
+  if (!scope) {
     usage();
     process.exit(1);
   }
@@ -67,107 +54,61 @@ async function main() {
     flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
   });
 
-  switch (command) {
-    case "fd": {
-      const pn = process.argv[3];
-      const lang = process.argv[4] ?? null;
-      if (!pn) {
-        process.stderr.write("Missing part number\n");
-        process.exit(1);
-      }
-      const payload = engine.dispatch("decode", cliContext({ pn, lang }));
-      if (isSuccessPayload(payload) && "data" in payload) {
-        print(payload.data);
-        return;
-      }
-      print(payload);
-      return;
-    }
-    case "fid": {
-      const id = process.argv[3];
-      const lang = process.argv[4] ?? null;
-      if (!id) {
-        process.stderr.write("Missing Flash Id\n");
-        process.exit(1);
-      }
-      const payload = engine.dispatch("decodeId", cliContext({ id, lang }));
-      if (isSuccessPayload(payload) && "data" in payload) {
-        print(payload.data);
-        return;
-      }
-      print(payload);
-      return;
-    }
-    case "summary": {
-      const pn = process.argv[3];
-      const lang = process.argv[4] ?? null;
-      if (!pn) {
-        process.stderr.write("Missing part number\n");
-        process.exit(1);
-      }
-      const payload = engine.dispatch("summary", cliContext({ pn, lang }));
-      if (isSuccessPayload(payload) && typeof payload.data === "string") {
-        process.stdout.write(`${payload.data}\n`);
-        return;
-      }
-      print(payload);
-      return;
-    }
-    case "summary-id": {
-      const id = process.argv[3];
-      const lang = process.argv[4] ?? null;
-      if (!id) {
-        process.stderr.write("Missing flash Id\n");
-        process.exit(1);
-      }
-      const payload = engine.dispatch("summaryId", cliContext({ id, lang }));
-      if (isSuccessPayload(payload) && typeof payload.data === "string") {
-        process.stdout.write(`${payload.data}\n`);
-        return;
-      }
-      print(payload);
-      return;
-    }
-    case "search-pn": {
-      const pn = process.argv[3];
-      const lang = process.argv[4] ?? null;
-      const limit = Number.parseInt(process.argv[5] ?? "0", 10) || 0;
-      if (!pn) {
-        process.stderr.write("Missing part number\n");
-        process.exit(1);
-      }
-      const payload = engine.dispatch("searchPn", cliContext({ pn, lang, limit }));
-      if (isSuccessPayload(payload) && "data" in payload) {
-        print(payload.data);
-        return;
-      }
-      print(payload);
-      return;
-    }
-    case "search-id": {
-      const id = process.argv[3];
-      const lang = process.argv[4] ?? null;
-      const limit = Number.parseInt(process.argv[5] ?? "0", 10) || 0;
-      if (!id) {
-        process.stderr.write("Missing Flash Id\n");
-        process.exit(1);
-      }
-      const payload = engine.dispatch("searchId", cliContext({ id, lang, limit }));
-      if (isSuccessPayload(payload) && "data" in payload) {
-        print(payload.data);
-        return;
-      }
-      print(payload);
-      return;
-    }
-    case "info": {
-      print(engine.dispatch("info", cliContext()));
-      return;
-    }
-    default:
-      usage();
-      process.exit(1);
+  if (scope === "capabilities") {
+    print(engine.getCapabilities());
+    return;
   }
+
+  if (scope === "part" && command === "decode") {
+    const query = process.argv[4];
+    const lang = process.argv[5] ?? null;
+    if (!query) {
+      process.stderr.write("Missing part number\n");
+      process.exit(1);
+    }
+    print(engine.decodePart({ query, lang }));
+    return;
+  }
+
+  if (scope === "part" && command === "search") {
+    const query = process.argv[4];
+    const lang = process.argv[5] ?? null;
+    const limit = limitArg(process.argv[6]);
+    if (!query) {
+      process.stderr.write("Missing part query\n");
+      process.exit(1);
+    }
+    print(engine.searchParts({ query, lang, ...(limit ? { limit } : {}) }));
+    return;
+  }
+
+  if (scope === "id" && command === "decode") {
+    const query = process.argv[4];
+    const lang = process.argv[5] ?? null;
+    const idScheme = process.argv[6] ?? "nand.flash_id";
+    if (!query) {
+      process.stderr.write("Missing identifier\n");
+      process.exit(1);
+    }
+    print(engine.decodeIdentifier({ query, lang, idScheme: idScheme as "nand.flash_id" }));
+    return;
+  }
+
+  if (scope === "id" && command === "search") {
+    const query = process.argv[4];
+    const lang = process.argv[5] ?? null;
+    const limit = limitArg(process.argv[6]);
+    const idScheme = process.argv[7] ?? "nand.flash_id";
+    if (!query) {
+      process.stderr.write("Missing identifier query\n");
+      process.exit(1);
+    }
+    print(engine.searchIdentifiers({ query, lang, idScheme: idScheme as "nand.flash_id", ...(limit ? { limit } : {}) }));
+    return;
+  }
+
+  usage();
+  process.exit(1);
 }
 
 main().catch((error: unknown) => {

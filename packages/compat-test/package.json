@@ -12,6 +12,6 @@
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
-    "test": "tsx test/baseline.test.ts"
+    "test": "tsx test/contract.test.ts"
   }
 }

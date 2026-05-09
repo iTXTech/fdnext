@@ -162,23 +162,34 @@ Implementation evidence:
 
 ## Phase 1: Contract and Type System Replacement
 
+Status: Complete on 2026-05-10. Replaced the public engine operation surface with fdnext result envelopes, added schema builders and field profiles, moved CLI/server/contract checks off the old endpoint contract, and removed old endpoint processor hooks.
+
 Goal: remove NAND-shaped public types as the center of the engine.
 
 Tasks:
 
-- Replace public `FlashInfo` / `FlashIdInfo` output contracts with `FdnextResult`, `DeviceIdentity`, `FieldValue`, `ResultBlock`, `Relation`, `Action`, and `Capability`.
-- Move language translation to label/display generation only; never translate object keys.
-- Create field profiles for `raw_nand`, `on_die_ecc_nand`, `managed_nand`, `dram`, and `nand.flash_id`.
-- Replace public response shaping with schema builders. During the migration, the builders may consume legacy internal decode objects, but the public SDK must expose only the new result envelope.
-- Remove response fields that exist only for old FlashDetector shape, such as mandatory empty `flashId`, `controller`, `url`, `interface`, or NAND classification defaults on non-NAND devices.
-- Replace endpoint-specific processor hooks with operation-level hooks such as `beforeOperation` / `afterOperation`, so processors are not tied to old names like `decode`, `searchPn`, or `summaryId`.
+- [x] Replace public `FlashInfo` / `FlashIdInfo` output contracts with `FdnextResult`, `DeviceIdentity`, `FieldValue`, `ResultBlock`, `Relation`, `Action`, and `Capability`.
+- [x] Move language translation to label/display generation only; never translate object keys.
+- [x] Create field profiles for `raw_nand`, `on_die_ecc_nand`, `managed_nand`, `dram`, and `nand.flash_id`.
+- [x] Replace public response shaping with schema builders. During the migration, the builders may consume legacy internal decode objects, but the public SDK must expose only the new result envelope.
+- [x] Remove response fields that exist only for old FlashDetector shape, such as mandatory empty `flashId`, `controller`, `url`, `interface`, or NAND classification defaults on non-NAND devices.
+- [x] Replace endpoint-specific processor hooks with operation-level hooks such as `beforeOperation` / `afterOperation`, so processors are not tied to old names like `decode`, `searchPn`, or `summaryId`.
 
 Exit criteria:
 
-- Core SDK returns only the new envelope.
-- No public output relies on translated field names.
-- DRAM output no longer carries NAND-only empty slots.
-- Old endpoint names no longer appear in public hook types.
+- [x] Core SDK returns only the new envelope.
+- [x] No public output relies on translated field names.
+- [x] DRAM output no longer carries NAND-only empty slots.
+- [x] Old endpoint names no longer appear in public hook types.
+
+Implementation evidence:
+
+- `packages/core/src/types.ts` now exposes `FdnextEngine` operations (`decodePart`, `searchParts`, `decodeIdentifier`, `searchIdentifiers`, `getCapabilities`) and operation-level processor hooks.
+- `packages/core/src/result-builder.ts` builds public schema envelopes from internal decode objects while keeping canonical keys untranslated.
+- `packages/core/src/field-profiles.ts` defines block ordering for raw NAND, On-die ECC NAND, managed NAND, DRAM, and NAND Flash ID results.
+- `packages/core/src/engine.ts` returns fdnext operation results directly and no longer exposes old public dispatch, summary, decode, or search method names.
+- `packages/cli/src/index.ts` and `packages/server/src/index.ts` use the new operation names and routes without legacy command or endpoint aliases.
+- `packages/compat-test` now runs result-schema contract checks instead of a FlashDetector baseline comparison.
 
 ## Phase 2: Unified Classification and Index Foundation
 

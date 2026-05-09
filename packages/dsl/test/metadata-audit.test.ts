@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createEngine, type FlashInfo } from "../../core/src/index";
+import { createEngine, type PartDecodeResult } from "../../core/src/index";
 import { embeddedResources } from "../../resources/index";
 import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "../src/index";
 
@@ -174,10 +174,22 @@ function removeVendorPrefix(value: unknown, vendor: unknown): string {
   return normalized;
 }
 
-function extraInfo(info: FlashInfo): Record<string, unknown> | null {
-  return info.extraInfo && typeof info.extraInfo === "object" && !Array.isArray(info.extraInfo)
-    ? (info.extraInfo as Record<string, unknown>)
-    : null;
+function fieldsByLabel(result: PartDecodeResult): Record<string, unknown> {
+  const fields: Record<string, unknown> = {};
+  for (const block of result.blocks) {
+    for (const field of block.fields) {
+      if (["vendor", "chip_kind", "product_type", "part_number"].includes(field.key)) {
+        continue;
+      }
+      fields[field.label] = field.display ?? field.value;
+    }
+  }
+  return fields;
+}
+
+function resultType(result: PartDecodeResult): string {
+  const product = result.blocks.flatMap((block) => block.fields).find((field) => field.key === "product_type");
+  return String(product?.display ?? product?.value ?? result.device?.chipKind ?? "");
 }
 
 function assertManagedNandOutputIsCanonical(): void {
@@ -185,11 +197,8 @@ function assertManagedNandOutputIsCanonical(): void {
   const legacyDisplayKeys = ["Component Generation", "Interface info"];
 
   for (const partNumber of managedNandSamples()) {
-    const info = engine.detect(partNumber, { lang: "eng", combineFdb: false });
-    const extra = extraInfo(info);
-    if (!extra) {
-      continue;
-    }
+    const info = engine.decodePart({ query: partNumber, lang: "eng" });
+    const extra = fieldsByLabel(info);
 
     for (const key of legacyDisplayKeys) {
       if (Object.hasOwn(extra, key)) {
@@ -197,13 +206,13 @@ function assertManagedNandOutputIsCanonical(): void {
       }
     }
 
-    const type = normalizeText(info.type);
+    const type = normalizeText(resultType(info));
     const system = normalizeText(extra.System);
     const group = normalizeText(extra.Group);
     const productVersion = normalizeText(extra["Product Version"]);
-    const productFamily = removeVendorPrefix(extra["Product Family"], info.rawVendor);
+    const productFamily = removeVendorPrefix(extra["Product Family"], info.device?.vendor.id);
     const managedFamily = normalizeText(extra["Managed Family"]);
-    const aliases = (vendorAliases[String(info.rawVendor)] ?? [String(info.rawVendor)])
+    const aliases = (vendorAliases[String(info.device?.vendor.id)] ?? [String(info.device?.vendor.id)])
       .map((alias) => normalizeText(alias))
       .filter(Boolean);
 

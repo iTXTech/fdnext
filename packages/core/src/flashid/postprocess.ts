@@ -1,5 +1,5 @@
 import { patchMicronPartNumberProcessNode } from "../micron/process-node";
-import type { FlashIdInfo, FlashInfo, ProcessorHooks } from "../types";
+import type { FlashIdInfo, FlashInfo, InternalDecodeProcessorHooks } from "../types";
 import { normalizePartNumber } from "../utils/normalize";
 import { flashIdByteAt } from "./bytes";
 
@@ -448,7 +448,7 @@ function patchYmtc(info: FlashIdInfo): Partial<FlashIdInfo> | null {
   return changed ? patch : null;
 }
 
-export function createDefaultFlashIdProcessor(): ProcessorHooks {
+export function createDefaultFlashIdProcessor(): InternalDecodeProcessorHooks {
   return {
     flashInfo: (info): FlashInfo => {
       const micronPatch = patchMicronPartNumberProcessNode(info);
@@ -473,5 +473,5 @@ export function createDefaultFlashIdProcessor(): ProcessorHooks {
       }
       return { ...info, ...patch };
     }
-  } satisfies ProcessorHooks;
+  } satisfies InternalDecodeProcessorHooks;
 }

@@ -19,8 +19,7 @@
     "fdbgen:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build",
     "fdbgen:crawl-mdb": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb",
     "fdbgen:crawl-mdb-from-fbga": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb-from-fbga",
-    "baseline:gen": "pnpm -s tsx ./scripts/gen-baseline.ts",
-    "baseline:check": "pnpm -C packages/compat-test test",
+    "contract:check": "pnpm -s tsx ./scripts/check-contract.ts",
     "resources:update-micron-fbga": "pnpm -s tsx ./scripts/update-micron-fbga-codes.ts"
   },
   "devDependencies": {

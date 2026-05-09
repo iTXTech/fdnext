@@ -165,6 +165,7 @@ export interface OperationConstraints {
 
 export interface DecodePartInput {
   query: string;
+  lang?: string | null;
   constraints?: Omit<OperationConstraints, "idScheme">;
 }
 
@@ -174,6 +175,7 @@ export interface SearchPartsInput extends DecodePartInput {
 
 export interface DecodeIdentifierInput {
   query: string;
+  lang?: string | null;
   idScheme?: FdnextIdScheme;
   constraints?: OperationConstraints;
 }
@@ -191,6 +193,7 @@ export type FdnextOperationRequestInput =
 export interface NormalizedOperationInput {
   query: string;
   normalized: string;
+  lang?: string;
   constraints: OperationConstraints;
 }
 

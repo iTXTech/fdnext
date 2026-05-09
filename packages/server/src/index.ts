@@ -1,6 +1,6 @@
 import { server as createHapiServer } from "@hapi/hapi";
 import type { Request, ResponseToolkit } from "@hapi/hapi";
-import { createEngine, type FlashDetectorEngine } from "@itxtech/fdnext-core";
+import { createEngine, type FdnextEngine } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
 import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
 import { embeddedResources } from "@itxtech/fdnext-resources";
@@ -22,52 +22,48 @@ function parsePort(value: number | undefined): number {
   throw new Error(`Invalid port: ${value}`);
 }
 
-function parseLimit(value: string | null): number {
-  if (!value) {
-    return 0;
-  }
-  const parsed = Number.parseInt(value, 10);
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : 0;
-}
-
 function hasHeaderMethod(value: unknown): value is { header: (name: string, value: string) => unknown } {
   return !!value && typeof value === "object" && "header" in value && typeof value.header === "function";
 }
 
-function toRequestMeta(
-  request: Request,
-  extra: Partial<{
-    serverName: string;
-    lang: string | null;
-    pn: string | null;
-    id: string | null;
-    limit: number;
-  }> = {}
-) {
-  const ua = request.headers["user-agent"];
-  const userAgent = Array.isArray(ua) ? ua.join("; ") : typeof ua === "string" ? ua : "";
-  return {
-    query: request.url.search ?? "",
-    remote: request.info.remoteAddress ?? "",
-    userAgent,
-    ...extra
-  };
+function payloadRecord(request: Request): Record<string, unknown> {
+  return request.payload && typeof request.payload === "object" && !Array.isArray(request.payload)
+    ? (request.payload as Record<string, unknown>)
+    : {};
 }
 
-function replyJson(h: ResponseToolkit, payload: Record<string, unknown>) {
+function stringPayload(record: Record<string, unknown>, key: string): string | undefined {
+  const value = record[key];
+  return typeof value === "string" && value.trim() ? value : undefined;
+}
+
+function limitPayload(record: Record<string, unknown>): number | undefined {
+  const value = record.limit;
+  const parsed = typeof value === "number" ? value : typeof value === "string" ? Number.parseInt(value, 10) : 0;
+  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
+}
+
+function constraintsPayload(record: Record<string, unknown>): Record<string, unknown> | undefined {
+  const value = record.constraints;
+  return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : undefined;
+}
+
+function replyJson(h: ResponseToolkit, payload: object) {
   return h.response(payload).code(200);
 }
 
-export function createHttpServer(options: HttpServerOptions) {
-  const resources = options.resourceDir ? loadResourcesFromDir(options.resourceDir) : embeddedResources;
-  const host = options.host ?? "0.0.0.0";
-  const port = parsePort(options.port);
-  const engine = createEngine({
-    resources,
+function createDefaultEngineFromResources(resourceDir?: string): FdnextEngine {
+  return createEngine({
+    resources: resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResources,
     decoders: compileRulesToDecoders(defaultDslRules),
     flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
   });
-  const serverName = options.serverName ?? "FDWebServer-TS";
+}
+
+export function createHttpServer(options: HttpServerOptions) {
+  const host = options.host ?? "0.0.0.0";
+  const port = parsePort(options.port);
+  const engine = createDefaultEngineFromResources(options.resourceDir);
 
   const server = createHapiServer({
     host,
@@ -90,82 +86,70 @@ export function createHttpServer(options: HttpServerOptions) {
 
   server.route({
     method: "GET",
-    path: "/",
-    handler: (request, h) => replyJson(h, engine.dispatch("index", toRequestMeta(request, { serverName })))
+    path: "/capabilities",
+    handler: (_request, h) => replyJson(h, engine.getCapabilities())
   });
 
   server.route({
-    method: "GET",
-    path: "/info",
-    handler: (request, h) => replyJson(h, engine.dispatch("info", toRequestMeta(request)))
-  });
-
-  server.route({
-    method: "GET",
-    path: "/decode",
+    method: "POST",
+    path: "/parts/decode",
     handler: (request, h) => {
-      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
-      const pn = typeof request.query.pn === "string" ? request.query.pn : null;
-      return replyJson(h, engine.dispatch("decode", toRequestMeta(request, { lang, pn })));
+      const payload = payloadRecord(request);
+      return replyJson(h, engine.decodePart({
+        query: stringPayload(payload, "query") ?? "",
+        lang: stringPayload(payload, "lang") ?? null,
+        constraints: constraintsPayload(payload)
+      }));
     }
   });
 
   server.route({
-    method: "GET",
-    path: "/decodeId",
+    method: "POST",
+    path: "/parts/search",
     handler: (request, h) => {
-      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
-      const id = typeof request.query.id === "string" ? request.query.id : null;
-      return replyJson(h, engine.dispatch("decodeId", toRequestMeta(request, { lang, id })));
+      const payload = payloadRecord(request);
+      return replyJson(h, engine.searchParts({
+        query: stringPayload(payload, "query") ?? "",
+        lang: stringPayload(payload, "lang") ?? null,
+        ...(limitPayload(payload) ? { limit: limitPayload(payload) } : {}),
+        constraints: constraintsPayload(payload)
+      }));
     }
   });
 
   server.route({
-    method: "GET",
-    path: "/searchPn",
+    method: "POST",
+    path: "/identifiers/decode",
     handler: (request, h) => {
-      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
-      const pn = typeof request.query.pn === "string" ? request.query.pn : null;
-      const limitStr = typeof request.query.limit === "string" ? request.query.limit : null;
-      return replyJson(h, engine.dispatch("searchPn", toRequestMeta(request, { lang, pn, limit: parseLimit(limitStr) })));
+      const payload = payloadRecord(request);
+      return replyJson(h, engine.decodeIdentifier({
+        query: stringPayload(payload, "query") ?? "",
+        lang: stringPayload(payload, "lang") ?? null,
+        idScheme: (stringPayload(payload, "idScheme") ?? "nand.flash_id") as "nand.flash_id",
+        constraints: constraintsPayload(payload)
+      }));
     }
   });
 
   server.route({
-    method: "GET",
-    path: "/searchId",
+    method: "POST",
+    path: "/identifiers/search",
     handler: (request, h) => {
-      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
-      const id = typeof request.query.id === "string" ? request.query.id : null;
-      const limitStr = typeof request.query.limit === "string" ? request.query.limit : null;
-      return replyJson(h, engine.dispatch("searchId", toRequestMeta(request, { lang, id, limit: parseLimit(limitStr) })));
-    }
-  });
-
-  server.route({
-    method: "GET",
-    path: "/summary",
-    handler: (request, h) => {
-      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
-      const pn = typeof request.query.pn === "string" ? request.query.pn : null;
-      return replyJson(h, engine.dispatch("summary", toRequestMeta(request, { lang, pn })));
-    }
-  });
-
-  server.route({
-    method: "GET",
-    path: "/summaryId",
-    handler: (request, h) => {
-      const lang = typeof request.query.lang === "string" ? request.query.lang : null;
-      const id = typeof request.query.id === "string" ? request.query.id : null;
-      return replyJson(h, engine.dispatch("summaryId", toRequestMeta(request, { lang, id })));
+      const payload = payloadRecord(request);
+      return replyJson(h, engine.searchIdentifiers({
+        query: stringPayload(payload, "query") ?? "",
+        lang: stringPayload(payload, "lang") ?? null,
+        idScheme: (stringPayload(payload, "idScheme") ?? "nand.flash_id") as "nand.flash_id",
+        ...(limitPayload(payload) ? { limit: limitPayload(payload) } : {}),
+        constraints: constraintsPayload(payload)
+      }));
     }
   });
 
   server.route({
     method: "*",
     path: "/{p*}",
-    handler: (_request, h) => replyJson(h, { result: false, message: "Not found" })
+    handler: (_request, h) => replyJson(h, { schemaVersion: "fdnext.result.v1", status: "not_found", warnings: [] })
   });
 
   return {
@@ -177,10 +161,6 @@ export function createHttpServer(options: HttpServerOptions) {
   };
 }
 
-export function createDefaultEngine(resourceDir: string): FlashDetectorEngine {
-  return createEngine({
-    resources: loadResourcesFromDir(resourceDir),
-    decoders: compileRulesToDecoders(defaultDslRules),
-    flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
-  });
+export function createDefaultEngine(resourceDir: string): FdnextEngine {
+  return createDefaultEngineFromResources(resourceDir);
 }

@@ -52,6 +52,13 @@ function formatBytes(value: FdnextFieldValueData, unit?: string): string | undef
   return `${numeric}${units[index]}`;
 }
 
+function formatBitWidth(value: FdnextFieldValueData, unit?: string): string | undefined {
+  if (typeof value !== "number" || unit !== "bit") {
+    return undefined;
+  }
+  return `x${value}`;
+}
+
 export const fdnextFieldRegistry = {
   part_number: {
     key: "part_number",
@@ -173,7 +180,8 @@ export const fdnextFieldRegistry = {
     defaultUnit: "bit",
     units: ["bit"],
     recommendedBlock: "interface",
-    importance: "secondary"
+    importance: "secondary",
+    format: formatBitWidth
   },
   voltage: {
     key: "voltage",
@@ -231,7 +239,8 @@ export const fdnextFieldRegistry = {
     defaultUnit: "bit",
     units: ["bit"],
     recommendedBlock: "dram",
-    importance: "secondary"
+    importance: "secondary",
+    format: formatBitWidth
   },
   dram_voltage: {
     key: "dram_voltage",
@@ -274,6 +283,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "geometry",
     importance: "secondary"
   },
+  plane: {
+    key: "plane",
+    valueKind: "number",
+    defaultLabel: "Plane",
+    recommendedBlock: "geometry",
+    importance: "secondary"
+  },
   die_count: {
     key: "die_count",
     valueKind: "number",
@@ -287,6 +303,285 @@ export const fdnextFieldRegistry = {
     defaultLabel: "Controller",
     recommendedBlock: "controllers",
     importance: "secondary"
+  },
+  controller_code: {
+    key: "controller_code",
+    valueKind: "string",
+    defaultLabel: "Controller Code",
+    recommendedBlock: "controllers",
+    importance: "detail"
+  },
+  controller_revision: {
+    key: "controller_revision",
+    valueKind: "string",
+    defaultLabel: "Controller Revision",
+    recommendedBlock: "controllers",
+    importance: "detail"
+  },
+  config_code: {
+    key: "config_code",
+    valueKind: "string",
+    defaultLabel: "Config Code",
+    recommendedBlock: "dram",
+    importance: "detail"
+  },
+  package_code: {
+    key: "package_code",
+    valueKind: "string",
+    defaultLabel: "Package Code",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  die_revision: {
+    key: "die_revision",
+    valueKind: "string",
+    defaultLabel: "Die Revision",
+    recommendedBlock: "dram",
+    importance: "detail"
+  },
+  product_family: {
+    key: "product_family",
+    valueKind: "string",
+    defaultLabel: "Product Family",
+    recommendedBlock: "identity",
+    importance: "secondary"
+  },
+  product_version: {
+    key: "product_version",
+    valueKind: "string",
+    defaultLabel: "Product Version",
+    recommendedBlock: "identity",
+    importance: "secondary"
+  },
+  product_mode: {
+    key: "product_mode",
+    valueKind: "string",
+    defaultLabel: "Product Mode",
+    recommendedBlock: "identity",
+    importance: "secondary"
+  },
+  product_class: {
+    key: "product_class",
+    valueKind: "string",
+    defaultLabel: "Product Class",
+    recommendedBlock: "package",
+    importance: "secondary"
+  },
+  product_generation: {
+    key: "product_generation",
+    valueKind: "string",
+    defaultLabel: "Product Generation",
+    recommendedBlock: "storage",
+    importance: "secondary"
+  },
+  managed_family: {
+    key: "managed_family",
+    valueKind: "string",
+    defaultLabel: "Managed Family",
+    recommendedBlock: "identity",
+    importance: "secondary"
+  },
+  nand_technology: {
+    key: "nand_technology",
+    valueKind: "string",
+    defaultLabel: "NAND Technology",
+    recommendedBlock: "storage",
+    importance: "secondary"
+  },
+  nand_stack: {
+    key: "nand_stack",
+    valueKind: "string",
+    defaultLabel: "NAND Stack",
+    recommendedBlock: "storage",
+    importance: "secondary"
+  },
+  series_code: {
+    key: "series_code",
+    valueKind: "string",
+    defaultLabel: "Series Code",
+    recommendedBlock: "identity",
+    importance: "detail"
+  },
+  speed_grade: {
+    key: "speed_grade",
+    valueKind: "string",
+    defaultLabel: "Speed Grade",
+    recommendedBlock: "timing",
+    importance: "secondary"
+  },
+  component_width: {
+    key: "component_width",
+    valueKind: "number",
+    defaultLabel: "Component Width",
+    defaultUnit: "bit",
+    units: ["bit"],
+    recommendedBlock: "components",
+    importance: "detail",
+    format: formatBitWidth
+  },
+  nand_component: {
+    key: "nand_component",
+    valueKind: "string",
+    defaultLabel: "NAND Component",
+    recommendedBlock: "components",
+    importance: "detail"
+  },
+  component_voltage: {
+    key: "component_voltage",
+    valueKind: "string",
+    defaultLabel: "Component Voltage",
+    recommendedBlock: "components",
+    importance: "detail"
+  },
+  dram_die_density: {
+    key: "dram_die_density",
+    valueKind: "number",
+    defaultLabel: "DRAM Die Density",
+    defaultUnit: "Mbit",
+    units: ["Mbit"],
+    recommendedBlock: "dram",
+    importance: "secondary",
+    format: formatMbit
+  },
+  dram_generation: {
+    key: "dram_generation",
+    valueKind: "string",
+    defaultLabel: "DRAM Generation",
+    recommendedBlock: "dram",
+    importance: "secondary"
+  },
+  die_code: {
+    key: "die_code",
+    valueKind: "string",
+    defaultLabel: "Die Code",
+    recommendedBlock: "geometry",
+    importance: "detail"
+  },
+  density_code: {
+    key: "density_code",
+    valueKind: "string",
+    defaultLabel: "Density Code",
+    recommendedBlock: "storage",
+    importance: "detail"
+  },
+  cell_code: {
+    key: "cell_code",
+    valueKind: "string",
+    defaultLabel: "Cell Code",
+    recommendedBlock: "storage",
+    importance: "detail"
+  },
+  layout_code: {
+    key: "layout_code",
+    valueKind: "string",
+    defaultLabel: "Layout Code",
+    recommendedBlock: "storage",
+    importance: "detail"
+  },
+  stack_code: {
+    key: "stack_code",
+    valueKind: "string",
+    defaultLabel: "Stack Code",
+    recommendedBlock: "storage",
+    importance: "detail"
+  },
+  generation_code: {
+    key: "generation_code",
+    valueKind: "string",
+    defaultLabel: "Generation Code",
+    recommendedBlock: "storage",
+    importance: "detail"
+  },
+  voltage_io_code: {
+    key: "voltage_io_code",
+    valueKind: "string",
+    defaultLabel: "Voltage/I/O Code",
+    recommendedBlock: "interface",
+    importance: "detail"
+  },
+  interface_type: {
+    key: "interface_type",
+    valueKind: "string",
+    defaultLabel: "Interface Type",
+    recommendedBlock: "interface",
+    importance: "secondary"
+  },
+  ecc_enabled: {
+    key: "ecc_enabled",
+    valueKind: "boolean",
+    defaultLabel: "ECC enabled",
+    recommendedBlock: "interface",
+    importance: "detail"
+  },
+  micron_part_number: {
+    key: "micron_part_number",
+    valueKind: "string",
+    defaultLabel: "Micron Part Number",
+    recommendedBlock: "marking",
+    importance: "detail"
+  },
+  prod_status: {
+    key: "prod_status",
+    valueKind: "string",
+    defaultLabel: "Production Status",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  feature_code: {
+    key: "feature_code",
+    valueKind: "string",
+    defaultLabel: "Feature Code",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  special_option: {
+    key: "special_option",
+    valueKind: "string",
+    defaultLabel: "Special Option",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  special_options: {
+    key: "special_options",
+    valueKind: "string",
+    defaultLabel: "Special Options",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  enterprise: {
+    key: "enterprise",
+    valueKind: "boolean",
+    defaultLabel: "Enterprise",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  system: {
+    key: "system",
+    valueKind: "string",
+    defaultLabel: "System",
+    recommendedBlock: "identity",
+    importance: "detail"
+  },
+  group: {
+    key: "group",
+    valueKind: "string",
+    defaultLabel: "Group",
+    recommendedBlock: "identity",
+    importance: "detail"
+  },
+  package_functionality_partial_type: {
+    key: "package_functionality_partial_type",
+    valueKind: "string",
+    defaultLabel: "Package functionality partial type",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  density_grade: {
+    key: "density_grade",
+    valueKind: "string",
+    defaultLabel: "Density grade",
+    recommendedBlock: "storage",
+    importance: "detail"
   },
   operation_temperature: {
     key: "operation_temperature",

@@ -1,5 +1,20 @@
 export type Language = string;
 
+import type {
+  Capability,
+  DecodeIdentifierInput,
+  DecodePartInput,
+  FdnextCapabilities,
+  FdnextOperation,
+  FdnextResult,
+  IdentifierDecodeResult,
+  IdentifierSearchResult,
+  PartDecodeResult,
+  PartSearchResult,
+  SearchIdentifiersInput,
+  SearchPartsInput
+} from "./result";
+
 export interface Classification {
   ce?: number | string;
   ch?: number | string;
@@ -163,33 +178,31 @@ export interface FlashIdDecoder {
   decode(id: string): Partial<FlashIdInfo> | null;
 }
 
-export type ProcessorEndpoint = "index" | "info" | "decode" | "decodeId" | "searchPn" | "searchId" | "summary" | "summaryId";
-
-export interface ProcessorRequestContext {
-  endpoint: ProcessorEndpoint;
+export interface ProcessorOperationContext {
+  operation: FdnextOperation | "capabilities";
+  input?: DecodePartInput | SearchPartsInput | DecodeIdentifierInput | SearchIdentifiersInput;
   query: string;
   remote: string;
   userAgent: string;
   serverName?: string;
   lang?: Language | null;
-  pn?: string | null;
-  id?: string | null;
-  limit?: number;
 }
 
-export type RequestProcessorHandler = (context: ProcessorRequestContext, payload: Record<string, unknown>) => boolean | void;
+export type BeforeOperationHandler = (context: ProcessorOperationContext) => boolean | void;
+
+export type AfterOperationHandler = (
+  context: ProcessorOperationContext,
+  result: FdnextResult | FdnextCapabilities
+) => FdnextResult | FdnextCapabilities | void;
 
 export interface ProcessorHooks {
+  beforeOperation?: BeforeOperationHandler;
+  afterOperation?: AfterOperationHandler;
+}
+
+export interface InternalDecodeProcessorHooks {
   flashInfo?(flashInfo: FlashInfo): FlashInfo;
   flashIdInfo?(idInfo: FlashIdInfo): FlashIdInfo;
-  index?: RequestProcessorHandler;
-  info?: RequestProcessorHandler;
-  decode?: RequestProcessorHandler;
-  decodeId?: RequestProcessorHandler;
-  searchPn?: RequestProcessorHandler;
-  searchId?: RequestProcessorHandler;
-  summary?: RequestProcessorHandler;
-  summaryId?: RequestProcessorHandler;
 }
 
 export interface EngineOptions {
@@ -198,6 +211,7 @@ export interface EngineOptions {
   decoders?: PartNumberDecoder[];
   flashIdDecoders?: FlashIdDecoder[];
   processors?: ProcessorHooks[];
+  internalDecodeProcessors?: InternalDecodeProcessorHooks[];
 }
 
 export interface FlashDetectorInfo {
@@ -207,26 +221,20 @@ export interface FlashDetectorInfo {
   mdb_cnt: number;
 }
 
-export interface FlashDetectorEngine {
+export interface FdnextEngine {
   getVersion(): string;
   getInfo(): FlashDetectorInfo;
-  getVendor(partNumber: string): string;
+  getCapabilities(): FdnextCapabilities;
   getFdb(): FdbDataset;
   getMdb(): MdbDataset;
   getLang(): LangPacks;
   getProcessors(): readonly ProcessorHooks[];
-  detect(partNumber: string, opts?: DecodeOptions): FlashInfo;
-  decodeFlashId(id: string, opts?: DecodeOptions): FlashIdInfo;
-  searchPartNumber(pn: string, opts?: SearchOptions): string[];
-  searchFlashId(id: string, opts?: SearchOptions): Record<string, unknown> | FlashIdRecord | [];
-  searchMicronFbgaCode(code: string): string[];
-  getSummary(partNumber: string, lang?: string | null): string;
-  getIdSummary(id: string, lang?: string | null): string;
+  decodePart(input: DecodePartInput): PartDecodeResult;
+  searchParts(input: SearchPartsInput): PartSearchResult;
+  decodeIdentifier(input: DecodeIdentifierInput): IdentifierDecodeResult;
+  searchIdentifiers(input: SearchIdentifiersInput): IdentifierSearchResult;
   translateString(key: string, lang?: string | null): string;
-  translate(value: unknown, lang?: string | null): unknown;
-  translateArray(value: Record<string, unknown>, translateKey: boolean, lang?: string | null): Record<string, unknown>;
   getHumanReadableDensity(density: number, useByte?: boolean): string;
-  dispatch(endpoint: ProcessorEndpoint, context?: Partial<Omit<ProcessorRequestContext, "endpoint">>): Record<string, unknown>;
   registerDecoder(decoder: PartNumberDecoder): void;
   registerFlashIdDecoder(decoder: FlashIdDecoder): void;
   registerProcessor(processor: ProcessorHooks): void;

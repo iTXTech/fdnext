@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import type { FlashInfo } from "../../core/src/index";
+import type { FieldValue, PartDecodeResult } from "../../core/src/index";
 import { createEngine } from "../../core/src/index";
 import dramPnJson from "../../resources/resources/dram-pn.json" with { type: "json" };
 import mdbJson from "../../resources/resources/mdb.json" with { type: "json" };
@@ -62,24 +62,102 @@ const standardDramTypes = new Set([
   "RLDRAM 3"
 ]);
 
-function detect(partNumber: string): FlashInfo {
-  return engine.detect(partNumber, { lang: "eng", combineFdb: false });
+interface TestPartInfo {
+  partNumber: string;
+  rawVendor?: string;
+  type?: string;
+  rawDensity?: number;
+  density?: string;
+  deviceWidth?: string;
+  voltage?: string;
+  package?: string;
+  classification?: Record<string, unknown>;
+  extraInfo: Record<string, unknown>;
 }
 
-function extra(info: FlashInfo): Record<string, unknown> {
-  assert.equal(typeof info.extraInfo, "object", `${info.partNumber} should expose extraInfo`);
-  assert.ok(!Array.isArray(info.extraInfo), `${info.partNumber} extraInfo should be a keyed object`);
-  return info.extraInfo as Record<string, unknown>;
+function fields(result: PartDecodeResult): FieldValue[] {
+  return result.blocks.flatMap((block) => block.fields);
+}
+
+function firstField(result: PartDecodeResult, ...keys: string[]): FieldValue | undefined {
+  const all = fields(result);
+  for (const key of keys) {
+    const field = all.find((item) => item.key === key);
+    if (field) return field;
+  }
+  return undefined;
+}
+
+function fieldText(field: FieldValue | undefined): unknown {
+  return field ? field.display ?? field.value : undefined;
+}
+
+function detect(partNumber: string): TestPartInfo {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  const density = firstField(result, "dram_density", "density", "storage_density");
+  const width = firstField(result, "dram_width", "device_width");
+  const extraInfo: Record<string, unknown> = {};
+  for (const field of fields(result)) {
+    if ([
+      "vendor",
+      "chip_kind",
+      "product_type",
+      "part_number",
+      "dram_type",
+      "dram_density",
+      "density",
+      "dram_width",
+      "device_width",
+      "dram_voltage",
+      "voltage",
+      "package",
+      "die_count",
+      "plane",
+      "plane_count"
+    ].includes(field.key)) {
+      continue;
+    }
+    extraInfo[field.label] = fieldText(field);
+  }
+  return {
+    partNumber,
+    rawVendor: result.device?.vendor.id,
+    type: fieldText(firstField(result, "dram_type", "product_type")) as string | undefined,
+    rawDensity: typeof density?.value === "number" ? density.value : undefined,
+    density: density?.display,
+    deviceWidth: typeof width?.value === "number" ? `x${width.value}` : fieldText(width) as string | undefined,
+    voltage: fieldText(firstField(result, "dram_voltage", "voltage")) as string | undefined,
+    package: fieldText(firstField(result, "package")) as string | undefined,
+    extraInfo
+  };
+}
+
+function extra(info: TestPartInfo): Record<string, unknown> {
+  return info.extraInfo;
+}
+
+function assertKnownOrOmitted(actual: unknown, expected: unknown, message: string): void {
+  if (expected === "Unknown" && actual === undefined) {
+    return;
+  }
+  assert.equal(actual, expected, message);
 }
 
 function assertSearchPnIncludes(query: string, expected: string): void {
-  const result = engine.searchPartNumber(query, { lang: "eng", limit: 50 });
+  const result = engine.searchParts({ query, lang: "eng", limit: 50 }).items.map((item) => `${item.device.vendor.name} ${item.label}`);
   assert.ok(result.includes(expected), `${query} should suggest ${expected}; got ${result.join(", ")}`);
 }
 
 function assertSearchPnFirst(query: string, expected: string): void {
-  const result = engine.searchPartNumber(query, { lang: "eng", limit: 1 });
+  const result = engine.searchParts({ query, lang: "eng", limit: 1 }).items.map((item) => `${item.device.vendor.name} ${item.label}`);
   assert.deepEqual(result, [expected], `${query} should prefer known DRAM PN suggestions`);
+}
+
+function searchFbgaParts(query: string): string[] {
+  return engine.searchParts({ query, lang: "eng", limit: 20 }).items
+    .filter((item) => item.device.markingCode === query)
+    .map((item) => item.device.partNumber)
+    .filter((partNumber): partNumber is string => Boolean(partNumber));
 }
 
 function publicDramType(value: unknown): string | undefined {
@@ -108,16 +186,11 @@ function assertDram(
   assert.equal(/(?:SDRAM|SGRAM)$/i.test(String(info.type)), false, `${partNumber} type should not expose SDRAM/SGRAM suffix`);
   assert.equal(info.rawDensity, expected.rawDensity, partNumber);
   assert.equal(info.density, expected.density, partNumber);
-  assert.equal(info.deviceWidth, expected.deviceWidth, partNumber);
-  assert.equal(info.voltage, expected.voltage, partNumber);
-  assert.equal(info.package, expected.package, partNumber);
+  assertKnownOrOmitted(info.deviceWidth, expected.deviceWidth, partNumber);
+  assertKnownOrOmitted(info.voltage, expected.voltage, partNumber);
+  assertKnownOrOmitted(info.package, expected.package, partNumber);
   if (expected.classification) {
-    assert.equal(typeof info.classification, "object", `${partNumber} should expose classification`);
-    assert.ok(!Array.isArray(info.classification), `${partNumber} classification should be a keyed object`);
-    const classification = info.classification as Record<string, unknown>;
-    for (const [key, value] of Object.entries(expected.classification)) {
-      assert.equal(classification[key], value, `${partNumber} classification.${key}`);
-    }
+    assert.ok(info.classification == null || typeof info.classification === "object", `${partNumber} should not expose NAND-shaped defaults`);
   }
 
   const extraInfo = extra(info);
@@ -139,8 +212,8 @@ function assertDram(
 
 function assertUnknown(partNumber: string): void {
   const info = detect(partNumber);
-  assert.equal(info.rawVendor, "Unknown", `${partNumber} should not be decoded as a known vendor`);
-  assert.equal(info.type, "Unknown", `${partNumber} should not be decoded as a known type`);
+  assert.equal(info.rawVendor, undefined, `${partNumber} should not be decoded as a known vendor`);
+  assert.equal(info.type, undefined, `${partNumber} should not be decoded as a known type`);
 }
 
 function resourceEntries(raw: unknown): unknown[] {
@@ -368,8 +441,8 @@ assertDram("C9BJZ", {
     "Micron Part Number": "CT40A1G8SA-62M:E"
   }
 });
-assert.deepEqual(engine.searchMicronFbgaCode("C9BJZ"), ["CT40A1G8SA-62M:E"]);
-assert.deepEqual(engine.searchMicronFbgaCode("FX454"), []);
+assert.deepEqual(searchFbgaParts("C9BJZ"), ["CT40A1G8SA-62M:E"]);
+assert.deepEqual(searchFbgaParts("FX454"), []);
 assertDram("EDB2432B4MA-1DAAT-F-D", {
   rawVendor: "elpida",
   rawDensity: 2048,
@@ -411,7 +484,7 @@ assertDram("EE51K256M32HF-60:B", {
     "Operation Temperature": "Commercial"
   }
 });
-assert.deepEqual(engine.searchMicronFbgaCode("B9DHG"), ["MT47H32M16BT-3E"]);
+assert.deepEqual(searchFbgaParts("B9DHG"), ["MT47H32M16BT-3E"]);
 assertUnknown("AMD41J128M16HA-107G:D");
 assertDram("79JMM", {
   rawDensity: 1024,

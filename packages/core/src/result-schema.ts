@@ -71,6 +71,7 @@ const requestInputSchema = {
   required: ["query"],
   properties: {
     query: { type: "string", minLength: 1 },
+    lang: { type: ["string", "null"] },
     idScheme: { enum: fdnextIdSchemes },
     constraints: operationConstraintsSchema,
     limit: { type: "integer", minimum: 1 }
@@ -86,6 +87,7 @@ export const decodePartInputJsonSchema = {
   required: ["query"],
   properties: {
     query: { type: "string", minLength: 1 },
+    lang: { type: ["string", "null"] },
     constraints: {
       type: "object",
       properties: {
@@ -118,6 +120,7 @@ export const decodeIdentifierInputJsonSchema = {
   required: ["query"],
   properties: {
     query: { type: "string", minLength: 1 },
+    lang: { type: ["string", "null"] },
     idScheme: { enum: fdnextIdSchemes },
     constraints: operationConstraintsSchema
   },
@@ -142,6 +145,7 @@ const resultDefs = {
     properties: {
       query: { type: "string", minLength: 1 },
       normalized: { type: "string", minLength: 1 },
+      lang: { type: "string", minLength: 1 },
       constraints: { $ref: "#/$defs/operationConstraints" }
     },
     additionalProperties: false
