@@ -132,12 +132,12 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 ## 尾缀处理
 
 - `-` 后面的 speed / temperature / revision 不作为主结构强制条件。
-- 例如 `H5AN8G8NAFR` 没有 `-UHC` 时仍输出 SK hynix、DRAM、8Gb、x8、DDR4 SDRAM、package code 与 die revision，只是不输出 `dram_speed` / `operation_temperature`。
+- 例如 `H5AN8G8NAFR` 没有 `-UHC` 时仍输出 SK hynix、DDR4、8Gb、x8、package code 与 die revision，只是不输出 `dram_speed` / `operation_temperature`。
 - 对已有可确认 speed 的完整 PN，`dram_speed` 必须输出频率或明确 speed bin；对可确认 DDP/QDP/CS 的 LPDDR PN，`dram_die_stack` 必须输出 die / CS 信息。
 
 ## 输出约定
 
-- standalone DRAM 顶层 `type` 固定输出 `DRAM`。
-- `dram_type` 不带厂商名，使用 `DDR3 SDRAM`、`DDR4 SDRAM`、`DDR5 SDRAM`、`LPDDR4 SDRAM`、`GDDR5 SGRAM` 这类标准名。
+- standalone DRAM 顶层 `type` 输出短 DRAM 世代名，例如 `DDR3`、`DDR4`、`DDR5`、`LPDDR4`、`GDDR5`。
+- 内部 `dram_type` 不带厂商名，可继续使用 `DDR3 SDRAM`、`DDR4 SDRAM`、`DDR5 SDRAM`、`LPDDR4 SDRAM`、`GDDR5 SGRAM` 这类标准来源；公开 `extraInfo` 不输出该字段。
 - `package_code` 只表示厂商封装 token；只有 datasheet / 外部拆解能确认实际封装时才写顶层 `package`。
 - 资料状态、来源 URL、确认状态等维护信息不得进入用户可见 `extraInfo`。

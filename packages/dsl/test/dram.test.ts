@@ -25,7 +25,6 @@ const redundantStandaloneExtra = [
 
 const standaloneDramExtraKeys = new Set([
   "Config Code",
-  "DRAM Type",
   "DRAM Die Stack",
   "Package Code",
   "DRAM Speed",
@@ -36,29 +35,29 @@ const standaloneDramExtraKeys = new Set([
 ]);
 
 const standardDramTypes = new Set([
-  "SDR SDRAM",
-  "LPSDR SDRAM",
-  "DDR SDRAM",
-  "DDR2 SDRAM",
-  "DDR3 SDRAM",
-  "DDR4 SDRAM",
-  "DDR5 SDRAM",
-  "LPDDR SDRAM",
-  "LPDDR2 SDRAM",
-  "LPDDR3 SDRAM",
-  "LPDDR4 SDRAM",
-  "LPDDR4X SDRAM",
-  "LPDDR5 SDRAM",
-  "LPDDR5X SDRAM",
-  "GDDR SGRAM",
-  "GDDR2 SGRAM",
-  "GDDR3 SGRAM",
-  "GDDR4 SGRAM",
-  "GDDR5 SGRAM",
-  "GDDR5X SGRAM",
-  "GDDR6 SGRAM",
-  "GDDR6X SGRAM",
-  "GDDR7 SGRAM",
+  "SDR",
+  "LPSDR",
+  "DDR",
+  "DDR2",
+  "DDR3",
+  "DDR4",
+  "DDR5",
+  "LPDDR",
+  "LPDDR2",
+  "LPDDR3",
+  "LPDDR4",
+  "LPDDR4X",
+  "LPDDR5",
+  "LPDDR5X",
+  "GDDR",
+  "GDDR2",
+  "GDDR3",
+  "GDDR4",
+  "GDDR5",
+  "GDDR5X",
+  "GDDR6",
+  "GDDR6X",
+  "GDDR7",
   "RLDRAM",
   "RLDRAM 3"
 ]);
@@ -83,6 +82,10 @@ function assertSearchPnFirst(query: string, expected: string): void {
   assert.deepEqual(result, [expected], `${query} should prefer known DRAM PN suggestions`);
 }
 
+function publicDramType(value: unknown): string | undefined {
+  return typeof value === "string" ? value.trim().replace(/\s+(?:SDRAM|SGRAM)$/i, "") : undefined;
+}
+
 function assertDram(
   partNumber: string,
   expected: {
@@ -92,28 +95,41 @@ function assertDram(
     deviceWidth: string;
     voltage: string;
     package: string;
+    classification?: Partial<Record<"ce" | "ch" | "die" | "rb", unknown>>;
     extra: Record<string, unknown>;
     absentExtra?: string[];
   }
 ): void {
   const info = detect(partNumber);
+  const expectedType = publicDramType(expected.extra["DRAM Type"]);
   assert.equal(info.rawVendor, expected.rawVendor ?? "micron", partNumber);
-  assert.equal(info.type, "DRAM", partNumber);
+  assert.equal(info.type, expectedType, partNumber);
+  assert.ok(standardDramTypes.has(String(info.type)), `${partNumber} should expose a short DRAM type`);
+  assert.equal(/(?:SDRAM|SGRAM)$/i.test(String(info.type)), false, `${partNumber} type should not expose SDRAM/SGRAM suffix`);
   assert.equal(info.rawDensity, expected.rawDensity, partNumber);
   assert.equal(info.density, expected.density, partNumber);
   assert.equal(info.deviceWidth, expected.deviceWidth, partNumber);
   assert.equal(info.voltage, expected.voltage, partNumber);
   assert.equal(info.package, expected.package, partNumber);
+  if (expected.classification) {
+    assert.equal(typeof info.classification, "object", `${partNumber} should expose classification`);
+    assert.ok(!Array.isArray(info.classification), `${partNumber} classification should be a keyed object`);
+    const classification = info.classification as Record<string, unknown>;
+    for (const [key, value] of Object.entries(expected.classification)) {
+      assert.equal(classification[key], value, `${partNumber} classification.${key}`);
+    }
+  }
 
   const extraInfo = extra(info);
   for (const key of Object.keys(extraInfo)) {
     assert.ok(standaloneDramExtraKeys.has(key), `${partNumber} should use standardized DRAM extra key ${key}`);
   }
-  assert.equal(typeof extraInfo["DRAM Type"], "string", `${partNumber} should expose standardized DRAM Type`);
-  assert.ok(standardDramTypes.has(String(extraInfo["DRAM Type"])), `${partNumber} should use standard DRAM Type`);
-  assert.equal(String(extraInfo["DRAM Type"]).includes("/"), false, `${partNumber} DRAM Type should not combine multiple alternatives`);
+  assert.equal(Object.hasOwn(extraInfo, "DRAM Type"), false, `${partNumber} should expose DRAM generation in type, not extraInfo.DRAM Type`);
 
   for (const [key, value] of Object.entries(expected.extra)) {
+    if (key === "DRAM Type") {
+      continue;
+    }
     assert.equal(extraInfo[key], value, `${partNumber} extraInfo.${key}`);
   }
   for (const key of [...redundantStandaloneExtra, ...(expected.absentExtra ?? [])]) {
@@ -230,6 +246,7 @@ assertDram("MT40A1G8SA-075-E", {
   deviceWidth: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA (7.5x11)",
+  classification: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "Package Code": "SA",
@@ -246,6 +263,7 @@ assertDram("MT40A2G4TRF-093E:A", {
   deviceWidth: "x4",
   voltage: "1.2V VDD",
   package: "78-ball FBGA (9.5x11.5)",
+  classification: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "DRAM Die Stack": "2-die stack, 2 CS",
@@ -467,6 +485,7 @@ assertDram("MT60B4G8AT-64B:B", {
   deviceWidth: "x8",
   voltage: "1.1V VDD",
   package: "78/117-ball VFBGA",
+  classification: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR5 SDRAM",
     "Package Code": "AT",
@@ -483,6 +502,7 @@ assertDram("MT53E1G32D2FW-046-AIT-A", {
   deviceWidth: "x32",
   voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
   package: "200-ball TFBGA (10x14.5)",
+  classification: { ce: "Unknown", die: 2 },
   extra: {
     "DRAM Type": "LPDDR4X SDRAM",
     "DRAM Die Stack": "2-die stack",
@@ -867,6 +887,7 @@ assertDram("MT61K256M32JE-14:A", {
   deviceWidth: "x32",
   voltage: "1.35V VDD",
   package: "180-ball FBGA (12x14)",
+  classification: { ce: "Unknown", die: 1 },
   extra: {
     "DRAM Type": "GDDR6 SGRAM",
     "Package Code": "JE",
@@ -986,6 +1007,7 @@ assertDram("H5AN8G8NAFR-UHC", {
   deviceWidth: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
+  classification: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "Package Code": "F",
@@ -1020,6 +1042,7 @@ assertDram("H5ANAG8NCMR-XNC", {
   deviceWidth: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
+  classification: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "DRAM Die Stack": "DDP (2-die), 2 CS",
@@ -1056,6 +1079,7 @@ assertDram("H5CG48AGBD-X018", {
   deviceWidth: "x8",
   voltage: "1.1V VDD",
   package: "BGA",
+  classification: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR5 SDRAM",
     "DRAM Die Stack": "Single die",
@@ -1123,6 +1147,7 @@ assertDram("H9HCNNN8KUMLHR-NME", {
   deviceWidth: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
   package: "200-ball FBGA",
+  classification: { ce: 1, die: 2 },
   extra: {
     "DRAM Type": "LPDDR4 SDRAM",
     "DRAM Die Stack": "DDP (2-die), 1 CS",
@@ -1338,6 +1363,7 @@ assertDram("K4A8G085WB-BCRC", {
   deviceWidth: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
+  classification: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "DRAM Die Stack": "Single die, 1 CS",
@@ -1371,6 +1397,7 @@ assertDram("K4AAG085WB-MCRC", {
   deviceWidth: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
+  classification: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "DRAM Die Stack": "DDP (2-die), 2 CS",
@@ -1802,6 +1829,7 @@ assertDram("K4Z80325BC-HC14", {
   deviceWidth: "x32",
   voltage: "1.35V VDD",
   package: "180-ball FBGA",
+  classification: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "GDDR6 SGRAM",
     "DRAM Die Stack": "Single die, 1 CS",

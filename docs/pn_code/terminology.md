@@ -36,7 +36,7 @@ DRAM / MCP DRAM 子系统解析使用以下字段，避免和 NAND 字段混用�
 
 | 字段 | 含义 | 示例 |
 | --- | --- | --- |
-| `dram_type` | DRAM 类型 | `LPDDR4X SDRAM`, `LPDDR5X SDRAM`, `DDR5 SDRAM`, `GDDR7 SGRAM` |
+| `dram_type` | 内部 DRAM 类型来源 | `LPDDR4X SDRAM`, `LPDDR5X SDRAM`, `DDR5 SDRAM`, `GDDR7 SGRAM` |
 | `dram_density` | DRAM 子系统总容量 | `32Gb`, `12GB` |
 | `dram_die_density` | 单颗 DRAM die 容量 | `16Gb`, `24Gb` |
 | `dram_die_stack` | DRAM die / stack / CS 数量 | `Single die`, `2-die stack`, `DDP (2-die), 1 CS` |
@@ -52,7 +52,7 @@ standalone DRAM 顶层字段：
 
 | 顶层字段 | 含义 |
 | --- | --- |
-| `type` | 固定输出 `dram`，展示为 `DRAM` |
+| `type` | 从内部 `dram_type` 折叠出的短 DRAM 世代名，展示为 `DDR4`、`LPDDR5X`、`GDDR7`，不带 `SDRAM` / `SGRAM` 后缀 |
 | `density` | 当前 DRAM component 总容量，单位仍为 Mbit |
 | `deviceWidth` | 当前 DRAM component 组织位宽 |
 | `voltage` | 主电源或 VDD/VDDQ 组合 |
@@ -62,7 +62,6 @@ standalone DRAM `extraInfo` 只输出以下补充字段：
 
 | 字段 | 输出要求 |
 | --- | --- |
-| `dram_type` | 必须是规范 DRAM 类型名，不带厂商名，不输出组合候选 |
 | `dram_die_stack` | 只在 PN 明确给出 die stack / addressing token 时输出 |
 | `dram_speed` | 速率、speed bin 或 JEDEC bin |
 | `operation_temperature` | 温度等级或范围 |
@@ -71,13 +70,13 @@ standalone DRAM `extraInfo` 只输出以下补充字段：
 | `package_code` | 厂商封装 token；不替代顶层 `package` |
 | `prod_status` | ES/MS/QS 等生产状态 |
 
-`dram_type` 规范值优先使用：
+standalone DRAM 顶层 `type` 规范值优先使用：
 
 | 类别 | 标准值 |
 | --- | --- |
-| SDR / DDR | `SDR SDRAM`, `LPSDR SDRAM`, `DDR SDRAM`, `DDR2 SDRAM`, `DDR3 SDRAM`, `DDR4 SDRAM`, `DDR5 SDRAM` |
-| LPDDR | `LPDDR SDRAM`, `LPDDR2 SDRAM`, `LPDDR3 SDRAM`, `LPDDR4 SDRAM`, `LPDDR4X SDRAM`, `LPDDR5 SDRAM`, `LPDDR5X SDRAM` |
-| Graphics DRAM | `GDDR SGRAM`, `GDDR2 SGRAM`, `GDDR3 SGRAM`, `GDDR4 SGRAM`, `GDDR5 SGRAM`, `GDDR5X SGRAM`, `GDDR6 SGRAM`, `GDDR6X SGRAM`, `GDDR7 SGRAM` |
+| SDR / DDR | `SDR`, `LPSDR`, `DDR`, `DDR2`, `DDR3`, `DDR4`, `DDR5` |
+| LPDDR | `LPDDR`, `LPDDR2`, `LPDDR3`, `LPDDR4`, `LPDDR4X`, `LPDDR5`, `LPDDR5X` |
+| Graphics DRAM | `GDDR`, `GDDR2`, `GDDR3`, `GDDR4`, `GDDR5`, `GDDR5X`, `GDDR6`, `GDDR6X`, `GDDR7` |
 | RLDRAM | `RLDRAM`, `RLDRAM 3` |
 
 DRAM 厂商 pack 的覆盖原则：
@@ -89,7 +88,9 @@ DRAM 厂商 pack 的覆盖原则：
 
 不符合标准的输出：
 
-- 不在 `dram_type` 里写厂商名，例如不要输出 `Micron DDR5 SDRAM`。
+- 不在内部 `dram_type` 里写厂商名，例如不要使用 `Micron DDR5 SDRAM`。
+- standalone DRAM 公开输出不再保留 `extraInfo.dram_type`；对应世代写入顶层 `type`，并去掉 `SDRAM` / `SGRAM` 展开后缀。
+- `classification.ce` 只在普通 DDR/DDR2/DDR3/DDR4/DDR5 可默认单 CS，或 `dram_die_stack` 明确给出 CS 数量时输出；LPDDR/GDDR 等缺少明确 CS 资料时不默认输出 CE。
 - 不同时输出 `product_family` / `product_version` 和 `dram_type` 来描述同一件事。
 - standalone DRAM 不重复输出已经在顶层表达的 `dram_density` / `dram_width`。
 - 不用 `package_code` 代替顶层 `package`；若只能解析出厂商 token，继续只输出 `package_code`，不要推定成实际封装。

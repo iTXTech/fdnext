@@ -159,6 +159,109 @@ function isManagedNandType(info: FlashInfo): boolean {
   return ["emmc", "ufs", "emcp", "umcp", "inand", "e2nand"].includes(normalizeInfoText(info.type));
 }
 
+function parseDramDieStackCount(value: unknown): number | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const text = value.toLowerCase();
+  if (/\bsingle\s+die\b/.test(text)) {
+    return 1;
+  }
+
+  const numeric = /\b(\d+)\s*-?\s*die\b/.exec(text);
+  if (numeric) {
+    return Number.parseInt(numeric[1] ?? "", 10);
+  }
+
+  if (/\bddp\b/.test(text)) return 2;
+  if (/\bqdp\b/.test(text)) return 4;
+  if (/\bodp\b/.test(text)) return 8;
+  if (/\bhdp\b/.test(text)) return 16;
+  return undefined;
+}
+
+function parseDramCsCount(value: unknown): number | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const numeric = /\b(\d+)\s*cs\b/i.exec(value);
+  return numeric ? Number.parseInt(numeric[1] ?? "", 10) : undefined;
+}
+
+function publicDramType(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+
+  const type = value.trim().replace(/\s+(?:sdram|sgram)$/i, "");
+  return type.length > 0 ? type : undefined;
+}
+
+function isDdrFamilyDramType(value: unknown): boolean {
+  const type = normalizeInfoText(value);
+  return /^(?:ddr[2-5]?|lpddr[2-5]?x?|gddr[2-7]?x?)(?: (?:sdram|sgram))?$/.test(type);
+}
+
+function isPlainDdrDramType(value: unknown): boolean {
+  const type = normalizeInfoText(value);
+  return /^ddr[2-5]?(?: sdram)?$/.test(type);
+}
+
+function isKnownClassificationValue(value: unknown): boolean {
+  if (value == null || value === -1 || value === UNKNOWN) {
+    return false;
+  }
+  if (typeof value === "string") {
+    return normalizeInfoText(value) !== normalizeInfoText(UNKNOWN);
+  }
+  return true;
+}
+
+function applyDramClassification(info: FlashInfo): void {
+  if (normalizeInfoText(info.type) !== "dram") {
+    return;
+  }
+
+  const extra = asRecord(info.extraInfo);
+  const die = parseDramDieStackCount(extra.dram_die_stack);
+  const ce = parseDramCsCount(extra.dram_die_stack);
+  const defaultDieClassification = isDdrFamilyDramType(extra.dram_type);
+  const defaultCeClassification = isPlainDdrDramType(extra.dram_type);
+  if (die == null && ce == null && !defaultDieClassification && !defaultCeClassification) {
+    return;
+  }
+
+  const classification = { ...asRecord(info.classification) };
+  if (die != null) {
+    classification.die = die;
+  } else if (defaultDieClassification && !isKnownClassificationValue(classification.die)) {
+    classification.die = 1;
+  }
+
+  if (ce != null) {
+    classification.ce = ce;
+  } else if (defaultCeClassification && !isKnownClassificationValue(classification.ce)) {
+    classification.ce = 1;
+  }
+
+  info.classification = classification;
+}
+
+function applyDramPublicType(info: FlashInfo): void {
+  if (normalizeInfoText(info.type) !== "dram") {
+    return;
+  }
+
+  const extra = asRecord(info.extraInfo);
+  const type = publicDramType(extra.dram_type);
+  if (type) {
+    info.type = type;
+  }
+  delete extra.dram_type;
+}
+
 function pruneRedundantExtraInfo(info: FlashInfo): void {
   const extra = info.extraInfo;
   if (!extra || typeof extra !== "object" || Array.isArray(extra)) {
@@ -211,6 +314,8 @@ function pruneRedundantExtraInfo(info: FlashInfo): void {
 
 function toPublicFlashInfo(info: FlashInfo, langPacks: LangPacks, fallbackLang: string, lang?: string | null): FlashInfo {
   const output = cloneObject(info);
+  applyDramClassification(output);
+  applyDramPublicType(output);
   const defaultValues: Record<string, unknown> = {
     extraInfo: [],
     flashId: [],
