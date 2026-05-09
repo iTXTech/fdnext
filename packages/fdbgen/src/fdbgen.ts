@@ -559,7 +559,7 @@ function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: V
   }
 
   const info = {
-    name: infoInput.name ?? "iTXTech FlashDetector Flash Database (fdnext)",
+    name: infoInput.name ?? "iTXTech fdnext FDB",
     website: infoInput.website ?? "https://github.com/iTXTech/fdnext",
     version: infoInput.version,
     time: new Date().toUTCString(),

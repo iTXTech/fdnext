@@ -1,5 +1,6 @@
 import { alcorMicroController } from "./alcor-micro";
 import { chipsBankController } from "./chips-bank";
+import { firstChipController } from "./first-chip";
 import { innostorController } from "./innostor";
 import { jmicronController } from "./jmicron";
 import { maxioController } from "./maxio";
@@ -19,7 +20,8 @@ export const CONTROLLER_GENERATORS = [
   chipsBankController,
   innostorController,
   phisonController,
-  yeestorController
+  yeestorController,
+  firstChipController
 ] as const;
 
 export type { ControllerGenerator, ControllerMergeContext, ControllerRawFile } from "./types";

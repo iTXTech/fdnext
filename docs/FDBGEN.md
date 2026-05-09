@@ -5,7 +5,7 @@
 ## 功能范围
 
 - 从多种输入来源合并 PN 与 FlashId 数据
-- 兼容 FlashDetector raw FlashDB 子目录（`smff/smufd/smssd/jm/mk/ma/sf/al/cbm/is/ps`）
+- 兼容 FlashDetector raw FlashDB 子目录（`smff/smufd/smssd/jm/mk/ma/sf/al/cbm/is/ps/ys/fc`）
 - 归一化厂商名与主键格式（Vendor/PN/FlashId）
 - 按确定性 PN 前缀校正厂商归属，避免 `MT29F...` 被放入 Samsung 等错误厂商桶
 - 清理无效 FlashId、残缺 PN 别名与悬空 `iddb.n` 反向引用
@@ -108,6 +108,8 @@ al/
 cbm/
 is/
 ps/
+ys/
+fc/
 extra.json
 ```
 
@@ -176,8 +178,8 @@ dataset/
 ```json
 {
   "info": {
-    "name": "iTXTech FlashDetector Flash Database",
-    "website": "https://github.com/iTXTech/FlashDetector",
+    "name": "iTXTech fdnext FDB",
+    "website": "https://github.com/iTXTech/fdnext",
     "controllers": ["SM2258XT"]
   }
 }
@@ -230,6 +232,8 @@ dataset/
 - `chips-bank.ts`：`cbm`
 - `innostor.ts`：`is`
 - `phison.ts`：`ps`
+- `yeestor.ts`：`ys`
+- `first-chip.ts`：`fc`
 
 主生成器通过 controller registry 维持 PHP `FDBGen` 的加载顺序，具体解析逻辑由对应控制器厂商文件负责。
 
@@ -248,8 +252,10 @@ Raw FlashDB 模式：
 9. `cbm`
 10. `is`
 11. `ps`
-12. `extra.json`
-13. 命令行参数覆盖 `info` 字段
+12. `ys`
+13. `fc`
+14. `extra.json`
+15. 命令行参数覆盖 `info` 字段
 
 结构化输入模式：
 
