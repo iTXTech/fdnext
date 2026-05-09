@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import type { FlashInfo } from "../../core/src/index";
 import { createEngine } from "../../core/src/index";
 import dramPnJson from "../../resources/resources/dram-pn.json" with { type: "json" };
-import mdbDramJson from "../../resources/resources/mdb-dram.json" with { type: "json" };
-import micronDramFbgaCodesJson from "../../resources/resources/micron-dram-fbga-codes.json" with { type: "json" };
+import mdbJson from "../../resources/resources/mdb.json" with { type: "json" };
+import micronFbgaCodesJson from "../../resources/resources/micron-fbga-codes.json" with { type: "json" };
 import { embeddedResources } from "../../resources/index";
 import { compileRulesToDecoders, defaultDslRules } from "../src/index";
 
@@ -138,12 +138,28 @@ function resourceEntries(raw: unknown): unknown[] {
   return Array.isArray(entries) ? entries : [];
 }
 
+function isMicronDramPartNumber(partNumber: string): boolean {
+  return /^(?:MT|CT)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
+    /^(?:ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
+    /^ED(?:B|D|E|F|J|S|W)/.test(partNumber);
+}
+
+function micronDramFbgaEntries(raw: unknown): Array<{ code: string; pn: string }> {
+  const record = raw && typeof raw === "object" && !Array.isArray(raw) ? raw as Record<string, unknown> : {};
+  const micron = record.micron && typeof record.micron === "object" && !Array.isArray(record.micron)
+    ? record.micron as Record<string, unknown>
+    : {};
+  return Object.entries(micron)
+    .map(([code, pn]) => ({ code: String(code).toUpperCase(), pn: String(pn).toUpperCase() }))
+    .filter(({ code, pn }) => /^[0-9A-Z]{5}$/.test(code) && isMicronDramPartNumber(pn));
+}
+
 assert.ok(Array.isArray(dramPnJson), "DRAM PN resource should be a top-level minimal array");
-assert.ok(Array.isArray(mdbDramJson), "Micron DRAM MDB resource should be a top-level minimal array");
-assert.ok(Array.isArray(micronDramFbgaCodesJson), "Micron DRAM FBGA code resource should be a top-level array");
+assert.ok(Array.isArray(micronFbgaCodesJson), "Micron FBGA code resource should be a top-level array");
 const dramPn = resourceEntries(dramPnJson);
-const micronDramFbga = resourceEntries(mdbDramJson);
-const micronDramFbgaCodes = micronDramFbgaCodesJson as unknown[];
+const micronDramFbga = micronDramFbgaEntries(mdbJson);
+const micronDramFbgaCodes = micronFbgaCodesJson as unknown[];
+assert.ok(micronDramFbga.length > 0, "mdb.json should include Micron DRAM FBGA mappings");
 const dramPnForbiddenKeys = new Set(["source", "status", "reference", "inference_source", "external_confirmed", "external_table_confirmed"]);
 const micronNandFbgaHeaders = ["NC", "NW", "NY", "NX", "NQ", "NV"];
 const seenDramPn = new Set<string>();
@@ -170,7 +186,7 @@ for (const entry of dramPn) {
 const seenMicronDramFbga = new Set<string>();
 const seenMicronDramFbgaCodes = new Set<string>();
 for (const code of micronDramFbgaCodes) {
-  assert.equal(typeof code, "string", "Micron DRAM FBGA code entry should be a string");
+  assert.equal(typeof code, "string", "Micron FBGA code entry should be a string");
   assert.match(String(code), /^[0-9A-Z]{5}$/, `${String(code)} should be a five-character FBGA code`);
   assert.equal(
     micronNandFbgaHeaders.some((header) => String(code).startsWith(header)),
@@ -294,7 +310,20 @@ assertDram("EE51K256M32HF-60:B", {
 });
 assert.deepEqual(engine.searchMicronFbgaCode("B9DHG"), ["MT47H32M16BT-3E"]);
 assertUnknown("AMD41J128M16HA-107G:D");
-assertUnknown("79JMM");
+assertDram("79JMM", {
+  rawDensity: 1024,
+  density: "1Gb",
+  deviceWidth: "x16",
+  voltage: "1.55V VDD",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "DDR2 SDRAM",
+    "Config Code": "64M16",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev H",
+    "Micron Part Number": "MT47R64M16HR-3ES:E"
+  }
+});
 
 const ddr5Expected = {
   rawDensity: 16384,
@@ -1640,5 +1669,5 @@ assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");
 assertSearchPnIncludes("CXDB5C", "CXMT CXDB5CCAM-MK");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
 assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
-assertSearchPnIncludes("C9BJZ", "Micron / C9BJZ / CT40A1G8SA-62M:E");
-assertSearchPnIncludes("B9DHG", "Micron / B9DHG / MT47H32M16BT-3E");
+assertSearchPnIncludes("C9BJZ", "Micron C9BJZ CT40A1G8SA-62M:E");
+assertSearchPnIncludes("B9DHG", "Micron B9DHG MT47H32M16BT-3E");

@@ -120,13 +120,6 @@ export type ManagedNandPartNumberDataset = ManagedNandPartNumberEntry[];
 
 export type KnownPartNumberDataset = KnownPartNumberEntry[];
 
-export interface MicronDramFbgaEntry {
-  code: string;
-  pn: string;
-}
-
-export type MicronDramFbgaDataset = MicronDramFbgaEntry[];
-
 export interface LangPack {
   [key: string]: string;
 }
@@ -143,7 +136,6 @@ export interface EngineResources {
   langRaw: LangPacks;
   managedNandPnRaw?: ResourceJson;
   dramPnRaw?: ResourceJson;
-  micronDramFbgaRaw?: ResourceJson;
 }
 
 export interface DecodeOptions {

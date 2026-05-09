@@ -13,7 +13,6 @@ export const fdbRaw = fdbJson as ResourcesRecord;
 export const mdbRaw = mdbJson as ResourcesRecord;
 export const managedNandPnRaw = managedNandPnJson as SearchResourceRecord;
 export const dramPnRaw = dramPnJson as SearchResourceRecord;
-export const micronDramFbgaRaw = mdbRaw;
 export const langRaw: Record<string, LangRecord> = {
   chs: chsJson as LangRecord,
   eng: engJson as LangRecord
@@ -24,7 +23,6 @@ export const embeddedResources = {
   mdbRaw,
   managedNandPnRaw,
   dramPnRaw,
-  micronDramFbgaRaw,
   langRaw
 };
 

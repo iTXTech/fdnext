@@ -22,7 +22,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - `-` 后的 suffix 不应成为解码主结构的强制条件。缺 suffix 时应保留可确定字段，只减少 `dram_speed`、`operation_temperature`、`die_revision` 等后缀信息。
 - 顶层 `package` 只写可由 datasheet、原厂 catalog、TechInsights/TechPowerUp 或可信分销页确认的实际封装；仅有厂商代码时只写 `package_code`。
 - 每个新增世代至少补一个 testcase，验证顶层 `type/density/deviceWidth/voltage/package` 与标准 `extraInfo`。
-- 已知 DRAM PN 样例维护在 `packages/resources/resources/dram-pn.json`，用于 PN 补全和搜索，只保留 `vendor/pn`；Micron / Crucial / Micron legacy Elpida DRAM FBGA code 映射维护在 `packages/resources/resources/mdb-dram.json`，只保留 `code/pn`，用于 code 反查和补全。两者都不是解码规则来源，字段仍必须由 DSL token 解析得出。`packages/resources/resources/micron-dram-fbga-codes.json` 只保留一次性提取的 5 位 DRAM code，作为官方 API crawler 输入，并排除 `crawl-mdb` 已覆盖的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`。
+- 已知 DRAM PN 样例维护在 `packages/resources/resources/dram-pn.json`，用于 PN 补全和搜索，只保留 `vendor/pn`；Micron / Crucial / Micron legacy Elpida DRAM FBGA code 映射统一维护在 `packages/resources/resources/mdb.json`，用于 code 反查和补全。两者都不是解码规则来源，字段仍必须由 DSL token 解析得出。`packages/resources/resources/micron-fbga-codes.json` 只保留一次性提取的 5 位 Micron FBGA code，作为官方 API crawler 输入，并排除 `crawl-mdb` 已覆盖的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`。
 
 ## 当前覆盖进度
 

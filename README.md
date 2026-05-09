@@ -13,7 +13,7 @@
 ## 包结构
 
 - `@itxtech/fdnext-core`：解码与搜索引擎、SDK 能力
-- `@itxtech/fdnext-resources`：可发布的数据资源包（`fdb/mdb/lang`、PN 补全 catalog 与 Micron DRAM FBGA code DB）
+- `@itxtech/fdnext-resources`：可发布的数据资源包（`fdb/mdb/lang`、PN 补全 catalog 与 Micron FBGA code list）
 - `@itxtech/fdnext-dsl`：DSL 规则与解码器编译器
 - `@itxtech/fdnext-server`：基于 Hapi 的 HTTP 服务
 - `@itxtech/fdnext-cli`：命令行工具
@@ -86,10 +86,10 @@ fdnext-fdbgen build --input <dataset-dir> --output <fdb.json> --version <ver> [o
 pnpm fdbgen:crawl-mdb -- --file packages/resources/resources/mdb.json
 ```
 
-Micron DRAM FBGA code list 是一次性从页面存档提取出的左侧 5 位 code。后续只用 Micron 官方 FBGA decoder API 写入统一的 `mdb.json`：
+Micron FBGA code list 是一次性从页面存档提取出的左侧 5 位 code。后续只用 Micron 官方 FBGA decoder API 写入统一的 `mdb.json`：
 
 ```bash
-pnpm fdbgen:crawl-mdb-from-fbga -- --codes packages/resources/resources/micron-dram-fbga-codes.json --file packages/resources/resources/mdb.json --pretty
+pnpm fdbgen:crawl-mdb-from-fbga -- --codes packages/resources/resources/micron-fbga-codes.json --file packages/resources/resources/mdb.json --pretty
 ```
 
 ## 基线确认

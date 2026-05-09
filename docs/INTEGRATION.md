@@ -62,8 +62,8 @@ const response = engine.dispatch("info", {
 浏览器侧推荐用 Vite / Webpack / Rollup / esbuild 打包，关键点：
 
 - 不要在浏览器使用 `@itxtech/fdnext-core/node`（它依赖 Node 的 `fs`）
-- 资源（`fdb/mdb/lang`，以及用于 PN 补全和 Micron DRAM FBGA 查询的 `managed-nand-pn/dram-pn/mdb-dram`）建议用 `fetch()` 加载静态 JSON
-- `managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`；`mdb-dram.json` 只保留 `code/pn`
+- 资源（`fdb/mdb/lang`，以及用于 PN 补全的 `managed-nand-pn/dram-pn`）建议用 `fetch()` 加载静态 JSON
+- `managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`；Micron DRAM FBGA code 反查统一来自 `mdb.json`
 - 解码器（PN / FlashId）来自 `@itxtech/fdnext-dsl` 的默认规则包（JSON import attributes：`with { type: "json" }`）
 
 ### 2.1 方式 A：fetch 静态 JSON（推荐）
@@ -74,7 +74,6 @@ const response = engine.dispatch("info", {
 - `/fdnext-resources/mdb.json`
 - `/fdnext-resources/managed-nand-pn.json`
 - `/fdnext-resources/dram-pn.json`
-- `/fdnext-resources/mdb-dram.json`
 - `/fdnext-resources/lang/chs.json`
 - `/fdnext-resources/lang/eng.json`
 
@@ -88,18 +87,17 @@ async function loadJson(path: string) {
   return res.json();
 }
 
-const [fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, micronDramFbgaRaw, chs, eng] = await Promise.all([
+const [fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, chs, eng] = await Promise.all([
   loadJson("/fdnext-resources/fdb.json"),
   loadJson("/fdnext-resources/mdb.json"),
   loadJson("/fdnext-resources/managed-nand-pn.json"),
   loadJson("/fdnext-resources/dram-pn.json"),
-  loadJson("/fdnext-resources/mdb-dram.json"),
   loadJson("/fdnext-resources/lang/chs.json"),
   loadJson("/fdnext-resources/lang/eng.json")
 ]);
 
 const engine = createEngine({
-  resources: { fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, micronDramFbgaRaw, langRaw: { chs, eng } },
+  resources: { fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, langRaw: { chs, eng } },
   decoders: compileRulesToDecoders(defaultDslRules),
   flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
 });

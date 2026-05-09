@@ -17,7 +17,6 @@ import type {
   FlashInfo,
   KnownPartNumberEntry,
   LangPacks,
-  MicronDramFbgaEntry,
   PartNumberRecord,
   PartNumberDecoder,
   ProcessorEndpoint,
@@ -453,52 +452,23 @@ function buildKnownPartNumbers(raw: unknown): KnownPartNumberEntry[] {
 }
 
 function buildMicronDramFbgaCodes(raw: unknown): Map<string, string[]> {
-  const rawEntries = resourceEntries(raw);
   const entries = new Map<string, string[]>();
   const seen = new Set<string>();
+  const rawObject = asRecord(raw);
+  const rawMicron = asRecord(rawObject.micron);
 
-  for (const item of rawEntries) {
-    if (!item || typeof item !== "object" || Array.isArray(item)) {
+  for (const [codeRaw, pnRaw] of Object.entries(rawMicron)) {
+    const code = String(codeRaw).trim().toUpperCase().replace(/[^0-9A-Z]/g, "");
+    const pn = normalizePartNumber(String(pnRaw));
+    if (!isFiveDigitFbgaCode(code) || !isDramPartNumber(pn) || seen.has(`${code}\0${pn}`)) {
       continue;
     }
-
-    const record = item as Partial<MicronDramFbgaEntry>;
-    const code = typeof record.code === "string" ? record.code.toUpperCase().replace(/[^0-9A-Z]/g, "") : "";
-    const pn = typeof record.pn === "string" ? normalizePartNumber(record.pn) : "";
-    if (code.length !== 5 || !pn) {
-      continue;
-    }
-
-    const key = `${code}\0${pn}`;
-    if (seen.has(key)) {
-      continue;
-    }
-    seen.add(key);
-
+    seen.add(`${code}\0${pn}`);
     const partNumbers = entries.get(code);
     if (partNumbers) {
       partNumbers.push(pn);
     } else {
       entries.set(code, [pn]);
-    }
-  }
-
-  if (rawEntries.length === 0) {
-    const rawObject = asRecord(raw);
-    const rawMicron = asRecord(rawObject.micron);
-    for (const [codeRaw, pnRaw] of Object.entries(rawMicron)) {
-      const code = String(codeRaw).trim().toUpperCase().replace(/[^0-9A-Z]/g, "");
-      const pn = normalizePartNumber(String(pnRaw));
-      if (!isFiveDigitFbgaCode(code) || !isDramPartNumber(pn) || seen.has(`${code}\0${pn}`)) {
-        continue;
-      }
-      seen.add(`${code}\0${pn}`);
-      const partNumbers = entries.get(code);
-      if (partNumbers) {
-        partNumbers.push(pn);
-      } else {
-        entries.set(code, [pn]);
-      }
     }
   }
 
@@ -514,14 +484,13 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
   const rawMdb = (options.resources?.mdbRaw ?? {}) as Record<string, unknown>;
   const rawManagedNandPn = options.resources?.managedNandPnRaw ?? [];
   const rawDramPn = options.resources?.dramPnRaw ?? [];
-  const rawMicronDramFbga = options.resources?.micronDramFbgaRaw ?? rawMdb;
   const langRaw = (options.resources?.langRaw ?? {}) as LangPacks;
 
   const fdb = buildFdb(rawFdb);
   const mdb = buildMdb(rawMdb);
   const managedNandPartNumbers = buildKnownPartNumbers(rawManagedNandPn);
   const dramPartNumbers = buildKnownPartNumbers(rawDramPn);
-  const micronDramFbgaCodes = buildMicronDramFbgaCodes(rawMicronDramFbga);
+  const micronDramFbgaCodes = buildMicronDramFbgaCodes(rawMdb);
   const micronDramFbgaCodeSet = new Set(micronDramFbgaCodes.keys());
   const langPacks: LangPacks = {
     [fallbackLang]: {},
@@ -896,7 +865,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
         return;
       }
       seenFbgaSuggestions.add(key);
-      result.push(`${translateString("micron", opts.lang)} / ${code} / ${normalizedPartNumber}`);
+      result.push(`${translateString("micron", opts.lang)} ${code} ${normalizedPartNumber}`);
     };
 
     for (const entry of managedNandPartNumbers) {
@@ -924,9 +893,6 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
         return result;
       }
       const codeHit = contains(code, query);
-      if (codeHit && (mdb.micron[code] || mdb.spectek[code])) {
-        continue;
-      }
       for (const partNumber of partNumbers) {
         if (atLimit()) {
           return result;
@@ -953,8 +919,8 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
       if (atLimit()) {
         break;
       }
-      if (contains(partNumber, query)) {
-        result.push(`${translateString("micron", opts.lang)} ${code} ${partNumber}`);
+      if (contains(code, query) || contains(partNumber, query)) {
+        appendMicronFbgaSuggestion(code, partNumber);
       }
     }
 
@@ -966,7 +932,7 @@ export function createEngine(options: EngineOptions = {}): FlashDetectorEngine {
         if (atLimit()) {
           break;
         }
-        if (contains(partNumber, query)) {
+        if (contains(code, query) || contains(partNumber, query)) {
           result.push(`${translateString("spectek", opts.lang)} ${code} ${partNumber}`);
         }
       }

@@ -13,7 +13,7 @@ import type {
 
 export const DEFAULT_MICRON_HEADERS = ["NC", "NW", "NY", "NX", "NQ", "NV"] as const;
 export const DEFAULT_SPECTEK_HEADERS = ["PF", "PFA", "PFB", "PFC", "PFD", "PFE", "PFF", "PFG", "PFH"] as const;
-export const DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST = ["D9", "C8", "C9"] as const;
+export const DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST = ["D9", "D8", "C9", "Z8", "Z9"] as const;
 export const DEFAULT_MICRON_START_FROM: Record<string, number> = {
   NC: 101,
   NW: 101,
@@ -337,7 +337,7 @@ export async function crawlMdbDram(options: CrawlMdbDramOptions): Promise<CrawlM
 
   const stats = { ...emptySectionStats(), durationMs: 0 };
   const startAt = Date.now();
-  const allowedPrefixes = new Set(DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST);
+  const allowedPrefixes = new Set<string>(DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST);
 
   for (const code of codes) {
     const prefix = code.slice(0, 2);
