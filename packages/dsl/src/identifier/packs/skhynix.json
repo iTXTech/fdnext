@@ -1,6 +1,7 @@
 [
   {
-    "id": "flashid.skhynix.new.v1",
+    "id": "identifier.nand_flash_id.skhynix.new.v1",
+    "idScheme": "nand.flash_id",
     "priority": 410,
     "match": { "kind": "regex", "value": "^AD[0-9A-F]{8}[5-9A-F][0-9A-F]$" },
     "vendor": "skhynix",
@@ -140,7 +141,8 @@
     }
   },
   {
-    "id": "flashid.skhynix.v1",
+    "id": "identifier.nand_flash_id.skhynix.v1",
+    "idScheme": "nand.flash_id",
     "priority": 390,
     "match": { "kind": "prefix", "value": "AD" },
     "vendor": "skhynix",

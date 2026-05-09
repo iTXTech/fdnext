@@ -1,9 +1,10 @@
 [
   {
-    "id": "flashid.micron.inteldef.v1",
+    "id": "identifier.nand_flash_id.spectek.micron-inteldef.v1",
+    "idScheme": "nand.flash_id",
     "priority": 400,
-    "match": { "kind": "prefix", "value": "2C" },
-    "vendor": "micron",
+    "match": { "kind": "prefix", "value": "B5" },
+    "vendor": "spectek",
     "definition": {
       "2": {
         "voltage": {

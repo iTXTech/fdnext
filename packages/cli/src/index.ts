@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { createEngine } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
-import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
+import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "@itxtech/fdnext-dsl";
 import { embeddedResources } from "@itxtech/fdnext-resources";
 
 function resourceDirFromEnv(): string | null {
@@ -51,7 +51,7 @@ async function main() {
       return resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResources;
     })(),
     decoders: compileRulesToDecoders(defaultDslRules),
-    flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
+    identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
   });
 
   if (scope === "capabilities") {
@@ -85,12 +85,12 @@ async function main() {
   if (scope === "id" && command === "decode") {
     const query = process.argv[4];
     const lang = process.argv[5] ?? null;
-    const idScheme = process.argv[6] ?? "nand.flash_id";
+    const idScheme = process.argv[6] as "nand.flash_id" | undefined;
     if (!query) {
       process.stderr.write("Missing identifier\n");
       process.exit(1);
     }
-    print(engine.decodeIdentifier({ query, lang, idScheme: idScheme as "nand.flash_id" }));
+    print(engine.decodeIdentifier({ query, lang, ...(idScheme ? { idScheme } : {}) }));
     return;
   }
 
@@ -98,12 +98,12 @@ async function main() {
     const query = process.argv[4];
     const lang = process.argv[5] ?? null;
     const limit = limitArg(process.argv[6]);
-    const idScheme = process.argv[7] ?? "nand.flash_id";
+    const idScheme = process.argv[7] as "nand.flash_id" | undefined;
     if (!query) {
       process.stderr.write("Missing identifier query\n");
       process.exit(1);
     }
-    print(engine.searchIdentifiers({ query, lang, idScheme: idScheme as "nand.flash_id", ...(limit ? { limit } : {}) }));
+    print(engine.searchIdentifiers({ query, lang, ...(idScheme ? { idScheme } : {}), ...(limit ? { limit } : {}) }));
     return;
   }
 

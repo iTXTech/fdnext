@@ -5,6 +5,7 @@ import type {
   DecodeIdentifierInput,
   DecodePartInput,
   FdnextCapabilities,
+  FdnextIdScheme,
   FdnextOperation,
   FdnextResult,
   IdentifierDecodeResult,
@@ -171,8 +172,9 @@ export interface PartNumberDecoder {
   decode(partNumber: string): Partial<FlashInfo> | null;
 }
 
-export interface FlashIdDecoder {
+export interface IdentifierDecoder {
   id: string;
+  idScheme: FdnextIdScheme;
   priority?: number;
   check(id: string): boolean;
   decode(id: string): Partial<FlashIdInfo> | null;
@@ -209,7 +211,7 @@ export interface EngineOptions {
   resources?: Partial<EngineResources>;
   fallbackLang?: string;
   decoders?: PartNumberDecoder[];
-  flashIdDecoders?: FlashIdDecoder[];
+  identifierDecoders?: IdentifierDecoder[];
   processors?: ProcessorHooks[];
   internalDecodeProcessors?: InternalDecodeProcessorHooks[];
 }
@@ -236,6 +238,6 @@ export interface FdnextEngine {
   translateString(key: string, lang?: string | null): string;
   getHumanReadableDensity(density: number, useByte?: boolean): string;
   registerDecoder(decoder: PartNumberDecoder): void;
-  registerFlashIdDecoder(decoder: FlashIdDecoder): void;
+  registerIdentifierDecoder(decoder: IdentifierDecoder): void;
   registerProcessor(processor: ProcessorHooks): void;
 }

@@ -177,16 +177,16 @@
 
 ## 4. 输出字段与翻译约定
 
-DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前），最终通过 `@itxtech/fdnext-core` 的 `toPublicFlashInfo()` 做：
+DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前）。公开结果由 `@itxtech/fdnext-core` 的 fdnext result builder 统一生成：
 
-- 必填 key 补齐（缺失时填 `Unknown` 或 `[]`）
-- `cellLevel`、`generation` 等字段做兼容转换
-- 基于 `packages/resources/resources/lang/*.json` 的 key 翻译为最终 `vendor/type/extraInfo/...` 的展示值
+- `device`、`blocks`、`relations`、`actions` 使用 canonical key 和结构化对象。
+- `label` / `display` 由 field registry 与语言包生成，调用方不应从翻译文本反推语义。
+- 未知字段直接省略，不补旧响应里的 `Unknown`、空数组或 NAND-only 默认槽位。
 
 重要约定：
 
 - `extraInfo` 的 key 应使用语言包中的 canonical snake_case 内部 key（例如 `operation_temperature`、`speed_grade`、`micron_part_number`、`sandisk_code`），不要直接写 “Operation Temperature” 这类展示字符串。
-- PN / FlashId DSL 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
+- PN / identifier DSL 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
 - 新增或重命名 metadata key 时，直接迁移全部 DSL 源规则、语言包和测试。旧 key 应进入 `packages/dsl/test/metadata-audit.test.ts` 的禁止列表，而不是进入兼容层。
 - `url/urls` 的 `desc` 也建议使用语言包 key（例如 `micron_website`）。
 
@@ -209,18 +209,17 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 - 新增 pack：`packages/dsl/src/rules/packs/<vendor>-token.json`
 - 在 `default-rules.ts` 中导入并加入 `defaultDslRules`
-- 添加/更新统一 baseline case：`packages/compat-test/src/index.ts:1`
-- 需要重置基线时运行：`pnpm baseline:gen`
-- 验证：`pnpm test`
+- 添加/更新 contract 行为测试：`packages/compat-test/test/contract.test.ts`
+- 验证：`pnpm contract:check`、`pnpm -C packages/dsl test`
 
-## 7. FlashId DSL（概览）
+## 7. Identifier DSL（NAND Flash ID 概览）
 
-FlashId 解码同样支持 DSL：按“字节偏移 + bitfield 规则”描述（输入为 12 位 hex 字符串），编译为 `FlashIdDecoder`。
+NAND Flash ID 解码通过 typed identifier DSL 表达，规则必须声明 `idScheme: "nand.flash_id"`。输入仍按“字节偏移 + bitfield 规则”描述，并编译为 `IdentifierDecoder`。
 
 ### 7.1 规则包位置
 
-- FlashId packs：`packages/dsl/src/flashid/packs/*.json`
-- 接入入口：`packages/dsl/src/flashid/default-rules.ts:1`
+- Identifier packs：`packages/dsl/src/identifier/packs/*.json`
+- 接入入口：`packages/dsl/src/identifier/default-rules.ts:1`
 
 源码里同样用 JSON module 直接导入：
 
@@ -228,13 +227,14 @@ FlashId 解码同样支持 DSL：按“字节偏移 + bitfield 规则”描述�
 import rules from "./packs/xxx.json" with { type: "json" };
 ```
 
-### 7.2 FlashIdDslRule 结构
+### 7.2 IdentifierDslRule 结构
 
 每个 pack 文件是一个 JSON 数组，元素结构如下：
 
 ```json
 {
-  "id": "flashid.micron.inteldef.v1",
+  "id": "identifier.nand_flash_id.micron.inteldef.v1",
+  "idScheme": "nand.flash_id",
   "priority": 400,
   "match": { "kind": "prefix", "value": "2C" },
   "vendor": "micron",
@@ -249,8 +249,9 @@ import rules from "./packs/xxx.json" with { type: "json" };
 字段说明：
 
 - `id`: 规则唯一标识
+- `idScheme`: identifier namespace，目前 NAND Flash ID 使用 `nand.flash_id`
 - `priority`: 优先级（越大越优先）
-- `match`: 匹配 FlashId（支持 `prefix` / `regex`）
+- `match`: 匹配 identifier（支持 `prefix` / `regex`）
 - `vendor`: 厂商 key（用于语言包翻译与展示）
 - `definition`: bitfield 规则定义
 
@@ -258,25 +259,24 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 - `definition` 的第一层 key 是 **字节偏移（字符串数字）**，并且是 **1-based**。
   - 例如 `"1"` 表示第 1 个字节（厂商 ID），`"2"` 表示第 2 个字节。
-- 输入 FlashId 以 12 个 hex 字符（6 字节）为基准；不足会由 core 的 `padFlashId()` 在末尾补 `0`。
+- 输入 NAND Flash ID 以 12 个 hex 字符（6 字节）为基准；不足会由 core 的内部 NAND Flash ID decoder 在末尾补 `0`。
 - 每个字段由：
   - `dq`: bit 位列表（与 PHP 参考实现一致，顺序影响拼接）
   - `def`: 从 bitfield 数值（字符串）映射到输出值（number/string/bool）
 - 字段名以 `ext:` 开头会写入 `ext` 字段（例如 `ext:edo`）。
 
-### 7.4 与 PHP 兼容的后处理（core 内置）
+### 7.4 NAND Flash ID 后处理（core 内置）
 
-部分 PHP 参考实现包含“解码后再修正”的逻辑，无法用纯 bitfield DSL 表达，因此在 `@itxtech/fdnext-core` 内置了 FlashId post-process：
+部分 NAND Flash ID 规则包含“解码后再修正”的逻辑，无法用纯 bitfield DSL 表达，因此在 `@itxtech/fdnext-core` 内置了 NAND Flash ID post-process：
 
 - Samsung：当 byte2 == `0xDE`，密度强制为 64Gbit
 - SKHynix：`plane = ext.simultaneously_programmed_pages`
 - SKHynix：当 byte6 >= `0x50`（14nm+）清空 `ext`，并把 `blockSize` 置空
 - Kioxia / WesternDigital：当 `plane` 与 `die` 都有效时，`plane = plane / die`
 
-### 7.5 如何新增/验证 FlashId 解码器
+### 7.5 如何新增/验证 NAND Flash ID 解码器
 
-- 新增 pack：`packages/dsl/src/flashid/packs/<vendor>.json`
-- 在 `packages/dsl/src/flashid/default-rules.ts:1` 中导入并加入 `defaultFlashIdRules`
-- 添加/更新统一 baseline case：`packages/compat-test/src/index.ts:1`（推荐新增 `decodeId` case）
-- 需要重置基线时运行：`pnpm baseline:gen`
-- 验证：`pnpm test`
+- 新增 pack：`packages/dsl/src/identifier/packs/<vendor>.json`
+- 在 `packages/dsl/src/identifier/default-rules.ts:1` 中导入并加入 `defaultIdentifierRules`
+- 添加/更新 identifier contract 行为测试：`packages/compat-test/test/contract.test.ts`
+- 验证：`pnpm contract:check`、`pnpm -C packages/dsl test`

@@ -34,6 +34,7 @@ import {
   type VendorIdentity
 } from "./result";
 import type { FlashIdInfo, FlashIdRecord, FlashInfo, LangPacks } from "./types";
+import { normalizeFlashId } from "./utils/normalize";
 
 export interface ResultBuilderContext {
   langPacks: LangPacks;
@@ -279,13 +280,17 @@ function partActions(info: FlashInfo): Action[] {
   if (!Array.isArray(info.flashId) || info.flashId.length === 0) {
     return [];
   }
+  const identifier = info.flashId.map((id) => normalizeFlashId(String(id))).find((id) => id.length > 0);
+  if (!identifier) {
+    return [];
+  }
   return [
     {
-      name: "identifier.search",
-      label: "Search NAND Flash IDs",
-      operation: "identifier.search",
+      name: "identifier.decode",
+      label: "Decode NAND Flash ID",
+      operation: "identifier.decode",
       input: {
-        query: info.partNumber,
+        query: identifier,
         constraints: {
           idScheme: "nand.flash_id"
         }
@@ -409,6 +414,18 @@ function fieldMapFromIdentifier(info: FlashIdInfo, device: DeviceIdentity, ctx: 
     addField(fields, createField("cell_level", String(info.cellLevel), ctx, lang));
   }
   if (isKnownInfoValue(info.voltage)) addField(fields, createField("voltage", String(info.voltage), ctx, lang));
+  const ext = asRecord(info.ext);
+  for (const [sourceKey, fieldKey] of Object.entries({
+    blocks_per_lun: "blocks_per_lun",
+    timing_mode_async: "timing_mode_async",
+    edo: "edo",
+    interface: "interface_type"
+  })) {
+    const value = ext[sourceKey];
+    if (isKnownInfoValue(value)) {
+      addField(fields, createField(fieldKey as FdnextFieldKey, value as FdnextFieldValueData, ctx, lang));
+    }
+  }
   for (const controller of info.controllers ?? []) {
     if (isKnownInfoValue(controller)) {
       addField(fields, createField("controller", controller, ctx, lang));

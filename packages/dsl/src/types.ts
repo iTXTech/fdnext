@@ -171,17 +171,18 @@ export interface DslRule {
   tokenDecoder?: DslTokenDecoder;
 }
 
-export interface FlashIdBitRule {
+export interface IdentifierBitRule {
   dq: number[];
   def: Record<string, DslJson>;
 }
 
-export type FlashIdDefinition = Record<string, Record<string, FlashIdBitRule>>;
+export type IdentifierDefinition = Record<string, Record<string, IdentifierBitRule>>;
 
-export interface FlashIdDslRule {
+export interface IdentifierDslRule {
   id: string;
+  idScheme: "nand.flash_id";
   priority?: number;
   match: DslMatch;
   vendor: string;
-  definition: FlashIdDefinition;
+  definition: IdentifierDefinition;
 }

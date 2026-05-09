@@ -1,9 +1,10 @@
 [
   {
-    "id": "flashid.sndk.v1",
+    "id": "identifier.nand_flash_id.kioxia.v1",
+    "idScheme": "nand.flash_id",
     "priority": 390,
-    "match": { "kind": "prefix", "value": "45" },
-    "vendor": "sndk",
+    "match": { "kind": "prefix", "value": "98" },
+    "vendor": "kioxia",
     "definition": {
       "2": {
         "density": {

@@ -276,6 +276,13 @@ export const fdnextFieldRegistry = {
     importance: "secondary",
     format: formatBytes
   },
+  blocks_per_lun: {
+    key: "blocks_per_lun",
+    valueKind: "string",
+    defaultLabel: "Blocks per LUN",
+    recommendedBlock: "geometry",
+    importance: "detail"
+  },
   plane_count: {
     key: "plane_count",
     valueKind: "number",
@@ -408,6 +415,20 @@ export const fdnextFieldRegistry = {
     defaultLabel: "Speed Grade",
     recommendedBlock: "timing",
     importance: "secondary"
+  },
+  timing_mode_async: {
+    key: "timing_mode_async",
+    valueKind: "string",
+    defaultLabel: "Async Timing Mode",
+    recommendedBlock: "timing",
+    importance: "detail"
+  },
+  edo: {
+    key: "edo",
+    valueKind: "boolean",
+    defaultLabel: "EDO",
+    recommendedBlock: "timing",
+    importance: "detail"
   },
   component_width: {
     key: "component_width",

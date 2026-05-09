@@ -1,4 +1,4 @@
-import type { FlashIdDslRule } from "../types";
+import type { IdentifierDslRule } from "../types";
 
 import micronIntelRules from "./packs/micron-inteldef.json" with { type: "json" };
 import intelRules from "./packs/intel.json" with { type: "json" };
@@ -9,7 +9,7 @@ import sandiskRules from "./packs/sandisk.json" with { type: "json" };
 import ymtcRules from "./packs/ymtc.json" with { type: "json" };
 import spectekRules from "./packs/spectek.json" with { type: "json" };
 
-export const defaultFlashIdRules = [
+export const defaultIdentifierRules = [
   ...micronIntelRules,
   ...intelRules,
   ...samsungRules,
@@ -18,4 +18,4 @@ export const defaultFlashIdRules = [
   ...sandiskRules,
   ...ymtcRules,
   ...spectekRules
-] as FlashIdDslRule[];
+] as IdentifierDslRule[];

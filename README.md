@@ -56,7 +56,7 @@ README only provides the project overview. Integration, runtime, and maintenance
 
 - [Integration guide](docs/INTEGRATION.md) for SDK, browser, HTTP server, deployment, and endpoint usage
 - [FDBGen documentation](docs/FDBGEN.md) for FDB generation, MDB crawling, input layouts, cleanup rules, and crawler behavior
-- [DSL specification](docs/DSL_SPEC.md) for PN and FlashId rule authoring
+- [DSL specification](docs/DSL_SPEC.md) for PN and typed identifier rule authoring
 - [PN code reference index](docs/pn_code/README.md) for vendor/product-line references
 - [PN reference confidence policy](docs/pn_code/reference_policy.md) for rule admission and source confidence
 - [Cross-vendor terminology](docs/pn_code/terminology.md) for public metadata fields
@@ -68,9 +68,9 @@ PN rules are intentionally data-driven. New decoding coverage should be added as
 Useful locations:
 
 - `packages/dsl/src/rules/packs/` for PN DSL packs
-- `packages/dsl/src/flashid/packs/` for FlashId DSL packs
+- `packages/dsl/src/identifier/packs/` for typed identifier DSL packs such as NAND Flash ID
 - `packages/dsl/src/rules/default-rules.ts` for PN pack registration
-- `packages/dsl/src/flashid/default-rules.ts` for FlashId pack registration
+- `packages/dsl/src/identifier/default-rules.ts` for identifier pack registration
 - `packages/dsl/test/managed-nand.test.ts`, `packages/dsl/test/dram.test.ts`, and `packages/dsl/test/metadata-audit.test.ts` for rule validation
 - `packages/resources/resources/lang/eng.json` and `packages/resources/resources/lang/chs.json` for user-visible metadata labels
 - `docs/pn_code/` for PN reference notes and confidence policy

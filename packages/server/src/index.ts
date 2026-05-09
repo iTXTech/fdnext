@@ -2,7 +2,7 @@ import { server as createHapiServer } from "@hapi/hapi";
 import type { Request, ResponseToolkit } from "@hapi/hapi";
 import { createEngine, type FdnextEngine } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
-import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
+import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "@itxtech/fdnext-dsl";
 import { embeddedResources } from "@itxtech/fdnext-resources";
 
 export interface HttpServerOptions {
@@ -56,7 +56,7 @@ function createDefaultEngineFromResources(resourceDir?: string): FdnextEngine {
   return createEngine({
     resources: resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResources,
     decoders: compileRulesToDecoders(defaultDslRules),
-    flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
+    identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
   });
 }
 
@@ -125,7 +125,7 @@ export function createHttpServer(options: HttpServerOptions) {
       return replyJson(h, engine.decodeIdentifier({
         query: stringPayload(payload, "query") ?? "",
         lang: stringPayload(payload, "lang") ?? null,
-        idScheme: (stringPayload(payload, "idScheme") ?? "nand.flash_id") as "nand.flash_id",
+        ...(stringPayload(payload, "idScheme") ? { idScheme: stringPayload(payload, "idScheme") as "nand.flash_id" } : {}),
         constraints: constraintsPayload(payload)
       }));
     }
@@ -139,7 +139,7 @@ export function createHttpServer(options: HttpServerOptions) {
       return replyJson(h, engine.searchIdentifiers({
         query: stringPayload(payload, "query") ?? "",
         lang: stringPayload(payload, "lang") ?? null,
-        idScheme: (stringPayload(payload, "idScheme") ?? "nand.flash_id") as "nand.flash_id",
+        ...(stringPayload(payload, "idScheme") ? { idScheme: stringPayload(payload, "idScheme") as "nand.flash_id" } : {}),
         ...(limitPayload(payload) ? { limit: limitPayload(payload) } : {}),
         constraints: constraintsPayload(payload)
       }));

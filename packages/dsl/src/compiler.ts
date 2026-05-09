@@ -1,5 +1,5 @@
-import type { FlashIdDecoder, FlashIdInfo, FlashInfo, PartNumberDecoder } from "@itxtech/fdnext-core";
-import type { DslEmit, DslEmitComponent, DslEmitField, DslExpr, DslJson, DslRule, FlashIdDslRule, NormalizeStep, DslTokenDecoder } from "./types";
+import type { FlashIdInfo, FlashInfo, IdentifierDecoder, PartNumberDecoder } from "@itxtech/fdnext-core";
+import type { DslEmit, DslEmitComponent, DslEmitField, DslExpr, DslJson, DslRule, IdentifierDslRule, NormalizeStep, DslTokenDecoder } from "./types";
 
 function normalize(input: string, steps: NormalizeStep[] = []): string {
   let value = input;
@@ -348,7 +348,7 @@ function byteAt(id: string, offset: number): number {
   return Number.parseInt(id.slice(idx, idx + 2), 16);
 }
 
-function decodeFlashIdByDefinition(id: string, definition: Record<string, Record<string, { dq: number[]; def: Record<string, DslJson> }>>): Partial<FlashIdInfo> {
+function decodeIdentifierByDefinition(id: string, definition: Record<string, Record<string, { dq: number[]; def: Record<string, DslJson> }>>): Partial<FlashIdInfo> {
   const out: Partial<FlashIdInfo> = {};
   const ext: Record<string, unknown> = {};
 
@@ -375,7 +375,7 @@ function decodeFlashIdByDefinition(id: string, definition: Record<string, Record
   return out;
 }
 
-export function compileFlashIdRulesToDecoders(rules: FlashIdDslRule[]): FlashIdDecoder[] {
+export function compileIdentifierRulesToDecoders(rules: IdentifierDslRule[]): IdentifierDecoder[] {
   return rules.map((rule) => {
     const check = (id: string): boolean => checkMatch(id.toUpperCase(), rule.match);
     const decode = (id: string): Partial<FlashIdInfo> | null => {
@@ -385,15 +385,16 @@ export function compileFlashIdRulesToDecoders(rules: FlashIdDslRule[]): FlashIdD
       }
       return {
         vendor: rule.vendor,
-        ...decodeFlashIdByDefinition(normalized, rule.definition)
+        ...decodeIdentifierByDefinition(normalized, rule.definition)
       };
     };
 
     return {
       id: rule.id,
+      idScheme: rule.idScheme,
       priority: rule.priority,
       check,
       decode
-    } satisfies FlashIdDecoder;
+    } satisfies IdentifierDecoder;
   });
 }

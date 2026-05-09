@@ -277,28 +277,40 @@ Implementation evidence:
 
 ## Phase 4: Identifier DSL and NAND Flash ID Isolation
 
+Status: Complete on 2026-05-10. Moved NAND Flash ID rules into typed identifier DSL with `idScheme: "nand.flash_id"`, routed identifier decode/search through scheme validation or safe inference, and added behavior tests that keep FBGA marking codes out of identifier APIs.
+
 Goal: Flash ID stays powerful but stops defining the whole engine.
 
 Tasks:
 
-- Rename Flash ID DSL concepts around `idScheme: "nand.flash_id"`.
-- Move NAND Flash ID rules under typed identifier decoding.
-- Require `idScheme` for identifier decode/search unless the input can be confidently inferred as NAND Flash ID.
-- Emit NAND identifier result blocks:
+- [x] Rename Flash ID DSL concepts around `idScheme: "nand.flash_id"`.
+- [x] Move NAND Flash ID rules under typed identifier decoding.
+- [x] Require `idScheme` for identifier decode/search unless the input can be confidently inferred as NAND Flash ID.
+- [x] Emit NAND identifier result blocks:
   - identity
   - geometry
   - timing/ext fields
   - related part numbers
   - controllers
-- Represent related PN hits as `relations`, not embedded translated strings.
-- Remove generic `decodeFlashId` / `searchFlashId` naming from public SDK in favor of identifier APIs.
-- Keep marking codes out of this API unless they have a real decodable identifier scheme. FBGA should remain a marking/part relation.
+- [x] Represent related PN hits as `relations`, not embedded translated strings.
+- [x] Remove generic `decodeFlashId` / `searchFlashId` naming from public SDK in favor of identifier APIs.
+- [x] Keep marking codes out of this API unless they have a real decodable identifier scheme. FBGA should remain a marking/part relation.
 
 Exit criteria:
 
-- Flash ID decode/search works only through `nand.flash_id`.
-- PN operations do not expose Flash ID actions unless the decoded device has NAND identifiers.
-- Non-NAND parts do not show Flash ID relations or actions.
+- [x] Flash ID decode/search works only through `nand.flash_id`.
+- [x] PN operations do not expose Flash ID actions unless the decoded device has NAND identifiers.
+- [x] Non-NAND parts do not show Flash ID relations or actions.
+
+Implementation evidence:
+
+- `packages/dsl/src/identifier/` now owns NAND Flash ID packs and `defaultIdentifierRules`; every identifier pack declares `idScheme: "nand.flash_id"`.
+- `packages/dsl/src/types.ts` and `packages/dsl/src/compiler.ts` expose `IdentifierDslRule` and `compileIdentifierRulesToDecoders`, producing typed `IdentifierDecoder` entries.
+- `packages/core/src/engine.ts` uses `identifierDecoders`, validates or safely infers `nand.flash_id`, rejects marking-like input without a scheme, and rejects invalid NAND Flash ID byte strings even when the scheme is explicit.
+- `packages/core/src/result-builder.ts`, `packages/core/src/field-registry.ts`, and `packages/core/src/field-profiles.ts` emit identifier identity, geometry, timing/ext, controller fields, and related PN hits as `identifier_for` relations.
+- `packages/compat-test/test/contract.test.ts` covers inferred NAND Flash ID decode/search, FBGA marking rejection in identifier APIs, NAND PN identifier actions, and non-NAND PN absence of identifier relations/actions.
+- `README.md`, `docs/DSL_SPEC.md`, `docs/INTEGRATION.md`, and `docs/pn_code/micron_dram.md` no longer advertise old public Flash ID DSL paths or old SDK/HTTP method names.
+- Verification passed: `pnpm contract:check`, `pnpm -C packages/dsl test`, `pnpm -C packages/dsl typecheck`, `pnpm -C packages/resources typecheck`, `pnpm test`, `pnpm typecheck`, and `git diff --check`.
 
 ## Phase 5: Resource Model Cleanup
 

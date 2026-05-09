@@ -25,10 +25,10 @@ import type {
   DecodeOptions,
   EngineOptions,
   FlashDetectorInfo,
-  FlashIdDecoder,
   FlashIdInfo,
   FlashInfo,
   FdnextEngine,
+  IdentifierDecoder,
   InternalDecodeProcessorHooks,
   KnownPartNumberEntry,
   LangPacks,
@@ -470,7 +470,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const decoders: PartNumberDecoder[] = [...buildDefaultDecoders(), ...(options.decoders ?? [])].sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
-  const flashIdDecoders: FlashIdDecoder[] = [...(options.flashIdDecoders ?? [])].sort(
+  const identifierDecoders: IdentifierDecoder[] = [...(options.identifierDecoders ?? [])].sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
 
@@ -526,8 +526,8 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     const padded = padFlashId(normalized);
     let info: FlashIdInfo | null = null;
 
-    for (const decoder of flashIdDecoders) {
-      if (decoder.check(padded)) {
+    for (const decoder of identifierDecoders) {
+      if (decoder.idScheme === "nand.flash_id" && decoder.check(padded)) {
         const decoded = decoder.decode(padded);
         if (decoded) {
           info = {
@@ -904,6 +904,19 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return result;
   };
 
+  const compactIdentifierInput = (query: string): string => query.toUpperCase().replaceAll(/[\s,._:-]+/g, "");
+
+  const isNandFlashIdShape = (query: string, allowVendorOnly: boolean): boolean => {
+    const normalized = normalizeFlashId(query);
+    const compact = compactIdentifierInput(query);
+    const minLength = allowVendorOnly ? 2 : 4;
+    return compact === normalized && normalized.length >= minLength && normalized.length <= 12 && normalized.length % 2 === 0;
+  };
+
+  const inferIdentifierScheme = (query: string): "nand.flash_id" | undefined => {
+    return isNandFlashIdShape(query, false) ? "nand.flash_id" : undefined;
+  };
+
   const getCapabilities = (): FdnextCapabilities => runOperation("capabilities", undefined, () => buildCapabilities());
 
   const decodePart = (input: DecodePartInput): PartDecodeResult => {
@@ -1006,9 +1019,27 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
   const decodeIdentifier = (input: DecodeIdentifierInput): IdentifierDecodeResult => {
     return runOperation("identifier.decode", input, () => {
-      const idScheme = input.idScheme ?? input.constraints?.idScheme ?? "nand.flash_id";
+      const explicitIdScheme = input.idScheme ?? input.constraints?.idScheme;
+      const idScheme = explicitIdScheme ?? inferIdentifierScheme(input.query);
       const normalized = normalizeFlashId(input.query);
-      const constraints = { idScheme, ...(input.constraints ?? {}) } as OperationConstraints;
+      const constraints = { ...(idScheme ? { idScheme } : {}), ...(input.constraints ?? {}) } as OperationConstraints;
+      if (!idScheme) {
+        return {
+          schemaVersion: "fdnext.result.v1",
+          operation: "identifier.decode",
+          status: "invalid_input",
+          input: {
+            query: input.query,
+            normalized: normalized || input.query,
+            ...(input.lang ? { lang: input.lang } : {}),
+            constraints
+          },
+          blocks: [],
+          relations: [],
+          actions: [],
+          warnings: [{ code: "missing_id_scheme", message: "Identifier scheme is required unless the input is a clear NAND Flash ID", severity: "warning" }]
+        };
+      }
       if (idScheme !== "nand.flash_id") {
         return {
           schemaVersion: "fdnext.result.v1",
@@ -1024,6 +1055,23 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           relations: [],
           actions: [],
           warnings: [{ code: "unsupported_id_scheme", message: `Unsupported identifier scheme: ${idScheme}`, severity: "warning" }]
+        };
+      }
+      if (!isNandFlashIdShape(input.query, true)) {
+        return {
+          schemaVersion: "fdnext.result.v1",
+          operation: "identifier.decode",
+          status: "invalid_input",
+          input: {
+            query: input.query,
+            normalized: normalized || input.query,
+            ...(input.lang ? { lang: input.lang } : {}),
+            constraints
+          },
+          blocks: [],
+          relations: [],
+          actions: [],
+          warnings: [{ code: "invalid_nand_flash_id", message: "NAND Flash ID must be an even-length hexadecimal byte string", severity: "warning" }]
         };
       }
       const info = decodeFlashIdRaw(input.query);
@@ -1042,9 +1090,25 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
   const searchIdentifiers = (input: SearchIdentifiersInput): IdentifierSearchResult => {
     return runOperation("identifier.search", input, () => {
-      const idScheme = input.idScheme ?? input.constraints?.idScheme ?? "nand.flash_id";
+      const explicitIdScheme = input.idScheme ?? input.constraints?.idScheme;
+      const idScheme = explicitIdScheme ?? inferIdentifierScheme(input.query);
       const normalized = normalizeFlashId(input.query);
-      const constraints = { idScheme, ...(input.constraints ?? {}) } as OperationConstraints;
+      const constraints = { ...(idScheme ? { idScheme } : {}), ...(input.constraints ?? {}) } as OperationConstraints;
+      if (!idScheme) {
+        return {
+          schemaVersion: "fdnext.result.v1",
+          operation: "identifier.search",
+          status: "invalid_input",
+          input: {
+            query: input.query,
+            normalized: normalized || input.query,
+            ...(input.lang ? { lang: input.lang } : {}),
+            constraints
+          },
+          items: [],
+          warnings: [{ code: "missing_id_scheme", message: "Identifier scheme is required unless the input is a clear NAND Flash ID", severity: "warning" }]
+        };
+      }
       if (idScheme !== "nand.flash_id") {
         return {
           schemaVersion: "fdnext.result.v1",
@@ -1058,6 +1122,21 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           },
           items: [],
           warnings: [{ code: "unsupported_id_scheme", message: `Unsupported identifier scheme: ${idScheme}`, severity: "warning" }]
+        };
+      }
+      if (!isNandFlashIdShape(input.query, true)) {
+        return {
+          schemaVersion: "fdnext.result.v1",
+          operation: "identifier.search",
+          status: "invalid_input",
+          input: {
+            query: input.query,
+            normalized: normalized || input.query,
+            ...(input.lang ? { lang: input.lang } : {}),
+            constraints
+          },
+          items: [],
+          warnings: [{ code: "invalid_nand_flash_id", message: "NAND Flash ID search requires a hexadecimal byte string", severity: "warning" }]
         };
       }
       return buildIdentifierSearchResult(
@@ -1091,9 +1170,9 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       decoders.push(decoder);
       decoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
     },
-    registerFlashIdDecoder(decoder: FlashIdDecoder): void {
-      flashIdDecoders.push(decoder);
-      flashIdDecoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
+    registerIdentifierDecoder(decoder: IdentifierDecoder): void {
+      identifierDecoders.push(decoder);
+      identifierDecoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
     },
     registerProcessor(processor: ProcessorHooks): void {
       processors.push(processor);

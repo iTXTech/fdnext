@@ -1,6 +1,7 @@
 [
   {
-    "id": "flashid.samsung.v1",
+    "id": "identifier.nand_flash_id.samsung.v1",
+    "idScheme": "nand.flash_id",
     "priority": 390,
     "match": { "kind": "prefix", "value": "EC" },
     "vendor": "samsung",

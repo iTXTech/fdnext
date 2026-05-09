@@ -6,17 +6,17 @@
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
-import { compileRulesToDecoders, defaultDslRules, compileFlashIdRulesToDecoders, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
+import { compileRulesToDecoders, defaultDslRules, compileIdentifierRulesToDecoders, defaultIdentifierRules } from "@itxtech/fdnext-dsl";
 import { embeddedResources } from "@itxtech/fdnext-resources";
 
 const engine = createEngine({
   resources: embeddedResources,
   decoders: compileRulesToDecoders(defaultDslRules),
-  flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
+  identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
 });
 
-console.log(engine.detect("MT29F64G08CBABA", { lang: "eng", combineFdb: true }));
-console.log(engine.decodeFlashId("2C64444BA900", { lang: "eng", combineFdb: true }));
+console.log(engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" }));
+console.log(engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng", idScheme: "nand.flash_id" }));
 ```
 
 如需覆盖默认资源（例如热更新数据）：
@@ -29,32 +29,31 @@ const resources = process.env.FDNEXT_RESOURCES ? loadResourcesFromDir(process.en
 
 ### 1.1 Processor 管线与 SDK 方法
 
-`@itxtech/fdnext-core` 支持请求级 Processor 管线（可读取请求上下文并短路）：
+`@itxtech/fdnext-core` 支持 operation 级 Processor 管线：
 
 ```ts
 engine.registerProcessor({
-  info(ctx, payload) {
-    if (ctx.userAgent.includes("health-check")) {
-      payload.info = { lightweight: true };
-      return false;
+  beforeOperation(ctx) {
+    if (ctx.operation === "part.decode") {
+      console.log(ctx.query);
     }
-    return true;
+  },
+  afterOperation(ctx, result) {
+    return result;
   }
 });
 
-const response = engine.dispatch("info", {
-  query: "",
-  remote: "127.0.0.1",
-  userAgent: "my-client/1.0"
-});
+const response = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 ```
 
 常用 SDK 方法：
 
-- `engine.getVendor(partNumber)`
 - `engine.getFdb()` / `engine.getMdb()` / `engine.getLang()`
 - `engine.getProcessors()`
-- `engine.translate(value, lang)` / `engine.translateArray(value, translateKey, lang)`
+- `engine.decodePart(input)` / `engine.searchParts(input)`
+- `engine.decodeIdentifier(input)` / `engine.searchIdentifiers(input)`
+- `engine.getCapabilities()`
+- `engine.translateString(key, lang)`
 - `engine.getHumanReadableDensity(density, useByte)`
 
 ## 2. 浏览器（Web / Frontend）
@@ -64,7 +63,7 @@ const response = engine.dispatch("info", {
 - 不要在浏览器使用 `@itxtech/fdnext-core/node`（它依赖 Node 的 `fs`）
 - 资源（`fdb/mdb/lang`，以及用于 PN 补全的 `managed-nand-pn/dram-pn`）建议用 `fetch()` 加载静态 JSON
 - `managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`；Micron DRAM FBGA code 反查统一来自 `mdb.json`
-- 解码器（PN / FlashId）来自 `@itxtech/fdnext-dsl` 的默认规则包（JSON import attributes：`with { type: "json" }`）
+- 解码器（PN / typed identifier）来自 `@itxtech/fdnext-dsl` 的默认规则包（JSON import attributes：`with { type: "json" }`）
 
 ### 2.1 方式 A：fetch 静态 JSON（推荐）
 
@@ -79,7 +78,7 @@ const response = engine.dispatch("info", {
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
-import { compileRulesToDecoders, defaultDslRules, compileFlashIdRulesToDecoders, defaultFlashIdRules } from "@itxtech/fdnext-dsl";
+import { compileRulesToDecoders, defaultDslRules, compileIdentifierRulesToDecoders, defaultIdentifierRules } from "@itxtech/fdnext-dsl";
 
 async function loadJson(path: string) {
   const res = await fetch(path);
@@ -99,7 +98,7 @@ const [fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, chs, eng] = await Promise.al
 const engine = createEngine({
   resources: { fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, langRaw: { chs, eng } },
   decoders: compileRulesToDecoders(defaultDslRules),
-  flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
+  identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
 });
 ```
 
@@ -145,19 +144,18 @@ pm2 status
 pm2 logs fdnext-server
 ```
 
-### 3.4 HTTP 路由（与上游 FDWebServer 对齐）
+### 3.4 HTTP 路由
 
 - `GET /`：健康检查
-- `GET /info`：版本与统计信息
-- `GET /decode?pn=...&lang=...`
-- `GET /decodeId?id=...&lang=...`
-- `GET /searchPn?pn=...&lang=...&limit=...`
-- `GET /searchId?id=...&lang=...&limit=...`
-- `GET /summary?pn=...&lang=...`
-- `GET /summaryId?id=...&lang=...`
+- `GET /capabilities`
+- `POST /parts/decode`，body: `{ "query": "MT29F64G08CBABA", "lang": "eng" }`
+- `POST /parts/search`，body: `{ "query": "MT29", "lang": "eng", "limit": 10 }`
+- `POST /identifiers/decode`，body: `{ "query": "2C64444BA900", "lang": "eng", "idScheme": "nand.flash_id" }`
+- `POST /identifiers/search`，body: `{ "query": "2C64", "lang": "eng", "limit": 10, "idScheme": "nand.flash_id" }`
 
 说明：
 
 - 所有路由返回 JSON
+- Identifier API 只处理真实 decodable identifier scheme。FBGA 等 marking code 通过 `part.search` 返回 `marking_for` relation。
 - CORS 允许所有来源（`Access-Control-Allow-Origin: *`）
 - 服务端响应会包含 `X-Powered-By` header（用于运维识别）

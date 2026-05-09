@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createEngine, fdnextFieldRegistry, type PartDecodeResult } from "../../core/src/index";
 import { embeddedResources } from "../../resources/index";
-import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "../src/index";
+import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "../src/index";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
 
@@ -64,7 +64,7 @@ function walkRules(value: unknown, path: string, findings: string[], inExtraInfo
 function assertDslRulesUseCanonicalKeys(): void {
   const findings: string[] = [];
   walkRules(defaultDslRules, "defaultDslRules", findings);
-  walkRules(defaultFlashIdRules, "defaultFlashIdRules", findings);
+  walkRules(defaultIdentifierRules, "defaultIdentifierRules", findings);
   assert.deepEqual(findings, [], "DSL rules should not emit legacy camelCase metadata keys");
 }
 
@@ -168,7 +168,7 @@ function assertReadmeIsOnlyIndex(): void {
 const engine = createEngine({
   resources: embeddedResources,
   decoders: compileRulesToDecoders(defaultDslRules),
-  flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
+  identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
 });
 
 function managedNandSamples(): string[] {

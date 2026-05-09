@@ -6,7 +6,7 @@ import {
   type FdnextResult,
   type JsonSchema
 } from "../../core/src/index";
-import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "../../dsl/src/index";
+import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "../../dsl/src/index";
 import { embeddedResources } from "../../resources/index";
 
 export interface ContractCheckSummary {
@@ -103,7 +103,7 @@ export function createContractEngine() {
   return createEngine({
     resources: embeddedResources,
     decoders: compileRulesToDecoders(defaultDslRules),
-    flashIdDecoders: compileFlashIdRulesToDecoders(defaultFlashIdRules)
+    identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
   });
 }
 

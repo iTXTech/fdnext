@@ -101,9 +101,10 @@ export const fdnextFieldProfiles = {
         id: "geometry",
         label: "Geometry",
         importance: "primary",
-        fields: ["density", "cell_level", "die_count", "plane_count", "page_size", "block_size", "process_node"]
+        fields: ["density", "cell_level", "die_count", "plane_count", "page_size", "block_size", "blocks_per_lun", "process_node"]
       },
-      { id: "interface", label: "Interface", importance: "secondary", fields: ["voltage"] },
+      { id: "interface", label: "Interface", importance: "secondary", fields: ["voltage", "interface_type"] },
+      { id: "timing", label: "Timing", importance: "detail", fields: ["timing_mode_async", "edo"] },
       { id: "controllers", label: "Controllers", importance: "detail", fields: ["controller"] }
     ]
   },
