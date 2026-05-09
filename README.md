@@ -1,117 +1,111 @@
 # fdnext
 
-`fdnext` 是 [FlashDetector](https://github.com/iTXTech/FlashDetector) 的 TypeScript 实现，采用多包架构，覆盖核心解码引擎、DSL 规则编译、HTTP 服务、CLI 工具、统一基线测试和独立 FDB 生成能力。
+[简体中文](README-zh.md)
 
-## 主要特性
+`fdnext` is a one-stop parsing solution for storage chips. It covers storage part-number parsing, FlashId parsing, managed NAND and DRAM PN decoding, bundled data resources, HTTP and CLI access, compatibility fixtures, and FDB / MDB maintenance tooling.
 
-- ESM 优先的 monorepo，使用严格 TypeScript 配置
-- `@itxtech/fdnext-core` 可用于 Node.js 与浏览器环境，无运行时网络依赖
-- 基于 JSON DSL 的 PN / FlashId 规则编译与扩展
-- 支持请求级 Processor 管线，可在 SDK、Server、CLI 统一接入
-- 提供独立的 TypeScript FDB 生成器 `@itxtech/fdnext-fdbgen`
+The project is organized as a strict TypeScript monorepo, but its public goal is the storage-chip parsing workflow: identify the chip, normalize the result, enrich it with local resources, expose it through SDK / server / CLI entrypoints, and keep the underlying data reproducible.
 
-## 包结构
+## Features
 
-- `@itxtech/fdnext-core`：解码与搜索引擎、SDK 能力
-- `@itxtech/fdnext-resources`：可发布的数据资源包（`fdb/mdb/lang`、PN 补全 catalog 与 Micron FBGA code list）
-- `@itxtech/fdnext-dsl`：DSL 规则与解码器编译器
-- `@itxtech/fdnext-server`：基于 Hapi 的 HTTP 服务
-- `@itxtech/fdnext-cli`：命令行工具
-- `@itxtech/fdnext-fdbgen`：独立 FDB 生成器与 CLI
-- `@itxtech/fdnext-compat-test`：统一 dispatch 基线夹具与确认工具
+- Storage-chip PN and FlashId parsing through `@itxtech/fdnext-core`
+- JSON DSL rule packs for PN and FlashId decoders through `@itxtech/fdnext-dsl`
+- Embedded `fdb`, `mdb`, language packs, managed NAND PN suggestions, DRAM PN suggestions, and Micron FBGA code resources
+- Managed NAND and DRAM PN decoding coverage with vendor-specific token rules
+- Micron FBGA lookup support through the unified `mdb.json` resource flow
+- Hapi-based HTTP server with JSON decode, search, summary, and info endpoints
+- CLI commands for decode, summary, search, and info workflows
+- TypeScript FDB generator with raw FlashDB cleanup, vendor remapping, controller aggregation, and MDB crawling helpers
+- Unified baseline tests for the dispatch layer
 
-## 环境要求
+## Parsing Coverage
+
+| Area | Product families | Currently covered vendors |
+| --- | --- | --- |
+| NAND PN | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk / Western Digital, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN |
+| DRAM PN | DRAM part-number families covered by current rule packs, including density, generation, package, die stack, speed, revision, and temperature fields where inferable | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT |
+
+## Packages
+
+| Package | Purpose |
+| --- | --- |
+| `@itxtech/fdnext-core` | Decode/search engine, public SDK types, resource loading helpers, and dispatch pipeline |
+| `@itxtech/fdnext-dsl` | JSON DSL rule packs and PN / FlashId compiler |
+| `@itxtech/fdnext-resources` | Publishable embedded data resources |
+| `@itxtech/fdnext-server` | Hapi HTTP server |
+| `@itxtech/fdnext-cli` | Command-line interface |
+| `@itxtech/fdnext-fdbgen` | FDB/MDB generation and crawl tools |
+| `@itxtech/fdnext-compat-test` | Baseline fixture checks |
+
+## Requirements
 
 - Node.js `>= 24`
-- `pnpm`
+- `pnpm` as declared by `packageManager` in `package.json`
 
-## 快速开始
+## Quick Start
 
 ```bash
 pnpm install
 pnpm build
-```
-
-## Docker 运行
-
-在仓库根目录执行：
-
-```bash
-docker build -t fdnext-server .
-docker run -d --name fdnext -p 8080:8080 fdnext-server
-```
-
-## 文档
-
-- [集成指南](docs/INTEGRATION.md)
-- [DSL 规范](docs/DSL_SPEC.md)
-- [FDBGen 文档](docs/FDBGEN.md)
-- [PN 编码资料](docs/pn_code/README.md)
-
-## FDBGen 使用说明
-
-`@itxtech/fdnext-fdbgen` 可从本地数据集生成 `fdb.json`：
-
-```bash
-fdnext-fdbgen build --input <dataset-dir> --output <fdb.json> --version <ver> [options]
-```
-
-必填参数：
-
-- `--input <dir>`：输入目录
-- `--output <file>`：输出文件路径
-- `--version <ver>`：写入 `info.version`
-
-可选参数：
-
-- `--meta <file>`：元信息覆盖文件
-- `--extra <file>`：额外合并补丁文件
-- `--name <name>`：覆盖 `info.name`
-- `--website <url>`：覆盖 `info.website`
-- `--pretty`：格式化输出 JSON
-
-`info.time` 始终在生成时写入当前 UTC 时间。
-
-输入目录约定（均为可选）：
-
-- `fdb.json`：基础数据
-- `vendors/*.json`：按厂商拆分的 PN 记录
-- `iddb/*.json` 或 `flashids/*.json`：FlashId 记录
-- `meta.json`：默认元信息
-- `extra.json`：对 `info/vendors/iddb` 的补丁合并
-
-`mdb` 爬取（Micron + SpecTek）：
-
-```bash
-pnpm fdbgen:crawl-mdb -- --file packages/resources/resources/mdb.json
-```
-
-Micron FBGA code list 是一次性从页面存档提取出的左侧 5 位 code。后续只用 Micron 官方 FBGA decoder API 写入统一的 `mdb.json`：
-
-```bash
-pnpm fdbgen:crawl-mdb-from-fbga -- --codes packages/resources/resources/micron-fbga-codes.json --file packages/resources/resources/mdb.json --pretty
-```
-
-## 基线确认
-
-仓库测试只确认已提交的统一 dispatch baseline，不再执行 PHP 与 TS 的兼容性回归：
-
-```bash
 pnpm test
 ```
 
-更新 baseline 时运行：
+## Usage Documentation
+
+README only provides the project overview. Integration, runtime, and maintenance usage lives under `docs/`:
+
+- [Integration guide](docs/INTEGRATION.md) for SDK, browser, HTTP server, deployment, and endpoint usage
+- [FDBGen documentation](docs/FDBGEN.md) for FDB generation, MDB crawling, input layouts, cleanup rules, and crawler behavior
+- [DSL specification](docs/DSL_SPEC.md) for PN and FlashId rule authoring
+- [PN code reference index](docs/pn_code/README.md) for vendor/product-line references
+- [PN reference confidence policy](docs/pn_code/reference_policy.md) for rule admission and source confidence
+- [Cross-vendor terminology](docs/pn_code/terminology.md) for public metadata fields
+
+## Rule and Data Maintenance
+
+PN rules are intentionally data-driven. New decoding coverage should be added as structured JSON DSL packs, not as complete PN allowlists.
+
+Useful locations:
+
+- `packages/dsl/src/rules/packs/` for PN DSL packs
+- `packages/dsl/src/flashid/packs/` for FlashId DSL packs
+- `packages/dsl/src/rules/default-rules.ts` for PN pack registration
+- `packages/dsl/src/flashid/default-rules.ts` for FlashId pack registration
+- `packages/dsl/test/managed-nand.test.ts`, `packages/dsl/test/dram.test.ts`, and `packages/dsl/test/metadata-audit.test.ts` for rule validation
+- `packages/resources/resources/lang/eng.json` and `packages/resources/resources/lang/chs.json` for user-visible metadata labels
+- `docs/pn_code/` for PN reference notes and confidence policy
+
+When adding or renaming public metadata fields, update the DSL sources, language packs, tests, and documentation together. Maintenance metadata such as source confidence should stay inside DSL-internal metadata or documentation and must not leak into user-visible `extraInfo`.
+
+## Validation
+
+Common checks:
+
+```bash
+pnpm -C packages/dsl test
+pnpm -C packages/dsl typecheck
+pnpm -C packages/resources typecheck
+git diff --check
+```
+
+Broader checks:
+
+```bash
+pnpm test
+pnpm typecheck
+```
+
+The normal test suite confirms the committed unified dispatch baseline. To regenerate and check that baseline explicitly:
 
 ```bash
 pnpm baseline:gen
 pnpm baseline:check
 ```
 
-## 数据来源
+## Data References
 
-- 上游项目：[iTXTech/FlashDetector](https://github.com/iTXTech/FlashDetector)
-- Flash 数据源：[iTXTech/fdfdb](https://github.com/iTXTech/fdfdb)
+- Flash database reference: [iTXTech/fdfdb](https://github.com/iTXTech/fdfdb)
 
-## 许可证
+## License
 
-本项目以 `AGPL-3.0-or-later` 发布，详见 [LICENSE](LICENSE)。
+`fdnext` is released under `AGPL-3.0-or-later`. See [LICENSE](LICENSE).
