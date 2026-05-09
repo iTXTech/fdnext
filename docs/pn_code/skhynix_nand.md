@@ -2,7 +2,7 @@
 
 采集日期：2026-05-08
 
-本文档记录 SK hynix raw NAND 料号在现有规则库中的覆盖范围。eMMC / UFS managed NAND 已拆分到独立文档：
+本文档记录 SK hynix raw NAND 与 E2NAND 料号在现有规则库中的覆盖范围。eMMC / UFS managed NAND 已拆分到独立文档：
 
 - [SK hynix eMMC / e-NAND](skhynix_emmc.md)
 - [SK hynix UFS](skhynix_ufs.md)
@@ -33,8 +33,13 @@
 - 本地资料：`packages/resources/resources/fdb.json`、`../fdfdb/smssd/2259XT3_Y1226.SET`、`../fdfdb/smssd/2259XT2_Y0321.SET`、`../fdfdb/smufd/flash_3281BB.dbf`、`../fdfdb/smff/ForceFlash-W1116.SET`、`../fdfdb/ma/mas1102_16.ini` 中的 H25 PN、Flash ID、容量、Vx/MLC/TLC/QLC 标签。
 - SK hynix NAND Flash catalog mirror 列出 SLC/MLC/TLC/eMMC/E2NAND3.0/SSD 分类，其中 E2NAND3.0 页面使用 `PRODUCT` / `BLOCK SIZE` 维度。
   <https://pdf.directindustry.com/pdf/sk-hynix/nand-flash/34497-603624.html>
-- `H27UCG8T2E` datasheet mirror 标注 64Gb (8192M x 8bit) MLC NAND，并将资料归到 SK hynix NAND Flash / E2NAND3.0 相关目录。
+- `H27UCG8T2E` datasheet mirror 标注 64Gb (8192M x 8bit) MLC NAND，作为 H27 raw NAND 资料参考。
   <https://app2.alldatasheet.com/datasheet-pdf/pdf/1425049/HYNIX/H27UCG8T2E.html>
+- `H2JTDG8UD1BMS` datasheet mirror 的 E2NAND3.0 表列出 H2JTC/H2JTD/H2JTE/H2JTF/H2JTV/H2JT1T 系列、容量、block size、stack、Vcc/Org 与 VLGA 封装。
+  <https://www.alldatasheet.co.nz/html-pdf/1425105/HYNIX/H2JTDG8UD1BMS/741/4/H2JTDG8UD1BMS.html>
+- USBDev flash list 与 Flash Extractor 论坛对 H2D/H2J PN 给出 E2NAND / E2NAND2.0 / E2NAND3.0 标签，可作为 `external_table_confirmed` 级别交叉验证。
+  <https://www.usbdev.ru/databases/flashlist/flflash3267abdbf/>
+  <https://www.flash-extractor.com/forum/viewtopic.php?t=7399>
 
 ## 置信度与准入
 
@@ -60,16 +65,17 @@
   - 规则 ID：`vendor.skhynix.3d.h25.token.v2`
   - 规则 ID：`vendor.skhynix.3d.token.mlc`
   - 规则 ID：`vendor.skhynix.3d.token.tlc`
-- E2NAND3.0 catalog family：`packages/dsl/src/rules/packs/skhynix-e2nand-token.json`
-  - 规则 ID：`vendor.skhynix.e2nand.h27.t2.v1`
+- E2NAND：`packages/dsl/src/rules/packs/skhynix-e2nand-token.json`
+  - 规则 ID：`vendor.skhynix.e2nand.h2d_h2j.v1`
 
 ## 覆盖范围
 
 | 前缀 / 结构 | 规则 | 说明 |
 | --- | --- | --- |
 | `HY27...` | legacy raw NAND | 旧式 Hynix/SK hynix NAND PN |
-| `H2...` | raw NAND | 新式 SK hynix raw NAND PN |
-| `H27[U/Q/T][B/C/D]G8T2...` | E2NAND3.0 catalog family | H27 T2 legacy MLC NAND / E2NAND3.0 目录族 |
+| `H2DT...` / `H2JT...` | E2NAND | H2D E2NAND2.0 与 H2J E2NAND3.0，按结构 token 分类 |
+| `H2...` | raw NAND | 新式 SK hynix raw NAND PN；不覆盖 H2D/H2J E2NAND 结构 |
+| `H27...` | raw NAND | 既有 H27 raw NAND 路径覆盖 |
 | `H25T...` | H25T NAND package | H25T 开头的 SSD/mobile NAND package 型号，按 token 组合推断 V6/V7/V8/V9Q |
 | `H25(非 T)...` | H25 3D/4D raw NAND token | 按 series/cell/layout/density/stack/generation token 推断 MLC/TLC/QLC 与代际 |
 | `H26...` | 不属于 raw NAND 文档 | 已由 eMMC / e-NAND 文档覆盖 |
@@ -106,20 +112,25 @@
 | bad block `B/S/P` | bad block policy |
 | op temp `C/E/M/I` | commercial / extended / mobile / industrial |
 
-## H27 / E2NAND3.0 catalog family
+## H2D / H2J E2NAND
 
-公开目录把 E2NAND3.0 作为 NAND Flash 产品分类之一，但 `H27UCG8T2E` datasheet 同时明确它是 64Gb x8 MLC NAND。因此规则库先按 raw NAND 输出 `type=nand`，并在 `extraInfo` 里标注 E2NAND3.0 catalog family，避免误判为 eMMC/带控制器产品。
+H2D / H2J 系列不是通用 raw NAND fallback。公开 catalog mirror 与 USBDev/Flash Extractor 外部表均把相关 PN 标为 E2NAND，其中 `H2D...` 对应 E2NAND2.0，`H2J...` 对应 E2NAND3.0。规则只按结构 token 解析，不枚举完整 PN。
 
 | PN 结构 | 字段 |
 | --- | --- |
-| `H27` + voltage + density(2) + `8T2` + generation | H27 T2 family |
-| voltage `U/Q/T` | 电压 / VccQ 组合 |
-| density `BG/CG/DG` | 32Gb / 64Gb / 128Gb |
-| width `8` | x8 |
-| cell `T` | MLC |
-| generation `A/B/C/D/E/F/M` | generation code |
+| `H2` + series + product + density(2) + config(3) + tech + package(3) + optional suffix | H2D/H2J E2NAND |
+| series `D/J` | `D` -> E2NAND2.0；`J` -> E2NAND3.0 |
+| density `CG/DF/DG/EG/FG/VG/1T` | 64Gb / 64Gb / 128Gb / 256Gb / 512Gb / 768Gb / 1024Gb |
+| config | 例如 `8UD` / `8VD` / `8YD`，原样输出到 `extraInfo.config_code` |
+| tech | 与 series 组合判断 process node，例如 `D:1` -> 26nm，`J:1` -> 1xnm class，`J:2` -> 20nm class |
+| package | VLGA，原始 package code 原样输出到 `extraInfo.package_code` |
 
-示例：`H27UCG8T2E` -> SK hynix NAND, 64Gb, x8, MLC, E2NAND3.0 catalog family。
+| 示例 | 输出重点 | 佐证状态 |
+| --- | --- | --- |
+| `H2DTDG8UD1MYR` | E2NAND2.0, 128Gb, x8, MLC, VLGA, 2MB block | `external_table_confirmed` |
+| `H2JTDG8UD1BMS` | E2NAND3.0, 128Gb, x8, MLC, VLGA, 4MB block | `external_table_confirmed` |
+
+`H23` 未在本地资源或外部表中找到稳定结构证据，不再使用 unsupported fallback；有效 `H26M/H26T` 由 eMMC/e-NAND 文档和规则覆盖。
 
 ## H25 4D / 3D NAND
 

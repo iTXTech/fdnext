@@ -21,7 +21,6 @@ import skhynixEmmcTokenRules from "./packs/skhynix-emmc-token.json" with { type:
 import skhynixEmcpTokenRules from "./packs/skhynix-emcp-token.json" with { type: "json" };
 import skhynixUmcpTokenRules from "./packs/skhynix-umcp-token.json" with { type: "json" };
 import skhynixE2nandTokenRules from "./packs/skhynix-e2nand-token.json" with { type: "json" };
-import skhynixNandconTokenRules from "./packs/skhynix-nandcon-token.json" with { type: "json" };
 import skhynixRawTokenRules from "./packs/skhynix-raw-token.json" with { type: "json" };
 import kioxiaE2nandTokenRules from "./packs/kioxia-e2nand-token.json" with { type: "json" };
 import kioxiaEmmcTokenRules from "./packs/kioxia-emmc-token.json" with { type: "json" };
@@ -75,7 +74,6 @@ export const defaultDslRules = [
   ...skhynixEmcpTokenRules,
   ...skhynixUmcpTokenRules,
   ...skhynixE2nandTokenRules,
-  ...skhynixNandconTokenRules,
   ...skhynixRawTokenRules,
   ...kioxiaE2nandTokenRules,
   ...kioxiaEmmcTokenRules,

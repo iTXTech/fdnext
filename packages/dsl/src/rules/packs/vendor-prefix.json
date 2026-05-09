@@ -145,31 +145,6 @@
     }
   },
   {
-    "id": "vendor.kioxia.prefix.thg",
-    "priority": 90,
-    "normalize": [
-      "trim",
-      "uppercase",
-      {
-        "remove": [
-          " ",
-          ",",
-          "&",
-          ".",
-          "|"
-        ]
-      }
-    ],
-    "match": {
-      "kind": "prefix",
-      "value": "THG"
-    },
-    "set": {
-      "vendor": "kioxia",
-      "type": "nandcon"
-    }
-  },
-  {
     "id": "vendor.sandisk.prefix.sd",
     "priority": 85,
     "normalize": [

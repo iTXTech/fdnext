@@ -362,7 +362,7 @@
           "from": "componentCode",
           "table": "componentType",
           "to": "componentType",
-          "default": "nandcon"
+          "default": "emmc"
         },
         {
           "op": "map",

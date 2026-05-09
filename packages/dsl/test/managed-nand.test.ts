@@ -634,14 +634,35 @@ assertPart("H25G9TC18CX488", {
   absentExtra: ["Reference Status", "Inference Source"]
 });
 
-assertPart("H27UCG8T2E", {
+assertPart("H2DTDG8UD1MYR", {
   rawVendor: "skhynix",
-  type: "NAND",
-  rawDensity: 65536,
+  type: "E2NAND",
+  rawDensity: 131072,
+  processNode: "26nm",
+  cellLevel: "MLC",
+  deviceWidth: "x8",
+  package: "VLGA",
   extra: {
-    System: "SK hynix E2NAND3.0 catalog family",
-    "Product Family": "H27 T2 family",
-    "Density Code": "CG"
+    "Product Version": "E2NAND2.0",
+    "Density Code": "DG",
+    "Block size": "2MB (8KB page)",
+    "ECC enabled": "Yes"
+  }
+});
+
+assertPart("H2JTDG8UD1BMS", {
+  rawVendor: "skhynix",
+  type: "E2NAND",
+  rawDensity: 131072,
+  processNode: "1xnm class",
+  cellLevel: "MLC",
+  deviceWidth: "x8",
+  package: "VLGA",
+  extra: {
+    "Product Version": "E2NAND3.0",
+    "Density Code": "DG",
+    "Block size": "4MB",
+    "ECC enabled": "Yes"
   }
 });
 
@@ -806,7 +827,7 @@ assertPart("MTFC1TAYAXHR-WT", {
 
 assertPart("MTFC256GZZZZZZ-WT", {
   rawVendor: "micron",
-  type: "NAND with Controller",
+  type: "eMMC",
   rawDensity: 2097152,
   package: "Unknown",
   extra: {

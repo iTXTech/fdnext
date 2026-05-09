@@ -1,7 +1,7 @@
 [
   {
-    "id": "vendor.skhynix.e2nand.h27.t2.v1",
-    "priority": 958,
+    "id": "vendor.skhynix.e2nand.h2d_h2j.v1",
+    "priority": 1000,
     "normalize": [
       "trim",
       "uppercase",
@@ -17,45 +17,55 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H27[UQT][BCD]G8T2[A-Z]"
+      "value": "^H2[DJ]T[0-9A-Z]{9}(?:-?BC)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
-        "H27"
+        "H2"
       ],
       "tables": {
-        "voltage": {
-          "U": "Vcc: 3.3V, VccQ: 3.3V",
-          "Q": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/2.7V~3.6V",
-          "T": "Vcc: 3.3V, VccQ: 1.8V/3.3V"
-        },
         "density": {
-          "BG": 32768,
           "CG": 65536,
-          "DG": 131072
+          "DF": 65536,
+          "DG": 131072,
+          "EG": 262144,
+          "FG": 524288,
+          "VG": 786432,
+          "1T": 1048576
         },
-        "generation": {
-          "A": 2,
-          "B": 3,
-          "C": 4,
-          "D": 5,
-          "E": 6,
-          "F": 7,
-          "M": 1
+        "familyObj": {
+          "D": {
+            "product_family": "SK hynix E2NAND",
+            "product_version": "E2NAND2.0",
+            "generation_info": "26nm E2NAND2.0",
+            "block_size": "2MB (8KB page)"
+          },
+          "J": {
+            "product_family": "SK hynix E2NAND",
+            "product_version": "E2NAND3.0",
+            "block_size": "4MB"
+          }
+        },
+        "processNode": {
+          "D:1": "26nm",
+          "J:1": "1xnm class",
+          "J:2": "20nm class"
+        },
+        "voltage": {
+          "D": "Vcc: 3.3V, VccQ: 3.3V",
+          "J": "Vcc: 3.0V/3.3V, VccQ: 3.0V/3.3V"
         }
       },
       "steps": [
         {
           "op": "take",
           "len": 1,
-          "to": "voltageCode"
+          "to": "seriesCode"
         },
         {
-          "op": "map",
-          "from": "voltageCode",
-          "table": "voltage",
-          "to": "voltage",
-          "default": "Unknown"
+          "op": "take",
+          "len": 1,
+          "to": "productCode"
         },
         {
           "op": "take",
@@ -71,71 +81,92 @@
         },
         {
           "op": "take",
-          "len": 1,
-          "to": "widthCode"
+          "len": 3,
+          "to": "configCode"
         },
         {
           "op": "take",
           "len": 1,
-          "to": "cellCode"
+          "to": "techCode"
         },
         {
-          "op": "take",
-          "len": 1,
-          "to": "modeCode"
-        },
-        {
-          "op": "take",
-          "len": 1,
-          "to": "generationCode"
+          "op": "tpl",
+          "template": "{{seriesCode}}:{{techCode}}",
+          "to": "processKey"
         },
         {
           "op": "map",
-          "from": "generationCode",
-          "table": "generation",
-          "to": "generation",
-          "default": -1
+          "from": "processKey",
+          "table": "processNode",
+          "to": "processNode",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageCode"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "suffixCode"
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
         },
         {
           "op": "set",
           "to": "extra",
           "value": {
-            "system": "SK hynix E2NAND3.0 catalog family",
-            "group": "Raw NAND / E2NAND3.0",
-            "product_family": "H27 T2 family",
+            "system": "SK hynix E2NAND",
             "density_code": {
               "$var": "densityCode"
             },
-            "generation_code": {
-              "$var": "generationCode"
-            }
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            },
+            "ecc_enabled": true
           }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
         }
       ],
       "assign": {
         "vendor": "skhynix",
-        "type": "nand",
-        "voltage": {
-          "$var": "voltage"
-        },
+        "type": "e2nand",
         "density": {
           "$var": "density"
         },
         "deviceWidth": 8,
+        "processNode": {
+          "$var": "processNode"
+        },
         "cellLevel": 2,
-        "generation": {
-          "$var": "generation"
+        "voltage": {
+          "$var": "voltage"
         },
-        "interface": {
-          "async": true,
-          "sync": false
-        },
-        "classification": {
-          "ce": 1,
-          "rb": 1,
-          "ch": 1,
-          "die": 1
-        },
+        "package": "VLGA",
         "extraInfo": {
           "$var": "extra"
         }
