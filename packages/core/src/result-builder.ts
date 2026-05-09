@@ -63,6 +63,10 @@ function asNumber(value: unknown): number | undefined {
   return undefined;
 }
 
+function fdnextMetadata(info: FlashInfo): Record<string, unknown> {
+  return asRecord((info as Record<string, unknown>).__fdnext);
+}
+
 function translateLabel(ctx: ResultBuilderContext, key: string, lang?: string | null): string {
   const translated = ctx.translateString(key, lang);
   return translated && translated !== key ? translated : fdnextFieldRegistry[key as FdnextFieldKey]?.defaultLabel ?? key;
@@ -93,6 +97,21 @@ function createField(
   });
 }
 
+function createEmittedField(value: unknown, ctx: ResultBuilderContext, lang?: string | null): FieldValue | undefined {
+  const record = asRecord(value);
+  const key = typeof record.key === "string" ? record.key : "";
+  if (!Object.hasOwn(fdnextFieldRegistry, key) || !isKnownInfoValue(record.value)) {
+    return undefined;
+  }
+  return createField(key as FdnextFieldKey, record.value as FdnextFieldValueData, ctx, lang, {
+    ...(typeof record.unit === "string" ? { unit: record.unit } : {}),
+    ...(typeof record.display === "string" ? { display: record.display } : {}),
+    ...(record.importance === "primary" || record.importance === "secondary" || record.importance === "detail"
+      ? { importance: record.importance }
+      : {})
+  });
+}
+
 function vendorIdentity(vendor: unknown, ctx: ResultBuilderContext, lang?: string | null): VendorIdentity {
   const id = typeof vendor === "string" && vendor.trim() ? vendor.trim() : "unknown";
   const translated = ctx.translateString(id, lang);
@@ -108,10 +127,16 @@ function deviceIdentityFromPart(
   ctx: ResultBuilderContext,
   lang?: string | null
 ): DeviceIdentity {
-  const chipKind = inferChipKindFromInfo(info, constraints);
-  const productType = constraints.productType ?? inferProductTypeFromInfo(info);
+  const metadata = fdnextMetadata(info);
+  const metadataDomain = metadata.domain === "memory" || metadata.domain === "power" || metadata.domain === "controller" || metadata.domain === "unknown"
+    ? metadata.domain
+    : "memory";
+  const metadataChipKind = typeof metadata.chipKind === "string" ? metadata.chipKind as FdnextChipKind : undefined;
+  const metadataProductType = typeof metadata.productType === "string" ? metadata.productType as FdnextProductType : undefined;
+  const chipKind = constraints.chipKind ?? metadataChipKind ?? inferChipKindFromInfo(info, constraints);
+  const productType = constraints.productType ?? metadataProductType ?? inferProductTypeFromInfo(info);
   return {
-    domain: "memory",
+    domain: metadataDomain,
     chipKind,
     ...(productType ? { productType } : {}),
     partNumber: info.partNumber,
@@ -191,6 +216,16 @@ function fieldMapFromPart(info: FlashInfo, device: DeviceIdentity, ctx: ResultBu
     }
   }
 
+  const emittedFields = fdnextMetadata(info).fields;
+  if (Array.isArray(emittedFields)) {
+    for (const item of emittedFields) {
+      const field = createEmittedField(item, ctx, lang);
+      if (field) {
+        fields.set(field.key as FdnextFieldKey, field);
+      }
+    }
+  }
+
   return fields;
 }
 
@@ -259,7 +294,7 @@ function partActions(info: FlashInfo): Action[] {
   ];
 }
 
-function partRelations(info: FlashInfo, device: DeviceIdentity): Relation[] {
+function partRelations(info: FlashInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Relation[] {
   const relations: Relation[] = [];
   for (const id of info.flashId ?? []) {
     relations.push({
@@ -270,6 +305,36 @@ function partRelations(info: FlashInfo, device: DeviceIdentity): Relation[] {
         device
       }
     });
+  }
+  const components = fdnextMetadata(info).components;
+  if (Array.isArray(components)) {
+    for (const item of components) {
+      const component = asRecord(item);
+      const fields = Array.isArray(component.fields)
+        ? component.fields
+            .map((field) => createEmittedField(field, ctx, lang))
+            .filter((field): field is FieldValue => Boolean(field))
+        : [];
+      const chipKind = typeof component.chipKind === "string" ? component.chipKind as FdnextChipKind : device.chipKind;
+      const productType = typeof component.productType === "string" ? component.productType as FdnextProductType : undefined;
+      relations.push({
+        kind: "component",
+        ...(typeof component.role === "string" ? { label: component.role } : {}),
+        source: { device },
+        target: {
+          ...(typeof component.role === "string" ? { role: component.role } : {}),
+          device: {
+            domain: component.domain === "memory" || component.domain === "power" || component.domain === "controller" || component.domain === "unknown"
+              ? component.domain
+              : device.domain,
+            chipKind,
+            ...(productType ? { productType } : {}),
+            vendor: device.vendor
+          }
+        },
+        ...(fields.length > 0 ? { fields } : {})
+      });
+    }
   }
   return relations;
 }
@@ -301,14 +366,16 @@ export function buildPartDecodeResult(
   const constraints = input.constraints ?? {};
   const device = deviceIdentityFromPart(info, constraints, ctx, input.lang);
   const fields = fieldMapFromPart(info, device, ctx, input.lang);
+  const metadata = fdnextMetadata(info);
+  const profileId = typeof metadata.fieldProfile === "string" ? metadata.fieldProfile as FdnextChipKind : device.chipKind;
   return {
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "part.decode",
     status: isKnownPart(info) ? "ok" : "not_found",
     input: baseInput(input.query, input.normalized, constraints, input.lang),
     ...(isKnownPart(info) ? { device } : {}),
-    blocks: isKnownPart(info) ? buildBlocks(device.chipKind, fields) : [],
-    relations: isKnownPart(info) ? partRelations(info, device) : [],
+    blocks: isKnownPart(info) ? buildBlocks(profileId, fields) : [],
+    relations: isKnownPart(info) ? partRelations(info, device, ctx, input.lang) : [],
     actions: isKnownPart(info) ? partActions(info) : [],
     warnings: []
   };

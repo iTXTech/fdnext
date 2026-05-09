@@ -2,6 +2,42 @@
   {
     "id": "vendor.biwin.emcp.v1",
     "priority": 1001,
+    "domain": "memory",
+    "chipKind": "managed_nand",
+    "productType": "emcp",
+    "fieldProfile": "managed_nand",
+    "capabilities": ["part.decode", "part.search"],
+    "emit": {
+      "fields": [
+        { "key": "density", "value": { "$var": "density" }, "unit": "Mbit", "block": "storage" },
+        { "key": "storage_density", "value": { "$path": "densityKeyObj.storage_density" }, "block": "storage" },
+        { "key": "dram_density", "value": { "$path": "densityKeyObj.dram_density" }, "block": "components" },
+        { "key": "storage_interface", "value": { "$path": "densityKeyObj.storage_interface" }, "block": "storage" },
+        { "key": "dram_type", "value": { "$path": "densityKeyObj.dram_type" }, "block": "components" }
+      ],
+      "components": [
+        {
+          "role": "storage",
+          "domain": "memory",
+          "chipKind": "managed_nand",
+          "productType": "emmc",
+          "fields": [
+            { "key": "storage_density", "value": { "$path": "densityKeyObj.storage_density" } },
+            { "key": "storage_interface", "value": { "$path": "densityKeyObj.storage_interface" } }
+          ]
+        },
+        {
+          "role": "dram",
+          "domain": "memory",
+          "chipKind": "dram",
+          "productType": "lpddr4x",
+          "fields": [
+            { "key": "dram_density", "value": { "$path": "densityKeyObj.dram_density" } },
+            { "key": "dram_type", "value": { "$path": "densityKeyObj.dram_type" } }
+          ]
+        }
+      ]
+    },
     "normalize": [
       "trim",
       "uppercase",

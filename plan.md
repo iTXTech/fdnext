@@ -236,33 +236,44 @@ Implementation evidence:
 
 ## Phase 3: DSL v2
 
+Status: Complete on 2026-05-10. Added DSL v2 taxonomy/profile/capability/emit schema, compiled emitted canonical fields/components into internal metadata, and made result building consume that metadata without leaking it.
+
 Goal: make DSL describe classification, decoding, fields, and capabilities directly.
 
 Tasks:
 
-- Extend PN DSL with:
+- [x] Extend PN DSL with:
   - `domain`
   - `chipKind`
   - `productType`
   - `capabilities`
   - `fieldProfile`
   - `emit`
-- Keep token operations, but make `assign` produce canonical internal fields instead of old `FlashInfo` fields.
-- Add explicit `fields` emission:
+- [x] Keep token operations, but make `assign` produce canonical internal fields instead of old `FlashInfo` fields.
+- [x] Add explicit `fields` emission:
   - scalar fields
   - typed numeric fields with units
   - structured fields for voltage, interface, package, die stack, speed, temperature
-- Add explicit component emission for composite products such as eMCP/uMCP when storage and DRAM properties should not be flattened into one field set.
-- Keep reference and rule-quality notes inside DSL tables only; never emit them as user-visible extra info.
-- Split rule packs by vendor and product line where mixed packs blur classification.
-- Remove old metadata aliases from rules and tests instead of mapping them at runtime.
+- [x] Add explicit component emission for composite products such as eMCP/uMCP when storage and DRAM properties should not be flattened into one field set.
+- [x] Keep reference and rule-quality notes inside DSL tables only; never emit them as user-visible extra info.
+- [x] Split rule packs by vendor and product line where mixed packs blur classification.
+- [x] Remove old metadata aliases from rules and tests instead of mapping them at runtime.
 
 Exit criteria:
 
-- PN DSL can emit complete result envelopes without old response adapters.
-- DRAM and Managed NAND use field profiles instead of NAND-shaped defaults.
-- Composite packages can represent component fields without inventing product-specific public keys.
-- Metadata audit rejects old public key aliases and reference leakage.
+- [x] PN DSL can emit complete result envelopes without old response adapters.
+- [x] DRAM and Managed NAND use field profiles instead of NAND-shaped defaults.
+- [x] Composite packages can represent component fields without inventing product-specific public keys.
+- [x] Metadata audit rejects old public key aliases and reference leakage.
+
+Implementation evidence:
+
+- `packages/dsl/src/types.ts` defines DSL v2 taxonomy fields, `fieldProfile`, `capabilities`, `$path`, `emit.fields`, and `emit.components`.
+- `packages/dsl/src/compiler.ts` evaluates DSL v2 emit blocks into internal `__fdnext` metadata while keeping reference/source metadata inside rule tables only.
+- `packages/core/src/result-builder.ts` consumes emitted fields, field profiles, and component metadata to build public blocks and `component` relations without exposing `__fdnext`.
+- `packages/dsl/src/rules/packs/micron-dram-token.json`, `kingston-emmc-token.json`, and `biwin-emcp-token.json` include representative DRAM, Managed NAND, and composite eMCP DSL v2 metadata and emits.
+- `packages/dsl/test/metadata-audit.test.ts` checks canonical emit keys, representative DSL v2 metadata, component relations, and no internal metadata leakage.
+- `docs/DSL_SPEC.md` documents DSL v2 taxonomy, `$path`, `emit.fields`, `emit.components`, and canonical key constraints.
 
 ## Phase 4: Identifier DSL and NAND Flash ID Isolation
 

@@ -607,7 +607,7 @@ export function createFdnextFieldValue(
   options: Partial<Omit<FieldValue, "key" | "value">> = {}
 ): FieldValue {
   const definition = fdnextFieldRegistry[key] as FdnextFieldDefinition;
-  const unit = options.unit ?? definition.defaultUnit;
+  const unit = options.unit ?? (typeof value === "number" ? definition.defaultUnit : undefined);
   const display = options.display ?? formatFdnextFieldValue(key, value, unit);
   return {
     key,

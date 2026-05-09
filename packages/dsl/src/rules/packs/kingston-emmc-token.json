@@ -2,6 +2,20 @@
   {
     "id": "vendor.kingston.emmc.v1",
     "priority": 1002,
+    "domain": "memory",
+    "chipKind": "managed_nand",
+    "productType": "emmc",
+    "fieldProfile": "managed_nand",
+    "capabilities": ["part.decode", "part.search"],
+    "emit": {
+      "fields": [
+        { "key": "density", "value": { "$var": "density" }, "unit": "Mbit", "block": "storage" },
+        { "key": "storage_interface", "value": "eMMC 5.1", "block": "storage" },
+        { "key": "interface_type", "value": "HS400", "block": "interface" },
+        { "key": "package", "value": { "$var": "package" }, "block": "package" },
+        { "key": "config_code", "value": { "$var": "configCode" }, "block": "package" }
+      ]
+    },
     "normalize": [
       "trim",
       "uppercase",

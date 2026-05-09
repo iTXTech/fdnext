@@ -2,6 +2,19 @@
   {
     "id": "vendor.micron.dram.component.v1",
     "priority": 1010,
+    "domain": "memory",
+    "chipKind": "dram",
+    "fieldProfile": "dram",
+    "capabilities": ["part.decode", "part.search"],
+    "emit": {
+      "fields": [
+        { "key": "dram_density", "value": { "$var": "density" }, "unit": "Mbit", "block": "dram" },
+        { "key": "dram_width", "value": { "$var": "deviceWidth" }, "unit": "bit", "block": "dram" },
+        { "key": "dram_voltage", "value": { "$var": "voltage" }, "block": "dram" },
+        { "key": "package", "value": { "$var": "package" }, "block": "package" },
+        { "key": "config_code", "value": { "$var": "configCode" }, "block": "geometry" }
+      ]
+    },
     "normalize": [
       "trim",
       "uppercase",

@@ -24,6 +24,10 @@
 - `match`: 匹配条件（见下）。
 - `set`: 匹配成功后直接写入的字段（无需 `tokenDecoder` 时使用）。
 - `tokenDecoder`: 结构化 token 解析（见下）。
+- `domain` / `chipKind` / `productType`: DSL v2 分类信息，用于直接描述规则产物的芯片类别。
+- `fieldProfile`: 结果字段分组 profile，例如 `dram`、`managed_nand`。
+- `capabilities`: 规则支持的能力，例如 `part.decode`、`part.search`。
+- `emit`: DSL v2 显式字段 / 组件输出（见下）。
 
 ### normalize
 
@@ -88,12 +92,51 @@
 - 原始 JSON（字符串/数字/布尔/null/对象/数组）
 - `{ "$var": "name" }`：从上下文读取变量
 - `{ "$tpl": "..." }`：模板字符串替换 `{{var}}`（用于 URL、拼 key 等）
+- `{ "$path": "obj.key" }` 或 `{ "$path": ["obj", "key"] }`：读取上下文对象内的嵌套字段
 
 上下文默认提供：
 
 - `partNumber`: 归一化后的原始输入
 - `rest`: 当前未消费的字符串
 - 每一步 `steps` 写入的变量
+
+### DSL v2 emit
+
+`emit` 用于把规则解析结果直接声明为 fdnext canonical fields，而不是让调用方从旧字段形状里猜测。`assign` 仍可给当前内部解码桥提供 `vendor`、`density`、`extraInfo` 等字段，但新增规则应优先把用户可见信息写入 `emit.fields` 或 `emit.components`。
+
+```json
+{
+  "domain": "memory",
+  "chipKind": "managed_nand",
+  "productType": "emcp",
+  "fieldProfile": "managed_nand",
+  "capabilities": ["part.decode", "part.search"],
+  "emit": {
+    "fields": [
+      { "key": "density", "value": { "$var": "density" }, "unit": "Mbit", "block": "storage" },
+      { "key": "storage_interface", "value": { "$path": "densityKeyObj.storage_interface" } }
+    ],
+    "components": [
+      {
+        "role": "dram",
+        "domain": "memory",
+        "chipKind": "dram",
+        "productType": "lpddr4x",
+        "fields": [
+          { "key": "dram_density", "value": { "$path": "densityKeyObj.dram_density" } },
+          { "key": "dram_type", "value": { "$path": "densityKeyObj.dram_type" } }
+        ]
+      }
+    ]
+  }
+}
+```
+
+约束：
+
+- `emit.fields[].key` 必须使用 `packages/core/src/field-registry.ts` 中的 canonical key。
+- 可信度、来源、reference status 等维护信息只能留在 `tables.reference`，不能写进 `emit` 或 `extraInfo`。
+- composite 产品（例如 eMCP/uMCP）应使用 `emit.components` 表达 storage / DRAM 子组件，不新增产品专属 public key。
 
 ## 3. Steps 操作符（op）
 

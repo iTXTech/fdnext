@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createEngine, type PartDecodeResult } from "../../core/src/index";
+import { createEngine, fdnextFieldRegistry, type PartDecodeResult } from "../../core/src/index";
 import { embeddedResources } from "../../resources/index";
 import { compileFlashIdRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultFlashIdRules } from "../src/index";
 
@@ -66,6 +66,49 @@ function assertDslRulesUseCanonicalKeys(): void {
   walkRules(defaultDslRules, "defaultDslRules", findings);
   walkRules(defaultFlashIdRules, "defaultFlashIdRules", findings);
   assert.deepEqual(findings, [], "DSL rules should not emit legacy camelCase metadata keys");
+}
+
+function walkEmitFields(value: unknown, path: string, findings: string[]): void {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => walkEmitFields(item, `${path}[${index}]`, findings));
+    return;
+  }
+  if (!value || typeof value !== "object") {
+    return;
+  }
+  const record = value as Record<string, unknown>;
+  if (typeof record.key === "string" && !Object.hasOwn(fdnextFieldRegistry, record.key)) {
+    findings.push(`${path}.key=${record.key}`);
+  }
+  for (const [key, item] of Object.entries(record)) {
+    walkEmitFields(item, `${path}.${key}`, findings);
+  }
+}
+
+function assertDslV2EmitUsesCanonicalFields(): void {
+  const findings: string[] = [];
+  walkEmitFields(defaultDslRules, "defaultDslRules", findings);
+  assert.deepEqual(findings, [], "DSL v2 emit fields should use canonical field registry keys");
+}
+
+function assertRepresentativeDslV2Metadata(): void {
+  const byId = new Map(defaultDslRules.map((rule) => [rule.id, rule] as const));
+  for (const [id, expected] of [
+    ["vendor.micron.dram.component.v1", { chipKind: "dram", fieldProfile: "dram" }],
+    ["vendor.kingston.emmc.v1", { chipKind: "managed_nand", productType: "emmc", fieldProfile: "managed_nand" }],
+    ["vendor.biwin.emcp.v1", { chipKind: "managed_nand", productType: "emcp", fieldProfile: "managed_nand" }]
+  ] as const) {
+    const rule = byId.get(id);
+    assert.ok(rule, `${id} should be present`);
+    assert.equal(rule.domain, "memory", `${id} should declare domain`);
+    assert.equal(rule.chipKind, expected.chipKind, `${id} should declare chipKind`);
+    if ("productType" in expected) {
+      assert.equal(rule.productType, expected.productType, `${id} should declare productType`);
+    }
+    assert.equal(rule.fieldProfile, expected.fieldProfile, `${id} should declare fieldProfile`);
+    assert.ok(rule.capabilities?.includes("part.decode"), `${id} should declare decode capability`);
+    assert.ok((rule.emit?.fields?.length ?? 0) > 0, `${id} should emit fields`);
+  }
 }
 
 function assertRuntimeDoesNotKeepMetadataAliases(): void {
@@ -239,8 +282,31 @@ function assertManagedNandOutputIsCanonical(): void {
   assert.deepEqual(findings, [], "managed NAND public output should use canonical, non-duplicate metadata");
 }
 
+function assertDslV2CompositeComponents(): void {
+  const info = engine.decodePart({ query: "BWCA2KZC-64G", lang: "eng" });
+  const components = info.relations.filter((relation) => relation.kind === "component");
+  assert.equal(info.device?.chipKind, "managed_nand");
+  assert.equal(info.device?.productType, "emcp");
+  assert.ok(components.some((relation) =>
+    relation.target.role === "storage" &&
+    relation.target.device?.chipKind === "managed_nand" &&
+    relation.target.device.productType === "emmc" &&
+    relation.fields?.some((field) => field.key === "storage_density" && field.value === "64GB eMMC")
+  ));
+  assert.ok(components.some((relation) =>
+    relation.target.role === "dram" &&
+    relation.target.device?.chipKind === "dram" &&
+    relation.target.device.productType === "lpddr4x" &&
+    relation.fields?.some((field) => field.key === "dram_density" && field.value === "32Gb")
+  ));
+  assert.equal(JSON.stringify(info).includes("__fdnext"), false, "DSL internal metadata should not leak into public results");
+}
+
 assertDslRulesUseCanonicalKeys();
+assertDslV2EmitUsesCanonicalFields();
+assertRepresentativeDslV2Metadata();
 assertRuntimeDoesNotKeepMetadataAliases();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertManagedNandOutputIsCanonical();
+assertDslV2CompositeComponents();
