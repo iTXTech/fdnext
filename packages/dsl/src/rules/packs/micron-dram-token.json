@@ -284,6 +284,7 @@
           "DH": "DH",
           "DS": "DS",
           "DF": "DF",
+          "DGA": "DGA",
           "EK": "EK",
           "FW": "FW",
           "HB": "HB",
@@ -293,11 +294,13 @@
           "JA": "JA",
           "JE": "JE",
           "JT": "JT",
+          "KJR": "KJR",
           "KL": "KL",
           "KPA": "KPA",
           "LF": "LF",
           "P": "P",
           "PF": "PF",
+          "RKB": "RKB",
           "RT": "RT",
           "RW": "RW",
           "RZ": "RZ",
@@ -305,6 +308,12 @@
           "TB": "TB",
           "TC": "TC",
           "TG": "TG",
+          "THD": "THD",
+          "THE": "THE",
+          "THU": "THU",
+          "THV": "THV",
+          "TNA": "TNA",
+          "TRF": "TRF",
           "ZW": "ZW",
           "B5": "B5",
           "CM": "CM",
@@ -326,6 +335,9 @@
           },
           "DF": {
             "package_code": "DF"
+          },
+          "DGA": {
+            "package_code": "DGA"
           },
           "EK": {
             "package_code": "EK"
@@ -354,6 +366,9 @@
           "JT": {
             "package_code": "JT"
           },
+          "KJR": {
+            "package_code": "KJR"
+          },
           "KL": {
             "package_code": "KL"
           },
@@ -368,6 +383,9 @@
           },
           "PF": {
             "package_code": "PF"
+          },
+          "RKB": {
+            "package_code": "RKB"
           },
           "RT": {
             "package_code": "RT"
@@ -390,6 +408,24 @@
           "TG": {
             "package_code": "TG"
           },
+          "THD": {
+            "package_code": "THD"
+          },
+          "THE": {
+            "package_code": "THE"
+          },
+          "THU": {
+            "package_code": "THU"
+          },
+          "THV": {
+            "package_code": "THV"
+          },
+          "TNA": {
+            "package_code": "TNA"
+          },
+          "TRF": {
+            "package_code": "TRF"
+          },
           "ZW": {
             "package_code": "ZW"
           },
@@ -409,6 +445,15 @@
         "packageActual": {
           "40:SA": "78-ball FBGA (7.5x11)",
           "41:DA": "78-ball FBGA (8x10.5)",
+          "41:DGA": "96-ball FBGA (9.5x14)",
+          "41:KJR": "78-ball FBGA (9.5x13)",
+          "41:RKB": "78-ball FBGA (8x10.5)",
+          "41:THD": "78-ball FBGA (9x11.5)",
+          "41:THE": "78-ball FBGA (10.5x12)",
+          "41:THU": "82-ball FBGA (12.5x15)",
+          "41:THV": "78-ball FBGA (8x11.5)",
+          "41:TNA": "96-ball FBGA (10x14)",
+          "41:TRF": "78-ball FBGA (9.5x11.5)",
           "42:LF": "168-ball WFBGA (12x12)",
           "46:B5": "90-ball VFBGA (8x13)",
           "46:P": "66-pin TSOP",
@@ -426,11 +471,157 @@
           "62:EK": "441-ball TFBGA",
           "68:DF": "266-ball FBGA (12x14x1.1)"
         },
+        "twinDieObj": {
+          "41:J:1G4:THD": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:J:1G4:THU": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:J:512M8:THD": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:J:512M8:THU": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:J:1G8:THE": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:J:1G8:TRF": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:J:2G4:THE": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:J:2G4:TRF": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:1G4:THD": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:1G4:THV": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:512M8:THD": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:512M8:THV": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:1G8:RKB": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:1G8:TRF": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:2G4:RKB": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:2G4:TRF": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:512M16:TNA": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:2G8:KJR": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:4G4:KJR": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "41:K:1G16:DGA": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          }
+        },
+        "reference": {
+          "41:J:1G4:THD": {
+            "status": "external_confirmed",
+            "source": "Micron MT41J1G4/MT41J512M8 TwinDie DDR3 SDRAM datasheet"
+          },
+          "41:J:1G4:THU": {
+            "status": "external_confirmed",
+            "source": "Micron MT41J1G4/MT41J512M8 TwinDie DDR3 SDRAM datasheet"
+          },
+          "41:J:512M8:THD": {
+            "status": "external_confirmed",
+            "source": "Micron MT41J1G4/MT41J512M8 TwinDie DDR3 SDRAM datasheet"
+          },
+          "41:J:512M8:THU": {
+            "status": "external_confirmed",
+            "source": "Micron MT41J1G4/MT41J512M8 TwinDie DDR3 SDRAM datasheet"
+          },
+          "41:J:1G8:THE": {
+            "status": "external_table_confirmed",
+            "source": "Micron MT41J2G4/MT41J1G8 TwinDie DDR3 SDRAM datasheet mirror"
+          },
+          "41:J:1G8:TRF": {
+            "status": "external_table_confirmed",
+            "source": "Micron MT41J2G4/MT41J1G8 TwinDie DDR3 SDRAM datasheet mirror"
+          },
+          "41:J:2G4:THE": {
+            "status": "external_table_confirmed",
+            "source": "Micron MT41J2G4/MT41J1G8 TwinDie DDR3 SDRAM datasheet mirror"
+          },
+          "41:J:2G4:TRF": {
+            "status": "external_table_confirmed",
+            "source": "Micron MT41J2G4/MT41J1G8 TwinDie DDR3 SDRAM datasheet mirror"
+          },
+          "41:K:1G4:THD": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K1G4/MT41K512M8 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:1G4:THV": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K1G4/MT41K512M8 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:512M8:THD": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K1G4/MT41K512M8 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:512M8:THV": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K1G4/MT41K512M8 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:1G8:RKB": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K2G4/MT41K1G8 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:1G8:TRF": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K2G4/MT41K1G8 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:2G4:RKB": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K2G4/MT41K1G8 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:2G4:TRF": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K2G4/MT41K1G8 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:512M16:TNA": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K512M16 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:2G8:KJR": {
+            "status": "external_table_confirmed",
+            "source": "Micron MT41K4G4/MT41K2G8 TwinDie DDR3L SDRAM datasheet mirror"
+          },
+          "41:K:4G4:KJR": {
+            "status": "external_table_confirmed",
+            "source": "Micron MT41K4G4/MT41K2G8 TwinDie DDR3L SDRAM datasheet mirror"
+          },
+          "41:K:1G16:DGA": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K1G16 TwinDie DDR3L SDRAM datasheet"
+          }
+        },
         "speedToken": {
           "5": "5",
           "12": "12",
           "13": "13",
           "14": "14",
+          "15": "15",
+          "15E": "15E",
           "16": "16",
           "21": "21",
           "24": "24",
@@ -440,6 +631,9 @@
           "80": "80",
           "100": "100",
           "107": "107",
+          "125": "125",
+          "187": "187",
+          "187E": "187E",
           "020": "020",
           "020F": "020F",
           "023": "023",
@@ -501,6 +695,12 @@
             "dram_speed": "GDDR6-14Gbps",
             "dram_type": "GDDR6 SGRAM"
           },
+          "15": {
+            "dram_speed": "1333 MT/s / 667 MHz speed bin"
+          },
+          "15E": {
+            "dram_speed": "1333 MT/s / 667 MHz speed bin"
+          },
           "16": {
             "dram_speed": "GDDR6-16Gbps",
             "dram_type": "GDDR6 SGRAM"
@@ -527,6 +727,15 @@
           },
           "107": {
             "dram_speed": "1866 MT/s / 933 MHz speed bin"
+          },
+          "125": {
+            "dram_speed": "1600 MT/s / 800 MHz speed bin"
+          },
+          "187": {
+            "dram_speed": "1066 MT/s / 533 MHz speed bin"
+          },
+          "187E": {
+            "dram_speed": "1066 MT/s / 533 MHz speed bin"
           },
           "020F": {
             "dram_speed": "LPDDR5X-9600 (4800 MHz)",
@@ -747,6 +956,12 @@
           "L": {
             "die_revision": "Rev L"
           },
+          "M": {
+            "die_revision": "Rev M"
+          },
+          "N": {
+            "die_revision": "Rev N"
+          },
           "P": {
             "die_revision": "Rev P"
           },
@@ -888,6 +1103,18 @@
           "default": "Unknown"
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{voltageCode}}:{{configCode}}:{{packageCode}}",
+          "to": "twinDieKey"
+        },
+        {
+          "op": "map",
+          "from": "twinDieKey",
+          "table": "twinDieObj",
+          "to": "twinDieObj",
+          "default": {}
+        },
+        {
           "op": "stripIfPrefix",
           "prefix": "-"
         },
@@ -969,6 +1196,11 @@
           "op": "merge",
           "into": "extra",
           "from": "deviceVersionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "twinDieObj"
         },
         {
           "op": "merge",

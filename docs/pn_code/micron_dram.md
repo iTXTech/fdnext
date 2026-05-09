@@ -28,6 +28,14 @@
   - <https://www.digikey.com/en/products/detail/micron-technology-inc/MT61K256M32JE-14-A-TR/8510162>
   - <https://www.digikey.com/en/products/detail/micron-technology-inc/MT61K512M32KPA-24-U-TR/17632186>
   - <https://datasheet.octopart.com/MT58K256M32JA-100%3AA-Micron-datasheet-180658177.pdf>
+- Micron DDR3/DDR3L TwinDie datasheet 用于确认 `MT41J/MT41K` 的双 die / 2CS 规则。DigiKey 镜像可确认 `MT41J1G4/MT41J512M8`、`MT41K1G4/MT41K512M8`、`MT41K2G4/MT41K1G8`、`MT41K512M16`、`MT41K1G16`；公开 datasheet 镜像交叉确认 `MT41J2G4/MT41J1G8` 与 `MT41K4G4/MT41K2G8`。
+  - <https://www.digikey.com/htmldatasheets/production/848961/0/0/1/mt41j1g4-512m8.html>
+  - <https://www.digikey.bg/htmldatasheets/production/1004675/0/0/1/mt41k1g4-mt41k512m8.html>
+  - <https://www.digikey.com/htmldatasheets/production/1959025/0/0/1/mt41k2g4-mt41k1g8.html>
+  - <https://www.digikey.com/en/htmldatasheets/production/1889239/0/0/1/mt41k512m16>
+  - <https://www.digikey.com/htmldatasheets/production/1959024/0/0/1/mt41k1g16.html>
+  - <https://e-nexty.dxp.nexty-ele.com/en/product_files/download?lc_code=ja&maker_code=MICRONT&product_file_id=4801656&product_id=5843368&product_part_number=MT41J2G4TRF-125%3AE&search_log_id=7616014>
+  - <https://pdf.elecfans.com/MICRON/MT41K2G8KJR-125%3AA%20TR.html>
 - 公开镜像 `DRAM Component Part Numbering System` 可核对字段顺序、family/voltage/device version/temperature/status/revision/speed 等 token 含义；镜像版本较旧，只用于字段结构交叉验证。
   <https://docslib.org/doc/10329358/dram-component-part-numbering-system>
 - 公开评测记录了 Crucial/Ballistix 颗粒 `C9BJZ` / `CT40A1G8SA-62M:E` 的实物和 Micron FBGA decoder 结果；该资料只用于确认 `CT40` namespace 形态，不作为完整 PN 白名单。
@@ -97,6 +105,27 @@
 - Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4 speed bin ...`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
 - 维护用来源、外部确认状态或推断来源不得进入 `extraInfo`。
 
+## DDR3 / DDR3L TwinDie
+
+Micron `MT41J/MT41K` TwinDie 不能只按 `config_code` 判断。规则必须同时匹配 `family + voltage + config + package_code`，确认后输出 `dram_die_stack=2-die stack, 2 CS`。没有外部 datasheet 佐证的 `mdb.json` 候选封装只保留为待确认线索，不输出 die stack。
+
+| Key | PN family | die stack / CS | source tier |
+| --- | --- | --- | --- |
+| `41:J:1G4:THU` / `41:J:1G4:THD` | `MT41J1G4` | 2Gb die x2 / 2 CS | `external_confirmed` |
+| `41:J:512M8:THU` / `41:J:512M8:THD` | `MT41J512M8` | 2Gb die x2 / 2 CS | `external_confirmed` |
+| `41:J:2G4:THE` / `41:J:2G4:TRF` | `MT41J2G4` | 4Gb die x2 / 2 CS | `external_table_confirmed` |
+| `41:J:1G8:THE` / `41:J:1G8:TRF` | `MT41J1G8` | 4Gb die x2 / 2 CS | `external_table_confirmed` |
+| `41:K:1G4:THD` / `41:K:1G4:THV` | `MT41K1G4` | 2Gb die x2 / 2 CS | `external_confirmed` |
+| `41:K:512M8:THD` / `41:K:512M8:THV` | `MT41K512M8` | 2Gb die x2 / 2 CS | `external_confirmed` |
+| `41:K:2G4:TRF` / `41:K:2G4:RKB` | `MT41K2G4` | 4Gb die x2 / 2 CS | `external_confirmed` |
+| `41:K:1G8:TRF` / `41:K:1G8:RKB` | `MT41K1G8` | 4Gb die x2 / 2 CS | `external_confirmed` |
+| `41:K:512M16:TNA` | `MT41K512M16` | 4Gb x16 die x2 / 2 CS | `external_confirmed` |
+| `41:K:4G4:KJR` | `MT41K4G4` | 8Gb die x2 / 2 CS | `external_table_confirmed` |
+| `41:K:2G8:KJR` | `MT41K2G8` | 8Gb die x2 / 2 CS | `external_table_confirmed` |
+| `41:K:1G16:DGA` | `MT41K1G16` | 8Gb x16 die x2 / 2 CS | `external_confirmed` |
+
+反例：`MT41K512M8DA-107:P` 和 `MT41K1G4DA-107:P` 是同 family / config 下的非 TwinDie 封装，不能因为 base PN 形态相似就输出 `dram_die_stack`。
+
 ## 封装映射
 
 封装映射按 `family token + package code` 建表，不按 package code 单独全局复用；同一个封装 code 在不同产品线可能含义不同。首批只纳入公开资料可交叉确认的样例映射。
@@ -105,6 +134,15 @@
 | --- | --- |
 | `40:SA` | `78-ball FBGA (7.5x11)` |
 | `41:DA` | `78-ball FBGA (8x10.5)` |
+| `41:DGA` | `96-ball FBGA (9.5x14)` |
+| `41:KJR` | `78-ball FBGA (9.5x13)` |
+| `41:RKB` | `78-ball FBGA (8x10.5)` |
+| `41:THD` | `78-ball FBGA (9x11.5)` |
+| `41:THE` | `78-ball FBGA (10.5x12)` |
+| `41:THU` | `82-ball FBGA (12.5x15)` |
+| `41:THV` | `78-ball FBGA (8x11.5)` |
+| `41:TNA` | `96-ball FBGA (10x14)` |
+| `41:TRF` | `78-ball FBGA (9.5x11.5)` |
 | `42:LF` | `168-ball WFBGA (12x12)` |
 | `46:B5` | `90-ball VFBGA (8x13)` |
 | `46:P` | `66-pin TSOP` |
@@ -130,6 +168,8 @@
 | `CT40A1G8SA-62M:E` | Crucial DDR4 SDRAM | `8Gb`, `x8`, `78-ball FBGA`, `Crucial DDR4 speed bin 62M`, `Rev E` |
 | `MT60B2G8HB-48B-IT-A` | DDR5 SDRAM | `16Gb`, `x8`, `82-ball VFBGA`, `DDR5-4800B`, `Industrial`, `Rev A` |
 | `MT41K512M8DA-107:P` | DDR3 SDRAM | `4Gb`, `x8`, `78-ball FBGA`, `1866 MT/s / 933 MHz`, `Rev P` |
+| `MT41K2G4RKB-107:P` | DDR3 SDRAM | `8Gb`, `x4`, `78-ball FBGA`, `2-die stack, 2 CS`, `1866 MT/s / 933 MHz`, `Rev P` |
+| `MT41K1G16DGA-125:A` | DDR3 SDRAM | `16Gb`, `x16`, `96-ball FBGA`, `2-die stack, 2 CS`, `1600 MT/s / 800 MHz`, `Rev A` |
 | `MT47H128M16RT-25E:C` | DDR2 SDRAM | `2Gb`, `x16`, `84-ball FBGA`, `DDR2-800`, `Rev C` |
 | `MT46V32M16P-5B-IT-J` | DDR SDRAM | `512Mb`, `x16`, `66-pin TSOP`, `DDR-400`, `Industrial`, `Rev J` |
 | `MT46H32M32LFB5-5 IT:B` | LPDDR | `1Gb`, `x32`, `90-ball VFBGA`, `Single die`, `200 MHz`, `Rev B` |

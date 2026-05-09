@@ -424,7 +424,160 @@ assertDram("MT41K512M8DA-107:P", {
     "DRAM Speed": "1866 MT/s / 933 MHz speed bin",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev P"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("MT41K1G4DA-107:P", {
+  rawDensity: 4096,
+  density: "4Gb",
+  deviceWidth: "x4",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA (8x10.5)",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "Package Code": "DA",
+    "Config Code": "1G4",
+    "DRAM Speed": "1866 MT/s / 933 MHz speed bin",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev P"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("MT41J1G4THD-15E:D", {
+  rawDensity: 4096,
+  density: "4Gb",
+  deviceWidth: "x4",
+  voltage: "1.5V VDD",
+  package: "78-ball FBGA (9x11.5)",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "THD",
+    "Config Code": "1G4",
+    "DRAM Speed": "1333 MT/s / 667 MHz speed bin",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev D"
   }
+});
+
+assertDram("MT41J1G8TRF-107:E", {
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x8",
+  voltage: "1.5V VDD",
+  package: "78-ball FBGA (9.5x11.5)",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "TRF",
+    "Config Code": "1G8",
+    "DRAM Speed": "1866 MT/s / 933 MHz speed bin",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev E"
+  }
+});
+
+assertDram("MT41K512M8THV-125:M", {
+  rawDensity: 4096,
+  density: "4Gb",
+  deviceWidth: "x8",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA (8x11.5)",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "THV",
+    "Config Code": "512M8",
+    "DRAM Speed": "1600 MT/s / 800 MHz speed bin",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev M"
+  }
+});
+
+assertDram("MT41K2G4RKB-107:P", {
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x4",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA (8x10.5)",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "RKB",
+    "Config Code": "2G4",
+    "DRAM Speed": "1866 MT/s / 933 MHz speed bin",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev P"
+  }
+});
+
+assertDram("MT41K512M16TNA-125:E", {
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball FBGA (10x14)",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "TNA",
+    "Config Code": "512M16",
+    "DRAM Speed": "1600 MT/s / 800 MHz speed bin",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev E"
+  }
+});
+
+assertDram("MT41K4G4KJR-125:A", {
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x4",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA (9.5x13)",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "KJR",
+    "Config Code": "4G4",
+    "DRAM Speed": "1600 MT/s / 800 MHz speed bin",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT41K1G16DGA-125:A", {
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball FBGA (9.5x14)",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "DGA",
+    "Config Code": "1G16",
+    "DRAM Speed": "1600 MT/s / 800 MHz speed bin",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT41K2G4TRF", {
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x4",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA (9.5x11.5)",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "TRF",
+    "Config Code": "2G4",
+    "Operation Temperature": "Commercial"
+  },
+  absentExtra: ["DRAM Speed", "Die Revision"]
 });
 
 assertDram("MT47H128M16RT-25E:C", {
