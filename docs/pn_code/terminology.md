@@ -23,6 +23,7 @@
 约定：
 
 - 顶层 `density` 继续使用项目既有单位 Mbit。
+- On-die ECC NAND 使用顶层 `type = on_die_ecc_nand`，展示为 `On-die ECC NAND`；它表示 NAND 侧集成 ECC，但不等同于 eMMC / UFS fully managed controller。
 - `component_density` 是用户可见字段，可以表达封装总容量；不要把内部 reference 状态塞进此字段。
 - `generation_info` 可以在 DSL 内部承接产品代际、层数或制程节点；若与顶层 `processNode` 完全相同，用户可见 `extraInfo` 不再重复输出。
 - 用户可见 `extraInfo` 避免重复顶层字段：`system` / `managed_family` / `group` 这类只重复 vendor/type 的字段不输出，`storage_interface` 与顶层 type 完全相同时也不输出。

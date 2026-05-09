@@ -118,6 +118,12 @@ function runTokenDecoder(partNumber: string, decoder: DslTokenDecoder): Partial<
     }
 
     if (step.op === "stripIfPrefix") {
+      if (step.if && !context[step.if]) {
+        if (step.to) {
+          context[step.to] = false;
+        }
+        continue;
+      }
       const rest = String(context.rest ?? "");
       const matched = rest.startsWith(step.prefix);
       if (matched) {

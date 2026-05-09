@@ -29,6 +29,9 @@ function assertPart(
     density?: string;
     processNode?: string;
     cellLevel?: string;
+    classification?: FlashInfo["classification"];
+    voltage?: string;
+    interface?: FlashInfo["interface"];
     package?: string;
     extra?: Record<string, unknown>;
     absentExtra?: string[];
@@ -49,6 +52,15 @@ function assertPart(
   }
   if (expected.cellLevel !== undefined) {
     assert.equal(info.cellLevel, expected.cellLevel, partNumber);
+  }
+  if (expected.classification !== undefined) {
+    assert.deepEqual(info.classification, expected.classification, partNumber);
+  }
+  if (expected.voltage !== undefined) {
+    assert.equal(info.voltage, expected.voltage, partNumber);
+  }
+  if (expected.interface !== undefined) {
+    assert.deepEqual(info.interface, expected.interface, partNumber);
   }
   if (expected.package !== undefined) {
     assert.equal(info.package, expected.package, partNumber);
@@ -287,6 +299,115 @@ assertPart("THGBX2G7D2JLA01", {
     Plane: 2
   },
   absentExtra: ["System", "Product Family"]
+});
+
+assertPart("MT29FB16T08GALAAM5-TES:B", {
+  rawVendor: "micron",
+  type: "On-die ECC NAND",
+  rawDensity: 16777216,
+  cellLevel: "QLC",
+  classification: {
+    ce: 0,
+    ch: 1,
+    rb: 0,
+    die: 1
+  },
+  voltage: "Vcc: 2.5V/3.3V, VccQ: 1.2V",
+  interface: {
+    async: true,
+    sync: false
+  },
+  package: "BGA132",
+  extra: {
+    Enterprise: "No",
+    "Die Code": "A-Die",
+    "Interface Type": "Async",
+    "ECC enabled": "Yes"
+  },
+  absentExtra: [
+    "System",
+    "Product Family",
+    "source",
+    "status",
+    "Reference Status",
+    "Inference Source",
+    "Density Code",
+    "Config Code",
+    "Package Code"
+  ]
+});
+
+assertPart("MT29FB8T08EALAAM5-QK:E", {
+  rawVendor: "micron",
+  type: "On-die ECC NAND",
+  rawDensity: 8388608,
+  cellLevel: "TLC",
+  classification: {
+    ce: 0,
+    ch: 1,
+    rb: 0,
+    die: 1
+  },
+  voltage: "Vcc: 2.5V/3.3V, VccQ: 1.2V",
+  interface: {
+    async: true,
+    sync: false
+  },
+  package: "BGA132",
+  extra: {
+    Enterprise: "No",
+    "Die Code": "A-Die",
+    "Interface Type": "Async",
+    "ECC enabled": "Yes"
+  },
+  absentExtra: [
+    "System",
+    "Product Family",
+    "source",
+    "status",
+    "Reference Status",
+    "Inference Source",
+    "Density Code",
+    "Config Code",
+    "Package Code"
+  ]
+});
+
+assertPart("NC103", {
+  rawVendor: "micron",
+  type: "On-die ECC NAND",
+  rawDensity: 16777216,
+  cellLevel: "QLC",
+  classification: {
+    ce: 0,
+    ch: 1,
+    rb: 0,
+    die: 1
+  },
+  voltage: "Vcc: 2.5V/3.3V, VccQ: 1.2V",
+  interface: {
+    async: true,
+    sync: false
+  },
+  package: "BGA132",
+  extra: {
+    "Micron Part Number": "MT29FB16T08GALAAM5-TES:B",
+    Enterprise: "No",
+    "Die Code": "A-Die",
+    "Interface Type": "Async",
+    "ECC enabled": "Yes"
+  },
+  absentExtra: [
+    "System",
+    "Product Family",
+    "source",
+    "status",
+    "Reference Status",
+    "Inference Source",
+    "Density Code",
+    "Config Code",
+    "Package Code"
+  ]
 });
 
 assertPart("H26M78208CMRX", {

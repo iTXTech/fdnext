@@ -28,6 +28,19 @@
         "enterprise_flag": {
           "E": true
         },
+        "on_die_ecc_prefix": {
+          "F": true
+        },
+        "type_by_on_die_ecc": {
+          "true": "on_die_ecc_nand",
+          "false": "nand"
+        },
+        "ecc_info_by_on_die_ecc": {
+          "true": {
+            "ecc_enabled": true
+          },
+          "false": {}
+        },
         "density": {
           "1G": 1024,
           "2G": 2048,
@@ -384,6 +397,33 @@
           "default": false
         },
         {
+          "op": "map",
+          "from": "enterprise_token",
+          "table": "on_die_ecc_prefix",
+          "to": "canStripOnDieEcc",
+          "default": false
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "B",
+          "to": "onDieEcc",
+          "if": "canStripOnDieEcc"
+        },
+        {
+          "op": "map",
+          "from": "onDieEcc",
+          "table": "type_by_on_die_ecc",
+          "to": "type",
+          "default": "nand"
+        },
+        {
+          "op": "map",
+          "from": "onDieEcc",
+          "table": "ecc_info_by_on_die_ecc",
+          "to": "eccInfo",
+          "default": {}
+        },
+        {
           "op": "takeLongest",
           "table": "density",
           "to": "density",
@@ -481,11 +521,33 @@
           "table": "package",
           "to": "package",
           "default": "Unknown"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "enterprise": {
+              "$var": "enterprise"
+            },
+            "die_code": {
+              "$var": "die_code"
+            },
+            "interface_type": {
+              "$var": "interface_type"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "eccInfo"
         }
       ],
       "assign": {
         "vendor": "micron",
-        "type": "nand",
+        "type": {
+          "$var": "type"
+        },
         "density": {
           "$var": "density"
         },
@@ -508,15 +570,7 @@
           "$var": "package"
         },
         "extraInfo": {
-          "enterprise": {
-            "$var": "enterprise"
-          },
-          "die_code": {
-            "$var": "die_code"
-          },
-          "interface_type": {
-            "$var": "interface_type"
-          }
+          "$var": "extra"
         }
       }
     }

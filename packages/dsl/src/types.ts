@@ -44,6 +44,7 @@ export interface DslTokenStepStripIfPrefix {
   op: "stripIfPrefix";
   prefix: string;
   to?: string;
+  if?: string;
 }
 
 export interface DslTokenStepTemplate {
