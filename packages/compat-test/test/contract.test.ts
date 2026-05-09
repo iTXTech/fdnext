@@ -1,7 +1,28 @@
+import { spawnSync } from "node:child_process";
 import assert from "node:assert/strict";
+import { fileURLToPath } from "node:url";
 import { createEngine } from "../../core/src/index";
 import { createContractEngine, runContractChecks } from "../src/index";
 import * as resourceModule from "../../resources/index";
+import { createHttpServer } from "../../server/src/index";
+
+const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
+
+function parseJsonObject(text: string): Record<string, unknown> {
+  const parsed = JSON.parse(text) as unknown;
+  assert.ok(parsed && typeof parsed === "object" && !Array.isArray(parsed));
+  return parsed as Record<string, unknown>;
+}
+
+function runCli(args: string[]): Record<string, unknown> {
+  const result = spawnSync(process.execPath, ["--import", "tsx", "./packages/cli/src/index.ts", ...args], {
+    cwd: repoRoot,
+    encoding: "utf8"
+  });
+  assert.equal(result.status, 0, result.stderr || result.stdout);
+  assert.ok(result.stdout.trim(), result.stderr);
+  return parseJsonObject(result.stdout);
+}
 
 const summary = runContractChecks();
 
@@ -118,5 +139,32 @@ assert.equal(ambiguous.status, "ambiguous");
 assert.ok((ambiguous.candidates?.length ?? 0) >= 2);
 assert.ok(ambiguous.candidates?.some((candidate) => candidate.device.chipKind === "dram"));
 assert.ok(ambiguous.candidates?.some((candidate) => candidate.device.chipKind === "managed_nand"));
+
+const cliPartDecode = runCli(["part", "decode", "MT62F1G64D4EK-023", "eng"]);
+assert.equal(cliPartDecode.operation, "part.decode");
+assert.equal((cliPartDecode.device as { chipKind?: string } | undefined)?.chipKind, "dram");
+const cliIdentifierDecode = runCli(["id", "decode", "2C64444BA900", "eng", "nand.flash_id"]);
+assert.equal(cliIdentifierDecode.operation, "identifier.decode");
+assert.equal((cliIdentifierDecode.input as { constraints?: { idScheme?: string } } | undefined)?.constraints?.idScheme, "nand.flash_id");
+const cliCapabilities = runCli(["capabilities"]);
+assert.equal(cliCapabilities.schemaVersion, "fdnext.capabilities.v1");
+
+const http = createHttpServer({ host: "127.0.0.1", port: 8080 });
+async function injectJson(method: "GET" | "POST", url: string, payload?: object): Promise<Record<string, unknown>> {
+  const response = await http.server.inject({ method, url, ...(payload ? { payload } : {}) });
+  assert.equal(response.statusCode, 200, response.payload);
+  return parseJsonObject(response.payload);
+}
+const httpPartDecode = await injectJson("POST", "/parts/decode", { query: "MT62F1G64D4EK-023", lang: "eng" });
+assert.equal(httpPartDecode.operation, "part.decode");
+assert.equal((httpPartDecode.device as { chipKind?: string } | undefined)?.chipKind, "dram");
+const httpIdentifierDecode = await injectJson("POST", "/identifiers/decode", { query: "2C64444BA900", lang: "eng", idScheme: "nand.flash_id" });
+assert.equal(httpIdentifierDecode.operation, "identifier.decode");
+assert.equal((httpIdentifierDecode.input as { constraints?: { idScheme?: string } } | undefined)?.constraints?.idScheme, "nand.flash_id");
+const httpCapabilities = await injectJson("GET", "/capabilities");
+assert.equal(httpCapabilities.schemaVersion, "fdnext.capabilities.v1");
+const removedEndpoint = await injectJson("GET", "/decode?pn=MT29F64G08CBABA");
+assert.equal(removedEndpoint.status, "not_found");
+await http.server.stop();
 
 process.stdout.write(`Contract confirmed: ${summary.checked} fixtures\n`);

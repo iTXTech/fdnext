@@ -2,21 +2,21 @@
 
 [简体中文](README-zh.md)
 
-`fdnext` is a one-stop parsing solution for storage chips. It covers storage part-number parsing, FlashId parsing, managed NAND and DRAM PN decoding, bundled data resources, HTTP and CLI access, compatibility fixtures, and FDB / MDB maintenance tooling.
+`fdnext` is a one-stop parsing solution for storage chips. It covers storage part-number parsing, NAND Flash ID identifier parsing, managed NAND and DRAM PN decoding, bundled data resources, HTTP and CLI access, result contract checks, and FDB / MDB maintenance tooling.
 
 The project is organized as a strict TypeScript monorepo, but its public goal is the storage-chip parsing workflow: identify the chip, normalize the result, enrich it with local resources, expose it through SDK / server / CLI entrypoints, and keep the underlying data reproducible.
 
 ## Features
 
-- Storage-chip PN and FlashId parsing through `@itxtech/fdnext-core`
-- JSON DSL rule packs for PN and FlashId decoders through `@itxtech/fdnext-dsl`
+- Storage-chip PN and typed identifier parsing through `@itxtech/fdnext-core`
+- JSON DSL rule packs for PN and identifier decoders through `@itxtech/fdnext-dsl`
 - Embedded `fdb`, `mdb`, language packs, managed NAND PN suggestions, DRAM PN suggestions, and Micron FBGA code resources
 - Managed NAND and DRAM PN decoding coverage with vendor-specific token rules
 - Micron FBGA lookup support through the unified `mdb.json` resource flow
-- Hapi-based HTTP server with JSON decode, search, summary, and info endpoints
-- CLI commands for decode, summary, search, and info workflows
+- Hapi-based HTTP server with part, identifier, and capabilities endpoints
+- CLI commands for part decode/search, identifier decode/search, and capabilities workflows
 - TypeScript FDB generator with raw FlashDB cleanup, vendor remapping, controller aggregation, and MDB crawling helpers
-- Unified baseline tests for the dispatch layer
+- Result-schema and behavior contract tests for the public fdnext API
 
 ## Parsing Coverage
 
@@ -29,13 +29,13 @@ The project is organized as a strict TypeScript monorepo, but its public goal is
 
 | Package | Purpose |
 | --- | --- |
-| `@itxtech/fdnext-core` | Decode/search engine, public SDK types, resource loading helpers, and dispatch pipeline |
-| `@itxtech/fdnext-dsl` | JSON DSL rule packs and PN / FlashId compiler |
+| `@itxtech/fdnext-core` | Decode/search engine, public SDK types, resource loading helpers, and operation pipeline |
+| `@itxtech/fdnext-dsl` | JSON DSL rule packs and PN / identifier compiler |
 | `@itxtech/fdnext-resources` | Publishable embedded data resources |
 | `@itxtech/fdnext-server` | Hapi HTTP server |
 | `@itxtech/fdnext-cli` | Command-line interface |
 | `@itxtech/fdnext-fdbgen` | FDB/MDB generation and crawl tools |
-| `@itxtech/fdnext-compat-test` | Baseline fixture checks |
+| `@itxtech/fdnext-compat-test` | Result contract checks |
 
 ## Requirements
 
@@ -59,7 +59,7 @@ README only provides the project overview. Integration, runtime, and maintenance
 - [DSL specification](docs/DSL_SPEC.md) for PN and typed identifier rule authoring
 - [PN code reference index](docs/pn_code/README.md) for vendor/product-line references
 - [PN reference confidence policy](docs/pn_code/reference_policy.md) for rule admission and source confidence
-- [Cross-vendor terminology](docs/pn_code/terminology.md) for public metadata fields
+- [Cross-vendor terminology](docs/pn_code/terminology.md) for canonical public field keys
 
 ## Rule and Data Maintenance
 
@@ -75,7 +75,7 @@ Useful locations:
 - `packages/resources/resources/lang/eng.json` and `packages/resources/resources/lang/chs.json` for user-visible metadata labels
 - `docs/pn_code/` for PN reference notes and confidence policy
 
-When adding or renaming public metadata fields, update the DSL sources, language packs, tests, and documentation together. Maintenance metadata such as source confidence should stay inside DSL-internal metadata or documentation and must not leak into user-visible `extraInfo`.
+When adding or renaming public fields, update the DSL sources, language packs, tests, and documentation together. Maintenance metadata such as source confidence should stay inside DSL-internal metadata or documentation and must not leak into public result fields.
 
 ## Validation
 
@@ -95,11 +95,11 @@ pnpm test
 pnpm typecheck
 ```
 
-The normal test suite confirms the committed unified dispatch baseline. To regenerate and check that baseline explicitly:
+The normal test suite validates the fdnext result schema, operation behavior, DSL output, resources, server, and CLI checks:
 
 ```bash
-pnpm baseline:gen
-pnpm baseline:check
+pnpm contract:check
+pnpm test
 ```
 
 ## Data References

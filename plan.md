@@ -351,23 +351,33 @@ Implementation evidence:
 
 ## Phase 6: Server, CLI, and Documentation Cutover
 
+Status: Complete on 2026-05-10. Confirmed server and CLI entrypoints use the fdnext operation surface, refreshed public docs away from old endpoint/SDK/baseline wording, and added entrypoint contract tests.
+
 Goal: all fdnext entrypoints speak the new contract.
 
 Tasks:
 
-- Replace HTTP server routes with the new POST/GET API surface.
-- Update CLI commands around `part decode`, `part search`, `id decode`, and `id search`.
-- Remove summary endpoints and commands. If summary text is still useful, generate it from result blocks as a presentation helper outside the canonical API contract.
-- Rewrite `docs/INTEGRATION.md` for the new SDK and HTTP contract.
-- Rewrite `docs/DSL_SPEC.md` for DSL v2 and identifier DSL.
-- Update `docs/pn_code/terminology.md` to align field registry names with the new public schema.
-- Remove compatibility-test expectations tied to FlashDetector response shape.
+- [x] Replace HTTP server routes with the new POST/GET API surface.
+- [x] Update CLI commands around `part decode`, `part search`, `id decode`, and `id search`.
+- [x] Remove summary endpoints and commands. If summary text is still useful, generate it from result blocks as a presentation helper outside the canonical API contract.
+- [x] Rewrite `docs/INTEGRATION.md` for the new SDK and HTTP contract.
+- [x] Rewrite `docs/DSL_SPEC.md` for DSL v2 and identifier DSL.
+- [x] Update `docs/pn_code/terminology.md` to align field registry names with the new public schema.
+- [x] Remove compatibility-test expectations tied to FlashDetector response shape.
 
 Exit criteria:
 
-- No docs advertise old endpoints or old SDK methods.
-- CLI and server output exactly match the new result envelope.
-- Integration examples show automatic and explicit chip type selection.
+- [x] No docs advertise old endpoints or old SDK methods.
+- [x] CLI and server output exactly match the new result envelope.
+- [x] Integration examples show automatic and explicit chip type selection.
+
+Implementation evidence:
+
+- `packages/server/src/index.ts` exposes only `GET /capabilities`, `POST /parts/decode`, `POST /parts/search`, `POST /identifiers/decode`, and `POST /identifiers/search`; old routes fall through to `not_found`.
+- `packages/cli/src/index.ts` exposes `part decode`, `part search`, `id decode`, `id search`, and `capabilities` using fdnext result envelopes.
+- `packages/compat-test/test/contract.test.ts` now checks CLI JSON output, server `inject()` output, `/capabilities`, and removal of an old `/decode` route.
+- `README.md`, `README-zh.md`, `docs/INTEGRATION.md`, `docs/DSL_SPEC.md`, and `docs/pn_code/terminology.md` use the new operation, typed identifier, resource bundle, and canonical field terminology.
+- Verification passed: `pnpm contract:check`, `pnpm test`, `pnpm typecheck`, and `git diff --check`.
 
 ## Phase 7: Test Suite Rewrite
 

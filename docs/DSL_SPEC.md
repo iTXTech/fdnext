@@ -102,7 +102,7 @@
 
 ### DSL v2 emit
 
-`emit` 用于把规则解析结果直接声明为 fdnext canonical fields，而不是让调用方从旧字段形状里猜测。`assign` 仍可给当前内部解码桥提供 `vendor`、`density`、`extraInfo` 等字段，但新增规则应优先把用户可见信息写入 `emit.fields` 或 `emit.components`。
+`emit` 用于把规则解析结果直接声明为 fdnext canonical fields，而不是让调用方从旧字段形状里猜测。新增规则应优先把用户可见信息写入 `emit.fields` 或 `emit.components`。
 
 ```json
 {
@@ -135,7 +135,7 @@
 约束：
 
 - `emit.fields[].key` 必须使用 `packages/core/src/field-registry.ts` 中的 canonical key。
-- 可信度、来源、reference status 等维护信息只能留在 `tables.reference`，不能写进 `emit` 或 `extraInfo`。
+- 可信度、来源、reference status 等维护信息只能留在 `tables.reference`，不能写进 `emit` 或公开 result fields。
 - composite 产品（例如 eMCP/uMCP）应使用 `emit.components` 表达 storage / DRAM 子组件，不新增产品专属 public key。
 
 ## 3. Steps 操作符（op）
@@ -185,7 +185,7 @@ DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前）。公开�
 
 重要约定：
 
-- `extraInfo` 的 key 应使用语言包中的 canonical snake_case 内部 key（例如 `operation_temperature`、`speed_grade`、`micron_part_number`、`sandisk_code`），不要直接写 “Operation Temperature” 这类展示字符串。
+- `emit.fields[].key` 和 `assign` 中会进入公开结果的字段应使用 canonical snake_case key（例如 `operation_temperature`、`speed_grade`、`marking_code`、`storage_interface`），不要直接写 “Operation Temperature” 这类展示字符串。
 - PN / identifier DSL 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
 - 新增或重命名 metadata key 时，直接迁移全部 DSL 源规则、语言包和测试。旧 key 应进入 `packages/dsl/test/metadata-audit.test.ts` 的禁止列表，而不是进入兼容层。
 - `url/urls` 的 `desc` 也建议使用语言包 key（例如 `micron_website`）。

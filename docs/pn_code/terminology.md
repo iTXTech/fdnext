@@ -1,105 +1,104 @@
-# 跨厂商 PN 输出术语
+# 跨厂商公开字段术语
 
-采集日期：2026-05-08
+采集日期：2026-05-10
 
-本文档定义 PN 规则输出时跨厂商共用的 `extraInfo` 字段。规则实现可以保留厂商原始 token 字段，但面向用户的容量、die、代际字段应优先使用这里的统一命名。
+本文档定义 fdnext result contract 中跨厂商共用的 canonical field keys。公开结果通过 `blocks[].fields[]` 输出，每个字段使用稳定的 `key` / `value` / `unit` / `display`；语言包只负责 `label` 和展示文本，不改变 key。
+
+维护规则：
+
+- DSL 规则应直接 emit canonical snake_case key，不维护旧 key alias。
+- 可信度、reference status、source、inference note 等维护信息只能留在 DSL metadata 或文档中，不能进入公开 fields。
+- 未知值直接省略；不要为了填满旧响应形状输出 `Unknown`、空数组或 NAND-only 默认槽位。
+- 容量数值字段沿用项目约定，`value` 使用 Mbit，`display` 可由 field registry 转成 `Gb` / `Tb`。
+
+## Identity / Relation
+
+| 字段 | 含义 | 常见 block |
+| --- | --- | --- |
+| `part_number` | 规范化后的 PN | `identity` |
+| `vendor` | 厂商展示名 | `identity` |
+| `chip_kind` | `raw_nand`、`on_die_ecc_nand`、`managed_nand`、`dram` 等芯片类别 | `identity` |
+| `product_type` | eMMC、UFS、eMCP/uMCP、LPDDR5X、DDR4 等产品线 subtype | `identity` |
+| `identifier` | typed identifier 值，例如 NAND Flash ID | `identity` |
+| `id_scheme` | identifier namespace，例如 `nand.flash_id` | `identity` |
+| `marking_code` | FBGA / package marking code | `marking` |
+
+关系使用 `relations[]` 表达：
+
+- `identifier_for`: PN 与 NAND Flash ID 的关系。
+- `marking_for`: marking code 与真实 PN 的关系。
+- `component`: eMCP/uMCP 这类复合产品的 storage / DRAM 子组件。
 
 ## NAND / Managed NAND
 
 | 字段 | 含义 | 示例 |
 | --- | --- | --- |
-| `component_density` | 当前 PN 指向的封装/组件总容量；raw NAND 可写 bit，managed NAND 可写 GB package | `4Tbit package`, `256GB package` |
-| `die_density` | 单颗 NAND die 容量 | `512Gb`, `1Tb` |
-| `die_stack` | 封装内 die 堆叠数量或厂商堆叠代号 | `QDP (4-die)`, `8-die package` |
-| `generation_info` | NAND 产品代际、层数或制程节点 | `V8 236L`, `238-layer 4D NAND (V8 / H25FTD0)` |
-| `storage_density` | MCP/eMCP/uMCP 内 storage 子系统容量 | `64GB eMMC`, `256GB UFS` |
+| `density` | 当前芯片或 storage 结果的容量，`unit = Mbit` | `65536` / `64Gb` |
+| `component_density` | 封装或组件总容量，常用于 MCP/eMCP/uMCP 子组件 | `524288` / `512Gb` |
+| `storage_density` | MCP/eMCP/uMCP 内 storage 子系统容量 | `262144` / `256Gb` |
+| `die_density` | 单颗 NAND die 容量 | `1024` / `1Gb` |
+| `die_stack` | 封装内 die 堆叠数量或厂商堆叠代号 | `8-die package` |
+| `generation_info` | NAND 产品代际、层数或制程节点 | `V8 236L` |
 | `storage_interface` | managed NAND 或 MCP storage 接口 | `eMMC 5.1`, `UFS 4.0` |
 | `interface_type` | 接口模式、Gear、lane 或 HS 模式 | `HS400`, `Gear 4 / 2-Lane` |
 | `controller` / `controller_code` | 控制器描述或控制器 token | `UFS 4.1 G5-2Lane Controller`, `AX` |
-| `operation_temperature` | 工作温度范围或温度等级 | `-40°C ~ 105°C`, `Automotive Grade 2` |
-| `page_size` / `block_size` | page / block 几何信息 | `16KB`, `128 pages` |
-| `ecc_enabled` | 内部 ECC 状态 | `true`, `Yes` |
+| `operation_temperature` | 工作温度范围或温度等级 | `-40C ~ 105C`, `Automotive Grade 2` |
+| `page_size` / `block_size` | page / block 几何信息，字节字段使用 `unit = byte` | `16384` / `16KiB` |
+| `ecc_enabled` | 内部 ECC 状态 | `true` / `Yes` |
 
 约定：
 
-- 顶层 `density` 继续使用项目既有单位 Mbit。
-- On-die ECC NAND 使用顶层 `type = on_die_ecc_nand`，展示为 `On-die ECC NAND`；它表示 NAND 侧集成 ECC，但不等同于 eMMC / UFS fully managed controller。
-- `component_density` 是用户可见字段，可以表达封装总容量；不要把内部 reference 状态塞进此字段。
-- `generation_info` 可以在 DSL 内部承接产品代际、层数或制程节点；若与顶层 `processNode` 完全相同，用户可见 `extraInfo` 不再重复输出。
-- 用户可见 `extraInfo` 避免重复顶层字段：`system` / `managed_family` / `group` 这类只重复 vendor/type 的字段不输出，`storage_interface` 与顶层 type 完全相同时也不输出。
-- 若 `product_version` 与 `storage_interface` 完全相同，优先只输出 `storage_interface`；`product_family` 只在表达真实系列、等级或 MCP 组合时输出。
-- 输出层不维护历史别名，也不把旧 camelCase key 自动转换为 canonical key。新增规则必须直接使用 canonical snake_case key；旧 key 只应保留在审计测试的禁止列表里。
+- On-die ECC NAND 使用 `device.chipKind = "on_die_ecc_nand"`，展示为 `On-die ECC NAND`。
+- `generation_info` 可承接产品代际、层数或制程节点；若与 `process_node` 完全重复，公开结果不重复输出。
+- `storage_interface` 与 `product_type` 完全重复时，优先保留更结构化的 identity 字段，除非接口字段含有版本、lane、gear 等增量信息。
+
+## NAND Flash ID
+
+NAND Flash ID 通过 `decodeIdentifier` / `searchIdentifiers` 输出，`input.constraints.idScheme` 和 device `idScheme` 均为 `nand.flash_id`。
+
+| 字段 | 含义 | 常见 block |
+| --- | --- | --- |
+| `identifier` | NAND Flash ID | `identity` |
+| `id_scheme` | `nand.flash_id` | `identity` |
+| `density` | ID 推导出的容量 | `geometry` |
+| `cell_level` | SLC / MLC / TLC / QLC | `geometry` |
+| `die_count` / `plane_count` | die / plane 数 | `geometry` |
+| `page_size` / `block_size` / `blocks_per_lun` | NAND 几何信息 | `geometry` |
+| `voltage` / `interface_type` | 电压和接口模式 | `interface` |
+| `timing_mode_async` / `edo` | timing / EDO 扩展字段 | `timing` |
+| `controller` | 关联控制器 | `controllers` |
+
+相关 PN 使用 `identifier_for` relation，不再拼进翻译后的字符串字段。
 
 ## DRAM
 
-DRAM / MCP DRAM 子系统解析使用以下字段，避免和 NAND 字段混用：
+DRAM / MCP DRAM 子系统使用以下字段，避免和 NAND 字段混用：
 
 | 字段 | 含义 | 示例 |
 | --- | --- | --- |
-| `dram_type` | 内部 DRAM 类型来源 | `LPDDR4X SDRAM`, `LPDDR5X SDRAM`, `DDR5 SDRAM`, `GDDR7 SGRAM` |
-| `dram_density` | DRAM 子系统总容量 | `32Gb`, `12GB` |
-| `dram_die_density` | 单颗 DRAM die 容量 | `16Gb`, `24Gb` |
-| `dram_die_stack` | DRAM die / stack / CS 数量 | `Single die`, `2-die stack`, `DDP (2-die), 1 CS` |
+| `dram_type` | DRAM 类型来源 | `LPDDR5X`, `DDR4`, `GDDR7` |
+| `dram_density` | DRAM 子系统或 component 总容量，`unit = Mbit` | `65536` / `64Gb` |
+| `dram_die_density` | 单颗 DRAM die 容量 | `16384` / `16Gb` |
+| `dram_die_stack` | DRAM die / stack / CS 数量 | `2-die stack, 2 CS` |
 | `dram_generation` | DRAM 工艺/代际 | `1y-nm LPDDR4X`, `LPDDR5X` |
-| `dram_speed` | DRAM 速率 | `4266 Mbps`, `8533 Mbps` |
-| `dram_width` | DRAM 组织位宽 | `x16`, `x32` |
+| `dram_speed` | DRAM 速率或 speed bin | `8533 Mbps`, `DDR4-2666 CL19` |
+| `dram_width` | DRAM 组织位宽，`unit = bit` | `16` / `x16` |
 | `dram_voltage` | DRAM 电压/I/O 信息 | `VDD2 1.8V / VDDQ 0.6V` |
 | `die_revision` | DRAM die 修订或设计修订 | `Rev A`, `Rev E` |
+| `config_code` | 厂商配置 token | `1G8`, `256M32` |
+| `package_code` | 厂商封装 token；不替代 `package` | `SA`, `NRE` |
+| `prod_status` | ES/MS/QS 等生产状态 | `ES` |
 
-### DRAM 标准输出格式
+standalone DRAM 约定：
 
-standalone DRAM 顶层字段：
-
-| 顶层字段 | 含义 |
-| --- | --- |
-| `type` | 从内部 `dram_type` 折叠出的短 DRAM 世代名，展示为 `DDR4`、`LPDDR5X`、`GDDR7`，不带 `SDRAM` / `SGRAM` 后缀 |
-| `density` | 当前 DRAM component 总容量，单位仍为 Mbit |
-| `deviceWidth` | 当前 DRAM component 组织位宽 |
-| `voltage` | 主电源或 VDD/VDDQ 组合 |
-| `package` | 实际封装，只在外部资料可确认 package style / pin 或 ball count 时输出 |
-
-standalone DRAM `extraInfo` 只输出以下补充字段：
-
-| 字段 | 输出要求 |
-| --- | --- |
-| `dram_die_stack` | 只在 PN 明确给出 die stack / addressing token 时输出 |
-| `dram_speed` | 速率、speed bin 或 JEDEC bin |
-| `operation_temperature` | 温度等级或范围 |
-| `die_revision` | die/design revision |
-| `config_code` | 厂商配置 token |
-| `package_code` | 厂商封装 token；不替代顶层 `package` |
-| `prod_status` | ES/MS/QS 等生产状态 |
-
-standalone DRAM 顶层 `type` 规范值优先使用：
-
-| 类别 | 标准值 |
-| --- | --- |
-| SDR / DDR | `SDR`, `LPSDR`, `DDR`, `DDR2`, `DDR3`, `DDR4`, `DDR5` |
-| LPDDR | `LPDDR`, `LPDDR2`, `LPDDR3`, `LPDDR4`, `LPDDR4X`, `LPDDR5`, `LPDDR5X` |
-| Graphics DRAM | `GDDR`, `GDDR2`, `GDDR3`, `GDDR4`, `GDDR5`, `GDDR5X`, `GDDR6`, `GDDR6X`, `GDDR7` |
-| RLDRAM | `RLDRAM`, `RLDRAM 3` |
-
-DRAM 厂商 pack 的覆盖原则：
-
-- standalone DRAM 厂商规则必须按世代矩阵组织，而不是只为少量热门 PN 写局部规则。
-- 新增 DRAM 厂商时，至少要明确 DDR/SDR、LPDDR、Graphics DRAM 三条产品线中哪些有公开 PN 资料；有公开 ordering table 或 part catalog 的世代应优先补入 DSL 和 testcase。
-- 同一厂商内遇到 `LPDDR4`/`LPDDR4X`、`LPDDR5`/`LPDDR5X`、`GDDR6`/`GDDR6X` 等同 family 不同 speed/voltage/package token 的情况，要由后续 token 细化成单一标准值，不输出组合候选。
-- `-` 后面的 speed / temperature / revision 后缀不作为主结构强制条件；缺失时仍应输出 vendor、type、density、width、package code、die stack 等已能确认的信息，只减少 frequency、temperature、revision 等后缀字段。
-
-不符合标准的输出：
-
-- 不在内部 `dram_type` 里写厂商名，例如不要使用 `Micron DDR5 SDRAM`。
-- standalone DRAM 公开输出不再保留 `extraInfo.dram_type`；对应世代写入顶层 `type`，并去掉 `SDRAM` / `SGRAM` 展开后缀。
-- `classification.ce` 只在普通 DDR/DDR2/DDR3/DDR4/DDR5 可默认单 CS，或 `dram_die_stack` 明确给出 CS 数量时输出；LPDDR/GDDR 等缺少明确 CS 资料时不默认输出 CE。
-- 不同时输出 `product_family` / `product_version` 和 `dram_type` 来描述同一件事。
-- standalone DRAM 不重复输出已经在顶层表达的 `dram_density` / `dram_width`。
-- 不用 `package_code` 代替顶层 `package`；若只能解析出厂商 token，继续只输出 `package_code`，不要推定成实际封装。
-- 不输出 `DDR SDRAM / LPDDR SDRAM`、`GDDR6/GDDR6X SGRAM` 这类组合候选；无法确认时应输出更保守的单一标准值，或等待后续 token 细化。
+- `device.chipKind = "dram"`，`device.productType` 使用 `ddr4`、`lpddr5x` 等短 product type。
+- `dram_type` 和 `product_type` 不写厂商名，例如不要使用 `Micron DDR5 SDRAM`。
+- `dram_density` / `dram_width` 已在主 DRAM block 输出时，不再复制到其他字段。
+- `package_code` 只表达厂商 token；只有外部资料确认封装尺寸、pin 或 ball count 时才输出 `package`。
+- `-` 后面的 speed / temperature / revision 后缀不作为主结构强制条件；缺失时仍应输出 vendor、product type、density、width、package code、die stack 等已能确认的信息。
 
 MCP/eMCP/uMCP 同时有 NAND 和 DRAM 时：
 
 - NAND storage 使用 `storage_*`、`component_density`、`die_density`、`generation_info`。
 - DRAM 使用 `dram_*`。
-- 不要用 `component_density` 表示 DRAM 容量。
-- 只在外部资料确认封装尺寸/ball map 时输出具体封装；否则优先输出 `package_code`。
-- standalone DRAM 若顶层已经输出 `density` / `deviceWidth`，`extraInfo` 不再重复输出 `dram_density` / `dram_width`。
+- 子组件用 `component` relation 表达，不把 storage 和 DRAM 字段压平成一个产品专属 key。
