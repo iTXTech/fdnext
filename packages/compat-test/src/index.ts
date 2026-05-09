@@ -7,7 +7,7 @@ import {
   type JsonSchema
 } from "../../core/src/index";
 import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "../../dsl/src/index";
-import { embeddedResources } from "../../resources/index";
+import { embeddedResourceBundle } from "../../resources/index";
 
 export interface ContractCheckSummary {
   checked: number;
@@ -101,7 +101,7 @@ export function validateSchema(schema: JsonSchema, value: unknown, root: JsonSch
 
 export function createContractEngine() {
   return createEngine({
-    resources: embeddedResources,
+    resources: embeddedResourceBundle,
     decoders: compileRulesToDecoders(defaultDslRules),
     identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
   });

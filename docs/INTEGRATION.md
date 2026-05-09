@@ -7,10 +7,10 @@
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
 import { compileRulesToDecoders, defaultDslRules, compileIdentifierRulesToDecoders, defaultIdentifierRules } from "@itxtech/fdnext-dsl";
-import { embeddedResources } from "@itxtech/fdnext-resources";
+import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
 
 const engine = createEngine({
-  resources: embeddedResources,
+  resources: embeddedResourceBundle,
   decoders: compileRulesToDecoders(defaultDslRules),
   identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
 });
@@ -24,7 +24,7 @@ console.log(engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng", idSche
 ```ts
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
 
-const resources = process.env.FDNEXT_RESOURCES ? loadResourcesFromDir(process.env.FDNEXT_RESOURCES) : embeddedResources;
+const resources = process.env.FDNEXT_RESOURCES ? loadResourcesFromDir(process.env.FDNEXT_RESOURCES) : embeddedResourceBundle;
 ```
 
 ### 1.1 Processor 管线与 SDK 方法
@@ -86,7 +86,7 @@ async function loadJson(path: string) {
   return res.json();
 }
 
-const [fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, chs, eng] = await Promise.all([
+const [flashDatabase, packageMarkings, managedNandParts, dramParts, chs, eng] = await Promise.all([
   loadJson("/fdnext-resources/fdb.json"),
   loadJson("/fdnext-resources/mdb.json"),
   loadJson("/fdnext-resources/managed-nand-pn.json"),
@@ -96,7 +96,21 @@ const [fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, chs, eng] = await Promise.al
 ]);
 
 const engine = createEngine({
-  resources: { fdbRaw, mdbRaw, managedNandPnRaw, dramPnRaw, langRaw: { chs, eng } },
+  resources: {
+    partIndex: {
+      rawNand: flashDatabase,
+      managedNand: managedNandParts,
+      dram: dramParts
+    },
+    identifierIndex: {
+      nandFlash: flashDatabase
+    },
+    markingIndex: {
+      packageMarkings
+    },
+    vendorIndex: {},
+    translationIndex: { chs, eng }
+  },
   decoders: compileRulesToDecoders(defaultDslRules),
   identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
 });

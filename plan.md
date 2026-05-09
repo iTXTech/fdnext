@@ -314,27 +314,40 @@ Implementation evidence:
 
 ## Phase 5: Resource Model Cleanup
 
+Status: Complete on 2026-05-10. Replaced raw FDB/MDB resource option names with a typed resource bundle, kept runtime indexes split by role, and made marking-code decode consume the same marking index as search.
+
 Goal: resources describe facts and indexes for all supported chip kinds, not only FDB/MDB history.
 
 Tasks:
 
-- Replace `fdbRaw`, `mdbRaw`, `managedNandPnRaw`, and `dramPnRaw` option names with a typed resource bundle.
-- Split indexes by role:
+- [x] Replace `fdbRaw`, `mdbRaw`, `managedNandPnRaw`, and `dramPnRaw` option names with a typed resource bundle.
+- [x] Split indexes by role:
   - `partIndex`
   - `identifierIndex`
   - `markingIndex`
   - `vendorIndex`
   - `translationIndex`
-- Keep Micron FBGA data as a marking/part relation inside the unified resource model.
-- Store PN search indexes as structured records with `vendor`, `chipKind`, `productType`, `partNumber`, and optional `markingCode`.
-- Remove legacy assumptions that FDB is the authoritative center for all device kinds.
-- Keep the resource loader able to build typed resources from current JSON files until the new on-disk layout lands; do not expose that compatibility as public API.
+- [x] Keep Micron FBGA data as a marking/part relation inside the unified resource model.
+- [x] Store PN search indexes as structured records with `vendor`, `chipKind`, `productType`, `partNumber`, and optional `markingCode`.
+- [x] Remove legacy assumptions that FDB is the authoritative center for all device kinds.
+- [x] Keep the resource loader able to build typed resources from current JSON files until the new on-disk layout lands; do not expose that compatibility as public API.
 
 Exit criteria:
 
-- Engine startup consumes the new typed resource bundle.
-- Search and decode use the same normalized resource records.
-- Resource package exports only new bundle names.
+- [x] Engine startup consumes the new typed resource bundle.
+- [x] Search and decode use the same normalized resource records.
+- [x] Resource package exports only new bundle names.
+
+Implementation evidence:
+
+- `packages/core/src/types.ts` defines `FdnextResourceBundle` with `partIndex`, `identifierIndex`, `markingIndex`, `vendorIndex`, and `translationIndex`.
+- `packages/core/src/engine.ts` consumes the typed bundle, builds part and identifier FDB datasets independently, and uses marking matches only when the query actually matched a package marking.
+- `packages/core/src/loaders/node.ts` maps the current JSON files into the typed resource bundle without exposing old raw option names.
+- `packages/resources/index.ts` now exports `embeddedResourceBundle` and `getEmbeddedResourceBundle`; old raw resource exports and `embeddedResources` are gone.
+- `packages/core/src/part-index.ts` preserves structured part, identifier, marking, and vendor indexes; `packages/core/src/result-builder.ts` emits `marking_for` relations on marking-code decode.
+- `packages/compat-test/test/contract.test.ts` asserts the new resource bundle export shape, rejects old resource export names, and covers marking-code decode through the shared marking index.
+- `docs/INTEGRATION.md` shows the typed bundle shape for SDK and browser-loaded resources.
+- Verification passed: `pnpm contract:check`, `pnpm -C packages/dsl test`, `pnpm test`, `pnpm typecheck`, and `git diff --check`.
 
 ## Phase 6: Server, CLI, and Documentation Cutover
 

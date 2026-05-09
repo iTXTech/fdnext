@@ -56,6 +56,7 @@ export interface PartClassificationCandidate {
   chipKind: FdnextChipKind;
   productType?: FdnextProductType;
   markingCode?: string;
+  markingMatch?: boolean;
   source: PartIndexSource | MarkingIndexSource;
   matchKind: "exact" | "prefix" | "contains" | "fallback";
   score: number;
@@ -482,6 +483,7 @@ export function classifyPart(
       chipKind: record.chipKind,
       ...(record.productType ? { productType: record.productType } : {}),
       markingCode: record.markingCode,
+      ...(byCode ? { markingMatch: true } : {}),
       source: record.source,
       matchKind: byCode === "exact" ? "exact" : match
     });

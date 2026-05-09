@@ -441,13 +441,24 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     ? options.fallbackLang
     : LANGUAGES[0];
 
-  const rawFdb = (options.resources?.fdbRaw ?? {}) as Record<string, unknown>;
-  const rawMdb = (options.resources?.mdbRaw ?? {}) as Record<string, unknown>;
-  const rawManagedNandPn = options.resources?.managedNandPnRaw ?? [];
-  const rawDramPn = options.resources?.dramPnRaw ?? [];
-  const langRaw = (options.resources?.langRaw ?? {}) as LangPacks;
+  const resourceBundle = options.resources ?? {};
+  const partResources = resourceBundle.partIndex ?? {};
+  const identifierResources = resourceBundle.identifierIndex ?? {};
+  const markingResources = resourceBundle.markingIndex ?? {};
+  const rawPartFdb = (partResources.rawNand ?? {}) as Record<string, unknown>;
+  const rawIdentifierFdb = (identifierResources.nandFlash ?? rawPartFdb) as Record<string, unknown>;
+  const rawMdb = (markingResources.packageMarkings ?? {}) as Record<string, unknown>;
+  const rawManagedNandPn = partResources.managedNand ?? [];
+  const rawDramPn = partResources.dram ?? [];
+  const translationIndex = (resourceBundle.translationIndex ?? {}) as LangPacks;
 
-  const fdb = buildFdb(rawFdb);
+  const partFdb = buildFdb(rawPartFdb);
+  const identifierFdb = rawIdentifierFdb === rawPartFdb ? partFdb : buildFdb(rawIdentifierFdb);
+  const fdb = {
+    info: partFdb.info,
+    vendors: partFdb.vendors,
+    flashIds: identifierFdb.flashIds
+  };
   const mdb = buildMdb(rawMdb);
   const managedNandPartNumbers = buildKnownPartNumbers(rawManagedNandPn);
   const dramPartNumbers = buildKnownPartNumbers(rawDramPn);
@@ -462,7 +473,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   });
   const langPacks: LangPacks = {
     [fallbackLang]: {},
-    ...langRaw
+    ...translationIndex
   };
 
   const processors: ProcessorHooks[] = [...(options.processors ?? [])];
@@ -834,6 +845,22 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const publicCandidatesFromPartClassification = (candidates: PartClassificationCandidate[], lang?: string | null): Candidate[] =>
     candidates.slice(0, 5).map((candidate) => buildPartCandidate(suggestionFromPartCandidate(candidate), resultBuilderContext, lang));
 
+  const withMarkingCode = (info: FlashInfo, markingCode: string | undefined): FlashInfo => {
+    if (!markingCode) {
+      return info;
+    }
+    const existingExtra = info.extraInfo && typeof info.extraInfo === "object" && !Array.isArray(info.extraInfo)
+      ? info.extraInfo
+      : {};
+    return {
+      ...info,
+      extraInfo: {
+        ...existingExtra,
+        marking_code: markingCode
+      }
+    };
+  };
+
   const getVersion = (): string => String(fdb.info.version);
 
   const getInfo = (): FlashDetectorInfo => {
@@ -975,17 +1002,15 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           warnings: classification.warnings
         };
       }
-      const decodeTarget = classification.selected.markingCode && classification.selected.matchKind === "exact"
-        ? normalized
-        : classification.selected.partNumber;
-      const info = decodeTarget === classification.selected.partNumber
-        ? classification.selected.info ?? inspectPartForClassification(classification.selected.partNumber)
-        : inspectPartForClassification(decodeTarget);
+      const info = withMarkingCode(
+        classification.selected.info ?? inspectPartForClassification(classification.selected.partNumber),
+        classification.selected.markingMatch ? classification.selected.markingCode : undefined
+      );
       const result = buildPartDecodeResult(
         info,
         {
           query: input.query,
-          normalized: classification.selected.markingCode ?? normalized,
+          normalized: classification.selected.markingMatch ? classification.selected.markingCode ?? normalized : normalized,
           constraints: input.constraints as OperationConstraints | undefined,
           lang: input.lang
         },

@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createEngine, fdnextFieldRegistry, type PartDecodeResult } from "../../core/src/index";
-import { embeddedResources } from "../../resources/index";
+import { embeddedResourceBundle } from "../../resources/index";
 import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "../src/index";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
@@ -166,7 +166,7 @@ function assertReadmeIsOnlyIndex(): void {
 }
 
 const engine = createEngine({
-  resources: embeddedResources,
+  resources: embeddedResourceBundle,
   decoders: compileRulesToDecoders(defaultDslRules),
   identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
 });

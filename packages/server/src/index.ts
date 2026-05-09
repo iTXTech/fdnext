@@ -3,7 +3,7 @@ import type { Request, ResponseToolkit } from "@hapi/hapi";
 import { createEngine, type FdnextEngine } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
 import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "@itxtech/fdnext-dsl";
-import { embeddedResources } from "@itxtech/fdnext-resources";
+import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
 
 export interface HttpServerOptions {
   host?: string;
@@ -54,7 +54,7 @@ function replyJson(h: ResponseToolkit, payload: object) {
 
 function createDefaultEngineFromResources(resourceDir?: string): FdnextEngine {
   return createEngine({
-    resources: resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResources,
+    resources: resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResourceBundle,
     decoders: compileRulesToDecoders(defaultDslRules),
     identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
   });

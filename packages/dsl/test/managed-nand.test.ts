@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import type { FieldValue, PartDecodeResult } from "../../core/src/index";
 import { createEngine } from "../../core/src/index";
-import { embeddedResources } from "../../resources/index";
+import { embeddedResourceBundle } from "../../resources/index";
 import managedNandPnJson from "../../resources/resources/managed-nand-pn.json" with { type: "json" };
 import { compileRulesToDecoders, defaultDslRules } from "../src/index";
 
 const engine = createEngine({
-  resources: embeddedResources,
+  resources: embeddedResourceBundle,
   decoders: compileRulesToDecoders(defaultDslRules)
 });
 
@@ -459,7 +459,7 @@ assertPart("NC103", {
   },
   package: "BGA132",
   extra: {
-    "Micron Part Number": "MT29FB16T08GALAAM5-TES:B",
+    "Marking Code": "NC103",
     Enterprise: "No",
     "Die Code": "A-Die",
     "Interface Type": "Async",

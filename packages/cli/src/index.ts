@@ -2,7 +2,7 @@ import { resolve } from "node:path";
 import { createEngine } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
 import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "@itxtech/fdnext-dsl";
-import { embeddedResources } from "@itxtech/fdnext-resources";
+import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
 
 function resourceDirFromEnv(): string | null {
   const fromEnv = process.env.FDNEXT_RESOURCES?.trim();
@@ -48,7 +48,7 @@ async function main() {
   const engine = createEngine({
     resources: (() => {
       const resourceDir = resourceDirFromEnv();
-      return resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResources;
+      return resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResourceBundle;
     })(),
     decoders: compileRulesToDecoders(defaultDslRules),
     identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)

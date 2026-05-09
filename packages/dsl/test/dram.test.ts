@@ -4,11 +4,11 @@ import { createEngine } from "../../core/src/index";
 import dramPnJson from "../../resources/resources/dram-pn.json" with { type: "json" };
 import mdbJson from "../../resources/resources/mdb.json" with { type: "json" };
 import micronFbgaCodesJson from "../../resources/resources/micron-fbga-codes.json" with { type: "json" };
-import { embeddedResources } from "../../resources/index";
+import { embeddedResourceBundle } from "../../resources/index";
 import { compileRulesToDecoders, defaultDslRules } from "../src/index";
 
 const engine = createEngine({
-  resources: embeddedResources,
+  resources: embeddedResourceBundle,
   decoders: compileRulesToDecoders(defaultDslRules)
 });
 
@@ -31,7 +31,7 @@ const standaloneDramExtraKeys = new Set([
   "Operation Temperature",
   "Production Status",
   "Die Revision",
-  "Micron Part Number"
+  "Marking Code"
 ]);
 
 const standardDramTypes = new Set([
@@ -466,7 +466,7 @@ assertDram("C9BJZ", {
   ...crucialDdr4Expected,
   extra: {
     ...crucialDdr4Expected.extra,
-    "Micron Part Number": "CT40A1G8SA-62M:E"
+    "Marking Code": "C9BJZ"
   }
 });
 assert.deepEqual(searchFbgaParts("C9BJZ"), ["CT40A1G8SA-62M:E"]);
@@ -525,7 +525,7 @@ assertDram("79JMM", {
     "Config Code": "64M16",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev H",
-    "Micron Part Number": "MT47R64M16HR-3ES:E"
+    "Marking Code": "79JMM"
   }
 });
 

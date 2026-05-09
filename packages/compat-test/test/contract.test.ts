@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { createEngine } from "../../core/src/index";
 import { createContractEngine, runContractChecks } from "../src/index";
+import * as resourceModule from "../../resources/index";
 
 const summary = runContractChecks();
 
@@ -8,6 +9,13 @@ assert.equal(summary.checked, 5);
 assert.deepEqual(summary.operations, ["part.decode", "part.search", "identifier.decode", "identifier.search", "capabilities"]);
 
 const engine = createContractEngine();
+
+assert.ok(resourceModule.embeddedResourceBundle.partIndex.rawNand);
+assert.ok(resourceModule.embeddedResourceBundle.identifierIndex.nandFlash);
+assert.ok(resourceModule.embeddedResourceBundle.markingIndex.packageMarkings);
+assert.ok(resourceModule.embeddedResourceBundle.translationIndex.eng);
+assert.equal("embeddedResources" in resourceModule, false);
+assert.equal("fdbRaw" in resourceModule, false);
 
 assert.equal(engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" }).device?.chipKind, "raw_nand");
 assert.equal(engine.decodePart({ query: "EMMC04G-WT32", lang: "eng" }).device?.chipKind, "managed_nand");
@@ -54,6 +62,13 @@ assert.ok(markingItem.fields?.some((field) => field.key === "marking_code" && fi
 assert.ok(marking.relations?.some((relation) => relation.kind === "marking_for" && relation.source?.markingCode === "C9BJZ"));
 assert.ok(markingItem.actions?.some((action) => action.operation === "part.decode" && action.input.constraints?.chipKind === "dram"));
 
+const markingDecode = engine.decodePart({ query: "C9BJZ", lang: "eng" });
+assert.equal(markingDecode.status, "ok");
+assert.equal(markingDecode.device?.partNumber, "CT40A1G8SA-62M:E");
+assert.equal(markingDecode.device?.markingCode, "C9BJZ");
+assert.ok(markingDecode.blocks.some((block) => block.fields.some((field) => field.key === "marking_code" && field.value === "C9BJZ")));
+assert.ok(markingDecode.relations.some((relation) => relation.kind === "marking_for" && relation.source?.markingCode === "C9BJZ"));
+
 const markingDecodeAsIdentifier = engine.decodeIdentifier({ query: "C9BJZ", lang: "eng" });
 assert.equal(markingDecodeAsIdentifier.status, "invalid_input");
 assert.ok(markingDecodeAsIdentifier.warnings.some((warning) => warning.code === "missing_id_scheme"));
@@ -77,11 +92,19 @@ assert.ok(nandDecode.actions.some((action) => (
 
 const ambiguousEngine = createEngine({
   resources: {
-    fdbRaw: {},
-    mdbRaw: {},
-    langRaw: {},
-    managedNandPnRaw: [{ vendor: "micron", pn: "TESTPART" }],
-    dramPnRaw: [{ vendor: "micron", pn: "TESTPART" }]
+    partIndex: {
+      rawNand: {},
+      managedNand: [{ vendor: "micron", pn: "TESTPART" }],
+      dram: [{ vendor: "micron", pn: "TESTPART" }]
+    },
+    identifierIndex: {
+      nandFlash: {}
+    },
+    markingIndex: {
+      packageMarkings: {}
+    },
+    vendorIndex: {},
+    translationIndex: {}
   },
   decoders: [{
     id: "test-dram",

@@ -8,24 +8,49 @@ import mdbJson from "./resources/mdb.json" with { type: "json" };
 export type ResourcesRecord = Record<string, unknown>;
 export type SearchResourceRecord = Record<string, unknown> | unknown[];
 export type LangRecord = Record<string, string>;
+export type ResourceJson = ResourcesRecord | unknown[];
 
-export const fdbRaw = fdbJson as ResourcesRecord;
-export const mdbRaw = mdbJson as ResourcesRecord;
-export const managedNandPnRaw = managedNandPnJson as SearchResourceRecord;
-export const dramPnRaw = dramPnJson as SearchResourceRecord;
-export const langRaw: Record<string, LangRecord> = {
+export interface EmbeddedResourceBundle {
+  partIndex: {
+    rawNand: ResourcesRecord;
+    managedNand: SearchResourceRecord;
+    dram: SearchResourceRecord;
+  };
+  identifierIndex: {
+    nandFlash: ResourcesRecord;
+  };
+  markingIndex: {
+    packageMarkings: ResourcesRecord;
+  };
+  vendorIndex: Record<string, never>;
+  translationIndex: Record<string, LangRecord>;
+}
+
+const flashDatabase = fdbJson as ResourcesRecord;
+const packageMarkings = mdbJson as ResourcesRecord;
+const managedNandParts = managedNandPnJson as SearchResourceRecord;
+const dramParts = dramPnJson as SearchResourceRecord;
+const translationIndex = {
   chs: chsJson as LangRecord,
   eng: engJson as LangRecord
 };
 
-export const embeddedResources = {
-  fdbRaw,
-  mdbRaw,
-  managedNandPnRaw,
-  dramPnRaw,
-  langRaw
-};
+export const embeddedResourceBundle = {
+  partIndex: {
+    rawNand: flashDatabase,
+    managedNand: managedNandParts,
+    dram: dramParts
+  },
+  identifierIndex: {
+    nandFlash: flashDatabase
+  },
+  markingIndex: {
+    packageMarkings
+  },
+  vendorIndex: {},
+  translationIndex
+} satisfies EmbeddedResourceBundle;
 
-export function getEmbeddedResources() {
-  return embeddedResources;
+export function getEmbeddedResourceBundle(): EmbeddedResourceBundle {
+  return embeddedResourceBundle;
 }

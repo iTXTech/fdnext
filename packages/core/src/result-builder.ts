@@ -301,6 +301,20 @@ function partActions(info: FlashInfo): Action[] {
 
 function partRelations(info: FlashInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Relation[] {
   const relations: Relation[] = [];
+  if (device.markingCode && device.partNumber) {
+    relations.push({
+      kind: "marking_for",
+      label: "Package marking relation",
+      source: {
+        markingCode: device.markingCode,
+        label: `Package marking ${device.markingCode}`
+      },
+      target: {
+        partNumber: device.partNumber,
+        device
+      }
+    });
+  }
   for (const id of info.flashId ?? []) {
     relations.push({
       kind: "identifier_for",

@@ -146,12 +146,30 @@ export interface LangPacks {
 
 export type ResourceJson = Record<string, unknown> | unknown[];
 
-export interface EngineResources {
-  fdbRaw: Record<string, unknown>;
-  mdbRaw: Record<string, unknown>;
-  langRaw: LangPacks;
-  managedNandPnRaw?: ResourceJson;
-  dramPnRaw?: ResourceJson;
+export interface PartResourceIndex {
+  rawNand?: Record<string, unknown>;
+  managedNand?: ResourceJson;
+  dram?: ResourceJson;
+}
+
+export interface IdentifierResourceIndex {
+  nandFlash?: Record<string, unknown>;
+}
+
+export interface MarkingResourceIndex {
+  packageMarkings?: Record<string, unknown>;
+}
+
+export interface VendorResourceIndex {
+  aliases?: Record<string, string[]>;
+}
+
+export interface FdnextResourceBundle {
+  partIndex?: PartResourceIndex;
+  identifierIndex?: IdentifierResourceIndex;
+  markingIndex?: MarkingResourceIndex;
+  vendorIndex?: VendorResourceIndex;
+  translationIndex?: LangPacks;
 }
 
 export interface DecodeOptions {
@@ -208,7 +226,7 @@ export interface InternalDecodeProcessorHooks {
 }
 
 export interface EngineOptions {
-  resources?: Partial<EngineResources>;
+  resources?: FdnextResourceBundle;
   fallbackLang?: string;
   decoders?: PartNumberDecoder[];
   identifierDecoders?: IdentifierDecoder[];
