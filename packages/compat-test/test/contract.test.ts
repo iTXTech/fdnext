@@ -31,6 +31,15 @@ assert.deepEqual(summary.operations, ["part.decode", "part.search", "identifier.
 
 const engine = createContractEngine();
 
+function assertPartClassification(query: string, chipKind: string, productType?: string): void {
+  const result = engine.decodePart({ query, lang: "eng" });
+  assert.equal(result.status, "ok", query);
+  assert.equal(result.device?.chipKind, chipKind, query);
+  if (productType) {
+    assert.equal(result.device?.productType, productType, query);
+  }
+}
+
 assert.ok(resourceModule.embeddedResourceBundle.partIndex.rawNand);
 assert.ok(resourceModule.embeddedResourceBundle.identifierIndex.nandFlash);
 assert.ok(resourceModule.embeddedResourceBundle.markingIndex.packageMarkings);
@@ -38,9 +47,20 @@ assert.ok(resourceModule.embeddedResourceBundle.translationIndex.eng);
 assert.equal("embeddedResources" in resourceModule, false);
 assert.equal("fdbRaw" in resourceModule, false);
 
-assert.equal(engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" }).device?.chipKind, "raw_nand");
-assert.equal(engine.decodePart({ query: "EMMC04G-WT32", lang: "eng" }).device?.chipKind, "managed_nand");
-assert.equal(engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng" }).device?.chipKind, "dram");
+assertPartClassification("MT29F4G08ABAEA", "raw_nand");
+assertPartClassification("MT29FBG08ABACA", "on_die_ecc_nand");
+assertPartClassification("MTFC8GAKAJCN-4M", "managed_nand", "emmc");
+assertPartClassification("KLUEG8UHDC-B0E1", "managed_nand", "ufs");
+assertPartClassification("BWCA2KZC-64G", "managed_nand", "emcp");
+assertPartClassification("H9QT0GECN6X145", "managed_nand", "umcp");
+assertPartClassification("MT62F1G64D4EK-023 WT:B", "dram", "lpddr5x");
+const mtfcSearch = engine.searchParts({ query: "MTFC", lang: "eng", limit: 20 });
+assert.ok(mtfcSearch.items.some((item) => item.device.productType === "emmc"), "MTFC search should include eMMC candidates");
+assert.ok(
+  engine.searchParts({ query: "MTFC", lang: "eng", limit: 20, constraints: { productType: "ufs" } }).items
+    .some((item) => item.device.productType === "ufs"),
+  "MTFC search with UFS constraint should include UFS candidates"
+);
 
 const inferredIdentifier = engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" });
 assert.equal(inferredIdentifier.status, "ok");
@@ -139,6 +159,44 @@ assert.equal(ambiguous.status, "ambiguous");
 assert.ok((ambiguous.candidates?.length ?? 0) >= 2);
 assert.ok(ambiguous.candidates?.some((candidate) => candidate.device.chipKind === "dram"));
 assert.ok(ambiguous.candidates?.some((candidate) => candidate.device.chipKind === "managed_nand"));
+
+const hookEvents: string[] = [];
+const hookEngine = createEngine({
+  resources: {
+    partIndex: { rawNand: {}, managedNand: [], dram: [] },
+    identifierIndex: { nandFlash: {} },
+    markingIndex: { packageMarkings: {} },
+    vendorIndex: {},
+    translationIndex: {}
+  },
+  processors: [{
+    beforeOperation: (context) => {
+      hookEvents.push(`before:${context.operation}`);
+    },
+    afterOperation: (context, result) => {
+      hookEvents.push(`after:${context.operation}`);
+      return result;
+    }
+  }]
+});
+hookEngine.decodePart({ query: "", lang: "eng" });
+hookEngine.searchParts({ query: "TEST", lang: "eng" });
+hookEngine.decodeIdentifier({ query: "C9BJZ", lang: "eng" });
+hookEngine.searchIdentifiers({ query: "C9BJZ", lang: "eng" });
+hookEngine.getCapabilities();
+assert.deepEqual(hookEvents, [
+  "before:part.decode",
+  "after:part.decode",
+  "before:part.search",
+  "after:part.search",
+  "before:identifier.decode",
+  "after:identifier.decode",
+  "before:identifier.search",
+  "after:identifier.search",
+  "before:capabilities",
+  "after:capabilities"
+]);
+assert.ok(!hookEvents.some((event) => /searchPn|decodeId|summaryId/.test(event)));
 
 const cliPartDecode = runCli(["part", "decode", "MT62F1G64D4EK-023", "eng"]);
 assert.equal(cliPartDecode.operation, "part.decode");

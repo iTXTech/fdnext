@@ -381,12 +381,14 @@ Implementation evidence:
 
 ## Phase 7: Test Suite Rewrite
 
+Status: Complete on 2026-05-10. Expanded result-contract behavior tests to cover the full classification matrix, typed identifier behavior, CLI/server entrypoints, and operation hooks without FlashDetector baseline payload assertions.
+
 Goal: finish converting the suite so tests validate the new model instead of old output parity.
 
 Tasks:
 
-- Replace compat baselines with schema and behavior tests.
-- Add classifier tests for:
+- [x] Replace compat baselines with schema and behavior tests.
+- [x] Add classifier tests for:
   - raw NAND
   - on-die ECC NAND
   - eMMC
@@ -394,17 +396,25 @@ Tasks:
   - eMCP/uMCP
   - DRAM
   - ambiguous prefixes such as `MTFC`
-- Add strict explicit-mode tests.
-- Add schema snapshot tests for representative decode and search results.
-- Add metadata audit tests for canonical keys, units, labels, and no reference leakage.
-- Add identifier tests scoped to `nand.flash_id`.
-- Add server and CLI contract tests for the new operation names and POST request bodies.
-- Add operation-hook tests proving processors observe new operation names rather than old endpoint strings.
+- [x] Add strict explicit-mode tests.
+- [x] Add schema snapshot tests for representative decode and search results.
+- [x] Add metadata audit tests for canonical keys, units, labels, and no reference leakage.
+- [x] Add identifier tests scoped to `nand.flash_id`.
+- [x] Add server and CLI contract tests for the new operation names and POST request bodies.
+- [x] Add operation-hook tests proving processors observe new operation names rather than old endpoint strings.
 
 Exit criteria:
 
-- `pnpm test` validates schema, classification, DSL output, resources, server, and CLI.
-- Tests no longer assert FlashDetector-compatible payload shape.
+- [x] `pnpm test` validates schema, classification, DSL output, resources, server, and CLI.
+- [x] Tests no longer assert FlashDetector-compatible payload shape.
+
+Implementation evidence:
+
+- `packages/compat-test/test/contract.test.ts` covers raw NAND, On-die ECC NAND, eMMC, UFS, eMCP, uMCP, DRAM, MTFC search disambiguation, strict constraints, marking lookup/decode, and `nand.flash_id` identifier behavior.
+- The same contract test validates CLI output, server `POST` request bodies, capabilities responses, and absence of old endpoint hook names.
+- `packages/core/test/result-contract.test.ts` keeps schema fixtures for current product families and validates canonical field registry labels/formatters plus metadata rejection.
+- `packages/dsl/test/metadata-audit.test.ts` continues to reject canonical-key drift and metadata leakage in DSL-generated outputs.
+- Verification passed: `pnpm contract:check`, `pnpm -C packages/compat-test test`, `pnpm test`, `pnpm typecheck`, and `git diff --check`.
 
 ## Phase 8: Breaking Release Readiness
 
