@@ -9,6 +9,7 @@
 - Nanya 产品总览列出 Standard DRAM 覆盖 DDR2、DDR3、DDR4、DDR5；Low Power DRAM 覆盖 LPDDR2、LPDDR3、LPDDR4/4X、LPDDR5/5X。来源：<https://www.nanya.com/en/Product/>
 - Nanya 官方 `NT5AD1024M8C3-JR/JRT/HRI` 页面确认 DDR4、8Gb、x8、78-ball BGA，速度 2666/3200Mbps 与温度等级。来源：<https://www.nanya.com/en/Product/4464/NT5AD1024M8C3-JR>、<https://www.nanya.com/en/Product/4477/NT5AD1024M8C3-HRI>
 - Nanya 官方 `NT5FF1024M16A4-Q5` 页面确认 DDR5、16Gb、x16、106-ball BGA、5600Mbps。来源：<https://www.nanya.com/en/Product/9032/NT5FF1024M16A4-Q5>
+- Nanya 官方 `NT5FF2048M8EK-WEU` 页面确认 DDR5、16Gb、x8、78-ball BGA、8000Mbps、-40C~105C；该样例用于补齐 `5FF:EK` 封装和 `U` grade token。来源：<https://www.nanya.com/en/Product/10513/NT5FF2048M8EK-WEU>
 - Nanya 官方 `NT5TU32M16FG-ACI` 页面确认 DDR2、512Mb、x16、84-ball BGA、800Mbps、工业温度。来源：<https://www.nanya.com/en/Product/3873/NT5TU32M16FG-ACI>
 - Nanya 官方 `NT5CB128M16JR-DI` 页面确认 DDR3、2Gb、x16、96-ball BGA、1600Mbps、0C~95C。来源：<https://www.nanya.com/en/Product/4111/NT5CB128M16JR-DI>
 - Nanya 官方 `NT5CC128M16JR-DI` 页面确认 DDR3L、2Gb、x16、96-ball BGA、1600Mbps、0C~95C；规则输出仍使用标准化 `DDR3 SDRAM`，电压区分为 1.35V。来源：<https://www.nanya.com/cn/Product/4114/NT5CC128M16JR-DI>
@@ -16,6 +17,7 @@
 - Nanya 官方 `NT6CL256M32AM-H0` 页面确认 LPDDR3、8Gb、x32、178-ball BGA、2133Mbps、-30C~105C。来源：<https://www.nanya.com/en/Product/4324/NT6CL256M32AM-H0>
 - Nanya 官方 `NT6AN512T32AV-J1` / `NT6AP512T32AV-J1` 页面确认 LPDDR4 / LPDDR4X、16Gb、x32、200-ball BGA、4267Mbps。来源：<https://www.nanya.com/en/Product/4330/NT6AN512T32AV-J1>、<https://www.nanya.com/en/Product/4588/NT6AP512T32AV-J1>
 - Nanya 官方 `NT6BR1024M16A3-K2` 页面确认 LPDDR5/5X 类别、16Gb、x16、315-ball BGA、7500Mbps；`NT6BR1024M16A3-K1` 确认 8533Mbps 与 LPDDR5X speed bin。来源：<https://www.nanya.com/en/Product/10086/NT6BR1024M16A3-K2>、<https://www.nanya.com/en/Product/10082/NT6BR1024M16A3-K1>
+- 2026-05-09 复查 `NT5CB/NT5CC/NT5AD/NT5FF + DDP`：公开结果主要仍是 `M` stack-code 的 standard DDR3/DDR4/DDR5 页面，以及已覆盖的 low-power DRAM DDP/QDP 页面；暂未找到可直接加入 testcase 的 standard DDR `T/F` exact PN。检索到的 `NT5CB256M16ER-EKA` / `NT5CC256M16ER-EKA` 等公开 datasheet 仍是 standard DDR3(L) 4Gb `M`/单 die 组合。来源：<https://www.alldatasheet.net/html-marking/1145497/NANYA/NT5CB256M16ER-EKA/7060/37/NT5CB256M16ER-EKA.html>
 
 ## DSL 范围
 
@@ -45,3 +47,5 @@ NT6AP512T32AV-J1
 - `M/T/F` stack code 分别输出 `Single die, 1 CS`、`DDP (2-die), 1 CS`、`QDP (4-die), 2 CS`。
 - suffix 不存在时不输出 `dram_speed` / `operation_temperature`；suffix 存在但 grade token 不存在时只输出 speed。
 - 低功耗 speed token 以 `family + speed` 做组合 key，避免 LPDDR4 与 LPDDR4X 共用 `J1` 时混淆。
+- standard DDR 的 `T/F` stack-code 先维持结构化规则支持，但本轮不新增确定样例；只有找到公开 exact PN / datasheet 后再补 testcase 和 source tier。
+- standard DDR5 新封装示例 `NT5FF2048M8EK-WEU` 仍走算术 config：`2048M8` 输出 16Gb / x8，`EK` 输出 78-ball BGA，`WE` 输出 DDR5-8000，`U` 输出 Industrial (-40C~105C)。

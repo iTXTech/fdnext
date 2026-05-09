@@ -83,6 +83,7 @@
           "5AD:A4": "96-ball BGA",
           "5FF:A3": "82-ball BGA",
           "5FF:A4": "106-ball BGA",
+          "5FF:EK": "78-ball BGA",
           "5FF:EL": "102-ball BGA"
         },
         "speedObj": {
@@ -132,6 +133,9 @@
           },
           "I": {
             "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "U": {
+            "operation_temperature": "Industrial (-40C~105C)"
           },
           "T": {
             "operation_temperature": "Wide temperature (-40C~95C)"

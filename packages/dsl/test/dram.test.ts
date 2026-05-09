@@ -240,6 +240,91 @@ assertDram("MT40A1G8SA-075-E", {
   }
 });
 
+assertDram("MT40A2G4TRF-093E:A", {
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x4",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA (9.5x11.5)",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "TRF",
+    "Config Code": "2G4",
+    "DRAM Speed": "DDR4-2133 CL15",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT40A2G8NRE-083E:B", {
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA (8x12)",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "NRE",
+    "Config Code": "2G8",
+    "DRAM Speed": "DDR4-2400 CL16",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT40A4G8NEA-062E:F", {
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA (7.5x11)",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "2-die stack, 2 CS",
+    "Package Code": "NEA",
+    "Config Code": "4G8",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev F"
+  }
+});
+
+assertDram("MT40A1G16WBU-083E:B", {
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball FBGA (8x14)",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "2-die stack, 1 CS",
+    "Package Code": "WBU",
+    "Config Code": "1G16",
+    "DRAM Speed": "DDR4-2400 CL16",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT40A2G16TBB-062E:F", {
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball FBGA (7.5x13)",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "2-die stack, 1 CS",
+    "Package Code": "TBB",
+    "Config Code": "2G16",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev F"
+  }
+});
+
 const crucialDdr4Expected = {
   rawDensity: 8192,
   density: "8Gb",
@@ -343,6 +428,54 @@ const ddr5Expected = {
 
 assertDram("MT60B2G8HB-48B-IT-A", ddr5Expected);
 assertDram("MT60B2G8HB-48B IT:A", ddr5Expected);
+
+assertDram("MT60B3G8RW-64B:B", {
+  rawDensity: 24576,
+  density: "24Gb",
+  deviceWidth: "x8",
+  voltage: "1.1V VDD",
+  package: "78-ball VFBGA (8x11)",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "Package Code": "RW",
+    "Config Code": "3G8",
+    "DRAM Speed": "DDR5-6400B",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT60B1536M16RV-56B:B", {
+  rawDensity: 24576,
+  density: "24Gb",
+  deviceWidth: "x16",
+  voltage: "1.1V VDD",
+  package: "102/153-ball VFBGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "Package Code": "RV",
+    "Config Code": "1536M16",
+    "DRAM Speed": "DDR5-5600B",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT60B4G8AT-64B:B", {
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x8",
+  voltage: "1.1V VDD",
+  package: "78/117-ball VFBGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "Package Code": "AT",
+    "Config Code": "4G8",
+    "DRAM Speed": "DDR5-6400B",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
 
 assertDram("MT53E1G32D2FW-046-AIT-A", {
   rawDensity: 32768,
@@ -810,6 +943,42 @@ assertDram("H5TC4G83CFR-PBA", {
   }
 });
 
+assertDram("H5TC8G83AMR-PBA", {
+  rawVendor: "skhynix",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x8",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 2 CS",
+    "Package Code": "M",
+    "Config Code": "8G83",
+    "DRAM Speed": "DDR3L-1600 11-11-11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "AMR"
+  }
+});
+
+assertDram("H5TC8G63AMR-PBA", {
+  rawVendor: "skhynix",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 2 CS",
+    "Package Code": "M",
+    "Config Code": "8G63",
+    "DRAM Speed": "DDR3L-1600 11-11-11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "AMR"
+  }
+});
+
 assertDram("H5AN8G8NAFR-UHC", {
   rawVendor: "skhynix",
   rawDensity: 8192,
@@ -844,6 +1013,42 @@ assertDram("H5AN8G8NCJR-XNC", {
   }
 });
 
+assertDram("H5ANAG8NCMR-XNC", {
+  rawVendor: "skhynix",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 2 CS",
+    "Package Code": "M",
+    "Config Code": "AG8N",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "CMR"
+  }
+});
+
+assertDram("H5ANAG6NCMR-UHC", {
+  rawVendor: "skhynix",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "M",
+    "Config Code": "AG6N",
+    "DRAM Speed": "DDR4-2400T 17-17-17",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "CMR"
+  }
+});
+
 assertDram("H5CG48AGBD-X018", {
   rawVendor: "skhynix",
   rawDensity: 16384,
@@ -858,6 +1063,23 @@ assertDram("H5CG48AGBD-X018", {
     "Config Code": "G48",
     "DRAM Speed": "DDR5-5600",
     "Die Revision": "A-die"
+  }
+});
+
+assertDram("H5CGD8MHBD-X021", {
+  rawVendor: "skhynix",
+  rawDensity: 24576,
+  density: "24Gb",
+  deviceWidth: "x8",
+  voltage: "1.1V VDD",
+  package: "BGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die",
+    "Package Code": "X021",
+    "Config Code": "GD8",
+    "DRAM Speed": "DDR5-6400",
+    "Die Revision": "M-die"
   }
 });
 
@@ -1142,6 +1364,72 @@ assertDram("K4A8G085WB", {
   absentExtra: ["DRAM Speed", "Operation Temperature"]
 });
 
+assertDram("K4AAG085WB-MCRC", {
+  rawVendor: "samsung",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 2 CS",
+    "Package Code": "5WB",
+    "Config Code": "AG08",
+    "DRAM Speed": "DDR4-2400",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
+assertDram("K4AAG165WB-MCRC", {
+  rawVendor: "samsung",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "5WB",
+    "Config Code": "AG16",
+    "DRAM Speed": "DDR4-2400",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
+assertDram("K4ABG085WA-MCWE", {
+  rawVendor: "samsung",
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "Package Code": "5WA",
+    "Config Code": "BG08",
+    "DRAM Speed": "DDR4-3200",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
+assertDram("K4ABG165WB-MCWE", {
+  rawVendor: "samsung",
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "Package Code": "5WB",
+    "Config Code": "BG16",
+    "DRAM Speed": "DDR4-3200",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
 assertDram("K4S511632D-UC75", {
   rawVendor: "samsung",
   rawDensity: 512,
@@ -1227,6 +1515,57 @@ assertDram("K4RAH086VB-BCQK", {
   }
 });
 
+assertDram("K4RHE086VB-BCWM", {
+  rawVendor: "samsung",
+  rawDensity: 24576,
+  density: "24Gb",
+  deviceWidth: "x8",
+  voltage: "1.1V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "6VB",
+    "Config Code": "HE08",
+    "DRAM Speed": "DDR5-5600",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
+assertDram("K4RHE165VB-BCWM", {
+  rawVendor: "samsung",
+  rawDensity: 24576,
+  density: "24Gb",
+  deviceWidth: "x16",
+  voltage: "1.1V VDD",
+  package: "106-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "5VB",
+    "Config Code": "HE16",
+    "DRAM Speed": "DDR5-5600",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
+assertDram("K4RBH046VM-BCWM", {
+  rawVendor: "samsung",
+  rawDensity: 32768,
+  density: "32Gb",
+  deviceWidth: "x4",
+  voltage: "1.1V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "6VM",
+    "Config Code": "BH04",
+    "DRAM Speed": "DDR5-5600",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
 assertDram("K3PE7E700M-XGC1", {
   rawVendor: "samsung",
   rawDensity: 8192,
@@ -1291,6 +1630,38 @@ assertDram("K3LKBKB0BM-MGCP", {
     "Package Code": "KB0BM",
     "Config Code": "3LKB",
     "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("K3KL3L30CM-JGCT", {
+  rawVendor: "samsung",
+  rawDensity: 65536,
+  density: "64Gb",
+  deviceWidth: "x64",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "441-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR5X SDRAM",
+    "Package Code": "L30CM",
+    "Config Code": "3KL3",
+    "DRAM Speed": "LPDDR5X-7500",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("K3KL3L30CM-BGCU", {
+  rawVendor: "samsung",
+  rawDensity: 65536,
+  density: "64Gb",
+  deviceWidth: "x16",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "496-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR5X SDRAM",
+    "Package Code": "L30CM",
+    "Config Code": "3KL3",
+    "DRAM Speed": "LPDDR5X-8533",
     "Operation Temperature": "-25C~85C"
   }
 });
@@ -1567,6 +1938,23 @@ assertDram("NT5FF1024M16A4-Q5", {
     "Config Code": "1024M16",
     "DRAM Speed": "DDR5-5600",
     "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("NT5FF2048M8EK-WEU", {
+  rawVendor: "nanya",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x8",
+  voltage: "1.1V VDD",
+  package: "78-ball BGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "EK",
+    "Config Code": "2048M8",
+    "DRAM Speed": "DDR5-8000",
+    "Operation Temperature": "Industrial (-40C~105C)"
   }
 });
 

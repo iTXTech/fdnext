@@ -7,6 +7,7 @@
 ## 外部资料
 
 - CXMT 官方产品页确认公开产品线包含 DDR5/DDR5 module、LPDDR5/5X、DDR4/DDR4 module、LPDDR4X，但页面没有给出可直接落 DSL 的 ordering table / PN breakdown。来源：<https://www.cxmt.com/en/product.html>
+- CXMT 官方 2025-11-23 新闻确认 DDR5 产品线最高 8000Mbps、die density up to 24Gb，LPDDR5X 最高 10667Mbps、封装容量 12GB/16GB/24GB；但新闻仍没有公开 standalone PN breakdown，因此暂不进入 DSL。来源：<https://www.cxmt.com/en/news/info_20.html>
 - CXMT 官方新闻确认 LPDDR5 产品线含 12Gb die、6GB/12GB mobile DRAM 与 POP packaged chip；LPDDR5X 产品线含 12Gb/16Gb die、12GB/16GB/24GB packaged chip 与 8533/9600/10667Mbps，但新闻没有公开具体 standalone PN breakdown。来源：<https://www.cxmt.com/en/news/info_15.html>、<https://www.cxmt.com/en/news/info_19.html>
 - CXMT `CXDQ3BFAM-CQ-A` datasheet 镜像确认 8Gb x16 DDR4 SDRAM、512M x16、96-ball FBGA、1.2V，并在 part-number decoding 中列出 `CX D Q 3 B F A M C Q A` 字段：`3=8Gb`、`B=96-ball FBGA SDP`、`F=x16`、`A=1.2V`、`C=Commercial`、`Q=2666Mbps`。来源：<https://datasheet.lcsc.com/lcsc/2410121538_CXMT-CXDQ3BFAM-CQ-A_C7463070.pdf>
 - LCSC `CXDQ3BFAM-CJ-A` 页面确认 CXMT、8Gbit DDR4、FBGA-96、1.14V~1.26V、1.6GHz。来源：<https://www.lcsc.com/product-detail/C7543662.html>
@@ -40,4 +41,4 @@ CX + D + B + density + io/ch/cs + package + -temp/speed + optional grade
 - DDR4 `3` 输出 8Gb，`B` 输出 x16，`FAM` 输出 96-ball FBGA，suffix `CJ/IJ/CQ/WQ` 输出 speed/temp。
 - LPDDR4X `4` 输出 16Gb，`5` 输出 32Gb；`A/B/C` 位宽/通道 token 当前均输出 x32；`BAM` 输出 DDP/1CS，`CAM` 输出 QDP/2CS，二者顶层均输出 200-ball FBGA。
 - suffix 不存在时不输出 speed/temp。
-- DDR5、LPDDR5/5X、GDDR 当前只作为资料缺口记录，不进入 DSL。
+- DDR5、LPDDR5/5X、GDDR 当前只作为资料缺口记录，不进入 DSL；即使官方新闻已确认 DDR5 24Gb / LPDDR5X 24GB package 级别能力，也必须等到公开 PN token 表或 exact PN 样例后再落规则。

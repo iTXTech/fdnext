@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H5(?:TQ|TC|AN)(?:1G|2G|4G|8G)[468][0-9A-Z]{4}(?:-[0-9A-Z]{3,4})?$"
+      "value": "^H5(?:TQ|TC|AN)(?:1G|2G|4G|8G|AG)[468][0-9A-Z]{4}(?:-[0-9A-Z]{3,4})?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -44,13 +44,15 @@
           "1G": "1G",
           "2G": "2G",
           "4G": "4G",
-          "8G": "8G"
+          "8G": "8G",
+          "AG": "AG"
         },
         "density": {
           "1G": 1024,
           "2G": 2048,
           "4G": 4096,
-          "8G": 8192
+          "8G": 8192,
+          "AG": 16384
         },
         "deviceWidth": {
           "4": 4,
@@ -71,6 +73,7 @@
           "TF": "TF",
           "UH": "UH",
           "VK": "VK",
+          "WM": "WM",
           "XN": "XN"
         },
         "speedObj": {
@@ -113,6 +116,9 @@
           "AN:VK": {
             "dram_speed": "DDR4-2666V CL19"
           },
+          "AN:WM": {
+            "dram_speed": "DDR4-2933 CL21"
+          },
           "AN:XN": {
             "dram_speed": "DDR4-3200 CL22"
           }
@@ -132,6 +138,23 @@
           },
           "L": {
             "operation_temperature": "Commercial low-power IDD6"
+          }
+        },
+        "ddpStackObj": {
+          "TC:8G:4:3:AMR": {
+            "dram_die_stack": "DDP (2-die), 2 CS"
+          },
+          "TC:8G:8:3:AMR": {
+            "dram_die_stack": "DDP (2-die), 2 CS"
+          },
+          "TC:8G:6:3:AMR": {
+            "dram_die_stack": "DDP (2-die), 2 CS"
+          },
+          "AN:AG:8:N:CMR": {
+            "dram_die_stack": "DDP (2-die), 2 CS"
+          },
+          "AN:AG:6:N:CMR": {
+            "dram_die_stack": "DDP (2-die), 1 CS"
           }
         }
       },
@@ -211,6 +234,18 @@
           "to": "dieRevision"
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{densityCode}}:{{widthCode}}:{{configTail}}:{{dieRevision}}",
+          "to": "ddpStackKey"
+        },
+        {
+          "op": "map",
+          "from": "ddpStackKey",
+          "table": "ddpStackObj",
+          "to": "ddpStackObj",
+          "default": {}
+        },
+        {
           "op": "map",
           "from": "widthCode",
           "table": "packageActual",
@@ -268,6 +303,11 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "ddpStackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "speedObj"
         },
         {
@@ -315,7 +355,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H5CG4[468][0-9A-Z][0-9A-Z]{2}[A-Z](?:-?X[0-9A-Z]{3})?$"
+      "value": "^H5CG(?:4|D)[468][0-9A-Z][0-9A-Z]{2}[A-Z](?:-?X[0-9A-Z]{3})?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -323,10 +363,12 @@
       ],
       "tables": {
         "densityToken": {
-          "G4": "G4"
+          "G4": "G4",
+          "GD": "GD"
         },
         "density": {
-          "G4": 16384
+          "G4": 16384,
+          "GD": 24576
         },
         "deviceWidth": {
           "4": 4,
@@ -342,11 +384,15 @@
           }
         },
         "speedToken": {
-          "GB": "GB"
+          "GB": "GB",
+          "HB": "HB"
         },
         "speedObj": {
           "GB": {
             "dram_speed": "DDR5-5600"
+          },
+          "HB": {
+            "dram_speed": "DDR5-6400"
           }
         }
       },

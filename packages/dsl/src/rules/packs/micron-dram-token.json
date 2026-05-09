@@ -123,6 +123,7 @@
           "512M64": "512M64",
           "768M32": "768M32",
           "768M64": "768M64",
+          "1536M16": "1536M16",
           "1536M32": "1536M32",
           "1536M64": "1536M64",
           "1G4": "1G4",
@@ -135,11 +136,13 @@
           "2G16": "2G16",
           "2G32": "2G32",
           "2G64": "2G64",
+          "3G8": "3G8",
           "4G4": "4G4",
           "4G8": "4G8",
           "4G16": "4G16",
           "4G32": "4G32",
           "6G4": "6G4",
+          "8G4": "8G4",
           "16M32": "16M32",
           "32M32": "32M32"
         },
@@ -170,6 +173,7 @@
           "512M64": 32768,
           "768M32": 24576,
           "768M64": 49152,
+          "1536M16": 24576,
           "1536M32": 49152,
           "1536M64": 98304,
           "1G4": 4096,
@@ -182,11 +186,13 @@
           "2G16": 32768,
           "2G32": 65536,
           "2G64": 131072,
+          "3G8": 24576,
           "4G4": 16384,
           "4G8": 32768,
           "4G16": 65536,
           "4G32": 131072,
           "6G4": 24576,
+          "8G4": 32768,
           "16M32": 512,
           "32M32": 1024
         },
@@ -217,6 +223,7 @@
           "512M64": 64,
           "768M32": 32,
           "768M64": 64,
+          "1536M16": 16,
           "1536M32": 32,
           "1536M64": 64,
           "1G4": 4,
@@ -229,11 +236,13 @@
           "2G16": 16,
           "2G32": 32,
           "2G64": 64,
+          "3G8": 8,
           "4G4": 4,
           "4G8": 8,
           "4G16": 16,
           "4G32": 32,
           "6G4": 4,
+          "8G4": 4,
           "16M32": 32,
           "32M32": 32
         },
@@ -279,6 +288,7 @@
           }
         },
         "packageToken": {
+          "AT": "AT",
           "DA": "DA",
           "DE": "DE",
           "DH": "DH",
@@ -288,6 +298,7 @@
           "EK": "EK",
           "FW": "FW",
           "HB": "HB",
+          "HD": "HD",
           "HC": "HC",
           "HF": "HF",
           "HJ": "HJ",
@@ -303,6 +314,7 @@
           "RKB": "RKB",
           "RT": "RT",
           "RW": "RW",
+          "RV": "RV",
           "RZ": "RZ",
           "SA": "SA",
           "TB": "TB",
@@ -316,11 +328,22 @@
           "TRF": "TRF",
           "ZW": "ZW",
           "B5": "B5",
+          "BAF": "BAF",
           "CM": "CM",
+          "FSE": "FSE",
+          "HBA": "HBA",
+          "KNR": "KNR",
           "KQ": "KQ",
-          "MA": "MA"
+          "MA": "MA",
+          "NEA": "NEA",
+          "NRE": "NRE",
+          "TBB": "TBB",
+          "WBU": "WBU"
         },
         "packageObj": {
+          "AT": {
+            "package_code": "AT"
+          },
           "DA": {
             "package_code": "DA"
           },
@@ -347,6 +370,9 @@
           },
           "HB": {
             "package_code": "HB"
+          },
+          "HD": {
+            "package_code": "HD"
           },
           "HC": {
             "package_code": "HC"
@@ -393,6 +419,9 @@
           "RW": {
             "package_code": "RW"
           },
+          "RV": {
+            "package_code": "RV"
+          },
           "RZ": {
             "package_code": "RZ"
           },
@@ -432,18 +461,51 @@
           "B5": {
             "package_code": "B5"
           },
+          "BAF": {
+            "package_code": "BAF"
+          },
           "CM": {
             "package_code": "CM"
+          },
+          "FSE": {
+            "package_code": "FSE"
+          },
+          "HBA": {
+            "package_code": "HBA"
+          },
+          "KNR": {
+            "package_code": "KNR"
           },
           "KQ": {
             "package_code": "KQ"
           },
           "MA": {
             "package_code": "MA"
+          },
+          "NEA": {
+            "package_code": "NEA"
+          },
+          "NRE": {
+            "package_code": "NRE"
+          },
+          "TBB": {
+            "package_code": "TBB"
+          },
+          "WBU": {
+            "package_code": "WBU"
           }
         },
         "packageActual": {
+          "40:BAF": "78-ball FBGA (10.5x11)",
+          "40:FSE": "78-ball FBGA (9.5x13)",
+          "40:HBA": "96-ball FBGA (9.5x14)",
+          "40:KNR": "96-ball FBGA (7.5x13.5)",
+          "40:NEA": "78-ball FBGA (7.5x11)",
+          "40:NRE": "78-ball FBGA (8x12)",
           "40:SA": "78-ball FBGA (7.5x11)",
+          "40:TBB": "96-ball FBGA (7.5x13)",
+          "40:TRF": "78-ball FBGA (9.5x11.5)",
+          "40:WBU": "96-ball FBGA (8x14)",
           "41:DA": "78-ball FBGA (8x10.5)",
           "41:DGA": "96-ball FBGA (9.5x14)",
           "41:KJR": "78-ball FBGA (9.5x13)",
@@ -464,7 +526,12 @@
           "52:PF": "178-ball FBGA (11.5x11)",
           "53:FW": "200-ball TFBGA (10x14.5)",
           "58:JA": "190-ball FBGA (10x14)",
+          "60:AT": "78/117-ball VFBGA",
           "60:HB": "82-ball VFBGA (9x11)",
+          "60:HD": "102-ball VFBGA (7.5x14)",
+          "60:RV": "102/153-ball VFBGA",
+          "60:RW": "78-ball VFBGA (8x11)",
+          "60:RZ": "78-ball VFBGA (7.5x11)",
           "61:JE": "180-ball FBGA (12x14)",
           "61:KPA": "180-ball FBGA (12x14)",
           "62:DS": "200-ball WFBGA (10x14.5)",
@@ -472,6 +539,48 @@
           "68:DF": "266-ball FBGA (12x14x1.1)"
         },
         "twinDieObj": {
+          "40:A:1G8:TRF": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "40:A:2G4:TRF": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "40:A:2G8:FSE": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "40:A:2G8:NRE": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "40:A:4G4:FSE": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "40:A:4G4:NRE": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "40:A:4G8:BAF": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "40:A:4G8:NEA": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "40:A:8G4:BAF": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "40:A:8G4:NEA": {
+            "dram_die_stack": "2-die stack, 2 CS"
+          },
+          "40:A:1G16:HBA": {
+            "dram_die_stack": "2-die stack, 1 CS"
+          },
+          "40:A:1G16:KNR": {
+            "dram_die_stack": "2-die stack, 1 CS"
+          },
+          "40:A:1G16:WBU": {
+            "dram_die_stack": "2-die stack, 1 CS"
+          },
+          "40:A:2G16:TBB": {
+            "dram_die_stack": "2-die stack, 1 CS"
+          },
           "41:J:1G4:THD": {
             "dram_die_stack": "2-die stack, 2 CS"
           },
@@ -534,6 +643,62 @@
           }
         },
         "reference": {
+          "40:A:1G8:TRF": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A2G4/MT40A1G8 TwinDie DDR4 SDRAM datasheet"
+          },
+          "40:A:2G4:TRF": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A2G4/MT40A1G8 TwinDie DDR4 SDRAM datasheet"
+          },
+          "40:A:2G8:FSE": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A4G4/MT40A2G8 TwinDie DDR4 SDRAM datasheet"
+          },
+          "40:A:2G8:NRE": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A4G4/MT40A2G8 TwinDie DDR4 SDRAM datasheet"
+          },
+          "40:A:4G4:FSE": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A4G4/MT40A2G8 TwinDie DDR4 SDRAM datasheet"
+          },
+          "40:A:4G4:NRE": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A4G4/MT40A2G8 TwinDie DDR4 SDRAM datasheet"
+          },
+          "40:A:4G8:BAF": {
+            "status": "external_table_confirmed",
+            "source": "Micron MT40A8G4/MT40A4G8 TwinDie DDR4 SDRAM datasheet mirror"
+          },
+          "40:A:4G8:NEA": {
+            "status": "external_table_confirmed",
+            "source": "Micron MT40A8G4/MT40A4G8 TwinDie DDR4 SDRAM datasheet mirror"
+          },
+          "40:A:8G4:BAF": {
+            "status": "external_table_confirmed",
+            "source": "Micron MT40A8G4/MT40A4G8 TwinDie DDR4 SDRAM datasheet mirror"
+          },
+          "40:A:8G4:NEA": {
+            "status": "external_table_confirmed",
+            "source": "Micron MT40A8G4/MT40A4G8 TwinDie DDR4 SDRAM datasheet mirror"
+          },
+          "40:A:1G16:HBA": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A1G16 TwinDie single-rank DDR4 SDRAM datasheet"
+          },
+          "40:A:1G16:KNR": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A1G16 TwinDie single-rank DDR4 SDRAM datasheet"
+          },
+          "40:A:1G16:WBU": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A1G16 TwinDie single-rank DDR4 SDRAM datasheet"
+          },
+          "40:A:2G16:TBB": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A2G16 TwinDie single-rank DDR4 SDRAM datasheet"
+          },
           "41:J:1G4:THD": {
             "status": "external_confirmed",
             "source": "Micron MT41J1G4/MT41J512M8 TwinDie DDR3 SDRAM datasheet"

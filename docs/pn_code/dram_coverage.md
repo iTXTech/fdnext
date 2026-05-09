@@ -19,6 +19,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 同一厂商同一 family 可能覆盖多个标准世代，例如 Micron `MT53` 通过 voltage token 区分 LPDDR4/LPDDR4X，`MT62` 通过 speed/package 资料区分 LPDDR5/LPDDR5X，`MT61` 通过 speed bin 区分 GDDR6/GDDR6X。
 - 规则只能输出单一标准 `dram_type`。如果 token 不足以确认 `LPDDR5` vs `LPDDR5X` 或 `GDDR6` vs `GDDR6X`，输出更保守的基础世代，或等待后续 token / 外部资料确认。
 - 已有厂商规则需要优先补全 frequency / speed bin 与 CS / die stack 信息；LPDDR、stacked DRAM 或 datasheet 明确 DDP/QDP/1CS/2CS 的 PN 必须输出 `dram_die_stack`。
+- 大容量 configuration 可以基于已确认的 density / width token 规律扩展到新一代高容量 PN；但不能仅凭 `24Gb`、`32Gb`、`64Gb` 或 config 容量推断 `dram_die_stack`，必须有封装 / ordering table / datasheet 明确说明。
 - `-` 后的 suffix 不应成为解码主结构的强制条件。缺 suffix 时应保留可确定字段，只减少 `dram_speed`、`operation_temperature`、`die_revision` 等后缀信息。
 - 顶层 `package` 只写可由 datasheet、原厂 catalog、TechInsights/TechPowerUp 或可信分销页确认的实际封装；仅有厂商代码时只写 `package_code`。
 - 每个新增世代至少补一个 testcase，验证顶层 `type/density/deviceWidth/voltage/package` 与标准 `extraInfo`。
@@ -30,11 +31,13 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 | --- | --- | --- | --- | --- |
 | Micron / Crucial | SDR, LPSDR, DDR, DDR2, DDR3, DDR4, DDR5 | LPDDR, LPDDR2, LPDDR3, LPDDR4, LPDDR4X, LPDDR5, LPDDR5X | GDDR5, GDDR5X, GDDR6, GDDR6X, GDDR7 | RLDRAM, RLDRAM 3 |
 | SK hynix | SDR, DDR, DDR2, DDR3, DDR3L, DDR4, DDR5 | LPDDR4, LPDDR5, LPDDR5X | GDDR5, GDDR6 | - |
-| Samsung | SDR, DDR, DDR2, DDR3, DDR4, DDR5 | LPDDR, LPDDR2, LPDDR3, LPDDR4, LPDDR4X, LPDDR5 | GDDR, GDDR2, GDDR3, GDDR4, GDDR5, GDDR6, GDDR7 | - |
+| Samsung | SDR, DDR, DDR2, DDR3, DDR4, DDR5 | LPDDR, LPDDR2, LPDDR3, LPDDR4, LPDDR4X, LPDDR5, LPDDR5X | GDDR, GDDR2, GDDR3, GDDR4, GDDR5, GDDR6, GDDR7 | - |
 | Nanya | DDR, DDR2, DDR3/DDR3L, DDR4, DDR5 | LPDDR2, LPDDR3, LPDDR4, LPDDR4X, LPDDR5/5X | - | - |
 | Elpida | SDR, DDR, DDR2, DDR3 | LPDDR2, LPDDR3 | GDDR5 | - |
 | CXMT | DDR4 | LPDDR4X | - | - |
 
 SK hynix 仍需继续补齐 LPDDR/LPDDR2/LPDDR3、GDDR/GDDR2/GDDR3/GDDR4/GDDR7 等公开 ordering table；没有外部 PN 证据前不把推测写成确定结论。
+
+当前大容量 config 已覆盖 Micron DDR5 24Gb / 32Gb、SK hynix DDR5 24Gb、Samsung DDR4 32Gb / DDR5 24Gb / 32Gb / LPDDR5X 64Gb，以及 Nanya DDR5-8000 `2048M8` 样例。CXMT 官方资料只确认 DDR5 / LPDDR5X 高容量产品存在，未公开足够 PN token breakdown，暂不进入 DSL。
 
 Nanya 官方产品线未列 GDDR；Elpida 独立品牌 standard DDR 世代到 DDR3 结束，后续 DDR4/DDR5 不作为待补缺口；CXMT 官方资料确认 DDR5/LPDDR5/LPDDR5X 产品存在，但公开页面没有足够 PN breakdown，当前只把 DDR4 与 LPDDR4X 写入 DSL。
