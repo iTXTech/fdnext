@@ -13,7 +13,32 @@ import type {
 
 export const DEFAULT_MICRON_HEADERS = ["NC", "NW", "NY", "NX", "NQ", "NV"] as const;
 export const DEFAULT_SPECTEK_HEADERS = ["PF", "PFA", "PFB", "PFC", "PFD", "PFE", "PFF", "PFG", "PFH"] as const;
+export const DEFAULT_MDB_FLUSH_HITS = 20;
+export const DEFAULT_MDB_CONCURRENCY = 5;
 export const DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST = ["D9", "D8", "C9", "Z8", "Z9"] as const;
+export const DEFAULT_MDB_FBGA_LETTERS = [
+  "B",
+  "C",
+  "D",
+  "F",
+  "G",
+  "H",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z"
+] as const;
 export const DEFAULT_MICRON_START_FROM: Record<string, number> = {
   NC: 101,
   NW: 101,
@@ -188,6 +213,38 @@ function emptySectionStats(): MdbCrawlSectionStats {
   };
 }
 
+function getFlushHitInterval(saveEachHit: boolean, flushHits?: number): number {
+  if (!saveEachHit) {
+    return 0;
+  }
+  if (Number.isFinite(flushHits) && Number(flushHits) > 0) {
+    return Math.max(1, Math.floor(Number(flushHits)));
+  }
+  return DEFAULT_MDB_FLUSH_HITS;
+}
+
+function getConcurrencyLimit(concurrency?: number): number {
+  if (Number.isFinite(concurrency) && Number(concurrency) > 0) {
+    return Math.max(1, Math.floor(Number(concurrency)));
+  }
+  return DEFAULT_MDB_CONCURRENCY;
+}
+
+function applyFbgaStartFromCode(codes: string[], startFromCode?: string): string[] {
+  const start = startFromCode ? normalizeFbgaCode(startFromCode) : "";
+  if (!start) {
+    return codes;
+  }
+  if (!/^[0-9A-Z]{2,5}$/.test(start)) {
+    throw new Error(`Invalid FBGA start segment: ${startFromCode}`);
+  }
+  const index = codes.findIndex((code) => code === start || code.startsWith(start));
+  if (index < 0) {
+    throw new Error(`FBGA start segment not found: ${start}`);
+  }
+  return codes.slice(index);
+}
+
 export function createEmptyMdb(): MdbPayload {
   return { micron: {}, spectek: {} };
 }
@@ -201,7 +258,7 @@ export function loadMdb(file: string): MdbPayload {
   return ensureMdbShape(raw);
 }
 
-export function saveMdb(file: string, data: MdbPayload, pretty = false): void {
+export function saveMdb(file: string, data: MdbPayload, pretty = true): void {
   writeJson(file, data, pretty);
 }
 
@@ -261,6 +318,55 @@ export function loadMicronFbgaCodes(file: string): string[] {
   return out;
 }
 
+export function generateMicronDramFbgaCodes(
+  prefixes: readonly string[] = DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST,
+  letters: readonly string[] = DEFAULT_MDB_FBGA_LETTERS
+): string[] {
+  const normalizedLetters = sortUnique(letters.map((letter) => normalizeFbgaCode(letter))).filter((letter) =>
+    /^[0-9A-Z]$/.test(letter)
+  );
+  const out: string[] = [];
+  for (const rawPrefix of prefixes) {
+    const prefix = normalizeFbgaCode(rawPrefix);
+    if (!/^[0-9A-Z]{2}$/.test(prefix)) {
+      continue;
+    }
+    for (const first of normalizedLetters) {
+      for (const second of normalizedLetters) {
+        for (const third of normalizedLetters) {
+          out.push(`${prefix}${first}${second}${third}`);
+        }
+      }
+    }
+  }
+  return out;
+}
+
+function buildMicronFbgaCrawlCodes(options: CrawlMdbDramOptions): string[] {
+  const generatedCodes = options.generatedCodes ?? true;
+  const out: string[] = [];
+  const seen = new Set<string>();
+  const addCodes = (codes: Iterable<string>): void => {
+    for (const code of codes) {
+      const normalized = normalizeFbgaCode(code);
+      if (!isFiveDigitFbgaCode(normalized) || seen.has(normalized)) {
+        continue;
+      }
+      seen.add(normalized);
+      out.push(normalized);
+    }
+  };
+
+  if (generatedCodes) {
+    addCodes(generateMicronDramFbgaCodes());
+  }
+  if (options.codesFile) {
+    addCodes(loadMicronFbgaCodes(options.codesFile));
+  }
+
+  return out;
+}
+
 function normalizeMdbDramEntries(input: unknown): MdbDramEntry[] {
   const values = Array.isArray(input) ? input : Array.isArray(asRecord(input).entries) ? (asRecord(input).entries as unknown[]) : [];
   const out: MdbDramEntry[] = [];
@@ -296,15 +402,18 @@ export function saveMdbDram(file: string, data: MdbDramEntry[], pretty = false):
 
 export async function crawlMdbDram(options: CrawlMdbDramOptions): Promise<CrawlMdbDramResult> {
   const file = options.file ? resolve(options.file) : undefined;
-  const pretty = options.pretty ?? false;
+  const pretty = options.pretty ?? true;
   const saveEachHit = options.saveEachHit ?? true;
+  const flushHitInterval = getFlushHitInterval(saveEachHit, options.flushHits);
+  const concurrency = getConcurrencyLimit(options.concurrency);
   const logger = options.logger ?? (() => {});
   const delayMs = Number.isFinite(options.delayMs) && options.delayMs ? Math.max(0, options.delayMs) : 0;
-  const codes = loadMicronFbgaCodes(options.codesFile);
+  const codes = applyFbgaStartFromCode(buildMicronFbgaCrawlCodes(options), options.startFromCode);
   const existing = file ? loadMdb(file) : createEmptyMdb();
   const legacy = file ? loadMdbDram(file) : [];
   const byCode = new Map<string, MdbDramEntry>();
   const order: string[] = [];
+  let pendingFlushHits = 0;
 
   for (const [code, partNumber] of Object.entries(existing.micron)) {
     if (!byCode.has(code)) {
@@ -333,11 +442,22 @@ export async function crawlMdbDram(options: CrawlMdbDramOptions): Promise<CrawlM
       spectek: existing.spectek
     };
     saveMdb(file, merged, pretty);
-  }
+  };
+  const flushAfterHit = (): void => {
+    if (!file || flushHitInterval <= 0) {
+      return;
+    }
+    pendingFlushHits += 1;
+    if (pendingFlushHits >= flushHitInterval) {
+      emit();
+      pendingFlushHits = 0;
+    }
+  };
 
   const stats = { ...emptySectionStats(), durationMs: 0 };
   const startAt = Date.now();
   const allowedPrefixes = new Set<string>(DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST);
+  const pendingCodes: string[] = [];
 
   for (const code of codes) {
     const prefix = code.slice(0, 2);
@@ -351,31 +471,44 @@ export async function crawlMdbDram(options: CrawlMdbDramOptions): Promise<CrawlM
       continue;
     }
 
-    stats.requests += 1;
-    if (stats.requests % 200 === 0) {
-      logger(`[mdb-fbga] progress requests=${stats.requests} hit=${stats.hits} miss=${stats.misses} skip=${stats.skips} err=${stats.errors}`);
-    }
+    pendingCodes.push(code);
+  }
 
-    try {
-      const partNumber = await queryMicronByFbgaCode(code, options);
-      if (partNumber) {
+  for (let offset = 0; offset < pendingCodes.length; offset += concurrency) {
+    const batch = pendingCodes.slice(offset, offset + concurrency);
+    const results = await Promise.all(
+      batch.map(async (code) => {
+        stats.requests += 1;
+        if (stats.requests % 200 === 0) {
+          logger(`[mdb-fbga] progress requests=${stats.requests} hit=${stats.hits} miss=${stats.misses} skip=${stats.skips} err=${stats.errors}`);
+        }
+        try {
+          return { code, partNumber: await queryMicronByFbgaCode(code, options) };
+        } catch (error: unknown) {
+          return { code, error };
+        }
+      })
+    );
+
+    for (const result of results) {
+      if ("error" in result) {
+        stats.errors += 1;
+        const text = result.error instanceof Error ? result.error.message : String(result.error);
+        logger(`[mdb-fbga] ${result.code} failed: ${text}`);
+        continue;
+      }
+      if (result.partNumber) {
+        const { code, partNumber } = result;
         const entry = { code, pn: partNumber };
         byCode.set(code, entry);
         order.push(code);
         stats.hits += 1;
         logger(`[mdb-fbga] ${code} => ${partNumber}`);
-        if (file && saveEachHit) {
-          emit();
-        }
+        flushAfterHit();
       } else {
         stats.misses += 1;
       }
-    } catch (error: unknown) {
-      stats.errors += 1;
-      const text = error instanceof Error ? error.message : String(error);
-      logger(`[mdb-fbga] ${code} failed: ${text}`);
     }
-
     await delay(delayMs);
   }
 
@@ -498,8 +631,10 @@ export async function querySpectekByMarkCode(code: string, options?: MdbQueryOpt
 
 export async function crawlMdb(options: CrawlMdbOptions = {}): Promise<CrawlMdbResult> {
   const file = options.file ? resolve(options.file) : undefined;
-  const pretty = options.pretty ?? false;
+  const pretty = options.pretty ?? true;
   const saveEachHit = options.saveEachHit ?? true;
+  const flushHitInterval = getFlushHitInterval(saveEachHit, options.flushHits);
+  const concurrency = getConcurrencyLimit(options.concurrency);
   const logger = options.logger ?? (() => {});
   const delayMs = Number.isFinite(options.delayMs) && options.delayMs ? Math.max(0, options.delayMs) : 0;
   const micronHeaders = (options.micronHeaders ?? [...DEFAULT_MICRON_HEADERS]).map(normalizeCode).filter(Boolean);
@@ -522,7 +657,19 @@ export async function crawlMdb(options: CrawlMdbOptions = {}): Promise<CrawlMdbR
   const startAt = Date.now();
   const micronStats = emptySectionStats();
   const spectekStats = emptySectionStats();
+  let pendingFlushHits = 0;
+  const flushAfterHit = (): void => {
+    if (!file || flushHitInterval <= 0) {
+      return;
+    }
+    pendingFlushHits += 1;
+    if (pendingFlushHits >= flushHitInterval) {
+      saveMdb(file, mdb, pretty);
+      pendingFlushHits = 0;
+    }
+  };
 
+  const pendingMicronCodes: string[] = [];
   for (const header of micronHeaders) {
     const fromRaw = micronStartFrom[header];
     const from = Number.isFinite(fromRaw) ? Math.max(1, Math.floor(Number(fromRaw))) : 1;
@@ -532,39 +679,55 @@ export async function crawlMdb(options: CrawlMdbOptions = {}): Promise<CrawlMdbR
         micronStats.skips += 1;
         continue;
       }
-      micronStats.requests += 1;
-      if (micronStats.requests % 200 === 0) {
-        logger(`[micron] progress requests=${micronStats.requests} hit=${micronStats.hits} miss=${micronStats.misses} skip=${micronStats.skips} err=${micronStats.errors}`);
-      }
-      try {
-        const partNumber = await queryMicronByFbgaCode(code, options);
-        if (partNumber) {
-          if (knownMicronPn.has(partNumber)) {
-            micronStats.skips += 1;
-            logger(`[micron] ${code} skipped known pn ${partNumber}`);
-            continue;
-          }
-          mdb.micron[code] = partNumber;
-          knownMicronPn.add(partNumber);
-          micronStats.hits += 1;
-          logger(`[micron] ${code} => ${partNumber}`);
-          if (file && saveEachHit) {
-            saveMdb(file, mdb, pretty);
-          }
-        } else {
-          micronStats.misses += 1;
-        }
-      } catch (error: unknown) {
-        micronStats.errors += 1;
-        const text = error instanceof Error ? error.message : String(error);
-        logger(`[micron] ${code} failed: ${text}`);
-      }
-      if (delayMs > 0) {
-        await delay(delayMs);
-      }
+      pendingMicronCodes.push(code);
     }
   }
 
+  for (let offset = 0; offset < pendingMicronCodes.length; offset += concurrency) {
+    const batch = pendingMicronCodes.slice(offset, offset + concurrency);
+    const results = await Promise.all(
+      batch.map(async (code) => {
+        micronStats.requests += 1;
+        if (micronStats.requests % 200 === 0) {
+          logger(
+            `[micron] progress requests=${micronStats.requests} hit=${micronStats.hits} miss=${micronStats.misses} skip=${micronStats.skips} err=${micronStats.errors}`
+          );
+        }
+        try {
+          return { code, partNumber: await queryMicronByFbgaCode(code, options) };
+        } catch (error: unknown) {
+          return { code, error };
+        }
+      })
+    );
+
+    for (const result of results) {
+      if ("error" in result) {
+        micronStats.errors += 1;
+        const text = result.error instanceof Error ? result.error.message : String(result.error);
+        logger(`[micron] ${result.code} failed: ${text}`);
+        continue;
+      }
+      if (result.partNumber) {
+        const { code, partNumber } = result;
+        if (knownMicronPn.has(partNumber)) {
+          micronStats.skips += 1;
+          logger(`[micron] ${code} skipped known pn ${partNumber}`);
+          continue;
+        }
+        mdb.micron[code] = partNumber;
+        knownMicronPn.add(partNumber);
+        micronStats.hits += 1;
+        logger(`[micron] ${code} => ${partNumber}`);
+        flushAfterHit();
+      } else {
+        micronStats.misses += 1;
+      }
+    }
+    await delay(delayMs);
+  }
+
+  const pendingSpectekCodes: string[] = [];
   for (const header of spectekHeaders) {
     const maxByHeader = Number(`1${"0".repeat(Math.max(0, 5 - header.length))}`);
     const end = spectekMax ? Math.min(maxByHeader, spectekMax) : maxByHeader;
@@ -574,41 +737,55 @@ export async function crawlMdb(options: CrawlMdbOptions = {}): Promise<CrawlMdbR
         spectekStats.skips += 1;
         continue;
       }
-      spectekStats.requests += 1;
-      if (spectekStats.requests % 100 === 0) {
-        logger(`[spectek] progress requests=${spectekStats.requests} hit=${spectekStats.hits} miss=${spectekStats.misses} skip=${spectekStats.skips} err=${spectekStats.errors}`);
-      }
-      try {
-        const partNumbers = await querySpectekByMarkCode(code, options);
-        if (partNumbers.length > 0) {
-          const uniquePartNumbers = sortUnique(partNumbers);
-          const newPartNumbers = uniquePartNumbers.filter((partNumber) => !knownSpectekPn.has(partNumber));
-          if (newPartNumbers.length === 0) {
-            spectekStats.skips += 1;
-            logger(`[spectek] ${code} skipped known pn ${JSON.stringify(uniquePartNumbers)}`);
-            continue;
-          }
-          mdb.spectek[code] = newPartNumbers;
-          for (const partNumber of newPartNumbers) {
-            knownSpectekPn.add(partNumber);
-          }
-          spectekStats.hits += 1;
-          logger(`[spectek] ${code} => ${JSON.stringify(mdb.spectek[code])}`);
-          if (file && saveEachHit) {
-            saveMdb(file, mdb, pretty);
-          }
-        } else {
-          spectekStats.misses += 1;
+      pendingSpectekCodes.push(code);
+    }
+  }
+
+  for (let offset = 0; offset < pendingSpectekCodes.length; offset += concurrency) {
+    const batch = pendingSpectekCodes.slice(offset, offset + concurrency);
+    const results = await Promise.all(
+      batch.map(async (code) => {
+        spectekStats.requests += 1;
+        if (spectekStats.requests % 100 === 0) {
+          logger(
+            `[spectek] progress requests=${spectekStats.requests} hit=${spectekStats.hits} miss=${spectekStats.misses} skip=${spectekStats.skips} err=${spectekStats.errors}`
+          );
         }
-      } catch (error: unknown) {
+        try {
+          return { code, partNumbers: await querySpectekByMarkCode(code, options) };
+        } catch (error: unknown) {
+          return { code, error };
+        }
+      })
+    );
+
+    for (const result of results) {
+      if ("error" in result) {
         spectekStats.errors += 1;
-        const text = error instanceof Error ? error.message : String(error);
-        logger(`[spectek] ${code} failed: ${text}`);
+        const text = result.error instanceof Error ? result.error.message : String(result.error);
+        logger(`[spectek] ${result.code} failed: ${text}`);
+        continue;
       }
-      if (delayMs > 0) {
-        await delay(delayMs);
+      if (result.partNumbers.length > 0) {
+        const uniquePartNumbers = sortUnique(result.partNumbers);
+        const newPartNumbers = uniquePartNumbers.filter((partNumber) => !knownSpectekPn.has(partNumber));
+        if (newPartNumbers.length === 0) {
+          spectekStats.skips += 1;
+          logger(`[spectek] ${result.code} skipped known pn ${JSON.stringify(uniquePartNumbers)}`);
+          continue;
+        }
+        mdb.spectek[result.code] = newPartNumbers;
+        for (const partNumber of newPartNumbers) {
+          knownSpectekPn.add(partNumber);
+        }
+        spectekStats.hits += 1;
+        logger(`[spectek] ${result.code} => ${JSON.stringify(mdb.spectek[result.code])}`);
+        flushAfterHit();
+      } else {
+        spectekStats.misses += 1;
       }
     }
+    await delay(delayMs);
   }
 
   if (file) {

@@ -18,8 +18,12 @@ interface CliOptions {
   spectekMax?: number;
   delayMs?: number;
   saveEachHit?: boolean;
+  flushHits?: number;
+  concurrency?: number;
   userAgent?: string;
   codesFile?: string;
+  generatedCodes?: boolean;
+  startFromCode?: string;
 }
 
 function usage(): string {
@@ -27,7 +31,7 @@ function usage(): string {
     "Usage:",
     "  fdnext-fdbgen build --input <dir> --output <file> --version <ver> [options]",
     "  fdnext-fdbgen crawl-mdb --file <mdb.json> [options]",
-    "  fdnext-fdbgen crawl-mdb-from-fbga --codes <fbga-codes.json> --file <mdb.json> [options]",
+    "  fdnext-fdbgen crawl-mdb-from-fbga --file <mdb.json> [--codes <fbga-codes.json>] [options]",
     "",
     "Build options:",
     "  --input <dir>       Input dataset directory",
@@ -37,21 +41,29 @@ function usage(): string {
     "  --version <ver>     Required info.version",
     "  --name <name>       Override info.name",
     "  --website <url>     Override info.website",
-    "  --pretty            Write pretty JSON",
+    "  --pretty            Write pretty JSON (default for MDB crawls)",
     "",
     "MDB crawl options:",
     "  --file <path>       mdb.json file path for read/write",
     "  --micron-max <n>    Micron upper bound (exclusive, default 1000)",
     "  --spectek-max <n>   SpecTek upper bound (exclusive, optional)",
     "  --delay-ms <n>      Delay between requests in milliseconds",
+    "  --concurrency <n>   Maximum concurrent MDB requests (default 5)",
+    "  --flush-hits <n>    Flush mdb.json after this many hits (default 20)",
     "  --user-agent <ua>   Custom HTTP User-Agent",
+    "  --save-each-hit     Flush mdb.json after every hit",
     "  --no-save-each-hit  Save only once at the end",
     "",
     "FBGA to MDB options:",
-    "  --codes <path>      Predefined FBGA code JSON (top-level string array)",
+    "  --codes <path>      Supplemental FBGA code JSON (top-level string array)",
     "  --file <path>       mdb.json file path for read/write",
+    "  --start-from <code> Start from an FBGA code or segment, e.g. D9N",
     "  --delay-ms <n>      Delay between requests in milliseconds",
+    "  --concurrency <n>   Maximum concurrent MDB requests (default 5)",
+    "  --flush-hits <n>    Flush mdb.json after this many hits (default 20)",
     "  --user-agent <ua>   Custom HTTP User-Agent",
+    "  --no-generated-codes  Disable default C9/D8/D9/Z8/Z9 generated candidates",
+    "  --save-each-hit     Flush mdb.json after every hit",
     "  --no-save-each-hit  Save only once at the end",
     "  -h, --help          Show help"
   ].join("\n");
@@ -162,6 +174,16 @@ function parseCrawlOptions(args: string[]): CliOptions {
       i += 1;
       continue;
     }
+    if (arg === "--concurrency") {
+      options.concurrency = parseIntegerFlag(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--flush-hits") {
+      options.flushHits = parseIntegerFlag(args, i, arg);
+      i += 1;
+      continue;
+    }
     if (arg === "--user-agent") {
       options.userAgent = requireValue(args, i, arg);
       i += 1;
@@ -173,6 +195,7 @@ function parseCrawlOptions(args: string[]): CliOptions {
     }
     if (arg === "--save-each-hit") {
       options.saveEachHit = true;
+      options.flushHits = 1;
       continue;
     }
     if (arg === "-h" || arg === "--help") {
@@ -186,6 +209,7 @@ function parseCrawlOptions(args: string[]): CliOptions {
 
 function parseCrawlMdbDramOptions(args: string[]): CliOptions {
   const options: CliOptions = {
+    generatedCodes: true,
     saveEachHit: true
   };
   for (let i = 0; i < args.length; i += 1) {
@@ -207,8 +231,23 @@ function parseCrawlMdbDramOptions(args: string[]): CliOptions {
       options.pretty = true;
       continue;
     }
+    if (arg === "--start-from" || arg === "--start-segment") {
+      options.startFromCode = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
     if (arg === "--delay-ms") {
       options.delayMs = parseIntegerFlag(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--concurrency") {
+      options.concurrency = parseIntegerFlag(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--flush-hits") {
+      options.flushHits = parseIntegerFlag(args, i, arg);
       i += 1;
       continue;
     }
@@ -221,8 +260,13 @@ function parseCrawlMdbDramOptions(args: string[]): CliOptions {
       options.saveEachHit = false;
       continue;
     }
+    if (arg === "--no-generated-codes") {
+      options.generatedCodes = false;
+      continue;
+    }
     if (arg === "--save-each-hit") {
       options.saveEachHit = true;
+      options.flushHits = 1;
       continue;
     }
     if (arg === "-h" || arg === "--help") {
@@ -269,8 +313,10 @@ async function runCrawlMdb(args: string[]): Promise<void> {
   const targetFile = resolve(opts.file);
   const result = await crawlMdb({
     file: targetFile,
-    pretty: opts.pretty ?? false,
+    pretty: opts.pretty ?? true,
     saveEachHit: opts.saveEachHit ?? true,
+    flushHits: opts.flushHits,
+    concurrency: opts.concurrency,
     micronMax: opts.micronMax,
     spectekMax: opts.spectekMax,
     delayMs: opts.delayMs,
@@ -292,19 +338,23 @@ async function runCrawlMdb(args: string[]): Promise<void> {
 
 async function runCrawlMdbFromFbga(args: string[]): Promise<void> {
   const opts = parseCrawlMdbDramOptions(args);
-  if (!opts.codesFile) {
-    throw new Error("Missing required --codes");
-  }
   if (!opts.file) {
     throw new Error("Missing required --file");
+  }
+  if (opts.generatedCodes === false && !opts.codesFile) {
+    throw new Error("Missing --codes when --no-generated-codes is used");
   }
 
   const targetFile = resolve(opts.file);
   const result = await crawlMdbDram({
-    codesFile: resolve(opts.codesFile),
+    codesFile: opts.codesFile ? resolve(opts.codesFile) : undefined,
+    generatedCodes: opts.generatedCodes ?? true,
+    startFromCode: opts.startFromCode,
     file: targetFile,
-    pretty: opts.pretty ?? false,
+    pretty: opts.pretty ?? true,
     saveEachHit: opts.saveEachHit ?? true,
+    flushHits: opts.flushHits,
+    concurrency: opts.concurrency,
     delayMs: opts.delayMs,
     userAgent: opts.userAgent,
     logger: (line) => {

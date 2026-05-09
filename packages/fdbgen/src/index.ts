@@ -16,12 +16,17 @@ export type {
 } from "./types";
 export { generateFdb } from "./fdbgen";
 export {
+  DEFAULT_MDB_CONCURRENCY,
+  DEFAULT_MDB_FLUSH_HITS,
+  DEFAULT_MDB_FBGA_LETTERS,
+  DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST,
   DEFAULT_MICRON_HEADERS,
   DEFAULT_MICRON_START_FROM,
   DEFAULT_SPECTEK_HEADERS,
   crawlMdb,
   crawlMdbDram,
   createEmptyMdb,
+  generateMicronDramFbgaCodes,
   loadMdbDram,
   loadMicronFbgaCodes,
   loadMdb,

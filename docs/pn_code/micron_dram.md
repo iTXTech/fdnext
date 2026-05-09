@@ -57,7 +57,7 @@
 ## 搜索资源
 
 - `packages/resources/resources/dram-pn.json` 收录已知 Micron / Crucial DRAM PN，用于 PN 补全和 `searchPartNumber()`，不是解码依据。
-- `packages/resources/resources/micron-fbga-codes.json` 只保存一次性提取的 5 位 Micron FBGA code，并排除 `crawl-mdb` 已覆盖的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`；`pnpm fdbgen:crawl-mdb-from-fbga` 读取该 code list，通过 Micron 官方 FBGA decoder API 写入统一 `packages/resources/resources/mdb.json`。
+- `pnpm fdbgen:crawl-mdb-from-fbga` 默认按 `C9/D8/D9/Z8/Z9` + 字母网格生成 Micron DRAM FBGA 候选，通过 Micron 官方 FBGA decoder API 写入统一 `packages/resources/resources/mdb.json`。`packages/resources/resources/micron-fbga-codes.json` 仅作为非默认网格的补充 code 输入，并排除 `crawl-mdb` 已覆盖的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`。
 - `packages/resources/resources/mdb.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchMicronFbgaCode()`、`searchPartNumber()` code 查询，以及 `detect("C9BJZ")` 这类 code 输入时先反查 PN 再走 DSL。
 - 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA code 反查统一来自 `mdb.json` 的 code -> PN 映射。真正输出的 `density`、`package`、`dram_type`、`dram_die_stack` 等字段仍由 DSL token 解析。
 

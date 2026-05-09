@@ -88,6 +88,8 @@ export interface CrawlMdbOptions extends MdbQueryOptions {
   file?: string;
   pretty?: boolean;
   saveEachHit?: boolean;
+  flushHits?: number;
+  concurrency?: number;
   delayMs?: number;
   micronHeaders?: string[];
   spectekHeaders?: string[];
@@ -98,10 +100,14 @@ export interface CrawlMdbOptions extends MdbQueryOptions {
 }
 
 export interface CrawlMdbDramOptions extends MdbQueryOptions {
-  codesFile: string;
+  codesFile?: string;
+  generatedCodes?: boolean;
   file?: string;
   pretty?: boolean;
   saveEachHit?: boolean;
+  flushHits?: number;
+  concurrency?: number;
+  startFromCode?: string;
   delayMs?: number;
   logger?: (message: string) => void;
 }
