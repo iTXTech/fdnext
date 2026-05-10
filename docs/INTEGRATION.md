@@ -162,10 +162,12 @@ pm2 logs fdnext-server
 
 - `GET /`：健康检查
 - `GET /capabilities`
-- `POST /parts/decode`，body: `{ "query": "MT29F64G08CBABA", "lang": "eng" }`
-- `POST /parts/search`，body: `{ "query": "MT29", "lang": "eng", "limit": 10 }`
-- `POST /identifiers/decode`，body: `{ "query": "2C64444BA900", "lang": "eng", "idScheme": "nand.flash_id" }`
-- `POST /identifiers/search`，body: `{ "query": "2C64", "lang": "eng", "limit": 10, "idScheme": "nand.flash_id" }`
+- `GET /parts/decode?query=MT29F64G08CBABA&lang=eng`
+- `GET /parts/search?query=MT29&lang=eng&limit=10`
+- `GET /identifiers/decode?query=2C64444BA900&lang=eng&idScheme=nand.flash_id`
+- `GET /identifiers/search?query=2C64&lang=eng&limit=10&idScheme=nand.flash_id`
+
+`part` routes also accept flat constraint query parameters: `vendor`, `chipKind`, `productType`, and `strict=true|false`.
 
 说明：
 

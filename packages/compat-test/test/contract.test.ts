@@ -209,19 +209,27 @@ const cliCapabilities = runCli(["capabilities"]);
 assert.equal(cliCapabilities.schemaVersion, "fdnext.capabilities.v1");
 
 const http = createHttpServer({ host: "127.0.0.1", port: 8080 });
-async function injectJson(method: "GET" | "POST", url: string, payload?: object): Promise<Record<string, unknown>> {
-  const response = await http.server.inject({ method, url, ...(payload ? { payload } : {}) });
+async function injectJson(method: "GET" | "POST", url: string): Promise<Record<string, unknown>> {
+  const response = await http.server.inject({ method, url });
   assert.equal(response.statusCode, 200, response.payload);
   return parseJsonObject(response.payload);
 }
-const httpPartDecode = await injectJson("POST", "/parts/decode", { query: "MT62F1G64D4EK-023", lang: "eng" });
+const httpPartDecode = await injectJson("GET", "/parts/decode?query=MT62F1G64D4EK-023&lang=eng");
 assert.equal(httpPartDecode.operation, "part.decode");
 assert.equal((httpPartDecode.device as { chipKind?: string } | undefined)?.chipKind, "dram");
-const httpIdentifierDecode = await injectJson("POST", "/identifiers/decode", { query: "2C64444BA900", lang: "eng", idScheme: "nand.flash_id" });
+const httpPartSearch = await injectJson("GET", "/parts/search?query=MTFC&lang=eng&limit=3&productType=ufs");
+assert.equal(httpPartSearch.operation, "part.search");
+assert.ok(Array.isArray(httpPartSearch.items));
+const httpIdentifierDecode = await injectJson("GET", "/identifiers/decode?query=2C64444BA900&lang=eng&idScheme=nand.flash_id");
 assert.equal(httpIdentifierDecode.operation, "identifier.decode");
 assert.equal((httpIdentifierDecode.input as { constraints?: { idScheme?: string } } | undefined)?.constraints?.idScheme, "nand.flash_id");
+const httpIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C64&lang=eng&limit=3&idScheme=nand.flash_id");
+assert.equal(httpIdentifierSearch.operation, "identifier.search");
+assert.ok(Array.isArray(httpIdentifierSearch.items));
 const httpCapabilities = await injectJson("GET", "/capabilities");
 assert.equal(httpCapabilities.schemaVersion, "fdnext.capabilities.v1");
+const removedPostEndpoint = await injectJson("POST", "/parts/decode");
+assert.equal(removedPostEndpoint.status, "not_found");
 const removedEndpoint = await injectJson("GET", "/decode?pn=MT29F64G08CBABA");
 assert.equal(removedEndpoint.status, "not_found");
 await http.server.stop();

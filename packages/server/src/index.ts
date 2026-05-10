@@ -26,26 +26,54 @@ function hasHeaderMethod(value: unknown): value is { header: (name: string, valu
   return !!value && typeof value === "object" && "header" in value && typeof value.header === "function";
 }
 
-function payloadRecord(request: Request): Record<string, unknown> {
-  return request.payload && typeof request.payload === "object" && !Array.isArray(request.payload)
-    ? (request.payload as Record<string, unknown>)
+function queryRecord(request: Request): Record<string, unknown> {
+  return request.query && typeof request.query === "object" && !Array.isArray(request.query)
+    ? (request.query as Record<string, unknown>)
     : {};
 }
 
-function stringPayload(record: Record<string, unknown>, key: string): string | undefined {
+function stringParam(record: Record<string, unknown>, key: string): string | undefined {
   const value = record[key];
-  return typeof value === "string" && value.trim() ? value : undefined;
+  if (Array.isArray(value)) {
+    const first = value.find((item) => typeof item === "string" && item.trim());
+    return typeof first === "string" ? first.trim() : undefined;
+  }
+  return typeof value === "string" && value.trim() ? value.trim() : undefined;
 }
 
-function limitPayload(record: Record<string, unknown>): number | undefined {
+function limitParam(record: Record<string, unknown>): number | undefined {
   const value = record.limit;
   const parsed = typeof value === "number" ? value : typeof value === "string" ? Number.parseInt(value, 10) : 0;
   return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 }
 
-function constraintsPayload(record: Record<string, unknown>): Record<string, unknown> | undefined {
-  const value = record.constraints;
-  return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : undefined;
+function booleanParam(record: Record<string, unknown>, key: string): boolean | undefined {
+  const value = stringParam(record, key);
+  if (value == null) {
+    return undefined;
+  }
+  if (["1", "true", "yes"].includes(value.toLowerCase())) {
+    return true;
+  }
+  if (["0", "false", "no"].includes(value.toLowerCase())) {
+    return false;
+  }
+  return undefined;
+}
+
+function constraintsParam(record: Record<string, unknown>): Record<string, unknown> | undefined {
+  const constraints: Record<string, unknown> = {};
+  for (const key of ["vendor", "chipKind", "productType"] as const) {
+    const value = stringParam(record, key);
+    if (value) {
+      constraints[key] = value;
+    }
+  }
+  const strict = booleanParam(record, "strict");
+  if (strict !== undefined) {
+    constraints.strict = strict;
+  }
+  return Object.keys(constraints).length > 0 ? constraints : undefined;
 }
 
 function replyJson(h: ResponseToolkit, payload: object) {
@@ -86,62 +114,70 @@ export function createHttpServer(options: HttpServerOptions) {
 
   server.route({
     method: "GET",
+    path: "/",
+    handler: (_request, h) => replyJson(h, { status: "ok", name: "fdnext-server" })
+  });
+
+  server.route({
+    method: "GET",
     path: "/capabilities",
     handler: (_request, h) => replyJson(h, engine.getCapabilities())
   });
 
   server.route({
-    method: "POST",
+    method: "GET",
     path: "/parts/decode",
     handler: (request, h) => {
-      const payload = payloadRecord(request);
+      const query = queryRecord(request);
       return replyJson(h, engine.decodePart({
-        query: stringPayload(payload, "query") ?? "",
-        lang: stringPayload(payload, "lang") ?? null,
-        constraints: constraintsPayload(payload)
+        query: stringParam(query, "query") ?? "",
+        lang: stringParam(query, "lang") ?? null,
+        constraints: constraintsParam(query)
       }));
     }
   });
 
   server.route({
-    method: "POST",
+    method: "GET",
     path: "/parts/search",
     handler: (request, h) => {
-      const payload = payloadRecord(request);
+      const query = queryRecord(request);
+      const limit = limitParam(query);
       return replyJson(h, engine.searchParts({
-        query: stringPayload(payload, "query") ?? "",
-        lang: stringPayload(payload, "lang") ?? null,
-        ...(limitPayload(payload) ? { limit: limitPayload(payload) } : {}),
-        constraints: constraintsPayload(payload)
+        query: stringParam(query, "query") ?? "",
+        lang: stringParam(query, "lang") ?? null,
+        ...(limit ? { limit } : {}),
+        constraints: constraintsParam(query)
       }));
     }
   });
 
   server.route({
-    method: "POST",
+    method: "GET",
     path: "/identifiers/decode",
     handler: (request, h) => {
-      const payload = payloadRecord(request);
+      const query = queryRecord(request);
+      const idScheme = stringParam(query, "idScheme") as "nand.flash_id" | undefined;
       return replyJson(h, engine.decodeIdentifier({
-        query: stringPayload(payload, "query") ?? "",
-        lang: stringPayload(payload, "lang") ?? null,
-        ...(stringPayload(payload, "idScheme") ? { idScheme: stringPayload(payload, "idScheme") as "nand.flash_id" } : {}),
-        constraints: constraintsPayload(payload)
+        query: stringParam(query, "query") ?? "",
+        lang: stringParam(query, "lang") ?? null,
+        ...(idScheme ? { idScheme } : {})
       }));
     }
   });
 
   server.route({
-    method: "POST",
+    method: "GET",
     path: "/identifiers/search",
     handler: (request, h) => {
-      const payload = payloadRecord(request);
+      const query = queryRecord(request);
+      const idScheme = stringParam(query, "idScheme") as "nand.flash_id" | undefined;
+      const limit = limitParam(query);
       return replyJson(h, engine.searchIdentifiers({
-        query: stringPayload(payload, "query") ?? "",
-        lang: stringPayload(payload, "lang") ?? null,
-        ...(stringPayload(payload, "idScheme") ? { idScheme: stringPayload(payload, "idScheme") as "nand.flash_id" } : {}),
-        ...(limitPayload(payload) ? { limit: limitPayload(payload) } : {}),
-        constraints: constraintsPayload(payload)
+        query: stringParam(query, "query") ?? "",
+        lang: stringParam(query, "lang") ?? null,
+        ...(idScheme ? { idScheme } : {}),
+        ...(limit ? { limit } : {})
       }));
     }
   });

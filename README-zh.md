@@ -2,13 +2,13 @@
 
 [English](README.md)
 
-`fdnext` 是面向存储芯片的一站式解析方案。它覆盖存储芯片料号解析、NAND Flash ID identifier 解析、Managed NAND 和 DRAM PN 解码、内置数据资源、HTTP 与 CLI 接入、结果 contract 检查，以及 FDB / MDB 维护工具。
+`fdnext` 是面向存储器芯片的一站式解析方案。它覆盖存储器芯片料号解析、NAND Flash ID identifier 解析、Managed NAND 和 DRAM PN 解码、内置数据资源、HTTP 与 CLI 接入、结果 contract 检查，以及 FDB / MDB 维护工具。
 
-仓库以严格 TypeScript monorepo 组织，但对外定位是完整的存储芯片解析工作流：识别芯片、归一化结果、结合本地资源补充信息，通过 SDK / Server / CLI 暴露能力，并让底层数据维护可复现。
+仓库以严格 TypeScript monorepo 组织，但对外定位是完整的存储器芯片解析工作流：识别芯片、归一化结果、结合本地资源补充信息，通过 SDK / Server / CLI 暴露能力，并让底层数据维护可复现。
 
 ## 主要特性
 
-- 通过 `@itxtech/fdnext-core` 提供存储芯片 PN 和 typed identifier 解析能力
+- 通过 `@itxtech/fdnext-core` 提供存储器芯片 PN 和 typed identifier 解析能力
 - 通过 `@itxtech/fdnext-dsl` 提供 PN / identifier JSON DSL 规则包和编译器
 - 内置 `fdb`、`mdb`、语言包、managed NAND PN 建议、DRAM PN 建议和 Micron FBGA code 资源
 - 支持 Managed NAND 和 DRAM PN 解码，并按厂商维护结构化 token 规则

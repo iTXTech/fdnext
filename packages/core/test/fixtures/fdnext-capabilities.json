@@ -6,7 +6,7 @@
       "operation": "part.decode",
       "domains": ["memory"],
       "chipKinds": ["raw_nand", "on_die_ecc_nand", "managed_nand", "dram"],
-      "description": "Decode storage-chip part numbers into fdnext result blocks."
+      "description": "Decode memory-chip part numbers into fdnext result blocks."
     },
     {
       "name": "part.search",

@@ -2,13 +2,13 @@
 
 [简体中文](README-zh.md)
 
-`fdnext` is a one-stop parsing solution for storage chips. It covers storage part-number parsing, NAND Flash ID identifier parsing, managed NAND and DRAM PN decoding, bundled data resources, HTTP and CLI access, result contract checks, and FDB / MDB maintenance tooling.
+`fdnext` is a one-stop parsing solution for memory chips. It covers memory-chip part-number parsing, NAND Flash ID identifier parsing, managed NAND and DRAM PN decoding, bundled data resources, HTTP and CLI access, result contract checks, and FDB / MDB maintenance tooling.
 
-The project is organized as a strict TypeScript monorepo, but its public goal is the storage-chip parsing workflow: identify the chip, normalize the result, enrich it with local resources, expose it through SDK / server / CLI entrypoints, and keep the underlying data reproducible.
+The project is organized as a strict TypeScript monorepo, but its public goal is the memory-chip parsing workflow: identify the device, normalize the result, enrich it with local resources, expose it through SDK / server / CLI entrypoints, and keep the underlying data reproducible.
 
 ## Features
 
-- Storage-chip PN and typed identifier parsing through `@itxtech/fdnext-core`
+- Memory-chip PN and typed identifier parsing through `@itxtech/fdnext-core`
 - JSON DSL rule packs for PN and identifier decoders through `@itxtech/fdnext-dsl`
 - Embedded `fdb`, `mdb`, language packs, managed NAND PN suggestions, DRAM PN suggestions, and Micron FBGA code resources
 - Managed NAND and DRAM PN decoding coverage with vendor-specific token rules
