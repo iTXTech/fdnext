@@ -13,6 +13,10 @@ import {
   FDNEXT_CAPABILITIES_SCHEMA_VERSION,
   FDNEXT_RESULT_SCHEMA_VERSION,
   type Action,
+  type CapabilityDecoderInventory,
+  type CapabilityFdbInfo,
+  type CapabilityInventory,
+  type CapabilityServerInfo,
   type Candidate,
   type Capability,
   type DeviceIdentity,
@@ -800,7 +804,14 @@ export function buildIdentifierSearchResult(
   };
 }
 
-export function buildCapabilities(): FdnextCapabilities {
+export interface BuildCapabilitiesOptions {
+  server: CapabilityServerInfo;
+  fdb: CapabilityFdbInfo;
+  inventory: CapabilityInventory;
+  decoders: CapabilityDecoderInventory;
+}
+
+export function buildCapabilities(options: BuildCapabilitiesOptions): FdnextCapabilities {
   const capabilities: Capability[] = [
     {
       name: "part.decode",
@@ -837,6 +848,10 @@ export function buildCapabilities(): FdnextCapabilities {
   ];
   return {
     schemaVersion: FDNEXT_CAPABILITIES_SCHEMA_VERSION,
+    server: options.server,
+    fdb: options.fdb,
+    inventory: options.inventory,
+    decoders: options.decoders,
     capabilities
   };
 }

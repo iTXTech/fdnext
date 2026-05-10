@@ -28,8 +28,10 @@ import type {
   InternalPartInfo,
   FdnextEngine,
   IdentifierDecoder,
+  FdbDataset,
   KnownPartNumberEntry,
   LangPacks,
+  MdbDataset,
   PartNumberRecord,
   PartNumberDecoder,
   ProcessorOperationContext,
@@ -52,6 +54,7 @@ import type {
   SearchIdentifiersInput,
   SearchPartsInput
 } from "./result";
+import { FDNEXT_VERSION } from "./result";
 
 function cloneObject<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
@@ -435,6 +438,102 @@ function buildMicronDramFbgaCodes(raw: unknown): Map<string, string[]> {
   return entries;
 }
 
+function countFdbPartNumbers(fdb: FdbDataset): number {
+  let count = 0;
+  for (const partNumbers of fdb.vendors.values()) {
+    count += partNumbers.size;
+  }
+  return count;
+}
+
+function collectFdbControllers(fdb: FdbDataset): string[] {
+  const controllers = new Set<string>();
+  for (const controller of fdb.info.controllers) {
+    if (controller) {
+      controllers.add(controller);
+    }
+  }
+  for (const record of fdb.flashIds.values()) {
+    for (const controller of record.t ?? []) {
+      if (controller) {
+        controllers.add(controller);
+      }
+    }
+  }
+  for (const partNumbers of fdb.vendors.values()) {
+    for (const record of partNumbers.values()) {
+      for (const controller of record.t ?? []) {
+        if (controller) {
+          controllers.add(controller);
+        }
+      }
+    }
+  }
+  return [...controllers].sort((a, b) => a.localeCompare(b));
+}
+
+function decoderPriority(priority: number | undefined): { priority?: number } {
+  return typeof priority === "number" ? { priority } : {};
+}
+
+function buildCapabilitiesSnapshot(input: {
+  fdb: FdbDataset;
+  mdb: MdbDataset;
+  managedNandPartNumbers: KnownPartNumberEntry[];
+  dramPartNumbers: KnownPartNumberEntry[];
+  micronDramFbgaCodes: Map<string, string[]>;
+  decoders: PartNumberDecoder[];
+  identifierDecoders: IdentifierDecoder[];
+}): FdnextCapabilities {
+  const controllers = collectFdbControllers(input.fdb);
+  const fdbPartNumberCount = countFdbPartNumbers(input.fdb);
+  const managedNandPartNumberCount = input.managedNandPartNumbers.length;
+  const dramPartNumberCount = input.dramPartNumbers.length;
+
+  return buildCapabilities({
+    server: {
+      name: "fdnext-server",
+      version: FDNEXT_VERSION
+    },
+    fdb: {
+      name: input.fdb.info.name,
+      version: input.fdb.info.version,
+      time: input.fdb.info.time,
+      website: input.fdb.info.website
+    },
+    inventory: {
+      controllers: {
+        count: controllers.length,
+        items: controllers
+      },
+      flashIds: {
+        count: input.fdb.flashIds.size
+      },
+      partNumbers: {
+        total: fdbPartNumberCount + managedNandPartNumberCount + dramPartNumberCount,
+        fdb: fdbPartNumberCount,
+        managedNand: managedNandPartNumberCount,
+        dram: dramPartNumberCount
+      },
+      micronFbga: {
+        total: Object.keys(input.mdb.micron).length,
+        dramLookup: input.micronDramFbgaCodes.size
+      }
+    },
+    decoders: {
+      partNumber: input.decoders.map((decoder) => ({
+        id: decoder.id,
+        ...decoderPriority(decoder.priority)
+      })),
+      identifier: input.identifierDecoders.map((decoder) => ({
+        id: decoder.id,
+        idScheme: decoder.idScheme,
+        ...decoderPriority(decoder.priority)
+      }))
+    }
+  });
+}
+
 export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const fallbackLang = options.fallbackLang && LANGUAGES.includes(options.fallbackLang as (typeof LANGUAGES)[number])
     ? options.fallbackLang
@@ -483,6 +582,26 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const identifierDecoders: IdentifierDecoder[] = [...(options.identifierDecoders ?? [])].sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
+  let cachedCapabilities = buildCapabilitiesSnapshot({
+    fdb,
+    mdb,
+    managedNandPartNumbers,
+    dramPartNumbers,
+    micronDramFbgaCodes,
+    decoders,
+    identifierDecoders
+  });
+  const refreshCapabilities = (): void => {
+    cachedCapabilities = buildCapabilitiesSnapshot({
+      fdb,
+      mdb,
+      managedNandPartNumbers,
+      dramPartNumbers,
+      micronDramFbgaCodes,
+      decoders,
+      identifierDecoders
+    });
+  };
 
   const translateString = (key: string, lang?: string | null) => doTranslateString(langPacks, fallbackLang, key, lang);
   const resultBuilderContext = { langPacks, fallbackLang, translateString };
@@ -1000,7 +1119,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return compact === normalized && normalized.length >= 2 && normalized.length <= 12 && normalized.length % 2 === 0;
   };
 
-  const getCapabilities = (): FdnextCapabilities => runOperation("capabilities", undefined, () => buildCapabilities());
+  const getCapabilities = (): FdnextCapabilities => runOperation("capabilities", undefined, () => cloneObject(cachedCapabilities));
 
   const decodePart = (input: DecodePartInput): PartDecodeResult => {
     return runOperation("part.decode", input, () => {
@@ -1210,10 +1329,12 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     registerDecoder(decoder: PartNumberDecoder): void {
       decoders.push(decoder);
       decoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
+      refreshCapabilities();
     },
     registerIdentifierDecoder(decoder: IdentifierDecoder): void {
       identifierDecoders.push(decoder);
       identifierDecoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
+      refreshCapabilities();
     },
     registerProcessor(processor: ProcessorHooks): void {
       processors.push(processor);

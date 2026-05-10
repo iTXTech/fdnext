@@ -1,5 +1,49 @@
 {
   "schemaVersion": "fdnext.capabilities.v1",
+  "server": {
+    "name": "fdnext-server",
+    "version": "2.0.0"
+  },
+  "fdb": {
+    "name": "iTXTech fdnext FDB",
+    "version": "81",
+    "time": "Sat, 09 May 2026 10:30:25 GMT",
+    "website": "https://github.com/iTXTech/fdnext"
+  },
+  "inventory": {
+    "controllers": {
+      "count": 2,
+      "items": ["SM2258XT", "YS9082HC"]
+    },
+    "flashIds": {
+      "count": 2753
+    },
+    "partNumbers": {
+      "total": 3429,
+      "fdb": 3137,
+      "managedNand": 208,
+      "dram": 84
+    },
+    "micronFbga": {
+      "total": 12951,
+      "dramLookup": 9773
+    }
+  },
+  "decoders": {
+    "partNumber": [
+      {
+        "id": "vendor.micron.dram.component.v1",
+        "priority": 1010
+      }
+    ],
+    "identifier": [
+      {
+        "id": "identifier.nand_flash_id.micron.inteldef.v1",
+        "idScheme": "nand.flash_id",
+        "priority": 400
+      }
+    ]
+  },
   "capabilities": [
     {
       "name": "part.decode",
@@ -22,6 +66,14 @@
       "chipKinds": ["raw_nand", "on_die_ecc_nand"],
       "idSchemes": ["nand.flash_id"],
       "description": "Decode NAND Flash ID byte strings through the typed identifier API."
+    },
+    {
+      "name": "identifier.search.nand.flash_id",
+      "operation": "identifier.search",
+      "domains": ["memory"],
+      "chipKinds": ["raw_nand", "on_die_ecc_nand"],
+      "idSchemes": ["nand.flash_id"],
+      "description": "Search known NAND Flash ID byte strings through the typed identifier API."
     },
     {
       "name": "marking.lookup.micron.fbga",

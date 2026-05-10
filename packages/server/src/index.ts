@@ -1,6 +1,6 @@
 import { server as createHapiServer } from "@hapi/hapi";
 import type { Request, ResponseToolkit } from "@hapi/hapi";
-import { createEngine, type FdnextEngine } from "@itxtech/fdnext-core";
+import { createEngine, FDNEXT_VERSION, type FdnextEngine } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
 import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "@itxtech/fdnext-dsl";
 import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
@@ -107,7 +107,7 @@ export function createHttpServer(options: HttpServerOptions) {
   server.ext("onPreResponse", (request, h) => {
     const response = request.response;
     if (hasHeaderMethod(response)) {
-      response.header("X-Powered-By", "fdnext/1.0.0");
+      response.header("X-Powered-By", `fdnext/${FDNEXT_VERSION}`);
     }
     return h.continue;
   });

@@ -1,5 +1,6 @@
 export const FDNEXT_RESULT_SCHEMA_VERSION = "fdnext.result.v1" as const;
 export const FDNEXT_CAPABILITIES_SCHEMA_VERSION = "fdnext.capabilities.v1" as const;
+export const FDNEXT_VERSION = "2.0.0" as const;
 
 export const fdnextOperations = [
   "part.decode",
@@ -275,7 +276,57 @@ export interface Capability {
   description?: string;
 }
 
+export interface CapabilityServerInfo {
+  name: string;
+  version: string;
+}
+
+export interface CapabilityFdbInfo {
+  name: string;
+  version: string;
+  time: string;
+  website: string;
+}
+
+export interface CapabilityInventory {
+  controllers: {
+    count: number;
+    items: string[];
+  };
+  flashIds: {
+    count: number;
+  };
+  partNumbers: {
+    total: number;
+    fdb: number;
+    managedNand: number;
+    dram: number;
+  };
+  micronFbga: {
+    total: number;
+    dramLookup: number;
+  };
+}
+
+export interface CapabilityPartNumberDecoderInfo {
+  id: string;
+  priority?: number;
+}
+
+export interface CapabilityIdentifierDecoderInfo extends CapabilityPartNumberDecoderInfo {
+  idScheme: FdnextIdScheme;
+}
+
+export interface CapabilityDecoderInventory {
+  partNumber: CapabilityPartNumberDecoderInfo[];
+  identifier: CapabilityIdentifierDecoderInfo[];
+}
+
 export interface FdnextCapabilities {
   schemaVersion: typeof FDNEXT_CAPABILITIES_SCHEMA_VERSION;
+  server: CapabilityServerInfo;
+  fdb: CapabilityFdbInfo;
+  inventory: CapabilityInventory;
+  decoders: CapabilityDecoderInventory;
   capabilities: Capability[];
 }

@@ -60,6 +60,18 @@ assert.equal(summary.checked, 5);
 assert.deepEqual(summary.operations, ["part.decode", "part.search", "identifier.decode", "identifier.search", "capabilities"]);
 
 const engine = createContractEngine();
+const sdkCapabilities = engine.getCapabilities();
+assert.equal(sdkCapabilities.server.version, "2.0.0");
+assert.equal(sdkCapabilities.fdb.version, engine.getVersion());
+assert.equal(sdkCapabilities.inventory.controllers.count, sdkCapabilities.inventory.controllers.items.length);
+assert.ok(sdkCapabilities.inventory.flashIds.count > 0);
+assert.ok(sdkCapabilities.inventory.partNumbers.total >= sdkCapabilities.inventory.partNumbers.fdb);
+assert.ok(sdkCapabilities.inventory.micronFbga.total >= sdkCapabilities.inventory.micronFbga.dramLookup);
+assert.ok(sdkCapabilities.decoders.partNumber.some((decoder) => decoder.id === "vendor.micron.dram.component.v1"));
+assert.ok(sdkCapabilities.decoders.identifier.some((decoder) => decoder.idScheme === "nand.flash_id"));
+const mutatedCapabilities = engine.getCapabilities();
+mutatedCapabilities.inventory.controllers.items.splice(0);
+assert.equal(engine.getCapabilities().inventory.controllers.items.length, sdkCapabilities.inventory.controllers.count);
 
 function assertPartClassification(query: string, chipKind: string, productType?: string): void {
   const result = engine.decodePart({ query, lang: "eng" });
@@ -378,6 +390,7 @@ assert.equal(cliIdentifierDecode.operation, "identifier.decode");
 assert.equal((cliIdentifierDecode.input as { constraints?: { idScheme?: string } } | undefined)?.constraints?.idScheme, "nand.flash_id");
 const cliCapabilities = runCli(["capabilities"]);
 assert.equal(cliCapabilities.schemaVersion, "fdnext.capabilities.v1");
+assert.deepEqual(cliCapabilities, sdkCapabilities);
 
 const http = createHttpServer({ host: "127.0.0.1", port: 8080 });
 async function injectJson(method: "GET" | "POST", url: string): Promise<Record<string, unknown>> {
@@ -399,6 +412,7 @@ assert.equal(httpIdentifierSearch.operation, "identifier.search");
 assert.ok(Array.isArray(httpIdentifierSearch.items));
 const httpCapabilities = await injectJson("GET", "/capabilities");
 assert.equal(httpCapabilities.schemaVersion, "fdnext.capabilities.v1");
+assert.deepEqual(httpCapabilities, sdkCapabilities);
 const removedPostEndpoint = await injectJson("POST", "/parts/decode");
 assert.equal(removedPostEndpoint.status, "not_found");
 const removedEndpoint = await injectJson("GET", "/decode?pn=MT29F64G08CBABA");

@@ -330,9 +330,105 @@ export const fdnextCapabilitiesJsonSchema = {
   $id: "https://itxtech.org/fdnext/schemas/capabilities-v1.json",
   title: "FdnextCapabilities",
   type: "object",
-  required: ["schemaVersion", "capabilities"],
+  required: ["schemaVersion", "server", "fdb", "inventory", "decoders", "capabilities"],
   properties: {
     schemaVersion: { const: FDNEXT_CAPABILITIES_SCHEMA_VERSION },
+    server: {
+      type: "object",
+      required: ["name", "version"],
+      properties: {
+        name: { type: "string", minLength: 1 },
+        version: { type: "string", minLength: 1 }
+      },
+      additionalProperties: false
+    },
+    fdb: {
+      type: "object",
+      required: ["name", "version", "time", "website"],
+      properties: {
+        name: { type: "string", minLength: 1 },
+        version: { type: "string", minLength: 1 },
+        time: { type: "string" },
+        website: { type: "string" }
+      },
+      additionalProperties: false
+    },
+    inventory: {
+      type: "object",
+      required: ["controllers", "flashIds", "partNumbers", "micronFbga"],
+      properties: {
+        controllers: {
+          type: "object",
+          required: ["count", "items"],
+          properties: {
+            count: { type: "integer", minimum: 0 },
+            items: { type: "array", items: { type: "string", minLength: 1 } }
+          },
+          additionalProperties: false
+        },
+        flashIds: {
+          type: "object",
+          required: ["count"],
+          properties: {
+            count: { type: "integer", minimum: 0 }
+          },
+          additionalProperties: false
+        },
+        partNumbers: {
+          type: "object",
+          required: ["total", "fdb", "managedNand", "dram"],
+          properties: {
+            total: { type: "integer", minimum: 0 },
+            fdb: { type: "integer", minimum: 0 },
+            managedNand: { type: "integer", minimum: 0 },
+            dram: { type: "integer", minimum: 0 }
+          },
+          additionalProperties: false
+        },
+        micronFbga: {
+          type: "object",
+          required: ["total", "dramLookup"],
+          properties: {
+            total: { type: "integer", minimum: 0 },
+            dramLookup: { type: "integer", minimum: 0 }
+          },
+          additionalProperties: false
+        }
+      },
+      additionalProperties: false
+    },
+    decoders: {
+      type: "object",
+      required: ["partNumber", "identifier"],
+      properties: {
+        partNumber: {
+          type: "array",
+          items: {
+            type: "object",
+            required: ["id"],
+            properties: {
+              id: { type: "string", minLength: 1 },
+              priority: { type: "number" }
+            },
+            additionalProperties: false
+          }
+        },
+        identifier: {
+          type: "array",
+          items: {
+            type: "object",
+            required: ["id", "idScheme"],
+            properties: {
+              id: { type: "string", minLength: 1 },
+              idScheme: { enum: fdnextIdSchemes },
+              priority: { type: "number" }
+            },
+            additionalProperties: false
+          }
+        }
+      },
+      additionalProperties: false
+    },
     capabilities: {
       type: "array",
       items: {
