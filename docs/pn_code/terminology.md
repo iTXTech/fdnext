@@ -2,26 +2,34 @@
 
 采集日期：2026-05-10
 
-本文档定义 fdnext result contract 中跨厂商共用的 canonical field keys。公开结果通过 `blocks[].fields[]` 输出，每个字段使用稳定的 `key` / `value` / `unit` / `display`；语言包只负责 `label` 和展示文本，不改变 key。
+本文档定义 fdnext result contract 中跨厂商共用的 canonical field keys。公开结果用 `device` 表达身份信息，用 `subtitle` 表达 decode 摘要，用 `blocks[].fields[]` 输出详情字段；每个字段使用稳定的 `key` / `value` / `unit` / `display`，语言包负责 `label`、`display`、block label、warning message 等展示文本，不改变 key。
 
 维护规则：
 
 - DSL 规则应直接 emit canonical snake_case key，不维护旧 key alias。
 - 可信度、reference status、source、inference note 等维护信息只能留在 DSL metadata 或文档中，不能进入公开 fields。
 - 未知值直接省略；不要为了填满旧响应形状输出 `Unknown`、空数组或 NAND-only 默认槽位。
+- `vendor`、`chip_kind`、`product_type`、`part_number`、`identifier`、`id_scheme`、`marking_code` 已由 `device` 承载，不再复制进 `blocks[].fields[]`。
 - 容量数值字段沿用项目约定，`value` 使用 Mbit，`display` 可由 field registry 转成 `Gb` / `Tb`。
 
-## Identity / Relation
+## Identity / Subtitle / Relation
 
 | 字段 | 含义 | 常见 block |
 | --- | --- | --- |
-| `part_number` | 规范化后的 PN | `identity` |
-| `vendor` | 厂商展示名 | `identity` |
-| `chip_kind` | `raw_nand`、`on_die_ecc_nand`、`managed_nand`、`dram` 等芯片类别 | `identity` |
-| `product_type` | eMMC、UFS、eMCP/uMCP、LPDDR5X、DDR4 等产品线 subtype | `identity` |
-| `identifier` | typed identifier 值，例如 NAND Flash ID | `identity` |
-| `id_scheme` | identifier namespace，例如 `nand.flash_id` | `identity` |
-| `marking_code` | FBGA / package marking code | `marking` |
+| `part_number` | 规范化后的 PN | `device.partNumber` |
+| `vendor` | 厂商展示名 | `device.vendor` |
+| `chip_kind` | `raw_nand`、`on_die_ecc_nand`、`managed_nand`、`dram` 等芯片类别 | `device.chipKind` |
+| `product_type` | eMMC、UFS、eMCP/uMCP、LPDDR5X、DDR4 等产品线 subtype | `device.productType` |
+| `identifier` | typed identifier 值，例如 NAND Flash ID | `device.identifier` |
+| `id_scheme` | identifier namespace，例如 `nand.flash_id` | `device.idScheme` |
+| `marking_code` | FBGA / package marking code | `device.markingCode` |
+
+`subtitle` 只用于快速展示，不作为结构化解析依据。典型形态：
+
+- NAND PN：`NAND Flash · KIOXIA · 32GB MLC`
+- Managed NAND：`eMCP · SAMSUNG · 8GB · 32Gb LPDDR4`
+- DRAM：`LPDDR5X · Micron · 64Gb · x64`
+- NAND Flash ID：`Micron · 8GB MLC · 1 die · 2 planes`
 
 关系使用 `relations[]` 表达：
 

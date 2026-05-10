@@ -3,44 +3,46 @@
   "operation": "part.decode",
   "status": "ok",
   "input": {
-    "query": "KM2V8001CM-B707",
-    "normalized": "KM2V8001CM-B707",
-    "constraints": {
-      "productType": "emcp"
-    }
+    "query": "BWCA2KZC-64G",
+    "normalized": "BWCA2KZC-64G",
+    "lang": "eng",
+    "constraints": {}
   },
+  "subtitle": "eMCP · BIWIN · 64GB eMMC · 32Gb LPDDR4X",
   "device": {
     "domain": "memory",
     "chipKind": "managed_nand",
     "productType": "emcp",
-    "partNumber": "KM2V8001CM-B707",
+    "partNumber": "BWCA2KZC-64G",
     "vendor": {
-      "id": "samsung",
-      "name": "Samsung"
+      "id": "biwin",
+      "name": "BIWIN"
     }
   },
   "blocks": [
     {
-      "id": "identity",
-      "label": "Identity",
+      "id": "storage",
+      "label": "Storage",
+      "importance": "primary",
       "fields": [
         {
-          "key": "vendor",
-          "label": "Vendor",
-          "value": "Samsung",
+          "key": "storage_density",
+          "label": "Storage Density",
+          "value": "64GB eMMC",
           "importance": "primary"
         },
         {
-          "key": "product_type",
-          "label": "Product Type",
-          "value": "emcp",
-          "display": "eMCP",
+          "key": "density",
+          "label": "Density",
+          "value": 524288,
+          "unit": "Mbit",
+          "display": "512Gb",
           "importance": "primary"
         },
         {
-          "key": "part_number",
-          "label": "Part Number",
-          "value": "KM2V8001CM-B707",
+          "key": "storage_interface",
+          "label": "Storage Interface",
+          "value": "eMMC 5.1",
           "importance": "primary"
         }
       ]
@@ -48,22 +50,69 @@
     {
       "id": "components",
       "label": "Components",
+      "importance": "secondary",
       "fields": [
-        {
-          "key": "storage_density",
-          "label": "Storage Density",
-          "value": 65536,
-          "unit": "Mbit",
-          "display": "64Gb",
-          "importance": "primary"
-        },
         {
           "key": "dram_density",
           "label": "DRAM Density",
-          "value": 32768,
-          "unit": "Mbit",
-          "display": "32Gb",
+          "value": "32Gb",
           "importance": "primary"
+        },
+        {
+          "key": "dram_type",
+          "label": "DRAM Type",
+          "value": "LPDDR4X",
+          "importance": "primary"
+        }
+      ]
+    },
+    {
+      "id": "package",
+      "label": "Package",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "package",
+          "label": "Package",
+          "value": "FBGA254 11.50x13.00",
+          "importance": "secondary"
+        },
+        {
+          "key": "package_code",
+          "label": "Package Code",
+          "value": "FBGA254",
+          "importance": "detail"
+        },
+        {
+          "key": "operation_temperature",
+          "label": "Operation Temperature",
+          "value": "-25°C ~ +85°C",
+          "importance": "detail"
+        }
+      ]
+    },
+    {
+      "id": "additional",
+      "label": "Additional Fields",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "config_code",
+          "label": "Config Code",
+          "value": "KZC",
+          "importance": "detail"
+        },
+        {
+          "key": "density_code",
+          "label": "Density Code",
+          "value": "64G",
+          "importance": "detail"
+        },
+        {
+          "key": "product_family",
+          "label": "Product Family",
+          "value": "eMCP4X",
+          "importance": "secondary"
         }
       ]
     }
@@ -71,7 +120,6 @@
   "relations": [
     {
       "kind": "component",
-      "label": "Storage component",
       "target": {
         "role": "storage",
         "device": {
@@ -79,25 +127,14 @@
           "chipKind": "managed_nand",
           "productType": "emmc",
           "vendor": {
-            "id": "samsung",
-            "name": "Samsung"
+            "id": "biwin",
+            "name": "BIWIN"
           }
         }
-      },
-      "fields": [
-        {
-          "key": "storage_density",
-          "label": "Storage Density",
-          "value": 65536,
-          "unit": "Mbit",
-          "display": "64Gb",
-          "importance": "primary"
-        }
-      ]
+      }
     },
     {
       "kind": "component",
-      "label": "DRAM component",
       "target": {
         "role": "dram",
         "device": {
@@ -105,21 +142,11 @@
           "chipKind": "dram",
           "productType": "lpddr4x",
           "vendor": {
-            "id": "samsung",
-            "name": "Samsung"
+            "id": "biwin",
+            "name": "BIWIN"
           }
         }
-      },
-      "fields": [
-        {
-          "key": "dram_density",
-          "label": "DRAM Density",
-          "value": 32768,
-          "unit": "Mbit",
-          "display": "32Gb",
-          "importance": "primary"
-        }
-      ]
+      }
     }
   ],
   "actions": [],

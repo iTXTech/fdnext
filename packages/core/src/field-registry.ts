@@ -562,13 +562,6 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "package",
     importance: "detail"
   },
-  special_options: {
-    key: "special_options",
-    valueKind: "string",
-    defaultLabel: "Special Options",
-    recommendedBlock: "package",
-    importance: "detail"
-  },
   enterprise: {
     key: "enterprise",
     valueKind: "boolean",

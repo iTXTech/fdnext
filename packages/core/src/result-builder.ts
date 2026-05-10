@@ -84,6 +84,34 @@ function translateDisplay(ctx: ResultBuilderContext, value: unknown, lang?: stri
   return translated !== value ? translated : undefined;
 }
 
+function translateText(ctx: ResultBuilderContext, key: string, fallback: string, lang?: string | null): string {
+  const translated = ctx.translateString(key, lang);
+  return translated && translated !== key ? translated : fallback;
+}
+
+function translateTemplate(
+  ctx: ResultBuilderContext,
+  key: string,
+  fallback: string,
+  params: Record<string, string>,
+  lang?: string | null
+): string {
+  const template = translateText(ctx, key, fallback, lang);
+  return template.replaceAll(/\{([a-zA-Z0-9_]+)\}/g, (_, param: string) => params[param] ?? "");
+}
+
+function productTypeDisplay(value: unknown, ctx: ResultBuilderContext, lang?: string | null): string | undefined {
+  if (typeof value !== "string" || value.trim().length === 0) {
+    return undefined;
+  }
+  const translated = ctx.translateString(value, lang);
+  if (translated && translated !== value) {
+    return translated;
+  }
+  const normalized = value.replaceAll(/[^a-zA-Z0-9]+/g, "");
+  return normalized ? normalized.toUpperCase() : undefined;
+}
+
 function createField(
   key: FdnextFieldKey,
   value: FdnextFieldValueData,
@@ -230,7 +258,32 @@ function fieldMapFromPart(info: InternalPartInfo, device: DeviceIdentity, ctx: R
   return fields;
 }
 
-function buildBlocks(profileId: FdnextChipKind | "nand.flash_id", fields: Map<FdnextFieldKey, FieldValue>): ResultBlock[] {
+const deviceIdentityFieldKeys = new Set<FdnextFieldKey>([
+  "vendor",
+  "chip_kind",
+  "product_type",
+  "part_number",
+  "identifier",
+  "id_scheme",
+  "marking_code"
+]);
+
+function detailFields(fields: Map<FdnextFieldKey, FieldValue>): Map<FdnextFieldKey, FieldValue> {
+  const out = new Map<FdnextFieldKey, FieldValue>();
+  for (const [key, field] of fields) {
+    if (!deviceIdentityFieldKeys.has(key)) {
+      out.set(key, field);
+    }
+  }
+  return out;
+}
+
+function buildBlocks(
+  profileId: FdnextChipKind | "nand.flash_id",
+  fields: Map<FdnextFieldKey, FieldValue>,
+  ctx: ResultBuilderContext,
+  lang?: string | null
+): ResultBlock[] {
   const profile = getFdnextFieldProfile(profileId);
   const blocks: ResultBlock[] = [];
   const emitted = new Set<FdnextFieldKey>();
@@ -238,14 +291,14 @@ function buildBlocks(profileId: FdnextChipKind | "nand.flash_id", fields: Map<Fd
   for (const block of profile.blocks) {
     const blockFields = block.fields
       .map((key) => fields.get(key))
-      .filter((field): field is FieldValue => Boolean(field));
+      .filter((field): field is FieldValue => Boolean(field && !emitted.has(field.key as FdnextFieldKey)));
     if (blockFields.length === 0) {
       continue;
     }
     blockFields.forEach((field) => emitted.add(field.key as FdnextFieldKey));
     blocks.push({
       id: block.id,
-      label: block.label,
+      label: translateText(ctx, `block.${block.id}`, block.label, lang),
       importance: block.importance,
       fields: blockFields
     });
@@ -254,13 +307,118 @@ function buildBlocks(profileId: FdnextChipKind | "nand.flash_id", fields: Map<Fd
   const remaining = [...fields.values()].filter((field) => !emitted.has(field.key as FdnextFieldKey));
   if (remaining.length > 0) {
     blocks.push({
-      id: "identity",
-      label: "Additional Fields",
+      id: "additional",
+      label: translateText(ctx, "block.additional", "Additional Fields", lang),
       importance: "detail",
       fields: remaining
     });
   }
   return blocks;
+}
+
+function displayField(fields: Map<FdnextFieldKey, FieldValue>, key: FdnextFieldKey): string | undefined {
+  const field = fields.get(key);
+  if (!field) {
+    return undefined;
+  }
+  if (field.display) {
+    return field.display;
+  }
+  if (typeof field.value === "string" || typeof field.value === "number" || typeof field.value === "boolean") {
+    return String(field.value);
+  }
+  return undefined;
+}
+
+function byteDisplayField(fields: Map<FdnextFieldKey, FieldValue>, key: FdnextFieldKey): string | undefined {
+  const field = fields.get(key);
+  if (!field || field.unit !== "Mbit" || typeof field.value !== "number" || !Number.isFinite(field.value) || field.value <= 0) {
+    return displayField(fields, key);
+  }
+
+  const units = ["MB", "GB", "TB"] as const;
+  let numeric = field.value / 8;
+  let index = 0;
+  while (numeric >= 1024 && units[index + 1]) {
+    numeric /= 1024;
+    index += 1;
+  }
+  return `${numeric}${units[index]}`;
+}
+
+function joinCompact(...values: Array<string | undefined>): string | undefined {
+  const parts = values.map((value) => value?.trim()).filter((value): value is string => Boolean(value));
+  return parts.length > 0 ? parts.join(" ") : undefined;
+}
+
+function subtitleKind(device: DeviceIdentity, fields: Map<FdnextFieldKey, FieldValue>, ctx: ResultBuilderContext, lang?: string | null): string {
+  if (device.chipKind === "raw_nand") {
+    return translateText(ctx, "subtitle.kind.raw_nand", "NAND Flash", lang);
+  }
+  if (device.chipKind === "on_die_ecc_nand") {
+    return translateText(ctx, "subtitle.kind.on_die_ecc_nand", "On-die ECC NAND", lang);
+  }
+  if (device.chipKind === "managed_nand") {
+    return productTypeDisplay(device.productType, ctx, lang) ?? translateText(ctx, "subtitle.kind.managed_nand", "Managed NAND", lang);
+  }
+  if (device.chipKind === "dram") {
+    return displayField(fields, "dram_type") ?? productTypeDisplay(device.productType, ctx, lang) ?? translateText(ctx, "subtitle.kind.dram", "DRAM", lang);
+  }
+  return translateText(ctx, "subtitle.kind.memory", "Memory chip", lang);
+}
+
+function buildPartSubtitle(
+  device: DeviceIdentity,
+  fields: Map<FdnextFieldKey, FieldValue>,
+  ctx: ResultBuilderContext,
+  lang?: string | null
+): string {
+  const density = device.chipKind === "dram"
+    ? displayField(fields, "dram_density")
+    : byteDisplayField(fields, "storage_density") ?? byteDisplayField(fields, "density");
+  const cellLevel = displayField(fields, "cell_level");
+  const dramDensity = device.chipKind === "managed_nand" ? displayField(fields, "dram_density") : undefined;
+  const dramType = device.chipKind === "managed_nand" ? displayField(fields, "dram_type") : undefined;
+  const width = device.chipKind === "dram"
+    ? displayField(fields, "dram_width") ?? displayField(fields, "device_width")
+    : undefined;
+  const processNode = device.chipKind === "raw_nand" || device.chipKind === "on_die_ecc_nand"
+    ? displayField(fields, "process_node")
+    : undefined;
+  return [
+    subtitleKind(device, fields, ctx, lang),
+    device.vendor.name,
+    joinCompact(density, cellLevel),
+    joinCompact(dramDensity, dramType),
+    width,
+    processNode
+  ].filter((value): value is string => Boolean(value)).join(" · ");
+}
+
+function buildIdentifierSubtitle(
+  device: DeviceIdentity,
+  fields: Map<FdnextFieldKey, FieldValue>,
+  ctx: ResultBuilderContext,
+  lang?: string | null
+): string {
+  const density = byteDisplayField(fields, "density");
+  const cellLevel = displayField(fields, "cell_level");
+  const dieCount = displayField(fields, "die_count");
+  const planeCount = displayField(fields, "plane_count");
+  const processNode = displayField(fields, "process_node");
+  const dieText = dieCount
+    ? translateTemplate(ctx, "subtitle.die_count", "{count} die", { count: dieCount }, lang)
+    : undefined;
+  const planeText = planeCount
+    ? translateTemplate(ctx, "subtitle.plane_count", "{count} planes", { count: planeCount }, lang)
+    : undefined;
+  return [
+    device.vendor.name,
+    joinCompact(density, cellLevel),
+    dieText,
+    planeText,
+    processNode
+  ].filter((value): value is string => Boolean(value)).join(" · ");
 }
 
 function isKnownPart(info: InternalPartInfo): boolean {
@@ -276,7 +434,7 @@ function baseInput(query: string, normalized: string, constraints: OperationCons
   };
 }
 
-function partActions(info: InternalPartInfo): Action[] {
+function partActions(info: InternalPartInfo, ctx: ResultBuilderContext, lang?: string | null): Action[] {
   if (!Array.isArray(info.flashId) || info.flashId.length === 0) {
     return [];
   }
@@ -287,7 +445,7 @@ function partActions(info: InternalPartInfo): Action[] {
   return [
     {
       name: "identifier.decode",
-      label: "Decode NAND Flash ID",
+      label: translateText(ctx, "action.identifier.decode.nand_flash_id", "Decode NAND Flash ID", lang),
       operation: "identifier.decode",
       input: {
         query: identifier,
@@ -299,19 +457,16 @@ function partActions(info: InternalPartInfo): Action[] {
   ];
 }
 
-function partRelations(info: InternalPartInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Relation[] {
+function partRelations(info: InternalPartInfo, device: DeviceIdentity): Relation[] {
   const relations: Relation[] = [];
   if (device.markingCode && device.partNumber) {
     relations.push({
       kind: "marking_for",
-      label: "Package marking relation",
       source: {
-        markingCode: device.markingCode,
-        label: `Package marking ${device.markingCode}`
+        markingCode: device.markingCode
       },
       target: {
-        partNumber: device.partNumber,
-        device
+        partNumber: device.partNumber
       }
     });
   }
@@ -320,8 +475,7 @@ function partRelations(info: InternalPartInfo, device: DeviceIdentity, ctx: Resu
       kind: "identifier_for",
       target: {
         identifier: id,
-        idScheme: "nand.flash_id",
-        device
+        idScheme: "nand.flash_id"
       }
     });
   }
@@ -329,17 +483,10 @@ function partRelations(info: InternalPartInfo, device: DeviceIdentity, ctx: Resu
   if (Array.isArray(components)) {
     for (const item of components) {
       const component = asRecord(item);
-      const fields = Array.isArray(component.fields)
-        ? component.fields
-            .map((field) => createEmittedField(field, ctx, lang))
-            .filter((field): field is FieldValue => Boolean(field))
-        : [];
       const chipKind = typeof component.chipKind === "string" ? component.chipKind as FdnextChipKind : device.chipKind;
       const productType = typeof component.productType === "string" ? component.productType as FdnextProductType : undefined;
       relations.push({
         kind: "component",
-        ...(typeof component.role === "string" ? { label: component.role } : {}),
-        source: { device },
         target: {
           ...(typeof component.role === "string" ? { role: component.role } : {}),
           device: {
@@ -350,8 +497,7 @@ function partRelations(info: InternalPartInfo, device: DeviceIdentity, ctx: Resu
             ...(productType ? { productType } : {}),
             vendor: device.vendor
           }
-        },
-        ...(fields.length > 0 ? { fields } : {})
+        }
       });
     }
   }
@@ -385,17 +531,19 @@ export function buildPartDecodeResult(
   const constraints = input.constraints ?? {};
   const device = deviceIdentityFromPart(info, constraints, ctx, input.lang);
   const fields = fieldMapFromPart(info, device, ctx, input.lang);
+  const detailFieldMap = detailFields(fields);
   const metadata = fdnextMetadata(info);
   const profileId = typeof metadata.fieldProfile === "string" ? metadata.fieldProfile as FdnextChipKind : device.chipKind;
+  const known = isKnownPart(info);
   return {
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "part.decode",
-    status: isKnownPart(info) ? "ok" : "not_found",
+    status: known ? "ok" : "not_found",
     input: baseInput(input.query, input.normalized, constraints, input.lang),
-    ...(isKnownPart(info) ? { device } : {}),
-    blocks: isKnownPart(info) ? buildBlocks(profileId, fields) : [],
-    relations: isKnownPart(info) ? partRelations(info, device, ctx, input.lang) : [],
-    actions: isKnownPart(info) ? partActions(info) : [],
+    ...(known ? { subtitle: buildPartSubtitle(device, fields, ctx, input.lang), device } : {}),
+    blocks: known ? buildBlocks(profileId, detailFieldMap, ctx, input.lang) : [],
+    relations: known ? partRelations(info, device) : [],
+    actions: known ? partActions(info, ctx, input.lang) : [],
     warnings: []
   };
 }
@@ -449,13 +597,12 @@ function fieldMapFromIdentifier(info: InternalIdentifierInfo, device: DeviceIden
   return fields;
 }
 
-function identifierRelations(info: InternalIdentifierInfo, device: DeviceIdentity): Relation[] {
+function identifierRelations(info: InternalIdentifierInfo): Relation[] {
   return (info.partNumbers ?? []).map((partNumber) => ({
     kind: "identifier_for",
     source: {
       identifier: info.id,
-      idScheme: "nand.flash_id",
-      device
+      idScheme: "nand.flash_id"
     },
     target: {
       partNumber
@@ -472,14 +619,15 @@ export function buildIdentifierDecodeResult(
   const device = deviceIdentityFromIdentifier(info, ctx, input.lang);
   const known = info.vendor !== UNKNOWN || isKnownInfoValue(info.density) || isKnownInfoValue(info.cellLevel);
   const fields = fieldMapFromIdentifier(info, device, ctx, input.lang);
+  const detailFieldMap = detailFields(fields);
   return {
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "identifier.decode",
     status: known ? "ok" : "not_found",
     input: baseInput(input.query, input.normalized, constraints, input.lang),
-    ...(known ? { device } : {}),
-    blocks: known ? buildBlocks("nand.flash_id", fields) : [],
-    relations: known ? identifierRelations(info, device) : [],
+    ...(known ? { subtitle: buildIdentifierSubtitle(device, fields, ctx, input.lang), device } : {}),
+    blocks: known ? buildBlocks("nand.flash_id", detailFieldMap, ctx, input.lang) : [],
+    relations: known ? identifierRelations(info) : [],
     actions: [],
     warnings: []
   };
@@ -496,9 +644,6 @@ export function buildPartSearchResult(
     const productType = suggestion.productType ?? constraints.productType;
     const device: DeviceIdentity = deviceIdentityFromSuggestion({ ...suggestion, chipKind, ...(productType ? { productType } : {}) }, ctx, input.lang);
     const fields: FieldValue[] = [];
-    if (suggestion.markingCode) {
-      fields.push(createField("marking_code", suggestion.markingCode, ctx, input.lang));
-    }
     if (suggestion.rawDensity) {
       fields.push(createField(chipKind === "dram" ? "dram_density" : "density", suggestion.rawDensity, ctx, input.lang));
     }
@@ -514,7 +659,7 @@ export function buildPartSearchResult(
       actions: [
         {
           name: "part.decode",
-          label: "Decode Part",
+          label: translateText(ctx, "action.part.decode", "Decode Part", input.lang),
           operation: "part.decode",
           input: {
             query: suggestion.partNumber,
@@ -533,10 +678,8 @@ export function buildPartSearchResult(
     .filter((suggestion) => suggestion.markingCode)
     .map((suggestion) => ({
       kind: "marking_for",
-      label: "FBGA marking relation",
       source: {
-        markingCode: suggestion.markingCode,
-        label: `FBGA marking ${suggestion.markingCode}`
+        markingCode: suggestion.markingCode
       },
       target: {
         partNumber: suggestion.partNumber,
@@ -576,7 +719,6 @@ export function buildIdentifierSearchResult(
       vendor: vendorIdentity("unknown", ctx, input.lang)
     };
     const fields = new Map<FdnextFieldKey, FieldValue>();
-    addField(fields, createField("identifier", id, ctx, input.lang));
     if (asNumber(record.s)) addField(fields, createField("page_size", Number(record.s) * 1024, ctx, input.lang));
     return {
       label: id,

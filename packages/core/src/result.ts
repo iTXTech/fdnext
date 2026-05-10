@@ -82,7 +82,8 @@ export const fdnextBlockIds = [
   "timing",
   "marking",
   "components",
-  "controllers"
+  "controllers",
+  "additional"
 ] as const;
 
 export type FdnextBlockId = (typeof fdnextBlockIds)[number];
@@ -232,6 +233,7 @@ export interface FdnextResultBase<O extends FdnextOperation = FdnextOperation> {
   operation: O;
   status: FdnextResultStatus;
   input: NormalizedOperationInput;
+  subtitle?: string;
   warnings: ResultWarning[];
 }
 

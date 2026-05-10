@@ -5,14 +5,16 @@
   "input": {
     "query": "2C DA 90 95 56",
     "normalized": "2CDA909556",
+    "lang": "eng",
     "constraints": {
       "idScheme": "nand.flash_id"
     }
   },
+  "subtitle": "Micron · SLC · 1 die · 4 planes",
   "device": {
     "domain": "memory",
     "chipKind": "raw_nand",
-    "identifier": "2CDA909556",
+    "identifier": "2CDA90955600",
     "idScheme": "nand.flash_id",
     "vendor": {
       "id": "micron",
@@ -21,83 +23,45 @@
   },
   "blocks": [
     {
-      "id": "identity",
-      "label": "Identity",
+      "id": "geometry",
+      "label": "Geometry",
+      "importance": "primary",
       "fields": [
         {
-          "key": "vendor",
-          "label": "Vendor",
-          "value": "Micron",
+          "key": "cell_level",
+          "label": "Cell Level",
+          "value": "SLC",
           "importance": "primary"
         },
         {
-          "key": "identifier",
-          "label": "Identifier",
-          "value": "2CDA909556",
-          "importance": "primary"
+          "key": "die_count",
+          "label": "Die Count",
+          "value": 1,
+          "importance": "secondary"
         },
         {
-          "key": "id_scheme",
-          "label": "Identifier Scheme",
-          "value": "nand.flash_id",
-          "display": "NAND Flash ID",
+          "key": "plane_count",
+          "label": "Plane Count",
+          "value": 4,
           "importance": "secondary"
         }
       ]
     },
     {
-      "id": "geometry",
-      "label": "Geometry",
+      "id": "timing",
+      "label": "Timing",
+      "importance": "detail",
       "fields": [
         {
-          "key": "density",
-          "label": "Density",
-          "value": 32768,
-          "unit": "Mbit",
-          "display": "32Gb",
-          "importance": "primary"
-        },
-        {
-          "key": "page_size",
-          "label": "Page Size",
-          "value": 8192,
-          "unit": "byte",
-          "display": "8KiB",
-          "importance": "secondary"
-        },
-        {
-          "key": "block_size",
-          "label": "Block Size",
-          "value": 1048576,
-          "unit": "byte",
-          "display": "1MiB",
-          "importance": "secondary"
+          "key": "timing_mode_async",
+          "label": "Timing Mode Async",
+          "value": "2 (35ns)",
+          "importance": "detail"
         }
       ]
     }
   ],
-  "relations": [
-    {
-      "kind": "identifier_for",
-      "target": {
-        "identifier": "2CDA909556",
-        "idScheme": "nand.flash_id"
-      }
-    }
-  ],
-  "actions": [
-    {
-      "name": "part.search",
-      "label": "Search Related Parts",
-      "operation": "part.search",
-      "input": {
-        "query": "2CDA909556",
-        "constraints": {
-          "vendor": "micron",
-          "chipKind": "raw_nand"
-        }
-      }
-    }
-  ],
+  "relations": [],
+  "actions": [],
   "warnings": []
 }

@@ -5,10 +5,10 @@
   "input": {
     "query": "KLUEG8UHDC-B0E1",
     "normalized": "KLUEG8UHDC-B0E1",
-    "constraints": {
-      "productType": "ufs"
-    }
+    "lang": "eng",
+    "constraints": {}
   },
+  "subtitle": "UFS · Samsung · 256GB TLC",
   "device": {
     "domain": "memory",
     "chipKind": "managed_nand",
@@ -21,47 +21,124 @@
   },
   "blocks": [
     {
-      "id": "identity",
-      "label": "Identity",
+      "id": "storage",
+      "label": "Storage",
+      "importance": "primary",
       "fields": [
         {
-          "key": "vendor",
-          "label": "Vendor",
-          "value": "Samsung",
+          "key": "density",
+          "label": "Density",
+          "value": 2097152,
+          "unit": "Mbit",
+          "display": "2Tb",
           "importance": "primary"
         },
         {
-          "key": "product_type",
-          "label": "Product Type",
-          "value": "ufs",
-          "display": "UFS",
+          "key": "cell_level",
+          "label": "Cell Level",
+          "value": "TLC",
           "importance": "primary"
         },
         {
-          "key": "part_number",
-          "label": "Part Number",
-          "value": "KLUEG8UHDC-B0E1",
-          "importance": "primary"
+          "key": "process_node",
+          "label": "Process Node",
+          "value": "V6 128L",
+          "importance": "secondary"
         }
       ]
     },
     {
-      "id": "storage",
-      "label": "Storage",
+      "id": "components",
+      "label": "Components",
+      "importance": "secondary",
       "fields": [
         {
-          "key": "storage_density",
-          "label": "Storage Density",
-          "value": 524288,
-          "unit": "Mbit",
-          "display": "512Gb",
-          "importance": "primary"
+          "key": "component_density",
+          "label": "Component Density",
+          "value": "256GB package",
+          "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "interface",
+      "label": "Interface",
+      "importance": "secondary",
+      "fields": [
+        {
+          "key": "voltage",
+          "label": "Voltage",
+          "value": "Vcc: 2.50V, VccQ: 1.20V",
+          "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "package",
+      "label": "Package",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "package",
+          "label": "Package",
+          "value": "BGA-153 11.5x13 / 11x13",
+          "importance": "secondary"
         },
         {
-          "key": "storage_interface",
-          "label": "Storage Interface",
-          "value": "UFS",
-          "importance": "primary"
+          "key": "operation_temperature",
+          "label": "Operation Temperature",
+          "value": "-25°C ~ 85°C Extended Commercial",
+          "importance": "detail"
+        }
+      ]
+    },
+    {
+      "id": "controllers",
+      "label": "Controllers",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "controller",
+          "label": "Controller",
+          "value": "UFS 3.1/3.0/2.2 G4-2Lane Controller",
+          "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "additional",
+      "label": "Additional Fields",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "die_count",
+          "label": "Die Count",
+          "value": 8,
+          "importance": "secondary"
+        },
+        {
+          "key": "system",
+          "label": "System",
+          "value": "moviNAND/MCP",
+          "importance": "detail"
+        },
+        {
+          "key": "die_stack",
+          "label": "Die Stack",
+          "value": "ODP (8-die)",
+          "importance": "secondary"
+        },
+        {
+          "key": "die_density",
+          "label": "Die Density",
+          "value": "256Gb",
+          "importance": "secondary"
+        },
+        {
+          "key": "product_version",
+          "label": "Product Version",
+          "value": "UFS 3.1",
+          "importance": "secondary"
         }
       ]
     }

@@ -5,10 +5,10 @@
   "input": {
     "query": "MT29FBG08ABACA",
     "normalized": "MT29FBG08ABACA",
-    "constraints": {
-      "chipKind": "on_die_ecc_nand"
-    }
+    "lang": "eng",
+    "constraints": {}
   },
+  "subtitle": "On-die ECC NAND · Micron",
   "device": {
     "domain": "memory",
     "chipKind": "on_die_ecc_nand",
@@ -20,54 +20,61 @@
   },
   "blocks": [
     {
-      "id": "identity",
-      "label": "Identity",
-      "importance": "primary",
+      "id": "geometry",
+      "label": "Geometry",
+      "importance": "secondary",
       "fields": [
         {
-          "key": "vendor",
-          "label": "Vendor",
-          "value": "Micron",
-          "importance": "primary"
-        },
-        {
-          "key": "chip_kind",
-          "label": "Chip Kind",
-          "value": "on_die_ecc_nand",
-          "display": "On-die ECC NAND",
-          "importance": "primary"
-        },
-        {
-          "key": "part_number",
-          "label": "Part Number",
-          "value": "MT29FBG08ABACA",
-          "importance": "primary"
+          "key": "die_count",
+          "label": "Die Count",
+          "value": 1,
+          "importance": "secondary"
         }
       ]
     },
     {
-      "id": "storage",
-      "label": "Storage",
+      "id": "interface",
+      "label": "Interface",
+      "importance": "secondary",
       "fields": [
         {
-          "key": "density",
-          "label": "Density",
-          "value": 32768,
-          "unit": "Mbit",
-          "display": "32Gb",
-          "importance": "primary"
-        },
-        {
-          "key": "cell_level",
-          "label": "Cell Level",
-          "value": "MLC",
-          "importance": "primary"
-        },
-        {
-          "key": "generation_info",
-          "label": "Generation",
-          "value": "On-die ECC",
+          "key": "voltage",
+          "label": "Voltage",
+          "value": "1.8V (1.70–1.95V)",
           "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "additional",
+      "label": "Additional Fields",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "enterprise",
+          "label": "Enterprise",
+          "value": false,
+          "display": "No",
+          "importance": "detail"
+        },
+        {
+          "key": "die_code",
+          "label": "Die Code",
+          "value": "A-Die",
+          "importance": "detail"
+        },
+        {
+          "key": "interface_type",
+          "label": "Interface Type",
+          "value": "Sync",
+          "importance": "secondary"
+        },
+        {
+          "key": "ecc_enabled",
+          "label": "ECC enabled",
+          "value": true,
+          "display": "Yes",
+          "importance": "detail"
         }
       ]
     }

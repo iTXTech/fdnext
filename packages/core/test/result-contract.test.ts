@@ -18,6 +18,7 @@ import {
 
 const fixtureRoot = fileURLToPath(new URL("./fixtures/", import.meta.url));
 const resultFixtureRoot = join(fixtureRoot, "fdnext-result");
+const engLang = parseJson(fileURLToPath(new URL("../../resources/resources/lang/eng.json", import.meta.url))) as Record<string, string>;
 
 type SchemaObject = Exclude<JsonSchema, boolean> & Record<string, unknown>;
 
@@ -193,6 +194,13 @@ function firstFixtureField(fixture: unknown): Record<string, unknown> {
   return field;
 }
 
+function collectResultBlockFields(fixture: unknown): Record<string, unknown>[] {
+  assert.ok(isObject(fixture));
+  const blocks = fixture.blocks;
+  assert.ok(Array.isArray(blocks), "decode fixture should have blocks");
+  return collectFieldValues(blocks);
+}
+
 const expectedResultFixtures = [
   "dram.part.decode.json",
   "emcp.part.decode.json",
@@ -209,12 +217,20 @@ assert.deepEqual(resultFixtureNames(), expectedResultFixtures, "result contract 
 for (const name of expectedResultFixtures) {
   const fixture = loadResultFixture(name);
   assertValid(name, fdnextResultJsonSchema, fixture);
+  if (isObject(fixture) && (fixture.operation === "part.decode" || fixture.operation === "identifier.decode") && fixture.status === "ok") {
+    assert.equal(typeof fixture.subtitle, "string", `${name}: ok decode result should expose subtitle`);
+    assert.ok((fixture.subtitle as string).length > 0, `${name}: subtitle should not be empty`);
+    const duplicateIdentityKeys = collectResultBlockFields(fixture)
+      .map((field) => field.key)
+      .filter((key) => ["vendor", "chip_kind", "product_type", "part_number", "identifier", "id_scheme", "marking_code"].includes(String(key)));
+    assert.deepEqual(duplicateIdentityKeys, [], `${name}: identity fields should live in device, not blocks`);
+  }
 
   for (const field of collectFieldValues(fixture)) {
     const key = field.key as FdnextFieldKey;
     assert.ok(Object.hasOwn(fdnextFieldRegistry, key), `${name}: ${String(field.key)} must be registered`);
     const definition = fdnextFieldRegistry[key];
-    assert.equal(field.label, definition.defaultLabel, `${name}: ${key} label should come from the registry`);
+    assert.equal(field.label, engLang[key] ?? definition.defaultLabel, `${name}: ${key} label should come from the English language pack`);
     const display = formatFdnextFieldValue(key, field.value as never, field.unit as string | undefined);
     if (display) {
       assert.equal(field.display, display, `${name}: ${key} display should come from the registry formatter`);

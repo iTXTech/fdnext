@@ -5,10 +5,10 @@
   "input": {
     "query": "MTFC8GAKAJCN-4M",
     "normalized": "MTFC8GAKAJCN-4M",
-    "constraints": {
-      "productType": "emmc"
-    }
+    "lang": "eng",
+    "constraints": {}
   },
+  "subtitle": "eMMC · Micron · 8GB",
   "device": {
     "domain": "memory",
     "chipKind": "managed_nand",
@@ -21,47 +21,94 @@
   },
   "blocks": [
     {
-      "id": "identity",
-      "label": "Identity",
-      "fields": [
-        {
-          "key": "vendor",
-          "label": "Vendor",
-          "value": "Micron",
-          "importance": "primary"
-        },
-        {
-          "key": "product_type",
-          "label": "Product Type",
-          "value": "emmc",
-          "display": "eMMC",
-          "importance": "primary"
-        },
-        {
-          "key": "part_number",
-          "label": "Part Number",
-          "value": "MTFC8GAKAJCN-4M",
-          "importance": "primary"
-        }
-      ]
-    },
-    {
       "id": "storage",
       "label": "Storage",
+      "importance": "primary",
       "fields": [
         {
-          "key": "storage_density",
-          "label": "Storage Density",
+          "key": "density",
+          "label": "Density",
           "value": 65536,
           "unit": "Mbit",
           "display": "64Gb",
           "importance": "primary"
         },
         {
-          "key": "storage_interface",
-          "label": "Storage Interface",
-          "value": "eMMC 5.1",
-          "importance": "primary"
+          "key": "generation_info",
+          "label": "Product Generation",
+          "value": "Fourth",
+          "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "components",
+      "label": "Components",
+      "importance": "secondary",
+      "fields": [
+        {
+          "key": "component_density",
+          "label": "Component Density",
+          "value": "64Gb",
+          "importance": "secondary"
+        },
+        {
+          "key": "component_width",
+          "label": "Component Width",
+          "value": 8,
+          "unit": "bit",
+          "display": "x8",
+          "importance": "detail"
+        },
+        {
+          "key": "nand_component",
+          "label": "NAND Component",
+          "value": "AK",
+          "importance": "detail"
+        }
+      ]
+    },
+    {
+      "id": "package",
+      "label": "Package",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "package",
+          "label": "Package",
+          "value": "153-ball VFBGA 11.5x13x1.0 (SAC 302)",
+          "importance": "secondary"
+        },
+        {
+          "key": "package_code",
+          "label": "Package Code",
+          "value": "CN",
+          "importance": "detail"
+        },
+        {
+          "key": "special_option",
+          "label": "Special Option",
+          "value": "16MB MAX boot area / 100% MAX enhanced",
+          "importance": "detail"
+        }
+      ]
+    },
+    {
+      "id": "controllers",
+      "label": "Controllers",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "controller_code",
+          "label": "Controller Code",
+          "value": "AJ",
+          "importance": "detail"
+        },
+        {
+          "key": "controller_revision",
+          "label": "Controller Revision",
+          "value": "Rev 9",
+          "importance": "detail"
         }
       ]
     }

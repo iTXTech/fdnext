@@ -5,10 +5,10 @@
   "input": {
     "query": "MT29F4G08ABAEA",
     "normalized": "MT29F4G08ABAEA",
-    "constraints": {
-      "chipKind": "raw_nand"
-    }
+    "lang": "eng",
+    "constraints": {}
   },
+  "subtitle": "NAND Flash · Micron · 512MB SLC · M70M 25nm",
   "device": {
     "domain": "memory",
     "chipKind": "raw_nand",
@@ -20,34 +20,9 @@
   },
   "blocks": [
     {
-      "id": "identity",
-      "label": "Identity",
+      "id": "storage",
+      "label": "Storage",
       "importance": "primary",
-      "fields": [
-        {
-          "key": "vendor",
-          "label": "Vendor",
-          "value": "Micron",
-          "importance": "primary"
-        },
-        {
-          "key": "chip_kind",
-          "label": "Chip Kind",
-          "value": "raw_nand",
-          "display": "Raw NAND",
-          "importance": "primary"
-        },
-        {
-          "key": "part_number",
-          "label": "Part Number",
-          "value": "MT29F4G08ABAEA",
-          "importance": "primary"
-        }
-      ]
-    },
-    {
-      "id": "geometry",
-      "label": "Geometry",
       "fields": [
         {
           "key": "density",
@@ -64,24 +39,103 @@
           "importance": "primary"
         },
         {
+          "key": "process_node",
+          "label": "Process Node",
+          "value": "M70M 25nm",
+          "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "geometry",
+      "label": "Geometry",
+      "importance": "secondary",
+      "fields": [
+        {
+          "key": "die_count",
+          "label": "Die Count",
+          "value": 1,
+          "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "interface",
+      "label": "Interface",
+      "importance": "secondary",
+      "fields": [
+        {
           "key": "device_width",
           "label": "Device Width",
           "value": 8,
           "unit": "bit",
           "display": "x8",
           "importance": "secondary"
+        },
+        {
+          "key": "voltage",
+          "label": "Voltage",
+          "value": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V)",
+          "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "controllers",
+      "label": "Controllers",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "controller",
+          "label": "Controller",
+          "value": "CBM2096",
+          "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "additional",
+      "label": "Additional Fields",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "enterprise",
+          "label": "Enterprise",
+          "value": false,
+          "display": "No",
+          "importance": "detail"
+        },
+        {
+          "key": "die_code",
+          "label": "Die Code",
+          "value": "E-Die",
+          "importance": "detail"
+        },
+        {
+          "key": "interface_type",
+          "label": "Interface Type",
+          "value": "Async",
+          "importance": "secondary"
         }
       ]
     }
   ],
-  "relations": [],
+  "relations": [
+    {
+      "kind": "identifier_for",
+      "target": {
+        "identifier": "2CDC90A65400",
+        "idScheme": "nand.flash_id"
+      }
+    }
+  ],
   "actions": [
     {
-      "name": "identifier.search",
-      "label": "Search NAND Flash IDs",
-      "operation": "identifier.search",
+      "name": "identifier.decode",
+      "label": "Decode NAND Flash ID",
+      "operation": "identifier.decode",
       "input": {
-        "query": "MT29F4G08ABAEA",
+        "query": "2CDC90A65400",
         "constraints": {
           "idScheme": "nand.flash_id"
         }

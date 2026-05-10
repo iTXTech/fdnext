@@ -1,7 +1,15 @@
 import { spawnSync } from "node:child_process";
 import assert from "node:assert/strict";
 import { fileURLToPath } from "node:url";
-import { createEngine } from "../../core/src/index";
+import {
+  createEngine,
+  fdnextBlockIds,
+  fdnextChipKinds,
+  fdnextDomains,
+  fdnextFieldKeys,
+  fdnextIdSchemes,
+  fdnextProductTypes
+} from "../../core/src/index";
 import { createContractEngine, runContractChecks } from "../src/index";
 import * as resourceModule from "../../resources/index";
 import { createHttpServer } from "../../server/src/index";
@@ -22,6 +30,28 @@ function runCli(args: string[]): Record<string, unknown> {
   assert.equal(result.status, 0, result.stderr || result.stdout);
   assert.ok(result.stdout.trim(), result.stderr);
   return parseJsonObject(result.stdout);
+}
+
+function collectResultFields(value: unknown, fields: Array<{ key?: unknown }> = []): Array<{ key?: unknown }> {
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectResultFields(item, fields));
+    return fields;
+  }
+  if (!value || typeof value !== "object") {
+    return fields;
+  }
+  const record = value as Record<string, unknown>;
+  if (typeof record.key === "string" && Object.hasOwn(record, "value")) {
+    fields.push(record);
+  }
+  Object.values(record).forEach((item) => collectResultFields(item, fields));
+  return fields;
+}
+
+function collectBlockIds(result: { blocks?: unknown }): string[] {
+  return Array.isArray(result.blocks)
+    ? result.blocks.map((block) => typeof block === "object" && block ? String((block as { id?: unknown }).id) : "")
+    : [];
 }
 
 const summary = runContractChecks();
@@ -47,6 +77,77 @@ assert.ok(resourceModule.embeddedResourceBundle.translationIndex.eng);
 assert.equal("embeddedResources" in resourceModule, false);
 assert.equal("fdbRaw" in resourceModule, false);
 
+const lang = resourceModule.embeddedResourceBundle.translationIndex;
+assert.deepEqual(Object.keys(lang.chs).sort(), Object.keys(lang.eng).sort(), "language packs must have 100% matching keys");
+const requiredTranslationKeys = new Set([
+  ...fdnextFieldKeys,
+  ...fdnextChipKinds,
+  ...fdnextProductTypes,
+  ...fdnextIdSchemes,
+  ...fdnextDomains,
+  "true",
+  "false",
+  "Unknown",
+  ...fdnextBlockIds.map((id) => `block.${id}`),
+  "action.part.decode",
+  "action.identifier.decode.nand_flash_id",
+  "warning.empty_query",
+  "warning.missing_id_scheme",
+  "warning.invalid_nand_flash_id",
+  "warning.invalid_nand_flash_id.search",
+  "warning.unsupported_id_scheme",
+  "warning.constraint_mismatch.vendor",
+  "warning.constraint_mismatch.chip_kind",
+  "warning.constraint_mismatch.product_type",
+  "warning.constraint_mismatch.strict",
+  "warning.ambiguous_part",
+  "subtitle.kind.raw_nand",
+  "subtitle.kind.on_die_ecc_nand",
+  "subtitle.kind.managed_nand",
+  "subtitle.kind.dram",
+  "subtitle.kind.memory",
+  "subtitle.die_count",
+  "subtitle.plane_count"
+]);
+assert.deepEqual(
+  [...requiredTranslationKeys].filter((key) => !(key in lang.eng) || !(key in lang.chs)).sort(),
+  [],
+  "translation packs must cover every current public result key"
+);
+const obsoleteTranslationKeys = [
+  "design_rev",
+  "features",
+  "intel_unsupported_3d_xpoint",
+  "micron_f_e",
+  "micron_f_m",
+  "micron_f_r",
+  "micron_f_s",
+  "micron_f_t",
+  "micron_f_x",
+  "micron_f_z",
+  "micron_otr_aat",
+  "micron_otr_ait",
+  "micron_otr_c",
+  "micron_otr_it",
+  "micron_otr_wt",
+  "micron_p_es",
+  "micron_p_ms",
+  "micron_p_qs",
+  "samsung_cbb_c",
+  "spare_area_size_per_512b",
+  "spectek_if_e",
+  "spectek_if_f",
+  "spectek_if_g",
+  "spectek_if_m",
+  "spectek_if_n",
+  "special_options"
+];
+assert.deepEqual(
+  obsoleteTranslationKeys.filter((key) => key in lang.eng || key in lang.chs),
+  [],
+  "obsolete translation keys must stay removed"
+);
+
 assertPartClassification("MT29F4G08ABAEA", "raw_nand");
 assertPartClassification("MT29FBG08ABACA", "on_die_ecc_nand");
 assertPartClassification("MTFC8GAKAJCN-4M", "managed_nand", "emmc");
@@ -66,7 +167,9 @@ const inferredIdentifier = engine.decodeIdentifier({ query: "2C64444BA900", lang
 assert.equal(inferredIdentifier.status, "ok");
 assert.equal(inferredIdentifier.input.constraints.idScheme, "nand.flash_id");
 assert.equal(inferredIdentifier.device?.idScheme, "nand.flash_id");
-assert.ok(inferredIdentifier.blocks.some((block) => block.id === "identity"));
+assert.ok(inferredIdentifier.subtitle?.includes("Micron"));
+assert.ok(!collectBlockIds(inferredIdentifier).includes("identity"));
+assert.ok(!collectResultFields(inferredIdentifier.blocks).some((field) => field.key === "vendor" || field.key === "identifier" || field.key === "id_scheme"));
 assert.ok(inferredIdentifier.blocks.some((block) => block.id === "geometry"));
 assert.ok(inferredIdentifier.blocks.some((block) => block.id === "timing"));
 assert.ok(inferredIdentifier.blocks.some((block) => block.id === "controllers"));
@@ -90,6 +193,12 @@ const rejected = engine.decodePart({
 });
 assert.equal(rejected.status, "not_found");
 assert.ok(rejected.warnings.some((warning) => warning.code === "constraint_mismatch"));
+const rejectedChs = engine.decodePart({
+  query: "MT62F1G64D4EK-023 WT:B",
+  lang: "chs",
+  constraints: { chipKind: "managed_nand", strict: true }
+});
+assert.ok(rejectedChs.warnings.some((warning) => warning.message.includes("strict 约束")));
 assert.equal(
   engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng", constraints: { chipKind: "managed_nand" } }).device?.chipKind,
   "managed_nand"
@@ -99,7 +208,8 @@ const marking = engine.searchParts({ query: "C9BJZ", lang: "eng", limit: 5 });
 const markingItem = marking.items.find((item) => item.device.markingCode === "C9BJZ" && item.device.partNumber === "CT40A1G8SA-62M:E");
 assert.ok(markingItem, "Micron FBGA marking search should return a structured part candidate");
 assert.equal(markingItem.device.chipKind, "dram");
-assert.ok(markingItem.fields?.some((field) => field.key === "marking_code" && field.value === "C9BJZ"));
+assert.equal(markingItem.device.markingCode, "C9BJZ");
+assert.ok(!markingItem.fields?.some((field) => field.key === "marking_code"));
 assert.ok(marking.relations?.some((relation) => relation.kind === "marking_for" && relation.source?.markingCode === "C9BJZ"));
 assert.ok(markingItem.actions?.some((action) => action.operation === "part.decode" && action.input.constraints?.chipKind === "dram"));
 
@@ -107,7 +217,7 @@ const markingDecode = engine.decodePart({ query: "C9BJZ", lang: "eng" });
 assert.equal(markingDecode.status, "ok");
 assert.equal(markingDecode.device?.partNumber, "CT40A1G8SA-62M:E");
 assert.equal(markingDecode.device?.markingCode, "C9BJZ");
-assert.ok(markingDecode.blocks.some((block) => block.fields.some((field) => field.key === "marking_code" && field.value === "C9BJZ")));
+assert.ok(!collectResultFields(markingDecode.blocks).some((field) => field.key === "marking_code"));
 assert.ok(markingDecode.relations.some((relation) => relation.kind === "marking_for" && relation.source?.markingCode === "C9BJZ"));
 
 const markingDecodeAsIdentifier = engine.decodeIdentifier({ query: "C9BJZ", lang: "eng" });
@@ -119,11 +229,22 @@ assert.ok(markingDecodeAsNandFlashId.warnings.some((warning) => warning.code ===
 const markingSearchAsIdentifier = engine.searchIdentifiers({ query: "C9BJZ", lang: "eng" });
 assert.equal(markingSearchAsIdentifier.status, "invalid_input");
 assert.ok(markingSearchAsIdentifier.warnings.some((warning) => warning.code === "missing_id_scheme"));
+const markingSearchAsIdentifierChs = engine.searchIdentifiers({ query: "C9BJZ", lang: "chs" });
+assert.ok(markingSearchAsIdentifierChs.warnings.some((warning) => warning.message.includes("标识符类型")));
 
 const dramDecode = engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng" });
+assert.equal(dramDecode.subtitle, "LPDDR5X · Micron · 64Gb · x64");
+assert.ok(!collectBlockIds(dramDecode).includes("identity"));
+assert.ok(!collectResultFields(dramDecode.blocks).some((field) => field.key === "vendor" || field.key === "part_number" || field.key === "chip_kind" || field.key === "product_type"));
 assert.ok(!dramDecode.relations.some((relation) => relation.kind === "identifier_for"));
 assert.ok(!dramDecode.actions.some((action) => action.operation === "identifier.search" || action.operation === "identifier.decode"));
+const dramDecodeChs = engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "chs" });
+assert.ok(dramDecodeChs.blocks.some((block) => block.id === "geometry" && block.label === "几何信息"));
+assert.ok(dramDecodeChs.blocks.some((block) => block.id === "package" && block.label === "封装"));
+assert.ok(collectResultFields(dramDecodeChs.blocks).some((field) => field.key === "operation_temperature" && (field as { display?: string }).display === "无线温度范围 (-25°C ~ 85°C)"));
+assert.ok(!collectResultFields(dramDecodeChs).some((field) => field.key === "special_options"));
 const nandDecode = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
+assert.ok(nandDecode.subtitle?.startsWith("NAND Flash · Micron · 8GB MLC"));
 assert.ok(nandDecode.relations.some((relation) => relation.kind === "identifier_for" && relation.target.idScheme === "nand.flash_id"));
 assert.ok(nandDecode.actions.some((action) => (
   action.operation === "identifier.decode" &&

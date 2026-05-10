@@ -283,6 +283,7 @@ function decodeResultSchema(operation: "part.decode" | "identifier.decode"): Jso
       operation: { const: operation },
       status: { enum: fdnextResultStatuses },
       input: { $ref: "#/$defs/normalizedInput" },
+      subtitle: { type: "string", minLength: 1 },
       device: { $ref: "#/$defs/deviceIdentity" },
       blocks: { type: "array", items: { $ref: "#/$defs/resultBlock" } },
       relations: { type: "array", items: { $ref: "#/$defs/relation" } },

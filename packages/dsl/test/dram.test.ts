@@ -65,6 +65,7 @@ const standardDramTypes = new Set([
 interface TestPartInfo {
   partNumber: string;
   rawVendor?: string;
+  markingCode?: string;
   type?: string;
   rawDensity?: number;
   density?: string;
@@ -122,6 +123,7 @@ function detect(partNumber: string): TestPartInfo {
   return {
     partNumber,
     rawVendor: result.device?.vendor.id,
+    markingCode: result.device?.markingCode,
     type: fieldText(firstField(result, "dram_type", "product_type")) as string | undefined,
     rawDensity: typeof density?.value === "number" ? density.value : undefined,
     density: density?.display,
@@ -166,10 +168,8 @@ function assertSearchMarkingRelation(query: string, expectedPartNumber: string):
   assert.ok(item, `${query} should return a structured marking candidate for ${expectedPartNumber}`);
   assert.equal(item.device.chipKind, "dram", `${query} should classify marking search as DRAM`);
   assert.ok(item.badges?.includes("Micron FBGA"), `${query} should expose a marking badge`);
-  assert.ok(
-    item.fields?.some((field) => field.key === "marking_code" && field.value === query),
-    `${query} should expose marking_code as a field`
-  );
+  assert.equal(item.device.markingCode, query, `${query} should expose markingCode in device identity`);
+  assert.ok(!item.fields?.some((field) => field.key === "marking_code"), `${query} should not duplicate markingCode as a field`);
   assert.ok(
     result.relations?.some((relation) =>
       relation.kind === "marking_for" &&
@@ -229,6 +229,10 @@ function assertDram(
 
   for (const [key, value] of Object.entries(expected.extra)) {
     if (key === "DRAM Type") {
+      continue;
+    }
+    if (key === "Marking Code") {
+      assert.equal(info.markingCode, value, `${partNumber} device.markingCode`);
       continue;
     }
     assert.equal(detailFields[key], value, `${partNumber} detailFields.${key}`);

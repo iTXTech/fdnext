@@ -5,38 +5,33 @@
   "input": {
     "query": "NW101",
     "normalized": "NW101",
-    "constraints": {
-      "vendor": "micron"
-    }
+    "lang": "eng",
+    "constraints": {}
   },
   "items": [
     {
-      "label": "MT53E1G32D2FW-046 WT:A",
+      "label": "MT29F2G08ABDHC-ET:D",
       "device": {
         "domain": "memory",
-        "chipKind": "dram",
-        "productType": "lpddr4x",
-        "partNumber": "MT53E1G32D2FW-046 WT:A",
+        "chipKind": "raw_nand",
+        "partNumber": "MT29F2G08ABDHC-ET:D",
         "markingCode": "NW101",
         "vendor": {
           "id": "micron",
           "name": "Micron"
         }
       },
-      "badges": ["Micron FBGA", "LPDDR4X"],
+      "badges": [
+        "Micron FBGA",
+        "raw_nand"
+      ],
       "fields": [
         {
-          "key": "marking_code",
-          "label": "Marking Code",
-          "value": "NW101",
-          "importance": "primary"
-        },
-        {
-          "key": "dram_density",
-          "label": "DRAM Density",
-          "value": 32768,
+          "key": "density",
+          "label": "Density",
+          "value": 2048,
           "unit": "Mbit",
-          "display": "32Gb",
+          "display": "2Gb",
           "importance": "primary"
         }
       ],
@@ -46,10 +41,10 @@
           "label": "Decode Part",
           "operation": "part.decode",
           "input": {
-            "query": "MT53E1G32D2FW-046 WT:A",
+            "query": "MT29F2G08ABDHC-ET:D",
             "constraints": {
-              "chipKind": "dram",
-              "vendor": "micron"
+              "vendor": "micron",
+              "chipKind": "raw_nand"
             }
           }
         }
@@ -59,18 +54,15 @@
   "relations": [
     {
       "kind": "marking_for",
-      "label": "FBGA marking relation",
       "source": {
-        "markingCode": "NW101",
-        "label": "FBGA marking NW101"
+        "markingCode": "NW101"
       },
       "target": {
-        "partNumber": "MT53E1G32D2FW-046 WT:A",
+        "partNumber": "MT29F2G08ABDHC-ET:D",
         "device": {
           "domain": "memory",
-          "chipKind": "dram",
-          "productType": "lpddr4x",
-          "partNumber": "MT53E1G32D2FW-046 WT:A",
+          "chipKind": "raw_nand",
+          "partNumber": "MT29F2G08ABDHC-ET:D",
           "vendor": {
             "id": "micron",
             "name": "Micron"

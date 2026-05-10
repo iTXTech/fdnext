@@ -231,8 +231,7 @@ function fieldsByLabel(result: PartDecodeResult): Record<string, unknown> {
 }
 
 function resultType(result: PartDecodeResult): string {
-  const product = result.blocks.flatMap((block) => block.fields).find((field) => field.key === "product_type");
-  return String(product?.display ?? product?.value ?? result.device?.chipKind ?? "");
+  return String(result.device?.productType ?? result.device?.chipKind ?? "");
 }
 
 function assertManagedNandOutputIsCanonical(): void {
@@ -290,15 +289,15 @@ function assertDslV2CompositeComponents(): void {
   assert.ok(components.some((relation) =>
     relation.target.role === "storage" &&
     relation.target.device?.chipKind === "managed_nand" &&
-    relation.target.device.productType === "emmc" &&
-    relation.fields?.some((field) => field.key === "storage_density" && field.value === "64GB eMMC")
+    relation.target.device.productType === "emmc"
   ));
   assert.ok(components.some((relation) =>
     relation.target.role === "dram" &&
     relation.target.device?.chipKind === "dram" &&
-    relation.target.device.productType === "lpddr4x" &&
-    relation.fields?.some((field) => field.key === "dram_density" && field.value === "32Gb")
+    relation.target.device.productType === "lpddr4x"
   ));
+  assert.ok(info.blocks.some((block) => block.fields.some((field) => field.key === "storage_density" && field.value === "64GB eMMC")));
+  assert.ok(info.blocks.some((block) => block.fields.some((field) => field.key === "dram_density" && field.value === "32Gb")));
   assert.equal(JSON.stringify(info).includes("__fdnext"), false, "DSL internal metadata should not leak into public results");
 }
 

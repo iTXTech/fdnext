@@ -5,10 +5,10 @@
   "input": {
     "query": "MT62F1G64D4EK-023 WT:B",
     "normalized": "MT62F1G64D4EK-023WT:B",
-    "constraints": {
-      "chipKind": "dram"
-    }
+    "lang": "eng",
+    "constraints": {}
   },
+  "subtitle": "LPDDR5X · Micron · 64Gb · x64",
   "device": {
     "domain": "memory",
     "chipKind": "dram",
@@ -21,33 +21,9 @@
   },
   "blocks": [
     {
-      "id": "identity",
-      "label": "Identity",
-      "fields": [
-        {
-          "key": "vendor",
-          "label": "Vendor",
-          "value": "Micron",
-          "importance": "primary"
-        },
-        {
-          "key": "product_type",
-          "label": "Product Type",
-          "value": "lpddr5x",
-          "display": "LPDDR5X",
-          "importance": "primary"
-        },
-        {
-          "key": "part_number",
-          "label": "Part Number",
-          "value": "MT62F1G64D4EK-023WT:B",
-          "importance": "primary"
-        }
-      ]
-    },
-    {
       "id": "dram",
       "label": "DRAM",
+      "importance": "primary",
       "fields": [
         {
           "key": "dram_type",
@@ -72,10 +48,72 @@
           "importance": "secondary"
         },
         {
+          "key": "dram_voltage",
+          "label": "DRAM Voltage",
+          "value": "1.05V VDD / 0.5V VDDQ",
+          "importance": "secondary"
+        },
+        {
           "key": "dram_speed",
           "label": "DRAM Speed",
-          "value": "023",
+          "value": "LPDDR5X-8533 (4266 MHz)",
           "importance": "secondary"
+        }
+      ]
+    },
+    {
+      "id": "geometry",
+      "label": "Geometry",
+      "importance": "secondary",
+      "fields": [
+        {
+          "key": "dram_die_stack",
+          "label": "DRAM Die Stack",
+          "value": "4-die stack",
+          "importance": "secondary"
+        },
+        {
+          "key": "die_count",
+          "label": "Die Count",
+          "value": 4,
+          "importance": "secondary"
+        },
+        {
+          "key": "config_code",
+          "label": "Config Code",
+          "value": "1G64",
+          "importance": "detail"
+        }
+      ]
+    },
+    {
+      "id": "package",
+      "label": "Package",
+      "importance": "detail",
+      "fields": [
+        {
+          "key": "package",
+          "label": "Package",
+          "value": "441-ball TFBGA",
+          "importance": "secondary"
+        },
+        {
+          "key": "package_code",
+          "label": "Package Code",
+          "value": "EK",
+          "importance": "detail"
+        },
+        {
+          "key": "operation_temperature",
+          "label": "Operation Temperature",
+          "value": "Wireless (-25°C ~ 85°C)",
+          "importance": "detail"
+        },
+        {
+          "key": "die_revision",
+          "label": "Die Revision",
+          "value": "Rev B",
+          "importance": "detail"
         }
       ]
     }

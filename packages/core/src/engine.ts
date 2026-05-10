@@ -48,6 +48,7 @@ import type {
   OperationConstraints,
   PartDecodeResult,
   PartSearchResult,
+  ResultWarning,
   SearchIdentifiersInput,
   SearchPartsInput
 } from "./result";
@@ -486,6 +487,73 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const translateString = (key: string, lang?: string | null) => doTranslateString(langPacks, fallbackLang, key, lang);
   const resultBuilderContext = { langPacks, fallbackLang, translateString };
 
+  const translateTemplate = (key: string, fallback: string, params: Record<string, string>, lang?: string | null): string => {
+    const translated = translateString(key, lang);
+    const template = translated && translated !== key ? translated : fallback;
+    return template.replaceAll(/\{([a-zA-Z0-9_]+)\}/g, (_, param: string) => params[param] ?? "");
+  };
+
+  const localizeWarningMessage = (warning: ResultWarning, lang?: string | null): string => {
+    if (warning.code === "constraint_mismatch") {
+      const vendor = /^Vendor constraint (.+) does not match (.+)$/.exec(warning.message);
+      if (vendor) {
+        return translateTemplate(
+          "warning.constraint_mismatch.vendor",
+          "Vendor constraint {expected} does not match {actual}",
+          { expected: vendor[1] ?? "", actual: vendor[2] ?? "" },
+          lang
+        );
+      }
+      const chipKind = /^Chip kind constraint (.+) does not match (.+)$/.exec(warning.message);
+      if (chipKind) {
+        return translateTemplate(
+          "warning.constraint_mismatch.chip_kind",
+          "Chip kind constraint {expected} does not match {actual}",
+          { expected: chipKind[1] ?? "", actual: chipKind[2] ?? "" },
+          lang
+        );
+      }
+      const productType = /^Product type constraint (.+) does not match (.+)$/.exec(warning.message);
+      if (productType) {
+        return translateTemplate(
+          "warning.constraint_mismatch.product_type",
+          "Product type constraint {expected} does not match {actual}",
+          { expected: productType[1] ?? "", actual: productType[2] ?? "" },
+          lang
+        );
+      }
+      if (warning.message === "No part candidate matched the requested strict constraints") {
+        const translated = translateString("warning.constraint_mismatch.strict", lang);
+        return translated && translated !== "warning.constraint_mismatch.strict"
+          ? translated
+          : "No part candidate matched the requested strict constraints";
+      }
+    }
+    if (warning.code === "unsupported_id_scheme") {
+      const idScheme = /^Unsupported identifier scheme: (.+)$/.exec(warning.message);
+      return translateTemplate(
+        "warning.unsupported_id_scheme",
+        "Unsupported identifier scheme: {idScheme}",
+        { idScheme: idScheme?.[1] ?? "" },
+        lang
+      );
+    }
+    if (warning.code === "invalid_nand_flash_id" && warning.message.includes("search")) {
+      const translated = translateString("warning.invalid_nand_flash_id.search", lang);
+      return translated && translated !== "warning.invalid_nand_flash_id.search"
+        ? translated
+        : "NAND Flash ID search requires a hexadecimal byte string";
+    }
+    const translated = translateString(`warning.${warning.code}`, lang);
+    return translated && translated !== `warning.${warning.code}` ? translated : warning.message;
+  };
+
+  const localizeWarnings = (warnings: ResultWarning[], lang?: string | null): ResultWarning[] =>
+    warnings.map((warning) => ({
+      ...warning,
+      message: localizeWarningMessage(warning, lang)
+    }));
+
   const runOperation = <R extends FdnextResult | FdnextCapabilities>(
     operation: FdnextOperation | "capabilities",
     input: DecodePartInput | SearchPartsInput | DecodeIdentifierInput | SearchIdentifiersInput | undefined,
@@ -506,6 +574,12 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
 
     let result = build();
+    if ("warnings" in result && result.warnings.length > 0) {
+      result = {
+        ...result,
+        warnings: localizeWarnings(result.warnings, context.lang)
+      };
+    }
     for (const processor of processors) {
       const next = processor.afterOperation?.(context, result);
       if (next) {

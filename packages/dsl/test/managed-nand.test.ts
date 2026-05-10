@@ -13,6 +13,7 @@ const engine = createEngine({
 interface TestPartInfo {
   partNumber: string;
   rawVendor?: string;
+  markingCode?: string;
   type?: string;
   rawDensity?: number;
   density?: string;
@@ -45,6 +46,17 @@ function fieldText(field: FieldValue | undefined): unknown {
 function partType(result: PartDecodeResult): string | undefined {
   const product = firstField(result, "product_type");
   if (product?.display) return product.display;
+  if (result.device?.productType) {
+    const productTypes: Record<string, string> = {
+      emmc: "eMMC",
+      ufs: "UFS",
+      emcp: "eMCP",
+      umcp: "uMCP",
+      e2nand: "E2NAND",
+      inand: "iNAND"
+    };
+    return productTypes[result.device.productType] ?? result.device.productType.toUpperCase();
+  }
   if (result.device?.chipKind === "on_die_ecc_nand") return "On-die ECC NAND";
   if (result.device?.chipKind === "raw_nand") return "NAND";
   if (result.device?.chipKind === "dram") return "DRAM";
@@ -66,6 +78,7 @@ function detect(partNumber: string): TestPartInfo {
   return {
     partNumber,
     rawVendor: result.device?.vendor.id,
+    markingCode: result.device?.markingCode,
     type: partType(result),
     rawDensity: typeof density?.value === "number" ? density.value : undefined,
     density: density?.display,
@@ -92,6 +105,7 @@ function assertPart(
   partNumber: string,
   expected: {
     rawVendor: string;
+    markingCode?: string;
     type: string;
     rawDensity?: number;
     density?: string;
@@ -107,6 +121,9 @@ function assertPart(
 ): void {
   const info = detect(partNumber);
   assert.equal(info.rawVendor, expected.rawVendor, partNumber);
+  if (expected.markingCode !== undefined) {
+    assert.equal(info.markingCode, expected.markingCode, partNumber);
+  }
   assert.equal(info.type, expected.type, partNumber);
 
   if (expected.rawDensity !== undefined) {
@@ -443,6 +460,7 @@ assertPart("MT29FB8T08EALAAM5-QK:E", {
 
 assertPart("NC103", {
   rawVendor: "micron",
+  markingCode: "NC103",
   type: "On-die ECC NAND",
   rawDensity: 16777216,
   cellLevel: "QLC",
@@ -459,7 +477,6 @@ assertPart("NC103", {
   },
   package: "BGA132",
   extra: {
-    "Marking Code": "NC103",
     Enterprise: "No",
     "Die Code": "A-Die",
     "Interface Type": "Async",
