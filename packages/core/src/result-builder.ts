@@ -513,8 +513,7 @@ function partRelations(info: InternalPartInfo, device: DeviceIdentity, ctx: Resu
       },
       target: {
         partNumber: device.partNumber
-      },
-      action: partDecodeAction(device.partNumber, ctx, lang, device)
+      }
     });
   }
   for (const id of normalizedFlashIds(info.flashId)) {
