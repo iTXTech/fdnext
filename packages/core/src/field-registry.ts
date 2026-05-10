@@ -536,13 +536,6 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "storage",
     importance: "secondary"
   },
-  nand_stack: {
-    key: "nand_stack",
-    valueKind: "string",
-    defaultLabel: "NAND Stack",
-    recommendedBlock: "storage",
-    importance: "secondary"
-  },
   series_code: {
     key: "series_code",
     valueKind: "string",

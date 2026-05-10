@@ -2,7 +2,7 @@
 
 [简体中文](README-zh.md)
 
-`fdnext` is a one-stop parsing solution for memory chips. It covers memory-chip part-number parsing, NAND Flash ID identifier parsing, managed NAND and DRAM PN decoding, bundled data resources, HTTP and CLI access, result contract checks, and FDB / MDB maintenance tooling.
+`fdnext` is a one-stop parsing solution for memory chips. It covers memory-chip part-number parsing, NAND Flash ID decoding through the typed identifier API, managed NAND and DRAM PN decoding, bundled data resources, HTTP and CLI access, result contract checks, and FDB / MDB maintenance tooling.
 
 The project is organized as a strict TypeScript monorepo, but its public goal is the memory-chip parsing workflow: identify the device, normalize the result, enrich it with local resources, expose it through SDK / server / CLI entrypoints, and keep the underlying data reproducible.
 
@@ -35,7 +35,7 @@ The project is organized as a strict TypeScript monorepo, but its public goal is
 | `@itxtech/fdnext-server` | Hapi HTTP server |
 | `@itxtech/fdnext-cli` | Command-line interface |
 | `@itxtech/fdnext-fdbgen` | FDB/MDB generation and crawl tools |
-| `@itxtech/fdnext-compat-test` | Result contract checks |
+| `@itxtech/fdnext-contract-test` | Result contract checks |
 
 ## Requirements
 
@@ -52,7 +52,7 @@ pnpm test
 
 ## Usage Documentation
 
-README only provides the project overview. Integration, runtime, and maintenance usage lives under `docs/`:
+README only provides the project overview. The unified documentation index is [docs/README.md](docs/README.md); integration, runtime, and maintenance usage lives under `docs/`:
 
 - [Integration guide](docs/INTEGRATION.md) for SDK, browser, HTTP server, deployment, and endpoint usage
 - [FDBGen documentation](docs/FDBGEN.md) for FDB generation, MDB crawling, input layouts, cleanup rules, and crawler behavior
@@ -79,7 +79,7 @@ When adding or renaming public fields, update the DSL sources, language packs, t
 
 ## Validation
 
-Common checks:
+Focused checks:
 
 ```bash
 pnpm -C packages/dsl test
@@ -88,19 +88,15 @@ pnpm -C packages/resources typecheck
 git diff --check
 ```
 
-Broader checks:
+Full repo checks:
 
 ```bash
 pnpm test
 pnpm typecheck
-```
-
-The normal test suite validates the fdnext result schema, operation behavior, DSL output, resources, server, and CLI checks:
-
-```bash
 pnpm contract:check
-pnpm test
 ```
+
+The normal test suite validates the fdnext result schema, operation behavior, DSL output, resources, server, CLI checks, and result contract fixtures.
 
 ## Data References
 

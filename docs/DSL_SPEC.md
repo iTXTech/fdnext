@@ -211,7 +211,7 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 - 新增 pack：`packages/dsl/src/rules/packs/<vendor>-token.json`
 - 在 `default-rules.ts` 中导入并加入 `defaultDslRules`
-- 添加/更新 contract 行为测试：`packages/compat-test/test/contract.test.ts`
+- 添加/更新 contract 行为测试：`packages/contract-test/test/contract.test.ts`
 - 验证：`pnpm contract:check`、`pnpm -C packages/dsl test`
 
 ## 7. Identifier DSL（NAND Flash ID 概览）
@@ -280,5 +280,5 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 - 新增 pack：`packages/dsl/src/identifier/packs/<vendor>.json`
 - 在 `packages/dsl/src/identifier/default-rules.ts:1` 中导入并加入 `defaultIdentifierRules`
-- 添加/更新 identifier contract 行为测试：`packages/compat-test/test/contract.test.ts`
+- 添加/更新 identifier contract 行为测试：`packages/contract-test/test/contract.test.ts`
 - 验证：`pnpm contract:check`、`pnpm -C packages/dsl test`

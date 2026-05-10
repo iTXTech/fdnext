@@ -1,14 +1,14 @@
 # FDBGen 文档
 
-`@itxtech/fdnext-fdbgen` 是 `fdnext` 内置的独立 TypeScript 实现，用于从本地数据目录生成 `fdb.json`。当前 raw FlashDB 数据目录是仓库外部的 `../fdfdb`，raw 目录由仓库内 controller / vendor registry 解析并归一化。
+`@itxtech/fdnext-fdbgen` 是 `fdnext` 的 FDB / MDB 维护包，用于从本地数据目录生成 `fdb.json`。当前 raw FlashDB 数据目录是仓库外部的 `../fdfdb`，raw 目录由仓库内 controller / vendor registry 解析并归一化。
 
 ## 功能范围
 
-- 从多种输入来源合并 PN 与 FlashId 数据
+- 从多种输入来源合并 PN 与 Flash ID 数据
 - 支持 raw FlashDB 子目录（`smff/smufd/smssd/jm/mk/ma/sf/al/cbm/is/ps/ys/fc`）
-- 归一化厂商名与主键格式（Vendor/PN/FlashId）
+- 归一化厂商名与主键格式（Vendor / PN / Flash ID）
 - 按确定性 PN 前缀校正厂商归属，避免 `MT29F...` 被放入 Samsung 等错误厂商桶
-- 清理无效 FlashId、残缺 PN 别名与悬空 `iddb.n` 反向引用
+- 清理无效 Flash ID、残缺 PN 别名与悬空 `iddb.n` 反向引用
 - 自动回填 `iddb.n`（`vendor partNumber` 反向引用）
 - 聚合并去重 `info.controllers`
 - 生成稳定排序的输出 JSON，便于 diff 与审阅
@@ -301,7 +301,7 @@ Raw FlashDB 模式：
 ### 键与字段处理
 
 - PN key 统一转大写，并移除空格、逗号、`&`、`.`、`|`
-- FlashId key 统一移除空白、转大写；非十六进制、奇数字节长度或异常长度的 ID 会被丢弃
+- Flash ID key 统一移除空白、转大写；非十六进制、奇数字节长度或异常长度的 ID 会被丢弃
 - 数组字段（如 `id/t/n/controllers`）会去重
 - 数值字段（`s/p/b/d/e/r/n`）仅接受有限数值
 - 如果 `*_1` 或尾部 `-` PN 有明确 base PN，会合并回 base PN
@@ -317,7 +317,7 @@ Raw FlashDB 模式：
 
 ### 输出排序
 
-- Vendor、PN、FlashId 按字典序排序
+- Vendor、PN、Flash ID 按字典序排序
 - 对象键稳定输出，便于版本管理与差异比较
 
 ## 输出结构

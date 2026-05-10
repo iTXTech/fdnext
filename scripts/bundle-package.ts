@@ -154,10 +154,10 @@ async function main() {
       });
       return;
     }
-    case "compat-test": {
+    case "contract-test": {
       await bundleEntry(esbuild, {
-        entry: resolve(root, "packages/compat-test/src/index.ts"),
-        outfile: resolve(root, "packages/compat-test/dist/index.js"),
+        entry: resolve(root, "packages/contract-test/src/index.ts"),
+        outfile: resolve(root, "packages/contract-test/dist/index.js"),
         platform: "node",
         banner: nodeBanner({ shebang: false })
       });

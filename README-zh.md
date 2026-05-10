@@ -2,7 +2,7 @@
 
 [English](README.md)
 
-`fdnext` 是面向存储器芯片的一站式解析方案。它覆盖存储器芯片料号解析、NAND Flash ID identifier 解析、Managed NAND 和 DRAM PN 解码、内置数据资源、HTTP 与 CLI 接入、结果 contract 检查，以及 FDB / MDB 维护工具。
+`fdnext` 是面向存储器芯片的一站式解析方案。它覆盖存储器芯片料号解析、通过 typed identifier API 进行的 NAND Flash ID 解析、Managed NAND 和 DRAM PN 解码、内置数据资源、HTTP 与 CLI 接入、结果 contract 检查，以及 FDB / MDB 维护工具。
 
 仓库以严格 TypeScript monorepo 组织，但对外定位是完整的存储器芯片解析工作流：识别芯片、归一化结果、结合本地资源补充信息，通过 SDK / Server / CLI 暴露能力，并让底层数据维护可复现。
 
@@ -35,7 +35,7 @@
 | `@itxtech/fdnext-server` | Hapi HTTP 服务 |
 | `@itxtech/fdnext-cli` | 命令行工具 |
 | `@itxtech/fdnext-fdbgen` | FDB / MDB 生成和爬取工具 |
-| `@itxtech/fdnext-compat-test` | result contract 检查工具 |
+| `@itxtech/fdnext-contract-test` | result contract 检查工具 |
 
 ## 环境要求
 
@@ -52,7 +52,7 @@ pnpm test
 
 ## 使用文档
 
-README 只作为项目概览入口。集成、运行和维护用法放在 `docs/` 目录：
+README 只作为项目概览入口。统一文档索引是 [docs/README.md](docs/README.md)，集成、运行和维护用法放在 `docs/` 目录：
 
 - [集成指南](docs/INTEGRATION.md)：SDK、浏览器、HTTP Server、部署和接口用法
 - [FDBGen 文档](docs/FDBGEN.md)：FDB 生成、MDB 爬取、输入布局、清理规则和 crawler 行为
@@ -79,7 +79,7 @@ PN 规则必须保持数据驱动。新增解码覆盖时应添加结构化 JSON
 
 ## 验证
 
-常用检查：
+聚焦检查：
 
 ```bash
 pnpm -C packages/dsl test
@@ -88,19 +88,15 @@ pnpm -C packages/resources typecheck
 git diff --check
 ```
 
-更完整的检查：
+完整仓库检查：
 
 ```bash
 pnpm test
 pnpm typecheck
-```
-
-常规测试会验证 fdnext result schema、operation 行为、DSL 输出、资源、server 和 CLI 检查：
-
-```bash
 pnpm contract:check
-pnpm test
 ```
+
+常规测试会验证 fdnext result schema、operation 行为、DSL 输出、资源、server、CLI 检查和 result contract fixtures。
 
 ## 数据参考
 

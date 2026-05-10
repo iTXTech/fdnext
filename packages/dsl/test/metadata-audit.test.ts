@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createEngine, fdnextFieldRegistry, type PartDecodeResult } from "../../core/src/index";
@@ -216,10 +216,37 @@ function assertRuntimeDoesNotKeepMetadataAliases(): void {
   assert.deepEqual(findings, [], "runtime should not translate legacy metadata keys through aliases");
 }
 
+function readLangPack(file: string): Record<string, unknown> {
+  return JSON.parse(readFileSync(repoPath(file), "utf8")) as Record<string, unknown>;
+}
+
+function assertLangPacksAreConsistent(): void {
+  const langDir = "packages/resources/resources/lang";
+  assert.deepEqual(
+    readdirSync(repoPath(langDir)).sort(),
+    ["chs.json", "eng.json"],
+    "resource bundle should only ship the supported language packs"
+  );
+
+  const eng = readLangPack(`${langDir}/eng.json`);
+  const chs = readLangPack(`${langDir}/chs.json`);
+  assert.deepEqual(Object.keys(chs).sort(), Object.keys(eng).sort(), "language packs should expose the same keys");
+
+  for (const [file, lang] of Object.entries({ "eng.json": eng, "chs.json": chs })) {
+    const nonStringValues = Object.entries(lang)
+      .filter(([, value]) => typeof value !== "string")
+      .map(([key]) => key);
+    assert.deepEqual(nonStringValues, [], `${file} should only contain string translations`);
+
+    const missingFieldLabels = Object.keys(fdnextFieldRegistry).filter((key) => !Object.hasOwn(lang, key));
+    assert.deepEqual(missingFieldLabels, [], `${file} should label every public field key`);
+  }
+}
+
 function assertLangKeysUseSnakeCase(): void {
   const allowed = new Set(["eMMC"]);
   for (const file of ["packages/resources/resources/lang/eng.json", "packages/resources/resources/lang/chs.json"]) {
-    const lang = JSON.parse(readFileSync(repoPath(file), "utf8")) as Record<string, unknown>;
+    const lang = readLangPack(file);
     const camelKeys = Object.keys(lang).filter((key) => /[a-z][A-Z]/.test(key) && !allowed.has(key));
     assert.deepEqual(camelKeys, [], `${file} should not contain camelCase keys`);
     assert.equal(Object.hasOwn(lang, "component_generation"), false, `${file} should use generation_info`);
@@ -384,6 +411,7 @@ assertRuntimeDslExtraFieldsAreRegistered();
 assertIdentifierExtFieldsTargetPublicKeys();
 assertRepresentativeDslV2Metadata();
 assertRuntimeDoesNotKeepMetadataAliases();
+assertLangPacksAreConsistent();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertManagedNandOutputIsCanonical();

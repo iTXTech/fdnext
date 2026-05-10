@@ -7,7 +7,7 @@
       "@itxtech/fdnext-dsl": ["./packages/dsl/src/index.ts"],
       "@itxtech/fdnext-server": ["./packages/server/src/index.ts"],
       "@itxtech/fdnext-cli": ["./packages/cli/src/index.ts"],
-      "@itxtech/fdnext-compat-test": ["./packages/compat-test/src/index.ts"],
+      "@itxtech/fdnext-contract-test": ["./packages/contract-test/src/index.ts"],
       "@itxtech/fdnext-fdbgen": ["./packages/fdbgen/src/index.ts"],
       "@itxtech/fdnext-resources": ["./packages/resources/index.ts"]
     },

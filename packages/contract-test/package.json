@@ -1,5 +1,5 @@
 {
-  "name": "@itxtech/fdnext-compat-test",
+  "name": "@itxtech/fdnext-contract-test",
   "version": "2.0.0",
   "type": "module",
   "main": "dist/index.js",

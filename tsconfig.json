@@ -7,7 +7,7 @@
     { "path": "./packages/resources" },
     { "path": "./packages/server" },
     { "path": "./packages/cli" },
-    { "path": "./packages/compat-test" },
+    { "path": "./packages/contract-test" },
     { "path": "./packages/fdbgen" }
   ]
 }

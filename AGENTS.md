@@ -4,12 +4,12 @@
 
 ## 项目概览
 
-`fdnext` 是 FlashDetector 的 TypeScript monorepo 实现，使用 `pnpm` 和严格 TypeScript。核心能力包括 FlashId / PN 解码、JSON DSL 规则编译、资源包、HTTP server、CLI、兼容性测试和 FDB 生成。
+`fdnext` 是面向存储器芯片的一站式解析方案，使用 `pnpm` 和严格 TypeScript monorepo 组织。核心能力包括 PN / typed identifier 解码、JSON DSL 规则编译、资源包、HTTP server、CLI、result contract 检查和 FDB / MDB 维护。
 
 主要目录：
 
 - `packages/core`: 解码引擎、公共 SDK 和输出转换。
-- `packages/dsl`: PN / FlashId JSON DSL 规则、编译器和规则测试。
+- `packages/dsl`: PN / typed identifier JSON DSL 规则、编译器和规则测试。
 - `packages/resources`: 内置 `fdb` / `mdb` / 多语言资源。
 - `packages/fdbgen`: 从本地数据集生成 FDB 的工具。
 - `packages/server`: HTTP 服务。
@@ -25,7 +25,7 @@ pnpm typecheck
 pnpm -C packages/dsl test
 pnpm -C packages/dsl typecheck
 pnpm -C packages/resources typecheck
-pnpm compat:ci
+pnpm contract:check
 ```
 
 ## 工作习惯
@@ -111,12 +111,12 @@ pnpm -C packages/resources typecheck
 git diff --check
 ```
 
-如果改动影响 core 输出、资源打包或兼容性夹具，再运行：
+如果改动影响 core 输出、资源打包或 result contract 夹具，再运行：
 
 ```bash
 pnpm test
 pnpm typecheck
-pnpm compat:ci
+pnpm contract:check
 ```
 
 测试期望应检查：
