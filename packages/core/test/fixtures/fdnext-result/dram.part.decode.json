@@ -73,12 +73,6 @@
           "importance": "secondary"
         },
         {
-          "key": "die_count",
-          "label": "Die Count",
-          "value": 4,
-          "importance": "secondary"
-        },
-        {
           "key": "config_code",
           "label": "Config Code",
           "value": "1G64",

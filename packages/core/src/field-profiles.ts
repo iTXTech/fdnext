@@ -26,7 +26,7 @@ export const fdnextFieldProfiles = {
         importance: "primary",
         fields: ["density", "cell_level", "generation_info", "process_node"]
       },
-      { id: "geometry", label: "Geometry", importance: "secondary", fields: ["die_density", "die_stack", "die_count", "plane_count"] },
+      { id: "geometry", label: "Geometry", importance: "secondary", fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "plane_count"] },
       { id: "interface", label: "Interface", importance: "secondary", fields: ["device_width", "voltage", "storage_interface"] },
       { id: "package", label: "Package", importance: "detail", fields: ["package", "package_code", "operation_temperature"] },
       { id: "controllers", label: "Controllers", importance: "detail", fields: ["controller"] }
@@ -42,7 +42,7 @@ export const fdnextFieldProfiles = {
         importance: "primary",
         fields: ["density", "cell_level", "generation_info", "process_node"]
       },
-      { id: "geometry", label: "Geometry", importance: "secondary", fields: ["die_density", "die_stack", "die_count"] },
+      { id: "geometry", label: "Geometry", importance: "secondary", fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count"] },
       { id: "interface", label: "Interface", importance: "secondary", fields: ["device_width", "voltage", "storage_interface"] },
       { id: "package", label: "Package", importance: "detail", fields: ["package", "package_code", "operation_temperature"] }
     ]

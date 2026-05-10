@@ -56,6 +56,24 @@
           "label": "Die Count",
           "value": 1,
           "importance": "secondary"
+        },
+        {
+          "key": "ce_count",
+          "label": "CE Count",
+          "value": 1,
+          "importance": "secondary"
+        },
+        {
+          "key": "rb_count",
+          "label": "R/B Count",
+          "value": 1,
+          "importance": "secondary"
+        },
+        {
+          "key": "channel_count",
+          "label": "Channel Count",
+          "value": 1,
+          "importance": "secondary"
         }
       ]
     },

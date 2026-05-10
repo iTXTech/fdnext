@@ -259,6 +259,9 @@ assert.ok(collectResultFields(nandDecode.blocks).some((field) => (
   (field as { unit?: unknown }).unit === "Mbit" &&
   (field as { display?: unknown }).display === "8GB"
 )));
+for (const key of ["ce_count", "rb_count", "channel_count"] as const) {
+  assert.ok(collectResultFields(nandDecode.blocks).some((field) => field.key === key && field.value === 1), `NAND decode should expose ${key}`);
+}
 const nandIdentifierRelations = nandDecode.relations.filter((relation) => relation.kind === "identifier_for" && relation.target.idScheme === "nand.flash_id");
 assert.ok(nandIdentifierRelations.length > 1);
 assert.ok(nandIdentifierRelations.every((relation) => (

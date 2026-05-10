@@ -215,8 +215,19 @@ function fieldMapFromPart(info: InternalPartInfo, device: DeviceIdentity, ctx: R
   if (isKnownInfoValue(info.generation)) addField(fields, createField("generation_info", String(info.generation), ctx, lang));
 
   const classification = asRecord(info.classification);
-  if (asNumber(classification.die)) {
-    addField(fields, createField("die_count", Number(classification.die), ctx, lang));
+  if (device.chipKind === "raw_nand" || device.chipKind === "on_die_ecc_nand") {
+    const topologyFields: Array<[string, FdnextFieldKey]> = [
+      ["die", "die_count"],
+      ["ce", "ce_count"],
+      ["rb", "rb_count"],
+      ["ch", "channel_count"]
+    ];
+    for (const [sourceKey, fieldKey] of topologyFields) {
+      const value = positiveNumber(classification[sourceKey]);
+      if (value) {
+        addField(fields, createField(fieldKey, value, ctx, lang));
+      }
+    }
   }
 
   const extra = asRecord(info.fields);
@@ -328,6 +339,10 @@ function displayField(fields: Map<FdnextFieldKey, FieldValue>, key: FdnextFieldK
     return String(field.value);
   }
   return undefined;
+}
+
+function positiveNumber(value: unknown): number | undefined {
+  return typeof value === "number" && Number.isFinite(value) && value > 0 ? value : undefined;
 }
 
 function byteDisplayField(fields: Map<FdnextFieldKey, FieldValue>, key: FdnextFieldKey): string | undefined {

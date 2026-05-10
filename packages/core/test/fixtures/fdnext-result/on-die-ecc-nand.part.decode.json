@@ -29,6 +29,12 @@
           "label": "Die Count",
           "value": 1,
           "importance": "secondary"
+        },
+        {
+          "key": "channel_count",
+          "label": "Channel Count",
+          "value": 1,
+          "importance": "secondary"
         }
       ]
     },

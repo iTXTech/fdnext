@@ -111,12 +111,6 @@
       "importance": "detail",
       "fields": [
         {
-          "key": "die_count",
-          "label": "Die Count",
-          "value": 8,
-          "importance": "secondary"
-        },
-        {
           "key": "system",
           "label": "System",
           "value": "moviNAND/MCP",

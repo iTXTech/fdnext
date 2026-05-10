@@ -319,6 +319,27 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "geometry",
     importance: "secondary"
   },
+  ce_count: {
+    key: "ce_count",
+    valueKind: "number",
+    defaultLabel: "CE Count",
+    recommendedBlock: "geometry",
+    importance: "secondary"
+  },
+  rb_count: {
+    key: "rb_count",
+    valueKind: "number",
+    defaultLabel: "R/B Count",
+    recommendedBlock: "geometry",
+    importance: "secondary"
+  },
+  channel_count: {
+    key: "channel_count",
+    valueKind: "number",
+    defaultLabel: "Channel Count",
+    recommendedBlock: "geometry",
+    importance: "secondary"
+  },
   controller: {
     key: "controller",
     valueKind: "string",
