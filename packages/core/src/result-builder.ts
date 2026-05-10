@@ -8,6 +8,7 @@ import {
 } from "./device-inference";
 import { createFdnextFieldValue, fdnextFieldRegistry, type FdnextFieldKey } from "./field-registry";
 import { getFdnextFieldProfile } from "./field-profiles";
+import { inferVendorFromPartNumber, normalizeVendor } from "./fdb-lookup";
 import {
   FDNEXT_CAPABILITIES_SCHEMA_VERSION,
   FDNEXT_RESULT_SCHEMA_VERSION,
@@ -34,7 +35,7 @@ import {
   type VendorIdentity
 } from "./result";
 import type { InternalIdentifierInfo, FlashIdRecord, InternalPartInfo, LangPacks } from "./types";
-import { normalizeFlashId } from "./utils/normalize";
+import { normalizeFlashId, normalizePartNumber } from "./utils/normalize";
 
 export interface ResultBuilderContext {
   langPacks: LangPacks;
@@ -487,6 +488,26 @@ function partDecodeAction(partNumber: string, ctx: ResultBuilderContext, lang?: 
   };
 }
 
+function parsePartReference(value: string, ctx: ResultBuilderContext, lang?: string | null): { partNumber: string; device?: DeviceIdentity } {
+  const text = value.trim();
+  const prefixed = /^(\S+)\s+(.+)$/.exec(text);
+  const partNumber = normalizePartNumber(prefixed?.[2] ?? text);
+  const vendor = partNumber
+    ? inferVendorFromPartNumber(partNumber) ?? (prefixed?.[1] ? normalizeVendor(prefixed[1]) : "")
+    : "";
+  return {
+    partNumber: partNumber || text,
+    ...(vendor ? {
+      device: {
+        domain: "memory",
+        chipKind: "raw_nand",
+        partNumber: partNumber || text,
+        vendor: vendorIdentity(vendor, ctx, lang)
+      }
+    } : {})
+  };
+}
+
 function normalizedFlashIds(values: unknown): string[] {
   if (!Array.isArray(values)) {
     return [];
@@ -641,17 +662,20 @@ function fieldMapFromIdentifier(info: InternalIdentifierInfo, device: DeviceIden
 }
 
 function identifierRelations(info: InternalIdentifierInfo, ctx: ResultBuilderContext, lang?: string | null): Relation[] {
-  return (info.partNumbers ?? []).map((partNumber) => ({
-    kind: "identifier_for",
-    source: {
-      identifier: info.id,
-      idScheme: "nand.flash_id"
-    },
-    target: {
-      partNumber
-    },
-    action: partDecodeAction(partNumber, ctx, lang)
-  }));
+  return (info.partNumbers ?? []).map((partReference) => {
+    const target = parsePartReference(partReference, ctx, lang);
+    return {
+      kind: "identifier_for",
+      source: {
+        identifier: info.id,
+        idScheme: "nand.flash_id"
+      },
+      target: {
+        partNumber: target.partNumber
+      },
+      action: partDecodeAction(target.partNumber, ctx, lang, target.device)
+    };
+  });
 }
 
 export function buildIdentifierDecodeResult(
@@ -756,17 +780,20 @@ export function buildIdentifierSearchResult(
       label: id,
       device,
       fields: [...fields.values()],
-      relations: (record.n ?? []).map((partNumber) => ({
-        kind: "identifier_for",
-        source: {
-          identifier: id,
-          idScheme: "nand.flash_id"
-        },
-        target: {
-          partNumber
-        },
-        action: partDecodeAction(partNumber, ctx, input.lang)
-      }))
+      relations: (record.n ?? []).map((partReference) => {
+        const target = parsePartReference(partReference, ctx, input.lang);
+        return {
+          kind: "identifier_for",
+          source: {
+            identifier: id,
+            idScheme: "nand.flash_id"
+          },
+          target: {
+            partNumber: target.partNumber
+          },
+          action: partDecodeAction(target.partNumber, ctx, input.lang, target.device)
+        };
+      })
     };
   });
 

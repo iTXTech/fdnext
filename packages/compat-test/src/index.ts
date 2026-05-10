@@ -112,8 +112,8 @@ export function runContractChecks(): ContractCheckSummary {
   const results: Array<FdnextResult | FdnextCapabilities> = [
     engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng" }),
     engine.searchParts({ query: "MT62", lang: "eng", limit: 2 }),
-    engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng", idScheme: "nand.flash_id" }),
-    engine.searchIdentifiers({ query: "2C64", lang: "eng", limit: 2, idScheme: "nand.flash_id" }),
+    engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" }),
+    engine.searchIdentifiers({ query: "2C64", lang: "eng", limit: 2 }),
     engine.getCapabilities()
   ];
 

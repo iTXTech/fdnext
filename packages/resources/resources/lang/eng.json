@@ -227,7 +227,6 @@
   "action.part.decode": "Decode Part",
   "action.identifier.decode.nand_flash_id": "Decode NAND Flash ID",
   "warning.empty_query": "Part query is empty",
-  "warning.missing_id_scheme": "Identifier scheme is required unless the input is a clear NAND Flash ID",
   "warning.invalid_nand_flash_id": "NAND Flash ID must be an even-length hexadecimal byte string",
   "warning.invalid_nand_flash_id.search": "NAND Flash ID search requires a hexadecimal byte string",
   "warning.unsupported_id_scheme": "Unsupported identifier scheme: {idScheme}",

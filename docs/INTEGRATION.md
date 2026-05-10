@@ -16,7 +16,7 @@ const engine = createEngine({
 });
 
 console.log(engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" }));
-console.log(engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng", idScheme: "nand.flash_id" }));
+console.log(engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" }));
 ```
 
 如需覆盖默认资源（例如热更新数据）：
@@ -164,14 +164,15 @@ pm2 logs fdnext-server
 - `GET /capabilities`
 - `GET /parts/decode?query=MT29F64G08CBABA&lang=eng`
 - `GET /parts/search?query=MT29&lang=eng&limit=10`
-- `GET /identifiers/decode?query=2C64444BA900&lang=eng&idScheme=nand.flash_id`
-- `GET /identifiers/search?query=2C64&lang=eng&limit=10&idScheme=nand.flash_id`
+- `GET /identifiers/decode?query=2C64444BA900&lang=eng`
+- `GET /identifiers/search?query=2C64&lang=eng&limit=10`
 
 `part` routes also accept flat constraint query parameters: `vendor`, `chipKind`, `productType`, and `strict=true|false`.
 
 说明：
 
 - 所有路由返回 JSON
+- `identifiers` routes default to `nand.flash_id`; only pass `idScheme` if a future scheme needs to be selected explicitly.
 - decode 响应包含 `subtitle`，适合作为列表或详情页副标题；结构化身份仍以 `device` 为准，详情字段在 `blocks[].fields[]`
 - Identifier API 只处理真实 decodable identifier scheme。FBGA 等 marking code 通过 `part.search` 返回 `marking_for` relation；可跳转动作放在对应的 `relations[].action`。
 - CORS 允许所有来源（`Access-Control-Allow-Origin: *`）

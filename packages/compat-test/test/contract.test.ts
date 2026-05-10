@@ -92,7 +92,6 @@ const requiredTranslationKeys = new Set([
   "action.part.decode",
   "action.identifier.decode.nand_flash_id",
   "warning.empty_query",
-  "warning.missing_id_scheme",
   "warning.invalid_nand_flash_id",
   "warning.invalid_nand_flash_id.search",
   "warning.unsupported_id_scheme",
@@ -179,6 +178,13 @@ assert.ok(collectResultFields(inferredIdentifier.blocks).some((field) => field.k
 assert.ok(collectResultFields(inferredIdentifier.blocks).some((field) => field.key === "enterprise"));
 assert.ok(inferredIdentifier.relations.some((relation) => relation.kind === "identifier_for" && relation.source?.idScheme === "nand.flash_id"));
 assert.ok(inferredIdentifier.relations.some((relation) => relation.action?.operation === "part.decode" && relation.action.input.query));
+assert.ok(!inferredIdentifier.relations.some((relation) => /\s/.test(String(relation.target.partNumber ?? ""))));
+assert.ok(!inferredIdentifier.relations.some((relation) => /\s/.test(String(relation.action?.input.query ?? ""))));
+const micronIdentifierRelation = inferredIdentifier.relations.find((relation) => relation.target.partNumber === "MT29F64G08CBABA");
+assert.ok(micronIdentifierRelation);
+assert.equal(micronIdentifierRelation.action?.input.query, "MT29F64G08CBABA");
+assert.equal(micronIdentifierRelation.action?.input.constraints?.vendor, "micron");
+assert.equal(micronIdentifierRelation.action?.input.constraints?.chipKind, "raw_nand");
 
 const skhynixIdentifier = engine.decodeIdentifier({ query: "AD0000000000", lang: "eng" });
 assert.equal(skhynixIdentifier.status, "ok");
@@ -190,6 +196,12 @@ const inferredIdentifierSearch = engine.searchIdentifiers({ query: "2C64", lang:
 assert.equal(inferredIdentifierSearch.status, "ok");
 assert.equal(inferredIdentifierSearch.input.constraints.idScheme, "nand.flash_id");
 assert.ok(inferredIdentifierSearch.items.every((item) => item.device.idScheme === "nand.flash_id"));
+assert.ok(inferredIdentifierSearch.items.every((item) =>
+  (item.relations ?? []).every((relation) =>
+    !/\s/.test(String(relation.target.partNumber ?? "")) &&
+    !/\s/.test(String(relation.action?.input.query ?? ""))
+  )
+));
 
 assert.equal(
   engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng", constraints: { chipKind: "dram", strict: true } }).status,
@@ -234,15 +246,15 @@ assert.ok(!markingDecode.relations.some((relation) => relation.kind === "marking
 
 const markingDecodeAsIdentifier = engine.decodeIdentifier({ query: "C9BJZ", lang: "eng" });
 assert.equal(markingDecodeAsIdentifier.status, "invalid_input");
-assert.ok(markingDecodeAsIdentifier.warnings.some((warning) => warning.code === "missing_id_scheme"));
+assert.ok(markingDecodeAsIdentifier.warnings.some((warning) => warning.code === "invalid_nand_flash_id"));
 const markingDecodeAsNandFlashId = engine.decodeIdentifier({ query: "C9BJZ", lang: "eng", idScheme: "nand.flash_id" });
 assert.equal(markingDecodeAsNandFlashId.status, "invalid_input");
 assert.ok(markingDecodeAsNandFlashId.warnings.some((warning) => warning.code === "invalid_nand_flash_id"));
 const markingSearchAsIdentifier = engine.searchIdentifiers({ query: "C9BJZ", lang: "eng" });
 assert.equal(markingSearchAsIdentifier.status, "invalid_input");
-assert.ok(markingSearchAsIdentifier.warnings.some((warning) => warning.code === "missing_id_scheme"));
+assert.ok(markingSearchAsIdentifier.warnings.some((warning) => warning.code === "invalid_nand_flash_id"));
 const markingSearchAsIdentifierChs = engine.searchIdentifiers({ query: "C9BJZ", lang: "chs" });
-assert.ok(markingSearchAsIdentifierChs.warnings.some((warning) => warning.message.includes("标识符类型")));
+assert.ok(markingSearchAsIdentifierChs.warnings.some((warning) => warning.code === "invalid_nand_flash_id"));
 
 const dramDecode = engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng" });
 assert.equal(dramDecode.subtitle, "LPDDR5X · Micron · 64Gb · x64");
@@ -368,10 +380,10 @@ assert.equal((httpPartDecode.device as { chipKind?: string } | undefined)?.chipK
 const httpPartSearch = await injectJson("GET", "/parts/search?query=MTFC&lang=eng&limit=3&productType=ufs");
 assert.equal(httpPartSearch.operation, "part.search");
 assert.ok(Array.isArray(httpPartSearch.items));
-const httpIdentifierDecode = await injectJson("GET", "/identifiers/decode?query=2C64444BA900&lang=eng&idScheme=nand.flash_id");
+const httpIdentifierDecode = await injectJson("GET", "/identifiers/decode?query=2C64444BA900&lang=eng");
 assert.equal(httpIdentifierDecode.operation, "identifier.decode");
 assert.equal((httpIdentifierDecode.input as { constraints?: { idScheme?: string } } | undefined)?.constraints?.idScheme, "nand.flash_id");
-const httpIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C64&lang=eng&limit=3&idScheme=nand.flash_id");
+const httpIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C64&lang=eng&limit=3");
 assert.equal(httpIdentifierSearch.operation, "identifier.search");
 assert.ok(Array.isArray(httpIdentifierSearch.items));
 const httpCapabilities = await injectJson("GET", "/capabilities");

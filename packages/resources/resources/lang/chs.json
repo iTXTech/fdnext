@@ -227,7 +227,6 @@
   "action.part.decode": "解析料号",
   "action.identifier.decode.nand_flash_id": "解析 NAND Flash ID",
   "warning.empty_query": "料号查询为空",
-  "warning.missing_id_scheme": "除非输入是明确的 NAND Flash ID，否则必须指定标识符类型",
   "warning.invalid_nand_flash_id": "NAND Flash ID 必须是偶数长度的十六进制字节串",
   "warning.invalid_nand_flash_id.search": "NAND Flash ID 搜索需要十六进制字节串",
   "warning.unsupported_id_scheme": "不支持的标识符类型：{idScheme}",
