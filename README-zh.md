@@ -13,7 +13,8 @@
 - 内置 `fdb`、`mdb`、语言包、managed NAND PN 建议、DRAM PN 建议和 Micron FBGA code 资源
 - 支持 Managed NAND 和 DRAM PN 解码，并按厂商维护结构化 token 规则
 - 通过统一 `mdb.json` 资源流支持 Micron FBGA 反查
-- 基于 Hapi 的 HTTP 服务，提供 part、identifier 和 capabilities 接口
+- 提供共享 runtime dispatch 层，并支持 Hapi、Cloudflare Workers 和阿里云 FC adapter 入口
+- 提供 External Link result contract，用于平台侧补充外部链接
 - 提供 part decode/search、identifier decode/search 和 capabilities CLI 工作流
 - TypeScript FDB 生成器支持 raw FlashDB 清理、厂商归属校正、控制器聚合和 MDB 爬取辅助命令
 - 提供公开 fdnext API 的 result schema 和行为 contract 测试
@@ -32,7 +33,10 @@
 | `@itxtech/fdnext-core` | 解码 / 搜索引擎、公共 SDK 类型、资源加载辅助函数和 operation 管线 |
 | `@itxtech/fdnext-dsl` | JSON DSL 规则包和 PN / identifier 编译器 |
 | `@itxtech/fdnext-resources` | 可发布的内置数据资源 |
-| `@itxtech/fdnext-server` | Hapi HTTP 服务 |
+| `@itxtech/fdnext-runtime` | 平台无关 dispatch、HTTP 路由和 External Link provider |
+| `@itxtech/fdnext-server` | Hapi HTTP 服务 adapter |
+| `@itxtech/fdnext-cf-workers` | Cloudflare Workers adapter |
+| `@itxtech/fdnext-aliyun-fc` | 阿里云函数计算 / 自定义运行时 adapter |
 | `@itxtech/fdnext-cli` | 命令行工具 |
 | `@itxtech/fdnext-fdbgen` | FDB / MDB 生成和爬取工具 |
 | `@itxtech/fdnext-contract-test` | result contract 检查工具 |

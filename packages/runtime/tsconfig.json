@@ -9,8 +9,7 @@
   "references": [
     { "path": "../core" },
     { "path": "../dsl" },
-    { "path": "../resources" },
-    { "path": "../runtime" }
+    { "path": "../resources" }
   ],
   "include": ["src/**/*.ts"]
 }

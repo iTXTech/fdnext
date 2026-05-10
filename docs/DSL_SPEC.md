@@ -190,7 +190,7 @@ DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前）。公开�
 - `emit.fields[].key` 和 `assign` 中会进入公开结果的字段应使用 canonical snake_case key（例如 `operation_temperature`、`speed_grade`、`marking_code`、`storage_interface`），不要直接写 “Operation Temperature” 这类展示字符串。
 - PN / identifier DSL 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
 - 新增或重命名 metadata key 时，直接迁移全部 DSL 源规则、语言包和测试。旧 key 应进入 `packages/dsl/test/metadata-audit.test.ts` 的禁止列表，而不是进入兼容层。
-- `url/urls` 的 `desc` 也建议使用语言包 key（例如 `micron_website`）。
+- 外部链接不要从 DSL 的 `url/urls` 直接泄漏到公开结果；平台侧应通过 runtime 的 External Link provider 输出到正式 `links` contract。
 
 ## 5. 规则包（packs）组织方式
 

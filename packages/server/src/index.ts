@@ -1,9 +1,9 @@
 import { server as createHapiServer } from "@hapi/hapi";
 import type { Request, ResponseToolkit } from "@hapi/hapi";
-import { createEngine, FDNEXT_VERSION, type FdnextEngine } from "@itxtech/fdnext-core";
+import { FDNEXT_VERSION, type FdnextEngine, type FdnextResourceBundle } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
-import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "@itxtech/fdnext-dsl";
 import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
+import { createFdnextRuntime, type FdnextRuntime } from "@itxtech/fdnext-runtime";
 
 export interface HttpServerOptions {
   host?: string;
@@ -26,72 +26,48 @@ function hasHeaderMethod(value: unknown): value is { header: (name: string, valu
   return !!value && typeof value === "object" && "header" in value && typeof value.header === "function";
 }
 
-function queryRecord(request: Request): Record<string, unknown> {
-  return request.query && typeof request.query === "object" && !Array.isArray(request.query)
-    ? (request.query as Record<string, unknown>)
-    : {};
+function resourceBundle(resourceDir?: string): FdnextResourceBundle {
+  return resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResourceBundle;
 }
 
-function stringParam(record: Record<string, unknown>, key: string): string | undefined {
-  const value = record[key];
-  if (Array.isArray(value)) {
-    const first = value.find((item) => typeof item === "string" && item.trim());
-    return typeof first === "string" ? first.trim() : undefined;
-  }
-  return typeof value === "string" && value.trim() ? value.trim() : undefined;
-}
-
-function limitParam(record: Record<string, unknown>): number | undefined {
-  const value = record.limit;
-  const parsed = typeof value === "number" ? value : typeof value === "string" ? Number.parseInt(value, 10) : 0;
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
-}
-
-function booleanParam(record: Record<string, unknown>, key: string): boolean | undefined {
-  const value = stringParam(record, key);
-  if (value == null) {
-    return undefined;
-  }
-  if (["1", "true", "yes"].includes(value.toLowerCase())) {
-    return true;
-  }
-  if (["0", "false", "no"].includes(value.toLowerCase())) {
-    return false;
-  }
-  return undefined;
-}
-
-function constraintsParam(record: Record<string, unknown>): Record<string, unknown> | undefined {
-  const constraints: Record<string, unknown> = {};
-  for (const key of ["vendor", "chipKind", "productType"] as const) {
-    const value = stringParam(record, key);
-    if (value) {
-      constraints[key] = value;
-    }
-  }
-  const strict = booleanParam(record, "strict");
-  if (strict !== undefined) {
-    constraints.strict = strict;
-  }
-  return Object.keys(constraints).length > 0 ? constraints : undefined;
-}
-
-function replyJson(h: ResponseToolkit, payload: object) {
-  return h.response(payload).code(200);
-}
-
-function createDefaultEngineFromResources(resourceDir?: string): FdnextEngine {
-  return createEngine({
-    resources: resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResourceBundle,
-    decoders: compileRulesToDecoders(defaultDslRules),
-    identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
+function createDefaultRuntimeFromResources(resourceDir?: string, serverName?: string): FdnextRuntime {
+  return createFdnextRuntime({
+    resources: resourceBundle(resourceDir),
+    serverName
   });
+}
+
+function requestUrl(request: Request): string {
+  return `${request.url.pathname}${request.url.search}`;
+}
+
+function requestHeaders(request: Request): Record<string, string | string[] | undefined> {
+  const headers: Record<string, string | string[] | undefined> = {};
+  for (const [key, value] of Object.entries(request.headers)) {
+    headers[key] = value;
+  }
+  return headers;
+}
+
+async function replyRuntimeJson(runtime: FdnextRuntime, request: Request, h: ResponseToolkit) {
+  const response = await runtime.handleHttp({
+    method: request.method,
+    url: requestUrl(request),
+    headers: requestHeaders(request),
+    remote: request.info.remoteAddress,
+    adapter: "hapi"
+  });
+  const reply = h.response(response.body).code(response.status);
+  for (const [name, value] of Object.entries(response.headers)) {
+    reply.header(name, value);
+  }
+  return reply;
 }
 
 export function createHttpServer(options: HttpServerOptions) {
   const host = options.host ?? "0.0.0.0";
   const port = parsePort(options.port);
-  const engine = createDefaultEngineFromResources(options.resourceDir);
+  const runtime = createDefaultRuntimeFromResources(options.resourceDir, options.serverName);
 
   const server = createHapiServer({
     host,
@@ -113,83 +89,14 @@ export function createHttpServer(options: HttpServerOptions) {
   });
 
   server.route({
-    method: "GET",
-    path: "/",
-    handler: (_request, h) => replyJson(h, { status: "ok", name: "fdnext-server" })
-  });
-
-  server.route({
-    method: "GET",
-    path: "/capabilities",
-    handler: (_request, h) => replyJson(h, engine.getCapabilities())
-  });
-
-  server.route({
-    method: "GET",
-    path: "/parts/decode",
-    handler: (request, h) => {
-      const query = queryRecord(request);
-      return replyJson(h, engine.decodePart({
-        query: stringParam(query, "query") ?? "",
-        lang: stringParam(query, "lang") ?? null,
-        constraints: constraintsParam(query)
-      }));
-    }
-  });
-
-  server.route({
-    method: "GET",
-    path: "/parts/search",
-    handler: (request, h) => {
-      const query = queryRecord(request);
-      const limit = limitParam(query);
-      return replyJson(h, engine.searchParts({
-        query: stringParam(query, "query") ?? "",
-        lang: stringParam(query, "lang") ?? null,
-        ...(limit ? { limit } : {}),
-        constraints: constraintsParam(query)
-      }));
-    }
-  });
-
-  server.route({
-    method: "GET",
-    path: "/identifiers/decode",
-    handler: (request, h) => {
-      const query = queryRecord(request);
-      const idScheme = stringParam(query, "idScheme") as "nand.flash_id" | undefined;
-      return replyJson(h, engine.decodeIdentifier({
-        query: stringParam(query, "query") ?? "",
-        lang: stringParam(query, "lang") ?? null,
-        ...(idScheme ? { idScheme } : {})
-      }));
-    }
-  });
-
-  server.route({
-    method: "GET",
-    path: "/identifiers/search",
-    handler: (request, h) => {
-      const query = queryRecord(request);
-      const idScheme = stringParam(query, "idScheme") as "nand.flash_id" | undefined;
-      const limit = limitParam(query);
-      return replyJson(h, engine.searchIdentifiers({
-        query: stringParam(query, "query") ?? "",
-        lang: stringParam(query, "lang") ?? null,
-        ...(idScheme ? { idScheme } : {}),
-        ...(limit ? { limit } : {})
-      }));
-    }
-  });
-
-  server.route({
     method: "*",
     path: "/{p*}",
-    handler: (_request, h) => replyJson(h, { schemaVersion: "fdnext.result.v1", status: "not_found", warnings: [] })
+    handler: (request, h) => replyRuntimeJson(runtime, request, h)
   });
 
   return {
-    engine,
+    engine: runtime.engine,
+    runtime,
     server,
     listen: async () => {
       await server.start();
@@ -198,5 +105,5 @@ export function createHttpServer(options: HttpServerOptions) {
 }
 
 export function createDefaultEngine(resourceDir: string): FdnextEngine {
-  return createDefaultEngineFromResources(resourceDir);
+  return createDefaultRuntimeFromResources(resourceDir).engine;
 }

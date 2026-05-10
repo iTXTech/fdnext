@@ -4,6 +4,7 @@ import {
   fdnextCapabilityNames,
   fdnextChipKinds,
   fdnextDomains,
+  fdnextExternalLinkCategories,
   fdnextFieldImportances,
   fdnextIdSchemes,
   fdnextOperations,
@@ -250,6 +251,21 @@ const resultDefs = {
     },
     additionalProperties: false
   },
+  externalLink: {
+    type: "object",
+    required: ["id", "label", "url"],
+    properties: {
+      id: { type: "string", minLength: 1 },
+      label: { type: "string", minLength: 1 },
+      url: { type: "string", minLength: 1 },
+      category: { enum: fdnextExternalLinkCategories },
+      image: { type: "string", minLength: 1 },
+      hint: { type: "string", minLength: 1 },
+      fieldKey: { enum: fdnextFieldKeys },
+      priority: { type: "number" }
+    },
+    additionalProperties: false
+  },
   candidate: {
     type: "object",
     required: ["device"],
@@ -268,7 +284,8 @@ const resultDefs = {
       device: { $ref: "#/$defs/deviceIdentity" },
       badges: { type: "array", items: { type: "string", minLength: 1 } },
       fields: { type: "array", items: { $ref: "#/$defs/fieldValue" } },
-      relations: { type: "array", items: { $ref: "#/$defs/relation" } }
+      relations: { type: "array", items: { $ref: "#/$defs/relation" } },
+      links: { type: "array", items: { $ref: "#/$defs/externalLink" } }
     },
     additionalProperties: false
   }
@@ -288,6 +305,7 @@ function decodeResultSchema(operation: "part.decode" | "identifier.decode"): Jso
       blocks: { type: "array", items: { $ref: "#/$defs/resultBlock" } },
       relations: { type: "array", items: { $ref: "#/$defs/relation" } },
       candidates: { type: "array", items: { $ref: "#/$defs/candidate" } },
+      links: { type: "array", items: { $ref: "#/$defs/externalLink" } },
       warnings: { type: "array", items: { $ref: "#/$defs/warning" } }
     },
     additionalProperties: false
@@ -306,6 +324,7 @@ function searchResultSchema(operation: "part.search" | "identifier.search"): Jso
       items: { type: "array", items: { $ref: "#/$defs/searchResultItem" } },
       relations: { type: "array", items: { $ref: "#/$defs/relation" } },
       candidates: { type: "array", items: { $ref: "#/$defs/candidate" } },
+      links: { type: "array", items: { $ref: "#/$defs/externalLink" } },
       warnings: { type: "array", items: { $ref: "#/$defs/warning" } }
     },
     additionalProperties: false

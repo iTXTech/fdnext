@@ -130,6 +130,14 @@ async function main() {
       });
       return;
     }
+    case "runtime": {
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/runtime/src/index.ts"),
+        outfile: resolve(root, "packages/runtime/dist/index.js"),
+        platform: "neutral"
+      });
+      return;
+    }
     case "server": {
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/server/src/index.ts"),
@@ -140,6 +148,29 @@ async function main() {
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/server/src/bin.ts"),
         outfile: resolve(root, "packages/server/dist/bin.js"),
+        platform: "node",
+        banner: nodeBanner({ shebang: true })
+      });
+      return;
+    }
+    case "cf-workers": {
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/cf-workers/src/index.ts"),
+        outfile: resolve(root, "packages/cf-workers/dist/index.js"),
+        platform: "neutral"
+      });
+      return;
+    }
+    case "aliyun-fc": {
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/aliyun-fc/src/index.ts"),
+        outfile: resolve(root, "packages/aliyun-fc/dist/index.js"),
+        platform: "node",
+        banner: nodeBanner({ shebang: false })
+      });
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/aliyun-fc/src/bin.ts"),
+        outfile: resolve(root, "packages/aliyun-fc/dist/bin.js"),
         platform: "node",
         banner: nodeBanner({ shebang: true })
       });

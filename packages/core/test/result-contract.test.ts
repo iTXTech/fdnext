@@ -296,3 +296,31 @@ assertInvalid("device identity must not carry reference status metadata", fdnext
   fixture.device.reference_status = "external_confirmed";
   return fixture;
 })());
+assertValid("result may carry schema-safe external links", fdnextResultJsonSchema, (() => {
+  const fixture = structuredClone(loadResultFixture("raw-nand.part.decode.json"));
+  assert.ok(isObject(fixture));
+  fixture.links = [
+    {
+      id: "micron.product",
+      label: "Micron product page",
+      url: "https://www.micron.com/",
+      category: "vendor",
+      fieldKey: "part_number",
+      priority: 10
+    }
+  ];
+  return fixture;
+})());
+assertInvalid("external links must not carry arbitrary metadata", fdnextResultJsonSchema, (() => {
+  const fixture = structuredClone(loadResultFixture("raw-nand.part.decode.json"));
+  assert.ok(isObject(fixture));
+  fixture.links = [
+    {
+      id: "bad",
+      label: "Bad link",
+      url: "https://example.com",
+      source: "adscript"
+    }
+  ];
+  return fixture;
+})());

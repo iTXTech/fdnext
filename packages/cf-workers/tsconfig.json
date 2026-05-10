@@ -7,9 +7,6 @@
     "outDir": "dist"
   },
   "references": [
-    { "path": "../core" },
-    { "path": "../dsl" },
-    { "path": "../resources" },
     { "path": "../runtime" }
   ],
   "include": ["src/**/*.ts"]

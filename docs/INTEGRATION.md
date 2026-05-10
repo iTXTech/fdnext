@@ -56,6 +56,57 @@ const response = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 - `engine.translateString(key, lang)`
 - `engine.getHumanReadableDensity(density, useByte)`
 
+### 1.2 Runtime dispatch 与 External Link
+
+`@itxtech/fdnext-runtime` 是平台无关入口，负责统一 dispatch、HTTP 路由和 External Link provider。Hapi、Cloudflare Workers、阿里云 FC 等 adapter 都应调用同一个 runtime，而不是各自维护路由。
+
+```ts
+import { createFdnextRuntime } from "@itxtech/fdnext-runtime";
+
+const runtime = createFdnextRuntime({
+  externalLinkProviders: [
+    {
+      id: "docs",
+      resolveLinks(ctx) {
+        if (ctx.facts.vendor === "micron") {
+          return [{
+            id: "micron.home",
+            label: "Micron",
+            url: "https://www.micron.com/",
+            category: "vendor",
+            priority: 10
+          }];
+        }
+        return [];
+      }
+    }
+  ]
+});
+
+const response = await runtime.dispatch({
+  operation: "part.decode",
+  input: { query: "MT29F64G08CBABA", lang: "eng" },
+  meta: { adapter: "custom" }
+});
+```
+
+External Link 通过正式 result contract 输出到 `result.links` 或搜索结果的 `items[].links`：
+
+```ts
+interface ExternalLink {
+  id: string;
+  label: string;
+  url: string;
+  category?: "vendor" | "datasheet" | "marketplace" | "reference" | "tool" | "community";
+  image?: string;
+  hint?: string;
+  fieldKey?: string;
+  priority?: number;
+}
+```
+
+runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https:`、`mailto:` URL。
+
 ## 2. 浏览器（Web / Frontend）
 
 浏览器侧推荐用 Vite / Webpack / Rollup / esbuild 打包，关键点：
@@ -122,7 +173,7 @@ const engine = createEngine({
 
 ## 3. 服务端（HTTP Server）
 
-`@itxtech/fdnext-server` 是基于 Hapi 的标准实现（方便直接部署或二次封装）。
+`@itxtech/fdnext-server` 是基于 Hapi 的标准 adapter。它只负责把 Hapi request 转给 `@itxtech/fdnext-runtime`，实际路由由 runtime 统一处理。
 
 ### 3.1 仓库内运行
 
@@ -160,7 +211,7 @@ pm2 logs fdnext-server
 
 ### 3.4 HTTP 路由
 
-- `GET /`：健康检查
+- `GET /`：健康检查，返回 server name 和 version
 - `GET /capabilities`
 - `GET /parts/decode?query=MT29F64G08CBABA&lang=eng`
 - `GET /parts/search?query=MT29&lang=eng&limit=10`
@@ -178,3 +229,27 @@ pm2 logs fdnext-server
 - Identifier API 只处理真实 decodable identifier scheme。FBGA 等 marking code 通过 `part.search` 返回 `marking_for` relation；可跳转动作放在对应的 `relations[].action`。
 - CORS 允许所有来源（`Access-Control-Allow-Origin: *`）
 - 服务端响应会包含 `X-Powered-By` header（用于运维识别）
+
+## 4. Serverless adapter
+
+### 4.1 Cloudflare Workers
+
+`@itxtech/fdnext-cf-workers` 暴露默认 Worker，也可以用 `createCfWorkersAdapter()` 注入自定义 runtime options：
+
+```ts
+import worker from "@itxtech/fdnext-cf-workers";
+
+export default worker;
+```
+
+### 4.2 阿里云函数计算 / 自定义运行时
+
+`@itxtech/fdnext-aliyun-fc` 提供 Node HTTP handler 和可直接启动的自定义运行时入口：
+
+```ts
+import { startAliyunFc } from "@itxtech/fdnext-aliyun-fc";
+
+startAliyunFc();
+```
+
+默认监听 `FC_SERVER_PORT`、`PORT` 或 `9000`，host 默认为 `0.0.0.0`。

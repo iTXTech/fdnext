@@ -13,7 +13,8 @@ The project is organized as a strict TypeScript monorepo, but its public goal is
 - Embedded `fdb`, `mdb`, language packs, managed NAND PN suggestions, DRAM PN suggestions, and Micron FBGA code resources
 - Managed NAND and DRAM PN decoding coverage with vendor-specific token rules
 - Micron FBGA lookup support through the unified `mdb.json` resource flow
-- Hapi-based HTTP server with part, identifier, and capabilities endpoints
+- Shared runtime dispatch layer with Hapi, Cloudflare Workers, and Aliyun FC adapter entrypoints
+- External Link result contract for platform-owned enrichment links
 - CLI commands for part decode/search, identifier decode/search, and capabilities workflows
 - TypeScript FDB generator with raw FlashDB cleanup, vendor remapping, controller aggregation, and MDB crawling helpers
 - Result-schema and behavior contract tests for the public fdnext API
@@ -32,7 +33,10 @@ The project is organized as a strict TypeScript monorepo, but its public goal is
 | `@itxtech/fdnext-core` | Decode/search engine, public SDK types, resource loading helpers, and operation pipeline |
 | `@itxtech/fdnext-dsl` | JSON DSL rule packs and PN / identifier compiler |
 | `@itxtech/fdnext-resources` | Publishable embedded data resources |
-| `@itxtech/fdnext-server` | Hapi HTTP server |
+| `@itxtech/fdnext-runtime` | Platform-neutral dispatch, HTTP routing, and External Link providers |
+| `@itxtech/fdnext-server` | Hapi HTTP server adapter |
+| `@itxtech/fdnext-cf-workers` | Cloudflare Workers adapter |
+| `@itxtech/fdnext-aliyun-fc` | Aliyun Function Compute / custom runtime adapter |
 | `@itxtech/fdnext-cli` | Command-line interface |
 | `@itxtech/fdnext-fdbgen` | FDB/MDB generation and crawl tools |
 | `@itxtech/fdnext-contract-test` | Result contract checks |

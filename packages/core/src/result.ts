@@ -207,6 +207,28 @@ export interface Action {
   input: FdnextOperationRequestInput;
 }
 
+export const fdnextExternalLinkCategories = [
+  "vendor",
+  "datasheet",
+  "marketplace",
+  "reference",
+  "tool",
+  "community"
+] as const;
+
+export type ExternalLinkCategory = (typeof fdnextExternalLinkCategories)[number];
+
+export interface ExternalLink {
+  id: string;
+  label: string;
+  url: string;
+  category?: ExternalLinkCategory;
+  image?: string;
+  hint?: string;
+  fieldKey?: string;
+  priority?: number;
+}
+
 export interface ResultWarning {
   code: string;
   message: string;
@@ -227,6 +249,7 @@ export interface SearchResultItem {
   badges?: string[];
   fields?: FieldValue[];
   relations?: Relation[];
+  links?: ExternalLink[];
 }
 
 export interface FdnextResultBase<O extends FdnextOperation = FdnextOperation> {
@@ -235,6 +258,7 @@ export interface FdnextResultBase<O extends FdnextOperation = FdnextOperation> {
   status: FdnextResultStatus;
   input: NormalizedOperationInput;
   subtitle?: string;
+  links?: ExternalLink[];
   warnings: ResultWarning[];
 }
 

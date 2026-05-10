@@ -1,22 +1,23 @@
 {
-  "name": "@itxtech/fdnext-server",
+  "name": "@itxtech/fdnext-aliyun-fc",
   "version": "2.0.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "bin": {
-    "fdnext-server": "dist/bin.js"
+    "fdnext-aliyun-fc": "dist/bin.js"
   },
   "dependencies": {
-    "@itxtech/fdnext-core": "workspace:*",
-    "@itxtech/fdnext-dsl": "workspace:*",
-    "@itxtech/fdnext-runtime": "workspace:*",
-    "@itxtech/fdnext-resources": "workspace:*",
-    "@hapi/hapi": "^21.4.4"
+    "@itxtech/fdnext-runtime": "workspace:*"
   },
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
-    "dev": "tsx src/bin.ts",
     "start": "node dist/bin.js",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   }

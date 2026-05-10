@@ -430,6 +430,10 @@ async function injectJson(method: "GET" | "POST", url: string): Promise<Record<s
   assert.equal(response.statusCode, 200, response.payload);
   return parseJsonObject(response.payload);
 }
+const httpIndex = await injectJson("GET", "/");
+assert.equal(httpIndex.status, "ok");
+assert.equal(httpIndex.name, "fdnext-server");
+assert.equal(httpIndex.version, "2.0.0");
 const httpPartDecode = await injectJson("GET", "/parts/decode?query=MT62F1G64D4EK-023&lang=eng");
 assert.equal(httpPartDecode.operation, "part.decode");
 assert.equal((httpPartDecode.device as { chipKind?: string } | undefined)?.chipKind, "dram");
@@ -447,8 +451,19 @@ assert.equal(httpCapabilities.schemaVersion, "fdnext.capabilities.v1");
 assert.deepEqual(httpCapabilities, sdkCapabilities);
 const removedPostEndpoint = await injectJson("POST", "/parts/decode");
 assert.equal(removedPostEndpoint.status, "not_found");
-const removedEndpoint = await injectJson("GET", "/decode?pn=MT29F64G08CBABA");
-assert.equal(removedEndpoint.status, "not_found");
+for (const removedEndpoint of [
+  "/health",
+  "/info",
+  "/decode?pn=MT29F64G08CBABA",
+  "/summary?pn=MT29F64G08CBABA",
+  "/searchPn?pn=MT29",
+  "/decodeId?id=2C64444BA900",
+  "/summaryId?id=2C64444BA900",
+  "/searchId?id=2C64"
+]) {
+  const removed = await injectJson("GET", removedEndpoint);
+  assert.equal(removed.status, "not_found", `${removedEndpoint} should not be exposed`);
+}
 await http.server.stop();
 
 process.stdout.write(`Contract confirmed: ${summary.checked} fixtures\n`);
