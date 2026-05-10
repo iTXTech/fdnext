@@ -175,8 +175,16 @@ assert.ok(inferredIdentifier.blocks.some((block) => block.id === "timing"));
 assert.ok(inferredIdentifier.blocks.some((block) => block.id === "controllers"));
 assert.ok(inferredIdentifier.blocks.some((block) => block.fields.some((field) => field.key === "blocks_per_lun")));
 assert.ok(inferredIdentifier.blocks.some((block) => block.fields.some((field) => field.key === "timing_mode_async")));
+assert.ok(collectResultFields(inferredIdentifier.blocks).some((field) => field.key === "revision"));
+assert.ok(collectResultFields(inferredIdentifier.blocks).some((field) => field.key === "enterprise"));
 assert.ok(inferredIdentifier.relations.some((relation) => relation.kind === "identifier_for" && relation.source?.idScheme === "nand.flash_id"));
 assert.ok(inferredIdentifier.relations.some((relation) => relation.action?.operation === "part.decode" && relation.action.input.query));
+
+const skhynixIdentifier = engine.decodeIdentifier({ query: "AD0000000000", lang: "eng" });
+assert.equal(skhynixIdentifier.status, "ok");
+for (const key of ["redundant_area_size", "simultaneously_programmed_pages", "interface_type", "ecc_level", "edo", "interleave", "cache"] as const) {
+  assert.ok(collectResultFields(skhynixIdentifier.blocks).some((field) => field.key === key), `NAND Flash ID decode should expose ${key}`);
+}
 
 const inferredIdentifierSearch = engine.searchIdentifiers({ query: "2C64", lang: "eng", limit: 2 });
 assert.equal(inferredIdentifierSearch.status, "ok");

@@ -91,6 +91,83 @@ function assertDslV2EmitUsesCanonicalFields(): void {
   assert.deepEqual(findings, [], "DSL v2 emit fields should use canonical field registry keys");
 }
 
+function collectPotentialSamples(value: unknown, samples: Set<string> = new Set()): Set<string> {
+  if (typeof value === "string") {
+    if (/^[A-Z0-9][A-Z0-9:+._-]{4,}$/i.test(value)) {
+      samples.add(value);
+    }
+    return samples;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectPotentialSamples(item, samples));
+    return samples;
+  }
+  if (!value || typeof value !== "object") {
+    return samples;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    if (/^[A-Z0-9][A-Z0-9:+._-]{4,}$/i.test(key)) {
+      samples.add(key);
+    }
+    collectPotentialSamples(item, samples);
+  }
+  return samples;
+}
+
+function assertRuntimeDslExtraFieldsAreRegistered(): void {
+  const decoders = compileRulesToDecoders(defaultDslRules);
+  const samples = collectPotentialSamples(embeddedResourceBundle.partIndex);
+  const missing = new Map<string, number>();
+
+  for (const sample of samples) {
+    for (const decoder of decoders) {
+      if (!decoder.check(sample)) {
+        continue;
+      }
+      const info = decoder.decode(sample);
+      const fields = info?.fields;
+      if (!fields || typeof fields !== "object" || Array.isArray(fields)) {
+        continue;
+      }
+      for (const key of Object.keys(fields)) {
+        if (!Object.hasOwn(fdnextFieldRegistry, key)) {
+          missing.set(key, (missing.get(key) ?? 0) + 1);
+        }
+      }
+    }
+  }
+
+  assert.deepEqual([...missing.entries()].sort(), [], "runtime DSL extra fields should be registered public fields");
+}
+
+function collectIdentifierExtKeys(value: unknown, findings: Set<string> = new Set()): Set<string> {
+  if (Array.isArray(value)) {
+    value.forEach((item) => collectIdentifierExtKeys(item, findings));
+    return findings;
+  }
+  if (!value || typeof value !== "object") {
+    return findings;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    if (key.startsWith("ext:")) {
+      findings.add(key.slice("ext:".length));
+    }
+    collectIdentifierExtKeys(item, findings);
+  }
+  return findings;
+}
+
+function assertIdentifierExtFieldsTargetPublicKeys(): void {
+  const projections: Record<string, string> = {
+    interface: "interface_type"
+  };
+  const missing = [...collectIdentifierExtKeys(defaultIdentifierRules)]
+    .map((key) => [key, projections[key] ?? key] as const)
+    .filter(([, fieldKey]) => !Object.hasOwn(fdnextFieldRegistry, fieldKey));
+
+  assert.deepEqual(missing, [], "identifier ext fields should target registered public fields");
+}
+
 function assertRepresentativeDslV2Metadata(): void {
   const byId = new Map(defaultDslRules.map((rule) => [rule.id, rule] as const));
   for (const [id, expected] of [
@@ -303,6 +380,8 @@ function assertDslV2CompositeComponents(): void {
 
 assertDslRulesUseCanonicalKeys();
 assertDslV2EmitUsesCanonicalFields();
+assertRuntimeDslExtraFieldsAreRegistered();
+assertIdentifierExtFieldsTargetPublicKeys();
 assertRepresentativeDslV2Metadata();
 assertRuntimeDoesNotKeepMetadataAliases();
 assertLangKeysUseSnakeCase();

@@ -626,8 +626,16 @@ function fieldMapFromIdentifier(info: InternalIdentifierInfo, device: DeviceIden
   const ext = asRecord(info.ext);
   for (const [sourceKey, fieldKey] of Object.entries({
     blocks_per_lun: "blocks_per_lun",
+    pages_per_block: "pages_per_block",
+    simultaneously_programmed_pages: "simultaneously_programmed_pages",
+    redundant_area_size: "redundant_area_size",
     timing_mode_async: "timing_mode_async",
     edo: "edo",
+    interleave: "interleave",
+    cache: "cache",
+    ecc_level: "ecc_level",
+    revision: "revision",
+    enterprise: "enterprise",
     interface: "interface_type"
   })) {
     const value = ext[sourceKey];

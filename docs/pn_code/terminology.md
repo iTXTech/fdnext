@@ -10,7 +10,7 @@
 - 可信度、reference status、source、inference note 等维护信息只能留在 DSL metadata 或文档中，不能进入公开 fields。
 - 未知值直接省略；不要为了填满旧响应形状输出 `Unknown`、空数组或 NAND-only 默认槽位。
 - `vendor`、`chip_kind`、`product_type`、`part_number`、`identifier`、`id_scheme`、`marking_code` 已由 `device` 承载，不再复制进 `blocks[].fields[]`。
-- 容量数值字段沿用项目约定，`value` 使用 Mbit，`display` 可由 field registry 转成 `Gb` / `Tb`。
+- 容量数值字段沿用项目约定，`value` 使用 Mbit；NAND / managed NAND 的 `display` 使用 Bytes，DRAM 的 `display` 使用 bits。
 
 ## Identity / Subtitle / Relation
 
@@ -48,13 +48,20 @@
 | `storage_density` | MCP/eMCP/uMCP 内 storage 子系统容量，`display` 用 Bytes | `262144` / `32GB` |
 | `die_density` | 单颗 NAND die 容量，`display` 用 Bytes | `1024` / `128MB` |
 | `die_stack` | 封装内 die 堆叠数量或厂商堆叠代号 | `8-die package` |
+| `die_count` / `plane_count` | die / plane 数量 | `2` / `4` |
 | `ce_count` / `rb_count` / `channel_count` | CE / R/B / channel 数量 | `2` / `2` / `4` |
+| `page_size` / `block_size` | page / block 几何信息，字节字段使用 `unit = byte` | `16384` / `16KiB` |
+| `half_page_and_size` | 半页 / page-size 相关封装特征 | `true` |
 | `generation_info` | NAND 产品代际、层数或制程节点 | `V8 236L` |
+| `series_info` | 厂商系列说明 | `3D-V4` |
 | `storage_interface` | managed NAND 或 MCP storage 接口 | `eMMC 5.1`, `UFS 4.0` |
 | `interface_type` | 接口模式、Gear、lane 或 HS 模式 | `HS400`, `Gear 4 / 2-Lane` |
+| `toggle` | Toggle DDR 版本或标记 | `4.0` |
 | `controller` / `controller_code` | 控制器描述或控制器 token | `UFS 4.1 G5-2Lane Controller`, `AX` |
 | `operation_temperature` | 工作温度范围或温度等级 | `-40C ~ 105C`, `Automotive Grade 2` |
-| `page_size` / `block_size` | page / block 几何信息，字节字段使用 `unit = byte` | `16384` / `16KiB` |
+| `assembly` / `segment` / `sku` | 厂商封装、产品分段或 SKU token 展开 | `Client Component` |
+| `lead_free` / `halogen_free` / `wafer` / `multi_chip` / `cu` | 环保、晶圆、多芯片或铜工艺标记 | `true` |
+| `bad_block` / `unsupported_reason` | 坏块策略或规则不支持原因 | `samsung_cbb_b` |
 | `ecc_enabled` | 内部 ECC 状态 | `true` / `Yes` |
 
 约定：
@@ -74,9 +81,11 @@ NAND Flash ID 通过 `decodeIdentifier` / `searchIdentifiers` 输出，`input.co
 | `density` | ID 推导出的容量 | `geometry` |
 | `cell_level` | SLC / MLC / TLC / QLC | `geometry` |
 | `die_count` / `plane_count` | die / plane 数 | `geometry` |
-| `page_size` / `block_size` / `blocks_per_lun` | NAND 几何信息 | `geometry` |
-| `voltage` / `interface_type` | 电压和接口模式 | `interface` |
-| `timing_mode_async` / `edo` | timing / EDO 扩展字段 | `timing` |
+| `page_size` / `block_size` / `pages_per_block` / `blocks_per_lun` | NAND 几何信息 | `geometry` |
+| `redundant_area_size` / `simultaneously_programmed_pages` | 冗余区大小和可同时编程页面数 | `geometry` |
+| `voltage` / `interface_type` / `ecc_level` | 电压、接口模式和 ECC 要求 | `interface` |
+| `timing_mode_async` / `edo` / `interleave` / `cache` / `revision` | timing / EDO / interleave / cache / revision 扩展字段 | `timing` |
+| `enterprise` | Enterprise 标记 | `additional` |
 | `controller` | 关联控制器 | `controllers` |
 
 相关 PN 使用 `identifier_for` relation，不再拼进翻译后的字符串字段；可跳转时在 relation 上挂 `action`。

@@ -368,10 +368,10 @@
           "value": {
             "system": "E2NAND",
             "ecc_enabled": true,
-            "pageSize": {
+            "page_size": {
               "$var": "pageSize"
             },
-            "blockSize": {
+            "block_size": {
               "$var": "blockSize"
             },
             "plane": {

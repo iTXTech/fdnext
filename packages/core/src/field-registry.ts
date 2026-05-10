@@ -89,6 +89,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "identity",
     importance: "primary"
   },
+  original_vendor: {
+    key: "original_vendor",
+    valueKind: "string",
+    defaultLabel: "Original Vendor",
+    recommendedBlock: "identity",
+    importance: "detail"
+  },
   chip_kind: {
     key: "chip_kind",
     valueKind: "string",
@@ -212,6 +219,76 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "package",
     importance: "secondary"
   },
+  assembly: {
+    key: "assembly",
+    valueKind: "string",
+    defaultLabel: "Assembly",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  segment: {
+    key: "segment",
+    valueKind: "string",
+    defaultLabel: "Segment",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  lead_free: {
+    key: "lead_free",
+    valueKind: "boolean",
+    defaultLabel: "Lead free",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  halogen_free: {
+    key: "halogen_free",
+    valueKind: "boolean",
+    defaultLabel: "Halogen free",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  wafer: {
+    key: "wafer",
+    valueKind: "boolean",
+    defaultLabel: "Wafer",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  bad_block: {
+    key: "bad_block",
+    valueKind: "string",
+    defaultLabel: "Bad block",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  sku: {
+    key: "sku",
+    valueKind: "string",
+    defaultLabel: "SKU",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  unsupported_reason: {
+    key: "unsupported_reason",
+    valueKind: "string",
+    defaultLabel: "Unsupported reason",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  multi_chip: {
+    key: "multi_chip",
+    valueKind: "boolean",
+    defaultLabel: "Multi chip",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  cu: {
+    key: "cu",
+    valueKind: "boolean",
+    defaultLabel: "CU",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
   storage_interface: {
     key: "storage_interface",
     valueKind: "string",
@@ -295,6 +372,34 @@ export const fdnextFieldRegistry = {
     key: "blocks_per_lun",
     valueKind: "string",
     defaultLabel: "Blocks per LUN",
+    recommendedBlock: "geometry",
+    importance: "detail"
+  },
+  pages_per_block: {
+    key: "pages_per_block",
+    valueKind: "string",
+    defaultLabel: "Pages Per Block",
+    recommendedBlock: "geometry",
+    importance: "detail"
+  },
+  simultaneously_programmed_pages: {
+    key: "simultaneously_programmed_pages",
+    valueKind: "number",
+    defaultLabel: "Simultaneously Programmed Pages",
+    recommendedBlock: "geometry",
+    importance: "detail"
+  },
+  redundant_area_size: {
+    key: "redundant_area_size",
+    valueKind: "string",
+    defaultLabel: "Redundant Area Size",
+    recommendedBlock: "geometry",
+    importance: "detail"
+  },
+  half_page_and_size: {
+    key: "half_page_and_size",
+    valueKind: "boolean",
+    defaultLabel: "Half page and size",
     recommendedBlock: "geometry",
     importance: "detail"
   },
@@ -445,6 +550,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "identity",
     importance: "detail"
   },
+  series_info: {
+    key: "series_info",
+    valueKind: "string",
+    defaultLabel: "Series",
+    recommendedBlock: "identity",
+    importance: "detail"
+  },
   speed_grade: {
     key: "speed_grade",
     valueKind: "string",
@@ -463,6 +575,20 @@ export const fdnextFieldRegistry = {
     key: "edo",
     valueKind: "boolean",
     defaultLabel: "EDO",
+    recommendedBlock: "timing",
+    importance: "detail"
+  },
+  interleave: {
+    key: "interleave",
+    valueKind: "boolean",
+    defaultLabel: "Interleave",
+    recommendedBlock: "timing",
+    importance: "detail"
+  },
+  cache: {
+    key: "cache",
+    valueKind: "boolean",
+    defaultLabel: "Cache",
     recommendedBlock: "timing",
     importance: "detail"
   },
@@ -563,6 +689,20 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "interface",
     importance: "secondary"
   },
+  toggle: {
+    key: "toggle",
+    valueKind: "string",
+    defaultLabel: "Toggle DDR version",
+    recommendedBlock: "interface",
+    importance: "detail"
+  },
+  ecc_level: {
+    key: "ecc_level",
+    valueKind: "string",
+    defaultLabel: "ECC Level",
+    recommendedBlock: "interface",
+    importance: "detail"
+  },
   ecc_enabled: {
     key: "ecc_enabled",
     valueKind: "boolean",
@@ -602,6 +742,13 @@ export const fdnextFieldRegistry = {
     key: "enterprise",
     valueKind: "boolean",
     defaultLabel: "Enterprise",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  revision: {
+    key: "revision",
+    valueKind: "number",
+    defaultLabel: "Revision",
     recommendedBlock: "package",
     importance: "detail"
   },

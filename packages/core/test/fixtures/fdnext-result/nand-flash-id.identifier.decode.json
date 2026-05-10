@@ -54,7 +54,7 @@
       "fields": [
         {
           "key": "timing_mode_async",
-          "label": "Timing Mode Async",
+          "label": "Async Timing Mode",
           "value": "2 (35ns)",
           "importance": "detail"
         }
