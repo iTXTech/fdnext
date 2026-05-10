@@ -843,7 +843,7 @@ export function buildCapabilities(options: BuildCapabilitiesOptions): FdnextCapa
       name: "marking.lookup.micron.fbga",
       operation: "part.search",
       domains: ["memory"],
-      chipKinds: ["dram"]
+      chipKinds: ["raw_nand", "on_die_ecc_nand", "dram"]
     }
   ];
   return {

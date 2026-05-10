@@ -69,6 +69,12 @@ assert.ok(sdkCapabilities.inventory.partNumbers.total >= sdkCapabilities.invento
 assert.ok(sdkCapabilities.inventory.micronFbga.total >= sdkCapabilities.inventory.micronFbga.dramLookup);
 assert.ok(sdkCapabilities.decoders.partNumber.some((decoder) => decoder.id === "vendor.micron.dram.component.v1"));
 assert.ok(sdkCapabilities.decoders.identifier.some((decoder) => decoder.idScheme === "nand.flash_id"));
+const micronFbgaCapability = sdkCapabilities.capabilities.find((capability) => capability.name === "marking.lookup.micron.fbga");
+assert.deepEqual(
+  micronFbgaCapability?.chipKinds,
+  ["raw_nand", "on_die_ecc_nand", "dram"],
+  "Micron FBGA lookup capability should report DRAM, raw NAND, and On-die ECC NAND support"
+);
 const mutatedCapabilities = engine.getCapabilities();
 mutatedCapabilities.inventory.controllers.items.splice(0);
 assert.equal(engine.getCapabilities().inventory.controllers.items.length, sdkCapabilities.inventory.controllers.count);

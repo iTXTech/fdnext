@@ -79,8 +79,8 @@
       "name": "marking.lookup.micron.fbga",
       "operation": "part.search",
       "domains": ["memory"],
-      "chipKinds": ["dram"],
-      "description": "Resolve Micron FBGA package markings to related part-number records."
+      "chipKinds": ["raw_nand", "on_die_ecc_nand", "dram"],
+      "description": "Resolve Micron FBGA package markings to related DRAM and NAND part-number records."
     }
   ]
 }
