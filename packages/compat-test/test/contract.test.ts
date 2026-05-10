@@ -230,9 +230,7 @@ assert.equal(markingDecode.status, "ok");
 assert.equal(markingDecode.device?.partNumber, "CT40A1G8SA-62M:E");
 assert.equal(markingDecode.device?.markingCode, "C9BJZ");
 assert.ok(!collectResultFields(markingDecode.blocks).some((field) => field.key === "marking_code"));
-const markingDecodeRelation = markingDecode.relations.find((relation) => relation.kind === "marking_for" && relation.source?.markingCode === "C9BJZ");
-assert.ok(markingDecodeRelation);
-assert.equal("action" in markingDecodeRelation, false, "FBGA decode results should not expose a redundant full-PN decode action");
+assert.ok(!markingDecode.relations.some((relation) => relation.kind === "marking_for"), "FBGA decode results should not repeat device marking identity as a relation");
 
 const markingDecodeAsIdentifier = engine.decodeIdentifier({ query: "C9BJZ", lang: "eng" });
 assert.equal(markingDecodeAsIdentifier.status, "invalid_input");

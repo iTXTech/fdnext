@@ -505,17 +505,6 @@ function normalizedFlashIds(values: unknown): string[] {
 
 function partRelations(info: InternalPartInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Relation[] {
   const relations: Relation[] = [];
-  if (device.markingCode && device.partNumber) {
-    relations.push({
-      kind: "marking_for",
-      source: {
-        markingCode: device.markingCode
-      },
-      target: {
-        partNumber: device.partNumber
-      }
-    });
-  }
   for (const id of normalizedFlashIds(info.flashId)) {
     relations.push({
       kind: "identifier_for",
