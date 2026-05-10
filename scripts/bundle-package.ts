@@ -45,6 +45,7 @@ async function loadEsbuild(): Promise<EsbuildModule> {
 }
 
 const THIS_DIR = typeof __dirname === "string" ? __dirname : pathDirname(fileURLToPath(import.meta.url));
+const SHORT_COMMIT_HASH_LENGTH = 7;
 
 function repoRoot() {
   return resolve(THIS_DIR, "..");
@@ -74,10 +75,10 @@ function cleanEnvValue(value: string | undefined): string | undefined {
 function gitShortCommitHash(root: string): string {
   const fromEnv = cleanEnvValue(process.env.FDNEXT_COMMIT_HASH);
   if (fromEnv) {
-    return fromEnv.slice(0, 12);
+    return fromEnv.slice(0, SHORT_COMMIT_HASH_LENGTH);
   }
   try {
-    const hash = execFileSync("git", ["rev-parse", "--short=12", "HEAD"], {
+    const hash = execFileSync("git", ["rev-parse", `--short=${SHORT_COMMIT_HASH_LENGTH}`, "HEAD"], {
       cwd: root,
       encoding: "utf8",
       stdio: ["ignore", "pipe", "ignore"]
