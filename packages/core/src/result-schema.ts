@@ -354,10 +354,19 @@ export const fdnextCapabilitiesJsonSchema = {
     schemaVersion: { const: FDNEXT_CAPABILITIES_SCHEMA_VERSION },
     server: {
       type: "object",
-      required: ["name", "version"],
+      required: ["name", "version", "build"],
       properties: {
         name: { type: "string", minLength: 1 },
-        version: { type: "string", minLength: 1 }
+        version: { type: "string", minLength: 1 },
+        build: {
+          type: "object",
+          required: ["commitHash", "buildTime"],
+          properties: {
+            commitHash: { type: "string", minLength: 1 },
+            buildTime: { type: "string", minLength: 1 }
+          },
+          additionalProperties: false
+        }
       },
       additionalProperties: false
     },

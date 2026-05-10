@@ -28,6 +28,9 @@ pnpm dlx wrangler login
   "compatibility_date": "2026-05-10",
   "workers_dev": true,
   "minify": true,
+  "vars": {
+    "FDNEXT_CORS_ORIGINS": "*"
+  },
   "build": {
     "command": "pnpm cf-workers:build"
   }
@@ -38,6 +41,7 @@ pnpm dlx wrangler login
 
 - `main` 指向已打包的 Worker 入口，不直接让 Wrangler 解析 monorepo TypeScript 路径。
 - `build.command` 会先构建平台无关 runtime，再构建 Cloudflare Workers adapter。这个配置适用于本地 `wrangler dev/deploy`。
+- `vars.FDNEXT_CORS_ORIGINS` 控制 CORS 允许的来源，默认配置为 `*`。
 - 当前 Worker 不需要 `nodejs_compat`，入口只依赖 Web Fetch API。
 - 默认打开 `workers_dev`，可以直接部署到 `*.workers.dev`；如果要绑定生产域名，在该配置中添加 `route` / `routes` 或在 Cloudflare 控制台绑定后保持 Wrangler 配置同步。
 
@@ -62,6 +66,14 @@ Workers Builds 目前不会执行 `wrangler.jsonc` 里的 custom build 配置，
 
 这样可以避免 Workers Builds 自动选择 `bun install`，确保依赖安装和构建都走 pnpm。
 
+Worker 运行时变量：
+
+| Variable | Value |
+| --- | --- |
+| `FDNEXT_CORS_ORIGINS` | `*` 或逗号 / 空格分隔的 origin 列表，例如 `https://app.example.com,https://admin.example.com` |
+
+`FDNEXT_CORS_ORIGINS=*` 会返回 `Access-Control-Allow-Origin: *`。设置多个域名时，runtime 会按请求的 `Origin` 精确匹配，命中后返回对应 origin，并附带 `Vary: Origin`。
+
 ## 4. 本地开发
 
 ```bash
@@ -81,7 +93,23 @@ curl 'http://127.0.0.1:8787/identifiers/decode?query=2C,64,44,4B,A9,00'
 
 `/` 返回服务状态、服务名和 fdnext 版本号。仓库不提供单独的 `/health` endpoint。
 
-## 5. 可用 HTTP 接口
+## 5. CORS
+
+Cloudflare Workers adapter 从 Worker env 读取 `FDNEXT_CORS_ORIGINS`：
+
+```text
+FDNEXT_CORS_ORIGINS=*
+FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
+```
+
+行为：
+
+- `*`：所有来源放开，响应 `Access-Control-Allow-Origin: *`。
+- 多域名列表：仅当请求 `Origin` 精确命中列表中的 origin 时返回 CORS header。
+- 支持 `OPTIONS` preflight，返回 `204`，并透传 `Access-Control-Request-Headers` 到 `Access-Control-Allow-Headers`。
+- 未设置 `FDNEXT_CORS_ORIGINS` 时，serverless adapter 不额外返回 CORS header。
+
+## 6. 可用 HTTP 接口
 
 Workers 入口只暴露当前 runtime 的正式接口：
 
@@ -96,7 +124,7 @@ Workers 入口只暴露当前 runtime 的正式接口：
 
 所有接口返回 JSON，并包含 `X-Powered-By: fdnext/<version>`。
 
-## 6. 手动部署
+## 7. 手动部署
 
 先做一次本地构建确认：
 
@@ -123,7 +151,7 @@ curl 'https://<worker>.<account>.workers.dev/'
 curl 'https://<worker>.<account>.workers.dev/parts/search?query=MT29'
 ```
 
-## 7. 自定义 External Link
+## 8. 自定义 External Link
 
 默认入口不会注入 External Link provider。如果部署环境需要对结果追加平台侧链接，可以维护一个自定义 Worker 入口，并把 `wrangler.jsonc` 的 `main` 指向该入口构建后的文件。
 
@@ -157,7 +185,7 @@ export default createCfWorkersAdapter({
 
 External Link provider 只能返回 `http:`、`https:` 或 `mailto:` URL。runtime 会清理无效链接，并按 `priority` 排序。
 
-## 8. 维护边界
+## 9. 维护边界
 
 - Cloudflare adapter 只负责把 `fetch()` 请求交给共享 runtime。
 - HTTP route、响应 contract 和 External Link 清理逻辑属于 `packages/runtime`。

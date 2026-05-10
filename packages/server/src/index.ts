@@ -57,7 +57,7 @@ async function replyRuntimeJson(runtime: FdnextRuntime, request: Request, h: Res
     remote: request.info.remoteAddress,
     adapter: "hapi"
   });
-  const reply = h.response(response.body).code(response.status);
+  const reply = h.response(response.body === null ? undefined : response.body).code(response.status);
   for (const [name, value] of Object.entries(response.headers)) {
     reply.header(name, value);
   }

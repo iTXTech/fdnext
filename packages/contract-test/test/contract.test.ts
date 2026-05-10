@@ -1,5 +1,8 @@
 import { spawnSync } from "node:child_process";
 import assert from "node:assert/strict";
+import { once } from "node:events";
+import type { AddressInfo } from "node:net";
+import type { Server as NodeServer } from "node:http";
 import { fileURLToPath } from "node:url";
 import {
   createEngine,
@@ -13,6 +16,9 @@ import {
 import { createContractEngine, runContractChecks } from "../src/index";
 import * as resourceModule from "../../resources/index";
 import { createHttpServer } from "../../server/src/index";
+import { createCfWorkersAdapter } from "../../cf-workers/src/index";
+import { startAliyunFc } from "../../aliyun-fc/src/index";
+import { FDNEXT_CORS_ORIGINS_ENV } from "../../runtime/src/index";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
 
@@ -30,6 +36,19 @@ function runCli(args: string[]): Record<string, unknown> {
   assert.equal(result.status, 0, result.stderr || result.stdout);
   assert.ok(result.stdout.trim(), result.stderr);
   return parseJsonObject(result.stdout);
+}
+
+async function waitForListening(server: NodeServer): Promise<void> {
+  if (server.listening) {
+    return;
+  }
+  await once(server, "listening");
+}
+
+async function closeNodeServer(server: NodeServer): Promise<void> {
+  await new Promise<void>((resolve, reject) => {
+    server.close((error) => (error ? reject(error) : resolve()));
+  });
 }
 
 function collectResultFields(value: unknown, fields: Array<{ key?: unknown }> = []): Array<{ key?: unknown }> {
@@ -62,6 +81,8 @@ assert.deepEqual(summary.operations, ["part.decode", "part.search", "identifier.
 const engine = createContractEngine();
 const sdkCapabilities = engine.getCapabilities();
 assert.equal(sdkCapabilities.server.version, "2.0.0");
+assert.equal(sdkCapabilities.server.build.commitHash, "dev");
+assert.equal(sdkCapabilities.server.build.buildTime, "1970-01-01T00:00:00.000Z");
 assert.equal(sdkCapabilities.fdb.version, engine.getVersion());
 assert.equal(sdkCapabilities.inventory.controllers.count, sdkCapabilities.inventory.controllers.items.length);
 assert.ok(sdkCapabilities.inventory.flashIds.count > 0);
@@ -465,5 +486,71 @@ for (const removedEndpoint of [
   assert.equal(removed.status, "not_found", `${removedEndpoint} should not be exposed`);
 }
 await http.server.stop();
+
+const cfWorker = createCfWorkersAdapter();
+const cfCorsResponse = await cfWorker.fetch(
+  new Request("https://fdnext.example/parts/search?query=MT29", {
+    headers: { origin: "https://app.example" }
+  }),
+  { [FDNEXT_CORS_ORIGINS_ENV]: "https://app.example,https://admin.example" }
+);
+assert.equal(cfCorsResponse.headers.get("access-control-allow-origin"), "https://app.example");
+assert.equal(cfCorsResponse.headers.get("vary"), "Origin");
+const cfDeniedCorsResponse = await cfWorker.fetch(
+  new Request("https://fdnext.example/parts/search?query=MT29", {
+    headers: { origin: "https://blocked.example" }
+  }),
+  { [FDNEXT_CORS_ORIGINS_ENV]: "https://app.example,https://admin.example" }
+);
+assert.equal(cfDeniedCorsResponse.headers.get("access-control-allow-origin"), null);
+const cfPreflightResponse = await cfWorker.fetch(
+  new Request("https://fdnext.example/parts/search", {
+    method: "OPTIONS",
+    headers: {
+      origin: "https://any.example",
+      "access-control-request-method": "GET",
+      "access-control-request-headers": "x-fdnext-client"
+    }
+  }),
+  { [FDNEXT_CORS_ORIGINS_ENV]: "*" }
+);
+assert.equal(cfPreflightResponse.status, 204);
+assert.equal(cfPreflightResponse.headers.get("access-control-allow-origin"), "*");
+assert.equal(cfPreflightResponse.headers.get("access-control-allow-methods"), "GET, HEAD, OPTIONS");
+assert.equal(cfPreflightResponse.headers.get("access-control-allow-headers"), "x-fdnext-client");
+assert.equal(await cfPreflightResponse.text(), "");
+
+const previousCorsOrigins = process.env[FDNEXT_CORS_ORIGINS_ENV];
+process.env[FDNEXT_CORS_ORIGINS_ENV] = "https://fc.example https://admin.example";
+const aliyunCorsServer = startAliyunFc({ host: "127.0.0.1", port: 0 });
+try {
+  await waitForListening(aliyunCorsServer);
+  const address = aliyunCorsServer.address() as AddressInfo;
+  const baseUrl = `http://127.0.0.1:${address.port}`;
+  const aliyunCorsResponse = await fetch(`${baseUrl}/`, {
+    headers: { origin: "https://admin.example" }
+  });
+  assert.equal(aliyunCorsResponse.headers.get("access-control-allow-origin"), "https://admin.example");
+  assert.equal(aliyunCorsResponse.headers.get("vary"), "Origin");
+  const aliyunPreflightResponse = await fetch(`${baseUrl}/parts/search`, {
+    method: "OPTIONS",
+    headers: {
+      origin: "https://fc.example",
+      "access-control-request-method": "GET",
+      "access-control-request-headers": "x-fdnext-client"
+    }
+  });
+  assert.equal(aliyunPreflightResponse.status, 204);
+  assert.equal(aliyunPreflightResponse.headers.get("access-control-allow-origin"), "https://fc.example");
+  assert.equal(aliyunPreflightResponse.headers.get("access-control-allow-headers"), "x-fdnext-client");
+  assert.equal(await aliyunPreflightResponse.text(), "");
+} finally {
+  await closeNodeServer(aliyunCorsServer);
+  if (previousCorsOrigins === undefined) {
+    delete process.env[FDNEXT_CORS_ORIGINS_ENV];
+  } else {
+    process.env[FDNEXT_CORS_ORIGINS_ENV] = previousCorsOrigins;
+  }
+}
 
 process.stdout.write(`Contract confirmed: ${summary.checked} fixtures\n`);

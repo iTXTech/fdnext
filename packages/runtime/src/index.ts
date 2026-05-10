@@ -29,8 +29,16 @@ import {
 import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
 
 const externalLinkCategories = new Set<string>(fdnextExternalLinkCategories);
+export const FDNEXT_CORS_ORIGINS_ENV = "FDNEXT_CORS_ORIGINS";
+const corsAllowMethods = "GET, HEAD, OPTIONS";
+const corsDefaultAllowHeaders = "content-type";
 
 export type FdnextRuntimeOperation = FdnextOperation | "capabilities" | "index";
+export type FdnextCorsOrigins = "*" | string[];
+
+export interface FdnextCorsOptions {
+  origins: FdnextCorsOrigins;
+}
 
 export interface FdnextRuntimeMeta {
   remote?: string;
@@ -49,7 +57,7 @@ export interface FdnextDispatchRequest {
 export interface FdnextDispatchResponse {
   status: number;
   headers: Record<string, string>;
-  body: FdnextResult | FdnextCapabilities | Record<string, unknown>;
+  body: FdnextResult | FdnextCapabilities | Record<string, unknown> | null;
 }
 
 export interface FdnextHttpRequest {
@@ -58,6 +66,7 @@ export interface FdnextHttpRequest {
   headers?: Headers | Record<string, string | string[] | undefined>;
   remote?: string;
   adapter?: string;
+  cors?: FdnextCorsOptions;
 }
 
 export interface ExternalLinkFacts {
@@ -89,13 +98,14 @@ export interface FdnextRuntimeOptions extends EngineOptions {
   externalLinkProviders?: ExternalLinkProvider[];
   serverName?: string;
   responseHeaders?: Record<string, string>;
+  cors?: FdnextCorsOptions;
 }
 
 export interface FdnextRuntime {
   engine: FdnextEngine;
   dispatch(request: FdnextDispatchRequest): Promise<FdnextDispatchResponse>;
   handleHttp(request: FdnextHttpRequest): Promise<FdnextDispatchResponse>;
-  fetch(request: Request, meta?: Omit<FdnextRuntimeMeta, "requestUrl" | "userAgent">): Promise<Response>;
+  fetch(request: Request, meta?: Omit<FdnextRuntimeMeta, "requestUrl" | "userAgent"> & { cors?: FdnextCorsOptions }): Promise<Response>;
 }
 
 function createDefaultEngine(options: FdnextRuntimeOptions): FdnextEngine {
@@ -141,6 +151,54 @@ function getHeader(headers: FdnextHttpRequest["headers"], name: string): string 
     return value;
   }
   return undefined;
+}
+
+function uniqueStrings(values: string[]): string[] {
+  return [...new Set(values)];
+}
+
+function splitCorsOrigins(value: string): string[] {
+  return value
+    .split(/[,\s;]+/g)
+    .map((origin) => origin.trim())
+    .filter(Boolean);
+}
+
+function normalizeCorsOrigin(value: string): string | null {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+  if (trimmed === "*") {
+    return "*";
+  }
+  if (trimmed === "null") {
+    return "null";
+  }
+  try {
+    const url = new URL(trimmed);
+    return url.origin;
+  } catch {
+    return null;
+  }
+}
+
+export function parseFdnextCorsOrigins(value: unknown): FdnextCorsOrigins | undefined {
+  const rawOrigins = Array.isArray(value)
+    ? value.flatMap((entry) => (typeof entry === "string" ? splitCorsOrigins(entry) : []))
+    : typeof value === "string"
+      ? splitCorsOrigins(value)
+      : [];
+  const origins = uniqueStrings(rawOrigins.map((origin) => normalizeCorsOrigin(origin)).filter((origin): origin is string => !!origin));
+  if (origins.includes("*")) {
+    return "*";
+  }
+  return origins.length > 0 ? origins : undefined;
+}
+
+export function createFdnextCorsOptionsFromEnv(env: Record<string, unknown> | undefined): FdnextCorsOptions | undefined {
+  const origins = parseFdnextCorsOrigins(env?.[FDNEXT_CORS_ORIGINS_ENV]);
+  return origins ? { origins } : undefined;
 }
 
 function parseUrl(url: string): URL {
@@ -343,6 +401,56 @@ function sanitizeLinks(links: ExternalLink[]): ExternalLink[] {
   return [...unique.values()].sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0) || a.id.localeCompare(b.id));
 }
 
+function appendVary(headers: Record<string, string>, value: string): Record<string, string> {
+  const current = headers.vary;
+  if (!current) {
+    return { ...headers, vary: value };
+  }
+  const entries = current.split(",").map((entry) => entry.trim().toLowerCase());
+  return entries.includes(value.toLowerCase()) ? headers : { ...headers, vary: `${current}, ${value}` };
+}
+
+function corsAllowOrigin(cors: FdnextCorsOptions, headers: FdnextHttpRequest["headers"]): string | null {
+  if (cors.origins === "*") {
+    return "*";
+  }
+  const origin = getHeader(headers, "origin");
+  if (!origin) {
+    return null;
+  }
+  const normalized = normalizeCorsOrigin(origin);
+  return normalized && cors.origins.includes(normalized) ? normalized : null;
+}
+
+function applyCorsHeaders(
+  base: Record<string, string>,
+  requestHeaders: FdnextHttpRequest["headers"],
+  cors: FdnextCorsOptions | undefined,
+  preflight: boolean
+): Record<string, string> {
+  if (!cors) {
+    return base;
+  }
+  const allowOrigin = corsAllowOrigin(cors, requestHeaders);
+  let headers = cors.origins === "*" ? base : appendVary(base, "Origin");
+  if (!allowOrigin) {
+    return headers;
+  }
+  headers = {
+    ...headers,
+    "access-control-allow-origin": allowOrigin
+  };
+  if (!preflight) {
+    return headers;
+  }
+  return {
+    ...headers,
+    "access-control-allow-methods": corsAllowMethods,
+    "access-control-allow-headers": getHeader(requestHeaders, "access-control-request-headers") ?? corsDefaultAllowHeaders,
+    "access-control-max-age": "86400"
+  };
+}
+
 async function collectLinks(
   providers: ExternalLinkProvider[],
   context: ExternalLinkContext
@@ -402,6 +510,7 @@ export function createFdnextRuntime(options: FdnextRuntimeOptions = {}): FdnextR
   const engine = options.engine ?? createDefaultEngine(options);
   const externalLinkProviders = [...(options.externalLinkProviders ?? [])];
   const headers = baseHeaders(options.responseHeaders);
+  const runtimeCors = options.cors;
   const serverName = options.serverName ?? "fdnext-server";
 
   const dispatch = async (request: FdnextDispatchRequest): Promise<FdnextDispatchResponse> => {
@@ -445,6 +554,14 @@ export function createFdnextRuntime(options: FdnextRuntimeOptions = {}): FdnextR
 
   const handleHttp = async (request: FdnextHttpRequest): Promise<FdnextDispatchResponse> => {
     const url = parseUrl(request.url);
+    const cors = request.cors ?? runtimeCors;
+    if (request.method.toUpperCase() === "OPTIONS" && cors) {
+      return {
+        status: 204,
+        headers: applyCorsHeaders(headers, request.headers, cors, true),
+        body: null
+      };
+    }
     const route = resolveHttpRoute(request.method, url);
     const meta: FdnextRuntimeMeta = {
       remote: request.remote,
@@ -456,35 +573,40 @@ export function createFdnextRuntime(options: FdnextRuntimeOptions = {}): FdnextR
     if (route === null) {
       return {
         status: 200,
-        headers,
+        headers: applyCorsHeaders(headers, request.headers, cors, false),
         body: { status: "not_found", name: serverName }
       };
     }
     if (route === undefined) {
       return {
         status: 200,
-        headers,
+        headers: applyCorsHeaders(headers, request.headers, cors, false),
         body: { status: "not_found", name: serverName }
       };
     }
-    return dispatch({
+    const response = await dispatch({
       ...route,
       meta
     });
+    return {
+      ...response,
+      headers: applyCorsHeaders(response.headers, request.headers, cors, false)
+    };
   };
 
   const fetch = async (
     request: Request,
-    meta: Omit<FdnextRuntimeMeta, "requestUrl" | "userAgent"> = {}
+    meta: Omit<FdnextRuntimeMeta, "requestUrl" | "userAgent"> & { cors?: FdnextCorsOptions } = {}
   ): Promise<Response> => {
     const response = await handleHttp({
       method: request.method,
       url: request.url,
       headers: request.headers,
       remote: meta.remote,
-      adapter: meta.adapter
+      adapter: meta.adapter,
+      cors: meta.cors
     });
-    return new Response(request.method.toUpperCase() === "HEAD" ? null : JSON.stringify(response.body), {
+    return new Response(request.method.toUpperCase() === "HEAD" || response.body === null ? null : JSON.stringify(response.body), {
       status: response.status,
       headers: response.headers
     });

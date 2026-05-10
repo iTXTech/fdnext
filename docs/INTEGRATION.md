@@ -223,12 +223,14 @@ pm2 logs fdnext-server
 说明：
 
 - 所有路由返回 JSON
-- `/capabilities` 返回服务版本、FDB 版本、控制器清单、FlashID / PN / DRAM PN / Micron FBGA 数量，以及当前引擎注册的 PN / identifier decoder 列表；SDK 的 `engine.getCapabilities()` 与 HTTP 返回同一份结构。
+- `/capabilities` 返回服务版本、build metadata（短 `commitHash` 和 `buildTime`）、FDB 版本、控制器清单、FlashID / PN / DRAM PN / Micron FBGA 数量，以及当前引擎注册的 PN / identifier decoder 列表；SDK 的 `engine.getCapabilities()` 与 HTTP 返回同一份结构。
 - `identifiers` routes default to `nand.flash_id`; only pass `idScheme` if a future scheme needs to be selected explicitly.
 - decode 响应包含 `subtitle`，适合作为列表或详情页副标题；结构化身份仍以 `device` 为准，详情字段在 `blocks[].fields[]`
 - Identifier API 只处理真实 decodable identifier scheme。FBGA 等 marking code 通过 `part.search` 返回 `marking_for` relation；可跳转动作放在对应的 `relations[].action`。
-- CORS 允许所有来源（`Access-Control-Allow-Origin: *`）
+- Hapi server 默认允许所有来源；cf-workers 和 aliyun-fc 通过 `FDNEXT_CORS_ORIGINS` 控制 CORS。
 - 服务端响应会包含 `X-Powered-By` header（用于运维识别）
+
+构建时 `scripts/bundle-package.ts` 默认从 git 写入短 `commitHash`，`buildTime` 使用当前 ISO 时间。CI / serverless 平台可以显式设置 `FDNEXT_COMMIT_HASH` 和 `FDNEXT_BUILD_TIME` 覆盖。
 
 ## 4. Serverless adapter
 
@@ -242,6 +244,12 @@ import worker from "@itxtech/fdnext-cf-workers";
 export default worker;
 ```
 
+Worker env `FDNEXT_CORS_ORIGINS` 可设置为 `*` 或多个 origin，例如：
+
+```text
+FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
+```
+
 ### 4.2 阿里云函数计算 / 自定义运行时
 
 `@itxtech/fdnext-aliyun-fc` 提供 Node HTTP handler 和可直接启动的自定义运行时入口：
@@ -253,3 +261,12 @@ startAliyunFc();
 ```
 
 默认监听 `FC_SERVER_PORT`、`PORT` 或 `9000`，host 默认为 `0.0.0.0`。
+
+阿里云 FC adapter 从环境变量读取 `FDNEXT_CORS_ORIGINS`：
+
+```text
+FDNEXT_CORS_ORIGINS=*
+FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
+```
+
+`*` 会放开所有来源；多个 origin 用逗号、空格或换行分隔，runtime 会按请求 `Origin` 精确匹配。preflight `OPTIONS` 会返回 `204`。

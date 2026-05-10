@@ -54,7 +54,7 @@ import type {
   SearchIdentifiersInput,
   SearchPartsInput
 } from "./result";
-import { FDNEXT_VERSION } from "./result";
+import { FDNEXT_BUILD_METADATA, FDNEXT_VERSION } from "./result";
 
 function cloneObject<T>(value: T): T {
   return JSON.parse(JSON.stringify(value)) as T;
@@ -493,7 +493,8 @@ function buildCapabilitiesSnapshot(input: {
   return buildCapabilities({
     server: {
       name: "fdnext-server",
-      version: FDNEXT_VERSION
+      version: FDNEXT_VERSION,
+      build: FDNEXT_BUILD_METADATA
     },
     fdb: {
       name: input.fdb.info.name,

@@ -1,3 +1,4 @@
+import { execFileSync } from "node:child_process";
 import { existsSync, mkdirSync, readdirSync } from "node:fs";
 import { dirname as pathDirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -65,9 +66,42 @@ function ensureDir(path: string) {
   mkdirSync(pathDirname(path), { recursive: true });
 }
 
+function cleanEnvValue(value: string | undefined): string | undefined {
+  const trimmed = value?.trim();
+  return trimmed ? trimmed : undefined;
+}
+
+function gitShortCommitHash(root: string): string {
+  const fromEnv = cleanEnvValue(process.env.FDNEXT_COMMIT_HASH);
+  if (fromEnv) {
+    return fromEnv.slice(0, 12);
+  }
+  try {
+    const hash = execFileSync("git", ["rev-parse", "--short=12", "HEAD"], {
+      cwd: root,
+      encoding: "utf8",
+      stdio: ["ignore", "pipe", "ignore"]
+    }).trim();
+    return hash || "unknown";
+  } catch {
+    return "unknown";
+  }
+}
+
+function buildTime(): string {
+  return cleanEnvValue(process.env.FDNEXT_BUILD_TIME) ?? new Date().toISOString();
+}
+
+function buildMetadataDefines(root: string): Record<string, string> {
+  return {
+    __FDNEXT_COMMIT_HASH__: JSON.stringify(gitShortCommitHash(root)),
+    __FDNEXT_BUILD_TIME__: JSON.stringify(buildTime())
+  };
+}
+
 async function bundleEntry(
   esbuild: EsbuildModule,
-  opts: { entry: string; outfile: string; platform: "node" | "neutral"; banner?: string }
+  opts: { entry: string; outfile: string; platform: "node" | "neutral"; banner?: string; define?: Record<string, string> }
 ) {
   ensureDir(opts.outfile);
   await esbuild.build({
@@ -82,6 +116,7 @@ async function bundleEntry(
     treeShaking: true,
     legalComments: "none",
     tsconfig: repoTsconfig(),
+    define: opts.define,
     banner: opts.banner ? { js: opts.banner } : undefined,
     loader: {
       ".json": "json"
@@ -106,19 +141,22 @@ async function main() {
   const esbuild = await loadEsbuild();
   const root = repoRoot();
   const pkg = pkgNameFromCwd();
+  const define = buildMetadataDefines(root);
 
   switch (pkg) {
     case "core": {
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/core/src/index.ts"),
         outfile: resolve(root, "packages/core/dist/index.js"),
-        platform: "neutral"
+        platform: "neutral",
+        define
       });
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/core/src/loaders/node.ts"),
         outfile: resolve(root, "packages/core/dist/loaders/node.js"),
         platform: "node",
-        banner: nodeBanner({ shebang: false })
+        banner: nodeBanner({ shebang: false }),
+        define
       });
       return;
     }
@@ -126,7 +164,8 @@ async function main() {
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/dsl/src/index.ts"),
         outfile: resolve(root, "packages/dsl/dist/index.js"),
-        platform: "neutral"
+        platform: "neutral",
+        define
       });
       return;
     }
@@ -134,7 +173,8 @@ async function main() {
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/runtime/src/index.ts"),
         outfile: resolve(root, "packages/runtime/dist/index.js"),
-        platform: "neutral"
+        platform: "neutral",
+        define
       });
       return;
     }
@@ -143,13 +183,15 @@ async function main() {
         entry: resolve(root, "packages/server/src/index.ts"),
         outfile: resolve(root, "packages/server/dist/index.js"),
         platform: "node",
-        banner: nodeBanner({ shebang: false })
+        banner: nodeBanner({ shebang: false }),
+        define
       });
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/server/src/bin.ts"),
         outfile: resolve(root, "packages/server/dist/bin.js"),
         platform: "node",
-        banner: nodeBanner({ shebang: true })
+        banner: nodeBanner({ shebang: true }),
+        define
       });
       return;
     }
@@ -157,7 +199,8 @@ async function main() {
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/cf-workers/src/index.ts"),
         outfile: resolve(root, "packages/cf-workers/dist/index.js"),
-        platform: "neutral"
+        platform: "neutral",
+        define
       });
       return;
     }
@@ -166,13 +209,15 @@ async function main() {
         entry: resolve(root, "packages/aliyun-fc/src/index.ts"),
         outfile: resolve(root, "packages/aliyun-fc/dist/index.js"),
         platform: "node",
-        banner: nodeBanner({ shebang: false })
+        banner: nodeBanner({ shebang: false }),
+        define
       });
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/aliyun-fc/src/bin.ts"),
         outfile: resolve(root, "packages/aliyun-fc/dist/bin.js"),
         platform: "node",
-        banner: nodeBanner({ shebang: true })
+        banner: nodeBanner({ shebang: true }),
+        define
       });
       return;
     }
@@ -181,7 +226,8 @@ async function main() {
         entry: resolve(root, "packages/cli/src/index.ts"),
         outfile: resolve(root, "packages/cli/dist/index.js"),
         platform: "node",
-        banner: nodeBanner({ shebang: true })
+        banner: nodeBanner({ shebang: true }),
+        define
       });
       return;
     }
@@ -190,7 +236,8 @@ async function main() {
         entry: resolve(root, "packages/contract-test/src/index.ts"),
         outfile: resolve(root, "packages/contract-test/dist/index.js"),
         platform: "node",
-        banner: nodeBanner({ shebang: false })
+        banner: nodeBanner({ shebang: false }),
+        define
       });
       return;
     }
@@ -199,13 +246,15 @@ async function main() {
         entry: resolve(root, "packages/fdbgen/src/index.ts"),
         outfile: resolve(root, "packages/fdbgen/dist/index.js"),
         platform: "node",
-        banner: nodeBanner({ shebang: false })
+        banner: nodeBanner({ shebang: false }),
+        define
       });
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/fdbgen/src/cli.ts"),
         outfile: resolve(root, "packages/fdbgen/dist/cli.js"),
         platform: "node",
-        banner: nodeBanner({ shebang: true })
+        banner: nodeBanner({ shebang: true }),
+        define
       });
       return;
     }
@@ -213,7 +262,8 @@ async function main() {
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/resources/index.ts"),
         outfile: resolve(root, "packages/resources/dist/index.js"),
-        platform: "neutral"
+        platform: "neutral",
+        define
       });
       return;
     }

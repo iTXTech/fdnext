@@ -1,6 +1,22 @@
 export const FDNEXT_RESULT_SCHEMA_VERSION = "fdnext.result.v1" as const;
 export const FDNEXT_CAPABILITIES_SCHEMA_VERSION = "fdnext.capabilities.v1" as const;
 export const FDNEXT_VERSION = "2.0.0" as const;
+declare const __FDNEXT_COMMIT_HASH__: string;
+declare const __FDNEXT_BUILD_TIME__: string;
+
+export interface FdnextBuildMetadata {
+  commitHash: string;
+  buildTime: string;
+}
+
+function buildMetadataValue(value: unknown, fallback: string): string {
+  return typeof value === "string" && value.length > 0 ? value : fallback;
+}
+
+export const FDNEXT_BUILD_METADATA: FdnextBuildMetadata = {
+  commitHash: buildMetadataValue(typeof __FDNEXT_COMMIT_HASH__ === "string" ? __FDNEXT_COMMIT_HASH__ : undefined, "dev"),
+  buildTime: buildMetadataValue(typeof __FDNEXT_BUILD_TIME__ === "string" ? __FDNEXT_BUILD_TIME__ : undefined, "1970-01-01T00:00:00.000Z")
+};
 
 export const fdnextOperations = [
   "part.decode",
@@ -303,6 +319,7 @@ export interface Capability {
 export interface CapabilityServerInfo {
   name: string;
   version: string;
+  build: FdnextBuildMetadata;
 }
 
 export interface CapabilityFdbInfo {

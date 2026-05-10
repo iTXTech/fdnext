@@ -1,9 +1,16 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
-import { createFdnextRuntime, type FdnextRuntime, type FdnextRuntimeOptions } from "@itxtech/fdnext-runtime";
+import {
+  createFdnextCorsOptionsFromEnv,
+  createFdnextRuntime,
+  type FdnextCorsOptions,
+  type FdnextRuntime,
+  type FdnextRuntimeOptions
+} from "@itxtech/fdnext-runtime";
 
 export interface AliyunFcHandlerOptions {
   runtime?: FdnextRuntime;
   runtimeOptions?: FdnextRuntimeOptions;
+  cors?: FdnextCorsOptions;
 }
 
 export interface AliyunFcStartOptions extends AliyunFcHandlerOptions {
@@ -25,11 +32,16 @@ function writeJsonResponse(response: ServerResponse, status: number, headers: Re
   for (const [name, value] of Object.entries(headers)) {
     response.setHeader(name, value);
   }
+  if (body === null) {
+    response.end();
+    return;
+  }
   response.end(JSON.stringify(body));
 }
 
 export function createAliyunFcHandler(options: AliyunFcHandlerOptions = {}) {
-  const runtime = options.runtime ?? createFdnextRuntime(options.runtimeOptions);
+  const cors = options.cors ?? createFdnextCorsOptionsFromEnv(process.env);
+  const runtime = options.runtime ?? createFdnextRuntime({ ...options.runtimeOptions, ...(cors ? { cors } : {}) });
   return async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
     try {
       const result = await runtime.handleHttp({
@@ -37,7 +49,8 @@ export function createAliyunFcHandler(options: AliyunFcHandlerOptions = {}) {
         url: nodeRequestUrl(request),
         headers: request.headers,
         remote: request.socket.remoteAddress,
-        adapter: "aliyun-fc"
+        adapter: "aliyun-fc",
+        cors
       });
       if ((request.method ?? "GET").toUpperCase() === "HEAD") {
         response.statusCode = result.status;
