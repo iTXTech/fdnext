@@ -386,7 +386,9 @@ function enrichCandidate(
   const decodedChipKind = inferChipKindFromInfo(info);
   const decodedProductType = inferProductTypeFromInfo(info);
   const vendor = base.vendor === UNKNOWN && isKnownInfoValue(info.vendor) ? String(info.vendor) : base.vendor;
-  const chipKind = base.chipKind === "unknown" ? decodedChipKind : base.chipKind;
+  const chipKind = base.chipKind === "unknown" || (base.chipKind === "raw_nand" && decodedChipKind === "on_die_ecc_nand")
+    ? decodedChipKind
+    : base.chipKind;
   const productType = base.productType ?? decodedProductType;
   const constrainedBase = {
     ...base,
@@ -417,9 +419,9 @@ function enrichCandidate(
 function dedupeCandidates(candidates: PartClassificationCandidate[]): PartClassificationCandidate[] {
   const best = new Map<string, PartClassificationCandidate>();
   for (const candidate of candidates) {
-    const key = `${candidate.markingCode ?? ""}\0${candidate.vendor}\0${candidate.normalizedPartNumber}\0${candidate.chipKind}`;
+    const key = `${candidate.vendor}\0${candidate.normalizedPartNumber}\0${candidate.chipKind}`;
     const existing = best.get(key);
-    if (!existing || candidate.score > existing.score) {
+    if (!existing || candidate.score > existing.score || (candidate.score === existing.score && candidate.markingCode && !existing.markingCode)) {
       best.set(key, candidate);
     }
   }

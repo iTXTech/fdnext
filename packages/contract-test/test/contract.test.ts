@@ -73,6 +73,20 @@ const mutatedCapabilities = engine.getCapabilities();
 mutatedCapabilities.inventory.controllers.items.splice(0);
 assert.equal(engine.getCapabilities().inventory.controllers.items.length, sdkCapabilities.inventory.controllers.count);
 
+function assertNoDuplicatePartSearchItems(query: string): void {
+  const result = engine.searchParts({ query, lang: "eng", limit: 50 });
+  const seen = new Set<string>();
+  for (const item of result.items) {
+    const key = `${item.device.vendor.id}\0${item.device.partNumber ?? item.label}\0${item.device.chipKind}`;
+    assert.equal(
+      seen.has(key),
+      false,
+      `${query} should not return duplicate FBGA/raw PN items for ${item.device.partNumber ?? item.label}`
+    );
+    seen.add(key);
+  }
+}
+
 function assertPartClassification(query: string, chipKind: string, productType?: string): void {
   const result = engine.decodePart({ query, lang: "eng" });
   assert.equal(result.status, "ok", query);
@@ -172,6 +186,18 @@ assert.ok(
   engine.searchParts({ query: "MTFC", lang: "eng", limit: 20, constraints: { productType: "ufs" } }).items
     .some((item) => item.device.productType === "ufs"),
   "MTFC search with UFS constraint should include UFS candidates"
+);
+for (const query of ["MT29F", "NW8", "CT40", "C9B", "MT29F128G08AECABH6-6:A", "CT40A1G8SA-62M:E"]) {
+  assertNoDuplicatePartSearchItems(query);
+}
+const onDieEccSearch = engine.searchParts({ query: "MT29FB", lang: "eng", limit: 10 });
+assert.ok(onDieEccSearch.items.length > 0, "MT29FB search should return On-die ECC NAND candidates");
+assert.ok(onDieEccSearch.items.every((item) => item.device.chipKind === "on_die_ecc_nand"), "MT29FB search candidates should use decoded On-die ECC NAND chip kind");
+const onDieEccMarkingSearch = engine.searchParts({ query: "NC103", lang: "eng", limit: 10 });
+assert.deepEqual(
+  onDieEccMarkingSearch.items.map((item) => item.device.chipKind),
+  ["on_die_ecc_nand"],
+  "Micron On-die ECC NAND FBGA marking search should not surface raw_nand"
 );
 
 const inferredIdentifier = engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" });
