@@ -376,7 +376,7 @@ function patchSkhynix(info: InternalIdentifierInfo): Partial<InternalIdentifierI
     }
   }
 
-  // For some newer IDs, the PHP reference clears ext and blockSize.
+  // Some newer IDs need vendor-specific cleanup after bitfield decoding.
   if (flashIdByteAt(info.id, 6) >= 0x50) {
     patch.ext = [];
     patch.blockSize = undefined;

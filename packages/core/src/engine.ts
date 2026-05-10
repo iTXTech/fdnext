@@ -604,8 +604,8 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       info.controller = mergeStringArray(info.controller, allControllers);
     }
 
-    // PHP uses `self::` in Micron's FDB lookup, so SpecTek (which inherits it) looks up Micron FDB entries
-    // instead of SpecTek ones. This means SpecTek part numbers generally do not get FDB-combined fields in PHP.
+    // SpecTek package markings resolve through the Micron-like lookup path, while SpecTek PNs should not
+    // inherit Micron FDB-combined fields.
     if (info.vendor === "spectek") {
       return info;
     }

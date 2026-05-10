@@ -1,11 +1,11 @@
 # FDBGen 文档
 
-`@itxtech/fdnext-fdbgen` 是 `fdnext` 内置的独立 TypeScript 实现，用于从本地数据目录生成 `fdb.json`。当前 raw FlashDB 数据目录是仓库外部的 `../fdfdb`，raw 目录解析逻辑参考 PHP 版 `../FlashDetector/FDBGen`。
+`@itxtech/fdnext-fdbgen` 是 `fdnext` 内置的独立 TypeScript 实现，用于从本地数据目录生成 `fdb.json`。当前 raw FlashDB 数据目录是仓库外部的 `../fdfdb`，raw 目录由仓库内 controller / vendor registry 解析并归一化。
 
 ## 功能范围
 
 - 从多种输入来源合并 PN 与 FlashId 数据
-- 兼容 FlashDetector raw FlashDB 子目录（`smff/smufd/smssd/jm/mk/ma/sf/al/cbm/is/ps/ys/fc`）
+- 支持 raw FlashDB 子目录（`smff/smufd/smssd/jm/mk/ma/sf/al/cbm/is/ps/ys/fc`）
 - 归一化厂商名与主键格式（Vendor/PN/FlashId）
 - 按确定性 PN 前缀校正厂商归属，避免 `MT29F...` 被放入 Samsung 等错误厂商桶
 - 清理无效 FlashId、残缺 PN 别名与悬空 `iddb.n` 反向引用
@@ -40,7 +40,7 @@ pnpm fdbgen:generate --input <dataset-dir> --output <fdb.json> --version <ver> [
 pnpm -s tsx ./packages/fdbgen/src/cli.ts build --input ../fdfdb --output packages/resources/resources/fdb.json --version 79 --pretty
 ```
 
-`mdb` 爬取工具（参考 FlashDetector 的 `microndb` 流程）：
+`mdb` 爬取工具：
 
 ```bash
 node packages/fdbgen/dist/cli.js crawl-mdb --file <mdb.json> [options]
@@ -102,7 +102,7 @@ pnpm fdbgen:crawl-mdb-from-fbga -- --file packages/resources/resources/mdb.json
 
 ### Raw FlashDB
 
-当前底层数据目录为 `../fdfdb`，它是独立 raw 数据文件夹，不是已生成的 `packages/resources/resources/fdb.json`。生成器发现以下任一子目录时会按 raw 模式加载，并按 PHP `FDBGen` 的生成器顺序合并：
+当前底层数据目录为 `../fdfdb`，它是独立 raw 数据文件夹，不是已生成的 `packages/resources/resources/fdb.json`。生成器发现以下任一子目录时会按 raw 模式加载，并按固定 controller 顺序合并：
 
 ```text
 smff/
@@ -243,7 +243,7 @@ dataset/
 - `yeestor.ts`：`ys`
 - `first-chip.ts`：`fc`
 
-主生成器通过 controller registry 维持 PHP `FDBGen` 的加载顺序，具体解析逻辑由对应控制器厂商文件负责。
+主生成器通过 controller registry 维持固定加载顺序，具体解析逻辑由对应控制器厂商文件负责。
 
 ### 加载顺序
 

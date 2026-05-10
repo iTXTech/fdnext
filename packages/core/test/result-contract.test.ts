@@ -204,7 +204,7 @@ const expectedResultFixtures = [
   "ufs.part.decode.json"
 ];
 
-assert.deepEqual(resultFixtureNames(), expectedResultFixtures, "Phase 0 must keep one schema fixture per current product family");
+assert.deepEqual(resultFixtureNames(), expectedResultFixtures, "result contract must keep one schema fixture per current product family");
 
 for (const name of expectedResultFixtures) {
   const fixture = loadResultFixture(name);
@@ -227,7 +227,7 @@ assertValid("capabilities fixture", fdnextCapabilitiesJsonSchema, parseJson(join
 assert.deepEqual(
   Object.keys(fdnextOperationInputJsonSchemas).sort(),
   ["decodeIdentifier", "decodePart", "searchIdentifiers", "searchParts"],
-  "operation input schemas must cover every Phase 0 public operation input"
+  "operation input schemas must cover every public operation input"
 );
 
 assertValid("decodePart input", decodePartInputJsonSchema, {

@@ -1,8 +1,7 @@
 import { VENDOR_PATCH } from "./constants";
 import { normalizePartNumber } from "./utils/normalize";
 
-// These lookup keys mirror the upstream PHP FDB lookup: keep the displayed PN intact,
-// but query controller/FDB support with the vendor's canonical database key.
+// Keep the displayed PN intact, but query controller/FDB support with the vendor's canonical database key.
 const MICRON_LIKE_PACKAGE_SUFFIXES = new Set([
   "WP",
   "WC",

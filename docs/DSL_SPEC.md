@@ -261,7 +261,7 @@ import rules from "./packs/xxx.json" with { type: "json" };
   - 例如 `"1"` 表示第 1 个字节（厂商 ID），`"2"` 表示第 2 个字节。
 - 输入 NAND Flash ID 以 12 个 hex 字符（6 字节）为基准；不足会由 core 的内部 NAND Flash ID decoder 在末尾补 `0`。
 - 每个字段由：
-  - `dq`: bit 位列表（与 PHP 参考实现一致，顺序影响拼接）
+  - `dq`: bit 位列表，按规则定义顺序拼接
   - `def`: 从 bitfield 数值（字符串）映射到输出值（number/string/bool）
 - 字段名以 `ext:` 开头会写入 `ext` 字段（例如 `ext:edo`）。
 

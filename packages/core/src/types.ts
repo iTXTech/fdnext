@@ -73,7 +73,7 @@ export interface InternalIdentifierInfo {
   processNode?: string;
   cellLevel?: number | string;
   voltage?: string;
-  // PHP json_encode(empty associative array) yields [], not {}.
+  // Some source records encode empty maps as [].
   ext?: Record<string, unknown> | unknown[];
   controllers?: string[];
   partNumbers?: string[];
