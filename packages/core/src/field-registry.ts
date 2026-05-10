@@ -447,7 +447,7 @@ export const fdnextFieldRegistry = {
   },
   controller: {
     key: "controller",
-    valueKind: "string",
+    valueKind: "string_list",
     defaultLabel: "Controller",
     recommendedBlock: "controllers",
     importance: "secondary"

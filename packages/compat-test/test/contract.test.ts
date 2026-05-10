@@ -202,6 +202,13 @@ assert.ok(inferredIdentifierSearch.items.every((item) =>
     !/\s/.test(String(relation.action?.input.query ?? ""))
   )
 ));
+const micronIdentifierSearch = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10 });
+assert.ok(micronIdentifierSearch.items.every((item) => item.device.vendor.id !== "unknown"), "identifier search should expose inferred vendors");
+const richIdentifierHit = micronIdentifierSearch.items.find((item) => item.label === "2C84643CA500");
+assert.ok(richIdentifierHit);
+const richIdentifierController = richIdentifierHit.fields?.find((field) => field.key === "controller");
+assert.ok(Array.isArray(richIdentifierController?.value), "identifier search should expose controller lists");
+assert.ok((richIdentifierController.value as unknown[]).includes("SM3270AC"));
 
 assert.equal(
   engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng", constraints: { chipKind: "dram", strict: true } }).status,
@@ -282,6 +289,10 @@ assert.ok(collectResultFields(nandDecode.blocks).some((field) => (
 for (const key of ["ce_count", "rb_count", "channel_count"] as const) {
   assert.ok(collectResultFields(nandDecode.blocks).some((field) => field.key === key && field.value === 1), `NAND decode should expose ${key}`);
 }
+const micronFbgaNandDecode = engine.decodePart({ query: "NW711", lang: "eng" });
+const micronFbgaController = collectResultFields(micronFbgaNandDecode.blocks).find((field) => field.key === "controller");
+assert.ok(Array.isArray((micronFbgaController as { value?: unknown }).value), "NAND decode should expose all supported controllers as a list");
+assert.ok(((micronFbgaController as { value: unknown[] }).value).includes("SM3270AC"));
 const nandIdentifierRelations = nandDecode.relations.filter((relation) => relation.kind === "identifier_for" && relation.target.idScheme === "nand.flash_id");
 assert.ok(nandIdentifierRelations.length > 1);
 assert.ok(nandIdentifierRelations.every((relation) => (

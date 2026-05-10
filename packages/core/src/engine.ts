@@ -713,6 +713,9 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
     info.flashId = record.id ?? [];
     info.controller = mergeStringArray(info.controller, record.t ?? []);
+    for (const id of info.flashId) {
+      info.controller = mergeStringArray(info.controller, findFlashIdRecord(fdb, id)?.t);
+    }
 
     if ((info.processNode == null || info.processNode === UNKNOWN) && record.l) {
       info.processNode = record.l;
@@ -945,31 +948,48 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     };
   };
 
-  const searchNandFlashIdRecords = (id: string, opts: SearchOptions = {}): Record<string, import("./types").FlashIdRecord> => {
+  const searchNandFlashIds = (id: string, opts: SearchOptions = {}): string[] => {
     const query = normalizeFlashId(id);
     const partMatch = opts.partialMatch ?? true;
     const limit = opts.limit ?? 0;
 
     if (!partMatch) {
       const exact = normalizedIndexes.identifierIndex.get(query);
-      return exact ? { [query]: exact.record } : {};
+      return exact ? [query] : [];
     }
 
-    const result: Record<string, import("./types").FlashIdRecord> = {};
-    let resultCount = 0;
+    const result: string[] = [];
 
-    for (const [flashId, record] of normalizedIndexes.identifierIndex.entries()) {
-      if (limit > 0 && resultCount >= limit) {
+    for (const flashId of normalizedIndexes.identifierIndex.keys()) {
+      if (limit > 0 && result.length >= limit) {
         break;
       }
       if (!contains(flashId, query)) {
         continue;
       }
-      result[flashId] = record.record;
-      resultCount += 1;
+      result.push(flashId);
     }
 
     return result;
+  };
+
+  const decodeNandFlashIdSearchHit = (id: string): InternalIdentifierInfo => {
+    const info = decodeNandFlashIdRaw(id);
+    const exactRecord = findFlashIdRecord(fdb, id);
+    if (!exactRecord) {
+      return {
+        ...info,
+        id
+      };
+    }
+    const fdbVendor = inferSingleVendorFromPartReferences(exactRecord.n);
+    return {
+      ...info,
+      id,
+      controllers: mergeStringArray(info.controllers, exactRecord.t),
+      partNumbers: mergeStringArray(info.partNumbers, exactRecord.n),
+      ...(fdbVendor && info.vendor !== fdbVendor ? { vendor: fdbVendor } : {})
+    };
   };
 
   const compactIdentifierInput = (query: string): string => query.toUpperCase().replaceAll(/[\s,._:-]+/g, "");
@@ -1162,7 +1182,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         };
       }
       return buildIdentifierSearchResult(
-        normalized ? searchNandFlashIdRecords(normalized, { lang: input.lang, limit: input.limit }) : {},
+        normalized ? searchNandFlashIds(normalized, { lang: input.lang, limit: input.limit }).map(decodeNandFlashIdSearchHit) : [],
         {
           query: input.query,
           normalized: normalized || input.query,

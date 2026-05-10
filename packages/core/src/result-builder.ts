@@ -34,7 +34,7 @@ import {
   type SearchResultItem,
   type VendorIdentity
 } from "./result";
-import type { InternalIdentifierInfo, FlashIdRecord, InternalPartInfo, LangPacks } from "./types";
+import type { InternalIdentifierInfo, InternalPartInfo, LangPacks } from "./types";
 import { normalizeFlashId, normalizePartNumber } from "./utils/normalize";
 
 export interface ResultBuilderContext {
@@ -63,6 +63,23 @@ function asNumber(value: unknown): number | undefined {
     return value;
   }
   return undefined;
+}
+
+function knownStringList(values: unknown[] | undefined): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const value of values ?? []) {
+    if (!isKnownInfoValue(value)) {
+      continue;
+    }
+    const text = String(value);
+    if (seen.has(text)) {
+      continue;
+    }
+    seen.add(text);
+    out.push(text);
+  }
+  return out;
 }
 
 function fdnextMetadata(info: InternalPartInfo): Record<string, unknown> {
@@ -250,11 +267,9 @@ function fieldMapFromPart(info: InternalPartInfo, device: DeviceIdentity, ctx: R
     fields.set(fieldKey, createField(fieldKey, fieldValue, ctx, lang));
   }
 
-  for (const controller of info.controller ?? []) {
-    if (isKnownInfoValue(controller)) {
-      addField(fields, createField("controller", controller, ctx, lang));
-      break;
-    }
+  const controllers = knownStringList(info.controller);
+  if (controllers.length > 0) {
+    addField(fields, createField("controller", controllers, ctx, lang));
   }
 
   const emittedFields = fdnextMetadata(info).fields;
@@ -652,11 +667,9 @@ function fieldMapFromIdentifier(info: InternalIdentifierInfo, device: DeviceIden
       addField(fields, createField(fieldKey as FdnextFieldKey, value as FdnextFieldValueData, ctx, lang));
     }
   }
-  for (const controller of info.controllers ?? []) {
-    if (isKnownInfoValue(controller)) {
-      addField(fields, createField("controller", controller, ctx, lang));
-      break;
-    }
+  const controllers = knownStringList(info.controllers);
+  if (controllers.length > 0) {
+    addField(fields, createField("controller", controllers, ctx, lang));
   }
   return fields;
 }
@@ -761,39 +774,19 @@ export function buildPartSearchResult(
 }
 
 export function buildIdentifierSearchResult(
-  hits: Record<string, FlashIdRecord>,
+  hits: InternalIdentifierInfo[],
   input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null },
   ctx: ResultBuilderContext
 ): IdentifierSearchResult {
   const constraints = { idScheme: "nand.flash_id", ...(input.constraints ?? {}) } as OperationConstraints;
-  const items: SearchResultItem[] = Object.entries(hits).map(([id, record]) => {
-    const device: DeviceIdentity = {
-      domain: "memory",
-      chipKind: "raw_nand",
-      identifier: id,
-      idScheme: "nand.flash_id",
-      vendor: vendorIdentity("unknown", ctx, input.lang)
-    };
-    const fields = new Map<FdnextFieldKey, FieldValue>();
-    if (asNumber(record.s)) addField(fields, createField("page_size", Number(record.s) * 1024, ctx, input.lang));
+  const items: SearchResultItem[] = hits.map((info) => {
+    const device = deviceIdentityFromIdentifier(info, ctx, input.lang);
+    const fields = detailFields(fieldMapFromIdentifier(info, device, ctx, input.lang));
     return {
-      label: id,
+      label: info.id,
       device,
       fields: [...fields.values()],
-      relations: (record.n ?? []).map((partReference) => {
-        const target = parsePartReference(partReference, ctx, input.lang);
-        return {
-          kind: "identifier_for",
-          source: {
-            identifier: id,
-            idScheme: "nand.flash_id"
-          },
-          target: {
-            partNumber: target.partNumber
-          },
-          action: partDecodeAction(target.partNumber, ctx, input.lang, target.device)
-        };
-      })
+      relations: identifierRelations(info, ctx, input.lang)
     };
   });
 

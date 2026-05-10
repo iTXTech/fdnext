@@ -57,7 +57,7 @@
 | `storage_interface` | managed NAND 或 MCP storage 接口 | `eMMC 5.1`, `UFS 4.0` |
 | `interface_type` | 接口模式、Gear、lane 或 HS 模式 | `HS400`, `Gear 4 / 2-Lane` |
 | `toggle` | Toggle DDR 版本或标记 | `4.0` |
-| `controller` / `controller_code` | 控制器描述或控制器 token | `UFS 4.1 G5-2Lane Controller`, `AX` |
+| `controller` / `controller_code` | 支持控制器列表或控制器 token | `["SM2244LT", "SM3270AC"]`, `AX` |
 | `operation_temperature` | 工作温度范围或温度等级 | `-40C ~ 105C`, `Automotive Grade 2` |
 | `assembly` / `segment` / `sku` | 厂商封装、产品分段或 SKU token 展开 | `Client Component` |
 | `lead_free` / `halogen_free` / `wafer` / `multi_chip` / `cu` | 环保、晶圆、多芯片或铜工艺标记 | `true` |
@@ -86,7 +86,7 @@ NAND Flash ID 通过 `decodeIdentifier` / `searchIdentifiers` 输出，`input.co
 | `voltage` / `interface_type` / `ecc_level` | 电压、接口模式和 ECC 要求 | `interface` |
 | `timing_mode_async` / `edo` / `interleave` / `cache` / `revision` | timing / EDO / interleave / cache / revision 扩展字段 | `timing` |
 | `enterprise` | Enterprise 标记 | `additional` |
-| `controller` | 关联控制器 | `controllers` |
+| `controller` | 关联控制器列表 | `controllers` |
 
 相关 PN 使用 `identifier_for` relation，不再拼进翻译后的字符串字段；可跳转时在 relation 上挂 `action`。
 
