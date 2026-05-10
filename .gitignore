@@ -7,3 +7,5 @@ coverage
 .tmp
 *.tsbuildinfo
 .idea
+.wrangler
+.wrangler-bundle

@@ -234,7 +234,7 @@ pm2 logs fdnext-server
 
 ### 4.1 Cloudflare Workers
 
-`@itxtech/fdnext-cf-workers` 暴露默认 Worker，也可以用 `createCfWorkersAdapter()` 注入自定义 runtime options：
+`@itxtech/fdnext-cf-workers` 暴露默认 Worker，也可以用 `createCfWorkersAdapter()` 注入自定义 runtime options。独立部署说明和 `wrangler.jsonc` 约定见 [Cloudflare Workers 部署](CF_WORKERS.md)。
 
 ```ts
 import worker from "@itxtech/fdnext-cf-workers";

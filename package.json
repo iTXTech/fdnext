@@ -15,6 +15,10 @@
     "typecheck": "pnpm -r --if-present typecheck && tsc -p tsconfig.json --noEmit --pretty false",
     "server:dev": "pnpm -C packages/server dev",
     "server:start": "pnpm -C packages/server start",
+    "cf-workers:build": "pnpm -C packages/runtime build && pnpm -C packages/cf-workers build",
+    "cf-workers:dev": "pnpm dlx wrangler dev --config wrangler.jsonc",
+    "cf-workers:deploy": "pnpm dlx wrangler deploy --config wrangler.jsonc",
+    "cf-workers:deploy:dry-run": "pnpm dlx wrangler deploy --dry-run --outdir .wrangler-bundle --config wrangler.jsonc",
     "fdbgen:build": "pnpm -C packages/fdbgen build",
     "fdbgen:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build",
     "fdbgen:crawl-mdb": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb",
@@ -23,8 +27,8 @@
     "resources:update-micron-fbga": "pnpm -s tsx ./scripts/update-micron-fbga-codes.ts"
   },
   "devDependencies": {
-    "@types/node": "^22.13.1",
+    "@types/node": "^25.6.2",
     "tsx": "^4.21.0",
-    "typescript": "^5.7.3"
+    "typescript": "^6.0.3"
   }
 }

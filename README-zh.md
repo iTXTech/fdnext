@@ -59,6 +59,7 @@ pnpm test
 README 只作为项目概览入口。统一文档索引是 [docs/README.md](docs/README.md)，集成、运行和维护用法放在 `docs/` 目录：
 
 - [集成指南](docs/INTEGRATION.md)：SDK、浏览器、HTTP Server、部署和接口用法
+- [Cloudflare Workers 部署](docs/CF_WORKERS.md)：Wrangler 配置、本地开发和部署
 - [FDBGen 文档](docs/FDBGEN.md)：FDB 生成、MDB 爬取、输入布局、清理规则和 crawler 行为
 - [DSL 规范](docs/DSL_SPEC.md)：PN 和 typed identifier 规则编写
 - [PN 编码资料索引](docs/pn_code/README.md)：厂商和产品线资料

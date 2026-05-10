@@ -59,6 +59,7 @@ pnpm test
 README only provides the project overview. The unified documentation index is [docs/README.md](docs/README.md); integration, runtime, and maintenance usage lives under `docs/`:
 
 - [Integration guide](docs/INTEGRATION.md) for SDK, browser, HTTP server, deployment, and endpoint usage
+- [Cloudflare Workers deployment](docs/CF_WORKERS.md) for Wrangler config, local dev, and deployment
 - [FDBGen documentation](docs/FDBGEN.md) for FDB generation, MDB crawling, input layouts, cleanup rules, and crawler behavior
 - [DSL specification](docs/DSL_SPEC.md) for PN and typed identifier rule authoring
 - [PN code reference index](docs/pn_code/README.md) for vendor/product-line references

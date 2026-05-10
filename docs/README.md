@@ -5,6 +5,7 @@ This directory is the canonical home for fdnext usage, maintenance, and rule-aut
 | Document | Scope |
 | --- | --- |
 | [Integration guide](INTEGRATION.md) | SDK setup, browser resources, server startup, deployment notes, and HTTP endpoints |
+| [Cloudflare Workers deployment](CF_WORKERS.md) | Wrangler config, local dev, deployment, and Worker-specific External Link notes |
 | [FDBGen documentation](FDBGEN.md) | FDB generation, MDB crawling, raw input layout, cleanup rules, and crawler behavior |
 | [DSL specification](DSL_SPEC.md) | PN and typed identifier DSL authoring, output fields, and validation commands |
 | [PN code reference index](pn_code/README.md) | Vendor/product-line PN reference documents and maintenance boundaries |
