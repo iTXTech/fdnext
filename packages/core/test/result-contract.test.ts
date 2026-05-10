@@ -217,6 +217,12 @@ assert.deepEqual(resultFixtureNames(), expectedResultFixtures, "result contract 
 for (const name of expectedResultFixtures) {
   const fixture = loadResultFixture(name);
   assertValid(name, fdnextResultJsonSchema, fixture);
+  if (isObject(fixture)) {
+    assert.equal("actions" in fixture, false, `${name}: runnable actions should live on relations, not top-level actions`);
+    if (Array.isArray(fixture.items)) {
+      assert.ok(fixture.items.every((item) => !isObject(item) || !("actions" in item)), `${name}: search item actions should live on relations`);
+    }
+  }
   if (isObject(fixture) && (fixture.operation === "part.decode" || fixture.operation === "identifier.decode") && fixture.status === "ok") {
     assert.equal(typeof fixture.subtitle, "string", `${name}: ok decode result should expose subtitle`);
     assert.ok((fixture.subtitle as string).length > 0, `${name}: subtitle should not be empty`);

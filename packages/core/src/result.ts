@@ -154,6 +154,7 @@ export interface Relation {
   source?: RelationEndpoint;
   target: RelationEndpoint;
   fields?: FieldValue[];
+  action?: Action;
 }
 
 export interface OperationConstraints {
@@ -225,7 +226,6 @@ export interface SearchResultItem {
   badges?: string[];
   fields?: FieldValue[];
   relations?: Relation[];
-  actions?: Action[];
 }
 
 export interface FdnextResultBase<O extends FdnextOperation = FdnextOperation> {
@@ -241,7 +241,6 @@ export interface PartDecodeResult extends FdnextResultBase<"part.decode"> {
   device?: DeviceIdentity;
   blocks: ResultBlock[];
   relations: Relation[];
-  actions: Action[];
   candidates?: Candidate[];
 }
 
@@ -249,21 +248,18 @@ export interface IdentifierDecodeResult extends FdnextResultBase<"identifier.dec
   device?: DeviceIdentity;
   blocks: ResultBlock[];
   relations: Relation[];
-  actions: Action[];
   candidates?: Candidate[];
 }
 
 export interface PartSearchResult extends FdnextResultBase<"part.search"> {
   items: SearchResultItem[];
   relations?: Relation[];
-  actions?: Action[];
   candidates?: Candidate[];
 }
 
 export interface IdentifierSearchResult extends FdnextResultBase<"identifier.search"> {
   items: SearchResultItem[];
   relations?: Relation[];
-  actions?: Action[];
   candidates?: Candidate[];
 }
 

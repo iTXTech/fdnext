@@ -170,22 +170,17 @@ function assertSearchMarkingRelation(query: string, expectedPartNumber: string):
   assert.ok(item.badges?.includes("Micron FBGA"), `${query} should expose a marking badge`);
   assert.equal(item.device.markingCode, query, `${query} should expose markingCode in device identity`);
   assert.ok(!item.fields?.some((field) => field.key === "marking_code"), `${query} should not duplicate markingCode as a field`);
-  assert.ok(
-    result.relations?.some((relation) =>
-      relation.kind === "marking_for" &&
-      relation.source?.markingCode === query &&
-      relation.target.partNumber === expectedPartNumber
-    ),
-    `${query} should expose a marking_for relation`
+  const relation = result.relations?.find((candidate) =>
+    candidate.kind === "marking_for" &&
+    candidate.source?.markingCode === query &&
+    candidate.target.partNumber === expectedPartNumber
   );
-  assert.ok(
-    item.actions?.some((action) =>
-      action.operation === "part.decode" &&
-      action.input.query === expectedPartNumber &&
-      action.input.constraints?.chipKind === "dram"
-    ),
-    `${query} should include a ready-to-run DRAM decode action`
-  );
+  assert.ok(relation, `${query} should expose a marking_for relation`);
+  const action = relation.action;
+  assert.ok(action, `${query} relation should expose a decode action`);
+  assert.equal(action.operation, "part.decode", `${query} relation should expose a decode action`);
+  assert.equal(action.input.query, expectedPartNumber, `${query} relation action should decode the related part`);
+  assert.equal(action.input.constraints?.chipKind, "dram", `${query} relation action should keep DRAM constraints`);
 }
 
 function publicDramType(value: unknown): string | undefined {

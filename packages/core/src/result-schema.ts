@@ -219,7 +219,8 @@ const resultDefs = {
       label: { type: "string", minLength: 1 },
       source: { $ref: "#/$defs/relationEndpoint" },
       target: { $ref: "#/$defs/relationEndpoint" },
-      fields: { type: "array", items: { $ref: "#/$defs/fieldValue" } }
+      fields: { type: "array", items: { $ref: "#/$defs/fieldValue" } },
+      action: { $ref: "#/$defs/action" }
     },
     additionalProperties: false
   },
@@ -267,8 +268,7 @@ const resultDefs = {
       device: { $ref: "#/$defs/deviceIdentity" },
       badges: { type: "array", items: { type: "string", minLength: 1 } },
       fields: { type: "array", items: { $ref: "#/$defs/fieldValue" } },
-      relations: { type: "array", items: { $ref: "#/$defs/relation" } },
-      actions: { type: "array", items: { $ref: "#/$defs/action" } }
+      relations: { type: "array", items: { $ref: "#/$defs/relation" } }
     },
     additionalProperties: false
   }
@@ -277,7 +277,7 @@ const resultDefs = {
 function decodeResultSchema(operation: "part.decode" | "identifier.decode"): JsonSchema {
   return {
     type: "object",
-    required: ["schemaVersion", "operation", "status", "input", "blocks", "relations", "actions", "warnings"],
+    required: ["schemaVersion", "operation", "status", "input", "blocks", "relations", "warnings"],
     properties: {
       schemaVersion: { const: FDNEXT_RESULT_SCHEMA_VERSION },
       operation: { const: operation },
@@ -287,7 +287,6 @@ function decodeResultSchema(operation: "part.decode" | "identifier.decode"): Jso
       device: { $ref: "#/$defs/deviceIdentity" },
       blocks: { type: "array", items: { $ref: "#/$defs/resultBlock" } },
       relations: { type: "array", items: { $ref: "#/$defs/relation" } },
-      actions: { type: "array", items: { $ref: "#/$defs/action" } },
       candidates: { type: "array", items: { $ref: "#/$defs/candidate" } },
       warnings: { type: "array", items: { $ref: "#/$defs/warning" } }
     },
@@ -306,7 +305,6 @@ function searchResultSchema(operation: "part.search" | "identifier.search"): Jso
       input: { $ref: "#/$defs/normalizedInput" },
       items: { type: "array", items: { $ref: "#/$defs/searchResultItem" } },
       relations: { type: "array", items: { $ref: "#/$defs/relation" } },
-      actions: { type: "array", items: { $ref: "#/$defs/action" } },
       candidates: { type: "array", items: { $ref: "#/$defs/candidate" } },
       warnings: { type: "array", items: { $ref: "#/$defs/warning" } }
     },

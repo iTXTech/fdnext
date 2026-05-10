@@ -30,7 +30,7 @@
           "label": "Density",
           "value": 2097152,
           "unit": "Mbit",
-          "display": "2Tb",
+          "display": "256GB",
           "importance": "primary"
         },
         {
@@ -144,6 +144,5 @@
     }
   ],
   "relations": [],
-  "actions": [],
   "warnings": []
 }

@@ -36,7 +36,7 @@
           "label": "Density",
           "value": 524288,
           "unit": "Mbit",
-          "display": "512Gb",
+          "display": "64GB",
           "importance": "primary"
         },
         {
@@ -149,6 +149,5 @@
       }
     }
   ],
-  "actions": [],
   "warnings": []
 }

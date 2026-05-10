@@ -1003,7 +1003,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           },
           blocks: [],
           relations: [],
-          actions: [],
           warnings: [{ code: "empty_query", message: "Part query is empty", severity: "warning" }]
         };
       }
@@ -1021,7 +1020,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           },
           blocks: [],
           relations: [],
-          actions: [],
           warnings: classification.warnings
         };
       }
@@ -1038,7 +1036,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           },
           blocks: [],
           relations: [],
-          actions: [],
           candidates: publicCandidatesFromPartClassification(classification.candidates, input.lang),
           warnings: classification.warnings
         };
@@ -1102,7 +1099,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           },
           blocks: [],
           relations: [],
-          actions: [],
           warnings: [{ code: "missing_id_scheme", message: "Identifier scheme is required unless the input is a clear NAND Flash ID", severity: "warning" }]
         };
       }
@@ -1119,7 +1115,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           },
           blocks: [],
           relations: [],
-          actions: [],
           warnings: [{ code: "unsupported_id_scheme", message: `Unsupported identifier scheme: ${idScheme}`, severity: "warning" }]
         };
       }
@@ -1136,7 +1131,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           },
           blocks: [],
           relations: [],
-          actions: [],
           warnings: [{ code: "invalid_nand_flash_id", message: "NAND Flash ID must be an even-length hexadecimal byte string", severity: "warning" }]
         };
       }

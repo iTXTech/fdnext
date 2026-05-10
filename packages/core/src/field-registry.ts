@@ -37,6 +37,21 @@ function formatMbit(value: FdnextFieldValueData, unit?: string): string | undefi
   return `${numeric}${units[index]}`;
 }
 
+function formatMbitAsBytes(value: FdnextFieldValueData, unit?: string): string | undefined {
+  if (typeof value !== "number" || unit !== "Mbit") {
+    return undefined;
+  }
+
+  const units = ["MB", "GB", "TB"] as const;
+  let numeric = value / 8;
+  let index = 0;
+  while (numeric >= 1024 && units[index + 1]) {
+    numeric /= 1024;
+    index += 1;
+  }
+  return `${numeric}${units[index]}`;
+}
+
 function formatBytes(value: FdnextFieldValueData, unit?: string): string | undefined {
   if (typeof value !== "number" || unit !== "byte") {
     return undefined;
@@ -117,7 +132,7 @@ export const fdnextFieldRegistry = {
     units: ["Mbit"],
     recommendedBlock: "storage",
     importance: "primary",
-    format: formatMbit
+    format: formatMbitAsBytes
   },
   die_density: {
     key: "die_density",
@@ -127,7 +142,7 @@ export const fdnextFieldRegistry = {
     units: ["Mbit"],
     recommendedBlock: "geometry",
     importance: "secondary",
-    format: formatMbit
+    format: formatMbitAsBytes
   },
   component_density: {
     key: "component_density",
@@ -137,7 +152,7 @@ export const fdnextFieldRegistry = {
     units: ["Mbit"],
     recommendedBlock: "components",
     importance: "secondary",
-    format: formatMbit
+    format: formatMbitAsBytes
   },
   storage_density: {
     key: "storage_density",
@@ -147,7 +162,7 @@ export const fdnextFieldRegistry = {
     units: ["Mbit"],
     recommendedBlock: "storage",
     importance: "primary",
-    format: formatMbit
+    format: formatMbitAsBytes
   },
   dram_density: {
     key: "dram_density",

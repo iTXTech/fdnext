@@ -31,22 +31,8 @@
           "label": "Density",
           "value": 2048,
           "unit": "Mbit",
-          "display": "2Gb",
+          "display": "256MB",
           "importance": "primary"
-        }
-      ],
-      "actions": [
-        {
-          "name": "part.decode",
-          "label": "Decode Part",
-          "operation": "part.decode",
-          "input": {
-            "query": "MT29F2G08ABDHC-ET:D",
-            "constraints": {
-              "vendor": "micron",
-              "chipKind": "raw_nand"
-            }
-          }
         }
       ]
     }
@@ -66,6 +52,18 @@
           "vendor": {
             "id": "micron",
             "name": "Micron"
+          }
+        }
+      },
+      "action": {
+        "name": "part.decode",
+        "label": "Decode Part",
+        "operation": "part.decode",
+        "input": {
+          "query": "MT29F2G08ABDHC-ET:D",
+          "constraints": {
+            "vendor": "micron",
+            "chipKind": "raw_nand"
           }
         }
       }

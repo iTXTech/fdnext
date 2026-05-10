@@ -181,7 +181,7 @@ DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前）。公开�
 
 - `device` 承载 vendor、chip kind、product type、PN / identifier / marking 等身份信息；这些身份字段不再复制到 `blocks`。
 - decode 结果提供 `subtitle` 作为列表/详情页的简短摘要，格式由 result builder 根据 chip kind、vendor、容量、cell level、DRAM 组合等字段生成。
-- `blocks`、`relations`、`actions` 使用 canonical key 和结构化对象。
+- `blocks` 使用 canonical key 和结构化对象；可跳转能力放在对应 `relations[].action`，不再输出独立的顶层 `actions[]`。
 - `label` / `display` / warning message / block label 由 field registry 与语言包生成，调用方不应从翻译文本反推语义。
 - 未知字段直接省略，不补旧响应里的 `Unknown`、空数组或 NAND-only 默认槽位。
 

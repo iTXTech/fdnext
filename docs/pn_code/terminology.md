@@ -37,14 +37,16 @@
 - `marking_for`: marking code 与真实 PN 的关系。
 - `component`: eMCP/uMCP 这类复合产品的 storage / DRAM 子组件。
 
+当 relation 可以直接跳转到另一个解析动作时，使用 `relations[].action` 承载该动作；不要再额外输出独立的顶层 `actions[]`。
+
 ## NAND / Managed NAND
 
 | 字段 | 含义 | 示例 |
 | --- | --- | --- |
-| `density` | 当前芯片或 storage 结果的容量，`unit = Mbit` | `65536` / `64Gb` |
-| `component_density` | 封装或组件总容量，常用于 MCP/eMCP/uMCP 子组件 | `524288` / `512Gb` |
-| `storage_density` | MCP/eMCP/uMCP 内 storage 子系统容量 | `262144` / `256Gb` |
-| `die_density` | 单颗 NAND die 容量 | `1024` / `1Gb` |
+| `density` | 当前芯片或 storage 结果的容量，`unit = Mbit`，`display` 用 Bytes | `65536` / `8GB` |
+| `component_density` | 封装或组件总容量，常用于 MCP/eMCP/uMCP 子组件，`display` 用 Bytes | `524288` / `64GB` |
+| `storage_density` | MCP/eMCP/uMCP 内 storage 子系统容量，`display` 用 Bytes | `262144` / `32GB` |
+| `die_density` | 单颗 NAND die 容量，`display` 用 Bytes | `1024` / `128MB` |
 | `die_stack` | 封装内 die 堆叠数量或厂商堆叠代号 | `8-die package` |
 | `generation_info` | NAND 产品代际、层数或制程节点 | `V8 236L` |
 | `storage_interface` | managed NAND 或 MCP storage 接口 | `eMMC 5.1`, `UFS 4.0` |
@@ -76,7 +78,7 @@ NAND Flash ID 通过 `decodeIdentifier` / `searchIdentifiers` 输出，`input.co
 | `timing_mode_async` / `edo` | timing / EDO 扩展字段 | `timing` |
 | `controller` | 关联控制器 | `controllers` |
 
-相关 PN 使用 `identifier_for` relation，不再拼进翻译后的字符串字段。
+相关 PN 使用 `identifier_for` relation，不再拼进翻译后的字符串字段；可跳转时在 relation 上挂 `action`。
 
 ## DRAM
 

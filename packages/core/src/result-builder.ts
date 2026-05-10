@@ -434,30 +434,61 @@ function baseInput(query: string, normalized: string, constraints: OperationCons
   };
 }
 
-function partActions(info: InternalPartInfo, ctx: ResultBuilderContext, lang?: string | null): Action[] {
-  if (!Array.isArray(info.flashId) || info.flashId.length === 0) {
-    return [];
-  }
-  const identifier = info.flashId.map((id) => normalizeFlashId(String(id))).find((id) => id.length > 0);
-  if (!identifier) {
-    return [];
-  }
-  return [
-    {
-      name: "identifier.decode",
-      label: translateText(ctx, "action.identifier.decode.nand_flash_id", "Decode NAND Flash ID", lang),
-      operation: "identifier.decode",
-      input: {
-        query: identifier,
-        constraints: {
-          idScheme: "nand.flash_id"
-        }
+function identifierDecodeAction(identifier: string, ctx: ResultBuilderContext, lang?: string | null): Action {
+  return {
+    name: "identifier.decode",
+    label: translateText(ctx, "action.identifier.decode.nand_flash_id", "Decode NAND Flash ID", lang),
+    operation: "identifier.decode",
+    input: {
+      query: identifier,
+      constraints: {
+        idScheme: "nand.flash_id"
       }
     }
-  ];
+  };
 }
 
-function partRelations(info: InternalPartInfo, device: DeviceIdentity): Relation[] {
+function partDecodeConstraints(device?: DeviceIdentity): OperationConstraints | undefined {
+  if (!device) {
+    return undefined;
+  }
+  return {
+    ...(device.vendor.id !== "unknown" ? { vendor: device.vendor.id } : {}),
+    ...(device.chipKind !== "unknown" ? { chipKind: device.chipKind } : {}),
+    ...(device.productType ? { productType: device.productType } : {})
+  };
+}
+
+function partDecodeAction(partNumber: string, ctx: ResultBuilderContext, lang?: string | null, device?: DeviceIdentity): Action {
+  const constraints = partDecodeConstraints(device);
+  return {
+    name: "part.decode",
+    label: translateText(ctx, "action.part.decode", "Decode Part", lang),
+    operation: "part.decode",
+    input: {
+      query: partNumber,
+      ...(constraints && Object.keys(constraints).length > 0 ? { constraints } : {})
+    }
+  };
+}
+
+function normalizedFlashIds(values: unknown): string[] {
+  if (!Array.isArray(values)) {
+    return [];
+  }
+  const seen = new Set<string>();
+  const out: string[] = [];
+  for (const value of values) {
+    const id = normalizeFlashId(String(value));
+    if (id && !seen.has(id)) {
+      seen.add(id);
+      out.push(id);
+    }
+  }
+  return out;
+}
+
+function partRelations(info: InternalPartInfo, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Relation[] {
   const relations: Relation[] = [];
   if (device.markingCode && device.partNumber) {
     relations.push({
@@ -467,16 +498,18 @@ function partRelations(info: InternalPartInfo, device: DeviceIdentity): Relation
       },
       target: {
         partNumber: device.partNumber
-      }
+      },
+      action: partDecodeAction(device.partNumber, ctx, lang, device)
     });
   }
-  for (const id of info.flashId ?? []) {
+  for (const id of normalizedFlashIds(info.flashId)) {
     relations.push({
       kind: "identifier_for",
       target: {
         identifier: id,
         idScheme: "nand.flash_id"
-      }
+      },
+      action: identifierDecodeAction(id, ctx, lang)
     });
   }
   const components = fdnextMetadata(info).components;
@@ -542,8 +575,7 @@ export function buildPartDecodeResult(
     input: baseInput(input.query, input.normalized, constraints, input.lang),
     ...(known ? { subtitle: buildPartSubtitle(device, fields, ctx, input.lang), device } : {}),
     blocks: known ? buildBlocks(profileId, detailFieldMap, ctx, input.lang) : [],
-    relations: known ? partRelations(info, device) : [],
-    actions: known ? partActions(info, ctx, input.lang) : [],
+    relations: known ? partRelations(info, device, ctx, input.lang) : [],
     warnings: []
   };
 }
@@ -597,7 +629,7 @@ function fieldMapFromIdentifier(info: InternalIdentifierInfo, device: DeviceIden
   return fields;
 }
 
-function identifierRelations(info: InternalIdentifierInfo): Relation[] {
+function identifierRelations(info: InternalIdentifierInfo, ctx: ResultBuilderContext, lang?: string | null): Relation[] {
   return (info.partNumbers ?? []).map((partNumber) => ({
     kind: "identifier_for",
     source: {
@@ -606,7 +638,8 @@ function identifierRelations(info: InternalIdentifierInfo): Relation[] {
     },
     target: {
       partNumber
-    }
+    },
+    action: partDecodeAction(partNumber, ctx, lang)
   }));
 }
 
@@ -627,8 +660,7 @@ export function buildIdentifierDecodeResult(
     input: baseInput(input.query, input.normalized, constraints, input.lang),
     ...(known ? { subtitle: buildIdentifierSubtitle(device, fields, ctx, input.lang), device } : {}),
     blocks: known ? buildBlocks("nand.flash_id", detailFieldMap, ctx, input.lang) : [],
-    relations: known ? identifierRelations(info) : [],
-    actions: [],
+    relations: known ? identifierRelations(info, ctx, input.lang) : [],
     warnings: []
   };
 }
@@ -655,43 +687,32 @@ export function buildPartSearchResult(
       label: suggestion.partNumber,
       device,
       badges,
-      ...(fields.length > 0 ? { fields } : {}),
-      actions: [
-        {
-          name: "part.decode",
-          label: translateText(ctx, "action.part.decode", "Decode Part", input.lang),
-          operation: "part.decode",
-          input: {
-            query: suggestion.partNumber,
-            constraints: {
-              vendor: suggestion.vendor,
-              ...(chipKind !== "unknown" ? { chipKind } : {}),
-              ...(productType ? { productType } : {})
-            }
-          }
-        }
-      ]
+      ...(fields.length > 0 ? { fields } : {})
     };
   });
 
   const relations: Relation[] = suggestions
     .filter((suggestion) => suggestion.markingCode)
-    .map((suggestion) => ({
-      kind: "marking_for",
-      source: {
-        markingCode: suggestion.markingCode
-      },
-      target: {
+    .map((suggestion) => {
+      const targetDevice: DeviceIdentity = {
+        domain: "memory",
+        chipKind: suggestion.chipKind ?? "dram",
+        ...(suggestion.productType ? { productType: suggestion.productType } : {}),
         partNumber: suggestion.partNumber,
-        device: {
-          domain: "memory",
-          chipKind: suggestion.chipKind ?? "dram",
-          ...(suggestion.productType ? { productType: suggestion.productType } : {}),
+        vendor: vendorIdentity(suggestion.vendor, ctx, input.lang)
+      };
+      return {
+        kind: "marking_for",
+        source: {
+          markingCode: suggestion.markingCode
+        },
+        target: {
           partNumber: suggestion.partNumber,
-          vendor: vendorIdentity(suggestion.vendor, ctx, input.lang)
-        }
-      }
-    }));
+          device: targetDevice
+        },
+        action: partDecodeAction(suggestion.partNumber, ctx, input.lang, targetDevice)
+      };
+    });
 
   return {
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
@@ -732,7 +753,8 @@ export function buildIdentifierSearchResult(
         },
         target: {
           partNumber
-        }
+        },
+        action: partDecodeAction(partNumber, ctx, input.lang)
       }))
     };
   });

@@ -29,7 +29,7 @@
           "label": "Density",
           "value": 4096,
           "unit": "Mbit",
-          "display": "4Gb",
+          "display": "512MB",
           "importance": "primary"
         },
         {
@@ -126,18 +126,16 @@
       "target": {
         "identifier": "2CDC90A65400",
         "idScheme": "nand.flash_id"
-      }
-    }
-  ],
-  "actions": [
-    {
-      "name": "identifier.decode",
-      "label": "Decode NAND Flash ID",
-      "operation": "identifier.decode",
-      "input": {
-        "query": "2CDC90A65400",
-        "constraints": {
-          "idScheme": "nand.flash_id"
+      },
+      "action": {
+        "name": "identifier.decode",
+        "label": "Decode NAND Flash ID",
+        "operation": "identifier.decode",
+        "input": {
+          "query": "2CDC90A65400",
+          "constraints": {
+            "idScheme": "nand.flash_id"
+          }
         }
       }
     }

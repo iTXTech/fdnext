@@ -173,6 +173,6 @@ pm2 logs fdnext-server
 
 - 所有路由返回 JSON
 - decode 响应包含 `subtitle`，适合作为列表或详情页副标题；结构化身份仍以 `device` 为准，详情字段在 `blocks[].fields[]`
-- Identifier API 只处理真实 decodable identifier scheme。FBGA 等 marking code 通过 `part.search` 返回 `marking_for` relation。
+- Identifier API 只处理真实 decodable identifier scheme。FBGA 等 marking code 通过 `part.search` 返回 `marking_for` relation；可跳转动作放在对应的 `relations[].action`。
 - CORS 允许所有来源（`Access-Control-Allow-Origin: *`）
 - 服务端响应会包含 `X-Powered-By` header（用于运维识别）

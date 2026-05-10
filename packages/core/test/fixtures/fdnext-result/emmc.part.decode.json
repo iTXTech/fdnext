@@ -30,7 +30,7 @@
           "label": "Density",
           "value": 65536,
           "unit": "Mbit",
-          "display": "64Gb",
+          "display": "8GB",
           "importance": "primary"
         },
         {
@@ -114,6 +114,5 @@
     }
   ],
   "relations": [],
-  "actions": [],
   "warnings": []
 }

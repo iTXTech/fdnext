@@ -176,6 +176,7 @@ assert.ok(inferredIdentifier.blocks.some((block) => block.id === "controllers"))
 assert.ok(inferredIdentifier.blocks.some((block) => block.fields.some((field) => field.key === "blocks_per_lun")));
 assert.ok(inferredIdentifier.blocks.some((block) => block.fields.some((field) => field.key === "timing_mode_async")));
 assert.ok(inferredIdentifier.relations.some((relation) => relation.kind === "identifier_for" && relation.source?.idScheme === "nand.flash_id"));
+assert.ok(inferredIdentifier.relations.some((relation) => relation.action?.operation === "part.decode" && relation.action.input.query));
 
 const inferredIdentifierSearch = engine.searchIdentifiers({ query: "2C64", lang: "eng", limit: 2 });
 assert.equal(inferredIdentifierSearch.status, "ok");
@@ -210,15 +211,18 @@ assert.ok(markingItem, "Micron FBGA marking search should return a structured pa
 assert.equal(markingItem.device.chipKind, "dram");
 assert.equal(markingItem.device.markingCode, "C9BJZ");
 assert.ok(!markingItem.fields?.some((field) => field.key === "marking_code"));
-assert.ok(marking.relations?.some((relation) => relation.kind === "marking_for" && relation.source?.markingCode === "C9BJZ"));
-assert.ok(markingItem.actions?.some((action) => action.operation === "part.decode" && action.input.constraints?.chipKind === "dram"));
+const markingRelation = marking.relations?.find((relation) => relation.kind === "marking_for" && relation.source?.markingCode === "C9BJZ");
+assert.ok(markingRelation);
+assert.ok(markingRelation.action);
+assert.equal(markingRelation.action.operation, "part.decode");
+assert.equal(markingRelation.action.input.constraints?.chipKind, "dram");
 
 const markingDecode = engine.decodePart({ query: "C9BJZ", lang: "eng" });
 assert.equal(markingDecode.status, "ok");
 assert.equal(markingDecode.device?.partNumber, "CT40A1G8SA-62M:E");
 assert.equal(markingDecode.device?.markingCode, "C9BJZ");
 assert.ok(!collectResultFields(markingDecode.blocks).some((field) => field.key === "marking_code"));
-assert.ok(markingDecode.relations.some((relation) => relation.kind === "marking_for" && relation.source?.markingCode === "C9BJZ"));
+assert.ok(markingDecode.relations.some((relation) => relation.kind === "marking_for" && relation.source?.markingCode === "C9BJZ" && relation.action?.operation === "part.decode"));
 
 const markingDecodeAsIdentifier = engine.decodeIdentifier({ query: "C9BJZ", lang: "eng" });
 assert.equal(markingDecodeAsIdentifier.status, "invalid_input");
@@ -234,10 +238,15 @@ assert.ok(markingSearchAsIdentifierChs.warnings.some((warning) => warning.messag
 
 const dramDecode = engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng" });
 assert.equal(dramDecode.subtitle, "LPDDR5X · Micron · 64Gb · x64");
+assert.ok(collectResultFields(dramDecode.blocks).some((field) => (
+  field.key === "dram_density" &&
+  (field as { unit?: unknown }).unit === "Mbit" &&
+  (field as { display?: unknown }).display === "64Gb"
+)));
 assert.ok(!collectBlockIds(dramDecode).includes("identity"));
 assert.ok(!collectResultFields(dramDecode.blocks).some((field) => field.key === "vendor" || field.key === "part_number" || field.key === "chip_kind" || field.key === "product_type"));
 assert.ok(!dramDecode.relations.some((relation) => relation.kind === "identifier_for"));
-assert.ok(!dramDecode.actions.some((action) => action.operation === "identifier.search" || action.operation === "identifier.decode"));
+assert.equal("actions" in dramDecode, false);
 const dramDecodeChs = engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "chs" });
 assert.ok(dramDecodeChs.blocks.some((block) => block.id === "geometry" && block.label === "几何信息"));
 assert.ok(dramDecodeChs.blocks.some((block) => block.id === "package" && block.label === "封装"));
@@ -245,11 +254,18 @@ assert.ok(collectResultFields(dramDecodeChs.blocks).some((field) => field.key ==
 assert.ok(!collectResultFields(dramDecodeChs).some((field) => field.key === "special_options"));
 const nandDecode = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 assert.ok(nandDecode.subtitle?.startsWith("NAND Flash · Micron · 8GB MLC"));
-assert.ok(nandDecode.relations.some((relation) => relation.kind === "identifier_for" && relation.target.idScheme === "nand.flash_id"));
-assert.ok(nandDecode.actions.some((action) => (
-  action.operation === "identifier.decode" &&
-  action.input.constraints?.idScheme === "nand.flash_id" &&
-  /^[0-9A-F]+$/.test(action.input.query)
+assert.ok(collectResultFields(nandDecode.blocks).some((field) => (
+  field.key === "density" &&
+  (field as { unit?: unknown }).unit === "Mbit" &&
+  (field as { display?: unknown }).display === "8GB"
+)));
+const nandIdentifierRelations = nandDecode.relations.filter((relation) => relation.kind === "identifier_for" && relation.target.idScheme === "nand.flash_id");
+assert.ok(nandIdentifierRelations.length > 1);
+assert.ok(nandIdentifierRelations.every((relation) => (
+  relation.action?.operation === "identifier.decode" &&
+  relation.action.input.constraints?.idScheme === "nand.flash_id" &&
+  relation.action.input.query === relation.target.identifier &&
+  /^[0-9A-F]+$/.test(relation.action.input.query)
 )));
 
 const ambiguousEngine = createEngine({
