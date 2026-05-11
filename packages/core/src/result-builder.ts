@@ -9,8 +9,7 @@ import {
 import {
   inferChipKindFromDraft,
   inferProductTypeFromDraft,
-  isKnownInfoValue,
-  normalizeInfoText
+  isKnownInfoValue
 } from "./device-inference";
 import { createFdnextFieldValue, fdnextFieldRegistry, type FdnextFieldKey } from "./field-registry";
 import { getFdnextFieldProfile } from "./field-profiles";
@@ -203,9 +202,6 @@ function addDraftFields(fields: Map<FdnextFieldKey, FieldValue>, draftFields: De
     const fieldKey = key as FdnextFieldKey;
     const fieldValue = normalizeFieldValue(fieldKey, value);
     if (fieldValue === undefined) {
-      continue;
-    }
-    if (fieldKey === "group" && normalizeInfoText(value) === "raw nand") {
       continue;
     }
     fields.set(fieldKey, createField(fieldKey, fieldValue, ctx, lang));

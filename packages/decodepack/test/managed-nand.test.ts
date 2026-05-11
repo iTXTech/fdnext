@@ -182,6 +182,20 @@ function assertSearchPnFirst(query: string, expected: string): void {
   assert.deepEqual(result, [expected], `${query} should prefer managed NAND PN suggestions`);
 }
 
+const skhynixH25RawInternalExtra = [
+  "System",
+  "Group",
+  "Series Code",
+  "Cell Code",
+  "Layout Code",
+  "Density Code",
+  "Stack Code",
+  "Generation Code",
+  "Config Code",
+  "Product Class",
+  "NAND Technology"
+];
+
 function resourceEntries(raw: unknown): unknown[] {
   if (Array.isArray(raw)) {
     return raw;
@@ -400,7 +414,6 @@ assertPart("THGBMNG5D1LBAIT", {
   processField: "15 nm/1z",
   package: "BGA153",
   extra: {
-    "Series Code": "BMN",
     "Storage Interface": "eMMC 5.0",
     "NAND Technology": "FG NAND"
   },
@@ -414,7 +427,6 @@ assertPart("THGAMVT0T43BAB8", {
   processField: "BiCS4",
   package: "BGA",
   extra: {
-    "Series Code": "AMV",
     "Storage Interface": "eMMC 5.1",
     "Product Class": "Automotive AEC-Q100 Grade 2"
   },
@@ -428,7 +440,6 @@ assertPart("THGJFRT3E88BATW", {
   processField: "BiCS8",
   package: "BGA",
   extra: {
-    "Series Code": "JFR",
     "Storage Interface": "UFS 4.1",
     "Speed Grade": "4640 MB/s"
   },
@@ -442,7 +453,6 @@ assertPart("THGJFJT1T45BAB8", {
   processField: "BiCS4",
   package: "BGA",
   extra: {
-    "Series Code": "JFJ",
     "Storage Interface": "UFS 4.0",
     "Product Class": "Automotive AEC-Q100 Grade 2",
     "Speed Grade": "4640 MB/s"
@@ -457,7 +467,6 @@ assertPart("THGAFBT1T83BAA5", {
   processField: "BiCS8",
   package: "BGA",
   extra: {
-    "Series Code": "AFB",
     "Storage Interface": "UFS 2.1",
     "Product Class": "Automotive AEC-Q100 Grade 3",
     "Speed Grade": "1160 MB/s"
@@ -868,7 +877,6 @@ assertPart("HN8T25DEHKX077N", {
   densityMbit: 4194304,
   package: "153FBGA",
   extra: {
-    "Series Code": "DE",
     "Product Version": "UFS 3.1",
     "Product Generation": "176-layer 4D NAND (V7)",
     "Product Class": "Mobile"
@@ -882,7 +890,6 @@ assertPart("HN8T35DZHKX079", {
   densityMbit: 8388608,
   package: "153FBGA",
   extra: {
-    "Series Code": "DZ",
     "Product Version": "UFS 3.1",
     "Product Generation": "176-layer 4D NAND (V7)"
   },
@@ -895,7 +902,6 @@ assertPart("HN8G962EHKX037N", {
   densityMbit: 524288,
   package: "153FBGA",
   extra: {
-    "Series Code": "2E",
     "Product Version": "UFS 3.1"
   },
   absentExtra: ["System", "Product Family"]
@@ -907,7 +913,6 @@ assertPart("HN8T274EJKX130", {
   densityMbit: 4194304,
   package: "153FBGA",
   extra: {
-    "Series Code": "4E",
     "Product Family": "SK hynix ZUFS 4.1",
     "Storage Interface": "UFS 4.1",
     "Product Class": "Mobile"
@@ -921,7 +926,6 @@ assertPart("HN8T374ZJKX141", {
   densityMbit: 8388608,
   package: "153FBGA",
   extra: {
-    "Series Code": "4Z",
     "Product Family": "SK hynix ZUFS 4.1",
     "Storage Interface": "UFS 4.1",
     "Product Class": "Mobile"
@@ -956,13 +960,10 @@ assertPart("H25T2TB88E-X321-N", {
   processField: "128L 4D NAND (V6 / H25FTB0)",
   cellField: "TLC",
   extra: {
-    System: "SK hynix H25T NAND package",
-    "Density Code": "2T",
     "Product Generation": "128-layer 4D NAND (V6 / H25FTB0)",
-    "Component Density": "4Tbit package",
-    "Product Class": "TLC"
+    "Component Density": "4Tbit package"
   },
-  absentExtra: ["Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertPart("H25T1TD48C-X630", {
@@ -972,12 +973,10 @@ assertPart("H25T1TD48C-X630", {
   processField: "238L 4D NAND (V8)",
   cellField: "TLC",
   extra: {
-    System: "SK hynix H25T NAND package",
-    "Density Code": "1T",
     "Product Generation": "238-layer 4D NAND (V8 / H25FTD0)",
     "Die Density": "512Gb"
   },
-  absentExtra: ["Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertPart("H25T2TC88C", {
@@ -987,11 +986,10 @@ assertPart("H25T2TC88C", {
   processField: "176L 4D NAND (V7 / H25FTC0)",
   cellField: "TLC",
   extra: {
-    System: "SK hynix H25T NAND package",
     "Product Generation": "176-layer 4D NAND (V7 / H25FTC0)",
     "Component Density": "4Tbit package"
   },
-  absentExtra: ["Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertPart("H25T2TD88C-X682", {
@@ -1001,11 +999,10 @@ assertPart("H25T2TD88C-X682", {
   processField: "238L 4D NAND (V8 / H25FTD0)",
   cellField: "TLC",
   extra: {
-    System: "SK hynix H25T NAND package",
     "Product Generation": "238-layer 4D NAND (V8 / H25FTD0)",
     "Component Density": "4Tbit package"
   },
-  absentExtra: ["Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertPart("H25T0QA18CX542", {
@@ -1015,11 +1012,10 @@ assertPart("H25T0QA18CX542", {
   processField: "176L 4D NAND QLC (V7Q)",
   cellField: "QLC",
   extra: {
-    System: "SK hynix H25T NAND package",
     "Product Generation": "176-layer 4D NAND QLC (V7Q)",
-    "Product Class": "QLC"
+    "Component Density": "1Tbit package"
   },
-  absentExtra: ["Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertPart("H25T4QM88G", {
@@ -1029,12 +1025,10 @@ assertPart("H25T4QM88G", {
   processField: "321-layer 4D NAND QLC (V9Q)",
   cellField: "QLC",
   extra: {
-    System: "SK hynix H25T NAND package",
     "Product Generation": "321-layer 4D NAND QLC (V9Q)",
-    "Component Density": "2Tb die",
-    "Product Class": "QLC"
+    "Component Density": "2Tb die"
   },
-  absentExtra: ["Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertPart("H25QEM8A1B", {
@@ -1044,11 +1038,22 @@ assertPart("H25QEM8A1B", {
   processField: "3D NAND V4 MLC",
   cellField: "MLC",
   extra: {
-    System: "SK hynix H25 NAND",
-    "Product Generation": "3D NAND V4 MLC",
-    "Product Class": "MLC"
+    "Product Generation": "3D NAND V4 MLC"
   },
-  absentExtra: ["Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+});
+
+assertPart("H25QFT8D4A", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 2097152,
+  processField: "3D NAND V4 TLC",
+  cellField: "TLC",
+  extra: {
+    "Product Generation": "3D NAND V4 TLC",
+    Series: "3D V4/V5 family"
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertPart("H25JGQ8A1M8R", {
@@ -1058,11 +1063,9 @@ assertPart("H25JGQ8A1M8R", {
   processField: "3D NAND V5 QLC",
   cellField: "QLC",
   extra: {
-    System: "SK hynix H25 NAND",
-    "Product Generation": "3D NAND V5 QLC",
-    "Product Class": "QLC"
+    "Product Generation": "3D NAND V5 QLC"
   },
-  absentExtra: ["Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertPart("H25G9TC18CX488", {
@@ -1072,11 +1075,9 @@ assertPart("H25G9TC18CX488", {
   processField: "176L 4D NAND (V7)",
   cellField: "TLC",
   extra: {
-    System: "SK hynix H25 NAND",
-    "Product Generation": "176L 4D NAND (V7)",
-    "Product Class": "TLC"
+    "Product Generation": "176L 4D NAND (V7)"
   },
-  absentExtra: ["Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertPart("H2DTDG8UD1MYR", {
@@ -1089,7 +1090,6 @@ assertPart("H2DTDG8UD1MYR", {
   package: "VLGA",
   extra: {
     "Product Version": "E2NAND2.0",
-    "Density Code": "DG",
     "Block size": "2MB (8KB page)",
     "ECC enabled": "Yes"
   }
@@ -1105,7 +1105,6 @@ assertPart("H2JTDG8UD1BMS", {
   package: "VLGA",
   extra: {
     "Product Version": "E2NAND3.0",
-    "Density Code": "DG",
     "Block size": "4MB",
     "ECC enabled": "Yes"
   }
@@ -1117,7 +1116,6 @@ assertPart("H9TQ17ABJTMCUR-KUM", {
   densityMbit: 131072,
   package: "221Ball FBGA",
   extra: {
-    System: "SK hynix CI-MCP",
     "Product Mode": "CI-MCP NAND DDR3",
     "Storage Density": "16GB e-NAND",
     "DRAM Density": "16Gb LPDDR3"
@@ -1130,7 +1128,6 @@ assertPart("H9TP32A4GDBCPR-KGM", {
   densityMbit: 32768,
   package: "162Ball FBGA",
   extra: {
-    System: "SK hynix CI-MCP",
     "Product Mode": "CI-MCP NAND DDR2",
     "Storage Density": "4GB e-NAND"
   }
@@ -1344,7 +1341,6 @@ assertPart("YMC6G001TB51AA1C0", {
   cellField: "TLC",
   package: "BGA-132 12x18",
   extra: {
-    System: "UNIMOS",
     "Product Generation": "Gen 4 Xtacking 3.0",
     "Die Density": "256Gb",
     "Die Stack": "SDP (1-die)",

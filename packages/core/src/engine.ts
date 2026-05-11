@@ -145,29 +145,6 @@ function partTypeText(info: PartDecodeDraft): string {
   );
 }
 
-function isRedundantSystem(value: unknown, info: PartDecodeDraft): boolean {
-  const text = normalizeInfoText(value);
-  if (text.length === 0) {
-    return false;
-  }
-  const type = partTypeText(info);
-  const aliases = aliasesForVendor(draftVendor(info)).map((alias) => normalizeInfoText(alias)).filter((alias) => alias.length > 0);
-
-  if (type.length > 0 && text === type) {
-    return true;
-  }
-  if (aliases.includes(text)) {
-    return true;
-  }
-  if (aliases.some((alias) => text === `${alias} managed nand`)) {
-    return true;
-  }
-  if (type.length > 0 && aliases.some((alias) => text === `${alias} ${type}`)) {
-    return true;
-  }
-  return false;
-}
-
 function isRedundantManagedFamily(value: unknown, info: PartDecodeDraft, extra: Record<string, unknown>): boolean {
   const text = normalizeInfoText(value);
   if (text.length === 0) {
@@ -175,18 +152,8 @@ function isRedundantManagedFamily(value: unknown, info: PartDecodeDraft, extra: 
   }
   return (
     text === partTypeText(info) ||
-    text === normalizeInfoText(extra.system) ||
     text === normalizeInfoText(extra.product_family)
   );
-}
-
-function isRedundantGroup(value: unknown, info: PartDecodeDraft): boolean {
-  const text = normalizeInfoText(value);
-  const type = partTypeText(info);
-  if (text.length === 0 || type.length === 0) {
-    return false;
-  }
-  return text === type || text === `${type} flash`;
 }
 
 function matchesProcessNode(value: unknown, info: PartDecodeDraft): boolean {
@@ -323,14 +290,8 @@ function pruneRedundantFields(info: PartDecodeDraft): void {
   const productFamily = extra.product_family;
   const managedNandType = isManagedNandType(info);
 
-  if (isRedundantSystem(extra.system, info)) {
-    delete extra.system;
-  }
   if (isRedundantManagedFamily(extra.managed_family, info, extra)) {
     delete extra.managed_family;
-  }
-  if (isRedundantGroup(extra.group, info)) {
-    delete extra.group;
   }
   if (managedNandType && matchesProcessNode(extra.generation_info, info)) {
     delete extra.generation_info;

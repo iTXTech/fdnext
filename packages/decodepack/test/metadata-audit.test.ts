@@ -216,6 +216,59 @@ function assertDecoderOutputsUseNativeDraft(): void {
   assert.deepEqual(findings, [], "part decoder outputs should use native draft device/fields/identifiers/controllers/components/meta paths only");
 }
 
+const internalPackFieldKeys = [
+  "system",
+  "group",
+  "series_code",
+  "cell_code",
+  "layout_code",
+  "density_code",
+  "stack_code",
+  "generation_code",
+  "voltage_io_code"
+];
+
+function containsInternalPackFieldKey(value: unknown): boolean {
+  if (Array.isArray(value)) {
+    return value.some(containsInternalPackFieldKey);
+  }
+  if (!value || typeof value !== "object") {
+    return false;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    if (internalPackFieldKeys.includes(key) || containsInternalPackFieldKey(item)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+function assignsExtraObjectToPublicFields(rule: PartDecodeSpec): boolean {
+  const fields = rule.tokenDecoder?.assign.fields;
+  return Boolean(fields && typeof fields === "object" && !Array.isArray(fields) && "$var" in fields && fields.$var === "extra");
+}
+
+function omitsInternalPackFieldKeys(rule: PartDecodeSpec): boolean {
+  return Boolean(
+    rule.tokenDecoder?.steps.some(
+      (step) =>
+        step.op === "omit" &&
+        step.from === "extra" &&
+        internalPackFieldKeys.every((key) => step.keys.includes(key))
+    )
+  );
+}
+
+function assertExtraBasedPackOutputsOmitInternalKeys(): void {
+  const findings = defaultPartDecodeSpecs
+    .filter((rule) => assignsExtraObjectToPublicFields(rule))
+    .filter((rule) => containsInternalPackFieldKey(rule.tokenDecoder))
+    .filter((rule) => !omitsInternalPackFieldKeys(rule))
+    .map((rule) => rule.id);
+
+  assert.deepEqual(findings, [], "extra-based part decoder outputs should omit internal system/group/token code fields");
+}
+
 function assertRepresentativeDecodePackMetadata(): void {
   const byId = new Map(defaultPartDecodeSpecs.map((rule) => [rule.id, rule] as const));
   for (const [id, expected] of [
@@ -331,6 +384,17 @@ function managedNandSamples(): string[] {
     .filter((sample): sample is string => Boolean(sample));
 }
 
+function partDecodeSamples(): string[] {
+  const samples = new Set<string>();
+  for (const file of ["packages/decodepack/test/managed-nand.test.ts", "packages/decodepack/test/dram.test.ts"]) {
+    const testSource = readFileSync(repoPath(file), "utf8");
+    for (const match of testSource.matchAll(/assertPart\("([^"]+)"/g)) {
+      if (match[1]) samples.add(match[1]);
+    }
+  }
+  return [...samples];
+}
+
 function normalizeText(value: unknown): string {
   if (typeof value !== "string") {
     return "";
@@ -434,6 +498,24 @@ function assertManagedNandOutputIsCanonical(): void {
   assert.deepEqual(findings, [], "managed NAND public output should use canonical, non-duplicate metadata");
 }
 
+function assertPublicResultsDoNotExposeInternalPackFields(): void {
+  const findings: string[] = [];
+  const forbidden = new Set([...internalPackFieldKeys, "reference", "source", "status", "inference_source"]);
+
+  for (const partNumber of partDecodeSamples()) {
+    const info = engine.decodePart({ query: partNumber, lang: "eng" });
+    for (const block of info.blocks) {
+      for (const field of block.fields) {
+        if (forbidden.has(field.key)) {
+          findings.push(`${partNumber}: ${field.key}`);
+        }
+      }
+    }
+  }
+
+  assert.deepEqual(findings, [], "public part decode fields should not expose internal system/group/token code or reference metadata");
+}
+
 function assertDecodePackCompositeComponents(): void {
   const info = engine.decodePart({ query: "BWCA2KZC-64G", lang: "eng" });
   const components = info.relations.filter((relation) => relation.kind === "component");
@@ -531,12 +613,14 @@ assertNativeDraftUsesCanonicalFields();
 assertRuntimeDecodePackFieldsAreRegistered();
 assertIdentifierExtFieldsTargetPublicKeys();
 assertDecoderOutputsUseNativeDraft();
+assertExtraBasedPackOutputsOmitInternalKeys();
 assertRepresentativeDecodePackMetadata();
 assertRuntimeDoesNotKeepMetadataAliases();
 assertLangPacksAreConsistent();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertManagedNandOutputIsCanonical();
+assertPublicResultsDoNotExposeInternalPackFields();
 assertDecodePackCompositeComponents();
 assertDefaultDecodePackMaintainsItself();
 assertDecodePackExplainTools();

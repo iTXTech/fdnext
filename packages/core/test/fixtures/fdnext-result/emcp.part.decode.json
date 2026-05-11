@@ -103,12 +103,6 @@
           "importance": "detail"
         },
         {
-          "key": "density_code",
-          "label": "Density Code",
-          "value": "64G",
-          "importance": "detail"
-        },
-        {
           "key": "product_family",
           "label": "Product Family",
           "value": "eMCP4X",

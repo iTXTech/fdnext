@@ -152,6 +152,21 @@
           "op": "merge",
           "into": "extra",
           "from": "interfaceObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "system",
+            "group",
+            "series_code",
+            "cell_code",
+            "layout_code",
+            "density_code",
+            "stack_code",
+            "generation_code",
+            "voltage_io_code"
+          ]
         }
       ],
       "assign": {
@@ -255,6 +270,21 @@
           "op": "merge",
           "into": "extra",
           "from": "densityObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "system",
+            "group",
+            "series_code",
+            "cell_code",
+            "layout_code",
+            "density_code",
+            "stack_code",
+            "generation_code",
+            "voltage_io_code"
+          ]
         }
       ],
       "assign": {

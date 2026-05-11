@@ -336,6 +336,28 @@ function runTokenDecoder(partNumber: string, decoder: DecodeProgram, trace?: Dec
       continue;
     }
 
+    if (step.op === "omit") {
+      const rest = String(context.rest ?? "");
+      const source = context[step.from];
+      const target = step.to ?? step.from;
+      if (source && typeof source === "object" && !Array.isArray(source)) {
+        const next = { ...(source as Record<string, unknown>) };
+        for (const key of step.keys) {
+          delete next[key];
+        }
+        context[target] = next;
+      }
+      traceStep(trace, {
+        op: step.op,
+        path,
+        target,
+        value: context[target],
+        restBefore: rest,
+        restAfter: String(context.rest ?? "")
+      });
+      continue;
+    }
+
     if (step.op === "notEmpty") {
       const rest = String(context.rest ?? "");
       const value = String(context[step.from] ?? "");

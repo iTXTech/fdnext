@@ -84,6 +84,13 @@ export interface DecodeStepMerge {
   from: string;
 }
 
+export interface DecodeStepOmit {
+  op: "omit";
+  from: string;
+  keys: string[];
+  to?: string;
+}
+
 export interface DecodeStepNotEmpty {
   op: "notEmpty";
   from: string;
@@ -121,6 +128,7 @@ export type DecodeStep =
   | DecodeStepMul
   | DecodeStepSet
   | DecodeStepMerge
+  | DecodeStepOmit
   | DecodeStepNotEmpty
   | DecodeStepMergeIf
   | DecodeStepTakeLongest

@@ -209,34 +209,6 @@
           "table": "productObj",
           "to": "productObj",
           "default": {}
-        },
-        {
-          "op": "take",
-          "len": 3,
-          "to": "configCode"
-        },
-        {
-          "op": "set",
-          "to": "extra",
-          "value": {
-            "system": "SK hynix H25T NAND package",
-            "group": "Raw NAND",
-            "nand_technology": "H25T package family",
-            "density_code": {
-              "$var": "densityCode"
-            },
-            "generation_code": {
-              "$var": "generationCode"
-            },
-            "config_code": {
-              "$var": "configCode"
-            }
-          }
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "productObj"
         }
       ],
       "assign": {
@@ -246,14 +218,23 @@
         "device.domain": "memory",
         "device.vendor": "skhynix",
         "device.chipKind": "raw_nand",
-        "fields": {
-          "$var": "extra"
-        },
         "fields.density": {
           "$var": "density"
         },
         "fields.process_node": {
           "$var": "processNode"
+        },
+        "fields.generation_info": {
+          "$path": "productObj.generation_info"
+        },
+        "fields.component_density": {
+          "$path": "productObj.component_density"
+        },
+        "fields.die_density": {
+          "$path": "productObj.die_density"
+        },
+        "fields.die_stack": {
+          "$path": "productObj.die_stack"
         },
         "fields.cell_level": {
           "$var": "cellLevel"

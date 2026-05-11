@@ -36,15 +36,13 @@ PN 结构：
 | --- | --- |
 | `device.chipKind` | `managed_nand` |
 | `device.productType` | `sata` |
-| `system` | `iSSD` |
 
-`iSSD` 只作为 SanDisk 产品线 / system 输出，不作为 `product_type`。同类 SSD 封装按接口归类为 `sata` 或 `nvme`；当前 `SDIS` family 资料均归入 SATA。
+`iSSD` 只作为 SanDisk 产品线信息，不作为 `product_type`。同类 SSD 封装按接口归类为 `sata` 或 `nvme`；当前 `SDIS` family 资料均归入 SATA。
 
 ## 输出字段
 
 - `product_family`
 - `storage_interface`
-- `system`
 
 ## 测试样例
 

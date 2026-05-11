@@ -34,7 +34,6 @@ PN 结构：
 
 ## 输出字段
 
-- `series_code`
 - `product_version`
 - `storage_interface`
 - `speed_grade`

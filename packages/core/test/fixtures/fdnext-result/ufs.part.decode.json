@@ -111,12 +111,6 @@
       "importance": "detail",
       "fields": [
         {
-          "key": "system",
-          "label": "System",
-          "value": "moviNAND/MCP",
-          "importance": "detail"
-        },
-        {
           "key": "die_stack",
           "label": "Die Stack",
           "value": "ODP (8-die)",

@@ -529,13 +529,6 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "storage",
     importance: "secondary"
   },
-  series_code: {
-    key: "series_code",
-    valueKind: "string",
-    defaultLabel: "Series Code",
-    recommendedBlock: "identity",
-    importance: "detail"
-  },
   series_info: {
     key: "series_info",
     valueKind: "string",
@@ -624,48 +617,6 @@ export const fdnextFieldRegistry = {
     valueKind: "string",
     defaultLabel: "Die Code",
     recommendedBlock: "geometry",
-    importance: "detail"
-  },
-  density_code: {
-    key: "density_code",
-    valueKind: "string",
-    defaultLabel: "Density Code",
-    recommendedBlock: "storage",
-    importance: "detail"
-  },
-  cell_code: {
-    key: "cell_code",
-    valueKind: "string",
-    defaultLabel: "Cell Code",
-    recommendedBlock: "storage",
-    importance: "detail"
-  },
-  layout_code: {
-    key: "layout_code",
-    valueKind: "string",
-    defaultLabel: "Layout Code",
-    recommendedBlock: "storage",
-    importance: "detail"
-  },
-  stack_code: {
-    key: "stack_code",
-    valueKind: "string",
-    defaultLabel: "Stack Code",
-    recommendedBlock: "storage",
-    importance: "detail"
-  },
-  generation_code: {
-    key: "generation_code",
-    valueKind: "string",
-    defaultLabel: "Generation Code",
-    recommendedBlock: "storage",
-    importance: "detail"
-  },
-  voltage_io_code: {
-    key: "voltage_io_code",
-    valueKind: "string",
-    defaultLabel: "Voltage/I/O Code",
-    recommendedBlock: "interface",
     importance: "detail"
   },
   interface_type: {
@@ -757,20 +708,6 @@ export const fdnextFieldRegistry = {
     valueKind: "number",
     defaultLabel: "Revision",
     recommendedBlock: "package",
-    importance: "detail"
-  },
-  system: {
-    key: "system",
-    valueKind: "string",
-    defaultLabel: "System",
-    recommendedBlock: "identity",
-    importance: "detail"
-  },
-  group: {
-    key: "group",
-    valueKind: "string",
-    defaultLabel: "Group",
-    recommendedBlock: "identity",
     importance: "detail"
   },
   package_functionality_partial_type: {

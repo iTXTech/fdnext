@@ -307,40 +307,6 @@
           "table": "productObj",
           "to": "productObj",
           "default": {}
-        },
-        {
-          "op": "set",
-          "to": "extra",
-          "value": {
-            "system": "SK hynix H25 NAND",
-            "group": "Raw NAND",
-            "series_code": {
-              "$var": "seriesCode"
-            },
-            "series_info": {
-              "$var": "seriesName"
-            },
-            "cell_code": {
-              "$var": "cellLevelCode"
-            },
-            "layout_code": {
-              "$var": "layoutCode"
-            },
-            "density_code": {
-              "$var": "densityCode"
-            },
-            "stack_code": {
-              "$var": "stackCode"
-            },
-            "generation_code": {
-              "$var": "generationCode"
-            }
-          }
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "productObj"
         }
       ],
       "assign": {
@@ -350,12 +316,15 @@
         "device.domain": "memory",
         "device.vendor": "skhynix",
         "device.chipKind": "raw_nand",
-        "fields": {
-          "$var": "extra"
-        },
         "fields.voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
         "fields.cell_level": {
           "$var": "cellLevel"
+        },
+        "fields.generation_info": {
+          "$path": "productObj.generation_info"
+        },
+        "fields.series_info": {
+          "$var": "seriesName"
         },
         "fields.device_width": 8,
         "fields.density": {

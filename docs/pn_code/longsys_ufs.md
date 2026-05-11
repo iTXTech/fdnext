@@ -40,7 +40,6 @@ PN 结构：
 
 ## 输出字段
 
-- `series_code`
 - `storage_density`
 - `product_family`
 - `product_class`
