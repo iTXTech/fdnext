@@ -1,0 +1,334 @@
+[
+  {
+    "id": "vendor.siliconmotion.ferri.emmc.v1",
+    "priority": 1002,
+    "domain": "memory",
+    "chipKind": "managed_nand",
+    "productType": "emmc",
+    "fieldProfile": "managed_nand",
+    "capabilities": ["part.decode", "part.search"],
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^SM662[GP][XEAB][CDEF]BFS$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "SM662"
+      ],
+      "tables": {
+        "reference": {
+          "siliconmotion_ferri_emmc_selection_guide": {
+            "status": "external_table_confirmed",
+            "source": "Silicon Motion Ferri-eMMC Selection Guide"
+          }
+        },
+        "packageObj": {
+          "G": {
+            "package_code": "100-b",
+            "package": "100-ball BGA"
+          },
+          "P": {
+            "package_code": "153-b",
+            "package": "153-ball BGA"
+          }
+        },
+        "tempObj": {
+          "X": {
+            "product_class": "Commercial",
+            "operation_temperature": "-25°C ~ +85°C"
+          },
+          "E": {
+            "product_class": "Industrial",
+            "operation_temperature": "-40°C ~ +85°C"
+          },
+          "A": {
+            "product_class": "Automotive AEC-Q100 Grade 3",
+            "operation_temperature": "-40°C ~ +85°C"
+          },
+          "B": {
+            "product_class": "Automotive AEC-Q100 Grade 2",
+            "operation_temperature": "-40°C ~ +105°C"
+          }
+        },
+        "density": {
+          "C": 524288,
+          "D": 1048576,
+          "E": 2097152,
+          "F": 4194304
+        },
+        "densityObj": {
+          "C": {
+            "storage_density": "64GB eMMC"
+          },
+          "D": {
+            "storage_density": "128GB eMMC"
+          },
+          "E": {
+            "storage_density": "256GB eMMC"
+          },
+          "F": {
+            "storage_density": "512GB eMMC"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "tempCode"
+        },
+        {
+          "op": "map",
+          "from": "tempCode",
+          "table": "tempObj",
+          "to": "tempObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Ferri-eMMC",
+            "storage_interface": "eMMC 5.1",
+            "interface_type": "HS400",
+            "nand_technology": "3D TLC NAND"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "tempObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        }
+      ],
+      "assign": {
+        "vendor": "siliconmotion",
+        "type": "emmc",
+        "density": {
+          "$var": "density"
+        },
+        "cellLevel": 3,
+        "package": {
+          "$path": "packageObj.package"
+        },
+        "fields": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.siliconmotion.ferri.ufs.v1",
+    "priority": 1002,
+    "domain": "memory",
+    "chipKind": "managed_nand",
+    "productType": "ufs",
+    "fieldProfile": "managed_nand",
+    "capabilities": ["part.decode", "part.search"],
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^SM671P[XE][CDEF]BFS$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "SM671"
+      ],
+      "tables": {
+        "reference": {
+          "siliconmotion_ferri_ufs_selection_guide": {
+            "status": "external_table_confirmed",
+            "source": "Silicon Motion Ferri-UFS Selection Guide"
+          }
+        },
+        "packageObj": {
+          "P": {
+            "package_code": "153-b",
+            "package": "153-ball BGA"
+          }
+        },
+        "tempObj": {
+          "X": {
+            "product_class": "Commercial",
+            "operation_temperature": "-25°C ~ +85°C"
+          },
+          "E": {
+            "product_class": "Industrial",
+            "operation_temperature": "-40°C ~ +85°C"
+          }
+        },
+        "density": {
+          "C": 524288,
+          "D": 1048576,
+          "E": 2097152,
+          "F": 4194304
+        },
+        "densityObj": {
+          "C": {
+            "storage_density": "64GB UFS"
+          },
+          "D": {
+            "storage_density": "128GB UFS"
+          },
+          "E": {
+            "storage_density": "256GB UFS"
+          },
+          "F": {
+            "storage_density": "512GB UFS"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "tempCode"
+        },
+        {
+          "op": "map",
+          "from": "tempCode",
+          "table": "tempObj",
+          "to": "tempObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Ferri-UFS",
+            "storage_interface": "UFS 3.1",
+            "speed_grade": "HS-Gear4 x2",
+            "nand_technology": "3D TLC NAND"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "tempObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        }
+      ],
+      "assign": {
+        "vendor": "siliconmotion",
+        "type": "ufs",
+        "density": {
+          "$var": "density"
+        },
+        "cellLevel": 3,
+        "package": {
+          "$path": "packageObj.package"
+        },
+        "fields": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

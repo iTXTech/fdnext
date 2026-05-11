@@ -317,6 +317,62 @@ assertPart("SDIS6BM-016G", {
   }
 });
 
+assertPart("SM662GXC-BFS", {
+  rawVendor: "siliconmotion",
+  type: "eMMC",
+  rawDensity: 524288,
+  cellLevel: "TLC",
+  package: "100-ball BGA",
+  extra: {
+    "Product Family": "Ferri-eMMC",
+    "Storage Density": "64GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "Interface Type": "HS400",
+    "NAND Technology": "3D TLC NAND",
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ +85°C",
+    "Package Code": "100-b"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("SM662PBC-BFS", {
+  rawVendor: "siliconmotion",
+  type: "eMMC",
+  rawDensity: 524288,
+  cellLevel: "TLC",
+  package: "153-ball BGA",
+  extra: {
+    "Product Family": "Ferri-eMMC",
+    "Storage Density": "64GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "NAND Technology": "3D TLC NAND",
+    "Product Class": "Automotive AEC-Q100 Grade 2",
+    "Operation Temperature": "-40°C ~ +105°C",
+    "Package Code": "153-b"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("SM671PEF-BFS", {
+  rawVendor: "siliconmotion",
+  type: "UFS",
+  rawDensity: 4194304,
+  cellLevel: "TLC",
+  package: "153-ball BGA",
+  extra: {
+    "Product Family": "Ferri-UFS",
+    "Storage Density": "512GB UFS",
+    "Storage Interface": "UFS 3.1",
+    "Speed Grade": "HS-Gear4 x2",
+    "NAND Technology": "3D TLC NAND",
+    "Product Class": "Industrial",
+    "Operation Temperature": "-40°C ~ +85°C",
+    "Package Code": "153-b"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
 assertPart("FNNL63A51K3WG-AF", {
   rawVendor: "spectek",
   type: "NAND",
@@ -333,6 +389,7 @@ assertPart("FNNL63A51K3WG-AF", {
 
 assertNotFound("SDINZZZ9-128G-ABC");
 assertNotFound("SDISZZZ-016G");
+assertNotFound("SM671PAC-BFS");
 
 assertPart("THGBMNG5D1LBAIT", {
   rawVendor: "kioxia",
@@ -1399,6 +1456,8 @@ assertSearchPnIncludes("KMGD6001BM", "Samsung KMGD6001BM-B421");
 assertSearchPnIncludes("SDIN7DU2", "Sandisk SDIN7DU2-64G");
 assertSearchPnIncludes("SDIS5BK", "Sandisk SDIS5BK-032G");
 assertSearchPnIncludes("SDIS4BH", "Sandisk SDIS4BH-064G");
+assertSearchPnIncludes("SM662PBC", "Silicon Motion SM662PBC-BFS");
+assertSearchPnIncludes("SM671PEF", "Silicon Motion SM671PEF-BFS");
 assertSearchPnIncludes("THGJFRT1E45", "Kioxia THGJFRT1E45BATV");
 assertSearchPnIncludes("YMUSAB5", "YMTC YMUSAB5TH3A1C1");
 assertSearchPnFirst("EMMC", "Kingston EMMC04G-WT32");

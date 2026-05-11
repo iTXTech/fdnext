@@ -23,7 +23,7 @@ The project is organized as a strict TypeScript monorepo, but its public goal is
 
 | Area | Product families | Currently covered vendors |
 | --- | --- | --- |
-| NAND PN | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk / Western Digital, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN |
+| NAND PN | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk / Western Digital, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion |
 | DRAM PN | DRAM part-number families covered by current rule packs, including density, generation, package, die stack, speed, revision, and temperature fields where inferable | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, ISSI, Winbond |
 
 ## Packages

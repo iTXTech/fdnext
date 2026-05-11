@@ -34,6 +34,7 @@ import sandiskInandTokenRules from "./packs/sandisk-inand-token.json" with { typ
 import sandiskIssdTokenRules from "./packs/sandisk-issd-token.json" with { type: "json" };
 import sandiskMarkingTokenRules from "./packs/sandisk-marking-token.json" with { type: "json" };
 import sandiskRawTokenRules from "./packs/sandisk-raw-token.json" with { type: "json" };
+import siliconMotionManagedTokenRules from "./packs/siliconmotion-managed-token.json" with { type: "json" };
 import kingstonEmmcTokenRules from "./packs/kingston-emmc-token.json" with { type: "json" };
 import kingstonUfsTokenRules from "./packs/kingston-ufs-token.json" with { type: "json" };
 import kingstonEmcpTokenRules from "./packs/kingston-emcp-token.json" with { type: "json" };
@@ -88,6 +89,7 @@ export const defaultDslRules = [
   ...sandiskIssdTokenRules,
   ...sandiskMarkingTokenRules,
   ...sandiskRawTokenRules,
+  ...siliconMotionManagedTokenRules,
   ...kingstonEmmcTokenRules,
   ...kingstonUfsTokenRules,
   ...kingstonEmcpTokenRules,

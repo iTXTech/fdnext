@@ -80,6 +80,7 @@ const vendorAliases: Record<string, string[]> = {
   longsys: ["longsys", "foresee", "lexar"],
   micron: ["micron"],
   samsung: ["samsung"],
+  siliconmotion: ["silicon motion", "smi"],
   sndk: ["sandisk", "western digital", "wd"],
   skhynix: ["sk hynix", "skhynix"],
   spectek: ["spectek"],
