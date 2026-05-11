@@ -154,17 +154,23 @@
         }
       ],
       "assign": {
-        "vendor": "longsys",
-        "type": "emcp",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "longsys",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.longsys.foresee.emcp.v1"
       }
     }
   },
@@ -276,15 +282,21 @@
         }
       ],
       "assign": {
-        "vendor": "longsys",
-        "type": "umcp",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": "FBGA254 11.5x13x1.0",
+        "device.domain": "memory",
+        "device.vendor": "longsys",
+        "device.chipKind": "managed_nand",
+        "device.productType": "umcp",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": "FBGA254 11.5x13x1.0",
+        "meta.ruleId": "vendor.longsys.foresee.umcp.v1"
       }
     }
   }

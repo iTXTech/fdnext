@@ -148,17 +148,23 @@
         }
       ],
       "assign": {
-        "vendor": "sndk",
-        "type": "emmc",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "processNode": {
-          "$var": "processNode"
-        },
+        "device.domain": "memory",
+        "device.vendor": "sndk",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "meta.ruleId": "vendor.sndk.inand.legacy-emmc.v1"
       }
     }
   }

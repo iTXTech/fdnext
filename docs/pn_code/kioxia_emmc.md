@@ -27,7 +27,7 @@ PN 结构：
 | density `G5/G6/G7/G8/G9/T0/T1` | 4GB/8GB/16GB/32GB/64GB/128GB/256GB |
 | FG NAND package/revision 末位 `A/B/C/D/E/F/G/H/J/K/L` | 复用 raw NAND 2D 制程映射，输出 `130 nm` 到 `15 nm/1z`，例如 `K=A19 nm/1y`、`L=15 nm/1z` |
 | BiCS package/revision 第 2 位 `2/3/4/5/6/8/M` | 复用 raw NAND BiCS 映射，输出 `BiCS2/3/4/5/6/8/4.5` |
-| package suffix `BA` / exact `BAIT` | 顶层 `package` 输出 `BGA` / `BGA153`，精确后缀优先 |
+| package suffix `BA` / exact `BAIT` | `fields.package` 输出 `BGA` / `BGA153`，精确后缀优先 |
 | class `BAI` | Consumer, -25°C to 85°C |
 | class `BAU` | Industrial, -40°C to 105°C |
 | class `BAC/BAB` | Automotive AEC-Q100 Grade 2, -40°C to 105°C |
@@ -51,4 +51,4 @@ PN 结构：
 ## 注意
 
 KIOXIA `THG*` 还覆盖 UFS，不能只靠 `THG` 前缀判断。当前规则按 `BM*` / `AM*` series 进入 eMMC pack。
-FG NAND 系列从 package/revision token 末位推定 2D 制程；BiCS 系列从第 2 位推定 BiCS 代际。推定结果写入顶层 `processNode`，不在 `fields` 里重复输出 `generation_info`。未知 code 仍回退为 `FG NAND` / `BiCS FLASH`。
+FG NAND 系列从 package/revision token 末位推定 2D 制程；BiCS 系列从第 2 位推定 BiCS 代际。推定结果写入 `fields.process_node`，不在 `fields` 里重复输出 `generation_info`。未知 code 仍回退为 `FG NAND` / `BiCS FLASH`。

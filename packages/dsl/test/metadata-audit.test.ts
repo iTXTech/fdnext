@@ -65,7 +65,7 @@ function assertDslRulesUseCanonicalKeys(): void {
   const findings: string[] = [];
   walkRules(defaultDslRules, "defaultDslRules", findings);
   walkRules(defaultIdentifierRules, "defaultIdentifierRules", findings);
-  assert.deepEqual(findings, [], "DSL rules should not emit legacy camelCase metadata keys");
+  assert.deepEqual(findings, [], "DSL rules should not output legacy camelCase metadata keys");
 }
 
 function walkEmitFields(value: unknown, path: string, findings: string[]): void {
@@ -85,10 +85,10 @@ function walkEmitFields(value: unknown, path: string, findings: string[]): void 
   }
 }
 
-function assertDslV2EmitUsesCanonicalFields(): void {
+function assertNativeDraftUsesCanonicalFields(): void {
   const findings: string[] = [];
   walkEmitFields(defaultDslRules, "defaultDslRules", findings);
-  assert.deepEqual(findings, [], "DSL v2 emit fields should use canonical field registry keys");
+  assert.deepEqual(findings, [], "native draft fields should use canonical field registry keys");
 }
 
 function collectPotentialSamples(value: unknown, samples: Set<string> = new Set()): Set<string> {
@@ -158,14 +158,54 @@ function collectIdentifierExtKeys(value: unknown, findings: Set<string> = new Se
 }
 
 function assertIdentifierExtFieldsTargetPublicKeys(): void {
-  const projections: Record<string, string> = {
-    interface: "interface_type"
-  };
-  const missing = [...collectIdentifierExtKeys(defaultIdentifierRules)]
-    .map((key) => [key, projections[key] ?? key] as const)
-    .filter(([, fieldKey]) => !Object.hasOwn(fdnextFieldRegistry, fieldKey));
+  assert.deepEqual([...collectIdentifierExtKeys(defaultIdentifierRules)], [], "identifier DSL should output canonical fields without ext namespace");
+}
 
-  assert.deepEqual(missing, [], "identifier ext fields should target registered public fields");
+function collectDecoderOutputKeys(value: unknown, path: string, findings: string[]): void {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectDecoderOutputKeys(item, `${path}[${index}]`, findings));
+    return;
+  }
+  if (!value || typeof value !== "object") {
+    return;
+  }
+  const record = value as { id?: unknown; set?: unknown; tokenDecoder?: { assign?: unknown } };
+  const check = (output: unknown, outputPath: string): void => {
+    if (!output || typeof output !== "object" || Array.isArray(output)) {
+      return;
+    }
+    const allowedRoots = new Set(["device", "fields", "identifiers", "controllers", "components", "meta", "warnings"]);
+    const forbiddenExact = new Set([
+      "type",
+      "density",
+      "rawDensity",
+      "rawVendor",
+      "processNode",
+      "cellLevel",
+      "deviceWidth",
+      "classification",
+      "flashId",
+      "controller",
+      "remark",
+      "url",
+      "urls",
+      "__fdnext"
+    ]);
+    for (const key of Object.keys(output)) {
+      const root = key.split(".")[0] ?? key;
+      if (forbiddenExact.has(key) || key.includes("__fdnext") || !allowedRoots.has(root)) {
+        findings.push(`${outputPath}.${key}`);
+      }
+    }
+  };
+  check(record.set, `${path}.${String(record.id ?? "rule")}.set`);
+  check(record.tokenDecoder?.assign, `${path}.${String(record.id ?? "rule")}.tokenDecoder.assign`);
+}
+
+function assertDecoderOutputsUseNativeDraft(): void {
+  const findings: string[] = [];
+  collectDecoderOutputKeys(defaultDslRules, "defaultDslRules", findings);
+  assert.deepEqual(findings, [], "part decoder outputs should use native draft device/fields/identifiers/controllers/components/meta paths only");
 }
 
 function assertRepresentativeDslV2Metadata(): void {
@@ -177,14 +217,15 @@ function assertRepresentativeDslV2Metadata(): void {
   ] as const) {
     const rule = byId.get(id);
     assert.ok(rule, `${id} should be present`);
-    assert.equal(rule.domain, "memory", `${id} should declare domain`);
-    assert.equal(rule.chipKind, expected.chipKind, `${id} should declare chipKind`);
+    const assign = rule.tokenDecoder?.assign ?? {};
+    assert.equal(assign["device.domain"], "memory", `${id} should assign device.domain`);
+    assert.equal(assign["device.chipKind"], expected.chipKind, `${id} should assign device.chipKind`);
     if ("productType" in expected) {
-      assert.equal(rule.productType, expected.productType, `${id} should declare productType`);
+      assert.equal(assign["device.productType"], expected.productType, `${id} should assign device.productType`);
     }
-    assert.equal(rule.fieldProfile, expected.fieldProfile, `${id} should declare fieldProfile`);
-    assert.ok(rule.capabilities?.includes("part.decode"), `${id} should declare decode capability`);
-    assert.ok((rule.emit?.fields?.length ?? 0) > 0, `${id} should emit fields`);
+    assert.equal(assign["meta.fieldProfile"], expected.fieldProfile, `${id} should assign meta.fieldProfile`);
+    assert.ok(Array.isArray(assign["meta.capabilities"]) && assign["meta.capabilities"].includes("part.decode"), `${id} should assign decode capability`);
+    assert.ok(Object.keys(assign).some((key) => key.startsWith("fields.")), `${id} should assign canonical fields`);
   }
 }
 
@@ -388,27 +429,28 @@ function assertManagedNandOutputIsCanonical(): void {
 function assertDslV2CompositeComponents(): void {
   const info = engine.decodePart({ query: "BWCA2KZC-64G", lang: "eng" });
   const components = info.relations.filter((relation) => relation.kind === "component");
+  const storageComponent = components.find((relation) => relation.target.role === "storage");
+  const dramComponent = components.find((relation) => relation.target.role === "dram");
   assert.equal(info.device?.chipKind, "managed_nand");
   assert.equal(info.device?.productType, "emcp");
-  assert.ok(components.some((relation) =>
-    relation.target.role === "storage" &&
-    relation.target.device?.chipKind === "managed_nand" &&
-    relation.target.device.productType === "emmc"
-  ));
-  assert.ok(components.some((relation) =>
-    relation.target.role === "dram" &&
-    relation.target.device?.chipKind === "dram" &&
-    relation.target.device.productType === "lpddr4x"
-  ));
+  assert.equal(storageComponent?.target.device?.chipKind, "managed_nand");
+  assert.equal(storageComponent?.target.device?.productType, "emmc");
+  assert.ok(storageComponent?.fields?.some((field) => field.key === "storage_density" && field.value === "64GB eMMC"));
+  assert.ok(storageComponent?.fields?.some((field) => field.key === "storage_interface" && field.value === "eMMC 5.1"));
+  assert.equal(dramComponent?.target.device?.chipKind, "dram");
+  assert.equal(dramComponent?.target.device?.productType, "lpddr4x");
+  assert.ok(dramComponent?.fields?.some((field) => field.key === "dram_density" && field.value === "32Gb"));
+  assert.ok(dramComponent?.fields?.some((field) => field.key === "dram_type" && field.value === "LPDDR4X"));
   assert.ok(info.blocks.some((block) => block.fields.some((field) => field.key === "storage_density" && field.value === "64GB eMMC")));
   assert.ok(info.blocks.some((block) => block.fields.some((field) => field.key === "dram_density" && field.value === "32Gb")));
-  assert.equal(JSON.stringify(info).includes("__fdnext"), false, "DSL internal metadata should not leak into public results");
+  assert.equal(JSON.stringify(info).includes("__fdnext"), false, "legacy FD draft marker should not leak into public results");
 }
 
 assertDslRulesUseCanonicalKeys();
-assertDslV2EmitUsesCanonicalFields();
+assertNativeDraftUsesCanonicalFields();
 assertRuntimeDslExtraFieldsAreRegistered();
 assertIdentifierExtFieldsTargetPublicKeys();
+assertDecoderOutputsUseNativeDraft();
 assertRepresentativeDslV2Metadata();
 assertRuntimeDoesNotKeepMetadataAliases();
 assertLangPacksAreConsistent();

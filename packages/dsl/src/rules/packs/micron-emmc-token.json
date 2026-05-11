@@ -324,17 +324,23 @@
         }
       ],
       "assign": {
-        "vendor": "micron",
-        "type": "emmc",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.micron.emmc.mtfc.legacy.v1"
       }
     }
   }

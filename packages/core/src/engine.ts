@@ -1,5 +1,15 @@
 import { LANGUAGES, UNKNOWN } from "./constants";
 import { buildDefaultDecoders } from "./decoders";
+import {
+  draftDensity,
+  draftField,
+  draftFields,
+  draftIdentifier,
+  draftPartNumber,
+  draftVendor,
+  mergeDraftStringArray,
+  setDraftField
+} from "./draft";
 import { buildFdb, buildMdb, findFlashIdRecord, findPartNumberAcrossVendors, getPartNumberRecord } from "./fdb";
 import { createDefaultIdentifierPostprocessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
@@ -22,16 +32,16 @@ import { translateString as doTranslateString } from "./translate";
 import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize";
 import { contains } from "./utils/string";
 import type {
-  InternalPartDecodeOptions,
+  PartDecodeOptions,
   EngineOptions,
-  InternalIdentifierInfo,
-  InternalPartInfo,
   FdnextEngine,
   IdentifierDecoder,
   FdbDataset,
+  IdentifierDecodeDraft,
   KnownPartNumberEntry,
   LangPacks,
   MdbDataset,
+  PartDecodeDraft,
   PartNumberRecord,
   PartNumberDecoder,
   ProcessorOperationContext,
@@ -126,13 +136,22 @@ function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
 }
 
-function isRedundantSystem(value: unknown, info: InternalPartInfo): boolean {
+function partTypeText(info: PartDecodeDraft): string {
+  return normalizeInfoText(
+    info.device.productType ??
+    draftField(info, "product_type") ??
+    draftField(info, "dram_type") ??
+    info.device.chipKind
+  );
+}
+
+function isRedundantSystem(value: unknown, info: PartDecodeDraft): boolean {
   const text = normalizeInfoText(value);
   if (text.length === 0) {
     return false;
   }
-  const type = normalizeInfoText(info.type);
-  const aliases = aliasesForVendor(info.vendor).map((alias) => normalizeInfoText(alias)).filter((alias) => alias.length > 0);
+  const type = partTypeText(info);
+  const aliases = aliasesForVendor(draftVendor(info)).map((alias) => normalizeInfoText(alias)).filter((alias) => alias.length > 0);
 
   if (type.length > 0 && text === type) {
     return true;
@@ -149,34 +168,34 @@ function isRedundantSystem(value: unknown, info: InternalPartInfo): boolean {
   return false;
 }
 
-function isRedundantManagedFamily(value: unknown, info: InternalPartInfo, extra: Record<string, unknown>): boolean {
+function isRedundantManagedFamily(value: unknown, info: PartDecodeDraft, extra: Record<string, unknown>): boolean {
   const text = normalizeInfoText(value);
   if (text.length === 0) {
     return false;
   }
   return (
-    text === normalizeInfoText(info.type) ||
+    text === partTypeText(info) ||
     text === normalizeInfoText(extra.system) ||
     text === normalizeInfoText(extra.product_family)
   );
 }
 
-function isRedundantGroup(value: unknown, info: InternalPartInfo): boolean {
+function isRedundantGroup(value: unknown, info: PartDecodeDraft): boolean {
   const text = normalizeInfoText(value);
-  const type = normalizeInfoText(info.type);
+  const type = partTypeText(info);
   if (text.length === 0 || type.length === 0) {
     return false;
   }
   return text === type || text === `${type} flash`;
 }
 
-function matchesProcessNode(value: unknown, info: InternalPartInfo): boolean {
+function matchesProcessNode(value: unknown, info: PartDecodeDraft): boolean {
   const text = normalizeInfoText(value);
-  const processNode = normalizeInfoText(info.processNode);
+  const processNode = normalizeInfoText(draftField(info, "process_node"));
   return text.length > 0 && processNode.length > 0 && text === processNode;
 }
 
-function isRedundantNandTechnology(value: unknown, info: InternalPartInfo, extra: Record<string, unknown>): boolean {
+function isRedundantNandTechnology(value: unknown, info: PartDecodeDraft, extra: Record<string, unknown>): boolean {
   const text = normalizeInfoText(value);
   if (text.length === 0) {
     return false;
@@ -185,12 +204,13 @@ function isRedundantNandTechnology(value: unknown, info: InternalPartInfo, extra
     return true;
   }
 
-  const processNode = normalizeInfoText(info.processNode);
+  const processNode = normalizeInfoText(draftField(info, "process_node"));
   return text === "bics flash" && processNode.startsWith("bics");
 }
 
-function isManagedNandType(info: InternalPartInfo): boolean {
-  return ["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand"].includes(normalizeInfoText(info.type));
+function isManagedNandType(info: PartDecodeDraft): boolean {
+  return info.device.chipKind === "managed_nand" ||
+    ["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand"].includes(partTypeText(info));
 }
 
 function parseDramDieStackCount(value: unknown): number | undefined {
@@ -253,12 +273,12 @@ function isKnownClassificationValue(value: unknown): boolean {
   return true;
 }
 
-function applyDramClassification(info: InternalPartInfo): void {
-  if (normalizeInfoText(info.type) !== "dram") {
+function applyDramClassification(info: PartDecodeDraft): void {
+  if (info.device.chipKind !== "dram") {
     return;
   }
 
-  const extra = asRecord(info.fields);
+  const extra = draftFields(info);
   const die = parseDramDieStackCount(extra.dram_die_stack);
   const ce = parseDramCsCount(extra.dram_die_stack);
   const defaultDieClassification = isDdrFamilyDramType(extra.dram_type);
@@ -267,36 +287,32 @@ function applyDramClassification(info: InternalPartInfo): void {
     return;
   }
 
-  const classification = { ...asRecord(info.classification) };
   if (die != null) {
-    classification.die = die;
-  } else if (defaultDieClassification && !isKnownClassificationValue(classification.die)) {
-    classification.die = 1;
+    setDraftField(info, "die_count", die);
+  } else if (defaultDieClassification && !isKnownClassificationValue(draftField(info, "die_count"))) {
+    setDraftField(info, "die_count", 1);
   }
 
   if (ce != null) {
-    classification.ce = ce;
-  } else if (defaultCeClassification && !isKnownClassificationValue(classification.ce)) {
-    classification.ce = 1;
+    setDraftField(info, "ce_count", ce);
+  } else if (defaultCeClassification && !isKnownClassificationValue(draftField(info, "ce_count"))) {
+    setDraftField(info, "ce_count", 1);
   }
-
-  info.classification = classification;
 }
 
-function applyDramPublicType(info: InternalPartInfo): void {
-  if (normalizeInfoText(info.type) !== "dram") {
+function applyDramPublicType(info: PartDecodeDraft): void {
+  if (info.device.chipKind !== "dram") {
     return;
   }
 
-  const extra = asRecord(info.fields);
+  const extra = draftFields(info);
   const type = publicDramType(extra.dram_type);
   if (type) {
-    info.type = type;
+    setDraftField(info, "dram_type", type);
   }
-  delete extra.dram_type;
 }
 
-function pruneRedundantFields(info: InternalPartInfo): void {
+function pruneRedundantFields(info: PartDecodeDraft): void {
   const extra = info.fields;
   if (!extra || typeof extra !== "object" || Array.isArray(extra)) {
     return;
@@ -326,22 +342,22 @@ function pruneRedundantFields(info: InternalPartInfo): void {
   const productVersionText = normalizeInfoText(productVersion);
   if (
     productVersionText.length > 0 &&
-    (productVersionText === normalizeInfoText(storageInterface) || productVersionText === normalizeInfoText(info.type))
+    (productVersionText === normalizeInfoText(storageInterface) || productVersionText === partTypeText(info))
   ) {
     delete extra.product_version;
   }
 
-  const productFamilyText = removeVendorPrefix(String(productFamily ?? ""), info.vendor);
+  const productFamilyText = removeVendorPrefix(String(productFamily ?? ""), draftVendor(info));
   if (
     productFamilyText.length > 0 &&
     (productFamilyText === normalizeInfoText(productVersion) ||
       productFamilyText === normalizeInfoText(storageInterface) ||
-      productFamilyText === normalizeInfoText(info.type))
+      productFamilyText === partTypeText(info))
   ) {
     delete extra.product_family;
   }
 
-  if (managedNandType && normalizeInfoText(storageInterface) === normalizeInfoText(info.type)) {
+  if (managedNandType && normalizeInfoText(storageInterface) === partTypeText(info)) {
     delete extra.storage_interface;
   }
 }
@@ -712,7 +728,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return result;
   };
 
-  const applyIdentifierInfoHooks = (info: InternalIdentifierInfo): InternalIdentifierInfo => {
+  const applyIdentifierInfoHooks = (info: IdentifierDecodeDraft): IdentifierDecodeDraft => {
     let next = info;
     for (const processor of internalDecodeHooks) {
       if (processor.identifierInfo) {
@@ -722,19 +738,26 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return next;
   };
 
-  const decodeNandFlashIdRaw = (id: string): InternalIdentifierInfo => {
+  const decodeNandFlashIdRaw = (id: string): IdentifierDecodeDraft => {
     const normalized = normalizeFlashId(id);
     const padded = padFlashId(normalized);
-    let info: InternalIdentifierInfo | null = null;
+    let info: IdentifierDecodeDraft | null = null;
 
     for (const decoder of identifierDecoders) {
       if (decoder.idScheme === "nand.flash_id" && decoder.check(padded)) {
         const decoded = decoder.decode(padded);
         if (decoded) {
           info = {
-            id: padded,
-            vendor: UNKNOWN,
-            ...decoded
+            ...decoded,
+            device: {
+              ...decoded.device,
+              domain: decoded.device.domain ?? "memory",
+              chipKind: decoded.device.chipKind ?? "raw_nand",
+              vendor: decoded.device.vendor ?? UNKNOWN,
+              identifier: decoded.device.identifier ?? padded,
+              idScheme: decoded.device.idScheme ?? "nand.flash_id"
+            },
+            fields: { ...(decoded.fields ?? {}) }
           };
           break;
         }
@@ -743,18 +766,27 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
     if (!info) {
       info = {
-        id: padded,
-        vendor: inferVendorFromFlashId(padded)
+        device: {
+          identifier: padded,
+          idScheme: "nand.flash_id",
+          domain: "memory",
+          chipKind: "raw_nand",
+          vendor: inferVendorFromFlashId(padded)
+        },
+        fields: {}
       };
     }
 
     const flashIdRecord = findFlashIdRecord(fdb, padded);
     if (flashIdRecord) {
-      info.controllers = flashIdRecord.t ?? [];
-      info.partNumbers = flashIdRecord.n ?? [];
+      info.controllers = mergeStringArray(info.controllers, flashIdRecord.t);
+      info.identifiers = {
+        ...(info.identifiers ?? {}),
+        partNumbers: mergeStringArray(info.identifiers?.partNumbers, flashIdRecord.n)
+      };
       const fdbVendor = inferSingleVendorFromPartReferences(flashIdRecord.n);
-      if (fdbVendor && info.vendor !== fdbVendor) {
-        info.vendor = fdbVendor;
+      if (fdbVendor && draftVendor(info) !== fdbVendor) {
+        info.device.vendor = fdbVendor;
       }
     }
 
@@ -765,7 +797,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     const nodes = new Set<string>();
     for (const id of ids ?? []) {
       const decoded = decodeNandFlashIdRaw(id);
-      const processNode = typeof decoded.processNode === "string" ? decoded.processNode.trim() : "";
+      const processNode = typeof draftField(decoded, "process_node") === "string" ? String(draftField(decoded, "process_node")).trim() : "";
       if (processNode && processNode !== UNKNOWN) {
         nodes.add(processNode);
       }
@@ -793,23 +825,23 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return result;
   };
 
-  const combineFromFdb = (info: InternalPartInfo, lookupPartNumber = info.partNumber): InternalPartInfo => {
-    const lookupPartNumbers = [...new Set([info.partNumber, lookupPartNumber].map((item) => normalizePartNumber(item)).filter(Boolean))];
+  const combineFromFdb = (info: PartDecodeDraft, lookupPartNumber = draftPartNumber(info)): PartDecodeDraft => {
+    const lookupPartNumbers = [...new Set([draftPartNumber(info), lookupPartNumber].map((item) => normalizePartNumber(item)).filter(Boolean))];
     const allMatches = matchingFdbRecords(lookupPartNumbers);
     const allControllers = allMatches.flatMap(({ record }) => record.t ?? []);
     if (allControllers.length > 0) {
-      info.controller = mergeStringArray(info.controller, allControllers);
+      info.controllers = mergeStringArray(info.controllers, allControllers);
     }
 
     // SpecTek package markings resolve through the Micron-like lookup path, while SpecTek PNs should not
     // inherit Micron FDB-combined fields.
-    if (info.vendor === "spectek") {
+    if (draftVendor(info) === "spectek") {
       return info;
     }
 
     let byVendor: PartNumberRecord | undefined;
     for (const partNumber of lookupPartNumbers) {
-      byVendor = getPartNumberRecord(fdb, info.vendor, partNumber);
+      byVendor = getPartNumberRecord(fdb, draftVendor(info), partNumber);
       if (byVendor) {
         break;
       }
@@ -830,85 +862,55 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       return info;
     }
 
-    if (byAny?.vendor && info.vendor === UNKNOWN) {
-      info.vendor = byAny.vendor;
+    if (!info.device.chipKind || info.device.chipKind === "unknown") {
+      info.device.chipKind = "raw_nand";
     }
 
-    info.flashId = record.id ?? [];
-    info.controller = mergeStringArray(info.controller, record.t ?? []);
-    for (const id of info.flashId) {
-      info.controller = mergeStringArray(info.controller, findFlashIdRecord(fdb, id)?.t);
+    if (byAny?.vendor && draftVendor(info) === UNKNOWN) {
+      info.device.vendor = byAny.vendor;
     }
 
-    if ((info.processNode == null || info.processNode === UNKNOWN) && record.l) {
-      info.processNode = record.l;
+    info.identifiers = {
+      ...(info.identifiers ?? {}),
+      flashIds: mergeStringArray(info.identifiers?.flashIds, record.id ?? [])
+    };
+    info.controllers = mergeStringArray(info.controllers, record.t ?? []);
+    for (const id of info.identifiers.flashIds ?? []) {
+      info.controllers = mergeStringArray(info.controllers, findFlashIdRecord(fdb, id)?.t);
     }
 
-    if (info.processNode == null || info.processNode === UNKNOWN) {
+    if (!isKnownClassificationValue(draftField(info, "process_node")) && record.l) {
+      setDraftField(info, "process_node", record.l);
+    }
+
+    if (!isKnownClassificationValue(draftField(info, "process_node"))) {
       const processNode = processNodeFromIdentifiers(record.id);
       if (processNode) {
-        info.processNode = processNode;
+        setDraftField(info, "process_node", processNode);
       }
     }
 
-    if (info.cellLevel == null && record.c) {
-      info.cellLevel = record.c;
+    if (!isKnownClassificationValue(draftField(info, "cell_level")) && record.c) {
+      setDraftField(info, "cell_level", record.c);
     }
 
-    info.remark = record.m ?? "";
-
-    if (info.vendor === "sndk" && typeof info.remark === "string" && info.remark.length > 0) {
-      // Some SanDisk records encode special flags inside the remark string (e.g. "CODE/Txxxx/...").
-      // Move those flags into fields and clean up the remark before building fields.
-      const parts = info.remark.split("/");
-      const remarkParts: string[] = [];
-      const fields =
-        info.fields && typeof info.fields === "object" && !Array.isArray(info.fields) ? (info.fields as Record<string, unknown>) : {};
-      for (const part of parts) {
-        if (!part) continue;
-        if (part === "CODE") {
-          fields.sandisk_code = true;
-          continue;
-        }
-        if (/^T[0-9A-Z]{4}$/.test(part)) {
-          fields.kioxia = part.slice(1);
-          continue;
-        }
-        remarkParts.push(part);
-      }
-      info.fields = fields;
-      info.remark = remarkParts.join("/");
-    }
-
-    const classification = (info.classification && typeof info.classification === "object" ? info.classification : null) ?? {
-      die: -1,
-      ce: -1,
-      rb: -1,
-      ch: -1
-    };
-    for (const key of ["die", "ce", "rb", "ch"] as const) {
-      if (!(key in (classification as Record<string, unknown>))) {
-        (classification as Record<string, unknown>)[key] = -1;
-      }
-    }
     if (record.d != null && record.d !== -1) {
-      classification.die = record.d;
+      setDraftField(info, "die_count", record.d);
     }
     if (record.e != null && record.e !== -1) {
-      classification.ce = record.e;
+      setDraftField(info, "ce_count", record.e);
     }
     if (record.r != null && record.r !== -1) {
-      classification.rb = record.r;
+      setDraftField(info, "rb_count", record.r);
     }
     if (record.n != null && record.n !== -1) {
-      classification.ch = record.n;
+      setDraftField(info, "channel_count", record.n);
     }
-    info.classification = classification;
 
     return info;
   };
 
-  const applyPartInfoHooks = (info: InternalPartInfo): InternalPartInfo => {
+  const applyPartInfoHooks = (info: PartDecodeDraft): PartDecodeDraft => {
     let next = info;
     for (const processor of internalDecodeHooks) {
       if (processor.partInfo) {
@@ -918,7 +920,36 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return next;
   };
 
-  const detectRaw = (partNumber: string, opts: InternalPartDecodeOptions, allowMicronFbga: boolean): InternalPartInfo => {
+  const unknownPartDraft = (partNumber: string, vendor = UNKNOWN): PartDecodeDraft => ({
+    device: {
+      partNumber,
+      vendor,
+      domain: "memory",
+      chipKind: "unknown"
+    },
+    fields: {}
+  });
+
+  const normalizePartDraft = (partNumber: string, decoded: PartDecodeDraft): PartDecodeDraft => ({
+    ...decoded,
+    device: {
+      ...decoded.device,
+      domain: decoded.device.domain ?? "memory",
+      chipKind: decoded.device.chipKind ?? "unknown",
+      vendor: decoded.device.vendor ?? UNKNOWN,
+      partNumber: decoded.device.partNumber ?? partNumber
+    },
+    fields: { ...(decoded.fields ?? {}) },
+    identifiers: decoded.identifiers
+      ? { flashIds: mergeStringArray([], decoded.identifiers.flashIds) }
+      : undefined,
+    controllers: mergeStringArray([], decoded.controllers),
+    components: decoded.components ? [...decoded.components] : undefined,
+    meta: decoded.meta ? { ...decoded.meta } : undefined,
+    warnings: decoded.warnings ? [...decoded.warnings] : undefined
+  });
+
+  const detectRaw = (partNumber: string, opts: PartDecodeOptions, allowMicronFbga: boolean): PartDecodeDraft => {
     if (allowMicronFbga) {
       const fbga = parseMicronFbgaCode(partNumber);
       if (fbga) {
@@ -941,7 +972,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         const candidates = micronDramFbgaCodes.get(knownDramFbga.key) ?? [];
         for (const resolved of candidates) {
           const base = detectRaw(resolved, opts, false);
-          if (base.vendor === UNKNOWN && base.rawVendor == null) {
+          if (draftVendor(base) === UNKNOWN) {
             continue;
           }
 
@@ -952,25 +983,21 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           return withMeta;
         }
 
-        return { partNumber: knownDramFbga.display, vendor: UNKNOWN };
+        return unknownPartDraft(knownDramFbga.display);
       }
 
       if (fbga) {
-        return { partNumber: fbga.display, vendor: UNKNOWN };
+        return unknownPartDraft(fbga.display);
       }
     }
 
-    let info: InternalPartInfo | null = null;
+    let info: PartDecodeDraft | null = null;
 
     for (const decoder of decoders) {
       if (decoder.check(partNumber)) {
         const decoded = decoder.decode(partNumber);
         if (decoded) {
-          info = {
-            partNumber,
-            vendor: UNKNOWN,
-            ...decoded
-          };
+          info = normalizePartDraft(partNumber, decoded);
           break;
         }
       }
@@ -978,10 +1005,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
     if (!info) {
       const found = findPartNumberAcrossVendors(fdb, partNumber);
-      info = {
-        partNumber,
-        vendor: found?.vendor ?? UNKNOWN
-      };
+      info = unknownPartDraft(partNumber, found?.vendor ?? UNKNOWN);
     }
 
     if (opts.combineFdb ?? true) {
@@ -1001,7 +1025,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return priority;
   };
 
-  const inspectPartForClassification = (partNumber: string): InternalPartInfo => {
+  const inspectPartForClassification = (partNumber: string): PartDecodeDraft => {
     const info = detectRaw(partNumber, { combineFdb: true }, true);
     applyDramClassification(info);
     applyDramPublicType(info);
@@ -1019,18 +1043,14 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
   const suggestionFromPartCandidate = (candidate: PartClassificationCandidate): PartSearchSuggestion => {
     const info = candidate.info ?? inspectPartForClassification(candidate.partNumber);
-    const density = typeof info.density === "number" && Number.isFinite(info.density) && info.density > 0
-      ? info.density
-      : typeof info.rawDensity === "number" && Number.isFinite(info.rawDensity) && info.rawDensity > 0
-        ? info.rawDensity
-        : undefined;
+    const density = draftDensity(info);
     return {
       vendor: candidate.vendor,
       partNumber: candidate.partNumber,
       chipKind: candidate.chipKind,
       ...(candidate.productType ? { productType: candidate.productType } : {}),
       ...(candidate.markingCode ? { markingCode: candidate.markingCode } : {}),
-      ...(density ? { rawDensity: density } : {}),
+      ...(density ? { density } : {}),
       ...(candidate.warnings.length > 0 ? { warnings: candidate.warnings } : {})
     };
   };
@@ -1038,17 +1058,18 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const publicCandidatesFromPartClassification = (candidates: PartClassificationCandidate[], lang?: string | null): Candidate[] =>
     candidates.slice(0, 5).map((candidate) => buildPartCandidate(suggestionFromPartCandidate(candidate), resultBuilderContext, lang));
 
-  const withMarkingCode = (info: InternalPartInfo, markingCode: string | undefined): InternalPartInfo => {
+  const withMarkingCode = (info: PartDecodeDraft, markingCode: string | undefined): PartDecodeDraft => {
     if (!markingCode) {
       return info;
     }
-    const existingFields = info.fields && typeof info.fields === "object" && !Array.isArray(info.fields)
-      ? info.fields
-      : {};
     return {
       ...info,
+      device: {
+        ...info.device,
+        markingCode
+      },
       fields: {
-        ...existingFields,
+        ...(info.fields ?? {}),
         marking_code: markingCode
       }
     };
@@ -1096,22 +1117,31 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return result;
   };
 
-  const decodeNandFlashIdSearchHit = (id: string): InternalIdentifierInfo => {
+  const decodeNandFlashIdSearchHit = (id: string): IdentifierDecodeDraft => {
     const info = decodeNandFlashIdRaw(id);
     const exactRecord = findFlashIdRecord(fdb, id);
     if (!exactRecord) {
       return {
         ...info,
-        id
+        device: {
+          ...info.device,
+          identifier: id
+        }
       };
     }
     const fdbVendor = inferSingleVendorFromPartReferences(exactRecord.n);
     return {
       ...info,
-      id,
+      device: {
+        ...info.device,
+        identifier: id,
+        ...(fdbVendor && draftVendor(info) !== fdbVendor ? { vendor: fdbVendor } : {})
+      },
       controllers: mergeStringArray(info.controllers, exactRecord.t),
-      partNumbers: mergeStringArray(info.partNumbers, exactRecord.n),
-      ...(fdbVendor && info.vendor !== fdbVendor ? { vendor: fdbVendor } : {})
+      identifiers: {
+        ...(info.identifiers ?? {}),
+        partNumbers: mergeStringArray(info.identifiers?.partNumbers, exactRecord.n)
+      }
     };
   };
 

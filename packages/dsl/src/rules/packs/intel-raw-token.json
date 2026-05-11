@@ -225,6 +225,27 @@
           "S": {
             "sku": "intel_sku_s"
           }
+        },
+        "draftChipKind": {
+          "nand": "raw_nand",
+          "on_die_ecc_nand": "on_die_ecc_nand",
+          "dram": "dram",
+          "emmc": "managed_nand",
+          "ufs": "managed_nand",
+          "sata": "managed_nand",
+          "nvme": "managed_nand",
+          "emcp": "managed_nand",
+          "umcp": "managed_nand",
+          "e2nand": "managed_nand"
+        },
+        "draftProductType": {
+          "emmc": "emmc",
+          "ufs": "ufs",
+          "sata": "sata",
+          "nvme": "nvme",
+          "emcp": "emcp",
+          "umcp": "umcp",
+          "e2nand": "e2nand"
         }
       },
       "steps": [
@@ -426,57 +447,83 @@
           "op": "merge",
           "into": "extra",
           "from": "skuObj"
+        },
+        {
+          "op": "map",
+          "from": "type",
+          "table": "draftChipKind",
+          "to": "draftChipKind",
+          "default": "raw_nand"
+        },
+        {
+          "op": "map",
+          "from": "type",
+          "table": "draftProductType",
+          "to": "draftProductType",
+          "default": null
         }
       ],
       "assign": {
-        "vendor": "intel",
-        "type": {
-          "$var": "type"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "density": {
-          "$var": "density"
+        "device.domain": "memory",
+        "device.vendor": "intel",
+        "device.chipKind": {
+          "$var": "draftChipKind"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "processNode": {
-          "$var": "processNodeFinal"
-        },
-        "generation": {
-          "$var": "generation"
-        },
-        "package": {
-          "$var": "package"
-        },
-        "interface": {
-          "async": true,
-          "sync": {
-            "$var": "sync"
-          }
-        },
-        "classification": {
-          "ce": {
-            "$var": "ce"
-          },
-          "rb": {
-            "$var": "rb"
-          },
-          "ch": {
-            "$var": "ch"
-          },
-          "die": {
-            "$var": "die"
-          }
+        "device.productType": {
+          "$var": "draftProductType"
         },
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.process_node": {
+          "$var": "processNodeFinal"
+        },
+        "fields.generation_info": {
+          "$var": "generation"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "meta.ruleId": "vendor.intel.token.v1"
       }
     }
   },
@@ -501,8 +548,13 @@
       "value": "I29F"
     },
     "set": {
-      "vendor": "intel",
-      "type": "nand"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "intel",
+      "device.chipKind": "raw_nand",
+      "meta.ruleId": "vendor.intel.i29.prefix.v1"
     }
   }
 ]

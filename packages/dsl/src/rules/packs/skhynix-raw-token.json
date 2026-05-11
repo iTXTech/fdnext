@@ -449,49 +449,58 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "nand",
-        "voltage": {
-          "$var": "voltage"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "density": {
-          "$var": "density"
-        },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "generation": {
-          "$var": "generation"
-        },
-        "package": {
-          "$var": "package"
-        },
-        "interface": {
-          "async": true,
-          "sync": {
-            "$var": "sync"
-          }
-        },
-        "classification": {
-          "ce": {
-            "$var": "ce"
-          },
-          "rb": {
-            "$var": "rb"
-          },
-          "ch": {
-            "$var": "ch"
-          },
-          "die": {
-            "$var": "die"
-          }
-        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "raw_nand",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.generation_info": {
+          "$var": "generation"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "meta.ruleId": "vendor.skhynix.token.v1"
       }
     }
   }

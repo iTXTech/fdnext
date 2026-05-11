@@ -287,31 +287,56 @@
         }
       ],
       "assign": {
-        "vendor": "ymtc",
-        "type": "emmc",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "processNode": {
-          "$var": "processNode"
-        },
-        "generation": {
-          "$var": "generation"
-        },
-        "package": {
-          "$var": "package"
-        },
-        "classification": {
-          "die": {
-            "$var": "die"
-          }
-        },
+        "device.domain": "memory",
+        "device.vendor": "ymtc",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.generation_info": {
+          "$var": "generation"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "meta.ruleId": "vendor.ymtc.emmc-label.v1"
       }
     }
   }

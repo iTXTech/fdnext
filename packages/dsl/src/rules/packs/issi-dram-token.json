@@ -2,13 +2,6 @@
   {
     "id": "vendor.issi.dram.standard.component.v1",
     "priority": 1010,
-    "domain": "memory",
-    "chipKind": "dram",
-    "fieldProfile": "dram",
-    "capabilities": [
-      "part.decode",
-      "part.search"
-    ],
     "normalize": [
       "trim",
       "uppercase",
@@ -47,53 +40,41 @@
           "QR:true": "1.2V VDD"
         },
         "configToken": {
-          "81280": "81280",
-          "16640": "16640",
-          "82560": "82560",
           "16128": "16128",
-          "85120": "85120",
           "16256": "16256",
-          "81024": "81024",
-          "16512S2": "16512S2",
           "16512": "16512",
+          "16640": "16640",
+          "81024": "81024",
+          "81280": "81280",
+          "82560": "82560",
+          "85120": "85120",
+          "16512S2": "16512S2",
           "8K02S2": "8K02S2",
           "16K01S2": "16K01S2"
         },
         "configObj": {
-          "81280": {
-            "density": 1024,
-            "device_width": 8,
-            "config_code": "128M8",
-            "package": "78-ball BGA"
-          },
-          "16640": {
-            "density": 1024,
-            "device_width": 16,
-            "config_code": "64M16",
-            "package": "96-ball BGA"
-          },
-          "82560": {
-            "density": 2048,
-            "device_width": 8,
-            "config_code": "256M8",
-            "package": "78-ball BGA"
-          },
           "16128": {
             "density": 2048,
             "device_width": 16,
             "config_code": "128M16",
             "package": "96-ball BGA"
           },
-          "85120": {
-            "density": 4096,
-            "device_width": 8,
-            "config_code": "512M8",
-            "package": "78-ball BGA"
-          },
           "16256": {
             "density": 4096,
             "device_width": 16,
             "config_code": "256M16",
+            "package": "96-ball BGA"
+          },
+          "16512": {
+            "density": 8192,
+            "device_width": 16,
+            "config_code": "512M16",
+            "package": "96-ball BGA"
+          },
+          "16640": {
+            "density": 1024,
+            "device_width": 16,
+            "config_code": "64M16",
             "package": "96-ball BGA"
           },
           "81024": {
@@ -102,11 +83,23 @@
             "config_code": "1G8",
             "package": "78-ball BGA"
           },
-          "16512": {
-            "density": 8192,
-            "device_width": 16,
-            "config_code": "512M16",
-            "package": "96-ball BGA"
+          "81280": {
+            "density": 1024,
+            "device_width": 8,
+            "config_code": "128M8",
+            "package": "78-ball BGA"
+          },
+          "82560": {
+            "density": 2048,
+            "device_width": 8,
+            "config_code": "256M8",
+            "package": "78-ball BGA"
+          },
+          "85120": {
+            "density": 4096,
+            "device_width": 8,
+            "config_code": "512M8",
+            "package": "78-ball BGA"
           },
           "16512S2": {
             "density": 8192,
@@ -231,36 +224,39 @@
         }
       ],
       "assign": {
-        "vendor": "issi",
-        "type": "dram",
-        "density": {
-          "$path": "configObj.density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$path": "configObj.device_width"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": {
-          "$path": "configObj.package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "issi",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$path": "configObj.density"
+        },
+        "fields.dram_width": {
+          "$path": "configObj.device_width"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$path": "configObj.package"
+        },
+        "meta.ruleId": "vendor.issi.dram.standard.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
       }
     }
   },
   {
     "id": "vendor.issi.dram.lpddr4.component.v1",
     "priority": 1010,
-    "domain": "memory",
-    "chipKind": "dram",
-    "fieldProfile": "dram",
-    "capabilities": [
-      "part.decode",
-      "part.search"
-    ],
     "normalize": [
       "trim",
       "uppercase",
@@ -550,23 +546,33 @@
         }
       ],
       "assign": {
-        "vendor": "issi",
-        "type": "dram",
-        "density": {
-          "$path": "productObj.density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$path": "productObj.device_width"
-        },
-        "voltage": {
-          "$path": "productObj.voltage"
-        },
-        "package": {
-          "$path": "productObj.package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "issi",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$path": "productObj.density"
+        },
+        "fields.dram_width": {
+          "$path": "productObj.device_width"
+        },
+        "fields.dram_voltage": {
+          "$path": "productObj.voltage"
+        },
+        "fields.package": {
+          "$path": "productObj.package"
+        },
+        "meta.ruleId": "vendor.issi.dram.lpddr4.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
       }
     }
   }

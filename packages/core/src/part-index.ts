@@ -1,7 +1,8 @@
 import { UNKNOWN } from "./constants";
-import { asRecord, inferChipKindFromInfo, inferProductTypeFromInfo, isKnownInfoValue, normalizeInfoText } from "./device-inference";
+import { draftDensity, draftField, draftVendor } from "./draft";
+import { asRecord, inferChipKindFromDraft, inferProductTypeFromDraft, isKnownInfoValue, normalizeInfoText } from "./device-inference";
 import type { FdnextChipKind, FdnextProductType, OperationConstraints, ResultWarning } from "./result";
-import type { FdbDataset, FlashIdRecord, InternalPartInfo, KnownPartNumberEntry, MdbDataset } from "./types";
+import type { FdbDataset, FlashIdRecord, KnownPartNumberEntry, MdbDataset, PartDecodeDraft } from "./types";
 import { normalizeFlashId, normalizePartNumber } from "./utils/normalize";
 import { contains } from "./utils/string";
 
@@ -60,7 +61,7 @@ export interface PartClassificationCandidate {
   source: PartIndexSource | MarkingIndexSource;
   matchKind: "exact" | "prefix" | "contains" | "fallback";
   score: number;
-  info?: InternalPartInfo;
+  info?: PartDecodeDraft;
   warnings: ResultWarning[];
 }
 
@@ -87,7 +88,7 @@ export interface ClassifyPartOptions {
   mode: "decode" | "search";
   limit?: number;
   partialMatch?: boolean;
-  inspectPart(partNumber: string): InternalPartInfo;
+  inspectPart(partNumber: string): PartDecodeDraft;
   decoderPriority(partNumber: string): number;
 }
 
@@ -298,23 +299,34 @@ function matchWeight(kind: PartClassificationCandidate["matchKind"]): number {
   }
 }
 
-function tokenCompleteness(info: InternalPartInfo): number {
+function tokenCompleteness(info: PartDecodeDraft): number {
   let score = 0;
-  if (isKnownInfoValue(info.type)) score += 6;
-  if (isKnownInfoValue(info.density)) score += 6;
-  if (isKnownInfoValue(info.package)) score += 4;
-  if (isKnownInfoValue(info.processNode)) score += 3;
-  if (isKnownInfoValue(info.cellLevel)) score += 3;
+  if (isKnownInfoValue(info.device.productType) || isKnownInfoValue(draftField(info, "product_type")) || isKnownInfoValue(draftField(info, "dram_type"))) score += 6;
+  if (isKnownInfoValue(draftDensity(info))) score += 6;
+  if (isKnownInfoValue(draftField(info, "package"))) score += 4;
+  if (isKnownInfoValue(draftField(info, "process_node"))) score += 3;
+  if (isKnownInfoValue(draftField(info, "cell_level"))) score += 3;
   const extra = asRecord(info.fields);
-  score += Math.min(8, Object.keys(extra).filter((key) => isKnownInfoValue(extra[key])).length);
+  const primaryKeys = new Set([
+    "density",
+    "dram_density",
+    "package",
+    "process_node",
+    "cell_level",
+    "device_width",
+    "dram_width",
+    "voltage",
+    "dram_voltage"
+  ]);
+  score += Math.min(8, Object.keys(extra).filter((key) => !primaryKeys.has(key) && isKnownInfoValue(extra[key])).length);
   return score;
 }
 
-function vendorConsistency(candidateVendor: string, info: InternalPartInfo): number {
-  if (!isKnownInfoValue(info.vendor)) {
+function vendorConsistency(candidateVendor: string, info: PartDecodeDraft): number {
+  if (!isKnownInfoValue(draftVendor(info))) {
     return 0;
   }
-  return vendorMatches(String(info.vendor), candidateVendor) ? 18 : -60;
+  return vendorMatches(draftVendor(info), candidateVendor) ? 18 : -60;
 }
 
 function productTypeMatches(actual: FdnextProductType | undefined, expected: FdnextProductType): boolean {
@@ -383,9 +395,9 @@ function enrichCandidate(
   options: ClassifyPartOptions
 ): PartClassificationCandidate | null {
   const info = options.inspectPart(base.partNumber);
-  const decodedChipKind = inferChipKindFromInfo(info);
-  const decodedProductType = inferProductTypeFromInfo(info);
-  const vendor = base.vendor === UNKNOWN && isKnownInfoValue(info.vendor) ? String(info.vendor) : base.vendor;
+  const decodedChipKind = inferChipKindFromDraft(info);
+  const decodedProductType = inferProductTypeFromDraft(info);
+  const vendor = base.vendor === UNKNOWN && isKnownInfoValue(draftVendor(info)) ? draftVendor(info) : base.vendor;
   const chipKind = base.chipKind === "unknown" || (base.chipKind === "raw_nand" && decodedChipKind === "on_die_ecc_nand")
     ? decodedChipKind
     : base.chipKind;

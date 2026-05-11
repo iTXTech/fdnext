@@ -204,18 +204,24 @@
         }
       ],
       "assign": {
-        "vendor": "longsys",
-        "type": "ufs",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "cellLevel": 3,
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "longsys",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.cell_level": 3,
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.longsys.foresee.ufs.v1"
       }
     }
   }

@@ -36,14 +36,30 @@
           "HG": 16777216
         },
         "componentDensityObj": {
-          "AG": { "component_density": "16GB package" },
-          "BG": { "component_density": "32GB package" },
-          "CG": { "component_density": "64GB package" },
-          "DG": { "component_density": "128GB package" },
-          "EG": { "component_density": "256GB package" },
-          "FG": { "component_density": "512GB package" },
-          "GG": { "component_density": "1TB package" },
-          "HG": { "component_density": "2TB package" }
+          "AG": {
+            "component_density": "16GB package"
+          },
+          "BG": {
+            "component_density": "32GB package"
+          },
+          "CG": {
+            "component_density": "64GB package"
+          },
+          "DG": {
+            "component_density": "128GB package"
+          },
+          "EG": {
+            "component_density": "256GB package"
+          },
+          "FG": {
+            "component_density": "512GB package"
+          },
+          "GG": {
+            "component_density": "1TB package"
+          },
+          "HG": {
+            "component_density": "2TB package"
+          }
         },
         "dieStack": {
           "1": 1,
@@ -168,27 +184,69 @@
           "L:D": "V9 280L"
         },
         "generationObj": {
-          "G:D": { "generation_info": "16nm" },
-          "G:E": { "generation_info": "14nm" },
-          "G:F": { "generation_info": "14nm" },
-          "J:B": { "generation_info": "14nm" },
-          "J:D": { "generation_info": "14nm" },
-          "K:A": { "generation_info": "V4 64L" },
-          "V:E": { "generation_info": "V3 48L" },
-          "V:M": { "generation_info": "V3 48L" },
-          "U:A": { "generation_info": "V4 64L" },
-          "U:B": { "generation_info": "V5 92L" },
-          "U:C": { "generation_info": "V6 128L" },
-          "R:M": { "generation_info": "V4 64L" },
-          "R:A": { "generation_info": "V5 92L" },
-          "R:B": { "generation_info": "V6 128L" },
-          "R:D": { "generation_info": "V7 176L" },
-          "R:E": { "generation_info": "V6P 133L" },
-          "R:F": { "generation_info": "V8 236L" },
-          "N:B": { "generation_info": "V8 236L" },
-          "N:D": { "generation_info": "V9 280L" },
-          "L:C": { "generation_info": "V7 176L" },
-          "L:D": { "generation_info": "V9 280L" }
+          "G:D": {
+            "generation_info": "16nm"
+          },
+          "G:E": {
+            "generation_info": "14nm"
+          },
+          "G:F": {
+            "generation_info": "14nm"
+          },
+          "J:B": {
+            "generation_info": "14nm"
+          },
+          "J:D": {
+            "generation_info": "14nm"
+          },
+          "K:A": {
+            "generation_info": "V4 64L"
+          },
+          "V:E": {
+            "generation_info": "V3 48L"
+          },
+          "V:M": {
+            "generation_info": "V3 48L"
+          },
+          "U:A": {
+            "generation_info": "V4 64L"
+          },
+          "U:B": {
+            "generation_info": "V5 92L"
+          },
+          "U:C": {
+            "generation_info": "V6 128L"
+          },
+          "R:M": {
+            "generation_info": "V4 64L"
+          },
+          "R:A": {
+            "generation_info": "V5 92L"
+          },
+          "R:B": {
+            "generation_info": "V6 128L"
+          },
+          "R:D": {
+            "generation_info": "V7 176L"
+          },
+          "R:E": {
+            "generation_info": "V6P 133L"
+          },
+          "R:F": {
+            "generation_info": "V8 236L"
+          },
+          "N:B": {
+            "generation_info": "V8 236L"
+          },
+          "N:D": {
+            "generation_info": "V9 280L"
+          },
+          "L:C": {
+            "generation_info": "V7 176L"
+          },
+          "L:D": {
+            "generation_info": "V9 280L"
+          }
         },
         "package": {
           "B": "BGA-153 11.5x13 / 11x13",
@@ -237,7 +295,11 @@
           "KLU": {
             "status": "external_confirmed",
             "source": "Samsung UFS 3.1 / 4.0 / 4.1 product pages and eStorage overview",
-            "examples": ["KLUEG8UHDB-C2E1", "KLUFG8RHHF-F0G1", "KLUEG4RHKF-F0H1"],
+            "examples": [
+              "KLUEG8UHDB-C2E1",
+              "KLUFG8RHHF-F0G1",
+              "KLUEG4RHKF-F0H1"
+            ],
             "notes": "Official UFS pages confirm UFS 3.1, UFS 4.0, UFS 4.1, G4/G5 controller class, package and capacity families."
           }
         }
@@ -434,31 +496,56 @@
         }
       ],
       "assign": {
-        "vendor": "samsung",
-        "type": "ufs",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "processNode": {
-          "$var": "processNode"
-        },
-        "package": {
-          "$var": "package"
-        },
-        "classification": {
-          "die": {
-            "$var": "die"
-          }
-        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "meta.ruleId": "vendor.samsung.ufs.token.v1"
       }
     }
   }

@@ -34,7 +34,7 @@ pnpm contract:check
 - 搜索文件和文本优先用 `rg` / `rg --files`。
 - 小范围手工改文件用 `apply_patch`。
 - 新增或调整规则后，优先补测试；测试位置通常是 `packages/dsl/test/managed-nand.test.ts`。
-- 修改 `extraInfo` 字段名时，同步检查 `packages/resources/resources/lang/eng.json` 和 `packages/resources/resources/lang/chs.json`。
+- 新增或重命名 canonical field key 时，同步检查 `packages/core/src/field-registry.ts`、`packages/resources/resources/lang/eng.json` 和 `packages/resources/resources/lang/chs.json`。
 - 对 JSON DSL 文件保持可读的表驱动结构。不要为了过测试引入一次性特判。
 
 ## PN DSL 规则约束
@@ -47,14 +47,14 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - 对未知 token 保留已能确定的字段，不应让整条 PN 直接失效。
 - 规则文件尽量按厂商和芯片 / 产品类型拆分。一个 JSON pack 中最好只放一种芯片或产品线的解析规则，例如 `samsung-ufs-token.json`、`skhynix-emcp-token.json`。
 - 新 pack 需要在 `packages/dsl/src/rules/default-rules.ts` 导入并加入 `defaultDslRules`。
-- 顶层 `density` 继续使用项目既有单位 Mbit，例如 8GB = `65536`。
-- `assign.extraInfo` 使用内部 key，例如 `component_density`、`generation_info`、`storage_interface`，不要直接写展示文本。
+- `fields.density` / `fields.dram_density` 继续使用项目既有单位 Mbit，例如 8GB = `65536`。
+- `tokenDecoder.assign` 只输出 native draft 路径：`device.*`、`fields.*`、`identifiers.*`、`controllers`、`components`、`meta.*`。用户可见字段使用 canonical snake_case key，例如 `component_density`、`generation_info`、`storage_interface`，不要直接写展示文本。
 - 不维护历史 metadata alias 或运行时兼容转换。新增或清理字段时，直接迁移 DSL 源规则、语言包和 testcase，并把旧 key 加入审计测试的禁止列表。
 
 特别禁止：
 
 - 用完整料号数组做直接匹配。
-- 把外部引用状态、来源 URL、推断来源等维护信息 merge 到 `extraInfo`。
+- 把外部引用状态、来源 URL、推断来源等维护信息 merge 到 `fields` 或公开结果。
 - 只根据厂商前缀判断 eMMC / UFS / MCP 类型；需要结合后续 token。
 
 ## PN 资料和可信度
@@ -87,7 +87,7 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 - `reference`
 - `inference_source`
 
-测试中可以用 `absentExtra` 明确防止这些字段泄漏。
+测试中应明确防止这些字段泄漏到 public fields。
 
 ## 跨厂商输出术语
 
@@ -121,10 +121,10 @@ pnpm contract:check
 
 测试期望应检查：
 
-- `rawVendor` / `type` / `rawDensity` / `density`
-- `processNode` / `cellLevel` / `package`
-- 关键 `extraInfo` 字段
-- 维护 metadata 没有泄漏到 `extraInfo`
+- `device.vendor` / `device.chipKind` / `device.productType`
+- canonical fields：`density` / `dram_density` / `process_node` / `cell_level` / `device_width` / `dram_width` / `package`
+- 关键 `fields.*` 字段
+- 维护 metadata 没有泄漏到 public fields
 
 ## 文档更新要求
 

@@ -19,11 +19,11 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 同一厂商同一 family 可能覆盖多个标准世代，例如 Micron `MT53` 通过 voltage token 区分 LPDDR4/LPDDR4X，`MT62` 通过 speed/package 资料区分 LPDDR5/LPDDR5X，`MT61` 通过 speed bin 区分 GDDR6/GDDR6X。
 - 规则内部只能保留单一 `dram_type` 来源。公开输出时折叠到顶层短 `type`，例如 `LPDDR5` / `LPDDR5X` / `GDDR6` / `GDDR6X`，不保留 `SDRAM` / `SGRAM` 后缀；如果 token 不足以确认细分世代，输出更保守的基础世代，或等待后续 token / 外部资料确认。
 - 已有厂商规则需要优先补全 frequency / speed bin 与 CS / die stack 信息；LPDDR、stacked DRAM 或 datasheet 明确 DDP/QDP/1CS/2CS 的 PN 必须输出 `dram_die_stack`。
-- `classification.ce` 不对 LPDDR/GDDR 做缺省推断；只有 `dram_die_stack` 明确包含 CS 数量时才写入。普通 DDR/DDR2/DDR3/DDR4/DDR5 缺少 CS 资料时可按单 CS 输出。
+- `fields.ce_count` 不对 LPDDR/GDDR 做缺省推断；只有 `dram_die_stack` 明确包含 CS 数量时才写入。普通 DDR/DDR2/DDR3/DDR4/DDR5 缺少 CS 资料时可按单 CS 输出。
 - 大容量 configuration 可以基于已确认的 density / width token 规律扩展到新一代高容量 PN；但不能仅凭 `24Gb`、`32Gb`、`64Gb` 或 config 容量推断 `dram_die_stack`，必须有封装 / ordering table / datasheet 明确说明。
 - `-` 后的 suffix 不应成为解码主结构的强制条件。缺 suffix 时应保留可确定字段，只减少 `dram_speed`、`operation_temperature`、`die_revision` 等后缀信息。
-- 顶层 `package` 只写可由 datasheet、原厂 catalog、TechInsights/TechPowerUp 或可信分销页确认的实际封装；仅有厂商代码时只写 `package_code`。
-- 每个新增世代至少补一个 testcase，验证顶层 `type/density/deviceWidth/voltage/package` 与标准 `fields`。
+- `fields.package` 只写可由 datasheet、原厂 catalog、TechInsights/TechPowerUp 或可信分销页确认的实际封装；仅有厂商代码时只写 `package_code`。
+- 每个新增世代至少补一个 testcase，验证 `device.productType` 以及 `fields.dram_density`、`fields.dram_width`、`fields.dram_voltage`、`fields.package` 等 canonical fields。
 - 已知 DRAM PN 样例维护在 `packages/resources/resources/dram-pn.json`，用于 PN 补全和搜索，只保留 `vendor/pn`；Micron / Crucial / Micron legacy Elpida DRAM FBGA code 映射统一维护在 `packages/resources/resources/mdb.json`，用于 code 反查和补全。两者都不是解码规则来源，字段仍必须由 DSL token 解析得出。`crawl-mdb-from-fbga` 默认按 `C9/D8/D9/Z8/Z9` + 字母网格生成 Micron DRAM FBGA 候选，`packages/resources/resources/micron-fbga-codes.json` 仅作为非默认网格的补充 code 输入，并排除 `crawl-mdb` 已覆盖的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`。
 
 ## 当前覆盖进度

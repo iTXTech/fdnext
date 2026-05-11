@@ -703,6 +703,27 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "marking",
     importance: "detail"
   },
+  prod_date: {
+    key: "prod_date",
+    valueKind: "string",
+    defaultLabel: "Production Date",
+    recommendedBlock: "marking",
+    importance: "detail"
+  },
+  diffusion_loc: {
+    key: "diffusion_loc",
+    valueKind: "string",
+    defaultLabel: "Diffusion Location",
+    recommendedBlock: "marking",
+    importance: "detail"
+  },
+  encapsulation_loc: {
+    key: "encapsulation_loc",
+    valueKind: "string",
+    defaultLabel: "Encapsulation Location",
+    recommendedBlock: "marking",
+    importance: "detail"
+  },
   prod_status: {
     key: "prod_status",
     valueKind: "string",

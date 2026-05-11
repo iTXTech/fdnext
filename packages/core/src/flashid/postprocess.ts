@@ -1,9 +1,10 @@
 import { patchMicronPartNumberProcessNode } from "../micron/process-node";
-import type { InternalIdentifierInfo, InternalPartInfo } from "../types";
+import { deleteDraftField, draftField, draftIdentifier, draftPartNumber, draftVendor, setDraftField } from "../draft";
+import type { IdentifierDecodeDraft, PartDecodeDraft } from "../types";
 
-interface InternalDecodePostprocessor {
-  partInfo?(partInfo: InternalPartInfo): InternalPartInfo;
-  identifierInfo?(identifierInfo: InternalIdentifierInfo): InternalIdentifierInfo;
+interface DecodeDraftPostprocessor {
+  partInfo?(partInfo: PartDecodeDraft): PartDecodeDraft;
+  identifierInfo?(identifierInfo: IdentifierDecodeDraft): IdentifierDecodeDraft;
 }
 import { normalizePartNumber } from "../utils/normalize";
 import { flashIdByteAt } from "./bytes";
@@ -263,10 +264,6 @@ const YMTC_DENSITY_BY_BYTE2: Record<number, number> = {
   0xd5: 1365 * GBIT_TO_MBIT
 };
 
-function isExtRecord(value: unknown): value is Record<string, unknown> {
-  return !!value && typeof value === "object" && !Array.isArray(value);
-}
-
 function lookupProcessNode(id: string, lookups: ProcessLookup[]): string | undefined {
   const normalized = id.toUpperCase();
   for (const lookup of lookups) {
@@ -292,12 +289,37 @@ function lookupString(table: Record<number, string>, byte: number): string | und
   return table[byte];
 }
 
-function patchIntelPartNumberProcessNode(info: InternalPartInfo): Partial<InternalPartInfo> | null {
-  if (info.vendor !== "intel") {
+function clonePartDraft(info: PartDecodeDraft): PartDecodeDraft {
+  return {
+    ...info,
+    device: { ...info.device },
+    fields: { ...(info.fields ?? {}) },
+    identifiers: info.identifiers ? { flashIds: [...(info.identifiers.flashIds ?? [])] } : undefined,
+    controllers: info.controllers ? [...info.controllers] : undefined,
+    components: info.components ? [...info.components] : undefined,
+    meta: info.meta ? { ...info.meta } : undefined,
+    warnings: info.warnings ? [...info.warnings] : undefined
+  };
+}
+
+function cloneIdentifierDraft(info: IdentifierDecodeDraft): IdentifierDecodeDraft {
+  return {
+    ...info,
+    device: { ...info.device },
+    fields: { ...(info.fields ?? {}) },
+    identifiers: info.identifiers ? { partNumbers: [...(info.identifiers.partNumbers ?? [])] } : undefined,
+    controllers: info.controllers ? [...info.controllers] : undefined,
+    meta: info.meta ? { ...info.meta } : undefined,
+    warnings: info.warnings ? [...info.warnings] : undefined
+  };
+}
+
+function patchIntelPartNumberProcessNode(info: PartDecodeDraft): PartDecodeDraft | null {
+  if (draftVendor(info) !== "intel") {
     return null;
   }
 
-  const normalized = normalizePartNumber(info.partNumber);
+  const normalized = normalizePartNumber(draftPartNumber(info));
   let processNode: string | undefined;
   if (normalized.includes("QKA")) {
     processNode = "N38B 144L";
@@ -307,113 +329,132 @@ function patchIntelPartNumberProcessNode(info: InternalPartInfo): Partial<Intern
     processNode = "N4PA 192L";
   }
 
-  if (!processNode || info.processNode === processNode) {
+  if (!processNode || draftField(info, "process_node") === processNode) {
     return null;
   }
-  return { processNode };
+  const next = clonePartDraft(info);
+  setDraftField(next, "process_node", processNode);
+  return next;
 }
 
-function patchMicronLike(info: InternalIdentifierInfo): Partial<InternalIdentifierInfo> | null {
-  const patch: Partial<InternalIdentifierInfo> = {};
+function patchMicronLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
+  const next = cloneIdentifierDraft(info);
   let changed = false;
+  const id = draftIdentifier(info);
 
-  const processNode = lookupProcessNode(info.id, MICRON_LIKE_PROCESS_LOOKUPS);
+  const processNode = lookupProcessNode(id, MICRON_LIKE_PROCESS_LOOKUPS);
   if (processNode) {
-    patch.processNode = processNode;
+    setDraftField(next, "process_node", processNode);
     changed = true;
   }
 
-  const density = lookupNumber(MICRON_LIKE_DENSITY_BY_BYTE2, flashIdByteAt(info.id, 2));
+  const density = lookupNumber(MICRON_LIKE_DENSITY_BY_BYTE2, flashIdByteAt(id, 2));
   if (density !== undefined) {
-    patch.density = density;
+    setDraftField(next, "density", density);
     changed = true;
   }
 
-  return changed ? patch : null;
+  return changed ? next : null;
 }
 
-function patchSamsung(info: InternalIdentifierInfo): Partial<InternalIdentifierInfo> | null {
-  const patch: Partial<InternalIdentifierInfo> = {};
+function patchSamsung(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
+  const next = cloneIdentifierDraft(info);
   let changed = false;
+  const id = draftIdentifier(info);
 
-  const density = lookupNumber(SAMSUNG_DENSITY_BY_BYTE2, flashIdByteAt(info.id, 2));
+  const density = lookupNumber(SAMSUNG_DENSITY_BY_BYTE2, flashIdByteAt(id, 2));
   if (density !== undefined) {
-    patch.density = density;
+    setDraftField(next, "density", density);
     changed = true;
   }
 
-  const maskedByte6 = flashIdByteAt(info.id, 6) & 0x7f;
+  const maskedByte6 = flashIdByteAt(id, 6) & 0x7f;
   const processNode = lookupString(SAMSUNG_PROCESS_BY_MASKED_BYTE6, maskedByte6);
   if (processNode) {
-    patch.processNode = processNode;
+    setDraftField(next, "process_node", processNode);
     changed = true;
   }
 
-  return changed ? patch : null;
+  return changed ? next : null;
 }
 
-function patchSkhynix(info: InternalIdentifierInfo): Partial<InternalIdentifierInfo> | null {
-  const patch: Partial<InternalIdentifierInfo> = {};
+function patchSkhynix(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
+  const next = cloneIdentifierDraft(info);
   let changed = false;
+  const id = draftIdentifier(info);
 
-  const density = lookupNumber(SKHYNIX_DENSITY_BY_BYTE2, flashIdByteAt(info.id, 2));
+  const density = lookupNumber(SKHYNIX_DENSITY_BY_BYTE2, flashIdByteAt(id, 2));
   if (density !== undefined) {
-    patch.density = density;
+    setDraftField(next, "density", density);
     changed = true;
   }
 
-  const processNode = lookupString(SKHYNIX_PROCESS_BY_BYTE6, flashIdByteAt(info.id, 6));
+  const processNode = lookupString(SKHYNIX_PROCESS_BY_BYTE6, flashIdByteAt(id, 6));
   if (processNode) {
-    patch.processNode = processNode;
+    setDraftField(next, "process_node", processNode);
     changed = true;
   }
 
-  if (isExtRecord(info.ext)) {
-    const spp = info.ext.simultaneously_programmed_pages;
-    if (typeof spp === "number" && Number.isFinite(spp) && spp > 0) {
-      patch.plane = spp;
-      changed = true;
-    }
+  const spp = draftField(info, "simultaneously_programmed_pages");
+  if (typeof spp === "number" && Number.isFinite(spp) && spp > 0) {
+    setDraftField(next, "plane_count", spp);
+    changed = true;
   }
 
   // Some newer IDs need vendor-specific cleanup after bitfield decoding.
-  if (flashIdByteAt(info.id, 6) >= 0x50) {
-    patch.ext = [];
-    patch.blockSize = undefined;
+  if (flashIdByteAt(id, 6) >= 0x50) {
+    for (const key of [
+      "block_size",
+      "blocks_per_lun",
+      "pages_per_block",
+      "simultaneously_programmed_pages",
+      "redundant_area_size",
+      "timing_mode_async",
+      "edo",
+      "interleave",
+      "cache",
+      "ecc_level",
+      "revision",
+      "enterprise",
+      "interface_type"
+    ] as const) {
+      deleteDraftField(next, key);
+    }
     changed = true;
   }
 
-  return changed ? patch : null;
+  return changed ? next : null;
 }
 
-function patchKioxiaLike(info: InternalIdentifierInfo): Partial<InternalIdentifierInfo> | null {
-  const patch: Partial<InternalIdentifierInfo> = {};
+function patchKioxiaLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
+  const next = cloneIdentifierDraft(info);
   let changed = false;
+  const id = draftIdentifier(info);
 
-  const density = lookupNumber(KIOXIA_LIKE_DENSITY_BY_BYTE2, flashIdByteAt(info.id, 2));
+  const density = lookupNumber(KIOXIA_LIKE_DENSITY_BY_BYTE2, flashIdByteAt(id, 2));
   if (density !== undefined) {
-    patch.density = density;
+    setDraftField(next, "density", density);
     changed = true;
   }
 
-  const maskedByte6 = flashIdByteAt(info.id, 6) & 0x27;
+  const maskedByte6 = flashIdByteAt(id, 6) & 0x27;
   const processNode = lookupString(KIOXIA_LIKE_PROCESS_BY_MASKED_BYTE6, maskedByte6);
   if (processNode) {
-    patch.processNode = processNode;
+    setDraftField(next, "process_node", processNode);
     changed = true;
   }
 
-  const plane = typeof info.plane === "number" ? info.plane : null;
-  const die = typeof info.die === "number" ? info.die : null;
+  const plane = typeof draftField(info, "plane_count") === "number" ? draftField(info, "plane_count") as number : null;
+  const die = typeof draftField(info, "die_count") === "number" ? draftField(info, "die_count") as number : null;
   if (plane && die && plane > 0 && die > 0) {
     const div = plane / die;
     if (Number.isInteger(div) && div > 0) {
-      patch.plane = div;
+      setDraftField(next, "plane_count", div);
       changed = true;
     }
   }
 
-  return changed ? patch : null;
+  return changed ? next : null;
 }
 
 function joinYmtcProcess(base: string | undefined, suffix: string | undefined): string | undefined {
@@ -426,47 +467,45 @@ function joinYmtcProcess(base: string | undefined, suffix: string | undefined): 
   return suffix.startsWith("-") ? `${base}${suffix}` : `${base} ${suffix}`;
 }
 
-function patchYmtc(info: InternalIdentifierInfo): Partial<InternalIdentifierInfo> | null {
-  const patch: Partial<InternalIdentifierInfo> = {};
+function patchYmtc(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
+  const next = cloneIdentifierDraft(info);
   let changed = false;
+  const id = draftIdentifier(info);
 
-  const density = lookupNumber(YMTC_DENSITY_BY_BYTE2, flashIdByteAt(info.id, 2));
+  const density = lookupNumber(YMTC_DENSITY_BY_BYTE2, flashIdByteAt(id, 2));
   if (density !== undefined) {
-    patch.density = density;
+    setDraftField(next, "density", density);
     changed = true;
   }
 
-  const layerCode = (flashIdByteAt(info.id, 5) >> 4) & 0x07;
+  const layerCode = (flashIdByteAt(id, 5) >> 4) & 0x07;
   const baseProcessNode = lookupString(YMTC_PROCESS_BY_LAYER_CODE, layerCode);
-  const processSuffix = lookupProcessNode(info.id, YMTC_PROCESS_LOOKUPS);
+  const processSuffix = lookupProcessNode(id, YMTC_PROCESS_LOOKUPS);
   const processNode = joinYmtcProcess(baseProcessNode, processSuffix);
   if (processNode) {
-    patch.processNode = processNode;
+    setDraftField(next, "process_node", processNode);
     changed = true;
   }
 
-  if (info.id.toUpperCase().startsWith("9BD5588D20")) {
-    patch.cellLevel = 4;
+  if (id.toUpperCase().startsWith("9BD5588D20")) {
+    setDraftField(next, "cell_level", 4);
     changed = true;
   }
 
-  return changed ? patch : null;
+  return changed ? next : null;
 }
 
-export function createDefaultIdentifierPostprocessor(): InternalDecodePostprocessor {
+export function createDefaultIdentifierPostprocessor(): DecodeDraftPostprocessor {
   return {
-    partInfo: (info): InternalPartInfo => {
+    partInfo: (info): PartDecodeDraft => {
       const micronPatch = patchMicronPartNumberProcessNode(info);
-      const intelPatch = patchIntelPartNumberProcessNode(info);
-      if (!micronPatch && !intelPatch) {
-        return info;
-      }
-      return { ...info, ...micronPatch, ...intelPatch };
+      const afterMicron = micronPatch ? { ...clonePartDraft(info), fields: { ...(info.fields ?? {}), ...(micronPatch.fields ?? {}) } } : info;
+      return patchIntelPartNumberProcessNode(afterMicron) ?? afterMicron;
     },
-    identifierInfo: (info): InternalIdentifierInfo => {
-      const vendor = info.vendor;
+    identifierInfo: (info): IdentifierDecodeDraft => {
+      const vendor = draftVendor(info);
 
-      let patch: Partial<InternalIdentifierInfo> | null = null;
+      let patch: IdentifierDecodeDraft | null = null;
       if (vendor === "micron" || vendor === "intel" || vendor === "spectek") patch = patchMicronLike(info);
       else if (vendor === "samsung") patch = patchSamsung(info);
       else if (vendor === "skhynix") patch = patchSkhynix(info);
@@ -476,7 +515,7 @@ export function createDefaultIdentifierPostprocessor(): InternalDecodePostproces
       if (!patch) {
         return info;
       }
-      return { ...info, ...patch };
+      return patch;
     }
-  } satisfies InternalDecodePostprocessor;
+  } satisfies DecodeDraftPostprocessor;
 }

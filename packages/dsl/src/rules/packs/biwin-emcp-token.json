@@ -2,42 +2,6 @@
   {
     "id": "vendor.biwin.emcp.v1",
     "priority": 1001,
-    "domain": "memory",
-    "chipKind": "managed_nand",
-    "productType": "emcp",
-    "fieldProfile": "managed_nand",
-    "capabilities": ["part.decode", "part.search"],
-    "emit": {
-      "fields": [
-        { "key": "density", "value": { "$var": "density" }, "unit": "Mbit", "block": "storage" },
-        { "key": "storage_density", "value": { "$path": "densityKeyObj.storage_density" }, "block": "storage" },
-        { "key": "dram_density", "value": { "$path": "densityKeyObj.dram_density" }, "block": "components" },
-        { "key": "storage_interface", "value": { "$path": "densityKeyObj.storage_interface" }, "block": "storage" },
-        { "key": "dram_type", "value": { "$path": "densityKeyObj.dram_type" }, "block": "components" }
-      ],
-      "components": [
-        {
-          "role": "storage",
-          "domain": "memory",
-          "chipKind": "managed_nand",
-          "productType": "emmc",
-          "fields": [
-            { "key": "storage_density", "value": { "$path": "densityKeyObj.storage_density" } },
-            { "key": "storage_interface", "value": { "$path": "densityKeyObj.storage_interface" } }
-          ]
-        },
-        {
-          "role": "dram",
-          "domain": "memory",
-          "chipKind": "dram",
-          "productType": "lpddr4x",
-          "fields": [
-            { "key": "dram_density", "value": { "$path": "densityKeyObj.dram_density" } },
-            { "key": "dram_type", "value": { "$path": "densityKeyObj.dram_type" } }
-          ]
-        }
-      ]
-    },
     "normalize": [
       "trim",
       "uppercase",
@@ -172,15 +136,72 @@
         }
       ],
       "assign": {
-        "vendor": "biwin",
-        "type": "emcp",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": "FBGA254 11.50x13.00",
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": "FBGA254 11.50x13.00",
+        "fields.storage_density": {
+          "$path": "densityKeyObj.storage_density"
+        },
+        "fields.dram_density": {
+          "$path": "densityKeyObj.dram_density"
+        },
+        "fields.storage_interface": {
+          "$path": "densityKeyObj.storage_interface"
+        },
+        "fields.dram_type": {
+          "$path": "densityKeyObj.dram_type"
+        },
+        "components": [
+          {
+            "role": "storage",
+            "device": {
+              "domain": "memory",
+              "chipKind": "managed_nand",
+              "productType": "emmc"
+            },
+            "fields": {
+              "storage_density": {
+                "$path": "densityKeyObj.storage_density"
+              },
+              "storage_interface": {
+                "$path": "densityKeyObj.storage_interface"
+              }
+            }
+          },
+          {
+            "role": "dram",
+            "device": {
+              "domain": "memory",
+              "chipKind": "dram",
+              "productType": "lpddr4x"
+            },
+            "fields": {
+              "dram_density": {
+                "$path": "densityKeyObj.dram_density"
+              },
+              "dram_type": {
+                "$path": "densityKeyObj.dram_type"
+              }
+            }
+          }
+        ],
+        "meta.ruleId": "vendor.biwin.emcp.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
       }
     }
   },
@@ -334,15 +355,21 @@
         }
       ],
       "assign": {
-        "vendor": "biwin",
-        "type": "umcp",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": "FBGA254 11.50x13.00",
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "umcp",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": "FBGA254 11.50x13.00",
+        "meta.ruleId": "vendor.biwin.umcp.v1"
       }
     }
   }

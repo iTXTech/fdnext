@@ -35,14 +35,30 @@
           "FG": 4194304
         },
         "componentDensityObj": {
-          "32768": { "component_density": "4GB package" },
-          "65536": { "component_density": "8GB package" },
-          "131072": { "component_density": "16GB package" },
-          "262144": { "component_density": "32GB package" },
-          "524288": { "component_density": "64GB package" },
-          "1048576": { "component_density": "128GB package" },
-          "2097152": { "component_density": "256GB package" },
-          "4194304": { "component_density": "512GB package" }
+          "32768": {
+            "component_density": "4GB package"
+          },
+          "65536": {
+            "component_density": "8GB package"
+          },
+          "131072": {
+            "component_density": "16GB package"
+          },
+          "262144": {
+            "component_density": "32GB package"
+          },
+          "524288": {
+            "component_density": "64GB package"
+          },
+          "1048576": {
+            "component_density": "128GB package"
+          },
+          "2097152": {
+            "component_density": "256GB package"
+          },
+          "4194304": {
+            "component_density": "512GB package"
+          }
         },
         "dieStack": {
           "1": 1,
@@ -151,27 +167,69 @@
           "L:D": "V9 280L"
         },
         "generationObj": {
-          "G:D": { "generation_info": "16nm" },
-          "G:E": { "generation_info": "14nm" },
-          "G:F": { "generation_info": "14nm" },
-          "J:B": { "generation_info": "14nm" },
-          "J:D": { "generation_info": "14nm" },
-          "K:A": { "generation_info": "V4 64L" },
-          "V:E": { "generation_info": "V3 48L" },
-          "V:M": { "generation_info": "V3 48L" },
-          "U:A": { "generation_info": "V4 64L" },
-          "U:B": { "generation_info": "V5 92L" },
-          "U:C": { "generation_info": "V6 128L" },
-          "R:M": { "generation_info": "V4 64L" },
-          "R:A": { "generation_info": "V5 92L" },
-          "R:B": { "generation_info": "V6 128L" },
-          "R:D": { "generation_info": "V7 176L" },
-          "R:E": { "generation_info": "V6P 133L" },
-          "R:F": { "generation_info": "V8 236L" },
-          "N:B": { "generation_info": "V8 236L" },
-          "N:D": { "generation_info": "V9 280L" },
-          "L:C": { "generation_info": "V7 176L" },
-          "L:D": { "generation_info": "V9 280L" }
+          "G:D": {
+            "generation_info": "16nm"
+          },
+          "G:E": {
+            "generation_info": "14nm"
+          },
+          "G:F": {
+            "generation_info": "14nm"
+          },
+          "J:B": {
+            "generation_info": "14nm"
+          },
+          "J:D": {
+            "generation_info": "14nm"
+          },
+          "K:A": {
+            "generation_info": "V4 64L"
+          },
+          "V:E": {
+            "generation_info": "V3 48L"
+          },
+          "V:M": {
+            "generation_info": "V3 48L"
+          },
+          "U:A": {
+            "generation_info": "V4 64L"
+          },
+          "U:B": {
+            "generation_info": "V5 92L"
+          },
+          "U:C": {
+            "generation_info": "V6 128L"
+          },
+          "R:M": {
+            "generation_info": "V4 64L"
+          },
+          "R:A": {
+            "generation_info": "V5 92L"
+          },
+          "R:B": {
+            "generation_info": "V6 128L"
+          },
+          "R:D": {
+            "generation_info": "V7 176L"
+          },
+          "R:E": {
+            "generation_info": "V6P 133L"
+          },
+          "R:F": {
+            "generation_info": "V8 236L"
+          },
+          "N:B": {
+            "generation_info": "V8 236L"
+          },
+          "N:D": {
+            "generation_info": "V9 280L"
+          },
+          "L:C": {
+            "generation_info": "V7 176L"
+          },
+          "L:D": {
+            "generation_info": "V9 280L"
+          }
         },
         "package": {
           "B": "BGA-153 11.5x13"
@@ -199,7 +257,11 @@
           "KLM": {
             "status": "external_confirmed",
             "source": "Samsung eMMC 5.1 product pages and eStorage overview",
-            "examples": ["KLMAG1JETD-B041", "KLM8G1GETF-B041", "KLMBG2JETD-B041"],
+            "examples": [
+              "KLMAG1JETD-B041",
+              "KLM8G1GETF-B041",
+              "KLMBG2JETD-B041"
+            ],
             "notes": "Official eMMC line confirms eMMC 5.1, HS400, 153 FBGA, and published capacity range."
           }
         }
@@ -395,31 +457,56 @@
         }
       ],
       "assign": {
-        "vendor": "samsung",
-        "type": "emmc",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "processNode": {
-          "$var": "processNode"
-        },
-        "package": {
-          "$var": "package"
-        },
-        "classification": {
-          "die": {
-            "$var": "die"
-          }
-        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "meta.ruleId": "vendor.samsung.emmc.token.v1"
       }
     }
   }

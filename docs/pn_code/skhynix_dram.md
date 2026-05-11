@@ -42,7 +42,7 @@ H5 + family + density + width + config + die/package/revision + -speed + temp
 | `AN` | `dram_type` / voltage | DDR4 SDRAM，1.2V VDD |
 | `1G/2G/4G/8G/AG` | density | 1Gb/2Gb/4Gb/8Gb/16Gb |
 | `4/8/6` | width | x4 / x8 / x16 |
-| `F/J/...` | `package_code` | 厂商封装 token；顶层 `package` 只根据位宽输出 78ball 或 96ball FBGA |
+| `F/J/...` | `package_code` | 厂商封装 token；`fields.package` 只根据位宽输出 78ball 或 96ball FBGA |
 | `AFR/CFR/CJR/...` | `die_revision` | SK hynix 常见 die/revision 三字符标记，直接保留为厂商 token |
 
 已确认 DDP 组合：
@@ -70,7 +70,7 @@ H5C + GD + 8 + M + HB + D + X021
 - `8` 输出 x8。
 - `A` / `M` 输出 `A-die` / `M-die`。
 - `GB` / `HB` 结合外部样本输出 `DDR5-5600` / `DDR5-6400`。
-- `X018` / `X021` 输出为 `package_code`；顶层 `package` 只输出已由外部资料确认的 `BGA`。
+- `X018` / `X021` 输出为 `package_code`；`fields.package` 只输出已由外部资料确认的 `BGA`。
 - TechInsights 明确这些 package 内是 single DDR5 die，因此输出 `dram_die_stack = Single die`。
 
 ## H5GQ GDDR5 颗粒
@@ -137,7 +137,7 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 
 ## 输出约定
 
-- standalone DRAM 顶层 `type` 输出短 DRAM 世代名，例如 `DDR3`、`DDR4`、`DDR5`、`LPDDR4`、`GDDR5`。
+- standalone DRAM `device.productType` 输出短 DRAM 世代名，例如 `DDR3`、`DDR4`、`DDR5`、`LPDDR4`、`GDDR5`。
 - 内部 `dram_type` 不带厂商名，可继续使用 `DDR3 SDRAM`、`DDR4 SDRAM`、`DDR5 SDRAM`、`LPDDR4 SDRAM`、`GDDR5 SGRAM` 这类标准来源；公开 `fields` 不输出该字段。
-- `package_code` 只表示厂商封装 token；只有 datasheet / 外部拆解能确认实际封装时才写顶层 `package`。
+- `package_code` 只表示厂商封装 token；只有 datasheet / 外部拆解能确认实际封装时才写 `fields.package`。
 - 资料状态、来源 URL、确认状态等维护信息不得进入用户可见 `fields`。

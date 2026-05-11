@@ -5,82 +5,72 @@ import type {
   DecodeIdentifierInput,
   DecodePartInput,
   FdnextCapabilities,
+  FdnextCapabilityName,
+  FdnextChipKind,
+  FdnextDomain,
+  FdnextFieldValueData,
   FdnextIdScheme,
   FdnextOperation,
+  FdnextProductType,
   FdnextResult,
   IdentifierDecodeResult,
   IdentifierSearchResult,
   PartDecodeResult,
   PartSearchResult,
+  ResultWarning,
   SearchIdentifiersInput,
   SearchPartsInput
 } from "./result";
+import type { FdnextFieldKey } from "./field-registry";
 
-export interface Classification {
-  ce?: number | string;
-  ch?: number | string;
-  rb?: number | string;
-  die?: number | string;
+export type DecodeDraftFields = Partial<Record<FdnextFieldKey, FdnextFieldValueData>>;
+
+export interface DecodeDraftDevice {
+  domain?: FdnextDomain;
+  chipKind?: FdnextChipKind;
+  productType?: FdnextProductType;
+  vendor?: string;
+  partNumber?: string;
+  identifier?: string;
+  idScheme?: FdnextIdScheme;
+  markingCode?: string;
 }
 
-export interface FlashInterface {
-  sync?: boolean | string;
-  async?: boolean | string;
-  toggle?: boolean | string;
-  spi?: boolean | string;
-}
-
-export interface UrlLink {
-  desc: string;
-  url: string;
-  img?: string;
-  hint?: string;
-  icon?: string;
-}
-
-export interface InternalPartInfo {
-  partNumber: string;
-  vendor: string;
-  type?: string;
-  density?: number | string;
-  rawDensity?: number;
-  deviceWidth?: number | string;
-  processNode?: string;
-  cellLevel?: string;
-  classification?: Classification;
-  voltage?: string;
-  generation?: string | number;
-  interface?: FlashInterface;
-  package?: string;
-  fields?: Record<string, unknown> | unknown[];
-  flashId?: string[];
-  controller?: string[];
-  remark?: string;
-  url?: Record<string, string> | unknown[];
-  urls?: UrlLink[];
-  rawVendor?: string;
-  [key: string]: unknown;
-}
-
-export interface InternalIdentifierInfo {
-  id: string;
-  vendor: string;
-  density?: number | string;
-  die?: number | string;
-  plane?: number | string;
-  pageSize?: number | string;
-  blockSize?: number | string;
-  processNode?: string;
-  cellLevel?: number | string;
-  voltage?: string;
-  // Some source records encode empty maps as [].
-  ext?: Record<string, unknown> | unknown[];
-  controllers?: string[];
+export interface DecodeDraftIdentifiers {
+  flashIds?: string[];
   partNumbers?: string[];
-  url?: Record<string, string> | unknown[];
-  urls?: UrlLink[];
-  rawVendor?: string;
-  [key: string]: unknown;
+}
+
+export interface DecodeDraftComponent {
+  role: string;
+  device?: DecodeDraftDevice;
+  fields?: DecodeDraftFields;
+}
+
+export interface DecodeDraftMeta {
+  ruleId?: string;
+  fieldProfile?: FdnextChipKind | "nand.flash_id";
+  capabilities?: FdnextCapabilityName[] | string[];
+  references?: unknown;
+}
+
+export interface PartDecodeDraft {
+  device: DecodeDraftDevice & { partNumber: string };
+  fields?: DecodeDraftFields;
+  identifiers?: Pick<DecodeDraftIdentifiers, "flashIds">;
+  controllers?: string[];
+  components?: DecodeDraftComponent[];
+  meta?: DecodeDraftMeta;
+  warnings?: ResultWarning[];
+}
+
+export interface IdentifierDecodeDraft {
+  device: DecodeDraftDevice & { identifier: string; idScheme: FdnextIdScheme };
+  fields?: DecodeDraftFields;
+  identifiers?: Pick<DecodeDraftIdentifiers, "partNumbers">;
+  controllers?: string[];
+  meta?: DecodeDraftMeta;
+  warnings?: ResultWarning[];
 }
 
 export interface PartNumberRecord {
@@ -171,7 +161,7 @@ export interface FdnextResourceBundle {
   translationIndex?: LangPacks;
 }
 
-export interface InternalPartDecodeOptions {
+export interface PartDecodeOptions {
   lang?: Language | null;
   combineFdb?: boolean;
 }
@@ -186,7 +176,7 @@ export interface PartNumberDecoder {
   id: string;
   priority?: number;
   check(partNumber: string): boolean;
-  decode(partNumber: string): Partial<InternalPartInfo> | null;
+  decode(partNumber: string): PartDecodeDraft | null;
 }
 
 export interface IdentifierDecoder {
@@ -194,7 +184,7 @@ export interface IdentifierDecoder {
   idScheme: FdnextIdScheme;
   priority?: number;
   check(id: string): boolean;
-  decode(id: string): Partial<InternalIdentifierInfo> | null;
+  decode(id: string): IdentifierDecodeDraft | null;
 }
 
 export interface ProcessorOperationContext {

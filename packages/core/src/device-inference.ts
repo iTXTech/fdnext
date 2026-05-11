@@ -1,6 +1,7 @@
 import { UNKNOWN } from "./constants";
+import { draftField, draftVendor, dramProductType, managedProductType } from "./draft";
 import type { FdnextChipKind, FdnextProductType, OperationConstraints } from "./result";
-import type { InternalPartInfo } from "./types";
+import type { PartDecodeDraft } from "./types";
 
 export function normalizeInfoText(value: unknown): string {
   if (typeof value !== "string") {
@@ -37,42 +38,46 @@ export function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
 }
 
-export function inferProductTypeFromInfo(info: InternalPartInfo): FdnextProductType | undefined {
-  const type = normalizeInfoText(info.type);
-  const extra = asRecord(info.fields);
-  const dramType = normalizeInfoText(extra.dram_type);
-  if (["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand"].includes(type)) {
-    return type;
+export function inferProductTypeFromDraft(info: PartDecodeDraft): FdnextProductType | undefined {
+  if (typeof info.device.productType === "string" && info.device.productType.trim()) {
+    return info.device.productType;
   }
+  const productType = managedProductType(draftField(info, "product_type"));
+  if (productType) {
+    return productType;
+  }
+  const dramType = dramProductType(draftField(info, "dram_type"));
   if (dramType) {
-    return dramType.replaceAll(" sdram", "").replaceAll(" sgram", "").replaceAll(" ", "") as FdnextProductType;
-  }
-  if (/^(?:sdr|lpsdr|lpddr|ddr|gddr|rldram)/.test(type)) {
-    return type.replaceAll(" ", "") as FdnextProductType;
+    return dramType;
   }
   return undefined;
 }
 
-export function inferChipKindFromInfo(info: InternalPartInfo, constraints: OperationConstraints = {}): FdnextChipKind {
+export function inferChipKindFromDraft(info: PartDecodeDraft, constraints: OperationConstraints = {}): FdnextChipKind {
   if (constraints.chipKind) {
     return constraints.chipKind;
   }
-
-  const type = normalizeInfoText(info.type);
-  const productType = inferProductTypeFromInfo(info);
-  if (type === "on die ecc nand" || type === "片上 ecc nand") {
-    return "on_die_ecc_nand";
+  if (info.device.chipKind) {
+    return info.device.chipKind;
   }
+
+  const productType = inferProductTypeFromDraft(info);
   if (productType && ["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand"].includes(String(productType))) {
     return "managed_nand";
   }
   if (productType && /^(?:sdr|lpsdr|lpddr|ddr|gddr|rldram)/.test(String(productType))) {
     return "dram";
   }
-  if (type === "dram") {
+  if (isKnownInfoValue(draftField(info, "dram_type"))) {
     return "dram";
   }
-  if (info.vendor === UNKNOWN && !isKnownInfoValue(info.density) && !isKnownInfoValue(info.cellLevel)) {
+  if (
+    draftVendor(info) === UNKNOWN &&
+    !isKnownInfoValue(draftField(info, "density")) &&
+    !isKnownInfoValue(draftField(info, "storage_density")) &&
+    !isKnownInfoValue(draftField(info, "dram_density")) &&
+    !isKnownInfoValue(draftField(info, "cell_level"))
+  ) {
     return "unknown";
   }
   return "raw_nand";

@@ -130,26 +130,62 @@
           "BICS:M": "BiCS4.5"
         },
         "twoDimensionalGenerationObj": {
-          "FG:A": { "generation_info": "130 nm" },
-          "FG:B": { "generation_info": "90 nm" },
-          "FG:C": { "generation_info": "70 nm" },
-          "FG:D": { "generation_info": "56 nm" },
-          "FG:E": { "generation_info": "43 nm" },
-          "FG:F": { "generation_info": "32 nm" },
-          "FG:G": { "generation_info": "24 nm A-type" },
-          "FG:H": { "generation_info": "24 nm B-type" },
-          "FG:J": { "generation_info": "19 nm/1x" },
-          "FG:K": { "generation_info": "A19 nm/1y" },
-          "FG:L": { "generation_info": "15 nm/1z" }
+          "FG:A": {
+            "generation_info": "130 nm"
+          },
+          "FG:B": {
+            "generation_info": "90 nm"
+          },
+          "FG:C": {
+            "generation_info": "70 nm"
+          },
+          "FG:D": {
+            "generation_info": "56 nm"
+          },
+          "FG:E": {
+            "generation_info": "43 nm"
+          },
+          "FG:F": {
+            "generation_info": "32 nm"
+          },
+          "FG:G": {
+            "generation_info": "24 nm A-type"
+          },
+          "FG:H": {
+            "generation_info": "24 nm B-type"
+          },
+          "FG:J": {
+            "generation_info": "19 nm/1x"
+          },
+          "FG:K": {
+            "generation_info": "A19 nm/1y"
+          },
+          "FG:L": {
+            "generation_info": "15 nm/1z"
+          }
         },
         "bicsGenerationObj": {
-          "BICS:2": { "generation_info": "BiCS2" },
-          "BICS:3": { "generation_info": "BiCS3" },
-          "BICS:4": { "generation_info": "BiCS4" },
-          "BICS:5": { "generation_info": "BiCS5" },
-          "BICS:6": { "generation_info": "BiCS6" },
-          "BICS:8": { "generation_info": "BiCS8" },
-          "BICS:M": { "generation_info": "BiCS4.5" }
+          "BICS:2": {
+            "generation_info": "BiCS2"
+          },
+          "BICS:3": {
+            "generation_info": "BiCS3"
+          },
+          "BICS:4": {
+            "generation_info": "BiCS4"
+          },
+          "BICS:5": {
+            "generation_info": "BiCS5"
+          },
+          "BICS:6": {
+            "generation_info": "BiCS6"
+          },
+          "BICS:8": {
+            "generation_info": "BiCS8"
+          },
+          "BICS:M": {
+            "generation_info": "BiCS4.5"
+          }
         },
         "classObj": {
           "BAI": {
@@ -382,20 +418,26 @@
         }
       ],
       "assign": {
-        "vendor": "kioxia",
-        "type": "emmc",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "processNode": {
-          "$var": "processNode"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "kioxia",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.kioxia.emmc.managed.v1"
       }
     }
   }

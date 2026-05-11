@@ -80,7 +80,7 @@ assert.deepEqual(summary.operations, ["part.decode", "part.search", "identifier.
 
 const engine = createContractEngine();
 const sdkCapabilities = engine.getCapabilities();
-assert.equal(sdkCapabilities.server.version, "2.0.0");
+assert.equal(sdkCapabilities.server.version, "2.1.0");
 assert.equal(sdkCapabilities.server.build.commitHash, "dev");
 assert.equal(sdkCapabilities.server.build.buildTime, "1970-01-01T00:00:00.000Z");
 assert.equal(sdkCapabilities.fdb.version, engine.getVersion());
@@ -201,6 +201,8 @@ assert.deepEqual(
 );
 
 assertPartClassification("MT29F4G08ABAEA", "raw_nand");
+assertPartClassification("AFND1208S1", "raw_nand");
+assertPartClassification("HY33DS1G800CT1", "raw_nand");
 assertPartClassification("MT29FBG08ABACA", "on_die_ecc_nand");
 assertPartClassification("MTFC8GAKAJCN-4M", "managed_nand", "emmc");
 assertPartClassification("KLUEG8UHDC-B0E1", "managed_nand", "ufs");
@@ -387,7 +389,18 @@ const ambiguousEngine = createEngine({
     id: "test-dram",
     priority: 100,
     check: (partNumber) => partNumber === "TESTPART",
-    decode: () => ({ vendor: "micron", type: "DRAM", density: 1024 })
+    decode: (partNumber) => ({
+      device: {
+        domain: "memory",
+        chipKind: "dram",
+        vendor: "micron",
+        partNumber
+      },
+      fields: {
+        dram_type: "DRAM",
+        dram_density: 1024
+      }
+    })
   }]
 });
 const ambiguous = ambiguousEngine.decodePart({ query: "TESTPART", lang: "eng" });
@@ -454,7 +467,7 @@ async function injectJson(method: "GET" | "POST", url: string): Promise<Record<s
 const httpIndex = await injectJson("GET", "/");
 assert.equal(httpIndex.status, "ok");
 assert.equal(httpIndex.name, "fdnext-server");
-assert.equal(httpIndex.version, "2.0.0");
+assert.equal(httpIndex.version, "2.1.0");
 const httpPartDecode = await injectJson("GET", "/parts/decode?query=MT62F1G64D4EK-023&lang=eng");
 assert.equal(httpPartDecode.operation, "part.decode");
 assert.equal((httpPartDecode.device as { chipKind?: string } | undefined)?.chipKind, "dram");

@@ -240,24 +240,26 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "nand",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "processNode": {
-          "$var": "processNode"
-        },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "deviceWidth": 8,
-        "interface": {
-          "toggle": true
-        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "raw_nand",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.device_width": 8,
+        "meta.ruleId": "vendor.skhynix.4d.package.h25t.v1"
       }
     }
   }

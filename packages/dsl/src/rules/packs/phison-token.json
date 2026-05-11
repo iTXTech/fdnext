@@ -2,8 +2,23 @@
   {
     "id": "vendor.phison.token.v1",
     "priority": 940,
-    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
-    "match": { "kind": "regex", "value": "^[TIKHDCN][APCOKFTBY][135678ABC][0-9A-Z]{7}$" },
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^[TIKHDCN][APCOKFTBY][135678ABC][0-9A-Z]{7}$"
+    },
     "tokenDecoder": {
       "tables": {
         "originalVendor": {
@@ -109,34 +124,154 @@
         }
       },
       "steps": [
-        { "op": "take", "len": 1, "to": "vendorCode" },
-        { "op": "map", "from": "vendorCode", "table": "originalVendor", "to": "originalVendor", "default": "Unknown" },
-        { "op": "take", "len": 1, "to": "packageCode" },
-        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "Unknown" },
-        { "op": "take", "len": 1, "to": "classCode" },
-        { "op": "map", "from": "classCode", "table": "ce", "to": "ce", "default": -1 },
-        { "op": "map", "from": "classCode", "table": "die", "to": "die", "default": -1 },
-        { "op": "take", "len": 2, "to": "densityCode" },
-        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
-        { "op": "take", "len": 3, "to": "skip" },
-        { "op": "take", "len": 1, "to": "nodeCode" },
-        { "op": "map", "from": "originalVendor", "table": "nodeVendorOverride", "to": "nodeVendorOverride", "default": "" },
-        { "op": "fallback", "primary": "nodeVendorOverride", "secondary": "originalVendor", "to": "nodeVendor" },
-        { "op": "tpl", "template": "{{nodeVendor}}:{{nodeCode}}", "to": "nodeKey" },
-        { "op": "map", "from": "nodeKey", "table": "processNode", "to": "processNode", "default": "Unknown" },
-        { "op": "map", "from": "nodeKey", "table": "cellLevel", "to": "cellLevel", "default": -1 }
+        {
+          "op": "take",
+          "len": 1,
+          "to": "vendorCode"
+        },
+        {
+          "op": "map",
+          "from": "vendorCode",
+          "table": "originalVendor",
+          "to": "originalVendor",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "classCode"
+        },
+        {
+          "op": "map",
+          "from": "classCode",
+          "table": "ce",
+          "to": "ce",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "classCode",
+          "table": "die",
+          "to": "die",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "skip"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "nodeCode"
+        },
+        {
+          "op": "map",
+          "from": "originalVendor",
+          "table": "nodeVendorOverride",
+          "to": "nodeVendorOverride",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "nodeVendorOverride",
+          "secondary": "originalVendor",
+          "to": "nodeVendor"
+        },
+        {
+          "op": "tpl",
+          "template": "{{nodeVendor}}:{{nodeCode}}",
+          "to": "nodeKey"
+        },
+        {
+          "op": "map",
+          "from": "nodeKey",
+          "table": "processNode",
+          "to": "processNode",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "nodeKey",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        }
       ],
       "assign": {
-        "vendor": "phison",
-        "type": "nand",
-        "package": { "$var": "package" },
-        "deviceWidth": 8,
-        "density": { "$var": "density" },
-        "processNode": { "$var": "processNode" },
-        "cellLevel": { "$var": "cellLevel" },
-        "interface": { "async": true, "sync": true },
-        "classification": { "ce": { "$var": "ce" }, "die": { "$var": "die" } },
-        "fields": { "original_vendor": { "$var": "originalVendor" } }
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "phison",
+        "device.chipKind": "raw_nand",
+        "fields": {
+          "original_vendor": {
+            "$var": "originalVendor"
+          }
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.device_width": 8,
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "meta.ruleId": "vendor.phison.token.v1"
       }
     }
   }

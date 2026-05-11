@@ -156,18 +156,24 @@
         }
       ],
       "assign": {
-        "vendor": "biwin",
-        "type": "emmc",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "cellLevel": 3,
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.cell_level": 3,
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.biwin.emmc.v1"
       }
     }
   }

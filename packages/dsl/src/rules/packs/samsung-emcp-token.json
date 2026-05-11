@@ -131,17 +131,23 @@
         }
       ],
       "assign": {
-        "vendor": "samsung",
-        "type": "emcp",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.samsung.emcp.kmg-6001bm.v1"
       }
     }
   }

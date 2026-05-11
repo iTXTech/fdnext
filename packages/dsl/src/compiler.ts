@@ -1,5 +1,5 @@
-import type { InternalIdentifierInfo, InternalPartInfo, IdentifierDecoder, PartNumberDecoder } from "@itxtech/fdnext-core";
-import type { DslEmit, DslEmitComponent, DslEmitField, DslExpr, DslJson, DslRule, IdentifierDslRule, NormalizeStep, DslTokenDecoder } from "./types";
+import type { IdentifierDecodeDraft, IdentifierDecoder, PartDecodeDraft, PartNumberDecoder } from "@itxtech/fdnext-core";
+import type { DslExpr, DslJson, DslRule, IdentifierDslRule, NormalizeStep, DslTokenDecoder } from "./types";
 
 function normalize(input: string, steps: NormalizeStep[] = []): string {
   let value = input;
@@ -75,59 +75,29 @@ function evaluateExpr(expr: DslExpr, context: Record<string, unknown>): unknown 
   return expr;
 }
 
-function evaluateEmitField(field: DslEmitField, context: Record<string, unknown>): Record<string, unknown> {
-  return {
-    key: field.key,
-    value: evaluateExpr(cloneJson(field.value), context),
-    ...(field.unit ? { unit: field.unit } : {}),
-    ...(field.display !== undefined ? { display: evaluateExpr(cloneJson(field.display), context) } : {}),
-    ...(field.importance ? { importance: field.importance } : {}),
-    ...(field.block ? { block: field.block } : {})
-  };
-}
-
-function evaluateEmitComponent(component: DslEmitComponent, context: Record<string, unknown>): Record<string, unknown> {
-  return {
-    role: component.role,
-    ...(component.domain ? { domain: component.domain } : {}),
-    ...(component.chipKind ? { chipKind: component.chipKind } : {}),
-    ...(component.productType ? { productType: component.productType } : {}),
-    ...(component.fields ? { fields: component.fields.map((field) => evaluateEmitField(field, context)) } : {})
-  };
-}
-
-function evaluateEmit(emit: DslEmit | undefined, context: Record<string, unknown>): Record<string, unknown> {
-  if (!emit) {
-    return {};
+function assignPath(out: Record<string, unknown>, key: string, value: unknown): void {
+  if (value === undefined) {
+    return;
   }
-  return {
-    ...(emit.fields ? { fields: emit.fields.map((field) => evaluateEmitField(field, context)) } : {}),
-    ...(emit.components ? { components: emit.components.map((component) => evaluateEmitComponent(component, context)) } : {})
-  };
-}
-
-function mergeEvaluatedEmit(...emits: Record<string, unknown>[]): Record<string, unknown> {
-  const fields = emits.flatMap((emit) => Array.isArray(emit.fields) ? emit.fields : []);
-  const components = emits.flatMap((emit) => Array.isArray(emit.components) ? emit.components : []);
-  return {
-    ...(fields.length > 0 ? { fields } : {}),
-    ...(components.length > 0 ? { components } : {})
-  };
-}
-
-function applyRuleMetadata(out: Record<string, unknown>, rule: DslRule, context: Record<string, unknown>): void {
-  const emit = mergeEvaluatedEmit(evaluateEmit(rule.emit, context), evaluateEmit(rule.tokenDecoder?.emit, context));
-  const metadata = {
-    ...(rule.domain ? { domain: rule.domain } : {}),
-    ...(rule.chipKind ? { chipKind: rule.chipKind } : {}),
-    ...(rule.productType ? { productType: rule.productType } : {}),
-    ...(rule.fieldProfile ? { fieldProfile: rule.fieldProfile } : {}),
-    ...(rule.capabilities ? { capabilities: rule.capabilities } : {}),
-    ...emit
-  };
-  if (Object.keys(metadata).length > 0) {
-    out.__fdnext = metadata;
+  const path = key.split(".");
+  let current = out;
+  for (const part of path.slice(0, -1)) {
+    const existing = current[part];
+    if (!existing || typeof existing !== "object" || Array.isArray(existing)) {
+      current[part] = {};
+    }
+    current = current[part] as Record<string, unknown>;
   }
+  const leaf = path[path.length - 1] ?? key;
+  const existing = current[leaf];
+  if (
+    existing && typeof existing === "object" && !Array.isArray(existing) &&
+    value && typeof value === "object" && !Array.isArray(value)
+  ) {
+    current[leaf] = { ...(existing as Record<string, unknown>), ...(value as Record<string, unknown>) };
+    return;
+  }
+  current[leaf] = value;
 }
 
 function matchFromStart(
@@ -143,7 +113,7 @@ function matchFromStart(
   return { matched: false, rest: value };
 }
 
-function runTokenDecoder(partNumber: string, rule: DslRule, decoder: DslTokenDecoder): Partial<InternalPartInfo> {
+function runTokenDecoder(partNumber: string, decoder: DslTokenDecoder): PartDecodeDraft {
   const context: Record<string, unknown> = {
     partNumber,
     rest: partNumber
@@ -296,12 +266,16 @@ function runTokenDecoder(partNumber: string, rule: DslRule, decoder: DslTokenDec
   }
 
   const out: Record<string, unknown> = {};
-  for (const [key, value] of Object.entries(decoder.assign)) {
-    out[key] = evaluateExpr(value, context);
+  const assignEntries = Object.entries(decoder.assign);
+  const orderedAssignEntries = [
+    ...assignEntries.filter(([key]) => key !== "fields"),
+    ...assignEntries.filter(([key]) => key === "fields")
+  ];
+  for (const [key, value] of orderedAssignEntries) {
+    assignPath(out, key, evaluateExpr(value, context));
   }
-  applyRuleMetadata(out, rule, context);
 
-  return out as Partial<InternalPartInfo>;
+  return out as unknown as PartDecodeDraft;
 }
 
 function checkMatch(normalized: string, match: { kind: "prefix"; value: string } | { kind: "regex"; value: string; flags?: string }): boolean {
@@ -318,20 +292,23 @@ export function compileRulesToDecoders(rules: DslRule[]): PartNumberDecoder[] {
       return checkMatch(normalized, rule.match);
     };
 
-    const decode = (partNumber: string): Partial<InternalPartInfo> | null => {
+    const decode = (partNumber: string): PartDecodeDraft | null => {
       const normalized = normalize(partNumber, rule.normalize);
       if (!check(normalized)) {
         return null;
       }
       if (rule.tokenDecoder) {
-        return runTokenDecoder(normalized, rule, rule.tokenDecoder);
+        return runTokenDecoder(normalized, rule.tokenDecoder);
       }
-      const out: Record<string, unknown> = {
-        partNumber: normalized,
-        ...(rule.set ?? {})
-      };
-      applyRuleMetadata(out, rule, { partNumber: normalized, rest: normalized });
-      return out as Partial<InternalPartInfo>;
+      const context = { partNumber: normalized, rest: normalized };
+      const out: Record<string, unknown> = {};
+      for (const [key, value] of Object.entries(rule.set ?? {})) {
+        assignPath(out, key, evaluateExpr(value, context));
+      }
+      if (!readPath(out, "device.partNumber")) {
+        assignPath(out, "device.partNumber", normalized);
+      }
+      return out as unknown as PartDecodeDraft;
     };
 
     return {
@@ -348,11 +325,48 @@ function byteAt(id: string, offset: number): number {
   return Number.parseInt(id.slice(idx, idx + 2), 16);
 }
 
-function decodeIdentifierByDefinition(id: string, definition: Record<string, Record<string, { dq: number[]; def: Record<string, DslJson> }>>): Partial<InternalIdentifierInfo> {
-  const out: Partial<InternalIdentifierInfo> = {};
-  const ext: Record<string, unknown> = {};
+function canonicalIdentifierField(name: string): { key: string; scale?: number } {
+  const raw = name.startsWith("field:") ? name.slice(6) : name;
+  switch (raw) {
+    case "density":
+      return { key: "density" };
+    case "die":
+      return { key: "die_count" };
+    case "plane":
+      return { key: "plane_count" };
+    case "pageSize":
+      return { key: "page_size", scale: 1024 };
+    case "blockSize":
+      return { key: "block_size", scale: 1024 };
+    case "processNode":
+      return { key: "process_node" };
+    case "cellLevel":
+      return { key: "cell_level" };
+    case "interface":
+      return { key: "interface_type" };
+    default:
+      return { key: raw };
+  }
+}
 
-  for (const [offsetKey, rules] of Object.entries(definition)) {
+function decodeIdentifierByDefinition(id: string, rule: IdentifierDslRule): IdentifierDecodeDraft {
+  const out: Record<string, unknown> = {
+    device: {
+      identifier: id,
+      idScheme: rule.idScheme,
+      vendor: rule.vendor,
+      domain: "memory",
+      chipKind: "raw_nand"
+    },
+    fields: {},
+    meta: {
+      ruleId: rule.id,
+      fieldProfile: "nand.flash_id"
+    }
+  };
+  const fields = out.fields as Record<string, unknown>;
+
+  for (const [offsetKey, rules] of Object.entries(rule.definition)) {
     const byte = byteAt(id, Number(offsetKey));
     for (const [name, rule] of Object.entries(rules)) {
       let data = 0;
@@ -363,30 +377,23 @@ function decodeIdentifierByDefinition(id: string, definition: Record<string, Rec
       if (resolved === undefined) {
         continue;
       }
-      if (name.startsWith("ext:")) {
-        ext[name.slice(4)] = resolved;
-      } else {
-        (out as Record<string, unknown>)[name] = resolved;
-      }
+      const field = canonicalIdentifierField(name);
+      fields[field.key] = typeof resolved === "number" && field.scale ? resolved * field.scale : resolved;
     }
   }
 
-  out.ext = ext;
-  return out;
+  return out as unknown as IdentifierDecodeDraft;
 }
 
 export function compileIdentifierRulesToDecoders(rules: IdentifierDslRule[]): IdentifierDecoder[] {
   return rules.map((rule) => {
     const check = (id: string): boolean => checkMatch(id.toUpperCase(), rule.match);
-    const decode = (id: string): Partial<InternalIdentifierInfo> | null => {
+    const decode = (id: string): IdentifierDecodeDraft | null => {
       const normalized = id.toUpperCase();
       if (!check(normalized)) {
         return null;
       }
-      return {
-        vendor: rule.vendor,
-        ...decodeIdentifierByDefinition(normalized, rule.definition)
-      };
+      return decodeIdentifierByDefinition(normalized, rule);
     };
 
     return {

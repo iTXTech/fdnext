@@ -1,5 +1,5 @@
 import { UNKNOWN } from "../constants";
-import type { InternalPartInfo } from "../types";
+import type { PartDecodeDraft } from "../types";
 
 const MICRON_FBGA_HEADERS = ["NW", "NX", "NQ", "PF", "NY", "NC", "NV"] as const;
 
@@ -81,11 +81,19 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === "object" && !Array.isArray(value);
 }
 
-export function applyMicronFbgaMeta(base: InternalPartInfo, parsed: MicronFbgaParsed, resolvedPn: string): InternalPartInfo {
-  const out: InternalPartInfo = { ...base, partNumber: parsed.display };
+export function applyMicronFbgaMeta(base: PartDecodeDraft, parsed: MicronFbgaParsed, resolvedPn: string): PartDecodeDraft {
+  const out: PartDecodeDraft = {
+    ...base,
+    device: {
+      ...base.device,
+      partNumber: parsed.display,
+      markingCode: parsed.display
+    }
+  };
   const extra = isRecord(out.fields) ? { ...out.fields } : {};
 
   extra.micron_part_number = resolvedPn;
+  extra.marking_code = parsed.display;
   if (parsed.prod) {
     extra.prod_date = parsed.prod.prodDate;
     extra.diffusion_loc = parsed.prod.diffusion;

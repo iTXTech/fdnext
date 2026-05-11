@@ -32,30 +32,30 @@
           }
         },
         "densityCode": {
-          "64G": "64G",
           "128": "128",
-          "256": "256"
+          "256": "256",
+          "64G": "64G"
         },
         "density": {
-          "64G": 524288,
           "128": 1048576,
-          "256": 2097152
+          "256": 2097152,
+          "64G": 524288
         },
         "densityObj": {
-          "64G": {
-            "storage_density": "64GB UFS"
-          },
           "128": {
             "storage_density": "128GB UFS"
           },
           "256": {
             "storage_density": "256GB UFS"
+          },
+          "64G": {
+            "storage_density": "64GB UFS"
           }
         },
         "package": {
-          "64G": "11x13x0.85",
           "128": "11x13x0.85",
-          "256": "11x13x0.95"
+          "256": "11x13x0.95",
+          "64G": "11x13x0.85"
         },
         "configObj": {
           "CY14": {
@@ -129,18 +129,24 @@
         }
       ],
       "assign": {
-        "vendor": "kingston",
-        "type": "ufs",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "cellLevel": 3,
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "kingston",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.cell_level": 3,
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.kingston.ufs.v1"
       }
     }
   }

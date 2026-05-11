@@ -49,14 +49,14 @@
           "D:AKTA": "66-pin TSOP-II"
         },
         "speedObj": {
-          "75": {
-            "dram_speed": "133 MHz speed bin"
+          "5": {
+            "dram_speed": "DDR-400"
           },
           "10": {
             "dram_speed": "100 MHz speed bin"
           },
-          "5": {
-            "dram_speed": "DDR-400"
+          "75": {
+            "dram_speed": "133 MHz speed bin"
           },
           "5B": {
             "dram_speed": "DDR-400"
@@ -179,23 +179,28 @@
         }
       ],
       "assign": {
-        "vendor": "elpida",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "elpida",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.elpida.dram.sdr_ddr.component.v1"
       }
     }
   },
@@ -378,23 +383,28 @@
         }
       ],
       "assign": {
-        "vendor": "elpida",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "elpida",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.elpida.dram.ddr2_ddr3.component.v1"
       }
     }
   },
@@ -582,21 +592,26 @@
         }
       ],
       "assign": {
-        "vendor": "elpida",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": "1.8V VDD1 / 1.2V VDD2/VDDQ",
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "elpida",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.8V VDD1 / 1.2V VDD2/VDDQ",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.elpida.dram.lpddr2_lpddr3.component.v1"
       }
     }
   },
@@ -709,19 +724,24 @@
         }
       ],
       "assign": {
-        "vendor": "elpida",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
-        "package": "170-ball FBGA",
+        "device.domain": "memory",
+        "device.vendor": "elpida",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
+        "fields.package": "170-ball FBGA",
+        "meta.ruleId": "vendor.elpida.dram.gddr5.component.v1"
       }
     }
   }

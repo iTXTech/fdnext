@@ -175,18 +175,24 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "ufs",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "voltage": "Vcc: 2.5V, VccQ: 1.2V",
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.voltage": "Vcc: 2.5V, VccQ: 1.2V",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.skhynix.ufs.hn8.v1"
       }
     }
   },
@@ -253,15 +259,21 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "ufs",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": "FBGA",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": "FBGA",
+        "meta.ruleId": "vendor.skhynix.ufs.h28s.v1"
       }
     }
   }

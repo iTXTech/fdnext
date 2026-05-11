@@ -12,7 +12,10 @@
   "priority": 100,
   "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
   "match": { "kind": "prefix", "value": "MT" },
-  "set": { "vendor": "micron", "type": "nand" }
+  "set": {
+    "device": { "domain": "memory", "chipKind": "raw_nand", "vendor": "micron", "partNumber": "MT29F64G08CBABA" },
+    "fields": { "density": 65536 }
+  }
 }
 ```
 
@@ -22,12 +25,8 @@
 - `priority`: 数字越大越优先（默认 0）。引擎会按优先级从高到低尝试解码器。
 - `normalize`: 对输入料号进行预处理（见下）。
 - `match`: 匹配条件（见下）。
-- `set`: 匹配成功后直接写入的字段（无需 `tokenDecoder` 时使用）。
+- `set`: 匹配成功后直接写入 native draft（无需 `tokenDecoder` 时使用）。
 - `tokenDecoder`: 结构化 token 解析（见下）。
-- `domain` / `chipKind` / `productType`: DSL v2 分类信息，用于直接描述规则产物的芯片类别。
-- `fieldProfile`: 结果字段分组 profile，例如 `dram`、`managed_nand`。
-- `capabilities`: 规则支持的能力，例如 `part.decode`、`part.search`。
-- `emit`: DSL v2 显式字段 / 组件输出（见下）。
 
 ### normalize
 
@@ -72,10 +71,15 @@
       { "op": "fallback", "primary": "detailPackageValue", "secondary": "basePackage", "to": "package" }
     ],
     "assign": {
-      "vendor": "kioxia",
-      "type": "nand",
-      "density": { "$var": "density" },
-      "package": { "$var": "package" }
+      "device.partNumber": { "$var": "partNumber" },
+      "device.domain": "memory",
+      "device.vendor": "kioxia",
+      "device.chipKind": "raw_nand",
+      "fields.density": { "$var": "density" },
+      "fields.package": { "$var": "package" },
+      "meta.ruleId": "vendor.kioxia.token.tc.v1",
+      "meta.fieldProfile": "raw_nand",
+      "meta.capabilities": ["part.decode", "part.search"]
     }
   }
 }
@@ -100,43 +104,39 @@
 - `rest`: 当前未消费的字符串
 - 每一步 `steps` 写入的变量
 
-### DSL v2 emit
-
-`emit` 用于把规则解析结果直接声明为 fdnext canonical fields，而不是让调用方从旧字段形状里猜测。新增规则应优先把用户可见信息写入 `emit.fields` 或 `emit.components`。
+### Native draft 输出
 
 ```json
 {
-  "domain": "memory",
-  "chipKind": "managed_nand",
-  "productType": "emcp",
-  "fieldProfile": "managed_nand",
-  "capabilities": ["part.decode", "part.search"],
-  "emit": {
-    "fields": [
-      { "key": "density", "value": { "$var": "density" }, "unit": "Mbit", "block": "storage" },
-      { "key": "storage_interface", "value": { "$path": "densityKeyObj.storage_interface" } }
-    ],
+  "assign": {
+    "device.partNumber": { "$var": "partNumber" },
+    "device.domain": "memory",
+    "device.vendor": "biwin",
+    "device.chipKind": "managed_nand",
+    "device.productType": "emcp",
+    "fields.density": { "$var": "density" },
+    "fields.storage_interface": { "$path": "densityKeyObj.storage_interface" },
+    "fields.dram_density": { "$path": "densityKeyObj.dram_density" },
     "components": [
       {
         "role": "dram",
-        "domain": "memory",
-        "chipKind": "dram",
-        "productType": "lpddr4x",
-        "fields": [
-          { "key": "dram_density", "value": { "$path": "densityKeyObj.dram_density" } },
-          { "key": "dram_type", "value": { "$path": "densityKeyObj.dram_type" } }
-        ]
+        "device": { "domain": "memory", "chipKind": "dram", "productType": "lpddr4x" },
+        "fields": { "dram_density": { "$path": "densityKeyObj.dram_density" } }
       }
-    ]
+    ],
+    "meta.ruleId": "vendor.biwin.emcp.v1",
+    "meta.fieldProfile": "managed_nand",
+    "meta.capabilities": ["part.decode", "part.search"]
   }
 }
 ```
 
 约束：
 
-- `emit.fields[].key` 必须使用 `packages/core/src/field-registry.ts` 中的 canonical key。
-- 可信度、来源、reference status 等维护信息只能留在 `tables.reference`，不能写进 `emit` 或公开 result fields。
-- composite 产品（例如 eMCP/uMCP）应使用 `emit.components` 表达 storage / DRAM 子组件，不新增产品专属 public key。
+- `assign` 必须输出 fdnext-native draft，不再输出旧 FD 形态的扁平顶层字段。
+- `fields.*` 必须使用 `packages/core/src/field-registry.ts` 中的 canonical key。
+- 可信度、来源、reference status 等维护信息只能留在内部表（例如 `tables.reference`），不能写进 `fields` 或公开 result。
+- composite 产品（例如 eMCP/uMCP）应使用 `components` 表达 storage / DRAM 子组件，不新增产品专属 public key。
 
 ## 3. Steps 操作符（op）
 
@@ -177,7 +177,7 @@
 
 ## 4. 输出字段与翻译约定
 
-DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前）。公开结果由 `@itxtech/fdnext-core` 的 fdnext result builder 统一生成：
+DSL 的 `assign` 应输出 **core 的 native decoder draft**（未翻译前）。公开结果由 `@itxtech/fdnext-core` 的 fdnext result builder 统一生成：
 
 - `device` 承载 vendor、chip kind、product type、PN / identifier / marking 等身份信息；这些身份字段不再复制到 `blocks`。
 - decode 结果提供 `subtitle` 作为列表/详情页的简短摘要，格式由 result builder 根据 chip kind、vendor、容量、cell level、DRAM 组合等字段生成。
@@ -187,10 +187,10 @@ DSL 的 `assign` 应输出 **core 的内部字段**（未翻译前）。公开�
 
 重要约定：
 
-- `emit.fields[].key` 和 `assign` 中会进入公开结果的字段应使用 canonical snake_case key（例如 `operation_temperature`、`speed_grade`、`marking_code`、`storage_interface`），不要直接写 “Operation Temperature” 这类展示字符串。
+- `fields.*` 和 `components[].fields.*` 中会进入公开结果的字段应使用 canonical snake_case key（例如 `operation_temperature`、`speed_grade`、`marking_code`、`storage_interface`），不要直接写 “Operation Temperature” 这类展示字符串。
 - PN / identifier DSL 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
 - 新增或重命名 metadata key 时，直接迁移全部 DSL 源规则、语言包和测试。旧 key 应进入 `packages/dsl/test/metadata-audit.test.ts` 的禁止列表，而不是进入兼容层。
-- 外部链接不要从 DSL 的 `url/urls` 直接泄漏到公开结果；平台侧应通过 runtime 的 External Link provider 输出到正式 `links` contract。
+- 外部链接不要从 DSL 直接泄漏到公开结果；平台侧应通过 runtime 的 External Link provider 输出到正式 `links` contract。
 
 ## 5. 规则包（packs）组织方式
 
@@ -265,16 +265,16 @@ import rules from "./packs/xxx.json" with { type: "json" };
 - 每个字段由：
   - `dq`: bit 位列表，按规则定义顺序拼接
   - `def`: 从 bitfield 数值（字符串）映射到输出值（number/string/bool）
-- 字段名以 `ext:` 开头会写入 `ext` 字段（例如 `ext:edo`）。
+- 字段名直接使用 canonical field key（例如 `interface_type`、`timing_mode_async`、`ecc_level`）。
 
 ### 7.4 NAND Flash ID 后处理（core 内置）
 
 部分 NAND Flash ID 规则包含“解码后再修正”的逻辑，无法用纯 bitfield DSL 表达，因此在 `@itxtech/fdnext-core` 内置了 NAND Flash ID post-process：
 
 - Samsung：当 byte2 == `0xDE`，密度强制为 64Gbit
-- SKHynix：`plane = ext.simultaneously_programmed_pages`
-- SKHynix：当 byte6 >= `0x50`（14nm+）清空 `ext`，并把 `blockSize` 置空
-- Kioxia / WesternDigital：当 `plane` 与 `die` 都有效时，`plane = plane / die`
+- SKHynix：`plane_count = simultaneously_programmed_pages`
+- SKHynix：当 byte6 >= `0x50`（14nm+）清理不适用的 timing/interface/ECC 细节字段
+- Kioxia / WesternDigital：当 `plane_count` 与 `die_count` 都有效时，`plane_count = plane_count / die_count`
 
 ### 7.5 如何新增/验证 NAND Flash ID 解码器
 

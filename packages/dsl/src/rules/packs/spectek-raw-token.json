@@ -26,24 +26,24 @@
           "L": 2
         },
         "density": {
-          "NX": 128,
-          "NY": 256,
-          "NZ": 512,
           "0": 1024,
-          "1G": 1024,
-          "2G": 2048,
           "1": 2048,
-          "4G": 4096,
           "2": 4096,
-          "8G": 8192,
           "3": 8192,
           "4": 16384,
           "5": 32768,
-          "64": 65536,
           "6": 65536,
           "7": 131072,
           "8": 262144,
           "9": 524288,
+          "64": 65536,
+          "NX": 128,
+          "NY": 256,
+          "NZ": 512,
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096,
+          "8G": 8192,
           "A": 1048576,
           "B": 2097152
         },
@@ -51,14 +51,14 @@
           "1": {
             "density_grade": "94-100%"
           },
-          "9": {
-            "density_grade": "90-100%"
+          "5": {
+            "density_grade": "40-60%"
           },
           "6": {
             "density_grade": "50-90%"
           },
-          "5": {
-            "density_grade": "40-60%"
+          "9": {
+            "density_grade": "90-100%"
           },
           "A": {
             "density_grade": "spectek_density_grade_zero"
@@ -89,9 +89,6 @@
           "W": "48-pin TSOP I Center Package Leads (CPL) PB free"
         },
         "functionalityObj": {
-          "G": {
-            "package_functionality_partial_type": "Single Die Package, CE only"
-          },
           "1": {
             "package_functionality_partial_type": "Dual Die Package, CE1 functional only"
           },
@@ -118,6 +115,9 @@
           },
           "9": {
             "package_functionality_partial_type": "Octal Die Package, CE2/CE4 functional"
+          },
+          "G": {
+            "package_functionality_partial_type": "Single Die Package, CE only"
           }
         }
       },
@@ -244,29 +244,34 @@
         }
       ],
       "assign": {
-        "vendor": "spectek",
-        "type": "nand",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "processNode": {
-          "$var": "processNode"
-        },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "spectek",
+        "device.chipKind": "raw_nand",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.spectek.old-numbering.v1"
       }
     }
   },
@@ -789,46 +794,58 @@
         }
       ],
       "assign": {
-        "vendor": "spectek",
-        "type": "nand",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "processNode": {
-          "$var": "processNode"
-        },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "classification": {
-          "ce": {
-            "$var": "ce"
-          },
-          "ch": {
-            "$var": "ch"
-          },
-          "rb": {
-            "$var": "rb"
-          },
-          "die": {
-            "$var": "die"
-          }
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "interface": {
-          "$var": "interface"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "spectek",
+        "device.chipKind": "raw_nand",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.spectek.token.v1"
       }
     }
   }

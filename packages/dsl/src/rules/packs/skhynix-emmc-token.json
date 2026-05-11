@@ -122,16 +122,22 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "emmc",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "voltage": "VCC: 3.3V, VCCQ: 1.8V",
-        "package": "153FBGA",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.voltage": "VCC: 3.3V, VCCQ: 1.8V",
+        "fields.package": "153FBGA",
+        "meta.ruleId": "vendor.skhynix.emmc.managed.v1"
       }
     }
   }

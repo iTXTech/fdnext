@@ -2,20 +2,6 @@
   {
     "id": "vendor.kingston.emmc.v1",
     "priority": 1002,
-    "domain": "memory",
-    "chipKind": "managed_nand",
-    "productType": "emmc",
-    "fieldProfile": "managed_nand",
-    "capabilities": ["part.decode", "part.search"],
-    "emit": {
-      "fields": [
-        { "key": "density", "value": { "$var": "density" }, "unit": "Mbit", "block": "storage" },
-        { "key": "storage_interface", "value": "eMMC 5.1", "block": "storage" },
-        { "key": "interface_type", "value": "HS400", "block": "interface" },
-        { "key": "package", "value": { "$var": "package" }, "block": "package" },
-        { "key": "config_code", "value": { "$var": "configCode" }, "block": "package" }
-      ]
-    },
     "normalize": [
       "trim",
       "uppercase",
@@ -50,24 +36,30 @@
           }
         },
         "densityCode": {
+          "128": "128",
+          "256": "256",
           "04G": "04G",
           "08G": "08G",
           "16G": "16G",
           "32G": "32G",
-          "64G": "64G",
-          "128": "128",
-          "256": "256"
+          "64G": "64G"
         },
         "density": {
+          "128": 1048576,
+          "256": 2097152,
           "04G": 32768,
           "08G": 65536,
           "16G": 131072,
           "32G": 262144,
-          "64G": 524288,
-          "128": 1048576,
-          "256": 2097152
+          "64G": 524288
         },
         "densityObj": {
+          "128": {
+            "storage_density": "128GB eMMC"
+          },
+          "256": {
+            "storage_density": "256GB eMMC"
+          },
           "04G": {
             "storage_density": "4GB eMMC"
           },
@@ -82,12 +74,6 @@
           },
           "64G": {
             "storage_density": "64GB eMMC"
-          },
-          "128": {
-            "storage_density": "128GB eMMC"
-          },
-          "256": {
-            "storage_density": "256GB eMMC"
           }
         },
         "configObj": {
@@ -270,20 +256,36 @@
         }
       ],
       "assign": {
-        "vendor": "kingston",
-        "type": "emmc",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": {
-          "$var": "package"
-        },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
+        "device.domain": "memory",
+        "device.vendor": "kingston",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.storage_interface": "eMMC 5.1",
+        "fields.interface_type": "HS400",
+        "fields.config_code": {
+          "$var": "configCode"
+        },
+        "meta.ruleId": "vendor.kingston.emmc.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
       }
     }
   }

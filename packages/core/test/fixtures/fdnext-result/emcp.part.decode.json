@@ -131,7 +131,21 @@
             "name": "BIWIN"
           }
         }
-      }
+      },
+      "fields": [
+        {
+          "key": "storage_density",
+          "label": "Storage Density",
+          "value": "64GB eMMC",
+          "importance": "primary"
+        },
+        {
+          "key": "storage_interface",
+          "label": "Storage Interface",
+          "value": "eMMC 5.1",
+          "importance": "primary"
+        }
+      ]
     },
     {
       "kind": "component",
@@ -146,7 +160,21 @@
             "name": "BIWIN"
           }
         }
-      }
+      },
+      "fields": [
+        {
+          "key": "dram_density",
+          "label": "DRAM Density",
+          "value": "32Gb",
+          "importance": "primary"
+        },
+        {
+          "key": "dram_type",
+          "label": "DRAM Type",
+          "value": "LPDDR4X",
+          "importance": "primary"
+        }
+      ]
     }
   ],
   "warnings": []

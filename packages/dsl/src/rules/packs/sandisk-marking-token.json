@@ -56,10 +56,15 @@
         }
       ],
       "assign": {
-        "vendor": "sndk",
-        "density": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "sndk",
+        "fields.density": {
           "$var": "density"
-        }
+        },
+        "meta.ruleId": "vendor.sndk.shortcode.v1"
       }
     }
   },
@@ -168,17 +173,22 @@
         }
       ],
       "assign": {
-        "vendor": "sndk",
-        "type": "nand",
-        "processNode": {
-          "$var": "processNode"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
+        "device.domain": "memory",
+        "device.vendor": "sndk",
+        "device.chipKind": "raw_nand",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "meta.ruleId": "vendor.sndk.marking.12digit.v1"
       }
     }
   }

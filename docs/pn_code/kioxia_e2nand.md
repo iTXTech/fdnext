@@ -24,7 +24,7 @@ PN 结构：
 | family `GV` / `GB` | E2NAND LGA family |
 | density `G7/G8/G9` | 128Gb / 256Gb / 512Gb |
 | process `G/J/K/L` | 24nm / 19nm / A19nm / 15nm |
-| package suffix `LA` / exact `LA01` | 顶层 `package` 输出 `LGA` / `LGA60`，精确后缀优先 |
+| package suffix `LA` / exact `LA01` | `fields.package` 输出 `LGA` / `LGA60`，精确后缀优先 |
 
 ## 输出字段
 

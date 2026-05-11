@@ -2,13 +2,6 @@
   {
     "id": "vendor.winbond.dram.ddr3.component.v1",
     "priority": 1010,
-    "domain": "memory",
-    "chipKind": "dram",
-    "fieldProfile": "dram",
-    "capabilities": [
-      "part.decode",
-      "part.search"
-    ],
     "normalize": [
       "trim",
       "uppercase",
@@ -54,9 +47,6 @@
           "U:RB": "1.35V or 1.5V VDD"
         },
         "speedObj": {
-          "09": {
-            "dram_speed": "DDR3-2133"
-          },
           "11": {
             "dram_speed": "DDR3-1866"
           },
@@ -65,6 +55,9 @@
           },
           "15": {
             "dram_speed": "DDR3-1333"
+          },
+          "09": {
+            "dram_speed": "DDR3-2133"
           }
         },
         "gradeObj": {
@@ -209,36 +202,39 @@
         }
       ],
       "assign": {
-        "vendor": "winbond",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.winbond.dram.ddr3.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
       }
     }
   },
   {
     "id": "vendor.winbond.dram.ddr4.component.v1",
     "priority": 1010,
-    "domain": "memory",
-    "chipKind": "dram",
-    "fieldProfile": "dram",
-    "capabilities": [
-      "part.decode",
-      "part.search"
-    ],
     "normalize": [
       "trim",
       "uppercase",
@@ -397,34 +393,37 @@
         }
       ],
       "assign": {
-        "vendor": "winbond",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": "1.2V VDD",
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.2V VDD",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.winbond.dram.ddr4.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
       }
     }
   },
   {
     "id": "vendor.winbond.dram.lpddr4.component.v1",
     "priority": 1010,
-    "domain": "memory",
-    "chipKind": "dram",
-    "fieldProfile": "dram",
-    "capabilities": [
-      "part.decode",
-      "part.search"
-    ],
     "normalize": [
       "trim",
       "uppercase",
@@ -454,8 +453,8 @@
           "D": 8192
         },
         "deviceWidth": {
-          "6": 16,
-          "2": 32
+          "2": 32,
+          "6": 16
         },
         "typeCode": {
           "PN": "LPDDR4",
@@ -663,23 +662,33 @@
         }
       ],
       "assign": {
-        "vendor": "winbond",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.winbond.dram.lpddr4.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
       }
     }
   }

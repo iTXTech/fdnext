@@ -99,17 +99,22 @@
         }
       ],
       "assign": {
-        "vendor": "ymtc",
-        "type": "nand",
-        "processNode": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "ymtc",
+        "device.chipKind": "raw_nand",
+        "fields.process_node": {
           "$var": "processNode"
         },
-        "cellLevel": {
+        "fields.cell_level": {
           "$var": "cellLevel"
         },
-        "generation": {
+        "fields.generation_info": {
           "$var": "generation"
-        }
+        },
+        "meta.ruleId": "vendor.ymtc.process-alias.v1"
       }
     }
   }

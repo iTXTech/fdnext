@@ -79,7 +79,7 @@
         }
       },
       "6": {
-        "ext:interface": {
+        "interface_type": {
           "dq": [7],
           "def": {
             "0": "Conventional",

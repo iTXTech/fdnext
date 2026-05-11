@@ -282,23 +282,28 @@
         }
       ],
       "assign": {
-        "vendor": "nanya",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "nanya",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.nanya.dram.standard.component.v1"
       }
     }
   },
@@ -603,23 +608,28 @@
         }
       ],
       "assign": {
-        "vendor": "nanya",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "nanya",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.nanya.dram.low_power.component.v1"
       }
     }
   }

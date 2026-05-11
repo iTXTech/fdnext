@@ -391,42 +391,59 @@
         }
       ],
       "assign": {
-        "vendor": "kioxia",
-        "type": "e2nand",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "processNode": {
-          "$var": "processNode"
-        },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "interface": {
-          "toggle": {
-            "$var": "toggle"
-          }
-        },
-        "package": {
-          "$var": "packageFinal"
-        },
-        "classification": {
-          "ce": {
-            "$var": "ce"
-          },
-          "ch": {
-            "$var": "ch"
-          }
-        },
+        "device.domain": "memory",
+        "device.vendor": "kioxia",
+        "device.chipKind": "managed_nand",
+        "device.productType": "e2nand",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "packageFinal"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "meta.ruleId": "vendor.kioxia.e2nand.lga.v1"
       }
     }
   }

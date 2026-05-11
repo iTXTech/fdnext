@@ -33,7 +33,7 @@ Samsung UFS 现在与 SK hynix 共用：
 - `component_density`：封装总容量，例如 `512GB package`
 - `die_density`：单 die 容量，例如 `512Gb`
 - `die_stack`：封装堆叠，例如 `ODP (8-die)`
-- `processNode`：NAND 代际，例如 `V8 236L`；不在 `fields` 里重复输出相同的 `generation_info`
+- `fields.process_node`：NAND 代际，例如 `V8 236L`；不在 `fields` 里重复输出相同的 `generation_info`
 
 可信度 metadata 只在 DSL `tables.reference` 内维护，不进入 `fields`。
 

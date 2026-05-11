@@ -243,17 +243,23 @@
         }
       ],
       "assign": {
-        "vendor": "sndk",
-        "type": "ufs",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "processNode": {
-          "$var": "processNode"
-        },
+        "device.domain": "memory",
+        "device.vendor": "sndk",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "meta.ruleId": "vendor.sndk.inand.ufs.v1"
       }
     }
   }

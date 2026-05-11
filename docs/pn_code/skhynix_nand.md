@@ -86,9 +86,9 @@
 
 | PN 结构 | 字段 |
 | --- | --- |
-| `HY27` + voltage + classification + width(2) + density(2) + mode + generation + reserved + package + optional tail | legacy raw NAND |
+| `HY27` + voltage + topology + width(2) + density(2) + mode + generation + reserved + package + optional tail | legacy raw NAND |
 | voltage `U/L/S/J/Q/T` | 电压 / VccQ 组合 |
-| classification | cell level 与 die count |
+| topology | cell level 与 die count |
 | width `08/16/32` | device width |
 | density | 64Mb 到 4Tb，按规则表映射 |
 | mode | CE / RB / channel |
@@ -100,11 +100,11 @@
 
 | PN 结构 | 字段 |
 | --- | --- |
-| `H2` + model(3) + voltage + density(2) + width + classification + mode + generation + package + material + variety + bad block + op temp | raw NAND |
+| `H2` + model(3) + voltage + density(2) + width + topology + mode + generation + package + material + variety + bad block + op temp | raw NAND |
 | voltage `U/L/S/J/Q/T` | 电压 / VccQ 组合 |
 | density | 64Mb 到 4Tb，按规则表映射 |
 | width `8/6/L/I/D` | x8 / x16 等 |
-| classification | cell level 与 die count |
+| topology | cell level 与 die count |
 | mode | CE / RB / channel |
 | generation | generation code |
 | package | TSOP / FBGA / WLGA / BGA 等 |
@@ -190,6 +190,6 @@ H25 目前分成两类结构处理：
 
 - H25T package tail（如 `X321N` / `X535` / `X630`）仍缺原厂 ordering table，目前只保留前段稳定 token。
 - 没有外部 reference 的 H25/H25T 候选不删除，但必须在 DSL metadata 标记为 `local_pending_external_reference` 或进入本文档待确认列表，不能输出到用户可见解析结果。
-- `H2` / `HY27` 的 classification、mode、generation 表来自既有规则表，后续应逐步补对应资料出处。
+- `H2` / `HY27` 的 topology、mode、generation 表来自既有规则表，后续应逐步补对应资料出处。
 - `H26`、`HN8`、`H28S` 已被更高优先级 managed NAND 规则拦截，不应在 raw NAND 文档中重复解析。
 - `H9` 已拆到 eMCP / uMCP 文档，不能用 raw NAND 规则兜底解释。

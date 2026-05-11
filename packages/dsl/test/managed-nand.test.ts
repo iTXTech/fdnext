@@ -12,14 +12,14 @@ const engine = createEngine({
 
 interface TestPartInfo {
   partNumber: string;
-  rawVendor?: string;
+  vendor?: string;
   markingCode?: string;
   type?: string;
-  rawDensity?: number;
+  densityMbit?: number;
   density?: string;
-  processNode?: string;
-  cellLevel?: string;
-  classification?: Record<string, unknown>;
+  processField?: string;
+  cellField?: string;
+  topology?: Record<string, unknown>;
   voltage?: string;
   interface?: Record<string, unknown>;
   package?: string;
@@ -78,13 +78,13 @@ function detect(partNumber: string): TestPartInfo {
   }
   return {
     partNumber,
-    rawVendor: result.device?.vendor.id,
+    vendor: result.device?.vendor.id,
     markingCode: result.device?.markingCode,
     type: partType(result),
-    rawDensity: typeof density?.value === "number" ? density.value : undefined,
+    densityMbit: typeof density?.value === "number" ? density.value : undefined,
     density: density?.display,
-    processNode: fieldText(firstField(result, "process_node")) as string | undefined,
-    cellLevel: fieldText(firstField(result, "cell_level")) as string | undefined,
+    processField: fieldText(firstField(result, "process_node")) as string | undefined,
+    cellField: fieldText(firstField(result, "cell_level")) as string | undefined,
     voltage: fieldText(firstField(result, "voltage", "dram_voltage")) as string | undefined,
     package: fieldText(firstField(result, "package")) as string | undefined,
     detailFields
@@ -105,14 +105,14 @@ function assertKnownOrOmitted(actual: unknown, expected: unknown, message: strin
 function assertPart(
   partNumber: string,
   expected: {
-    rawVendor: string;
+    vendor: string;
     markingCode?: string;
     type: string;
-    rawDensity?: number;
+    densityMbit?: number;
     density?: string;
-    processNode?: string;
-    cellLevel?: string;
-    classification?: Record<string, unknown>;
+    processField?: string;
+    cellField?: string;
+    topology?: Record<string, unknown>;
     voltage?: string;
     interface?: Record<string, unknown>;
     package?: string;
@@ -121,26 +121,26 @@ function assertPart(
   }
 ): void {
   const info = detect(partNumber);
-  assert.equal(info.rawVendor, expected.rawVendor, partNumber);
+  assert.equal(info.vendor, expected.vendor, partNumber);
   if (expected.markingCode !== undefined) {
     assert.equal(info.markingCode, expected.markingCode, partNumber);
   }
   assert.equal(info.type, expected.type, partNumber);
 
-  if (expected.rawDensity !== undefined) {
-    assert.equal(info.rawDensity, expected.rawDensity, partNumber);
+  if (expected.densityMbit !== undefined) {
+    assert.equal(info.densityMbit, expected.densityMbit, partNumber);
   }
   if (expected.density !== undefined) {
     assertKnownOrOmitted(info.density, expected.density, partNumber);
   }
-  if (expected.processNode !== undefined) {
-    assertKnownOrOmitted(info.processNode, expected.processNode, partNumber);
+  if (expected.processField !== undefined) {
+    assertKnownOrOmitted(info.processField, expected.processField, partNumber);
   }
-  if (expected.cellLevel !== undefined) {
-    assertKnownOrOmitted(info.cellLevel, expected.cellLevel, partNumber);
+  if (expected.cellField !== undefined) {
+    assertKnownOrOmitted(info.cellField, expected.cellField, partNumber);
   }
-  if (expected.classification !== undefined) {
-    assert.ok(info.classification == null || typeof info.classification === "object", partNumber);
+  if (expected.topology !== undefined) {
+    assert.ok(info.topology == null || typeof info.topology === "object", partNumber);
   }
   if (expected.voltage !== undefined) {
     assertKnownOrOmitted(info.voltage, expected.voltage, partNumber);
@@ -215,10 +215,10 @@ for (const entry of managedNandPn) {
 }
 
 assertPart("SDINBDA6-256G-XI1", {
-  rawVendor: "sndk",
+  vendor: "sndk",
   type: "eMMC",
-  rawDensity: 2097152,
-  processNode: "BiCS3 64L",
+  densityMbit: 2097152,
+  processField: "BiCS3 64L",
   extra: {
     "Product Family": "iNAND IX EM132",
     "Storage Interface": "eMMC 5.1",
@@ -229,10 +229,10 @@ assertPart("SDINBDA6-256G-XI1", {
 });
 
 assertPart("SDINBDG4-32G-ZA3", {
-  rawVendor: "sndk",
+  vendor: "sndk",
   type: "eMMC",
-  rawDensity: 262144,
-  processNode: "2D NAND",
+  densityMbit: 262144,
+  processField: "2D NAND",
   extra: {
     "Product Family": "iNAND 7250 / EM122-class",
     "Storage Interface": "eMMC 5.1",
@@ -242,10 +242,10 @@ assertPart("SDINBDG4-32G-ZA3", {
 });
 
 assertPart("SDINFDK4-128G", {
-  rawVendor: "sndk",
+  vendor: "sndk",
   type: "UFS",
-  rawDensity: 1048576,
-  processNode: "3D NAND",
+  densityMbit: 1048576,
+  processField: "3D NAND",
   extra: {
     "Product Family": "iNAND MC EU521",
     "Storage Interface": "UFS 3.1"
@@ -254,10 +254,10 @@ assertPart("SDINFDK4-128G", {
 });
 
 assertPart("SDINDDH6-128G-ZA2", {
-  rawVendor: "sndk",
+  vendor: "sndk",
   type: "UFS",
-  rawDensity: 1048576,
-  processNode: "3D NAND",
+  densityMbit: 1048576,
+  processField: "3D NAND",
   extra: {
     "Product Family": "iNAND AT EU312",
     "Storage Interface": "UFS 2.1",
@@ -267,10 +267,10 @@ assertPart("SDINDDH6-128G-ZA2", {
 });
 
 assertPart("SDIN7DU2-8G", {
-  rawVendor: "sndk",
+  vendor: "sndk",
   type: "eMMC",
-  rawDensity: 65536,
-  processNode: "19nm",
+  densityMbit: 65536,
+  processField: "19nm",
   extra: {
     "Product Family": "iNAND Ultra",
     "Storage Interface": "eMMC 4.41",
@@ -279,10 +279,10 @@ assertPart("SDIN7DU2-8G", {
 });
 
 assertPart("SDIN5C4-64G", {
-  rawVendor: "sndk",
+  vendor: "sndk",
   type: "eMMC",
-  rawDensity: 524288,
-  processNode: "24nm",
+  densityMbit: 524288,
+  processField: "24nm",
   extra: {
     "Product Family": "iNAND legacy eMMC",
     "Storage Interface": "eMMC 4.41"
@@ -290,18 +290,18 @@ assertPart("SDIN5C4-64G", {
 });
 
 assertPart("SDIS4BH-008G", {
-  rawVendor: "sndk",
+  vendor: "sndk",
   type: "SATA",
-  rawDensity: 65536,
+  densityMbit: 65536,
   extra: {
     "Product Family": "iSSD SATA / MTR-5"
   }
 });
 
 assertPart("SDIS5BK-032G", {
-  rawVendor: "sndk",
+  vendor: "sndk",
   type: "SATA",
-  rawDensity: 262144,
+  densityMbit: 262144,
   extra: {
     "Product Family": "iSSD i100",
     "Storage Interface": "SATA 6Gb/s"
@@ -309,19 +309,19 @@ assertPart("SDIS5BK-032G", {
 });
 
 assertPart("SDIS6BM-016G", {
-  rawVendor: "sndk",
+  vendor: "sndk",
   type: "SATA",
-  rawDensity: 131072,
+  densityMbit: 131072,
   extra: {
     "Product Family": "iSSD i110"
   }
 });
 
 assertPart("SM662GXC-BFS", {
-  rawVendor: "siliconmotion",
+  vendor: "siliconmotion",
   type: "eMMC",
-  rawDensity: 524288,
-  cellLevel: "TLC",
+  densityMbit: 524288,
+  cellField: "TLC",
   package: "100-ball BGA",
   extra: {
     "Product Family": "Ferri-eMMC",
@@ -337,10 +337,10 @@ assertPart("SM662GXC-BFS", {
 });
 
 assertPart("SM662PBC-BFS", {
-  rawVendor: "siliconmotion",
+  vendor: "siliconmotion",
   type: "eMMC",
-  rawDensity: 524288,
-  cellLevel: "TLC",
+  densityMbit: 524288,
+  cellField: "TLC",
   package: "153-ball BGA",
   extra: {
     "Product Family": "Ferri-eMMC",
@@ -355,10 +355,10 @@ assertPart("SM662PBC-BFS", {
 });
 
 assertPart("SM671PEF-BFS", {
-  rawVendor: "siliconmotion",
+  vendor: "siliconmotion",
   type: "UFS",
-  rawDensity: 4194304,
-  cellLevel: "TLC",
+  densityMbit: 4194304,
+  cellField: "TLC",
   package: "153-ball BGA",
   extra: {
     "Product Family": "Ferri-UFS",
@@ -374,11 +374,11 @@ assertPart("SM671PEF-BFS", {
 });
 
 assertPart("FNNL63A51K3WG-AF", {
-  rawVendor: "spectek",
+  vendor: "spectek",
   type: "NAND",
-  rawDensity: 32768,
-  processNode: "L63A",
-  cellLevel: "MLC",
+  densityMbit: 32768,
+  processField: "L63A",
+  cellField: "MLC",
   package: "48-pin TSOP I Center Package Leads (CPL) PB free",
   extra: {
     "Product Family": "SpecTek NAND Flash",
@@ -392,10 +392,10 @@ assertNotFound("SDISZZZ-016G");
 assertNotFound("SM671PAC-BFS");
 
 assertPart("THGBMNG5D1LBAIT", {
-  rawVendor: "kioxia",
+  vendor: "kioxia",
   type: "eMMC",
-  rawDensity: 32768,
-  processNode: "15 nm/1z",
+  densityMbit: 32768,
+  processField: "15 nm/1z",
   package: "BGA153",
   extra: {
     "Series Code": "BMN",
@@ -406,10 +406,10 @@ assertPart("THGBMNG5D1LBAIT", {
 });
 
 assertPart("THGAMVT0T43BAB8", {
-  rawVendor: "kioxia",
+  vendor: "kioxia",
   type: "eMMC",
-  rawDensity: 1048576,
-  processNode: "BiCS4",
+  densityMbit: 1048576,
+  processField: "BiCS4",
   package: "BGA",
   extra: {
     "Series Code": "AMV",
@@ -420,10 +420,10 @@ assertPart("THGAMVT0T43BAB8", {
 });
 
 assertPart("THGJFRT3E88BATW", {
-  rawVendor: "kioxia",
+  vendor: "kioxia",
   type: "UFS",
-  rawDensity: 8388608,
-  processNode: "BiCS8",
+  densityMbit: 8388608,
+  processField: "BiCS8",
   package: "BGA",
   extra: {
     "Series Code": "JFR",
@@ -434,10 +434,10 @@ assertPart("THGJFRT3E88BATW", {
 });
 
 assertPart("THGJFJT1T45BAB8", {
-  rawVendor: "kioxia",
+  vendor: "kioxia",
   type: "UFS",
-  rawDensity: 2097152,
-  processNode: "BiCS4",
+  densityMbit: 2097152,
+  processField: "BiCS4",
   package: "BGA",
   extra: {
     "Series Code": "JFJ",
@@ -449,10 +449,10 @@ assertPart("THGJFJT1T45BAB8", {
 });
 
 assertPart("THGAFBT1T83BAA5", {
-  rawVendor: "kioxia",
+  vendor: "kioxia",
   type: "UFS",
-  rawDensity: 2097152,
-  processNode: "BiCS8",
+  densityMbit: 2097152,
+  processField: "BiCS8",
   package: "BGA",
   extra: {
     "Series Code": "AFB",
@@ -464,11 +464,11 @@ assertPart("THGAFBT1T83BAA5", {
 });
 
 assertPart("THGVX1G7D2GLA08", {
-  rawVendor: "kioxia",
+  vendor: "kioxia",
   type: "E2NAND",
-  rawDensity: 131072,
-  processNode: "24 nm A-type",
-  cellLevel: "MLC",
+  densityMbit: 131072,
+  processField: "24 nm A-type",
+  cellField: "MLC",
   package: "LGA52 (14 x 18 x 1.04)",
   extra: {
     "Managed Family": "SmartNAND",
@@ -480,11 +480,11 @@ assertPart("THGVX1G7D2GLA08", {
 });
 
 assertPart("TCGVX1G7D2GLA08", {
-  rawVendor: "kioxia",
+  vendor: "kioxia",
   type: "E2NAND",
-  rawDensity: 131072,
-  processNode: "24 nm A-type",
-  cellLevel: "MLC",
+  densityMbit: 131072,
+  processField: "24 nm A-type",
+  cellField: "MLC",
   package: "LGA52 (14 x 18 x 1.04)",
   extra: {
     "Managed Family": "SmartNAND",
@@ -496,11 +496,11 @@ assertPart("TCGVX1G7D2GLA08", {
 });
 
 assertPart("THGBX2G7D2JLA01", {
-  rawVendor: "kioxia",
+  vendor: "kioxia",
   type: "E2NAND",
-  rawDensity: 131072,
-  processNode: "19 nm/1x",
-  cellLevel: "MLC",
+  densityMbit: 131072,
+  processField: "19 nm/1x",
+  cellField: "MLC",
   package: "LGA60",
   extra: {
     "Managed Family": "SmartNAND",
@@ -512,11 +512,11 @@ assertPart("THGBX2G7D2JLA01", {
 });
 
 assertPart("MT29FB16T08GALAAM5-TES:B", {
-  rawVendor: "micron",
+  vendor: "micron",
   type: "On-die ECC NAND",
-  rawDensity: 16777216,
-  cellLevel: "QLC",
-  classification: {
+  densityMbit: 16777216,
+  cellField: "QLC",
+  topology: {
     ce: 0,
     ch: 1,
     rb: 0,
@@ -548,11 +548,11 @@ assertPart("MT29FB16T08GALAAM5-TES:B", {
 });
 
 assertPart("MT29FB8T08EALAAM5-QK:E", {
-  rawVendor: "micron",
+  vendor: "micron",
   type: "On-die ECC NAND",
-  rawDensity: 8388608,
-  cellLevel: "TLC",
-  classification: {
+  densityMbit: 8388608,
+  cellField: "TLC",
+  topology: {
     ce: 0,
     ch: 1,
     rb: 0,
@@ -584,12 +584,12 @@ assertPart("MT29FB8T08EALAAM5-QK:E", {
 });
 
 assertPart("NC103", {
-  rawVendor: "micron",
+  vendor: "micron",
   markingCode: "NC103",
   type: "On-die ECC NAND",
-  rawDensity: 16777216,
-  cellLevel: "QLC",
-  classification: {
+  densityMbit: 16777216,
+  cellField: "QLC",
+  topology: {
     ce: 0,
     ch: 1,
     rb: 0,
@@ -621,9 +621,9 @@ assertPart("NC103", {
 });
 
 assertPart("H26M78208CMRX", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "eMMC",
-  rawDensity: 524288,
+  densityMbit: 524288,
   package: "153FBGA",
   extra: {
     "Managed Family": "e-NAND",
@@ -633,9 +633,9 @@ assertPart("H26M78208CMRX", {
 });
 
 assertPart("H26M78208CMRN", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "eMMC",
-  rawDensity: 524288,
+  densityMbit: 524288,
   package: "153FBGA",
   extra: {
     "Managed Family": "e-NAND",
@@ -645,7 +645,7 @@ assertPart("H26M78208CMRN", {
 });
 
 assertPart("H26M91208HPRX", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "eMMC",
   density: "Unknown",
   package: "153FBGA",
@@ -656,9 +656,9 @@ assertPart("H26M91208HPRX", {
 });
 
 assertPart("HN8T25DEHKX077N", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "UFS",
-  rawDensity: 4194304,
+  densityMbit: 4194304,
   package: "153FBGA",
   extra: {
     "Series Code": "DE",
@@ -670,9 +670,9 @@ assertPart("HN8T25DEHKX077N", {
 });
 
 assertPart("HN8T35DZHKX079", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "UFS",
-  rawDensity: 8388608,
+  densityMbit: 8388608,
   package: "153FBGA",
   extra: {
     "Series Code": "DZ",
@@ -683,9 +683,9 @@ assertPart("HN8T35DZHKX079", {
 });
 
 assertPart("HN8G962EHKX037N", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "UFS",
-  rawDensity: 524288,
+  densityMbit: 524288,
   package: "153FBGA",
   extra: {
     "Series Code": "2E",
@@ -695,9 +695,9 @@ assertPart("HN8G962EHKX037N", {
 });
 
 assertPart("H28SAO301MMR", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "UFS",
-  rawDensity: 4194304,
+  densityMbit: 4194304,
   package: "FBGA",
   extra: {
     "Product Version": "UFS 2.1"
@@ -705,9 +705,9 @@ assertPart("H28SAO301MMR", {
 });
 
 assertPart("H28S8Q302CMR", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "UFS",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "FBGA",
   extra: {
     "Product Version": "UFS 2.1"
@@ -715,11 +715,11 @@ assertPart("H28S8Q302CMR", {
 });
 
 assertPart("H25T2TB88E-X321-N", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "NAND",
-  rawDensity: 4194304,
-  processNode: "128L 4D NAND (V6 / H25FTB0)",
-  cellLevel: "TLC",
+  densityMbit: 4194304,
+  processField: "128L 4D NAND (V6 / H25FTB0)",
+  cellField: "TLC",
   extra: {
     System: "SK hynix H25T NAND package",
     "Density Code": "2T",
@@ -731,11 +731,11 @@ assertPart("H25T2TB88E-X321-N", {
 });
 
 assertPart("H25T1TD48C-X630", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "NAND",
-  rawDensity: 2097152,
-  processNode: "238L 4D NAND (V8)",
-  cellLevel: "TLC",
+  densityMbit: 2097152,
+  processField: "238L 4D NAND (V8)",
+  cellField: "TLC",
   extra: {
     System: "SK hynix H25T NAND package",
     "Density Code": "1T",
@@ -746,11 +746,11 @@ assertPart("H25T1TD48C-X630", {
 });
 
 assertPart("H25T2TC88C", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "NAND",
-  rawDensity: 4194304,
-  processNode: "176L 4D NAND (V7 / H25FTC0)",
-  cellLevel: "TLC",
+  densityMbit: 4194304,
+  processField: "176L 4D NAND (V7 / H25FTC0)",
+  cellField: "TLC",
   extra: {
     System: "SK hynix H25T NAND package",
     "Product Generation": "176-layer 4D NAND (V7 / H25FTC0)",
@@ -760,11 +760,11 @@ assertPart("H25T2TC88C", {
 });
 
 assertPart("H25T2TD88C-X682", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "NAND",
-  rawDensity: 4194304,
-  processNode: "238L 4D NAND (V8 / H25FTD0)",
-  cellLevel: "TLC",
+  densityMbit: 4194304,
+  processField: "238L 4D NAND (V8 / H25FTD0)",
+  cellField: "TLC",
   extra: {
     System: "SK hynix H25T NAND package",
     "Product Generation": "238-layer 4D NAND (V8 / H25FTD0)",
@@ -774,11 +774,11 @@ assertPart("H25T2TD88C-X682", {
 });
 
 assertPart("H25T0QA18CX542", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "NAND",
-  rawDensity: 1048576,
-  processNode: "176L 4D NAND QLC (V7Q)",
-  cellLevel: "QLC",
+  densityMbit: 1048576,
+  processField: "176L 4D NAND QLC (V7Q)",
+  cellField: "QLC",
   extra: {
     System: "SK hynix H25T NAND package",
     "Product Generation": "176-layer 4D NAND QLC (V7Q)",
@@ -788,11 +788,11 @@ assertPart("H25T0QA18CX542", {
 });
 
 assertPart("H25T4QM88G", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "NAND",
-  rawDensity: 2097152,
-  processNode: "321-layer 4D NAND QLC (V9Q)",
-  cellLevel: "QLC",
+  densityMbit: 2097152,
+  processField: "321-layer 4D NAND QLC (V9Q)",
+  cellField: "QLC",
   extra: {
     System: "SK hynix H25T NAND package",
     "Product Generation": "321-layer 4D NAND QLC (V9Q)",
@@ -803,11 +803,11 @@ assertPart("H25T4QM88G", {
 });
 
 assertPart("H25QEM8A1B", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "NAND",
-  rawDensity: 262144,
-  processNode: "3D NAND V4 MLC",
-  cellLevel: "MLC",
+  densityMbit: 262144,
+  processField: "3D NAND V4 MLC",
+  cellField: "MLC",
   extra: {
     System: "SK hynix H25 NAND",
     "Product Generation": "3D NAND V4 MLC",
@@ -817,11 +817,11 @@ assertPart("H25QEM8A1B", {
 });
 
 assertPart("H25JGQ8A1M8R", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "NAND",
-  rawDensity: 1048576,
-  processNode: "3D NAND V5 QLC",
-  cellLevel: "QLC",
+  densityMbit: 1048576,
+  processField: "3D NAND V5 QLC",
+  cellField: "QLC",
   extra: {
     System: "SK hynix H25 NAND",
     "Product Generation": "3D NAND V5 QLC",
@@ -831,11 +831,11 @@ assertPart("H25JGQ8A1M8R", {
 });
 
 assertPart("H25G9TC18CX488", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "NAND",
-  rawDensity: 524288,
-  processNode: "176L 4D NAND (V7)",
-  cellLevel: "TLC",
+  densityMbit: 524288,
+  processField: "176L 4D NAND (V7)",
+  cellField: "TLC",
   extra: {
     System: "SK hynix H25 NAND",
     "Product Generation": "176L 4D NAND (V7)",
@@ -845,12 +845,12 @@ assertPart("H25G9TC18CX488", {
 });
 
 assertPart("H2DTDG8UD1MYR", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "E2NAND",
-  rawDensity: 131072,
-  processNode: "26nm",
-  cellLevel: "MLC",
-  deviceWidth: "x8",
+  densityMbit: 131072,
+  processField: "26nm",
+  cellField: "MLC",
+  widthField: "x8",
   package: "VLGA",
   extra: {
     "Product Version": "E2NAND2.0",
@@ -861,12 +861,12 @@ assertPart("H2DTDG8UD1MYR", {
 });
 
 assertPart("H2JTDG8UD1BMS", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "E2NAND",
-  rawDensity: 131072,
-  processNode: "1xnm class",
-  cellLevel: "MLC",
-  deviceWidth: "x8",
+  densityMbit: 131072,
+  processField: "1xnm class",
+  cellField: "MLC",
+  widthField: "x8",
   package: "VLGA",
   extra: {
     "Product Version": "E2NAND3.0",
@@ -877,9 +877,9 @@ assertPart("H2JTDG8UD1BMS", {
 });
 
 assertPart("H9TQ17ABJTMCUR-KUM", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "eMCP",
-  rawDensity: 131072,
+  densityMbit: 131072,
   package: "221Ball FBGA",
   extra: {
     System: "SK hynix CI-MCP",
@@ -890,9 +890,9 @@ assertPart("H9TQ17ABJTMCUR-KUM", {
 });
 
 assertPart("H9TP32A4GDBCPR-KGM", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "eMCP",
-  rawDensity: 32768,
+  densityMbit: 32768,
   package: "162Ball FBGA",
   extra: {
     System: "SK hynix CI-MCP",
@@ -902,9 +902,9 @@ assertPart("H9TP32A4GDBCPR-KGM", {
 });
 
 assertPart("H9HP52ACPMADAR-KMM", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "eMCP",
-  rawDensity: 524288,
+  densityMbit: 524288,
   package: "254Ball FBGA",
   extra: {
     "Product Mode": "eMCP NAND DDR4",
@@ -914,9 +914,9 @@ assertPart("H9HP52ACPMADAR-KMM", {
 });
 
 assertPart("H9AG9G5ANBX100", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "eMCP",
-  rawDensity: 524288,
+  densityMbit: 524288,
   package: "254Ball FBGA",
   extra: {
     "Product Mode": "LPDDR4 eMCP",
@@ -926,9 +926,9 @@ assertPart("H9AG9G5ANBX100", {
 });
 
 assertPart("H9QT0GECN6X145", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "uMCP",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "254Ball FBGA",
   extra: {
     "Product Mode": "LPDDR4 uMCP",
@@ -938,9 +938,9 @@ assertPart("H9QT0GECN6X145", {
 });
 
 assertPart("H9HQ15ACPMADAR-KEM", {
-  rawVendor: "skhynix",
+  vendor: "skhynix",
   type: "uMCP",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "254Ball FBGA",
   extra: {
     "Storage Density": "128GB UFS",
@@ -950,9 +950,9 @@ assertPart("H9HQ15ACPMADAR-KEM", {
 });
 
 assertPart("MTFC4GACAJCN-1M WT", {
-  rawVendor: "micron",
+  vendor: "micron",
   type: "eMMC",
-  rawDensity: 32768,
+  densityMbit: 32768,
   package: "153-ball VFBGA 11.5x13x1.0 (SAC 302)",
   extra: {
     "NAND Component": "AC",
@@ -966,9 +966,9 @@ assertPart("MTFC4GACAJCN-1M WT", {
 });
 
 assertPart("MTFC8GLTEA-WT", {
-  rawVendor: "micron",
+  vendor: "micron",
   type: "eMMC",
-  rawDensity: 65536,
+  densityMbit: 65536,
   package: "153-ball WFBGA 11.5x13x0.8",
   extra: {
     "NAND Component": "L",
@@ -979,9 +979,9 @@ assertPart("MTFC8GLTEA-WT", {
 });
 
 assertPart("MTFC256GASAONS-IT", {
-  rawVendor: "micron",
+  vendor: "micron",
   type: "UFS",
-  rawDensity: 2097152,
+  densityMbit: 2097152,
   package: "153-ball TFBGA 11.5x13x1.2",
   extra: {
     "NAND Component": "AS",
@@ -993,9 +993,9 @@ assertPart("MTFC256GASAONS-IT", {
 });
 
 assertPart("MTFC64GBCAVAL-AIT", {
-  rawVendor: "micron",
+  vendor: "micron",
   type: "UFS",
-  rawDensity: 524288,
+  densityMbit: 524288,
   extra: {
     "NAND Component": "BC",
     "Controller Code": "AV",
@@ -1006,9 +1006,9 @@ assertPart("MTFC64GBCAVAL-AIT", {
 });
 
 assertPart("MTFC128GBCAQTC-AIT", {
-  rawVendor: "micron",
+  vendor: "micron",
   type: "eMMC",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "153-ball LFBGA 11.5x13x1.3",
   extra: {
     "NAND Component": "BC",
@@ -1023,9 +1023,9 @@ assertPart("MTFC128GBCAQTC-AIT", {
 });
 
 assertPart("MTFC1TAYAXHR-WT", {
-  rawVendor: "micron",
+  vendor: "micron",
   type: "UFS",
-  rawDensity: 8388608,
+  densityMbit: 8388608,
   extra: {
     "NAND Component": "AY",
     "Controller Code": "AX",
@@ -1036,9 +1036,9 @@ assertPart("MTFC1TAYAXHR-WT", {
 });
 
 assertPart("MTFC256GZZZZZZ-WT", {
-  rawVendor: "micron",
+  vendor: "micron",
   type: "eMMC",
-  rawDensity: 2097152,
+  densityMbit: 2097152,
   package: "Unknown",
   extra: {
     "NAND Component": "ZZ",
@@ -1048,11 +1048,11 @@ assertPart("MTFC256GZZZZZZ-WT", {
 });
 
 assertPart("YMEC6A1TC1A2C1", {
-  rawVendor: "ymtc",
+  vendor: "ymtc",
   type: "eMMC",
-  rawDensity: 262144,
-  processNode: "X2-9060 / TAS",
-  cellLevel: "TLC",
+  densityMbit: 262144,
+  processField: "X2-9060 / TAS",
+  cellField: "TLC",
   package: "BGA-153 11.5x13x1.0",
   extra: {
     Controller: "eMMC 5.1 Controller EC000",
@@ -1066,11 +1066,11 @@ assertPart("YMEC6A1TC1A2C1", {
 });
 
 assertPart("YMEC8A2TB3A2C3", {
-  rawVendor: "ymtc",
+  vendor: "ymtc",
   type: "eMMC",
-  rawDensity: 1048576,
-  processNode: "X1-9050 / JGS",
-  cellLevel: "TLC",
+  densityMbit: 1048576,
+  processField: "X1-9050 / JGS",
+  cellField: "TLC",
   package: "BGA-153 11.5x13x1.0",
   extra: {
     Controller: "eMMC 5.1 Controller EC110",
@@ -1085,11 +1085,11 @@ assertPart("YMEC8A2TB3A2C3", {
 });
 
 assertPart("YMUS8A1TC1A2C1", {
-  rawVendor: "ymtc",
+  vendor: "ymtc",
   type: "UFS",
-  rawDensity: 1048576,
-  processNode: "X2-9060 / TAS",
-  cellLevel: "TLC",
+  densityMbit: 1048576,
+  processField: "X2-9060 / TAS",
+  cellField: "TLC",
   package: "BGA-153 11.5x13x1.0/1.2",
   extra: {
     Controller: "UFS 3.1 Controller",
@@ -1102,11 +1102,11 @@ assertPart("YMUS8A1TC1A2C1", {
 });
 
 assertPart("YMC6G001TB51AA1C0", {
-  rawVendor: "ymtc",
+  vendor: "ymtc",
   type: "NAND",
-  rawDensity: 1048576,
-  processNode: "X3-9070 / WDS",
-  cellLevel: "TLC",
+  densityMbit: 1048576,
+  processField: "X3-9070 / WDS",
+  cellField: "TLC",
   package: "BGA-132 12x18",
   extra: {
     System: "UNIMOS",
@@ -1118,10 +1118,10 @@ assertPart("YMC6G001TB51AA1C0", {
 });
 
 assertPart("KLMAG1JETD-B041", {
-  rawVendor: "samsung",
+  vendor: "samsung",
   type: "eMMC",
-  rawDensity: 131072,
-  processNode: "14nm",
+  densityMbit: 131072,
+  processField: "14nm",
   extra: {
     "Component Density": "16GB package",
     "Die Density": "128Gb",
@@ -1133,10 +1133,10 @@ assertPart("KLMAG1JETD-B041", {
 });
 
 assertPart("KLM8G1GETF-B041", {
-  rawVendor: "samsung",
+  vendor: "samsung",
   type: "eMMC",
-  rawDensity: 65536,
-  processNode: "14nm",
+  densityMbit: 65536,
+  processField: "14nm",
   extra: {
     "Component Density": "8GB package",
     "Die Density": "64Gb",
@@ -1148,10 +1148,10 @@ assertPart("KLM8G1GETF-B041", {
 });
 
 assertPart("KLMBG2JETD-B041", {
-  rawVendor: "samsung",
+  vendor: "samsung",
   type: "eMMC",
-  rawDensity: 262144,
-  processNode: "14nm",
+  densityMbit: 262144,
+  processField: "14nm",
   extra: {
     "Component Density": "32GB package",
     "Die Density": "128Gb",
@@ -1162,9 +1162,9 @@ assertPart("KLMBG2JETD-B041", {
 });
 
 assertPart("KMGD6001BM-B421", {
-  rawVendor: "samsung",
+  vendor: "samsung",
   type: "eMCP",
-  rawDensity: 262144,
+  densityMbit: 262144,
   package: "221Ball FBGA 11.5x13x1.0",
   extra: {
     "Product Mode": "eMCP",
@@ -1180,9 +1180,9 @@ assertPart("KMGD6001BM-B421", {
 });
 
 assertPart("KMGE6001BM-B421", {
-  rawVendor: "samsung",
+  vendor: "samsung",
   type: "eMCP",
-  rawDensity: 131072,
+  densityMbit: 131072,
   package: "BGA221",
   extra: {
     "Product Mode": "eMCP",
@@ -1199,10 +1199,10 @@ assertPart("KMGE6001BM-B421", {
 });
 
 assertPart("KLUEG8UHDB-C2E1", {
-  rawVendor: "samsung",
+  vendor: "samsung",
   type: "UFS",
-  rawDensity: 2097152,
-  processNode: "V5 92L",
+  densityMbit: 2097152,
+  processField: "V5 92L",
   extra: {
     "Component Density": "256GB package",
     "Die Density": "256Gb",
@@ -1214,10 +1214,10 @@ assertPart("KLUEG8UHDB-C2E1", {
 });
 
 assertPart("KLUFG8RHHF-F0G1", {
-  rawVendor: "samsung",
+  vendor: "samsung",
   type: "UFS",
-  rawDensity: 4194304,
-  processNode: "V8 236L",
+  densityMbit: 4194304,
+  processField: "V8 236L",
   package: "BGA-153 9x13",
   extra: {
     "Component Density": "512GB package",
@@ -1230,10 +1230,10 @@ assertPart("KLUFG8RHHF-F0G1", {
 });
 
 assertPart("KLUEG4RHKF-F0H1", {
-  rawVendor: "samsung",
+  vendor: "samsung",
   type: "UFS",
-  rawDensity: 2097152,
-  processNode: "V8 236L",
+  densityMbit: 2097152,
+  processField: "V8 236L",
   package: "BGA-153 9x13",
   extra: {
     "Component Density": "256GB package",
@@ -1246,11 +1246,11 @@ assertPart("KLUEG4RHKF-F0H1", {
 });
 
 assertPart("EMMC64G-TY29", {
-  rawVendor: "kingston",
+  vendor: "kingston",
   type: "eMMC",
-  rawDensity: 524288,
+  densityMbit: 524288,
   package: "11.5x13.0x0.8",
-  cellLevel: "TLC",
+  cellField: "TLC",
   extra: {
     "Storage Interface": "eMMC 5.1",
     "Config Code": "TY29",
@@ -1261,11 +1261,11 @@ assertPart("EMMC64G-TY29", {
 });
 
 assertPart("EMMC128-IY29", {
-  rawVendor: "kingston",
+  vendor: "kingston",
   type: "eMMC",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "11.5x13.0x0.8",
-  cellLevel: "TLC",
+  cellField: "TLC",
   extra: {
     "Storage Interface": "eMMC 5.1",
     "Product Class": "Industrial Temperature"
@@ -1274,11 +1274,11 @@ assertPart("EMMC128-IY29", {
 });
 
 assertPart("UFS128-CY14", {
-  rawVendor: "kingston",
+  vendor: "kingston",
   type: "UFS",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "11x13x0.85",
-  cellLevel: "TLC",
+  cellField: "TLC",
   extra: {
     "Storage Interface": "UFS 3.1",
     "Speed Grade": "G4 4P",
@@ -1288,9 +1288,9 @@ assertPart("UFS128-CY14", {
 });
 
 assertPart("64EM32-M4GTY9B", {
-  rawVendor: "kingston",
+  vendor: "kingston",
   type: "eMCP",
-  rawDensity: 524288,
+  densityMbit: 524288,
   package: "FBGA254 11.5x13.0x1.0",
   extra: {
     "Product Family": "eMCP LPDDR4X",
@@ -1303,9 +1303,9 @@ assertPart("64EM32-M4GTY9B", {
 });
 
 assertPart("FEMDNN256G-A3A5607-08", {
-  rawVendor: "longsys",
+  vendor: "longsys",
   type: "eMMC",
-  rawDensity: 2097152,
+  densityMbit: 2097152,
   package: "FBGA153 11.5x13x1.0",
   extra: {
     "Product Family": "Commercial eMMC",
@@ -1316,11 +1316,11 @@ assertPart("FEMDNN256G-A3A5607-08", {
 });
 
 assertPart("FEUDNN128G-C2H14", {
-  rawVendor: "longsys",
+  vendor: "longsys",
   type: "UFS",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "FBGA153 11.5x13x1.0",
-  cellLevel: "TLC",
+  cellField: "TLC",
   extra: {
     "Storage Interface": "UFS 2.2",
     "Product Class": "Commercial"
@@ -1329,9 +1329,9 @@ assertPart("FEUDNN128G-C2H14", {
 });
 
 assertPart("FEPRF6432-58A1930", {
-  rawVendor: "longsys",
+  vendor: "longsys",
   type: "eMCP",
-  rawDensity: 524288,
+  densityMbit: 524288,
   package: "FBGA254 11.5x13x1.0",
   extra: {
     "Product Family": "eMCP4x",
@@ -1343,9 +1343,9 @@ assertPart("FEPRF6432-58A1930", {
 });
 
 assertPart("FUPRFA832-C2A56N1", {
-  rawVendor: "longsys",
+  vendor: "longsys",
   type: "uMCP",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "FBGA254 11.5x13x1.0",
   extra: {
     "Product Family": "uMCP4x",
@@ -1357,11 +1357,11 @@ assertPart("FUPRFA832-C2A56N1", {
 });
 
 assertPart("BWCTAKL11X128G", {
-  rawVendor: "biwin",
+  vendor: "biwin",
   type: "eMMC",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "FBGA153 11.50x13.00",
-  cellLevel: "TLC",
+  cellField: "TLC",
   extra: {
     "Storage Interface": "eMMC 5.1",
     "NAND Technology": "3D TLC"
@@ -1370,11 +1370,11 @@ assertPart("BWCTAKL11X128G", {
 });
 
 assertPart("BWCMMQ511G08G", {
-  rawVendor: "biwin",
+  vendor: "biwin",
   type: "eMMC",
-  rawDensity: 65536,
+  densityMbit: 65536,
   package: "FBGA153 9.00x11.00",
-  cellLevel: "TLC",
+  cellField: "TLC",
   extra: {
     "Storage Interface": "eMMC 5.1",
     "Interface Type": "HS400",
@@ -1384,9 +1384,9 @@ assertPart("BWCMMQ511G08G", {
 });
 
 assertPart("BWU2A0526B128G", {
-  rawVendor: "biwin",
+  vendor: "biwin",
   type: "UFS",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "FBGA153 11.50x13.00",
   extra: {
     "Storage Interface": "UFS 2.2",
@@ -1396,11 +1396,11 @@ assertPart("BWU2A0526B128G", {
 });
 
 assertPart("FEUDME128G-C8H09", {
-  rawVendor: "longsys",
+  vendor: "longsys",
   type: "UFS",
-  rawDensity: 1048576,
+  densityMbit: 1048576,
   package: "FBGA153 11.5x13x1.2",
-  cellLevel: "TLC",
+  cellField: "TLC",
   extra: {
     "Storage Interface": "UFS 3.1",
     "Speed Grade": "Gear4 2L",
@@ -1410,11 +1410,11 @@ assertPart("FEUDME128G-C8H09", {
 });
 
 assertPart("FEUDNN512G-C2G07", {
-  rawVendor: "longsys",
+  vendor: "longsys",
   type: "UFS",
-  rawDensity: 4194304,
+  densityMbit: 4194304,
   package: "FBGA153 11.5x13x1.0",
-  cellLevel: "TLC",
+  cellField: "TLC",
   extra: {
     "Storage Interface": "UFS 2.2",
     "Storage Density": "512GB UFS"
@@ -1423,9 +1423,9 @@ assertPart("FEUDNN512G-C2G07", {
 });
 
 assertPart("BWCA2KZC-64G", {
-  rawVendor: "biwin",
+  vendor: "biwin",
   type: "eMCP",
-  rawDensity: 524288,
+  densityMbit: 524288,
   package: "FBGA254 11.50x13.00",
   extra: {
     "Product Family": "eMCP4X",
@@ -1437,9 +1437,9 @@ assertPart("BWCA2KZC-64G", {
 });
 
 assertPart("BW2A2MZC02-256G", {
-  rawVendor: "biwin",
+  vendor: "biwin",
   type: "uMCP",
-  rawDensity: 2097152,
+  densityMbit: 2097152,
   package: "FBGA254 11.50x13.00",
   extra: {
     "Product Family": "uMCP LPDDR4X",

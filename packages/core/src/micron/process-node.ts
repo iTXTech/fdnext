@@ -1,4 +1,5 @@
-import type { InternalPartInfo } from "../types";
+import { draftField, draftPartNumber, draftVendor } from "../draft";
+import type { PartDecodeDraft } from "../types";
 import { normalizePartNumber } from "../utils/normalize";
 
 const GBIT_TO_MBIT = 1024;
@@ -178,16 +179,16 @@ function parseMicronProcessKey(partNumber: string): string | null {
   return `${dieCapacity}:${cellLevel}:${dieCode}`;
 }
 
-export function patchMicronPartNumberProcessNode(info: InternalPartInfo): Partial<InternalPartInfo> | null {
-  if (info.vendor !== "micron") {
+export function patchMicronPartNumberProcessNode(info: PartDecodeDraft): Partial<PartDecodeDraft> | null {
+  if (draftVendor(info) !== "micron") {
     return null;
   }
 
-  const key = parseMicronProcessKey(info.partNumber);
+  const key = parseMicronProcessKey(draftPartNumber(info));
   if (!key) {
     return null;
   }
 
   const processNode = PROCESS_NODE_BY_DIE_CAP_CELL_DIE[key];
-  return processNode && info.processNode !== processNode ? { processNode } : null;
+  return processNode && draftField(info, "process_node") !== processNode ? { fields: { process_node: processNode } } : null;
 }

@@ -2,19 +2,6 @@
   {
     "id": "vendor.micron.dram.component.v1",
     "priority": 1010,
-    "domain": "memory",
-    "chipKind": "dram",
-    "fieldProfile": "dram",
-    "capabilities": ["part.decode", "part.search"],
-    "emit": {
-      "fields": [
-        { "key": "dram_density", "value": { "$var": "density" }, "unit": "Mbit", "block": "dram" },
-        { "key": "dram_width", "value": { "$var": "deviceWidth" }, "unit": "bit", "block": "dram" },
-        { "key": "dram_voltage", "value": { "$var": "voltage" }, "block": "dram" },
-        { "key": "package", "value": { "$var": "package" }, "block": "package" },
-        { "key": "config_code", "value": { "$var": "configCode" }, "block": "geometry" }
-      ]
-    },
     "normalize": [
       "trim",
       "uppercase",
@@ -799,18 +786,20 @@
           "13": "13",
           "14": "14",
           "15": "15",
-          "15E": "15E",
           "16": "16",
           "21": "21",
           "24": "24",
           "25": "25",
-          "45M": "45M",
+          "28": "28",
+          "32": "32",
           "75": "75",
           "80": "80",
           "100": "100",
           "107": "107",
           "125": "125",
           "187": "187",
+          "15E": "15E",
+          "45M": "45M",
           "187E": "187E",
           "020": "020",
           "020F": "020F",
@@ -853,8 +842,6 @@
           "6A": "6A",
           "62M": "62M",
           "25E": "25E",
-          "28": "28",
-          "32": "32",
           "19G": "19G"
         },
         "speedObj": {
@@ -876,9 +863,6 @@
           "15": {
             "dram_speed": "1333 MT/s / 667 MHz speed bin"
           },
-          "15E": {
-            "dram_speed": "1333 MT/s / 667 MHz speed bin"
-          },
           "16": {
             "dram_speed": "GDDR6-16Gbps",
             "dram_type": "GDDR6 SGRAM"
@@ -893,6 +877,14 @@
           },
           "25": {
             "dram_speed": "400 MHz speed bin"
+          },
+          "28": {
+            "dram_speed": "GDDR7-28Gbps",
+            "dram_type": "GDDR7 SGRAM"
+          },
+          "32": {
+            "dram_speed": "GDDR7-32Gbps",
+            "dram_type": "GDDR7 SGRAM"
           },
           "75": {
             "dram_speed": "133 MHz speed bin"
@@ -911,6 +903,9 @@
           },
           "187": {
             "dram_speed": "1066 MT/s / 533 MHz speed bin"
+          },
+          "15E": {
+            "dram_speed": "1333 MT/s / 667 MHz speed bin"
           },
           "187E": {
             "dram_speed": "1066 MT/s / 533 MHz speed bin"
@@ -1047,14 +1042,6 @@
           "19G": {
             "dram_speed": "GDDR6X-19Gbps",
             "dram_type": "GDDR6X SGRAM"
-          },
-          "28": {
-            "dram_speed": "GDDR7-28Gbps",
-            "dram_type": "GDDR7 SGRAM"
-          },
-          "32": {
-            "dram_speed": "GDDR7-32Gbps",
-            "dram_type": "GDDR7 SGRAM"
           }
         },
         "temperatureObj": {
@@ -1407,23 +1394,36 @@
         }
       ],
       "assign": {
-        "vendor": "micron",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.config_code": {
+          "$var": "configCode"
+        },
+        "meta.ruleId": "vendor.micron.dram.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
       }
     }
   }

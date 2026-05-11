@@ -155,16 +155,22 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "umcp",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "voltage": "UFS Vcc: 2.7V~3.6V, LPDDR4X: 1.8V/1.1V/0.6V",
-        "package": "254Ball FBGA",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "umcp",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.voltage": "UFS Vcc: 2.7V~3.6V, LPDDR4X: 1.8V/1.1V/0.6V",
+        "fields.package": "254Ball FBGA",
+        "meta.ruleId": "vendor.skhynix.umcp.h9q.v1"
       }
     }
   },
@@ -252,15 +258,21 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "umcp",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": "254Ball FBGA",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "umcp",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": "254Ball FBGA",
+        "meta.ruleId": "vendor.skhynix.umcp.h9hq.v1"
       }
     }
   }

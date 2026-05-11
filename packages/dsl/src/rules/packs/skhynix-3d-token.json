@@ -5,11 +5,24 @@
     "normalize": [
       "trim",
       "uppercase",
-      { "remove": [" ", ",", "&", ".", "|"] }
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
     ],
-    "match": { "kind": "regex", "value": "^H25(?!T)[A-Z0-9]{7,}" },
+    "match": {
+      "kind": "regex",
+      "value": "^H25(?!T)[A-Z0-9]{7,}"
+    },
     "tokenDecoder": {
-      "stripPrefixes": ["H25"],
+      "stripPrefixes": [
+        "H25"
+      ],
       "tables": {
         "series": {
           "QE": "early 3D MLC family",
@@ -18,7 +31,11 @@
           "JG": "3D V5/V6 family",
           "G9": "4D NAND V7/V8 family"
         },
-        "cellLevel": { "M": 2, "T": 3, "Q": 4 },
+        "cellLevel": {
+          "M": 2,
+          "T": 3,
+          "Q": 4
+        },
         "density": {
           "QE:M:8:A1": 262144,
           "QF:T:8:A1": 524288,
@@ -63,75 +80,291 @@
           "JG:T:8:M": "3D NAND V6 TLC"
         },
         "productObj": {
-          "QE:M:8:B": { "generation_info": "3D NAND V4 MLC", "product_class": "MLC" },
-          "QF:T:8:A": { "generation_info": "3D NAND V4 TLC", "product_class": "TLC" },
-          "QF:T:M:A": { "generation_info": "3D NAND V4 TLC", "product_class": "TLC" },
-          "QF:T:8:M": { "generation_info": "3D NAND V5 QLC", "product_class": "QLC" },
-          "BF:T:4:C": { "generation_info": "3D NAND V6 TLC", "product_class": "TLC" },
-          "BF:T:4:R": { "generation_info": "3D NAND V5 TLC", "product_class": "TLC" },
-          "BF:T:8:M": { "generation_info": "3D NAND V5 TLC", "product_class": "TLC" },
-          "BF:T:8:B": { "generation_info": "3D NAND V6 TLC", "product_class": "TLC" },
-          "BF:T:8:Z": { "generation_info": "3D NAND V6 TLC", "product_class": "TLC" },
-          "G9:T:B:E": { "generation_info": "3D NAND V6-class", "product_class": "TLC" },
-          "G9:T:C:C": { "generation_info": "176L 4D NAND (V7)", "product_class": "TLC" },
-          "G9:T:D:C": { "generation_info": "238L 4D NAND (V8)", "product_class": "TLC" },
-          "JG:Q:8:M": { "generation_info": "3D NAND V5 QLC", "product_class": "QLC" },
-          "JG:T:4:C": { "generation_info": "3D NAND V6 TLC", "product_class": "TLC" },
-          "JG:T:8:M": { "generation_info": "3D NAND V6 TLC", "product_class": "TLC" }
+          "QE:M:8:B": {
+            "generation_info": "3D NAND V4 MLC",
+            "product_class": "MLC"
+          },
+          "QF:T:8:A": {
+            "generation_info": "3D NAND V4 TLC",
+            "product_class": "TLC"
+          },
+          "QF:T:M:A": {
+            "generation_info": "3D NAND V4 TLC",
+            "product_class": "TLC"
+          },
+          "QF:T:8:M": {
+            "generation_info": "3D NAND V5 QLC",
+            "product_class": "QLC"
+          },
+          "BF:T:4:C": {
+            "generation_info": "3D NAND V6 TLC",
+            "product_class": "TLC"
+          },
+          "BF:T:4:R": {
+            "generation_info": "3D NAND V5 TLC",
+            "product_class": "TLC"
+          },
+          "BF:T:8:M": {
+            "generation_info": "3D NAND V5 TLC",
+            "product_class": "TLC"
+          },
+          "BF:T:8:B": {
+            "generation_info": "3D NAND V6 TLC",
+            "product_class": "TLC"
+          },
+          "BF:T:8:Z": {
+            "generation_info": "3D NAND V6 TLC",
+            "product_class": "TLC"
+          },
+          "G9:T:B:E": {
+            "generation_info": "3D NAND V6-class",
+            "product_class": "TLC"
+          },
+          "G9:T:C:C": {
+            "generation_info": "176L 4D NAND (V7)",
+            "product_class": "TLC"
+          },
+          "G9:T:D:C": {
+            "generation_info": "238L 4D NAND (V8)",
+            "product_class": "TLC"
+          },
+          "JG:Q:8:M": {
+            "generation_info": "3D NAND V5 QLC",
+            "product_class": "QLC"
+          },
+          "JG:T:4:C": {
+            "generation_info": "3D NAND V6 TLC",
+            "product_class": "TLC"
+          },
+          "JG:T:8:M": {
+            "generation_info": "3D NAND V6 TLC",
+            "product_class": "TLC"
+          }
         },
         "reference": {
-          "QE:M:8:B": { "status": "external_table_confirmed", "source": "external flash-id table + local fdb cross-check" },
-          "QF:T:8:A": { "status": "external_table_confirmed", "source": "external flash-id table + local fdb cross-check" },
-          "QF:T:M:A": { "status": "external_table_confirmed", "source": "external flash-id table + local fdb cross-check" },
-          "QF:T:8:M": { "status": "local_pending_external_reference", "source": "local fdb/fdfdb cross-check; external reference pending" },
-          "BF:T:4:C": { "status": "external_table_confirmed", "source": "external flash-id table + local fdb cross-check" },
-          "BF:T:4:R": { "status": "external_table_confirmed", "source": "external flash-id table + local fdb cross-check" },
-          "BF:T:8:M": { "status": "external_table_confirmed", "source": "external flash-id table + local fdb cross-check" },
-          "BF:T:8:B": { "status": "external_table_confirmed", "source": "external flash-id table + local fdb cross-check" },
-          "BF:T:8:Z": { "status": "local_pending_external_reference", "source": "local fdb/fdfdb cross-check; external reference pending" },
-          "G9:T:B:E": { "status": "local_pending_external_reference", "source": "local fdb/fdfdb cross-check; external reference pending" },
-          "G9:T:C:C": { "status": "external_table_confirmed", "source": "external SSD dump / flash-id table + local fdb cross-check" },
-          "G9:T:D:C": { "status": "external_table_confirmed", "source": "external flash-id table + local fdb cross-check" },
-          "JG:Q:8:M": { "status": "external_table_confirmed", "source": "external distributor listing / flash-id table + local fdb cross-check" },
-          "JG:T:4:C": { "status": "external_table_confirmed", "source": "external flash-id table + local fdb cross-check" },
-          "JG:T:8:M": { "status": "external_table_confirmed", "source": "external flash-id table + local fdb cross-check" }
+          "QE:M:8:B": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "QF:T:8:A": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "QF:T:M:A": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "QF:T:8:M": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb cross-check; external reference pending"
+          },
+          "BF:T:4:C": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "BF:T:4:R": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "BF:T:8:M": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "BF:T:8:B": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "BF:T:8:Z": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb cross-check; external reference pending"
+          },
+          "G9:T:B:E": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb cross-check; external reference pending"
+          },
+          "G9:T:C:C": {
+            "status": "external_table_confirmed",
+            "source": "external SSD dump / flash-id table + local fdb cross-check"
+          },
+          "G9:T:D:C": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "JG:Q:8:M": {
+            "status": "external_table_confirmed",
+            "source": "external distributor listing / flash-id table + local fdb cross-check"
+          },
+          "JG:T:4:C": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "JG:T:8:M": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          }
         },
         "densityReference": {
-          "BF:T:8:A2": { "status": "local_pending_external_reference", "source": "local fdb/fdfdb density token; external reference pending" },
-          "G9:T:B:18": { "status": "local_pending_external_reference", "source": "local fdb/fdfdb density token; external reference pending" },
-          "JG:T:8:B1": { "status": "local_pending_external_reference", "source": "local fdb/fdfdb density token; external reference pending" },
-          "JG:T:8:F1": { "status": "local_pending_external_reference", "source": "local fdb/fdfdb density token; external reference pending" }
+          "BF:T:8:A2": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb density token; external reference pending"
+          },
+          "G9:T:B:18": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb density token; external reference pending"
+          },
+          "JG:T:8:B1": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb density token; external reference pending"
+          },
+          "JG:T:8:F1": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb density token; external reference pending"
+          }
         }
       },
       "steps": [
-        { "op": "take", "len": 1, "to": "seriesCode1" },
-        { "op": "take", "len": 1, "to": "seriesCode2" },
-        { "op": "tpl", "template": "{{seriesCode1}}{{seriesCode2}}", "to": "seriesCode" },
-        { "op": "map", "from": "seriesCode", "table": "series", "to": "seriesName", "default": "Unknown" },
-        { "op": "take", "len": 1, "to": "cellLevelCode" },
-        { "op": "map", "from": "cellLevelCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
-        { "op": "take", "len": 1, "to": "layoutCode" },
-        { "op": "take", "len": 1, "to": "densityCode" },
-        { "op": "take", "len": 1, "to": "stackCode" },
-        { "op": "take", "len": 1, "to": "generationCode" },
-        { "op": "tpl", "template": "{{seriesCode}}:{{cellLevelCode}}:{{layoutCode}}:{{densityCode}}{{stackCode}}", "to": "densityKey" },
-        { "op": "tpl", "template": "{{seriesCode}}:{{cellLevelCode}}:{{layoutCode}}:{{generationCode}}", "to": "processKey" },
-        { "op": "map", "from": "densityKey", "table": "density", "to": "density", "default": 0 },
-        { "op": "map", "from": "processKey", "table": "processNode", "to": "processNode", "default": "Unknown" },
-        { "op": "map", "from": "processKey", "table": "productObj", "to": "productObj", "default": {} },
-        { "op": "set", "to": "extra", "value": { "system": "SK hynix H25 NAND", "group": "Raw NAND", "series_code": { "$var": "seriesCode" }, "series_info": { "$var": "seriesName" }, "cell_code": { "$var": "cellLevelCode" }, "layout_code": { "$var": "layoutCode" }, "density_code": { "$var": "densityCode" }, "stack_code": { "$var": "stackCode" }, "generation_code": { "$var": "generationCode" } } },
-        { "op": "merge", "into": "extra", "from": "productObj" }
+        {
+          "op": "take",
+          "len": 1,
+          "to": "seriesCode1"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "seriesCode2"
+        },
+        {
+          "op": "tpl",
+          "template": "{{seriesCode1}}{{seriesCode2}}",
+          "to": "seriesCode"
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "series",
+          "to": "seriesName",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellLevelCode"
+        },
+        {
+          "op": "map",
+          "from": "cellLevelCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "layoutCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "stackCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{seriesCode}}:{{cellLevelCode}}:{{layoutCode}}:{{densityCode}}{{stackCode}}",
+          "to": "densityKey"
+        },
+        {
+          "op": "tpl",
+          "template": "{{seriesCode}}:{{cellLevelCode}}:{{layoutCode}}:{{generationCode}}",
+          "to": "processKey"
+        },
+        {
+          "op": "map",
+          "from": "densityKey",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "processNode",
+          "to": "processNode",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "productObj",
+          "to": "productObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix H25 NAND",
+            "group": "Raw NAND",
+            "series_code": {
+              "$var": "seriesCode"
+            },
+            "series_info": {
+              "$var": "seriesName"
+            },
+            "cell_code": {
+              "$var": "cellLevelCode"
+            },
+            "layout_code": {
+              "$var": "layoutCode"
+            },
+            "density_code": {
+              "$var": "densityCode"
+            },
+            "stack_code": {
+              "$var": "stackCode"
+            },
+            "generation_code": {
+              "$var": "generationCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productObj"
+        }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "nand",
-        "interface": { "toggle": true },
-        "fields": { "$var": "extra" },
-        "voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
-        "cellLevel": { "$var": "cellLevel" },
-        "deviceWidth": 8,
-        "density": { "$var": "density" },
-        "processNode": { "$var": "processNode" }
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "raw_nand",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.device_width": 8,
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "meta.ruleId": "vendor.skhynix.3d.h25.token.v2"
       }
     }
   },
@@ -141,15 +374,36 @@
     "normalize": [
       "trim",
       "uppercase",
-      { "remove": [" ", ",", "&", ".", "|"] }
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
     ],
-    "match": { "kind": "regex", "value": "^H25..M" },
+    "match": {
+      "kind": "regex",
+      "value": "^H25..M"
+    },
     "tokenDecoder": {
-      "stripPrefixes": ["H25"],
+      "stripPrefixes": [
+        "H25"
+      ],
       "tables": {
-        "toggleVer": { "B": "4.0", "Q": "2.0" },
-        "cellLevel": { "M": 2, "T": 3 },
-        "density": { "A": 262144 },
+        "toggleVer": {
+          "B": "4.0",
+          "Q": "2.0"
+        },
+        "cellLevel": {
+          "M": 2,
+          "T": 3
+        },
+        "density": {
+          "A": 262144
+        },
         "generation": {
           "M": 1,
           "A": 2,
@@ -165,28 +419,94 @@
         }
       },
       "steps": [
-        { "op": "take", "len": 1, "to": "toggleCode" },
-        { "op": "map", "from": "toggleCode", "table": "toggleVer", "to": "toggleVer", "default": "Unknown" },
-        { "op": "take", "len": 1, "to": "skip" },
-        { "op": "take", "len": 1, "to": "cellLevelCode" },
-        { "op": "map", "from": "cellLevelCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
-        { "op": "take", "len": 1, "to": "skip2" },
-        { "op": "take", "len": 1, "to": "densityCode" },
-        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
-        { "op": "take", "len": 1, "to": "skip3" },
-        { "op": "take", "len": 1, "to": "generationCode" },
-        { "op": "map", "from": "generationCode", "table": "generation", "to": "generation", "default": -1 }
+        {
+          "op": "take",
+          "len": 1,
+          "to": "toggleCode"
+        },
+        {
+          "op": "map",
+          "from": "toggleCode",
+          "table": "toggleVer",
+          "to": "toggleVer",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "skip"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellLevelCode"
+        },
+        {
+          "op": "map",
+          "from": "cellLevelCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "skip2"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "skip3"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "map",
+          "from": "generationCode",
+          "table": "generation",
+          "to": "generation",
+          "default": -1
+        }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "nand",
-        "interface": { "toggle": true },
-        "fields": { "toggle": { "$var": "toggleVer" } },
-        "voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
-        "cellLevel": { "$var": "cellLevel" },
-        "deviceWidth": 8,
-        "density": { "$var": "density" },
-        "generation": { "$var": "generation" }
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "raw_nand",
+        "fields": {
+          "toggle": {
+            "$var": "toggleVer"
+          }
+        },
+        "fields.voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.device_width": 8,
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.generation_info": {
+          "$var": "generation"
+        },
+        "meta.ruleId": "vendor.skhynix.3d.token.mlc"
       }
     }
   },
@@ -196,14 +516,33 @@
     "normalize": [
       "trim",
       "uppercase",
-      { "remove": [" ", ",", "&", ".", "|"] }
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
     ],
-    "match": { "kind": "regex", "value": "^H25..T" },
+    "match": {
+      "kind": "regex",
+      "value": "^H25..T"
+    },
     "tokenDecoder": {
-      "stripPrefixes": ["H25"],
+      "stripPrefixes": [
+        "H25"
+      ],
       "tables": {
-        "toggleVer": { "B": "4.0", "Q": "2.0" },
-        "cellLevel": { "M": 2, "T": 3 },
+        "toggleVer": {
+          "B": "4.0",
+          "Q": "2.0"
+        },
+        "cellLevel": {
+          "M": 2,
+          "T": 3
+        },
         "density": {
           "A": 524288,
           "B": 1048576,
@@ -226,28 +565,94 @@
         }
       },
       "steps": [
-        { "op": "take", "len": 1, "to": "toggleCode" },
-        { "op": "map", "from": "toggleCode", "table": "toggleVer", "to": "toggleVer", "default": "Unknown" },
-        { "op": "take", "len": 1, "to": "skip" },
-        { "op": "take", "len": 1, "to": "cellLevelCode" },
-        { "op": "map", "from": "cellLevelCode", "table": "cellLevel", "to": "cellLevel", "default": -1 },
-        { "op": "take", "len": 1, "to": "skip2" },
-        { "op": "take", "len": 1, "to": "densityCode" },
-        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
-        { "op": "take", "len": 1, "to": "skip3" },
-        { "op": "take", "len": 1, "to": "generationCode" },
-        { "op": "map", "from": "generationCode", "table": "generation", "to": "generation", "default": -1 }
+        {
+          "op": "take",
+          "len": 1,
+          "to": "toggleCode"
+        },
+        {
+          "op": "map",
+          "from": "toggleCode",
+          "table": "toggleVer",
+          "to": "toggleVer",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "skip"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellLevelCode"
+        },
+        {
+          "op": "map",
+          "from": "cellLevelCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "skip2"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "skip3"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "map",
+          "from": "generationCode",
+          "table": "generation",
+          "to": "generation",
+          "default": -1
+        }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "nand",
-        "interface": { "toggle": true },
-        "fields": { "toggle": { "$var": "toggleVer" } },
-        "voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
-        "cellLevel": { "$var": "cellLevel" },
-        "deviceWidth": 8,
-        "density": { "$var": "density" },
-        "generation": { "$var": "generation" }
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "raw_nand",
+        "fields": {
+          "toggle": {
+            "$var": "toggleVer"
+          }
+        },
+        "fields.voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.device_width": 8,
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.generation_info": {
+          "$var": "generation"
+        },
+        "meta.ruleId": "vendor.skhynix.3d.token.tlc"
       }
     }
   }

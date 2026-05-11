@@ -431,42 +431,12 @@
         }
       ],
       "assign": {
-        "vendor": "samsung",
-        "type": "nand",
-        "cellLevel": {
-          "$var": "cellLevel"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "density": {
-          "$var": "density"
-        },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "generation": {
-          "$var": "generation"
-        },
-        "package": {
-          "$var": "package"
-        },
-        "interface": {
-          "toggle": {
-            "$var": "toggleFlag"
-          }
-        },
-        "classification": {
-          "ce": {
-            "$var": "ce"
-          },
-          "rb": {
-            "$var": "rb"
-          },
-          "die": {
-            "$var": "die"
-          }
-        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "raw_nand",
         "fields": {
           "toggle": {
             "$var": "toggleVer"
@@ -486,7 +456,50 @@
           "bad_block": {
             "$var": "bad_block"
           }
-        }
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.generation_info": {
+          "$var": "generation"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "meta.ruleId": "vendor.samsung.token.v1"
       }
     }
   }

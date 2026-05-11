@@ -111,15 +111,21 @@
         }
       ],
       "assign": {
-        "vendor": "biwin",
-        "type": "ufs",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": "FBGA153 11.50x13.00",
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": "FBGA153 11.50x13.00",
+        "meta.ruleId": "vendor.biwin.ufs.v1"
       }
     }
   }

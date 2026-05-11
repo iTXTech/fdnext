@@ -315,6 +315,27 @@
           "E:9:T": "X4-9060 / WT",
           "E:A:T": "X4-9070",
           "E:W:Q": "X4-6080"
+        },
+        "draftChipKind": {
+          "nand": "raw_nand",
+          "on_die_ecc_nand": "on_die_ecc_nand",
+          "dram": "dram",
+          "emmc": "managed_nand",
+          "ufs": "managed_nand",
+          "sata": "managed_nand",
+          "nvme": "managed_nand",
+          "emcp": "managed_nand",
+          "umcp": "managed_nand",
+          "e2nand": "managed_nand"
+        },
+        "draftProductType": {
+          "emmc": "emmc",
+          "ufs": "ufs",
+          "sata": "sata",
+          "nvme": "nvme",
+          "emcp": "emcp",
+          "umcp": "umcp",
+          "e2nand": "e2nand"
         }
       },
       "steps": [
@@ -564,55 +585,83 @@
           "op": "merge",
           "into": "extra",
           "from": "generationObj"
+        },
+        {
+          "op": "map",
+          "from": "type",
+          "table": "draftChipKind",
+          "to": "draftChipKind",
+          "default": "raw_nand"
+        },
+        {
+          "op": "map",
+          "from": "type",
+          "table": "draftProductType",
+          "to": "draftProductType",
+          "default": null
         }
       ],
       "assign": {
-        "vendor": "ymtc",
-        "type": {
-          "$var": "type"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "density": {
-          "$var": "density"
+        "device.domain": "memory",
+        "device.vendor": "ymtc",
+        "device.chipKind": {
+          "$var": "draftChipKind"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "processNode": {
-          "$var": "processNode"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "generation": {
-          "$var": "generation"
-        },
-        "interface": {
-          "async": true,
-          "sync": true
-        },
-        "package": {
-          "$var": "package"
-        },
-        "classification": {
-          "ce": {
-            "$var": "ce"
-          },
-          "ch": {
-            "$var": "ch"
-          },
-          "rb": {
-            "$var": "rb"
-          },
-          "die": {
-            "$var": "die"
-          }
+        "device.productType": {
+          "$var": "draftProductType"
         },
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.generation_info": {
+          "$var": "generation"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "meta.ruleId": "vendor.ymtc.nand-label.v2"
       }
     }
   }

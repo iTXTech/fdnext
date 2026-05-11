@@ -102,14 +102,20 @@
         }
       ],
       "assign": {
-        "vendor": "sndk",
-        "type": "sata",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
+        "device.domain": "memory",
+        "device.vendor": "sndk",
+        "device.chipKind": "managed_nand",
+        "device.productType": "sata",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "meta.ruleId": "vendor.sndk.issd.v1"
       }
     }
   }

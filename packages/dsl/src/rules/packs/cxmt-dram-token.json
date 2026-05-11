@@ -123,21 +123,26 @@
         }
       ],
       "assign": {
-        "vendor": "cxmt",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": "1.2V VDD",
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "cxmt",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.2V VDD",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.cxmt.dram.ddr4.component.v1"
       }
     }
   },
@@ -308,21 +313,26 @@
         }
       ],
       "assign": {
-        "vendor": "cxmt",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "cxmt",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.cxmt.dram.lpddr4x.component.v1"
       }
     }
   }

@@ -30,28 +30,6 @@ export interface DslExprPath {
 
 export type DslExpr = DslJson | DslExprVar | DslExprTemplate | DslExprPath | { [key: string]: DslExpr } | DslExpr[];
 
-export interface DslEmitField {
-  key: string;
-  value: DslExpr;
-  unit?: string;
-  display?: DslExpr;
-  importance?: "primary" | "secondary" | "detail";
-  block?: string;
-}
-
-export interface DslEmitComponent {
-  role: string;
-  domain?: "memory" | "power" | "controller" | "unknown";
-  chipKind?: "raw_nand" | "on_die_ecc_nand" | "managed_nand" | "dram" | "nor" | "pmic" | "controller" | "unknown";
-  productType?: string;
-  fields?: DslEmitField[];
-}
-
-export interface DslEmit {
-  fields?: DslEmitField[];
-  components?: DslEmitComponent[];
-}
-
 export interface DslTokenStepTake {
   op: "take";
   len: number;
@@ -153,21 +131,14 @@ export interface DslTokenDecoder {
   tables?: Record<string, Record<string, DslJson>>;
   steps: DslTokenStep[];
   assign: Record<string, DslExpr>;
-  emit?: DslEmit;
 }
 
 export interface DslRule {
   id: string;
   priority?: number;
-  domain?: "memory" | "power" | "controller" | "unknown";
-  chipKind?: "raw_nand" | "on_die_ecc_nand" | "managed_nand" | "dram" | "nor" | "pmic" | "controller" | "unknown";
-  productType?: string;
-  capabilities?: string[];
-  fieldProfile?: string;
-  emit?: DslEmit;
   normalize?: NormalizeStep[];
   match: DslMatch;
-  set?: Record<string, string | number | boolean>;
+  set?: Record<string, DslExpr>;
   tokenDecoder?: DslTokenDecoder;
 }
 

@@ -33,23 +33,20 @@
           }
         },
         "storageDensityCode": {
-          "08": "08",
           "16": "16",
           "32": "32",
           "64": "64",
-          "128": "128"
+          "128": "128",
+          "08": "08"
         },
         "storageDensity": {
-          "08": 65536,
           "16": 131072,
           "32": 262144,
           "64": 524288,
-          "128": 1048576
+          "128": 1048576,
+          "08": 65536
         },
         "storageDensityObj": {
-          "08": {
-            "storage_density": "8GB eMMC"
-          },
           "16": {
             "storage_density": "16GB eMMC"
           },
@@ -61,18 +58,18 @@
           },
           "128": {
             "storage_density": "128GB eMMC"
+          },
+          "08": {
+            "storage_density": "8GB eMMC"
           }
         },
         "dramDensityCode": {
-          "08": "08",
           "16": "16",
           "32": "32",
-          "64": "64"
+          "64": "64",
+          "08": "08"
         },
         "dramDensityObj": {
-          "08": {
-            "dram_density": "8Gb"
-          },
           "16": {
             "dram_density": "16Gb"
           },
@@ -81,6 +78,9 @@
           },
           "64": {
             "dram_density": "64Gb"
+          },
+          "08": {
+            "dram_density": "8Gb"
           }
         },
         "dramTypeObj": {
@@ -214,17 +214,23 @@
         }
       ],
       "assign": {
-        "vendor": "kingston",
-        "type": "emcp",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "kingston",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.kingston.emcp.v1"
       }
     }
   }

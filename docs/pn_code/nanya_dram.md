@@ -43,7 +43,7 @@ NT6AP512T32AV-J1
 
 ## 输出约定
 
-- `depth x width` 直接推导顶层 `density`，例如 `1024M8` 输出 `8192` Mbit。
+- `depth x width` 直接推导 `fields.density`，例如 `1024M8` 输出 `8192` Mbit。
 - `M/T/F` stack code 分别输出 `Single die, 1 CS`、`DDP (2-die), 1 CS`、`QDP (4-die), 2 CS`。
 - suffix 不存在时不输出 `dram_speed` / `operation_temperature`；suffix 存在但 grade token 不存在时只输出 speed。
 - 低功耗 speed token 以 `family + speed` 做组合 key，避免 LPDDR4 与 LPDDR4X 共用 `J1` 时混淆。

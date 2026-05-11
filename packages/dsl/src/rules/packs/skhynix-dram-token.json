@@ -56,13 +56,13 @@
         },
         "deviceWidth": {
           "4": 4,
-          "8": 8,
-          "6": 16
+          "6": 16,
+          "8": 8
         },
         "packageActual": {
           "4": "78-ball FBGA",
-          "8": "78-ball FBGA",
-          "6": "96-ball FBGA"
+          "6": "96-ball FBGA",
+          "8": "78-ball FBGA"
         },
         "speedToken": {
           "G7": "G7",
@@ -317,23 +317,28 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.skhynix.dram.ddr3_ddr4.component.v1"
       }
     }
   },
@@ -372,8 +377,8 @@
         },
         "deviceWidth": {
           "4": 4,
-          "8": 8,
-          "6": 16
+          "6": 16,
+          "8": 8
         },
         "dieObj": {
           "A": {
@@ -502,19 +507,24 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "voltage": "1.1V VDD",
-        "package": "BGA",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.1V VDD",
+        "fields.package": "BGA",
+        "meta.ruleId": "vendor.skhynix.dram.ddr5.component.v1"
       }
     }
   },
@@ -677,17 +687,22 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": 32,
-        "voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
-        "package": "170-ball BGA",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": 32,
+        "fields.dram_voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
+        "fields.package": "170-ball BGA",
+        "meta.ruleId": "vendor.skhynix.dram.gddr5.component.v1"
       }
     }
   },
@@ -874,19 +889,24 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": 32,
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": "200-ball FBGA",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": 32,
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": "200-ball FBGA",
+        "meta.ruleId": "vendor.skhynix.dram.lpddr4.component.v1"
       }
     }
   },
@@ -919,11 +939,11 @@
           "561620": 256
         },
         "speedObj": {
-          "H": {
-            "dram_speed": "SDR speed bin H"
-          },
           "6": {
             "dram_speed": "SDR speed bin 6"
+          },
+          "H": {
+            "dram_speed": "SDR speed bin H"
           }
         }
       },
@@ -981,17 +1001,22 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": 16,
-        "voltage": "3.3V VDD",
-        "package": "54-pin TSOP-II",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": 16,
+        "fields.dram_voltage": "3.3V VDD",
+        "fields.package": "54-pin TSOP-II",
+        "meta.ruleId": "vendor.skhynix.dram.legacy_sdr.component.v1"
       }
     }
   },
@@ -1136,19 +1161,24 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "dram",
-        "density": 512,
-        "deviceWidth": 16,
-        "voltage": {
-          "$var": "voltage"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": 512,
+        "fields.dram_width": 16,
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.skhynix.dram.legacy_ddr.component.v1"
       }
     }
   },
@@ -1266,17 +1296,22 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": 32,
-        "voltage": "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
-        "package": "315-ball FBGA",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": 32,
+        "fields.dram_voltage": "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+        "fields.package": "315-ball FBGA",
+        "meta.ruleId": "vendor.skhynix.dram.lpddr5.component.v1"
       }
     }
   },
@@ -1387,19 +1422,24 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "dram",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": -1,
-        "voltage": "0.5V to 1.8V",
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": -1,
+        "fields.dram_voltage": "0.5V to 1.8V",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.skhynix.dram.lpddr5x.component.v1"
       }
     }
   },
@@ -1492,15 +1532,20 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "dram",
-        "density": 8192,
-        "deviceWidth": 32,
-        "voltage": "1.8V / 1.35V / 1.35V",
-        "package": "180-ball FBGA",
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.dram_density": 8192,
+        "fields.dram_width": 32,
+        "fields.dram_voltage": "1.8V / 1.35V / 1.35V",
+        "fields.package": "180-ball FBGA",
+        "meta.ruleId": "vendor.skhynix.dram.gddr6.component.v1"
       }
     }
   }

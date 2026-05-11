@@ -153,23 +153,29 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "e2nand",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "deviceWidth": 8,
-        "processNode": {
-          "$var": "processNode"
-        },
-        "cellLevel": 2,
-        "voltage": {
-          "$var": "voltage"
-        },
-        "package": "VLGA",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "e2nand",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": 8,
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.cell_level": 2,
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": "VLGA",
+        "meta.ruleId": "vendor.skhynix.e2nand.h2d_h2j.v1"
       }
     }
   }

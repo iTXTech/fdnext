@@ -381,6 +381,27 @@
           "M8Z": "BGA55",
           "WP": "48-pin TSOP I Center Package Leads (CPL) PB free",
           "WC": "48-pin TSOP I Off-center Package Leads (OCPL) PB free"
+        },
+        "draftChipKind": {
+          "nand": "raw_nand",
+          "on_die_ecc_nand": "on_die_ecc_nand",
+          "dram": "dram",
+          "emmc": "managed_nand",
+          "ufs": "managed_nand",
+          "sata": "managed_nand",
+          "nvme": "managed_nand",
+          "emcp": "managed_nand",
+          "umcp": "managed_nand",
+          "e2nand": "managed_nand"
+        },
+        "draftProductType": {
+          "emmc": "emmc",
+          "ufs": "ufs",
+          "sata": "sata",
+          "nvme": "nvme",
+          "emcp": "emcp",
+          "umcp": "umcp",
+          "e2nand": "e2nand"
         }
       },
       "steps": [
@@ -541,37 +562,77 @@
           "op": "merge",
           "into": "extra",
           "from": "eccInfo"
+        },
+        {
+          "op": "map",
+          "from": "type",
+          "table": "draftChipKind",
+          "to": "draftChipKind",
+          "default": "raw_nand"
+        },
+        {
+          "op": "map",
+          "from": "type",
+          "table": "draftProductType",
+          "to": "draftProductType",
+          "default": null
         }
       ],
       "assign": {
-        "vendor": "micron",
-        "type": {
-          "$var": "type"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "density": {
-          "$var": "density"
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": {
+          "$var": "draftChipKind"
         },
-        "deviceWidth": {
-          "$var": "deviceWidth"
-        },
-        "cellLevel": {
-          "$var": "cellLevel"
-        },
-        "classification": {
-          "$var": "classification"
-        },
-        "voltage": {
-          "$var": "voltage"
-        },
-        "interface": {
-          "$var": "interface"
-        },
-        "package": {
-          "$var": "package"
+        "device.productType": {
+          "$var": "draftProductType"
         },
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.die_count": {
+          "$path": [
+            "classification",
+            "die"
+          ]
+        },
+        "fields.ce_count": {
+          "$path": [
+            "classification",
+            "ce"
+          ]
+        },
+        "fields.rb_count": {
+          "$path": [
+            "classification",
+            "rb"
+          ]
+        },
+        "fields.channel_count": {
+          "$path": [
+            "classification",
+            "ch"
+          ]
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.micron.token.v1"
       }
     }
   }

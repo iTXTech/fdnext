@@ -43,7 +43,7 @@
             "3": 4
           }
         },
-        "ext:simultaneously_programmed_pages": {
+        "simultaneously_programmed_pages": {
           "dq": [5, 4],
           "def": {
             "0": 1,
@@ -52,14 +52,14 @@
             "3": 8
           }
         },
-        "ext:interleave": {
+        "interleave": {
           "dq": [6],
           "def": {
             "0": false,
             "1": true
           }
         },
-        "ext:cache": {
+        "cache": {
           "dq": [7],
           "def": {
             "0": false,
@@ -88,7 +88,7 @@
             "5": 2048
           }
         },
-        "ext:redundant_area_size": {
+        "redundant_area_size": {
           "dq": [6, 3, 2],
           "def": {
             "0": "128B",
@@ -111,7 +111,7 @@
             "3": 8
           }
         },
-        "ext:ecc_level": {
+        "ecc_level": {
           "dq": [6, 5, 4],
           "def": {
             "0": "None",
@@ -184,7 +184,7 @@
             "3": 4
           }
         },
-        "ext:simultaneously_programmed_pages": {
+        "simultaneously_programmed_pages": {
           "dq": [5, 4],
           "def": {
             "0": 1,
@@ -193,14 +193,14 @@
             "3": 8
           }
         },
-        "ext:interleave": {
+        "interleave": {
           "dq": [6],
           "def": {
             "0": false,
             "1": true
           }
         },
-        "ext:cache": {
+        "cache": {
           "dq": [7],
           "def": {
             "0": false,
@@ -229,7 +229,7 @@
             "5": 2048
           }
         },
-        "ext:redundant_area_size": {
+        "redundant_area_size": {
           "dq": [6, 3, 2],
           "def": {
             "0": "128B",
@@ -252,7 +252,7 @@
             "3": 8
           }
         },
-        "ext:ecc_level": {
+        "ecc_level": {
           "dq": [6, 5, 4],
           "def": {
             "0": "None",
@@ -280,14 +280,14 @@
             "10": "16nm"
           }
         },
-        "ext:edo": {
+        "edo": {
           "dq": [6],
           "def": {
             "0": false,
             "1": true
           }
         },
-        "ext:interface": {
+        "interface_type": {
           "dq": [7],
           "def": {
             "0": "Async Only",

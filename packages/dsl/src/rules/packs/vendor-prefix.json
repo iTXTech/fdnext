@@ -20,8 +20,13 @@
       "value": "MT"
     },
     "set": {
-      "vendor": "micron",
-      "type": "nand"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "micron",
+      "device.chipKind": "raw_nand",
+      "meta.ruleId": "vendor.micron.prefix.mt"
     }
   },
   {
@@ -45,7 +50,12 @@
       "value": "K"
     },
     "set": {
-      "vendor": "samsung"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "samsung",
+      "meta.ruleId": "vendor.samsung.prefix.k"
     }
   },
   {
@@ -69,7 +79,12 @@
       "value": "HY"
     },
     "set": {
-      "vendor": "skhynix"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "skhynix",
+      "meta.ruleId": "vendor.skhynix.prefix.hy"
     }
   },
   {
@@ -93,7 +108,12 @@
       "value": "H"
     },
     "set": {
-      "vendor": "skhynix"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "skhynix",
+      "meta.ruleId": "vendor.skhynix.prefix.h"
     }
   },
   {
@@ -117,7 +137,12 @@
       "value": "TC58"
     },
     "set": {
-      "vendor": "kioxia"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "kioxia",
+      "meta.ruleId": "vendor.kioxia.prefix.tc58"
     }
   },
   {
@@ -141,7 +166,12 @@
       "value": "TH58"
     },
     "set": {
-      "vendor": "kioxia"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "kioxia",
+      "meta.ruleId": "vendor.kioxia.prefix.th58"
     }
   },
   {
@@ -165,7 +195,12 @@
       "value": "^SD(?!IN|IS)"
     },
     "set": {
-      "vendor": "sndk"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "sndk",
+      "meta.ruleId": "vendor.sandisk.prefix.sd"
     }
   },
   {
@@ -189,7 +224,12 @@
       "value": "S34"
     },
     "set": {
-      "vendor": "sndk"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "sndk",
+      "meta.ruleId": "vendor.sandisk.prefix.s34"
     }
   },
   {
@@ -213,7 +253,12 @@
       "value": "S35"
     },
     "set": {
-      "vendor": "sndk"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "sndk",
+      "meta.ruleId": "vendor.sandisk.prefix.s35"
     }
   },
   {
@@ -237,7 +282,12 @@
       "value": "JS"
     },
     "set": {
-      "vendor": "intel"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "intel",
+      "meta.ruleId": "vendor.intel.prefix.js"
     }
   },
   {
@@ -261,7 +311,12 @@
       "value": "29F"
     },
     "set": {
-      "vendor": "intel"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "intel",
+      "meta.ruleId": "vendor.intel.prefix.29f"
     }
   },
   {
@@ -285,7 +340,12 @@
       "value": "XT"
     },
     "set": {
-      "vendor": "ymtc"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "ymtc",
+      "meta.ruleId": "vendor.ymtc.prefix.xt"
     }
   },
   {
@@ -309,7 +369,12 @@
       "value": "PH"
     },
     "set": {
-      "vendor": "phison"
+      "device.partNumber": {
+        "$var": "partNumber"
+      },
+      "device.domain": "memory",
+      "device.vendor": "phison",
+      "meta.ruleId": "vendor.phison.prefix.ph"
     }
   }
 ]

@@ -127,13 +127,27 @@
           "BICS:M": "BiCS4.5"
         },
         "bicsGenerationObj": {
-          "BICS:2": { "generation_info": "BiCS2" },
-          "BICS:3": { "generation_info": "BiCS3" },
-          "BICS:4": { "generation_info": "BiCS4" },
-          "BICS:5": { "generation_info": "BiCS5" },
-          "BICS:6": { "generation_info": "BiCS6" },
-          "BICS:8": { "generation_info": "BiCS8" },
-          "BICS:M": { "generation_info": "BiCS4.5" }
+          "BICS:2": {
+            "generation_info": "BiCS2"
+          },
+          "BICS:3": {
+            "generation_info": "BiCS3"
+          },
+          "BICS:4": {
+            "generation_info": "BiCS4"
+          },
+          "BICS:5": {
+            "generation_info": "BiCS5"
+          },
+          "BICS:6": {
+            "generation_info": "BiCS6"
+          },
+          "BICS:8": {
+            "generation_info": "BiCS8"
+          },
+          "BICS:M": {
+            "generation_info": "BiCS4.5"
+          }
         },
         "classObj": {
           "BAI": {
@@ -332,20 +346,26 @@
         }
       ],
       "assign": {
-        "vendor": "kioxia",
-        "type": "ufs",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "processNode": {
-          "$var": "processNode"
-        },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "kioxia",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.process_node": {
+          "$var": "processNode"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.kioxia.ufs.managed.v1"
       }
     }
   }

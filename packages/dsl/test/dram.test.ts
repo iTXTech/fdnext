@@ -28,6 +28,8 @@ const standaloneDramExtraKeys = new Set([
   "DRAM Die Stack",
   "Package Code",
   "DRAM Speed",
+  "Die Count",
+  "CE Count",
   "Operation Temperature",
   "Production Status",
   "Die Revision",
@@ -64,15 +66,15 @@ const standardDramTypes = new Set([
 
 interface TestPartInfo {
   partNumber: string;
-  rawVendor?: string;
+  vendor?: string;
   markingCode?: string;
   type?: string;
-  rawDensity?: number;
+  densityMbit?: number;
   density?: string;
-  deviceWidth?: string;
+  widthField?: string;
   voltage?: string;
   package?: string;
-  classification?: Record<string, unknown>;
+  topology?: Record<string, unknown>;
   detailFields: Record<string, unknown>;
 }
 
@@ -122,12 +124,12 @@ function detect(partNumber: string): TestPartInfo {
   }
   return {
     partNumber,
-    rawVendor: result.device?.vendor.id,
+    vendor: result.device?.vendor.id,
     markingCode: result.device?.markingCode,
     type: fieldText(firstField(result, "dram_type", "product_type")) as string | undefined,
-    rawDensity: typeof density?.value === "number" ? density.value : undefined,
+    densityMbit: typeof density?.value === "number" ? density.value : undefined,
     density: density?.display,
-    deviceWidth: typeof width?.value === "number" ? `x${width.value}` : fieldText(width) as string | undefined,
+    widthField: typeof width?.value === "number" ? `x${width.value}` : fieldText(width) as string | undefined,
     voltage: fieldText(firstField(result, "dram_voltage", "voltage")) as string | undefined,
     package: fieldText(firstField(result, "package")) as string | undefined,
     detailFields
@@ -190,30 +192,30 @@ function publicDramType(value: unknown): string | undefined {
 function assertDram(
   partNumber: string,
   expected: {
-    rawVendor?: string;
-    rawDensity: number;
+    vendor?: string;
+    densityMbit: number;
     density: string;
-    deviceWidth: string;
+    widthField: string;
     voltage: string;
     package: string;
-    classification?: Partial<Record<"ce" | "ch" | "die" | "rb", unknown>>;
+    topology?: Partial<Record<"ce" | "ch" | "die" | "rb", unknown>>;
     extra: Record<string, unknown>;
     absentExtra?: string[];
   }
 ): void {
   const info = detect(partNumber);
   const expectedType = publicDramType(expected.extra["DRAM Type"]);
-  assert.equal(info.rawVendor, expected.rawVendor ?? "micron", partNumber);
+  assert.equal(info.vendor, expected.vendor ?? "micron", partNumber);
   assert.equal(info.type, expectedType, partNumber);
   assert.ok(standardDramTypes.has(String(info.type)), `${partNumber} should expose a short DRAM type`);
   assert.equal(/(?:SDRAM|SGRAM)$/i.test(String(info.type)), false, `${partNumber} type should not expose SDRAM/SGRAM suffix`);
-  assert.equal(info.rawDensity, expected.rawDensity, partNumber);
+  assert.equal(info.densityMbit, expected.densityMbit, partNumber);
   assert.equal(info.density, expected.density, partNumber);
-  assertKnownOrOmitted(info.deviceWidth, expected.deviceWidth, partNumber);
+  assertKnownOrOmitted(info.widthField, expected.widthField, partNumber);
   assertKnownOrOmitted(info.voltage, expected.voltage, partNumber);
   assertKnownOrOmitted(info.package, expected.package, partNumber);
-  if (expected.classification) {
-    assert.ok(info.classification == null || typeof info.classification === "object", `${partNumber} should not expose NAND-shaped defaults`);
+  if (expected.topology) {
+    assert.ok(info.topology == null || typeof info.topology === "object", `${partNumber} should not expose NAND-shaped defaults`);
   }
 
   const detailFields = extra(info);
@@ -239,7 +241,7 @@ function assertDram(
 
 function assertUnknown(partNumber: string): void {
   const info = detect(partNumber);
-  assert.equal(info.rawVendor, undefined, `${partNumber} should not be decoded as a known vendor`);
+  assert.equal(info.vendor, undefined, `${partNumber} should not be decoded as a known vendor`);
   assert.equal(info.type, undefined, `${partNumber} should not be decoded as a known type`);
 }
 
@@ -341,12 +343,12 @@ for (const entry of micronDramFbga) {
 }
 
 assertDram("MT40A1G8SA-075-E", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA (7.5x11)",
-  classification: { ce: 1, die: 1 },
+  topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "Package Code": "SA",
@@ -358,12 +360,12 @@ assertDram("MT40A1G8SA-075-E", {
 });
 
 assertDram("MT40A2G4TRF-093E:A", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x4",
+  widthField: "x4",
   voltage: "1.2V VDD",
   package: "78-ball FBGA (9.5x11.5)",
-  classification: { ce: 2, die: 2 },
+  topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "DRAM Die Stack": "2-die stack, 2 CS",
@@ -376,9 +378,9 @@ assertDram("MT40A2G4TRF-093E:A", {
 });
 
 assertDram("MT40A2G8NRE-083E:B", {
-  rawDensity: 16384,
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA (8x12)",
   extra: {
@@ -393,9 +395,9 @@ assertDram("MT40A2G8NRE-083E:B", {
 });
 
 assertDram("MT40A4G8NEA-062E:F", {
-  rawDensity: 32768,
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA (7.5x11)",
   extra: {
@@ -410,9 +412,9 @@ assertDram("MT40A4G8NEA-062E:F", {
 });
 
 assertDram("MT40A1G16WBU-083E:B", {
-  rawDensity: 16384,
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.2V VDD",
   package: "96-ball FBGA (8x14)",
   extra: {
@@ -427,9 +429,9 @@ assertDram("MT40A1G16WBU-083E:B", {
 });
 
 assertDram("MT40A2G16TBB-062E:F", {
-  rawDensity: 32768,
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.2V VDD",
   package: "96-ball FBGA (7.5x13)",
   extra: {
@@ -444,9 +446,9 @@ assertDram("MT40A2G16TBB-062E:F", {
 });
 
 const crucialDdr4Expected = {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA (7.5x11)",
   extra: {
@@ -471,10 +473,10 @@ assertDram("C9BJZ", {
 assert.deepEqual(searchFbgaParts("C9BJZ"), ["CT40A1G8SA-62M:E"]);
 assert.deepEqual(searchFbgaParts("FX454"), []);
 assertDram("EDB2432B4MA-1DAAT-F-D", {
-  rawVendor: "elpida",
-  rawDensity: 2048,
+  vendor: "elpida",
+  densityMbit: 2048,
   density: "2Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
   package: "Unknown",
   extra: {
@@ -486,9 +488,9 @@ assertDram("EDB2432B4MA-1DAAT-F-D", {
   }
 });
 assertDram("EE40A512M16HA-093E:A", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.2V VDD",
   package: "Unknown",
   extra: {
@@ -499,9 +501,9 @@ assertDram("EE40A512M16HA-093E:A", {
   }
 });
 assertDram("EE51K256M32HF-60:B", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.35V VDD",
   package: "170-ball FBGA (12x14)",
   extra: {
@@ -514,9 +516,9 @@ assertDram("EE51K256M32HF-60:B", {
 assert.deepEqual(searchFbgaParts("B9DHG"), ["MT47H32M16BT-3E"]);
 assertUnknown("AMD41J128M16HA-107G:D");
 assertDram("79JMM", {
-  rawDensity: 1024,
+  densityMbit: 1024,
   density: "1Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.55V VDD",
   package: "Unknown",
   extra: {
@@ -529,9 +531,9 @@ assertDram("79JMM", {
 });
 
 const ddr5Expected = {
-  rawDensity: 16384,
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.1V VDD",
   package: "82-ball VFBGA (9x11)",
   extra: {
@@ -548,9 +550,9 @@ assertDram("MT60B2G8HB-48B-IT-A", ddr5Expected);
 assertDram("MT60B2G8HB-48B IT:A", ddr5Expected);
 
 assertDram("MT60B3G8RW-64B:B", {
-  rawDensity: 24576,
+  densityMbit: 24576,
   density: "24Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.1V VDD",
   package: "78-ball VFBGA (8x11)",
   extra: {
@@ -564,9 +566,9 @@ assertDram("MT60B3G8RW-64B:B", {
 });
 
 assertDram("MT60B1536M16RV-56B:B", {
-  rawDensity: 24576,
+  densityMbit: 24576,
   density: "24Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.1V VDD",
   package: "102/153-ball VFBGA",
   extra: {
@@ -580,12 +582,12 @@ assertDram("MT60B1536M16RV-56B:B", {
 });
 
 assertDram("MT60B4G8AT-64B:B", {
-  rawDensity: 32768,
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.1V VDD",
   package: "78/117-ball VFBGA",
-  classification: { ce: 1, die: 1 },
+  topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR5 SDRAM",
     "Package Code": "AT",
@@ -597,12 +599,12 @@ assertDram("MT60B4G8AT-64B:B", {
 });
 
 assertDram("MT53E1G32D2FW-046-AIT-A", {
-  rawDensity: 32768,
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
   package: "200-ball TFBGA (10x14.5)",
-  classification: { ce: "Unknown", die: 2 },
+  topology: { ce: "Unknown", die: 2 },
   extra: {
     "DRAM Type": "LPDDR4X SDRAM",
     "DRAM Die Stack": "2-die stack",
@@ -615,9 +617,9 @@ assertDram("MT53E1G32D2FW-046-AIT-A", {
 });
 
 assertDram("MT62F1G32D4DS-031-WT-B", {
-  rawDensity: 32768,
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
   package: "200-ball WFBGA (10x14.5)",
   extra: {
@@ -632,9 +634,9 @@ assertDram("MT62F1G32D4DS-031-WT-B", {
 });
 
 assertDram("MT62F1G64D4EK-023 WT:B", {
-  rawDensity: 65536,
+  densityMbit: 65536,
   density: "64Gb",
-  deviceWidth: "x64",
+  widthField: "x64",
   voltage: "1.05V VDD / 0.5V VDDQ",
   package: "441-ball TFBGA",
   extra: {
@@ -649,9 +651,9 @@ assertDram("MT62F1G64D4EK-023 WT:B", {
 });
 
 assertDram("MT62F1G32D4DS", {
-  rawDensity: 32768,
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
   package: "200-ball WFBGA (10x14.5)",
   extra: {
@@ -665,9 +667,9 @@ assertDram("MT62F1G32D4DS", {
 });
 
 assertDram("MT41K512M8DA-107:P", {
-  rawDensity: 4096,
+  densityMbit: 4096,
   density: "4Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.35V VDD",
   package: "78-ball FBGA (8x10.5)",
   extra: {
@@ -682,9 +684,9 @@ assertDram("MT41K512M8DA-107:P", {
 });
 
 assertDram("MT41K1G4DA-107:P", {
-  rawDensity: 4096,
+  densityMbit: 4096,
   density: "4Gb",
-  deviceWidth: "x4",
+  widthField: "x4",
   voltage: "1.35V VDD",
   package: "78-ball FBGA (8x10.5)",
   extra: {
@@ -699,9 +701,9 @@ assertDram("MT41K1G4DA-107:P", {
 });
 
 assertDram("MT41J1G4THD-15E:D", {
-  rawDensity: 4096,
+  densityMbit: 4096,
   density: "4Gb",
-  deviceWidth: "x4",
+  widthField: "x4",
   voltage: "1.5V VDD",
   package: "78-ball FBGA (9x11.5)",
   extra: {
@@ -716,9 +718,9 @@ assertDram("MT41J1G4THD-15E:D", {
 });
 
 assertDram("MT41J1G8TRF-107:E", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.5V VDD",
   package: "78-ball FBGA (9.5x11.5)",
   extra: {
@@ -733,9 +735,9 @@ assertDram("MT41J1G8TRF-107:E", {
 });
 
 assertDram("MT41K512M8THV-125:M", {
-  rawDensity: 4096,
+  densityMbit: 4096,
   density: "4Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.35V VDD",
   package: "78-ball FBGA (8x11.5)",
   extra: {
@@ -750,9 +752,9 @@ assertDram("MT41K512M8THV-125:M", {
 });
 
 assertDram("MT41K2G4RKB-107:P", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x4",
+  widthField: "x4",
   voltage: "1.35V VDD",
   package: "78-ball FBGA (8x10.5)",
   extra: {
@@ -767,9 +769,9 @@ assertDram("MT41K2G4RKB-107:P", {
 });
 
 assertDram("MT41K512M16TNA-125:E", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.35V VDD",
   package: "96-ball FBGA (10x14)",
   extra: {
@@ -784,9 +786,9 @@ assertDram("MT41K512M16TNA-125:E", {
 });
 
 assertDram("MT41K4G4KJR-125:A", {
-  rawDensity: 16384,
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x4",
+  widthField: "x4",
   voltage: "1.35V VDD",
   package: "78-ball FBGA (9.5x13)",
   extra: {
@@ -801,9 +803,9 @@ assertDram("MT41K4G4KJR-125:A", {
 });
 
 assertDram("MT41K1G16DGA-125:A", {
-  rawDensity: 16384,
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.35V VDD",
   package: "96-ball FBGA (9.5x14)",
   extra: {
@@ -818,9 +820,9 @@ assertDram("MT41K1G16DGA-125:A", {
 });
 
 assertDram("MT41K2G4TRF", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x4",
+  widthField: "x4",
   voltage: "1.35V VDD",
   package: "78-ball FBGA (9.5x11.5)",
   extra: {
@@ -834,9 +836,9 @@ assertDram("MT41K2G4TRF", {
 });
 
 assertDram("MT47H128M16RT-25E:C", {
-  rawDensity: 2048,
+  densityMbit: 2048,
   density: "2Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V VDD",
   package: "84-ball FBGA (9x12.5)",
   extra: {
@@ -850,9 +852,9 @@ assertDram("MT47H128M16RT-25E:C", {
 });
 
 assertDram("MT46V32M16P-5B-IT-J", {
-  rawDensity: 512,
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "2.5V VDD",
   package: "66-pin TSOP",
   extra: {
@@ -866,9 +868,9 @@ assertDram("MT46V32M16P-5B-IT-J", {
 });
 
 assertDram("MT46H32M32LFB5-5 IT:B", {
-  rawDensity: 1024,
+  densityMbit: 1024,
   density: "1Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD",
   package: "90-ball VFBGA (8x13)",
   extra: {
@@ -883,9 +885,9 @@ assertDram("MT46H32M32LFB5-5 IT:B", {
 });
 
 assertDram("MT48LC16M8A2P-6A:L", {
-  rawDensity: 128,
+  densityMbit: 128,
   density: "128Mb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "3.3V VDD",
   package: "54-pin TSOP II",
   extra: {
@@ -899,9 +901,9 @@ assertDram("MT48LC16M8A2P-6A:L", {
 });
 
 assertDram("MT48H16M32LFB5-75:A", {
-  rawDensity: 512,
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD",
   package: "90-ball VFBGA (8x13)",
   extra: {
@@ -916,9 +918,9 @@ assertDram("MT48H16M32LFB5-75:A", {
 });
 
 assertDram("MT42L128M32D1LF-25 WT:A", {
-  rawDensity: 4096,
+  densityMbit: 4096,
   density: "4Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.2V VDD",
   package: "168-ball WFBGA (12x12)",
   extra: {
@@ -933,9 +935,9 @@ assertDram("MT42L128M32D1LF-25 WT:A", {
 });
 
 assertDram("MT52L512M32D2PF-107 WT:B", {
-  rawDensity: 16384,
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.2V VDD",
   package: "178-ball FBGA (11.5x11)",
   extra: {
@@ -950,9 +952,9 @@ assertDram("MT52L512M32D2PF-107 WT:B", {
 });
 
 assertDram("MT51J256M32HF-80:A", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.5V VDD",
   package: "170-ball FBGA (12x14)",
   extra: {
@@ -966,9 +968,9 @@ assertDram("MT51J256M32HF-80:A", {
 });
 
 assertDram("MT58K256M32JA-100:A", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.35V VDD",
   package: "190-ball FBGA (10x14)",
   extra: {
@@ -982,12 +984,12 @@ assertDram("MT58K256M32JA-100:A", {
 });
 
 assertDram("MT61K256M32JE-14:A", {
-  rawDensity: 8192,
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.35V VDD",
   package: "180-ball FBGA (12x14)",
-  classification: { ce: "Unknown", die: 1 },
+  topology: { ce: "Unknown", die: 1 },
   extra: {
     "DRAM Type": "GDDR6 SGRAM",
     "Package Code": "JE",
@@ -999,9 +1001,9 @@ assertDram("MT61K256M32JE-14:A", {
 });
 
 assertDram("MT61K512M32KPA-24-U", {
-  rawDensity: 16384,
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.35V VDD",
   package: "180-ball FBGA (12x14)",
   extra: {
@@ -1015,9 +1017,9 @@ assertDram("MT61K512M32KPA-24-U", {
 });
 
 assertDram("MT68A512M32DF-32:A", {
-  rawDensity: 16384,
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.2V VDD",
   package: "266-ball FBGA (12x14x1.1)",
   extra: {
@@ -1031,10 +1033,10 @@ assertDram("MT68A512M32DF-32:A", {
 });
 
 assertDram("H5TQ4G63AFR-TEC", {
-  rawVendor: "skhynix",
-  rawDensity: 4096,
+  vendor: "skhynix",
+  densityMbit: 4096,
   density: "4Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.5V VDD",
   package: "96-ball FBGA",
   extra: {
@@ -1048,10 +1050,10 @@ assertDram("H5TQ4G63AFR-TEC", {
 });
 
 assertDram("H5TC4G83CFR-PBA", {
-  rawVendor: "skhynix",
-  rawDensity: 4096,
+  vendor: "skhynix",
+  densityMbit: 4096,
   density: "4Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.35V VDD",
   package: "78-ball FBGA",
   extra: {
@@ -1065,10 +1067,10 @@ assertDram("H5TC4G83CFR-PBA", {
 });
 
 assertDram("H5TC8G83AMR-PBA", {
-  rawVendor: "skhynix",
-  rawDensity: 8192,
+  vendor: "skhynix",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.35V VDD",
   package: "78-ball FBGA",
   extra: {
@@ -1083,10 +1085,10 @@ assertDram("H5TC8G83AMR-PBA", {
 });
 
 assertDram("H5TC8G63AMR-PBA", {
-  rawVendor: "skhynix",
-  rawDensity: 8192,
+  vendor: "skhynix",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.35V VDD",
   package: "96-ball FBGA",
   extra: {
@@ -1101,13 +1103,13 @@ assertDram("H5TC8G63AMR-PBA", {
 });
 
 assertDram("H5AN8G8NAFR-UHC", {
-  rawVendor: "skhynix",
-  rawDensity: 8192,
+  vendor: "skhynix",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
-  classification: { ce: 1, die: 1 },
+  topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "Package Code": "F",
@@ -1119,10 +1121,10 @@ assertDram("H5AN8G8NAFR-UHC", {
 });
 
 assertDram("H5AN8G8NCJR-XNC", {
-  rawVendor: "skhynix",
-  rawDensity: 8192,
+  vendor: "skhynix",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
   extra: {
@@ -1136,13 +1138,13 @@ assertDram("H5AN8G8NCJR-XNC", {
 });
 
 assertDram("H5ANAG8NCMR-XNC", {
-  rawVendor: "skhynix",
-  rawDensity: 16384,
+  vendor: "skhynix",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
-  classification: { ce: 2, die: 2 },
+  topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "DRAM Die Stack": "DDP (2-die), 2 CS",
@@ -1155,10 +1157,10 @@ assertDram("H5ANAG8NCMR-XNC", {
 });
 
 assertDram("H5ANAG6NCMR-UHC", {
-  rawVendor: "skhynix",
-  rawDensity: 16384,
+  vendor: "skhynix",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.2V VDD",
   package: "96-ball FBGA",
   extra: {
@@ -1173,13 +1175,13 @@ assertDram("H5ANAG6NCMR-UHC", {
 });
 
 assertDram("H5CG48AGBD-X018", {
-  rawVendor: "skhynix",
-  rawDensity: 16384,
+  vendor: "skhynix",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.1V VDD",
   package: "BGA",
-  classification: { ce: 1, die: 1 },
+  topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR5 SDRAM",
     "DRAM Die Stack": "Single die",
@@ -1191,10 +1193,10 @@ assertDram("H5CG48AGBD-X018", {
 });
 
 assertDram("H5CGD8MHBD-X021", {
-  rawVendor: "skhynix",
-  rawDensity: 24576,
+  vendor: "skhynix",
+  densityMbit: 24576,
   density: "24Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.1V VDD",
   package: "BGA",
   extra: {
@@ -1208,10 +1210,10 @@ assertDram("H5CGD8MHBD-X021", {
 });
 
 assertDram("H5AN8G8NAFR", {
-  rawVendor: "skhynix",
-  rawDensity: 8192,
+  vendor: "skhynix",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
   extra: {
@@ -1224,10 +1226,10 @@ assertDram("H5AN8G8NAFR", {
 });
 
 assertDram("H5GQ2H24AFR-R0C", {
-  rawVendor: "skhynix",
-  rawDensity: 2048,
+  vendor: "skhynix",
+  densityMbit: 2048,
   density: "2Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.35V/1.5V/1.6V VDD/VDDQ",
   package: "170-ball BGA",
   extra: {
@@ -1241,13 +1243,13 @@ assertDram("H5GQ2H24AFR-R0C", {
 });
 
 assertDram("H9HCNNN8KUMLHR-NME", {
-  rawVendor: "skhynix",
-  rawDensity: 8192,
+  vendor: "skhynix",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
   package: "200-ball FBGA",
-  classification: { ce: 1, die: 2 },
+  topology: { ce: 1, die: 2 },
   extra: {
     "DRAM Type": "LPDDR4 SDRAM",
     "DRAM Die Stack": "DDP (2-die), 1 CS",
@@ -1259,10 +1261,10 @@ assertDram("H9HCNNN8KUMLHR-NME", {
 });
 
 assertDram("H9HCNNNCPUMLXR-NEE", {
-  rawVendor: "skhynix",
-  rawDensity: 32768,
+  vendor: "skhynix",
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
   package: "200-ball FBGA",
   extra: {
@@ -1276,10 +1278,10 @@ assertDram("H9HCNNNCPUMLXR-NEE", {
 });
 
 assertDram("H9HCNNNCPMMLXR-NEE", {
-  rawVendor: "skhynix",
-  rawDensity: 32768,
+  vendor: "skhynix",
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
   package: "200-ball FBGA",
   extra: {
@@ -1293,10 +1295,10 @@ assertDram("H9HCNNNCPMMLXR-NEE", {
 });
 
 assertDram("HY57V561620FTP-H", {
-  rawVendor: "skhynix",
-  rawDensity: 256,
+  vendor: "skhynix",
+  densityMbit: 256,
   density: "256Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "3.3V VDD",
   package: "54-pin TSOP-II",
   extra: {
@@ -1308,10 +1310,10 @@ assertDram("HY57V561620FTP-H", {
 });
 
 assertDram("HY5DU121622DTP-D43", {
-  rawVendor: "skhynix",
-  rawDensity: 512,
+  vendor: "skhynix",
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "2.6V VDD",
   package: "66-pin TSOP-II",
   extra: {
@@ -1323,10 +1325,10 @@ assertDram("HY5DU121622DTP-D43", {
 });
 
 assertDram("HY5PS121621CFP-Y5", {
-  rawVendor: "skhynix",
-  rawDensity: 512,
+  vendor: "skhynix",
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V VDD",
   package: "84-ball FBGA",
   extra: {
@@ -1338,10 +1340,10 @@ assertDram("HY5PS121621CFP-Y5", {
 });
 
 assertDram("H9JCNNNCP3MLYR-N6E", {
-  rawVendor: "skhynix",
-  rawDensity: 32768,
+  vendor: "skhynix",
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
   package: "315-ball FBGA",
   extra: {
@@ -1355,10 +1357,10 @@ assertDram("H9JCNNNCP3MLYR-N6E", {
 });
 
 assertDram("H9JCNNNBK3MLYR-N6E", {
-  rawVendor: "skhynix",
-  rawDensity: 16384,
+  vendor: "skhynix",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
   package: "315-ball FBGA",
   extra: {
@@ -1372,10 +1374,10 @@ assertDram("H9JCNNNBK3MLYR-N6E", {
 });
 
 assertDram("H9JCNNNFA5MLYR-N6E", {
-  rawVendor: "skhynix",
-  rawDensity: 65536,
+  vendor: "skhynix",
+  densityMbit: 65536,
   density: "64Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
   package: "315-ball FBGA",
   extra: {
@@ -1389,10 +1391,10 @@ assertDram("H9JCNNNFA5MLYR-N6E", {
 });
 
 assertDram("H58G56CK8BX146", {
-  rawVendor: "skhynix",
-  rawDensity: 32768,
+  vendor: "skhynix",
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "Unknown",
+  widthField: "Unknown",
   voltage: "0.5V to 1.8V",
   package: "315-ball FBGA",
   extra: {
@@ -1406,10 +1408,10 @@ assertDram("H58G56CK8BX146", {
 });
 
 assertDram("H58G66CK8BX147", {
-  rawVendor: "skhynix",
-  rawDensity: 65536,
+  vendor: "skhynix",
+  densityMbit: 65536,
   density: "64Gb",
-  deviceWidth: "Unknown",
+  widthField: "Unknown",
   voltage: "0.5V to 1.8V",
   package: "315-ball FBGA",
   extra: {
@@ -1423,10 +1425,10 @@ assertDram("H58G66CK8BX147", {
 });
 
 assertDram("H58G78CK8BX185", {
-  rawVendor: "skhynix",
-  rawDensity: 131072,
+  vendor: "skhynix",
+  densityMbit: 131072,
   density: "128Gb",
-  deviceWidth: "Unknown",
+  widthField: "Unknown",
   voltage: "0.5V to 1.8V",
   package: "315-ball FBGA",
   extra: {
@@ -1440,10 +1442,10 @@ assertDram("H58G78CK8BX185", {
 });
 
 assertDram("H56C8H24MJR-S2C", {
-  rawVendor: "skhynix",
-  rawDensity: 8192,
+  vendor: "skhynix",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V / 1.35V / 1.35V",
   package: "180-ball FBGA",
   extra: {
@@ -1457,13 +1459,13 @@ assertDram("H56C8H24MJR-S2C", {
 });
 
 assertDram("K4A8G085WB-BCRC", {
-  rawVendor: "samsung",
-  rawDensity: 8192,
+  vendor: "samsung",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
-  classification: { ce: 1, die: 1 },
+  topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "DRAM Die Stack": "Single die, 1 CS",
@@ -1475,10 +1477,10 @@ assertDram("K4A8G085WB-BCRC", {
 });
 
 assertDram("K4A8G085WB", {
-  rawVendor: "samsung",
-  rawDensity: 8192,
+  vendor: "samsung",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
   extra: {
@@ -1491,13 +1493,13 @@ assertDram("K4A8G085WB", {
 });
 
 assertDram("K4AAG085WB-MCRC", {
-  rawVendor: "samsung",
-  rawDensity: 16384,
+  vendor: "samsung",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
-  classification: { ce: 2, die: 2 },
+  topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4 SDRAM",
     "DRAM Die Stack": "DDP (2-die), 2 CS",
@@ -1509,10 +1511,10 @@ assertDram("K4AAG085WB-MCRC", {
 });
 
 assertDram("K4AAG165WB-MCRC", {
-  rawVendor: "samsung",
-  rawDensity: 16384,
+  vendor: "samsung",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.2V VDD",
   package: "96-ball FBGA",
   extra: {
@@ -1526,10 +1528,10 @@ assertDram("K4AAG165WB-MCRC", {
 });
 
 assertDram("K4ABG085WA-MCWE", {
-  rawVendor: "samsung",
-  rawDensity: 32768,
+  vendor: "samsung",
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
   extra: {
@@ -1542,10 +1544,10 @@ assertDram("K4ABG085WA-MCWE", {
 });
 
 assertDram("K4ABG165WB-MCWE", {
-  rawVendor: "samsung",
-  rawDensity: 32768,
+  vendor: "samsung",
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.2V VDD",
   package: "96-ball FBGA",
   extra: {
@@ -1558,10 +1560,10 @@ assertDram("K4ABG165WB-MCWE", {
 });
 
 assertDram("K4S511632D-UC75", {
-  rawVendor: "samsung",
-  rawDensity: 512,
+  vendor: "samsung",
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "3.3V VDD",
   package: "54-pin TSOP-II",
   extra: {
@@ -1575,10 +1577,10 @@ assertDram("K4S511632D-UC75", {
 });
 
 assertDram("K4H510838F-HCCC", {
-  rawVendor: "samsung",
-  rawDensity: 512,
+  vendor: "samsung",
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "2.5V VDD",
   package: "60-ball FBGA",
   extra: {
@@ -1592,10 +1594,10 @@ assertDram("K4H510838F-HCCC", {
 });
 
 assertDram("K4T56163QI-ZCE6", {
-  rawVendor: "samsung",
-  rawDensity: 256,
+  vendor: "samsung",
+  densityMbit: 256,
   density: "256Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V VDD",
   package: "84-ball FBGA",
   extra: {
@@ -1609,10 +1611,10 @@ assertDram("K4T56163QI-ZCE6", {
 });
 
 assertDram("K4B1G0846D-HCF7", {
-  rawVendor: "samsung",
-  rawDensity: 1024,
+  vendor: "samsung",
+  densityMbit: 1024,
   density: "1Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.5V VDD",
   package: "82-ball FBGA",
   extra: {
@@ -1626,10 +1628,10 @@ assertDram("K4B1G0846D-HCF7", {
 });
 
 assertDram("K4RAH086VB-BCQK", {
-  rawVendor: "samsung",
-  rawDensity: 16384,
+  vendor: "samsung",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.1V VDD",
   package: "82-ball FBGA",
   extra: {
@@ -1643,10 +1645,10 @@ assertDram("K4RAH086VB-BCQK", {
 });
 
 assertDram("K4RHE086VB-BCWM", {
-  rawVendor: "samsung",
-  rawDensity: 24576,
+  vendor: "samsung",
+  densityMbit: 24576,
   density: "24Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.1V VDD",
   package: "82-ball FBGA",
   extra: {
@@ -1660,10 +1662,10 @@ assertDram("K4RHE086VB-BCWM", {
 });
 
 assertDram("K4RHE165VB-BCWM", {
-  rawVendor: "samsung",
-  rawDensity: 24576,
+  vendor: "samsung",
+  densityMbit: 24576,
   density: "24Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.1V VDD",
   package: "106-ball FBGA",
   extra: {
@@ -1677,10 +1679,10 @@ assertDram("K4RHE165VB-BCWM", {
 });
 
 assertDram("K4RBH046VM-BCWM", {
-  rawVendor: "samsung",
-  rawDensity: 32768,
+  vendor: "samsung",
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x4",
+  widthField: "x4",
   voltage: "1.1V VDD",
   package: "78-ball FBGA",
   extra: {
@@ -1694,10 +1696,10 @@ assertDram("K4RBH046VM-BCWM", {
 });
 
 assertDram("K3PE7E700M-XGC1", {
-  rawVendor: "samsung",
-  rawDensity: 8192,
+  vendor: "samsung",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x64",
+  widthField: "x64",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
   package: "216-ball FBGA",
   extra: {
@@ -1711,10 +1713,10 @@ assertDram("K3PE7E700M-XGC1", {
 });
 
 assertDram("K3QF1F10DM-AGCE", {
-  rawVendor: "samsung",
-  rawDensity: 8192,
+  vendor: "samsung",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x64",
+  widthField: "x64",
   voltage: "1.8V / 1.2V / 1.2V",
   package: "253-ball FBGA",
   extra: {
@@ -1728,10 +1730,10 @@ assertDram("K3QF1F10DM-AGCE", {
 });
 
 assertDram("K4F6E304HB-MGCJ", {
-  rawVendor: "samsung",
-  rawDensity: 16384,
+  vendor: "samsung",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V / 1.1V / 1.1V",
   package: "200-ball FBGA",
   extra: {
@@ -1745,10 +1747,10 @@ assertDram("K4F6E304HB-MGCJ", {
 });
 
 assertDram("K3LKBKB0BM-MGCP", {
-  rawVendor: "samsung",
-  rawDensity: 32768,
+  vendor: "samsung",
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V / 1.05V / 0.9V / 0.5V",
   package: "315-ball FBGA",
   extra: {
@@ -1762,10 +1764,10 @@ assertDram("K3LKBKB0BM-MGCP", {
 });
 
 assertDram("K3KL3L30CM-JGCT", {
-  rawVendor: "samsung",
-  rawDensity: 65536,
+  vendor: "samsung",
+  densityMbit: 65536,
   density: "64Gb",
-  deviceWidth: "x64",
+  widthField: "x64",
   voltage: "1.8V / 1.05V / 0.9V / 0.5V",
   package: "441-ball FBGA",
   extra: {
@@ -1778,10 +1780,10 @@ assertDram("K3KL3L30CM-JGCT", {
 });
 
 assertDram("K3KL3L30CM-BGCU", {
-  rawVendor: "samsung",
-  rawDensity: 65536,
+  vendor: "samsung",
+  densityMbit: 65536,
   density: "64Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V / 1.05V / 0.9V / 0.5V",
   package: "496-ball FBGA",
   extra: {
@@ -1794,10 +1796,10 @@ assertDram("K3KL3L30CM-BGCU", {
 });
 
 assertDram("K4U6E3S4AA-MGCL", {
-  rawVendor: "samsung",
-  rawDensity: 16384,
+  vendor: "samsung",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V / 1.1V / 0.6V",
   package: "200-ball FBGA",
   extra: {
@@ -1811,10 +1813,10 @@ assertDram("K4U6E3S4AA-MGCL", {
 });
 
 assertDram("K4X51163PC", {
-  rawVendor: "samsung",
-  rawDensity: 512,
+  vendor: "samsung",
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
   package: "Unknown",
   extra: {
@@ -1826,10 +1828,10 @@ assertDram("K4X51163PC", {
 });
 
 assertDram("K4X51163PC-FGC3", {
-  rawVendor: "samsung",
-  rawDensity: 512,
+  vendor: "samsung",
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
   package: "60-ball FBGA",
   extra: {
@@ -1843,10 +1845,10 @@ assertDram("K4X51163PC-FGC3", {
 });
 
 assertDram("K4D263238E-GC33", {
-  rawVendor: "samsung",
-  rawDensity: 128,
+  vendor: "samsung",
+  densityMbit: 128,
   density: "128Mb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "2.5V VDD/VDDQ",
   package: "144-ball FBGA",
   extra: {
@@ -1859,10 +1861,10 @@ assertDram("K4D263238E-GC33", {
 });
 
 assertDram("K4N56163QF-GC37", {
-  rawVendor: "samsung",
-  rawDensity: 256,
+  vendor: "samsung",
+  densityMbit: 256,
   density: "256Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
   package: "84-ball FBGA",
   extra: {
@@ -1875,10 +1877,10 @@ assertDram("K4N56163QF-GC37", {
 });
 
 assertDram("K4J52324QC-BC14", {
-  rawVendor: "samsung",
-  rawDensity: 512,
+  vendor: "samsung",
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD/VDDQ",
   package: "136-ball FBGA",
   extra: {
@@ -1891,10 +1893,10 @@ assertDram("K4J52324QC-BC14", {
 });
 
 assertDram("K4U52324QE-BC08", {
-  rawVendor: "samsung",
-  rawDensity: 512,
+  vendor: "samsung",
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD/VDDQ",
   package: "136-ball FBGA",
   extra: {
@@ -1907,10 +1909,10 @@ assertDram("K4U52324QE-BC08", {
 });
 
 assertDram("K4G80325FB-HC25", {
-  rawVendor: "samsung",
-  rawDensity: 8192,
+  vendor: "samsung",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.35V/1.5V/1.6V VDD/VDDQ",
   package: "170-ball FBGA",
   extra: {
@@ -1923,13 +1925,13 @@ assertDram("K4G80325FB-HC25", {
 });
 
 assertDram("K4Z80325BC-HC14", {
-  rawVendor: "samsung",
-  rawDensity: 8192,
+  vendor: "samsung",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.35V VDD",
   package: "180-ball FBGA",
-  classification: { ce: 1, die: 1 },
+  topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "GDDR6 SGRAM",
     "DRAM Die Stack": "Single die, 1 CS",
@@ -1940,10 +1942,10 @@ assertDram("K4Z80325BC-HC14", {
 });
 
 assertDram("K4VAF325ZC-SC32", {
-  rawVendor: "samsung",
-  rawDensity: 16384,
+  vendor: "samsung",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.2V VDD",
   package: "266-ball FBGA",
   extra: {
@@ -1956,10 +1958,10 @@ assertDram("K4VAF325ZC-SC32", {
 });
 
 assertDram("NT5DS32M16CS-5T", {
-  rawVendor: "nanya",
-  rawDensity: 512,
+  vendor: "nanya",
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "2.5V VDD",
   package: "66-pin TSOP-II",
   extra: {
@@ -1972,10 +1974,10 @@ assertDram("NT5DS32M16CS-5T", {
 });
 
 assertDram("NT5TU32M16FG-ACI", {
-  rawVendor: "nanya",
-  rawDensity: 512,
+  vendor: "nanya",
+  densityMbit: 512,
   density: "512Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V VDD",
   package: "84-ball BGA",
   extra: {
@@ -1989,10 +1991,10 @@ assertDram("NT5TU32M16FG-ACI", {
 });
 
 assertDram("NT5CB128M16JR-DI", {
-  rawVendor: "nanya",
-  rawDensity: 2048,
+  vendor: "nanya",
+  densityMbit: 2048,
   density: "2Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.5V VDD",
   package: "96-ball BGA",
   extra: {
@@ -2005,10 +2007,10 @@ assertDram("NT5CB128M16JR-DI", {
 });
 
 assertDram("NT5CC128M16JR-DI", {
-  rawVendor: "nanya",
-  rawDensity: 2048,
+  vendor: "nanya",
+  densityMbit: 2048,
   density: "2Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.35V VDD",
   package: "96-ball BGA",
   extra: {
@@ -2021,10 +2023,10 @@ assertDram("NT5CC128M16JR-DI", {
 });
 
 assertDram("NT5AD1024M8C3-HR", {
-  rawVendor: "nanya",
-  rawDensity: 8192,
+  vendor: "nanya",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball BGA",
   extra: {
@@ -2037,10 +2039,10 @@ assertDram("NT5AD1024M8C3-HR", {
 });
 
 assertDram("NT5AD1024M8C3", {
-  rawVendor: "nanya",
-  rawDensity: 8192,
+  vendor: "nanya",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball BGA",
   extra: {
@@ -2053,10 +2055,10 @@ assertDram("NT5AD1024M8C3", {
 });
 
 assertDram("NT5FF1024M16A4-Q5", {
-  rawVendor: "nanya",
-  rawDensity: 16384,
+  vendor: "nanya",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.1V VDD",
   package: "106-ball BGA",
   extra: {
@@ -2070,10 +2072,10 @@ assertDram("NT5FF1024M16A4-Q5", {
 });
 
 assertDram("NT5FF2048M8EK-WEU", {
-  rawVendor: "nanya",
-  rawDensity: 16384,
+  vendor: "nanya",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.1V VDD",
   package: "78-ball BGA",
   extra: {
@@ -2087,10 +2089,10 @@ assertDram("NT5FF2048M8EK-WEU", {
 });
 
 assertDram("NT6TL128M32BA-G0", {
-  rawVendor: "nanya",
-  rawDensity: 4096,
+  vendor: "nanya",
+  densityMbit: 4096,
   density: "4Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
   package: "134-ball BGA",
   extra: {
@@ -2104,10 +2106,10 @@ assertDram("NT6TL128M32BA-G0", {
 });
 
 assertDram("NT6CL256M32AM-H0", {
-  rawVendor: "nanya",
-  rawDensity: 8192,
+  vendor: "nanya",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
   package: "178-ball BGA",
   extra: {
@@ -2121,10 +2123,10 @@ assertDram("NT6CL256M32AM-H0", {
 });
 
 assertDram("NT6AP512T32AV-J1", {
-  rawVendor: "nanya",
-  rawDensity: 16384,
+  vendor: "nanya",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
   package: "200-ball BGA",
   extra: {
@@ -2138,10 +2140,10 @@ assertDram("NT6AP512T32AV-J1", {
 });
 
 assertDram("NT6BR1024M16A3-K2", {
-  rawVendor: "nanya",
-  rawDensity: 16384,
+  vendor: "nanya",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
   package: "315-ball BGA",
   extra: {
@@ -2155,10 +2157,10 @@ assertDram("NT6BR1024M16A3-K2", {
 });
 
 assertDram("NT6BR1024M16A3-K1", {
-  rawVendor: "nanya",
-  rawDensity: 16384,
+  vendor: "nanya",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
   package: "315-ball BGA",
   extra: {
@@ -2172,10 +2174,10 @@ assertDram("NT6BR1024M16A3-K1", {
 });
 
 assertDram("EDS1216AATA-75", {
-  rawVendor: "elpida",
-  rawDensity: 128,
+  vendor: "elpida",
+  densityMbit: 128,
   density: "128Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "3.3V VDD",
   package: "54-pin TSOP-II",
   extra: {
@@ -2188,10 +2190,10 @@ assertDram("EDS1216AATA-75", {
 });
 
 assertDram("EDD2516AKTA-5B", {
-  rawVendor: "elpida",
-  rawDensity: 256,
+  vendor: "elpida",
+  densityMbit: 256,
   density: "256Mb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "2.5V VDD",
   package: "66-pin TSOP-II",
   extra: {
@@ -2204,10 +2206,10 @@ assertDram("EDD2516AKTA-5B", {
 });
 
 assertDram("EDE1116ACBG-8E", {
-  rawVendor: "elpida",
-  rawDensity: 1024,
+  vendor: "elpida",
+  densityMbit: 1024,
   density: "1Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.8V VDD",
   package: "84-ball FBGA",
   extra: {
@@ -2220,10 +2222,10 @@ assertDram("EDE1116ACBG-8E", {
 });
 
 assertDram("EDJ4208BASE-GN", {
-  rawVendor: "elpida",
-  rawDensity: 4096,
+  vendor: "elpida",
+  densityMbit: 4096,
   density: "4Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.5V VDD",
   package: "78-ball FBGA",
   extra: {
@@ -2236,10 +2238,10 @@ assertDram("EDJ4208BASE-GN", {
 });
 
 assertDram("EDF8164A3MA-GD-F", {
-  rawVendor: "elpida",
-  rawDensity: 8192,
+  vendor: "elpida",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x64",
+  widthField: "x64",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
   package: "216-ball FBGA",
   extra: {
@@ -2252,10 +2254,10 @@ assertDram("EDF8164A3MA-GD-F", {
 });
 
 assertDram("EDB8164B3PF-8D", {
-  rawVendor: "elpida",
-  rawDensity: 8192,
+  vendor: "elpida",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x64",
+  widthField: "x64",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
   package: "216-ball FBGA",
   extra: {
@@ -2268,10 +2270,10 @@ assertDram("EDB8164B3PF-8D", {
 });
 
 assertDram("EDW2032BBBG-60", {
-  rawVendor: "elpida",
-  rawDensity: 2048,
+  vendor: "elpida",
+  densityMbit: 2048,
   density: "2Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.35V/1.5V/1.6V VDD/VDDQ",
   package: "170-ball FBGA",
   extra: {
@@ -2284,10 +2286,10 @@ assertDram("EDW2032BBBG-60", {
 });
 
 assertDram("CXDQ3BFAM-CJ", {
-  rawVendor: "cxmt",
-  rawDensity: 8192,
+  vendor: "cxmt",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.2V VDD",
   package: "96-ball FBGA",
   extra: {
@@ -2301,10 +2303,10 @@ assertDram("CXDQ3BFAM-CJ", {
 });
 
 assertDram("CXDQ3BFAM", {
-  rawVendor: "cxmt",
-  rawDensity: 8192,
+  vendor: "cxmt",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.2V VDD",
   package: "96-ball FBGA",
   extra: {
@@ -2317,10 +2319,10 @@ assertDram("CXDQ3BFAM", {
 });
 
 assertDram("CXDB5CCAM-MK", {
-  rawVendor: "cxmt",
-  rawDensity: 32768,
+  vendor: "cxmt",
+  densityMbit: 32768,
   density: "32Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
   package: "200-ball FBGA",
   extra: {
@@ -2333,10 +2335,10 @@ assertDram("CXDB5CCAM-MK", {
 });
 
 assertDram("IS43QR8K02S2A", {
-  rawVendor: "issi",
-  rawDensity: 16384,
+  vendor: "issi",
+  densityMbit: 16384,
   density: "16Gb",
-  deviceWidth: "x8",
+  widthField: "x8",
   voltage: "1.2V VDD",
   package: "78-ball BGA",
   extra: {
@@ -2348,10 +2350,10 @@ assertDram("IS43QR8K02S2A", {
 });
 
 assertDram("IS43TR16512S2DL", {
-  rawVendor: "issi",
-  rawDensity: 8192,
+  vendor: "issi",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.35V or 1.5V VDD",
   package: "96-ball BGA",
   extra: {
@@ -2363,10 +2365,10 @@ assertDram("IS43TR16512S2DL", {
 });
 
 assertDram("IS43LQ32256BL", {
-  rawVendor: "issi",
-  rawDensity: 8192,
+  vendor: "issi",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
   package: "200-ball BGA",
   extra: {
@@ -2378,10 +2380,10 @@ assertDram("IS43LQ32256BL", {
 });
 
 assertDram("W668GG6TB-06", {
-  rawVendor: "winbond",
-  rawDensity: 8192,
+  vendor: "winbond",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.2V VDD",
   package: "96-ball VFBGA",
   extra: {
@@ -2395,10 +2397,10 @@ assertDram("W668GG6TB-06", {
 });
 
 assertDram("W631GU6NB09J", {
-  rawVendor: "winbond",
-  rawDensity: 1024,
+  vendor: "winbond",
+  densityMbit: 1024,
   density: "1Gb",
-  deviceWidth: "x16",
+  widthField: "x16",
   voltage: "1.35V VDD",
   package: "96-ball VFBGA",
   extra: {
@@ -2412,10 +2414,10 @@ assertDram("W631GU6NB09J", {
 });
 
 assertDram("W66DP2RQQAHJ", {
-  rawVendor: "winbond",
-  rawDensity: 8192,
+  vendor: "winbond",
+  densityMbit: 8192,
   density: "8Gb",
-  deviceWidth: "x32",
+  widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
   package: "200-ball WFBGA",
   extra: {

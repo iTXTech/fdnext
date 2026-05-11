@@ -2,11 +2,6 @@
   {
     "id": "vendor.siliconmotion.ferri.emmc.v1",
     "priority": 1002,
-    "domain": "memory",
-    "chipKind": "managed_nand",
-    "productType": "emmc",
-    "fieldProfile": "managed_nand",
-    "capabilities": ["part.decode", "part.search"],
     "normalize": [
       "trim",
       "uppercase",
@@ -156,29 +151,35 @@
         }
       ],
       "assign": {
-        "vendor": "siliconmotion",
-        "type": "emmc",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "cellLevel": 3,
-        "package": {
-          "$path": "packageObj.package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "siliconmotion",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.cell_level": 3,
+        "fields.package": {
+          "$path": "packageObj.package"
+        },
+        "meta.ruleId": "vendor.siliconmotion.ferri.emmc.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
       }
     }
   },
   {
     "id": "vendor.siliconmotion.ferri.ufs.v1",
     "priority": 1002,
-    "domain": "memory",
-    "chipKind": "managed_nand",
-    "productType": "ufs",
-    "fieldProfile": "managed_nand",
-    "capabilities": ["part.decode", "part.search"],
     "normalize": [
       "trim",
       "uppercase",
@@ -316,18 +317,29 @@
         }
       ],
       "assign": {
-        "vendor": "siliconmotion",
-        "type": "ufs",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "cellLevel": 3,
-        "package": {
-          "$path": "packageObj.package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "siliconmotion",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.cell_level": 3,
+        "fields.package": {
+          "$path": "packageObj.package"
+        },
+        "meta.ruleId": "vendor.siliconmotion.ferri.ufs.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
       }
     }
   }

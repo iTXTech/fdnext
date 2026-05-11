@@ -175,17 +175,23 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "emcp",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "package": {
-          "$var": "package"
-        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.skhynix.emcp.h9t_h9h.v1"
       }
     }
   },
@@ -345,16 +351,22 @@
         }
       ],
       "assign": {
-        "vendor": "skhynix",
-        "type": "emcp",
-        "density": {
-          "$var": "density"
+        "device.partNumber": {
+          "$var": "partNumber"
         },
-        "voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
-        "package": "254Ball FBGA",
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
         "fields": {
           "$var": "extra"
-        }
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+        "fields.package": "254Ball FBGA",
+        "meta.ruleId": "vendor.skhynix.emcp.h9a.v1"
       }
     }
   }
