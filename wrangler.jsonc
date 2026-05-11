@@ -5,9 +5,6 @@
   "compatibility_date": "2026-05-10",
   "workers_dev": true,
   "minify": true,
-  "vars": {
-    "FDNEXT_CORS_ORIGINS": "*"
-  },
   "build": {
     "command": "pnpm cf-workers:build"
   }

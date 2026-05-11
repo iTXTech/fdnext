@@ -268,13 +268,6 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "package",
     importance: "detail"
   },
-  unsupported_reason: {
-    key: "unsupported_reason",
-    valueKind: "string",
-    defaultLabel: "Unsupported reason",
-    recommendedBlock: "package",
-    importance: "detail"
-  },
   multi_chip: {
     key: "multi_chip",
     valueKind: "boolean",

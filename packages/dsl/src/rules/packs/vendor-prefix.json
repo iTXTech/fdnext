@@ -161,8 +161,8 @@
       }
     ],
     "match": {
-      "kind": "prefix",
-      "value": "SD"
+      "kind": "regex",
+      "value": "^SD(?!IN|IS)"
     },
     "set": {
       "vendor": "sndk"

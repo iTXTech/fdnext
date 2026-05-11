@@ -55,4 +55,4 @@ PN 结构：
 
 ## 注意
 
-`SDIN` family token 决定 eMMC/UFS 类型。未知 family 由 generic iNAND fallback 保留容量，不输出不确定产品族。
+`SDIN` family token 决定 eMMC/UFS 类型。遇到未知 family 时返回未命中，避免仅凭 `SDIN` 前缀输出不确定产品族。

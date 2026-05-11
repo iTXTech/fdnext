@@ -1,5 +1,276 @@
 [
   {
+    "id": "vendor.spectek.old-numbering.v1",
+    "priority": 940,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^F[BNTS][0-9A-Z][ML][0-9A-Z]{3}(?:1G|18|2G|4G|8G|F8|HG|31|32|38|64|78|NX|NY|NZ|[0-9ABN])[0-9A][KLH][13DS][BCDGJLPTVW][G1-9](?:-[A-Z0-9]+)?$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "cellLevel": {
+          "M": 1,
+          "L": 2
+        },
+        "density": {
+          "NX": 128,
+          "NY": 256,
+          "NZ": 512,
+          "0": 1024,
+          "1G": 1024,
+          "2G": 2048,
+          "1": 2048,
+          "4G": 4096,
+          "2": 4096,
+          "8G": 8192,
+          "3": 8192,
+          "4": 16384,
+          "5": 32768,
+          "64": 65536,
+          "6": 65536,
+          "7": 131072,
+          "8": 262144,
+          "9": 524288,
+          "A": 1048576,
+          "B": 2097152
+        },
+        "densityGradeObj": {
+          "1": {
+            "density_grade": "94-100%"
+          },
+          "9": {
+            "density_grade": "90-100%"
+          },
+          "6": {
+            "density_grade": "50-90%"
+          },
+          "5": {
+            "density_grade": "40-60%"
+          },
+          "A": {
+            "density_grade": "spectek_density_grade_zero"
+          }
+        },
+        "deviceWidth": {
+          "K": 8,
+          "L": 16,
+          "H": 1
+        },
+        "voltage": {
+          "1": "Vcc: 1.8V, VccQ: not used",
+          "3": "Vcc: 3.3V, VccQ: not used",
+          "D": "Vcc: 3.3V, VccQ: 1.8V, VssQ: 0V",
+          "S": "Vcc: 3.3V, VccQ: 3.3V, VssQ: 0V"
+        },
+        "package": {
+          "B": "100/170 ball BGA, 12 x 18mm, PB free",
+          "C": "52-pad ULGA, 12 x 17mm, PB free",
+          "D": "63/120 ball VFBGA, 9 x 11mm, PB free",
+          "G": "52-pad VLGA, 12 x 17 x 1mm, PB free",
+          "H": "63/120 ball VBGA, 10.5 x 13mm, PB free",
+          "J": "48/52-pad SOP/LLGA, 12 x 20mm, PB free",
+          "L": "52-pad LLGA, 14 x 18mm, PB free",
+          "P": "48-pin TSOP I Off-center Package Leads (OCPL) PB free",
+          "T": "48-pin TSOP I PB free",
+          "V": "52-pad VLGA, 14 x 18mm, PB free",
+          "W": "48-pin TSOP I Center Package Leads (CPL) PB free"
+        },
+        "functionalityObj": {
+          "G": {
+            "package_functionality_partial_type": "Single Die Package, CE only"
+          },
+          "1": {
+            "package_functionality_partial_type": "Dual Die Package, CE1 functional only"
+          },
+          "2": {
+            "package_functionality_partial_type": "Dual Die Package, CE1 and CE2 functional"
+          },
+          "3": {
+            "package_functionality_partial_type": "Dual Die Package, CE3 functional only"
+          },
+          "4": {
+            "package_functionality_partial_type": "Quad Die Package, CE1 and CE2 functional"
+          },
+          "5": {
+            "package_functionality_partial_type": "Quad Die Package, CE1 functional only"
+          },
+          "6": {
+            "package_functionality_partial_type": "Quad Die Package, CE2 functional only"
+          },
+          "7": {
+            "package_functionality_partial_type": "Octal Die Package, CE3 functional"
+          },
+          "8": {
+            "package_functionality_partial_type": "Octal Die Package, CE2/CE3/CE4 functional"
+          },
+          "9": {
+            "package_functionality_partial_type": "Octal Die Package, CE2/CE4 functional"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "skipVendor"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "productFamilyCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "productMarkingCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellLevelCode"
+        },
+        {
+          "op": "map",
+          "from": "cellLevelCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "designGeneration"
+        },
+        {
+          "op": "tpl",
+          "template": "{{cellLevelCode}}{{designGeneration}}",
+          "to": "processNode"
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "gradeCode"
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "densityGradeObj",
+          "to": "densityGradeObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "functionalityCode"
+        },
+        {
+          "op": "map",
+          "from": "functionalityCode",
+          "table": "functionalityObj",
+          "to": "functionalityObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "SpecTek NAND Flash"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityGradeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "functionalityObj"
+        }
+      ],
+      "assign": {
+        "vendor": "spectek",
+        "type": "nand",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "processNode": {
+          "$var": "processNode"
+        },
+        "cellLevel": {
+          "$var": "cellLevel"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "fields": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
     "id": "vendor.spectek.token.v1",
     "priority": 930,
     "normalize": [

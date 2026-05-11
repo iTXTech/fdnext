@@ -50,10 +50,11 @@ function partType(result: PartDecodeResult): string | undefined {
     const productTypes: Record<string, string> = {
       emmc: "eMMC",
       ufs: "UFS",
+      sata: "SATA",
+      nvme: "NVMe",
       emcp: "eMCP",
       umcp: "uMCP",
-      e2nand: "E2NAND",
-      inand: "iNAND"
+      e2nand: "E2NAND"
     };
     return productTypes[result.device.productType] ?? result.device.productType.toUpperCase();
   }
@@ -169,6 +170,11 @@ function assertSearchPnIncludes(query: string, expected: string): void {
   assert.ok(result.includes(expected), `${query} should suggest ${expected}; got ${result.join(", ")}`);
 }
 
+function assertNotFound(partNumber: string): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "not_found", `${partNumber} should not be decoded by a generic catch-all rule`);
+}
+
 function assertSearchPnFirst(query: string, expected: string): void {
   const result = engine.searchParts({ query, lang: "eng", limit: 1 }).items.map((item) => `${item.device.vendor.name} ${item.label}`);
   assert.deepEqual(result, [expected], `${query} should prefer managed NAND PN suggestions`);
@@ -260,11 +266,73 @@ assertPart("SDINDDH6-128G-ZA2", {
   absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("SDINZZZ9-128G-ABC", {
+assertPart("SDIN7DU2-8G", {
   rawVendor: "sndk",
-  type: "iNAND",
-  rawDensity: 1048576
+  type: "eMMC",
+  rawDensity: 65536,
+  processNode: "19nm",
+  extra: {
+    "Product Family": "iNAND Ultra",
+    "Storage Interface": "eMMC 4.41",
+    "NAND Technology": "X2 MLC NAND"
+  }
 });
+
+assertPart("SDIN5C4-64G", {
+  rawVendor: "sndk",
+  type: "eMMC",
+  rawDensity: 524288,
+  processNode: "24nm",
+  extra: {
+    "Product Family": "iNAND legacy eMMC",
+    "Storage Interface": "eMMC 4.41"
+  }
+});
+
+assertPart("SDIS4BH-008G", {
+  rawVendor: "sndk",
+  type: "SATA",
+  rawDensity: 65536,
+  extra: {
+    "Product Family": "iSSD SATA / MTR-5"
+  }
+});
+
+assertPart("SDIS5BK-032G", {
+  rawVendor: "sndk",
+  type: "SATA",
+  rawDensity: 262144,
+  extra: {
+    "Product Family": "iSSD i100",
+    "Storage Interface": "SATA 6Gb/s"
+  }
+});
+
+assertPart("SDIS6BM-016G", {
+  rawVendor: "sndk",
+  type: "SATA",
+  rawDensity: 131072,
+  extra: {
+    "Product Family": "iSSD i110"
+  }
+});
+
+assertPart("FNNL63A51K3WG-AF", {
+  rawVendor: "spectek",
+  type: "NAND",
+  rawDensity: 32768,
+  processNode: "L63A",
+  cellLevel: "MLC",
+  package: "48-pin TSOP I Center Package Leads (CPL) PB free",
+  extra: {
+    "Product Family": "SpecTek NAND Flash",
+    "Density grade": "94-100%",
+    "Package functionality partial type": "Single Die Package, CE only"
+  }
+});
+
+assertNotFound("SDINZZZ9-128G-ABC");
+assertNotFound("SDISZZZ-016G");
 
 assertPart("THGBMNG5D1LBAIT", {
   rawVendor: "kioxia",

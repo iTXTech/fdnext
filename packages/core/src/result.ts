@@ -56,6 +56,8 @@ export type FdnextChipKind = (typeof fdnextChipKinds)[number];
 export const fdnextProductTypes = [
   "emmc",
   "ufs",
+  "sata",
+  "nvme",
   "emcp",
   "umcp",
   "e2nand",

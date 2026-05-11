@@ -10,6 +10,10 @@
   <https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/product/embedded-flash/brochure/brochure-western-digital-eis-mobile.pdf>
 - Sandisk automotive eMMC/UFS brochure: `SDINBDA6-##G-ZA1|XA1` 对应 AT EM132，`SDINBDG4-##G-ZA3|XA3` 对应 AT EM122，接口均为 eMMC 5.1 HS400。
   <https://documents.sandisk.com/content/dam/asset-library/en_us/assets/public/sandisk/product/embedded-flash/brochure/brochure-sandisk-automotive-ufs-emmc.pdf>
+- SanDisk iNAND Ultra e.MMC 4.41 datasheet mirror: `SDIN7DU2-8G/16G/32G/64G` 订购型号，X2 MLC，e.MMC 4.41。
+  <https://www.part-elec.com/datasheet/sandisk/SDIN7DU2-8G.pdf>
+- SanDisk Industrial iNAND brochure mirror: `SDIN8DE#-##G-XI/I` 与 `SDIN7DU2-##G-I` 覆盖 Industrial iNAND e.MMC 4.51+/4.41+。
+  <https://pf.unikeyic.com/datasheet/62/a7/6d11/62/655fd5cb797bcac978bc75fe4f025abc.pdf>
 
 ## 规则状态
 
@@ -17,6 +21,8 @@ DSL:
 
 - `packages/dsl/src/rules/packs/sandisk-inand-emmc-token.json`
 - `vendor.sndk.inand.emmc.v1`
+- `packages/dsl/src/rules/packs/sandisk-inand-token.json`
+- `vendor.sndk.inand.legacy-emmc.v1`
 
 PN 结构：
 
@@ -28,6 +34,10 @@ PN 结构：
 | family `BDA6` | iNAND IX/AT EM132-class, eMMC 5.1 HS400, BiCS3 64L 3D NAND |
 | family `BDG4` | iNAND 7250 / EM122-class, eMMC 5.1 HS400 |
 | family `BDV4` | iNAND MC EM141, eMMC 5.1 HS400 |
+| family `5C2/5C4` | local FDB and public distributor/datasheet references point to legacy iNAND eMMC 4.41-class parts |
+| family `7DU2` | iNAND Ultra, eMMC 4.41, X2 MLC |
+| family `7DP4/7LP4` | local FDB identifies iNAND; eMMC classification is inferred from neighboring legacy iNAND structure |
+| family `8DE1/8DE2/8DE4` | Industrial iNAND eMMC family |
 | capacity `4G/8G/16G/32G/64G/128G/256G` | eMMC 容量，落库为 Mbit |
 | suffix `H` | Connected Home, -25°C to 95°C |
 | suffix `I1/I2` | Industrial Wide Temperature, -25°C to 85°C |
@@ -51,7 +61,10 @@ PN 结构：
 
 - `SDINBDA6-256G-XI1`
 - `SDINBDG4-32G-ZA3`
+- `SDIN7DU2-8G`
+- `SDIN5C4-64G`
 
 ## 注意
 
 `SDIN` 只是 iNAND 前缀，不能单独判断为 eMMC。规则必须先识别 family token，再决定 `type`。
+未知 `SDIN` family 没有 family 证据时返回未命中，避免被 SanDisk raw NAND 前缀规则误判。

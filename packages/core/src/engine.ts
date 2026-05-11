@@ -187,7 +187,7 @@ function isRedundantNandTechnology(value: unknown, info: InternalPartInfo, extra
 }
 
 function isManagedNandType(info: InternalPartInfo): boolean {
-  return ["emmc", "ufs", "emcp", "umcp", "inand", "e2nand"].includes(normalizeInfoText(info.type));
+  return ["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand"].includes(normalizeInfoText(info.type));
 }
 
 function parseDramDieStackCount(value: unknown): number | undefined {

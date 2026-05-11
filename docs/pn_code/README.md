@@ -6,20 +6,21 @@
 
 ## 文档索引
 
-| 厂商 | Raw NAND / On-die ECC | eMMC | UFS | eMCP / uMCP | E2NAND | DRAM |
-| --- | --- | --- | --- | --- | --- | --- |
-| SK hynix | [skhynix_nand.md](skhynix_nand.md) | [skhynix_emmc.md](skhynix_emmc.md) | [skhynix_ufs.md](skhynix_ufs.md) | [skhynix_emcp.md](skhynix_emcp.md) | [skhynix_nand.md](skhynix_nand.md) | [skhynix_dram.md](skhynix_dram.md) |
-| Samsung | - | [samsung_emmc.md](samsung_emmc.md) | [samsung_ufs.md](samsung_ufs.md) | [samsung_emcp.md](samsung_emcp.md) | - | [samsung_dram.md](samsung_dram.md) |
-| SanDisk | - | [sandisk_emmc.md](sandisk_emmc.md) | [sandisk_ufs.md](sandisk_ufs.md) | [sandisk_emcp.md](sandisk_emcp.md) | - | - |
-| KIOXIA | - | [kioxia_emmc.md](kioxia_emmc.md) | [kioxia_ufs.md](kioxia_ufs.md) | [kioxia_emcp.md](kioxia_emcp.md) | [kioxia_e2nand.md](kioxia_e2nand.md) | - |
-| Micron | [micron_managed.md](micron_managed.md), [micron_on_die_ecc_nand.md](micron_on_die_ecc_nand.md) | [micron_emmc.md](micron_emmc.md) | [micron_ufs.md](micron_ufs.md) | - | - | [micron_dram.md](micron_dram.md) |
-| Nanya | - | - | - | - | - | [nanya_dram.md](nanya_dram.md) |
-| Elpida | - | - | - | - | - | [elpida_dram.md](elpida_dram.md) |
-| CXMT | - | - | - | - | - | [cxmt_dram.md](cxmt_dram.md) |
-| YMTC | - | [ymtc_emmc.md](ymtc_emmc.md) | [ymtc_ufs.md](ymtc_ufs.md) | - | - | - |
-| Kingston | - | [kingston_emmc.md](kingston_emmc.md) | [kingston_ufs.md](kingston_ufs.md) | [kingston_emcp.md](kingston_emcp.md) | - | - |
-| Longsys | - | [longsys_emmc.md](longsys_emmc.md) | [longsys_ufs.md](longsys_ufs.md) | [longsys_emcp.md](longsys_emcp.md) | - | - |
-| BIWIN | - | [biwin_emmc.md](biwin_emmc.md) | [biwin_ufs.md](biwin_ufs.md) | [biwin_emcp.md](biwin_emcp.md) | - | - |
+| 厂商 | Raw NAND / On-die ECC | eMMC | UFS | eMCP / uMCP | E2NAND | SATA / NVMe SSD | DRAM |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| SK hynix | [skhynix_nand.md](skhynix_nand.md) | [skhynix_emmc.md](skhynix_emmc.md) | [skhynix_ufs.md](skhynix_ufs.md) | [skhynix_emcp.md](skhynix_emcp.md) | [skhynix_nand.md](skhynix_nand.md) | - | [skhynix_dram.md](skhynix_dram.md) |
+| Samsung | - | [samsung_emmc.md](samsung_emmc.md) | [samsung_ufs.md](samsung_ufs.md) | [samsung_emcp.md](samsung_emcp.md) | - | - | [samsung_dram.md](samsung_dram.md) |
+| SanDisk | - | [sandisk_emmc.md](sandisk_emmc.md) | [sandisk_ufs.md](sandisk_ufs.md) | [sandisk_emcp.md](sandisk_emcp.md) | - | [sandisk_issd.md](sandisk_issd.md) | - |
+| SpecTek | [spectek_nand.md](spectek_nand.md) | - | - | - | - | - | - |
+| KIOXIA | - | [kioxia_emmc.md](kioxia_emmc.md) | [kioxia_ufs.md](kioxia_ufs.md) | [kioxia_emcp.md](kioxia_emcp.md) | [kioxia_e2nand.md](kioxia_e2nand.md) | - | - |
+| Micron | [micron_managed.md](micron_managed.md), [micron_on_die_ecc_nand.md](micron_on_die_ecc_nand.md) | [micron_emmc.md](micron_emmc.md) | [micron_ufs.md](micron_ufs.md) | - | - | - | [micron_dram.md](micron_dram.md) |
+| Nanya | - | - | - | - | - | - | [nanya_dram.md](nanya_dram.md) |
+| Elpida | - | - | - | - | - | - | [elpida_dram.md](elpida_dram.md) |
+| CXMT | - | - | - | - | - | - | [cxmt_dram.md](cxmt_dram.md) |
+| YMTC | - | [ymtc_emmc.md](ymtc_emmc.md) | [ymtc_ufs.md](ymtc_ufs.md) | - | - | - | - |
+| Kingston | - | [kingston_emmc.md](kingston_emmc.md) | [kingston_ufs.md](kingston_ufs.md) | [kingston_emcp.md](kingston_emcp.md) | - | - | - |
+| Longsys | - | [longsys_emmc.md](longsys_emmc.md) | [longsys_ufs.md](longsys_ufs.md) | [longsys_emcp.md](longsys_emcp.md) | - | - | - |
+| BIWIN | - | [biwin_emmc.md](biwin_emmc.md) | [biwin_ufs.md](biwin_ufs.md) | [biwin_emcp.md](biwin_emcp.md) | - | - | - |
 
 ## 跨厂商文档
 

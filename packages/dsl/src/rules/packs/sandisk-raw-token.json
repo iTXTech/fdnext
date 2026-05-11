@@ -16,8 +16,8 @@
       }
     ],
     "match": {
-      "kind": "prefix",
-      "value": "SD"
+      "kind": "regex",
+      "value": "^SD(?!IN|IS)"
     },
     "tokenDecoder": {
       "stripPrefixes": [

@@ -19,7 +19,7 @@
 | `part_number` | 规范化后的 PN | `device.partNumber` |
 | `vendor` | 厂商展示名 | `device.vendor` |
 | `chip_kind` | `raw_nand`、`on_die_ecc_nand`、`managed_nand`、`dram` 等芯片类别 | `device.chipKind` |
-| `product_type` | eMMC、UFS、eMCP/uMCP、LPDDR5X、DDR4 等产品线 subtype | `device.productType` |
+| `product_type` | eMMC、UFS、SATA、NVMe、eMCP/uMCP、LPDDR5X、DDR4 等产品线 subtype | `device.productType` |
 | `identifier` | typed identifier 值，例如 NAND Flash ID | `device.identifier` |
 | `id_scheme` | identifier namespace，例如 `nand.flash_id` | `device.idScheme` |
 | `marking_code` | FBGA / package marking code | `device.markingCode` |
@@ -61,7 +61,7 @@
 | `operation_temperature` | 工作温度范围或温度等级 | `-40C ~ 105C`, `Automotive Grade 2` |
 | `assembly` / `segment` / `sku` | 厂商封装、产品分段或 SKU token 展开 | `Client Component` |
 | `lead_free` / `halogen_free` / `wafer` / `multi_chip` / `cu` | 环保、晶圆、多芯片或铜工艺标记 | `true` |
-| `bad_block` / `unsupported_reason` | 坏块策略或规则不支持原因 | `samsung_cbb_b` |
+| `bad_block` | 坏块策略 | `samsung_cbb_b` |
 | `ecc_enabled` | 内部 ECC 状态 | `true` / `Yes` |
 
 约定：
@@ -69,6 +69,7 @@
 - On-die ECC NAND 使用 `device.chipKind = "on_die_ecc_nand"`，展示为 `On-die ECC NAND`。
 - `generation_info` 可承接产品代际、层数或制程节点；若与 `process_node` 完全重复，公开结果不重复输出。
 - `storage_interface` 与 `product_type` 完全重复时，优先保留更结构化的 identity 字段，除非接口字段含有版本、lane、gear 等增量信息。
+- `iNAND`、`iSSD`、`moviNAND` 等厂商品牌或系列名不作为 `product_type`；放入 `system` 或 `product_family`。SSD 类封装按接口归类为 `sata` / `nvme`。
 
 ## NAND Flash ID
 

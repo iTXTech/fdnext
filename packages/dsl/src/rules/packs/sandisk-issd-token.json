@@ -1,7 +1,7 @@
 [
   {
-    "id": "vendor.sndk.unsupported.issd",
-    "priority": 999,
+    "id": "vendor.sndk.issd.v1",
+    "priority": 1006,
     "normalize": [
       "trim",
       "uppercase",
@@ -16,16 +16,99 @@
       }
     ],
     "match": {
-      "kind": "prefix",
-      "value": "SDIS"
+      "kind": "regex",
+      "value": "^SDIS(?:4BH|5BK|6BM)-?(?:00[48]G|0(?:08|16|24|32|64)G|4G|8G|16G|24G|32G|64G|120G|128G)(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
-      "steps": [],
+      "stripPrefixes": [
+        "SDIS"
+      ],
+      "tables": {
+        "familyObj": {
+          "4BH": {
+            "product_family": "iSSD SATA / MTR-5",
+            "storage_interface": "SATA"
+          },
+          "5BK": {
+            "product_family": "iSSD i100",
+            "storage_interface": "SATA 6Gb/s"
+          },
+          "6BM": {
+            "product_family": "iSSD i110",
+            "storage_interface": "SATA"
+          }
+        },
+        "density": {
+          "4G": 32768,
+          "004G": 32768,
+          "8G": 65536,
+          "008G": 65536,
+          "16G": 131072,
+          "016G": 131072,
+          "24G": 196608,
+          "024G": 196608,
+          "32G": 262144,
+          "032G": 262144,
+          "64G": 524288,
+          "064G": 524288,
+          "120G": 983040,
+          "128G": 1048576
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?:4BH|5BK|6BM)",
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]+",
+          "to": "suffix",
+          "default": ""
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "iSSD"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        }
+      ],
       "assign": {
         "vendor": "sndk",
-        "type": "issd",
+        "type": "sata",
+        "density": {
+          "$var": "density"
+        },
         "fields": {
-          "unsupported_reason": "sandisk_issd_not_supported"
+          "$var": "extra"
         }
       }
     }

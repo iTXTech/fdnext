@@ -41,7 +41,7 @@ export function inferProductTypeFromInfo(info: InternalPartInfo): FdnextProductT
   const type = normalizeInfoText(info.type);
   const extra = asRecord(info.fields);
   const dramType = normalizeInfoText(extra.dram_type);
-  if (["emmc", "ufs", "emcp", "umcp", "e2nand", "inand"].includes(type)) {
+  if (["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand"].includes(type)) {
     return type;
   }
   if (dramType) {
@@ -63,7 +63,7 @@ export function inferChipKindFromInfo(info: InternalPartInfo, constraints: Opera
   if (type === "on die ecc nand" || type === "片上 ecc nand") {
     return "on_die_ecc_nand";
   }
-  if (productType && ["emmc", "ufs", "emcp", "umcp", "e2nand", "inand"].includes(String(productType))) {
+  if (productType && ["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand"].includes(String(productType))) {
     return "managed_nand";
   }
   if (productType && /^(?:sdr|lpsdr|lpddr|ddr|gddr|rldram)/.test(String(productType))) {
