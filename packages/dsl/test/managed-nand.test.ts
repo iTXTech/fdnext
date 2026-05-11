@@ -694,6 +694,34 @@ assertPart("HN8G962EHKX037N", {
   absentExtra: ["System", "Product Family"]
 });
 
+assertPart("HN8T274EJKX130", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 4194304,
+  package: "153FBGA",
+  extra: {
+    "Series Code": "4E",
+    "Product Family": "SK hynix ZUFS 4.1",
+    "Storage Interface": "UFS 4.1",
+    "Product Class": "Mobile"
+  },
+  absentExtra: ["System", "Group", "Product Version"]
+});
+
+assertPart("HN8T374ZJKX141", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 8388608,
+  package: "153FBGA",
+  extra: {
+    "Series Code": "4Z",
+    "Product Family": "SK hynix ZUFS 4.1",
+    "Storage Interface": "UFS 4.1",
+    "Product Class": "Mobile"
+  },
+  absentExtra: ["System", "Group", "Product Version"]
+});
+
 assertPart("H28SAO301MMR", {
   vendor: "skhynix",
   type: "UFS",

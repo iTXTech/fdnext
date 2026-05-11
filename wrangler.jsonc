@@ -5,6 +5,9 @@
   "compatibility_date": "2026-05-10",
   "workers_dev": true,
   "minify": true,
+  "vars": {
+    "FDNEXT_CORS_ORIGINS": "https://fm.itxtech.org,https://fm.imlxy.net"
+  },
   "build": {
     "command": "pnpm cf-workers:build"
   }

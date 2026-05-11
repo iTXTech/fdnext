@@ -31,7 +31,9 @@
           "T06": 1048576,
           "T15": 2097152,
           "T16": 2097152,
+          "T27": 4194304,
           "T25": 4194304,
+          "T37": 8388608,
           "T35": 8388608
         },
         "seriesObj": {
@@ -49,10 +51,21 @@
             "product_family": "SK hynix UFS 3.1",
             "product_version": "UFS 3.1",
             "generation_info": "176-layer 4D NAND (V7)"
+          },
+          "4E": {
+            "product_family": "SK hynix ZUFS 4.1",
+            "product_version": "UFS 4.1",
+            "storage_interface": "UFS 4.1"
+          },
+          "4Z": {
+            "product_family": "SK hynix ZUFS 4.1",
+            "product_version": "UFS 4.1",
+            "storage_interface": "UFS 4.1"
           }
         },
         "package": {
-          "H": "153FBGA"
+          "H": "153FBGA",
+          "J": "153FBGA"
         },
         "temperatureObj": {
           "K": {
