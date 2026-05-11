@@ -28,11 +28,14 @@ const standaloneDramExtraKeys = new Set([
   "DRAM Die Stack",
   "Package Code",
   "DRAM Speed",
+  "DRAM Generation",
+  "DRAM Die Density",
   "Die Count",
   "CE Count",
   "Operation Temperature",
   "Production Status",
   "Die Revision",
+  "Process Node",
   "Marking Code"
 ]);
 
@@ -2318,6 +2321,135 @@ assertDram("CXDQ3BFAM", {
   absentExtra: ["DRAM Speed", "Operation Temperature"]
 });
 
+assertDram("CXDQ3A8AM-CQ-A", {
+  vendor: "cxmt",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "8AM",
+    "Config Code": "3A",
+    "DRAM Speed": "DDR4-2666",
+    "Operation Temperature": "Commercial (0C~95C)",
+    "Die Revision": "A-die"
+  }
+});
+
+assertDram("CXDQ3A8AM-IJ-A", {
+  vendor: "cxmt",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "8AM",
+    "Config Code": "3A",
+    "DRAM Speed": "DDR4-3200",
+    "Operation Temperature": "Industrial (-40C~95C)",
+    "Die Revision": "A-die"
+  }
+});
+
+assertDram("CXDQ3BFAM-WG", {
+  vendor: "cxmt",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "FAM",
+    "Config Code": "3B",
+    "DRAM Speed": "DDR4-2666",
+    "Operation Temperature": "Wide temperature (-40C~95C)",
+    "Die Revision": "M-die",
+    "Process Node": "CXMT G3 / 18nm-class"
+  }
+});
+
+assertDram("CXDQ4A8AM-CJ-M", {
+  vendor: "cxmt",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "8AM",
+    "Config Code": "4A",
+    "DRAM Speed": "DDR4-3200",
+    "Operation Temperature": "Commercial (0C~95C)",
+    "Die Revision": "M-die",
+    "Process Node": "CXMT G3 / 18nm-class"
+  }
+});
+
+assertDram("CXDR4E8BM-CS-A", {
+  vendor: "cxmt",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "BM",
+    "Config Code": "4E8",
+    "DRAM Speed": "DDR5-5600",
+    "Operation Temperature": "Commercial (0C~95C)",
+    "Die Revision": "Rev A",
+    "Process Node": "CXMT G4 / 16nm-class"
+  }
+});
+
+assertDram("CXDR4E8BM-CR-A", {
+  vendor: "cxmt",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "BM",
+    "Config Code": "4E8",
+    "DRAM Speed": "DDR5-4800",
+    "Operation Temperature": "Commercial (0C~95C)",
+    "Die Revision": "Rev A",
+    "Process Node": "CXMT G4 / 16nm-class"
+  }
+});
+
+assertDram("CDTQ", {
+  vendor: "cxmt",
+  densityMbit: 98304,
+  density: "96Gb",
+  widthField: "Unknown",
+  voltage: "Unknown",
+  package: "BGA PoP MCP",
+  extra: {
+    "DRAM Type": "LPDDR5 SDRAM",
+    "DRAM Die Density": "12Gb",
+    "DRAM Die Stack": "8-die PoP MCP package",
+    "Package Code": "CDTQ",
+    "DRAM Generation": "CXMT G3",
+    "Process Node": "CXMT G3 / 18nm-class"
+  }
+});
+
 assertDram("CXDB5CCAM-MK", {
   vendor: "cxmt",
   densityMbit: 32768,
@@ -2330,7 +2462,62 @@ assertDram("CXDB5CCAM-MK", {
     "DRAM Die Stack": "QDP (4-die), 2 CS",
     "Package Code": "CAM",
     "Config Code": "5C",
-    "DRAM Speed": "LPDDR4X-3733"
+    "DRAM Speed": "LPDDR4X-3733",
+    "Process Node": "CXMT G3 / 18nm-class"
+  }
+});
+
+assertDram("CXDB4CBAM-MK-A", {
+  vendor: "cxmt",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "DRAM Die Stack": "DDP (2-die), 1 CS",
+    "Package Code": "BAM",
+    "Config Code": "4C",
+    "DRAM Speed": "LPDDR4X-3733",
+    "Operation Temperature": "-25C~85C",
+    "Process Node": "CXMT G3 / 18nm-class"
+  }
+});
+
+assertDram("CXDB5CCBM-MA-A", {
+  vendor: "cxmt",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "DRAM Die Stack": "QDP (4-die), 2 CS",
+    "Package Code": "CBM",
+    "Config Code": "5C",
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-25C~85C",
+    "Process Node": "CXMT G3 / 18nm-class"
+  }
+});
+
+assertDram("CXDB5CCBM-MK-A", {
+  vendor: "cxmt",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "DRAM Die Stack": "QDP (4-die), 2 CS",
+    "Package Code": "CBM",
+    "Config Code": "5C",
+    "DRAM Speed": "LPDDR4X-3733",
+    "Operation Temperature": "-25C~85C",
+    "Process Node": "CXMT G3 / 18nm-class"
   }
 });
 
@@ -2433,7 +2620,11 @@ assertDram("W66DP2RQQAHJ", {
 assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC32");
 assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
 assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");
+assertSearchPnIncludes("CXDQ3A8", "CXMT CXDQ3A8AM-CQ-A");
+assertSearchPnIncludes("CXDQ4A8", "CXMT CXDQ4A8AM-CJ-M");
+assertSearchPnIncludes("CXDR4E8", "CXMT CXDR4E8BM-CS-A");
 assertSearchPnIncludes("CXDB5C", "CXMT CXDB5CCAM-MK");
+assertSearchPnIncludes("CXDB5CCBM", "CXMT CXDB5CCBM-MA-A");
 assertSearchPnIncludes("IS43QR8K02", "ISSI IS43QR8K02S2A");
 assertSearchPnIncludes("W66DP2RQQA", "Winbond W66DP2RQQAHJ");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");

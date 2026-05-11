@@ -25,13 +25,21 @@
       ],
       "tables": {
         "densityMb": {
-          "3": 8192
+          "3": 8192,
+          "4": 16384
         },
         "deviceWidth": {
+          "A": 8,
           "B": 16
         },
         "packageActual": {
+          "8AM": "78-ball FBGA",
           "FAM": "96-ball FBGA"
+        },
+        "densityProcessObj": {
+          "4": {
+            "process_node": "CXMT G3 / 18nm-class"
+          }
         },
         "speedObj": {
           "CQ": {
@@ -49,6 +57,21 @@
           "WQ": {
             "dram_speed": "DDR4-2666",
             "operation_temperature": "Wide temperature (-40C~95C)"
+          },
+          "WG": {
+            "dram_speed": "DDR4-2666",
+            "operation_temperature": "Wide temperature (-40C~95C)",
+            "die_revision": "M-die",
+            "process_node": "CXMT G3 / 18nm-class"
+          }
+        },
+        "dieRevisionObj": {
+          "A": {
+            "die_revision": "A-die"
+          },
+          "M": {
+            "die_revision": "M-die",
+            "process_node": "CXMT G3 / 18nm-class"
           }
         }
       },
@@ -91,6 +114,13 @@
           "default": "Unknown"
         },
         {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityProcessObj",
+          "to": "densityProcessObj",
+          "default": {}
+        },
+        {
           "op": "stripIfPrefix",
           "prefix": "-",
           "to": "hasSuffix"
@@ -99,6 +129,17 @@
           "op": "takeLongest",
           "table": "speedObj",
           "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasRevision"
+        },
+        {
+          "op": "takeLongest",
+          "table": "dieRevisionObj",
+          "to": "dieRevisionObj",
           "default": {}
         },
         {
@@ -116,10 +157,21 @@
           }
         },
         {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityProcessObj"
+        },
+        {
           "op": "mergeIf",
           "into": "extra",
           "from": "speedObj",
           "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "dieRevisionObj",
+          "if": "hasRevision"
         }
       ],
       "assign": {
@@ -143,6 +195,173 @@
           "$var": "package"
         },
         "meta.ruleId": "vendor.cxmt.dram.ddr4.component.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.cxmt.dram.ddr5.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^CXDR[0-9A-Z]+(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "CXDR"
+      ],
+      "tables": {
+        "densityMb": {
+          "4": 16384
+        },
+        "deviceWidth": {
+          "E8": 8
+        },
+        "packageActual": {
+          "E8:BM": "82-ball FBGA"
+        },
+        "speedObj": {
+          "CR": {
+            "dram_speed": "DDR5-4800",
+            "operation_temperature": "Commercial (0C~95C)"
+          },
+          "CS": {
+            "dram_speed": "DDR5-5600",
+            "operation_temperature": "Commercial (0C~95C)"
+          }
+        },
+        "revisionObj": {
+          "A": {
+            "die_revision": "Rev A"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9])([A-Z][0-9])([0-9A-Z]{2})(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "organizationCode": 2,
+            "packageCode": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{organizationCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{organizationCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "organizationCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasRevision"
+        },
+        {
+          "op": "takeLongest",
+          "table": "revisionObj",
+          "to": "revisionObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR5 SDRAM",
+            "dram_die_stack": "Single die, 1 CS",
+            "process_node": "CXMT G4 / 16nm-class",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "revisionObj",
+          "if": "hasRevision"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "cxmt",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.1V VDD",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.cxmt.dram.ddr5.component.v1"
       }
     }
   },
@@ -186,11 +405,15 @@
           },
           "CAM": {
             "dram_die_stack": "QDP (4-die), 2 CS"
+          },
+          "CBM": {
+            "dram_die_stack": "QDP (4-die), 2 CS"
           }
         },
         "packageActual": {
           "BAM": "200-ball FBGA",
-          "CAM": "200-ball FBGA"
+          "CAM": "200-ball FBGA",
+          "CBM": "200-ball FBGA"
         },
         "speedObj": {
           "MJ": {
@@ -203,7 +426,7 @@
             "dram_speed": "LPDDR4X-4266"
           },
           "MA": {
-            "dram_speed": "LPDDR4X speed bin MA"
+            "dram_speed": "LPDDR4X-4266"
           }
         },
         "gradeObj": {
@@ -286,6 +509,7 @@
           "to": "extra",
           "value": {
             "dram_type": "LPDDR4X SDRAM",
+            "process_node": "CXMT G3 / 18nm-class",
             "config_code": {
               "$var": "configCode"
             },
@@ -333,6 +557,58 @@
           "$var": "package"
         },
         "meta.ruleId": "vendor.cxmt.dram.lpddr4x.component.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.cxmt.dram.lpddr5.cdtq-process-alias.v1",
+    "priority": 1005,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^CDTQ(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "steps": [
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR5 SDRAM",
+            "dram_die_density": 12288,
+            "dram_die_stack": "8-die PoP MCP package",
+            "die_count": 8,
+            "process_node": "CXMT G3 / 18nm-class",
+            "dram_generation": "CXMT G3",
+            "package_code": "CDTQ"
+          }
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "cxmt",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": 98304,
+        "fields.package": "BGA PoP MCP",
+        "meta.ruleId": "vendor.cxmt.dram.lpddr5.cdtq-process-alias.v1"
       }
     }
   }
