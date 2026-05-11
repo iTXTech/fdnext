@@ -2332,10 +2332,108 @@ assertDram("CXDB5CCAM-MK", {
   }
 });
 
+assertDram("IS43QR8K02S2A", {
+  rawVendor: "issi",
+  rawDensity: 16384,
+  density: "16Gb",
+  deviceWidth: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball BGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Stacked, dual rank, 2 CS",
+    "Config Code": "2G8 S2",
+    "Die Revision": "A"
+  }
+});
+
+assertDram("IS43TR16512S2DL", {
+  rawVendor: "issi",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x16",
+  voltage: "1.35V or 1.5V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "Stacked, dual rank, 2 CS",
+    "Config Code": "512M16 S2",
+    "Die Revision": "D"
+  }
+});
+
+assertDram("IS43LQ32256BL", {
+  rawVendor: "issi",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball BGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "Config Code": "2x16 256M",
+    "DRAM Speed": "LPDDR4X-3733/3200"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W668GG6TB-06", {
+  rawVendor: "winbond",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball VFBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "Package Code": "TB",
+    "Config Code": "8GG6TB",
+    "DRAM Speed": "DDR4-3200",
+    "Operation Temperature": "Commercial (0C~95C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W631GU6NB09J", {
+  rawVendor: "winbond",
+  rawDensity: 1024,
+  density: "1Gb",
+  deviceWidth: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball VFBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "Package Code": "NB",
+    "Config Code": "1GU6NB",
+    "DRAM Speed": "DDR3-2133",
+    "Operation Temperature": "Industrial Plus (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W66DP2RQQAHJ", {
+  rawVendor: "winbond",
+  rawDensity: 8192,
+  density: "8Gb",
+  deviceWidth: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball WFBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "Package Code": "QQA",
+    "Config Code": "DP2RQQA",
+    "DRAM Speed": "LPDDR4X-4267",
+    "Operation Temperature": "Industrial Plus (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
 assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC32");
 assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
 assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");
 assertSearchPnIncludes("CXDB5C", "CXMT CXDB5CCAM-MK");
+assertSearchPnIncludes("IS43QR8K02", "ISSI IS43QR8K02S2A");
+assertSearchPnIncludes("W66DP2RQQA", "Winbond W66DP2RQQAHJ");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
 assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
 assertSearchPnIncludes("C9BJZ", "Micron CT40A1G8SA-62M:E");

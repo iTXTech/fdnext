@@ -74,6 +74,7 @@ function getHumanReadableDensity(density: number, useByte = false): string {
 const vendorAliases: Record<string, string[]> = {
   biwin: ["biwin"],
   intel: ["intel"],
+  issi: ["issi"],
   kingston: ["kingston"],
   kioxia: ["kioxia", "toshiba"],
   longsys: ["longsys", "foresee", "lexar"],
@@ -82,6 +83,7 @@ const vendorAliases: Record<string, string[]> = {
   sndk: ["sandisk", "western digital", "wd"],
   skhynix: ["sk hynix", "skhynix"],
   spectek: ["spectek"],
+  winbond: ["winbond"],
   ymtc: ["ymtc"]
 };
 

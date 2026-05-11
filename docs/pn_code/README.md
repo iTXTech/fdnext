@@ -1,6 +1,6 @@
 # PN 编码资料索引
 
-采集日期：2026-05-08
+采集日期：2026-05-11
 
 本目录收集 eMMC、UFS、eMCP/uMCP、E2NAND、on-die ECC NAND、raw NAND 与 DRAM 的 PN 编码资料。README 只保留目录、范围和跨厂商维护原则；任何厂商特定来源、PN 结构、token 表、样例和规则说明都必须放入对应厂商独立文档。
 
@@ -17,6 +17,8 @@
 | Nanya | - | - | - | - | - | - | [nanya_dram.md](nanya_dram.md) |
 | Elpida | - | - | - | - | - | - | [elpida_dram.md](elpida_dram.md) |
 | CXMT | - | - | - | - | - | - | [cxmt_dram.md](cxmt_dram.md) |
+| ISSI | - | - | - | - | - | - | [issi_dram.md](issi_dram.md) |
+| Winbond | - | - | - | - | - | - | [winbond_dram.md](winbond_dram.md) |
 | YMTC | - | [ymtc_emmc.md](ymtc_emmc.md) | [ymtc_ufs.md](ymtc_ufs.md) | - | - | - | - |
 | Kingston | - | [kingston_emmc.md](kingston_emmc.md) | [kingston_ufs.md](kingston_ufs.md) | [kingston_emcp.md](kingston_emcp.md) | - | - | - |
 | Longsys | - | [longsys_emmc.md](longsys_emmc.md) | [longsys_ufs.md](longsys_ufs.md) | [longsys_emcp.md](longsys_emcp.md) | - | - | - |

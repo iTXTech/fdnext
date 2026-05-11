@@ -1,0 +1,686 @@
+[
+  {
+    "id": "vendor.winbond.dram.ddr3.component.v1",
+    "priority": 1010,
+    "domain": "memory",
+    "chipKind": "dram",
+    "fieldProfile": "dram",
+    "capabilities": [
+      "part.decode",
+      "part.search"
+    ],
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W63[1248]G[GU][68][A-Z]{2}-?[0-9]{2}[A-Z]?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "W63"
+      ],
+      "tables": {
+        "density": {
+          "1": 1024,
+          "2": 2048,
+          "4": 4096,
+          "8": 8192
+        },
+        "deviceWidth": {
+          "6": 16,
+          "8": 8
+        },
+        "package": {
+          "6": "96-ball VFBGA",
+          "8": "78-ball VFBGA"
+        },
+        "voltage": {
+          "G:NB": "1.5V VDD",
+          "G:QB": "1.5V VDD",
+          "G:RB": "1.5V VDD",
+          "U:NB": "1.35V VDD",
+          "U:QB": "1.35V or 1.5V VDD",
+          "U:RB": "1.35V or 1.5V VDD"
+        },
+        "speedObj": {
+          "09": {
+            "dram_speed": "DDR3-2133"
+          },
+          "11": {
+            "dram_speed": "DDR3-1866"
+          },
+          "12": {
+            "dram_speed": "DDR3-1600"
+          },
+          "15": {
+            "dram_speed": "DDR3-1333"
+          }
+        },
+        "gradeObj": {
+          "": {
+            "operation_temperature": "Commercial (0C~95C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "J": {
+            "operation_temperature": "Industrial Plus (-40C~105C)"
+          },
+          "S": {
+            "operation_temperature": "Automotive AG1 (-40C~125C)"
+          },
+          "K": {
+            "operation_temperature": "Automotive AG2 (-40C~105C)"
+          },
+          "W": {
+            "operation_temperature": "Automotive AG2 Plus (-40C~115C)"
+          },
+          "A": {
+            "operation_temperature": "Automotive AG3 (-40C~95C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "gCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasDash"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "speedCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "gradeCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "tpl",
+          "template": "{{voltageCode}}:{{packageCode}}",
+          "to": "voltageKey"
+        },
+        {
+          "op": "map",
+          "from": "voltageKey",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}G{{voltageCode}}{{widthCode}}{{packageCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR3 SDRAM",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "gradeObj"
+        }
+      ],
+      "assign": {
+        "vendor": "winbond",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "fields": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.winbond.dram.ddr4.component.v1",
+    "priority": 1010,
+    "domain": "memory",
+    "chipKind": "dram",
+    "fieldProfile": "dram",
+    "capabilities": [
+      "part.decode",
+      "part.search"
+    ],
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W66[48]GG[68][A-Z]{2}-?[0-9]{2}[A-Z]?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "W66"
+      ],
+      "tables": {
+        "density": {
+          "4": 4096,
+          "8": 8192
+        },
+        "deviceWidth": {
+          "6": 16,
+          "8": 8
+        },
+        "package": {
+          "6": "96-ball VFBGA",
+          "8": "78-ball VFBGA"
+        },
+        "speedObj": {
+          "06": {
+            "dram_speed": "DDR4-3200"
+          },
+          "07": {
+            "dram_speed": "DDR4-2666"
+          },
+          "08": {
+            "dram_speed": "DDR4-2400"
+          }
+        },
+        "gradeObj": {
+          "": {
+            "operation_temperature": "Commercial (0C~95C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "J": {
+            "operation_temperature": "Industrial Plus (-40C~105C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "familyCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasDash"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "speedCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "gradeCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}GG{{widthCode}}{{packageCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR4 SDRAM",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "gradeObj"
+        }
+      ],
+      "assign": {
+        "vendor": "winbond",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": "1.2V VDD",
+        "package": {
+          "$var": "package"
+        },
+        "fields": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.winbond.dram.lpddr4.component.v1",
+    "priority": 1010,
+    "domain": "memory",
+    "chipKind": "dram",
+    "fieldProfile": "dram",
+    "capabilities": [
+      "part.decode",
+      "part.search"
+    ],
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W66[ABCD][PQ][26][NR](?:BHA|BQA|BUA|QQA|QUA)[FGH][A-Z]$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "W66"
+      ],
+      "tables": {
+        "density": {
+          "A": 1024,
+          "B": 2048,
+          "C": 4096,
+          "D": 8192
+        },
+        "deviceWidth": {
+          "6": 16,
+          "2": 32
+        },
+        "typeCode": {
+          "PN": "LPDDR4",
+          "QN": "LPDDR4X",
+          "PR": "LPDDR4X",
+          "QR": "LPDDR4X"
+        },
+        "typeObj": {
+          "LPDDR4": {
+            "dram_type": "LPDDR4 SDRAM"
+          },
+          "LPDDR4X": {
+            "dram_type": "LPDDR4X SDRAM"
+          }
+        },
+        "voltage": {
+          "LPDDR4": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+          "LPDDR4X": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ"
+        },
+        "package": {
+          "N:BHA": "100-ball VFBGA",
+          "R:BHA": "100-ball VFBGA",
+          "N:BQA": "200-ball TFBGA",
+          "R:BQA": "200-ball TFBGA",
+          "N:BUA": "200-ball WFBGA",
+          "R:BUA": "200-ball WFBGA",
+          "N:QQA": "200-ball TFBGA",
+          "R:QQA": "200-ball WFBGA",
+          "N:QUA": "200-ball WFBGA",
+          "R:QUA": "200-ball WFBGA"
+        },
+        "speedObj": {
+          "LPDDR4:F": {
+            "dram_speed": "LPDDR4-3200"
+          },
+          "LPDDR4:G": {
+            "dram_speed": "LPDDR4-3733"
+          },
+          "LPDDR4X:F": {
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "LPDDR4X:G": {
+            "dram_speed": "LPDDR4X-3733"
+          },
+          "LPDDR4X:H": {
+            "dram_speed": "LPDDR4X-4267"
+          }
+        },
+        "gradeObj": {
+          "I": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "J": {
+            "operation_temperature": "Industrial Plus (-40C~105C)"
+          },
+          "S": {
+            "operation_temperature": "Automotive AG1 (-40C~125C)"
+          },
+          "K": {
+            "operation_temperature": "Automotive AG2 (-40C~105C)"
+          },
+          "A": {
+            "operation_temperature": "Automotive AG3 (-40C~95C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "modeCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageFlag"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "speedCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "gradeCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{modeCode}}{{voltageFlag}}",
+          "to": "variantKey"
+        },
+        {
+          "op": "map",
+          "from": "variantKey",
+          "table": "typeCode",
+          "to": "typeCode",
+          "default": "LPDDR4X"
+        },
+        {
+          "op": "map",
+          "from": "typeCode",
+          "table": "typeObj",
+          "to": "typeObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "typeCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "tpl",
+          "template": "{{voltageFlag}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "package",
+          "to": "package",
+          "default": "200-ball FBGA"
+        },
+        {
+          "op": "tpl",
+          "template": "{{typeCode}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{modeCode}}{{widthCode}}{{voltageFlag}}{{packageCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "typeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "gradeObj"
+        }
+      ],
+      "assign": {
+        "vendor": "winbond",
+        "type": "dram",
+        "density": {
+          "$var": "density"
+        },
+        "deviceWidth": {
+          "$var": "deviceWidth"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$var": "package"
+        },
+        "fields": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

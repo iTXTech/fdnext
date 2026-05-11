@@ -1396,6 +1396,9 @@ assertPart("BW2A2MZC02-256G", {
 assertSearchPnIncludes("BW2A2MZCNY", "BIWIN BW2A2MZCNY-512G");
 assertSearchPnIncludes("FEUDME256G", "Longsys FEUDME256G-C8H09");
 assertSearchPnIncludes("KMGD6001BM", "Samsung KMGD6001BM-B421");
+assertSearchPnIncludes("SDIN7DU2", "Sandisk SDIN7DU2-64G");
+assertSearchPnIncludes("SDIS5BK", "Sandisk SDIS5BK-032G");
+assertSearchPnIncludes("SDIS4BH", "Sandisk SDIS4BH-064G");
 assertSearchPnIncludes("THGJFRT1E45", "Kioxia THGJFRT1E45BATV");
 assertSearchPnIncludes("YMUSAB5", "YMTC YMUSAB5TH3A1C1");
 assertSearchPnFirst("EMMC", "Kingston EMMC04G-WT32");

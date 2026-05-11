@@ -24,7 +24,7 @@
 | 范围 | 产品族 | 当前覆盖厂商 |
 | --- | --- | --- |
 | NAND PN | Raw NAND、eMMC、UFS、eMCP/uMCP、E2NAND | Samsung、SK hynix、SanDisk / Western Digital、KIOXIA、Micron、YMTC、Kingston、Longsys、BIWIN |
-| DRAM PN | 当前规则包覆盖的 DRAM 料号族，可在可推断时输出容量、代际、封装、Die Stack、速度、修订和温度等字段 | Micron、Crucial、SK hynix、Samsung、Nanya、Elpida、CXMT |
+| DRAM PN | 当前规则包覆盖的 DRAM 料号族，可在可推断时输出容量、代际、封装、Die Stack、速度、修订和温度等字段 | Micron、Crucial、SK hynix、Samsung、Nanya、Elpida、CXMT、ISSI、Winbond |
 
 ## 包结构
 

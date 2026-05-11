@@ -637,6 +637,10 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDIN7DU2-64G"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDIN7LP4-64G"
   },
   {
@@ -802,6 +806,34 @@
   {
     "vendor": "sndk",
     "pn": "SDINHDL6-1T00-ZA"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIS4BH-008G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIS4BH-032G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIS4BH-064G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIS5BK-008G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIS5BK-016G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIS5BK-032G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIS6BM-016G"
   },
   {
     "vendor": "ymtc",

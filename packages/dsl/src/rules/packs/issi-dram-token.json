@@ -1,0 +1,573 @@
+[
+  {
+    "id": "vendor.issi.dram.standard.component.v1",
+    "priority": 1010,
+    "domain": "memory",
+    "chipKind": "dram",
+    "fieldProfile": "dram",
+    "capabilities": [
+      "part.decode",
+      "part.search"
+    ],
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^IS(?:43|46)(?:TR|QR)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "IS43",
+        "IS46"
+      ],
+      "tables": {
+        "familyObj": {
+          "TR": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "QR": {
+            "dram_type": "DDR4 SDRAM"
+          }
+        },
+        "voltage": {
+          "TR:false": "1.5V VDD",
+          "TR:true": "1.35V or 1.5V VDD",
+          "QR:false": "1.2V VDD",
+          "QR:true": "1.2V VDD"
+        },
+        "configToken": {
+          "81280": "81280",
+          "16640": "16640",
+          "82560": "82560",
+          "16128": "16128",
+          "85120": "85120",
+          "16256": "16256",
+          "81024": "81024",
+          "16512S2": "16512S2",
+          "16512": "16512",
+          "8K02S2": "8K02S2",
+          "16K01S2": "16K01S2"
+        },
+        "configObj": {
+          "81280": {
+            "density": 1024,
+            "device_width": 8,
+            "config_code": "128M8",
+            "package": "78-ball BGA"
+          },
+          "16640": {
+            "density": 1024,
+            "device_width": 16,
+            "config_code": "64M16",
+            "package": "96-ball BGA"
+          },
+          "82560": {
+            "density": 2048,
+            "device_width": 8,
+            "config_code": "256M8",
+            "package": "78-ball BGA"
+          },
+          "16128": {
+            "density": 2048,
+            "device_width": 16,
+            "config_code": "128M16",
+            "package": "96-ball BGA"
+          },
+          "85120": {
+            "density": 4096,
+            "device_width": 8,
+            "config_code": "512M8",
+            "package": "78-ball BGA"
+          },
+          "16256": {
+            "density": 4096,
+            "device_width": 16,
+            "config_code": "256M16",
+            "package": "96-ball BGA"
+          },
+          "81024": {
+            "density": 8192,
+            "device_width": 8,
+            "config_code": "1G8",
+            "package": "78-ball BGA"
+          },
+          "16512": {
+            "density": 8192,
+            "device_width": 16,
+            "config_code": "512M16",
+            "package": "96-ball BGA"
+          },
+          "16512S2": {
+            "density": 8192,
+            "device_width": 16,
+            "config_code": "512M16 S2",
+            "package": "96-ball BGA"
+          },
+          "8K02S2": {
+            "density": 16384,
+            "device_width": 8,
+            "config_code": "2G8 S2",
+            "package": "78-ball BGA"
+          },
+          "16K01S2": {
+            "density": 16384,
+            "device_width": 16,
+            "config_code": "1G16 S2",
+            "package": "96-ball BGA"
+          }
+        },
+        "stackObj": {
+          "16512": {
+            "dram_die_stack": "Single rank, 1 CS"
+          },
+          "16512S2": {
+            "dram_die_stack": "Stacked, dual rank, 2 CS"
+          },
+          "8K02S2": {
+            "dram_die_stack": "Stacked, dual rank, 2 CS"
+          },
+          "16K01S2": {
+            "dram_die_stack": "Stacked, dual rank, 2 CS"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "configToken",
+          "to": "configToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "configToken",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(EC|[A-Z])(L?)",
+          "to": "revisionTail",
+          "groups": {
+            "revisionCode": 1,
+            "lowVoltageMarker": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "notEmpty",
+          "from": "lowVoltageMarker",
+          "to": "isLowVoltage"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{isLowVoltage}}",
+          "to": "voltageKey"
+        },
+        {
+          "op": "map",
+          "from": "voltageKey",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}{{revisionCode}}",
+          "to": "revisionLabel"
+        },
+        {
+          "op": "map",
+          "from": "configToken",
+          "table": "stackObj",
+          "to": "tailStackObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$path": "configObj.config_code"
+            },
+            "die_revision": {
+              "$var": "revisionCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "tailStackObj"
+        }
+      ],
+      "assign": {
+        "vendor": "issi",
+        "type": "dram",
+        "density": {
+          "$path": "configObj.density"
+        },
+        "deviceWidth": {
+          "$path": "configObj.device_width"
+        },
+        "voltage": {
+          "$var": "voltage"
+        },
+        "package": {
+          "$path": "configObj.package"
+        },
+        "fields": {
+          "$var": "extra"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.issi.dram.lpddr4.component.v1",
+    "priority": 1010,
+    "domain": "memory",
+    "chipKind": "dram",
+    "fieldProfile": "dram",
+    "capabilities": [
+      "part.decode",
+      "part.search"
+    ],
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^IS(?:43|46)LQ[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "IS43",
+        "IS46"
+      ],
+      "tables": {
+        "productObj": {
+          "16128A": {
+            "density": 2048,
+            "device_width": 16,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 128M",
+            "dram_speed": "LPDDR4-3200"
+          },
+          "32640A": {
+            "density": 2048,
+            "device_width": 32,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 64M",
+            "dram_speed": "LPDDR4-3200"
+          },
+          "16256A": {
+            "density": 4096,
+            "device_width": 16,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 256M",
+            "dram_speed": "LPDDR4-3200"
+          },
+          "16256B": {
+            "density": 4096,
+            "device_width": 16,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 256M",
+            "dram_speed": "LPDDR4-3733/3200"
+          },
+          "32128A": {
+            "density": 4096,
+            "device_width": 32,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 128M",
+            "dram_speed": "LPDDR4-3200"
+          },
+          "16512A": {
+            "density": 8192,
+            "device_width": 16,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 512M",
+            "dram_speed": "LPDDR4-3733/3200"
+          },
+          "32256A": {
+            "density": 8192,
+            "device_width": 32,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 256M",
+            "dram_speed": "LPDDR4-3200"
+          },
+          "32256B": {
+            "density": 8192,
+            "device_width": 32,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 256M",
+            "dram_speed": "LPDDR4-3733/3200"
+          },
+          "16128EA": {
+            "density": 2048,
+            "device_width": 16,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 128M ECC",
+            "dram_speed": "LPDDR4-3200"
+          },
+          "32640EA": {
+            "density": 2048,
+            "device_width": 32,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 64M ECC",
+            "dram_speed": "LPDDR4-3200"
+          },
+          "16256EA": {
+            "density": 4096,
+            "device_width": 16,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 256M ECC",
+            "dram_speed": "LPDDR4-3200"
+          },
+          "32128EA": {
+            "density": 4096,
+            "device_width": 32,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 128M ECC",
+            "dram_speed": "LPDDR4-3200"
+          },
+          "32256EA": {
+            "density": 8192,
+            "device_width": 32,
+            "dram_type": "LPDDR4 SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 256M ECC",
+            "dram_speed": "LPDDR4-3200"
+          },
+          "16128AL": {
+            "density": 2048,
+            "device_width": 16,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 128M",
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "32640AL": {
+            "density": 2048,
+            "device_width": 32,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 64M",
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "16256AL": {
+            "density": 4096,
+            "device_width": 16,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 256M",
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "16256BL": {
+            "density": 4096,
+            "device_width": 16,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 256M",
+            "dram_speed": "LPDDR4X-3733/3200"
+          },
+          "32128AL": {
+            "density": 4096,
+            "device_width": 32,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 128M",
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "16512AL": {
+            "density": 8192,
+            "device_width": 16,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 512M",
+            "dram_speed": "LPDDR4X-3733/3200"
+          },
+          "32256AL": {
+            "density": 8192,
+            "device_width": 32,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 256M",
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "32256BL": {
+            "density": 8192,
+            "device_width": 32,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 256M",
+            "dram_speed": "LPDDR4X-3733/3200"
+          },
+          "16128EAL": {
+            "density": 2048,
+            "device_width": 16,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 128M ECC",
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "32640EAL": {
+            "density": 2048,
+            "device_width": 32,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 64M ECC",
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "16256EAL": {
+            "density": 4096,
+            "device_width": 16,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "1x16 256M ECC",
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "32128EAL": {
+            "density": 4096,
+            "device_width": 32,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 128M ECC",
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "32256EAL": {
+            "density": 8192,
+            "device_width": 32,
+            "dram_type": "LPDDR4X SDRAM",
+            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 256M ECC",
+            "dram_speed": "LPDDR4X-3200"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "familyCode"
+        },
+        {
+          "op": "takeLongest",
+          "table": "productObj",
+          "to": "productObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": {
+              "$path": "productObj.dram_type"
+            },
+            "config_code": {
+              "$path": "productObj.config_code"
+            },
+            "dram_speed": {
+              "$path": "productObj.dram_speed"
+            }
+          }
+        }
+      ],
+      "assign": {
+        "vendor": "issi",
+        "type": "dram",
+        "density": {
+          "$path": "productObj.density"
+        },
+        "deviceWidth": {
+          "$path": "productObj.device_width"
+        },
+        "voltage": {
+          "$path": "productObj.voltage"
+        },
+        "package": {
+          "$path": "productObj.package"
+        },
+        "fields": {
+          "$var": "extra"
+        }
+      }
+    }
+  }
+]

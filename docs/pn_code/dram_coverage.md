@@ -1,6 +1,6 @@
 # DRAM 世代覆盖约定
 
-采集日期：2026-05-08
+采集日期：2026-05-11
 
 DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalone DRAM 厂商时，不能只补少量热门 PN；需要先确认该厂商公开资料中可验证的 DDR/SDR、LPDDR、Graphics DRAM 世代，再按结构化 token 建表。
 
@@ -36,9 +36,11 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 | Nanya | DDR, DDR2, DDR3/DDR3L, DDR4, DDR5 | LPDDR2, LPDDR3, LPDDR4, LPDDR4X, LPDDR5/5X | - | - |
 | Elpida | SDR, DDR, DDR2, DDR3 | LPDDR2, LPDDR3 | GDDR5 | - |
 | CXMT | DDR4 | LPDDR4X | - | - |
+| ISSI | DDR3/DDR3L, DDR4 | LPDDR4, LPDDR4X | - | - |
+| Winbond | DDR3/DDR3L, DDR4 | LPDDR4, LPDDR4X | - | - |
 
 SK hynix 仍需继续补齐 LPDDR/LPDDR2/LPDDR3、GDDR/GDDR2/GDDR3/GDDR4/GDDR7 等公开 ordering table；没有外部 PN 证据前不把推测写成确定结论。
 
 当前大容量 config 已覆盖 Micron DDR5 24Gb / 32Gb、SK hynix DDR5 24Gb、Samsung DDR4 32Gb / DDR5 24Gb / 32Gb / LPDDR5X 64Gb，以及 Nanya DDR5-8000 `2048M8` 样例。CXMT 官方资料只确认 DDR5 / LPDDR5X 高容量产品存在，未公开足够 PN token breakdown，暂不进入 DSL。
 
-Nanya 官方产品线未列 GDDR；Elpida 独立品牌 standard DDR 世代到 DDR3 结束，后续 DDR4/DDR5 不作为待补缺口；CXMT 官方资料确认 DDR5/LPDDR5/LPDDR5X 产品存在，但公开页面没有足够 PN breakdown，当前只把 DDR4 与 LPDDR4X 写入 DSL。
+Nanya 官方产品线未列 GDDR；Elpida 独立品牌 standard DDR 世代到 DDR3 结束，后续 DDR4/DDR5 不作为待补缺口；CXMT 官方资料确认 DDR5/LPDDR5/LPDDR5X 产品存在，但公开页面没有足够 PN breakdown，当前只把 DDR4 与 LPDDR4X 写入 DSL。ISSI 官方 PSG 明确列出更早 DDR/SDR 与 RLDRAM 产品，但本轮只把 DDR3/DDR3L、DDR4、LPDDR4/4X 写入 DSL；Winbond 官方 2026 PSG 明确列出 SDR/DDR/DDR2 与 LPDDR3，但本轮先覆盖 DDR3/DDR4/LPDDR4/4X。

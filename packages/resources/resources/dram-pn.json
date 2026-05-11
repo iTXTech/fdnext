@@ -334,5 +334,2789 @@
   {
     "vendor": "micron",
     "pn": "MT68A512M32DF-32:A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR81280B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR81280B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16640B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16640B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR82560B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR85120B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR85120B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16256B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16256B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16256EC"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16256EC"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR81024B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR81024B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16512B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16512B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16K01S2A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16K01S2A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR81280CL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR81280CL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16640CL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16640CL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560CL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR82560CL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560DL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR82560DL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128CL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128CL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128DL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128DL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR85120BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR85120BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16256BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16256BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16256ECL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16256ECL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR81024BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR81024BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16512BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16512BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16512S2DL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16512S2DL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16K01S2AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16K01S2AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR85120B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR85120B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16256B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16256B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR81024A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR81024A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16512A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16512A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR8K02S2A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR8K02S2A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16128A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16128A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32640A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32640A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16256A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16256A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16256B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16256B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32128A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32128A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16512A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16512A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32256A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32256A"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32256B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32256B"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16128AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16128AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32640AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32640AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16256AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16256AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16256BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16256BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32128AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32128AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16512AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16512AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32256AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32256AL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32256BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32256BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16128EA"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16128EA"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32640EA"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32640EA"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16256EA"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16256EA"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32128EA"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32128EA"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32256EA"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32256EA"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16128EAL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16128EAL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32640EAL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32640EAL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ16256EAL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ16256EAL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32128EAL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32128EAL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32256EAL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32256EAL"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB-15"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB15I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB15J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG6NB15S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB-15"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB15I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB15J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB15S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB-15"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB15I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB15J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6NB15S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU6RB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB-15"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB15I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB15J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8NB15S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8RB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8RB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8RB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8RB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8RB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8RB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8RB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8RB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GU8RB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB-15"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB09W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB11W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB12W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB15I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB15J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB15S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG6NB15W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB-15"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB09W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB11W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB12W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB15I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB15J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB15S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GG8NB15W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB-15"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB09W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB11W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB12W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB15I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB15J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB15S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6NB15W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6QB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6QB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6QB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6QB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6QB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6QB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU6RB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB-15"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB09W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB11W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB12W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB15I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB15J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB15S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8NB15W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8QB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8QB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8QB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8QB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8QB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8QB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8RB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8RB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8RB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8RB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8RB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8RB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8RB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8RB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W632GU8RB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB09W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB11W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB12W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG6NB15W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB09W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB11W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB12W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GG8NB15W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB09W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB11W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB12W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6NB15W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU6RB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB09W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB11W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB12W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB15A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB15K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8NB15W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB09A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB09J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB09K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB09S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB11A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB11J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB11K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB11S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB12A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB12J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB12K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W634GU8RB12S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W638GU6QB-09"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W638GU6QB-11"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W638GU6QB-12"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W638GU6QB09I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W638GU6QB11I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W638GU6QB12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG6RB-06"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG6RB-07"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG6RB-08"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG6RB06I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG6RB06J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG6RB07I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG6RB07J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG6RB08I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG6RB08J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG8RB-06"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG8RB-07"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG8RB-08"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG8RB06I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG8RB06J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG8RB07I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG8RB07J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG8RB08I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG8RB08J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W668GG6TB-06"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W668GG6TB-07"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W668GG6TB06I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W668GG6TB07I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W668GG8TB-06"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W668GG8TB-07"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W668GG8TB06I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W668GG8TB07I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBHAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBHAFI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBHAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBHAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBHAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBHAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBHAGI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBHAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBHAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBHAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBQAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBQAFI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBQAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBQAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBQAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBQAGI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBQAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBQAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBUAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBUAFI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBUAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBUAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBUAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBUAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBUAGI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBUAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBUAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AP6NBUAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBHAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBHAFI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBHAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBHAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBHAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBHAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBHAGI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBHAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBHAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBHAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBQAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBQAFI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBQAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBQAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBQAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBQAGI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBQAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBQAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBUAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBUAFI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBUAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBUAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBUAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBUAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBUAGI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBUAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBUAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66AQ6NBUAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQQAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQQAFI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQQAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQQAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQQAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQQAGI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQQAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQQAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQUAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQUAFI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQUAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQUAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQUAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQUAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQUAGI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQUAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQUAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQUAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBHAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBHAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBHAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBHAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBHAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBHAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBHAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBHAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBQAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBQAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBQAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBQAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBQAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBQAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBUAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBUAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBUAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBUAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBUAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBUAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBUAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6NBUAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6RBHAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6RBHAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6RBHAHJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6RBQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6RBQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP6RBQAHJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQQAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQQAFI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQQAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQQAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQQAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQQAGI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQQAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQQAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQUAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQUAFI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQUAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQUAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQUAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQUAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQUAGI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQUAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQUAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQUAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBHAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBHAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBHAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBHAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBHAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBHAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBHAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBHAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBQAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBQAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBQAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBQAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBQAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBQAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBUAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBUAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBUAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBUAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBUAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBUAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBUAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ6NBUAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQQAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQQAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQQAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQQAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQQAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQQAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQUAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQUAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQUAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQUAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQUAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQUAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQUAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2NQUAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2RQQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2RQQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2RQQAHJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP6RBHAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP6RBHAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP6RBHAHJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP6RBQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP6RBQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP6RBQAHJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQQAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQQAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQQAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQQAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQQAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQQAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQUAFA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQUAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQUAFK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQUAFS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQUAGA"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQUAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQUAGK"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CQ2NQUAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66DP2RQQAFJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66DP2RQQAGJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66DP2RQQAHJ"
   }
 ]

@@ -1,0 +1,43 @@
+# ISSI DRAM PN 规则
+
+采集日期：2026-05-11
+
+本页记录 ISSI standalone DRAM 颗粒的 PN 结构。本轮覆盖官方 PSG 中可直接确认的 DDR3/DDR3L、DDR4、LPDDR4/LPDDR4X；更早 SDR/DDR/DDR2 与 RLDRAM 系列先保留为后续扩展。
+
+## 外部资料
+
+- ISSI 2024 Product Selector Guide 列出 DRAM Part Decoder、DDR3/DDR3L、DDR4、LPDDR4/4X、RLDRAM 等产品表。来源：<https://issi.com.cn/WW/pdf/PSG.pdf>
+- DDR4 表确认 `IS43/IS46QR85120B`、`QR16256B`、`QR81024A`、`QR16512A`、`QR8K02S2A` 的容量、组织、1.2V、速度与 BGA(78/96) 封装；`QR8K02S2A` 标注 Dual Rank。
+- DDR3/DDR3L 表确认 `IS43/IS46TR*` 系列的容量、组织、电压、速度与 BGA(78/96) 封装；`TR16512S2DL`、`TR16K01S2AL` 等标注 Dual Rank。
+- LPDDR4/4X 表确认 `IS43/IS46LQ*` 系列的 2Gb/4Gb/8Gb、single channel `(1 x16)` 或 two channel `(2 x16)`、VDDQ/VDD2/VDD1、3200/3733 MT/s 与 BGA(200) 封装。
+
+## DSL 范围
+
+- 规则文件：`packages/dsl/src/rules/packs/issi-dram-token.json`
+- 规则 ID：`vendor.issi.dram.standard.component.v1`、`vendor.issi.dram.lpddr4.component.v1`
+- 当前覆盖：
+  - `IS43/IS46TR`：DDR3 / DDR3L。
+  - `IS43/IS46QR`：DDR4。
+  - `IS43/IS46LQ`：LPDDR4 / LPDDR4X，含 ECC token 样例。
+
+## PN 结构
+
+Standard DRAM：
+
+```text
+IS43/IS46 + family(TR/QR) + organization token + revision + optional L
+```
+
+LPDDR4/4X：
+
+```text
+IS43/IS46 + LQ + product token
+```
+
+## 输出约定
+
+- `IS43` / `IS46` 只作为商业 / 汽车级前缀差异处理，输出厂商统一为短名 `ISSI`。
+- DDR3L 通过结尾 `L` 输出 `1.35V or 1.5V VDD`；DDR4 输出 `1.2V VDD`。
+- 官方表标注 Dual Rank 的 `S2` token 输出 `Stacked, dual rank, 2 CS`；普通 `S1`/非堆叠字段没有官方 CS 细节时不推断更多 die 数。
+- LPDDR4X 通过产品 token 的 `L` 输出 `LPDDR4X SDRAM` 与 `1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ`。
+- `packages/resources/resources/dram-pn.json` 展开收录官方表中可确认的 `IS43` / `IS46` PN 样例，用于搜索补全；解码仍由 token 规则完成。
