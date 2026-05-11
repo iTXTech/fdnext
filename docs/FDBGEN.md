@@ -360,5 +360,5 @@ await crawlMdb({
 
 - [项目主页](../README.md)
 - [集成指南](./INTEGRATION.md)
-- [DSL 规范](./DSL_SPEC.md)
+- [iTXTech fdnext DecodePack 规范](./DECODEPACK.md)
 - [PN 编码资料](./pn_code/README.md)

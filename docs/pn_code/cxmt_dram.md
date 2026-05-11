@@ -6,7 +6,7 @@
 
 ## 外部资料
 
-- CXMT 官方产品页确认公开产品线包含 DDR5/DDR5 module、LPDDR5/5X、DDR4/DDR4 module、LPDDR4X，但页面没有给出可直接落 DSL 的 ordering table / PN breakdown。来源：<https://www.cxmt.com/en/product.html>
+- CXMT 官方产品页确认公开产品线包含 DDR5/DDR5 module、LPDDR5/5X、DDR4/DDR4 module、LPDDR4X，但页面没有给出可直接落 iTXTech fdnext DecodePack 的 ordering table / PN breakdown。来源：<https://www.cxmt.com/en/product.html>
 - CXMT 官方 2025-11-23 新闻确认 DDR5 产品线最高 8000Mbps、die density up to 24Gb，LPDDR5X 最高 10667Mbps、封装容量 12GB/16GB/24GB；但新闻仍没有公开 standalone PN breakdown，因此只作为 DDR5 / LPDDR5X 能力背景，不单独作为 token 准入依据。来源：<https://www.cxmt.com/en/news/info_20.html>
 - CXMT 官方新闻确认 LPDDR5 产品线含 12Gb die、6GB/12GB mobile DRAM 与 POP packaged chip；LPDDR5X 产品线含 12Gb/16Gb die、12GB/16GB/24GB packaged chip 与 8533/9600/10667Mbps，但新闻没有公开具体 standalone PN breakdown。来源：<https://www.cxmt.com/en/news/info_15.html>、<https://www.cxmt.com/en/news/info_19.html>
 - TechInsights `CDTQ` LPDDR5 拆解页确认 `CDTQ` package 来自 Huawei Nova 13 Pro，含 8 颗 12Gb LPDDR5 die，采用 CXMT G3 process；这里作为 package/die 标记别名进入规则，不等同于完整 ordering PN。来源：<https://www.techinsights.com/blog/cxmt-cdtq-g3-12-gb-lpddr5-dram-memory-floorplan-analysis>
@@ -22,9 +22,9 @@
 - CXMT `CXDB5CCBM-MK-A` / `CXDB5CCBM-MA-A` datasheet 镜像确认 4GB LPDDR4X、2CH x32、200 Ball Discrete；`MK` 为 3733Mbps，`MA` 为 4266Mbps，`CBM` 对应 x32 2CH 2CS / QDP / 200-ball 组合。来源：<https://atta.szlcsc.com/upload/public/pdf/source/20240112/0697417D4456C9B7A65E123D9285D203.pdf>、<https://atta.szlcsc.com/upload/public/pdf/source/20251128/2A0FA1E64CE1EFDC7BC81ECF2706B35F.pdf>
 - CSEKER 2025-11-20 汇总表列出更多 CXMT DDR4 / LPDDR4X / DDR5 料号，例如 `CXDQ4A8AM-CJ-M`、`CXDQ4BFAM-CJ-M`、`CXDR4E8BM-CS-A`、`CXDR4E8BM-CR-A`；这些进入规则时按结构 token 推断，可信度低于 datasheet-confirmed token。来源：<https://cseker.com/zh-cn/newDetail/42>
 
-## DSL 范围
+## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/dsl/src/rules/packs/cxmt-dram-token.json`
+- 规则文件：`packages/decodepack/src/rules/packs/cxmt-dram-token.json`
 - 规则 ID：`vendor.cxmt.dram.ddr4.component.v1`、`vendor.cxmt.dram.ddr5.component.v1`、`vendor.cxmt.dram.lpddr4x.component.v1`、`vendor.cxmt.dram.lpddr5.cdtq-process-alias.v1`
 - 当前覆盖：
   - DDR4：`CXDQ3BFAM-*`、`CXDQ3A8AM-*`、`CXDQ4A8AM-*`、`CXDQ4BFAM-*` 同类 token 结构
@@ -67,4 +67,4 @@ CDTQ
 - LPDDR4X suffix `MJ/MK/ML/MA` 输出 speed，其中 `MA` 已按公开 `CXDB5CCBM-MA-A` / `CXDB5CBAM-MA-B` datasheet 确认为 4266Mbps。
 - `CDTQ` 输出 LPDDR5、96Gb package、12Gb die、8-die PoP MCP、`process_node = CXMT G3 / 18nm-class`。
 - suffix 不存在时不输出 speed/temp。
-- LPDDR5X、GDDR 当前只作为资料缺口记录，不进入 DSL；即使官方新闻已确认 LPDDR5X 24GB package 级别能力，也必须等到公开 PN token 表、die/package 标记或 exact PN 样例后再落规则。
+- LPDDR5X、GDDR 当前只作为资料缺口记录，不进入 iTXTech fdnext DecodePack；即使官方新闻已确认 LPDDR5X 24GB package 级别能力，也必须等到公开 PN token 表、die/package 标记或 exact PN 样例后再落规则。

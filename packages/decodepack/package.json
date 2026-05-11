@@ -1,5 +1,5 @@
 {
-  "name": "@itxtech/fdnext-dsl",
+  "name": "@itxtech/fdnext-decodepack",
   "version": "2.1.0",
   "type": "module",
   "main": "dist/index.js",

@@ -1,10 +1,10 @@
 [
   {
-    "id": "identifier.nand_flash_id.intel.v1",
+    "id": "identifier.nand_flash_id.spectek.micron-inteldef.v1",
     "idScheme": "nand.flash_id",
-    "priority": 390,
-    "match": { "kind": "prefix", "value": "89" },
-    "vendor": "intel",
+    "priority": 400,
+    "match": { "kind": "prefix", "value": "B5" },
+    "vendor": "spectek",
     "definition": {
       "2": {
         "voltage": {
@@ -31,7 +31,7 @@
         }
       },
       "3": {
-        "die": {
+        "die_count": {
           "dq": [1, 0],
           "def": {
             "0": 1,
@@ -40,7 +40,7 @@
             "3": 8
           }
         },
-        "cellLevel": {
+        "cell_level": {
           "dq": [3, 2],
           "def": {
             "0": 1,
@@ -58,7 +58,7 @@
         }
       },
       "4": {
-        "pageSize": {
+        "page_size": {
           "dq": [2, 1, 0],
           "def": {
             "6": 4,
@@ -70,7 +70,7 @@
         }
       },
       "5": {
-        "plane": {
+        "plane_count": {
           "dq": [1, 0],
           "def": {
             "0": 1,
@@ -107,6 +107,13 @@
             "1": 2,
             "2": 3,
             "3": 4
+          }
+        },
+        "enterprise": {
+          "dq": [1, 0],
+          "def": {
+            "0": false,
+            "1": true
           }
         }
       }

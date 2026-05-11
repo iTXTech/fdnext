@@ -24,14 +24,14 @@
 ## 规则入口
 
 - 规则文件：
-  - `packages/dsl/src/rules/packs/skhynix-emcp-token.json`
-  - `packages/dsl/src/rules/packs/skhynix-umcp-token.json`
+  - `packages/decodepack/src/rules/packs/skhynix-emcp-token.json`
+  - `packages/decodepack/src/rules/packs/skhynix-umcp-token.json`
 - 规则 ID：
   - `vendor.skhynix.emcp.h9t_h9h.v1`
   - `vendor.skhynix.emcp.h9a.v1`
   - `vendor.skhynix.umcp.h9q.v1`
   - `vendor.skhynix.umcp.h9hq.v1`
-- testcase：`packages/dsl/test/managed-nand.test.ts`
+- testcase：`packages/decodepack/test/managed-nand.test.ts`
 
 ## H9T / H9H eMCP 结构
 

@@ -19,12 +19,12 @@
     "cf-workers:dev": "pnpm dlx wrangler dev --config wrangler.jsonc",
     "cf-workers:deploy": "pnpm dlx wrangler deploy --config wrangler.jsonc",
     "cf-workers:deploy:dry-run": "pnpm dlx wrangler deploy --dry-run --outdir .wrangler-bundle --config wrangler.jsonc",
+    "cli": "pnpm -s tsx ./packages/cli/src/index.ts",
     "fdbgen:build": "pnpm -C packages/fdbgen build",
     "fdbgen:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build",
     "fdbgen:crawl-mdb": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb",
     "fdbgen:crawl-mdb-from-fbga": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb-from-fbga",
-    "contract:check": "pnpm -s tsx ./scripts/check-contract.ts",
-    "resources:update-micron-fbga": "pnpm -s tsx ./scripts/update-micron-fbga-codes.ts"
+    "contract:check": "pnpm -s tsx ./scripts/check-contract.ts"
   },
   "devDependencies": {
     "@types/node": "^25.6.2",

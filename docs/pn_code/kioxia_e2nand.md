@@ -10,9 +10,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/kioxia-e2nand-token.json`
+- `packages/decodepack/src/rules/packs/kioxia-e2nand-token.json`
 - `vendor.kioxia.e2nand.lga.v1`
 
 PN 结构：

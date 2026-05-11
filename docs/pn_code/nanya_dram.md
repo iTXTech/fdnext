@@ -19,9 +19,9 @@
 - Nanya 官方 `NT6BR1024M16A3-K2` 页面确认 LPDDR5/5X 类别、16Gb、x16、315-ball BGA、7500Mbps；`NT6BR1024M16A3-K1` 确认 8533Mbps 与 LPDDR5X speed bin。来源：<https://www.nanya.com/en/Product/10086/NT6BR1024M16A3-K2>、<https://www.nanya.com/en/Product/10082/NT6BR1024M16A3-K1>
 - 2026-05-09 复查 `NT5CB/NT5CC/NT5AD/NT5FF + DDP`：公开结果主要仍是 `M` stack-code 的 standard DDR3/DDR4/DDR5 页面，以及已覆盖的 low-power DRAM DDP/QDP 页面；暂未找到可直接加入 testcase 的 standard DDR `T/F` exact PN。检索到的 `NT5CB256M16ER-EKA` / `NT5CC256M16ER-EKA` 等公开 datasheet 仍是 standard DDR3(L) 4Gb `M`/单 die 组合。来源：<https://www.alldatasheet.net/html-marking/1145497/NANYA/NT5CB256M16ER-EKA/7060/37/NT5CB256M16ER-EKA.html>
 
-## DSL 范围
+## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/dsl/src/rules/packs/nanya-dram-token.json`
+- 规则文件：`packages/decodepack/src/rules/packs/nanya-dram-token.json`
 - 规则 ID：`vendor.nanya.dram.standard.component.v1`、`vendor.nanya.dram.low_power.component.v1`
 - 当前覆盖：
   - Standard DRAM：`NT5DS/NT5TU/NT5CB/NT5CC/NT5AD/NT5FF`，覆盖 DDR、DDR2、DDR3/DDR3L、DDR4、DDR5。

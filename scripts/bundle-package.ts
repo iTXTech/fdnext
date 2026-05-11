@@ -161,10 +161,10 @@ async function main() {
       });
       return;
     }
-    case "dsl": {
+    case "decodepack": {
       await bundleEntry(esbuild, {
-        entry: resolve(root, "packages/dsl/src/index.ts"),
-        outfile: resolve(root, "packages/dsl/dist/index.js"),
+        entry: resolve(root, "packages/decodepack/src/index.ts"),
+        outfile: resolve(root, "packages/decodepack/dist/index.js"),
         platform: "neutral",
         define
       });

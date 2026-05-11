@@ -4,17 +4,17 @@
 
 ## 项目概览
 
-`fdnext` 是面向存储器芯片的一站式解析方案，使用 `pnpm` 和严格 TypeScript monorepo 组织。核心能力包括 PN / typed identifier 解码、JSON DSL 规则编译、资源包、HTTP server、CLI、result contract 检查和 FDB / MDB 维护。
+`fdnext` 是面向存储器芯片的一站式解析方案，使用 `pnpm` 和严格 TypeScript monorepo 组织。核心能力包括 PN / typed identifier 解码、iTXTech fdnext DecodePack JSON 规则编译、资源包、HTTP server、CLI、result contract 检查和 FDB / MDB 维护。
 
 主要目录：
 
 - `packages/core`: 解码引擎、公共 SDK 和输出转换。
-- `packages/dsl`: PN / typed identifier JSON DSL 规则、编译器和规则测试。
+- `packages/decodepack`: PN / typed identifier iTXTech fdnext DecodePack JSON 规则、编译器和规则测试。
 - `packages/resources`: 内置 `fdb` / `mdb` / 多语言资源。
 - `packages/fdbgen`: 从本地数据集生成 FDB 的工具。
 - `packages/server`: HTTP 服务。
 - `packages/cli`: 命令行工具。
-- `docs`: DSL、集成、FDBGen 和 PN 编码资料。
+- `docs`: iTXTech fdnext DecodePack、集成、FDBGen 和 PN 编码资料。
 
 常用命令：
 
@@ -22,8 +22,8 @@
 pnpm build
 pnpm test
 pnpm typecheck
-pnpm -C packages/dsl test
-pnpm -C packages/dsl typecheck
+pnpm -C packages/decodepack test
+pnpm -C packages/decodepack typecheck
 pnpm -C packages/resources typecheck
 pnpm contract:check
 ```
@@ -33,11 +33,11 @@ pnpm contract:check
 - 开始前先执行 `git status --short`，确认已有未提交修改。不要回退用户或其他代理的改动。
 - 搜索文件和文本优先用 `rg` / `rg --files`。
 - 小范围手工改文件用 `apply_patch`。
-- 新增或调整规则后，优先补测试；测试位置通常是 `packages/dsl/test/managed-nand.test.ts`。
+- 新增或调整规则后，优先补测试；测试位置通常是 `packages/decodepack/test/managed-nand.test.ts`。
 - 新增或重命名 canonical field key 时，同步检查 `packages/core/src/field-registry.ts`、`packages/resources/resources/lang/eng.json` 和 `packages/resources/resources/lang/chs.json`。
-- 对 JSON DSL 文件保持可读的表驱动结构。不要为了过测试引入一次性特判。
+- 对 iTXTech fdnext DecodePack JSON 文件保持可读的表驱动结构。不要为了过测试引入一次性特判。
 
-## PN DSL 规则约束
+## PN iTXTech fdnext DecodePack 规则约束
 
 PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名单。
 
@@ -46,10 +46,10 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - 按前缀、固定长度 token、最长前缀表、组合 key 表来解析。
 - 对未知 token 保留已能确定的字段，不应让整条 PN 直接失效。
 - 规则文件尽量按厂商和芯片 / 产品类型拆分。一个 JSON pack 中最好只放一种芯片或产品线的解析规则，例如 `samsung-ufs-token.json`、`skhynix-emcp-token.json`。
-- 新 pack 需要在 `packages/dsl/src/rules/default-rules.ts` 导入并加入 `defaultDslRules`。
+- 新 pack 需要在 `packages/decodepack/src/rules/default-rules.ts` 导入并加入 `defaultPartDecodeSpecs`。
 - `fields.density` / `fields.dram_density` 继续使用项目既有单位 Mbit，例如 8GB = `65536`。
 - `tokenDecoder.assign` 只输出 native draft 路径：`device.*`、`fields.*`、`identifiers.*`、`controllers`、`components`、`meta.*`。用户可见字段使用 canonical snake_case key，例如 `component_density`、`generation_info`、`storage_interface`，不要直接写展示文本。
-- 不维护历史 metadata alias 或运行时兼容转换。新增或清理字段时，直接迁移 DSL 源规则、语言包和 testcase，并把旧 key 加入审计测试的禁止列表。
+- 不维护历史 metadata alias 或运行时兼容转换。新增或清理字段时，直接迁移 iTXTech fdnext DecodePack 源规则、语言包和 testcase，并把旧 key 加入审计测试的禁止列表。
 
 特别禁止：
 
@@ -73,11 +73,11 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 
 - `external_confirmed`: 原厂页面、公开 datasheet、TechInsights、TechPowerUp 等可直接确认 PN、产品线、容量、die 或代际。可进入规则和 testcase。
 - `external_table_confirmed`: FlashInfo、论坛 flash-id 表、SSD dump、分销页面等外部网页与本地 `fdb` / `fdfdb` 同向。可进入规则，但文档应说明来源档位。
-- `local_pending_external_reference`: 仅本地 `fdb` / `fdfdb` 或 MPTool 数据，暂未找到外部网页。不要删除候选，可保留在 DSL 内部 metadata 或工作总结中，但不要写成确定结论。
+- `local_pending_external_reference`: 仅本地 `fdb` / `fdfdb` 或 MPTool 数据，暂未找到外部网页。不要删除候选，可保留在 iTXTech fdnext DecodePack 内部 metadata 或工作总结中，但不要写成确定结论。
 
 本地 `../fdfdb` 可以用于辅助推断，但 MPTool 数据质量不稳定。进入确定规则前必须找外部网页确认；找不到 reference 时，总结哪些字段可确定、哪些仍待确认。
 
-可信度字段只允许留在 DSL 内部 metadata，例如 `tables.reference`。以下字段不得出现在用户可见输出中：
+可信度字段只允许留在 iTXTech fdnext DecodePack 内部 metadata，例如 `tables.reference`。以下字段不得出现在用户可见输出中：
 
 - `local_pending_external_reference`
 - `external_confirmed`
@@ -105,8 +105,8 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 规则变更建议至少运行：
 
 ```bash
-pnpm -C packages/dsl test
-pnpm -C packages/dsl typecheck
+pnpm -C packages/decodepack test
+pnpm -C packages/decodepack typecheck
 pnpm -C packages/resources typecheck
 git diff --check
 ```

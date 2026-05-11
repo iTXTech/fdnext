@@ -14,9 +14,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/micron-managed-token.json`
+- `packages/decodepack/src/rules/packs/micron-managed-token.json`
 - `vendor.micron.managed.mtfc.nextgen.v1`
 
 PN 结构：
@@ -45,4 +45,4 @@ PN 结构：
 ## 注意
 
 UFS 与 eMMC 共用 `MTFC` 前缀，必须通过 component/controller 组合和外部资料确认产品线，不能用完整 PN 白名单匹配。
-UFS 4.1 目前只记录为待确认方向，不新增 DSL token 映射。
+UFS 4.1 目前只记录为待确认方向，不新增 iTXTech fdnext DecodePack token 映射。

@@ -13,7 +13,7 @@
 
 ## 规则入口
 
-- `packages/dsl/src/rules/packs/samsung-ufs-token.json`
+- `packages/decodepack/src/rules/packs/samsung-ufs-token.json`
   - 规则 ID：`vendor.samsung.ufs.token.v1`
 
 ## 编码结构
@@ -35,7 +35,7 @@ Samsung UFS 现在与 SK hynix 共用：
 - `die_stack`：封装堆叠，例如 `ODP (8-die)`
 - `fields.process_node`：NAND 代际，例如 `V8 236L`；不在 `fields` 里重复输出相同的 `generation_info`
 
-可信度 metadata 只在 DSL `tables.reference` 内维护，不进入 `fields`。
+可信度 metadata 只在 iTXTech fdnext DecodePack `tables.reference` 内维护，不进入 `fields`。
 
 ## 示例
 

@@ -9,9 +9,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/kingston-ufs-token.json`
+- `packages/decodepack/src/rules/packs/kingston-ufs-token.json`
 - `vendor.kingston.ufs.v1`
 
 PN 结构：

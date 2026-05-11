@@ -11,9 +11,9 @@
 - DDR3/DDR3L 表确认 `IS43/IS46TR*` 系列的容量、组织、电压、速度与 BGA(78/96) 封装；`TR16512S2DL`、`TR16K01S2AL` 等标注 Dual Rank。
 - LPDDR4/4X 表确认 `IS43/IS46LQ*` 系列的 2Gb/4Gb/8Gb、single channel `(1 x16)` 或 two channel `(2 x16)`、VDDQ/VDD2/VDD1、3200/3733 MT/s 与 BGA(200) 封装。
 
-## DSL 范围
+## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/dsl/src/rules/packs/issi-dram-token.json`
+- 规则文件：`packages/decodepack/src/rules/packs/issi-dram-token.json`
 - 规则 ID：`vendor.issi.dram.standard.component.v1`、`vendor.issi.dram.lpddr4.component.v1`
 - 当前覆盖：
   - `IS43/IS46TR`：DDR3 / DDR3L。

@@ -15,9 +15,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/kingston-emmc-token.json`
+- `packages/decodepack/src/rules/packs/kingston-emmc-token.json`
 - `vendor.kingston.emmc.v1`
 
 PN 结构：

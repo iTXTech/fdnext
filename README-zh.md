@@ -9,7 +9,7 @@
 ## 主要特性
 
 - 通过 `@itxtech/fdnext-core` 提供存储器芯片 PN 和 typed identifier 解析能力
-- 通过 `@itxtech/fdnext-dsl` 提供 PN / identifier JSON DSL 规则包和编译器
+- 通过 `@itxtech/fdnext-decodepack` 提供 PN / identifier iTXTech fdnext DecodePack JSON 规则包和编译器
 - 内置 `fdb`、`mdb`、语言包、managed NAND PN 建议、DRAM PN 建议和 Micron FBGA code 资源
 - 支持 Managed NAND 和 DRAM PN 解码，并按厂商维护结构化 token 规则
 - 通过统一 `mdb.json` 资源流支持 Micron FBGA 反查
@@ -31,7 +31,7 @@
 | Package | 作用 |
 | --- | --- |
 | `@itxtech/fdnext-core` | 解码 / 搜索引擎、公共 SDK 类型、资源加载辅助函数和 operation 管线 |
-| `@itxtech/fdnext-dsl` | JSON DSL 规则包和 PN / identifier 编译器 |
+| `@itxtech/fdnext-decodepack` | iTXTech fdnext DecodePack JSON 规则包和 PN / identifier 编译器 |
 | `@itxtech/fdnext-resources` | 可发布的内置数据资源 |
 | `@itxtech/fdnext-runtime` | 平台无关 dispatch、HTTP 路由和 External Link provider |
 | `@itxtech/fdnext-server` | Hapi HTTP 服务 adapter |
@@ -61,34 +61,34 @@ README 只作为项目概览入口。统一文档索引是 [docs/README.md](docs
 - [集成指南](docs/INTEGRATION.md)：SDK、浏览器、HTTP Server、部署和接口用法
 - [Cloudflare Workers 部署](docs/CF_WORKERS.md)：Wrangler 配置、本地开发和部署
 - [FDBGen 文档](docs/FDBGEN.md)：FDB 生成、MDB 爬取、输入布局、清理规则和 crawler 行为
-- [DSL 规范](docs/DSL_SPEC.md)：PN 和 typed identifier 规则编写
+- [iTXTech fdnext DecodePack 规范](docs/DECODEPACK.md)：PN 和 typed identifier 规则编写
 - [PN 编码资料索引](docs/pn_code/README.md)：厂商和产品线资料
 - [PN 规则可信度策略](docs/pn_code/reference_policy.md)：规则准入和来源可信度
 - [跨厂商输出术语](docs/pn_code/terminology.md)：canonical public field key 约定
 
 ## 规则和数据维护
 
-PN 规则必须保持数据驱动。新增解码覆盖时应添加结构化 JSON DSL pack，不要写完整 PN 白名单。
+PN 规则必须保持数据驱动。新增解码覆盖时应添加结构化 iTXTech fdnext DecodePack JSON pack，不要写完整 PN 白名单。
 
 常用位置：
 
-- `packages/dsl/src/rules/packs/`：PN DSL packs
-- `packages/dsl/src/identifier/packs/`：typed identifier DSL packs，例如 NAND Flash ID
-- `packages/dsl/src/rules/default-rules.ts`：PN pack 注册入口
-- `packages/dsl/src/identifier/default-rules.ts`：identifier pack 注册入口
-- `packages/dsl/test/managed-nand.test.ts`、`packages/dsl/test/dram.test.ts`、`packages/dsl/test/metadata-audit.test.ts`：规则验证
+- `packages/decodepack/src/rules/packs/`：PN iTXTech fdnext DecodePack packs
+- `packages/decodepack/src/identifier/packs/`：typed identifier iTXTech fdnext DecodePack packs，例如 NAND Flash ID
+- `packages/decodepack/src/rules/default-rules.ts`：PN pack 注册入口
+- `packages/decodepack/src/identifier/default-rules.ts`：identifier pack 注册入口
+- `packages/decodepack/test/managed-nand.test.ts`、`packages/decodepack/test/dram.test.ts`、`packages/decodepack/test/metadata-audit.test.ts`：规则验证
 - `packages/resources/resources/lang/eng.json` 和 `packages/resources/resources/lang/chs.json`：用户可见 field label
 - `docs/pn_code/`：PN 资料和可信度策略
 
-新增或重命名公开字段时，需要同步更新 DSL 源规则、语言包、测试和文档。来源可信度等维护 metadata 只能留在 DSL 内部 metadata 或文档中，不能泄漏到公开 result fields。
+新增或重命名公开字段时，需要同步更新 iTXTech fdnext DecodePack 源规则、语言包、测试和文档。来源可信度等维护 metadata 只能留在 iTXTech fdnext DecodePack 内部 metadata 或文档中，不能泄漏到公开 result fields。
 
 ## 验证
 
 聚焦检查：
 
 ```bash
-pnpm -C packages/dsl test
-pnpm -C packages/dsl typecheck
+pnpm -C packages/decodepack test
+pnpm -C packages/decodepack typecheck
 pnpm -C packages/resources typecheck
 git diff --check
 ```
@@ -101,7 +101,7 @@ pnpm typecheck
 pnpm contract:check
 ```
 
-常规测试会验证 fdnext result schema、operation 行为、DSL 输出、资源、server、CLI 检查和 result contract fixtures。
+常规测试会验证 fdnext result schema、operation 行为、iTXTech fdnext DecodePack 输出、资源、server、CLI 检查和 result contract fixtures。
 
 ## 数据参考
 

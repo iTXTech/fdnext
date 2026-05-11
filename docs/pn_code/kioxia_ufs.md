@@ -11,9 +11,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/kioxia-ufs-token.json`
+- `packages/decodepack/src/rules/packs/kioxia-ufs-token.json`
 - `vendor.kioxia.ufs.managed.v1`
 
 PN 结构：

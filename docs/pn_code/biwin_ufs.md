@@ -9,9 +9,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/biwin-ufs-token.json`
+- `packages/decodepack/src/rules/packs/biwin-ufs-token.json`
 - `vendor.biwin.ufs.v1`
 
 PN 结构：

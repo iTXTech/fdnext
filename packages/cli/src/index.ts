@@ -1,7 +1,7 @@
 import { resolve } from "node:path";
 import { createEngine } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
-import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "@itxtech/fdnext-dsl";
+import { checkDecodePack, compileDecodePack, defaultDecodePack, explainIdentifierDecode, explainPartDecode } from "@itxtech/fdnext-decodepack";
 import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
 
 function resourceDirFromEnv(): string | null {
@@ -24,6 +24,9 @@ function usage(): void {
       "  fdnext part search <query> [lang] [limit]",
       "  fdnext id decode <identifier> [lang] [idScheme]",
       "  fdnext id search <query> [lang] [limit] [idScheme]",
+      "  fdnext decodepack check",
+      "  fdnext decodepack explain part <partNumber> [specId]",
+      "  fdnext decodepack explain id <identifier> [idScheme]",
       "  fdnext capabilities"
     ].join("\n") + "\n"
   );
@@ -45,13 +48,48 @@ async function main() {
     process.exit(1);
   }
 
+  if (scope === "decodepack" && command === "check") {
+    const result = checkDecodePack(defaultDecodePack);
+    print(result);
+    if (!result.ok) {
+      process.exit(1);
+    }
+    return;
+  }
+
+  if (scope === "decodepack" && command === "explain") {
+    const target = process.argv[4];
+    const query = process.argv[5];
+    const option = process.argv[6];
+    if (target !== "part" && target !== "id") {
+      process.stderr.write("Expected decodepack explain target: part or id\n");
+      process.exit(1);
+    }
+    if (!query) {
+      process.stderr.write(target === "part" ? "Missing part number\n" : "Missing identifier\n");
+      process.exit(1);
+    }
+    if (target === "part") {
+      print(explainPartDecode(defaultDecodePack, query, option ? { specId: option } : {}));
+      return;
+    }
+    if (option && option !== "nand.flash_id") {
+      process.stderr.write(`Unsupported identifier scheme: ${option}\n`);
+      process.exit(1);
+    }
+    const idScheme = option as "nand.flash_id" | undefined;
+    print(explainIdentifierDecode(defaultDecodePack, query, idScheme ? { idScheme } : {}));
+    return;
+  }
+
+  const compiledPack = compileDecodePack(defaultDecodePack);
   const engine = createEngine({
     resources: (() => {
       const resourceDir = resourceDirFromEnv();
       return resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResourceBundle;
     })(),
-    decoders: compileRulesToDecoders(defaultDslRules),
-    identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
+    decoders: compiledPack.partDecoders,
+    identifierDecoders: compiledPack.identifierDecoders
   });
 
   if (scope === "capabilities") {

@@ -1,4 +1,4 @@
-import type { DslRule } from "../types";
+import type { PartDecodeSpec } from "../types";
 import micronManagedTokenRules from "./packs/micron-managed-token.json" with { type: "json" };
 import micronEmmcTokenRules from "./packs/micron-emmc-token.json" with { type: "json" };
 import micronEmcpTokenRules from "./packs/micron-emcp-token.json" with { type: "json" };
@@ -54,7 +54,7 @@ import phisonTokenRules from "./packs/phison-token.json" with { type: "json" };
 import spectekRawTokenRules from "./packs/spectek-raw-token.json" with { type: "json" };
 import vendorPrefixRules from "./packs/vendor-prefix.json" with { type: "json" };
 
-export const defaultDslRules = [
+export const defaultPartDecodeSpecs = [
   ...micronManagedTokenRules,
   ...micronEmmcTokenRules,
   ...micronEmcpTokenRules,
@@ -109,4 +109,4 @@ export const defaultDslRules = [
   ...phisonTokenRules,
   ...spectekRawTokenRules,
   ...vendorPrefixRules
-] as DslRule[];
+] as PartDecodeSpec[];

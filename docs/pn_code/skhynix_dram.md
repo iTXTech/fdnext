@@ -33,7 +33,7 @@
 H5 + family + density + width + config + die/package/revision + -speed + temp
 ```
 
-已进入 DSL 的 token:
+已进入 iTXTech fdnext DecodePack 的 token:
 
 | Token | 字段 | 说明 |
 | --- | --- | --- |
@@ -81,7 +81,7 @@ H5C + GD + 8 + M + HB + D + X021
 H5GQ + density + 24 + die/package/revision + -speed + temp
 ```
 
-已进入 DSL 的 token:
+已进入 iTXTech fdnext DecodePack 的 token:
 
 | Token | 字段 | 说明 |
 | --- | --- | --- |
@@ -97,7 +97,7 @@ H5GQ + density + 24 + die/package/revision + -speed + temp
 H9HCNNN + density/stack token + package/mode token + -suffix
 ```
 
-已进入 DSL 的 token:
+已进入 iTXTech fdnext DecodePack 的 token:
 
 | Token | 字段 | 说明 |
 | --- | --- | --- |

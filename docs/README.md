@@ -7,7 +7,7 @@ This directory is the canonical home for fdnext usage, maintenance, and rule-aut
 | [Integration guide](INTEGRATION.md) | SDK setup, browser resources, server startup, deployment notes, and HTTP endpoints |
 | [Cloudflare Workers deployment](CF_WORKERS.md) | Wrangler config, local dev, deployment, and Worker-specific External Link notes |
 | [FDBGen documentation](FDBGEN.md) | FDB generation, MDB crawling, raw input layout, cleanup rules, and crawler behavior |
-| [DSL specification](DSL_SPEC.md) | PN and typed identifier DSL authoring, output fields, and validation commands |
+| [DecodePack specification](DECODEPACK.md) | PN and typed identifier iTXTech fdnext DecodePack authoring, output fields, and validation commands |
 | [PN code reference index](pn_code/README.md) | Vendor/product-line PN reference documents and maintenance boundaries |
 | [PN reference confidence policy](pn_code/reference_policy.md) | Rule admission tiers and where source-confidence metadata may live |
 | [Cross-vendor terminology](pn_code/terminology.md) | Canonical public field keys and display terminology |

@@ -2,7 +2,7 @@
 
 采集日期：2026-05-08
 
-规则库可以使用本地 `fdb` / `fdfdb` 辅助推断，但准入需要区分可信度。可信度字段只允许放在 DSL 内部 metadata，例如 `tables.reference` / `tables.densityReference`，不得 merge 到 `fields` 或其他用户可见输出。
+规则库可以使用本地 `fdb` / `fdfdb` 辅助推断，但准入需要区分可信度。可信度字段只允许放在 iTXTech fdnext DecodePack 内部 metadata，例如 `tables.reference` / `tables.densityReference`，不得 merge 到 `fields` 或其他用户可见输出。
 
 ## 可信度等级
 
@@ -20,7 +20,7 @@
 - 外部网页确认前，不应在文档中写成“已确定”。
 - `status`、`source`、`reference`、`inference_source` 等维护字段不得出现在解析结果中。
 
-## 推荐 DSL metadata 结构
+## 推荐 iTXTech fdnext DecodePack metadata 结构
 
 ```json
 {

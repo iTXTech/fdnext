@@ -10,7 +10,7 @@
 
 ## 规则状态
 
-暂不新增 DSL 规则。
+暂不新增 iTXTech fdnext DecodePack 规则。
 
 原因：
 

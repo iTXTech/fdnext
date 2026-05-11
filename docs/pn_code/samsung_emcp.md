@@ -20,17 +20,17 @@
 
 ## 当前规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/samsung-emcp-token.json`
+- `packages/decodepack/src/rules/packs/samsung-emcp-token.json`
   - `vendor.samsung.emcp.kmg-6001bm.v1`
 
 当前只加入两个窄 product-key：
 
 | product key | 已确认信息 | 规则处理 |
 | --- | --- | --- |
-| `KMGD6001BM` | Samsung datasheet mirror 确认 32GB e.MMC + 24Gb LPDDR3、221FBGA、eMMC 5.1 | 进入 DSL |
-| `KMGE6001BM` | CBM/fdfdb flash id 与多处 eMCP 页面同向，确认 Samsung 16+24、eMMC+LPDDR3、221ball | 进入 DSL |
+| `KMGD6001BM` | Samsung datasheet mirror 确认 32GB e.MMC + 24Gb LPDDR3、221FBGA、eMMC 5.1 | 进入 iTXTech fdnext DecodePack |
+| `KMGE6001BM` | CBM/fdfdb flash id 与多处 eMCP 页面同向，确认 Samsung 16+24、eMMC+LPDDR3、221ball | 进入 iTXTech fdnext DecodePack |
 
 没有新增通用 Samsung eMCP/uMCP decoder。原因：
 
@@ -52,7 +52,7 @@ DSL:
 | `dram_speed` | DRAM 速率 |
 | `package` | 144 FBGA / 254 FBGA 等 |
 
-可信度 metadata 必须留在 DSL `tables.reference`，不得输出到 `fields`。
+可信度 metadata 必须留在 iTXTech fdnext DecodePack `tables.reference`，不得输出到 `fields`。
 
 ## 待确认
 

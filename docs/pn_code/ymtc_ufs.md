@@ -12,9 +12,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/ymtc-ufs-token.json`
+- `packages/decodepack/src/rules/packs/ymtc-ufs-token.json`
   - `vendor.ymtc.ufs-label.v1`
 
 PN 结构：
@@ -45,5 +45,5 @@ PN 结构：
 
 ## 注意
 
-本轮只用 YMTC 官方产品页补强 `storage_interface` 与 `storage_density` 等 canonical 字段，不把 UC341 转载资料中的未验证 ordering 信息扩展成新 DSL 样本。
-可信度 metadata 只保留在 DSL `tables.reference`，不得输出到 `fields`。
+本轮只用 YMTC 官方产品页补强 `storage_interface` 与 `storage_density` 等 canonical 字段，不把 UC341 转载资料中的未验证 ordering 信息扩展成新 iTXTech fdnext DecodePack 样本。
+可信度 metadata 只保留在 iTXTech fdnext DecodePack `tables.reference`，不得输出到 `fields`。

@@ -11,9 +11,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/kioxia-emmc-token.json`
+- `packages/decodepack/src/rules/packs/kioxia-emmc-token.json`
 - `vendor.kioxia.emmc.managed.v1`
 
 PN 结构：

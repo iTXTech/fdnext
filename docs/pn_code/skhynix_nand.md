@@ -48,24 +48,24 @@
 | 状态 | 含义 | 处理 |
 | --- | --- | --- |
 | `external_confirmed` | 原厂、TechInsights、TechPowerUp 等拆解/规格资料直接确认 PN、层数、die 或 package 容量 | 可作为确定规则与 testcase |
-| `external_table_confirmed` | flashinfo.top、论坛 flash-id 表、SSD dump、分销页面等外部网页与本地 fdb/fdfdb 同向 | 可进规则，但只在 DSL `tables.reference` 内标明来源档位，不输出到 `fields` |
-| `local_pending_external_reference` | 仅本地 fdb/fdfdb 或 MPTool 数据，暂未找到外部网页 | 不删除候选，只在 DSL 内部 metadata 标记；不作为“已确定”结论 |
+| `external_table_confirmed` | flashinfo.top、论坛 flash-id 表、SSD dump、分销页面等外部网页与本地 fdb/fdfdb 同向 | 可进规则，但只在 iTXTech fdnext DecodePack `tables.reference` 内标明来源档位，不输出到 `fields` |
+| `local_pending_external_reference` | 仅本地 fdb/fdfdb 或 MPTool 数据，暂未找到外部网页 | 不删除候选，只在 iTXTech fdnext DecodePack 内部 metadata 标记；不作为“已确定”结论 |
 
 单个 MPTool / fdfdb 条目可能乱写，不能单独提升为确定结论；至少需要本地多源一致或外部网页交叉确认。
 
 ## 规则入口
 
-- 新式 raw NAND：`packages/dsl/src/rules/packs/skhynix-raw-token.json`
+- 新式 raw NAND：`packages/decodepack/src/rules/packs/skhynix-raw-token.json`
   - 规则 ID：`vendor.skhynix.token.v1`
-- legacy raw NAND：`packages/dsl/src/rules/packs/skhynix-legacy-token.json`
+- legacy raw NAND：`packages/decodepack/src/rules/packs/skhynix-legacy-token.json`
   - 规则 ID：`vendor.skhynix.legacy.token.v1`
-- 4D NAND package：`packages/dsl/src/rules/packs/skhynix-4d-token.json`
+- 4D NAND package：`packages/decodepack/src/rules/packs/skhynix-4d-token.json`
   - 规则 ID：`vendor.skhynix.4d.package.h25t.v1`
-- 3D NAND：`packages/dsl/src/rules/packs/skhynix-3d-token.json`
+- 3D NAND：`packages/decodepack/src/rules/packs/skhynix-3d-token.json`
   - 规则 ID：`vendor.skhynix.3d.h25.token.v2`
   - 规则 ID：`vendor.skhynix.3d.token.mlc`
   - 规则 ID：`vendor.skhynix.3d.token.tlc`
-- E2NAND：`packages/dsl/src/rules/packs/skhynix-e2nand-token.json`
+- E2NAND：`packages/decodepack/src/rules/packs/skhynix-e2nand-token.json`
   - 规则 ID：`vendor.skhynix.e2nand.h2d_h2j.v1`
 
 ## 覆盖范围
@@ -184,12 +184,12 @@ H25 目前分成两类结构处理：
 | `H25G9TC18CX488` / `G9:T:C:C` | 512Gbit 176L/3DV7 TLC | `external_table_confirmed` |
 | `H25G9TD18CX576` / `G9:T:D:C` | 512Gbit 238L/3DV8 TLC | `external_table_confirmed` |
 
-当前保留但未找到稳定外部 reference 的候选包括 `QF:T:8:M`、`BF:T:8:Z`、`G9:T:B:E`，以及若干仅由本地 fdb/fdfdb 推出的 density-only token，例如 `BF:T:8:A2`、`G9:T:B:18`、`JG:T:8:B1`、`JG:T:8:F1`。这些不会删除，但待确认状态只存在于 DSL metadata，不会作为解析结果输出。
+当前保留但未找到稳定外部 reference 的候选包括 `QF:T:8:M`、`BF:T:8:Z`、`G9:T:B:E`，以及若干仅由本地 fdb/fdfdb 推出的 density-only token，例如 `BF:T:8:A2`、`G9:T:B:18`、`JG:T:8:B1`、`JG:T:8:F1`。这些不会删除，但待确认状态只存在于 iTXTech fdnext DecodePack metadata，不会作为解析结果输出。
 
 ## 已知缺口
 
 - H25T package tail（如 `X321N` / `X535` / `X630`）仍缺原厂 ordering table，目前只保留前段稳定 token。
-- 没有外部 reference 的 H25/H25T 候选不删除，但必须在 DSL metadata 标记为 `local_pending_external_reference` 或进入本文档待确认列表，不能输出到用户可见解析结果。
+- 没有外部 reference 的 H25/H25T 候选不删除，但必须在 iTXTech fdnext DecodePack metadata 标记为 `local_pending_external_reference` 或进入本文档待确认列表，不能输出到用户可见解析结果。
 - `H2` / `HY27` 的 topology、mode、generation 表来自既有规则表，后续应逐步补对应资料出处。
 - `H26`、`HN8`、`H28S` 已被更高优先级 managed NAND 规则拦截，不应在 raw NAND 文档中重复解析。
 - `H9` 已拆到 eMCP / uMCP 文档，不能用 raw NAND 规则兜底解释。

@@ -11,9 +11,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/spectek-raw-token.json`
+- `packages/decodepack/src/rules/packs/spectek-raw-token.json`
 - `vendor.spectek.token.v1`
 - `vendor.spectek.old-numbering.v1`
 

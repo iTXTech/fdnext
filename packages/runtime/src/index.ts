@@ -21,11 +21,9 @@ import {
   type SearchResultItem
 } from "@itxtech/fdnext-core";
 import {
-  compileIdentifierRulesToDecoders,
-  compileRulesToDecoders,
-  defaultDslRules,
-  defaultIdentifierRules
-} from "@itxtech/fdnext-dsl";
+  compileDecodePack,
+  defaultDecodePack
+} from "@itxtech/fdnext-decodepack";
 import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
 
 const externalLinkCategories = new Set<string>(fdnextExternalLinkCategories);
@@ -109,11 +107,12 @@ export interface FdnextRuntime {
 }
 
 function createDefaultEngine(options: FdnextRuntimeOptions): FdnextEngine {
+  const compiledPack = compileDecodePack(defaultDecodePack);
   return createEngine({
     resources: options.resources ?? embeddedResourceBundle,
     fallbackLang: options.fallbackLang,
-    decoders: options.decoders ?? compileRulesToDecoders(defaultDslRules),
-    identifierDecoders: options.identifierDecoders ?? compileIdentifierRulesToDecoders(defaultIdentifierRules),
+    decoders: options.decoders ?? compiledPack.partDecoders,
+    identifierDecoders: options.identifierDecoders ?? compiledPack.identifierDecoders,
     processors: options.processors
   });
 }

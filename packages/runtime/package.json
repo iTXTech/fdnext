@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "@itxtech/fdnext-core": "workspace:*",
-    "@itxtech/fdnext-dsl": "workspace:*",
+    "@itxtech/fdnext-decodepack": "workspace:*",
     "@itxtech/fdnext-resources": "workspace:*"
   },
   "scripts": {

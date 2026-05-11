@@ -15,9 +15,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/longsys-ufs-token.json`
+- `packages/decodepack/src/rules/packs/longsys-ufs-token.json`
 - `vendor.longsys.foresee.ufs.v1`
 
 PN 结构：

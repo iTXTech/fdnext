@@ -11,9 +11,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/biwin-emmc-token.json`
+- `packages/decodepack/src/rules/packs/biwin-emmc-token.json`
 - `vendor.biwin.emmc.v1`
 
 PN 结构：

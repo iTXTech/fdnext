@@ -5,11 +5,13 @@ import dramPnJson from "../../resources/resources/dram-pn.json" with { type: "js
 import mdbJson from "../../resources/resources/mdb.json" with { type: "json" };
 import micronFbgaCodesJson from "../../resources/resources/micron-fbga-codes.json" with { type: "json" };
 import { embeddedResourceBundle } from "../../resources/index";
-import { compileRulesToDecoders, defaultDslRules } from "../src/index";
+import { compileDecodePack, defaultDecodePack } from "../src/index";
+
+const compiledPack = compileDecodePack(defaultDecodePack);
 
 const engine = createEngine({
   resources: embeddedResourceBundle,
-  decoders: compileRulesToDecoders(defaultDslRules)
+  decoders: compiledPack.partDecoders
 });
 
 const redundantStandaloneExtra = [

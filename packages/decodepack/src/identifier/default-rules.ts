@@ -1,4 +1,4 @@
-import type { IdentifierDslRule } from "../types";
+import type { IdentifierDecodeSpec } from "../types";
 
 import micronIntelRules from "./packs/micron-inteldef.json" with { type: "json" };
 import intelRules from "./packs/intel.json" with { type: "json" };
@@ -9,7 +9,7 @@ import sandiskRules from "./packs/sandisk.json" with { type: "json" };
 import ymtcRules from "./packs/ymtc.json" with { type: "json" };
 import spectekRules from "./packs/spectek.json" with { type: "json" };
 
-export const defaultIdentifierRules = [
+export const defaultIdentifierDecodeSpecs = [
   ...micronIntelRules,
   ...intelRules,
   ...samsungRules,
@@ -18,4 +18,4 @@ export const defaultIdentifierRules = [
   ...sandiskRules,
   ...ymtcRules,
   ...spectekRules
-] as IdentifierDslRule[];
+] as IdentifierDecodeSpec[];

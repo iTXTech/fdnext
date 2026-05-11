@@ -18,9 +18,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/micron-raw-token.json`
+- `packages/decodepack/src/rules/packs/micron-raw-token.json`
 - `vendor.micron.token.v1`
 
 PN 结构：

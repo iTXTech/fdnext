@@ -3,7 +3,7 @@
   "extends": "./tsconfig.base.json",
   "references": [
     { "path": "./packages/core" },
-    { "path": "./packages/dsl" },
+    { "path": "./packages/decodepack" },
     { "path": "./packages/resources" },
     { "path": "./packages/runtime" },
     { "path": "./packages/server" },

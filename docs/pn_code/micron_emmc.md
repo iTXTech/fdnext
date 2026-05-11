@@ -15,11 +15,11 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/micron-managed-token.json`
+- `packages/decodepack/src/rules/packs/micron-managed-token.json`
   - `vendor.micron.managed.mtfc.nextgen.v1`
-- `packages/dsl/src/rules/packs/micron-emmc-token.json`
+- `packages/decodepack/src/rules/packs/micron-emmc-token.json`
   - `vendor.micron.emmc.mtfc.legacy.v1`
 
 PN 结构：
@@ -58,4 +58,4 @@ PN 结构：
 ## 注意
 
 新版与旧版 `MTFC` 结构长度不同，规则需先按 token 位宽区分，再判断 family。
-`BC:AQ:TC` / `BC:AQ:DQ` 进入 DSL 的 reference metadata；用户可见输出只暴露 component、controller、package、产品线等 canonical 字段。
+`BC:AQ:TC` / `BC:AQ:DQ` 进入 iTXTech fdnext DecodePack 的 reference metadata；用户可见输出只暴露 component、controller、package、产品线等 canonical 字段。

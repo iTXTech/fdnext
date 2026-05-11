@@ -1,10 +1,10 @@
 [
   {
-    "id": "identifier.nand_flash_id.sndk.v1",
+    "id": "identifier.nand_flash_id.kioxia.v1",
     "idScheme": "nand.flash_id",
     "priority": 390,
-    "match": { "kind": "prefix", "value": "45" },
-    "vendor": "sndk",
+    "match": { "kind": "prefix", "value": "98" },
+    "vendor": "kioxia",
     "definition": {
       "2": {
         "density": {
@@ -25,7 +25,7 @@
         }
       },
       "3": {
-        "die": {
+        "die_count": {
           "dq": [1, 0],
           "def": {
             "0": 1,
@@ -34,7 +34,7 @@
             "3": 8
           }
         },
-        "cellLevel": {
+        "cell_level": {
           "dq": [3, 2],
           "def": {
             "0": 1,
@@ -45,7 +45,7 @@
         }
       },
       "4": {
-        "pageSize": {
+        "page_size": {
           "dq": [1, 0],
           "def": {
             "0": 2,
@@ -54,7 +54,7 @@
             "3": 16
           }
         },
-        "blockSize": {
+        "block_size": {
           "dq": [7, 5, 4],
           "def": {
             "0": 128,
@@ -68,7 +68,7 @@
         }
       },
       "5": {
-        "plane": {
+        "plane_count": {
           "dq": [3, 2],
           "def": {
             "0": 1,
@@ -86,7 +86,7 @@
             "1": "ToggleDDR"
           }
         },
-        "processNode": {
+        "process_node": {
           "dq": [6, 5, 2, 1, 0],
           "def": {
             "16": "A19nm",

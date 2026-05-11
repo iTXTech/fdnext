@@ -1,10 +1,10 @@
-# DSL 规范（JSON）
+# iTXTech fdnext DecodePack 规范（JSON）
 
-本仓库把“厂商料号解码”做成纯数据的 DSL（JSON）。`@itxtech/fdnext-dsl` 负责把规则编译成 `@itxtech/fdnext-core` 可消费的 `PartNumberDecoder`，从而避免“每个厂商写一个 TS 文件”。
+本仓库把“厂商料号解码”做成纯数据的 iTXTech fdnext DecodePack（JSON）。`@itxtech/fdnext-decodepack` 负责把 DecodePack JSON specs 编译成 `@itxtech/fdnext-core` 可消费的 decoder，默认入口是 `defaultDecodePack` + `compileDecodePack(defaultDecodePack)`。
 
-## 1. 规则（Rule）
+## 1. PartDecodeSpec
 
-最基础的规则是“匹配 + 直接赋值”（适合做 vendor/type 前置判断、简单 alias 等）。
+最基础的 PartDecodeSpec 是“匹配 + 直接赋值”（适合做 vendor/type 前置判断、简单 alias 等）。
 
 ```json
 {
@@ -21,7 +21,7 @@
 
 字段说明：
 
-- `id`: 规则唯一标识，建议 `vendor.<vendor>.<kind>.<name>`。
+- `id`: spec 唯一标识，建议 `vendor.<vendor>.<kind>.<name>`。
 - `priority`: 数字越大越优先（默认 0）。引擎会按优先级从高到低尝试解码器。
 - `normalize`: 对输入料号进行预处理（见下）。
 - `match`: 匹配条件（见下）。
@@ -89,7 +89,7 @@
 
 在执行 `steps` 前，依次从 `rest` 开头剥离固定前缀（仅当 `rest.startsWith(prefix)` 时剥离）。
 
-### assign 表达式（DslExpr）
+### assign 表达式（DecodeExpr）
 
 `assign` 的 value 允许：
 
@@ -177,7 +177,7 @@
 
 ## 4. 输出字段与翻译约定
 
-DSL 的 `assign` 应输出 **core 的 native decoder draft**（未翻译前）。公开结果由 `@itxtech/fdnext-core` 的 fdnext result builder 统一生成：
+iTXTech fdnext DecodePack 的 `assign` 应输出 **core 的 native decoder draft**（未翻译前）。公开结果由 `@itxtech/fdnext-core` 的 fdnext result builder 统一生成：
 
 - `device` 承载 vendor、chip kind、product type、PN / identifier / marking 等身份信息；这些身份字段不再复制到 `blocks`。
 - decode 结果提供 `subtitle` 作为列表/详情页的简短摘要，格式由 result builder 根据 chip kind、vendor、容量、cell level、DRAM 组合等字段生成。
@@ -188,16 +188,16 @@ DSL 的 `assign` 应输出 **core 的 native decoder draft**（未翻译前）�
 重要约定：
 
 - `fields.*` 和 `components[].fields.*` 中会进入公开结果的字段应使用 canonical snake_case key（例如 `operation_temperature`、`speed_grade`、`marking_code`、`storage_interface`），不要直接写 “Operation Temperature” 这类展示字符串。
-- PN / identifier DSL 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
-- 新增或重命名 metadata key 时，直接迁移全部 DSL 源规则、语言包和测试。旧 key 应进入 `packages/dsl/test/metadata-audit.test.ts` 的禁止列表，而不是进入兼容层。
-- 外部链接不要从 DSL 直接泄漏到公开结果；平台侧应通过 runtime 的 External Link provider 输出到正式 `links` contract。
+- PN / identifier iTXTech fdnext DecodePack 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
+- 新增或重命名 metadata key 时，直接迁移全部 iTXTech fdnext DecodePack 源规则、语言包和测试。旧 key 应进入 `packages/decodepack/test/metadata-audit.test.ts` 的禁止列表，而不是进入兼容层。
+- 外部链接不要从 iTXTech fdnext DecodePack 直接泄漏到公开结果；平台侧应通过 runtime 的 External Link provider 输出到正式 `links` contract。
 
-## 5. 规则包（packs）组织方式
+## 5. Pack 组织方式
 
-推荐把每个厂商的规则放到单独 pack 文件（JSON 数组）：
+推荐把每个厂商的 DecodePack JSON specs 放到单独 pack 文件（JSON 数组）：
 
-- 目录：`packages/dsl/src/rules/packs`
-- 接入：`packages/dsl/src/rules/default-rules.ts:1`
+- 目录：`packages/decodepack/src/rules/packs`
+- 接入：`packages/decodepack/src/rules/default-rules.ts:1`
 
 源码里用 JSON module 直接导入：
 
@@ -209,19 +209,39 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 ## 6. 如何新增/验证一个厂商解码器
 
-- 新增 pack：`packages/dsl/src/rules/packs/<vendor>-token.json`
-- 在 `default-rules.ts` 中导入并加入 `defaultDslRules`
+- 新增 pack：`packages/decodepack/src/rules/packs/<vendor>-token.json`
+- 在 `default-rules.ts` 中导入并加入 `defaultPartDecodeSpecs`
 - 添加/更新 contract 行为测试：`packages/contract-test/test/contract.test.ts`
-- 验证：`pnpm contract:check`、`pnpm -C packages/dsl test`
+- 验证：`fdnext decodepack check`、`pnpm contract:check`、`pnpm -C packages/decodepack test`
 
-## 7. Identifier DSL（NAND Flash ID 概览）
+## 7. 维护工具
 
-NAND Flash ID 解码通过 typed identifier DSL 表达，规则必须声明 `idScheme: "nand.flash_id"`。输入仍按“字节偏移 + bitfield 规则”描述，并编译为 `IdentifierDecoder`。
+DecodePack 维护工具面向 AI 和人工 review，既可通过 TypeScript API 调用，也可通过 CLI 使用。
 
-### 7.1 规则包位置
+```ts
+import { checkDecodePack, compileDecodePack, defaultDecodePack, explainPartDecode } from "@itxtech/fdnext-decodepack";
 
-- Identifier packs：`packages/dsl/src/identifier/packs/*.json`
-- 接入入口：`packages/dsl/src/identifier/default-rules.ts:1`
+const check = checkDecodePack(defaultDecodePack);
+const compiled = compileDecodePack(defaultDecodePack);
+const explain = explainPartDecode(defaultDecodePack, "BWCA2KZC-64G");
+```
+
+CLI:
+
+```bash
+fdnext decodepack check
+fdnext decodepack explain part BWCA2KZC-64G
+fdnext decodepack explain id 2C64444BA900
+```
+
+## 8. Identifier iTXTech fdnext DecodePack（NAND Flash ID 概览）
+
+NAND Flash ID 解码通过 typed identifier iTXTech fdnext DecodePack 表达，规则必须声明 `idScheme: "nand.flash_id"`。输入仍按“字节偏移 + bitfield 规则”描述，并编译为 `IdentifierDecoder`。
+
+### 8.1 Pack 位置
+
+- Identifier packs：`packages/decodepack/src/identifier/packs/*.json`
+- 接入入口：`packages/decodepack/src/identifier/default-rules.ts:1`
 
 源码里同样用 JSON module 直接导入：
 
@@ -229,7 +249,7 @@ NAND Flash ID 解码通过 typed identifier DSL 表达，规则必须声明 `idS
 import rules from "./packs/xxx.json" with { type: "json" };
 ```
 
-### 7.2 IdentifierDslRule 结构
+### 8.2 IdentifierDecodeSpec 结构
 
 每个 pack 文件是一个 JSON 数组，元素结构如下：
 
@@ -250,35 +270,35 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 字段说明：
 
-- `id`: 规则唯一标识
+- `id`: spec 唯一标识
 - `idScheme`: identifier namespace，目前 NAND Flash ID 使用 `nand.flash_id`
 - `priority`: 优先级（越大越优先）
 - `match`: 匹配 identifier（支持 `prefix` / `regex`）
 - `vendor`: 厂商 key（用于语言包翻译与展示）
-- `definition`: bitfield 规则定义
+- `definition`: bitfield spec 定义
 
-### 7.3 definition（字节偏移 + bitfield）
+### 8.3 definition（字节偏移 + bitfield）
 
 - `definition` 的第一层 key 是 **字节偏移（字符串数字）**，并且是 **1-based**。
   - 例如 `"1"` 表示第 1 个字节（厂商 ID），`"2"` 表示第 2 个字节。
 - 输入 NAND Flash ID 以 12 个 hex 字符（6 字节）为基准；不足会由 core 的内部 NAND Flash ID decoder 在末尾补 `0`。
 - 每个字段由：
-  - `dq`: bit 位列表，按规则定义顺序拼接
+  - `dq`: bit 位列表，按 spec 定义顺序拼接
   - `def`: 从 bitfield 数值（字符串）映射到输出值（number/string/bool）
 - 字段名直接使用 canonical field key（例如 `interface_type`、`timing_mode_async`、`ecc_level`）。
 
-### 7.4 NAND Flash ID 后处理（core 内置）
+### 8.4 NAND Flash ID 后处理（core 内置）
 
-部分 NAND Flash ID 规则包含“解码后再修正”的逻辑，无法用纯 bitfield DSL 表达，因此在 `@itxtech/fdnext-core` 内置了 NAND Flash ID post-process：
+部分 NAND Flash ID 需要“解码后再修正”的逻辑，无法用纯 bitfield iTXTech fdnext DecodePack 表达，因此在 `@itxtech/fdnext-core` 内置了 NAND Flash ID post-process：
 
 - Samsung：当 byte2 == `0xDE`，密度强制为 64Gbit
 - SKHynix：`plane_count = simultaneously_programmed_pages`
 - SKHynix：当 byte6 >= `0x50`（14nm+）清理不适用的 timing/interface/ECC 细节字段
 - Kioxia / WesternDigital：当 `plane_count` 与 `die_count` 都有效时，`plane_count = plane_count / die_count`
 
-### 7.5 如何新增/验证 NAND Flash ID 解码器
+### 8.5 如何新增/验证 NAND Flash ID 解码器
 
-- 新增 pack：`packages/dsl/src/identifier/packs/<vendor>.json`
-- 在 `packages/dsl/src/identifier/default-rules.ts:1` 中导入并加入 `defaultIdentifierRules`
+- 新增 pack：`packages/decodepack/src/identifier/packs/<vendor>.json`
+- 在 `packages/decodepack/src/identifier/default-rules.ts:1` 中导入并加入 `defaultIdentifierDecodeSpecs`
 - 添加/更新 identifier contract 行为测试：`packages/contract-test/test/contract.test.ts`
-- 验证：`pnpm contract:check`、`pnpm -C packages/dsl test`
+- 验证：`fdnext decodepack check`、`pnpm contract:check`、`pnpm -C packages/decodepack test`

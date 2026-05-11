@@ -13,9 +13,9 @@
 - Intel LPDDR3 validation table 确认 `EDF8164A3MA-GD-F` 为 8Gb、4Gb die、DDP、x64；`EDFA164A2MA-GD-F` 为 16Gb、4Gb die、QDP、x64。来源：<https://www.intel.com/content/dam/www/public/us/en/documents/platform-memory/lpddr3-atom-tablet-processor-system-validation-results.pdf>
 - Intel LPDDR3 1600 validation table 再次确认 Elpida `EDFA164A1MA-GD-F` / `EDF8164A1MA-GD-F` 的 DDP/QDP 与 x64 package width。来源：<https://www.intel.cn/content/dam/www/public/us/en/documents/platform-memory/lpddr3-low-power-1600-validation-results.pdf>
 
-## DSL 范围
+## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/dsl/src/rules/packs/elpida-dram-token.json`
+- 规则文件：`packages/decodepack/src/rules/packs/elpida-dram-token.json`
 - 规则 ID：`vendor.elpida.dram.sdr_ddr.component.v1`、`vendor.elpida.dram.ddr2_ddr3.component.v1`、`vendor.elpida.dram.lpddr2_lpddr3.component.v1`、`vendor.elpida.dram.gddr5.component.v1`
 - 当前覆盖：
   - SDR / DDR：`EDS/EDD`

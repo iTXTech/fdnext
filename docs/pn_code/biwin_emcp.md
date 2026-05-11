@@ -11,9 +11,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/biwin-emcp-token.json`
+- `packages/decodepack/src/rules/packs/biwin-emcp-token.json`
 - `vendor.biwin.emcp.v1`
 - `vendor.biwin.umcp.v1`
 

@@ -15,9 +15,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/sandisk-issd-token.json`
+- `packages/decodepack/src/rules/packs/sandisk-issd-token.json`
 - `vendor.sndk.issd.v1`
 
 PN 结构：

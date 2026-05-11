@@ -1,10 +1,18 @@
 import assert from "node:assert/strict";
-import { existsSync, readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createEngine, fdnextFieldRegistry, type PartDecodeResult } from "../../core/src/index";
 import { embeddedResourceBundle } from "../../resources/index";
-import { compileIdentifierRulesToDecoders, compileRulesToDecoders, defaultDslRules, defaultIdentifierRules } from "../src/index";
+import {
+  checkDecodePack,
+  compileDecodePack,
+  defaultDecodePack,
+  defaultIdentifierDecodeSpecs,
+  defaultPartDecodeSpecs,
+  explainIdentifierDecode,
+  explainPartDecode
+} from "../src/index";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
 
@@ -61,11 +69,11 @@ function walkRules(value: unknown, path: string, findings: string[], inCanonical
   }
 }
 
-function assertDslRulesUseCanonicalKeys(): void {
+function assertPartDecodeSpecsUseCanonicalKeys(): void {
   const findings: string[] = [];
-  walkRules(defaultDslRules, "defaultDslRules", findings);
-  walkRules(defaultIdentifierRules, "defaultIdentifierRules", findings);
-  assert.deepEqual(findings, [], "DSL rules should not output legacy camelCase metadata keys");
+  walkRules(defaultPartDecodeSpecs, "defaultPartDecodeSpecs", findings);
+  walkRules(defaultIdentifierDecodeSpecs, "defaultIdentifierDecodeSpecs", findings);
+  assert.deepEqual(findings, [], "iTXTech fdnext DecodePack rules should not output legacy camelCase metadata keys");
 }
 
 function walkEmitFields(value: unknown, path: string, findings: string[]): void {
@@ -87,7 +95,7 @@ function walkEmitFields(value: unknown, path: string, findings: string[]): void 
 
 function assertNativeDraftUsesCanonicalFields(): void {
   const findings: string[] = [];
-  walkEmitFields(defaultDslRules, "defaultDslRules", findings);
+  walkEmitFields(defaultPartDecodeSpecs, "defaultPartDecodeSpecs", findings);
   assert.deepEqual(findings, [], "native draft fields should use canonical field registry keys");
 }
 
@@ -114,8 +122,8 @@ function collectPotentialSamples(value: unknown, samples: Set<string> = new Set(
   return samples;
 }
 
-function assertRuntimeDslExtraFieldsAreRegistered(): void {
-  const decoders = compileRulesToDecoders(defaultDslRules);
+function assertRuntimeDecodePackFieldsAreRegistered(): void {
+  const decoders = compileDecodePack(defaultDecodePack).partDecoders;
   const samples = collectPotentialSamples(embeddedResourceBundle.partIndex);
   const missing = new Map<string, number>();
 
@@ -137,7 +145,7 @@ function assertRuntimeDslExtraFieldsAreRegistered(): void {
     }
   }
 
-  assert.deepEqual([...missing.entries()].sort(), [], "runtime DSL extra fields should be registered public fields");
+  assert.deepEqual([...missing.entries()].sort(), [], "runtime iTXTech fdnext DecodePack extra fields should be registered public fields");
 }
 
 function collectIdentifierExtKeys(value: unknown, findings: Set<string> = new Set()): Set<string> {
@@ -158,7 +166,7 @@ function collectIdentifierExtKeys(value: unknown, findings: Set<string> = new Se
 }
 
 function assertIdentifierExtFieldsTargetPublicKeys(): void {
-  assert.deepEqual([...collectIdentifierExtKeys(defaultIdentifierRules)], [], "identifier DSL should output canonical fields without ext namespace");
+  assert.deepEqual([...collectIdentifierExtKeys(defaultIdentifierDecodeSpecs)], [], "identifier iTXTech fdnext DecodePack should output canonical fields without ext namespace");
 }
 
 function collectDecoderOutputKeys(value: unknown, path: string, findings: string[]): void {
@@ -204,12 +212,12 @@ function collectDecoderOutputKeys(value: unknown, path: string, findings: string
 
 function assertDecoderOutputsUseNativeDraft(): void {
   const findings: string[] = [];
-  collectDecoderOutputKeys(defaultDslRules, "defaultDslRules", findings);
+  collectDecoderOutputKeys(defaultPartDecodeSpecs, "defaultPartDecodeSpecs", findings);
   assert.deepEqual(findings, [], "part decoder outputs should use native draft device/fields/identifiers/controllers/components/meta paths only");
 }
 
-function assertRepresentativeDslV2Metadata(): void {
-  const byId = new Map(defaultDslRules.map((rule) => [rule.id, rule] as const));
+function assertRepresentativeDecodePackMetadata(): void {
+  const byId = new Map(defaultPartDecodeSpecs.map((rule) => [rule.id, rule] as const));
   for (const [id, expected] of [
     ["vendor.micron.dram.component.v1", { chipKind: "dram", fieldProfile: "dram" }],
     ["vendor.kingston.emmc.v1", { chipKind: "managed_nand", productType: "emmc", fieldProfile: "managed_nand" }],
@@ -298,7 +306,7 @@ function assertReadmeIsOnlyIndex(): void {
   const readme = readFileSync(repoPath("docs/pn_code/README.md"), "utf8");
   const forbidden = [
     [/https?:\/\//, "external URLs"],
-    [/packages\/dsl/, "source paths"],
+    [/packages\/decodepack/, "source paths"],
     [/vendor\./, "rule ids"],
     [/^## .*?(SanDisk|KIOXIA|Micron|Samsung|SK hynix|Kingston|Longsys|BIWIN)/m, "vendor sections"],
     [/(外部资料|规则状态|测试样例|已采集编码|来源：)/, "vendor detail sections"],
@@ -312,12 +320,12 @@ function assertReadmeIsOnlyIndex(): void {
 
 const engine = createEngine({
   resources: embeddedResourceBundle,
-  decoders: compileRulesToDecoders(defaultDslRules),
-  identifierDecoders: compileIdentifierRulesToDecoders(defaultIdentifierRules)
+  decoders: compileDecodePack(defaultDecodePack).partDecoders,
+  identifierDecoders: compileDecodePack(defaultDecodePack).identifierDecoders
 });
 
 function managedNandSamples(): string[] {
-  const testSource = readFileSync(repoPath("packages/dsl/test/managed-nand.test.ts"), "utf8");
+  const testSource = readFileSync(repoPath("packages/decodepack/test/managed-nand.test.ts"), "utf8");
   return [...testSource.matchAll(/assertPart\("([^"]+)"/g)]
     .map((match) => match[1])
     .filter((sample): sample is string => Boolean(sample));
@@ -426,7 +434,7 @@ function assertManagedNandOutputIsCanonical(): void {
   assert.deepEqual(findings, [], "managed NAND public output should use canonical, non-duplicate metadata");
 }
 
-function assertDslV2CompositeComponents(): void {
+function assertDecodePackCompositeComponents(): void {
   const info = engine.decodePart({ query: "BWCA2KZC-64G", lang: "eng" });
   const components = info.relations.filter((relation) => relation.kind === "component");
   const storageComponent = components.find((relation) => relation.target.role === "storage");
@@ -446,15 +454,90 @@ function assertDslV2CompositeComponents(): void {
   assert.equal(JSON.stringify(info).includes("__fdnext"), false, "legacy FD draft marker should not leak into public results");
 }
 
-assertDslRulesUseCanonicalKeys();
+function assertDefaultDecodePackMaintainsItself(): void {
+  const result = checkDecodePack(defaultDecodePack);
+  assert.deepEqual(result.findings, [], "default iTXTech fdnext DecodePack should pass maintenance checks");
+  assert.equal(result.ok, true);
+}
+
+function assertDecodePackExplainTools(): void {
+  const partExplain = explainPartDecode(defaultDecodePack, "BWCA2KZC-64G");
+  assert.equal(partExplain.status, "matched");
+  assert.ok(partExplain.specId, "part explain should include matched spec id");
+  assert.ok(partExplain.steps.length > 0, "part explain should include a step trace");
+  const components = (partExplain.draft as { components?: Array<{ role?: string; fields?: Record<string, unknown> }> } | null)?.components ?? [];
+  const storage = components.find((component) => component.role === "storage");
+  const dram = components.find((component) => component.role === "dram");
+  assert.equal(storage?.fields?.storage_density, "64GB eMMC");
+  assert.equal(storage?.fields?.storage_interface, "eMMC 5.1");
+  assert.equal(dram?.fields?.dram_density, "32Gb");
+  assert.equal(dram?.fields?.dram_type, "LPDDR4X");
+
+  const rawNand = engine.decodePart({ query: "AFND1208S1", lang: "eng" });
+  assert.equal(rawNand.device?.chipKind, "raw_nand", "FDB-only raw NAND should preserve public chipKind");
+
+  const idExplain = explainIdentifierDecode(defaultDecodePack, "2C64444BA900");
+  assert.equal(idExplain.status, "matched");
+  assert.ok(idExplain.specId, "identifier explain should include matched spec id");
+  assert.ok(idExplain.bitfields.length > 0, "identifier explain should include bitfield trace");
+  assert.ok(Object.keys(idExplain.draft?.fields ?? {}).length > 0, "identifier explain should expose canonical fields");
+}
+
+function walkTextFiles(path: string, files: string[] = []): string[] {
+  const ignored = new Set([".git", "dist", "node_modules", "pnpm-lock.yaml"]);
+  const stat = statSync(path);
+  if (stat.isDirectory()) {
+    for (const entry of readdirSync(path)) {
+      if (ignored.has(entry)) {
+        continue;
+      }
+      walkTextFiles(join(path, entry), files);
+    }
+    return files;
+  }
+  if (stat.isFile() && /\.(?:c?js|m?ts|json|md|toml|yaml|yml|txt|html|css|Dockerfile)$/.test(path)) {
+    files.push(path);
+  }
+  return files;
+}
+
+function assertRemovedNamesStayRemoved(): void {
+  const removedConcept = String.fromCharCode(100, 115, 108);
+  const removedTypeStem = `${removedConcept[0]?.toUpperCase()}${removedConcept.slice(1)}`;
+  const forbidden = [
+    `@itxtech/fdnext-${removedConcept}`,
+    `packages/${removedConcept}`,
+    `fdnext-${removedConcept}`,
+    `default${removedTypeStem}Rules`,
+    "compile" + "RulesToDecoders",
+    `Identifier${removedTypeStem}Rule`,
+    `${removedTypeStem}Rule`
+  ];
+  const findings: string[] = [];
+  for (const file of walkTextFiles(repoRoot)) {
+    const relative = file.slice(repoRoot.length).replace(/^\/+/, "");
+    const source = readFileSync(file, "utf8");
+    for (const token of forbidden) {
+      if (source.includes(token)) {
+        findings.push(`${relative}: ${token}`);
+      }
+    }
+  }
+  assert.deepEqual(findings, [], "removed DecodePack predecessor names should not remain in repository text");
+}
+
+assertPartDecodeSpecsUseCanonicalKeys();
 assertNativeDraftUsesCanonicalFields();
-assertRuntimeDslExtraFieldsAreRegistered();
+assertRuntimeDecodePackFieldsAreRegistered();
 assertIdentifierExtFieldsTargetPublicKeys();
 assertDecoderOutputsUseNativeDraft();
-assertRepresentativeDslV2Metadata();
+assertRepresentativeDecodePackMetadata();
 assertRuntimeDoesNotKeepMetadataAliases();
 assertLangPacksAreConsistent();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertManagedNandOutputIsCanonical();
-assertDslV2CompositeComponents();
+assertDecodePackCompositeComponents();
+assertDefaultDecodePackMaintainsItself();
+assertDecodePackExplainTools();
+assertRemovedNamesStayRemoved();

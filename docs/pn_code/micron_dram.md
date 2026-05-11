@@ -47,9 +47,9 @@
 - Preduo 公开 `Micron Part Number List`，列出 FBGA code 与 PN 文本；本项目只将其作为一次性 5 位 code 提取来源，不信任页面中的 PN 对应关系。PN 映射必须由 Micron 官方 FBGA decoder API 重新生成。
   <https://www.preduo.com/part-number-list/micron-part-number-list>
 
-## DSL 范围
+## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/dsl/src/rules/packs/micron-dram-token.json`
+- 规则文件：`packages/decodepack/src/rules/packs/micron-dram-token.json`
 - 规则 ID：`vendor.micron.dram.component.v1`
 - 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62/68`、Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62/68`，以及 Micron legacy Elpida namespace `ED/EE + 40/41/42/44/46/47/48/49/51/52/53/58/60/61/62/68`。
 - 不使用完整 PN 白名单；只按 Micron DRAM part-numbering token 解析字段。
@@ -58,8 +58,8 @@
 
 - `packages/resources/resources/dram-pn.json` 收录已知 Micron / Crucial DRAM PN，用于 `searchParts()` PN 补全，不是解码依据。
 - `pnpm fdbgen:crawl-mdb-from-fbga` 默认按 `C9/D8/D9/Z8/Z9` + 字母网格生成 Micron DRAM FBGA 候选，通过 Micron 官方 FBGA decoder API 写入统一 `packages/resources/resources/mdb.json`。`packages/resources/resources/micron-fbga-codes.json` 仅作为非默认网格的补充 code 输入，并排除 `crawl-mdb` 已覆盖的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`。
-- `packages/resources/resources/mdb.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchParts()` code 查询，以及 `decodePart({ query: "C9BJZ" })` 这类 code 输入时先反查 PN 再走 DSL。
-- 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA code 反查统一来自 `mdb.json` 的 code -> PN 映射。真正输出的 `density`、`package`、`dram_type`、`dram_die_stack` 等字段仍由 DSL token 解析。
+- `packages/resources/resources/mdb.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchParts()` code 查询，以及 `decodePart({ query: "C9BJZ" })` 这类 code 输入时先反查 PN 再走 iTXTech fdnext DecodePack。
+- 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA code 反查统一来自 `mdb.json` 的 code -> PN 映射。真正输出的 `density`、`package`、`dram_type`、`dram_die_stack` 等字段仍由 iTXTech fdnext DecodePack token 解析。
 
 ## PN 结构
 

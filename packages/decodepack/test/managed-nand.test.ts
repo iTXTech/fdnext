@@ -3,11 +3,13 @@ import type { FieldValue, PartDecodeResult } from "../../core/src/index";
 import { createEngine } from "../../core/src/index";
 import { embeddedResourceBundle } from "../../resources/index";
 import managedNandPnJson from "../../resources/resources/managed-nand-pn.json" with { type: "json" };
-import { compileRulesToDecoders, defaultDslRules } from "../src/index";
+import { compileDecodePack, defaultDecodePack } from "../src/index";
+
+const compiledPack = compileDecodePack(defaultDecodePack);
 
 const engine = createEngine({
   resources: embeddedResourceBundle,
-  decoders: compileRulesToDecoders(defaultDslRules)
+  decoders: compiledPack.partDecoders
 });
 
 interface TestPartInfo {

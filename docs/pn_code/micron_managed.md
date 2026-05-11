@@ -15,9 +15,9 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/micron-managed-token.json`
+- `packages/decodepack/src/rules/packs/micron-managed-token.json`
 - `vendor.micron.managed.mtfc.nextgen.v1`
 
 PN 结构：

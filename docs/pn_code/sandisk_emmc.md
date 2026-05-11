@@ -17,11 +17,11 @@
 
 ## 规则状态
 
-DSL:
+iTXTech fdnext DecodePack:
 
-- `packages/dsl/src/rules/packs/sandisk-inand-emmc-token.json`
+- `packages/decodepack/src/rules/packs/sandisk-inand-emmc-token.json`
 - `vendor.sndk.inand.emmc.v1`
-- `packages/dsl/src/rules/packs/sandisk-inand-token.json`
+- `packages/decodepack/src/rules/packs/sandisk-inand-token.json`
 - `vendor.sndk.inand.legacy-emmc.v1`
 
 PN 结构：
