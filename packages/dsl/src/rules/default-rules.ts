@@ -1,6 +1,7 @@
 import type { DslRule } from "../types";
 import micronManagedTokenRules from "./packs/micron-managed-token.json" with { type: "json" };
 import micronEmmcTokenRules from "./packs/micron-emmc-token.json" with { type: "json" };
+import micronEmcpTokenRules from "./packs/micron-emcp-token.json" with { type: "json" };
 import micronDramTokenRules from "./packs/micron-dram-token.json" with { type: "json" };
 import micronRawTokenRules from "./packs/micron-raw-token.json" with { type: "json" };
 import intelRawTokenRules from "./packs/intel-raw-token.json" with { type: "json" };
@@ -56,6 +57,7 @@ import vendorPrefixRules from "./packs/vendor-prefix.json" with { type: "json" }
 export const defaultDslRules = [
   ...micronManagedTokenRules,
   ...micronEmmcTokenRules,
+  ...micronEmcpTokenRules,
   ...micronDramTokenRules,
   ...micronRawTokenRules,
   ...intelRawTokenRules,

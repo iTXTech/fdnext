@@ -620,6 +620,167 @@ assertPart("NC103", {
   ]
 });
 
+assertPart("MT29C4G96MAZAPCJA-5 IT", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 4096,
+  package: "137-TFBGA 10.5x13",
+  extra: {
+    "Product Family": "Micron NAND + LPDRAM MCP",
+    "Product Mode": "MCP NAND + LPDRAM",
+    "Storage Density": "4Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "4Gb",
+    "DRAM Type": "Mobile LPDRAM",
+    "DRAM Width": "x32",
+    "Config Code": "AZAP",
+    "Package Code": "CJA",
+    "Speed Grade": "200MHz"
+  },
+  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+});
+
+assertPart("MT29C2G24MAKLAJG-6 IT", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 2048,
+  package: "168-ball VFBGA",
+  extra: {
+    "Product Family": "Micron NAND + LPDRAM MCP",
+    "Product Mode": "MCP NAND + LPDRAM",
+    "Storage Density": "2Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "1Gb",
+    "DRAM Type": "Mobile LPDRAM",
+    "DRAM Width": "x32",
+    "Config Code": "AKLA",
+    "Package Code": "JG",
+    "Speed Grade": "166MHz"
+  },
+  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+});
+
+assertPart("MT29C1G12MAADVAKC-5 IT", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 1024,
+  package: "107-TFBGA",
+  extra: {
+    "Product Family": "Micron NAND + LPDRAM MCP",
+    "Product Mode": "MCP NAND + LPDRAM",
+    "Storage Density": "1Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "512Mb",
+    "DRAM Type": "Mobile LPDRAM",
+    "DRAM Width": "x16",
+    "Config Code": "AADV",
+    "Package Code": "AKC",
+    "Speed Grade": "200MHz"
+  },
+  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+});
+
+assertPart("MT29C1G12MAADAEAKC-5 IT", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 1024,
+  package: "107-TFBGA",
+  extra: {
+    "Product Family": "Micron NAND + LPDRAM MCP",
+    "Product Mode": "MCP NAND + LPDRAM",
+    "Storage Density": "1Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "1Gb",
+    "DRAM Type": "Mobile LPDRAM",
+    "DRAM Width": "x16",
+    "Config Code": "AADAE",
+    "Package Code": "AKC",
+    "Speed Grade": "200MHz"
+  },
+  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+});
+
+assertPart("MT29C2G48MAKLCJI-6 IT", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 2048,
+  package: "168-ball VFBGA",
+  extra: {
+    "Product Family": "Micron NAND + LPDRAM MCP",
+    "Product Mode": "MCP NAND + LPDRAM",
+    "Storage Density": "2Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "1Gb",
+    "DRAM Type": "Mobile LPDRAM",
+    "DRAM Width": "x32",
+    "Config Code": "AKLC",
+    "Package Code": "JI",
+    "Speed Grade": "166MHz"
+  },
+  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+});
+
+assertPart("MT29C4G48MAZBBAKS-48 IT", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 4096,
+  package: "137-VFBGA 13x10.5",
+  extra: {
+    "Product Family": "Micron NAND + LPDRAM MCP",
+    "Product Mode": "MCP NAND + LPDRAM",
+    "Storage Density": "4Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "2Gb",
+    "DRAM Type": "Mobile LPDRAM",
+    "DRAM Width": "x16",
+    "Config Code": "AZBB",
+    "Package Code": "AKS",
+    "Speed Grade": "208MHz"
+  },
+  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+});
+
+assertPart("MT29C4G48MAYBBAHK-48 IT", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 4096,
+  package: "137-VFBGA 13x10.5",
+  extra: {
+    "Product Family": "Micron NAND + LPDRAM MCP",
+    "Product Mode": "MCP NAND + LPDRAM",
+    "Storage Density": "4Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "2Gb",
+    "DRAM Type": "Mobile LPDRAM",
+    "DRAM Width": "x32",
+    "Config Code": "AYBB",
+    "Package Code": "AHK",
+    "Speed Grade": "208MHz"
+  },
+  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+});
+
+assertPart("MT29RZ4C4DZZMGMF-18W.80C", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 4096,
+  package: "168-VFBGA 12x12",
+  extra: {
+    "Product Family": "Micron NAND + LPDDR2 MCP",
+    "Product Mode": "MCP NAND + LPDDR2",
+    "Storage Density": "4Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "4Gb",
+    "DRAM Type": "LPDDR2",
+    "DRAM Width": "x32",
+    "Config Code": "ZZ",
+    "Package Code": "MG",
+    "DRAM Speed": "LPDDR2-533",
+    "Speed Grade": "533MHz"
+  },
+  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+});
+
 assertPart("H26M78208CMRX", {
   vendor: "skhynix",
   type: "eMMC",

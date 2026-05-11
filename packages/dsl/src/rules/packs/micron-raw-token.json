@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(MT|29)"
+      "value": "^(?:MT)?29[EF]"
     },
     "tokenDecoder": {
       "stripPrefixes": [

@@ -2,7 +2,7 @@
 
 采集日期：2026-05-08
 
-本文档记录 Micron `MTFC` managed NAND 共享结构和未知组合 fallback。eMMC 与 UFS 细节分别见 [micron_emmc.md](micron_emmc.md) 和 [micron_ufs.md](micron_ufs.md)。
+本文档记录 Micron `MTFC` managed NAND 共享结构和未知组合 fallback。eMMC、UFS 与老式 MCP / eMCP 细节分别见 [micron_emmc.md](micron_emmc.md)、[micron_ufs.md](micron_ufs.md) 和 [micron_emcp.md](micron_emcp.md)。
 
 ## 外部资料
 
@@ -51,3 +51,5 @@ PN 结构：
 ## 注意
 
 `MTFC` 同时覆盖 e.MMC 与 UFS，不能只靠前缀判断类型。实现中先按结构切 token，再用 `component:controller` 和 component 表推导 `type`；未知组合保留在 eMMC-compatible managed NAND fallback 中，并继续输出 component/controller/package code 与容量。
+
+`MT29C...` / `MT29RZ...` 是老式 NAND + LPDRAM / LPDDR2 MCP，不属于 `MTFC`，也不能交给 raw NAND parser；raw NAND 边界收窄为 `MT29E...` / `MT29F...`。

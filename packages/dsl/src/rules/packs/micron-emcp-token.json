@@ -1,0 +1,623 @@
+[
+  {
+    "id": "vendor.micron.emcp.mt29c.v1",
+    "priority": 1012,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MT29C(?:1G|2G|4G)(?:12M|24M|48M|96M)[0-9A-Z]{6,8}(?:-[0-9A-Z]+)?(?:IT|WT|CT|AIT|AAT)?(?:ES|MS|QS)?(?:TR)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT29C"
+      ],
+      "tables": {
+        "reference": {
+          "micron_mt29c_168ball_pdf": {
+            "status": "external_confirmed",
+            "source": "Micron 168-Ball NAND Flash and LPDRAM PoP MCP datasheet mirror"
+          },
+          "micron_mt29c_137tfbga_distributor": {
+            "status": "external_table_confirmed",
+            "source": "DigiKey MT29C4G96MAZAPCJA-5 IT listing"
+          },
+          "micron_mt29c_legacy_distributor_rows": {
+            "status": "external_table_confirmed",
+            "source": "Public distributor rows for MT29C1G12, MT29C2G48, and MT29C4G48 legacy MCP variants"
+          }
+        },
+        "storageDensityCode": {
+          "1G": "1G",
+          "2G": "2G",
+          "4G": "4G"
+        },
+        "storageDensity": {
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096
+        },
+        "storageDensityObj": {
+          "1G": {
+            "storage_density": "1Gb NAND"
+          },
+          "2G": {
+            "storage_density": "2Gb NAND"
+          },
+          "4G": {
+            "storage_density": "4Gb NAND"
+          }
+        },
+        "dramDensityCode": {
+          "12M": "12M",
+          "24M": "24M",
+          "48M": "48M",
+          "96M": "96M"
+        },
+        "dramObj": {
+          "1G:12M:AACAE": {
+            "dram_density": "512Mb",
+            "dram_width": "x32"
+          },
+          "1G:12M:AACAF": {
+            "dram_density": "512Mb",
+            "dram_width": "x32"
+          },
+          "1G:12M:AADV": {
+            "dram_density": "512Mb",
+            "dram_width": "x16"
+          },
+          "1G:12M:AAJAF": {
+            "dram_density": "512Mb",
+            "dram_width": "x32"
+          },
+          "1G:12M:AAJV": {
+            "dram_density": "512Mb",
+            "dram_width": "x32"
+          },
+          "1G:12M:AADAE": {
+            "dram_density": "1Gb",
+            "dram_width": "x16"
+          },
+          "1G:12M:AADAF": {
+            "dram_density": "1Gb",
+            "dram_width": "x32"
+          },
+          "2G:24M:AKLA": {
+            "dram_density": "1Gb",
+            "dram_width": "x32"
+          },
+          "2G:48M:AKLC": {
+            "dram_density": "1Gb",
+            "dram_width": "x32"
+          },
+          "4G:48M:AZAM": {
+            "dram_density": "2Gb",
+            "dram_width": "x16"
+          },
+          "4G:48M:AZAP": {
+            "dram_density": "2Gb",
+            "dram_width": "x16"
+          },
+          "4G:48M:AZBB": {
+            "dram_density": "2Gb",
+            "dram_width": "x16"
+          },
+          "4G:48M:AYBB": {
+            "dram_density": "2Gb",
+            "dram_width": "x32"
+          },
+          "4G:96M:AZAP": {
+            "dram_density": "4Gb",
+            "dram_width": "x32"
+          }
+        },
+        "package": {
+          "CJA": "137-TFBGA 10.5x13",
+          "CMJ": "137-TFBGA",
+          "AKC": "107-TFBGA",
+          "AKD": "137-TFBGA 10.5x13",
+          "AKS": "137-VFBGA 13x10.5",
+          "AHK": "137-VFBGA 13x10.5",
+          "AMD": "130-VFBGA 8x9",
+          "AMK": "130-VFBGA 8x9",
+          "AMR": "130-VFBGA 8x9",
+          "JG": "168-ball VFBGA",
+          "JI": "168-ball VFBGA",
+          "HP": "168-ball VFBGA",
+          "JA": "168-ball VFBGA",
+          "JC": "168-ball VFBGA",
+          "AKQ": "137-TFBGA"
+        },
+        "speedObj": {
+          "5": {
+            "speed_grade": "200MHz"
+          },
+          "6": {
+            "speed_grade": "166MHz"
+          },
+          "48": {
+            "speed_grade": "208MHz"
+          }
+        },
+        "temperatureObj": {
+          "CT": {
+            "operation_temperature": "Commercial (0°C ~ 70°C)"
+          },
+          "WT": {
+            "operation_temperature": "Standard (-25°C ~ 85°C)"
+          },
+          "IT": {
+            "operation_temperature": "Industrial (-40°C ~ 85°C)"
+          },
+          "AIT": {
+            "operation_temperature": "Industrial (-40°C ~ 85°C + HR certified test flow)"
+          },
+          "AAT": {
+            "operation_temperature": "Industrial (-40°C ~ 105°C + HR certified test flow)"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Sample"
+          },
+          "MS": {
+            "prod_status": "Mechanical Sample"
+          },
+          "QS": {
+            "prod_status": "Qualification Sample"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "storageDensityCode",
+          "to": "storageCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "storageCode",
+          "table": "storageDensity",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "storageCode",
+          "table": "storageDensityObj",
+          "to": "storageDensityObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "dramDensityCode",
+          "to": "dramCode",
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]*?)(CJA|CMJ|AKC|AKD|AKS|AHK|AMD|AMK|AMR|AKQ|JG|JI|HP|JA|JC)(?=-|$)",
+          "groups": {
+            "configCode": 1,
+            "packageCode": 2
+          }
+        },
+        {
+          "op": "tpl",
+          "template": "{{storageCode}}:{{dramCode}}:{{configCode}}",
+          "to": "dramKey"
+        },
+        {
+          "op": "map",
+          "from": "dramKey",
+          "table": "dramObj",
+          "to": "dramObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9]+",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "E"
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Micron NAND + LPDRAM MCP",
+            "product_mode": "MCP NAND + LPDRAM",
+            "storage_interface": "Parallel NAND",
+            "dram_type": "Mobile LPDRAM",
+            "voltage": "1.7V ~ 1.95V",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "storageDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.storage_density": {
+          "$path": "storageDensityObj.storage_density"
+        },
+        "fields.storage_interface": "Parallel NAND",
+        "fields.dram_density": {
+          "$path": "dramObj.dram_density"
+        },
+        "fields.dram_type": "Mobile LPDRAM",
+        "components": [
+          {
+            "role": "storage",
+            "device": {
+              "domain": "memory",
+              "chipKind": "raw_nand"
+            },
+            "fields": {
+              "storage_density": {
+                "$path": "storageDensityObj.storage_density"
+              },
+              "storage_interface": "Parallel NAND"
+            }
+          },
+          {
+            "role": "dram",
+            "device": {
+              "domain": "memory",
+              "chipKind": "dram"
+            },
+            "fields": {
+              "dram_density": {
+                "$path": "dramObj.dram_density"
+              },
+              "dram_type": "Mobile LPDRAM",
+              "dram_width": {
+                "$path": "dramObj.dram_width"
+              }
+            }
+          }
+        ],
+        "meta.ruleId": "vendor.micron.emcp.mt29c.v1",
+        "meta.fieldProfile": "managed_nand"
+      }
+    }
+  },
+  {
+    "id": "vendor.micron.emcp.mt29rz.v1",
+    "priority": 1012,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MT29RZ[0-9A-Z]{10}(?:-[0-9A-Z]+)?(?:\\.[0-9A-Z]+)?(?:TR)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT29RZ"
+      ],
+      "tables": {
+        "reference": {
+          "micron_mt29rz_obsolete_part_detail": {
+            "status": "external_confirmed",
+            "source": "Micron obsolete NAND MCP catalog part detail"
+          },
+          "micron_mt29rz_distributor_specs": {
+            "status": "external_table_confirmed",
+            "source": "MT29RZ4C4DZZMGMF distributor listings"
+          }
+        },
+        "storageDensity": {
+          "4C": 4096
+        },
+        "storageDensityObj": {
+          "4C": {
+            "storage_density": "4Gb NAND"
+          }
+        },
+        "dramDensityObj": {
+          "4D": {
+            "dram_density": "4Gb",
+            "dram_type": "LPDDR2",
+            "dram_width": "x32"
+          }
+        },
+        "package": {
+          "MG": "168-VFBGA 12x12"
+        },
+        "speedObj": {
+          "18W": {
+            "dram_speed": "LPDDR2-533",
+            "speed_grade": "533MHz"
+          }
+        },
+        "temperatureObj": {
+          "80C": {
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "80U": {
+            "operation_temperature": "-25°C ~ 85°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "storageCode"
+        },
+        {
+          "op": "map",
+          "from": "storageCode",
+          "table": "storageDensity",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "storageCode",
+          "table": "storageDensityObj",
+          "to": "storageDensityObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "dramCode"
+        },
+        {
+          "op": "map",
+          "from": "dramCode",
+          "table": "dramDensityObj",
+          "to": "dramDensityObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "configCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "revisionCode"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9]+W?",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "."
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Micron NAND + LPDDR2 MCP",
+            "product_mode": "MCP NAND + LPDDR2",
+            "storage_interface": "Parallel NAND",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "storageDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.storage_density": {
+          "$path": "storageDensityObj.storage_density"
+        },
+        "fields.storage_interface": "Parallel NAND",
+        "fields.dram_density": {
+          "$path": "dramDensityObj.dram_density"
+        },
+        "fields.dram_type": {
+          "$path": "dramDensityObj.dram_type"
+        },
+        "components": [
+          {
+            "role": "storage",
+            "device": {
+              "domain": "memory",
+              "chipKind": "raw_nand"
+            },
+            "fields": {
+              "storage_density": {
+                "$path": "storageDensityObj.storage_density"
+              },
+              "storage_interface": "Parallel NAND"
+            }
+          },
+          {
+            "role": "dram",
+            "device": {
+              "domain": "memory",
+              "chipKind": "dram"
+            },
+            "fields": {
+              "dram_density": {
+                "$path": "dramDensityObj.dram_density"
+              },
+              "dram_type": {
+                "$path": "dramDensityObj.dram_type"
+              },
+              "dram_width": {
+                "$path": "dramDensityObj.dram_width"
+              }
+            }
+          }
+        ],
+        "meta.ruleId": "vendor.micron.emcp.mt29rz.v1",
+        "meta.fieldProfile": "managed_nand"
+      }
+    }
+  }
+]
