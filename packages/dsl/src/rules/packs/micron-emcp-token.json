@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^MT29C(?:1G|2G|4G)(?:12M|24M|48M|96M)[0-9A-Z]{6,8}(?:-[0-9A-Z]+)?(?:IT|WT|CT|AIT|AAT)?(?:ES|MS|QS)?(?:TR)?$"
+      "value": "^MT29C(?:DM|EM|FM|[1248]G|[ABCD]G)(?:56M|12M|40M|24M|52M|48M|72M|96M|92M)[0-9A-Z]{4,8}(?:-[0-9A-Z]+)?(?:L|E)?(?:IT|WT|CT|AIT|AAT|W)?(?:ES|MS|QS|DC)?(?:TR)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -36,19 +36,48 @@
           "micron_mt29c_legacy_distributor_rows": {
             "status": "external_table_confirmed",
             "source": "Public distributor rows for MT29C1G12, MT29C2G48, and MT29C4G48 legacy MCP variants"
+          },
+          "micron_mt29c_programmer_pn_decode": {
+            "status": "external_table_confirmed",
+            "source": "Elnec MT29C8G48MAPLDJA device page with MT29C PN description table"
           }
         },
         "storageDensityCode": {
+          "DM": "DM",
+          "EM": "EM",
+          "FM": "FM",
           "1G": "1G",
           "2G": "2G",
-          "4G": "4G"
+          "4G": "4G",
+          "8G": "8G",
+          "AG": "AG",
+          "BG": "BG",
+          "CG": "CG",
+          "DG": "DG"
         },
         "storageDensity": {
+          "DM": 128,
+          "EM": 256,
+          "FM": 512,
           "1G": 1024,
           "2G": 2048,
-          "4G": 4096
+          "4G": 4096,
+          "8G": 8192,
+          "AG": 16384,
+          "BG": 32768,
+          "CG": 65536,
+          "DG": 131072
         },
         "storageDensityObj": {
+          "DM": {
+            "storage_density": "128Mb NAND"
+          },
+          "EM": {
+            "storage_density": "256Mb NAND"
+          },
+          "FM": {
+            "storage_density": "512Mb NAND"
+          },
           "1G": {
             "storage_density": "1Gb NAND"
           },
@@ -57,15 +86,64 @@
           },
           "4G": {
             "storage_density": "4Gb NAND"
+          },
+          "8G": {
+            "storage_density": "8Gb NAND"
+          },
+          "AG": {
+            "storage_density": "16Gb NAND"
+          },
+          "BG": {
+            "storage_density": "32Gb NAND"
+          },
+          "CG": {
+            "storage_density": "64Gb NAND"
+          },
+          "DG": {
+            "storage_density": "128Gb NAND"
           }
         },
         "dramDensityCode": {
+          "56M": "56M",
           "12M": "12M",
+          "40M": "40M",
           "24M": "24M",
+          "52M": "52M",
           "48M": "48M",
-          "96M": "96M"
+          "72M": "72M",
+          "96M": "96M",
+          "92M": "92M"
         },
-        "dramObj": {
+        "dramDensityObj": {
+          "56M": {
+            "dram_density": "256Mb"
+          },
+          "12M": {
+            "dram_density": "512Mb"
+          },
+          "40M": {
+            "dram_density": "640Mb"
+          },
+          "24M": {
+            "dram_density": "1Gb"
+          },
+          "52M": {
+            "dram_density": "1152Mb"
+          },
+          "48M": {
+            "dram_density": "2Gb"
+          },
+          "72M": {
+            "dram_density": "3Gb"
+          },
+          "96M": {
+            "dram_density": "4Gb"
+          },
+          "92M": {
+            "dram_density": "8Gb"
+          }
+        },
+        "dramOverrideObj": {
           "1G:12M:AACAE": {
             "dram_density": "512Mb",
             "dram_width": "x32"
@@ -78,7 +156,15 @@
             "dram_density": "512Mb",
             "dram_width": "x16"
           },
+          "1G:12M:AADVA": {
+            "dram_density": "512Mb",
+            "dram_width": "x16"
+          },
           "1G:12M:AAJAF": {
+            "dram_density": "512Mb",
+            "dram_width": "x32"
+          },
+          "1G:12M:AAJAFA": {
             "dram_density": "512Mb",
             "dram_width": "x32"
           },
@@ -87,6 +173,10 @@
             "dram_width": "x32"
           },
           "1G:12M:AADAE": {
+            "dram_density": "1Gb",
+            "dram_width": "x16"
+          },
+          "1G:12M:AADAEA": {
             "dram_density": "1Gb",
             "dram_width": "x16"
           },
@@ -106,7 +196,15 @@
             "dram_density": "2Gb",
             "dram_width": "x16"
           },
+          "4G:48M:AZAMA": {
+            "dram_density": "2Gb",
+            "dram_width": "x16"
+          },
           "4G:48M:AZAP": {
+            "dram_density": "2Gb",
+            "dram_width": "x16"
+          },
+          "4G:48M:AZAPA": {
             "dram_density": "2Gb",
             "dram_width": "x16"
           },
@@ -114,41 +212,100 @@
             "dram_density": "2Gb",
             "dram_width": "x16"
           },
+          "4G:48M:AZBBA": {
+            "dram_density": "2Gb",
+            "dram_width": "x16"
+          },
           "4G:48M:AYBB": {
+            "dram_density": "2Gb",
+            "dram_width": "x32"
+          },
+          "4G:48M:AYBBA": {
             "dram_density": "2Gb",
             "dram_width": "x32"
           },
           "4G:96M:AZAP": {
             "dram_density": "4Gb",
             "dram_width": "x32"
+          },
+          "4G:96M:AZAPC": {
+            "dram_density": "4Gb",
+            "dram_width": "x32"
+          },
+          "8G:48M:APLD": {
+            "dram_density": "2Gb",
+            "dram_width": "x32"
+          },
+          "8G:48M:AZAPB": {
+            "dram_density": "2Gb",
+            "dram_width": "x32"
           }
         },
         "package": {
-          "CJA": "137-TFBGA 10.5x13",
-          "CMJ": "137-TFBGA",
-          "AKC": "107-TFBGA",
-          "AKD": "137-TFBGA 10.5x13",
-          "AKS": "137-VFBGA 13x10.5",
-          "AHK": "137-VFBGA 13x10.5",
-          "AMD": "130-VFBGA 8x9",
-          "AMK": "130-VFBGA 8x9",
-          "AMR": "130-VFBGA 8x9",
-          "JG": "168-ball VFBGA",
-          "JI": "168-ball VFBGA",
+          "CA": "152-ball PoP VFBGA 14x14x0.9",
+          "CG": "152-ball PoP VFBGA 14x14x1.0",
+          "HC": "149-ball TFBGA 16.5x10.5x1.2",
+          "HK": "137-VFBGA 13x10.5",
           "HP": "168-ball VFBGA",
-          "JA": "168-ball VFBGA",
-          "JC": "168-ball VFBGA",
-          "AKQ": "137-TFBGA"
+          "JA": "137-ball TFBGA 13x10.5x1.2",
+          "JC": "107-ball TFBGA 13x10.2x1.2",
+          "JG": "168-ball PoP VFBGA 12x12x0.9",
+          "JI": "168-ball PoP TFBGA 12x12x1.1",
+          "JQ": "152-ball PoP TFBGA 14x14x1.1",
+          "JR": "137-ball LFBGA 13x10.5x1.4",
+          "JS": "137-ball TFBGA 13x10.5x1.4",
+          "JV": "168-ball PoP VFBGA 12x12x1.0",
+          "KC": "107-ball TFBGA 13x10.5x1.1",
+          "KD": "137-ball TFBGA 13x10.5x1.1",
+          "KN": "184-ball PoP VFBGA 14x14x1.0",
+          "KQ": "168-ball PoP WFBGA 12x12x0.75",
+          "KS": "137-ball VFBGA 13x10.5x1.0",
+          "MA": "168-ball PoP WFBGA 12x12x0.7",
+          "MC": "240-ball PoP WFBGA 14x14x0.8",
+          "MD": "130-ball VFBGA 9x8x1.0",
+          "ME": "240-ball PoP TFBGA 14x14x1.12",
+          "MF": "168-ball PoP VFBGA 12x12x0.85",
+          "MJ": "240-ball PoP VFBGA 14x14x0.85",
+          "MK": "153-ball VFBGA 12x10x0.9",
+          "ML": "153-ball VFBGA 9x8x0.9",
+          "MR": "130-VFBGA 8x9",
+          "MS": "191-ball PoP WFBGA 12x12x0.8",
+          "NE": "133-ball VFBGA 11x10x1.0",
+          "PL": "162-ball WFBGA 13x11.5x0.8",
+          "RN": "160-ball FBGA 11.5x11.5x0.94",
+          "SK": "162-ball VFBGA 13x11.5x0.9",
+          "SP": "192-ball WFBGA 10.5x8x0.8",
+          "TE": "153-ball VFBGA 12x10x1.0"
         },
         "speedObj": {
           "5": {
             "speed_grade": "200MHz"
           },
+          "54": {
+            "speed_grade": "185MHz"
+          },
           "6": {
             "speed_grade": "166MHz"
           },
+          "75": {
+            "speed_grade": "133MHz"
+          },
+          "8": {
+            "speed_grade": "125MHz"
+          },
+          "10": {
+            "speed_grade": "100MHz"
+          },
           "48": {
             "speed_grade": "208MHz"
+          }
+        },
+        "specialOptionObj": {
+          "L": {
+            "special_option": "Low-power option"
+          },
+          "E": {
+            "special_option": "On-die ECC enabled"
           }
         },
         "temperatureObj": {
@@ -160,6 +317,9 @@
           },
           "IT": {
             "operation_temperature": "Industrial (-40°C ~ 85°C)"
+          },
+          "W": {
+            "operation_temperature": "Wireless (-25°C ~ 85°C)"
           },
           "AIT": {
             "operation_temperature": "Industrial (-40°C ~ 85°C + HR certified test flow)"
@@ -177,6 +337,9 @@
           },
           "QS": {
             "prod_status": "Qualification Sample"
+          },
+          "DC": {
+            "prod_status": "Daisy chain"
           }
         }
       },
@@ -208,8 +371,15 @@
           "default": ""
         },
         {
+          "op": "map",
+          "from": "dramCode",
+          "table": "dramDensityObj",
+          "to": "dramObj",
+          "default": {}
+        },
+        {
           "op": "takeRegex",
-          "pattern": "^([0-9A-Z]*?)(CJA|CMJ|AKC|AKD|AKS|AHK|AMD|AMK|AMR|AKQ|JG|JI|HP|JA|JC)(?=-|$)",
+          "pattern": "^([0-9A-Z]*?)(CA|CG|HC|HK|HP|JA|JC|JG|JI|JQ|JR|JS|JV|KC|KD|KN|KQ|KS|MA|MC|MD|ME|MF|MJ|MK|ML|MR|MS|NE|PL|RN|SK|SP|TE)(?=-|$)",
           "groups": {
             "configCode": 1,
             "packageCode": 2
@@ -223,9 +393,14 @@
         {
           "op": "map",
           "from": "dramKey",
-          "table": "dramObj",
-          "to": "dramObj",
+          "table": "dramOverrideObj",
+          "to": "dramOverrideObj",
           "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "dramObj",
+          "from": "dramOverrideObj"
         },
         {
           "op": "map",
@@ -249,6 +424,12 @@
           "from": "speedCode",
           "table": "speedObj",
           "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "specialOptionObj",
+          "to": "specialOptionObj",
           "default": {}
         },
         {
@@ -298,6 +479,11 @@
           "op": "merge",
           "into": "extra",
           "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "specialOptionObj"
         },
         {
           "op": "merge",
@@ -406,9 +592,13 @@
           }
         },
         "storageDensity": {
+          "1C": 1024,
           "4C": 4096
         },
         "storageDensityObj": {
+          "1C": {
+            "storage_density": "1Gb NAND"
+          },
           "4C": {
             "storage_density": "4Gb NAND"
           }
@@ -418,12 +608,27 @@
             "dram_density": "4Gb",
             "dram_type": "LPDDR2",
             "dram_width": "x32"
+          },
+          "8D": {
+            "dram_density": "4Gb",
+            "dram_type": "LPDDR2",
+            "dram_width": "x32"
+          },
+          "VC": {
+            "dram_density": "512Mb",
+            "dram_type": "LPDDR2",
+            "dram_width": "x16"
           }
         },
         "package": {
+          "HG": "121-VFBGA 8x7.5",
           "MG": "168-VFBGA 12x12"
         },
         "speedObj": {
+          "18": {
+            "dram_speed": "LPDDR2-533",
+            "speed_grade": "533MHz"
+          },
           "18W": {
             "dram_speed": "LPDDR2-533",
             "speed_grade": "533MHz"
@@ -433,7 +638,16 @@
           "80C": {
             "operation_temperature": "-25°C ~ 85°C"
           },
+          "80D": {
+            "operation_temperature": "-25°C ~ 85°C"
+          },
           "80U": {
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "80Y": {
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "85H": {
             "operation_temperature": "-25°C ~ 85°C"
           }
         }
@@ -508,6 +722,14 @@
           "table": "speedObj",
           "to": "speedObj",
           "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "I"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "W"
         },
         {
           "op": "stripIfPrefix",
