@@ -105,9 +105,11 @@ DRAM / MCP DRAM 子系统使用以下字段，避免和 NAND 字段混用：
 | `dram_speed` | DRAM 速率或 speed bin | `8533 Mbps`, `DDR4-2666 CL19` |
 | `dram_width` | DRAM 组织位宽，`unit = bit` | `16` / `x16` |
 | `dram_voltage` | DRAM 电压/I/O 信息 | `VDD2 1.8V / VDDQ 0.6V` |
+| `cas_latency` | DRAM CAS latency token 展开 | `13` |
 | `die_revision` | DRAM die 修订或设计修订 | `Rev A`, `Rev E` |
 | `config_code` | 厂商配置 token | `1G8`, `256M32` |
 | `package_code` | 厂商封装 token；不替代 `package` | `SA`, `NRE` |
+| `solder_type` | 焊接/镀层类型 token 展开 | `100% matte Sn` |
 | `prod_status` | ES/MS/QS 等生产状态 | `ES` |
 
 standalone DRAM 约定：

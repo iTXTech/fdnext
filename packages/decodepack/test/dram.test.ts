@@ -30,11 +30,13 @@ const standaloneDramExtraKeys = new Set([
   "DRAM Die Stack",
   "Package Code",
   "DRAM Speed",
+  "CAS Latency",
   "DRAM Generation",
   "DRAM Die Density",
   "Die Count",
   "CE Count",
   "Operation Temperature",
+  "Solder Type",
   "Production Status",
   "Die Revision",
   "Process Node",
@@ -42,6 +44,7 @@ const standaloneDramExtraKeys = new Set([
 ]);
 
 const standardDramTypes = new Set([
+  "Asynchronous DRAM",
   "SDR",
   "LPSDR",
   "DDR",
@@ -2634,7 +2637,7 @@ assertDram("IS43QR8K02S2A", {
   package: "78-ball BGA",
   extra: {
     "DRAM Type": "DDR4 SDRAM",
-    "DRAM Die Stack": "Stacked, dual rank, 2 CS",
+    "DRAM Die Stack": "2 ranks, 2 CS",
     "Config Code": "2G8 S2",
     "Die Revision": "A"
   }
@@ -2649,9 +2652,115 @@ assertDram("IS43TR16512S2DL", {
   package: "96-ball BGA",
   extra: {
     "DRAM Type": "DDR3 SDRAM",
-    "DRAM Die Stack": "Stacked, dual rank, 2 CS",
+    "DRAM Die Stack": "2 ranks, 2 CS",
     "Config Code": "512M16 S2",
     "Die Revision": "D"
+  }
+});
+
+assertDram("IS43TR81280CL-107MBLI-TR", {
+  vendor: "issi",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x8",
+  voltage: "1.35V or 1.5V VDD",
+  package: "78-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "Config Code": "128M8",
+    "Die Revision": "C",
+    "DRAM Speed": "933MHz (DDR-1866)",
+    "CAS Latency": 13,
+    "Package Code": "B (BGA)",
+    "Solder Type": "100% matte Sn for non-BGA or SnAgCu for BGA",
+    "Operation Temperature": "Industrial Grade (-40C to +85C)"
+  }
+});
+
+assertDram("IS41LV8100B-7BBLI-TR", {
+  vendor: "issi",
+  densityMbit: 8,
+  density: "8Mb",
+  widthField: "x8",
+  voltage: "3.3V",
+  package: "BGA",
+  extra: {
+    "DRAM Type": "Asynchronous DRAM",
+    "Config Code": "1M8",
+    "Die Revision": "B",
+    "DRAM Speed": "143MHz",
+    "CAS Latency": 3,
+    "Package Code": "B (BGA)",
+    "Solder Type": "100% matte Sn for non-BGA or SnAgCu for BGA",
+    "Operation Temperature": "Industrial Grade (-40C to +85C)"
+  }
+});
+
+assertDram("IS42S16100B-7BB", {
+  vendor: "issi",
+  densityMbit: 16,
+  density: "16Mb",
+  widthField: "x16",
+  voltage: "3.3V SDR",
+  package: "BGA",
+  extra: {
+    "DRAM Type": "SDR SDRAM",
+    "Config Code": "1M16",
+    "Die Revision": "B",
+    "DRAM Speed": "143MHz",
+    "CAS Latency": 3,
+    "Package Code": "B (BGA)"
+  }
+});
+
+assertDram("IS45S16100B-7BB", {
+  vendor: "issi",
+  densityMbit: 16,
+  density: "16Mb",
+  widthField: "x16",
+  voltage: "3.3V SDR",
+  package: "BGA",
+  extra: {
+    "DRAM Type": "SDR SDRAM",
+    "Config Code": "1M16",
+    "Die Revision": "B",
+    "DRAM Speed": "143MHz",
+    "CAS Latency": 3,
+    "Package Code": "B (BGA)"
+  }
+});
+
+assertDram("IS46DR16128A-25BB", {
+  vendor: "issi",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "DDR2",
+  package: "BGA",
+  extra: {
+    "DRAM Type": "DDR2 SDRAM",
+    "Config Code": "128M16",
+    "Die Revision": "A",
+    "DRAM Speed": "400MHz",
+    "CAS Latency": 3,
+    "Package Code": "B (BGA)"
+  }
+});
+
+assertDram("IS46LD16128A-25BB", {
+  vendor: "issi",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "LPDDR2",
+  package: "BGA",
+  extra: {
+    "DRAM Type": "LPDDR2 SDRAM",
+    "Config Code": "128M16",
+    "Die Revision": "A",
+    "DRAM Speed": "400MHz",
+    "CAS Latency": 3,
+    "Package Code": "B (BGA)"
   }
 });
 

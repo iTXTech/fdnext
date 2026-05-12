@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^IS(?:43|46)(?:TR|QR)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+      "value": "^IS(?:43|46)(?:TR|QR)[0-9A-Z]+(?:-[0-9A-Z]+){0,2}$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -122,16 +122,164 @@
         },
         "stackObj": {
           "16512": {
-            "dram_die_stack": "Single rank, 1 CS"
+            "dram_die_stack": "1 rank, 1 CS"
           },
           "16512S2": {
-            "dram_die_stack": "Stacked, dual rank, 2 CS"
+            "dram_die_stack": "2 ranks, 2 CS"
           },
           "8K02S2": {
-            "dram_die_stack": "Stacked, dual rank, 2 CS"
+            "dram_die_stack": "2 ranks, 2 CS"
           },
           "16K01S2": {
-            "dram_die_stack": "Stacked, dual rank, 2 CS"
+            "dram_die_stack": "2 ranks, 2 CS"
+          }
+        },
+        "speedObj": {
+          "7": {
+            "dram_speed": "143MHz"
+          },
+          "6": {
+            "dram_speed": "166MHz"
+          },
+          "75E": {
+            "dram_speed": "133MHz @ CL2 (SDR)"
+          },
+          "5": {
+            "dram_speed": "200MHz"
+          },
+          "37": {
+            "dram_speed": "266MHz"
+          },
+          "3": {
+            "dram_speed": "333MHz"
+          },
+          "25": {
+            "dram_speed": "400MHz"
+          },
+          "187": {
+            "dram_speed": "533MHz (DDR-1066)"
+          },
+          "18": {
+            "dram_speed": "533MHz (DDR-1066)"
+          },
+          "15": {
+            "dram_speed": "667MHz (DDR-1333)"
+          },
+          "125": {
+            "dram_speed": "800MHz (DDR-1600)"
+          },
+          "107": {
+            "dram_speed": "933MHz (DDR-1866)"
+          },
+          "093": {
+            "dram_speed": "1066MHz (DDR-2133)"
+          },
+          "083": {
+            "dram_speed": "1200MHz (DDR-2400)"
+          },
+          "075": {
+            "dram_speed": "1333MHz (DDR-2666)"
+          },
+          "068": {
+            "dram_speed": "1466MHz (DDR-2933)"
+          },
+          "062": {
+            "dram_speed": "1600MHz (DDR-3200)"
+          }
+        },
+        "casLatencyObj": {
+          "B": {
+            "cas_latency": 3
+          },
+          "C": {
+            "cas_latency": 4
+          },
+          "D": {
+            "cas_latency": 5
+          },
+          "E": {
+            "cas_latency": 6
+          },
+          "F": {
+            "cas_latency": 7
+          },
+          "G": {
+            "cas_latency": 8
+          },
+          "H": {
+            "cas_latency": 9
+          },
+          "J": {
+            "cas_latency": 10
+          },
+          "K": {
+            "cas_latency": 11
+          },
+          "L": {
+            "cas_latency": 12
+          },
+          "M": {
+            "cas_latency": 13
+          },
+          "N": {
+            "cas_latency": 14
+          },
+          "P": {
+            "cas_latency": 15
+          },
+          "R": {
+            "cas_latency": 16
+          },
+          "T": {
+            "cas_latency": 17
+          },
+          "U": {
+            "cas_latency": 18
+          },
+          "V": {
+            "cas_latency": 19
+          },
+          "Y": {
+            "cas_latency": 21
+          },
+          "AA": {
+            "cas_latency": 22
+          }
+        },
+        "packageObj": {
+          "BP": {
+            "package_code": "BP (PoP BGA)"
+          },
+          "CT": {
+            "package_code": "CT (Copper TSOP)"
+          },
+          "B": {
+            "package_code": "B (BGA)"
+          },
+          "T": {
+            "package_code": "T (TSOP)"
+          }
+        },
+        "solderObj": {
+          "L": {
+            "solder_type": "100% matte Sn for non-BGA or SnAgCu for BGA"
+          }
+        },
+        "temperatureObj": {
+          "A25": {
+            "operation_temperature": "Automotive Grade (-40C to +115C)"
+          },
+          "A1": {
+            "operation_temperature": "Automotive Grade (-40C to +85C)"
+          },
+          "A2": {
+            "operation_temperature": "Automotive Grade (-40C to +105C)"
+          },
+          "A3": {
+            "operation_temperature": "Automotive Grade (-40C to +125C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial Grade (-40C to +85C)"
           }
         }
       },
@@ -201,6 +349,40 @@
           "default": {}
         },
         {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "casLatencyObj",
+          "to": "casLatencyObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "packageObj",
+          "to": "suffixPackageObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "solderObj",
+          "to": "solderObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
           "op": "set",
           "to": "extra",
           "value": {
@@ -221,6 +403,31 @@
           "op": "merge",
           "into": "extra",
           "from": "tailStackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "casLatencyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "suffixPackageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "solderObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
         }
       ],
       "assign": {
@@ -272,7 +479,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^IS(?:43|46)LQ[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+      "value": "^IS(?:43|46)LQ[0-9A-Z]+(?:-[0-9A-Z]+){0,2}$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -568,6 +775,530 @@
           "$path": "productObj.package"
         },
         "meta.ruleId": "vendor.issi.dram.lpddr4.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.issi.dram.decoder.component.v1",
+    "priority": 1009,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^IS(?:41|42|43|45|46)(?:LV|VS|DR|TR|QR|SM|RM|VM|LR|LD|LQ|S|R)[0-9A-Z]+(?:-[0-9A-Z]+){0,2}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "IS"
+      ],
+      "tables": {
+        "voltageToken": {
+          "LV": "LV",
+          "VS": "VS",
+          "DR": "DR",
+          "TR": "TR",
+          "QR": "QR",
+          "SM": "SM",
+          "RM": "RM",
+          "VM": "VM",
+          "LR": "LR",
+          "LD": "LD",
+          "LQ": "LQ",
+          "S": "S",
+          "R": "R"
+        },
+        "dramTypeObj": {
+          "LV:false": {
+            "dram_type": "Asynchronous DRAM"
+          },
+          "S:false": {
+            "dram_type": "SDR SDRAM"
+          },
+          "VS:false": {
+            "dram_type": "SDR SDRAM"
+          },
+          "R:false": {
+            "dram_type": "DDR SDRAM"
+          },
+          "DR:false": {
+            "dram_type": "DDR2 SDRAM"
+          },
+          "TR:false": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "TR:true": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "QR:false": {
+            "dram_type": "DDR4 SDRAM"
+          },
+          "QR:true": {
+            "dram_type": "DDR4 SDRAM"
+          },
+          "SM:false": {
+            "dram_type": "LPSDR SDRAM"
+          },
+          "RM:false": {
+            "dram_type": "LPSDR SDRAM"
+          },
+          "VM:false": {
+            "dram_type": "LPSDR SDRAM"
+          },
+          "LR:false": {
+            "dram_type": "LPDDR SDRAM"
+          },
+          "LD:false": {
+            "dram_type": "LPDDR2 SDRAM"
+          },
+          "LQ:false": {
+            "dram_type": "LPDDR4 SDRAM"
+          },
+          "LQ:true": {
+            "dram_type": "LPDDR4X SDRAM"
+          }
+        },
+        "voltage": {
+          "LV:false": "3.3V",
+          "S:false": "3.3V SDR",
+          "VS:false": "1.8V SDR",
+          "R:false": "2.5V DDR or 2.5V SDR",
+          "DR:false": "DDR2",
+          "TR:false": "1.5V VDD",
+          "TR:true": "1.35V or 1.5V VDD",
+          "QR:false": "1.2V VDD",
+          "QR:true": "1.2V VDD",
+          "SM:false": "3.3V mobile SDR",
+          "RM:false": "2.5V mobile SDR",
+          "VM:false": "1.8V mobile SDR",
+          "LR:false": "1.8V mobile DDR",
+          "LD:false": "LPDDR2",
+          "LQ:false": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+          "LQ:true": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ"
+        },
+        "busWidthToken": {
+          "32": "32",
+          "16": "16",
+          "8": "8"
+        },
+        "busWidth": {
+          "32": 32,
+          "16": 16,
+          "8": 8
+        },
+        "wordToken": {
+          "1024": "1024",
+          "K02": "K02",
+          "K01": "K01",
+          "5120": "5120",
+          "2560": "2560",
+          "1280": "1280",
+          "640": "640",
+          "512": "512",
+          "320": "320",
+          "256": "256",
+          "160": "160",
+          "128": "128",
+          "800": "800",
+          "400": "400",
+          "200": "200",
+          "100": "100"
+        },
+        "wordM": {
+          "100": 1,
+          "200": 2,
+          "400": 4,
+          "800": 8,
+          "160": 16,
+          "320": 32,
+          "640": 64,
+          "128": 128,
+          "256": 256,
+          "512": 512,
+          "1280": 128,
+          "2560": 256,
+          "5120": 512,
+          "K01": 1024,
+          "1024": 1024,
+          "K02": 2048
+        },
+        "stackToken": {
+          "S2": "S2",
+          "S1": "S1"
+        },
+        "stackObj": {
+          "S1": {
+            "dram_die_stack": "1 rank, 1 CS"
+          },
+          "S2": {
+            "dram_die_stack": "2 ranks, 2 CS"
+          }
+        },
+        "speedObj": {
+          "7": {
+            "dram_speed": "143MHz"
+          },
+          "6": {
+            "dram_speed": "166MHz"
+          },
+          "75E": {
+            "dram_speed": "133MHz @ CL2 (SDR)"
+          },
+          "5": {
+            "dram_speed": "200MHz"
+          },
+          "37": {
+            "dram_speed": "266MHz"
+          },
+          "3": {
+            "dram_speed": "333MHz"
+          },
+          "25": {
+            "dram_speed": "400MHz"
+          },
+          "187": {
+            "dram_speed": "533MHz (DDR-1066)"
+          },
+          "18": {
+            "dram_speed": "533MHz (DDR-1066)"
+          },
+          "15": {
+            "dram_speed": "667MHz (DDR-1333)"
+          },
+          "125": {
+            "dram_speed": "800MHz (DDR-1600)"
+          },
+          "107": {
+            "dram_speed": "933MHz (DDR-1866)"
+          },
+          "093": {
+            "dram_speed": "1066MHz (DDR-2133)"
+          },
+          "083": {
+            "dram_speed": "1200MHz (DDR-2400)"
+          },
+          "075": {
+            "dram_speed": "1333MHz (DDR-2666)"
+          },
+          "068": {
+            "dram_speed": "1466MHz (DDR-2933)"
+          },
+          "062": {
+            "dram_speed": "1600MHz (DDR-3200)"
+          }
+        },
+        "casLatencyObj": {
+          "AA": {
+            "cas_latency": 22
+          },
+          "B": {
+            "cas_latency": 3
+          },
+          "C": {
+            "cas_latency": 4
+          },
+          "D": {
+            "cas_latency": 5
+          },
+          "E": {
+            "cas_latency": 6
+          },
+          "F": {
+            "cas_latency": 7
+          },
+          "G": {
+            "cas_latency": 8
+          },
+          "H": {
+            "cas_latency": 9
+          },
+          "J": {
+            "cas_latency": 10
+          },
+          "K": {
+            "cas_latency": 11
+          },
+          "L": {
+            "cas_latency": 12
+          },
+          "M": {
+            "cas_latency": 13
+          },
+          "N": {
+            "cas_latency": 14
+          },
+          "P": {
+            "cas_latency": 15
+          },
+          "R": {
+            "cas_latency": 16
+          },
+          "T": {
+            "cas_latency": 17
+          },
+          "U": {
+            "cas_latency": 18
+          },
+          "V": {
+            "cas_latency": 19
+          },
+          "Y": {
+            "cas_latency": 21
+          }
+        },
+        "packageObj": {
+          "BP": {
+            "package": "PoP BGA",
+            "package_code": "BP (PoP BGA)"
+          },
+          "CT": {
+            "package": "Copper TSOP",
+            "package_code": "CT (Copper TSOP)"
+          },
+          "B": {
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "T": {
+            "package": "TSOP",
+            "package_code": "T (TSOP)"
+          }
+        },
+        "solderObj": {
+          "L": {
+            "solder_type": "100% matte Sn for non-BGA or SnAgCu for BGA"
+          }
+        },
+        "temperatureObj": {
+          "A25": {
+            "operation_temperature": "Automotive Grade (-40C to +115C)"
+          },
+          "A1": {
+            "operation_temperature": "Automotive Grade (-40C to +85C)"
+          },
+          "A2": {
+            "operation_temperature": "Automotive Grade (-40C to +105C)"
+          },
+          "A3": {
+            "operation_temperature": "Automotive Grade (-40C to +125C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial Grade (-40C to +85C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productFamilyCode"
+        },
+        {
+          "op": "takeLongest",
+          "table": "voltageToken",
+          "to": "voltageCode",
+          "default": ""
+        },
+        {
+          "op": "takeLongest",
+          "table": "busWidthToken",
+          "to": "busWidthCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "busWidthCode",
+          "table": "busWidth",
+          "to": "busWidth",
+          "default": 0
+        },
+        {
+          "op": "takeLongest",
+          "table": "wordToken",
+          "to": "wordCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "wordCode",
+          "table": "wordM",
+          "to": "wordM",
+          "default": 0
+        },
+        {
+          "op": "mul",
+          "a": "busWidth",
+          "b": "wordM",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "takeLongest",
+          "table": "stackToken",
+          "to": "stackToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "stackToken",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(E[A-Z]|[A-Z])(L?)",
+          "to": "revisionTail",
+          "groups": {
+            "revisionCode": 1,
+            "lowVoltageMarker": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "notEmpty",
+          "from": "lowVoltageMarker",
+          "to": "isLowVoltage"
+        },
+        {
+          "op": "tpl",
+          "template": "{{voltageCode}}:{{isLowVoltage}}",
+          "to": "voltageKey"
+        },
+        {
+          "op": "map",
+          "from": "voltageKey",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "voltageKey",
+          "table": "dramTypeObj",
+          "to": "dramTypeObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "casLatencyObj",
+          "to": "casLatencyObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "packageObj",
+          "to": "suffixPackageObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "solderObj",
+          "to": "solderObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$tpl": "{{wordM}}M{{busWidth}}"
+            },
+            "die_revision": {
+              "$var": "revisionCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramTypeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "casLatencyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "suffixPackageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "solderObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "issi",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "busWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$path": "suffixPackageObj.package"
+        },
+        "meta.ruleId": "vendor.issi.dram.decoder.component.v1",
         "meta.fieldProfile": "dram",
         "meta.capabilities": [
           "part.decode",

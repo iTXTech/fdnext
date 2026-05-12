@@ -317,6 +317,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "dram",
     importance: "secondary"
   },
+  cas_latency: {
+    key: "cas_latency",
+    valueKind: "number",
+    defaultLabel: "CAS Latency",
+    recommendedBlock: "timing",
+    importance: "secondary"
+  },
   dram_width: {
     key: "dram_width",
     valueKind: "number",
@@ -470,6 +477,13 @@ export const fdnextFieldRegistry = {
     key: "package_code",
     valueKind: "string",
     defaultLabel: "Package Code",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
+  solder_type: {
+    key: "solder_type",
+    valueKind: "string",
+    defaultLabel: "Solder Type",
     recommendedBlock: "package",
     importance: "detail"
   },
