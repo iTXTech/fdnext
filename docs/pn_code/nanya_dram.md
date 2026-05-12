@@ -1,6 +1,6 @@
 # Nanya DRAM PN 规则
 
-采集日期：2026-05-08
+采集日期：2026-05-12
 
 本页记录 Nanya standalone DRAM 颗粒的 PN 结构。Nanya 规则按 family、organization、stack、package、suffix token 解析，不维护完整 PN 枚举。
 
@@ -10,6 +10,7 @@
 - Nanya 官方 `NT5AD1024M8C3-JR/JRT/HRI` 页面确认 DDR4、8Gb、x8、78-ball BGA，速度 2666/3200Mbps 与温度等级。来源：<https://www.nanya.com/en/Product/4464/NT5AD1024M8C3-JR>、<https://www.nanya.com/en/Product/4477/NT5AD1024M8C3-HRI>
 - Nanya 官方 `NT5FF1024M16A4-Q5` 页面确认 DDR5、16Gb、x16、106-ball BGA、5600Mbps。来源：<https://www.nanya.com/en/Product/9032/NT5FF1024M16A4-Q5>
 - Nanya 官方 `NT5FF2048M8EK-WEU` 页面确认 DDR5、16Gb、x8、78-ball BGA、8000Mbps、-40C~105C；该样例用于补齐 `5FF:EK` 封装和 `U` grade token。来源：<https://www.nanya.com/en/Product/10513/NT5FF2048M8EK-WEU>
+- Nanya 官方产品列表补充确认 DDR4 `E3/E4/F3/F4/C4/H3/H4/A3/A4`、DDR5 `C3/DK/EK/EL`、DDR5 speed `S8/UB/WE`，以及 LPDDR4/4X `AC/BN` package 与 LPDDR4 `J2` speed 等 exact PN 组合；这些 PN 进入 `dram-pn.json` 用于补全。来源：<https://www.nanya.com/en/Product/List/450/2264>、<https://www.nanya.com/en/Product/List/450/2478>、<https://www.nanya.com/en/Product/List/547/2356>、<https://www.nanya.com/en/Product/List/547/2343>、<https://www.nanya.com/en/Product/List/547/6587>
 - Nanya 官方 `NT5TU32M16FG-ACI` 页面确认 DDR2、512Mb、x16、84-ball BGA、800Mbps、工业温度。来源：<https://www.nanya.com/en/Product/3873/NT5TU32M16FG-ACI>
 - Nanya 官方 `NT5CB128M16JR-DI` 页面确认 DDR3、2Gb、x16、96-ball BGA、1600Mbps、0C~95C。来源：<https://www.nanya.com/en/Product/4111/NT5CB128M16JR-DI>
 - Nanya 官方 `NT5CC128M16JR-DI` 页面确认 DDR3L、2Gb、x16、96-ball BGA、1600Mbps、0C~95C；规则输出仍使用标准化 `DDR3 SDRAM`，电压区分为 1.35V。来源：<https://www.nanya.com/cn/Product/4114/NT5CC128M16JR-DI>
@@ -48,4 +49,5 @@ NT6AP512T32AV-J1
 - suffix 不存在时不输出 `dram_speed` / `operation_temperature`；suffix 存在但 grade token 不存在时只输出 speed。
 - 低功耗 speed token 以 `family + speed` 做组合 key，避免 LPDDR4 与 LPDDR4X 共用 `J1` 时混淆。
 - standard DDR 的 `T/F` stack-code 先维持结构化规则支持，但本轮不新增确定样例；只有找到公开 exact PN / datasheet 后再补 testcase 和 source tier。
-- standard DDR5 新封装示例 `NT5FF2048M8EK-WEU` 仍走算术 config：`2048M8` 输出 16Gb / x8，`EK` 输出 78-ball BGA，`WE` 输出 DDR5-8000，`U` 输出 Industrial (-40C~105C)。
+- standard DDR5 新封装示例仍走算术 config：`NT5FF2048M8EK-WEU` 输出 16Gb / x8、`EK` 78-ball BGA、`WE` DDR5-8000、`U` Industrial (-40C~105C)；`NT5FF2048M8DK-UB` 输出 `DK` 78-ball BGA 与 DDR5-7200。
+- 低功耗 PN 中 `NT6AP256F64BN-J1` 这类 PoP 组合输出 `BN` 376-ball PoP，并按 `F64` 输出 QDP / 2 CS。

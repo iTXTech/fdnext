@@ -1,6 +1,6 @@
 # DRAM 世代覆盖约定
 
-采集日期：2026-05-11
+采集日期：2026-05-12
 
 DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalone DRAM 厂商时，不能只补少量热门 PN；需要先确认该厂商公开资料中可验证的 DDR/SDR、LPDDR、Graphics DRAM 世代，再按结构化 token 建表。
 
@@ -25,6 +25,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - `fields.package` 只写可由 datasheet、原厂 catalog、TechInsights/TechPowerUp 或可信分销页确认的实际封装；仅有厂商代码时只写 `package_code`。
 - 每个新增世代至少补一个 testcase，验证 `device.productType` 以及 `fields.dram_density`、`fields.dram_width`、`fields.dram_voltage`、`fields.package` 等 canonical fields。
 - 已知 DRAM PN 样例维护在 `packages/resources/resources/dram-pn.json`，用于 PN 补全和搜索，只保留 `vendor/pn`；Micron / Crucial / Micron legacy Elpida DRAM FBGA code 映射统一维护在 `packages/resources/resources/mdb.json`，用于 code 反查和补全。两者都不是解码规则来源，字段仍必须由 iTXTech fdnext DecodePack token 解析得出。`crawl-mdb-from-fbga` 默认按 `C9/D8/D9/Z8/Z9` + 字母网格生成 Micron DRAM FBGA 候选，`packages/resources/resources/micron-fbga-codes.json` 仅作为非默认网格的补充 code 输入，并排除 `crawl-mdb` 已覆盖的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`。
+- 2026-05-12 网络补全只刷新非 Micron exact PN：Samsung DDR4 Product Guide、SK hynix DDR4/DDR5 datasheet / listing、Nanya 官方产品列表、CXMT LCSC exact PN 列表。ISSI / Winbond 已由官方 PSG 批量展开，Micron 继续由 `mdb.json` / Micron FBGA 路径覆盖。
 
 ## 当前覆盖进度
 

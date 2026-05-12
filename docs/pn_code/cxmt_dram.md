@@ -1,6 +1,6 @@
 # CXMT DRAM PN 规则
 
-采集日期：2026-05-11
+采集日期：2026-05-12
 
 本页记录 CXMT standalone DRAM 颗粒与可识别 die/package 标记的 PN 结构。DDR4 与 LPDDR4X 主要来自 datasheet；DDR5 与先进制程字段允许使用“外部料号表 + 官方产品线 + 拆解/行业制程资料”的规则推断。推断依据写在文档中，public fields 只输出规范化后的节点和值，不写入来源或可信度状态。
 
@@ -14,6 +14,7 @@
 - TrendForce / Meritz 等行业资料把 CXMT G3 与 18nm-class、DDR4/LPDDR4X 主力量产关联；LPDDR4X 与 DDR4 M-die/16Gb 规则据此输出 `CXMT G3 / 18nm-class`。来源：<https://files.futurememorystorage.com/proceedings/2025/20250805_BMKT-101-1_Avril-Wu.pdf>、<https://consensus.hankyung.com/analysis/downpdf?report_idx=647999>
 - CXMT `CXDQ3BFAM-CQ-A` datasheet 镜像确认 8Gb x16 DDR4 SDRAM、512M x16、96-ball FBGA、1.2V，并在 part-number decoding 中列出 `CX D Q 3 B F A M C Q A` 字段：`3=8Gb`、`B=96-ball FBGA SDP`、`F=x16`、`A=1.2V`、`C=Commercial`、`Q=2666Mbps`。来源：<https://datasheet.lcsc.com/lcsc/2410121538_CXMT-CXDQ3BFAM-CQ-A_C7463070.pdf>
 - LCSC `CXDQ3BFAM-CJ-A` 页面确认 CXMT、8Gbit DDR4、FBGA-96、1.14V~1.26V、1.6GHz。来源：<https://www.lcsc.com/product-detail/C7543662.html>
+- LCSC CXMT brand/product list 补充列出 `CXDQ3A8AM-CJ-A`、`CXDQ3A8AM-WQ-A`、`CXDQ3BFAM-IJ-A`、`CXDQ3BFAM-WQ-A`、`CXDB4CBAM-ML-A`、`CXDB5CCAM-ML`、`CXDB6CCBM-MA-A` 等 exact PN，本轮只作为当前规则可解析 PN 的补全资源，不单独提高来源档位。来源：<https://www.lcsc.com/brand/1288-15160.html>
 - CXMT `CXDQ3A8AM-CQ-A` / `CXDQ3A8AM-IJ-A` datasheet 镜像确认 8Gb x8 DDR4 SDRAM、1G x8、78-ball FBGA、1.2V；part-number decoding 中 `A`/`8AM` 组合对应 78-ball x8 结构，`CQ` 为 commercial 2666Mbps，`IJ` 为 industrial 3200Mbps。来源：<https://lcsc.com/datasheet/lcsc_datasheet_2409300536_CXMT-CXDQ3A8AM-CQ-A_C20598560.pdf>、<https://doc.chipmall.com/datasheet/rev_2412141843_cxmt-cxdq3a8am-ij-a_c67024723.pdf>
 - CXMT `CXDQ3A8AM-WG` / `CXDQ3BFAM-WG` datasheet 镜像确认 `WG` 为 8Gb WT M-die DDR4、2666Mbps 宽温料号。来源：<https://datasheet.lcsc.com/datasheet/pdf/15ea4d2ab141ea7bfb785ee5612473a9.pdf?productCode=C20598563>
 - CXMT `CXDB5CCAM-MK` LPDDR4X datasheet 镜像确认 `CXDB4ABAM-MK` 为 16Gb、`CXDB5CCAM-MK` 为 32Gb、2CH x32、3733Mbps、200 Ball Discrete，并在 part-number decoding 中列出 `4=16Gb`、`5=32Gb`、`B=x32,2CH,1CS`、`C=x32,2CH,2CS`、`A=200ball FBGA 10x15 DDP`、`C=200ball FBGA 10x15 QDP`。来源：<https://datasheet4u.com/pdf/1550200/CXDB5CCAM-MK.pdf>

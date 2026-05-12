@@ -1,6 +1,6 @@
 # SK hynix DRAM PN 规则
 
-采集日期：2026-05-08
+采集日期：2026-05-12
 
 本页记录 SK hynix standalone DRAM 颗粒的 PN 结构。规则只按结构化 token 解码，不把完整 PN 作为白名单；无法从外部资料确认的字段只保留厂商 token，不推断为确定规格。
 
@@ -11,9 +11,12 @@
 - `H5TC8G43AMR-*xxA` / `H5TC8G83AMR-*xxA` / `H5TC8G63AMR-*xxA` datasheet 明确 8Gb DDR3L SDRAM 为 Dual Die Package；ordering table 确认 `8G43` = 2G x4 / 78ball、`8G83` = 1G x8 / 78ball、`8G63` = 512M x16 / 96ball，x16 ballout 也列出 CS0/CS1、ODT0/ODT1、CKE0/CKE1。来源：https://www.alldatasheet.com/html-pdf/533427/HYNIX/H5TC8G63AMR-PBA/158/1/H5TC8G63AMR-PBA.html、https://www.alldatasheet.com/html-pdf/533427/HYNIX/H5TC8G63AMR-PBA/650/4/H5TC8G63AMR-PBA.html 和 https://www.alldatasheet.com/html-pdf/533427/HYNIX/H5TC8G63AMR-PBA/1142/7/H5TC8G63AMR-PBA.html
 - `H5AN8G8NAFR-xxC` datasheet: 8Gb DDR4 SDRAM，VDD/VDDQ 1.2V，x4/x8 为 78ball FBGA、x16 为 96ball FBGA；`-UH` speed bin 对应 DDR4-2400T 17-17-17，datasheet 修订记录也确认 `VK` 为 2666Mbps CL19。来源：https://www.alldatasheet.com/datasheet-pdf/pdf/1424933/HYNIX/H5AN8G8NAFR-UHC.html 和 https://www.alldatasheet.com/html-pdf/1424927/HYNIX/H5AN8G4NAFR-TFC/7742/41/H5AN8G4NAFR-TFC.html
 - `H5AN8G8NCJR-VKC` 公开分销资料确认 8Gbit DDR4、1.14V~1.26V、FBGA-78。来源：https://www.lcsc.com/product-detail/ddr-sdram_hynix-h5an8g8ncjr-vkc_C2927804.html
+- `H5AN8G4NCJR/H5AN8G8NCJR/H5AN8G6NCJR` datasheet ordering table 确认 8Gb DDR4 x4/x8/x16、78/96ball FBGA，以及 `PB/RD/TF/UH/VK/WM/XN` speed bins；本轮展开对应 exact PN 用于搜索补全。来源：https://datasheet.lcsc.com/lcsc/2201121330_SK-HYNIX-H5AN8G8NCJR-VKC_C2927804.pdf
+- `H5ANAG4NCJR/H5ANAG8NCJR/H5ANAG6NCJR` datasheet / 分销页确认 16Gb DDR4 系列，`H5ANAG8NCJR-XNC` 为 16Gb x8 DDR4-3200；本轮加入 `H5ANAG*NCJR-XNC` 与 `H5ANAG8NMJR-VKC` exact PN 用于补全。来源：https://datasheet4u.com/pdf/1566393/H5ANAG8NCJR.pdf、https://www.lcsc.com/product-detail/ddr-sdram_sk-hynix-h5anag8ncjr-xnc_C22412254.html
 - `H5ANAG8NCMR-xxC` 和 `H5ANAG6NCMR-xxC` datasheet 明确 16Gb DDR4 SDRAM 为 Dual Die Package；x8 为 78ball FBGA 且 ballout 包含 CS1/ODT1/CKE1，x16 为 96ball FBGA。来源：https://4donline.ihs.com/images/VipMasterIC/IC/HYSC/HYSC-S-A0007570070/HYSC-S-A0007570070-1.pdf?hkey=52A5661711E402568146F3353EA87419 和 https://14469692.s21i.faiusr.com/61/ABUIABA9GAAgnfPMqgYo2N-tgAY.pdf
 - `H5GQ2H24AFR-R0C` datasheet: 2Gb (64Mx32) GDDR5 SGRAM，170 ball BGA，VDD/VDDQ 支持 1.6V/1.5V/1.35V；`R0/T2/T0` ordering rows分别对应 6.0/5.0/4.0Gbps/pin。来源：https://datasheet4u.com/pdf/1550045/H5GQ2H24AFR.pdf
 - `H5CG48AGBD-X018` DDR5: TechInsights 确认该 BGA package 内含单颗 16Gb DDR5 die；TechPowerUp 拆解也把 `H5CG48AGBD-X018` 标为 SK hynix A-Die DDR5 IC。来源：https://www.techinsights.com/ko/node/51799 和 https://www.techpowerup.com/review/patriot-viper-xtreme-5-rgb-ddr5-8000-cl38-2x-16-gb/3.html
+- `H5CG48MEBD-X014` TechInsights 资料确认来自 SK hynix DDR5 package；公开 DDR5 列表还列出 `H5CG48AGBDX018N`、`H5CG48MEBDX014N`、`H5CG46AGBDX017N`、`H5CG46MEBDX015N` 的 16Gb x8/x16 4800/5600Mbps 组合；资源中使用当前规则可解析的 dash 规范形式。来源：https://www.techinsights.com/products/mfr-2112-803、https://www.skhynix.glochip.com/h-pd-3.html
 - `H5CG48AGBDX018` 分销/Findchips 资料确认 `DDR5-5600 2Gx8 (16Gb)`。来源：https://www.absunshine.com/zh-CN/parts/H5CG48AGBDX018-SK-HYNIX-5928148 和 https://www.findchips.com/search/h5cg48agbdx018
 - `H5CGD8MHBD-X021` DDR5: TechInsights 确认该 24Gb DDR5 die/package，分销页交叉确认 `DDR5-6400 3Gx8 (24Gb)`。来源：https://www.techinsights.com/blog/sk-hynix-h5cgd8mhbd-x021-d1a-euv-24gb-ddr5-dram-memory-floorplan-analysis 和 https://nxelectronics.com/home/productdetail/?item_id=331166981&partno=H5CGD8MHBDX021N
 - `H9HCNNN8KUMLHR-NME` LPDDR4: datasheet / LCSC 资料确认 8Gb LPDDR4、x16、2 Channel、1 CS、DDP、200ball FBGA、3733Mbps、1.8V/1.1V 电源域。来源：https://datasheet.lcsc.com/lcsc/2410121844_SK-HYNIX-H9HCNNN8KUMLHR-NME_C2912103.pdf 和 https://lcsc.com/product-detail/ddr-sdram_sk-hynix-h9hcnnn8kumlhr-nme_C2912103.html

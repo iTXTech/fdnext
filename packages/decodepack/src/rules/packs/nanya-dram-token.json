@@ -77,12 +77,26 @@
           "5CB:EH": "96-ball BGA",
           "5CB:JR": "96-ball BGA",
           "5CB:FP": "96-ball BGA",
+          "5CC:GN": "78-ball BGA",
+          "5CC:GP": "96-ball BGA",
+          "5CC:EQ": "78-ball BGA",
+          "5CC:ER": "96-ball BGA",
+          "5CC:EH": "96-ball BGA",
           "5CC:JR": "96-ball BGA",
+          "5AD:E3": "78-ball BGA",
+          "5AD:E4": "96-ball BGA",
+          "5AD:F3": "78-ball BGA",
+          "5AD:F4": "96-ball BGA",
           "5AD:C3": "78-ball BGA",
+          "5AD:C4": "96-ball BGA",
           "5AD:H3": "78-ball BGA",
+          "5AD:H4": "96-ball BGA",
+          "5AD:A3": "78-ball BGA",
           "5AD:A4": "96-ball BGA",
           "5FF:A3": "82-ball BGA",
           "5FF:A4": "106-ball BGA",
+          "5FF:C3": "82-ball BGA",
+          "5FF:DK": "78-ball BGA",
           "5FF:EK": "78-ball BGA",
           "5FF:EL": "102-ball BGA"
         },
@@ -116,6 +130,12 @@
           },
           "Q5": {
             "dram_speed": "DDR5-5600"
+          },
+          "S8": {
+            "dram_speed": "DDR5-6400"
+          },
+          "UB": {
+            "dram_speed": "DDR5-7200"
           },
           "WE": {
             "dram_speed": "DDR5-8000"
@@ -378,10 +398,12 @@
           "6CL:DM": "178-ball BGA",
           "6CL:AM": "178-ball BGA",
           "6CL:AP": "178-ball BGA",
+          "6AN:AC": "200-ball BGA",
           "6AN:AV": "200-ball BGA",
           "6AN:DV": "200-ball BGA",
           "6AP:AV": "200-ball BGA",
           "6AP:BL": "200-ball BGA",
+          "6AP:BN": "376-ball PoP",
           "6AP:BV": "200-ball BGA",
           "6AP:BY": "200-ball BGA",
           "6AT:DV": "200-ball BGA",
@@ -400,6 +422,9 @@
           },
           "6AN:J1": {
             "dram_speed": "LPDDR4-4267"
+          },
+          "6AN:J2": {
+            "dram_speed": "LPDDR4-3733"
           },
           "6AP:J1": {
             "dram_speed": "LPDDR4X-4267"
@@ -436,6 +461,18 @@
           "6AN:": {
             "operation_temperature": "Commercial (-30C~105C)"
           },
+          "6AN:I": {
+            "operation_temperature": "Industrial (-40C~105C)"
+          },
+          "6AN:H": {
+            "operation_temperature": "Automotive (-40C~105C)"
+          },
+          "6AN:J": {
+            "operation_temperature": "Automotive (-40C~95C)"
+          },
+          "6AN:K": {
+            "operation_temperature": "Automotive (-40C~125C)"
+          },
           "6AP:": {
             "operation_temperature": "Commercial (-30C~105C)"
           },
@@ -444,6 +481,9 @@
           },
           "6AP:H": {
             "operation_temperature": "Automotive (-40C~105C)"
+          },
+          "6AP:J": {
+            "operation_temperature": "Automotive (-40C~95C)"
           },
           "6AT:": {
             "operation_temperature": "Commercial (-30C~105C)"
@@ -454,8 +494,14 @@
           "6BR:": {
             "operation_temperature": "Commercial (-30C~105C)"
           },
+          "6BR:I": {
+            "operation_temperature": "Industrial (-40C~105C)"
+          },
           "6BR:H": {
             "operation_temperature": "Automotive (-40C~105C)"
+          },
+          "6BR:J": {
+            "operation_temperature": "Automotive (-40C~95C)"
           }
         }
       },

@@ -1497,6 +1497,23 @@ assertDram("K4A8G085WB", {
   absentExtra: ["DRAM Speed", "Operation Temperature"]
 });
 
+assertDram("K4A4G085WE-BITD", {
+  vendor: "samsung",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "5WE",
+    "Config Code": "4G08",
+    "DRAM Speed": "DDR4-2666",
+    "Operation Temperature": "Industrial (-40C~95C)"
+  }
+});
+
 assertDram("K4AAG085WB-MCRC", {
   vendor: "samsung",
   densityMbit: 16384,
@@ -1913,6 +1930,57 @@ assertDram("K4U52324QE-BC08", {
   }
 });
 
+assertDram("K4W1G1646E-HC12", {
+  vendor: "samsung",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD/VDDQ",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "DRAM Generation": "Samsung graphics gDDR3/SDDR3",
+    "Package Code": "E",
+    "Config Code": "1G1646",
+    "DRAM Speed": "gDDR3-1600Mbps/pin"
+  }
+});
+
+assertDram("K4W2G1646Q-BC1A", {
+  vendor: "samsung",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD/VDDQ",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "DRAM Generation": "Samsung graphics gDDR3/SDDR3",
+    "Package Code": "Q",
+    "Config Code": "2G1646",
+    "DRAM Speed": "gDDR3-2133Mbps/pin"
+  }
+});
+
+assertDram("K4W4G1646D-BY12", {
+  vendor: "samsung",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD/VDDQ",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "DRAM Generation": "Samsung graphics gDDR3/SDDR3",
+    "Package Code": "D",
+    "Config Code": "4G1646",
+    "DRAM Speed": "gDDR3-1600Mbps/pin"
+  }
+});
+
 assertDram("K4G80325FB-HC25", {
   vendor: "samsung",
   densityMbit: 8192,
@@ -2093,6 +2161,23 @@ assertDram("NT5FF2048M8EK-WEU", {
   }
 });
 
+assertDram("NT5FF2048M8DK-UB", {
+  vendor: "nanya",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "78-ball BGA",
+  extra: {
+    "DRAM Type": "DDR5 SDRAM",
+    "DRAM Die Stack": "Single die, 1 CS",
+    "Package Code": "DK",
+    "Config Code": "2048M8",
+    "DRAM Speed": "DDR5-7200",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
 assertDram("NT6TL128M32BA-G0", {
   vendor: "nanya",
   densityMbit: 4096,
@@ -2123,6 +2208,23 @@ assertDram("NT6CL256M32AM-H0", {
     "Package Code": "AM",
     "Config Code": "256M32",
     "DRAM Speed": "LPDDR3-2133",
+    "Operation Temperature": "Commercial (-30C~105C)"
+  }
+});
+
+assertDram("NT6AP256F64BN-J1", {
+  vendor: "nanya",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x64",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "376-ball PoP",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "DRAM Die Stack": "QDP (4-die), 2 CS",
+    "Package Code": "BN",
+    "Config Code": "256F64",
+    "DRAM Speed": "LPDDR4X-4267",
     "Operation Temperature": "Commercial (-30C~105C)"
   }
 });
@@ -2620,6 +2722,12 @@ assertDram("W66DP2RQQAHJ", {
 });
 
 assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC32");
+assertSearchPnIncludes("K4W2G1646", "Samsung K4W2G1646Q-BC1A");
+assertSearchPnIncludes("K4W4G1646E", "Samsung K4W4G1646E-BC1A");
+assertSearchPnIncludes("K4AAG165WB", "Samsung K4AAG165WB-MCTD");
+assertSearchPnIncludes("H5ANAG8NCJR", "SKhynix H5ANAG8NCJR-XNC");
+assertSearchPnIncludes("NT5FF2048M8DK", "Nanya NT5FF2048M8DK-UB");
+assertSearchPnIncludes("NT6AP256F64", "Nanya NT6AP256F64BN-J1");
 assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
 assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");
 assertSearchPnIncludes("CXDQ3A8", "CXMT CXDQ3A8AM-CQ-A");
@@ -2627,6 +2735,7 @@ assertSearchPnIncludes("CXDQ4A8", "CXMT CXDQ4A8AM-CJ-M");
 assertSearchPnIncludes("CXDR4E8", "CXMT CXDR4E8BM-CS-A");
 assertSearchPnIncludes("CXDB5C", "CXMT CXDB5CCAM-MK");
 assertSearchPnIncludes("CXDB5CCBM", "CXMT CXDB5CCBM-MA-A");
+assertSearchPnIncludes("CXDB6CCBM", "CXMT CXDB6CCBM-MA-A");
 assertSearchPnIncludes("IS43QR8K02", "ISSI IS43QR8K02S2A");
 assertSearchPnIncludes("W66DP2RQQA", "Winbond W66DP2RQQAHJ");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");

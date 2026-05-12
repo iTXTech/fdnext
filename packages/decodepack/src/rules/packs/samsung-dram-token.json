@@ -369,7 +369,15 @@
           "A:16:5WB": "96-ball FBGA",
           "A:04:5WC": "78-ball FBGA",
           "A:08:5WC": "78-ball FBGA",
-          "A:16:5WC": "96-ball FBGA"
+          "A:16:5WC": "96-ball FBGA",
+          "A:04:5WD": "78-ball FBGA",
+          "A:08:5WD": "78-ball FBGA",
+          "A:16:5WD": "96-ball FBGA",
+          "A:04:5WE": "78-ball FBGA",
+          "A:08:5WE": "78-ball FBGA",
+          "A:16:5WE": "96-ball FBGA",
+          "A:08:5WF": "78-ball FBGA",
+          "A:16:5WF": "96-ball FBGA"
         },
         "speedObj": {
           "UC75": {
@@ -389,12 +397,44 @@
             "dram_speed": "DDR3-1866",
             "operation_temperature": "Automotive (-40C~105C)"
           },
+          "BCPB": {
+            "dram_speed": "DDR4-2133",
+            "operation_temperature": "Commercial (0C~85C)"
+          },
           "BCRC": {
             "dram_speed": "DDR4-2400",
             "operation_temperature": "Commercial (0C~85C)"
           },
+          "BCTD": {
+            "dram_speed": "DDR4-2666",
+            "operation_temperature": "Commercial (0C~85C)"
+          },
+          "BCVF": {
+            "dram_speed": "DDR4-2933",
+            "operation_temperature": "Commercial (0C~85C)"
+          },
+          "BCWE": {
+            "dram_speed": "DDR4-3200",
+            "operation_temperature": "Commercial (0C~85C)"
+          },
+          "BIPB": {
+            "dram_speed": "DDR4-2133",
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
           "BIRC": {
             "dram_speed": "DDR4-2400",
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "BITD": {
+            "dram_speed": "DDR4-2666",
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "BIVF": {
+            "dram_speed": "DDR4-2933",
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "BIWE": {
+            "dram_speed": "DDR4-3200",
             "operation_temperature": "Industrial (-40C~95C)"
           },
           "MCPB": {
@@ -1389,7 +1429,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^K4(?:D|N|J|U)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+      "value": "^K4(?:D|N|J|U|W)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -1408,13 +1448,18 @@
           },
           "U": {
             "dram_type": "GDDR4 SGRAM"
+          },
+          "W": {
+            "dram_type": "DDR3 SDRAM",
+            "dram_generation": "Samsung graphics gDDR3/SDDR3"
           }
         },
         "voltageDefault": {
           "D": "2.5V/2.8V VDD/VDDQ",
           "N": "1.8V/2.0V VDD/VDDQ",
           "J": "1.8V/2.0V VDD/VDDQ",
-          "U": "1.8V VDD/VDDQ"
+          "U": "1.8V VDD/VDDQ",
+          "W": "Unknown"
         },
         "densityMb": {
           "26": 128,
@@ -1422,7 +1467,9 @@
           "52": 512,
           "55": 256,
           "56": 256,
-          "1G": 1024
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096
         },
         "packageActual": {
           "D:E": "144-ball FBGA",
@@ -1431,7 +1478,10 @@
           "N:QG": "84-ball FBGA",
           "J:QC": "136-ball FBGA",
           "J:QE": "136-ball FBGA",
-          "U:QE": "136-ball FBGA"
+          "U:QE": "136-ball FBGA",
+          "W:D": "96-ball FBGA",
+          "W:E": "96-ball FBGA",
+          "W:Q": "96-ball FBGA"
         },
         "voltageBySpeed": {
           "GC25": "2.8V VDD/VDDQ",
@@ -1451,6 +1501,18 @@
           "BC20": "1.8V VDD/VDDQ",
           "ZC25": "1.8V VDD/VDDQ",
           "ZC2A": "1.8V VDD/VDDQ"
+        },
+        "voltageBySpeedKey": {
+          "W:BC11": "1.5V VDD/VDDQ",
+          "W:BC12": "1.5V VDD/VDDQ",
+          "W:BC1A": "1.5V VDD/VDDQ",
+          "W:BC1B": "1.5V VDD/VDDQ",
+          "W:BY12": "1.35V VDD/VDDQ",
+          "W:HC11": "1.5V VDD/VDDQ",
+          "W:HC12": "1.5V VDD/VDDQ",
+          "W:HC15": "1.5V VDD/VDDQ",
+          "W:HC19": "1.5V VDD/VDDQ",
+          "W:HC1A": "1.5V VDD/VDDQ"
         },
         "speedObj": {
           "GC25": {
@@ -1485,6 +1547,38 @@
           },
           "BJ14": {
             "dram_speed": "GDDR3-1.4Gbps/pin"
+          }
+        },
+        "speedKeyObj": {
+          "W:BC11": {
+            "dram_speed": "gDDR3-1866Mbps/pin"
+          },
+          "W:BC12": {
+            "dram_speed": "gDDR3-1600Mbps/pin"
+          },
+          "W:BC1A": {
+            "dram_speed": "gDDR3-2133Mbps/pin"
+          },
+          "W:BC1B": {
+            "dram_speed": "gDDR3-2400Mbps/pin"
+          },
+          "W:BY12": {
+            "dram_speed": "gDDR3-1600Mbps/pin"
+          },
+          "W:HC11": {
+            "dram_speed": "gDDR3-1800Mbps/pin"
+          },
+          "W:HC12": {
+            "dram_speed": "gDDR3-1600Mbps/pin"
+          },
+          "W:HC15": {
+            "dram_speed": "gDDR3-1333Mbps/pin"
+          },
+          "W:HC19": {
+            "dram_speed": "gDDR3-1066Mbps/pin"
+          },
+          "W:HC1A": {
+            "dram_speed": "gDDR3-2000Mbps/pin"
           }
         }
       },
@@ -1571,10 +1665,22 @@
           "default": ""
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
           "op": "map",
           "from": "speedCode",
           "table": "speedObj",
           "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedKeyObj",
+          "to": "speedKeyObj",
           "default": {}
         },
         {
@@ -1585,8 +1691,21 @@
           "default": ""
         },
         {
+          "op": "map",
+          "from": "speedKey",
+          "table": "voltageBySpeedKey",
+          "to": "voltageOverrideKey",
+          "default": ""
+        },
+        {
           "op": "fallback",
-          "primary": "voltageOverride",
+          "primary": "voltageOverrideKey",
+          "secondary": "voltageOverride",
+          "to": "voltageOverrideFinal"
+        },
+        {
+          "op": "fallback",
+          "primary": "voltageOverrideFinal",
           "secondary": "voltageDefault",
           "to": "voltage"
         },
@@ -1612,6 +1731,12 @@
           "op": "mergeIf",
           "into": "extra",
           "from": "speedObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedKeyObj",
           "if": "hasSuffix"
         }
       ],
