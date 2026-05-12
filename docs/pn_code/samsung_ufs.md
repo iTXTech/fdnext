@@ -10,6 +10,7 @@
   <https://semiconductor.samsung.com/estorage/ufs/ufs-4-0/>
 - Samsung UFS 4.1 官方页面确认 UFS 4.1 产品线、G5 2Lane 和 153 FBGA。
   <https://semiconductor.samsung.com/jp/estorage/ufs/>
+- 用户提供的 Samsung UFS 测试点 dump 表确认若干特定基础 PN 的 CE 数、die 数和单 die NAND marking。该表只用于 exact base PN 补充，不从 UFS PN token 泛化推断 CE / die。
 
 ## 规则入口
 
@@ -25,6 +26,9 @@
 | die stack `1/2/4/8/A` | SDP / DDP / QDP / ODP / HDP |
 | controller `D/G/J/H/K` | UFS G4/G5 controller family |
 | version `E/G/H` | UFS 3.1 / 4.0 / 4.1 |
+| `dumpedPartObj` exact base PN | 用户测试点 dump 得到的 `ce_count`、`die_count`、`nand_component` |
+
+这里的 `die_stack` 是既有封装堆叠展示字段；CE 数和 die 数只来自 dump 表，不从 `die stack` token 或其他 PN token 推导。
 
 ## 统一输出字段
 
@@ -33,6 +37,8 @@ Samsung UFS 现在与 SK hynix 共用：
 - `component_density`：封装总容量，例如 `512GB package`
 - `die_density`：单 die 容量，例如 `512Gb`
 - `die_stack`：封装堆叠，例如 `ODP (8-die)`
+- `nand_component`：特定基础 PN 的单 die NAND marking，例如 `K9AFGD8J0B`
+- `die_count` / `ce_count`：仅对 dump 表中列出的特定基础 PN 输出；不按 UFS PN token 泛化推断
 - `fields.process_node`：NAND 代际，例如 `V8 236L`；不在 `fields` 里重复输出相同的 `generation_info`
 
 可信度 metadata 只在 iTXTech fdnext DecodePack `tables.reference` 内维护，不进入 `fields`。
@@ -41,6 +47,8 @@ Samsung UFS 现在与 SK hynix 共用：
 
 | PN | 解析重点 |
 | --- | --- |
+| `KLUCG4J1BB` | UFS 2.0, 64GB package, MLC, 4 CE / 4 die, `K9GDGD8U0B` |
+| `KLUDGAG1BD` | UFS 2.0, 128GB package, MLC, 8 CE / 16 die, `K9GCGD8U0D` |
 | `KLUEG8UHDB-C2E1` | UFS 3.1, 256GB package, ODP, 256Gb die, V5 92L |
 | `KLUFG8RHHF-F0G1` | UFS 4.0, 512GB package, ODP, 512Gb die, V8 236L |
 | `KLUEG4RHKF-F0H1` | UFS 4.1, 256GB package, QDP, 512Gb die, V8 236L |

@@ -1429,6 +1429,44 @@ assertPart("KMGE6001BM-B421", {
   absentExtra: ["Group", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertPart("KLUCG4J1BB", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 524288,
+  processField: "14nm",
+  cellField: "MLC",
+  extra: {
+    "Component Density": "64GB package",
+    "NAND Component": "K9GDGD8U0B",
+    "Die Density": "128Gb",
+    "Die Stack": "QDP (4-die)",
+    "Die Count": 4,
+    "CE Count": 4,
+    "Product Version": "UFS 2.0",
+    "Controller": "UFS 2.0 G2-2Lane Controller"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KLUDGAG1BD", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 1048576,
+  processField: "16nm",
+  cellField: "MLC",
+  extra: {
+    "Component Density": "128GB package",
+    "NAND Component": "K9GCGD8U0D",
+    "Die Density": "64Gb",
+    "Die Stack": "HDP (16-die)",
+    "Die Count": 16,
+    "CE Count": 8,
+    "Product Version": "UFS 2.0",
+    "Controller": "UFS 2.0 G2-2Lane Controller"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
 assertPart("KLUEG8UHDB-C2E1", {
   vendor: "samsung",
   type: "UFS",
@@ -1436,8 +1474,11 @@ assertPart("KLUEG8UHDB-C2E1", {
   processField: "V5 92L",
   extra: {
     "Component Density": "256GB package",
+    "NAND Component": "K9AFGD8J0B",
     "Die Density": "256Gb",
     "Die Stack": "ODP (8-die)",
+    "Die Count": 8,
+    "CE Count": 8,
     "Product Version": "UFS 3.1",
     "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller"
   },
