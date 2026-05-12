@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readdirSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
 import { dirname as pathDirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -93,8 +93,17 @@ function buildTime(): string {
   return cleanEnvValue(process.env.FDNEXT_BUILD_TIME) ?? new Date().toISOString();
 }
 
+function fdnextVersion(root: string): string {
+  const packageJson = JSON.parse(readFileSync(resolve(root, "package.json"), "utf8")) as { version?: unknown };
+  if (typeof packageJson.version !== "string" || packageJson.version.length === 0) {
+    throw new Error("Root package metadata must include a version.");
+  }
+  return packageJson.version;
+}
+
 function buildMetadataDefines(root: string): Record<string, string> {
   return {
+    __FDNEXT_VERSION__: JSON.stringify(fdnextVersion(root)),
     __FDNEXT_COMMIT_HASH__: JSON.stringify(gitShortCommitHash(root)),
     __FDNEXT_BUILD_TIME__: JSON.stringify(buildTime())
   };

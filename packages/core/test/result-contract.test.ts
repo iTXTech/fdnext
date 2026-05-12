@@ -6,6 +6,7 @@ import {
   decodeIdentifierInputJsonSchema,
   decodePartInputJsonSchema,
   fdnextCapabilitiesJsonSchema,
+  FDNEXT_VERSION,
   fdnextFieldRegistry,
   fdnextOperationInputJsonSchemas,
   fdnextResultJsonSchema,
@@ -19,6 +20,9 @@ import {
 const fixtureRoot = fileURLToPath(new URL("./fixtures/", import.meta.url));
 const resultFixtureRoot = join(fixtureRoot, "fdnext-result");
 const engLang = parseJson(fileURLToPath(new URL("../../resources/resources/lang/eng.json", import.meta.url))) as Record<string, string>;
+const rootPackageMetadata = parseJson(fileURLToPath(new URL("../../../package.json", import.meta.url))) as { version?: unknown };
+assert.equal(typeof rootPackageMetadata.version, "string", "root package metadata must expose a version");
+const fdnextPackageVersion = rootPackageMetadata.version as string;
 
 type SchemaObject = Exclude<JsonSchema, boolean> & Record<string, unknown>;
 
@@ -244,7 +248,15 @@ for (const name of expectedResultFixtures) {
   }
 }
 
-assertValid("capabilities fixture", fdnextCapabilitiesJsonSchema, parseJson(join(fixtureRoot, "fdnext-capabilities.json")));
+const capabilitiesFixture = parseJson(join(fixtureRoot, "fdnext-capabilities.json"));
+assertValid("capabilities fixture", fdnextCapabilitiesJsonSchema, capabilitiesFixture);
+assert.equal(FDNEXT_VERSION, fdnextPackageVersion);
+const capabilitiesServer = isObject(capabilitiesFixture) ? capabilitiesFixture.server : undefined;
+assert.equal(
+  isObject(capabilitiesServer) ? capabilitiesServer.version : undefined,
+  fdnextPackageVersion,
+  "capabilities fixture server.version should track root package metadata"
+);
 
 assert.deepEqual(
   Object.keys(fdnextOperationInputJsonSchemas).sort(),

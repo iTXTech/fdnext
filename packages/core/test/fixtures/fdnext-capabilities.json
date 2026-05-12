@@ -2,7 +2,7 @@
   "schemaVersion": "fdnext.capabilities.v1",
   "server": {
     "name": "fdnext-server",
-    "version": "2.1.0",
+    "version": "2.2.0",
     "build": {
       "commitHash": "dev",
       "buildTime": "1970-01-01T00:00:00.000Z"

@@ -1,6 +1,8 @@
+import packageMetadata from "../package.json" with { type: "json" };
+
 export const FDNEXT_RESULT_SCHEMA_VERSION = "fdnext.result.v1" as const;
 export const FDNEXT_CAPABILITIES_SCHEMA_VERSION = "fdnext.capabilities.v1" as const;
-export const FDNEXT_VERSION = "2.1.0" as const;
+declare const __FDNEXT_VERSION__: string;
 declare const __FDNEXT_COMMIT_HASH__: string;
 declare const __FDNEXT_BUILD_TIME__: string;
 
@@ -10,8 +12,17 @@ export interface FdnextBuildMetadata {
 }
 
 function buildMetadataValue(value: unknown, fallback: string): string {
-  return typeof value === "string" && value.length > 0 ? value : fallback;
+  return metadataString(value) ?? fallback;
 }
+
+function metadataString(value: unknown): string | undefined {
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+export const FDNEXT_VERSION = buildMetadataValue(
+  typeof __FDNEXT_VERSION__ === "string" ? __FDNEXT_VERSION__ : metadataString(packageMetadata.version),
+  "dev"
+);
 
 export const FDNEXT_BUILD_METADATA: FdnextBuildMetadata = {
   commitHash: buildMetadataValue(typeof __FDNEXT_COMMIT_HASH__ === "string" ? __FDNEXT_COMMIT_HASH__ : undefined, "dev"),

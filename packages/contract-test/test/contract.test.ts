@@ -1,11 +1,13 @@
 import { spawnSync } from "node:child_process";
 import assert from "node:assert/strict";
 import { once } from "node:events";
+import { readFileSync } from "node:fs";
 import type { AddressInfo } from "node:net";
 import type { Server as NodeServer } from "node:http";
 import { fileURLToPath } from "node:url";
 import {
   createEngine,
+  FDNEXT_VERSION,
   fdnextBlockIds,
   fdnextChipKinds,
   fdnextDomains,
@@ -27,6 +29,10 @@ function parseJsonObject(text: string): Record<string, unknown> {
   assert.ok(parsed && typeof parsed === "object" && !Array.isArray(parsed));
   return parsed as Record<string, unknown>;
 }
+
+const rootPackageMetadata = parseJsonObject(readFileSync(new URL("../../../package.json", import.meta.url), "utf8"));
+assert.equal(typeof rootPackageMetadata.version, "string", "root package metadata must expose a version");
+const fdnextPackageVersion = rootPackageMetadata.version as string;
 
 function runCli(args: string[]): Record<string, unknown> {
   const result = spawnSync(process.execPath, ["--import", "tsx", "./packages/cli/src/index.ts", ...args], {
@@ -80,7 +86,8 @@ assert.deepEqual(summary.operations, ["part.decode", "part.search", "identifier.
 
 const engine = createContractEngine();
 const sdkCapabilities = engine.getCapabilities();
-assert.equal(sdkCapabilities.server.version, "2.1.0");
+assert.equal(FDNEXT_VERSION, fdnextPackageVersion);
+assert.equal(sdkCapabilities.server.version, fdnextPackageVersion);
 assert.equal(sdkCapabilities.server.build.commitHash, "dev");
 assert.equal(sdkCapabilities.server.build.buildTime, "1970-01-01T00:00:00.000Z");
 assert.equal(sdkCapabilities.fdb.version, engine.getVersion());
@@ -467,7 +474,7 @@ async function injectJson(method: "GET" | "POST", url: string): Promise<Record<s
 const httpIndex = await injectJson("GET", "/");
 assert.equal(httpIndex.status, "ok");
 assert.equal(httpIndex.name, "fdnext-server");
-assert.equal(httpIndex.version, "2.1.0");
+assert.equal(httpIndex.version, fdnextPackageVersion);
 const httpPartDecode = await injectJson("GET", "/parts/decode?query=MT62F1G64D4EK-023&lang=eng");
 assert.equal(httpPartDecode.operation, "part.decode");
 assert.equal((httpPartDecode.device as { chipKind?: string } | undefined)?.chipKind, "dram");
