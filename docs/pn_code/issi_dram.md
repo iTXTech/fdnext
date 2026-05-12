@@ -50,6 +50,6 @@ IS43/IS46 + LQ + product token
 - DDR3L 通过结尾 `L` 输出 `1.35V or 1.5V VDD`；DDR4 输出 `1.2V VDD`。
 - 通用 decoder 规则会按图中的 word count 与 bus width 计算 `dram_density`，例如 `8 + 1280` 输出 128M x8 = 1Gb。
 - `speed`、`CAS latency`、`package code`、`solder type`、`operation_temperature` 来自 `-` 后缀；speed 输出直接频率，DDR 类 token 额外标注等效 DDR 速率，例如 `933MHz (DDR-1866)`；packing 后缀目前只参与结构容忍，不输出为公开字段。
-- 官方表标注 Dual Rank 的 `S2` token 输出 `2 ranks, 2 CS`；`S1` 输出 `1 rank, 1 CS`；非堆叠字段没有官方 CS 细节时不推断更多 die 数。
-- LPDDR4X 通过产品 token 的 `L` 输出 `LPDDR4X SDRAM` 与 `1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ`。
+- 官方表标注 rank 的 `S1` / `S2` token 只标准化为 `ce_count=1` / `ce_count=2`；rank 不等同于 die，未确认物理 die 数时不输出 `dram_die_stack`。
+- LPDDR4X 通过产品 token 的 `L` 输出 `LPDDR4X` 与 `1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ`。
 - `packages/resources/resources/dram-pn.json` 展开收录官方表中可确认的 `IS43` / `IS46` PN 样例，用于搜索补全；解码仍由 token 规则完成。

@@ -27,10 +27,10 @@
       "tables": {
         "familyObj": {
           "TR": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "QR": {
-            "dram_type": "DDR4 SDRAM"
+            "dram_type": "DDR4"
           }
         },
         "voltage": {
@@ -122,54 +122,54 @@
         },
         "stackObj": {
           "16512": {
-            "dram_die_stack": "1 rank, 1 CS"
+            "ce_count": 1
           },
           "16512S2": {
-            "dram_die_stack": "2 ranks, 2 CS"
+            "ce_count": 2
           },
           "8K02S2": {
-            "dram_die_stack": "2 ranks, 2 CS"
+            "ce_count": 2
           },
           "16K01S2": {
-            "dram_die_stack": "2 ranks, 2 CS"
+            "ce_count": 2
           }
         },
         "speedObj": {
-          "7": {
-            "dram_speed": "143MHz"
-          },
-          "6": {
-            "dram_speed": "166MHz"
-          },
-          "75E": {
-            "dram_speed": "133MHz @ CL2 (SDR)"
+          "3": {
+            "dram_speed": "333MHz"
           },
           "5": {
             "dram_speed": "200MHz"
           },
-          "37": {
-            "dram_speed": "266MHz"
+          "6": {
+            "dram_speed": "166MHz"
           },
-          "3": {
-            "dram_speed": "333MHz"
-          },
-          "25": {
-            "dram_speed": "400MHz"
-          },
-          "187": {
-            "dram_speed": "533MHz (DDR-1066)"
-          },
-          "18": {
-            "dram_speed": "533MHz (DDR-1066)"
+          "7": {
+            "dram_speed": "143MHz"
           },
           "15": {
             "dram_speed": "667MHz (DDR-1333)"
           },
-          "125": {
-            "dram_speed": "800MHz (DDR-1600)"
+          "18": {
+            "dram_speed": "533MHz (DDR-1066)"
+          },
+          "25": {
+            "dram_speed": "400MHz"
+          },
+          "37": {
+            "dram_speed": "266MHz"
           },
           "107": {
             "dram_speed": "933MHz (DDR-1866)"
+          },
+          "125": {
+            "dram_speed": "800MHz (DDR-1600)"
+          },
+          "187": {
+            "dram_speed": "533MHz (DDR-1066)"
+          },
+          "75E": {
+            "dram_speed": "133MHz @ CL2 (SDR)"
           },
           "093": {
             "dram_speed": "1066MHz (DDR-2133)"
@@ -491,7 +491,7 @@
           "16128A": {
             "density": 2048,
             "device_width": 16,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 128M",
@@ -500,7 +500,7 @@
           "32640A": {
             "density": 2048,
             "device_width": 32,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 64M",
@@ -509,7 +509,7 @@
           "16256A": {
             "density": 4096,
             "device_width": 16,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 256M",
@@ -518,7 +518,7 @@
           "16256B": {
             "density": 4096,
             "device_width": 16,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 256M",
@@ -527,7 +527,7 @@
           "32128A": {
             "density": 4096,
             "device_width": 32,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 128M",
@@ -536,7 +536,7 @@
           "16512A": {
             "density": 8192,
             "device_width": 16,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 512M",
@@ -545,7 +545,7 @@
           "32256A": {
             "density": 8192,
             "device_width": 32,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 256M",
@@ -554,7 +554,7 @@
           "32256B": {
             "density": 8192,
             "device_width": 32,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 256M",
@@ -563,7 +563,7 @@
           "16128EA": {
             "density": 2048,
             "device_width": 16,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 128M ECC",
@@ -572,7 +572,7 @@
           "32640EA": {
             "density": 2048,
             "device_width": 32,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 64M ECC",
@@ -581,7 +581,7 @@
           "16256EA": {
             "density": 4096,
             "device_width": 16,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 256M ECC",
@@ -590,7 +590,7 @@
           "32128EA": {
             "density": 4096,
             "device_width": 32,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 128M ECC",
@@ -599,7 +599,7 @@
           "32256EA": {
             "density": 8192,
             "device_width": 32,
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 256M ECC",
@@ -608,7 +608,7 @@
           "16128AL": {
             "density": 2048,
             "device_width": 16,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 128M",
@@ -617,7 +617,7 @@
           "32640AL": {
             "density": 2048,
             "device_width": 32,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 64M",
@@ -626,7 +626,7 @@
           "16256AL": {
             "density": 4096,
             "device_width": 16,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 256M",
@@ -635,7 +635,7 @@
           "16256BL": {
             "density": 4096,
             "device_width": 16,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 256M",
@@ -644,7 +644,7 @@
           "32128AL": {
             "density": 4096,
             "device_width": 32,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 128M",
@@ -653,7 +653,7 @@
           "16512AL": {
             "density": 8192,
             "device_width": 16,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 512M",
@@ -662,7 +662,7 @@
           "32256AL": {
             "density": 8192,
             "device_width": 32,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 256M",
@@ -671,7 +671,7 @@
           "32256BL": {
             "density": 8192,
             "device_width": 32,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 256M",
@@ -680,7 +680,7 @@
           "16128EAL": {
             "density": 2048,
             "device_width": 16,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 128M ECC",
@@ -689,7 +689,7 @@
           "32640EAL": {
             "density": 2048,
             "device_width": 32,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 64M ECC",
@@ -698,7 +698,7 @@
           "16256EAL": {
             "density": 4096,
             "device_width": 16,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 256M ECC",
@@ -707,7 +707,7 @@
           "32128EAL": {
             "density": 4096,
             "device_width": 32,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 128M ECC",
@@ -716,7 +716,7 @@
           "32256EAL": {
             "density": 8192,
             "device_width": 32,
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 256M ECC",
@@ -828,49 +828,49 @@
             "dram_type": "Asynchronous DRAM"
           },
           "S:false": {
-            "dram_type": "SDR SDRAM"
+            "dram_type": "SDR"
           },
           "VS:false": {
-            "dram_type": "SDR SDRAM"
+            "dram_type": "SDR"
           },
           "R:false": {
-            "dram_type": "DDR SDRAM"
+            "dram_type": "DDR"
           },
           "DR:false": {
-            "dram_type": "DDR2 SDRAM"
+            "dram_type": "DDR2"
           },
           "TR:false": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "TR:true": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "QR:false": {
-            "dram_type": "DDR4 SDRAM"
+            "dram_type": "DDR4"
           },
           "QR:true": {
-            "dram_type": "DDR4 SDRAM"
+            "dram_type": "DDR4"
           },
           "SM:false": {
-            "dram_type": "LPSDR SDRAM"
+            "dram_type": "LPSDR"
           },
           "RM:false": {
-            "dram_type": "LPSDR SDRAM"
+            "dram_type": "LPSDR"
           },
           "VM:false": {
-            "dram_type": "LPSDR SDRAM"
+            "dram_type": "LPSDR"
           },
           "LR:false": {
-            "dram_type": "LPDDR SDRAM"
+            "dram_type": "LPDDR"
           },
           "LD:false": {
-            "dram_type": "LPDDR2 SDRAM"
+            "dram_type": "LPDDR2"
           },
           "LQ:false": {
-            "dram_type": "LPDDR4 SDRAM"
+            "dram_type": "LPDDR4"
           },
           "LQ:true": {
-            "dram_type": "LPDDR4X SDRAM"
+            "dram_type": "LPDDR4X"
           }
         },
         "voltage": {
@@ -892,49 +892,49 @@
           "LQ:true": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ"
         },
         "busWidthToken": {
-          "32": "32",
+          "8": "8",
           "16": "16",
-          "8": "8"
+          "32": "32"
         },
         "busWidth": {
-          "32": 32,
+          "8": 8,
           "16": 16,
-          "8": 8
+          "32": 32
         },
         "wordToken": {
-          "1024": "1024",
-          "K02": "K02",
-          "K01": "K01",
-          "5120": "5120",
-          "2560": "2560",
-          "1280": "1280",
-          "640": "640",
-          "512": "512",
-          "320": "320",
-          "256": "256",
-          "160": "160",
+          "100": "100",
           "128": "128",
-          "800": "800",
-          "400": "400",
+          "160": "160",
           "200": "200",
-          "100": "100"
+          "256": "256",
+          "320": "320",
+          "400": "400",
+          "512": "512",
+          "640": "640",
+          "800": "800",
+          "1024": "1024",
+          "1280": "1280",
+          "2560": "2560",
+          "5120": "5120",
+          "K02": "K02",
+          "K01": "K01"
         },
         "wordM": {
           "100": 1,
-          "200": 2,
-          "400": 4,
-          "800": 8,
-          "160": 16,
-          "320": 32,
-          "640": 64,
           "128": 128,
+          "160": 16,
+          "200": 2,
           "256": 256,
+          "320": 32,
+          "400": 4,
           "512": 512,
+          "640": 64,
+          "800": 8,
+          "1024": 1024,
           "1280": 128,
           "2560": 256,
           "5120": 512,
           "K01": 1024,
-          "1024": 1024,
           "K02": 2048
         },
         "stackToken": {
@@ -943,48 +943,48 @@
         },
         "stackObj": {
           "S1": {
-            "dram_die_stack": "1 rank, 1 CS"
+            "ce_count": 1
           },
           "S2": {
-            "dram_die_stack": "2 ranks, 2 CS"
+            "ce_count": 2
           }
         },
         "speedObj": {
-          "7": {
-            "dram_speed": "143MHz"
-          },
-          "6": {
-            "dram_speed": "166MHz"
-          },
-          "75E": {
-            "dram_speed": "133MHz @ CL2 (SDR)"
+          "3": {
+            "dram_speed": "333MHz"
           },
           "5": {
             "dram_speed": "200MHz"
           },
-          "37": {
-            "dram_speed": "266MHz"
+          "6": {
+            "dram_speed": "166MHz"
           },
-          "3": {
-            "dram_speed": "333MHz"
-          },
-          "25": {
-            "dram_speed": "400MHz"
-          },
-          "187": {
-            "dram_speed": "533MHz (DDR-1066)"
-          },
-          "18": {
-            "dram_speed": "533MHz (DDR-1066)"
+          "7": {
+            "dram_speed": "143MHz"
           },
           "15": {
             "dram_speed": "667MHz (DDR-1333)"
           },
-          "125": {
-            "dram_speed": "800MHz (DDR-1600)"
+          "18": {
+            "dram_speed": "533MHz (DDR-1066)"
+          },
+          "25": {
+            "dram_speed": "400MHz"
+          },
+          "37": {
+            "dram_speed": "266MHz"
           },
           "107": {
             "dram_speed": "933MHz (DDR-1866)"
+          },
+          "125": {
+            "dram_speed": "800MHz (DDR-1600)"
+          },
+          "187": {
+            "dram_speed": "533MHz (DDR-1066)"
+          },
+          "75E": {
+            "dram_speed": "133MHz @ CL2 (SDR)"
           },
           "093": {
             "dram_speed": "1066MHz (DDR-2133)"

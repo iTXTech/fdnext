@@ -181,7 +181,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR3 SDRAM",
+            "dram_type": "DDR3",
             "config_code": {
               "$var": "configCode"
             },
@@ -372,7 +372,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR4 SDRAM",
+            "dram_type": "DDR4",
             "config_code": {
               "$var": "configCode"
             },
@@ -464,10 +464,10 @@
         },
         "typeObj": {
           "LPDDR4": {
-            "dram_type": "LPDDR4 SDRAM"
+            "dram_type": "LPDDR4"
           },
           "LPDDR4X": {
-            "dram_type": "LPDDR4X SDRAM"
+            "dram_type": "LPDDR4X"
           }
         },
         "voltage": {

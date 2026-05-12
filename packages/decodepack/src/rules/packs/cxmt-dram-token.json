@@ -146,14 +146,15 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR4 SDRAM",
-            "dram_die_stack": "Single die, 1 CS",
+            "dram_type": "DDR4",
+            "dram_die_stack": "1 die, 1 CS",
             "config_code": {
               "$var": "configCode"
             },
             "package_code": {
               "$var": "packageCode"
-            }
+            },
+            "die_count": 1
           }
         },
         {
@@ -317,15 +318,16 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR5 SDRAM",
-            "dram_die_stack": "Single die, 1 CS",
+            "dram_type": "DDR5",
+            "dram_die_stack": "1 die, 1 CS",
             "process_node": "CXMT G4 / 16nm-class",
             "config_code": {
               "$var": "configCode"
             },
             "package_code": {
               "$var": "packageCode"
-            }
+            },
+            "die_count": 1
           }
         },
         {
@@ -401,13 +403,16 @@
         },
         "dieStackObj": {
           "BAM": {
-            "dram_die_stack": "DDP (2-die), 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
           },
           "CAM": {
-            "dram_die_stack": "QDP (4-die), 2 CS"
+            "dram_die_stack": "4 dies, 2 CS",
+            "die_count": 4
           },
           "CBM": {
-            "dram_die_stack": "QDP (4-die), 2 CS"
+            "dram_die_stack": "4 dies, 2 CS",
+            "die_count": 4
           }
         },
         "packageActual": {
@@ -508,7 +513,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "process_node": "CXMT G3 / 18nm-class",
             "config_code": {
               "$var": "configCode"
@@ -586,9 +591,8 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "LPDDR5 SDRAM",
+            "dram_type": "LPDDR5",
             "dram_die_density": 12288,
-            "dram_die_stack": "8-die PoP MCP package",
             "die_count": 8,
             "process_node": "CXMT G3 / 18nm-class",
             "dram_generation": "CXMT G3",

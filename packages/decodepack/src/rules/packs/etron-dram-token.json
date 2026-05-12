@@ -149,11 +149,11 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "SDR SDRAM",
+            "dram_type": "SDR",
             "config_code": {
               "$path": "configObj.config_code"
             },
-            "dram_speed": "SDR 200/166/143 MHz",
+            "dram_speed": "SDR 200/166/143MHz",
             "operation_temperature": "Automotive (-40C~105C)"
           }
         },
@@ -393,11 +393,11 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR SDRAM",
+            "dram_type": "DDR",
             "config_code": {
               "$path": "configObj.config_code"
             },
-            "dram_speed": "DDR 500/400 MHz",
+            "dram_speed": "DDR 500/400MHz",
             "operation_temperature": "Commercial (0C~70C)"
           }
         },
@@ -469,16 +469,16 @@
           "D": 2048
         },
         "deviceWidth": {
-          "08": 8,
-          "16": 16
+          "16": 16,
+          "08": 8
         },
         "configWidth": {
-          "08": "8",
-          "16": "16"
+          "16": "16",
+          "08": "8"
         },
         "package": {
-          "08": "60-ball FBGA",
-          "16": "84-ball FBGA"
+          "16": "84-ball FBGA",
+          "08": "60-ball FBGA"
         },
         "packageCodeObj": {
           "BQD": {
@@ -579,11 +579,11 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR2 SDRAM",
+            "dram_type": "DDR2",
             "config_code": {
               "$var": "configCode"
             },
-            "dram_speed": "DDR2 1066/800/667 MHz",
+            "dram_speed": "DDR2 1066/800/667MHz",
             "operation_temperature": "Commercial (0C~85C)"
           }
         },
@@ -649,10 +649,10 @@
       "tables": {
         "familyObj": {
           "G": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "H": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           }
         },
         "voltage": {
@@ -667,12 +667,12 @@
           "F": 8192
         },
         "deviceWidth": {
-          "08": 8,
-          "16": 16
+          "16": 16,
+          "08": 8
         },
         "package": {
-          "08": "78-ball FBGA",
-          "16": "96-ball FBGA"
+          "16": "96-ball FBGA",
+          "08": "78-ball FBGA"
         },
         "speedObj": {
           "W3A": {
@@ -756,7 +756,7 @@
           "op": "set",
           "to": "defaultSpeedObj",
           "value": {
-            "dram_speed": "DDR3 1866/1600/1333 MHz"
+            "dram_speed": "DDR3 1866/1600/1333MHz"
           }
         },
         {
@@ -856,12 +856,12 @@
           "G": 16384
         },
         "deviceWidth": {
-          "08": 8,
-          "16": 16
+          "16": 16,
+          "08": 8
         },
         "package": {
-          "08": "78-ball FBGA",
-          "16": "96-ball FBGA"
+          "16": "96-ball FBGA",
+          "08": "78-ball FBGA"
         },
         "speedObj": {
           "WALE": {
@@ -935,7 +935,7 @@
           "op": "set",
           "to": "defaultSpeedObj",
           "value": {
-            "dram_speed": "DDR4 3200/2666/2400 MHz"
+            "dram_speed": "DDR4 3200/2666/2400MHz"
           }
         },
         {
@@ -953,7 +953,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR4 SDRAM",
+            "dram_type": "DDR4",
             "config_code": {
               "$var": "configCode"
             },
@@ -1025,10 +1025,10 @@
       "tables": {
         "familyObj": {
           "L": {
-            "dram_type": "LPDDR4 SDRAM"
+            "dram_type": "LPDDR4"
           },
           "P": {
-            "dram_type": "LPDDR4X SDRAM"
+            "dram_type": "LPDDR4X"
           }
         },
         "voltage": {
@@ -1048,13 +1048,13 @@
         },
         "speedObj": {
           "BAJB": {
-            "dram_speed": "LPDDR4/4X 4266/3733/3200 MHz"
+            "dram_speed": "LPDDR4/4X 4266/3733/3200MHz"
           },
           "VAPC": {
-            "dram_speed": "LPDDR4/4X 4266/3733 MHz"
+            "dram_speed": "LPDDR4/4X 4266/3733MHz"
           },
           "VAPD": {
-            "dram_speed": "LPDDR4/4X 4266/3733 MHz"
+            "dram_speed": "LPDDR4/4X 4266/3733MHz"
           }
         }
       },
@@ -1127,7 +1127,7 @@
           "op": "set",
           "to": "defaultSpeedObj",
           "value": {
-            "dram_speed": "LPDDR4/4X 3200/2400 MHz"
+            "dram_speed": "LPDDR4/4X 3200/2400MHz"
           }
         },
         {

@@ -72,10 +72,10 @@ modern: K4 + family + density token + 325 organization token + package token + -
 
 ## 输出约定
 
-- `dram_die_stack` 对可确认的 stacked LPDDR token 必须输出 DDP/QDP/ODP 与 CS，例如 `K3QF1...` 输出 `DDP (2-die), 1 CS`。
-- `K4X` LPDDR1 从 bit organization 输出 CS/die stack；`-` suffix 缺失时不输出 package/temp/speed，只保留 base PN 可确认的容量、位宽、1 CS 等字段。
+- `dram_die_stack` 对可确认的 stacked LPDDR token 只输出物理 die 数与 CS，例如 `K3QF1...` 输出 `2 dies, 1 CS`，不再把 DDP/QDP/ODP 作为公开表述。
+- `K4X` LPDDR1 从 bit organization 输出可确认的 CS / layout 信息；只有物理 die 与 CS 同时明确时输出 `dram_die_stack`，`2 CKE`、JEDEC/Flexframe stack layout 等信息放 `special_option`。
 - `K4W` 输出 `DRAM Type = DDR3`，并用 `DRAM Generation = Samsung graphics gDDR3/SDDR3` 标注其不同于普通 `K4B` DDR3 命名线。
-- 标准 DDR/GDDR 颗粒在 datasheet 或官方页面确认单颗 die / 单 rank 语义时输出 `Single die, 1 CS`；DDR4 suffix package type `M` 且 density/width 命中已确认组合时覆盖为 DDP。
+- 标准 DDR/GDDR 颗粒在 datasheet 或官方页面确认单颗 die / 单 CS 语义时输出 `1 die, 1 CS`；DDR4 suffix package type `M` 且 density/width 命中已确认组合时覆盖为 `2 dies, 1 CS` 或 `2 dies, 2 CS`。
 - `Config Code` 只保留结构主配置，例如 `8G08`、`AH08`、`3QF1`、`263238`、`52324`、`80325`，不把完整 PN 或完整 base code 当配置码。
 
 ## DDR4 DDP
@@ -84,8 +84,8 @@ Samsung DDR4 component PN 的 suffix 第一位是 package type：`B` 表示 flip
 
 | Key | PN family | die stack / CS | source tier |
 | --- | --- | --- | --- |
-| `A:AG:08:M` | `K4AAG085WB-M...` | DDP / 2 CS | `external_confirmed` |
-| `A:AG:16:M` | `K4AAG165WB-M...` | DDP / 1 CS | `external_table_confirmed` |
+| `A:AG:08:M` | `K4AAG085WB-M...` | 2 dies / 2 CS | `external_confirmed` |
+| `A:AG:16:M` | `K4AAG165WB-M...` | 2 dies / 1 CS | `external_table_confirmed` |
 
 仍不按 `AG` 或 `K4AAG...` base PN 单独推断 DDP；必须 suffix package type 为 `M`。例如同为 `AG08` 的 `B...` suffix 仍按普通 FBGA 处理。
 

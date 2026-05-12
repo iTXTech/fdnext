@@ -75,22 +75,22 @@
 
 | Token | 产品线 | 输出 |
 | --- | --- | --- |
-| `40` | DDR4 SDRAM | `dram_type=DDR4 SDRAM` |
-| `41` | DDR3 SDRAM | `dram_type=DDR3 SDRAM` |
-| `42` | Mobile LPDDR2 | `dram_type=LPDDR2 SDRAM` |
+| `40` | DDR4 SDRAM | `dram_type=DDR4` |
+| `41` | DDR3 SDRAM | `dram_type=DDR3` |
+| `42` | Mobile LPDDR2 | `dram_type=LPDDR2` |
 | `44` | RLDRAM 3 | `dram_type=RLDRAM 3` |
-| `46` | DDR SDRAM / Mobile LPDDR | 默认 `dram_type=DDR SDRAM`，`H/HC` voltage token 细化为 `LPDDR SDRAM` |
-| `47` | DDR2 SDRAM | `dram_type=DDR2 SDRAM` |
-| `48` | SDRAM / Mobile LPSDR | 默认 `dram_type=SDR SDRAM`，`H` voltage token 细化为 `LPSDR SDRAM` |
+| `46` | DDR SDRAM / Mobile LPDDR | 默认 `dram_type=DDR`，`H/HC` voltage token 细化为 `LPDDR` |
+| `47` | DDR2 SDRAM | `dram_type=DDR2` |
+| `48` | SDRAM / Mobile LPSDR | 默认 `dram_type=SDR`，`H` voltage token 细化为 `LPSDR` |
 | `49` | RLDRAM 1/2 | `dram_type=RLDRAM` |
-| `51` | GDDR5 | `dram_type=GDDR5 SGRAM` |
-| `52` | Mobile LPDDR3 | `dram_type=LPDDR3 SDRAM` |
-| `53` | Mobile LPDDR4 / LPDDR4X | 默认 `dram_type=LPDDR4 SDRAM`，`D/E` voltage token 细化为 `LPDDR4X SDRAM` |
-| `58` | GDDR5X | `dram_type=GDDR5X SGRAM` |
-| `60` | DDR5 SDRAM | `dram_type=DDR5 SDRAM` |
-| `61` | GDDR6 / GDDR6X | 默认 `dram_type=GDDR6 SGRAM`，部分 speed bin 细化为 `GDDR6X SGRAM` |
-| `62` | Mobile LPDDR5 / LPDDR5X | 默认 `dram_type=LPDDR5 SDRAM`，`020/020F/023` 等 LPDDR5X speed bin 细化为 `LPDDR5X SDRAM` |
-| `68` | GDDR7 | `dram_type=GDDR7 SGRAM` |
+| `51` | GDDR5 | `dram_type=GDDR5` |
+| `52` | Mobile LPDDR3 | `dram_type=LPDDR3` |
+| `53` | Mobile LPDDR4 / LPDDR4X | 默认 `dram_type=LPDDR4`，`D/E` voltage token 细化为 `LPDDR4X` |
+| `58` | GDDR5X | `dram_type=GDDR5X` |
+| `60` | DDR5 SDRAM | `dram_type=DDR5` |
+| `61` | GDDR6 / GDDR6X | 默认 `dram_type=GDDR6`，部分 speed bin 细化为 `GDDR6X` |
+| `62` | Mobile LPDDR5 / LPDDR5X | 默认 `dram_type=LPDDR5`，`020/020F/023` 等 LPDDR5X speed bin 细化为 `LPDDR5X` |
+| `68` | GDDR7 | `dram_type=GDDR7` |
 
 ## 输出约定
 
@@ -99,17 +99,17 @@
 - `fields.voltage` 输出 Micron voltage token 对应说明。
 - `fields.package` 输出实际封装，例如 `78-ball FBGA (7.5x11)`；仅对 part detail、datasheet 或外部分销页可确认的 `family + package code` 组合输出。
 - standalone DRAM 的 `fields` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
-- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`dram_speed`、`operation_temperature`、`die_revision`、`config_code`、`package_code`。
-- `device version` 中的 `D1/D2/D4/D6/D8/LF/L2/L4` 需要输出 die stack / CS 相关信息，例如 `D4` 输出 `4-die stack`。
+- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`die_count`、`dram_speed`、`operation_temperature`、`die_revision`、`config_code`、`package_code`、`special_option`。
+- `device version` 中的 `D1/D2/D4/D6/D8/LF/L2/L4` 只标准化为 `die_count`，例如 `D4` 输出 `die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`；没有 CS 资料时不输出 `dram_die_stack`。
 - `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / die stack，只减少 `dram_speed` / `die_revision` 等后缀信息。
 - `dram_type` 必须使用跨厂商标准名，不带厂商名，不写组合候选。
 - `package_code` 保留 Micron 原始封装 token；不要用它替代 `fields.package`，也不把未确认的 token 硬推成封装尺寸或 ball count。
-- Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4 speed bin ...`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
+- Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4-45M` / `55M` / `62M`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
 - 维护用来源、外部确认状态或推断来源不得进入 `fields`。
 
 ## DDR3 / DDR3L TwinDie
 
-Micron `MT41J/MT41K` TwinDie 不能只按 `config_code` 判断。规则必须同时匹配 `family + voltage + config + package_code`，确认后输出 `dram_die_stack=2-die stack, 2 CS`。没有外部 datasheet 佐证的 `mdb.json` 候选封装只保留为待确认线索，不输出 die stack。
+Micron `MT41J/MT41K` TwinDie 不能只按 `config_code` 判断。规则必须同时匹配 `family + voltage + config + package_code`，确认后输出 `dram_die_stack=2 dies, 2 CS`。没有外部 datasheet 佐证的 `mdb.json` 候选封装只保留为待确认线索，不输出 die stack。
 
 | Key | PN family | die stack / CS | source tier |
 | --- | --- | --- | --- |
@@ -130,7 +130,7 @@ Micron `MT41J/MT41K` TwinDie 不能只按 `config_code` 判断。规则必须同
 
 ## DDR4 TwinDie
 
-Micron `MT40A` DDR4 TwinDie 同样按 `family + voltage + config + package_code` 判定。x4/x8 TwinDie 是 two-rank / dual CS；x16 TwinDie 是 two x8 die 组合成 single-rank x16，因此输出 `2-die stack, 1 CS`。
+Micron `MT40A` DDR4 TwinDie 同样按 `family + voltage + config + package_code` 判定。x4/x8 TwinDie 是 two-rank / dual CS；x16 TwinDie 是 two x8 die 组合成 single-rank x16，因此公开输出分别为 `2 dies, 2 CS` 或 `2 dies, 1 CS`，结构化 `die_count=2`。
 
 | Key | PN family | die stack / CS | source tier |
 | --- | --- | --- | --- |
@@ -209,28 +209,29 @@ Micron DDR5 仍按 `depth x width` 推导容量。24Gb 组件已确认 `6G4` / `
 | PN | 产品线 | 关键输出 |
 | --- | --- | --- |
 | `MT40A1G8SA-075-E` | DDR4 SDRAM | `8Gb`, `x8`, `78-ball FBGA`, `DDR4-2666 CL19`, `Rev E` |
-| `MT40A2G4TRF-093E:A` | DDR4 SDRAM | `8Gb`, `x4`, `78-ball FBGA`, `2-die stack, 2 CS`, `DDR4-2133 CL15`, `Rev A` |
-| `MT40A2G8NRE-083E:B` | DDR4 SDRAM | `16Gb`, `x8`, `78-ball FBGA`, `2-die stack, 2 CS`, `DDR4-2400 CL16`, `Rev B` |
-| `MT40A4G8NEA-062E:F` | DDR4 SDRAM | `32Gb`, `x8`, `78-ball FBGA`, `2-die stack, 2 CS`, `DDR4-3200 CL22`, `Rev F` |
-| `MT40A1G16WBU-083E:B` | DDR4 SDRAM | `16Gb`, `x16`, `96-ball FBGA`, `2-die stack, 1 CS`, `DDR4-2400 CL16`, `Rev B` |
-| `MT40A2G16TBB-062E:F` | DDR4 SDRAM | `32Gb`, `x16`, `96-ball FBGA`, `2-die stack, 1 CS`, `DDR4-3200 CL22`, `Rev F` |
-| `CT40A1G8SA-62M:E` | Crucial DDR4 SDRAM | `8Gb`, `x8`, `78-ball FBGA`, `Crucial DDR4 speed bin 62M`, `Rev E` |
+| `MT40A2G4TRF-093E:A` | DDR4 SDRAM | `8Gb`, `x4`, `78-ball FBGA`, `2 dies, 2 CS`, `DDR4-2133 CL15`, `Rev A` |
+| `MT40A2G8NRE-083E:B` | DDR4 SDRAM | `16Gb`, `x8`, `78-ball FBGA`, `2 dies, 2 CS`, `DDR4-2400 CL16`, `Rev B` |
+| `MT40A4G8NEA-062E:F` | DDR4 SDRAM | `32Gb`, `x8`, `78-ball FBGA`, `2 dies, 2 CS`, `DDR4-3200 CL22`, `Rev F` |
+| `MT40A1G16WBU-083E:B` | DDR4 SDRAM | `16Gb`, `x16`, `96-ball FBGA`, `2 dies, 1 CS`, `DDR4-2400 CL16`, `Rev B` |
+| `MT40A2G16TBB-062E:F` | DDR4 SDRAM | `32Gb`, `x16`, `96-ball FBGA`, `2 dies, 1 CS`, `DDR4-3200 CL22`, `Rev F` |
+| `CT40A1G8SA-62M:E` | Crucial DDR4 SDRAM | `8Gb`, `x8`, `78-ball FBGA`, `Crucial DDR4-62M`, `Rev E` |
 | `MT60B2G8HB-48B-IT-A` | DDR5 SDRAM | `16Gb`, `x8`, `82-ball VFBGA`, `DDR5-4800B`, `Industrial`, `Rev A` |
 | `MT60B3G8RW-64B:B` | DDR5 SDRAM | `24Gb`, `x8`, `78-ball VFBGA`, `DDR5-6400B`, `Rev B` |
 | `MT60B1536M16RV-56B:B` | DDR5 SDRAM | `24Gb`, `x16`, `102/153-ball VFBGA`, `DDR5-5600B`, `Rev B` |
 | `MT60B4G8AT-64B:B` | DDR5 SDRAM | `32Gb`, `x8`, `78/117-ball VFBGA`, `DDR5-6400B`, `Rev B` |
-| `MT41K512M8DA-107:P` | DDR3 SDRAM | `4Gb`, `x8`, `78-ball FBGA`, `1866 MT/s / 933 MHz`, `Rev P` |
-| `MT41K2G4RKB-107:P` | DDR3 SDRAM | `8Gb`, `x4`, `78-ball FBGA`, `2-die stack, 2 CS`, `1866 MT/s / 933 MHz`, `Rev P` |
-| `MT41K1G16DGA-125:A` | DDR3 SDRAM | `16Gb`, `x16`, `96-ball FBGA`, `2-die stack, 2 CS`, `1600 MT/s / 800 MHz`, `Rev A` |
+| `MT41K512M8DA-107:P` | DDR3 SDRAM | `4Gb`, `x8`, `78-ball FBGA`, `933MHz (DDR-1866)`, `Rev P` |
+| `MT41K2G4RKB-107:P` | DDR3 SDRAM | `8Gb`, `x4`, `78-ball FBGA`, `2 dies, 2 CS`, `933MHz (DDR-1866)`, `Rev P` |
+| `MT41K1G16DGA-125:A` | DDR3 SDRAM | `16Gb`, `x16`, `96-ball FBGA`, `2 dies, 2 CS`, `800MHz (DDR-1600)`, `Rev A` |
 | `MT47H128M16RT-25E:C` | DDR2 SDRAM | `2Gb`, `x16`, `84-ball FBGA`, `DDR2-800`, `Rev C` |
 | `MT46V32M16P-5B-IT-J` | DDR SDRAM | `512Mb`, `x16`, `66-pin TSOP`, `DDR-400`, `Industrial`, `Rev J` |
-| `MT46H32M32LFB5-5 IT:B` | LPDDR | `1Gb`, `x32`, `90-ball VFBGA`, `Single die`, `200 MHz`, `Rev B` |
-| `MT48LC16M8A2P-6A:L` | SDRAM | `128Mb`, `x8`, `54-pin TSOP II`, `166 MHz`, `Rev L` |
-| `MT48H16M32LFB5-75:A` | LPSDR | `512Mb`, `x32`, `90-ball VFBGA`, `Single die`, `133 MHz`, `Rev A` |
-| `MT42L128M32D1LF-25 WT:A` | LPDDR2 | `4Gb`, `x32`, `168-ball WFBGA`, `Single die`, `Rev A` |
-| `MT52L512M32D2PF-107 WT:B` | LPDDR3 | `16Gb`, `x32`, `178-ball FBGA`, `2-die stack`, `Rev B` |
-| `MT53E1G32D2FW-046-AIT-A` | LPDDR4 | `32Gb`, `x32`, `200-ball TFBGA`, `2-die stack`, `LPDDR4-4266`, `Rev A` |
-| `MT62F1G32D4DS-031-WT-B` | LPDDR5 | `32Gb`, `x32`, `200-ball WFBGA`, `4-die stack`, `LPDDR5-6400`, `Rev B` |
+| `MT46H32M32LFB5-5 IT:B` | LPDDR | `1Gb`, `x32`, `90-ball VFBGA`, `die_count=1`, `200MHz`, `Rev B` |
+| `MT48LC16M8A2P-6A:L` | SDRAM | `128Mb`, `x8`, `54-pin TSOP II`, `166MHz`, `Rev L` |
+| `MT48H16M32LFB5-75:A` | LPSDR | `512Mb`, `x32`, `90-ball VFBGA`, `die_count=1`, `133MHz`, `Rev A` |
+| `MT48H16M32LGB5-75:A` | LPSDR | `512Mb`, `x32`, `90-ball VFBGA`, `die_count=1`, `Reduced page-size addressing`, `133MHz`, `Rev A` |
+| `MT42L128M32D1LF-25 WT:A` | LPDDR2 | `4Gb`, `x32`, `168-ball WFBGA`, `die_count=1`, `Rev A` |
+| `MT52L512M32D2PF-107 WT:B` | LPDDR3 | `16Gb`, `x32`, `178-ball FBGA`, `die_count=2`, `Rev B` |
+| `MT53E1G32D2FW-046-AIT-A` | LPDDR4 | `32Gb`, `x32`, `200-ball TFBGA`, `die_count=2`, `2133MHz (LPDDR4-4266)`, `Rev A` |
+| `MT62F1G32D4DS-031-WT-B` | LPDDR5 | `32Gb`, `x32`, `200-ball WFBGA`, `die_count=4`, `3200MHz (LPDDR5-6400)`, `Rev B` |
 | `MT51J256M32HF-80:A` | GDDR5 | `8Gb`, `x32`, `170-ball FBGA`, `GDDR5-8Gbps`, `Rev A` |
 | `MT58K256M32JA-100:A` | GDDR5X | `8Gb`, `x32`, `190-ball FBGA`, `GDDR5X-10Gbps`, `Rev A` |
 | `MT61K256M32JE-14:A` | GDDR6 | `8Gb`, `x32`, `180-ball FBGA`, `GDDR6-14Gbps`, `Rev A` |

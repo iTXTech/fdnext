@@ -40,34 +40,34 @@
         },
         "familyObj": {
           "12L": {
-            "dram_type": "SDR SDRAM"
+            "dram_type": "SDR"
           },
           "13S": {
-            "dram_type": "DDR SDRAM"
+            "dram_type": "DDR"
           },
           "14D": {
-            "dram_type": "DDR2 SDRAM"
+            "dram_type": "DDR2"
           },
           "14F": {
-            "dram_type": "DDR2 SDRAM"
+            "dram_type": "DDR2"
           },
           "15T": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "15F": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "16U": {
-            "dram_type": "DDR4 SDRAM"
+            "dram_type": "DDR4"
           },
           "54D": {
-            "dram_type": "LPDDR2 SDRAM"
+            "dram_type": "LPDDR2"
           },
           "55D": {
-            "dram_type": "LPDDR3 SDRAM"
+            "dram_type": "LPDDR3"
           },
           "56Z": {
-            "dram_type": "LPDDR4X SDRAM"
+            "dram_type": "LPDDR4X"
           }
         },
         "voltage": {
@@ -84,42 +84,42 @@
         },
         "familySpeedObj": {
           "12L": {
-            "dram_speed": "SDR 100/133/166 MHz"
+            "dram_speed": "SDR 100/133/166MHz"
           },
           "13S": {
-            "dram_speed": "DDR 200/250 MHz"
+            "dram_speed": "DDR 200/250MHz"
           },
           "14D": {
-            "dram_speed": "DDR2 400/533/667 MHz"
+            "dram_speed": "DDR2 400/533/667MHz"
           },
           "14F": {
-            "dram_speed": "DDR2 400/533 MHz"
+            "dram_speed": "DDR2 400/533MHz"
           },
           "15T": {
-            "dram_speed": "DDR3 800/933/1066 MHz"
+            "dram_speed": "DDR3 800/933/1066MHz"
           },
           "15F": {
-            "dram_speed": "DDR3 933/1066/1200 MHz"
+            "dram_speed": "DDR3 933/1066/1200MHz"
           },
           "16U": {
-            "dram_speed": "DDR4 1333/1600 MHz"
+            "dram_speed": "DDR4 1333/1600MHz"
           },
           "54D": {
-            "dram_speed": "LPDDR2 533 MHz"
+            "dram_speed": "LPDDR2 533MHz"
           },
           "55D": {
-            "dram_speed": "LPDDR3 800/933/1066 MHz"
+            "dram_speed": "LPDDR3 800/933/1066MHz"
           },
           "56Z": {
-            "dram_speed": "LPDDR4X 1866 MHz"
+            "dram_speed": "LPDDR4X 1866MHz"
           }
         },
         "speedOverrideObj": {
           "56Z:16:2H": {
-            "dram_speed": "LPDDR4X 2133 MHz"
+            "dram_speed": "LPDDR4X 2133MHz"
           },
           "56Z:32:2H": {
-            "dram_speed": "LPDDR4X 2133 MHz"
+            "dram_speed": "LPDDR4X 2133MHz"
           }
         },
         "configToken": {

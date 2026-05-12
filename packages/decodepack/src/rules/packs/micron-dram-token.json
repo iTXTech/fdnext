@@ -29,52 +29,52 @@
       "tables": {
         "familyObj": {
           "40": {
-            "dram_type": "DDR4 SDRAM"
+            "dram_type": "DDR4"
           },
           "41": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "42": {
-            "dram_type": "LPDDR2 SDRAM"
+            "dram_type": "LPDDR2"
           },
           "44": {
             "dram_type": "RLDRAM 3"
           },
           "46": {
-            "dram_type": "DDR SDRAM"
+            "dram_type": "DDR"
           },
           "47": {
-            "dram_type": "DDR2 SDRAM"
+            "dram_type": "DDR2"
           },
           "48": {
-            "dram_type": "SDR SDRAM"
+            "dram_type": "SDR"
           },
           "49": {
             "dram_type": "RLDRAM"
           },
           "51": {
-            "dram_type": "GDDR5 SGRAM"
+            "dram_type": "GDDR5"
           },
           "52": {
-            "dram_type": "LPDDR3 SDRAM"
+            "dram_type": "LPDDR3"
           },
           "53": {
-            "dram_type": "LPDDR4 SDRAM"
+            "dram_type": "LPDDR4"
           },
           "58": {
-            "dram_type": "GDDR5X SGRAM"
+            "dram_type": "GDDR5X"
           },
           "60": {
-            "dram_type": "DDR5 SDRAM"
+            "dram_type": "DDR5"
           },
           "61": {
-            "dram_type": "GDDR6 SGRAM"
+            "dram_type": "GDDR6"
           },
           "62": {
-            "dram_type": "LPDDR5 SDRAM"
+            "dram_type": "LPDDR5"
           },
           "68": {
-            "dram_type": "GDDR7 SGRAM"
+            "dram_type": "GDDR7"
           }
         },
         "voltage": {
@@ -260,31 +260,32 @@
         },
         "deviceVersionObj": {
           "D1": {
-            "dram_die_stack": "Single die"
+            "die_count": 1
           },
           "D2": {
-            "dram_die_stack": "2-die stack"
+            "die_count": 2
           },
           "D4": {
-            "dram_die_stack": "4-die stack"
+            "die_count": 4
           },
           "D6": {
-            "dram_die_stack": "6-die stack"
+            "die_count": 6
           },
           "D8": {
-            "dram_die_stack": "8-die stack"
+            "die_count": 8
           },
           "LF": {
-            "dram_die_stack": "Single die"
+            "die_count": 1
           },
           "LG": {
-            "dram_die_stack": "Single die, reduced page-size addressing"
+            "die_count": 1,
+            "special_option": "Reduced page-size addressing"
           },
           "L2": {
-            "dram_die_stack": "2-die stack"
+            "die_count": 2
           },
           "L4": {
-            "dram_die_stack": "4-die stack"
+            "die_count": 4
           }
         },
         "packageToken": {
@@ -540,106 +541,140 @@
         },
         "twinDieObj": {
           "40:A:1G8:TRF": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "40:A:2G4:TRF": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "40:A:2G8:FSE": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "40:A:2G8:NRE": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "40:A:4G4:FSE": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "40:A:4G4:NRE": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "40:A:4G8:BAF": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "40:A:4G8:NEA": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "40:A:8G4:BAF": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "40:A:8G4:NEA": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "40:A:1G16:HBA": {
-            "dram_die_stack": "2-die stack, 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
           },
           "40:A:1G16:KNR": {
-            "dram_die_stack": "2-die stack, 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
           },
           "40:A:1G16:WBU": {
-            "dram_die_stack": "2-die stack, 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
           },
           "40:A:2G16:TBB": {
-            "dram_die_stack": "2-die stack, 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
           },
           "41:J:1G4:THD": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:J:1G4:THU": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:J:512M8:THD": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:J:512M8:THU": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:J:1G8:THE": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:J:1G8:TRF": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:J:2G4:THE": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:J:2G4:TRF": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:1G4:THD": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:1G4:THV": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:512M8:THD": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:512M8:THV": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:1G8:RKB": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:1G8:TRF": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:2G4:RKB": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:2G4:TRF": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:512M16:TNA": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:2G8:KJR": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:4G4:KJR": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "41:K:1G16:DGA": {
-            "dram_die_stack": "2-die stack, 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           }
         },
         "reference": {
@@ -846,48 +881,48 @@
         },
         "speedObj": {
           "5": {
-            "dram_speed": "200 MHz speed bin"
+            "dram_speed": "200MHz"
           },
           "12": {
             "dram_speed": "GDDR6-12Gbps",
-            "dram_type": "GDDR6 SGRAM"
+            "dram_type": "GDDR6"
           },
           "13": {
             "dram_speed": "GDDR6-13Gbps",
-            "dram_type": "GDDR6 SGRAM"
+            "dram_type": "GDDR6"
           },
           "14": {
             "dram_speed": "GDDR6-14Gbps",
-            "dram_type": "GDDR6 SGRAM"
+            "dram_type": "GDDR6"
           },
           "15": {
-            "dram_speed": "1333 MT/s / 667 MHz speed bin"
+            "dram_speed": "667MHz (DDR-1333)"
           },
           "16": {
             "dram_speed": "GDDR6-16Gbps",
-            "dram_type": "GDDR6 SGRAM"
+            "dram_type": "GDDR6"
           },
           "21": {
             "dram_speed": "GDDR6X-21Gbps",
-            "dram_type": "GDDR6X SGRAM"
+            "dram_type": "GDDR6X"
           },
           "24": {
             "dram_speed": "GDDR6X-24Gbps",
-            "dram_type": "GDDR6X SGRAM"
+            "dram_type": "GDDR6X"
           },
           "25": {
-            "dram_speed": "400 MHz speed bin"
+            "dram_speed": "400MHz"
           },
           "28": {
             "dram_speed": "GDDR7-28Gbps",
-            "dram_type": "GDDR7 SGRAM"
+            "dram_type": "GDDR7"
           },
           "32": {
             "dram_speed": "GDDR7-32Gbps",
-            "dram_type": "GDDR7 SGRAM"
+            "dram_type": "GDDR7"
           },
           "75": {
-            "dram_speed": "133 MHz speed bin"
+            "dram_speed": "133MHz"
           },
           "80": {
             "dram_speed": "GDDR5-8Gbps"
@@ -896,49 +931,49 @@
             "dram_speed": "GDDR5X-10Gbps"
           },
           "107": {
-            "dram_speed": "1866 MT/s / 933 MHz speed bin"
+            "dram_speed": "933MHz (DDR-1866)"
           },
           "125": {
-            "dram_speed": "1600 MT/s / 800 MHz speed bin"
+            "dram_speed": "800MHz (DDR-1600)"
           },
           "187": {
-            "dram_speed": "1066 MT/s / 533 MHz speed bin"
+            "dram_speed": "533MHz (DDR-1066)"
           },
           "15E": {
-            "dram_speed": "1333 MT/s / 667 MHz speed bin"
+            "dram_speed": "667MHz (DDR-1333)"
           },
           "187E": {
-            "dram_speed": "1066 MT/s / 533 MHz speed bin"
+            "dram_speed": "533MHz (DDR-1066)"
           },
           "020F": {
-            "dram_speed": "LPDDR5X-9600 (4800 MHz)",
-            "dram_type": "LPDDR5X SDRAM"
+            "dram_speed": "4800MHz (LPDDR5X-9600)",
+            "dram_type": "LPDDR5X"
           },
           "020": {
-            "dram_speed": "LPDDR5X-9600 (4800 MHz)",
-            "dram_type": "LPDDR5X SDRAM"
+            "dram_speed": "4800MHz (LPDDR5X-9600)",
+            "dram_type": "LPDDR5X"
           },
           "023": {
-            "dram_speed": "LPDDR5X-8533 (4266 MHz)",
-            "dram_type": "LPDDR5X SDRAM"
+            "dram_speed": "4266MHz (LPDDR5X-8533)",
+            "dram_type": "LPDDR5X"
           },
           "031": {
-            "dram_speed": "LPDDR5-6400 (3200 MHz)"
+            "dram_speed": "3200MHz (LPDDR5-6400)"
           },
           "036": {
-            "dram_speed": "LPDDR5-5500 (2750 MHz)"
+            "dram_speed": "2750MHz (LPDDR5-5500)"
           },
           "045M": {
-            "dram_speed": "Crucial DDR4 speed bin 45M"
+            "dram_speed": "Crucial DDR4-45M"
           },
           "046": {
-            "dram_speed": "LPDDR4-4266 (2133 MHz)"
+            "dram_speed": "2133MHz (LPDDR4-4266)"
           },
           "053": {
-            "dram_speed": "LPDDR4-3733 (1866 MHz)"
+            "dram_speed": "1866MHz (LPDDR4-3733)"
           },
           "055M": {
-            "dram_speed": "Crucial DDR4 speed bin 55M"
+            "dram_speed": "Crucial DDR4-55M"
           },
           "062E": {
             "dram_speed": "DDR4-3200 CL22"
@@ -947,10 +982,10 @@
             "dram_speed": "DDR4-3200 CL26"
           },
           "062M": {
-            "dram_speed": "Crucial DDR4 speed bin 62M"
+            "dram_speed": "Crucial DDR4-62M"
           },
           "062": {
-            "dram_speed": "LPDDR4-3200 (1600 MHz)"
+            "dram_speed": "1600MHz (LPDDR4-3200)"
           },
           "068E": {
             "dram_speed": "DDR4-2933 CL20"
@@ -989,7 +1024,7 @@
             "dram_speed": "DDR4-2133 CL18"
           },
           "093": {
-            "dram_speed": "LPDDR4-2133 (1066 MHz)"
+            "dram_speed": "1066MHz (LPDDR4-2133)"
           },
           "48B": {
             "dram_speed": "DDR5-4800B"
@@ -1025,23 +1060,23 @@
             "dram_speed": "DDR-400"
           },
           "6A": {
-            "dram_speed": "166 MHz speed bin"
+            "dram_speed": "166MHz"
           },
           "25E": {
             "dram_speed": "DDR2-800"
           },
           "45M": {
-            "dram_speed": "Crucial DDR4 speed bin 45M"
+            "dram_speed": "Crucial DDR4-45M"
           },
           "55M": {
-            "dram_speed": "Crucial DDR4 speed bin 55M"
+            "dram_speed": "Crucial DDR4-55M"
           },
           "62M": {
-            "dram_speed": "Crucial DDR4 speed bin 62M"
+            "dram_speed": "Crucial DDR4-62M"
           },
           "19G": {
             "dram_speed": "GDDR6X-19Gbps",
-            "dram_type": "GDDR6X SGRAM"
+            "dram_type": "GDDR6X"
           }
         },
         "temperatureObj": {
@@ -1155,19 +1190,19 @@
         },
         "dramTypeOverrideObj": {
           "46:H": {
-            "dram_type": "LPDDR SDRAM"
+            "dram_type": "LPDDR"
           },
           "46:HC": {
-            "dram_type": "LPDDR SDRAM"
+            "dram_type": "LPDDR"
           },
           "48:H": {
-            "dram_type": "LPSDR SDRAM"
+            "dram_type": "LPSDR"
           },
           "53:D": {
-            "dram_type": "LPDDR4X SDRAM"
+            "dram_type": "LPDDR4X"
           },
           "53:E": {
-            "dram_type": "LPDDR4X SDRAM"
+            "dram_type": "LPDDR4X"
           }
         }
       },

@@ -8,9 +8,9 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 
 | 产品线 | 内部 `dram_type` 来源 |
 | --- | --- |
-| SDR / DDR | `SDR SDRAM`, `LPSDR SDRAM`, `DDR SDRAM`, `DDR2 SDRAM`, `DDR3 SDRAM`, `DDR4 SDRAM`, `DDR5 SDRAM` |
-| LPDDR | `LPDDR SDRAM`, `LPDDR2 SDRAM`, `LPDDR3 SDRAM`, `LPDDR4 SDRAM`, `LPDDR4X SDRAM`, `LPDDR5 SDRAM`, `LPDDR5X SDRAM` |
-| Graphics DRAM | `GDDR SGRAM`, `GDDR2 SGRAM`, `GDDR3 SGRAM`, `GDDR4 SGRAM`, `GDDR5 SGRAM`, `GDDR5X SGRAM`, `GDDR6 SGRAM`, `GDDR6X SGRAM`, `GDDR7 SGRAM` |
+| SDR / DDR | `SDR`, `LPSDR`, `DDR`, `DDR2`, `DDR3`, `DDR4`, `DDR5` |
+| LPDDR | `LPDDR`, `LPDDR2`, `LPDDR3`, `LPDDR4`, `LPDDR4X`, `LPDDR5`, `LPDDR5X` |
+| Graphics DRAM | `GDDR`, `GDDR2`, `GDDR3`, `GDDR4`, `GDDR5`, `GDDR5X`, `GDDR6`, `GDDR6X`, `GDDR7` |
 | Specialty | `RLDRAM`, `RLDRAM 3` |
 
 ## 规则准入
@@ -18,8 +18,9 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 每个厂商 pack 必须按产品线 / 世代拆 token 表，避免把 DDR、LPDDR、GDDR 的字段混在一条不可维护的规则里。
 - 同一厂商同一 family 可能覆盖多个标准世代，例如 Micron `MT53` 通过 voltage token 区分 LPDDR4/LPDDR4X，`MT62` 通过 speed/package 资料区分 LPDDR5/LPDDR5X，`MT61` 通过 speed bin 区分 GDDR6/GDDR6X。
 - 规则内部只能保留单一 `dram_type` 来源。公开输出时折叠到顶层短 `type`，例如 `LPDDR5` / `LPDDR5X` / `GDDR6` / `GDDR6X`，不保留 `SDRAM` / `SGRAM` 后缀；如果 token 不足以确认细分世代，输出更保守的基础世代，或等待后续 token / 外部资料确认。
-- 已有厂商规则需要优先补全 frequency / speed bin 与 CS / die stack 信息；LPDDR、stacked DRAM 或 datasheet 明确 DDP/QDP/1CS/2CS 的 PN 必须输出 `dram_die_stack`。
-- `fields.ce_count` 不对 LPDDR/GDDR 做缺省推断；只有 `dram_die_stack` 明确包含 CS 数量时才写入。普通 DDR/DDR2/DDR3/DDR4/DDR5 缺少 CS 资料时可按单 CS 输出。
+- 已有厂商规则需要优先补全 frequency / speed bin 与 CS / die stack 信息；只有物理 die 数和 CS 同时明确时才输出 `dram_die_stack = N die(s), M CS`，只确认 rank/CS 时不要把 rank 当 die 推断。
+- `fields.ce_count` 不对 LPDDR/GDDR 做缺省推断；只有资料或 token 明确包含 CS / rank 数量时才写入。普通 DDR/DDR2/DDR3/DDR4/DDR5 缺少 CS 资料时可按单 CS 输出。
+- `dram_die_stack` 简化时不能丢掉非 stack 语义：PoP/MCP 归入 `package`，2Ch 归入 `channel_count`，reduced page address / 2 CKE / JEDEC 或 Flexframe layout 归入 `special_option`。
 - 大容量 configuration 可以基于已确认的 density / width token 规律扩展到新一代高容量 PN；但不能仅凭 `24Gb`、`32Gb`、`64Gb` 或 config 容量推断 `dram_die_stack`，必须有封装 / ordering table / datasheet 明确说明。
 - `-` 后的 suffix 不应成为解码主结构的强制条件。缺 suffix 时应保留可确定字段，只减少 `dram_speed`、`operation_temperature`、`die_revision` 等后缀信息。
 - `fields.package` 只写可由 datasheet、原厂 catalog、TechInsights/TechPowerUp 或可信分销页确认的实际封装；仅有厂商代码时只写 `package_code`。

@@ -41,24 +41,24 @@ H5 + family + density + width + config + die/package/revision + -speed + temp
 | Token | 字段 | 说明 |
 | --- | --- | --- |
 | `TQ` | `dram_type` / voltage | DDR3 SDRAM，1.5V VDD |
-| `TC` | `dram_type` / voltage | DDR3L SDRAM 系列，输出标准类型仍为 `DDR3 SDRAM`，1.35V VDD |
+| `TC` | `dram_type` / voltage | DDR3L SDRAM 系列，输出标准类型仍为 `DDR3`，1.35V VDD |
 | `AN` | `dram_type` / voltage | DDR4 SDRAM，1.2V VDD |
 | `1G/2G/4G/8G/AG` | density | 1Gb/2Gb/4Gb/8Gb/16Gb |
 | `4/8/6` | width | x4 / x8 / x16 |
 | `F/J/...` | `package_code` | 厂商封装 token；`fields.package` 只根据位宽输出 78ball 或 96ball FBGA |
 | `AFR/CFR/CJR/...` | `die_revision` | SK hynix 常见 die/revision 三字符标记，直接保留为厂商 token |
 
-已确认 DDP 组合：
+已确认多 die / CS 组合：
 
 | Key | PN family | die stack / CS | source tier |
 | --- | --- | --- | --- |
-| `TC:8G:4:3:AMR` | `H5TC8G43AMR` | DDP / 2 CS | `external_confirmed` |
-| `TC:8G:8:3:AMR` | `H5TC8G83AMR` | DDP / 2 CS | `external_confirmed` |
-| `TC:8G:6:3:AMR` | `H5TC8G63AMR` | DDP / 2 CS | `external_confirmed` |
-| `AN:AG:8:N:CMR` | `H5ANAG8NCMR` | DDP / 2 CS | `external_confirmed` |
-| `AN:AG:6:N:CMR` | `H5ANAG6NCMR` | DDP / 1 CS | `external_confirmed` |
+| `TC:8G:4:3:AMR` | `H5TC8G43AMR` | 2 dies / 2 CS | `external_confirmed` |
+| `TC:8G:8:3:AMR` | `H5TC8G83AMR` | 2 dies / 2 CS | `external_confirmed` |
+| `TC:8G:6:3:AMR` | `H5TC8G63AMR` | 2 dies / 2 CS | `external_confirmed` |
+| `AN:AG:8:N:CMR` | `H5ANAG8NCMR` | 2 dies / 2 CS | `external_confirmed` |
+| `AN:AG:6:N:CMR` | `H5ANAG6NCMR` | 2 dies / 1 CS | `external_confirmed` |
 
-未找到可确认 standalone DDR5 DDP 组件；已有 `H5CG48AGBD-X018` / `H5CGD8MHBD-X021` 均按 TechInsights 资料输出 single die。
+未找到可确认 standalone DDR5 DDP 组件；已有 `H5CG48AGBD-X018` / `H5CGD8MHBD-X021` 均按 TechInsights 资料只输出 `die_count=1`。
 
 ## H5C DDR5 颗粒
 
@@ -74,7 +74,7 @@ H5C + GD + 8 + M + HB + D + X021
 - `A` / `M` 输出 `A-die` / `M-die`。
 - `GB` / `HB` 结合外部样本输出 `DDR5-5600` / `DDR5-6400`。
 - `X018` / `X021` 输出为 `package_code`；`fields.package` 只输出已由外部资料确认的 `BGA`。
-- TechInsights 明确这些 package 内是 single DDR5 die，因此输出 `dram_die_stack = Single die`。
+- TechInsights 明确这些 package 内是 single DDR5 die，因此只输出 `die_count = 1`，不再把无 CS 信息的单 die 写入 `dram_die_stack`。
 
 ## H5GQ GDDR5 颗粒
 
@@ -105,12 +105,12 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 | Token | 字段 | 说明 |
 | --- | --- | --- |
 | `4K/8K/CP` | density | 4Gb / 8Gb / 32Gb |
-| `8K` | `dram_die_stack` | DDP (2-die), 1 CS |
-| `CP` | `dram_die_stack` | QDP (4-die), 2 CS |
+| `8K` | `dram_die_stack`, `channel_count` | 2 dies, 1 CS；2 Channel |
+| `CP` | `dram_die_stack`, `channel_count` | 4 dies, 2 CS；2 Channel |
 | `UMLHR/UMLXR` | `package_code` | LPDDR4 200ball FBGA；`UMLXR` 对应 4266Mbps |
 | `MMLHR/MMLXR` | `package_code` | LPDDR4X 200ball FBGA；`MMLXR` 对应 4266Mbps |
 | `NEE/NEI/NME/NMI/NMIR/NMOR` | temperature | 只对公开资料可确认的温度范围输出 |
-| `H9HCNNN8KUMLHR` | `dram_die_stack` | datasheet 确认 DDP、2 Channel、1 CS，输出 `DDP (2-die), 1 CS` |
+| `H9HCNNN8KUMLHR` | `dram_die_stack` | datasheet 确认 DDP、2 Channel、1 CS，输出 `2 dies, 1 CS` |
 
 ## H9JC LPDDR5 颗粒
 
@@ -118,29 +118,29 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 
 | Token | density | `dram_die_stack` |
 | --- | --- | --- |
-| `BK3` | 16Gb | DDP (2-die), 1 CS |
-| `CP3` | 32Gb | QDP (4-die), 2 CS |
-| `FA5` | 64Gb | ODP (8-die), 2 CS |
+| `BK3` | 16Gb | 2 dies, 1 CS |
+| `CP3` | 32Gb | 4 dies, 2 CS |
+| `FA5` | 64Gb | 8 dies, 2 CS |
 
 ## H58G LPDDR5X 颗粒
 
 当前规则覆盖 `H58G(56|66|76|78)........`，其中有功能框图或公开 ordering 资料确认的组合输出 `dram_die_stack`：
 
-| Key | density | `dram_die_stack` |
+| Key | density | topology fields |
 | --- | --- | --- |
-| `56:CK8BX146` | 32Gb | DDP (2-die), 1 CS |
-| `66:CK8BX147` | 64Gb | QDP (4-die), 2 CS |
-| `78:CK8BX185` | 128Gb | 2Ch 2CS |
+| `56:CK8BX146` | 32Gb | 2 dies, 1 CS |
+| `66:CK8BX147` | 64Gb | 4 dies, 2 CS |
+| `78:CK8BX185` | 128Gb | `channel_count=2`, `ce_count=2`（公开资料只确认 2Ch 2CS，不推断 die 数） |
 
 ## 尾缀处理
 
 - `-` 后面的 speed / temperature / revision 不作为主结构强制条件。
 - 例如 `H5AN8G8NAFR` 没有 `-UHC` 时仍输出 SK hynix、DDR4、8Gb、x8、package code 与 die revision，只是不输出 `dram_speed` / `operation_temperature`。
-- 对已有可确认 speed 的完整 PN，`dram_speed` 必须输出频率或明确 speed bin；对可确认 DDP/QDP/CS 的 LPDDR PN，`dram_die_stack` 必须输出 die / CS 信息。
+- 对已有可确认 speed 的完整 PN，`dram_speed` 必须输出频率或明确 speed bin；对可确认物理 die 数和 CS 的 LPDDR PN，`dram_die_stack` 必须输出 `N die(s), M CS`。
 
 ## 输出约定
 
 - standalone DRAM `device.productType` 输出短 DRAM 世代名，例如 `DDR3`、`DDR4`、`DDR5`、`LPDDR4`、`GDDR5`。
-- 内部 `dram_type` 不带厂商名，可继续使用 `DDR3 SDRAM`、`DDR4 SDRAM`、`DDR5 SDRAM`、`LPDDR4 SDRAM`、`GDDR5 SGRAM` 这类标准来源；公开 `fields` 不输出该字段。
+- 内部 `dram_type` 不带厂商名且不保留冗余后缀，使用 `DDR3`、`DDR4`、`DDR5`、`LPDDR4`、`GDDR5` 这类短标准名。
 - `package_code` 只表示厂商封装 token；只有 datasheet / 外部拆解能确认实际封装时才写 `fields.package`。
 - 资料状态、来源 URL、确认状态等维护信息不得进入用户可见 `fields`。

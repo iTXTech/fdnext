@@ -26,13 +26,13 @@
       "tables": {
         "familyObj": {
           "TQ": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "TC": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "AN": {
-            "dram_type": "DDR4 SDRAM"
+            "dram_type": "DDR4"
           }
         },
         "voltage": {
@@ -142,19 +142,24 @@
         },
         "ddpStackObj": {
           "TC:8G:4:3:AMR": {
-            "dram_die_stack": "DDP (2-die), 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "TC:8G:8:3:AMR": {
-            "dram_die_stack": "DDP (2-die), 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "TC:8G:6:3:AMR": {
-            "dram_die_stack": "DDP (2-die), 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "AN:AG:8:N:CMR": {
-            "dram_die_stack": "DDP (2-die), 2 CS"
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
           },
           "AN:AG:6:N:CMR": {
-            "dram_die_stack": "DDP (2-die), 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
           }
         }
       },
@@ -485,14 +490,14 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR5 SDRAM",
-            "dram_die_stack": "Single die",
+            "dram_type": "DDR5",
             "config_code": {
               "$var": "configCode"
             },
             "package_code": {
               "$var": "packageCode"
-            }
+            },
+            "die_count": 1
           }
         },
         {
@@ -572,13 +577,13 @@
         },
         "speedObj": {
           "2H:R0": {
-            "dram_speed": "GDDR5-6.0Gbps/pin"
+            "dram_speed": "GDDR5-6Gbps/pin"
           },
           "2H:T2": {
-            "dram_speed": "GDDR5-5.0Gbps/pin"
+            "dram_speed": "GDDR5-5Gbps/pin"
           },
           "2H:T0": {
-            "dram_speed": "GDDR5-4.0Gbps/pin"
+            "dram_speed": "GDDR5-4Gbps/pin"
           }
         },
         "temperatureObj": {
@@ -663,7 +668,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "GDDR5 SGRAM",
+            "dram_type": "GDDR5",
             "config_code": {
               "$var": "configCode"
             },
@@ -743,27 +748,31 @@
         },
         "dieStackObj": {
           "8K": {
-            "dram_die_stack": "DDP (2-die), 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2,
+            "channel_count": 2
           },
           "CP": {
-            "dram_die_stack": "QDP (4-die), 2 CS"
+            "dram_die_stack": "4 dies, 2 CS",
+            "die_count": 4,
+            "channel_count": 2
           }
         },
         "packageObj": {
           "UMLHR": {
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "dram_speed": "LPDDR4-3733"
           },
           "UMLXR": {
-            "dram_type": "LPDDR4 SDRAM",
+            "dram_type": "LPDDR4",
             "dram_speed": "LPDDR4-4266"
           },
           "MMLHR": {
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "dram_speed": "LPDDR4X-3733"
           },
           "MMLXR": {
-            "dram_type": "LPDDR4X SDRAM",
+            "dram_type": "LPDDR4X",
             "dram_speed": "LPDDR4X-4266"
           }
         },
@@ -940,10 +949,10 @@
         },
         "speedObj": {
           "6": {
-            "dram_speed": "SDR speed bin 6"
+            "dram_speed": "SDR-6"
           },
           "H": {
-            "dram_speed": "SDR speed bin H"
+            "dram_speed": "SDR-H"
           }
         }
       },
@@ -985,7 +994,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "SDR SDRAM",
+            "dram_type": "SDR",
             "config_code": {
               "$var": "configCode"
             },
@@ -1047,10 +1056,10 @@
       "tables": {
         "familyObj": {
           "DU": {
-            "dram_type": "DDR SDRAM"
+            "dram_type": "DDR"
           },
           "PS": {
-            "dram_type": "DDR2 SDRAM"
+            "dram_type": "DDR2"
           }
         },
         "voltage": {
@@ -1066,10 +1075,10 @@
             "dram_speed": "DDR-400B (3-3-3)"
           },
           "PS:Y5": {
-            "dram_speed": "DDR2 speed bin Y5"
+            "dram_speed": "DDR2-Y5"
           },
           "PS:C4": {
-            "dram_speed": "DDR2 speed bin C4"
+            "dram_speed": "DDR2-C4"
           }
         },
         "speedToken": {
@@ -1214,13 +1223,16 @@
         },
         "dieStackObj": {
           "BK3": {
-            "dram_die_stack": "DDP (2-die), 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
           },
           "CP3": {
-            "dram_die_stack": "QDP (4-die), 2 CS"
+            "dram_die_stack": "4 dies, 2 CS",
+            "die_count": 4
           },
           "FA5": {
-            "dram_die_stack": "ODP (8-die), 2 CS"
+            "dram_die_stack": "8 dies, 2 CS",
+            "die_count": 8
           }
         },
         "speedObj": {
@@ -1275,7 +1287,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "LPDDR5 SDRAM",
+            "dram_type": "LPDDR5",
             "config_code": {
               "$var": "configCode"
             },
@@ -1353,13 +1365,16 @@
         },
         "dieStackObj": {
           "56:CK8BX146": {
-            "dram_die_stack": "DDP (2-die), 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
           },
           "66:CK8BX147": {
-            "dram_die_stack": "QDP (4-die), 2 CS"
+            "dram_die_stack": "4 dies, 2 CS",
+            "die_count": 4
           },
           "78:CK8BX185": {
-            "dram_die_stack": "2Ch 2CS"
+            "channel_count": 2,
+            "ce_count": 2
           }
         }
       },
@@ -1404,7 +1419,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "LPDDR5X SDRAM",
+            "dram_type": "LPDDR5X",
             "config_code": {
               "$var": "densityCode"
             },
@@ -1470,11 +1485,11 @@
       "tables": {
         "speedObj": {
           "S2": {
-            "dram_speed": "GDDR6 speed bin S2",
+            "dram_speed": "GDDR6-S2",
             "operation_temperature": "Commercial"
           },
           "S0": {
-            "dram_speed": "GDDR6 speed bin S0",
+            "dram_speed": "GDDR6-S0",
             "operation_temperature": "Commercial"
           }
         }
@@ -1515,7 +1530,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "GDDR6 SGRAM",
+            "dram_type": "GDDR6",
             "config_code": {
               "$var": "configCode"
             },

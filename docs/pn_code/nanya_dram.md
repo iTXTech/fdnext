@@ -13,7 +13,7 @@
 - Nanya 官方产品列表补充确认 DDR4 `E3/E4/F3/F4/C4/H3/H4/A3/A4`、DDR5 `C3/DK/EK/EL`、DDR5 speed `S8/UB/WE`，以及 LPDDR4/4X `AC/BN` package 与 LPDDR4 `J2` speed 等 exact PN 组合；这些 PN 进入 `dram-pn.json` 用于补全。来源：<https://www.nanya.com/en/Product/List/450/2264>、<https://www.nanya.com/en/Product/List/450/2478>、<https://www.nanya.com/en/Product/List/547/2356>、<https://www.nanya.com/en/Product/List/547/2343>、<https://www.nanya.com/en/Product/List/547/6587>
 - Nanya 官方 `NT5TU32M16FG-ACI` 页面确认 DDR2、512Mb、x16、84-ball BGA、800Mbps、工业温度。来源：<https://www.nanya.com/en/Product/3873/NT5TU32M16FG-ACI>
 - Nanya 官方 `NT5CB128M16JR-DI` 页面确认 DDR3、2Gb、x16、96-ball BGA、1600Mbps、0C~95C。来源：<https://www.nanya.com/en/Product/4111/NT5CB128M16JR-DI>
-- Nanya 官方 `NT5CC128M16JR-DI` 页面确认 DDR3L、2Gb、x16、96-ball BGA、1600Mbps、0C~95C；规则输出仍使用标准化 `DDR3 SDRAM`，电压区分为 1.35V。来源：<https://www.nanya.com/cn/Product/4114/NT5CC128M16JR-DI>
+- Nanya 官方 `NT5CC128M16JR-DI` 页面确认 DDR3L、2Gb、x16、96-ball BGA、1600Mbps、0C~95C；规则输出仍使用标准化 `DDR3`，电压区分为 1.35V。来源：<https://www.nanya.com/cn/Product/4114/NT5CC128M16JR-DI>
 - Nanya 官方 `NT6TL128M32BA-G0` 页面确认 LPDDR2、4Gb、x32、134-ball BGA、1066Mbps、-25C~85C；`NT6TL128M32BA-G0I/G0H` 分别确认 Industrial / Automotive grade token。来源：<https://www.nanya.com/en/Product/4069/NT6TL128M32BA-G0>、<https://www.nanya.com/en/Product/4072/NT6TL128M32BA-G0I>、<https://www.nanya.com/en/Product/4074/NT6TL128M32BA-G0H>
 - Nanya 官方 `NT6CL256M32AM-H0` 页面确认 LPDDR3、8Gb、x32、178-ball BGA、2133Mbps、-30C~105C。来源：<https://www.nanya.com/en/Product/4324/NT6CL256M32AM-H0>
 - Nanya 官方 `NT6AN512T32AV-J1` / `NT6AP512T32AV-J1` 页面确认 LPDDR4 / LPDDR4X、16Gb、x32、200-ball BGA、4267Mbps。来源：<https://www.nanya.com/en/Product/4330/NT6AN512T32AV-J1>、<https://www.nanya.com/en/Product/4588/NT6AP512T32AV-J1>
@@ -45,9 +45,9 @@ NT6AP512T32AV-J1
 ## 输出约定
 
 - `depth x width` 直接推导 `fields.density`，例如 `1024M8` 输出 `8192` Mbit。
-- `M/T/F` stack code 分别输出 `Single die, 1 CS`、`DDP (2-die), 1 CS`、`QDP (4-die), 2 CS`。
+- `M/T/F` stack code 分别输出 `1 die, 1 CS`、`2 dies, 1 CS`、`4 dies, 2 CS`，并同步写入 `die_count`。
 - suffix 不存在时不输出 `dram_speed` / `operation_temperature`；suffix 存在但 grade token 不存在时只输出 speed。
 - 低功耗 speed token 以 `family + speed` 做组合 key，避免 LPDDR4 与 LPDDR4X 共用 `J1` 时混淆。
 - standard DDR 的 `T/F` stack-code 先维持结构化规则支持，但本轮不新增确定样例；只有找到公开 exact PN / datasheet 后再补 testcase 和 source tier。
 - standard DDR5 新封装示例仍走算术 config：`NT5FF2048M8EK-WEU` 输出 16Gb / x8、`EK` 78-ball BGA、`WE` DDR5-8000、`U` Industrial (-40C~105C)；`NT5FF2048M8DK-UB` 输出 `DK` 78-ball BGA 与 DDR5-7200。
-- 低功耗 PN 中 `NT6AP256F64BN-J1` 这类 PoP 组合输出 `BN` 376-ball PoP，并按 `F64` 输出 QDP / 2 CS。
+- 低功耗 PN 中 `NT6AP256F64BN-J1` 这类 PoP 组合输出 `BN` 376-ball PoP，并按 `F64` 输出 `4 dies, 2 CS`。

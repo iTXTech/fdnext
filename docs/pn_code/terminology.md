@@ -100,7 +100,9 @@ DRAM / MCP DRAM 子系统使用以下字段，避免和 NAND 字段混用：
 | `dram_type` | DRAM 类型来源 | `LPDDR5X`, `DDR4`, `GDDR7` |
 | `dram_density` | DRAM 子系统或 component 总容量，`unit = Mbit` | `65536` / `64Gb` |
 | `dram_die_density` | 单颗 DRAM die 容量 | `16384` / `16Gb` |
-| `dram_die_stack` | DRAM die / stack / CS 数量 | `2-die stack, 2 CS` |
+| `dram_die_stack` | DRAM 物理 die 数与 CS 数量 | `2 dies, 2 CS` |
+| `die_count` | 只确认物理 die 数、但没有 CS 资料时的 die 数量 | `4` |
+| `ce_count` / `channel_count` | 只确认 CS/rank 或 channel、但没有物理 die 数时的拓扑数量 | `2` |
 | `dram_generation` | DRAM 工艺/代际 | `1y-nm LPDDR4X`, `LPDDR5X` |
 | `dram_speed` | DRAM 速率或 speed bin | `8533 Mbps`, `DDR4-2666 CL19` |
 | `dram_width` | DRAM 组织位宽，`unit = bit` | `16` / `x16` |
@@ -110,14 +112,16 @@ DRAM / MCP DRAM 子系统使用以下字段，避免和 NAND 字段混用：
 | `config_code` | 厂商配置 token | `1G8`, `256M32` |
 | `package_code` | 厂商封装 token；不替代 `package` | `SA`, `NRE` |
 | `solder_type` | 焊接/镀层类型 token 展开 | `100% matte Sn` |
+| `special_option` | 不属于 die stack 的地址、CKE、layout 等特殊选项 | `Reduced page-size addressing` |
 | `prod_status` | ES/MS/QS 等生产状态 | `ES` |
 
 standalone DRAM 约定：
 
 - `device.chipKind = "dram"`，`device.productType` 使用 `ddr4`、`lpddr5x` 等短 product type。
-- `dram_type` 和 `product_type` 不写厂商名，例如不要使用 `Micron DDR5 SDRAM`。
+- `dram_type` 和 `product_type` 不写厂商名，也不保留冗余 `SDRAM` / `SGRAM` 后缀，例如不要使用 `Micron DDR5 SDRAM`。
 - `dram_density` / `dram_width` 已在主 DRAM block 输出时，不再复制到其他字段。
 - `package_code` 只表达厂商 token；只有外部资料确认封装尺寸、pin 或 ball count 时才输出 `package`。
+- `dram_die_stack` 只在物理 die 数和 CS 数同时明确时输出；PoP/MCP 等封装信息放 `package`，reduced page address、2 CKE、JEDEC/Flexframe stack layout 这类非 die/CS 信息放 `special_option`。
 - `-` 后面的 speed / temperature / revision 后缀不作为主结构强制条件；缺失时仍应输出 vendor、product type、density、width、package code、die stack 等已能确认的信息。
 
 MCP/eMCP/uMCP 同时有 NAND 和 DRAM 时：

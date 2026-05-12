@@ -26,22 +26,22 @@
       "tables": {
         "familyObj": {
           "5TU": {
-            "dram_type": "DDR2 SDRAM"
+            "dram_type": "DDR2"
           },
           "5DS": {
-            "dram_type": "DDR SDRAM"
+            "dram_type": "DDR"
           },
           "5CB": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "5CC": {
-            "dram_type": "DDR3 SDRAM"
+            "dram_type": "DDR3"
           },
           "5AD": {
-            "dram_type": "DDR4 SDRAM"
+            "dram_type": "DDR4"
           },
           "5FF": {
-            "dram_type": "DDR5 SDRAM"
+            "dram_type": "DDR5"
           }
         },
         "voltage": {
@@ -54,13 +54,16 @@
         },
         "stackObj": {
           "M": {
-            "dram_die_stack": "Single die, 1 CS"
+            "dram_die_stack": "1 die, 1 CS",
+            "die_count": 1
           },
           "T": {
-            "dram_die_stack": "DDP (2-die), 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
           },
           "F": {
-            "dram_die_stack": "QDP (4-die), 2 CS"
+            "dram_die_stack": "4 dies, 2 CS",
+            "die_count": 4
           }
         },
         "packageActual": {
@@ -269,13 +272,14 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_stack": "Single die, 1 CS",
+            "dram_die_stack": "1 die, 1 CS",
             "config_code": {
               "$var": "configCode"
             },
             "package_code": {
               "$var": "packageCode"
-            }
+            },
+            "die_count": 1
           }
         },
         {
@@ -354,22 +358,22 @@
       "tables": {
         "familyObj": {
           "6TL": {
-            "dram_type": "LPDDR2 SDRAM"
+            "dram_type": "LPDDR2"
           },
           "6CL": {
-            "dram_type": "LPDDR3 SDRAM"
+            "dram_type": "LPDDR3"
           },
           "6AN": {
-            "dram_type": "LPDDR4 SDRAM"
+            "dram_type": "LPDDR4"
           },
           "6AP": {
-            "dram_type": "LPDDR4X SDRAM"
+            "dram_type": "LPDDR4X"
           },
           "6AT": {
-            "dram_type": "LPDDR4X SDRAM"
+            "dram_type": "LPDDR4X"
           },
           "6BR": {
-            "dram_type": "LPDDR5 SDRAM"
+            "dram_type": "LPDDR5"
           }
         },
         "voltage": {
@@ -382,13 +386,16 @@
         },
         "stackObj": {
           "M": {
-            "dram_die_stack": "Single die, 1 CS"
+            "dram_die_stack": "1 die, 1 CS",
+            "die_count": 1
           },
           "T": {
-            "dram_die_stack": "DDP (2-die), 1 CS"
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
           },
           "F": {
-            "dram_die_stack": "QDP (4-die), 2 CS"
+            "dram_die_stack": "4 dies, 2 CS",
+            "die_count": 4
           }
         },
         "packageActual": {
@@ -433,15 +440,15 @@
             "dram_speed": "LPDDR4X-4267"
           },
           "6BR:K1": {
-            "dram_type": "LPDDR5X SDRAM",
+            "dram_type": "LPDDR5X",
             "dram_speed": "LPDDR5X-8533"
           },
           "6BR:K2": {
-            "dram_type": "LPDDR5 SDRAM",
+            "dram_type": "LPDDR5",
             "dram_speed": "LPDDR5-7500"
           },
           "6BR:K3": {
-            "dram_type": "LPDDR5 SDRAM",
+            "dram_type": "LPDDR5",
             "dram_speed": "LPDDR5-6400"
           }
         },
