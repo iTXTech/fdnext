@@ -112,6 +112,10 @@ function vendorMatches(actual: string, expected: string): boolean {
     return true;
   }
   const aliases: Record<string, string[]> = {
+    esmt: ["elite semiconductor"],
+    "elite semiconductor": ["esmt"],
+    etron: ["etron technology"],
+    "etron technology": ["etron"],
     sndk: ["sandisk", "western digital", "wd"],
     "western digital": ["sndk", "sandisk", "wd"],
     wd: ["sndk", "sandisk", "western digital"],

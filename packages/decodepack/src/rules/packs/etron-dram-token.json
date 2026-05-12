@@ -1,0 +1,1197 @@
+[
+  {
+    "id": "vendor.etron.dram.sdr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^EM63[0-9AB][0-9]{3}(?:TS|BM)$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "EM63"
+      ],
+      "tables": {
+        "configToken": {
+          "6165": "6165",
+          "8165": "8165",
+          "9165": "9165",
+          "A165": "A165",
+          "A085": "A085",
+          "B165": "B165",
+          "B085": "B085"
+        },
+        "configObj": {
+          "6165": {
+            "density": 16,
+            "device_width": 16,
+            "config_code": "1M16"
+          },
+          "8165": {
+            "density": 64,
+            "device_width": 16,
+            "config_code": "4M16"
+          },
+          "9165": {
+            "density": 128,
+            "device_width": 16,
+            "config_code": "8M16"
+          },
+          "A165": {
+            "density": 256,
+            "device_width": 16,
+            "config_code": "16M16"
+          },
+          "A085": {
+            "density": 256,
+            "device_width": 8,
+            "config_code": "32M8"
+          },
+          "B165": {
+            "density": 512,
+            "device_width": 16,
+            "config_code": "32M16"
+          },
+          "B085": {
+            "density": 512,
+            "device_width": 8,
+            "config_code": "64M8"
+          }
+        },
+        "packageObj": {
+          "6165:TS": {
+            "package": "50-pin TSOP II"
+          },
+          "TS": {
+            "package": "54-pin TSOP II"
+          },
+          "BM": {
+            "package": "54-ball FBGA"
+          }
+        },
+        "packageCodeObj": {
+          "TS": {
+            "package_code": "TS"
+          },
+          "BM": {
+            "package_code": "BM"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "configToken",
+          "to": "configToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "configToken",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([A-Z]{2})$",
+          "to": "packageCode",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{configToken}}:{{packageCode}}",
+          "to": "configPackageKey"
+        },
+        {
+          "op": "map",
+          "from": "configPackageKey",
+          "table": "packageObj",
+          "to": "configPackageObj",
+          "default": null
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "genericPackageObj",
+          "default": {}
+        },
+        {
+          "op": "fallback",
+          "primary": "configPackageObj",
+          "secondary": "genericPackageObj",
+          "to": "packageObj"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageCodeObj",
+          "to": "packageCodeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "SDR SDRAM",
+            "config_code": {
+              "$path": "configObj.config_code"
+            },
+            "dram_speed": "SDR 200/166/143 MHz",
+            "operation_temperature": "Automotive (-40C~105C)"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageCodeObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "etron",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$path": "configObj.density"
+        },
+        "fields.dram_width": {
+          "$path": "configObj.device_width"
+        },
+        "fields.dram_voltage": "3.3V VDD",
+        "fields.package": {
+          "$path": "packageObj.package"
+        },
+        "meta.ruleId": "vendor.etron.dram.sdr.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.etron.dram.ddr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^EM6A(?:8160|8320|9160|9320|A160|B080|B160|C160)[0-9A-Z]{3}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "EM6A"
+      ],
+      "tables": {
+        "configToken": {
+          "8160": "8160",
+          "8320": "8320",
+          "9160": "9160",
+          "9320": "9320",
+          "A160": "A160",
+          "B080": "B080",
+          "B160": "B160",
+          "C160": "C160"
+        },
+        "configObj": {
+          "8160": {
+            "density": 64,
+            "device_width": 16,
+            "config_code": "4M16"
+          },
+          "8320": {
+            "density": 64,
+            "device_width": 32,
+            "config_code": "2M32"
+          },
+          "9160": {
+            "density": 128,
+            "device_width": 16,
+            "config_code": "8M16"
+          },
+          "9320": {
+            "density": 128,
+            "device_width": 32,
+            "config_code": "4M32"
+          },
+          "A160": {
+            "density": 256,
+            "device_width": 16,
+            "config_code": "16M16"
+          },
+          "B080": {
+            "density": 512,
+            "device_width": 8,
+            "config_code": "64M8"
+          },
+          "B160": {
+            "density": 512,
+            "device_width": 16,
+            "config_code": "32M16"
+          },
+          "C160": {
+            "density": 1024,
+            "device_width": 16,
+            "config_code": "64M16"
+          }
+        },
+        "packageObj": {
+          "BIA": {
+            "package": "144-ball BGA"
+          },
+          "BIB": {
+            "package": "144-ball BGA"
+          },
+          "BKA": {
+            "package": "60-ball FBGA"
+          },
+          "BKC": {
+            "package": "60-ball FBGA"
+          },
+          "BKE": {
+            "package": "60-ball FBGA"
+          },
+          "TSA": {
+            "package": "66-pin TSOP II"
+          },
+          "TSC": {
+            "package": "66-pin TSOP II"
+          },
+          "TSD": {
+            "package": "66-pin TSOP II"
+          },
+          "TSE": {
+            "package": "66-pin TSOP II"
+          },
+          "TSH": {
+            "package": "66-pin TSOP II"
+          },
+          "TSB": {
+            "package": "66-pin TSOP II"
+          },
+          "WKB": {
+            "package": "60-ball FBGA"
+          },
+          "WKE": {
+            "package": "60-ball FBGA"
+          }
+        },
+        "packageCodeObj": {
+          "BIA": {
+            "package_code": "BIA"
+          },
+          "BIB": {
+            "package_code": "BIB"
+          },
+          "BKA": {
+            "package_code": "BKA"
+          },
+          "BKC": {
+            "package_code": "BKC"
+          },
+          "BKE": {
+            "package_code": "BKE"
+          },
+          "TSA": {
+            "package_code": "TSA"
+          },
+          "TSC": {
+            "package_code": "TSC"
+          },
+          "TSD": {
+            "package_code": "TSD"
+          },
+          "TSE": {
+            "package_code": "TSE"
+          },
+          "TSH": {
+            "package_code": "TSH"
+          },
+          "TSB": {
+            "package_code": "TSB"
+          },
+          "WKB": {
+            "package_code": "WKB"
+          },
+          "WKE": {
+            "package_code": "WKE"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "configToken",
+          "to": "configToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "configToken",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]{3})$",
+          "to": "packageCode",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageCodeObj",
+          "to": "packageCodeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR SDRAM",
+            "config_code": {
+              "$path": "configObj.config_code"
+            },
+            "dram_speed": "DDR 500/400 MHz",
+            "operation_temperature": "Commercial (0C~70C)"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageCodeObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "etron",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$path": "configObj.density"
+        },
+        "fields.dram_width": {
+          "$path": "configObj.device_width"
+        },
+        "fields.dram_voltage": "2.5V VDD",
+        "fields.package": {
+          "$path": "packageObj.package"
+        },
+        "meta.ruleId": "vendor.etron.dram.ddr.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.etron.dram.ddr2.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^EM68[9ABCD](?:08|16)C[0-9A-Z]{3}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "EM68"
+      ],
+      "tables": {
+        "density": {
+          "9": 128,
+          "A": 256,
+          "B": 512,
+          "C": 1024,
+          "D": 2048
+        },
+        "deviceWidth": {
+          "08": 8,
+          "16": 16
+        },
+        "configWidth": {
+          "08": "8",
+          "16": "16"
+        },
+        "package": {
+          "08": "60-ball FBGA",
+          "16": "84-ball FBGA"
+        },
+        "packageCodeObj": {
+          "BQD": {
+            "package_code": "BQD"
+          },
+          "BQE": {
+            "package_code": "BQE"
+          },
+          "BQC": {
+            "package_code": "BQC"
+          },
+          "WAH": {
+            "package_code": "WAH"
+          },
+          "WQH": {
+            "package_code": "WQH"
+          },
+          "WQK": {
+            "package_code": "WQK"
+          },
+          "WQL": {
+            "package_code": "WQL"
+          },
+          "WAG": {
+            "package_code": "WAG"
+          },
+          "WQG": {
+            "package_code": "WQG"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "coreCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]{3})$",
+          "to": "packageCode",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "configWidth",
+          "to": "configWidth",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageCodeObj",
+          "to": "packageCodeObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{configWidth}}C",
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR2 SDRAM",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "dram_speed": "DDR2 1066/800/667 MHz",
+            "operation_temperature": "Commercial (0C~85C)"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageCodeObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "etron",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.8V VDD",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.etron.dram.ddr2.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.etron.dram.ddr3.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^EM6[GH][BCDEF](?:08|16)E[0-9A-Z]+$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "EM6"
+      ],
+      "tables": {
+        "familyObj": {
+          "G": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "H": {
+            "dram_type": "DDR3 SDRAM"
+          }
+        },
+        "voltage": {
+          "G": "1.5V VDD",
+          "H": "1.35V VDD"
+        },
+        "density": {
+          "B": 512,
+          "C": 1024,
+          "D": 2048,
+          "E": 4096,
+          "F": 8192
+        },
+        "deviceWidth": {
+          "08": 8,
+          "16": 16
+        },
+        "package": {
+          "08": "78-ball FBGA",
+          "16": "96-ball FBGA"
+        },
+        "speedObj": {
+          "W3A": {
+            "dram_speed": "DDR3-2133"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "revisionCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]+)$",
+          "to": "packageCode",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "speedObj",
+          "to": "speedOverrideObj",
+          "default": null
+        },
+        {
+          "op": "set",
+          "to": "defaultSpeedObj",
+          "value": {
+            "dram_speed": "DDR3 1866/1600/1333 MHz"
+          }
+        },
+        {
+          "op": "fallback",
+          "primary": "speedOverrideObj",
+          "secondary": "defaultSpeedObj",
+          "to": "speedObj"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{widthCode}}E",
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            },
+            "operation_temperature": "Commercial (0C~95C)"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "etron",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.etron.dram.ddr3.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.etron.dram.ddr4.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^EM6O[EFG](?:08|16)N[0-9A-Z]+$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "EM6O"
+      ],
+      "tables": {
+        "density": {
+          "E": 4096,
+          "F": 8192,
+          "G": 16384
+        },
+        "deviceWidth": {
+          "08": 8,
+          "16": 16
+        },
+        "package": {
+          "08": "78-ball FBGA",
+          "16": "96-ball FBGA"
+        },
+        "speedObj": {
+          "WALE": {
+            "dram_speed": "DDR4-3200"
+          },
+          "WAND": {
+            "dram_speed": "DDR4-3200/2666"
+          },
+          "WAHG": {
+            "dram_speed": "DDR4-3200/2666"
+          },
+          "WXA": {
+            "dram_speed": "DDR4-3200"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "coreCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]+)$",
+          "to": "packageCode",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "speedObj",
+          "to": "speedOverrideObj",
+          "default": null
+        },
+        {
+          "op": "set",
+          "to": "defaultSpeedObj",
+          "value": {
+            "dram_speed": "DDR4 3200/2666/2400 MHz"
+          }
+        },
+        {
+          "op": "fallback",
+          "primary": "speedOverrideObj",
+          "secondary": "defaultSpeedObj",
+          "to": "speedObj"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{widthCode}}N",
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR4 SDRAM",
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            },
+            "operation_temperature": "Commercial (0C~95C)"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "etron",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.2V VDD",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.etron.dram.ddr4.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.etron.dram.lpddr4.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^EM6[LP][DEFGH](?:16|32)M[0-9A-Z]+$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "EM6"
+      ],
+      "tables": {
+        "familyObj": {
+          "L": {
+            "dram_type": "LPDDR4 SDRAM"
+          },
+          "P": {
+            "dram_type": "LPDDR4X SDRAM"
+          }
+        },
+        "voltage": {
+          "L": "1.8V VDD1 / 1.1V VDD2/VDDQ",
+          "P": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ"
+        },
+        "density": {
+          "D": 2048,
+          "E": 4096,
+          "F": 8192,
+          "G": 16384,
+          "H": 32768
+        },
+        "deviceWidth": {
+          "16": 16,
+          "32": 32
+        },
+        "speedObj": {
+          "BAJB": {
+            "dram_speed": "LPDDR4/4X 4266/3733/3200 MHz"
+          },
+          "VAPC": {
+            "dram_speed": "LPDDR4/4X 4266/3733 MHz"
+          },
+          "VAPD": {
+            "dram_speed": "LPDDR4/4X 4266/3733 MHz"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "coreCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]+)$",
+          "to": "packageCode",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "speedObj",
+          "to": "speedOverrideObj",
+          "default": null
+        },
+        {
+          "op": "set",
+          "to": "defaultSpeedObj",
+          "value": {
+            "dram_speed": "LPDDR4/4X 3200/2400 MHz"
+          }
+        },
+        {
+          "op": "fallback",
+          "primary": "speedOverrideObj",
+          "secondary": "defaultSpeedObj",
+          "to": "speedObj"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{widthCode}}M",
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            },
+            "operation_temperature": "Commercial (0C~85C)"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "etron",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": "200-ball FBGA",
+        "meta.ruleId": "vendor.etron.dram.lpddr4.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  }
+]

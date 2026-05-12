@@ -1,0 +1,549 @@
+[
+  {
+    "id": "vendor.esmt.dram.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "(",
+          ")"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^M(?:12L|13S|14D|14F|15T|15F|16U|54D|55D|56Z)[0-9A-Z]+$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "M"
+      ],
+      "tables": {
+        "familyToken": {
+          "12L": "12L",
+          "13S": "13S",
+          "14D": "14D",
+          "14F": "14F",
+          "15T": "15T",
+          "15F": "15F",
+          "16U": "16U",
+          "54D": "54D",
+          "55D": "55D",
+          "56Z": "56Z"
+        },
+        "familyObj": {
+          "12L": {
+            "dram_type": "SDR SDRAM"
+          },
+          "13S": {
+            "dram_type": "DDR SDRAM"
+          },
+          "14D": {
+            "dram_type": "DDR2 SDRAM"
+          },
+          "14F": {
+            "dram_type": "DDR2 SDRAM"
+          },
+          "15T": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "15F": {
+            "dram_type": "DDR3 SDRAM"
+          },
+          "16U": {
+            "dram_type": "DDR4 SDRAM"
+          },
+          "54D": {
+            "dram_type": "LPDDR2 SDRAM"
+          },
+          "55D": {
+            "dram_type": "LPDDR3 SDRAM"
+          },
+          "56Z": {
+            "dram_type": "LPDDR4X SDRAM"
+          }
+        },
+        "voltage": {
+          "12L": "3.3V VDD",
+          "13S": "2.5V VDD",
+          "14D": "1.8V VDD",
+          "14F": "1.5V VDD",
+          "15T": "1.35V or 1.5V VDD",
+          "15F": "1.5V VDD",
+          "16U": "1.2V VDD",
+          "54D": "1.8V VDD1 / 1.2V VDD2/VDDQ",
+          "55D": "1.8V VDD1 / 1.2V VDD2/VDDQ",
+          "56Z": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ"
+        },
+        "familySpeedObj": {
+          "12L": {
+            "dram_speed": "SDR 100/133/166 MHz"
+          },
+          "13S": {
+            "dram_speed": "DDR 200/250 MHz"
+          },
+          "14D": {
+            "dram_speed": "DDR2 400/533/667 MHz"
+          },
+          "14F": {
+            "dram_speed": "DDR2 400/533 MHz"
+          },
+          "15T": {
+            "dram_speed": "DDR3 800/933/1066 MHz"
+          },
+          "15F": {
+            "dram_speed": "DDR3 933/1066/1200 MHz"
+          },
+          "16U": {
+            "dram_speed": "DDR4 1333/1600 MHz"
+          },
+          "54D": {
+            "dram_speed": "LPDDR2 533 MHz"
+          },
+          "55D": {
+            "dram_speed": "LPDDR3 800/933/1066 MHz"
+          },
+          "56Z": {
+            "dram_speed": "LPDDR4X 1866 MHz"
+          }
+        },
+        "speedOverrideObj": {
+          "56Z:16:2H": {
+            "dram_speed": "LPDDR4X 2133 MHz"
+          },
+          "56Z:32:2H": {
+            "dram_speed": "LPDDR4X 2133 MHz"
+          }
+        },
+        "configToken": {
+          "16161A": "16161A",
+          "64164A": "64164A",
+          "64322A": "64322A",
+          "128168A": "128168A",
+          "128324A": "128324A",
+          "2561616A": "2561616A",
+          "5121632A": "5121632A",
+          "1G1664A": "1G1664A",
+          "1G8128A": "1G8128A",
+          "2G16128A": "2G16128A",
+          "2G8256A": "2G8256A",
+          "4G16256A": "4G16256A",
+          "4G8512A": "4G8512A",
+          "8G16512A": "8G16512A",
+          "5123216A": "5123216A",
+          "1G3232A": "1G3232A",
+          "2G3264A": "2G3264A",
+          "4G32128A": "4G32128A",
+          "8G32256A": "8G32256A"
+        },
+        "configObj": {
+          "16161A": {
+            "density": 16,
+            "device_width": 16,
+            "config_code": "1M16"
+          },
+          "64164A": {
+            "density": 64,
+            "device_width": 16,
+            "config_code": "4M16"
+          },
+          "64322A": {
+            "density": 64,
+            "device_width": 32,
+            "config_code": "2M32"
+          },
+          "128168A": {
+            "density": 128,
+            "device_width": 16,
+            "config_code": "8M16"
+          },
+          "128324A": {
+            "density": 128,
+            "device_width": 32,
+            "config_code": "4M32"
+          },
+          "2561616A": {
+            "density": 256,
+            "device_width": 16,
+            "config_code": "16M16"
+          },
+          "5121632A": {
+            "density": 512,
+            "device_width": 16,
+            "config_code": "32M16"
+          },
+          "1G1664A": {
+            "density": 1024,
+            "device_width": 16,
+            "config_code": "64M16"
+          },
+          "1G8128A": {
+            "density": 1024,
+            "device_width": 8,
+            "config_code": "128M8"
+          },
+          "2G16128A": {
+            "density": 2048,
+            "device_width": 16,
+            "config_code": "128M16"
+          },
+          "2G8256A": {
+            "density": 2048,
+            "device_width": 8,
+            "config_code": "256M8"
+          },
+          "4G16256A": {
+            "density": 4096,
+            "device_width": 16,
+            "config_code": "256M16"
+          },
+          "4G8512A": {
+            "density": 4096,
+            "device_width": 8,
+            "config_code": "512M8"
+          },
+          "8G16512A": {
+            "density": 8192,
+            "device_width": 16,
+            "config_code": "512M16"
+          },
+          "5123216A": {
+            "density": 512,
+            "device_width": 32,
+            "config_code": "16M32"
+          },
+          "1G3232A": {
+            "density": 1024,
+            "device_width": 32,
+            "config_code": "32M32"
+          },
+          "2G3264A": {
+            "density": 2048,
+            "device_width": 32,
+            "config_code": "64M32"
+          },
+          "4G32128A": {
+            "density": 4096,
+            "device_width": 32,
+            "config_code": "128M32"
+          },
+          "8G32256A": {
+            "density": 8192,
+            "device_width": 32,
+            "config_code": "256M32"
+          }
+        },
+        "packageObj": {
+          "12L:16:2S": {
+            "package": "54-pin TSOP II"
+          },
+          "12L:16:2C": {
+            "package": "54-pin TSOP II"
+          },
+          "12L:16:2R": {
+            "package": "50-pin TSOP II"
+          },
+          "12L:16:2T": {
+            "package": "54-pin TSOP II"
+          },
+          "12L:32:2C": {
+            "package": "90-ball BGA"
+          },
+          "12L:32:2S": {
+            "package": "90-ball BGA"
+          },
+          "13S:16:2S": {
+            "package": "66-pin TSOP II"
+          },
+          "13S:16:2T": {
+            "package": "66-pin TSOP II"
+          },
+          "13S:16:2C": {
+            "package": "66-pin TSOP II"
+          },
+          "14D:8:2P": {
+            "package": "60-ball BGA"
+          },
+          "14D:16:2C": {
+            "package": "84-ball BGA"
+          },
+          "14D:16:2G": {
+            "package": "84-ball BGA"
+          },
+          "14D:16:2M": {
+            "package": "84-ball BGA"
+          },
+          "14D:16:2P": {
+            "package": "84-ball BGA"
+          },
+          "14D:16:2S": {
+            "package": "84-ball BGA"
+          },
+          "14D:16:2T": {
+            "package": "84-ball BGA"
+          },
+          "14D:16:2Y": {
+            "package": "84-ball FBGA"
+          },
+          "14F:16:2C": {
+            "package": "84-ball BGA"
+          },
+          "14F:16:2G": {
+            "package": "84-ball BGA"
+          },
+          "15F:16:2S": {
+            "package": "96-ball BGA"
+          },
+          "15T:8:2C": {
+            "package": "78-ball BGA"
+          },
+          "15T:8:2D": {
+            "package": "78-ball BGA"
+          },
+          "15T:8:2R": {
+            "package": "78-ball BGA"
+          },
+          "15T:8:2S": {
+            "package": "78-ball BGA"
+          },
+          "15T:16:": {
+            "package": "96-ball BGA"
+          },
+          "15T:16:2C": {
+            "package": "96-ball BGA"
+          },
+          "15T:16:2D": {
+            "package": "96-ball BGA"
+          },
+          "15T:16:2P": {
+            "package": "96-ball BGA"
+          },
+          "15T:16:2R": {
+            "package": "96-ball BGA"
+          },
+          "15T:16:2S": {
+            "package": "96-ball BGA"
+          },
+          "15T:16:2T": {
+            "package": "96-ball BGA"
+          },
+          "15T:16:2Z": {
+            "package": "96-ball BGA"
+          },
+          "16U:8:2Z": {
+            "package": "78-ball BGA"
+          },
+          "16U:16:2Z": {
+            "package": "96-ball BGA"
+          },
+          "55D:16:2R": {
+            "package": "178-ball BGA"
+          },
+          "55D:16:2Y": {
+            "package": "178-ball BGA"
+          },
+          "55D:32:2R": {
+            "package": "178-ball BGA"
+          },
+          "55D:32:2Y": {
+            "package": "178-ball BGA"
+          },
+          "56Z:16:2H": {
+            "package": "200-ball BGA"
+          },
+          "56Z:32:": {
+            "package": "200-ball BGA"
+          },
+          "56Z:32:2H": {
+            "package": "200-ball BGA"
+          }
+        },
+        "packageCodeObj": {
+          "2C": {
+            "package_code": "2C"
+          },
+          "2D": {
+            "package_code": "2D"
+          },
+          "2G": {
+            "package_code": "2G"
+          },
+          "2H": {
+            "package_code": "2H"
+          },
+          "2M": {
+            "package_code": "2M"
+          },
+          "2P": {
+            "package_code": "2P"
+          },
+          "2R": {
+            "package_code": "2R"
+          },
+          "2S": {
+            "package_code": "2S"
+          },
+          "2T": {
+            "package_code": "2T"
+          },
+          "2Y": {
+            "package_code": "2Y"
+          },
+          "2Z": {
+            "package_code": "2Z"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "familyToken",
+          "to": "familyToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "familyToken",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyToken",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "familyToken",
+          "table": "familySpeedObj",
+          "to": "familySpeedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "configToken",
+          "to": "configToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "configToken",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "deviceWidth",
+          "value": {
+            "$path": "configObj.device_width"
+          }
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]{0,3})$",
+          "to": "packageCode",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyToken}}:{{deviceWidth}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageCodeObj",
+          "to": "packageCodeObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "speedOverrideObj",
+          "to": "speedOverrideObj",
+          "default": null
+        },
+        {
+          "op": "fallback",
+          "primary": "speedOverrideObj",
+          "secondary": "familySpeedObj",
+          "to": "speedObj"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$path": "configObj.config_code"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageCodeObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "esmt",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$path": "configObj.density"
+        },
+        "fields.dram_width": {
+          "$path": "configObj.device_width"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$path": "packageObj.package"
+        },
+        "meta.ruleId": "vendor.esmt.dram.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  }
+]

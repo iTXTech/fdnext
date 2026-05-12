@@ -15,6 +15,8 @@ import elpidaDramTokenRules from "./packs/elpida-dram-token.json" with { type: "
 import cxmtDramTokenRules from "./packs/cxmt-dram-token.json" with { type: "json" };
 import issiDramTokenRules from "./packs/issi-dram-token.json" with { type: "json" };
 import winbondDramTokenRules from "./packs/winbond-dram-token.json" with { type: "json" };
+import esmtDramTokenRules from "./packs/esmt-dram-token.json" with { type: "json" };
+import etronDramTokenRules from "./packs/etron-dram-token.json" with { type: "json" };
 import skhynixDramTokenRules from "./packs/skhynix-dram-token.json" with { type: "json" };
 import skhynix4dTokenRules from "./packs/skhynix-4d-token.json" with { type: "json" };
 import skhynix3dTokenRules from "./packs/skhynix-3d-token.json" with { type: "json" };
@@ -71,6 +73,8 @@ export const defaultPartDecodeSpecs = [
   ...cxmtDramTokenRules,
   ...issiDramTokenRules,
   ...winbondDramTokenRules,
+  ...esmtDramTokenRules,
+  ...etronDramTokenRules,
   ...skhynixDramTokenRules,
   ...skhynix4dTokenRules,
   ...skhynix3dTokenRules,

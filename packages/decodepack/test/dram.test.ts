@@ -2721,6 +2721,122 @@ assertDram("W66DP2RQQAHJ", {
   absentExtra: ["DRAM Die Stack"]
 });
 
+assertDram("M16U4G16256A(2Z)", {
+  vendor: "esmt",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "Package Code": "2Z",
+    "Config Code": "256M16",
+    "DRAM Speed": "DDR4 1333/1600 MHz"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M15T4G8512A(2S)", {
+  vendor: "esmt",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.35V or 1.5V VDD",
+  package: "78-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "Package Code": "2S",
+    "Config Code": "512M8",
+    "DRAM Speed": "DDR3 800/933/1066 MHz"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M56Z8G32256A(2H)", {
+  vendor: "esmt",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball BGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "Package Code": "2H",
+    "Config Code": "256M32",
+    "DRAM Speed": "LPDDR4X 2133 MHz"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("EM63B085TS", {
+  vendor: "etron",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x8",
+  voltage: "3.3V VDD",
+  package: "54-pin TSOP II",
+  extra: {
+    "DRAM Type": "SDR SDRAM",
+    "Package Code": "TS",
+    "Config Code": "64M8",
+    "DRAM Speed": "SDR 200/166/143 MHz",
+    "Operation Temperature": "Automotive (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("EM6HE16EWBH", {
+  vendor: "etron",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3 SDRAM",
+    "Package Code": "WBH",
+    "Config Code": "E16E",
+    "DRAM Speed": "DDR3 1866/1600/1333 MHz",
+    "Operation Temperature": "Commercial (0C~95C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("EM6OF08NWALE", {
+  vendor: "etron",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4 SDRAM",
+    "Package Code": "WALE",
+    "Config Code": "F08N",
+    "DRAM Speed": "DDR4-3200",
+    "Operation Temperature": "Commercial (0C~95C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("EM6PF32MBAJB", {
+  vendor: "etron",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X SDRAM",
+    "Package Code": "BAJB",
+    "Config Code": "F32M",
+    "DRAM Speed": "LPDDR4/4X 4266/3733/3200 MHz",
+    "Operation Temperature": "Commercial (0C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
 assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC32");
 assertSearchPnIncludes("K4W2G1646", "Samsung K4W2G1646Q-BC1A");
 assertSearchPnIncludes("K4W4G1646E", "Samsung K4W4G1646E-BC1A");
@@ -2738,6 +2854,10 @@ assertSearchPnIncludes("CXDB5CCBM", "CXMT CXDB5CCBM-MA-A");
 assertSearchPnIncludes("CXDB6CCBM", "CXMT CXDB6CCBM-MA-A");
 assertSearchPnIncludes("IS43QR8K02", "ISSI IS43QR8K02S2A");
 assertSearchPnIncludes("W66DP2RQQA", "Winbond W66DP2RQQAHJ");
+assertSearchPnIncludes("M16U4G16256", "ESMT M16U4G16256A(2Z)");
+assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A(2H)");
+assertSearchPnIncludes("EM6OF08", "Etron EM6OF08NWALE");
+assertSearchPnIncludes("EM6PF32", "Etron EM6PF32MBAJB");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
 assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
 assertSearchPnIncludes("C9BJZ", "Micron CT40A1G8SA-62M:E");

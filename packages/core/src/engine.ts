@@ -83,6 +83,8 @@ function getHumanReadableDensity(density: number, useByte = false): string {
 
 const vendorAliases: Record<string, string[]> = {
   biwin: ["biwin"],
+  esmt: ["esmt", "elite semiconductor"],
+  etron: ["etron", "etron technology"],
   intel: ["intel"],
   issi: ["issi"],
   kingston: ["kingston"],

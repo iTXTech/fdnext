@@ -3826,5 +3826,669 @@
   {
     "vendor": "winbond",
     "pn": "W66DP2RQQAHJ"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L128168A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L128324A(2C)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L16161A(2R)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A(2T)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L5121632A(2T)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A(2C)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64322A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S2561616A(2T)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S5121632A(2T)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S64164A(2C)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D128168A(2Y)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D1G1664A(2P)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D1G8128A(2P)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D2561616A(2C)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D2561616A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D5121632A(2G)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D5121632A(2M)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D5121632A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14F2561616A(2C)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14F5121632A(2G)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15F1G1664A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T1G1664A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T1G1664A(2T)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T1G1664A(2Z)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T1G8128A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T2G16128A(2D)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T2G16128A(2P)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T2G16128A(2R)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T2G8256A(2D)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T2G8256A(2R)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G16256A(2C)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G16256A(2P)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G16256A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G8512A(2C)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G8512A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T5121632A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T8G16512A(2S)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M16U4G16256A(2Z)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M16U4G8512A(2Z)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D1G1664A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D1G1664A(2G)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D1G3232A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D1G3232A(2G)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D2G16128A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D2G3264A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D5121632A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D5123216A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M55D1G3232A(2Y)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M55D1G1664A(2Y)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M55D4G16256A(2R)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M55D4G32128A(2R)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M56Z4G16256A(2H)"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M56Z8G32256A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M56Z8G32256A(2H)"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM636165TS"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM638165TS"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM638165BM"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM639165TS"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM639165BM"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM63A165TS"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM63A165BM"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM63A085TS"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM63B165TS"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM63B165BM"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM63B085TS"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6A8160BKC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6A8160TSC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6A8160TSD"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6A8320BIA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6A9160BKC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6A9160TSC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6A9160TSD"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6A9320BIB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6AA160BKE"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6AA160TSC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6AA160TSE"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6AB080TSB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6AB080WKB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6AB160TSH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6AB160WKE"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6AC160BKA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6AC160TSA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM68916CBQD"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM68916CBQE"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM68A16CBQC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM68B08CWAH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM68B16CWQH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM68B16CWQK"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM68B16CWQL"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM68C08CWAG"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM68C16CWQG"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM68D16CBQC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GB08EWUA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GB16EWKA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GC08EWAHH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GC08EWUG"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GC16EWBH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GC16EWBJ"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GC16EWKG"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GD08EWAHH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GD16EWBH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GD16EWBK"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GE08EW9G"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GE08EWAHH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GE16EWAKG"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GE16EWBH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GF08EBAHC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GF08EW3A"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GF16EBXB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6GF16EBXC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HB08EWUA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HB16EWKA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HC08EWAHH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HC08EWUG"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HC16EWBH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HC16EWBJ"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HC16EWKG"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HD08EWAHH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HD16EWBH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HD16EWBK"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HE08EW9G"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HE08EWAHH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HE16EWAKG"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HE16EWBH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HF08EBAHC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HF08EW3A"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HF16EBXB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6HF16EBXC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OE08NW9A"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OE08NWALB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OE16NWAKA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OE16NWBB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OE16NWBC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OE16NWBD"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OF08NWAHG"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OF08NWALE"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OF08NWAND"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OF16NWBD"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OF16NWBE"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OF16NWBG"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OG08NWALB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OG16NWBB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6OG16NWXA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LD16MVAJA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LE16MBAJB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LE16MVAJA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LE32MVAJA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LF32MBAJB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LF32MVAJA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LF32MVAPC"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LG16MVAJB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LG32MVAJB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LG32MVAPD"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LH32MBAPD"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LH32MVAJA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PD16MVAJA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PE16MBAJB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PE16MVAJA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PE32MVAJA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PF32MBAJB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PF32MVAJA"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PG32MVAJB"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PG32MVAPD"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PH32MBAPD"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PH32MVAJA"
   }
 ]
