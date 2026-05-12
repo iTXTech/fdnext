@@ -1,6 +1,6 @@
 {
   "name": "@itxtech/fdnext-decodepack",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -10,6 +10,6 @@
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
-    "test": "tsx test/managed-nand.test.ts && tsx test/dram.test.ts && tsx test/metadata-audit.test.ts"
+    "test": "tsx test/managed-nand.test.ts && tsx test/dram.test.ts && tsx test/identifier.test.ts && tsx test/metadata-audit.test.ts"
   }
 }

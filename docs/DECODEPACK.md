@@ -285,7 +285,9 @@ import rules from "./packs/xxx.json" with { type: "json" };
 - 每个字段由：
   - `dq`: bit 位列表，按 spec 定义顺序拼接
   - `def`: 从 bitfield 数值（字符串）映射到输出值（number/string/bool）
+  - 可选 `when`: 按 1-based 字节偏移限制 rule，例如 `{ "2": ["05", "09"] }`
 - 字段名直接使用 canonical field key（例如 `interface_type`、`timing_mode_async`、`ecc_level`）。
+- 同一字段可以写成 rule 数组，编译器会按顺序使用第一个 `when` 命中且 `def` 可解析的 rule。常见用途是先放完整字节精确表，再回落到旧的 bitfield 规则。
 
 ### 8.4 NAND Flash ID 后处理（core 内置）
 

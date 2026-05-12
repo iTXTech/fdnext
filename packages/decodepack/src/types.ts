@@ -153,9 +153,12 @@ export interface PartDecodeSpec {
 export interface IdentifierBitRule {
   dq: number[];
   def: Record<string, DecodeJson>;
+  when?: Record<string, string | string[]>;
 }
 
-export type IdentifierDefinition = Record<string, Record<string, IdentifierBitRule>>;
+export type IdentifierBitRuleSet = IdentifierBitRule | IdentifierBitRule[];
+
+export type IdentifierDefinition = Record<string, Record<string, IdentifierBitRuleSet>>;
 
 export interface IdentifierDecodeSpec {
   id: string;

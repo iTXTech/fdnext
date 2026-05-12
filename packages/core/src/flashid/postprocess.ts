@@ -102,6 +102,8 @@ const MICRON_LIKE_PROCESS_LOOKUPS: ProcessLookup[] = [
 ];
 
 const MICRON_LIKE_DENSITY_BY_BYTE2: Record<number, number> = {
+  0x05: 1024 * GBIT_TO_MBIT,
+  0x09: 1365 * GBIT_TO_MBIT,
   0x48: 16 * GBIT_TO_MBIT,
   0xd5: 16 * GBIT_TO_MBIT,
   0x68: 32 * GBIT_TO_MBIT,
@@ -123,6 +125,8 @@ const MICRON_LIKE_DENSITY_BY_BYTE2: Record<number, number> = {
   0xe4: 2048 * GBIT_TO_MBIT,
   0xf3: 4096 * GBIT_TO_MBIT
 };
+
+const MICRON_LIKE_STACKED_DENSITY_BYTE2 = new Set([0x05, 0x09]);
 
 const KIOXIA_LIKE_PROCESS_BY_MASKED_BYTE6: Record<number, string> = {
   0x00: "A19nm",
@@ -202,6 +206,15 @@ const SKHYNIX_DENSITY_BY_BYTE2: Record<number, number> = {
   0xd7: 32 * GBIT_TO_MBIT,
   0xde: 64 * GBIT_TO_MBIT,
   0xee: 64 * GBIT_TO_MBIT
+};
+
+const SKHYNIX_STACKED_PROCESS_BYTE6 = new Set([0x70, 0x80, 0x90, 0xa0, 0xa2, 0xb0, 0xb2, 0xc0, 0xc2, 0xd0]);
+
+const SAMSUNG_PROCESS_BY_BYTE6: Record<number, string> = {
+  0xc1: "136L 3DV6e",
+  0xc2: "176L 3DV7",
+  0xc7: "24L 3DV1",
+  0xcf: "236L 3DV8"
 };
 
 const SAMSUNG_PROCESS_BY_MASKED_BYTE6: Record<number, string> = {
@@ -289,6 +302,10 @@ function lookupString(table: Record<number, string>, byte: number): string | und
   return table[byte];
 }
 
+function dieCountFromFlashId(id: string): number {
+  return 1 << (flashIdByteAt(id, 3) & 0x03);
+}
+
 function clonePartDraft(info: PartDecodeDraft): PartDecodeDraft {
   return {
     ...info,
@@ -348,9 +365,11 @@ function patchMicronLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | n
     changed = true;
   }
 
-  const density = lookupNumber(MICRON_LIKE_DENSITY_BY_BYTE2, flashIdByteAt(id, 2));
+  const byte2 = flashIdByteAt(id, 2);
+  const density = lookupNumber(MICRON_LIKE_DENSITY_BY_BYTE2, byte2);
   if (density !== undefined) {
-    setDraftField(next, "density", density);
+    const stackedMultiplier = MICRON_LIKE_STACKED_DENSITY_BYTE2.has(byte2) ? dieCountFromFlashId(id) : 1;
+    setDraftField(next, "density", density * stackedMultiplier);
     changed = true;
   }
 
@@ -368,8 +387,8 @@ function patchSamsung(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null
     changed = true;
   }
 
-  const maskedByte6 = flashIdByteAt(id, 6) & 0x7f;
-  const processNode = lookupString(SAMSUNG_PROCESS_BY_MASKED_BYTE6, maskedByte6);
+  const byte6 = flashIdByteAt(id, 6);
+  const processNode = lookupString(SAMSUNG_PROCESS_BY_BYTE6, byte6) ?? lookupString(SAMSUNG_PROCESS_BY_MASKED_BYTE6, byte6 & 0x7f);
   if (processNode) {
     setDraftField(next, "process_node", processNode);
     changed = true;
@@ -385,7 +404,8 @@ function patchSkhynix(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null
 
   const density = lookupNumber(SKHYNIX_DENSITY_BY_BYTE2, flashIdByteAt(id, 2));
   if (density !== undefined) {
-    setDraftField(next, "density", density);
+    const stackedMultiplier = SKHYNIX_STACKED_PROCESS_BYTE6.has(flashIdByteAt(id, 6)) ? dieCountFromFlashId(id) : 1;
+    setDraftField(next, "density", density * stackedMultiplier);
     changed = true;
   }
 

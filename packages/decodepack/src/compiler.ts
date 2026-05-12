@@ -533,6 +533,25 @@ function byteAt(id: string, offset: number): number {
   return Number.parseInt(id.slice(idx, idx + 2), 16);
 }
 
+function byteHexAt(id: string, offset: number): string {
+  const byte = byteAt(id, offset);
+  return Number.isFinite(byte) ? byte.toString(16).toUpperCase().padStart(2, "0") : "";
+}
+
+function identifierRuleMatchesWhen(id: string, when: Record<string, string | string[]> | undefined): boolean {
+  if (!when) {
+    return true;
+  }
+  for (const [offsetKey, expected] of Object.entries(when)) {
+    const actual = byteHexAt(id, Number(offsetKey));
+    const values = (Array.isArray(expected) ? expected : [expected]).map((value) => value.toUpperCase().padStart(2, "0"));
+    if (!values.includes(actual)) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function canonicalIdentifierField(name: string): { key: string; scale?: number } {
   const raw = name.startsWith("field:") ? name.slice(6) : name;
   switch (raw) {
@@ -568,27 +587,34 @@ function decodeIdentifierByDefinition(
 
   for (const [offsetKey, rules] of Object.entries(rule.definition)) {
     const byte = byteAt(id, Number(offsetKey));
-    for (const [name, rule] of Object.entries(rules)) {
-      let data = 0;
-      for (const bit of rule.dq) {
-        data = (data << 1) + ((byte >> bit) & 0b1);
+    for (const [name, ruleSet] of Object.entries(rules)) {
+      const entries = Array.isArray(ruleSet) ? ruleSet : [ruleSet];
+      for (const rule of entries) {
+        if (!identifierRuleMatchesWhen(id, rule.when)) {
+          continue;
+        }
+        let data = 0;
+        for (const bit of rule.dq) {
+          data = (data << 1) + ((byte >> bit) & 0b1);
+        }
+        const resolved = rule.def[String(data)];
+        if (resolved === undefined) {
+          continue;
+        }
+        const field = canonicalIdentifierField(name);
+        const value = typeof resolved === "number" && field.scale ? resolved * field.scale : resolved;
+        fields[field.key] = value;
+        bitfields?.push({
+          offset: Number(offsetKey),
+          byte,
+          field: name,
+          outputKey: field.key,
+          bits: rule.dq,
+          data,
+          value
+        });
+        break;
       }
-      const resolved = rule.def[String(data)];
-      if (resolved === undefined) {
-        continue;
-      }
-      const field = canonicalIdentifierField(name);
-      const value = typeof resolved === "number" && field.scale ? resolved * field.scale : resolved;
-      fields[field.key] = value;
-      bitfields?.push({
-        offset: Number(offsetKey),
-        byte,
-        field: name,
-        outputKey: field.key,
-        bits: rule.dq,
-        data,
-        value
-      });
     }
   }
 
