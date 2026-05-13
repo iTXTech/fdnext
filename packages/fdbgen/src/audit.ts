@@ -1,4 +1,5 @@
 import { readFileSync } from "node:fs";
+import { hasFlashPayloadControllers, hasFlashPayloadPartReferences } from "./flash-payload";
 import {
   FDB_FLASH_ID_HEX_LENGTH,
   classifyFdbPartNumber,
@@ -351,7 +352,7 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
 
     const references = asStringArray(record.n);
     iddbPartReferences += references.length;
-    if (references.length === 0) {
+    if (!hasFlashPayloadPartReferences(record)) {
       collector.add("iddb.no_part_ref", "info", "Flash ID records without iddb.n cannot be reached from a canonical PN.", flashId, flashTrace);
     }
     for (const reference of references) {
@@ -365,7 +366,7 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
       }
     }
 
-    if (asStringArray(record.t).length === 0) {
+    if (!hasFlashPayloadControllers(record)) {
       collector.add("iddb.no_controller", "info", "Flash ID records without controller support are lower-confidence lookup entries.", flashId, flashTrace);
     }
   }

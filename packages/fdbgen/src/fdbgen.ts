@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, extname, resolve } from "node:path";
 import { CONTROLLER_GENERATORS, type ControllerMergeContext } from "./controllers";
+import { isLowConfidenceFlashPayload } from "./flash-payload";
 import {
   normalizeFdbControllerName,
   normalizeFdbFlashId,
@@ -8,7 +9,7 @@ import {
   normalizeFdbPartReference,
   isAuthoritativeFdbPartNumber
 } from "./normalize";
-import { isControllerOnlyPartPayload } from "./part-payload";
+import { isLowInformationPartPayload } from "./part-payload";
 import { createFdbProvenanceTrace, mergeProvenanceSource, type FdbProvenanceSource, type FdbProvenanceTrace } from "./trace";
 import type { ExtraPayload, FdbInfoPayload, FlashIdPayload, GenerateFdbOptions, PartNumberPayload } from "./types";
 import { inferVendorFromPartNumber, normalizeKnownPackage, normalizeVendor } from "./vendors";
@@ -509,10 +510,10 @@ function canonicalizeVendorRecords(vendors: VendorMap): void {
   }
 }
 
-function pruneControllerOnlyPartRecords(vendors: VendorMap): void {
+function pruneLowInformationPartRecords(vendors: VendorMap): void {
   for (const [vendor, records] of [...vendors.entries()]) {
     for (const [partNumber, payload] of [...records.entries()]) {
-      if (isControllerOnlyPartPayload(payload)) {
+      if (isLowInformationPartPayload(payload)) {
         records.delete(partNumber);
       }
     }
@@ -520,6 +521,55 @@ function pruneControllerOnlyPartRecords(vendors: VendorMap): void {
       vendors.delete(vendor);
     }
   }
+}
+
+function linkPartFlashIds(vendors: VendorMap, iddb: FlashIdMap): void {
+  for (const [vendor, parts] of vendors.entries()) {
+    for (const [partNumber, partInfo] of parts.entries()) {
+      for (const id of partInfo.id ?? []) {
+        const normalizedId = normalizeFdbFlashId(id);
+        if (!normalizedId) {
+          continue;
+        }
+        const flash = iddb.get(normalizedId) ?? {};
+        flash.n = mergeStringArray(flash.n, [`${vendor} ${partNumber}`], false);
+        iddb.set(normalizedId, flash);
+      }
+    }
+  }
+}
+
+function removeFlashIdReferences(vendors: VendorMap, removedFlashIds: Set<string>): void {
+  if (removedFlashIds.size === 0) {
+    return;
+  }
+  for (const records of vendors.values()) {
+    for (const payload of records.values()) {
+      const ids = payload.id?.filter((id) => !removedFlashIds.has(id));
+      if (ids && ids.length > 0) {
+        payload.id = ids;
+      } else {
+        delete payload.id;
+      }
+      const linkedIds = payload.f?.filter((id) => !removedFlashIds.has(id));
+      if (linkedIds && linkedIds.length > 0) {
+        payload.f = linkedIds;
+      } else {
+        delete payload.f;
+      }
+    }
+  }
+}
+
+function pruneLowConfidenceFlashRecords(vendors: VendorMap, iddb: FlashIdMap): void {
+  const removed = new Set<string>();
+  for (const [flashId, payload] of [...iddb.entries()]) {
+    if (isLowConfidenceFlashPayload(payload)) {
+      iddb.delete(flashId);
+      removed.add(flashId);
+    }
+  }
+  removeFlashIdReferences(vendors, removed);
 }
 
 function canonicalizePartReference(value: string, vendors: VendorMap): string | null {
@@ -701,19 +751,10 @@ function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: V
 
   const controllers = new Set<string>(toStringArray(infoInput.controllers, false));
 
-  for (const [vendor, parts] of vendors.entries()) {
-    for (const [partNumber, partInfo] of parts.entries()) {
+  for (const parts of vendors.values()) {
+    for (const partInfo of parts.values()) {
       for (const controller of partInfo.t ?? []) {
         controllers.add(controller);
-      }
-      for (const id of partInfo.id ?? []) {
-        const normalizedId = normalizeFdbFlashId(id);
-        if (!normalizedId) {
-          continue;
-        }
-        const flash = iddb.get(normalizedId) ?? {};
-        flash.n = mergeStringArray(flash.n, [`${vendor} ${partNumber}`], false);
-        iddb.set(normalizedId, flash);
       }
     }
   }
@@ -800,9 +841,12 @@ function generateFdbInternal(options: GenerateFdbOptions, trace?: FdbProvenanceT
   const extra = loadExtra(inputDir, options.extraFile);
   applyExtra(extra, vendors, iddb, trace, { file: options.extraFile ? resolve(options.extraFile) : resolve(inputDir, "extra.json"), filename: options.extraFile ? basename(options.extraFile) : "extra.json" });
   canonicalizeVendorRecords(vendors);
-  pruneControllerOnlyPartRecords(vendors);
+  pruneLowInformationPartRecords(vendors);
   canonicalizePartPayloadReferences(vendors);
   canonicalizeIddbReferences(iddb, vendors);
+  linkPartFlashIds(vendors, iddb);
+  pruneLowConfidenceFlashRecords(vendors, iddb);
+  pruneLowInformationPartRecords(vendors);
   const controllerBlacklist = buildControllerBlacklist(options.controllerBlacklist, extra.controllerBlacklist);
 
   const supplementalInfo = extra.info ?? {};

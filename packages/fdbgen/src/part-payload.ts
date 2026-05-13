@@ -1,6 +1,7 @@
 import type { PartNumberPayload } from "./types";
 
 export const AUTHORITATIVE_PART_PAYLOAD_KEYS = ["id", "f", "a", "l", "c", "m", "d", "e", "r", "n"] as const;
+const PART_PAYLOAD_KEYS = [...AUTHORITATIVE_PART_PAYLOAD_KEYS, "t"] as const;
 
 export function hasPartPayloadValue(payload: PartNumberPayload, key: keyof PartNumberPayload): boolean {
   const value = payload[key];
@@ -16,4 +17,12 @@ export function hasAnyPartPayloadValue(payload: PartNumberPayload, keys: readonl
 
 export function isControllerOnlyPartPayload(payload: PartNumberPayload): boolean {
   return hasPartPayloadValue(payload, "t") && !hasAnyPartPayloadValue(payload, AUTHORITATIVE_PART_PAYLOAD_KEYS);
+}
+
+export function isEmptyPartPayload(payload: PartNumberPayload): boolean {
+  return !hasAnyPartPayloadValue(payload, PART_PAYLOAD_KEYS);
+}
+
+export function isLowInformationPartPayload(payload: PartNumberPayload): boolean {
+  return isControllerOnlyPartPayload(payload) || isEmptyPartPayload(payload);
 }
