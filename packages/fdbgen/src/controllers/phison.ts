@@ -105,10 +105,33 @@ function originalPartReferencesForId(context: ControllerMergeContext, originalRe
   return [...new Set([...(originalRefsById.get(id) ?? []), ...trustedContextPartReferences(context, id)])];
 }
 
+function collectPhisonAliasFlashIds(document: FdnextFdbgenV1Document): Map<string, Set<string>> {
+  const flashIdsByPartNumber = new Map<string, Set<string>>();
+  for (const entry of document.entries) {
+    const id = normalizeSupportListFlashId(entry.flashId, true);
+    if (!id || !isSupportedSupportListFlashId(id) || entry.controllers.length === 0) {
+      continue;
+    }
+    const partNumber = cleanPhisonAliasPartNumber(entry.partNumber, id);
+    if (!partNumber || !PHISON_UFD_PART_NUMBER.test(partNumber)) {
+      continue;
+    }
+    const inferredVendor = inferVendorFromPartNumber(partNumber);
+    if (inferredVendor && inferredVendor !== PHISON_ALIAS_VENDOR) {
+      continue;
+    }
+    const flashIds = flashIdsByPartNumber.get(partNumber) ?? new Set<string>();
+    flashIds.add(id);
+    flashIdsByPartNumber.set(partNumber, flashIds);
+  }
+  return flashIdsByPartNumber;
+}
+
 function mergePhisonAlias(
   context: ControllerMergeContext,
   entry: FdnextFdbgenV1Entry,
-  originalRefsById: Map<string, string[]>
+  originalRefsById: Map<string, string[]>,
+  aliasFlashIds: Map<string, Set<string>>
 ): boolean {
   const id = normalizeSupportListFlashId(entry.flashId, true);
   if (!id || !isSupportedSupportListFlashId(id)) {
@@ -128,6 +151,10 @@ function mergePhisonAlias(
   if (inferredVendor && inferredVendor !== PHISON_ALIAS_VENDOR) {
     return false;
   }
+  const matchedFlashIds = aliasFlashIds.get(partNumber);
+  if (!matchedFlashIds || matchedFlashIds.size !== 1 || !matchedFlashIds.has(id)) {
+    return false;
+  }
   const controllers = parseSupportListControllerList(entry.controllers);
   if (controllers.length === 0) {
     return false;
@@ -144,11 +171,16 @@ function mergePhisonAlias(
 
 function mergePhisonFdnextFdbgenV1(context: ControllerMergeContext, document: FdnextFdbgenV1Document): void {
   const originalRefsById = collectOriginalPartReferences(context, document);
+  const aliasFlashIds = collectPhisonAliasFlashIds(document);
   mergeFdnextFdbgenV1Document(context, document, { mapEntry: mapPhisonUfdEntry });
   const aliasControllers = new Set<string>();
   for (let index = 0; index < document.entries.length; index += 1) {
     const entry = document.entries[index]!;
-    if (context.withSource({ recordIndex: index + 1, raw: JSON.stringify(entry) }, () => mergePhisonAlias(context, entry, originalRefsById))) {
+    if (
+      context.withSource({ recordIndex: index + 1, raw: JSON.stringify(entry) }, () =>
+        mergePhisonAlias(context, entry, originalRefsById, aliasFlashIds)
+      )
+    ) {
       for (const controller of entry.controllers) {
         aliasControllers.add(controller);
       }

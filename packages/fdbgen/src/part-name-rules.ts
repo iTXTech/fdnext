@@ -15,7 +15,8 @@ export interface VendorIdentityInput {
 }
 
 const METADATA_SUFFIX = /(?:_[A-Z0-9]+|\/[A-Z0-9/]+|\([A-Z0-9+-]+\))$/;
-const GENERIC_LABEL = /^(?:DUALDIE|QUALDIE|SANDISKPRO|SANDISKX16|GEN\d|SNDK|YMTC|SS|HY|EMMC|N18A|B74A|F41|[0-9A-F]{3,4}|[0-9]+G)$/;
+const GENERIC_LABEL =
+  /^(?:DUALDIE|QUALDIE|SANDISKPRO|SANDISKX16|GEN\d|SNDK|YMTC|SS|HY|EMMC|N18A|B74A|L74|L84A(?:[-_]?HP|HALF)?|F41|[0-9A-F]{3,4}|[0-9]+G)$/;
 const PLACEHOLDER_TOKEN = /(?:\/X(?:$|\d)|\(X\d+\)|(?:^|[-_])X\d+(?:[-_]|$)|SANDISKX\d+)/;
 
 function normalizeRawVendor(value: unknown): string {

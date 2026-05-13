@@ -26,6 +26,10 @@ function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
 }
 
+function shouldRejectVendorPartNumber(vendor: string, partNumber: string): boolean {
+  return normalizeVendor(vendor) === "micron" && /^29F(?=[0-9])/.test(partNumber);
+}
+
 function readJson(path: string): unknown {
   return JSON.parse(readFileSync(path, "utf8"));
 }
@@ -275,6 +279,9 @@ function mergePartPayload(
 ): PartNumberPayload | null {
   const normalizedPn = normalizeFdbPartNumber(partNumber);
   if (!normalizedPn) {
+    return null;
+  }
+  if (shouldRejectVendorPartNumber(vendor, normalizedPn)) {
     return null;
   }
   if (!isAuthoritativeFdbPartNumber(normalizedPn)) {
