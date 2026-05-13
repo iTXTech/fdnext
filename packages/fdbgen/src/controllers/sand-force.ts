@@ -1,9 +1,11 @@
+import { normalizeFdbVendorName } from "../normalize";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 
 function mergeSandForce(context: ControllerMergeContext, data: string): void {
   const dataLines = context.lines(data);
   dataLines.shift();
-  for (const rawConfig of dataLines) {
+  for (let index = 0; index < dataLines.length; index += 1) {
+    const rawConfig = dataLines[index] ?? "";
     if (!rawConfig.trim()) {
       continue;
     }
@@ -15,7 +17,8 @@ function mergeSandForce(context: ControllerMergeContext, data: string): void {
     }
     const controller = `SF${controllerPart}`;
     context.addInfoController(controller);
-    const vendor = (config[4] ?? "").toLowerCase().replace("hynix", "skhynix");
+    const rawVendorKey = (config[4] ?? "").trim().toLowerCase();
+    const vendor = normalizeFdbVendorName(config[4]);
     let partNumber = (config[7] ?? "").trim();
     if (partNumber.length <= 3 || partNumber.toLowerCase().includes("custom")) {
       continue;
@@ -26,10 +29,12 @@ function mergeSandForce(context: ControllerMergeContext, data: string): void {
     if (vendor === "micron" || vendor === "skhynix") {
       partNumber = context.normalizeKnownPackage(vendor, partNumber);
     }
-    if (vendor === "sandisk" && partNumber.length <= 9) {
+    if (rawVendorKey === "sandisk" && partNumber.length <= 9) {
       continue;
     }
-    context.mergePartPayload(vendor, partNumber, { t: [controller] });
+    context.withSource({ line: index + 2, raw: rawConfig }, () => {
+      context.mergePartPayload(vendor, partNumber, { t: [controller] });
+    });
   }
 }
 

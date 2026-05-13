@@ -17,7 +17,8 @@ function mergeFirstChipText(context: ControllerMergeContext, data: string): void
   const controllers = controllerColumns.map(({ name }) => name);
   context.addInfoController(controllers);
 
-  for (const line of dataLines) {
+  for (let index = 0; index < dataLines.length; index += 1) {
+    const line = dataLines[index] ?? "";
     const fields = line.split("\t").map((item) => item.trim());
     const rawVendor = fields[0] ?? "";
     const rawPartNumber = fields[1] ?? "";
@@ -26,13 +27,15 @@ function mergeFirstChipText(context: ControllerMergeContext, data: string): void
     const supported = controllerColumns
       .filter(({ index }) => CONTROLLER_MARK.test(fields[index] ?? ""))
       .map(({ name }) => name);
-    mergeSupportListEntry(context, {
-      vendor: rawVendor,
-      partNumber: rawPartNumber,
-      flashId: id,
-      controllers: supported,
-      cellLevel,
-      requireSupportedFlashIdPrefix: false
+    context.withSource({ line: index + 2, raw: line }, () => {
+      mergeSupportListEntry(context, {
+        vendor: rawVendor,
+        partNumber: rawPartNumber,
+        flashId: id,
+        controllers: supported,
+        cellLevel,
+        requireSupportedFlashIdPrefix: false
+      });
     });
   }
 }
@@ -62,12 +65,15 @@ function mergeFdnextFdbgenV1(context: ControllerMergeContext, source: Record<str
 
 function mergeLegacyFirstChipJson(context: ControllerMergeContext, source: unknown[]): void {
   const controllers = new Set<string>();
-  for (const item of source) {
+  for (let index = 0; index < source.length; index += 1) {
+    const item = source[index];
     const record = asRecord(item);
-    const supported = mergeSupportEntry(context, {
-      rawPartNumber: record.FlashName,
-      flashId: record.FlashID,
-      controllers: record.SupportedControllers
+    const supported = context.withSource({ recordIndex: index + 1, raw: JSON.stringify(item) }, () => {
+      return mergeSupportEntry(context, {
+        rawPartNumber: record.FlashName,
+        flashId: record.FlashID,
+        controllers: record.SupportedControllers
+      });
     });
     for (const controller of supported) {
       controllers.add(controller);

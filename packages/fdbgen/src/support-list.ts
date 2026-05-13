@@ -1,5 +1,11 @@
 import type { ControllerMergeContext } from "./controllers";
-import { inferVendorFromPartNumber, normalizeVendor } from "./vendors";
+import {
+  cleanSupportListPartNumberText,
+  normalizeFdbVendorName,
+  normalizeSupportControllerName,
+  normalizeSupportFlashId
+} from "./normalize";
+import { inferVendorFromPartNumber } from "./vendors";
 
 export interface SupportListEntryInput {
   vendor?: unknown;
@@ -40,18 +46,9 @@ const PART_PREFIX_BY_VENDOR: Record<string, RegExp> = {
   spectek: /^(?:FBNL|FNNL|FNN|FXXL)/,
   ymtc: /^(?:YM|YMN|KRN|XT)/
 };
-const CONTROLLER_NAME = /^(?=.*[A-Z])(?=.*\d)[A-Z0-9][A-Z0-9()-]*$/;
 
 export function normalizeSupportListFlashId(value: unknown, strict = false): string | undefined {
-  const normalized = strict
-    ? String(value ?? "").trim()
-    : String(value ?? "")
-        .replace(/[\s:_-]+/g, "")
-        .toUpperCase();
-  if (!normalized || normalized.length % 2 !== 0 || normalized.length < 4 || normalized.length > 16) {
-    return undefined;
-  }
-  return /^[0-9A-F]+$/.test(normalized) ? normalized : undefined;
+  return normalizeSupportFlashId(value, strict);
 }
 
 export function isSupportedSupportListFlashId(id: string): boolean {
@@ -86,8 +83,7 @@ function partVendorFromFlashId(id: string): string | null {
 }
 
 export function normalizeSupportListControllerName(value: unknown): string | undefined {
-  const controller = String(value ?? "").trim().toUpperCase();
-  return controller && CONTROLLER_NAME.test(controller) ? controller : undefined;
+  return normalizeSupportControllerName(value);
 }
 
 export function parseSupportListControllerList(value: unknown): string[] {
@@ -105,32 +101,7 @@ export function parseSupportListControllerList(value: unknown): string[] {
 }
 
 export function cleanSupportListPartNumber(value: string): string {
-  let partNumber = value
-    .trim()
-    .replaceAll(/[\u2010-\u2015\u2212]/g, "-")
-    .replace(/\s+/g, "")
-    .toUpperCase();
-
-  partNumber = partNumber.replace(/^L(?=(?:JS|PF|MT|FN|29F))/, "");
-  partNumber = partNumber.replace(/^JF29F/, "JS29F");
-  partNumber = partNumber.replace(/^((?:MT|JS|PF)29F[0-9]+)GB(?=08)/, "$1G");
-  partNumber = partNumber.replace(/^MICRON_((?:MT29|MTFC|MTFD|NW[0-9A-Z]{3,}|FNMB)[A-Z0-9-]*)/, "$1");
-  partNumber = partNumber.replace(/^HYNIX_((?:HY27|H27|H25|H26|H2D|H2J|H9[ATHQ])[A-Z0-9-]*)/, "$1");
-  partNumber = partNumber.replace(/^(?:INTEL|INTER|NTEL)_((?:JS29F|I29F|PF29F|PC29F|PD29F)[A-Z0-9-]*)/, "$1");
-  partNumber = partNumber.replace(/^TOSHIBA_((?:TC58|TH58|THG)[A-Z0-9-]*)/, "$1");
-  partNumber = partNumber.replace(/^SAMSUNG_((?:K9|KLM|KLU|KMD|KMF|KMN|KMV)[A-Z0-9-]*)/, "$1");
-  const paren = partNumber.indexOf("(");
-  if (paren !== -1) {
-    partNumber = partNumber.slice(0, paren);
-  }
-  partNumber = partNumber.replace(/_多BANK$/i, "");
-  while (/_[A-Z0-9*]+$/.test(partNumber)) {
-    partNumber = partNumber.replace(/_[A-Z0-9*]+$/, "");
-  }
-  while (/\*[0-9A-Z]*$/i.test(partNumber)) {
-    partNumber = partNumber.replace(/\*[0-9A-Z]*$/i, "");
-  }
-  return partNumber;
+  return cleanSupportListPartNumberText(value);
 }
 
 export function supportListVendorCandidates(rawVendor: string, partNumber: string, id: string): string[] {
@@ -149,7 +120,7 @@ export function supportListVendorCandidates(rawVendor: string, partNumber: strin
     candidates.add("sndk");
     candidates.add("kioxia");
   } else if (normalizedRaw) {
-    candidates.add(normalizeVendor(normalizedRaw.replace("hynix", "skhynix")));
+    candidates.add(normalizeFdbVendorName(normalizedRaw));
   }
 
   return [...candidates];

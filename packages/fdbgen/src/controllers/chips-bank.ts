@@ -1,22 +1,15 @@
 import { mergeFdnextFdbgenV1SupportList, type FdnextFdbgenV1Entry } from "../fdbgen-v1";
-import { vendorFromSupportListFlashId } from "../support-list";
+import { normalizeFdbVendorName } from "../normalize";
+import { normalizeSupportListFlashId, vendorFromSupportListFlashId } from "../support-list";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 
-const CHIPS_BANK_FLASH_ID_BYTES = 6;
-const CHIPS_BANK_FLASH_ID_HEX_LENGTH = CHIPS_BANK_FLASH_ID_BYTES * 2;
-
 function normalizeChipsBankVendor(value: string): string {
-  return value.toLowerCase().replace("hynix", "skhynix");
+  return normalizeFdbVendorName(value);
 }
 
 function normalizeChipsBankFlashId(value: unknown): string | undefined {
-  const normalized = String(value ?? "")
-    .replace(/[\s:_/-]+/g, "")
-    .toUpperCase();
-  if (normalized.length < CHIPS_BANK_FLASH_ID_HEX_LENGTH || normalized.length % 2 !== 0 || !/^[0-9A-F]+$/.test(normalized)) {
-    return undefined;
-  }
-  return normalized.slice(0, CHIPS_BANK_FLASH_ID_HEX_LENGTH);
+  const normalized = normalizeSupportListFlashId(String(value ?? "").replace(/\//g, ""));
+  return normalized && normalized.length >= 12 ? normalized.slice(0, 12) : undefined;
 }
 
 function cleanChipsBankPartNumber(context: ControllerMergeContext, rawVendor: string, rawPartNumber: string): string {
@@ -27,7 +20,7 @@ function cleanChipsBankPartNumber(context: ControllerMergeContext, rawVendor: st
   } else if (vendor === "micron") {
     partNumber = context.normalizeKnownPackage("micron", partNumber);
     partNumber = partNumber.split("(")[0] ?? partNumber;
-  } else if (vendor === "toshiba" || vendor === "intel") {
+  } else if (vendor === "kioxia" || vendor === "intel") {
     partNumber = partNumber.split("(")[0] ?? partNumber;
   } else if (vendor === "mira" || vendor === "powerchip") {
     partNumber = "";
@@ -61,7 +54,8 @@ function mergeChipsBank(context: ControllerMergeContext, data: string): void {
   const dataLines = context.lines(data);
   const controllers = (dataLines.shift() ?? "").split(",").map((item) => `CBM${item.trim()}`).filter((item) => item !== "CBM");
   context.addInfoController(controllers);
-  for (const rawRecord of dataLines) {
+  for (let index = 0; index < dataLines.length; index += 1) {
+    const rawRecord = dataLines[index] ?? "";
     if (!rawRecord.trim()) {
       continue;
     }
@@ -76,7 +70,8 @@ function mergeChipsBank(context: ControllerMergeContext, data: string): void {
       .slice(9)
       .map((value, index) => (value === "Y" ? controllers[index] : undefined))
       .filter((item): item is string => !!item);
-    if (context.addControllersToMatchingFlashId(vendor, flashId, supported)) {
+    const imported = context.withSource({ line: index + 2, raw: rawRecord }, () => context.addControllersToMatchingFlashId(vendor, flashId, supported));
+    if (imported) {
       continue;
     }
     const partNumber = cleanChipsBankPartNumber(context, vendor, record[3] ?? "");
@@ -90,13 +85,15 @@ function mergeChipsBank(context: ControllerMergeContext, data: string): void {
     } else if (/^\d+(\.\d+)?$/.test(pageSizeRaw)) {
       pageSize = Number.parseFloat(pageSizeRaw) / 1024;
     }
-    context.addPartId(vendor, partNumber, flashId, supported);
-    context.mergePartPayload(vendor, partNumber, {
-      ...(record[7] ? { l: record[7] } : {}),
-      c: (record[2] ?? "").split("-")[0],
-      t: supported
+    context.withSource({ line: index + 2, raw: rawRecord }, () => {
+      context.addPartId(vendor, partNumber, flashId, supported);
+      context.mergePartPayload(vendor, partNumber, {
+        ...(record[7] ? { l: record[7] } : {}),
+        c: (record[2] ?? "").split("-")[0],
+        t: supported
+      });
+      context.mergeFlashPayload(flashId, { ...(pageSize > 0 ? { s: pageSize } : {}), t: supported });
     });
-    context.mergeFlashPayload(flashId, { ...(pageSize > 0 ? { s: pageSize } : {}), t: supported });
   }
 }
 

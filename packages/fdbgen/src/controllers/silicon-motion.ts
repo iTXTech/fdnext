@@ -1,3 +1,4 @@
+import { normalizeFdbVendorName } from "../normalize";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 import type { FlashIdPayload } from "../types";
 
@@ -30,29 +31,29 @@ function mergeForceFlash(context: ControllerMergeContext, data: string): void {
     const info = index.split(",");
     const rawPn = (info.at(-1) ?? "").split("(")[0]?.replace(/\s+/g, "").split("_")[0] ?? "";
     const rawVendor = (info[0] ?? "").split("_")[0] ?? "";
-    let vendor = rawVendor.toLowerCase().replaceAll(" ", "");
-    vendor = vendor.replace("tsb", "toshiba").replace("ss", "samsung").replace("hy", "hynix").replace("hynix", "skhynix");
-    vendor = vendor.replace("skhynixnix", "skhynix");
+    let vendor = normalizeFdbVendorName(rawVendor.replaceAll(" ", ""));
     if (/\d$/.test(vendor)) {
       vendor = vendor.slice(0, -1);
     }
     const partNumber = context.normalizeKnownPackage(vendor, rawPn);
-    if (partNumber) {
-      context.addPartId(vendor, partNumber, id);
-    } else {
-      context.mergeFlashPayload(id, flash);
-    }
-
-    const blockBytes = (dataLines[i + 2] ?? "").split("=").slice(1).join("=").split(",");
-    const blockHigh = blockBytes[11];
-    const blockLow = blockBytes[12];
-    if (blockHigh && blockLow) {
-      const blocks = Number.parseInt(`${blockHigh}${blockLow}`, 16);
-      if (Number.isFinite(blocks) && blocks > 0) {
-        flash.b = blocks;
+    context.withSource({ line: i + 1, raw: [line, dataLines[i + 1], dataLines[i + 2]].filter(Boolean).join(" | ") }, () => {
+      if (partNumber) {
+        context.addPartId(vendor, partNumber, id);
+      } else {
+        context.mergeFlashPayload(id, flash);
       }
-    }
-    context.mergeFlashPayload(id, flash);
+
+      const blockBytes = (dataLines[i + 2] ?? "").split("=").slice(1).join("=").split(",");
+      const blockHigh = blockBytes[11];
+      const blockLow = blockBytes[12];
+      if (blockHigh && blockLow) {
+        const blocks = Number.parseInt(`${blockHigh}${blockLow}`, 16);
+        if (Number.isFinite(blocks) && blocks > 0) {
+          flash.b = blocks;
+        }
+      }
+      context.mergeFlashPayload(id, flash);
+    });
   }
 }
 
@@ -60,7 +61,9 @@ function mergeUfd(context: ControllerMergeContext, data: string, filename: strin
   const controller = `SM${filename.replace(/^flash_/, "").replace(/\.dbf$/i, "")}`;
   context.addInfoController(controller);
 
-  for (const line of context.lines(data)) {
+  const dataLines = context.lines(data);
+  for (let lineIndex = 0; lineIndex < dataLines.length; lineIndex += 1) {
+    const line = dataLines[lineIndex] ?? "";
     if (!line.startsWith("@")) {
       continue;
     }
@@ -98,7 +101,7 @@ function mergeUfd(context: ControllerMergeContext, data: string, filename: strin
     if ((fields[2] ?? "").length !== 5) {
       fields.splice(2, 0, "");
     }
-    const vendor = (fields[0] ?? "").toLowerCase().replace("samaung", "samsung").replace("hynix", "skhynix").replace("speteck", "spectek");
+    const vendor = normalizeFdbVendorName(fields[0]);
     if ((fields[3] ?? "").endsWith("LC")) {
       const cellLevel = fields[3] ?? "";
       fields[3] = fields[4] ?? "";
@@ -108,12 +111,14 @@ function mergeUfd(context: ControllerMergeContext, data: string, filename: strin
       fields[5] = "";
     }
     const partNumber = context.normalizeKnownPackage(vendor, fields[1] ?? "");
-    context.addPartId(vendor, partNumber, id, [controller]);
-    if (fields[3]) {
-      context.mergePartPayload(vendor, partNumber, { l: fields[3], ...(remark ? { m: remark } : {}) });
-    } else if (remark) {
-      context.mergePartPayload(vendor, partNumber, { m: remark });
-    }
+    context.withSource({ line: lineIndex + 1, raw: line }, () => {
+      context.addPartId(vendor, partNumber, id, [controller]);
+      if (fields[3]) {
+        context.mergePartPayload(vendor, partNumber, { l: fields[3], ...(remark ? { m: remark } : {}) });
+      } else if (remark) {
+        context.mergePartPayload(vendor, partNumber, { m: remark });
+      }
+    });
   }
 }
 
@@ -141,7 +146,8 @@ function mergeSsd(context: ControllerMergeContext, data: string, filename: strin
       continue;
     }
     let controller = defaultController;
-    const vendor = rawVendor.toLowerCase().replace("hynix", "skhynix").replace("stm", "st").replace("power flash", "powerchip");
+    const rawVendorKey = rawVendor.trim().toLowerCase();
+    const vendor = normalizeFdbVendorName(rawVendor);
     let partNumber = pnParts.join(",");
     if (prefix === "B") {
       const match = /\(SM([^)]+)/.exec(partNumber);
@@ -153,7 +159,7 @@ function mergeSsd(context: ControllerMergeContext, data: string, filename: strin
       context.addInfoController(controller);
     }
     partNumber = partNumber.replace(/\(.*?\)/g, "").trim();
-    if (vendor === "sandisk") {
+    if (rawVendorKey === "sandisk") {
       if (partNumber.startsWith("SNDK ") && partNumber.slice(5).length > 5) {
         partNumber = partNumber
           .slice(5)
@@ -178,11 +184,13 @@ function mergeSsd(context: ControllerMergeContext, data: string, filename: strin
     }
     partNumber = context.normalizeKnownPackage(vendor, partNumber);
     const id = value.split(",").slice(0, 6).map(context.cleanHexByte).join("");
-    if (partNumber !== "TSB") {
-      context.addPartId(vendor, partNumber, id, [controller]);
-    } else {
-      context.mergeFlashPayload(id, { t: [controller] });
-    }
+    context.withSource({ line: i + 2, raw: [config, next].filter(Boolean).join(" | ") }, () => {
+      if (partNumber !== "TSB") {
+        context.addPartId(vendor, partNumber, id, [controller]);
+      } else {
+        context.mergeFlashPayload(id, { t: [controller] });
+      }
+    });
   }
 }
 

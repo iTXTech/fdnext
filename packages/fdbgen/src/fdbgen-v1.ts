@@ -1,4 +1,5 @@
 import type { ControllerMergeContext } from "./controllers/types";
+import { normalizeSupportFlashId } from "./normalize";
 import { normalizeSupportListControllerName, parseSupportListControllerList } from "./support-list";
 import { mergeSupportListEntry } from "./support-list";
 
@@ -56,8 +57,6 @@ export interface FdnextFdbgenV1MergeResult {
 }
 
 const FDNEXT_FDBGEN_V1_VERSIONS = new Set<string>([FDNEXT_FDBGEN_V1_COMPACT_VERSION, FDNEXT_FDBGEN_V1_FULL_VERSION]);
-const FDBGEN_V1_FLASH_ID = /^(?:[0-9A-F]{2}){2,8}$/;
-
 function asRecord(value: unknown): Record<string, unknown> | null {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : null;
 }
@@ -80,7 +79,7 @@ export function isFdnextFdbgenV1Version(value: unknown): value is FdnextFdbgenV1
 
 export function normalizeFdnextFdbgenV1FlashId(value: unknown): string | undefined {
   const text = readString(value);
-  return text && FDBGEN_V1_FLASH_ID.test(text) ? text : undefined;
+  return text ? normalizeSupportFlashId(text, true) : undefined;
 }
 
 export function normalizeFdnextFdbgenV1ControllerName(value: unknown): string | undefined {
@@ -213,19 +212,22 @@ export function mergeFdnextFdbgenV1Document(
   }
 
   let imported = 0;
-  for (const sourceEntry of document.entries) {
+  for (let index = 0; index < document.entries.length; index += 1) {
+    const sourceEntry = document.entries[index]!;
     const entry = options.mapEntry ? options.mapEntry(sourceEntry, context) : sourceEntry;
     if (!entry) {
       continue;
     }
-    const result = mergeSupportListEntry(context, {
-      vendor: entry.vendor,
-      partNumber: entry.partNumber,
-      flashId: entry.flashId,
-      controllers: entry.controllers,
-      cellLevel: entry.cellLevel,
-      strictFlashId: true,
-      requireSupportedFlashIdPrefix: options.requireSupportedFlashIdPrefix
+    const result = context.withSource({ recordIndex: index + 1, raw: JSON.stringify(sourceEntry) }, () => {
+      return mergeSupportListEntry(context, {
+        vendor: entry.vendor,
+        partNumber: entry.partNumber,
+        flashId: entry.flashId,
+        controllers: entry.controllers,
+        cellLevel: entry.cellLevel,
+        strictFlashId: true,
+        requireSupportedFlashIdPrefix: options.requireSupportedFlashIdPrefix
+      });
     });
     if (result.imported) {
       imported += 1;

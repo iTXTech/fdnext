@@ -1,16 +1,18 @@
 import { mergeFdnextFdbgenV1SupportList } from "../fdbgen-v1";
+import { normalizeFdbVendorName } from "../normalize";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 
 function mergeAlcorMicro(context: ControllerMergeContext, data: string): void {
   const dataLines = context.lines(data);
   const controllers = (dataLines.shift() ?? "").split(",").map((item) => item.trim()).filter(Boolean);
   context.addInfoController(controllers);
-  for (const rawRecord of dataLines) {
+  for (let index = 0; index < dataLines.length; index += 1) {
+    const rawRecord = dataLines[index] ?? "";
     if (!rawRecord.trim()) {
       continue;
     }
     const record = rawRecord.split(",");
-    const vendor = (record[0] ?? "").toLowerCase().replace("powerflash", "powerchip").replace("hynix", "skhynix");
+    const vendor = normalizeFdbVendorName(record[0]);
     let partNumber = (record[3] ?? "").trim();
     let processNode = (record[4] ?? "").trim();
     processNode = processNode.length > 1 ? processNode : "";
@@ -22,10 +24,12 @@ function mergeAlcorMicro(context: ControllerMergeContext, data: string): void {
       partNumber = partNumber.split("-")[0] ?? partNumber;
     }
     partNumber = context.normalizeKnownPackage(vendor, partNumber);
-    context.mergePartPayload(vendor, partNumber, {
-      c: record[1],
-      ...(processNode ? { l: processNode } : {}),
-      t: supported
+    context.withSource({ line: index + 2, raw: rawRecord }, () => {
+      context.mergePartPayload(vendor, partNumber, {
+        c: record[1],
+        ...(processNode ? { l: processNode } : {}),
+        t: supported
+      });
     });
   }
 }

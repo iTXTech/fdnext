@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import { resolve } from "node:path";
-import { auditFdbFile, formatFdbAuditText } from "./audit";
-import { generateFdb } from "./fdbgen";
+import { auditFdb, auditFdbFile, formatFdbAuditText } from "./audit";
+import { generateFdb, generateFdbWithTrace } from "./fdbgen";
 import { crawlMdb, crawlMdbDram } from "./mdb";
 
 interface CliOptions {
@@ -29,6 +29,7 @@ interface CliOptions {
   format?: "text" | "json";
   maxSamples?: number;
   failOnIssues?: boolean;
+  traceSources?: boolean;
 }
 
 function usage(): string {
@@ -36,6 +37,7 @@ function usage(): string {
     "Usage:",
     "  fdnext-fdbgen build --input <dir> --output <file> --version <ver> [options]",
     "  fdnext-fdbgen audit --file <fdb.json> [options]",
+    "  fdnext-fdbgen audit --input <dir> --version <ver> --trace-sources [options]",
     "  fdnext-fdbgen crawl-mdb --file <mdb.json> [options]",
     "  fdnext-fdbgen crawl-mdb-from-fbga --file <mdb.json> [--codes <fbga-codes.json>] [options]",
     "",
@@ -53,6 +55,9 @@ function usage(): string {
     "",
     "Audit options:",
     "  --file <path>       fdb.json file path to audit",
+    "  --input <dir>       Generate FDB from a dataset for audit",
+    "  --version <ver>     Required with --input",
+    "  --trace-sources     Include generator provenance in audit issues",
     "  --json              Print JSON audit report",
     "  --max-samples <n>   Maximum samples per issue (default 8)",
     "  --fail-on-issues    Exit with status 2 when any audit issue is found",
@@ -320,6 +325,20 @@ function parseAuditOptions(args: string[]): CliOptions {
       i += 1;
       continue;
     }
+    if (arg === "--input") {
+      options.inputDir = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--version") {
+      options.version = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--trace-sources") {
+      options.traceSources = true;
+      continue;
+    }
     if (arg === "--json") {
       options.format = "json";
       continue;
@@ -371,18 +390,32 @@ function runBuild(args: string[]): void {
 
 function runAudit(args: string[]): void {
   const opts = parseAuditOptions(args);
-  if (!opts.file) {
-    throw new Error("Missing required --file");
+  if (!opts.file && !opts.inputDir) {
+    throw new Error("Missing required --file or --input");
+  }
+  if (opts.inputDir && !opts.version) {
+    throw new Error("Missing required --version for --input audit");
   }
 
-  const targetFile = resolve(opts.file);
-  const result = auditFdbFile(targetFile, {
-    maxSamples: opts.maxSamples
-  });
+  const targetFile = opts.file ? resolve(opts.file) : undefined;
+  const generated = opts.inputDir
+    ? generateFdbWithTrace({
+        inputDir: resolve(opts.inputDir),
+        version: opts.version ?? "audit"
+      })
+    : undefined;
+  const result = generated
+    ? auditFdb(generated.fdb, {
+        maxSamples: opts.maxSamples,
+        trace: opts.traceSources ? generated.trace : undefined
+      })
+    : auditFdbFile(targetFile!, {
+        maxSamples: opts.maxSamples
+      });
   if (opts.format === "json") {
     process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
   } else {
-    process.stdout.write(formatFdbAuditText(result, targetFile));
+    process.stdout.write(formatFdbAuditText(result, targetFile ?? resolve(opts.inputDir!)));
   }
   if (opts.failOnIssues && result.issues.length > 0) {
     process.exitCode = 2;

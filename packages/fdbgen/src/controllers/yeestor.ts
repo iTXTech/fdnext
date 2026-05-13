@@ -89,7 +89,9 @@ function mergeYeestor(context: ControllerMergeContext, data: string, filename: s
   context.addInfoController(controller);
 
   const parsed = context.parseIni(data);
+  let recordIndex = 0;
   for (const [section, values] of Object.entries(parsed)) {
+    recordIndex += 1;
     const id = section.trim().toUpperCase();
     if (!/^[0-9A-F]{12}$/.test(id)) {
       continue;
@@ -98,7 +100,9 @@ function mergeYeestor(context: ControllerMergeContext, data: string, filename: s
     const vendor = VENDOR_BY_ID_PREFIX[id.slice(0, 2)];
     const payload = flashPayload(values, controller);
     if (!vendor) {
-      context.mergeFlashPayload(id, payload);
+      context.withSource({ recordIndex, raw: JSON.stringify({ section, values }) }, () => {
+        context.mergeFlashPayload(id, payload);
+      });
       continue;
     }
 
@@ -108,14 +112,18 @@ function mergeYeestor(context: ControllerMergeContext, data: string, filename: s
       .filter((value, index, array) => value && array.indexOf(value) === index);
 
     if (partNumbers.length === 0) {
-      context.mergeFlashPayload(id, payload);
+      context.withSource({ recordIndex, raw: JSON.stringify({ section, values }) }, () => {
+        context.mergeFlashPayload(id, payload);
+      });
       continue;
     }
 
-    for (const partNumber of partNumbers) {
-      context.addPartId(vendor, partNumber, id, [controller]);
-    }
-    context.mergeFlashPayload(id, payload);
+    context.withSource({ recordIndex, raw: JSON.stringify({ section, values }) }, () => {
+      for (const partNumber of partNumbers) {
+        context.addPartId(vendor, partNumber, id, [controller]);
+      }
+      context.mergeFlashPayload(id, payload);
+    });
   }
 }
 

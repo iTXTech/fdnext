@@ -7,6 +7,9 @@ export type {
   FdbAuditSummary,
   FdbAuditVendorStats
 } from "./audit";
+export type { FdbPartNumberClass, FdbPartNumberClassification } from "./normalize";
+export type { FdbProvenanceRecord, FdbProvenanceSource, FdbProvenanceTrace } from "./trace";
+export type { GenerateFdbTraceResult } from "./fdbgen";
 export type {
   CrawlMdbOptions,
   CrawlMdbDramOptions,
@@ -24,7 +27,22 @@ export type {
   PartNumberPayload
 } from "./types";
 export { DEFAULT_FDB_AUDIT_VENDORS, auditFdb, auditFdbFile, formatFdbAuditText } from "./audit";
-export { generateFdb } from "./fdbgen";
+export {
+  cleanSupportListPartNumberText,
+  classifyFdbPartNumber,
+  isTrustedSupportPartNumber,
+  normalizeFdbControllerName,
+  normalizeFdbFlashId,
+  normalizeFdbPartKey,
+  normalizeFdbPartNumber,
+  normalizeFdbPartReference,
+  normalizeFdbVendorName,
+  normalizeKnownFdbPackage,
+  normalizeSupportControllerName,
+  normalizeSupportFlashId
+} from "./normalize";
+export { createFdbProvenanceTrace } from "./trace";
+export { generateFdb, generateFdbWithTrace } from "./fdbgen";
 export {
   FDNEXT_FDBGEN_V1_COMPACT_VERSION,
   FDNEXT_FDBGEN_V1_FULL_VERSION,

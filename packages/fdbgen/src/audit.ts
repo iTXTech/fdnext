@@ -1,11 +1,29 @@
 import { readFileSync } from "node:fs";
+import {
+  FDB_FLASH_ID_HEX_LENGTH,
+  classifyFdbPartNumber,
+  normalizeFdbPartKey,
+  normalizeFdbPartNumber,
+  normalizeFdbPartReference
+} from "./normalize";
+import type { FdbProvenanceRecord, FdbProvenanceSource, FdbProvenanceTrace } from "./trace";
 import type { FlashIdPayload, PartNumberPayload } from "./types";
+import { inferVendorFromPartNumber } from "./vendors";
 
 export type FdbAuditSeverity = "error" | "warning" | "info";
 
 export interface FdbAuditOptions {
   maxSamples?: number;
   knownVendors?: readonly string[];
+  trace?: FdbProvenanceTrace;
+}
+
+export interface FdbAuditIssueSource {
+  sample: string;
+  decision?: string;
+  source?: FdbProvenanceSource;
+  raw?: Record<string, unknown>;
+  normalized?: Record<string, unknown>;
 }
 
 export interface FdbAuditIssue {
@@ -14,6 +32,7 @@ export interface FdbAuditIssue {
   message: string;
   count: number;
   samples: string[];
+  sources: FdbAuditIssueSource[];
 }
 
 export interface FdbAuditSummary {
@@ -75,7 +94,7 @@ export const DEFAULT_FDB_AUDIT_VENDORS = [
   "ymtc"
 ] as const;
 
-const HEX_FLASH_ID = /^[0-9A-F]{12}$/;
+const HEX_FLASH_ID = new RegExp(`^[0-9A-F]{${FDB_FLASH_ID_HEX_LENGTH}}$`);
 const PUBLIC_ROOT_KEYS = new Set(["info", "iddb"]);
 const DEFAULT_MAX_SAMPLES = 8;
 
@@ -84,18 +103,6 @@ const SEVERITY_ORDER: Record<FdbAuditSeverity, number> = {
   warning: 1,
   info: 2
 };
-
-const VENDOR_PREFIX_RULES: ReadonlyArray<{ vendor: string; prefixes: readonly string[] }> = [
-  { vendor: "micron", prefixes: ["MT29", "MTFC", "MTFD", "MICRON_"] },
-  { vendor: "samsung", prefixes: ["K9", "KLM", "KLU", "KMD", "KMF", "KMN", "KMV", "SAMSUNG_"] },
-  { vendor: "skhynix", prefixes: ["HY27", "H27", "H25", "H26", "H2D", "H2J", "H9A", "H9H", "H9Q", "H9T", "HYNIX_"] },
-  { vendor: "kioxia", prefixes: ["TC58", "TH58", "THG", "TOSHIBA_"] },
-  { vendor: "sndk", prefixes: ["S34", "S35", "SANDISK_", "SNDK_", "DFT", "MDT"] },
-  { vendor: "intel", prefixes: ["JS29F", "I29F", "PF29F", "PC29F", "PD29F", "INTEL_"] },
-  { vendor: "spectek", prefixes: ["FBNL", "FNNL", "FNN", "FXXL", "SPECTEK_"] },
-  { vendor: "st", prefixes: ["M29F"] },
-  { vendor: "ymtc", prefixes: ["YMN", "YM", "XT"] }
-];
 
 const VENDOR_COMPATIBILITY: Record<string, readonly string[]> = {
   kioxia: ["kioxia", "sndk"],
@@ -109,7 +116,7 @@ class IssueCollector {
 
   public constructor(private readonly maxSamples: number) {}
 
-  public add(code: string, severity: FdbAuditSeverity, message: string, sample?: string): void {
+  public add(code: string, severity: FdbAuditSeverity, message: string, sample?: string, trace?: FdbProvenanceRecord): void {
     const existing = this.issues.get(code);
     const issue =
       existing ??
@@ -118,12 +125,22 @@ class IssueCollector {
         severity,
         message,
         count: 0,
-        samples: []
+        samples: [],
+        sources: []
       } satisfies FdbAuditIssue);
 
     issue.count += 1;
     if (sample && issue.samples.length < this.maxSamples && !issue.samples.includes(sample)) {
       issue.samples.push(sample);
+    }
+    if (sample && trace && issue.sources.length < this.maxSamples) {
+      issue.sources.push({
+        sample,
+        decision: trace.decision,
+        source: trace.source,
+        raw: trace.raw,
+        normalized: trace.normalized
+      });
     }
     if (!existing) {
       this.issues.set(code, issue);
@@ -167,24 +184,6 @@ function stringValue(value: unknown): string | undefined {
   return typeof value === "string" && value.length > 0 ? value : undefined;
 }
 
-function normalizePartKey(vendor: string, partNumber: string): string {
-  return `${vendor.toLowerCase()} ${partNumber.trim().toUpperCase()}`;
-}
-
-function normalizePartReference(reference: string): string | undefined {
-  const trimmed = reference.trim();
-  const separator = trimmed.indexOf(" ");
-  if (separator <= 0) {
-    return undefined;
-  }
-  const vendor = trimmed.slice(0, separator).trim().toLowerCase();
-  const partNumber = trimmed.slice(separator + 1).trim().toUpperCase();
-  if (!vendor || !partNumber) {
-    return undefined;
-  }
-  return `${vendor} ${partNumber}`;
-}
-
 function hasPartValue(payload: PartNumberPayload, key: keyof PartNumberPayload): boolean {
   const value = payload[key];
   if (Array.isArray(value)) {
@@ -197,31 +196,11 @@ function hasAnyPartValue(payload: PartNumberPayload, keys: readonly (keyof PartN
   return keys.some((key) => hasPartValue(payload, key));
 }
 
-function inferVendorFromPartNumber(partNumber: string): string | undefined {
-  for (const rule of VENDOR_PREFIX_RULES) {
-    if (rule.prefixes.some((prefix) => partNumber.startsWith(prefix))) {
-      return rule.vendor;
-    }
-  }
-  return undefined;
-}
-
 function isCompatibleVendor(actualVendor: string, inferredVendor: string): boolean {
   if (actualVendor === inferredVendor) {
     return true;
   }
   return (VENDOR_COMPATIBILITY[inferredVendor] ?? [inferredVendor]).includes(actualVendor);
-}
-
-function isSyntheticPartNumber(partNumber: string): boolean {
-  return (
-    /^(?:MICRON|HYNIX|INTEL|TOSHIBA|SAMSUNG|SANDISK|SPECTEK|POWERCHIP|NUMONYX|MTRON|HY|SD|TS|TC[-_])[_-]/.test(
-      partNumber
-    ) ||
-    /_(?:SLC|MLC|TLC|QLC|X\d+|\d+(?:M|MB|G|GB)|[0-9A-F]{6,})$/.test(partNumber) ||
-    /^(?:BICS\d?|QUALDIE|DUALDIE|GEN\d|NAND|AAA|MCP)[_-]/.test(partNumber) ||
-    /^[RSTUW]\d{4}$/.test(partNumber)
-  );
 }
 
 function hasUnexpectedPunctuation(partNumber: string): boolean {
@@ -236,16 +215,18 @@ function addFlashIdReference(
   vendor: string,
   partNumber: string,
   flashId: string,
-  field: "id" | "f"
+  field: "id" | "f",
+  trace?: FdbProvenanceTrace
 ): void {
   referenceCount.value += 1;
   const sample = `${vendor} ${partNumber}.${field} -> ${flashId}`;
+  const sourceTrace = trace?.part(vendor, partNumber)[0] ?? trace?.flash(flashId)[0];
   if (!HEX_FLASH_ID.test(flashId)) {
-    collector.add("part.invalid_flash_id_ref", "error", "Part-number records must reference 6-byte / 12-hex Flash IDs.", sample);
+    collector.add("part.invalid_flash_id_ref", "error", "Part-number records must reference 6-byte / 12-hex Flash IDs.", sample, sourceTrace);
     return;
   }
   if (!iddb[flashId]) {
-    collector.add("flash_id.missing_iddb", "error", "Part-number Flash ID references must exist in iddb.", sample);
+    collector.add("flash_id.missing_iddb", "error", "Part-number Flash ID references must exist in iddb.", sample, sourceTrace);
     return;
   }
   let fanout = idFanout.get(flashId);
@@ -265,6 +246,7 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
   const maxSamples = Math.max(1, options.maxSamples ?? DEFAULT_MAX_SAMPLES);
   const collector = new IssueCollector(maxSamples);
   const knownVendors = new Set(options.knownVendors ?? DEFAULT_FDB_AUDIT_VENDORS);
+  const trace = options.trace;
   const info = asRecord(fdb.info) ?? {};
   const iddb = asRecord(fdb.iddb) ?? {};
   const controllerList = asStringArray(info.controllers);
@@ -282,7 +264,7 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
     }
     vendorPayloads.set(key, payload);
     for (const partNumber of Object.keys(payload)) {
-      allPartKeys.add(normalizePartKey(key, partNumber));
+      allPartKeys.add(normalizeFdbPartKey(key, partNumber));
     }
   }
 
@@ -301,56 +283,65 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
     };
     if (!knownVendors.has(vendor)) {
       const sampleParts = Object.keys(payload).slice(0, Math.min(3, maxSamples)).join(", ");
-      collector.add("vendor.unknown", "warning", "Top-level vendor buckets should be normalized to the known FDB vendor set.", `${vendor} (${Object.keys(payload).length} parts): ${sampleParts}`);
+      const firstPart = Object.keys(payload)[0] ?? "";
+      collector.add(
+        "vendor.unknown",
+        "warning",
+        "Top-level vendor buckets should be normalized to the known FDB vendor set.",
+        `${vendor} (${Object.keys(payload).length} parts): ${sampleParts}`,
+        firstPart ? trace?.part(vendor, firstPart)[0] : undefined
+      );
     }
 
     for (const [rawPartNumber, rawRecord] of Object.entries(payload)) {
       const partNumber = rawPartNumber.trim().toUpperCase();
       const record = asPartPayload(rawRecord);
+      const partTrace = trace?.part(vendor, partNumber)[0];
       partNumberCount += 1;
       stat.partNumbers += 1;
 
       if (!record) {
-        collector.add("part.invalid_payload", "error", "Part-number payloads must be JSON objects.", `${vendor} ${rawPartNumber}`);
+        collector.add("part.invalid_payload", "error", "Part-number payloads must be JSON objects.", `${vendor} ${rawPartNumber}`, partTrace);
         continue;
       }
 
       if (rawPartNumber !== partNumber) {
-        collector.add("part.non_canonical_key", "warning", "Part-number keys should be uppercase and trimmed.", `${vendor} ${rawPartNumber}`);
+        collector.add("part.non_canonical_key", "warning", "Part-number keys should be uppercase and trimmed.", `${vendor} ${rawPartNumber}`, partTrace);
       }
       if (partNumber.length < 5) {
-        collector.add("part.too_short", "warning", "Very short part-number keys are usually date codes or controller-local labels.", `${vendor} ${partNumber}`);
+        collector.add("part.too_short", "warning", "Very short part-number keys are usually date codes or controller-local labels.", `${vendor} ${partNumber}`, partTrace);
       }
       if (hasUnexpectedPunctuation(partNumber)) {
-        collector.add("part.punctuation", "warning", "Part-number keys should avoid punctuation except hyphen.", `${vendor} ${partNumber}`);
+        collector.add("part.punctuation", "warning", "Part-number keys should avoid punctuation except hyphen.", `${vendor} ${partNumber}`, partTrace);
       }
-      if (isSyntheticPartNumber(partNumber)) {
+      const classification = classifyFdbPartNumber(partNumber);
+      if (classification.kind === "synthetic_alias" || classification.kind === "family_label" || classification.kind === "date_code") {
         stat.syntheticPartNumbers += 1;
-        collector.add("part.synthetic", "warning", "Synthetic labels and description fragments should not live in vendor PN tables.", `${vendor} ${partNumber}`);
+        collector.add("part.synthetic", "warning", "Synthetic labels and description fragments should not live in vendor PN tables.", `${vendor} ${partNumber}`, partTrace);
       }
 
       const inferredVendor = inferVendorFromPartNumber(partNumber);
       if (inferredVendor && !isCompatibleVendor(vendor, inferredVendor)) {
-        collector.add("part.vendor_mismatch", "error", "Deterministic PN prefixes should be stored under their inferred vendor bucket.", `${vendor} ${partNumber} -> ${inferredVendor}`);
+        collector.add("part.vendor_mismatch", "error", "Deterministic PN prefixes should be stored under their inferred vendor bucket.", `${vendor} ${partNumber} -> ${inferredVendor}`, partTrace);
       }
 
       if (hasPartValue(record, "t") && !hasAnyPartValue(record, ["id", "f", "a", "l", "c", "m", "d", "e", "r", "n"])) {
         stat.controllerOnlyPartNumbers += 1;
-        collector.add("part.controller_only", "info", "Controller-only PN records should be reduced or moved out of authoritative PN tables.", `${vendor} ${partNumber}`);
+        collector.add("part.controller_only", "info", "Controller-only PN records should be reduced or moved out of authoritative PN tables.", `${vendor} ${partNumber}`, partTrace);
       }
 
       for (const flashId of asStringArray(record.id)) {
         stat.flashIdReferences += 1;
-        addFlashIdReference(collector, iddb, idFanout, flashIdReferenceCount, vendor, partNumber, flashId, "id");
+        addFlashIdReference(collector, iddb, idFanout, flashIdReferenceCount, vendor, partNumber, flashId, "id", trace);
       }
       for (const flashId of asStringArray(record.f)) {
         stat.flashIdReferences += 1;
-        addFlashIdReference(collector, iddb, idFanout, flashIdReferenceCount, vendor, partNumber, flashId, "f");
+        addFlashIdReference(collector, iddb, idFanout, flashIdReferenceCount, vendor, partNumber, flashId, "f", trace);
       }
       for (const alias of asStringArray(record.a)) {
-        const aliasKey = normalizePartReference(alias) ?? normalizePartKey(vendor, alias);
+        const aliasKey = normalizeFdbPartReference(alias) ?? normalizeFdbPartKey(vendor, alias);
         if (!allPartKeys.has(aliasKey)) {
-          collector.add("reference.missing_alias", "warning", "Part-number alias references should point to an existing PN record.", `${vendor} ${partNumber}.a -> ${alias}`);
+          collector.add("reference.missing_alias", "warning", "Part-number alias references should point to an existing PN record.", `${vendor} ${partNumber}.a -> ${alias}`, partTrace);
         }
       }
     }
@@ -360,32 +351,33 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
   let iddbPartReferences = 0;
   for (const [flashId, rawRecord] of Object.entries(iddb)) {
     const record = asFlashIdPayload(rawRecord);
+    const flashTrace = trace?.flash(flashId)[0];
     if (!HEX_FLASH_ID.test(flashId)) {
-      collector.add("flash_id.invalid_key", "error", "iddb keys must be normalized to 6-byte / 12-hex Flash IDs.", flashId);
+      collector.add("flash_id.invalid_key", "error", "iddb keys must be normalized to 6-byte / 12-hex Flash IDs.", flashId, flashTrace);
     }
     if (!record) {
-      collector.add("iddb.invalid_payload", "error", "iddb payloads must be JSON objects.", flashId);
+      collector.add("iddb.invalid_payload", "error", "iddb payloads must be JSON objects.", flashId, flashTrace);
       continue;
     }
 
     const references = asStringArray(record.n);
     iddbPartReferences += references.length;
     if (references.length === 0) {
-      collector.add("iddb.no_part_ref", "info", "Flash ID records without iddb.n cannot be reached from a canonical PN.", flashId);
+      collector.add("iddb.no_part_ref", "info", "Flash ID records without iddb.n cannot be reached from a canonical PN.", flashId, flashTrace);
     }
     for (const reference of references) {
-      const normalized = normalizePartReference(reference);
+      const normalized = normalizeFdbPartReference(reference);
       if (!normalized) {
-        collector.add("reference.invalid_iddb_n", "error", "iddb.n entries must use '<vendor> <partNumber>' format.", `${flashId}.n -> ${reference}`);
+        collector.add("reference.invalid_iddb_n", "error", "iddb.n entries must use '<vendor> <partNumber>' format.", `${flashId}.n -> ${reference}`, flashTrace);
         continue;
       }
       if (!allPartKeys.has(normalized)) {
-        collector.add("reference.missing_iddb_n", "error", "iddb.n reverse references must point to existing vendor PN records.", `${flashId}.n -> ${reference}`);
+        collector.add("reference.missing_iddb_n", "error", "iddb.n reverse references must point to existing vendor PN records.", `${flashId}.n -> ${reference}`, flashTrace);
       }
     }
 
     if (asStringArray(record.t).length === 0) {
-      collector.add("iddb.no_controller", "info", "Flash ID records without controller support are lower-confidence lookup entries.", flashId);
+      collector.add("iddb.no_controller", "info", "Flash ID records without controller support are lower-confidence lookup entries.", flashId, flashTrace);
     }
   }
 
@@ -423,6 +415,22 @@ export function auditFdbFile(file: string, options: FdbAuditOptions = {}): FdbAu
   return auditFdb(JSON.parse(readFileSync(file, "utf8")) as unknown, options);
 }
 
+function formatSource(source: FdbAuditIssueSource): string {
+  const location = source.source
+    ? [
+        source.source.controller,
+        source.source.file ?? source.source.filename,
+        source.source.line !== undefined ? `line ${source.source.line}` : undefined,
+        source.source.recordIndex !== undefined ? `record ${source.source.recordIndex}` : undefined
+      ]
+        .filter(Boolean)
+        .join(" ")
+    : "unknown source";
+  const raw = source.source?.raw ? ` raw=${JSON.stringify(source.source.raw)}` : "";
+  const normalized = source.normalized ? ` normalized=${JSON.stringify(source.normalized)}` : "";
+  return `${source.sample} <= ${location} decision=${source.decision ?? "unknown"}${raw}${normalized}`;
+}
+
 export function formatFdbAuditText(result: FdbAuditResult, file?: string): string {
   const lines: string[] = [];
   const summary = result.summary;
@@ -441,6 +449,12 @@ export function formatFdbAuditText(result: FdbAuditResult, file?: string): strin
       lines.push(`  ${issue.severity.toUpperCase()} ${issue.code} count=${issue.count} - ${issue.message}`);
       for (const sample of issue.samples) {
         lines.push(`    - ${sample}`);
+      }
+      if (issue.sources.length > 0) {
+        lines.push("    sources:");
+        for (const source of issue.sources) {
+          lines.push(`      - ${formatSource(source)}`);
+        }
       }
     }
   }

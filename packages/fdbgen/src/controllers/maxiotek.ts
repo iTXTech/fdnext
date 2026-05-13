@@ -1,3 +1,4 @@
+import { normalizeFdbVendorName } from "../normalize";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 
 function mergeMaxiotek(context: ControllerMergeContext, data: string, filename: string): void {
@@ -5,11 +6,14 @@ function mergeMaxiotek(context: ControllerMergeContext, data: string, filename: 
   context.addInfoController(controller);
   const parsed = context.parseIni(data);
   for (const [section, values] of Object.entries(parsed)) {
-    const vendor = section.toLowerCase().replace("hynix", "skhynix");
+    const rawVendorKey = section.trim().toLowerCase();
+    const vendor = normalizeFdbVendorName(section);
     if (vendor === "version" || vendor === "vendor" || !vendor) {
       continue;
     }
+    let recordIndex = 0;
     for (const flash of Object.values(values)) {
+      recordIndex += 1;
       const fields = flash
         .split(/\s+/)
         .map((item) => item.trim())
@@ -22,20 +26,22 @@ function mergeMaxiotek(context: ControllerMergeContext, data: string, filename: 
         continue;
       }
       let partNumber = fields[1] ?? "";
-      if (vendor === "sandisk") {
+      if (rawVendorKey === "sandisk") {
         const idx = partNumber.indexOf("0");
         if (idx !== -1) {
           partNumber = `${partNumber.slice(0, idx)}-${partNumber.slice(idx)}`;
         }
-      } else if (vendor === "toshiba" && partNumber.length > 15) {
+      } else if (vendor === "kioxia" && partNumber.length > 15) {
         partNumber = partNumber.slice(0, 15);
       } else {
         partNumber = context.normalizeKnownPackage(vendor, partNumber);
       }
-      context.mergePartPayload(vendor, partNumber, { t: [controller] });
-      if (id.length === 12) {
-        context.addPartId(vendor, partNumber, id, [controller]);
-      }
+      context.withSource({ recordIndex, raw: flash }, () => {
+        context.mergePartPayload(vendor, partNumber, { t: [controller] });
+        if (id.length === 12) {
+          context.addPartId(vendor, partNumber, id, [controller]);
+        }
+      });
     }
   }
 }

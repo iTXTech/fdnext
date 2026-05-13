@@ -33,6 +33,7 @@ node packages/fdbgen/dist/cli.js build --input <dataset-dir> --output <fdb.json>
 ```bash
 pnpm fdbgen:generate --input <dataset-dir> --output <fdb.json> --version <ver> [options]
 pnpm fdbgen:audit
+pnpm fdbgen:audit:trace
 ```
 
 当前 raw FlashDB 生成命令：
@@ -89,9 +90,13 @@ pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 pnpm fdbgen:audit
 pnpm fdbgen:audit -- --json
 pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/resources/resources/fdb.json --max-samples 12
+pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --trace-sources --max-samples 12
 ```
 
 - `--file <path>`：要检查的 `fdb.json` 文件，根脚本默认指向 `packages/resources/resources/fdb.json`
+- `--input <dir>`：从 raw / structured dataset 临时生成 FDB 后审计，不写入 `fdb.json`
+- `--version <ver>`：配合 `--input` 使用，写入临时生成结果的 `info.version`
+- `--trace-sources`：配合 `--input` 使用，在 issue 中输出来源 controller、文件、行号或 record index、原始记录、归一化结果和 merge decision
 - `--json`：输出结构化 JSON 报告，方便后续 CI 或脚本消费
 - `--max-samples <n>`：每类问题最多输出多少个样本，默认 `8`
 - `--fail-on-issues`：发现任意 issue 时以退出码 `2` 结束，默认只报告不失败
@@ -104,6 +109,8 @@ pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/resources/resourc
 - 确定性 PN 前缀和 vendor 桶是否冲突
 - PN 表中是否混入合成标签、描述片段、日期码、异常标点或 controller-only 记录
 - `iddb` 中缺少 PN 反向引用或 controller 支持的低置信记录
+
+开启 `--trace-sources` 时，audit 会在 fdbgen 内部构建临时 provenance map，但不会把 trace 写入最终 FDB。报告会同时展示最终 FDB issue 和该 issue 对应的引入位置，例如哪个 controller parser、哪个 raw 文件、哪一行或 JSON record、原始内容、归一化后的 vendor / PN / Flash ID 以及 `add_part_id` / `merge_part_payload` / `merge_flash_payload` 等 decision。该模式用于清理前定位来源，常规发布资源仍只输出干净的 `fdb.json`。
 
 `crawl-mdb-from-fbga` 默认按 Micron DRAM FBGA 常见 code 段生成候选（`C9/D8/D9/Z8/Z9` + 字母网格），只信 Micron 官方 FBGA decoder API 返回的 PN，并写入统一 `mdb.json`：
 

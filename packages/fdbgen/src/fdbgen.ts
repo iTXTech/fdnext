@@ -1,6 +1,13 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, extname, resolve } from "node:path";
 import { CONTROLLER_GENERATORS, type ControllerMergeContext } from "./controllers";
+import {
+  normalizeFdbControllerName,
+  normalizeFdbFlashId,
+  normalizeFdbPartNumber,
+  normalizeFdbPartReference
+} from "./normalize";
+import { createFdbProvenanceTrace, mergeProvenanceSource, type FdbProvenanceSource, type FdbProvenanceTrace } from "./trace";
 import type { ExtraPayload, FdbInfoPayload, FlashIdPayload, GenerateFdbOptions, PartNumberPayload } from "./types";
 import { inferVendorFromPartNumber, normalizeKnownPackage, normalizeVendor } from "./vendors";
 
@@ -9,8 +16,6 @@ type VendorMap = Map<string, PartNumberMap>;
 type FlashIdMap = Map<string, FlashIdPayload>;
 
 const DEFAULT_CONTROLLER_BLACKLIST = ["3281FL", "3379FL"];
-const FLASH_ID_BYTES = 6;
-const FLASH_ID_HEX_LENGTH = FLASH_ID_BYTES * 2;
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
@@ -18,27 +23,6 @@ function asRecord(value: unknown): Record<string, unknown> {
 
 function readJson(path: string): unknown {
   return JSON.parse(readFileSync(path, "utf8"));
-}
-
-function normalizePartNumber(partNumber: string): string {
-  let normalized = partNumber
-    .trim()
-    .toUpperCase()
-    .replace(/\uFFFD/g, "-")
-    .replace(/[ ,&.|]/g, "");
-  normalized = normalized.replace(/^EMT29F/, "MT29F");
-  while (/\*[0-9A-Z]*$/i.test(normalized)) {
-    normalized = normalized.replace(/\*[0-9A-Z]*$/i, "");
-  }
-  return normalized.includes("*") ? "" : normalized;
-}
-
-function normalizeFlashId(id: string): string | null {
-  const normalized = id.replace(/\s+/g, "").toUpperCase();
-  if (!normalized || normalized.length % 2 !== 0 || normalized.length < FLASH_ID_HEX_LENGTH || !/^[0-9A-F]+$/.test(normalized)) {
-    return null;
-  }
-  return normalized.slice(0, FLASH_ID_HEX_LENGTH);
 }
 
 function toStringArray(value: unknown, toUpper = false): string[] {
@@ -62,26 +46,12 @@ function toFlashIdArray(value: unknown): string[] {
   }
   const out: string[] = [];
   for (const item of value) {
-    const normalized = normalizeFlashId(String(item));
+    const normalized = normalizeFdbFlashId(item);
     if (normalized) {
       out.push(normalized);
     }
   }
   return out;
-}
-
-function normalizePartReference(value: unknown): string | null {
-  const text = String(value).trim();
-  const match = /^(\S+)\s+(.+)$/.exec(text);
-  if (!match) {
-    return null;
-  }
-  const partNumber = normalizePartNumber(match[2] ?? "");
-  const vendor = inferVendorFromPartNumber(partNumber) ?? normalizeVendor(match[1] ?? "");
-  if (!vendor || !partNumber) {
-    return null;
-  }
-  return `${vendor} ${partNumber}`;
 }
 
 function toPartReferenceArray(value: unknown): string[] {
@@ -90,7 +60,7 @@ function toPartReferenceArray(value: unknown): string[] {
   }
   const out: string[] = [];
   for (const item of value) {
-    const normalized = normalizePartReference(item);
+    const normalized = normalizeFdbPartReference(item);
     if (normalized) {
       out.push(normalized);
     }
@@ -121,21 +91,17 @@ function mergeStringArray(target: string[] | undefined, source: string[], toUppe
   return [...set];
 }
 
-function normalizeControllerName(value: unknown): string {
-  return String(value ?? "").trim().toUpperCase();
-}
-
 function buildControllerBlacklist(...sources: Array<unknown>): Set<string> {
   const blacklist = new Set<string>();
   for (const item of DEFAULT_CONTROLLER_BLACKLIST) {
-    const normalized = normalizeControllerName(item);
+    const normalized = normalizeFdbControllerName(item);
     if (normalized) {
       blacklist.add(normalized);
     }
   }
   for (const source of sources) {
     for (const item of toStringArray(source, false)) {
-      const normalized = normalizeControllerName(item);
+      const normalized = normalizeFdbControllerName(item);
       if (normalized) {
         blacklist.add(normalized);
       }
@@ -145,7 +111,7 @@ function buildControllerBlacklist(...sources: Array<unknown>): Set<string> {
 }
 
 function filterControllerArray(controllers: string[] | undefined, blacklist: Set<string>): string[] | undefined {
-  const filtered = mergeStringArray([], controllers ?? [], false).filter((controller) => !blacklist.has(normalizeControllerName(controller)));
+  const filtered = mergeStringArray([], controllers ?? [], false).filter((controller) => !blacklist.has(normalizeFdbControllerName(controller)));
   return filtered.length > 0 ? filtered : undefined;
 }
 
@@ -232,28 +198,15 @@ function ensureVendor(vendors: VendorMap, vendor: string): PartNumberMap {
   return created;
 }
 
-function mergeVendorRecord(vendors: VendorMap, vendor: string, record: unknown): void {
-  const normalizedVendor = normalizeVendor(vendor);
+function mergeVendorRecord(vendors: VendorMap, vendor: string, record: unknown, trace?: FdbProvenanceTrace, source?: FdbProvenanceSource): void {
   for (const [pn, payload] of Object.entries(asRecord(record))) {
-    const normalizedPn = normalizePartNumber(pn);
-    if (!normalizedPn) {
-      continue;
-    }
-    const correctedVendor = inferVendorFromPartNumber(normalizedPn) ?? normalizedVendor;
-    const vendorMap = ensureVendor(vendors, correctedVendor);
-    const next = mergePartNumber(vendorMap.get(normalizedPn), payload);
-    vendorMap.set(normalizedPn, next);
+    mergePartPayload(vendors, vendor, pn, asRecord(payload) as PartNumberPayload, trace, source, "merge_vendor_record");
   }
 }
 
-function mergeIddbRecord(iddb: FlashIdMap, record: unknown): void {
+function mergeIddbRecord(iddb: FlashIdMap, record: unknown, trace?: FdbProvenanceTrace, source?: FdbProvenanceSource): void {
   for (const [flashId, payload] of Object.entries(asRecord(record))) {
-    const normalizedId = normalizeFlashId(flashId);
-    if (!normalizedId) {
-      continue;
-    }
-    const next = mergeFlashId(iddb.get(normalizedId), payload);
-    iddb.set(normalizedId, next);
+    mergeFlashPayload(iddb, flashId, asRecord(payload) as FlashIdPayload, trace, source, "merge_iddb_record");
   }
 }
 
@@ -268,8 +221,53 @@ function addInfoController(info: FdbInfoPayload, controller: string | string[]):
   info.controllers = controllers;
 }
 
-function mergePartPayload(vendors: VendorMap, vendor: string, partNumber: string, payload: PartNumberPayload): PartNumberPayload | null {
-  const normalizedPn = normalizePartNumber(partNumber);
+function recordPartTrace(
+  trace: FdbProvenanceTrace | undefined,
+  decision: string,
+  source: FdbProvenanceSource | undefined,
+  rawVendor: string,
+  rawPartNumber: string,
+  normalizedVendor: string,
+  normalizedPartNumber: string
+): void {
+  trace?.record({
+    target: "part",
+    decision,
+    vendor: normalizedVendor,
+    partNumber: normalizedPartNumber,
+    source,
+    raw: { vendor: rawVendor, partNumber: rawPartNumber },
+    normalized: { vendor: normalizedVendor, partNumber: normalizedPartNumber }
+  });
+}
+
+function recordFlashTrace(
+  trace: FdbProvenanceTrace | undefined,
+  decision: string,
+  source: FdbProvenanceSource | undefined,
+  rawFlashId: string,
+  normalizedFlashId: string
+): void {
+  trace?.record({
+    target: "flash",
+    decision,
+    flashId: normalizedFlashId,
+    source,
+    raw: { flashId: rawFlashId },
+    normalized: { flashId: normalizedFlashId }
+  });
+}
+
+function mergePartPayload(
+  vendors: VendorMap,
+  vendor: string,
+  partNumber: string,
+  payload: PartNumberPayload,
+  trace?: FdbProvenanceTrace,
+  source?: FdbProvenanceSource,
+  decision = "merge_part_payload"
+): PartNumberPayload | null {
+  const normalizedPn = normalizeFdbPartNumber(partNumber);
   if (!normalizedPn) {
     return null;
   }
@@ -277,30 +275,48 @@ function mergePartPayload(vendors: VendorMap, vendor: string, partNumber: string
   const vendorMap = ensureVendor(vendors, correctedVendor);
   const next = mergePartNumber(vendorMap.get(normalizedPn), payload);
   vendorMap.set(normalizedPn, next);
+  recordPartTrace(trace, decision, source, vendor, partNumber, correctedVendor, normalizedPn);
   return next;
 }
 
-function mergeFlashPayload(iddb: FlashIdMap, id: string, payload: FlashIdPayload): FlashIdPayload | null {
-  const normalizedId = normalizeFlashId(id);
+function mergeFlashPayload(
+  iddb: FlashIdMap,
+  id: string,
+  payload: FlashIdPayload,
+  trace?: FdbProvenanceTrace,
+  source?: FdbProvenanceSource,
+  decision = "merge_flash_payload"
+): FlashIdPayload | null {
+  const normalizedId = normalizeFdbFlashId(id);
   if (!normalizedId) {
     return null;
   }
   const next = mergeFlashId(iddb.get(normalizedId), payload);
   iddb.set(normalizedId, next);
+  recordFlashTrace(trace, decision, source, id, normalizedId);
   return next;
 }
 
-function addPartId(vendors: VendorMap, iddb: FlashIdMap, vendor: string, partNumber: string, id: string, controllers: string[] = []): void {
-  const normalizedId = normalizeFlashId(id);
+function addPartId(
+  vendors: VendorMap,
+  iddb: FlashIdMap,
+  vendor: string,
+  partNumber: string,
+  id: string,
+  controllers: string[] = [],
+  trace?: FdbProvenanceTrace,
+  source?: FdbProvenanceSource
+): void {
+  const normalizedId = normalizeFdbFlashId(id);
   if (!normalizedId) {
     return;
   }
-  mergePartPayload(vendors, vendor, partNumber, { id: [normalizedId], ...(controllers.length > 0 ? { t: controllers } : {}) });
-  mergeFlashPayload(iddb, normalizedId, { ...(controllers.length > 0 ? { t: controllers } : {}) });
+  mergePartPayload(vendors, vendor, partNumber, { id: [normalizedId], ...(controllers.length > 0 ? { t: controllers } : {}) }, trace, source, "add_part_id");
+  mergeFlashPayload(iddb, normalizedId, { ...(controllers.length > 0 ? { t: controllers } : {}) }, trace, source, "add_part_id");
 }
 
 function findPartReferencesByFlashId(vendors: VendorMap, id: string, excludeVendor?: string): string[] {
-  const normalizedId = normalizeFlashId(id);
+  const normalizedId = normalizeFdbFlashId(id);
   if (!normalizedId) {
     return [];
   }
@@ -376,20 +392,23 @@ function addControllersToMatchingFlashId(
   vendor: string,
   flashIdPrefix: string,
   controllers: string[],
-  patch?: FlashIdPayload
+  patch?: FlashIdPayload,
+  trace?: FdbProvenanceTrace,
+  source?: FdbProvenanceSource
 ): boolean {
-  const prefix = normalizeFlashId(flashIdPrefix);
+  const prefix = normalizeFdbFlashId(flashIdPrefix);
   if (!prefix) {
     return false;
   }
   let found = false;
-  forEachPartWithVendor(vendors, vendor, (_partNumber, payload) => {
+  forEachPartWithVendor(vendors, vendor, (partNumber, payload) => {
     for (const id of payload.id ?? []) {
       if (!id.startsWith(prefix)) {
         continue;
       }
       payload.t = mergeStringArray(payload.t, controllers, false);
-      mergeFlashPayload(iddb, id, { ...(patch ?? {}), t: controllers });
+      mergeFlashPayload(iddb, id, { ...(patch ?? {}), t: controllers }, trace, source, "add_controllers_to_matching_flash_id");
+      recordPartTrace(trace, "add_controllers_to_matching_flash_id", source, vendor, partNumber, normalizeVendor(vendor), partNumber);
       found = true;
       return false;
     }
@@ -398,31 +417,42 @@ function addControllersToMatchingFlashId(
   return found;
 }
 
-function createControllerContext(vendors: VendorMap, iddb: FlashIdMap, info: FdbInfoPayload): ControllerMergeContext {
-  return {
+function createControllerContext(vendors: VendorMap, iddb: FlashIdMap, info: FdbInfoPayload, trace?: FdbProvenanceTrace): ControllerMergeContext {
+  let currentSource: FdbProvenanceSource | undefined;
+  const context: ControllerMergeContext = {
     info,
     addInfoController: (controller) => addInfoController(info, controller),
-    mergePartPayload: (vendor, partNumber, payload) => mergePartPayload(vendors, vendor, partNumber, payload),
-    mergeFlashPayload: (id, payload) => mergeFlashPayload(iddb, id, payload),
-    addPartId: (vendor, partNumber, id, controllers = []) => addPartId(vendors, iddb, vendor, partNumber, id, controllers),
+    mergePartPayload: (vendor, partNumber, payload) => mergePartPayload(vendors, vendor, partNumber, payload, trace, currentSource),
+    mergeFlashPayload: (id, payload) => mergeFlashPayload(iddb, id, payload, trace, currentSource),
+    addPartId: (vendor, partNumber, id, controllers = []) => addPartId(vendors, iddb, vendor, partNumber, id, controllers, trace, currentSource),
     vendorExists: (vendor) => vendorExists(vendors, vendor),
     findPartReferencesByFlashId: (id, options = {}) => findPartReferencesByFlashId(vendors, id, options.excludeVendor),
     addControllersToMatchingFlashId: (vendor, flashIdPrefix, controllers, patch) =>
-      addControllersToMatchingFlashId(vendors, iddb, vendor, flashIdPrefix, controllers, patch),
+      addControllersToMatchingFlashId(vendors, iddb, vendor, flashIdPrefix, controllers, patch, trace, currentSource),
     lines,
     cleanHexByte,
     parseIni,
-    normalizeKnownPackage
+    normalizeKnownPackage,
+    withSource(source, callback) {
+      const previous = currentSource;
+      currentSource = mergeProvenanceSource(previous, source);
+      try {
+        return callback();
+      } finally {
+        currentSource = previous;
+      }
+    }
   };
+  return context;
 }
 
-function loadRawInputDirectory(inputDir: string, vendors: VendorMap, iddb: FlashIdMap, info: FdbInfoPayload): boolean {
+function loadRawInputDirectory(inputDir: string, vendors: VendorMap, iddb: FlashIdMap, info: FdbInfoPayload, trace?: FdbProvenanceTrace): boolean {
   const rawDirs = CONTROLLER_GENERATORS.flatMap((controller) => [...controller.directories]);
   const hasRawDir = rawDirs.some((dir) => existsSync(resolve(inputDir, dir)));
   if (!hasRawDir) {
     return false;
   }
-  const context = createControllerContext(vendors, iddb, info);
+  const context = createControllerContext(vendors, iddb, info, trace);
   for (const controller of CONTROLLER_GENERATORS) {
     for (const dir of controller.directories) {
       const dirPath = resolve(inputDir, dir);
@@ -430,10 +460,13 @@ function loadRawInputDirectory(inputDir: string, vendors: VendorMap, iddb: Flash
         continue;
       }
       for (const file of readdirSync(dirPath).filter((item) => item !== "." && item !== "..").sort()) {
-        controller.mergeFile(context, {
-          directory: dir,
-          filename: file,
-          data: readFileSync(resolve(dirPath, file), "utf8")
+        const filePath = resolve(dirPath, file);
+        context.withSource({ controller: controller.id, directory: dir, filename: file, file: filePath }, () => {
+          controller.mergeFile(context, {
+            directory: dir,
+            filename: file,
+            data: readFileSync(filePath, "utf8")
+          });
         });
       }
     }
@@ -472,7 +505,7 @@ function canonicalizeVendorRecords(vendors: VendorMap): void {
 }
 
 function canonicalizePartReference(value: string, vendors: VendorMap): string | null {
-  const normalized = normalizePartReference(value);
+  const normalized = normalizeFdbPartReference(value);
   if (!normalized) {
     return null;
   }
@@ -540,16 +573,16 @@ function loadExtra(inputDir: string, extraFile?: string): ExtraPayload {
   return asRecord(readJson(extraPath)) as ExtraPayload;
 }
 
-function loadInputDirectory(inputDir: string, vendors: VendorMap, iddb: FlashIdMap): void {
+function loadInputDirectory(inputDir: string, vendors: VendorMap, iddb: FlashIdMap, trace?: FdbProvenanceTrace): void {
   const fdbPath = resolve(inputDir, "fdb.json");
   if (existsSync(fdbPath)) {
     const source = asRecord(readJson(fdbPath));
-    mergeIddbRecord(iddb, source.iddb);
+    mergeIddbRecord(iddb, source.iddb, trace, { file: fdbPath, filename: "fdb.json" });
     for (const [key, value] of Object.entries(source)) {
       if (key === "info" || key === "iddb") {
         continue;
       }
-      mergeVendorRecord(vendors, key, value);
+      mergeVendorRecord(vendors, key, value, trace, { file: fdbPath, filename: "fdb.json" });
     }
   }
 
@@ -557,26 +590,26 @@ function loadInputDirectory(inputDir: string, vendors: VendorMap, iddb: FlashIdM
   if (existsSync(vendorsDir)) {
     for (const file of readJsonFiles(vendorsDir)) {
       const vendor = normalizeVendor(basename(file, ".json"));
-      mergeVendorRecord(vendors, vendor, readJson(file));
+      mergeVendorRecord(vendors, vendor, readJson(file), trace, { file, filename: basename(file) });
     }
   }
 
   const iddbDir = resolve(inputDir, "iddb");
   if (existsSync(iddbDir)) {
     for (const file of readJsonFiles(iddbDir)) {
-      mergeIddbRecord(iddb, readJson(file));
+      mergeIddbRecord(iddb, readJson(file), trace, { file, filename: basename(file) });
     }
   }
 
   const flashIdsDir = resolve(inputDir, "flashids");
   if (existsSync(flashIdsDir)) {
     for (const file of readJsonFiles(flashIdsDir)) {
-      mergeIddbRecord(iddb, readJson(file));
+      mergeIddbRecord(iddb, readJson(file), trace, { file, filename: basename(file) });
     }
   }
 }
 
-function applyExtra(extra: ExtraPayload, vendors: VendorMap, iddb: FlashIdMap): void {
+function applyExtra(extra: ExtraPayload, vendors: VendorMap, iddb: FlashIdMap, trace?: FdbProvenanceTrace, source?: FdbProvenanceSource): void {
   const rawExtraVendors: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(extra)) {
     if (key !== "info" && key !== "controllerBlacklist" && key !== "vendors" && key !== "iddb") {
@@ -584,16 +617,16 @@ function applyExtra(extra: ExtraPayload, vendors: VendorMap, iddb: FlashIdMap): 
     }
   }
   for (const [vendor, record] of Object.entries(rawExtraVendors)) {
-    mergeVendorRecord(vendors, vendor, record);
+    mergeVendorRecord(vendors, vendor, record, trace, source);
   }
 
   if (extra.vendors) {
     for (const [vendor, record] of Object.entries(extra.vendors)) {
-      mergeVendorRecord(vendors, vendor, record);
+      mergeVendorRecord(vendors, vendor, record, trace, source);
     }
   }
   if (extra.iddb) {
-    mergeIddbRecord(iddb, extra.iddb);
+    mergeIddbRecord(iddb, extra.iddb, trace, source);
   }
 }
 
@@ -656,7 +689,7 @@ function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: V
         controllers.add(controller);
       }
       for (const id of partInfo.id ?? []) {
-        const normalizedId = normalizeFlashId(id);
+        const normalizedId = normalizeFdbFlashId(id);
         if (!normalizedId) {
           continue;
         }
@@ -721,7 +754,12 @@ function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: V
   return output;
 }
 
-export function generateFdb(options: GenerateFdbOptions): Record<string, unknown> {
+export interface GenerateFdbTraceResult {
+  fdb: Record<string, unknown>;
+  trace: FdbProvenanceTrace;
+}
+
+function generateFdbInternal(options: GenerateFdbOptions, trace?: FdbProvenanceTrace): Record<string, unknown> {
   const version = options.version.trim();
   if (!version) {
     throw new Error("Missing required version");
@@ -736,13 +774,13 @@ export function generateFdb(options: GenerateFdbOptions): Record<string, unknown
   const iddb: FlashIdMap = new Map();
   const meta = loadMeta(inputDir, options.metaFile);
   const rawInfo: FdbInfoPayload = { ...meta };
-  const usedRawInput = loadRawInputDirectory(inputDir, vendors, iddb, rawInfo);
+  const usedRawInput = loadRawInputDirectory(inputDir, vendors, iddb, rawInfo, trace);
   if (!usedRawInput) {
-    loadInputDirectory(inputDir, vendors, iddb);
+    loadInputDirectory(inputDir, vendors, iddb, trace);
   }
 
   const extra = loadExtra(inputDir, options.extraFile);
-  applyExtra(extra, vendors, iddb);
+  applyExtra(extra, vendors, iddb, trace, { file: options.extraFile ? resolve(options.extraFile) : resolve(inputDir, "extra.json"), filename: options.extraFile ? basename(options.extraFile) : "extra.json" });
   canonicalizeVendorRecords(vendors);
   canonicalizePartPayloadReferences(vendors);
   canonicalizeIddbReferences(iddb, vendors);
@@ -769,4 +807,16 @@ export function generateFdb(options: GenerateFdbOptions): Record<string, unknown
   }
 
   return output;
+}
+
+export function generateFdb(options: GenerateFdbOptions): Record<string, unknown> {
+  return generateFdbInternal(options);
+}
+
+export function generateFdbWithTrace(options: GenerateFdbOptions): GenerateFdbTraceResult {
+  const trace = createFdbProvenanceTrace();
+  return {
+    fdb: generateFdbInternal(options, trace),
+    trace
+  };
 }

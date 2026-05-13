@@ -11,6 +11,7 @@ import {
   parseSupportListControllerList,
   resolveSupportListPartRecord
 } from "../support-list";
+import { normalizeFdbVendorName } from "../normalize";
 import { inferVendorFromPartNumber } from "../vendors";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 
@@ -145,8 +146,9 @@ function mergePhisonFdnextFdbgenV1(context: ControllerMergeContext, document: Fd
   const originalRefsById = collectOriginalPartReferences(context, document);
   mergeFdnextFdbgenV1Document(context, document, { mapEntry: mapPhisonUfdEntry });
   const aliasControllers = new Set<string>();
-  for (const entry of document.entries) {
-    if (mergePhisonAlias(context, entry, originalRefsById)) {
+  for (let index = 0; index < document.entries.length; index += 1) {
+    const entry = document.entries[index]!;
+    if (context.withSource({ recordIndex: index + 1, raw: JSON.stringify(entry) }, () => mergePhisonAlias(context, entry, originalRefsById))) {
       for (const controller of entry.controllers) {
         aliasControllers.add(controller);
       }
@@ -168,10 +170,13 @@ function mergePhison(context: ControllerMergeContext, data: string): void {
   const controllers = ["PS3111", "INIC6081"];
   context.addInfoController(controllers);
   const flashes = Array.isArray(parsed) ? (parsed as Array<Record<string, unknown>>) : [];
-  for (const flash of flashes) {
-    const vendor = String(flash.Vendor ?? "").toLowerCase().replace("hynix", "skhynix");
+  for (let index = 0; index < flashes.length; index += 1) {
+    const flash = flashes[index]!;
+    const vendor = normalizeFdbVendorName(flash.Vendor);
     const flashId = String(flash.FlashId ?? "").slice(0, 12);
-    context.addControllersToMatchingFlashId(vendor, flashId, controllers);
+    context.withSource({ recordIndex: index + 1, raw: JSON.stringify(flash) }, () => {
+      context.addControllersToMatchingFlashId(vendor, flashId, controllers);
+    });
   }
 }
 

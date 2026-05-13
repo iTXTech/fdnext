@@ -1,4 +1,5 @@
 import type { FdbInfoPayload, FlashIdPayload, PartNumberPayload } from "../types";
+import type { FdbProvenanceSource } from "../trace";
 
 export interface ControllerRawFile {
   directory: string;
@@ -19,6 +20,7 @@ export interface ControllerMergeContext {
   cleanHexByte(value: string | undefined): string;
   parseIni(data: string): Record<string, Record<string, string>>;
   normalizeKnownPackage(vendor: string, partNumber: string): string;
+  withSource<T>(source: FdbProvenanceSource, callback: () => T): T;
 }
 
 export interface ControllerGenerator {

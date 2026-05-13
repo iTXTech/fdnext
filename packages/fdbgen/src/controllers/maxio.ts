@@ -1,3 +1,4 @@
+import { normalizeFdbVendorName } from "../normalize";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 
 function mergeMaxio(context: ControllerMergeContext, data: string, filename: string): void {
@@ -6,11 +7,14 @@ function mergeMaxio(context: ControllerMergeContext, data: string, filename: str
   context.addInfoController(controller);
   const parsed = context.parseIni(data);
   for (const [section, values] of Object.entries(parsed)) {
-    const vendor = section.toLowerCase().replace("hynix", "skhynix");
+    const rawVendorKey = section.trim().toLowerCase();
+    const vendor = normalizeFdbVendorName(section);
     if (vendor === "version" || vendor === "vendor" || !vendor) {
       continue;
     }
+    let recordIndex = 0;
     for (const flash of Object.values(values)) {
+      recordIndex += 1;
       const fields = flash
         .split(/\s+/)
         .map((item) => item.trim())
@@ -23,18 +27,22 @@ function mergeMaxio(context: ControllerMergeContext, data: string, filename: str
         continue;
       }
       let partNumber = fields[1] ?? "";
-      if (usePartNumber && vendor !== "sandisk") {
-        if (vendor === "toshiba" && partNumber.length > 15) {
+      if (usePartNumber && rawVendorKey !== "sandisk") {
+        if (vendor === "kioxia" && partNumber.length > 15) {
           partNumber = partNumber.slice(0, 15);
         } else {
           partNumber = context.normalizeKnownPackage(vendor, partNumber);
         }
-        context.mergePartPayload(vendor, partNumber, { t: [controller] });
-        if (id.length === 12) {
-          context.addPartId(vendor, partNumber, id, [controller]);
-        }
+        context.withSource({ recordIndex, raw: flash }, () => {
+          context.mergePartPayload(vendor, partNumber, { t: [controller] });
+          if (id.length === 12) {
+            context.addPartId(vendor, partNumber, id, [controller]);
+          }
+        });
       } else if (id.length === 12) {
-        context.mergeFlashPayload(id, { t: [controller] });
+        context.withSource({ recordIndex, raw: flash }, () => {
+          context.mergeFlashPayload(id, { t: [controller] });
+        });
       }
     }
   }
