@@ -36,6 +36,7 @@ const standaloneDramExtraKeys = new Set([
   "Die Count",
   "CE Count",
   "Channel Count",
+  "Interface Type",
   "Operation Temperature",
   "Solder Type",
   "Production Status",
@@ -1857,13 +1858,38 @@ assertDram("K4U6E3S4AA-MGCL", {
   package: "200-ball FBGA",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "2 dies, 1 CS",
-    "Package Code": "E3S4AA",
-    "Config Code": "4U6",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "M",
+    "Config Code": "4U6E3S",
     "DRAM Speed": "LPDDR4X-4266",
+    "DRAM Generation": "2nd Generation",
+    "Channel Count": 2,
+    "Interface Type": "LVSTLE_06",
     "Operation Temperature": "-25C~85C"
   }
 });
+assertDecodedField("K4U6E3S4AA-MGCL", "die_count", 1);
+
+assertDram("K4UBE3D4AA-MGCL", {
+  vendor: "samsung",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.8V / 1.1V / 0.6V",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Stack": "2 dies",
+    "Package Code": "M",
+    "Config Code": "4UBE3D",
+    "DRAM Speed": "LPDDR4X-4266",
+    "DRAM Generation": "2nd Generation",
+    "Channel Count": 2,
+    "Interface Type": "LVSTLE_06",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+assertDecodedField("K4UBE3D4AA-MGCL", "die_count", 2);
 
 assertDram("K4X51163PC", {
   vendor: "samsung",
@@ -1902,6 +1928,131 @@ assertDecodedFieldAbsent("K4X51263PC", "die_count");
 assertDecodedField("K4X51303PC", "ce_count", 2);
 assertDecodedField("K4X51303PC", "special_option", "2 CKE");
 assertDecodedFieldAbsent("K4X51303PC", "die_count");
+
+assertDram("K4U52324Q", {
+  vendor: "samsung",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x32",
+  voltage: "1.8V VDD/VDDQ",
+  package: "136-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR4",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "Q",
+    "Config Code": "52324"
+  },
+  absentExtra: ["DRAM Speed"]
+});
+
+assertDram("K4J52324Q", {
+  vendor: "samsung",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x32",
+  voltage: "1.8V VDD/VDDQ",
+  package: "136-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "Q",
+    "Config Code": "52324"
+  },
+  absentExtra: ["DRAM Speed"]
+});
+
+assertDram("K4J55323Q", {
+  vendor: "samsung",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x32",
+  voltage: "1.8V VDD/VDDQ",
+  package: "136-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "Q",
+    "Config Code": "55323"
+  },
+  absentExtra: ["DRAM Speed"]
+});
+
+assertDram("K4N51163Q", {
+  vendor: "samsung",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD/VDDQ",
+  package: "84-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR2",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "Q",
+    "Config Code": "51163"
+  },
+  absentExtra: ["DRAM Speed"]
+});
+
+assertDram("K4N56163Q", {
+  vendor: "samsung",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD/VDDQ",
+  package: "84-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR2",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "Q",
+    "Config Code": "56163"
+  },
+  absentExtra: ["DRAM Speed"]
+});
+
+assertDram("K4D551638", {
+  vendor: "samsung",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x16",
+  voltage: "2.5V VDD/VDDQ",
+  package: "66-pin TSOP-II",
+  extra: {
+    "DRAM Type": "GDDR",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Config Code": "551638"
+  },
+  absentExtra: ["Package Code", "DRAM Speed"]
+});
+
+assertDram("K4D263238", {
+  vendor: "samsung",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x32",
+  voltage: "2.5V VDD/VDDQ",
+  package: "144-ball FBGA",
+  extra: {
+    "DRAM Type": "GDDR",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Config Code": "263238"
+  },
+  absentExtra: ["Package Code", "DRAM Speed"]
+});
+
+assertDram("K4D261638", {
+  vendor: "samsung",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x16",
+  voltage: "2.5V VDD/VDDQ",
+  package: "66-pin TSOP-II",
+  extra: {
+    "DRAM Type": "GDDR",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Config Code": "261638"
+  },
+  absentExtra: ["Package Code", "DRAM Speed"]
+});
 
 assertDram("K4D263238E-GC33", {
   vendor: "samsung",
@@ -2978,6 +3129,10 @@ assertDram("EM6PF32MBAJB", {
 });
 
 assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC32");
+assertSearchPnIncludes("K4UBE3D4AA", "Samsung K4UBE3D4AA-MGCL");
+assertSearchPnIncludes("K4J55323Q", "Samsung K4J55323Q");
+assertSearchPnIncludes("K4N51163Q", "Samsung K4N51163Q");
+assertSearchPnIncludes("K4D261638", "Samsung K4D261638");
 assertSearchPnIncludes("K4W2G1646", "Samsung K4W2G1646Q-BC1A");
 assertSearchPnIncludes("K4W4G1646E", "Samsung K4W4G1646E-BC1A");
 assertSearchPnIncludes("K4AAG165WB", "Samsung K4AAG165WB-MCTD");

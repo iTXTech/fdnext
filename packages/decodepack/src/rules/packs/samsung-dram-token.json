@@ -1063,6 +1063,284 @@
     }
   },
   {
+    "id": "vendor.samsung.dram.lpddr4x.ordering.component.v1",
+    "priority": 1020,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^K4U(?:6E|BE)[0-9A-Z]{5}(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "K4U"
+      ],
+      "tables": {
+        "densityToken": {
+          "6E": "6E",
+          "BE": "BE"
+        },
+        "densityMb": {
+          "6E": 16384,
+          "BE": 32768
+        },
+        "organizationObj": {
+          "3S": {
+            "dram_type": "LPDDR4X",
+            "dram_die_stack": "1 die, 1 CS",
+            "die_count": 1,
+            "channel_count": 2
+          },
+          "3D": {
+            "dram_type": "LPDDR4X",
+            "dram_die_stack": "2 dies",
+            "die_count": 2,
+            "channel_count": 2
+          }
+        },
+        "deviceWidth": {
+          "3S": 32,
+          "3D": 32
+        },
+        "interfaceObj": {
+          "A": {
+            "interface_type": "LVSTLE_06"
+          }
+        },
+        "voltage": {
+          "A": "1.8V / 1.1V / 0.6V"
+        },
+        "generationObj": {
+          "A": {
+            "dram_generation": "2nd Generation"
+          }
+        },
+        "packageActual": {
+          "M": "200-ball FBGA"
+        },
+        "packageObj": {
+          "M": {
+            "package_code": "M"
+          }
+        },
+        "tempPowerObj": {
+          "G": {
+            "operation_temperature": "-25C~85C"
+          }
+        },
+        "speedObj": {
+          "CL": {
+            "dram_speed": "LPDDR4X-4266"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "densityToken",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "organizationCode"
+        },
+        {
+          "op": "map",
+          "from": "organizationCode",
+          "table": "organizationObj",
+          "to": "organizationObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "organizationCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "bankCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "interfaceCode"
+        },
+        {
+          "op": "map",
+          "from": "interfaceCode",
+          "table": "interfaceObj",
+          "to": "interfaceObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "interfaceCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "map",
+          "from": "generationCode",
+          "table": "generationObj",
+          "to": "generationObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "tempPowerCode"
+        },
+        {
+          "op": "map",
+          "from": "tempPowerCode",
+          "table": "tempPowerObj",
+          "to": "tempPowerObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]+)",
+          "to": "speedCode",
+          "groups": {
+            "speedCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "4U{{densityCode}}{{organizationCode}}",
+          "to": "configCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "organizationObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "packageObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "interfaceObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "generationObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "tempPowerObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.samsung.dram.lpddr4x.ordering.component.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.samsung.dram.lpddr.component.v1",
     "priority": 1010,
     "normalize": [
@@ -1506,16 +1784,35 @@
           "4G": 4096
         },
         "packageActual": {
+          "D:": "",
           "D:E": "144-ball FBGA",
           "D:F": "144-ball FBGA",
+          "J:Q": "136-ball FBGA",
           "N:QF": "84-ball FBGA",
           "N:QG": "84-ball FBGA",
+          "N:Q": "84-ball FBGA",
           "J:QC": "136-ball FBGA",
           "J:QE": "136-ball FBGA",
+          "U:Q": "136-ball FBGA",
           "U:QE": "136-ball FBGA",
           "W:D": "96-ball FBGA",
           "W:E": "96-ball FBGA",
           "W:Q": "96-ball FBGA"
+        },
+        "packageByConfig": {
+          "D:263238": "144-ball FBGA",
+          "D:551638": "66-pin TSOP-II",
+          "D:261638": "66-pin TSOP-II"
+        },
+        "voltageByConfig": {
+          "D:263238": "2.5V VDD/VDDQ",
+          "D:551638": "2.5V VDD/VDDQ",
+          "D:261638": "2.5V VDD/VDDQ",
+          "J:52324": "1.8V VDD/VDDQ",
+          "J:55323": "1.8V VDD/VDDQ",
+          "N:51163": "1.8V VDD/VDDQ",
+          "N:56163": "1.8V VDD/VDDQ",
+          "U:52324": "1.8V VDD/VDDQ"
         },
         "voltageBySpeed": {
           "GC25": "2.8V VDD/VDDQ",
@@ -1638,7 +1935,7 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([0-9A-Z]{2})([0-9]{2})([0-9A-Z]*?)([A-Z]{1,2})(?=-|$)",
+          "pattern": "^([0-9A-Z]{2})([0-9]{2})([0-9A-Z]*?)([A-Z]{0,2})(?=-|$)",
           "to": "configFull",
           "groups": {
             "densityCode": 1,
@@ -1652,6 +1949,11 @@
           "op": "tpl",
           "template": "{{densityCode}}{{width}}{{orgCode}}",
           "to": "configCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{configCode}}",
+          "to": "configKey"
         },
         {
           "op": "map",
@@ -1681,8 +1983,28 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "packageByCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "configKey",
+          "table": "packageByConfig",
+          "to": "packageByConfigValue",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "packageByCode",
+          "secondary": "packageByConfigValue",
+          "to": "package"
+        },
+        {
+          "op": "map",
+          "from": "configKey",
+          "table": "voltageByConfig",
+          "to": "voltageByConfigValue",
+          "default": ""
         },
         {
           "op": "stripIfPrefix",
@@ -1740,6 +2062,12 @@
         {
           "op": "fallback",
           "primary": "voltageOverrideFinal",
+          "secondary": "voltageByConfigValue",
+          "to": "voltageConfigured"
+        },
+        {
+          "op": "fallback",
+          "primary": "voltageConfigured",
           "secondary": "voltageDefault",
           "to": "voltage"
         },

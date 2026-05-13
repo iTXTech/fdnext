@@ -1,6 +1,6 @@
 # Samsung DRAM PN 规则
 
-采集日期：2026-05-12
+采集日期：2026-05-13
 
 本页记录 Samsung standalone DRAM 颗粒的 PN 结构。规则只按结构化 token 解码，不把完整 PN 作为白名单；`-` 后缀缺失时仍保留可由主结构确认的容量、位宽、die/CS 以及主结构内的封装信息，只省略必须依赖 suffix 的封装、速度、温度等字段。
 
@@ -15,7 +15,8 @@
 - Samsung 官方 DDR5 页面确认 high-capacity density code：`K4RHE086VB-BCWM` / `K4RHE165VB-BCWM` 为 24Gb DDR5，`K4RBH046VM-BCWM` 为 32Gb DDR5。来源：<https://semiconductor.samsung.cn/dram/ddr/ddr5/k4rhe086vb-bcwm/>、<https://semiconductor.samsung.cn/dram/ddr/ddr5/k4rhe165vb-bcwm/>、<https://semiconductor.samsung.com/jp/dram/ddr/ddr5/k4rbh046vm-bcwm/>
 - Samsung 2009 Product Selection Guide 确认 legacy `K4S/K4H/K4T/K4B` 组件 PN 的 family、density、bit organization、bank、interface、revision 与 `-package/temp/speed` 结构，并列出 `K4S511632D-UC75`、`K4H510838F-HCCC`、`K4T56163QI-ZCE6`、`K4B1G0846D-HCF7` 等 SDR/DDR/DDR2/DDR3 样例。来源：<https://docs.rs-online.com/644a/0900766b80d16e0c.pdf>
 - Samsung 官方 LPDDR4 页面确认 `K4F6E304HB-MGCJ` 为 16Gb、x32、200 FBGA、3733Mbps、1.8/1.1/1.1V、-25C~85C。来源：<https://semiconductor.samsung.com/us/dram/lpddr/lpddr4/k4f6e304hb-mgcj/>
-- Samsung 官方 LPDDR4X 页面确认 `K4U6E3S4AA-MGCL` 为 16Gb、x32、200 FBGA、4266Mbps、1.8/1.1/0.6V。来源：<https://semiconductor.samsung.com/us/dram/lpddr/lpddr4x/k4u6e3s4aa-mgcl/>
+- Samsung 官方 LPDDR4X 页面确认 `K4U6E3S4AA-MGCL` 为 16Gb、x32、200 FBGA、4266Mbps、1.8/1.1/0.6V；datasheet ordering info 确认其标准拆分为 `K4 U 6E 3S 4 A A - M G CL`，其中 `6E` 为 16G refresh、`3S` 为 x32 Mono LPDDR4X、`4` 为 8 banks、`A` 为 LVSTLE_06 电压接口、`A` 为 2nd generation、`M/G/CL` 分别对应 200-FBGA / -25C~85C / 0.468ns。来源：<https://semiconductor.samsung.com/us/dram/lpddr/lpddr4x/k4u6e3s4aa-mgcl/>、<https://atta.szlcsc.com/upload/public/pdf/source/20240929/7BB50846226B2390715312BE2DCC442F.pdf>
+- Samsung `K4UBE3D4AA-MGCL` 官方页面存档确认 LPDDR4X、32Gb、x32、200 FBGA、4266Mbps、1.8/1.1/0.6V、-25C~85C；datasheet ordering info 进一步确认 token：`BE` 为 32G refresh、`3D` 为 x32 DDP LPDDR4X、`4` 为 8 banks、`A` 为 LVSTLE_06 电压接口、`A` 为 2nd generation、`M/G/CL` 分别对应 200-FBGA / -25C~85C / 0.468ns。来源：<https://static6.arrow.com/aropdfconversion/899b75e80d91e9809ccf1ae585751547de913ff4/k4ube3d4aa-mgcl.pdf>、<https://datasheet.lcsc.com/lcsc/2310241557_Samsung-K4UBE3D4AA-MGCL_C2920257.pdf>
 - Samsung 官方 LPDDR5 页面确认 `K3LKBKB0BM-MGCP` 为 32Gb、x32、315 FBGA、6400Mbps、1.8/1.05/0.9/0.5V。来源：<https://semiconductor.samsung.com/us/dram/lpddr/lpddr5/k3lkbkb0bm-mgcp/>
 - Samsung 官方 LPDDR5X 页面确认 `K3KL3L30CM-JGCT` / `K3KL3L30CM-BGCU` 为 64Gb high-capacity LPDDR5X，分别输出 x64 / 441 FBGA / 7500Mbps 与 x16 / 496 FBGA / 8533Mbps。来源：<https://semiconductor.samsung.com/dram/lpddr/lpddr5x/k3kl3l30cm-jgct/>、<https://semiconductor.samsung.com/dram/lpddr/lpddr5x/k3kl3l30cm-bgcu/>
 - Intel LPDDR3 validation table 确认 `K3QF1F10DM-AGCE` 为 8Gb package、4Gb die、DDP、x64；`K3QF2F20DM-AGCE` 为 16Gb package、4Gb die、QDP、x64。来源：<https://www.intel.cn/content/dam/www/public/us/en/documents/platform-memory/lpddr3-low-power-1600-validation-results.pdf>
@@ -28,13 +29,14 @@
 - Samsung `K4N56163QF-GC37` datasheet 镜像确认 256Mbit gDDR2、4M x16 x4 banks、84-ball FBGA，`GC25/30/37` 对应 800/667/533Mbps/pin。来源：<https://www.alldatasheet.com/html-pdf/103459/SAMSUNG/K4N56163QF-GC37/918/3/K4N56163QF-GC37.html>
 - Samsung `K4J52324QC` datasheet 镜像确认 512Mbit GDDR3、2M x32 x8 banks、136-ball FBGA，`BJ12/BC14/BC16/BC20` 等 speed/voltage bin。来源：<https://www.alldatasheet.com/html-pdf/112724/SAMSUNG/K4J52324QC/1206/4/K4J52324QC.html>
 - Samsung `K4U52324QE` GDDR4 的公开 datasheet archive / 分销与板卡拆解资料确认 512Mbit、16M x32、136-ball FBGA，`BC08` 属于 GDDR4 speed bin。来源：<https://www.datasheetarchive.com/?q=512Mbit+>、<https://www.jotrin.com/product/parts/K4U52324QE_BC08_1>、<https://www.techpowerup.com/review/sapphire-hd-3870/4.html>
+- Samsung Graphics Memory Selection Guide 表格确认 legacy graphics base PN：`K4U52324Q`、`K4J52324Q`、`K4J55323Q`、`K4N51163Q`、`K4N56163Q`、`K4D551638`、`K4D263238`、`K4D261638` 的 type、density、organization、package、VDD/VDDQ 与可用 speed bin 范围。无尾缀 base PN 只用于补全基础结构，public decode 不输出 `dram_speed`；只有 `-BC08`、`-GC37` 等尾缀存在时才输出速度。来源：用户提供的 Samsung Graphics Memory Selection Guide 页面截图。
 - Samsung `K4W1G1646E` datasheet 镜像确认 1Gb gDDR3、64M x16、96 FBGA、1.5V、`HC19/HC15/HC12/HC11/HC1A` 对应 1066/1333/1600/1800/2000Mbps。规则公开输出为 DDR3，并用 `DRAM Generation` 简洁标注 Samsung graphics gDDR3/SDDR3。来源：<https://datasheet4u.com/datasheet/Samsung/K4W1G1646E-1165186>
 - Samsung 2014 Product Selection Guide 确认 `W` 为 SDDR3 SDRAM / graphics memory，density token `1G/2G/4G`，并列出 `K4W2G1646Q-BC(12/11/1A)`、`K4W4G1646D-BC(12/11/1A)`、`K4W4G1646E-BC(1A/1B)`、`K4W4G1646D-BY12` 等 96-FCFBGA gDDR3 颗粒及速度/电压档位。来源：<https://www.alldatasheet.com/html-pdf/1425714/SAMSUNG/K4W4G1646D-BC/2478/7/K4W4G1646D-BC.html>、<https://www.alldatasheet.com/html-pdf/1425714/SAMSUNG/K4W4G1646D-BC/3188/9/K4W4G1646D-BC.html>
 
 ## iTXTech fdnext DecodePack 范围
 
 - 规则文件：`packages/decodepack/src/rules/packs/samsung-dram-token.json`
-- 规则 ID：`vendor.samsung.dram.legacy_standard.component.v1`、`vendor.samsung.dram.standard.component.v1`、`vendor.samsung.dram.ddr5.component.v1`、`vendor.samsung.dram.lpddr1.component.v1`、`vendor.samsung.dram.lpddr.component.v1`、`vendor.samsung.dram.legacy_gddr.component.v1`、`vendor.samsung.dram.gddr.component.v1`
+- 规则 ID：`vendor.samsung.dram.legacy_standard.component.v1`、`vendor.samsung.dram.standard.component.v1`、`vendor.samsung.dram.ddr5.component.v1`、`vendor.samsung.dram.lpddr1.component.v1`、`vendor.samsung.dram.lpddr4x.ordering.component.v1`、`vendor.samsung.dram.lpddr.component.v1`、`vendor.samsung.dram.legacy_gddr.component.v1`、`vendor.samsung.dram.gddr.component.v1`
 - 当前覆盖：
   - SDR / DDR：`K4S/K4H/K4T/K4B/K4A`，覆盖 SDR、DDR、DDR2、DDR3、DDR4。
   - DDR5：`K4R`，当前落地 `AH/HE/BH` density token。
@@ -60,6 +62,7 @@ LPDDR：
 
 ```text
 LPDDR1: K4X + density + bit organization + bank + interface + revision + -package/temp/speed
+LPDDR4X ordering: K4 + U + density/refresh + organization + bank + interface/voltage + generation + -package/temp/speed
 LPDDR2+: K + family + density/stack token + package token + -speed/temp
 ```
 
@@ -75,6 +78,7 @@ modern: K4 + family + density token + 325 organization token + package token + -
 - `dram_die_stack` 对可确认的 stacked LPDDR token 只输出物理 die 数与 CS，例如 `K3QF1...` 输出 `2 dies, 1 CS`，不再把 DDP/QDP/ODP 作为公开表述。
 - `K4X` LPDDR1 从 bit organization 输出可确认的 CS / layout 信息；只有物理 die 与 CS 同时明确时输出 `dram_die_stack`，`2 CKE`、JEDEC/Flexframe stack layout 等信息放 `special_option`。
 - `K4W` 输出 `DRAM Type = DDR3`，并用 `DRAM Generation = Samsung graphics gDDR3/SDDR3` 标注其不同于普通 `K4B` DDR3 命名线。
+- Graphics Selection Guide 的 base PN 行可以确认封装/电压/组织，但 speed bin 不等同于 PN 尾缀；无 `-speed` 尾缀时不得输出 `dram_speed`。表中 `GDDR1` 行在 public `DRAM Type` 中统一输出为 `GDDR`。
 - 标准 DDR/GDDR 颗粒在 datasheet 或官方页面确认单颗 die / 单 CS 语义时输出 `1 die, 1 CS`；DDR4 suffix package type `M` 且 density/width 命中已确认组合时覆盖为 `2 dies, 1 CS` 或 `2 dies, 2 CS`。
 - `Config Code` 只保留结构主配置，例如 `8G08`、`AH08`、`3QF1`、`263238`、`52324`、`80325`，不把完整 PN 或完整 base code 当配置码。
 
@@ -99,4 +103,21 @@ Samsung DDR4 component PN 的 suffix 第一位是 package type：`B` 表示 flip
 | DDR4 | `BG16` | `K4ABG165WB-MCWE` | `32Gb`, `x16`, `96-ball FBGA`, `DDR4-3200` |
 | DDR5 | `HE08` / `HE16` | `K4RHE086VB-BCWM` / `K4RHE165VB-BCWM` | `24Gb`, `x8/x16`, `DDR5-5600` |
 | DDR5 | `BH04` | `K4RBH046VM-BCWM` | `32Gb`, `x4`, `78-ball FBGA`, `DDR5-5600` |
+| LPDDR4X | `4U6E3S4AA` + suffix `MGCL` | `K4U6E3S4AA-MGCL` | `16Gb`, `x32`, `1 die`, `2 channels`, `LVSTLE_06`, `200-ball FBGA`, `LPDDR4X-4266` |
+| LPDDR4X | `4UBE3D4AA` + suffix `MGCL` | `K4UBE3D4AA-MGCL` | `32Gb`, `x32`, `2 dies`, `2 channels`, `LVSTLE_06`, `200-ball FBGA`, `LPDDR4X-4266` |
 | LPDDR5X | `3K:L3` + suffix | `K3KL3L30CM-JGCT` / `K3KL3L30CM-BGCU` | `64Gb`, suffix 决定 `x64/441 FBGA/7500` 或 `x16/496 FBGA/8533` |
+
+## Graphics Memory Selection Guide
+
+该表只进入 base PN 结构规则，不按 speed bin 范围推导 `dram_speed`：
+
+| Type | Base PN | Density / organization | Package | Voltage | Decode output |
+| --- | --- | --- | --- | --- | --- |
+| GDDR4 | `K4U52324Q` | 512Mb / 16M x32 | 136 FBGA | 1.8V / 1.8V | `GDDR4`, `512Mb`, `x32`, no speed |
+| GDDR3 | `K4J52324Q` | 512Mb / 16M x32 | 136 FBGA | 1.8V / 1.8V | `GDDR3`, `512Mb`, `x32`, no speed |
+| GDDR3 | `K4J55323Q` | 256Mb / 8M x32 | 136 FBGA | 1.8V / 1.8V | `GDDR3`, `256Mb`, `x32`, no speed |
+| GDDR2 | `K4N51163Q` | 512Mb / 32M x16 | 84 FBGA | 1.8V / 1.8V | `GDDR2`, `512Mb`, `x16`, no speed |
+| GDDR2 | `K4N56163Q` | 256Mb / 16M x16 | 84 FBGA | 1.8V / 1.8V | `GDDR2`, `256Mb`, `x16`, no speed |
+| GDDR1 | `K4D551638` | 256Mb / 16M x16 | 66 TSOPII | 2.5V / 2.5V | `GDDR`, `256Mb`, `x16`, no speed |
+| GDDR1 | `K4D263238` | 128Mb / 4M x32 | 144 FBGA | 2.5V / 2.5V | `GDDR`, `128Mb`, `x32`, no speed |
+| GDDR1 | `K4D261638` | 128Mb / 8M x16 | 66 TSOPII | 2.5V / 2.5V | `GDDR`, `128Mb`, `x16`, no speed |
