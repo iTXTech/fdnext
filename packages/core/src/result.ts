@@ -103,19 +103,20 @@ export const fdnextCapabilityNames = [
 export type FdnextCapabilityName = (typeof fdnextCapabilityNames)[number];
 
 export const fdnextControllerGroupIds = [
+  "all",
   "if:usb",
   "if:sata",
   "if:nvme",
   "if:sd",
   "if:unknown",
   "era:pre18",
-  "era:18-21",
-  "era:22plus",
+  "era:plus18",
   "era:unknown"
 ] as const;
 
 export type ControllerGroupId = (typeof fdnextControllerGroupIds)[number];
-export type ControllerGroupSelection = ControllerGroupId | ControllerGroupId[] | "all";
+export type ControllerProjectionGroupId = Exclude<ControllerGroupId, "all">;
+export type ControllerGroupSelection = ControllerProjectionGroupId | ControllerProjectionGroupId[] | "all";
 
 export const fdnextBlockIds = [
   "identity",
@@ -370,7 +371,7 @@ export interface CapabilityInventory {
   controllers: {
     count: number;
     items: string[];
-    defaultGroups: ControllerGroupId[] | "all";
+    defaultGroups: ControllerProjectionGroupId[] | "all";
     groups: CapabilityControllerGroup[];
   };
   flashIds: {

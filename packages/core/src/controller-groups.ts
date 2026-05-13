@@ -2,16 +2,14 @@ import {
   fdnextControllerGroupIds,
   type CapabilityControllerGroup,
   type ControllerGroupId,
-  type ControllerGroupSelection
+  type ControllerGroupSelection,
+  type ControllerProjectionGroupId
 } from "./result";
 import type { ControllerResourceIndex } from "./types";
 
 const controllerGroupIdSet = new Set<string>(fdnextControllerGroupIds);
-const interfaceControllerGroupIds = fdnextControllerGroupIds.filter((id) => id.startsWith("if:"));
-const eraControllerGroupIds = fdnextControllerGroupIds.filter((id) => id.startsWith("era:"));
-
 export interface ControllerGroupIndex {
-  defaultGroups: ControllerGroupId[] | "all";
+  defaultGroups: ControllerProjectionGroupId[] | "all";
   groups: CapabilityControllerGroup[];
 }
 
@@ -19,12 +17,16 @@ function isControllerGroupId(value: string): value is ControllerGroupId {
   return controllerGroupIdSet.has(value);
 }
 
-function controllerGroupSelection(value: unknown): ControllerGroupId[] | "all" | undefined {
+function isProjectionControllerGroupId(value: string): value is ControllerProjectionGroupId {
+  return isControllerGroupId(value) && value !== "all";
+}
+
+function controllerGroupSelection(value: unknown): ControllerProjectionGroupId[] | "all" | undefined {
   if (value === "all") {
     return "all";
   }
   const values = Array.isArray(value) ? value : typeof value === "string" ? [value] : [];
-  const groups: ControllerGroupId[] = [];
+  const groups: ControllerProjectionGroupId[] = [];
   const seen = new Set<string>();
   for (const item of values) {
     if (typeof item !== "string") continue;
@@ -33,17 +35,13 @@ function controllerGroupSelection(value: unknown): ControllerGroupId[] | "all" |
       if (group === "all") {
         return "all";
       }
-      if (isControllerGroupId(group) && !seen.has(group)) {
+      if (isProjectionControllerGroupId(group) && !seen.has(group)) {
         seen.add(group);
         groups.push(group);
       }
     }
   }
   return groups.length > 0 ? groups : undefined;
-}
-
-function hasAnyGroup(controller: string, groups: Map<ControllerGroupId, Set<string>>, ids: readonly ControllerGroupId[]): boolean {
-  return ids.some((id) => groups.get(id)?.has(controller));
 }
 
 export function buildControllerGroupIndex(controllers: string[], resource: ControllerResourceIndex | undefined): ControllerGroupIndex {
@@ -65,14 +63,7 @@ export function buildControllerGroupIndex(controllers: string[], resource: Contr
     }
   }
 
-  for (const controller of controllers) {
-    if (!hasAnyGroup(controller, groups, interfaceControllerGroupIds)) {
-      groups.get("if:unknown")?.add(controller);
-    }
-    if (!hasAnyGroup(controller, groups, eraControllerGroupIds)) {
-      groups.get("era:unknown")?.add(controller);
-    }
-  }
+  groups.set("all", new Set(controllers));
 
   const defaultGroups = controllerGroupSelection(resource?.defaultGroups) ?? "all";
   return {

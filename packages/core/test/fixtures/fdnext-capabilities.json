@@ -21,6 +21,11 @@
       "defaultGroups": "all",
       "groups": [
         {
+          "id": "all",
+          "count": 2,
+          "items": ["SM2258XT", "YS9082HC"]
+        },
+        {
           "id": "if:usb",
           "count": 0,
           "items": []
@@ -51,14 +56,9 @@
           "items": ["SM2258XT"]
         },
         {
-          "id": "era:18-21",
+          "id": "era:plus18",
           "count": 1,
           "items": ["YS9082HC"]
-        },
-        {
-          "id": "era:22plus",
-          "count": 0,
-          "items": []
         },
         {
           "id": "era:unknown",

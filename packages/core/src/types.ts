@@ -3,6 +3,7 @@ export type Language = string;
 import type {
   Capability,
   ControllerGroupId,
+  ControllerProjectionGroupId,
   ControllerGroupSelection,
   DecodeIdentifierInput,
   DecodePartInput,
@@ -158,7 +159,7 @@ export interface VendorResourceIndex {
 }
 
 export interface ControllerResourceIndex {
-  defaultGroups?: ControllerGroupId[] | "all";
+  defaultGroups?: ControllerProjectionGroupId[] | "all";
   groups?: Partial<Record<ControllerGroupId, string[]>>;
 }
 

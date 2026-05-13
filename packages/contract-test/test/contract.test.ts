@@ -111,15 +111,13 @@ for (const group of sdkCapabilities.inventory.controllers.groups) {
   assert.equal(group.count, group.items?.length ?? 0, `${group.id} controller group count should match items`);
 }
 const controllerItems = new Set(sdkCapabilities.inventory.controllers.items);
-for (const prefix of ["if:", "era:"]) {
-  const grouped = new Set(
-    sdkCapabilities.inventory.controllers.groups
-      .filter((group) => group.id.startsWith(prefix))
-      .flatMap((group) => group.items ?? [])
-  );
-  assert.equal(grouped.size, controllerItems.size, `${prefix} controller groups should cover every controller`);
-  for (const controller of controllerItems) {
-    assert.ok(grouped.has(controller), `${prefix} groups should include ${controller}`);
+const allControllerGroup = sdkCapabilities.inventory.controllers.groups.find((group) => group.id === "all");
+assert.ok(allControllerGroup, "all controller group should be reported");
+assert.equal(allControllerGroup.count, controllerItems.size);
+assert.deepEqual(allControllerGroup.items, sdkCapabilities.inventory.controllers.items);
+for (const group of sdkCapabilities.inventory.controllers.groups.filter((item) => item.id !== "all")) {
+  for (const controller of group.items ?? []) {
+    assert.ok(controllerItems.has(controller), `${group.id} should only include known controllers`);
   }
 }
 assert.ok(sdkCapabilities.inventory.flashIds.count > 0);

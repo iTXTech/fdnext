@@ -68,13 +68,15 @@ const operationConstraintsSchema = {
   additionalProperties: false
 } as const satisfies JsonSchema;
 
+const projectionControllerGroupIds = fdnextControllerGroupIds.filter((id) => id !== "all");
+
 const controllerGroupSelectionSchema = {
   oneOf: [
     { const: "all" },
-    { enum: fdnextControllerGroupIds },
+    { enum: projectionControllerGroupIds },
     {
       type: "array",
-      items: { enum: fdnextControllerGroupIds }
+      items: { enum: projectionControllerGroupIds }
     }
   ]
 } as const satisfies JsonSchema;
@@ -410,7 +412,7 @@ export const fdnextCapabilitiesJsonSchema = {
             defaultGroups: {
               oneOf: [
                 { const: "all" },
-                { type: "array", items: { enum: fdnextControllerGroupIds } }
+                { type: "array", items: { enum: projectionControllerGroupIds } }
               ]
             },
             groups: {
