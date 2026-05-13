@@ -50,6 +50,7 @@ import type {
   SearchOptions
 } from "./types";
 import type {
+  CapabilitiesInput,
   DecodeIdentifierInput,
   DecodePartInput,
   Candidate,
@@ -476,11 +477,24 @@ function buildCapabilitiesSnapshot(input: {
   controllerGroups: ControllerGroupIndex;
   decoders: PartNumberDecoder[];
   identifierDecoders: IdentifierDecoder[];
+  lang: string;
+  translateString(key: string, lang?: string | null): string;
 }): FdnextCapabilities {
   const controllers = collectFdbControllers(input.fdb);
   const fdbPartNumberCount = countFdbPartNumbers(input.fdb);
   const managedNandPartNumberCount = input.managedNandPartNumbers.length;
   const dramPartNumberCount = input.dramPartNumbers.length;
+  const controllerGroups = input.controllerGroups.groups.map((group) => {
+    const titleKey = `controller_group.${group.id}.title`;
+    const descriptionKey = `controller_group.${group.id}.description`;
+    const title = input.translateString(titleKey, input.lang);
+    const description = input.translateString(descriptionKey, input.lang);
+    return {
+      ...group,
+      title: title !== titleKey ? title : group.title,
+      ...(description !== descriptionKey ? { description } : {})
+    };
+  });
 
   return buildCapabilities({
     server: {
@@ -499,7 +513,7 @@ function buildCapabilitiesSnapshot(input: {
         count: controllers.length,
         items: controllers,
         defaultGroups: input.controllerGroups.defaultGroups,
-        groups: input.controllerGroups.groups
+        groups: controllerGroups
       },
       flashIds: {
         count: input.fdb.flashIds.size
@@ -578,31 +592,35 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const identifierDecoders: IdentifierDecoder[] = [...(options.identifierDecoders ?? [])].sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
-  let cachedCapabilities = buildCapabilitiesSnapshot({
-    fdb,
-    mdb,
-    managedNandPartNumbers,
-    dramPartNumbers,
-    micronDramFbgaCodes,
-    controllerGroups,
-    decoders,
-    identifierDecoders
-  });
-  const refreshCapabilities = (): void => {
-    cachedCapabilities = buildCapabilitiesSnapshot({
-      fdb,
-      mdb,
-      managedNandPartNumbers,
-      dramPartNumbers,
-      micronDramFbgaCodes,
-      controllerGroups,
-      decoders,
-      identifierDecoders
-    });
-  };
-
   const translateString = (key: string, lang?: string | null) => doTranslateString(langPacks, fallbackLang, key, lang);
   const resultBuilderContext = { langPacks, fallbackLang, translateString };
+  const capabilityLanguages = (): string[] => [...new Set([fallbackLang, ...Object.keys(langPacks)])];
+  const buildCachedCapabilities = (): Map<string, FdnextCapabilities> => {
+    const snapshots = new Map<string, FdnextCapabilities>();
+    for (const lang of capabilityLanguages()) {
+      snapshots.set(lang, buildCapabilitiesSnapshot({
+        fdb,
+        mdb,
+        managedNandPartNumbers,
+        dramPartNumbers,
+        micronDramFbgaCodes,
+        controllerGroups,
+        decoders,
+        identifierDecoders,
+        lang,
+        translateString
+      }));
+    }
+    return snapshots;
+  };
+  let cachedCapabilities = buildCachedCapabilities();
+  const refreshCapabilities = (): void => {
+    cachedCapabilities = buildCachedCapabilities();
+  };
+  const cachedCapabilitiesForLang = (lang?: string | null): FdnextCapabilities => {
+    const targetLang = lang && cachedCapabilities.has(lang) ? lang : fallbackLang;
+    return cachedCapabilities.get(targetLang) ?? cachedCapabilities.get(fallbackLang) ?? ([...cachedCapabilities.values()][0] as FdnextCapabilities);
+  };
 
   const translateTemplate = (key: string, fallback: string, params: Record<string, string>, lang?: string | null): string => {
     const translated = translateString(key, lang);
@@ -673,13 +691,14 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
   const runOperation = <R extends FdnextResult | FdnextCapabilities>(
     operation: FdnextOperation | "capabilities",
-    input: DecodePartInput | SearchPartsInput | DecodeIdentifierInput | SearchIdentifiersInput | undefined,
+    input: DecodePartInput | SearchPartsInput | DecodeIdentifierInput | SearchIdentifiersInput | CapabilitiesInput | undefined,
     build: () => R
   ): R => {
+    const query = input && "query" in input ? input.query : "";
     const context: ProcessorOperationContext = {
       operation,
       input,
-      query: input?.query ?? "",
+      query,
       remote: "",
       userAgent: "",
       lang: input?.lang ?? null
@@ -1159,7 +1178,8 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return compact === normalized && normalized.length >= 2 && normalized.length <= 12 && normalized.length % 2 === 0;
   };
 
-  const getCapabilities = (): FdnextCapabilities => runOperation("capabilities", undefined, () => cloneObject(cachedCapabilities));
+  const getCapabilities = (input: CapabilitiesInput = {}): FdnextCapabilities =>
+    runOperation("capabilities", input, () => cloneObject(cachedCapabilitiesForLang(input.lang)));
 
   const decodePart = (input: DecodePartInput): PartDecodeResult => {
     return runOperation("part.decode", input, () => {

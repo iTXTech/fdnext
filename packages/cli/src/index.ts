@@ -28,7 +28,7 @@ function usage(): void {
       "  fdnext decodepack check",
       "  fdnext decodepack explain part <partNumber> [specId]",
       "  fdnext decodepack explain id <identifier> [idScheme]",
-      "  fdnext capabilities"
+      "  fdnext capabilities [lang]"
     ].join("\n") + "\n"
   );
 }
@@ -140,7 +140,7 @@ async function main() {
   });
 
   if (scope === "capabilities") {
-    print(engine.getCapabilities());
+    print(engine.getCapabilities({ lang: args.positionals[1] ?? null }));
     return;
   }
 

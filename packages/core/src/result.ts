@@ -104,14 +104,13 @@ export type FdnextCapabilityName = (typeof fdnextCapabilityNames)[number];
 
 export const fdnextControllerGroupIds = [
   "all",
+  "selected",
   "if:usb",
   "if:sata",
   "if:nvme",
   "if:sd",
-  "if:unknown",
   "era:pre18",
-  "era:plus18",
-  "era:unknown"
+  "era:plus18"
 ] as const;
 
 export type ControllerGroupId = (typeof fdnextControllerGroupIds)[number];
@@ -232,6 +231,10 @@ export interface DecodeIdentifierInput {
 
 export interface SearchIdentifiersInput extends DecodeIdentifierInput {
   limit?: number;
+}
+
+export interface CapabilitiesInput {
+  lang?: string | null;
 }
 
 export type FdnextOperationRequestInput =
@@ -363,6 +366,8 @@ export interface CapabilityFdbInfo {
 
 export interface CapabilityControllerGroup {
   id: ControllerGroupId;
+  title: string;
+  description?: string;
   count: number;
   items?: string[];
 }

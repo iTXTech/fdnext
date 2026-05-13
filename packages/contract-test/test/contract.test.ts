@@ -113,13 +113,25 @@ for (const group of sdkCapabilities.inventory.controllers.groups) {
 const controllerItems = new Set(sdkCapabilities.inventory.controllers.items);
 const allControllerGroup = sdkCapabilities.inventory.controllers.groups.find((group) => group.id === "all");
 assert.ok(allControllerGroup, "all controller group should be reported");
+assert.equal(allControllerGroup.title, "全部主控");
 assert.equal(allControllerGroup.count, controllerItems.size);
 assert.deepEqual(allControllerGroup.items, sdkCapabilities.inventory.controllers.items);
+const selectedControllerGroup = sdkCapabilities.inventory.controllers.groups.find((group) => group.id === "selected");
+assert.ok(selectedControllerGroup, "selected controller group should be reported");
+assert.equal(selectedControllerGroup.title, "精选主控");
+assert.ok(selectedControllerGroup.items?.includes("CBM2199EE"));
+assert.ok(selectedControllerGroup.items?.includes("SM2269XT"));
 for (const group of sdkCapabilities.inventory.controllers.groups.filter((item) => item.id !== "all")) {
   for (const controller of group.items ?? []) {
     assert.ok(controllerItems.has(controller), `${group.id} should only include known controllers`);
   }
 }
+const engCapabilities = engine.getCapabilities({ lang: "eng" });
+const engAllControllerGroup = engCapabilities.inventory.controllers.groups.find((group) => group.id === "all");
+const engSelectedControllerGroup = engCapabilities.inventory.controllers.groups.find((group) => group.id === "selected");
+assert.equal(engAllControllerGroup?.title, "All controllers");
+assert.equal(engSelectedControllerGroup?.title, "Selected controllers");
+assert.deepEqual(engAllControllerGroup?.items, sdkCapabilities.inventory.controllers.items);
 assert.ok(sdkCapabilities.inventory.flashIds.count > 0);
 assert.ok(sdkCapabilities.inventory.partNumbers.total >= sdkCapabilities.inventory.partNumbers.fdb);
 assert.ok(sdkCapabilities.inventory.micronFbga.total >= sdkCapabilities.inventory.micronFbga.dramLookup);
@@ -315,14 +327,16 @@ const richIdentifierHit = micronIdentifierSearch.items.find((item) => item.label
 assert.ok(richIdentifierHit);
 const richIdentifierController = richIdentifierHit.fields?.find((field) => field.key === "controller");
 assert.ok(Array.isArray(richIdentifierController?.value), "identifier search should expose controller lists");
+assert.ok((richIdentifierController.value as unknown[]).includes("JMF608"));
 assert.ok((richIdentifierController.value as unknown[]).includes("SM3270AC"));
 const sataIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: "if:sata" }).items
   .find((item) => item.label === "2C84643CA500");
-assert.deepEqual(searchItemControllerValues(sataIdentifierHit), ["JMF608", "SM2244LT", "SM2246EN", "SM2246XT", "YS9083XT"]);
+assert.deepEqual(searchItemControllerValues(sataIdentifierHit), ["SM2244LT", "SM2246EN", "SM2246XT", "YS9083XT"]);
 const unionIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: ["if:sata", "if:usb"] }).items
   .find((item) => item.label === "2C84643CA500");
 const unionIdentifierControllers = searchItemControllerValues(unionIdentifierHit);
-assert.ok(unionIdentifierControllers.includes("JMF608"));
+assert.ok(!unionIdentifierControllers.includes("JMF608"));
+assert.ok(unionIdentifierControllers.includes("SM2246EN"));
 assert.ok(unionIdentifierControllers.includes("SM3270AC"));
 const nvmeIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: "if:nvme" }).items
   .find((item) => item.label === "2C84643CA500");
@@ -518,6 +532,8 @@ assert.deepEqual(
 const cliCapabilities = runCli(["capabilities"]);
 assert.equal(cliCapabilities.schemaVersion, "fdnext.capabilities.v2");
 assert.deepEqual(cliCapabilities, sdkCapabilities);
+const cliEngCapabilities = runCli(["capabilities", "eng"]);
+assert.equal((cliEngCapabilities.inventory as typeof sdkCapabilities.inventory).controllers.groups[0]?.title, "All controllers");
 
 const http = createHttpServer({ host: "127.0.0.1", port: 8080 });
 async function injectJson(method: "GET" | "POST", url: string): Promise<Record<string, unknown>> {
@@ -548,6 +564,8 @@ assert.deepEqual(httpRepeatedGroupedIdentifierSearch, httpGroupedIdentifierSearc
 const httpCapabilities = await injectJson("GET", "/capabilities");
 assert.equal(httpCapabilities.schemaVersion, "fdnext.capabilities.v2");
 assert.deepEqual(httpCapabilities, sdkCapabilities);
+const httpEngCapabilities = await injectJson("GET", "/capabilities?lang=eng");
+assert.equal((httpEngCapabilities.inventory as typeof sdkCapabilities.inventory).controllers.groups[0]?.title, "All controllers");
 const removedPostEndpoint = await injectJson("POST", "/parts/decode");
 assert.equal(removedPostEndpoint.status, "not_found");
 for (const removedEndpoint of [

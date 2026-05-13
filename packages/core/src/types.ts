@@ -1,6 +1,7 @@
 export type Language = string;
 
 import type {
+  CapabilitiesInput,
   Capability,
   ControllerGroupId,
   ControllerProjectionGroupId,
@@ -202,7 +203,7 @@ export interface IdentifierDecoder {
 
 export interface ProcessorOperationContext {
   operation: FdnextOperation | "capabilities";
-  input?: DecodePartInput | SearchPartsInput | DecodeIdentifierInput | SearchIdentifiersInput;
+  input?: DecodePartInput | SearchPartsInput | DecodeIdentifierInput | SearchIdentifiersInput | CapabilitiesInput;
   query: string;
   remote: string;
   userAgent: string;
@@ -232,7 +233,7 @@ export interface EngineOptions {
 
 export interface FdnextEngine {
   getVersion(): string;
-  getCapabilities(): FdnextCapabilities;
+  getCapabilities(input?: CapabilitiesInput): FdnextCapabilities;
   getFdb(): FdbDataset;
   getMdb(): MdbDataset;
   getLang(): LangPacks;

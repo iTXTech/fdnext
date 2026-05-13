@@ -22,48 +22,59 @@
       "groups": [
         {
           "id": "all",
+          "title": "All controllers",
+          "description": "Complete controller inventory reported by the bundled FDB.",
           "count": 2,
           "items": ["SM2258XT", "YS9082HC"]
         },
         {
+          "id": "selected",
+          "title": "Selected controllers",
+          "description": "Curated controller set for default UI filters and compact support views.",
+          "count": 0,
+          "items": []
+        },
+        {
           "id": "if:usb",
+          "title": "USB controllers",
+          "description": "Controllers used by USB flash drives, portable SSDs, and USB storage devices.",
           "count": 0,
           "items": []
         },
         {
           "id": "if:sata",
+          "title": "SATA controllers",
+          "description": "SSD controllers with a SATA host interface.",
           "count": 2,
           "items": ["SM2258XT", "YS9082HC"]
         },
         {
           "id": "if:nvme",
+          "title": "NVMe controllers",
+          "description": "SSD controllers with a PCIe/NVMe host interface.",
           "count": 0,
           "items": []
         },
         {
           "id": "if:sd",
-          "count": 0,
-          "items": []
-        },
-        {
-          "id": "if:unknown",
+          "title": "SD controllers",
+          "description": "Controllers with an SD-card host interface.",
           "count": 0,
           "items": []
         },
         {
           "id": "era:pre18",
+          "title": "Before 2018",
+          "description": "Controllers first released or already present before 2018.",
           "count": 1,
           "items": ["SM2258XT"]
         },
         {
           "id": "era:plus18",
+          "title": "2018 and later",
+          "description": "Controllers released in 2018 or later.",
           "count": 1,
           "items": ["YS9082HC"]
-        },
-        {
-          "id": "era:unknown",
-          "count": 0,
-          "items": []
         }
       ]
     },

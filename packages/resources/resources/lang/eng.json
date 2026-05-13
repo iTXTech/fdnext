@@ -233,5 +233,21 @@
   "subtitle.kind.dram": "DRAM",
   "subtitle.kind.memory": "Memory chip",
   "subtitle.die_count": "{count} die",
-  "subtitle.plane_count": "{count} planes"
+  "subtitle.plane_count": "{count} planes",
+  "controller_group.all.title": "All controllers",
+  "controller_group.all.description": "Complete controller inventory reported by the bundled FDB.",
+  "controller_group.selected.title": "Selected controllers",
+  "controller_group.selected.description": "Curated controller set for default UI filters and compact support views.",
+  "controller_group.if:usb.title": "USB controllers",
+  "controller_group.if:usb.description": "Controllers used by USB flash drives, portable SSDs, and USB storage devices.",
+  "controller_group.if:sata.title": "SATA controllers",
+  "controller_group.if:sata.description": "SSD controllers with a SATA host interface.",
+  "controller_group.if:nvme.title": "NVMe controllers",
+  "controller_group.if:nvme.description": "SSD controllers with a PCIe/NVMe host interface.",
+  "controller_group.if:sd.title": "SD controllers",
+  "controller_group.if:sd.description": "Controllers with an SD-card host interface.",
+  "controller_group.era:pre18.title": "Before 2018",
+  "controller_group.era:pre18.description": "Controllers first released or already present before 2018.",
+  "controller_group.era:plus18.title": "2018 and later",
+  "controller_group.era:plus18.description": "Controllers released in 2018 or later."
 }

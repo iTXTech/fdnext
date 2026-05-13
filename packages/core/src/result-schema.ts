@@ -419,9 +419,11 @@ export const fdnextCapabilitiesJsonSchema = {
               type: "array",
               items: {
                 type: "object",
-                required: ["id", "count"],
+                required: ["id", "title", "count"],
                 properties: {
                   id: { enum: fdnextControllerGroupIds },
+                  title: { type: "string", minLength: 1 },
+                  description: { type: "string", minLength: 1 },
                   count: { type: "integer", minimum: 0 },
                   items: { type: "array", items: { type: "string", minLength: 1 } }
                 },

@@ -233,5 +233,21 @@
   "subtitle.kind.dram": "DRAM",
   "subtitle.kind.memory": "Memory chip",
   "subtitle.die_count": "{count} die",
-  "subtitle.plane_count": "{count} planes"
+  "subtitle.plane_count": "{count} planes",
+  "controller_group.all.title": "全部主控",
+  "controller_group.all.description": "FDB 报告的完整主控清单。",
+  "controller_group.selected.title": "精选主控",
+  "controller_group.selected.description": "用于默认界面筛选和精简支持视图的精选主控集合。",
+  "controller_group.if:usb.title": "USB 主控",
+  "controller_group.if:usb.description": "用于 U 盘、移动 SSD 或 USB 存储设备的主控。",
+  "controller_group.if:sata.title": "SATA 主控",
+  "controller_group.if:sata.description": "采用 SATA 主机接口的 SSD 主控。",
+  "controller_group.if:nvme.title": "NVMe 主控",
+  "controller_group.if:nvme.description": "采用 PCIe/NVMe 主机接口的 SSD 主控。",
+  "controller_group.if:sd.title": "SD 主控",
+  "controller_group.if:sd.description": "采用 SD 卡主机接口的主控。",
+  "controller_group.era:pre18.title": "2018 年前发布",
+  "controller_group.era:pre18.description": "2018 年前已发布或已存在的主控。",
+  "controller_group.era:plus18.title": "2018 年及以后发布",
+  "controller_group.era:plus18.description": "2018 年及以后发布的主控。"
 }

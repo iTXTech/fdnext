@@ -72,6 +72,7 @@ export function buildControllerGroupIndex(controllers: string[], resource: Contr
       const groupItems = controllers.filter((controller) => groups.get(id)?.has(controller));
       return {
         id,
+        title: id,
         count: groupItems.length,
         items: groupItems
       };

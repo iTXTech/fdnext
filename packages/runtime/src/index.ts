@@ -3,6 +3,7 @@ import {
   FDNEXT_VERSION,
   fdnextExternalLinkCategories,
   fdnextFieldRegistry,
+  type CapabilitiesInput,
   type DecodeIdentifierInput,
   type DecodePartInput,
   type ControllerGroupSelection,
@@ -34,6 +35,7 @@ const corsDefaultAllowHeaders = "content-type";
 
 export type FdnextRuntimeOperation = FdnextOperation | "capabilities" | "index";
 export type FdnextCorsOrigins = "*" | string[];
+type FdnextOperationInput = DecodePartInput | SearchPartsInput | DecodeIdentifierInput | SearchIdentifiersInput;
 
 export interface FdnextCorsOptions {
   origins: FdnextCorsOrigins;
@@ -49,7 +51,7 @@ export interface FdnextRuntimeMeta {
 
 export interface FdnextDispatchRequest {
   operation: FdnextRuntimeOperation;
-  input?: DecodePartInput | SearchPartsInput | DecodeIdentifierInput | SearchIdentifiersInput;
+  input?: CapabilitiesInput | FdnextOperationInput;
   meta?: FdnextRuntimeMeta;
 }
 
@@ -80,7 +82,7 @@ export interface ExternalLinkFacts {
 
 export interface ExternalLinkContext {
   operation: FdnextOperation;
-  input?: DecodePartInput | SearchPartsInput | DecodeIdentifierInput | SearchIdentifiersInput;
+  input?: FdnextOperationInput;
   result: FdnextResult;
   item?: SearchResultItem;
   facts: ExternalLinkFacts;
@@ -310,6 +312,12 @@ function identifierSearchInput(params: URLSearchParams, ...queryKeys: string[]):
   };
 }
 
+function capabilitiesInput(params: URLSearchParams): CapabilitiesInput {
+  return {
+    lang: stringParam(params, "lang") ?? null
+  };
+}
+
 function resolveHttpRoute(method: string, url: URL): FdnextDispatchRequest | null | undefined {
   const normalizedMethod = method.toUpperCase();
   if (normalizedMethod !== "GET" && normalizedMethod !== "HEAD") {
@@ -319,7 +327,7 @@ function resolveHttpRoute(method: string, url: URL): FdnextDispatchRequest | nul
   const path = cleanPath(url.pathname);
   const params = url.searchParams;
   if (path === "/") return { operation: "index" };
-  if (path === "/capabilities") return { operation: "capabilities" };
+  if (path === "/capabilities") return { operation: "capabilities", input: capabilitiesInput(params) };
   if (path === "/parts/decode") {
     return { operation: "part.decode", input: partInput(params, "query") };
   }
@@ -482,7 +490,7 @@ async function collectLinks(
 async function attachExternalLinks(
   providers: ExternalLinkProvider[],
   result: FdnextResult,
-  input: FdnextDispatchRequest["input"],
+  input: FdnextOperationInput | undefined,
   meta: FdnextRuntimeMeta
 ): Promise<FdnextResult> {
   if (providers.length === 0) {
@@ -546,22 +554,23 @@ export function createFdnextRuntime(options: FdnextRuntimeOptions = {}): FdnextR
       return {
         status: 200,
         headers,
-        body: engine.getCapabilities()
+        body: engine.getCapabilities((request.input ?? {}) as CapabilitiesInput)
       };
     }
 
     let result: FdnextResult;
+    const operationInput = request.input as FdnextOperationInput | undefined;
     if (request.operation === "part.decode") {
-      result = engine.decodePart((request.input ?? { query: "" }) as DecodePartInput);
+      result = engine.decodePart((operationInput ?? { query: "" }) as DecodePartInput);
     } else if (request.operation === "part.search") {
-      result = engine.searchParts((request.input ?? { query: "" }) as SearchPartsInput);
+      result = engine.searchParts((operationInput ?? { query: "" }) as SearchPartsInput);
     } else if (request.operation === "identifier.decode") {
-      result = engine.decodeIdentifier((request.input ?? { query: "" }) as DecodeIdentifierInput);
+      result = engine.decodeIdentifier((operationInput ?? { query: "" }) as DecodeIdentifierInput);
     } else {
-      result = engine.searchIdentifiers((request.input ?? { query: "" }) as SearchIdentifiersInput);
+      result = engine.searchIdentifiers((operationInput ?? { query: "" }) as SearchIdentifiersInput);
     }
 
-    const body = await attachExternalLinks(externalLinkProviders, result, request.input, meta);
+    const body = await attachExternalLinks(externalLinkProviders, result, operationInput, meta);
     return {
       status: resultHttpStatus(body),
       headers,
