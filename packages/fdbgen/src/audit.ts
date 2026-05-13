@@ -7,6 +7,7 @@ import {
   normalizeFdbPartNumber,
   normalizeFdbPartReference
 } from "./normalize";
+import { hasVendorIdentityConflict, partNameAuditSignals } from "./part-name-rules";
 import { isControllerOnlyPartPayload } from "./part-payload";
 import type { FdbProvenanceRecord, FdbProvenanceSource, FdbProvenanceTrace } from "./trace";
 import type { FlashIdPayload, PartNumberPayload } from "./types";
@@ -304,6 +305,9 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
       if (hasUnexpectedPunctuation(partNumber)) {
         collector.add("part.punctuation", "warning", "Part-number keys should avoid punctuation except hyphen.", `${vendor} ${partNumber}`, partTrace);
       }
+      for (const signal of partNameAuditSignals(partNumber)) {
+        collector.add(signal.code, "warning", signal.message, `${vendor} ${partNumber}`, partTrace);
+      }
       const classification = classifyFdbPartNumber(partNumber);
       if (classification.kind === "synthetic_alias" || classification.kind === "family_label" || classification.kind === "date_code") {
         stat.syntheticPartNumbers += 1;
@@ -313,6 +317,22 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
       const inferredVendor = inferVendorFromPartNumber(partNumber);
       if (inferredVendor && !isCompatibleVendor(vendor, inferredVendor)) {
         collector.add("part.vendor_mismatch", "error", "Deterministic PN prefixes should be stored under their inferred vendor bucket.", `${vendor} ${partNumber} -> ${inferredVendor}`, partTrace);
+      }
+      if (
+        hasVendorIdentityConflict({
+          storedVendor: vendor,
+          partNumber,
+          rawVendor: partTrace?.raw?.vendor,
+          flashIds: [...asStringArray(record.id), ...asStringArray(record.f)]
+        })
+      ) {
+        collector.add(
+          "part.vendor_identity_conflict",
+          "warning",
+          "Raw vendor and Flash ID vendor agree with each other but conflict with the stored PN vendor bucket.",
+          `${vendor} ${partNumber}`,
+          partTrace
+        );
       }
 
       if (isControllerOnlyPartPayload(record)) {
