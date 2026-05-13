@@ -177,6 +177,16 @@ function assertNotFound(partNumber: string): void {
   assert.equal(result.status, "not_found", `${partNumber} should not be decoded by a generic catch-all rule`);
 }
 
+const kioxiaManagedRuleIds = new Set(["vendor.kioxia.managed.thg.v1"]);
+
+function assertKioxiaManagedRuleMatches(partNumber: string, expected: string[]): void {
+  const actual = compiledPack.partDecoders
+    .filter((decoder) => kioxiaManagedRuleIds.has(decoder.id) && decoder.check(partNumber))
+    .map((decoder) => decoder.id)
+    .sort();
+  assert.deepEqual(actual, [...expected].sort(), `${partNumber} should match only the expected Kioxia managed NAND rule`);
+}
+
 function assertSearchPnFirst(query: string, expected: string): void {
   const result = engine.searchParts({ query, lang: "eng", limit: 1 }).items.map((item) => `${item.device.vendor.name} ${item.label}`);
   assert.deepEqual(result, [expected], `${query} should prefer managed NAND PN suggestions`);
@@ -424,6 +434,14 @@ assertPart("TH58NVG7D2FTA00", {
   }
 });
 
+assertKioxiaManagedRuleMatches("THGBMNG5D1LBAIT", ["vendor.kioxia.managed.thg.v1"]);
+assertKioxiaManagedRuleMatches("THGAMVT0T43BAB8", ["vendor.kioxia.managed.thg.v1"]);
+assertKioxiaManagedRuleMatches("THGVMNG5D1LBAIT", ["vendor.kioxia.managed.thg.v1"]);
+assertKioxiaManagedRuleMatches("THGVX1G7D2GLA08", ["vendor.kioxia.managed.thg.v1"]);
+assertKioxiaManagedRuleMatches("TCGVX1G7D2GLA08", ["vendor.kioxia.managed.thg.v1"]);
+assertKioxiaManagedRuleMatches("THGBX2G7D2JLA01", ["vendor.kioxia.managed.thg.v1"]);
+assertKioxiaManagedRuleMatches("THGVR1G7D2GLA09", ["vendor.kioxia.managed.thg.v1"]);
+
 assertPart("TC58NVG7D2FTA00", {
   vendor: "kioxia",
   type: "NAND",
@@ -551,14 +569,13 @@ assertPart("THGVX1G7D2GLA08", {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
-    Plane: 2,
-    "Package Code": "LA",
+    "Controller Revision": "1",
+    "Die Stack": "2-die",
+    "Package Code": "LA08",
     "Lead free": "Yes",
-    "Halogen free": "Yes",
-    "CE Count": 1,
-    "Channel Count": 1
+    "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count"]
 });
 
 assertPart("TCGVX1G7D2GLA08", {
@@ -572,14 +589,13 @@ assertPart("TCGVX1G7D2GLA08", {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
-    Plane: 2,
-    "Package Code": "LA",
+    "Controller Revision": "1",
+    "Die Stack": "2-die",
+    "Package Code": "LA08",
     "Lead free": "Yes",
-    "Halogen free": "Yes",
-    "CE Count": 1,
-    "Channel Count": 1
+    "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count"]
 });
 
 assertPart("THGBX2G7D2JLA01", {
@@ -593,14 +609,33 @@ assertPart("THGBX2G7D2JLA01", {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
-    Plane: 2,
-    "Package Code": "LA",
+    "Controller Revision": "2",
+    "Die Stack": "2-die",
+    "Package Code": "LA01",
     "Lead free": "Yes",
-    "Halogen free": "Yes",
-    "CE Count": 1,
-    "Channel Count": 1
+    "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count"]
+});
+
+assertPart("THGVR1G7D2GLA09", {
+  vendor: "kioxia",
+  type: "E2NAND",
+  densityMbit: 131072,
+  processField: "24 nm A-type",
+  cellField: "MLC",
+  package: "LGA52 (14 x 18 x 1.0)",
+  extra: {
+    "Managed Family": "SmartNAND",
+    Controller: "Embedded ECC",
+    "ECC enabled": "Yes",
+    "Controller Revision": "1",
+    "Die Stack": "2-die",
+    "Package Code": "LA09",
+    "Lead free": "Yes",
+    "Halogen free": "Yes"
+  },
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count"]
 });
 
 assertPart("MT29FB16T08GALAAM5-TES:B", {

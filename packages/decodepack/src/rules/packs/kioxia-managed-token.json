@@ -1,6 +1,6 @@
 [
   {
-    "id": "vendor.kioxia.emmc.managed.v1",
+    "id": "vendor.kioxia.managed.thg.v1",
     "priority": 1005,
     "normalize": [
       "trim",
@@ -17,12 +17,10 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^THG[VYABD]M[0-9A-Z]{10,13}$"
+      "value": "^(?:T[HC]G)[VYABD][MRX][0-9A-Z]{10,13}$"
     },
     "tokenDecoder": {
-      "stripPrefixes": [
-        "THG"
-      ],
+      "stripPrefixes": [],
       "tables": {
         "voltage": {
           "V": "3.3V",
@@ -31,10 +29,25 @@
           "B": "Vcc: 3.3V, VccQ: 3.3V/1.8V",
           "D": "Vcc: 3.3V/1.8V, VccQ: 3.3V/1.8V"
         },
-        "interfaceObj": {
+        "typeObj": {
           "M": {
             "storage_interface": "eMMC"
+          },
+          "R": {
+            "managed_family": "SmartNAND",
+            "controller": "Embedded ECC",
+            "ecc_enabled": true
+          },
+          "X": {
+            "managed_family": "SmartNAND",
+            "controller": "Embedded ECC",
+            "ecc_enabled": true
           }
+        },
+        "draftProductType": {
+          "M": "emmc",
+          "R": "e2nand",
+          "X": "e2nand"
         },
         "density": {
           "M8": 256,
@@ -320,10 +333,17 @@
         },
         "packageExact": {
           "BAIT": "BGA153",
-          "LA01": "LGA60"
+          "LA01": "LGA60",
+          "LA08": "LGA52 (14 x 18 x 1.04)",
+          "LA09": "LGA52 (14 x 18 x 1.0)"
         }
       },
       "steps": [
+        {
+          "op": "take",
+          "len": 3,
+          "to": "prefixCode"
+        },
         {
           "op": "take",
           "len": 1,
@@ -339,14 +359,21 @@
         {
           "op": "take",
           "len": 1,
-          "to": "interfaceCode"
+          "to": "typeCode"
         },
         {
           "op": "map",
-          "from": "interfaceCode",
-          "table": "interfaceObj",
-          "to": "interfaceObj",
+          "from": "typeCode",
+          "table": "typeObj",
+          "to": "typeObj",
           "default": {}
+        },
+        {
+          "op": "map",
+          "from": "typeCode",
+          "table": "draftProductType",
+          "to": "draftProductType",
+          "default": "emmc"
         },
         {
           "op": "take",
@@ -355,7 +382,7 @@
         },
         {
           "op": "tpl",
-          "template": "{{voltageCode}}{{interfaceCode}}{{controllerRevisionCode}}",
+          "template": "{{voltageCode}}{{typeCode}}{{controllerRevisionCode}}",
           "to": "seriesCode"
         },
         {
@@ -558,14 +585,13 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "system": "KIOXIA managed NAND",
-            "group": "eMMC"
+            "system": "KIOXIA managed NAND"
           }
         },
         {
           "op": "merge",
           "into": "extra",
-          "from": "interfaceObj"
+          "from": "typeObj"
         },
         {
           "op": "merge",
@@ -620,7 +646,9 @@
         "device.domain": "memory",
         "device.vendor": "kioxia",
         "device.chipKind": "managed_nand",
-        "device.productType": "emmc",
+        "device.productType": {
+          "$var": "draftProductType"
+        },
         "fields": {
           "$var": "extra"
         },
@@ -648,7 +676,7 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.kioxia.emmc.managed.v1"
+        "meta.ruleId": "vendor.kioxia.managed.thg.v1"
       }
     }
   }

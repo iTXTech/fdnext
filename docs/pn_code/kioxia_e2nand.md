@@ -6,53 +6,51 @@
 
 - Toshiba SmartNAND 官方新闻说明 24nm SmartNAND 将 NAND flash 与支持 ECC 的 control chip 集成在 NAND package 中，并列出 `THGVR1G7D2GLA09` 等 LGA52 产品线。
   <https://www.global.toshiba/ww/news/corporate/2011/04/pr0601.html>
-- Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3, 2010-09-24: raw NAND 与 `NAND w/ controller` 表给出 `TC/TH` 单/多芯片、density、cell、width/page/block、design rule、package、lead-free/halogen-free 和 package size token。
+- Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3, 2010-09-24: `NAND w/ controller` 表给出 `THG/TCG` 系列中 voltage、type、controller revision、density、cell level、stacked die、design rule、package、lead-free/halogen-free 和 package size token。
 - 本地 `fdb` / `fdfdb` 多源记录 `THGVX1G7D2GLA08`、`TCGVX1G7D2GLA08`、`THGBX2G7D2JLA01` 等 E2NAND 条目。
 
 ## 规则状态
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/kioxia-e2nand-token.json`
-- `vendor.kioxia.e2nand.lga.v1`
+- `packages/decodepack/src/rules/packs/kioxia-managed-token.json`
+- `vendor.kioxia.managed.thg.v1`
 
 PN 结构：
 
 | 结构 | 含义 |
 | --- | --- |
-| `TC/TH` + `GV/GB` + interface + voltage + density + cell + width + process + package | E2NAND |
-| prefix `TC` / `TH` | single-chip / multi-chip 族 |
-| family `GV` / `GB` | E2NAND LGA family |
-| density `G5/G6/G7/G8/G9/T0/T1` | 32Gb 到 2Tb |
-| cell `D/E/J/C/T/U/V/X/F` | MLC / TLC / QLC class |
-| width/page/block code `0..9` | x8/x16 plus page/block size |
-| process `G/H/J/K/L` | 24nm A/B、19nm/1x、A19nm/1y、15nm/1z |
-| package `BA/XL/LA` | BGA/LGA plus lead-free and halogen-free flags |
-| package suffix `LA` / exact `LA01` | `fields.package` 输出 `LGA` / `LGA60`，精确后缀优先 |
-| classification code | channel / CE count |
+| `THG/TCG` + voltage(1) + type(1) + controller revision(1) + density(2) + cell(1) + stacked die(1) + design rule(1) + package/class/size | Toshiba/KIOXIA NAND with controller shared form |
+| voltage `V/Y/A/B/D` | Vcc/VccQ 组合；例如 `THGVX...` 中的 `V` 只表示电压 |
+| type `R/X` | E2NAND / SmartNAND |
+| controller revision | one-character control-chip revision / generation code |
+| density `M8/M9/G0..G9/GA/GB/GC/GD/GE/GF/T0/T1` | 256Mbit 到 2Tbit |
+| cell `S/D/T` | SLC / MLC / TLC |
+| stacked die `1..9/A/B` | 1-9 die / 12 die / 16 die |
+| FG design rule `A/B/C/D/E/F/G/H/J/K/L` | 130 nm 到 15 nm/1z |
+| package `FT/TG/TA/XB/XG/BA/XL/LA` | TSOP / BGA / LGA plus lead-free and halogen-free flags |
+| exact package `LA01/LA08/LA09` | `LGA60` / `LGA52` 精确封装优先 |
 
 ## 输出字段
 
 - `managed_family`
 - `controller`
-- `generation_info`
 - `ecc_enabled`
-- `page_size`
-- `block_size`
-- `plane`
-- `multi_chip`
+- `controller_revision`
+- `die_stack`
 - `package_code`
 - `lead_free`
 - `halogen_free`
-- `ce_count`
-- `channel_count`
 
 ## 测试样例
 
+- `THGVR1G7D2GLA09`
 - `THGVX1G7D2GLA08`
 - `TCGVX1G7D2GLA08`
 - `THGBX2G7D2JLA01`
 
 ## 注意
 
-`THGV*`、`TCGV*`、`THGBX*` 这类 LGA PN 属于 E2NAND / SmartNAND，内部带 ECC control chip，不按普通 raw NAND 输出，也不使用泛化 `nandcon` 类型。
+`THGxR`、`THGxX`、`TCGxX` 这类 PN 属于 E2NAND / SmartNAND，内部带 ECC control chip，不按普通 raw NAND 输出，也不使用泛化 `nandcon` 类型。
+
+E2NAND 与 eMMC 共用 `NAND w/ controller` 尾部 token 表；差异由 type code 决定：`M` 输出 eMMC，`R/X` 输出 E2NAND。不要把 `THGV*` 中的 `V` 当成 family，它只表示 voltage。

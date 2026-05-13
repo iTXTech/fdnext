@@ -27,8 +27,7 @@ import skhynixEmcpTokenRules from "./packs/skhynix-emcp-token.json" with { type:
 import skhynixUmcpTokenRules from "./packs/skhynix-umcp-token.json" with { type: "json" };
 import skhynixE2nandTokenRules from "./packs/skhynix-e2nand-token.json" with { type: "json" };
 import skhynixRawTokenRules from "./packs/skhynix-raw-token.json" with { type: "json" };
-import kioxiaE2nandTokenRules from "./packs/kioxia-e2nand-token.json" with { type: "json" };
-import kioxiaEmmcTokenRules from "./packs/kioxia-emmc-token.json" with { type: "json" };
+import kioxiaManagedTokenRules from "./packs/kioxia-managed-token.json" with { type: "json" };
 import kioxiaUfsTokenRules from "./packs/kioxia-ufs-token.json" with { type: "json" };
 import kioxiaRawTokenRules from "./packs/kioxia-raw-token.json" with { type: "json" };
 import sandiskInandEmmcTokenRules from "./packs/sandisk-inand-emmc-token.json" with { type: "json" };
@@ -85,8 +84,7 @@ export const defaultPartDecodeSpecs = [
   ...skhynixUmcpTokenRules,
   ...skhynixE2nandTokenRules,
   ...skhynixRawTokenRules,
-  ...kioxiaE2nandTokenRules,
-  ...kioxiaEmmcTokenRules,
+  ...kioxiaManagedTokenRules,
   ...kioxiaUfsTokenRules,
   ...kioxiaRawTokenRules,
   ...sandiskInandEmmcTokenRules,

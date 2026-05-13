@@ -14,15 +14,15 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/kioxia-emmc-token.json`
-- `vendor.kioxia.emmc.managed.v1`
+- `packages/decodepack/src/rules/packs/kioxia-managed-token.json`
+- `vendor.kioxia.managed.thg.v1`
 
 PN 结构：
 
 | 结构 | 含义 |
 | --- | --- |
-| `THG` + voltage(1) + interface(1) + controller revision(1) + density(2) + cell(1) + stacked die(1) + design rule(1) + package/class/size | Toshiba/KIOXIA NAND with controller eMMC form |
-| interface `M` | eMMC |
+| `THG` + voltage(1) + type(1) + controller revision(1) + density(2) + cell(1) + stacked die(1) + design rule(1) + package/class/size | Toshiba/KIOXIA NAND with controller shared form |
+| type `M` | eMMC |
 | voltage `V/Y/A/B/D` | Vcc/VccQ 组合 |
 | controller revision | one-character unique controller revision code |
 | density `M8/M9/G0..G9/GA/GB/GC/GD/GE/GF/T0/T1` | 256Mbit 到 2Tbit |
@@ -66,6 +66,6 @@ PN 结构：
 
 ## 注意
 
-KIOXIA `THG*` 还覆盖 UFS 和 E2NAND，不能只靠 `THG` 前缀判断。当前 eMMC 规则必须看到 interface token `M` 才进入 eMMC pack。
+KIOXIA `THG*` 还覆盖 UFS 和 E2NAND，不能只靠 `THG` 前缀判断。当前共享规则中，`THGxM` 的第二个 code `M` 才输出 eMMC；`THGxR` / `THGxX` 输出 E2NAND/SmartNAND。`THGxX` 的第一个 `x` 仍只按 voltage 解释。
 
 eMMC 仍保留既有 2D/BiCS 制程表：FG NAND 从 design rule token 推定 2D 制程，BiCS 系列从 stacked/design token 推定 BiCS 代际。推定结果写入 `fields.process_node`，并保留规则内 `generation_info` 表供审计；公开结果中与 `process_node` 重复的 `generation_info` 会由 core 去重。
