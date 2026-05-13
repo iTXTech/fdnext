@@ -157,6 +157,9 @@ export function classifyFdbPartNumber(partNumber: string): FdbPartNumberClassifi
   }
   if (
     /^(?:BICS\d?|QUALDIE|DUALDIE|GEN\d|NAND|AAA|MCP)[_-]/.test(normalized) ||
+    /^(?:DUALDIE|QUALDIE|SANDISKPRO|SANDISKX16|GEN\d|SNDK|YMTC|SS|HY|EMMC|N18A|B74A|L74|L84A|F41|3DV\d|[0-9][A-Z0-9]{2,3}|[0-9]+G(?:B)?)$/.test(
+      normalized
+    ) ||
     /^K9-/.test(normalized) ||
     normalized === "TC58NVG" ||
     /^MT29F(?:[0-9]+G?(?:08|16)?|[0-9]*)?$/.test(normalized) ||
