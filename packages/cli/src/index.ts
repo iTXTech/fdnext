@@ -1,5 +1,5 @@
 import { resolve } from "node:path";
-import { createEngine } from "@itxtech/fdnext-core";
+import { createEngine, type ControllerGroupSelection } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
 import { checkDecodePack, compileDecodePack, defaultDecodePack, explainIdentifierDecode, explainPartDecode } from "@itxtech/fdnext-decodepack";
 import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
@@ -24,12 +24,57 @@ function usage(): void {
       "  fdnext part search <query> [lang] [limit]",
       "  fdnext id decode <identifier> [lang] [idScheme]",
       "  fdnext id search <query> [lang] [limit] [idScheme]",
+      "  fdnext ... --controller-group <group|all>",
       "  fdnext decodepack check",
       "  fdnext decodepack explain part <partNumber> [specId]",
       "  fdnext decodepack explain id <identifier> [idScheme]",
       "  fdnext capabilities"
     ].join("\n") + "\n"
   );
+}
+
+interface CliArgs {
+  positionals: string[];
+  controllerGroups: string[];
+}
+
+function parseCliArgs(args: string[]): CliArgs {
+  const positionals: string[] = [];
+  const controllerGroups: string[] = [];
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index] ?? "";
+    if (arg === "--controller-group") {
+      const value = args[index + 1];
+      if (!value) {
+        process.stderr.write("Missing --controller-group value\n");
+        process.exit(1);
+      }
+      controllerGroups.push(value);
+      index += 1;
+      continue;
+    }
+    if (arg.startsWith("--controller-group=")) {
+      controllerGroups.push(arg.slice("--controller-group=".length));
+      continue;
+    }
+    positionals.push(arg);
+  }
+  return { positionals, controllerGroups };
+}
+
+function controllerGroupArg(values: string[]): ControllerGroupSelection | undefined {
+  const groups = values.flatMap((value) => value.split(",").map((item) => item.trim()).filter(Boolean));
+  if (groups.length === 0) {
+    return undefined;
+  }
+  if (groups.includes("all")) {
+    if (groups.length > 1) {
+      process.stderr.write("--controller-group all cannot be combined with other groups\n");
+      process.exit(1);
+    }
+    return "all";
+  }
+  return groups.length === 1 ? groups[0] as ControllerGroupSelection : groups as ControllerGroupSelection;
 }
 
 function limitArg(value: string | undefined): number | undefined {
@@ -41,8 +86,10 @@ function limitArg(value: string | undefined): number | undefined {
 }
 
 async function main() {
-  const scope = process.argv[2];
-  const command = process.argv[3];
+  const args = parseCliArgs(process.argv.slice(2));
+  const controllerGroup = controllerGroupArg(args.controllerGroups);
+  const scope = args.positionals[0];
+  const command = args.positionals[1];
   if (!scope) {
     usage();
     process.exit(1);
@@ -58,9 +105,9 @@ async function main() {
   }
 
   if (scope === "decodepack" && command === "explain") {
-    const target = process.argv[4];
-    const query = process.argv[5];
-    const option = process.argv[6];
+    const target = args.positionals[2];
+    const query = args.positionals[3];
+    const option = args.positionals[4];
     if (target !== "part" && target !== "id") {
       process.stderr.write("Expected decodepack explain target: part or id\n");
       process.exit(1);
@@ -98,50 +145,50 @@ async function main() {
   }
 
   if (scope === "part" && command === "decode") {
-    const query = process.argv[4];
-    const lang = process.argv[5] ?? null;
+    const query = args.positionals[2];
+    const lang = args.positionals[3] ?? null;
     if (!query) {
       process.stderr.write("Missing part number\n");
       process.exit(1);
     }
-    print(engine.decodePart({ query, lang }));
+    print(engine.decodePart({ query, lang, ...(controllerGroup ? { controllerGroup } : {}) }));
     return;
   }
 
   if (scope === "part" && command === "search") {
-    const query = process.argv[4];
-    const lang = process.argv[5] ?? null;
-    const limit = limitArg(process.argv[6]);
+    const query = args.positionals[2];
+    const lang = args.positionals[3] ?? null;
+    const limit = limitArg(args.positionals[4]);
     if (!query) {
       process.stderr.write("Missing part query\n");
       process.exit(1);
     }
-    print(engine.searchParts({ query, lang, ...(limit ? { limit } : {}) }));
+    print(engine.searchParts({ query, lang, ...(limit ? { limit } : {}), ...(controllerGroup ? { controllerGroup } : {}) }));
     return;
   }
 
   if (scope === "id" && command === "decode") {
-    const query = process.argv[4];
-    const lang = process.argv[5] ?? null;
-    const idScheme = process.argv[6] as "nand.flash_id" | undefined;
+    const query = args.positionals[2];
+    const lang = args.positionals[3] ?? null;
+    const idScheme = args.positionals[4] as "nand.flash_id" | undefined;
     if (!query) {
       process.stderr.write("Missing identifier\n");
       process.exit(1);
     }
-    print(engine.decodeIdentifier({ query, lang, ...(idScheme ? { idScheme } : {}) }));
+    print(engine.decodeIdentifier({ query, lang, ...(idScheme ? { idScheme } : {}), ...(controllerGroup ? { controllerGroup } : {}) }));
     return;
   }
 
   if (scope === "id" && command === "search") {
-    const query = process.argv[4];
-    const lang = process.argv[5] ?? null;
-    const limit = limitArg(process.argv[6]);
-    const idScheme = process.argv[7] as "nand.flash_id" | undefined;
+    const query = args.positionals[2];
+    const lang = args.positionals[3] ?? null;
+    const limit = limitArg(args.positionals[4]);
+    const idScheme = args.positionals[5] as "nand.flash_id" | undefined;
     if (!query) {
       process.stderr.write("Missing identifier query\n");
       process.exit(1);
     }
-    print(engine.searchIdentifiers({ query, lang, ...(idScheme ? { idScheme } : {}), ...(limit ? { limit } : {}) }));
+    print(engine.searchIdentifiers({ query, lang, ...(idScheme ? { idScheme } : {}), ...(limit ? { limit } : {}), ...(controllerGroup ? { controllerGroup } : {}) }));
     return;
   }
 

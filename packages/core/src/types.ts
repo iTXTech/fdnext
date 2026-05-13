@@ -2,6 +2,8 @@ export type Language = string;
 
 import type {
   Capability,
+  ControllerGroupId,
+  ControllerGroupSelection,
   DecodeIdentifierInput,
   DecodePartInput,
   FdnextCapabilities,
@@ -155,22 +157,30 @@ export interface VendorResourceIndex {
   aliases?: Record<string, string[]>;
 }
 
+export interface ControllerResourceIndex {
+  defaultGroups?: ControllerGroupId[] | "all";
+  groups?: Partial<Record<ControllerGroupId, string[]>>;
+}
+
 export interface FdnextResourceBundle {
   partIndex?: PartResourceIndex;
   identifierIndex?: IdentifierResourceIndex;
   markingIndex?: MarkingResourceIndex;
   vendorIndex?: VendorResourceIndex;
+  controllerIndex?: ControllerResourceIndex;
   translationIndex?: LangPacks;
 }
 
 export interface PartDecodeOptions {
   lang?: Language | null;
+  controllerGroup?: ControllerGroupSelection;
   combineFdb?: boolean;
 }
 
 export interface SearchOptions {
   lang?: Language | null;
   limit?: number;
+  controllerGroup?: ControllerGroupSelection;
   partialMatch?: boolean;
 }
 

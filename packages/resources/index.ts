@@ -1,4 +1,5 @@
 import chsJson from "./resources/lang/chs.json" with { type: "json" };
+import controllerGroupsJson from "./resources/controller-groups.json" with { type: "json" };
 import dramPnJson from "./resources/dram-pn.json" with { type: "json" };
 import engJson from "./resources/lang/eng.json" with { type: "json" };
 import fdbJson from "./resources/fdb.json" with { type: "json" };
@@ -23,6 +24,7 @@ export interface EmbeddedResourceBundle {
     packageMarkings: ResourcesRecord;
   };
   vendorIndex: Record<string, never>;
+  controllerIndex: ResourcesRecord;
   translationIndex: Record<string, LangRecord>;
 }
 
@@ -30,6 +32,7 @@ const flashDatabase = fdbJson as ResourcesRecord;
 const packageMarkings = mdbJson as ResourcesRecord;
 const managedNandParts = managedNandPnJson as SearchResourceRecord;
 const dramParts = dramPnJson as SearchResourceRecord;
+const controllerIndex = controllerGroupsJson as ResourcesRecord;
 const translationIndex = {
   chs: chsJson as LangRecord,
   eng: engJson as LangRecord
@@ -48,6 +51,7 @@ export const embeddedResourceBundle = {
     packageMarkings
   },
   vendorIndex: {},
+  controllerIndex,
   translationIndex
 } satisfies EmbeddedResourceBundle;
 

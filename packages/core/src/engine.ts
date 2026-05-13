@@ -1,4 +1,5 @@
 import { LANGUAGES, UNKNOWN } from "./constants";
+import { buildControllerGroupIndex, projectControllersByGroup, type ControllerGroupIndex } from "./controller-groups";
 import { buildDefaultDecoders } from "./decoders";
 import {
   draftDensity,
@@ -52,6 +53,7 @@ import type {
   DecodeIdentifierInput,
   DecodePartInput,
   Candidate,
+  ControllerGroupSelection,
   FdnextCapabilities,
   FdnextOperation,
   FdnextResult,
@@ -471,6 +473,7 @@ function buildCapabilitiesSnapshot(input: {
   managedNandPartNumbers: KnownPartNumberEntry[];
   dramPartNumbers: KnownPartNumberEntry[];
   micronDramFbgaCodes: Map<string, string[]>;
+  controllerGroups: ControllerGroupIndex;
   decoders: PartNumberDecoder[];
   identifierDecoders: IdentifierDecoder[];
 }): FdnextCapabilities {
@@ -494,7 +497,9 @@ function buildCapabilitiesSnapshot(input: {
     inventory: {
       controllers: {
         count: controllers.length,
-        items: controllers
+        items: controllers,
+        defaultGroups: input.controllerGroups.defaultGroups,
+        groups: input.controllerGroups.groups
       },
       flashIds: {
         count: input.fdb.flashIds.size
@@ -552,6 +557,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const dramPartNumbers = buildKnownPartNumbers(rawDramPn);
   const micronDramFbgaCodes = buildMicronDramFbgaCodes(rawMdb);
   const micronDramFbgaCodeSet = new Set(micronDramFbgaCodes.keys());
+  const controllerGroups = buildControllerGroupIndex(collectFdbControllers(fdb), resourceBundle.controllerIndex);
   const normalizedIndexes = buildNormalizedIndexes({
     fdb,
     mdb,
@@ -578,6 +584,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     managedNandPartNumbers,
     dramPartNumbers,
     micronDramFbgaCodes,
+    controllerGroups,
     decoders,
     identifierDecoders
   });
@@ -588,6 +595,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       managedNandPartNumbers,
       dramPartNumbers,
       micronDramFbgaCodes,
+      controllerGroups,
       decoders,
       identifierDecoders
     });
@@ -707,6 +715,24 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
     return next;
   };
+
+  const projectedControllers = (
+    controllers: string[] | undefined,
+    selection: ControllerGroupSelection | undefined
+  ): string[] => projectControllersByGroup(controllers, controllerGroups, selection);
+
+  const projectPartControllers = (info: PartDecodeDraft, selection: ControllerGroupSelection | undefined): PartDecodeDraft => ({
+    ...info,
+    controllers: projectedControllers(info.controllers, selection)
+  });
+
+  const projectIdentifierControllers = (
+    info: IdentifierDecodeDraft,
+    selection: ControllerGroupSelection | undefined
+  ): IdentifierDecodeDraft => ({
+    ...info,
+    controllers: projectedControllers(info.controllers, selection)
+  });
 
   const decodeNandFlashIdRaw = (id: string): IdentifierDecodeDraft => {
     const normalized = normalizeFlashId(id);
@@ -1016,9 +1042,13 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     decoderPriority: partDecoderPriority
   });
 
-  const suggestionFromPartCandidate = (candidate: PartClassificationCandidate): PartSearchSuggestion => {
+  const suggestionFromPartCandidate = (
+    candidate: PartClassificationCandidate,
+    controllerGroup: ControllerGroupSelection | undefined
+  ): PartSearchSuggestion => {
     const info = candidate.info ?? inspectPartForClassification(candidate.partNumber);
     const density = draftDensity(info);
+    const controllers = projectedControllers(info.controllers, controllerGroup);
     return {
       vendor: candidate.vendor,
       partNumber: candidate.partNumber,
@@ -1026,12 +1056,13 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       ...(candidate.productType ? { productType: candidate.productType } : {}),
       ...(candidate.markingCode ? { markingCode: candidate.markingCode } : {}),
       ...(density ? { density } : {}),
+      ...(controllers.length > 0 ? { controllers } : {}),
       ...(candidate.warnings.length > 0 ? { warnings: candidate.warnings } : {})
     };
   };
 
   const publicCandidatesFromPartClassification = (candidates: PartClassificationCandidate[], lang?: string | null): Candidate[] =>
-    candidates.slice(0, 5).map((candidate) => buildPartCandidate(suggestionFromPartCandidate(candidate), resultBuilderContext, lang));
+    candidates.slice(0, 5).map((candidate) => buildPartCandidate(suggestionFromPartCandidate(candidate, undefined), resultBuilderContext, lang));
 
   const withMarkingCode = (info: PartDecodeDraft, markingCode: string | undefined): PartDecodeDraft => {
     if (!markingCode) {
@@ -1062,7 +1093,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       partialMatch: opts.partialMatch
     });
     return {
-      suggestions: classification.candidates.map(suggestionFromPartCandidate),
+      suggestions: classification.candidates.map((candidate) => suggestionFromPartCandidate(candidate, opts.controllerGroup)),
       warnings: classification.warnings
     };
   };
@@ -1142,6 +1173,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized: input.query,
             ...(input.lang ? { lang: input.lang } : {}),
+            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints: input.constraints ?? {}
           },
           blocks: [],
@@ -1159,6 +1191,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized,
             ...(input.lang ? { lang: input.lang } : {}),
+            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints: input.constraints ?? {}
           },
           blocks: [],
@@ -1175,6 +1208,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized,
             ...(input.lang ? { lang: input.lang } : {}),
+            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints: input.constraints ?? {}
           },
           blocks: [],
@@ -1188,12 +1222,13 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         classification.selected.markingMatch ? classification.selected.markingCode : undefined
       );
       const result = buildPartDecodeResult(
-        info,
+        projectPartControllers(info, input.controllerGroup),
         {
           query: input.query,
           normalized: classification.selected.markingMatch ? classification.selected.markingCode ?? normalized : normalized,
           constraints: input.constraints as OperationConstraints | undefined,
-          lang: input.lang
+          lang: input.lang,
+          controllerGroup: input.controllerGroup
         },
         resultBuilderContext
       );
@@ -1206,7 +1241,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return runOperation("part.search", input, () => {
       const normalized = normalizePartNumber(input.query);
       const search = normalized
-        ? searchPartSuggestions(input.query, input.constraints, { lang: input.lang, limit: input.limit })
+        ? searchPartSuggestions(input.query, input.constraints, { lang: input.lang, limit: input.limit, controllerGroup: input.controllerGroup })
         : { suggestions: [], warnings: [] };
       const result = buildPartSearchResult(
         search.suggestions,
@@ -1214,7 +1249,8 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           query: input.query,
           normalized: normalized || input.query,
           constraints: input.constraints as OperationConstraints | undefined,
-          lang: input.lang
+          lang: input.lang,
+          controllerGroup: input.controllerGroup
         },
         resultBuilderContext
       );
@@ -1237,6 +1273,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized: normalized || input.query,
             ...(input.lang ? { lang: input.lang } : {}),
+            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints
           },
           blocks: [],
@@ -1253,6 +1290,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized: normalized || input.query,
             ...(input.lang ? { lang: input.lang } : {}),
+            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints
           },
           blocks: [],
@@ -1260,14 +1298,15 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           warnings: [{ code: "invalid_nand_flash_id", message: "NAND Flash ID must be an even-length hexadecimal byte string", severity: "warning" }]
         };
       }
-      const info = decodeNandFlashIdRaw(input.query);
+      const info = projectIdentifierControllers(decodeNandFlashIdRaw(input.query), input.controllerGroup);
       return buildIdentifierDecodeResult(
         info,
         {
           query: input.query,
           normalized,
           constraints,
-          lang: input.lang
+          lang: input.lang,
+          controllerGroup: input.controllerGroup
         },
         resultBuilderContext
       );
@@ -1288,6 +1327,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized: normalized || input.query,
             ...(input.lang ? { lang: input.lang } : {}),
+            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints
           },
           items: [],
@@ -1303,6 +1343,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized: normalized || input.query,
             ...(input.lang ? { lang: input.lang } : {}),
+            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints
           },
           items: [],
@@ -1310,12 +1351,17 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         };
       }
       return buildIdentifierSearchResult(
-        normalized ? searchNandFlashIds(normalized, { lang: input.lang, limit: input.limit }).map(decodeNandFlashIdSearchHit) : [],
+        normalized
+          ? searchNandFlashIds(normalized, { lang: input.lang, limit: input.limit })
+              .map(decodeNandFlashIdSearchHit)
+              .map((info) => projectIdentifierControllers(info, input.controllerGroup))
+          : [],
         {
           query: input.query,
           normalized: normalized || input.query,
           constraints,
-          lang: input.lang
+          lang: input.lang,
+          controllerGroup: input.controllerGroup
         },
         resultBuilderContext
       );

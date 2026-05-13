@@ -3,6 +3,7 @@ import {
   FDNEXT_RESULT_SCHEMA_VERSION,
   fdnextCapabilityNames,
   fdnextChipKinds,
+  fdnextControllerGroupIds,
   fdnextDomains,
   fdnextExternalLinkCategories,
   fdnextFieldImportances,
@@ -67,6 +68,17 @@ const operationConstraintsSchema = {
   additionalProperties: false
 } as const satisfies JsonSchema;
 
+const controllerGroupSelectionSchema = {
+  oneOf: [
+    { const: "all" },
+    { enum: fdnextControllerGroupIds },
+    {
+      type: "array",
+      items: { enum: fdnextControllerGroupIds }
+    }
+  ]
+} as const satisfies JsonSchema;
+
 const requestInputSchema = {
   type: "object",
   required: ["query"],
@@ -74,6 +86,7 @@ const requestInputSchema = {
     query: { type: "string", minLength: 1 },
     lang: { type: ["string", "null"] },
     idScheme: { enum: fdnextIdSchemes },
+    controllerGroup: controllerGroupSelectionSchema,
     constraints: operationConstraintsSchema,
     limit: { type: "integer", minimum: 1 }
   },
@@ -89,6 +102,7 @@ export const decodePartInputJsonSchema = {
   properties: {
     query: { type: "string", minLength: 1 },
     lang: { type: ["string", "null"] },
+    controllerGroup: controllerGroupSelectionSchema,
     constraints: {
       type: "object",
       properties: {
@@ -123,6 +137,7 @@ export const decodeIdentifierInputJsonSchema = {
     query: { type: "string", minLength: 1 },
     lang: { type: ["string", "null"] },
     idScheme: { enum: fdnextIdSchemes },
+    controllerGroup: controllerGroupSelectionSchema,
     constraints: operationConstraintsSchema
   },
   additionalProperties: false
@@ -147,6 +162,7 @@ const resultDefs = {
       query: { type: "string", minLength: 1 },
       normalized: { type: "string", minLength: 1 },
       lang: { type: "string", minLength: 1 },
+      controllerGroup: controllerGroupSelectionSchema,
       constraints: { $ref: "#/$defs/operationConstraints" }
     },
     additionalProperties: false
@@ -346,7 +362,7 @@ export const fdnextResultJsonSchema = {
 
 export const fdnextCapabilitiesJsonSchema = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
-  $id: "https://itxtech.org/fdnext/schemas/capabilities-v1.json",
+  $id: "https://itxtech.org/fdnext/schemas/capabilities-v2.json",
   title: "FdnextCapabilities",
   type: "object",
   required: ["schemaVersion", "server", "fdb", "inventory", "decoders", "capabilities"],
@@ -387,10 +403,29 @@ export const fdnextCapabilitiesJsonSchema = {
       properties: {
         controllers: {
           type: "object",
-          required: ["count", "items"],
+          required: ["count", "items", "defaultGroups", "groups"],
           properties: {
             count: { type: "integer", minimum: 0 },
-            items: { type: "array", items: { type: "string", minLength: 1 } }
+            items: { type: "array", items: { type: "string", minLength: 1 } },
+            defaultGroups: {
+              oneOf: [
+                { const: "all" },
+                { type: "array", items: { enum: fdnextControllerGroupIds } }
+              ]
+            },
+            groups: {
+              type: "array",
+              items: {
+                type: "object",
+                required: ["id", "count"],
+                properties: {
+                  id: { enum: fdnextControllerGroupIds },
+                  count: { type: "integer", minimum: 0 },
+                  items: { type: "array", items: { type: "string", minLength: 1 } }
+                },
+                additionalProperties: false
+              }
+            }
           },
           additionalProperties: false
         },

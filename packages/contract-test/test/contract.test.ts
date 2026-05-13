@@ -10,6 +10,7 @@ import {
   FDNEXT_VERSION,
   fdnextBlockIds,
   fdnextChipKinds,
+  fdnextControllerGroupIds,
   fdnextDomains,
   fdnextFieldKeys,
   fdnextIdSchemes,
@@ -79,6 +80,15 @@ function collectBlockIds(result: { blocks?: unknown }): string[] {
     : [];
 }
 
+function controllerFieldValues(value: unknown): string[] {
+  const field = collectResultFields(value).find((item) => item.key === "controller") as { value?: unknown } | undefined;
+  return Array.isArray(field?.value) ? field.value.map(String) : [];
+}
+
+function searchItemControllerValues(item: unknown): string[] {
+  return controllerFieldValues({ item });
+}
+
 const summary = runContractChecks();
 
 assert.equal(summary.checked, 5);
@@ -92,6 +102,26 @@ assert.equal(sdkCapabilities.server.build.commitHash, "dev");
 assert.equal(sdkCapabilities.server.build.buildTime, "1970-01-01T00:00:00.000Z");
 assert.equal(sdkCapabilities.fdb.version, engine.getVersion());
 assert.equal(sdkCapabilities.inventory.controllers.count, sdkCapabilities.inventory.controllers.items.length);
+assert.equal(sdkCapabilities.inventory.controllers.defaultGroups, "all");
+assert.deepEqual(
+  sdkCapabilities.inventory.controllers.groups.map((group) => group.id),
+  [...fdnextControllerGroupIds]
+);
+for (const group of sdkCapabilities.inventory.controllers.groups) {
+  assert.equal(group.count, group.items?.length ?? 0, `${group.id} controller group count should match items`);
+}
+const controllerItems = new Set(sdkCapabilities.inventory.controllers.items);
+for (const prefix of ["if:", "era:"]) {
+  const grouped = new Set(
+    sdkCapabilities.inventory.controllers.groups
+      .filter((group) => group.id.startsWith(prefix))
+      .flatMap((group) => group.items ?? [])
+  );
+  assert.equal(grouped.size, controllerItems.size, `${prefix} controller groups should cover every controller`);
+  for (const controller of controllerItems) {
+    assert.ok(grouped.has(controller), `${prefix} groups should include ${controller}`);
+  }
+}
 assert.ok(sdkCapabilities.inventory.flashIds.count > 0);
 assert.ok(sdkCapabilities.inventory.partNumbers.total >= sdkCapabilities.inventory.partNumbers.fdb);
 assert.ok(sdkCapabilities.inventory.micronFbga.total >= sdkCapabilities.inventory.micronFbga.dramLookup);
@@ -105,7 +135,12 @@ assert.deepEqual(
 );
 const mutatedCapabilities = engine.getCapabilities();
 mutatedCapabilities.inventory.controllers.items.splice(0);
+mutatedCapabilities.inventory.controllers.groups[0]?.items?.splice(0);
 assert.equal(engine.getCapabilities().inventory.controllers.items.length, sdkCapabilities.inventory.controllers.count);
+assert.equal(
+  engine.getCapabilities().inventory.controllers.groups[0]?.items?.length,
+  sdkCapabilities.inventory.controllers.groups[0]?.items?.length
+);
 
 function assertNoDuplicatePartSearchItems(query: string): void {
   const result = engine.searchParts({ query, lang: "eng", limit: 50 });
@@ -283,6 +318,21 @@ assert.ok(richIdentifierHit);
 const richIdentifierController = richIdentifierHit.fields?.find((field) => field.key === "controller");
 assert.ok(Array.isArray(richIdentifierController?.value), "identifier search should expose controller lists");
 assert.ok((richIdentifierController.value as unknown[]).includes("SM3270AC"));
+const sataIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: "if:sata" }).items
+  .find((item) => item.label === "2C84643CA500");
+assert.deepEqual(searchItemControllerValues(sataIdentifierHit), ["JMF608", "SM2244LT", "SM2246EN", "SM2246XT", "YS9083XT"]);
+const unionIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: ["if:sata", "if:usb"] }).items
+  .find((item) => item.label === "2C84643CA500");
+const unionIdentifierControllers = searchItemControllerValues(unionIdentifierHit);
+assert.ok(unionIdentifierControllers.includes("JMF608"));
+assert.ok(unionIdentifierControllers.includes("SM3270AC"));
+const nvmeIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: "if:nvme" }).items
+  .find((item) => item.label === "2C84643CA500");
+assert.deepEqual(searchItemControllerValues(nvmeIdentifierHit), []);
+assert.equal(engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: "if:nvme" }).status, "ok");
+const partSearchControllerHit = engine.searchParts({ query: "MT29F512G08CMCAB", lang: "eng", limit: 5, controllerGroup: "if:usb" }).items
+  .find((item) => item.device.partNumber === "MT29F512G08CMCAB");
+assert.ok(searchItemControllerValues(partSearchControllerHit).includes("SM3270AC"));
 
 assert.equal(
   engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng", constraints: { chipKind: "dram", strict: true } }).status,
@@ -461,8 +511,14 @@ assert.equal((cliPartDecode.device as { chipKind?: string } | undefined)?.chipKi
 const cliIdentifierDecode = runCli(["id", "decode", "2C64444BA900", "eng", "nand.flash_id"]);
 assert.equal(cliIdentifierDecode.operation, "identifier.decode");
 assert.equal((cliIdentifierDecode.input as { constraints?: { idScheme?: string } } | undefined)?.constraints?.idScheme, "nand.flash_id");
+const cliGroupedIdentifierSearch = runCli(["id", "search", "2C8464", "eng", "10", "nand.flash_id", "--controller-group", "if:sata", "--controller-group", "if:nvme"]);
+assert.equal(cliGroupedIdentifierSearch.operation, "identifier.search");
+assert.deepEqual(
+  ((cliGroupedIdentifierSearch.input as { controllerGroup?: unknown } | undefined)?.controllerGroup),
+  ["if:sata", "if:nvme"]
+);
 const cliCapabilities = runCli(["capabilities"]);
-assert.equal(cliCapabilities.schemaVersion, "fdnext.capabilities.v1");
+assert.equal(cliCapabilities.schemaVersion, "fdnext.capabilities.v2");
 assert.deepEqual(cliCapabilities, sdkCapabilities);
 
 const http = createHttpServer({ host: "127.0.0.1", port: 8080 });
@@ -487,8 +543,12 @@ assert.equal((httpIdentifierDecode.input as { constraints?: { idScheme?: string 
 const httpIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C64&lang=eng&limit=3");
 assert.equal(httpIdentifierSearch.operation, "identifier.search");
 assert.ok(Array.isArray(httpIdentifierSearch.items));
+const httpGroupedIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C8464&lang=eng&limit=10&controllerGroup=if:sata,if:nvme");
+assert.equal(httpGroupedIdentifierSearch.operation, "identifier.search");
+const httpRepeatedGroupedIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C8464&lang=eng&limit=10&controllerGroup=if:sata&controllerGroup=if:nvme");
+assert.deepEqual(httpRepeatedGroupedIdentifierSearch, httpGroupedIdentifierSearch);
 const httpCapabilities = await injectJson("GET", "/capabilities");
-assert.equal(httpCapabilities.schemaVersion, "fdnext.capabilities.v1");
+assert.equal(httpCapabilities.schemaVersion, "fdnext.capabilities.v2");
 assert.deepEqual(httpCapabilities, sdkCapabilities);
 const removedPostEndpoint = await injectJson("POST", "/parts/decode");
 assert.equal(removedPostEndpoint.status, "not_found");

@@ -1,7 +1,7 @@
 import packageMetadata from "../package.json" with { type: "json" };
 
 export const FDNEXT_RESULT_SCHEMA_VERSION = "fdnext.result.v1" as const;
-export const FDNEXT_CAPABILITIES_SCHEMA_VERSION = "fdnext.capabilities.v1" as const;
+export const FDNEXT_CAPABILITIES_SCHEMA_VERSION = "fdnext.capabilities.v2" as const;
 declare const __FDNEXT_VERSION__: string;
 declare const __FDNEXT_COMMIT_HASH__: string;
 declare const __FDNEXT_BUILD_TIME__: string;
@@ -102,6 +102,21 @@ export const fdnextCapabilityNames = [
 
 export type FdnextCapabilityName = (typeof fdnextCapabilityNames)[number];
 
+export const fdnextControllerGroupIds = [
+  "if:usb",
+  "if:sata",
+  "if:nvme",
+  "if:sd",
+  "if:unknown",
+  "era:pre18",
+  "era:18-21",
+  "era:22plus",
+  "era:unknown"
+] as const;
+
+export type ControllerGroupId = (typeof fdnextControllerGroupIds)[number];
+export type ControllerGroupSelection = ControllerGroupId | ControllerGroupId[] | "all";
+
 export const fdnextBlockIds = [
   "identity",
   "storage",
@@ -198,6 +213,7 @@ export interface OperationConstraints {
 export interface DecodePartInput {
   query: string;
   lang?: string | null;
+  controllerGroup?: ControllerGroupSelection;
   constraints?: Omit<OperationConstraints, "idScheme">;
 }
 
@@ -209,6 +225,7 @@ export interface DecodeIdentifierInput {
   query: string;
   lang?: string | null;
   idScheme?: FdnextIdScheme;
+  controllerGroup?: ControllerGroupSelection;
   constraints?: OperationConstraints;
 }
 
@@ -226,6 +243,7 @@ export interface NormalizedOperationInput {
   query: string;
   normalized: string;
   lang?: string;
+  controllerGroup?: ControllerGroupSelection;
   constraints: OperationConstraints;
 }
 
@@ -342,10 +360,18 @@ export interface CapabilityFdbInfo {
   website: string;
 }
 
+export interface CapabilityControllerGroup {
+  id: ControllerGroupId;
+  count: number;
+  items?: string[];
+}
+
 export interface CapabilityInventory {
   controllers: {
     count: number;
     items: string[];
+    defaultGroups: ControllerGroupId[] | "all";
+    groups: CapabilityControllerGroup[];
   };
   flashIds: {
     count: number;

@@ -5,6 +5,7 @@ import {
   fdnextFieldRegistry,
   type DecodeIdentifierInput,
   type DecodePartInput,
+  type ControllerGroupSelection,
   type DeviceIdentity,
   type EngineOptions,
   type ExternalLink,
@@ -230,6 +231,19 @@ function limitParam(params: URLSearchParams): number | undefined {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 }
 
+function controllerGroupParam(params: URLSearchParams): ControllerGroupSelection | undefined {
+  const values = params
+    .getAll("controllerGroup")
+    .flatMap((value) => value.split(",").map((item) => item.trim()).filter(Boolean));
+  if (values.length === 0) {
+    return undefined;
+  }
+  if (values.includes("all")) {
+    return "all";
+  }
+  return values.length === 1 ? values[0] as ControllerGroupSelection : values as ControllerGroupSelection;
+}
+
 function booleanParam(params: URLSearchParams, key: string): boolean | undefined {
   const value = stringParam(params, key)?.toLowerCase();
   if (!value) {
@@ -260,9 +274,11 @@ function constraintsParam(params: URLSearchParams): Record<string, unknown> | un
 }
 
 function partInput(params: URLSearchParams, ...queryKeys: string[]): DecodePartInput {
+  const controllerGroup = controllerGroupParam(params);
   return {
     query: queryParam(params, ...queryKeys),
     lang: stringParam(params, "lang") ?? null,
+    ...(controllerGroup ? { controllerGroup } : {}),
     constraints: constraintsParam(params) as DecodePartInput["constraints"] | undefined
   };
 }
@@ -277,9 +293,11 @@ function partSearchInput(params: URLSearchParams, ...queryKeys: string[]): Searc
 
 function identifierInput(params: URLSearchParams, ...queryKeys: string[]): DecodeIdentifierInput {
   const idScheme = stringParam(params, "idScheme") as DecodeIdentifierInput["idScheme"] | undefined;
+  const controllerGroup = controllerGroupParam(params);
   return {
     query: queryParam(params, ...queryKeys),
     lang: stringParam(params, "lang") ?? null,
+    ...(controllerGroup ? { controllerGroup } : {}),
     ...(idScheme ? { idScheme } : {})
   };
 }

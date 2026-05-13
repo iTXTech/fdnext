@@ -266,19 +266,23 @@ assert.deepEqual(
 
 assertValid("decodePart input", decodePartInputJsonSchema, {
   query: "MT62",
+  controllerGroup: "if:sata",
   constraints: { chipKind: "dram", vendor: "micron", strict: true }
 });
 assertValid("searchParts input", searchPartsInputJsonSchema, {
   query: "MTFC",
+  controllerGroup: ["if:sata", "if:nvme"],
   constraints: { productType: "emmc" },
   limit: 10
 });
 assertValid("decodeIdentifier input", decodeIdentifierInputJsonSchema, {
   query: "2C DA 90 95 56",
+  controllerGroup: "if:usb",
   idScheme: "nand.flash_id"
 });
 assertValid("searchIdentifiers input", searchIdentifiersInputJsonSchema, {
   query: "2C",
+  controllerGroup: "all",
   constraints: { idScheme: "nand.flash_id" },
   limit: 5
 });

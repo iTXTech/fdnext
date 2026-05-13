@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "fdnext.capabilities.v1",
+  "schemaVersion": "fdnext.capabilities.v2",
   "server": {
     "name": "fdnext-server",
     "version": "2.2.0",
@@ -17,7 +17,55 @@
   "inventory": {
     "controllers": {
       "count": 2,
-      "items": ["SM2258XT", "YS9082HC"]
+      "items": ["SM2258XT", "YS9082HC"],
+      "defaultGroups": "all",
+      "groups": [
+        {
+          "id": "if:usb",
+          "count": 0,
+          "items": []
+        },
+        {
+          "id": "if:sata",
+          "count": 2,
+          "items": ["SM2258XT", "YS9082HC"]
+        },
+        {
+          "id": "if:nvme",
+          "count": 0,
+          "items": []
+        },
+        {
+          "id": "if:sd",
+          "count": 0,
+          "items": []
+        },
+        {
+          "id": "if:unknown",
+          "count": 0,
+          "items": []
+        },
+        {
+          "id": "era:pre18",
+          "count": 1,
+          "items": ["SM2258XT"]
+        },
+        {
+          "id": "era:18-21",
+          "count": 1,
+          "items": ["YS9082HC"]
+        },
+        {
+          "id": "era:22plus",
+          "count": 0,
+          "items": []
+        },
+        {
+          "id": "era:unknown",
+          "count": 0,
+          "items": []
+        }
+      ]
     },
     "flashIds": {
       "count": 3085

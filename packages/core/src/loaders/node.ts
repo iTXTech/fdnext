@@ -20,6 +20,7 @@ export function loadResourcesFromDir(resourceDir: string): FdnextResourceBundle 
   const packageMarkings = readJsonObject(join(root, "mdb.json"));
   const managedNandParts = readJsonIfExists(join(root, "managed-nand-pn.json"));
   const dramParts = readJsonIfExists(join(root, "dram-pn.json"));
+  const controllerIndex = readJsonIfExists(join(root, "controller-groups.json"));
   const translationIndex: LangPacks = {
     chs: readJsonObject(join(root, "lang", "chs.json")) as Record<string, string>,
     eng: readJsonObject(join(root, "lang", "eng.json")) as Record<string, string>
@@ -38,6 +39,7 @@ export function loadResourcesFromDir(resourceDir: string): FdnextResourceBundle 
       packageMarkings
     },
     vendorIndex: {},
+    controllerIndex: controllerIndex as FdnextResourceBundle["controllerIndex"],
     translationIndex
   };
 }

@@ -59,6 +59,7 @@ export interface PartSearchSuggestion {
   productType?: FdnextProductType;
   markingCode?: string;
   density?: number;
+  controllers?: string[];
   badges?: string[];
   warnings?: ResultWarning[];
 }
@@ -398,11 +399,18 @@ function isKnownPart(info: PartDecodeDraft): boolean {
     isKnownInfoValue(draftField(info, "dram_type"));
 }
 
-function baseInput(query: string, normalized: string, constraints: OperationConstraints, lang?: string | null): NormalizedOperationInput {
+function baseInput(
+  query: string,
+  normalized: string,
+  constraints: OperationConstraints,
+  lang?: string | null,
+  controllerGroup?: NormalizedOperationInput["controllerGroup"]
+): NormalizedOperationInput {
   return {
     query,
     normalized,
     ...(lang ? { lang } : {}),
+    ...(controllerGroup ? { controllerGroup } : {}),
     constraints
   };
 }
@@ -559,7 +567,7 @@ export function buildPartCandidate(suggestion: PartSearchSuggestion, ctx: Result
 
 export function buildPartDecodeResult(
   info: PartDecodeDraft,
-  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null },
+  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null; controllerGroup?: NormalizedOperationInput["controllerGroup"] },
   ctx: ResultBuilderContext
 ): PartDecodeResult {
   const constraints = input.constraints ?? {};
@@ -572,7 +580,7 @@ export function buildPartDecodeResult(
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "part.decode",
     status: known ? "ok" : "not_found",
-    input: baseInput(input.query, input.normalized, constraints, input.lang),
+    input: baseInput(input.query, input.normalized, constraints, input.lang, input.controllerGroup),
     ...(known ? { subtitle: buildPartSubtitle(device, fields, ctx, input.lang), device } : {}),
     blocks: known ? buildBlocks(profileId, detailFieldMap, ctx, input.lang) : [],
     relations: known ? partRelations(info, device, ctx, input.lang) : [],
@@ -622,7 +630,7 @@ function identifierRelations(info: IdentifierDecodeDraft, ctx: ResultBuilderCont
 
 export function buildIdentifierDecodeResult(
   info: IdentifierDecodeDraft,
-  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null },
+  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null; controllerGroup?: NormalizedOperationInput["controllerGroup"] },
   ctx: ResultBuilderContext
 ): IdentifierDecodeResult {
   const constraints = { idScheme: "nand.flash_id", ...(input.constraints ?? {}) } as OperationConstraints;
@@ -634,7 +642,7 @@ export function buildIdentifierDecodeResult(
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "identifier.decode",
     status: known ? "ok" : "not_found",
-    input: baseInput(input.query, input.normalized, constraints, input.lang),
+    input: baseInput(input.query, input.normalized, constraints, input.lang, input.controllerGroup),
     ...(known ? { subtitle: buildIdentifierSubtitle(device, fields, ctx, input.lang), device } : {}),
     blocks: known ? buildBlocks("nand.flash_id", detailFieldMap, ctx, input.lang) : [],
     relations: known ? identifierRelations(info, ctx, input.lang) : [],
@@ -644,7 +652,7 @@ export function buildIdentifierDecodeResult(
 
 export function buildPartSearchResult(
   suggestions: PartSearchSuggestion[],
-  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null },
+  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null; controllerGroup?: NormalizedOperationInput["controllerGroup"] },
   ctx: ResultBuilderContext
 ): PartSearchResult {
   const constraints = input.constraints ?? {};
@@ -655,6 +663,10 @@ export function buildPartSearchResult(
     const fields: FieldValue[] = [];
     if (suggestion.density) {
       fields.push(createField(chipKind === "dram" ? "dram_density" : "density", suggestion.density, ctx, input.lang));
+    }
+    const controllers = knownStringList(suggestion.controllers);
+    if (controllers.length > 0) {
+      fields.push(createField("controller", controllers, ctx, input.lang));
     }
     const badges = suggestion.badges ?? [
       ...(suggestion.markingCode ? [`${device.vendor.name} FBGA`] : [device.vendor.name]),
@@ -695,7 +707,7 @@ export function buildPartSearchResult(
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "part.search",
     status: items.length > 0 ? "ok" : "not_found",
-    input: baseInput(input.query, input.normalized, constraints, input.lang),
+    input: baseInput(input.query, input.normalized, constraints, input.lang, input.controllerGroup),
     items,
     ...(relations.length > 0 ? { relations } : {}),
     warnings: []
@@ -704,7 +716,7 @@ export function buildPartSearchResult(
 
 export function buildIdentifierSearchResult(
   hits: IdentifierDecodeDraft[],
-  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null },
+  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null; controllerGroup?: NormalizedOperationInput["controllerGroup"] },
   ctx: ResultBuilderContext
 ): IdentifierSearchResult {
   const constraints = { idScheme: "nand.flash_id", ...(input.constraints ?? {}) } as OperationConstraints;
@@ -723,7 +735,7 @@ export function buildIdentifierSearchResult(
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "identifier.search",
     status: items.length > 0 ? "ok" : "not_found",
-    input: baseInput(input.query, input.normalized, constraints, input.lang),
+    input: baseInput(input.query, input.normalized, constraints, input.lang, input.controllerGroup),
     items,
     warnings: []
   };
