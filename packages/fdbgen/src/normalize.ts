@@ -12,6 +12,8 @@ export const FDB_FLASH_ID_HEX_LENGTH = FDB_FLASH_ID_BYTES * 2;
 
 const SUPPORT_LIST_MAX_FLASH_ID_HEX_LENGTH = 16;
 const CONTROLLER_NAME = /^(?=.*[A-Z])(?=.*\d)[A-Z0-9][A-Z0-9()-]*$/;
+const PART_METADATA_SUFFIX =
+  /[_-](?:DUAL|TWIN|DIC|QDP|HP|H45|SI\d+|S\d+|BINZZ|GEN\d+|EX\d+|TF_EX\d+|[1248]DIE|[1248]CE|[0-9]+CE[0-9]+DIE|[12]C[1248]D|[0-9A-F]{3,}|L\d{2}|TI\d+|ES|UNKNOWN|SLC|MLC|TLC|QLC|[0-9]+)$/;
 
 export function normalizeFdbPartNumber(partNumber: string): string {
   let normalized = partNumber
@@ -19,7 +21,16 @@ export function normalizeFdbPartNumber(partNumber: string): string {
     .toUpperCase()
     .replace(/\uFFFD/g, "-")
     .replace(/[ ,&.|]/g, "");
+  if (normalized.includes("/")) {
+    return "";
+  }
+  normalized = normalized.replace(/\([^)]*\)/g, "");
+  normalized = normalized.replace(/^INAND_/, "INAND-");
+  normalized = normalized.replace(/_(?:H45|[1248]CE)-/g, "-");
   normalized = normalized.replace(/^EMT29F/, "MT29F");
+  while (PART_METADATA_SUFFIX.test(normalized)) {
+    normalized = normalized.replace(PART_METADATA_SUFFIX, "");
+  }
   while (/\*[0-9A-Z]*$/i.test(normalized)) {
     normalized = normalized.replace(/\*[0-9A-Z]*$/i, "");
   }
