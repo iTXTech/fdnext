@@ -6,6 +6,7 @@ import {
   normalizeFdbPartNumber,
   normalizeFdbPartReference
 } from "./normalize";
+import { isControllerOnlyPartPayload } from "./part-payload";
 import type { FdbProvenanceRecord, FdbProvenanceSource, FdbProvenanceTrace } from "./trace";
 import type { FlashIdPayload, PartNumberPayload } from "./types";
 import { inferVendorFromPartNumber } from "./vendors";
@@ -184,18 +185,6 @@ function stringValue(value: unknown): string | undefined {
   return typeof value === "string" && value.length > 0 ? value : undefined;
 }
 
-function hasPartValue(payload: PartNumberPayload, key: keyof PartNumberPayload): boolean {
-  const value = payload[key];
-  if (Array.isArray(value)) {
-    return value.length > 0;
-  }
-  return value !== undefined && value !== null && value !== "";
-}
-
-function hasAnyPartValue(payload: PartNumberPayload, keys: readonly (keyof PartNumberPayload)[]): boolean {
-  return keys.some((key) => hasPartValue(payload, key));
-}
-
 function isCompatibleVendor(actualVendor: string, inferredVendor: string): boolean {
   if (actualVendor === inferredVendor) {
     return true;
@@ -325,7 +314,7 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
         collector.add("part.vendor_mismatch", "error", "Deterministic PN prefixes should be stored under their inferred vendor bucket.", `${vendor} ${partNumber} -> ${inferredVendor}`, partTrace);
       }
 
-      if (hasPartValue(record, "t") && !hasAnyPartValue(record, ["id", "f", "a", "l", "c", "m", "d", "e", "r", "n"])) {
+      if (isControllerOnlyPartPayload(record)) {
         stat.controllerOnlyPartNumbers += 1;
         collector.add("part.controller_only", "info", "Controller-only PN records should be reduced or moved out of authoritative PN tables.", `${vendor} ${partNumber}`, partTrace);
       }

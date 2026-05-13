@@ -8,6 +8,7 @@ import {
   normalizeFdbPartReference,
   isAuthoritativeFdbPartNumber
 } from "./normalize";
+import { isControllerOnlyPartPayload } from "./part-payload";
 import { createFdbProvenanceTrace, mergeProvenanceSource, type FdbProvenanceSource, type FdbProvenanceTrace } from "./trace";
 import type { ExtraPayload, FdbInfoPayload, FlashIdPayload, GenerateFdbOptions, PartNumberPayload } from "./types";
 import { inferVendorFromPartNumber, normalizeKnownPackage, normalizeVendor } from "./vendors";
@@ -508,6 +509,19 @@ function canonicalizeVendorRecords(vendors: VendorMap): void {
   }
 }
 
+function pruneControllerOnlyPartRecords(vendors: VendorMap): void {
+  for (const [vendor, records] of [...vendors.entries()]) {
+    for (const [partNumber, payload] of [...records.entries()]) {
+      if (isControllerOnlyPartPayload(payload)) {
+        records.delete(partNumber);
+      }
+    }
+    if (records.size === 0) {
+      vendors.delete(vendor);
+    }
+  }
+}
+
 function canonicalizePartReference(value: string, vendors: VendorMap): string | null {
   const normalized = normalizeFdbPartReference(value);
   if (!normalized) {
@@ -786,6 +800,7 @@ function generateFdbInternal(options: GenerateFdbOptions, trace?: FdbProvenanceT
   const extra = loadExtra(inputDir, options.extraFile);
   applyExtra(extra, vendors, iddb, trace, { file: options.extraFile ? resolve(options.extraFile) : resolve(inputDir, "extra.json"), filename: options.extraFile ? basename(options.extraFile) : "extra.json" });
   canonicalizeVendorRecords(vendors);
+  pruneControllerOnlyPartRecords(vendors);
   canonicalizePartPayloadReferences(vendors);
   canonicalizeIddbReferences(iddb, vendors);
   const controllerBlacklist = buildControllerBlacklist(options.controllerBlacklist, extra.controllerBlacklist);
