@@ -30,6 +30,7 @@ export function normalizeFdbVendorName(value: unknown): string {
   let vendor = String(value ?? "").trim().toLowerCase().replace(/\s+/g, " ");
   vendor = vendor
     .replace(/^tsb$/, "toshiba")
+    .replace(/^koxia$/, "kioxia")
     .replace(/^ss$/, "samsung")
     .replace(/^hy$/, "hynix")
     .replace("samaung", "samsung")

@@ -1,4 +1,5 @@
 import { normalizeFdbVendorName } from "../normalize";
+import { inferVendorFromPartNumber } from "../vendors";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 import type { FlashIdPayload } from "../types";
 
@@ -101,7 +102,13 @@ function mergeUfd(context: ControllerMergeContext, data: string, filename: strin
     if ((fields[2] ?? "").length !== 5) {
       fields.splice(2, 0, "");
     }
-    const vendor = normalizeFdbVendorName(fields[0]);
+    let vendor = normalizeFdbVendorName(fields[0]);
+    let rawPartNumber = fields[1] ?? "";
+    const inferredFirstFieldVendor = inferVendorFromPartNumber(fields[0] ?? "");
+    if (!context.vendorExists(vendor) && inferredFirstFieldVendor) {
+      vendor = inferredFirstFieldVendor;
+      rawPartNumber = fields[0] ?? "";
+    }
     if ((fields[3] ?? "").endsWith("LC")) {
       const cellLevel = fields[3] ?? "";
       fields[3] = fields[4] ?? "";
@@ -110,7 +117,7 @@ function mergeUfd(context: ControllerMergeContext, data: string, filename: strin
       fields[3] = `${fields[3] ?? ""} ${fields[5]}`.trim();
       fields[5] = "";
     }
-    const partNumber = context.normalizeKnownPackage(vendor, fields[1] ?? "");
+    const partNumber = context.normalizeKnownPackage(vendor, rawPartNumber);
     context.withSource({ line: lineIndex + 1, raw: line }, () => {
       context.addPartId(vendor, partNumber, id, [controller]);
       if (fields[3]) {

@@ -3,7 +3,7 @@
         "name": "iTXTech fdnext FDB",
         "website": "https:\/\/github.com\/iTXTech\/fdnext",
         "version": "82",
-        "time": "Wed, 13 May 2026 13:53:14 GMT",
+        "time": "Wed, 13 May 2026 15:09:06 GMT",
         "controllers": [
             "AU6987(AN)",
             "AU6989SN",
@@ -31068,7 +31068,7 @@
                 "SM2259XT3"
             ],
             "n": [
-                "koxia FYGLRJ08028M4B"
+                "kioxia FYGLRJ08028M4B"
             ]
         },
         "9848AC037AE6": {
@@ -38593,7 +38593,6 @@
                 "ZC3281"
             ],
             "n": [
-                "ymn06mb1b1am0a R0419",
                 "ymtc YMN06MB1B1AC1A",
                 "ymtc YMN06MB1B1AM0A"
             ]
@@ -38647,7 +38646,6 @@
                 "ZC3281"
             ],
             "n": [
-                "ymn08tb1w00u1b S1104",
                 "ymtc YMN08TB1B1AU1B",
                 "ymtc YMN08TB1B1DU1B",
                 "ymtc YMN08TB1B1RU1B",
@@ -38701,7 +38699,6 @@
                 "ZC3281"
             ],
             "n": [
-                "ymn09tc1b1ac6c U0812",
                 "ymtc YMN09TC1B1AC6C",
                 "ymtc YMN09TC1B1DC6C",
                 "ymtc YMN09TC1B1FC6C",
@@ -59069,6 +59066,14 @@
                 "SF2581"
             ]
         },
+        "FYGLRJ08028M4B": {
+            "id": [
+                "9848AC037AE5"
+            ],
+            "t": [
+                "SM2259XT3"
+            ]
+        },
         "GEN2": {
             "id": [
                 "45489AB37E71",
@@ -70916,16 +70921,6 @@
             "l": "0T25",
             "t": [
                 "SM3265AB"
-            ]
-        }
-    },
-    "koxia": {
-        "FYGLRJ08028M4B": {
-            "id": [
-                "9848AC037AE5"
-            ],
-            "t": [
-                "SM2259XT3"
             ]
         }
     },
@@ -116493,39 +116488,6 @@
             ]
         }
     },
-    "ymn06mb1b1am0a": {
-        "R0419": {
-            "id": [
-                "9B4901009B49"
-            ],
-            "l": "3D",
-            "t": [
-                "SM3271AB"
-            ]
-        }
-    },
-    "ymn08tb1w00u1b": {
-        "S1104": {
-            "id": [
-                "9BC348251000"
-            ],
-            "l": "3D",
-            "t": [
-                "SM3271AB"
-            ]
-        }
-    },
-    "ymn09tc1b1ac6c": {
-        "U0812": {
-            "id": [
-                "9BC428492000"
-            ],
-            "l": "3D TAS",
-            "t": [
-                "SM3271AB"
-            ]
-        }
-    },
     "ymtc": {
         "X2-9060": {
             "id": [
@@ -116555,6 +116517,7 @@
             ],
             "l": "3D",
             "t": [
+                "SM3271AB",
                 "SM3281AB",
                 "SM3281BB"
             ]
@@ -116631,6 +116594,7 @@
             "t": [
                 "SM3265AB",
                 "SM3265AC",
+                "SM3271AB",
                 "SM3281AB",
                 "SM3281BB"
             ]
@@ -116731,6 +116695,7 @@
                 "FC3379",
                 "SM3265AB",
                 "SM3265AC",
+                "SM3271AB",
                 "SM3281BB",
                 "ZC3281"
             ]
