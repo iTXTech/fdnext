@@ -332,7 +332,7 @@ assert.ok((richIdentifierController.value as unknown[]).includes("SM3270AC"));
 const sataIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: "if:sata" }).items
   .find((item) => item.label === "2C84643CA500");
 assert.deepEqual(searchItemControllerValues(sataIdentifierHit), ["SM2244LT", "SM2246EN", "SM2246XT", "YS9083XT"]);
-const unionIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: ["if:sata", "if:usb"] }).items
+const unionIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: ["if:sata", "if:usb20"] }).items
   .find((item) => item.label === "2C84643CA500");
 const unionIdentifierControllers = searchItemControllerValues(unionIdentifierHit);
 assert.ok(!unionIdentifierControllers.includes("JMF608"));
@@ -342,7 +342,7 @@ const nvmeIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng
   .find((item) => item.label === "2C84643CA500");
 assert.deepEqual(searchItemControllerValues(nvmeIdentifierHit), []);
 assert.equal(engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: "if:nvme" }).status, "ok");
-const partSearchControllerHit = engine.searchParts({ query: "MT29F512G08CMCAB", lang: "eng", limit: 5, controllerGroup: "if:usb" }).items
+const partSearchControllerHit = engine.searchParts({ query: "MT29F512G08CMCAB", lang: "eng", limit: 5, controllerGroup: "if:usb20" }).items
   .find((item) => item.device.partNumber === "MT29F512G08CMCAB");
 assert.ok(searchItemControllerValues(partSearchControllerHit).includes("SM3270AC"));
 

@@ -277,7 +277,7 @@ assertValid("searchParts input", searchPartsInputJsonSchema, {
 });
 assertValid("decodeIdentifier input", decodeIdentifierInputJsonSchema, {
   query: "2C DA 90 95 56",
-  controllerGroup: "if:usb",
+  controllerGroup: "if:usb32g1",
   idScheme: "nand.flash_id"
 });
 assertValid("searchIdentifiers input", searchIdentifiersInputJsonSchema, {

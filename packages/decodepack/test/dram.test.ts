@@ -3,7 +3,7 @@ import type { FieldValue, PartDecodeResult } from "../../core/src/index";
 import { createEngine } from "../../core/src/index";
 import dramPnJson from "../../resources/resources/dram-pn.json" with { type: "json" };
 import mdbJson from "../../resources/resources/mdb.json" with { type: "json" };
-import micronFbgaCodesJson from "../../resources/resources/micron-fbga-codes.json" with { type: "json" };
+import micronFbgaCodesJson from "../../../references/micron-fbga-codes.json" with { type: "json" };
 import { embeddedResourceBundle } from "../../resources/index";
 import { compileDecodePack, defaultDecodePack } from "../src/index";
 

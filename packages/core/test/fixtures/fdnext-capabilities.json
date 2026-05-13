@@ -35,9 +35,23 @@
           "items": []
         },
         {
-          "id": "if:usb",
-          "title": "USB controllers",
-          "description": "Controllers used by USB flash drives, portable SSDs, and USB storage devices.",
+          "id": "if:usb20",
+          "title": "USB 2.0 controllers",
+          "description": "USB high-speed flash controllers with a USB 2.0 host interface.",
+          "count": 0,
+          "items": []
+        },
+        {
+          "id": "if:usb32g1",
+          "title": "USB 3.2 Gen 1 controllers",
+          "description": "USB SuperSpeed flash controllers with a 5 Gbps USB 3.x host interface.",
+          "count": 0,
+          "items": []
+        },
+        {
+          "id": "if:usb32g2",
+          "title": "USB 3.2 Gen 2 controllers",
+          "description": "High-speed native USB portable SSD controllers in the USB 3.2 Gen 2 or Gen 2x2 family.",
           "count": 0,
           "items": []
         },
@@ -52,13 +66,6 @@
           "id": "if:nvme",
           "title": "NVMe controllers",
           "description": "SSD controllers with a PCIe/NVMe host interface.",
-          "count": 0,
-          "items": []
-        },
-        {
-          "id": "if:sd",
-          "title": "SD controllers",
-          "description": "Controllers with an SD-card host interface.",
           "count": 0,
           "items": []
         },

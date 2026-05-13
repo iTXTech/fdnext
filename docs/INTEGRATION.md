@@ -217,7 +217,7 @@ pm2 logs fdnext-server
 - `GET /capabilities`
 - `GET /parts/decode?query=MT29F64G08CBABA&lang=eng&controllerGroup=if:sata`
 - `GET /parts/search?query=MT29&lang=eng&limit=10&controllerGroup=if:sata,if:nvme`
-- `GET /identifiers/decode?query=2C64444BA900&lang=eng&controllerGroup=if:usb`
+- `GET /identifiers/decode?query=2C64444BA900&lang=eng&controllerGroup=if:usb32g1`
 - `GET /identifiers/search?query=2C64&lang=eng&limit=10&controllerGroup=all`
 
 `part` routes also accept flat constraint query parameters: `vendor`, `chipKind`, `productType`, and `strict=true|false`.
@@ -227,7 +227,7 @@ pm2 logs fdnext-server
 - 所有路由返回 JSON
 - `/capabilities` 返回服务版本、build metadata（短 `commitHash` 和 `buildTime`）、FDB 版本、完整控制器清单、默认控制器分组、全部控制器分组、FlashID / PN / DRAM PN / Micron FBGA 数量，以及当前引擎注册的 PN / identifier decoder 列表；SDK 的 `engine.getCapabilities()` 与 HTTP 返回同一份结构。
 - `/capabilities` 支持 `lang` 参数，例如 `/capabilities?lang=chs`；SDK 可调用 `engine.getCapabilities({ lang: "chs" })`。controller group 会在启动时按语言包预渲染 `title` / `description`，控制器名称本身保持原始技术标识。
-- 会输出 controller 支持情况的 decode/search 路由支持 `controllerGroup` 覆盖默认分组；可传 `all`、单个 group，或逗号 / repeated 参数表达多个 group。多个 group 使用并集语义。当前公开 group 为 `all`、`selected`、`if:usb`、`if:sata`、`if:nvme`、`if:sd`、`era:pre18`、`era:plus18`；其中 `all` 显式包含完整控制器清单，`selected` 是精选主控集合，其他分组只表达已维护的投影视图。
+- 会输出 controller 支持情况的 decode/search 路由支持 `controllerGroup` 覆盖默认分组；可传 `all`、单个 group，或逗号 / repeated 参数表达多个 group。多个 group 使用并集语义。当前公开 group 为 `all`、`selected`、`if:usb20`、`if:usb32g1`、`if:usb32g2`、`if:sata`、`if:nvme`、`era:pre18`、`era:plus18`；其中 `all` 显式包含完整控制器清单，`selected` 是精选主控集合，其他分组只表达已维护的投影视图。
 - `identifiers` routes default to `nand.flash_id`; only pass `idScheme` if a future scheme needs to be selected explicitly.
 - decode 响应包含 `subtitle`，适合作为列表或详情页副标题；结构化身份仍以 `device` 为准，详情字段在 `blocks[].fields[]`
 - Identifier API 只处理真实 decodable identifier scheme。FBGA 等 marking code 通过 `part.search` 返回 `marking_for` relation；可跳转动作放在对应的 `relations[].action`。

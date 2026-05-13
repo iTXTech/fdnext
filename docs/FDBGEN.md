@@ -118,7 +118,7 @@ pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --t
 pnpm fdbgen:crawl-mdb-from-fbga -- --file packages/resources/resources/mdb.json
 ```
 
-- `--codes <path>`：可选补充 Micron FBGA code JSON，当前为顶层字符串数组，用于保留非默认字母网格的历史例外；读取时会跳过 `crawl-mdb` 使用的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`
+- `--codes <path>`：可选补充 Micron FBGA code JSON，当前参考文件为 `references/micron-fbga-codes.json`，使用顶层字符串数组保存非默认字母网格的历史例外；读取时会跳过 `crawl-mdb` 使用的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`
 - `--file <path>`：`mdb.json` 文件路径（必填）
 - `--start-from <code>`：从指定 FBGA code 或 code 段开始，例如 `D9N` 会从 `D9N*` 段继续跑
 - `--delay-ms <n>`：每次请求间隔（毫秒）

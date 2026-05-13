@@ -105,10 +105,11 @@ export type FdnextCapabilityName = (typeof fdnextCapabilityNames)[number];
 export const fdnextControllerGroupIds = [
   "all",
   "selected",
-  "if:usb",
+  "if:usb20",
+  "if:usb32g1",
+  "if:usb32g2",
   "if:sata",
   "if:nvme",
-  "if:sd",
   "era:pre18",
   "era:plus18"
 ] as const;
