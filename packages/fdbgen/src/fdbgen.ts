@@ -9,6 +9,8 @@ type VendorMap = Map<string, PartNumberMap>;
 type FlashIdMap = Map<string, FlashIdPayload>;
 
 const DEFAULT_CONTROLLER_BLACKLIST = ["3281FL", "3379FL"];
+const FLASH_ID_BYTES = 6;
+const FLASH_ID_HEX_LENGTH = FLASH_ID_BYTES * 2;
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
@@ -33,10 +35,10 @@ function normalizePartNumber(partNumber: string): string {
 
 function normalizeFlashId(id: string): string | null {
   const normalized = id.replace(/\s+/g, "").toUpperCase();
-  if (!normalized || normalized.length % 2 !== 0 || normalized.length < 4 || normalized.length > 16) {
+  if (!normalized || normalized.length % 2 !== 0 || normalized.length < FLASH_ID_HEX_LENGTH || !/^[0-9A-F]+$/.test(normalized)) {
     return null;
   }
-  return /^[0-9A-F]+$/.test(normalized) ? normalized : null;
+  return normalized.slice(0, FLASH_ID_HEX_LENGTH);
 }
 
 function toStringArray(value: unknown, toUpper = false): string[] {

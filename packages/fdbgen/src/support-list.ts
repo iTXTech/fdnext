@@ -114,6 +114,11 @@ export function cleanSupportListPartNumber(value: string): string {
   partNumber = partNumber.replace(/^L(?=(?:JS|PF|MT|FN|29F))/, "");
   partNumber = partNumber.replace(/^JF29F/, "JS29F");
   partNumber = partNumber.replace(/^((?:MT|JS|PF)29F[0-9]+)GB(?=08)/, "$1G");
+  partNumber = partNumber.replace(/^MICRON_((?:MT29|MTFC|MTFD|NW[0-9A-Z]{3,}|FNMB)[A-Z0-9-]*)/, "$1");
+  partNumber = partNumber.replace(/^HYNIX_((?:HY27|H27|H25|H26|H2D|H2J|H9[ATHQ])[A-Z0-9-]*)/, "$1");
+  partNumber = partNumber.replace(/^(?:INTEL|INTER|NTEL)_((?:JS29F|I29F|PF29F|PC29F|PD29F)[A-Z0-9-]*)/, "$1");
+  partNumber = partNumber.replace(/^TOSHIBA_((?:TC58|TH58|THG)[A-Z0-9-]*)/, "$1");
+  partNumber = partNumber.replace(/^SAMSUNG_((?:K9|KLM|KLU|KMD|KMF|KMN|KMV)[A-Z0-9-]*)/, "$1");
   const paren = partNumber.indexOf("(");
   if (paren !== -1) {
     partNumber = partNumber.slice(0, paren);
@@ -159,6 +164,12 @@ function isSyntheticPartNumber(partNumber: string): boolean {
 
 function isGenericPartNumber(partNumber: string): boolean {
   if (/^K9-/.test(partNumber) || partNumber === "TC58NVG") {
+    return true;
+  }
+  if (/^MT29F(?:[0-9]+G?(?:08|16)?|[0-9]*)?$/.test(partNumber)) {
+    return true;
+  }
+  if (/^(?:I|JS|PF|PC|PD)29F[0-9]+[GB]?$/.test(partNumber)) {
     return true;
   }
   return /^SD[A-Z0-9]+$/.test(partNumber) && !/[0-9](?:G|GB|T|TB)/.test(partNumber);
