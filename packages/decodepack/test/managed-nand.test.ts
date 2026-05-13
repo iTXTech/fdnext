@@ -413,6 +413,86 @@ assertPart("FNNL63A51K3WG-AF", {
   }
 });
 
+assertPart("TF10G1BAHA", {
+  vendor: "phison",
+  type: "NAND",
+  densityMbit: 1024,
+  cellField: "SLC",
+  package: "TSOP48",
+  extra: {
+    "Original Vendor": "Kioxia",
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+assertPart("TU56G2LAJA", {
+  vendor: "phison",
+  type: "NAND",
+  densityMbit: 65536,
+  cellField: "MLC",
+  extra: {
+    "Original Vendor": "Kioxia",
+    "Die Count": 2,
+    "CE Count": 2
+  }
+});
+
+assertPart("ST15G24APA", {
+  vendor: "phison",
+  type: "NAND",
+  densityMbit: 32768,
+  cellField: "TLC",
+  package: "TSOP48",
+  extra: {
+    "Original Vendor": "Samsung",
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+assertPart("HA5AG64AVA", {
+  vendor: "phison",
+  type: "NAND",
+  densityMbit: 1048576,
+  processField: "3DV5",
+  cellField: "TLC",
+  package: "BGA132",
+  extra: {
+    "Original Vendor": "SKhynix",
+    "Die Count": 2,
+    "CE Count": 2
+  }
+});
+
+assertPart("IA1AG67AWA", {
+  vendor: "phison",
+  type: "NAND",
+  densityMbit: 1048576,
+  processField: "N28A FG-96L",
+  cellField: "QLC",
+  package: "BGA132",
+  extra: {
+    "Original Vendor": "Micron",
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+assertPart("DT57G2LALC", {
+  vendor: "phison",
+  type: "NAND",
+  densityMbit: 131072,
+  processField: "19nm",
+  cellField: "MLC",
+  package: "TSOP48",
+  extra: {
+    "Original Vendor": "Sandisk",
+    "Die Count": 2,
+    "CE Count": 2
+  }
+});
+
 assertNotFound("SDINZZZ9-128G-ABC");
 assertNotFound("SDISZZZ-016G");
 assertNotFound("SM671PAC-BFS");

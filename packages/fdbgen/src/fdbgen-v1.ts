@@ -39,8 +39,14 @@ export interface FdnextFdbgenV1Document {
   metadata?: Record<string, unknown>;
 }
 
+export type FdnextFdbgenV1EntryMapper = (
+  entry: FdnextFdbgenV1Entry,
+  context: ControllerMergeContext
+) => FdnextFdbgenV1Entry | null | undefined;
+
 export interface FdnextFdbgenV1MergeOptions {
   requireSupportedFlashIdPrefix?: boolean;
+  mapEntry?: FdnextFdbgenV1EntryMapper;
 }
 
 export interface FdnextFdbgenV1MergeResult {
@@ -207,7 +213,11 @@ export function mergeFdnextFdbgenV1Document(
   }
 
   let imported = 0;
-  for (const entry of document.entries) {
+  for (const sourceEntry of document.entries) {
+    const entry = options.mapEntry ? options.mapEntry(sourceEntry, context) : sourceEntry;
+    if (!entry) {
+      continue;
+    }
     const result = mergeSupportListEntry(context, {
       vendor: entry.vendor,
       partNumber: entry.partNumber,

@@ -11,7 +11,7 @@
   "fdb": {
     "name": "iTXTech fdnext FDB",
     "version": "82",
-    "time": "Wed, 13 May 2026 10:44:00 GMT",
+    "time": "Wed, 13 May 2026 11:11:04 GMT",
     "website": "https://github.com/iTXTech/fdnext"
   },
   "inventory": {
@@ -23,8 +23,8 @@
       "count": 3085
     },
     "partNumbers": {
-      "total": 4316,
-      "fdb": 4024,
+      "total": 4047,
+      "fdb": 3755,
       "managedNand": 208,
       "dram": 84
     },

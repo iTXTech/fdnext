@@ -43,6 +43,7 @@ export type {
   FdnextFdbgenV1Controller,
   FdnextFdbgenV1Document,
   FdnextFdbgenV1Entry,
+  FdnextFdbgenV1EntryMapper,
   FdnextFdbgenV1Kind,
   FdnextFdbgenV1MergeOptions,
   FdnextFdbgenV1MergeResult,

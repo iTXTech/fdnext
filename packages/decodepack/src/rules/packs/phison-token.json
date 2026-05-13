@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^[TIKHDCN][APCOKFTBY][135678ABC][0-9A-Z]{7}$"
+      "value": "^[ATIKHDCNS][APCOKFTBYUGJ][135678ABC][0-9A-Z]{7}$"
     },
     "tokenDecoder": {
       "tables": {
@@ -28,7 +28,8 @@
           "H": "skhynix",
           "D": "sndk",
           "C": "ymtc",
-          "N": "intel"
+          "N": "intel",
+          "S": "samsung"
         },
         "package": {
           "A": "BGA132",
@@ -64,6 +65,13 @@
           "C": 16
         },
         "density": {
+          "0G": 1024,
+          "1G": 2048,
+          "2G": 4096,
+          "3G": 8192,
+          "4G": 16384,
+          "5G": 32768,
+          "6G": 65536,
           "7G": 131072,
           "8G": 262144,
           "9G": 524288,
@@ -96,8 +104,10 @@
           "intel:I": "B27B",
           "intel:X": "B37R",
           "intel:Y": "B47R",
+          "intel:W": "N28A FG-96L",
           "skhynix:P": "16nm",
           "skhynix:O": "3DV4",
+          "skhynix:V": "3DV5",
           "ymtc:O": "JGS"
         },
         "cellLevel": {
@@ -118,9 +128,35 @@
           "intel:I": 3,
           "intel:X": 3,
           "intel:Y": 3,
+          "intel:W": 4,
+          "kioxia:L": 2,
           "skhynix:P": 3,
           "skhynix:O": 3,
+          "skhynix:R": 3,
+          "skhynix:V": 3,
           "ymtc:O": 3
+        },
+        "cellCodeLevel": {
+          "B": 1,
+          "F": 2,
+          "G": 2,
+          "I": 1,
+          "K": 3,
+          "L": 2,
+          "M": 3,
+          "N": 2,
+          "O": 2,
+          "Q": 2,
+          "R": 1,
+          "S": 2,
+          "U": 2,
+          "V": 3,
+          "W": 2,
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "7": 4
         }
       },
       "steps": [
@@ -181,8 +217,18 @@
         },
         {
           "op": "take",
-          "len": 3,
-          "to": "skip"
+          "len": 1,
+          "to": "featureCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "optionCode"
         },
         {
           "op": "take",
@@ -218,8 +264,21 @@
           "op": "map",
           "from": "nodeKey",
           "table": "cellLevel",
-          "to": "cellLevel",
+          "to": "nodeCellLevel",
           "default": -1
+        },
+        {
+          "op": "map",
+          "from": "cellCode",
+          "table": "cellCodeLevel",
+          "to": "cellCodeLevel",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "cellCodeLevel",
+          "secondary": "nodeCellLevel",
+          "to": "cellLevel"
         }
       ],
       "assign": {
@@ -248,16 +307,10 @@
           "$var": "cellLevel"
         },
         "fields.die_count": {
-          "$path": [
-            "classification",
-            "die"
-          ]
+          "$var": "die"
         },
         "fields.ce_count": {
-          "$path": [
-            "classification",
-            "ce"
-          ]
+          "$var": "ce"
         },
         "fields.rb_count": {
           "$path": [

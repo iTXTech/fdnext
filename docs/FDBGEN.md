@@ -253,7 +253,7 @@ FirstChip `fc/` 目录同时支持旧版制表符 `.txt`、旧版 FirstChip 原�
 
 标准 v1 JSON 先由共享 `parseFdnextFdbgenV1` 解析器读取，再通过共享 `mergeFdnextFdbgenV1SupportList` / `mergeSupportListEntry` 导入；PN 清理、厂商前缀准入、controller name 归一化、可信 PN 写入 PN 表、不可信 PN 回落 `iddb` 都在该通用组件处理。JSON 输入只读取完整十六进制字节形式的 Flash ID，并只合并当前 NAND Flash ID 解码器支持的厂商前缀（Micron / Intel / Samsung / SK hynix / KIOXIA / SanDisk / YMTC / SpecTek）。未支持控制器别名统一通过 fdbgen 控制器黑名单排除，而不是写在单个 controller parser 中。
 
-Phison UFD 支持列表中的群联侧 PN 会进入 `phison` PN 表，但使用单向字段表达关联：`f` 表示查询该 PN 时可跳转的 Flash ID，`a` 表示可显示的原厂 PN 引用。它们不会触发 `iddb.n` 反向回填，因此查询原厂 PN 或 Flash ID 时不会反向关联群联 PN。
+Phison UFD 支持列表中的群联侧 PN 会进入 `phison` PN 表，但使用单向字段表达关联：`f` 表示查询该 PN 时可跳转的 Flash ID，`a` 表示可显示的原厂 PN 引用。它们不会触发 `iddb.n` 反向回填，因此查询原厂 PN 或 Flash ID 时不会反向关联群联 PN。Phison UFD 只把符合群联 10 位编码形态的 PN 写入 `phison` 表；Micron FBGA / marking code 这类输入只通过 v1 entry 回调清除 PN 后合并到 `iddb[id].t`。
 
 ### 加载顺序
 

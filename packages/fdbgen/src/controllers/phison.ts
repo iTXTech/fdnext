@@ -15,6 +15,8 @@ import { inferVendorFromPartNumber } from "../vendors";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 
 const PHISON_ALIAS_VENDOR = "phison";
+const PHISON_UFD_PART_NUMBER = /^[TIKHDCN][APCOKFTBY][135678ABC][0-9A-Z]{7}$/;
+const MICRON_FBGA_MARKING = /^(?:N[CWXYQV][0-9A-Z]{3,}|F(?:BN|NN|XX|BM|NM)[0-9A-Z-]{3,})$/;
 const UNTRUSTED_PHISON_PART_NUMBER = /^(?:NOMARKING|NO[-_]?MARKING|UNKNOWN|UNMARKED|NA|N\/A|NONE|NULL)(?:[0-9A-Z]*)$/;
 
 function partReference(vendor: string, partNumber: string): string {
@@ -42,11 +44,26 @@ function cleanPhisonAliasPartNumber(rawPartNumber: unknown, id: string): string 
   return partNumber;
 }
 
+function isMicronFbgaMarking(rawPartNumber: unknown): boolean {
+  const raw = String(rawPartNumber ?? "").trim();
+  if (!raw || /[^\x20-\x7E]/.test(raw)) {
+    return false;
+  }
+  return MICRON_FBGA_MARKING.test(cleanSupportListPartNumber(raw));
+}
+
+function mapPhisonUfdEntry(entry: FdnextFdbgenV1Entry): FdnextFdbgenV1Entry {
+  return isMicronFbgaMarking(entry.partNumber) ? { ...entry, partNumber: undefined, vendor: undefined, cellLevel: undefined } : entry;
+}
+
 function collectOriginalPartReferences(context: ControllerMergeContext, document: FdnextFdbgenV1Document): Map<string, string[]> {
   const references = new Map<string, string[]>();
   for (const entry of document.entries) {
     const id = normalizeSupportListFlashId(entry.flashId, true);
     if (!id || !isSupportedSupportListFlashId(id)) {
+      continue;
+    }
+    if (isMicronFbgaMarking(entry.partNumber)) {
       continue;
     }
     const resolved = resolveSupportListPartRecord(context, entry.vendor, entry.partNumber, id);
@@ -70,6 +87,9 @@ function trustedContextPartReferences(context: ControllerMergeContext, id: strin
   for (const ref of context.findPartReferencesByFlashId(id, { excludeVendor: PHISON_ALIAS_VENDOR })) {
     const parsed = splitPartReference(ref);
     if (!parsed) {
+      continue;
+    }
+    if (isMicronFbgaMarking(parsed.partNumber)) {
       continue;
     }
     const resolved = resolveSupportListPartRecord(context, parsed.vendor, parsed.partNumber, id);
@@ -100,6 +120,9 @@ function mergePhisonAlias(
   if (!partNumber) {
     return false;
   }
+  if (!PHISON_UFD_PART_NUMBER.test(partNumber)) {
+    return false;
+  }
   const inferredVendor = inferVendorFromPartNumber(partNumber);
   if (inferredVendor && inferredVendor !== PHISON_ALIAS_VENDOR) {
     return false;
@@ -120,7 +143,7 @@ function mergePhisonAlias(
 
 function mergePhisonFdnextFdbgenV1(context: ControllerMergeContext, document: FdnextFdbgenV1Document): void {
   const originalRefsById = collectOriginalPartReferences(context, document);
-  mergeFdnextFdbgenV1Document(context, document);
+  mergeFdnextFdbgenV1Document(context, document, { mapEntry: mapPhisonUfdEntry });
   const aliasControllers = new Set<string>();
   for (const entry of document.entries) {
     if (mergePhisonAlias(context, entry, originalRefsById)) {
