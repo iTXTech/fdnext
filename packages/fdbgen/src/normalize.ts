@@ -24,6 +24,9 @@ export function normalizeFdbPartNumber(partNumber: string): string {
   if (normalized.includes("/")) {
     return "";
   }
+  if (/(?:^|[-_])X\d+(?:[-_]|$)/.test(normalized)) {
+    return "";
+  }
   normalized = normalized.replace(/\([^)]*\)/g, "");
   normalized = normalized.replace(/^INAND_/, "INAND-");
   normalized = normalized.replace(/_(?:H45|[1248]CE)-/g, "-");
