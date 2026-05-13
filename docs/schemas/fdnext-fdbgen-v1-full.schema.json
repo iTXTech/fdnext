@@ -1,0 +1,154 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://itxtech.org/fdnext/schemas/fdnext-fdbgen-v1-full.schema.json",
+  "title": "fdnext fdbgen v1 full support list",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["v", "e", "cl"],
+  "properties": {
+    "v": {
+      "const": "fdnext.fdbgen.v1f"
+    },
+    "m": {
+      "$ref": "#/$defs/metadata"
+    },
+    "cl": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/controller"
+      }
+    },
+    "e": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/fullEntry"
+      }
+    }
+  },
+  "$defs": {
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "flashId": {
+      "type": "string",
+      "pattern": "^(?:[0-9A-F]{2}){2,8}$"
+    },
+    "controllerName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "compactFields": {
+      "type": "object",
+      "properties": {
+        "pn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "id": {
+          "$ref": "#/$defs/flashId"
+        },
+        "t": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/controllerName"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "fullEntry": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/compactFields"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "pn": {
+              "type": "string",
+              "minLength": 1
+            },
+            "id": {
+              "$ref": "#/$defs/flashId"
+            },
+            "t": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/controllerName"
+              },
+              "uniqueItems": true
+            },
+            "vd": {
+              "type": "string",
+              "minLength": 1
+            },
+            "c": {
+              "type": "string",
+              "minLength": 1
+            },
+            "cap": {
+              "type": "string",
+              "minLength": 1
+            },
+            "pkg": {
+              "type": "string",
+              "minLength": 1
+            },
+            "w": {
+              "type": "string",
+              "minLength": 1
+            },
+            "m": {
+              "$ref": "#/$defs/metadata"
+            }
+          }
+        }
+      ]
+    },
+    "controller": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "n": {
+          "$ref": "#/$defs/controllerName"
+        },
+        "a": {
+          "$ref": "#/$defs/stringList"
+        },
+        "mf": {
+          "type": "string",
+          "minLength": 1
+        },
+        "if": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fw": {
+          "type": "string",
+          "minLength": 1
+        },
+        "rev": {
+          "type": "string",
+          "minLength": 1
+        },
+        "st": {
+          "type": "string",
+          "minLength": 1
+        },
+        "m": {
+          "$ref": "#/$defs/metadata"
+        }
+      }
+    }
+  }
+}

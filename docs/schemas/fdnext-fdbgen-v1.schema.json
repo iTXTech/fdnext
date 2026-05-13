@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://itxtech.org/fdnext/schemas/fdnext-fdbgen-v1.schema.json",
+  "title": "fdnext fdbgen v1 support list",
+  "oneOf": [
+    { "$ref": "fdnext-fdbgen-v1-compact.schema.json" },
+    { "$ref": "fdnext-fdbgen-v1-full.schema.json" }
+  ]
+}

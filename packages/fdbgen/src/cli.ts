@@ -13,6 +13,7 @@ interface CliOptions {
   name?: string;
   website?: string;
   pretty?: boolean;
+  controllerBlacklist?: string[];
   file?: string;
   micronMax?: number;
   spectekMax?: number;
@@ -41,6 +42,8 @@ function usage(): string {
     "  --version <ver>     Required info.version",
     "  --name <name>       Override info.name",
     "  --website <url>     Override info.website",
+    "  --exclude-controller <name>",
+    "                      Exclude a controller from generated FDB output; repeatable",
     "  --pretty            Write pretty JSON (default for MDB crawls)",
     "",
     "MDB crawl options:",
@@ -75,6 +78,14 @@ function requireValue(args: string[], index: number, flag: string): string {
     throw new Error(`Missing value for ${flag}`);
   }
   return value;
+}
+
+function addControllerBlacklist(options: CliOptions, raw: string): void {
+  const items = raw.split(/[,\s]+/).map((item) => item.trim()).filter(Boolean);
+  if (items.length === 0) {
+    return;
+  }
+  options.controllerBlacklist = [...(options.controllerBlacklist ?? []), ...items];
 }
 
 function parseBuildOptions(args: string[]): CliOptions {
@@ -116,6 +127,11 @@ function parseBuildOptions(args: string[]): CliOptions {
     }
     if (arg === "--website") {
       options.website = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--exclude-controller" || arg === "--controller-blacklist") {
+      addControllerBlacklist(options, requireValue(args, i, arg));
       i += 1;
       continue;
     }
@@ -298,7 +314,8 @@ function runBuild(args: string[]): void {
     version: opts.version,
     name: opts.name,
     website: opts.website,
-    pretty: opts.pretty ?? false
+    pretty: opts.pretty ?? false,
+    controllerBlacklist: opts.controllerBlacklist
   });
 
   process.stdout.write(`FDB generated: ${resolve(opts.outputFile)}\n`);

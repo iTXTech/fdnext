@@ -16,6 +16,35 @@ export type {
 } from "./types";
 export { generateFdb } from "./fdbgen";
 export {
+  FDNEXT_FDBGEN_V1_COMPACT_VERSION,
+  FDNEXT_FDBGEN_V1_FULL_VERSION,
+  isFdnextFdbgenV1Version,
+  normalizeFdnextFdbgenV1ControllerName,
+  normalizeFdnextFdbgenV1FlashId,
+  parseFdnextFdbgenV1,
+  parseFdnextFdbgenV1ControllerList,
+  parseFdnextFdbgenV1Json
+} from "./fdbgen-v1";
+export {
+  cleanSupportListPartNumber,
+  cleanTrustedSupportListPartNumber,
+  isSupportedSupportListFlashId,
+  mergeSupportListEntry,
+  normalizeSupportListControllerName,
+  normalizeSupportListFlashId,
+  parseSupportListControllerList,
+  supportListVendorCandidates,
+  vendorFromSupportListFlashId
+} from "./support-list";
+export type {
+  FdnextFdbgenV1Controller,
+  FdnextFdbgenV1Document,
+  FdnextFdbgenV1Entry,
+  FdnextFdbgenV1Kind,
+  FdnextFdbgenV1Version
+} from "./fdbgen-v1";
+export type { SupportListEntryInput, SupportListMergeResult } from "./support-list";
+export {
   DEFAULT_MDB_CONCURRENCY,
   DEFAULT_MDB_FLUSH_HITS,
   DEFAULT_MDB_FBGA_LETTERS,

@@ -63,9 +63,12 @@ pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 - `--extra <file>`：额外合并补丁文件（可选）
 - `--name <name>`：覆盖 `info.name`
 - `--website <url>`：覆盖 `info.website`
+- `--exclude-controller <name>`：从生成的 FDB 输出中排除指定控制器，可重复传入，也可用逗号分隔；默认黑名单包含 `3281FL` / `3379FL`
 - `--pretty`：格式化输出 JSON（`crawl-mdb` 和 `crawl-mdb-from-fbga` 默认已格式化，便于查看 diff）
 
 `info.version` 必须显式传入。`info.time` 始终在生成时写入当前 UTC 时间，不从 `meta.json` / `extra.json` 或命令行覆盖。
+
+提取工具输出的标准支持列表请使用 `fdnext fdbgen v1` 格式，详见 [`FDBGEN_FORMAT_V1.md`](FDBGEN_FORMAT_V1.md)。该格式分为短 key 的 compact (`fdnext.fdbgen.v1c`) 和 full (`fdnext.fdbgen.v1f`)；entry 字段允许缺损，fdbgen 会只消费足够形成有效记录的部分。
 
 `crawl-mdb` 额外参数：
 
@@ -200,6 +203,7 @@ dataset/
   "info": {
     "controllers": ["PS3111"]
   },
+  "controllerBlacklist": ["3281FL", "3379FL"],
   "vendors": {
     "phison": {
       "TA17GABCH0": {
@@ -244,6 +248,8 @@ dataset/
 - `first-chip.ts`：`fc`
 
 主生成器通过 controller registry 维持固定加载顺序，具体解析逻辑由对应控制器厂商文件负责。
+
+FirstChip `fc/` 目录同时支持旧版制表符 `.txt`、旧版 FirstChip 原始 JSON 数组，以及标准 `fdnext fdbgen v1c/v1f` JSON。标准 v1 JSON 先由共享 `parseFdnextFdbgenV1` 解析器读取，controller import 只消费解析后的 PN / Flash ID / controller 信息。PN 清理、厂商前缀准入、controller name 归一化、可信 PN 写入 PN 表、不可信 PN 回落 `iddb` 的行为由共享 `mergeSupportListEntry` 组件处理。JSON 输入只读取完整十六进制字节形式的 Flash ID，并只合并当前 NAND Flash ID 解码器支持的厂商前缀（Micron / Intel / Samsung / SK hynix / KIOXIA / SanDisk / YMTC / SpecTek）。未支持控制器别名统一通过 fdbgen 控制器黑名单排除，而不是写在单个 controller parser 中。
 
 ### 加载顺序
 
@@ -306,6 +312,7 @@ Raw FlashDB 模式：
 - 数值字段（`s/p/b/d/e/r/n`）仅接受有限数值
 - 如果 `*_1` 或尾部 `-` PN 有明确 base PN，会合并回 base PN
 - `iddb.n` 只保留能在 vendor PN 表中找到的反向引用
+- 控制器黑名单会统一作用于 `info.controllers`、PN `t` 和 `iddb.t`，默认排除 `3281FL` / `3379FL`；额外黑名单可通过 CLI `--exclude-controller` 或 `extra.json` 顶层 `controllerBlacklist` 指定
 
 ### 自动回填
 

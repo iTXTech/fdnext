@@ -8,6 +8,8 @@ type PartNumberMap = Map<string, PartNumberPayload>;
 type VendorMap = Map<string, PartNumberMap>;
 type FlashIdMap = Map<string, FlashIdPayload>;
 
+const DEFAULT_CONTROLLER_BLACKLIST = ["3281FL", "3379FL"];
+
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
 }
@@ -111,6 +113,34 @@ function mergeStringArray(target: string[] | undefined, source: string[], toUppe
     set.add(toUpper ? text.toUpperCase() : text);
   }
   return [...set];
+}
+
+function normalizeControllerName(value: unknown): string {
+  return String(value ?? "").trim().toUpperCase();
+}
+
+function buildControllerBlacklist(...sources: Array<unknown>): Set<string> {
+  const blacklist = new Set<string>();
+  for (const item of DEFAULT_CONTROLLER_BLACKLIST) {
+    const normalized = normalizeControllerName(item);
+    if (normalized) {
+      blacklist.add(normalized);
+    }
+  }
+  for (const source of sources) {
+    for (const item of toStringArray(source, false)) {
+      const normalized = normalizeControllerName(item);
+      if (normalized) {
+        blacklist.add(normalized);
+      }
+    }
+  }
+  return blacklist;
+}
+
+function filterControllerArray(controllers: string[] | undefined, blacklist: Set<string>): string[] | undefined {
+  const filtered = mergeStringArray([], controllers ?? [], false).filter((controller) => !blacklist.has(normalizeControllerName(controller)));
+  return filtered.length > 0 ? filtered : undefined;
 }
 
 function mergePartNumber(target: PartNumberPayload | undefined, source: unknown): PartNumberPayload {
@@ -502,7 +532,7 @@ function loadInputDirectory(inputDir: string, vendors: VendorMap, iddb: FlashIdM
 function applyExtra(extra: ExtraPayload, vendors: VendorMap, iddb: FlashIdMap): void {
   const rawExtraVendors: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(extra)) {
-    if (key !== "info" && key !== "vendors" && key !== "iddb") {
+    if (key !== "info" && key !== "controllerBlacklist" && key !== "vendors" && key !== "iddb") {
       rawExtraVendors[key] = value;
     }
   }
@@ -517,6 +547,44 @@ function applyExtra(extra: ExtraPayload, vendors: VendorMap, iddb: FlashIdMap): 
   }
   if (extra.iddb) {
     mergeIddbRecord(iddb, extra.iddb);
+  }
+}
+
+function applyControllerBlacklist(
+  info: FdbInfoPayload,
+  vendors: VendorMap,
+  iddb: FlashIdMap,
+  controllerBlacklist: Set<string>
+): void {
+  if (controllerBlacklist.size === 0) {
+    return;
+  }
+
+  const infoControllers = filterControllerArray(info.controllers, controllerBlacklist);
+  if (infoControllers) {
+    info.controllers = infoControllers;
+  } else {
+    delete info.controllers;
+  }
+
+  for (const records of vendors.values()) {
+    for (const payload of records.values()) {
+      const controllers = filterControllerArray(payload.t, controllerBlacklist);
+      if (controllers) {
+        payload.t = controllers;
+      } else {
+        delete payload.t;
+      }
+    }
+  }
+
+  for (const payload of iddb.values()) {
+    const controllers = filterControllerArray(payload.t, controllerBlacklist);
+    if (controllers) {
+      payload.t = controllers;
+    } else {
+      delete payload.t;
+    }
   }
 }
 
@@ -628,6 +696,7 @@ export function generateFdb(options: GenerateFdbOptions): Record<string, unknown
   applyExtra(extra, vendors, iddb);
   canonicalizeVendorRecords(vendors);
   canonicalizeIddbReferences(iddb, vendors);
+  const controllerBlacklist = buildControllerBlacklist(options.controllerBlacklist, extra.controllerBlacklist);
 
   const supplementalInfo = extra.info ?? {};
   const infoInput: FdbInfoPayload & { version: string } = {
@@ -638,6 +707,7 @@ export function generateFdb(options: GenerateFdbOptions): Record<string, unknown
     ...(options.website ? { website: options.website } : {}),
     version
   };
+  applyControllerBlacklist(infoInput, vendors, iddb, controllerBlacklist);
 
   const output = buildOutput(infoInput, vendors, iddb);
 

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://itxtech.org/fdnext/schemas/fdnext-fdbgen-v1-compact.schema.json",
+  "title": "fdnext fdbgen v1 compact support list",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["v", "e"],
+  "properties": {
+    "v": {
+      "const": "fdnext.fdbgen.v1c"
+    },
+    "e": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/compactEntry"
+      }
+    }
+  },
+  "$defs": {
+    "flashId": {
+      "type": "string",
+      "pattern": "^(?:[0-9A-F]{2}){2,8}$"
+    },
+    "controllerName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "compactEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "pn": {
+          "type": "string",
+          "minLength": 1
+        },
+        "id": {
+          "$ref": "#/$defs/flashId"
+        },
+        "t": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/controllerName"
+          },
+          "uniqueItems": true
+        }
+      }
+    }
+  }
+}

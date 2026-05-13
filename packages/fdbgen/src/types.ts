@@ -26,6 +26,7 @@ export interface FlashIdPayload {
 
 export interface ExtraPayload {
   info?: FdbInfoPayload;
+  controllerBlacklist?: string[];
   vendors?: Record<string, Record<string, PartNumberPayload>>;
   iddb?: Record<string, FlashIdPayload>;
 }
@@ -39,6 +40,7 @@ export interface GenerateFdbOptions {
   name?: string;
   website?: string;
   pretty?: boolean;
+  controllerBlacklist?: string[];
 }
 
 export interface MdbPayload {
