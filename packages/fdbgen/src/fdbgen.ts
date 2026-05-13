@@ -5,7 +5,8 @@ import {
   normalizeFdbControllerName,
   normalizeFdbFlashId,
   normalizeFdbPartNumber,
-  normalizeFdbPartReference
+  normalizeFdbPartReference,
+  isAuthoritativeFdbPartNumber
 } from "./normalize";
 import { createFdbProvenanceTrace, mergeProvenanceSource, type FdbProvenanceSource, type FdbProvenanceTrace } from "./trace";
 import type { ExtraPayload, FdbInfoPayload, FlashIdPayload, GenerateFdbOptions, PartNumberPayload } from "./types";
@@ -269,6 +270,9 @@ function mergePartPayload(
 ): PartNumberPayload | null {
   const normalizedPn = normalizeFdbPartNumber(partNumber);
   if (!normalizedPn) {
+    return null;
+  }
+  if (!isAuthoritativeFdbPartNumber(normalizedPn)) {
     return null;
   }
   const correctedVendor = inferVendorFromPartNumber(normalizedPn) ?? normalizeVendor(vendor);

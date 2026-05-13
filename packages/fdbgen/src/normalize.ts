@@ -163,6 +163,10 @@ export function classifyFdbPartNumber(partNumber: string): FdbPartNumberClassifi
   return { kind: "exact_pn", reasons };
 }
 
+export function isAuthoritativeFdbPartNumber(partNumber: string): boolean {
+  return classifyFdbPartNumber(partNumber).kind === "exact_pn";
+}
+
 export function isTrustedSupportPartNumber(partNumber: string, id: string): boolean {
   const classification = classifyFdbPartNumber(partNumber);
   return (
