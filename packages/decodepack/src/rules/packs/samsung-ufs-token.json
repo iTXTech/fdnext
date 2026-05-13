@@ -732,18 +732,6 @@
         "fields.ce_count": {
           "$path": "dumpedPartObj.ce_count"
         },
-        "fields.rb_count": {
-          "$path": [
-            "classification",
-            "rb"
-          ]
-        },
-        "fields.channel_count": {
-          "$path": [
-            "classification",
-            "ch"
-          ]
-        },
         "meta.ruleId": "vendor.samsung.ufs.token.v1"
       }
     }

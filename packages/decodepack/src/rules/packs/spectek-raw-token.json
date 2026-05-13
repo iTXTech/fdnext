@@ -816,28 +816,16 @@
           "$var": "cellLevel"
         },
         "fields.die_count": {
-          "$path": [
-            "classification",
-            "die"
-          ]
+          "$var": "die"
         },
         "fields.ce_count": {
-          "$path": [
-            "classification",
-            "ce"
-          ]
+          "$var": "ce"
         },
         "fields.rb_count": {
-          "$path": [
-            "classification",
-            "rb"
-          ]
+          "$var": "rb"
         },
         "fields.channel_count": {
-          "$path": [
-            "classification",
-            "ch"
-          ]
+          "$var": "ch"
         },
         "fields.voltage": {
           "$var": "voltage"

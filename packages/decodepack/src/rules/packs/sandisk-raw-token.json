@@ -305,28 +305,10 @@
           "$var": "density"
         },
         "fields.die_count": {
-          "$path": [
-            "classification",
-            "die"
-          ]
-        },
-        "fields.ce_count": {
-          "$path": [
-            "classification",
-            "ce"
-          ]
-        },
-        "fields.rb_count": {
-          "$path": [
-            "classification",
-            "rb"
-          ]
+          "$var": "die"
         },
         "fields.channel_count": {
-          "$path": [
-            "classification",
-            "ch"
-          ]
+          "$var": "channel"
         },
         "meta.ruleId": "vendor.sndk.token.v1"
       }

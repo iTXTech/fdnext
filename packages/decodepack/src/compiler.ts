@@ -709,6 +709,163 @@ function checkComponentRoles(value: unknown, path: string, specId: string, findi
   });
 }
 
+function templateVariableNames(template: string): string[] {
+  return [...template.matchAll(/\{\{([a-zA-Z0-9_]+)\}\}/g)].map((match) => match[1]).filter((name): name is string => Boolean(name));
+}
+
+function addUndefinedVariableFinding(
+  findings: DecodePackCheckFinding[],
+  specId: string,
+  path: string,
+  name: string,
+  defined: Set<string>
+): void {
+  const root = name.split(".")[0] ?? name;
+  if (!defined.has(root)) {
+    addFinding(findings, "error", "undefined_variable", path, `DecodePack expression reads undefined token variable "${name}".`, specId);
+  }
+}
+
+function checkExprVariables(
+  expr: unknown,
+  path: string,
+  specId: string,
+  defined: Set<string>,
+  findings: DecodePackCheckFinding[]
+): void {
+  if (Array.isArray(expr)) {
+    expr.forEach((item, index) => checkExprVariables(item, `${path}[${index}]`, specId, defined, findings));
+    return;
+  }
+  if (!isRecord(expr)) {
+    return;
+  }
+
+  if (typeof expr.$var === "string") {
+    addUndefinedVariableFinding(findings, specId, `${path}.$var`, expr.$var, defined);
+  }
+  if (typeof expr.$path === "string") {
+    addUndefinedVariableFinding(findings, specId, `${path}.$path`, expr.$path, defined);
+  } else if (Array.isArray(expr.$path) && typeof expr.$path[0] === "string") {
+    addUndefinedVariableFinding(findings, specId, `${path}.$path`, expr.$path[0], defined);
+  }
+  if (typeof expr.$tpl === "string") {
+    for (const name of templateVariableNames(expr.$tpl)) {
+      addUndefinedVariableFinding(findings, specId, `${path}.$tpl`, name, defined);
+    }
+  }
+
+  for (const [key, value] of Object.entries(expr)) {
+    if (key === "$var" || key === "$path" || key === "$tpl") {
+      continue;
+    }
+    checkExprVariables(value, `${path}.${key}`, specId, defined, findings);
+  }
+}
+
+function checkTokenVariable(
+  name: string | undefined,
+  path: string,
+  specId: string,
+  defined: Set<string>,
+  findings: DecodePackCheckFinding[]
+): void {
+  if (!name) {
+    return;
+  }
+  addUndefinedVariableFinding(findings, specId, path, name, defined);
+}
+
+function defineTokenVariable(defined: Set<string>, name: string | undefined): void {
+  if (name) {
+    defined.add(name);
+  }
+}
+
+function checkTokenDecoderProgram(spec: PartDecodeSpec, path: string, findings: DecodePackCheckFinding[]): void {
+  const decoder = spec.tokenDecoder;
+  if (!decoder) {
+    return;
+  }
+
+  const defined = new Set(["partNumber", "rest"]);
+  const tables = decoder.tables ?? {};
+
+  decoder.steps.forEach((step, index) => {
+    const stepPath = `${path}.tokenDecoder.steps[${index}]`;
+    if ((step.op === "map" || step.op === "takeLongest") && !Object.hasOwn(tables, step.table)) {
+      addFinding(findings, "error", "missing_table", `${stepPath}.table`, `DecodePack step references missing table "${step.table}".`, spec.id);
+    }
+
+    switch (step.op) {
+      case "take":
+        break;
+      case "takeRegex":
+        break;
+      case "stripIfPrefix":
+        checkTokenVariable(step.if, `${stepPath}.if`, spec.id, defined, findings);
+        break;
+      case "tpl":
+        for (const name of templateVariableNames(step.template)) {
+          addUndefinedVariableFinding(findings, spec.id, `${stepPath}.template`, name, defined);
+        }
+        break;
+      case "fallback":
+        checkTokenVariable(step.primary, `${stepPath}.primary`, spec.id, defined, findings);
+        checkTokenVariable(step.secondary, `${stepPath}.secondary`, spec.id, defined, findings);
+        break;
+      case "mul":
+        checkTokenVariable(step.a, `${stepPath}.a`, spec.id, defined, findings);
+        checkTokenVariable(step.b, `${stepPath}.b`, spec.id, defined, findings);
+        break;
+      case "set":
+        checkExprVariables(step.value, `${stepPath}.value`, spec.id, defined, findings);
+        break;
+      case "merge":
+        checkTokenVariable(step.into, `${stepPath}.into`, spec.id, defined, findings);
+        checkTokenVariable(step.from, `${stepPath}.from`, spec.id, defined, findings);
+        break;
+      case "omit":
+        checkTokenVariable(step.from, `${stepPath}.from`, spec.id, defined, findings);
+        break;
+      case "notEmpty":
+        checkTokenVariable(step.from, `${stepPath}.from`, spec.id, defined, findings);
+        break;
+      case "mergeIf":
+        checkTokenVariable(step.if, `${stepPath}.if`, spec.id, defined, findings);
+        checkTokenVariable(step.into, `${stepPath}.into`, spec.id, defined, findings);
+        checkTokenVariable(step.from, `${stepPath}.from`, spec.id, defined, findings);
+        break;
+      case "takeLongest":
+        break;
+      case "map":
+        checkTokenVariable(step.from, `${stepPath}.from`, spec.id, defined, findings);
+        break;
+    }
+
+    if ("to" in step) {
+      defineTokenVariable(defined, step.to);
+    }
+    if (step.op === "takeRegex") {
+      Object.keys(step.groups ?? {}).forEach((target) => defineTokenVariable(defined, target));
+    }
+  });
+
+  for (const [key, value] of Object.entries(decoder.assign)) {
+    checkExprVariables(value, `${path}.tokenDecoder.assign.${key}`, spec.id, defined, findings);
+  }
+}
+
+function checkPartSetVariables(spec: PartDecodeSpec, path: string, findings: DecodePackCheckFinding[]): void {
+  if (!spec.set) {
+    return;
+  }
+  const defined = new Set(["partNumber", "rest"]);
+  for (const [key, value] of Object.entries(spec.set)) {
+    checkExprVariables(value, `${path}.set.${key}`, spec.id, defined, findings);
+  }
+}
+
 function checkIdentifierDefinition(spec: IdentifierDecodeSpec, path: string, findings: DecodePackCheckFinding[]): void {
   for (const [offsetKey, fields] of Object.entries(spec.definition)) {
     for (const fieldName of Object.keys(fields)) {
@@ -779,6 +936,8 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
       }
       if (kind === "part") {
         const partSpec = spec as PartDecodeSpec;
+        checkPartSetVariables(partSpec, path, findings);
+        checkTokenDecoderProgram(partSpec, path, findings);
         checkOutputSurface(partSpec.set, `${path}.set`, partSpec.id, findings);
         checkOutputSurface(partSpec.tokenDecoder?.assign, `${path}.tokenDecoder.assign`, partSpec.id, findings);
       } else {

@@ -311,28 +311,7 @@
           "$var": "package"
         },
         "fields.die_count": {
-          "$path": [
-            "classification",
-            "die"
-          ]
-        },
-        "fields.ce_count": {
-          "$path": [
-            "classification",
-            "ce"
-          ]
-        },
-        "fields.rb_count": {
-          "$path": [
-            "classification",
-            "rb"
-          ]
-        },
-        "fields.channel_count": {
-          "$path": [
-            "classification",
-            "ch"
-          ]
+          "$var": "die"
         },
         "meta.ruleId": "vendor.ymtc.ufs-label.v1"
       }

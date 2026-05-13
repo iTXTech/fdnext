@@ -10,8 +10,10 @@ import {
   defaultDecodePack,
   defaultIdentifierDecodeSpecs,
   defaultPartDecodeSpecs,
+  type DecodePack,
   explainIdentifierDecode,
-  explainPartDecode
+  explainPartDecode,
+  type PartDecodeSpec
 } from "../src/index";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
@@ -542,6 +544,43 @@ function assertDefaultDecodePackMaintainsItself(): void {
   assert.equal(result.ok, true);
 }
 
+function assertDecodePackCheckRejectsUndefinedTokenVariables(): void {
+  const result = checkDecodePack({
+    partSpecs: [
+      {
+        id: "test.undefined-variable",
+        match: {
+          kind: "prefix",
+          value: "X"
+        },
+        tokenDecoder: {
+          steps: [],
+          assign: {
+            "device.partNumber": {
+              $var: "partNumber"
+            },
+            "fields.die_count": {
+              $path: ["classificaion", "die"]
+            }
+          }
+        }
+      }
+    ],
+    identifierSpecs: []
+  } satisfies DecodePack);
+
+  assert.equal(result.ok, false);
+  assert.ok(
+    result.findings.some(
+      (finding) =>
+        finding.code === "undefined_variable" &&
+        finding.specId === "test.undefined-variable" &&
+        finding.path === "partSpecs[0].tokenDecoder.assign.fields.die_count.$path"
+    ),
+    `expected undefined token variable finding, got ${JSON.stringify(result.findings)}`
+  );
+}
+
 function assertDecodePackExplainTools(): void {
   const partExplain = explainPartDecode(defaultDecodePack, "BWCA2KZC-64G");
   assert.equal(partExplain.status, "matched");
@@ -623,5 +662,6 @@ assertManagedNandOutputIsCanonical();
 assertPublicResultsDoNotExposeInternalPackFields();
 assertDecodePackCompositeComponents();
 assertDefaultDecodePackMaintainsItself();
+assertDecodePackCheckRejectsUndefinedTokenVariables();
 assertDecodePackExplainTools();
 assertRemovedNamesStayRemoved();
