@@ -15,7 +15,7 @@ Schema 文件：
 
 解析器入口为 `@itxtech/fdnext-fdbgen` 导出的 `parseFdnextFdbgenV1` / `parseFdnextFdbgenV1Json`。解析器只负责 v1 文档识别、短 key 读取、Flash ID / controller name 基础校验和 full metadata 保留。
 
-支持列表导入入口为 `mergeSupportListEntry`。PN 清理、厂商前缀准入、controller name 归一化、可信 PN 写入 PN 表、不可信 PN 回落 `iddb` 的行为都集中在该通用组件里；具体 controller import 只需要把自己的原始字段映射成 `vendor/partNumber/flashId/controllers/cellLevel`。
+支持列表导入入口为 `mergeFdnextFdbgenV1SupportList` / `mergeSupportListEntry`。PN 清理、厂商前缀准入、controller name 归一化、可信 PN 写入 PN 表、不可信 PN 回落 `iddb` 的行为都集中在该通用组件里；具体 controller import 只需要把自己的原始字段映射成 `vendor/partNumber/flashId/controllers/cellLevel`，标准 v1 JSON 可直接调用 `mergeFdnextFdbgenV1SupportList`。
 
 ## Compact
 

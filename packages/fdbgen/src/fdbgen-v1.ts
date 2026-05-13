@@ -1,4 +1,6 @@
+import type { ControllerMergeContext } from "./controllers/types";
 import { normalizeSupportListControllerName, parseSupportListControllerList } from "./support-list";
+import { mergeSupportListEntry } from "./support-list";
 
 export const FDNEXT_FDBGEN_V1_COMPACT_VERSION = "fdnext.fdbgen.v1c";
 export const FDNEXT_FDBGEN_V1_FULL_VERSION = "fdnext.fdbgen.v1f";
@@ -35,6 +37,16 @@ export interface FdnextFdbgenV1Document {
   entries: FdnextFdbgenV1Entry[];
   controllers: FdnextFdbgenV1Controller[];
   metadata?: Record<string, unknown>;
+}
+
+export interface FdnextFdbgenV1MergeOptions {
+  requireSupportedFlashIdPrefix?: boolean;
+}
+
+export interface FdnextFdbgenV1MergeResult {
+  controllers: string[];
+  entries: number;
+  imported: number;
 }
 
 const FDNEXT_FDBGEN_V1_VERSIONS = new Set<string>([FDNEXT_FDBGEN_V1_COMPACT_VERSION, FDNEXT_FDBGEN_V1_FULL_VERSION]);
@@ -180,4 +192,55 @@ export function parseFdnextFdbgenV1(input: unknown): FdnextFdbgenV1Document | nu
 
 export function parseFdnextFdbgenV1Json(data: string): FdnextFdbgenV1Document | null {
   return parseFdnextFdbgenV1(JSON.parse(data) as unknown);
+}
+
+export function mergeFdnextFdbgenV1Document(
+  context: ControllerMergeContext,
+  document: FdnextFdbgenV1Document,
+  options: FdnextFdbgenV1MergeOptions = {}
+): FdnextFdbgenV1MergeResult {
+  const controllers = new Set<string>();
+  if (document.kind === "full") {
+    for (const { name } of document.controllers) {
+      if (name) controllers.add(name);
+    }
+  }
+
+  let imported = 0;
+  for (const entry of document.entries) {
+    const result = mergeSupportListEntry(context, {
+      vendor: entry.vendor,
+      partNumber: entry.partNumber,
+      flashId: entry.flashId,
+      controllers: entry.controllers,
+      cellLevel: entry.cellLevel,
+      strictFlashId: true,
+      requireSupportedFlashIdPrefix: options.requireSupportedFlashIdPrefix
+    });
+    if (result.imported) {
+      imported += 1;
+    }
+    for (const controller of result.controllers) {
+      controllers.add(controller);
+    }
+  }
+
+  if (controllers.size > 0) {
+    context.addInfoController([...controllers]);
+  }
+
+  return {
+    controllers: [...controllers],
+    entries: document.entries.length,
+    imported
+  };
+}
+
+export function mergeFdnextFdbgenV1SupportList(
+  context: ControllerMergeContext,
+  input: unknown,
+  options: FdnextFdbgenV1MergeOptions = {}
+): FdnextFdbgenV1MergeResult | null {
+  const document = parseFdnextFdbgenV1(input);
+  return document ? mergeFdnextFdbgenV1Document(context, document, options) : null;
 }

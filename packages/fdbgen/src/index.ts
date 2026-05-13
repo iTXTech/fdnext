@@ -21,6 +21,8 @@ export {
   isFdnextFdbgenV1Version,
   normalizeFdnextFdbgenV1ControllerName,
   normalizeFdnextFdbgenV1FlashId,
+  mergeFdnextFdbgenV1Document,
+  mergeFdnextFdbgenV1SupportList,
   parseFdnextFdbgenV1,
   parseFdnextFdbgenV1ControllerList,
   parseFdnextFdbgenV1Json
@@ -41,6 +43,8 @@ export type {
   FdnextFdbgenV1Document,
   FdnextFdbgenV1Entry,
   FdnextFdbgenV1Kind,
+  FdnextFdbgenV1MergeOptions,
+  FdnextFdbgenV1MergeResult,
   FdnextFdbgenV1Version
 } from "./fdbgen-v1";
 export type { SupportListEntryInput, SupportListMergeResult } from "./support-list";

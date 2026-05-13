@@ -1,6 +1,7 @@
+import { mergeFdnextFdbgenV1SupportList } from "../fdbgen-v1";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 
-function mergeInnostor(context: ControllerMergeContext, data: string, filename: string): void {
+function mergeInnostorIni(context: ControllerMergeContext, data: string, filename: string): void {
   const controller = `IS${filename.split("_")[0] ?? filename}`;
   context.addInfoController(controller);
   const filtered = context.lines(data).filter((line) => !line.startsWith("//") && !line.startsWith("~")).join("\n");
@@ -19,10 +20,18 @@ function mergeInnostor(context: ControllerMergeContext, data: string, filename: 
   }
 }
 
+function mergeInnostorJson(context: ControllerMergeContext, data: string): void {
+  mergeFdnextFdbgenV1SupportList(context, JSON.parse(data) as unknown);
+}
+
 export const innostorController: ControllerGenerator = {
   id: "innostor",
   directories: ["is"],
   mergeFile(context, file) {
-    mergeInnostor(context, file.data, file.filename);
+    if (file.filename.toLowerCase().endsWith(".json")) {
+      mergeInnostorJson(context, file.data);
+      return;
+    }
+    mergeInnostorIni(context, file.data, file.filename);
   }
 };

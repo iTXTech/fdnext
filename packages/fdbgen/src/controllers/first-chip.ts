@@ -1,4 +1,4 @@
-import { parseFdnextFdbgenV1 } from "../fdbgen-v1";
+import { mergeFdnextFdbgenV1SupportList } from "../fdbgen-v1";
 import { mergeSupportListEntry } from "../support-list";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 
@@ -57,34 +57,7 @@ function mergeSupportEntry(
 }
 
 function mergeFdnextFdbgenV1(context: ControllerMergeContext, source: Record<string, unknown>): void {
-  const parsed = parseFdnextFdbgenV1(source);
-  if (!parsed) {
-    return;
-  }
-
-  const controllers = new Set<string>();
-  if (parsed.kind === "full") {
-    for (const { name: controller } of parsed.controllers) {
-      if (controller) controllers.add(controller);
-    }
-  }
-
-  for (const entry of parsed.entries) {
-    const supported = mergeSupportEntry(context, {
-      rawVendor: entry.vendor,
-      rawPartNumber: entry.partNumber,
-      flashId: entry.flashId,
-      controllers: entry.controllers,
-      cellLevel: entry.cellLevel
-    });
-    for (const controller of supported) {
-      controllers.add(controller);
-    }
-  }
-
-  if (controllers.size > 0) {
-    context.addInfoController([...controllers]);
-  }
+  mergeFdnextFdbgenV1SupportList(context, source);
 }
 
 function mergeLegacyFirstChipJson(context: ControllerMergeContext, source: unknown[]): void {
