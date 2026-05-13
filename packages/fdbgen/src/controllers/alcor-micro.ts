@@ -1,3 +1,4 @@
+import { mergeFdnextFdbgenV1SupportList } from "../fdbgen-v1";
 import type { ControllerGenerator, ControllerMergeContext } from "./types";
 
 function mergeAlcorMicro(context: ControllerMergeContext, data: string): void {
@@ -33,6 +34,10 @@ export const alcorMicroController: ControllerGenerator = {
   id: "alcor-micro",
   directories: ["al"],
   mergeFile(context, file) {
+    if (file.filename.toLowerCase().endsWith(".json")) {
+      mergeFdnextFdbgenV1SupportList(context, JSON.parse(file.data) as unknown);
+      return;
+    }
     mergeAlcorMicro(context, file.data);
   }
 };

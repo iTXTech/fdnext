@@ -19,12 +19,16 @@ function readJson(path: string): unknown {
 }
 
 function normalizePartNumber(partNumber: string): string {
-  const normalized = partNumber
+  let normalized = partNumber
     .trim()
     .toUpperCase()
     .replace(/\uFFFD/g, "-")
     .replace(/[ ,&.|]/g, "");
-  return normalized.replace(/^EMT29F/, "MT29F");
+  normalized = normalized.replace(/^EMT29F/, "MT29F");
+  while (/\*[0-9A-Z]*$/i.test(normalized)) {
+    normalized = normalized.replace(/\*[0-9A-Z]*$/i, "");
+  }
+  return normalized.includes("*") ? "" : normalized;
 }
 
 function normalizeFlashId(id: string): string | null {

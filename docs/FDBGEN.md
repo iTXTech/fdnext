@@ -249,7 +249,7 @@ dataset/
 
 主生成器通过 controller registry 维持固定加载顺序，具体解析逻辑由对应控制器厂商文件负责。
 
-FirstChip `fc/` 目录同时支持旧版制表符 `.txt`、旧版 FirstChip 原始 JSON 数组，以及标准 `fdnext fdbgen v1c/v1f` JSON。Innostor `is/` 目录同时支持旧版 `.ini` 和标准 `fdnext fdbgen v1c/v1f` JSON。Phison `ps/` 目录保留旧版 Phison JSON 数组解析，并额外支持 `ufd.json` 这类标准 `fdnext fdbgen v1c/v1f` UFD 支持列表。
+Alcor Micro `al/` 目录同时支持旧版 CSV 和标准 `fdnext fdbgen v1c/v1f` JSON。FirstChip `fc/` 目录同时支持旧版制表符 `.txt`、旧版 FirstChip 原始 JSON 数组，以及标准 `fdnext fdbgen v1c/v1f` JSON。Innostor `is/` 目录同时支持旧版 `.ini` 和标准 `fdnext fdbgen v1c/v1f` JSON。Phison `ps/` 目录保留旧版 Phison JSON 数组解析，并额外支持 `ufd.json` 这类标准 `fdnext fdbgen v1c/v1f` UFD 支持列表。
 
 标准 v1 JSON 先由共享 `parseFdnextFdbgenV1` 解析器读取，再通过共享 `mergeFdnextFdbgenV1SupportList` / `mergeSupportListEntry` 导入；PN 清理、厂商前缀准入、controller name 归一化、可信 PN 写入 PN 表、不可信 PN 回落 `iddb` 都在该通用组件处理。JSON 输入只读取完整十六进制字节形式的 Flash ID，并只合并当前 NAND Flash ID 解码器支持的厂商前缀（Micron / Intel / Samsung / SK hynix / KIOXIA / SanDisk / YMTC / SpecTek）。未支持控制器别名统一通过 fdbgen 控制器黑名单排除，而不是写在单个 controller parser 中。
 

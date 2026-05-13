@@ -40,7 +40,7 @@ const PART_PREFIX_BY_VENDOR: Record<string, RegExp> = {
   spectek: /^(?:FBNL|FNNL|FNN|FXXL)/,
   ymtc: /^(?:YM|YMN|KRN|XT)/
 };
-const CONTROLLER_NAME = /^(?=.*[A-Z])(?=.*\d)[A-Z0-9]+$/;
+const CONTROLLER_NAME = /^(?=.*[A-Z])(?=.*\d)[A-Z0-9][A-Z0-9()-]*$/;
 
 export function normalizeSupportListFlashId(value: unknown, strict = false): string | undefined {
   const normalized = strict
@@ -122,7 +122,9 @@ export function cleanSupportListPartNumber(value: string): string {
   while (/_[A-Z0-9*]+$/.test(partNumber)) {
     partNumber = partNumber.replace(/_[A-Z0-9*]+$/, "");
   }
-  partNumber = partNumber.replace(/\*[0-9A-Z]+$/i, "");
+  while (/\*[0-9A-Z]*$/i.test(partNumber)) {
+    partNumber = partNumber.replace(/\*[0-9A-Z]*$/i, "");
+  }
   return partNumber;
 }
 
@@ -194,6 +196,7 @@ export function cleanTrustedSupportListPartNumber(rawPartNumber: unknown, id: st
     !partNumber ||
     /[^\x20-\x7E]/.test(partNumber) ||
     partNumber.includes("\\") ||
+    partNumber.includes("*") ||
     partNumber.includes("--") ||
     partNumber.includes(id) ||
     isSyntheticPartNumber(partNumber) ||
