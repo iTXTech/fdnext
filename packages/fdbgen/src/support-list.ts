@@ -244,14 +244,13 @@ export function mergeSupportListEntry(context: ControllerMergeContext, input: Su
   }
 
   const rawVendor = String(input.vendor ?? "");
-  const candidates = supportListVendorCandidates(rawVendor, partNumber, id);
-  const matchedExisting = candidates.some((vendor) => context.addControllersToMatchingFlashId(vendor, id, controllers));
-  if (matchedExisting) {
-    return { flashId: id, controllers, imported: true };
-  }
-
   const partRecord = chooseSupportListPartRecord(context, rawVendor, partNumber, id);
   if (!partRecord) {
+    const candidates = supportListVendorCandidates(rawVendor, partNumber, id);
+    const matchedExisting = candidates.some((vendor) => context.addControllersToMatchingFlashId(vendor, id, controllers));
+    if (matchedExisting) {
+      return { flashId: id, controllers, imported: true };
+    }
     context.mergeFlashPayload(id, { t: controllers });
     return { flashId: id, controllers, imported: true };
   }

@@ -1,5 +1,6 @@
 import { normalizeFdbVendorName } from "./normalize";
 import { vendorFromSupportListFlashId } from "./support-list";
+import { isCompatibleVendor } from "./vendor-compat";
 
 export interface PartNameAuditSignal {
   code: string;
@@ -51,6 +52,9 @@ export function partNameAuditSignals(partNumber: string): PartNameAuditSignal[] 
 export function hasVendorIdentityConflict(input: VendorIdentityInput): boolean {
   const rawVendor = normalizeRawVendor(input.rawVendor);
   if (!rawVendor || rawVendor === input.storedVendor) {
+    return false;
+  }
+  if (isCompatibleVendor(rawVendor, input.storedVendor) || isCompatibleVendor(input.storedVendor, rawVendor)) {
     return false;
   }
   const idVendors = distinct(input.flashIds.map((id) => vendorFromSupportListFlashId(id)).filter((item): item is string => !!item));

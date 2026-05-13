@@ -10,8 +10,10 @@ import {
   isAuthoritativeFdbPartNumber
 } from "./normalize";
 import { isLowInformationPartPayload } from "./part-payload";
+import { vendorFromSupportListFlashId } from "./support-list";
 import { createFdbProvenanceTrace, mergeProvenanceSource, type FdbProvenanceSource, type FdbProvenanceTrace } from "./trace";
 import type { ExtraPayload, FdbInfoPayload, FlashIdPayload, GenerateFdbOptions, PartNumberPayload } from "./types";
+import { isCompatibleVendor, shouldPreserveFlashIdVendor } from "./vendor-compat";
 import { inferVendorFromPartNumber, normalizeKnownPackage, normalizeVendor } from "./vendors";
 
 type PartNumberMap = Map<string, PartNumberPayload>;
@@ -268,7 +270,8 @@ function mergePartPayload(
   payload: PartNumberPayload,
   trace?: FdbProvenanceTrace,
   source?: FdbProvenanceSource,
-  decision = "merge_part_payload"
+  decision = "merge_part_payload",
+  options: { preserveVendor?: boolean } = {}
 ): PartNumberPayload | null {
   const normalizedPn = normalizeFdbPartNumber(partNumber);
   if (!normalizedPn) {
@@ -277,7 +280,7 @@ function mergePartPayload(
   if (!isAuthoritativeFdbPartNumber(normalizedPn)) {
     return null;
   }
-  const correctedVendor = inferVendorFromPartNumber(normalizedPn) ?? normalizeVendor(vendor);
+  const correctedVendor = options.preserveVendor ? normalizeVendor(vendor) : (inferVendorFromPartNumber(normalizedPn) ?? normalizeVendor(vendor));
   const vendorMap = ensureVendor(vendors, correctedVendor);
   const next = mergePartNumber(vendorMap.get(normalizedPn), payload);
   vendorMap.set(normalizedPn, next);
@@ -317,7 +320,26 @@ function addPartId(
   if (!normalizedId) {
     return;
   }
-  mergePartPayload(vendors, vendor, partNumber, { id: [normalizedId], ...(controllers.length > 0 ? { t: controllers } : {}) }, trace, source, "add_part_id");
+  const normalizedVendor = normalizeVendor(vendor);
+  const idVendor = vendorFromSupportListFlashId(normalizedId);
+  const normalizedPn = normalizeFdbPartNumber(partNumber);
+  const inferredVendor = normalizedPn ? inferVendorFromPartNumber(normalizedPn) : null;
+  const hasTrustedIdVendor = !!idVendor && idVendor === normalizedVendor;
+  const preserveVendor = hasTrustedIdVendor && shouldPreserveFlashIdVendor(normalizedVendor, inferredVendor, normalizedPn);
+  if (hasTrustedIdVendor && inferredVendor && !preserveVendor && !isCompatibleVendor(normalizedVendor, inferredVendor)) {
+    mergeFlashPayload(iddb, normalizedId, { ...(controllers.length > 0 ? { t: controllers } : {}) }, trace, source, "add_part_id");
+    return;
+  }
+  mergePartPayload(
+    vendors,
+    vendor,
+    partNumber,
+    { id: [normalizedId], ...(controllers.length > 0 ? { t: controllers } : {}) },
+    trace,
+    source,
+    "add_part_id",
+    { preserveVendor }
+  );
   mergeFlashPayload(iddb, normalizedId, { ...(controllers.length > 0 ? { t: controllers } : {}) }, trace, source, "add_part_id");
 }
 

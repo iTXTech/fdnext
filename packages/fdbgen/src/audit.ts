@@ -11,6 +11,7 @@ import { hasVendorIdentityConflict, partNameAuditSignals } from "./part-name-rul
 import { isControllerOnlyPartPayload } from "./part-payload";
 import type { FdbProvenanceRecord, FdbProvenanceSource, FdbProvenanceTrace } from "./trace";
 import type { FlashIdPayload, PartNumberPayload } from "./types";
+import { isCompatibleVendor } from "./vendor-compat";
 import { inferVendorFromPartNumber } from "./vendors";
 
 export type FdbAuditSeverity = "error" | "warning" | "info";
@@ -107,13 +108,6 @@ const SEVERITY_ORDER: Record<FdbAuditSeverity, number> = {
   info: 2
 };
 
-const VENDOR_COMPATIBILITY: Record<string, readonly string[]> = {
-  kioxia: ["kioxia", "sndk"],
-  micron: ["micron", "spectek", "intel"],
-  sndk: ["sndk", "kioxia"],
-  spectek: ["spectek", "micron"]
-};
-
 class IssueCollector {
   private readonly issues = new Map<string, FdbAuditIssue>();
 
@@ -185,13 +179,6 @@ function asFlashIdPayload(value: unknown): FlashIdPayload | undefined {
 
 function stringValue(value: unknown): string | undefined {
   return typeof value === "string" && value.length > 0 ? value : undefined;
-}
-
-function isCompatibleVendor(actualVendor: string, inferredVendor: string): boolean {
-  if (actualVendor === inferredVendor) {
-    return true;
-  }
-  return (VENDOR_COMPATIBILITY[inferredVendor] ?? [inferredVendor]).includes(actualVendor);
 }
 
 function hasUnexpectedPunctuation(partNumber: string): boolean {

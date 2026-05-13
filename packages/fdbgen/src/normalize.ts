@@ -73,14 +73,19 @@ export function normalizeFdbFlashId(value: unknown): string | undefined {
 
 export function normalizeSupportFlashId(value: unknown, strict = false): string | undefined {
   const normalized = strict
-    ? String(value ?? "").trim()
+    ? String(value ?? "").trim().toUpperCase()
     : String(value ?? "")
         .replace(/[\s:_-]+/g, "")
         .toUpperCase();
-  if (!normalized || normalized.length % 2 !== 0 || normalized.length < 4 || normalized.length > SUPPORT_LIST_MAX_FLASH_ID_HEX_LENGTH) {
+  if (
+    !normalized ||
+    normalized.length % 2 !== 0 ||
+    normalized.length < FDB_FLASH_ID_HEX_LENGTH ||
+    normalized.length > SUPPORT_LIST_MAX_FLASH_ID_HEX_LENGTH
+  ) {
     return undefined;
   }
-  return /^[0-9A-F]+$/.test(normalized) ? normalized : undefined;
+  return /^[0-9A-F]+$/.test(normalized) ? normalized.slice(0, FDB_FLASH_ID_HEX_LENGTH) : undefined;
 }
 
 export function normalizeFdbPartReference(value: unknown): string | undefined {
@@ -90,7 +95,7 @@ export function normalizeFdbPartReference(value: unknown): string | undefined {
     return undefined;
   }
   const partNumber = normalizeFdbPartNumber(match[2] ?? "");
-  const vendor = inferVendorFromPartNumber(partNumber) ?? normalizeVendor(match[1] ?? "");
+  const vendor = normalizeVendor(match[1] ?? "");
   if (!vendor || !partNumber) {
     return undefined;
   }
@@ -165,6 +170,7 @@ export function classifyFdbPartNumber(partNumber: string): FdbPartNumberClassifi
     ) ||
     /^K9-/.test(normalized) ||
     normalized === "TC58NVG" ||
+    /^TC58(?:BVG|NVG|TEG|TVG)[0-9][A-Z][0-9]$/.test(normalized) ||
     /^MT29F(?:[0-9]+G?(?:08|16)?|[0-9]*)?$/.test(normalized) ||
     /^(?:I|JS|PF|PC|PD)29F[0-9]+[GB]?$/.test(normalized) ||
     (/^SD[A-Z0-9]+$/.test(normalized) && !/[0-9](?:G|GB|T|TB)/.test(normalized))
