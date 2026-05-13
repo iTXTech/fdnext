@@ -6,6 +6,8 @@ export interface FdbInfoPayload {
 
 export interface PartNumberPayload {
   id?: string[];
+  f?: string[];
+  a?: string[];
   l?: string;
   c?: string;
   t?: string[];

@@ -151,6 +151,14 @@ function mergePartNumber(target: PartNumberPayload | undefined, source: unknown)
   if (ids.length > 0) {
     out.id = mergeStringArray(out.id, ids, true);
   }
+  const linkedIds = toFlashIdArray(src.f);
+  if (linkedIds.length > 0) {
+    out.f = mergeStringArray(out.f, linkedIds, true);
+  }
+  const alternatePartNumbers = toPartReferenceArray(src.a);
+  if (alternatePartNumbers.length > 0) {
+    out.a = mergeStringArray(out.a, alternatePartNumbers, false);
+  }
   const forcedIds = toFlashIdArray(src.fid);
   if (forcedIds.length > 0) {
     out.id = forcedIds;
@@ -285,6 +293,26 @@ function addPartId(vendors: VendorMap, iddb: FlashIdMap, vendor: string, partNum
   mergeFlashPayload(iddb, normalizedId, { ...(controllers.length > 0 ? { t: controllers } : {}) });
 }
 
+function findPartReferencesByFlashId(vendors: VendorMap, id: string, excludeVendor?: string): string[] {
+  const normalizedId = normalizeFlashId(id);
+  if (!normalizedId) {
+    return [];
+  }
+  const excluded = excludeVendor ? normalizeVendor(excludeVendor) : "";
+  const refs: string[] = [];
+  for (const [vendor, records] of vendors.entries()) {
+    if (vendor === excluded) {
+      continue;
+    }
+    for (const [partNumber, payload] of records.entries()) {
+      if (payload.id?.includes(normalizedId)) {
+        refs.push(`${vendor} ${partNumber}`);
+      }
+    }
+  }
+  return refs;
+}
+
 function lines(data: string): string[] {
   return data.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
 }
@@ -372,6 +400,7 @@ function createControllerContext(vendors: VendorMap, iddb: FlashIdMap, info: Fdb
     mergeFlashPayload: (id, payload) => mergeFlashPayload(iddb, id, payload),
     addPartId: (vendor, partNumber, id, controllers = []) => addPartId(vendors, iddb, vendor, partNumber, id, controllers),
     vendorExists: (vendor) => vendorExists(vendors, vendor),
+    findPartReferencesByFlashId: (id, options = {}) => findPartReferencesByFlashId(vendors, id, options.excludeVendor),
     addControllersToMatchingFlashId: (vendor, flashIdPrefix, controllers, patch) =>
       addControllersToMatchingFlashId(vendors, iddb, vendor, flashIdPrefix, controllers, patch),
     lines,
@@ -463,6 +492,18 @@ function canonicalizeIddbReferences(iddb: FlashIdMap, vendors: VendorMap): void 
       ...payload,
       ...(refs.length > 0 ? { n: mergeStringArray([], refs, false) } : { n: undefined })
     });
+  }
+}
+
+function canonicalizePartPayloadReferences(vendors: VendorMap): void {
+  for (const records of vendors.values()) {
+    for (const [partNumber, payload] of records.entries()) {
+      const refs = (payload.a ?? []).map((item) => canonicalizePartReference(item, vendors)).filter((item): item is string => !!item);
+      records.set(partNumber, {
+        ...payload,
+        ...(refs.length > 0 ? { a: mergeStringArray([], refs, false) } : { a: undefined })
+      });
+    }
   }
 }
 
@@ -655,6 +696,8 @@ function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: V
     for (const [pn, payload] of [...records.entries()].sort(([a], [b]) => a.localeCompare(b))) {
       const normalized: PartNumberPayload = {
         ...(payload.id && payload.id.length > 0 ? { id: [...new Set(payload.id)].sort() } : {}),
+        ...(payload.f && payload.f.length > 0 ? { f: [...new Set(payload.f)].sort() } : {}),
+        ...(payload.a && payload.a.length > 0 ? { a: [...new Set(payload.a)].sort() } : {}),
         ...(payload.l !== undefined ? { l: payload.l } : {}),
         ...(payload.c !== undefined ? { c: payload.c } : {}),
         ...(payload.t && payload.t.length > 0 ? { t: [...new Set(payload.t)].sort() } : {}),
@@ -695,6 +738,7 @@ export function generateFdb(options: GenerateFdbOptions): Record<string, unknown
   const extra = loadExtra(inputDir, options.extraFile);
   applyExtra(extra, vendors, iddb);
   canonicalizeVendorRecords(vendors);
+  canonicalizePartPayloadReferences(vendors);
   canonicalizeIddbReferences(iddb, vendors);
   const controllerBlacklist = buildControllerBlacklist(options.controllerBlacklist, extra.controllerBlacklist);
 

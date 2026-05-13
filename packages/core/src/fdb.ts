@@ -84,6 +84,8 @@ function mergePartNumberRecord(target: PartNumberRecord, source: PartNumberRecor
     ...target,
     id: mergeStringArray(target.id, source.id),
     t: mergeStringArray(target.t, source.t ?? []),
+    f: mergeStringArray(target.f, source.f ?? []),
+    a: mergeStringArray(target.a, source.a ?? []),
     l: source.l ?? target.l,
     c: source.c ?? target.c,
     m: source.m ?? target.m,
@@ -157,9 +159,13 @@ export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
       const vendorMap = new Map<string, PartNumberRecord>(existingVendorMap);
       const pnData = asRecord(pnDataRaw);
       const id = Array.isArray(pnData.id) ? pnData.id.map((item) => normalizeFlashIdKey(String(item))).filter((item): item is string => !!item) : [];
+      const f = Array.isArray(pnData.f) ? pnData.f.map((item) => normalizeFlashIdKey(String(item))).filter((item): item is string => !!item) : [];
+      const a = Array.isArray(pnData.a) ? pnData.a.map(String) : [];
       const next = {
         pn: normalizedPn,
         id,
+        f,
+        a,
         l: typeof pnData.l === "string" ? pnData.l : undefined,
         c: typeof pnData.c === "string" ? pnData.c : undefined,
         t: Array.isArray(pnData.t) ? pnData.t.map(String) : [],
@@ -177,6 +183,19 @@ export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
 
   for (const partNumbers of vendors.values()) {
     canonicalizePartNumbers(partNumbers);
+  }
+
+  for (const partNumbers of vendors.values()) {
+    for (const [partNumber, record] of partNumbers.entries()) {
+      const refs = mergeStringArray(
+        [],
+        (record.a ?? []).map((item) => toPartReference(item, vendors)).filter((item): item is string => !!item)
+      );
+      partNumbers.set(partNumber, {
+        ...record,
+        a: refs
+      });
+    }
   }
 
   for (const [flashId, record] of flashIds.entries()) {

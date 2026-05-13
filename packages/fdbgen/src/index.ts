@@ -35,6 +35,7 @@ export {
   normalizeSupportListControllerName,
   normalizeSupportListFlashId,
   parseSupportListControllerList,
+  resolveSupportListPartRecord,
   supportListVendorCandidates,
   vendorFromSupportListFlashId
 } from "./support-list";

@@ -57,7 +57,7 @@ export interface DecodeDraftMeta {
 export interface PartDecodeDraft {
   device: DecodeDraftDevice & { partNumber: string };
   fields?: DecodeDraftFields;
-  identifiers?: Pick<DecodeDraftIdentifiers, "flashIds">;
+  identifiers?: Pick<DecodeDraftIdentifiers, "flashIds" | "partNumbers">;
   controllers?: string[];
   components?: DecodeDraftComponent[];
   meta?: DecodeDraftMeta;
@@ -76,6 +76,8 @@ export interface IdentifierDecodeDraft {
 export interface PartNumberRecord {
   pn: string;
   id: string[];
+  f?: string[];
+  a?: string[];
   l?: string;
   c?: string;
   t?: string[];

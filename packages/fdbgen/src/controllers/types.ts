@@ -13,6 +13,7 @@ export interface ControllerMergeContext {
   mergeFlashPayload(id: string, payload: FlashIdPayload): FlashIdPayload | null;
   addPartId(vendor: string, partNumber: string, id: string, controllers?: string[]): void;
   vendorExists(vendor: string): boolean;
+  findPartReferencesByFlashId(id: string, options?: { excludeVendor?: string }): string[];
   addControllersToMatchingFlashId(vendor: string, flashIdPrefix: string, controllers: string[], patch?: FlashIdPayload): boolean;
   lines(data: string): string[];
   cleanHexByte(value: string | undefined): string;

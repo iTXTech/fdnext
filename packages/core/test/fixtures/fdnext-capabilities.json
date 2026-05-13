@@ -11,7 +11,7 @@
   "fdb": {
     "name": "iTXTech fdnext FDB",
     "version": "82",
-    "time": "Wed, 13 May 2026 08:51:22 GMT",
+    "time": "Wed, 13 May 2026 10:44:00 GMT",
     "website": "https://github.com/iTXTech/fdnext"
   },
   "inventory": {
@@ -20,11 +20,11 @@
       "items": ["SM2258XT", "YS9082HC"]
     },
     "flashIds": {
-      "count": 2993
+      "count": 3085
     },
     "partNumbers": {
-      "total": 3615,
-      "fdb": 3323,
+      "total": 4316,
+      "fdb": 4024,
       "managedNand": 208,
       "dram": 84
     },

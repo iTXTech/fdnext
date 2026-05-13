@@ -249,7 +249,11 @@ dataset/
 
 主生成器通过 controller registry 维持固定加载顺序，具体解析逻辑由对应控制器厂商文件负责。
 
-FirstChip `fc/` 目录同时支持旧版制表符 `.txt`、旧版 FirstChip 原始 JSON 数组，以及标准 `fdnext fdbgen v1c/v1f` JSON。Innostor `is/` 目录同时支持旧版 `.ini` 和标准 `fdnext fdbgen v1c/v1f` JSON。标准 v1 JSON 先由共享 `parseFdnextFdbgenV1` 解析器读取，再通过共享 `mergeFdnextFdbgenV1SupportList` / `mergeSupportListEntry` 导入；PN 清理、厂商前缀准入、controller name 归一化、可信 PN 写入 PN 表、不可信 PN 回落 `iddb` 都在该通用组件处理。JSON 输入只读取完整十六进制字节形式的 Flash ID，并只合并当前 NAND Flash ID 解码器支持的厂商前缀（Micron / Intel / Samsung / SK hynix / KIOXIA / SanDisk / YMTC / SpecTek）。未支持控制器别名统一通过 fdbgen 控制器黑名单排除，而不是写在单个 controller parser 中。
+FirstChip `fc/` 目录同时支持旧版制表符 `.txt`、旧版 FirstChip 原始 JSON 数组，以及标准 `fdnext fdbgen v1c/v1f` JSON。Innostor `is/` 目录同时支持旧版 `.ini` 和标准 `fdnext fdbgen v1c/v1f` JSON。Phison `ps/` 目录保留旧版 Phison JSON 数组解析，并额外支持 `ufd.json` 这类标准 `fdnext fdbgen v1c/v1f` UFD 支持列表。
+
+标准 v1 JSON 先由共享 `parseFdnextFdbgenV1` 解析器读取，再通过共享 `mergeFdnextFdbgenV1SupportList` / `mergeSupportListEntry` 导入；PN 清理、厂商前缀准入、controller name 归一化、可信 PN 写入 PN 表、不可信 PN 回落 `iddb` 都在该通用组件处理。JSON 输入只读取完整十六进制字节形式的 Flash ID，并只合并当前 NAND Flash ID 解码器支持的厂商前缀（Micron / Intel / Samsung / SK hynix / KIOXIA / SanDisk / YMTC / SpecTek）。未支持控制器别名统一通过 fdbgen 控制器黑名单排除，而不是写在单个 controller parser 中。
+
+Phison UFD 支持列表中的群联侧 PN 会进入 `phison` PN 表，但使用单向字段表达关联：`f` 表示查询该 PN 时可跳转的 Flash ID，`a` 表示可显示的原厂 PN 引用。它们不会触发 `iddb.n` 反向回填，因此查询原厂 PN 或 Flash ID 时不会反向关联群联 PN。
 
 ### 加载顺序
 
@@ -308,7 +312,7 @@ Raw FlashDB 模式：
 
 - PN key 统一转大写，并移除空格、逗号、`&`、`.`、`|`
 - Flash ID key 统一移除空白、转大写；非十六进制、奇数字节长度或异常长度的 ID 会被丢弃
-- 数组字段（如 `id/t/n/controllers`）会去重
+- 数组字段（如 `id/f/a/t/n/controllers`）会去重
 - 数值字段（`s/p/b/d/e/r/n`）仅接受有限数值
 - 如果 `*_1` 或尾部 `-` PN 有明确 base PN，会合并回 base PN
 - `iddb.n` 只保留能在 vendor PN 表中找到的反向引用
@@ -317,6 +321,7 @@ Raw FlashDB 模式：
 ### 自动回填
 
 - 对每个 PN 的 `id`，自动向对应 `iddb[flashId].n` 写入 `"<vendor> <partNumber>"` 反向关联
+- PN 的 `f` 只作为当前 PN 的单向 Flash ID 关联，不参与 `iddb.n` 回填
 - `info.controllers` 会汇总：
   - `meta/extra` 中声明的 controllers
   - PN 的 `t` 字段

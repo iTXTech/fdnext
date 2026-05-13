@@ -230,6 +230,16 @@ function chooseSupportListPartRecord(
   return null;
 }
 
+export function resolveSupportListPartRecord(
+  context: ControllerMergeContext,
+  rawVendor: unknown,
+  rawPartNumber: unknown,
+  id: string
+): { vendor: string; partNumber: string } | null {
+  const partNumber = cleanTrustedSupportListPartNumber(rawPartNumber, id);
+  return partNumber ? chooseSupportListPartRecord(context, String(rawVendor ?? ""), partNumber, id) : null;
+}
+
 export function mergeSupportListEntry(context: ControllerMergeContext, input: SupportListEntryInput): SupportListMergeResult {
   const id = normalizeSupportListFlashId(input.flashId, input.strictFlashId);
   const requireSupportedFlashIdPrefix = input.requireSupportedFlashIdPrefix ?? true;

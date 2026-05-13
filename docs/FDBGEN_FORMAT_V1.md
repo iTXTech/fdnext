@@ -117,6 +117,7 @@ full controller `cl[]` 字段：
 - `pn` 清理后可信时写入 vendor PN 表，并自动反向回填 `iddb.n`。
 - `pn` 缺损或不可信时，只写入 `iddb[id].t`。
 - compact 不允许 metadata；full 的 `m` 仅是提取工具和后续规则的输入侧信息，不会写入生成后的 FDB payload。
+- 特定 controller import 可以在标准导入之外添加单向关系。例如 Phison UFD 列表会把群联侧 PN 写入 `phison` 表，并用输出侧 `f/a` 关联 Flash ID / 原厂 PN；这些关系不会反向写入原厂 PN 或 `iddb.n`。
 
 ## 与旧 FirstChip JSON 的关系
 

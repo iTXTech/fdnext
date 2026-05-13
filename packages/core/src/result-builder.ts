@@ -499,6 +499,21 @@ function partRelations(info: PartDecodeDraft, device: DeviceIdentity, ctx: Resul
       action: identifierDecodeAction(id, ctx, lang)
     });
   }
+  for (const partReference of info.identifiers?.partNumbers ?? []) {
+    const target = parsePartReference(partReference, ctx, lang);
+    relations.push({
+      kind: "alternate_part",
+      source: {
+        partNumber: draftPartNumber(info),
+        device
+      },
+      target: {
+        partNumber: target.partNumber,
+        ...(target.device ? { device: target.device } : {})
+      },
+      action: partDecodeAction(target.partNumber, ctx, lang, target.device)
+    });
+  }
   for (const component of info.components ?? []) {
     const componentDevice = component.device ?? {};
     const chipKind = componentDevice.chipKind ?? device.chipKind;

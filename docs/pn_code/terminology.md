@@ -35,6 +35,7 @@
 
 - `identifier_for`: PN 与 NAND Flash ID 的关系。
 - `marking_for`: marking code 与真实 PN 的关系。
+- `alternate_part`: 只从当前 PN 指向相关 PN 的单向关系，例如群联侧 PN 指向原厂 PN。
 - `component`: eMCP/uMCP 这类复合产品的 storage / DRAM 子组件。
 
 当 relation 可以直接跳转到另一个解析动作时，使用 `relations[].action` 承载该动作；不要再额外输出独立的顶层 `actions[]`。

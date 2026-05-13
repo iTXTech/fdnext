@@ -840,9 +840,11 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       info.device.vendor = byAny.vendor;
     }
 
+    const relatedFlashIds = mergeStringArray(record.id ?? [], record.f ?? []);
     info.identifiers = {
       ...(info.identifiers ?? {}),
-      flashIds: mergeStringArray(info.identifiers?.flashIds, record.id ?? [])
+      flashIds: mergeStringArray(info.identifiers?.flashIds, relatedFlashIds),
+      partNumbers: mergeStringArray(info.identifiers?.partNumbers, record.a ?? [])
     };
     info.controllers = mergeStringArray(info.controllers, record.t ?? []);
     for (const id of info.identifiers.flashIds ?? []) {
@@ -854,7 +856,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
 
     if (!isKnownClassificationValue(draftField(info, "process_node"))) {
-      const processNode = processNodeFromIdentifiers(record.id);
+      const processNode = processNodeFromIdentifiers(relatedFlashIds);
       if (processNode) {
         setDraftField(info, "process_node", processNode);
       }
@@ -911,7 +913,10 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     },
     fields: { ...(decoded.fields ?? {}) },
     identifiers: decoded.identifiers
-      ? { flashIds: mergeStringArray([], decoded.identifiers.flashIds) }
+      ? {
+          flashIds: mergeStringArray([], decoded.identifiers.flashIds),
+          partNumbers: mergeStringArray([], decoded.identifiers.partNumbers)
+        }
       : undefined,
     controllers: mergeStringArray([], decoded.controllers),
     components: decoded.components ? [...decoded.components] : undefined,
