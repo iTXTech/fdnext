@@ -17,21 +17,64 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^THG[AB]M[0-9A-Z]{10,13}$"
+      "value": "^THG[VYABD]M[0-9A-Z]{10,13}$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
         "THG"
       ],
       "tables": {
+        "voltage": {
+          "V": "3.3V",
+          "Y": "1.8V",
+          "A": "Vcc: 3.3V, VccQ: 1.8V",
+          "B": "Vcc: 3.3V, VccQ: 3.3V/1.8V",
+          "D": "Vcc: 3.3V/1.8V, VccQ: 3.3V/1.8V"
+        },
+        "interfaceObj": {
+          "M": {
+            "storage_interface": "eMMC"
+          }
+        },
         "density": {
+          "M8": 256,
+          "M9": 512,
+          "G0": 1024,
+          "G1": 2048,
+          "G2": 4096,
+          "G3": 8192,
+          "G4": 16384,
+          "GA": 24576,
           "G5": 32768,
+          "GB": 49152,
           "G6": 65536,
+          "GC": 98304,
           "G7": 131072,
+          "GD": 196608,
           "G8": 262144,
+          "GE": 393216,
           "G9": 524288,
+          "GF": 786432,
           "T0": 1048576,
           "T1": 2097152
+        },
+        "cellLevel": {
+          "S": 1,
+          "D": 2,
+          "T": 3
+        },
+        "dieStack": {
+          "1": "1-die",
+          "2": "2-die",
+          "3": "3-die",
+          "4": "4-die",
+          "5": "5-die",
+          "6": "6-die",
+          "7": "7-die",
+          "8": "8-die",
+          "9": "9-die",
+          "A": "12-die",
+          "B": "16-die"
         },
         "seriesObj": {
           "BMN": {
@@ -210,8 +253,70 @@
           }
         },
         "packageBase": {
+          "FT": "TSOP",
+          "TG": "TSOP",
+          "TA": "TSOP",
+          "XB": "BGA",
+          "XG": "BGA",
           "BA": "BGA",
+          "XL": "LGA",
           "LA": "LGA"
+        },
+        "packageEnvObj": {
+          "FT": {
+            "lead_free": false,
+            "halogen_free": false
+          },
+          "TG": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "TA": {
+            "lead_free": true,
+            "halogen_free": true
+          },
+          "XB": {
+            "lead_free": false,
+            "halogen_free": false
+          },
+          "XG": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "BA": {
+            "lead_free": true,
+            "halogen_free": true
+          },
+          "XL": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "LA": {
+            "lead_free": true,
+            "halogen_free": true
+          }
+        },
+        "detailPackage": {
+          "TSOP:0": "TSOP (12 x 20 x 1.2)",
+          "LGA:0": "LGA (12 x 18 x 1.4)",
+          "LGA:2": "LGA (14 x 18 x 1.4)",
+          "LGA:8": "LGA (14 x 18 x 0.9)",
+          "LGA:9": "LGA (14 x 18 x 1.0)",
+          "BGA:0": "BGA (12 x 18 x 1.4)",
+          "BGA:1": "BGA (12 x 18 x 1.2)",
+          "BGA:2": "BGA (14 x 18 x 1.4)",
+          "BGA:3": "BGA (14 x 18 x 1.2)",
+          "BGA:6": "BGA (14 x 18 x 1.5)",
+          "BGA:8": "BGA (11.5 x 13 x 1.2)",
+          "BGA:9": "BGA (12 x 16 x 1.2)",
+          "BGA:B": "BGA (12 x 16 x 1.4)",
+          "BGA:E": "BGA (12 x 16 x 1.2)",
+          "BGA:F": "BGA (17 x 22 x 1.4)",
+          "BGA:G": "BGA (11.5 x 13 x 1.2)",
+          "BGA:H": "BGA (12 x 16 x 1.4)",
+          "BGA:I": "BGA (14 x 18 x 1.2)",
+          "BGA:J": "BGA (14 x 18 x 1.4)",
+          "BGA:K": "BGA (14 x 18 x 1.4)"
         },
         "packageExact": {
           "BAIT": "BGA153",
@@ -221,7 +326,36 @@
       "steps": [
         {
           "op": "take",
-          "len": 3,
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "interfaceCode"
+        },
+        {
+          "op": "map",
+          "from": "interfaceCode",
+          "table": "interfaceObj",
+          "to": "interfaceObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "controllerRevisionCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{voltageCode}}{{interfaceCode}}{{controllerRevisionCode}}",
           "to": "seriesCode"
         },
         {
@@ -236,7 +370,7 @@
           "from": "seriesCode",
           "table": "processFamily",
           "to": "processFamily",
-          "default": ""
+          "default": "FG"
         },
         {
           "op": "map",
@@ -258,32 +392,37 @@
           "default": 0
         },
         {
+          "op": "take",
+          "len": 1,
+          "to": "cellCode"
+        },
+        {
           "op": "map",
-          "from": "seriesCode",
-          "table": "versionObj",
-          "to": "versionObj",
-          "default": {
-            "product_version": "eMMC"
-          }
+          "from": "cellCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
         },
         {
           "op": "take",
           "len": 1,
-          "to": "packagePrefixCode"
+          "to": "stackCode"
+        },
+        {
+          "op": "map",
+          "from": "stackCode",
+          "table": "dieStack",
+          "to": "dieStack",
+          "default": "Unknown"
         },
         {
           "op": "take",
           "len": 1,
-          "to": "generationCode"
-        },
-        {
-          "op": "take",
-          "len": 1,
-          "to": "revisionCode"
+          "to": "designRuleCode"
         },
         {
           "op": "tpl",
-          "template": "{{processFamily}}:{{revisionCode}}",
+          "template": "{{processFamily}}:{{designRuleCode}}",
           "to": "twoDimensionalProcessKey"
         },
         {
@@ -295,7 +434,7 @@
         },
         {
           "op": "tpl",
-          "template": "{{processFamily}}:{{generationCode}}",
+          "template": "{{processFamily}}:{{stackCode}}",
           "to": "bicsProcessKey"
         },
         {
@@ -332,6 +471,13 @@
           "default": {}
         },
         {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "versionObj",
+          "to": "versionObj",
+          "default": {}
+        },
+        {
           "op": "take",
           "len": 2,
           "to": "packageBaseCode"
@@ -365,6 +511,13 @@
         },
         {
           "op": "map",
+          "from": "packageBaseCode",
+          "table": "packageEnvObj",
+          "to": "packageEnvObj",
+          "default": {}
+        },
+        {
+          "op": "map",
           "from": "packageExactCode",
           "table": "packageExact",
           "to": "packageExact",
@@ -378,8 +531,26 @@
           "default": ""
         },
         {
+          "op": "tpl",
+          "template": "{{packageBase}}:{{packageDetailCode}}",
+          "to": "packageDetailKey"
+        },
+        {
+          "op": "map",
+          "from": "packageDetailKey",
+          "table": "detailPackage",
+          "to": "packageDetail",
+          "default": ""
+        },
+        {
           "op": "fallback",
           "primary": "packageExact",
+          "secondary": "packageDetail",
+          "to": "packageWithDetail"
+        },
+        {
+          "op": "fallback",
+          "primary": "packageWithDetail",
           "secondary": "packageBase",
           "to": "package"
         },
@@ -390,6 +561,11 @@
             "system": "KIOXIA managed NAND",
             "group": "eMMC"
           }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "interfaceObj"
         },
         {
           "op": "merge",
@@ -415,6 +591,11 @@
           "op": "merge",
           "into": "extra",
           "from": "classObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageEnvObj"
         },
         {
           "op": "omit",
@@ -448,6 +629,21 @@
         },
         "fields.process_node": {
           "$var": "processNode"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.die_stack": {
+          "$var": "dieStack"
+        },
+        "fields.controller_revision": {
+          "$var": "controllerRevisionCode"
+        },
+        "fields.package_code": {
+          "$var": "packageExactCode"
         },
         "fields.package": {
           "$var": "package"

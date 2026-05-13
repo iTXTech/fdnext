@@ -1,10 +1,12 @@
 # KIOXIA eMCP PN 记录
 
-采集日期：2026-05-08
+采集日期：2026-05-13
 
 ## 当前结论
 
 本轮未找到 KIOXIA 官方公开 eMCP PN ordering table。网络上可见少量 Toshiba/KIOXIA eMCP 料号的第三方库存页或维修供应页，但信息通常只给出组合容量、LPDDR 类型或封装，缺少可验证的逐 token 规则表。
+
+Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3 覆盖 raw NAND 和 `NAND w/ controller`，可用于 KIOXIA raw NAND、eMMC 和 E2NAND/SmartNAND token 解释；该资料没有给出 NAND + DRAM MCP / eMCP 的逐 token ordering table，因此不能作为 `TYD/ TYE` 等 eMCP 候选的规则准入依据。
 
 2026-05-08 复查 `fdb/fdfdb` 后，未发现这些候选 PN 与本地 flash id 表形成可用交叉验证；因此仍停留在记录层。
 

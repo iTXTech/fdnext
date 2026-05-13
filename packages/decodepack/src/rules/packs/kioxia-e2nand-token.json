@@ -112,6 +112,20 @@
           "XL": "LGA",
           "LA": "LGA"
         },
+        "packageEnvObj": {
+          "BA": {
+            "lead_free": true,
+            "halogen_free": true
+          },
+          "XL": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "LA": {
+            "lead_free": true,
+            "halogen_free": true
+          }
+        },
         "ch": {
           "0": 1,
           "2": 1,
@@ -303,6 +317,13 @@
           "default": "Unknown"
         },
         {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageEnvObj",
+          "to": "packageEnvObj",
+          "default": {}
+        },
+        {
           "op": "take",
           "len": 1,
           "to": "classificationCode"
@@ -380,14 +401,20 @@
             "multi_chip": {
               "$var": "multi_chip"
             },
-            "lead_free": true,
-            "halogen_free": false
+            "package_code": {
+              "$var": "packageCode"
+            }
           }
         },
         {
           "op": "merge",
           "into": "extra",
           "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageEnvObj"
         },
         {
           "op": "omit",
@@ -434,29 +461,11 @@
         "fields.package": {
           "$var": "packageFinal"
         },
-        "fields.die_count": {
-          "$path": [
-            "classification",
-            "die"
-          ]
-        },
         "fields.ce_count": {
-          "$path": [
-            "classification",
-            "ce"
-          ]
-        },
-        "fields.rb_count": {
-          "$path": [
-            "classification",
-            "rb"
-          ]
+          "$var": "ce"
         },
         "fields.channel_count": {
-          "$path": [
-            "classification",
-            "ch"
-          ]
+          "$var": "ch"
         },
         "meta.ruleId": "vendor.kioxia.e2nand.lga.v1"
       }

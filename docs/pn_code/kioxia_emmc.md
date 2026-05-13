@@ -1,6 +1,6 @@
 # KIOXIA e-MMC PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-05-13
 
 ## 外部资料
 
@@ -8,6 +8,7 @@
   <https://www.kioxia.com/content/dam/kioxia/shared/business/memory/mlc-nand/asset/productbrief/KIOXIA_e-MMC_Product_Brief.pdf>
 - KIOXIA Memory Selector: 给出 consumer、industrial、automotive e-MMC 表，包含 `THGAMVT1T83BAB5`、`THGAMVT0T43BAA8` 等 automotive 型号。
   <https://americas.kioxia.com/en-us/business/memory/selector.html>
+- Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3, 2010-09-24: `NAND w/ controller` 页给出 `THG` 系列中 voltage、interface、controller revision、density、cell level、stacked die、design rule、package、temperature/class 和 package size token 表。
 
 ## 规则状态
 
@@ -20,14 +21,20 @@ PN 结构：
 
 | 结构 | 含义 |
 | --- | --- |
-| `THG` + series(3) + density(2) + package/revision/class | KIOXIA e-MMC managed flash |
-| series `BMN/BMT` | eMMC 5.0, FG NAND |
-| series `BMU/BMJ` | eMMC 5.1, FG NAND |
-| series `AMV/AMS` | eMMC 5.1, BiCS FLASH |
-| density `G5/G6/G7/G8/G9/T0/T1` | 4GB/8GB/16GB/32GB/64GB/128GB/256GB |
-| FG NAND package/revision 末位 `A/B/C/D/E/F/G/H/J/K/L` | 复用 raw NAND 2D 制程映射，输出 `130 nm` 到 `15 nm/1z`，例如 `K=A19 nm/1y`、`L=15 nm/1z` |
-| BiCS package/revision 第 2 位 `2/3/4/5/6/8/M` | 复用 raw NAND BiCS 映射，输出 `BiCS2/3/4/5/6/8/4.5` |
-| package suffix `BA` / exact `BAIT` | `fields.package` 输出 `BGA` / `BGA153`，精确后缀优先 |
+| `THG` + voltage(1) + interface(1) + controller revision(1) + density(2) + cell(1) + stacked die(1) + design rule(1) + package/class/size | Toshiba/KIOXIA NAND with controller eMMC form |
+| interface `M` | eMMC |
+| voltage `V/Y/A/B/D` | Vcc/VccQ 组合 |
+| controller revision | one-character unique controller revision code |
+| density `M8/M9/G0..G9/GA/GB/GC/GD/GE/GF/T0/T1` | 256Mbit 到 2Tbit |
+| cell `S/D/T` | SLC / MLC / TLC |
+| stacked die `1..9/A/B` | 1-9 die / 12 die / 16 die |
+| `BMN/BMT` | eMMC 5.0, FG NAND |
+| `BMU/BMJ` | eMMC 5.1, FG NAND |
+| `AMV/AMS` | eMMC 5.1, BiCS FLASH |
+| FG design rule `A/B/C/D/E/F/G/H/J/K/L` | 130 nm 到 15 nm/1z |
+| BiCS stack/design token `2/3/4/5/6/8/M` | BiCS2/3/4/5/6/8/4.5 |
+| package `FT/TG/TA/XB/XG/BA/XL/LA` | TSOP / BGA / LGA plus lead-free and halogen-free flags |
+| package size code `0/1/2/3/6/8/9/B/E/F/G/H/I/J/K` | TSOP/LGA/BGA size table from the Toshiba decoder |
 | class `BAI` | Consumer, -25°C to 85°C |
 | class `BAU` | Industrial, -40°C to 105°C |
 | class `BAC/BAB` | Automotive AEC-Q100 Grade 2, -40°C to 105°C |
@@ -35,8 +42,17 @@ PN 结构：
 
 ## 输出字段
 
-- `product_version`
 - `storage_interface`
+- `density`
+- `cell_level`
+- `process_node`
+- `voltage`
+- `controller_revision`
+- `die_stack`
+- `package`
+- `package_code`
+- `lead_free`
+- `halogen_free`
 - `speed_grade`
 - `nand_technology`
 - `product_class`
@@ -45,9 +61,11 @@ PN 结构：
 ## 测试样例
 
 - `THGBMNG5D1LBAIT`
+- `THGBM2G9DBFBAI2`
 - `THGAMVT0T43BAB8`
 
 ## 注意
 
-KIOXIA `THG*` 还覆盖 UFS，不能只靠 `THG` 前缀判断。当前规则按 `BM*` / `AM*` series 进入 eMMC pack。
-FG NAND 系列从 package/revision token 末位推定 2D 制程；BiCS 系列从第 2 位推定 BiCS 代际。推定结果写入 `fields.process_node`，不在 `fields` 里重复输出 `generation_info`。未知 code 仍回退为 `FG NAND` / `BiCS FLASH`。
+KIOXIA `THG*` 还覆盖 UFS 和 E2NAND，不能只靠 `THG` 前缀判断。当前 eMMC 规则必须看到 interface token `M` 才进入 eMMC pack。
+
+eMMC 仍保留既有 2D/BiCS 制程表：FG NAND 从 design rule token 推定 2D 制程，BiCS 系列从 stacked/design token 推定 BiCS 代际。推定结果写入 `fields.process_node`，并保留规则内 `generation_info` 表供审计；公开结果中与 `process_node` 重复的 `generation_info` 会由 core 去重。

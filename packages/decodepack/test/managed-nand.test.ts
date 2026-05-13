@@ -407,17 +407,76 @@ assertNotFound("SDINZZZ9-128G-ABC");
 assertNotFound("SDISZZZ-016G");
 assertNotFound("SM671PAC-BFS");
 
+assertPart("TH58NVG7D2FTA00", {
+  vendor: "kioxia",
+  type: "NAND",
+  densityMbit: 131072,
+  processField: "32 nm",
+  cellField: "MLC",
+  voltage: "3.3V",
+  package: "TSOP48",
+  extra: {
+    "Package Code": "TA",
+    "Lead free": "Yes",
+    "Halogen free": "Yes",
+    "CE Count": 1,
+    "Channel Count": 1
+  }
+});
+
+assertPart("TC58NVG7D2FTA00", {
+  vendor: "kioxia",
+  type: "NAND",
+  densityMbit: 131072,
+  processField: "32 nm",
+  cellField: "MLC",
+  voltage: "3.3V",
+  package: "TSOP48",
+  extra: {
+    "Package Code": "TA",
+    "Lead free": "Yes",
+    "Halogen free": "Yes",
+    "Multi chip": "No",
+    "CE Count": 1,
+    "Channel Count": 1
+  }
+});
+
 assertPart("THGBMNG5D1LBAIT", {
   vendor: "kioxia",
   type: "eMMC",
   densityMbit: 32768,
   processField: "15 nm/1z",
+  cellField: "MLC",
+  voltage: "Vcc: 3.3V, VccQ: 3.3V/1.8V",
   package: "BGA153",
   extra: {
     "Storage Interface": "eMMC 5.0",
-    "NAND Technology": "FG NAND"
+    "NAND Technology": "FG NAND",
+    "Controller Revision": "N",
+    "Die Stack": "1-die",
+    "Package Code": "BAIT",
+    "Lead free": "Yes",
+    "Halogen free": "Yes"
   },
   absentExtra: ["Product Version", "Product Generation"]
+});
+
+assertPart("THGBM2G9DBFBAI2", {
+  vendor: "kioxia",
+  type: "eMMC",
+  densityMbit: 524288,
+  processField: "32 nm",
+  cellField: "MLC",
+  voltage: "Vcc: 3.3V, VccQ: 3.3V/1.8V",
+  package: "BGA (14 x 18 x 1.4)",
+  extra: {
+    "Controller Revision": "2",
+    "Die Stack": "16-die",
+    "Package Code": "BAI2",
+    "Lead free": "Yes",
+    "Halogen free": "Yes"
+  }
 });
 
 assertPart("THGAMVT0T43BAB8", {
@@ -425,10 +484,17 @@ assertPart("THGAMVT0T43BAB8", {
   type: "eMMC",
   densityMbit: 1048576,
   processField: "BiCS4",
-  package: "BGA",
+  cellField: "TLC",
+  voltage: "Vcc: 3.3V, VccQ: 1.8V",
+  package: "BGA (11.5 x 13 x 1.2)",
   extra: {
     "Storage Interface": "eMMC 5.1",
-    "Product Class": "Automotive AEC-Q100 Grade 2"
+    "Product Class": "Automotive AEC-Q100 Grade 2",
+    "Controller Revision": "V",
+    "Die Stack": "4-die",
+    "Package Code": "BAB8",
+    "Lead free": "Yes",
+    "Halogen free": "Yes"
   },
   absentExtra: ["Product Version", "NAND Technology", "Product Generation"]
 });
@@ -485,7 +551,12 @@ assertPart("THGVX1G7D2GLA08", {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
-    Plane: 2
+    Plane: 2,
+    "Package Code": "LA",
+    "Lead free": "Yes",
+    "Halogen free": "Yes",
+    "CE Count": 1,
+    "Channel Count": 1
   },
   absentExtra: ["System", "Product Family"]
 });
@@ -501,7 +572,12 @@ assertPart("TCGVX1G7D2GLA08", {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
-    Plane: 2
+    Plane: 2,
+    "Package Code": "LA",
+    "Lead free": "Yes",
+    "Halogen free": "Yes",
+    "CE Count": 1,
+    "Channel Count": 1
   },
   absentExtra: ["System", "Product Family"]
 });
@@ -517,7 +593,12 @@ assertPart("THGBX2G7D2JLA01", {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
-    Plane: 2
+    Plane: 2,
+    "Package Code": "LA",
+    "Lead free": "Yes",
+    "Halogen free": "Yes",
+    "CE Count": 1,
+    "Channel Count": 1
   },
   absentExtra: ["System", "Product Family"]
 });

@@ -175,6 +175,40 @@
           "XL": "LGA",
           "LA": "LGA"
         },
+        "packageEnvObj": {
+          "FT": {
+            "lead_free": false,
+            "halogen_free": false
+          },
+          "TG": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "TA": {
+            "lead_free": true,
+            "halogen_free": true
+          },
+          "XB": {
+            "lead_free": false,
+            "halogen_free": false
+          },
+          "XG": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "BA": {
+            "lead_free": true,
+            "halogen_free": true
+          },
+          "XL": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "LA": {
+            "lead_free": true,
+            "halogen_free": true
+          }
+        },
         "ch": {
           "0": 1,
           "2": 1,
@@ -367,6 +401,13 @@
           "default": "Unknown"
         },
         {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageEnvObj",
+          "to": "packageEnvObj",
+          "default": {}
+        },
+        {
           "op": "take",
           "len": 1,
           "to": "classificationCode"
@@ -429,9 +470,7 @@
           },
           "plane": {
             "$var": "plane"
-          },
-          "lead_free": true,
-          "halogen_free": false
+          }
         },
         "fields.density": {
           "$var": "density"
@@ -451,29 +490,26 @@
         "fields.package": {
           "$var": "packageFinal"
         },
-        "fields.die_count": {
+        "fields.package_code": {
+          "$var": "packageCode"
+        },
+        "fields.lead_free": {
           "$path": [
-            "classification",
-            "die"
+            "packageEnvObj",
+            "lead_free"
+          ]
+        },
+        "fields.halogen_free": {
+          "$path": [
+            "packageEnvObj",
+            "halogen_free"
           ]
         },
         "fields.ce_count": {
-          "$path": [
-            "classification",
-            "ce"
-          ]
-        },
-        "fields.rb_count": {
-          "$path": [
-            "classification",
-            "rb"
-          ]
+          "$var": "ce"
         },
         "fields.channel_count": {
-          "$path": [
-            "classification",
-            "ch"
-          ]
+          "$var": "ch"
         },
         "meta.ruleId": "vendor.kioxia.token.tc.v1"
       }
@@ -726,6 +762,40 @@
           "BGA:N": "BGA152",
           "BGA:P": "BGA132",
           "BGA:S": "BGA154"
+        },
+        "packageEnvObj": {
+          "FT": {
+            "lead_free": false,
+            "halogen_free": false
+          },
+          "TG": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "TA": {
+            "lead_free": true,
+            "halogen_free": true
+          },
+          "XB": {
+            "lead_free": false,
+            "halogen_free": false
+          },
+          "XG": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "BA": {
+            "lead_free": true,
+            "halogen_free": true
+          },
+          "XL": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "LA": {
+            "lead_free": true,
+            "halogen_free": true
+          }
         }
       },
       "steps": [
@@ -847,6 +917,13 @@
           "default": "Unknown"
         },
         {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageEnvObj",
+          "to": "packageEnvObj",
+          "default": {}
+        },
+        {
           "op": "take",
           "len": 1,
           "to": "classificationCode"
@@ -909,9 +986,7 @@
           },
           "plane": {
             "$var": "plane"
-          },
-          "lead_free": true,
-          "halogen_free": false
+          }
         },
         "fields.density": {
           "$var": "density"
@@ -931,29 +1006,26 @@
         "fields.package": {
           "$var": "packageFinal"
         },
-        "fields.die_count": {
+        "fields.package_code": {
+          "$var": "packageCode"
+        },
+        "fields.lead_free": {
           "$path": [
-            "classification",
-            "die"
+            "packageEnvObj",
+            "lead_free"
+          ]
+        },
+        "fields.halogen_free": {
+          "$path": [
+            "packageEnvObj",
+            "halogen_free"
           ]
         },
         "fields.ce_count": {
-          "$path": [
-            "classification",
-            "ce"
-          ]
-        },
-        "fields.rb_count": {
-          "$path": [
-            "classification",
-            "rb"
-          ]
+          "$var": "ce"
         },
         "fields.channel_count": {
-          "$path": [
-            "classification",
-            "ch"
-          ]
+          "$var": "ch"
         },
         "meta.ruleId": "vendor.kioxia.token.th.v1"
       }
