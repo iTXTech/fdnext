@@ -32,6 +32,7 @@ node packages/fdbgen/dist/cli.js build --input <dataset-dir> --output <fdb.json>
 
 ```bash
 pnpm fdbgen:generate --input <dataset-dir> --output <fdb.json> --version <ver> [options]
+pnpm fdbgen:audit
 ```
 
 当前 raw FlashDB 生成命令：
@@ -81,6 +82,28 @@ pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 - `--flush-hits <n>`：累计命中多少条后 flush 一次 `mdb.json`（默认 `20`）
 - `--save-each-hit`：每次命中都 flush `mdb.json`
 - `--no-save-each-hit`：仅在结束时写盘
+
+`audit` 是只读检查命令，用于在清理前后固定 FDB 质量口径，不会修改 `fdb.json`：
+
+```bash
+pnpm fdbgen:audit
+pnpm fdbgen:audit -- --json
+pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/resources/resources/fdb.json --max-samples 12
+```
+
+- `--file <path>`：要检查的 `fdb.json` 文件，根脚本默认指向 `packages/resources/resources/fdb.json`
+- `--json`：输出结构化 JSON 报告，方便后续 CI 或脚本消费
+- `--max-samples <n>`：每类问题最多输出多少个样本，默认 `8`
+- `--fail-on-issues`：发现任意 issue 时以退出码 `2` 结束，默认只报告不失败
+
+当前审计会覆盖以下规范：
+
+- 顶层 vendor 是否在已知 FDB vendor 集合内
+- `iddb` key 和 PN `id` / `f` 引用是否为完整 6 字节 / 12 位十六进制 Flash ID
+- PN `id` / `f`、`a`、`iddb.n` 是否存在悬空引用
+- 确定性 PN 前缀和 vendor 桶是否冲突
+- PN 表中是否混入合成标签、描述片段、日期码、异常标点或 controller-only 记录
+- `iddb` 中缺少 PN 反向引用或 controller 支持的低置信记录
 
 `crawl-mdb-from-fbga` 默认按 Micron DRAM FBGA 常见 code 段生成候选（`C9/D8/D9/Z8/Z9` + 字母网格），只信 Micron 官方 FBGA decoder API 返回的 PN，并写入统一 `mdb.json`：
 

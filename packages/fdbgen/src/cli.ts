@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 import { resolve } from "node:path";
+import { auditFdbFile, formatFdbAuditText } from "./audit";
 import { generateFdb } from "./fdbgen";
 import { crawlMdb, crawlMdbDram } from "./mdb";
 
@@ -25,12 +26,16 @@ interface CliOptions {
   codesFile?: string;
   generatedCodes?: boolean;
   startFromCode?: string;
+  format?: "text" | "json";
+  maxSamples?: number;
+  failOnIssues?: boolean;
 }
 
 function usage(): string {
   return [
     "Usage:",
     "  fdnext-fdbgen build --input <dir> --output <file> --version <ver> [options]",
+    "  fdnext-fdbgen audit --file <fdb.json> [options]",
     "  fdnext-fdbgen crawl-mdb --file <mdb.json> [options]",
     "  fdnext-fdbgen crawl-mdb-from-fbga --file <mdb.json> [--codes <fbga-codes.json>] [options]",
     "",
@@ -45,6 +50,12 @@ function usage(): string {
     "  --exclude-controller <name>",
     "                      Exclude a controller from generated FDB output; repeatable",
     "  --pretty            Write pretty JSON (default for MDB crawls)",
+    "",
+    "Audit options:",
+    "  --file <path>       fdb.json file path to audit",
+    "  --json              Print JSON audit report",
+    "  --max-samples <n>   Maximum samples per issue (default 8)",
+    "  --fail-on-issues    Exit with status 2 when any audit issue is found",
     "",
     "MDB crawl options:",
     "  --file <path>       mdb.json file path for read/write",
@@ -294,6 +305,43 @@ function parseCrawlMdbDramOptions(args: string[]): CliOptions {
   return options;
 }
 
+function parseAuditOptions(args: string[]): CliOptions {
+  const options: CliOptions = {
+    format: "text",
+    failOnIssues: false
+  };
+  for (let i = 0; i < args.length; i += 1) {
+    const arg = args[i];
+    if (arg === "--") {
+      continue;
+    }
+    if (arg === "--file") {
+      options.file = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--json") {
+      options.format = "json";
+      continue;
+    }
+    if (arg === "--max-samples") {
+      options.maxSamples = parseIntegerFlag(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--fail-on-issues") {
+      options.failOnIssues = true;
+      continue;
+    }
+    if (arg === "-h" || arg === "--help") {
+      process.stdout.write(`${usage()}\n`);
+      process.exit(0);
+    }
+    throw new Error(`Unknown argument: ${arg}`);
+  }
+  return options;
+}
+
 function runBuild(args: string[]): void {
   const opts = parseBuildOptions(args);
   if (!opts.inputDir) {
@@ -319,6 +367,26 @@ function runBuild(args: string[]): void {
   });
 
   process.stdout.write(`FDB generated: ${resolve(opts.outputFile)}\n`);
+}
+
+function runAudit(args: string[]): void {
+  const opts = parseAuditOptions(args);
+  if (!opts.file) {
+    throw new Error("Missing required --file");
+  }
+
+  const targetFile = resolve(opts.file);
+  const result = auditFdbFile(targetFile, {
+    maxSamples: opts.maxSamples
+  });
+  if (opts.format === "json") {
+    process.stdout.write(`${JSON.stringify(result, null, 2)}\n`);
+  } else {
+    process.stdout.write(formatFdbAuditText(result, targetFile));
+  }
+  if (opts.failOnIssues && result.issues.length > 0) {
+    process.exitCode = 2;
+  }
 }
 
 async function runCrawlMdb(args: string[]): Promise<void> {
@@ -394,6 +462,10 @@ async function main(): Promise<void> {
   }
   if (command === "build") {
     runBuild(process.argv.slice(3));
+    return;
+  }
+  if (command === "audit") {
+    runAudit(process.argv.slice(3));
     return;
   }
   if (command === "crawl-mdb") {

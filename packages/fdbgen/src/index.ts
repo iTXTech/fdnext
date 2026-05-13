@@ -1,4 +1,13 @@
 export type {
+  FdbAuditFanout,
+  FdbAuditIssue,
+  FdbAuditOptions,
+  FdbAuditResult,
+  FdbAuditSeverity,
+  FdbAuditSummary,
+  FdbAuditVendorStats
+} from "./audit";
+export type {
   CrawlMdbOptions,
   CrawlMdbDramOptions,
   CrawlMdbDramResult,
@@ -14,6 +23,7 @@ export type {
   GenerateFdbOptions,
   PartNumberPayload
 } from "./types";
+export { DEFAULT_FDB_AUDIT_VENDORS, auditFdb, auditFdbFile, formatFdbAuditText } from "./audit";
 export { generateFdb } from "./fdbgen";
 export {
   FDNEXT_FDBGEN_V1_COMPACT_VERSION,
