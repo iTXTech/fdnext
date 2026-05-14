@@ -3,7 +3,7 @@
         "name": "iTXTech fdnext FDB",
         "website": "https:\/\/github.com\/iTXTech\/fdnext",
         "version": "82",
-        "time": "Wed, 13 May 2026 16:26:28 GMT",
+        "time": "Thu, 14 May 2026 04:37:05 GMT",
         "controllers": [
             "AU6987(AN)",
             "AU6989SN",
@@ -6548,7 +6548,9 @@
                 "micron FNMB47R512G1KLBAE",
                 "micron FNMB47R512GB1KLBAE",
                 "micron MT29F1T08EELEE",
+                "micron MT29F1T08EELKE",
                 "micron MT29F2T08EMLEE",
+                "micron MT29F2T08EMLKE",
                 "micron MT29F512G08EBLEE",
                 "micron MT29F512G08EBLKE",
                 "micron MT29F512G08MBLKE"
@@ -7212,7 +7214,8 @@
                 "ZC3281"
             ],
             "n": [
-                "micron MT29F1T08EBLEH"
+                "micron MT29F1T08EBLEH",
+                "micron MT29F4T08EMLEH"
             ]
         },
         "2CD30832E835": {
@@ -73702,6 +73705,10 @@
                 "SM2322"
             ]
         },
+        "MT29F16T08EWLEH": {
+            "l": "B68S",
+            "d": 16
+        },
         "MT29F16T08GWLBE": {
             "id": [
                 "2CF39E32C600"
@@ -74029,12 +74036,14 @@
                 "2CD30832E835",
                 "2CD30832E836"
             ],
+            "l": "B68S",
             "t": [
                 "FC3379",
                 "SM2259XT2",
                 "SM2259XT3",
                 "ZC3281"
-            ]
+            ],
+            "d": 1
         },
         "MT29F1T08EEHAF": {
             "id": [
@@ -74146,6 +74155,13 @@
             "t": [
                 "AU6989SN-TA"
             ]
+        },
+        "MT29F1T08EELKE": {
+            "id": [
+                "2CC30832EA36"
+            ],
+            "l": "B47T",
+            "d": 2
         },
         "MT29F1T08EMHAF": {
             "id": [
@@ -75803,6 +75819,13 @@
                 "AU6989SN-TA"
             ]
         },
+        "MT29F2T08EMLKE": {
+            "id": [
+                "2CC30832EA36"
+            ],
+            "l": "B47T",
+            "d": 4
+        },
         "MT29F2T08EUHAF": {
             "id": [
                 "2CC48932A100",
@@ -77283,6 +77306,13 @@
                 "SM2322"
             ]
         },
+        "MT29F4T08EMLEH": {
+            "id": [
+                "2CD30832E834"
+            ],
+            "l": "B68S",
+            "d": 4
+        },
         "MT29F4T08EUHAF": {
             "id": [
                 "2CD48932A600",
@@ -77382,10 +77412,12 @@
                 "2CD38932EA34",
                 "2CD38932EA36"
             ],
+            "l": "B47T",
             "t": [
                 "INIC6081",
                 "PS3111"
-            ]
+            ],
+            "d": 8
         },
         "MT29F4T08GBCAG": {
             "id": [
@@ -78233,7 +78265,7 @@
                 "2CC30832EA34",
                 "2CC30832EA36"
             ],
-            "l": "3D B47T",
+            "l": "B47T",
             "t": [
                 "AU6989SN-TA",
                 "CBM2199EE",
@@ -78247,7 +78279,8 @@
                 "SM2322",
                 "SM3265AC",
                 "SM3281BB"
-            ]
+            ],
+            "d": 1
         },
         "MT29F512G08EBLLH": {
             "id": [
@@ -80282,10 +80315,12 @@
                 "2CE38932E834",
                 "2CE38932E835"
             ],
+            "l": "B68S",
             "t": [
                 "SM2259XT2",
                 "SM2259XT3"
-            ]
+            ],
+            "d": 8
         },
         "MT29F8T08EWHAF": {
             "id": [
@@ -80347,10 +80382,12 @@
                 "2CE38A32EA34",
                 "2CE38A32EA36"
             ],
+            "l": "B47T",
             "t": [
                 "INIC6081",
                 "PS3111"
-            ]
+            ],
+            "d": 16
         },
         "MT29F8T08GULBE": {
             "id": [

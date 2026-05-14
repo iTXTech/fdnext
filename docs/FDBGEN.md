@@ -56,6 +56,8 @@ pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 
 说明：SpecTek 查询沿用旧版 ASPX 页面流程（`https://www.spectek.com/menus/mark_code.aspx`），通过提交表单后解析页面 DOM 表格，不依赖新接口；默认覆盖 NAND `PF*` / `PX*` 以及 DRAM `PB*` / `PE*` / `PP*` / `PU*` mark code 前缀。
 
+Micron 查询统一按 FBGA code 前缀 profile 生成候选并调用官方 FBGA decoder API。默认 profile 包括 `C9/D8/D9/Z8/Z9` 两位前缀后三位字母网格，以及 `NC/NW/NY/NX/NQ/NV` 数字段。后续新增 Micron 数字段或字母网格段时扩展 profile，不再新增 crawler 入口。`--codes` 补充输入会按前缀路由：命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
+
 ### 参数
 
 - `--input <dir>`：输入目录（必填）
@@ -66,7 +68,7 @@ pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 - `--name <name>`：覆盖 `info.name`
 - `--website <url>`：覆盖 `info.website`
 - `--exclude-controller <name>`：从生成的 FDB 输出中排除指定控制器，可重复传入，也可用逗号分隔；默认黑名单包含 `3281FL` / `3379FL`
-- `--pretty`：格式化输出 JSON（`crawl-mdb` 和 `crawl-mdb-from-fbga` 默认已格式化，便于查看 diff）
+- `--pretty`：格式化输出 JSON（`crawl-mdb` 默认已格式化，便于查看 diff）
 
 `info.version` 必须显式传入。`info.time` 始终在生成时写入当前 UTC 时间，不从 `meta.json` / `extra.json` 或命令行覆盖。
 
@@ -75,7 +77,9 @@ pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 `crawl-mdb` 额外参数：
 
 - `--file <path>`：`mdb.json` 文件路径（必填）
-- `--micron-max <n>`：Micron 爬取上界（不含，默认 `1000`）
+- `--codes <path>`：可选补充 MDB code JSON，当前参考文件为 `references/micron-fbga-codes.json`，使用顶层字符串数组保存非默认 profile 的历史例外；读取时按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek，未知前缀跳过。
+- `--start-from <code>`：从 Micron 或 SpecTek code 段开始，例如 `D9N` 从 Micron 字母网格段继续跑，`NW101` 从 Micron 数字段继续跑，`PB002` 从 SpecTek 队列继续跑。
+- `--micron-max <n>`：Micron 数字段 FBGA 上界（不含，默认 `1000`）
 - `--spectek-max <n>`：SpecTek 爬取上界（不含，默认按前缀自动计算）
 - `--delay-ms <n>`：每次请求间隔（毫秒）
 - `--user-agent <ua>`：自定义请求 UA
@@ -111,23 +115,6 @@ pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --t
 - `iddb` 中缺少 PN 反向引用或 controller 支持的低置信记录
 
 开启 `--trace-sources` 时，audit 会在 fdbgen 内部构建临时 provenance map，但不会把 trace 写入最终 FDB。报告会同时展示最终 FDB issue 和该 issue 对应的引入位置，例如哪个 controller parser、哪个 raw 文件、哪一行或 JSON record、原始内容、归一化后的 vendor / PN / Flash ID 以及 `add_part_id` / `merge_part_payload` / `merge_flash_payload` 等 decision。该模式用于清理前定位来源，常规发布资源仍只输出干净的 `fdb.json`。
-
-`crawl-mdb-from-fbga` 默认按 Micron DRAM FBGA 常见 code 段生成候选（`C9/D8/D9/Z8/Z9` + 字母网格），只信 Micron 官方 FBGA decoder API 返回的 PN，并写入统一 `mdb.json`：
-
-```bash
-pnpm fdbgen:crawl-mdb-from-fbga -- --file packages/resources/resources/mdb.json
-```
-
-- `--codes <path>`：可选补充 Micron FBGA code JSON，当前参考文件为 `references/micron-fbga-codes.json`，使用顶层字符串数组保存非默认字母网格的历史例外；读取时会跳过 `crawl-mdb` 使用的 Micron NAND 段 `NC/NW/NY/NX/NQ/NV`
-- `--file <path>`：`mdb.json` 文件路径（必填）
-- `--start-from <code>`：从指定 FBGA code 或 code 段开始，例如 `D9N` 会从 `D9N*` 段继续跑
-- `--delay-ms <n>`：每次请求间隔（毫秒）
-- `--user-agent <ua>`：自定义请求 UA
-- `--no-generated-codes`：禁用默认 `C9/D8/D9/Z8/Z9` 生成候选，只使用 `--codes` 补充文件
-- `--concurrency <n>`：并行请求上限（默认 `5`）
-- `--flush-hits <n>`：累计命中多少条后 flush 一次 `mdb.json`（默认 `20`）
-- `--save-each-hit`：每次命中都 flush `mdb.json`
-- `--no-save-each-hit`：仅在结束时写盘
 
 ## 输入目录约定
 

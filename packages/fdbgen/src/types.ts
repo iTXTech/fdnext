@@ -50,11 +50,6 @@ export interface MdbPayload {
   spectek: Record<string, string[]>;
 }
 
-export interface MdbDramEntry {
-  code: string;
-  pn: string;
-}
-
 export interface MdbCrawlSectionStats {
   requests: number;
   hits: number;
@@ -63,8 +58,32 @@ export interface MdbCrawlSectionStats {
   errors: number;
 }
 
+export type MicronFbgaPrefixProfileKind = "letterGrid" | "numberedRange";
+
+export interface MicronFbgaPrefixProfile {
+  name: string;
+  kind: MicronFbgaPrefixProfileKind;
+  prefixes: string[];
+  letters?: string[];
+  startFrom?: Record<string, number>;
+  max?: number;
+}
+
+export interface MicronFbgaCrawlPlanEntry {
+  code: string;
+  profile: string;
+  prefix: string;
+  kind: MicronFbgaPrefixProfileKind;
+}
+
+export interface MicronFbgaCrawlPlan {
+  entries: MicronFbgaCrawlPlanEntry[];
+  skipped: number;
+}
+
 export interface MdbCrawlStats {
-  micron: MdbCrawlSectionStats;
+  micronFbga: MdbCrawlSectionStats;
+  micronFbgaProfiles: Record<string, MdbCrawlSectionStats>;
   spectek: MdbCrawlSectionStats;
   durationMs: number;
 }
@@ -72,11 +91,6 @@ export interface MdbCrawlStats {
 export interface CrawlMdbResult {
   data: MdbPayload;
   stats: MdbCrawlStats;
-}
-
-export interface CrawlMdbDramResult {
-  data: MdbDramEntry[];
-  stats: MdbCrawlSectionStats & { durationMs: number };
 }
 
 export interface MdbQueryOptions {
@@ -95,23 +109,17 @@ export interface CrawlMdbOptions extends MdbQueryOptions {
   flushHits?: number;
   concurrency?: number;
   delayMs?: number;
-  micronHeaders?: string[];
+  codesFile?: string;
+  supplementalCodes?: string[];
+  generatedCodes?: boolean;
+  startFromCode?: string;
+  micronFbgaProfiles?: MicronFbgaPrefixProfile[];
+  micronLetterGridPrefixes?: string[];
+  micronFbgaLetters?: string[];
+  micronNumberedPrefixes?: string[];
   spectekHeaders?: string[];
   micronStartFrom?: Record<string, number>;
   micronMax?: number;
   spectekMax?: number;
-  logger?: (message: string) => void;
-}
-
-export interface CrawlMdbDramOptions extends MdbQueryOptions {
-  codesFile?: string;
-  generatedCodes?: boolean;
-  file?: string;
-  pretty?: boolean;
-  saveEachHit?: boolean;
-  flushHits?: number;
-  concurrency?: number;
-  startFromCode?: string;
-  delayMs?: number;
   logger?: (message: string) => void;
 }

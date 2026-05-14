@@ -49,6 +49,11 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - 新 pack 需要在 `packages/decodepack/src/rules/default-rules.ts` 导入并加入 `defaultPartDecodeSpecs`。
 - `fields.density` / `fields.dram_density` 继续使用项目既有单位 Mbit，例如 8GB = `65536`。
 - `tokenDecoder.assign` 只输出 native draft 路径：`device.*`、`fields.*`、`identifiers.*`、`controllers`、`components`、`meta.*`。用户可见字段使用 canonical snake_case key，例如 `component_density`、`generation_info`、`storage_interface`，不要直接写展示文本。
+- `package_code`、`config_code`、`controller_code`、`die_code`、`feature_code` 以及其他 `*_code` token 只用于规则内部解析，不得进入 `fields.*` 或 public result；package / config / controller 等 token 命中后，应优先输出 `package`、`controller`、`controller_revision`、`die_revision`、`process_node`、`special_option` 等语义字段。
+- `nand_component`、design ID、product generation code 等纯编码线索也默认只作内部 token；没有稳定可读语义时不要输出给用户。
+- `speed_grade` 是例外：需要保留原始 speed / grade token，并可附带可读含义，例如 `046BT Fully Tested`、`PG Partial Good Mixed Bins`。
+- `voltage` / `dram_voltage` 只表达电压本身；不要把 DDR 代际、DRAM 类型、产品线等已在其他字段出现的信息重复塞进电压文本。
+- `package` 只在官方资料、datasheet、catalog、拆解或可信分销页能确认实际封装尺寸 / ball count / pin 信息时输出；只有厂商 package token 时应省略公开 `package`，不要退回输出 package code。
 - 不维护历史 metadata alias 或运行时兼容转换。新增或清理字段时，直接迁移 iTXTech fdnext DecodePack 源规则、语言包和 testcase，并把旧 key 加入审计测试的禁止列表。
 
 特别禁止：
@@ -56,6 +61,7 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - 用完整料号数组做直接匹配。
 - 把外部引用状态、来源 URL、推断来源等维护信息 merge 到 `fields` 或公开结果。
 - 只根据厂商前缀判断 eMMC / UFS / MCP 类型；需要结合后续 token。
+- 把 package/config/controller/die/feature 等 code 字段作为“有用细节”展示给用户。
 
 ## PN 资料和可信度
 
@@ -75,7 +81,7 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 - `external_table_confirmed`: FlashInfo、论坛 flash-id 表、SSD dump、分销页面等外部网页与本地 `fdb` / `fdfdb` 同向。可进入规则，但文档应说明来源档位。
 - `local_pending_external_reference`: 仅本地 `fdb` / `fdfdb` 或 MPTool 数据，暂未找到外部网页。不要删除候选，可保留在 iTXTech fdnext DecodePack 内部 metadata 或工作总结中，但不要写成确定结论。
 
-本地 `../fdfdb` 可以用于辅助推断，但 MPTool 数据质量不稳定。进入确定规则前必须找外部网页确认；找不到 reference 时，总结哪些字段可确定、哪些仍待确认。
+官方 PDF、datasheet、ordering information、part catalog 和 selection guide 如果清楚暴露 token 结构，可直接作为规则和 testcase 依据。本地 `../fdfdb` 可以用于辅助推断，但 MPTool 数据质量不稳定。进入确定规则前必须找外部网页确认；找不到 reference 时，总结哪些字段可确定、哪些仍待确认。
 
 可信度字段只允许留在 iTXTech fdnext DecodePack 内部 metadata，例如 `tables.reference`。以下字段不得出现在用户可见输出中：
 
@@ -95,10 +101,11 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 
 - NAND / managed NAND: `component_density`、`die_density`、`die_stack`、`generation_info`
 - MCP storage: `storage_density`、`storage_interface`
-- Controller: `controller`、`controller_code`、`controller_revision`
+- Controller: `controller`、`controller_revision`
 - DRAM / MCP DRAM: `dram_type`、`dram_density`、`dram_die_density`、`dram_die_stack`、`dram_generation`、`dram_speed`、`dram_width`、`dram_voltage`
 
 不要让 Samsung、SK hynix、Micron、KIOXIA 等厂商输出同一概念时使用不同字段风格。
+不要新增公开 `*_code` 字段来表达跨厂商概念；如果确实需要保留原始 token，应先判断它是否属于 `speed_grade` 这类用户有直接价值的例外，否则只留在规则内部变量、表 key 或 metadata 中。
 
 ## 测试和验证
 
@@ -124,6 +131,8 @@ pnpm contract:check
 - `device.vendor` / `device.chipKind` / `device.productType`
 - canonical fields：`density` / `dram_density` / `process_node` / `cell_level` / `device_width` / `dram_width` / `package`
 - 关键 `fields.*` 字段
+- public result 不出现 `*_code` 字段或 `Code` 标签；`packages/decodepack/test/metadata-audit.test.ts` 应持续防止 code/token 字段泄漏
+- `speed_grade` 保留原始 speed / grade token
 - 维护 metadata 没有泄漏到 public fields
 
 ## 文档更新要求

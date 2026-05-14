@@ -3,7 +3,7 @@
 import { resolve } from "node:path";
 import { auditFdb, auditFdbFile, formatFdbAuditText } from "./audit";
 import { generateFdb, generateFdbWithTrace } from "./fdbgen";
-import { crawlMdb, crawlMdbDram } from "./mdb";
+import { crawlMdb } from "./mdb";
 
 interface CliOptions {
   inputDir?: string;
@@ -24,7 +24,6 @@ interface CliOptions {
   concurrency?: number;
   userAgent?: string;
   codesFile?: string;
-  generatedCodes?: boolean;
   startFromCode?: string;
   format?: "text" | "json";
   maxSamples?: number;
@@ -39,7 +38,6 @@ function usage(): string {
     "  fdnext-fdbgen audit --file <fdb.json> [options]",
     "  fdnext-fdbgen audit --input <dir> --version <ver> --trace-sources [options]",
     "  fdnext-fdbgen crawl-mdb --file <mdb.json> [options]",
-    "  fdnext-fdbgen crawl-mdb-from-fbga --file <mdb.json> [--codes <fbga-codes.json>] [options]",
     "",
     "Build options:",
     "  --input <dir>       Input dataset directory",
@@ -64,24 +62,14 @@ function usage(): string {
     "",
     "MDB crawl options:",
     "  --file <path>       mdb.json file path for read/write",
-    "  --micron-max <n>    Micron upper bound (exclusive, default 1000)",
+    "  --codes <path>      Supplemental MDB code JSON; Micron/Spectek is inferred by prefix",
+    "  --start-from <code> Start from a Micron or SpecTek code segment, e.g. D9N, NW101, or PB002",
+    "  --micron-max <n>    Numbered Micron FBGA upper bound (exclusive, default 1000)",
     "  --spectek-max <n>   SpecTek upper bound (exclusive, optional)",
     "  --delay-ms <n>      Delay between requests in milliseconds",
     "  --concurrency <n>   Maximum concurrent MDB requests (default 5)",
     "  --flush-hits <n>    Flush mdb.json after this many hits (default 20)",
     "  --user-agent <ua>   Custom HTTP User-Agent",
-    "  --save-each-hit     Flush mdb.json after every hit",
-    "  --no-save-each-hit  Save only once at the end",
-    "",
-    "FBGA to MDB options:",
-    "  --codes <path>      Supplemental FBGA code JSON (top-level string array)",
-    "  --file <path>       mdb.json file path for read/write",
-    "  --start-from <code> Start from an FBGA code or segment, e.g. D9N",
-    "  --delay-ms <n>      Delay between requests in milliseconds",
-    "  --concurrency <n>   Maximum concurrent MDB requests (default 5)",
-    "  --flush-hits <n>    Flush mdb.json after this many hits (default 20)",
-    "  --user-agent <ua>   Custom HTTP User-Agent",
-    "  --no-generated-codes  Disable default C9/D8/D9/Z8/Z9 generated candidates",
     "  --save-each-hit     Flush mdb.json after every hit",
     "  --no-save-each-hit  Save only once at the end",
     "  -h, --help          Show help"
@@ -187,8 +175,18 @@ function parseCrawlOptions(args: string[]): CliOptions {
       i += 1;
       continue;
     }
+    if (arg === "--codes") {
+      options.codesFile = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
     if (arg === "--pretty") {
       options.pretty = true;
+      continue;
+    }
+    if (arg === "--start-from" || arg === "--start-segment") {
+      options.startFromCode = requireValue(args, i, arg);
+      i += 1;
       continue;
     }
     if (arg === "--micron-max") {
@@ -223,77 +221,6 @@ function parseCrawlOptions(args: string[]): CliOptions {
     }
     if (arg === "--no-save-each-hit") {
       options.saveEachHit = false;
-      continue;
-    }
-    if (arg === "--save-each-hit") {
-      options.saveEachHit = true;
-      options.flushHits = 1;
-      continue;
-    }
-    if (arg === "-h" || arg === "--help") {
-      process.stdout.write(`${usage()}\n`);
-      process.exit(0);
-    }
-    throw new Error(`Unknown argument: ${arg}`);
-  }
-  return options;
-}
-
-function parseCrawlMdbDramOptions(args: string[]): CliOptions {
-  const options: CliOptions = {
-    generatedCodes: true,
-    saveEachHit: true
-  };
-  for (let i = 0; i < args.length; i += 1) {
-    const arg = args[i];
-    if (arg === "--") {
-      continue;
-    }
-    if (arg === "--codes") {
-      options.codesFile = requireValue(args, i, arg);
-      i += 1;
-      continue;
-    }
-    if (arg === "--file") {
-      options.file = requireValue(args, i, arg);
-      i += 1;
-      continue;
-    }
-    if (arg === "--pretty") {
-      options.pretty = true;
-      continue;
-    }
-    if (arg === "--start-from" || arg === "--start-segment") {
-      options.startFromCode = requireValue(args, i, arg);
-      i += 1;
-      continue;
-    }
-    if (arg === "--delay-ms") {
-      options.delayMs = parseIntegerFlag(args, i, arg);
-      i += 1;
-      continue;
-    }
-    if (arg === "--concurrency") {
-      options.concurrency = parseIntegerFlag(args, i, arg);
-      i += 1;
-      continue;
-    }
-    if (arg === "--flush-hits") {
-      options.flushHits = parseIntegerFlag(args, i, arg);
-      i += 1;
-      continue;
-    }
-    if (arg === "--user-agent") {
-      options.userAgent = requireValue(args, i, arg);
-      i += 1;
-      continue;
-    }
-    if (arg === "--no-save-each-hit") {
-      options.saveEachHit = false;
-      continue;
-    }
-    if (arg === "--no-generated-codes") {
-      options.generatedCodes = false;
       continue;
     }
     if (arg === "--save-each-hit") {
@@ -435,6 +362,8 @@ async function runCrawlMdb(args: string[]): Promise<void> {
     saveEachHit: opts.saveEachHit ?? true,
     flushHits: opts.flushHits,
     concurrency: opts.concurrency,
+    codesFile: opts.codesFile ? resolve(opts.codesFile) : undefined,
+    startFromCode: opts.startFromCode,
     micronMax: opts.micronMax,
     spectekMax: opts.spectekMax,
     delayMs: opts.delayMs,
@@ -446,43 +375,10 @@ async function runCrawlMdb(args: string[]): Promise<void> {
 
   process.stdout.write(`MDB crawl completed: ${targetFile}\n`);
   process.stdout.write(
-    `Micron req=${result.stats.micron.requests} hit=${result.stats.micron.hits} miss=${result.stats.micron.misses} skip=${result.stats.micron.skips} err=${result.stats.micron.errors}\n`
+    `Micron FBGA req=${result.stats.micronFbga.requests} hit=${result.stats.micronFbga.hits} miss=${result.stats.micronFbga.misses} skip=${result.stats.micronFbga.skips} err=${result.stats.micronFbga.errors}\n`
   );
   process.stdout.write(
     `SpecTek req=${result.stats.spectek.requests} hit=${result.stats.spectek.hits} miss=${result.stats.spectek.misses} skip=${result.stats.spectek.skips} err=${result.stats.spectek.errors}\n`
-  );
-  process.stdout.write(`Duration=${result.stats.durationMs}ms\n`);
-}
-
-async function runCrawlMdbFromFbga(args: string[]): Promise<void> {
-  const opts = parseCrawlMdbDramOptions(args);
-  if (!opts.file) {
-    throw new Error("Missing required --file");
-  }
-  if (opts.generatedCodes === false && !opts.codesFile) {
-    throw new Error("Missing --codes when --no-generated-codes is used");
-  }
-
-  const targetFile = resolve(opts.file);
-  const result = await crawlMdbDram({
-    codesFile: opts.codesFile ? resolve(opts.codesFile) : undefined,
-    generatedCodes: opts.generatedCodes ?? true,
-    startFromCode: opts.startFromCode,
-    file: targetFile,
-    pretty: opts.pretty ?? true,
-    saveEachHit: opts.saveEachHit ?? true,
-    flushHits: opts.flushHits,
-    concurrency: opts.concurrency,
-    delayMs: opts.delayMs,
-    userAgent: opts.userAgent,
-    logger: (line) => {
-      console.debug(line);
-    }
-  });
-
-  process.stdout.write(`FDB FBGA to MDB crawl completed: ${targetFile}\n`);
-  process.stdout.write(
-    `MDB FBGA req=${result.stats.requests} hit=${result.stats.hits} miss=${result.stats.misses} skip=${result.stats.skips} err=${result.stats.errors}\n`
   );
   process.stdout.write(`Duration=${result.stats.durationMs}ms\n`);
 }
@@ -503,10 +399,6 @@ async function main(): Promise<void> {
   }
   if (command === "crawl-mdb") {
     await runCrawlMdb(process.argv.slice(3));
-    return;
-  }
-  if (command === "crawl-mdb-from-fbga") {
-    await runCrawlMdbFromFbga(process.argv.slice(3));
     return;
   }
   throw new Error(`Unknown command: ${command}`);
