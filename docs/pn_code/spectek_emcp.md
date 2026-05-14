@@ -71,7 +71,6 @@ iTXTech fdnext DecodePack:
 - `product_mode`
 - `storage_density`
 - `storage_interface`
-- `nand_component`
 - `component_width`
 - `cell_level`
 - `dram_density`
@@ -81,7 +80,6 @@ iTXTech fdnext DecodePack:
 - `package`
 - `special_option`
 - `controller`
-- `controller_code`
 - `speed_grade`
 
 ## 测试样例
@@ -92,3 +90,4 @@ iTXTech fdnext DecodePack:
 ## 注意
 
 SpecTek NAND MCP 是 NAND + LPDRAM 复合封装，不能归入 standalone raw NAND 或 standalone DRAM。当前用 `device.productType = emcp` 承载，storage 子系统输出 `Parallel NAND`。
+`package_code`、`controller_code`、`nand_component` 和 design ID 这类编码只用于内部解析，不进入公开字段；可读信息优先输出为 `package`、`controller`、`component_width` 等字段。`speed_grade` 例外保留原始 speed/grade token，并附带可读含义。

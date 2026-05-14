@@ -192,11 +192,7 @@
         {
           "op": "set",
           "to": "extra",
-          "value": {
-            "config_code": {
-              "$var": "configCode"
-            }
-          }
+          "value": {}
         },
         {
           "op": "merge",
@@ -232,9 +228,6 @@
         },
         "fields.dram_voltage": {
           "$var": "voltage"
-        },
-        "fields.config_code": {
-          "$var": "configCode"
         },
         "meta.ruleId": "vendor.spectek.mobile-dram.component.v1",
         "meta.fieldProfile": "dram",
@@ -939,11 +932,7 @@
         {
           "op": "set",
           "to": "extra",
-          "value": {
-            "config_code": {
-              "$var": "configCode"
-            }
-          }
+          "value": {}
         },
         {
           "op": "merge",
@@ -985,9 +974,6 @@
         },
         "fields.die_count": {
           "$path": "packageObj.die_count"
-        },
-        "fields.config_code": {
-          "$var": "configCode"
         },
         "meta.ruleId": "vendor.spectek.dram.component.v1",
         "meta.fieldProfile": "dram",

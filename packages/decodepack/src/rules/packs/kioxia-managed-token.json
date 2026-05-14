@@ -670,9 +670,6 @@
         "fields.controller_revision": {
           "$var": "controllerRevisionCode"
         },
-        "fields.package_code": {
-          "$var": "packageExactCode"
-        },
         "fields.package": {
           "$var": "package"
         },

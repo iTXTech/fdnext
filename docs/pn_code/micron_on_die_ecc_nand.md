@@ -39,7 +39,7 @@ PN 结构：
 
 - `device.productType` 输出 `on_die_ecc_nand`，展示为 `On-die ECC NAND`。
 - `MT29FB` 复用 `MT29F` raw NAND 的 density、device width、cell level、topology、voltage、die、interface、package 编码；区别是 `device.chipKind` 输出 `on_die_ecc_nand` 并补 `fields.ecc_enabled`。
-- `fields` 与 raw NAND 保持一致输出 `enterprise`、`die_code`、`interface_type`，`MT29FB` 额外输出 `ecc_enabled`。
+- `fields` 与 raw NAND 保持一致输出 `enterprise`、`interface_type`，`MT29FB` 额外输出 `ecc_enabled`；die/package 等 code token 只用于内部解析，不进入公开字段。
 
 ## 测试样例
 

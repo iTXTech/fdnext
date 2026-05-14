@@ -490,9 +490,6 @@
         "fields.package": {
           "$var": "packageFinal"
         },
-        "fields.package_code": {
-          "$var": "packageCode"
-        },
         "fields.lead_free": {
           "$path": [
             "packageEnvObj",
@@ -1005,9 +1002,6 @@
         },
         "fields.package": {
           "$var": "packageFinal"
-        },
-        "fields.package_code": {
-          "$var": "packageCode"
         },
         "fields.lead_free": {
           "$path": [

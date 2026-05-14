@@ -36,7 +36,7 @@ PN 结构：
 ## Reference check
 
 - `FEUDME` 车规 UFS 不能只按 `ME` 判成 UFS 2.1；`C8H09` 已外部确认是 UFS 3.1。
-- `config_code` 保留完整 5 位 token，避免 `C2A` / `C2H` 前缀丢掉后两位 revision。
+- config token 在规则内部保留完整 5 位，避免 `C2A` / `C2H` 前缀丢掉后两位 revision；不进入公开字段。
 
 ## 输出字段
 

@@ -43,7 +43,7 @@ M56Z + 8G32256A + 2H
 ## 输出约定
 
 - family token 输出标准 `dram_type`；公开结果折叠为 `SDR`、`DDR3`、`LPDDR4X` 等短世代名。
-- organization token 输出 `dram_density`、`dram_width` 与 `config_code`，单位继续使用 Mbit。
+- organization token 输出 `dram_density` 与 `dram_width`，单位继续使用 Mbit；`config_code` 只用于内部解析，不进入公开字段。
 - suffix `2C/2G/2H/2S/2Z` 等只作为封装 / 速度补充，不作为识别 PN 主结构的必要条件。
 - 官方产品表只确认容量、组织、电压、速度与封装；没有明确 die stack / CS token，本轮不推断 `dram_die_stack`。
 - `packages/resources/resources/dram-pn.json` 收录官方产品页 PN，用于搜索补全；解码仍由 token 规则完成。

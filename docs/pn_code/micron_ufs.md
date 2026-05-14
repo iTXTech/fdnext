@@ -31,10 +31,10 @@ PN 结构：
 ## 输出字段
 
 - `nand_component`
-- `controller_code`
-- `package_code`
 - `product_version`
 - `operation_temperature`
+
+`controller_code`、`package_code` 等 Micron token 只用于内部解析，不进入公开字段。
 
 ## 测试样例
 

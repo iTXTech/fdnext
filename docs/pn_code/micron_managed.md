@@ -34,8 +34,6 @@ PN 结构：
 ## 输出字段
 
 - `nand_component`
-- `controller_code`
-- `package_code`
 - `component_width`
 - `component_density`
 - `generation_info`
@@ -44,12 +42,14 @@ PN 结构：
 - `product_version`
 - `operation_temperature`
 
+`controller_code`、`package_code` 等 Micron token 只用于内部解析，不进入公开字段；用户可见结果优先输出 `controller`、`controller_revision`、`package` 等语义字段。
+
 ## 测试样例
 
 - `MTFC256GZZZZZZ-WT`
 
 ## 注意
 
-`MTFC` 同时覆盖 e.MMC 与 UFS，不能只靠前缀判断类型。实现中先按结构切 token，再用 `component:controller` 和 component 表推导 `type`；未知组合保留在 eMMC-compatible managed NAND fallback 中，并继续输出 component/controller/package code 与容量。
+`MTFC` 同时覆盖 e.MMC 与 UFS，不能只靠前缀判断类型。实现中先按结构切 token，再用 `component:controller` 和 component 表推导 `type`；未知组合保留在 eMMC-compatible managed NAND fallback 中，但 component/controller/package code 只作为内部解析线索。
 
 `MT29C...` / `MT29RZ...` 是老式 NAND + LPDRAM / LPDDR2 MCP，不属于 `MTFC`，也不能交给 raw NAND parser；raw NAND 边界收窄为 `MT29E...` / `MT29F...`。

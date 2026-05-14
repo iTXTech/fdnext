@@ -25,6 +25,21 @@ const redundantStandaloneExtra = [
   "status"
 ];
 
+const hiddenPublicCodeExtraKeys = new Set([
+  "Series Code",
+  "Cell Code",
+  "Layout Code",
+  "Density Code",
+  "Stack Code",
+  "Generation Code",
+  "Config Code",
+  "Package Code",
+  "Controller Code",
+  "Die Code",
+  "Feature Code",
+  "Marking Code"
+]);
+
 const standaloneDramExtraKeys = new Set([
   "Config Code",
   "DRAM Die Stack",
@@ -247,6 +262,12 @@ function assertDram(
   }
 
   const detailFields = extra(info);
+  for (const key of hiddenPublicCodeExtraKeys) {
+    if (key === "Marking Code") {
+      continue;
+    }
+    assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
+  }
   for (const key of Object.keys(detailFields)) {
     assert.ok(standaloneDramExtraKeys.has(key), `${partNumber} should use standardized DRAM extra key ${key}`);
   }
@@ -258,6 +279,10 @@ function assertDram(
     }
     if (key === "Marking Code") {
       assert.equal(info.markingCode, value, `${partNumber} device.markingCode`);
+      continue;
+    }
+    if (hiddenPublicCodeExtraKeys.has(key)) {
+      assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
       continue;
     }
     assert.equal(detailFields[key], value, `${partNumber} detailFields.${key}`);
@@ -388,10 +413,9 @@ assertDram("PRA128M8V88AG8GQF", {
   voltage: "1.5V",
   package: "FBGA 78/117B, 8x10.5MM",
   extra: {
-    "DRAM Type": "DDR3",
-    "Config Code": "128M8"
+    "DRAM Type": "DDR3"
   },
-  absentExtra: ["Package Code"]
+  absentExtra: ["Config Code", "Package Code"]
 });
 assertDram("PE010", {
   vendor: "spectek",
@@ -402,10 +426,9 @@ assertDram("PE010", {
   package: "FBGA 78/117B, 8x10.5MM",
   extra: {
     "DRAM Type": "DDR3",
-    "Config Code": "128M8",
     "Marking Code": "PE010"
   },
-  absentExtra: ["Package Code"]
+  absentExtra: ["Config Code", "Package Code"]
 });
 assertDram("SU512M8V80A11ARH", {
   vendor: "spectek",
@@ -415,10 +438,9 @@ assertDram("SU512M8V80A11ARH", {
   voltage: "Unknown",
   package: "Unknown",
   extra: {
-    "DRAM Type": "DDR3",
-    "Config Code": "512M8"
+    "DRAM Type": "DDR3"
   },
-  absentExtra: ["Package Code"]
+  absentExtra: ["Config Code", "Package Code"]
 });
 assertDram("PE002", {
   vendor: "spectek",
@@ -429,10 +451,9 @@ assertDram("PE002", {
   package: "Unknown",
   extra: {
     "DRAM Type": "DDR3",
-    "Config Code": "512M8",
     "Marking Code": "PE002"
   },
-  absentExtra: ["Package Code"]
+  absentExtra: ["Config Code", "Package Code"]
 });
 assertSpectekSearchMarkingRelation("PE010", "PRA128M8V88AG8GQF");
 assertDram("PB001", {
@@ -444,10 +465,9 @@ assertDram("PB001", {
   package: "Unknown",
   extra: {
     "DRAM Type": "DDR3",
-    "Config Code": "512M32",
     "Marking Code": "PB001"
   },
-  absentExtra: ["Package Code"]
+  absentExtra: ["Config Code", "Package Code"]
 });
 assertDram("PRM2G8Y52KBFRZ-56B", {
   vendor: "spectek",
@@ -458,10 +478,9 @@ assertDram("PRM2G8Y52KBFRZ-56B", {
   package: "VFBGA 78/117B, 7.5x11x1.0",
   extra: {
     "DRAM Type": "DDR5",
-    "Config Code": "2G8",
     "DRAM Speed": "DDR5-5600"
   },
-  absentExtra: ["Package Code"]
+  absentExtra: ["Config Code", "Package Code"]
 });
 assertDram("PU001", {
   vendor: "spectek",
@@ -472,10 +491,9 @@ assertDram("PU001", {
   package: "Unknown",
   extra: {
     "DRAM Type": "LPDDR",
-    "Config Code": "768M16",
     "Marking Code": "PU001"
   },
-  absentExtra: ["Package Code"]
+  absentExtra: ["Config Code", "Package Code"]
 });
 assertSpectekSearchMarkingRelation("PB001", "SM512M322C0FD4LH6");
 assertSpectekSearchMarkingRelation("PU001", "SM768M16Y2BMD1FDS");
@@ -488,10 +506,9 @@ assertDram("PRN1G8V91AG8SN-107", {
   package: "FBGA 78/117B, 9x13.2x1.2",
   extra: {
     "DRAM Type": "DDR3",
-    "Config Code": "1G8",
     "DRAM Speed": "933MHz (DDR-1866)"
   },
-  absentExtra: ["Package Code"]
+  absentExtra: ["Config Code", "Package Code"]
 });
 
 assertDram("MT40A1G8SA-075-E", {

@@ -34,8 +34,9 @@ PN 结构：
 - `dram_density`
 - `dram_type`
 - `product_family`
-- `package_code`
 - `operation_temperature`
+
+`package_code` 等 ordering token 只用于内部解析，不进入公开字段。
 
 ## 测试样例
 

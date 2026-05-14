@@ -57,8 +57,6 @@ MDB mark code:
 - `package`
 - `die_count`
 - `dram_speed`
-- `config_code`
-- `marking_code`
 
 ## 测试样例
 
@@ -73,4 +71,4 @@ MDB mark code:
 
 ## 注意
 
-`PE` 是 SpecTek mark code 头，不是完整 PN 头。接入时优先把官方 mark decoder 的 PE 结果落入 `mdb.spectek`，再由 DRAM PN 规则解析返回的 marketing PN。未确认的封装 token 不进入公开字段；只在官方 package 表命中时展示封装描述。电压字段只保留电压值本身，不把 DDR 代际重复写进电压文本。
+`PE` 是 SpecTek mark code 头，不是完整 PN 头。接入时优先把官方 mark decoder 的 PE 结果落入 `mdb.spectek`，再由 DRAM PN 规则解析返回的 marketing PN。`package_code`、`config_code` 等 token 只用于内部解析，不进入公开字段；只在官方 package 表命中时展示封装描述。电压字段只保留电压值本身，不把 DDR 代际重复写进电压文本。

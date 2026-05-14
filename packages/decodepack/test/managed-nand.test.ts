@@ -12,6 +12,21 @@ const engine = createEngine({
   decoders: compiledPack.partDecoders
 });
 
+const hiddenPublicCodeExtraKeys = new Set([
+  "Series Code",
+  "Cell Code",
+  "Layout Code",
+  "Density Code",
+  "Stack Code",
+  "Generation Code",
+  "Config Code",
+  "Package Code",
+  "Controller Code",
+  "Die Code",
+  "Feature Code",
+  "Marking Code"
+]);
+
 interface TestPartInfo {
   partNumber: string;
   vendor?: string;
@@ -156,11 +171,18 @@ function assertPart(
   if (expected.extra) {
     const detailFields = extra(info);
     for (const [key, value] of Object.entries(expected.extra)) {
+      if (hiddenPublicCodeExtraKeys.has(key)) {
+        assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
+        continue;
+      }
       assert.equal(detailFields[key], value, `${partNumber} detailFields.${key}`);
     }
   }
+  const detailFields = extra(info);
+  for (const key of hiddenPublicCodeExtraKeys) {
+    assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
+  }
   if (expected.absentExtra) {
-    const detailFields = extra(info);
     for (const key of expected.absentExtra) {
       assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
     }
@@ -449,14 +471,12 @@ assertPart("SUGNM1126A6BPIET-046BT", {
     "DRAM Type": "LPDDR4",
     "DRAM Width": "x16",
     "Component Width": "x8",
-    "NAND Component": "6A",
-    "Product Generation": "NM112",
     "Product Family": "SpecTek NAND MCP",
     "Product Mode": "SLC NAND + LPDDR4",
     "Special Option": "2 NAND, 2 LPDRAM",
-    "Speed Grade": "046 Fully Tested"
+    "Speed Grade": "046BT Fully Tested"
   },
-  absentExtra: ["Package Code"]
+  absentExtra: ["NAND Component", "Package Code", "Product Generation"]
 });
 assertPart("SMKJ6Z4ZZ4D4TGFAK-PG", {
   vendor: "spectek",
@@ -469,15 +489,13 @@ assertPart("SMKJ6Z4ZZ4D4TGFAK-PG", {
     "DRAM Density": "4Gb",
     "DRAM Type": "LPDRAM",
     "DRAM Width": "x32",
-    "Product Generation": "J6Z4",
     "Product Family": "SpecTek All-in-One",
     "Product Mode": "LPDDR + MLC eMMC",
     "Special Option": "0 NAND Flash, 2 LPDRAM (CS0#/CS1#), 1 eMMC",
     "Controller": "Phison 8200 V4.41 EF",
-    "Controller Code": "T",
-    "Speed Grade": "Partial Good Mixed Bins"
+    "Speed Grade": "PG Partial Good Mixed Bins"
   },
-  absentExtra: ["Package Code"]
+  absentExtra: ["Controller Code", "Package Code", "Product Generation"]
 });
 
 assertPart("TF10G1BAHA", {

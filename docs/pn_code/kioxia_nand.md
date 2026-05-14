@@ -44,12 +44,13 @@ PN 结构：
 - `block_size`
 - `plane`
 - `package`
-- `package_code`
 - `lead_free`
 - `halogen_free`
 - `multi_chip`
 - `ce_count`
 - `channel_count`
+
+`package_code` 等 Toshiba/KIOXIA decoder token 只用于内部解析，不进入公开字段。
 
 ## 测试样例
 

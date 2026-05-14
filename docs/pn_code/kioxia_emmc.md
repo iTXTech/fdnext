@@ -50,12 +50,13 @@ PN 结构：
 - `controller_revision`
 - `die_stack`
 - `package`
-- `package_code`
 - `lead_free`
 - `halogen_free`
 - `speed_grade`
 - `nand_technology`
 - `product_class`
+
+`package_code` 等 Toshiba/KIOXIA decoder token 只用于内部解析，不进入公开字段。
 - `operation_temperature`
 
 ## 测试样例

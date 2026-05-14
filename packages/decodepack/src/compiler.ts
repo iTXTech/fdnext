@@ -56,6 +56,38 @@ function cloneJson<T>(value: T): T {
   return value;
 }
 
+function isMutableRecord(value: unknown): value is Record<string, unknown> {
+  return Boolean(value && typeof value === "object" && !Array.isArray(value));
+}
+
+function isInternalCodeFieldKey(key: string): boolean {
+  return key.endsWith("_code");
+}
+
+function pruneInternalCodeFieldRecord(fields: unknown): void {
+  if (!isMutableRecord(fields)) {
+    return;
+  }
+  for (const key of Object.keys(fields)) {
+    if (isInternalCodeFieldKey(key)) {
+      delete fields[key];
+    }
+  }
+}
+
+function pruneInternalCodeFields(draft: Record<string, unknown>): void {
+  pruneInternalCodeFieldRecord(draft.fields);
+  const components = draft.components;
+  if (!Array.isArray(components)) {
+    return;
+  }
+  for (const component of components) {
+    if (isMutableRecord(component)) {
+      pruneInternalCodeFieldRecord(component.fields);
+    }
+  }
+}
+
 function readPath(context: Record<string, unknown>, path: string | string[]): unknown {
   const parts = Array.isArray(path) ? path : path.split(".");
   let current: unknown = context;
@@ -466,6 +498,7 @@ function runTokenDecoder(partNumber: string, decoder: DecodeProgram, trace?: Dec
     });
   }
 
+  pruneInternalCodeFields(out);
   return out as unknown as PartDecodeDraft;
 }
 
@@ -501,6 +534,7 @@ function decodePartBySpec(rule: PartDecodeSpec, normalized: string, trace?: Deco
       value: normalized
     });
   }
+  pruneInternalCodeFields(out);
   return out as unknown as PartDecodeDraft;
 }
 
@@ -672,6 +706,9 @@ function checkFieldKeys(value: unknown, path: string, specId: string, findings: 
     if (key.startsWith("$")) {
       continue;
     }
+    if (isInternalCodeFieldKey(key)) {
+      addFinding(findings, "error", "internal_field", `${path}.${key}`, `Internal code field "${key}" must not be assigned as a public field.`, specId);
+    }
     if (!Object.hasOwn(fdnextFieldRegistry, key)) {
       addFinding(findings, "error", "unknown_field", `${path}.${key}`, `Unknown canonical field key "${key}".`, specId);
     }
@@ -691,6 +728,9 @@ function walkPolicy(value: unknown, path: string, specId: string, findings: Deco
       addFinding(findings, "error", "legacy_identifier_ext", `${path}.${key}`, "Identifier output must use canonical fields instead of ext.", specId);
     }
     const nextInFields = inFields || key === "fields";
+    if (nextInFields && !key.startsWith("$") && key !== "fields" && isInternalCodeFieldKey(key)) {
+      addFinding(findings, "error", "internal_field", `${path}.${key}`, `Internal code field "${key}" must not be assigned as a public field.`, specId);
+    }
     if (nextInFields && !key.startsWith("$") && key !== "fields" && !Object.hasOwn(fdnextFieldRegistry, key)) {
       addFinding(findings, "error", "unknown_field", `${path}.${key}`, `Unknown canonical field key "${key}".`, specId);
     }
@@ -905,6 +945,9 @@ function checkOutputSurface(output: unknown, path: string, specId: string, findi
     }
     if (key.startsWith("fields.")) {
       const fieldKey = key.split(".")[1] ?? "";
+      if (isInternalCodeFieldKey(fieldKey)) {
+        addFinding(findings, "error", "internal_field", `${path}.${key}`, `Internal code field "${fieldKey}" must not be assigned as a public field.`, specId);
+      }
       if (!Object.hasOwn(fdnextFieldRegistry, fieldKey)) {
         addFinding(findings, "error", "unknown_field", `${path}.${key}`, `Unknown canonical field key "${fieldKey}".`, specId);
       }

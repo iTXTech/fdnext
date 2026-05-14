@@ -39,7 +39,7 @@
 | temp suffix `IT/W` | Industrial / Wireless temperature |
 | status suffix `ES/MS/QS/DC` | sample / qualification / daisy-chain status |
 
-当前规则会宽匹配 `MT29C...`，避免 legacy MCP/PoP 被 Micron `MT` vendor fallback 误标为 raw NAND；但中间 config token 仍只作为 `config_code` 输出，不拆成未确认的公开语义字段。
+当前规则会宽匹配 `MT29C...`，避免 legacy MCP/PoP 被 Micron `MT` vendor fallback 误标为 raw NAND；中间 config token 只保留为内部解析线索，不拆成未确认的公开语义字段。
 
 MT29C 的 LPDRAM 容量以公开 PN 表的 LPDRAM density token 为默认值；遇到 datasheet / 分销规格明确不同的组合时，规则使用 `NAND density:LPDRAM family:config code` 组合键覆盖。当前覆盖组合包括：
 
@@ -60,8 +60,8 @@ MT29C 的 LPDRAM 容量以公开 PN 表的 LPDRAM density token 为默认值；�
 | `MT29RZ` + storage code + DRAM code + config + package + revision + optional speed/temp | Micron NAND + LPDDR2 MCP |
 | storage code `4C` | 4Gb NAND |
 | DRAM code `4D` | 4Gb LPDDR2 x32 |
-| package code `MG` | 168-VFBGA 12x12 |
-| package code `HG` | 121-VFBGA 8x7.5 |
+| package code `MG` | 内部映射到 168-VFBGA 12x12 |
+| package code `HG` | 内部映射到 121-VFBGA 8x7.5 |
 | speed `18W` | LPDDR2-533 / 533MHz |
 | temp `80C/80D/80U/80Y/85H` | -25°C ~ 85°C |
 

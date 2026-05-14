@@ -45,7 +45,7 @@ H5 + family + density + width + config + die/package/revision + -speed + temp
 | `AN` | `dram_type` / voltage | DDR4 SDRAM，1.2V VDD |
 | `1G/2G/4G/8G/AG` | density | 1Gb/2Gb/4Gb/8Gb/16Gb |
 | `4/8/6` | width | x4 / x8 / x16 |
-| `F/J/...` | `package_code` | 厂商封装 token；`fields.package` 只根据位宽输出 78ball 或 96ball FBGA |
+| `F/J/...` | 内部 package token | 只用于内部解析；`fields.package` 只根据位宽输出 78ball 或 96ball FBGA |
 | `AFR/CFR/CJR/...` | `die_revision` | SK hynix 常见 die/revision 三字符标记，直接保留为厂商 token |
 
 已确认多 die / CS 组合：
@@ -73,7 +73,7 @@ H5C + GD + 8 + M + HB + D + X021
 - `8` 输出 x8。
 - `A` / `M` 输出 `A-die` / `M-die`。
 - `GB` / `HB` 结合外部样本输出 `DDR5-5600` / `DDR5-6400`。
-- `X018` / `X021` 输出为 `package_code`；`fields.package` 只输出已由外部资料确认的 `BGA`。
+- `X018` / `X021` 只作为内部 package token；`fields.package` 只输出已由外部资料确认的 `BGA`。
 - TechInsights 明确这些 package 内是 single DDR5 die，因此只输出 `die_count = 1`，不再把无 CS 信息的单 die 写入 `dram_die_stack`。
 
 ## H5GQ GDDR5 颗粒
@@ -107,8 +107,8 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 | `4K/8K/CP` | density | 4Gb / 8Gb / 32Gb |
 | `8K` | `dram_die_stack`, `channel_count` | 2 dies, 1 CS；2 Channel |
 | `CP` | `dram_die_stack`, `channel_count` | 4 dies, 2 CS；2 Channel |
-| `UMLHR/UMLXR` | `package_code` | LPDDR4 200ball FBGA；`UMLXR` 对应 4266Mbps |
-| `MMLHR/MMLXR` | `package_code` | LPDDR4X 200ball FBGA；`MMLXR` 对应 4266Mbps |
+| `UMLHR/UMLXR` | 内部 package token | LPDDR4 200ball FBGA；`UMLXR` 对应 4266Mbps |
+| `MMLHR/MMLXR` | 内部 package token | LPDDR4X 200ball FBGA；`MMLXR` 对应 4266Mbps |
 | `NEE/NEI/NME/NMI/NMIR/NMOR` | temperature | 只对公开资料可确认的温度范围输出 |
 | `H9HCNNN8KUMLHR` | `dram_die_stack` | datasheet 确认 DDP、2 Channel、1 CS，输出 `2 dies, 1 CS` |
 
@@ -142,5 +142,5 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 
 - standalone DRAM `device.productType` 输出短 DRAM 世代名，例如 `DDR3`、`DDR4`、`DDR5`、`LPDDR4`、`GDDR5`。
 - 内部 `dram_type` 不带厂商名且不保留冗余后缀，使用 `DDR3`、`DDR4`、`DDR5`、`LPDDR4`、`GDDR5` 这类短标准名。
-- `package_code` 只表示厂商封装 token；只有 datasheet / 外部拆解能确认实际封装时才写 `fields.package`。
+- package code 只作为内部解析 token；只有 datasheet / 外部拆解能确认实际封装时才写 `fields.package`。
 - 资料状态、来源 URL、确认状态等维护信息不得进入用户可见 `fields`。

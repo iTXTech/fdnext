@@ -38,7 +38,8 @@ PN 结构：
 - `nand_technology`
 - `product_class`
 - `operation_temperature`
-- `package_code`
+
+`package_code` 等 selection-guide token 只用于内部解析，不进入公开字段。
 
 ## 测试样例
 

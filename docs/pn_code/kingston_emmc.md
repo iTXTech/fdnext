@@ -42,8 +42,9 @@ PN 结构：
 - `interface_type`
 - `nand_technology`
 - `product_class`
-- `package_code`
 - `operation_temperature`
+
+`package_code` 等 ordering token 只用于内部解析，不进入公开字段。
 
 ## 测试样例
 

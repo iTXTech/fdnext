@@ -10,6 +10,7 @@
 - 可信度、reference status、source、inference note 等维护信息只能留在 iTXTech fdnext DecodePack metadata 或文档中，不能进入公开 fields。
 - 未知值直接省略；不要为了填满旧响应形状输出 `Unknown`、空数组或 NAND-only 默认槽位。
 - `vendor`、`chip_kind`、`product_type`、`part_number`、`identifier`、`id_scheme`、`marking_code` 已由 `device` 承载，不再复制进 `blocks[].fields[]`。
+- `config_code`、`package_code`、`controller_code`、`die_code`、`feature_code` 以及其他 `*_code` token 只用于 DecodePack 内部解析，不进入用户可见 `blocks[].fields[]`；应优先输出 `package`、`controller`、`die_revision`、`process_node`、`special_option` 等语义字段。`speed_grade` 例外，可保留原始 speed / grade token 并附带可读含义。
 - 容量数值字段沿用项目约定，`value` 使用 Mbit；NAND / managed NAND 的 `display` 使用 Bytes，DRAM 的 `display` 使用 bits。
 
 ## Identity / Subtitle / Relation
@@ -58,7 +59,7 @@
 | `storage_interface` | managed NAND 或 MCP storage 接口 | `eMMC 5.1`, `UFS 4.0` |
 | `interface_type` | 接口模式、Gear、lane 或 HS 模式 | `HS400`, `Gear 4 / 2-Lane` |
 | `toggle` | Toggle DDR 版本或标记 | `4.0` |
-| `controller` / `controller_code` | 支持控制器列表或控制器 token | `["SM2244LT", "SM3270AC"]`, `AX` |
+| `controller` / `controller_revision` | 支持控制器列表或控制器版本 | `["SM2244LT", "SM3270AC"]`, `V4.41 EF` |
 | `operation_temperature` | 工作温度范围或温度等级 | `-40C ~ 105C`, `Automotive Grade 2` |
 | `assembly` / `segment` / `sku` | 厂商封装、产品分段或 SKU token 展开 | `Client Component` |
 | `lead_free` / `halogen_free` / `wafer` / `multi_chip` / `cu` | 环保、晶圆、多芯片或铜工艺标记 | `true` |
@@ -110,8 +111,6 @@ DRAM / MCP DRAM 子系统使用以下字段，避免和 NAND 字段混用：
 | `dram_voltage` | DRAM 电压/I/O 信息 | `VDD2 1.8V / VDDQ 0.6V` |
 | `cas_latency` | DRAM CAS latency token 展开 | `13` |
 | `die_revision` | DRAM die 修订或设计修订 | `Rev A`, `Rev E` |
-| `config_code` | 厂商配置 token | `1G8`, `256M32` |
-| `package_code` | 厂商封装 token；不替代 `package` | `SA`, `NRE` |
 | `solder_type` | 焊接/镀层类型 token 展开 | `100% matte Sn` |
 | `special_option` | 不属于 die stack 的地址、CKE、layout 等特殊选项 | `Reduced page-size addressing` |
 | `prod_status` | ES/MS/QS 等生产状态 | `ES` |
@@ -121,9 +120,9 @@ standalone DRAM 约定：
 - `device.chipKind = "dram"`，`device.productType` 使用 `ddr4`、`lpddr5x` 等短 product type。
 - `dram_type` 和 `product_type` 不写厂商名，也不保留冗余 `SDRAM` / `SGRAM` 后缀，例如不要使用 `Micron DDR5 SDRAM`。
 - `dram_density` / `dram_width` 已在主 DRAM block 输出时，不再复制到其他字段。
-- `package_code` 只表达厂商 token；只有外部资料确认封装尺寸、pin 或 ball count 时才输出 `package`。
+- package / config 等厂商 code 只保留在规则内部；只有外部资料确认封装尺寸、pin 或 ball count 时才输出 `package`。
 - `dram_die_stack` 只在物理 die 数和 CS 数同时明确时输出；PoP/MCP 等封装信息放 `package`，reduced page address、2 CKE、JEDEC/Flexframe stack layout 这类非 die/CS 信息放 `special_option`。
-- `-` 后面的 speed / temperature / revision 后缀不作为主结构强制条件；缺失时仍应输出 vendor、product type、density、width、package code、die stack 等已能确认的信息。
+- `-` 后面的 speed / temperature / revision 后缀不作为主结构强制条件；缺失时仍应输出 vendor、product type、density、width、package、die stack 等已能确认的信息。
 
 MCP/eMCP/uMCP 同时有 NAND 和 DRAM 时：
 

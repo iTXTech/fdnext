@@ -1450,9 +1450,6 @@
         "fields.package": {
           "$var": "package"
         },
-        "fields.config_code": {
-          "$var": "configCode"
-        },
         "meta.ruleId": "vendor.micron.dram.component.v1",
         "meta.fieldProfile": "dram",
         "meta.capabilities": [

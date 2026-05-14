@@ -230,6 +230,10 @@ const internalPackFieldKeys = [
   "voltage_io_code"
 ];
 
+function isInternalCodeFieldKey(key: string): boolean {
+  return key.endsWith("_code");
+}
+
 function containsInternalPackFieldKey(value: unknown): boolean {
   if (Array.isArray(value)) {
     return value.some(containsInternalPackFieldKey);
@@ -508,7 +512,7 @@ function assertPublicResultsDoNotExposeInternalPackFields(): void {
     const info = engine.decodePart({ query: partNumber, lang: "eng" });
     for (const block of info.blocks) {
       for (const field of block.fields) {
-        if (forbidden.has(field.key)) {
+        if (forbidden.has(field.key) || isInternalCodeFieldKey(field.key)) {
           findings.push(`${partNumber}: ${field.key}`);
         }
       }
@@ -578,6 +582,50 @@ function assertDecodePackCheckRejectsUndefinedTokenVariables(): void {
         finding.path === "partSpecs[0].tokenDecoder.assign.fields.die_count.$path"
     ),
     `expected undefined token variable finding, got ${JSON.stringify(result.findings)}`
+  );
+}
+
+function assertDecodePackCheckRejectsPublicCodeFields(): void {
+  const result = checkDecodePack({
+    partSpecs: [
+      {
+        id: "test.public-code-field",
+        match: {
+          kind: "prefix",
+          value: "X"
+        },
+        set: {
+          "device.partNumber": {
+            $var: "partNumber"
+          },
+          "fields.config_code": "ABC",
+          fields: {
+            package_code: "XYZ"
+          }
+        }
+      }
+    ],
+    identifierSpecs: []
+  } satisfies DecodePack);
+
+  assert.equal(result.ok, false);
+  assert.ok(
+    result.findings.some(
+      (finding) =>
+        finding.code === "internal_field" &&
+        finding.specId === "test.public-code-field" &&
+        finding.path === "partSpecs[0].set.fields.config_code"
+    ),
+    `expected direct public code field finding, got ${JSON.stringify(result.findings)}`
+  );
+  assert.ok(
+    result.findings.some(
+      (finding) =>
+        finding.code === "internal_field" &&
+        finding.specId === "test.public-code-field" &&
+        finding.path === "partSpecs[0].set.fields.package_code"
+    ),
+    `expected object public code field finding, got ${JSON.stringify(result.findings)}`
   );
 }
 
@@ -663,5 +711,6 @@ assertPublicResultsDoNotExposeInternalPackFields();
 assertDecodePackCompositeComponents();
 assertDefaultDecodePackMaintainsItself();
 assertDecodePackCheckRejectsUndefinedTokenVariables();
+assertDecodePackCheckRejectsPublicCodeFields();
 assertDecodePackExplainTools();
 assertRemovedNamesStayRemoved();

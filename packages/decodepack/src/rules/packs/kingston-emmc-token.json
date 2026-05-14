@@ -277,9 +277,6 @@
         },
         "fields.storage_interface": "eMMC 5.1",
         "fields.interface_type": "HS400",
-        "fields.config_code": {
-          "$var": "configCode"
-        },
         "meta.ruleId": "vendor.kingston.emmc.v1",
         "meta.fieldProfile": "managed_nand",
         "meta.capabilities": [

@@ -99,17 +99,17 @@
 - `fields.voltage` 输出 Micron voltage token 对应说明。
 - `fields.package` 输出实际封装，例如 `78-ball FBGA (7.5x11)`；仅对 part detail、datasheet 或外部分销页可确认的 `family + package code` 组合输出。
 - standalone DRAM 的 `fields` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
-- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`die_count`、`dram_speed`、`operation_temperature`、`die_revision`、`config_code`、`package_code`、`special_option`。
+- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`die_count`、`dram_speed`、`operation_temperature`、`die_revision`、`special_option`。
 - `device version` 中的 `D1/D2/D4/D6/D8/LF/L2/L4` 只标准化为 `die_count`，例如 `D4` 输出 `die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`；没有 CS 资料时不输出 `dram_die_stack`。
 - `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / die stack，只减少 `dram_speed` / `die_revision` 等后缀信息。
 - `dram_type` 必须使用跨厂商标准名，不带厂商名，不写组合候选。
-- `package_code` 保留 Micron 原始封装 token；不要用它替代 `fields.package`，也不把未确认的 token 硬推成封装尺寸或 ball count。
+- Micron 原始 config / package token 只用于内部解析，不进入公开字段；不要把未确认的 token 硬推成封装尺寸或 ball count。
 - Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4-45M` / `55M` / `62M`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
 - 维护用来源、外部确认状态或推断来源不得进入 `fields`。
 
 ## DDR3 / DDR3L TwinDie
 
-Micron `MT41J/MT41K` TwinDie 不能只按 `config_code` 判断。规则必须同时匹配 `family + voltage + config + package_code`，确认后输出 `dram_die_stack=2 dies, 2 CS`。没有外部 datasheet 佐证的 `mdb.json` 候选封装只保留为待确认线索，不输出 die stack。
+Micron `MT41J/MT41K` TwinDie 不能只按 config token 判断。规则必须同时匹配 `family + voltage + config + package` token，确认后输出 `dram_die_stack=2 dies, 2 CS`。没有外部 datasheet 佐证的 `mdb.json` 候选封装只保留为待确认线索，不输出 die stack。
 
 | Key | PN family | die stack / CS | source tier |
 | --- | --- | --- | --- |
@@ -130,7 +130,7 @@ Micron `MT41J/MT41K` TwinDie 不能只按 `config_code` 判断。规则必须同
 
 ## DDR4 TwinDie
 
-Micron `MT40A` DDR4 TwinDie 同样按 `family + voltage + config + package_code` 判定。x4/x8 TwinDie 是 two-rank / dual CS；x16 TwinDie 是 two x8 die 组合成 single-rank x16，因此公开输出分别为 `2 dies, 2 CS` 或 `2 dies, 1 CS`，结构化 `die_count=2`。
+Micron `MT40A` DDR4 TwinDie 同样按 `family + voltage + config + package` token 判定。x4/x8 TwinDie 是 two-rank / dual CS；x16 TwinDie 是 two x8 die 组合成 single-rank x16，因此公开输出分别为 `2 dies, 2 CS` 或 `2 dies, 1 CS`，结构化 `die_count=2`。
 
 | Key | PN family | die stack / CS | source tier |
 | --- | --- | --- | --- |
@@ -158,7 +158,7 @@ Micron DDR5 仍按 `depth x width` 推导容量。24Gb 组件已确认 `6G4` / `
 
 ## 封装映射
 
-封装映射按 `family token + package code` 建表，不按 package code 单独全局复用；同一个封装 code 在不同产品线可能含义不同。首批只纳入公开资料可交叉确认的样例映射。
+封装映射按 `family token + package code` 建表，不按 package code 单独全局复用；同一个封装 code 在不同产品线可能含义不同。package code 只用于内部映射，公开结果只在确认后输出实际 `package`。首批只纳入公开资料可交叉确认的样例映射。
 
 | Key | 实际封装 |
 | --- | --- |

@@ -347,31 +347,31 @@
         },
         "speed_grade_obj": {
           "BT": {
-            "speed_grade": "Fully Tested at 70 degrees"
+            "speed_grade": "BT Fully Tested at 70 degrees"
           },
           "FT": {
-            "speed_grade": "Fully Tested at 90 degrees"
+            "speed_grade": "FT Fully Tested at 90 degrees"
           },
           "MB": {
-            "speed_grade": "Mixed Bins"
+            "speed_grade": "MB Mixed Bins"
           },
           "PG": {
-            "speed_grade": "Partial Good Mixed Bins"
+            "speed_grade": "PG Partial Good Mixed Bins"
           },
           "UT": {
-            "speed_grade": "Untested"
+            "speed_grade": "UT Untested"
           },
           "046BT": {
-            "speed_grade": "046 Fully Tested at 70 degrees"
+            "speed_grade": "046BT Fully Tested at 70 degrees"
           },
           "053FT": {
-            "speed_grade": "053 Fully Tested at 90 degrees"
+            "speed_grade": "053FT Fully Tested at 90 degrees"
           },
           "062MB": {
-            "speed_grade": "062 Mixed Bins"
+            "speed_grade": "062MB Mixed Bins"
           },
           "075PG": {
-            "speed_grade": "075 Partial Good Mixed Bins"
+            "speed_grade": "075PG Partial Good Mixed Bins"
           }
         }
       },
@@ -547,9 +547,6 @@
           "$path": "storage_density_obj.storage_density"
         },
         "fields.storage_interface": "eMMC",
-        "fields.generation_info": {
-          "$var": "design_id"
-        },
         "fields.dram_density": {
           "$var": "dram_density"
         },
@@ -562,9 +559,6 @@
         },
         "fields.package": {
           "$var": "package"
-        },
-        "fields.controller_code": {
-          "$var": "controller_code"
         },
         "fields.speed_grade": {
           "$path": "speed_grade_obj.speed_grade"
@@ -862,7 +856,7 @@
         },
         {
           "op": "tpl",
-          "template": "{{speed_code}} {{grade_label}}",
+          "template": "{{speed_code}}{{grade_code}} {{grade_label}}",
           "to": "speed_grade"
         },
         {
@@ -896,17 +890,11 @@
           "$var": "storage_density"
         },
         "fields.storage_interface": "Parallel NAND",
-        "fields.nand_component": {
-          "$var": "nand_code"
-        },
         "fields.component_width": {
           "$var": "nand_width"
         },
         "fields.cell_level": {
           "$path": "design_obj.cell_level"
-        },
-        "fields.generation_info": {
-          "$var": "design_id"
         },
         "fields.dram_density": {
           "$var": "dram_density_display"
