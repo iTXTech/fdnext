@@ -1,0 +1,362 @@
+[
+  {
+    "id": "vendor.spectek.nand-mcp.v1",
+    "priority": 1007,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^S[MU][ABCGURW][0-9A-Z]+[1-8][ABC][1-8][ABC][BDEFHMPQ][GHIM][A-Z]{2}(?:-?(?:18|046|053|062)(?:BT|BU|MB|PG|UT))?$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "design_obj": {
+          "A": {
+            "product_mode": "SLC NAND + LPDDR2",
+            "dram_type": "LPDDR2",
+            "cell_level": 1
+          },
+          "B": {
+            "product_mode": "SLC NAND + LPDDR3",
+            "dram_type": "LPDDR3",
+            "cell_level": 1
+          },
+          "C": {
+            "product_mode": "SLC NAND + Mobile LPDRAM",
+            "dram_type": "Mobile LPDRAM",
+            "cell_level": 1
+          },
+          "G": {
+            "product_mode": "SLC NAND + LPDDR4",
+            "dram_type": "LPDDR4",
+            "cell_level": 1
+          },
+          "R": {
+            "product_mode": "SLC NAND + LPDDR2",
+            "dram_type": "LPDDR2",
+            "cell_level": 1,
+            "special_option": "Legacy AIO"
+          },
+          "U": {
+            "product_mode": "SLC NAND + LPDDR3",
+            "dram_type": "LPDDR3",
+            "cell_level": 1,
+            "special_option": "Legacy existing MPN"
+          },
+          "W": {
+            "product_mode": "TLC NAND + LPDDR4",
+            "dram_type": "LPDDR4",
+            "cell_level": 3
+          }
+        },
+        "dram_type": {
+          "A": "LPDDR2",
+          "B": "LPDDR3",
+          "C": "Mobile LPDRAM",
+          "G": "LPDDR4",
+          "R": "LPDDR2",
+          "U": "LPDDR3",
+          "W": "LPDDR4"
+        },
+        "density": {
+          "1": "512Mb",
+          "2": "1Gb",
+          "3": "2Gb",
+          "4": "3Gb",
+          "5": "4Gb",
+          "6": "8Gb",
+          "7": "12Gb",
+          "8": "32Gb"
+        },
+        "width": {
+          "A": 8,
+          "B": 16,
+          "C": 32
+        },
+        "voltage": {
+          "B": "NAND Vcc: 1.8V, LPDRAM VDD: 1.8V, VDDQ: 1.2V",
+          "D": "NAND Vcc: 1.8V, LPDRAM VDD: 1.2V, VDDQ: 1.2V",
+          "E": "NAND Vcc: 1.8V, LPDRAM VDD: 1.8V, VDDQ: 1.8V",
+          "F": "NAND Vcc: 1.8V, LPDRAM VDD: 1.8V, VDDQ: 1.8V",
+          "H": "NAND Vcc: 1.8V, LPDRAM VDD: 1.2V, VDDQ: 1.2V",
+          "M": "NAND Vcc: 1.8V, LPDRAM VDD: 1.8V, VDDQ: 1.2V",
+          "P": "NAND Vcc: 1.8V, LPDRAM VDD: 1.1V, VDDQ: 1.1V/0.6V",
+          "Q": "NAND Vcc: 3.3V, LPDRAM VDD: 1.1V, VDDQ: 0.6V"
+        },
+        "chip_count_obj": {
+          "G": {
+            "special_option": "1 NAND, 1 LPDRAM"
+          },
+          "H": {
+            "special_option": "1 NAND, 2 LPDRAM"
+          },
+          "I": {
+            "special_option": "2 NAND, 2 LPDRAM"
+          },
+          "M": {
+            "special_option": "2 NAND, 1 LPDRAM"
+          }
+        },
+        "package": {
+          "AD": "UFBGA 194/1026, 12.5x9x0.545 (0.32)",
+          "ET": "VFBGA 149/224B, 8.0x9.5x1.0 (0.5)",
+          "GA": "WFBGA 149/224, 8x9.5x0.8 (0.5)",
+          "GM": "VBGA 240/729, 14x14x0.85 (0.5)",
+          "MF": "VFBGA 168/529, 12x12x0.85 (0.5)",
+          "PB": "WFBGA 221/308, 11.5x13x0.8 (0.5)",
+          "PL": "WFBGA 162/200, 11.5x13x0.8 (0.5)",
+          "SK": "VFBGA 162/200, 11.5x13x0.9 (0.5)",
+          "SQ": "VFBGA 162/200, 9.5x10.5x0.9 (0.5)",
+          "TB": "VFBGA 162/200B, 8.0x10.5x0.9 (0.5)",
+          "TN": "WFBGA 121/165B, 7.5x8.0x0.8 (0.5)",
+          "WD": "VFBGA 162/200, 8x10.5x0.9 (0.5) SAC302"
+        },
+        "grade": {
+          "BT": "Fully Tested",
+          "BU": "Untested",
+          "MB": "Mixed Bins",
+          "PG": "Partial Good Mixed Bins",
+          "UT": "Untested"
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "skip_vendor"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "mark_code"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "design_family_code"
+        },
+        {
+          "op": "map",
+          "from": "design_family_code",
+          "table": "design_obj",
+          "to": "design_obj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "design_family_code",
+          "table": "dram_type",
+          "to": "dram_type",
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]+?)(?=[1-8][ABC][1-8][ABC][BDEFHMPQ][GHIM][A-Z]{2}(?:-?(?:18|046|053|062)(?:BT|BU|MB|PG|UT))?$)",
+          "to": "design_id",
+          "groups": {
+            "design_id": 1
+          }
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([1-8])([ABC])",
+          "to": "nand_code",
+          "groups": {
+            "nand_density_code": 1,
+            "nand_width_code": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "nand_density_code",
+          "table": "density",
+          "to": "nand_density",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "nand_width_code",
+          "table": "width",
+          "to": "nand_width",
+          "default": -1
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([1-8])([ABC])",
+          "to": "dram_code",
+          "groups": {
+            "dram_density_code": 1,
+            "dram_width_code": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "dram_density_code",
+          "table": "density",
+          "to": "dram_density",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "dram_width_code",
+          "table": "width",
+          "to": "dram_width",
+          "default": -1
+        },
+        {
+          "op": "tpl",
+          "template": "{{nand_density}} NAND",
+          "to": "storage_density"
+        },
+        {
+          "op": "tpl",
+          "template": "{{dram_density}}",
+          "to": "dram_density_display"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltage_code"
+        },
+        {
+          "op": "map",
+          "from": "voltage_code",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "chip_count_code"
+        },
+        {
+          "op": "map",
+          "from": "chip_count_code",
+          "table": "chip_count_obj",
+          "to": "chip_count_obj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "package_code"
+        },
+        {
+          "op": "map",
+          "from": "package_code",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(18|046|053|062)(BT|BU|MB|PG|UT)",
+          "to": "speed_grade_code",
+          "default": "",
+          "groups": {
+            "speed_code": 1,
+            "grade_code": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "grade_code",
+          "table": "grade",
+          "to": "grade_label",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{speed_code}} {{grade_label}}",
+          "to": "speed_grade"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "SpecTek NAND MCP",
+            "product_mode": {
+              "$path": "design_obj.product_mode"
+            },
+            "package_code": {
+              "$var": "package_code"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "chip_count_obj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "spectek",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.storage_density": {
+          "$var": "storage_density"
+        },
+        "fields.storage_interface": "Parallel NAND",
+        "fields.nand_component": {
+          "$var": "nand_code"
+        },
+        "fields.component_width": {
+          "$var": "nand_width"
+        },
+        "fields.cell_level": {
+          "$path": "design_obj.cell_level"
+        },
+        "fields.generation_info": {
+          "$var": "design_id"
+        },
+        "fields.dram_density": {
+          "$var": "dram_density_display"
+        },
+        "fields.dram_type": {
+          "$var": "dram_type"
+        },
+        "fields.dram_width": {
+          "$var": "dram_width"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.speed_grade": {
+          "$var": "speed_grade"
+        },
+        "meta.ruleId": "vendor.spectek.nand-mcp.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  }
+]

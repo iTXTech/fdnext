@@ -42,6 +42,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 | Winbond | DDR3/DDR3L, DDR4 | LPDDR4, LPDDR4X | - | - |
 | ESMT | SDR, DDR, DDR2, DDR3/DDR3L, DDR4 | LPDDR2, LPDDR3, LPDDR4X | - | - |
 | Etron | SDR, DDR, DDR2, DDR3/DDR3L, DDR4 | LPDDR4, LPDDR4X | - | - |
+| SpecTek | DDR, DDR2, DDR3, DDR4, DDR5 | LPDDR, LPDDR2, LPDDR4 | 待调研 | - |
 
 SK hynix 仍需继续补齐 LPDDR/LPDDR2/LPDDR3、GDDR/GDDR2/GDDR3/GDDR4/GDDR7 等公开 ordering table；没有外部 PN 证据前不把推测写成确定结论。
 

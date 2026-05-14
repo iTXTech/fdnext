@@ -6,6 +6,9 @@
 
 - SpecTek Laser Mark to Marketing Part Number Decoder: 官方 5 位 mark code 到 marketing PN 的查询入口。实测 `PE001` ~ `PE020` 返回 DRAM component PN，例如 `PE010` -> `PRA128M8V88AG8GQF`。
   <https://www.spectek.com/menus/mark_code.aspx>
+- SpecTek Marketing Part Number Decoder: 官方 MPN 拆解入口，`DramComponent` 可确认 `PRN1G16Z22AD8RC-062E` 中 `Z = DDR4`，`PRM2G8Y52KBFRZ-56B` 中 `Y = DDR5`；`MobileDram` 可确认 `SN512M32Z42MD1DNQ-053BT` 为 Mobile LPDDR4，`SM768M16Y2BMD1FDS` 这类 `Y*D*` mobile 结构只能保守归入 LPDDR family。
+  <https://www.spectek.com/menus/mpn_decoder.aspx?MpnCategory=DramComponent>
+  <https://www.spectek.com/menus/mpn_decoder.aspx?MpnCategory=MobileDram>
 - Micron SpecTek Buyers Guide: DRAM 页列出 `PRN` / `PRM`、`TP`、`PG` 等等级和样例 PN，并把 DRAM Component Part Numbering Guide、DRAM Component Mark Reference、Laser Mark to MPN Decoder 作为官方资料入口。
   <https://www.micron.com/content/dam/micron/global/public/spectek/buyers-guide/spectekbuyersguide.pdf>
 - 2015 SpecTek Components FBGA Matrix mirror: 覆盖 `PE008` ~ `PE012` 等 `PE` DRAM mark code 到 PN 的对应关系，可用于交叉验证旧表。
@@ -24,7 +27,8 @@ MDB mark code:
 
 - `packages/resources/resources/mdb.json`
 - `PE001` ~ `PE020` 已按官方 decoder 查询结果加入 `spectek` marking 映射。
-- `packages/fdbgen/src/mdb.ts` 默认 SpecTek crawl header 已加入 `PE`，后续可用 `crawl-mdb` 补全更大范围。
+- `PB001`、`PP002`、`PU001` 已作为新 DRAM family 回归样本加入 `spectek` marking 映射。
+- `packages/fdbgen/src/mdb.ts` 默认 SpecTek crawl header 已加入 `PB`、`PE`、`PP`、`PU`，后续可用 `crawl-mdb` 补全更大范围。
 
 ## PN 结构
 
@@ -36,7 +40,9 @@ MDB mark code:
 | `128M8`、`256M16`、`512M8`、`1024M4` 等 | component configuration，按 depth * width 输出 `dram_density` 和 `dram_width` |
 | `V` | DDR3；由 `PE` 官方 decoder 样本和旧 FBGA Matrix / 第三方 DRAM 表交叉确认 |
 | `Z` | DDR4；由 Buyers Guide 的 `PRN1G16Z22AD8RC-062E` 等样例确认 |
-| `U` / `T` / `Y` / `G` | 旧表辅助映射为 DDR2 / DDR / SDR / LPDDR2 |
+| `Y` | DDR5；由官方 MPN decoder 的 `PRM2G8Y52KBFRZ-56B` 样例确认 |
+| `U` / `T` / `G` | 旧表辅助映射为 DDR2 / DDR / LPDDR2 |
+| `S*` + mobile design id `Y*` / `Z*` | Mobile DRAM；`Z*` 可确认到 LPDDR4，`Y*` 在官方 decoder 中只给出 LPDDR2/3/4/5 family 范围时保守输出 `LPDDR` |
 | 尾部 package code | 先输出为 `package_code`，不把未确认 package code 展示成具体封装 |
 | `-125`、`-15E`、`-062E` 等 | JEDEC / Micron-style speed token，按已有 DRAM 速度术语输出 `dram_speed` |
 
@@ -56,6 +62,9 @@ MDB mark code:
 - `PE010`
 - `SU512M8V80A11ARH`
 - `PE002`
+- `PB001`
+- `PRM2G8Y52KBFRZ-56B`
+- `PU001`
 
 ## 注意
 

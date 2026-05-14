@@ -52,6 +52,7 @@ import ymtcUnimosTokenRules from "./packs/ymtc-unimos-token.json" with { type: "
 import ymtcEmmcTokenRules from "./packs/ymtc-emmc-token.json" with { type: "json" };
 import ymtcUfsTokenRules from "./packs/ymtc-ufs-token.json" with { type: "json" };
 import phisonTokenRules from "./packs/phison-token.json" with { type: "json" };
+import spectekManagedTokenRules from "./packs/spectek-managed-token.json" with { type: "json" };
 import spectekDramTokenRules from "./packs/spectek-dram-token.json" with { type: "json" };
 import spectekRawTokenRules from "./packs/spectek-raw-token.json" with { type: "json" };
 import vendorPrefixRules from "./packs/vendor-prefix.json" with { type: "json" };
@@ -110,6 +111,7 @@ export const defaultPartDecodeSpecs = [
   ...ymtcEmmcTokenRules,
   ...ymtcUfsTokenRules,
   ...phisonTokenRules,
+  ...spectekManagedTokenRules,
   ...spectekDramTokenRules,
   ...spectekRawTokenRules,
   ...vendorPrefixRules

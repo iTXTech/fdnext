@@ -12,7 +12,7 @@ import type {
 } from "./types";
 
 export const DEFAULT_MICRON_HEADERS = ["NC", "NW", "NY", "NX", "NQ", "NV"] as const;
-export const DEFAULT_SPECTEK_HEADERS = ["PE", "PF", "PFA", "PFB", "PFC", "PFD", "PFE", "PFF", "PFG", "PFH"] as const;
+export const DEFAULT_SPECTEK_HEADERS = ["PB", "PE", "PF", "PFA", "PFB", "PFC", "PFD", "PFE", "PFF", "PFG", "PFH", "PP", "PU", "PX"] as const;
 export const DEFAULT_MDB_FLUSH_HITS = 20;
 export const DEFAULT_MDB_CONCURRENCY = 5;
 export const DEFAULT_MDB_FBGA_PREFIX_ALLOWLIST = ["D9", "D8", "C9", "Z8", "Z9"] as const;

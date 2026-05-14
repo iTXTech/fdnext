@@ -435,6 +435,50 @@ assertDram("PE002", {
   }
 });
 assertSpectekSearchMarkingRelation("PE010", "PRA128M8V88AG8GQF");
+assertDram("PB001", {
+  vendor: "spectek",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "Unknown",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Config Code": "512M32",
+    "Package Code": "LH6",
+    "Marking Code": "PB001"
+  }
+});
+assertDram("PRM2G8Y52KBFRZ-56B", {
+  vendor: "spectek",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "Unknown",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Config Code": "2G8",
+    "Package Code": "FRZ",
+    "DRAM Speed": "DDR5-5600"
+  }
+});
+assertDram("PU001", {
+  vendor: "spectek",
+  densityMbit: 12288,
+  density: "12Gb",
+  widthField: "x16",
+  voltage: "1.05V VDD / 0.5V VDDQ",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "LPDDR",
+    "Config Code": "768M16",
+    "Package Code": "DS",
+    "Marking Code": "PU001"
+  }
+});
+assertSpectekSearchMarkingRelation("PB001", "SM512M322C0FD4LH6");
+assertSpectekSearchMarkingRelation("PU001", "SM768M16Y2BMD1FDS");
 
 assertDram("MT40A1G8SA-075-E", {
   densityMbit: 8192,

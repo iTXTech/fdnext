@@ -12953,6 +12953,9 @@
     "NV359": "MT29F8T08EQLHHL5-48QBES:H"
   },
   "spectek": {
+    "PB001": [
+      "SM512M322C0FD4LH6"
+    ],
     "PE001": [
       "SU512M82C0C11ABG"
     ],
@@ -18086,6 +18089,15 @@
     ],
     "PF994": [
       "FBMB68S2T1KLEAHL4"
+    ],
+    "PP002": [
+      "PRN1G8Z91BD8PM"
+    ],
+    "PU001": [
+      "SM768M16Y2BMD1FDS"
+    ],
+    "PX001": [
+      "FXMM2XANAK3BAAWP"
     ]
   }
 }

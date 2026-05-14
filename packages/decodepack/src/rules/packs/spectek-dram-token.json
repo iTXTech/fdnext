@@ -1,5 +1,254 @@
 [
   {
+    "id": "vendor.spectek.mobile-dram.component.v1",
+    "priority": 1008,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^S[A-Z](?:(?:512|768|1024|1536|3072)M(?:16|32|64|128)|[123]G(?:16|32|64|128))[YZ][0-9A-Z]{3}[DJP][0-9A-Z][A-Z][0-9A-Z]{1,2}(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "configToken": {
+          "512M32": "512M32",
+          "768M16": "768M16",
+          "768M128": "768M128",
+          "1024M64": "1G64",
+          "1536M64": "1536M64",
+          "1536M128": "1536M128",
+          "3072M32": "3072M32",
+          "1G16": "1G16",
+          "1G64": "1G64",
+          "2G64": "2G64",
+          "3G32": "3G32"
+        },
+        "density": {
+          "512M32": 16384,
+          "768M16": 12288,
+          "768M128": 98304,
+          "1G16": 16384,
+          "1G64": 65536,
+          "1536M64": 98304,
+          "1536M128": 196608,
+          "2G64": 131072,
+          "3072M32": 98304,
+          "3G32": 98304
+        },
+        "deviceWidth": {
+          "512M32": 32,
+          "768M16": 16,
+          "768M128": 128,
+          "1G16": 16,
+          "1G64": 64,
+          "1536M64": 64,
+          "1536M128": 128,
+          "2G64": 64,
+          "3072M32": 32,
+          "3G32": 32
+        },
+        "designTypeObj": {
+          "Y": {
+            "dram_type": "LPDDR"
+          },
+          "Z": {
+            "dram_type": "LPDDR4"
+          }
+        },
+        "dieCountObj": {
+          "D1": {
+            "die_count": 1
+          },
+          "D4": {
+            "die_count": 4
+          },
+          "D8": {
+            "die_count": 8
+          },
+          "DA": {
+            "die_count": 16
+          }
+        },
+        "voltage": {
+          "D": "1.1V VDD / 0.6V VDDQ",
+          "F": "1.05V VDD / 0.5V VDDQ"
+        },
+        "speedToken": {
+          "053": "053"
+        },
+        "speedObj": {
+          "053": {
+            "dram_type": "LPDDR4",
+            "dram_speed": "1866MHz (LPDDR4-3733)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(S[A-Z])",
+          "to": "gradeCode",
+          "groups": {
+            "gradeCode": 1
+          }
+        },
+        {
+          "op": "takeLongest",
+          "table": "configToken",
+          "to": "configCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(([YZ])[0-9A-Z]{3})",
+          "to": "designCode",
+          "groups": {
+            "designCode": 1,
+            "designFamilyCode": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "designFamilyCode",
+          "table": "designTypeObj",
+          "to": "designTypeObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([DJP][0-9A-Z])",
+          "to": "die_code",
+          "groups": {
+            "die_code": 1
+          }
+        },
+        {
+          "op": "map",
+          "from": "die_code",
+          "table": "dieCountObj",
+          "to": "dieCountObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[A-Z][0-9A-Z]{1,2}",
+          "to": "packageCode",
+          "default": ""
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedToken",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "config_code": {
+              "$var": "configCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "designTypeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieCountObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "spectek",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.config_code": {
+          "$var": "configCode"
+        },
+        "meta.ruleId": "vendor.spectek.mobile-dram.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
     "id": "vendor.spectek.dram.component.v1",
     "priority": 1005,
     "normalize": [
@@ -173,7 +422,7 @@
             "dram_type": "DDR3"
           },
           "Y": {
-            "dram_type": "SDR"
+            "dram_type": "DDR5"
           },
           "Z": {
             "dram_type": "DDR4"
@@ -190,6 +439,7 @@
           "107": "107",
           "125": "125",
           "187": "187",
+          "56B": "56B",
           "062E": "062E",
           "075": "075",
           "075E": "075E",
@@ -228,6 +478,9 @@
           },
           "187": {
             "dram_speed": "533MHz (DDR-1066)"
+          },
+          "56B": {
+            "dram_speed": "DDR5-5600"
           },
           "062E": {
             "dram_speed": "DDR4-3200 CL22"

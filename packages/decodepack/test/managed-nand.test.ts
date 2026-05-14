@@ -426,6 +426,38 @@ assertPart("FNNL63A51K3WG-AF", {
 assertRuleDoesNotMatch("vendor.intel.token.v1", "PF035");
 assertRuleDoesNotMatch("vendor.intel.token.v1", "PFE02");
 assertAmbiguousCandidates("PFE02", ["FBML63BNAKDBAAH1", "FBNL63BNAKDBAAH1"]);
+assertPart("PX001", {
+  vendor: "spectek",
+  markingCode: "PX001",
+  type: "NAND",
+  processField: "M2XA",
+  cellField: "SLC",
+  extra: {
+    "Package functionality partial type": "CE1 Valid, CE2 not guaranteed"
+  }
+});
+assertPart("SUGNM1126A6BPIET-046BT", {
+  vendor: "spectek",
+  type: "eMCP",
+  cellField: "SLC",
+  voltage: "NAND Vcc: 1.8V, LPDRAM VDD: 1.1V, VDDQ: 1.1V/0.6V",
+  package: "VFBGA 149/224B, 8.0x9.5x1.0 (0.5)",
+  extra: {
+    "Storage Density": "8Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "8Gb",
+    "DRAM Type": "LPDDR4",
+    "DRAM Width": "x16",
+    "Component Width": "x8",
+    "NAND Component": "6A",
+    "Product Generation": "NM112",
+    "Product Family": "SpecTek NAND MCP",
+    "Product Mode": "SLC NAND + LPDDR4",
+    "Package Code": "ET",
+    "Special Option": "2 NAND, 2 LPDRAM",
+    "Speed Grade": "046 Fully Tested"
+  }
+});
 
 assertPart("TF10G1BAHA", {
   vendor: "phison",
