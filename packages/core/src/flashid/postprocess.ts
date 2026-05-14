@@ -18,6 +18,38 @@ type ProcessLookup = {
 const GBIT_TO_MBIT = 1024;
 
 const MICRON_LIKE_PROCESS_LOOKUPS: ProcessLookup[] = [
+  { start: 1, hex: "C30832EA30", processNode: "176L(B47R)" },
+  { start: 1, hex: "D38932EA30", processNode: "176L(B47R)" },
+  { start: 1, hex: "E38A32EA30", processNode: "176L(B47R)" },
+  { start: 1, hex: "C30832EA34", processNode: "176L(B47T)" },
+  { start: 1, hex: "D38932EA34", processNode: "176L(B47T)" },
+  { start: 1, hex: "E38A32EA34", processNode: "176L(B47T)" },
+  { start: 1, hex: "D30C32EA30", processNode: "176L(N48R)" },
+  { start: 1, hex: "E38D32EA30", processNode: "176L(N48R)" },
+  { start: 1, hex: "F38E32EA30", processNode: "176L(N48R)" },
+  { start: 1, hex: "C30832E630", processNode: "232L(B57T)" },
+  { start: 1, hex: "D38932E630", processNode: "232L(B57T)" },
+  { start: 1, hex: "E38A32E630", processNode: "232L(B57T)" },
+  { start: 1, hex: "D30832E830", processNode: "232L(B58R)" },
+  { start: 1, hex: "E38932E830", processNode: "232L(B58R)" },
+  { start: 1, hex: "F38A32E830", processNode: "232L(B58R)" },
+  { start: 1, hex: "D30832E831", processNode: "232L(B58R)" },
+  { start: 1, hex: "E38932E831", processNode: "232L(B58R)" },
+  { start: 1, hex: "F38A32E831", processNode: "232L(B58R)" },
+  { start: 1, hex: "D30C42EE30", processNode: "232L(N58R)" },
+  { start: 1, hex: "E38D42EE30", processNode: "232L(N58R)" },
+  { start: 1, hex: "F38E42EE30", processNode: "232L(N58R)" },
+  { start: 1, hex: "D30C42EE31", processNode: "232L(N58R)" },
+  { start: 1, hex: "E38D42EE31", processNode: "232L(N58R)" },
+  { start: 1, hex: "F38E42EE31", processNode: "232L(N58R)" },
+  { start: 1, hex: "D30832E834", processNode: "276L(B68S)" },
+  { start: 1, hex: "E38932E834", processNode: "276L(B68S)" },
+  { start: 1, hex: "F38A32E834", processNode: "276L(B68S)" },
+  { start: 1, hex: "D30832E835", processNode: "276L(B68S)" },
+  { start: 1, hex: "E38932E835", processNode: "276L(B68S)" },
+  { start: 1, hex: "F38A32E835", processNode: "276L(B68S)" },
+  { start: 1, hex: "D5943E74", processNode: "50nm(L52A)" },
+  { start: 1, hex: "D7D53E78", processNode: "50nm(L52A)" },
   { start: 1, hex: "48002689", processNode: "34nm(M62A)" },
   { start: 1, hex: "6801A689", processNode: "34nm(M62A)" },
   { start: 1, hex: "68044689", processNode: "34nm(L63B)" },
@@ -73,7 +105,7 @@ const MICRON_LIKE_PROCESS_LOOKUPS: ProcessLookup[] = [
   { start: 1, hex: "C41832A2", processNode: "96L(B27A)" },
   { start: 1, hex: "D49932A2", processNode: "96L(B27A)" },
   { start: 1, hex: "E49A32A2", processNode: "96L(B27A)" },
-  { start: 1, hex: "C30832E6", processNode: "96L(B27B)" },
+  { start: 1, hex: "C30832E600", processNode: "96L(B27B)" },
   { start: 1, hex: "D38932E6", processNode: "96L(B27B)" },
   { start: 1, hex: "E38A32E6", processNode: "96L(B27B)" },
   { start: 1, hex: "D31C32C6", processNode: "96L(N28A)" },
@@ -83,22 +115,18 @@ const MICRON_LIKE_PROCESS_LOOKUPS: ProcessLookup[] = [
   { start: 1, hex: "A36032C6", processNode: "96L(M26A)" },
   { start: 1, hex: "A37832E5", processNode: "128L(B36R)" },
   { start: 1, hex: "C37832EA", processNode: "128L(B37R)" },
-  { start: 1, hex: "C30832EA", processNode: "176L(B47R)" },
-  { start: 1, hex: "D38932EA", processNode: "176L(B47R)" },
-  { start: 1, hex: "E38A32EA", processNode: "176L(B47R)" },
-  { start: 1, hex: "D30C32EA", processNode: "176L(N48R)" },
-  { start: 1, hex: "D30832E8", processNode: "232L(B58R)" },
-  { start: 1, hex: "E38932E8", processNode: "232L(B58R)" },
-  { start: 1, hex: "F38A32E8", processNode: "232L(B58R)" },
-  { start: 0, hex: "89D3AC32C600", processNode: "N38A 144L" },
-  { start: 0, hex: "89E3AD32C600", processNode: "N38A 144L" },
-  { start: 0, hex: "89F3AE32C600", processNode: "N38A 144L" },
-  { start: 0, hex: "89D3AC32C204", processNode: "N38B 144L" },
-  { start: 0, hex: "89E3AD32C204", processNode: "N38B 144L" },
-  { start: 0, hex: "89F3AE32C204", processNode: "N38B 144L" },
-  { start: 0, hex: "89092832C200", processNode: "N4PA 192L" },
-  { start: 0, hex: "89092932C200", processNode: "N4PA 192L" },
-  { start: 0, hex: "89092A32C200", processNode: "N4PA 192L" }
+  { start: 0, hex: "89D3AC32C6", processNode: "N38A 144L" },
+  { start: 0, hex: "89E3AD32C6", processNode: "N38A 144L" },
+  { start: 0, hex: "89D3AC32C2", processNode: "N38B 144L" },
+  { start: 0, hex: "89E3AD32C2", processNode: "N38B 144L" },
+  { start: 0, hex: "89092832C2", processNode: "N4PA 192L" },
+  { start: 0, hex: "89092932C2", processNode: "N4PA 192L" },
+  { start: 0, hex: "89092A32C2", processNode: "N4PA 192L" },
+  { start: 0, hex: "89092B32C2", processNode: "N4PA 192L" },
+  { start: 0, hex: "89050432C2", processNode: "N4PA 192L" },
+  { start: 0, hex: "89050532C2", processNode: "N4PA 192L" },
+  { start: 0, hex: "89050632C2", processNode: "N4PA 192L" },
+  { start: 0, hex: "89050732C2", processNode: "N4PA 192L" }
 ];
 
 const MICRON_LIKE_DENSITY_BY_BYTE2: Record<number, number> = {
@@ -254,8 +282,8 @@ const SAMSUNG_DENSITY_BY_BYTE2: Record<number, number> = {
 };
 
 const YMTC_PROCESS_BY_LAYER_CODE: Record<number, string> = {
-  1: "64L 3DV2",
-  2: "128L 3DV3",
+  1: "3DV2 64L",
+  2: "3DV3 128L",
   3: "3DV4",
   4: "3DV5"
 };
@@ -265,8 +293,11 @@ const YMTC_PROCESS_LOOKUPS: ProcessLookup[] = [
   { start: 1, hex: "D5588D20", processNode: "(x2-6070)" },
   { start: 1, hex: "C4284920", processNode: "(x2-9060)" },
   { start: 1, hex: "C5294920", processNode: "(x2-9060)" },
-  { start: 1, hex: "C4284930", processNode: "-128L(x3-9060)" },
-  { start: 1, hex: "C5587130", processNode: "-232L(x3-9070)" }
+  { start: 1, hex: "C4284930", processNode: "128L (x3-9060)" },
+  { start: 1, hex: "C5294930", processNode: "128L (x3-9060)" },
+  { start: 1, hex: "C5587130", processNode: "232L (x3-9070)" },
+  { start: 1, hex: "C6597130", processNode: "232L (x3-9070)" },
+  { start: 1, hex: "C55C5530", processNode: "232L (x3-6070)" }
 ];
 
 const YMTC_DENSITY_BY_BYTE2: Record<number, number> = {
@@ -279,13 +310,16 @@ const YMTC_DENSITY_BY_BYTE2: Record<number, number> = {
 
 function lookupProcessNode(id: string, lookups: ProcessLookup[]): string | undefined {
   const normalized = id.toUpperCase();
+  let best: ProcessLookup | undefined;
   for (const lookup of lookups) {
     const start = lookup.start * 2;
     if (normalized.slice(start, start + lookup.hex.length) === lookup.hex) {
-      return lookup.processNode;
+      if (!best || lookup.hex.length > best.hex.length) {
+        best = lookup;
+      }
     }
   }
-  return undefined;
+  return best?.processNode;
 }
 
 function lookupNumber(table: Record<number, number>, byte: number): number | undefined {
@@ -478,13 +512,7 @@ function patchKioxiaLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | n
 }
 
 function joinYmtcProcess(base: string | undefined, suffix: string | undefined): string | undefined {
-  if (!suffix) {
-    return base;
-  }
-  if (!base) {
-    return suffix.startsWith("-") ? suffix.slice(1) : suffix;
-  }
-  return suffix.startsWith("-") ? `${base}${suffix}` : `${base} ${suffix}`;
+  return [base, suffix].filter((value): value is string => Boolean(value)).join(" ") || undefined;
 }
 
 function patchYmtc(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
