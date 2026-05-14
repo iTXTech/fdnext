@@ -1,0 +1,62 @@
+# SpecTek DRAM PN 编码
+
+采集日期：2026-05-14
+
+## 外部资料
+
+- SpecTek Laser Mark to Marketing Part Number Decoder: 官方 5 位 mark code 到 marketing PN 的查询入口。实测 `PE001` ~ `PE020` 返回 DRAM component PN，例如 `PE010` -> `PRA128M8V88AG8GQF`。
+  <https://www.spectek.com/menus/mark_code.aspx>
+- Micron SpecTek Buyers Guide: DRAM 页列出 `PRN` / `PRM`、`TP`、`PG` 等等级和样例 PN，并把 DRAM Component Part Numbering Guide、DRAM Component Mark Reference、Laser Mark to MPN Decoder 作为官方资料入口。
+  <https://www.micron.com/content/dam/micron/global/public/spectek/buyers-guide/spectekbuyersguide.pdf>
+- 2015 SpecTek Components FBGA Matrix mirror: 覆盖 `PE008` ~ `PE012` 等 `PE` DRAM mark code 到 PN 的对应关系，可用于交叉验证旧表。
+  <https://pcper.com/wp-content/uploads/2013/06/8c06-fbgamark.pdf>
+- Puris SpecTek DRAM/LPDDR 表: 第三方表格把 `PE001`、`PE002`、`PE003`、`PE004`、`PE006`、`PE007` 等标为 DDR3，用于辅助判断 `PE` 批次的 DRAM 类型；不作为唯一规则来源。
+  <https://www.puris.net/archives/7244>
+
+## 规则状态
+
+iTXTech fdnext DecodePack:
+
+- `packages/decodepack/src/rules/packs/spectek-dram-token.json`
+- `vendor.spectek.dram.component.v1`
+
+MDB mark code:
+
+- `packages/resources/resources/mdb.json`
+- `PE001` ~ `PE020` 已按官方 decoder 查询结果加入 `spectek` marking 映射。
+- `packages/fdbgen/src/mdb.ts` 默认 SpecTek crawl header 已加入 `PE`，后续可用 `crawl-mdb` 补全更大范围。
+
+## PN 结构
+
+当前只接入 DRAM component 的稳定公共字段，不处理 module-only 结构。
+
+| 结构 | 含义 |
+| --- | --- |
+| `PR*` / `S*` / `XCB*` grade prefix | SpecTek DRAM grade / sales bin 前缀 |
+| `128M8`、`256M16`、`512M8`、`1024M4` 等 | component configuration，按 depth * width 输出 `dram_density` 和 `dram_width` |
+| `V` | DDR3；由 `PE` 官方 decoder 样本和旧 FBGA Matrix / 第三方 DRAM 表交叉确认 |
+| `Z` | DDR4；由 Buyers Guide 的 `PRN1G16Z22AD8RC-062E` 等样例确认 |
+| `U` / `T` / `Y` / `G` | 旧表辅助映射为 DDR2 / DDR / SDR / LPDDR2 |
+| 尾部 package code | 先输出为 `package_code`，不把未确认 package code 展示成具体封装 |
+| `-125`、`-15E`、`-062E` 等 | JEDEC / Micron-style speed token，按已有 DRAM 速度术语输出 `dram_speed` |
+
+## 输出字段
+
+- `dram_type`
+- `dram_density`
+- `dram_width`
+- `dram_speed`
+- `config_code`
+- `package_code`
+- `marking_code`
+
+## 测试样例
+
+- `PRA128M8V88AG8GQF`
+- `PE010`
+- `SU512M8V80A11ARH`
+- `PE002`
+
+## 注意
+
+`PE` 是 SpecTek mark code 头，不是完整 PN 头。接入时优先把官方 mark decoder 的 PE 结果落入 `mdb.spectek`，再由 DRAM PN 规则解析返回的 marketing PN。未确认的封装代码只保留 code，不推断成人类可见封装描述。

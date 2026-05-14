@@ -12953,6 +12953,66 @@
     "NV359": "MT29F8T08EQLHHL5-48QBES:H"
   },
   "spectek": {
+    "PE001": [
+      "SU512M82C0C11ABG"
+    ],
+    "PE002": [
+      "SU512M8V80A11ARH"
+    ],
+    "PE003": [
+      "SM512M8V80A11ARH"
+    ],
+    "PE004": [
+      "SM256M16V80A11AFS"
+    ],
+    "PE005": [
+      "SU256M16V80A11AFS"
+    ],
+    "PE006": [
+      "SM512M8V90B11ARG"
+    ],
+    "PE007": [
+      "SU512M8V90B11ARG"
+    ],
+    "PE008": [
+      "PRN128M8V88AG8GQF"
+    ],
+    "PE009": [
+      "PRM128M8V88AG8GQF"
+    ],
+    "PE010": [
+      "PRA128M8V88AG8GQF"
+    ],
+    "PE011": [
+      "SGG256M16V90BG8LYF"
+    ],
+    "PE012": [
+      "SMG256M16V90BG8LYF"
+    ],
+    "PE013": [
+      "PRN1024M8V91AG8SNF"
+    ],
+    "PE014": [
+      "PRN256M8V90BG8RGF"
+    ],
+    "PE015": [
+      "SU256M16V90B11ALY"
+    ],
+    "PE016": [
+      "SM256M16V90B11ALY"
+    ],
+    "PE017": [
+      "PRN256M16V90BG8LYF"
+    ],
+    "PE018": [
+      "PRM256M16V90BG8LYF"
+    ],
+    "PE019": [
+      "PRN1024M4V90BG8RGF"
+    ],
+    "PE020": [
+      "PRM1024M4V90BG8RGF"
+    ],
     "PF001": [
       "FBML84C71KDEABJ4"
     ],

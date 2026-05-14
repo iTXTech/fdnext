@@ -54,7 +54,7 @@ node packages/fdbgen/dist/cli.js crawl-mdb --file <mdb.json> [options]
 pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 ```
 
-说明：SpecTek 查询沿用旧版 ASPX 页面流程（`https://www.spectek.com/menus/mark_code.aspx`），通过提交表单后解析页面 DOM 表格，不依赖新接口。
+说明：SpecTek 查询沿用旧版 ASPX 页面流程（`https://www.spectek.com/menus/mark_code.aspx`），通过提交表单后解析页面 DOM 表格，不依赖新接口；默认覆盖 NAND `PF*` 以及 DRAM `PE*` mark code 前缀。
 
 ### 参数
 

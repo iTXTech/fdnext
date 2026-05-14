@@ -196,6 +196,23 @@ function assertSearchMarkingRelation(query: string, expectedPartNumber: string):
   assert.equal(action.input.constraints?.chipKind, "dram", `${query} relation action should keep DRAM constraints`);
 }
 
+function assertSpectekSearchMarkingRelation(query: string, expectedPartNumber: string): void {
+  const result = engine.searchParts({ query, lang: "eng", limit: 20 });
+  const item = result.items.find((candidate) => candidate.device.markingCode === query && candidate.device.partNumber === expectedPartNumber);
+  assert.ok(item, `${query} should return a structured SpecTek marking candidate for ${expectedPartNumber}`);
+  assert.equal(item.device.vendor.id, "spectek", `${query} should classify marking search as SpecTek`);
+  assert.equal(item.device.chipKind, "dram", `${query} should classify marking search as DRAM`);
+  assert.ok(item.badges?.includes("SpecTek FBGA"), `${query} should expose a SpecTek marking badge`);
+  const relation = result.relations?.find((candidate) =>
+    candidate.kind === "marking_for" &&
+    candidate.source?.markingCode === query &&
+    candidate.target.partNumber === expectedPartNumber
+  );
+  assert.ok(relation, `${query} should expose a SpecTek marking_for relation`);
+  assert.equal(relation.action?.input.constraints?.vendor, "spectek", `${query} relation action should keep vendor constraints`);
+  assert.equal(relation.action?.input.constraints?.chipKind, "dram", `${query} relation action should keep DRAM constraints`);
+}
+
 function publicDramType(value: unknown): string | undefined {
   return typeof value === "string" ? value.trim().replace(/\s+(?:SDRAM|SGRAM)$/i, "") : undefined;
 }
@@ -362,6 +379,62 @@ for (const entry of micronDramFbga) {
     `Micron DRAM FBGA entry should not expose maintenance keys: ${JSON.stringify(entry)}`
   );
 }
+
+assertDram("PRA128M8V88AG8GQF", {
+  vendor: "spectek",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x8",
+  voltage: "Unknown",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Config Code": "128M8",
+    "Package Code": "GQF"
+  }
+});
+assertDram("PE010", {
+  vendor: "spectek",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x8",
+  voltage: "Unknown",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Config Code": "128M8",
+    "Package Code": "GQF",
+    "Marking Code": "PE010"
+  }
+});
+assertDram("SU512M8V80A11ARH", {
+  vendor: "spectek",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "Unknown",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Config Code": "512M8",
+    "Package Code": "ARH"
+  }
+});
+assertDram("PE002", {
+  vendor: "spectek",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "Unknown",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Config Code": "512M8",
+    "Package Code": "ARH",
+    "Marking Code": "PE002"
+  }
+});
+assertSpectekSearchMarkingRelation("PE010", "PRA128M8V88AG8GQF");
 
 assertDram("MT40A1G8SA-075-E", {
   densityMbit: 8192,

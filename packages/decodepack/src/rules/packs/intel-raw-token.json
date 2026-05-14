@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(?:JS|PF|BK|CU|29|X)"
+      "value": "^(?:(?:JS|PF|BK|CU)?29[FPHRA-Z][0-9A-Z]{6,}|X(?:JS|PF|BK|CU)?29[FPHRA-Z][0-9A-Z]{6,}|(?:JS|PF|BK|CU)F[0-9A-Z]{6,})"
     },
     "tokenDecoder": {
       "tables": {

@@ -177,6 +177,17 @@ function assertNotFound(partNumber: string): void {
   assert.equal(result.status, "not_found", `${partNumber} should not be decoded by a generic catch-all rule`);
 }
 
+function assertRuleDoesNotMatch(ruleId: string, partNumber: string): void {
+  const matched = compiledPack.partDecoders.filter((decoder) => decoder.id === ruleId && decoder.check(partNumber)).map((decoder) => decoder.id);
+  assert.deepEqual(matched, [], `${partNumber} should not match ${ruleId}`);
+}
+
+function assertAmbiguousCandidates(partNumber: string, expected: string[]): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ambiguous", `${partNumber} should remain ambiguous when one mark maps to multiple PNs`);
+  assert.deepEqual(result.candidates?.map((candidate) => candidate.device.partNumber), expected);
+}
+
 const kioxiaManagedRuleIds = new Set(["vendor.kioxia.managed.thg.v1"]);
 
 function assertKioxiaManagedRuleMatches(partNumber: string, expected: string[]): void {
@@ -412,6 +423,9 @@ assertPart("FNNL63A51K3WG-AF", {
     "Package functionality partial type": "Single Die Package, CE only"
   }
 });
+assertRuleDoesNotMatch("vendor.intel.token.v1", "PF035");
+assertRuleDoesNotMatch("vendor.intel.token.v1", "PFE02");
+assertAmbiguousCandidates("PFE02", ["FBML63BNAKDBAAH1", "FBNL63BNAKDBAAH1"]);
 
 assertPart("TF10G1BAHA", {
   vendor: "phison",

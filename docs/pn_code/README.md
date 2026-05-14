@@ -12,7 +12,7 @@
 | Samsung | - | [samsung_emmc.md](samsung_emmc.md) | [samsung_ufs.md](samsung_ufs.md) | [samsung_emcp.md](samsung_emcp.md) | - | - | [samsung_dram.md](samsung_dram.md) |
 | Silicon Motion | - | [siliconmotion_emmc.md](siliconmotion_emmc.md) | [siliconmotion_ufs.md](siliconmotion_ufs.md) | - | - | - | - |
 | SanDisk | - | [sandisk_emmc.md](sandisk_emmc.md) | [sandisk_ufs.md](sandisk_ufs.md) | [sandisk_emcp.md](sandisk_emcp.md) | - | [sandisk_issd.md](sandisk_issd.md) | - |
-| SpecTek | [spectek_nand.md](spectek_nand.md) | - | - | - | - | - | - |
+| SpecTek | [spectek_nand.md](spectek_nand.md) | - | - | - | - | - | [spectek_dram.md](spectek_dram.md) |
 | KIOXIA | [kioxia_nand.md](kioxia_nand.md) | [kioxia_emmc.md](kioxia_emmc.md) | [kioxia_ufs.md](kioxia_ufs.md) | [kioxia_emcp.md](kioxia_emcp.md) | [kioxia_e2nand.md](kioxia_e2nand.md) | - | - |
 | Micron | [micron_managed.md](micron_managed.md), [micron_on_die_ecc_nand.md](micron_on_die_ecc_nand.md) | [micron_emmc.md](micron_emmc.md) | [micron_ufs.md](micron_ufs.md) | [micron_emcp.md](micron_emcp.md) | - | - | [micron_dram.md](micron_dram.md) |
 | Nanya | - | - | - | - | - | - | [nanya_dram.md](nanya_dram.md) |

@@ -95,7 +95,8 @@ export interface ClassifyPartOptions {
 function isDramPartNumber(partNumber: string): boolean {
   return /^(?:MT|CT)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
     /^(?:ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
-    /^ED(?:B|D|E|F|J|S|W)/.test(partNumber);
+    /^ED(?:B|D|E|F|J|S|W)/.test(partNumber) ||
+    /^(?:XCBB|XCB|PR[A-Z]|S[A-Z]{1,2})(?:[0-9]+M|[0-9]+G)[0-9]{1,2}[A-Z0-9]/.test(partNumber);
 }
 
 function vendorKey(vendor: string): string {
@@ -526,7 +527,8 @@ export function classifyPart(
     });
   }
 
-  if (options.mode === "decode") {
+  const hasExactMarkingMatch = bases.some((base) => base.markingMatch && base.matchKind === "exact");
+  if (options.mode === "decode" && !hasExactMarkingMatch) {
     bases.push({
       partNumber: normalized,
       normalizedPartNumber: normalized,
