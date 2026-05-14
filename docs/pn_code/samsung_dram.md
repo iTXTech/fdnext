@@ -10,6 +10,7 @@
 - Samsung DDR4 datasheet 镜像确认 `K4A8G085WB-BCRC` ordering table：`1Gx8`、78 FBGA、DDR4-2400，并说明 `K4A8G085WB` 为 8Gb B-die DDR4 SDRAM。来源：<https://www.alldatasheet.com/html-pdf/1179089/SAMSUNG/K4A8G085WB-BCRC/1778/5/K4A8G085WB-BCRC.html>
 - Samsung DDR4 Product Guide 确认 DDR4 suffix package type `M` 表示 FBGA DDP，`K4AAG085WB-MCPB/MCRC` 与 `K4AAG165WB-MCPB/MCRC` 是 16Gb B-die DDP；官方 `K4AAG085WB-MCPB` 页面确认 16Gb、2G x8、78 FBGA。Intel 社区设计讨论进一步确认 `K4AAG085WB-MCRC` 是 16Gb x8 dual-die、two ranks / separate chip selects；`K4AAG165WB` datasheet 摘要确认 1Gx16、96 FBGA、DDP。来源：<https://www.alldatasheetcn.com/html-pdf/1643768/SAMSUNG/K4AAG085WB/697/2/K4AAG085WB.html>、<https://semiconductor.samsung.com/dram/ddr/ddr4/k4aag085wb-mcpb/>、<https://community.intel.com/t5/Embedded-Intel-Core-Processors/Xeon-D-1500-CPU-state-of-the-RAS-n-A16-pin-during-Row-Address-RA/td-p/1613915>、<https://www.memory-distributor.com/pub/media/downloads/datasheets/K4AAG165WB.pdf>
 - Samsung DDR4 SDRAM Memory Product Guide May 2018 列出 PC/SVR 与 Consumer DDR4 component 表，确认 `K4A8G045WB/085WB/165WB`、`K4A8G045WC/085WC/165WC`、`K4A4G085WD/165WD`、`K4A4G085WE/165WE`、`K4A4G085WF/165WF`、`K4AAG085WA/165WA`、`K4AAG085WB/165WB` 等 base PN 与 `PB/RC/TD/VF/WE` speed、`C/I` temp、78/96-ball FBGA 封装组合；这些 exact PN 进入 `dram-pn.json` 用于补全。来源：<https://image.semiconductor.samsung.com/resources/product-guide/DDR4_Product_guide_May.18.pdf>
+- Samsung DDR3 SDRAM Memory Product Guide Oct. 2016 component 表确认 `K4B1G0846I/1646I`、`K4B2G0846F/1646F`、`K4B4G0446D/0846D/1646D` 的 DDR3 suffix 组合：`C/Y/M` 温度/电压档与 `H9/K0/MA/NB` speed bin；这些 exact `K4B` PN 进入 `dram-pn.json` 用于补全。该 PDF 中出现的 `K4A...` 行属于 DDR4 family，不作为 DDR3 规则依据。来源：用户提供的 `DDR3_Product_guide_Oct.16[2]-0.pdf`
 - Samsung 官方 DDR4 页面确认 `K4ABG085WA-MCWE` / `K4ABG165WB-MCWE` 为 32Gb DDR4，分别是 4G x8 / 78 FBGA 与 2G x16 / 96 FBGA，3200Mbps。来源：<https://semiconductor.samsung.com/dram/ddr/ddr4/k4abg085wa-mcwe/>、<https://semiconductor.samsung.com/us/dram/ddr/ddr4/k4abg165wb-mcwe/>
 - Samsung 官方 DDR5 页面确认 `K4RAH086VB-BCQK` 为 16Gb、2G x8、82 FBGA、1.1V、4800Mbps、0C~85C。来源：<https://semiconductor.samsung.com/jp/dram/ddr/ddr5/k4rah086vb-bcqk/>
 - Samsung 官方 DDR5 页面确认 high-capacity density code：`K4RHE086VB-BCWM` / `K4RHE165VB-BCWM` 为 24Gb DDR5，`K4RBH046VM-BCWM` 为 32Gb DDR5。来源：<https://semiconductor.samsung.cn/dram/ddr/ddr5/k4rhe086vb-bcwm/>、<https://semiconductor.samsung.cn/dram/ddr/ddr5/k4rhe165vb-bcwm/>、<https://semiconductor.samsung.com/jp/dram/ddr/ddr5/k4rbh046vm-bcwm/>
@@ -36,7 +37,7 @@
 ## iTXTech fdnext DecodePack 范围
 
 - 规则文件：`packages/decodepack/src/rules/packs/samsung-dram-token.json`
-- 规则 ID：`vendor.samsung.dram.legacy_standard.component.v1`、`vendor.samsung.dram.standard.component.v1`、`vendor.samsung.dram.ddr5.component.v1`、`vendor.samsung.dram.lpddr1.component.v1`、`vendor.samsung.dram.lpddr4x.ordering.component.v1`、`vendor.samsung.dram.lpddr.component.v1`、`vendor.samsung.dram.legacy_gddr.component.v1`、`vendor.samsung.dram.gddr.component.v1`
+- 规则 ID：`vendor.samsung.dram.ddr3.component.v1`、`vendor.samsung.dram.legacy_standard.component.v1`、`vendor.samsung.dram.standard.component.v1`、`vendor.samsung.dram.ddr5.component.v1`、`vendor.samsung.dram.lpddr1.component.v1`、`vendor.samsung.dram.lpddr4x.ordering.component.v1`、`vendor.samsung.dram.lpddr.component.v1`、`vendor.samsung.dram.legacy_gddr.component.v1`、`vendor.samsung.dram.gddr.component.v1`
 - 当前覆盖：
   - SDR / DDR：`K4S/K4H/K4T/K4B/K4A`，覆盖 SDR、DDR、DDR2、DDR3、DDR4。
   - DDR5：`K4R`，当前落地 `AH/HE/BH` density token。
@@ -49,13 +50,13 @@
 
 ```text
 legacy SDR/DDR/DDR2/DDR3: K4 + family + density + width + bank + interface + revision + -package/temp/speed
-DDR4: K4 + family + density + optional unit + width + package + -speed/temp
+DDR4: K4 + family + density + optional unit + width + package + revision + -suffix-package/temp/speed
 ```
 
 DDR5：
 
 ```text
-K4R + density-code + width + package + -speed/temp
+K4R + density-code + width + package + -suffix-package/temp/speed
 ```
 
 LPDDR：
@@ -63,14 +64,14 @@ LPDDR：
 ```text
 LPDDR1: K4X + density + bit organization + bank + interface + revision + -package/temp/speed
 LPDDR4X ordering: K4 + U + density/refresh + organization + bank + interface/voltage + generation + -package/temp/speed
-LPDDR2+: K + family + density/stack token + package token + -speed/temp
+LPDDR2+: K + family + density/stack token + package token + -suffix-package/temp/speed
 ```
 
 GDDR：
 
 ```text
-legacy: K4 + family + density-code + width + org token + package token + -speed
-modern: K4 + family + density token + 325 organization token + package token + -speed
+legacy: K4 + family + density-code + width + org token + package token + -speed-prefix/temp/speed-grade
+modern: K4 + family + density token + 325 organization token + package token + -suffix-prefix/temp/speed-grade
 ```
 
 ## 输出约定
@@ -79,19 +80,23 @@ modern: K4 + family + density token + 325 organization token + package token + -
 - `K4X` LPDDR1 从 bit organization 输出可确认的 CS / layout 信息；只有物理 die 与 CS 同时明确时输出 `dram_die_stack`，`2 CKE`、JEDEC/Flexframe stack layout 等信息放 `special_option`。
 - `K4W` 输出 `DRAM Type = DDR3`，并用 `DRAM Generation = Samsung graphics gDDR3/SDDR3` 标注其不同于普通 `K4B` DDR3 命名线。
 - Graphics Selection Guide 的 base PN 行可以确认封装/电压/组织，但 speed bin 不等同于 PN 尾缀；无 `-speed` 尾缀时不得输出 `dram_speed`。表中 `GDDR1` 行在 public `DRAM Type` 中统一输出为 `GDDR`。
-- 标准 DDR/GDDR 颗粒在 datasheet 或官方页面确认单颗 die / 单 CS 语义时输出 `1 die, 1 CS`；DDR4 suffix package type `M` 且 density/width 命中已确认组合时覆盖为 `2 dies, 1 CS` 或 `2 dies, 2 CS`。
+- 标准 DDR/GDDR 颗粒在 datasheet 或官方页面确认单颗 die / 单 CS 语义时输出 `1 die, 1 CS`；DDR3/DDR4 suffix package type 表达 DDP/QDP 等堆叠封装但没有 CS 信息时只输出 `die_count`，不补 `dram_die_stack` / `ce_count`。
+- Samsung 标准 SDR / DDR / DDR2 / DDR3 / DDR4 主结构里的最后一位 revision token 输出为 `die_revision = "<token>-die"`，例如 `K4B...I` 输出 `I-die`、`K4A...WB` 输出 `B-die`。
+- Samsung DDR3 / DDR4 的 `dram_speed` 按 Product Guide speed token 输出完整 CL / tRCD / tRP 时序，例如 `DDR3-2133 14-14-14`、`DDR4-3200 22-22-22`；`RB/TC/WD/YF/AE` 这类 DDR4 alternate timing code 也按 ordering information 保留对应时序。
+- Samsung DRAM `-` 后缀按 token 拆解：标准 DDR/DDR5 为 suffix package / temp / speed，LPDDR 为 suffix package / temp / speed，GDDR 为 speed-prefix / temp / speed-grade；规则不以 `BCIF`、`MCRC`、`MGCL`、`SC32` 这类完整尾缀作为整体枚举键。
 - `Config Code` 只保留结构主配置，例如 `8G08`、`AH08`、`3QF1`、`263238`、`52324`、`80325`，不把完整 PN 或完整 base code 当配置码。
 
 ## DDR4 DDP
 
-Samsung DDR4 component PN 的 suffix 第一位是 package type：`B` 表示 flip-chip FBGA，`M` 表示 FBGA DDP。当前只对外部资料确认的 16Gb B-die DDP 组合输出 `dram_die_stack`：
+Samsung DDR4 component PN 的 suffix 第一位是 package type：`B` 表示 flip-chip FBGA，`M` 表示 FBGA DDP。规则只从 package type 输出 die 数；CS / rank 不再由 package type 自动推断。
 
-| Key | PN family | die stack / CS | source tier |
+| package type | PN family | output | source tier |
 | --- | --- | --- | --- |
-| `A:AG:08:M` | `K4AAG085WB-M...` | 2 dies / 2 CS | `external_confirmed` |
-| `A:AG:16:M` | `K4AAG165WB-M...` | 2 dies / 1 CS | `external_table_confirmed` |
+| `M` | `K4A...-M...` | `die_count = 2` | Product Guide package token |
+| `2` / `3` | standard DDR suffix | `die_count = 2` | package token |
+| `4` / `5` | standard DDR suffix | `die_count = 4` | package token |
 
-仍不按 `AG` 或 `K4AAG...` base PN 单独推断 DDP；必须 suffix package type 为 `M`。例如同为 `AG08` 的 `B...` suffix 仍按普通 FBGA 处理。
+仍不按 `AG` 或 `K4AAG...` base PN 单独推断 DDP；必须 suffix package type 为 `M`。例如同为 `AG08` 的 `B...` suffix 仍按普通 FBGA 处理。若外部资料只说明 DDP/QDP 而未稳定暴露 CS，public result 保留 `die_count`，省略 `dram_die_stack` 与 `ce_count`。
 
 ## 大容量 configuration
 
@@ -99,8 +104,8 @@ Samsung DDR4 component PN 的 suffix 第一位是 package type：`B` 表示 flip
 
 | 产品线 | Token / Key | 示例 | 输出 |
 | --- | --- | --- | --- |
-| DDR4 | `BG08` | `K4ABG085WA-MCWE` | `32Gb`, `x8`, `78-ball FBGA`, `DDR4-3200` |
-| DDR4 | `BG16` | `K4ABG165WB-MCWE` | `32Gb`, `x16`, `96-ball FBGA`, `DDR4-3200` |
+| DDR4 | `BG08` | `K4ABG085WA-MCWE` | `32Gb`, `x8`, `78-ball FBGA`, `DDR4-3200`, `die_count = 2` |
+| DDR4 | `BG16` | `K4ABG165WB-MCWE` | `32Gb`, `x16`, `96-ball FBGA`, `DDR4-3200`, `die_count = 2` |
 | DDR5 | `HE08` / `HE16` | `K4RHE086VB-BCWM` / `K4RHE165VB-BCWM` | `24Gb`, `x8/x16`, `DDR5-5600` |
 | DDR5 | `BH04` | `K4RBH046VM-BCWM` | `32Gb`, `x4`, `78-ball FBGA`, `DDR5-5600` |
 | LPDDR4X | `4U6E3S4AA` + suffix `MGCL` | `K4U6E3S4AA-MGCL` | `16Gb`, `x32`, `1 die`, `2 channels`, `LVSTLE_06`, `200-ball FBGA`, `LPDDR4X-4266` |

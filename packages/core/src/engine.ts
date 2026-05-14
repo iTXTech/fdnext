@@ -258,6 +258,7 @@ function applyDramClassification(info: PartDecodeDraft): void {
   const die = parseDramDieStackCount(extra.dram_die_stack);
   const ce = parseDramCsCount(extra.dram_die_stack);
   const hasExplicitDramStack = isKnownClassificationValue(extra.dram_die_stack);
+  const hasExplicitDieCount = isKnownClassificationValue(extra.die_count);
   const hasExplicitCeCount = isKnownClassificationValue(extra.ce_count);
   const hasStackLayoutOption = hasDramStackLayoutOption(extra.special_option);
   const defaultDieClassification = isDdrFamilyDramType(extra.dram_type);
@@ -274,7 +275,7 @@ function applyDramClassification(info: PartDecodeDraft): void {
 
   if (ce != null) {
     setDraftField(info, "ce_count", ce);
-  } else if (defaultCeClassification && !isKnownClassificationValue(draftField(info, "ce_count"))) {
+  } else if (!hasExplicitDieCount && defaultCeClassification && !isKnownClassificationValue(draftField(info, "ce_count"))) {
     setDraftField(info, "ce_count", 1);
   }
 }
