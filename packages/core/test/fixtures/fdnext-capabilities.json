@@ -36,22 +36,22 @@
         },
         {
           "id": "if:usb20",
-          "title": "USB 2.0 controllers",
-          "description": "USB high-speed flash controllers with a USB 2.0 host interface.",
+          "title": "USB 2.0",
+          "description": "USB 2.0 flash controllers.",
           "count": 0,
           "items": []
         },
         {
           "id": "if:usb32g1",
-          "title": "USB 3.2 Gen 1 controllers",
-          "description": "USB SuperSpeed flash controllers with a 5 Gbps USB 3.x host interface.",
+          "title": "USB 3.2 Gen 1",
+          "description": "5 Gbps USB flash controllers.",
           "count": 0,
           "items": []
         },
         {
           "id": "if:usb32g2",
-          "title": "USB 3.2 Gen 2 controllers",
-          "description": "High-speed native USB portable SSD controllers in the USB 3.2 Gen 2 or Gen 2x2 family.",
+          "title": "USB 3.2 Gen 2",
+          "description": "Gen 2/2x2 USB SSD controllers.",
           "count": 0,
           "items": []
         },
