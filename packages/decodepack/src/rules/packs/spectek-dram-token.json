@@ -195,9 +195,6 @@
           "value": {
             "config_code": {
               "$var": "configCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
             }
           }
         },
@@ -402,6 +399,250 @@
           "2G32": 32,
           "2G64": 64
         },
+        "voltage": {
+          "B": "1.1V",
+          "D": "1.2V",
+          "F": "1.4V",
+          "G": "1.5V",
+          "J": "1.35V",
+          "L": "3.3V",
+          "M": "1.65V",
+          "N": "1.4V",
+          "O": "1.8V",
+          "U": "Undetermined",
+          "V": "2.5V"
+        },
+        "packageToken": {
+          "BAF": "BAF",
+          "CLU": "CLU",
+          "DGA": "DGA",
+          "DVN": "DVN",
+          "EFN": "EFN",
+          "FSE": "FSE",
+          "HBA": "HBA",
+          "HPR": "HPR",
+          "KJR": "KJR",
+          "KNR": "KNR",
+          "KVA": "KVA",
+          "NEA": "NEA",
+          "NRE": "NRE",
+          "RFE": "RFE",
+          "RKB": "RKB",
+          "SKL": "SKL",
+          "SMA": "SMA",
+          "TBB": "TBB",
+          "THD": "THD",
+          "THE": "THE",
+          "THN": "THN",
+          "TRF": "TRF",
+          "VNE": "VNE",
+          "VRN": "VRN",
+          "WBU": "WBU",
+          "WPF": "WPF",
+          "WTR": "WTR",
+          "ARH": "ARH",
+          "AT": "AT",
+          "CF": "CF",
+          "CHB": "CHB",
+          "DA": "DA",
+          "DS": "DS",
+          "EB": "EB",
+          "EF": "EF",
+          "GE": "GE",
+          "HA": "HA",
+          "HB": "HB",
+          "HC": "HC",
+          "HD": "HD",
+          "HM": "HM",
+          "H6": "H6",
+          "HX": "HX",
+          "JC": "JC",
+          "JP": "JP",
+          "JT": "JT",
+          "JY": "JY",
+          "KD": "KD",
+          "KL": "KL",
+          "LY": "LY",
+          "NF": "NF",
+          "PA": "PA",
+          "PM": "PM",
+          "RC": "RC",
+          "RG": "RG",
+          "RH": "RH",
+          "RW": "RW",
+          "RV": "RV",
+          "RZ": "RZ",
+          "SA": "SA",
+          "SH": "SH",
+          "SN": "SN",
+          "ST": "ST",
+          "TB": "TB",
+          "TW": "TW",
+          "VA": "VA",
+          "WE": "WE",
+          "GQ": "GQ"
+        },
+        "packageObj": {
+          "AT": {
+            "package": "VFBGA 78/117B, 7.5x11.5x1",
+            "die_count": 1
+          },
+          "BAF": {
+            "package": "FBGA 78/117B, 10.5x11x1.2",
+            "die_count": 2
+          },
+          "CF": {
+            "package": "FBGA 60/99B, 8x10x1.2",
+            "die_count": 1
+          },
+          "CHB": {
+            "package": "FBGA 96/144B, 9.5x14x1.2",
+            "die_count": 2
+          },
+          "DA": {
+            "package": "TFBGA 78/117B, 8x10.5x1.2",
+            "die_count": 1
+          },
+          "DS": {
+            "package": "FBGA 78/117B, 9.5x11.5x1.2",
+            "die_count": 1
+          },
+          "EB": {
+            "package": "FBGA 60/99B, 9x11.5x1.2",
+            "die_count": 1
+          },
+          "EF": {
+            "package": "TFBGA 78/117B, 8x10.5x1.2",
+            "die_count": 1
+          },
+          "GE": {
+            "package": "TFBGA 96/144B, 9x14x1.2",
+            "die_count": 1
+          },
+          "HA": {
+            "package": "FBGA 96/144B, 9x14x1.2",
+            "die_count": 1
+          },
+          "HB": {
+            "package": "VFBGA 82/143B, 9x11x1.0",
+            "die_count": 1
+          },
+          "HC": {
+            "package": "VFBGA 102/153B, 9x14x1.0",
+            "die_count": 1
+          },
+          "HD": {
+            "package": "VFBGA 102/153B, 7.5x14x1.0",
+            "die_count": 1
+          },
+          "HM": {
+            "package": "VFBGA 102/153B, 8.5x14x1.0",
+            "die_count": 1
+          },
+          "HX": {
+            "package": "FBGA 78/117B, 9x11.5x1.2",
+            "die_count": 1
+          },
+          "JC": {
+            "package": "TFBGA 78/117B, 9x11x1.2",
+            "die_count": 1
+          },
+          "JP": {
+            "package": "FBGA 78/117B, 8x11.5x1.2",
+            "die_count": 1
+          },
+          "JT": {
+            "package": "TFBGA 96/144B, 8x14x1.2",
+            "die_count": 1
+          },
+          "JY": {
+            "package": "TFBGA 96/144B, 8x14x1.2",
+            "die_count": 1
+          },
+          "KD": {
+            "package": "TFBGA 96/144B, 9x13x1.2",
+            "die_count": 1
+          },
+          "KL": {
+            "package": "TFBGA 78/117B, 9x11x1.2",
+            "die_count": 1
+          },
+          "LY": {
+            "package": "TFBGA 96/144B, 7.5x13.5x1.2",
+            "die_count": 1
+          },
+          "NF": {
+            "package": "FBGA 84/135B, 8x12.5x1.2",
+            "die_count": 1
+          },
+          "PA": {
+            "package": "BGA 168/169B, 13.5x13.5x1.2",
+            "die_count": 1
+          },
+          "PM": {
+            "package": "FBGA 78/117B, 9x13.2x1.2",
+            "die_count": 1
+          },
+          "RC": {
+            "package": "TFBGA 96/144B, 10x13x1.2",
+            "die_count": 1
+          },
+          "RG": {
+            "package": "FBGA 78/117B, 7.5x10.6x1.2",
+            "die_count": 1
+          },
+          "RH": {
+            "package": "FBGA 78/117B, 9x10.5x1.2",
+            "die_count": 1
+          },
+          "RW": {
+            "package": "VFBGA 78/117B, 8x11x1.0",
+            "die_count": 1
+          },
+          "RV": {
+            "package": "VFBGA 102/153B, 8x14x1.0",
+            "die_count": 1
+          },
+          "RZ": {
+            "package": "VFBGA 78/117B, 7.5x11x1.0",
+            "die_count": 1
+          },
+          "SA": {
+            "package": "TFBGA 78/117B, 7.5x11x1.2",
+            "die_count": 1
+          },
+          "SH": {
+            "package": "FBGA 60/117B, 8x10x1.2",
+            "die_count": 1
+          },
+          "SN": {
+            "package": "FBGA 78/117B, 9x13.2x1.2",
+            "die_count": 1
+          },
+          "ST": {
+            "package": "VFBGA 78/117B, 7.5x11.2x1.0",
+            "die_count": 1
+          },
+          "TB": {
+            "package": "TFBGA 96/144B, 7.5x13x1.2",
+            "die_count": 1
+          },
+          "TW": {
+            "package": "FBGA 96/144B, 8x14x1.2",
+            "die_count": 1
+          },
+          "VA": {
+            "package": "TFBGA 78/117B, 10x11x1.2",
+            "die_count": 1
+          },
+          "WE": {
+            "package": "TFBGA 78/117B, 8x12x1.2",
+            "die_count": 1
+          },
+          "GQ": {
+            "package": "FBGA 78/117B, 8x10.5MM"
+          }
+        },
         "dramTypeObj": {
           "2C": {
             "dram_type": "DDR3"
@@ -439,14 +680,41 @@
           "107": "107",
           "125": "125",
           "187": "187",
+          "18E": "18E",
+          "12K": "12K",
+          "12L": "12L",
+          "12P": "12P",
+          "12E": "12E",
+          "12H": "12H",
+          "12M": "12M",
+          "15K": "15K",
+          "15M": "15M",
+          "A7K": "A7K",
+          "A7L": "A7L",
+          "A7P": "A7P",
+          "A7R": "A7R",
+          "A7F": "A7F",
+          "A7H": "A7H",
+          "A7M": "A7M",
+          "93M": "93M",
+          "48B": "48B",
+          "52B": "52B",
           "56B": "56B",
+          "60B": "60B",
+          "64B": "64B",
           "062E": "062E",
+          "071": "071",
           "075": "075",
           "075E": "075E",
+          "75M": "75M",
           "083": "083",
           "083E": "083E",
           "093": "093",
-          "093E": "093E"
+          "093E": "093E",
+          "68": "68",
+          "68X": "68X",
+          "55M": "55M",
+          "57M": "57M"
         },
         "speedObj": {
           "5": {
@@ -479,17 +747,86 @@
           "187": {
             "dram_speed": "533MHz (DDR-1066)"
           },
+          "18E": {
+            "dram_speed": "533MHz (DDR-1066) CL7"
+          },
+          "12K": {
+            "dram_speed": "800MHz (DDR3-1600) CL11"
+          },
+          "12L": {
+            "dram_speed": "800MHz (DDR3-1600) CL8"
+          },
+          "12P": {
+            "dram_speed": "800MHz (DDR3-1600) CL9"
+          },
+          "12E": {
+            "dram_speed": "800MHz (DDR3-1600) CL10"
+          },
+          "12H": {
+            "dram_speed": "800MHz (DDR3-1600) CL9"
+          },
+          "12M": {
+            "dram_speed": "800MHz (DDR3-1600) CL8"
+          },
+          "15K": {
+            "dram_speed": "667MHz (DDR3-1333) CL9"
+          },
+          "15M": {
+            "dram_speed": "667MHz (DDR3-1333) CL7"
+          },
+          "A7K": {
+            "dram_speed": "933MHz (DDR3-1866) CL13"
+          },
+          "A7L": {
+            "dram_speed": "933MHz (DDR3-1866) CL9"
+          },
+          "A7P": {
+            "dram_speed": "933MHz (DDR3-1866) CL10"
+          },
+          "A7R": {
+            "dram_speed": "933MHz (DDR3-1866) CL10-11-10"
+          },
+          "A7F": {
+            "dram_speed": "933MHz (DDR3-1866) CL10-11-10"
+          },
+          "A7H": {
+            "dram_speed": "933MHz (DDR3-1866) CL10"
+          },
+          "A7M": {
+            "dram_speed": "933MHz (DDR3-1866) CL9"
+          },
+          "93M": {
+            "dram_speed": "1066MHz (DDR3-2133) CL9"
+          },
+          "48B": {
+            "dram_speed": "DDR5-4800"
+          },
+          "52B": {
+            "dram_speed": "DDR5-5200"
+          },
           "56B": {
             "dram_speed": "DDR5-5600"
           },
+          "60B": {
+            "dram_speed": "DDR5-6000"
+          },
+          "64B": {
+            "dram_speed": "DDR5-6400"
+          },
           "062E": {
             "dram_speed": "DDR4-3200 CL22"
+          },
+          "071": {
+            "dram_speed": "DDR4-2800 CL20"
           },
           "075": {
             "dram_speed": "DDR4-2666 CL19"
           },
           "075E": {
             "dram_speed": "DDR4-2666 CL18"
+          },
+          "75M": {
+            "dram_speed": "DDR4-2666 CL16"
           },
           "083": {
             "dram_speed": "DDR4-2400 CL17"
@@ -502,6 +839,18 @@
           },
           "093E": {
             "dram_speed": "DDR4-2133 CL15"
+          },
+          "68": {
+            "dram_speed": "DDR4-2933 CL20"
+          },
+          "68X": {
+            "dram_speed": "DDR4-2933 CL20"
+          },
+          "55M": {
+            "dram_speed": "DDR4-3600 CL16"
+          },
+          "57M": {
+            "dram_speed": "DDR4-3466 CL16"
           }
         }
       },
@@ -542,11 +891,33 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^[0-9A-Z]*?([A-Z][0-9A-Z]{1,2})(?=(?:-[0-9A-Z]+)?(?::[0-9A-Z]+)?$|$)",
+          "pattern": "^([0-9A-Z]{3})([0-9A-Z])([0-9A-Z])",
           "to": "body",
           "groups": {
-            "packageCode": 1
+            "designId": 1,
+            "voltageCode": 2,
+            "refreshCode": 3
           }
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "takeLongest",
+          "table": "packageToken",
+          "to": "packageCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
         },
         {
           "op": "stripIfPrefix",
@@ -571,9 +942,6 @@
           "value": {
             "config_code": {
               "$var": "configCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
             }
           }
         },
@@ -581,6 +949,11 @@
           "op": "merge",
           "into": "extra",
           "from": "dramTypeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
         },
         {
           "op": "merge",
@@ -603,6 +976,15 @@
         },
         "fields.dram_width": {
           "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$path": "packageObj.package"
+        },
+        "fields.die_count": {
+          "$path": "packageObj.die_count"
         },
         "fields.config_code": {
           "$var": "configCode"

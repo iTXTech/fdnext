@@ -453,10 +453,31 @@ assertPart("SUGNM1126A6BPIET-046BT", {
     "Product Generation": "NM112",
     "Product Family": "SpecTek NAND MCP",
     "Product Mode": "SLC NAND + LPDDR4",
-    "Package Code": "ET",
     "Special Option": "2 NAND, 2 LPDRAM",
     "Speed Grade": "046 Fully Tested"
-  }
+  },
+  absentExtra: ["Package Code"]
+});
+assertPart("SMKJ6Z4ZZ4D4TGFAK-PG", {
+  vendor: "spectek",
+  type: "eMCP",
+  voltage: "LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
+  package: "TFBGA 153-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
+  extra: {
+    "Storage Density": "4GB eMMC",
+    "Storage Interface": "eMMC",
+    "DRAM Density": "4Gb",
+    "DRAM Type": "LPDRAM",
+    "DRAM Width": "x32",
+    "Product Generation": "J6Z4",
+    "Product Family": "SpecTek All-in-One",
+    "Product Mode": "LPDDR + MLC eMMC",
+    "Special Option": "0 NAND Flash, 2 LPDRAM (CS0#/CS1#), 1 eMMC",
+    "Controller": "Phison 8200 V4.41 EF",
+    "Controller Code": "T",
+    "Speed Grade": "Partial Good Mixed Bins"
+  },
+  absentExtra: ["Package Code"]
 });
 
 assertPart("TF10G1BAHA", {

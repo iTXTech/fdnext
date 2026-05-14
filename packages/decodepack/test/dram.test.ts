@@ -385,27 +385,27 @@ assertDram("PRA128M8V88AG8GQF", {
   densityMbit: 1024,
   density: "1Gb",
   widthField: "x8",
-  voltage: "Unknown",
-  package: "Unknown",
+  voltage: "1.5V",
+  package: "FBGA 78/117B, 8x10.5MM",
   extra: {
     "DRAM Type": "DDR3",
-    "Config Code": "128M8",
-    "Package Code": "GQF"
-  }
+    "Config Code": "128M8"
+  },
+  absentExtra: ["Package Code"]
 });
 assertDram("PE010", {
   vendor: "spectek",
   densityMbit: 1024,
   density: "1Gb",
   widthField: "x8",
-  voltage: "Unknown",
-  package: "Unknown",
+  voltage: "1.5V",
+  package: "FBGA 78/117B, 8x10.5MM",
   extra: {
     "DRAM Type": "DDR3",
     "Config Code": "128M8",
-    "Package Code": "GQF",
     "Marking Code": "PE010"
-  }
+  },
+  absentExtra: ["Package Code"]
 });
 assertDram("SU512M8V80A11ARH", {
   vendor: "spectek",
@@ -416,9 +416,9 @@ assertDram("SU512M8V80A11ARH", {
   package: "Unknown",
   extra: {
     "DRAM Type": "DDR3",
-    "Config Code": "512M8",
-    "Package Code": "ARH"
-  }
+    "Config Code": "512M8"
+  },
+  absentExtra: ["Package Code"]
 });
 assertDram("PE002", {
   vendor: "spectek",
@@ -430,9 +430,9 @@ assertDram("PE002", {
   extra: {
     "DRAM Type": "DDR3",
     "Config Code": "512M8",
-    "Package Code": "ARH",
     "Marking Code": "PE002"
-  }
+  },
+  absentExtra: ["Package Code"]
 });
 assertSpectekSearchMarkingRelation("PE010", "PRA128M8V88AG8GQF");
 assertDram("PB001", {
@@ -445,23 +445,23 @@ assertDram("PB001", {
   extra: {
     "DRAM Type": "DDR3",
     "Config Code": "512M32",
-    "Package Code": "LH6",
     "Marking Code": "PB001"
-  }
+  },
+  absentExtra: ["Package Code"]
 });
 assertDram("PRM2G8Y52KBFRZ-56B", {
   vendor: "spectek",
   densityMbit: 16384,
   density: "16Gb",
   widthField: "x8",
-  voltage: "Unknown",
-  package: "Unknown",
+  voltage: "1.1V",
+  package: "VFBGA 78/117B, 7.5x11x1.0",
   extra: {
     "DRAM Type": "DDR5",
     "Config Code": "2G8",
-    "Package Code": "FRZ",
     "DRAM Speed": "DDR5-5600"
-  }
+  },
+  absentExtra: ["Package Code"]
 });
 assertDram("PU001", {
   vendor: "spectek",
@@ -473,12 +473,26 @@ assertDram("PU001", {
   extra: {
     "DRAM Type": "LPDDR",
     "Config Code": "768M16",
-    "Package Code": "DS",
     "Marking Code": "PU001"
-  }
+  },
+  absentExtra: ["Package Code"]
 });
 assertSpectekSearchMarkingRelation("PB001", "SM512M322C0FD4LH6");
 assertSpectekSearchMarkingRelation("PU001", "SM768M16Y2BMD1FDS");
+assertDram("PRN1G8V91AG8SN-107", {
+  vendor: "spectek",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.5V",
+  package: "FBGA 78/117B, 9x13.2x1.2",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Config Code": "1G8",
+    "DRAM Speed": "933MHz (DDR-1866)"
+  },
+  absentExtra: ["Package Code"]
+});
 
 assertDram("MT40A1G8SA-075-E", {
   densityMbit: 8192,

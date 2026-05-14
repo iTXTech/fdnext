@@ -1,5 +1,584 @@
 [
   {
+    "id": "vendor.spectek.aio.emcp.v1",
+    "priority": 1009,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^S[MU][ADJKMPQRTUV][0-9A-Z]+ZZ[1-9A-ETUVWXY][A-F][VWXY1-9ABC][0-9A-Z][A-Y][A-P][A-Z]{2}(?:-?(?:(?:046|053|062|075|083|093|107|125|15E|18|25|5|6)?(?:BT|FT|MB|PG|UT)))?$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "product_technology_obj": {
+          "A": {
+            "product_mode": "LPDDR5-S4 + MLC/TLC eMMC/UFS"
+          },
+          "D": {
+            "product_mode": "SLC NAND + LPDDR + MLC eMMC"
+          },
+          "J": {
+            "product_mode": "LPDDR + SLC eMMC"
+          },
+          "K": {
+            "product_mode": "LPDDR + MLC eMMC"
+          },
+          "M": {
+            "product_mode": "LPDDR2-S4 + SLC eMMC"
+          },
+          "P": {
+            "product_mode": "LPDDR2-S4 + MLC eMMC"
+          },
+          "Q": {
+            "product_mode": "SLC eMMC + MLC eMMC"
+          },
+          "R": {
+            "product_mode": "LPDDR2-S4 + SLC NAND"
+          },
+          "T": {
+            "product_mode": "LPDDR3-S4 + MLC/TLC eMMC"
+          },
+          "U": {
+            "product_mode": "LPDDR3-S4 + SLC NAND"
+          },
+          "V": {
+            "product_mode": "LPDDR4 + MLC/TLC eMMC/UFS"
+          }
+        },
+        "lpdram_density": {
+          "1": "1Gb",
+          "2": "2Gb",
+          "3": "3Gb",
+          "4": "4Gb",
+          "5": "16Gb",
+          "6": "6Gb",
+          "7": "24Gb",
+          "8": "8Gb",
+          "9": "9Gb",
+          "T": "768Mb",
+          "U": "640Mb",
+          "V": "512Mb",
+          "W": "256Mb",
+          "X": "128Mb",
+          "Y": "64Mb",
+          "A": "32Gb",
+          "B": "48Gb",
+          "C": "64Gb",
+          "D": "96Gb",
+          "E": "128Gb"
+        },
+        "lpdram_width": {
+          "A": 4,
+          "B": 8,
+          "C": 16,
+          "D": 32,
+          "E": 64,
+          "F": 96
+        },
+        "emmc_density_obj": {
+          "V": {
+            "storage_density": "512MB eMMC"
+          },
+          "W": {
+            "storage_density": "256MB eMMC"
+          },
+          "X": {
+            "storage_density": "128MB eMMC"
+          },
+          "1": {
+            "storage_density": "1GB eMMC"
+          },
+          "2": {
+            "storage_density": "2GB eMMC"
+          },
+          "4": {
+            "storage_density": "4GB eMMC"
+          },
+          "5": {
+            "storage_density": "8GB eMMC"
+          },
+          "6": {
+            "storage_density": "16GB eMMC"
+          },
+          "7": {
+            "storage_density": "32GB eMMC"
+          },
+          "8": {
+            "storage_density": "64GB eMMC"
+          },
+          "9": {
+            "storage_density": "128GB eMMC"
+          },
+          "A": {
+            "storage_density": "256GB eMMC"
+          },
+          "B": {
+            "storage_density": "512GB eMMC"
+          },
+          "C": {
+            "storage_density": "1024GB eMMC"
+          }
+        },
+        "controller_obj": {
+          "A": {
+            "controller": "Phison 8200 V4.41 PL_REG"
+          },
+          "B": {
+            "controller": "Phison 8210 V4.51 DC PL_REG"
+          },
+          "C": {
+            "controller": "Phison 8210 V4.41 DC PL_REG"
+          },
+          "D": {
+            "controller": "Phison 8226"
+          },
+          "E": {
+            "controller": "Phison 8225 v5.1"
+          },
+          "F": {
+            "controller": "SMI SM2752"
+          },
+          "G": {
+            "controller": "Phison PS8231"
+          },
+          "H": {
+            "controller": "SMI SM2750 v1.6"
+          },
+          "J": {
+            "controller": "Phison 8225 v5.0"
+          },
+          "K": {
+            "controller": "Skymedi 6626 V4.2"
+          },
+          "L": {
+            "controller": "Skymedi 6632 V4.2/V4.3"
+          },
+          "M": {
+            "controller": "Micron CM011 Dumas"
+          },
+          "N": {
+            "controller": "Micron CM014 Hugo"
+          },
+          "P": {
+            "controller": "Micron CM015 Proust"
+          },
+          "Q": {
+            "controller": "Skymedi 6632 V4.4"
+          },
+          "R": {
+            "controller": "Skymedi 6811 V4.41"
+          },
+          "S": {
+            "controller": "Phison 8200 V4.41"
+          },
+          "T": {
+            "controller": "Phison 8200 V4.41 EF"
+          },
+          "U": {
+            "controller": "Phison 8200 V4.41 EF FW x.1"
+          },
+          "V": {
+            "controller": "Phison 8200 V4.41 EF FW ESG"
+          },
+          "W": {
+            "controller": "Phison 8210 V4.51 BB PL_REG"
+          },
+          "X": {
+            "controller": "Phison 8210 V4.41 PL_REG"
+          },
+          "Y": {
+            "controller": "Phison 8222 V5.0"
+          },
+          "Z": {
+            "controller": "SMI SM2754 V3.1"
+          },
+          "0": {
+            "controller": "Micron Lambeau 9U6A V3.1"
+          },
+          "1": {
+            "controller": "SMI SM2754 V2.2"
+          },
+          "2": {
+            "controller": "Micron Lambeau 9U6A V2.2"
+          },
+          "3": {
+            "controller": "Micron Milehigh 9U2A V4.0"
+          },
+          "4": {
+            "controller": "Micron Milehigh 9U2A V3.1"
+          }
+        },
+        "voltage": {
+          "A": "LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "B": "NAND Vcc: 1.8V, LPDRAM VDD/VDDQ: 1.8V/1.2V, eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "C": "NAND Vcc: 1.8V, LPDRAM VDD/VDDQ: 1.35V/1.2V, eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "D": "NAND Vcc: 1.8V, LPDRAM VDD/VDDQ: 1.2V/1.2V, eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "E": "NAND Vcc: 1.8V, LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
+          "F": "NAND Vcc: 1.8V, LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "G": "LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
+          "H": "NAND Vcc: 1.8V, LPDRAM VDD/VDDQ: 1.2V/1.2V",
+          "J": "LPDRAM VDD/VDDQ: 1.2V/1.2V, eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "K": "LPDRAM VDD/VDDQ: 1.2V/1.2V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
+          "L": "eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
+          "M": "NAND Vcc: 1.8V, LPDRAM VDD/VDDQ: 1.8V/1.2V, eMMC VCCM: 1.8V",
+          "N": "NAND Vcc: 3.3V, LPDRAM VDD/VDDQ: 1.2V/1.2V",
+          "P": "LPDRAM VDD/VDDQ: 1.1V/1.1V, eMMC VCCM/VCCQM: 3.3V/1.8V",
+          "Q": "LPDRAM VDD/VDDQ: 1.1V/0.6V, eMMC VCCM/VCCQM: 3.3V/1.8V",
+          "R": "LPDRAM VDD/VDDQ: 1.1V/0.4V, eMMC VCCM/VCCQM: 3.3V/1.8V",
+          "S": "LPDRAM VDD/VDDQ: 1.1V/0.6V, eMMC VCCM/VCCQM: 2.5V/1.2V",
+          "T": "LPDRAM VDD/VDDQ: 1.05V/0.5V, eMMC VCCM/VCCQM: 2.5V/1.2V",
+          "U": "LPDRAM VDD/VDDQ: 1.1V/1.1V or 0.6V, eMMC VCCM/VCCQM: 3.3V/1.2V",
+          "V": "LPDRAM VDD/VDDQ: 1.1V/1.1V or 0.6V, eMMC VCCM/VCCQM: 3.3V/1.8V",
+          "W": "LPDRAM VDD/VDDQ: 1.05V/0.5V, eMMC VCCM/VCCQM: 3.3V/1.8V",
+          "X": "LPDRAM VDD/VDDQ: 1.1V/1.1V or 0.6V, eMMC VCCM/VCCQM: 2.5V/1.2V",
+          "Y": "LPDRAM VDD/VDDQ: 1.8V/0.5V, eMMC VCCM/VCCQM: 2.5V/1.2V"
+        },
+        "chip_count_obj": {
+          "A": {
+            "special_option": "1 NAND Flash (CE0), 1 LPDRAM, 1 eMMC"
+          },
+          "B": {
+            "special_option": "2 NAND Flash (CE0), 1 LPDRAM, 1 eMMC"
+          },
+          "C": {
+            "special_option": "1 NAND Flash (CE0), 2 LPDRAM (CS0#/CS1#), 1 eMMC"
+          },
+          "D": {
+            "special_option": "2 NAND Flash (CE0), 2 LPDRAM (CS0#/CS1#), 1 eMMC"
+          },
+          "E": {
+            "special_option": "0 NAND Flash, 1 LPDRAM, 1 eMMC"
+          },
+          "F": {
+            "special_option": "0 NAND Flash, 2 LPDRAM (CS0#/CS1#), 1 eMMC"
+          },
+          "G": {
+            "special_option": "1 NAND Flash, 1 LPDRAM, 0 eMMC"
+          },
+          "H": {
+            "special_option": "1 NAND Flash, 2 LPDRAM, 0 eMMC"
+          },
+          "I": {
+            "special_option": "2 NAND Flash, 2 LPDRAM, 0 eMMC"
+          },
+          "J": {
+            "special_option": "0 NAND Flash, 0 LPDRAM, 2 eMMC"
+          },
+          "K": {
+            "special_option": "0 NAND Flash, 4 LPDRAM, 1 eMMC"
+          },
+          "L": {
+            "special_option": "0 NAND Flash, 3 LPDRAM, 1 eMMC"
+          },
+          "M": {
+            "special_option": "2 NAND, 1 LPDRAM, 0 eMMC"
+          },
+          "N": {
+            "special_option": "4 NAND, 4 LPDRAM, 0 eMMC"
+          },
+          "O": {
+            "special_option": "0 NAND, 6 LPDRAM, 1 eMMC"
+          },
+          "P": {
+            "special_option": "0 NAND, 8 LPDRAM, 1 eMMC"
+          }
+        },
+        "package": {
+          "AH": "VFBGA 221-ball, 11.5x13, 0.50mm pitch, 1.00mm thick",
+          "AK": "TFBGA 153-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
+          "AM": "VFBGA 153-ball, 11.5x13, 0.65mm pitch, 1.00mm thick",
+          "AN": "VFBGA 240-ball, 14x14, 0.65mm pitch, 0.95mm thick",
+          "AV": "VFBGA 305-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
+          "BA": "VFBGA 254-ball, 11.5x13, 0.50mm pitch, 1.30mm thick",
+          "BT": "TFBGA 221-ball, 11.5x13, 0.50mm pitch, 1.20mm thick",
+          "CT": "TFBGA 529-ball, 15x15, 0.50mm pitch, 1.03mm thick",
+          "CY": "LFBGA 221-ball, 11.5x13, 0.50mm pitch, 1.30mm thick",
+          "DI": "TFBGA 169-ball, 12x16, 0.50mm pitch, 1.20mm thick",
+          "DM": "TFBGA 153-ball, 11.5x13, 0.50mm pitch, 1.20mm thick",
+          "DX": "TFBGA 169-ball, 12x16, 0.50mm pitch, 1.10mm thick, uMPC w/LPDDR5",
+          "EQ": "LFBGA 297-ball, 11.5x13, 0.50mm pitch, 1.30mm thick",
+          "EW": "TFBGA 162-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
+          "FB": "TFBGA 221-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
+          "GB": "WFBGA 144-ball, 8x9.5, 0.40mm pitch, 0.80mm thick",
+          "GC": "WFBGA 144-ball, 8x9.5, 0.40mm pitch, 0.765mm thick",
+          "GM": "VFBGA 240-ball, 14x14, 0.50mm pitch, 0.85mm thick",
+          "HS": "LFBGA 199-ball, 12x18, 0.65mm pitch, 1.40mm thick",
+          "JD": "LFBGA 199-ball, 12x18, 0.65mm pitch, 1.20mm thick",
+          "KK": "VFBGA 168-ball, 12x12, 0.50mm pitch, 0.90mm thick",
+          "MF": "VFBGA 168-ball, 12x12, 0.50mm pitch, 0.85mm thick",
+          "MJ": "VFBGA 240-ball, 14x14, 0.50mm pitch, 0.85mm thick",
+          "MM": "VFBGA 162-ball, 11.5x13, 0.65mm pitch, 1.00mm thick",
+          "MR": "VFBGA 121-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
+          "MU": "VFBGA 240-ball, 14x14, 0.50mm pitch, 0.85mm thick",
+          "MW": "TFBGA 162-ball, 11.5x13, 0.50mm pitch, 1.20mm thick",
+          "MX": "VFBGA 152-ball, 14x14, 0.65mm pitch, 1.20mm thick",
+          "PB": "WFBGA 221-ball, 11.5x13, 0.50mm pitch, 0.80mm thick",
+          "PD": "VFBGA 221-ball, 11.5x13, 0.50mm pitch, 0.85mm thick",
+          "PL": "WFBGA 162-ball, 11.5x13, 0.50mm pitch, 0.80mm thick",
+          "PR": "TFBGA 254-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
+          "QS": "TFBGA 297-ball, 13x11.5, 0.50mm pitch, 1.10mm thick",
+          "RD": "VFBGA 168-ball, 12x12, 0.50mm pitch, 1.10mm thick",
+          "RL": "VFBGA 221-ball, 11.5x13, 0.50mm pitch, 0.90mm thick",
+          "SK": "VFBGA 162-ball, 11.5x13, 0.50mm pitch, 0.90mm thick",
+          "SL": "VFBGA 254-ball, 11.5x13, 0.50mm pitch, 0.90mm thick",
+          "SM": "VFBGA 254-ball, 11.5x13, 0.50mm pitch, 1.00mm thick",
+          "SP": "WFBGA 162-ball, 8x10.5, 0.50mm pitch, 0.80mm thick",
+          "TA": "TFBGA 162-ball, 11x13, 0.65mm pitch, 1.10mm thick",
+          "TB": "VFBGA 162-ball, 8x10.5, 0.50mm pitch, 0.90mm thick",
+          "TF": "VFBGA 162-ball, 11x13.5, 0.50mm pitch, 1.00mm thick",
+          "TN": "WFBGA 121-ball, 7.5x8, 0.50mm pitch, 0.80mm thick",
+          "TS": "VFBGA 168-ball, 12x12, 0.50mm pitch, 0.95mm thick",
+          "WD": "VFBGA 162-ball, 8x10.5, 0.50mm pitch, 0.90mm thick",
+          "WL": "TFBGA 297-ball, 11.5x13, 0.50mm pitch, 1.20mm thick",
+          "XL": "VFBGA 297-ball, 11.5x13, 0.50mm pitch, 0.90mm thick",
+          "XM": "VFBGA 297-ball, 11.5x13, 0.50mm pitch, 1.00mm thick",
+          "ZB": "WFBGA 221-ball, 11.5x13, 0.50mm pitch, 0.80mm thick"
+        },
+        "speed_grade_obj": {
+          "BT": {
+            "speed_grade": "Fully Tested at 70 degrees"
+          },
+          "FT": {
+            "speed_grade": "Fully Tested at 90 degrees"
+          },
+          "MB": {
+            "speed_grade": "Mixed Bins"
+          },
+          "PG": {
+            "speed_grade": "Partial Good Mixed Bins"
+          },
+          "UT": {
+            "speed_grade": "Untested"
+          },
+          "046BT": {
+            "speed_grade": "046 Fully Tested at 70 degrees"
+          },
+          "053FT": {
+            "speed_grade": "053 Fully Tested at 90 degrees"
+          },
+          "062MB": {
+            "speed_grade": "062 Mixed Bins"
+          },
+          "075PG": {
+            "speed_grade": "075 Partial Good Mixed Bins"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "skip_vendor"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "mark_code"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "product_technology_code"
+        },
+        {
+          "op": "map",
+          "from": "product_technology_code",
+          "table": "product_technology_obj",
+          "to": "product_technology_obj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]+?)(?=ZZ[1-9A-ETUVWXY][A-F][VWXY1-9ABC][0-9A-Z][A-Y][A-P][A-Z]{2}(?:-?(?:(?:046|053|062|075|083|093|107|125|15E|18|25|5|6)?(?:BT|FT|MB|PG|UT)))?$)",
+          "to": "design_id",
+          "groups": {
+            "design_id": 1
+          }
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "nand_placeholder"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([1-9A-ETUVWXY])([A-F])",
+          "to": "lpdram_code",
+          "groups": {
+            "lpdram_density_code": 1,
+            "lpdram_width_code": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "lpdram_density_code",
+          "table": "lpdram_density",
+          "to": "dram_density",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "lpdram_width_code",
+          "table": "lpdram_width",
+          "to": "dram_width",
+          "default": -1
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([VWXY1-9ABC])([0-9A-Z])",
+          "to": "emmc_code",
+          "groups": {
+            "emmc_density_code": 1,
+            "controller_code": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "emmc_density_code",
+          "table": "emmc_density_obj",
+          "to": "storage_density_obj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "controller_code",
+          "table": "controller_obj",
+          "to": "controller_obj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltage_code"
+        },
+        {
+          "op": "map",
+          "from": "voltage_code",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "chip_count_code"
+        },
+        {
+          "op": "map",
+          "from": "chip_count_code",
+          "table": "chip_count_obj",
+          "to": "chip_count_obj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speed_grade_obj",
+          "to": "speed_grade_obj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "SpecTek All-in-One",
+            "storage_interface": "eMMC",
+            "dram_type": "LPDRAM"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "product_technology_obj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "storage_density_obj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "controller_obj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "chip_count_obj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speed_grade_obj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "spectek",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.storage_density": {
+          "$path": "storage_density_obj.storage_density"
+        },
+        "fields.storage_interface": "eMMC",
+        "fields.generation_info": {
+          "$var": "design_id"
+        },
+        "fields.dram_density": {
+          "$var": "dram_density"
+        },
+        "fields.dram_type": "LPDRAM",
+        "fields.dram_width": {
+          "$var": "dram_width"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.controller_code": {
+          "$var": "controller_code"
+        },
+        "fields.speed_grade": {
+          "$path": "speed_grade_obj.speed_grade"
+        },
+        "meta.ruleId": "vendor.spectek.aio.emcp.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
     "id": "vendor.spectek.nand-mcp.v1",
     "priority": 1007,
     "normalize": [
@@ -293,9 +872,6 @@
             "product_family": "SpecTek NAND MCP",
             "product_mode": {
               "$path": "design_obj.product_mode"
-            },
-            "package_code": {
-              "$var": "package_code"
             }
           }
         },

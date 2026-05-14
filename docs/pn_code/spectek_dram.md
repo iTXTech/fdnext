@@ -9,6 +9,8 @@
 - SpecTek Marketing Part Number Decoder: 官方 MPN 拆解入口，`DramComponent` 可确认 `PRN1G16Z22AD8RC-062E` 中 `Z = DDR4`，`PRM2G8Y52KBFRZ-56B` 中 `Y = DDR5`；`MobileDram` 可确认 `SN512M32Z42MD1DNQ-053BT` 为 Mobile LPDDR4，`SM768M16Y2BMD1FDS` 这类 `Y*D*` mobile 结构只能保守归入 LPDDR family。
   <https://www.spectek.com/menus/mpn_decoder.aspx?MpnCategory=DramComponent>
   <https://www.spectek.com/menus/mpn_decoder.aspx?MpnCategory=MobileDram>
+- SpecTek DRAM Component Part Numbering Guide: 官方 `SpecTek Components Part Number Matrix`，2024-07-09 版，覆盖 component prefix、density-width、internal designator、voltage、refresh、speed bin、package code 与 die count 表。
+  `/Users/peratx/Downloads/spectek-pns-components.pdf`
 - Micron SpecTek Buyers Guide: DRAM 页列出 `PRN` / `PRM`、`TP`、`PG` 等等级和样例 PN，并把 DRAM Component Part Numbering Guide、DRAM Component Mark Reference、Laser Mark to MPN Decoder 作为官方资料入口。
   <https://www.micron.com/content/dam/micron/global/public/spectek/buyers-guide/spectekbuyersguide.pdf>
 - 2015 SpecTek Components FBGA Matrix mirror: 覆盖 `PE008` ~ `PE012` 等 `PE` DRAM mark code 到 PN 的对应关系，可用于交叉验证旧表。
@@ -43,7 +45,7 @@ MDB mark code:
 | `Y` | DDR5；由官方 MPN decoder 的 `PRM2G8Y52KBFRZ-56B` 样例确认 |
 | `U` / `T` / `G` | 旧表辅助映射为 DDR2 / DDR / LPDDR2 |
 | `S*` + mobile design id `Y*` / `Z*` | Mobile DRAM；`Z*` 可确认到 LPDDR4，`Y*` 在官方 decoder 中只给出 LPDDR2/3/4/5 family 范围时保守输出 `LPDDR` |
-| 尾部 package code | 先输出为 `package_code`，不把未确认 package code 展示成具体封装 |
+| 尾部 package code | 仅作为内部解析 token；有官方 package 表命中时输出 `package`，不单独向用户展示 token |
 | `-125`、`-15E`、`-062E` 等 | JEDEC / Micron-style speed token，按已有 DRAM 速度术语输出 `dram_speed` |
 
 ## 输出字段
@@ -51,9 +53,11 @@ MDB mark code:
 - `dram_type`
 - `dram_density`
 - `dram_width`
+- `dram_voltage`
+- `package`
+- `die_count`
 - `dram_speed`
 - `config_code`
-- `package_code`
 - `marking_code`
 
 ## 测试样例
@@ -65,7 +69,8 @@ MDB mark code:
 - `PB001`
 - `PRM2G8Y52KBFRZ-56B`
 - `PU001`
+- `PRN1G8V91AG8SN-107`
 
 ## 注意
 
-`PE` 是 SpecTek mark code 头，不是完整 PN 头。接入时优先把官方 mark decoder 的 PE 结果落入 `mdb.spectek`，再由 DRAM PN 规则解析返回的 marketing PN。未确认的封装代码只保留 code，不推断成人类可见封装描述。
+`PE` 是 SpecTek mark code 头，不是完整 PN 头。接入时优先把官方 mark decoder 的 PE 结果落入 `mdb.spectek`，再由 DRAM PN 规则解析返回的 marketing PN。未确认的封装 token 不进入公开字段；只在官方 package 表命中时展示封装描述。电压字段只保留电压值本身，不把 DDR 代际重复写进电压文本。
