@@ -1,0 +1,224 @@
+[
+  {
+    "id": "vendor.micron.hmc.mt43a.v1",
+    "priority": 1012,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MT43A[0-9A-Z]{3}[0-9]{2}[0-9A-Z]{2}[A-Z]{3}-[A-Z0-9]+(?::[A-Z])?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT43A"
+      ],
+      "tables": {
+        "configObj": {
+          "4G4": {
+            "dram_density": 16384,
+            "dram_die_density": 4096,
+            "die_count": 4
+          },
+          "4G8": {
+            "dram_density": 32768,
+            "dram_die_density": 4096,
+            "die_count": 8
+          }
+        },
+        "logicRevisionObj": {
+          "01": {
+            "revision": "Logic design revision 1"
+          },
+          "02": {
+            "revision": "Logic design revision 2"
+          }
+        },
+        "productVariationObj": {
+          "00": {}
+        },
+        "package": {
+          "NFA": "BGA, 4-link, 896-ball (31x31), 2GB"
+        },
+        "speedObj": {
+          "S15": {
+            "dram_speed": "15 Gb/s SerDes",
+            "interface_type": "HMC Gen2 PHY"
+          }
+        },
+        "temperatureObj": {
+          "": {
+            "operation_temperature": "DRAM 0C to 105C / Logic 0C to 110C"
+          }
+        },
+        "revisionObj": {
+          "A": {
+            "die_revision": "Rev A"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 3,
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "logicRevisionCode"
+        },
+        {
+          "op": "map",
+          "from": "logicRevisionCode",
+          "table": "logicRevisionObj",
+          "to": "logicRevisionObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productVariationCode"
+        },
+        {
+          "op": "map",
+          "from": "productVariationCode",
+          "table": "productVariationObj",
+          "to": "productVariationObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<speedCode>S15)(?<temperatureCode>[A-Z]?)",
+          "groups": {
+            "speedCode": "speedCode",
+            "temperatureCode": "temperatureCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": ":",
+          "to": "hasRevision"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<revisionCode>[A-Z])",
+          "groups": {
+            "revisionCode": "revisionCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "revisionCode",
+          "table": "revisionObj",
+          "to": "revisionObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "HMC",
+            "dram_voltage": "VDDM 1.2V / VCCP 2.5V"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "configObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "logicRevisionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productVariationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "revisionObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.micron.hmc.mt43a.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  }
+]

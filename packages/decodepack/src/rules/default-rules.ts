@@ -3,6 +3,8 @@ import micronManagedTokenRules from "./packs/micron-managed-token.json" with { t
 import micronEmmcTokenRules from "./packs/micron-emmc-token.json" with { type: "json" };
 import micronEmcpTokenRules from "./packs/micron-emcp-token.json" with { type: "json" };
 import micronDramTokenRules from "./packs/micron-dram-token.json" with { type: "json" };
+import micronHbmTokenRules from "./packs/micron-hbm-token.json" with { type: "json" };
+import micronHmcTokenRules from "./packs/micron-hmc-token.json" with { type: "json" };
 import micronRawTokenRules from "./packs/micron-raw-token.json" with { type: "json" };
 import intelRawTokenRules from "./packs/intel-raw-token.json" with { type: "json" };
 import samsungUfsTokenRules from "./packs/samsung-ufs-token.json" with { type: "json" };
@@ -62,6 +64,8 @@ export const defaultPartDecodeSpecs = [
   ...micronEmmcTokenRules,
   ...micronEmcpTokenRules,
   ...micronDramTokenRules,
+  ...micronHbmTokenRules,
+  ...micronHmcTokenRules,
   ...micronRawTokenRules,
   ...intelRawTokenRules,
   ...samsungUfsTokenRules,

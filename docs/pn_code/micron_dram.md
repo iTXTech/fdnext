@@ -49,9 +49,11 @@
 
 ## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/decodepack/src/rules/packs/micron-dram-token.json`
+- 主线 DRAM 规则文件：`packages/decodepack/src/rules/packs/micron-dram-token.json`
+- Stacked / specialty DRAM 规则文件：`packages/decodepack/src/rules/packs/micron-hbm-token.json`、`packages/decodepack/src/rules/packs/micron-hmc-token.json`
 - 规则 ID：`vendor.micron.dram.component.v1`
 - 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62/68`、Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62/68`，以及 Micron legacy Elpida namespace `ED/EE + 40/41/42/44/46/47/48/49/51/52/53/58/60/61/62/68`。
+- Stacked / specialty 覆盖见 [micron_hbm.md](micron_hbm.md) 和 [micron_hmc.md](micron_hmc.md)：当前加入 Micron HBM2E `MT54A...` 与 HMC `MT43A...`，用于修正这类 PN 被 fallback 误判为 raw NAND 的问题。
 - 不使用完整 PN 白名单；只按 Micron DRAM part-numbering token 解析字段。
 
 ## 搜索资源
@@ -78,6 +80,7 @@
 | `40` | DDR4 SDRAM | `dram_type=DDR4` |
 | `41` | DDR3 SDRAM | `dram_type=DDR3` |
 | `42` | Mobile LPDDR2 | `dram_type=LPDDR2` |
+| `43A` | HMC / HMC Gen2 | `dram_type=HMC`，详见 [micron_hmc.md](micron_hmc.md) |
 | `44` | RLDRAM 3 | `dram_type=RLDRAM 3` |
 | `46` | DDR SDRAM / Mobile LPDDR | 默认 `dram_type=DDR`，`H/HC` voltage token 细化为 `LPDDR` |
 | `47` | DDR2 SDRAM | `dram_type=DDR2` |
@@ -86,6 +89,7 @@
 | `51` | GDDR5 | `dram_type=GDDR5` |
 | `52` | Mobile LPDDR3 | `dram_type=LPDDR3` |
 | `53` | Mobile LPDDR4 / LPDDR4X | 默认 `dram_type=LPDDR4`，`D/E` voltage token 细化为 `LPDDR4X` |
+| `54` | HBM2E | `dram_type=HBM2E`，详见 [micron_hbm.md](micron_hbm.md) |
 | `58` | GDDR5X | `dram_type=GDDR5X` |
 | `60` | DDR5 SDRAM | `dram_type=DDR5` |
 | `61` | GDDR6 / GDDR6X | 默认 `dram_type=GDDR6`，部分 speed bin 细化为 `GDDR6X` |

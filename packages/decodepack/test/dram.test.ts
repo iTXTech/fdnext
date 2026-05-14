@@ -52,10 +52,12 @@ const standaloneDramExtraKeys = new Set([
   "CE Count",
   "Channel Count",
   "Interface Type",
+  "Revision",
   "Operation Temperature",
   "Solder Type",
   "Production Status",
   "Die Revision",
+  "ECC enabled",
   "Process Node",
   "Marking Code",
   "Speed Grade",
@@ -87,6 +89,8 @@ const standardDramTypes = new Set([
   "GDDR6",
   "GDDR6X",
   "GDDR7",
+  "HBM2E",
+  "HMC",
   "RLDRAM",
   "RLDRAM 3"
 ]);
@@ -293,6 +297,62 @@ function assertDram(
   }
 }
 
+function assertStackedDram(
+  partNumber: string,
+  expected: {
+    type: string;
+    densityMbit: number;
+    density: string;
+    voltage?: string;
+    package?: string;
+    fields?: Record<string, unknown>;
+    extra: Record<string, unknown>;
+    absentExtra?: string[];
+  }
+): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  const info = detect(partNumber);
+  assert.equal(result.device?.chipKind, "dram", `${partNumber} should decode as DRAM`);
+  assert.equal(info.vendor, "micron", partNumber);
+  assert.equal(info.type, expected.type, partNumber);
+  assert.ok(standardDramTypes.has(String(info.type)), `${partNumber} should expose a short DRAM type`);
+  assert.equal(info.densityMbit, expected.densityMbit, partNumber);
+  assert.equal(info.density, expected.density, partNumber);
+  if (expected.voltage !== undefined) {
+    assert.equal(info.voltage, expected.voltage, partNumber);
+  }
+  if (expected.package !== undefined) {
+    assert.equal(info.package, expected.package, partNumber);
+  }
+
+  for (const [key, value] of Object.entries(expected.fields ?? {})) {
+    assert.equal(fieldText(firstField(result, key)), value, `${partNumber} fields.${key}`);
+  }
+
+  const detailFields = extra(info);
+  for (const key of hiddenPublicCodeExtraKeys) {
+    if (key === "Marking Code") {
+      continue;
+    }
+    assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
+  }
+  for (const key of Object.keys(detailFields)) {
+    assert.ok(standaloneDramExtraKeys.has(key), `${partNumber} should use standardized DRAM extra key ${key}`);
+  }
+  assert.equal(Object.hasOwn(detailFields, "DRAM Type"), false, `${partNumber} should expose DRAM generation in type, not detailFields.DRAM Type`);
+
+  for (const [key, value] of Object.entries(expected.extra)) {
+    if (key === "ECC enabled") {
+      assert.equal(firstField(result, "ecc_enabled")?.value, value, `${partNumber} fields.ecc_enabled`);
+      continue;
+    }
+    assert.equal(detailFields[key], value, `${partNumber} detailFields.${key}`);
+  }
+  for (const key of [...redundantStandaloneExtra, ...(expected.absentExtra ?? [])]) {
+    assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
+  }
+}
+
 function assertDecodedField(partNumber: string, key: string, expected: unknown): void {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(fieldText(firstField(result, key)), expected, `${partNumber} fields.${key}`);
@@ -321,7 +381,7 @@ function resourceEntries(raw: unknown): unknown[] {
 }
 
 function isMicronDramPartNumber(partNumber: string): boolean {
-  return /^(?:MT|CT)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
+  return /^(?:MT|CT)(?:40|41|42|43|44|46|47|48|49|51|52|53|54|58|60|61|62|68)/.test(partNumber) ||
     /^(?:ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
     /^ED(?:B|D|E|F|J|S|W)/.test(partNumber);
 }
@@ -1266,6 +1326,80 @@ assertDram("MT68A512M32DF-32:A", {
     "Config Code": "512M32",
     "DRAM Speed": "GDDR7-32Gbps",
     "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertStackedDram("MT54A16G8080A00AC-28:A-B006", {
+  type: "HBM2E",
+  densityMbit: 131072,
+  density: "128Gb",
+  voltage: "1.2V",
+  fields: {
+    channel_count: 8,
+    die_count: 8
+  },
+  extra: {
+    "Channel Count": 8,
+    "DRAM Speed": "2.8 Gb/s",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A",
+    "ECC enabled": true
+  }
+});
+
+assertStackedDram("MT54A8G8040A00BF-32:A", {
+  type: "HBM2E",
+  densityMbit: 65536,
+  density: "64Gb",
+  voltage: "1.2V",
+  fields: {
+    channel_count: 8,
+    die_count: 4
+  },
+  extra: {
+    "Channel Count": 8,
+    "DRAM Speed": "3.2 Gb/s",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A",
+    "ECC enabled": true
+  }
+});
+
+assertStackedDram("MT43A4G40100NFA-S15:A", {
+  type: "HMC",
+  densityMbit: 16384,
+  density: "16Gb",
+  voltage: "VDDM 1.2V / VCCP 2.5V",
+  package: "BGA, 4-link, 896-ball (31x31), 2GB",
+  fields: {
+    die_count: 4
+  },
+  extra: {
+    "DRAM Die Density": "4Gb",
+    "Revision": "Logic design revision 1",
+    "DRAM Speed": "15 Gb/s SerDes",
+    "Interface Type": "HMC Gen2 PHY",
+    "Operation Temperature": "DRAM 0C to 105C / Logic 0C to 110C",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertStackedDram("MT43A4G40200NFA-S15:A", {
+  type: "HMC",
+  densityMbit: 16384,
+  density: "16Gb",
+  voltage: "VDDM 1.2V / VCCP 2.5V",
+  package: "BGA, 4-link, 896-ball (31x31), 2GB",
+  fields: {
+    die_count: 4
+  },
+  extra: {
+    "DRAM Die Density": "4Gb",
+    "Revision": "Logic design revision 2",
+    "DRAM Speed": "15 Gb/s SerDes",
+    "Interface Type": "HMC Gen2 PHY",
+    "Operation Temperature": "DRAM 0C to 105C / Logic 0C to 110C",
     "Die Revision": "Rev A"
   }
 });
@@ -3365,5 +3499,9 @@ assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
 assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
 assertSearchPnIncludes("C9BJZ", "Micron CT40A1G8SA-62M:E");
 assertSearchPnIncludes("B9DHG", "Micron MT47H32M16BT-3E");
+assertSearchPnIncludes("MT43A4G40100", "Micron MT43A4G40100NFA-S15:A");
+assertSearchPnIncludes("MT54A16G8080", "Micron MT54A16G8080A00AC-28:A-B006");
 assertSearchMarkingRelation("C9BJZ", "CT40A1G8SA-62M:E");
 assertSearchMarkingRelation("B9DHG", "MT47H32M16BT-3E");
+assertSearchMarkingRelation("D9RLQ", "MT43A4G40100NFA-S15:A");
+assertSearchMarkingRelation("D9ZFZ", "MT54A16G8080A00AC-28:A-B006");

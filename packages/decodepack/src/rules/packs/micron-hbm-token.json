@@ -1,0 +1,185 @@
+[
+  {
+    "id": "vendor.micron.hbm2e.mt54.v1",
+    "priority": 1012,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MT54[A-Z](?:8G|16G)[0-9][0-9]{2}[0-9A-Z]{2}[0-9A-Z]{2}[A-Z]{2}-[0-9]{2}[A-Z]{0,3}:[A-Z](?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT54"
+      ],
+      "tables": {
+        "densityPerChannelMbit": {
+          "8G": 8192,
+          "16G": 16384
+        },
+        "channelCount": {
+          "8": 8
+        },
+        "dieCount": {
+          "04": 4,
+          "08": 8
+        },
+        "voltageObj": {
+          "A": {
+            "dram_voltage": "1.2V"
+          }
+        },
+        "speedObj": {
+          "28": {
+            "dram_speed": "2.8 Gb/s"
+          },
+          "32": {
+            "dram_speed": "3.2 Gb/s"
+          }
+        },
+        "temperatureObj": {
+          "": {
+            "operation_temperature": "Commercial"
+          }
+        },
+        "revisionObj": {
+          "A": {
+            "die_revision": "Rev A"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<voltageCode>[A-Z])(?<densityCode>8G|16G)(?<channelCode>[0-9])(?<dieCountCode>[0-9]{2})(?<logicDieCode>[0-9A-Z]{2})(?<variationCode>[0-9A-Z]{2})(?<packageCode>[A-Z]{2})-(?<speedCode>[0-9]{2})(?<temperatureCode>[A-Z]{0,3}):(?<revisionCode>[A-Z])(?:-(?<specialCode>[0-9A-Z]+))?$",
+          "groups": {
+            "voltageCode": "voltageCode",
+            "densityCode": "densityCode",
+            "channelCode": "channelCode",
+            "dieCountCode": "dieCountCode",
+            "speedCode": "speedCode",
+            "temperatureCode": "temperatureCode",
+            "revisionCode": "revisionCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityPerChannelMbit",
+          "to": "densityPerChannelMbit"
+        },
+        {
+          "op": "map",
+          "from": "channelCode",
+          "table": "channelCount",
+          "to": "channelCount"
+        },
+        {
+          "op": "mul",
+          "a": "densityPerChannelMbit",
+          "b": "channelCount",
+          "to": "density"
+        },
+        {
+          "op": "map",
+          "from": "dieCountCode",
+          "table": "dieCount",
+          "to": "dieCount"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltageObj",
+          "to": "voltageObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "revisionCode",
+          "table": "revisionObj",
+          "to": "revisionObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "HBM2E",
+            "ecc_enabled": true
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "voltageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "revisionObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.channel_count": {
+          "$var": "channelCount"
+        },
+        "fields.die_count": {
+          "$var": "dieCount"
+        },
+        "meta.ruleId": "vendor.micron.hbm2e.mt54.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  }
+]
