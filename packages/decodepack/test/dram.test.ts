@@ -838,6 +838,38 @@ const ddr5Expected = {
 assertDram("MT60B2G8HB-48B-IT-A", ddr5Expected);
 assertDram("MT60B2G8HB-48B IT:A", ddr5Expected);
 
+assertDram("MT60B2G8HB-32B:A", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "82-ball VFBGA (9x11)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HB",
+    "Config Code": "2G8",
+    "DRAM Speed": "DDR5-3200B",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT60B2G8HB-44B:A", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "82-ball VFBGA (9x11)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HB",
+    "Config Code": "2G8",
+    "DRAM Speed": "DDR5-4400B",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
 assertDram("MT60B3G8RW-64B:B", {
   densityMbit: 24576,
   density: "24Gb",
@@ -904,6 +936,24 @@ assertDram("MT53E1G32D2FW-046-AIT-A", {
   }
 });
 
+assertDram("MT53E1G32DDFW-046-AIT:A", {
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
+  package: "200-ball TFBGA (10x14.5)",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "Package Code": "FW",
+    "Config Code": "1G32",
+    "DRAM Speed": "2133MHz (LPDDR4-4266)",
+    "Operation Temperature": "Automotive Industrial (-40°C ~ 85°C)",
+    "Die Revision": "Rev A",
+    "Special Option": "LPDDR4 mixed die stack (1x Z42M + 2x Z42N)"
+  }
+});
+assertDecodedField("MT53E1G32DDFW-046-AIT:A", "die_count", 3);
+
 assertDram("MT62F1G32D4DS-031-WT-B", {
   densityMbit: 32768,
   density: "32Gb",
@@ -919,6 +969,23 @@ assertDram("MT62F1G32D4DS-031-WT-B", {
     "Die Revision": "Rev B"
   }
 });
+
+assertDram("MT62F1G32D3DS-031-WT:B", {
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.05V VDD / 0.5V VDDQ",
+  package: "200-ball WFBGA (10x14.5)",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "Package Code": "DS",
+    "Config Code": "1G32",
+    "DRAM Speed": "3200MHz (LPDDR5-6400)",
+    "Operation Temperature": "Wireless (-25°C ~ 85°C)",
+    "Die Revision": "Rev B"
+  }
+});
+assertDecodedField("MT62F1G32D3DS-031-WT:B", "die_count", 3);
 
 assertDram("MT62F1G64D4EK-023 WT:B", {
   densityMbit: 65536,
@@ -962,6 +1029,23 @@ assertDram("MT41K512M8DA-107:P", {
     "Package Code": "DA",
     "Config Code": "512M8",
     "DRAM Speed": "933MHz (DDR-1866)",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev P"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("MT41K512M8DA-125E:P", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA (8x10.5)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Package Code": "DA",
+    "Config Code": "512M8",
+    "DRAM Speed": "DDR3-1600 CL10",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev P"
   },
@@ -1136,6 +1220,22 @@ assertDram("MT47H128M16RT-25E:C", {
   }
 });
 
+assertDram("MT47H128M16RT-3:C", {
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball FBGA (9x12.5)",
+  extra: {
+    "DRAM Type": "DDR2",
+    "Package Code": "RT",
+    "Config Code": "128M16",
+    "DRAM Speed": "DDR2-666 CL5",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev C"
+  }
+});
+
 assertDram("MT46V32M16P-5B-IT-J", {
   densityMbit: 512,
   density: "512Mb",
@@ -1148,6 +1248,22 @@ assertDram("MT46V32M16P-5B-IT-J", {
     "Config Code": "32M16",
     "DRAM Speed": "DDR-400",
     "Operation Temperature": "Industrial (-40°C ~ 85°C)",
+    "Die Revision": "Rev J"
+  }
+});
+
+assertDram("MT46V32M16P-6T:J", {
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x16",
+  voltage: "2.5V VDD",
+  package: "66-pin TSOP",
+  extra: {
+    "DRAM Type": "DDR",
+    "Package Code": "P",
+    "Config Code": "32M16",
+    "DRAM Speed": "DDR-332 CL2.5",
+    "Operation Temperature": "Commercial",
     "Die Revision": "Rev J"
   }
 });
@@ -1179,6 +1295,22 @@ assertDram("MT48LC16M8A2P-6A:L", {
     "Package Code": "P",
     "Config Code": "16M8",
     "DRAM Speed": "166MHz",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev L"
+  }
+});
+
+assertDram("MT48LC16M8A2P-7E:L", {
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x8",
+  voltage: "3.3V VDD",
+  package: "54-pin TSOP II",
+  extra: {
+    "DRAM Type": "SDR",
+    "Package Code": "P",
+    "Config Code": "16M8",
+    "DRAM Speed": "SDR-133 CL2",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev L"
   }
@@ -1249,6 +1381,22 @@ assertDram("MT52L512M32D2PF-107 WT:B", {
   }
 });
 
+assertDram("MT52K512M32PF-107-WT:B", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.35V VDD",
+  package: "178-ball FBGA (11.5x11)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Package Code": "PF",
+    "Config Code": "512M32",
+    "DRAM Speed": "933MHz (DDR-1866)",
+    "Operation Temperature": "Wireless (-25°C ~ 85°C)",
+    "Die Revision": "Rev B"
+  }
+});
+
 assertDram("MT51J256M32HF-80:A", {
   densityMbit: 8192,
   density: "8Gb",
@@ -1265,6 +1413,22 @@ assertDram("MT51J256M32HF-80:A", {
   }
 });
 
+assertDram("MT51J256M32HF-50:A", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.5V VDD",
+  package: "170-ball FBGA (12x14)",
+  extra: {
+    "DRAM Type": "GDDR5",
+    "Package Code": "HF",
+    "Config Code": "256M32",
+    "DRAM Speed": "GDDR5-5Gbps",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
 assertDram("MT58K256M32JA-100:A", {
   densityMbit: 8192,
   density: "8Gb",
@@ -1276,6 +1440,38 @@ assertDram("MT58K256M32JA-100:A", {
     "Package Code": "JA",
     "Config Code": "256M32",
     "DRAM Speed": "GDDR5X-10Gbps",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT58K256M32JA-120:A", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.35V VDD",
+  package: "190-ball FBGA (10x14)",
+  extra: {
+    "DRAM Type": "GDDR5X",
+    "Package Code": "JA",
+    "Config Code": "256M32",
+    "DRAM Speed": "GDDR5X-12Gbps",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT61A256M32JE-10:A", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.2V VDD",
+  package: "180-ball FBGA (12x14)",
+  extra: {
+    "DRAM Type": "GDDR6",
+    "Package Code": "JE",
+    "Config Code": "256M32",
+    "DRAM Speed": "GDDR6-10Gbps",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev A"
   }
@@ -1298,6 +1494,22 @@ assertDram("MT61K256M32JE-14:A", {
   }
 });
 
+assertDram("MT61K256M32JE-15:A", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.35V VDD",
+  package: "180-ball FBGA (12x14)",
+  extra: {
+    "DRAM Type": "GDDR6",
+    "Package Code": "JE",
+    "Config Code": "256M32",
+    "DRAM Speed": "GDDR6-15Gbps",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
 assertDram("MT61K512M32KPA-24-U", {
   densityMbit: 16384,
   density: "16Gb",
@@ -1309,6 +1521,22 @@ assertDram("MT61K512M32KPA-24-U", {
     "Package Code": "KPA",
     "Config Code": "512M32",
     "DRAM Speed": "GDDR6X-24Gbps",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev U"
+  }
+});
+
+assertDram("MT61K512M32KPA-22:U", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.35V VDD",
+  package: "180-ball FBGA (12x14)",
+  extra: {
+    "DRAM Type": "GDDR6X",
+    "Package Code": "KPA",
+    "Config Code": "512M32",
+    "DRAM Speed": "GDDR6X-22Gbps",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev U"
   }

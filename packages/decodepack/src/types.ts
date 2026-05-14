@@ -109,6 +109,8 @@ export interface DecodeStepTakeLongest {
   table: string;
   to: string;
   default?: DecodeJson;
+  scope?: string;
+  scopeSeparator?: string;
 }
 
 export interface DecodeStepMap {

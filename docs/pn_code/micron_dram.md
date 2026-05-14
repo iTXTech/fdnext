@@ -1,10 +1,11 @@
 # Micron DRAM PN 编码资料
 
-采集日期：2026-05-08
+采集日期：2026-05-14
 
 ## 资料来源
 
-- Micron 官方 Packaging and shipping information 页面列出 `DRAM Component Part Numbering System`，版本日期为 2022-07-14，覆盖 DDR4/3/2/DDR/SDRAM、LPDDR5/4/3/2、RLDRAM 与 GDDR 系列；下载入口当前需要 Micron 登录/NDA。
+- Micron 官方 `numdram.xlsx`（`DRAM Component Part Numbering System`，Rev: May 4, 2023）覆盖 DDR5/4/3/2/DDR/SDRAM、LPDDR5/4/3/2/LPDDR/LPSDR、RLDRAM2/3 与 GDDR7/6X/6/5X；本轮用于补齐 product family / voltage、mobile device version 与 marketing speed token。
+- Micron 官方 Packaging and shipping information 页面列出 `DRAM Component Part Numbering System` 下载入口；入口当前可能需要 Micron 登录/NDA。
   <https://www.micron.com/sales-support/sales/packaging-and-shipping-information>
 - Micron 官方 FBGA and component marking decoder 会返回 Micron `MT...` 或 Crucial namespace `CT...` 的完整 PN；例如 `C9BJZ` 反查为 `CT40A1G8SA-62M:E`。
   <https://www.micron.com/sales-support/design-tools/fbga-parts-decoder>
@@ -87,10 +88,10 @@
 | `48` | SDRAM / Mobile LPSDR | 默认 `dram_type=SDR`，`H` voltage token 细化为 `LPSDR` |
 | `49` | RLDRAM 1/2 | `dram_type=RLDRAM` |
 | `51` | GDDR5 | `dram_type=GDDR5` |
-| `52` | Mobile LPDDR3 | `dram_type=LPDDR3` |
+| `52` | Mobile LPDDR3 / DDR3L Mobile | 默认 `dram_type=LPDDR3`，`K` voltage token 细化为 `DDR3` |
 | `53` | Mobile LPDDR4 / LPDDR4X | 默认 `dram_type=LPDDR4`，`D/E` voltage token 细化为 `LPDDR4X` |
 | `54` | HBM2E | `dram_type=HBM2E`，详见 [micron_hbm.md](micron_hbm.md) |
-| `58` | GDDR5X | `dram_type=GDDR5X` |
+| `58` | GDDR5 / GDDR5X | 默认 `dram_type=GDDR5X`，GDDR5 speed bin 可细化为 `GDDR5` |
 | `60` | DDR5 SDRAM | `dram_type=DDR5` |
 | `61` | GDDR6 / GDDR6X | 默认 `dram_type=GDDR6`，部分 speed bin 细化为 `GDDR6X` |
 | `62` | Mobile LPDDR5 / LPDDR5X | 默认 `dram_type=LPDDR5`，`020/020F/023` 等 LPDDR5X speed bin 细化为 `LPDDR5X` |
@@ -104,7 +105,8 @@
 - `fields.package` 输出实际封装，例如 `78-ball FBGA (7.5x11)`；仅对 part detail、datasheet 或外部分销页可确认的 `family + package code` 组合输出。
 - standalone DRAM 的 `fields` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
 - `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`die_count`、`dram_speed`、`operation_temperature`、`die_revision`、`special_option`。
-- `device version` 中的 `D1/D2/D4/D6/D8/LF/L2/L4` 只标准化为 `die_count`，例如 `D4` 输出 `die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`；没有 CS 资料时不输出 `dram_die_stack`。
+- `device version` 先按 family scope 匹配，避免 `DA/DE/LF` 等 token 与 package code 冲突；`D1/D2/D3/D4/D6/D8/DA/DB/DC/DD/DE/LF/L2/L4` 只标准化为 `die_count`，例如 `D4` 输出 `die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`，`DD/DE` 保留官方 LPDDR4 mixed die stack 描述；没有 CS 资料时不输出 `dram_die_stack`。
+- `speed` token 同样优先按 family scope 匹配：DDR5 `32B/36B/40B/44B`、DDR3 `125E`、DDR2 `3`、DDR `6T`、SDR `7E`、GDDR5 `50/60/70`、GDDR5X `110/120/140`、GDDR6 `10/15` 与 GDDR6X `19/20/22/23` 来自官方 2023 PNS；`18` 同时出现在 GDDR6/GDDR6X 表中，当前不在 decodepack 中强行判定。
 - `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / die stack，只减少 `dram_speed` / `die_revision` 等后缀信息。
 - `dram_type` 必须使用跨厂商标准名，不带厂商名，不写组合候选。
 - Micron 原始 config / package token 只用于内部解析，不进入公开字段；不要把未确认的 token 硬推成封装尺寸或 ball count。

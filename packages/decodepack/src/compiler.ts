@@ -161,6 +161,33 @@ function matchFromStart(
   return { matched: false, rest: value };
 }
 
+function matchScopedFromStart(
+  value: string,
+  table: Record<string, DecodeJson>,
+  scope: unknown,
+  separator = ":"
+): { matched: boolean; rest: string; key?: string; value?: DecodeJson } {
+  const scopeValue = String(scope ?? "");
+  if (!scopeValue) {
+    return matchFromStart(value, table);
+  }
+  const prefix = `${scopeValue}${separator}`;
+  const scopedTable: Record<string, DecodeJson> = {};
+  for (const [key, tableValue] of Object.entries(table)) {
+    if (key.startsWith(prefix)) {
+      scopedTable[key.slice(prefix.length)] = tableValue;
+    }
+  }
+  const scopedResult = matchFromStart(value, scopedTable);
+  if (scopedResult.matched) {
+    return {
+      ...scopedResult,
+      key: `${prefix}${scopedResult.key ?? ""}`
+    };
+  }
+  return matchFromStart(value, table);
+}
+
 function traceStep(trace: DecodePackTraceStep[] | undefined, step: DecodePackTraceStep): void {
   trace?.push(step);
 }
@@ -439,7 +466,9 @@ function runTokenDecoder(partNumber: string, decoder: DecodeProgram, trace?: Dec
     if (step.op === "takeLongest") {
       const rest = String(context.rest ?? "");
       const table = decoder.tables?.[step.table] ?? {};
-      const result = matchFromStart(rest, table);
+      const result = step.scope
+        ? matchScopedFromStart(rest, table, context[step.scope], step.scopeSeparator)
+        : matchFromStart(rest, table);
       if (result.matched) {
         context[step.to] = result.value;
         context.rest = result.rest;
@@ -877,6 +906,7 @@ function checkTokenDecoderProgram(spec: PartDecodeSpec, path: string, findings: 
         checkTokenVariable(step.from, `${stepPath}.from`, spec.id, defined, findings);
         break;
       case "takeLongest":
+        checkTokenVariable(step.scope, `${stepPath}.scope`, spec.id, defined, findings);
         break;
       case "map":
         checkTokenVariable(step.from, `${stepPath}.from`, spec.id, defined, findings);

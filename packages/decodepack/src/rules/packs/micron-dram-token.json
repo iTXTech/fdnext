@@ -247,16 +247,42 @@
           "32M32": 32
         },
         "deviceVersionToken": {
-          "A2": "A2",
-          "D1": "D1",
-          "D2": "D2",
-          "D4": "D4",
-          "D6": "D6",
-          "D8": "D8",
-          "LF": "LF",
-          "LG": "LG",
-          "L2": "L2",
-          "L4": "L4"
+          "42:D1": "D1",
+          "42:D2": "D2",
+          "42:D3": "D3",
+          "42:D4": "D4",
+          "46:LF": "LF",
+          "46:LG": "LG",
+          "46:L2": "L2",
+          "46:L4": "L4",
+          "48:A2": "A2",
+          "48:LF": "LF",
+          "48:LG": "LG",
+          "48:L2": "L2",
+          "48:L4": "L4",
+          "52:D1": "D1",
+          "52:D2": "D2",
+          "52:D3": "D3",
+          "52:D4": "D4",
+          "52:D6": "D6",
+          "53:D1": "D1",
+          "53:D2": "D2",
+          "53:D3": "D3",
+          "53:D4": "D4",
+          "53:D8": "D8",
+          "53:DB": "DB",
+          "53:DA": "DA",
+          "53:DC": "DC",
+          "53:DD": "DD",
+          "53:DE": "DE",
+          "62:D1": "D1",
+          "62:D2": "D2",
+          "62:D3": "D3",
+          "62:D4": "D4",
+          "62:D8": "D8",
+          "62:DB": "DB",
+          "62:DA": "DA",
+          "62:DC": "DC"
         },
         "deviceVersionObj": {
           "D1": {
@@ -264,6 +290,9 @@
           },
           "D2": {
             "die_count": 2
+          },
+          "D3": {
+            "die_count": 3
           },
           "D4": {
             "die_count": 4
@@ -273,6 +302,23 @@
           },
           "D8": {
             "die_count": 8
+          },
+          "DA": {
+            "die_count": 16
+          },
+          "DB": {
+            "die_count": 12
+          },
+          "DC": {
+            "die_count": 32
+          },
+          "DD": {
+            "die_count": 3,
+            "special_option": "LPDDR4 mixed die stack (1x Z42M + 2x Z42N)"
+          },
+          "DE": {
+            "die_count": 6,
+            "special_option": "LPDDR4 mixed die stack (2x Z42M + 4x Z42N)"
           },
           "LF": {
             "die_count": 1
@@ -816,6 +862,29 @@
           }
         },
         "speedToken": {
+          "41:125E": "41:125E",
+          "46:6T": "46:6T",
+          "47:3": "47:3",
+          "48:7E": "48:7E",
+          "51:50": "51:50",
+          "51:60": "51:60",
+          "51:70": "51:70",
+          "51:80": "51:80",
+          "58:80": "58:80",
+          "58:100": "58:100",
+          "58:110": "58:110",
+          "58:120": "58:120",
+          "58:140": "58:140",
+          "60:32B": "60:32B",
+          "60:36B": "60:36B",
+          "60:40B": "60:40B",
+          "60:44B": "60:44B",
+          "61:10": "61:10",
+          "61:15": "61:15",
+          "61:19": "61:19",
+          "61:20": "61:20",
+          "61:22": "61:22",
+          "61:23": "61:23",
           "5": "5",
           "12": "12",
           "13": "13",
@@ -880,6 +949,90 @@
           "19G": "19G"
         },
         "speedObj": {
+          "41:125E": {
+            "dram_speed": "DDR3-1600 CL10"
+          },
+          "46:6T": {
+            "dram_speed": "DDR-332 CL2.5"
+          },
+          "47:3": {
+            "dram_speed": "DDR2-666 CL5"
+          },
+          "48:7E": {
+            "dram_speed": "SDR-133 CL2"
+          },
+          "51:50": {
+            "dram_speed": "GDDR5-5Gbps",
+            "dram_type": "GDDR5"
+          },
+          "51:60": {
+            "dram_speed": "GDDR5-6Gbps",
+            "dram_type": "GDDR5"
+          },
+          "51:70": {
+            "dram_speed": "GDDR5-7Gbps",
+            "dram_type": "GDDR5"
+          },
+          "51:80": {
+            "dram_speed": "GDDR5-8Gbps",
+            "dram_type": "GDDR5"
+          },
+          "58:80": {
+            "dram_speed": "GDDR5-8Gbps",
+            "dram_type": "GDDR5"
+          },
+          "58:100": {
+            "dram_speed": "GDDR5X-10Gbps",
+            "dram_type": "GDDR5X"
+          },
+          "58:110": {
+            "dram_speed": "GDDR5X-11Gbps",
+            "dram_type": "GDDR5X"
+          },
+          "58:120": {
+            "dram_speed": "GDDR5X-12Gbps",
+            "dram_type": "GDDR5X"
+          },
+          "58:140": {
+            "dram_speed": "GDDR5X-14Gbps",
+            "dram_type": "GDDR5X"
+          },
+          "60:32B": {
+            "dram_speed": "DDR5-3200B"
+          },
+          "60:36B": {
+            "dram_speed": "DDR5-3600B"
+          },
+          "60:40B": {
+            "dram_speed": "DDR5-4000B"
+          },
+          "60:44B": {
+            "dram_speed": "DDR5-4400B"
+          },
+          "61:10": {
+            "dram_speed": "GDDR6-10Gbps",
+            "dram_type": "GDDR6"
+          },
+          "61:15": {
+            "dram_speed": "GDDR6-15Gbps",
+            "dram_type": "GDDR6"
+          },
+          "61:19": {
+            "dram_speed": "GDDR6X-19Gbps",
+            "dram_type": "GDDR6X"
+          },
+          "61:20": {
+            "dram_speed": "GDDR6X-20Gbps",
+            "dram_type": "GDDR6X"
+          },
+          "61:22": {
+            "dram_speed": "GDDR6X-22Gbps",
+            "dram_type": "GDDR6X"
+          },
+          "61:23": {
+            "dram_speed": "GDDR6X-23Gbps",
+            "dram_type": "GDDR6X"
+          },
           "5": {
             "dram_speed": "200MHz"
           },
@@ -1198,6 +1351,9 @@
           "48:H": {
             "dram_type": "LPSDR"
           },
+          "52:K": {
+            "dram_type": "DDR3"
+          },
           "53:D": {
             "dram_type": "LPDDR4X"
           },
@@ -1268,6 +1424,7 @@
           "op": "takeLongest",
           "table": "deviceVersionToken",
           "to": "deviceVersionCode",
+          "scope": "familyCode",
           "default": ""
         },
         {
@@ -1322,6 +1479,7 @@
           "op": "takeLongest",
           "table": "speedToken",
           "to": "speedCode",
+          "scope": "familyCode",
           "default": ""
         },
         {

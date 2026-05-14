@@ -149,8 +149,8 @@
   - 参数：`from`, `table`, `to`, `default`
   - 行为：`tables[table][context[from]]` 存在则赋值，否则使用 `default`
 - `takeLongest`: 最长前缀匹配 + 消费
-  - 参数：`table`, `to`, `default`
-  - 行为：对 `tables[table]` 的 key 按长度降序匹配 `rest` 开头，匹配成功会消耗相应长度并写入值
+  - 参数：`table`, `to`, `default`，可选 `scope`, `scopeSeparator`
+  - 行为：对 `tables[table]` 的 key 按长度降序匹配 `rest` 开头，匹配成功会消耗相应长度并写入值；如设置 `scope`，会先按 `${scope}${scopeSeparator ?? ":"}${token}` 形式匹配 scoped key，未命中时再回退到普通 key
 - `stripIfPrefix`: 条件剥离前缀
   - 参数：`prefix`, 可选 `to`
   - 行为：若 `rest` 以 `prefix` 开头则剥离；如提供 `to` 则写入布尔值（是否剥离成功）
