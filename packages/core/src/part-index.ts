@@ -3,7 +3,7 @@ import { draftDensity, draftField, draftVendor } from "./draft";
 import { asRecord, inferChipKindFromDraft, inferProductTypeFromDraft, isKnownInfoValue, normalizeInfoText } from "./device-inference";
 import type { FdnextChipKind, FdnextProductType, OperationConstraints, ResultWarning } from "./result";
 import type { FdbDataset, FlashIdRecord, KnownPartNumberEntry, MdbDataset, PartDecodeDraft } from "./types";
-import { normalizeFlashId, normalizePartNumber } from "./utils/normalize";
+import { normalizeFlashId, normalizePartNumber, normalizePartNumberTokenKey } from "./utils/normalize";
 import { contains } from "./utils/string";
 
 export type PartIndexSource = "managed_nand" | "dram" | "fdb" | "mdb" | "fallback";
@@ -279,13 +279,24 @@ function matchKind(value: string, query: string, partialMatch: boolean): "exact"
   if (value === query) {
     return "exact";
   }
+  const valueTokenKey = normalizePartNumberTokenKey(value);
+  const queryTokenKey = normalizePartNumberTokenKey(query);
+  if (valueTokenKey === queryTokenKey) {
+    return "exact";
+  }
   if (!partialMatch) {
     return null;
   }
   if (value.startsWith(query)) {
     return "prefix";
   }
+  if (valueTokenKey.startsWith(queryTokenKey)) {
+    return "prefix";
+  }
   if (contains(value, query)) {
+    return "contains";
+  }
+  if (contains(valueTokenKey, queryTokenKey)) {
     return "contains";
   }
   return null;

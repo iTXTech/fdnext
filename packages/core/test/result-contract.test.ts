@@ -16,6 +16,7 @@ import {
   type FdnextFieldKey,
   type JsonSchema
 } from "../src/index";
+import { buildFdb, findPartNumberAcrossVendors, getPartNumberRecord } from "../src/fdb";
 
 const fixtureRoot = fileURLToPath(new URL("./fixtures/", import.meta.url));
 const resultFixtureRoot = join(fixtureRoot, "fdnext-result");
@@ -217,6 +218,23 @@ const expectedResultFixtures = [
 ];
 
 assert.deepEqual(resultFixtureNames(), expectedResultFixtures, "result contract must keep one schema fixture per current product family");
+
+const colonTokenFdb = buildFdb({
+  info: { version: "test" },
+  micron: {
+    "MT62F512M64D4EK-031FAAT:B": { id: ["2C00"] }
+  }
+});
+assert.equal(
+  getPartNumberRecord(colonTokenFdb, "micron", "MT62F512M64D4EK-031FAATB")?.pn,
+  "MT62F512M64D4EK-031FAAT:B",
+  "FDB PN lookup should treat colon revision tokens as optional separators"
+);
+assert.equal(
+  findPartNumberAcrossVendors(colonTokenFdb, "MT62F512M64D4EK-031FAATB")?.record.pn,
+  "MT62F512M64D4EK-031FAAT:B",
+  "cross-vendor FDB lookup should treat colon revision tokens as optional separators"
+);
 
 for (const name of expectedResultFixtures) {
   const fixture = loadResultFixture(name);

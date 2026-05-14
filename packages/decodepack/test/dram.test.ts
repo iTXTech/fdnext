@@ -358,6 +358,11 @@ function assertDecodedField(partNumber: string, key: string, expected: unknown):
   assert.equal(fieldText(firstField(result, key)), expected, `${partNumber} fields.${key}`);
 }
 
+function assertDecodedPartNumber(query: string, expected: string): void {
+  const result = engine.decodePart({ query, lang: "eng" });
+  assert.equal(result.device?.partNumber, expected, `${query} should resolve to canonical part number`);
+}
+
 function assertDecodedFieldAbsent(partNumber: string, key: string): void {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(firstField(result, key), undefined, `${partNumber} should not expose fields.${key}`);
@@ -1073,6 +1078,7 @@ const micronLpddr5Automotive441bSamples = [
 ] as const;
 
 for (const sample of micronLpddr5Automotive441bSamples) {
+  const specialOption = "specialOption" in sample ? sample.specialOption : undefined;
   assertDram(sample.partNumber, {
     densityMbit: sample.densityMbit,
     density: sample.density,
@@ -1086,12 +1092,30 @@ for (const sample of micronLpddr5Automotive441bSamples) {
       "DRAM Speed": "3200MHz (LPDDR5-6400)",
       "Operation Temperature": sample.operationTemperature,
       "Die Revision": "Rev B",
-      ...(sample.specialOption ? { "Special Option": sample.specialOption } : {})
+      ...(specialOption ? { "Special Option": specialOption } : {})
     },
-    absentExtra: sample.specialOption ? [] : ["Special Option"]
+    absentExtra: specialOption ? [] : ["Special Option"]
   });
   assertDecodedField(sample.partNumber, "die_count", sample.dieCount);
 }
+
+assertDram("MT62F512M64D4EK-031FAATB", {
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x64",
+  voltage: "1.05V VDD / 0.5V VDDQ",
+  package: "441-ball TFBGA",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "Package Code": "EK",
+    "Config Code": "512M64",
+    "DRAM Speed": "3200MHz (LPDDR5-6400)",
+    "Operation Temperature": "Automotive Grade (-40°C ~ 105°C)",
+    "Die Revision": "Rev B",
+    "Special Option": "Functional safety features"
+  }
+});
+assertDecodedField("MT62F512M64D4EK-031FAATB", "die_count", 4);
 
 assertDram("MT62F1G32D4DS", {
   densityMbit: 32768,
@@ -3926,6 +3950,17 @@ assertSearchPnIncludes("EM6OF08", "Etron EM6OF08NWALE");
 assertSearchPnIncludes("EM6PF32", "Etron EM6PF32MBAJB");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
 assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
+assertSearchPnIncludes("MT62F512M64D4EK-031", "Micron MT62F512M64D4EK-031AIT:B");
+assertSearchPnIncludes("MT62F512M64D4EK-031FAATB", "Micron MT62F512M64D4EK-031FAAT:B");
+assertSearchPnIncludes("MT62F1G64D8EK-031F", "Micron MT62F1G64D8EK-031FAAT:B");
+assertSearchPnIncludes("MT53E128M32D2FW-046ITA", "Micron MT53E128M32D2FW-046IT:A");
+assertSearchPnIncludes("MT61K256M32JE-12A", "Micron MT61K256M32JE-12:A");
+assertSearchPnIncludes("MT68A512M32DF-28A", "Micron MT68A512M32DF-28:A");
+assertSearchPnIncludes("MT62F512M32D2DS-031AATB", "Micron MT62F512M32D2DS-031AAT:B");
+assertDecodedPartNumber("MT53E128M32D2FW-046ITA", "MT53E128M32D2FW-046IT:A");
+assertDecodedPartNumber("MT61K256M32JE-12A", "MT61K256M32JE-12:A");
+assertDecodedPartNumber("MT68A512M32DF-28A", "MT68A512M32DF-28:A");
+assertDecodedPartNumber("MT62F512M32D2DS-031AATB", "MT62F512M32D2DS-031AAT:B");
 assertSearchPnIncludes("C9BJZ", "Micron CT40A1G8SA-62M:E");
 assertSearchPnIncludes("B9DHG", "Micron MT47H32M16BT-3E");
 assertSearchPnIncludes("MT43A4G40100", "Micron MT43A4G40100NFA-S15:A");

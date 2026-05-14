@@ -1232,7 +1232,30 @@
             "dram_type": "GDDR6X"
           }
         },
+        "functionalSafetyObj": {
+          "62:EK:F": {
+            "special_option": "Functional safety features"
+          }
+        },
         "temperatureObj": {
+          "62:EK:AIT": {
+            "operation_temperature": "Automotive Industrial (-40°C ~ 95°C)"
+          },
+          "62:EK:AAT": {
+            "operation_temperature": "Automotive Grade (-40°C ~ 105°C)"
+          },
+          "62:EK:AUT": {
+            "operation_temperature": "Automotive Ultra (-40°C ~ 125°C)"
+          },
+          "62:EK:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "62:EK:AT": {
+            "operation_temperature": "Automotive temperature (-40°C ~ 105°C)"
+          },
+          "62:EK:UT": {
+            "operation_temperature": "Ultra temperature (-40°C ~ 125°C)"
+          },
           "AAT": {
             "operation_temperature": "Automotive Grade (-40°C ~ 105°C)"
           },
@@ -1472,6 +1495,11 @@
           "default": {}
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "temperatureScope"
+        },
+        {
           "op": "stripIfPrefix",
           "prefix": "-"
         },
@@ -1495,8 +1523,16 @@
         },
         {
           "op": "takeLongest",
+          "table": "functionalSafetyObj",
+          "to": "functionalSafetyObj",
+          "scope": "temperatureScope",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
           "table": "temperatureObj",
           "to": "temperatureObj",
+          "scope": "temperatureScope",
           "default": {
             "operation_temperature": "Commercial"
           }
@@ -1569,6 +1605,11 @@
           "op": "merge",
           "into": "extra",
           "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "functionalSafetyObj"
         },
         {
           "op": "merge",

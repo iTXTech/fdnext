@@ -1,6 +1,6 @@
 import { getPartNumberLookupKeys, inferVendorFromPartNumber, normalizeVendor } from "./fdb-lookup";
 import type { FdbDataset, FlashIdRecord, MdbDataset, PartNumberRecord } from "./types";
-import { normalizePartNumber } from "./utils/normalize";
+import { normalizePartNumber, normalizePartNumberTokenKey } from "./utils/normalize";
 
 function normalizeFlashIdKey(id: string): string | null {
   const normalized = id.replace(/\s+/g, "").toUpperCase();
@@ -77,6 +77,19 @@ function canonicalPartNumberKey(partNumber: string, partNumbers: Map<string, Par
     }
   }
   return partNumber;
+}
+
+function tokenEquivalentPartNumberKey(
+  partNumbers: Map<string, PartNumberRecord>,
+  lookupKeys: string[]
+): string | undefined {
+  const lookupTokenKeys = new Set(lookupKeys.map((lookupKey) => normalizePartNumberTokenKey(lookupKey)));
+  for (const candidate of partNumbers.keys()) {
+    if (lookupTokenKeys.has(normalizePartNumberTokenKey(candidate))) {
+      return candidate;
+    }
+  }
+  return undefined;
 }
 
 function mergePartNumberRecord(target: PartNumberRecord, source: PartNumberRecord): PartNumberRecord {
@@ -248,11 +261,16 @@ export function getPartNumberRecord(
   partNumber: string
 ): PartNumberRecord | undefined {
   const vendorData = fdb.vendors.get(normalizeVendor(vendor));
-  for (const lookupKey of getPartNumberLookupKeys(vendor, partNumber)) {
+  const lookupKeys = getPartNumberLookupKeys(vendor, partNumber);
+  for (const lookupKey of lookupKeys) {
     const record = vendorData?.get(lookupKey);
     if (record) {
       return record;
     }
+  }
+  const tokenEquivalent = vendorData ? tokenEquivalentPartNumberKey(vendorData, lookupKeys) : undefined;
+  if (tokenEquivalent) {
+    return vendorData?.get(tokenEquivalent);
   }
   return undefined;
 }
@@ -270,8 +288,16 @@ export function findPartNumberAcrossVendors(
     }
   }
   for (const [vendor, partNumbers] of fdb.vendors.entries()) {
-    for (const lookupKey of getPartNumberLookupKeys(vendor, target)) {
+    const lookupKeys = getPartNumberLookupKeys(vendor, target);
+    for (const lookupKey of lookupKeys) {
       const record = partNumbers.get(lookupKey);
+      if (record) {
+        return { vendor, record };
+      }
+    }
+    const tokenEquivalent = tokenEquivalentPartNumberKey(partNumbers, lookupKeys);
+    if (tokenEquivalent) {
+      const record = partNumbers.get(tokenEquivalent);
       if (record) {
         return { vendor, record };
       }

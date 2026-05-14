@@ -1325,6 +1325,38 @@
   },
   {
     "vendor": "micron",
+    "pn": "MT62F512M64D4EK-031AIT:B"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F512M64D4EK-031AAT:B"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F512M64D4EK-031AUT:B"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F512M64D4EK-031FAAT:B"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G64D8EK-031AIT:B"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G64D8EK-031AAT:B"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G64D8EK-031AUT:B"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G64D8EK-031FAAT:B"
+  },
+  {
+    "vendor": "micron",
     "pn": "MT46V32M16P-5B-IT-J"
   },
   {

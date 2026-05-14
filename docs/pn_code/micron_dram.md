@@ -1,6 +1,6 @@
 # Micron DRAM PN 编码资料
 
-采集日期：2026-05-14
+采集日期：2026-05-15
 
 ## 资料来源
 
@@ -18,6 +18,7 @@
   - LPDDR4 `MT53E1G32D2FW-046-AIT-A`: <https://www.micron.com/products/memory/dram-components/lpddr4/part-catalog/part-detail/mt53e1g32d2fw-046-ait-a>
   - LPDDR5 `MT62F1G32D4DS-031-WT-B`: <https://www.micron.com/products/memory/dram-components/lpddr5/part-catalog/part-detail/mt62f1g32d4ds-031-wt-b>
   - LPDDR5X `MT62F1G64D4EK-023 WT:B`: <https://www.micron.com/products/memory/dram-components/lpddr5x/part-catalog>、分销页交叉确认 `LPDDR5X SDRAM` / `8533 Mbps` / `441-ball TFBGA`: <https://www.absunshine.com/en/parts/MT62F1G64D4EK-023-WT-B-MICRON-5778871>
+  - 441b x64 Automotive LPDDR5 ordering chart confirms `MT62F512M64D4EK-031 AIT:B` / `AAT:B` / `AUT:B` / `FAAT:B` and `MT62F1G64D8EK-031 AIT:B` / `AAT:B` / `AUT:B` / `FAAT:B`: `512M64` = 32Gb x64, `1G64` = 64Gb x64, `D4` / `D8` = 4 / 8 die, `EK` = 441-ball TFBGA, `-031` = 313ps tWCK / 6400 Mb/s, optional `F` = functional safety features, optional `A` = automotive grade, and `:B` = second generation.
   - LPDDR3 `MT52L512M32D2PF-107-WT-B`: <https://www.micron.com/products/memory/dram-components/lpddr-components/part-catalog/part-detail/mt52l512m32d2pf-107-wt-b>
   - GDDR6X `MT61K512M32KPA-24-U`: <https://www.micron.com/products/memory/graphics-memory/gddr6x/part-catalog/part-detail/mt61k512m32kpa-24-u>
   - GDDR7 `MT68A512M32DF-32:A`: Micron GDDR7 product brief 明确 `68 = GDDR7 SGRAM`、`A = 1.2V`、`512M32`、`DF = 266-ball FBGA 12.0mm x 14.0mm x 1.1mm`、`-28/-32 = 28/32Gbps`。
@@ -63,6 +64,7 @@
 - `pnpm fdbgen:crawl-mdb` 默认按 Micron FBGA prefix profile 生成候选，通过 Micron 官方 FBGA decoder API 写入统一 `packages/resources/resources/mdb.json`。当前默认 profile 包括 `C9/D8/D9/Z8/Z9` 后三位字母网格，以及 `NC/NW/NY/NX/NQ/NV` 数字段；`--codes` 补充输入按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
 - `packages/resources/resources/mdb.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchParts()` code 查询，以及 `decodePart({ query: "C9BJZ" })` 这类 code 输入时先反查 PN 再走 iTXTech fdnext DecodePack。
 - 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA code 反查统一来自 `mdb.json` 的 code -> PN 映射。真正输出的 `density`、`package`、`dram_type`、`dram_die_stack` 等字段仍由 iTXTech fdnext DecodePack token 解析。
+- `mdb.json` 中有大量带冒号 revision 的 DRAM PN，例如 `D8BBF -> MT53E128M32D2FW-046 IT:A`、`D9WCR -> MT61K256M32JE-12:A`、`D8FHL -> MT68A512M32DF-28:A`、`D8BCJ -> MT62F512M32D2DS-031 AAT:B`。PN 补全和 decode classification 支持用户省略冒号查询，并回到带冒号的官方 PN 展示。
 
 ## PN 结构
 
@@ -107,7 +109,9 @@
 - `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`die_count`、`dram_speed`、`operation_temperature`、`die_revision`、`special_option`。
 - `device version` 先按 family scope 匹配，避免 `DA/DE/LF` 等 token 与 package code 冲突；`D1/D2/D3/D4/D6/D8/DA/DB/DC/DD/DE/LF/L2/L4` 只标准化为 `die_count`，例如 `D4` 输出 `die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`，`DD/DE` 保留官方 LPDDR4 mixed die stack 描述；没有 CS 资料时不输出 `dram_die_stack`。
 - `speed` token 同样优先按 family scope 匹配：DDR5 `32B/36B/40B/44B`、DDR3 `125E`、DDR2 `3`、DDR `6T`、SDR `7E`、GDDR5 `50/60/70`、GDDR5X `110/120/140`、GDDR6 `10/15` 与 GDDR6X `19/20/22/23` 来自官方 2023 PNS；`18` 同时出现在 GDDR6/GDDR6X 表中，当前不在 decodepack 中强行判定。
+- 441-ball x64 Automotive LPDDR5 (`family=62`, `package=EK`) 的 `-031` 按 6400 Mb/s 输出 `LPDDR5-6400`；该分支的温度 token 使用图中范围：`IT=-40°C~95°C`、`AT=-40°C~105°C`、`UT=-40°C~125°C`，前置 `F` 输出 `special_option=Functional safety features`。
 - `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / die stack，只减少 `dram_speed` / `die_revision` 等后缀信息。
+- Micron revision token 可带冒号分隔，例如 `FAAT:B`；core PN 查询、FDB lookup 和 `dram-pn.json` 补全按冒号等价匹配，同时保留带冒号的官方 PN 展示。
 - `dram_type` 必须使用跨厂商标准名，不带厂商名，不写组合候选。
 - Micron 原始 config / package token 只用于内部解析，不进入公开字段；不要把未确认的 token 硬推成封装尺寸或 ball count。
 - Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4-45M` / `55M` / `62M`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
@@ -238,6 +242,9 @@ Micron DDR5 仍按 `depth x width` 推导容量。24Gb 组件已确认 `6G4` / `
 | `MT52L512M32D2PF-107 WT:B` | LPDDR3 | `16Gb`, `x32`, `178-ball FBGA`, `die_count=2`, `Rev B` |
 | `MT53E1G32D2FW-046-AIT-A` | LPDDR4 | `32Gb`, `x32`, `200-ball TFBGA`, `die_count=2`, `2133MHz (LPDDR4-4266)`, `Rev A` |
 | `MT62F1G32D4DS-031-WT-B` | LPDDR5 | `32Gb`, `x32`, `200-ball WFBGA`, `die_count=4`, `3200MHz (LPDDR5-6400)`, `Rev B` |
+| `MT62F512M64D4EK-031 AIT:B` | LPDDR5 | `32Gb`, `x64`, `441-ball TFBGA`, `die_count=4`, `3200MHz (LPDDR5-6400)`, `Automotive Industrial (-40°C ~ 95°C)`, `Rev B` |
+| `MT62F512M64D4EK-031 FAAT:B` | LPDDR5 | `32Gb`, `x64`, `441-ball TFBGA`, `die_count=4`, `3200MHz (LPDDR5-6400)`, `Functional safety features`, `Rev B` |
+| `MT62F1G64D8EK-031 AUT:B` | LPDDR5 | `64Gb`, `x64`, `441-ball TFBGA`, `die_count=8`, `3200MHz (LPDDR5-6400)`, `Automotive Ultra (-40°C ~ 125°C)`, `Rev B` |
 | `MT51J256M32HF-80:A` | GDDR5 | `8Gb`, `x32`, `170-ball FBGA`, `GDDR5-8Gbps`, `Rev A` |
 | `MT58K256M32JA-100:A` | GDDR5X | `8Gb`, `x32`, `190-ball FBGA`, `GDDR5X-10Gbps`, `Rev A` |
 | `MT61K256M32JE-14:A` | GDDR6 | `8Gb`, `x32`, `180-ball FBGA`, `GDDR6-14Gbps`, `Rev A` |
