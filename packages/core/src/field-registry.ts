@@ -141,6 +141,16 @@ export const fdnextFieldRegistry = {
     importance: "primary",
     format: formatMbitAsBytes
   },
+  sector_size: {
+    key: "sector_size",
+    valueKind: "number",
+    defaultLabel: "Sector Size",
+    defaultUnit: "byte",
+    units: ["byte"],
+    recommendedBlock: "storage",
+    importance: "detail",
+    format: formatBytes
+  },
   die_density: {
     key: "die_density",
     valueKind: "number",

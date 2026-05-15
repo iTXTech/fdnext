@@ -1,6 +1,6 @@
 # PN 编码资料索引
 
-采集日期：2026-05-13
+采集日期：2026-05-15
 
 本目录收集 eMMC、UFS、eMCP/uMCP、E2NAND、on-die ECC NAND、raw NAND 与 DRAM 的 PN 编码资料。README 只保留目录、范围和跨厂商维护原则；任何厂商特定来源、PN 结构、token 表、样例和规则说明都必须放入对应厂商独立文档。
 
@@ -14,7 +14,7 @@
 | SanDisk | - | [sandisk_emmc.md](sandisk_emmc.md) | [sandisk_ufs.md](sandisk_ufs.md) | [sandisk_emcp.md](sandisk_emcp.md) | - | [sandisk_issd.md](sandisk_issd.md) | - |
 | SpecTek | [spectek_nand.md](spectek_nand.md) | - | - | [spectek_emcp.md](spectek_emcp.md) | - | - | [spectek_dram.md](spectek_dram.md) |
 | KIOXIA | [kioxia_nand.md](kioxia_nand.md) | [kioxia_emmc.md](kioxia_emmc.md) | [kioxia_ufs.md](kioxia_ufs.md) | [kioxia_emcp.md](kioxia_emcp.md) | [kioxia_e2nand.md](kioxia_e2nand.md) | - | - |
-| Micron | [micron_managed.md](micron_managed.md), [micron_on_die_ecc_nand.md](micron_on_die_ecc_nand.md) | [micron_emmc.md](micron_emmc.md) | [micron_ufs.md](micron_ufs.md) | [micron_emcp.md](micron_emcp.md) | - | - | [micron_dram.md](micron_dram.md), [micron_hbm.md](micron_hbm.md), [micron_hmc.md](micron_hmc.md) |
+| Micron | [micron_managed.md](micron_managed.md), [micron_on_die_ecc_nand.md](micron_on_die_ecc_nand.md) | [micron_emmc.md](micron_emmc.md) | [micron_ufs.md](micron_ufs.md) | [micron_emcp.md](micron_emcp.md) | - | [micron_ssd.md](micron_ssd.md) | [micron_dram.md](micron_dram.md), [micron_hbm.md](micron_hbm.md), [micron_hmc.md](micron_hmc.md) |
 | Nanya | - | - | - | - | - | - | [nanya_dram.md](nanya_dram.md) |
 | Elpida | - | - | - | - | - | - | [elpida_dram.md](elpida_dram.md) |
 | CXMT | - | - | - | - | - | - | [cxmt_dram.md](cxmt_dram.md) |

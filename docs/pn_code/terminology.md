@@ -1,6 +1,6 @@
 # 跨厂商公开字段术语
 
-采集日期：2026-05-10
+采集日期：2026-05-15
 
 本文档定义 fdnext result contract 中跨厂商共用的 canonical field keys。公开结果用 `device` 表达身份信息，用 `subtitle` 表达 decode 摘要，用 `blocks[].fields[]` 输出详情字段；每个字段使用稳定的 `key` / `value` / `unit` / `display`，语言包负责 `label`、`display`、block label、warning message 等展示文本，不改变 key。
 
@@ -47,12 +47,13 @@
 | --- | --- | --- |
 | `density` | 当前芯片或 storage 结果的容量，`unit = Mbit`，`display` 用 Bytes | `65536` / `8GB` |
 | `component_density` | 封装或组件总容量，常用于 MCP/eMCP/uMCP 子组件，`display` 用 Bytes | `524288` / `64GB` |
+| `component_voltage` | 封装或组件电压，不承载产品线或代际信息 | `3.3V` |
 | `storage_density` | MCP/eMCP/uMCP 内 storage 子系统容量，`display` 用 Bytes | `262144` / `32GB` |
 | `die_density` | 单颗 NAND die 容量，`display` 用 Bytes | `1024` / `128MB` |
 | `die_stack` | 封装内 die 堆叠数量或厂商堆叠代号 | `8-die package` |
 | `die_count` / `plane_count` | die / plane 数量 | `2` / `4` |
 | `ce_count` / `rb_count` / `channel_count` | CE / R/B / channel 数量 | `2` / `2` / `4` |
-| `page_size` / `block_size` | page / block 几何信息，字节字段使用 `unit = byte` | `16384` / `16KiB` |
+| `page_size` / `block_size` / `sector_size` | page / block / sector 几何信息，字节字段使用 `unit = byte` | `16384` / `16KiB` |
 | `half_page_and_size` | 半页 / page-size 相关封装特征 | `true` |
 | `generation_info` | NAND 产品代际、层数或制程节点 | `V8 236L` |
 | `series_info` | 厂商系列说明 | `3D-V4` |

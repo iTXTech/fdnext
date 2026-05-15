@@ -496,6 +496,66 @@
     "pn": "MTFC1TAYAXHR-WT"
   },
   {
+    "vendor": "micron",
+    "pn": "MTFDHBL064TDP-1AT12AIYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBL128TDP-1AT12AIYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBL256TDP-1AT12AIYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBL512TDP-1AT12AIYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBM1T0TDP-1AT12AIYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBK128TDP-1AT12AIYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBK256TDP-1AT12AIYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBK512TDP-1AT12AIYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBK1T0TDP-1AT12AIYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBL064TDQ-1AT12ATYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBL128TDQ-1AT12ATYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBL256TDQ-1AT12ATYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBL512TDQ-1AT12ATYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBM1T0TDQ-1AT12ATYY"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFDHBK1T0TDQ-1AT12ATYY"
+  },
+  {
     "vendor": "samsung",
     "pn": "KLM8G1GETF-B041"
   },

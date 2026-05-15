@@ -120,6 +120,7 @@
   "component_voltage": "Component Voltage",
   "marking_code": "Marking Code",
   "density": "Density",
+  "sector_size": "Sector Size",
   "storage_density": "Storage Density",
   "dram_density": "DRAM Density",
   "dram_type": "DRAM Type",

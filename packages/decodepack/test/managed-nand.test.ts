@@ -1590,6 +1590,101 @@ assertPart("MTFC256GZZZZZZ-WT", {
   }
 });
 
+assertPart("MTFDHBL064TDP-1AT12AIYY", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 524288,
+  cellField: "TLC",
+  package: "BGA291 type 1620, 16mm x 20mm x 1.2mm",
+  extra: {
+    "Product Family": "Micron 2100AI SSD",
+    "Product Version": "NVMe 1.3c",
+    "Storage Interface": "PCIe Gen3 x4",
+    "Sector Size": "512B",
+    "Product Generation": "1st Generation",
+    "NAND Technology": "Micron 3D TLC NAND Flash",
+    "NAND Component": "512Gb TLC x8 3.3V (3D)",
+    "Component Density": "512Gb",
+    "Component Width": "x8",
+    "Component Voltage": "3.3V",
+    "Special Option": "Self-encrypting drive (SED)",
+    "Operation Temperature": "Automotive support, Industrial (-40°C to +95°C)"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
+});
+
+assertPart("MTFDHBM1T0TDP-1AT12AIYY", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 8388608,
+  cellField: "TLC",
+  package: "BGA291 type 1620, 16mm x 20mm x 1.6mm",
+  extra: {
+    "Product Family": "Micron 2100AI SSD",
+    "Sector Size": "512B",
+    "Operation Temperature": "Automotive support, Industrial (-40°C to +95°C)"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
+});
+
+assertPart("MTFDHBK1T0TDP-1AT12AIYY", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 8388608,
+  cellField: "TLC",
+  package: "M.2 Type 2230 M-key, 22mm x 30mm x 2.4mm",
+  extra: {
+    "Product Family": "Micron 2100AI SSD",
+    "Special Option": "Self-encrypting drive (SED)"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
+});
+
+assertPart("MTFDHBL064TDQ-1AT12ATYY", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 524288,
+  cellField: "TLC",
+  package: "BGA291 type 1620, 16mm x 20mm x 1.2mm",
+  extra: {
+    "Product Family": "Micron 2100AT SSD",
+    "Product Version": "NVMe 1.3c",
+    "Storage Interface": "PCIe Gen3 x4",
+    "Operation Temperature": "Automotive (-40°C to +105°C)"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
+});
+
+assertPart("MTFDHBK128TDQ-1AT12ATYY", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 1048576,
+  cellField: "TLC",
+  package: "M.2 Type 2230 M-key, 22mm x 30mm x 2.0mm",
+  extra: {
+    "Product Family": "Micron 2100AT SSD",
+    "Storage Interface": "PCIe Gen3 x4",
+    "Operation Temperature": "Automotive (-40°C to +105°C)"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
+});
+
+assertPart("MTFDHBL128TDP-AAT12AIYYES", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 1048576,
+  cellField: "TLC",
+  package: "BGA291 type 1620, 16mm x 20mm x 1.2mm",
+  extra: {
+    "Product Family": "Micron 2100AI SSD",
+    "Product Class": "Engineering samples",
+    "Production Status": "Engineering samples"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
+});
+
+assertRuleDoesNotMatch("vendor.micron.ssd.2100ai-at.v1", "MTFDHBL064TDP-1AT12ITYY");
+
 assertPart("YMEC6A1TC1A2C1", {
   vendor: "ymtc",
   type: "eMMC",
@@ -2039,6 +2134,9 @@ assertSearchPnIncludes("KMGD6001BM", "Samsung KMGD6001BM-B421");
 assertSearchPnIncludes("SDIN7DU2", "Sandisk SDIN7DU2-64G");
 assertSearchPnIncludes("SDIS5BK", "Sandisk SDIS5BK-032G");
 assertSearchPnIncludes("SDIS4BH", "Sandisk SDIS4BH-064G");
+assertSearchPnIncludes("MTFDHBL064TDP", "Micron MTFDHBL064TDP-1AT12AIYY");
+assertSearchPnIncludes("MTFDHBL064TDQ", "Micron MTFDHBL064TDQ-1AT12ATYY");
+assertSearchPnIncludes("MTFDHBK1T0TDQ", "Micron MTFDHBK1T0TDQ-1AT12ATYY");
 assertSearchPnIncludes("SM662PBC", "Silicon Motion SM662PBC-BFS");
 assertSearchPnIncludes("SM671PEF", "Silicon Motion SM671PEF-BFS");
 assertSearchPnIncludes("THGJFRT1E45", "Kioxia THGJFRT1E45BATV");

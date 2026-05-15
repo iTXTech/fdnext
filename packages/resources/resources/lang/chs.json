@@ -120,6 +120,7 @@
   "component_voltage": "组件电压",
   "marking_code": "Marking 编码",
   "density": "容量",
+  "sector_size": "扇区大小",
   "storage_density": "存储容量",
   "dram_density": "DRAM 容量",
   "dram_type": "DRAM 类型",

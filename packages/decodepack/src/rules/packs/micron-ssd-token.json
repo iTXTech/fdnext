@@ -1,0 +1,322 @@
+[
+  {
+    "id": "vendor.micron.ssd.2100ai-at.v1",
+    "priority": 1008,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MTFDH(?:BL(?:064|128|256|512)|BM1T0|BK(?:128|256|512|1T0))T(?:DP|DQ)-?(?:A|1)AT1(?:2)(?:AI|AT)YY(?:ES)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MTFDH"
+      ],
+      "tables": {
+        "density": {
+          "064": 524288,
+          "128": 1048576,
+          "256": 2097152,
+          "512": 4194304,
+          "1T0": 8388608
+        },
+        "packageObj": {
+          "BL:064": {
+            "package": "BGA291 type 1620, 16mm x 20mm x 1.2mm"
+          },
+          "BL:128": {
+            "package": "BGA291 type 1620, 16mm x 20mm x 1.2mm"
+          },
+          "BL:256": {
+            "package": "BGA291 type 1620, 16mm x 20mm x 1.2mm"
+          },
+          "BL:512": {
+            "package": "BGA291 type 1620, 16mm x 20mm x 1.2mm"
+          },
+          "BM:1T0": {
+            "package": "BGA291 type 1620, 16mm x 20mm x 1.6mm"
+          },
+          "BK:128": {
+            "package": "M.2 Type 2230 M-key, 22mm x 30mm x 2.0mm"
+          },
+          "BK:256": {
+            "package": "M.2 Type 2230 M-key, 22mm x 30mm x 2.0mm"
+          },
+          "BK:512": {
+            "package": "M.2 Type 2230 M-key, 22mm x 30mm x 2.0mm"
+          },
+          "BK:1T0": {
+            "package": "M.2 Type 2230 M-key, 22mm x 30mm x 2.4mm"
+          }
+        },
+        "nandTypeObj": {
+          "T": {
+            "cell_level": "TLC",
+            "nand_technology": "Micron 3D TLC NAND Flash"
+          }
+        },
+        "productFamilyObj": {
+          "DP": {
+            "product_family": "Micron 2100AI SSD",
+            "product_version": "NVMe 1.3c",
+            "storage_interface": "PCIe Gen3 x4"
+          },
+          "DQ": {
+            "product_family": "Micron 2100AT SSD",
+            "product_version": "NVMe 1.3c",
+            "storage_interface": "PCIe Gen3 x4"
+          }
+        },
+        "bomObj": {
+          "1": {
+            "generation_info": "1st Generation"
+          },
+          "A": {
+            "product_class": "Engineering samples"
+          }
+        },
+        "componentObj": {
+          "AT": {
+            "nand_component": "512Gb TLC x8 3.3V (3D)",
+            "component_density": "512Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          }
+        },
+        "sectorSize": {
+          "1": 512
+        },
+        "firmwareObj": {
+          "2": {
+            "special_option": "Self-encrypting drive (SED)"
+          }
+        },
+        "temperatureObj": {
+          "AI": {
+            "operation_temperature": "Automotive support, Industrial (-40°C to +95°C)"
+          },
+          "AT": {
+            "operation_temperature": "Automotive (-40°C to +105°C)"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering samples"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "formCode"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "tpl",
+          "template": "{{formCode}}:{{densityCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "nandTypeCode"
+        },
+        {
+          "op": "map",
+          "from": "nandTypeCode",
+          "table": "nandTypeObj",
+          "to": "nandTypeObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productFamilyCode"
+        },
+        {
+          "op": "map",
+          "from": "productFamilyCode",
+          "table": "productFamilyObj",
+          "to": "productFamilyObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "bomCode"
+        },
+        {
+          "op": "map",
+          "from": "bomCode",
+          "table": "bomObj",
+          "to": "bomObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "componentCode"
+        },
+        {
+          "op": "map",
+          "from": "componentCode",
+          "table": "componentObj",
+          "to": "componentObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "sectorCode"
+        },
+        {
+          "op": "map",
+          "from": "sectorCode",
+          "table": "sectorSize",
+          "to": "sectorSize",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "firmwareCode"
+        },
+        {
+          "op": "map",
+          "from": "firmwareCode",
+          "table": "firmwareObj",
+          "to": "firmwareObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "temperatureCode"
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "customerCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^ES",
+          "to": "productionStatusCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "productionStatusCode",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productFamilyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "nandTypeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "bomObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "componentObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "firmwareObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": "nvme",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.sector_size": {
+          "$var": "sectorSize"
+        },
+        "meta.ruleId": "vendor.micron.ssd.2100ai-at.v1"
+      }
+    }
+  }
+]

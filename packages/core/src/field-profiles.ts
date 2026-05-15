@@ -75,13 +75,13 @@ export const fdnextFieldProfiles = {
         id: "storage",
         label: "Storage",
         importance: "primary",
-        fields: ["storage_density", "density", "storage_interface", "cell_level", "process_node", "generation_info", "product_generation", "series_info"]
+        fields: ["storage_density", "density", "storage_interface", "sector_size", "cell_level", "process_node", "generation_info", "product_generation", "series_info"]
       },
       {
         id: "components",
         label: "Components",
         importance: "secondary",
-        fields: ["component_density", "component_width", "nand_component", "dram_density", "dram_type", "dram_width"]
+        fields: ["component_density", "component_width", "component_voltage", "nand_component", "dram_density", "dram_type", "dram_width"]
       },
       {
         id: "interface",
