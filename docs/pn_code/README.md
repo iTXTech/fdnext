@@ -22,7 +22,7 @@
 | Winbond | - | - | - | - | - | - | [winbond_dram.md](winbond_dram.md) |
 | ESMT | - | - | - | - | - | - | [esmt_dram.md](esmt_dram.md) |
 | Etron | - | - | - | - | - | - | [etron_dram.md](etron_dram.md) |
-| YMTC | - | [ymtc_emmc.md](ymtc_emmc.md) | [ymtc_ufs.md](ymtc_ufs.md) | - | - | - | - |
+| YMTC | [ymtc_nand.md](ymtc_nand.md) | [ymtc_emmc.md](ymtc_emmc.md) | [ymtc_ufs.md](ymtc_ufs.md) | - | - | - | - |
 | Kingston | - | [kingston_emmc.md](kingston_emmc.md) | [kingston_ufs.md](kingston_ufs.md) | [kingston_emcp.md](kingston_emcp.md) | - | - | - |
 | Longsys | - | [longsys_emmc.md](longsys_emmc.md) | [longsys_ufs.md](longsys_ufs.md) | [longsys_emcp.md](longsys_emcp.md) | - | - | - |
 | BIWIN | - | [biwin_emmc.md](biwin_emmc.md) | [biwin_ufs.md](biwin_ufs.md) | [biwin_emcp.md](biwin_emcp.md) | - | - | - |

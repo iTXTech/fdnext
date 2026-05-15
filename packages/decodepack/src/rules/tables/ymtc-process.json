@@ -1,0 +1,132 @@
+{
+  "X0-A030": {
+    "process_node": "X0-A030 / DBS",
+    "generation_info": "Gen 1",
+    "layer_count": 32,
+    "die_density": "64Gb",
+    "cell_level": 2,
+    "plane_count": 1,
+    "speed_grade": "Max Speed=533MT/s",
+    "meta": {
+      "process_code": "X0-A030",
+      "codename": "DBS"
+    }
+  },
+  "X1-9050": {
+    "process_node": "X1-9050 / JGS",
+    "generation_info": "Gen 2 Xtacking 1.0",
+    "layer_count": 64,
+    "die_density": "256Gb",
+    "cell_level": 3,
+    "plane_count": 2,
+    "speed_grade": "ONFI 4.0; Max Speed=800MT/s",
+    "meta": {
+      "process_code": "X1-9050",
+      "codename": "JGS"
+    }
+  },
+  "X2-9060": {
+    "process_node": "X2-9060 / TAS",
+    "generation_info": "Gen 3 Xtacking 2.0",
+    "layer_count": 128,
+    "die_density": "512Gb",
+    "cell_level": 3,
+    "plane_count": 4,
+    "speed_grade": "ONFI 4.1; Max Speed=1600MT/s",
+    "meta": {
+      "process_code": "X2-9060",
+      "codename": "TAS"
+    }
+  },
+  "X2-6070": {
+    "process_node": "X2-6070 / HUS",
+    "generation_info": "Gen 3 Xtacking 2.0",
+    "layer_count": 128,
+    "die_density": "1.33Tb",
+    "cell_level": 4,
+    "plane_count": 6,
+    "speed_grade": "ONFI 4.1; Max Speed=1200MT/s",
+    "meta": {
+      "process_code": "X2-6070",
+      "codename": "HUS"
+    }
+  },
+  "X3-9060": {
+    "process_node": "X3-9060 / WYS",
+    "generation_info": "Gen 4 Xtacking 3.0",
+    "layer_count": 128,
+    "die_density": "512Gb",
+    "cell_level": 3,
+    "plane_count": 4,
+    "speed_grade": "ONFI 5.0; Max Speed=2400MT/s",
+    "meta": {
+      "process_code": "X3-9060",
+      "codename": "WYS"
+    }
+  },
+  "X3-9070": {
+    "process_node": "X3-9070 / WDS",
+    "generation_info": "Gen 4 Xtacking 3.0",
+    "layer_count": 232,
+    "die_density": "1Tb",
+    "cell_level": 3,
+    "plane_count": 6,
+    "speed_grade": "ONFI 5.0; Max Speed=2400MT/s",
+    "meta": {
+      "process_code": "X3-9070",
+      "codename": "WDS"
+    }
+  },
+  "X3-6070": {
+    "process_node": "X3-6070 / EMS",
+    "generation_info": "Gen 4 Xtacking 3.0",
+    "layer_count": 232,
+    "die_density": "1Tb",
+    "cell_level": 4,
+    "plane_count": 4,
+    "speed_grade": "ONFI 5.0; Max Speed=2400MT/s",
+    "meta": {
+      "process_code": "X3-6070",
+      "codename": "EMS"
+    }
+  },
+  "X4-9060": {
+    "process_node": "X4-9060 / WTS",
+    "generation_info": "Gen 5 Xtacking 4.0",
+    "layer_count": 160,
+    "die_density": "512Gb",
+    "cell_level": 3,
+    "plane_count": 4,
+    "speed_grade": "ONFI 5.1; Max Speed=3600MT/s",
+    "meta": {
+      "process_code": "X4-9060",
+      "codename": "WTS",
+      "production_status": "mass_production"
+    }
+  },
+  "X4-9070": {
+    "process_node": "X4-9070 / SQS",
+    "generation_info": "Gen 5 Xtacking 4.0",
+    "layer_count": 267,
+    "die_density": "1Tb",
+    "cell_level": 3,
+    "plane_count": 6,
+    "meta": {
+      "process_code": "X4-9070",
+      "codename": "SQS",
+      "production_status": "mass_production"
+    }
+  },
+  "X4-6080": {
+    "process_node": "X4-6080 / PTS",
+    "generation_info": "Gen 5 Xtacking 4.0",
+    "layer_count": 267,
+    "die_density": "2Tb",
+    "cell_level": 4,
+    "meta": {
+      "process_code": "X4-6080",
+      "codename": "PTS",
+      "production_status": "mass_production"
+    }
+  }
+}

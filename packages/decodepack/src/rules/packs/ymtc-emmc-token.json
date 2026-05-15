@@ -87,12 +87,6 @@
           "M": 2,
           "T": 3
         },
-        "processNode": {
-          "A": "X0-A030 / DBS",
-          "B": "X1-9050 / JGS",
-          "C": "X2-9060 / TAS",
-          "E": "X3-9060 / WYS"
-        },
         "generation": {
           "A": 1,
           "B": 2,
@@ -138,6 +132,12 @@
           "3": {
             "operation_temperature": "-25°C ~ 85°C"
           }
+        },
+        "processAlias": {
+          "A": "X0-A030",
+          "B": "X1-9050",
+          "C": "X2-9060",
+          "E": "X3-9060"
         }
       },
       "steps": [
@@ -192,9 +192,28 @@
         {
           "op": "map",
           "from": "generationCode",
-          "table": "processNode",
-          "to": "processNode",
-          "default": "Unknown"
+          "table": "processAlias",
+          "to": "processKey",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "ymtc.process",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "omit",
+          "from": "processObj",
+          "to": "processFields",
+          "keys": [
+            "meta",
+            "cell_level",
+            "die_density",
+            "plane_count",
+            "speed_grade"
+          ]
         },
         {
           "op": "map",
@@ -273,6 +292,11 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "processFields"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "dieStackObj"
         },
         {
@@ -319,10 +343,16 @@
           "$var": "cellLevel"
         },
         "fields.process_node": {
-          "$var": "processNode"
+          "$path": [
+            "processFields",
+            "process_node"
+          ]
         },
         "fields.generation_info": {
-          "$var": "generation"
+          "$path": [
+            "processFields",
+            "generation_info"
+          ]
         },
         "fields.package": {
           "$var": "package"
@@ -330,7 +360,13 @@
         "fields.die_count": {
           "$var": "die"
         },
-        "meta.ruleId": "vendor.ymtc.emmc-label.v1"
+        "meta.ruleId": "vendor.ymtc.emmc-label.v1",
+        "fields.layer_count": {
+          "$path": [
+            "processFields",
+            "layer_count"
+          ]
+        }
       }
     }
   }

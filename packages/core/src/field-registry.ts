@@ -205,6 +205,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "geometry",
     importance: "secondary"
   },
+  layer_count: {
+    key: "layer_count",
+    valueKind: "number",
+    defaultLabel: "Layer Count",
+    recommendedBlock: "geometry",
+    importance: "secondary"
+  },
   device_width: {
     key: "device_width",
     valueKind: "number",

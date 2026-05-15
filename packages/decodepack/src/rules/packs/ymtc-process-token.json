@@ -31,42 +31,6 @@
           "X4-9060": "X4-9060",
           "X4-9070": "X4-9070",
           "X4-6080": "X4-6080"
-        },
-        "processNode": {
-          "X0-A030": "X0-A030 / DBS",
-          "X1-9050": "X1-9050 / JGS",
-          "X2-9060": "X2-9060 / TAS",
-          "X2-6070": "X2-6070 / HUS",
-          "X3-9060": "X3-9060 / WYS",
-          "X3-9070": "X3-9070 / WDS",
-          "X3-6070": "X3-6070 / EMS",
-          "X4-9060": "X4-9060 / WT",
-          "X4-9070": "X4-9070",
-          "X4-6080": "X4-6080"
-        },
-        "cellLevel": {
-          "X0-A030": 2,
-          "X1-9050": 3,
-          "X2-9060": 3,
-          "X2-6070": 4,
-          "X3-9060": 3,
-          "X3-9070": 3,
-          "X3-6070": 4,
-          "X4-9060": 3,
-          "X4-9070": 3,
-          "X4-6080": 4
-        },
-        "generation": {
-          "X0-A030": 1,
-          "X1-9050": 2,
-          "X2-9060": 3,
-          "X2-6070": 3,
-          "X3-9060": 4,
-          "X3-9070": 4,
-          "X3-6070": 4,
-          "X4-9060": 5,
-          "X4-9070": 5,
-          "X4-6080": 5
         }
       },
       "steps": [
@@ -79,23 +43,9 @@
         {
           "op": "map",
           "from": "processKey",
-          "table": "processNode",
-          "to": "processNode",
-          "default": "Unknown"
-        },
-        {
-          "op": "map",
-          "from": "processKey",
-          "table": "cellLevel",
-          "to": "cellLevel",
-          "default": -1
-        },
-        {
-          "op": "map",
-          "from": "processKey",
-          "table": "generation",
-          "to": "generation",
-          "default": "Unknown"
+          "table": "ymtc.process",
+          "to": "processObj",
+          "default": {}
         }
       ],
       "assign": {
@@ -106,15 +56,58 @@
         "device.vendor": "ymtc",
         "device.chipKind": "raw_nand",
         "fields.process_node": {
-          "$var": "processNode"
+          "$path": [
+            "processObj",
+            "process_node"
+          ]
         },
         "fields.cell_level": {
-          "$var": "cellLevel"
+          "$path": [
+            "processObj",
+            "cell_level"
+          ]
         },
         "fields.generation_info": {
-          "$var": "generation"
+          "$path": [
+            "processObj",
+            "generation_info"
+          ]
         },
-        "meta.ruleId": "vendor.ymtc.process-alias.v1"
+        "fields.layer_count": {
+          "$path": [
+            "processObj",
+            "layer_count"
+          ]
+        },
+        "fields.die_density": {
+          "$path": [
+            "processObj",
+            "die_density"
+          ]
+        },
+        "fields.plane_count": {
+          "$path": [
+            "processObj",
+            "plane_count"
+          ]
+        },
+        "fields.speed_grade": {
+          "$path": [
+            "processObj",
+            "speed_grade"
+          ]
+        },
+        "meta.ruleId": "vendor.ymtc.process-alias.v1",
+        "meta.processKey": {
+          "$var": "processKey"
+        },
+        "meta.processCodename": {
+          "$path": [
+            "processObj",
+            "meta",
+            "codename"
+          ]
+        }
       }
     }
   }

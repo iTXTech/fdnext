@@ -155,6 +155,7 @@
   "multi_chip": "多晶片",
   "cell_level": "Cell 类型",
   "process_node": "制程节点",
+  "layer_count": "堆叠层数",
   "device_width": "器件位宽",
   "voltage": "电压",
   "package": "封装",

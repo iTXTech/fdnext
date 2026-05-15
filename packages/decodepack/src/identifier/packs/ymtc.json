@@ -86,14 +86,14 @@
         }
       },
       "5": {
-        "process_node": {
+        "generation_info": {
           "dq": [6, 5, 4],
           "def": {
-            "0": "32L DBS X0",
-            "1": "3DV2 64L",
-            "2": "3DV3 128L",
-            "3": "3DV4",
-            "4": "3DV5"
+            "0": "Gen 1",
+            "1": "Gen 2 Xtacking 1.0",
+            "2": "Gen 3 Xtacking 2.0",
+            "3": "Gen 4 Xtacking 3.0",
+            "4": "Gen 5 Xtacking 4.0"
           }
         }
       }

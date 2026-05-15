@@ -155,6 +155,7 @@
   "multi_chip": "Multi chip",
   "cell_level": "Cell Level",
   "process_node": "Process Node",
+  "layer_count": "Layer Count",
   "device_width": "Device Width",
   "voltage": "Voltage",
   "package": "Package",

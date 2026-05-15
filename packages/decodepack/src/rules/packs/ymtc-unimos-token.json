@@ -33,14 +33,6 @@
           "7G": 4,
           "8G": 4
         },
-        "processNode": {
-          "2G": "X1-9050 / JGS",
-          "3G": "X2-9060 / TAS",
-          "4G": "X2-6070 / HUS",
-          "6G": "X3-9070 / WDS",
-          "7G": "X3-9060 / WYS",
-          "8G": "X3-6070 / EMS"
-        },
         "cellLevel": {
           "2G": 3,
           "3G": 3,
@@ -48,32 +40,6 @@
           "6G": 3,
           "7G": 3,
           "8G": 4
-        },
-        "generationInfo": {
-          "2G": {
-            "generation_info": "Gen 2 Xtacking 1.0",
-            "die_density": "256Gb"
-          },
-          "3G": {
-            "generation_info": "Gen 3 Xtacking 2.0",
-            "die_density": "512Gb"
-          },
-          "4G": {
-            "generation_info": "Gen 3 Xtacking 2.0",
-            "die_density": "1.33Tb"
-          },
-          "6G": {
-            "generation_info": "Gen 4 Xtacking 3.0",
-            "die_density": "1Tb"
-          },
-          "7G": {
-            "generation_info": "Gen 4 Xtacking 3.0",
-            "die_density": "512Gb"
-          },
-          "8G": {
-            "generation_info": "Gen 4 Xtacking 3.0",
-            "die_density": "1Tb"
-          }
         },
         "deviceDensity": {
           "001TB": 1048576,
@@ -159,6 +125,14 @@
           "C": {
             "product_class": "Commercial"
           }
+        },
+        "processAlias": {
+          "2G": "X1-9050",
+          "3G": "X2-9060",
+          "4G": "X2-6070",
+          "6G": "X3-9070",
+          "7G": "X3-9060",
+          "8G": "X3-6070"
         }
       },
       "steps": [
@@ -177,9 +151,24 @@
         {
           "op": "map",
           "from": "generationCode",
-          "table": "processNode",
-          "to": "processNode",
-          "default": "Unknown"
+          "table": "processAlias",
+          "to": "processKey",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "ymtc.process",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "omit",
+          "from": "processObj",
+          "to": "processFields",
+          "keys": [
+            "meta"
+          ]
         },
         {
           "op": "map",
@@ -187,13 +176,6 @@
           "table": "cellLevel",
           "to": "cellLevel",
           "default": -1
-        },
-        {
-          "op": "map",
-          "from": "generationCode",
-          "table": "generationInfo",
-          "to": "generationObj",
-          "default": {}
         },
         {
           "op": "take",
@@ -297,7 +279,7 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "generationObj"
+          "from": "processFields"
         },
         {
           "op": "merge",
@@ -347,10 +329,16 @@
           "$var": "cellLevel"
         },
         "fields.process_node": {
-          "$var": "processNode"
+          "$path": [
+            "processFields",
+            "process_node"
+          ]
         },
         "fields.generation_info": {
-          "$var": "generation"
+          "$path": [
+            "processFields",
+            "generation_info"
+          ]
         },
         "fields.package": {
           "$var": "package"
@@ -367,7 +355,13 @@
         "fields.channel_count": {
           "$var": "ch"
         },
-        "meta.ruleId": "vendor.ymtc.unimos-label.v1"
+        "meta.ruleId": "vendor.ymtc.unimos-label.v1",
+        "fields.layer_count": {
+          "$path": [
+            "processFields",
+            "layer_count"
+          ]
+        }
       }
     }
   }

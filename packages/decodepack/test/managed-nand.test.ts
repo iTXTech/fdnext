@@ -1697,6 +1697,8 @@ assertPart("YMEC6A1TC1A2C1", {
     "Product Family": "YMTC EC000 eMMC",
     "Storage Density": "32GB eMMC",
     "Storage Interface": "eMMC 5.1",
+    "Product Generation": "Gen 3 Xtacking 2.0",
+    "Layer Count": 128,
     "Die Stack": "SDP (1-die)",
     "Product Class": "Commercial"
   },
@@ -1715,6 +1717,8 @@ assertPart("YMEC8A2TB3A2C3", {
     "Product Family": "YMTC EC110 eMMC",
     "Storage Density": "128GB eMMC",
     "Storage Interface": "eMMC 5.1",
+    "Product Generation": "Gen 2 Xtacking 1.0",
+    "Layer Count": 64,
     "Die Stack": "QDP (4-die)",
     "Product Class": "Commercial",
     "Operation Temperature": "-25°C ~ 85°C"
@@ -1733,6 +1737,8 @@ assertPart("YMUS8A1TC1A2C1", {
     Controller: "UFS 3.1 Controller",
     "Storage Density": "128GB UFS",
     "Storage Interface": "UFS 3.1",
+    "Product Generation": "Gen 3 Xtacking 2.0",
+    "Layer Count": 128,
     "Die Stack": "SDP (1-die)",
     "Product Class": "Commercial"
   },
@@ -1748,9 +1754,64 @@ assertPart("YMC6G001TB51AA1C0", {
   package: "BGA-132 12x18",
   extra: {
     "Product Generation": "Gen 4 Xtacking 3.0",
+    "Layer Count": 232,
     "Die Density": "256Gb",
     "Die Stack": "SDP (1-die)",
+    "Plane Count": 6,
     "Product Class": "Commercial"
+  }
+});
+
+assertPart("X3-9070", {
+  vendor: "ymtc",
+  type: "NAND",
+  processField: "X3-9070 / WDS",
+  cellField: "TLC",
+  extra: {
+    "Product Generation": "Gen 4 Xtacking 3.0",
+    "Layer Count": 232,
+    "Die Density": "1Tb",
+    "Plane Count": 6,
+    "Speed Grade": "ONFI 5.0; Max Speed=2400MT/s"
+  }
+});
+
+assertPart("X4-9060", {
+  vendor: "ymtc",
+  type: "NAND",
+  processField: "X4-9060 / WTS",
+  cellField: "TLC",
+  extra: {
+    "Product Generation": "Gen 5 Xtacking 4.0",
+    "Layer Count": 160,
+    "Die Density": "512Gb",
+    "Plane Count": 4,
+    "Speed Grade": "ONFI 5.1; Max Speed=3600MT/s"
+  }
+});
+
+assertPart("X4-9070", {
+  vendor: "ymtc",
+  type: "NAND",
+  processField: "X4-9070 / SQS",
+  cellField: "TLC",
+  extra: {
+    "Product Generation": "Gen 5 Xtacking 4.0",
+    "Layer Count": 267,
+    "Die Density": "1Tb",
+    "Plane Count": 6
+  }
+});
+
+assertPart("X4-6080", {
+  vendor: "ymtc",
+  type: "NAND",
+  processField: "X4-6080 / PTS",
+  cellField: "QLC",
+  extra: {
+    "Product Generation": "Gen 5 Xtacking 4.0",
+    "Layer Count": 267,
+    "Die Density": "2Tb"
   }
 });
 

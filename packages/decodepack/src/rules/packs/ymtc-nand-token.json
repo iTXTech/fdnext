@@ -287,35 +287,6 @@
           "D": 4,
           "E": 5
         },
-        "generationInfo": {
-          "A": {
-            "generation_info": "Gen 1"
-          },
-          "B": {
-            "generation_info": "Gen 2 Xtacking 1.0"
-          },
-          "C": {
-            "generation_info": "Gen 3 Xtacking 2.0"
-          },
-          "D": {
-            "generation_info": "Gen 4 Xtacking 3.0"
-          },
-          "E": {
-            "generation_info": "Gen 5 Xtacking 4.0"
-          }
-        },
-        "processNode": {
-          "A:6:M": "X0-A030 / DBS",
-          "B:8:T": "X1-9050 / JGS",
-          "C:9:T": "X2-9060 / TAS",
-          "C:W:Q": "X2-6070 / HUS",
-          "D:9:T": "X3-9060 / WYS",
-          "D:A:T": "X3-9070 / WDS",
-          "D:A:Q": "X3-6070 / EMS",
-          "E:9:T": "X4-9060 / WT",
-          "E:A:T": "X4-9070",
-          "E:W:Q": "X4-6080"
-        },
         "draftChipKind": {
           "nand": "raw_nand",
           "on_die_ecc_nand": "on_die_ecc_nand",
@@ -336,6 +307,18 @@
           "emcp": "emcp",
           "umcp": "umcp",
           "e2nand": "e2nand"
+        },
+        "processAlias": {
+          "A:6:M": "X0-A030",
+          "B:8:T": "X1-9050",
+          "C:9:T": "X2-9060",
+          "C:W:Q": "X2-6070",
+          "D:9:T": "X3-9060",
+          "D:A:T": "X3-9070",
+          "D:A:Q": "X3-6070",
+          "E:9:T": "X4-9060",
+          "E:A:T": "X4-9070",
+          "E:W:Q": "X4-6080"
         }
       },
       "steps": [
@@ -528,23 +511,31 @@
           "default": "Unknown"
         },
         {
-          "op": "map",
-          "from": "generationCode",
-          "table": "generationInfo",
-          "to": "generationObj",
-          "default": {}
-        },
-        {
           "op": "tpl",
           "template": "{{generationCode}}:{{dieSizeCode}}:{{cellCode}}",
-          "to": "processKey"
+          "to": "processAliasKey"
+        },
+        {
+          "op": "map",
+          "from": "processAliasKey",
+          "table": "processAlias",
+          "to": "processKey",
+          "default": ""
         },
         {
           "op": "map",
           "from": "processKey",
-          "table": "processNode",
-          "to": "processNode",
-          "default": "Unknown"
+          "table": "ymtc.process",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "omit",
+          "from": "processObj",
+          "to": "processFields",
+          "keys": [
+            "meta"
+          ]
         },
         {
           "op": "set",
@@ -569,6 +560,11 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "processFields"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "dieDensityObj"
         },
         {
@@ -580,11 +576,6 @@
           "op": "merge",
           "into": "extra",
           "from": "speedObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "generationObj"
         },
         {
           "op": "map",
@@ -641,13 +632,19 @@
           "$var": "cellLevel"
         },
         "fields.process_node": {
-          "$var": "processNode"
+          "$path": [
+            "processFields",
+            "process_node"
+          ]
         },
         "fields.voltage": {
           "$var": "voltage"
         },
         "fields.generation_info": {
-          "$var": "generation"
+          "$path": [
+            "processFields",
+            "generation_info"
+          ]
         },
         "fields.package": {
           "$var": "package"
@@ -664,7 +661,13 @@
         "fields.channel_count": {
           "$var": "ch"
         },
-        "meta.ruleId": "vendor.ymtc.nand-label.v2"
+        "meta.ruleId": "vendor.ymtc.nand-label.v2",
+        "fields.layer_count": {
+          "$path": [
+            "processFields",
+            "layer_count"
+          ]
+        }
       }
     }
   }

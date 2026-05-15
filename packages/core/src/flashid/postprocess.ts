@@ -15,6 +15,37 @@ type ProcessLookup = {
   processNode: string;
 };
 
+type YmtcProcessKey =
+  | "X0-A030"
+  | "X1-9050"
+  | "X2-9060"
+  | "X2-6070"
+  | "X3-9060"
+  | "X3-9070"
+  | "X3-6070"
+  | "X4-9060"
+  | "X4-9070"
+  | "X4-6080";
+
+type YmtcProcessInfo = {
+  process_node: string;
+  generation_info?: string;
+  layer_count?: number;
+  cell_level?: number;
+  die_density?: string;
+  plane_count?: number;
+  speed_grade?: string;
+};
+
+type YmtcProcessLookup = {
+  start: number;
+  hex: string;
+  processKey: YmtcProcessKey;
+  page_size?: number;
+  redundant_area_size?: string;
+  pages_per_block?: string;
+};
+
 const GBIT_TO_MBIT = 1024;
 
 const MICRON_LIKE_PROCESS_LOOKUPS: ProcessLookup[] = [
@@ -281,23 +312,177 @@ const SAMSUNG_DENSITY_BY_BYTE2: Record<number, number> = {
   0xde: 64 * GBIT_TO_MBIT
 };
 
-const YMTC_PROCESS_BY_LAYER_CODE: Record<number, string> = {
-  1: "3DV2 64L",
-  2: "3DV3 128L",
-  3: "3DV4",
-  4: "3DV5"
+const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
+  "X0-A030": {
+    process_node: "X0-A030 / DBS",
+    generation_info: "Gen 1",
+    layer_count: 32,
+    cell_level: 2,
+    die_density: "64Gb",
+    plane_count: 1,
+    speed_grade: "Max Speed=533MT/s"
+  },
+  "X1-9050": {
+    process_node: "X1-9050 / JGS",
+    generation_info: "Gen 2 Xtacking 1.0",
+    layer_count: 64,
+    cell_level: 3,
+    die_density: "256Gb",
+    plane_count: 2,
+    speed_grade: "ONFI 4.0; Max Speed=800MT/s"
+  },
+  "X2-9060": {
+    process_node: "X2-9060 / TAS",
+    generation_info: "Gen 3 Xtacking 2.0",
+    layer_count: 128,
+    cell_level: 3,
+    die_density: "512Gb",
+    plane_count: 4,
+    speed_grade: "ONFI 4.1; Max Speed=1600MT/s"
+  },
+  "X2-6070": {
+    process_node: "X2-6070 / HUS",
+    generation_info: "Gen 3 Xtacking 2.0",
+    layer_count: 128,
+    cell_level: 4,
+    die_density: "1.33Tb",
+    plane_count: 6,
+    speed_grade: "ONFI 4.1; Max Speed=1200MT/s"
+  },
+  "X3-9060": {
+    process_node: "X3-9060 / WYS",
+    generation_info: "Gen 4 Xtacking 3.0",
+    layer_count: 128,
+    cell_level: 3,
+    die_density: "512Gb",
+    plane_count: 4,
+    speed_grade: "ONFI 5.0; Max Speed=2400MT/s"
+  },
+  "X3-9070": {
+    process_node: "X3-9070 / WDS",
+    generation_info: "Gen 4 Xtacking 3.0",
+    layer_count: 232,
+    cell_level: 3,
+    die_density: "1Tb",
+    plane_count: 6,
+    speed_grade: "ONFI 5.0; Max Speed=2400MT/s"
+  },
+  "X3-6070": {
+    process_node: "X3-6070 / EMS",
+    generation_info: "Gen 4 Xtacking 3.0",
+    layer_count: 232,
+    cell_level: 4,
+    die_density: "1Tb",
+    plane_count: 4,
+    speed_grade: "ONFI 5.0; Max Speed=2400MT/s"
+  },
+  "X4-9060": {
+    process_node: "X4-9060 / WTS",
+    generation_info: "Gen 5 Xtacking 4.0",
+    layer_count: 160,
+    cell_level: 3,
+    die_density: "512Gb",
+    plane_count: 4,
+    speed_grade: "ONFI 5.1; Max Speed=3600MT/s"
+  },
+  "X4-9070": {
+    process_node: "X4-9070 / SQS",
+    generation_info: "Gen 5 Xtacking 4.0",
+    layer_count: 267,
+    cell_level: 3,
+    die_density: "1Tb",
+    plane_count: 6
+  },
+  "X4-6080": {
+    process_node: "X4-6080 / PTS",
+    generation_info: "Gen 5 Xtacking 4.0",
+    layer_count: 267,
+    cell_level: 4,
+    die_density: "2Tb"
+  }
 };
 
-const YMTC_PROCESS_LOOKUPS: ProcessLookup[] = [
-  { start: 1, hex: "C3482510", processNode: "(x1-9050)" },
-  { start: 1, hex: "D5588D20", processNode: "(x2-6070)" },
-  { start: 1, hex: "C4284920", processNode: "(x2-9060)" },
-  { start: 1, hex: "C5294920", processNode: "(x2-9060)" },
-  { start: 1, hex: "C4284930", processNode: "128L (x3-9060)" },
-  { start: 1, hex: "C5294930", processNode: "128L (x3-9060)" },
-  { start: 1, hex: "C5587130", processNode: "232L (x3-9070)" },
-  { start: 1, hex: "C6597130", processNode: "232L (x3-9070)" },
-  { start: 1, hex: "C55C5530", processNode: "232L (x3-6070)" }
+const YMTC_GENERATION_BY_LAYER_CODE: Record<number, string> = {
+  0: "Gen 1",
+  1: "Gen 2 Xtacking 1.0",
+  2: "Gen 3 Xtacking 2.0",
+  3: "Gen 4 Xtacking 3.0",
+  4: "Gen 5 Xtacking 4.0"
+};
+
+const YMTC_PROCESS_LOOKUPS: YmtcProcessLookup[] = [
+  {
+    start: 1,
+    hex: "C3482510",
+    processKey: "X1-9050",
+    page_size: 16384,
+    redundant_area_size: "2048B",
+    pages_per_block: "1152 pages"
+  },
+  {
+    start: 1,
+    hex: "D5588D20",
+    processKey: "X2-6070",
+    page_size: 16384,
+    redundant_area_size: "2048B",
+    pages_per_block: "3048 pages"
+  },
+  {
+    start: 1,
+    hex: "C4284920",
+    processKey: "X2-9060",
+    page_size: 16384,
+    redundant_area_size: "2048B",
+    pages_per_block: "2304 pages"
+  },
+  {
+    start: 1,
+    hex: "C5294920",
+    processKey: "X2-9060",
+    page_size: 16384,
+    redundant_area_size: "2048B",
+    pages_per_block: "2304 pages"
+  },
+  {
+    start: 1,
+    hex: "C4284930",
+    processKey: "X3-9060",
+    page_size: 16384,
+    redundant_area_size: "2048B",
+    pages_per_block: "2304 pages"
+  },
+  {
+    start: 1,
+    hex: "C5294930",
+    processKey: "X3-9060",
+    page_size: 16384,
+    redundant_area_size: "2048B",
+    pages_per_block: "2304 pages"
+  },
+  {
+    start: 1,
+    hex: "C5587130",
+    processKey: "X3-9070",
+    page_size: 16384,
+    redundant_area_size: "1984B",
+    pages_per_block: "4176 pages"
+  },
+  {
+    start: 1,
+    hex: "C6597130",
+    processKey: "X3-9070",
+    page_size: 16384,
+    redundant_area_size: "1984B",
+    pages_per_block: "4176 pages"
+  },
+  {
+    start: 1,
+    hex: "C55C5530",
+    processKey: "X3-6070",
+    page_size: 16384,
+    redundant_area_size: "2432B",
+    pages_per_block: "5544 pages"
+  }
 ];
 
 const YMTC_DENSITY_BY_BYTE2: Record<number, number> = {
@@ -308,9 +493,9 @@ const YMTC_DENSITY_BY_BYTE2: Record<number, number> = {
   0xd5: 1365 * GBIT_TO_MBIT
 };
 
-function lookupProcessNode(id: string, lookups: ProcessLookup[]): string | undefined {
+function lookupProcess<T extends { start: number; hex: string }>(id: string, lookups: T[]): T | undefined {
   const normalized = id.toUpperCase();
-  let best: ProcessLookup | undefined;
+  let best: T | undefined;
   for (const lookup of lookups) {
     const start = lookup.start * 2;
     if (normalized.slice(start, start + lookup.hex.length) === lookup.hex) {
@@ -319,7 +504,11 @@ function lookupProcessNode(id: string, lookups: ProcessLookup[]): string | undef
       }
     }
   }
-  return best?.processNode;
+  return best;
+}
+
+function lookupProcessNode(id: string, lookups: ProcessLookup[]): string | undefined {
+  return lookupProcess(id, lookups)?.processNode;
 }
 
 function lookupNumber(table: Record<number, number>, byte: number): number | undefined {
@@ -511,10 +700,6 @@ function patchKioxiaLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | n
   return changed ? next : null;
 }
 
-function joinYmtcProcess(base: string | undefined, suffix: string | undefined): string | undefined {
-  return [base, suffix].filter((value): value is string => Boolean(value)).join(" ") || undefined;
-}
-
 function patchYmtc(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
   const next = cloneIdentifierDraft(info);
   let changed = false;
@@ -527,16 +712,25 @@ function patchYmtc(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
   }
 
   const layerCode = (flashIdByteAt(id, 5) >> 4) & 0x07;
-  const baseProcessNode = lookupString(YMTC_PROCESS_BY_LAYER_CODE, layerCode);
-  const processSuffix = lookupProcessNode(id, YMTC_PROCESS_LOOKUPS);
-  const processNode = joinYmtcProcess(baseProcessNode, processSuffix);
-  if (processNode) {
-    setDraftField(next, "process_node", processNode);
+  const generationInfo = lookupString(YMTC_GENERATION_BY_LAYER_CODE, layerCode);
+  if (generationInfo) {
+    setDraftField(next, "generation_info", generationInfo);
     changed = true;
   }
 
-  if (id.toUpperCase().startsWith("9BD5588D20")) {
-    setDraftField(next, "cell_level", 4);
+  const processInfo = lookupProcess(id, YMTC_PROCESS_LOOKUPS);
+  if (processInfo) {
+    const processFields = YMTC_PROCESS_INFO_BY_KEY[processInfo.processKey];
+    setDraftField(next, "process_node", processFields.process_node);
+    setDraftField(next, "generation_info", processFields.generation_info);
+    setDraftField(next, "layer_count", processFields.layer_count);
+    setDraftField(next, "cell_level", processFields.cell_level);
+    setDraftField(next, "die_density", processFields.die_density);
+    setDraftField(next, "plane_count", processFields.plane_count);
+    setDraftField(next, "speed_grade", processFields.speed_grade);
+    setDraftField(next, "page_size", processInfo.page_size);
+    setDraftField(next, "redundant_area_size", processInfo.redundant_area_size);
+    setDraftField(next, "pages_per_block", processInfo.pages_per_block);
     changed = true;
   }
 

@@ -172,6 +172,7 @@ export interface IdentifierDecodeSpec {
 }
 
 export interface DecodePack {
+  sharedTables?: Record<string, Record<string, DecodeJson>>;
   partSpecs: PartDecodeSpec[];
   identifierSpecs: IdentifierDecodeSpec[];
 }

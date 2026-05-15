@@ -89,13 +89,19 @@
 
 在执行 `steps` 前，依次从 `rest` 开头剥离固定前缀（仅当 `rest.startsWith(prefix)` 时剥离）。
 
+### DecodePack.sharedTables
+
+DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `map` / `takeLongest` 复用。查表顺序为“共享表 + 当前 `tokenDecoder.tables`”，同名时当前规则内的本地表覆盖共享表。
+
+典型用途是把跨产品线复用的工艺、die、controller profile 抽成统一 key 表。例如 YMTC 规则使用 `ymtc.process`，先把 PN token 组合映射到 `X2-9060` 这类 process key，再 cross-reference 共享表生成 `process_node`、`generation_info`、`layer_count`、`die_density`、`cell_level`、`plane_count` 和 `speed_grade`。
+
 ### assign 表达式（DecodeExpr）
 
 `assign` 的 value 允许：
 
 - 原始 JSON（字符串/数字/布尔/null/对象/数组）
 - `{ "$var": "name" }`：从上下文读取变量
-- `{ "$tpl": "..." }`：模板字符串替换 `{{var}}`（用于 URL、拼 key 等）
+- `{ "$tpl": "..." }`：模板字符串替换 `{{var}}` 或 `{{obj.key}}`（用于 URL、拼 key 等）
 - `{ "$path": "obj.key" }` 或 `{ "$path": ["obj", "key"] }`：读取上下文对象内的嵌套字段
 
 上下文默认提供：
@@ -147,16 +153,16 @@
   - 行为：若 `rest.length < len`，则 `to=""`，且不消耗 `rest`
 - `map`: 表映射
   - 参数：`from`, `table`, `to`, `default`
-  - 行为：`tables[table][context[from]]` 存在则赋值，否则使用 `default`
+  - 行为：`tables[table][context[from]]` 存在则赋值，否则使用 `default`；`tables` 包含顶层 `sharedTables` 与当前 `tokenDecoder.tables`
 - `takeLongest`: 最长前缀匹配 + 消费
   - 参数：`table`, `to`, `default`，可选 `scope`, `scopeSeparator`
-  - 行为：对 `tables[table]` 的 key 按长度降序匹配 `rest` 开头，匹配成功会消耗相应长度并写入值；如设置 `scope`，会先按 `${scope}${scopeSeparator ?? ":"}${token}` 形式匹配 scoped key，未命中时再回退到普通 key
+  - 行为：对 `tables[table]` 的 key 按长度降序匹配 `rest` 开头，匹配成功会消耗相应长度并写入值；`tables` 同样包含顶层 `sharedTables` 与当前 `tokenDecoder.tables`；如设置 `scope`，会先按 `${scope}${scopeSeparator ?? ":"}${token}` 形式匹配 scoped key，未命中时再回退到普通 key
 - `stripIfPrefix`: 条件剥离前缀
   - 参数：`prefix`, 可选 `to`
   - 行为：若 `rest` 以 `prefix` 开头则剥离；如提供 `to` 则写入布尔值（是否剥离成功）
 - `tpl`: 生成模板字符串
   - 参数：`template`, `to`
-  - 行为：替换 `{{var}}` 为对应上下文值（缺失则为空串）
+  - 行为：替换 `{{var}}` / `{{obj.key}}` 为对应上下文值（缺失则为空串）
 - `fallback`: 兜底选择
   - 参数：`primary`, `secondary`, `to`
   - 行为：若 `primary` 未定义/为 null/为空字符串，则取 `secondary`

@@ -100,12 +100,16 @@ function readPath(context: Record<string, unknown>, path: string | string[]): un
   return current;
 }
 
+function renderTemplate(template: string, context: Record<string, unknown>): string {
+  return template.replaceAll(/\{\{([a-zA-Z0-9_.]+)\}\}/g, (_, key: string) => String(readPath(context, key) ?? ""));
+}
+
 function evaluateExpr(expr: DecodeExpr, context: Record<string, unknown>): unknown {
   if (isVarExpr(expr)) {
     return context[expr.$var];
   }
   if (isTplExpr(expr)) {
-    return expr.$tpl.replaceAll(/\{\{([a-zA-Z0-9_]+)\}\}/g, (_, key: string) => String(context[key] ?? ""));
+    return renderTemplate(expr.$tpl, context);
   }
   if (isPathExpr(expr)) {
     return readPath(context, expr.$path);
@@ -192,11 +196,27 @@ function traceStep(trace: DecodePackTraceStep[] | undefined, step: DecodePackTra
   trace?.push(step);
 }
 
-function runTokenDecoder(partNumber: string, decoder: DecodeProgram, trace?: DecodePackTraceStep[]): PartDecodeDraft {
+function resolveDecodeTables(
+  decoder: DecodeProgram,
+  sharedTables?: Record<string, Record<string, DecodeJson>>
+): Record<string, Record<string, DecodeJson>> {
+  return {
+    ...(sharedTables ?? {}),
+    ...(decoder.tables ?? {})
+  };
+}
+
+function runTokenDecoder(
+  partNumber: string,
+  decoder: DecodeProgram,
+  trace?: DecodePackTraceStep[],
+  sharedTables?: Record<string, Record<string, DecodeJson>>
+): PartDecodeDraft {
   const context: Record<string, unknown> = {
     partNumber,
     rest: partNumber
   };
+  const tables = resolveDecodeTables(decoder, sharedTables);
 
   for (const [index, prefix] of (decoder.stripPrefixes ?? []).entries()) {
     const rest = String(context.rest ?? "");
@@ -308,7 +328,7 @@ function runTokenDecoder(partNumber: string, decoder: DecodeProgram, trace?: Dec
 
     if (step.op === "tpl") {
       const rest = String(context.rest ?? "");
-      const value = step.template.replaceAll(/\{\{([a-zA-Z0-9_]+)\}\}/g, (_, key: string) => String(context[key] ?? ""));
+      const value = renderTemplate(step.template, context);
       context[step.to] = value;
       traceStep(trace, {
         op: step.op,
@@ -465,7 +485,7 @@ function runTokenDecoder(partNumber: string, decoder: DecodeProgram, trace?: Dec
 
     if (step.op === "takeLongest") {
       const rest = String(context.rest ?? "");
-      const table = decoder.tables?.[step.table] ?? {};
+      const table = tables[step.table] ?? {};
       const result = step.scope
         ? matchScopedFromStart(rest, table, context[step.scope], step.scopeSeparator)
         : matchFromStart(rest, table);
@@ -490,7 +510,7 @@ function runTokenDecoder(partNumber: string, decoder: DecodeProgram, trace?: Dec
     }
 
     const rest = String(context.rest ?? "");
-    const table = decoder.tables?.[step.table] ?? {};
+    const table = tables[step.table] ?? {};
     const source = String(context[step.from] ?? "");
     if (Object.hasOwn(table, source)) {
       context[step.to] = table[source];
@@ -538,9 +558,14 @@ function checkMatch(normalized: string, match: { kind: "prefix"; value: string }
   return new RegExp(match.value, match.flags).test(normalized);
 }
 
-function decodePartBySpec(rule: PartDecodeSpec, normalized: string, trace?: DecodePackTraceStep[]): PartDecodeDraft {
+function decodePartBySpec(
+  rule: PartDecodeSpec,
+  normalized: string,
+  trace?: DecodePackTraceStep[],
+  sharedTables?: Record<string, Record<string, DecodeJson>>
+): PartDecodeDraft {
   if (rule.tokenDecoder) {
-    return runTokenDecoder(normalized, rule.tokenDecoder, trace);
+    return runTokenDecoder(normalized, rule.tokenDecoder, trace, sharedTables);
   }
   const context = { partNumber: normalized, rest: normalized };
   const out: Record<string, unknown> = {};
@@ -567,7 +592,10 @@ function decodePartBySpec(rule: PartDecodeSpec, normalized: string, trace?: Deco
   return out as unknown as PartDecodeDraft;
 }
 
-function compilePartDecodeSpecs(rules: PartDecodeSpec[]): PartNumberDecoder[] {
+function compilePartDecodeSpecs(
+  rules: PartDecodeSpec[],
+  sharedTables?: Record<string, Record<string, DecodeJson>>
+): PartNumberDecoder[] {
   return rules.map((rule) => {
     const check = (partNumber: string): boolean => {
       const normalized = normalize(partNumber, rule.normalize);
@@ -579,7 +607,7 @@ function compilePartDecodeSpecs(rules: PartDecodeSpec[]): PartNumberDecoder[] {
       if (!check(normalized)) {
         return null;
       }
-      return decodePartBySpec(rule, normalized);
+      return decodePartBySpec(rule, normalized, undefined, sharedTables);
     };
 
     return {
@@ -707,7 +735,7 @@ function compileIdentifierDecodeSpecs(rules: IdentifierDecodeSpec[]): Identifier
 
 export function compileDecodePack(pack: DecodePack): CompileDecodePackResult {
   return {
-    partDecoders: compilePartDecodeSpecs(pack.partSpecs),
+    partDecoders: compilePartDecodeSpecs(pack.partSpecs, pack.sharedTables),
     identifierDecoders: compileIdentifierDecodeSpecs(pack.identifierSpecs)
   };
 }
@@ -779,7 +807,7 @@ function checkComponentRoles(value: unknown, path: string, specId: string, findi
 }
 
 function templateVariableNames(template: string): string[] {
-  return [...template.matchAll(/\{\{([a-zA-Z0-9_]+)\}\}/g)].map((match) => match[1]).filter((name): name is string => Boolean(name));
+  return [...template.matchAll(/\{\{([a-zA-Z0-9_.]+)\}\}/g)].map((match) => match[1]).filter((name): name is string => Boolean(name));
 }
 
 function addUndefinedVariableFinding(
@@ -851,14 +879,19 @@ function defineTokenVariable(defined: Set<string>, name: string | undefined): vo
   }
 }
 
-function checkTokenDecoderProgram(spec: PartDecodeSpec, path: string, findings: DecodePackCheckFinding[]): void {
+function checkTokenDecoderProgram(
+  spec: PartDecodeSpec,
+  path: string,
+  findings: DecodePackCheckFinding[],
+  sharedTables?: Record<string, Record<string, DecodeJson>>
+): void {
   const decoder = spec.tokenDecoder;
   if (!decoder) {
     return;
   }
 
   const defined = new Set(["partNumber", "rest"]);
-  const tables = decoder.tables ?? {};
+  const tables = resolveDecodeTables(decoder, sharedTables);
 
   decoder.steps.forEach((step, index) => {
     const stepPath = `${path}.tokenDecoder.steps[${index}]`;
@@ -995,6 +1028,7 @@ function checkOutputSurface(output: unknown, path: string, specId: string, findi
 export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
   const findings: DecodePackCheckFinding[] = [];
   const ids = new Map<string, string>();
+  const sharedTables = pack.sharedTables ?? {};
   for (const [kind, specs] of [
     ["part", pack.partSpecs],
     ["identifier", pack.identifierSpecs]
@@ -1010,7 +1044,7 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
       if (kind === "part") {
         const partSpec = spec as PartDecodeSpec;
         checkPartSetVariables(partSpec, path, findings);
-        checkTokenDecoderProgram(partSpec, path, findings);
+        checkTokenDecoderProgram(partSpec, path, findings, sharedTables);
         checkOutputSurface(partSpec.set, `${path}.set`, partSpec.id, findings);
         checkOutputSurface(partSpec.tokenDecoder?.assign, `${path}.tokenDecoder.assign`, partSpec.id, findings);
       } else {
@@ -1054,7 +1088,7 @@ export function explainPartDecode(
       specId: spec.id,
       priority: spec.priority,
       steps,
-      draft: decodePartBySpec(spec, normalized, steps)
+      draft: decodePartBySpec(spec, normalized, steps, pack.sharedTables)
     };
   }
   const normalized = candidates[0] ? normalize(input, candidates[0].normalize) : input;
