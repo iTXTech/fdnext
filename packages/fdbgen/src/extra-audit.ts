@@ -148,6 +148,10 @@ function canonicalIds(payload: PartNumberPayload): string[] {
   return payload.fid && payload.fid.length > 0 ? payload.fid : payload.id ?? [];
 }
 
+function hasCanonicalIds(payload: PartNumberPayload | undefined): boolean {
+  return payload ? canonicalIds(payload).length > 0 : false;
+}
+
 function allFlashIds(payload: PartNumberPayload): string[] {
   return [...new Set([...(payload.fid ?? []), ...(payload.id ?? []), ...(payload.f ?? [])])];
 }
@@ -174,6 +178,14 @@ function buildIdFanout(input: ExtraPayload | undefined): Map<string, Set<string>
     }
   }
   return fanout;
+}
+
+function protectedByHigherPriorityBase(candidate: ExtraPayload, baseExtra: ExtraPayload | undefined, record: PartRecord): boolean {
+  if (!baseExtra || (baseExtra.priority ?? 0) <= (candidate.priority ?? 0)) {
+    return false;
+  }
+  const base = payloadPartMap(baseExtra).get(partKey(record.vendor, record.partNumber));
+  return hasCanonicalIds(base?.payload);
 }
 
 function iddbRecord(input: ExtraPayload | undefined, flashId: string): FlashIdPayload | undefined {
@@ -251,7 +263,11 @@ function auditAgainstBaseExtra(collector: IssueCollector, candidate: ExtraPayloa
     for (const field of COMPARE_FIELDS) {
       const candidateValue = record.payload[field];
       const baseValue = base.payload[field];
+      const baseProtectsField = (baseExtra.priority ?? 0) > (candidate.priority ?? 0) && baseValue !== undefined;
       if (candidateValue !== undefined && baseValue !== undefined && stableValue(candidateValue) !== stableValue(baseValue)) {
+        if (baseProtectsField) {
+          continue;
+        }
         collector.add(
           field === "fid" || field === "id" ? "extra.base_id_conflict" : "extra.base_field_conflict",
           "warning",
@@ -270,7 +286,13 @@ function auditAgainstBaseExtra(collector: IssueCollector, candidate: ExtraPayloa
     }
     const forced = record.payload.fid;
     const existingIds = base.payload.fid ?? base.payload.id;
-    if (forced && forced.length > 0 && existingIds && stableValue(forced) !== stableValue(existingIds)) {
+    if (
+      forced &&
+      forced.length > 0 &&
+      existingIds &&
+      stableValue(forced) !== stableValue(existingIds) &&
+      (baseExtra.priority ?? 0) <= (candidate.priority ?? 0)
+    ) {
       collector.add(
         "extra.fid_overrides_base",
         "warning",
@@ -281,7 +303,12 @@ function auditAgainstBaseExtra(collector: IssueCollector, candidate: ExtraPayloa
   }
 }
 
-function auditAgainstFdb(collector: IssueCollector, candidate: ExtraPayload, fdb: ExtraPayload | undefined): void {
+function auditAgainstFdb(
+  collector: IssueCollector,
+  candidate: ExtraPayload,
+  fdb: ExtraPayload | undefined,
+  baseExtra: ExtraPayload | undefined
+): void {
   if (!fdb) {
     return;
   }
@@ -291,6 +318,9 @@ function auditAgainstFdb(collector: IssueCollector, candidate: ExtraPayload, fdb
     const fdbRecord = fdbMap.get(partKey(record.vendor, record.partNumber));
     const candidateIds = canonicalIds(record.payload);
     if (candidateIds.length === 0) {
+      continue;
+    }
+    if (protectedByHigherPriorityBase(candidate, baseExtra, record)) {
       continue;
     }
     const fdbIds = fdbRecord?.payload.id ?? [];
@@ -479,7 +509,7 @@ export function auditExtra(candidateInput: unknown, options: ExtraAuditOptions =
   const baseExtra = options.baseExtra ? normalizeExtraPayload(options.baseExtra) : undefined;
   const baseFdb = options.baseFdb ? normalizeFdbPayload(options.baseFdb) : undefined;
   auditAgainstBaseExtra(collector, candidate, baseExtra);
-  auditAgainstFdb(collector, candidate, baseFdb);
+  auditAgainstFdb(collector, candidate, baseFdb, baseExtra);
   const decodepackChecked = auditDecodepack(collector, candidate, options.decodePart);
   const issues = collector.list();
 

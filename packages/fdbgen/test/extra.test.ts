@@ -214,6 +214,57 @@ test("extra audit reports base extra, fdb, and decodepack conflicts", () => {
   assert.ok(codes.has("decodepack.topology_conflict"));
 });
 
+test("extra audit ignores ID overrides protected by higher-priority base extra", () => {
+  const result = auditExtra(
+    {
+      schemaVersion: "fdnext.fdb.extra.v1",
+      priority: 50,
+      vendors: {
+        micron: {
+          MT29F256G08CBCBB: {
+            id: ["2CA46432AA05"],
+            l: "32L(L06B)"
+          }
+        }
+      }
+    },
+    {
+      baseExtra: {
+        schemaVersion: "fdnext.fdb.extra.v1",
+        priority: 100,
+        vendors: {
+          micron: {
+            MT29F256G08CBCBB: {
+              id: ["2CA46432AA04"],
+              l: "L06B"
+            }
+          }
+        }
+      },
+      baseFdb: {
+        info: { version: "test" },
+        micron: {
+          MT29F256G08CBCBB: {
+            id: ["2CA46432AA04"]
+          }
+        },
+        iddb: {
+          "2CA46432AA04": {
+            t: ["SM3281"],
+            n: ["micron MT29F256G08CBCBB"]
+          }
+        }
+      }
+    }
+  );
+
+  const codes = new Set(result.issues.map((issue) => issue.code));
+  assert.equal(codes.has("extra.base_id_conflict"), false);
+  assert.equal(codes.has("extra.base_field_conflict"), false);
+  assert.equal(codes.has("fdb.id_override"), false);
+  assert.equal(codes.has("fdb.override_controller_support"), false);
+});
+
 test("fdbgen discovers input extra directory and keeps higher-priority extra IDs", () => {
   const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-extra-"));
   try {
