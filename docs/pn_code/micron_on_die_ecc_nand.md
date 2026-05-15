@@ -33,6 +33,7 @@ PN 结构：
 | cell token | 复用 Micron raw NAND cell token 表 |
 | class / voltage / die / interface token | 复用 Micron raw NAND token 表 |
 | package token | 复用 Micron raw NAND package token 表 |
+| optional `-...` suffix and optional `:A` / `:B` style revision | 作为 Micron NAND 尾部状态 / revision token 消费；用于匹配和 canonical PN 保留，不作为公开字段输出 |
 | `B` after `MT29F` | On-die ECC NAND 产品线标记；后续 token 继续按 `MT29F` raw NAND 编码解释 |
 
 ## 输出字段
@@ -45,6 +46,8 @@ PN 结构：
 
 - `MT29FB16T08GALAAM5-TES:B`
 - `MT29FB8T08EALAAM5-QK:E`
+- `MT29F2G08ABDHC-ET:D`
+- 去冒号输入也应匹配 mdb canonical PN，例如 `MT29FB16T08GALAAM5-TESB` -> `MT29FB16T08GALAAM5-TES:B`
 
 ## 注意
 

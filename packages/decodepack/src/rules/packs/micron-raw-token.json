@@ -544,6 +544,26 @@
           "default": "Unknown"
         },
         {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]+",
+          "to": "suffixCode",
+          "default": ""
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": ":"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]+",
+          "to": "revisionCode",
+          "default": ""
+        },
+        {
           "op": "set",
           "to": "extra",
           "value": {

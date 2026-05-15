@@ -222,7 +222,8 @@ assert.deepEqual(resultFixtureNames(), expectedResultFixtures, "result contract 
 const colonTokenFdb = buildFdb({
   info: { version: "test" },
   micron: {
-    "MT62F512M64D4EK-031FAAT:B": { id: ["2C00"] }
+    "MT62F512M64D4EK-031FAAT:B": { id: ["2C00"] },
+    "MT29FB16T08GALAAM5-TES:B": { id: ["2C01"] }
   }
 });
 assert.equal(
@@ -234,6 +235,16 @@ assert.equal(
   findPartNumberAcrossVendors(colonTokenFdb, "MT62F512M64D4EK-031FAATB")?.record.pn,
   "MT62F512M64D4EK-031FAAT:B",
   "cross-vendor FDB lookup should treat colon revision tokens as optional separators"
+);
+assert.equal(
+  getPartNumberRecord(colonTokenFdb, "micron", "MT29FB16T08GALAAM5-TESB")?.pn,
+  "MT29FB16T08GALAAM5-TES:B",
+  "FDB Micron NAND PN lookup should treat colon revision tokens as optional separators"
+);
+assert.equal(
+  findPartNumberAcrossVendors(colonTokenFdb, "MT29FB16T08GALAAM5-TESB")?.record.pn,
+  "MT29FB16T08GALAAM5-TES:B",
+  "cross-vendor FDB Micron NAND lookup should treat colon revision tokens as optional separators"
 );
 
 for (const name of expectedResultFixtures) {

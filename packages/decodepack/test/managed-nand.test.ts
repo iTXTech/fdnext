@@ -194,6 +194,12 @@ function assertSearchPnIncludes(query: string, expected: string): void {
   assert.ok(result.includes(expected), `${query} should suggest ${expected}; got ${result.join(", ")}`);
 }
 
+function assertDecodedPartNumber(query: string, expected: string): void {
+  const result = engine.decodePart({ query, lang: "eng" });
+  assert.equal(result.status, "ok", `${query} should decode`);
+  assert.equal(result.device?.partNumber, expected, `${query} should resolve to canonical PN`);
+}
+
 function assertNotFound(partNumber: string): void {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(result.status, "not_found", `${partNumber} should not be decoded by a generic catch-all rule`);
@@ -838,6 +844,30 @@ assertPart("MT29FB16T08GALAAM5-TES:B", {
     "Package Code"
   ]
 });
+
+assertPart("MT29F2G08ABDHC-ET:D", {
+  vendor: "micron",
+  type: "NAND",
+  densityMbit: 2048,
+  cellField: "SLC",
+  topology: {
+    ce: 1,
+    ch: 1,
+    rb: 1,
+    die: 1
+  },
+  voltage: "Vcc: 3.3V (2.70–3.60V), VccQ: 1.8V (1.70–1.95V)",
+  interface: {
+    async: false,
+    sync: true
+  },
+  absentExtra: ["Revision Code", "Suffix Code", "Package Code"]
+});
+
+assertDecodedPartNumber("MT29F2G08ABDHC-ETD", "MT29F2G08ABDHC-ET:D");
+assertDecodedPartNumber("MT29FB16T08GALAAM5-TESB", "MT29FB16T08GALAAM5-TES:B");
+assertSearchPnIncludes("MT29F2G08ABDHC-ETD", "Micron MT29F2G08ABDHC-ET:D");
+assertSearchPnIncludes("MT29FB16T08GALAAM5-TESB", "Micron MT29FB16T08GALAAM5-TES:B");
 
 assertPart("MT29FB8T08EALAAM5-QK:E", {
   vendor: "micron",
