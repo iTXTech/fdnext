@@ -75,6 +75,8 @@
           "5DS:CS": "66-pin TSOP-II",
           "5CB:GN": "78-ball BGA",
           "5CB:GP": "96-ball BGA",
+          "5CB:CN": "78-ball BGA",
+          "5CB:CP": "96-ball BGA",
           "5CB:EQ": "78-ball BGA",
           "5CB:ER": "96-ball BGA",
           "5CB:EH": "96-ball BGA",
@@ -82,6 +84,8 @@
           "5CB:FP": "96-ball BGA",
           "5CC:GN": "78-ball BGA",
           "5CC:GP": "96-ball BGA",
+          "5CC:CN": "78-ball BGA",
+          "5CC:CP": "96-ball BGA",
           "5CC:EQ": "78-ball BGA",
           "5CC:ER": "96-ball BGA",
           "5CC:EH": "96-ball BGA",
@@ -103,44 +107,179 @@
           "5FF:EK": "78-ball BGA",
           "5FF:EL": "102-ball BGA"
         },
+        "speedToken": {
+          "5DS:6K": "5DS:6K",
+          "5DS:5T": "5DS:5T",
+          "5TU:5A": "5TU:5A",
+          "5TU:37B": "5TU:37B",
+          "5TU:3C": "5TU:3C",
+          "5TU:25C": "5TU:25C",
+          "5TU:AC": "5TU:AC",
+          "5TU:25D": "5TU:25D",
+          "5TU:AD": "5TU:AD",
+          "5TU:BE": "5TU:BE",
+          "5TU:BD": "5TU:BD",
+          "5CB:AC": "5CB:AC",
+          "5CB:AD": "5CB:AD",
+          "5CB:BE": "5CB:BE",
+          "5CB:BF": "5CB:BF",
+          "5CB:CF": "5CB:CF",
+          "5CB:CG": "5CB:CG",
+          "5CB:DG": "5CB:DG",
+          "5CB:DH": "5CB:DH",
+          "5CB:DI": "5CB:DI",
+          "5CB:EJ": "5CB:EJ",
+          "5CB:EK": "5CB:EK",
+          "5CB:FK": "5CB:FK",
+          "5CB:FL": "5CB:FL",
+          "5CC:AC": "5CC:AC",
+          "5CC:AD": "5CC:AD",
+          "5CC:BE": "5CC:BE",
+          "5CC:BF": "5CC:BF",
+          "5CC:CF": "5CC:CF",
+          "5CC:CG": "5CC:CG",
+          "5CC:DG": "5CC:DG",
+          "5CC:DH": "5CC:DH",
+          "5CC:DI": "5CC:DI",
+          "5CC:EJ": "5CC:EJ",
+          "5CC:EK": "5CC:EK",
+          "5CC:FK": "5CC:FK",
+          "5CC:FL": "5CC:FL",
+          "5AD:HR": "5AD:HR",
+          "5AD:JR": "5AD:JR",
+          "5FF:Q5": "5FF:Q5",
+          "5FF:S8": "5FF:S8",
+          "5FF:UB": "5FF:UB",
+          "5FF:WE": "5FF:WE"
+        },
         "speedObj": {
-          "AC": {
-            "dram_speed": "DDR2-800"
+          "5DS:6K": {
+            "dram_speed": "DDR-333 2.5-3-3"
           },
-          "BE": {
-            "dram_speed": "DDR2-1066"
+          "5DS:5T": {
+            "dram_speed": "DDR-400 3-3-3"
           },
-          "5T": {
-            "dram_speed": "DDR-400"
+          "5TU:5A": {
+            "dram_speed": "DDR2-400 3-3-3"
           },
-          "6K": {
-            "dram_speed": "DDR-333"
+          "5TU:37B": {
+            "dram_speed": "DDR2-533 4-4-4"
           },
-          "DI": {
-            "dram_speed": "DDR3-1600"
+          "5TU:3C": {
+            "dram_speed": "DDR2-667 5-5-5"
           },
-          "EK": {
-            "dram_speed": "DDR3-1866"
+          "5TU:25C": {
+            "dram_speed": "DDR2-800 5-5-5"
           },
-          "FL": {
-            "dram_speed": "DDR3-2133"
+          "5TU:AC": {
+            "dram_speed": "DDR2-800 5-5-5"
           },
-          "HR": {
+          "5TU:25D": {
+            "dram_speed": "DDR2-800 6-6-6"
+          },
+          "5TU:AD": {
+            "dram_speed": "DDR2-800 6-6-6"
+          },
+          "5TU:BE": {
+            "dram_speed": "DDR2-1066 7-7-7"
+          },
+          "5TU:BD": {
+            "dram_speed": "DDR2-1066 6-6-6"
+          },
+          "5CB:AC": {
+            "dram_speed": "DDR3-800 5-5-5"
+          },
+          "5CB:AD": {
+            "dram_speed": "DDR3-800 6-6-6"
+          },
+          "5CB:BE": {
+            "dram_speed": "DDR3-1066 7-7-7"
+          },
+          "5CB:BF": {
+            "dram_speed": "DDR3-1066 8-8-8"
+          },
+          "5CB:CF": {
+            "dram_speed": "DDR3-1333 8-8-8"
+          },
+          "5CB:CG": {
+            "dram_speed": "DDR3-1333 9-9-9"
+          },
+          "5CB:DG": {
+            "dram_speed": "DDR3-1600 9-9-9"
+          },
+          "5CB:DH": {
+            "dram_speed": "DDR3-1600 10-10-10"
+          },
+          "5CB:DI": {
+            "dram_speed": "DDR3-1600 11-11-11"
+          },
+          "5CB:EJ": {
+            "dram_speed": "DDR3-1866 12-12-12"
+          },
+          "5CB:EK": {
+            "dram_speed": "DDR3-1866 13-13-13"
+          },
+          "5CB:FK": {
+            "dram_speed": "DDR3-2133 13-13-13"
+          },
+          "5CB:FL": {
+            "dram_speed": "DDR3-2133 14-14-14"
+          },
+          "5CC:AC": {
+            "dram_speed": "DDR3-800 5-5-5"
+          },
+          "5CC:AD": {
+            "dram_speed": "DDR3-800 6-6-6"
+          },
+          "5CC:BE": {
+            "dram_speed": "DDR3-1066 7-7-7"
+          },
+          "5CC:BF": {
+            "dram_speed": "DDR3-1066 8-8-8"
+          },
+          "5CC:CF": {
+            "dram_speed": "DDR3-1333 8-8-8"
+          },
+          "5CC:CG": {
+            "dram_speed": "DDR3-1333 9-9-9"
+          },
+          "5CC:DG": {
+            "dram_speed": "DDR3-1600 9-9-9"
+          },
+          "5CC:DH": {
+            "dram_speed": "DDR3-1600 10-10-10"
+          },
+          "5CC:DI": {
+            "dram_speed": "DDR3-1600 11-11-11"
+          },
+          "5CC:EJ": {
+            "dram_speed": "DDR3-1866 12-12-12"
+          },
+          "5CC:EK": {
+            "dram_speed": "DDR3-1866 13-13-13"
+          },
+          "5CC:FK": {
+            "dram_speed": "DDR3-2133 13-13-13"
+          },
+          "5CC:FL": {
+            "dram_speed": "DDR3-2133 14-14-14"
+          },
+          "5AD:HR": {
             "dram_speed": "DDR4-2666"
           },
-          "JR": {
+          "5AD:JR": {
             "dram_speed": "DDR4-3200"
           },
-          "Q5": {
+          "5FF:Q5": {
             "dram_speed": "DDR5-5600"
           },
-          "S8": {
+          "5FF:S8": {
             "dram_speed": "DDR5-6400"
           },
-          "UB": {
+          "5FF:UB": {
             "dram_speed": "DDR5-7200"
           },
-          "WE": {
+          "5FF:WE": {
             "dram_speed": "DDR5-8000"
           }
         },
@@ -245,8 +384,9 @@
           "to": "hasSuffix"
         },
         {
-          "op": "take",
-          "len": 2,
+          "op": "takeLongest",
+          "table": "speedToken",
+          "scope": "familyCode",
           "to": "speedCode"
         },
         {

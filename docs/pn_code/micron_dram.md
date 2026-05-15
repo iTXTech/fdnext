@@ -42,6 +42,7 @@
   - <https://pdf.elecfans.com/MICRON/MT41K2G8KJR-125%3AA%20TR.html>
 - 公开镜像 `DRAM Component Part Numbering System` 可核对字段顺序、family/voltage/device version/temperature/status/revision/speed 等 token 含义；镜像版本较旧，只用于字段结构交叉验证。
   <https://docslib.org/doc/10329358/dram-component-part-numbering-system>
+- 用户提供的 `常见几种DDR3_DDR3L的命名规则.pdf` 中 Micron `DRAM Component Part Numbering System` 页面确认 DDR3 speed token `15E/125/125E/107/093` 对应 1333/1600/1600/1866/2133 与 CL9/11/10/13/14；规则使用 family-scoped `41:*` speed，避免 `093` 落到 LPDDR4 通用含义。
 - 公开评测记录了 Crucial/Ballistix 颗粒 `C9BJZ` / `CT40A1G8SA-62M:E` 的实物和 Micron FBGA decoder 结果；该资料只用于确认 `CT40` namespace 形态，不作为完整 PN 白名单。
   <https://aphnetworks.com/reviews/ballistix-elite-pc4-28800-4x8gb/2>
 - Micron 官方 `Legacy LPDRAM Part Numbering System / Legacy DDR4, DDR3/L, & DDR2 SDRAM Part Numbering System` PDF 记录了 Micron 收购 Elpida 后的 legacy Elpida PN 命名；Micron FBGA code 反查可能返回 `EDB/EDF...` Elpida LPDRAM PN，也可能返回 `ED/EE + 40/41/47/...` 这类 legacy PN。
@@ -109,6 +110,7 @@
 - `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`die_count`、`dram_speed`、`operation_temperature`、`die_revision`、`special_option`。
 - `device version` 先按 family scope 匹配，避免 `DA/DE/LF` 等 token 与 package code 冲突；`D1/D2/D3/D4/D6/D8/DA/DB/DC/DD/DE/LF/L2/L4` 只标准化为 `die_count`，例如 `D4` 输出 `die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`，`DD/DE` 保留官方 LPDDR4 mixed die stack 描述；没有 CS 资料时不输出 `dram_die_stack`。
 - `speed` token 同样优先按 family scope 匹配：DDR5 `32B/36B/40B/44B`、DDR3 `125E`、DDR2 `3`、DDR `6T`、SDR `7E`、GDDR5 `50/60/70`、GDDR5X `110/120/140`、GDDR6 `10/15` 与 GDDR6X `19/20/22/23` 来自官方 2023 PNS；`18` 同时出现在 GDDR6/GDDR6X 表中，当前不在 decodepack 中强行判定。
+- DDR3 `41:*` speed 额外保留 `15E/125/125E/107/093` 的 CL 时序：`DDR3-1333 CL9`、`DDR3-1600 CL11/CL10`、`DDR3-1866 CL13`、`DDR3-2133 CL14`。
 - 441-ball x64 Automotive LPDDR5 (`family=62`, `package=EK`) 的 `-031` 按 6400 Mb/s 输出 `LPDDR5-6400`；该分支的温度 token 使用图中范围：`IT=-40°C~95°C`、`AT=-40°C~105°C`、`UT=-40°C~125°C`，前置 `F` 输出 `special_option=Functional safety features`。
 - `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / die stack，只减少 `dram_speed` / `die_revision` 等后缀信息。
 - Micron revision token 可带冒号分隔，例如 `FAAT:B`；core PN 查询、FDB lookup 和 `dram-pn.json` 补全按冒号等价匹配，同时保留带冒号的官方 PN 展示。

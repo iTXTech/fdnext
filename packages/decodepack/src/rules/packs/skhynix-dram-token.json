@@ -95,11 +95,17 @@
           "TC:H9": {
             "dram_speed": "DDR3L-1333 9-9-9"
           },
+          "TC:G7": {
+            "dram_speed": "DDR3L-1066 7-7-7"
+          },
           "TC:PB": {
             "dram_speed": "DDR3L-1600 11-11-11"
           },
           "TC:RD": {
             "dram_speed": "DDR3L-1866 13-13-13"
+          },
+          "TC:TE": {
+            "dram_speed": "DDR3L-2133 14-14-14"
           },
           "AN:PB": {
             "dram_speed": "DDR4-1600 11-11-11"
@@ -136,8 +142,19 @@
           "J": {
             "operation_temperature": "Industrial"
           },
+          "K": {
+            "operation_temperature": "Automotive"
+          },
           "L": {
             "operation_temperature": "Commercial low-power IDD6"
+          }
+        },
+        "solderObj": {
+          "P": {
+            "solder_type": "Lead Free (RoHS compliant)"
+          },
+          "R": {
+            "solder_type": "Lead Free and Halogen Free (RoHS compliant)"
           }
         },
         "ddpStackObj": {
@@ -239,6 +256,13 @@
           "to": "dieRevision"
         },
         {
+          "op": "map",
+          "from": "revisionCode",
+          "table": "solderObj",
+          "to": "solderObj",
+          "default": {}
+        },
+        {
           "op": "tpl",
           "template": "{{familyCode}}:{{densityCode}}:{{widthCode}}:{{configTail}}:{{dieRevision}}",
           "to": "ddpStackKey"
@@ -319,6 +343,11 @@
           "op": "merge",
           "into": "extra",
           "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "solderObj"
         }
       ],
       "assign": {

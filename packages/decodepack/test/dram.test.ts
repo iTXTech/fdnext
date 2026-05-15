@@ -1142,7 +1142,7 @@ assertDram("MT41K512M8DA-107:P", {
     "DRAM Type": "DDR3",
     "Package Code": "DA",
     "Config Code": "512M8",
-    "DRAM Speed": "933MHz (DDR-1866)",
+    "DRAM Speed": "DDR3-1866 CL13",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev P"
   },
@@ -1176,7 +1176,7 @@ assertDram("MT41K1G4DA-107:P", {
     "DRAM Type": "DDR3",
     "Package Code": "DA",
     "Config Code": "1G4",
-    "DRAM Speed": "933MHz (DDR-1866)",
+    "DRAM Speed": "DDR3-1866 CL13",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev P"
   },
@@ -1194,7 +1194,7 @@ assertDram("MT41J1G4THD-15E:D", {
     "DRAM Die Stack": "2 dies, 2 CS",
     "Package Code": "THD",
     "Config Code": "1G4",
-    "DRAM Speed": "667MHz (DDR-1333)",
+    "DRAM Speed": "DDR3-1333 CL9",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev D"
   }
@@ -1211,7 +1211,7 @@ assertDram("MT41J1G8TRF-107:E", {
     "DRAM Die Stack": "2 dies, 2 CS",
     "Package Code": "TRF",
     "Config Code": "1G8",
-    "DRAM Speed": "933MHz (DDR-1866)",
+    "DRAM Speed": "DDR3-1866 CL13",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev E"
   }
@@ -1228,7 +1228,7 @@ assertDram("MT41K512M8THV-125:M", {
     "DRAM Die Stack": "2 dies, 2 CS",
     "Package Code": "THV",
     "Config Code": "512M8",
-    "DRAM Speed": "800MHz (DDR-1600)",
+    "DRAM Speed": "DDR3-1600 CL11",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev M"
   }
@@ -1245,7 +1245,7 @@ assertDram("MT41K2G4RKB-107:P", {
     "DRAM Die Stack": "2 dies, 2 CS",
     "Package Code": "RKB",
     "Config Code": "2G4",
-    "DRAM Speed": "933MHz (DDR-1866)",
+    "DRAM Speed": "DDR3-1866 CL13",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev P"
   }
@@ -1262,7 +1262,7 @@ assertDram("MT41K512M16TNA-125:E", {
     "DRAM Die Stack": "2 dies, 2 CS",
     "Package Code": "TNA",
     "Config Code": "512M16",
-    "DRAM Speed": "800MHz (DDR-1600)",
+    "DRAM Speed": "DDR3-1600 CL11",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev E"
   }
@@ -1279,7 +1279,7 @@ assertDram("MT41K4G4KJR-125:A", {
     "DRAM Die Stack": "2 dies, 2 CS",
     "Package Code": "KJR",
     "Config Code": "4G4",
-    "DRAM Speed": "800MHz (DDR-1600)",
+    "DRAM Speed": "DDR3-1600 CL11",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev A"
   }
@@ -1296,11 +1296,12 @@ assertDram("MT41K1G16DGA-125:A", {
     "DRAM Die Stack": "2 dies, 2 CS",
     "Package Code": "DGA",
     "Config Code": "1G16",
-    "DRAM Speed": "800MHz (DDR-1600)",
+    "DRAM Speed": "DDR3-1600 CL11",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev A"
   }
 });
+assertDecodedField("MT41J128M16JT-093", "dram_speed", "DDR3-2133 CL14");
 
 assertDram("MT41K2G4TRF", {
   densityMbit: 8192,
@@ -1777,6 +1778,41 @@ assertDram("H5TC4G83CFR-PBA", {
     "DRAM Speed": "DDR3L-1600 11-11-11",
     "Operation Temperature": "Commercial",
     "Die Revision": "CFR"
+  }
+});
+
+assertDram("H5TC4G83CFR-TEA", {
+  vendor: "skhynix",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Package Code": "F",
+    "Config Code": "4G83",
+    "DRAM Speed": "DDR3L-2133 14-14-14",
+    "Operation Temperature": "Commercial",
+    "Solder Type": "Lead Free and Halogen Free (RoHS compliant)",
+    "Die Revision": "CFR"
+  }
+});
+
+assertDram("H5TQ2G63BFK-H9K", {
+  vendor: "skhynix",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Package Code": "F",
+    "Config Code": "2G63",
+    "DRAM Speed": "DDR3-1333 9-9-9",
+    "Operation Temperature": "Automotive",
+    "Die Revision": "BFK"
   }
 });
 
@@ -2465,6 +2501,43 @@ assertDram("K4B4G1646D-BYMA", {
   }
 });
 
+assertDram("K4BAG0846B-HCK0", {
+  vendor: "samsung",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "H",
+    "Config Code": "AG08",
+    "DRAM Speed": "DDR3-1600 11-11-11",
+    "Operation Temperature": "Commercial (0C~85C), normal power",
+    "Die Revision": "B-die"
+  }
+});
+
+assertDram("K4B2G1646B-HKK0", {
+  vendor: "samsung",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "H",
+    "Config Code": "2G16",
+    "DRAM Speed": "DDR3-1600 11-11-11",
+    "Operation Temperature": "Commercial (0C~85C), low VDD",
+    "Special Option": "Reduced Standby",
+    "Die Revision": "B-die"
+  }
+});
+
 assertDram("K4RAH086VB-BCQK", {
   vendor: "samsung",
   densityMbit: 16384,
@@ -3023,7 +3096,7 @@ assertDram("NT5DS32M16CS-5T", {
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "CS",
     "Config Code": "32M16",
-    "DRAM Speed": "DDR-400"
+    "DRAM Speed": "DDR-400 3-3-3"
   }
 });
 
@@ -3039,7 +3112,7 @@ assertDram("NT5TU32M16FG-ACI", {
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "FG",
     "Config Code": "32M16",
-    "DRAM Speed": "DDR2-800",
+    "DRAM Speed": "DDR2-800 5-5-5",
     "Operation Temperature": "Industrial (-40C~95C)"
   }
 });
@@ -3056,7 +3129,7 @@ assertDram("NT5CB128M16JR-DI", {
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "JR",
     "Config Code": "128M16",
-    "DRAM Speed": "DDR3-1600"
+    "DRAM Speed": "DDR3-1600 11-11-11"
   }
 });
 
@@ -3072,7 +3145,41 @@ assertDram("NT5CC128M16JR-DI", {
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "JR",
     "Config Code": "128M16",
-    "DRAM Speed": "DDR3-1600"
+    "DRAM Speed": "DDR3-1600 11-11-11"
+  }
+});
+
+assertDram("NT5CB512M8CN-AC", {
+  vendor: "nanya",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "78-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "CN",
+    "Config Code": "512M8",
+    "DRAM Speed": "DDR3-800 5-5-5",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("NT5CC256M16CP-FL", {
+  vendor: "nanya",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "CP",
+    "Config Code": "256M16",
+    "DRAM Speed": "DDR3-2133 14-14-14",
+    "Operation Temperature": "Commercial (0C~95C)"
   }
 });
 

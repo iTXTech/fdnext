@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^K4B(?:51|1G|2G|4G|8G)(?:04|08|16|33)[0-9A-Z]{3}-[HBMEO][CYIM](?:F7|F8|H9|K0|MA|NB)$"
+      "value": "^K4B(?:51|1G|2G|4G|8G|AG)(?:04|08|16|33)[0-9A-Z]{3}-[HBMEO][CYIMK](?:F7|F8|H9|K0|MA|NB)$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -29,7 +29,8 @@
           "1G": 1024,
           "2G": 2048,
           "4G": 4096,
-          "8G": 8192
+          "8G": 8192,
+          "AG": 16384
         },
         "packageActual": {
           "B:04:B": "78-ball FBGA",
@@ -68,13 +69,18 @@
           },
           "M": {
             "operation_temperature": "Industrial (-40C~95C), low VDD"
+          },
+          "K": {
+            "operation_temperature": "Commercial (0C~85C), low VDD",
+            "special_option": "Reduced Standby"
           }
         },
         "voltage": {
           "C": "1.5V VDD",
           "Y": "1.35V VDD",
           "I": "1.5V VDD",
-          "M": "1.35V VDD"
+          "M": "1.35V VDD",
+          "K": "1.35V VDD"
         },
         "speedObj": {
           "F7": {

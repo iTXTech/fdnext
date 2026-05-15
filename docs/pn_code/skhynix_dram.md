@@ -8,6 +8,7 @@
 
 - `H5TQ4G63AFR-*xxC` / `H5TQ4G83AFR-*xxC` datasheet ordering table: 4Gb DDR3 SDRAM，`4G43` = 1G x4 / 78ball FBGA，`4G83` = 512M x8 / 78ball FBGA，`4G63` = 256M x16 / 96ball FBGA；speed bin `G7/H9/PB/RD/TE` 对应 DDR3-1066/1333/1600/1866/2133。来源：https://www.alldatasheet.com/html-pdf/533438/HYNIX/H5TQ4G63AFR-PBC/650/4/H5TQ4G63AFR-PBC.html
 - `H5TC4G83CFR-*xxA` / `H5TC4G63CFR-*xxA` datasheet ordering table: 4Gb DDR3L SDRAM，`4G83` = 512M x8 / 78ball FBGA，`4G63` = 256M x16 / 96ball FBGA；suffix `A/I/L/J` 区分 commercial / industrial 与 low-power IDD6 选项；speed bin `H9/PB/RD` 对应 DDR3L-1333/1600/1866。来源：https://www.alldatasheet.com/html-pdf/1568384/HYNIX/H5TC4G83CFR-XXA/749/4/H5TC4G83CFR-XXA.html
+- 用户提供的 `常见几种DDR3_DDR3L的命名规则.pdf` 中 SK hynix Consumer `'H'` Partnumber 页面补充确认 DDR3/DDR3L power-supply token `Q/C`、temperature token `K` = Automotive normal power、package material token `P/R`，以及同一 speed table 下 `G7/H9/PB/RD/TE` 的 DDR3 时序。
 - `H5TC8G43AMR-*xxA` / `H5TC8G83AMR-*xxA` / `H5TC8G63AMR-*xxA` datasheet 明确 8Gb DDR3L SDRAM 为 Dual Die Package；ordering table 确认 `8G43` = 2G x4 / 78ball、`8G83` = 1G x8 / 78ball、`8G63` = 512M x16 / 96ball，x16 ballout 也列出 CS0/CS1、ODT0/ODT1、CKE0/CKE1。来源：https://www.alldatasheet.com/html-pdf/533427/HYNIX/H5TC8G63AMR-PBA/158/1/H5TC8G63AMR-PBA.html、https://www.alldatasheet.com/html-pdf/533427/HYNIX/H5TC8G63AMR-PBA/650/4/H5TC8G63AMR-PBA.html 和 https://www.alldatasheet.com/html-pdf/533427/HYNIX/H5TC8G63AMR-PBA/1142/7/H5TC8G63AMR-PBA.html
 - `H5AN8G8NAFR-xxC` datasheet: 8Gb DDR4 SDRAM，VDD/VDDQ 1.2V，x4/x8 为 78ball FBGA、x16 为 96ball FBGA；`-UH` speed bin 对应 DDR4-2400T 17-17-17，datasheet 修订记录也确认 `VK` 为 2666Mbps CL19。来源：https://www.alldatasheet.com/datasheet-pdf/pdf/1424933/HYNIX/H5AN8G8NAFR-UHC.html 和 https://www.alldatasheet.com/html-pdf/1424927/HYNIX/H5AN8G4NAFR-TFC/7742/41/H5AN8G4NAFR-TFC.html
 - `H5AN8G8NCJR-VKC` 公开分销资料确认 8Gbit DDR4、1.14V~1.26V、FBGA-78。来源：https://www.lcsc.com/product-detail/ddr-sdram_hynix-h5an8g8ncjr-vkc_C2927804.html
@@ -47,6 +48,7 @@ H5 + family + density + width + config + die/package/revision + -speed + temp
 | `4/8/6` | width | x4 / x8 / x16 |
 | `F/J/...` | 内部 package token | 只用于内部解析；`fields.package` 只根据位宽输出 78ball 或 96ball FBGA |
 | `AFR/CFR/CJR/...` | `die_revision` | SK hynix 常见 die/revision 三字符标记，直接保留为厂商 token |
+| `P/R` | `solder_type` | 只从 die/package/revision 三字符标记末位输出 RoHS / Halogen-free 语义，不作为 package code 展示 |
 
 已确认多 die / CS 组合：
 
