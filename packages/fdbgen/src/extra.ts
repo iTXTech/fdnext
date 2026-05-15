@@ -24,7 +24,7 @@ export interface PayloadValidationResult {
   warnings: PayloadValidationIssue[];
 }
 
-const EXTRA_ROOT_KEYS = new Set(["schemaVersion", "info", "controllerBlacklist", "vendors", "iddb"]);
+const EXTRA_ROOT_KEYS = new Set(["schemaVersion", "priority", "info", "controllerBlacklist", "vendors", "iddb"]);
 const PART_FIELDS = new Set(["id", "fid", "f", "a", "l", "c", "t", "m", "d", "e", "r", "n"]);
 const FDB_PART_FIELDS = new Set([...PART_FIELDS].filter((field) => field !== "fid"));
 const FLASH_FIELDS = new Set(["s", "p", "b", "t", "n"]);
@@ -259,6 +259,9 @@ export function normalizeExtraPayload(input: unknown): ExtraPayload {
   const out: ExtraPayload = {};
   if (source.schemaVersion === FDNEXT_FDB_EXTRA_SCHEMA_VERSION) {
     out.schemaVersion = FDNEXT_FDB_EXTRA_SCHEMA_VERSION;
+  }
+  if (typeof source.priority === "number" && Number.isFinite(source.priority)) {
+    out.priority = source.priority;
   }
   const info = normalizeInfoPayload(source.info);
   const controllerBlacklist = normalizeStringArray(source.controllerBlacklist).map((item) => normalizeFdbControllerName(item));
@@ -518,6 +521,9 @@ export function validateExtraPayload(input: unknown): PayloadValidationResult {
   }
   if (source.info !== undefined) {
     validateExtraInfoPayload(issues, source.info, "/info");
+  }
+  if (source.priority !== undefined && (typeof source.priority !== "number" || !Number.isFinite(source.priority))) {
+    addIssue(issues, "error", "priority.invalid", "/priority", "extra priority must be a finite number.");
   }
   if (source.controllerBlacklist !== undefined) {
     validateStringArrayField(issues, source.controllerBlacklist, "/controllerBlacklist");

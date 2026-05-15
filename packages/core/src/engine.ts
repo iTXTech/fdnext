@@ -20,6 +20,7 @@ import {
   classifyPart,
   type PartClassificationCandidate
 } from "./part-index";
+import { normalizeVendor } from "./fdb-lookup";
 import {
   buildCapabilities,
   buildPartCandidate,
@@ -821,6 +822,26 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return nodes.size > 0 ? [...nodes].join(" / ") : undefined;
   };
 
+  const samsungSpecialOptionFromFdbMetadata = (vendor: string | undefined, record: PartNumberRecord, chipKind: string | undefined): string | undefined => {
+    if (normalizeVendor(vendor ?? "") !== "samsung" || chipKind !== "raw_nand") {
+      return undefined;
+    }
+    const metadata = record.m?.trim();
+    if (!metadata) {
+      return undefined;
+    }
+    const upper = metadata.toUpperCase();
+    return /(?:^|[^A-Z0-9])CER(?:[^A-Z0-9]|$)|CERCE\d|CER_(?:SLC|MLC|TLC|QLC)/.test(upper) ? "CER" : undefined;
+  };
+
+  const mergeSpecialOption = (current: unknown, option: string): string => {
+    const text = typeof current === "string" ? current.trim() : "";
+    if (!text) {
+      return option;
+    }
+    return text.split(/\s*;\s*/).includes(option) ? text : `${text}; ${option}`;
+  };
+
   const matchingFdbRecords = (partNumbers: string[]): Array<{ vendor: string; record: PartNumberRecord }> => {
     const result: Array<{ vendor: string; record: PartNumberRecord }> = [];
     const seen = new Set<string>();
@@ -873,6 +894,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       }
     }
     const record = byVendor ?? byAny?.record;
+    const recordVendor = byVendor ? draftVendor(info) : byAny?.vendor;
 
     if (!record) {
       return info;
@@ -923,6 +945,11 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
     if (record.n != null && record.n !== -1) {
       setDraftField(info, "channel_count", record.n);
+    }
+
+    const specialOption = samsungSpecialOptionFromFdbMetadata(recordVendor, record, info.device.chipKind);
+    if (specialOption) {
+      setDraftField(info, "special_option", mergeSpecialOption(draftField(info, "special_option"), specialOption));
     }
 
     return info;

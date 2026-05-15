@@ -200,7 +200,7 @@ function auditRawPartQuality(collector: IssueCollector, raw: unknown): void {
     }
   }
   for (const [vendor, records] of Object.entries(source)) {
-    if (vendor === "schemaVersion" || vendor === "info" || vendor === "iddb" || vendor === "vendors" || vendor === "controllerBlacklist") {
+    if (vendor === "schemaVersion" || vendor === "priority" || vendor === "info" || vendor === "iddb" || vendor === "vendors" || vendor === "controllerBlacklist") {
       continue;
     }
     const bucket = asRecord(records);

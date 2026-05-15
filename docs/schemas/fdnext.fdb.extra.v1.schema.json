@@ -7,6 +7,9 @@
     "schemaVersion": {
       "const": "fdnext.fdb.extra.v1"
     },
+    "priority": {
+      "type": "number"
+    },
     "info": {
       "type": "object",
       "additionalProperties": false,

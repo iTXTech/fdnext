@@ -12,6 +12,7 @@ interface CliOptions {
   outputFile?: string;
   metaFile?: string;
   extraFile?: string;
+  extraFiles?: string[];
   version?: string;
   name?: string;
   website?: string;
@@ -51,7 +52,7 @@ function usage(): string {
     "  --input <dir>       Input dataset directory",
     "  --output <file>     Output fdb.json path",
     "  --meta <file>       Optional metadata JSON path",
-    "  --extra <file>      Optional extra merge JSON path",
+    "  --extra <file>      Optional extra merge JSON path; repeatable. Defaults to input/extra/*.json",
     "  --version <ver>     Required info.version",
     "  --name <name>       Override info.name",
     "  --website <url>     Override info.website",
@@ -133,7 +134,8 @@ function parseBuildOptions(args: string[]): CliOptions {
       continue;
     }
     if (arg === "--extra") {
-      options.extraFile = requireValue(args, i, arg);
+      const extraFile = requireValue(args, i, arg);
+      options.extraFiles = [...(options.extraFiles ?? []), extraFile];
       i += 1;
       continue;
     }
@@ -378,7 +380,7 @@ function runBuild(args: string[]): void {
     inputDir: resolve(opts.inputDir),
     outputFile: resolve(opts.outputFile),
     metaFile: opts.metaFile ? resolve(opts.metaFile) : undefined,
-    extraFile: opts.extraFile ? resolve(opts.extraFile) : undefined,
+    extraFiles: opts.extraFiles?.map((file) => resolve(file)),
     version: opts.version,
     name: opts.name,
     website: opts.website,

@@ -1,6 +1,7 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, extname, resolve } from "node:path";
 import { CONTROLLER_GENERATORS, type ControllerMergeContext } from "./controllers";
+import { normalizeExtraPayload } from "./extra";
 import { isLowConfidenceFlashPayload } from "./flash-payload";
 import {
   normalizeFdbControllerName,
@@ -20,6 +21,11 @@ import { inferVendorFromPartNumber, normalizeKnownPackage, normalizeVendor } fro
 type PartNumberMap = Map<string, PartNumberPayload>;
 type VendorMap = Map<string, PartNumberMap>;
 type FlashIdMap = Map<string, FlashIdPayload>;
+
+interface LoadedExtraPayload {
+  payload: ExtraPayload;
+  source: FdbProvenanceSource;
+}
 
 const DEFAULT_CONTROLLER_BLACKLIST = ["3281FL", "3379FL"];
 
@@ -169,6 +175,68 @@ function mergePartNumber(target: PartNumberPayload | undefined, source: unknown)
   if (e !== undefined) out.e = e;
   if (r !== undefined) out.r = r;
   if (n !== undefined) out.n = n;
+
+  return out;
+}
+
+function hasPartIdentity(payload: PartNumberPayload | undefined): boolean {
+  return Boolean(payload && ((payload.id?.length ?? 0) > 0 || (payload.fid?.length ?? 0) > 0));
+}
+
+function mainPartIdentityIds(payload: PartNumberPayload): string[] {
+  return mergeStringArray(toFlashIdArray(payload.fid), toFlashIdArray(payload.id), true);
+}
+
+function mergeStackedExtraPartNumber(target: PartNumberPayload | undefined, source: PartNumberPayload): PartNumberPayload {
+  const out: PartNumberPayload = { ...(target ?? {}) };
+  const preserveExistingIdentity = hasPartIdentity(out);
+  const sourceForcedIds = toFlashIdArray(source.fid);
+  const sourceIds = toFlashIdArray(source.id);
+
+  if (!preserveExistingIdentity) {
+    if (sourceIds.length > 0) {
+      out.fid = sourceIds;
+      delete out.id;
+    }
+    if (sourceForcedIds.length > 0) {
+      out.fid = sourceForcedIds;
+      delete out.id;
+    }
+  } else if (sourceForcedIds.length > 0) {
+    const existingMainIds = mainPartIdentityIds(out);
+    if (existingMainIds.length > 0) {
+      out.fid = existingMainIds;
+      delete out.id;
+    }
+  }
+
+  const linkedIds = toFlashIdArray(source.f);
+  if (linkedIds.length > 0) {
+    out.f = mergeStringArray(out.f, linkedIds, true);
+  }
+
+  const alternatePartNumbers = toPartReferenceArray(source.a);
+  if (alternatePartNumbers.length > 0) {
+    out.a = mergeStringArray(out.a, alternatePartNumbers, false);
+  }
+
+  const controllers = toStringArray(source.t, false);
+  if (controllers.length > 0) {
+    out.t = mergeStringArray(out.t, controllers, false);
+  }
+
+  for (const field of ["l", "c", "m"] as const) {
+    if (out[field] === undefined && typeof source[field] === "string") {
+      out[field] = source[field];
+    }
+  }
+
+  for (const field of ["d", "e", "r", "n"] as const) {
+    const value = toOptionalNumber(source[field]);
+    if (out[field] === undefined && value !== undefined) {
+      out[field] = value;
+    }
+  }
 
   return out;
 }
@@ -663,12 +731,126 @@ function loadMeta(inputDir: string, metaFile?: string): FdbInfoPayload {
   return raw as FdbInfoPayload;
 }
 
-function loadExtra(inputDir: string, extraFile?: string): ExtraPayload {
-  const extraPath = extraFile ? resolve(extraFile) : resolve(inputDir, "extra.json");
-  if (!existsSync(extraPath)) {
-    return {};
+function uniqueResolvedFiles(files: string[]): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const file of files) {
+    const resolved = resolve(file);
+    if (!seen.has(resolved)) {
+      seen.add(resolved);
+      out.push(resolved);
+    }
   }
-  return asRecord(readJson(extraPath)) as ExtraPayload;
+  return out;
+}
+
+function discoverExtraFiles(inputDir: string, extraFile?: string, extraFiles?: string[]): string[] {
+  const explicit = uniqueResolvedFiles([...(extraFile ? [extraFile] : []), ...(extraFiles ?? [])]);
+  if (explicit.length > 0) {
+    return explicit;
+  }
+
+  const extraDir = resolve(inputDir, "extra");
+  if (existsSync(extraDir)) {
+    return readJsonFiles(extraDir);
+  }
+
+  const legacyExtra = resolve(inputDir, "extra.json");
+  return existsSync(legacyExtra) ? [legacyExtra] : [];
+}
+
+function loadExtras(inputDir: string, extraFile?: string, extraFiles?: string[]): LoadedExtraPayload[] {
+  return discoverExtraFiles(inputDir, extraFile, extraFiles)
+    .map((file) => ({
+      payload: normalizeExtraPayload(readJson(file)),
+      source: { file, filename: basename(file) }
+    }))
+    .sort((left, right) => {
+      const byPriority = (right.payload.priority ?? 0) - (left.payload.priority ?? 0);
+      return byPriority || (left.source.filename ?? "").localeCompare(right.source.filename ?? "");
+    });
+}
+
+function mergeExtraInfo(target: FdbInfoPayload | undefined, source: FdbInfoPayload | undefined): FdbInfoPayload | undefined {
+  if (!source) {
+    return target;
+  }
+  const out: FdbInfoPayload = { ...(target ?? {}) };
+  if (source.name) {
+    out.name = source.name;
+  }
+  if (source.website) {
+    out.website = source.website;
+  }
+  out.controllers = mergeStringArray(toStringArray(out.controllers, false), toStringArray(source.controllers, false), false);
+  if (out.controllers.length === 0) {
+    delete out.controllers;
+  }
+  return Object.keys(out).length > 0 ? out : undefined;
+}
+
+function mergeExtraPayload(target: ExtraPayload, source: ExtraPayload): void {
+  target.info = mergeExtraInfo(target.info, source.info);
+  target.controllerBlacklist = mergeStringArray(target.controllerBlacklist, toStringArray(source.controllerBlacklist, false), false);
+  if (target.controllerBlacklist.length === 0) {
+    delete target.controllerBlacklist;
+  }
+
+  if (source.vendors) {
+    const vendors = target.vendors ?? {};
+    for (const [vendor, records] of Object.entries(source.vendors)) {
+      const normalizedVendor = normalizeVendor(vendor);
+      const targetRecords = vendors[normalizedVendor] ?? {};
+      for (const [partNumber, payload] of Object.entries(records)) {
+        const normalizedPartNumber = normalizeFdbPartNumber(partNumber);
+        if (!normalizedPartNumber) {
+          continue;
+        }
+        targetRecords[normalizedPartNumber] = mergeStackedExtraPartNumber(targetRecords[normalizedPartNumber], payload);
+      }
+      vendors[normalizedVendor] = targetRecords;
+    }
+    target.vendors = vendors;
+  }
+
+  if (source.iddb) {
+    const iddb = target.iddb ?? {};
+    for (const [flashId, payload] of Object.entries(source.iddb)) {
+      const normalizedFlashId = normalizeFdbFlashId(flashId);
+      if (!normalizedFlashId) {
+        continue;
+      }
+      iddb[normalizedFlashId] = mergeFlashId(iddb[normalizedFlashId], payload);
+    }
+    target.iddb = iddb;
+  }
+}
+
+function combineExtras(extras: LoadedExtraPayload[]): ExtraPayload {
+  const combined: ExtraPayload = {};
+  for (const extra of extras) {
+    if (extra.payload.schemaVersion) {
+      combined.schemaVersion = extra.payload.schemaVersion;
+    }
+    if (extra.payload.priority !== undefined && combined.priority === undefined) {
+      combined.priority = extra.payload.priority;
+    }
+    mergeExtraPayload(combined, extra.payload);
+  }
+  return combined;
+}
+
+function sourceForCombinedExtras(inputDir: string, extras: LoadedExtraPayload[]): FdbProvenanceSource | undefined {
+  if (extras.length === 0) {
+    return undefined;
+  }
+  if (extras.length === 1) {
+    return extras[0]?.source;
+  }
+  return {
+    directory: resolve(inputDir, "extra"),
+    filename: "*.json"
+  };
 }
 
 function loadInputDirectory(inputDir: string, vendors: VendorMap, iddb: FlashIdMap, trace?: FdbProvenanceTrace): void {
@@ -710,7 +892,7 @@ function loadInputDirectory(inputDir: string, vendors: VendorMap, iddb: FlashIdM
 function applyExtra(extra: ExtraPayload, vendors: VendorMap, iddb: FlashIdMap, trace?: FdbProvenanceTrace, source?: FdbProvenanceSource): void {
   const rawExtraVendors: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(extra)) {
-    if (key !== "schemaVersion" && key !== "info" && key !== "controllerBlacklist" && key !== "vendors" && key !== "iddb") {
+    if (key !== "schemaVersion" && key !== "priority" && key !== "info" && key !== "controllerBlacklist" && key !== "vendors" && key !== "iddb") {
       rawExtraVendors[key] = value;
     }
   }
@@ -869,8 +1051,9 @@ function generateFdbInternal(options: GenerateFdbOptions, trace?: FdbProvenanceT
     loadInputDirectory(inputDir, vendors, iddb, trace);
   }
 
-  const extra = loadExtra(inputDir, options.extraFile);
-  applyExtra(extra, vendors, iddb, trace, { file: options.extraFile ? resolve(options.extraFile) : resolve(inputDir, "extra.json"), filename: options.extraFile ? basename(options.extraFile) : "extra.json" });
+  const extras = loadExtras(inputDir, options.extraFile, options.extraFiles);
+  const extra = combineExtras(extras);
+  applyExtra(extra, vendors, iddb, trace, sourceForCombinedExtras(inputDir, extras));
   canonicalizeVendorRecords(vendors);
   pruneLowInformationPartRecords(vendors);
   canonicalizePartPayloadReferences(vendors);

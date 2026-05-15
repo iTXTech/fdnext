@@ -1,4 +1,7 @@
 import assert from "node:assert/strict";
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { test } from "node:test";
 import {
   auditExtra,
@@ -10,6 +13,7 @@ import {
   fdnextFdbExtraV1Schema,
   fdnextFdbgenV1Schema,
   fdnextFdbV1Schema,
+  generateFdb,
   parseExtraPayload,
   validateExtraPayload,
   validateFdbPayload
@@ -55,6 +59,7 @@ test("fdbgen exports schema helpers and builds v1 full support lists", () => {
 test("extra parser normalizes wrapper/direct vendors and rejects id/fid conflicts", () => {
   const parsed = parseExtraPayload({
     schemaVersion: "fdnext.fdb.extra.v1",
+    priority: 50,
     sandisk: {
       "SDTNQGAMA-008G": {
         fid: ["45DE949376570000"],
@@ -78,6 +83,7 @@ test("extra parser normalizes wrapper/direct vendors and rejects id/fid conflict
   });
 
   assert.equal(parsed.schemaVersion, "fdnext.fdb.extra.v1");
+  assert.equal(parsed.priority, 50);
   assert.deepEqual(Object.keys(parsed.vendors ?? {}).sort(), ["samsung", "skhynix", "sndk"]);
   assert.deepEqual(parsed.vendors?.sndk?.["SDTNQGAMA-008G"]?.fid, ["45DE94937657"]);
   assert.equal(parsed.vendors?.samsung?.K9ABG08U0M?.m, "CER");
@@ -102,6 +108,13 @@ test("extra parser normalizes wrapper/direct vendors and rejects id/fid conflict
   });
   assert.equal(invalidVersion.ok, false);
   assert.ok(invalidVersion.errors.some((issue) => issue.code === "schema_version.invalid"));
+
+  const invalidPriority = validateExtraPayload({
+    priority: "high",
+    vendors: {}
+  });
+  assert.equal(invalidPriority.ok, false);
+  assert.ok(invalidPriority.errors.some((issue) => issue.code === "priority.invalid"));
 });
 
 test("generated fdb validator forbids fid and checks iddb reverse references", () => {
@@ -199,4 +212,92 @@ test("extra audit reports base extra, fdb, and decodepack conflicts", () => {
   assert.ok(codes.has("decodepack.process_conflict"));
   assert.ok(codes.has("decodepack.cell_conflict"));
   assert.ok(codes.has("decodepack.topology_conflict"));
+});
+
+test("fdbgen discovers input extra directory and keeps higher-priority extra IDs", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-extra-"));
+  try {
+    mkdirSync(join(inputDir, "extra"), { recursive: true });
+    writeFileSync(
+      join(inputDir, "fdb.json"),
+      JSON.stringify({
+        info: { version: "raw" },
+        micron: {
+          MT29F256G08CBCBB: {
+            id: ["2CA46432AA05"]
+          },
+          MT29F512G08EBHAF: {
+            id: ["2C9999999999"]
+          }
+        },
+        iddb: {
+          "2CA46432AA05": {
+            t: ["RAWCTRL"],
+            n: ["micron MT29F256G08CBCBB"]
+          },
+          "2C9999999999": {
+            t: ["RAWCTRL"],
+            n: ["micron MT29F512G08EBHAF"]
+          }
+        }
+      }),
+      "utf8"
+    );
+    writeFileSync(
+      join(inputDir, "extra", "z-base.json"),
+      JSON.stringify({
+        schemaVersion: "fdnext.fdb.extra.v1",
+        priority: 100,
+        vendors: {
+          micron: {
+            MT29F256G08CBCBB: {
+              id: ["2CA46432AA04"],
+              t: ["BASECTRL"]
+            }
+          }
+        },
+        iddb: {
+          "2CA46432AA04": {
+            t: ["BASECTRL"]
+          }
+        }
+      }),
+      "utf8"
+    );
+    writeFileSync(
+      join(inputDir, "extra", "a-sky.json"),
+      JSON.stringify({
+        schemaVersion: "fdnext.fdb.extra.v1",
+        priority: 50,
+        vendors: {
+          micron: {
+            MT29F256G08CBCBB: {
+              id: ["2CA46432AA05"],
+              l: "sky-process"
+            },
+            MT29F512G08EBHAF: {
+              id: ["2C0011223344"],
+              l: "sky-process"
+            }
+          }
+        },
+        iddb: {
+          "2C0011223344": {
+            t: ["SKYCTRL"]
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const micron = fdb.micron as Record<string, { id?: string[]; fid?: string[]; l?: string; t?: string[] }>;
+    assert.deepEqual(micron.MT29F256G08CBCBB?.id, ["2CA46432AA04"]);
+    assert.equal(micron.MT29F256G08CBCBB?.fid, undefined);
+    assert.equal(micron.MT29F256G08CBCBB?.l, "sky-process");
+    assert.deepEqual(micron.MT29F512G08EBHAF?.id, ["2C0011223344"]);
+    assert.equal(micron.MT29F512G08EBHAF?.fid, undefined);
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
 });

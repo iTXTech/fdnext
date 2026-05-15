@@ -299,6 +299,9 @@ export const extraJsonSchema = {
     schemaVersion: {
       const: FDNEXT_FDB_EXTRA_SCHEMA_VERSION
     },
+    priority: {
+      type: "number"
+    },
     info: {
       type: "object",
       additionalProperties: false,

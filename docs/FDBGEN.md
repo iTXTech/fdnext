@@ -39,7 +39,7 @@ pnpm fdbgen:audit:trace
 当前 raw FlashDB 生成命令：
 
 ```bash
-pnpm -s tsx ./packages/fdbgen/src/cli.ts build --input ../fdfdb --output packages/resources/resources/fdb.json --version 79 --pretty
+pnpm fdbgen:generate -- --input ../fdfdb --output packages/resources/resources/fdb.json --version <ver> --pretty
 ```
 
 `mdb` 爬取工具：
@@ -64,13 +64,13 @@ Micron 查询统一按 FBGA code 前缀 profile 生成候选并调用官方 FBGA
 - `--output <file>`：输出文件路径（必填）
 - `--version <ver>`：写入 `info.version`（必填）
 - `--meta <file>`：元信息 JSON 覆盖文件（可选）
-- `--extra <file>`：额外合并补丁文件（可选）
+- `--extra <file>`：额外合并补丁文件（可选，可重复）；未显式传入时自动读取 `input/extra/*.json`
 - `--name <name>`：覆盖 `info.name`
 - `--website <url>`：覆盖 `info.website`
 - `--exclude-controller <name>`：从生成的 FDB 输出中排除指定控制器，可重复传入，也可用逗号分隔；默认黑名单包含 `3281FL` / `3379FL`
 - `--pretty`：格式化输出 JSON（`crawl-mdb` 默认已格式化，便于查看 diff）
 
-`info.version` 必须显式传入。`info.time` 始终在生成时写入当前 UTC 时间，不从 `meta.json` / `extra.json` 或命令行覆盖。
+`info.version` 必须显式传入。`info.time` 始终在生成时写入当前 UTC 时间，不从 `meta.json` / `extra/*.json` 或命令行覆盖。
 
 提取工具输出的标准支持列表请使用 `fdnext fdbgen v1` 格式，详见 [`FDBGEN_FORMAT_V1.md`](FDBGEN_FORMAT_V1.md)。该格式分为短 key 的 compact (`fdnext.fdbgen.v1c`) 和 full (`fdnext.fdbgen.v1f`)；entry 字段允许缺损，fdbgen 会只消费足够形成有效记录的部分。
 
@@ -116,15 +116,15 @@ pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --t
 
 开启 `--trace-sources` 时，audit 会在 fdbgen 内部构建临时 provenance map，但不会把 trace 写入最终 FDB。报告会同时展示最终 FDB issue 和该 issue 对应的引入位置，例如哪个 controller parser、哪个 raw 文件、哪一行或 JSON record、原始内容、归一化后的 vendor / PN / Flash ID 以及 `add_part_id` / `merge_part_payload` / `merge_flash_payload` 等 decision。该模式用于清理前定位来源，常规发布资源仍只输出干净的 `fdb.json`。
 
-`audit-extra` 是 `extra.json` 候选文件的只读审计入口，适合在一次性清洗数据合并前检查覆盖影响：
+`audit-extra` 是 extra 候选文件的只读审计入口，适合在一次性清洗数据合并前检查覆盖影响：
 
 ```bash
-pnpm fdbgen:audit-extra -- --candidate ../fdfdb/sky.extra.json --base-extra ../fdfdb/extra.json --base-fdb packages/resources/resources/fdb.json --decodepack
-pnpm fdbgen:audit-extra -- --candidate ../fdfdb/sky.extra.json --base-fdb packages/resources/resources/fdb.json --json --out ../fdfdb/sky.audit.json
+pnpm fdbgen:audit-extra -- --candidate ../fdfdb/extra/sky.json --base-extra ../fdfdb/extra/base.json --base-fdb packages/resources/resources/fdb.json --decodepack
+pnpm fdbgen:audit-extra -- --candidate ../fdfdb/extra/sky.json --base-fdb packages/resources/resources/fdb.json --json --out ../fdfdb/sky.audit.json
 ```
 
-- `--candidate <path>`：候选 `extra.json` 文件，必填
-- `--base-extra <path>`：现有 `extra.json`，用于检查同 vendor + PN 的 `fid/id/l/c/m/d/e/r/n/t/a/f` 差异
+- `--candidate <path>`：候选 extra 文件，必填
+- `--base-extra <path>`：现有 base extra 文件，用于检查同 vendor + PN 的 `fid/id/l/c/m/d/e/r/n/t/a/f` 差异
 - `--base-fdb <path>`：现有 generated `fdb.json`，用于检查 ID 覆盖、fanout、controller 支持和 `iddb.n` 反向引用
 - `--decodepack`：在 CLI 层加载 fdnext core/decodepack engine，对候选 PN 的 vendor、制程、cell 和 topology 做冲突审计；通用 fdbgen 库不直接依赖 decodepack
 - `--json` / `--out <path>` / `--max-samples <n>` / `--fail-on-issues`：与普通 audit 相同
@@ -151,7 +151,9 @@ is/
 ps/
 ys/
 fc/
-extra.json
+extra/
+  base.json
+  sky.json
 ```
 
 ### 结构化输入
@@ -160,7 +162,7 @@ extra.json
 
 - `fdb.json`
 - `meta.json`
-- `extra.json`
+- `extra/*.json`
 - `vendors/*.json`
 - `iddb/*.json`
 - `flashids/*.json`
@@ -171,7 +173,9 @@ extra.json
 dataset/
   fdb.json
   meta.json
-  extra.json
+  extra/
+    base.json
+    sky.json
   vendors/
     micron.json
     samsung.json
@@ -226,11 +230,12 @@ dataset/
 }
 ```
 
-`extra.json`：
+`extra/base.json` 或 `extra/sky.json`：
 
 ```json
 {
   "schemaVersion": "fdnext.fdb.extra.v1",
+  "priority": 100,
   "info": {
     "controllers": ["PS3111"]
   },
@@ -259,7 +264,7 @@ dataset/
 
 ## 合并与归一化规则
 
-`extra.json` schema 名为 `fdnext.fdb.extra.v1`，generated `fdb.json` schema 名为 `fdnext.fdb.v1`，对应 schema 文件分别是 [`docs/schemas/fdnext.fdb.extra.v1.schema.json`](schemas/fdnext.fdb.extra.v1.schema.json) 和 [`docs/schemas/fdnext.fdb.v1.schema.json`](schemas/fdnext.fdb.v1.schema.json)。`schemaVersion` 是可选 root 字段；旧数据不带该字段仍可读取，但一旦提供就必须匹配对应 schema。fdbgen 生成新的 `fdb.json` 时会写入 `"schemaVersion": "fdnext.fdb.v1"`。
+Extra schema 名为 `fdnext.fdb.extra.v1`，generated `fdb.json` schema 名为 `fdnext.fdb.v1`，对应 schema 文件分别是 [`docs/schemas/fdnext.fdb.extra.v1.schema.json`](schemas/fdnext.fdb.extra.v1.schema.json) 和 [`docs/schemas/fdnext.fdb.v1.schema.json`](schemas/fdnext.fdb.v1.schema.json)。`schemaVersion` 是可选 root 字段；旧数据不带该字段仍可读取，但一旦提供就必须匹配对应 schema。fdbgen 生成新的 `fdb.json` 时会写入 `"schemaVersion": "fdnext.fdb.v1"`。
 
 ### 厂商解码模块
 
@@ -312,7 +317,7 @@ Raw FlashDB 模式：
 11. `ps`
 12. `ys`
 13. `fc`
-14. `extra.json`
+14. `extra/*.json`（按文件名排序；例如 `base.json` 先于 `sky.json`）
 15. 命令行参数覆盖 `info` 字段
 
 结构化输入模式：
@@ -321,7 +326,7 @@ Raw FlashDB 模式：
 2. `vendors/*.json`
 3. `iddb/*.json`
 4. `flashids/*.json`
-5. `extra.json`（对 `info/vendors/iddb` 追加合并）
+5. `extra/*.json`（按文件名排序，对 `info/vendors/iddb` 追加合并）
 6. 命令行参数覆盖 `info` 字段
 
 ### 厂商名归一化
@@ -353,12 +358,15 @@ Raw FlashDB 模式：
 - PN key 统一转大写，并移除空格、逗号、`&`、`.`、`|`
 - Flash ID key 统一移除空白、转大写；非十六进制、奇数字节长度或异常长度的 ID 会被丢弃
 - 数组字段（如 `id/f/a/t/n/controllers`）会去重
-- `extra.json` 的 PN payload 额外支持 `fid`，表示可信来源强制覆盖该 PN 的主 Flash ID；`fid` 与 `id` 互斥，生成后的 `fdb.json` 只输出 `id`，不保留 `fid`
+- `extra/*.json` 的 PN payload 额外支持 `fid`，表示可信来源强制覆盖该 PN 的主 Flash ID；`fid` 与 `id` 互斥，生成后的 `fdb.json` 只输出 `id`，不保留 `fid`
+- `extra/*.json` 顶层支持 `priority`，语义与 decodepack 相同：数字越大越优先，默认 `0`
+- 多个 extra 文件会先按 `priority` 从高到低排序，再按文件名排序；较高优先级文件已提供 `id/fid` 时，较低优先级文件不会抢占该 PN 的身份信息，但仍可补充缺失的非身份字段和追加 controller / alias
+- priority stack 中胜出的 `id/fid` 会作为该 PN 的 authoritative ID 覆盖 raw 输入，因此 sky Micron 这类不需要强制语义的记录可以写 `id`，不必写 `fid`
 - generated `fdb.json` 禁止出现 `fid`，并使用 `fdnext.fdb.v1` schema
 - 数值字段（`s/p/b/d/e/r/n`）仅接受有限数值
 - 如果 `*_1` 或尾部 `-` PN 有明确 base PN，会合并回 base PN
 - `iddb.n` 只保留能在 vendor PN 表中找到的反向引用
-- 控制器黑名单会统一作用于 `info.controllers`、PN `t` 和 `iddb.t`，默认排除 `3281FL` / `3379FL`；额外黑名单可通过 CLI `--exclude-controller` 或 `extra.json` 顶层 `controllerBlacklist` 指定
+- 控制器黑名单会统一作用于 `info.controllers`、PN `t` 和 `iddb.t`，默认排除 `3281FL` / `3379FL`；额外黑名单可通过 CLI `--exclude-controller` 或 extra 顶层 `controllerBlacklist` 指定
 
 ### 自动回填
 

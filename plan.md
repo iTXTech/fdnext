@@ -2,11 +2,12 @@
 
 ## 目标
 
-将 `../fdfdb/archives/sky.txt` 清洗为可审计、可合并的 `extra.json` 补充数据，同时避免把一次性解析逻辑长期留在 fdnext 主仓库。
+将 `../fdfdb/archives/sky.txt` 清洗为可审计、可合并的 extra 补充数据，同时避免把一次性解析逻辑长期留在 fdnext 主仓库。
 
 最终产物分为两类：
 
-- `sky.extra.json`：纯 `extra.json` 兼容格式，只包含可安全合并的记录。
+- `extra/sky.json`：纯 `fdnext.fdb.extra.v1` 兼容格式，只包含可安全合并的 sky 记录。
+- `extra/base.json`：从原 `extra.json` 迁移来的人工维护基础补丁。
 - `sky.review.json`：清洗时发现的歧义、冲突、不可信 PN、decodepack 差异和人工待确认项。
 
 ## 代码边界
@@ -24,7 +25,7 @@ sky 解析器放在 `../mptool-parser`，建议新增：
 - `../mptool-parser` 已经是外部 MPTool / 支持表解析器仓库，并且 `packages/common` 已经承担 fdnext fdbgen v1 JSON 构造和基础归一化职责。
 - `packages/common` 只放共享格式 helper；sky 专属规则放 `packages/sky`。
 
-sky parser 直接输出 `extra.json` 兼容数据，不优先输出 `fdnext.fdbgen.v1c/v1f`。fdbgen v1 面向 PN/Flash ID/controller 支持表；sky 需要 `fid` 覆盖、制程、cell、Samsung CER、die/CE topology 等 `extra.json` 字段。
+sky parser 直接输出 `fdnext.fdb.extra.v1` 兼容数据，不优先输出 `fdnext.fdbgen.v1c/v1f`。fdbgen v1 面向 PN/Flash ID/controller 支持表；sky 需要主 ID 覆盖、制程、cell、Samsung CER、die/CE topology 等 extra 字段。
 
 `mptool-parser/packages/common` 的长期归属应迁到 fdnext 提供。fdnext 是 fdbgen v1 / extra / fdb schema 和归一化规则的源头，`mptool-parser` 不应长期复制一份会漂移的实现。迁移后有两种可接受形态：
 
@@ -36,8 +37,8 @@ sky parser 直接输出 `extra.json` 兼容数据，不优先输出 `fdnext.fdbg
 fdnext 主仓库只沉淀通用能力，不写 sky 专属 parser：
 
 - fdbgen v1 schema helper 和 validator。
-- `extra.json` / generated `fdb.json` schema、parser、normalizer、validator。
-- `extra.json` 与 `extra.json` / `fdb.json` / decodepack 的审计库。
+- extra / generated `fdb.json` schema、parser、normalizer、validator。
+- extra 与 base extra / `fdb.json` / decodepack 的审计库。
 - CLI 审计入口，供 sky 产物和后续其他 extra 数据复用。
 
 decodepack 审计不要让 fdbgen 通用库硬依赖 decodepack。推荐在 fdnext CLI 层注入 decode engine，通用库只接受 `decodePart` 结果或回调。
@@ -48,19 +49,22 @@ decodepack 审计不要让 fdbgen 通用库硬依赖 decodepack。推荐在 fdne
 
 - 每行按三段解析：`PN`、`Flash ID`、`备注`。
 - Flash ID 标准化为大写 hex。
-- sky 提供的 Flash ID 归一化后不足 6 bytes，也就是少于 12 个 hex 字符，直接丢弃，不进入 `sky.extra.json`；可在 `sky.review.json` 中记录为 `flash_id.too_short`。
+- sky 提供的 Flash ID 归一化后不足 6 bytes，也就是少于 12 个 hex 字符，直接丢弃，不进入 `extra/sky.json`；可在 `sky.review.json` 中记录为 `flash_id.too_short`。
 - vendor 从备注首 token 归一化：
   - `Sandisk` / `SanDisk` -> `sndk`
   - `Toshiba` / `Koxia` / `KIOXIA` -> `kioxia`
   - `Hynix` -> `skhynix`
-- 只把通过 PN 质量检查的记录写入 `sky.extra.json`；其他进入 `sky.review.json`。
+- 只把通过 PN 质量检查的记录写入 `extra/sky.json`；其他进入 `sky.review.json`。
 
-### fid 覆盖
+### ID 覆盖与 priority
 
-- sky 数据较可信，安全记录使用 `fid`，不使用 `id`。
+- sky 数据较可信，安全记录可使用 `id` 或 `fid` 表达主 Flash ID。
 - `fid` 和 `id` 不得同时存在。
 - `fid` 只允许出现在 extra 输入；生成后的 `fdb.json` 只应出现 `id`。
-- 如果 `fid` 会覆盖掉现有 `extra.json` / `fdb.json` 中明显有用的 ID 或 controller 反向关系，审计必须报告。
+- 如果 sky 主 ID 会覆盖掉现有 base extra / `fdb.json` 中明显有用的 ID 或 controller 反向关系，审计必须报告。
+- extra 顶层支持 `priority`，数字越大越优先，合并顺序与 decodepack 一致。
+- `extra/base.json` 使用 schema + 高 priority；`extra/sky.json` 使用 schema + 低于 base 的 priority。
+- sky 中 Micron PN 使用 `id` 而不是 `fid`，通过 priority stack 覆盖 raw 输入但不抢占 base。
 
 ### 05485 规则
 
@@ -78,12 +82,20 @@ decodepack 审计不要让 fdbgen 通用库硬依赖 decodepack。推荐在 fdne
 - decodepack 不支持、输出缺失，或输出语义不等价时，在 extra 记录中显式写 `l`。
 - audit 需要报告 sky 备注与 decodepack 输出冲突的记录。
 - 对 Samsung，`SSVx` / `3DvN` / `Vx` 这类备注可写入 `l`；`CER` 类备注单独保留到 `m`，并由 fdnext 后续白名单映射到 public `special_option`。
+- Toshiba/KIOXIA PN 的制程基本可由 decodepack 解析，sky cleaner 默认不再把这类记录写入 `extra/sky.json`；`15nm` 与 `1znm` 视为同一代语义，不为这类等价表述额外写 extra。
+- cell level 与 decodepack 冲突时以 decodepack 为准，整条 sky 记录不进入 `extra/sky.json`。
+- process / generation 与 decodepack 语义等价时不写 `l`，交给 decodepack 输出；例如 `144L(N38B)` 等价于 `N38B 144L`，`144L(N38)` 等价于 `N38A 144L`。
+- process / generation 与 decodepack 不等价时不进入 `extra/sky.json`，进入 `sky.review.json` 供后续修 decodepack 或人工确认。
+- topology 与 decodepack 冲突时以 decodepack 为准，sky cleaner 不写入冲突的 `d/e/r/n` 字段，只在 review/audit 中留下冲突记录。
 
 ### Samsung CER
 
 - 必须保留 Samsung CER 备注。
 - 只允许白名单 CER 类备注输出到 public result，且统一格式化为 `CER`。
 - `CERCE3`、`CER CE3`、`CER_TLC`、`CER_QLC`、`SSV4_MLC(CERCE3)` 等都只输出 `CER`。
+- sky cleaner 对所有 Samsung CER 备注调用 decodepack 解 PN，并以 decodepack 输出的 `ce_count` / `die_count` 判断是否写入 `m: "CER"`。
+- 只有每 CE 对应多 die 时保留 CER，例如 `2CE/4Die`、`2CE/8Die`、`4CE/8Die`；`8CE/8Die` 这类每 CE 仅 1 die 的配置只保留主 ID，不写 CER。
+- decodepack 无法输出完整 `ce_count` / `die_count` 时也只保留主 ID，并进入 `sky.review.json`。
 - 不应把 FDB 中任意 `m` 字段整体暴露给用户。
 - fdnext 侧需要增加窄口径映射：Samsung raw NAND FDB `m` 中的 CER 备注 -> `fields.special_option`。
 
@@ -101,7 +113,7 @@ decodepack 审计不要让 fdbgen 通用库硬依赖 decodepack。推荐在 fdne
 安全写入条件：
 
 - 清洗后的 canonical PN 只有一种 topology，或多条 ID 属于同一 topology。
-- 如果同一 canonical PN 下普通封装、`2B`、`4B`、`8B` 对应不同 ID 且 topology 不一致，不写入 `sky.extra.json`，放入 `sky.review.json`。
+- 如果同一 canonical PN 下普通封装、`2B`、`4B`、`8B` 对应不同 ID 且 topology 不一致，不写入 `extra/sky.json`，放入 `sky.review.json`。
 - 不在最终 authoritative PN key 中保留 `_2B`、`_4Die`、`*2B` 等 metadata suffix。
 
 ### SanDisk / KIOXIA die code
@@ -114,8 +126,11 @@ SanDisk/KIOXIA PN 清洗要删除 PN 中的 metadata suffix，但保留有价值
 
 ### 不可信 PN 过滤
 
-直接清洗掉，不进入 `sky.extra.json`：
+直接清洗掉，不进入 `extra/sky.json`：
 
+- 所有 `JS` 开头的 PN。
+- `TC_8T24-032GB`。
+- Intel 备注/vendor bucket 下的 Micron PN 形态，例如 `MT29...`。
 - 泛化容量标签：`SNDK 128G`、`SNDK 128GB`、`SNDK 512GB`、`SNDK-1TB`。
 - Flash ID 伪 PN：`YMTC(9B,C6,...)`。
 - 只有 vendor / 容量 / 工艺描述而没有稳定 PN 的 synthetic label。
@@ -142,26 +157,26 @@ SanDisk/KIOXIA PN 清洗要删除 PN 中的 metadata suffix，但保留有价值
   - `iddb.n` 必须指向现有 vendor PN。
   - vendor bucket 必须是已知 normalized vendor。
 
-### sky.extra.json vs extra.json
+### extra/sky.json vs extra/base.json
 
 审计同 vendor + PN 的差异：
 
 - `fid/id` 不一致。
 - `l/c/m/d/e/r/n/t/a/f` 不一致。
-- sky `fid` 覆盖现有 `extra.json` 的 `id/fid` 时列出被覆盖 ID。
-- 现有 `extra.json` 有 controller / alias 信息而 sky 没有时报告，但不自动删除。
+- sky 主 ID 覆盖现有 `extra/base.json` 的 `id/fid` 时列出被覆盖 ID。
+- 现有 `extra/base.json` 有 controller / alias 信息而 sky 没有时报告，但不自动删除。
 
-### sky.extra.json vs fdb.json
+### extra/sky.json vs fdb.json
 
 审计合并影响：
 
-- `fid` 会覆盖当前 generated `fdb.json` 中哪些 ID。
+- sky 主 ID 会覆盖当前 generated `fdb.json` 中哪些 ID。
 - 被覆盖 ID 是否仍被其他 PN 或 `iddb.n` 引用。
 - 被覆盖 ID 是否有 controller 支持。
 - 新增 PN 是否会造成同 ID fanout 明显增加。
 - PN key 是否触发现有 `part.metadata_suffix`、`part.synthetic`、`vendor_mismatch` 等审计规则。
 
-### sky.extra.json vs decodepack
+### extra/sky.json vs decodepack
 
 对每条 sky 记录调用 decodepack PN 解码，比较：
 
@@ -188,7 +203,7 @@ sky 清洗：
 ```bash
 node ../mptool-parser/src/cli.js sky clean \
   --input ../fdfdb/archives/sky.txt \
-  --out ../fdfdb/sky.extra.json \
+  --out ../fdfdb/extra/sky.json \
   --review ../fdfdb/sky.review.json
 ```
 
@@ -196,8 +211,8 @@ fdnext 审计：
 
 ```bash
 pnpm fdbgen:audit-extra \
-  --candidate ../fdfdb/sky.extra.json \
-  --base-extra ../fdfdb/extra.json \
+  --candidate ../fdfdb/extra/sky.json \
+  --base-extra ../fdfdb/extra/base.json \
   --base-fdb packages/resources/resources/fdb.json \
   --decodepack \
   --json \
@@ -207,7 +222,7 @@ pnpm fdbgen:audit-extra \
 人工确认后合并：
 
 ```bash
-pnpm fdbgen:generate -- --input ../fdfdb --extra ../fdfdb/extra.json --output packages/resources/resources/fdb.json --version <ver> --pretty
+pnpm fdbgen:generate -- --input ../fdfdb --output packages/resources/resources/fdb.json --version <ver> --pretty
 ```
 
 ## 实施阶段
@@ -237,27 +252,30 @@ pnpm fdbgen:generate -- --input ../fdfdb --extra ../fdfdb/extra.json --output pa
 
 ### Phase 4: mptool-parser sky parser
 
-- [ ] 新增 `packages/sky`。
-- [ ] 实现 `sky clean`，输出 `sky.extra.json` 和 `sky.review.json`。
-- [ ] 接入根 CLI `node src/cli.js sky ...`。
-- [ ] 实现 05485、Samsung CER、bank topology、SanDisk/KIOXIA die code、不可信 PN 过滤规则。
-- [ ] 不提交生成结果，只提交 parser 和文档。
+- [x] 新增 `packages/sky`。
+- [x] 实现 `sky clean`，输出 `extra/sky.json` 和 `sky.review.json`。
+- [x] 接入根 CLI `node src/cli.js sky ...`。
+- [x] 实现 05485、Samsung CER、bank topology、SanDisk/KIOXIA die code、不可信 PN 过滤规则。
+- [x] 不提交生成结果，只提交 parser 和文档。
 
 ### Phase 5: Samsung CER public 输出
 
-- [ ] fdnext core 增加白名单映射：Samsung FDB `m` 中 CER 类备注 -> `fields.special_option`。
-- [ ] 测试确认 CER 可以 public 输出。
-- [ ] 测试确认普通 FDB `m` 不会泄漏。
-- [ ] 更新语言包或字段注册表时只使用现有 canonical key，不新增临时 alias。
+- [x] fdnext core 增加白名单映射：Samsung FDB `m` 中 CER 类备注 -> `fields.special_option`。
+- [x] 测试确认 CER 可以 public 输出。
+- [x] 测试确认普通 FDB `m` 不会泄漏。
+- [x] 更新语言包或字段注册表时只使用现有 canonical key，不新增临时 alias。
 
 ### Phase 6: 生成与验证
 
-- [ ] 运行 sky clean。
-- [ ] 运行 extra/fdb/decodepack audit。
-- [ ] 人工处理 `sky.review.json` 中的 topology 和 PN 歧义。
-- [ ] 合并安全记录到 `../fdfdb/extra.json`。
-- [ ] 重新生成 `packages/resources/resources/fdb.json`。
-- [ ] 运行验证：
+- [x] 运行 sky clean。
+- [x] 运行 extra/fdb/decodepack audit。
+- [x] 人工处理 `sky.review.json` 中的 topology、PN 歧义和 sky-only 过滤项：保留 review issue，不合并到 `extra/base.json`。
+- [x] 将原 `../fdfdb/extra.json` 迁移到 `../fdfdb/extra/base.json`，sky 产物写入 `../fdfdb/extra/sky.json`。
+- [x] fdbgen build 自动发现并按文件名合并 `input/extra/*.json`，不再需要生成命令显式传入 `--extra`。
+- [x] fdbgen build 自动发现 `input/extra/*.json` 后按 `priority` 从高到低合并，默认 `0`，同 priority 再按文件名排序。
+- [x] 合并多个 extra 时，较高 priority 文件已有 PN `id/fid` 身份信息则保留 base，不让后续 sky 主 ID 覆盖。
+- [x] 重新生成 `packages/resources/resources/fdb.json`。
+- [x] 运行验证：
 
 ```bash
 pnpm -C packages/fdbgen test

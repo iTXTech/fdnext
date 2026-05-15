@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 import {
   decodeIdentifierInputJsonSchema,
   decodePartInputJsonSchema,
+  createEngine,
   fdnextCapabilitiesJsonSchema,
   FDNEXT_VERSION,
   fdnextFieldRegistry,
@@ -245,6 +246,45 @@ assert.equal(
   findPartNumberAcrossVendors(colonTokenFdb, "MT29FB16T08GALAAM5-TESB")?.record.pn,
   "MT29FB16T08GALAAM5-TES:B",
   "cross-vendor FDB Micron NAND lookup should treat colon revision tokens as optional separators"
+);
+
+const samsungFdbMetadataEngine = createEngine({
+  resources: {
+    partIndex: {
+      rawNand: {
+        info: { version: "test" },
+        samsung: {
+          K9SPECIALTEST: { id: ["EC5C94D364CB"], m: "SSV4_MLC(CERCE3)" },
+          K9NORMALNOTE: { id: ["EC5C98BF84CC"], m: "Toggle" }
+        }
+      }
+    },
+    translationIndex: { eng: engLang }
+  }
+});
+const samsungCerResult = samsungFdbMetadataEngine.decodePart({ query: "K9SPECIALTEST", lang: "eng" });
+assert.equal(samsungCerResult.status, "ok", "Samsung CER FDB metadata test PN should decode");
+assert.equal(
+  collectResultBlockFields(samsungCerResult).find((field) => field.key === "special_option")?.value,
+  "CER",
+  "Samsung FDB CER metadata should map to public special_option"
+);
+assert.equal(
+  JSON.stringify(samsungCerResult).includes("CERCE3"),
+  false,
+  "Samsung CER raw FDB metadata should not leak verbatim"
+);
+const samsungGenericMetadataResult = samsungFdbMetadataEngine.decodePart({ query: "K9NORMALNOTE", lang: "eng" });
+assert.equal(samsungGenericMetadataResult.status, "ok", "Samsung generic metadata test PN should decode");
+assert.equal(
+  collectResultBlockFields(samsungGenericMetadataResult).some((field) => field.key === "special_option"),
+  false,
+  "ordinary Samsung FDB metadata should not map to special_option"
+);
+assert.equal(
+  JSON.stringify(samsungGenericMetadataResult).includes("Toggle"),
+  false,
+  "ordinary FDB metadata should not leak to public result"
 );
 
 for (const name of expectedResultFixtures) {

@@ -35,6 +35,7 @@ export interface FlashIdPayload {
 
 export interface ExtraPayload {
   schemaVersion?: FdbExtraSchemaVersion;
+  priority?: number;
   info?: FdbInfoPayload;
   controllerBlacklist?: string[];
   vendors?: Record<string, Record<string, PartNumberPayload>>;
@@ -47,6 +48,7 @@ export interface GenerateFdbOptions {
   outputFile?: string;
   metaFile?: string;
   extraFile?: string;
+  extraFiles?: string[];
   name?: string;
   website?: string;
   pretty?: boolean;
