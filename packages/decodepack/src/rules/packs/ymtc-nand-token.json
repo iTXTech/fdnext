@@ -18,7 +18,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(?:YM|KR|BP|BR|BW)[NS][0A][6789AW][SMTQ][A-F][12](?:W0|T1|L1|B1|B2|B3|B4|B5|B)[0-9A-Z][DUMCPEFX][0-9ABX][A-E][0-9A-Z]*$"
+      "value": "^(?:YM|KR|BP|BR|BW)[NS][0A][6789ABW][SMTQ][A-F][12](?:W0|T1|L1|B1|B2|B3|B4|B5|B)[0-9A-Z][DUMCPEFX][0-9ABX][A-E][0-9A-Z]*$"
     },
     "tokenDecoder": {
       "tables": {
@@ -73,6 +73,7 @@
           "8": 262144,
           "9": 524288,
           "A": 1048576,
+          "B": 2097152,
           "W": 1394606.08
         },
         "dieDensityInfo": {
@@ -90,6 +91,9 @@
           },
           "A": {
             "die_density": "1Tb"
+          },
+          "B": {
+            "die_density": "2Tb"
           },
           "W": {
             "die_density": "1.33Tb"
@@ -316,6 +320,7 @@
           "D:9:T": "X3-9060",
           "D:A:T": "X3-9070",
           "D:A:Q": "X3-6070",
+          "E:B:Q": "X4-6080",
           "E:9:T": "X4-9060",
           "E:A:T": "X4-9070",
           "E:W:Q": "X4-6080"
