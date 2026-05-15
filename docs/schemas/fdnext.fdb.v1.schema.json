@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://itxtech.org/fdnext/schemas/fdnext.fdb.v1.schema.json",
+  "title": "fdnext.fdb.v1",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "fdnext.fdb.v1"
+    },
+    "info": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "iddb": {
+      "type": "object",
+      "propertyNames": {
+        "pattern": "^[0-9A-F]{12}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/flashIdPayload"
+      }
+    }
+  },
+  "additionalProperties": {
+    "$ref": "#/$defs/vendorBucket"
+  },
+  "$defs": {
+    "flashId": {
+      "type": "string",
+      "pattern": "^[0-9A-F]{12}$"
+    },
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "partPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/flashId"
+          },
+          "uniqueItems": true
+        },
+        "f": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/flashId"
+          },
+          "uniqueItems": true
+        },
+        "a": {
+          "$ref": "#/$defs/stringList"
+        },
+        "l": {
+          "type": "string",
+          "minLength": 1
+        },
+        "c": {
+          "type": "string",
+          "minLength": 1
+        },
+        "t": {
+          "$ref": "#/$defs/stringList"
+        },
+        "m": {
+          "type": "string",
+          "minLength": 1
+        },
+        "d": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "e": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "r": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "vendorBucket": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/partPayload"
+      }
+    },
+    "flashIdPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "s": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "p": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "b": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "t": {
+          "$ref": "#/$defs/stringList"
+        },
+        "n": {
+          "$ref": "#/$defs/stringList"
+        }
+      }
+    }
+  }
+}

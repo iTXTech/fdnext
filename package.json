@@ -23,6 +23,7 @@
     "fdbgen:build": "pnpm -C packages/fdbgen build",
     "fdbgen:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build",
     "fdbgen:audit": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/resources/resources/fdb.json",
+    "fdbgen:audit-extra": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit-extra",
     "fdbgen:audit:trace": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --trace-sources",
     "fdbgen:crawl-mdb": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb",
     "contract:check": "pnpm -s tsx ./scripts/check-contract.ts"

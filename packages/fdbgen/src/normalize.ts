@@ -54,8 +54,8 @@ export function normalizeFdbVendorName(value: unknown): string {
     .replace("powerflash", "powerchip")
     .replace(/^psc$/, "powerchip")
     .replace(/^stm$/, "st");
-  vendor = vendor.replace("skhynixnix", "skhynix");
-  if (vendor.includes("hynix")) {
+  vendor = vendor.replace(/^sk\s*hynix$/, "skhynix").replace("skhynixnix", "skhynix");
+  if (vendor !== "skhynix" && vendor.includes("hynix")) {
     vendor = vendor.replace("hynix", "skhynix").replace("skhynixnix", "skhynix");
   }
   return normalizeVendor(vendor);

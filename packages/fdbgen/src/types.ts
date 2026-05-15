@@ -1,3 +1,9 @@
+export const FDNEXT_FDB_EXTRA_SCHEMA_VERSION = "fdnext.fdb.extra.v1" as const;
+export const FDNEXT_FDB_SCHEMA_VERSION = "fdnext.fdb.v1" as const;
+
+export type FdbExtraSchemaVersion = typeof FDNEXT_FDB_EXTRA_SCHEMA_VERSION;
+export type FdbSchemaVersion = typeof FDNEXT_FDB_SCHEMA_VERSION;
+
 export interface FdbInfoPayload {
   name?: string;
   website?: string;
@@ -6,6 +12,7 @@ export interface FdbInfoPayload {
 
 export interface PartNumberPayload {
   id?: string[];
+  fid?: string[];
   f?: string[];
   a?: string[];
   l?: string;
@@ -27,6 +34,7 @@ export interface FlashIdPayload {
 }
 
 export interface ExtraPayload {
+  schemaVersion?: FdbExtraSchemaVersion;
   info?: FdbInfoPayload;
   controllerBlacklist?: string[];
   vendors?: Record<string, Record<string, PartNumberPayload>>;

@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 
+import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { auditFdb, auditFdbFile, formatFdbAuditText } from "./audit";
+import { auditExtra, type ExtraAuditDecodePart, formatExtraAuditText } from "./extra-audit";
 import { generateFdb, generateFdbWithTrace } from "./fdbgen";
 import { crawlMdb } from "./mdb";
 
@@ -16,6 +18,11 @@ interface CliOptions {
   pretty?: boolean;
   controllerBlacklist?: string[];
   file?: string;
+  candidateFile?: string;
+  baseExtraFile?: string;
+  baseFdbFile?: string;
+  auditOutputFile?: string;
+  decodepack?: boolean;
   micronMax?: number;
   spectekMax?: number;
   delayMs?: number;
@@ -37,6 +44,7 @@ function usage(): string {
     "  fdnext-fdbgen build --input <dir> --output <file> --version <ver> [options]",
     "  fdnext-fdbgen audit --file <fdb.json> [options]",
     "  fdnext-fdbgen audit --input <dir> --version <ver> --trace-sources [options]",
+    "  fdnext-fdbgen audit-extra --candidate <extra.json> [options]",
     "  fdnext-fdbgen crawl-mdb --file <mdb.json> [options]",
     "",
     "Build options:",
@@ -57,6 +65,16 @@ function usage(): string {
     "  --version <ver>     Required with --input",
     "  --trace-sources     Include generator provenance in audit issues",
     "  --json              Print JSON audit report",
+    "  --max-samples <n>   Maximum samples per issue (default 8)",
+    "  --fail-on-issues    Exit with status 2 when any audit issue is found",
+    "",
+    "Extra audit options:",
+    "  --candidate <path>   Candidate extra.json file to audit",
+    "  --base-extra <path>  Existing extra.json file for conflict checks",
+    "  --base-fdb <path>    Generated fdb.json file for merge-impact checks",
+    "  --decodepack         Check candidate PNs against the fdnext decodepack engine",
+    "  --json              Print JSON audit report",
+    "  --out <path>        Write audit report to a file instead of stdout",
     "  --max-samples <n>   Maximum samples per issue (default 8)",
     "  --fail-on-issues    Exit with status 2 when any audit issue is found",
     "",
@@ -288,6 +306,62 @@ function parseAuditOptions(args: string[]): CliOptions {
   return options;
 }
 
+function parseAuditExtraOptions(args: string[]): CliOptions {
+  const options: CliOptions = {
+    format: "text",
+    failOnIssues: false
+  };
+  for (let i = 0; i < args.length; i += 1) {
+    const arg = args[i];
+    if (arg === "--") {
+      continue;
+    }
+    if (arg === "--candidate") {
+      options.candidateFile = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--base-extra") {
+      options.baseExtraFile = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--base-fdb") {
+      options.baseFdbFile = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--decodepack") {
+      options.decodepack = true;
+      continue;
+    }
+    if (arg === "--json") {
+      options.format = "json";
+      continue;
+    }
+    if (arg === "--out" || arg === "--output") {
+      options.auditOutputFile = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--max-samples") {
+      options.maxSamples = parseIntegerFlag(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--fail-on-issues") {
+      options.failOnIssues = true;
+      continue;
+    }
+    if (arg === "-h" || arg === "--help") {
+      process.stdout.write(`${usage()}\n`);
+      process.exit(0);
+    }
+    throw new Error(`Unknown argument: ${arg}`);
+  }
+  return options;
+}
+
 function runBuild(args: string[]): void {
   const opts = parseBuildOptions(args);
   if (!opts.inputDir) {
@@ -349,6 +423,132 @@ function runAudit(args: string[]): void {
   }
 }
 
+function loadJsonFile(path: string): unknown {
+  return JSON.parse(readFileSync(path, "utf8")) as unknown;
+}
+
+function writeReport(text: string, file?: string): void {
+  if (file) {
+    writeFileSync(file, text);
+    return;
+  }
+  process.stdout.write(text);
+}
+
+interface DecodeResultLike {
+  status?: unknown;
+  device?: {
+    vendor?: string | { id?: unknown; name?: unknown };
+    chipKind?: unknown;
+    productType?: unknown;
+  };
+  blocks?: Array<{
+    fields?: Array<{
+      key?: unknown;
+      value?: unknown;
+      display?: unknown;
+    }>;
+  }>;
+}
+
+interface CoreModuleLike {
+  createEngine(options?: Record<string, unknown>): {
+    decodePart(input: { query: string; lang?: string | null }): DecodeResultLike;
+  };
+}
+
+interface DecodepackModuleLike {
+  defaultDecodePack: unknown;
+  compileDecodePack(pack: unknown): {
+    partDecoders?: unknown[];
+    identifierDecoders?: unknown[];
+  };
+}
+
+async function importPackageOrRepoSource<T>(packageName: string, repoSourcePath: string): Promise<T> {
+  try {
+    return (await import(packageName)) as T;
+  } catch (packageError: unknown) {
+    try {
+      return (await import(new URL(repoSourcePath, import.meta.url).href)) as T;
+    } catch {
+      const message = packageError instanceof Error ? packageError.message : String(packageError);
+      throw new Error(`Unable to load ${packageName} for --decodepack audit: ${message}`);
+    }
+  }
+}
+
+function stringField(value: unknown): string | undefined {
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function decodeVendorId(value: DecodeResultLike["device"]): string | undefined {
+  if (!value?.vendor) {
+    return undefined;
+  }
+  if (typeof value.vendor === "string") {
+    return value.vendor;
+  }
+  return stringField(value.vendor.id) ?? stringField(value.vendor.name);
+}
+
+function collectDecodeFields(result: DecodeResultLike): Record<string, unknown> {
+  const fields: Record<string, unknown> = {};
+  for (const block of result.blocks ?? []) {
+    for (const field of block.fields ?? []) {
+      const key = stringField(field.key);
+      if (!key) {
+        continue;
+      }
+      fields[key] = field.value ?? field.display;
+    }
+  }
+  return fields;
+}
+
+async function loadDecodepackAuditDecoder(): Promise<ExtraAuditDecodePart> {
+  const [core, decodepack] = await Promise.all([
+    importPackageOrRepoSource<CoreModuleLike>("@itxtech/fdnext-core", "../../core/src/index.ts"),
+    importPackageOrRepoSource<DecodepackModuleLike>("@itxtech/fdnext-decodepack", "../../decodepack/src/index.ts")
+  ]);
+  const compiled = decodepack.compileDecodePack(decodepack.defaultDecodePack);
+  const engine = core.createEngine({
+    decoders: compiled.partDecoders ?? [],
+    identifierDecoders: compiled.identifierDecoders ?? []
+  });
+
+  return (partNumber) => {
+    const result = engine.decodePart({ query: partNumber, lang: "eng" });
+    return {
+      status: stringField(result.status) ?? "unknown",
+      vendor: decodeVendorId(result.device),
+      chipKind: stringField(result.device?.chipKind),
+      productType: stringField(result.device?.productType),
+      fields: collectDecodeFields(result)
+    };
+  };
+}
+
+async function runAuditExtra(args: string[]): Promise<void> {
+  const opts = parseAuditExtraOptions(args);
+  if (!opts.candidateFile) {
+    throw new Error("Missing required --candidate");
+  }
+
+  const candidateFile = resolve(opts.candidateFile);
+  const result = auditExtra(loadJsonFile(candidateFile), {
+    baseExtra: opts.baseExtraFile ? loadJsonFile(resolve(opts.baseExtraFile)) : undefined,
+    baseFdb: opts.baseFdbFile ? loadJsonFile(resolve(opts.baseFdbFile)) : undefined,
+    decodePart: opts.decodepack ? await loadDecodepackAuditDecoder() : undefined,
+    maxSamples: opts.maxSamples
+  });
+  const report = opts.format === "json" ? `${JSON.stringify(result, null, 2)}\n` : formatExtraAuditText(result, candidateFile);
+  writeReport(report, opts.auditOutputFile ? resolve(opts.auditOutputFile) : undefined);
+  if (opts.failOnIssues && result.issues.length > 0) {
+    process.exitCode = 2;
+  }
+}
+
 async function runCrawlMdb(args: string[]): Promise<void> {
   const opts = parseCrawlOptions(args);
   if (!opts.file) {
@@ -395,6 +595,10 @@ async function main(): Promise<void> {
   }
   if (command === "audit") {
     runAudit(process.argv.slice(3));
+    return;
+  }
+  if (command === "audit-extra") {
+    await runAuditExtra(process.argv.slice(3));
     return;
   }
   if (command === "crawl-mdb") {

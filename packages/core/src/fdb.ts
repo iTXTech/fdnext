@@ -157,7 +157,7 @@ export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
   }
 
   for (const [vendorName, value] of Object.entries(raw)) {
-    if (vendorName === "info" || vendorName === "iddb") {
+    if (vendorName === "schemaVersion" || vendorName === "info" || vendorName === "iddb") {
       continue;
     }
 

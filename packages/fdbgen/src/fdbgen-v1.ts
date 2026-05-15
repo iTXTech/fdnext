@@ -1,5 +1,5 @@
 import type { ControllerMergeContext } from "./controllers/types";
-import { normalizeSupportFlashId } from "./normalize";
+import { normalizeFdbVendorName, normalizeSupportFlashId } from "./normalize";
 import { normalizeSupportListControllerName, parseSupportListControllerList } from "./support-list";
 import { mergeSupportListEntry } from "./support-list";
 
@@ -56,7 +56,120 @@ export interface FdnextFdbgenV1MergeResult {
   imported: number;
 }
 
+export interface FdnextFdbgenV1BuildEntryInput {
+  pn?: unknown;
+  partNumber?: unknown;
+  flashName?: unknown;
+  FlashName?: unknown;
+  id?: unknown;
+  flashId?: unknown;
+  FlashID?: unknown;
+  t?: unknown;
+  controllers?: unknown;
+  SupportedControllers?: unknown;
+  vd?: unknown;
+  vendor?: unknown;
+  Vendor?: unknown;
+  c?: unknown;
+  cell?: unknown;
+  cap?: unknown;
+  capacity?: unknown;
+  pkg?: unknown;
+  package?: unknown;
+  w?: unknown;
+  width?: unknown;
+  m?: unknown;
+  metadata?: unknown;
+}
+
+export interface FdnextFdbgenV1BuildControllerInput {
+  n?: unknown;
+  name?: unknown;
+  controller?: unknown;
+  Controller?: unknown;
+  a?: unknown;
+  aliases?: unknown;
+  Aliases?: unknown;
+  mf?: unknown;
+  maker?: unknown;
+  Manufacturer?: unknown;
+  if?: unknown;
+  interface?: unknown;
+  Interface?: unknown;
+  fw?: unknown;
+  firmware?: unknown;
+  Firmware?: unknown;
+  rev?: unknown;
+  revision?: unknown;
+  Revision?: unknown;
+  st?: unknown;
+  status?: unknown;
+  Status?: unknown;
+  m?: unknown;
+  metadata?: unknown;
+}
+
+export interface FdnextFdbgenV1BuildOptions {
+  mode?: FdnextFdbgenV1Kind;
+  format?: FdnextFdbgenV1Kind;
+  full?: boolean;
+  controllers?: readonly unknown[];
+  m?: unknown;
+  metadata?: unknown;
+}
+
+export interface FdnextFdbgenV1RawCompactEntry {
+  pn?: string;
+  id?: string;
+  t?: string[];
+}
+
+export interface FdnextFdbgenV1RawFullEntry extends FdnextFdbgenV1RawCompactEntry {
+  vd?: string;
+  c?: string;
+  cap?: string;
+  pkg?: string;
+  w?: string;
+  m?: Record<string, unknown>;
+}
+
+export interface FdnextFdbgenV1RawController {
+  n?: string;
+  a?: string[];
+  mf?: string;
+  if?: string;
+  fw?: string;
+  rev?: string;
+  st?: string;
+  m?: Record<string, unknown>;
+}
+
+export interface FdnextFdbgenV1RawCompactDocument {
+  v: typeof FDNEXT_FDBGEN_V1_COMPACT_VERSION;
+  e: FdnextFdbgenV1RawCompactEntry[];
+}
+
+export interface FdnextFdbgenV1RawFullDocument {
+  v: typeof FDNEXT_FDBGEN_V1_FULL_VERSION;
+  cl: FdnextFdbgenV1RawController[];
+  e: FdnextFdbgenV1RawFullEntry[];
+  m?: Record<string, unknown>;
+}
+
+export type FdnextFdbgenV1RawDocument = FdnextFdbgenV1RawCompactDocument | FdnextFdbgenV1RawFullDocument;
+
 const FDNEXT_FDBGEN_V1_VERSIONS = new Set<string>([FDNEXT_FDBGEN_V1_COMPACT_VERSION, FDNEXT_FDBGEN_V1_FULL_VERSION]);
+const FDBGEN_V1_COMPAT_DASH = /[\u2010\u2011\u2012\u2013\u2014\u2015\u2212\uFE58\uFE63\uFF0D]/g;
+const FDBGEN_V1_VENDOR_BY_ID_PREFIX: Record<string, string> = {
+  "2C": "micron",
+  "45": "sndk",
+  "89": "intel",
+  "98": "kioxia",
+  AD: "skhynix",
+  EC: "samsung",
+  C8: "ymtc"
+};
+
 function asRecord(value: unknown): Record<string, unknown> | null {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : null;
 }
@@ -82,12 +195,236 @@ export function normalizeFdnextFdbgenV1FlashId(value: unknown): string | undefin
   return text ? normalizeSupportFlashId(text, true) : undefined;
 }
 
+export function normalizeFdnextFdbgenV1Text(value: unknown): string {
+  return String(value ?? "").normalize("NFKC").replace(FDBGEN_V1_COMPAT_DASH, "-");
+}
+
+export function normalizeFdnextFdbgenV1BuildFlashId(value: unknown): string | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  const hex = String(value).replace(/[^0-9a-f]/gi, "").toUpperCase();
+  if (!hex || hex.length % 2 !== 0 || hex.length < 4 || hex.length > 16) {
+    return undefined;
+  }
+  return hex;
+}
+
+export function normalizeFdnextFdbgenV1PartNumber(value: unknown): string | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  let text = normalizeFdnextFdbgenV1Text(value).trim();
+  if (!text) {
+    return undefined;
+  }
+  text = text.split("--")[0]!.trim();
+  text = text.replace(/\(.*$/, "").trim();
+  text = text.replace(/\s+/g, "");
+  text = text.replace(/[;,]+$/, "");
+  if (!/[a-z0-9]/i.test(text)) {
+    return undefined;
+  }
+  return text.toUpperCase();
+}
+
+export function normalizeFdnextFdbgenV1VendorHint(value: unknown): string | undefined {
+  if (value === undefined || value === null) {
+    return undefined;
+  }
+  const text = String(value).trim().toLowerCase();
+  if (!text) {
+    return undefined;
+  }
+  if (/micron/.test(text)) return "micron";
+  if (/spectek/.test(text)) return "spectek";
+  if (/intel|pf29/.test(text)) return "intel";
+  if (/samsung/.test(text)) return "samsung";
+  if (/sk\s*hynix|hynix/.test(text)) return "skhynix";
+  if (/kioxia|toshiba/.test(text)) return "kioxia";
+  if (/sandisk|san\s*disk|western\s*digital|\bwd\b/.test(text)) return "sndk";
+  if (/ymtc/.test(text)) return "ymtc";
+  const normalized = normalizeFdbVendorName(text.replace(/[^a-z0-9_.-]+/g, "_").replace(/^_+|_+$/g, ""));
+  return normalized || undefined;
+}
+
+export function inferFdnextFdbgenV1VendorFromFlashId(flashId: unknown): string | undefined {
+  const normalized = normalizeFdnextFdbgenV1BuildFlashId(flashId);
+  return normalized ? FDBGEN_V1_VENDOR_BY_ID_PREFIX[normalized.slice(0, 2)] : undefined;
+}
+
+export function inferFdnextFdbgenV1VendorFromPartNumber(partNumber: unknown): string | undefined {
+  const pn = normalizeFdnextFdbgenV1PartNumber(partNumber);
+  if (!pn) {
+    return undefined;
+  }
+  if (/^(MT29|NW|NY|NX|NQ|NC|NV)/.test(pn)) return "micron";
+  if (/^PF29/.test(pn)) return "intel";
+  if (/^K9/.test(pn)) return "samsung";
+  if (/^(H27|H26|HY27)/.test(pn)) return "skhynix";
+  if (/^(TH|TC58)/.test(pn)) return "kioxia";
+  if (/^(SDUN|SDTN|05[0-9]{3})/.test(pn)) return "sndk";
+  return undefined;
+}
+
 export function normalizeFdnextFdbgenV1ControllerName(value: unknown): string | undefined {
   return normalizeSupportListControllerName(value);
 }
 
 export function parseFdnextFdbgenV1ControllerList(value: unknown): string[] {
   return parseSupportListControllerList(value);
+}
+
+export function normalizeFdnextFdbgenV1Mode(options: FdnextFdbgenV1BuildOptions = {}): FdnextFdbgenV1Kind {
+  if (options.mode === "full" || options.format === "full") {
+    return "full";
+  }
+  if (options.mode === "compact" || options.format === "compact") {
+    return "compact";
+  }
+  return options.full ? "full" : "compact";
+}
+
+function asBuildEntryInput(value: unknown): FdnextFdbgenV1BuildEntryInput {
+  return asRecord(value) as FdnextFdbgenV1BuildEntryInput | null ?? {};
+}
+
+function asBuildControllerInput(value: unknown): FdnextFdbgenV1BuildControllerInput {
+  return asRecord(value) as FdnextFdbgenV1BuildControllerInput | null ?? {};
+}
+
+function asArray(value: unknown): unknown[] {
+  if (Array.isArray(value)) {
+    return value;
+  }
+  return value === undefined || value === null || value === "" ? [] : [value];
+}
+
+function uniqueStrings(value: unknown): string[] {
+  const out: string[] = [];
+  const seen = new Set<string>();
+  for (const item of asArray(value)) {
+    const text = readString(item);
+    if (!text || seen.has(text)) {
+      continue;
+    }
+    seen.add(text);
+    out.push(text);
+  }
+  return out;
+}
+
+function cleanObject<T extends Record<string, unknown>>(value: T): Partial<T> {
+  const out: Partial<T> = {};
+  for (const [key, item] of Object.entries(value)) {
+    if (item === undefined || item === null || item === "") {
+      continue;
+    }
+    if (Array.isArray(item) && item.length === 0) {
+      continue;
+    }
+    if (item && typeof item === "object" && !Array.isArray(item) && Object.keys(item).length === 0) {
+      continue;
+    }
+    out[key as keyof T] = item as T[keyof T];
+  }
+  return out;
+}
+
+function metadataFrom(value: FdnextFdbgenV1BuildEntryInput | FdnextFdbgenV1BuildControllerInput | FdnextFdbgenV1BuildOptions): Record<string, unknown> | undefined {
+  const merged = {
+    ...(asRecord(value.m) ?? {}),
+    ...(asRecord(value.metadata) ?? {})
+  };
+  return Object.keys(merged).length > 0 ? merged : undefined;
+}
+
+export function buildFdnextFdbgenV1CompactEntry(input: unknown): FdnextFdbgenV1RawCompactEntry {
+  const source = asBuildEntryInput(input);
+  return cleanObject({
+    pn: normalizeFdnextFdbgenV1PartNumber(source.pn ?? source.partNumber ?? source.flashName ?? source.FlashName),
+    id: normalizeFdnextFdbgenV1BuildFlashId(source.id ?? source.flashId ?? source.FlashID),
+    t: uniqueStrings(source.t ?? source.controllers ?? source.SupportedControllers)
+  }) as FdnextFdbgenV1RawCompactEntry;
+}
+
+export function buildFdnextFdbgenV1FullEntry(input: unknown): FdnextFdbgenV1RawFullEntry {
+  const source = asBuildEntryInput(input);
+  const entry = buildFdnextFdbgenV1CompactEntry(source);
+  return cleanObject({
+    ...entry,
+    vd:
+      normalizeFdnextFdbgenV1VendorHint(source.vd ?? source.vendor ?? source.Vendor) ??
+      inferFdnextFdbgenV1VendorFromFlashId(entry.id) ??
+      inferFdnextFdbgenV1VendorFromPartNumber(entry.pn),
+    c: readString(source.c ?? source.cell),
+    cap: readString(source.cap ?? source.capacity),
+    pkg: readString(source.pkg ?? source.package),
+    w: readString(source.w ?? source.width),
+    m: metadataFrom(source)
+  }) as FdnextFdbgenV1RawFullEntry;
+}
+
+export function buildFdnextFdbgenV1Controller(input: unknown): FdnextFdbgenV1RawController {
+  if (typeof input === "string") {
+    return { n: input.trim() };
+  }
+  const source = asBuildControllerInput(input);
+  return cleanObject({
+    n: readString(source.n ?? source.name ?? source.controller ?? source.Controller),
+    a: uniqueStrings(source.a ?? source.aliases ?? source.Aliases),
+    mf: readString(source.mf ?? source.maker ?? source.Manufacturer),
+    if: readString(source.if ?? source.interface ?? source.Interface),
+    fw: readString(source.fw ?? source.firmware ?? source.Firmware),
+    rev: readString(source.rev ?? source.revision ?? source.Revision),
+    st: readString(source.st ?? source.status ?? source.Status),
+    m: metadataFrom(source)
+  }) as FdnextFdbgenV1RawController;
+}
+
+function controllerNamesFromEntries(entries: readonly unknown[]): string[] {
+  return uniqueStrings(entries.flatMap((entry) => {
+    const source = asBuildEntryInput(entry);
+    return uniqueStrings(source.t ?? source.controllers ?? source.SupportedControllers);
+  }));
+}
+
+export function buildFdnextFdbgenV1ControllerList(entries: readonly unknown[], controllers: readonly unknown[] = []): FdnextFdbgenV1RawController[] {
+  const byName = new Map<string, FdnextFdbgenV1RawController>();
+  for (const controller of controllers) {
+    const definition = buildFdnextFdbgenV1Controller(controller);
+    if (definition.n) {
+      byName.set(definition.n, definition);
+    }
+  }
+  for (const name of controllerNamesFromEntries(entries)) {
+    if (!byName.has(name)) {
+      byName.set(name, { n: name });
+    }
+  }
+  return [...byName.entries()]
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([, controller]) => controller);
+}
+
+export function buildFdnextFdbgenV1SupportList(entries: readonly unknown[], options: FdnextFdbgenV1BuildOptions = {}): FdnextFdbgenV1RawDocument {
+  const mode = normalizeFdnextFdbgenV1Mode(options);
+  if (mode === "full") {
+    const document: FdnextFdbgenV1RawFullDocument = {
+      v: FDNEXT_FDBGEN_V1_FULL_VERSION,
+      cl: buildFdnextFdbgenV1ControllerList(entries, options.controllers ?? []),
+      e: entries.map(buildFdnextFdbgenV1FullEntry).filter((entry) => Object.keys(entry).length > 0)
+    };
+    const metadata = metadataFrom(options);
+    if (metadata) {
+      document.m = metadata;
+    }
+    return document;
+  }
+  return {
+    v: FDNEXT_FDBGEN_V1_COMPACT_VERSION,
+    e: entries.map(buildFdnextFdbgenV1CompactEntry).filter((entry) => Object.keys(entry).length > 0)
+  };
 }
 
 function parseEntry(value: unknown): FdnextFdbgenV1Entry | null {

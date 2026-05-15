@@ -116,6 +116,19 @@ pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --t
 
 开启 `--trace-sources` 时，audit 会在 fdbgen 内部构建临时 provenance map，但不会把 trace 写入最终 FDB。报告会同时展示最终 FDB issue 和该 issue 对应的引入位置，例如哪个 controller parser、哪个 raw 文件、哪一行或 JSON record、原始内容、归一化后的 vendor / PN / Flash ID 以及 `add_part_id` / `merge_part_payload` / `merge_flash_payload` 等 decision。该模式用于清理前定位来源，常规发布资源仍只输出干净的 `fdb.json`。
 
+`audit-extra` 是 `extra.json` 候选文件的只读审计入口，适合在一次性清洗数据合并前检查覆盖影响：
+
+```bash
+pnpm fdbgen:audit-extra -- --candidate ../fdfdb/sky.extra.json --base-extra ../fdfdb/extra.json --base-fdb packages/resources/resources/fdb.json --decodepack
+pnpm fdbgen:audit-extra -- --candidate ../fdfdb/sky.extra.json --base-fdb packages/resources/resources/fdb.json --json --out ../fdfdb/sky.audit.json
+```
+
+- `--candidate <path>`：候选 `extra.json` 文件，必填
+- `--base-extra <path>`：现有 `extra.json`，用于检查同 vendor + PN 的 `fid/id/l/c/m/d/e/r/n/t/a/f` 差异
+- `--base-fdb <path>`：现有 generated `fdb.json`，用于检查 ID 覆盖、fanout、controller 支持和 `iddb.n` 反向引用
+- `--decodepack`：在 CLI 层加载 fdnext core/decodepack engine，对候选 PN 的 vendor、制程、cell 和 topology 做冲突审计；通用 fdbgen 库不直接依赖 decodepack
+- `--json` / `--out <path>` / `--max-samples <n>` / `--fail-on-issues`：与普通 audit 相同
+
 ## 输入目录约定
 
 输入目录支持两种来源。
@@ -217,6 +230,7 @@ dataset/
 
 ```json
 {
+  "schemaVersion": "fdnext.fdb.extra.v1",
   "info": {
     "controllers": ["PS3111"]
   },
@@ -225,6 +239,13 @@ dataset/
     "phison": {
       "TA17GABCH0": {
         "t": ["PS3111"]
+      }
+    },
+    "sndk": {
+      "SDTNQGAMA-008G": {
+        "fid": ["45DE949376570000"],
+        "l": "BiCS3",
+        "c": "TLC"
       }
     }
   },
@@ -237,6 +258,8 @@ dataset/
 ```
 
 ## 合并与归一化规则
+
+`extra.json` schema 名为 `fdnext.fdb.extra.v1`，generated `fdb.json` schema 名为 `fdnext.fdb.v1`，对应 schema 文件分别是 [`docs/schemas/fdnext.fdb.extra.v1.schema.json`](schemas/fdnext.fdb.extra.v1.schema.json) 和 [`docs/schemas/fdnext.fdb.v1.schema.json`](schemas/fdnext.fdb.v1.schema.json)。`schemaVersion` 是可选 root 字段；旧数据不带该字段仍可读取，但一旦提供就必须匹配对应 schema。fdbgen 生成新的 `fdb.json` 时会写入 `"schemaVersion": "fdnext.fdb.v1"`。
 
 ### 厂商解码模块
 
@@ -330,6 +353,8 @@ Raw FlashDB 模式：
 - PN key 统一转大写，并移除空格、逗号、`&`、`.`、`|`
 - Flash ID key 统一移除空白、转大写；非十六进制、奇数字节长度或异常长度的 ID 会被丢弃
 - 数组字段（如 `id/f/a/t/n/controllers`）会去重
+- `extra.json` 的 PN payload 额外支持 `fid`，表示可信来源强制覆盖该 PN 的主 Flash ID；`fid` 与 `id` 互斥，生成后的 `fdb.json` 只输出 `id`，不保留 `fid`
+- generated `fdb.json` 禁止出现 `fid`，并使用 `fdnext.fdb.v1` schema
 - 数值字段（`s/p/b/d/e/r/n`）仅接受有限数值
 - 如果 `*_1` 或尾部 `-` PN 有明确 base PN，会合并回 base PN
 - `iddb.n` 只保留能在 vendor PN 表中找到的反向引用

@@ -1,0 +1,162 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://itxtech.org/fdnext/schemas/fdnext.fdb.extra.v1.schema.json",
+  "title": "fdnext.fdb.extra.v1",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": "fdnext.fdb.extra.v1"
+    },
+    "info": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "website": {
+          "type": "string"
+        },
+        "controllers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "controllerBlacklist": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "vendors": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/vendorBucket"
+      }
+    },
+    "iddb": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/flashIdPayload"
+      }
+    }
+  },
+  "additionalProperties": {
+    "$ref": "#/$defs/vendorBucket"
+  },
+  "$defs": {
+    "flashId": {
+      "type": "string",
+      "pattern": "^(?:[0-9A-Fa-f]{2}){6,}$"
+    },
+    "stringList": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "partPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/flashId"
+          },
+          "uniqueItems": true
+        },
+        "fid": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/flashId"
+          },
+          "uniqueItems": true
+        },
+        "f": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/flashId"
+          },
+          "uniqueItems": true
+        },
+        "a": {
+          "$ref": "#/$defs/stringList"
+        },
+        "l": {
+          "type": "string",
+          "minLength": 1
+        },
+        "c": {
+          "type": "string",
+          "minLength": 1
+        },
+        "t": {
+          "$ref": "#/$defs/stringList"
+        },
+        "m": {
+          "type": "string",
+          "minLength": 1
+        },
+        "d": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "e": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "r": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "not": {
+        "required": ["id", "fid"]
+      }
+    },
+    "vendorBucket": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/partPayload"
+      }
+    },
+    "flashIdPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "s": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "p": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "b": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "t": {
+          "$ref": "#/$defs/stringList"
+        },
+        "n": {
+          "$ref": "#/$defs/stringList"
+        }
+      }
+    }
+  }
+}

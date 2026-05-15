@@ -99,7 +99,7 @@ export const DEFAULT_FDB_AUDIT_VENDORS = [
 ] as const;
 
 const HEX_FLASH_ID = new RegExp(`^[0-9A-F]{${FDB_FLASH_ID_HEX_LENGTH}}$`);
-const PUBLIC_ROOT_KEYS = new Set(["info", "iddb"]);
+const PUBLIC_ROOT_KEYS = new Set(["schemaVersion", "info", "iddb"]);
 const DEFAULT_MAX_SAMPLES = 8;
 
 const SEVERITY_ORDER: Record<FdbAuditSeverity, number> = {

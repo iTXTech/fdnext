@@ -12,6 +12,7 @@ import {
 import { isLowInformationPartPayload } from "./part-payload";
 import { vendorFromSupportListFlashId } from "./support-list";
 import { createFdbProvenanceTrace, mergeProvenanceSource, type FdbProvenanceSource, type FdbProvenanceTrace } from "./trace";
+import { FDNEXT_FDB_SCHEMA_VERSION } from "./types";
 import type { ExtraPayload, FdbInfoPayload, FlashIdPayload, GenerateFdbOptions, PartNumberPayload } from "./types";
 import { isCompatibleVendor, shouldPreserveFlashIdVendor } from "./vendor-compat";
 import { inferVendorFromPartNumber, normalizeKnownPackage, normalizeVendor } from "./vendors";
@@ -676,7 +677,7 @@ function loadInputDirectory(inputDir: string, vendors: VendorMap, iddb: FlashIdM
     const source = asRecord(readJson(fdbPath));
     mergeIddbRecord(iddb, source.iddb, trace, { file: fdbPath, filename: "fdb.json" });
     for (const [key, value] of Object.entries(source)) {
-      if (key === "info" || key === "iddb") {
+      if (key === "schemaVersion" || key === "info" || key === "iddb") {
         continue;
       }
       mergeVendorRecord(vendors, key, value, trace, { file: fdbPath, filename: "fdb.json" });
@@ -709,7 +710,7 @@ function loadInputDirectory(inputDir: string, vendors: VendorMap, iddb: FlashIdM
 function applyExtra(extra: ExtraPayload, vendors: VendorMap, iddb: FlashIdMap, trace?: FdbProvenanceTrace, source?: FdbProvenanceSource): void {
   const rawExtraVendors: Record<string, unknown> = {};
   for (const [key, value] of Object.entries(extra)) {
-    if (key !== "info" && key !== "controllerBlacklist" && key !== "vendors" && key !== "iddb") {
+    if (key !== "schemaVersion" && key !== "info" && key !== "controllerBlacklist" && key !== "vendors" && key !== "iddb") {
       rawExtraVendors[key] = value;
     }
   }
@@ -814,6 +815,7 @@ function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: V
   }
 
   const output: Record<string, unknown> = {
+    schemaVersion: FDNEXT_FDB_SCHEMA_VERSION,
     info,
     iddb: outputIddb
   };
