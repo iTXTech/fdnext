@@ -1280,15 +1280,6 @@
     ],
     "process_alias": "L74A"
   },
-  "L74C": {
-    "die_codename": "25nm",
-    "cell_level": 2,
-    "die_density": "64Gb",
-    "firmware_match": [
-      "IM2DM"
-    ],
-    "process_alias": "L74C"
-  },
   "L7BT": {
     "die_codename": "25nm",
     "cell_level": 2,

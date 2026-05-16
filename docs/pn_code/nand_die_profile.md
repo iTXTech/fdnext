@@ -100,11 +100,19 @@ Micron / Intel 的 3D NAND 固件匹配直接使用 die codename，不再同时�
 | `N38C` | `N38C` |
 | `N38E` | `N38E` |
 
-Intel raw PN 的制程 token 按 `cell + generation suffix + computed die density` 归一，避免只用后缀误判同一代中不同 die size 的型号。当前确认规则：
+Intel raw PN 的制程 token 按 `cell + generation suffix + computed die density` 归一，避免只用后缀误判同一代中不同 die size 的型号。本轮用 `../fdfdb` 中 Alcor CSV 与 SMI / SM Flash 支持表交叉聚合后，确认 25nm `7x` 与 34nm `6x` 仍应走这套组合 key，而不是单看 `D/E/F` 代号。IMFT 2D alias 第三位是 die density code：`2 = 16Gb`、`3 = 32Gb`、`4 = 64Gb`、`5 = 128Gb`，规则表不得违反这个编码关系。当前确认规则：
 
 | Cell + suffix + die density | Profile key |
 | --- | --- |
+| `M:D2/DB:16Gb` | `L62A` |
+| `M:D1/D2:32Gb` | `L63A` |
+| `M:DA/DB:32Gb` | `L63B` |
+| `M:E1:16Gb` | `L72A` |
+| `M:E1:32Gb` | `L73A` |
 | `M:E1:64Gb` | `L74A` |
+| `M:E2:64Gb` | `L74A` |
+| `N:E1:32Gb` | `M73A` |
+| `T:E1:64Gb` | `B74A` |
 | `M:F1:64Gb` | `L84A` |
 | `M:FH/FS:64Gb` | `L84C` |
 | `M:F2:128Gb` | `L85A` |

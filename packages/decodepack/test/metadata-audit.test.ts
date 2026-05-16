@@ -372,6 +372,31 @@ function assertMicronSolidigmDieProfileNaming(): void {
   }
 }
 
+function assertIntel2dAliasDensityDigitsMatch(): void {
+  const intelRule = defaultPartDecodeSpecs.find((rule) => rule.id === "vendor.intel.token.v1");
+  assert.ok(intelRule?.tokenDecoder, "Intel token rule should be present");
+  const tables = intelRule.tokenDecoder.tables as Record<string, unknown>;
+  const overrides = tables.processNodeOverrideByDieDensity as Record<string, string>;
+  const densityDigits: Record<string, string> = {
+    "16Gb": "2",
+    "32Gb": "3",
+    "64Gb": "4",
+    "128Gb": "5"
+  };
+  const findings: string[] = [];
+
+  for (const [key, alias] of Object.entries(overrides)) {
+    const dieDensity = key.split(":")[2] ?? "";
+    const expectedDigit = densityDigits[dieDensity];
+    const match = /^[LMB][6789]([2-5])[A-Z]$/.exec(alias);
+    if (match && expectedDigit && match[1] !== expectedDigit) {
+      findings.push(`${key} -> ${alias}, expected density digit ${expectedDigit}`);
+    }
+  }
+
+  assert.deepEqual(findings, [], "Intel IMFT 2D process alias third digit should match die density");
+}
+
 function assertLangKeysUseSnakeCase(): void {
   const allowed = new Set(["eMMC"]);
   for (const file of ["packages/resources/resources/lang/eng.json", "packages/resources/resources/lang/chs.json"]) {
@@ -726,6 +751,7 @@ assertRepresentativeDecodePackMetadata();
 assertRuntimeDoesNotKeepMetadataAliases();
 assertLangPacksAreConsistent();
 assertMicronSolidigmDieProfileNaming();
+assertIntel2dAliasDensityDigitsMatch();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertManagedNandOutputIsCanonical();

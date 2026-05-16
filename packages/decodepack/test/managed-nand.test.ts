@@ -509,6 +509,15 @@ assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F64B2ALCTJ1", "B27A");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T08OCMF2", "L85A");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T08OCMFS", "L85C");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T08OCMFP", "L85C");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "JS29F16G08AAMD2", "L62A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "JS29F32G08AAMD1", "L63A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "JS29F32G08AAMDB", "L63B");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "JS29F16G08AAME1", "L72A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "JS29F32G08AAME1", "L73A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "JS29F64G08AAME1", "L74A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "JS29F64G08ACME2", "L74A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "JS29F32G08ACNE1", "M73A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "JS29F64G08AATE1", "B74A");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F64B08OCME1", "L74A");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F16B08MCMF1", "L84A");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F16B08MCMFH", "L84C");
@@ -609,6 +618,83 @@ assertPart("PF29F01T08OCMFP", {
   package: "BGA",
   extra: {
     "Process Alias": "L85C"
+  }
+});
+assertPart("JS29F16G08AAMD2", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 16384,
+  dieProfileField: "34nm",
+  cellField: "MLC",
+  package: "TSOP48",
+  extra: {
+    "Process Alias": "L62A"
+  }
+});
+assertPart("JS29F32G08AAMD1", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 32768,
+  dieProfileField: "34nm",
+  cellField: "MLC",
+  package: "TSOP48",
+  extra: {
+    "Process Alias": "L63A"
+  }
+});
+assertPart("JS29F32G08AAMDB", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 32768,
+  dieProfileField: "34nm",
+  cellField: "MLC",
+  package: "TSOP48",
+  extra: {
+    "Process Alias": "L63B"
+  }
+});
+assertPart("JS29F16G08AAME1", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 16384,
+  dieProfileField: "25nm",
+  cellField: "MLC",
+  package: "TSOP48",
+  extra: {
+    "Process Alias": "L72A"
+  }
+});
+assertPart("JS29F32G08AAME1", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 32768,
+  dieProfileField: "25nm",
+  cellField: "MLC",
+  package: "TSOP48",
+  extra: {
+    "Process Alias": "L73A"
+  }
+});
+assertPart("JS29F64G08AATE1", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 65536,
+  dieProfileField: "25nm",
+  cellField: "TLC",
+  package: "TSOP48",
+  extra: {
+    "Process Alias": "B74A"
+  }
+});
+assertPart("JS29F32G08ACNE1", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 32768,
+  dieProfileField: "25nm",
+  cellField: "SLC",
+  package: "TSOP48",
+  extra: {
+    "Process Alias": "M73A"
   }
 });
 assertPart("PF29F64B08OCME1", {
