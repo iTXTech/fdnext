@@ -145,24 +145,13 @@
           "F": 4
         },
         "processNode": {
-          "2": "BiCS2",
-          "3": "BiCS3",
-          "4": "BiCS4",
-          "5": "BiCS5",
-          "6": "BiCS6",
-          "8": "BiCS8",
-          "A": "130 nm",
-          "B": "90 nm",
-          "C": "70 nm",
-          "D": "56 nm",
-          "E": "43 nm",
-          "F": "32 nm",
-          "G": "24 nm A-type",
-          "H": "24 nm B-type",
-          "J": "19 nm/1x",
-          "K": "A19 nm/1y",
-          "L": "15 nm/1z",
-          "M": "BiCS4.5"
+          "2": "KBiCS2",
+          "3": "KBiCS3",
+          "4": "KBiCS4",
+          "5": "KBiCS5",
+          "6": "KBiCS6",
+          "8": "KBiCS8",
+          "M": "KBiCS4.5"
         },
         "basePackage": {
           "FT": "TSOP48",
@@ -386,7 +375,7 @@
           "from": "processCode",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "take",
@@ -478,9 +467,6 @@
         "fields.device_width": {
           "$var": "deviceWidth"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.cell_level": {
           "$var": "cellLevel"
         },
@@ -508,7 +494,10 @@
         "fields.channel_count": {
           "$var": "ch"
         },
-        "meta.ruleId": "vendor.kioxia.token.tc.v1"
+        "meta.ruleId": "vendor.kioxia.token.tc.v1",
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
       }
     }
   },
@@ -658,24 +647,13 @@
           "F": 4
         },
         "processNode": {
-          "2": "BiCS2",
-          "3": "BiCS3",
-          "4": "BiCS4",
-          "5": "BiCS5",
-          "6": "BiCS6",
-          "8": "BiCS8",
-          "A": "130 nm",
-          "B": "90 nm",
-          "C": "70 nm",
-          "D": "56 nm",
-          "E": "43 nm",
-          "F": "32 nm",
-          "G": "24 nm A-type",
-          "H": "24 nm B-type",
-          "J": "19 nm/1x",
-          "K": "A19 nm/1y",
-          "L": "15 nm/1z",
-          "M": "BiCS4.5"
+          "2": "KBiCS2",
+          "3": "KBiCS3",
+          "4": "KBiCS4",
+          "5": "KBiCS5",
+          "6": "KBiCS6",
+          "8": "KBiCS8",
+          "M": "KBiCS4.5"
         },
         "basePackage": {
           "FT": "TSOP48",
@@ -899,7 +877,7 @@
           "from": "processCode",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "take",
@@ -991,9 +969,6 @@
         "fields.device_width": {
           "$var": "deviceWidth"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.cell_level": {
           "$var": "cellLevel"
         },
@@ -1021,7 +996,10 @@
         "fields.channel_count": {
           "$var": "ch"
         },
-        "meta.ruleId": "vendor.kioxia.token.th.v1"
+        "meta.ruleId": "vendor.kioxia.token.th.v1",
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
       }
     }
   }

@@ -160,6 +160,13 @@
           "to": "processNode"
         },
         {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "dieProfileObj",
+          "default": {}
+        },
+        {
           "op": "takeLongest",
           "table": "density",
           "to": "density",
@@ -259,9 +266,6 @@
         "fields.device_width": {
           "$var": "deviceWidth"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.cell_level": {
           "$var": "cellLevel"
         },
@@ -271,7 +275,13 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.spectek.old-numbering.v1"
+        "meta.ruleId": "vendor.spectek.old-numbering.v1",
+        "fields.die_codename": {
+          "$path": [
+            "dieProfileObj",
+            "die_codename"
+          ]
+        }
       }
     }
   },
@@ -648,6 +658,13 @@
           "to": "processNode"
         },
         {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "dieProfileObj",
+          "default": {}
+        },
+        {
           "op": "takeLongest",
           "table": "density",
           "to": "density",
@@ -809,9 +826,6 @@
         "fields.device_width": {
           "$var": "deviceWidth"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.cell_level": {
           "$var": "cellLevel"
         },
@@ -833,7 +847,13 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.spectek.token.v1"
+        "meta.ruleId": "vendor.spectek.token.v1",
+        "fields.die_codename": {
+          "$path": [
+            "dieProfileObj",
+            "die_codename"
+          ]
+        }
       }
     }
   }

@@ -89,14 +89,8 @@
           }
         },
         "processNode": {
-          "DDH4": "3D NAND",
-          "DDH6": "3D NAND",
-          "EDK4": "3D NAND",
-          "FDK4": "3D NAND",
-          "FDO2": "3D NAND",
-          "FDO4": "3D NAND",
-          "FDQ6": "112L 3D NAND",
-          "HDL6": "BiCS8 218L"
+          "FDQ6": "SBiCS5",
+          "HDL6": "SBiCS8"
         },
         "density": {
           "4G": 32768,
@@ -202,7 +196,7 @@
           "from": "familyCode",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "stripIfPrefix",
@@ -271,10 +265,10 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.process_node": {
+        "meta.ruleId": "vendor.sndk.inand.ufs.v1",
+        "fields.die_codename": {
           "$var": "processNode"
-        },
-        "meta.ruleId": "vendor.sndk.inand.ufs.v1"
+        }
       }
     }
   }

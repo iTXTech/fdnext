@@ -45,7 +45,7 @@ PN 结构：
 - `storage_interface`
 - `density`
 - `cell_level`
-- `process_node`
+- `die_codename`
 - `voltage`
 - `controller_revision`
 - `die_stack`
@@ -69,4 +69,4 @@ PN 结构：
 
 KIOXIA `THG*` 还覆盖 UFS 和 E2NAND，不能只靠 `THG` 前缀判断。当前共享规则中，`THGxM` 的第二个 code `M` 才输出 eMMC；`THGxR` / `THGxX` 输出 E2NAND/SmartNAND。`THGxX` 的第一个 `x` 仍只按 voltage 解释。
 
-eMMC 仍保留既有 2D/BiCS 制程表：FG NAND 从 design rule token 推定 2D 制程，BiCS 系列从 stacked/design token 推定 BiCS 代际。推定结果写入 `fields.process_node`，并保留规则内 `generation_info` 表供审计；公开结果中与 `process_node` 重复的 `generation_info` 会由 core 去重。
+eMMC 仍保留既有 2D/BiCS profile 推断：BiCS 系列从 stacked/design token 推定 `KBiCS*` 这类 `die_codename`。2D FG NAND 没有稳定 die profile 时不再退回输出旧制程文本。

@@ -10,7 +10,7 @@
 - 可信度、reference status、source、inference note 等维护信息只能留在 iTXTech fdnext DecodePack metadata 或文档中，不能进入公开 fields。
 - 未知值直接省略；不要为了填满旧响应形状输出 `Unknown`、空数组或 NAND-only 默认槽位。
 - `vendor`、`chip_kind`、`product_type`、`part_number`、`identifier`、`id_scheme`、`marking_code` 已由 `device` 承载，不再复制进 `blocks[].fields[]`。
-- `config_code`、`package_code`、`controller_code`、`die_code`、`feature_code` 以及其他 `*_code` token 只用于 DecodePack 内部解析，不进入用户可见 `blocks[].fields[]`；应优先输出 `package`、`controller`、`die_revision`、`process_node`、`special_option` 等语义字段。`speed_grade` 例外，可保留原始 speed / grade token 并附带可读含义。
+- `config_code`、`package_code`、`controller_code`、`die_code`、`feature_code` 以及其他 `*_code` token 只用于 DecodePack 内部解析，不进入用户可见 `blocks[].fields[]`；应优先输出 `package`、`controller`、`die_revision`、`die_codename`、`special_option` 等语义字段。`speed_grade` 例外，可保留原始 speed / grade token 并附带可读含义。
 - 容量数值字段沿用项目约定，`value` 使用 Mbit；NAND / managed NAND 的 `display` 使用 Bytes，DRAM 的 `display` 使用 bits。
 
 ## Identity / Subtitle / Relation
@@ -50,7 +50,7 @@
 | `component_voltage` | 封装或组件电压，不承载产品线或代际信息 | `3.3V` |
 | `storage_density` | MCP/eMCP/uMCP 内 storage 子系统容量，`display` 用 Bytes | `262144` / `32GB` |
 | `die_density` | 单颗 NAND die 容量，`display` 用 Bytes | `1024` / `128MB` |
-| `die_codename` | 厂商 die profile 代号，可作为 PN / Flash ID / MPTool 规则之间的稳定匹配 key | `B27A` |
+| `die_codename` | Die profile key，可作为 PN / Flash ID / MPTool 规则之间的稳定匹配 key | `B27A` |
 | `die_stack` | 封装内 die 堆叠数量或厂商堆叠代号 | `8-die package` |
 | `die_count` / `plane_count` | die / plane 数量 | `2` / `4` |
 | `ce_count` / `rb_count` / `channel_count` | CE / R/B / channel 数量 | `2` / `2` / `4` |
@@ -71,8 +71,8 @@
 约定：
 
 - On-die ECC NAND 使用 `device.chipKind = "on_die_ecc_nand"`，展示为 `On-die ECC NAND`。
-- `generation_info` 可承接产品代际、层数或制程节点；若与 `process_node` 完全重复，公开结果不重复输出。
-- `nand.die_profile` 中的 `firmware_match` / `firmware_base` / `die_mark` 是匹配和维护 metadata，不默认输出到公开 result。Toshiba / SanDisk 2D 固件侧默认归一为 `2DM` / `2DT`；BiCS full code 如 `7T23`、`8T23`、`9T23` 可直接作为查表 key，也可先归一为 base `T23`，不同 die mark 只留在 profile metadata。
+- NAND 制程/代际匹配优先输出 `die_codename`，公开 label 渲染为 `Die Profile`；`generation_info` 可承接产品代际、层数或制程节点说明。
+- `nand.die_profile` 中的 `firmware_match` / `die_mark` 是匹配和维护 metadata，不默认输出到公开 result。Kioxia / SanDisk 2D 固件侧默认归一为 `2DM` / `2DT`；BiCS profile key 必须带厂商前缀，例如 `KBiCS3` / `SBiCS3`，full code profile key 也必须带厂商前缀，例如 `K7T23` / `S7T23`。Micron / Intel 3D 直接用 `B16A` 这类 die codename；2D 一般使用 `IM2DS` / `IM2DM` / `IM2DT` 区分 SLC / MLC / TLC，但 `L8x`、`B9x`、`L9x` 也直接用 die codename。
 - `storage_interface` 与 `product_type` 完全重复时，优先保留更结构化的 identity 字段，除非接口字段含有版本、lane、gear 等增量信息。
 - `iNAND`、`iSSD`、`moviNAND` 等厂商品牌或系列名不作为 `product_type`；需要展示时放入 `product_family` 等稳定语义字段，解析中间用的 `system` / `group` 不进入公开 fields。SSD 类封装按接口归类为 `sata` / `nvme`。
 

@@ -164,9 +164,9 @@ export const fdnextFieldRegistry = {
   die_codename: {
     key: "die_codename",
     valueKind: "string",
-    defaultLabel: "Die Codename",
-    recommendedBlock: "geometry",
-    importance: "secondary"
+    defaultLabel: "Die Profile",
+    recommendedBlock: "storage",
+    importance: "primary"
   },
   component_density: {
     key: "component_density",

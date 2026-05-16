@@ -67,8 +67,7 @@
           }
         },
         "processNode": {
-          "BDA6": "BiCS3 64L",
-          "BDG4": "2D NAND"
+          "BDA6": "SBiCS3"
         },
         "density": {
           "4G": 32768,
@@ -169,7 +168,7 @@
           "from": "familyCode",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "stripIfPrefix",
@@ -238,10 +237,10 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.process_node": {
+        "meta.ruleId": "vendor.sndk.inand.emmc.v1",
+        "fields.die_codename": {
           "$var": "processNode"
-        },
-        "meta.ruleId": "vendor.sndk.inand.emmc.v1"
+        }
       }
     }
   }

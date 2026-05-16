@@ -147,14 +147,7 @@
             "speed_grade": "400 MB/s"
           }
         },
-        "processNode": {
-          "BMN": "FG NAND",
-          "BMT": "FG NAND",
-          "BMU": "FG NAND",
-          "BMJ": "FG NAND",
-          "AMV": "BiCS FLASH",
-          "AMS": "BiCS FLASH"
-        },
+        "processNode": {},
         "processFamily": {
           "BMN": "FG",
           "BMT": "FG",
@@ -163,27 +156,15 @@
           "AMV": "BICS",
           "AMS": "BICS"
         },
-        "twoDimensionalProcessNode": {
-          "FG:A": "130 nm",
-          "FG:B": "90 nm",
-          "FG:C": "70 nm",
-          "FG:D": "56 nm",
-          "FG:E": "43 nm",
-          "FG:F": "32 nm",
-          "FG:G": "24 nm A-type",
-          "FG:H": "24 nm B-type",
-          "FG:J": "19 nm/1x",
-          "FG:K": "A19 nm/1y",
-          "FG:L": "15 nm/1z"
-        },
+        "twoDimensionalProcessNode": {},
         "bicsProcessNode": {
-          "BICS:2": "BiCS2",
-          "BICS:3": "BiCS3",
-          "BICS:4": "BiCS4",
-          "BICS:5": "BiCS5",
-          "BICS:6": "BiCS6",
-          "BICS:8": "BiCS8",
-          "BICS:M": "BiCS4.5"
+          "BICS:2": "KBiCS2",
+          "BICS:3": "KBiCS3",
+          "BICS:4": "KBiCS4",
+          "BICS:5": "KBiCS5",
+          "BICS:6": "KBiCS6",
+          "BICS:8": "KBiCS8",
+          "BICS:M": "KBiCS4.5"
         },
         "twoDimensionalGenerationObj": {
           "FG:A": {
@@ -404,7 +385,7 @@
           "from": "seriesCode",
           "table": "processNode",
           "to": "seriesProcessNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "take",
@@ -606,11 +587,6 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "twoDimensionalGenerationObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
           "from": "bicsGenerationObj"
         },
         {
@@ -655,9 +631,6 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.voltage": {
           "$var": "voltage"
         },
@@ -673,7 +646,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.kioxia.managed.thg.v1"
+        "meta.ruleId": "vendor.kioxia.managed.thg.v1",
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
       }
     }
   }

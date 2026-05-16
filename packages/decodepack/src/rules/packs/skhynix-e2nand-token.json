@@ -46,11 +46,7 @@
             "block_size": "4MB"
           }
         },
-        "processNode": {
-          "D:1": "26nm",
-          "J:1": "1xnm class",
-          "J:2": "20nm class"
-        },
+        "processNode": {},
         "voltage": {
           "D": "Vcc: 3.3V, VccQ: 3.3V",
           "J": "Vcc: 3.0V/3.3V, VccQ: 3.0V/3.3V"
@@ -99,7 +95,7 @@
           "from": "processKey",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "map",
@@ -182,15 +178,15 @@
           "$var": "density"
         },
         "fields.device_width": 8,
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.cell_level": 2,
         "fields.voltage": {
           "$var": "voltage"
         },
         "fields.package": "VLGA",
-        "meta.ruleId": "vendor.skhynix.e2nand.h2d_h2j.v1"
+        "meta.ruleId": "vendor.skhynix.e2nand.h2d_h2j.v1",
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
       }
     }
   }

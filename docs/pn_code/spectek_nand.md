@@ -37,7 +37,7 @@ PN 结构：
 
 - `density`
 - `cell_level`
-- `process_node`
+- `die_codename`
 - `device_width`
 - `voltage`
 - `package`
@@ -52,4 +52,4 @@ PN 结构：
 
 ## 注意
 
-旧版 SpecTek 规则不再报告 unsupported。当前实现按公开 numbering guide 的 token 位置解析，并只输出规则能确定的字段；design generation 仍按原始 token 组合保留为 `process_node`。
+旧版 SpecTek 规则不再报告 unsupported。当前实现按公开 numbering guide 的 token 位置解析，并只输出规则能确定的字段；design generation 只有能命中 `nand.die_profile` 时才作为 `die_codename` 输出。

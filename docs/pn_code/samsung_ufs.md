@@ -39,7 +39,7 @@ Samsung UFS 现在与 SK hynix 共用：
 - `die_stack`：封装堆叠，例如 `ODP (8-die)`
 - `nand_component`：特定基础 PN 的单 die NAND marking，例如 `K9AFGD8J0B`
 - `die_count` / `ce_count`：仅对 dump 表中列出的特定基础 PN 输出；不按 UFS PN token 泛化推断
-- `fields.process_node`：NAND 代际，例如 `V8 236L`；不在 `fields` 里重复输出相同的 `generation_info`
+- `die_codename`：NAND die profile key，例如 `SSV8`；2D/3D 代际说明如需展示由 `generation_info` 承接
 
 可信度 metadata 只在 iTXTech fdnext DecodePack `tables.reference` 内维护，不进入 `fields`。
 

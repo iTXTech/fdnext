@@ -99,15 +99,7 @@
             "speed_grade": "4640 MB/s"
           }
         },
-        "processNode": {
-          "AFB": "BiCS FLASH",
-          "AFE": "BiCS FLASH",
-          "JFG": "BiCS FLASH",
-          "JFP": "BiCS FLASH",
-          "JFM": "BiCS FLASH",
-          "JFJ": "BiCS FLASH",
-          "JFR": "BiCS FLASH"
-        },
+        "processNode": {},
         "processFamily": {
           "AFB": "BICS",
           "AFE": "BICS",
@@ -118,13 +110,13 @@
           "JFR": "BICS"
         },
         "bicsProcessNode": {
-          "BICS:2": "BiCS2",
-          "BICS:3": "BiCS3",
-          "BICS:4": "BiCS4",
-          "BICS:5": "BiCS5",
-          "BICS:6": "BiCS6",
-          "BICS:8": "BiCS8",
-          "BICS:M": "BiCS4.5"
+          "BICS:2": "KBiCS2",
+          "BICS:3": "KBiCS3",
+          "BICS:4": "KBiCS4",
+          "BICS:5": "KBiCS5",
+          "BICS:6": "KBiCS6",
+          "BICS:8": "KBiCS8",
+          "BICS:M": "KBiCS4.5"
         },
         "bicsGenerationObj": {
           "BICS:2": {
@@ -174,7 +166,8 @@
         "packageExact": {
           "BAIT": "BGA153",
           "LA01": "LGA60"
-        }
+        },
+        "twoDimensionalProcessNode": {}
       },
       "steps": [
         {
@@ -201,7 +194,7 @@
           "from": "seriesCode",
           "table": "processNode",
           "to": "seriesProcessNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "map",
@@ -374,13 +367,13 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.kioxia.ufs.managed.v1"
+        "meta.ruleId": "vendor.kioxia.ufs.managed.v1",
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
       }
     }
   }

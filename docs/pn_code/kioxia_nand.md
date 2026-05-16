@@ -37,7 +37,7 @@ PN 结构：
 
 - `density`
 - `cell_level`
-- `process_node`
+- `die_codename`
 - `device_width`
 - `voltage`
 - `page_size`

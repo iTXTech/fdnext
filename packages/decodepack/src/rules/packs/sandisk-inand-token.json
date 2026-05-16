@@ -66,13 +66,7 @@
             "nand_technology": "MLC NAND"
           }
         },
-        "processNode": {
-          "5C2": "24nm",
-          "5C4": "24nm",
-          "7DP4": "19nm",
-          "7DU2": "19nm",
-          "7LP4": "19nm"
-        },
+        "processNode": {},
         "density": {
           "4G": 32768,
           "004G": 32768,
@@ -108,7 +102,7 @@
           "from": "familyCode",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "stripIfPrefix",
@@ -176,10 +170,10 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.process_node": {
+        "meta.ruleId": "vendor.sndk.inand.legacy-emmc.v1",
+        "fields.die_codename": {
           "$var": "processNode"
-        },
-        "meta.ruleId": "vendor.sndk.inand.legacy-emmc.v1"
+        }
       }
     }
   }

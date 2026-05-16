@@ -134,10 +134,10 @@
           }
         },
         "processAlias": {
-          "A": "X0-A030",
-          "B": "X1-9050",
-          "C": "X2-9060",
-          "E": "X3-9060"
+          "A": "DBS",
+          "B": "JGS",
+          "C": "TAS",
+          "E": "WYS"
         }
       },
       "steps": [
@@ -199,7 +199,7 @@
         {
           "op": "map",
           "from": "processKey",
-          "table": "ymtc.process",
+          "table": "nand.die_profile",
           "to": "processObj",
           "default": {}
         },
@@ -209,6 +209,8 @@
           "to": "processFields",
           "keys": [
             "meta",
+            "firmware_match",
+            "die_mark",
             "cell_level",
             "die_density",
             "plane_count",
@@ -342,12 +344,6 @@
         "fields.cell_level": {
           "$var": "cellLevel"
         },
-        "fields.process_node": {
-          "$path": [
-            "processFields",
-            "process_node"
-          ]
-        },
         "fields.generation_info": {
           "$path": [
             "processFields",
@@ -365,6 +361,12 @@
           "$path": [
             "processFields",
             "layer_count"
+          ]
+        },
+        "fields.die_codename": {
+          "$path": [
+            "processFields",
+            "die_codename"
           ]
         }
       }

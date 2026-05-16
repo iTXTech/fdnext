@@ -50,16 +50,16 @@
           "3T:C": 524288
         },
         "processNode": {
-          "0Q:A": "176L 4D NAND QLC (V7Q)",
-          "3Q:A": "176L 4D NAND QLC (V7Q)",
-          "4Q:M": "321-layer 4D NAND QLC (V9Q)",
-          "0T:C": "176L 4D NAND (V7)",
-          "1T:C": "176L 4D NAND (V7)",
-          "1T:D": "238L 4D NAND (V8)",
-          "2T:B": "128L 4D NAND (V6 / H25FTB0)",
-          "2T:C": "176L 4D NAND (V7 / H25FTC0)",
-          "2T:D": "238L 4D NAND (V8 / H25FTD0)",
-          "3T:C": "238L 4D NAND (V8)"
+          "0Q:A": "HYV7Q",
+          "3Q:A": "HYV7Q",
+          "4Q:M": "HYV9Q",
+          "0T:C": "HYV7",
+          "1T:C": "HYV7",
+          "1T:D": "HYV8",
+          "2T:B": "HYV6",
+          "2T:C": "HYV7",
+          "2T:D": "HYV8",
+          "3T:C": "HYV8"
         },
         "productObj": {
           "0Q:A": {
@@ -201,7 +201,7 @@
           "from": "productKey",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "map",
@@ -221,9 +221,6 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.generation_info": {
           "$path": "productObj.generation_info"
         },
@@ -240,7 +237,10 @@
           "$var": "cellLevel"
         },
         "fields.device_width": 8,
-        "meta.ruleId": "vendor.skhynix.4d.package.h25t.v1"
+        "meta.ruleId": "vendor.skhynix.4d.package.h25t.v1",
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
       }
     }
   }

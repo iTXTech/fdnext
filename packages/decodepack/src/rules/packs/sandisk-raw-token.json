@@ -34,19 +34,11 @@
           "Z": "LGA"
         },
         "processNode": {
-          "A": "BiCS2",
-          "B": "BiCS3",
-          "C": "BiCS4",
-          "D": "BiCS5",
-          "E": "BiCS6",
-          "L": "56 nm",
-          "M": "43 nm",
-          "N": "32 nm",
-          "P": "24 nm",
-          "Q": "19 nm",
-          "R": "1y nm",
-          "S": "1Znm (15nm)",
-          "O": "A19nm[1y]"
+          "A": "SBiCS2",
+          "B": "SBiCS3",
+          "C": "SBiCS4",
+          "D": "SBiCS5",
+          "E": "SBiCS6"
         },
         "cellLevel": {
           "C": 3,
@@ -166,7 +158,7 @@
           "from": "processCode",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "take",
@@ -295,9 +287,6 @@
         "fields.package": {
           "$var": "package"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.cell_level": {
           "$var": "cellLevel"
         },
@@ -310,7 +299,10 @@
         "fields.channel_count": {
           "$var": "channel"
         },
-        "meta.ruleId": "vendor.sndk.token.v1"
+        "meta.ruleId": "vendor.sndk.token.v1",
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
       }
     }
   }

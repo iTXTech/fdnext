@@ -50,4 +50,4 @@ PN 结构：
 ## 注意
 
 KIOXIA automotive UFS 4.0 使用 `JFJ` series；consumer/industrial UFS 4.0 使用 `JFM` series；UFS 4.1 当前使用 `JFR` series。
-BiCS generation 优先从 package/revision token 的第 2 位推定，并复用 raw NAND `fields.process_node` 表。推定结果写入 `fields.process_node`，不在 `fields` 里重复输出 `generation_info`。未知 code 仍回退为 `BiCS FLASH`。
+BiCS generation 优先从 package/revision token 的第 2 位推定，并映射到 `KBiCS*` 这类 `fields.die_codename`。未知 code 仍回退为 `BiCS FLASH` 这类非 profile 线索时，不输出 die profile。

@@ -313,17 +313,17 @@
           "e2nand": "e2nand"
         },
         "processAlias": {
-          "A:6:M": "X0-A030",
-          "B:8:T": "X1-9050",
-          "C:9:T": "X2-9060",
-          "C:W:Q": "X2-6070",
-          "D:9:T": "X3-9060",
-          "D:A:T": "X3-9070",
-          "D:A:Q": "X3-6070",
-          "E:B:Q": "X4-6080",
-          "E:9:T": "X4-9060",
-          "E:A:T": "X4-9070",
-          "E:W:Q": "X4-6080"
+          "A:6:M": "DBS",
+          "B:8:T": "JGS",
+          "C:9:T": "TAS",
+          "C:W:Q": "HUS",
+          "D:9:T": "WYS",
+          "D:A:T": "WDS",
+          "D:A:Q": "EMS",
+          "E:B:Q": "PTS",
+          "E:9:T": "WTS",
+          "E:A:T": "SQS",
+          "E:W:Q": "PTS"
         }
       },
       "steps": [
@@ -530,7 +530,7 @@
         {
           "op": "map",
           "from": "processKey",
-          "table": "ymtc.process",
+          "table": "nand.die_profile",
           "to": "processObj",
           "default": {}
         },
@@ -539,7 +539,9 @@
           "from": "processObj",
           "to": "processFields",
           "keys": [
-            "meta"
+            "meta",
+            "firmware_match",
+            "die_mark"
           ]
         },
         {
@@ -636,12 +638,6 @@
         "fields.cell_level": {
           "$var": "cellLevel"
         },
-        "fields.process_node": {
-          "$path": [
-            "processFields",
-            "process_node"
-          ]
-        },
         "fields.voltage": {
           "$var": "voltage"
         },
@@ -671,6 +667,12 @@
           "$path": [
             "processFields",
             "layer_count"
+          ]
+        },
+        "fields.die_codename": {
+          "$path": [
+            "processFields",
+            "die_codename"
           ]
         }
       }

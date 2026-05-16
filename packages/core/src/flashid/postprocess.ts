@@ -1,4 +1,4 @@
-import { patchMicronPartNumberProcessNode } from "../micron/process-node";
+import { patchMicronPartNumberDieCodename } from "../micron/process-node";
 import { deleteDraftField, draftField, draftIdentifier, draftPartNumber, draftVendor, setDraftField } from "../draft";
 import type { IdentifierDecodeDraft, PartDecodeDraft } from "../types";
 
@@ -12,7 +12,7 @@ import { flashIdByteAt } from "./bytes";
 type ProcessLookup = {
   start: number;
   hex: string;
-  processNode: string;
+  dieCodename: string;
 };
 
 type YmtcProcessKey =
@@ -28,7 +28,7 @@ type YmtcProcessKey =
   | "X4-6080";
 
 type YmtcProcessInfo = {
-  process_node: string;
+  die_codename: string;
   generation_info?: string;
   layer_count?: number;
   cell_level?: number;
@@ -49,115 +49,115 @@ type YmtcProcessLookup = {
 const GBIT_TO_MBIT = 1024;
 
 const MICRON_LIKE_PROCESS_LOOKUPS: ProcessLookup[] = [
-  { start: 1, hex: "C30832EA30", processNode: "176L(B47R)" },
-  { start: 1, hex: "D38932EA30", processNode: "176L(B47R)" },
-  { start: 1, hex: "E38A32EA30", processNode: "176L(B47R)" },
-  { start: 1, hex: "C30832EA34", processNode: "176L(B47T)" },
-  { start: 1, hex: "D38932EA34", processNode: "176L(B47T)" },
-  { start: 1, hex: "E38A32EA34", processNode: "176L(B47T)" },
-  { start: 1, hex: "D30C32EA30", processNode: "176L(N48R)" },
-  { start: 1, hex: "E38D32EA30", processNode: "176L(N48R)" },
-  { start: 1, hex: "F38E32EA30", processNode: "176L(N48R)" },
-  { start: 1, hex: "C30832E630", processNode: "232L(B57T)" },
-  { start: 1, hex: "D38932E630", processNode: "232L(B57T)" },
-  { start: 1, hex: "E38A32E630", processNode: "232L(B57T)" },
-  { start: 1, hex: "D30832E830", processNode: "232L(B58R)" },
-  { start: 1, hex: "E38932E830", processNode: "232L(B58R)" },
-  { start: 1, hex: "F38A32E830", processNode: "232L(B58R)" },
-  { start: 1, hex: "D30832E831", processNode: "232L(B58R)" },
-  { start: 1, hex: "E38932E831", processNode: "232L(B58R)" },
-  { start: 1, hex: "F38A32E831", processNode: "232L(B58R)" },
-  { start: 1, hex: "D30C42EE30", processNode: "232L(N58R)" },
-  { start: 1, hex: "E38D42EE30", processNode: "232L(N58R)" },
-  { start: 1, hex: "F38E42EE30", processNode: "232L(N58R)" },
-  { start: 1, hex: "D30C42EE31", processNode: "232L(N58R)" },
-  { start: 1, hex: "E38D42EE31", processNode: "232L(N58R)" },
-  { start: 1, hex: "F38E42EE31", processNode: "232L(N58R)" },
-  { start: 1, hex: "D30832E834", processNode: "276L(B68S)" },
-  { start: 1, hex: "E38932E834", processNode: "276L(B68S)" },
-  { start: 1, hex: "F38A32E834", processNode: "276L(B68S)" },
-  { start: 1, hex: "D30832E835", processNode: "276L(B68S)" },
-  { start: 1, hex: "E38932E835", processNode: "276L(B68S)" },
-  { start: 1, hex: "F38A32E835", processNode: "276L(B68S)" },
-  { start: 1, hex: "D5943E74", processNode: "50nm(L52A)" },
-  { start: 1, hex: "D7D53E78", processNode: "50nm(L52A)" },
-  { start: 1, hex: "48002689", processNode: "34nm(M62A)" },
-  { start: 1, hex: "6801A689", processNode: "34nm(M62A)" },
-  { start: 1, hex: "68044689", processNode: "34nm(L63B)" },
-  { start: 1, hex: "8805C689", processNode: "34nm(L63B)" },
-  { start: 1, hex: "680446A9", processNode: "34nm(L63B)" },
-  { start: 1, hex: "680027A9", processNode: "25nm(M73A)" },
-  { start: 1, hex: "8801A7A9", processNode: "25nm(M73A)" },
-  { start: 1, hex: "682027A9", processNode: "25nm(M73A)" },
-  { start: 1, hex: "68044AA9", processNode: "25nm(L73A)" },
-  { start: 1, hex: "8805CAA9", processNode: "25nm(L73A)" },
-  { start: 1, hex: "88044BA900", processNode: "25nm(L74A)" },
-  { start: 1, hex: "A805CBA900", processNode: "25nm(L74A)" },
-  { start: 1, hex: "88244BA900", processNode: "25nm(L74A)" },
-  { start: 1, hex: "88244BA984", processNode: "20nm(L84A)" },
-  { start: 1, hex: "64444BA9", processNode: "20nm(L84A)" },
-  { start: 1, hex: "84C54BA9", processNode: "20nm(L84A)" },
-  { start: 1, hex: "64643CA1", processNode: "20nm(L84C)" },
-  { start: 1, hex: "64643CA5", processNode: "20nm(L84C)" },
-  { start: 1, hex: "84E53CA5", processNode: "20nm(L84C)" },
-  { start: 1, hex: "84643CA5", processNode: "20nm(L85A)" },
-  { start: 1, hex: "A4E53CA5", processNode: "20nm(L85A)" },
-  { start: 1, hex: "84643CA9", processNode: "20nm(L85C)" },
-  { start: 1, hex: "A4E53CA9", processNode: "20nm(L85C)" },
-  { start: 1, hex: "846454A9", processNode: "16nm(L95B)" },
-  { start: 1, hex: "A4E554A9", processNode: "16nm(L95B)" },
-  { start: 1, hex: "6808568A", processNode: "34nm(B63A)" },
-  { start: 1, hex: "88085FA9", processNode: "25nm(B74A)" },
-  { start: 1, hex: "88085F89", processNode: "25nm(B74A)" },
-  { start: 1, hex: "88285FA9", processNode: "25nm(B74A)" },
-  { start: 1, hex: "A809DF89", processNode: "25nm(B74A)" },
-  { start: 1, hex: "A809DFA9", processNode: "25nm(B74A)" },
-  { start: 1, hex: "847863A9", processNode: "20nm(B85T)" },
-  { start: 1, hex: "84787BA9", processNode: "20nm(B85T)" },
-  { start: 1, hex: "A4F963A9", processNode: "20nm(B85T)" },
-  { start: 1, hex: "A4F97BA9", processNode: "20nm(B85T)" },
-  { start: 1, hex: "844863A9", processNode: "16nm(B95A)" },
-  { start: 1, hex: "644432A5", processNode: "32L(L04A)" },
-  { start: 1, hex: "844434AA", processNode: "32L(L05B)" },
-  { start: 1, hex: "845832A1", processNode: "32L(B05A)" },
-  { start: 1, hex: "A46434AA", processNode: "32L(L05A)" },
-  { start: 1, hex: "A4E4348A", processNode: "32L(L06A)" },
-  { start: 1, hex: "A46432AA", processNode: "32L(L06B)" },
-  { start: 1, hex: "C4E532AA", processNode: "32L(L06B)" },
-  { start: 1, hex: "B47832AA", processNode: "32L(B0KB)" },
-  { start: 1, hex: "CCF932AA", processNode: "32L(B0KB)" },
-  { start: 1, hex: "A40832A1", processNode: "64L(B16A)" },
-  { start: 1, hex: "A48832A1", processNode: "64L(B16A)" },
-  { start: 1, hex: "C48932A1", processNode: "64L(B16A)" },
-  { start: 1, hex: "C40832A6", processNode: "64L(B17A)" },
-  { start: 1, hex: "D48932A6", processNode: "64L(B17A)" },
-  { start: 1, hex: "E48A32A6", processNode: "64L(B17A)" },
-  { start: 1, hex: "D40C32AA", processNode: "64L(N18A)" },
-  { start: 1, hex: "C41832A2", processNode: "96L(B27A)" },
-  { start: 1, hex: "D49932A2", processNode: "96L(B27A)" },
-  { start: 1, hex: "E49A32A2", processNode: "96L(B27A)" },
-  { start: 1, hex: "C30832E600", processNode: "96L(B27B)" },
-  { start: 1, hex: "D38932E6", processNode: "96L(B27B)" },
-  { start: 1, hex: "E38A32E6", processNode: "96L(B27B)" },
-  { start: 1, hex: "D31C32C6", processNode: "96L(N28A)" },
-  { start: 1, hex: "D39C32C6", processNode: "96L(N28A)" },
-  { start: 1, hex: "E39D32C6", processNode: "96L(N28A)" },
-  { start: 1, hex: "F39E32C6", processNode: "96L(N28A)" },
-  { start: 1, hex: "A36032C6", processNode: "96L(M26A)" },
-  { start: 1, hex: "A37832E5", processNode: "128L(B36R)" },
-  { start: 1, hex: "C37832EA", processNode: "128L(B37R)" },
-  { start: 0, hex: "89D3AC32C6", processNode: "N38A 144L" },
-  { start: 0, hex: "89E3AD32C6", processNode: "N38A 144L" },
-  { start: 0, hex: "89D3AC32C2", processNode: "N38B 144L" },
-  { start: 0, hex: "89E3AD32C2", processNode: "N38B 144L" },
-  { start: 0, hex: "89092832C2", processNode: "N4PA 192L" },
-  { start: 0, hex: "89092932C2", processNode: "N4PA 192L" },
-  { start: 0, hex: "89092A32C2", processNode: "N4PA 192L" },
-  { start: 0, hex: "89092B32C2", processNode: "N4PA 192L" },
-  { start: 0, hex: "89050432C2", processNode: "N4PA 192L" },
-  { start: 0, hex: "89050532C2", processNode: "N4PA 192L" },
-  { start: 0, hex: "89050632C2", processNode: "N4PA 192L" },
-  { start: 0, hex: "89050732C2", processNode: "N4PA 192L" }
+  { start: 1, hex: "C30832EA30", dieCodename: "B47R" },
+  { start: 1, hex: "D38932EA30", dieCodename: "B47R" },
+  { start: 1, hex: "E38A32EA30", dieCodename: "B47R" },
+  { start: 1, hex: "C30832EA34", dieCodename: "B47T" },
+  { start: 1, hex: "D38932EA34", dieCodename: "B47T" },
+  { start: 1, hex: "E38A32EA34", dieCodename: "B47T" },
+  { start: 1, hex: "D30C32EA30", dieCodename: "N48R" },
+  { start: 1, hex: "E38D32EA30", dieCodename: "N48R" },
+  { start: 1, hex: "F38E32EA30", dieCodename: "N48R" },
+  { start: 1, hex: "C30832E630", dieCodename: "B57T" },
+  { start: 1, hex: "D38932E630", dieCodename: "B57T" },
+  { start: 1, hex: "E38A32E630", dieCodename: "B57T" },
+  { start: 1, hex: "D30832E830", dieCodename: "B58R" },
+  { start: 1, hex: "E38932E830", dieCodename: "B58R" },
+  { start: 1, hex: "F38A32E830", dieCodename: "B58R" },
+  { start: 1, hex: "D30832E831", dieCodename: "B58R" },
+  { start: 1, hex: "E38932E831", dieCodename: "B58R" },
+  { start: 1, hex: "F38A32E831", dieCodename: "B58R" },
+  { start: 1, hex: "D30C42EE30", dieCodename: "N58R" },
+  { start: 1, hex: "E38D42EE30", dieCodename: "N58R" },
+  { start: 1, hex: "F38E42EE30", dieCodename: "N58R" },
+  { start: 1, hex: "D30C42EE31", dieCodename: "N58R" },
+  { start: 1, hex: "E38D42EE31", dieCodename: "N58R" },
+  { start: 1, hex: "F38E42EE31", dieCodename: "N58R" },
+  { start: 1, hex: "D30832E834", dieCodename: "B68S" },
+  { start: 1, hex: "E38932E834", dieCodename: "B68S" },
+  { start: 1, hex: "F38A32E834", dieCodename: "B68S" },
+  { start: 1, hex: "D30832E835", dieCodename: "B68S" },
+  { start: 1, hex: "E38932E835", dieCodename: "B68S" },
+  { start: 1, hex: "F38A32E835", dieCodename: "B68S" },
+  { start: 1, hex: "D5943E74", dieCodename: "L52A" },
+  { start: 1, hex: "D7D53E78", dieCodename: "L52A" },
+  { start: 1, hex: "48002689", dieCodename: "M62A" },
+  { start: 1, hex: "6801A689", dieCodename: "M62A" },
+  { start: 1, hex: "68044689", dieCodename: "L63B" },
+  { start: 1, hex: "8805C689", dieCodename: "L63B" },
+  { start: 1, hex: "680446A9", dieCodename: "L63B" },
+  { start: 1, hex: "680027A9", dieCodename: "M73A" },
+  { start: 1, hex: "8801A7A9", dieCodename: "M73A" },
+  { start: 1, hex: "682027A9", dieCodename: "M73A" },
+  { start: 1, hex: "68044AA9", dieCodename: "L73A" },
+  { start: 1, hex: "8805CAA9", dieCodename: "L73A" },
+  { start: 1, hex: "88044BA900", dieCodename: "L74A" },
+  { start: 1, hex: "A805CBA900", dieCodename: "L74A" },
+  { start: 1, hex: "88244BA900", dieCodename: "L74A" },
+  { start: 1, hex: "88244BA984", dieCodename: "L84A" },
+  { start: 1, hex: "64444BA9", dieCodename: "L84A" },
+  { start: 1, hex: "84C54BA9", dieCodename: "L84A" },
+  { start: 1, hex: "64643CA1", dieCodename: "L84C" },
+  { start: 1, hex: "64643CA5", dieCodename: "L84C" },
+  { start: 1, hex: "84E53CA5", dieCodename: "L84C" },
+  { start: 1, hex: "84643CA5", dieCodename: "L85A" },
+  { start: 1, hex: "A4E53CA5", dieCodename: "L85A" },
+  { start: 1, hex: "84643CA9", dieCodename: "L85C" },
+  { start: 1, hex: "A4E53CA9", dieCodename: "L85C" },
+  { start: 1, hex: "846454A9", dieCodename: "L95B" },
+  { start: 1, hex: "A4E554A9", dieCodename: "L95B" },
+  { start: 1, hex: "6808568A", dieCodename: "B63A" },
+  { start: 1, hex: "88085FA9", dieCodename: "B74A" },
+  { start: 1, hex: "88085F89", dieCodename: "B74A" },
+  { start: 1, hex: "88285FA9", dieCodename: "B74A" },
+  { start: 1, hex: "A809DF89", dieCodename: "B74A" },
+  { start: 1, hex: "A809DFA9", dieCodename: "B74A" },
+  { start: 1, hex: "847863A9", dieCodename: "B85T" },
+  { start: 1, hex: "84787BA9", dieCodename: "B85T" },
+  { start: 1, hex: "A4F963A9", dieCodename: "B85T" },
+  { start: 1, hex: "A4F97BA9", dieCodename: "B85T" },
+  { start: 1, hex: "844863A9", dieCodename: "B95A" },
+  { start: 1, hex: "644432A5", dieCodename: "L04A" },
+  { start: 1, hex: "844434AA", dieCodename: "L05B" },
+  { start: 1, hex: "845832A1", dieCodename: "B05A" },
+  { start: 1, hex: "A46434AA", dieCodename: "L05A" },
+  { start: 1, hex: "A4E4348A", dieCodename: "L06A" },
+  { start: 1, hex: "A46432AA", dieCodename: "L06B" },
+  { start: 1, hex: "C4E532AA", dieCodename: "L06B" },
+  { start: 1, hex: "B47832AA", dieCodename: "B0KB" },
+  { start: 1, hex: "CCF932AA", dieCodename: "B0KB" },
+  { start: 1, hex: "A40832A1", dieCodename: "B16A" },
+  { start: 1, hex: "A48832A1", dieCodename: "B16A" },
+  { start: 1, hex: "C48932A1", dieCodename: "B16A" },
+  { start: 1, hex: "C40832A6", dieCodename: "B17A" },
+  { start: 1, hex: "D48932A6", dieCodename: "B17A" },
+  { start: 1, hex: "E48A32A6", dieCodename: "B17A" },
+  { start: 1, hex: "D40C32AA", dieCodename: "N18A" },
+  { start: 1, hex: "C41832A2", dieCodename: "B27A" },
+  { start: 1, hex: "D49932A2", dieCodename: "B27A" },
+  { start: 1, hex: "E49A32A2", dieCodename: "B27A" },
+  { start: 1, hex: "C30832E600", dieCodename: "B27B" },
+  { start: 1, hex: "D38932E6", dieCodename: "B27B" },
+  { start: 1, hex: "E38A32E6", dieCodename: "B27B" },
+  { start: 1, hex: "D31C32C6", dieCodename: "N28A" },
+  { start: 1, hex: "D39C32C6", dieCodename: "N28A" },
+  { start: 1, hex: "E39D32C6", dieCodename: "N28A" },
+  { start: 1, hex: "F39E32C6", dieCodename: "N28A" },
+  { start: 1, hex: "A36032C6", dieCodename: "M26A" },
+  { start: 1, hex: "A37832E5", dieCodename: "B36R" },
+  { start: 1, hex: "C37832EA", dieCodename: "B37R" },
+  { start: 0, hex: "89D3AC32C6", dieCodename: "N38A" },
+  { start: 0, hex: "89E3AD32C6", dieCodename: "N38A" },
+  { start: 0, hex: "89D3AC32C2", dieCodename: "N38B" },
+  { start: 0, hex: "89E3AD32C2", dieCodename: "N38B" },
+  { start: 0, hex: "89092832C2", dieCodename: "N4PA" },
+  { start: 0, hex: "89092932C2", dieCodename: "N4PA" },
+  { start: 0, hex: "89092A32C2", dieCodename: "N4PA" },
+  { start: 0, hex: "89092B32C2", dieCodename: "N4PA" },
+  { start: 0, hex: "89050432C2", dieCodename: "N4PA" },
+  { start: 0, hex: "89050532C2", dieCodename: "N4PA" },
+  { start: 0, hex: "89050632C2", dieCodename: "N4PA" },
+  { start: 0, hex: "89050732C2", dieCodename: "N4PA" }
 ];
 
 const MICRON_LIKE_DENSITY_BY_BYTE2: Record<number, number> = {
@@ -188,20 +188,12 @@ const MICRON_LIKE_DENSITY_BY_BYTE2: Record<number, number> = {
 const MICRON_LIKE_STACKED_DENSITY_BYTE2 = new Set([0x05, 0x09]);
 
 const KIOXIA_LIKE_PROCESS_BY_MASKED_BYTE6: Record<number, string> = {
-  0x00: "A19nm",
-  0x01: "15nm",
-  0x02: "70nm",
-  0x03: "56nm",
-  0x04: "43nm",
-  0x05: "32nm",
-  0x06: "24nm",
-  0x07: "19nm",
-  0x21: "BiCS2 48L",
-  0x22: "BiCS3 64L",
-  0x23: "BiCS4 96L",
-  0x24: "BiCS5 112L",
-  0x25: "BiCS6 162L",
-  0x26: "BiCS8 218L"
+  0x21: "BiCS2",
+  0x22: "BiCS3",
+  0x23: "BiCS4",
+  0x24: "BiCS5",
+  0x25: "BiCS6",
+  0x26: "BiCS8"
 };
 
 const KIOXIA_LIKE_DENSITY_BY_BYTE2: Record<number, number> = {
@@ -223,32 +215,32 @@ const KIOXIA_LIKE_DENSITY_BY_BYTE2: Record<number, number> = {
 };
 
 const SKHYNIX_PROCESS_BY_BYTE6: Record<number, string> = {
-  0x25: "16nm",
-  0x40: "16nm",
-  0x41: "41nm",
-  0x42: "32nm",
-  0x43: "26nm",
-  0x44: "20nm",
-  0x45: "16nm",
-  0x48: "16nm",
-  0x49: "16nm",
-  0x4a: "16nm",
-  0x50: "14nm",
-  0x60: "3DV1",
-  0x65: "16nm",
-  0x70: "36L 3DV2",
-  0x80: "48L 3DV3",
-  0x90: "72L 3DV4",
-  0xa0: "96L 3DV5",
-  0xa2: "96L 3DV5",
-  0xb0: "128L 3DV6",
-  0xb2: "128L 3DV6",
-  0xc0: "176L 3DV7",
-  0xc3: "26nm",
-  0xc4: "20nm",
-  0xd0: "238L 3DV8",
-  0xe0: "14nm",
-  0xe5: "16nm"
+  0x25: "HY16",
+  0x40: "HY16",
+  0x41: "HY41",
+  0x42: "HY32",
+  0x43: "HY26",
+  0x44: "HY20",
+  0x45: "HY16",
+  0x48: "HY16",
+  0x49: "HY16",
+  0x4a: "HY16",
+  0x50: "HY14",
+  0x60: "HYV1",
+  0x65: "HY16",
+  0x70: "HYV2",
+  0x80: "HYV3",
+  0x90: "HYV4",
+  0xa0: "HYV5",
+  0xa2: "HYV5",
+  0xb0: "HYV6",
+  0xb2: "HYV6",
+  0xc0: "HYV7",
+  0xc3: "HY26",
+  0xc4: "HY20",
+  0xd0: "HYV8",
+  0xe0: "HY14",
+  0xe5: "HY16"
 };
 
 const SKHYNIX_DENSITY_BY_BYTE2: Record<number, number> = {
@@ -270,28 +262,28 @@ const SKHYNIX_DENSITY_BY_BYTE2: Record<number, number> = {
 const SKHYNIX_STACKED_PROCESS_BYTE6 = new Set([0x70, 0x80, 0x90, 0xa0, 0xa2, 0xb0, 0xb2, 0xc0, 0xc2, 0xd0]);
 
 const SAMSUNG_PROCESS_BY_BYTE6: Record<number, string> = {
-  0xc1: "136L 3DV6e",
-  0xc2: "176L 3DV7",
-  0xc7: "24L 3DV1",
-  0xcf: "236L 3DV8"
+  0xc1: "SSV6E",
+  0xc2: "SSV7",
+  0xc7: "SSV1",
+  0xcf: "SSV8"
 };
 
 const SAMSUNG_PROCESS_BY_MASKED_BYTE6: Record<number, string> = {
-  0x40: "51nm",
-  0x41: "42nm",
-  0x42: "32nm",
-  0x43: "27nm",
-  0x44: "21nm",
-  0x45: "19nm",
-  0x46: "16nm",
-  0x47: "124L 3DV4",
-  0x48: "32L 3DV2",
-  0x49: "48L 3DV3",
-  0x4a: "14nm",
-  0x4b: "64L 3DV4",
-  0x4c: "92L 3DV5",
-  0x4d: "136L 3DV6",
-  0x4e: "3DV7"
+  0x40: "SS51",
+  0x41: "SS42",
+  0x42: "SS32",
+  0x43: "SS27",
+  0x44: "SS21",
+  0x45: "SS19",
+  0x46: "SS16",
+  0x47: "SSV4",
+  0x48: "SSV2",
+  0x49: "SSV3",
+  0x4a: "SS14",
+  0x4b: "SSV4",
+  0x4c: "SSV5",
+  0x4d: "SSV6E",
+  0x4e: "SSV7"
 };
 
 const SAMSUNG_DENSITY_BY_BYTE2: Record<number, number> = {
@@ -314,7 +306,7 @@ const SAMSUNG_DENSITY_BY_BYTE2: Record<number, number> = {
 
 const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
   "X0-A030": {
-    process_node: "X0-A030 / DBS",
+    die_codename: "DBS",
     generation_info: "Gen 1",
     layer_count: 32,
     cell_level: 2,
@@ -323,7 +315,7 @@ const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
     speed_grade: "Max Speed=533MT/s"
   },
   "X1-9050": {
-    process_node: "X1-9050 / JGS",
+    die_codename: "JGS",
     generation_info: "Gen 2 Xtacking 1.0",
     layer_count: 64,
     cell_level: 3,
@@ -332,7 +324,7 @@ const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
     speed_grade: "ONFI 4.0; Max Speed=800MT/s"
   },
   "X2-9060": {
-    process_node: "X2-9060 / TAS",
+    die_codename: "TAS",
     generation_info: "Gen 3 Xtacking 2.0",
     layer_count: 128,
     cell_level: 3,
@@ -341,7 +333,7 @@ const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
     speed_grade: "ONFI 4.1; Max Speed=1600MT/s"
   },
   "X2-6070": {
-    process_node: "X2-6070 / HUS",
+    die_codename: "HUS",
     generation_info: "Gen 3 Xtacking 2.0",
     layer_count: 128,
     cell_level: 4,
@@ -350,7 +342,7 @@ const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
     speed_grade: "ONFI 4.1; Max Speed=1200MT/s"
   },
   "X3-9060": {
-    process_node: "X3-9060 / WYS",
+    die_codename: "WYS",
     generation_info: "Gen 4 Xtacking 3.0",
     layer_count: 128,
     cell_level: 3,
@@ -359,7 +351,7 @@ const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
     speed_grade: "ONFI 5.0; Max Speed=2400MT/s"
   },
   "X3-9070": {
-    process_node: "X3-9070 / WDS",
+    die_codename: "WDS",
     generation_info: "Gen 4 Xtacking 3.0",
     layer_count: 232,
     cell_level: 3,
@@ -368,7 +360,7 @@ const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
     speed_grade: "ONFI 5.0; Max Speed=2400MT/s"
   },
   "X3-6070": {
-    process_node: "X3-6070 / EMS",
+    die_codename: "EMS",
     generation_info: "Gen 4 Xtacking 3.0",
     layer_count: 232,
     cell_level: 4,
@@ -377,7 +369,7 @@ const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
     speed_grade: "ONFI 5.0; Max Speed=2400MT/s"
   },
   "X4-9060": {
-    process_node: "X4-9060 / WTS",
+    die_codename: "WTS",
     generation_info: "Gen 5 Xtacking 4.0",
     layer_count: 160,
     cell_level: 3,
@@ -386,7 +378,7 @@ const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
     speed_grade: "ONFI 5.1; Max Speed=3600MT/s"
   },
   "X4-9070": {
-    process_node: "X4-9070 / SQS",
+    die_codename: "SQS",
     generation_info: "Gen 5 Xtacking 4.0",
     layer_count: 267,
     cell_level: 3,
@@ -394,7 +386,7 @@ const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
     plane_count: 6
   },
   "X4-6080": {
-    process_node: "X4-6080 / PTS",
+    die_codename: "PTS",
     generation_info: "Gen 5 Xtacking 4.0",
     layer_count: 267,
     cell_level: 4,
@@ -507,8 +499,8 @@ function lookupProcess<T extends { start: number; hex: string }>(id: string, loo
   return best;
 }
 
-function lookupProcessNode(id: string, lookups: ProcessLookup[]): string | undefined {
-  return lookupProcess(id, lookups)?.processNode;
+function lookupDieCodename(id: string, lookups: ProcessLookup[]): string | undefined {
+  return lookupProcess(id, lookups)?.dieCodename;
 }
 
 function lookupNumber(table: Record<number, number>, byte: number): number | undefined {
@@ -554,26 +546,26 @@ function cloneIdentifierDraft(info: IdentifierDecodeDraft): IdentifierDecodeDraf
   };
 }
 
-function patchIntelPartNumberProcessNode(info: PartDecodeDraft): PartDecodeDraft | null {
+function patchIntelPartNumberDieCodename(info: PartDecodeDraft): PartDecodeDraft | null {
   if (draftVendor(info) !== "intel") {
     return null;
   }
 
   const normalized = normalizePartNumber(draftPartNumber(info));
-  let processNode: string | undefined;
+  let dieCodename: string | undefined;
   if (normalized.includes("QKA")) {
-    processNode = "N38B 144L";
+    dieCodename = "N38B";
   } else if (normalized.includes("QK1")) {
-    processNode = "N38A 144L";
+    dieCodename = "N38A";
   } else if (normalized.includes("QL1")) {
-    processNode = "N4PA 192L";
+    dieCodename = "N4PA";
   }
 
-  if (!processNode || draftField(info, "process_node") === processNode) {
+  if (!dieCodename || draftField(info, "die_codename") === dieCodename) {
     return null;
   }
   const next = clonePartDraft(info);
-  setDraftField(next, "process_node", processNode);
+  setDraftField(next, "die_codename", dieCodename);
   return next;
 }
 
@@ -582,9 +574,9 @@ function patchMicronLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | n
   let changed = false;
   const id = draftIdentifier(info);
 
-  const processNode = lookupProcessNode(id, MICRON_LIKE_PROCESS_LOOKUPS);
-  if (processNode) {
-    setDraftField(next, "process_node", processNode);
+  const dieCodename = lookupDieCodename(id, MICRON_LIKE_PROCESS_LOOKUPS);
+  if (dieCodename) {
+    setDraftField(next, "die_codename", dieCodename);
     changed = true;
   }
 
@@ -611,9 +603,9 @@ function patchSamsung(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null
   }
 
   const byte6 = flashIdByteAt(id, 6);
-  const processNode = lookupString(SAMSUNG_PROCESS_BY_BYTE6, byte6) ?? lookupString(SAMSUNG_PROCESS_BY_MASKED_BYTE6, byte6 & 0x7f);
-  if (processNode) {
-    setDraftField(next, "process_node", processNode);
+  const dieCodename = lookupString(SAMSUNG_PROCESS_BY_BYTE6, byte6) ?? lookupString(SAMSUNG_PROCESS_BY_MASKED_BYTE6, byte6 & 0x7f);
+  if (dieCodename) {
+    setDraftField(next, "die_codename", dieCodename);
     changed = true;
   }
 
@@ -632,9 +624,9 @@ function patchSkhynix(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null
     changed = true;
   }
 
-  const processNode = lookupString(SKHYNIX_PROCESS_BY_BYTE6, flashIdByteAt(id, 6));
-  if (processNode) {
-    setDraftField(next, "process_node", processNode);
+  const dieCodename = lookupString(SKHYNIX_PROCESS_BY_BYTE6, flashIdByteAt(id, 6));
+  if (dieCodename) {
+    setDraftField(next, "die_codename", dieCodename);
     changed = true;
   }
 
@@ -681,9 +673,10 @@ function patchKioxiaLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | n
   }
 
   const maskedByte6 = flashIdByteAt(id, 6) & 0x27;
-  const processNode = lookupString(KIOXIA_LIKE_PROCESS_BY_MASKED_BYTE6, maskedByte6);
-  if (processNode) {
-    setDraftField(next, "process_node", processNode);
+  const processFamily = lookupString(KIOXIA_LIKE_PROCESS_BY_MASKED_BYTE6, maskedByte6);
+  if (processFamily) {
+    const vendorPrefix = draftVendor(info) === "sndk" ? "S" : "K";
+    setDraftField(next, "die_codename", `${vendorPrefix}${processFamily}`);
     changed = true;
   }
 
@@ -721,7 +714,7 @@ function patchYmtc(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
   const processInfo = lookupProcess(id, YMTC_PROCESS_LOOKUPS);
   if (processInfo) {
     const processFields = YMTC_PROCESS_INFO_BY_KEY[processInfo.processKey];
-    setDraftField(next, "process_node", processFields.process_node);
+    setDraftField(next, "die_codename", processFields.die_codename);
     setDraftField(next, "generation_info", processFields.generation_info);
     setDraftField(next, "layer_count", processFields.layer_count);
     setDraftField(next, "cell_level", processFields.cell_level);
@@ -740,9 +733,9 @@ function patchYmtc(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
 export function createDefaultIdentifierPostprocessor(): DecodeDraftPostprocessor {
   return {
     partInfo: (info): PartDecodeDraft => {
-      const micronPatch = patchMicronPartNumberProcessNode(info);
+      const micronPatch = patchMicronPartNumberDieCodename(info);
       const afterMicron = micronPatch ? { ...clonePartDraft(info), fields: { ...(info.fields ?? {}), ...(micronPatch.fields ?? {}) } } : info;
-      return patchIntelPartNumberProcessNode(afterMicron) ?? afterMicron;
+      return patchIntelPartNumberDieCodename(afterMicron) ?? afterMicron;
     },
     identifierInfo: (info): IdentifierDecodeDraft => {
       const vendor = draftVendor(info);

@@ -144,44 +144,29 @@
           }
         },
         "nandGeneration": {
-          "G:D": "16nm",
-          "G:E": "14nm",
-          "G:F": "14nm",
-          "J:B": "14nm",
-          "J:D": "14nm",
-          "K:A": "V4 64L",
-          "V:E": "V3 48L",
-          "V:M": "V3 48L",
-          "U:A": "V4 64L",
-          "U:B": "V5 92L",
-          "U:C": "V6 128L",
-          "R:M": "V4 64L",
-          "R:A": "V5 92L",
-          "R:B": "V6 128L",
-          "R:D": "V7 176L",
-          "R:E": "V6P 133L",
-          "R:F": "V8 236L",
-          "N:B": "V8 236L",
-          "N:D": "V9 280L",
-          "L:C": "V7 176L",
-          "L:D": "V9 280L"
+          "G:D": "SS16",
+          "G:E": "SS14",
+          "G:F": "SS14",
+          "J:B": "SS14",
+          "J:D": "SS14",
+          "K:A": "SSV4",
+          "V:E": "SSV3",
+          "V:M": "SSV3",
+          "U:A": "SSV4",
+          "U:B": "SSV5",
+          "U:C": "SSV6",
+          "R:M": "SSV4",
+          "R:A": "SSV5",
+          "R:B": "SSV6",
+          "R:D": "SSV7",
+          "R:E": "SSV6P",
+          "R:F": "SSV8",
+          "N:B": "SSV8",
+          "N:D": "SSV9",
+          "L:C": "SSV7",
+          "L:D": "SSV9"
         },
         "generationObj": {
-          "G:D": {
-            "generation_info": "16nm"
-          },
-          "G:E": {
-            "generation_info": "14nm"
-          },
-          "G:F": {
-            "generation_info": "14nm"
-          },
-          "J:B": {
-            "generation_info": "14nm"
-          },
-          "J:D": {
-            "generation_info": "14nm"
-          },
           "K:A": {
             "generation_info": "V4 64L"
           },
@@ -357,7 +342,7 @@
           "from": "nandGenerationKey",
           "table": "nandGeneration",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "map",
@@ -491,16 +476,16 @@
         "fields.voltage": {
           "$var": "voltage"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.package": {
           "$var": "package"
         },
         "fields.die_count": {
           "$var": "die"
         },
-        "meta.ruleId": "vendor.samsung.emmc.token.v1"
+        "meta.ruleId": "vendor.samsung.emmc.token.v1",
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
       }
     }
   }

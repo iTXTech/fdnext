@@ -63,21 +63,21 @@
           "JG:T:8:F4": 8388608
         },
         "processNode": {
-          "QE:M:8:B": "3D NAND V4 MLC",
-          "QF:T:8:A": "3D NAND V4 TLC",
-          "QF:T:M:A": "3D NAND V4 TLC",
-          "QF:T:8:M": "3D NAND V5 QLC",
-          "BF:T:4:C": "3D NAND V6 TLC",
-          "BF:T:4:R": "3D NAND V5 TLC",
-          "BF:T:8:M": "3D NAND V5 TLC",
-          "BF:T:8:B": "3D NAND V6 TLC",
-          "BF:T:8:Z": "3D NAND V6 TLC",
-          "G9:T:B:E": "3D NAND V6-class",
-          "G9:T:C:C": "176L 4D NAND (V7)",
-          "G9:T:D:C": "238L 4D NAND (V8)",
-          "JG:Q:8:M": "3D NAND V5 QLC",
-          "JG:T:4:C": "3D NAND V6 TLC",
-          "JG:T:8:M": "3D NAND V6 TLC"
+          "QE:M:8:B": "HYV4M",
+          "QF:T:8:A": "HYV4",
+          "QF:T:M:A": "HYV4",
+          "QF:T:8:M": "HYV5Q",
+          "BF:T:4:C": "HYV6",
+          "BF:T:4:R": "HYV5",
+          "BF:T:8:M": "HYV5",
+          "BF:T:8:B": "HYV6",
+          "BF:T:8:Z": "HYV6",
+          "G9:T:B:E": "HYV6",
+          "G9:T:C:C": "HYV7",
+          "G9:T:D:C": "HYV8",
+          "JG:Q:8:M": "HYV5Q",
+          "JG:T:4:C": "HYV6",
+          "JG:T:8:M": "HYV6"
         },
         "productObj": {
           "QE:M:8:B": {
@@ -299,7 +299,7 @@
           "from": "processKey",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "map",
@@ -330,10 +330,10 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.process_node": {
+        "meta.ruleId": "vendor.skhynix.3d.h25.token.v2",
+        "fields.die_codename": {
           "$var": "processNode"
-        },
-        "meta.ruleId": "vendor.skhynix.3d.h25.token.v2"
+        }
       }
     }
   },

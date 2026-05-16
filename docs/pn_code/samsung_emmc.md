@@ -22,7 +22,7 @@
 | density `4G/8G/AG/BG/CG/DG/EG/FG` | 4GB / 8GB / 16GB / 32GB / 64GB / 128GB / 256GB / 512GB |
 | die stack `1/2/4/8/A/I` | SDP / DDP / QDP / ODP / HDP |
 | die type `G/J/K/V/U/R/N/L` | cell level 与 die density |
-| generation key `die type + generation` | 推定 `fields.process_node` |
+| generation key `die type + generation` | 推定 `fields.die_codename` |
 | version `4` | eMMC 5.1 |
 
 ## 统一输出字段
@@ -32,7 +32,7 @@ Samsung eMMC 现在与 SK hynix 共用：
 - `component_density`：封装总容量，例如 `16GB package`
 - `die_density`：单 die 容量，例如 `128Gb`
 - `die_stack`：封装堆叠，例如 `SDP (1-die)`
-- `fields.process_node`：NAND 代际/制程，例如 `14nm`；不在 `fields` 里重复输出相同的 `generation_info`
+- `die_codename`：NAND die profile key，例如 `SS14` / `SS16`
 
 可信度 metadata 只在 iTXTech fdnext DecodePack `tables.reference` 内维护，不进入 `fields`。
 

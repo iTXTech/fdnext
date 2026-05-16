@@ -91,19 +91,14 @@
     "tokenDecoder": {
       "tables": {
         "processNode": {
-          "H": "19nm",
-          "K": "19nm",
-          "R": "15nm",
-          "P": "15nm",
-          "Q": "15nm",
-          "V": "BiCS3",
-          "X": "BiCS4",
-          "E": "BiCS4",
-          "F": "BiCS4.5",
-          "C": "BiCS5",
-          "J": "BiCS5",
-          "G": "BiCS6",
-          "U": "BiCS6"
+          "V": "SBiCS3",
+          "X": "SBiCS4",
+          "E": "SBiCS4",
+          "F": "SBiCS4.5",
+          "C": "SBiCS5",
+          "J": "SBiCS5",
+          "G": "SBiCS6",
+          "U": "SBiCS6"
         },
         "cellLevel": {
           "H": 2,
@@ -145,7 +140,7 @@
           "from": "processCode",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "map",
@@ -182,13 +177,13 @@
         "fields": {
           "$var": "extra"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.cell_level": {
           "$var": "cellLevel"
         },
-        "meta.ruleId": "vendor.sndk.marking.12digit.v1"
+        "meta.ruleId": "vendor.sndk.marking.12digit.v1",
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
       }
     }
   }

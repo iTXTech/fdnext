@@ -72,68 +72,66 @@ const DIE_COUNT_BY_CLASSIFICATION: Record<string, number> = {
   "4": 4
 };
 
-const PROCESS_NODE_BY_DIE_CAP_CELL_DIE: Record<string, string> = {
-  "1:SLC:D": "M68A 34nm",
-  "1:SLC:E": "M68M 34nm",
-  "1:SLC:F": "M78A 25nm",
-  "2:SLC:E": "M69A 34nm",
-  "2:SLC:F": "M79M 25nm",
-  "2:SLC:G": "M79A 25nm",
-  "4:SLC:D": "M60A 34nm",
-  "4:SLC:E": "M70M 25nm",
-  "4:SLC:F": "M70A 25nm",
-  "8:SLC:B": "M61A 34nm",
-  "8:SLC:C": "M71M 25nm",
-  "16:SLC:B": "M62B 34nm",
-  "16:MLC:B": "L62A 34nm",
-  "16:SLC:C": "M72A 25nm",
-  "16:MLC:C": "L72A 25nm",
-  "32:MLC:A": "L63A 34nm",
-  "32:TLC:A": "B63A 34nm",
-  "32:SLC:A": "M73A 25nm",
-  "32:MLC:B": "L63B 34nm",
-  "32:SLC:B": "M83A 20nm",
-  "32:MLC:C": "L73A 25nm",
-  "32:SLC:D": "M83C 20nm",
-  "32:MLC:D": "L83A 20nm",
-  "42:MLC:A": "L7BT 25nm",
-  "64:MLC:A": "L74A 25nm",
-  "64:TLC:A": "B74A 25nm",
-  "64:SLC:A": "M84A 20nm",
-  "64:SLC:B": "M84C 20nm",
-  "64:MLC:B": "L84A/L84B 20nm",
-  "64:MLC:D": "L84C 20nm",
-  "64:MLC:E": "L84D 20nm",
-  "64:MLC:F": "L94C 16nm",
-  "64:MLC:G": "L04A FG-32L",
-  "128:MLC:A": "L85A 20nm",
-  "128:TLC:A": "B85T 20nm",
-  "128:MLC:B": "L85C 20nm",
-  "128:TLC:B": "B95A 16nm",
-  "128:MLC:C": "L95B 16nm",
-  "128:TLC:D": "B05A FG-32L",
-  "128:MLC:E": "L05B FG-32L",
-  "256:TLC:A": "B16A FG-64L",
-  "256:MLC:B": "L06B FG-32L",
-  "256:TLC:B": "B16C FG-64L",
-  "256:TLC:C": "B36R/B16E RG-128L/FG-64L",
-  "384:TLC:B": "B0KB FG-32L",
-  "512:TLC:A": "B17A FG-64L",
-  "512:TLC:B": "B27A FG-96L",
-  "512:TLC:C": "B27B FG-96L",
-  "512:TLC:D": "B37R RG-128L",
-  "512:TLC:E": "B47R RG-176L",
-  "512:TLC:F": "B57R RG-232L",
-  "512:TLC:G": "B27C FG-96L",
-  "512:TLC:K": "B47T RG-176L",
-  "512:TLC:L": "B57T RG-232L",
-  "1024:QLC:A": "N18A FG-64L",
-  "1024:QLC:B": "N28A FG-96L",
-  "1024:QLC:C": "N48R RG-176L",
-  "1024:TLC:C": "B58R RG-232L",
-  "1024:QLC:D": "N58R RG-232L",
-  "1024:TLC:E": "B68S RG-2yyL",
-  "2048:QLC:?": "N69R RG-2yyL"
+const DIE_CODENAME_BY_DIE_CAP_CELL_DIE: Record<string, string> = {
+  "1:SLC:D": "M68A",
+  "1:SLC:E": "M68M",
+  "1:SLC:F": "M78A",
+  "2:SLC:E": "M69A",
+  "2:SLC:F": "M79M",
+  "2:SLC:G": "M79A",
+  "4:SLC:D": "M60A",
+  "4:SLC:E": "M70M",
+  "4:SLC:F": "M70A",
+  "8:SLC:B": "M61A",
+  "8:SLC:C": "M71M",
+  "16:SLC:B": "M62B",
+  "16:MLC:B": "L62A",
+  "16:SLC:C": "M72A",
+  "16:MLC:C": "L72A",
+  "32:MLC:A": "L63A",
+  "32:TLC:A": "B63A",
+  "32:SLC:A": "M73A",
+  "32:MLC:B": "L63B",
+  "32:SLC:B": "M83A",
+  "32:MLC:C": "L73A",
+  "32:SLC:D": "M83C",
+  "32:MLC:D": "L83A",
+  "42:MLC:A": "L7BT",
+  "64:MLC:A": "L74A",
+  "64:TLC:A": "B74A",
+  "64:SLC:A": "M84A",
+  "64:SLC:B": "M84C",
+  "64:MLC:D": "L84C",
+  "64:MLC:E": "L84D",
+  "64:MLC:F": "L94C",
+  "64:MLC:G": "L04A",
+  "128:MLC:A": "L85A",
+  "128:TLC:A": "B85T",
+  "128:MLC:B": "L85C",
+  "128:TLC:B": "B95A",
+  "128:MLC:C": "L95B",
+  "128:TLC:D": "B05A",
+  "128:MLC:E": "L05B",
+  "256:TLC:A": "B16A",
+  "256:MLC:B": "L06B",
+  "256:TLC:B": "B16C",
+  "384:TLC:B": "B0KB",
+  "512:TLC:A": "B17A",
+  "512:TLC:B": "B27A",
+  "512:TLC:C": "B27B",
+  "512:TLC:D": "B37R",
+  "512:TLC:E": "B47R",
+  "512:TLC:F": "B57R",
+  "512:TLC:G": "B27C",
+  "512:TLC:K": "B47T",
+  "512:TLC:L": "B57T",
+  "1024:QLC:A": "N18A",
+  "1024:QLC:B": "N28A",
+  "1024:QLC:C": "N48R",
+  "1024:TLC:C": "B58R",
+  "1024:QLC:D": "N58R",
+  "1024:TLC:E": "B68S",
+  "2048:QLC:?": "N69R"
 };
 
 function parseMicronProcessKey(partNumber: string): string | null {
@@ -179,7 +177,7 @@ function parseMicronProcessKey(partNumber: string): string | null {
   return `${dieCapacity}:${cellLevel}:${dieCode}`;
 }
 
-export function patchMicronPartNumberProcessNode(info: PartDecodeDraft): Partial<PartDecodeDraft> | null {
+export function patchMicronPartNumberDieCodename(info: PartDecodeDraft): Partial<PartDecodeDraft> | null {
   if (draftVendor(info) !== "micron") {
     return null;
   }
@@ -189,6 +187,6 @@ export function patchMicronPartNumberProcessNode(info: PartDecodeDraft): Partial
     return null;
   }
 
-  const processNode = PROCESS_NODE_BY_DIE_CAP_CELL_DIE[key];
-  return processNode && draftField(info, "process_node") !== processNode ? { fields: { process_node: processNode } } : null;
+  const dieCodename = DIE_CODENAME_BY_DIE_CAP_CELL_DIE[key];
+  return dieCodename && draftField(info, "die_codename") !== dieCodename ? { fields: { die_codename: dieCodename } } : null;
 }

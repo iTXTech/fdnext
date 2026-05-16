@@ -320,13 +320,14 @@ function tokenCompleteness(info: PartDecodeDraft): number {
   if (isKnownInfoValue(info.device.productType) || isKnownInfoValue(draftField(info, "product_type")) || isKnownInfoValue(draftField(info, "dram_type"))) score += 6;
   if (isKnownInfoValue(draftDensity(info))) score += 6;
   if (isKnownInfoValue(draftField(info, "package"))) score += 4;
-  if (isKnownInfoValue(draftField(info, "process_node"))) score += 3;
+  if (isKnownInfoValue(draftField(info, "die_codename")) || isKnownInfoValue(draftField(info, "process_node"))) score += 3;
   if (isKnownInfoValue(draftField(info, "cell_level"))) score += 3;
   const extra = asRecord(info.fields);
   const primaryKeys = new Set([
     "density",
     "dram_density",
     "package",
+    "die_codename",
     "process_node",
     "cell_level",
     "device_width",

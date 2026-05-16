@@ -87,27 +87,24 @@
           "sndk": "kioxia"
         },
         "processNode": {
-          "kioxia:H": "24nm 2p (D2H)",
-          "kioxia:P": "A19nm 4p (DFK)",
-          "kioxia:R": "15nm (THL)",
-          "kioxia:S": "15nm 2p (DDL)",
-          "kioxia:U": "15nm 4p (DFL)",
-          "kioxia:V": "BiCS2",
-          "kioxia:I": "BiCS3",
-          "kioxia:W": "BiCS4",
-          "kioxia:X": "BiCS4.5",
-          "kioxia:Y": "BiCS5",
-          "intel:N": "20nm (L85A)",
-          "intel:P": "16nm (L95B)",
-          "intel:O": "L06B/B16A/N18A",
+          "kioxia:R": "THL",
+          "kioxia:S": "T15M2P",
+          "kioxia:U": "T15M4P",
+          "kioxia:V": "KBiCS2",
+          "kioxia:I": "KBiCS3",
+          "kioxia:W": "KBiCS4",
+          "kioxia:X": "KBiCS4.5",
+          "kioxia:Y": "KBiCS5",
+          "intel:N": "L85A",
+          "intel:P": "L95B",
           "intel:V": "B27A",
           "intel:I": "B27B",
           "intel:X": "B37R",
           "intel:Y": "B47R",
-          "intel:W": "N28A FG-96L",
-          "skhynix:P": "16nm",
-          "skhynix:O": "3DV4",
-          "skhynix:V": "3DV5",
+          "intel:W": "N28A",
+          "skhynix:P": "HY16",
+          "skhynix:O": "HYV4",
+          "skhynix:V": "HYV5",
           "ymtc:O": "JGS"
         },
         "cellLevel": {
@@ -137,6 +134,11 @@
           "ymtc:O": 3
         },
         "cellCodeLevel": {
+          "2": 3,
+          "3": 3,
+          "4": 3,
+          "5": 3,
+          "7": 4,
           "B": 1,
           "F": 2,
           "G": 2,
@@ -151,12 +153,7 @@
           "S": 2,
           "U": 2,
           "V": 3,
-          "W": 2,
-          "2": 3,
-          "3": 3,
-          "4": 3,
-          "5": 3,
-          "7": 4
+          "W": 2
         }
       },
       "steps": [
@@ -258,7 +255,7 @@
           "from": "nodeKey",
           "table": "processNode",
           "to": "processNode",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "map",
@@ -300,9 +297,6 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.process_node": {
-          "$var": "processNode"
-        },
         "fields.cell_level": {
           "$var": "cellLevel"
         },
@@ -312,7 +306,10 @@
         "fields.ce_count": {
           "$var": "ce"
         },
-        "meta.ruleId": "vendor.phison.token.v1"
+        "meta.ruleId": "vendor.phison.token.v1",
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
       }
     }
   }

@@ -191,22 +191,11 @@
           "T": 3,
           "Q": 4
         },
-        "processNode": {
-          "A": "90 nm",
-          "B": "72 nm",
-          "C": "50 nm",
-          "D": "34 nm",
-          "E": "25 nm",
-          "F": "20 nm",
-          "G": "3D1 32L",
-          "H": "3D2 64L",
-          "J": "3D3 96L",
-          "K": "144L"
-        },
+        "processNode": {},
         "processNodeOverride": {
-          "K1": "N38A 144L",
-          "KA": "N38B 144L",
-          "L1": "N4PA 192L"
+          "K1": "N38A",
+          "KA": "N38B",
+          "L1": "N4PA"
         },
         "generationDigit": {
           "0": "0",
@@ -375,7 +364,7 @@
           "from": "processCode",
           "table": "processNode",
           "to": "processNodeBase",
-          "default": "Unknown"
+          "default": ""
         },
         {
           "op": "take",
@@ -490,9 +479,6 @@
         "fields.cell_level": {
           "$var": "cellLevel"
         },
-        "fields.process_node": {
-          "$var": "processNodeFinal"
-        },
         "fields.generation_info": {
           "$var": "generation"
         },
@@ -511,7 +497,10 @@
         "fields.channel_count": {
           "$var": "ch"
         },
-        "meta.ruleId": "vendor.intel.token.v1"
+        "meta.ruleId": "vendor.intel.token.v1",
+        "fields.die_codename": {
+          "$var": "processNodeFinal"
+        }
       }
     }
   },

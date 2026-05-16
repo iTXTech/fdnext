@@ -127,12 +127,12 @@
           }
         },
         "processAlias": {
-          "2G": "X1-9050",
-          "3G": "X2-9060",
-          "4G": "X2-6070",
-          "6G": "X3-9070",
-          "7G": "X3-9060",
-          "8G": "X3-6070"
+          "2G": "JGS",
+          "3G": "TAS",
+          "4G": "HUS",
+          "6G": "WDS",
+          "7G": "WYS",
+          "8G": "EMS"
         }
       },
       "steps": [
@@ -158,7 +158,7 @@
         {
           "op": "map",
           "from": "processKey",
-          "table": "ymtc.process",
+          "table": "nand.die_profile",
           "to": "processObj",
           "default": {}
         },
@@ -167,7 +167,9 @@
           "from": "processObj",
           "to": "processFields",
           "keys": [
-            "meta"
+            "meta",
+            "firmware_match",
+            "die_mark"
           ]
         },
         {
@@ -328,12 +330,6 @@
         "fields.cell_level": {
           "$var": "cellLevel"
         },
-        "fields.process_node": {
-          "$path": [
-            "processFields",
-            "process_node"
-          ]
-        },
         "fields.generation_info": {
           "$path": [
             "processFields",
@@ -360,6 +356,12 @@
           "$path": [
             "processFields",
             "layer_count"
+          ]
+        },
+        "fields.die_codename": {
+          "$path": [
+            "processFields",
+            "die_codename"
           ]
         }
       }

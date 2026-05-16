@@ -162,10 +162,10 @@ function isRedundantManagedFamily(value: unknown, info: PartDecodeDraft, extra: 
   );
 }
 
-function matchesProcessNode(value: unknown, info: PartDecodeDraft): boolean {
+function matchesDieCodename(value: unknown, info: PartDecodeDraft): boolean {
   const text = normalizeInfoText(value);
-  const processNode = normalizeInfoText(draftField(info, "process_node"));
-  return text.length > 0 && processNode.length > 0 && text === processNode;
+  const dieCodename = normalizeInfoText(draftField(info, "die_codename"));
+  return text.length > 0 && dieCodename.length > 0 && text === dieCodename;
 }
 
 function isRedundantNandTechnology(value: unknown, info: PartDecodeDraft, extra: Record<string, unknown>): boolean {
@@ -173,17 +173,24 @@ function isRedundantNandTechnology(value: unknown, info: PartDecodeDraft, extra:
   if (text.length === 0) {
     return false;
   }
-  if (matchesProcessNode(value, info) || text === normalizeInfoText(extra.generation_info)) {
+  if (matchesDieCodename(value, info) || text === normalizeInfoText(extra.generation_info)) {
     return true;
   }
 
-  const processNode = normalizeInfoText(draftField(info, "process_node"));
-  return text === "bics flash" && processNode.startsWith("bics");
+  const dieCodename = normalizeInfoText(draftField(info, "die_codename"));
+  return text === "bics flash" && dieCodename.includes("bics");
 }
 
 function isManagedNandType(info: PartDecodeDraft): boolean {
   return info.device.chipKind === "managed_nand" ||
     ["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand"].includes(partTypeText(info));
+}
+
+function isNandDieProfileType(info: PartDecodeDraft): boolean {
+  return info.device.chipKind === "raw_nand" ||
+    info.device.chipKind === "on_die_ecc_nand" ||
+    isManagedNandType(info) ||
+    info.device.idScheme === "nand.flash_id";
 }
 
 function parseDramDieStackCount(value: unknown): number | undefined {
@@ -307,7 +314,7 @@ function pruneRedundantFields(info: PartDecodeDraft): void {
   if (isRedundantManagedFamily(extra.managed_family, info, extra)) {
     delete extra.managed_family;
   }
-  if (managedNandType && matchesProcessNode(extra.generation_info, info)) {
+  if (managedNandType && matchesDieCodename(extra.generation_info, info)) {
     delete extra.generation_info;
   }
   if (managedNandType && isRedundantNandTechnology(extra.nand_technology, info, extra)) {
@@ -334,6 +341,10 @@ function pruneRedundantFields(info: PartDecodeDraft): void {
 
   if (managedNandType && normalizeInfoText(storageInterface) === partTypeText(info)) {
     delete extra.storage_interface;
+  }
+
+  if (isNandDieProfileType(info)) {
+    delete extra.process_node;
   }
 }
 
@@ -810,16 +821,16 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return applyIdentifierInfoHooks(info);
   };
 
-  const processNodeFromIdentifiers = (ids: string[] | undefined): string | undefined => {
-    const nodes = new Set<string>();
+  const dieProfileFromIdentifiers = (ids: string[] | undefined): string | undefined => {
+    const profiles = new Set<string>();
     for (const id of ids ?? []) {
       const decoded = decodeNandFlashIdRaw(id);
-      const processNode = typeof draftField(decoded, "process_node") === "string" ? String(draftField(decoded, "process_node")).trim() : "";
-      if (processNode && processNode !== UNKNOWN) {
-        nodes.add(processNode);
+      const dieProfile = typeof draftField(decoded, "die_codename") === "string" ? String(draftField(decoded, "die_codename")).trim() : "";
+      if (dieProfile && dieProfile !== UNKNOWN) {
+        profiles.add(dieProfile);
       }
     }
-    return nodes.size > 0 ? [...nodes].join(" / ") : undefined;
+    return profiles.size === 1 ? [...profiles][0] : undefined;
   };
 
   const samsungSpecialOptionFromFdbMetadata = (vendor: string | undefined, record: PartNumberRecord, chipKind: string | undefined): string | undefined => {
@@ -919,14 +930,10 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       info.controllers = mergeStringArray(info.controllers, findFlashIdRecord(fdb, id)?.t);
     }
 
-    if (!isKnownClassificationValue(draftField(info, "process_node")) && record.l) {
-      setDraftField(info, "process_node", record.l);
-    }
-
-    if (!isKnownClassificationValue(draftField(info, "process_node"))) {
-      const processNode = processNodeFromIdentifiers(relatedFlashIds);
-      if (processNode) {
-        setDraftField(info, "process_node", processNode);
+    if (!isKnownClassificationValue(draftField(info, "die_codename"))) {
+      const dieProfile = dieProfileFromIdentifiers(relatedFlashIds);
+      if (dieProfile) {
+        setDraftField(info, "die_codename", dieProfile);
       }
     }
 

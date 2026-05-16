@@ -24,13 +24,13 @@ export const fdnextFieldProfiles = {
         id: "storage",
         label: "Storage",
         importance: "primary",
-        fields: ["density", "cell_level", "generation_info", "series_info", "process_node"]
+        fields: ["density", "cell_level", "die_codename", "generation_info", "series_info"]
       },
       {
         id: "geometry",
         label: "Geometry",
         importance: "secondary",
-        fields: ["die_codename", "die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "layer_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
+        fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "layer_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
       },
       { id: "interface", label: "Interface", importance: "secondary", fields: ["device_width", "voltage", "storage_interface", "interface_type", "toggle", "ecc_level"] },
       {
@@ -50,13 +50,13 @@ export const fdnextFieldProfiles = {
         id: "storage",
         label: "Storage",
         importance: "primary",
-        fields: ["density", "cell_level", "generation_info", "series_info", "process_node"]
+        fields: ["density", "cell_level", "die_codename", "generation_info", "series_info"]
       },
       {
         id: "geometry",
         label: "Geometry",
         importance: "secondary",
-        fields: ["die_codename", "die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "layer_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
+        fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "layer_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
       },
       { id: "interface", label: "Interface", importance: "secondary", fields: ["device_width", "voltage", "storage_interface", "interface_type", "toggle", "ecc_level"] },
       {
@@ -75,7 +75,7 @@ export const fdnextFieldProfiles = {
         id: "storage",
         label: "Storage",
         importance: "primary",
-        fields: ["storage_density", "density", "storage_interface", "sector_size", "cell_level", "process_node", "generation_info", "layer_count", "product_generation", "series_info"]
+        fields: ["storage_density", "density", "storage_interface", "sector_size", "cell_level", "die_codename", "generation_info", "layer_count", "product_generation", "series_info"]
       },
       {
         id: "components",
@@ -121,7 +121,7 @@ export const fdnextFieldProfiles = {
         id: "geometry",
         label: "Geometry",
         importance: "primary",
-        fields: ["density", "cell_level", "die_codename", "die_count", "layer_count", "plane_count", "page_size", "block_size", "pages_per_block", "blocks_per_lun", "redundant_area_size", "simultaneously_programmed_pages", "process_node"]
+        fields: ["density", "cell_level", "die_codename", "die_count", "layer_count", "plane_count", "page_size", "block_size", "pages_per_block", "blocks_per_lun", "redundant_area_size", "simultaneously_programmed_pages"]
       },
       { id: "interface", label: "Interface", importance: "secondary", fields: ["voltage", "interface_type", "ecc_level"] },
       { id: "timing", label: "Timing", importance: "detail", fields: ["timing_mode_async", "edo", "interleave", "cache", "revision"] },

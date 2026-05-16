@@ -14,8 +14,8 @@ iTXTech fdnext DecodePack:
 
 - `packages/decodepack/src/rules/packs/ymtc-process-token.json`
   - `vendor.ymtc.process-alias.v1`
-- `packages/decodepack/src/rules/tables/ymtc-process.json`
-  - 共享 process key 表；PN DecodePack 以 `X2-9060` 这类 canonical key cross-reference，统一返回 `process_node`、`generation_info`、`layer_count`、`die_density`、`cell_level`、`plane_count`、`speed_grade`
+- `packages/decodepack/src/rules/tables/nand-die-profile.json`
+  - 统一 die profile 表；YMTC PN DecodePack 以 `TAS` / `HUS` / `WDS` 这类 die profile key cross-reference，统一返回 `die_codename` 以及规则需要公开的 profile 字段
 - `packages/decodepack/src/rules/packs/ymtc-nand-token.json`
   - `vendor.ymtc.nand-label.v2`
 - `packages/decodepack/src/rules/packs/ymtc-unimos-token.json`
@@ -27,11 +27,11 @@ iTXTech fdnext DecodePack:
 
 ## 输出约定
 
-- `process_node` 保留 YMTC 具体工艺代号和 codename，例如 `X2-9060 / TAS`、`X3-9070 / WDS`。这些不是普通内部 `_code` token，用户识别价值高，不应被 `Gen 3 Xtacking 2.0` 之类概括替代。
+- `die_codename` 保留 YMTC 具体 die profile key，例如 `TAS`、`HUS`、`WDS`。`X2-9060` / `X3-9070` 这类工艺 alias 只作为匹配线索或 `firmware_match` metadata 维护。
 - `generation_info` 单独输出 Xtacking / generation，例如 `Gen 4 Xtacking 3.0`。
-- `cell_level`、`layer_count`、`die_density`、`plane_count`、`speed_grade` 分别表达 xLC、层数、die 容量、plane 数和 ONFI / max clock，不塞进 `process_node` 文本。
-- raw NAND / UNIMOS pack 可以用完整 process key 合并共享表；eMMC / UFS pack 只使用共享表中的 `process_node`、`generation_info`、`layer_count`，避免用代际码反向覆盖 PN 自带的 `cell_level` 或容量 token。
-- Flash ID DecodePack 的 byte / bit 规则只输出泛化 generation、density、cell、page 等可由位段直接确定的信息；完整或子序列命中后的 `Xn-xxxx / codename`、die density、plane、ONFI、redundant area 和 pages-per-block 由 core postprocess 补充。
+- `cell_level`、`layer_count`、`die_density`、`plane_count`、`speed_grade` 分别表达 xLC、层数、die 容量、plane 数和 ONFI / max clock，不塞进 `die_codename` 文本。
+- raw NAND / UNIMOS pack 可以按 die profile key 合并共享表；eMMC / UFS pack 只使用共享表中不覆盖 PN 自带 `cell_level` 或容量 token 的字段。
+- Flash ID DecodePack 的 byte / bit 规则只输出泛化 generation、density、cell、page 等可由位段直接确定的信息；完整或子序列命中后的 die profile、die density、plane、ONFI、redundant area 和 pages-per-block 由 core postprocess 补充。
 - `Block Size` 资料在 YMTC feature 表中以 pages 表达；公开输出优先使用 `pages_per_block`。不要把 pages 数直接塞进 byte 语义的 `block_size`。
 
 ## 工艺 alias 摘要

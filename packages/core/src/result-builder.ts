@@ -351,8 +351,8 @@ function buildPartSubtitle(
   const width = device.chipKind === "dram"
     ? displayField(fields, "dram_width") ?? displayField(fields, "device_width")
     : undefined;
-  const processNode = device.chipKind === "raw_nand" || device.chipKind === "on_die_ecc_nand"
-    ? displayField(fields, "process_node")
+  const dieProfile = device.chipKind === "raw_nand" || device.chipKind === "on_die_ecc_nand"
+    ? displayField(fields, "die_codename")
     : undefined;
   return [
     subtitleKind(device, fields, ctx, lang),
@@ -360,7 +360,7 @@ function buildPartSubtitle(
     joinCompact(density, cellLevel),
     joinCompact(dramDensity, dramType),
     width,
-    processNode
+    dieProfile
   ].filter((value): value is string => Boolean(value)).join(" · ");
 }
 
@@ -374,7 +374,7 @@ function buildIdentifierSubtitle(
   const cellLevel = displayField(fields, "cell_level");
   const dieCount = displayField(fields, "die_count");
   const planeCount = displayField(fields, "plane_count");
-  const processNode = displayField(fields, "process_node");
+  const dieProfile = displayField(fields, "die_codename");
   const dieText = dieCount
     ? translateTemplate(ctx, "subtitle.die_count", "{count} die", { count: dieCount }, lang)
     : undefined;
@@ -386,7 +386,7 @@ function buildIdentifierSubtitle(
     joinCompact(density, cellLevel),
     dieText,
     planeText,
-    processNode
+    dieProfile
   ].filter((value): value is string => Boolean(value)).join(" · ");
 }
 
