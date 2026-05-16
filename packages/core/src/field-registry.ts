@@ -161,6 +161,13 @@ export const fdnextFieldRegistry = {
     importance: "secondary",
     format: formatMbitAsBytes
   },
+  die_codename: {
+    key: "die_codename",
+    valueKind: "string",
+    defaultLabel: "Die Codename",
+    recommendedBlock: "geometry",
+    importance: "secondary"
+  },
   component_density: {
     key: "component_density",
     valueKind: "number",

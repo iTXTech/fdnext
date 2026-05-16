@@ -141,6 +141,7 @@
   "series_info": "系列",
   "config_code": "配置编码",
   "die_density": "Die 容量",
+  "die_codename": "Die 代号",
   "die_stack": "Die 堆叠",
   "die_count": "Die 数",
   "ce_count": "CE 数",

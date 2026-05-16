@@ -93,7 +93,7 @@
 
 DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `map` / `takeLongest` 复用。查表顺序为“共享表 + 当前 `tokenDecoder.tables`”，同名时当前规则内的本地表覆盖共享表。
 
-典型用途是把跨产品线复用的工艺、die、controller profile 抽成统一 key 表。例如 YMTC 规则使用 `ymtc.process`，先把 PN token 组合映射到 `X2-9060` 这类 process key，再 cross-reference 共享表生成 `process_node`、`generation_info`、`layer_count`、`die_density`、`cell_level`、`plane_count` 和 `speed_grade`。
+典型用途是把跨产品线复用的工艺、die、controller profile 抽成统一 key 表。例如 `nand.die_profile` 以 die codename 或 firmware full code 为 key，后续 PN / Flash ID / MPTool 规则可 cross-reference 出 `die_codename`、`process_node`、`generation_info`、`layer_count`、`die_density`、`cell_level` 和 `plane_count`。表内 `firmware_match` / `firmware_base` / `die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields；Toshiba / SanDisk 2D 固件匹配先归一为 `2DM` / `2DT`，BiCS full code 如 `7T23` / `8T23` / `9T23` 可直接作为查表 key，也可先归一为 base `T23`。YMTC 规则使用 `ymtc.process`，先把 PN token 组合映射到 `X2-9060` 这类 process key，再 cross-reference 共享表生成 `process_node`、`generation_info`、`layer_count`、`die_density`、`cell_level`、`plane_count` 和 `speed_grade`。
 
 ### assign 表达式（DecodeExpr）
 

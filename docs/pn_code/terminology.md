@@ -50,6 +50,7 @@
 | `component_voltage` | 封装或组件电压，不承载产品线或代际信息 | `3.3V` |
 | `storage_density` | MCP/eMCP/uMCP 内 storage 子系统容量，`display` 用 Bytes | `262144` / `32GB` |
 | `die_density` | 单颗 NAND die 容量，`display` 用 Bytes | `1024` / `128MB` |
+| `die_codename` | 厂商 die profile 代号，可作为 PN / Flash ID / MPTool 规则之间的稳定匹配 key | `B27A` |
 | `die_stack` | 封装内 die 堆叠数量或厂商堆叠代号 | `8-die package` |
 | `die_count` / `plane_count` | die / plane 数量 | `2` / `4` |
 | `ce_count` / `rb_count` / `channel_count` | CE / R/B / channel 数量 | `2` / `2` / `4` |
@@ -71,6 +72,7 @@
 
 - On-die ECC NAND 使用 `device.chipKind = "on_die_ecc_nand"`，展示为 `On-die ECC NAND`。
 - `generation_info` 可承接产品代际、层数或制程节点；若与 `process_node` 完全重复，公开结果不重复输出。
+- `nand.die_profile` 中的 `firmware_match` / `firmware_base` / `die_mark` 是匹配和维护 metadata，不默认输出到公开 result。Toshiba / SanDisk 2D 固件侧默认归一为 `2DM` / `2DT`；BiCS full code 如 `7T23`、`8T23`、`9T23` 可直接作为查表 key，也可先归一为 base `T23`，不同 die mark 只留在 profile metadata。
 - `storage_interface` 与 `product_type` 完全重复时，优先保留更结构化的 identity 字段，除非接口字段含有版本、lane、gear 等增量信息。
 - `iNAND`、`iSSD`、`moviNAND` 等厂商品牌或系列名不作为 `product_type`；需要展示时放入 `product_family` 等稳定语义字段，解析中间用的 `system` / `group` 不进入公开 fields。SSD 类封装按接口归类为 `sata` / `nvme`。
 
