@@ -865,7 +865,11 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   };
 
   const deriveNandDensityFromDieStack = <T extends PartDecodeDraft | IdentifierDecodeDraft>(info: T): T => {
-    if (draftDensity(info) !== undefined || (info.device.chipKind !== "raw_nand" && info.device.chipKind !== "on_die_ecc_nand")) {
+    const currentDensity = draftDensity(info);
+    if (
+      (currentDensity !== undefined && draftVendor(info) !== "spectek") ||
+      (info.device.chipKind !== "raw_nand" && info.device.chipKind !== "on_die_ecc_nand")
+    ) {
       return info;
     }
 
@@ -879,7 +883,10 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       return info;
     }
 
-    setDraftField(info, "density", dieDensity * dieCount);
+    const derivedDensity = dieDensity * dieCount;
+    if (currentDensity === undefined || currentDensity !== derivedDensity) {
+      setDraftField(info, "density", derivedDensity);
+    }
     return info;
   };
 
