@@ -234,7 +234,7 @@ pm2 logs fdnext-server
 - Hapi server 默认允许所有来源；cf-workers 和 aliyun-fc 通过 `FDNEXT_CORS_ORIGINS` 控制 CORS。
 - 服务端响应会包含 `X-Powered-By` header（用于运维识别）
 
-构建时 `scripts/bundle-package.ts` 默认从 git 写入短 `commitHash`，`buildTime` 使用当前 ISO 时间。CI / serverless 平台可以显式设置 `FDNEXT_COMMIT_HASH` 和 `FDNEXT_BUILD_TIME` 覆盖。
+构建时 `scripts/bundle-package.ts` 默认从 git 写入短 `commitHash`，`buildTime` 使用当前 ISO 时间。CI / serverless 平台可以显式设置 `FDNEXT_COMMIT_HASH` 和 `FDNEXT_BUILD_TIME` 覆盖。直接从源码运行 server / CLI、没有 bundler 注入 build metadata 时，`buildTime` 使用进程启动时的 ISO 时间。
 
 ## 4. Serverless adapter
 

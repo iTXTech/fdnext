@@ -5,6 +5,7 @@ export const FDNEXT_CAPABILITIES_SCHEMA_VERSION = "fdnext.capabilities.v2" as co
 declare const __FDNEXT_VERSION__: string;
 declare const __FDNEXT_COMMIT_HASH__: string;
 declare const __FDNEXT_BUILD_TIME__: string;
+const runtimeBuildTime = new Date().toISOString();
 
 export interface FdnextBuildMetadata {
   commitHash: string;
@@ -26,7 +27,7 @@ export const FDNEXT_VERSION = buildMetadataValue(
 
 export const FDNEXT_BUILD_METADATA: FdnextBuildMetadata = {
   commitHash: buildMetadataValue(typeof __FDNEXT_COMMIT_HASH__ === "string" ? __FDNEXT_COMMIT_HASH__ : undefined, "dev"),
-  buildTime: buildMetadataValue(typeof __FDNEXT_BUILD_TIME__ === "string" ? __FDNEXT_BUILD_TIME__ : undefined, "1970-01-01T00:00:00.000Z")
+  buildTime: buildMetadataValue(typeof __FDNEXT_BUILD_TIME__ === "string" ? __FDNEXT_BUILD_TIME__ : undefined, runtimeBuildTime)
 };
 
 export const fdnextOperations = [

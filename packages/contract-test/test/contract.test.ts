@@ -45,6 +45,23 @@ function runCli(args: string[]): Record<string, unknown> {
   return parseJsonObject(result.stdout);
 }
 
+function assertCapabilitiesBuildTime(capabilities: unknown): void {
+  const server = capabilities && typeof capabilities === "object" ? (capabilities as { server?: unknown }).server : undefined;
+  const build = server && typeof server === "object" ? (server as { build?: unknown }).build : undefined;
+  const buildTime = build && typeof build === "object" ? (build as { buildTime?: unknown }).buildTime : undefined;
+  assert.equal(typeof buildTime, "string");
+  assert.ok(!Number.isNaN(Date.parse(buildTime)));
+  assert.notEqual(buildTime, "1970-01-01T00:00:00.000Z");
+}
+
+function normalizeCapabilitiesForComparison(capabilities: unknown): unknown {
+  const normalized = JSON.parse(JSON.stringify(capabilities)) as { server?: { build?: { buildTime?: string } } };
+  if (normalized.server?.build) {
+    normalized.server.build.buildTime = "<runtime-build-time>";
+  }
+  return normalized;
+}
+
 async function waitForListening(server: NodeServer): Promise<void> {
   if (server.listening) {
     return;
@@ -99,7 +116,7 @@ const sdkCapabilities = engine.getCapabilities();
 assert.equal(FDNEXT_VERSION, fdnextPackageVersion);
 assert.equal(sdkCapabilities.server.version, fdnextPackageVersion);
 assert.equal(sdkCapabilities.server.build.commitHash, "dev");
-assert.equal(sdkCapabilities.server.build.buildTime, "1970-01-01T00:00:00.000Z");
+assertCapabilitiesBuildTime(sdkCapabilities);
 assert.equal(sdkCapabilities.fdb.version, engine.getVersion());
 assert.equal(sdkCapabilities.inventory.controllers.count, sdkCapabilities.inventory.controllers.items.length);
 assert.equal(sdkCapabilities.inventory.controllers.defaultGroups, "all");
@@ -531,7 +548,8 @@ assert.deepEqual(
 );
 const cliCapabilities = runCli(["capabilities"]);
 assert.equal(cliCapabilities.schemaVersion, "fdnext.capabilities.v2");
-assert.deepEqual(cliCapabilities, sdkCapabilities);
+assertCapabilitiesBuildTime(cliCapabilities);
+assert.deepEqual(normalizeCapabilitiesForComparison(cliCapabilities), normalizeCapabilitiesForComparison(sdkCapabilities));
 const cliEngCapabilities = runCli(["capabilities", "eng"]);
 assert.equal((cliEngCapabilities.inventory as typeof sdkCapabilities.inventory).controllers.groups[0]?.title, "All controllers");
 
@@ -563,7 +581,8 @@ const httpRepeatedGroupedIdentifierSearch = await injectJson("GET", "/identifier
 assert.deepEqual(httpRepeatedGroupedIdentifierSearch, httpGroupedIdentifierSearch);
 const httpCapabilities = await injectJson("GET", "/capabilities");
 assert.equal(httpCapabilities.schemaVersion, "fdnext.capabilities.v2");
-assert.deepEqual(httpCapabilities, sdkCapabilities);
+assertCapabilitiesBuildTime(httpCapabilities);
+assert.deepEqual(normalizeCapabilitiesForComparison(httpCapabilities), normalizeCapabilitiesForComparison(sdkCapabilities));
 const httpEngCapabilities = await injectJson("GET", "/capabilities?lang=eng");
 assert.equal((httpEngCapabilities.inventory as typeof sdkCapabilities.inventory).controllers.groups[0]?.title, "All controllers");
 const removedPostEndpoint = await injectJson("POST", "/parts/decode");
