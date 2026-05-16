@@ -247,6 +247,13 @@
         },
         {
           "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "map",
           "from": "bicsProcessKey",
           "table": "bicsGenerationObj",
           "to": "bicsGenerationObj",
@@ -371,6 +378,9 @@
           "$var": "package"
         },
         "meta.ruleId": "vendor.kioxia.ufs.managed.v1",
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
         "fields.die_codename": {
           "$var": "processNode"
         }

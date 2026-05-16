@@ -389,6 +389,13 @@
           "default": ""
         },
         {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
           "op": "take",
           "len": 2,
           "to": "packageCode"
@@ -506,6 +513,9 @@
           "$var": "ch"
         },
         "meta.ruleId": "vendor.kioxia.token.tc.v1",
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
         "fields.die_codename": {
           "$var": "processNode"
         }
@@ -902,6 +912,13 @@
           "default": ""
         },
         {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
           "op": "take",
           "len": 2,
           "to": "packageCode"
@@ -1019,6 +1036,9 @@
           "$var": "ch"
         },
         "meta.ruleId": "vendor.kioxia.token.th.v1",
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
         "fields.die_codename": {
           "$var": "processNode"
         }

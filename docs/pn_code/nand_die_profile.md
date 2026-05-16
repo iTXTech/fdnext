@@ -6,9 +6,11 @@
 
 ## 公开字段边界
 
-- `die_codename`、`generation_info`、`layer_count`、`die_density`、`cell_level`、`plane_count` 可以按规则需要进入公开 fields。
+- `die_codename`、`process_alias`、`layer_count`、`die_density`、`cell_level`、`plane_count` 可以按规则需要进入公开 fields。
+- `die_codename` 公开 label 为 `Process` / `制程`；已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`。
+- `layer_count` 与 `process_alias` 独立展示，不拼进 `die_codename` 文本；`process_alias` 用于 `X3-9060`、`8T23` 这类厂商工艺或 full-code 代号。
 - `firmware_match`、`die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields。
-- Kioxia / SanDisk 的 BiCS profile key 必须带厂商前缀，例如 `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24`；公开展示优先使用 `generation_info = BiCS4` 等稳定代际，而不是把内部 die mark 展示给用户。
+- Kioxia / SanDisk 的 BiCS profile key 必须带厂商前缀，例如 `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24`；公开展示优先使用 `die_codename = KBiCS4` / `SBiCS4`，full code 可通过 `process_alias` 显示为 `8T24` 这类代号，而不是把内部 die mark 展示给用户。
 - 2D NAND 默认不要求补齐 `generation_info`；如果规则或 FDB 只知道旧制程字样，生成侧应先规范化为 vendor profile，最弱只允许落到表内 fallback profile，例如 `50nm`、`1ynm`、`3DV4`。运行时兼容旧 FDB 时才使用 `generation_info` + `fdb_process_fallback` warning。
 
 ## Key 约定
@@ -58,6 +60,8 @@ Samsung 的真实内部代号常来自单 die PN（例如 `K9AHGD8U0M/A/B/C/D` �
 
 生成后的 `fdb.json` 不允许再把任意制程文本写入 `l`。`l` 必须能命中 `nand.die_profile`：优先是 vendor / die codename profile，例如 `SNK15T`、`TSB32`、`SSV4`、`HYV3`、`B16A`；如果原始资料只有泛化 2D 或 3D 线索，才允许使用表内 fallback key，例如 `50nm`、`1ynm`、`1znm`、`3DV4`、`3DV4P5`。没有代际的 `3D` 不作为 fallback。
 
+运行时 FDB 命中后，`l` 只作为 `nand.die_profile` key 使用，再由 profile 表统一补齐公开字段，例如 `layer_count`、`die_density`、`cell_level`、`plane_count` 和 `process_alias`。不要在 FDB 或 core runtime 中为某个 die 单独写层数补丁。
+
 ## Kioxia / SanDisk BiCS firmware key
 
 Kioxia / SanDisk BiCS profile key 必须带厂商前缀，不能只在 `firmware_match` 中区分厂商。泛化制程 key 使用 `KBiCS3` / `SBiCS3`，full code key 使用 `K8T23` / `S8T23`。同一制程下的具体 die 差异主要由 full code 和 `die_mark` 维护。
@@ -89,8 +93,11 @@ Micron / Intel 的 3D NAND 固件匹配直接使用 die codename，不再同时�
 | Profile key | Firmware match |
 | --- | --- |
 | `B16A` | `B16A` |
+| `B17A` | `B17A` |
 | `B27A` | `B27A` |
 | `N28A` | `N28A` |
+| `N38B` | `N38B` |
+| `N38E` | `N38E` |
 
 2D NAND 固件匹配一般不再按每个 die codename 展开，默认按 cell 类型归并：
 
@@ -102,4 +109,4 @@ Micron / Intel 的 3D NAND 固件匹配直接使用 die codename，不再同时�
 
 例外：`L8x`、`B9x`、`L9x` 直接使用 die codename，例如 `L84A`、`B95A`、`L95B`。
 
-这些 full code 和 `die_mark` 偏内部维护，不默认展示。DecodePack 规则需要用户可见代际时，优先输出 `generation_info`、`layer_count`、`cell_level`、`die_density` 和 `plane_count`。
+这些 full code 和 `die_mark` 偏内部维护，raw `firmware_match` / `die_mark` 不默认展示。DecodePack 规则需要用户可见制程时，优先输出 `die_codename`、`process_alias`、`layer_count`、`cell_level`、`die_density` 和 `plane_count`。

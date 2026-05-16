@@ -29,6 +29,7 @@ type YmtcProcessKey =
 
 type YmtcProcessInfo = {
   die_codename: string;
+  process_alias?: string;
   generation_info?: string;
   layer_count?: number;
   cell_level?: number;
@@ -262,10 +263,17 @@ const SKHYNIX_DENSITY_BY_BYTE2: Record<number, number> = {
 const SKHYNIX_STACKED_PROCESS_BYTE6 = new Set([0x70, 0x80, 0x90, 0xa0, 0xa2, 0xb0, 0xb2, 0xc0, 0xc2, 0xd0]);
 
 const SAMSUNG_PROCESS_BY_BYTE6: Record<number, string> = {
-  0xc1: "SSV6E",
-  0xc2: "SSV7",
-  0xc7: "SSV1",
-  0xcf: "SSV8"
+  0xc1: "SSV6",
+  0xc7: "SSV1"
+};
+
+const SAMSUNG_LARGE_DIE_PROCESS_BY_BYTE6: Record<number, string> = {
+  0xc1: "SSV7",
+  0xc2: "SSV6P",
+  0xc3: "SSV9",
+  0xcf: "SSV8",
+  0xd2: "SSV6P",
+  0xdf: "SSV8"
 };
 
 const SAMSUNG_PROCESS_BY_MASKED_BYTE6: Record<number, string> = {
@@ -282,7 +290,7 @@ const SAMSUNG_PROCESS_BY_MASKED_BYTE6: Record<number, string> = {
   0x4a: "SS14",
   0x4b: "SSV4",
   0x4c: "SSV5",
-  0x4d: "SSV6E",
+  0x4d: "SSV6",
   0x4e: "SSV7"
 };
 
@@ -303,6 +311,8 @@ const SAMSUNG_DENSITY_BY_BYTE2: Record<number, number> = {
   0xd7: 32 * GBIT_TO_MBIT,
   0xde: 64 * GBIT_TO_MBIT
 };
+
+const SAMSUNG_LARGE_DIE_THRESHOLD_MBIT = 512 * GBIT_TO_MBIT;
 
 const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
   "X0-A030": {
@@ -521,6 +531,50 @@ function dieCountFromFlashId(id: string): number {
   return 1 << (flashIdByteAt(id, 3) & 0x03);
 }
 
+function numericDraftField(info: IdentifierDecodeDraft, key: "density" | "die_count" | "cell_level"): number | undefined {
+  const value = draftField(info, key);
+  if (typeof value === "number" && Number.isFinite(value)) {
+    return value;
+  }
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  if (key === "cell_level") {
+    const normalized = value.trim().toUpperCase();
+    if (normalized === "SLC") {
+      return 1;
+    }
+    if (normalized === "MLC") {
+      return 2;
+    }
+    if (normalized === "TLC") {
+      return 3;
+    }
+    if (normalized === "QLC") {
+      return 4;
+    }
+  }
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
+}
+
+function isSamsungLarge3dCell(info: IdentifierDecodeDraft): boolean {
+  const cellLevel = numericDraftField(info, "cell_level");
+  return cellLevel === 3 || cellLevel === 4;
+}
+
+function samsungLargeDieCodename(id: string, info: IdentifierDecodeDraft): string | undefined {
+  const density = numericDraftField(info, "density");
+  const dieCount = numericDraftField(info, "die_count");
+  if (density === undefined || dieCount === undefined || dieCount <= 0 || !isSamsungLarge3dCell(info)) {
+    return undefined;
+  }
+  if (density / dieCount < SAMSUNG_LARGE_DIE_THRESHOLD_MBIT) {
+    return undefined;
+  }
+  return lookupString(SAMSUNG_LARGE_DIE_PROCESS_BY_BYTE6, flashIdByteAt(id, 6));
+}
+
 function clonePartDraft(info: PartDecodeDraft): PartDecodeDraft {
   return {
     ...info,
@@ -603,7 +657,11 @@ function patchSamsung(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null
   }
 
   const byte6 = flashIdByteAt(id, 6);
-  const dieCodename = lookupString(SAMSUNG_PROCESS_BY_BYTE6, byte6) ?? lookupString(SAMSUNG_PROCESS_BY_MASKED_BYTE6, byte6 & 0x7f);
+  const dieCodename =
+    samsungLargeDieCodename(id, next) ??
+    (!draftField(next, "die_codename")
+      ? lookupString(SAMSUNG_PROCESS_BY_BYTE6, byte6) ?? lookupString(SAMSUNG_PROCESS_BY_MASKED_BYTE6, byte6 & 0x7f)
+      : undefined);
   if (dieCodename) {
     setDraftField(next, "die_codename", dieCodename);
     changed = true;
@@ -715,6 +773,7 @@ function patchYmtc(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
   if (processInfo) {
     const processFields = YMTC_PROCESS_INFO_BY_KEY[processInfo.processKey];
     setDraftField(next, "die_codename", processFields.die_codename);
+    setDraftField(next, "process_alias", processFields.process_alias ?? processInfo.processKey);
     setDraftField(next, "generation_info", processFields.generation_info);
     setDraftField(next, "layer_count", processFields.layer_count);
     setDraftField(next, "cell_level", processFields.cell_level);
@@ -747,10 +806,7 @@ export function createDefaultIdentifierPostprocessor(): DecodeDraftPostprocessor
       else if (vendor === "kioxia" || vendor === "sndk") patch = patchKioxiaLike(info);
       else if (vendor === "ymtc") patch = patchYmtc(info);
 
-      if (!patch) {
-        return info;
-      }
-      return patch;
+      return patch ?? info;
     }
   } satisfies DecodeDraftPostprocessor;
 }

@@ -161,6 +161,13 @@
           "default": ""
         },
         {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
           "op": "take",
           "len": 1,
           "to": "cellCode"
@@ -300,6 +307,9 @@
           "$var": "channel"
         },
         "meta.ruleId": "vendor.sndk.token.v1",
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
         "fields.die_codename": {
           "$var": "processNode"
         }

@@ -11,6 +11,8 @@ import type {
   DecodeProgram,
   IdentifierDecodeExplainBitfield,
   IdentifierDecodeExplainResult,
+  IdentifierBitRule,
+  IdentifierFieldCondition,
   IdentifierDecodeSpec,
   NormalizeStep,
   PartDecodeExplainResult,
@@ -613,6 +615,7 @@ function compilePartDecodeSpecs(
     return {
       id: rule.id,
       priority: rule.priority,
+      profileTables: sharedTables,
       check,
       decode
     } satisfies PartNumberDecoder;
@@ -641,6 +644,75 @@ function identifierRuleMatchesWhen(id: string, when: Record<string, string | str
     }
   }
   return true;
+}
+
+function identifierScalarEquals(a: unknown, b: unknown): boolean {
+  return a === b || String(a) === String(b);
+}
+
+function identifierFieldNumber(value: unknown): number | undefined {
+  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+}
+
+function identifierFieldConditionMatches(value: unknown, condition: IdentifierFieldCondition): boolean {
+  if (Array.isArray(condition)) {
+    return condition.some((item) => identifierScalarEquals(value, item));
+  }
+  if (!condition || typeof condition !== "object") {
+    return identifierScalarEquals(value, condition);
+  }
+
+  const comparison = condition;
+  if (comparison.eq !== undefined) {
+    const expected = Array.isArray(comparison.eq) ? comparison.eq : [comparison.eq];
+    if (!expected.some((item) => identifierScalarEquals(value, item))) {
+      return false;
+    }
+  }
+
+  const numeric = identifierFieldNumber(value);
+  if (comparison.gte !== undefined && (numeric === undefined || numeric < comparison.gte)) {
+    return false;
+  }
+  if (comparison.gt !== undefined && (numeric === undefined || numeric <= comparison.gt)) {
+    return false;
+  }
+  if (comparison.lte !== undefined && (numeric === undefined || numeric > comparison.lte)) {
+    return false;
+  }
+  if (comparison.lt !== undefined && (numeric === undefined || numeric >= comparison.lt)) {
+    return false;
+  }
+  return true;
+}
+
+function identifierRuleMatchesFields(fields: Record<string, unknown>, whenFields: Record<string, IdentifierFieldCondition> | undefined): boolean {
+  if (!whenFields) {
+    return true;
+  }
+  for (const [field, condition] of Object.entries(whenFields)) {
+    if (!identifierFieldConditionMatches(fields[field], condition)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+function identifierRuleMatchesDieDensity(fields: Record<string, unknown>, minDieDensityMbit: number | undefined): boolean {
+  if (minDieDensityMbit === undefined) {
+    return true;
+  }
+  const density = identifierFieldNumber(fields.density);
+  const dieCount = identifierFieldNumber(fields.die_count);
+  return density !== undefined && dieCount !== undefined && dieCount > 0 && density / dieCount >= minDieDensityMbit;
+}
+
+function identifierRuleMatches(id: string, rule: IdentifierBitRule, fields: Record<string, unknown>): boolean {
+  return (
+    identifierRuleMatchesWhen(id, rule.when) &&
+    identifierRuleMatchesFields(fields, rule.whenFields) &&
+    identifierRuleMatchesDieDensity(fields, rule.whenDieDensityMbitGte)
+  );
 }
 
 function canonicalIdentifierField(name: string): { key: string; scale?: number } {
@@ -681,7 +753,7 @@ function decodeIdentifierByDefinition(
     for (const [name, ruleSet] of Object.entries(rules)) {
       const entries = Array.isArray(ruleSet) ? ruleSet : [ruleSet];
       for (const rule of entries) {
-        if (!identifierRuleMatchesWhen(id, rule.when)) {
+        if (!identifierRuleMatches(id, rule, fields)) {
           continue;
         }
         let data = 0;
@@ -712,7 +784,10 @@ function decodeIdentifierByDefinition(
   return out as unknown as IdentifierDecodeDraft;
 }
 
-function compileIdentifierDecodeSpecs(rules: IdentifierDecodeSpec[]): IdentifierDecoder[] {
+function compileIdentifierDecodeSpecs(
+  rules: IdentifierDecodeSpec[],
+  sharedTables?: Record<string, Record<string, DecodeJson>>
+): IdentifierDecoder[] {
   return rules.map((rule) => {
     const check = (id: string): boolean => checkMatch(id.toUpperCase(), rule.match);
     const decode = (id: string): IdentifierDecodeDraft | null => {
@@ -727,6 +802,7 @@ function compileIdentifierDecodeSpecs(rules: IdentifierDecodeSpec[]): Identifier
       id: rule.id,
       idScheme: rule.idScheme,
       priority: rule.priority,
+      profileTables: sharedTables,
       check,
       decode
     } satisfies IdentifierDecoder;
@@ -736,7 +812,8 @@ function compileIdentifierDecodeSpecs(rules: IdentifierDecodeSpec[]): Identifier
 export function compileDecodePack(pack: DecodePack): CompileDecodePackResult {
   return {
     partDecoders: compilePartDecodeSpecs(pack.partSpecs, pack.sharedTables),
-    identifierDecoders: compileIdentifierDecodeSpecs(pack.identifierSpecs)
+    identifierDecoders: compileIdentifierDecodeSpecs(pack.identifierSpecs, pack.sharedTables),
+    profileTables: pack.sharedTables
   };
 }
 

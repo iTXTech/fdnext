@@ -205,6 +205,13 @@
         },
         {
           "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "map",
           "from": "productKey",
           "table": "productObj",
           "to": "productObj",
@@ -223,6 +230,9 @@
         },
         "fields.generation_info": {
           "$path": "productObj.generation_info"
+        },
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
         },
         "fields.component_density": {
           "$path": "productObj.component_density"

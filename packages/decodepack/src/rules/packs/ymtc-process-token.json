@@ -67,6 +67,12 @@
             "generation_info"
           ]
         },
+        "fields.process_alias": {
+          "$path": [
+            "processObj",
+            "process_alias"
+          ]
+        },
         "fields.layer_count": {
           "$path": [
             "processObj",

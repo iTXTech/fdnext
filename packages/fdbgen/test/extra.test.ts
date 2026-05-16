@@ -14,6 +14,7 @@ import {
   fdnextFdbgenV1Schema,
   fdnextFdbV1Schema,
   generateFdb,
+  normalizeFdbPartNumber,
   parseExtraPayload,
   validateExtraPayload,
   validateFdbPayload
@@ -163,6 +164,27 @@ test("generated fdb validator forbids fid and checks iddb reverse references", (
   });
   assert.equal(invalidVersion.ok, false);
   assert.ok(invalidVersion.errors.some((issue) => issue.code === "schema_version.invalid"));
+});
+
+test("normalizes SK hynix H25T package suffixes before FDB ingestion", () => {
+  assert.equal(normalizeFdbPartNumber("H25T2TB88E-X321-N"), "H25T2TB88E");
+  assert.equal(normalizeFdbPartNumber("H25T1TD48C-X630"), "H25T1TD48C");
+  assert.equal(normalizeFdbPartNumber("GEN2-X321"), "");
+
+  const parsed = parseExtraPayload({
+    vendors: {
+      skhynix: {
+        "H25T2TB88E-X321-N": {
+          id: ["AD5E28011000"],
+          l: "HYV6",
+          c: "TLC"
+        }
+      }
+    }
+  });
+
+  assert.ok(parsed.vendors?.skhynix?.H25T2TB88E);
+  assert.equal(parsed.vendors?.skhynix?.["H25T2TB88E-X321-N"], undefined);
 });
 
 test("extra audit reports base extra, fdb, and decodepack conflicts", () => {

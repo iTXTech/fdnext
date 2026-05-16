@@ -156,7 +156,19 @@ export interface IdentifierBitRule {
   dq: number[];
   def: Record<string, DecodeJson>;
   when?: Record<string, string | string[]>;
+  whenFields?: Record<string, IdentifierFieldCondition>;
+  whenDieDensityMbitGte?: number;
 }
+
+export interface IdentifierFieldComparison {
+  eq?: DecodeScalar | DecodeScalar[];
+  gte?: number;
+  gt?: number;
+  lte?: number;
+  lt?: number;
+}
+
+export type IdentifierFieldCondition = DecodeScalar | DecodeScalar[] | IdentifierFieldComparison;
 
 export type IdentifierBitRuleSet = IdentifierBitRule | IdentifierBitRule[];
 
@@ -180,6 +192,7 @@ export interface DecodePack {
 export interface CompileDecodePackResult {
   partDecoders: import("@itxtech/fdnext-core").PartNumberDecoder[];
   identifierDecoders: import("@itxtech/fdnext-core").IdentifierDecoder[];
+  profileTables?: Record<string, Record<string, DecodeJson>>;
 }
 
 export type DecodePackCheckSeverity = "error" | "warning";

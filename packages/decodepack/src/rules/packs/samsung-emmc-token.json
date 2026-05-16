@@ -346,6 +346,13 @@
         },
         {
           "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "map",
           "from": "nandGenerationKey",
           "table": "generationObj",
           "to": "generationObj",
@@ -483,6 +490,9 @@
           "$var": "die"
         },
         "meta.ruleId": "vendor.samsung.emmc.token.v1",
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
         "fields.die_codename": {
           "$var": "processNode"
         }

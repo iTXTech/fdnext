@@ -364,6 +364,7 @@ Raw FlashDB 模式：
 - priority stack 中胜出的 `id/fid` 会作为该 PN 的 authoritative ID 覆盖 raw 输入，因此 sky Micron 这类不需要强制语义的记录可以写 `id`，不必写 `fid`
 - generated `fdb.json` 禁止出现 `fid`，并使用 `fdnext.fdb.v1` schema
 - generated `fdb.json` 的 `l` 只允许写 `nand.die_profile` key。生成时会先把旧制程文本规范化到 profile，例如 `3D B16A` → `B16A`、SanDisk `15nm` + `TLC` → `SNK15T`；无法确定 vendor die profile 时，只允许落到表内 fallback profile，例如 `50nm`、`1ynm`、`3DV4`、`3DV4P5`。`3D`、`sky-process` 这类无代际或自由文本不会写入输出，校验时会报 `part.invalid_die_profile`。
+- SK hynix H25T raw NAND PN 进入 FDB 前会移除封装/分档尾缀，例如 `H25T2TB88E-X321-N` → `H25T2TB88E`、`H25T1TD48C-X630` → `H25T1TD48C`；通用 `GEN2-X321` 这类合成标签仍按无效 PN 丢弃。
 - 数值字段（`s/p/b/d/e/r/n`）仅接受有限数值
 - 如果 `*_1` 或尾部 `-` PN 有明确 base PN，会合并回 base PN
 - `iddb.n` 只保留能在 vendor PN 表中找到的反向引用

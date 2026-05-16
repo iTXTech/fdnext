@@ -12,6 +12,7 @@ import {
   setDraftField
 } from "./draft";
 import { buildFdb, buildMdb, findFlashIdRecord, findPartNumberAcrossVendors, getPartNumberRecord } from "./fdb";
+import { fdnextFieldRegistry, type FdnextFieldKey } from "./field-registry";
 import { createDefaultIdentifierPostprocessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
 import { applyMicronFbgaMeta, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
@@ -252,6 +253,67 @@ function isKnownClassificationValue(value: unknown): boolean {
     return normalized.length > 0 && normalized !== normalizeInfoText(UNKNOWN);
   }
   return true;
+}
+
+function collectDecoderProfileTables(
+  explicit: Record<string, Record<string, unknown>> | undefined,
+  decoders: readonly (PartNumberDecoder | IdentifierDecoder)[]
+): Record<string, Record<string, unknown>> {
+  const tables: Record<string, Record<string, unknown>> = { ...(explicit ?? {}) };
+  for (const decoder of decoders) {
+    for (const [tableName, table] of Object.entries(decoder.profileTables ?? {})) {
+      tables[tableName] ??= table;
+    }
+  }
+  return tables;
+}
+
+function isFdnextFieldKey(key: string): key is FdnextFieldKey {
+  return Object.hasOwn(fdnextFieldRegistry, key);
+}
+
+function normalizeNandCellLevel(value: unknown): "SLC" | "MLC" | "TLC" | "QLC" | "" {
+  if (typeof value === "number") {
+    return ({ 1: "SLC", 2: "MLC", 3: "TLC", 4: "QLC" } as const)[value] ?? "";
+  }
+  if (typeof value !== "string") {
+    return "";
+  }
+  const normalized = value.trim().toUpperCase();
+  if (normalized === "1") {
+    return "SLC";
+  }
+  if (normalized === "2") {
+    return "MLC";
+  }
+  if (normalized === "3") {
+    return "TLC";
+  }
+  if (normalized === "4") {
+    return "QLC";
+  }
+  if (/\bSLC\b/.test(normalized)) {
+    return "SLC";
+  }
+  if (/\bMLC\b/.test(normalized)) {
+    return "MLC";
+  }
+  if (/\bTLC\b/.test(normalized)) {
+    return "TLC";
+  }
+  if (/\bQLC\b/.test(normalized)) {
+    return "QLC";
+  }
+  return "";
+}
+
+function canonicalNandDieProfileKey(dieCodename: string, info: PartDecodeDraft | IdentifierDecodeDraft): string {
+  const key = dieCodename.trim();
+  const upper = key.toUpperCase();
+  if (upper === "HY16" && normalizeNandCellLevel(draftField(info, "cell_level")) === "MLC") {
+    return "HY16M";
+  }
+  return key;
 }
 
 function hasDramStackLayoutOption(value: unknown): boolean {
@@ -606,6 +668,8 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const identifierDecoders: IdentifierDecoder[] = [...(options.identifierDecoders ?? [])].sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
+  const profileTables = collectDecoderProfileTables(options.profileTables, [...decoders, ...identifierDecoders]);
+  const nandDieProfileTable = profileTables["nand.die_profile"] ?? {};
   const translateString = (key: string, lang?: string | null) => doTranslateString(langPacks, fallbackLang, key, lang);
   const resultBuilderContext = { langPacks, fallbackLang, translateString };
   const capabilityLanguages = (): string[] => [...new Set([fallbackLang, ...Object.keys(langPacks)])];
@@ -739,6 +803,31 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return result;
   };
 
+  const enrichNandDieProfileFields = <T extends PartDecodeDraft | IdentifierDecodeDraft>(info: T): T => {
+    const dieCodename = draftField(info, "die_codename");
+    if (typeof dieCodename !== "string" || dieCodename.trim().length === 0 || dieCodename === UNKNOWN) {
+      return info;
+    }
+
+    const profileKey = canonicalNandDieProfileKey(dieCodename, info);
+    if (profileKey !== dieCodename.trim()) {
+      setDraftField(info, "die_codename", profileKey);
+    }
+
+    const profile = nandDieProfileTable[profileKey];
+    if (!profile || typeof profile !== "object" || Array.isArray(profile)) {
+      return info;
+    }
+
+    for (const [key, value] of Object.entries(profile)) {
+      if (value === undefined || key === "die_codename" || !isFdnextFieldKey(key) || draftField(info, key) !== undefined) {
+        continue;
+      }
+      setDraftField(info, key, value);
+    }
+    return info;
+  };
+
   const applyIdentifierInfoHooks = (info: IdentifierDecodeDraft): IdentifierDecodeDraft => {
     let next = info;
     for (const processor of internalDecodeHooks) {
@@ -746,7 +835,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         next = processor.identifierInfo(next);
       }
     }
-    return next;
+    return enrichNandDieProfileFields(next);
   };
 
   const projectedControllers = (
@@ -1054,7 +1143,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         next = processor.partInfo(next);
       }
     }
-    return next;
+    return enrichNandDieProfileFields(next);
   };
 
   const unknownPartDraft = (partNumber: string, vendor = UNKNOWN): PartDecodeDraft => ({

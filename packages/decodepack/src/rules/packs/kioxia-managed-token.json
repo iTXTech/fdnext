@@ -478,6 +478,13 @@
         },
         {
           "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "map",
           "from": "twoDimensionalProcessKey",
           "table": "twoDimensionalGenerationObj",
           "to": "twoDimensionalGenerationObj",
@@ -659,6 +666,9 @@
           "$var": "package"
         },
         "meta.ruleId": "vendor.kioxia.managed.thg.v1",
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
         "fields.die_codename": {
           "$var": "processNode"
         }

@@ -194,7 +194,9 @@
         "processNode": {},
         "processNodeOverride": {
           "K1": "N38A",
+          "K2": "N38B",
           "KA": "N38B",
+          "KM": "N38E",
           "L1": "N4PA"
         },
         "generationDigit": {
@@ -391,6 +393,13 @@
         },
         {
           "op": "map",
+          "from": "processNodeFinal",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "map",
           "from": "genCode",
           "table": "generationDigit",
           "to": "generation",
@@ -500,6 +509,9 @@
         "meta.ruleId": "vendor.intel.token.v1",
         "fields.die_codename": {
           "$var": "processNodeFinal"
+        },
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
         }
       }
     }

@@ -189,6 +189,7 @@ export interface SearchOptions {
 export interface PartNumberDecoder {
   id: string;
   priority?: number;
+  profileTables?: Record<string, Record<string, unknown>>;
   check(partNumber: string): boolean;
   decode(partNumber: string): PartDecodeDraft | null;
 }
@@ -197,6 +198,7 @@ export interface IdentifierDecoder {
   id: string;
   idScheme: FdnextIdScheme;
   priority?: number;
+  profileTables?: Record<string, Record<string, unknown>>;
   check(id: string): boolean;
   decode(id: string): IdentifierDecodeDraft | null;
 }
@@ -228,6 +230,7 @@ export interface EngineOptions {
   fallbackLang?: string;
   decoders?: PartNumberDecoder[];
   identifierDecoders?: IdentifierDecoder[];
+  profileTables?: Record<string, Record<string, unknown>>;
   processors?: ProcessorHooks[];
 }
 

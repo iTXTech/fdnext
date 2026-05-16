@@ -68,15 +68,16 @@ Preduo 等灰市 / 分销页可信度低于原厂新闻图、原厂 datasheet �
 | `package` | `153FBGA` | `FBGA` |
 | `fields.group` | `UFS` | `UFS` |
 | `fields.product_version` / `fields.storage_interface` | `UFS 3.1` / `UFS 4.1` | `UFS 2.1` |
-| `fields.generation_info` | `176-layer 4D NAND (V7)` | 未确认 |
+| `fields.die_codename` | `HYV7` | HN8 series `2E` / `DE` / `DZ` 标准化为 SK hynix 4D V7 |
+| `fields.layer_count` | `176` | 随 `HYV7` profile 补出 |
 
 ## 示例
 
 | PN | 解析重点 |
 | --- | --- |
-| `HN8T25DEHKX077N` | UFS, 512GB, UFS 3.1, V7, Mobile, Mass Production |
-| `HN8T35DZHKX079` | UFS, 1TB, UFS 3.1, V7, Mobile |
-| `HN8G962EHKX037N` | UFS, 64GB, UFS 3.1, V7 |
+| `HN8T25DEHKX077N` | UFS, 512GB, UFS 3.1, `HYV7`, 176L, Mobile, Mass Production |
+| `HN8T35DZHKX079` | UFS, 1TB, UFS 3.1, `HYV7`, 176L, Mobile |
+| `HN8G962EHKX037N` | UFS, 64GB, UFS 3.1, `HYV7`, 176L |
 | `HN8T274EJKX130` | ZUFS 4.1, 512GB, 153FBGA, Mobile |
 | `HN8T374ZJKX141` | ZUFS 4.1, 1TB, 153FBGA, Mobile; `141` 只作为 serial 保留 |
 | `H28SAO301MMR` | UFS 2.1, 512GB, FBGA |

@@ -189,10 +189,13 @@ function assertPart(
   }
 }
 
-function assertDieProfileFromFdbProcess(partNumber: string, expected: string): void {
+function assertDieProfileFromFdbProcess(partNumber: string, expected: string, expectedLayerCount?: number): void {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(result.status, "ok", `${partNumber} should decode from FDB`);
   assert.equal(fieldText(firstField(result, "die_codename")), expected, `${partNumber} die profile from FDB process`);
+  if (expectedLayerCount !== undefined) {
+    assert.equal(firstField(result, "layer_count")?.value, expectedLayerCount, `${partNumber} layer count from die profile`);
+  }
 }
 
 function assertFdbProcessFallback(partNumber: string, expected: string): void {
@@ -300,10 +303,10 @@ assertPart("SDINBDA6-256G-XI1", {
   extra: {
     "Product Family": "iNAND IX EM132",
     "Storage Interface": "eMMC 5.1",
-    "Product Class": "Industrial Extended Temperature",
-    "Product Generation": "BiCS3 64L 3D NAND"
+    "Layer Count": 64,
+    "Product Class": "Industrial Extended Temperature"
   },
-  absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Version", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("SDINBDG4-32G-ZA3", {
@@ -461,8 +464,43 @@ assertPart("FNNL63A51K3WG-AF", {
     "Package functionality partial type": "Single Die Package, CE only"
   }
 });
+assertPart("FBMB17A4T1KDUAN", {
+  vendor: "spectek",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "B17A",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 64
+  },
+  absentExtra: ["Product Generation"]
+});
 assertRuleDoesNotMatch("vendor.intel.token.v1", "PF035");
 assertRuleDoesNotMatch("vendor.intel.token.v1", "PFE02");
+assertPart("PF29F01T2ALCQK2", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "N38B",
+  cellField: "QLC",
+  package: "BGA",
+  extra: {
+    "Layer Count": 144
+  },
+  absentExtra: ["Product Generation"]
+});
+assertPart("PF29F01T2BLCQKM", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "N38E",
+  cellField: "QLC",
+  package: "BGA",
+  extra: {
+    "Layer Count": 144
+  },
+  absentExtra: ["Product Generation"]
+});
 assertAmbiguousCandidates("PFE02", ["FBML63BNAKDBAAH1", "FBNL63BNAKDBAAH1"]);
 assertPart("PX001", {
   vendor: "spectek",
@@ -581,6 +619,38 @@ assertPart("IA1AG67AWA", {
   }
 });
 
+assertPart("IA1AG6KAVA", {
+  vendor: "phison",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "B27A",
+  cellField: "TLC",
+  package: "BGA132",
+  extra: {
+    "Layer Count": 96,
+    "Original Vendor": "Micron",
+    "Die Count": 1,
+    "CE Count": 1
+  },
+  absentExtra: ["Product Generation"]
+});
+
+assertPart("IA1AG6KAIA", {
+  vendor: "phison",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "B27B",
+  cellField: "TLC",
+  package: "BGA132",
+  extra: {
+    "Layer Count": 96,
+    "Original Vendor": "Micron",
+    "Die Count": 1,
+    "CE Count": 1
+  },
+  absentExtra: ["Product Generation"]
+});
+
 assertPart("DT57G2LALC", {
   vendor: "phison",
   type: "NAND",
@@ -597,6 +667,7 @@ assertPart("DT57G2LALC", {
 
 assertDieProfileFromFdbProcess("29F02T08SCMFP", "L85C");
 assertDieProfileFromFdbProcess("FNNL29F256G08EBHAFES", "B16A");
+assertDieProfileFromFdbProcess("FBMB17A4T1KDUAN", "B17A", 64);
 assertDieProfileFromFdbProcess("SDTNMMAHSM-001G", "SNK43M");
 
 assertNotFound("SDINZZZ9-128G-ABC");
@@ -644,6 +715,22 @@ assertPart("TC58NVG7D2FTA00", {
     "CE Count": 1,
     "Channel Count": 1
   }
+});
+
+assertPart("TC58TFG8T23TA0D", {
+  vendor: "kioxia",
+  type: "NAND",
+  densityMbit: 262144,
+  dieProfileField: "KBiCS3",
+  cellField: "TLC",
+  voltage: "Vcc: 2.7V-3.6V, VccQ: 3.3V/1.8V (UNOFFICIAL)",
+  package: "TSOP48",
+  extra: {
+    "Process Alias": "8T23",
+    "Layer Count": 64,
+    Plane: 2
+  },
+  absentExtra: ["Product Generation"]
 });
 
 assertPart("THGBMNG5D1LBAIT", {
@@ -1201,25 +1288,27 @@ assertPart("HN8T25DEHKX077N", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 4194304,
+  dieProfileField: "HYV7",
   package: "153FBGA",
   extra: {
     "Product Version": "UFS 3.1",
-    "Product Generation": "176-layer 4D NAND (V7)",
+    "Layer Count": 176,
     "Product Class": "Mobile"
   },
-  absentExtra: ["System", "Product Family"]
+  absentExtra: ["System", "Product Family", "Product Generation"]
 });
 
 assertPart("HN8T35DZHKX079", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 8388608,
+  dieProfileField: "HYV7",
   package: "153FBGA",
   extra: {
     "Product Version": "UFS 3.1",
-    "Product Generation": "176-layer 4D NAND (V7)"
+    "Layer Count": 176
   },
-  absentExtra: ["System", "Product Family"]
+  absentExtra: ["System", "Product Family", "Product Generation"]
 });
 
 assertPart("HN8G962EHKX037N", {
@@ -1286,10 +1375,11 @@ assertPart("H25T2TB88E-X321-N", {
   dieProfileField: "HYV6",
   cellField: "TLC",
   extra: {
-    "Product Generation": "128-layer 4D NAND (V6 / H25FTB0)",
+    "Process Alias": "H25FTB0",
+    "Layer Count": 128,
     "Component Density": "4Tbit package"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
 assertPart("H25T1TD48C-X630", {
@@ -1299,10 +1389,11 @@ assertPart("H25T1TD48C-X630", {
   dieProfileField: "HYV8",
   cellField: "TLC",
   extra: {
-    "Product Generation": "238-layer 4D NAND (V8 / H25FTD0)",
+    "Process Alias": "H25FTD0",
+    "Layer Count": 238,
     "Die Density": "512Gb"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
 assertPart("H25T2TC88C", {
@@ -1312,10 +1403,11 @@ assertPart("H25T2TC88C", {
   dieProfileField: "HYV7",
   cellField: "TLC",
   extra: {
-    "Product Generation": "176-layer 4D NAND (V7 / H25FTC0)",
+    "Process Alias": "H25FTC0",
+    "Layer Count": 176,
     "Component Density": "4Tbit package"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
 assertPart("H25T2TD88C-X682", {
@@ -1325,10 +1417,11 @@ assertPart("H25T2TD88C-X682", {
   dieProfileField: "HYV8",
   cellField: "TLC",
   extra: {
-    "Product Generation": "238-layer 4D NAND (V8 / H25FTD0)",
+    "Process Alias": "H25FTD0",
+    "Layer Count": 238,
     "Component Density": "4Tbit package"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
 assertPart("H25T0QA18CX542", {
@@ -1338,10 +1431,10 @@ assertPart("H25T0QA18CX542", {
   dieProfileField: "HYV7Q",
   cellField: "QLC",
   extra: {
-    "Product Generation": "176-layer 4D NAND QLC (V7Q)",
+    "Layer Count": 176,
     "Component Density": "1Tbit package"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
 assertPart("H25T4QM88G", {
@@ -1351,10 +1444,10 @@ assertPart("H25T4QM88G", {
   dieProfileField: "HYV9Q",
   cellField: "QLC",
   extra: {
-    "Product Generation": "321-layer 4D NAND QLC (V9Q)",
+    "Layer Count": 321,
     "Component Density": "2Tb die"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
 assertPart("H25QEM8A1B", {
@@ -1364,9 +1457,9 @@ assertPart("H25QEM8A1B", {
   dieProfileField: "HYV4M",
   cellField: "MLC",
   extra: {
-    "Product Generation": "3D NAND V4 MLC"
+    "Layer Count": 76
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
 assertPart("H25QFT8D4A", {
@@ -1376,10 +1469,9 @@ assertPart("H25QFT8D4A", {
   dieProfileField: "HYV4",
   cellField: "TLC",
   extra: {
-    "Product Generation": "3D NAND V4 TLC",
-    Series: "3D V4/V5 family"
+    "Layer Count": 72
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
 });
 
 assertPart("H25JGQ8A1M8R", {
@@ -1389,9 +1481,9 @@ assertPart("H25JGQ8A1M8R", {
   dieProfileField: "HYV5Q",
   cellField: "QLC",
   extra: {
-    "Product Generation": "3D NAND V5 QLC"
+    "Layer Count": 96
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
 assertPart("H25G9TC18CX488", {
@@ -1401,9 +1493,9 @@ assertPart("H25G9TC18CX488", {
   dieProfileField: "HYV7",
   cellField: "TLC",
   extra: {
-    "Product Generation": "176L 4D NAND (V7)"
+    "Layer Count": 176
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
 assertPart("H2DTDG8UD1MYR", {
@@ -1712,12 +1804,12 @@ assertPart("YMEC6A1TC1A2C1", {
     "Product Family": "YMTC EC000 eMMC",
     "Storage Density": "32GB eMMC",
     "Storage Interface": "eMMC 5.1",
-    "Product Generation": "Gen 3 Xtacking 2.0",
+    "Process Alias": "X2-9060",
     "Layer Count": 128,
     "Die Stack": "SDP (1-die)",
     "Product Class": "Commercial"
   },
-  absentExtra: ["System", "Group", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["System", "Group", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("YMEC8A2TB3A2C3", {
@@ -1732,13 +1824,13 @@ assertPart("YMEC8A2TB3A2C3", {
     "Product Family": "YMTC EC110 eMMC",
     "Storage Density": "128GB eMMC",
     "Storage Interface": "eMMC 5.1",
-    "Product Generation": "Gen 2 Xtacking 1.0",
+    "Process Alias": "X1-9050",
     "Layer Count": 64,
     "Die Stack": "QDP (4-die)",
     "Product Class": "Commercial",
     "Operation Temperature": "-25°C ~ 85°C"
   },
-  absentExtra: ["System", "Group", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["System", "Group", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("YMUS8A1TC1A2C1", {
@@ -1752,12 +1844,12 @@ assertPart("YMUS8A1TC1A2C1", {
     Controller: "UFS 3.1 Controller",
     "Storage Density": "128GB UFS",
     "Storage Interface": "UFS 3.1",
-    "Product Generation": "Gen 3 Xtacking 2.0",
+    "Process Alias": "X2-9060",
     "Layer Count": 128,
     "Die Stack": "SDP (1-die)",
     "Product Class": "Commercial"
   },
-  absentExtra: ["System", "Group", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["System", "Group", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("YMC6G001TB51AA1C0", {
@@ -1768,13 +1860,29 @@ assertPart("YMC6G001TB51AA1C0", {
   cellField: "TLC",
   package: "BGA-132 12x18",
   extra: {
-    "Product Generation": "Gen 4 Xtacking 3.0",
+    "Process Alias": "X3-9070",
     "Layer Count": 232,
     "Die Density": "256Gb",
     "Die Stack": "SDP (1-die)",
     "Plane Count": 6,
     "Product Class": "Commercial"
-  }
+  },
+  absentExtra: ["Product Generation"]
+});
+
+assertPart("X3-9060", {
+  vendor: "ymtc",
+  type: "NAND",
+  dieProfileField: "WYS",
+  cellField: "TLC",
+  extra: {
+    "Process Alias": "X3-9060",
+    "Layer Count": 128,
+    "Die Density": "512Gb",
+    "Plane Count": 4,
+    "Speed Grade": "ONFI 5.0; Max Speed=2400MT/s"
+  },
+  absentExtra: ["Product Generation"]
 });
 
 assertPart("X3-9070", {
@@ -1783,12 +1891,13 @@ assertPart("X3-9070", {
   dieProfileField: "WDS",
   cellField: "TLC",
   extra: {
-    "Product Generation": "Gen 4 Xtacking 3.0",
+    "Process Alias": "X3-9070",
     "Layer Count": 232,
     "Die Density": "1Tb",
     "Plane Count": 6,
     "Speed Grade": "ONFI 5.0; Max Speed=2400MT/s"
-  }
+  },
+  absentExtra: ["Product Generation"]
 });
 
 assertPart("X4-9060", {
@@ -1797,12 +1906,13 @@ assertPart("X4-9060", {
   dieProfileField: "WTS",
   cellField: "TLC",
   extra: {
-    "Product Generation": "Gen 5 Xtacking 4.0",
+    "Process Alias": "X4-9060",
     "Layer Count": 160,
     "Die Density": "512Gb",
     "Plane Count": 4,
     "Speed Grade": "ONFI 5.1; Max Speed=3600MT/s"
-  }
+  },
+  absentExtra: ["Product Generation"]
 });
 
 assertPart("X4-9070", {
@@ -1811,11 +1921,12 @@ assertPart("X4-9070", {
   dieProfileField: "SQS",
   cellField: "TLC",
   extra: {
-    "Product Generation": "Gen 5 Xtacking 4.0",
+    "Process Alias": "X4-9070",
     "Layer Count": 267,
     "Die Density": "1Tb",
     "Plane Count": 6
-  }
+  },
+  absentExtra: ["Product Generation"]
 });
 
 assertPart("X4-6080", {
@@ -1824,10 +1935,11 @@ assertPart("X4-6080", {
   dieProfileField: "PTS",
   cellField: "QLC",
   extra: {
-    "Product Generation": "Gen 5 Xtacking 4.0",
+    "Process Alias": "X4-6080",
     "Layer Count": 267,
     "Die Density": "2Tb"
-  }
+  },
+  absentExtra: ["Product Generation"]
 });
 
 assertPart("KLMAG1JETD-B041", {

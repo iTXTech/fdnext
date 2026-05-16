@@ -24,7 +24,7 @@ export const fdnextFieldProfiles = {
         id: "storage",
         label: "Storage",
         importance: "primary",
-        fields: ["density", "cell_level", "die_codename", "generation_info", "series_info"]
+        fields: ["density", "cell_level", "die_codename", "process_alias", "generation_info", "series_info"]
       },
       {
         id: "geometry",
@@ -50,7 +50,7 @@ export const fdnextFieldProfiles = {
         id: "storage",
         label: "Storage",
         importance: "primary",
-        fields: ["density", "cell_level", "die_codename", "generation_info", "series_info"]
+        fields: ["density", "cell_level", "die_codename", "process_alias", "generation_info", "series_info"]
       },
       {
         id: "geometry",
@@ -75,7 +75,7 @@ export const fdnextFieldProfiles = {
         id: "storage",
         label: "Storage",
         importance: "primary",
-        fields: ["storage_density", "density", "storage_interface", "sector_size", "cell_level", "die_codename", "generation_info", "layer_count", "product_generation", "series_info"]
+        fields: ["storage_density", "density", "storage_interface", "sector_size", "cell_level", "die_codename", "process_alias", "generation_info", "layer_count", "product_generation", "series_info"]
       },
       {
         id: "components",
@@ -121,7 +121,7 @@ export const fdnextFieldProfiles = {
         id: "geometry",
         label: "Geometry",
         importance: "primary",
-        fields: ["density", "cell_level", "die_codename", "die_count", "layer_count", "plane_count", "page_size", "block_size", "pages_per_block", "blocks_per_lun", "redundant_area_size", "simultaneously_programmed_pages"]
+        fields: ["density", "cell_level", "die_codename", "process_alias", "die_count", "layer_count", "plane_count", "page_size", "block_size", "pages_per_block", "blocks_per_lun", "redundant_area_size", "simultaneously_programmed_pages"]
       },
       { id: "interface", label: "Interface", importance: "secondary", fields: ["voltage", "interface_type", "ecc_level"] },
       { id: "timing", label: "Timing", importance: "detail", fields: ["timing_mode_async", "edo", "interleave", "cache", "revision"] },

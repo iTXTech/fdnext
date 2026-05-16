@@ -195,7 +195,82 @@ function normalizeFieldValue(fieldKey: FdnextFieldKey, value: unknown): FdnextFi
   return value as FdnextFieldValueData;
 }
 
-function addDraftFields(fields: Map<FdnextFieldKey, FieldValue>, draftFields: DecodeDraftFields | undefined, ctx: ResultBuilderContext, lang?: string | null): void {
+interface DraftFieldDisplayContext {
+  sourceText?: string;
+}
+
+function processAliasFromText(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const match = /\b(?:X[0-9]-[0-9A-Z]+|H25[A-Z0-9]+)\b/i.exec(value);
+  return match ? match[0].toUpperCase() : undefined;
+}
+
+function processAliasFromSource(value: unknown): string | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const text = value.trim().toUpperCase();
+  const fullCodePattern = "[0-9](?:[TF][0-9][0-9A-Z]|SA[0-9A-Z])";
+  if (/^X[0-9]-[0-9A-Z]+$/.test(text)) {
+    return text;
+  }
+  const vendorScopedFullCode = new RegExp(`\\b[KS](${fullCodePattern})\\b`).exec(text);
+  if (vendorScopedFullCode) {
+    return vendorScopedFullCode[1];
+  }
+  const rawFullCode = new RegExp(`G(${fullCodePattern})`).exec(text);
+  return rawFullCode ? rawFullCode[1] : undefined;
+}
+
+function processAliasFromDieCodename(value: unknown): string | undefined {
+  if (typeof value !== "string" || value.trim().length === 0) {
+    return undefined;
+  }
+  const match = /^([KS])([0-9][A-Z0-9]{3,4})$/.exec(value.trim().toUpperCase());
+  return match ? match[2] : undefined;
+}
+
+function ensureProcessAliasField(
+  fields: Map<FdnextFieldKey, FieldValue>,
+  ctx: ResultBuilderContext,
+  lang?: string | null,
+  displayContext?: DraftFieldDisplayContext
+): void {
+  if (fields.has("process_alias") || !fields.has("die_codename")) {
+    return;
+  }
+
+  const dieCodename = fields.get("die_codename")?.value;
+  const aliases = [
+    processAliasFromSource(displayContext?.sourceText),
+    processAliasFromText(fields.get("generation_info")?.value),
+    processAliasFromDieCodename(dieCodename)
+  ];
+  for (const alias of aliases) {
+    if (alias && alias !== dieCodename) {
+      addField(fields, createField("process_alias", alias, ctx, lang));
+      return;
+    }
+  }
+}
+
+function suppressDieProfileDuplicateFields(fields: Map<FdnextFieldKey, FieldValue>): void {
+  if (!fields.has("die_codename")) {
+    return;
+  }
+  fields.delete("generation_info");
+  fields.delete("series_info");
+}
+
+function addDraftFields(
+  fields: Map<FdnextFieldKey, FieldValue>,
+  draftFields: DecodeDraftFields | undefined,
+  ctx: ResultBuilderContext,
+  lang?: string | null,
+  displayContext?: DraftFieldDisplayContext
+): void {
   for (const [key, value] of Object.entries(draftFields ?? {})) {
     if (!Object.hasOwn(fdnextFieldRegistry, key)) {
       continue;
@@ -207,6 +282,7 @@ function addDraftFields(fields: Map<FdnextFieldKey, FieldValue>, draftFields: De
     }
     fields.set(fieldKey, createField(fieldKey, fieldValue, ctx, lang));
   }
+  ensureProcessAliasField(fields, ctx, lang, displayContext);
 }
 
 function fieldMapFromPart(info: PartDecodeDraft, device: DeviceIdentity, ctx: ResultBuilderContext, lang?: string | null): Map<FdnextFieldKey, FieldValue> {
@@ -217,7 +293,8 @@ function fieldMapFromPart(info: PartDecodeDraft, device: DeviceIdentity, ctx: Re
     addField(fields, createField("product_type", device.productType, ctx, lang));
   }
   addField(fields, createField("part_number", draftPartNumber(info), ctx, lang));
-  addDraftFields(fields, info.fields, ctx, lang);
+  addDraftFields(fields, info.fields, ctx, lang, { sourceText: draftPartNumber(info) });
+  suppressDieProfileDuplicateFields(fields);
 
   const controllers = knownStringList(info.controllers);
   if (controllers.length > 0) {
@@ -492,6 +569,7 @@ function normalizedFlashIds(values: unknown): string[] {
 function relationFieldsFromDraft(draftFields: DecodeDraftFields | undefined, ctx: ResultBuilderContext, lang?: string | null): FieldValue[] | undefined {
   const fields = new Map<FdnextFieldKey, FieldValue>();
   addDraftFields(fields, draftFields, ctx, lang);
+  suppressDieProfileDuplicateFields(fields);
   return fields.size > 0 ? [...fields.values()] : undefined;
 }
 
@@ -603,7 +681,8 @@ function fieldMapFromIdentifier(info: IdentifierDecodeDraft, device: DeviceIdent
   addField(fields, createField("vendor", device.vendor.name, ctx, lang));
   addField(fields, createField("identifier", draftIdentifier(info), ctx, lang));
   addField(fields, createField("id_scheme", info.device.idScheme, ctx, lang, { display: info.device.idScheme === "nand.flash_id" ? "NAND Flash ID" : undefined }));
-  addDraftFields(fields, info.fields, ctx, lang);
+  addDraftFields(fields, info.fields, ctx, lang, { sourceText: draftIdentifier(info) });
+  suppressDieProfileDuplicateFields(fields);
   const controllers = knownStringList(info.controllers);
   if (controllers.length > 0) {
     addField(fields, createField("controller", controllers, ctx, lang));

@@ -566,6 +566,13 @@
         },
         {
           "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "map",
           "from": "nandGenerationKey",
           "table": "generationObj",
           "to": "generationObj",
@@ -718,6 +725,9 @@
           "$path": "dumpedPartObj.ce_count"
         },
         "meta.ruleId": "vendor.samsung.ufs.token.v1",
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
         "fields.die_codename": {
           "$var": "processNode"
         }

@@ -2,6 +2,7 @@ import nandDieProfileTableJson from "./rules/tables/nand-die-profile.json" with 
 
 export interface NandDieProfile {
   die_codename?: string;
+  process_alias?: string;
   generation_info?: string;
   layer_count?: number;
   cell_level?: number;

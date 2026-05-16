@@ -63,6 +63,11 @@
             "storage_interface": "UFS 4.1"
           }
         },
+        "processNode": {
+          "2E": "HYV7",
+          "DE": "HYV7",
+          "DZ": "HYV7"
+        },
         "package": {
           "H": "153FBGA",
           "J": "153FBGA"
@@ -104,6 +109,20 @@
           "default": {
             "product_version": "UFS"
           }
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "processNode",
+          "to": "processNode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
         },
         {
           "op": "take",
@@ -219,6 +238,12 @@
         "fields.voltage": "Vcc: 2.5V, VccQ: 1.2V",
         "fields.package": {
           "$var": "package"
+        },
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
         },
         "meta.ruleId": "vendor.skhynix.ufs.hn8.v1"
       }
