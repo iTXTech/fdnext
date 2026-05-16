@@ -131,7 +131,8 @@
     "die_codename": "L06"
   },
   "L62": {
-    "die_codename": "L62"
+    "die_codename": "34nm",
+    "process_alias": "L62"
   },
   "L74": {
     "die_codename": "25nm",
@@ -320,12 +321,13 @@
     ]
   },
   "B63A": {
-    "die_codename": "B63A",
+    "die_codename": "34nm",
     "cell_level": 3,
     "die_density": "32Gb",
     "firmware_match": [
       "IM2DT"
-    ]
+    ],
+    "process_alias": "B63A"
   },
   "B68S": {
     "die_codename": "B68S",
@@ -1200,35 +1202,46 @@
       "L06B"
     ]
   },
-  "L52A": {
-    "die_codename": "L52A",
+  "L51A": {
+    "die_codename": "50nm",
     "firmware_match": [
       "IM2DM"
-    ]
+    ],
+    "process_alias": "L51A"
+  },
+  "L52A": {
+    "die_codename": "50nm",
+    "firmware_match": [
+      "IM2DM"
+    ],
+    "process_alias": "L52A"
   },
   "L62A": {
-    "die_codename": "L62A",
+    "die_codename": "34nm",
     "cell_level": 2,
     "die_density": "16Gb",
     "firmware_match": [
       "IM2DM"
-    ]
+    ],
+    "process_alias": "L62A"
   },
   "L63A": {
-    "die_codename": "L63A",
+    "die_codename": "34nm",
     "cell_level": 2,
     "die_density": "32Gb",
     "firmware_match": [
       "IM2DM"
-    ]
+    ],
+    "process_alias": "L63A"
   },
   "L63B": {
-    "die_codename": "L63B",
+    "die_codename": "34nm",
     "cell_level": 2,
     "die_density": "32Gb",
     "firmware_match": [
       "IM2DM"
-    ]
+    ],
+    "process_alias": "L63B"
   },
   "L72A": {
     "die_codename": "25nm",
@@ -1256,6 +1269,15 @@
       "IM2DM"
     ],
     "process_alias": "L74A"
+  },
+  "L74C": {
+    "die_codename": "25nm",
+    "cell_level": 2,
+    "die_density": "64Gb",
+    "firmware_match": [
+      "IM2DM"
+    ],
+    "process_alias": "L74C"
   },
   "L7BT": {
     "die_codename": "25nm",
@@ -1361,59 +1383,94 @@
       "IM2DS"
     ]
   },
+  "M50A": {
+    "die_codename": "50nm",
+    "firmware_match": [
+      "IM2DS"
+    ],
+    "process_alias": "M50A"
+  },
+  "M51A": {
+    "die_codename": "50nm",
+    "firmware_match": [
+      "IM2DS"
+    ],
+    "process_alias": "M51A"
+  },
+  "M58A": {
+    "die_codename": "50nm",
+    "firmware_match": [
+      "IM2DS"
+    ],
+    "process_alias": "M58A"
+  },
+  "M59A": {
+    "die_codename": "50nm",
+    "firmware_match": [
+      "IM2DS"
+    ],
+    "process_alias": "M59A"
+  },
   "M60A": {
-    "die_codename": "M60A",
+    "die_codename": "34nm",
     "cell_level": 1,
     "die_density": "4Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M60A"
   },
   "M61A": {
-    "die_codename": "M61A",
+    "die_codename": "34nm",
     "cell_level": 1,
     "die_density": "8Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M61A"
   },
   "M62A": {
-    "die_codename": "M62A",
+    "die_codename": "34nm",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M62A"
   },
   "M62B": {
-    "die_codename": "M62B",
+    "die_codename": "34nm",
     "cell_level": 1,
     "die_density": "16Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M62B"
   },
   "M68A": {
-    "die_codename": "M68A",
+    "die_codename": "34nm",
     "cell_level": 1,
     "die_density": "1Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M68A"
   },
   "M68M": {
-    "die_codename": "M68M",
+    "die_codename": "34nm",
     "cell_level": 1,
     "die_density": "1Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M68M"
   },
   "M69A": {
-    "die_codename": "M69A",
+    "die_codename": "34nm",
     "cell_level": 1,
     "die_density": "2Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M69A"
   },
   "M70A": {
     "die_codename": "25nm",
@@ -1545,6 +1602,7 @@
   },
   "N38A": {
     "die_codename": "N38A",
+    "generation_info": "FG",
     "layer_count": 144,
     "firmware_match": [
       "N38A"
@@ -1552,13 +1610,23 @@
   },
   "N38B": {
     "die_codename": "N38B",
+    "generation_info": "FG",
     "layer_count": 144,
     "firmware_match": [
       "N38B"
     ]
   },
+  "N38C": {
+    "die_codename": "N38C",
+    "generation_info": "FG",
+    "layer_count": 144,
+    "firmware_match": [
+      "N38C"
+    ]
+  },
   "N38E": {
     "die_codename": "N38E",
+    "generation_info": "FG",
     "layer_count": 144,
     "firmware_match": [
       "N38E"
@@ -1576,6 +1644,7 @@
   },
   "N4PA": {
     "die_codename": "N4PA",
+    "generation_info": "FG",
     "layer_count": 192,
     "firmware_match": [
       "N4PA"

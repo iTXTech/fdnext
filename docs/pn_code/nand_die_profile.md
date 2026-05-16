@@ -97,6 +97,7 @@ Micron / Intel 的 3D NAND 固件匹配直接使用 die codename，不再同时�
 | `B27A` | `B27A` |
 | `N28A` | `N28A` |
 | `N38B` | `N38B` |
+| `N38C` | `N38C` |
 | `N38E` | `N38E` |
 
 2D NAND 固件匹配一般不再按每个 die codename 展开，默认按 cell 类型归并：
@@ -107,6 +108,8 @@ Micron / Intel 的 3D NAND 固件匹配直接使用 die codename，不再同时�
 | MLC | `IM2DM` |
 | TLC | `IM2DT` |
 
-例外：`L7x`、`M7x`、`B7x`、`L8x`、`M8x`、`B8x`、`L9x`、`B9x` 可直接使用 die codename 匹配，例如 `L74A`、`L84A`、`B95A`、`L95B`；公开 `die_codename` 对应补齐为 `25nm`、`20nm`、`16nm`，原始 die codename 可作为 `process_alias` 展示。
+命名边界：IMFT / Solidigm FG 体系的 3D die codename 继续使用 `A/B/C/D/E` 等后缀，例如 `N38A`、`N38B`、`N38C`、`N38E`、`N4PA`；Micron RG 体系使用 `R/S/T` 等后缀，例如 `B47R`、`B57T`、`N58R`，这类 3D profile 不折叠成 `xxnm`。是否输出 litho 只看 `nand.die_profile` 表内定义，不从后缀临时推断。
+
+例外：IMFT 2D `L/M/B` die codename 可直接作为 profile key 匹配，例如 `L52A`、`M60A`、`L74A`、`L84A`、`B95A`、`L95B`；公开 `die_codename` 按系列补齐为 `50nm`、`34nm`、`25nm`、`20nm`、`16nm`，原始 die codename 作为 `process_alias` 展示。
 
 这些 full code 和 `die_mark` 偏内部维护，raw `firmware_match` / `die_mark` 不默认展示。DecodePack 规则需要用户可见制程时，优先输出 `die_codename`、`process_alias`、`layer_count`、`cell_level`、`die_density` 和 `plane_count`。

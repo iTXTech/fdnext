@@ -1312,6 +1312,44 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     };
   };
 
+  const shouldDefaultToFirstMarkingCandidate = (
+    candidates: PartClassificationCandidate[],
+    selected: PartClassificationCandidate | undefined
+  ): selected is PartClassificationCandidate => {
+    if (!selected?.markingMatch || !selected.markingCode || candidates.length < 2) {
+      return false;
+    }
+    return candidates.every((candidate) => (
+      candidate.markingMatch &&
+      candidate.markingCode === selected.markingCode
+    ));
+  };
+
+  const decodeSelectedPartCandidate = (
+    candidate: PartClassificationCandidate,
+    input: DecodePartInput,
+    normalized: string,
+    warnings: ResultWarning[] = []
+  ): PartDecodeResult => {
+    const info = withMarkingCode(
+      candidate.info ?? inspectPartForClassification(candidate.partNumber),
+      candidate.markingMatch ? candidate.markingCode : undefined
+    );
+    const result = buildPartDecodeResult(
+      projectPartControllers(info, input.controllerGroup),
+      {
+        query: input.query,
+        normalized: candidate.markingMatch ? candidate.markingCode ?? normalized : normalized,
+        constraints: input.constraints as OperationConstraints | undefined,
+        lang: input.lang,
+        controllerGroup: input.controllerGroup
+      },
+      resultBuilderContext
+    );
+    result.warnings.push(...warnings, ...candidate.warnings);
+    return result;
+  };
+
   const getVersion = (): string => String(fdb.info.version);
 
   const searchPartSuggestions = (
@@ -1432,6 +1470,11 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         };
       }
       if (classification.status === "ambiguous") {
+        if (shouldDefaultToFirstMarkingCandidate(classification.candidates, classification.selected)) {
+          const result = decodeSelectedPartCandidate(classification.selected, input, normalized);
+          result.candidates = publicCandidatesFromPartClassification(classification.candidates, input.lang);
+          return result;
+        }
         return {
           schemaVersion: "fdnext.result.v1",
           operation: "part.decode",
@@ -1449,23 +1492,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           warnings: classification.warnings
         };
       }
-      const info = withMarkingCode(
-        classification.selected.info ?? inspectPartForClassification(classification.selected.partNumber),
-        classification.selected.markingMatch ? classification.selected.markingCode : undefined
-      );
-      const result = buildPartDecodeResult(
-        projectPartControllers(info, input.controllerGroup),
-        {
-          query: input.query,
-          normalized: classification.selected.markingMatch ? classification.selected.markingCode ?? normalized : normalized,
-          constraints: input.constraints as OperationConstraints | undefined,
-          lang: input.lang,
-          controllerGroup: input.controllerGroup
-        },
-        resultBuilderContext
-      );
-      result.warnings.push(...classification.warnings, ...classification.selected.warnings);
-      return result;
+      return decodeSelectedPartCandidate(classification.selected, input, normalized, classification.warnings);
     });
   };
 

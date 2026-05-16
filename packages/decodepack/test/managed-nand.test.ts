@@ -239,12 +239,6 @@ function assertRuleDoesNotMatch(ruleId: string, partNumber: string): void {
   assert.deepEqual(matched, [], `${partNumber} should not match ${ruleId}`);
 }
 
-function assertAmbiguousCandidates(partNumber: string, expected: string[]): void {
-  const result = engine.decodePart({ query: partNumber, lang: "eng" });
-  assert.equal(result.status, "ambiguous", `${partNumber} should remain ambiguous when one mark maps to multiple PNs`);
-  assert.deepEqual(result.candidates?.map((candidate) => candidate.device.partNumber), expected);
-}
-
 const kioxiaManagedRuleIds = new Set(["vendor.kioxia.managed.thg.v1"]);
 
 function assertKioxiaManagedRuleMatches(partNumber: string, expected: string[]): void {
@@ -470,10 +464,11 @@ assertPart("FNNL63A51K3WG-AF", {
   vendor: "spectek",
   type: "NAND",
   densityMbit: 32768,
-  dieProfileField: "L63A",
+  dieProfileField: "34nm",
   cellField: "MLC",
   package: "48-pin TSOP I Center Package Leads (CPL) PB free",
   extra: {
+    "Process Alias": "L63A",
     "Product Family": "SpecTek NAND Flash",
     "Density grade": "94-100%",
     "Package functionality partial type": "Single Die Package, CE only"
@@ -550,7 +545,48 @@ assertPart("PF29F01T2BLCQKM", {
   },
   absentExtra: ["Product Generation"]
 });
-assertAmbiguousCandidates("PFE02", ["FBML63BNAKDBAAH1", "FBNL63BNAKDBAAH1"]);
+assertDecodedPartNumber("PFE02", "FBML63BNAKDBAAH1");
+assertPart("PFE02", {
+  vendor: "spectek",
+  markingCode: "PFE02",
+  type: "NAND",
+  dieProfileField: "34nm",
+  cellField: "MLC",
+  extra: {
+    "Process Alias": "L63B"
+  }
+});
+assertPart("PF232", {
+  vendor: "spectek",
+  markingCode: "PF232",
+  type: "NAND",
+  dieProfileField: "34nm",
+  cellField: "SLC",
+  extra: {
+    "Process Alias": "M60A"
+  }
+});
+assertPart("PFA02", {
+  vendor: "spectek",
+  markingCode: "PFA02",
+  type: "NAND",
+  density: "128MB",
+  dieProfileField: "50nm",
+  cellField: "SLC",
+  extra: {
+    "Process Alias": "M58A"
+  }
+});
+assertPart("PFF21", {
+  vendor: "spectek",
+  markingCode: "PFF21",
+  type: "NAND",
+  dieProfileField: "25nm",
+  cellField: "MLC",
+  extra: {
+    "Process Alias": "L74A"
+  }
+});
 assertPart("PX001", {
   vendor: "spectek",
   markingCode: "PX001",

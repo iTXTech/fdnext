@@ -167,6 +167,30 @@
           "default": {}
         },
         {
+          "op": "set",
+          "to": "profileDieCodename",
+          "value": {
+            "$path": [
+              "dieProfileObj",
+              "die_codename"
+            ]
+          }
+        },
+        {
+          "op": "notEmpty",
+          "from": "profileDieCodename",
+          "to": "hasDieProfile"
+        },
+        {
+          "op": "set",
+          "to": "dieProfileFieldObj",
+          "value": {
+            "die_codename": {
+              "$var": "processNode"
+            }
+          }
+        },
+        {
           "op": "takeLongest",
           "table": "density",
           "to": "density",
@@ -248,6 +272,12 @@
           "op": "merge",
           "into": "extra",
           "from": "functionalityObj"
+        },
+        {
+          "op": "mergeIf",
+          "if": "hasDieProfile",
+          "into": "extra",
+          "from": "dieProfileFieldObj"
         }
       ],
       "assign": {
@@ -275,13 +305,7 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.spectek.old-numbering.v1",
-        "fields.die_codename": {
-          "$path": [
-            "dieProfileObj",
-            "die_codename"
-          ]
-        }
+        "meta.ruleId": "vendor.spectek.old-numbering.v1"
       }
     }
   },
@@ -665,6 +689,30 @@
           "default": {}
         },
         {
+          "op": "set",
+          "to": "profileDieCodename",
+          "value": {
+            "$path": [
+              "dieProfileObj",
+              "die_codename"
+            ]
+          }
+        },
+        {
+          "op": "notEmpty",
+          "from": "profileDieCodename",
+          "to": "hasDieProfile"
+        },
+        {
+          "op": "set",
+          "to": "dieProfileFieldObj",
+          "value": {
+            "die_codename": {
+              "$var": "processNode"
+            }
+          }
+        },
+        {
           "op": "takeLongest",
           "table": "density",
           "to": "density",
@@ -808,6 +856,12 @@
           "table": "package",
           "to": "package",
           "default": "Unknown"
+        },
+        {
+          "op": "mergeIf",
+          "if": "hasDieProfile",
+          "into": "extra",
+          "from": "dieProfileFieldObj"
         }
       ],
       "assign": {
@@ -847,13 +901,7 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.spectek.token.v1",
-        "fields.die_codename": {
-          "$path": [
-            "dieProfileObj",
-            "die_codename"
-          ]
-        }
+        "meta.ruleId": "vendor.spectek.token.v1"
       }
     }
   }

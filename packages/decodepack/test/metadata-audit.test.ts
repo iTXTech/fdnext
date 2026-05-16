@@ -328,6 +328,13 @@ function readLangPack(file: string): Record<string, unknown> {
   return JSON.parse(readFileSync(repoPath(file), "utf8")) as Record<string, unknown>;
 }
 
+function readNandDieProfileTable(): Record<string, Record<string, unknown>> {
+  return JSON.parse(readFileSync(repoPath("packages/decodepack/src/rules/tables/nand-die-profile.json"), "utf8")) as Record<
+    string,
+    Record<string, unknown>
+  >;
+}
+
 function assertLangPacksAreConsistent(): void {
   const langDir = "packages/resources/resources/lang";
   assert.deepEqual(
@@ -348,6 +355,20 @@ function assertLangPacksAreConsistent(): void {
 
     const missingFieldLabels = Object.keys(fdnextFieldRegistry).filter((key) => !Object.hasOwn(lang, key));
     assert.deepEqual(missingFieldLabels, [], `${file} should label every public field key`);
+  }
+}
+
+function assertMicronSolidigmDieProfileNaming(): void {
+  const profiles = readNandDieProfileTable();
+  for (const [key, layerCount] of Object.entries({ N38A: 144, N38B: 144, N38C: 144, N38E: 144, N4PA: 192 })) {
+    assert.equal(profiles[key]?.die_codename, key, `${key} should remain a visible die codename`);
+    assert.equal(profiles[key]?.generation_info, "FG", `${key} should be classified as IMFT/Solidigm FG`);
+    assert.equal(profiles[key]?.layer_count, layerCount, `${key} should keep its profile layer count`);
+  }
+
+  for (const key of ["B47R", "B47T", "B57R", "B57T", "B58R", "B68S", "N48R", "N58R", "N69R"]) {
+    assert.equal(profiles[key]?.die_codename, key, `${key} should remain a visible RG die codename`);
+    assert.equal(profiles[key]?.generation_info, "RG", `${key} should be classified as Micron RG`);
   }
 }
 
@@ -704,6 +725,7 @@ assertExtraBasedPackOutputsOmitInternalKeys();
 assertRepresentativeDecodePackMetadata();
 assertRuntimeDoesNotKeepMetadataAliases();
 assertLangPacksAreConsistent();
+assertMicronSolidigmDieProfileNaming();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertManagedNandOutputIsCanonical();

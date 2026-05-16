@@ -404,6 +404,21 @@ assert.equal(markingDecode.device?.markingCode, "C9BJZ");
 assert.ok(!collectResultFields(markingDecode.blocks).some((field) => field.key === "marking_code"));
 assert.ok(!markingDecode.relations.some((relation) => relation.kind === "marking_for"), "FBGA decode results should not repeat device marking identity as a relation");
 
+for (const [markingCode, firstPartNumber] of [
+  ["PF232", "FBMM60A21K1BAAH4"],
+  ["PFA02", "FBMM58A1GL1BAAH4"],
+  ["PFF01", "FBML74ANAKDMAAK3"]
+] as const) {
+  const spectekMarkingDecode = engine.decodePart({ query: markingCode, lang: "eng" });
+  assert.equal(spectekMarkingDecode.status, "ok");
+  assert.equal(spectekMarkingDecode.device?.partNumber, firstPartNumber);
+  assert.equal(spectekMarkingDecode.device?.markingCode, markingCode);
+  assert.ok(spectekMarkingDecode.blocks.length > 0);
+  assert.ok((spectekMarkingDecode.candidates?.length ?? 0) >= 2);
+  assert.ok(!collectResultFields(spectekMarkingDecode.blocks).some((field) => field.key === "marking_code"));
+  assert.ok(!spectekMarkingDecode.warnings.some((warning) => warning.code === "ambiguous_part"));
+}
+
 const markingDecodeAsIdentifier = engine.decodeIdentifier({ query: "C9BJZ", lang: "eng" });
 assert.equal(markingDecodeAsIdentifier.status, "invalid_input");
 assert.ok(markingDecodeAsIdentifier.warnings.some((warning) => warning.code === "invalid_nand_flash_id"));
