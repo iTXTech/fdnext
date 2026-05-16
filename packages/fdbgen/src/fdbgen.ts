@@ -15,7 +15,7 @@ import { vendorFromSupportListFlashId } from "./support-list";
 import { createFdbProvenanceTrace, mergeProvenanceSource, type FdbProvenanceSource, type FdbProvenanceTrace } from "./trace";
 import { FDNEXT_FDB_SCHEMA_VERSION } from "./types";
 import type { ExtraPayload, FdbInfoPayload, FlashIdPayload, GenerateFdbOptions, PartNumberPayload } from "./types";
-import { isCompatibleVendor, shouldPreserveFlashIdVendor } from "./vendor-compat";
+import { isCompatibleVendor } from "./vendor-compat";
 import { inferVendorFromPartNumber, normalizeKnownPackage, normalizeVendor } from "./vendors";
 import { normalizeGeneratedFdbDieProfile } from "./nand-die-profile";
 
@@ -29,13 +29,27 @@ interface LoadedExtraPayload {
 }
 
 const DEFAULT_CONTROLLER_BLACKLIST = ["3281FL", "3379FL"];
+const MALFORMED_SAMSUNG_PART_NUMBERS = new Set(["K9OKG8S7C"]);
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
 }
 
 function shouldRejectVendorPartNumber(vendor: string, partNumber: string): boolean {
-  return normalizeVendor(vendor) === "micron" && /^29F(?=[0-9])/.test(partNumber);
+  const normalizedVendor = normalizeVendor(vendor);
+  return (
+    (normalizedVendor === "samsung" && MALFORMED_SAMSUNG_PART_NUMBERS.has(partNumber)) ||
+    (normalizedVendor === "intel" && /^MT29[EF](?=[0-9])/.test(partNumber)) ||
+    (normalizedVendor === "micron" && /^29F(?=[0-9])/.test(partNumber))
+  );
+}
+
+function shouldRejectFlashIdPartNumber(idVendor: string | null, partNumber: string): boolean {
+  return (
+    (idVendor === "samsung" && MALFORMED_SAMSUNG_PART_NUMBERS.has(partNumber)) ||
+    (idVendor === "intel" && /^MT29[EF](?=[0-9])/.test(partNumber)) ||
+    (idVendor === "micron" && /^29F(?=[0-9])/.test(partNumber))
+  );
 }
 
 function readJson(path: string): unknown {
@@ -344,8 +358,7 @@ function mergePartPayload(
   payload: PartNumberPayload,
   trace?: FdbProvenanceTrace,
   source?: FdbProvenanceSource,
-  decision = "merge_part_payload",
-  options: { preserveVendor?: boolean } = {}
+  decision = "merge_part_payload"
 ): PartNumberPayload | null {
   const normalizedPn = normalizeFdbPartNumber(partNumber);
   if (!normalizedPn) {
@@ -357,7 +370,7 @@ function mergePartPayload(
   if (!isAuthoritativeFdbPartNumber(normalizedPn)) {
     return null;
   }
-  const correctedVendor = options.preserveVendor ? normalizeVendor(vendor) : (inferVendorFromPartNumber(normalizedPn) ?? normalizeVendor(vendor));
+  const correctedVendor = inferVendorFromPartNumber(normalizedPn) ?? normalizeVendor(vendor);
   const vendorMap = ensureVendor(vendors, correctedVendor);
   const next = mergePartNumber(vendorMap.get(normalizedPn), payload);
   vendorMap.set(normalizedPn, next);
@@ -401,9 +414,12 @@ function addPartId(
   const idVendor = vendorFromSupportListFlashId(normalizedId);
   const normalizedPn = normalizeFdbPartNumber(partNumber);
   const inferredVendor = normalizedPn ? inferVendorFromPartNumber(normalizedPn) : null;
+  if (normalizedPn && shouldRejectFlashIdPartNumber(idVendor, normalizedPn)) {
+    mergeFlashPayload(iddb, normalizedId, { ...(controllers.length > 0 ? { t: controllers } : {}) }, trace, source, "add_part_id");
+    return;
+  }
   const hasTrustedIdVendor = !!idVendor && idVendor === normalizedVendor;
-  const preserveVendor = hasTrustedIdVendor && shouldPreserveFlashIdVendor(normalizedVendor, inferredVendor, normalizedPn);
-  if (hasTrustedIdVendor && inferredVendor && !preserveVendor && !isCompatibleVendor(normalizedVendor, inferredVendor)) {
+  if (hasTrustedIdVendor && inferredVendor && !isCompatibleVendor(normalizedVendor, inferredVendor)) {
     mergeFlashPayload(iddb, normalizedId, { ...(controllers.length > 0 ? { t: controllers } : {}) }, trace, source, "add_part_id");
     return;
   }
@@ -414,8 +430,7 @@ function addPartId(
     { id: [normalizedId], ...(controllers.length > 0 ? { t: controllers } : {}) },
     trace,
     source,
-    "add_part_id",
-    { preserveVendor }
+    "add_part_id"
   );
   mergeFlashPayload(iddb, normalizedId, { ...(controllers.length > 0 ? { t: controllers } : {}) }, trace, source, "add_part_id");
 }

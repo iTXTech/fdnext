@@ -227,13 +227,77 @@ test("normalizes SK hynix H25T package suffixes before FDB ingestion", () => {
   assert.equal(parsed.vendors?.skhynix?.["H25T2TB88E-X321-N"], undefined);
 });
 
-test("trims overlong structured YMTC and Intel part numbers", () => {
+test("trims overlong structured YMTC, Samsung, and Intel part numbers", () => {
   assert.equal(normalizeFdbPartNumber("YMN09TC1B1DC6CHUS"), "YMN09TC1B1DC6C");
   assert.equal(normalizeFdbPartNumber("YMN09TC1B1DCADWYS"), "YMN09TC1B1DCAD");
   assert.equal(normalizeFdbPartNumber("YMN09TC1B1DC6C_64GB(TAS)"), "YMN09TC1B1DC6C");
+  assert.equal(normalizeFdbPartNumber("K9OKGY8S7C2"), "K9OKGY8S7C");
   assert.equal(normalizeFdbPartNumber("PF29F04T2AOCTH13"), "PF29F04T2AOCTH1");
   assert.equal(normalizeFdbPartNumber("PF29F16T2AWCQH1MICRON"), "PF29F16T2AWCQH1");
   assert.equal(normalizeFdbPartNumber("PF29F16B08LCMF3-016G"), "PF29F16B08LCMF3");
+});
+
+test("fdbgen drops malformed and cross-vendor raw NAND PN pollution", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-cross-vendor-"));
+  try {
+    writeFileSync(
+      join(inputDir, "fdb.json"),
+      JSON.stringify({
+        info: { version: "raw" },
+        samsung: {
+          K9OKGY8S7C2: {
+            id: ["EC1A881F70C8"],
+            t: ["SM2259XT"]
+          },
+          K9OKG8S7C: {
+            id: ["EC1A881F70C8"],
+            t: ["SM2259XT"]
+          }
+        },
+        intel: {
+          MT29F01T2ALCQJ1: {
+            id: ["89D31C32C600"],
+            t: ["SM2259XT"]
+          }
+        },
+        micron: {
+          "29F512G08EBHAF": {
+            id: ["2CC40832A600"],
+            t: ["SM2259XT"]
+          }
+        },
+        iddb: {
+          EC1A881F70C8: {
+            t: ["SM2259XT"]
+          },
+          "89D31C32C600": {
+            t: ["SM2259XT"]
+          },
+          "2CC40832A600": {
+            t: ["SM2259XT"]
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const samsung = fdb.samsung as Record<string, unknown> | undefined;
+    const intel = fdb.intel as Record<string, unknown> | undefined;
+    const micron = fdb.micron as Record<string, unknown> | undefined;
+    const flash = (fdb.iddb as Record<string, { n?: string[] }> | undefined)?.EC1A881F70C8;
+    assert.ok(samsung?.K9OKGY8S7C);
+    assert.equal(samsung?.K9OKGY8S7C2, undefined);
+    assert.equal(samsung?.K9OKG8S7C, undefined);
+    assert.ok(flash?.n?.includes("samsung K9OKGY8S7C"));
+    assert.equal(flash?.n?.includes("samsung K9OKG8S7C"), false);
+    assert.equal(intel?.MT29F01T2ALCQJ1, undefined);
+    assert.equal(micron?.MT29F01T2ALCQJ1, undefined);
+    assert.equal(micron?.["29F512G08EBHAF"], undefined);
+    assert.equal(intel?.["29F512G08EBHAF"], undefined);
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
 });
 
 test("extra audit reports base extra, fdb, and decodepack conflicts", () => {

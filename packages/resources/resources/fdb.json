@@ -4,7 +4,7 @@
         "name": "iTXTech fdnext FDB",
         "website": "https:\/\/github.com\/iTXTech\/fdnext",
         "version": "83",
-        "time": "Sat, 16 May 2026 10:42:55 GMT",
+        "time": "Sat, 16 May 2026 14:14:56 GMT",
         "controllers": [
             "AU6987(AN)",
             "AU6989SN",
@@ -6900,7 +6900,6 @@
                 "SM3268AB"
             ],
             "n": [
-                "intel 29F32B2ALCMG2",
                 "micron MT29F2T08CQCBB",
                 "micron MT29F2T08CQCBBG2"
             ]
@@ -22083,19 +22082,6 @@
                 "intel JS29F64G08CAME1"
             ]
         },
-        "896808568A00": {
-            "s": 4,
-            "b": 2736,
-            "t": [
-                "PS2267",
-                "PS2268",
-                "PS2269",
-                "PS2307"
-            ],
-            "n": [
-                "intel MT29F32G08EBAAAWP"
-            ]
-        },
         "89682027A900": {
             "s": 8,
             "p": 128,
@@ -22636,8 +22622,7 @@
             "n": [
                 "intel JS29F16B08CAME1",
                 "intel JS29F32B08JAME1",
-                "intel JS29F64G08AAME1",
-                "micron MT29F64G08CBAAA"
+                "intel JS29F64G08AAME1"
             ]
         },
         "898805CA2800": {
@@ -22747,8 +22732,7 @@
                 "intel JS29F16B08CCME1",
                 "intel JS29F32B08JCME1",
                 "intel JS29F64G08AAME1",
-                "intel JS29F64G08ACME1",
-                "micron MT29F64G08CBAAA"
+                "intel JS29F64G08ACME1"
             ]
         },
         "89882448A900": {
@@ -22898,8 +22882,7 @@
                 "intel PF29F32B16NCME1",
                 "intel PF29F64B08PCME1",
                 "intel PF29F64G08LCME1",
-                "intel PF29R32B08JAME2",
-                "micron MT29F64G08CBAAA"
+                "intel PF29R32B08JAME2"
             ]
         },
         "8988244BA984": {
@@ -23157,7 +23140,6 @@
                 "intel 29F256G08EBHAF",
                 "intel 29F32B2ALCTH2",
                 "intel JS29F256G08EBHAF",
-                "intel MT29F256G08EBHAFES",
                 "intel PF29F01T2ANCTH2",
                 "intel PF29F01T4ANCTH2",
                 "intel PF29F02T2AOCTH2",
@@ -23291,8 +23273,7 @@
                 "intel 29F32B2ALCMG2",
                 "intel I29F256G08CBCBB",
                 "intel PF29F32B2ALCMG2",
-                "intel PFB70AS1826",
-                "micron MT29F128G08CBCAB"
+                "intel PFB70AS1826"
             ]
         },
         "89A46432AA05": {
@@ -23610,15 +23591,11 @@
             "n": [
                 "intel 29F512G08EBLCE",
                 "intel JS29F512G08EBLCE",
-                "intel MT29F1T08EELCEINTEL",
-                "intel MT29F2T08EMLCEINTEL",
-                "intel MT29F512G08EBLCEINTEL",
                 "intel PF29F01T08EBLCE",
                 "intel PF29F01T2AMCTH2",
                 "intel PF29F02T2ANCTH2",
                 "intel PF29F04T2AOCTH2",
-                "intel PF29H01T08EBHBF",
-                "micron MT29F512G08EBLCE"
+                "intel PF29H01T08EBHBF"
             ]
         },
         "89C30832E601": {
@@ -23865,7 +23842,6 @@
             ],
             "n": [
                 "intel 29F512G08EBHBF",
-                "intel MT29F512G08EBHBFINTEL",
                 "intel PF29F01T2AMCQH2",
                 "intel PF29F02T2ANCQH2",
                 "intel PF29F64B2ALCQH2"
@@ -24091,14 +24067,11 @@
                 "intel 29F1T08GBLBE",
                 "intel 29F4T08GBCAG",
                 "intel JS29F01T2ALCQJ1",
-                "intel MT29F1T08GBLBE",
                 "intel PF29F01T2ALCQH2",
                 "intel PF29F01T2ALCQJ1",
                 "intel PF29F02T2ALCQH2",
                 "intel PF29F04T2ALCQH2",
-                "intel PF29F04T2ANCQJ1",
-                "micron MT29F01T2ALCQJ1",
-                "micron MT29F1T08GBLBE"
+                "intel PF29F04T2ANCQJ1"
             ]
         },
         "89D32C32C608": {
@@ -24475,8 +24448,7 @@
                 "intel PF29F01T2ALCQH1",
                 "intel PF29F02T2AMCQH1",
                 "intel PF29F04T2ANCQH1",
-                "intel PF29F08T2AOCQH1",
-                "micron MT29F01T2ALCQH1"
+                "intel PF29F08T2AOCQH1"
             ]
         },
         "89D48932A600": {
@@ -24523,7 +24495,6 @@
                 "SM2263EN"
             ],
             "n": [
-                "intel MT29F4T08EUHBFINTEL",
                 "intel PF29F08T2AWCTJ1"
             ]
         },
@@ -25047,21 +25018,6 @@
             ],
             "n": [
                 "intel PF29F08T2AYCTH1"
-            ]
-        },
-        "89E48A32A600": {
-            "t": [
-                "INIC6081",
-                "MAP1002",
-                "MAS0902",
-                "PS3111",
-                "SM2258XT",
-                "SM2259XT2",
-                "SM2259XT3",
-                "SM2263XT"
-            ],
-            "n": [
-                "intel MT29F512G08EBHAF2"
             ]
         },
         "89E48D32AA00": {
@@ -43873,8 +43829,7 @@
                 "FC3379"
             ],
             "n": [
-                "micron MT29F256G08EFCDB",
-                "spectek 29F128G08EBCDB"
+                "micron MT29F256G08EFCDB"
             ]
         },
         "B5846434A500": {
@@ -44091,7 +44046,6 @@
                 "intel JS29F256G08EBHAF",
                 "micron MT29F1T08EMHAF",
                 "micron MT29F512G08EEHAF",
-                "spectek 29F256G08EBHAF",
                 "spectek FNNB16A256G1DHBAF",
                 "spectek FNNB16A512G1DHFAF",
                 "spectek FNNL29F256G08EBHAFES",
@@ -44695,9 +44649,7 @@
             "n": [
                 "samsung K9ADGD8U0C",
                 "samsung K9DMGY8SCC",
-                "samsung K9OKG8S7C",
-                "samsung K9OKGY8S7C",
-                "samsung K9OKGY8S7C2"
+                "samsung K9OKGY8S7C"
             ]
         },
         "EC1A882F80C9": {
@@ -52643,7 +52595,6 @@
         },
         "29F32B2ALCMG2": {
             "id": [
-                "2CC4E532AA05",
                 "89A46432AA01",
                 "89A46432AA04",
                 "89A46432AA05",
@@ -55680,95 +55631,6 @@
                 "CBM2199S"
             ]
         },
-        "MT29F1T08EELCEINTEL": {
-            "id": [
-                "89C30832E600"
-            ],
-            "t": [
-                "SM2263XT"
-            ]
-        },
-        "MT29F1T08GBLBE": {
-            "id": [
-                "89D31C32C600"
-            ],
-            "t": [
-                "SM3282BB"
-            ]
-        },
-        "MT29F256G08EBHAFES": {
-            "id": [
-                "89A40832A100"
-            ],
-            "t": [
-                "SM3280AB",
-                "SM3280BA",
-                "SM3280BB",
-                "SM3281BA",
-                "SM3282BB"
-            ]
-        },
-        "MT29F2T08EMLCEINTEL": {
-            "id": [
-                "89C30832E600"
-            ],
-            "t": [
-                "SM2263XT"
-            ]
-        },
-        "MT29F32G08EBAAAWP": {
-            "id": [
-                "896808568A00"
-            ],
-            "t": [
-                "PS2267",
-                "PS2268",
-                "PS2269",
-                "PS2307"
-            ]
-        },
-        "MT29F4T08EUHBFINTEL": {
-            "id": [
-                "89D49932A200"
-            ],
-            "t": [
-                "AU6989SN-TA",
-                "INIC6081",
-                "PS3111",
-                "SM2259XT",
-                "SM2259XT2",
-                "SM2259XT3"
-            ]
-        },
-        "MT29F512G08EBHAF2": {
-            "id": [
-                "89E48A32A600"
-            ],
-            "t": [
-                "SM2258XT",
-                "SM2259XT2",
-                "SM2259XT3",
-                "SM2263XT"
-            ]
-        },
-        "MT29F512G08EBHBFINTEL": {
-            "id": [
-                "89C42832A200"
-            ],
-            "t": [
-                "SM2259XT",
-                "SM2259XT2",
-                "SM2259XT3"
-            ]
-        },
-        "MT29F512G08EBLCEINTEL": {
-            "id": [
-                "89C30832E600"
-            ],
-            "t": [
-                "SM2263XT"
-            ]
-        },
         "PF2916B08LCMFS": {
             "id": [
                 "8984643CA50C"
@@ -56625,6 +56487,9 @@
                 "89D49932A200"
             ],
             "t": [
+                "AU6989SN-TA",
+                "INIC6081",
+                "PS3111",
                 "SM2259",
                 "SM2262EN",
                 "SM2263EN"
@@ -71631,8 +71496,7 @@
         },
         "MT29F01T2ALCQH1": {
             "id": [
-                "2CD40C32AA00",
-                "89D40C32AA00"
+                "2CD40C32AA00"
             ],
             "c": "QLC",
             "t": [
@@ -71649,8 +71513,7 @@
                 "2CD31C32C6F1",
                 "2CD39C32C600",
                 "2CE39D32C600",
-                "2CF39E32C600",
-                "89D31C32C600"
+                "2CF39E32C600"
             ],
             "c": "QLC",
             "t": [
@@ -71914,7 +71777,6 @@
                 "2C84643CA500",
                 "2C84643CA5FF",
                 "2C84E53CA504",
-                "89A46432AA04",
                 "B5846434A500",
                 "B584643CA500"
             ],
@@ -74051,8 +73913,7 @@
                 "2CD31C32C600",
                 "2CD39C32C600",
                 "2CE39D32C600",
-                "2CF39E32C600",
-                "89D31C32C600"
+                "2CF39E32C600"
             ],
             "l": "N28A",
             "t": [
@@ -75052,9 +74913,6 @@
                 "2CC48932A104",
                 "2CD48932A601"
             ]
-        },
-        "MT29F256G08EBHAFES": {
-            "l": "B16A"
         },
         "MT29F256G08EBHBF": {
             "id": [
@@ -77963,8 +77821,7 @@
                 "2CD38932E604",
                 "2CE38A32E600",
                 "2CE38A32E601",
-                "2CE38A32E604",
-                "89C30832E600"
+                "2CE38A32E604"
             ],
             "l": "B27B",
             "c": "TLC",
@@ -78484,10 +78341,7 @@
                 "2C8824CB4600",
                 "2C8824CB8900",
                 "2CA805CB2800",
-                "2CA805CBA900",
-                "8988044BA900",
-                "8988243BA900",
-                "8988244BA900"
+                "2CA805CBA900"
             ],
             "l": "L74",
             "c": "SLC",
@@ -96041,12 +95895,6 @@
                 "SM325AC"
             ]
         },
-        "K9OKG8S7C": {
-            "id": [
-                "EC1A881F70C8"
-            ],
-            "l": "SSV3"
-        },
         "K9OKGY8S7C": {
             "id": [
                 "EC1A881F70C8"
@@ -96056,22 +95904,13 @@
                 "CBM2199",
                 "CBM2199E",
                 "SM2258",
+                "SM2258XT",
                 "SM2259XT2",
                 "SM2259XT3",
                 "SM3268AB",
                 "SM3281AB"
             ],
             "m": "Toggle"
-        },
-        "K9OKGY8S7C2": {
-            "id": [
-                "EC1A881F70C8"
-            ],
-            "t": [
-                "SM2258XT",
-                "SM2259XT2",
-                "SM2259XT3"
-            ]
         },
         "K9OKGY8S7D": {
             "id": [
@@ -114204,26 +114043,6 @@
         }
     },
     "spectek": {
-        "29F128G08EBCDB": {
-            "id": [
-                "B5845832A100"
-            ]
-        },
-        "29F256G08EBHAF": {
-            "id": [
-                "B5A40832A100"
-            ],
-            "l": "B16A",
-            "t": [
-                "INIC6081",
-                "PS3111",
-                "SM3280AB",
-                "SM3280BA",
-                "SM3280BB",
-                "SM3281BA",
-                "SM3282BB"
-            ]
-        },
         "FBMB17A4T1KDUAF": {
             "id": [
                 "2CD48932A600"
@@ -114425,6 +114244,8 @@
             ],
             "l": "B16A",
             "t": [
+                "INIC6081",
+                "PS3111",
                 "SM3271AB"
             ]
         },

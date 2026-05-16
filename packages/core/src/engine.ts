@@ -222,7 +222,6 @@ function isManagedNandType(info: PartDecodeDraft): boolean {
 
 function isNandDieProfileType(info: PartDecodeDraft): boolean {
   return info.device.chipKind === "raw_nand" ||
-    info.device.chipKind === "on_die_ecc_nand" ||
     isManagedNandType(info) ||
     info.device.idScheme === "nand.flash_id";
 }
@@ -868,7 +867,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     const currentDensity = draftDensity(info);
     if (
       (currentDensity !== undefined && draftVendor(info) !== "spectek") ||
-      (info.device.chipKind !== "raw_nand" && info.device.chipKind !== "on_die_ecc_nand")
+      info.device.chipKind !== "raw_nand"
     ) {
       return info;
     }

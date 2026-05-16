@@ -8,7 +8,7 @@
     "lang": "eng",
     "constraints": {}
   },
-  "subtitle": "NAND Flash · Micron · 512MB SLC · M70M 25nm",
+  "subtitle": "NAND Flash · Micron · 512MB SLC · M70M",
   "device": {
     "domain": "memory",
     "chipKind": "raw_nand",
@@ -39,9 +39,15 @@
           "importance": "primary"
         },
         {
-          "key": "process_node",
-          "label": "Process Node",
-          "value": "M70M 25nm",
+          "key": "die_codename",
+          "label": "Process",
+          "value": "25nm",
+          "importance": "primary"
+        },
+        {
+          "key": "process_alias",
+          "label": "Process Alias",
+          "value": "M70M",
           "importance": "secondary"
         }
       ]
@@ -51,6 +57,12 @@
       "label": "Geometry",
       "importance": "secondary",
       "fields": [
+        {
+          "key": "die_density",
+          "label": "Die Density",
+          "value": "4Gb",
+          "importance": "secondary"
+        },
         {
           "key": "die_count",
           "label": "Die Count",
@@ -95,6 +107,12 @@
           "label": "Voltage",
           "value": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V)",
           "importance": "secondary"
+        },
+        {
+          "key": "interface_type",
+          "label": "Interface Type",
+          "value": "Async",
+          "importance": "secondary"
         }
       ]
     },
@@ -106,7 +124,15 @@
         {
           "key": "controller",
           "label": "Controller",
-          "value": "CBM2096",
+          "value": [
+            "SM2244LT",
+            "SM3257AA",
+            "SM3257ENAA",
+            "SM3257ENAA_8CE",
+            "SM3257ENBA",
+            "SM3257ENBB",
+            "SM3257ENLT"
+          ],
           "importance": "secondary"
         }
       ]
@@ -122,18 +148,6 @@
           "value": false,
           "display": "No",
           "importance": "detail"
-        },
-        {
-          "key": "die_code",
-          "label": "Die Code",
-          "value": "E-Die",
-          "importance": "detail"
-        },
-        {
-          "key": "interface_type",
-          "label": "Interface Type",
-          "value": "Async",
-          "importance": "secondary"
         }
       ]
     }

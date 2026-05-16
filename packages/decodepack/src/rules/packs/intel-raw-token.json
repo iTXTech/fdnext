@@ -222,7 +222,6 @@
         },
         "draftChipKind": {
           "nand": "raw_nand",
-          "on_die_ecc_nand": "on_die_ecc_nand",
           "dram": "dram",
           "emmc": "managed_nand",
           "ufs": "managed_nand",

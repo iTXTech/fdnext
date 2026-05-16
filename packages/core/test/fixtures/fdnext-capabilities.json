@@ -119,21 +119,21 @@
       "name": "part.decode",
       "operation": "part.decode",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "on_die_ecc_nand", "managed_nand", "dram"],
+      "chipKinds": ["raw_nand", "managed_nand", "dram"],
       "description": "Decode memory-chip part numbers into fdnext result blocks."
     },
     {
       "name": "part.search",
       "operation": "part.search",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "on_die_ecc_nand", "managed_nand", "dram"],
+      "chipKinds": ["raw_nand", "managed_nand", "dram"],
       "description": "Search and autocomplete known part numbers with structured suggestions."
     },
     {
       "name": "identifier.decode.nand.flash_id",
       "operation": "identifier.decode",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "on_die_ecc_nand"],
+      "chipKinds": ["raw_nand"],
       "idSchemes": ["nand.flash_id"],
       "description": "Decode NAND Flash ID byte strings through the typed identifier API."
     },
@@ -141,7 +141,7 @@
       "name": "identifier.search.nand.flash_id",
       "operation": "identifier.search",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "on_die_ecc_nand"],
+      "chipKinds": ["raw_nand"],
       "idSchemes": ["nand.flash_id"],
       "description": "Search known NAND Flash ID byte strings through the typed identifier API."
     },
@@ -149,7 +149,7 @@
       "name": "marking.lookup.micron.fbga",
       "operation": "part.search",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "on_die_ecc_nand", "dram"],
+      "chipKinds": ["raw_nand", "dram"],
       "description": "Resolve Micron FBGA package markings to related DRAM and NAND part-number records."
     }
   ]

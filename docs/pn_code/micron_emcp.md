@@ -67,7 +67,7 @@ MT29C 的 LPDRAM 容量以公开 PN 表的 LPDRAM density token 为默认值；�
 
 ## Raw NAND 边界
 
-Micron raw NAND 规则只覆盖 `MT29E...` / `MT29F...`，其中 `MT29FB...` 是 On-die ECC NAND，复用 `MT29F` raw NAND token 结构并额外输出 `ecc_enabled`。`MT29C...` 和 `MT29RZ...` 不应再进入 raw NAND parser。
+Micron raw NAND 规则只覆盖 `MT29E...` / `MT29F...`，其中 `MT29FB...` 复用 `MT29F` raw NAND token 结构；`B` marker 只作内部解析，不额外输出独立 chip kind 或 `ecc_enabled`。`MT29C...` 和 `MT29RZ...` 不应再进入 raw NAND parser。
 
 ## 示例
 

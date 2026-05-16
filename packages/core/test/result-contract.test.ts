@@ -213,7 +213,6 @@ const expectedResultFixtures = [
   "emmc.part.decode.json",
   "micron-fbga-marking.part.search.json",
   "nand-flash-id.identifier.decode.json",
-  "on-die-ecc-nand.part.decode.json",
   "raw-nand.part.decode.json",
   "ufs.part.decode.json"
 ];

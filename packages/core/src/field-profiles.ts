@@ -42,31 +42,6 @@ export const fdnextFieldProfiles = {
       { id: "controllers", label: "Controllers", importance: "detail", fields: ["controller"] }
     ]
   },
-  on_die_ecc_nand: {
-    id: "on_die_ecc_nand",
-    blocks: [
-      { id: "identity", label: "Identity", importance: "primary", fields: identityFields },
-      {
-        id: "storage",
-        label: "Storage",
-        importance: "primary",
-        fields: ["density", "cell_level", "die_codename", "process_alias", "layer_count", "generation_info", "series_info"]
-      },
-      {
-        id: "geometry",
-        label: "Geometry",
-        importance: "secondary",
-        fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
-      },
-      { id: "interface", label: "Interface", importance: "secondary", fields: ["device_width", "voltage", "storage_interface", "interface_type", "toggle", "ecc_level"] },
-      {
-        id: "package",
-        label: "Package",
-        importance: "detail",
-        fields: ["package", "package_code", "assembly", "segment", "lead_free", "halogen_free", "wafer", "bad_block", "sku", "multi_chip", "cu", "operation_temperature"]
-      }
-    ]
-  },
   managed_nand: {
     id: "managed_nand",
     blocks: [

@@ -12,7 +12,3 @@ export function isCompatibleVendor(actualVendor: string, inferredVendor: string)
   }
   return (VENDOR_COMPATIBILITY[inferredVendor] ?? [inferredVendor]).includes(actualVendor);
 }
-
-export function shouldPreserveFlashIdVendor(actualVendor: string, inferredVendor: string | null, partNumber: string): boolean {
-  return actualVendor === "intel" && inferredVendor === "micron" && partNumber.startsWith("MT29F");
-}

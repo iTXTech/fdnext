@@ -55,11 +55,14 @@ const YMTC_PACKAGE_STRUCTURED_PART =
   /^((?:YM|KR|BP|BR|BW)[NS][0A][6789ABW][SMTQ][A-F][12](?:W0|T1|L1|B[1-5])[0A-Z][DUMCPEFX][0-68ABX][A-E])/;
 const YMTC_CUSTOM_BGA_STRUCTURED_PART =
   /^((?:YM|KR|BP|BR|BW)[NS][0A][6789ABW][SMTQ][A-F][12]B[0A-Z][DUMCPEFX][0-68ABX][A-E])/;
+const SAMSUNG_UNKNOWN_PACKAGE_SUFFIX_STRUCTURED_PART =
+  /^(K9[39A-Z][0-9A-Z]{2}[DYB][068][A-Z][0-9A-Z][A-Z])2$/;
 
 function trimKnownStructuredPartNumber(partNumber: string): string {
   return (
     YMTC_PACKAGE_STRUCTURED_PART.exec(partNumber)?.[1] ??
     YMTC_CUSTOM_BGA_STRUCTURED_PART.exec(partNumber)?.[1] ??
+    SAMSUNG_UNKNOWN_PACKAGE_SUFFIX_STRUCTURED_PART.exec(partNumber)?.[1] ??
     INTEL_STRUCTURED_PART.exec(partNumber)?.[1] ??
     partNumber
   );

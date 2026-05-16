@@ -305,7 +305,7 @@
             "special_option": "Low-power option"
           },
           "E": {
-            "special_option": "On-die ECC enabled"
+            "special_option": "ECC enabled"
           }
         },
         "temperatureObj": {

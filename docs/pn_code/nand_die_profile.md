@@ -7,7 +7,7 @@
 ## 公开字段边界
 
 - `die_codename`、`process_alias`、`layer_count`、`die_density`、`cell_level`、`plane_count` 可以按规则需要进入公开 fields。
-- `die_codename` 公开 label 为 `Process` / `制程`；它是用户可见制程名，不等同于 `nand.die_profile` lookup key。已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`。
+- `die_codename` 公开 label 为 `Process` / `制程`；它是用户可见制程名，不等同于 `nand.die_profile` lookup key。已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`。Micron / Intel 2D raw NAND 的 subtitle 优先使用 `process_alias` 中的 die codename，而不是只显示 `25nm` / `20nm` 这类 litho。
 - `layer_count` 与 `process_alias` 独立展示，不拼进 `die_codename` 文本；`process_alias` 用于 `X3-9060`、`8T23` 这类厂商工艺或 full-code 代号。
 - `firmware_match`、`die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields。
 - Kioxia / SanDisk 的 BiCS profile key 必须带厂商前缀，例如 `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24`；公开展示统一使用 `die_codename = BiCS4` / `BiCS4.5` 这类制程名，不带厂商前缀或 Cell 后缀。full code 可通过 `process_alias` 显示为 `8T24` 这类代号，而不是把内部 die mark 展示给用户。

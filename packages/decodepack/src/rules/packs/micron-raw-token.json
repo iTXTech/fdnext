@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(?:MT)?29[EF]"
+      "value": "^MT29[EF]"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -28,18 +28,8 @@
         "enterprise_flag": {
           "E": true
         },
-        "on_die_ecc_prefix": {
+        "mt29fb_marker_prefix": {
           "F": true
-        },
-        "type_by_on_die_ecc": {
-          "true": "on_die_ecc_nand",
-          "false": "nand"
-        },
-        "ecc_info_by_on_die_ecc": {
-          "true": {
-            "ecc_enabled": true
-          },
-          "false": {}
         },
         "density": {
           "1G": 1024,
@@ -384,7 +374,6 @@
         },
         "draftChipKind": {
           "nand": "raw_nand",
-          "on_die_ecc_nand": "on_die_ecc_nand",
           "dram": "dram",
           "emmc": "managed_nand",
           "ufs": "managed_nand",
@@ -420,29 +409,20 @@
         {
           "op": "map",
           "from": "enterprise_token",
-          "table": "on_die_ecc_prefix",
-          "to": "canStripOnDieEcc",
+          "table": "mt29fb_marker_prefix",
+          "to": "canStripMt29fbMarker",
           "default": false
         },
         {
           "op": "stripIfPrefix",
           "prefix": "B",
-          "to": "onDieEcc",
-          "if": "canStripOnDieEcc"
+          "to": "mt29fbMarker",
+          "if": "canStripMt29fbMarker"
         },
         {
-          "op": "map",
-          "from": "onDieEcc",
-          "table": "type_by_on_die_ecc",
+          "op": "set",
           "to": "type",
-          "default": "nand"
-        },
-        {
-          "op": "map",
-          "from": "onDieEcc",
-          "table": "ecc_info_by_on_die_ecc",
-          "to": "eccInfo",
-          "default": {}
+          "value": "nand"
         },
         {
           "op": "takeLongest",
@@ -577,11 +557,6 @@
               "$var": "interface_type"
             }
           }
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "eccInfo"
         },
         {
           "op": "map",

@@ -397,12 +397,23 @@ function joinCompact(...values: Array<string | undefined>): string | undefined {
   return parts.length > 0 ? parts.join(" ") : undefined;
 }
 
+function rawNandDieSubtitle(device: DeviceIdentity, fields: Map<FdnextFieldKey, FieldValue>): string | undefined {
+  const dieCodename = displayField(fields, "die_codename");
+  if (!dieCodename) {
+    return undefined;
+  }
+
+  const vendor = device.vendor.id.toLowerCase();
+  const processAlias = displayField(fields, "process_alias");
+  if ((vendor === "micron" || vendor === "intel") && processAlias && /^(?:A?\d+nm|2D)$/i.test(dieCodename)) {
+    return processAlias;
+  }
+  return dieCodename;
+}
+
 function subtitleKind(device: DeviceIdentity, fields: Map<FdnextFieldKey, FieldValue>, ctx: ResultBuilderContext, lang?: string | null): string {
   if (device.chipKind === "raw_nand") {
     return translateText(ctx, "subtitle.kind.raw_nand", "NAND Flash", lang);
-  }
-  if (device.chipKind === "on_die_ecc_nand") {
-    return translateText(ctx, "subtitle.kind.on_die_ecc_nand", "On-die ECC NAND", lang);
   }
   if (device.chipKind === "managed_nand") {
     return productTypeDisplay(device.productType, ctx, lang) ?? translateText(ctx, "subtitle.kind.managed_nand", "Managed NAND", lang);
@@ -428,9 +439,7 @@ function buildPartSubtitle(
   const width = device.chipKind === "dram"
     ? displayField(fields, "dram_width") ?? displayField(fields, "device_width")
     : undefined;
-  const dieProfile = device.chipKind === "raw_nand" || device.chipKind === "on_die_ecc_nand"
-    ? displayField(fields, "die_codename")
-    : undefined;
+  const dieProfile = device.chipKind === "raw_nand" ? rawNandDieSubtitle(device, fields) : undefined;
   return [
     subtitleKind(device, fields, ctx, lang),
     device.vendor.name,
@@ -451,7 +460,7 @@ function buildIdentifierSubtitle(
   const cellLevel = displayField(fields, "cell_level");
   const dieCount = displayField(fields, "die_count");
   const planeCount = displayField(fields, "plane_count");
-  const dieProfile = displayField(fields, "die_codename");
+  const dieProfile = rawNandDieSubtitle(device, fields);
   const dieText = dieCount
     ? translateTemplate(ctx, "subtitle.die_count", "{count} die", { count: dieCount }, lang)
     : undefined;
@@ -833,33 +842,33 @@ export function buildCapabilities(options: BuildCapabilitiesOptions): FdnextCapa
       name: "part.decode",
       operation: "part.decode",
       domains: ["memory"],
-      chipKinds: ["raw_nand", "on_die_ecc_nand", "managed_nand", "dram"]
+      chipKinds: ["raw_nand", "managed_nand", "dram"]
     },
     {
       name: "part.search",
       operation: "part.search",
       domains: ["memory"],
-      chipKinds: ["raw_nand", "on_die_ecc_nand", "managed_nand", "dram"]
+      chipKinds: ["raw_nand", "managed_nand", "dram"]
     },
     {
       name: "identifier.decode.nand.flash_id",
       operation: "identifier.decode",
       domains: ["memory"],
-      chipKinds: ["raw_nand", "on_die_ecc_nand"],
+      chipKinds: ["raw_nand"],
       idSchemes: ["nand.flash_id"]
     },
     {
       name: "identifier.search.nand.flash_id",
       operation: "identifier.search",
       domains: ["memory"],
-      chipKinds: ["raw_nand", "on_die_ecc_nand"],
+      chipKinds: ["raw_nand"],
       idSchemes: ["nand.flash_id"]
     },
     {
       name: "marking.lookup.micron.fbga",
       operation: "part.search",
       domains: ["memory"],
-      chipKinds: ["raw_nand", "on_die_ecc_nand", "dram"]
+      chipKinds: ["raw_nand", "dram"]
     }
   ];
   return {

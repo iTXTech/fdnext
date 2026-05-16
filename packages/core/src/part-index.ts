@@ -415,7 +415,7 @@ function enrichCandidate(
   const decodedChipKind = inferChipKindFromDraft(info);
   const decodedProductType = inferProductTypeFromDraft(info);
   const vendor = base.vendor === UNKNOWN && isKnownInfoValue(draftVendor(info)) ? draftVendor(info) : base.vendor;
-  const chipKind = base.chipKind === "unknown" || (base.chipKind === "raw_nand" && decodedChipKind === "on_die_ecc_nand")
+  const chipKind = base.chipKind === "unknown"
     ? decodedChipKind
     : base.chipKind;
   const productType = base.productType ?? decodedProductType;

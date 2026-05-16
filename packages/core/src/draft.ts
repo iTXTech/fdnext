@@ -104,7 +104,6 @@ export function chipKindFromLegacyType(value: unknown): FdnextChipKind | undefin
     return undefined;
   }
   const normalized = value.trim().toLowerCase().replaceAll(/[^a-z0-9]+/g, " ").trim();
-  if (normalized === "on die ecc nand") return "on_die_ecc_nand";
   if (normalized === "dram") return "dram";
   if (normalized === "nand") return "raw_nand";
   if (managedProductType(normalized)) return "managed_nand";

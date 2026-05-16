@@ -79,7 +79,6 @@ function partType(result: PartDecodeResult): string | undefined {
     };
     return productTypes[result.device.productType] ?? result.device.productType.toUpperCase();
   }
-  if (result.device?.chipKind === "on_die_ecc_nand") return "On-die ECC NAND";
   if (result.device?.chipKind === "raw_nand") return "NAND";
   if (result.device?.chipKind === "dram") return "DRAM";
   return typeof product?.value === "string" ? product.value : result.device?.chipKind;
@@ -834,7 +833,7 @@ assertPart("DT57G2LALC", {
   }
 });
 
-assertDieProfileFromFdbProcess("29F02T08SCMFP", "20nm", undefined, "L85C");
+assertDieProfileFromFdbProcess("29F02T08SCMFP", "20nm", undefined, "L84C");
 assertDieProfileFromFdbProcess("FNNL29F256G08EBHAFES", "B16A");
 assertDieProfileFromFdbProcess("FBMB17A4T1KDUAN", "B17A", 64);
 assertDieProfileFromFdbProcess("SDTNMMAHSM-001G", "43nm");
@@ -1082,7 +1081,7 @@ assertPart("THGVR1G7D2GLA09", {
 
 assertPart("MT29FB16T08GALAAM5-TES:B", {
   vendor: "micron",
-  type: "On-die ECC NAND",
+  type: "NAND",
   densityMbit: 16777216,
   cellField: "QLC",
   topology: {
@@ -1100,12 +1099,12 @@ assertPart("MT29FB16T08GALAAM5-TES:B", {
   extra: {
     Enterprise: "No",
     "Die Code": "A-Die",
-    "Interface Type": "Async",
-    "ECC enabled": "Yes"
+    "Interface Type": "Async"
   },
   absentExtra: [
     "System",
     "Product Family",
+    "ECC enabled",
     "source",
     "status",
     "Reference Status",
@@ -1142,7 +1141,7 @@ assertSearchPnIncludes("MT29FB16T08GALAAM5-TESB", "Micron MT29FB16T08GALAAM5-TES
 
 assertPart("MT29FB8T08EALAAM5-QK:E", {
   vendor: "micron",
-  type: "On-die ECC NAND",
+  type: "NAND",
   densityMbit: 8388608,
   cellField: "TLC",
   topology: {
@@ -1160,12 +1159,12 @@ assertPart("MT29FB8T08EALAAM5-QK:E", {
   extra: {
     Enterprise: "No",
     "Die Code": "A-Die",
-    "Interface Type": "Async",
-    "ECC enabled": "Yes"
+    "Interface Type": "Async"
   },
   absentExtra: [
     "System",
     "Product Family",
+    "ECC enabled",
     "source",
     "status",
     "Reference Status",
@@ -1179,7 +1178,7 @@ assertPart("MT29FB8T08EALAAM5-QK:E", {
 assertPart("NC103", {
   vendor: "micron",
   markingCode: "NC103",
-  type: "On-die ECC NAND",
+  type: "NAND",
   densityMbit: 16777216,
   cellField: "QLC",
   topology: {
@@ -1197,12 +1196,12 @@ assertPart("NC103", {
   extra: {
     Enterprise: "No",
     "Die Code": "A-Die",
-    "Interface Type": "Async",
-    "ECC enabled": "Yes"
+    "Interface Type": "Async"
   },
   absentExtra: [
     "System",
     "Product Family",
+    "ECC enabled",
     "source",
     "status",
     "Reference Status",

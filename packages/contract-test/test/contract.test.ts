@@ -157,8 +157,8 @@ assert.ok(sdkCapabilities.decoders.identifier.some((decoder) => decoder.idScheme
 const micronFbgaCapability = sdkCapabilities.capabilities.find((capability) => capability.name === "marking.lookup.micron.fbga");
 assert.deepEqual(
   micronFbgaCapability?.chipKinds,
-  ["raw_nand", "on_die_ecc_nand", "dram"],
-  "Micron FBGA lookup capability should report DRAM, raw NAND, and On-die ECC NAND support"
+  ["raw_nand", "dram"],
+  "Micron FBGA lookup capability should report DRAM and raw NAND support"
 );
 const mutatedCapabilities = engine.getCapabilities();
 mutatedCapabilities.inventory.controllers.items.splice(0);
@@ -223,7 +223,6 @@ const requiredTranslationKeys = new Set([
   "warning.constraint_mismatch.strict",
   "warning.ambiguous_part",
   "subtitle.kind.raw_nand",
-  "subtitle.kind.on_die_ecc_nand",
   "subtitle.kind.managed_nand",
   "subtitle.kind.dram",
   "subtitle.kind.memory",
@@ -272,7 +271,7 @@ assert.deepEqual(
 assertPartClassification("MT29F4G08ABAEA", "raw_nand");
 assertPartClassification("AFND1208S1", "raw_nand");
 assertPartClassification("HY33DS1G800CT1", "raw_nand");
-assertPartClassification("MT29FBG08ABACA", "on_die_ecc_nand");
+assertPartClassification("MT29FBG08ABACA", "raw_nand");
 assertPartClassification("MTFC8GAKAJCN-4M", "managed_nand", "emmc");
 assertPartClassification("KLUEG8UHDC-B0E1", "managed_nand", "ufs");
 assertPartClassification("BWCA2KZC-64G", "managed_nand", "emcp");
@@ -288,14 +287,14 @@ assert.ok(
 for (const query of ["MT29F", "NW8", "CT40", "C9B", "MT29F128G08AECABH6-6:A", "CT40A1G8SA-62M:E"]) {
   assertNoDuplicatePartSearchItems(query);
 }
-const onDieEccSearch = engine.searchParts({ query: "MT29FB", lang: "eng", limit: 10 });
-assert.ok(onDieEccSearch.items.length > 0, "MT29FB search should return On-die ECC NAND candidates");
-assert.ok(onDieEccSearch.items.every((item) => item.device.chipKind === "on_die_ecc_nand"), "MT29FB search candidates should use decoded On-die ECC NAND chip kind");
-const onDieEccMarkingSearch = engine.searchParts({ query: "NC103", lang: "eng", limit: 10 });
+const mt29fbSearch = engine.searchParts({ query: "MT29FB", lang: "eng", limit: 10 });
+assert.ok(mt29fbSearch.items.length > 0, "MT29FB search should return raw NAND candidates");
+assert.ok(mt29fbSearch.items.every((item) => item.device.chipKind === "raw_nand"), "MT29FB search candidates should use raw NAND chip kind");
+const mt29fbMarkingSearch = engine.searchParts({ query: "NC103", lang: "eng", limit: 10 });
 assert.deepEqual(
-  onDieEccMarkingSearch.items.map((item) => item.device.chipKind),
-  ["on_die_ecc_nand"],
-  "Micron On-die ECC NAND FBGA marking search should not surface raw_nand"
+  mt29fbMarkingSearch.items.map((item) => item.device.chipKind),
+  ["raw_nand"],
+  "Micron MT29FB FBGA marking search should surface raw_nand"
 );
 
 const inferredIdentifier = engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" });
@@ -454,6 +453,12 @@ assert.ok(collectResultFields(nandDecode.blocks).some((field) => (
   (field as { unit?: unknown }).unit === "Mbit" &&
   (field as { display?: unknown }).display === "8GB"
 )));
+const micron2dNandDecode = engine.decodePart({ query: "MT29F4G08ABAEA", lang: "eng" });
+assert.equal(micron2dNandDecode.subtitle, "NAND Flash · Micron · 512MB SLC · M70M");
+assert.ok(collectResultFields(micron2dNandDecode.blocks).some((field) => field.key === "die_codename" && field.value === "25nm"));
+assert.ok(collectResultFields(micron2dNandDecode.blocks).some((field) => field.key === "process_alias" && field.value === "M70M"));
+const intelPlainNandDecode = engine.decodePart({ query: "29F512G08EBHAF", lang: "eng" });
+assert.equal(intelPlainNandDecode.device?.vendor.id, "intel");
 for (const key of ["ce_count", "rb_count", "channel_count"] as const) {
   assert.ok(collectResultFields(nandDecode.blocks).some((field) => field.key === key && field.value === 1), `NAND decode should expose ${key}`);
 }
