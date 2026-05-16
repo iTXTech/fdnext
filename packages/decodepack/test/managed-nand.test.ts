@@ -271,7 +271,9 @@ const skhynixH25RawInternalExtra = [
   "Generation Code",
   "Config Code",
   "Product Class",
-  "NAND Technology"
+  "NAND Technology",
+  "Component Density",
+  "Die Stack"
 ];
 
 function resourceEntries(raw: unknown): unknown[] {
@@ -1424,7 +1426,8 @@ assertPart("H25T2TB88E-X321-N", {
   extra: {
     "Process Alias": "H25FTB0",
     "Layer Count": 128,
-    "Component Density": "4Tbit package"
+    "Die Density": "512Gb",
+    "Die Count": 8
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
@@ -1438,7 +1441,8 @@ assertPart("H25T1TD48C-X630", {
   extra: {
     "Process Alias": "H25FTD0",
     "Layer Count": 238,
-    "Die Density": "512Gb"
+    "Die Density": "512Gb",
+    "Die Count": 4
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
@@ -1452,7 +1456,8 @@ assertPart("H25T2TC88C", {
   extra: {
     "Process Alias": "H25FTC0",
     "Layer Count": 176,
-    "Component Density": "4Tbit package"
+    "Die Density": "512Gb",
+    "Die Count": 8
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
@@ -1466,7 +1471,23 @@ assertPart("H25T2TD88C-X682", {
   extra: {
     "Process Alias": "H25FTD0",
     "Layer Count": 238,
-    "Component Density": "4Tbit package"
+    "Die Density": "512Gb",
+    "Die Count": 8
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T2TD88C", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV8",
+  cellField: "TLC",
+  extra: {
+    "Process Alias": "H25FTD0",
+    "Layer Count": 238,
+    "Die Density": "512Gb",
+    "Die Count": 8
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
@@ -1478,8 +1499,7 @@ assertPart("H25T0QA18CX542", {
   dieProfileField: "HYV7Q",
   cellField: "QLC",
   extra: {
-    "Layer Count": 176,
-    "Component Density": "1Tbit package"
+    "Layer Count": 176
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
@@ -1491,8 +1511,7 @@ assertPart("H25T4QM88G", {
   dieProfileField: "HYV9Q",
   cellField: "QLC",
   extra: {
-    "Layer Count": 321,
-    "Component Density": "2Tb die"
+    "Layer Count": 321
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });

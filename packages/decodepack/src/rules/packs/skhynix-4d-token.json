@@ -64,62 +64,52 @@
         "productObj": {
           "0Q:A": {
             "generation_info": "176-layer 4D NAND QLC (V7Q)",
-            "component_density": "1Tbit package",
             "product_class": "QLC"
           },
           "3Q:A": {
             "generation_info": "176-layer 4D NAND QLC (V7Q)",
-            "component_density": "1Tbit package",
             "product_class": "QLC"
           },
           "4Q:M": {
             "generation_info": "321-layer 4D NAND QLC (V9Q)",
-            "component_density": "2Tb die",
             "product_class": "QLC"
           },
           "0T:C": {
             "generation_info": "176-layer 4D NAND (V7)",
-            "component_density": "512Gbit package",
             "product_class": "TLC"
           },
           "1T:C": {
             "generation_info": "176-layer 4D NAND (V7 / H25FTC0)",
-            "component_density": "2Tbit package",
             "die_density": "512Gb",
-            "die_stack": "4-die package observed",
+            "die_count": 4,
             "product_class": "TLC"
           },
           "1T:D": {
             "generation_info": "238-layer 4D NAND (V8 / H25FTD0)",
-            "component_density": "2Tbit package",
             "die_density": "512Gb",
-            "die_stack": "4-die package observed",
+            "die_count": 4,
             "product_class": "TLC"
           },
           "2T:B": {
             "generation_info": "128-layer 4D NAND (V6 / H25FTB0)",
-            "component_density": "4Tbit package",
             "die_density": "512Gb",
-            "die_stack": "8-die package",
+            "die_count": 8,
             "product_class": "TLC"
           },
           "2T:C": {
             "generation_info": "176-layer 4D NAND (V7 / H25FTC0)",
-            "component_density": "4Tbit package",
             "die_density": "512Gb",
-            "die_stack": "8-die package",
+            "die_count": 8,
             "product_class": "TLC"
           },
           "2T:D": {
             "generation_info": "238-layer 4D NAND (V8 / H25FTD0)",
-            "component_density": "4Tbit package",
             "die_density": "512Gb",
-            "die_stack": "8-die package",
+            "die_count": 8,
             "product_class": "TLC"
           },
           "3T:C": {
             "generation_info": "238-layer 4D NAND (V8)",
-            "component_density": "512Gbit package",
             "product_class": "TLC"
           }
         },
@@ -234,14 +224,11 @@
         "fields.layer_count": {
           "$path": "processObj.layer_count"
         },
-        "fields.component_density": {
-          "$path": "productObj.component_density"
-        },
         "fields.die_density": {
           "$path": "productObj.die_density"
         },
-        "fields.die_stack": {
-          "$path": "productObj.die_stack"
+        "fields.die_count": {
+          "$path": "productObj.die_count"
         },
         "fields.cell_level": {
           "$var": "cellLevel"

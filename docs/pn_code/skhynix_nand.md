@@ -147,6 +147,8 @@ H25 目前分成两类结构处理：
 | product key | `density code + generation` 组合；同一个 density code 在不同 generation 下不能直接复用容量 |
 | config | 例如 `88E` / `88C` / `48C`，当前只作为结构 token 输出 |
 
+公开结果中，H25T package 容量统一放在 `density`，不再重复输出 `component_density`；已知 4/8 die package 使用数值 `die_count`，不再输出字符串 `die_stack`。
+
 | Product key / 示例 | 可确定内容 | 佐证状态 |
 | --- | --- | --- |
 | `2T:B` / `H25T2TB88E-*` | 128L 4D NAND V6 / H25FTB0, TLC, 4Tbit package, 8 x 512Gb die | `external_confirmed` |
