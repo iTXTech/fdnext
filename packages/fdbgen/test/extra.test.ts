@@ -227,6 +227,15 @@ test("normalizes SK hynix H25T package suffixes before FDB ingestion", () => {
   assert.equal(parsed.vendors?.skhynix?.["H25T2TB88E-X321-N"], undefined);
 });
 
+test("trims overlong structured YMTC and Intel part numbers", () => {
+  assert.equal(normalizeFdbPartNumber("YMN09TC1B1DC6CHUS"), "YMN09TC1B1DC6C");
+  assert.equal(normalizeFdbPartNumber("YMN09TC1B1DCADWYS"), "YMN09TC1B1DCAD");
+  assert.equal(normalizeFdbPartNumber("YMN09TC1B1DC6C_64GB(TAS)"), "YMN09TC1B1DC6C");
+  assert.equal(normalizeFdbPartNumber("PF29F04T2AOCTH13"), "PF29F04T2AOCTH1");
+  assert.equal(normalizeFdbPartNumber("PF29F16T2AWCQH1MICRON"), "PF29F16T2AWCQH1");
+  assert.equal(normalizeFdbPartNumber("PF29F16B08LCMF3-016G"), "PF29F16B08LCMF3");
+});
+
 test("extra audit reports base extra, fdb, and decodepack conflicts", () => {
   const result = auditExtra(
     {

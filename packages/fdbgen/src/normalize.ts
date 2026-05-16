@@ -14,6 +14,56 @@ const SUPPORT_LIST_MAX_FLASH_ID_HEX_LENGTH = 16;
 const CONTROLLER_NAME = /^(?=.*[A-Z])(?=.*\d)[A-Z0-9][A-Z0-9()-]*$/;
 const PART_METADATA_SUFFIX =
   /[_-](?:DUAL|TWIN|DIC|QDP|HP|H45|SI\d+|S\d+|BINZZ|GEN\d+|EX\d+|TF_EX\d+|[1248]DIE|[1248]CE|[0-9]+CE[0-9]+DIE|[12]C[1248]D|[0-9A-F]{3,}|L\d{2}|TI\d+|ES|UNKNOWN|SLC|MLC|TLC|QLC|[0-9]+)$/;
+const INTEL_DENSITY_TOKENS = [
+  "384G",
+  "512G",
+  "256G",
+  "128G",
+  "01G",
+  "02G",
+  "04G",
+  "08G",
+  "16G",
+  "32G",
+  "64G",
+  "16B",
+  "32B",
+  "48B",
+  "64B",
+  "96B",
+  "01T",
+  "02T",
+  "03T",
+  "04T",
+  "06T",
+  "08T",
+  "16T",
+  "1G",
+  "2G",
+  "4G",
+  "8G",
+  "1T",
+  "2T",
+  "3T",
+  "4T",
+  "6T",
+  "8T"
+].join("|");
+const INTEL_STRUCTURED_PART =
+  new RegExp(`^((?:X)?(?:(?:(?:JS|PF|BK|CU)?29[FPHRA-Z])|(?:(?:JS|PF|BK|CU)F))(?:${INTEL_DENSITY_TOKENS})(?:16|08|2A|4A|A8)[0-9A-Z]{5})`);
+const YMTC_PACKAGE_STRUCTURED_PART =
+  /^((?:YM|KR|BP|BR|BW)[NS][0A][6789ABW][SMTQ][A-F][12](?:W0|T1|L1|B[1-5])[0A-Z][DUMCPEFX][0-68ABX][A-E])/;
+const YMTC_CUSTOM_BGA_STRUCTURED_PART =
+  /^((?:YM|KR|BP|BR|BW)[NS][0A][6789ABW][SMTQ][A-F][12]B[0A-Z][DUMCPEFX][0-68ABX][A-E])/;
+
+function trimKnownStructuredPartNumber(partNumber: string): string {
+  return (
+    YMTC_PACKAGE_STRUCTURED_PART.exec(partNumber)?.[1] ??
+    YMTC_CUSTOM_BGA_STRUCTURED_PART.exec(partNumber)?.[1] ??
+    INTEL_STRUCTURED_PART.exec(partNumber)?.[1] ??
+    partNumber
+  );
+}
 
 export function normalizeFdbPartNumber(partNumber: string): string {
   let normalized = partNumber
@@ -38,6 +88,7 @@ export function normalizeFdbPartNumber(partNumber: string): string {
   while (/\*[0-9A-Z]*$/i.test(normalized)) {
     normalized = normalized.replace(/\*[0-9A-Z]*$/i, "");
   }
+  normalized = trimKnownStructuredPartNumber(normalized);
   return normalized.includes("*") ? "" : normalized;
 }
 
