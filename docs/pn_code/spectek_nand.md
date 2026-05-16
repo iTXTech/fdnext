@@ -52,4 +52,4 @@ PN 结构：
 
 ## 注意
 
-旧版 SpecTek 规则不再报告 unsupported。当前实现按公开 numbering guide 的 token 位置解析，并只输出规则能确定的字段；design generation 会先组成 `nand.die_profile` key，例如 `M60A`、`L74A`，再由 profile 表统一补齐公开制程与 `process_alias`。IMFT 2D `5x/6x/7x` 系列分别公开为 `50nm/34nm/25nm`，原始 die code 保留在 `process_alias`；Micron RG / Solidigm FG 的 3D die codename 则直接保留 profile key，例如 `B57T`、`N38B`、`N4PA`。`PX001` 对应的 `M2XA` 已作为 SpecTek / Micron SLC legacy profile 记录。
+旧版 SpecTek 规则不再报告 unsupported。当前实现按公开 numbering guide 的 token 位置解析，并只输出规则能确定的字段；design generation 会先组成 `nand.die_profile` key，例如 `M60A`、`L74A`，再由 profile 表统一补齐公开制程与 `process_alias`。IMFT 2D `5x/6x/7x` 系列分别公开为 `50nm/34nm/25nm`，原始 die code 保留在 `process_alias`，摘要优先展示该 alias；Micron RG / Solidigm FG 的 3D die codename 则直接保留 profile key，例如 `B57T`、`B78R`、`N38B`、`N4PA`。`PX001` 对应的 `M2XA` 已作为 SpecTek / Micron SLC legacy profile 记录。

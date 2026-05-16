@@ -313,7 +313,7 @@
   "B58R": {
     "die_codename": "B58R",
     "cell_level": 3,
-    "die_density": "1024Gb",
+    "die_density": "1Tb",
     "generation_info": "RG",
     "layer_count": 232,
     "firmware_match": [
@@ -332,8 +332,9 @@
   "B68S": {
     "die_codename": "B68S",
     "cell_level": 3,
-    "die_density": "1024Gb",
+    "die_density": "1Tb",
     "generation_info": "RG",
+    "layer_count": 276,
     "firmware_match": [
       "B68S"
     ]
@@ -346,6 +347,15 @@
       "IM2DT"
     ],
     "process_alias": "B74A"
+  },
+  "B78R": {
+    "die_codename": "B78R",
+    "cell_level": 3,
+    "die_density": "1Tb",
+    "generation_info": "RG",
+    "firmware_match": [
+      "B78R"
+    ]
   },
   "B85T": {
     "die_codename": "20nm",
@@ -1583,7 +1593,7 @@
   "N18A": {
     "die_codename": "N18A",
     "cell_level": 4,
-    "die_density": "1024Gb",
+    "die_density": "1Tb",
     "generation_info": "FG",
     "layer_count": 64,
     "firmware_match": [
@@ -1593,7 +1603,7 @@
   "N28A": {
     "die_codename": "N28A",
     "cell_level": 4,
-    "die_density": "1024Gb",
+    "die_density": "1Tb",
     "generation_info": "FG",
     "layer_count": 96,
     "firmware_match": [
@@ -1635,7 +1645,7 @@
   "N48R": {
     "die_codename": "N48R",
     "cell_level": 4,
-    "die_density": "1024Gb",
+    "die_density": "1Tb",
     "generation_info": "RG",
     "layer_count": 176,
     "firmware_match": [
@@ -1653,7 +1663,7 @@
   "N58R": {
     "die_codename": "N58R",
     "cell_level": 4,
-    "die_density": "1024Gb",
+    "die_density": "1Tb",
     "generation_info": "RG",
     "layer_count": 232,
     "firmware_match": [
@@ -1663,8 +1673,9 @@
   "N69R": {
     "die_codename": "N69R",
     "cell_level": 4,
-    "die_density": "2048Gb",
+    "die_density": "2Tb",
     "generation_info": "RG",
+    "layer_count": 276,
     "firmware_match": [
       "N69R"
     ]

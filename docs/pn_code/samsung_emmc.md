@@ -29,7 +29,7 @@
 
 Samsung eMMC 现在与 SK hynix 共用：
 
-- `component_density`：封装总容量，例如 `16GB package`
+- `component_density`：封装总容量，例如 `16GB`
 - `die_density`：单 die 容量，例如 `128Gb`
 - `die_stack`：封装堆叠，例如 `SDP (1-die)`
 - `die_codename`：NAND die profile key，例如 `SS14` / `SS16`
@@ -40,6 +40,6 @@ Samsung eMMC 现在与 SK hynix 共用：
 
 | PN | 解析重点 |
 | --- | --- |
-| `KLMAG1JETD-B041` | eMMC 5.1, 16GB package, SDP, 128Gb die, 14nm |
-| `KLM8G1GETF-B041` | eMMC 5.1, 8GB package, SDP, 64Gb die, 14nm |
-| `KLMBG2JETD-B041` | eMMC 5.1, 32GB package, DDP, 128Gb die, 14nm |
+| `KLMAG1JETD-B041` | eMMC 5.1, 16GB, SDP, 128Gb die, 14nm |
+| `KLM8G1GETF-B041` | eMMC 5.1, 8GB, SDP, 64Gb die, 14nm |
+| `KLMBG2JETD-B041` | eMMC 5.1, 32GB, DDP, 128Gb die, 14nm |

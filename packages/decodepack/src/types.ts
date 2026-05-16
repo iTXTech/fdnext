@@ -72,6 +72,14 @@ export interface DecodeStepMul {
   default?: number;
 }
 
+export interface DecodeStepDieDensity {
+  op: "dieDensity";
+  density: string;
+  dieCount: string;
+  to: string;
+  default?: DecodeJson;
+}
+
 export interface DecodeStepSet {
   op: "set";
   to: string;
@@ -128,6 +136,7 @@ export type DecodeStep =
   | DecodeStepTemplate
   | DecodeStepFallback
   | DecodeStepMul
+  | DecodeStepDieDensity
   | DecodeStepSet
   | DecodeStepMerge
   | DecodeStepOmit

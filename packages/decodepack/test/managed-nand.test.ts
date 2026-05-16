@@ -192,6 +192,11 @@ function assertPart(
   }
 }
 
+function assertSubtitle(partNumber: string, expected: string): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.subtitle, expected, `${partNumber} subtitle`);
+}
+
 function assertDieProfileFromFdbProcess(partNumber: string, expected: string, expectedLayerCount?: number, expectedProcessAlias?: string): void {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(result.status, "ok", `${partNumber} should decode from FDB`);
@@ -236,6 +241,13 @@ function assertNotFound(partNumber: string): void {
 function assertRuleDoesNotMatch(ruleId: string, partNumber: string): void {
   const matched = compiledPack.partDecoders.filter((decoder) => decoder.id === ruleId && decoder.check(partNumber)).map((decoder) => decoder.id);
   assert.deepEqual(matched, [], `${partNumber} should not match ${ruleId}`);
+}
+
+function assertRuleDraftDieProfile(ruleId: string, partNumber: string, expected: string): void {
+  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === ruleId && candidate.check(partNumber));
+  assert.ok(decoder, `${partNumber} should match ${ruleId}`);
+  const draft = decoder.decode(partNumber);
+  assert.equal(draft?.fields?.die_codename, expected, `${partNumber} ${ruleId} draft die profile`);
 }
 
 const kioxiaManagedRuleIds = new Set(["vendor.kioxia.managed.thg.v1"]);
@@ -487,10 +499,133 @@ assertPart("FBMB17A4T1KDUAN", {
 assertFieldBlock("FBMB17A4T1KDUAN", "layer_count", "storage");
 assertRuleDoesNotMatch("vendor.intel.token.v1", "PF035");
 assertRuleDoesNotMatch("vendor.intel.token.v1", "PFE02");
-assertPart("PF29F32B08NCMF2", {
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ANCMG2", "L06B");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ANCTG3", "B0KB");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ANCTH1", "B16A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ANCTH2", "B16A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2AMCTH1", "B17A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2AMCTH2", "B17A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F64B2ALCTJ1", "B27A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T08OCMF2", "L85A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T08OCMFS", "L85C");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T08OCMFP", "L85C");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F64B08OCME1", "L74A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F16B08MCMF1", "L84A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F16B08MCMFH", "L84C");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F16B08MCMFS", "L84C");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQK1", "N38A");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQK2", "N38B");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQKA", "N38B");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2BLCQKM", "N38E");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQL1", "N4PA");
+assertPart("PF29F01T2ANCMG2", {
   vendor: "intel",
   type: "NAND",
-  densityMbit: 262144,
+  densityMbit: 1048576,
+  dieProfileField: "L06B",
+  cellField: "MLC",
+  package: "BGA",
+  extra: {
+    "Layer Count": 32
+  },
+  absentExtra: ["Product Generation"]
+});
+assertPart("PF29F01T2ANCTG3", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "B0KB",
+  cellField: "TLC",
+  package: "BGA",
+  extra: {
+    "Layer Count": 32
+  },
+  absentExtra: ["Product Generation"]
+});
+assertPart("PF29F01T2ANCTH2", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "B16A",
+  cellField: "TLC",
+  package: "BGA",
+  extra: {
+    "Layer Count": 64
+  },
+  absentExtra: ["Product Generation"]
+});
+assertPart("PF29F01T2AMCTH1", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "B17A",
+  cellField: "TLC",
+  package: "BGA",
+  extra: {
+    "Layer Count": 64
+  },
+  absentExtra: ["Product Generation"]
+});
+assertPart("PF29F64B2ALCTJ1", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "B27A",
+  cellField: "TLC",
+  package: "BGA",
+  extra: {
+    "Layer Count": 96
+  },
+  absentExtra: ["Product Generation"]
+});
+assertPart("PF29F01T08OCMF2", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "20nm",
+  cellField: "MLC",
+  package: "BGA",
+  extra: {
+    "Process Alias": "L85A"
+  }
+});
+assertPart("PF29F01T08OCMFS", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "20nm",
+  cellField: "MLC",
+  package: "BGA",
+  extra: {
+    "Process Alias": "L85C"
+  }
+});
+assertPart("PF29F01T08OCMFP", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "20nm",
+  cellField: "MLC",
+  package: "BGA",
+  extra: {
+    "Process Alias": "L85C"
+  }
+});
+assertPart("PF29F64B08OCME1", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "25nm",
+  cellField: "MLC",
+  package: "BGA",
+  extra: {
+    "Process Alias": "L74A"
+  }
+});
+assertPart("PF29F16B08MCMF1", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 131072,
   dieProfileField: "20nm",
   cellField: "MLC",
   package: "BGA",
@@ -498,10 +633,10 @@ assertPart("PF29F32B08NCMF2", {
     "Process Alias": "L84A"
   }
 });
-assertPart("PF29F32B08NCMFS", {
+assertPart("PF29F16B08MCMFH", {
   vendor: "intel",
   type: "NAND",
-  densityMbit: 262144,
+  densityMbit: 131072,
   dieProfileField: "20nm",
   cellField: "MLC",
   package: "BGA",
@@ -509,10 +644,10 @@ assertPart("PF29F32B08NCMFS", {
     "Process Alias": "L84C"
   }
 });
-assertPart("PF29F32B08NCMFP", {
+assertPart("PF29F16B08MCMFS", {
   vendor: "intel",
   type: "NAND",
-  densityMbit: 262144,
+  densityMbit: 131072,
   dieProfileField: "20nm",
   cellField: "MLC",
   package: "BGA",
@@ -598,6 +733,7 @@ assertPart("FBML84A61KDBABH1", {
     "Process Alias": "L84A"
   }
 });
+assertSubtitle("FBML84A61KDBABH1", "NAND Flash · SpecTek · 16GB MLC · L84A");
 assertPart("FBMM60A21G3BAAWP", {
   vendor: "spectek",
   type: "NAND",
@@ -646,6 +782,42 @@ assertPart("FXXB47R512G1KLXAE", {
     "Layer Count": 176
   }
 });
+assertPart("FBMB68S8T0KLUAHD5", {
+  vendor: "spectek",
+  type: "NAND",
+  density: "1TB",
+  dieProfileField: "B68S",
+  cellField: "TLC",
+  extra: {
+    "Die Density": "1Tb",
+    "Die Count": 8,
+    "Layer Count": 276
+  }
+});
+assertPart("FBMN69R2T0KLBAHD4", {
+  vendor: "spectek",
+  type: "NAND",
+  density: "256GB",
+  dieProfileField: "N69R",
+  cellField: "QLC",
+  extra: {
+    "Die Density": "2Tb",
+    "Die Count": 1,
+    "Layer Count": 276
+  }
+});
+assertPart("FBMB78R2T0KLEAHD4", {
+  vendor: "spectek",
+  type: "NAND",
+  density: "256GB",
+  dieProfileField: "B78R",
+  cellField: "TLC",
+  extra: {
+    "Die Density": "1Tb",
+    "Die Count": 2
+  },
+  absentExtra: ["Layer Count"]
+});
 assertPart("FNNN48R1T1KLBAE", {
   vendor: "spectek",
   type: "NAND",
@@ -653,7 +825,7 @@ assertPart("FNNN48R1T1KLBAE", {
   dieProfileField: "N48R",
   cellField: "QLC",
   extra: {
-    "Die Density": "1024Gb",
+    "Die Density": "1Tb",
     "Die Count": 1,
     "Layer Count": 176
   }
@@ -833,7 +1005,7 @@ assertPart("DT57G2LALC", {
   }
 });
 
-assertDieProfileFromFdbProcess("29F02T08SCMFP", "20nm", undefined, "L84C");
+assertDieProfileFromFdbProcess("29F02T08SCMFP", "20nm", undefined, "L85C");
 assertDieProfileFromFdbProcess("FNNL29F256G08EBHAFES", "B16A");
 assertDieProfileFromFdbProcess("FBMB17A4T1KDUAN", "B17A", 64);
 assertDieProfileFromFdbProcess("SDTNMMAHSM-001G", "43nm");
@@ -2055,6 +2227,24 @@ assertPart("YMC6G001TB51AA1C0", {
   absentExtra: ["Product Generation"]
 });
 
+assertPart("YMN0WQA2B1CC4C", {
+  vendor: "ymtc",
+  type: "NAND",
+  densityMbit: 2789212.16,
+  dieProfileField: "HUS",
+  cellField: "QLC",
+  package: "BGA-132 12x18",
+  extra: {
+    "Process Alias": "X2-6070",
+    "Layer Count": 128,
+    "Die Density": "1.33Tb",
+    "Die Count": 2,
+    "Plane Count": 6,
+    "Product Class": "Client"
+  },
+  absentExtra: ["Product Generation"]
+});
+
 assertPart("X3-9060", {
   vendor: "ymtc",
   type: "NAND",
@@ -2135,7 +2325,7 @@ assertPart("KLMAG1JETD-B041", {
   densityMbit: 131072,
   dieProfileField: "14nm",
   extra: {
-    "Component Density": "16GB package",
+    "Component Density": "16GB",
     "Die Density": "128Gb",
     "Die Stack": "SDP (1-die)",
     "Product Version": "eMMC 5.1",
@@ -2150,7 +2340,7 @@ assertPart("KLM8G1GETF-B041", {
   densityMbit: 65536,
   dieProfileField: "14nm",
   extra: {
-    "Component Density": "8GB package",
+    "Component Density": "8GB",
     "Die Density": "64Gb",
     "Die Stack": "SDP (1-die)",
     "Product Version": "eMMC 5.1",
@@ -2165,10 +2355,26 @@ assertPart("KLMBG2JETD-B041", {
   densityMbit: 262144,
   dieProfileField: "14nm",
   extra: {
-    "Component Density": "32GB package",
+    "Component Density": "32GB",
     "Die Density": "128Gb",
     "Product Version": "eMMC 5.1",
     "Die Stack": "DDP (2-die)"
+  },
+  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KLMDG1NCAB-B041", {
+  vendor: "samsung",
+  type: "eMMC",
+  densityMbit: 1048576,
+  dieProfileField: "SSV8",
+  cellField: "TLC",
+  extra: {
+    "Component Density": "128GB",
+    "Die Density": "1Tb",
+    "Die Stack": "SDP (1-die)",
+    "Product Version": "eMMC 5.1",
+    "Interface Type": "HS400"
   },
   absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
@@ -2365,7 +2571,7 @@ assertPart("KLUCG4J1BB", {
   dieProfileField: "14nm",
   cellField: "MLC",
   extra: {
-    "Component Density": "64GB package",
+    "Component Density": "64GB",
     "NAND Component": "K9GDGD8U0B",
     "Die Density": "128Gb",
     "Die Stack": "QDP (4-die)",
@@ -2384,7 +2590,7 @@ assertPart("KLUDGAG1BD", {
   dieProfileField: "16nm",
   cellField: "MLC",
   extra: {
-    "Component Density": "128GB package",
+    "Component Density": "128GB",
     "NAND Component": "K9GCGD8U0D",
     "Die Density": "64Gb",
     "Die Stack": "HDP (16-die)",
@@ -2402,7 +2608,7 @@ assertPart("KLUEG8UHDB-C2E1", {
   densityMbit: 2097152,
   dieProfileField: "SSV5",
   extra: {
-    "Component Density": "256GB package",
+    "Component Density": "256GB",
     "NAND Component": "K9AFGD8J0B",
     "Die Density": "256Gb",
     "Die Stack": "ODP (8-die)",
@@ -2421,7 +2627,7 @@ assertPart("KLUFG8RHHF-F0G1", {
   dieProfileField: "SSV8",
   package: "BGA-153 9x13",
   extra: {
-    "Component Density": "512GB package",
+    "Component Density": "512GB",
     "Die Density": "512Gb",
     "Die Stack": "ODP (8-die)",
     "Product Version": "UFS 4.0",
@@ -2437,8 +2643,24 @@ assertPart("KLUEG4RHKF-F0H1", {
   dieProfileField: "SSV8",
   package: "BGA-153 9x13",
   extra: {
-    "Component Density": "256GB package",
+    "Component Density": "256GB",
     "Die Density": "512Gb",
+    "Die Stack": "QDP (4-die)",
+    "Product Version": "UFS 4.1",
+    "Controller": "UFS 4.1 G5-2Lane Controller"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KLUFG4NHKH-F0H1", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 4194304,
+  cellField: "TLC",
+  package: "BGA-153 9x13",
+  extra: {
+    "Component Density": "512GB",
+    "Die Density": "1Tb",
     "Die Stack": "QDP (4-die)",
     "Product Version": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"

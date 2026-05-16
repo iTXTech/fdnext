@@ -192,15 +192,33 @@
           "Q": 4
         },
         "processNode": {},
-        "processNodeOverride": {
-          "F2": "L84A",
-          "FP": "L84C",
-          "FS": "L84C",
-          "K1": "N38A",
-          "K2": "N38B",
-          "KA": "N38B",
-          "KM": "N38E",
-          "L1": "N4PA"
+        "processNodeOverrideByDieDensity": {
+          "M:E1:64Gb": "L74A",
+          "M:F1:64Gb": "L84A",
+          "M:FH:64Gb": "L84C",
+          "M:FS:64Gb": "L84C",
+          "M:F2:128Gb": "L85A",
+          "M:FP:128Gb": "L85C",
+          "M:FS:128Gb": "L85C",
+          "M:G1:256Gb": "L06B",
+          "M:G2:256Gb": "L06B",
+          "M:G3:256Gb": "L06B",
+          "T:G1:256Gb": "B0KB",
+          "T:G2:256Gb": "B0KB",
+          "T:G3:256Gb": "B0KB",
+          "T:G1:384Gb": "B0KB",
+          "T:G2:384Gb": "B0KB",
+          "T:G3:384Gb": "B0KB",
+          "T:H1:256Gb": "B16A",
+          "T:H2:256Gb": "B16A",
+          "T:H1:512Gb": "B17A",
+          "T:H2:512Gb": "B17A",
+          "T:J1:512Gb": "B27A",
+          "Q:K1:1Tb": "N38A",
+          "Q:K2:1Tb": "N38B",
+          "Q:KA:1Tb": "N38B",
+          "Q:KM:1Tb": "N38E",
+          "Q:L1:1Tb": "N4PA"
         },
         "generationDigit": {
           "0": "0",
@@ -381,15 +399,27 @@
           "to": "processGenKey"
         },
         {
+          "op": "dieDensity",
+          "density": "density",
+          "dieCount": "die",
+          "to": "dieDensityClass",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{cellCode}}:{{processGenKey}}:{{dieDensityClass}}",
+          "to": "cellProcessDieDensityKey"
+        },
+        {
           "op": "map",
-          "from": "processGenKey",
-          "table": "processNodeOverride",
-          "to": "processNodeOverride",
+          "from": "cellProcessDieDensityKey",
+          "table": "processNodeOverrideByDieDensity",
+          "to": "processNodeOverrideDieDensity",
           "default": ""
         },
         {
           "op": "fallback",
-          "primary": "processNodeOverride",
+          "primary": "processNodeOverrideDieDensity",
           "secondary": "processNodeBase",
           "to": "processNodeFinal"
         },

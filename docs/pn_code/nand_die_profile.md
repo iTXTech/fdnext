@@ -7,7 +7,7 @@
 ## 公开字段边界
 
 - `die_codename`、`process_alias`、`layer_count`、`die_density`、`cell_level`、`plane_count` 可以按规则需要进入公开 fields。
-- `die_codename` 公开 label 为 `Process` / `制程`；它是用户可见制程名，不等同于 `nand.die_profile` lookup key。已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`。Micron / Intel 2D raw NAND 的 subtitle 优先使用 `process_alias` 中的 die codename，而不是只显示 `25nm` / `20nm` 这类 litho。
+- `die_codename` 公开 label 为 `Process` / `制程`；它是用户可见制程名，不等同于 `nand.die_profile` lookup key。已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`。Micron / Intel / SpecTek 2D raw NAND 的 subtitle 优先使用 `process_alias` 中的 die codename，而不是只显示 `25nm` / `20nm` 这类 litho。
 - `layer_count` 与 `process_alias` 独立展示，不拼进 `die_codename` 文本；`process_alias` 用于 `X3-9060`、`8T23` 这类厂商工艺或 full-code 代号。
 - `firmware_match`、`die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields。
 - Kioxia / SanDisk 的 BiCS profile key 必须带厂商前缀，例如 `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24`；公开展示统一使用 `die_codename = BiCS4` / `BiCS4.5` 这类制程名，不带厂商前缀或 Cell 后缀。full code 可通过 `process_alias` 显示为 `8T24` 这类代号，而不是把内部 die mark 展示给用户。
@@ -52,7 +52,7 @@ Generation / Layer / Cell / Die Density / Plane / Codename
 | SK hynix | `HY14`、`HY16`、`HY20` | `HYV1`、`HYV4`、`HYV9`、`HYV9Q` | 无后缀默认 TLC；`M` = MLC；`Q` = QLC；`H25FT*` / `H27*` 属于 `die_mark`，固件匹配仍用 `HYVx` |
 | Samsung | `SS2D`、`SS16`、`SS16M`、`SS21M` | `SSV1`、`SSV2M`、`SSV3M`、`SSV4`、`SSV6P` | 无后缀默认 TLC；`M` = MLC；`Q` = QLC；更老 2D 用 `SS2D` |
 | Kioxia / SanDisk | `TSB15`、`TSB24A`、`SNK19M`、`SNK24M`、`TSB15M2P`、`SNK15T` | `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24` 这类 vendor-scoped firmware full code | BiCS 默认 TLC；`M` = MLC；`Q` = QLC；`S` = SLC / XL-Flash |
-| Micron / Intel | `L95B`、`M70M` 等 | `B27A`、`N28A` 等 | 3D 直接使用 codename；2D 一般用 `IM2DS` / `IM2DM` / `IM2DT`，`7x` / `8x` / `9x` die codename 可作为匹配 key，公开 `die_codename` 补齐为 `25nm` / `20nm` / `16nm` |
+| Micron / Intel / SpecTek | `L95B`、`M70M` 等 | `B27A`、`N28A` 等 | 3D 直接使用 codename；2D 一般用 `IM2DS` / `IM2DM` / `IM2DT`，`7x` / `8x` / `9x` die codename 可作为匹配 key，公开 `die_codename` 补齐为 `25nm` / `20nm` / `16nm` |
 
 Samsung 的真实内部代号常来自单 die PN（例如 `K9AHGD8U0M/A/B/C/D` 表示不同 3D Vx 的同容量 die）。这类 PN 线索可作为规则来源，但公开 profile key 仍优先使用 `SSVx`。
 
@@ -99,6 +99,22 @@ Micron / Intel 的 3D NAND 固件匹配直接使用 die codename，不再同时�
 | `N38B` | `N38B` |
 | `N38C` | `N38C` |
 | `N38E` | `N38E` |
+
+Intel raw PN 的制程 token 按 `cell + generation suffix + computed die density` 归一，避免只用后缀误判同一代中不同 die size 的型号。当前确认规则：
+
+| Cell + suffix + die density | Profile key |
+| --- | --- |
+| `M:E1:64Gb` | `L74A` |
+| `M:F1:64Gb` | `L84A` |
+| `M:FH/FS:64Gb` | `L84C` |
+| `M:F2:128Gb` | `L85A` |
+| `M:FP/FS:128Gb` | `L85C` |
+| `M:G1/G2/G3:256Gb` | `L06B` |
+| `T:G1/G2/G3:256Gb/384Gb` | `B0KB` |
+| `T:H1/H2:256Gb` | `B16A` |
+| `T:H1/H2:512Gb` | `B17A` |
+| `T:J1:512Gb` | `B27A` |
+| `Q:K1/K2/KA/KM/L1:1Tb` | `N38A` / `N38B` / `N38B` / `N38E` / `N4PA` |
 
 2D NAND 固件匹配一般不再按每个 die codename 展开，默认按 cell 类型归并：
 

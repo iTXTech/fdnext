@@ -366,7 +366,7 @@ function assertMicronSolidigmDieProfileNaming(): void {
     assert.equal(profiles[key]?.layer_count, layerCount, `${key} should keep its profile layer count`);
   }
 
-  for (const key of ["B47R", "B47T", "B57R", "B57T", "B58R", "B68S", "N48R", "N58R", "N69R"]) {
+  for (const key of ["B47R", "B47T", "B57R", "B57T", "B58R", "B68S", "B78R", "N48R", "N58R", "N69R"]) {
     assert.equal(profiles[key]?.die_codename, key, `${key} should remain a visible RG die codename`);
     assert.equal(profiles[key]?.generation_info, "RG", `${key} should be classified as Micron RG`);
   }

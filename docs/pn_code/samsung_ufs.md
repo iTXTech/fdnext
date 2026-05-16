@@ -34,7 +34,7 @@
 
 Samsung UFS 现在与 SK hynix 共用：
 
-- `component_density`：封装总容量，例如 `512GB package`
+- `component_density`：封装总容量，例如 `512GB`
 - `die_density`：单 die 容量，例如 `512Gb`
 - `die_stack`：封装堆叠，例如 `ODP (8-die)`
 - `nand_component`：特定基础 PN 的单 die NAND marking，例如 `K9AFGD8J0B`
@@ -47,8 +47,8 @@ Samsung UFS 现在与 SK hynix 共用：
 
 | PN | 解析重点 |
 | --- | --- |
-| `KLUCG4J1BB` | UFS 2.0, 64GB package, MLC, 4 CE / 4 die, `K9GDGD8U0B` |
-| `KLUDGAG1BD` | UFS 2.0, 128GB package, MLC, 8 CE / 16 die, `K9GCGD8U0D` |
-| `KLUEG8UHDB-C2E1` | UFS 3.1, 256GB package, ODP, 256Gb die, V5 92L |
-| `KLUFG8RHHF-F0G1` | UFS 4.0, 512GB package, ODP, 512Gb die, V8 236L |
-| `KLUEG4RHKF-F0H1` | UFS 4.1, 256GB package, QDP, 512Gb die, V8 236L |
+| `KLUCG4J1BB` | UFS 2.0, 64GB, MLC, 4 CE / 4 die, `K9GDGD8U0B` |
+| `KLUDGAG1BD` | UFS 2.0, 128GB, MLC, 8 CE / 16 die, `K9GCGD8U0D` |
+| `KLUEG8UHDB-C2E1` | UFS 3.1, 256GB, ODP, 256Gb die, V5 92L |
+| `KLUFG8RHHF-F0G1` | UFS 4.0, 512GB, ODP, 512Gb die, V8 236L |
+| `KLUEG4RHKF-F0H1` | UFS 4.1, 256GB, QDP, 512Gb die, V8 236L |

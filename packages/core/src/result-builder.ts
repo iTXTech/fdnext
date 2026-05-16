@@ -405,7 +405,7 @@ function rawNandDieSubtitle(device: DeviceIdentity, fields: Map<FdnextFieldKey, 
 
   const vendor = device.vendor.id.toLowerCase();
   const processAlias = displayField(fields, "process_alias");
-  if ((vendor === "micron" || vendor === "intel") && processAlias && /^(?:A?\d+nm|2D)$/i.test(dieCodename)) {
+  if ((vendor === "micron" || vendor === "intel" || vendor === "spectek") && processAlias && /^(?:A?\d+nm|2D)$/i.test(dieCodename)) {
     return processAlias;
   }
   return dieCodename;

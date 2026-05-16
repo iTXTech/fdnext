@@ -204,6 +204,9 @@ DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `
 - `mul`: 乘法（用于密度等派生字段）
   - 参数：`a`, `b`, `to`, 可选 `default`
   - 行为：`Number(context[a]) * Number(context[b])`，非法则使用 `default` 或 0
+- `dieDensity`: 单 die 容量派生
+  - 参数：`density`, `dieCount`, `to`, 可选 `default`
+  - 行为：按 `density / dieCount` 从 Mbit 总容量派生标准 die density 字符串，例如 `262144 / 1 -> 256Gb`、`1048576 / 1 -> 1Tb`、`1394606.08 / 1 -> 1.33Tb`；非法则使用 `default` 或空串
 - `set`: 设置上下文常量（通常用于初始化对象）
   - 参数：`to`, `value`
 - `merge`: 合并对象（浅拷贝）

@@ -208,6 +208,22 @@ function resolveDecodeTables(
   };
 }
 
+function formatDieDensityMbit(value: number): string {
+  if (!Number.isFinite(value) || value <= 0) {
+    return "";
+  }
+  if (value >= 1024 * 1024 && value % (1024 * 1024) === 0) {
+    return `${value / (1024 * 1024)}Tb`;
+  }
+  if (value >= 1024 * 1024) {
+    return `${Number((value / (1024 * 1024)).toFixed(2))}Tb`;
+  }
+  if (value % 1024 === 0) {
+    return `${value / 1024}Gb`;
+  }
+  return `${value}Mb`;
+}
+
 function runTokenDecoder(
   partNumber: string,
   decoder: DecodeProgram,
@@ -357,6 +373,24 @@ function runTokenDecoder(
       traceStep(trace, {
         op: step.op,
         path,
+        target: step.to,
+        value: context[step.to],
+        restBefore: rest,
+        restAfter: String(context.rest ?? "")
+      });
+      continue;
+    }
+
+    if (step.op === "dieDensity") {
+      const rest = String(context.rest ?? "");
+      const density = Number(context[step.density]);
+      const dieCount = Number(context[step.dieCount]);
+      const matched = Number.isFinite(density) && Number.isFinite(dieCount) && dieCount > 0;
+      context[step.to] = matched ? formatDieDensityMbit(density / dieCount) : (step.default ?? "");
+      traceStep(trace, {
+        op: step.op,
+        path,
+        matched,
         target: step.to,
         value: context[step.to],
         restBefore: rest,
@@ -996,6 +1030,10 @@ function checkTokenDecoderProgram(
       case "mul":
         checkTokenVariable(step.a, `${stepPath}.a`, spec.id, defined, findings);
         checkTokenVariable(step.b, `${stepPath}.b`, spec.id, defined, findings);
+        break;
+      case "dieDensity":
+        checkTokenVariable(step.density, `${stepPath}.density`, spec.id, defined, findings);
+        checkTokenVariable(step.dieCount, `${stepPath}.dieCount`, spec.id, defined, findings);
         break;
       case "set":
         checkExprVariables(step.value, `${stepPath}.value`, spec.id, defined, findings);

@@ -36,28 +36,28 @@
         },
         "componentDensityObj": {
           "32768": {
-            "component_density": "4GB package"
+            "component_density": "4GB"
           },
           "65536": {
-            "component_density": "8GB package"
+            "component_density": "8GB"
           },
           "131072": {
-            "component_density": "16GB package"
+            "component_density": "16GB"
           },
           "262144": {
-            "component_density": "32GB package"
+            "component_density": "32GB"
           },
           "524288": {
-            "component_density": "64GB package"
+            "component_density": "64GB"
           },
           "1048576": {
-            "component_density": "128GB package"
+            "component_density": "128GB"
           },
           "2097152": {
-            "component_density": "256GB package"
+            "component_density": "256GB"
           },
           "4194304": {
-            "component_density": "512GB package"
+            "component_density": "512GB"
           }
         },
         "dieStack": {
@@ -165,56 +165,6 @@
           "N:D": "SSV9",
           "L:C": "SSV7",
           "L:D": "SSV9"
-        },
-        "generationObj": {
-          "K:A": {
-            "generation_info": "V4 64L"
-          },
-          "V:E": {
-            "generation_info": "V3 48L"
-          },
-          "V:M": {
-            "generation_info": "V3 48L"
-          },
-          "U:A": {
-            "generation_info": "V4 64L"
-          },
-          "U:B": {
-            "generation_info": "V5 92L"
-          },
-          "U:C": {
-            "generation_info": "V6 128L"
-          },
-          "R:M": {
-            "generation_info": "V4 64L"
-          },
-          "R:A": {
-            "generation_info": "V5 92L"
-          },
-          "R:B": {
-            "generation_info": "V6 128L"
-          },
-          "R:D": {
-            "generation_info": "V7 176L"
-          },
-          "R:E": {
-            "generation_info": "V6P 133L"
-          },
-          "R:F": {
-            "generation_info": "V8 236L"
-          },
-          "N:B": {
-            "generation_info": "V8 236L"
-          },
-          "N:D": {
-            "generation_info": "V9 280L"
-          },
-          "L:C": {
-            "generation_info": "V7 176L"
-          },
-          "L:D": {
-            "generation_info": "V9 280L"
-          }
         },
         "package": {
           "B": "BGA-153 11.5x13"
@@ -352,13 +302,6 @@
           "default": {}
         },
         {
-          "op": "map",
-          "from": "nandGenerationKey",
-          "table": "generationObj",
-          "to": "generationObj",
-          "default": {}
-        },
-        {
           "op": "stripIfPrefix",
           "prefix": "-"
         },
@@ -430,11 +373,6 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "generationObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
           "from": "controllerObj"
         },
         {
@@ -490,11 +428,14 @@
           "$var": "die"
         },
         "meta.ruleId": "vendor.samsung.emmc.token.v1",
+        "fields.generation_info": {
+          "$path": "processObj.generation_info"
+        },
         "fields.layer_count": {
           "$path": "processObj.layer_count"
         },
         "fields.die_codename": {
-          "$var": "processNode"
+          "$path": "processObj.die_codename"
         }
       }
     }
