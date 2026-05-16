@@ -93,7 +93,42 @@
 
 DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `map` / `takeLongest` 复用。查表顺序为“共享表 + 当前 `tokenDecoder.tables`”，同名时当前规则内的本地表覆盖共享表。
 
-典型用途是把跨产品线复用的工艺、die、controller profile 抽成统一 key 表。例如 `nand.die_profile` 以 die codename 或 firmware full code 为 key，后续 PN / Flash ID / MPTool 规则可 cross-reference 出 `die_codename`、`process_alias`、`layer_count`、`die_density`、`cell_level` 和 `plane_count`。公开 result 中 `die_codename` 渲染为 `Process` / `制程`；它是用户可见制程名，2D 优先显示 `15nm` / `A19nm` / `20nm` 这类 litho，Kioxia / SanDisk 3D 显示 `BiCS3` / `BiCS4` / `BiCS4.5`，不带厂商前缀或 Cell 后缀。已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`，层数和 `X3-9060` / `8T23` 这类代号分别由 `layer_count` / `process_alias` 独立表达。表内 `firmware_match` / `die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields；Kioxia / SanDisk 2D 固件匹配先归一为 `2DM` / `2DT`，BiCS profile key 必须带厂商前缀，例如 `KBiCS3` / `SBiCS3`，full code profile key 也必须带厂商前缀，例如 `K7T23` / `S7T23`。Micron / Intel 3D 固件匹配直接使用 die codename，例如 `B16A`；IMFT / Solidigm FG 体系保留 `A/B/C/D/E` 等后缀 die codename，例如 `N38A` / `N38B` / `N38C` / `N38E` / `N4PA`，Micron RG 体系保留 `R/S/T` 等后缀 die codename，例如 `B47R` / `B57T` / `N58R`，都不从后缀折叠为 `xxnm`。2D 固件匹配一般使用 `IM2DS` / `IM2DM` / `IM2DT` 区分 SLC / MLC / TLC，`5x` / `6x` / `7x` / `8x` / `9x` die codename 可直接用于匹配，但公开制程补齐为 `50nm` / `34nm` / `25nm` / `20nm` / `16nm`。YMTC PN 规则先把 PN token 组合映射到 `TAS` / `HUS` / `WDS` 这类 die profile key，再 cross-reference `nand.die_profile` 生成 `die_codename` 以及规则需要公开的 profile 字段。
+适合放进 `sharedTables` 的内容：
+
+- 跨产品线复用的工艺、die、controller profile。
+- 多个 PN / Flash ID / MPTool 规则都需要引用的 key-value 表。
+- 只作为规则推导输入的维护信息，例如 `firmware_match`、`die_mark`、reference metadata。
+
+#### `nand.die_profile`
+
+`nand.die_profile` 是最重要的共享表之一。它以 die codename、firmware full code 或规则归一化后的 profile key 为索引，让 PN / Flash ID / MPTool 规则可以 cross-reference 出以下公开字段：
+
+- `die_codename`
+- `process_alias`
+- `layer_count`
+- `die_density`
+- `cell_level`
+- `plane_count`
+
+公开结果中 `die_codename` 的 label 是 `Process` / `制程`，它是用户可见制程名，不等同于内部 profile key：
+
+- 2D NAND 优先显示 `15nm`、`A19nm`、`20nm` 这类 litho。
+- Kioxia / SanDisk 3D NAND 显示 `BiCS3`、`BiCS4`、`BiCS4.5`，不带厂商前缀或 Cell 后缀。
+- 已有 `die_codename` 时，不再重复公开 `generation_info` / `series_info`。
+- 层数和 `X3-9060`、`8T23` 这类代号分别由 `layer_count` / `process_alias` 表达。
+- `firmware_match` / `die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields。
+
+详细 key 命名、fallback profile 和厂商差异见 [NAND Die Profile 标准化](pn_code/nand_die_profile.md)。
+
+#### profile key 维护边界
+
+- Kioxia / SanDisk 2D 固件匹配先归一为 `2DM` / `2DT`。
+- Kioxia / SanDisk BiCS profile key 必须带厂商前缀，例如 `KBiCS3` / `SBiCS3`；firmware full code profile key 也必须带厂商前缀，例如 `K7T23` / `S7T23`。
+- Micron / Intel 3D 固件匹配直接使用 die codename，例如 `B16A`。
+- IMFT / Solidigm FG 体系保留 `A/B/C/D/E` 等后缀 die codename，例如 `N38A`、`N38B`、`N38C`、`N38E`、`N4PA`。
+- Micron RG 体系保留 `R/S/T` 等后缀 die codename，例如 `B47R`、`B57T`、`N58R`。
+- 3D profile 不从后缀折叠为 `xxnm`；2D `5x/6x/7x/8x/9x` die codename 可作为匹配 key，但公开制程应由 profile 表补齐。
+- YMTC PN 规则先把 PN token 组合映射到 `TAS` / `HUS` / `WDS` 这类 die profile key，再 cross-reference `nand.die_profile` 生成公开 profile 字段。
 
 ### assign 表达式（DecodeExpr）
 
@@ -218,7 +253,7 @@ import rules from "./packs/xxx.json" with { type: "json" };
 - 新增 pack：`packages/decodepack/src/rules/packs/<vendor>-token.json`
 - 在 `default-rules.ts` 中导入并加入 `defaultPartDecodeSpecs`
 - 添加/更新 contract 行为测试：`packages/contract-test/test/contract.test.ts`
-- 验证：`fdnext decodepack check`、`pnpm contract:check`、`pnpm -C packages/decodepack test`
+- 仓库内验证：`pnpm cli decodepack check`、`pnpm contract:check`、`pnpm -C packages/decodepack test`
 
 ## 7. 维护工具
 
@@ -232,13 +267,15 @@ const compiled = compileDecodePack(defaultDecodePack);
 const explain = explainPartDecode(defaultDecodePack, "BWCA2KZC-64G");
 ```
 
-CLI:
+仓库内 CLI:
 
 ```bash
-fdnext decodepack check
-fdnext decodepack explain part BWCA2KZC-64G
-fdnext decodepack explain id 2C64444BA900
+pnpm cli decodepack check
+pnpm cli decodepack explain part BWCA2KZC-64G
+pnpm cli decodepack explain id 2C64444BA900
 ```
+
+发布 / 全局安装后的二进制仍是 `fdnext decodepack ...`。
 
 ## 8. Identifier iTXTech fdnext DecodePack（NAND Flash ID 概览）
 
@@ -309,4 +346,4 @@ import rules from "./packs/xxx.json" with { type: "json" };
 - 新增 pack：`packages/decodepack/src/identifier/packs/<vendor>.json`
 - 在 `packages/decodepack/src/identifier/default-rules.ts:1` 中导入并加入 `defaultIdentifierDecodeSpecs`
 - 添加/更新 identifier contract 行为测试：`packages/contract-test/test/contract.test.ts`
-- 验证：`fdnext decodepack check`、`pnpm contract:check`、`pnpm -C packages/decodepack test`
+- 仓库内验证：`pnpm cli decodepack check`、`pnpm contract:check`、`pnpm -C packages/decodepack test`

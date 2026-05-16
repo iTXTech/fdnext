@@ -4,7 +4,8 @@ This directory is the canonical home for fdnext usage, maintenance, and rule-aut
 
 | Document | Scope |
 | --- | --- |
-| [Integration guide](INTEGRATION.md) | SDK setup, browser resources, server startup, deployment notes, and HTTP endpoints |
+| [Integration guide](INTEGRATION.md) | SDK setup, browser resources, server startup, and deployment notes |
+| [Server API](SERVER_API.md) | Canonical HTTP routes, query parameters, response contract, status behavior, and CORS rules |
 | [Cloudflare Workers deployment](CF_WORKERS.md) | Wrangler config, local dev, deployment, and Worker-specific External Link notes |
 | [FDBGen documentation](FDBGEN.md) | FDB generation, MDB crawling, raw input layout, cleanup rules, and crawler behavior |
 | [fdnext fdbgen v1 support list](FDBGEN_FORMAT_V1.md) | Standard post-extraction support-list JSON format for fdbgen import tools |
@@ -16,6 +17,7 @@ This directory is the canonical home for fdnext usage, maintenance, and rule-aut
 Documentation boundaries:
 
 - Keep root `README.md` and `README-zh.md` overview-only.
-- Put integration, runtime, and maintenance procedures in this `docs/` directory.
+- Put integration, runtime, HTTP API, and maintenance procedures in this `docs/` directory.
+- Keep shared server interface facts in `SERVER_API.md`; platform deployment guides should link to it instead of duplicating route tables.
 - Put vendor-specific PN structures, source notes, token tables, and examples in `docs/pn_code/<vendor>_<product>.md`.
 - Put source-confidence rules in `docs/pn_code/reference_policy.md` and public field naming in `docs/pn_code/terminology.md`.

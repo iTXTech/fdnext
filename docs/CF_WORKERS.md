@@ -29,7 +29,7 @@ pnpm dlx wrangler login
   "workers_dev": true,
   "minify": true,
   "vars": {
-    "FDNEXT_CORS_ORIGINS": "*"
+    "FDNEXT_CORS_ORIGINS": "https://fm.itxtech.org,https://fm.imlxy.net"
   },
   "build": {
     "command": "pnpm cf-workers:build"
@@ -41,7 +41,7 @@ pnpm dlx wrangler login
 
 - `main` 指向已打包的 Worker 入口，不直接让 Wrangler 解析 monorepo TypeScript 路径。
 - `build.command` 会先构建平台无关 runtime，再构建 Cloudflare Workers adapter。这个配置适用于本地 `wrangler dev/deploy`。
-- `vars.FDNEXT_CORS_ORIGINS` 控制 CORS 允许的来源，默认配置为 `*`。
+- `vars.FDNEXT_CORS_ORIGINS` 控制 CORS 允许的来源。当前仓库配置限制为 `https://fm.itxtech.org,https://fm.imlxy.net`；如需公开 API，可显式改成 `*`。
 - 当前 Worker 不需要 `nodejs_compat`，入口只依赖 Web Fetch API。
 - 默认打开 `workers_dev`，可以直接部署到 `*.workers.dev`；如果要绑定生产域名，在该配置中添加 `route` / `routes` 或在 Cloudflare 控制台绑定后保持 Wrangler 配置同步。
 
@@ -86,7 +86,7 @@ Smoke test:
 
 ```bash
 curl 'http://127.0.0.1:8787/'
-curl 'http://127.0.0.1:8787/capabilities'
+curl 'http://127.0.0.1:8787/capabilities?lang=eng'
 curl 'http://127.0.0.1:8787/parts/decode?query=MT29F64G08CBABA&lang=eng'
 curl 'http://127.0.0.1:8787/identifiers/decode?query=2C,64,44,4B,A9,00'
 ```
@@ -109,20 +109,9 @@ FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
 - 支持 `OPTIONS` preflight，返回 `204`，并透传 `Access-Control-Request-Headers` 到 `Access-Control-Allow-Headers`。
 - 未设置 `FDNEXT_CORS_ORIGINS` 时，serverless adapter 不额外返回 CORS header。
 
-## 6. 可用 HTTP 接口
+## 6. HTTP 接口
 
-Workers 入口只暴露当前 runtime 的正式接口：
-
-| Path | Query |
-| --- | --- |
-| `/` | 无 |
-| `/capabilities` | 无 |
-| `/parts/decode` | `query`、`lang`、`vendor`、`chipKind`、`productType`、`strict` |
-| `/parts/search` | `query`、`lang`、`limit`、`vendor`、`chipKind`、`productType`、`strict` |
-| `/identifiers/decode` | `query`、`lang`、`idScheme` |
-| `/identifiers/search` | `query`、`lang`、`limit`、`idScheme` |
-
-所有接口返回 JSON，并包含 `X-Powered-By: fdnext/<version>`。
+Workers 入口只暴露当前 runtime 的正式 HTTP 接口，不维护 Worker 专属路由或旧接口 alias。接口表、query 参数、响应结构、旧接口移除说明和 `X-Powered-By` header 约定见 [Server 接口文档](SERVER_API.md)。
 
 ## 7. 手动部署
 

@@ -1,112 +1,99 @@
-# fdnext
+# iTXTech fdnext
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Version](https://img.shields.io/github/v/release/iTXTech/fdnext?include_prereleases)](https://github.com/iTXTech/fdnext/releases)
+
+**fdnext** is a high-performance, one-stop parsing engine for memory chips. It provides comprehensive support for part-number (PN) decoding, NAND Flash ID inspection, and database searches across multiple vendors and storage technologies.
 
 [简体中文](README-zh.md)
 
-`fdnext` is a one-stop parsing solution for memory chips. It covers memory-chip part-number parsing, NAND Flash ID decoding through the typed identifier API, managed NAND and DRAM PN decoding, bundled data resources, HTTP and CLI access, result contract checks, and FDB / MDB maintenance tooling.
+---
 
-The project is organized as a strict TypeScript monorepo, but its public goal is the memory-chip parsing workflow: identify the device, normalize the result, enrich it with local resources, expose it through SDK / server / CLI entrypoints, and keep the underlying data reproducible.
+### 🚀 Try it in Action
+**[FlashMaster](https://github.com/iTXTech/FlashMaster)** is the flagship implementation of the `fdnext` engine—a workstation-grade intelligence platform for engineers.
 
-## Features
+[**👉 Open FlashMaster Web App**](https://fm.itxtech.org)
 
-- Memory-chip PN and typed identifier parsing through `@itxtech/fdnext-core`
-- iTXTech fdnext DecodePack JSON rule packs for PN and identifier decoders through `@itxtech/fdnext-decodepack`
-- Embedded `fdb`, `mdb`, language packs, managed NAND PN suggestions, DRAM PN suggestions, and Micron FBGA code resources
-- Managed NAND and DRAM PN decoding coverage with vendor-specific token rules
-- Micron FBGA lookup support through the unified `mdb.json` resource flow
-- Shared runtime dispatch layer with Hapi, Cloudflare Workers, and Aliyun FC adapter entrypoints
-- External Link result contract for platform-owned enrichment links
-- CLI commands for part decode/search, identifier decode/search, and capabilities workflows
-- TypeScript FDB generator with raw FlashDB cleanup, vendor remapping, controller aggregation, and MDB crawling helpers
-- Result-schema and behavior contract tests for the public fdnext API
+---
 
-## Parsing Coverage
+## ✨ Overview
 
-| Area | Product families | Currently covered vendors |
-| --- | --- | --- |
-| NAND PN | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk / Western Digital, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion |
-| DRAM PN | DRAM part-number families covered by current rule packs, including density, generation, package, die stack, speed, revision, and temperature fields where inferable | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, ISSI, Winbond |
+`fdnext` is designed as the backbone for memory chip intelligence. It normalizes complex vendor data into structured, actionable information, enriched with local resources and verified against strict result contracts.
 
-## Packages
+### Core Workflows
+- **Part Number Decoding:** Instant decoding of raw NAND, eMMC, UFS, DRAM, and more.
+- **Flash ID Decoding:** Deep inspection of NAND Flash IDs through a typed identifier API.
+- **Smart Resource Flow:** Bundled `fdb`, `mdb`, and language packs with Micron FBGA code lookup.
+- **Universal Dispatch:** Shared runtime layer for Hapi, Cloudflare Workers, and Aliyun FC.
+- **Data Maintenance:** CLI tools for FDB/MDB generation, crawling, and DecodePack management.
 
-| Package | Purpose |
-| --- | --- |
-| `@itxtech/fdnext-core` | Decode/search engine, public SDK types, resource loading helpers, and operation pipeline |
-| `@itxtech/fdnext-decodepack` | iTXTech fdnext DecodePack JSON rule packs and PN / identifier compiler |
-| `@itxtech/fdnext-resources` | Publishable embedded data resources |
-| `@itxtech/fdnext-runtime` | Platform-neutral dispatch, HTTP routing, and External Link providers |
-| `@itxtech/fdnext-server` | Hapi HTTP server adapter |
-| `@itxtech/fdnext-cf-workers` | Cloudflare Workers adapter |
-| `@itxtech/fdnext-aliyun-fc` | Aliyun Function Compute / custom runtime adapter |
-| `@itxtech/fdnext-cli` | Command-line interface |
-| `@itxtech/fdnext-fdbgen` | FDB/MDB generation and crawl tools |
-| `@itxtech/fdnext-contract-test` | Result contract checks |
+---
 
-## Requirements
+## 🏗️ Architecture
 
-- Node.js `>= 24`
-- `pnpm` as declared by `packageManager` in `package.json`
+`fdnext` is organized as a strict TypeScript monorepo, separating core logic from platform-specific adapters and data resources.
 
-## Quick Start
+- **Core ([`@itxtech/fdnext-core`](packages/core)):** The engine itself, handling the operation pipeline and search logic.
+- **Rules ([`@itxtech/fdnext-decodepack`](packages/decodepack)):** Data-driven rule packs and the PN/identifier compiler.
+- **Resources ([`@itxtech/fdnext-resources`](packages/resources)):** Embedded databases, language packs, and PN suggestion indexes.
+- **Adapters:** Native support for [Hapi](packages/server), [Cloudflare Workers](packages/cf-workers), and [Aliyun FC](packages/aliyun-fc).
 
+---
+
+## 🛠️ Toolchain & Development
+
+This project uses [pnpm](https://pnpm.io/) for workspace management.
+
+### Prerequisites
+- Node.js 24+
+- pnpm 10+
+
+### Quick Start
 ```bash
+# Install dependencies
 pnpm install
+
+# Build all packages
 pnpm build
+
+# Run test suite
 pnpm test
 ```
 
-## Usage Documentation
+### Useful Commands
+| Command | Description |
+| :--- | :--- |
+| `pnpm build` | Build all packages in the workspace |
+| `pnpm test` | Run all unit and integration tests |
+| `pnpm typecheck` | Run TypeScript type checks across the repo |
+| `pnpm contract:check` | Validate result schema and behavior contracts |
+| `pnpm lint` | Run workspace lint scripts when packages provide them |
 
-README only provides the project overview. The unified documentation index is [docs/README.md](docs/README.md); integration, runtime, and maintenance usage lives under `docs/`:
+---
 
-- [Integration guide](docs/INTEGRATION.md) for SDK, browser, HTTP server, deployment, and endpoint usage
-- [Cloudflare Workers deployment](docs/CF_WORKERS.md) for Wrangler config, local dev, and deployment
-- [FDBGen documentation](docs/FDBGEN.md) for FDB generation, MDB crawling, input layouts, cleanup rules, and crawler behavior
-- [DecodePack specification](docs/DECODEPACK.md) for PN and typed identifier rule authoring
-- [PN code reference index](docs/pn_code/README.md) for vendor/product-line references
-- [PN reference confidence policy](docs/pn_code/reference_policy.md) for rule admission and source confidence
-- [Cross-vendor terminology](docs/pn_code/terminology.md) for canonical public field keys
+## 📊 Parsing Coverage
 
-## Rule and Data Maintenance
+| Area | Product Families | Supported Vendors |
+| :--- | :--- | :--- |
+| **NAND PN** | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk/WD, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion |
+| **DRAM PN** | DDR, LPDDR (Density, Gen, Package, Speed, etc.) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, ISSI, Winbond |
 
-PN rules are intentionally data-driven. New decoding coverage should be added as structured iTXTech fdnext DecodePack JSON packs, not as complete PN allowlists.
+---
 
-Useful locations:
+## 📖 Documentation
 
-- `packages/decodepack/src/rules/packs/` for PN iTXTech fdnext DecodePack packs
-- `packages/decodepack/src/identifier/packs/` for typed identifier iTXTech fdnext DecodePack packs such as NAND Flash ID
-- `packages/decodepack/src/rules/default-rules.ts` for PN pack registration
-- `packages/decodepack/src/identifier/default-rules.ts` for identifier pack registration
-- `packages/decodepack/test/managed-nand.test.ts`, `packages/decodepack/test/dram.test.ts`, and `packages/decodepack/test/metadata-audit.test.ts` for rule validation
-- `packages/resources/resources/lang/eng.json` and `packages/resources/resources/lang/chs.json` for user-visible metadata labels
-- `docs/pn_code/` for PN reference notes and confidence policy
+The unified documentation index can be found in [**docs/README.md**](docs/README.md).
 
-When adding or renaming public fields, update the iTXTech fdnext DecodePack sources, language packs, tests, and documentation together. Maintenance metadata such as source confidence should stay inside iTXTech fdnext DecodePack-internal metadata or documentation and must not leak into public result fields.
+- [**Integration Guide**](docs/INTEGRATION.md): SDK, HTTP server, and deployment.
+- [**Server API**](docs/SERVER_API.md): Routes, parameters, and response contracts.
+- [**DecodePack Spec**](docs/DECODEPACK.md): Writing PN and identifier rules.
+- [**FDBGen Guide**](docs/FDBGEN.md): Database generation and crawling.
+- [**Terminology**](docs/pn_code/terminology.md): Canonical field keys and naming conventions.
 
-## Validation
+---
 
-Focused checks:
+## ⚖️ License
 
-```bash
-pnpm -C packages/decodepack test
-pnpm -C packages/decodepack typecheck
-pnpm -C packages/resources typecheck
-git diff --check
-```
+Copyright (c) 2019-2026 iTX Technologies
 
-Full repo checks:
-
-```bash
-pnpm test
-pnpm typecheck
-pnpm contract:check
-```
-
-The normal test suite validates the fdnext result schema, operation behavior, iTXTech fdnext DecodePack output, resources, server, CLI checks, and result contract fixtures.
-
-## Data References
-
-- Flash database reference: [iTXTech/fdfdb](https://github.com/iTXTech/fdfdb)
-
-## License
-
-`fdnext` is released under `AGPL-3.0-or-later`. See [LICENSE](LICENSE).
+This project is licensed under the **GNU Affero General Public License v3.0**. See the [LICENSE](LICENSE) file for details.

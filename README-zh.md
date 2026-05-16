@@ -1,112 +1,99 @@
-# fdnext
+# iTXTech fdnext
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Version](https://img.shields.io/github/v/release/iTXTech/fdnext?include_prereleases)](https://github.com/iTXTech/fdnext/releases)
+
+**fdnext** 是一个面向存储芯片的高性能一站式解析引擎。它为料号 (PN) 解码、NAND Flash ID 检查以及跨厂商、跨存储技术的数据库搜索提供全面支持。
 
 [English](README.md)
 
-`fdnext` 是面向存储器芯片的一站式解析方案。它覆盖存储器芯片料号解析、通过 typed identifier API 进行的 NAND Flash ID 解析、Managed NAND 和 DRAM PN 解码、内置数据资源、HTTP 与 CLI 接入、结果 contract 检查，以及 FDB / MDB 维护工具。
+---
 
-仓库以严格 TypeScript monorepo 组织，但对外定位是完整的存储器芯片解析工作流：识别芯片、归一化结果、结合本地资源补充信息，通过 SDK / Server / CLI 暴露能力，并让底层数据维护可复现。
+### 🚀 立即体验
+**[FlashMaster](https://github.com/iTXTech/FlashMaster)** 是 `fdnext` 引擎的旗舰实现——一个专为工程师设计的存储芯片智能平台。
 
-## 主要特性
+[**👉 打开 FlashMaster Web 应用**](https://fm.itxtech.org)
 
-- 通过 `@itxtech/fdnext-core` 提供存储器芯片 PN 和 typed identifier 解析能力
-- 通过 `@itxtech/fdnext-decodepack` 提供 PN / identifier iTXTech fdnext DecodePack JSON 规则包和编译器
-- 内置 `fdb`、`mdb`、语言包、managed NAND PN 建议、DRAM PN 建议和 Micron FBGA code 资源
-- 支持 Managed NAND 和 DRAM PN 解码，并按厂商维护结构化 token 规则
-- 通过统一 `mdb.json` 资源流支持 Micron FBGA 反查
-- 提供共享 runtime dispatch 层，并支持 Hapi、Cloudflare Workers 和阿里云 FC adapter 入口
-- 提供 External Link result contract，用于平台侧补充外部链接
-- 提供 part decode/search、identifier decode/search 和 capabilities CLI 工作流
-- TypeScript FDB 生成器支持 raw FlashDB 清理、厂商归属校正、控制器聚合和 MDB 爬取辅助命令
-- 提供公开 fdnext API 的 result schema 和行为 contract 测试
+---
 
-## 解析覆盖
+## ✨ 概览
+
+`fdnext` 被设计为存储芯片智能平台的核心基石。它将复杂的厂商数据归一化为结构化、可操作的信息，并结合本地资源进行丰富，同时通过严格的结果 contract 验证。
+
+### 核心工作流
+- **料号解析:** 即时解析 Raw NAND, eMMC, UFS, DRAM 等复杂料号。
+- **Flash ID 解析:** 通过 typed identifier API 对 NAND Flash ID 进行深度检查。
+- **智能资源流:** 内置 `fdb`、`mdb`、语言包，并支持 Micron FBGA 代码反查。
+- **通用调度:** 为 Hapi、Cloudflare Workers 和阿里云 FC 提供共享 runtime 层。
+- **数据维护:** 提供用于 FDB/MDB 生成、爬取和 DecodePack 管理的 CLI 工具。
+
+---
+
+## 🏗️ 架构设计
+
+`fdnext` 采用严格的 TypeScript monorepo 组织，将核心逻辑与平台特定的适配器和数据资源分离。
+
+- **核心 ([`@itxtech/fdnext-core`](packages/core)):** 引擎本身，处理操作管线和搜索逻辑。
+- **规则 ([`@itxtech/fdnext-decodepack`](packages/decodepack)):** 数据驱动的规则包和 PN/identifier 编译器。
+- **资源 ([`@itxtech/fdnext-resources`](packages/resources)):** 内嵌数据库、语言包和 PN 建议索引。
+- **适配器:** 原生支持 [Hapi](packages/server), [Cloudflare Workers](packages/cf-workers), 和 [阿里云 FC](packages/aliyun-fc)。
+
+---
+
+## 🛠️ 工具链与开发
+
+本项目使用 [pnpm](https://pnpm.io/) 进行工作区管理。
+
+### 前置条件
+- Node.js 24+
+- pnpm 10+
+
+### 快速开始
+```bash
+# 安装依赖
+pnpm install
+
+# 构建所有包
+pnpm build
+
+# 运行测试套件
+pnpm test
+```
+
+### 常用命令
+| 命令 | 描述 |
+| :--- | :--- |
+| `pnpm build` | 构建工作区中的所有包 |
+| `pnpm test` | 运行所有单元测试和集成测试 |
+| `pnpm typecheck` | 在整个仓库运行 TypeScript 类型检查 |
+| `pnpm contract:check` | 验证结果 schema 和行为 contract |
+| `pnpm lint` | 在各包提供 lint 脚本时运行对应检查 |
+
+---
+
+## 📊 解析覆盖
 
 | 范围 | 产品族 | 当前覆盖厂商 |
-| --- | --- | --- |
-| NAND PN | Raw NAND、eMMC、UFS、eMCP/uMCP、E2NAND | Samsung、SK hynix、SanDisk / Western Digital、KIOXIA、Micron、YMTC、Kingston、Longsys、BIWIN、Silicon Motion |
-| DRAM PN | 当前规则包覆盖的 DRAM 料号族，可在可推断时输出容量、代际、封装、Die Stack、速度、修订和温度等字段 | Micron、Crucial、SK hynix、Samsung、Nanya、Elpida、CXMT、ISSI、Winbond |
+| :--- | :--- | :--- |
+| **NAND PN** | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk/WD, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion |
+| **DRAM PN** | DDR, LPDDR (容量, 代际, 封装, 速度等) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, ISSI, Winbond |
 
-## 包结构
+---
 
-| Package | 作用 |
-| --- | --- |
-| `@itxtech/fdnext-core` | 解码 / 搜索引擎、公共 SDK 类型、资源加载辅助函数和 operation 管线 |
-| `@itxtech/fdnext-decodepack` | iTXTech fdnext DecodePack JSON 规则包和 PN / identifier 编译器 |
-| `@itxtech/fdnext-resources` | 可发布的内置数据资源 |
-| `@itxtech/fdnext-runtime` | 平台无关 dispatch、HTTP 路由和 External Link provider |
-| `@itxtech/fdnext-server` | Hapi HTTP 服务 adapter |
-| `@itxtech/fdnext-cf-workers` | Cloudflare Workers adapter |
-| `@itxtech/fdnext-aliyun-fc` | 阿里云函数计算 / 自定义运行时 adapter |
-| `@itxtech/fdnext-cli` | 命令行工具 |
-| `@itxtech/fdnext-fdbgen` | FDB / MDB 生成和爬取工具 |
-| `@itxtech/fdnext-contract-test` | result contract 检查工具 |
+## 📖 文档
 
-## 环境要求
+统一文档索引位于 [**docs/README.md**](docs/README.md)。
 
-- Node.js `>= 24`
-- `package.json` 中 `packageManager` 指定的 `pnpm`
+- [**集成指南**](docs/INTEGRATION.md)：SDK、HTTP 服务和部署说明。
+- [**Server 接口文档**](docs/SERVER_API.md)：路由、参数和响应 contract。
+- [**DecodePack 规范**](docs/DECODEPACK.md)：编写 PN 和 identifier 规则。
+- [**FDBGen 文档**](docs/FDBGEN.md)：数据库生成和爬取。
+- [**术语表**](docs/pn_code/terminology.md)：规范字段 key 和命名约定。
 
-## 快速开始
+---
 
-```bash
-pnpm install
-pnpm build
-pnpm test
-```
+## ⚖️ 许可证
 
-## 使用文档
+版权所有 (c) 2019-2026 iTX Technologies
 
-README 只作为项目概览入口。统一文档索引是 [docs/README.md](docs/README.md)，集成、运行和维护用法放在 `docs/` 目录：
-
-- [集成指南](docs/INTEGRATION.md)：SDK、浏览器、HTTP Server、部署和接口用法
-- [Cloudflare Workers 部署](docs/CF_WORKERS.md)：Wrangler 配置、本地开发和部署
-- [FDBGen 文档](docs/FDBGEN.md)：FDB 生成、MDB 爬取、输入布局、清理规则和 crawler 行为
-- [iTXTech fdnext DecodePack 规范](docs/DECODEPACK.md)：PN 和 typed identifier 规则编写
-- [PN 编码资料索引](docs/pn_code/README.md)：厂商和产品线资料
-- [PN 规则可信度策略](docs/pn_code/reference_policy.md)：规则准入和来源可信度
-- [跨厂商输出术语](docs/pn_code/terminology.md)：canonical public field key 约定
-
-## 规则和数据维护
-
-PN 规则必须保持数据驱动。新增解码覆盖时应添加结构化 iTXTech fdnext DecodePack JSON pack，不要写完整 PN 白名单。
-
-常用位置：
-
-- `packages/decodepack/src/rules/packs/`：PN iTXTech fdnext DecodePack packs
-- `packages/decodepack/src/identifier/packs/`：typed identifier iTXTech fdnext DecodePack packs，例如 NAND Flash ID
-- `packages/decodepack/src/rules/default-rules.ts`：PN pack 注册入口
-- `packages/decodepack/src/identifier/default-rules.ts`：identifier pack 注册入口
-- `packages/decodepack/test/managed-nand.test.ts`、`packages/decodepack/test/dram.test.ts`、`packages/decodepack/test/metadata-audit.test.ts`：规则验证
-- `packages/resources/resources/lang/eng.json` 和 `packages/resources/resources/lang/chs.json`：用户可见 field label
-- `docs/pn_code/`：PN 资料和可信度策略
-
-新增或重命名公开字段时，需要同步更新 iTXTech fdnext DecodePack 源规则、语言包、测试和文档。来源可信度等维护 metadata 只能留在 iTXTech fdnext DecodePack 内部 metadata 或文档中，不能泄漏到公开 result fields。
-
-## 验证
-
-聚焦检查：
-
-```bash
-pnpm -C packages/decodepack test
-pnpm -C packages/decodepack typecheck
-pnpm -C packages/resources typecheck
-git diff --check
-```
-
-完整仓库检查：
-
-```bash
-pnpm test
-pnpm typecheck
-pnpm contract:check
-```
-
-常规测试会验证 fdnext result schema、operation 行为、iTXTech fdnext DecodePack 输出、资源、server、CLI 检查和 result contract fixtures。
-
-## 数据参考
-
-- Flash 数据参考：[iTXTech/fdfdb](https://github.com/iTXTech/fdfdb)
-
-## 许可证
-
-`fdnext` 以 `AGPL-3.0-or-later` 发布，详见 [LICENSE](LICENSE)。
+本项目基于 **GNU Affero General Public License v3.0** 开源。详见 [LICENSE](LICENSE) 文件。
