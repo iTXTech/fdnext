@@ -1,3 +1,4 @@
+import { nandDieProfileKeys } from "@itxtech/fdnext-decodepack";
 import { FDNEXT_FDBGEN_V1_COMPACT_VERSION, FDNEXT_FDBGEN_V1_FULL_VERSION } from "./fdbgen-v1";
 import { FDNEXT_FDB_EXTRA_SCHEMA_VERSION, FDNEXT_FDB_SCHEMA_VERSION } from "./types";
 
@@ -290,6 +291,26 @@ const partPayloadProperties = {
   }
 } as const;
 
+const generatedFlashIdArrayProperty = {
+  type: "array",
+  items: {
+    type: "string",
+    pattern: generatedFlashIdPattern
+  },
+  uniqueItems: true
+} as const;
+
+const fdbPartPayloadProperties = {
+  ...partPayloadProperties,
+  id: generatedFlashIdArrayProperty,
+  f: generatedFlashIdArrayProperty,
+  l: {
+    ...partPayloadProperties.l,
+    enum: nandDieProfileKeys
+  },
+  fid: false
+} as const;
+
 export const extraJsonSchema = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
   $id: "https://itxtech.org/fdnext/schemas/fdnext.fdb.extra.v1.schema.json",
@@ -428,10 +449,7 @@ export const fdbJsonSchema = {
     partPayload: {
       type: "object",
       additionalProperties: false,
-      properties: {
-        ...partPayloadProperties,
-        fid: false
-      }
+      properties: fdbPartPayloadProperties
     },
     vendorBucket: {
       type: "object",

@@ -1,4 +1,5 @@
 import { DEFAULT_FDB_AUDIT_VENDORS } from "./audit";
+import { isGeneratedFdbDieProfile } from "./nand-die-profile";
 import {
   normalizeFdbControllerName,
   normalizeFdbFlashId,
@@ -422,6 +423,10 @@ function validatePartPayload(
     if (Object.hasOwn(source, field) && readString(source[field]) === undefined) {
       addIssue(issues, "error", "field.invalid_string", `${path}/${field}`, "Field must be a non-empty string.");
     }
+  }
+  const processProfile = readString(source.l);
+  if (options.generated && processProfile && !isGeneratedFdbDieProfile(processProfile)) {
+    addIssue(issues, "error", "part.invalid_die_profile", `${path}/l`, "Generated fdb.json l field must be a nand.die_profile key.");
   }
   for (const field of ["d", "e", "r", "n"] as const) {
     if (Object.hasOwn(source, field)) {

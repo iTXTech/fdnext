@@ -123,7 +123,8 @@ test("generated fdb validator forbids fid and checks iddb reverse references", (
     info: { version: "test" },
     samsung: {
       K9ABG08U0M: {
-        fid: ["EC0011223344"]
+        fid: ["EC0011223344"],
+        l: "sky-process"
       }
     },
     iddb: {
@@ -135,7 +136,25 @@ test("generated fdb validator forbids fid and checks iddb reverse references", (
 
   assert.equal(validation.ok, false);
   assert.ok(validation.errors.some((issue) => issue.code === "part.fid_forbidden"));
+  assert.ok(validation.errors.some((issue) => issue.code === "part.invalid_die_profile"));
   assert.ok(validation.errors.some((issue) => issue.code === "reference.missing_iddb_n"));
+
+  const validProfile = validateFdbPayload({
+    schemaVersion: "fdnext.fdb.v1",
+    info: { version: "test" },
+    micron: {
+      MT29F256G08CBCBB: {
+        id: ["2CA46432AA04"],
+        l: "B16A"
+      }
+    },
+    iddb: {
+      "2CA46432AA04": {
+        n: ["micron MT29F256G08CBCBB"]
+      }
+    }
+  });
+  assert.equal(validProfile.ok, true);
 
   const invalidVersion = validateFdbPayload({
     schemaVersion: "fdnext.fdb.extra.v1",
@@ -324,7 +343,7 @@ test("fdbgen discovers input extra directory and keeps higher-priority extra IDs
           micron: {
             MT29F256G08CBCBB: {
               id: ["2CA46432AA05"],
-              l: "sky-process"
+              l: "3D B16A"
             },
             MT29F512G08EBHAF: {
               id: ["2C0011223344"],
@@ -345,9 +364,10 @@ test("fdbgen discovers input extra directory and keeps higher-priority extra IDs
     const micron = fdb.micron as Record<string, { id?: string[]; fid?: string[]; l?: string; t?: string[] }>;
     assert.deepEqual(micron.MT29F256G08CBCBB?.id, ["2CA46432AA04"]);
     assert.equal(micron.MT29F256G08CBCBB?.fid, undefined);
-    assert.equal(micron.MT29F256G08CBCBB?.l, "sky-process");
+    assert.equal(micron.MT29F256G08CBCBB?.l, "B16A");
     assert.deepEqual(micron.MT29F512G08EBHAF?.id, ["2C0011223344"]);
     assert.equal(micron.MT29F512G08EBHAF?.fid, undefined);
+    assert.equal(micron.MT29F512G08EBHAF?.l, undefined);
   } finally {
     rmSync(inputDir, { recursive: true, force: true });
   }

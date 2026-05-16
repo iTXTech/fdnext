@@ -38,6 +38,7 @@ PN 结构：
 | family `7DU2` | iNAND Ultra, eMMC 4.41, X2 MLC |
 | family `7DP4/7LP4` | local FDB identifies iNAND; eMMC classification is inferred from neighboring legacy iNAND structure |
 | family `8DE1/8DE2/8DE4` | Industrial iNAND eMMC family |
+| legacy process profile | `5C2/5C4` -> `SNK24M`; `7DP4/7DU2/7LP4` -> `SNK19M` |
 | capacity `4G/8G/16G/32G/64G/128G/256G` | eMMC 容量，落库为 Mbit |
 | suffix `H` | Connected Home, -25°C to 95°C |
 | suffix `I1/I2` | Industrial Wide Temperature, -25°C to 85°C |

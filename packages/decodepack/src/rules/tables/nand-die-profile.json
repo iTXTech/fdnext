@@ -1,4 +1,157 @@
 {
+  "1ynm": {
+    "die_codename": "1ynm"
+  },
+  "1znm": {
+    "die_codename": "1znm"
+  },
+  "3DV2": {
+    "die_codename": "3DV2"
+  },
+  "3DV3": {
+    "die_codename": "3DV3"
+  },
+  "3DV4": {
+    "die_codename": "3DV4"
+  },
+  "3DV4P5": {
+    "die_codename": "3DV4P5"
+  },
+  "3DV5": {
+    "die_codename": "3DV5"
+  },
+  "3DV6": {
+    "die_codename": "3DV6"
+  },
+  "3DV7": {
+    "die_codename": "3DV7"
+  },
+  "3DV8": {
+    "die_codename": "3DV8"
+  },
+  "3DV9": {
+    "die_codename": "3DV9"
+  },
+  "14nm": {
+    "die_codename": "14nm"
+  },
+  "15nm": {
+    "die_codename": "15nm"
+  },
+  "16nm": {
+    "die_codename": "16nm"
+  },
+  "19nm": {
+    "die_codename": "19nm"
+  },
+  "20nm": {
+    "die_codename": "20nm"
+  },
+  "21nm": {
+    "die_codename": "21nm"
+  },
+  "24nm": {
+    "die_codename": "24nm"
+  },
+  "25nm": {
+    "die_codename": "25nm"
+  },
+  "26nm": {
+    "die_codename": "26nm"
+  },
+  "27nm": {
+    "die_codename": "27nm"
+  },
+  "28nm": {
+    "die_codename": "28nm"
+  },
+  "32nm": {
+    "die_codename": "32nm"
+  },
+  "34nm": {
+    "die_codename": "34nm"
+  },
+  "35nm": {
+    "die_codename": "35nm"
+  },
+  "41nm": {
+    "die_codename": "41nm"
+  },
+  "42nm": {
+    "die_codename": "42nm"
+  },
+  "43nm": {
+    "die_codename": "43nm"
+  },
+  "48nm": {
+    "die_codename": "48nm"
+  },
+  "50nm": {
+    "die_codename": "50nm"
+  },
+  "51nm": {
+    "die_codename": "51nm"
+  },
+  "56nm": {
+    "die_codename": "56nm"
+  },
+  "57nm": {
+    "die_codename": "57nm"
+  },
+  "60nm": {
+    "die_codename": "60nm"
+  },
+  "65nm": {
+    "die_codename": "65nm"
+  },
+  "70nm": {
+    "die_codename": "70nm"
+  },
+  "72nm": {
+    "die_codename": "72nm"
+  },
+  "90nm": {
+    "die_codename": "90nm"
+  },
+  "130nm": {
+    "die_codename": "130nm"
+  },
+  "A19nm": {
+    "die_codename": "A19nm"
+  },
+  "B74": {
+    "die_codename": "B74"
+  },
+  "B95": {
+    "die_codename": "B95"
+  },
+  "L06": {
+    "die_codename": "L06"
+  },
+  "L62": {
+    "die_codename": "L62"
+  },
+  "L74": {
+    "die_codename": "L74"
+  },
+  "L84": {
+    "die_codename": "L84"
+  },
+  "L85": {
+    "die_codename": "L85"
+  },
+  "M26": {
+    "die_codename": "M26"
+  },
+  "M70": {
+    "die_codename": "M70"
+  },
+  "N18": {
+    "die_codename": "N18"
+  },
+  "N38": {
+    "die_codename": "N38"
+  },
   "B05A": {
     "die_codename": "B05A",
     "cell_level": 3,
@@ -284,6 +437,30 @@
       "HY41"
     ]
   },
+  "HY48": {
+    "die_codename": "HY48",
+    "firmware_match": [
+      "HY48"
+    ]
+  },
+  "HY57": {
+    "die_codename": "HY57",
+    "firmware_match": [
+      "HY57"
+    ]
+  },
+  "HY60": {
+    "die_codename": "HY60",
+    "firmware_match": [
+      "HY60"
+    ]
+  },
+  "HY90": {
+    "die_codename": "HY90",
+    "firmware_match": [
+      "HY90"
+    ]
+  },
   "HYV1": {
     "die_codename": "HYV1",
     "generation_info": "3DV1",
@@ -418,6 +595,46 @@
       "JGS"
     ]
   },
+  "TSB130": {
+    "die_codename": "TSB130"
+  },
+  "TSB15": {
+    "die_codename": "TSB15"
+  },
+  "TSB15M2P": {
+    "die_codename": "TSB15M2P",
+    "cell_level": 2,
+    "die_density": "128Gb",
+    "plane_count": 2,
+    "firmware_match": [
+      "2DM"
+    ]
+  },
+  "TSB15M4P": {
+    "die_codename": "TSB15M4P",
+    "cell_level": 2,
+    "die_density": "128Gb",
+    "plane_count": 4,
+    "firmware_match": [
+      "2DM"
+    ]
+  },
+  "TSB15T": {
+    "die_codename": "TSB15T",
+    "cell_level": 3,
+    "firmware_match": [
+      "2DT"
+    ]
+  },
+  "TSB19": {
+    "die_codename": "TSB19"
+  },
+  "TSB1Y": {
+    "die_codename": "TSB1Y"
+  },
+  "TSB24": {
+    "die_codename": "TSB24"
+  },
   "K0T25": {
     "die_codename": "K0T25",
     "generation_info": "BiCS5",
@@ -445,6 +662,21 @@
     "die_mark": [
       "FXZ0"
     ]
+  },
+  "TSB24A": {
+    "die_codename": "TSB24A"
+  },
+  "TSB24B": {
+    "die_codename": "TSB24B"
+  },
+  "TSB32": {
+    "die_codename": "TSB32"
+  },
+  "TSB43": {
+    "die_codename": "TSB43"
+  },
+  "TSB56": {
+    "die_codename": "TSB56"
   },
   "K7SA4": {
     "die_codename": "K7SA4",
@@ -556,6 +788,9 @@
       "FRN4"
     ]
   },
+  "TSB70": {
+    "die_codename": "TSB70"
+  },
   "K9T24": {
     "die_codename": "K9T24",
     "generation_info": "BiCS4",
@@ -610,6 +845,9 @@
     "die_mark": [
       "FXZ5"
     ]
+  },
+  "TSB90": {
+    "die_codename": "TSB90"
   },
   "KBiCS2": {
     "die_codename": "KBiCS2",
@@ -808,6 +1046,20 @@
       "KBiCS8"
     ]
   },
+  "TSBD2H": {
+    "die_codename": "TSBD2H",
+    "plane_count": 2,
+    "firmware_match": [
+      "2DM"
+    ]
+  },
+  "TSBDFK": {
+    "die_codename": "TSBDFK",
+    "plane_count": 4,
+    "firmware_match": [
+      "2DM"
+    ]
+  },
   "L04A": {
     "die_codename": "L04A",
     "cell_level": 2,
@@ -991,6 +1243,13 @@
     "layer_count": 96,
     "firmware_match": [
       "M26A"
+    ]
+  },
+  "M2XA": {
+    "die_codename": "M2XA",
+    "cell_level": 1,
+    "firmware_match": [
+      "IM2DS"
     ]
   },
   "M60A": {
@@ -1252,8 +1511,18 @@
       "FXZ0"
     ]
   },
-  "S15M2P": {
-    "die_codename": "S15M2P",
+  "SNK15": {
+    "die_codename": "SNK15"
+  },
+  "SNK15M": {
+    "die_codename": "SNK15M",
+    "cell_level": 2,
+    "firmware_match": [
+      "2DM"
+    ]
+  },
+  "SNK15M2P": {
+    "die_codename": "SNK15M2P",
     "cell_level": 2,
     "die_density": "128Gb",
     "plane_count": 2,
@@ -1261,8 +1530,8 @@
       "2DM"
     ]
   },
-  "S15M4P": {
-    "die_codename": "S15M4P",
+  "SNK15M4P": {
+    "die_codename": "SNK15M4P",
     "cell_level": 2,
     "die_density": "128Gb",
     "plane_count": 4,
@@ -1270,12 +1539,107 @@
       "2DM"
     ]
   },
-  "S15T": {
-    "die_codename": "S15T",
+  "SNK15T": {
+    "die_codename": "SNK15T",
     "cell_level": 3,
     "firmware_match": [
       "2DT"
     ]
+  },
+  "SNK19": {
+    "die_codename": "SNK19"
+  },
+  "SNK19M": {
+    "die_codename": "SNK19M",
+    "cell_level": 2,
+    "firmware_match": [
+      "2DM"
+    ]
+  },
+  "SNK19T": {
+    "die_codename": "SNK19T",
+    "cell_level": 3,
+    "firmware_match": [
+      "2DT"
+    ]
+  },
+  "SNK1Y": {
+    "die_codename": "SNK1Y"
+  },
+  "SNK1YM": {
+    "die_codename": "SNK1YM",
+    "cell_level": 2,
+    "firmware_match": [
+      "2DM"
+    ]
+  },
+  "SNK1YT": {
+    "die_codename": "SNK1YT",
+    "cell_level": 3,
+    "firmware_match": [
+      "2DT"
+    ]
+  },
+  "SNK24": {
+    "die_codename": "SNK24"
+  },
+  "SNK24M": {
+    "die_codename": "SNK24M",
+    "cell_level": 2,
+    "firmware_match": [
+      "2DM"
+    ]
+  },
+  "SNK24S": {
+    "die_codename": "SNK24S",
+    "cell_level": 1,
+    "firmware_match": [
+      "2DS"
+    ]
+  },
+  "SNK24T": {
+    "die_codename": "SNK24T",
+    "cell_level": 3,
+    "firmware_match": [
+      "2DT"
+    ]
+  },
+  "SNK32": {
+    "die_codename": "SNK32"
+  },
+  "SNK32M": {
+    "die_codename": "SNK32M",
+    "cell_level": 2,
+    "firmware_match": [
+      "2DM"
+    ]
+  },
+  "SNK32T": {
+    "die_codename": "SNK32T",
+    "cell_level": 3,
+    "firmware_match": [
+      "2DT"
+    ]
+  },
+  "SNK43": {
+    "die_codename": "SNK43"
+  },
+  "SNK43M": {
+    "die_codename": "SNK43M",
+    "cell_level": 2,
+    "firmware_match": [
+      "2DM"
+    ]
+  },
+  "SNK43T": {
+    "die_codename": "SNK43T",
+    "cell_level": 3,
+    "firmware_match": [
+      "2DT"
+    ]
+  },
+  "SNK56": {
+    "die_codename": "SNK56"
   },
   "S7T23": {
     "die_codename": "S7T23",
@@ -1812,31 +2176,6 @@
       "SSV9"
     ]
   },
-  "T15M2P": {
-    "die_codename": "T15M2P",
-    "cell_level": 2,
-    "die_density": "128Gb",
-    "plane_count": 2,
-    "firmware_match": [
-      "2DM"
-    ]
-  },
-  "T15M4P": {
-    "die_codename": "T15M4P",
-    "cell_level": 2,
-    "die_density": "128Gb",
-    "plane_count": 4,
-    "firmware_match": [
-      "2DM"
-    ]
-  },
-  "T15T": {
-    "die_codename": "T15T",
-    "cell_level": 3,
-    "firmware_match": [
-      "2DT"
-    ]
-  },
   "TAS": {
     "die_codename": "TAS",
     "generation_info": "Gen 3 Xtacking 2.0",
@@ -1849,9 +2188,6 @@
       "X2-9060",
       "TAS"
     ]
-  },
-  "THL": {
-    "die_codename": "THL"
   },
   "WDS": {
     "die_codename": "WDS",

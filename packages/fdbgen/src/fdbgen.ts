@@ -17,6 +17,7 @@ import { FDNEXT_FDB_SCHEMA_VERSION } from "./types";
 import type { ExtraPayload, FdbInfoPayload, FlashIdPayload, GenerateFdbOptions, PartNumberPayload } from "./types";
 import { isCompatibleVendor, shouldPreserveFlashIdVendor } from "./vendor-compat";
 import { inferVendorFromPartNumber, normalizeKnownPackage, normalizeVendor } from "./vendors";
+import { normalizeGeneratedFdbDieProfile } from "./nand-die-profile";
 
 type PartNumberMap = Map<string, PartNumberPayload>;
 type VendorMap = Map<string, PartNumberMap>;
@@ -1009,7 +1010,7 @@ function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: V
         ...(payload.id && payload.id.length > 0 ? { id: [...new Set(payload.id)].sort() } : {}),
         ...(payload.f && payload.f.length > 0 ? { f: [...new Set(payload.f)].sort() } : {}),
         ...(payload.a && payload.a.length > 0 ? { a: [...new Set(payload.a)].sort() } : {}),
-        ...(payload.l !== undefined ? { l: payload.l } : {}),
+        ...(payload.l !== undefined ? { l: normalizeGeneratedFdbDieProfile(vendor, payload.l, payload.c) } : {}),
         ...(payload.c !== undefined ? { c: payload.c } : {}),
         ...(payload.t && payload.t.length > 0 ? { t: [...new Set(payload.t)].sort() } : {}),
         ...(payload.m !== undefined ? { m: payload.m } : {}),
@@ -1018,6 +1019,9 @@ function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: V
         ...(payload.r !== undefined ? { r: payload.r } : {}),
         ...(payload.n !== undefined ? { n: payload.n } : {})
       };
+      if (normalized.l === undefined) {
+        delete normalized.l;
+      }
       vendorOutput[pn] = normalized;
     }
     output[vendor] = sortObjectKeys(vendorOutput);

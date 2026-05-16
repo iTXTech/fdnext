@@ -122,7 +122,7 @@ H2D / H2J 系列不是通用 raw NAND fallback。公开 catalog mirror 与 USBDe
 | series `D/J` | `D` -> E2NAND2.0；`J` -> E2NAND3.0 |
 | density `CG/DF/DG/EG/FG/VG/1T` | 64Gb / 64Gb / 128Gb / 256Gb / 512Gb / 768Gb / 1024Gb |
 | config | 例如 `8UD` / `8VD` / `8YD`，只作为内部解析 token |
-| tech | 与 series 组合判断 process node，例如 `D:1` -> 26nm，`J:1` -> 1xnm class，`J:2` -> 20nm class |
+| tech | 与 series 组合判断 die profile，例如 `D:1` -> `HY26`，`J:1` -> `HY16M`，`J:2` -> `HY20` |
 | package | VLGA，原始 package code 只作为内部解析 token |
 
 | 示例 | 输出重点 | 佐证状态 |

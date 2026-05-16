@@ -229,6 +229,7 @@
   "warning.constraint_mismatch.chip_kind": "芯片类型约束 {expected} 与实际 {actual} 不匹配",
   "warning.constraint_mismatch.product_type": "产品类型约束 {expected} 与实际 {actual} 不匹配",
   "warning.constraint_mismatch.strict": "没有料号候选匹配 strict 约束",
+  "warning.fdb_process_fallback": "未命中 die profile 规则，已使用 FDB 旧制程信息作为临时提示",
   "warning.ambiguous_part": "多个料号候选匹配该查询",
   "subtitle.kind.raw_nand": "NAND Flash",
   "subtitle.kind.on_die_ecc_nand": "片上 ECC NAND",

@@ -52,4 +52,4 @@ PN 结构：
 
 ## 注意
 
-旧版 SpecTek 规则不再报告 unsupported。当前实现按公开 numbering guide 的 token 位置解析，并只输出规则能确定的字段；design generation 只有能命中 `nand.die_profile` 时才作为 `die_codename` 输出。
+旧版 SpecTek 规则不再报告 unsupported。当前实现按公开 numbering guide 的 token 位置解析，并只输出规则能确定的字段；design generation 只有能命中 `nand.die_profile` 时才作为 `die_codename` 输出。`PX001` 对应的 `M2XA` 已作为 SpecTek / Micron SLC legacy profile 记录。

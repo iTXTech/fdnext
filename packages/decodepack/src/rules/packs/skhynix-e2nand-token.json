@@ -46,7 +46,11 @@
             "block_size": "4MB"
           }
         },
-        "processNode": {},
+        "processNode": {
+          "D:1": "HY26",
+          "J:1": "HY16M",
+          "J:2": "HY20"
+        },
         "voltage": {
           "D": "Vcc: 3.3V, VccQ: 3.3V",
           "J": "Vcc: 3.0V/3.3V, VccQ: 3.0V/3.3V"

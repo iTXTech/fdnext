@@ -66,7 +66,13 @@
             "nand_technology": "MLC NAND"
           }
         },
-        "processNode": {},
+        "processNode": {
+          "5C2": "SNK24M",
+          "5C4": "SNK24M",
+          "7DP4": "SNK19M",
+          "7DU2": "SNK19M",
+          "7LP4": "SNK19M"
+        },
         "density": {
           "4G": 32768,
           "004G": 32768,

@@ -189,6 +189,19 @@ function assertPart(
   }
 }
 
+function assertDieProfileFromFdbProcess(partNumber: string, expected: string): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode from FDB`);
+  assert.equal(fieldText(firstField(result, "die_codename")), expected, `${partNumber} die profile from FDB process`);
+}
+
+function assertFdbProcessFallback(partNumber: string, expected: string): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode from FDB`);
+  assert.equal(fieldText(firstField(result, "generation_info")), expected, `${partNumber} FDB process fallback`);
+  assert.ok(result.warnings.some((warning) => warning.code === "fdb_process_fallback"), `${partNumber} should record FDB process fallback warning`);
+}
+
 function assertSearchPnIncludes(query: string, expected: string): void {
   const result = engine.searchParts({ query, lang: "eng", limit: 50 }).items.map((item) => `${item.device.vendor.name} ${item.label}`);
   assert.ok(result.includes(expected), `${query} should suggest ${expected}; got ${result.join(", ")}`);
@@ -332,6 +345,7 @@ assertPart("SDIN7DU2-8G", {
   vendor: "sndk",
   type: "eMMC",
   densityMbit: 65536,
+  dieProfileField: "SNK19M",
   extra: {
     "Product Family": "iNAND Ultra",
     "Storage Interface": "eMMC 4.41",
@@ -343,6 +357,7 @@ assertPart("SDIN5C4-64G", {
   vendor: "sndk",
   type: "eMMC",
   densityMbit: 524288,
+  dieProfileField: "SNK24M",
   extra: {
     "Product Family": "iNAND legacy eMMC",
     "Storage Interface": "eMMC 4.41"
@@ -453,6 +468,7 @@ assertPart("PX001", {
   vendor: "spectek",
   markingCode: "PX001",
   type: "NAND",
+  dieProfileField: "M2XA",
   cellField: "SLC",
   extra: {
     "Package functionality partial type": "CE1 Valid, CE2 not guaranteed"
@@ -502,6 +518,7 @@ assertPart("TF10G1BAHA", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 1024,
+  dieProfileField: "TSBD2H",
   cellField: "SLC",
   package: "TSOP48",
   extra: {
@@ -568,6 +585,7 @@ assertPart("DT57G2LALC", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 131072,
+  dieProfileField: "SNK19M",
   cellField: "MLC",
   package: "TSOP48",
   extra: {
@@ -577,6 +595,10 @@ assertPart("DT57G2LALC", {
   }
 });
 
+assertDieProfileFromFdbProcess("29F02T08SCMFP", "L85C");
+assertDieProfileFromFdbProcess("FNNL29F256G08EBHAFES", "B16A");
+assertDieProfileFromFdbProcess("SDTNMMAHSM-001G", "SNK43M");
+
 assertNotFound("SDINZZZ9-128G-ABC");
 assertNotFound("SDISZZZ-016G");
 assertNotFound("SM671PAC-BFS");
@@ -585,6 +607,7 @@ assertPart("TH58NVG7D2FTA00", {
   vendor: "kioxia",
   type: "NAND",
   densityMbit: 131072,
+  dieProfileField: "TSB32",
   cellField: "MLC",
   voltage: "3.3V",
   package: "TSOP48",
@@ -609,6 +632,7 @@ assertPart("TC58NVG7D2FTA00", {
   vendor: "kioxia",
   type: "NAND",
   densityMbit: 131072,
+  dieProfileField: "TSB32",
   cellField: "MLC",
   voltage: "3.3V",
   package: "TSOP48",
@@ -626,6 +650,7 @@ assertPart("THGBMNG5D1LBAIT", {
   vendor: "kioxia",
   type: "eMMC",
   densityMbit: 32768,
+  dieProfileField: "TSB15",
   cellField: "MLC",
   voltage: "Vcc: 3.3V, VccQ: 3.3V/1.8V",
   package: "BGA153",
@@ -645,6 +670,7 @@ assertPart("THGBM2G9DBFBAI2", {
   vendor: "kioxia",
   type: "eMMC",
   densityMbit: 524288,
+  dieProfileField: "TSB32",
   cellField: "MLC",
   voltage: "Vcc: 3.3V, VccQ: 3.3V/1.8V",
   package: "BGA (14 x 18 x 1.4)",
@@ -722,6 +748,7 @@ assertPart("THGVX1G7D2GLA08", {
   vendor: "kioxia",
   type: "E2NAND",
   densityMbit: 131072,
+  dieProfileField: "TSB24A",
   cellField: "MLC",
   package: "LGA52 (14 x 18 x 1.04)",
   extra: {
@@ -741,6 +768,7 @@ assertPart("TCGVX1G7D2GLA08", {
   vendor: "kioxia",
   type: "E2NAND",
   densityMbit: 131072,
+  dieProfileField: "TSB24A",
   cellField: "MLC",
   package: "LGA52 (14 x 18 x 1.04)",
   extra: {
@@ -760,6 +788,7 @@ assertPart("THGBX2G7D2JLA01", {
   vendor: "kioxia",
   type: "E2NAND",
   densityMbit: 131072,
+  dieProfileField: "TSB19",
   cellField: "MLC",
   package: "LGA60",
   extra: {
@@ -779,6 +808,7 @@ assertPart("THGVR1G7D2GLA09", {
   vendor: "kioxia",
   type: "E2NAND",
   densityMbit: 131072,
+  dieProfileField: "TSB24A",
   cellField: "MLC",
   package: "LGA52 (14 x 18 x 1.0)",
   extra: {
@@ -1380,6 +1410,7 @@ assertPart("H2DTDG8UD1MYR", {
   vendor: "skhynix",
   type: "E2NAND",
   densityMbit: 131072,
+  dieProfileField: "HY26",
   cellField: "MLC",
   widthField: "x8",
   package: "VLGA",
@@ -1394,6 +1425,7 @@ assertPart("H2JTDG8UD1BMS", {
   vendor: "skhynix",
   type: "E2NAND",
   densityMbit: 131072,
+  dieProfileField: "HY16M",
   cellField: "MLC",
   widthField: "x8",
   package: "VLGA",

@@ -7,6 +7,7 @@ import {
   normalizeFdbPartNumber,
   normalizeFdbPartReference
 } from "./normalize";
+import { isGeneratedFdbDieProfile } from "./nand-die-profile";
 import { hasVendorIdentityConflict, partNameAuditSignals } from "./part-name-rules";
 import { isControllerOnlyPartPayload } from "./part-payload";
 import type { FdbProvenanceRecord, FdbProvenanceSource, FdbProvenanceTrace } from "./trace";
@@ -325,6 +326,15 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
       if (isControllerOnlyPartPayload(record)) {
         stat.controllerOnlyPartNumbers += 1;
         collector.add("part.controller_only", "info", "Controller-only PN records should be reduced or moved out of authoritative PN tables.", `${vendor} ${partNumber}`, partTrace);
+      }
+      if (record.l && !isGeneratedFdbDieProfile(record.l)) {
+        collector.add(
+          "part.invalid_die_profile",
+          "error",
+          "Generated FDB l fields must use a nand.die_profile key or an approved process fallback profile.",
+          `${vendor} ${partNumber}.l=${record.l}`,
+          partTrace
+        );
       }
 
       for (const flashId of asStringArray(record.id)) {

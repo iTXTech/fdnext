@@ -28,7 +28,7 @@ PN 结构：
 | cell `T/U/V/X` | TLC |
 | cell `F` | QLC |
 | width/page/block `0..4` / `5..9` | x8 / x16 and page/block size |
-| process `A/B/C/D/E/F/G/H/J/K/L` | 130 nm 到 15 nm/1z |
+| process `A/B/C/D/E/F/G/H/J/K/L` | 130 nm 到 15 nm/1z，对应 legacy profile `TSB130/TSB90/TSB70/TSB56/TSB43/TSB32/TSB24A/TSB24B/TSB19/TSB1Y/TSB15` |
 | package `FT/TG/TA/XB/XG/BA/XL/LA` | TSOP/BGA/LGA plus lead-free and halogen-free flags |
 | classification `0/2/4/7/8/A/B` and industrial `I/K/M/R/S/U/V` | channel / CE count |
 | package size code | TSOP/LGA/BGA package dimensions |

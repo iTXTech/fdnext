@@ -248,7 +248,8 @@ function isKnownClassificationValue(value: unknown): boolean {
     return false;
   }
   if (typeof value === "string") {
-    return normalizeInfoText(value) !== normalizeInfoText(UNKNOWN);
+    const normalized = normalizeInfoText(value);
+    return normalized.length > 0 && normalized !== normalizeInfoText(UNKNOWN);
   }
   return true;
 }
@@ -853,6 +854,49 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return text.split(/\s*;\s*/).includes(option) ? text : `${text}; ${option}`;
   };
 
+  const normalizeLegacyFdbProcessProfileToken = (token: string): string => {
+    const upper = token.toUpperCase();
+    if (/^[0-9]{2,3}NM$/.test(upper)) {
+      return `${upper.slice(0, -2)}nm`;
+    }
+    if (upper === "1YNM" || upper === "1ZNM") {
+      return upper.toLowerCase();
+    }
+    if (upper === "A19NM") {
+      return "A19nm";
+    }
+    const bics = /^([KS])BICS([0-9])(?:\.?5)?([MQS])?$/.exec(upper);
+    if (bics?.[1] && bics[2]) {
+      const half = upper.includes("45") || upper.includes(".5") ? ".5" : "";
+      return `${bics[1]}BiCS${bics[2]}${half}${bics[3] ?? ""}`;
+    }
+    return upper;
+  };
+
+  const legacyFdbProcessDieProfile = (value: string | undefined): string | undefined => {
+    const normalized = value?.toUpperCase().replaceAll(/[()]/g, " ") ?? "";
+    const specific = normalized.match(
+      /\b(?:[BLMN][0-9][0-9A-Z]{2}|[BLMN][0-9]{2}|HYV[0-9](?:[MQ])?|HY[0-9]{2}M?|SSV[0-9](?:[EMPQ])?|SS[0-9]{2}M?|SS2D|[KS](?:BICS[0-9](?:\.?5)?[MQS]?|[0-9][TSF][0-9A-Z]{2})|(?:TSB|SNK)[0-9A-Z]+)\b/g
+    );
+    if (specific?.[0]) {
+      return normalizeLegacyFdbProcessProfileToken(specific[0]);
+    }
+    const fallback = normalized.match(/\b(?:[0-9]{2,3}NM|1[YZ]NM|A19NM|3DV[0-9](?:P5)?)\b/g);
+    return fallback?.[0] ? normalizeLegacyFdbProcessProfileToken(fallback[0]) : undefined;
+  };
+
+  const legacyFdbProcessText = (value: string | undefined): string | undefined => {
+    const text = value?.trim().replaceAll(/\s+/g, " ");
+    return text && text !== UNKNOWN ? text : undefined;
+  };
+
+  const appendWarning = (info: PartDecodeDraft, warning: ResultWarning): void => {
+    const existing = info.warnings ?? [];
+    if (!existing.some((item) => item.code === warning.code && item.fieldKey === warning.fieldKey && item.message === warning.message)) {
+      info.warnings = [...existing, warning];
+    }
+  };
+
   const matchingFdbRecords = (partNumbers: string[]): Array<{ vendor: string; record: PartNumberRecord }> => {
     const result: Array<{ vendor: string; record: PartNumberRecord }> = [];
     const seen = new Set<string>();
@@ -881,12 +925,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       info.controllers = mergeStringArray(info.controllers, allControllers);
     }
 
-    // SpecTek package markings resolve through the Micron-like lookup path, while SpecTek PNs should not
-    // inherit Micron FDB-combined fields.
-    if (draftVendor(info) === "spectek") {
-      return info;
-    }
-
     let byVendor: PartNumberRecord | undefined;
     for (const partNumber of lookupPartNumbers) {
       byVendor = getPartNumberRecord(fdb, draftVendor(info), partNumber);
@@ -911,6 +949,35 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       return info;
     }
 
+    // SpecTek package markings resolve through the Micron-like lookup path, while SpecTek PNs should not
+    // inherit Micron FDB-combined geometry. The legacy FDB process string is still useful audit data.
+    if (draftVendor(info) === "spectek") {
+      if (!isKnownClassificationValue(draftField(info, "die_codename"))) {
+        const dieProfile = legacyFdbProcessDieProfile(record.l);
+        if (dieProfile) {
+          setDraftField(info, "die_codename", dieProfile);
+        }
+      }
+      const legacyProcess = legacyFdbProcessText(record.l);
+      if (
+        legacyProcess &&
+        !isKnownClassificationValue(draftField(info, "die_codename")) &&
+        !isKnownClassificationValue(draftField(info, "generation_info"))
+      ) {
+        setDraftField(info, "generation_info", legacyProcess);
+        appendWarning(info, {
+          code: "fdb_process_fallback",
+          message: "Using legacy FDB process information because no die profile rule matched",
+          fieldKey: "generation_info",
+          severity: "info",
+          details: {
+            process_info: legacyProcess
+          }
+        });
+      }
+      return info;
+    }
+
     if (!info.device.chipKind || info.device.chipKind === "unknown") {
       info.device.chipKind = "raw_nand";
     }
@@ -931,10 +998,28 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
 
     if (!isKnownClassificationValue(draftField(info, "die_codename"))) {
-      const dieProfile = dieProfileFromIdentifiers(relatedFlashIds);
+      const dieProfile = dieProfileFromIdentifiers(relatedFlashIds) ?? legacyFdbProcessDieProfile(record.l);
       if (dieProfile) {
         setDraftField(info, "die_codename", dieProfile);
       }
+    }
+
+    const legacyProcess = legacyFdbProcessText(record.l);
+    if (
+      legacyProcess &&
+      !isKnownClassificationValue(draftField(info, "die_codename")) &&
+      !isKnownClassificationValue(draftField(info, "generation_info"))
+    ) {
+      setDraftField(info, "generation_info", legacyProcess);
+      appendWarning(info, {
+        code: "fdb_process_fallback",
+        message: "Using legacy FDB process information because no die profile rule matched",
+        fieldKey: "generation_info",
+        severity: "info",
+        details: {
+          process_info: legacyProcess
+        }
+      });
     }
 
     if (!isKnownClassificationValue(draftField(info, "cell_level")) && record.c) {

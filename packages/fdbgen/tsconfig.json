@@ -6,5 +6,8 @@
     "rootDir": "src",
     "outDir": "dist"
   },
+  "references": [
+    { "path": "../decodepack" }
+  ],
   "include": ["src/**/*.ts"]
 }

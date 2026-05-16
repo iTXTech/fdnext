@@ -156,7 +156,19 @@
           "AMV": "BICS",
           "AMS": "BICS"
         },
-        "twoDimensionalProcessNode": {},
+        "twoDimensionalProcessNode": {
+          "FG:A": "TSB130",
+          "FG:B": "TSB90",
+          "FG:C": "TSB70",
+          "FG:D": "TSB56",
+          "FG:E": "TSB43",
+          "FG:F": "TSB32",
+          "FG:G": "TSB24A",
+          "FG:H": "TSB24B",
+          "FG:J": "TSB19",
+          "FG:K": "TSB1Y",
+          "FG:L": "TSB15"
+        },
         "bicsProcessNode": {
           "BICS:2": "KBiCS2",
           "BICS:3": "KBiCS3",

@@ -9,7 +9,7 @@
 - `die_codename`、`generation_info`、`layer_count`、`die_density`、`cell_level`、`plane_count` 可以按规则需要进入公开 fields。
 - `firmware_match`、`die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields。
 - Kioxia / SanDisk 的 BiCS profile key 必须带厂商前缀，例如 `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24`；公开展示优先使用 `generation_info = BiCS4` 等稳定代际，而不是把内部 die mark 展示给用户。
-- 2D NAND 默认没有 `generation_info`；制程匹配优先落到具体 die profile key。
+- 2D NAND 默认不要求补齐 `generation_info`；如果规则或 FDB 只知道旧制程字样，生成侧应先规范化为 vendor profile，最弱只允许落到表内 fallback profile，例如 `50nm`、`1ynm`、`3DV4`。运行时兼容旧 FDB 时才使用 `generation_info` + `fdb_process_fallback` warning。
 
 ## Key 约定
 
@@ -23,12 +23,15 @@ Cell / Die Density / Plane / Codename
 
 | Key | 含义 | Firmware match |
 | --- | --- | --- |
-| `T15M2P` | Toshiba 15nm MLC 128Gb 2-plane | `2DM` |
-| `T15M4P` | Toshiba 15nm MLC 128Gb 4-plane | `2DM` |
-| `S15M2P` | SanDisk 15nm MLC 128Gb 2-plane | `2DM` |
-| `S15M4P` | SanDisk 15nm MLC 128Gb 4-plane | `2DM` |
-| `T15T` | Toshiba 15nm TLC | `2DT` |
-| `S15T` | SanDisk 15nm TLC | `2DT` |
+| `TSB15M2P` | Toshiba 15nm MLC 128Gb 2-plane | `2DM` |
+| `TSB15M4P` | Toshiba 15nm MLC 128Gb 4-plane | `2DM` |
+| `SNK15M2P` | SanDisk 15nm MLC 128Gb 2-plane | `2DM` |
+| `SNK15M4P` | SanDisk 15nm MLC 128Gb 4-plane | `2DM` |
+| `TSB15T` | Toshiba 15nm TLC | `2DT` |
+| `SNK15T` | SanDisk 15nm TLC | `2DT` |
+| `TSB15` / `TSB15M2P` / `TSB15M4P` / `TSB15T` / `TSB19` / `TSB1Y` / `TSB24` / `TSB24A` / `TSB24B` / `TSB32` / `TSB43` / `TSB56` / `TSB70` / `TSB90` | Toshiba / Kioxia legacy raw NAND process profile，node 信息由 key 承载，默认不额外输出 `generation_info` | `2DM` / `2DT` when cell-specific |
+| `SNK15` / `SNK15M` / `SNK15T` / `SNK19` / `SNK19M` / `SNK19T` / `SNK1Y` / `SNK24` / `SNK24M` / `SNK24T` / `SNK32` / `SNK43` / `SNK56` | SanDisk legacy 2D process profile，cell 已知时优先使用 `M` / `T` / `S` 后缀 | `2DM` / `2DT` when cell-specific |
+| `TSBD2H` / `TSBDFK` | Toshiba / Kioxia legacy 24nm 2-plane D2H / A19nm 4-plane DFK profile，node 信息由 key 承载，默认不额外输出 `generation_info` | `2DM` |
 
 Kioxia / SanDisk 2D 旧式 token（例如 `7DDL`、`7DFL`、Enterprise 变种）应在规则侧先规范化到对应 profile 或 `2DM` / `2DT` firmware token。
 
@@ -46,10 +49,14 @@ Generation / Layer / Cell / Die Density / Plane / Codename
 | --- | --- | --- | --- |
 | SK hynix | `HY14`、`HY16`、`HY20` | `HYV1`、`HYV4`、`HYV9`、`HYV9Q` | 无后缀默认 TLC；`M` = MLC；`Q` = QLC |
 | Samsung | `SS2D`、`SS16`、`SS16M`、`SS21M` | `SSV1`、`SSV2M`、`SSV3M`、`SSV4`、`SSV6P` | 无后缀默认 TLC；`M` = MLC；`Q` = QLC；更老 2D 用 `SS2D` |
-| Kioxia / SanDisk | `T15M2P`、`T15T`、`S15T` | `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24` 这类 vendor-scoped firmware full code | BiCS 默认 TLC；`M` = MLC；`Q` = QLC；`S` = SLC / XL-Flash |
+| Kioxia / SanDisk | `TSB15`、`TSB24A`、`SNK19M`、`SNK24M`、`TSB15M2P`、`SNK15T` | `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24` 这类 vendor-scoped firmware full code | BiCS 默认 TLC；`M` = MLC；`Q` = QLC；`S` = SLC / XL-Flash |
 | Micron / Intel | `L95B`、`M60A` 等 | `B27A`、`N28A` 等 | 3D 直接使用 codename；2D 一般用 `IM2DS` / `IM2DM` / `IM2DT`，`L8x` / `B9x` / `L9x` 直接使用 codename |
 
 Samsung 的真实内部代号常来自单 die PN（例如 `K9AHGD8U0M/A/B/C/D` 表示不同 3D Vx 的同容量 die）。这类 PN 线索可作为规则来源，但公开 profile key 仍优先使用 `SSVx`。
+
+## FDBGen fallback profile
+
+生成后的 `fdb.json` 不允许再把任意制程文本写入 `l`。`l` 必须能命中 `nand.die_profile`：优先是 vendor / die codename profile，例如 `SNK15T`、`TSB32`、`SSV4`、`HYV3`、`B16A`；如果原始资料只有泛化 2D 或 3D 线索，才允许使用表内 fallback key，例如 `50nm`、`1ynm`、`1znm`、`3DV4`、`3DV4P5`。没有代际的 `3D` 不作为 fallback。
 
 ## Kioxia / SanDisk BiCS firmware key
 

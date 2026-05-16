@@ -229,6 +229,7 @@
   "warning.constraint_mismatch.chip_kind": "Chip kind constraint {expected} does not match {actual}",
   "warning.constraint_mismatch.product_type": "Product type constraint {expected} does not match {actual}",
   "warning.constraint_mismatch.strict": "No part candidate matched the requested strict constraints",
+  "warning.fdb_process_fallback": "Using legacy FDB process information because no die profile rule matched",
   "warning.ambiguous_part": "Multiple part candidates matched the query",
   "subtitle.kind.raw_nand": "NAND Flash",
   "subtitle.kind.on_die_ecc_nand": "On-die ECC NAND",

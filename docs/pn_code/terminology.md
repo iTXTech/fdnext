@@ -71,7 +71,7 @@
 约定：
 
 - On-die ECC NAND 使用 `device.chipKind = "on_die_ecc_nand"`，展示为 `On-die ECC NAND`。
-- NAND 制程/代际匹配优先输出 `die_codename`，公开 label 渲染为 `Die Profile`；`generation_info` 可承接产品代际、层数或制程节点说明。
+- NAND 制程/代际匹配优先输出 `die_codename`，公开 label 渲染为 `Die Profile`；`generation_info` 可承接产品代际、层数或制程节点说明。生成后的 FDB `l` 必须是 `nand.die_profile` key；泛化 `xxnm`、`1ynm`、`3DVx` 只有作为表内 fallback profile 时才允许保留。
 - `nand.die_profile` 中的 `firmware_match` / `die_mark` 是匹配和维护 metadata，不默认输出到公开 result。Kioxia / SanDisk 2D 固件侧默认归一为 `2DM` / `2DT`；BiCS profile key 必须带厂商前缀，例如 `KBiCS3` / `SBiCS3`，full code profile key 也必须带厂商前缀，例如 `K7T23` / `S7T23`。Micron / Intel 3D 直接用 `B16A` 这类 die codename；2D 一般使用 `IM2DS` / `IM2DM` / `IM2DT` 区分 SLC / MLC / TLC，但 `L8x`、`B9x`、`L9x` 也直接用 die codename。
 - `storage_interface` 与 `product_type` 完全重复时，优先保留更结构化的 identity 字段，除非接口字段含有版本、lane、gear 等增量信息。
 - `iNAND`、`iSSD`、`moviNAND` 等厂商品牌或系列名不作为 `product_type`；需要展示时放入 `product_family` 等稳定语义字段，解析中间用的 `system` / `group` 不进入公开 fields。SSD 类封装按接口归类为 `sata` / `nvme`。

@@ -584,7 +584,7 @@ export function buildPartDecodeResult(
     ...(known ? { subtitle: buildPartSubtitle(device, fields, ctx, input.lang), device } : {}),
     blocks: known ? buildBlocks(profileId, detailFieldMap, ctx, input.lang) : [],
     relations: known ? partRelations(info, device, ctx, input.lang) : [],
-    warnings: []
+    warnings: info.warnings ? [...info.warnings] : []
   };
 }
 
@@ -646,7 +646,7 @@ export function buildIdentifierDecodeResult(
     ...(known ? { subtitle: buildIdentifierSubtitle(device, fields, ctx, input.lang), device } : {}),
     blocks: known ? buildBlocks("nand.flash_id", detailFieldMap, ctx, input.lang) : [],
     relations: known ? identifierRelations(info, ctx, input.lang) : [],
-    warnings: []
+    warnings: info.warnings ? [...info.warnings] : []
   };
 }
 
