@@ -587,6 +587,18 @@ assertPart("PFF21", {
     "Process Alias": "L74A"
   }
 });
+assertPart("FBML84A61KDBABH1", {
+  vendor: "spectek",
+  type: "NAND",
+  density: "16GB",
+  dieProfileField: "20nm",
+  cellField: "MLC",
+  extra: {
+    "Die Density": "64Gb",
+    "Die Count": 2,
+    "Process Alias": "L84A"
+  }
+});
 assertPart("PX001", {
   vendor: "spectek",
   markingCode: "PX001",

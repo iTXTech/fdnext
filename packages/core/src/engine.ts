@@ -86,6 +86,39 @@ function getHumanReadableDensity(density: number, useByte = false): string {
   return `${numeric}${unit[idx]}`;
 }
 
+const GBIT_TO_MBIT = 1024;
+const TBIT_TO_MBIT = GBIT_TO_MBIT * GBIT_TO_MBIT;
+
+function parseDieDensityMbit(value: unknown): number | undefined {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const match = /^\s*(\d+(?:\.\d+)?)\s*([gmt])b(?:it)?\s*$/i.exec(value);
+  if (!match) {
+    return undefined;
+  }
+
+  const numeric = Number.parseFloat(match[1] ?? "");
+  const unit = (match[2] ?? "").toLowerCase();
+  if (!Number.isFinite(numeric) || numeric <= 0) {
+    return undefined;
+  }
+
+  if (unit === "m") {
+    return Math.round(numeric);
+  }
+  if (unit === "g") {
+    return Math.round(numeric * GBIT_TO_MBIT);
+  }
+  if (unit === "t") {
+    if (numeric > 1.32 && numeric < 1.34) {
+      return 1365 * GBIT_TO_MBIT;
+    }
+    return Math.round(numeric * TBIT_TO_MBIT);
+  }
+  return undefined;
+}
+
 const vendorAliases: Record<string, string[]> = {
   biwin: ["biwin"],
   esmt: ["esmt", "elite semiconductor"],
@@ -831,6 +864,25 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return info;
   };
 
+  const deriveNandDensityFromDieStack = <T extends PartDecodeDraft | IdentifierDecodeDraft>(info: T): T => {
+    if (draftDensity(info) !== undefined || (info.device.chipKind !== "raw_nand" && info.device.chipKind !== "on_die_ecc_nand")) {
+      return info;
+    }
+
+    const dieCount = draftField(info, "die_count");
+    if (typeof dieCount !== "number" || !Number.isFinite(dieCount) || dieCount <= 0) {
+      return info;
+    }
+
+    const dieDensity = parseDieDensityMbit(draftField(info, "die_density"));
+    if (dieDensity === undefined) {
+      return info;
+    }
+
+    setDraftField(info, "density", dieDensity * dieCount);
+    return info;
+  };
+
   const applyIdentifierInfoHooks = (info: IdentifierDecodeDraft): IdentifierDecodeDraft => {
     let next = info;
     for (const processor of internalDecodeHooks) {
@@ -838,7 +890,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         next = processor.identifierInfo(next);
       }
     }
-    return enrichNandDieProfileFields(next);
+    return deriveNandDensityFromDieStack(enrichNandDieProfileFields(next));
   };
 
   const projectedControllers = (
@@ -1146,7 +1198,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         next = processor.partInfo(next);
       }
     }
-    return enrichNandDieProfileFields(next);
+    return deriveNandDensityFromDieStack(enrichNandDieProfileFields(next));
   };
 
   const unknownPartDraft = (partNumber: string, vendor = UNKNOWN): PartDecodeDraft => ({
