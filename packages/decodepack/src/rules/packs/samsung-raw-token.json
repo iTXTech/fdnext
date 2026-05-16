@@ -72,7 +72,7 @@
           "U": 16,
           "V": 16,
           "W": 4,
-          "X": -1
+          "X": 16
         },
         "density": {
           "12": 512,
@@ -142,6 +142,7 @@
         "ce": {
           "0": 1,
           "1": 2,
+          "2": 4,
           "3": 3,
           "4": 4,
           "5": 4,
@@ -181,6 +182,18 @@
           "H": 9,
           "Y": 25,
           "Z": 26
+        },
+        "singleDieProfile": {
+          "1:3:FG:M": "SSV4",
+          "1:3:HG:M": "SSV4",
+          "1:3:HG:A": "SSV5",
+          "1:3:HG:B": "SSV6",
+          "1:3:HG:E": "SSV6P",
+          "1:3:HG:D": "SSV7",
+          "1:3:HG:F": "SSV8"
+        },
+        "packageProfile": {
+          "D:VG:5:E": "SSV6P"
         },
         "package": {
           "1": "BGA108",
@@ -369,6 +382,41 @@
           "default": -1
         },
         {
+          "op": "tpl",
+          "template": "{{die}}:{{cellLevel}}:{{densityCode}}:{{generationCode}}",
+          "to": "singleDieProfileKey"
+        },
+        {
+          "op": "map",
+          "from": "singleDieProfileKey",
+          "table": "singleDieProfile",
+          "to": "singleDieProcessNode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{classificationCode}}:{{densityCode}}:{{modeCode}}:{{generationCode}}",
+          "to": "packageProfileKey"
+        },
+        {
+          "op": "map",
+          "from": "packageProfileKey",
+          "table": "packageProfile",
+          "to": "packageProcessNode"
+        },
+        {
+          "op": "fallback",
+          "primary": "singleDieProcessNode",
+          "secondary": "packageProcessNode",
+          "to": "processNode"
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
           "op": "stripIfPrefix",
           "prefix": "-"
         },
@@ -471,6 +519,12 @@
         },
         "fields.generation_info": {
           "$var": "generation"
+        },
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
         },
         "fields.package": {
           "$var": "package"

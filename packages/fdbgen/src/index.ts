@@ -70,6 +70,7 @@ export {
 } from "./normalize";
 export { createFdbProvenanceTrace } from "./trace";
 export { generateFdb, generateFdbWithTrace } from "./fdbgen";
+export { isGeneratedFdbDieProfile, normalizeGeneratedFdbDieProfile } from "./nand-die-profile";
 export {
   FDNEXT_FDBGEN_V1_COMPACT_VERSION,
   FDNEXT_FDBGEN_V1_FULL_VERSION,

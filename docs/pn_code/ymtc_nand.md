@@ -6,7 +6,8 @@
 
 - `YMTC NAND Flash Features.pdf`，标题日期 `2024.07.31`，给出 `X1-9050` 到 `X4-9060` 的 xLC、ONFI、page/block organization、device capacity、plane count、clock rate、电压和耐久信息。
 - HyperFlashBase `3D NAND MP ROADMAP`，last update `2024-04-21`，可交叉参考 YMTC conventional TCAT / Xtacking CTF 路线、`X0-A030`、`X1-9050`、`X2-9060`、`X2-6070`、`X3-9060`、`X3-9070`、`X3-6070`、`X4-9060`、`X4-9070`、`X4-6080`、`X5-9080` 等代际关系。路线图是第三方资料，未来/est. 项只作弱证据。
-- 维护者更新：`X4-9060` codename 为 `WTS`；`X4-9070` codename 为 `SQS`，267L；`X4-6080` codename 为 `PTS`，267L；三者均按已量产处理。
+- 维护者更新：`X4-9060` codename 为 `WTS`，160L；`X4-9070` codename 为 `SQS`，267L；`X4-6080` codename 为 `PTS`，267L；三者均为 Xtacking 4.0 / ONFI 5.1 / 3600MT/s 资料。
+- 维护者补充资料：另有 `X4-9060` TLC / 128L / 512Gbit、`X4-9070` TLC / 267L / 1Tbit / `8Die1TB`、`X4-6080` QLC / 2Tbit / 层数未标明的记录。该补充资料只用于记录新增线索；与现有 profile 层数冲突时，不覆盖主 profile。
 
 ## 规则状态
 
@@ -46,8 +47,16 @@ iTXTech fdnext DecodePack:
 | `X3-9070` | WDS | Gen 4 Xtacking 3.0 | 232 | TLC | 1Tb | 6 | ONFI 5.0 / 2400MT/s | process alias / PN / Flash ID postprocess |
 | `X3-6070` | EMS | Gen 4 Xtacking 3.0 | 232 | QLC | 1Tb | 4 | ONFI 5.0 / 2400MT/s | process alias / PN / Flash ID postprocess |
 | `X4-9060` | WTS | Gen 5 Xtacking 4.0 | 160 | TLC | 512Gb | 4 | ONFI 5.1 / 3600MT/s | process alias / PN process token / MP |
-| `X4-9070` | SQS | Gen 5 Xtacking 4.0 | 267 | TLC | 1Tb | 6 | MP | process alias / PN process token |
-| `X4-6080` | PTS | Gen 5 Xtacking 4.0 | 267 | QLC | 2Tb | - | MP | process alias / PN process token |
+| `X4-9070` | SQS | Gen 5 Xtacking 4.0 | 267 | TLC | 1Tb | 6 | ONFI 5.1 / 3600MT/s; `8Die1TB` package note | process alias / PN process token |
+| `X4-6080` | PTS | Gen 5 Xtacking 4.0 | 267 | QLC | 2Tb | - | ONFI 5.1 / 3600MT/s | process alias / PN process token |
+
+## 补充资料记录
+
+| Process | 补充记录 | 处理 |
+| --- | --- | --- |
+| `X4-9060` | TLC / 128L / 512Gbit / Xtacking 4.0 / ONFI 5.1 3600MT/s | 保留现有 `WTS` profile 的 160L；补充资料不覆盖主表 |
+| `X4-9070` | TLC / 267L / 1Tbit / Xtacking 4.0 / ONFI 5.1 3600MT/s / `8Die1TB` | 与主表一致；`8Die1TB` 只记录为封装线索 |
+| `X4-6080` | QLC / 2Tbit / Xtacking 4.0 / ONFI 5.1 3600MT/s / 层数未标明 | 保留现有 `PTS` profile 的 267L；补充资料不删除层数 |
 
 ## 注意
 

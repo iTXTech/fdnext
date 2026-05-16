@@ -49,7 +49,7 @@ Generation / Layer / Cell / Die Density / Plane / Codename
 
 | 厂商 | 2D key | 3D key | Cell 后缀 |
 | --- | --- | --- | --- |
-| SK hynix | `HY14`、`HY16`、`HY20` | `HYV1`、`HYV4`、`HYV9`、`HYV9Q` | 无后缀默认 TLC；`M` = MLC；`Q` = QLC |
+| SK hynix | `HY14`、`HY16`、`HY20` | `HYV1`、`HYV4`、`HYV9`、`HYV9Q` | 无后缀默认 TLC；`M` = MLC；`Q` = QLC；`H25FT*` / `H27*` 属于 `die_mark`，固件匹配仍用 `HYVx` |
 | Samsung | `SS2D`、`SS16`、`SS16M`、`SS21M` | `SSV1`、`SSV2M`、`SSV3M`、`SSV4`、`SSV6P` | 无后缀默认 TLC；`M` = MLC；`Q` = QLC；更老 2D 用 `SS2D` |
 | Kioxia / SanDisk | `TSB15`、`TSB24A`、`SNK19M`、`SNK24M`、`TSB15M2P`、`SNK15T` | `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24` 这类 vendor-scoped firmware full code | BiCS 默认 TLC；`M` = MLC；`Q` = QLC；`S` = SLC / XL-Flash |
 | Micron / Intel | `L95B`、`M70M` 等 | `B27A`、`N28A` 等 | 3D 直接使用 codename；2D 一般用 `IM2DS` / `IM2DM` / `IM2DT`，`7x` / `8x` / `9x` die codename 可作为匹配 key，公开 `die_codename` 补齐为 `25nm` / `20nm` / `16nm` |

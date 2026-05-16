@@ -1,11 +1,34 @@
-import { isNandDieProfileKey, nandDieProfileKeys } from "@itxtech/fdnext-decodepack";
+import { isNandDieProfileKey, nandDieProfileKeys, nandDieProfileTable } from "@itxtech/fdnext-decodepack";
 
 const profileByCompact = new Map<string, string>();
+const profileByAliasCompact = new Map<string, string | null>();
 const profileKeysByLength = [...nandDieProfileKeys].sort((left, right) => right.length - left.length || left.localeCompare(right));
 
 for (const key of nandDieProfileKeys) {
   profileByCompact.set(compactToken(key), key);
+  const profile = nandDieProfileTable[key];
+  const aliases = [
+    profile?.process_alias,
+    ...(Array.isArray(profile?.firmware_match) ? profile.firmware_match : []),
+    ...(Array.isArray(profile?.die_mark) ? profile.die_mark : [])
+  ];
+  for (const alias of aliases) {
+    const compact = compactToken(String(alias ?? ""));
+    if (!compact) {
+      continue;
+    }
+    const previous = profileByAliasCompact.get(compact);
+    if (previous === undefined) {
+      profileByAliasCompact.set(compact, key);
+    } else if (previous !== key) {
+      profileByAliasCompact.set(compact, null);
+    }
+  }
 }
+
+const profileAliasesByLength = [...profileByAliasCompact.keys()]
+  .filter((key) => profileByAliasCompact.get(key))
+  .sort((left, right) => right.length - left.length || left.localeCompare(right));
 
 function compactToken(value: string): string {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, "");
@@ -24,6 +47,14 @@ function profileKey(value: string | undefined): string | undefined {
     return text;
   }
   return profileByCompact.get(compactToken(text));
+}
+
+function profileAliasKey(value: string | undefined): string | undefined {
+  const text = value?.trim();
+  if (!text) {
+    return undefined;
+  }
+  return profileByAliasCompact.get(compactToken(text)) ?? undefined;
 }
 
 function firstProfile(candidates: Array<string | undefined>): string | undefined {
@@ -170,6 +201,22 @@ function matchEmbeddedProfile(value: string): string | undefined {
   return undefined;
 }
 
+function matchProfileAlias(value: string): string | undefined {
+  for (const token of tokens(value)) {
+    const key = profileAliasKey(token);
+    if (key) {
+      return key;
+    }
+  }
+  const compact = compactToken(value);
+  for (const alias of profileAliasesByLength) {
+    if (alias.length >= 3 && compact.includes(alias)) {
+      return profileByAliasCompact.get(alias) ?? undefined;
+    }
+  }
+  return undefined;
+}
+
 export function isGeneratedFdbDieProfile(value: string): boolean {
   return isNandDieProfileKey(value);
 }
@@ -187,6 +234,7 @@ export function normalizeGeneratedFdbDieProfile(vendor: string, value: string | 
     (normalizedVendor === "sndk" || normalizedVendor === "kioxia" ? matchKioxiaSandisk2d(normalizedVendor, text, cell) : undefined) ??
     (normalizedVendor === "samsung" ? matchSamsung(text, cell) : undefined) ??
     (normalizedVendor === "skhynix" ? matchSkhynix(text, cell) : undefined) ??
+    matchProfileAlias(text) ??
     matchEmbeddedProfile(text) ??
     normalizedFallbackProfile(text)
   );

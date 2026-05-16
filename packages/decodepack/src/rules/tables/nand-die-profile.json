@@ -485,16 +485,39 @@
     "die_codename": "HYV2",
     "generation_info": "3DV2",
     "layer_count": 36,
+    "cell_level": 2,
+    "die_density": "128Gb",
+    "speed_grade": "Toggle 2.0; Max Speed=400MT/s",
     "firmware_match": [
       "HYV2"
+    ],
+    "die_mark": [
+      "H27DGS8"
     ]
   },
   "HYV3": {
     "die_codename": "HYV3",
     "generation_info": "3DV3",
     "layer_count": 48,
+    "cell_level": 3,
+    "speed_grade": "Toggle 2.0; Max Speed=400MT/s",
     "firmware_match": [
       "HYV3"
+    ],
+    "die_mark": [
+      "H27DGLG",
+      "H27EGLM"
+    ]
+  },
+  "HYV3M": {
+    "die_codename": "HYV3M",
+    "generation_info": "3DV3",
+    "layer_count": 48,
+    "cell_level": 2,
+    "die_density": "64Gb",
+    "speed_grade": "Toggle 2.0; Max Speed=400MT/s",
+    "firmware_match": [
+      "HYV3M"
     ]
   },
   "HYV4": {
@@ -502,8 +525,13 @@
     "generation_info": "3DV4",
     "layer_count": 72,
     "cell_level": 3,
+    "speed_grade": "Toggle 2.0; Max Speed=800MT/s",
     "firmware_match": [
       "HYV4"
+    ],
+    "die_mark": [
+      "H27EGLM_72L",
+      "H25FT4MA0"
     ]
   },
   "HYV4M": {
@@ -511,8 +539,13 @@
     "generation_info": "3DV4",
     "layer_count": 76,
     "cell_level": 2,
+    "die_density": "256Gb",
+    "speed_grade": "Toggle 2.0; Max Speed=800MT/s",
     "firmware_match": [
       "HYV4M"
+    ],
+    "die_mark": [
+      "H25EMB0"
     ]
   },
   "HYV5": {
@@ -520,8 +553,13 @@
     "generation_info": "3DV5",
     "layer_count": 96,
     "cell_level": 3,
+    "die_density": "512Gb",
+    "speed_grade": "Toggle 3.0; Max Speed=1200MT/s",
     "firmware_match": [
       "HYV5"
+    ],
+    "die_mark": [
+      "H25FT4MMI"
     ]
   },
   "HYV5Q": {
@@ -529,8 +567,13 @@
     "generation_info": "3DV5",
     "layer_count": 96,
     "cell_level": 4,
+    "die_density": "1Tb",
+    "speed_grade": "Toggle 3.0; Max Speed=800MT/s",
     "firmware_match": [
       "HYV5Q"
+    ],
+    "die_mark": [
+      "H25GQM0"
     ]
   },
   "HYV6": {
@@ -539,9 +582,13 @@
     "layer_count": 128,
     "cell_level": 3,
     "die_density": "512Gb",
+    "speed_grade": "Toggle 4.0; Max Speed=1400MT/s",
     "firmware_match": [
-      "H25FTB0",
       "HYV6"
+    ],
+    "die_mark": [
+      "H25FTB0",
+      "H25GTM0"
     ]
   },
   "HYV7": {
@@ -550,9 +597,12 @@
     "layer_count": 176,
     "cell_level": 3,
     "die_density": "512Gb",
+    "speed_grade": "Toggle 4.0; Max Speed=1600MT/s",
     "firmware_match": [
-      "H25FTC0",
       "HYV7"
+    ],
+    "die_mark": [
+      "H25FTC0"
     ]
   },
   "HYV7Q": {
@@ -560,8 +610,13 @@
     "generation_info": "3DV7",
     "layer_count": 176,
     "cell_level": 4,
+    "die_density": "1Tb",
+    "speed_grade": "Toggle 4.0; Max Speed=1600MT/s",
     "firmware_match": [
       "HYV7Q"
+    ],
+    "die_mark": [
+      "H25GQA0"
     ]
   },
   "HYV8": {
@@ -570,9 +625,23 @@
     "layer_count": 238,
     "cell_level": 3,
     "die_density": "512Gb",
+    "speed_grade": "Toggle 5.0; Max Speed=2400MT/s",
     "firmware_match": [
-      "H25FTD0",
       "HYV8"
+    ],
+    "die_mark": [
+      "H25FTD0"
+    ]
+  },
+  "HYV8Q": {
+    "die_codename": "HYV8Q",
+    "generation_info": "3DV8",
+    "layer_count": 238,
+    "cell_level": 4,
+    "die_density": "1Tb",
+    "speed_grade": "Toggle 5.0; Max Speed=2400MT/s",
+    "firmware_match": [
+      "HYV8Q"
     ]
   },
   "HYV9": {
@@ -1538,6 +1607,7 @@
     "layer_count": 267,
     "die_density": "2Tb",
     "cell_level": 4,
+    "speed_grade": "ONFI 5.1; Max Speed=3600MT/s",
     "firmware_match": [
       "X4-6080",
       "PTS"
@@ -2042,6 +2112,7 @@
     "die_density": "1Tb",
     "cell_level": 3,
     "plane_count": 6,
+    "speed_grade": "ONFI 5.1; Max Speed=3600MT/s",
     "firmware_match": [
       "X4-9070",
       "SQS"

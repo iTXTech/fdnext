@@ -14,6 +14,7 @@ import {
   fdnextFdbgenV1Schema,
   fdnextFdbV1Schema,
   generateFdb,
+  normalizeGeneratedFdbDieProfile,
   normalizeFdbPartNumber,
   parseExtraPayload,
   validateExtraPayload,
@@ -164,6 +165,45 @@ test("generated fdb validator forbids fid and checks iddb reverse references", (
   });
   assert.equal(invalidVersion.ok, false);
   assert.ok(invalidVersion.errors.some((issue) => issue.code === "schema_version.invalid"));
+});
+
+test("normalizes generated FDB l fields to NAND die profile keys", () => {
+  assert.equal(normalizeGeneratedFdbDieProfile("ymtc", "3Dv3-TAS-128L(x2-9060)", "TLC"), "TAS");
+  assert.equal(normalizeGeneratedFdbDieProfile("ymtc", "128L(X2-9060)", "TLC"), "TAS");
+  assert.equal(normalizeGeneratedFdbDieProfile("ymtc", "YMTC WTS(X4-9060)", "TLC"), "WTS");
+  assert.equal(normalizeGeneratedFdbDieProfile("sndk", "96L BiCS4", "TLC"), "SBiCS4");
+  assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "128L 3Dv6", "TLC"), "HYV6");
+  assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "H25FTB0", "TLC"), "HYV6");
+  assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "H25GQM0", "QLC"), "HYV5Q");
+  assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "H27DGS8", "MLC"), "HYV2");
+  assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "238L 3DV8", "QLC"), "HYV8Q");
+
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-profile-"));
+  try {
+    mkdirSync(join(inputDir, "extra"), { recursive: true });
+    writeFileSync(
+      join(inputDir, "extra", "sky.json"),
+      JSON.stringify({
+        schemaVersion: "fdnext.fdb.extra.v1",
+        vendors: {
+          ymtc: {
+            YMN09TC1B1DC6C: {
+              fid: ["9BC529492000"],
+              l: "3Dv3-TAS-128L(x2-9060)",
+              c: "TLC"
+            }
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const ymtc = fdb.ymtc as Record<string, { l?: string }>;
+    assert.equal(ymtc.YMN09TC1B1DC6C?.l, "TAS");
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
 });
 
 test("normalizes SK hynix H25T package suffixes before FDB ingestion", () => {

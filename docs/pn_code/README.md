@@ -9,7 +9,7 @@
 | 厂商 | Raw NAND / On-die ECC | eMMC | UFS | eMCP / uMCP | E2NAND | SATA / NVMe SSD | DRAM |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | SK hynix | [skhynix_nand.md](skhynix_nand.md) | [skhynix_emmc.md](skhynix_emmc.md) | [skhynix_ufs.md](skhynix_ufs.md) | [skhynix_emcp.md](skhynix_emcp.md) | [skhynix_nand.md](skhynix_nand.md) | - | [skhynix_dram.md](skhynix_dram.md) |
-| Samsung | - | [samsung_emmc.md](samsung_emmc.md) | [samsung_ufs.md](samsung_ufs.md) | [samsung_emcp.md](samsung_emcp.md) | - | - | [samsung_dram.md](samsung_dram.md) |
+| Samsung | [samsung_nand.md](samsung_nand.md) | [samsung_emmc.md](samsung_emmc.md) | [samsung_ufs.md](samsung_ufs.md) | [samsung_emcp.md](samsung_emcp.md) | - | - | [samsung_dram.md](samsung_dram.md) |
 | Silicon Motion | - | [siliconmotion_emmc.md](siliconmotion_emmc.md) | [siliconmotion_ufs.md](siliconmotion_ufs.md) | - | - | - | - |
 | SanDisk | - | [sandisk_emmc.md](sandisk_emmc.md) | [sandisk_ufs.md](sandisk_ufs.md) | [sandisk_emcp.md](sandisk_emcp.md) | - | [sandisk_issd.md](sandisk_issd.md) | - |
 | SpecTek | [spectek_nand.md](spectek_nand.md) | - | - | [spectek_emcp.md](spectek_emcp.md) | - | - | [spectek_dram.md](spectek_dram.md) |
