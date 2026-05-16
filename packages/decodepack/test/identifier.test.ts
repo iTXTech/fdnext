@@ -36,12 +36,12 @@ function assertResultFieldAbsent(id: string, key: string): void {
 assertExplainField("984C84320024", "density", 131072);
 assertExplainField("984C84320024", "die_codename", "KBiCS5");
 assertResultField("984C84320024", "density", 131072);
-assertResultField("984C84320024", "die_codename", "KBiCS5");
+assertResultField("984C84320024", "die_codename", "BiCS5");
 
 assertExplainField("454C84320024", "density", 131072);
 assertExplainField("454C84320024", "die_codename", "SBiCS5");
 assertResultField("454C84320024", "density", 131072);
-assertResultField("454C84320024", "die_codename", "SBiCS5");
+assertResultField("454C84320024", "die_codename", "BiCS5");
 
 assertExplainField("ECC1843200C1", "die_codename", "SSV6");
 assertResultField("ECC1843200C1", "die_codename", "SSV6");
@@ -57,7 +57,7 @@ assertResultField("EC1E981F84C2", "layer_count", 133);
 assertExplainField("EC5E981F84D2", "die_codename", "SSV6P");
 assertResultField("EC5E981F84D2", "die_codename", "SSV6P");
 assertExplainField("ECD7147654C2", "die_codename", "SS32");
-assertResultField("ECD7147654C2", "die_codename", "SS32");
+assertResultField("ECD7147654C2", "die_codename", "32nm");
 assertExplainField("ECD5843200C7", "die_codename", "SSV1");
 assertResultField("ECD5843200C7", "die_codename", "SSV1");
 assertResultFieldAbsent("ECD5843200CF", "die_codename");
@@ -68,17 +68,17 @@ assertResultField("EC5FA83F88DF", "die_codename", "SSV8");
 assertExplainField("EC5FA89F88C3", "die_codename", "SSV9");
 assertResultField("EC5FA89F88C3", "die_codename", "SSV9");
 assertExplainField("ECD798CE74C3", "die_codename", "SS27");
-assertResultField("ECD798CE74C3", "die_codename", "SS27");
+assertResultField("ECD798CE74C3", "die_codename", "27nm");
 
 assertExplainField("AD3A08320040", "die_codename", "HY16");
-assertResultField("AD3A08320040", "die_codename", "HY16");
+assertResultField("AD3A08320040", "die_codename", "16nm");
 assertResultField("AD3A08320040", "cell_level", "TLC");
 assertExplainField("AD3A84320040", "die_codename", "HY16");
 assertExplainField("AD3A84320040", "cell_level", 2);
-assertResultField("AD3A84320040", "die_codename", "HY16M");
+assertResultField("AD3A84320040", "die_codename", "16nm");
 assertResultField("AD3A84320040", "cell_level", "MLC");
 assertExplainField("AD3A843200C3", "die_codename", "HY26");
-assertResultField("AD3A843200C3", "die_codename", "HY26");
+assertResultField("AD3A843200C3", "die_codename", "26nm");
 assertExplainField("AD3A843200D0", "die_codename", "HYV8");
 assertResultField("AD3A843200D0", "die_codename", "HYV8");
 

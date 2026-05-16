@@ -7,10 +7,10 @@
 ## 公开字段边界
 
 - `die_codename`、`process_alias`、`layer_count`、`die_density`、`cell_level`、`plane_count` 可以按规则需要进入公开 fields。
-- `die_codename` 公开 label 为 `Process` / `制程`；已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`。
+- `die_codename` 公开 label 为 `Process` / `制程`；它是用户可见制程名，不等同于 `nand.die_profile` lookup key。已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`。
 - `layer_count` 与 `process_alias` 独立展示，不拼进 `die_codename` 文本；`process_alias` 用于 `X3-9060`、`8T23` 这类厂商工艺或 full-code 代号。
 - `firmware_match`、`die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields。
-- Kioxia / SanDisk 的 BiCS profile key 必须带厂商前缀，例如 `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24`；公开展示优先使用 `die_codename = KBiCS4` / `SBiCS4`，full code 可通过 `process_alias` 显示为 `8T24` 这类代号，而不是把内部 die mark 展示给用户。
+- Kioxia / SanDisk 的 BiCS profile key 必须带厂商前缀，例如 `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24`；公开展示统一使用 `die_codename = BiCS4` / `BiCS4.5` 这类制程名，不带厂商前缀或 Cell 后缀。full code 可通过 `process_alias` 显示为 `8T24` 这类代号，而不是把内部 die mark 展示给用户。
 - 2D NAND 默认不要求补齐 `generation_info`；如果规则或 FDB 只知道旧制程字样，生成侧应先规范化为 vendor profile，最弱只允许落到表内 fallback profile，例如 `50nm`、`1ynm`、`3DV4`。运行时兼容旧 FDB 时才使用 `generation_info` + `fdb_process_fallback` warning。
 
 ## Key 约定
@@ -31,9 +31,9 @@ Cell / Die Density / Plane / Codename
 | `SNK15M4P` | SanDisk 15nm MLC 128Gb 4-plane | `2DM` |
 | `TSB15T` | Toshiba 15nm TLC | `2DT` |
 | `SNK15T` | SanDisk 15nm TLC | `2DT` |
-| `TSB15` / `TSB15M2P` / `TSB15M4P` / `TSB15T` / `TSB19` / `TSB1Y` / `TSB24` / `TSB24A` / `TSB24B` / `TSB32` / `TSB43` / `TSB56` / `TSB70` / `TSB90` | Toshiba / Kioxia legacy raw NAND process profile，node 信息由 key 承载，默认不额外输出 `generation_info` | `2DM` / `2DT` when cell-specific |
-| `SNK15` / `SNK15M` / `SNK15T` / `SNK19` / `SNK19M` / `SNK19T` / `SNK1Y` / `SNK24` / `SNK24M` / `SNK24T` / `SNK32` / `SNK43` / `SNK56` | SanDisk legacy 2D process profile，cell 已知时优先使用 `M` / `T` / `S` 后缀 | `2DM` / `2DT` when cell-specific |
-| `TSBD2H` / `TSBDFK` | Toshiba / Kioxia legacy 24nm 2-plane D2H / A19nm 4-plane DFK profile，node 信息由 key 承载，默认不额外输出 `generation_info` | `2DM` |
+| `TSB15` / `TSB15M2P` / `TSB15M4P` / `TSB15T` / `TSB19` / `TSB1Y` / `TSB24` / `TSB24A` / `TSB24B` / `TSB32` / `TSB43` / `TSB56` / `TSB70` / `TSB90` | Toshiba / Kioxia legacy raw NAND process profile；公开 `die_codename` 只显示 `15nm` / `A19nm` / `24nm` 这类 litho | `2DM` / `2DT` when cell-specific |
+| `SNK15` / `SNK15M` / `SNK15T` / `SNK19` / `SNK19M` / `SNK19T` / `SNK1Y` / `SNK24` / `SNK24M` / `SNK24T` / `SNK32` / `SNK43` / `SNK56` | SanDisk legacy 2D process profile，cell 已知时优先使用 `M` / `T` / `S` 后缀；公开 `die_codename` 只显示 litho | `2DM` / `2DT` when cell-specific |
+| `TSBD2H` / `TSBDFK` | Toshiba / Kioxia legacy 24nm 2-plane D2H / A19nm 4-plane DFK profile；公开 `die_codename` 分别显示 `24nm` / `A19nm` | `2DM` |
 
 Kioxia / SanDisk 2D 旧式 token（例如 `7DDL`、`7DFL`、Enterprise 变种）应在规则侧先规范化到对应 profile 或 `2DM` / `2DT` firmware token。
 
@@ -52,13 +52,13 @@ Generation / Layer / Cell / Die Density / Plane / Codename
 | SK hynix | `HY14`、`HY16`、`HY20` | `HYV1`、`HYV4`、`HYV9`、`HYV9Q` | 无后缀默认 TLC；`M` = MLC；`Q` = QLC |
 | Samsung | `SS2D`、`SS16`、`SS16M`、`SS21M` | `SSV1`、`SSV2M`、`SSV3M`、`SSV4`、`SSV6P` | 无后缀默认 TLC；`M` = MLC；`Q` = QLC；更老 2D 用 `SS2D` |
 | Kioxia / SanDisk | `TSB15`、`TSB24A`、`SNK19M`、`SNK24M`、`TSB15M2P`、`SNK15T` | `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24` 这类 vendor-scoped firmware full code | BiCS 默认 TLC；`M` = MLC；`Q` = QLC；`S` = SLC / XL-Flash |
-| Micron / Intel | `L95B`、`M60A` 等 | `B27A`、`N28A` 等 | 3D 直接使用 codename；2D 一般用 `IM2DS` / `IM2DM` / `IM2DT`，`L8x` / `B9x` / `L9x` 直接使用 codename |
+| Micron / Intel | `L95B`、`M70M` 等 | `B27A`、`N28A` 等 | 3D 直接使用 codename；2D 一般用 `IM2DS` / `IM2DM` / `IM2DT`，`7x` / `8x` / `9x` die codename 可作为匹配 key，公开 `die_codename` 补齐为 `25nm` / `20nm` / `16nm` |
 
 Samsung 的真实内部代号常来自单 die PN（例如 `K9AHGD8U0M/A/B/C/D` 表示不同 3D Vx 的同容量 die）。这类 PN 线索可作为规则来源，但公开 profile key 仍优先使用 `SSVx`。
 
 ## FDBGen fallback profile
 
-生成后的 `fdb.json` 不允许再把任意制程文本写入 `l`。`l` 必须能命中 `nand.die_profile`：优先是 vendor / die codename profile，例如 `SNK15T`、`TSB32`、`SSV4`、`HYV3`、`B16A`；如果原始资料只有泛化 2D 或 3D 线索，才允许使用表内 fallback key，例如 `50nm`、`1ynm`、`1znm`、`3DV4`、`3DV4P5`。没有代际的 `3D` 不作为 fallback。
+生成后的 `fdb.json` 不允许再把任意制程文本写入 `l`。`l` 必须能命中 `nand.die_profile`：优先是 vendor / die codename profile，例如 `SNK15T`、`TSB32`、`SSV4`、`HYV3`、`B16A`；公开 result 再由 profile 表转换成用户可见制程，例如 `15nm`、`BiCS4`、`20nm`。如果原始资料只有泛化 2D 或 3D 线索，才允许使用表内 fallback key，例如 `50nm`、`1ynm`、`1znm`、`3DV4`、`3DV4P5`。没有代际的 `3D` 不作为 fallback。
 
 运行时 FDB 命中后，`l` 只作为 `nand.die_profile` key 使用，再由 profile 表统一补齐公开字段，例如 `layer_count`、`die_density`、`cell_level`、`plane_count` 和 `process_alias`。不要在 FDB 或 core runtime 中为某个 die 单独写层数补丁。
 
@@ -107,6 +107,6 @@ Micron / Intel 的 3D NAND 固件匹配直接使用 die codename，不再同时�
 | MLC | `IM2DM` |
 | TLC | `IM2DT` |
 
-例外：`L8x`、`B9x`、`L9x` 直接使用 die codename，例如 `L84A`、`B95A`、`L95B`。
+例外：`L7x`、`M7x`、`B7x`、`L8x`、`M8x`、`B8x`、`L9x`、`B9x` 可直接使用 die codename 匹配，例如 `L74A`、`L84A`、`B95A`、`L95B`；公开 `die_codename` 对应补齐为 `25nm`、`20nm`、`16nm`，原始 die codename 可作为 `process_alias` 展示。
 
 这些 full code 和 `die_mark` 偏内部维护，raw `firmware_match` / `die_mark` 不默认展示。DecodePack 规则需要用户可见制程时，优先输出 `die_codename`、`process_alias`、`layer_count`、`cell_level`、`die_density` 和 `plane_count`。

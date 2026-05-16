@@ -120,10 +120,12 @@
     "die_codename": "A19nm"
   },
   "B74": {
-    "die_codename": "B74"
+    "die_codename": "25nm",
+    "process_alias": "B74"
   },
   "B95": {
-    "die_codename": "B95"
+    "die_codename": "16nm",
+    "process_alias": "B95"
   },
   "L06": {
     "die_codename": "L06"
@@ -132,19 +134,23 @@
     "die_codename": "L62"
   },
   "L74": {
-    "die_codename": "L74"
+    "die_codename": "25nm",
+    "process_alias": "L74"
   },
   "L84": {
-    "die_codename": "L84"
+    "die_codename": "20nm",
+    "process_alias": "L84"
   },
   "L85": {
-    "die_codename": "L85"
+    "die_codename": "20nm",
+    "process_alias": "L85"
   },
   "M26": {
     "die_codename": "M26"
   },
   "M70": {
-    "die_codename": "M70"
+    "die_codename": "25nm",
+    "process_alias": "M70"
   },
   "N18": {
     "die_codename": "N18"
@@ -331,28 +337,31 @@
     ]
   },
   "B74A": {
-    "die_codename": "B74A",
+    "die_codename": "25nm",
     "cell_level": 3,
     "die_density": "64Gb",
     "firmware_match": [
       "IM2DT"
-    ]
+    ],
+    "process_alias": "B74A"
   },
   "B85T": {
-    "die_codename": "B85T",
+    "die_codename": "20nm",
     "cell_level": 3,
     "die_density": "128Gb",
     "firmware_match": [
       "IM2DT"
-    ]
+    ],
+    "process_alias": "B85T"
   },
   "B95A": {
-    "die_codename": "B95A",
+    "die_codename": "16nm",
     "cell_level": 3,
     "die_density": "128Gb",
     "firmware_match": [
       "B95A"
-    ]
+    ],
+    "process_alias": "B95A"
   },
   "DBS": {
     "die_codename": "DBS",
@@ -397,69 +406,69 @@
     ]
   },
   "HY14": {
-    "die_codename": "HY14",
+    "die_codename": "14nm",
     "firmware_match": [
       "HY14"
     ]
   },
   "HY16": {
-    "die_codename": "HY16",
+    "die_codename": "16nm",
     "cell_level": 3,
     "firmware_match": [
       "HY16"
     ]
   },
   "HY16M": {
-    "die_codename": "HY16M",
+    "die_codename": "16nm",
     "cell_level": 2,
     "firmware_match": [
       "HY16M"
     ]
   },
   "HY20": {
-    "die_codename": "HY20",
+    "die_codename": "20nm",
     "firmware_match": [
       "HY20"
     ]
   },
   "HY26": {
-    "die_codename": "HY26",
+    "die_codename": "26nm",
     "firmware_match": [
       "HY26"
     ]
   },
   "HY32": {
-    "die_codename": "HY32",
+    "die_codename": "32nm",
     "firmware_match": [
       "HY32"
     ]
   },
   "HY41": {
-    "die_codename": "HY41",
+    "die_codename": "41nm",
     "firmware_match": [
       "HY41"
     ]
   },
   "HY48": {
-    "die_codename": "HY48",
+    "die_codename": "48nm",
     "firmware_match": [
       "HY48"
     ]
   },
   "HY57": {
-    "die_codename": "HY57",
+    "die_codename": "57nm",
     "firmware_match": [
       "HY57"
     ]
   },
   "HY60": {
-    "die_codename": "HY60",
+    "die_codename": "60nm",
     "firmware_match": [
       "HY60"
     ]
   },
   "HY90": {
-    "die_codename": "HY90",
+    "die_codename": "90nm",
     "firmware_match": [
       "HY90"
     ]
@@ -600,13 +609,13 @@
     ]
   },
   "TSB130": {
-    "die_codename": "TSB130"
+    "die_codename": "130nm"
   },
   "TSB15": {
-    "die_codename": "TSB15"
+    "die_codename": "15nm"
   },
   "TSB15M2P": {
-    "die_codename": "TSB15M2P",
+    "die_codename": "15nm",
     "cell_level": 2,
     "die_density": "128Gb",
     "plane_count": 2,
@@ -615,7 +624,7 @@
     ]
   },
   "TSB15M4P": {
-    "die_codename": "TSB15M4P",
+    "die_codename": "15nm",
     "cell_level": 2,
     "die_density": "128Gb",
     "plane_count": 4,
@@ -624,23 +633,23 @@
     ]
   },
   "TSB15T": {
-    "die_codename": "TSB15T",
+    "die_codename": "15nm",
     "cell_level": 3,
     "firmware_match": [
       "2DT"
     ]
   },
   "TSB19": {
-    "die_codename": "TSB19"
+    "die_codename": "19nm"
   },
   "TSB1Y": {
-    "die_codename": "TSB1Y"
+    "die_codename": "A19nm"
   },
   "TSB24": {
-    "die_codename": "TSB24"
+    "die_codename": "24nm"
   },
   "K0T25": {
-    "die_codename": "K0T25",
+    "die_codename": "BiCS5",
     "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
@@ -651,10 +660,11 @@
     ],
     "die_mark": [
       "FXN6"
-    ]
+    ],
+    "process_alias": "0T25"
   },
   "K0T46": {
-    "die_codename": "K0T46",
+    "die_codename": "BiCS6",
     "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
@@ -665,25 +675,26 @@
     ],
     "die_mark": [
       "FXZ0"
-    ]
+    ],
+    "process_alias": "0T46"
   },
   "TSB24A": {
-    "die_codename": "TSB24A"
+    "die_codename": "24nm"
   },
   "TSB24B": {
-    "die_codename": "TSB24B"
+    "die_codename": "24nm"
   },
   "TSB32": {
-    "die_codename": "TSB32"
+    "die_codename": "32nm"
   },
   "TSB43": {
-    "die_codename": "TSB43"
+    "die_codename": "43nm"
   },
   "TSB56": {
-    "die_codename": "TSB56"
+    "die_codename": "56nm"
   },
   "K7SA4": {
-    "die_codename": "K7SA4",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 1,
@@ -694,10 +705,11 @@
     ],
     "die_mark": [
       "FSN9"
-    ]
+    ],
+    "process_alias": "7SA4"
   },
   "K7T23": {
-    "die_codename": "K7T23",
+    "die_codename": "BiCS3",
     "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
@@ -708,10 +720,11 @@
     ],
     "die_mark": [
       "FRN2"
-    ]
+    ],
+    "process_alias": "7T23"
   },
   "K8F24": {
-    "die_codename": "K8F24",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 4,
@@ -721,10 +734,11 @@
     ],
     "die_mark": [
       "FSP0"
-    ]
+    ],
+    "process_alias": "8F24"
   },
   "K8T22": {
-    "die_codename": "K8T22",
+    "die_codename": "BiCS2",
     "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 3,
@@ -735,10 +749,11 @@
     ],
     "die_mark": [
       "FPL9"
-    ]
+    ],
+    "process_alias": "8T22"
   },
   "K8T23": {
-    "die_codename": "K8T23",
+    "die_codename": "BiCS3",
     "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
@@ -749,10 +764,11 @@
     ],
     "die_mark": [
       "FRN1"
-    ]
+    ],
+    "process_alias": "8T23"
   },
   "K8T24": {
-    "die_codename": "K8T24",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
@@ -763,10 +779,11 @@
     ],
     "die_mark": [
       "FST0"
-    ]
+    ],
+    "process_alias": "8T24"
   },
   "K8T2M": {
-    "die_codename": "K8T2M",
+    "die_codename": "BiCS4.5",
     "generation_info": "BiCS4.5",
     "cell_level": 3,
     "die_density": "256Gb",
@@ -776,10 +793,11 @@
     ],
     "die_mark": [
       "FXE4"
-    ]
+    ],
+    "process_alias": "8T2M"
   },
   "K9T23": {
-    "die_codename": "K9T23",
+    "die_codename": "BiCS3",
     "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
@@ -790,13 +808,14 @@
     ],
     "die_mark": [
       "FRN4"
-    ]
+    ],
+    "process_alias": "9T23"
   },
   "TSB70": {
-    "die_codename": "TSB70"
+    "die_codename": "70nm"
   },
   "K9T24": {
-    "die_codename": "K9T24",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
@@ -807,10 +826,11 @@
     ],
     "die_mark": [
       "FSK3"
-    ]
+    ],
+    "process_alias": "9T24"
   },
   "K9T2M": {
-    "die_codename": "K9T2M",
+    "die_codename": "BiCS4.5",
     "generation_info": "BiCS4.5",
     "cell_level": 3,
     "die_density": "512Gb",
@@ -820,10 +840,11 @@
     ],
     "die_mark": [
       "FXE5"
-    ]
+    ],
+    "process_alias": "9T2M"
   },
   "K9T45": {
-    "die_codename": "K9T45",
+    "die_codename": "BiCS5",
     "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
@@ -834,10 +855,11 @@
     ],
     "die_mark": [
       "FXN5"
-    ]
+    ],
+    "process_alias": "9T45"
   },
   "K9T46": {
-    "die_codename": "K9T46",
+    "die_codename": "BiCS6",
     "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
@@ -848,13 +870,14 @@
     ],
     "die_mark": [
       "FXZ5"
-    ]
+    ],
+    "process_alias": "9T46"
   },
   "TSB90": {
-    "die_codename": "TSB90"
+    "die_codename": "90nm"
   },
   "KBiCS2": {
-    "die_codename": "KBiCS2",
+    "die_codename": "BiCS2",
     "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 3,
@@ -868,7 +891,7 @@
     ]
   },
   "KBiCS2M": {
-    "die_codename": "KBiCS2M",
+    "die_codename": "BiCS2",
     "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 2,
@@ -877,7 +900,7 @@
     ]
   },
   "KBiCS3": {
-    "die_codename": "KBiCS3",
+    "die_codename": "BiCS3",
     "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
@@ -892,7 +915,7 @@
     ]
   },
   "KBiCS3M": {
-    "die_codename": "KBiCS3M",
+    "die_codename": "BiCS3",
     "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 2,
@@ -901,7 +924,7 @@
     ]
   },
   "KBiCS4": {
-    "die_codename": "KBiCS4",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
@@ -914,7 +937,7 @@
     ]
   },
   "KBiCS4.5": {
-    "die_codename": "KBiCS4.5",
+    "die_codename": "BiCS4.5",
     "generation_info": "BiCS4.5",
     "cell_level": 3,
     "plane_count": 2,
@@ -927,7 +950,7 @@
     ]
   },
   "KBiCS4.5M": {
-    "die_codename": "KBiCS4.5M",
+    "die_codename": "BiCS4.5",
     "generation_info": "BiCS4.5",
     "cell_level": 2,
     "firmware_match": [
@@ -935,7 +958,7 @@
     ]
   },
   "KBiCS4.5Q": {
-    "die_codename": "KBiCS4.5Q",
+    "die_codename": "BiCS4.5",
     "generation_info": "BiCS4.5",
     "cell_level": 4,
     "firmware_match": [
@@ -943,7 +966,7 @@
     ]
   },
   "KBiCS4M": {
-    "die_codename": "KBiCS4M",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 2,
@@ -952,7 +975,7 @@
     ]
   },
   "KBiCS4Q": {
-    "die_codename": "KBiCS4Q",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 4,
@@ -965,7 +988,7 @@
     ]
   },
   "KBiCS4S": {
-    "die_codename": "KBiCS4S",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 1,
@@ -979,7 +1002,7 @@
     ]
   },
   "KBiCS5": {
-    "die_codename": "KBiCS5",
+    "die_codename": "BiCS5",
     "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
@@ -992,7 +1015,7 @@
     ]
   },
   "KBiCS5M": {
-    "die_codename": "KBiCS5M",
+    "die_codename": "BiCS5",
     "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 2,
@@ -1001,7 +1024,7 @@
     ]
   },
   "KBiCS5Q": {
-    "die_codename": "KBiCS5Q",
+    "die_codename": "BiCS5",
     "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 4,
@@ -1010,7 +1033,7 @@
     ]
   },
   "KBiCS6": {
-    "die_codename": "KBiCS6",
+    "die_codename": "BiCS6",
     "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
@@ -1024,7 +1047,7 @@
     ]
   },
   "KBiCS6M": {
-    "die_codename": "KBiCS6M",
+    "die_codename": "BiCS6",
     "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 2,
@@ -1033,7 +1056,7 @@
     ]
   },
   "KBiCS6Q": {
-    "die_codename": "KBiCS6Q",
+    "die_codename": "BiCS6",
     "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 4,
@@ -1042,7 +1065,7 @@
     ]
   },
   "KBiCS8": {
-    "die_codename": "KBiCS8",
+    "die_codename": "BiCS8",
     "generation_info": "BiCS8",
     "layer_count": 218,
     "cell_level": 3,
@@ -1051,14 +1074,14 @@
     ]
   },
   "TSBD2H": {
-    "die_codename": "TSBD2H",
+    "die_codename": "24nm",
     "plane_count": 2,
     "firmware_match": [
       "2DM"
     ]
   },
   "TSBDFK": {
-    "die_codename": "TSBDFK",
+    "die_codename": "A19nm",
     "plane_count": 4,
     "firmware_match": [
       "2DM"
@@ -1139,108 +1162,121 @@
     ]
   },
   "L72A": {
-    "die_codename": "L72A",
+    "die_codename": "25nm",
     "cell_level": 2,
     "die_density": "16Gb",
     "firmware_match": [
       "IM2DM"
-    ]
+    ],
+    "process_alias": "L72A"
   },
   "L73A": {
-    "die_codename": "L73A",
+    "die_codename": "25nm",
     "cell_level": 2,
     "die_density": "32Gb",
     "firmware_match": [
       "IM2DM"
-    ]
+    ],
+    "process_alias": "L73A"
   },
   "L74A": {
-    "die_codename": "L74A",
+    "die_codename": "25nm",
     "cell_level": 2,
     "die_density": "64Gb",
     "firmware_match": [
       "IM2DM"
-    ]
+    ],
+    "process_alias": "L74A"
   },
   "L7BT": {
-    "die_codename": "L7BT",
+    "die_codename": "25nm",
     "cell_level": 2,
     "die_density": "42Gb",
     "firmware_match": [
       "IM2DM"
-    ]
+    ],
+    "process_alias": "L7BT"
   },
   "L83A": {
-    "die_codename": "L83A",
+    "die_codename": "20nm",
     "cell_level": 2,
     "die_density": "32Gb",
     "firmware_match": [
       "L83A"
-    ]
+    ],
+    "process_alias": "L83A"
   },
   "L84A": {
-    "die_codename": "L84A",
+    "die_codename": "20nm",
     "cell_level": 2,
     "die_density": "64Gb",
     "firmware_match": [
       "L84A"
-    ]
+    ],
+    "process_alias": "L84A"
   },
   "L84B": {
-    "die_codename": "L84B",
+    "die_codename": "20nm",
     "cell_level": 2,
     "die_density": "64Gb",
     "firmware_match": [
       "L84B"
-    ]
+    ],
+    "process_alias": "L84B"
   },
   "L84C": {
-    "die_codename": "L84C",
+    "die_codename": "20nm",
     "cell_level": 2,
     "die_density": "64Gb",
     "firmware_match": [
       "L84C"
-    ]
+    ],
+    "process_alias": "L84C"
   },
   "L84D": {
-    "die_codename": "L84D",
+    "die_codename": "20nm",
     "cell_level": 2,
     "die_density": "64Gb",
     "firmware_match": [
       "L84D"
-    ]
+    ],
+    "process_alias": "L84D"
   },
   "L85A": {
-    "die_codename": "L85A",
+    "die_codename": "20nm",
     "cell_level": 2,
     "die_density": "128Gb",
     "firmware_match": [
       "L85A"
-    ]
+    ],
+    "process_alias": "L85A"
   },
   "L85C": {
-    "die_codename": "L85C",
+    "die_codename": "20nm",
     "cell_level": 2,
     "die_density": "128Gb",
     "firmware_match": [
       "L85C"
-    ]
+    ],
+    "process_alias": "L85C"
   },
   "L94C": {
-    "die_codename": "L94C",
+    "die_codename": "16nm",
     "cell_level": 2,
     "die_density": "64Gb",
     "firmware_match": [
       "L94C"
-    ]
+    ],
+    "process_alias": "L94C"
   },
   "L95B": {
-    "die_codename": "L95B",
+    "die_codename": "16nm",
     "cell_level": 2,
     "die_density": "128Gb",
     "firmware_match": [
       "L95B"
-    ]
+    ],
+    "process_alias": "L95B"
   },
   "M26A": {
     "die_codename": "M26A",
@@ -1311,100 +1347,112 @@
     ]
   },
   "M70A": {
-    "die_codename": "M70A",
+    "die_codename": "25nm",
     "cell_level": 1,
     "die_density": "4Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M70A"
   },
   "M70M": {
-    "die_codename": "M70M",
+    "die_codename": "25nm",
     "cell_level": 1,
     "die_density": "4Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M70M"
   },
   "M71M": {
-    "die_codename": "M71M",
+    "die_codename": "25nm",
     "cell_level": 1,
     "die_density": "8Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M71M"
   },
   "M72A": {
-    "die_codename": "M72A",
+    "die_codename": "25nm",
     "cell_level": 1,
     "die_density": "16Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M72A"
   },
   "M73A": {
-    "die_codename": "M73A",
+    "die_codename": "25nm",
     "cell_level": 1,
     "die_density": "32Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M73A"
   },
   "M78A": {
-    "die_codename": "M78A",
+    "die_codename": "25nm",
     "cell_level": 1,
     "die_density": "1Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M78A"
   },
   "M79A": {
-    "die_codename": "M79A",
+    "die_codename": "25nm",
     "cell_level": 1,
     "die_density": "2Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M79A"
   },
   "M79M": {
-    "die_codename": "M79M",
+    "die_codename": "25nm",
     "cell_level": 1,
     "die_density": "2Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M79M"
   },
   "M83A": {
-    "die_codename": "M83A",
+    "die_codename": "20nm",
     "cell_level": 1,
     "die_density": "32Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M83A"
   },
   "M83C": {
-    "die_codename": "M83C",
+    "die_codename": "20nm",
     "cell_level": 1,
     "die_density": "32Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M83C"
   },
   "M84A": {
-    "die_codename": "M84A",
+    "die_codename": "20nm",
     "cell_level": 1,
     "die_density": "64Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M84A"
   },
   "M84C": {
-    "die_codename": "M84C",
+    "die_codename": "20nm",
     "cell_level": 1,
     "die_density": "64Gb",
     "firmware_match": [
       "IM2DS"
-    ]
+    ],
+    "process_alias": "M84C"
   },
   "N18A": {
     "die_codename": "N18A",
@@ -1496,7 +1544,7 @@
     ]
   },
   "S0T25": {
-    "die_codename": "S0T25",
+    "die_codename": "BiCS5",
     "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
@@ -1507,10 +1555,11 @@
     ],
     "die_mark": [
       "FXN6"
-    ]
+    ],
+    "process_alias": "0T25"
   },
   "S0T46": {
-    "die_codename": "S0T46",
+    "die_codename": "BiCS6",
     "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
@@ -1521,20 +1570,21 @@
     ],
     "die_mark": [
       "FXZ0"
-    ]
+    ],
+    "process_alias": "0T46"
   },
   "SNK15": {
-    "die_codename": "SNK15"
+    "die_codename": "15nm"
   },
   "SNK15M": {
-    "die_codename": "SNK15M",
+    "die_codename": "15nm",
     "cell_level": 2,
     "firmware_match": [
       "2DM"
     ]
   },
   "SNK15M2P": {
-    "die_codename": "SNK15M2P",
+    "die_codename": "15nm",
     "cell_level": 2,
     "die_density": "128Gb",
     "plane_count": 2,
@@ -1543,7 +1593,7 @@
     ]
   },
   "SNK15M4P": {
-    "die_codename": "SNK15M4P",
+    "die_codename": "15nm",
     "cell_level": 2,
     "die_density": "128Gb",
     "plane_count": 4,
@@ -1552,109 +1602,109 @@
     ]
   },
   "SNK15T": {
-    "die_codename": "SNK15T",
+    "die_codename": "15nm",
     "cell_level": 3,
     "firmware_match": [
       "2DT"
     ]
   },
   "SNK19": {
-    "die_codename": "SNK19"
+    "die_codename": "19nm"
   },
   "SNK19M": {
-    "die_codename": "SNK19M",
+    "die_codename": "19nm",
     "cell_level": 2,
     "firmware_match": [
       "2DM"
     ]
   },
   "SNK19T": {
-    "die_codename": "SNK19T",
+    "die_codename": "19nm",
     "cell_level": 3,
     "firmware_match": [
       "2DT"
     ]
   },
   "SNK1Y": {
-    "die_codename": "SNK1Y"
+    "die_codename": "A19nm"
   },
   "SNK1YM": {
-    "die_codename": "SNK1YM",
+    "die_codename": "A19nm",
     "cell_level": 2,
     "firmware_match": [
       "2DM"
     ]
   },
   "SNK1YT": {
-    "die_codename": "SNK1YT",
+    "die_codename": "A19nm",
     "cell_level": 3,
     "firmware_match": [
       "2DT"
     ]
   },
   "SNK24": {
-    "die_codename": "SNK24"
+    "die_codename": "24nm"
   },
   "SNK24M": {
-    "die_codename": "SNK24M",
+    "die_codename": "24nm",
     "cell_level": 2,
     "firmware_match": [
       "2DM"
     ]
   },
   "SNK24S": {
-    "die_codename": "SNK24S",
+    "die_codename": "24nm",
     "cell_level": 1,
     "firmware_match": [
       "2DS"
     ]
   },
   "SNK24T": {
-    "die_codename": "SNK24T",
+    "die_codename": "24nm",
     "cell_level": 3,
     "firmware_match": [
       "2DT"
     ]
   },
   "SNK32": {
-    "die_codename": "SNK32"
+    "die_codename": "32nm"
   },
   "SNK32M": {
-    "die_codename": "SNK32M",
+    "die_codename": "32nm",
     "cell_level": 2,
     "firmware_match": [
       "2DM"
     ]
   },
   "SNK32T": {
-    "die_codename": "SNK32T",
+    "die_codename": "32nm",
     "cell_level": 3,
     "firmware_match": [
       "2DT"
     ]
   },
   "SNK43": {
-    "die_codename": "SNK43"
+    "die_codename": "43nm"
   },
   "SNK43M": {
-    "die_codename": "SNK43M",
+    "die_codename": "43nm",
     "cell_level": 2,
     "firmware_match": [
       "2DM"
     ]
   },
   "SNK43T": {
-    "die_codename": "SNK43T",
+    "die_codename": "43nm",
     "cell_level": 3,
     "firmware_match": [
       "2DT"
     ]
   },
   "SNK56": {
-    "die_codename": "SNK56"
+    "die_codename": "56nm"
   },
   "S7T23": {
-    "die_codename": "S7T23",
+    "die_codename": "BiCS3",
     "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
@@ -1665,10 +1715,11 @@
     ],
     "die_mark": [
       "FRN2"
-    ]
+    ],
+    "process_alias": "7T23"
   },
   "S8T22": {
-    "die_codename": "S8T22",
+    "die_codename": "BiCS2",
     "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 3,
@@ -1679,10 +1730,11 @@
     ],
     "die_mark": [
       "FPL9"
-    ]
+    ],
+    "process_alias": "8T22"
   },
   "S8T23": {
-    "die_codename": "S8T23",
+    "die_codename": "BiCS3",
     "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
@@ -1693,10 +1745,11 @@
     ],
     "die_mark": [
       "FRN1"
-    ]
+    ],
+    "process_alias": "8T23"
   },
   "S8T24": {
-    "die_codename": "S8T24",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
@@ -1707,10 +1760,11 @@
     ],
     "die_mark": [
       "FST0"
-    ]
+    ],
+    "process_alias": "8T24"
   },
   "S8T2M": {
-    "die_codename": "S8T2M",
+    "die_codename": "BiCS4.5",
     "generation_info": "BiCS4.5",
     "cell_level": 3,
     "die_density": "256Gb",
@@ -1720,10 +1774,11 @@
     ],
     "die_mark": [
       "FXE4"
-    ]
+    ],
+    "process_alias": "8T2M"
   },
   "S9T23": {
-    "die_codename": "S9T23",
+    "die_codename": "BiCS3",
     "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
@@ -1734,10 +1789,11 @@
     ],
     "die_mark": [
       "FRN4"
-    ]
+    ],
+    "process_alias": "9T23"
   },
   "S9T24": {
-    "die_codename": "S9T24",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
@@ -1748,10 +1804,11 @@
     ],
     "die_mark": [
       "FSK3"
-    ]
+    ],
+    "process_alias": "9T24"
   },
   "S9T2M": {
-    "die_codename": "S9T2M",
+    "die_codename": "BiCS4.5",
     "generation_info": "BiCS4.5",
     "cell_level": 3,
     "die_density": "512Gb",
@@ -1761,10 +1818,11 @@
     ],
     "die_mark": [
       "FXE5"
-    ]
+    ],
+    "process_alias": "9T2M"
   },
   "S9T45": {
-    "die_codename": "S9T45",
+    "die_codename": "BiCS5",
     "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
@@ -1775,10 +1833,11 @@
     ],
     "die_mark": [
       "FXN5"
-    ]
+    ],
+    "process_alias": "9T45"
   },
   "S9T46": {
-    "die_codename": "S9T46",
+    "die_codename": "BiCS6",
     "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
@@ -1789,10 +1848,11 @@
     ],
     "die_mark": [
       "FXZ5"
-    ]
+    ],
+    "process_alias": "9T46"
   },
   "SBiCS2": {
-    "die_codename": "SBiCS2",
+    "die_codename": "BiCS2",
     "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 3,
@@ -1806,7 +1866,7 @@
     ]
   },
   "SBiCS2M": {
-    "die_codename": "SBiCS2M",
+    "die_codename": "BiCS2",
     "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 2,
@@ -1815,7 +1875,7 @@
     ]
   },
   "SBiCS3": {
-    "die_codename": "SBiCS3",
+    "die_codename": "BiCS3",
     "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
@@ -1830,7 +1890,7 @@
     ]
   },
   "SBiCS3M": {
-    "die_codename": "SBiCS3M",
+    "die_codename": "BiCS3",
     "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 2,
@@ -1839,7 +1899,7 @@
     ]
   },
   "SBiCS4": {
-    "die_codename": "SBiCS4",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
@@ -1852,7 +1912,7 @@
     ]
   },
   "SBiCS4.5": {
-    "die_codename": "SBiCS4.5",
+    "die_codename": "BiCS4.5",
     "generation_info": "BiCS4.5",
     "cell_level": 3,
     "plane_count": 2,
@@ -1865,7 +1925,7 @@
     ]
   },
   "SBiCS4.5M": {
-    "die_codename": "SBiCS4.5M",
+    "die_codename": "BiCS4.5",
     "generation_info": "BiCS4.5",
     "cell_level": 2,
     "firmware_match": [
@@ -1873,7 +1933,7 @@
     ]
   },
   "SBiCS4.5Q": {
-    "die_codename": "SBiCS4.5Q",
+    "die_codename": "BiCS4.5",
     "generation_info": "BiCS4.5",
     "cell_level": 4,
     "firmware_match": [
@@ -1881,7 +1941,7 @@
     ]
   },
   "SBiCS4M": {
-    "die_codename": "SBiCS4M",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 2,
@@ -1890,7 +1950,7 @@
     ]
   },
   "SBiCS4Q": {
-    "die_codename": "SBiCS4Q",
+    "die_codename": "BiCS4",
     "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 4,
@@ -1903,7 +1963,7 @@
     ]
   },
   "SBiCS5": {
-    "die_codename": "SBiCS5",
+    "die_codename": "BiCS5",
     "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
@@ -1916,7 +1976,7 @@
     ]
   },
   "SBiCS5M": {
-    "die_codename": "SBiCS5M",
+    "die_codename": "BiCS5",
     "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 2,
@@ -1925,7 +1985,7 @@
     ]
   },
   "SBiCS5Q": {
-    "die_codename": "SBiCS5Q",
+    "die_codename": "BiCS5",
     "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 4,
@@ -1934,7 +1994,7 @@
     ]
   },
   "SBiCS6": {
-    "die_codename": "SBiCS6",
+    "die_codename": "BiCS6",
     "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
@@ -1948,7 +2008,7 @@
     ]
   },
   "SBiCS6M": {
-    "die_codename": "SBiCS6M",
+    "die_codename": "BiCS6",
     "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 2,
@@ -1957,7 +2017,7 @@
     ]
   },
   "SBiCS6Q": {
-    "die_codename": "SBiCS6Q",
+    "die_codename": "BiCS6",
     "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 4,
@@ -1966,7 +2026,7 @@
     ]
   },
   "SBiCS8": {
-    "die_codename": "SBiCS8",
+    "die_codename": "BiCS8",
     "generation_info": "BiCS8",
     "layer_count": 218,
     "cell_level": 3,
@@ -1988,69 +2048,69 @@
     ]
   },
   "SS14": {
-    "die_codename": "SS14",
+    "die_codename": "14nm",
     "firmware_match": [
       "SS14"
     ]
   },
   "SS16": {
-    "die_codename": "SS16",
+    "die_codename": "16nm",
     "firmware_match": [
       "SS16"
     ]
   },
   "SS16M": {
-    "die_codename": "SS16M",
+    "die_codename": "16nm",
     "cell_level": 2,
     "firmware_match": [
       "SS16M"
     ]
   },
   "SS19": {
-    "die_codename": "SS19",
+    "die_codename": "19nm",
     "firmware_match": [
       "SS19"
     ]
   },
   "SS21": {
-    "die_codename": "SS21",
+    "die_codename": "21nm",
     "firmware_match": [
       "SS21"
     ]
   },
   "SS21M": {
-    "die_codename": "SS21M",
+    "die_codename": "21nm",
     "cell_level": 2,
     "firmware_match": [
       "SS21M"
     ]
   },
   "SS27": {
-    "die_codename": "SS27",
+    "die_codename": "27nm",
     "firmware_match": [
       "SS27"
     ]
   },
   "SS2D": {
-    "die_codename": "SS2D",
+    "die_codename": "2D",
     "firmware_match": [
       "SS2D"
     ]
   },
   "SS32": {
-    "die_codename": "SS32",
+    "die_codename": "32nm",
     "firmware_match": [
       "SS32"
     ]
   },
   "SS42": {
-    "die_codename": "SS42",
+    "die_codename": "42nm",
     "firmware_match": [
       "SS42"
     ]
   },
   "SS51": {
-    "die_codename": "SS51",
+    "die_codename": "51nm",
     "firmware_match": [
       "SS51"
     ]

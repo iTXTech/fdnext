@@ -193,6 +193,9 @@
         },
         "processNode": {},
         "processNodeOverride": {
+          "F2": "L84A",
+          "FP": "L84C",
+          "FS": "L84C",
           "K1": "N38A",
           "K2": "N38B",
           "KA": "N38B",

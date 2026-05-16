@@ -24,13 +24,13 @@ export const fdnextFieldProfiles = {
         id: "storage",
         label: "Storage",
         importance: "primary",
-        fields: ["density", "cell_level", "die_codename", "process_alias", "generation_info", "series_info"]
+        fields: ["density", "cell_level", "die_codename", "process_alias", "layer_count", "generation_info", "series_info"]
       },
       {
         id: "geometry",
         label: "Geometry",
         importance: "secondary",
-        fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "layer_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
+        fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
       },
       { id: "interface", label: "Interface", importance: "secondary", fields: ["device_width", "voltage", "storage_interface", "interface_type", "toggle", "ecc_level"] },
       {
@@ -50,13 +50,13 @@ export const fdnextFieldProfiles = {
         id: "storage",
         label: "Storage",
         importance: "primary",
-        fields: ["density", "cell_level", "die_codename", "process_alias", "generation_info", "series_info"]
+        fields: ["density", "cell_level", "die_codename", "process_alias", "layer_count", "generation_info", "series_info"]
       },
       {
         id: "geometry",
         label: "Geometry",
         importance: "secondary",
-        fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "layer_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
+        fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
       },
       { id: "interface", label: "Interface", importance: "secondary", fields: ["device_width", "voltage", "storage_interface", "interface_type", "toggle", "ecc_level"] },
       {

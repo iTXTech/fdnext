@@ -50,7 +50,7 @@
 | `component_voltage` | 封装或组件电压，不承载产品线或代际信息 | `3.3V` |
 | `storage_density` | MCP/eMCP/uMCP 内 storage 子系统容量，`display` 用 Bytes | `262144` / `32GB` |
 | `die_density` | 单颗 NAND die 容量，`display` 用 Bytes | `1024` / `128MB` |
-| `die_codename` | NAND 制程 / die profile key，可作为 PN / Flash ID / MPTool 规则之间的稳定匹配 key，公开 label 渲染为 `Process` / `制程` | `B27A` |
+| `die_codename` | NAND 用户可见制程名，公开 label 渲染为 `Process` / `制程`；`nand.die_profile` lookup key 可以比公开值更具体 | `BiCS4` / `20nm` |
 | `process_alias` | 制程代号或厂商工艺 alias，用于独立展示 `X3-9060`、`8T23` 这类匹配线索 | `X3-9060` |
 | `die_stack` | 封装内 die 堆叠数量或厂商堆叠代号 | `8-die package` |
 | `die_count` / `plane_count` | die / plane 数量 | `2` / `4` |
@@ -72,8 +72,8 @@
 约定：
 
 - On-die ECC NAND 使用 `device.chipKind = "on_die_ecc_nand"`，展示为 `On-die ECC NAND`。
-- NAND 制程/代际匹配优先输出 `die_codename`，公开 label 渲染为 `Process` / `制程`；已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`。层数使用独立 `layer_count`，`X3-9060`、`8T23` 等工艺或 full-code 别名使用独立 `process_alias`。生成后的 FDB `l` 必须是 `nand.die_profile` key；泛化 `xxnm`、`1ynm`、`3DVx` 只有作为表内 fallback profile 时才允许保留。
-- `nand.die_profile` 中的 `firmware_match` / `die_mark` 是匹配和维护 metadata，不默认输出到公开 result；整理过的 `process_alias` 可以公开展示。Kioxia / SanDisk 2D 固件侧默认归一为 `2DM` / `2DT`；BiCS profile key 必须带厂商前缀，例如 `KBiCS3` / `SBiCS3`，full code profile key 也必须带厂商前缀，例如 `K7T23` / `S7T23`。Micron / Intel 3D 直接用 `B16A` 这类 die codename；2D 一般使用 `IM2DS` / `IM2DM` / `IM2DT` 区分 SLC / MLC / TLC，但 `L8x`、`B9x`、`L9x` 也直接用 die codename。
+- NAND 制程/代际匹配优先输出 `die_codename`，公开 label 渲染为 `Process` / `制程`；已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`。2D 公开值优先是 `15nm` / `A19nm` / `20nm` 这类 litho；Kioxia / SanDisk 3D 公开值统一是 `BiCS3` / `BiCS4` / `BiCS4.5`，不带厂商和 Cell 后缀。层数使用独立 `layer_count`，并统一放在 NAND 主解析结果块，不放入封装细节；`X3-9060`、`8T23` 等工艺或 full-code 别名使用独立 `process_alias`。生成后的 FDB `l` 必须是 `nand.die_profile` key；泛化 `xxnm`、`1ynm`、`3DVx` 只有作为表内 fallback profile 时才允许保留。
+- `nand.die_profile` 中的 `firmware_match` / `die_mark` 是匹配和维护 metadata，不默认输出到公开 result；整理过的 `process_alias` 可以公开展示。Kioxia / SanDisk 2D 固件侧默认归一为 `2DM` / `2DT`；BiCS profile key 必须带厂商前缀，例如 `KBiCS3` / `SBiCS3`，full code profile key 也必须带厂商前缀，例如 `K7T23` / `S7T23`。Micron / Intel 3D 直接用 `B16A` 这类 die codename；2D 一般使用 `IM2DS` / `IM2DM` / `IM2DT` 区分 SLC / MLC / TLC，但 `L7x` / `M7x` / `B7x`、`L8x` / `M8x` / `B8x`、`L9x` / `B9x` 可直接用 die codename 匹配，公开制程分别补齐为 `25nm`、`20nm`、`16nm`。
 - `storage_interface` 与 `product_type` 完全重复时，优先保留更结构化的 identity 字段，除非接口字段含有版本、lane、gear 等增量信息。
 - `iNAND`、`iSSD`、`moviNAND` 等厂商品牌或系列名不作为 `product_type`；需要展示时放入 `product_family` 等稳定语义字段，解析中间用的 `system` / `group` 不进入公开 fields。SSD 类封装按接口归类为 `sata` / `nvme`。
 

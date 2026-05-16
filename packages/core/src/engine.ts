@@ -820,7 +820,10 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
 
     for (const [key, value] of Object.entries(profile)) {
-      if (value === undefined || key === "die_codename" || !isFdnextFieldKey(key) || draftField(info, key) !== undefined) {
+      if (value === undefined || !isFdnextFieldKey(key)) {
+        continue;
+      }
+      if (key !== "die_codename" && draftField(info, key) !== undefined) {
         continue;
       }
       setDraftField(info, key, value);
