@@ -2,7 +2,7 @@
 
 采集日期：2026-05-15
 
-本目录收集 eMMC、UFS、eMCP/uMCP、E2NAND、raw NAND 与 DRAM 的 PN 编码资料。README 只保留目录、范围和跨厂商维护原则；任何厂商特定来源、PN 结构、token 表、样例和规则说明都必须放入对应厂商独立文档。
+本目录收集 eMMC、UFS、eMCP/uMCP、E2NAND/E3NAND、raw NAND 与 DRAM 的 PN 编码资料。README 只保留目录、范围和跨厂商维护原则；任何厂商特定来源、PN 结构、token 表、样例和规则说明都必须放入对应厂商独立文档。
 
 ## 文档索引
 
@@ -38,7 +38,7 @@
 ## 通用约定
 
 - iTXTech fdnext DecodePack 中 `density` 继续使用项目现有单位：Mbit。
-- Managed NAND 与混合封装必须按具体产品线输出 `emmc`、`ufs`、`emcp`、`umcp` 或 `e2nand`，不要使用泛化 controller 兜底类型；补充信息放入 `fields`。
+- Managed NAND 与混合封装必须按具体产品线输出 `emmc`、`ufs`、`emcp`、`umcp`、`e2nand` 或 `e3nand`，不要使用泛化 controller 兜底类型；补充信息放入 `fields`。
 - 规则实现禁止完整 PN 白名单匹配，只允许按 PN 结构切 token，再用规则库解释已知 token。
 - 未知 token 不应阻断 vendor、type、density 等已能确定字段的解析。
 - 用户可见字段统一使用跨厂商 canonical key；厂商原始 token、可信度 metadata 和外部确认状态只能留在 iTXTech fdnext DecodePack 内部或厂商文档中。

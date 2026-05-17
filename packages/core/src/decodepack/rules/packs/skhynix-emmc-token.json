@@ -22,6 +22,7 @@
     "tokenDecoder": {
       "tables": {
         "density": {
+          "3": 32768,
           "4": 65536,
           "5": 131072,
           "6": 262144,
@@ -35,6 +36,78 @@
           "T": {
             "managed_family": "e-NAND"
           }
+        },
+        "componentObj": {
+          "1001": {
+            "product_version": "eMMC 4.5",
+            "storage_interface": "eMMC 4.5",
+            "generation_info": "1xnm NAND",
+            "die_density": "32Gb",
+            "die_stack": "1-die",
+            "die_count": 1
+          },
+          "1204": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
+            "die_stack": "1-die",
+            "die_count": 1
+          },
+          "1208": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
+            "die_stack": "1-die",
+            "die_count": 1
+          },
+          "2208": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
+            "die_stack": "2-die",
+            "die_count": 2
+          },
+          "4208": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
+            "die_stack": "4-die",
+            "die_count": 4
+          },
+          "8208": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
+            "die_stack": "8-die",
+            "die_count": 8
+          },
+          "1002": {
+            "generation_info": "3D-V2 NAND",
+            "die_density": "128Gb",
+            "die_stack": "1-die",
+            "die_count": 1
+          },
+          "2002": {
+            "generation_info": "3D-V2 NAND",
+            "die_density": "128Gb",
+            "die_stack": "2-die",
+            "die_count": 2
+          },
+          "4002": {
+            "generation_info": "3D-V2 NAND",
+            "die_density": "128Gb",
+            "die_stack": "4-die",
+            "die_count": 4
+          },
+          "8002": {
+            "generation_info": "3D-V2 NAND",
+            "die_density": "128Gb",
+            "die_stack": "8-die",
+            "die_count": 8
+          }
+        },
+        "package": {
+          "HPR": "153FBGA 11.5x13x0.8mm",
+          "FPR": "153FBGA 11.5x13x0.8mm",
+          "GPR": "153FBGA 11.5x13x0.8mm",
+          "AMR": "153FBGA 11.5x13x1.0mm",
+          "CMR": "153FBGA 11.5x13x1.0mm",
+          "EMR": "153FBGA 11.5x13x1.0mm"
         },
         "gradeObj": {
           "A": {
@@ -91,8 +164,27 @@
         },
         {
           "op": "take",
-          "len": 7,
-          "to": "skipRevision"
+          "len": 4,
+          "to": "componentCode"
+        },
+        {
+          "op": "map",
+          "from": "componentCode",
+          "table": "componentObj",
+          "to": "componentObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": "153FBGA"
         },
         {
           "op": "takeLongest",
@@ -107,6 +199,7 @@
             "system": "SK hynix e-NAND",
             "group": "eMMC",
             "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "interface_type": "HS400+CMD Q"
           }
         },
@@ -114,6 +207,11 @@
           "op": "merge",
           "into": "extra",
           "from": "mediaObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "componentObj"
         },
         {
           "op": "merge",
@@ -131,8 +229,10 @@
             "layout_code",
             "density_code",
             "stack_code",
+            "component_code",
             "generation_code",
-            "voltage_io_code"
+            "voltage_io_code",
+            "package_code"
           ]
         }
       ],
@@ -151,7 +251,9 @@
           "$var": "density"
         },
         "fields.voltage": "VCC: 3.3V, VCCQ: 1.8V",
-        "fields.package": "153FBGA",
+        "fields.package": {
+          "$var": "package"
+        },
         "meta.ruleId": "vendor.skhynix.emmc.managed.v1"
       }
     }

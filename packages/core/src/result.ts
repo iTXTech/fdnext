@@ -72,6 +72,7 @@ export const fdnextProductTypes = [
   "emcp",
   "umcp",
   "e2nand",
+  "e3nand",
   "lpddr4",
   "lpddr4x",
   "lpddr5",

@@ -59,6 +59,7 @@
   "emcp": "eMCP",
   "umcp": "uMCP",
   "e2nand": "E2NAND",
+  "e3nand": "E3NAND",
   "lpddr4": "LPDDR4",
   "lpddr4x": "LPDDR4X",
   "lpddr5": "LPDDR5",

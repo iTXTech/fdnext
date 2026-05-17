@@ -33,6 +33,38 @@
           "VG": 786432,
           "1T": 1048576
         },
+        "configObj": {
+          "8T2": {
+            "die_density": "64Gb",
+            "die_stack": "1-die",
+            "die_count": 1
+          },
+          "8UD": {
+            "die_density": "64Gb",
+            "die_stack": "2-die",
+            "die_count": 2
+          },
+          "8VD": {
+            "die_density": "64Gb",
+            "die_stack": "4-die",
+            "die_count": 4
+          },
+          "8YD": {
+            "die_density": "64Gb",
+            "die_stack": "8-die",
+            "die_count": 8
+          },
+          "8PD": {
+            "die_density": "128Gb",
+            "die_stack": "4-die",
+            "die_count": 4
+          },
+          "8QD": {
+            "die_density": "128Gb",
+            "die_stack": "8-die",
+            "die_count": 8
+          }
+        },
         "familyObj": {
           "D": {
             "product_family": "SK hynix E2NAND",
@@ -54,6 +86,30 @@
         "voltage": {
           "D": "Vcc: 3.3V, VccQ: 3.3V",
           "J": "Vcc: 3.0V/3.3V, VccQ: 3.0V/3.3V"
+        },
+        "packageBySeries": {
+          "D": "VLGA",
+          "J": "WLGA"
+        },
+        "shieldObj": {
+          "BMR": {
+            "special_option": "Non Shielded"
+          },
+          "CMR": {
+            "special_option": "Non Shielded"
+          },
+          "MMR": {
+            "special_option": "Non Shielded"
+          },
+          "BMS": {
+            "special_option": "EMI Shielded"
+          },
+          "CMS": {
+            "special_option": "EMI Shielded"
+          },
+          "MMS": {
+            "special_option": "EMI Shielded"
+          }
         }
       },
       "steps": [
@@ -85,6 +141,13 @@
           "to": "configCode"
         },
         {
+          "op": "map",
+          "from": "configCode",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
           "op": "take",
           "len": 1,
           "to": "techCode"
@@ -109,9 +172,23 @@
           "default": "Unknown"
         },
         {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "packageBySeries",
+          "to": "package",
+          "default": "WLGA"
+        },
+        {
           "op": "take",
           "len": 3,
           "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "shieldObj",
+          "to": "shieldObj",
+          "default": {}
         },
         {
           "op": "stripIfPrefix",
@@ -152,6 +229,16 @@
           "from": "familyObj"
         },
         {
+          "op": "merge",
+          "into": "extra",
+          "from": "configObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "shieldObj"
+        },
+        {
           "op": "omit",
           "from": "extra",
           "keys": [
@@ -186,11 +273,197 @@
         "fields.voltage": {
           "$var": "voltage"
         },
-        "fields.package": "VLGA",
+        "fields.package": {
+          "$var": "package"
+        },
         "meta.ruleId": "vendor.skhynix.e2nand.h2d_h2j.v1",
         "fields.die_codename": {
           "$var": "processNode"
         }
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.e3nand.h23q.v1",
+    "priority": 1001,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H23Q[0-9A-Z]{9}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H23Q"
+      ],
+      "tables": {
+        "density": {
+          "D": 131072,
+          "E": 262144,
+          "F": 524288,
+          "1T": 1048576
+        },
+        "configObj": {
+          "G8UD": {
+            "die_density": "64Gb",
+            "die_stack": "2-die",
+            "die_count": 2
+          },
+          "G8VG": {
+            "die_density": "64Gb",
+            "die_stack": "4-die",
+            "die_count": 4
+          },
+          "G8YK": {
+            "die_density": "64Gb",
+            "die_stack": "8-die",
+            "die_count": 8
+          },
+          "G8PG": {
+            "die_density": "128Gb",
+            "die_stack": "4-die",
+            "die_count": 4
+          },
+          "8QK": {
+            "die_density": "128Gb",
+            "die_stack": "8-die",
+            "die_count": 8
+          }
+        },
+        "shieldObj": {
+          "ACS": {
+            "special_option": "EMI Shielded"
+          },
+          "MCS": {
+            "special_option": "EMI Shielded"
+          },
+          "MYS": {
+            "special_option": "EMI Shielded"
+          },
+          "ACR": {
+            "special_option": "Non Shielded"
+          },
+          "MCR": {
+            "special_option": "Non Shielded"
+          },
+          "MYR": {
+            "special_option": "Non Shielded"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?:1T|[DEF])",
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(?:G8UD|G8VG|G8YK|G8PG|8QK)",
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "techCode"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "shieldObj",
+          "to": "shieldObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix E3NAND",
+            "product_family": "SK hynix E3NAND",
+            "product_version": "E3NAND",
+            "generation_info": "1ynm E3NAND",
+            "block_size": "4MB",
+            "ecc_enabled": true
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "configObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "shieldObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "system",
+            "group",
+            "series_code",
+            "cell_code",
+            "layout_code",
+            "density_code",
+            "stack_code",
+            "config_code",
+            "package_code",
+            "tech_code",
+            "generation_code",
+            "voltage_io_code"
+          ]
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "e3nand",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": 8,
+        "fields.voltage": "Vcc: 3.3V",
+        "fields.package": "WLGA",
+        "meta.ruleId": "vendor.skhynix.e3nand.h23q.v1"
       }
     }
   }

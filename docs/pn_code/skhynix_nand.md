@@ -36,8 +36,10 @@
   <https://pdf.directindustry.com/pdf/sk-hynix/nand-flash/34497-603624.html>
 - `H27UCG8T2E` datasheet mirror 标注 64Gb (8192M x 8bit) MLC NAND，作为 H27 raw NAND 资料参考。
   <https://app2.alldatasheet.com/datasheet-pdf/pdf/1425049/HYNIX/H27UCG8T2E.html>
-- `H2JTDG8UD1BMS` datasheet mirror 的 E2NAND3.0 表列出 H2JTC/H2JTD/H2JTE/H2JTF/H2JTV/H2JT1T 系列、容量、block size、stack、Vcc/Org 与 VLGA 封装。
+- `H2JTDG8UD1BMS` datasheet mirror 的 E2NAND3.0 表列出 H2JTC/H2JTD/H2JTE/H2JTF/H2JTV/H2JT1T 系列、容量、block size、stack、Vcc/Org 与 WLGA 封装。
   <https://www.alldatasheet.co.nz/html-pdf/1425105/HYNIX/H2JTDG8UD1BMS/741/4/H2JTDG8UD1BMS.html>
+- SK hynix NAND Flash Databook Q1'2016 mirror 给出 E2NAND3.0 与 E3NAND line-up：H2J/H23Q 系列、density、4MB block、stack、Vcc/Org、WLGA 与 EMI / Non Shielded remark。
+  <https://gzhls.at/blob/ldb/e/8/b/f/32b2d2b37ba8bac84be3202fa5c6425eb300.pdf>
 - USBDev flash list 与 Flash Extractor 论坛对 H2D/H2J PN 给出 E2NAND / E2NAND2.0 / E2NAND3.0 标签，可作为 `external_table_confirmed` 级别交叉验证。
   <https://www.usbdev.ru/databases/flashlist/flflash3267abdbf/>
   <https://www.flash-extractor.com/forum/viewtopic.php?t=7399>
@@ -65,6 +67,7 @@
   - 规则 ID：`vendor.skhynix.h25.raw.v2`
 - E2NAND：`packages/core/src/decodepack/rules/packs/skhynix-e2nand-token.json`
   - 规则 ID：`vendor.skhynix.e2nand.h2d_h2j.v1`
+  - 规则 ID：`vendor.skhynix.e3nand.h23q.v1`
 
 ## 覆盖范围
 
@@ -72,6 +75,7 @@
 | --- | --- | --- |
 | `HY27...` | legacy raw NAND | 旧式 Hynix/SK hynix NAND PN |
 | `H2DT...` / `H2JT...` | E2NAND | H2D E2NAND2.0 与 H2J E2NAND3.0，按结构 token 分类 |
+| `H23Q...` | E3NAND | E3NAND managed NAND，按 density/config/package token 分类 |
 | `H2...` | raw NAND | 新式 SK hynix raw NAND PN；不覆盖 H2D/H2J E2NAND 结构 |
 | `H27...` | raw NAND | 既有 H27 raw NAND 路径覆盖 |
 | `H25T...` | H25T NAND package | H25T 开头的 SSD/mobile NAND package 型号，按 token 组合推断 V6/V7/V8/V9Q |
@@ -119,16 +123,36 @@ H2D / H2J 系列不是通用 raw NAND fallback。公开 catalog mirror 与 USBDe
 | `H2` + series + product + density(2) + config(3) + tech + package(3) + optional suffix | H2D/H2J E2NAND |
 | series `D/J` | `D` -> E2NAND2.0；`J` -> E2NAND3.0 |
 | density `CG/DF/DG/EG/FG/VG/1T` | 64Gb / 64Gb / 128Gb / 256Gb / 512Gb / 768Gb / 1Tb |
-| config | 例如 `8UD` / `8VD` / `8YD`，只作为内部解析 token |
+| config `8T2/8UD/8VD/8YD/8PD/8QD` | stack 与 die density 组合；公开输出 die_count / die_stack / die_density，不输出 config code |
 | tech | 与 series 组合判断 die profile，例如 `D:1` -> `HY26`，`J:1` -> `HY16M`，`J:2` -> `HY20` |
-| package | VLGA，原始 package code 只作为内部解析 token |
+| package | H2D 输出 VLGA；H2J 输出 WLGA；原始 package code 只作为内部解析 token |
+| package suffix `R/S` | Non Shielded / EMI Shielded，输出到 `special_option` |
 
 | 示例 | 输出重点 | 佐证状态 |
 | --- | --- | --- |
 | `H2DTDG8UD1MYR` | E2NAND2.0, 128Gb, x8, MLC, VLGA, 2MB block | `external_table_confirmed` |
-| `H2JTDG8UD1BMS` | E2NAND3.0, 128Gb, x8, MLC, VLGA, 4MB block | `external_table_confirmed` |
+| `H2JTDG8UD1BMS` | E2NAND3.0, 128Gb, x8, MLC, WLGA, 4MB block, 2-die, EMI Shielded | `external_table_confirmed` |
+| `H2JT1T8QD1MMR` | E2NAND3.0, 1024Gb, x8, MLC, WLGA, 4MB block, 8-die, Non Shielded | `external_table_confirmed` |
 
-`H23` 未在本地资源或外部表中找到稳定结构证据，不再使用 unsupported fallback；有效 `H26M/H26T` 由 eMMC/e-NAND 文档和规则覆盖。
+## H23Q E3NAND
+
+H23Q 系列按 Q1'2016 databook line-up 进入 managed NAND，不归入 raw NAND fallback。规则只解析 density、config、package/shielding 这些结构 token，不维护完整 PN 白名单。
+
+| PN 结构 | 字段 |
+| --- | --- |
+| `H23Q` + density(1/2) + config(3/4) + tech(1) + package(3) | H23Q E3NAND |
+| density `D/E/F/1T` | 128Gb / 256Gb / 512Gb / 1024Gb |
+| config `G8UD/G8VG/G8YK/G8PG/8QK` | stack 与 die density 组合；公开输出 die_count / die_stack / die_density |
+| tech `1` | 1ynm E3NAND |
+| package | WLGA |
+| package suffix `R/S` | Non Shielded / EMI Shielded，输出到 `special_option` |
+
+| 示例 | 输出重点 | 佐证状态 |
+| --- | --- | --- |
+| `H23QDG8UD1ACS` | E3NAND, 128Gb, x8, WLGA, 4MB block, 2-die, EMI Shielded | `external_table_confirmed` |
+| `H23Q1T8QK1MYR` | E3NAND, 1024Gb, x8, WLGA, 4MB block, 8-die, Non Shielded | `external_table_confirmed` |
+
+除 `H23Q` E3NAND 外，其他 `H23` 结构仍不使用 unsupported fallback；有效 `H26M/H26T` 由 eMMC/e-NAND 文档和规则覆盖。
 
 ## H25 NAND package / token
 

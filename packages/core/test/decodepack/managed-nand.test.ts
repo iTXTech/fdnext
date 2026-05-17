@@ -40,6 +40,7 @@ interface TestPartInfo {
   density?: string;
   dieProfileField?: string;
   cellField?: string;
+  widthField?: string;
   topology?: Record<string, unknown>;
   voltage?: string;
   interface?: Record<string, unknown>;
@@ -79,7 +80,8 @@ function partType(result: PartDecodeResult): string | undefined {
       nvme: "NVMe",
       emcp: "eMCP",
       umcp: "uMCP",
-      e2nand: "E2NAND"
+      e2nand: "E2NAND",
+      e3nand: "E3NAND"
     };
     return productTypes[result.device.productType] ?? result.device.productType.toUpperCase();
   }
@@ -109,6 +111,7 @@ function detect(partNumber: string): TestPartInfo {
     density: density?.display,
     dieProfileField: fieldText(firstField(result, "die_codename")) as string | undefined,
     cellField: fieldText(firstField(result, "cell_level")) as string | undefined,
+    widthField: fieldText(firstField(result, "device_width")) as string | undefined,
     voltage: fieldText(firstField(result, "voltage", "dram_voltage")) as string | undefined,
     package: fieldText(firstField(result, "package")) as string | undefined,
     detailFields
@@ -136,6 +139,7 @@ function assertPart(
     density?: string;
     dieProfileField?: string;
     cellField?: string;
+    widthField?: string;
     topology?: Record<string, unknown>;
     voltage?: string;
     interface?: Record<string, unknown>;
@@ -162,6 +166,9 @@ function assertPart(
   }
   if (expected.cellField !== undefined) {
     assertKnownOrOmitted(info.cellField, expected.cellField, partNumber);
+  }
+  if (expected.widthField !== undefined) {
+    assertKnownOrOmitted(info.widthField, expected.widthField, partNumber);
   }
   if (expected.topology !== undefined) {
     assert.ok(info.topology == null || typeof info.topology === "object", partNumber);
@@ -398,9 +405,9 @@ const knownSkhynixUfsPn = managedNandPn.flatMap((entry) => {
   const record = entry as Record<string, unknown>;
   const vendor = String(record.vendor);
   const pn = String(record.pn);
-  return vendor === "skhynix" && /^(?:H28S|HN8)/.test(pn) ? [pn] : [];
+  return vendor === "skhynix" && /^(?:H28[SU]|HN8)/.test(pn) ? [pn] : [];
 });
-assert.ok(knownSkhynixUfsPn.length > 0, "known SK hynix UFS PN resource should include H28S/HN8 entries");
+assert.ok(knownSkhynixUfsPn.length > 0, "known SK hynix UFS PN resource should include H28S/H28U/HN8 entries");
 for (const pn of knownSkhynixUfsPn) {
   const info = detect(pn);
   assert.equal(info.vendor, "skhynix", `${pn} should decode as SK hynix`);
@@ -409,6 +416,26 @@ for (const pn of knownSkhynixUfsPn) {
   if (pn.startsWith("HN8")) {
     const hn8Matches = compiledPack.partDecoders.filter((decoder) => skhynixHn8RuleIds.has(decoder.id) && decoder.check(pn));
     assert.equal(hn8Matches.length, 1, `${pn} should match exactly one SK hynix HN8 datasheet rule`);
+  }
+}
+
+const knownSkhynixLineupPn = managedNandPn.flatMap((entry) => {
+  const record = entry as Record<string, unknown>;
+  const vendor = String(record.vendor);
+  const pn = String(record.pn);
+  return vendor === "skhynix" && /^(?:H23Q|H26M|H2J)/.test(pn) ? [pn] : [];
+});
+assert.ok(knownSkhynixLineupPn.length > 0, "known SK hynix managed NAND PN resource should include H23Q/H26M/H2J entries");
+for (const pn of knownSkhynixLineupPn) {
+  const info = detect(pn);
+  assert.equal(info.vendor, "skhynix", `${pn} should decode as SK hynix`);
+  assert.ok((info.densityMbit ?? 0) > 0, `${pn} should decode a managed NAND density`);
+  if (pn.startsWith("H23Q")) {
+    assert.equal(info.type, "E3NAND", `${pn} should decode as SK hynix E3NAND`);
+  } else if (pn.startsWith("H26M")) {
+    assert.equal(info.type, "eMMC", `${pn} should decode as SK hynix eMMC`);
+  } else {
+    assert.equal(info.type, "E2NAND", `${pn} should decode as SK hynix E2NAND`);
   }
 }
 
@@ -1786,10 +1813,14 @@ assertPart("H26M78208CMRX", {
   vendor: "skhynix",
   type: "eMMC",
   densityMbit: 524288,
-  package: "153FBGA",
+  package: "153FBGA 11.5x13x1.0mm",
   extra: {
     "Managed Family": "e-NAND",
-    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
+    "Product Generation": "1xnm NAND",
+    "Die Density": "64Gb",
+    "Die Stack": "8-die",
+    "Die Count": 8,
     "Product Class": "Automotive Grade 2/3"
   }
 });
@@ -1798,11 +1829,45 @@ assertPart("H26M78208CMRN", {
   vendor: "skhynix",
   type: "eMMC",
   densityMbit: 524288,
-  package: "153FBGA",
+  package: "153FBGA 11.5x13x1.0mm",
   extra: {
     "Managed Family": "e-NAND",
-    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
+    "Product Generation": "1xnm NAND",
+    "Die Density": "64Gb",
+    "Die Stack": "8-die",
+    "Die Count": 8,
     "Product Class": "Commercial / Mobile"
+  }
+});
+
+assertPart("H26M31001HPR", {
+  vendor: "skhynix",
+  type: "eMMC",
+  densityMbit: 32768,
+  package: "153FBGA 11.5x13x0.8mm",
+  extra: {
+    "Managed Family": "e-NAND",
+    "Storage Interface": "eMMC 4.5",
+    "Product Generation": "1xnm NAND",
+    "Die Density": "32Gb",
+    "Die Stack": "1-die",
+    "Die Count": 1
+  }
+});
+
+assertPart("H26M88002AMR", {
+  vendor: "skhynix",
+  type: "eMMC",
+  densityMbit: 1048576,
+  package: "153FBGA 11.5x13x1.0mm",
+  extra: {
+    "Managed Family": "e-NAND",
+    "Storage Interface": "eMMC 5.1",
+    "Product Generation": "3D-V2 NAND",
+    "Die Density": "128Gb",
+    "Die Stack": "8-die",
+    "Die Count": 8
   }
 });
 
@@ -1810,9 +1875,10 @@ assertPart("H26M91208HPRX", {
   vendor: "skhynix",
   type: "eMMC",
   density: "Unknown",
-  package: "153FBGA",
+  package: "153FBGA 11.5x13x0.8mm",
   extra: {
     "Managed Family": "e-NAND",
+    "Storage Interface": "eMMC 5.1",
     "Product Class": "Automotive Grade 2/3"
   }
 });
@@ -1997,6 +2063,38 @@ assertPart("H28S8Q302CMR", {
   extra: {
     "Product Version": "UFS 2.1"
   }
+});
+
+assertPart("H28U64222MMR", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 262144,
+  package: "11.5x13x1.0mm",
+  extra: {
+    "Storage Interface": "UFS 2.0",
+    "Product Generation": "1xnm NAND",
+    "Interface Type": "1-lane / 2-lane",
+    "Die Density": "64Gb",
+    "Die Stack": "4-die",
+    "Die Count": 4
+  },
+  absentExtra: ["System", "Group", "Package Code", "Component Code"]
+});
+
+assertPart("H28U86222MCR", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 1048576,
+  package: "11.5x13x1.2mm",
+  extra: {
+    "Storage Interface": "UFS 2.0",
+    "Product Generation": "1xnm NAND",
+    "Interface Type": "1-lane / 2-lane",
+    "Die Density": "64Gb",
+    "Die Stack": "16-die",
+    "Die Count": 16
+  },
+  absentExtra: ["System", "Group", "Package Code", "Component Code"]
 });
 
 assertPart("H25T2TB88E-X321-N", {
@@ -2184,11 +2282,67 @@ assertPart("H2JTDG8UD1BMS", {
   dieProfileField: "16nm",
   cellField: "MLC",
   widthField: "x8",
-  package: "VLGA",
+  package: "WLGA",
   extra: {
     "Product Version": "E2NAND3.0",
     "Block size": "4MB",
-    "ECC enabled": "Yes"
+    "ECC enabled": "Yes",
+    "Special Option": "EMI Shielded",
+    "Die Density": "64Gb",
+    "Die Stack": "2-die",
+    "Die Count": 2
+  }
+});
+
+assertPart("H2JT1T8QD1MMR", {
+  vendor: "skhynix",
+  type: "E2NAND",
+  densityMbit: 1048576,
+  dieProfileField: "16nm",
+  cellField: "MLC",
+  widthField: "x8",
+  package: "WLGA",
+  extra: {
+    "Product Version": "E2NAND3.0",
+    "Block size": "4MB",
+    "Special Option": "Non Shielded",
+    "Die Density": "128Gb",
+    "Die Stack": "8-die",
+    "Die Count": 8
+  }
+});
+
+assertPart("H23QDG8UD1ACS", {
+  vendor: "skhynix",
+  type: "E3NAND",
+  densityMbit: 131072,
+  widthField: "x8",
+  package: "WLGA",
+  extra: {
+    "Product Generation": "1ynm E3NAND",
+    "Block size": "4MB",
+    "ECC enabled": "Yes",
+    "Special Option": "EMI Shielded",
+    "Die Density": "64Gb",
+    "Die Stack": "2-die",
+    "Die Count": 2
+  }
+});
+
+assertPart("H23Q1T8QK1MYR", {
+  vendor: "skhynix",
+  type: "E3NAND",
+  densityMbit: 1048576,
+  widthField: "x8",
+  package: "WLGA",
+  extra: {
+    "Product Generation": "1ynm E3NAND",
+    "Block size": "4MB",
+    "ECC enabled": "Yes",
+    "Special Option": "Non Shielded",
+    "Die Density": "128Gb",
+    "Die Stack": "8-die",
+    "Die Count": 8
   }
 });
 

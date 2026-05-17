@@ -958,6 +958,171 @@
     }
   },
   {
+    "id": "vendor.skhynix.ufs.h28u.v1",
+    "priority": 1007,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H28U[0-9A-Z]{8}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H28U"
+      ],
+      "tables": {
+        "density": {
+          "6": 262144,
+          "7": 524288,
+          "8": 1048576
+        },
+        "componentObj": {
+          "4222": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
+            "die_stack": "4-die",
+            "die_count": 4
+          },
+          "8222": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
+            "die_stack": "8-die",
+            "die_count": 8
+          },
+          "6222": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
+            "die_stack": "16-die",
+            "die_count": 16
+          },
+          "4201": {
+            "generation_info": "3D-V2 NAND",
+            "die_density": "128Gb",
+            "die_stack": "4-die",
+            "die_count": 4
+          },
+          "8201": {
+            "generation_info": "3D-V2 NAND",
+            "die_density": "128Gb",
+            "die_stack": "8-die",
+            "die_count": 8
+          }
+        },
+        "package": {
+          "AMR": "11.5x13x1.0mm",
+          "MMR": "11.5x13x1.0mm",
+          "MCR": "11.5x13x1.2mm"
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 4,
+          "to": "componentCode"
+        },
+        {
+          "op": "map",
+          "from": "componentCode",
+          "table": "componentObj",
+          "to": "componentObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix UFS",
+            "group": "UFS",
+            "product_version": "UFS 2.0",
+            "storage_interface": "UFS 2.0",
+            "interface_type": "1-lane / 2-lane"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "componentObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "system",
+            "group",
+            "series_code",
+            "cell_code",
+            "layout_code",
+            "density_code",
+            "stack_code",
+            "component_code",
+            "interface_code",
+            "nand_info_code",
+            "package_code",
+            "generation_code",
+            "feature_code",
+            "voltage_io_code"
+          ]
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.voltage": "Vcc: 3.3V",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.skhynix.ufs.h28u.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.skhynix.ufs.h28s.v1",
     "priority": 1006,
     "normalize": [

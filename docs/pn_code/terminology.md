@@ -20,7 +20,7 @@
 | `part_number` | 规范化后的 PN | `device.partNumber` |
 | `vendor` | 厂商展示名 | `device.vendor` |
 | `chip_kind` | `raw_nand`、`managed_nand`、`dram` 等芯片类别 | `device.chipKind` |
-| `product_type` | eMMC、UFS、SATA、NVMe、eMCP/uMCP、LPDDR5X、DDR4 等产品线 subtype | `device.productType` |
+| `product_type` | eMMC、UFS、SATA、NVMe、eMCP/uMCP、E2NAND/E3NAND、LPDDR5X、DDR4 等产品线 subtype | `device.productType` |
 | `identifier` | typed identifier 值，例如 NAND Flash ID | `device.identifier` |
 | `id_scheme` | identifier namespace，例如 `nand.flash_id` | `device.idScheme` |
 | `marking_code` | FBGA / package marking code | `device.markingCode` |
