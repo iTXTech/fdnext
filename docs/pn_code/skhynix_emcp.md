@@ -12,9 +12,11 @@
   <https://datasheet4u.com/pdf/1055141/H9TQ17ABJTMCUR-KUM.pdf>
 - `H9TP32A4GDBCPR-KGM` CI-MCP datasheet mirror 给出 `4GB eNAND (x8) / LPDDR2-S4B 4Gb(x32)`、eMMC 4.41、162-ball FBGA，以及 `H 9 T P 3 2 ... - K G M` 的字段标注。
   <https://datasheet4u.com/pdf-down/H/9/T/H9TP32A4GDBCPR-HynixSemiconductor.pdf>
-- `H9HP52ACPMADAR` eMCP datasheet mirror 给出 `64GB eMMC (x8) / LPDDR4X 32Gb`、eMMC 5.1、254-ball FBGA，以及 `H 9 H P 5 2 ... - K M M` 的字段标注。
+- `H9HP27ADAMADAR` eMCP datasheet mirror 给出 `32GB eMMC (x8) / LPDDR4X 24Gb(x16, 2CH/2CS)`、eMMC 5.1、LPDDR4X-3733、254-ball FBGA，以及 `H 9 H P 2 7 ... - K M M` 的字段标注。
+  <https://uttc.com.tw/wp-content/uploads/2025/12/H9HP27ADAMADAR_Rev1.0.pdf>
+- `H9HP52ACPMADAR` eMCP datasheet mirror 给出 `64GB eMMC (x8) / LPDDR4X 32Gb`、eMMC 5.1、LPDDR4X-3733、254-ball FBGA，以及 `H 9 H P 5 2 ... - K M M` 的字段标注。
   <https://uttc.com.tw/wp-content/uploads/2025/12/H9HP52ACPMADAR_Rev1.0.pdf>
-- `H9AG9G5ANBX100` eMCP datasheet mirror 给出 `H9A` = LPDDR4 eMCP，`G9G5` = 64GB + 32Gb，`B` = MMC 5.0，254-ball FBGA。
+- `H9AG9G5ANBX100` eMCP datasheet mirror 给出 `H9A` = LPDDR4 eMCP，`G9G5` = 64GB eMMC + 32Gb / 4GB LPDDR4X，`B` = MMC 5.0，254-ball FBGA。
   <https://uttc.com.tw/wp-content/uploads/2025/12/H9AG9G5ANBX100_Rev0.2.pdf>
 - `H9QT0GECN6X145` uMCP datasheet mirror 给出 `H9Q` = LPDDR4 uMCP，`T0GE` = 128GB + 48Gb，`6` = UFS 2.2，254-ball FBGA。
   <https://www.uttc.com.tw/wp-content/uploads/2025/12/H9QT0GECN6X145_Rev0.1.pdf>
@@ -27,20 +29,36 @@
   - `packages/core/src/decodepack/rules/packs/skhynix-emcp-token.json`
   - `packages/core/src/decodepack/rules/packs/skhynix-umcp-token.json`
 - 规则 ID：
+  - `vendor.skhynix.emcp.h9hp-lpddr4x.v1`
   - `vendor.skhynix.emcp.h9t_h9h.v1`
   - `vendor.skhynix.emcp.h9a.v1`
   - `vendor.skhynix.umcp.h9q.v1`
   - `vendor.skhynix.umcp.h9hq.v1`
 - testcase：`packages/core/test/decodepack/managed-nand.test.ts`
 
-## H9T / H9H eMCP 结构
+## H9HP LPDDR4X eMCP 结构
 
 | PN 结构 | 字段 |
 | --- | --- |
-| `H9TP/H9TQ/H9HP/H9HC` + density(2) + voltage/io(2) + config(4) + remaining package/speed/temp tail | SK hynix CI-MCP / eMCP |
+| `H9HP` + density(2) + NVM voltage(1) + DRAM density(1) + DRAM option(1) + generation(1) + package type(1) + material(1) + eMMC speed(1) + DRAM speed(1) + optional temp tail | SK hynix eMMC + LPDDR4X eMCP |
+| density `27` | 32GB eMMC + 24Gb LPDDR4X |
+| density `52` | 64GB eMMC + 32Gb LPDDR4X |
+| NVM voltage `A` | eMMC/NVM 3.3V x8 |
+| DRAM density `D/C` | 24Gb / 32Gb LPDDR4X |
+| DRAM option `A/P` | LPDDR4X x16, 1.1V/0.6V I/O option |
+| generation `M` | 2nd generation |
+| package/material `AD` | 254Ball FBGA, Lead & Halogen Free |
+| eMMC speed `A` | 400MHz |
+| DRAM speed `R` | LPDDR4X-3733 |
+| tail `KMM` | Mobile -25~85°C |
+
+## H9T / H9H legacy eMCP 结构
+
+| PN 结构 | 字段 |
+| --- | --- |
+| `H9TP/H9TQ/H9HC` + density(2) + voltage/io(2) + config(4) + remaining package/speed/temp tail | SK hynix CI-MCP / eMCP |
 | `H9TP` | CI-MCP NAND DDR2, e-NAND + LPDDR2 |
 | `H9TQ` | CI-MCP NAND DDR3, e-NAND + LPDDR3 |
-| `H9HP` | eMCP NAND DDR4, eMMC + LPDDR4X |
 | `H9HC` | eMCP family，公开资料不足时只输出结构字段 |
 | density `32` | 4GB e-NAND + 4Gb LPDDR2 |
 | density `17` | 16GB e-NAND + 16Gb LPDDR3 |
@@ -75,6 +93,7 @@
 | --- | --- |
 | `H9TQ17ABJTMCUR-KUM` | eMCP, 16GB e-NAND + 16Gb LPDDR3, eMMC 5.0, 221Ball FBGA |
 | `H9TP32A4GDBCPR-KGM` | eMCP, 4GB e-NAND + 4Gb LPDDR2, eMMC 4.41, 162Ball FBGA |
+| `H9HP27ADAMADAR-KMM` | eMCP, 32GB eMMC + 24Gb LPDDR4X, eMMC 5.1, 254Ball FBGA |
 | `H9HP52ACPMADAR-KMM` | eMCP, 64GB eMMC + 32Gb LPDDR4X, eMMC 5.1, 254Ball FBGA |
 | `H9AG9G5ANBX100` | eMCP, 64GB eMMC + 4GB LPDDR4X, eMMC 5.0 |
 | `H9QT0GECN6X145` | uMCP, 128GB UFS + 6GB LPDDR4X, UFS 2.2 |
@@ -82,6 +101,6 @@
 
 ## 已知缺口
 
-- H9T/H9H 的 tail 中包含 package material、package type、temperature、DRAM speed 等字段，不同 datasheet 的位置说明不完全一致；当前规则只保留稳定的 density / voltage / config token。
+- H9HP LPDDR4X eMCP 已按 datasheet 拆出独立规则；H9T/H9HC legacy 规则仍只保留稳定的 density / voltage / config token。
 - H9HC、H9HQ 子族公开资料较分散，目前只对已验证 density code 做表驱动解析。
 - H9Q 新 uMCP 与 HN8/H28S 纯 UFS 不是同一类产品，不能并入 UFS parser。

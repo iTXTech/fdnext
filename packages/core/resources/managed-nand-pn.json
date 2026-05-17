@@ -613,6 +613,10 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "H9HP27ADAMADAR-KMM"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "H9HP52ACPMADAR-KMM"
   },
   {
@@ -645,7 +649,63 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "HN8G95DJHQX148"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8G95DJHVX148"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T05DJHQX105"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T05DJHVX105"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T15DJHQX109"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T15DJHVX109"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T25DJHQX111"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T25DJHVX111"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8G961ZGKX031"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T061ZGKX012"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T161ZGKX013"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T261ZGKX014"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "HN8G962EHKX037N"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T062EHKX039"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T162EHKX041"
   },
   {
     "vendor": "skhynix",
@@ -661,7 +721,15 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "HN8T274EJKX130"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "HN8T35DZHKX079"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T374ZJKX141"
   },
   {
     "vendor": "sndk",

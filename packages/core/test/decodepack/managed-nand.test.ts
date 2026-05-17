@@ -308,6 +308,36 @@ function assertKioxiaManagedRuleMatches(partNumber: string, expected: string[]):
   assert.deepEqual(actual, [...expected].sort(), `${partNumber} should match only the expected Kioxia managed NAND rule`);
 }
 
+const skhynixHn8RuleIds = new Set([
+  "vendor.skhynix.ufs.hn8.automotive-ufs31.v1",
+  "vendor.skhynix.ufs.hn8.mobile-ufs31.v1",
+  "vendor.skhynix.ufs.hn8.ufs22-v6.v1",
+  "vendor.skhynix.ufs.hn8.ufs22-v7.v1",
+  "vendor.skhynix.ufs.hn8.zufs41.v1"
+]);
+
+function assertSkhynixHn8RuleMatches(partNumber: string, expected: string[]): void {
+  const actual = compiledPack.partDecoders
+    .filter((decoder) => skhynixHn8RuleIds.has(decoder.id) && decoder.check(partNumber))
+    .map((decoder) => decoder.id)
+    .sort();
+  assert.deepEqual(actual, [...expected].sort(), `${partNumber} should match only the expected SK hynix HN8 datasheet rule`);
+}
+
+const skhynixEmcpRuleIds = new Set([
+  "vendor.skhynix.emcp.h9hp-lpddr4x.v1",
+  "vendor.skhynix.emcp.h9t_h9h.v1",
+  "vendor.skhynix.emcp.h9a.v1"
+]);
+
+function assertSkhynixEmcpRuleMatches(partNumber: string, expected: string[]): void {
+  const actual = compiledPack.partDecoders
+    .filter((decoder) => skhynixEmcpRuleIds.has(decoder.id) && decoder.check(partNumber))
+    .map((decoder) => decoder.id)
+    .sort();
+  assert.deepEqual(actual, [...expected].sort(), `${partNumber} should match only the expected SK hynix eMCP datasheet rule`);
+}
+
 function assertSearchPnFirst(query: string, expected: string): void {
   const result = engine.searchParts({ query, lang: "eng", limit: 1 }).items.map((item) => `${item.device.vendor.name} ${item.label}`);
   assert.deepEqual(result, [expected], `${query} should prefer managed NAND PN suggestions`);
@@ -362,6 +392,24 @@ for (const entry of managedNandPn) {
     [],
     `managed NAND PN entry should not expose maintenance keys: ${JSON.stringify(entry)}`
   );
+}
+
+const knownSkhynixUfsPn = managedNandPn.flatMap((entry) => {
+  const record = entry as Record<string, unknown>;
+  const vendor = String(record.vendor);
+  const pn = String(record.pn);
+  return vendor === "skhynix" && /^(?:H28S|HN8)/.test(pn) ? [pn] : [];
+});
+assert.ok(knownSkhynixUfsPn.length > 0, "known SK hynix UFS PN resource should include H28S/HN8 entries");
+for (const pn of knownSkhynixUfsPn) {
+  const info = detect(pn);
+  assert.equal(info.vendor, "skhynix", `${pn} should decode as SK hynix`);
+  assert.equal(info.type, "UFS", `${pn} should decode as SK hynix UFS`);
+  assert.ok((info.densityMbit ?? 0) > 0, `${pn} should decode a UFS density`);
+  if (pn.startsWith("HN8")) {
+    const hn8Matches = compiledPack.partDecoders.filter((decoder) => skhynixHn8RuleIds.has(decoder.id) && decoder.check(pn));
+    assert.equal(hn8Matches.length, 1, `${pn} should match exactly one SK hynix HN8 datasheet rule`);
+  }
 }
 
 assertPart("SDINBDA6-256G-XI1", {
@@ -1769,44 +1817,141 @@ assertPart("H26M91208HPRX", {
   }
 });
 
+assertSkhynixHn8RuleMatches("HN8G95DJHQX148", ["vendor.skhynix.ufs.hn8.automotive-ufs31.v1"]);
+assertPart("HN8G95DJHQX148", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 524288,
+  dieProfileField: "HYV7",
+  package: "153-ball JEDEC FBGA 11.5x13.0x1.2 TFBGA",
+  extra: {
+    "Storage Interface": "UFS 3.1",
+    "Layer Count": 176,
+    "Product Class": "Automotive AAT",
+    "Operation Temperature": "-40°C ~ 105°C"
+  },
+  absentExtra: ["System", "Product Family", "Product Generation"]
+});
+
+assertSkhynixHn8RuleMatches("HN8T25DJHVX111", ["vendor.skhynix.ufs.hn8.automotive-ufs31.v1"]);
+assertPart("HN8T25DJHVX111", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 4194304,
+  dieProfileField: "HYV7",
+  package: "153-ball JEDEC FBGA 11.5x13.0x1.2 TFBGA",
+  extra: {
+    "Storage Interface": "UFS 3.1",
+    "Layer Count": 176,
+    "Product Class": "Automotive AIT",
+    "Operation Temperature": "-40°C ~ 95°C"
+  },
+  absentExtra: ["System", "Product Family", "Product Generation"]
+});
+
+assertSkhynixHn8RuleMatches("HN8T25DEHKX077N", ["vendor.skhynix.ufs.hn8.mobile-ufs31.v1"]);
 assertPart("HN8T25DEHKX077N", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 4194304,
   dieProfileField: "HYV7",
-  package: "153FBGA",
+  voltage: "Vcc: 2.4V-2.7V, VccQ: 1.14V-1.26V",
+  package: "153FBGA 11.0x13.0x0.8 WFBGA",
   extra: {
-    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
     "Layer Count": 176,
     "Product Class": "Mobile"
   },
   absentExtra: ["System", "Product Family", "Product Generation"]
 });
 
+assertSkhynixHn8RuleMatches("HN8T35DZHKX079", ["vendor.skhynix.ufs.hn8.mobile-ufs31.v1"]);
 assertPart("HN8T35DZHKX079", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 8388608,
   dieProfileField: "HYV7",
-  package: "153FBGA",
+  voltage: "Vcc: 2.4V-2.7V, VccQ: 1.14V-1.26V",
+  package: "153FBGA 11.0x13.0x1.0 VFBGA",
   extra: {
-    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
     "Layer Count": 176
   },
   absentExtra: ["System", "Product Family", "Product Generation"]
 });
 
+assertSkhynixHn8RuleMatches("HN8G962EHKX037N", ["vendor.skhynix.ufs.hn8.ufs22-v7.v1"]);
 assertPart("HN8G962EHKX037N", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 524288,
-  package: "153FBGA",
+  dieProfileField: "HYV7",
+  voltage: "Vcc: 3.3V, VccQ: 1.8V",
+  package: "153FBGA 11.5x13.0x0.8",
   extra: {
-    "Product Version": "UFS 3.1"
+    "Storage Interface": "UFS 2.2",
+    "Layer Count": 176
   },
   absentExtra: ["System", "Product Family"]
 });
 
+assertSkhynixHn8RuleMatches("HN8T062EHKX039", ["vendor.skhynix.ufs.hn8.ufs22-v7.v1"]);
+assertPart("HN8T062EHKX039", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 1048576,
+  dieProfileField: "HYV7",
+  voltage: "Vcc: 3.3V, VccQ: 1.8V",
+  package: "153FBGA 11.5x13.0x0.8",
+  extra: {
+    "Storage Interface": "UFS 2.2",
+    "Layer Count": 176
+  },
+  absentExtra: ["System", "Product Family"]
+});
+
+assertSkhynixHn8RuleMatches("HN8T162EHKX041", ["vendor.skhynix.ufs.hn8.ufs22-v7.v1"]);
+assertPart("HN8T162EHKX041", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 2097152,
+  dieProfileField: "HYV7",
+  voltage: "Vcc: 3.3V, VccQ: 1.8V",
+  package: "153FBGA 11.5x13.0x0.8",
+  extra: {
+    "Storage Interface": "UFS 2.2",
+    "Layer Count": 176
+  },
+  absentExtra: ["System", "Product Family"]
+});
+
+assertSkhynixHn8RuleMatches("HN8G961ZGKX031", ["vendor.skhynix.ufs.hn8.ufs22-v6.v1"]);
+assertPart("HN8G961ZGKX031", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 524288,
+  voltage: "Vcc: 2.7V-3.6V, VccQ2: 1.7V-1.95V",
+  package: "153FBGA 11.5x13.0x1.0",
+  extra: {
+    "Storage Interface": "UFS 2.2"
+  },
+  absentExtra: ["System", "Product Family", "Process", "Layer Count"]
+});
+
+assertSkhynixHn8RuleMatches("HN8T261ZGKX014", ["vendor.skhynix.ufs.hn8.ufs22-v6.v1"]);
+assertPart("HN8T261ZGKX014", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 4194304,
+  voltage: "Vcc: 2.7V-3.6V, VccQ2: 1.7V-1.95V",
+  package: "153FBGA 11.5x13.0x1.0",
+  extra: {
+    "Storage Interface": "UFS 2.2"
+  },
+  absentExtra: ["System", "Product Family", "Process", "Layer Count"]
+});
+
+assertSkhynixHn8RuleMatches("HN8T274EJKX130", ["vendor.skhynix.ufs.hn8.zufs41.v1"]);
 assertPart("HN8T274EJKX130", {
   vendor: "skhynix",
   type: "UFS",
@@ -1820,6 +1965,7 @@ assertPart("HN8T274EJKX130", {
   absentExtra: ["System", "Group", "Product Version"]
 });
 
+assertSkhynixHn8RuleMatches("HN8T374ZJKX141", ["vendor.skhynix.ufs.hn8.zufs41.v1"]);
 assertPart("HN8T374ZJKX141", {
   vendor: "skhynix",
   type: "UFS",
@@ -2069,26 +2215,54 @@ assertPart("H9TP32A4GDBCPR-KGM", {
   }
 });
 
+assertSkhynixEmcpRuleMatches("H9HP52ACPMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
 assertPart("H9HP52ACPMADAR-KMM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 524288,
-  package: "254Ball FBGA",
+  voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+  package: "254Ball FBGA 11.5x13.0x1.2",
   extra: {
     "Product Mode": "eMCP NAND DDR4",
-    "Storage Density": "64GB eMMC"
+    "Storage Density": "64GB",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-3733"
   },
   absentExtra: ["System"]
 });
 
+assertSkhynixEmcpRuleMatches("H9HP27ADAMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
+assertPart("H9HP27ADAMADAR-KMM", {
+  vendor: "skhynix",
+  type: "eMCP",
+  densityMbit: 262144,
+  voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+  package: "254Ball FBGA 11.5x13.0x1.0",
+  extra: {
+    "Product Mode": "eMCP NAND DDR4",
+    "Storage Density": "32GB",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "24Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-3733"
+  },
+  absentExtra: ["System"]
+});
+
+assertSkhynixEmcpRuleMatches("H9AG9G5ANBX100", ["vendor.skhynix.emcp.h9a.v1"]);
 assertPart("H9AG9G5ANBX100", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 524288,
-  package: "254Ball FBGA",
+  package: "254Ball FBGA (Lead & Halogen Free)",
   extra: {
     "Product Mode": "LPDDR4 eMCP",
-    "Storage Interface": "eMMC 5.0"
+    "Storage Density": "64GB",
+    "Storage Interface": "eMMC 5.0",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR4X"
   },
   absentExtra: ["System"]
 });

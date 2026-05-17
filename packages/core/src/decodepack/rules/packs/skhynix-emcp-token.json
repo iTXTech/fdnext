@@ -1,5 +1,336 @@
 [
   {
+    "id": "vendor.skhynix.emcp.h9hp-lpddr4x.v1",
+    "priority": 1006,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H9HP(?:27|52)A[CD][AP]MADAR(?:KMM)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H9HP"
+      ],
+      "tables": {
+        "density": {
+          "27": 262144,
+          "52": 524288
+        },
+        "densityObj": {
+          "27": {
+            "storage_density": 262144,
+            "dram_density": 24576,
+            "dram_type": "LPDDR4X",
+            "dram_width": 16,
+            "dram_die_stack": "QDP, 2Ch 2CS",
+            "product_version": "eMMC 5.1 / LPDDR4X",
+            "storage_interface": "eMMC 5.1"
+          },
+          "52": {
+            "storage_density": 524288,
+            "dram_density": 32768,
+            "dram_type": "LPDDR4X",
+            "dram_width": 16,
+            "dram_die_stack": "QDP, 2Ch 2CS",
+            "product_version": "eMMC 5.1 / LPDDR4X",
+            "storage_interface": "eMMC 5.1"
+          }
+        },
+        "package": {
+          "27": "254Ball FBGA 11.5x13.0x1.0",
+          "52": "254Ball FBGA 11.5x13.0x1.2"
+        },
+        "nvmVoltageObj": {
+          "A": {
+            "component_voltage": "NVM 3.3V x8 / LPDDR4X 1.8V/1.1V/0.6V x16"
+          }
+        },
+        "dramOptionObj": {
+          "A": {
+            "dram_voltage": "1.8V/1.1V/0.6V"
+          },
+          "P": {
+            "dram_voltage": "1.8V/1.1V/0.6V"
+          }
+        },
+        "generationObj": {
+          "M": {
+            "generation_info": "2nd generation eMCP"
+          }
+        },
+        "packageMaterialObj": {
+          "D": {
+            "special_option": "Lead & Halogen Free"
+          }
+        },
+        "emmcSpeedObj": {
+          "A": {
+            "speed_grade": "eMMC 400MHz / LPDDR4X-3733"
+          }
+        },
+        "dramSpeedObj": {
+          "R": {
+            "dram_speed": "LPDDR4X-3733"
+          }
+        },
+        "tailObj": {
+          "KMM": {
+            "product_class": "Mobile",
+            "operation_temperature": "-25°C ~ 85°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "package",
+          "to": "package",
+          "default": "254Ball FBGA"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "nvmVoltageCode"
+        },
+        {
+          "op": "map",
+          "from": "nvmVoltageCode",
+          "table": "nvmVoltageObj",
+          "to": "nvmVoltageObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dramDensityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dramOptionCode"
+        },
+        {
+          "op": "map",
+          "from": "dramOptionCode",
+          "table": "dramOptionObj",
+          "to": "dramOptionObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "map",
+          "from": "generationCode",
+          "table": "generationObj",
+          "to": "generationObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageTypeCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageMaterialCode"
+        },
+        {
+          "op": "map",
+          "from": "packageMaterialCode",
+          "table": "packageMaterialObj",
+          "to": "packageMaterialObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "emmcSpeedCode"
+        },
+        {
+          "op": "map",
+          "from": "emmcSpeedCode",
+          "table": "emmcSpeedObj",
+          "to": "emmcSpeedObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dramSpeedCode"
+        },
+        {
+          "op": "map",
+          "from": "dramSpeedCode",
+          "table": "dramSpeedObj",
+          "to": "dramSpeedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "tailObj",
+          "to": "tailObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix eMCP",
+            "group": "eMCP",
+            "product_mode": "eMCP NAND DDR4",
+            "product_family": "eMMC + LPDDR4X",
+            "density_code": {
+              "$var": "densityCode"
+            },
+            "nvm_voltage_code": {
+              "$var": "nvmVoltageCode"
+            },
+            "dram_density_code": {
+              "$var": "dramDensityCode"
+            },
+            "dram_option_code": {
+              "$var": "dramOptionCode"
+            },
+            "generation_code": {
+              "$var": "generationCode"
+            },
+            "package_code": {
+              "$var": "packageTypeCode"
+            },
+            "package_material_code": {
+              "$var": "packageMaterialCode"
+            },
+            "emmc_speed_code": {
+              "$var": "emmcSpeedCode"
+            },
+            "dram_speed_code": {
+              "$var": "dramSpeedCode"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "nvmVoltageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramOptionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "generationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageMaterialObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "emmcSpeedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramSpeedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "tailObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "system",
+            "group",
+            "series_code",
+            "cell_code",
+            "layout_code",
+            "density_code",
+            "stack_code",
+            "nvm_voltage_code",
+            "dram_density_code",
+            "dram_option_code",
+            "generation_code",
+            "package_code",
+            "package_material_code",
+            "emmc_speed_code",
+            "dram_speed_code",
+            "voltage_io_code"
+          ]
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.skhynix.emcp.h9hp-lpddr4x.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.skhynix.emcp.h9t_h9h.v1",
     "priority": 1004,
     "normalize": [
@@ -18,7 +349,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H9(?:T[PQ]|H[PC])[0-9A-Z]{13,}$"
+      "value": "^H9(?:T[PQ]|HC)[0-9A-Z]{13,}$"
     },
     "tokenDecoder": {
       "tables": {
@@ -34,12 +365,6 @@
             "group": "eMCP",
             "product_mode": "CI-MCP NAND DDR3",
             "product_family": "e-NAND + LPDDR3"
-          },
-          "H9HP": {
-            "system": "SK hynix eMCP",
-            "group": "eMCP",
-            "product_mode": "eMCP NAND DDR4",
-            "product_family": "eMMC + LPDDR4X"
           },
           "H9HC": {
             "system": "SK hynix eMCP",
@@ -229,7 +554,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H9A[0-9A-Z]{11}$"
+      "value": "^H9AG9G5ANBX[0-9A-Z]{3}$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -241,8 +566,10 @@
         },
         "densityObj": {
           "G9G5": {
-            "storage_density": "64GB eMMC",
-            "dram_density": "4GB LPDDR4X"
+            "storage_density": 524288,
+            "dram_density": 32768,
+            "dram_type": "LPDDR4X",
+            "dram_width": 16
           }
         },
         "generationObj": {
@@ -395,7 +722,7 @@
           "$var": "density"
         },
         "fields.voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
-        "fields.package": "254Ball FBGA",
+        "fields.package": "254Ball FBGA (Lead & Halogen Free)",
         "meta.ruleId": "vendor.skhynix.emcp.h9a.v1"
       }
     }
