@@ -1,11 +1,44 @@
 {
   "name": "@itxtech/fdnext-cli",
   "version": "2.3.0",
+  "description": "Command-line interface for fdnext decoding, search, and DecodePack diagnostics",
+  "license": "AGPL-3.0-or-later",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
   "bin": {
     "fdnext": "dist/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iTXTech/fdnext.git",
+    "directory": "packages/cli"
+  },
+  "homepage": "https://github.com/iTXTech/fdnext#readme",
+  "bugs": {
+    "url": "https://github.com/iTXTech/fdnext/issues"
+  },
+  "keywords": [
+    "fdnext",
+    "cli",
+    "flash",
+    "nand",
+    "decodepack"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
     "@itxtech/fdnext-core": "workspace:*",

@@ -1,9 +1,16 @@
 {
   "name": "@itxtech/fdnext-core",
   "version": "2.3.0",
+  "description": "Core fdnext memory chip parsing engine and result contracts",
+  "license": "AGPL-3.0-or-later",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -13,6 +20,26 @@
       "types": "./dist/loaders/node.d.ts",
       "default": "./dist/loaders/node.js"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iTXTech/fdnext.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/iTXTech/fdnext#readme",
+  "bugs": {
+    "url": "https://github.com/iTXTech/fdnext/issues"
+  },
+  "keywords": [
+    "fdnext",
+    "flash",
+    "nand",
+    "memory",
+    "parser"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",

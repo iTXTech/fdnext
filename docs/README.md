@@ -9,6 +9,7 @@ This directory is the canonical home for fdnext usage, maintenance, and rule-aut
 | [Cloudflare Workers deployment](CF_WORKERS.md) | Wrangler config, local dev, deployment, and Worker-specific External Link notes |
 | [FDBGen documentation](FDBGEN.md) | FDB generation, MDB crawling, raw input layout, cleanup rules, and crawler behavior |
 | [fdnext fdbgen v1 support list](FDBGEN_FORMAT_V1.md) | Standard post-extraction support-list JSON format for fdbgen import tools |
+| [NPM publish prep](NPM_PUBLISH.md) | First-batch package list and npm registry release checklist |
 | [DecodePack specification](DECODEPACK.md) | PN and typed identifier iTXTech fdnext DecodePack authoring, output fields, and validation commands |
 | [PN code reference index](pn_code/README.md) | Vendor/product-line PN reference documents and maintenance boundaries |
 | [PN reference confidence policy](pn_code/reference_policy.md) | Rule admission tiers and where source-confidence metadata may live |

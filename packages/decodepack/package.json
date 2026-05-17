@@ -1,9 +1,42 @@
 {
   "name": "@itxtech/fdnext-decodepack",
   "version": "2.3.0",
+  "description": "Default iTXTech fdnext DecodePack rules and compiler",
+  "license": "AGPL-3.0-or-later",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iTXTech/fdnext.git",
+    "directory": "packages/decodepack"
+  },
+  "homepage": "https://github.com/iTXTech/fdnext#readme",
+  "bugs": {
+    "url": "https://github.com/iTXTech/fdnext/issues"
+  },
+  "keywords": [
+    "fdnext",
+    "decodepack",
+    "part-number",
+    "flash",
+    "nand"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "dependencies": {
     "@itxtech/fdnext-core": "workspace:*"
   },

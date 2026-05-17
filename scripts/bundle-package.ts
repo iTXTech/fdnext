@@ -1,5 +1,5 @@
 import { execFileSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
+import { chmodSync, existsSync, mkdirSync, readFileSync, readdirSync } from "node:fs";
 import { dirname as pathDirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -111,7 +111,14 @@ function buildMetadataDefines(root: string): Record<string, string> {
 
 async function bundleEntry(
   esbuild: EsbuildModule,
-  opts: { entry: string; outfile: string; platform: "node" | "neutral"; banner?: string; define?: Record<string, string> }
+  opts: {
+    entry: string;
+    outfile: string;
+    platform: "node" | "neutral";
+    banner?: string;
+    define?: Record<string, string>;
+    executable?: boolean;
+  }
 ) {
   ensureDir(opts.outfile);
   await esbuild.build({
@@ -132,6 +139,9 @@ async function bundleEntry(
       ".json": "json"
     }
   });
+  if (opts.executable) {
+    chmodSync(opts.outfile, 0o755);
+  }
 }
 
 function nodeRequireShim() {
@@ -201,7 +211,8 @@ async function main() {
         outfile: resolve(root, "packages/server/dist/bin.js"),
         platform: "node",
         banner: nodeBanner({ shebang: true }),
-        define
+        define,
+        executable: true
       });
       return;
     }
@@ -227,7 +238,8 @@ async function main() {
         outfile: resolve(root, "packages/aliyun-fc/dist/bin.js"),
         platform: "node",
         banner: nodeBanner({ shebang: true }),
-        define
+        define,
+        executable: true
       });
       return;
     }
@@ -237,7 +249,8 @@ async function main() {
         outfile: resolve(root, "packages/cli/dist/index.js"),
         platform: "node",
         banner: nodeBanner({ shebang: true }),
-        define
+        define,
+        executable: true
       });
       return;
     }
@@ -264,7 +277,8 @@ async function main() {
         outfile: resolve(root, "packages/fdbgen/dist/cli.js"),
         platform: "node",
         banner: nodeBanner({ shebang: true }),
-        define
+        define,
+        executable: true
       });
       return;
     }
