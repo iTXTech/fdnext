@@ -44,7 +44,7 @@
     "@itxtech/fdnext-core": "workspace:*"
   },
   "scripts": {
-    "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
+    "build": "tsc -b --emitDeclarationOnly && tsx ../../scripts/bundle-package.ts",
     "dev": "tsx src/bin.ts",
     "start": "node dist/bin.js",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"

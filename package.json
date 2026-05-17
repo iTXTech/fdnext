@@ -19,7 +19,7 @@
     "cf-workers:dev": "pnpm dlx wrangler dev --config wrangler.jsonc",
     "cf-workers:deploy": "pnpm dlx wrangler deploy --config wrangler.jsonc",
     "cf-workers:deploy:dry-run": "pnpm dlx wrangler deploy --dry-run --outdir .wrangler-bundle --config wrangler.jsonc",
-    "cli": "pnpm -s tsx ./packages/cli/src/index.ts",
+    "cli": "pnpm -s tsx ./packages/core/src/cli/index.ts",
     "fdbgen:build": "pnpm -C packages/fdbgen build",
     "fdbgen:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build",
     "fdbgen:audit": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/core/resources/fdb.json",
@@ -29,8 +29,8 @@
     "contract:check": "pnpm -s tsx ./scripts/check-contract.ts"
   },
   "devDependencies": {
-    "@types/node": "^25.6.2",
-    "tsx": "^4.21.0",
+    "@types/node": "^25.8.0",
+    "tsx": "^4.22.1",
     "typescript": "^6.0.3"
   }
 }

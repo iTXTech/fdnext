@@ -7,7 +7,6 @@
       "@itxtech/fdnext-server": ["./packages/server/src/index.ts"],
       "@itxtech/fdnext-cf-workers": ["./packages/cf-workers/src/index.ts"],
       "@itxtech/fdnext-aliyun-fc": ["./packages/aliyun-fc/src/index.ts"],
-      "@itxtech/fdnext-cli": ["./packages/cli/src/index.ts"],
       "@itxtech/fdnext-contract-test": ["./packages/contract-test/src/index.ts"],
       "@itxtech/fdnext-fdbgen": ["./packages/fdbgen/src/index.ts"]
     },

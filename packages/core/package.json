@@ -1,7 +1,7 @@
 {
   "name": "@itxtech/fdnext-core",
   "version": "2.3.0",
-  "description": "Core fdnext memory chip parsing engine, rules, resources, runtime, and result contracts",
+  "description": "Core fdnext memory chip parsing engine, rules, resources, runtime, CLI, and result contracts",
   "license": "AGPL-3.0-or-later",
   "type": "module",
   "main": "dist/index.js",
@@ -21,6 +21,9 @@
       "default": "./dist/loaders/node.js"
     }
   },
+  "bin": {
+    "fdnext": "dist/cli.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/iTXTech/fdnext.git",
@@ -37,6 +40,7 @@
     "nand",
     "memory",
     "runtime",
+    "cli",
     "parser"
   ],
   "publishConfig": {
@@ -44,8 +48,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
-    "test": "tsx test/result-contract.test.ts && tsx --test 'test/decodepack/*.test.ts'",
+    "build": "tsc -b --emitDeclarationOnly && tsx ../../scripts/bundle-package.ts",
+    "test": "tsx test/result-contract.test.ts && tsx test/cli/decodepack.test.ts && tsx --test 'test/decodepack/*.test.ts'",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   }
 }

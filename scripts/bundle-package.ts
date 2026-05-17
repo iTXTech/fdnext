@@ -178,6 +178,14 @@ async function main() {
         banner: nodeBanner({ shebang: false }),
         define
       });
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/core/src/cli/index.ts"),
+        outfile: resolve(root, "packages/core/dist/cli.js"),
+        platform: "node",
+        banner: nodeBanner({ shebang: true }),
+        define,
+        executable: true
+      });
       return;
     }
     case "server": {
@@ -218,17 +226,6 @@ async function main() {
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/aliyun-fc/src/bin.ts"),
         outfile: resolve(root, "packages/aliyun-fc/dist/bin.js"),
-        platform: "node",
-        banner: nodeBanner({ shebang: true }),
-        define,
-        executable: true
-      });
-      return;
-    }
-    case "cli": {
-      await bundleEntry(esbuild, {
-        entry: resolve(root, "packages/cli/src/index.ts"),
-        outfile: resolve(root, "packages/cli/dist/index.js"),
         platform: "node",
         banner: nodeBanner({ shebang: true }),
         define,

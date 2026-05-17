@@ -6,7 +6,6 @@
     { "path": "./packages/server" },
     { "path": "./packages/cf-workers" },
     { "path": "./packages/aliyun-fc" },
-    { "path": "./packages/cli" },
     { "path": "./packages/contract-test" },
     { "path": "./packages/fdbgen" }
   ]

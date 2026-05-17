@@ -9,7 +9,7 @@
     "@itxtech/fdnext-core": "workspace:*"
   },
   "scripts": {
-    "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
+    "build": "tsc -b --emitDeclarationOnly && tsx ../../scripts/bundle-package.ts",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
     "test": "tsx test/contract.test.ts"
   }

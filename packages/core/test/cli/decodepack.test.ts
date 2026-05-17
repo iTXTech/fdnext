@@ -2,10 +2,10 @@ import assert from "node:assert/strict";
 import { execFileSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
 
-const packageRoot = fileURLToPath(new URL("../", import.meta.url));
+const packageRoot = fileURLToPath(new URL("../../", import.meta.url));
 
 function runCli(args: string[]): unknown {
-  const output = execFileSync(process.execPath, ["--import", "tsx/esm", "src/index.ts", ...args], {
+  const output = execFileSync(process.execPath, ["--import", "tsx/esm", "src/cli/index.ts", ...args], {
     cwd: packageRoot,
     encoding: "utf8"
   });

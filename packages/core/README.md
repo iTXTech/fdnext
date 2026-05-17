@@ -4,7 +4,7 @@ Core parsing engine for fdnext — the one-stop memory chip intelligence platfor
 
 ## Overview
 
-`@itxtech/fdnext-core` is the primary fdnext package. It provides the engine, built-in DecodePack rules, embedded resources, shared runtime, type system, result contracts, and field registry. The core has **no runtime network dependencies**, making it suitable for embedding in Node.js, browsers, and serverless environments.
+`@itxtech/fdnext-core` is the primary fdnext package. It provides the engine, built-in DecodePack rules, embedded resources, shared runtime, CLI, type system, result contracts, and field registry. The core has **no runtime network dependencies**, making it suitable for embedding in Node.js, browsers, and serverless environments.
 
 ### Key Responsibilities
 
@@ -18,11 +18,19 @@ Core parsing engine for fdnext — the one-stop memory chip intelligence platfor
 - **Field Registry** — Canonical field key definitions (`field-registry.ts`) and field display profiles for consistent cross-vendor output.
 - **Processor Pipeline** — Extensible `beforeOperation` / `afterOperation` hooks for custom middleware.
 - **Runtime** — `createRuntime()` provides shared dispatch, HTTP routing, CORS, fetch, and External Link provider support.
+- **CLI** — The `fdnext` bin provides decode, search, capabilities, and DecodePack diagnostics.
 
 ## Installation
 
 ```bash
 pnpm add @itxtech/fdnext-core
+```
+
+The package also installs the `fdnext` command:
+
+```bash
+fdnext part decode MT29F64G08CBABA eng
+fdnext decodepack check
 ```
 
 ## Quick Start

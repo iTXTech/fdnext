@@ -6,8 +6,8 @@ import {
   explainIdentifierDecode,
   explainPartDecode,
   type ControllerGroupSelection
-} from "@itxtech/fdnext-core";
-import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
+} from "../index";
+import { loadResourcesFromDir } from "../loaders/node";
 
 function resourceDirFromEnv(): string | null {
   const fromEnv = process.env.FDNEXT_RESOURCES?.trim();

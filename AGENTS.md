@@ -11,7 +11,6 @@
 - `packages/core`: 解码引擎、公共 SDK、DecodePack JSON 规则 / 编译器、内置 `fdb` / `mdb` / 多语言资源、平台无关 runtime 和输出转换。
 - `packages/fdbgen`: 从本地数据集生成 FDB 的工具。
 - `packages/server`: HTTP 服务。
-- `packages/cli`: 命令行工具。
 - `docs`: iTXTech fdnext DecodePack、集成、FDBGen 和 PN 编码资料。
 
 常用命令：

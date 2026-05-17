@@ -36,7 +36,7 @@ assert.equal(typeof rootPackageMetadata.version, "string", "root package metadat
 const fdnextPackageVersion = rootPackageMetadata.version as string;
 
 function runCli(args: string[]): Record<string, unknown> {
-  const result = spawnSync(process.execPath, ["--import", "tsx", "./packages/cli/src/index.ts", ...args], {
+  const result = spawnSync(process.execPath, ["--import", "tsx", "./packages/core/src/cli/index.ts", ...args], {
     cwd: repoRoot,
     encoding: "utf8"
   });
