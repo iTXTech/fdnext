@@ -665,7 +665,31 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "H9CCNNNBLTBLAR-NTD"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9CCNNNBLTBLAR-NUD"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "H9HCNNN8KUMLHR-NME"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNN8KUMLHR-NLE"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNBKMALHR-NEE"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNBKMMLXR-NEE"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNBKMMLXR-NEI"
   },
   {
     "vendor": "skhynix",
@@ -673,7 +697,35 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "H9HCNNNCPMMLHR-NME"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNCPMMLHR-NMI"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "H9HCNNNCPMMLXR-NEE"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNCPMMLXR-NEI"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNFAMMLXR-NEE"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNFAMMLXR-NEI"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HKNNNBTUMUBR-NLM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HKNNNBTUMUBR-NLH"
   },
   {
     "vendor": "skhynix",

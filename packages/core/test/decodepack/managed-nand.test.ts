@@ -2375,13 +2375,15 @@ assertPart("H9HP52ACPMADAR-KMM", {
   type: "eMCP",
   densityMbit: 524288,
   voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
-  package: "254Ball FBGA 11.5x13.0x1.2",
+  package: "254Ball FBGA 11.5x13",
   extra: {
     "Product Mode": "eMCP NAND DDR4",
     "Storage Density": "64GB",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X",
+    "DRAM Voltage": "1.8V/1.1V/0.6V",
+    "DRAM Width": "x16",
     "DRAM Speed": "LPDDR4X-3733"
   },
   absentExtra: ["System"]
@@ -2393,16 +2395,33 @@ assertPart("H9HP27ADAMADAR-KMM", {
   type: "eMCP",
   densityMbit: 262144,
   voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
-  package: "254Ball FBGA 11.5x13.0x1.0",
+  package: "254Ball FBGA 11.5x13",
   extra: {
     "Product Mode": "eMCP NAND DDR4",
     "Storage Density": "32GB",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "24Gb",
     "DRAM Type": "LPDDR4X",
+    "DRAM Voltage": "1.8V/1.1V/0.6V",
+    "DRAM Width": "x16",
     "DRAM Speed": "LPDDR4X-3733"
   },
   absentExtra: ["System"]
+});
+
+assertSkhynixEmcpRuleMatches("H9HP99ADAMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
+assertPart("H9HP99ADAMADAR-KMM", {
+  vendor: "skhynix",
+  type: "eMCP",
+  voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+  package: "254Ball FBGA 11.5x13",
+  extra: {
+    "Product Mode": "eMCP NAND DDR4",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Width": "x16",
+    "DRAM Speed": "LPDDR4X-3733"
+  },
+  absentExtra: ["System", "Density Code", "Config Code"]
 });
 
 assertSkhynixEmcpRuleMatches("H9AG9G5ANBX100", ["vendor.skhynix.emcp.h9a.v1"]);
@@ -2410,13 +2429,16 @@ assertPart("H9AG9G5ANBX100", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 524288,
-  package: "254Ball FBGA (Lead & Halogen Free)",
+  package: "254Ball FBGA",
   extra: {
     "Product Mode": "LPDDR4 eMCP",
     "Storage Density": "64GB",
     "Storage Interface": "eMMC 5.0",
     "DRAM Density": "32Gb",
-    "DRAM Type": "LPDDR4X"
+    "DRAM Type": "LPDDR4X",
+    "DRAM Width": "x16",
+    "DRAM Speed": "LPDDR4X-4266",
+    "Special Option": "Lead & Halogen Free"
   },
   absentExtra: ["System"]
 });
@@ -2425,11 +2447,11 @@ assertPart("H9QT0GECN6X145", {
   vendor: "skhynix",
   type: "uMCP",
   densityMbit: 1048576,
-  voltage: "UFS Vcc: 2.7V~3.6V, Vccq2: 1.7V~1.95V",
+  voltage: "UFS: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
   package: "254Ball FBGA",
   extra: {
     "Product Mode": "LPDDR4 uMCP",
-    "Storage Density": "128GB UFS",
+    "Storage Density": "128GB",
     "Storage Interface": "UFS 2.2",
     "Product Generation": "4th generation uMCP",
     "DRAM Density": "48Gb",
@@ -2442,6 +2464,21 @@ assertPart("H9QT0GECN6X145", {
     "Special Option": "Lead & Halogen Free"
   },
   absentExtra: ["System", "Config Code", "Reserved Code", "Serial Code"]
+});
+
+assertPart("H9QXXXXCN6X145", {
+  vendor: "skhynix",
+  type: "uMCP",
+  voltage: "UFS: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+  package: "254Ball FBGA",
+  extra: {
+    "Product Mode": "LPDDR4 uMCP",
+    "Storage Interface": "UFS 2.2",
+    "Product Generation": "4th generation uMCP",
+    "DRAM Speed": "LPDDR4X-4266",
+    "Special Option": "Lead & Halogen Free"
+  },
+  absentExtra: ["System", "Storage Density", "DRAM Width", "Config Code", "Reserved Code", "Serial Code"]
 });
 
 assertPart("H9HQ15ACPMADAR-KEM", {

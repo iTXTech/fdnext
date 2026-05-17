@@ -2067,23 +2067,84 @@ assertDram("H5GQ2H24AFR-R0C", {
   }
 });
 
+assertDram("H9CCNNNBLTBLAR-NTD", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
+  package: "178-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Die Stack": "4 dies, 2 CS",
+    "Channel Count": 1,
+    "CE Count": 2,
+    "DRAM Speed": "LPDDR3-1600",
+    "DRAM Generation": "3rd generation",
+    "Operation Temperature": "Commercial (0 to 85C)",
+    "Interface Type": "HSUL_12",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+assertDecodedField("H9CCNNNBLTBLAR-NTD", "die_count", 4);
+
+assertDram("H9CCNNNBLTBLAR-NUD", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
+  package: "178-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Die Stack": "4 dies, 2 CS",
+    "Channel Count": 1,
+    "CE Count": 2,
+    "DRAM Speed": "LPDDR3-1866",
+    "DRAM Generation": "3rd generation",
+    "Operation Temperature": "Commercial (0 to 85C)",
+    "Interface Type": "HSUL_12",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+assertDecodedField("H9CCNNNBLTBLAR-NUD", "die_count", 4);
+
 assertDram("H9HCNNN8KUMLHR-NME", {
   vendor: "skhynix",
   densityMbit: 8192,
   density: "8Gb",
-  widthField: "x32",
+  widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
   package: "200-ball FBGA",
   topology: { ce: 1, die: 2 },
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "2 dies, 1 CS",
-    "Package Code": "UMLHR",
-    "Config Code": "8K",
     "Channel Count": 2,
     "CE Count": 1,
     "DRAM Speed": "LPDDR4-3733",
-    "Operation Temperature": "-25°C ~ 85°C"
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
+assertDram("H9HCNNN8KUMLHR-NLE", {
+  vendor: "skhynix",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Die Stack": "2 dies, 1 CS",
+    "Channel Count": 2,
+    "CE Count": 1,
+    "DRAM Speed": "LPDDR4-3200",
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
   }
 });
 
@@ -2091,18 +2152,18 @@ assertDram("H9HCNNNCPUMLXR-NEE", {
   vendor: "skhynix",
   densityMbit: 32768,
   density: "32Gb",
-  widthField: "x32",
+  widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
   package: "200-ball FBGA",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "4 dies, 2 CS",
-    "Package Code": "UMLXR",
-    "Config Code": "CP",
     "Channel Count": 2,
     "CE Count": 2,
     "DRAM Speed": "LPDDR4-4266",
-    "Operation Temperature": "-25°C ~ 85°C"
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
   }
 });
 
@@ -2110,20 +2171,117 @@ assertDram("H9HCNNNCPMMLXR-NEE", {
   vendor: "skhynix",
   densityMbit: 32768,
   density: "32Gb",
-  widthField: "x32",
+  widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
   package: "200-ball FBGA",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "4 dies, 2 CS",
-    "Package Code": "MMLXR",
-    "Config Code": "CP",
     "Channel Count": 2,
     "CE Count": 2,
     "DRAM Speed": "LPDDR4X-4266",
-    "Operation Temperature": "-25°C ~ 85°C"
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
   }
 });
+
+assertDram("H9HCNNNCPMMLHR-NMI", {
+  vendor: "skhynix",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Stack": "4 dies, 2 CS",
+    "Channel Count": 2,
+    "CE Count": 2,
+    "DRAM Speed": "LPDDR4X-3733",
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "-40°C ~ 95°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
+assertDram("H9HCNNNBKMMLXR-NEI", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Stack": "2 dies, 1 CS",
+    "Channel Count": 2,
+    "CE Count": 1,
+    "DRAM Speed": "LPDDR4X-4266",
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "-40°C ~ 95°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
+assertDram("H9HCNNNBKMALHR-NEE", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Stack": "2 dies, 1 CS",
+    "Channel Count": 2,
+    "CE Count": 1,
+    "DRAM Speed": "LPDDR4X-4266",
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
+assertDram("H9HCNNNFAMMLXR-NEE", {
+  vendor: "skhynix",
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x8",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Stack": "8 dies, 2 CS",
+    "Channel Count": 2,
+    "CE Count": 2,
+    "DRAM Speed": "LPDDR4X-4266",
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+assertDecodedField("H9HCNNNFAMMLXR-NEE", "die_count", 8);
+
+assertDram("H9HKNNNBTUMUBR-NLH", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "366-ball FBGA (15x15)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Die Stack": "2 dies, 1 CS",
+    "Channel Count": 4,
+    "CE Count": 1,
+    "DRAM Speed": "LPDDR4-3200",
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "-25°C ~ 105°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+assertDecodedField("H9HKNNNBTUMUBR-NLH", "die_count", 2);
 
 assertDram("HY57V561620FTP-H", {
   vendor: "skhynix",
@@ -2225,16 +2383,18 @@ assertDram("H58G56CK8BX146", {
   vendor: "skhynix",
   densityMbit: 32768,
   density: "32Gb",
-  widthField: "Unknown",
-  voltage: "0.5V to 1.8V",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
   package: "315-ball FBGA",
   extra: {
     "DRAM Type": "LPDDR5X",
     "DRAM Die Stack": "2 dies, 1 CS",
-    "Package Code": "CK8BX146",
-    "Config Code": "56",
+    "Channel Count": 2,
+    "CE Count": 1,
     "DRAM Speed": "LPDDR5X-8533",
-    "Operation Temperature": "-40°C ~ 90°C"
+    "DRAM Generation": "4th generation",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
   }
 });
 
@@ -2242,16 +2402,18 @@ assertDram("H58G66CK8BX147", {
   vendor: "skhynix",
   densityMbit: 65536,
   density: "64Gb",
-  widthField: "Unknown",
-  voltage: "0.5V to 1.8V",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
   package: "315-ball FBGA",
   extra: {
     "DRAM Type": "LPDDR5X",
     "DRAM Die Stack": "4 dies, 2 CS",
-    "Package Code": "CK8BX147",
-    "Config Code": "66",
+    "Channel Count": 2,
+    "CE Count": 2,
     "DRAM Speed": "LPDDR5X-8533",
-    "Operation Temperature": "-40°C ~ 90°C"
+    "DRAM Generation": "4th generation",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
   }
 });
 
@@ -2259,17 +2421,17 @@ assertDram("H58G78CK8BX185", {
   vendor: "skhynix",
   densityMbit: 131072,
   density: "128Gb",
-  widthField: "Unknown",
-  voltage: "0.5V to 1.8V",
+  widthField: "x8",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
   package: "315-ball FBGA",
   extra: {
     "DRAM Type": "LPDDR5X",
-    "Package Code": "CK8BX185",
-    "Config Code": "78",
     "Channel Count": 2,
     "CE Count": 2,
     "DRAM Speed": "LPDDR5X-8533",
-    "Operation Temperature": "-40°C ~ 90°C"
+    "DRAM Generation": "4th generation",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
   }
 });
 
@@ -2822,11 +2984,12 @@ assertDram("K4RAH086VB-BCQK", {
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
-    "Package Code": "6VB",
     "Config Code": "AH08",
+    "Die Revision": "B-die",
     "DRAM Speed": "DDR5-4800 40-39-39",
     "Operation Temperature": "Commercial (0C~85C)"
-  }
+  },
+  absentExtra: ["Bank Count"]
 });
 
 assertDram("K4RAH046VB-BCQK", {
@@ -2839,8 +3002,27 @@ assertDram("K4RAH046VB-BCQK", {
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
-    "Package Code": "6VB",
     "Config Code": "AH04",
+    "Die Revision": "B-die",
+    "DRAM Speed": "DDR5-4800 40-39-39",
+    "Operation Temperature": "Commercial (0C~85C)"
+  },
+  absentExtra: ["Bank Count"]
+});
+
+assertDram("K4RAH165VB-BCQK", {
+  vendor: "samsung",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "106-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Config Code": "AH16",
+    "Bank Count": 16,
+    "Die Revision": "B-die",
     "DRAM Speed": "DDR5-4800 40-39-39",
     "Operation Temperature": "Commercial (0C~85C)"
   }
@@ -2852,12 +3034,13 @@ assertDram("K4RAH165VB-BCWM", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "82-ball FBGA",
+  package: "106-ball FBGA",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
-    "Package Code": "5VB",
     "Config Code": "AH16",
+    "Bank Count": 16,
+    "Die Revision": "B-die",
     "DRAM Speed": "DDR5-5600 46-45-45",
     "Operation Temperature": "Commercial (0C~85C)"
   }
@@ -2873,11 +3056,12 @@ assertDram("K4RHE086VB-BCWM", {
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
-    "Package Code": "6VB",
     "Config Code": "HE08",
+    "Die Revision": "B-die",
     "DRAM Speed": "DDR5-5600 46-45-45",
     "Operation Temperature": "Commercial (0C~85C)"
-  }
+  },
+  absentExtra: ["Bank Count"]
 });
 
 assertDram("K4RHE165VB-BCWM", {
@@ -2890,8 +3074,9 @@ assertDram("K4RHE165VB-BCWM", {
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
-    "Package Code": "5VB",
     "Config Code": "HE16",
+    "Bank Count": 16,
+    "Die Revision": "B-die",
     "DRAM Speed": "DDR5-5600 46-45-45",
     "Operation Temperature": "Commercial (0C~85C)"
   }
@@ -2907,11 +3092,12 @@ assertDram("K4RBH046VM-BCWM", {
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
-    "Package Code": "6VM",
     "Config Code": "BH04",
+    "Die Revision": "M-die",
     "DRAM Speed": "DDR5-5600 46-45-45",
     "Operation Temperature": "Commercial (0C~85C)"
-  }
+  },
+  absentExtra: ["Bank Count"]
 });
 
 assertDecodedField("K4RHE086VB-BIWM", "operation_temperature", "Industrial (-40C~95C)");
@@ -4376,6 +4562,13 @@ assertSearchPnIncludes("H5CG54MGBD", "SKhynix H5CG54MGBDX051");
 assertSearchPnIncludes("H5CG56MMBD", "SKhynix H5CG56MMBDX052");
 assertSearchPnIncludes("H56G42AS8", "SKhynix H56G42AS8DX014");
 assertSearchPnIncludes("H56G42AS2", "SKhynix H56G42AS2DX014");
+assertSearchPnIncludes("H9CCNNNBLTBLAR-NT", "SKhynix H9CCNNNBLTBLAR-NTD");
+assertSearchPnIncludes("H9CCNNNBLTBLAR-NU", "SKhynix H9CCNNNBLTBLAR-NUD");
+assertSearchPnIncludes("H9HCNNNBKMMLXR-NE", "SKhynix H9HCNNNBKMMLXR-NEE");
+assertSearchPnIncludes("H9HCNNNFAMMLXR-NE", "SKhynix H9HCNNNFAMMLXR-NEE");
+assertSearchPnIncludes("H9HKNNNBTUMUBR-NL", "SKhynix H9HKNNNBTUMUBR-NLH");
+assertSearchPnIncludes("H58G56CK8BX", "SKhynix H58G56CK8BX146");
+assertSearchPnIncludes("H58G66CK8BX", "SKhynix H58G66CK8BX147");
 assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
 assertSearchPnIncludes("MT62F512M64D4EK-031", "Micron MT62F512M64D4EK-031AIT:B");
 assertSearchPnIncludes("MT62F512M64D4EK-031FAATB", "Micron MT62F512M64D4EK-031FAAT:B");

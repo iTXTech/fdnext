@@ -1101,14 +1101,21 @@
           "HE": 24576,
           "BH": 32768
         },
-        "packageActualSpecific": {
-          "AH:16:5VB": "82-ball FBGA",
-          "HE:16:5VB": "106-ball FBGA"
+        "bankObj": {
+          "5": {
+            "bank_count": 16
+          }
         },
         "packageActual": {
-          "04:6VB": "82-ball FBGA",
-          "08:6VB": "82-ball FBGA",
-          "04:6VM": "78-ball FBGA"
+          "AH:04": "82-ball FBGA",
+          "AH:08": "82-ball FBGA",
+          "AH:16": "106-ball FBGA",
+          "HE:08": "82-ball FBGA",
+          "HE:16": "106-ball FBGA",
+          "BH:04": "78-ball FBGA"
+        },
+        "voltage": {
+          "V": "1.1V VDD"
         },
         "suffixPackageStackObj": {
           "B": {
@@ -1136,13 +1143,21 @@
       "steps": [
         {
           "op": "takeRegex",
-          "pattern": "^([A-Z]{2})([0-9]{2})(?=[0-9A-Z]{3}(?:-|$))",
-          "to": "configCode",
+          "pattern": "^([A-Z]{2})([0-9]{2})([0-9])([A-Z])([A-Z])(?=-|$)",
+          "to": "baseCode",
           "groups": {
             "densityCode": 1,
-            "width": 2
+            "width": 2,
+            "bankCode": 3,
+            "interfaceCode": 4,
+            "revisionCode": 5
           },
           "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}{{width}}",
+          "to": "configCode"
         },
         {
           "op": "map",
@@ -1164,39 +1179,35 @@
           "default": -1
         },
         {
-          "op": "take",
-          "len": 3,
-          "to": "packageCode"
-        },
-        {
-          "op": "tpl",
-          "template": "{{densityCode}}:{{width}}:{{packageCode}}",
-          "to": "packageSpecificKey"
-        },
-        {
-          "op": "tpl",
-          "template": "{{width}}:{{packageCode}}",
-          "to": "packageKey"
+          "op": "map",
+          "from": "bankCode",
+          "table": "bankObj",
+          "to": "bankObj",
+          "default": {}
         },
         {
           "op": "map",
-          "from": "packageSpecificKey",
-          "table": "packageActualSpecific",
-          "to": "packageSpecific",
-          "default": null
+          "from": "interfaceCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{width}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "tpl",
+          "template": "{{revisionCode}}-die",
+          "to": "dieRevision"
         },
         {
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "packageGeneral",
+          "to": "package",
           "default": "Unknown"
-        },
-        {
-          "op": "fallback",
-          "primary": "packageSpecific",
-          "secondary": "packageGeneral",
-          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -1219,10 +1230,7 @@
           "from": "suffixPackageType",
           "table": "suffixPackageStackObj",
           "to": "suffixPackageStackObj",
-          "default": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
-          }
+          "default": {}
         },
         {
           "op": "map",
@@ -1246,15 +1254,21 @@
             "config_code": {
               "$var": "configCode"
             },
-            "package_code": {
-              "$var": "packageCode"
+            "die_revision": {
+              "$var": "dieRevision"
             }
           }
         },
         {
           "op": "merge",
           "into": "extra",
-          "from": "suffixPackageStackObj"
+          "from": "bankObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "suffixPackageStackObj",
+          "if": "hasSuffix"
         },
         {
           "op": "mergeIf",
@@ -1285,7 +1299,9 @@
         "fields.dram_width": {
           "$var": "deviceWidth"
         },
-        "fields.dram_voltage": "1.1V VDD",
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
         "fields.package": {
           "$var": "package"
         },

@@ -30,8 +30,12 @@
         },
         "densityObj": {
           "T0GE": {
-            "storage_density": "128GB UFS",
-            "dram_density": 49152,
+            "storage_density": 1048576,
+            "dram_density": 49152
+          }
+        },
+        "dramOrganizationObj": {
+          "T0GE": {
             "dram_type": "LPDDR4X",
             "dram_width": 8
           }
@@ -50,6 +54,17 @@
           "6": {
             "product_version": "UFS 2.2 / LPDDR4X",
             "storage_interface": "UFS 2.2"
+          }
+        },
+        "serialObj": {
+          "145": {
+            "operation_temperature": "-25°C ~ 85°C",
+            "special_option": "Lead & Halogen Free"
+          }
+        },
+        "serialPackageObj": {
+          "145": {
+            "package": "254Ball FBGA"
           }
         }
       },
@@ -71,6 +86,13 @@
           "from": "densityCode",
           "table": "densityObj",
           "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "dramOrganizationObj",
+          "to": "dramOrganizationObj",
           "default": {}
         },
         {
@@ -120,6 +142,20 @@
           "to": "serialCode"
         },
         {
+          "op": "map",
+          "from": "serialCode",
+          "table": "serialObj",
+          "to": "serialObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "serialCode",
+          "table": "serialPackageObj",
+          "to": "serialPackageObj",
+          "default": {}
+        },
+        {
           "op": "set",
           "to": "extra",
           "value": {
@@ -127,8 +163,6 @@
             "group": "uMCP",
             "product_mode": "LPDDR4 uMCP",
             "product_family": "UFS + LPDDR4X",
-            "operation_temperature": "-25°C ~ 85°C",
-            "special_option": "Lead & Halogen Free",
             "density_code": {
               "$var": "densityCode"
             },
@@ -145,6 +179,11 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "dramOrganizationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "generationObj"
         },
         {
@@ -156,6 +195,11 @@
           "op": "merge",
           "into": "extra",
           "from": "interfaceObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "serialObj"
         },
         {
           "op": "omit",
@@ -188,9 +232,11 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.voltage": "UFS Vcc: 2.7V~3.6V, Vccq2: 1.7V~1.95V",
+        "fields.voltage": "UFS: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
         "fields.dram_voltage": "VDD1: 1.8V, VDD2: 1.1V, VDDQ: 0.6V",
-        "fields.package": "254Ball FBGA",
+        "fields.package": {
+          "$path": "serialPackageObj.package"
+        },
         "meta.ruleId": "vendor.skhynix.umcp.h9q.v1"
       }
     }

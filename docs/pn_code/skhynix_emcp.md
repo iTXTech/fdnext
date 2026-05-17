@@ -45,9 +45,10 @@
 | density `52` | 64GB eMMC + 32Gb LPDDR4X |
 | NVM voltage `A` | eMMC/NVM 3.3V x8 |
 | DRAM density `D/C` | 24Gb / 32Gb LPDDR4X |
-| DRAM option `A/P` | LPDDR4X x16, 1.1V/0.6V I/O option |
+| DRAM option `A/P` | LPDDR4X x16, 1.1V/0.6V I/O option；DRAM type / width 从该 token 输出，不从 `H9HP` 前缀或 density 推断 |
 | generation `M` | 2nd generation |
-| package/material `AD` | 254Ball FBGA, Lead & Halogen Free |
+| package type `A` | 254Ball FBGA 11.5x13 |
+| package material `D` | Lead & Halogen Free |
 | eMMC speed `A` | 400MHz |
 | DRAM speed `R` | LPDDR4X-3733 |
 | tail `KMM` | Mobile -25~85°C |
@@ -71,9 +72,11 @@
 | --- | --- |
 | `H9A` + density(4) + generation + speed + interface + reserved + serial(3) | SK hynix LPDDR4 eMCP |
 | density `G9G5` | 64GB eMMC + 4GB LPDDR4X |
+| DRAM organization for `G9G5` | LPDDR4X x16 |
 | generation `A` | 2nd generation eMCP |
 | speed `N` | LPDDR4X 4266 / eMMC 52MHz |
 | interface `B` | eMMC 5.0 |
+| serial `100` | 254Ball FBGA, Lead & Halogen Free |
 
 ## H9Q / H9HQ uMCP 结构
 
@@ -81,12 +84,13 @@
 | --- | --- |
 | `H9Q` + density(4) + generation + speed + interface + reserved + serial(3) | SK hynix LPDDR4 uMCP |
 | density `T0GE` | 128GB UFS + 48Gb / 6GB LPDDR4X |
+| DRAM organization for `T0GE` | LPDDR4X x8 |
 | generation `C` | 4th generation uMCP |
 | speed `N` | LPDDR4X-4266 |
 | interface `6` | UFS 2.2 |
-| reserved `X` / serial `145` | 内部 reserved / PKG option token，不作为公开 code 字段输出 |
-| fixed package/material | 254Ball FBGA, Lead & Halogen Free |
-| operation voltage | UFS Vcc 2.7V~3.6V / Vccq2 1.7V~1.95V；LPDDR4X VDD1/VDD2/VDDQ 1.8V/1.1V/0.6V |
+| reserved `X` | 内部 reserved token，不作为公开 code 字段输出 |
+| serial `145` | PKG option token：254Ball FBGA, Lead & Halogen Free, -25~85°C |
+| operation voltage | UFS 3.3V；LPDDR4X VDD1/VDD2/VDDQ 1.8V/1.1V/0.6V |
 | `H9HQ` + density(2) + config tail | SK hynix UFS + LPDDR4X uMCP |
 | density `15` | 128GB UFS + 32Gb LPDDR4X |
 
@@ -98,12 +102,12 @@
 | `H9TP32A4GDBCPR-KGM` | eMCP, 4GB e-NAND + 4Gb LPDDR2, eMMC 4.41, 162Ball FBGA |
 | `H9HP27ADAMADAR-KMM` | eMCP, 32GB eMMC + 24Gb LPDDR4X, eMMC 5.1, 254Ball FBGA |
 | `H9HP52ACPMADAR-KMM` | eMCP, 64GB eMMC + 32Gb LPDDR4X, eMMC 5.1, 254Ball FBGA |
-| `H9AG9G5ANBX100` | eMCP, 64GB eMMC + 4GB LPDDR4X, eMMC 5.0 |
-| `H9QT0GECN6X145` | uMCP, 128GB UFS + 48Gb / 6GB LPDDR4X, UFS 2.2, LPDDR4X-4266, 254Ball FBGA |
+| `H9AG9G5ANBX100` | eMCP, 64GB eMMC + 4GB LPDDR4X x16, eMMC 5.0 |
+| `H9QT0GECN6X145` | uMCP, 128GB UFS + 48Gb / 6GB LPDDR4X x8, UFS 2.2, LPDDR4X-4266, 254Ball FBGA |
 | `H9HQ15ACPMADAR-KEM` | uMCP, 128GB UFS + 32Gb LPDDR4X |
 
 ## 已知缺口
 
-- H9HP LPDDR4X eMCP 已按 datasheet 拆出独立规则；H9T/H9HC legacy 规则仍只保留稳定的 density / voltage / config token。
+- H9HP / H9A / H9Q 已按 datasheet 拆成 token 表：density 只负责组合容量，DRAM width / type、package、temperature 等由各自 token 表命中后输出；H9T/H9HC legacy 规则仍只保留稳定的 density / voltage / config token。
 - H9HC、H9HQ 子族公开资料较分散，目前只对已验证 density code 做表驱动解析。
 - H9Q 新 uMCP 与 HN8/H28S 纯 UFS 不是同一类产品，不能并入 UFS parser。

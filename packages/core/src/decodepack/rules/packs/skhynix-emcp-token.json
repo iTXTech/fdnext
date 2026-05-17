@@ -18,7 +18,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H9HP(?:27|52)A[CD][AP]MADAR(?:KMM)?$"
+      "value": "^H9HP[0-9A-Z]{10}(?:[0-9A-Z]{3})?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -33,42 +33,47 @@
           "27": {
             "storage_density": 262144,
             "dram_density": 24576,
-            "dram_type": "LPDDR4X",
-            "dram_width": 16,
-            "dram_die_stack": "QDP, 2Ch 2CS",
+            "dram_die_stack": 4,
+            "channel_count": 2,
+            "ce_count": 2,
             "product_version": "eMMC 5.1 / LPDDR4X",
             "storage_interface": "eMMC 5.1"
           },
           "52": {
             "storage_density": 524288,
             "dram_density": 32768,
-            "dram_type": "LPDDR4X",
-            "dram_width": 16,
-            "dram_die_stack": "QDP, 2Ch 2CS",
+            "dram_die_stack": 4,
+            "channel_count": 2,
+            "ce_count": 2,
             "product_version": "eMMC 5.1 / LPDDR4X",
             "storage_interface": "eMMC 5.1"
           }
         },
-        "package": {
-          "27": "254Ball FBGA 11.5x13.0x1.0",
-          "52": "254Ball FBGA 11.5x13.0x1.2"
-        },
         "nvmVoltageObj": {
           "A": {
-            "component_voltage": "NVM 3.3V x8 / LPDDR4X 1.8V/1.1V/0.6V x16"
+            "component_voltage": "NVM 3.3V x8 / LPDDR4X 1.8V/1.1V/0.6V"
           }
         },
         "dramOptionObj": {
           "A": {
-            "dram_voltage": "1.8V/1.1V/0.6V"
+            "dram_type": "LPDDR4X",
+            "dram_voltage": "1.8V/1.1V/0.6V",
+            "dram_width": 16
           },
           "P": {
-            "dram_voltage": "1.8V/1.1V/0.6V"
+            "dram_type": "LPDDR4X",
+            "dram_voltage": "1.8V/1.1V/0.6V",
+            "dram_width": 16
           }
         },
         "generationObj": {
           "M": {
             "generation_info": "2nd generation eMCP"
+          }
+        },
+        "packageObj": {
+          "A": {
+            "package": "254Ball FBGA 11.5x13"
           }
         },
         "packageMaterialObj": {
@@ -112,13 +117,6 @@
           "table": "densityObj",
           "to": "densityObj",
           "default": {}
-        },
-        {
-          "op": "map",
-          "from": "densityCode",
-          "table": "package",
-          "to": "package",
-          "default": "254Ball FBGA"
         },
         {
           "op": "take",
@@ -165,6 +163,13 @@
           "op": "take",
           "len": 1,
           "to": "packageTypeCode"
+        },
+        {
+          "op": "map",
+          "from": "packageTypeCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
         },
         {
           "op": "take",
@@ -324,7 +329,7 @@
         },
         "fields.voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
         "fields.package": {
-          "$var": "package"
+          "$path": "packageObj.package"
         },
         "meta.ruleId": "vendor.skhynix.emcp.h9hp-lpddr4x.v1"
       }
@@ -554,7 +559,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H9AG9G5ANBX[0-9A-Z]{3}$"
+      "value": "^H9A[0-9A-Z]{11}$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -567,7 +572,11 @@
         "densityObj": {
           "G9G5": {
             "storage_density": 524288,
-            "dram_density": 32768,
+            "dram_density": 32768
+          }
+        },
+        "dramOrganizationObj": {
+          "G9G5": {
             "dram_type": "LPDDR4X",
             "dram_width": 16
           }
@@ -579,13 +588,24 @@
         },
         "speedObj": {
           "N": {
-            "speed_grade": "LPDDR4X 4266 / eMMC 52MHz"
+            "speed_grade": "LPDDR4X 4266 / eMMC 52MHz",
+            "dram_speed": "LPDDR4X-4266"
           }
         },
         "interfaceObj": {
           "B": {
             "product_version": "eMMC 5.0 / LPDDR4X",
             "storage_interface": "eMMC 5.0"
+          }
+        },
+        "serialObj": {
+          "100": {
+            "special_option": "Lead & Halogen Free"
+          }
+        },
+        "serialPackageObj": {
+          "100": {
+            "package": "254Ball FBGA"
           }
         }
       },
@@ -607,6 +627,13 @@
           "from": "densityCode",
           "table": "densityObj",
           "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "dramOrganizationObj",
+          "to": "dramOrganizationObj",
           "default": {}
         },
         {
@@ -656,6 +683,20 @@
           "to": "serialCode"
         },
         {
+          "op": "map",
+          "from": "serialCode",
+          "table": "serialObj",
+          "to": "serialObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "serialCode",
+          "table": "serialPackageObj",
+          "to": "serialPackageObj",
+          "default": {}
+        },
+        {
           "op": "set",
           "to": "extra",
           "value": {
@@ -679,6 +720,11 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "dramOrganizationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "generationObj"
         },
         {
@@ -692,6 +738,11 @@
           "from": "interfaceObj"
         },
         {
+          "op": "merge",
+          "into": "extra",
+          "from": "serialObj"
+        },
+        {
           "op": "omit",
           "from": "extra",
           "keys": [
@@ -701,6 +752,7 @@
             "cell_code",
             "layout_code",
             "density_code",
+            "config_code",
             "stack_code",
             "generation_code",
             "voltage_io_code"
@@ -722,7 +774,9 @@
           "$var": "density"
         },
         "fields.voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
-        "fields.package": "254Ball FBGA (Lead & Halogen Free)",
+        "fields.package": {
+          "$path": "serialPackageObj.package"
+        },
         "meta.ruleId": "vendor.skhynix.emcp.h9a.v1"
       }
     }
