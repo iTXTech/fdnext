@@ -268,6 +268,7 @@ function assertSearchPnFirst(query: string, expected: string): void {
 const skhynixH25RawInternalExtra = [
   "System",
   "Group",
+  "Series",
   "Series Code",
   "Cell Code",
   "Layout Code",
@@ -1895,6 +1896,22 @@ assertPart("H25T4QM88G", {
   cellField: "QLC",
   extra: {
     "Layer Count": 321
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T4TMG8C", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "HYV6",
+  cellField: "TLC",
+  extra: {
+    "Process Alias": "H25GTM0",
+    "Layer Count": 128,
+    "Die Density": "1Tb",
+    "Die Count": 16,
+    "CE Count": 4
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });

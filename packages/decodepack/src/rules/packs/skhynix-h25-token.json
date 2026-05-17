@@ -1,0 +1,498 @@
+[
+  {
+    "id": "vendor.skhynix.h25t.package.v1",
+    "priority": 1008,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H25T[0-9A-Z]{5,}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H25T"
+      ],
+      "tables": {
+        "cellLevel": {
+          "0Q:A": 4,
+          "3Q:A": 4,
+          "4Q:M": 4,
+          "4T:M": 3,
+          "0T:C": 3,
+          "1T:C": 3,
+          "1T:D": 3,
+          "2T:B": 3,
+          "2T:C": 3,
+          "2T:D": 3,
+          "3T:C": 3
+        },
+        "density": {
+          "0Q:A": 1048576,
+          "3Q:A": 1048576,
+          "4Q:M": 2097152,
+          "4T:M": 16777216,
+          "0T:C": 524288,
+          "1T:C": 2097152,
+          "1T:D": 2097152,
+          "2T:B": 4194304,
+          "2T:C": 4194304,
+          "2T:D": 4194304,
+          "3T:C": 524288
+        },
+        "processNode": {
+          "0Q:A": "HYV7Q",
+          "3Q:A": "HYV7Q",
+          "4Q:M": "HYV9Q",
+          "4T:M": "HYV6",
+          "0T:C": "HYV7",
+          "1T:C": "HYV7",
+          "1T:D": "HYV8",
+          "2T:B": "HYV6",
+          "2T:C": "HYV7",
+          "2T:D": "HYV8",
+          "3T:C": "HYV8"
+        },
+        "productObj": {
+          "1T:C": {
+            "die_count": 4
+          },
+          "1T:D": {
+            "die_count": 4
+          },
+          "2T:B": {
+            "die_density": "512Gb",
+            "die_count": 8
+          },
+          "2T:C": {
+            "die_count": 8
+          },
+          "2T:D": {
+            "die_count": 8
+          },
+          "4T:M": {
+            "die_density": "1Tb",
+            "die_count": 16,
+            "ce_count": 4
+          }
+        },
+        "reference": {
+          "0Q:A": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb cross-check; external reference pending"
+          },
+          "3Q:A": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "4Q:M": {
+            "status": "external_confirmed",
+            "source": "public SK hynix 321-layer QLC material + external package photo"
+          },
+          "4T:M": {
+            "status": "local_pending_external_reference",
+            "source": "maintainer-supplied H25T4TMG8C token evidence; external reference pending"
+          },
+          "0T:C": {
+            "status": "external_table_confirmed",
+            "source": "flashinfo.top / MyDigit + local fdb cross-check"
+          },
+          "1T:C": {
+            "status": "external_confirmed",
+            "source": "TechInsights"
+          },
+          "1T:D": {
+            "status": "external_confirmed",
+            "source": "TechInsights"
+          },
+          "2T:B": {
+            "status": "external_confirmed",
+            "source": "TechInsights / TechPowerUp / local fdb cross-check"
+          },
+          "2T:C": {
+            "status": "external_confirmed",
+            "source": "TechInsights / TechPowerUp / local fdb cross-check"
+          },
+          "2T:D": {
+            "status": "external_confirmed",
+            "source": "TechInsights / TechPowerUp / local fdb cross-check"
+          },
+          "3T:C": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          }
+        },
+        "processAlias": {
+          "1T:C": "H25FTC0",
+          "1T:D": "H25FTD0",
+          "2T:B": "H25FTB0",
+          "2T:C": "H25FTC0",
+          "2T:D": "H25FTD0",
+          "4T:M": "H25GTM0"
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{generationCode}}",
+          "to": "productKey"
+        },
+        {
+          "op": "map",
+          "from": "productKey",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "productKey",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "productKey",
+          "table": "processNode",
+          "to": "processNode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "productKey",
+          "table": "processAlias",
+          "to": "processAlias"
+        },
+        {
+          "op": "map",
+          "from": "productKey",
+          "table": "productObj",
+          "to": "productObj",
+          "default": {}
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "raw_nand",
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
+        },
+        "fields.process_alias": {
+          "$var": "processAlias"
+        },
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
+        "fields.die_density": {
+          "$path": "productObj.die_density"
+        },
+        "fields.die_count": {
+          "$path": "productObj.die_count"
+        },
+        "fields.ce_count": {
+          "$path": "productObj.ce_count"
+        },
+        "fields.device_width": 8,
+        "meta.ruleId": "vendor.skhynix.h25t.package.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.h25.raw.v2",
+    "priority": 970,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H25(?!T)[A-Z0-9]{7,}"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H25"
+      ],
+      "tables": {
+        "cellLevel": {
+          "M": 2,
+          "T": 3,
+          "Q": 4
+        },
+        "density": {
+          "QE:M:8:A1": 262144,
+          "QF:T:8:A1": 524288,
+          "QF:T:8:B3": 1048576,
+          "QF:T:8:D4": 2097152,
+          "QF:T:M:F4": 524288,
+          "BF:T:4:D1": 524288,
+          "BF:T:4:M9": 524288,
+          "BF:T:8:A1": 524288,
+          "BF:T:8:A2": 524288,
+          "BF:T:8:B3": 1048576,
+          "BF:T:8:D4": 2097152,
+          "G9:T:B:18": 524288,
+          "G9:T:C:18": 524288,
+          "G9:T:C:X8": 524288,
+          "G9:T:D:18": 524288,
+          "JG:Q:8:A1": 1048576,
+          "JG:Q:8:F4": 1048576,
+          "JG:T:4:D1": 1048576,
+          "JG:T:8:A1": 1048576,
+          "JG:T:8:B1": 2097152,
+          "JG:T:8:B3": 2097152,
+          "JG:T:8:D4": 4194304,
+          "JG:T:8:F1": 8388608,
+          "JG:T:8:F4": 8388608
+        },
+        "processNode": {
+          "QE:M:8:B": "HYV4M",
+          "QF:T:8:A": "HYV4",
+          "QF:T:M:A": "HYV4",
+          "QF:T:8:M": "HYV5Q",
+          "BF:T:4:C": "HYV6",
+          "BF:T:4:R": "HYV5",
+          "BF:T:8:M": "HYV5",
+          "BF:T:8:B": "HYV6",
+          "BF:T:8:Z": "HYV6",
+          "G9:T:B:E": "HYV6",
+          "G9:T:C:C": "HYV7",
+          "G9:T:D:C": "HYV8",
+          "JG:Q:8:M": "HYV5Q",
+          "JG:T:4:C": "HYV6",
+          "JG:T:8:M": "HYV6"
+        },
+        "reference": {
+          "QE:M:8:B": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "QF:T:8:A": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "QF:T:M:A": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "QF:T:8:M": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb cross-check; external reference pending"
+          },
+          "BF:T:4:C": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "BF:T:4:R": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "BF:T:8:M": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "BF:T:8:B": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "BF:T:8:Z": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb cross-check; external reference pending"
+          },
+          "G9:T:B:E": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb cross-check; external reference pending"
+          },
+          "G9:T:C:C": {
+            "status": "external_table_confirmed",
+            "source": "external SSD dump / flash-id table + local fdb cross-check"
+          },
+          "G9:T:D:C": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "JG:Q:8:M": {
+            "status": "external_table_confirmed",
+            "source": "external distributor listing / flash-id table + local fdb cross-check"
+          },
+          "JG:T:4:C": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "JG:T:8:M": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          }
+        },
+        "densityReference": {
+          "BF:T:8:A2": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb density token; external reference pending"
+          },
+          "G9:T:B:18": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb density token; external reference pending"
+          },
+          "JG:T:8:B1": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb density token; external reference pending"
+          },
+          "JG:T:8:F1": {
+            "status": "local_pending_external_reference",
+            "source": "local fdb/fdfdb density token; external reference pending"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "seriesCode1"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "seriesCode2"
+        },
+        {
+          "op": "tpl",
+          "template": "{{seriesCode1}}{{seriesCode2}}",
+          "to": "seriesCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellLevelCode"
+        },
+        {
+          "op": "map",
+          "from": "cellLevelCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "layoutCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "stackCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{seriesCode}}:{{cellLevelCode}}:{{layoutCode}}:{{densityCode}}{{stackCode}}",
+          "to": "densityKey"
+        },
+        {
+          "op": "tpl",
+          "template": "{{seriesCode}}:{{cellLevelCode}}:{{layoutCode}}:{{generationCode}}",
+          "to": "processKey"
+        },
+        {
+          "op": "map",
+          "from": "densityKey",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "processNode",
+          "to": "processNode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "raw_nand",
+        "fields.voltage": "Vcc: 2.7V~3.6V, VccQ: 1.7V~1.95V/1.14V~1.26V",
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
+        },
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
+        "fields.device_width": 8,
+        "meta.ruleId": "vendor.skhynix.h25.raw.v2"
+      }
+    }
+  }
+]

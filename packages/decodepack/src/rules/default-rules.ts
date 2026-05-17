@@ -21,8 +21,7 @@ import winbondDramTokenRules from "./packs/winbond-dram-token.json" with { type:
 import esmtDramTokenRules from "./packs/esmt-dram-token.json" with { type: "json" };
 import etronDramTokenRules from "./packs/etron-dram-token.json" with { type: "json" };
 import skhynixDramTokenRules from "./packs/skhynix-dram-token.json" with { type: "json" };
-import skhynix4dTokenRules from "./packs/skhynix-4d-token.json" with { type: "json" };
-import skhynix3dTokenRules from "./packs/skhynix-3d-token.json" with { type: "json" };
+import skhynixH25TokenRules from "./packs/skhynix-h25-token.json" with { type: "json" };
 import skhynixLegacyTokenRules from "./packs/skhynix-legacy-token.json" with { type: "json" };
 import skhynixUfsTokenRules from "./packs/skhynix-ufs-token.json" with { type: "json" };
 import skhynixEmmcTokenRules from "./packs/skhynix-emmc-token.json" with { type: "json" };
@@ -83,8 +82,7 @@ export const defaultPartDecodeSpecs = [
   ...esmtDramTokenRules,
   ...etronDramTokenRules,
   ...skhynixDramTokenRules,
-  ...skhynix4dTokenRules,
-  ...skhynix3dTokenRules,
+  ...skhynixH25TokenRules,
   ...skhynixLegacyTokenRules,
   ...skhynixUfsTokenRules,
   ...skhynixEmmcTokenRules,

@@ -514,7 +514,6 @@
     "generation_info": "3DV6",
     "layer_count": 128,
     "cell_level": 3,
-    "die_density": "512Gb",
     "speed_grade": "Toggle 4.0; Max Speed=1400MT/s",
     "firmware_match": [
       "HYV6"

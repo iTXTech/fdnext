@@ -397,6 +397,23 @@ function assertIntel2dAliasDensityDigitsMatch(): void {
   assert.deepEqual(findings, [], "Intel IMFT 2D process alias third digit should match die density");
 }
 
+function assertSkhynixH25RulesAreConsolidated(): void {
+  const ids = defaultPartDecodeSpecs
+    .map((rule) => rule.id)
+    .filter((id) => id.startsWith("vendor.skhynix.") && (id.includes("h25") || id.includes("3d") || id.includes("4d")));
+  assert.deepEqual(
+    ids,
+    ["vendor.skhynix.h25t.package.v1", "vendor.skhynix.h25.raw.v2"],
+    "SK hynix H25 rules should stay consolidated in the H25 pack"
+  );
+
+  const h25Rules = defaultPartDecodeSpecs.filter((rule) => ids.includes(rule.id));
+  const h25RuleText = JSON.stringify(h25Rules);
+  for (const token of ["3D NAND", "4D NAND", "generation_info", "series_info"]) {
+    assert.equal(h25RuleText.includes(token), false, `SK hynix H25 rules should not duplicate die-profile ${token}`);
+  }
+}
+
 function assertLangKeysUseSnakeCase(): void {
   const allowed = new Set(["eMMC"]);
   for (const file of ["packages/resources/resources/lang/eng.json", "packages/resources/resources/lang/chs.json"]) {
@@ -752,6 +769,7 @@ assertRuntimeDoesNotKeepMetadataAliases();
 assertLangPacksAreConsistent();
 assertMicronSolidigmDieProfileNaming();
 assertIntel2dAliasDensityDigitsMatch();
+assertSkhynixH25RulesAreConsolidated();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertManagedNandOutputIsCanonical();
