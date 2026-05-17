@@ -1,9 +1,9 @@
 import assert from "node:assert/strict";
-import type { FieldValue, PartDecodeResult } from "../../core/src/index";
-import { createEngine } from "../../core/src/index";
-import { embeddedResourceBundle } from "../../resources/index";
-import managedNandPnJson from "../../resources/resources/managed-nand-pn.json" with { type: "json" };
-import { compileDecodePack, defaultDecodePack } from "../src/index";
+import type { FieldValue, PartDecodeResult } from "../../src/index";
+import { createEngine } from "../../src/index";
+import { embeddedResourceBundle } from "../../src/index";
+import managedNandPnJson from "../../resources/managed-nand-pn.json" with { type: "json" };
+import { compileDecodePack, defaultDecodePack } from "../../src/index";
 
 const compiledPack = compileDecodePack(defaultDecodePack);
 

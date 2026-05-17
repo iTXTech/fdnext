@@ -14,7 +14,7 @@
 
 ## 规则入口
 
-- `packages/decodepack/src/rules/packs/samsung-ufs-token.json`
+- `packages/core/src/decodepack/rules/packs/samsung-ufs-token.json`
   - 规则 ID：`vendor.samsung.ufs.token.v1`
 
 ## 编码结构

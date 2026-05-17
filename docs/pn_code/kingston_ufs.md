@@ -11,7 +11,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/kingston-ufs-token.json`
+- `packages/core/src/decodepack/rules/packs/kingston-ufs-token.json`
 - `vendor.kingston.ufs.v1`
 
 PN 结构：

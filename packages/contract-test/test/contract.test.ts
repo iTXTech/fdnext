@@ -14,14 +14,14 @@ import {
   fdnextDomains,
   fdnextFieldKeys,
   fdnextIdSchemes,
-  fdnextProductTypes
+  fdnextProductTypes,
+  embeddedResourceBundle,
+  FDNEXT_CORS_ORIGINS_ENV
 } from "../../core/src/index";
 import { createContractEngine, runContractChecks } from "../src/index";
-import * as resourceModule from "../../resources/index";
 import { createHttpServer } from "../../server/src/index";
 import { createCfWorkersAdapter } from "../../cf-workers/src/index";
 import { startAliyunFc } from "../../aliyun-fc/src/index";
-import { FDNEXT_CORS_ORIGINS_ENV } from "../../runtime/src/index";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
 
@@ -192,14 +192,14 @@ function assertPartClassification(query: string, chipKind: string, productType?:
   }
 }
 
-assert.ok(resourceModule.embeddedResourceBundle.partIndex.rawNand);
-assert.ok(resourceModule.embeddedResourceBundle.identifierIndex.nandFlash);
-assert.ok(resourceModule.embeddedResourceBundle.markingIndex.packageMarkings);
-assert.ok(resourceModule.embeddedResourceBundle.translationIndex.eng);
-assert.equal("embeddedResources" in resourceModule, false);
-assert.equal("fdbRaw" in resourceModule, false);
+assert.ok(embeddedResourceBundle.partIndex.rawNand);
+assert.ok(embeddedResourceBundle.identifierIndex.nandFlash);
+assert.ok(embeddedResourceBundle.markingIndex.packageMarkings);
+assert.ok(embeddedResourceBundle.translationIndex.eng);
+assert.equal("embeddedResources" in { embeddedResourceBundle }, false);
+assert.equal("fdbRaw" in { embeddedResourceBundle }, false);
 
-const lang = resourceModule.embeddedResourceBundle.translationIndex;
+const lang = embeddedResourceBundle.translationIndex;
 assert.deepEqual(Object.keys(lang.chs).sort(), Object.keys(lang.eng).sort(), "language packs must have 100% matching keys");
 const requiredTranslationKeys = new Set([
   ...fdnextFieldKeys,

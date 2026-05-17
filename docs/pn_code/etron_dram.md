@@ -15,7 +15,7 @@
 
 ## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/decodepack/src/rules/packs/etron-dram-token.json`
+- 规则文件：`packages/core/src/decodepack/rules/packs/etron-dram-token.json`
 - 规则 ID：`vendor.etron.dram.sdr.component.v1`、`vendor.etron.dram.ddr.component.v1`、`vendor.etron.dram.ddr2.component.v1`、`vendor.etron.dram.ddr3.component.v1`、`vendor.etron.dram.ddr4.component.v1`、`vendor.etron.dram.lpddr4.component.v1`
 - 当前覆盖：
   - `EM63*`：SDR SDRAM automotive。
@@ -46,4 +46,4 @@ EM6 + family/generation token + density token + width token + revision/core toke
 - DDR4 `E/F/G` token 输出 4Gb/8Gb/16Gb，LPDDR4 `D/E/F/G/H` token 输出 2Gb/4Gb/8Gb/16Gb/32Gb。
 - x8 / x16 DDR3/DDR4 分别输出 78/96-ball FBGA；LPDDR4/4X 输出 200-ball FBGA。
 - 官方产品表没有给出可结构化到 PN token 的 die stack / CS 信息，本轮不推断 `dram_die_stack`。
-- `packages/resources/resources/dram-pn.json` 收录官方产品页 PN，用于搜索补全；解码仍由 token 规则完成。
+- `packages/core/resources/dram-pn.json` 收录官方产品页 PN，用于搜索补全；解码仍由 token 规则完成。

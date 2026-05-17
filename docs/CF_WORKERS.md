@@ -1,6 +1,6 @@
 # Cloudflare Workers 部署
 
-本文档只覆盖 `@itxtech/fdnext-cf-workers` 的 Cloudflare Workers 部署。该入口复用 `@itxtech/fdnext-runtime` 的 HTTP route 和 External Link provider 机制，不维护独立兼容路由。
+本文档只覆盖 `@itxtech/fdnext-cf-workers` 的 Cloudflare Workers 部署。该入口复用 `@itxtech/fdnext-core` 的 HTTP route 和 External Link provider 机制，不维护独立兼容路由。
 
 ## 1. 前置条件
 
@@ -40,14 +40,14 @@ pnpm dlx wrangler login
 关键点：
 
 - `main` 指向已打包的 Worker 入口，不直接让 Wrangler 解析 monorepo TypeScript 路径。
-- `build.command` 会先构建平台无关 runtime，再构建 Cloudflare Workers adapter。这个配置适用于本地 `wrangler dev/deploy`。
+- `build.command` 会先构建 `@itxtech/fdnext-core`，再构建 Cloudflare Workers adapter。这个配置适用于本地 `wrangler dev/deploy`。
 - `vars.FDNEXT_CORS_ORIGINS` 控制 CORS 允许的来源。当前仓库配置限制为 `https://fm.itxtech.org,https://fm.imlxy.net`；如需公开 API，可显式改成 `*`。
 - 当前 Worker 不需要 `nodejs_compat`，入口只依赖 Web Fetch API。
 - 默认打开 `workers_dev`，可以直接部署到 `*.workers.dev`；如果要绑定生产域名，在该配置中添加 `route` / `routes` 或在 Cloudflare 控制台绑定后保持 Wrangler 配置同步。
 
 ## 3. Cloudflare Workers Builds 设置
 
-如果使用 Cloudflare Dashboard 连接 Git 仓库自动构建，不能把 Build command 设置成 `pnpm build`。那会构建整个 monorepo，包括 Hapi server，而 Workers 部署只需要 runtime 和 `cf-workers` adapter。
+如果使用 Cloudflare Dashboard 连接 Git 仓库自动构建，不能把 Build command 设置成 `pnpm build`。那会构建整个 monorepo，包括 Hapi server，而 Workers 部署只需要 core 和 `cf-workers` adapter。
 
 Workers Builds 目前不会执行 `wrangler.jsonc` 里的 custom build 配置，因此 Dashboard 里需要显式设置：
 
@@ -148,7 +148,7 @@ curl 'https://<worker>.<account>.workers.dev/parts/search?query=MT29'
 
 ```ts
 import { createCfWorkersAdapter } from "@itxtech/fdnext-cf-workers";
-import type { ExternalLinkProvider } from "@itxtech/fdnext-runtime";
+import type { ExternalLinkProvider } from "@itxtech/fdnext-core";
 
 const productPageLinks: ExternalLinkProvider = {
   id: "product-page",
@@ -177,6 +177,6 @@ External Link provider 只能返回 `http:`、`https:` 或 `mailto:` URL。runti
 ## 9. 维护边界
 
 - Cloudflare adapter 只负责把 `fetch()` 请求交给共享 runtime。
-- HTTP route、响应 contract 和 External Link 清理逻辑属于 `packages/runtime`。
+- HTTP route、响应 contract 和 External Link 清理逻辑属于 `packages/core`。
 - 不新增旧接口 alias，也不在 Workers 入口维护与 Hapi server 不一致的行为。
 - 资源 JSON 会随 Worker bundle 打入产物；上线前以 Wrangler dry-run 输出为准检查最终 bundle 大小。

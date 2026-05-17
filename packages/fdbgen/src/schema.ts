@@ -1,4 +1,4 @@
-import { nandDieProfileKeys } from "@itxtech/fdnext-decodepack";
+import { nandDieProfileKeys } from "@itxtech/fdnext-core";
 import { FDNEXT_FDBGEN_V1_COMPACT_VERSION, FDNEXT_FDBGEN_V1_FULL_VERSION } from "./fdbgen-v1";
 import { FDNEXT_FDB_EXTRA_SCHEMA_VERSION, FDNEXT_FDB_SCHEMA_VERSION } from "./types";
 

@@ -13,7 +13,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/ymtc-emmc-token.json`
+- `packages/core/src/decodepack/rules/packs/ymtc-emmc-token.json`
   - `vendor.ymtc.emmc-label.v1`
 
 PN 结构：

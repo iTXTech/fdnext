@@ -17,7 +17,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/longsys-ufs-token.json`
+- `packages/core/src/decodepack/rules/packs/longsys-ufs-token.json`
 - `vendor.longsys.foresee.ufs.v1`
 
 PN 结构：

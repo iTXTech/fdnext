@@ -24,13 +24,13 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/spectek-dram-token.json`
+- `packages/core/src/decodepack/rules/packs/spectek-dram-token.json`
 - `vendor.spectek.mobile-dram.component.v1`
 - `vendor.spectek.dram.component.v1`
 
 MDB mark code:
 
-- `packages/resources/resources/mdb.json`
+- `packages/core/resources/mdb.json`
 - `PE001` ~ `PE020` 已按官方 decoder 查询结果加入 `spectek` marking 映射。
 - `PB001`、`PP002`、`PU001` 已作为新 DRAM family 回归样本加入 `spectek` marking 映射。
 - `packages/fdbgen/src/mdb.ts` 的 `crawl-mdb` 默认仍运行 SpecTek section，SpecTek crawl header 已加入 `PB`、`PE`、`PP`、`PU`，后续可用同一个入口补全更大范围。

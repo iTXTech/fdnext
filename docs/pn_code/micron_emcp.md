@@ -21,11 +21,11 @@
 
 ## 规则入口
 
-- 规则文件：`packages/decodepack/src/rules/packs/micron-emcp-token.json`
+- 规则文件：`packages/core/src/decodepack/rules/packs/micron-emcp-token.json`
 - 规则 ID：
   - `vendor.micron.emcp.mt29c.v1`
   - `vendor.micron.emcp.mt29rz.v1`
-- testcase：`packages/decodepack/test/managed-nand.test.ts`
+- testcase：`packages/core/test/decodepack/managed-nand.test.ts`
 
 ## MT29C NAND + LPDRAM MCP 结构
 

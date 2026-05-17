@@ -17,7 +17,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/spectek-raw-token.json`
+- `packages/core/src/decodepack/rules/packs/spectek-raw-token.json`
 - `vendor.spectek.token.v1`
 - `vendor.spectek.old-numbering.v1`
 

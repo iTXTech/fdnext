@@ -14,7 +14,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/micron-hmc-token.json`
+- `packages/core/src/decodepack/rules/packs/micron-hmc-token.json`
 - `vendor.micron.hmc.mt43a.v1`
 
 PN 结构：

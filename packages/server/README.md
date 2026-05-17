@@ -6,7 +6,7 @@ Hapi HTTP server adapter for fdnext.
 
 `@itxtech/fdnext-server` wraps the fdnext runtime in a [Hapi](https://hapi.dev/) HTTP server. It translates Hapi requests into runtime dispatch calls, providing a production-ready HTTP API for part number decoding, Flash ID inspection, and database search.
 
-The server itself is a thin adapter — all HTTP routing, response contracts, and External Link handling are delegated to `@itxtech/fdnext-runtime`.
+The server itself is a thin adapter — all HTTP routing, response contracts, and External Link handling are delegated to `@itxtech/fdnext-core`.
 
 ## Installation
 

@@ -17,9 +17,9 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/micron-managed-token.json`
+- `packages/core/src/decodepack/rules/packs/micron-managed-token.json`
   - `vendor.micron.managed.mtfc.nextgen.v1`
-- `packages/decodepack/src/rules/packs/micron-emmc-token.json`
+- `packages/core/src/decodepack/rules/packs/micron-emmc-token.json`
   - `vendor.micron.emmc.mtfc.legacy.v1`
 
 PN 结构：

@@ -52,8 +52,8 @@
 
 ## iTXTech fdnext DecodePack 范围
 
-- 主线 DRAM 规则文件：`packages/decodepack/src/rules/packs/micron-dram-token.json`
-- Stacked / specialty DRAM 规则文件：`packages/decodepack/src/rules/packs/micron-hbm-token.json`、`packages/decodepack/src/rules/packs/micron-hmc-token.json`
+- 主线 DRAM 规则文件：`packages/core/src/decodepack/rules/packs/micron-dram-token.json`
+- Stacked / specialty DRAM 规则文件：`packages/core/src/decodepack/rules/packs/micron-hbm-token.json`、`packages/core/src/decodepack/rules/packs/micron-hmc-token.json`
 - 规则 ID：`vendor.micron.dram.component.v1`
 - 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62/68`、Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62/68`，以及 Micron legacy Elpida namespace `ED/EE + 40/41/42/44/46/47/48/49/51/52/53/58/60/61/62/68`。
 - Stacked / specialty 覆盖见 [micron_hbm.md](micron_hbm.md) 和 [micron_hmc.md](micron_hmc.md)：当前加入 Micron HBM2E `MT54A...` 与 HMC `MT43A...`，用于修正这类 PN 被 fallback 误判为 raw NAND 的问题。
@@ -61,9 +61,9 @@
 
 ## 搜索资源
 
-- `packages/resources/resources/dram-pn.json` 收录已知 Micron / Crucial DRAM PN，用于 `searchParts()` PN 补全，不是解码依据。
-- `pnpm fdbgen:crawl-mdb` 默认按 Micron FBGA prefix profile 生成候选，通过 Micron 官方 FBGA decoder API 写入统一 `packages/resources/resources/mdb.json`。当前默认 profile 包括 `C9/D8/D9/Z8/Z9` 后三位字母网格，以及 `NC/NW/NY/NX/NQ/NV` 数字段；`--codes` 补充输入按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
-- `packages/resources/resources/mdb.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchParts()` code 查询，以及 `decodePart({ query: "C9BJZ" })` 这类 code 输入时先反查 PN 再走 iTXTech fdnext DecodePack。
+- `packages/core/resources/dram-pn.json` 收录已知 Micron / Crucial DRAM PN，用于 `searchParts()` PN 补全，不是解码依据。
+- `pnpm fdbgen:crawl-mdb` 默认按 Micron FBGA prefix profile 生成候选，通过 Micron 官方 FBGA decoder API 写入统一 `packages/core/resources/mdb.json`。当前默认 profile 包括 `C9/D8/D9/Z8/Z9` 后三位字母网格，以及 `NC/NW/NY/NX/NQ/NV` 数字段；`--codes` 补充输入按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
+- `packages/core/resources/mdb.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchParts()` code 查询，以及 `decodePart({ query: "C9BJZ" })` 这类 code 输入时先反查 PN 再走 iTXTech fdnext DecodePack。
 - 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA code 反查统一来自 `mdb.json` 的 code -> PN 映射。真正输出的 `density`、`package`、`dram_type`、`dram_die_stack` 等字段仍由 iTXTech fdnext DecodePack token 解析。
 - `mdb.json` 中有大量带冒号 revision 的 DRAM PN，例如 `D8BBF -> MT53E128M32D2FW-046 IT:A`、`D9WCR -> MT61K256M32JE-12:A`、`D8FHL -> MT68A512M32DF-28:A`、`D8BCJ -> MT62F512M32D2DS-031 AAT:B`。PN 补全和 decode classification 支持用户省略冒号查询，并回到带冒号的官方 PN 展示。
 

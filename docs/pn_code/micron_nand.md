@@ -17,7 +17,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/micron-raw-token.json`
+- `packages/core/src/decodepack/rules/packs/micron-raw-token.json`
 - `vendor.micron.token.v1`
 
 PN 结构：

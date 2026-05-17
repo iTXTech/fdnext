@@ -180,24 +180,6 @@ async function main() {
       });
       return;
     }
-    case "decodepack": {
-      await bundleEntry(esbuild, {
-        entry: resolve(root, "packages/decodepack/src/index.ts"),
-        outfile: resolve(root, "packages/decodepack/dist/index.js"),
-        platform: "neutral",
-        define
-      });
-      return;
-    }
-    case "runtime": {
-      await bundleEntry(esbuild, {
-        entry: resolve(root, "packages/runtime/src/index.ts"),
-        outfile: resolve(root, "packages/runtime/dist/index.js"),
-        platform: "neutral",
-        define
-      });
-      return;
-    }
     case "server": {
       await bundleEntry(esbuild, {
         entry: resolve(root, "packages/server/src/index.ts"),
@@ -279,15 +261,6 @@ async function main() {
         banner: nodeBanner({ shebang: true }),
         define,
         executable: true
-      });
-      return;
-    }
-    case "resources": {
-      await bundleEntry(esbuild, {
-        entry: resolve(root, "packages/resources/index.ts"),
-        outfile: resolve(root, "packages/resources/dist/index.js"),
-        platform: "neutral",
-        define
       });
       return;
     }

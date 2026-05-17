@@ -21,7 +21,7 @@ import { buildFdb, findPartNumberAcrossVendors, getPartNumberRecord } from "../s
 
 const fixtureRoot = fileURLToPath(new URL("./fixtures/", import.meta.url));
 const resultFixtureRoot = join(fixtureRoot, "fdnext-result");
-const engLang = parseJson(fileURLToPath(new URL("../../resources/resources/lang/eng.json", import.meta.url))) as Record<string, string>;
+const engLang = parseJson(fileURLToPath(new URL("../resources/lang/eng.json", import.meta.url))) as Record<string, string>;
 const rootPackageMetadata = parseJson(fileURLToPath(new URL("../../../package.json", import.meta.url))) as { version?: unknown };
 assert.equal(typeof rootPackageMetadata.version, "string", "root package metadata must expose a version");
 const fdnextPackageVersion = rootPackageMetadata.version as string;

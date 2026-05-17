@@ -13,7 +13,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/siliconmotion-managed-token.json`
+- `packages/core/src/decodepack/rules/packs/siliconmotion-managed-token.json`
 - `vendor.siliconmotion.ferri.emmc.v1`
 
 PN 结构：

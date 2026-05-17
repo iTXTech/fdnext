@@ -31,11 +31,9 @@
 
 ## 🏗️ Architecture
 
-`fdnext` is organized as a strict TypeScript monorepo, separating core logic from platform-specific adapters and data resources.
+`fdnext` is organized as a strict TypeScript monorepo. The main package is now batteries-included, while platform packages stay thin adapters.
 
-- **Core ([`@itxtech/fdnext-core`](packages/core)):** The engine itself, handling the operation pipeline and search logic.
-- **Rules ([`@itxtech/fdnext-decodepack`](packages/decodepack)):** Data-driven rule packs and the PN/identifier compiler.
-- **Resources ([`@itxtech/fdnext-resources`](packages/resources)):** Embedded databases, language packs, and PN suggestion indexes.
+- **Core ([`@itxtech/fdnext-core`](packages/core)):** Engine, DecodePack rules/compiler, embedded resources, result contract, and shared runtime.
 - **Adapters:** Native support for [Hapi](packages/server), [Cloudflare Workers](packages/cf-workers), and [Aliyun FC](packages/aliyun-fc).
 
 ---

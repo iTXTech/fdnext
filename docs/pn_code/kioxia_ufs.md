@@ -13,7 +13,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/kioxia-ufs-token.json`
+- `packages/core/src/decodepack/rules/packs/kioxia-ufs-token.json`
 - `vendor.kioxia.ufs.managed.v1`
 
 PN 结构：

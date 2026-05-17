@@ -1,11 +1,11 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import {
   createFdnextCorsOptionsFromEnv,
-  createFdnextRuntime,
+  createRuntime,
   type FdnextCorsOptions,
   type FdnextRuntime,
   type FdnextRuntimeOptions
-} from "@itxtech/fdnext-runtime";
+} from "@itxtech/fdnext-core";
 
 export interface AliyunFcHandlerOptions {
   runtime?: FdnextRuntime;
@@ -41,7 +41,7 @@ function writeJsonResponse(response: ServerResponse, status: number, headers: Re
 
 export function createAliyunFcHandler(options: AliyunFcHandlerOptions = {}) {
   const cors = options.cors ?? createFdnextCorsOptionsFromEnv(process.env);
-  const runtime = options.runtime ?? createFdnextRuntime({ ...options.runtimeOptions, ...(cors ? { cors } : {}) });
+  const runtime = options.runtime ?? createRuntime({ ...options.runtimeOptions, ...(cors ? { cors } : {}) });
   return async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
     try {
       const result = await runtime.handleHttp({

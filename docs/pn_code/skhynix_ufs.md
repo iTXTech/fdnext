@@ -17,11 +17,11 @@
 
 ## 规则入口
 
-- 规则文件：`packages/decodepack/src/rules/packs/skhynix-ufs-token.json`
+- 规则文件：`packages/core/src/decodepack/rules/packs/skhynix-ufs-token.json`
 - 规则 ID：
   - `vendor.skhynix.ufs.hn8.v1`
   - `vendor.skhynix.ufs.h28s.v1`
-- testcase：`packages/decodepack/test/managed-nand.test.ts`
+- testcase：`packages/core/test/decodepack/managed-nand.test.ts`
 
 Preduo 等灰市 / 分销页可信度低于原厂新闻图、原厂 datasheet 和实机同一完整料号证据；不能用近似料号或分销页字段覆盖同一完整料号的更高权重证据。
 

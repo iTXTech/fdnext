@@ -11,7 +11,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/biwin-ufs-token.json`
+- `packages/core/src/decodepack/rules/packs/biwin-ufs-token.json`
 - `vendor.biwin.ufs.v1`
 
 PN 结构：

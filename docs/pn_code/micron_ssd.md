@@ -13,7 +13,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/micron-ssd-token.json`
+- `packages/core/src/decodepack/rules/packs/micron-ssd-token.json`
 - `vendor.micron.ssd.2100ai-at.v1`
 
 PN 结构：

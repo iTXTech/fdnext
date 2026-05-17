@@ -13,7 +13,7 @@
 
 ## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/decodepack/src/rules/packs/winbond-dram-token.json`
+- 规则文件：`packages/core/src/decodepack/rules/packs/winbond-dram-token.json`
 - 规则 ID：`vendor.winbond.dram.ddr3.component.v1`、`vendor.winbond.dram.ddr4.component.v1`、`vendor.winbond.dram.lpddr4.component.v1`
 - 当前覆盖：
   - `W63[1248]G[GU][68]...`：DDR3 / DDR3L。
@@ -47,4 +47,4 @@ W66 + density + P/Q + width + N/R + package + speed + grade
 - DDR3 speed token `09/11/12/15` 输出 DDR3-2133/1866/1600/1333；DDR4 speed token `06/07/08` 输出 DDR4-3200/2666/2400。
 - LPDDR4/4X 的 `P/Q + N/R` 组合区分 LPDDR4 与 LPDDR4X；`F/G/H` 输出 3200/3733/4267 MT/s。
 - 官方 PSG 表未提供可直接落到 die stack / CS 的 Winbond token，本轮不推断 `dram_die_stack`。
-- `packages/resources/resources/dram-pn.json` 收录本轮 iTXTech fdnext DecodePack 能解析的官方 Winbond PN 样例，用于搜索补全；解码仍由 token 规则完成。
+- `packages/core/resources/dram-pn.json` 收录本轮 iTXTech fdnext DecodePack 能解析的官方 Winbond PN 样例，用于搜索补全；解码仍由 token 规则完成。

@@ -20,6 +20,6 @@
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   },
   "dependencies": {
-    "@itxtech/fdnext-decodepack": "workspace:*"
+    "@itxtech/fdnext-core": "workspace:*"
   }
 }

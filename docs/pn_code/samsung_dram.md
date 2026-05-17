@@ -37,7 +37,7 @@
 
 ## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/decodepack/src/rules/packs/samsung-dram-token.json`
+- 规则文件：`packages/core/src/decodepack/rules/packs/samsung-dram-token.json`
 - 规则 ID：`vendor.samsung.dram.ddr3.component.v1`、`vendor.samsung.dram.legacy_standard.component.v1`、`vendor.samsung.dram.standard.component.v1`、`vendor.samsung.dram.ddr5.component.v1`、`vendor.samsung.dram.lpddr1.component.v1`、`vendor.samsung.dram.lpddr4x.ordering.component.v1`、`vendor.samsung.dram.lpddr.component.v1`、`vendor.samsung.dram.legacy_gddr.component.v1`、`vendor.samsung.dram.gddr.component.v1`
 - 当前覆盖：
   - SDR / DDR：`K4S/K4H/K4T/K4B/K4A`，覆盖 SDR、DDR、DDR2、DDR3、DDR4。

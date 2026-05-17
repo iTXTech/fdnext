@@ -19,9 +19,9 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/sandisk-inand-emmc-token.json`
+- `packages/core/src/decodepack/rules/packs/sandisk-inand-emmc-token.json`
 - `vendor.sndk.inand.emmc.v1`
-- `packages/decodepack/src/rules/packs/sandisk-inand-token.json`
+- `packages/core/src/decodepack/rules/packs/sandisk-inand-token.json`
 - `vendor.sndk.inand.legacy-emmc.v1`
 
 PN 结构：

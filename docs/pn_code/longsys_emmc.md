@@ -19,7 +19,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/longsys-emmc-token.json`
+- `packages/core/src/decodepack/rules/packs/longsys-emmc-token.json`
 - `vendor.longsys.foresee.emmc.v1`
 
 PN 结构：

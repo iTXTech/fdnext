@@ -1,6 +1,6 @@
 # iTXTech fdnext DecodePack 规范（JSON）
 
-本仓库把“厂商料号解码”做成纯数据的 iTXTech fdnext DecodePack（JSON）。`@itxtech/fdnext-decodepack` 负责把 DecodePack JSON specs 编译成 `@itxtech/fdnext-core` 可消费的 decoder，默认入口是 `defaultDecodePack` + `compileDecodePack(defaultDecodePack)`。
+本仓库把“厂商料号解码”做成纯数据的 iTXTech fdnext DecodePack（JSON）。`@itxtech/fdnext-core` 负责把 DecodePack JSON specs 编译成 `@itxtech/fdnext-core` 可消费的 decoder，默认入口是 `defaultDecodePack` + `compileDecodePack(defaultDecodePack)`。
 
 ## 1. PartDecodeSpec
 
@@ -233,15 +233,15 @@ iTXTech fdnext DecodePack 的 `assign` 应输出 **core 的 native decoder draft
 
 - `fields.*` 和 `components[].fields.*` 中会进入公开结果的字段应使用 canonical snake_case key（例如 `operation_temperature`、`speed_grade`、`marking_code`、`storage_interface`），不要直接写 “Operation Temperature” 这类展示字符串。
 - PN / identifier iTXTech fdnext DecodePack 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
-- 新增或重命名 metadata key 时，直接迁移全部 iTXTech fdnext DecodePack 源规则、语言包和测试。旧 key 应进入 `packages/decodepack/test/metadata-audit.test.ts` 的禁止列表，而不是进入兼容层。
+- 新增或重命名 metadata key 时，直接迁移全部 iTXTech fdnext DecodePack 源规则、语言包和测试。旧 key 应进入 `packages/core/test/decodepack/metadata-audit.test.ts` 的禁止列表，而不是进入兼容层。
 - 外部链接不要从 iTXTech fdnext DecodePack 直接泄漏到公开结果；平台侧应通过 runtime 的 External Link provider 输出到正式 `links` contract。
 
 ## 5. Pack 组织方式
 
 推荐把每个厂商的 DecodePack JSON specs 放到单独 pack 文件（JSON 数组）：
 
-- 目录：`packages/decodepack/src/rules/packs`
-- 接入：`packages/decodepack/src/rules/default-rules.ts:1`
+- 目录：`packages/core/src/decodepack/rules/packs`
+- 接入：`packages/core/src/decodepack/rules/default-rules.ts:1`
 
 源码里用 JSON module 直接导入：
 
@@ -253,17 +253,17 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 ## 6. 如何新增/验证一个厂商解码器
 
-- 新增 pack：`packages/decodepack/src/rules/packs/<vendor>-token.json`
+- 新增 pack：`packages/core/src/decodepack/rules/packs/<vendor>-token.json`
 - 在 `default-rules.ts` 中导入并加入 `defaultPartDecodeSpecs`
 - 添加/更新 contract 行为测试：`packages/contract-test/test/contract.test.ts`
-- 仓库内验证：`pnpm cli decodepack check`、`pnpm contract:check`、`pnpm -C packages/decodepack test`
+- 仓库内验证：`pnpm cli decodepack check`、`pnpm contract:check`、`pnpm -C packages/core test`
 
 ## 7. 维护工具
 
 DecodePack 维护工具面向 AI 和人工 review，既可通过 TypeScript API 调用，也可通过 CLI 使用。
 
 ```ts
-import { checkDecodePack, compileDecodePack, defaultDecodePack, explainPartDecode } from "@itxtech/fdnext-decodepack";
+import { checkDecodePack, compileDecodePack, defaultDecodePack, explainPartDecode } from "@itxtech/fdnext-core";
 
 const check = checkDecodePack(defaultDecodePack);
 const compiled = compileDecodePack(defaultDecodePack);
@@ -286,8 +286,8 @@ NAND Flash ID 解码通过 typed identifier iTXTech fdnext DecodePack 表达，�
 
 ### 8.1 Pack 位置
 
-- Identifier packs：`packages/decodepack/src/identifier/packs/*.json`
-- 接入入口：`packages/decodepack/src/identifier/default-rules.ts:1`
+- Identifier packs：`packages/core/src/decodepack/identifier/packs/*.json`
+- 接入入口：`packages/core/src/decodepack/identifier/default-rules.ts:1`
 
 源码里同样用 JSON module 直接导入：
 
@@ -346,7 +346,7 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 ### 8.5 如何新增/验证 NAND Flash ID 解码器
 
-- 新增 pack：`packages/decodepack/src/identifier/packs/<vendor>.json`
-- 在 `packages/decodepack/src/identifier/default-rules.ts:1` 中导入并加入 `defaultIdentifierDecodeSpecs`
+- 新增 pack：`packages/core/src/decodepack/identifier/packs/<vendor>.json`
+- 在 `packages/core/src/decodepack/identifier/default-rules.ts:1` 中导入并加入 `defaultIdentifierDecodeSpecs`
 - 添加/更新 identifier contract 行为测试：`packages/contract-test/test/contract.test.ts`
-- 仓库内验证：`pnpm cli decodepack check`、`pnpm contract:check`、`pnpm -C packages/decodepack test`
+- 仓库内验证：`pnpm cli decodepack check`、`pnpm contract:check`、`pnpm -C packages/core test`

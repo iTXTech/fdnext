@@ -19,7 +19,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/sandisk-inand-ufs-token.json`
+- `packages/core/src/decodepack/rules/packs/sandisk-inand-ufs-token.json`
 - `vendor.sndk.inand.ufs.v1`
 
 PN 结构：

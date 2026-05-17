@@ -15,7 +15,7 @@
 
 ## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/decodepack/src/rules/packs/elpida-dram-token.json`
+- 规则文件：`packages/core/src/decodepack/rules/packs/elpida-dram-token.json`
 - 规则 ID：`vendor.elpida.dram.sdr_ddr.component.v1`、`vendor.elpida.dram.ddr2_ddr3.component.v1`、`vendor.elpida.dram.lpddr2_lpddr3.component.v1`、`vendor.elpida.dram.gddr5.component.v1`
 - 当前覆盖：
   - SDR / DDR：`EDS/EDD`

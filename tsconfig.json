@@ -3,9 +3,6 @@
   "extends": "./tsconfig.base.json",
   "references": [
     { "path": "./packages/core" },
-    { "path": "./packages/decodepack" },
-    { "path": "./packages/resources" },
-    { "path": "./packages/runtime" },
     { "path": "./packages/server" },
     { "path": "./packages/cf-workers" },
     { "path": "./packages/aliyun-fc" },

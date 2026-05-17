@@ -22,7 +22,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/samsung-emcp-token.json`
+- `packages/core/src/decodepack/rules/packs/samsung-emcp-token.json`
   - `vendor.samsung.emcp.kmg-6001bm.v1`
 
 当前只加入两个窄 product-key：

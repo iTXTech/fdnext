@@ -1,6 +1,6 @@
 # Server 接口文档
 
-本文档是 fdnext HTTP 接口的事实源。Hapi server、Cloudflare Workers adapter 和阿里云 FC adapter 都复用 `@itxtech/fdnext-runtime` 的路由解析与响应 contract；部署文档只说明平台配置，不重复维护接口表。
+本文档是 fdnext HTTP 接口的事实源。Hapi server、Cloudflare Workers adapter 和阿里云 FC adapter 都复用 `@itxtech/fdnext-core` 的路由解析与响应 contract；部署文档只说明平台配置，不重复维护接口表。
 
 ## 1. 基础约定
 

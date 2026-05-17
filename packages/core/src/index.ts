@@ -1,4 +1,7 @@
 export { createEngine } from "./engine";
+export * from "./runtime";
+export * from "./decodepack";
+export { embeddedResourceBundle, getEmbeddedResourceBundle } from "./resources";
 export * from "./constants";
 export * from "./draft";
 export * from "./types";

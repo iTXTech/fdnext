@@ -1,8 +1,13 @@
 import { resolve } from "node:path";
-import { createEngine, type ControllerGroupSelection } from "@itxtech/fdnext-core";
+import {
+  checkDecodePack,
+  createEngine,
+  defaultDecodePack,
+  explainIdentifierDecode,
+  explainPartDecode,
+  type ControllerGroupSelection
+} from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
-import { checkDecodePack, compileDecodePack, defaultDecodePack, explainIdentifierDecode, explainPartDecode } from "@itxtech/fdnext-decodepack";
-import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
 
 function resourceDirFromEnv(): string | null {
   const fromEnv = process.env.FDNEXT_RESOURCES?.trim();
@@ -129,14 +134,9 @@ async function main() {
     return;
   }
 
-  const compiledPack = compileDecodePack(defaultDecodePack);
+  const resourceDir = resourceDirFromEnv();
   const engine = createEngine({
-    resources: (() => {
-      const resourceDir = resourceDirFromEnv();
-      return resourceDir ? loadResourcesFromDir(resourceDir) : embeddedResourceBundle;
-    })(),
-    decoders: compiledPack.partDecoders,
-    identifierDecoders: compiledPack.identifierDecoders
+    ...(resourceDir ? { resources: loadResourcesFromDir(resourceDir) } : {})
   });
 
   if (scope === "capabilities") {

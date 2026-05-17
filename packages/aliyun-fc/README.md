@@ -4,7 +4,7 @@ Aliyun Function Compute (FC) adapter for fdnext.
 
 ## Overview
 
-`@itxtech/fdnext-aliyun-fc` provides a Node.js HTTP handler and a standalone custom runtime entry for deploying fdnext on Alibaba Cloud Function Compute. It wraps `@itxtech/fdnext-runtime` in a standard `http.createServer` handler.
+`@itxtech/fdnext-aliyun-fc` provides a Node.js HTTP handler and a standalone custom runtime entry for deploying fdnext on Alibaba Cloud Function Compute. It wraps `@itxtech/fdnext-core` in a standard `http.createServer` handler.
 
 ## Installation
 

@@ -31,11 +31,9 @@
 
 ## 🏗️ 架构设计
 
-`fdnext` 采用严格的 TypeScript monorepo 组织，将核心逻辑与平台特定的适配器和数据资源分离。
+`fdnext` 采用严格的 TypeScript monorepo 组织。主包已经内置规则、资源和共享 runtime，平台包只保留薄适配器。
 
-- **核心 ([`@itxtech/fdnext-core`](packages/core)):** 引擎本身，处理操作管线和搜索逻辑。
-- **规则 ([`@itxtech/fdnext-decodepack`](packages/decodepack)):** 数据驱动的规则包和 PN/identifier 编译器。
-- **资源 ([`@itxtech/fdnext-resources`](packages/resources)):** 内嵌数据库、语言包和 PN 建议索引。
+- **核心 ([`@itxtech/fdnext-core`](packages/core)):** 引擎、DecodePack 规则 / 编译器、内置资源、result contract 和共享 runtime。
 - **适配器:** 原生支持 [Hapi](packages/server), [Cloudflare Workers](packages/cf-workers), 和 [阿里云 FC](packages/aliyun-fc)。
 
 ---

@@ -6,7 +6,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/samsung-raw-token.json`
+- `packages/core/src/decodepack/rules/packs/samsung-raw-token.json`
 - `vendor.samsung.token.v1`
 
 来源状态：本轮维护中由用户提供 Samsung 3D V-NAND die 标识表；外部公开 reference 待补。规则只按结构 token 落地，不维护完整 PN 白名单。

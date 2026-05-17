@@ -13,7 +13,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/biwin-emcp-token.json`
+- `packages/core/src/decodepack/rules/packs/biwin-emcp-token.json`
 - `vendor.biwin.emcp.v1`
 - `vendor.biwin.umcp.v1`
 

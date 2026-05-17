@@ -1,6 +1,6 @@
 # 集成指南（Node / 浏览器 / 服务端）
 
-本项目核心是 `@itxtech/fdnext-core`（纯逻辑、无运行时网络依赖），解码规则由 `@itxtech/fdnext-decodepack` 的 iTXTech fdnext DecodePack JSON packs 提供，默认数据由 `@itxtech/fdnext-resources` 提供。
+本项目核心是 `@itxtech/fdnext-core`（纯逻辑、无运行时网络依赖）。它已经内置 iTXTech fdnext DecodePack JSON 规则、编译器、默认资源和平台无关 runtime。
 
 本文档说明如何把 fdnext 嵌入 Node、浏览器和服务端部署。HTTP 路由、query 参数、响应结构和 CORS 规则统一维护在 [Server 接口文档](SERVER_API.md)。
 
@@ -8,15 +8,7 @@
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
-import { compileDecodePack, defaultDecodePack } from "@itxtech/fdnext-decodepack";
-import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
-
-const compiledPack = compileDecodePack(defaultDecodePack);
-const engine = createEngine({
-  resources: embeddedResourceBundle,
-  decoders: compiledPack.partDecoders,
-  identifierDecoders: compiledPack.identifierDecoders
-});
+const engine = createEngine();
 
 console.log(engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" }));
 console.log(engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" }));
@@ -27,7 +19,9 @@ console.log(engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" }));
 ```ts
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
 
-const resources = process.env.FDNEXT_RESOURCES ? loadResourcesFromDir(process.env.FDNEXT_RESOURCES) : embeddedResourceBundle;
+const engine = createEngine({
+  resources: process.env.FDNEXT_RESOURCES ? loadResourcesFromDir(process.env.FDNEXT_RESOURCES) : undefined
+});
 ```
 
 ### 1.1 Processor 管线与 SDK 方法
@@ -61,12 +55,12 @@ const response = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 
 ### 1.2 Runtime dispatch 与 External Link
 
-`@itxtech/fdnext-runtime` 是平台无关入口，负责统一 dispatch、HTTP 路由和 External Link provider。Hapi、Cloudflare Workers、阿里云 FC 等 adapter 都应调用同一个 runtime，而不是各自维护路由。
+`@itxtech/fdnext-core` 是平台无关入口，负责统一 dispatch、HTTP 路由和 External Link provider。Hapi、Cloudflare Workers、阿里云 FC 等 adapter 都应调用同一个 runtime，而不是各自维护路由。
 
 ```ts
-import { createFdnextRuntime } from "@itxtech/fdnext-runtime";
+import { createRuntime } from "@itxtech/fdnext-core";
 
-const runtime = createFdnextRuntime({
+const runtime = createRuntime({
   externalLinkProviders: [
     {
       id: "docs",
@@ -117,22 +111,21 @@ runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https
 - 不要在浏览器使用 `@itxtech/fdnext-core/node`（它依赖 Node 的 `fs`）
 - 资源（`fdb/mdb/lang`，以及用于 PN 补全的 `managed-nand-pn/dram-pn`）建议用 `fetch()` 加载静态 JSON
 - `managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`；Micron DRAM FBGA code 反查统一来自 `mdb.json`
-- 解码器（PN / typed identifier）来自 `@itxtech/fdnext-decodepack` 的默认规则包（JSON import attributes：`with { type: "json" }`）
+- 默认解码器（PN / typed identifier）已由 `@itxtech/fdnext-core` 内置；只有裁剪规则或注入自定义规则时才需要显式传入 `decoders` / `identifierDecoders`
 
 ### 2.1 方式 A：fetch 静态 JSON（推荐）
 
-将仓库内的 `packages/resources/resources/` 目录作为静态资源发布。下面示例假设挂载到 `/fdnext-resources/`：
+将仓库内的 `packages/core/resources/` 目录作为静态资源发布。下面示例假设挂载到 `/fdnext-core/`：
 
-- `/fdnext-resources/fdb.json`
-- `/fdnext-resources/mdb.json`
-- `/fdnext-resources/managed-nand-pn.json`
-- `/fdnext-resources/dram-pn.json`
-- `/fdnext-resources/lang/chs.json`
-- `/fdnext-resources/lang/eng.json`
+- `/fdnext-core/fdb.json`
+- `/fdnext-core/mdb.json`
+- `/fdnext-core/managed-nand-pn.json`
+- `/fdnext-core/dram-pn.json`
+- `/fdnext-core/lang/chs.json`
+- `/fdnext-core/lang/eng.json`
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
-import { compileDecodePack, defaultDecodePack } from "@itxtech/fdnext-decodepack";
 
 async function loadJson(path: string) {
   const res = await fetch(path);
@@ -141,15 +134,14 @@ async function loadJson(path: string) {
 }
 
 const [flashDatabase, packageMarkings, managedNandParts, dramParts, chs, eng] = await Promise.all([
-  loadJson("/fdnext-resources/fdb.json"),
-  loadJson("/fdnext-resources/mdb.json"),
-  loadJson("/fdnext-resources/managed-nand-pn.json"),
-  loadJson("/fdnext-resources/dram-pn.json"),
-  loadJson("/fdnext-resources/lang/chs.json"),
-  loadJson("/fdnext-resources/lang/eng.json")
+  loadJson("/fdnext-core/fdb.json"),
+  loadJson("/fdnext-core/mdb.json"),
+  loadJson("/fdnext-core/managed-nand-pn.json"),
+  loadJson("/fdnext-core/dram-pn.json"),
+  loadJson("/fdnext-core/lang/chs.json"),
+  loadJson("/fdnext-core/lang/eng.json")
 ]);
 
-const compiledPack = compileDecodePack(defaultDecodePack);
 const engine = createEngine({
   resources: {
     partIndex: {
@@ -165,9 +157,7 @@ const engine = createEngine({
     },
     vendorIndex: {},
     translationIndex: { chs, eng }
-  },
-  decoders: compiledPack.partDecoders,
-  identifierDecoders: compiledPack.identifierDecoders
+  }
 });
 ```
 
@@ -177,7 +167,7 @@ const engine = createEngine({
 
 ## 3. 服务端（HTTP Server）
 
-`@itxtech/fdnext-server` 是基于 Hapi 的标准 adapter。它只负责把 Hapi request 转给 `@itxtech/fdnext-runtime`，实际路由由 runtime 统一处理。
+`@itxtech/fdnext-server` 是基于 Hapi 的标准 adapter。它只负责把 Hapi request 转给 `@itxtech/fdnext-core`，实际路由由 runtime 统一处理。
 
 ### 3.1 仓库内运行
 
@@ -189,7 +179,7 @@ pnpm server:dev
 如需指定外部资源目录，增加参数：
 
 ```bash
-pnpm -C packages/server dev -- --resources /path/to/packages/resources/resources
+pnpm -C packages/server dev -- --resources /path/to/packages/core/resources
 ```
 
 构建后运行生产入口：

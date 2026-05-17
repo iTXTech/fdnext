@@ -6,9 +6,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "dependencies": {
-    "@itxtech/fdnext-core": "workspace:*",
-    "@itxtech/fdnext-decodepack": "workspace:*",
-    "@itxtech/fdnext-resources": "workspace:*"
+    "@itxtech/fdnext-core": "workspace:*"
   },
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",

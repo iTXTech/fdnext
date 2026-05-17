@@ -16,7 +16,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/spectek-managed-token.json`
+- `packages/core/src/decodepack/rules/packs/spectek-managed-token.json`
 - `vendor.spectek.aio.emcp.v1`
 - `vendor.spectek.nand-mcp.v1`
 

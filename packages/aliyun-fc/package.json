@@ -15,7 +15,7 @@
     "fdnext-aliyun-fc": "dist/bin.js"
   },
   "dependencies": {
-    "@itxtech/fdnext-runtime": "workspace:*"
+    "@itxtech/fdnext-core": "workspace:*"
   },
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",

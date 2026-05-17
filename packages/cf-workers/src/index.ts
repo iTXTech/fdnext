@@ -1,4 +1,4 @@
-import { createFdnextCorsOptionsFromEnv, createFdnextRuntime, type FdnextRuntimeOptions } from "@itxtech/fdnext-runtime";
+import { createFdnextCorsOptionsFromEnv, createRuntime, type FdnextRuntimeOptions } from "@itxtech/fdnext-core";
 
 export interface CfWorkersContext {
   waitUntil?(promise: Promise<unknown>): void;
@@ -10,7 +10,7 @@ export interface CfWorkersEntrypoint {
 }
 
 export function createCfWorkersAdapter(options: FdnextRuntimeOptions = {}): CfWorkersEntrypoint {
-  const runtime = createFdnextRuntime(options);
+  const runtime = createRuntime(options);
   return {
     fetch(request, env) {
       return runtime.fetch(request, {

@@ -13,7 +13,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/biwin-emmc-token.json`
+- `packages/core/src/decodepack/rules/packs/biwin-emmc-token.json`
 - `vendor.biwin.emmc.v1`
 
 PN 结构：

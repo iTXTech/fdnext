@@ -40,11 +40,8 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@itxtech/fdnext-core": "workspace:*",
-    "@itxtech/fdnext-decodepack": "workspace:*",
-    "@itxtech/fdnext-runtime": "workspace:*",
-    "@itxtech/fdnext-resources": "workspace:*",
-    "@hapi/hapi": "^21.4.4"
+    "@hapi/hapi": "^21.4.4",
+    "@itxtech/fdnext-core": "workspace:*"
   },
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",

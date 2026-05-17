@@ -8,9 +8,7 @@
 
 主要目录：
 
-- `packages/core`: 解码引擎、公共 SDK 和输出转换。
-- `packages/decodepack`: PN / typed identifier iTXTech fdnext DecodePack JSON 规则、编译器和规则测试。
-- `packages/resources`: 内置 `fdb` / `mdb` / 多语言资源。
+- `packages/core`: 解码引擎、公共 SDK、DecodePack JSON 规则 / 编译器、内置 `fdb` / `mdb` / 多语言资源、平台无关 runtime 和输出转换。
 - `packages/fdbgen`: 从本地数据集生成 FDB 的工具。
 - `packages/server`: HTTP 服务。
 - `packages/cli`: 命令行工具。
@@ -22,9 +20,8 @@
 pnpm build
 pnpm test
 pnpm typecheck
-pnpm -C packages/decodepack test
-pnpm -C packages/decodepack typecheck
-pnpm -C packages/resources typecheck
+pnpm -C packages/core test
+pnpm -C packages/core typecheck
 pnpm contract:check
 ```
 
@@ -33,8 +30,8 @@ pnpm contract:check
 - 开始前先执行 `git status --short`，确认已有未提交修改。不要回退用户或其他代理的改动。
 - 搜索文件和文本优先用 `rg` / `rg --files`。
 - 小范围手工改文件用 `apply_patch`。
-- 新增或调整规则后，优先补测试；测试位置通常是 `packages/decodepack/test/managed-nand.test.ts`。
-- 新增或重命名 canonical field key 时，同步检查 `packages/core/src/field-registry.ts`、`packages/resources/resources/lang/eng.json` 和 `packages/resources/resources/lang/chs.json`。
+- 新增或调整规则后，优先补测试；测试位置通常是 `packages/core/test/decodepack/managed-nand.test.ts`。
+- 新增或重命名 canonical field key 时，同步检查 `packages/core/src/field-registry.ts`、`packages/core/resources/lang/eng.json` 和 `packages/core/resources/lang/chs.json`。
 - 对 iTXTech fdnext DecodePack JSON 文件保持可读的表驱动结构。不要为了过测试引入一次性特判。
 
 ## PN iTXTech fdnext DecodePack 规则约束
@@ -46,7 +43,7 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - 按前缀、固定长度 token、最长前缀表、组合 key 表来解析。
 - 对未知 token 保留已能确定的字段，不应让整条 PN 直接失效。
 - 规则文件尽量按厂商和芯片 / 产品类型拆分。一个 JSON pack 中最好只放一种芯片或产品线的解析规则，例如 `samsung-ufs-token.json`、`skhynix-emcp-token.json`。
-- 新 pack 需要在 `packages/decodepack/src/rules/default-rules.ts` 导入并加入 `defaultPartDecodeSpecs`。
+- 新 pack 需要在 `packages/core/src/decodepack/rules/default-rules.ts` 导入并加入 `defaultPartDecodeSpecs`。
 - `fields.density` / `fields.dram_density` 继续使用项目既有单位 Mbit，例如 8GB = `65536`。
 - `tokenDecoder.assign` 只输出 native draft 路径：`device.*`、`fields.*`、`identifiers.*`、`controllers`、`components`、`meta.*`。用户可见字段使用 canonical snake_case key，例如 `component_density`、`generation_info`、`storage_interface`，不要直接写展示文本。
 - `package_code`、`config_code`、`controller_code`、`die_code`、`feature_code` 以及其他 `*_code` token 只用于规则内部解析，不得进入 `fields.*` 或 public result；package / config / controller 等 token 命中后，应优先输出 `package`、`controller`、`controller_revision`、`die_revision`、`process_node`、`special_option` 等语义字段。
@@ -112,9 +109,8 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 规则变更建议至少运行：
 
 ```bash
-pnpm -C packages/decodepack test
-pnpm -C packages/decodepack typecheck
-pnpm -C packages/resources typecheck
+pnpm -C packages/core test
+pnpm -C packages/core typecheck
 git diff --check
 ```
 
@@ -131,7 +127,7 @@ pnpm contract:check
 - `device.vendor` / `device.chipKind` / `device.productType`
 - canonical fields：`density` / `dram_density` / `process_node` / `cell_level` / `device_width` / `dram_width` / `package`
 - 关键 `fields.*` 字段
-- public result 不出现 `*_code` 字段或 `Code` 标签；`packages/decodepack/test/metadata-audit.test.ts` 应持续防止 code/token 字段泄漏
+- public result 不出现 `*_code` 字段或 `Code` 标签；`packages/core/test/decodepack/metadata-audit.test.ts` 应持续防止 code/token 字段泄漏
 - `speed_grade` 保留原始 speed / grade token
 - 维护 metadata 没有泄漏到 public fields
 

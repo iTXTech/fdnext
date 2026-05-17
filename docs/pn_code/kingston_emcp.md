@@ -15,7 +15,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/kingston-emcp-token.json`
+- `packages/core/src/decodepack/rules/packs/kingston-emcp-token.json`
 - `vendor.kingston.emcp.v1`
 
 PN 结构：

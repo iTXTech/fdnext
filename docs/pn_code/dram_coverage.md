@@ -25,7 +25,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - `-` 后的 suffix 不应成为解码主结构的强制条件。缺 suffix 时应保留可确定字段，只减少 `dram_speed`、`operation_temperature`、`die_revision` 等后缀信息。
 - `fields.package` 只写可由 datasheet、原厂 catalog、TechInsights/TechPowerUp 或可信分销页确认的实际封装；仅有厂商 code 时保留为内部解析 token，不输出公开字段。
 - 每个新增世代至少补一个 testcase，验证 `device.productType` 以及 `fields.dram_density`、`fields.dram_width`、`fields.dram_voltage`、`fields.package` 等 canonical fields。
-- 已知 DRAM PN 样例维护在 `packages/resources/resources/dram-pn.json`，用于 PN 补全和搜索，只保留 `vendor/pn`；Micron / Crucial / Micron legacy Elpida DRAM FBGA code 映射统一维护在 `packages/resources/resources/mdb.json`，用于 code 反查和补全。两者都不是解码规则来源，字段仍必须由 iTXTech fdnext DecodePack token 解析得出。`crawl-mdb` 默认按 Micron FBGA prefix profile 生成候选：`C9/D8/D9/Z8/Z9` 使用后三位字母网格，`NC/NW/NY/NX/NQ/NV` 使用数字段；`--codes` 补充输入按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
+- 已知 DRAM PN 样例维护在 `packages/core/resources/dram-pn.json`，用于 PN 补全和搜索，只保留 `vendor/pn`；Micron / Crucial / Micron legacy Elpida DRAM FBGA code 映射统一维护在 `packages/core/resources/mdb.json`，用于 code 反查和补全。两者都不是解码规则来源，字段仍必须由 iTXTech fdnext DecodePack token 解析得出。`crawl-mdb` 默认按 Micron FBGA prefix profile 生成候选：`C9/D8/D9/Z8/Z9` 使用后三位字母网格，`NC/NW/NY/NX/NQ/NV` 使用数字段；`--codes` 补充输入按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
 - 2026-05-12 网络补全只刷新非 Micron exact PN：Samsung DDR4 Product Guide、SK hynix DDR4/DDR5 datasheet / listing、Nanya 官方产品列表、CXMT LCSC exact PN 列表、ESMT / Etron 官方产品表。ISSI / Winbond 已由官方 PSG 批量展开，Micron 继续由 `mdb.json` / Micron FBGA 路径覆盖。
 
 ## 当前覆盖进度

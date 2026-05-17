@@ -4,7 +4,7 @@ Cloudflare Workers adapter for fdnext.
 
 ## Overview
 
-`@itxtech/fdnext-cf-workers` exposes the fdnext engine as a Cloudflare Worker. It wraps `@itxtech/fdnext-runtime` in a standard Workers `fetch()` handler, providing a zero-infrastructure deployment path for the fdnext HTTP API.
+`@itxtech/fdnext-cf-workers` exposes the fdnext engine as a Cloudflare Worker. It wraps `@itxtech/fdnext-core` in a standard Workers `fetch()` handler, providing a zero-infrastructure deployment path for the fdnext HTTP API.
 
 The adapter is a thin bridge — all HTTP routing, response contracts, CORS, and External Link handling are delegated to the shared runtime.
 
@@ -28,7 +28,7 @@ export default worker;
 
 ```ts
 import { createCfWorkersAdapter } from "@itxtech/fdnext-cf-workers";
-import type { ExternalLinkProvider } from "@itxtech/fdnext-runtime";
+import type { ExternalLinkProvider } from "@itxtech/fdnext-core";
 
 const myLinks: ExternalLinkProvider = {
   id: "product-page",

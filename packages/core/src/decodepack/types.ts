@@ -1,3 +1,5 @@
+import type { IdentifierDecodeDraft, IdentifierDecoder, PartDecodeDraft, PartNumberDecoder } from "../types";
+
 export type NormalizeStep = "trim" | "uppercase" | { remove: string[] };
 
 export interface DecodeMatchPrefix {
@@ -199,8 +201,8 @@ export interface DecodePack {
 }
 
 export interface CompileDecodePackResult {
-  partDecoders: import("@itxtech/fdnext-core").PartNumberDecoder[];
-  identifierDecoders: import("@itxtech/fdnext-core").IdentifierDecoder[];
+  partDecoders: PartNumberDecoder[];
+  identifierDecoders: IdentifierDecoder[];
   profileTables?: Record<string, Record<string, DecodeJson>>;
 }
 
@@ -239,7 +241,7 @@ export interface PartDecodeExplainResult {
   specId?: string;
   priority?: number;
   steps: DecodePackTraceStep[];
-  draft: import("@itxtech/fdnext-core").PartDecodeDraft | null;
+  draft: PartDecodeDraft | null;
 }
 
 export interface IdentifierDecodeExplainBitfield {
@@ -261,5 +263,5 @@ export interface IdentifierDecodeExplainResult {
   specId?: string;
   priority?: number;
   bitfields: IdentifierDecodeExplainBitfield[];
-  draft: import("@itxtech/fdnext-core").IdentifierDecodeDraft | null;
+  draft: IdentifierDecodeDraft | null;
 }

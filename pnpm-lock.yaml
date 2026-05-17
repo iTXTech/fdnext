@@ -20,67 +20,35 @@ importers:
 
   packages/aliyun-fc:
     dependencies:
-      '@itxtech/fdnext-runtime':
+      '@itxtech/fdnext-core':
         specifier: workspace:*
-        version: link:../runtime
+        version: link:../core
 
   packages/cf-workers:
     dependencies:
-      '@itxtech/fdnext-runtime':
+      '@itxtech/fdnext-core':
         specifier: workspace:*
-        version: link:../runtime
+        version: link:../core
 
   packages/cli:
     dependencies:
       '@itxtech/fdnext-core':
         specifier: workspace:*
         version: link:../core
-      '@itxtech/fdnext-decodepack':
-        specifier: workspace:*
-        version: link:../decodepack
-      '@itxtech/fdnext-resources':
-        specifier: workspace:*
-        version: link:../resources
 
   packages/contract-test:
     dependencies:
       '@itxtech/fdnext-core':
         specifier: workspace:*
         version: link:../core
-      '@itxtech/fdnext-decodepack':
-        specifier: workspace:*
-        version: link:../decodepack
-      '@itxtech/fdnext-resources':
-        specifier: workspace:*
-        version: link:../resources
 
   packages/core: {}
 
-  packages/decodepack:
-    dependencies:
-      '@itxtech/fdnext-core':
-        specifier: workspace:*
-        version: link:../core
-
   packages/fdbgen:
     dependencies:
-      '@itxtech/fdnext-decodepack':
-        specifier: workspace:*
-        version: link:../decodepack
-
-  packages/resources: {}
-
-  packages/runtime:
-    dependencies:
       '@itxtech/fdnext-core':
         specifier: workspace:*
         version: link:../core
-      '@itxtech/fdnext-decodepack':
-        specifier: workspace:*
-        version: link:../decodepack
-      '@itxtech/fdnext-resources':
-        specifier: workspace:*
-        version: link:../resources
 
   packages/server:
     dependencies:
@@ -90,15 +58,6 @@ importers:
       '@itxtech/fdnext-core':
         specifier: workspace:*
         version: link:../core
-      '@itxtech/fdnext-decodepack':
-        specifier: workspace:*
-        version: link:../decodepack
-      '@itxtech/fdnext-resources':
-        specifier: workspace:*
-        version: link:../resources
-      '@itxtech/fdnext-runtime':
-        specifier: workspace:*
-        version: link:../runtime
 
 packages:
 

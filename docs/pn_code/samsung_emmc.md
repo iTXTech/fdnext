@@ -11,7 +11,7 @@
 
 ## 规则入口
 
-- `packages/decodepack/src/rules/packs/samsung-emmc-token.json`
+- `packages/core/src/decodepack/rules/packs/samsung-emmc-token.json`
   - 规则 ID：`vendor.samsung.emmc.token.v1`
 
 ## 编码结构

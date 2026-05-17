@@ -17,7 +17,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/sandisk-issd-token.json`
+- `packages/core/src/decodepack/rules/packs/sandisk-issd-token.json`
 - `vendor.sndk.issd.v1`
 
 PN 结构：

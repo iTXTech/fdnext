@@ -4,18 +4,20 @@ Core parsing engine for fdnext — the one-stop memory chip intelligence platfor
 
 ## Overview
 
-`@itxtech/fdnext-core` is the foundational package of the fdnext monorepo. It provides the engine, type system, result contracts, and field registry that all other packages build upon. The core is a pure-logic library with **no runtime network dependencies**, making it suitable for embedding in Node.js, browsers, and serverless environments.
+`@itxtech/fdnext-core` is the primary fdnext package. It provides the engine, built-in DecodePack rules, embedded resources, shared runtime, type system, result contracts, and field registry. The core has **no runtime network dependencies**, making it suitable for embedding in Node.js, browsers, and serverless environments.
 
 ### Key Responsibilities
 
 - **Engine** — `createEngine()` initializes the decoding and search pipeline, wiring together decoders, resources, and processors.
+- **DecodePack Rules** — Built-in PN / typed identifier JSON rules plus compiler, check, and explain tools.
+- **Embedded Resources** — Built-in FDB, MDB, controller groups, language packs, and PN suggestion indexes.
 - **Part Number Decoding** — Decode raw NAND, eMMC, UFS, DRAM, eMCP/uMCP, and other memory chip part numbers into structured results.
 - **Typed Identifier Decoding** — Deep inspection of NAND Flash IDs through a typed identifier API.
 - **FDB / MDB Search** — Database search against embedded Flash Database (FDB) and Marking Database (MDB) resources.
 - **Result Contract** — Typed result schema (`fdnext.result.v1`) and capabilities schema (`fdnext.capabilities.v2`) with JSON Schema export.
 - **Field Registry** — Canonical field key definitions (`field-registry.ts`) and field display profiles for consistent cross-vendor output.
 - **Processor Pipeline** — Extensible `beforeOperation` / `afterOperation` hooks for custom middleware.
-- **Micron FBGA Lookup** — Built-in Micron FBGA / SpecTek marking code reverse lookup.
+- **Runtime** — `createRuntime()` provides shared dispatch, HTTP routing, CORS, fetch, and External Link provider support.
 
 ## Installation
 
@@ -27,15 +29,7 @@ pnpm add @itxtech/fdnext-core
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
-import { compileDecodePack, defaultDecodePack } from "@itxtech/fdnext-decodepack";
-import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
-
-const compiledPack = compileDecodePack(defaultDecodePack);
-const engine = createEngine({
-  resources: embeddedResourceBundle,
-  decoders: compiledPack.partDecoders,
-  identifierDecoders: compiledPack.identifierDecoders
-});
+const engine = createEngine();
 
 // Decode a part number
 console.log(engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" }));
@@ -51,7 +45,7 @@ console.log(engine.searchParts({ query: "MT29", lang: "eng", limit: 10 }));
 
 | Export Path | Description |
 | :--- | :--- |
-| `@itxtech/fdnext-core` | Main entry — `createEngine`, types, result schema, field registry, field profiles |
+| `@itxtech/fdnext-core` | Main entry — `createEngine`, `createRuntime`, DecodePack APIs, embedded resources, types, result schema, field registry, field profiles |
 | `@itxtech/fdnext-core/node` | Node.js resource loader — `loadResourcesFromDir()` for loading resources from a filesystem directory |
 
 ## SDK Methods

@@ -1,9 +1,7 @@
 import { server as createHapiServer } from "@hapi/hapi";
 import type { Request, ResponseToolkit } from "@hapi/hapi";
-import { FDNEXT_VERSION, type FdnextEngine, type FdnextResourceBundle } from "@itxtech/fdnext-core";
+import { FDNEXT_VERSION, createRuntime, embeddedResourceBundle, type FdnextEngine, type FdnextResourceBundle, type FdnextRuntime } from "@itxtech/fdnext-core";
 import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
-import { embeddedResourceBundle } from "@itxtech/fdnext-resources";
-import { createFdnextRuntime, type FdnextRuntime } from "@itxtech/fdnext-runtime";
 
 export interface HttpServerOptions {
   host?: string;
@@ -31,7 +29,7 @@ function resourceBundle(resourceDir?: string): FdnextResourceBundle {
 }
 
 function createDefaultRuntimeFromResources(resourceDir?: string, serverName?: string): FdnextRuntime {
-  return createFdnextRuntime({
+  return createRuntime({
     resources: resourceBundle(resourceDir),
     serverName
   });

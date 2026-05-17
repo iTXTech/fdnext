@@ -25,7 +25,7 @@
 
 ## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/decodepack/src/rules/packs/cxmt-dram-token.json`
+- 规则文件：`packages/core/src/decodepack/rules/packs/cxmt-dram-token.json`
 - 规则 ID：`vendor.cxmt.dram.ddr4.component.v1`、`vendor.cxmt.dram.ddr5.component.v1`、`vendor.cxmt.dram.lpddr4x.component.v1`、`vendor.cxmt.dram.lpddr5.cdtq-process-alias.v1`
 - 当前覆盖：
   - DDR4：`CXDQ3BFAM-*`、`CXDQ3A8AM-*`、`CXDQ4A8AM-*`、`CXDQ4BFAM-*` 同类 token 结构

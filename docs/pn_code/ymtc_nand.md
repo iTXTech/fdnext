@@ -13,15 +13,15 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/ymtc-process-token.json`
+- `packages/core/src/decodepack/rules/packs/ymtc-process-token.json`
   - `vendor.ymtc.process-alias.v1`
-- `packages/decodepack/src/rules/tables/nand-die-profile.json`
+- `packages/core/src/decodepack/rules/tables/nand-die-profile.json`
   - 统一 die profile 表；YMTC PN DecodePack 以 `TAS` / `HUS` / `WDS` 这类 die profile key cross-reference，统一返回 `die_codename` 以及规则需要公开的 profile 字段
-- `packages/decodepack/src/rules/packs/ymtc-nand-token.json`
+- `packages/core/src/decodepack/rules/packs/ymtc-nand-token.json`
   - `vendor.ymtc.nand-label.v2`
-- `packages/decodepack/src/rules/packs/ymtc-unimos-token.json`
+- `packages/core/src/decodepack/rules/packs/ymtc-unimos-token.json`
   - `vendor.ymtc.unimos-label.v1`
-- `packages/decodepack/src/identifier/packs/ymtc.json`
+- `packages/core/src/decodepack/identifier/packs/ymtc.json`
   - `identifier.nand_flash_id.ymtc.v1`
 - `packages/core/src/flashid/postprocess.ts`
   - YMTC Flash ID sequence lookup for exact process alias enrichment

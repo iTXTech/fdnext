@@ -39,7 +39,7 @@ pnpm fdbgen:audit:trace
 当前 raw FlashDB 生成命令：
 
 ```bash
-pnpm fdbgen:generate -- --input ../fdfdb --output packages/resources/resources/fdb.json --version <ver> --pretty
+pnpm fdbgen:generate -- --input ../fdfdb --output packages/core/resources/fdb.json --version <ver> --pretty
 ```
 
 `mdb` 爬取工具：
@@ -93,11 +93,11 @@ Micron 查询统一按 FBGA code 前缀 profile 生成候选并调用官方 FBGA
 ```bash
 pnpm fdbgen:audit
 pnpm fdbgen:audit -- --json
-pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/resources/resources/fdb.json --max-samples 12
+pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/core/resources/fdb.json --max-samples 12
 pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --trace-sources --max-samples 12
 ```
 
-- `--file <path>`：要检查的 `fdb.json` 文件，根脚本默认指向 `packages/resources/resources/fdb.json`
+- `--file <path>`：要检查的 `fdb.json` 文件，根脚本默认指向 `packages/core/resources/fdb.json`
 - `--input <dir>`：从 raw / structured dataset 临时生成 FDB 后审计，不写入 `fdb.json`
 - `--version <ver>`：配合 `--input` 使用，写入临时生成结果的 `info.version`
 - `--trace-sources`：配合 `--input` 使用，在 issue 中输出来源 controller、文件、行号或 record index、原始记录、归一化结果和 merge decision
@@ -119,8 +119,8 @@ pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --t
 `audit-extra` 是 extra 候选文件的只读审计入口，适合在一次性清洗数据合并前检查覆盖影响：
 
 ```bash
-pnpm fdbgen:audit-extra -- --candidate ../fdfdb/extra/sky.json --base-extra ../fdfdb/extra/base.json --base-fdb packages/resources/resources/fdb.json --decodepack
-pnpm fdbgen:audit-extra -- --candidate ../fdfdb/extra/sky.json --base-fdb packages/resources/resources/fdb.json --json --out ../fdfdb/sky.audit.json
+pnpm fdbgen:audit-extra -- --candidate ../fdfdb/extra/sky.json --base-extra ../fdfdb/extra/base.json --base-fdb packages/core/resources/fdb.json --decodepack
+pnpm fdbgen:audit-extra -- --candidate ../fdfdb/extra/sky.json --base-fdb packages/core/resources/fdb.json --json --out ../fdfdb/sky.audit.json
 ```
 
 - `--candidate <path>`：候选 extra 文件，必填
@@ -135,7 +135,7 @@ pnpm fdbgen:audit-extra -- --candidate ../fdfdb/extra/sky.json --base-fdb packag
 
 ### Raw FlashDB
 
-当前底层数据目录为 `../fdfdb`，它是独立 raw 数据文件夹，不是已生成的 `packages/resources/resources/fdb.json`。生成器发现以下任一子目录时会按 raw 模式加载，并按固定 controller 顺序合并：
+当前底层数据目录为 `../fdfdb`，它是独立 raw 数据文件夹，不是已生成的 `packages/core/resources/fdb.json`。生成器发现以下任一子目录时会按 raw 模式加载，并按固定 controller 顺序合并：
 
 ```text
 smff/
@@ -402,7 +402,7 @@ import { generateFdb } from "@itxtech/fdnext-fdbgen";
 const fdb = generateFdb({
   inputDir: "./dataset",
   version: "79",
-  outputFile: "./packages/resources/resources/fdb.json",
+  outputFile: "./packages/core/resources/fdb.json",
   pretty: true
 });
 ```
@@ -413,7 +413,7 @@ const fdb = generateFdb({
 import { crawlMdb } from "@itxtech/fdnext-fdbgen";
 
 await crawlMdb({
-  file: "./packages/resources/resources/mdb.json",
+  file: "./packages/core/resources/mdb.json",
   pretty: true
 });
 ```

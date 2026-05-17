@@ -1,22 +1,23 @@
 {
   "name": "@itxtech/fdnext-core",
   "version": "2.3.0",
-  "description": "Core fdnext memory chip parsing engine and result contracts",
+  "description": "Core fdnext memory chip parsing engine, rules, resources, runtime, and result contracts",
   "license": "AGPL-3.0-or-later",
   "type": "module",
   "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/src/index.d.ts",
   "files": [
     "dist/**/*.js",
-    "dist/**/*.d.ts"
+    "dist/**/*.d.ts",
+    "resources/**/*.json"
   ],
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/src/index.d.ts",
       "default": "./dist/index.js"
     },
     "./node": {
-      "types": "./dist/loaders/node.d.ts",
+      "types": "./dist/src/loaders/node.d.ts",
       "default": "./dist/loaders/node.js"
     }
   },
@@ -31,9 +32,11 @@
   },
   "keywords": [
     "fdnext",
+    "decodepack",
     "flash",
     "nand",
     "memory",
+    "runtime",
     "parser"
   ],
   "publishConfig": {
@@ -42,7 +45,7 @@
   },
   "scripts": {
     "build": "tsc -b --emitDeclarationOnly && pnpm -s tsx ../../scripts/bundle-package.ts",
-    "test": "tsx test/result-contract.test.ts",
+    "test": "tsx test/result-contract.test.ts && tsx --test 'test/decodepack/*.test.ts'",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   }
 }

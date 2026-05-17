@@ -14,7 +14,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/ymtc-ufs-token.json`
+- `packages/core/src/decodepack/rules/packs/ymtc-ufs-token.json`
   - `vendor.ymtc.ufs-label.v1`
 
 PN 结构：

@@ -23,7 +23,7 @@
 
 ## iTXTech fdnext DecodePack 范围
 
-- 规则文件：`packages/decodepack/src/rules/packs/nanya-dram-token.json`
+- 规则文件：`packages/core/src/decodepack/rules/packs/nanya-dram-token.json`
 - 规则 ID：`vendor.nanya.dram.standard.component.v1`、`vendor.nanya.dram.low_power.component.v1`
 - 当前覆盖：
   - Standard DRAM：`NT5DS/NT5TU/NT5CB/NT5CC/NT5AD/NT5FF`，覆盖 DDR、DDR2、DDR3/DDR3L、DDR4、DDR5。

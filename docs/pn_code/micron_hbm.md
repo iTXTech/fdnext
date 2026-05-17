@@ -18,7 +18,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/micron-hbm-token.json`
+- `packages/core/src/decodepack/rules/packs/micron-hbm-token.json`
 - `vendor.micron.hbm2e.mt54.v1`
 
 PN 结构：

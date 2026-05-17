@@ -10,7 +10,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/kioxia-raw-token.json`
+- `packages/core/src/decodepack/rules/packs/kioxia-raw-token.json`
 - `vendor.kioxia.token.tc.v1`
 - `vendor.kioxia.token.th.v1`
 

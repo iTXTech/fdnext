@@ -6,8 +6,6 @@ import {
   type FdnextResult,
   type JsonSchema
 } from "../../core/src/index";
-import { compileDecodePack, defaultDecodePack } from "../../decodepack/src/index";
-import { embeddedResourceBundle } from "../../resources/index";
 
 export interface ContractCheckSummary {
   checked: number;
@@ -100,12 +98,7 @@ export function validateSchema(schema: JsonSchema, value: unknown, root: JsonSch
 }
 
 export function createContractEngine() {
-  const compiledPack = compileDecodePack(defaultDecodePack);
-  return createEngine({
-    resources: embeddedResourceBundle,
-    decoders: compiledPack.partDecoders,
-    identifierDecoders: compiledPack.identifierDecoders
-  });
+  return createEngine();
 }
 
 export function runContractChecks(): ContractCheckSummary {

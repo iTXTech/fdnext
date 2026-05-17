@@ -13,7 +13,7 @@
 
 iTXTech fdnext DecodePack:
 
-- `packages/decodepack/src/rules/packs/kioxia-managed-token.json`
+- `packages/core/src/decodepack/rules/packs/kioxia-managed-token.json`
 - `vendor.kioxia.managed.thg.v1`
 
 PN 结构：

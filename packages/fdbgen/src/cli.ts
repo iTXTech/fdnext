@@ -459,14 +459,6 @@ interface CoreModuleLike {
   };
 }
 
-interface DecodepackModuleLike {
-  defaultDecodePack: unknown;
-  compileDecodePack(pack: unknown): {
-    partDecoders?: unknown[];
-    identifierDecoders?: unknown[];
-  };
-}
-
 async function importPackageOrRepoSource<T>(packageName: string, repoSourcePath: string): Promise<T> {
   try {
     return (await import(packageName)) as T;
@@ -509,15 +501,8 @@ function collectDecodeFields(result: DecodeResultLike): Record<string, unknown> 
 }
 
 async function loadDecodepackAuditDecoder(): Promise<ExtraAuditDecodePart> {
-  const [core, decodepack] = await Promise.all([
-    importPackageOrRepoSource<CoreModuleLike>("@itxtech/fdnext-core", "../../core/src/index.ts"),
-    importPackageOrRepoSource<DecodepackModuleLike>("@itxtech/fdnext-decodepack", "../../decodepack/src/index.ts")
-  ]);
-  const compiled = decodepack.compileDecodePack(decodepack.defaultDecodePack);
-  const engine = core.createEngine({
-    decoders: compiled.partDecoders ?? [],
-    identifierDecoders: compiled.identifierDecoders ?? []
-  });
+  const core = await importPackageOrRepoSource<CoreModuleLike>("@itxtech/fdnext-core", "../../core/src/index.ts");
+  const engine = core.createEngine();
 
   return (partNumber) => {
     const result = engine.decodePart({ query: partNumber, lang: "eng" });

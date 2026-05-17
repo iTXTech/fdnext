@@ -9,8 +9,6 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY tsconfig.base.json tsconfig.json ./
 COPY scripts/bundle-package.ts ./scripts/bundle-package.ts
 COPY packages/core ./packages/core
-COPY packages/decodepack ./packages/decodepack
-COPY packages/resources ./packages/resources
 COPY packages/server ./packages/server
 
 RUN pnpm install --frozen-lockfile
