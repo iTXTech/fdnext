@@ -394,7 +394,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H5CG(?:4|D)[468][0-9A-Z][0-9A-Z]{2}[A-Z](?:-?X[0-9A-Z]{3})?$"
+      "value": "^H5CG(?:3|4|D|5|6)[468][0-9A-Z][0-9A-Z]{2}[A-Z](?:-?X(?:[0-9]{3}|XXX)[A-Z]?)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -402,36 +402,173 @@
       ],
       "tables": {
         "densityToken": {
+          "G3": "G3",
           "G4": "G4",
-          "GD": "GD"
+          "GD": "GD",
+          "G5": "G5",
+          "G6": "G6"
         },
         "density": {
+          "G3": 8192,
           "G4": 16384,
-          "GD": 24576
+          "GD": 24576,
+          "G5": 32768,
+          "G6": 65536
         },
         "deviceWidth": {
           "4": 4,
           "6": 16,
           "8": 8
         },
-        "dieObj": {
+        "generationObj": {
+          "M": {
+            "dram_generation": "1st generation",
+            "die_revision": "M-die"
+          },
           "A": {
+            "dram_generation": "2nd generation",
             "die_revision": "A-die"
           },
-          "M": {
-            "die_revision": "M-die"
+          "B": {
+            "dram_generation": "3rd generation",
+            "die_revision": "B-die"
+          },
+          "C": {
+            "dram_generation": "4th generation",
+            "die_revision": "C-die"
+          },
+          "D": {
+            "dram_generation": "5th generation",
+            "die_revision": "D-die"
+          },
+          "E": {
+            "dram_generation": "6th generation",
+            "die_revision": "E-die"
+          },
+          "J": {
+            "dram_generation": "10th or special generation",
+            "die_revision": "J-die"
           }
         },
-        "speedToken": {
-          "GB": "GB",
-          "HB": "HB"
-        },
         "speedObj": {
+          "EB": {
+            "dram_speed": "DDR5-4800 40-39-39"
+          },
+          "EE": {
+            "dram_speed": "DDR5-4800 46-39-39 (for 3DS)"
+          },
           "GB": {
-            "dram_speed": "DDR5-5600"
+            "dram_speed": "DDR5-5600 46-45-45"
+          },
+          "GE": {
+            "dram_speed": "DDR5-5600 52-45-45 (for 3DS)"
           },
           "HB": {
-            "dram_speed": "DDR5-6400"
+            "dram_speed": "DDR5-6400 52-52-52"
+          },
+          "KB": {
+            "dram_speed": "DDR5-7200 58-58-58"
+          },
+          "MB": {
+            "dram_speed": "DDR5-8000 64-64-64"
+          }
+        },
+        "temperatureObj": {
+          "D": {
+            "operation_temperature": "Commercial (0 to 95C)"
+          },
+          "J": {
+            "operation_temperature": "Industrial (-40 to 95C)"
+          },
+          "T": {
+            "operation_temperature": "Industrial (-40 to 95C)"
+          }
+        },
+        "packageByWidth": {
+          "4": "82-ball FBGA",
+          "8": "82-ball FBGA",
+          "6": "106-ball FBGA"
+        },
+        "serialDieCount": {
+          "012": 2,
+          "013": 4,
+          "014": 1,
+          "015": 1,
+          "017": 1,
+          "018": 1,
+          "021": 1,
+          "022": 1,
+          "023": 4,
+          "024": 2,
+          "051": 1,
+          "052": 1
+        },
+        "serialPackage": {
+          "012": "82-ball FBGA",
+          "013": "82-ball FBGA",
+          "014": "82-ball FBGA",
+          "015": "106-ball FBGA",
+          "017": "106-ball FBGA",
+          "018": "82-ball FBGA",
+          "021": "82-ball FBGA",
+          "022": "106-ball FBGA",
+          "023": "82-ball FBGA",
+          "024": "82-ball FBGA",
+          "051": "82-ball FBGA",
+          "052": "106-ball FBGA"
+        },
+        "serialObj": {
+          "012": {
+            "dram_die_density": 16384,
+            "die_count": 2,
+            "special_option": "TSV"
+          },
+          "013": {
+            "dram_die_density": 16384,
+            "die_count": 4,
+            "special_option": "TSV"
+          },
+          "014": {
+            "dram_die_density": 16384,
+            "die_count": 1
+          },
+          "015": {
+            "dram_die_density": 16384,
+            "die_count": 1
+          },
+          "017": {
+            "dram_die_density": 16384,
+            "die_count": 1
+          },
+          "018": {
+            "dram_die_density": 16384,
+            "die_count": 1
+          },
+          "021": {
+            "dram_die_density": 24576,
+            "die_count": 1
+          },
+          "022": {
+            "dram_die_density": 24576,
+            "die_count": 1
+          },
+          "023": {
+            "dram_die_density": 16384,
+            "die_count": 4,
+            "special_option": "TSV"
+          },
+          "024": {
+            "dram_die_density": 16384,
+            "die_count": 2,
+            "special_option": "TSV"
+          },
+          "051": {
+            "dram_die_density": 32768,
+            "die_count": 1
+          },
+          "052": {
+            "dram_die_density": 32768,
+            "die_count": 1
           }
         }
       },
@@ -464,20 +601,19 @@
         {
           "op": "take",
           "len": 1,
-          "to": "dieCode"
+          "to": "generationCode"
         },
         {
           "op": "map",
-          "from": "dieCode",
-          "table": "dieObj",
-          "to": "dieObj",
+          "from": "generationCode",
+          "table": "generationObj",
+          "to": "generationObj",
           "default": {}
         },
         {
-          "op": "takeLongest",
-          "table": "speedToken",
-          "to": "speedCode",
-          "default": ""
+          "op": "take",
+          "len": 2,
+          "to": "speedCode"
         },
         {
           "op": "map",
@@ -492,52 +628,92 @@
           "to": "temperatureCode"
         },
         {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
           "op": "stripIfPrefix",
           "prefix": "-"
         },
         {
-          "op": "take",
-          "len": 1,
-          "to": "packagePrefix"
+          "op": "takeRegex",
+          "pattern": "X(?:(\\d{3})|XXX)(?:[A-Z])?",
+          "to": "serialSegment",
+          "groups": {
+            "serialCode": 1
+          },
+          "default": ""
         },
         {
-          "op": "take",
-          "len": 3,
-          "to": "packageOption"
+          "op": "map",
+          "from": "serialCode",
+          "table": "serialDieCount",
+          "to": "serialDieCount",
+          "default": 1
         },
         {
-          "op": "tpl",
-          "template": "{{densityCode}}{{widthCode}}",
-          "to": "configCode"
+          "op": "mul",
+          "a": "density",
+          "b": "serialDieCount",
+          "to": "totalDensity",
+          "default": 0
         },
         {
-          "op": "tpl",
-          "template": "{{packagePrefix}}{{packageOption}}",
-          "to": "packageCode"
+          "op": "map",
+          "from": "serialCode",
+          "table": "serialObj",
+          "to": "serialObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "packageByWidth",
+          "to": "packageByWidth",
+          "default": "BGA"
+        },
+        {
+          "op": "map",
+          "from": "serialCode",
+          "table": "serialPackage",
+          "to": "serialPackage",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "serialPackage",
+          "secondary": "packageByWidth",
+          "to": "package"
         },
         {
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR5",
-            "config_code": {
-              "$var": "configCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
-            },
-            "die_count": 1
+            "dram_type": "DDR5"
           }
         },
         {
           "op": "merge",
           "into": "extra",
-          "from": "dieObj"
+          "from": "generationObj"
         },
         {
           "op": "merge",
           "into": "extra",
           "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "serialObj"
         }
       ],
       "assign": {
@@ -551,13 +727,15 @@
           "$var": "extra"
         },
         "fields.dram_density": {
-          "$var": "density"
+          "$var": "totalDensity"
         },
         "fields.dram_width": {
           "$var": "deviceWidth"
         },
         "fields.dram_voltage": "1.1V VDD",
-        "fields.package": "BGA",
+        "fields.package": {
+          "$var": "package"
+        },
         "meta.ruleId": "vendor.skhynix.dram.ddr5.component.v1"
       }
     }

@@ -1930,16 +1930,18 @@ assertDram("H5CG48AGBD-X018", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "BGA",
+  package: "82-ball FBGA",
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR5",
-    "Package Code": "X018",
-    "Config Code": "G48",
-    "DRAM Speed": "DDR5-5600",
+    "DRAM Die Density": "16Gb",
+    "DRAM Speed": "DDR5-5600 46-45-45",
+    "DRAM Generation": "2nd generation",
+    "Operation Temperature": "Commercial (0 to 95C)",
     "Die Revision": "A-die"
   }
 });
+assertDecodedField("H5CG48AGBD-X018", "die_count", 1);
 
 assertDram("H5CGD8MHBD-X021", {
   vendor: "skhynix",
@@ -1947,15 +1949,89 @@ assertDram("H5CGD8MHBD-X021", {
   density: "24Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "BGA",
+  package: "82-ball FBGA",
   extra: {
     "DRAM Type": "DDR5",
-    "Package Code": "X021",
-    "Config Code": "GD8",
-    "DRAM Speed": "DDR5-6400",
+    "DRAM Die Density": "24Gb",
+    "DRAM Speed": "DDR5-6400 52-52-52",
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "Commercial (0 to 95C)",
     "Die Revision": "M-die"
   }
 });
+assertDecodedField("H5CGD8MHBD-X021", "die_count", 1);
+
+assertDram("H5CG44AEBD", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.1V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Speed": "DDR5-4800 40-39-39",
+    "DRAM Generation": "2nd generation",
+    "Operation Temperature": "Commercial (0 to 95C)",
+    "Die Revision": "A-die"
+  },
+  absentExtra: ["DRAM Die Density", "Special Option"]
+});
+
+assertDram("H5CG44AGBJX018N", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.1V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Density": "16Gb",
+    "DRAM Speed": "DDR5-5600 46-45-45",
+    "DRAM Generation": "2nd generation",
+    "Operation Temperature": "Industrial (-40 to 95C)",
+    "Die Revision": "A-die"
+  }
+});
+assertDecodedField("H5CG44AGBJX018N", "die_count", 1);
+
+assertDram("H5CG48AGEDX013", {
+  vendor: "skhynix",
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Density": "16Gb",
+    "DRAM Speed": "DDR5-5600 52-45-45 (for 3DS)",
+    "DRAM Generation": "2nd generation",
+    "Operation Temperature": "Commercial (0 to 95C)",
+    "Special Option": "TSV",
+    "Die Revision": "A-die"
+  }
+});
+assertDecodedField("H5CG48AGEDX013", "die_count", 4);
+
+assertDram("H5CG56MMBDX052", {
+  vendor: "skhynix",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "106-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Density": "32Gb",
+    "DRAM Speed": "DDR5-8000 64-64-64",
+    "DRAM Generation": "1st generation",
+    "Operation Temperature": "Commercial (0 to 95C)",
+    "Die Revision": "M-die"
+  }
+});
+assertDecodedField("H5CG56MMBDX052", "die_count", 1);
 
 assertDram("H5AN8G8NAFR", {
   vendor: "skhynix",
@@ -4056,6 +4132,10 @@ assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A(2H)");
 assertSearchPnIncludes("EM6OF08", "Etron EM6OF08NWALE");
 assertSearchPnIncludes("EM6PF32", "Etron EM6PF32MBAJB");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
+assertSearchPnIncludes("H5CG44AGBDX018", "SKhynix H5CG44AGBDX018N");
+assertSearchPnIncludes("H5CG44AEBD", "SKhynix H5CG44AEBD");
+assertSearchPnIncludes("H5CG54MGBD", "SKhynix H5CG54MGBDX051");
+assertSearchPnIncludes("H5CG56MMBD", "SKhynix H5CG56MMBDX052");
 assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
 assertSearchPnIncludes("MT62F512M64D4EK-031", "Micron MT62F512M64D4EK-031AIT:B");
 assertSearchPnIncludes("MT62F512M64D4EK-031FAATB", "Micron MT62F512M64D4EK-031FAAT:B");

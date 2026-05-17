@@ -1,6 +1,6 @@
 # SK hynix DRAM PN 规则
 
-采集日期：2026-05-12
+采集日期：2026-05-17
 
 本页记录 SK hynix standalone DRAM 颗粒的 PN 结构。规则只按结构化 token 解码，不把完整 PN 作为白名单；无法从外部资料确认的字段只保留厂商 token，不推断为确定规格。
 
@@ -17,9 +17,10 @@
 - `H5ANAG8NCMR-xxC` 和 `H5ANAG6NCMR-xxC` datasheet 明确 16Gb DDR4 SDRAM 为 Dual Die Package；x8 为 78ball FBGA 且 ballout 包含 CS1/ODT1/CKE1，x16 为 96ball FBGA。来源：https://4donline.ihs.com/images/VipMasterIC/IC/HYSC/HYSC-S-A0007570070/HYSC-S-A0007570070-1.pdf?hkey=52A5661711E402568146F3353EA87419 和 https://14469692.s21i.faiusr.com/61/ABUIABA9GAAgnfPMqgYo2N-tgAY.pdf
 - `H5GQ2H24AFR-R0C` datasheet: 2Gb (64Mx32) GDDR5 SGRAM，170 ball BGA，VDD/VDDQ 支持 1.6V/1.5V/1.35V；`R0/T2/T0` ordering rows分别对应 6.0/5.0/4.0Gbps/pin。来源：https://datasheet4u.com/pdf/1550045/H5GQ2H24AFR.pdf
 - `H5CG48AGBD-X018` DDR5: TechInsights 确认该 BGA package 内含单颗 16Gb DDR5 die；TechPowerUp 拆解也把 `H5CG48AGBD-X018` 标为 SK hynix A-Die DDR5 IC。来源：https://www.techinsights.com/ko/node/51799 和 https://www.techpowerup.com/review/patriot-viper-xtreme-5-rgb-ddr5-8000-cl38-2x-16-gb/3.html
-- `H5CG48MEBD-X014` TechInsights 资料确认来自 SK hynix DDR5 package；公开 DDR5 列表还列出 `H5CG48AGBDX018N`、`H5CG48MEBDX014N`、`H5CG46AGBDX017N`、`H5CG46MEBDX015N` 的 16Gb x8/x16 4800/5600Mbps 组合；资源中使用当前规则可解析的 dash 规范形式。来源：https://www.techinsights.com/products/mfr-2112-803、https://www.skhynix.glochip.com/h-pd-3.html
+- `H5CG48MEBD-X014` TechInsights 资料确认来自 SK hynix DDR5 package；公开 DDR5 列表还列出 `H5CG48AGBDX018N`、`H5CG48MEBDX014N`、`H5CG46AGBDX017N`、`H5CG46MEBDX015N` 的 16Gb x8/x16 4800/5600Mbps 组合。来源：https://www.techinsights.com/products/mfr-2112-803、https://www.skhynix.glochip.com/h-pd-3.html
 - `H5CG48AGBDX018` 分销/Findchips 资料确认 `DDR5-5600 2Gx8 (16Gb)`。来源：https://www.absunshine.com/zh-CN/parts/H5CG48AGBDX018-SK-HYNIX-5928148 和 https://www.findchips.com/search/h5cg48agbdx018
 - `H5CGD8MHBD-X021` DDR5: TechInsights 确认该 24Gb DDR5 die/package，分销页交叉确认 `DDR5-6400 3Gx8 (24Gb)`。来源：https://www.techinsights.com/blog/sk-hynix-h5cgd8mhbd-x021-d1a-euv-24gb-ddr5-dram-memory-floorplan-analysis 和 https://nxelectronics.com/home/productdetail/?item_id=331166981&partno=H5CGD8MHBDX021N
+- 本轮用户提供的 SK hynix DDR5 Component Product ordering / decoder / serial-code 表补充确认 `H5C` 结构：density token `G3/G4/GD/G5/G6` = 8Gb/16Gb/24Gb/32Gb/64Gb，organization `4/8/6` = x4/x8/x16，generation `M/A/B/C/D/E/J`，speed `EB/EE/GB/GE/HB/KB/MB`，temperature `D/J/T`，reserved `X` + 3 位 serial code；serial `012/013/014/015/017/018/021/022/023/024/051/052` 可确认 die density、ball count、die count 与 TSV 标记。`xxx` serial placeholder 不进入 exact PN 资源，资源中保留不带 `Xxxx` 的前缀形态。
 - `H9HCNNN8KUMLHR-NME` LPDDR4: datasheet / LCSC 资料确认 8Gb LPDDR4、x16、2 Channel、1 CS、DDP、200ball FBGA、3733Mbps、1.8V/1.1V 电源域。来源：https://datasheet.lcsc.com/lcsc/2410121844_SK-HYNIX-H9HCNNN8KUMLHR-NME_C2912103.pdf 和 https://lcsc.com/product-detail/ddr-sdram_sk-hynix-h9hcnnn8kumlhr-nme_C2912103.html
 - `H9HCNNNCPUMLXR-NEE` / `H9HCNNNCPMMLXR-NEE` 资料确认 32Gb、QDP、2Ch 2CS，分别为 LPDDR4 / LPDDR4X 4266Mbps、200ball FBGA。来源：https://dl.xkwy2018.com/downloads/RK3588S/03_Product%20Line%20Branch_Tablet/02_Key%20Device%20Specifications/H9HCNNNCPUMLXR.pdf 和 https://www.uttc.com.tw/wp-content/uploads/2025/12/Consumer_H9HCNNNCPMMLXR1.0-LPDDR4X-32Gb_1ynm.pdf
 - `HY57V561620FTP-H` datasheet / 公开分销资料确认 256Mb SDRAM、16M x16、54-pin TSOP-II。来源：https://datasheet4u.com/datasheet/Hynix-Semiconductor/HY57V561620FTP-H-952232 和 https://www.etei.com/product/hy57v561620ftp-h
@@ -60,23 +61,43 @@ H5 + family + density + width + config + die/package/revision + -speed + temp
 | `AN:AG:8:N:CMR` | `H5ANAG8NCMR` | 2 dies / 2 CS | `external_confirmed` |
 | `AN:AG:6:N:CMR` | `H5ANAG6NCMR` | 2 dies / 1 CS | `external_confirmed` |
 
-未找到可确认 standalone DDR5 DDP 组件；已有 `H5CG48AGBD-X018` / `H5CGD8MHBD-X021` 均按 TechInsights 资料只输出 `die_count=1`。
-
 ## H5C DDR5 颗粒
 
-当前只落地外部可确认的 `H5CG48AGBD-X018` / `H5CGD8MHBD-X021` 结构：
+当前落地 SK hynix DDR5 component decoder 表中的结构：
 
 ```text
-H5C + G4 + 8 + A + GB + D + X018
-H5C + GD + 8 + M + HB + D + X021
+H5C + density + width + generation + speed + temperature + [X + serial]
 ```
 
-- `G4` / `GD` 结合外部样本分别确认输出 16Gb / 24Gb。
-- `8` 输出 x8。
-- `A` / `M` 输出 `A-die` / `M-die`。
-- `GB` / `HB` 结合外部样本输出 `DDR5-5600` / `DDR5-6400`。
-- `X018` / `X021` 只作为内部 package token；`fields.package` 只输出已由外部资料确认的 `BGA`。
-- TechInsights 明确这些 package 内是 single DDR5 die，因此只输出 `die_count = 1`，不再把无 CS 信息的单 die 写入 `dram_die_stack`。
+已进入 iTXTech fdnext DecodePack 的 token:
+
+| Token | 字段 | 说明 |
+| --- | --- | --- |
+| `G3/G4/GD/G5/G6` | `dram_density` 基础容量 | 8Gb / 16Gb / 24Gb / 32Gb / 64Gb；有 serial die stack 时总容量按 die count 放大 |
+| `4/8/6` | `dram_width` / `package` fallback | x4 / x8 / x16；x4/x8 为 82-ball FBGA，x16 为 106-ball FBGA |
+| `M/A/B/C/D/E/J` | `dram_generation` / `die_revision` | 1st / 2nd / 3rd / 4th / 5th / 6th / 10th-or-special generation，同时保留 `M-die` / `A-die` 等简短 die revision |
+| `EB/EE/GB/GE/HB/KB/MB` | `dram_speed` | DDR5-4800 / 5600 / 6400 / 7200 / 8000 及对应 timing；`EE` / `GE` 标注 3DS speed bin |
+| `D/J/T` | `operation_temperature` | Commercial 0 to 95C；Industrial -40 to 95C |
+| `X012` 等 | serial token | 只作内部解析；公开输出 `dram_die_density`、`die_count`、`package`，TSV 通过 `special_option` 输出 |
+
+已确认 serial code:
+
+| Serial | die density | package | die count | special |
+| --- | --- | --- | --- | --- |
+| `012` | 16Gb | 82-ball FBGA | 2 | TSV |
+| `013` | 16Gb | 82-ball FBGA | 4 | TSV |
+| `014` | 16Gb | 82-ball FBGA | 1 | - |
+| `015` | 16Gb | 106-ball FBGA | 1 | - |
+| `017` | 16Gb | 106-ball FBGA | 1 | - |
+| `018` | 16Gb | 82-ball FBGA | 1 | - |
+| `021` | 24Gb | 82-ball FBGA | 1 | - |
+| `022` | 24Gb | 106-ball FBGA | 1 | - |
+| `023` | 16Gb | 82-ball FBGA | 4 | TSV |
+| `024` | 16Gb | 82-ball FBGA | 2 | TSV |
+| `051` | 32Gb | 82-ball FBGA | 1 | - |
+| `052` | 32Gb | 106-ball FBGA | 1 | - |
+
+对 `H5CG44AEBDXxxx` 这类 ordering 表中的 placeholder，`dram-pn.json` 只加入 `H5CG44AEBD` 这种去掉 `Xxxx` 的补全种子；对 `H5CG44AGBDX018N`、`H5CG54MGBDX051` 这类已知 serial PN，资源保留完整 `X` + 3 位 serial。
 
 ## H5GQ GDDR5 颗粒
 
