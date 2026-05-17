@@ -1770,5 +1770,117 @@
         "meta.ruleId": "vendor.skhynix.dram.gddr6.component.v1"
       }
     }
+  },
+  {
+    "id": "vendor.skhynix.dram.gddr6.16gb.component.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H56G42AS[2468]DX014$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H56G42"
+      ],
+      "tables": {
+        "speedObj": {
+          "S8": {
+            "dram_speed": "GDDR6-20Gbps/pin max (10.0GHz WCK)",
+            "interface_type": "POD_135 / POD_125"
+          },
+          "S6": {
+            "dram_speed": "GDDR6-18Gbps/pin max (9.0GHz WCK)",
+            "interface_type": "POD_135 / POD_125"
+          },
+          "S4": {
+            "dram_speed": "GDDR6-16Gbps/pin max (8.0GHz WCK)",
+            "interface_type": "POD_135 / POD_125"
+          },
+          "S2": {
+            "dram_speed": "GDDR6-14Gbps/pin max (7.0GHz WCK)",
+            "interface_type": "POD_135 / POD_125"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieRevision"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "speedCode"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "powerCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "reservedCode"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "serialCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "GDDR6",
+            "solder_type": "Lead-Free and Halogen-Free (RoHS compliant)",
+            "die_revision": {
+              "$var": "dieRevision"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": 16384,
+        "fields.dram_width": 32,
+        "fields.dram_voltage": "1.8V VPP; 1.35V / 1.25V / 1.20V VDD/VDDQ",
+        "fields.package": "180-ball BGA",
+        "meta.ruleId": "vendor.skhynix.dram.gddr6.16gb.component.v1"
+      }
+    }
   }
 ]

@@ -2291,6 +2291,38 @@ assertDram("H56C8H24MJR-S2C", {
   }
 });
 
+assertDram("H56G42AS8DX014", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V VPP; 1.35V / 1.25V / 1.20V VDD/VDDQ",
+  package: "180-ball BGA",
+  extra: {
+    "DRAM Type": "GDDR6",
+    "DRAM Speed": "GDDR6-20Gbps/pin max (10.0GHz WCK)",
+    "Interface Type": "POD_135 / POD_125",
+    "Solder Type": "Lead-Free and Halogen-Free (RoHS compliant)",
+    "Die Revision": "A"
+  }
+});
+
+assertDram("H56G42AS2DX014", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V VPP; 1.35V / 1.25V / 1.20V VDD/VDDQ",
+  package: "180-ball BGA",
+  extra: {
+    "DRAM Type": "GDDR6",
+    "DRAM Speed": "GDDR6-14Gbps/pin max (7.0GHz WCK)",
+    "Interface Type": "POD_135 / POD_125",
+    "Solder Type": "Lead-Free and Halogen-Free (RoHS compliant)",
+    "Die Revision": "A"
+  }
+});
+
 assertDram("K4A8G085WB-BCRC", {
   vendor: "samsung",
   densityMbit: 8192,
@@ -4136,6 +4168,8 @@ assertSearchPnIncludes("H5CG44AGBDX018", "SKhynix H5CG44AGBDX018N");
 assertSearchPnIncludes("H5CG44AEBD", "SKhynix H5CG44AEBD");
 assertSearchPnIncludes("H5CG54MGBD", "SKhynix H5CG54MGBDX051");
 assertSearchPnIncludes("H5CG56MMBD", "SKhynix H5CG56MMBDX052");
+assertSearchPnIncludes("H56G42AS8", "SKhynix H56G42AS8DX014");
+assertSearchPnIncludes("H56G42AS2", "SKhynix H56G42AS2DX014");
 assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
 assertSearchPnIncludes("MT62F512M64D4EK-031", "Micron MT62F512M64D4EK-031AIT:B");
 assertSearchPnIncludes("MT62F512M64D4EK-031FAATB", "Micron MT62F512M64D4EK-031FAAT:B");

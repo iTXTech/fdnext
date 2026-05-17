@@ -29,6 +29,7 @@
 - `H58G56CK8BX146` / `H58G66CK8BX147` LPDDR5X 315ball specs 的功能框图分别确认 32Gb DDP 1CS、64Gb QDP 2CS；分销页确认 `H58G66CK8BX147` 为 64Gb、8533Mbps、315ball。来源：https://uttc.com.tw/wp-content/uploads/2026/02/H58G56CK8BX146_Rev1.0-3.pdf 和 https://uttc.com.tw/wp-content/uploads/2026/02/H58G66CK8BX147_Rev1.0-3.pdf
 - `H9JCNNNCP3MLYR-N6E` LPDDR5 与 `H58G66CK8BX147` LPDDR5X 的公开分销资料确认 6400Mbps / 8533Mbps、315ball FBGA、电压域与容量。来源：https://www.fusionww.com/shop/product/4263986/H9JCNNNCP3MLYR-N6E 和 https://www.ipros.com/en/product/detail/2001536936/
 - `H56C8H24MJR-S2C` GDDR6 资料确认 8Gb、x32、FBGA-180、1.35V 与 GDDR6 speed bin。来源：https://www.digchip.com/datasheets/parts/datasheet/2/202/H56C8H24MJR.php 和 https://www.absunshine.com/en/parts/H56C8H24MJR-S2C-SK-HYNIX-5126627
+- 本轮用户提供的 `H56G42AXXXX014` SK hynix 16Gb GDDR6 SGRAM datasheet 截图确认 Lead-Free / Halogen-Free / RoHS、2 independent channels、VPP/VDD/VDDQ operating points、180-ball BGA package with 0.75mm pitch，以及 ordering PN `H56G42AS8DX014` / `H56G42AS6DX014` / `H56G42AS4DX014` / `H56G42AS2DX014` 的 WCK frequency 与 max data rate。
 
 ## H5TQ / H5TC / H5AN DDR3-DDR4 颗粒
 
@@ -114,6 +115,27 @@ H5GQ + density + 24 + die/package/revision + -speed + temp
 | `1H/2H/4H/8H` | density | 1Gb/2Gb/4Gb/8Gb；`2H` 有 datasheet 直接确认 |
 | `24` | width | x32 I/O 配置 |
 | `R0/T2/T0` | `dram_speed` | 对 `H5GQ2H24AFR` datasheet 分别确认 6.0/5.0/4.0Gbps/pin |
+
+## H56 GDDR6 颗粒
+
+当前规则覆盖两组 SK hynix GDDR6：
+
+```text
+H56C8H24 + die/package/revision + -speed + temp
+H56G42 + A + speed + D + X + 014
+```
+
+`H56G42A...014` 已进入 iTXTech fdnext DecodePack 的 token:
+
+| Token | 字段 | 说明 |
+| --- | --- | --- |
+| `H56G42` | `dram_density` / `dram_width` | 16Gb GDDR6，x32 |
+| `A` | `die_revision` | 固定 design / die revision token |
+| `S8/S6/S4/S2` | `dram_speed` | max 20 / 18 / 16 / 14Gbps per pin，并附 WCK 10.0 / 9.0 / 8.0 / 7.0GHz |
+| `D` | 内部 power / option token | ordering PN 固定 token，不作为公开 code 输出 |
+| `X014` | 内部 serial token | 只用于匹配当前 ordering PN，不作为公开 code 输出 |
+
+公开输出固定 `package = 180-ball BGA`、`dram_voltage = 1.8V VPP; 1.35V / 1.25V / 1.20V VDD/VDDQ`、`interface_type = POD_135 / POD_125` 和 `solder_type = Lead-Free and Halogen-Free (RoHS compliant)`。
 
 ## H9HC LPDDR4 颗粒
 
