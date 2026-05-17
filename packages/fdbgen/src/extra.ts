@@ -7,6 +7,7 @@ import {
   normalizeFdbPartReference,
   normalizeFdbVendorName
 } from "./normalize";
+import { isStrictSupportListFlashIdVendorCompatible } from "./support-list";
 import type { ExtraPayload, FdbInfoPayload, FlashIdPayload, PartNumberPayload } from "./types";
 import { FDNEXT_FDB_EXTRA_SCHEMA_VERSION, FDNEXT_FDB_SCHEMA_VERSION } from "./types";
 
@@ -380,6 +381,24 @@ function validateFlashIdArrayField(
   }
 }
 
+function validateOwnedFlashIdArrayField(
+  issues: PayloadValidationIssue[],
+  value: unknown,
+  path: string,
+  vendor: string
+): void {
+  if (!Array.isArray(value)) {
+    return;
+  }
+  const normalizedVendor = normalizeFdbVendorName(vendor);
+  for (let index = 0; index < value.length; index += 1) {
+    const flashId = normalizeFdbFlashId(value[index]);
+    if (flashId && normalizedVendor && !isStrictSupportListFlashIdVendorCompatible(normalizedVendor, flashId)) {
+      addIssue(issues, "error", "part.flash_id_vendor_mismatch", `${path}/${index}`, "Generated FDB PN id values must belong to the same vendor bucket.");
+    }
+  }
+}
+
 function validateNumberField(issues: PayloadValidationIssue[], value: unknown, path: string, min: number): void {
   if (typeof value !== "number" || !Number.isInteger(value) || value < min) {
     addIssue(issues, "error", "field.invalid_integer", path, `Field must be an integer >= ${min}.`);
@@ -390,7 +409,7 @@ function validatePartPayload(
   issues: PayloadValidationIssue[],
   value: unknown,
   path: string,
-  options: { generated: boolean }
+  options: { generated: boolean; vendor?: string }
 ): void {
   const source = asRecord(value);
   if (!source) {
@@ -412,6 +431,9 @@ function validatePartPayload(
   for (const field of ["id", "fid", "f"] as const) {
     if (Object.hasOwn(source, field)) {
       validateFlashIdArrayField(issues, source[field], `${path}/${field}`, options.generated);
+      if (options.generated && field === "id" && options.vendor) {
+        validateOwnedFlashIdArrayField(issues, source[field], `${path}/${field}`, options.vendor);
+      }
     }
   }
   for (const field of ["a", "t"] as const) {
@@ -498,7 +520,7 @@ function validateVendorRecords(
     } else {
       partKeys.add(`${normalizedVendor} ${normalizedPartNumber}`);
     }
-    validatePartPayload(issues, payload, `${path}/${partNumber}`, { generated: options.generated });
+    validatePartPayload(issues, payload, `${path}/${partNumber}`, { generated: options.generated, vendor });
   }
 }
 
@@ -602,6 +624,10 @@ export function validateFdbPayload(input: unknown): PayloadValidationResult {
         }
         if (!partKeys.has(normalized)) {
           addIssue(issues, "error", "reference.missing_iddb_n", `/iddb/${flashId}/n/${index}`, "iddb.n reverse references must point to an existing vendor PN record.");
+        }
+        const referenceVendor = normalized.split(" ", 1)[0] ?? "";
+        if (!isStrictSupportListFlashIdVendorCompatible(referenceVendor, flashId)) {
+          addIssue(issues, "error", "iddb.flash_id_vendor_mismatch", `/iddb/${flashId}/n/${index}`, "iddb.n reverse references must belong to the Flash ID vendor.");
         }
       }
     }

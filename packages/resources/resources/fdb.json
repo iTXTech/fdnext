@@ -4,7 +4,7 @@
         "name": "iTXTech fdnext FDB",
         "website": "https:\/\/github.com\/iTXTech\/fdnext",
         "version": "83",
-        "time": "Sat, 16 May 2026 14:14:56 GMT",
+        "time": "Sun, 17 May 2026 02:52:43 GMT",
         "controllers": [
             "AU6987(AN)",
             "AU6989SN",
@@ -5889,7 +5889,6 @@
                 "SM325AC"
             ],
             "n": [
-                "intel JS29F02G08BANC1",
                 "micron MT29F2G08ABC"
             ]
         },
@@ -5899,7 +5898,6 @@
                 "SM324BC"
             ],
             "n": [
-                "intel JS29F02G08BANC1",
                 "micron MT29F2G08ABC"
             ]
         },
@@ -5910,7 +5908,6 @@
                 "SM321BC"
             ],
             "n": [
-                "intel JS29F02G08BANC1",
                 "micron MT29F2G08ABC"
             ]
         },
@@ -5920,14 +5917,6 @@
             ],
             "n": [
                 "micron MT29F2G08ABC"
-            ]
-        },
-        "2CAA80154600": {
-            "t": [
-                "SM3255AA"
-            ],
-            "n": [
-                "intel JS29F02G08BANC1"
             ]
         },
         "2CAA80155000": {
@@ -6567,7 +6556,6 @@
                 "ZC3281"
             ],
             "n": [
-                "intel PF29F64B2ALCTJ1",
                 "micron MT29F1T08EEHBF",
                 "micron MT29F2T08EMHBF",
                 "micron MT29F512G08EBHBF",
@@ -7262,14 +7250,6 @@
                 "micron MT29F4T08GMLBE"
             ]
         },
-        "2CD31C32C6F1": {
-            "t": [
-                "FC2199S",
-                "FC2279AA",
-                "FC2279S",
-                "FC3379"
-            ]
-        },
         "2CD385251080": {
             "t": [
                 "SM325AB"
@@ -7587,7 +7567,6 @@
                 "SM324BC"
             ],
             "n": [
-                "intel JS29F08G08AAMC1",
                 "micron MT29F8G08MABWC",
                 "micron MT29F8G08MAD"
             ]
@@ -7599,7 +7578,6 @@
                 "SM321BC"
             ],
             "n": [
-                "intel JS29F08G08AAMC1",
                 "micron MT29F8G08MABWC",
                 "micron MT29F8G08MAD"
             ]
@@ -7609,7 +7587,6 @@
                 "SM325AB"
             ],
             "n": [
-                "intel JS29F08G08AAMC1",
                 "micron MT29F8G08MABWC"
             ]
         },
@@ -7651,8 +7628,6 @@
                 "SM325AC"
             ],
             "n": [
-                "intel JS29F08G08AAMB1",
-                "intel JS29F16G08CAMB1",
                 "micron MT29F16G08QAA",
                 "micron MT29F8G08MAA"
             ]
@@ -7663,8 +7638,6 @@
                 "SM324BC"
             ],
             "n": [
-                "intel JS29F08G08AAMB1",
-                "intel JS29F16G08CAMB1",
                 "micron MT29F16G08QAA",
                 "micron MT29F8G08MAA"
             ]
@@ -7676,8 +7649,6 @@
                 "SM321BC"
             ],
             "n": [
-                "intel JS29F08G08AAMB1",
-                "intel JS29F16G08CAMB1",
                 "micron MT29F16G08QAA",
                 "micron MT29F8G08MAA"
             ]
@@ -7691,22 +7662,11 @@
                 "micron MT29F8G08MAA"
             ]
         },
-        "2CD394A51090": {
-            "t": [
-                "SM325AB"
-            ],
-            "n": [
-                "intel JS29F08G08AAMB1",
-                "intel JS29F16G08CAMB1"
-            ]
-        },
         "2CD394A54600": {
             "t": [
                 "SM3255AA"
             ],
             "n": [
-                "intel JS29F08G08AAMB1",
-                "intel JS29F16G08CAMB1",
                 "micron MT29F16G08QAA",
                 "micron MT29F8G08MAA"
             ]
@@ -7722,8 +7682,6 @@
                 "SM2250"
             ],
             "n": [
-                "intel JS29F08G08AAMB1",
-                "intel JS29F16G08CAMB1",
                 "micron MT29F16G08QAAWP",
                 "micron MT29F8G08MAAWP"
             ]
@@ -7771,8 +7729,6 @@
                 "SM325AC"
             ],
             "n": [
-                "intel JS29F08G08BANB1",
-                "intel JS29F16G08FANB1",
                 "micron MT29F16G08FAA",
                 "micron MT29F8G08BAA"
             ]
@@ -7783,8 +7739,6 @@
                 "SM324BC"
             ],
             "n": [
-                "intel JS29F08G08BANB1",
-                "intel JS29F16G08FANB1",
                 "micron MT29F16G08FAA",
                 "micron MT29F8G08BAA"
             ]
@@ -7796,8 +7750,6 @@
                 "SM321BC"
             ],
             "n": [
-                "intel JS29F08G08BANB1",
-                "intel JS29F16G08FANB1",
                 "micron MT29F16G08FAA",
                 "micron MT29F8G08BAA"
             ]
@@ -7807,8 +7759,6 @@
                 "SM325AB"
             ],
             "n": [
-                "intel JS29F08G08BANB1",
-                "intel JS29F16G08FANB1",
                 "micron MT29F16G08FAA",
                 "micron MT29F8G08BAA"
             ]
@@ -7818,8 +7768,6 @@
                 "SM3255AA"
             ],
             "n": [
-                "intel JS29F08G08BANB1",
-                "intel JS29F16G08FANB1",
                 "micron MT29F16G08FAA",
                 "micron MT29F8G08BAA"
             ]
@@ -7836,8 +7784,6 @@
                 "SM2250"
             ],
             "n": [
-                "intel JS29F08G08BANB1",
-                "intel JS29F16G08FANB1",
                 "micron MT29F16G08FAA",
                 "micron MT29F8G08BAA"
             ]
@@ -7907,7 +7853,6 @@
                 "ZC3281"
             ],
             "n": [
-                "intel PF29F01T2ALCQH1",
                 "micron MT29F1T08GBCAG",
                 "micron MT29F2T08GECAG",
                 "micron MT29F2T08GEHAF",
@@ -8198,7 +8143,6 @@
                 "SM2250"
             ],
             "n": [
-                "intel JS29F32G08FAM",
                 "micron MT29F32G08TAAWP"
             ]
         },
@@ -8266,20 +8210,6 @@
                 "micron MT29F16G08ADACA"
             ]
         },
-        "2CD5D5A50000": {
-            "t": [
-                "SM2231",
-                "SM2232",
-                "SM2240",
-                "SM2242",
-                "SM2244LT",
-                "SM2246EN",
-                "SM2250"
-            ],
-            "n": [
-                "intel JS29F32G08FAMB1"
-            ]
-        },
         "2CD5D5A50480": {
             "t": [
                 "SM324BB",
@@ -8299,14 +8229,6 @@
                 "micron MT29F32G08TAA"
             ]
         },
-        "2CD5D5A54600": {
-            "t": [
-                "SM3255AA"
-            ],
-            "n": [
-                "intel JS29F32G08FAMB1"
-            ]
-        },
         "2CD5D5A56800": {
             "t": [
                 "SM2231",
@@ -8319,44 +8241,6 @@
             ],
             "n": [
                 "micron MT29F32G08TAAWP"
-            ]
-        },
-        "2CD5D5A58000": {
-            "t": [
-                "SM3252A",
-                "SM3252B",
-                "SM3252C",
-                "SM325AC"
-            ],
-            "n": [
-                "intel JS29F32G08FAMB1"
-            ]
-        },
-        "2CD5D5A58480": {
-            "t": [
-                "SM324BB",
-                "SM324BC"
-            ],
-            "n": [
-                "intel JS29F32G08FAMB1"
-            ]
-        },
-        "2CD5D5A58680": {
-            "t": [
-                "SM321AC",
-                "SM321BB",
-                "SM321BC"
-            ],
-            "n": [
-                "intel JS29F32G08FAMB1"
-            ]
-        },
-        "2CD5D5A59090": {
-            "t": [
-                "SM325AB"
-            ],
-            "n": [
-                "intel JS29F32G08FAMB1"
             ]
         },
         "2CD70C36EE34": {
@@ -8630,7 +8514,6 @@
                 "SM325AC"
             ],
             "n": [
-                "intel JS29F02G08AANB3",
                 "micron MT29F2G08AAB",
                 "micron MT29F2G08AAC"
             ]
@@ -8641,7 +8524,6 @@
                 "SM324BC"
             ],
             "n": [
-                "intel JS29F02G08AANB3",
                 "micron MT29F2G08AAB",
                 "micron MT29F2G08AAC"
             ]
@@ -8653,7 +8535,6 @@
                 "SM321BC"
             ],
             "n": [
-                "intel JS29F02G08AANB3",
                 "micron MT29F2G08AAB",
                 "micron MT29F2G08AAC"
             ]
@@ -8663,7 +8544,6 @@
                 "SM325AB"
             ],
             "n": [
-                "intel JS29F02G08AANB3",
                 "micron MT29F2G08AAB",
                 "micron MT29F2G08AAC"
             ]
@@ -8673,7 +8553,6 @@
                 "SM3255AA"
             ],
             "n": [
-                "intel JS29F02G08AANB3",
                 "spectek FNNM49A15K3WG",
                 "spectek FNNM49A18K3WG",
                 "spectek FNNM49A19K3WG",
@@ -8705,7 +8584,6 @@
                 "SM2250"
             ],
             "n": [
-                "intel JS29F02G08AANA2",
                 "micron MT29F2G08AAB"
             ]
         },
@@ -8757,21 +8635,6 @@
                 "spectek FNNM49A18K3WG",
                 "spectek FNNM49A19K3WG",
                 "spectek FNNM49A1GK3WG"
-            ]
-        },
-        "2CDA8015D000": {
-            "t": [
-                "SM2231",
-                "SM2232",
-                "SM2240",
-                "SM2242",
-                "SM2244LT",
-                "SM2246EN",
-                "SM2250"
-            ],
-            "n": [
-                "intel JS29F02G08AANB3",
-                "intel JS29F04G08BANB3"
             ]
         },
         "2CDA80950000": {
@@ -8842,8 +8705,6 @@
                 "SM325AC"
             ],
             "n": [
-                "intel JS29F04G08BANB3",
-                "intel JS29F08G08FANB3",
                 "micron MT29F4G08BAB",
                 "micron MT29F4G08BAC",
                 "micron MT29F8G08FAB",
@@ -8856,8 +8717,6 @@
                 "SM324BC"
             ],
             "n": [
-                "intel JS29F04G08BANB3",
-                "intel JS29F08G08FANB3",
                 "micron MT29F4G08BAB",
                 "micron MT29F4G08BAC",
                 "micron MT29F8G08FAB",
@@ -8871,8 +8730,6 @@
                 "SM321BC"
             ],
             "n": [
-                "intel JS29F04G08BANB3",
-                "intel JS29F08G08FANB3",
                 "micron MT29F4G08BAB",
                 "micron MT29F4G08BAC",
                 "micron MT29F8G08FAB",
@@ -8884,8 +8741,6 @@
                 "SM325AB"
             ],
             "n": [
-                "intel JS29F04G08BANB3",
-                "intel JS29F08G08FANB3",
                 "micron MT29F4G08BAB",
                 "micron MT29F4G08BAC",
                 "micron MT29F8G08FAB",
@@ -8897,8 +8752,6 @@
                 "SM3255AA"
             ],
             "n": [
-                "intel JS29F04G08BANB3",
-                "intel JS29F08G08FANB3",
                 "spectek FNNM49A2GK3WG"
             ]
         },
@@ -8966,8 +8819,6 @@
                 "SM2250"
             ],
             "n": [
-                "intel JS29F04G08BANB3",
-                "intel JS29F08G08FANB3",
                 "micron MT29F4G08BAC",
                 "micron MT29F8G08FAC"
             ]
@@ -9032,8 +8883,6 @@
                 "SM325AC"
             ],
             "n": [
-                "intel JS29F04G08AANB1",
-                "intel JS29F08G08CANB1",
                 "micron MT29F4G08AAA",
                 "micron MT29F4G08AAC",
                 "micron MT29F8G08DAA"
@@ -9045,8 +8894,6 @@
                 "SM324BC"
             ],
             "n": [
-                "intel JS29F04G08AANB1",
-                "intel JS29F08G08CANB1",
                 "micron MT29F4G08AAA",
                 "micron MT29F4G08AAC",
                 "micron MT29F8G08DAA"
@@ -9059,8 +8906,6 @@
                 "SM321BC"
             ],
             "n": [
-                "intel JS29F04G08AANB1",
-                "intel JS29F08G08CANB1",
                 "micron MT29F4G08AAA",
                 "micron MT29F4G08AAC",
                 "micron MT29F8G08DAA"
@@ -9071,20 +8916,9 @@
                 "SM325AB"
             ],
             "n": [
-                "intel JS29F04G08AANB1",
-                "intel JS29F08G08CANB1",
                 "micron MT29F4G08AAA",
                 "micron MT29F4G08AAC",
                 "micron MT29F8G08DAA"
-            ]
-        },
-        "2CDC90954600": {
-            "t": [
-                "SM3255AA"
-            ],
-            "n": [
-                "intel JS29F04G08AANB1",
-                "intel JS29F08G08CANB1"
             ]
         },
         "2CDC90955400": {
@@ -9098,9 +8932,6 @@
                 "SM2250"
             ],
             "n": [
-                "intel JS29F04G08AANB1",
-                "intel JS29F08G08CANB1",
-                "intel JS29F08G08CANB2",
                 "micron MT29F4G08AAA",
                 "micron MT29F4G08AAC",
                 "micron MT29F8G08DAA"
@@ -9457,15 +9288,6 @@
                 "micron MT29F8T08EWHAF"
             ]
         },
-        "2CE48D32AA00": {
-            "t": [
-                "IS918GA",
-                "SM2259XT"
-            ],
-            "n": [
-                "intel PF29F01T2ALCQH2"
-            ]
-        },
         "2CE49A32A200": {
             "t": [
                 "AU6989SN-TA",
@@ -9589,14 +9411,6 @@
                 "micron MT29F1T08GBLBE",
                 "micron MT29F2T08GBLBE",
                 "micron MT29F4T08GMLBE"
-            ]
-        },
-        "2CF48E32AA00": {
-            "t": [
-                "IS918GA"
-            ],
-            "n": [
-                "intel PF29F01T2ALCQH2"
             ]
         },
         "450000000000": {
@@ -9910,8 +9724,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58NVG7DDLTA00",
-                "kioxia TC58TFG7DDLTA00",
                 "sndk SDTNMMAHSM-16GB",
                 "sndk SDTNSGAMA-016G",
                 "sndk SDTNSGAMA-016GIR",
@@ -9970,7 +9782,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58NVG7DDLTA00",
                 "sndk 05446-064G",
                 "sndk SDTNMMAHSM-16GB",
                 "sndk SDTNSGAMA-016G",
@@ -10055,7 +9866,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58NVG6DDLTA00",
                 "sndk SDTNRGAMA-016G",
                 "sndk SDTNSGBMA-016G"
             ]
@@ -10096,7 +9906,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58TEG6DDJTA00",
                 "sndk SDTNQCMB-032G",
                 "sndk SDTNQGBMA-016G",
                 "sndk SDTNQGCMG-032G",
@@ -10145,7 +9954,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58NVG6DDLTA00",
                 "sndk SDTNSGBMA-016G"
             ]
         },
@@ -10191,7 +9999,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58TEG6DDJTA00",
                 "sndk SD58TEG6DDJTA20",
                 "sndk SDTNQGAMA-128G",
                 "sndk SDTNQGBMA-016G",
@@ -10253,7 +10060,6 @@
                 "SM3270AC"
             ],
             "n": [
-                "kioxia TC58NVG5T2FTA00",
                 "sndk INAND-4E2-32GB",
                 "sndk INAND4E2-32GB"
             ]
@@ -10296,7 +10102,6 @@
                 "YS9083XT"
             ],
             "n": [
-                "kioxia TC58TEG7THLTA00",
                 "sndk SDTNSIAMA-016G"
             ]
         },
@@ -10310,7 +10115,6 @@
                 "FC2279S"
             ],
             "n": [
-                "kioxia TC58TEG7THLTA00",
                 "sndk SDTNSIAMA-016G"
             ]
         },
@@ -10866,8 +10670,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TH58NVG8DCJTA20",
-                "kioxia TH58TEG8DCJTA20",
                 "sndk SDIN7DU2-32G",
                 "sndk SDTNQFAMA-008G",
                 "sndk SDTNQFCMA-032G"
@@ -10917,8 +10719,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58NVG7DDLTA00",
-                "kioxia TH58TEG9DDLTA00",
                 "sndk SDTNSGAMA-0-032G",
                 "sndk SDTNSGAMA-016G",
                 "sndk SDTNSGAMA-032G",
@@ -10961,7 +10761,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58NVG7DDLTA00",
                 "sndk 15139-128G",
                 "sndk 15150-128G",
                 "sndk 15153-128G",
@@ -11023,8 +10822,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TH58NVG8DCJTA20",
-                "kioxia TH58TEG8DCJTA20",
                 "sndk SDIN5C2-32G",
                 "sndk SDTNOQAHER-008G",
                 "sndk SDTNPQCHEM-032G"
@@ -11543,7 +11340,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58TEG8T22TA0D",
                 "sndk SDTNAIAMA-032G",
                 "sndk SDYNAIBMB-064G"
             ]
@@ -11915,7 +11711,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58NVG6T2JTA00",
                 "sndk SDTNPNAHSM-8G-QUAL",
                 "sndk SDTNQCCMA-032G",
                 "sndk SDTNQCCMB-032G"
@@ -12137,7 +11932,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TH58TEG9D2JBAS9",
                 "sndk SDIN5C4-32G",
                 "sndk SDTNOQAHER-008G",
                 "sndk SDTNPMCHEM-032G"
@@ -12193,7 +11987,6 @@
                 "SM2246EN"
             ],
             "n": [
-                "kioxia TC58NVG6DDJTA00",
                 "sndk 05131-032G",
                 "sndk SNDK19NM1CE4DIE-032G"
             ]
@@ -12212,7 +12005,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58NVG7TDKTA00",
                 "sndk SD58TEG6TDKTA00",
                 "sndk SD58TEG9TDKTA00"
             ]
@@ -12442,7 +12234,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58NVG7DDLTA00",
                 "sndk SDTNSGAMA-032G",
                 "sndk SDTNSGCMA-064G",
                 "sndk SDTNSGEMC-256G",
@@ -12985,7 +12776,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58TFG9T23TA2D",
                 "sndk SDYNBIBMB-128G",
                 "sndk SDYNBICMC-256G",
                 "sndk SDZNBIAMA-064G"
@@ -13260,7 +13050,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58TFT0T23TA2H",
                 "sndk SDTNBIBMA-064G",
                 "sndk SDYNAIAMA-064G",
                 "sndk SDYNAIAMA-064GB",
@@ -13560,7 +13349,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58NVG6TCKTA00",
                 "sndk SDTNRCDMA-064G",
                 "sndk SDTNRIAMA-064G"
             ]
@@ -13588,7 +13376,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58NVG6T2HTA00",
                 "sndk SDTNPNAHEM-008G",
                 "sndk SDTNPNDHEM-064G"
             ]
@@ -13611,7 +13398,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58NVG6T2JTA00",
                 "sndk SDTNQCAMA-008G",
                 "sndk SDTNQCDMA-064G"
             ]
@@ -13775,8 +13561,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TH58NVG8DCJTA20",
-                "kioxia TH58TEG8DCJTA20",
                 "sndk SDIN5C4-64G",
                 "sndk SDTNOQAHER-008G",
                 "sndk SDTNPMDHEM-064G"
@@ -13865,7 +13649,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58LKT1X46BA4K",
                 "sndk FYGLRJ08028M3A-128G",
                 "sndk SDUNEIOMA-64GCE"
             ]
@@ -13895,7 +13678,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58LKT1X46BA4K",
                 "sndk FYGLRJ08028M3A-128G",
                 "sndk SDUNCIAMA-64G"
             ]
@@ -14222,14 +14004,6 @@
                 "sndk FYGLRJ08028M4B-128G"
             ]
         },
-        "4540AE03F2E6": {
-            "t": [
-                "SM2259XT3"
-            ],
-            "n": [
-                "kioxia TH58LKT2F48BA8R"
-            ]
-        },
         "45419B03F264": {
             "t": [
                 "SM2259XT3"
@@ -14331,7 +14105,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58NVG6D2F",
                 "sndk SDTNMMAHSM-004G",
                 "sndk SDXNNMCHER-016G",
                 "sndk SDZNNMBHER-08GX2",
@@ -15382,14 +15155,6 @@
                 "sndk FYGLRJ08028M4B-128G"
             ]
         },
-        "4548AC037AE6": {
-            "t": [
-                "SM2259XT3"
-            ],
-            "n": [
-                "kioxia TH58LKT2F48BA8R"
-            ]
-        },
         "4548AE03F265": {
             "t": [
                 "SM2259XT3"
@@ -15846,7 +15611,6 @@
                 "SM3281BB"
             ],
             "n": [
-                "kioxia TC58TFT9T22TA0D",
                 "sndk SD8T22-256G",
                 "sndk SDYNAIDMA-256G"
             ]
@@ -16111,24 +15875,10 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TH58NVG8D7FBAK0",
                 "sndk SDTNMMCHSM-016G",
                 "sndk SDTNNMAHEM-004G",
                 "sndk SDTNNMCHEM-016G",
                 "sndk SDTNNMCHSM-016G"
-            ]
-        },
-        "454A97327E54": {
-            "s": 4,
-            "t": [
-                "CBM2199",
-                "CBM2199E",
-                "CBM2199EE",
-                "CBM2199ES",
-                "CBM2199S"
-            ],
-            "n": [
-                "kioxia TC58NVG8D2FTA00"
             ]
         },
         "454A9A827E55": {
@@ -16758,7 +16508,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58NVG6T2HTA00",
                 "sndk SDTNPNBHEM-016G",
                 "sndk SDTNRGAMA-008G"
             ]
@@ -16803,19 +16552,6 @@
             "n": [
                 "sndk SDTNRCBMA-016G",
                 "sndk SNDK-1YNM"
-            ]
-        },
-        "454C999276D6": {
-            "s": 8,
-            "p": 516,
-            "b": 4168,
-            "t": [
-                "SM3259AA",
-                "SM3259AB",
-                "SM3271AB"
-            ],
-            "n": [
-                "kioxia TC58NVG6T2HTA00"
             ]
         },
         "454C999276D7": {
@@ -16906,7 +16642,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58TEG6TCKTA00",
                 "sndk 24NMMLC",
                 "sndk SDTNPMBHEM-016G",
                 "sndk SDTNPMCHEM-032G6D2H",
@@ -17076,7 +16811,6 @@
                 "SM2258"
             ],
             "n": [
-                "kioxia TH58TFG9T22BA4C",
                 "sndk SDTNRIAMA-016G",
                 "sndk SDTNRIAMA-016GK",
                 "sndk SDTNRIAMA-16GK",
@@ -17349,8 +17083,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58NVG6D2F",
-                "kioxia TC58TEG5D2FTA00",
                 "sndk SDZNNMDHER-032G"
             ]
         },
@@ -17465,26 +17197,9 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58LJB4F24BA8K",
                 "sndk SDUNCIAMA-128GB",
                 "sndk SDWNCJAMA-128GCE",
                 "sndk SDZNCIAMA-128GB"
-            ]
-        },
-        "45739CB376EB": {
-            "s": 16,
-            "t": [
-                "CBM2199E",
-                "CBM2199EE",
-                "FC3379",
-                "YS9082HC",
-                "YS9082HP",
-                "YS9082HT",
-                "YS9085N",
-                "ZC3281"
-            ],
-            "n": [
-                "kioxia TH58LJB4F24BA8K"
             ]
         },
         "457A9EB37E63": {
@@ -17494,26 +17209,6 @@
             ],
             "n": [
                 "sndk SDWNCJAMA-680GCE"
-            ]
-        },
-        "45B595A5EA12": {
-            "s": 2,
-            "t": [
-                "CBM2093E",
-                "CBM2098E",
-                "CBM2098P",
-                "CBM2098S",
-                "CBM2099",
-                "CBM2099E",
-                "CBM2099S",
-                "CBM2199",
-                "CBM2199E",
-                "CBM2199EE",
-                "CBM2199ES",
-                "CBM2199S"
-            ],
-            "n": [
-                "kioxia TC58NVG1S3B"
             ]
         },
         "45C394327254": {
@@ -17952,19 +17647,6 @@
                 "sndk SDTNNMAHSM-004G"
             ]
         },
-        "45CC84A5E012": {
-            "t": [
-                "FC1179",
-                "FC1179AB",
-                "FC1179S",
-                "FC2199S",
-                "FC2279AA",
-                "FC2279S"
-            ],
-            "n": [
-                "kioxia TC58NVG2D4B"
-            ]
-        },
         "45CD75955532": {
             "s": 8,
             "t": [
@@ -18362,7 +18044,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58NVG4T2F",
                 "sndk SDTNNMAHSM-002G",
                 "sndk SDTNNNAHEM-002G"
             ]
@@ -18490,26 +18171,6 @@
                 "sndk SDTNMNAHEM-002G"
             ]
         },
-        "45D598827255": {
-            "t": [
-                "SM2244LT"
-            ],
-            "n": [
-                "kioxia TC58NVG4T2F"
-            ]
-        },
-        "45D598B27600": {
-            "s": 8,
-            "p": 192,
-            "b": 1404,
-            "t": [
-                "SM3255AB"
-            ],
-            "n": [
-                "kioxia TC58NVG4T2E",
-                "kioxia TC58NVG4T2ETA00"
-            ]
-        },
         "45D598B27654": {
             "s": 8,
             "p": 192,
@@ -18587,22 +18248,6 @@
                 "sndk SDTNRFCMC-016G",
                 "sndk SDTNRGAMA-004G",
                 "sndk SDYNRGBRG-008GUL"
-            ]
-        },
-        "45D784937251": {
-            "t": [
-                "CBM2199E",
-                "CBM2199EE",
-                "CBM2199ES",
-                "FC1179",
-                "FC1179AB",
-                "FC1179S",
-                "FC2199S",
-                "FC2279AA",
-                "FC2279S"
-            ],
-            "n": [
-                "kioxia TC58TEG5DCLTA00"
             ]
         },
         "45D784937257": {
@@ -18717,7 +18362,6 @@
                 "SM2250"
             ],
             "n": [
-                "kioxia TH58NVG6D2ELA48",
                 "sndk SDZNMMBHER-0016G",
                 "sndk SDZNMMBHER-008G"
             ]
@@ -18826,7 +18470,6 @@
                 "CBM2199S"
             ],
             "n": [
-                "kioxia TH58NVG6D2ELA48",
                 "sndk SANDISK"
             ]
         },
@@ -18888,7 +18531,6 @@
                 "SM3271AB"
             ],
             "n": [
-                "kioxia TC58NVG5D2FTA00",
                 "sndk SDTNMMAHSM-004G",
                 "sndk SDTNNMAHEM-004G",
                 "sndk SDZNNMCHSR-16G",
@@ -19730,19 +19372,6 @@
                 "sndk SDZNPQCHER-32GT"
             ]
         },
-        "45DE948376D7": {
-            "t": [
-                "FC1179",
-                "FC1179AB",
-                "FC1179S",
-                "FC2199S",
-                "FC2279AA",
-                "FC2279S"
-            ],
-            "n": [
-                "kioxia TC58TEG6D2JTA00"
-            ]
-        },
         "45DE94937650": {
             "s": 16,
             "p": 256,
@@ -19852,7 +19481,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58NVG6DDLTA00",
                 "sndk SDTNMMAHS-8GB",
                 "sndk SDTNSGAMA-008G"
             ]
@@ -20000,7 +19628,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58NVG6DDLTA00",
                 "sndk SDTNSGAMA-008G"
             ]
         },
@@ -20065,7 +19692,6 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58TEG6DDJTA00",
                 "sndk SDTNQFAMA-008G",
                 "sndk SDTNQGAMA-008G",
                 "sndk SDTNQGBMB-016G",
@@ -20744,7 +20370,6 @@
                 "PS2267"
             ],
             "n": [
-                "kioxia TC58NVG4D2HTA00",
                 "sndk SDTNQBAMA-008G"
             ]
         },
@@ -23496,14 +23121,6 @@
                 "intel PXXL06B81KDBAB3"
             ]
         },
-        "89B47832AA05": {
-            "s": 16,
-            "t": [
-                "CBM2199",
-                "CBM2199E",
-                "CBM2199EE"
-            ]
-        },
         "89B47834AA01": {
             "s": 16,
             "p": 1536,
@@ -23519,8 +23136,7 @@
                 "SM3270AC"
             ],
             "n": [
-                "intel PF29F32B2ALCMG2",
-                "intel PF29F48B2ALCTG2"
+                "intel PF29F32B2ALCMG2"
             ]
         },
         "89C30832E600": {
@@ -23780,8 +23396,6 @@
                 "FC2279AA",
                 "FC2279S",
                 "FC3379",
-                "INIC6081",
-                "PS3111",
                 "SM2259XT",
                 "SM2259XT2",
                 "SM2259XT3",
@@ -24028,14 +23642,6 @@
             ],
             "n": [
                 "intel PF29F01T2BLCQKM"
-            ]
-        },
-        "89D38932E600": {
-            "s": 16,
-            "p": 3456,
-            "b": 1352,
-            "t": [
-                "MAP1002"
             ]
         },
         "89D3902E0000": {
@@ -24476,8 +24082,7 @@
             ],
             "n": [
                 "intel JS29F16G08AAMC1",
-                "intel JS29F32G08CAMC1",
-                "spectek FBNL52A32K3W2"
+                "intel JS29F32G08CAMC1"
             ]
         },
         "89D5943E7400": {
@@ -24507,8 +24112,7 @@
             ],
             "n": [
                 "intel JS29F16G08AAMC1",
-                "intel JS29F32G08CAMC1",
-                "spectek FBNL52A32K3W2"
+                "intel JS29F32G08CAMC1"
             ]
         },
         "89D5943E8480": {
@@ -24687,8 +24291,7 @@
                 "intel JS29F32G08AAMD1",
                 "intel JS29F32G08AAMD2",
                 "intel JS29F64G08CAMD1",
-                "intel JS29F64G08CAMD2",
-                "spectek FBNL63A51K3WG"
+                "intel JS29F64G08CAMD2"
             ]
         },
         "89D7943E8400": {
@@ -25573,8 +25176,7 @@
             ],
             "n": [
                 "kioxia TC58NVG6D2GTA00",
-                "kioxia TH58TEG9D2HBA89",
-                "sndk SDTNPQBHEM-016G"
+                "kioxia TH58TEG9D2HBA89"
             ]
         },
         "983A95837A56": {
@@ -26431,8 +26033,7 @@
                 "kioxia TH58TFG8DFKBA4K0",
                 "kioxia TH58TFG9DFKBA8K",
                 "kioxia TH58TFT0DFKLAVF",
-                "kioxia THGBX3T0D8KLAX9",
-                "sndk SDTNQFAMA-008G"
+                "kioxia THGBX3T0D8KLAX9"
             ]
         },
         "983AA4937A51": {
@@ -26536,8 +26137,7 @@
                 "kioxia TH58TFG8DFKBA4K",
                 "kioxia TH58TFG8EFKBA4K",
                 "kioxia TH58TFG9DFKBA8K",
-                "kioxia TH58TFG9EFKBA8K",
-                "sndk SDTNQFAMA-008G"
+                "kioxia TH58TFG9EFKBA8K"
             ]
         },
         "983AA4937AD1": {
@@ -26719,8 +26319,7 @@
                 "kioxia TH58TEG9D2HBA89",
                 "kioxia TH58TEG9D2HBAS9",
                 "kioxia TH58TEG9D2HBAX9",
-                "kioxia TH58TEG9E2HBA89",
-                "sndk SDTNPMCHEM-032G6D2H"
+                "kioxia TH58TEG9E2HBA89"
             ]
         },
         "983AA5827AD7": {
@@ -27348,8 +26947,7 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia THGBR2G8D4JBA01",
-                "sndk SDTNQFAMA-008G"
+                "kioxia THGBR2G8D4JBA01"
             ]
         },
         "983C9693F4D7": {
@@ -28034,8 +27632,7 @@
                 "kioxia TH58TFG9DFKBA4K",
                 "kioxia TH58TFT0DFKBA8J",
                 "kioxia TH58TFT1DFKLAVH",
-                "kioxia THGBX3T1DBKLAX2",
-                "sndk SDTNQFAMA-008G"
+                "kioxia THGBX3T1DBKLAX2"
             ]
         },
         "983CA5937E51": {
@@ -28137,8 +27734,7 @@
                 "kioxia TH58TFT0DFKBA8H",
                 "kioxia TH58TFT0DFKBA8J",
                 "kioxia TH58TFT0DFLBB8H",
-                "kioxia TH58TFT0EFKBA8J",
-                "sndk SDTNQFAMA-008G"
+                "kioxia TH58TFT0EFKBA8J"
             ]
         },
         "983CA5937ED1": {
@@ -28573,8 +28169,7 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58LJT0T24BA4C",
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58LJT0T24BA4C"
             ]
         },
         "983E98B37663": {
@@ -28848,8 +28443,7 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58LJG9T24TA0D",
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TC58LJG9T24TA0D"
             ]
         },
         "983E99B37A71": {
@@ -28948,8 +28542,7 @@
                 "kioxia TH58TFG0T23TA2H",
                 "kioxia TH58TFT0T23TA2H",
                 "kioxia TH58TFT0W23TAKH",
-                "kioxia TH58TFT1T23BA8H",
-                "sndk SDYNAIAMA-064G"
+                "kioxia TH58TFT1T23BA8H"
             ]
         },
         "983E99B37AE3": {
@@ -28987,17 +28580,7 @@
                 "kioxia TC58LJG9T24TA",
                 "kioxia TC58LJG9T24TA0D",
                 "kioxia TH58LJT1T24BA8H",
-                "kioxia TH58LJT1V24BA8H",
-                "sndk SDUNCIAMA-064GB"
-            ]
-        },
-        "983E99B37AEB": {
-            "t": [
-                "FC3379",
-                "ZC3281"
-            ],
-            "n": [
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58LJT1V24BA8H"
             ]
         },
         "983E99B37AF1": {
@@ -29088,26 +28671,7 @@
                 "kioxia TH58TFT1T22BA8H",
                 "kioxia TH58TFT1T23BA8H",
                 "kioxia TH58TFT1V23BA8H",
-                "kioxia TH58TFT1W23BASH",
-                "sndk SDYNAIAMA-064G"
-            ]
-        },
-        "983E99B3FA63": {
-            "t": [
-                "FC3379",
-                "ZC3281"
-            ],
-            "n": [
-                "sndk SDUNCIAMA-064GB"
-            ]
-        },
-        "983E99B3FA6B": {
-            "t": [
-                "FC3379",
-                "ZC3281"
-            ],
-            "n": [
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58TFT1W23BASH"
             ]
         },
         "983E99B3FAE3": {
@@ -29119,8 +28683,7 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58LKT1V2MBA8H",
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58LKT1V2MBA8H"
             ]
         },
         "983E9AA37E51": {
@@ -29148,22 +28711,6 @@
             ],
             "n": [
                 "kioxia TH58LJT1T24BA8C"
-            ]
-        },
-        "983EA6937E50": {
-            "t": [
-                "FC3379",
-                "PS2267",
-                "PS2268",
-                "PS2269",
-                "PS2307",
-                "PS2308",
-                "PS2309",
-                "PS2310",
-                "ZC3281"
-            ],
-            "n": [
-                "sndk SDTNQFAMA-016G"
             ]
         },
         "983EA6937E51": {
@@ -29210,8 +28757,7 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58TFT1EFKBA8N",
-                "sndk SDTNQFAMA-016G"
+                "kioxia TH58TFT1EFKBA8N"
             ]
         },
         "983EA6937ED1": {
@@ -29271,8 +28817,7 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58LKT1X45BADE",
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58LKT1X45BADE"
             ]
         },
         "983EA8037A65": {
@@ -29307,8 +28852,7 @@
             "n": [
                 "kioxia TC58LKT9T45BA0D",
                 "kioxia TH58LJT0T24BA4C",
-                "kioxia TH58LKT1X45BADE",
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58LKT1X45BADE"
             ]
         },
         "983EA8037AE5": {
@@ -29331,15 +28875,6 @@
             ],
             "n": [
                 "kioxia TH58LKT2V46BA8S"
-            ]
-        },
-        "98409BB37E72": {
-            "t": [
-                "FC3379",
-                "ZC3281"
-            ],
-            "n": [
-                "sndk SDYNAIAMA-064G"
             ]
         },
         "9840AD037EE6": {
@@ -29484,17 +29019,7 @@
             ],
             "n": [
                 "kioxia TH58LJT2W25BASH",
-                "kioxia TH58LKT2T25BA8H",
-                "sndk SDUNCIAMA-064GB"
-            ]
-        },
-        "984899037AEC": {
-            "t": [
-                "FC3379",
-                "ZC3281"
-            ],
-            "n": [
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58LKT2T25BA8H"
             ]
         },
         "984899B37A6B": {
@@ -29506,8 +29031,7 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58LJT1T24TA2H",
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58LJT1T24TA2H"
             ]
         },
         "984899B37A72": {
@@ -29533,8 +29057,7 @@
             ],
             "n": [
                 "kioxia TH58TFG2T23BA8K",
-                "kioxia TH58TFT9T23TA2H",
-                "sndk SDYNAIAMA-64G"
+                "kioxia TH58TFT9T23TA2H"
             ]
         },
         "984899B37AE3": {
@@ -29574,17 +29097,7 @@
                 "kioxia TC58LJG9T24TA0D",
                 "kioxia TH58LJT1T24TA2H",
                 "kioxia TH58LJT2T24BA8H",
-                "kioxia TH58LJT2T24BADE",
-                "sndk SDUNCIAMA-064GB"
-            ]
-        },
-        "984899B37AEB": {
-            "t": [
-                "FC3379",
-                "ZC3281"
-            ],
-            "n": [
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58LJT2T24BADE"
             ]
         },
         "984899B37AF2": {
@@ -29624,17 +29137,7 @@
                 "kioxia TH58TFT2T23BA8J",
                 "kioxia TH58TFT2V23BA8J",
                 "kioxia TH58TFT2W23BASJ",
-                "kioxia TH58TFT9T23TA2H",
-                "sndk SDUNCIAMA-064GB"
-            ]
-        },
-        "984899B3FA63": {
-            "t": [
-                "FC3379",
-                "ZC3281"
-            ],
-            "n": [
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58TFT9T23TA2H"
             ]
         },
         "984899B3FAE3": {
@@ -29646,8 +29149,7 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58LKT2V2MBA8H",
-                "sndk SDUNCIAMA-064GB"
+                "kioxia TH58LKT2V2MBA8H"
             ]
         },
         "98489AB37AF2": {
@@ -29792,8 +29294,7 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TH58LKT1T25BA8K",
-                "sndk SDUNCIAMA-128GB"
+                "kioxia TH58LKT1T25BA8K"
             ]
         },
         "9848A8037AE5": {
@@ -29817,8 +29318,7 @@
                 "kioxia TH58LJT0T24BA4C",
                 "kioxia TH58LKT1T25BA8K",
                 "kioxia TH58LKT1T46BA4K",
-                "kioxia TH58LKT2T46BA8K",
-                "sndk SDUNCIAMA-128GB"
+                "kioxia TH58LKT2T46BA8K"
             ]
         },
         "9848A9037EE4": {
@@ -29888,8 +29388,7 @@
             ],
             "n": [
                 "kioxia TH58LKT3T25BA8J",
-                "kioxia TH58LKT4T25BA8J",
-                "sndk SDUNCIAMA-128GB"
+                "kioxia TH58LKT4T25BA8J"
             ]
         },
         "98499AB37E72": {
@@ -29900,8 +29399,7 @@
                 "ZC3281"
             ],
             "n": [
-                "kioxia TC58LJG9T23TA0D",
-                "sndk SDYNAIAMA-064G"
+                "kioxia TC58LJG9T23TA0D"
             ]
         },
         "98499AB37EE3": {
@@ -29940,24 +29438,6 @@
                 "kioxia TH58TGT3V23BB8N"
             ]
         },
-        "98499AB3FE6B": {
-            "t": [
-                "FC3379",
-                "ZC3281"
-            ],
-            "n": [
-                "sndk SDUNCIAMA-064GB"
-            ]
-        },
-        "9849A9037E65": {
-            "t": [
-                "FC3379",
-                "ZC3281"
-            ],
-            "n": [
-                "sndk SDUNCIAMA-128GB"
-            ]
-        },
         "9849A9037EE5": {
             "s": 16,
             "t": [
@@ -29969,8 +29449,7 @@
             ],
             "n": [
                 "kioxia TH58LJT0T24BA4C",
-                "kioxia TH58LKT3T46BA8J",
-                "sndk SDUNCIAMA-128GB"
+                "kioxia TH58LKT3T46BA8J"
             ]
         },
         "9849AD037EE6": {
@@ -30025,8 +29504,7 @@
             ],
             "n": [
                 "kioxia TH58NVG8D2FLA89",
-                "kioxia TH58NVG8D7FBAK0",
-                "sndk SDTNNMAHEM-004G"
+                "kioxia TH58NVG8D7FBAK0"
             ]
         },
         "984AA914827E": {
@@ -30077,8 +29555,7 @@
             "n": [
                 "kioxia TC58TEG7THLTA00",
                 "kioxia TH58TEG7THLTA20-016G",
-                "kioxia TH58TEG8THLTA20",
-                "sndk SDTNS1AMA-016G"
+                "kioxia TH58TEG8THLTA20"
             ]
         },
         "984C98A376D1": {
@@ -30108,8 +29585,7 @@
             ],
             "n": [
                 "kioxia DTNPNBHEM-016G",
-                "kioxia TC58NVG6T2HTA00",
-                "sndk SDTNPNBHEM-016G"
+                "kioxia TC58NVG6T2HTA00"
             ]
         },
         "984C9BB27ED5": {
@@ -30136,8 +29612,7 @@
                 "FC2279S"
             ],
             "n": [
-                "kioxia TC58NVG8T2JTA20",
-                "sndk DFT128GWD8D1KTJ"
+                "kioxia TC58NVG8T2JTA20"
             ]
         },
         "984CA8927650": {
@@ -30164,8 +29639,7 @@
             "n": [
                 "kioxia TC58NVG7T2JTA00",
                 "kioxia TC58NVG7TDKTA00",
-                "kioxia TC58TEG7TDKTA00",
-                "sndk SDTNRIAMA-016GK"
+                "kioxia TC58TEG7TDKTA00"
             ]
         },
         "984CA8927657": {
@@ -30263,25 +29737,7 @@
                 "SM3265AC"
             ],
             "n": [
-                "kioxia TH58LKB4F25BA8K",
-                "sndk SDUNCIAMA-128GB",
-                "sndk SDUNEIAMA-128GCE"
-            ]
-        },
-        "98739CB3766B": {
-            "t": [
-                "CBM2199E",
-                "CBM2199EE",
-                "FC1179",
-                "FC1179S",
-                "FC2199S",
-                "FC2279AA",
-                "FC2279S",
-                "FC3379",
-                "PS2311"
-            ],
-            "n": [
-                "sndk SDUNCIAMA-128GB"
+                "kioxia TH58LKB4F25BA8K"
             ]
         },
         "98739CB376E3": {
@@ -30318,8 +29774,7 @@
             "n": [
                 "kioxia TC58LJG9T24TA0D",
                 "kioxia TH58LJB4F24BA8K",
-                "kioxia TH58LJB4F24BA8K-032G",
-                "sndk SDUNCIAMA-128GB"
+                "kioxia TH58LJB4F24BA8K-032G"
             ]
         },
         "98739CB376EB": {
@@ -30588,8 +30043,7 @@
             "n": [
                 "kioxia TC58NVG7D2FTA00",
                 "kioxia TH58NVG7D7FBAK0",
-                "kioxia TH58NVG8D7FBASB",
-                "sndk SDZNNMDHER-16G"
+                "kioxia TH58NVG8D7FBASB"
             ]
         },
         "98CEA8827A55": {
@@ -31934,8 +31388,7 @@
             ],
             "n": [
                 "kioxia TC58NVG4D2F",
-                "kioxia TC58NVG4D2FTA00",
-                "sndk SDTNMNAHEM-002G"
+                "kioxia TC58NVG4D2FTA00"
             ]
         },
         "98D59432A800": {
@@ -33172,25 +32625,7 @@
             "n": [
                 "kioxia TH58NVG6D2ETA0",
                 "kioxia TH58NVG6D2ETA20",
-                "kioxia THC58NVG6D2ET",
-                "sndk SDTNMMAHSM-004G"
-            ]
-        },
-        "98D795327A55": {
-            "t": [
-                "CBM2199E",
-                "CBM2199EE",
-                "CBM2199ES",
-                "CBM2199S",
-                "FC1179",
-                "FC1179AB",
-                "FC1179S",
-                "FC2199S",
-                "FC2279AA",
-                "FC2279S"
-            ],
-            "n": [
-                "sndk SDZNNMDHER-16G"
+                "kioxia THC58NVG6D2ET"
             ]
         },
         "98D795453D52": {
@@ -35235,8 +34670,7 @@
                 "kioxia THGBX3G8D4KLA0C",
                 "kioxia THGBX3G9D8KLA0C",
                 "kioxia THGBX5G7D2KLFXG",
-                "kioxia THGBX5G8D4KLDXG",
-                "sndk SDTNQFAMA-008G"
+                "kioxia THGBX5G8D4KLDXG"
             ]
         },
         "98DE94937651": {
@@ -35377,8 +34811,7 @@
                 "kioxia TH58TEG7DDJTA20",
                 "kioxia TH58TEG7DDJTAK0",
                 "kioxia TH58TEG8DDJBA8C",
-                "kioxia THGBX2G7B2JLA01",
-                "sndk SDTNQFAMA-008G"
+                "kioxia THGBX2G7B2JLA01"
             ]
         },
         "98DE949376D0": {
@@ -35428,8 +34861,7 @@
                 "kioxia TH58TEG7DDKBA4C",
                 "kioxia TH58TEG8DDKBA8C",
                 "kioxia TH58TEG8DDKBABC",
-                "kioxia TH58TEG9DDKBAEF",
-                "sndk SDTNQFAMA-008G"
+                "kioxia TH58TEG9DDKBAEF"
             ]
         },
         "98DE949376D1": {
@@ -42211,8 +41643,7 @@
             ],
             "n": [
                 "skhynix HY27UF082G2M",
-                "skhynix HY27UG082G2M",
-                "st NAND02GW3B2BN6"
+                "skhynix HY27UG082G2M"
             ]
         },
         "ADDA801D0000": {
@@ -43984,7 +43415,6 @@
                 "ZC3281"
             ],
             "n": [
-                "intel JS29F256G08EBHAF",
                 "micron MT29F1T08EMHAF",
                 "micron MT29F512G08EEHAF",
                 "spectek FNNB16A256G1DHBAF",
@@ -44061,7 +43491,6 @@
                 "ZC3281"
             ],
             "n": [
-                "intel JS29F256G08EBHAF",
                 "micron MT29F256G08EBHAF"
             ]
         },
@@ -44139,23 +43568,8 @@
                 "ZC3281"
             ],
             "n": [
-                "intel JS29F512G08EBHAF",
                 "micron MT29F1T08EEHAF",
                 "micron MT29F2T08EMHAF"
-            ]
-        },
-        "B5C40832A601": {
-            "t": [
-                "FC1179",
-                "FC1179S",
-                "FC2199S",
-                "FC2279AA",
-                "FC2279S",
-                "FC3379",
-                "ZC3281"
-            ],
-            "n": [
-                "intel JS29F512G08EBHAF"
             ]
         },
         "B5D7943E8000": {
@@ -44521,11 +43935,6 @@
                 "samsung K9DUGB8H1A"
             ]
         },
-        "EC1A3AE57A6C": {
-            "t": [
-                "SM2244LT"
-            ]
-        },
         "EC1A3AE57E7C": {
             "s": 8,
             "b": 96,
@@ -44624,13 +44033,6 @@
             ],
             "n": [
                 "samsung K9GDGD8S0B"
-            ]
-        },
-        "EC1A94A664C7": {
-            "t": [
-                "CBM2199E",
-                "CBM2199EE",
-                "CBM2199ES"
             ]
         },
         "EC1A94C3A4CA": {
@@ -44798,23 +44200,6 @@
             ],
             "n": [
                 "samsung K9PHGY8S5A"
-            ]
-        },
-        "EC1AE57E7CC4": {
-            "s": 8,
-            "p": 128,
-            "b": 8192,
-            "t": [
-                "IS902E",
-                "IS916",
-                "IS916EN",
-                "IS917",
-                "SM2244LT"
-            ]
-        },
-        "EC1C9443A4CA": {
-            "t": [
-                "PS2309"
             ]
         },
         "EC1C945364C9": {
@@ -45075,11 +44460,6 @@
             ],
             "n": [
                 "samsung K9BFGD8U0F"
-            ]
-        },
-        "EC1CE67E7EC4": {
-            "t": [
-                "SM2244LT"
             ]
         },
         "EC1E981F84C2": {
@@ -45871,11 +45251,6 @@
             ],
             "n": [
                 "samsung K9CFGD8U1A"
-            ]
-        },
-        "EC3CE67E7EC4": {
-            "t": [
-                "SM2244LT"
             ]
         },
         "EC3CE9DE88C5": {
@@ -47043,11 +46418,6 @@
                 "samsung K9LCGY8S1B"
             ]
         },
-        "ECA7947E74C4": {
-            "t": [
-                "SM2244LT"
-            ]
-        },
         "ECA798CE74C4": {
             "s": 8,
             "p": 192,
@@ -47212,16 +46582,6 @@
             "n": [
                 "samsung K9ACGD8S0C",
                 "samsung K9ACGD8U0C"
-            ]
-        },
-        "ECAEDEA47A68": {
-            "t": [
-                "SM2244LT"
-            ]
-        },
-        "ECAEE47E78C4": {
-            "t": [
-                "SM2244LT"
             ]
         },
         "ECB694BF64C8": {
@@ -47879,12 +47239,6 @@
             ],
             "n": [
                 "samsung K9G8G08U0C"
-            ]
-        },
-        "ECD5106634C2": {
-            "t": [
-                "SM2246EN",
-                "SM2250"
             ]
         },
         "ECD5106A5442": {
@@ -48717,22 +48071,6 @@
             ],
             "n": [
                 "samsung K9GAGD8U0F"
-            ]
-        },
-        "ECD5949A7442": {
-            "s": 8,
-            "t": [
-                "CBM2098E",
-                "CBM2098P",
-                "CBM2098S",
-                "CBM2099",
-                "CBM2099E",
-                "CBM2099S",
-                "CBM2199",
-                "CBM2199E",
-                "CBM2199EE",
-                "CBM2199ES",
-                "CBM2199S"
             ]
         },
         "ECD598350640": {
@@ -49695,11 +49033,6 @@
                 "samsung K9LCGY8U1B",
                 "samsung K9PFGY8U7B",
                 "samsung K9UHGY8UCB"
-            ]
-        },
-        "ECD7947E74C4": {
-            "t": [
-                "SM2244LT"
             ]
         },
         "ECD7947EAABB": {
@@ -51716,11 +51049,6 @@
                 "samsung K9CDG08U1A"
             ]
         },
-        "ECDEE47E78C4": {
-            "t": [
-                "SM2244LT"
-            ]
-        },
         "ECF100154000": {
             "t": [
                 "SM2242",
@@ -52212,6 +51540,7 @@
             "id": [
                 "8984643CA500"
             ],
+            "l": "L85A",
             "t": [
                 "PS2307",
                 "SM3257ENAA",
@@ -52386,6 +51715,7 @@
                 "8988244BA984",
                 "89A825CBA984"
             ],
+            "l": "L84A",
             "t": [
                 "CBM2098E",
                 "CBM2098P",
@@ -52496,7 +51826,7 @@
                 "8964444BA900",
                 "89A825CBA984"
             ],
-            "l": "20nm",
+            "l": "L84A",
             "t": [
                 "SM3257ENAA",
                 "SM3257ENAA_8CE",
@@ -52553,75 +51883,8 @@
                 "FC3379"
             ]
         },
-        "JS29F02G08AANA2": {
-            "id": [
-                "2CDA80155050"
-            ],
-            "t": [
-                "SM2231",
-                "SM2232",
-                "SM2240",
-                "SM2242",
-                "SM2244LT",
-                "SM2246EN",
-                "SM2250"
-            ]
-        },
-        "JS29F02G08AANB3": {
-            "id": [
-                "2CDA80150000",
-                "2CDA80150480",
-                "2CDA80150680",
-                "2CDA80151000",
-                "2CDA80154600",
-                "2CDA8015D000"
-            ],
-            "t": [
-                "SM2231",
-                "SM2232",
-                "SM2240",
-                "SM2242",
-                "SM2244LT",
-                "SM2246EN",
-                "SM2250",
-                "SM321AC",
-                "SM321BB",
-                "SM321BC",
-                "SM324BB",
-                "SM324BC",
-                "SM3252A",
-                "SM3252B",
-                "SM3252C",
-                "SM3255AA",
-                "SM325AB",
-                "SM325AC"
-            ]
-        },
-        "JS29F02G08BANC1": {
-            "id": [
-                "2CAA80150000",
-                "2CAA80150480",
-                "2CAA80150680",
-                "2CAA80154600"
-            ],
-            "t": [
-                "SM321BB",
-                "SM324BC",
-                "SM3252A",
-                "SM3252B",
-                "SM3252C",
-                "SM3255AA",
-                "SM325AC"
-            ]
-        },
         "JS29F04G08AANB1": {
             "id": [
-                "2CDC90950000",
-                "2CDC90950480",
-                "2CDC90950680",
-                "2CDC90951090",
-                "2CDC90954600",
-                "2CDC90955400",
                 "89DC90955400"
             ],
             "c": "SLC",
@@ -52693,46 +51956,7 @@
                 "SM325AC"
             ]
         },
-        "JS29F04G08BANB3": {
-            "id": [
-                "2CDA8015D000",
-                "2CDC80150000",
-                "2CDC80150480",
-                "2CDC80150680",
-                "2CDC80151000",
-                "2CDC80154600",
-                "2CDC8015D000"
-            ],
-            "t": [
-                "SM2231",
-                "SM2232",
-                "SM2240",
-                "SM2242",
-                "SM2244LT",
-                "SM2246EN",
-                "SM2250",
-                "SM321AC",
-                "SM321BB",
-                "SM321BC",
-                "SM324BB",
-                "SM324BC",
-                "SM3252A",
-                "SM3252B",
-                "SM3252C",
-                "SM3255AA",
-                "SM325AB",
-                "SM325AC"
-            ]
-        },
         "JS29F08G08AAMB1": {
-            "id": [
-                "2CD394A50000",
-                "2CD394A50480",
-                "2CD394A50680",
-                "2CD394A51090",
-                "2CD394A54600",
-                "2CD394A56400"
-            ],
             "c": "MLC",
             "t": [
                 "AU6987(AN)",
@@ -52789,9 +52013,6 @@
         },
         "JS29F08G08AAMC1": {
             "id": [
-                "2CD3942D0480",
-                "2CD3942D0680",
-                "2CD3942D1090",
                 "89D3942D0000",
                 "89D3942D4600",
                 "89D3942D6400"
@@ -52831,7 +52052,6 @@
                 "89D3902E4600",
                 "89D3902E6400"
             ],
-            "l": "50nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -52863,7 +52083,6 @@
             ]
         },
         "JS29F08G08AAND1": {
-            "l": "34nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -52879,7 +52098,6 @@
             ]
         },
         "JS29F08G08AAND2": {
-            "l": "34nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -52895,14 +52113,6 @@
             ]
         },
         "JS29F08G08BANB1": {
-            "id": [
-                "2CD3D1950000",
-                "2CD3D1950480",
-                "2CD3D1950680",
-                "2CD3D1951090",
-                "2CD3D1954600",
-                "2CD3D1955800"
-            ],
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -52928,14 +52138,6 @@
             ]
         },
         "JS29F08G08CANB1": {
-            "id": [
-                "2CDC90950000",
-                "2CDC90950480",
-                "2CDC90950680",
-                "2CDC90951090",
-                "2CDC90954600",
-                "2CDC90955400"
-            ],
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -52960,20 +52162,6 @@
                 "SM325AC"
             ]
         },
-        "JS29F08G08CANB2": {
-            "id": [
-                "2CDC90955400"
-            ],
-            "t": [
-                "SM2231",
-                "SM2232",
-                "SM2240",
-                "SM2242",
-                "SM2244LT",
-                "SM2246EN",
-                "SM2250"
-            ]
-        },
         "JS29F08G08CANC1": {
             "id": [
                 "89DC90950000",
@@ -52994,36 +52182,6 @@
                 "SM3252B",
                 "SM3252C",
                 "SM3255AA",
-                "SM325AC"
-            ]
-        },
-        "JS29F08G08FANB3": {
-            "id": [
-                "2CDC80150000",
-                "2CDC80150480",
-                "2CDC80150680",
-                "2CDC80151000",
-                "2CDC80154600",
-                "2CDC8015D000"
-            ],
-            "t": [
-                "SM2231",
-                "SM2232",
-                "SM2240",
-                "SM2242",
-                "SM2244LT",
-                "SM2246EN",
-                "SM2250",
-                "SM321AC",
-                "SM321BB",
-                "SM321BC",
-                "SM324BB",
-                "SM324BC",
-                "SM3252A",
-                "SM3252B",
-                "SM3252C",
-                "SM3255AA",
-                "SM325AB",
                 "SM325AC"
             ]
         },
@@ -53410,7 +52568,6 @@
             ]
         },
         "JS29F16B08JAND1": {
-            "l": "34nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -53447,7 +52604,6 @@
                 "89D5943E8480",
                 "89D5943E8680"
             ],
-            "l": "50nm",
             "c": "MLC",
             "t": [
                 "AU6987(AN)",
@@ -53490,6 +52646,7 @@
                 "894804468500",
                 "89480446A500"
             ],
+            "l": "L62A",
             "t": [
                 "SM2242",
                 "SM2244LT",
@@ -53530,6 +52687,7 @@
             ]
         },
         "JS29F16G08AAMDB": {
+            "l": "L62A",
             "c": "MLC",
             "t": [
                 "AU6987(AN)",
@@ -53595,7 +52753,6 @@
             ]
         },
         "JS29F16G08AAND1": {
-            "l": "34nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -53617,7 +52774,6 @@
                 "89482026A900",
                 "894880AEA900"
             ],
-            "l": "34nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -53667,14 +52823,6 @@
             ]
         },
         "JS29F16G08CAMB1": {
-            "id": [
-                "2CD394A50000",
-                "2CD394A50480",
-                "2CD394A50680",
-                "2CD394A51090",
-                "2CD394A54600",
-                "2CD394A56400"
-            ],
             "c": "MLC",
             "t": [
                 "AU6987(AN)",
@@ -53740,7 +52888,6 @@
                 "89D3902E6400",
                 "89D3902E64C1"
             ],
-            "l": "50nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -53776,14 +52923,6 @@
             ]
         },
         "JS29F16G08FANB1": {
-            "id": [
-                "2CD3D1950000",
-                "2CD3D1950480",
-                "2CD3D1950680",
-                "2CD3D1951090",
-                "2CD3D1954600",
-                "2CD3D1955800"
-            ],
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -53849,9 +52988,7 @@
                 "89A40832A100",
                 "89A40832A104",
                 "89A40832A108",
-                "89A48832A100",
-                "B5A40832A100",
-                "B5A48832A100"
+                "89A48832A100"
             ],
             "c": "TLC",
             "t": [
@@ -54308,7 +53445,6 @@
                 "89D5943E8480",
                 "89D5943E8680"
             ],
-            "l": "50nm",
             "c": "MLC",
             "t": [
                 "AU6987(AN)",
@@ -54344,7 +53480,6 @@
             ]
         },
         "JS29F32G08CAND1": {
-            "l": "34nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -54364,7 +53499,6 @@
                 "89482026A900",
                 "896880AEA900"
             ],
-            "l": "34nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -54384,29 +53518,7 @@
                 "SM2250"
             ]
         },
-        "JS29F32G08FAM": {
-            "id": [
-                "2CD595A56800"
-            ],
-            "t": [
-                "SM2231",
-                "SM2232",
-                "SM2240",
-                "SM2242",
-                "SM2244LT",
-                "SM2246EN",
-                "SM2250"
-            ]
-        },
         "JS29F32G08FAMB1": {
-            "id": [
-                "2CD5D5A50000",
-                "2CD5D5A54600",
-                "2CD5D5A58000",
-                "2CD5D5A58480",
-                "2CD5D5A58680",
-                "2CD5D5A59090"
-            ],
             "c": "MLC",
             "t": [
                 "AU6987(AN)",
@@ -54471,7 +53583,6 @@
                 "89D5D12E4600",
                 "89D5D12E6800"
             ],
-            "l": "50nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -54523,9 +53634,7 @@
         "JS29F512G08EBHAF": {
             "id": [
                 "89C40832A600",
-                "89C40832A601",
-                "B5C40832A600",
-                "B5C40832A601"
+                "89C40832A601"
             ],
             "c": "TLC",
             "t": [
@@ -54587,6 +53696,7 @@
                 "89A825CBA900",
                 "89C826CBA900"
             ],
+            "l": "L74A",
             "t": [
                 "SM3257ENAA",
                 "SM3257ENAA_8CE",
@@ -54632,6 +53742,7 @@
                 "8988244BA900",
                 "898824CB8900"
             ],
+            "l": "L74A",
             "c": "MLC",
             "t": [
                 "AU6989SN-GTA",
@@ -54747,6 +53858,7 @@
                 "8988285F2800",
                 "8988285FA900"
             ],
+            "l": "B74A",
             "c": "TLC",
             "t": [
                 "AU6989SN",
@@ -55051,7 +54163,6 @@
                 "89D7D53E8480",
                 "89D7D53E8680"
             ],
-            "l": "50nm",
             "c": "MLC",
             "t": [
                 "AU6987(AN)",
@@ -55085,7 +54196,6 @@
             ]
         },
         "JS29F64G08JAND1": {
-            "l": "34nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -55105,7 +54215,6 @@
                 "89482026A900",
                 "898880AEA900"
             ],
-            "l": "34nm",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -55163,6 +54272,16 @@
                 "8984643CA50C"
             ],
             "t": [
+                "AU6989SN-TA",
+                "CBM2098E",
+                "CBM2098P",
+                "CBM2099",
+                "CBM2099E",
+                "CBM2199",
+                "CBM2199E",
+                "CBM2199ES",
+                "IS903",
+                "IS917",
                 "SM2244LT"
             ]
         },
@@ -55241,10 +54360,10 @@
         },
         "PF29F01T2ALCQH1": {
             "id": [
-                "2CD40C32AA00",
                 "89D40C32AA00",
                 "89D48932A600"
             ],
+            "l": "N18A",
             "c": "QLC",
             "t": [
                 "AU6989SN-GTC",
@@ -55279,8 +54398,6 @@
         },
         "PF29F01T2ALCQH2": {
             "id": [
-                "2CE48D32AA00",
-                "2CF48E32AA00",
                 "89D31C32C600"
             ],
             "t": [
@@ -55770,7 +54887,11 @@
                 "89D31C32C600"
             ],
             "t": [
+                "AU6989SN-TA",
+                "CBM2199EE",
+                "INIC6081",
                 "MAS0902",
+                "PS3111",
                 "SM2259XT",
                 "SM2259XT2",
                 "SM2259XT3"
@@ -55815,6 +54936,7 @@
             "id": [
                 "89C40832A600"
             ],
+            "l": "B17A",
             "t": [
                 "MAS0902",
                 "SM2258",
@@ -55921,7 +55043,13 @@
             "id": [
                 "8964643CA508"
             ],
+            "c": "SLC",
             "t": [
+                "CBM2098E",
+                "CBM2098P",
+                "CBM2099",
+                "CBM2099E",
+                "CBM2199",
                 "CBM2199E",
                 "CBM2199EE",
                 "CBM2199ES"
@@ -56343,6 +55471,15 @@
             ],
             "t": [
                 "AU6989SN-TA",
+                "CBM2098E",
+                "CBM2098P",
+                "CBM2099",
+                "CBM2099E",
+                "CBM2199",
+                "CBM2199E",
+                "CBM2199ES",
+                "IS903",
+                "IS917",
                 "JMF608",
                 "JMF670H",
                 "SM2244LT",
@@ -56444,6 +55581,7 @@
                 "89B47834AA01",
                 "89C4E532AA01"
             ],
+            "l": "L06B",
             "c": "MLC",
             "t": [
                 "AU6989SN-GTA",
@@ -56574,9 +55712,9 @@
         },
         "PF29F48B2ALCTG2": {
             "id": [
-                "89B47832AA01",
-                "89B47834AA01"
+                "89B47832AA01"
             ],
+            "l": "B0KB",
             "t": [
                 "SM2258XT",
                 "SM2259XT2",
@@ -56783,7 +55921,6 @@
         },
         "PF29F64B2ALCTJ1": {
             "id": [
-                "2CC40832A200",
                 "89C41832A200",
                 "89C41832A201",
                 "89C41832A205"
@@ -56966,6 +56103,10 @@
                 "89C30832E600"
             ],
             "t": [
+                "AU6989SN-TA",
+                "CBM2199EE",
+                "INIC6081",
+                "PS3111",
                 "SM2259XT",
                 "SM2259XT2",
                 "SM2259XT3"
@@ -56977,6 +56118,13 @@
             ],
             "l": "B27A",
             "t": [
+                "AU6989SN-TA",
+                "INIC6081",
+                "PS2269",
+                "PS2270",
+                "PS2308",
+                "PS2311",
+                "PS3111",
                 "SM2259",
                 "SM2259XT",
                 "SM2259XT2",
@@ -57068,10 +56216,6 @@
             ],
             "l": "B17A",
             "t": [
-                "INIC6081",
-                "PS2308",
-                "PS2309",
-                "PS3111",
                 "SM3270AC",
                 "SM3281AB",
                 "SM3281BB"
@@ -57697,7 +56841,6 @@
         },
         "TC58NVG1S3B": {
             "id": [
-                "45B595A5EA12",
                 "98DA8015C411",
                 "98DA8095C411"
             ],
@@ -57797,7 +56940,6 @@
         },
         "TC58NVG2D4B": {
             "id": [
-                "45CC84A5E012",
                 "98DC84A56012",
                 "98DC84A5D411",
                 "98DC84A5E012"
@@ -58760,7 +57902,6 @@
         },
         "TC58NVG4D2HTA00": {
             "id": [
-                "45DEA48276D7",
                 "98D584327254",
                 "98D584327256",
                 "98D5843272D6",
@@ -58942,7 +58083,6 @@
         },
         "TC58NVG4T2E": {
             "id": [
-                "45D598B27600",
                 "98D598B22800",
                 "98D598B27654"
             ],
@@ -58977,7 +58117,6 @@
         },
         "TC58NVG4T2ETA00": {
             "id": [
-                "45D598B27600",
                 "98D598B24640",
                 "98D598B27654"
             ],
@@ -58999,8 +58138,6 @@
         },
         "TC58NVG4T2F": {
             "id": [
-                "45D588827255",
-                "45D598827255",
                 "98D588827255",
                 "98D598827255"
             ],
@@ -59150,7 +58287,6 @@
         },
         "TC58NVG5D2FTA00": {
             "id": [
-                "45D7943276D5",
                 "98D794327655",
                 "98D7943276D5",
                 "98D7D4327655",
@@ -59537,7 +58673,6 @@
         },
         "TC58NVG5T2FTA00": {
             "id": [
-                "453A97327ED5",
                 "984C9BB27ED5",
                 "989798827655",
                 "98C798827655",
@@ -59841,8 +58976,6 @@
         },
         "TC58NVG6D2F": {
             "id": [
-                "4548943276D5",
-                "456895327AD5",
                 "98EE95327A55"
             ],
             "t": [
@@ -60252,7 +59385,6 @@
         },
         "TC58NVG6DDJTA00": {
             "id": [
-                "453CA6927E57",
                 "98DE94937657"
             ],
             "l": "TSB19",
@@ -60317,10 +59449,6 @@
         },
         "TC58NVG6DDLTA00": {
             "id": [
-                "453A95937A51",
-                "453A95937AD1",
-                "45DE94937651",
-                "45DE949376D1",
                 "983A95937AD1",
                 "983E97937E51",
                 "983EA6937E51",
@@ -60383,9 +59511,6 @@
         },
         "TC58NVG6T2HTA00": {
             "id": [
-                "453E9B927E56",
-                "454C99927656",
-                "454C999276D6",
                 "984C99927656",
                 "98DE98927256"
             ],
@@ -60452,8 +59577,6 @@
         },
         "TC58NVG6T2JTA00": {
             "id": [
-                "453C9A927A57",
-                "453E9B927E57",
                 "983A99927657",
                 "983A999276D7",
                 "98DE98927257",
@@ -60587,9 +59710,6 @@
             ]
         },
         "TC58NVG6TCKTA00": {
-            "id": [
-                "453E9B927E50"
-            ],
             "l": "TSB1Y",
             "t": [
                 "SM3259AA",
@@ -60668,11 +59788,6 @@
         },
         "TC58NVG7DDLTA00": {
             "id": [
-                "453A94937651",
-                "453A949376D1",
-                "453C95937A51",
-                "453C95937AD1",
-                "453E96937E51",
                 "983A94937651",
                 "983A949376D1",
                 "983A95937A51",
@@ -60848,7 +59963,6 @@
         },
         "TC58NVG7TDKTA00": {
             "id": [
-                "453CA9927A50",
                 "983AA8927650",
                 "983AA89276D0",
                 "983CA9927A50",
@@ -60868,7 +59982,6 @@
         },
         "TC58NVG8D2FTA00": {
             "id": [
-                "454A97327E54",
                 "984A96327E54"
             ],
             "l": "TSB43",
@@ -61021,7 +60134,6 @@
         },
         "TC58TEG5D2FTA00": {
             "id": [
-                "456895327AD5",
                 "98D794327655",
                 "98D7943276D5"
             ],
@@ -61189,7 +60301,6 @@
         },
         "TC58TEG5DCLTA00": {
             "id": [
-                "45D784937251",
                 "983CA5937E51",
                 "983CA5937ED1",
                 "98D784937251",
@@ -61343,7 +60454,6 @@
         },
         "TC58TEG6D2JTA00": {
             "id": [
-                "45DE948376D7",
                 "983AA5827AD7",
                 "98DE948376D7",
                 "98DEA48276D7"
@@ -61457,9 +60567,6 @@
         },
         "TC58TEG6DDJTA00": {
             "id": [
-                "453A95937A57",
-                "453A95937AD7",
-                "45DE949376D7",
                 "983A95937A57",
                 "983A95937AD7",
                 "98DE948376D7",
@@ -61793,7 +60900,6 @@
         },
         "TC58TEG6TCKTA00": {
             "id": [
-                "454CA5827A56",
                 "983AA8927650",
                 "98DE98927250",
                 "98DE989272D0"
@@ -62217,8 +61323,6 @@
         },
         "TC58TEG7THLTA00": {
             "id": [
-                "453A98A37651",
-                "453A98A376D1",
                 "983A98A33651",
                 "983A98A37651",
                 "983A98A376D1",
@@ -62350,7 +61454,6 @@
         },
         "TC58TEG8T22TA0D": {
             "id": [
-                "453C98B376F1",
                 "983C98B376F1"
             ],
             "t": [
@@ -62443,7 +61546,6 @@
         },
         "TC58TFG7DDLTA00": {
             "id": [
-                "453A94937651",
                 "983A94937651",
                 "983AA4937651"
             ],
@@ -62785,7 +61887,6 @@
         },
         "TC58TFT9T22TA0D": {
             "id": [
-                "45499BB37E71",
                 "983E99B37A71",
                 "983E99B37AF1"
             ],
@@ -63101,8 +62202,6 @@
         },
         "TH58LJB4F24BA8K": {
             "id": [
-                "45739CB376E3",
-                "45739CB376EB",
                 "98739CB376E3",
                 "98739CB376EB",
                 "98779DB37AE3"
@@ -63566,8 +62665,6 @@
         },
         "TH58LKT1X46BA4K": {
             "id": [
-                "453EA8037A65",
-                "453EA8037AE5",
                 "983EA8037A65",
                 "983EA8037AE5"
             ],
@@ -63582,15 +62679,6 @@
             ],
             "t": [
                 "IS918EN"
-            ]
-        },
-        "TH58LKT2F48BA8R": {
-            "id": [
-                "4540AE03F2E6",
-                "4548AC037AE6"
-            ],
-            "t": [
-                "SM2259XT3"
             ]
         },
         "TH58LKT2T25BA8H": {
@@ -64592,8 +63680,6 @@
         },
         "TH58NVG6D2ELA48": {
             "id": [
-                "45D794327654",
-                "45D7943276D4",
                 "98D794320000",
                 "98D794327654",
                 "98D7943276D4"
@@ -65649,7 +64735,6 @@
         },
         "TH58NVG8D7FBAK0": {
             "id": [
-                "454A96327ED5",
                 "984A96327E55"
             ],
             "t": [
@@ -65713,9 +64798,6 @@
         },
         "TH58NVG8DCJTA20": {
             "id": [
-                "453C86937A57",
-                "453C96827E56",
-                "453EA7827E56",
                 "983A85937657",
                 "983A859376D7"
             ],
@@ -67219,9 +66301,6 @@
         },
         "TH58TEG8DCJTA20": {
             "id": [
-                "453C86937A57",
-                "453C96827E56",
-                "453EA7827E56",
                 "983A85937657",
                 "983A859376D7",
                 "98DE849372D7"
@@ -67726,7 +66805,6 @@
         },
         "TH58TEG9D2JBAS9": {
             "id": [
-                "453CA6827E56",
                 "983AA5827AD7"
             ],
             "t": [
@@ -67901,7 +66979,6 @@
         },
         "TH58TEG9DDLTA00": {
             "id": [
-                "453C95937A51",
                 "983C95937A51",
                 "983C95937AD1"
             ],
@@ -68571,7 +67648,6 @@
         },
         "TH58TFG9T22BA4C": {
             "id": [
-                "454CA89276D0",
                 "983C98B37671",
                 "983C98B376F1",
                 "983C98B376F2"
@@ -68650,7 +67726,6 @@
         },
         "TH58TFG9T23TA2D": {
             "id": [
-                "453E98B376F2",
                 "983C98B37672",
                 "983C98B376F2",
                 "983E98B37672",
@@ -69060,7 +68135,6 @@
         },
         "TH58TFT0T23TA2H": {
             "id": [
-                "453E99B37A72",
                 "983E99B37A72",
                 "983E99B37AF2"
             ],
@@ -72227,7 +71301,7 @@
                 "2C4800268000",
                 "2C4800268900"
             ],
-            "l": "34nm",
+            "l": "M62B",
             "c": "SLC",
             "t": [
                 "AU6989SN-GTA",
@@ -75264,7 +74338,7 @@
                 "2C4800268000",
                 "2C4800268900"
             ],
-            "l": "34nm",
+            "l": "M72A",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -76515,7 +75589,7 @@
                 "2CD39C32C600",
                 "2CD40C32AA00"
             ],
-            "l": "M26",
+            "l": "N28A",
             "t": [
                 "AU6989SN-TA",
                 "CBM2199",
@@ -77622,7 +76696,7 @@
                 "2C6801A64600",
                 "2C6801A68900"
             ],
-            "l": "34nm",
+            "l": "M62B",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -78167,6 +77241,7 @@
                 "2C844434AA00",
                 "B5644432A500"
             ],
+            "l": "L04A",
             "c": "SLC",
             "t": [
                 "AU6989SN-GTC",
@@ -78869,7 +77944,7 @@
                 "2C3800268000",
                 "2C3800268500"
             ],
-            "l": "34nm",
+            "l": "M61A",
             "c": "SLC",
             "t": [
                 "AU6987(AN)",
@@ -88334,7 +87409,7 @@
             "id": [
                 "ECAEB8DE86C5"
             ],
-            "l": "1ynm",
+            "l": "SS19",
             "t": [
                 "AU6989SN-TA",
                 "CBM2099E",
@@ -89487,7 +88562,7 @@
             "id": [
                 "EC3AC9BF94C6"
             ],
-            "l": "1ynm",
+            "l": "SS16",
             "t": [
                 "CBM2099E",
                 "CBM2199",
@@ -89604,7 +88679,7 @@
             "id": [
                 "EC3CD9BF98C6"
             ],
-            "l": "1ynm",
+            "l": "SS16",
             "t": [
                 "SM3257ENBA",
                 "SM3257ENBB",
@@ -92511,7 +91586,7 @@
                 "EC3A94C3A4CA",
                 "ECDE94C3A4CA"
             ],
-            "l": "1znm",
+            "l": "SS14",
             "t": [
                 "AU6989SN-TA",
                 "CBM2199",
@@ -92656,6 +91731,12 @@
             ],
             "l": "SS14",
             "t": [
+                "CBM2099E",
+                "CBM2199",
+                "CBM2199E",
+                "CBM2199ES",
+                "INIC6081",
+                "PS3111",
                 "SM2258XT",
                 "SM2259XT2",
                 "SM2259XT3",
@@ -95510,9 +94591,19 @@
             "id": [
                 "EC3AE57E7CC4"
             ],
+            "c": "MLC",
             "t": [
+                "CBM2098E",
+                "CBM2098P",
+                "CBM2099",
+                "CBM2099E",
+                "CBM2199",
                 "CBM2199E",
-                "CBM2199EE"
+                "CBM2199EE",
+                "IS902E",
+                "IS916",
+                "IS916EN",
+                "IS917"
             ]
         },
         "K9PHGD8U5M": {
@@ -95557,6 +94648,10 @@
             ],
             "t": [
                 "AU6989SN-TA",
+                "IS902E",
+                "IS916",
+                "IS916EN",
+                "IS917",
                 "SM2246EN"
             ]
         },
@@ -95605,7 +94700,11 @@
                 "EC3AE57A6CC4"
             ],
             "t": [
-                "AU6989SN-TA"
+                "AU6989SN-TA",
+                "IS902E",
+                "IS916",
+                "IS916EN",
+                "IS917"
             ]
         },
         "K9PHGY8U7A": {
@@ -103114,11 +102213,6 @@
                 "CBM2199E"
             ]
         },
-        "DFT128GWD8D1KTJ": {
-            "id": [
-                "984CA0927657"
-            ]
-        },
         "DTNQFAMA-008G": {
             "id": [
                 "5DE949383765"
@@ -104234,8 +103328,7 @@
                 "45D794327655",
                 "45D7943276D5",
                 "45D798827655",
-                "45D7988276D5",
-                "98D795327A54"
+                "45D7988276D5"
             ],
             "l": "SNK43M",
             "c": "MLC",
@@ -104464,8 +103557,7 @@
             "id": [
                 "45C598B27654",
                 "45D5943276D5",
-                "45D598B27654",
-                "98D5943276D5"
+                "45D598B27654"
             ],
             "t": [
                 "CBM2093P",
@@ -104689,8 +103781,7 @@
                 "454A96327ED5",
                 "45CE96327E54",
                 "45CE96327ED4",
-                "45D7943276D5",
-                "984A96327E55"
+                "45D7943276D5"
             ],
             "l": "SNK32M",
             "c": "MLC",
@@ -105806,8 +104897,7 @@
         "SDTNPMCHEM-032G6D2H": {
             "id": [
                 "453AA5827A56",
-                "454CA5827A56",
-                "983AA5827AD6"
+                "454CA5827A56"
             ],
             "t": [
                 "FC1179",
@@ -106124,8 +105214,7 @@
         "SDTNPNBHEM-016G": {
             "id": [
                 "453A99927656",
-                "454C99927656",
-                "984C99927656"
+                "454C99927656"
             ],
             "l": "SNK24T",
             "c": "TLC",
@@ -106242,8 +105331,7 @@
                 "454C95827AD6",
                 "45DE94827656",
                 "45DE95827A56",
-                "45DE95827AD6",
-                "983A95827AD6"
+                "45DE95827AD6"
             ],
             "l": "SNK24M",
             "c": "MLC",
@@ -106998,15 +106086,7 @@
                 "45DE94937657",
                 "45DE949376D0",
                 "45DE949376D7",
-                "45DE96937E57",
-                "983AA4937A50",
-                "983AA4937AD0",
-                "983C9693F457",
-                "983CA5937E50",
-                "983CA5937ED0",
-                "98DE94937650",
-                "98DE94937657",
-                "98DE949376D0"
+                "45DE96937E57"
             ],
             "l": "SNK19M",
             "c": "MLC",
@@ -107068,9 +106148,7 @@
                 "453EA6937E50",
                 "453EA6937ED0",
                 "4548A7937E50",
-                "4548A7977E50",
-                "983EA6937E50",
-                "983EA6937ED0"
+                "4548A7977E50"
             ],
             "t": [
                 "CBM2199E",
@@ -108143,8 +107221,7 @@
         "SDTNRIAMA-016GK": {
             "id": [
                 "454CA8927650",
-                "454CA89276D0",
-                "984CA8927650"
+                "454CA89276D0"
             ],
             "l": "SNK1Y",
             "t": [
@@ -108372,8 +107449,7 @@
                 "453E9AA37ED1",
                 "45489BA37E51",
                 "454C98A37651",
-                "454C98A376D1",
-                "984C98A37651"
+                "454C98A376D1"
             ],
             "t": [
                 "FC1179",
@@ -109822,25 +108898,7 @@
                 "45499AB37E63",
                 "45499AB37E6B",
                 "45499AB3FE6B",
-                "45499B03F26C",
-                "983E980376EC",
-                "983E99B37A63",
-                "983E99B37AE3",
-                "983E99B37AEB",
-                "983E99B3FA63",
-                "983E99B3FA6B",
-                "983E99B3FAE3",
-                "983EA8037A64",
-                "983EA8037AE4",
-                "984899037AE4",
-                "984899037AEC",
-                "984899B37A6B",
-                "984899B37AE3",
-                "984899B37AEB",
-                "984899B37AF2",
-                "984899B3FA63",
-                "984899B3FAE3",
-                "98499AB3FE6B"
+                "45499B03F26C"
             ],
             "l": "SBiCS4",
             "c": "TLC",
@@ -109914,15 +108972,7 @@
                 "4549A9037E65",
                 "4549A9037EE5",
                 "45739CB3766B",
-                "45739CB376E3",
-                "9848A8037A65",
-                "9848A8037AE5",
-                "984999037AE4",
-                "9849A9037E65",
-                "9849A9037EE5",
-                "98739C0376E4",
-                "98739CB3766B",
-                "98739CB376E3"
+                "45739CB376E3"
             ],
             "c": "QLC",
             "t": [
@@ -110522,8 +109572,7 @@
             "id": [
                 "454898037664",
                 "45489803766C",
-                "45489C037664",
-                "98739C0376E4"
+                "45489C037664"
             ],
             "l": "SBiCS5",
             "t": [
@@ -110978,11 +110027,7 @@
                 "45409BB37E72",
                 "45489AB37E72",
                 "45499AB37E72",
-                "45499BB37E72",
-                "983E99B37A72",
-                "983E99B37AF2",
-                "98409BB37E72",
-                "98499AB37E72"
+                "45499BB37E72"
             ],
             "t": [
                 "FC1179",
@@ -111027,18 +110072,6 @@
             "t": [
                 "FC3379",
                 "ZC3281"
-            ]
-        },
-        "SDYNAIAMA-64G": {
-            "id": [
-                "984899B37A72"
-            ],
-            "t": [
-                "FC1179",
-                "FC1179S",
-                "FC2199S",
-                "FC2279AA",
-                "FC2279S"
             ]
         },
         "SDYNAIBMA-064G": {
@@ -112352,9 +111385,7 @@
                 "4548943276D5",
                 "45C7943276D4",
                 "45C7943276D5",
-                "45C7988276D5",
-                "98CE95327A55",
-                "98D795327A55"
+                "45C7988276D5"
             ],
             "t": [
                 "CBM2093P",
@@ -112960,7 +111991,6 @@
                 "2CA46432AA05",
                 "B5A46432AA04"
             ],
-            "l": "L06B",
             "t": [
                 "INIC6081",
                 "PS3111",
@@ -112975,23 +112005,10 @@
             "id": [
                 "B5A46432AA04"
             ],
-            "l": "L06B",
             "t": [
                 "SM3267AE",
                 "SM3268AA",
                 "SM3269AA"
-            ]
-        },
-        "FBNL52A32K3W2": {
-            "id": [
-                "89D5943E4600",
-                "89D5943E8000"
-            ],
-            "t": [
-                "SM3252A",
-                "SM3252B",
-                "SM3252C",
-                "SM3255AA"
             ]
         },
         "FBNL52A64K3W4": {
@@ -113021,7 +112038,6 @@
         "FBNL63A51K3WG": {
             "id": [
                 "2CD7943E8000",
-                "89D7943E8000",
                 "B5D7943E8000"
             ],
             "t": [
@@ -114109,8 +113125,7 @@
         },
         "NAND02GW3B2BN6": {
             "id": [
-                "20DA8015ADDA",
-                "ADDA8015ADDA"
+                "20DA8015ADDA"
             ],
             "t": [
                 "SM2231",
@@ -115285,6 +114300,7 @@
                 "9BC529492000",
                 "9BD5588D2000"
             ],
+            "l": "TAS",
             "t": [
                 "AU6989SN-TA",
                 "SM3265AB",

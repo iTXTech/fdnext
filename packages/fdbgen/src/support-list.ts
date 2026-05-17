@@ -78,8 +78,29 @@ export function vendorFromSupportListFlashId(id: string): string | null {
   }
 }
 
+export function strictVendorFromSupportListFlashId(id: string): string | null {
+  const prefix = id.slice(0, 2).toUpperCase();
+  if (prefix === "B5") {
+    return "spectek";
+  }
+  return vendorFromSupportListFlashId(id);
+}
+
+export function isStrictSupportListFlashIdVendorCompatible(vendor: string, id: string): boolean {
+  const owner = strictVendorFromSupportListFlashId(id);
+  if (!owner) {
+    return true;
+  }
+  const normalizedVendor = normalizeFdbVendorName(vendor);
+  return (
+    owner === normalizedVendor ||
+    (owner === "micron" && normalizedVendor === "spectek") ||
+    (owner === "spectek" && normalizedVendor === "micron")
+  );
+}
+
 function partVendorFromFlashId(id: string): string | null {
-  return id.slice(0, 2).toUpperCase() === "B5" ? "spectek" : vendorFromSupportListFlashId(id);
+  return strictVendorFromSupportListFlashId(id);
 }
 
 export function normalizeSupportListControllerName(value: unknown): string | undefined {

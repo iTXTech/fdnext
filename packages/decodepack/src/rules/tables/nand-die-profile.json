@@ -1,10 +1,4 @@
 {
-  "1ynm": {
-    "die_codename": "1ynm"
-  },
-  "1znm": {
-    "die_codename": "1znm"
-  },
   "14nm": {
     "die_codename": "14nm"
   },
@@ -85,15 +79,6 @@
   },
   "A19nm": {
     "die_codename": "A19nm"
-  },
-  "M26": {
-    "die_codename": "M26"
-  },
-  "N18": {
-    "die_codename": "N18"
-  },
-  "N38": {
-    "die_codename": "N38"
   },
   "B05A": {
     "die_codename": "B05A",

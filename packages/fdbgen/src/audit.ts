@@ -10,6 +10,7 @@ import {
 import { isGeneratedFdbDieProfile } from "./nand-die-profile";
 import { hasVendorIdentityConflict, partNameAuditSignals } from "./part-name-rules";
 import { isControllerOnlyPartPayload } from "./part-payload";
+import { isStrictSupportListFlashIdVendorCompatible } from "./support-list";
 import type { FdbProvenanceRecord, FdbProvenanceSource, FdbProvenanceTrace } from "./trace";
 import type { FlashIdPayload, PartNumberPayload } from "./types";
 import { isCompatibleVendor } from "./vendor-compat";
@@ -208,6 +209,10 @@ function addFlashIdReference(
     collector.add("flash_id.missing_iddb", "error", "Part-number Flash ID references must exist in iddb.", sample, sourceTrace);
     return;
   }
+  if (field === "id" && !isStrictSupportListFlashIdVendorCompatible(vendor, flashId)) {
+    collector.add("part.flash_id_vendor_mismatch", "error", "PN id references must belong to the same vendor bucket.", sample, sourceTrace);
+    return;
+  }
   let fanout = idFanout.get(flashId);
   if (!fanout) {
     fanout = new Set<string>();
@@ -380,6 +385,10 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
       }
       if (!allPartKeys.has(normalized)) {
         collector.add("reference.missing_iddb_n", "error", "iddb.n reverse references must point to existing vendor PN records.", `${flashId}.n -> ${reference}`, flashTrace);
+      }
+      const referenceVendor = normalized.split(" ", 1)[0] ?? "";
+      if (!isStrictSupportListFlashIdVendorCompatible(referenceVendor, flashId)) {
+        collector.add("iddb.flash_id_vendor_mismatch", "error", "iddb.n reverse references must belong to the Flash ID vendor.", `${flashId}.n -> ${reference}`, flashTrace);
       }
     }
 

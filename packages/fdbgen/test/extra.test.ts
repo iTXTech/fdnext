@@ -141,6 +141,53 @@ test("generated fdb validator forbids fid and checks iddb reverse references", (
   assert.ok(validation.errors.some((issue) => issue.code === "part.invalid_die_profile"));
   assert.ok(validation.errors.some((issue) => issue.code === "reference.missing_iddb_n"));
 
+  const vendorMismatch = validateFdbPayload({
+    schemaVersion: "fdnext.fdb.v1",
+    info: { version: "test" },
+    micron: {
+      MT29F128G08EBEBB: {
+        id: ["89844432AA04"]
+      }
+    },
+    intel: {
+      PF29F32B2ALCMG2: {
+        id: ["89844432AA04"]
+      }
+    },
+    iddb: {
+      "89844432AA04": {
+        n: ["micron MT29F128G08EBEBB", "intel PF29F32B2ALCMG2"]
+      }
+    }
+  });
+  assert.equal(vendorMismatch.ok, false);
+  assert.ok(vendorMismatch.errors.some((issue) => issue.code === "part.flash_id_vendor_mismatch"));
+  assert.ok(vendorMismatch.errors.some((issue) => issue.code === "iddb.flash_id_vendor_mismatch"));
+
+  const specTekMicronException = validateFdbPayload({
+    schemaVersion: "fdnext.fdb.v1",
+    info: { version: "test" },
+    micron: {
+      MT29F128G08EBEBB: {
+        id: ["B5844432AA04"]
+      }
+    },
+    spectek: {
+      FBNL06B256G1KDBAB: {
+        id: ["2C844863A904"]
+      }
+    },
+    iddb: {
+      B5844432AA04: {
+        n: ["micron MT29F128G08EBEBB", "spectek FBNL06B256G1KDBAB"]
+      },
+      "2C844863A904": {
+        n: ["micron MT29F128G08EBEBB", "spectek FBNL06B256G1KDBAB"]
+      }
+    }
+  });
+  assert.equal(specTekMicronException.ok, true);
+
   const validProfile = validateFdbPayload({
     schemaVersion: "fdnext.fdb.v1",
     info: { version: "test" },
@@ -179,10 +226,15 @@ test("normalizes generated FDB l fields to NAND die profile keys", () => {
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "238L 3DV8", "QLC"), "HYV8Q");
   assert.equal(normalizeGeneratedFdbDieProfile("unknown", "3DV4", "TLC"), undefined);
   assert.equal(normalizeGeneratedFdbDieProfile("unknown", "3DV4P5", "TLC"), undefined);
+  assert.equal(normalizeGeneratedFdbDieProfile("unknown", "1ynm", "TLC"), undefined);
+  assert.equal(normalizeGeneratedFdbDieProfile("unknown", "1znm", "MLC"), undefined);
+  assert.equal(normalizeGeneratedFdbDieProfile("unknown", "A19nm", "MLC"), "A19nm");
   assert.equal(normalizeGeneratedFdbDieProfile("micron", "B74", "TLC"), "B74A");
   assert.equal(normalizeGeneratedFdbDieProfile("micron", "B95", "TLC"), "B95A");
   assert.equal(normalizeGeneratedFdbDieProfile("micron", "L62", "MLC"), "L62A");
   assert.equal(normalizeGeneratedFdbDieProfile("intel", "L74", "MLC"), "L74A");
+  assert.equal(normalizeGeneratedFdbDieProfile("intel", "25nm", "MLC"), undefined);
+  assert.equal(normalizeGeneratedFdbDieProfile("intel", "34nm", "MLC"), undefined);
   assert.equal(normalizeGeneratedFdbDieProfile("intel", "L84", "MLC"), undefined);
   assert.equal(normalizeGeneratedFdbDieProfile("intel", "L84A", "MLC"), "L84A");
   assert.equal(normalizeGeneratedFdbDieProfile("intel", "L84C", "MLC"), "L84C");
@@ -215,6 +267,123 @@ test("normalizes generated FDB l fields to NAND die profile keys", () => {
     const fdb = generateFdb({ inputDir, version: "test" });
     const ymtc = fdb.ymtc as Record<string, { l?: string }>;
     assert.equal(ymtc.YMN09TC1B1DC6C?.l, "TAS");
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
+});
+
+test("fdbgen keeps specific die profiles and drops Intel fallback litho", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-litho-"));
+  try {
+    mkdirSync(join(inputDir, "vendors"), { recursive: true });
+    writeFileSync(
+      join(inputDir, "fdb.json"),
+      JSON.stringify({
+        info: { version: "raw" },
+        micron: {
+          MT29F64G08EBAAA: {
+            id: ["2C88085F2800"],
+            l: "B74A",
+            c: "TLC",
+            t: ["RAWCTRL"]
+          }
+        },
+        intel: {
+          PF29F64B2AMCTH2: {
+            id: ["89A46432AA04"],
+            l: "25nm",
+            c: "MLC",
+            t: ["RAWCTRL"]
+          }
+        },
+        iddb: {
+          "2C88085F2800": {
+            t: ["RAWCTRL"]
+          },
+          "89A46432AA04": {
+            t: ["RAWCTRL"]
+          }
+        }
+      }),
+      "utf8"
+    );
+    writeFileSync(
+      join(inputDir, "vendors", "micron.json"),
+      JSON.stringify({
+        MT29F64G08EBAAA: {
+          id: ["2C88085F2800"],
+          l: "25nm",
+          c: "TLC",
+          t: ["NEWCTRL"]
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const micron = fdb.micron as Record<string, { l?: string }>;
+    const intel = fdb.intel as Record<string, { l?: string }>;
+    assert.equal(micron.MT29F64G08EBAAA?.l, "B74A");
+    assert.equal(intel.PF29F64B2AMCTH2?.l, undefined);
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
+});
+
+test("fdbgen prunes cross-vendor PN ids and iddb references", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-id-owner-"));
+  try {
+    writeFileSync(
+      join(inputDir, "fdb.json"),
+      JSON.stringify({
+        info: { version: "raw" },
+        micron: {
+          MT29F128G08EBEBB: {
+            id: ["2C844863A904", "89844432AA04", "B5844432AA04"],
+            t: ["RAWCTRL"]
+          }
+        },
+        intel: {
+          PF29F32B2ALCMG2: {
+            id: ["2C844863A904", "89844432AA04", "B5844432AA04"],
+            t: ["RAWCTRL"]
+          }
+        },
+        spectek: {
+          FBNL06B256G1KDBAB: {
+            id: ["2C844863A904", "89844432AA04", "B5844432AA04"],
+            t: ["RAWCTRL"]
+          }
+        },
+        iddb: {
+          "2C844863A904": {
+            t: ["RAWCTRL"],
+            n: ["micron MT29F128G08EBEBB", "intel PF29F32B2ALCMG2", "spectek FBNL06B256G1KDBAB"]
+          },
+          "89844432AA04": {
+            t: ["RAWCTRL"],
+            n: ["micron MT29F128G08EBEBB", "intel PF29F32B2ALCMG2", "spectek FBNL06B256G1KDBAB"]
+          },
+          B5844432AA04: {
+            t: ["RAWCTRL"],
+            n: ["micron MT29F128G08EBEBB", "intel PF29F32B2ALCMG2", "spectek FBNL06B256G1KDBAB"]
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const micron = fdb.micron as Record<string, { id?: string[] }>;
+    const intel = fdb.intel as Record<string, { id?: string[] }>;
+    const spectek = fdb.spectek as Record<string, { id?: string[] }>;
+    const iddb = fdb.iddb as Record<string, { n?: string[] }>;
+    assert.deepEqual(micron.MT29F128G08EBEBB?.id, ["2C844863A904", "B5844432AA04"]);
+    assert.deepEqual(intel.PF29F32B2ALCMG2?.id, ["89844432AA04"]);
+    assert.deepEqual(spectek.FBNL06B256G1KDBAB?.id, ["2C844863A904", "B5844432AA04"]);
+    assert.deepEqual(iddb["2C844863A904"]?.n, ["micron MT29F128G08EBEBB", "spectek FBNL06B256G1KDBAB"]);
+    assert.deepEqual(iddb["89844432AA04"]?.n, ["intel PF29F32B2ALCMG2"]);
+    assert.deepEqual(iddb.B5844432AA04?.n, ["micron MT29F128G08EBEBB", "spectek FBNL06B256G1KDBAB"]);
   } finally {
     rmSync(inputDir, { recursive: true, force: true });
   }

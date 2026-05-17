@@ -117,6 +117,8 @@ export {
   normalizeSupportListFlashId,
   parseSupportListControllerList,
   resolveSupportListPartRecord,
+  isStrictSupportListFlashIdVendorCompatible,
+  strictVendorFromSupportListFlashId,
   supportListVendorCandidates,
   vendorFromSupportListFlashId
 } from "./support-list";

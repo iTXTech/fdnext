@@ -11,13 +11,13 @@ import {
   isAuthoritativeFdbPartNumber
 } from "./normalize";
 import { isLowInformationPartPayload } from "./part-payload";
-import { vendorFromSupportListFlashId } from "./support-list";
+import { isStrictSupportListFlashIdVendorCompatible, vendorFromSupportListFlashId } from "./support-list";
 import { createFdbProvenanceTrace, mergeProvenanceSource, type FdbProvenanceSource, type FdbProvenanceTrace } from "./trace";
 import { FDNEXT_FDB_SCHEMA_VERSION } from "./types";
 import type { ExtraPayload, FdbInfoPayload, FlashIdPayload, GenerateFdbOptions, PartNumberPayload } from "./types";
 import { isCompatibleVendor } from "./vendor-compat";
 import { inferVendorFromPartNumber, normalizeKnownPackage, normalizeVendor } from "./vendors";
-import { normalizeGeneratedFdbDieProfile } from "./nand-die-profile";
+import { chooseGeneratedFdbDieProfile, normalizeGeneratedFdbDieProfile } from "./nand-die-profile";
 
 type PartNumberMap = Map<string, PartNumberPayload>;
 type VendorMap = Map<string, PartNumberMap>;
@@ -150,7 +150,7 @@ function filterControllerArray(controllers: string[] | undefined, blacklist: Set
   return filtered.length > 0 ? filtered : undefined;
 }
 
-function mergePartNumber(target: PartNumberPayload | undefined, source: unknown): PartNumberPayload {
+function mergePartNumber(vendor: string, target: PartNumberPayload | undefined, source: unknown): PartNumberPayload {
   const src = asRecord(source);
   const out: PartNumberPayload = { ...(target ?? {}) };
 
@@ -176,11 +176,14 @@ function mergePartNumber(target: PartNumberPayload | undefined, source: unknown)
     out.t = mergeStringArray(out.t, controllers, false);
   }
 
-  if (typeof src.l === "string") {
-    out.l = src.l;
-  }
   if (typeof src.c === "string") {
     out.c = src.c;
+  }
+  const chosenLitho = chooseGeneratedFdbDieProfile(vendor, out.l, typeof src.l === "string" ? src.l : undefined, out.c);
+  if (chosenLitho !== undefined) {
+    out.l = chosenLitho;
+  } else {
+    delete out.l;
   }
   if (typeof src.m === "string") {
     out.m = src.m;
@@ -376,7 +379,7 @@ function mergePartPayload(
   }
   const correctedVendor = inferVendorFromPartNumber(normalizedPn) ?? normalizeVendor(vendor);
   const vendorMap = ensureVendor(vendors, correctedVendor);
-  const next = mergePartNumber(vendorMap.get(normalizedPn), payload);
+  const next = mergePartNumber(correctedVendor, vendorMap.get(normalizedPn), payload);
   vendorMap.set(normalizedPn, next);
   recordPartTrace(trace, decision, source, vendor, partNumber, correctedVendor, normalizedPn);
   return next;
@@ -615,14 +618,14 @@ function canonicalPartNumber(partNumber: string, records: PartNumberMap): string
 }
 
 function canonicalizeVendorRecords(vendors: VendorMap): void {
-  for (const records of vendors.values()) {
+  for (const [vendor, records] of vendors.entries()) {
     for (const [partNumber, payload] of [...records.entries()]) {
       const canonical = canonicalPartNumber(partNumber, records);
       if (canonical === partNumber) {
         continue;
       }
       const existing = records.get(canonical);
-      records.set(canonical, mergePartNumber(existing, payload));
+      records.set(canonical, mergePartNumber(vendor, existing, payload));
       records.delete(partNumber);
     }
   }
@@ -637,6 +640,23 @@ function pruneLowInformationPartRecords(vendors: VendorMap): void {
     }
     if (records.size === 0) {
       vendors.delete(vendor);
+    }
+  }
+}
+
+function isFlashIdOwnedByVendor(vendor: string, flashId: string): boolean {
+  return isStrictSupportListFlashIdVendorCompatible(vendor, flashId);
+}
+
+function pruneCrossVendorPartIds(vendors: VendorMap): void {
+  for (const [vendor, records] of vendors.entries()) {
+    for (const payload of records.values()) {
+      const ids = payload.id?.filter((id) => isFlashIdOwnedByVendor(vendor, id));
+      if (ids && ids.length > 0) {
+        payload.id = ids;
+      } else {
+        delete payload.id;
+      }
     }
   }
 }
@@ -712,7 +732,15 @@ function canonicalizePartReference(value: string, vendors: VendorMap): string | 
 
 function canonicalizeIddbReferences(iddb: FlashIdMap, vendors: VendorMap): void {
   for (const [flashId, payload] of iddb.entries()) {
-    const refs = (payload.n ?? []).map((item) => canonicalizePartReference(item, vendors)).filter((item): item is string => !!item);
+    const refs = (payload.n ?? [])
+      .map((item) => canonicalizePartReference(item, vendors))
+      .filter((item): item is string => {
+        if (!item) {
+          return false;
+        }
+        const vendor = item.split(" ", 1)[0] ?? "";
+        return isStrictSupportListFlashIdVendorCompatible(vendor, flashId);
+      });
     iddb.set(flashId, {
       ...payload,
       ...(refs.length > 0 ? { n: mergeStringArray([], refs, false) } : { n: undefined })
@@ -1080,6 +1108,8 @@ function generateFdbInternal(options: GenerateFdbOptions, trace?: FdbProvenanceT
   canonicalizeVendorRecords(vendors);
   pruneLowInformationPartRecords(vendors);
   canonicalizePartPayloadReferences(vendors);
+  pruneCrossVendorPartIds(vendors);
+  pruneLowInformationPartRecords(vendors);
   canonicalizeIddbReferences(iddb, vendors);
   linkPartFlashIds(vendors, iddb);
   pruneLowConfidenceFlashRecords(vendors, iddb);

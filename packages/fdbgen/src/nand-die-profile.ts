@@ -103,11 +103,8 @@ function profileForCell(base: string, cell: string | undefined): string | undefi
 
 function normalizedFallbackProfile(value: string): string | undefined {
   const compact = compactToken(value);
-  if (/A19NM|1YNM|1Y/.test(compact)) {
-    return profileKey("1ynm");
-  }
-  if (/1ZNM|1Z/.test(compact)) {
-    return profileKey("1znm");
+  if (/A19NM/.test(compact)) {
+    return profileKey("A19nm");
   }
   const node = /(130|90|72|70|65|60|57|56|51|50|48|43|42|41|34|32|27|26|25|24|21|20|19|16|15|14)NM/.exec(compact)?.[1];
   return node ? profileKey(`${node}nm`) : undefined;
@@ -115,7 +112,7 @@ function normalizedFallbackProfile(value: string): string | undefined {
 
 function isFallbackProcessText(value: string): boolean {
   const compact = compactToken(value);
-  return /(?:A19|1Y|1Z)NM?/.test(compact) || /3DV[0-9]/.test(compact) || /[0-9]{2,3}NM/.test(compact);
+  return /A19NM?/.test(compact) || /3DV[0-9]/.test(compact) || /[0-9]{2,3}NM/.test(compact);
 }
 
 function matchKioxiaSandiskFullCode(vendor: string, value: string): string | undefined {
@@ -227,6 +224,15 @@ export function isGeneratedFdbDieProfile(value: string): boolean {
   return isNandDieProfileKey(value);
 }
 
+function profileSpecificity(key: string): number {
+  const profile = nandDieProfileTable[key];
+  if (!profile) {
+    return 0;
+  }
+  const isFallback = normalizedFallbackProfile(key) === key && !profile.process_alias && !profile.firmware_match?.length && !profile.die_mark?.length;
+  return isFallback ? 1 : 2;
+}
+
 export function normalizeGeneratedFdbDieProfile(vendor: string, value: string | undefined, cell?: string): string | undefined {
   const text = value?.trim();
   if (!text) {
@@ -243,6 +249,32 @@ export function normalizeGeneratedFdbDieProfile(vendor: string, value: string | 
     (normalizedVendor === "skhynix" ? matchSkhynix(text, cell) : undefined) ??
     matchProfileAlias(text) ??
     matchEmbeddedProfile(text) ??
-    normalizedFallbackProfile(text)
+    (normalizedVendor === "intel" ? undefined : normalizedFallbackProfile(text))
   );
+}
+
+export function chooseGeneratedFdbDieProfile(
+  vendor: string,
+  current: string | undefined,
+  candidate: string | undefined,
+  cell?: string
+): string | undefined {
+  const candidateText = candidate?.trim();
+  if (!candidateText) {
+    return current;
+  }
+  const currentText = current?.trim();
+  if (!currentText) {
+    return candidateText;
+  }
+
+  const currentKey = normalizeGeneratedFdbDieProfile(vendor, currentText, cell);
+  const candidateKey = normalizeGeneratedFdbDieProfile(vendor, candidateText, cell);
+  if (!currentKey) {
+    return candidateText;
+  }
+  if (!candidateKey) {
+    return currentText;
+  }
+  return profileSpecificity(candidateKey) >= profileSpecificity(currentKey) ? candidateText : currentText;
 }
