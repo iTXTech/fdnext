@@ -31,6 +31,7 @@
 
 - [DRAM 世代覆盖约定](dram_coverage.md)
 - [NAND Die Profile 标准化](nand_die_profile.md)
+- [3D NAND Product Overview 2023 OCR CSV](3d_nand_product_overview_2023.md)
 - [输出术语](terminology.md)
 - [PN 规则可信度策略](reference_policy.md)
 

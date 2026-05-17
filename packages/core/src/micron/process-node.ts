@@ -131,7 +131,7 @@ const DIE_CODENAME_BY_DIE_CAP_CELL_DIE: Record<string, string> = {
   "1024:TLC:C": "B58R",
   "1024:QLC:D": "N58R",
   "1024:TLC:E": "B68S",
-  "2048:QLC:?": "N69R"
+  "2048:QLC:B": "N69R"
 };
 
 function parseMicronProcessKey(partNumber: string): string | null {

@@ -143,10 +143,9 @@
   "B27A": {
     "die_codename": "B27A",
     "cell_level": 3,
-    "die_density": "256Gb",
-    "generation_info": "V4",
+    "die_density": "512Gb",
+    "generation_info": "FG",
     "layer_count": 96,
-    "plane_count": 2,
     "firmware_match": [
       "B27A"
     ]
@@ -1290,8 +1289,21 @@
     ],
     "process_alias": "L95B"
   },
+  "M16A": {
+    "die_codename": "M16A",
+    "cell_level": 1,
+    "die_density": "256Gb",
+    "generation_info": "FG",
+    "layer_count": 64,
+    "firmware_match": [
+      "M16A"
+    ]
+  },
   "M26A": {
     "die_codename": "M26A",
+    "cell_level": 1,
+    "die_density": "256Gb",
+    "generation_info": "FG",
     "layer_count": 96,
     "firmware_match": [
       "M26A"

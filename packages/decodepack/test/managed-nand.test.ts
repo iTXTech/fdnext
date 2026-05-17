@@ -11,6 +11,10 @@ const engine = createEngine({
   resources: embeddedResourceBundle,
   decoders: compiledPack.partDecoders
 });
+const engineWithoutFdb = createEngine({
+  decoders: compiledPack.partDecoders,
+  profileTables: compiledPack.profileTables
+});
 
 const hiddenPublicCodeExtraKeys = new Set([
   "Series Code",
@@ -206,6 +210,15 @@ function assertDieProfileFromFdbProcess(partNumber: string, expected: string, ex
   }
   if (expectedProcessAlias !== undefined) {
     assert.equal(fieldText(firstField(result, "process_alias")), expectedProcessAlias, `${partNumber} process alias from die profile`);
+  }
+}
+
+function assertMicronPostprocessDieProfile(partNumber: string, expected: string, expectedLayerCount?: number): void {
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+  assert.equal(fieldText(firstField(result, "die_codename")), expected, `${partNumber} die profile from Micron PN postprocess`);
+  if (expectedLayerCount !== undefined) {
+    assert.equal(firstField(result, "layer_count")?.value, expectedLayerCount, `${partNumber} layer count from die profile`);
   }
 }
 
@@ -1398,6 +1411,8 @@ assertPart("MT29F2G08ABDHC-ET:D", {
   },
   absentExtra: ["Revision Code", "Suffix Code", "Package Code"]
 });
+
+assertMicronPostprocessDieProfile("MT29F2T08GBLBH", "N69R", 276);
 
 assertDecodedPartNumber("MT29F2G08ABDHC-ETD", "MT29F2G08ABDHC-ET:D");
 assertDecodedPartNumber("MT29FB16T08GALAAM5-TESB", "MT29FB16T08GALAAM5-TES:B");

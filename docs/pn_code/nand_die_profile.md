@@ -43,7 +43,7 @@ Kioxia / SanDisk 2D 旧式 token（例如 `7DDL`、`7DFL`、Enterprise 变种）
 Generation / Layer / Cell / Die Density / Plane / Codename
 ```
 
-示例：`V4 / 96L / TLC / 256Gb / 2-plane / B27A`。
+示例：`FG / 96L / TLC / 512Gb / B27A`。
 
 跨厂商命名约定：
 
@@ -73,7 +73,7 @@ IMFT / Micron / Intel 旧短 key 不再作为 FDB `l` 或 `nand.die_profile` key
 
 `L84` / `L85` 同时存在 A / C die，裸短 key 不自动归一；只有 PN、Flash ID 或原始资料明确给出 `L84A` / `L84C` / `L85A` / `L85C` 时才写入对应 canonical profile。旧 FDB 中没有证据的裸 `L85` 记录应移除 `l`，避免把 unknown 写成 A-die。
 
-旧的 `M26`、`N18`、`N38` family key 不再作为 `nand.die_profile` key 保留。`M26A`、`N18A`、`N38A` / `N38B` / `N38C` / `N38E` 等具体 profile 仍保留；只有 PN rule、Flash ID profile 或外部资料能确认具体 die 时才写入。
+旧的 `M26`、`N18`、`N38` family key 不再作为 `nand.die_profile` key 保留。`M16A`、`M26A`、`N18A`、`N38A` / `N38B` / `N38C` / `N38E` 等具体 profile 仍保留；只有 PN rule、Flash ID profile 或外部资料能确认具体 die 时才写入。`M16A = N18A`、`M26A = N28A` 是 SpecTek 专属 pSLC 降级关系，profile 中只记录公开可用的 pSLC cell、die density 与层数，不把等价关系作为额外公开字段输出。
 
 历史 `1ynm` / `1znm` FDB 绑定已按 Samsung Flash ID profile 迁移：
 
