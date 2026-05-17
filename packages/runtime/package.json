@@ -22,7 +22,7 @@
     "url": "git+https://github.com/iTXTech/fdnext.git",
     "directory": "packages/runtime"
   },
-  "homepage": "https://github.com/iTXTech/fdnext#readme",
+  "homepage": "https://github.com/iTXTech/fdnext/tree/master/packages/runtime",
   "bugs": {
     "url": "https://github.com/iTXTech/fdnext/issues"
   },

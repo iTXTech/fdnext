@@ -1,6 +1,7 @@
 {
   "name": "@itxtech/fdnext-fdbgen",
   "version": "2.3.0",
+  "homepage": "https://github.com/iTXTech/fdnext/tree/master/packages/fdbgen",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

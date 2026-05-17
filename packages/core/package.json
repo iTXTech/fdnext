@@ -26,7 +26,7 @@
     "url": "git+https://github.com/iTXTech/fdnext.git",
     "directory": "packages/core"
   },
-  "homepage": "https://github.com/iTXTech/fdnext#readme",
+  "homepage": "https://github.com/iTXTech/fdnext/tree/master/packages/core",
   "bugs": {
     "url": "https://github.com/iTXTech/fdnext/issues"
   },

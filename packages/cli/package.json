@@ -25,7 +25,7 @@
     "url": "git+https://github.com/iTXTech/fdnext.git",
     "directory": "packages/cli"
   },
-  "homepage": "https://github.com/iTXTech/fdnext#readme",
+  "homepage": "https://github.com/iTXTech/fdnext/tree/master/packages/cli",
   "bugs": {
     "url": "https://github.com/iTXTech/fdnext/issues"
   },
