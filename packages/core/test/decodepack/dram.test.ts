@@ -50,6 +50,7 @@ const standaloneDramExtraKeys = new Set([
   "DRAM Die Density",
   "Die Count",
   "CE Count",
+  "Bank Count",
   "Channel Count",
   "Interface Type",
   "Revision",
@@ -2338,6 +2339,9 @@ assertDram("K4A8G085WB-BCRC", {
     "Config Code": "8G08",
     "DRAM Speed": "DDR4-2400 17-17-17",
     "Operation Temperature": "Commercial (0C~85C)",
+    "Bank Count": 16,
+    "Interface Type": "POD (1.2V VDD/VDDQ)",
+    "Solder Type": "Lead-Free and Halogen-Free",
     "Die Revision": "B-die"
   }
 });
@@ -2377,6 +2381,48 @@ assertDram("K4A4G085WE-BITD", {
   }
 });
 
+assertDram("K4A4G045WD-BCPB", {
+  vendor: "samsung",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x4",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "5WD",
+    "Config Code": "4G04",
+    "DRAM Speed": "DDR4-2133 15-15-15",
+    "Operation Temperature": "Commercial (0C~85C)",
+    "Bank Count": 16,
+    "Interface Type": "POD (1.2V VDD/VDDQ)",
+    "Solder Type": "Lead-Free and Halogen-Free",
+    "Die Revision": "D-die"
+  }
+});
+
+assertDram("K4A4G165WE-BIPB", {
+  vendor: "samsung",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "5WE",
+    "Config Code": "4G16",
+    "DRAM Speed": "DDR4-2133 15-15-15",
+    "Operation Temperature": "Industrial (-40C~95C)",
+    "Bank Count": 16,
+    "Interface Type": "POD (1.2V VDD/VDDQ)",
+    "Solder Type": "Lead-Free and Halogen-Free",
+    "Die Revision": "E-die"
+  }
+});
+
 assertDram("K4AAG085WB-MCRC", {
   vendor: "samsung",
   densityMbit: 16384,
@@ -2390,12 +2436,24 @@ assertDram("K4AAG085WB-MCRC", {
     "Config Code": "AG08",
     "DRAM Speed": "DDR4-2400 17-17-17",
     "Operation Temperature": "Commercial (0C~85C)",
+    "Bank Count": 16,
+    "Interface Type": "POD (1.2V VDD/VDDQ)",
+    "Solder Type": "Lead-Free and Halogen-Free",
+    "Special Option": "DDP",
     "Die Revision": "B-die"
   },
   absentExtra: ["DRAM Die Stack"]
 });
 assertDecodedField("K4AAG085WB-MCRC", "die_count", 2);
 assertDecodedFieldAbsent("K4AAG085WB-MCRC", "ce_count");
+assertDecodedField("K4A8G085WB-2CRC", "die_count", 2);
+assertDecodedField("K4A8G085WB-2CRC", "special_option", "2H TSV");
+assertDecodedField("K4A8G085WB-3CRC", "die_count", 2);
+assertDecodedField("K4A8G085WB-3CRC", "special_option", "2H 3DS");
+assertDecodedField("K4A8G085WB-4CRC", "die_count", 4);
+assertDecodedField("K4A8G085WB-4CRC", "special_option", "4H TSV");
+assertDecodedField("K4A8G085WB-5CRC", "die_count", 4);
+assertDecodedField("K4A8G085WB-5CRC", "special_option", "4H 3DS");
 
 assertDram("K4AAG165WB-MCRC", {
   vendor: "samsung",
@@ -2571,6 +2629,42 @@ assertDram("K4B1G0846I-MCMA", {
 assertDecodedField("K4B1G0846I-MCMA", "die_count", 2);
 assertDecodedFieldAbsent("K4B1G0846I-MCMA", "ce_count");
 
+assertDram("K4B2G1646F-BCNB", {
+  vendor: "samsung",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "B",
+    "Config Code": "2G16",
+    "DRAM Speed": "DDR3-2133 14-14-14",
+    "Operation Temperature": "Commercial (0C~85C), normal power",
+    "Die Revision": "F-die"
+  }
+});
+
+assertDram("K4B2G1646F-BYMA", {
+  vendor: "samsung",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "B",
+    "Config Code": "2G16",
+    "DRAM Speed": "DDR3L-1866 13-13-13",
+    "Operation Temperature": "Commercial (0C~85C), normal power",
+    "Die Revision": "F-die"
+  }
+});
+
 assertDram("K4B4G0846D-ECMA", {
   vendor: "samsung",
   densityMbit: 4096,
@@ -2591,6 +2685,78 @@ assertDram("K4B4G0846D-ECMA", {
 assertDecodedField("K4B4G0846D-ECMA", "die_count", 4);
 assertDecodedFieldAbsent("K4B4G0846D-ECMA", "ce_count");
 
+assertDram("K4B4G0446E-BYK0", {
+  vendor: "samsung",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x4",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "B",
+    "Config Code": "4G04",
+    "DRAM Speed": "DDR3L-1600 11-11-11",
+    "Operation Temperature": "Commercial (0C~85C), normal power",
+    "Die Revision": "E-die"
+  }
+});
+
+assertDram("K4B4G0846E-BMMA", {
+  vendor: "samsung",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "B",
+    "Config Code": "4G08",
+    "DRAM Speed": "DDR3L-1866 13-13-13",
+    "Operation Temperature": "Industrial (-40C~95C), normal power",
+    "Die Revision": "E-die"
+  }
+});
+
+assertDram("K4B4G0846E-BCNB", {
+  vendor: "samsung",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "B",
+    "Config Code": "4G08",
+    "DRAM Speed": "DDR3-2133 14-14-14",
+    "Operation Temperature": "Commercial (0C~85C), normal power",
+    "Die Revision": "E-die"
+  }
+});
+
+assertDram("K4B4G1646Q-HYF8", {
+  vendor: "samsung",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "H",
+    "Config Code": "4G16",
+    "DRAM Speed": "DDR3L-1066 7-7-7",
+    "Operation Temperature": "Commercial (0C~85C), normal power",
+    "Die Revision": "Q-die"
+  }
+});
+
 assertDram("K4B4G1646D-BYMA", {
   vendor: "samsung",
   densityMbit: 4096,
@@ -2603,8 +2769,8 @@ assertDram("K4B4G1646D-BYMA", {
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "B",
     "Config Code": "4G16",
-    "DRAM Speed": "DDR3-1866 13-13-13",
-    "Operation Temperature": "Commercial (0C~85C), low VDD",
+    "DRAM Speed": "DDR3L-1866 13-13-13",
+    "Operation Temperature": "Commercial (0C~85C), normal power",
     "Die Revision": "D-die"
   }
 });
@@ -2633,14 +2799,14 @@ assertDram("K4B2G1646B-HKK0", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "Unknown",
+  package: "96-ball FBGA",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "H",
     "Config Code": "2G16",
-    "DRAM Speed": "DDR3-1600 11-11-11",
-    "Operation Temperature": "Commercial (0C~85C), low VDD",
+    "DRAM Speed": "DDR3L-1600 11-11-11",
+    "Operation Temperature": "Commercial (0C~85C), reduced standby",
     "Special Option": "Reduced Standby",
     "Die Revision": "B-die"
   }
@@ -2658,7 +2824,41 @@ assertDram("K4RAH086VB-BCQK", {
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "6VB",
     "Config Code": "AH08",
-    "DRAM Speed": "DDR5-4800",
+    "DRAM Speed": "DDR5-4800 40-39-39",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
+assertDram("K4RAH046VB-BCQK", {
+  vendor: "samsung",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.1V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "6VB",
+    "Config Code": "AH04",
+    "DRAM Speed": "DDR5-4800 40-39-39",
+    "Operation Temperature": "Commercial (0C~85C)"
+  }
+});
+
+assertDram("K4RAH165VB-BCWM", {
+  vendor: "samsung",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "82-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "5VB",
+    "Config Code": "AH16",
+    "DRAM Speed": "DDR5-5600 46-45-45",
     "Operation Temperature": "Commercial (0C~85C)"
   }
 });
@@ -2675,7 +2875,7 @@ assertDram("K4RHE086VB-BCWM", {
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "6VB",
     "Config Code": "HE08",
-    "DRAM Speed": "DDR5-5600",
+    "DRAM Speed": "DDR5-5600 46-45-45",
     "Operation Temperature": "Commercial (0C~85C)"
   }
 });
@@ -2692,7 +2892,7 @@ assertDram("K4RHE165VB-BCWM", {
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "5VB",
     "Config Code": "HE16",
-    "DRAM Speed": "DDR5-5600",
+    "DRAM Speed": "DDR5-5600 46-45-45",
     "Operation Temperature": "Commercial (0C~85C)"
   }
 });
@@ -2709,13 +2909,13 @@ assertDram("K4RBH046VM-BCWM", {
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "6VM",
     "Config Code": "BH04",
-    "DRAM Speed": "DDR5-5600",
+    "DRAM Speed": "DDR5-5600 46-45-45",
     "Operation Temperature": "Commercial (0C~85C)"
   }
 });
 
 assertDecodedField("K4RHE086VB-BIWM", "operation_temperature", "Industrial (-40C~95C)");
-assertDecodedField("K4RHE086VB-BIWM", "dram_speed", "DDR5-5600");
+assertDecodedField("K4RHE086VB-BIWM", "dram_speed", "DDR5-5600 46-45-45");
 
 assertDram("K3PE7E700M-XGC1", {
   vendor: "samsung",
@@ -4144,7 +4344,13 @@ assertSearchPnIncludes("K4D261638", "Samsung K4D261638");
 assertSearchPnIncludes("K4W2G1646", "Samsung K4W2G1646Q-BC1A");
 assertSearchPnIncludes("K4W4G1646E", "Samsung K4W4G1646E-BC1A");
 assertSearchPnIncludes("K4AAG165WB", "Samsung K4AAG165WB-MCTD");
+assertSearchPnIncludes("K4A4G045WD", "Samsung K4A4G045WD-BCPB");
+assertSearchPnIncludes("K4A4G165WE", "Samsung K4A4G165WE-BIPB");
 assertSearchPnIncludes("K4B4G0846D", "Samsung K4B4G0846D-BCNB");
+assertSearchPnIncludes("K4B4G0846E", "Samsung K4B4G0846E-BCNB");
+assertSearchPnIncludes("K4B4G1646Q", "Samsung K4B4G1646Q-HYK0");
+assertSearchPnIncludes("K4RAH046VB", "Samsung K4RAH046VB-BCQK");
+assertSearchPnIncludes("K4RAH165VB", "Samsung K4RAH165VB-BCWM");
 assertSearchPnIncludes("K4A8G045WD", "Samsung K4A8G045WD-BCWE");
 assertSearchPnIncludes("H5ANAG8NCJR", "SKhynix H5ANAG8NCJR-XNC");
 assertSearchPnIncludes("NT5FF2048M8DK", "Nanya NT5FF2048M8DK-UB");

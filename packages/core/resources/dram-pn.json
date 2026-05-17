@@ -25,6 +25,18 @@
   },
   {
     "vendor": "samsung",
+    "pn": "K4RAH046VB-BCQK"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4RAH165VB-BCQK"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4RAH165VB-BCWM"
+  },
+  {
+    "vendor": "samsung",
     "pn": "K4X51163PC"
   },
   {
@@ -989,6 +1001,14 @@
   },
   {
     "vendor": "samsung",
+    "pn": "K4A4G045WD-BCPB"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4A4G045WD-BCRC"
+  },
+  {
+    "vendor": "samsung",
     "pn": "K4A4G085WD-BCPB"
   },
   {
@@ -1049,6 +1069,10 @@
   },
   {
     "vendor": "samsung",
+    "pn": "K4A4G165WE-BCPB"
+  },
+  {
+    "vendor": "samsung",
     "pn": "K4A4G165WE-BCTD"
   },
   {
@@ -1058,6 +1082,10 @@
   {
     "vendor": "samsung",
     "pn": "K4A4G165WE-BIRC"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4A4G165WE-BIPB"
   },
   {
     "vendor": "samsung",
@@ -1294,6 +1322,58 @@
   {
     "vendor": "samsung",
     "pn": "K4B4G1646D-BYMA"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G0446E-BCK0"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G0446E-BCMA"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G0846E-BCK0"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G0846E-BCMA"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G0846E-BCNB"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G0446E-BYK0"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G0846E-BYK0"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G0846E-BYMA"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G0846E-BMK0"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G0846E-BMMA"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G1646Q-HYF8"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G1646Q-HYH9"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4B4G1646Q-HYK0"
   },
   {
     "vendor": "samsung",

@@ -36,7 +36,8 @@
           "B:04:B": "78-ball FBGA",
           "B:08:B": "78-ball FBGA",
           "B:08:H": "82-ball FBGA",
-          "B:16:B": "96-ball FBGA"
+          "B:16:B": "96-ball FBGA",
+          "B:16:H": "96-ball FBGA"
         },
         "packageStackObj": {
           "B": {
@@ -62,16 +63,16 @@
             "operation_temperature": "Commercial (0C~85C), normal power"
           },
           "Y": {
-            "operation_temperature": "Commercial (0C~85C), low VDD"
+            "operation_temperature": "Commercial (0C~85C), normal power"
           },
           "I": {
             "operation_temperature": "Industrial (-40C~95C), normal power"
           },
           "M": {
-            "operation_temperature": "Industrial (-40C~95C), low VDD"
+            "operation_temperature": "Industrial (-40C~95C), normal power"
           },
           "K": {
-            "operation_temperature": "Commercial (0C~85C), low VDD",
+            "operation_temperature": "Commercial (0C~85C), reduced standby",
             "special_option": "Reduced Standby"
           }
         },
@@ -83,23 +84,95 @@
           "K": "1.35V VDD"
         },
         "speedObj": {
-          "F7": {
+          "C:F7": {
             "dram_speed": "DDR3-800 6-6-6"
           },
-          "F8": {
+          "I:F7": {
+            "dram_speed": "DDR3-800 6-6-6"
+          },
+          "C:F8": {
             "dram_speed": "DDR3-1066 7-7-7"
           },
-          "H9": {
+          "I:F8": {
+            "dram_speed": "DDR3-1066 7-7-7"
+          },
+          "C:H9": {
             "dram_speed": "DDR3-1333 9-9-9"
           },
-          "K0": {
+          "I:H9": {
+            "dram_speed": "DDR3-1333 9-9-9"
+          },
+          "C:K0": {
             "dram_speed": "DDR3-1600 11-11-11"
           },
-          "MA": {
+          "I:K0": {
+            "dram_speed": "DDR3-1600 11-11-11"
+          },
+          "C:MA": {
             "dram_speed": "DDR3-1866 13-13-13"
           },
-          "NB": {
+          "I:MA": {
+            "dram_speed": "DDR3-1866 13-13-13"
+          },
+          "C:NB": {
             "dram_speed": "DDR3-2133 14-14-14"
+          },
+          "I:NB": {
+            "dram_speed": "DDR3-2133 14-14-14"
+          },
+          "Y:F7": {
+            "dram_speed": "DDR3L-800 6-6-6"
+          },
+          "M:F7": {
+            "dram_speed": "DDR3L-800 6-6-6"
+          },
+          "K:F7": {
+            "dram_speed": "DDR3L-800 6-6-6"
+          },
+          "Y:F8": {
+            "dram_speed": "DDR3L-1066 7-7-7"
+          },
+          "M:F8": {
+            "dram_speed": "DDR3L-1066 7-7-7"
+          },
+          "K:F8": {
+            "dram_speed": "DDR3L-1066 7-7-7"
+          },
+          "Y:H9": {
+            "dram_speed": "DDR3L-1333 9-9-9"
+          },
+          "M:H9": {
+            "dram_speed": "DDR3L-1333 9-9-9"
+          },
+          "K:H9": {
+            "dram_speed": "DDR3L-1333 9-9-9"
+          },
+          "Y:K0": {
+            "dram_speed": "DDR3L-1600 11-11-11"
+          },
+          "M:K0": {
+            "dram_speed": "DDR3L-1600 11-11-11"
+          },
+          "K:K0": {
+            "dram_speed": "DDR3L-1600 11-11-11"
+          },
+          "Y:MA": {
+            "dram_speed": "DDR3L-1866 13-13-13"
+          },
+          "M:MA": {
+            "dram_speed": "DDR3L-1866 13-13-13"
+          },
+          "K:MA": {
+            "dram_speed": "DDR3L-1866 13-13-13"
+          },
+          "Y:NB": {
+            "dram_speed": "DDR3L-2133 14-14-14"
+          },
+          "M:NB": {
+            "dram_speed": "DDR3L-2133 14-14-14"
+          },
+          "K:NB": {
+            "dram_speed": "DDR3L-2133 14-14-14"
           }
         }
       },
@@ -173,6 +246,11 @@
         },
         {
           "op": "tpl",
+          "template": "{{tempCode}}:{{speedToken}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "tpl",
           "template": "{{familyCode}}:{{width}}:{{packageCode}}",
           "to": "packageKey"
         },
@@ -206,7 +284,7 @@
         },
         {
           "op": "map",
-          "from": "speedToken",
+          "from": "speedKey",
           "table": "speedObj",
           "to": "speedObj",
           "default": {}
@@ -679,6 +757,30 @@
             "die_count": 4
           }
         },
+        "ddr4BaseObj": {
+          "A:5W": {
+            "bank_count": 16,
+            "interface_type": "POD (1.2V VDD/VDDQ)",
+            "solder_type": "Lead-Free and Halogen-Free"
+          }
+        },
+        "ddr4PackageStackObj": {
+          "A:M": {
+            "special_option": "DDP"
+          },
+          "A:2": {
+            "special_option": "2H TSV"
+          },
+          "A:3": {
+            "special_option": "2H 3DS"
+          },
+          "A:4": {
+            "special_option": "4H TSV"
+          },
+          "A:5": {
+            "special_option": "4H 3DS"
+          }
+        },
         "suffixTempObj": {
           "C": {
             "operation_temperature": "Commercial (0C~85C)"
@@ -819,6 +921,11 @@
           "to": "packageKey"
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packagePrefix}}",
+          "to": "ddr4BaseKey"
+        },
+        {
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
@@ -847,6 +954,18 @@
           "to": "suffixSpeedKey"
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{suffixPackageType}}",
+          "to": "suffixPackageKey"
+        },
+        {
+          "op": "map",
+          "from": "ddr4BaseKey",
+          "table": "ddr4BaseObj",
+          "to": "ddr4BaseObj",
+          "default": {}
+        },
+        {
           "op": "map",
           "from": "suffixPackageType",
           "table": "suffixPackageStackObj",
@@ -855,6 +974,13 @@
             "dram_die_stack": "1 die, 1 CS",
             "die_count": 1
           }
+        },
+        {
+          "op": "map",
+          "from": "suffixPackageKey",
+          "table": "ddr4PackageStackObj",
+          "to": "ddr4PackageStackObj",
+          "default": {}
         },
         {
           "op": "map",
@@ -893,7 +1019,18 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "ddr4BaseObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "suffixPackageStackObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "ddr4PackageStackObj",
+          "if": "hasSuffix"
         },
         {
           "op": "mergeIf",
@@ -964,10 +1101,14 @@
           "HE": 24576,
           "BH": 32768
         },
+        "packageActualSpecific": {
+          "AH:16:5VB": "82-ball FBGA",
+          "HE:16:5VB": "106-ball FBGA"
+        },
         "packageActual": {
-          "04:6VM": "78-ball FBGA",
+          "04:6VB": "82-ball FBGA",
           "08:6VB": "82-ball FBGA",
-          "16:5VB": "106-ball FBGA"
+          "04:6VM": "78-ball FBGA"
         },
         "suffixPackageStackObj": {
           "B": {
@@ -985,10 +1126,10 @@
         },
         "suffixSpeedObj": {
           "QK": {
-            "dram_speed": "DDR5-4800"
+            "dram_speed": "DDR5-4800 40-39-39"
           },
           "WM": {
-            "dram_speed": "DDR5-5600"
+            "dram_speed": "DDR5-5600 46-45-45"
           }
         }
       },
@@ -1029,15 +1170,33 @@
         },
         {
           "op": "tpl",
+          "template": "{{densityCode}}:{{width}}:{{packageCode}}",
+          "to": "packageSpecificKey"
+        },
+        {
+          "op": "tpl",
           "template": "{{width}}:{{packageCode}}",
           "to": "packageKey"
         },
         {
           "op": "map",
+          "from": "packageSpecificKey",
+          "table": "packageActualSpecific",
+          "to": "packageSpecific",
+          "default": null
+        },
+        {
+          "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
+          "to": "packageGeneral",
           "default": "Unknown"
+        },
+        {
+          "op": "fallback",
+          "primary": "packageSpecific",
+          "secondary": "packageGeneral",
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",

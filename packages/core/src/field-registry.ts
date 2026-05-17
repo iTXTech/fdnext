@@ -469,6 +469,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "geometry",
     importance: "secondary"
   },
+  bank_count: {
+    key: "bank_count",
+    valueKind: "number",
+    defaultLabel: "Bank Count",
+    recommendedBlock: "geometry",
+    importance: "secondary"
+  },
   channel_count: {
     key: "channel_count",
     valueKind: "number",

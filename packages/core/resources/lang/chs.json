@@ -147,6 +147,7 @@
   "die_count": "Die 数",
   "ce_count": "CE 数",
   "rb_count": "R/B 数",
+  "bank_count": "Bank 数",
   "channel_count": "Channel 数",
   "plane_count": "Plane 数",
   "controller": "控制器",
