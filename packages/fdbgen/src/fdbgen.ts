@@ -29,7 +29,7 @@ interface LoadedExtraPayload {
 }
 
 const DEFAULT_CONTROLLER_BLACKLIST = ["3281FL", "3379FL"];
-const MALFORMED_SAMSUNG_PART_NUMBERS = new Set(["K9OKG8S7C"]);
+const MIN_SAMSUNG_K9_PART_NUMBER_LENGTH = "K9OKGY8S7C".length;
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
@@ -38,7 +38,7 @@ function asRecord(value: unknown): Record<string, unknown> {
 function shouldRejectVendorPartNumber(vendor: string, partNumber: string): boolean {
   const normalizedVendor = normalizeVendor(vendor);
   return (
-    (normalizedVendor === "samsung" && MALFORMED_SAMSUNG_PART_NUMBERS.has(partNumber)) ||
+    (normalizedVendor === "samsung" && shouldRejectSamsungPartNumber(partNumber)) ||
     (normalizedVendor === "intel" && /^MT29[EF](?=[0-9])/.test(partNumber)) ||
     (normalizedVendor === "micron" && /^29F(?=[0-9])/.test(partNumber))
   );
@@ -46,10 +46,14 @@ function shouldRejectVendorPartNumber(vendor: string, partNumber: string): boole
 
 function shouldRejectFlashIdPartNumber(idVendor: string | null, partNumber: string): boolean {
   return (
-    (idVendor === "samsung" && MALFORMED_SAMSUNG_PART_NUMBERS.has(partNumber)) ||
+    (idVendor === "samsung" && shouldRejectSamsungPartNumber(partNumber)) ||
     (idVendor === "intel" && /^MT29[EF](?=[0-9])/.test(partNumber)) ||
     (idVendor === "micron" && /^29F(?=[0-9])/.test(partNumber))
   );
+}
+
+function shouldRejectSamsungPartNumber(partNumber: string): boolean {
+  return /^K9/.test(partNumber) && (partNumber.length < MIN_SAMSUNG_K9_PART_NUMBER_LENGTH || partNumber.slice(-3).includes("X"));
 }
 
 function readJson(path: string): unknown {

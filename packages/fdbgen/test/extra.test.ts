@@ -177,6 +177,20 @@ test("normalizes generated FDB l fields to NAND die profile keys", () => {
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "H25GQM0", "QLC"), "HYV5Q");
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "H27DGS8", "MLC"), "HYV2");
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "238L 3DV8", "QLC"), "HYV8Q");
+  assert.equal(normalizeGeneratedFdbDieProfile("unknown", "3DV4", "TLC"), undefined);
+  assert.equal(normalizeGeneratedFdbDieProfile("unknown", "3DV4P5", "TLC"), undefined);
+  assert.equal(normalizeGeneratedFdbDieProfile("micron", "B74", "TLC"), "B74A");
+  assert.equal(normalizeGeneratedFdbDieProfile("micron", "B95", "TLC"), "B95A");
+  assert.equal(normalizeGeneratedFdbDieProfile("micron", "L62", "MLC"), "L62A");
+  assert.equal(normalizeGeneratedFdbDieProfile("intel", "L74", "MLC"), "L74A");
+  assert.equal(normalizeGeneratedFdbDieProfile("intel", "L84", "MLC"), undefined);
+  assert.equal(normalizeGeneratedFdbDieProfile("intel", "L84A", "MLC"), "L84A");
+  assert.equal(normalizeGeneratedFdbDieProfile("intel", "L84C", "MLC"), "L84C");
+  assert.equal(normalizeGeneratedFdbDieProfile("intel", "L85", "MLC"), undefined);
+  assert.equal(normalizeGeneratedFdbDieProfile("intel", "L85A", "MLC"), "L85A");
+  assert.equal(normalizeGeneratedFdbDieProfile("intel", "L85C", "MLC"), "L85C");
+  assert.equal(normalizeGeneratedFdbDieProfile("spectek", "L06", "MLC"), "L06B");
+  assert.equal(normalizeGeneratedFdbDieProfile("micron", "M70", "SLC"), "M70M");
 
   const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-profile-"));
   try {
@@ -232,9 +246,21 @@ test("trims overlong structured YMTC, Samsung, and Intel part numbers", () => {
   assert.equal(normalizeFdbPartNumber("YMN09TC1B1DCADWYS"), "YMN09TC1B1DCAD");
   assert.equal(normalizeFdbPartNumber("YMN09TC1B1DC6C_64GB(TAS)"), "YMN09TC1B1DC6C");
   assert.equal(normalizeFdbPartNumber("K9OKGY8S7C2"), "K9OKGY8S7C");
+  assert.equal(normalizeFdbPartNumber("K9OKG8S7C"), "K9OKG8S7C");
   assert.equal(normalizeFdbPartNumber("PF29F04T2AOCTH13"), "PF29F04T2AOCTH1");
   assert.equal(normalizeFdbPartNumber("PF29F16T2AWCQH1MICRON"), "PF29F16T2AWCQH1");
   assert.equal(normalizeFdbPartNumber("PF29F16B08LCMF3-016G"), "PF29F16B08LCMF3");
+  assert.equal(normalizeFdbPartNumber("29F01T2ALCQH1"), "PF29F01T2ALCQH1");
+  assert.equal(normalizeFdbPartNumber("29F04T2AOCTH1"), "PF29F04T2AOCTH1");
+  assert.equal(normalizeFdbPartNumber("29F16B08LCMF3"), "29F16B08LCMF3");
+  assert.equal(normalizeFdbPartNumber("29F4T08GBCAG"), "");
+  assert.equal(normalizeFdbPartNumber("PF29F4T08GBCAG"), "");
+  assert.equal(normalizeFdbPartNumber("29F512G08EBHAF"), "");
+  assert.equal(normalizeFdbPartNumber("29F1T08GBLBE"), "");
+  assert.equal(normalizeFdbPartNumber("29F2T08CUCBB"), "");
+  assert.equal(normalizeFdbPartNumber("PF29F2T08CUCBB"), "");
+  assert.equal(normalizeFdbPartNumber("MT29F01T2ALCQK1"), "");
+  assert.equal(normalizeFdbPartNumber("MT29F512G08EBHAF"), "MT29F512G08EBHAF");
 });
 
 test("fdbgen drops malformed and cross-vendor raw NAND PN pollution", () => {
@@ -252,15 +278,51 @@ test("fdbgen drops malformed and cross-vendor raw NAND PN pollution", () => {
           K9OKG8S7C: {
             id: ["EC1A881F70C8"],
             t: ["SM2259XT"]
+          },
+          K9AFGD8HXX: {
+            id: ["EC1A882172C8"],
+            t: ["SM2259XT"]
           }
         },
         intel: {
           MT29F01T2ALCQJ1: {
             id: ["89D31C32C600"],
             t: ["SM2259XT"]
+          },
+          "29F01T2ALCQH1": {
+            id: ["89D40C32AA00"],
+            t: ["SM2259XT"]
+          },
+          "29F4T08GBCAG": {
+            id: ["89D31C32C600"],
+            t: ["SM2259XT"]
+          },
+          PF29F4T08GBCAG: {
+            id: ["89CB9832C600"],
+            t: ["SM2259XT"]
+          },
+          "29F512G08EBHAF": {
+            id: ["89C40832A600"],
+            t: ["SM2259XT"]
+          },
+          "29F1T08GBLBE": {
+            id: ["89D31C32C600"],
+            t: ["SM2259XT"]
+          },
+          "29F2T08CUCBB": {
+            id: ["89C4E532AA01"],
+            t: ["SM2259XT"]
+          },
+          PF29F2T08CUCBB: {
+            id: ["89C4E532AA01"],
+            t: ["SM2259XT"]
           }
         },
         micron: {
+          MT29F01T2ALCQK1: {
+            id: ["2CD31C32C600"],
+            t: ["SM2259XT"]
+          },
           "29F512G08EBHAF": {
             id: ["2CC40832A600"],
             t: ["SM2259XT"]
@@ -273,7 +335,13 @@ test("fdbgen drops malformed and cross-vendor raw NAND PN pollution", () => {
           "89D31C32C600": {
             t: ["SM2259XT"]
           },
+          "89D40C32AA00": {
+            t: ["SM2259XT"]
+          },
           "2CC40832A600": {
+            t: ["SM2259XT"]
+          },
+          "89C4E532AA01": {
             t: ["SM2259XT"]
           }
         }
@@ -289,10 +357,20 @@ test("fdbgen drops malformed and cross-vendor raw NAND PN pollution", () => {
     assert.ok(samsung?.K9OKGY8S7C);
     assert.equal(samsung?.K9OKGY8S7C2, undefined);
     assert.equal(samsung?.K9OKG8S7C, undefined);
+    assert.equal(samsung?.K9AFGD8HXX, undefined);
     assert.ok(flash?.n?.includes("samsung K9OKGY8S7C"));
     assert.equal(flash?.n?.includes("samsung K9OKG8S7C"), false);
+    assert.equal(flash?.n?.includes("samsung K9AFGD8HXX"), false);
     assert.equal(intel?.MT29F01T2ALCQJ1, undefined);
+    assert.equal(intel?.["29F01T2ALCQH1"], undefined);
+    assert.ok(intel?.PF29F01T2ALCQH1);
+    assert.equal(intel?.["29F4T08GBCAG"], undefined);
+    assert.equal(intel?.PF29F4T08GBCAG, undefined);
+    assert.equal(intel?.["29F1T08GBLBE"], undefined);
+    assert.equal(intel?.["29F2T08CUCBB"], undefined);
+    assert.equal(intel?.PF29F2T08CUCBB, undefined);
     assert.equal(micron?.MT29F01T2ALCQJ1, undefined);
+    assert.equal(micron?.MT29F01T2ALCQK1, undefined);
     assert.equal(micron?.["29F512G08EBHAF"], undefined);
     assert.equal(intel?.["29F512G08EBHAF"], undefined);
   } finally {

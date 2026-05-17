@@ -30,6 +30,15 @@ const profileAliasesByLength = [...profileByAliasCompact.keys()]
   .filter((key) => profileByAliasCompact.get(key))
   .sort((left, right) => right.length - left.length || left.localeCompare(right));
 
+const legacyShortProfileKeys: Record<string, string> = {
+  B74: "B74A",
+  B95: "B95A",
+  L06: "L06B",
+  L62: "L62A",
+  L74: "L74A",
+  M70: "M70M"
+};
+
 function compactToken(value: string): string {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, "");
 }
@@ -47,6 +56,11 @@ function profileKey(value: string | undefined): string | undefined {
     return text;
   }
   return profileByCompact.get(compactToken(text));
+}
+
+function legacyShortProfileKey(value: string | undefined): string | undefined {
+  const compact = compactToken(value ?? "");
+  return profileKey(legacyShortProfileKeys[compact]);
 }
 
 function profileAliasKey(value: string | undefined): string | undefined {
@@ -95,15 +109,7 @@ function normalizedFallbackProfile(value: string): string | undefined {
   if (/1ZNM|1Z/.test(compact)) {
     return profileKey("1znm");
   }
-  const generation = /3DV([0-9])P?5/.exec(compact)?.[1];
-  if (generation === "4") {
-    return profileKey("3DV4P5");
-  }
-  const plainGeneration = /3DV([0-9])/.exec(compact)?.[1];
-  if (plainGeneration) {
-    return profileKey(`3DV${plainGeneration}`);
-  }
-  const node = /(130|90|72|70|65|60|57|56|51|50|48|43|42|41|35|34|32|28|27|26|25|24|21|20|19|16|15|14)NM/.exec(compact)?.[1];
+  const node = /(130|90|72|70|65|60|57|56|51|50|48|43|42|41|34|32|27|26|25|24|21|20|19|16|15|14)NM/.exec(compact)?.[1];
   return node ? profileKey(`${node}nm`) : undefined;
 }
 
@@ -228,6 +234,7 @@ export function normalizeGeneratedFdbDieProfile(vendor: string, value: string | 
   }
   const normalizedVendor = vendor.toLowerCase();
   return (
+    legacyShortProfileKey(text) ??
     (!isFallbackProcessText(text) ? profileKey(text) : undefined) ??
     matchKioxiaSandiskFullCode(normalizedVendor, text) ??
     matchKioxiaSandiskGeneration(normalizedVendor, text) ??

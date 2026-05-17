@@ -5,33 +5,6 @@
   "1znm": {
     "die_codename": "1znm"
   },
-  "3DV2": {
-    "die_codename": "3DV2"
-  },
-  "3DV3": {
-    "die_codename": "3DV3"
-  },
-  "3DV4": {
-    "die_codename": "3DV4"
-  },
-  "3DV4P5": {
-    "die_codename": "3DV4P5"
-  },
-  "3DV5": {
-    "die_codename": "3DV5"
-  },
-  "3DV6": {
-    "die_codename": "3DV6"
-  },
-  "3DV7": {
-    "die_codename": "3DV7"
-  },
-  "3DV8": {
-    "die_codename": "3DV8"
-  },
-  "3DV9": {
-    "die_codename": "3DV9"
-  },
   "14nm": {
     "die_codename": "14nm"
   },
@@ -62,17 +35,11 @@
   "27nm": {
     "die_codename": "27nm"
   },
-  "28nm": {
-    "die_codename": "28nm"
-  },
   "32nm": {
     "die_codename": "32nm"
   },
   "34nm": {
     "die_codename": "34nm"
-  },
-  "35nm": {
-    "die_codename": "35nm"
   },
   "41nm": {
     "die_codename": "41nm"
@@ -119,39 +86,8 @@
   "A19nm": {
     "die_codename": "A19nm"
   },
-  "B74": {
-    "die_codename": "25nm",
-    "process_alias": "B74"
-  },
-  "B95": {
-    "die_codename": "16nm",
-    "process_alias": "B95"
-  },
-  "L06": {
-    "die_codename": "L06"
-  },
-  "L62": {
-    "die_codename": "34nm",
-    "process_alias": "L62"
-  },
-  "L74": {
-    "die_codename": "25nm",
-    "process_alias": "L74"
-  },
-  "L84": {
-    "die_codename": "20nm",
-    "process_alias": "L84"
-  },
-  "L85": {
-    "die_codename": "20nm",
-    "process_alias": "L85"
-  },
   "M26": {
     "die_codename": "M26"
-  },
-  "M70": {
-    "die_codename": "25nm",
-    "process_alias": "M70"
   },
   "N18": {
     "die_codename": "N18"

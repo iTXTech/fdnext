@@ -11,7 +11,7 @@
 - `layer_count` 与 `process_alias` 独立展示，不拼进 `die_codename` 文本；`process_alias` 用于 `X3-9060`、`8T23` 这类厂商工艺或 full-code 代号。
 - `firmware_match`、`die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields。
 - Kioxia / SanDisk 的 BiCS profile key 必须带厂商前缀，例如 `KBiCS4` / `SBiCS4` 或 `K8T24` / `S8T24`；公开展示统一使用 `die_codename = BiCS4` / `BiCS4.5` 这类制程名，不带厂商前缀或 Cell 后缀。full code 可通过 `process_alias` 显示为 `8T24` 这类代号，而不是把内部 die mark 展示给用户。
-- 2D NAND 默认不要求补齐 `generation_info`；如果规则或 FDB 只知道旧制程字样，生成侧应先规范化为 vendor profile，最弱只允许落到表内 fallback profile，例如 `50nm`、`1ynm`、`3DV4`。运行时兼容旧 FDB 时才使用 `generation_info` + `fdb_process_fallback` warning。
+- 2D NAND 默认不要求补齐 `generation_info`；如果规则或 FDB 只知道旧制程字样，生成侧应先规范化为 vendor profile，最弱只允许落到表内 2D / 1y / 1z fallback profile，例如 `50nm`、`1ynm`、`1znm`。泛化 `3DVx` 不再作为 fallback profile；运行时兼容旧 FDB 时才使用 `generation_info` + `fdb_process_fallback` warning。
 
 ## Key 约定
 
@@ -58,7 +58,22 @@ Samsung 的真实内部代号常来自单 die PN（例如 `K9AHGD8U0M/A/B/C/D` �
 
 ## FDBGen fallback profile
 
-生成后的 `fdb.json` 不允许再把任意制程文本写入 `l`。`l` 必须能命中 `nand.die_profile`：优先是 vendor / die codename profile，例如 `SNK15T`、`TSB32`、`SSV4`、`HYV3`、`B16A`；公开 result 再由 profile 表转换成用户可见制程，例如 `15nm`、`BiCS4`、`20nm`。如果原始资料只有泛化 2D 或 3D 线索，才允许使用表内 fallback key，例如 `50nm`、`1ynm`、`1znm`、`3DV4`、`3DV4P5`。没有代际的 `3D` 不作为 fallback。
+生成后的 `fdb.json` 不允许再把任意制程文本写入 `l`。`l` 必须能命中 `nand.die_profile`：优先是 vendor / die codename profile，例如 `SNK15T`、`TSB32`、`SSV4`、`HYV3`、`B16A`；公开 result 再由 profile 表转换成用户可见制程，例如 `15nm`、`BiCS4`、`20nm`。如果原始资料只有泛化 2D / 1y / 1z 线索，才允许使用表内 fallback key，例如 `50nm`、`1ynm`、`1znm`。泛化 `3D` / `3DVx` 不作为 fallback。
+
+IMFT / Micron / Intel 旧短 key 不再作为 FDB `l` 或 `nand.die_profile` key 保留。生成侧会按下表归一：
+
+| Legacy key | Canonical profile | 依据 |
+| --- | --- | --- |
+| `B74` | `B74A` | 25nm TLC 64Gb |
+| `B95` | `B95A` | 16nm TLC 128Gb |
+| `L06` | `L06B` | FG 32L MLC 256Gb |
+| `L62` | `L62A` | 34nm MLC 16Gb |
+| `L74` | `L74A` | 25nm MLC 64Gb |
+| `M70` | `M70M` | 25nm SLC 4Gb E-die legacy mapping |
+
+`L84` / `L85` 同时存在 A / C die，裸短 key 不自动归一；只有 PN、Flash ID 或原始资料明确给出 `L84A` / `L84C` / `L85A` / `L85C` 时才写入对应 canonical profile。旧 FDB 中没有证据的裸 `L85` 记录应移除 `l`，避免把 unknown 写成 A-die。
+
+`M26`、`N18`、`N38` 仍是待拆分的 3D family key：当前 FDB 记录可关联到多个 identifier profile，不能只按前缀迁移到 `M26A`、`N18A` 或 `N38A/B/C/E`。这类记录应先用 PN rule、Flash ID profile 或外部资料确认后再迁移。
 
 运行时 FDB 命中后，`l` 只作为 `nand.die_profile` key 使用，再由 profile 表统一补齐公开字段，例如 `layer_count`、`die_density`、`cell_level`、`plane_count` 和 `process_alias`。不要在 FDB 或 core runtime 中为某个 die 单独写层数补丁。
 

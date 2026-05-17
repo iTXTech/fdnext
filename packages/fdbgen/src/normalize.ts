@@ -14,7 +14,7 @@ const SUPPORT_LIST_MAX_FLASH_ID_HEX_LENGTH = 16;
 const CONTROLLER_NAME = /^(?=.*[A-Z])(?=.*\d)[A-Z0-9][A-Z0-9()-]*$/;
 const PART_METADATA_SUFFIX =
   /[_-](?:DUAL|TWIN|DIC|QDP|HP|H45|SI\d+|S\d+|BINZZ|GEN\d+|EX\d+|TF_EX\d+|[1248]DIE|[1248]CE|[0-9]+CE[0-9]+DIE|[12]C[1248]D|[0-9A-F]{3,}|L\d{2}|TI\d+|ES|UNKNOWN|SLC|MLC|TLC|QLC|[0-9]+)$/;
-const INTEL_DENSITY_TOKENS = [
+const INTEL_DENSITY_TOKEN_LIST = [
   "384G",
   "512G",
   "256G",
@@ -48,15 +48,153 @@ const INTEL_DENSITY_TOKENS = [
   "4T",
   "6T",
   "8T"
-].join("|");
+];
+const INTEL_DENSITY_TOKENS = INTEL_DENSITY_TOKEN_LIST.join("|");
 const INTEL_STRUCTURED_PART =
   new RegExp(`^((?:X)?(?:(?:(?:JS|PF|BK|CU)?29[FPHRA-Z])|(?:(?:JS|PF|BK|CU)F))(?:${INTEL_DENSITY_TOKENS})(?:16|08|2A|4A|A8)[0-9A-Z]{5})`);
+const INTEL_CELL_CODES = new Set(["N", "M", "T", "Q"]);
+const INTEL_MIN_BGA_PROCESS_CODE = "G";
+const MICRON_RAW_DENSITY_TOKEN_LIST = [
+  "768G",
+  "512G",
+  "384G",
+  "336G",
+  "256G",
+  "192G",
+  "168G",
+  "128G",
+  "84G",
+  "64G",
+  "42G",
+  "32G",
+  "21G",
+  "16G",
+  "8G",
+  "4G",
+  "2G",
+  "1G",
+  "32T",
+  "16T",
+  "8T",
+  "6T",
+  "4T",
+  "3T",
+  "2T",
+  "1HT",
+  "1T2",
+  "1T"
+];
+const MICRON_RAW_DEVICE_TOKENS = new Set(["16", "01", "08"]);
+const MICRON_RAW_CELL_CODES = new Set(["A", "C", "E", "G"]);
+const MICRON_RAW_CLASSIFICATION_CODES = new Set(["1", "2", "3", "4", "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y"]);
+const MICRON_RAW_VOLTAGE_CODES = new Set(["A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "S", "T"]);
+const MICRON_RAW_DIE_CODES = new Set(["A", "B", "C", "D", "E", "F", "G", "K", "L"]);
+const MICRON_RAW_INTERFACE_CODES = new Set(["A", "B", "C", "D", "E", "F", "G", "H", "M", "N"]);
+const MICRON_RAW_PACKAGE_CODES = new Set([
+  "",
+  "C3", "C4", "C5", "C6", "C7", "C8",
+  "D1", "D4", "D5", "D6", "D7", "D8",
+  "G1", "G2", "G4", "G5", "G6", "G7", "G8", "G9",
+  "H1", "H2", "H3", "H4", "H5", "H6", "H7", "H8", "H9", "HC",
+  "J1", "J2", "J3", "J4", "J5", "J6", "J7", "J9",
+  "K3", "K4", "K6", "K7", "K8", "K9",
+  "L4", "L5", "L6", "L7", "L8",
+  "M4", "M5", "M6", "M8", "M8Z", "M9", "MD",
+  "WC", "WP"
+]);
 const YMTC_PACKAGE_STRUCTURED_PART =
   /^((?:YM|KR|BP|BR|BW)[NS][0A][6789ABW][SMTQ][A-F][12](?:W0|T1|L1|B[1-5])[0A-Z][DUMCPEFX][0-68ABX][A-E])/;
 const YMTC_CUSTOM_BGA_STRUCTURED_PART =
   /^((?:YM|KR|BP|BR|BW)[NS][0A][6789ABW][SMTQ][A-F][12]B[0A-Z][DUMCPEFX][0-68ABX][A-E])/;
 const SAMSUNG_UNKNOWN_PACKAGE_SUFFIX_STRUCTURED_PART =
   /^(K9[39A-Z][0-9A-Z]{2}[DYB][068][A-Z][0-9A-Z][A-Z])2$/;
+
+interface IntelStructuredPartTokens {
+  cellCode: string;
+  processCode: string;
+}
+
+function parseIntelStructuredPartTokens(partNumber: string): IntelStructuredPartTokens | undefined {
+  let rest = partNumber.startsWith("X") ? partNumber.slice(1) : partNumber;
+  for (const prefix of ["JS", "PF", "BK", "CU"]) {
+    if (rest.startsWith(`${prefix}29`)) {
+      rest = rest.slice(prefix.length);
+      break;
+    }
+  }
+  if (!rest.startsWith("29")) {
+    return undefined;
+  }
+  rest = rest.slice(2);
+  if (!rest) {
+    return undefined;
+  }
+  rest = rest.slice(1);
+  const density = INTEL_DENSITY_TOKEN_LIST.find((token) => rest.startsWith(token));
+  if (!density) {
+    return undefined;
+  }
+  rest = rest.slice(density.length);
+  if (!/^(?:16|08|2A|4A|A8)/.test(rest)) {
+    return undefined;
+  }
+  rest = rest.slice(2);
+  if (rest.length < 5) {
+    return undefined;
+  }
+  return {
+    cellCode: rest[2] ?? "",
+    processCode: rest[3] ?? ""
+  };
+}
+
+function isIntelProcessCodeAtLeastBga(processCode: string): boolean {
+  return /^[A-Z]$/.test(processCode) && processCode >= INTEL_MIN_BGA_PROCESS_CODE;
+}
+
+function hasIntelProcessTail(partNumber: string): boolean {
+  const tokens = parseIntelStructuredPartTokens(partNumber);
+  return Boolean(tokens && INTEL_CELL_CODES.has(tokens.cellCode) && isIntelProcessCodeAtLeastBga(tokens.processCode));
+}
+
+function hasMicronRawTailOnIntelPart(partNumber: string): boolean {
+  const bareIntel = partNumber.startsWith("PF29F") ? partNumber.slice(2) : partNumber;
+  if (!/^29[EF]/.test(bareIntel)) {
+    return false;
+  }
+  let rest = bareIntel.slice(2);
+  rest = rest.slice(1);
+  const density = MICRON_RAW_DENSITY_TOKEN_LIST.find((token) => rest.startsWith(token));
+  if (!density) {
+    return false;
+  }
+  rest = rest.slice(density.length);
+  const device = rest.slice(0, 2);
+  if (!MICRON_RAW_DEVICE_TOKENS.has(device)) {
+    return false;
+  }
+  rest = rest.slice(2);
+  if (rest.length < 5) {
+    return false;
+  }
+  const [cellCode, classificationCode, voltageCode, dieCode, interfaceCode] = rest;
+  return (
+    MICRON_RAW_CELL_CODES.has(cellCode ?? "") &&
+    MICRON_RAW_CLASSIFICATION_CODES.has(classificationCode ?? "") &&
+    MICRON_RAW_VOLTAGE_CODES.has(voltageCode ?? "") &&
+    MICRON_RAW_DIE_CODES.has(dieCode ?? "") &&
+    MICRON_RAW_INTERFACE_CODES.has(interfaceCode ?? "") &&
+    MICRON_RAW_PACKAGE_CODES.has(rest.slice(5))
+  );
+}
+
+function normalizeBareIntelBgaPart(partNumber: string): string {
+  return partNumber.startsWith("29F") && hasIntelProcessTail(partNumber) ? `PF${partNumber}` : partNumber;
+}
+
+function dropCrossVendorRawPartNumber(partNumber: string): boolean {
+  return hasMicronRawTailOnIntelPart(partNumber) || (partNumber.startsWith("MT29F") && hasIntelProcessTail(partNumber.slice(2)));
+}
 
 function trimKnownStructuredPartNumber(partNumber: string): string {
   return (
@@ -92,6 +230,10 @@ export function normalizeFdbPartNumber(partNumber: string): string {
     normalized = normalized.replace(/\*[0-9A-Z]*$/i, "");
   }
   normalized = trimKnownStructuredPartNumber(normalized);
+  if (dropCrossVendorRawPartNumber(normalized)) {
+    return "";
+  }
+  normalized = normalizeBareIntelBgaPart(normalized);
   return normalized.includes("*") ? "" : normalized;
 }
 
