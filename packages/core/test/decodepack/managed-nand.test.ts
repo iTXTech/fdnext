@@ -2425,12 +2425,23 @@ assertPart("H9QT0GECN6X145", {
   vendor: "skhynix",
   type: "uMCP",
   densityMbit: 1048576,
+  voltage: "UFS Vcc: 2.7V~3.6V, Vccq2: 1.7V~1.95V",
   package: "254Ball FBGA",
   extra: {
     "Product Mode": "LPDDR4 uMCP",
-    "Storage Interface": "UFS 2.2"
+    "Storage Density": "128GB UFS",
+    "Storage Interface": "UFS 2.2",
+    "Product Generation": "4th generation uMCP",
+    "DRAM Density": "48Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Width": "x8",
+    "DRAM Voltage": "VDD1: 1.8V, VDD2: 1.1V, VDDQ: 0.6V",
+    "DRAM Speed": "LPDDR4X-4266",
+    "Product Version": "UFS 2.2 / LPDDR4X",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Special Option": "Lead & Halogen Free"
   },
-  absentExtra: ["System"]
+  absentExtra: ["System", "Config Code", "Reserved Code", "Serial Code"]
 });
 
 assertPart("H9HQ15ACPMADAR-KEM", {

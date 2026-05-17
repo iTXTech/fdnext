@@ -18,7 +18,7 @@
   <https://uttc.com.tw/wp-content/uploads/2025/12/H9HP52ACPMADAR_Rev1.0.pdf>
 - `H9AG9G5ANBX100` eMCP datasheet mirror 给出 `H9A` = LPDDR4 eMCP，`G9G5` = 64GB eMMC + 32Gb / 4GB LPDDR4X，`B` = MMC 5.0，254-ball FBGA。
   <https://uttc.com.tw/wp-content/uploads/2025/12/H9AG9G5ANBX100_Rev0.2.pdf>
-- `H9QT0GECN6X145` uMCP datasheet mirror 给出 `H9Q` = LPDDR4 uMCP，`T0GE` = 128GB + 48Gb，`6` = UFS 2.2，254-ball FBGA。
+- `H9QT0GECN6X145` uMCP datasheet mirror 给出 `H9Q` = LPDDR4 uMCP，`T0GE` = 128GB UFS + 48Gb / 6GB LPDDR4X，`C` = 4th generation，`N` = DDR 4266，`6` = UFS 2.2，`X` reserved，`145` = PKG option，254-ball FBGA，Lead & Halogen Free，operation temperature -25°C ~ 85°C。
   <https://www.uttc.com.tw/wp-content/uploads/2025/12/H9QT0GECN6X145_Rev0.1.pdf>
 - `H9HQ15ACPMADAR-KEM` 分销页标注 type `uMCP`、sub-type `UFS+LPDDR4x`、package `254ball_UFS+LPD4x`、density `128+32`。
   <https://www.preduo.com/product/umcp/ufs-lpddr4x/254ball_ufs-lpd4x/h9hq15acpmadar-kem>
@@ -80,10 +80,13 @@
 | PN 结构 | 字段 |
 | --- | --- |
 | `H9Q` + density(4) + generation + speed + interface + reserved + serial(3) | SK hynix LPDDR4 uMCP |
-| density `T0GE` | 128GB UFS + 6GB LPDDR4X |
+| density `T0GE` | 128GB UFS + 48Gb / 6GB LPDDR4X |
 | generation `C` | 4th generation uMCP |
-| speed `N` | LPDDR4X 4266 |
+| speed `N` | LPDDR4X-4266 |
 | interface `6` | UFS 2.2 |
+| reserved `X` / serial `145` | 内部 reserved / PKG option token，不作为公开 code 字段输出 |
+| fixed package/material | 254Ball FBGA, Lead & Halogen Free |
+| operation voltage | UFS Vcc 2.7V~3.6V / Vccq2 1.7V~1.95V；LPDDR4X VDD1/VDD2/VDDQ 1.8V/1.1V/0.6V |
 | `H9HQ` + density(2) + config tail | SK hynix UFS + LPDDR4X uMCP |
 | density `15` | 128GB UFS + 32Gb LPDDR4X |
 
@@ -96,7 +99,7 @@
 | `H9HP27ADAMADAR-KMM` | eMCP, 32GB eMMC + 24Gb LPDDR4X, eMMC 5.1, 254Ball FBGA |
 | `H9HP52ACPMADAR-KMM` | eMCP, 64GB eMMC + 32Gb LPDDR4X, eMMC 5.1, 254Ball FBGA |
 | `H9AG9G5ANBX100` | eMCP, 64GB eMMC + 4GB LPDDR4X, eMMC 5.0 |
-| `H9QT0GECN6X145` | uMCP, 128GB UFS + 6GB LPDDR4X, UFS 2.2 |
+| `H9QT0GECN6X145` | uMCP, 128GB UFS + 48Gb / 6GB LPDDR4X, UFS 2.2, LPDDR4X-4266, 254Ball FBGA |
 | `H9HQ15ACPMADAR-KEM` | uMCP, 128GB UFS + 32Gb LPDDR4X |
 
 ## 已知缺口

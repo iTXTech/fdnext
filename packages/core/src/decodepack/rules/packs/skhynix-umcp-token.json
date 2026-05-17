@@ -31,7 +31,9 @@
         "densityObj": {
           "T0GE": {
             "storage_density": "128GB UFS",
-            "dram_density": "6GB LPDDR4X"
+            "dram_density": 49152,
+            "dram_type": "LPDDR4X",
+            "dram_width": 8
           }
         },
         "generationObj": {
@@ -41,7 +43,7 @@
         },
         "speedObj": {
           "N": {
-            "speed_grade": "LPDDR4X 4266"
+            "dram_speed": "LPDDR4X-4266"
           }
         },
         "interfaceObj": {
@@ -125,6 +127,8 @@
             "group": "uMCP",
             "product_mode": "LPDDR4 uMCP",
             "product_family": "UFS + LPDDR4X",
+            "operation_temperature": "-25°C ~ 85°C",
+            "special_option": "Lead & Halogen Free",
             "density_code": {
               "$var": "densityCode"
             },
@@ -163,6 +167,7 @@
             "cell_code",
             "layout_code",
             "density_code",
+            "config_code",
             "stack_code",
             "generation_code",
             "voltage_io_code"
@@ -183,7 +188,8 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.voltage": "UFS Vcc: 2.7V~3.6V, LPDDR4X: 1.8V/1.1V/0.6V",
+        "fields.voltage": "UFS Vcc: 2.7V~3.6V, Vccq2: 1.7V~1.95V",
+        "fields.dram_voltage": "VDD1: 1.8V, VDD2: 1.1V, VDDQ: 0.6V",
         "fields.package": "254Ball FBGA",
         "meta.ruleId": "vendor.skhynix.umcp.h9q.v1"
       }
