@@ -1,50 +1,16 @@
-import { patchMicronPartNumberDieCodename } from "../micron/process-node";
-import { deleteDraftField, draftField, draftIdentifier, draftPartNumber, draftVendor, setDraftField } from "../draft";
+import { deleteDraftField, draftField, draftIdentifier, draftVendor, setDraftField } from "../draft";
 import type { IdentifierDecodeDraft, PartDecodeDraft } from "../types";
+import { flashIdByteAt } from "./bytes";
 
 interface DecodeDraftPostprocessor {
   partInfo?(partInfo: PartDecodeDraft): PartDecodeDraft;
   identifierInfo?(identifierInfo: IdentifierDecodeDraft): IdentifierDecodeDraft;
 }
-import { normalizePartNumber } from "../utils/normalize";
-import { flashIdByteAt } from "./bytes";
 
 type ProcessLookup = {
   start: number;
   hex: string;
   dieCodename: string;
-};
-
-type YmtcProcessKey =
-  | "X0-A030"
-  | "X1-9050"
-  | "X2-9060"
-  | "X2-6070"
-  | "X3-9060"
-  | "X3-9070"
-  | "X3-6070"
-  | "X4-9060"
-  | "X4-9070"
-  | "X4-6080";
-
-type YmtcProcessInfo = {
-  die_codename: string;
-  process_alias?: string;
-  generation_info?: string;
-  layer_count?: number;
-  cell_level?: number;
-  die_density?: string;
-  plane_count?: number;
-  speed_grade?: string;
-};
-
-type YmtcProcessLookup = {
-  start: number;
-  hex: string;
-  processKey: YmtcProcessKey;
-  page_size?: number;
-  redundant_area_size?: string;
-  pages_per_block?: string;
 };
 
 const MICRON_LIKE_PROCESS_LOOKUPS: ProcessLookup[] = [
@@ -159,172 +125,32 @@ const MICRON_LIKE_PROCESS_LOOKUPS: ProcessLookup[] = [
   { start: 0, hex: "89050732C2", dieCodename: "N4PA" }
 ];
 
+const YMTC_PROCESS_LOOKUPS: ProcessLookup[] = [
+  { start: 1, hex: "C3482510", dieCodename: "JGS" },
+  { start: 1, hex: "D5588D20", dieCodename: "HUS" },
+  { start: 1, hex: "C4284920", dieCodename: "TAS" },
+  { start: 1, hex: "C5294920", dieCodename: "TAS" },
+  { start: 1, hex: "C4284930", dieCodename: "WYS" },
+  { start: 1, hex: "C5294930", dieCodename: "WYS" },
+  { start: 1, hex: "C5587130", dieCodename: "WDS" },
+  { start: 1, hex: "C6597130", dieCodename: "WDS" },
+  { start: 1, hex: "C55C5530", dieCodename: "EMS" }
+];
+
 const SKHYNIX_STACKED_PROCESS_BYTE6 = new Set([0x70, 0x80, 0x90, 0xa0, 0xa2, 0xb0, 0xb2, 0xc0, 0xc2, 0xd0]);
 
-const YMTC_PROCESS_INFO_BY_KEY: Record<YmtcProcessKey, YmtcProcessInfo> = {
-  "X0-A030": {
-    die_codename: "DBS",
-    generation_info: "Gen 1",
-    layer_count: 32,
-    cell_level: 2,
-    die_density: "64Gb",
-    plane_count: 1,
-    speed_grade: "Max Speed=533MT/s"
-  },
-  "X1-9050": {
-    die_codename: "JGS",
-    generation_info: "Gen 2 Xtacking 1.0",
-    layer_count: 64,
-    cell_level: 3,
-    die_density: "256Gb",
-    plane_count: 2,
-    speed_grade: "ONFI 4.0; Max Speed=800MT/s"
-  },
-  "X2-9060": {
-    die_codename: "TAS",
-    generation_info: "Gen 3 Xtacking 2.0",
-    layer_count: 128,
-    cell_level: 3,
-    die_density: "512Gb",
-    plane_count: 4,
-    speed_grade: "ONFI 4.1; Max Speed=1600MT/s"
-  },
-  "X2-6070": {
-    die_codename: "HUS",
-    generation_info: "Gen 3 Xtacking 2.0",
-    layer_count: 128,
-    cell_level: 4,
-    die_density: "1.33Tb",
-    plane_count: 6,
-    speed_grade: "ONFI 4.1; Max Speed=1200MT/s"
-  },
-  "X3-9060": {
-    die_codename: "WYS",
-    generation_info: "Gen 4 Xtacking 3.0",
-    layer_count: 128,
-    cell_level: 3,
-    die_density: "512Gb",
-    plane_count: 4,
-    speed_grade: "ONFI 5.0; Max Speed=2400MT/s"
-  },
-  "X3-9070": {
-    die_codename: "WDS",
-    generation_info: "Gen 4 Xtacking 3.0",
-    layer_count: 232,
-    cell_level: 3,
-    die_density: "1Tb",
-    plane_count: 6,
-    speed_grade: "ONFI 5.0; Max Speed=2400MT/s"
-  },
-  "X3-6070": {
-    die_codename: "EMS",
-    generation_info: "Gen 4 Xtacking 3.0",
-    layer_count: 232,
-    cell_level: 4,
-    die_density: "1Tb",
-    plane_count: 4,
-    speed_grade: "ONFI 5.0; Max Speed=2400MT/s"
-  },
-  "X4-9060": {
-    die_codename: "WTS",
-    generation_info: "Gen 5 Xtacking 4.0",
-    layer_count: 160,
-    cell_level: 3,
-    die_density: "512Gb",
-    plane_count: 4,
-    speed_grade: "ONFI 5.1; Max Speed=3600MT/s"
-  },
-  "X4-9070": {
-    die_codename: "SQS",
-    generation_info: "Gen 5 Xtacking 4.0",
-    layer_count: 267,
-    cell_level: 3,
-    die_density: "1Tb",
-    plane_count: 6
-  },
-  "X4-6080": {
-    die_codename: "PTS",
-    generation_info: "Gen 5 Xtacking 4.0",
-    layer_count: 267,
-    cell_level: 4,
-    die_density: "2Tb"
-  }
-};
-
-const YMTC_PROCESS_LOOKUPS: YmtcProcessLookup[] = [
-  {
-    start: 1,
-    hex: "C3482510",
-    processKey: "X1-9050",
-    page_size: 16384,
-    redundant_area_size: "2048B",
-    pages_per_block: "1152 pages"
-  },
-  {
-    start: 1,
-    hex: "D5588D20",
-    processKey: "X2-6070",
-    page_size: 16384,
-    redundant_area_size: "2048B",
-    pages_per_block: "3048 pages"
-  },
-  {
-    start: 1,
-    hex: "C4284920",
-    processKey: "X2-9060",
-    page_size: 16384,
-    redundant_area_size: "2048B",
-    pages_per_block: "2304 pages"
-  },
-  {
-    start: 1,
-    hex: "C5294920",
-    processKey: "X2-9060",
-    page_size: 16384,
-    redundant_area_size: "2048B",
-    pages_per_block: "2304 pages"
-  },
-  {
-    start: 1,
-    hex: "C4284930",
-    processKey: "X3-9060",
-    page_size: 16384,
-    redundant_area_size: "2048B",
-    pages_per_block: "2304 pages"
-  },
-  {
-    start: 1,
-    hex: "C5294930",
-    processKey: "X3-9060",
-    page_size: 16384,
-    redundant_area_size: "2048B",
-    pages_per_block: "2304 pages"
-  },
-  {
-    start: 1,
-    hex: "C5587130",
-    processKey: "X3-9070",
-    page_size: 16384,
-    redundant_area_size: "1984B",
-    pages_per_block: "4176 pages"
-  },
-  {
-    start: 1,
-    hex: "C6597130",
-    processKey: "X3-9070",
-    page_size: 16384,
-    redundant_area_size: "1984B",
-    pages_per_block: "4176 pages"
-  },
-  {
-    start: 1,
-    hex: "C55C5530",
-    processKey: "X3-6070",
-    page_size: 16384,
-    redundant_area_size: "2432B",
-    pages_per_block: "5544 pages"
-  }
-];
+const NAND_PROFILE_ENRICHED_FIELDS = [
+  "process_alias",
+  "generation_info",
+  "layer_count",
+  "cell_level",
+  "die_density",
+  "plane_count",
+  "speed_grade",
+  "page_size",
+  "redundant_area_size",
+  "pages_per_block"
+] as const;
 
 function lookupProcess<T extends { start: number; hex: string }>(id: string, lookups: T[]): T | undefined {
   const normalized = id.toUpperCase();
@@ -356,19 +182,6 @@ function numericDraftField(info: IdentifierDecodeDraft, key: "density" | "die_co
   return Number.isFinite(parsed) ? parsed : undefined;
 }
 
-function clonePartDraft(info: PartDecodeDraft): PartDecodeDraft {
-  return {
-    ...info,
-    device: { ...info.device },
-    fields: { ...(info.fields ?? {}) },
-    identifiers: info.identifiers ? { flashIds: [...(info.identifiers.flashIds ?? [])] } : undefined,
-    controllers: info.controllers ? [...info.controllers] : undefined,
-    components: info.components ? [...info.components] : undefined,
-    meta: info.meta ? { ...info.meta } : undefined,
-    warnings: info.warnings ? [...info.warnings] : undefined
-  };
-}
-
 function cloneIdentifierDraft(info: IdentifierDecodeDraft): IdentifierDecodeDraft {
   return {
     ...info,
@@ -379,29 +192,6 @@ function cloneIdentifierDraft(info: IdentifierDecodeDraft): IdentifierDecodeDraf
     meta: info.meta ? { ...info.meta } : undefined,
     warnings: info.warnings ? [...info.warnings] : undefined
   };
-}
-
-function patchIntelPartNumberDieCodename(info: PartDecodeDraft): PartDecodeDraft | null {
-  if (draftVendor(info) !== "intel") {
-    return null;
-  }
-
-  const normalized = normalizePartNumber(draftPartNumber(info));
-  let dieCodename: string | undefined;
-  if (normalized.includes("QKA")) {
-    dieCodename = "N38B";
-  } else if (normalized.includes("QK1")) {
-    dieCodename = "N38A";
-  } else if (normalized.includes("QL1")) {
-    dieCodename = "N4PA";
-  }
-
-  if (!dieCodename || draftField(info, "die_codename") === dieCodename) {
-    return null;
-  }
-  const next = clonePartDraft(info);
-  setDraftField(next, "die_codename", dieCodename);
-  return next;
 }
 
 function patchMicronLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
@@ -479,37 +269,21 @@ function patchKioxiaLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | n
 }
 
 function patchYmtc(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
-  const next = cloneIdentifierDraft(info);
-  let changed = false;
-  const id = draftIdentifier(info);
-
-  const processInfo = lookupProcess(id, YMTC_PROCESS_LOOKUPS);
-  if (processInfo) {
-    const processFields = YMTC_PROCESS_INFO_BY_KEY[processInfo.processKey];
-    setDraftField(next, "die_codename", processFields.die_codename);
-    setDraftField(next, "process_alias", processFields.process_alias ?? processInfo.processKey);
-    setDraftField(next, "generation_info", processFields.generation_info);
-    setDraftField(next, "layer_count", processFields.layer_count);
-    setDraftField(next, "cell_level", processFields.cell_level);
-    setDraftField(next, "die_density", processFields.die_density);
-    setDraftField(next, "plane_count", processFields.plane_count);
-    setDraftField(next, "speed_grade", processFields.speed_grade);
-    setDraftField(next, "page_size", processInfo.page_size);
-    setDraftField(next, "redundant_area_size", processInfo.redundant_area_size);
-    setDraftField(next, "pages_per_block", processInfo.pages_per_block);
-    changed = true;
+  const dieCodename = lookupDieCodename(draftIdentifier(info), YMTC_PROCESS_LOOKUPS);
+  if (!dieCodename) {
+    return null;
   }
 
-  return changed ? next : null;
+  const next = cloneIdentifierDraft(info);
+  setDraftField(next, "die_codename", dieCodename);
+  for (const key of NAND_PROFILE_ENRICHED_FIELDS) {
+    deleteDraftField(next, key);
+  }
+  return next;
 }
 
 export function createDefaultIdentifierPostprocessor(): DecodeDraftPostprocessor {
   return {
-    partInfo: (info): PartDecodeDraft => {
-      const micronPatch = patchMicronPartNumberDieCodename(info);
-      const afterMicron = micronPatch ? { ...clonePartDraft(info), fields: { ...(info.fields ?? {}), ...(micronPatch.fields ?? {}) } } : info;
-      return patchIntelPartNumberDieCodename(afterMicron) ?? afterMicron;
-    },
     identifierInfo: (info): IdentifierDecodeDraft => {
       const vendor = draftVendor(info);
 

@@ -1176,16 +1176,16 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       setDraftField(info, "cell_level", record.c);
     }
 
-    if (record.d != null && record.d !== -1) {
+    if (record.d != null && record.d !== -1 && !isKnownClassificationValue(draftField(info, "die_count"))) {
       setDraftField(info, "die_count", record.d);
     }
-    if (record.e != null && record.e !== -1) {
+    if (record.e != null && record.e !== -1 && !isKnownClassificationValue(draftField(info, "ce_count"))) {
       setDraftField(info, "ce_count", record.e);
     }
-    if (record.r != null && record.r !== -1) {
+    if (record.r != null && record.r !== -1 && !isKnownClassificationValue(draftField(info, "rb_count"))) {
       setDraftField(info, "rb_count", record.r);
     }
-    if (record.n != null && record.n !== -1) {
+    if (record.n != null && record.n !== -1 && !isKnownClassificationValue(draftField(info, "channel_count"))) {
       setDraftField(info, "channel_count", record.n);
     }
 

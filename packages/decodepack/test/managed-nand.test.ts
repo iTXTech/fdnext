@@ -213,13 +213,48 @@ function assertDieProfileFromFdbProcess(partNumber: string, expected: string, ex
   }
 }
 
-function assertMicronPostprocessDieProfile(partNumber: string, expected: string, expectedLayerCount?: number): void {
+function assertMicronDecodePackDieProfile(partNumber: string, expected: string, expectedLayerCount?: number): void {
   const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
-  assert.equal(fieldText(firstField(result, "die_codename")), expected, `${partNumber} die profile from Micron PN postprocess`);
+  assert.equal(fieldText(firstField(result, "die_codename")), expected, `${partNumber} die profile from Micron DecodePack`);
   if (expectedLayerCount !== undefined) {
     assert.equal(firstField(result, "layer_count")?.value, expectedLayerCount, `${partNumber} layer count from die profile`);
   }
+}
+
+function assertFdbDoesNotOverrideDecodePackFields(): void {
+  const precedenceEngine = createEngine({
+    resources: {
+      ...embeddedResourceBundle,
+      partIndex: {
+        ...embeddedResourceBundle.partIndex,
+        rawNand: {
+          info: { version: "test", controllers: ["FDB_ONLY_CTRL"] },
+          micron: {
+            MT29F2T08GBLBH: {
+              id: ["2C00"],
+              l: "B47R",
+              c: "MLC",
+              d: 16,
+              e: 8,
+              r: 4,
+              n: 2,
+              t: ["FDB_ONLY_CTRL"]
+            }
+          }
+        }
+      }
+    },
+    decoders: compiledPack.partDecoders
+  });
+  const result = precedenceEngine.decodePart({ query: "MT29F2T08GBLBH", lang: "eng" });
+  assert.equal(result.status, "ok", "conflicting FDB fixture should still decode");
+  assert.equal(fieldText(firstField(result, "die_codename")), "N69R", "DecodePack die profile should win over FDB process");
+  assert.equal(fieldText(firstField(result, "cell_level")), "QLC", "DecodePack cell level should win over FDB cell");
+  assert.equal(firstField(result, "die_count")?.value, 1, "DecodePack die count should win over FDB die count");
+  assert.equal(firstField(result, "ce_count")?.value, 1, "DecodePack CE count should win over FDB CE count");
+  assert.equal(firstField(result, "rb_count")?.value, 1, "DecodePack R/B count should win over FDB R/B count");
+  assert.equal(firstField(result, "channel_count")?.value, 1, "DecodePack channel count should win over FDB channel count");
 }
 
 function assertFieldBlock(partNumber: string, key: string, expectedBlockId: string): void {
@@ -1412,7 +1447,9 @@ assertPart("MT29F2G08ABDHC-ET:D", {
   absentExtra: ["Revision Code", "Suffix Code", "Package Code"]
 });
 
-assertMicronPostprocessDieProfile("MT29F2T08GBLBH", "N69R", 276);
+assertRuleDraftDieProfile("vendor.micron.token.v1", "MT29F2T08GBLBH", "N69R");
+assertMicronDecodePackDieProfile("MT29F2T08GBLBH", "N69R", 276);
+assertFdbDoesNotOverrideDecodePackFields();
 
 assertDecodedPartNumber("MT29F2G08ABDHC-ETD", "MT29F2G08ABDHC-ET:D");
 assertDecodedPartNumber("MT29FB16T08GALAAM5-TESB", "MT29FB16T08GALAAM5-TES:B");

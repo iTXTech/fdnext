@@ -262,6 +262,67 @@
           "K": "K-Die",
           "L": "L-Die"
         },
+        "processNodeByDieDensityCellRev": {
+          "1Gb:SLC:D": "M68A",
+          "1Gb:SLC:E": "M68M",
+          "1Gb:SLC:F": "M78A",
+          "2Gb:SLC:E": "M69A",
+          "2Gb:SLC:F": "M79M",
+          "2Gb:SLC:G": "M79A",
+          "4Gb:SLC:D": "M60A",
+          "4Gb:SLC:E": "M70M",
+          "4Gb:SLC:F": "M70A",
+          "8Gb:SLC:B": "M61A",
+          "8Gb:SLC:C": "M71M",
+          "16Gb:SLC:B": "M62B",
+          "16Gb:MLC:B": "L62A",
+          "16Gb:SLC:C": "M72A",
+          "16Gb:MLC:C": "L72A",
+          "32Gb:MLC:A": "L63A",
+          "32Gb:TLC:A": "B63A",
+          "32Gb:SLC:A": "M73A",
+          "32Gb:MLC:B": "L63B",
+          "32Gb:SLC:B": "M83A",
+          "32Gb:MLC:C": "L73A",
+          "32Gb:SLC:D": "M83C",
+          "32Gb:MLC:D": "L83A",
+          "42Gb:MLC:A": "L7BT",
+          "64Gb:MLC:A": "L74A",
+          "64Gb:TLC:A": "B74A",
+          "64Gb:SLC:A": "M84A",
+          "64Gb:SLC:B": "M84C",
+          "64Gb:MLC:D": "L84C",
+          "64Gb:MLC:E": "L84D",
+          "64Gb:MLC:F": "L94C",
+          "64Gb:MLC:G": "L04A",
+          "128Gb:MLC:A": "L85A",
+          "128Gb:TLC:A": "B85T",
+          "128Gb:MLC:B": "L85C",
+          "128Gb:TLC:B": "B95A",
+          "128Gb:MLC:C": "L95B",
+          "128Gb:TLC:D": "B05A",
+          "128Gb:MLC:E": "L05B",
+          "256Gb:TLC:A": "B16A",
+          "256Gb:MLC:B": "L06B",
+          "256Gb:TLC:B": "B16C",
+          "384Gb:TLC:B": "B0KB",
+          "512Gb:TLC:A": "B17A",
+          "512Gb:TLC:B": "B27A",
+          "512Gb:TLC:C": "B27B",
+          "512Gb:TLC:D": "B37R",
+          "512Gb:TLC:E": "B47R",
+          "512Gb:TLC:F": "B57R",
+          "512Gb:TLC:G": "B27C",
+          "512Gb:TLC:K": "B47T",
+          "512Gb:TLC:L": "B57T",
+          "1Tb:QLC:A": "N18A",
+          "1Tb:QLC:B": "N28A",
+          "1Tb:QLC:C": "N48R",
+          "1Tb:TLC:C": "B58R",
+          "1Tb:QLC:D": "N58R",
+          "1Tb:TLC:E": "B68S",
+          "2Tb:QLC:B": "N69R"
+        },
         "interface": {
           "A": {
             "async": true,
@@ -496,6 +557,42 @@
           "default": "Unknown"
         },
         {
+          "op": "set",
+          "to": "dieCount",
+          "value": {
+            "$path": [
+              "classification",
+              "die"
+            ]
+          }
+        },
+        {
+          "op": "dieDensity",
+          "density": "density",
+          "dieCount": "dieCount",
+          "to": "dieDensityClass",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{dieDensityClass}}:{{cellLevel}}:{{die_token}}",
+          "to": "dieDensityCellRevKey"
+        },
+        {
+          "op": "map",
+          "from": "dieDensityCellRevKey",
+          "table": "processNodeByDieDensityCellRev",
+          "to": "processNode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
           "op": "take",
           "len": 1,
           "to": "interface_token"
@@ -626,6 +723,12 @@
         },
         "fields.package": {
           "$var": "package"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
+        },
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
         },
         "meta.ruleId": "vendor.micron.token.v1"
       }

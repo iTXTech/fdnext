@@ -317,6 +317,9 @@
     "die_density": "1Tb",
     "cell_level": 4,
     "plane_count": 4,
+    "page_size": 16384,
+    "redundant_area_size": "2432B",
+    "pages_per_block": "5544 pages",
     "speed_grade": "ONFI 5.0; Max Speed=2400MT/s",
     "firmware_match": [
       "X3-6070",
@@ -331,6 +334,9 @@
     "die_density": "1.33Tb",
     "cell_level": 4,
     "plane_count": 6,
+    "page_size": 16384,
+    "redundant_area_size": "2048B",
+    "pages_per_block": "3048 pages",
     "speed_grade": "ONFI 4.1; Max Speed=1200MT/s",
     "firmware_match": [
       "X2-6070",
@@ -602,6 +608,9 @@
     "die_density": "256Gb",
     "cell_level": 3,
     "plane_count": 2,
+    "page_size": 16384,
+    "redundant_area_size": "2048B",
+    "pages_per_block": "1152 pages",
     "speed_grade": "ONFI 4.0; Max Speed=800MT/s",
     "firmware_match": [
       "X1-9050",
@@ -2322,6 +2331,9 @@
     "die_density": "512Gb",
     "cell_level": 3,
     "plane_count": 4,
+    "page_size": 16384,
+    "redundant_area_size": "2048B",
+    "pages_per_block": "2304 pages",
     "speed_grade": "ONFI 4.1; Max Speed=1600MT/s",
     "firmware_match": [
       "X2-9060",
@@ -2336,6 +2348,9 @@
     "die_density": "1Tb",
     "cell_level": 3,
     "plane_count": 6,
+    "page_size": 16384,
+    "redundant_area_size": "1984B",
+    "pages_per_block": "4176 pages",
     "speed_grade": "ONFI 5.0; Max Speed=2400MT/s",
     "firmware_match": [
       "X3-9070",
@@ -2364,6 +2379,9 @@
     "die_density": "512Gb",
     "cell_level": 3,
     "plane_count": 4,
+    "page_size": 16384,
+    "redundant_area_size": "2048B",
+    "pages_per_block": "2304 pages",
     "speed_grade": "ONFI 5.0; Max Speed=2400MT/s",
     "firmware_match": [
       "X3-9060",
