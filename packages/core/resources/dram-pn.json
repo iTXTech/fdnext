@@ -544,6 +544,498 @@
     "pn": "NT6AN1024F32AV-J2"
   },
   {
+    "vendor": "nanya",
+    "pn": "NT5CB128M8GN-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M8GN-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB64M16GP-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB64M16GP-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M8GN-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M8GN-FL"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC64M16GP-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC64M16GP-FL"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M8GN-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M8GN-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB64M16GP-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB64M16GP-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M8GN-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M8GN-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC64M16GP-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC64M16GP-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8JQ-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8JQ-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8JQ-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8JQ-DIB"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16JR-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16JR-DIB"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8JQ-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8JQ-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8JQ-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8JQ-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16JR-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16JR-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16JR-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16JR-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8JQ-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8JQ-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8JQ-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8JQ-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16JR-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16JR-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16JR-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16JR-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8IN-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8IN-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8IN-FL"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8IN-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8IN-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8IN-DIB"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16IP-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16IP-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16IP-FL"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16IP-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16IP-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16IP-DIB"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8IN-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8IN-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8IN-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8IN-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16IP-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16IP-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16IP-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16IP-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8IN-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8IN-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8IN-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8IN-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16IP-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16IP-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16IP-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16IP-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8IN-DIH"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8IN-DIH"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16IP-DIH"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16IP-DIH"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8IN-DIA"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8IN-DIA"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16IP-DIA"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16IP-DIA"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8FN-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8FN-EJ"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8FN-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8FN-FL"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16FP-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16FP-EJ"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16FP-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16FP-FL"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8FN-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8FN-DIB"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8FN-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16FP-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16FP-DIB"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16FP-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M8FN-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M8FN-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16FP-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16FP-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16FP-DIA"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB128M16FP-DIH"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16FP-DIA"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC128M16FP-DIH"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC512M8EQ-DIB"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC512M8EQ-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB512M8EQ-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB512M8EQ-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M16ER-DIB"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M16ER-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M16ER-DI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M16ER-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M16ER-EK"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC512M8EQ-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB512M8EQ-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC512M8EQ-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB512M8EQ-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB512M8EQ-FLI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M16ER-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M16ER-DII"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M16ER-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M16ER-EKI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M16ER-FLI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC512M8EQ-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB512M8EQ-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC512M8EQ-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB512M8EQ-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M16ER-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M16ER-DIT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CC256M16ER-EKT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5CB256M16ER-EKT"
+  },
+  {
     "vendor": "elpida",
     "pn": "EDS1216AATA-75"
   },

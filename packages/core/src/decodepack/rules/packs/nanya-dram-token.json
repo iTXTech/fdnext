@@ -73,23 +73,32 @@
           "5TU:HG": "84-ball BGA",
           "5DS:BS": "66-pin TSOP-II",
           "5DS:CS": "66-pin TSOP-II",
-          "5CB:GN": "78-ball BGA",
-          "5CB:GP": "96-ball BGA",
-          "5CB:CN": "78-ball BGA",
-          "5CB:CP": "96-ball BGA",
-          "5CB:EQ": "78-ball BGA",
-          "5CB:ER": "96-ball BGA",
+          "5CB:GN": "78-ball VFBGA",
+          "5CB:GP": "96-ball VFBGA",
+          "5CB:CN": "78-ball TFBGA",
+          "5CB:CP": "96-ball TFBGA",
+          "5CB:EQ": "78-ball TFBGA",
+          "5CB:ER": "96-ball TFBGA",
           "5CB:EH": "96-ball BGA",
-          "5CB:JR": "96-ball BGA",
-          "5CB:FP": "96-ball BGA",
-          "5CC:GN": "78-ball BGA",
-          "5CC:GP": "96-ball BGA",
-          "5CC:CN": "78-ball BGA",
-          "5CC:CP": "96-ball BGA",
-          "5CC:EQ": "78-ball BGA",
-          "5CC:ER": "96-ball BGA",
+          "5CB:FN": "78-ball TFBGA",
+          "5CB:FP": "96-ball TFBGA",
+          "5CB:IN": "78-ball VFBGA",
+          "5CB:IP": "96-ball VFBGA",
+          "5CB:JQ": "78-ball TFBGA",
+          "5CB:JR": "96-ball TFBGA",
+          "5CC:GN": "78-ball VFBGA",
+          "5CC:GP": "96-ball VFBGA",
+          "5CC:CN": "78-ball TFBGA",
+          "5CC:CP": "96-ball TFBGA",
+          "5CC:EQ": "78-ball TFBGA",
+          "5CC:ER": "96-ball TFBGA",
           "5CC:EH": "96-ball BGA",
-          "5CC:JR": "96-ball BGA",
+          "5CC:FN": "78-ball TFBGA",
+          "5CC:FP": "96-ball TFBGA",
+          "5CC:IN": "78-ball VFBGA",
+          "5CC:IP": "96-ball VFBGA",
+          "5CC:JQ": "78-ball TFBGA",
+          "5CC:JR": "96-ball TFBGA",
           "5AD:E3": "78-ball BGA",
           "5AD:E4": "96-ball BGA",
           "5AD:F3": "78-ball BGA",
@@ -288,10 +297,14 @@
             "operation_temperature": "Commercial (0C~95C)"
           },
           "A": {
-            "operation_temperature": "Automotive (-40C~95C)"
+            "operation_temperature": "Automotive Grade 3 (-40C~95C)"
+          },
+          "B": {
+            "operation_temperature": "Commercial (0C~95C)",
+            "special_option": "Reduced Standby"
           },
           "H": {
-            "operation_temperature": "Automotive (-40C~105C)"
+            "operation_temperature": "Automotive Grade 2 (-40C~105C)"
           },
           "I": {
             "operation_temperature": "Industrial (-40C~95C)"
@@ -300,7 +313,7 @@
             "operation_temperature": "Industrial (-40C~105C)"
           },
           "T": {
-            "operation_temperature": "Wide temperature (-40C~95C)"
+            "operation_temperature": "Quasi Industrial (-40C~95C)"
           }
         }
       },

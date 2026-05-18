@@ -3752,13 +3752,47 @@ assertDram("NT5TU32M16FG-ACI", {
   }
 });
 
+assertDram("NT5CB128M8GN-DI", {
+  vendor: "nanya",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "78-ball VFBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "GN",
+    "Config Code": "128M8",
+    "DRAM Speed": "DDR3-1600 11-11-11",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("NT5CC64M16GP-EKI", {
+  vendor: "nanya",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball VFBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "GP",
+    "Config Code": "64M16",
+    "DRAM Speed": "DDR3-1866 13-13-13",
+    "Operation Temperature": "Industrial (-40C~95C)"
+  }
+});
+
 assertDram("NT5CB128M16JR-DI", {
   vendor: "nanya",
   densityMbit: 2048,
   density: "2Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball BGA",
+  package: "96-ball TFBGA",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -3774,7 +3808,7 @@ assertDram("NT5CC128M16JR-DI", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball BGA",
+  package: "96-ball TFBGA",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -3784,13 +3818,82 @@ assertDram("NT5CC128M16JR-DI", {
   }
 });
 
+assertDram("NT5CB256M8JQ-DIT", {
+  vendor: "nanya",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "78-ball TFBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "JQ",
+    "Config Code": "256M8",
+    "DRAM Speed": "DDR3-1600 11-11-11",
+    "Operation Temperature": "Quasi Industrial (-40C~95C)"
+  }
+});
+
+assertDram("NT5CC128M16JR-DIB", {
+  vendor: "nanya",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball TFBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "JR",
+    "Config Code": "128M16",
+    "DRAM Speed": "DDR3-1600 11-11-11",
+    "Operation Temperature": "Commercial (0C~95C)",
+    "Special Option": "Reduced Standby"
+  }
+});
+
+assertDram("NT5CB256M8IN-DIH", {
+  vendor: "nanya",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "78-ball VFBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "IN",
+    "Config Code": "256M8",
+    "DRAM Speed": "DDR3-1600 11-11-11",
+    "Operation Temperature": "Automotive Grade 2 (-40C~105C)"
+  }
+});
+
+assertDram("NT5CB256M8FN-EJ", {
+  vendor: "nanya",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "78-ball TFBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "FN",
+    "Config Code": "256M8",
+    "DRAM Speed": "DDR3-1866 12-12-12",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
 assertDram("NT5CB512M8CN-AC", {
   vendor: "nanya",
   densityMbit: 4096,
   density: "4Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball BGA",
+  package: "78-ball TFBGA",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -3807,7 +3910,7 @@ assertDram("NT5CC256M16CP-FL", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball BGA",
+  package: "96-ball TFBGA",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -3815,6 +3918,41 @@ assertDram("NT5CC256M16CP-FL", {
     "Config Code": "256M16",
     "DRAM Speed": "DDR3-2133 14-14-14",
     "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("NT5CC512M8EQ-DIB", {
+  vendor: "nanya",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "78-ball TFBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "EQ",
+    "Config Code": "512M8",
+    "DRAM Speed": "DDR3-1600 11-11-11",
+    "Operation Temperature": "Commercial (0C~95C)",
+    "Special Option": "Reduced Standby"
+  }
+});
+
+assertDram("NT5CC256M16ER-EKT", {
+  vendor: "nanya",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "96-ball TFBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "ER",
+    "Config Code": "256M16",
+    "DRAM Speed": "DDR3-1866 13-13-13",
+    "Operation Temperature": "Quasi Industrial (-40C~95C)"
   }
 });
 
@@ -4691,6 +4829,11 @@ assertSearchPnIncludes("K4RAH046VB", "Samsung K4RAH046VB-BCQK");
 assertSearchPnIncludes("K4RAH165VB", "Samsung K4RAH165VB-BCWM");
 assertSearchPnIncludes("K4A8G045WD", "Samsung K4A8G045WD-BCWE");
 assertSearchPnIncludes("H5ANAG8NCJR", "SKhynix H5ANAG8NCJR-XNC");
+assertSearchPnIncludes("NT5CB128M8GN", "Nanya NT5CB128M8GN-DI");
+assertSearchPnIncludes("NT5CB256M8JQ", "Nanya NT5CB256M8JQ-DIT");
+assertSearchPnIncludes("NT5CB256M8IN", "Nanya NT5CB256M8IN-DIH");
+assertSearchPnIncludes("NT5CB256M8FN", "Nanya NT5CB256M8FN-EJ");
+assertSearchPnIncludes("NT5CC512M8EQ", "Nanya NT5CC512M8EQ-DIB");
 assertSearchPnIncludes("NT5FF2048M8DK", "Nanya NT5FF2048M8DK-UB");
 assertSearchPnIncludes("NT6AP256F64", "Nanya NT6AP256F64BN-J1");
 assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
