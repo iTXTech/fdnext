@@ -134,6 +134,19 @@
             "ce_count": 2
           }
         },
+        "packageOverride": {
+          "TR:16256:B": "96-ball BGA (9mm x 13mm)",
+          "TR:16256:D": "96-ball BGA (7.5mm x 13mm)",
+          "TR:85120:B": "78-ball BGA (8mm x 10.5mm)",
+          "TR:85120:D": "78-ball BGA (8mm x 10.5mm)",
+          "TR:16512:B": "96-ball BGA (10mm x 14mm)",
+          "TR:16512S2:D": "96-ball BGA (9mm x 13mm)",
+          "TR:81024:B": "78-ball BGA (10mm x 14mm)",
+          "TR:16640:C": "96-ball BGA (9mm x 13mm)",
+          "TR:81280:C": "78-ball BGA (8mm x 10.5mm)",
+          "QR:16256:B": "96-ball FBGA (7.5mm x 13.5mm, 0.8mm ball pitch)",
+          "QR:85120:B": "78-ball FBGA"
+        },
         "speedObj": {
           "3": {
             "dram_speed": "333MHz"
@@ -256,6 +269,10 @@
           "B": {
             "package_code": "B (BGA)"
           },
+          "B2": {
+            "package": "96-ball BGA (7.5mm x 13mm)",
+            "package_code": "B2 (BGA)"
+          },
           "T": {
             "package_code": "T (TSOP)"
           }
@@ -310,6 +327,13 @@
           "default": {}
         },
         {
+          "op": "set",
+          "to": "configPackage",
+          "value": {
+            "$path": "configObj.package"
+          }
+        },
+        {
           "op": "takeRegex",
           "pattern": "^(EC|[A-Z])(L?)",
           "to": "revisionTail",
@@ -342,6 +366,24 @@
           "to": "revisionLabel"
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{configToken}}:{{revisionCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageOverride",
+          "to": "packageOverride",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "packageOverride",
+          "secondary": "configPackage",
+          "to": "basePackage"
+        },
+        {
           "op": "map",
           "from": "configToken",
           "table": "stackObj",
@@ -369,6 +411,19 @@
           "table": "packageObj",
           "to": "suffixPackageObj",
           "default": {}
+        },
+        {
+          "op": "set",
+          "to": "suffixPackage",
+          "value": {
+            "$path": "suffixPackageObj.package"
+          }
+        },
+        {
+          "op": "fallback",
+          "primary": "suffixPackage",
+          "secondary": "basePackage",
+          "to": "package"
         },
         {
           "op": "takeLongest",
@@ -450,7 +505,7 @@
           "$var": "voltage"
         },
         "fields.package": {
-          "$path": "configObj.package"
+          "$var": "package"
         },
         "meta.ruleId": "vendor.issi.dram.standard.component.v1",
         "meta.fieldProfile": "dram",
