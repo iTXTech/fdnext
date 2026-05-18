@@ -1,5 +1,398 @@
 [
   {
+    "id": "vendor.winbond.dram.ddr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W94(?:12G6KH(?:-?(?:5[A-Z]?|6I))?|25G6KH(?:-?5[A-Z]?)?)$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "W94"
+      ],
+      "tables": {
+        "density": {
+          "12": 128,
+          "25": 256
+        },
+        "speedObj": {
+          "5": {
+            "dram_speed": "DDR-400 CL3",
+            "cas_latency": 3
+          },
+          "6": {
+            "dram_speed": "DDR-333 CL3",
+            "cas_latency": 3
+          }
+        },
+        "gradeObj": {
+          "": {
+            "operation_temperature": "Commercial (0C~70C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "K": {
+            "operation_temperature": "Automotive AG2 (-40C~105C)"
+          },
+          "A": {
+            "operation_temperature": "Automotive AG3 (-40C~85C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "gCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^-?([56])([A-Z]?)",
+          "to": "suffixToken",
+          "groups": {
+            "speedCode": 1,
+            "gradeCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR",
+            "bank_count": 4
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "suffixToken"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "gradeObj",
+          "if": "suffixToken"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": 16,
+        "fields.dram_voltage": "2.5V VDD",
+        "fields.package": "66-pin TSOP (400 mil)",
+        "meta.ruleId": "vendor.winbond.dram.ddr.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.winbond.dram.ddr2.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W97(?:(?:12G6KB)(?:-?(?:25|3)[A-Z]?)?|(?:25G[68]KB)(?:-?(?:18|25|3)[A-Z]?)?|(?:1GG[68]NB)(?:-?(?:18|25)[A-Z]?)?|(?:2GG6KB|2GG8KS)(?:-?(?:18|25|3)[A-Z]?)?)$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "W97"
+      ],
+      "tables": {
+        "density": {
+          "12": 128,
+          "25": 256,
+          "1G": 1024,
+          "2G": 2048
+        },
+        "bankCount": {
+          "12": 4,
+          "25": 4,
+          "1G": 8,
+          "2G": 8
+        },
+        "deviceWidth": {
+          "6": 16,
+          "8": 8
+        },
+        "package": {
+          "6": "84-ball TFBGA (8mm x 12.5mm)",
+          "8": "60-ball TFBGA (8mm x 12.5mm)"
+        },
+        "speedObj": {
+          "12:25": {
+            "dram_speed": "DDR2-800 5-5-5/6-6-6"
+          },
+          "12:3": {
+            "dram_speed": "DDR2-667 5-5-5",
+            "cas_latency": 5
+          },
+          "25:18": {
+            "dram_speed": "DDR2-1066 7-7-7",
+            "cas_latency": 7
+          },
+          "25:25": {
+            "dram_speed": "DDR2-800 5-5-5/6-6-6"
+          },
+          "25:3": {
+            "dram_speed": "DDR2-667 5-5-5",
+            "cas_latency": 5
+          },
+          "1G:18": {
+            "dram_speed": "DDR2-1066 6-6-6",
+            "cas_latency": 6
+          },
+          "1G:25": {
+            "dram_speed": "DDR2-800 5-5-5/6-6-6"
+          },
+          "2G:18": {
+            "dram_speed": "DDR2-1066 7-7-7",
+            "cas_latency": 7
+          },
+          "2G:25": {
+            "dram_speed": "DDR2-800 5-5-5/6-6-6"
+          },
+          "2G:3": {
+            "dram_speed": "DDR2-667 5-5-5",
+            "cas_latency": 5
+          }
+        },
+        "gradeObj": {
+          "": {
+            "operation_temperature": "Commercial (0C~85C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "J": {
+            "operation_temperature": "Industrial Plus (-40C~105C)"
+          },
+          "S": {
+            "operation_temperature": "Automotive AG1 (-40C~125C)"
+          },
+          "K": {
+            "operation_temperature": "Automotive AG2 (-40C~105C)"
+          },
+          "W": {
+            "operation_temperature": "Automotive AG2 Plus (-40C~115C)"
+          },
+          "A": {
+            "operation_temperature": "Automotive AG3 (-40C~95C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(12|25|1G|2G)",
+          "to": "densityCode",
+          "groups": {
+            "densityCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "gCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^-?(18|25|3)([A-Z]?)",
+          "to": "suffixToken",
+          "groups": {
+            "speedCode": 1,
+            "gradeCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "bankCount",
+          "to": "bankCount",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR2",
+            "bank_count": {
+              "$var": "bankCount"
+            }
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "suffixToken"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "gradeObj",
+          "if": "suffixToken"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.8V VDD",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.winbond.dram.ddr2.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
     "id": "vendor.winbond.dram.ddr3.component.v1",
     "priority": 1010,
     "normalize": [

@@ -411,6 +411,26 @@ assert.ok(micronDramFbga.length > 0, "mdb.json should include Micron DRAM FBGA m
 const dramPnForbiddenKeys = new Set(["source", "status", "reference", "inference_source", "external_confirmed", "external_table_confirmed"]);
 const micronNandFbgaHeaders = ["NC", "NW", "NY", "NX", "NQ", "NV"];
 const seenDramPn = new Set<string>();
+const seenCanonicalWinbondDramPn = new Set<string>();
+function canonicalWinbondDramPn(partNumber: string): string {
+  const ddrMatch = /^(W94(?:12|25)G6KH)([56][A-Z]?)$/.exec(partNumber);
+  if (ddrMatch) {
+    return `${ddrMatch[1]}-${ddrMatch[2]}`;
+  }
+  const ddr2Match = /^(W97(?:12G6KB|25G[68]KB|1GG[68]NB|2GG6KB|2GG8KS))((?:18|25|3)[A-Z]?)$/.exec(partNumber);
+  if (ddr2Match) {
+    return `${ddr2Match[1]}-${ddr2Match[2]}`;
+  }
+  const ddr3Match = /^(W63[1248]G[GU][68][A-Z]{2})((?:09|11|12|15)[A-Z]?)$/.exec(partNumber);
+  if (ddr3Match) {
+    return `${ddr3Match[1]}-${ddr3Match[2]}`;
+  }
+  const ddr4Match = /^(W66[48]GG[68][A-Z]{2})((?:06|07|08)[A-Z]?)$/.exec(partNumber);
+  if (ddr4Match) {
+    return `${ddr4Match[1]}-${ddr4Match[2]}`;
+  }
+  return partNumber;
+}
 for (const entry of dramPn) {
   assert.equal(typeof entry, "object", "DRAM PN entry should be an object");
   assert.ok(entry !== null && !Array.isArray(entry), "DRAM PN entry should be keyed");
@@ -422,6 +442,12 @@ for (const entry of dramPn) {
   const dedupeKey = `${String(record.vendor)}\0${String(record.pn)}`;
   assert.ok(!seenDramPn.has(dedupeKey), `${String(record.pn)} should only appear once for ${String(record.vendor)}`);
   seenDramPn.add(dedupeKey);
+  if (record.vendor === "winbond") {
+    const canonicalPn = canonicalWinbondDramPn(String(record.pn));
+    assert.equal(String(record.pn), canonicalPn, `${String(record.pn)} should use dashed Winbond suffix form in dram-pn.json`);
+    assert.ok(!seenCanonicalWinbondDramPn.has(canonicalPn), `${canonicalPn} should not duplicate a dashless Winbond equivalent`);
+    seenCanonicalWinbondDramPn.add(canonicalPn);
+  }
 
   const keys = Object.keys(record);
   assert.deepEqual(
@@ -5446,6 +5472,149 @@ assertDram("IS43QR16256B-083RBL", {
   }
 });
 
+assertDram("W9412G6KH", {
+  vendor: "winbond",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x16",
+  voltage: "2.5V VDD",
+  package: "66-pin TSOP (400 mil)",
+  extra: {
+    "DRAM Type": "DDR",
+    "Bank Count": 4
+  },
+  absentExtra: ["DRAM Speed", "CAS Latency", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W9412G6KH-6I", {
+  vendor: "winbond",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x16",
+  voltage: "2.5V VDD",
+  package: "66-pin TSOP (400 mil)",
+  extra: {
+    "DRAM Type": "DDR",
+    "DRAM Speed": "DDR-333 CL3",
+    "CAS Latency": 3,
+    "Bank Count": 4,
+    "Operation Temperature": "Industrial (-40C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W9425G6KH-5K", {
+  vendor: "winbond",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x16",
+  voltage: "2.5V VDD",
+  package: "66-pin TSOP (400 mil)",
+  extra: {
+    "DRAM Type": "DDR",
+    "DRAM Speed": "DDR-400 CL3",
+    "CAS Latency": 3,
+    "Bank Count": 4,
+    "Operation Temperature": "Automotive AG2 (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W9712G6KB", {
+  vendor: "winbond",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball TFBGA (8mm x 12.5mm)",
+  extra: {
+    "DRAM Type": "DDR2",
+    "Bank Count": 4
+  },
+  absentExtra: ["DRAM Speed", "CAS Latency", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W9712G6KB25I", {
+  vendor: "winbond",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball TFBGA (8mm x 12.5mm)",
+  extra: {
+    "DRAM Type": "DDR2",
+    "DRAM Speed": "DDR2-800 5-5-5/6-6-6",
+    "Bank Count": 4,
+    "Operation Temperature": "Industrial (-40C~95C)"
+  },
+  absentExtra: ["CAS Latency", "DRAM Die Stack"]
+});
+
+assertDram("W971GG8NB18J", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x8",
+  voltage: "1.8V VDD",
+  package: "60-ball TFBGA (8mm x 12.5mm)",
+  extra: {
+    "DRAM Type": "DDR2",
+    "DRAM Speed": "DDR2-1066 6-6-6",
+    "CAS Latency": 6,
+    "Bank Count": 8,
+    "Operation Temperature": "Industrial Plus (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W9725G8KB-3", {
+  vendor: "winbond",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x8",
+  voltage: "1.8V VDD",
+  package: "60-ball TFBGA (8mm x 12.5mm)",
+  extra: {
+    "DRAM Type": "DDR2",
+    "DRAM Speed": "DDR2-667 5-5-5",
+    "CAS Latency": 5,
+    "Bank Count": 4,
+    "Operation Temperature": "Commercial (0C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W972GG6KB18J", {
+  vendor: "winbond",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball TFBGA (8mm x 12.5mm)",
+  extra: {
+    "DRAM Type": "DDR2",
+    "DRAM Speed": "DDR2-1066 7-7-7",
+    "CAS Latency": 7,
+    "Bank Count": 8,
+    "Operation Temperature": "Industrial Plus (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W972GG8KS", {
+  vendor: "winbond",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x8",
+  voltage: "1.8V VDD",
+  package: "60-ball TFBGA (8mm x 12.5mm)",
+  extra: {
+    "DRAM Type": "DDR2",
+    "Bank Count": 8
+  },
+  absentExtra: ["DRAM Speed", "CAS Latency", "Operation Temperature", "DRAM Die Stack"]
+});
+
 assertDram("W668GG6TB-06", {
   vendor: "winbond",
   densityMbit: 8192,
@@ -5791,10 +5960,17 @@ for (const pn of issiLpddrOrderingPns) {
 }
 
 assertSearchPnIncludes("W66DP2RQQA", "Winbond W66DP2RQQAHJ");
+assertSearchPnIncludes("W9412G6KH", "Winbond W9412G6KH");
+assertSearchPnIncludes("W9425G6KH-5K", "Winbond W9425G6KH-5K");
+assertSearchPnIncludes("W9712G6KB", "Winbond W9712G6KB");
+assertSearchPnIncludes("W971GG8NB-18J", "Winbond W971GG8NB-18J");
+assertSearchPnIncludes("W9725G8KB-3", "Winbond W9725G8KB-3");
+assertSearchPnIncludes("W972GG6KB-18J", "Winbond W972GG6KB-18J");
+assertSearchPnIncludes("W972GG8KS", "Winbond W972GG8KS");
 assertSearchPnIncludes("W631GG6NB", "Winbond W631GG6NB");
-assertSearchPnIncludes("W631GG8NB09J", "Winbond W631GG8NB09J");
+assertSearchPnIncludes("W631GG8NB-09J", "Winbond W631GG8NB-09J");
 assertSearchPnIncludes("W664GG6RB", "Winbond W664GG6RB");
-assertSearchPnIncludes("W664GG8RB06J", "Winbond W664GG8RB06J");
+assertSearchPnIncludes("W664GG8RB-06J", "Winbond W664GG8RB-06J");
 assertSearchPnIncludes("M16U4G16256", "ESMT M16U4G16256A(2Z)");
 assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A(2H)");
 assertSearchPnIncludes("EM6OF08", "Etron EM6OF08NWALE");
