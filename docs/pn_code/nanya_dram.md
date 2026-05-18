@@ -11,6 +11,7 @@
 - Nanya 官方 `NT5FF1024M16A4-Q5` 页面确认 DDR5、16Gb、x16、106-ball BGA、5600Mbps。来源：<https://www.nanya.com/en/Product/9032/NT5FF1024M16A4-Q5>
 - Nanya 官方 `NT5FF2048M8EK-WEU` 页面确认 DDR5、16Gb、x8、78-ball BGA、8000Mbps、-40C~105C；该样例用于补齐 `5FF:EK` 封装和 `U` grade token。来源：<https://www.nanya.com/en/Product/10513/NT5FF2048M8EK-WEU>
 - Nanya 官方产品列表补充确认 DDR4 `E3/E4/F3/F4/C4/H3/H4/A3/A4`、DDR5 `C3/DK/EK/EL`、DDR5 speed `S8/UB/WE`，以及 LPDDR4/4X `AC/BN` package 与 LPDDR4 `J2` speed 等 exact PN 组合；这些 PN 进入 `dram-pn.json` 用于补全。来源：<https://www.nanya.com/en/Product/List/450/2264>、<https://www.nanya.com/en/Product/List/450/2478>、<https://www.nanya.com/en/Product/List/547/2356>、<https://www.nanya.com/en/Product/List/547/2343>、<https://www.nanya.com/en/Product/List/547/6587>
+- 本轮用户提供的 Nanya DDR4-8Gb C-Die 与 DDR4-4Gb E-Die datasheet / ordering 截图确认 `5AD` DDR4 命名：`D = 1.2V / 1.2V / 2.5V`，`C = 3rd version`、`E = 5th version`，`3 = 78-ball TFBGA`、`4 = 96-ball TFBGA`，`HR = 2666-19-19-19`、`JR = 3200-22-22-22`，grade 空 / `I` / `T` / `U` 分别对应 Commercial、Industrial、Quasi Industrial、Industrial wide temp；截图 ordering table 中的 C/E 系 exact PN 已加入 `dram-pn.json`。
 - Nanya 官方 `NT5TU32M16FG-ACI` 页面确认 DDR2、512Mb、x16、84-ball BGA、800Mbps、工业温度。来源：<https://www.nanya.com/en/Product/3873/NT5TU32M16FG-ACI>
 - Nanya 官方 `NT5CB128M16JR-DI` 页面确认 DDR3、2Gb、x16、96-ball BGA、1600Mbps、0C~95C。来源：<https://www.nanya.com/en/Product/4111/NT5CB128M16JR-DI>
 - Nanya 官方 `NT5CC128M16JR-DI` 页面确认 DDR3L、2Gb、x16、96-ball BGA、1600Mbps、0C~95C；规则输出仍使用标准化 `DDR3`，电压区分为 1.35V。来源：<https://www.nanya.com/cn/Product/4114/NT5CC128M16JR-DI>
@@ -51,6 +52,8 @@ NT6AP512T32AV-J1
 - standard DDR speed token 以 `family + speed` 做组合 key，避免 DDR2 `AC/BE` 与 DDR3 `AC/BE` 冲突；DDR3/DDR3L `AC..FL` 输出 PDF 中给出的 CL-tRCD-tRP 时序。
 - DDR3(L) suffix grade `B` 输出 `special_option = Reduced Standby`；`T` 输出 Quasi Industrial，`A/H` 分别输出 Automotive Grade 3 / Grade 2。
 - DDR3(L) package 输出使用截图确认的实际封装类型：`GN/GP` 与 `IN/IP` 为 VFBGA，`JQ/JR`、`FN/FP`、`EQ/ER`、`CN/CP` 为 TFBGA。
+- DDR4 `5AD` 输出完整 `dram_voltage = 1.2V VDD / 1.2V VDDQ / 2.5V VPP`；`C/E` device version 输出为 `die_revision = C-die (3rd version)` / `E-die (5th version)`；`HR/JR` 输出完整 `DDR4-2666 19-19-19` / `DDR4-3200 22-22-22`。
+- DDR4 package code `3/4` 输出 TFBGA 语义；C/E 截图确认了具体尺寸时输出 `7.50x12.00mm`、`7.50x10.50mm` 或 `7.50x13.00mm` 与 `0.80mm pitch`。`5AD` 还输出 `solder_type = Lead-free RoHS compliant and Halogen-free`；C/E density-addressing 表确认 x4/x8 为 16 banks、x16 为 8 banks。
 - 低功耗 speed token 以 `family + speed` 做组合 key，避免 LPDDR4 与 LPDDR4X 共用 `J1` 时混淆。
 - standard DDR 的 `T/F` stack-code 先维持结构化规则支持，但本轮不新增确定样例；只有找到公开 exact PN / datasheet 后再补 testcase 和 source tier。
 - standard DDR5 新封装示例仍走算术 config：`NT5FF2048M8EK-WEU` 输出 16Gb / x8、`EK` 78-ball BGA、`WE` DDR5-8000、`U` Industrial (-40C~105C)；`NT5FF2048M8DK-UB` 输出 `DK` 78-ball BGA 与 DDR5-7200。

@@ -229,7 +229,27 @@
   },
   {
     "vendor": "nanya",
+    "pn": "NT5AD1024M8C3-HR"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD1024M8C3-JRI"
+  },
+  {
+    "vendor": "nanya",
     "pn": "NT5AD1024M8C3-HRI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD1024M8C3-JRU"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD1024M8C3-JRT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD1024M8C3-HRT"
   },
   {
     "vendor": "nanya",
@@ -265,7 +285,15 @@
   },
   {
     "vendor": "nanya",
+    "pn": "NT5AD256M16E4-HR"
+  },
+  {
+    "vendor": "nanya",
     "pn": "NT5AD512M8E3-JR"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD512M8E3-HR"
   },
   {
     "vendor": "nanya",
@@ -273,7 +301,15 @@
   },
   {
     "vendor": "nanya",
+    "pn": "NT5AD1024M4E3-HR"
+  },
+  {
+    "vendor": "nanya",
     "pn": "NT5AD256M16E4-JRI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD256M16E4-HRI"
   },
   {
     "vendor": "nanya",
@@ -281,7 +317,31 @@
   },
   {
     "vendor": "nanya",
+    "pn": "NT5AD512M8E3-HRI"
+  },
+  {
+    "vendor": "nanya",
     "pn": "NT5AD512M8E3-JRU"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD256M16E4-JRU"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD512M8E3-JRT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD512M8E3-HRT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD256M16E4-JRT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD256M16E4-HRT"
   },
   {
     "vendor": "nanya",
@@ -297,7 +357,35 @@
   },
   {
     "vendor": "nanya",
+    "pn": "NT5AD512M16C4-HR"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD512M16C4-JRI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD512M16C4-HRI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD512M16C4-JRU"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD512M16C4-JRT"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD512M16C4-HRT"
+  },
+  {
+    "vendor": "nanya",
     "pn": "NT5AD2048M4C3-JR"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5AD2048M4C3-HR"
   },
   {
     "vendor": "nanya",

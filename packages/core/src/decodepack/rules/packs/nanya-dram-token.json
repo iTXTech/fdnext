@@ -49,7 +49,7 @@
           "5DS": "2.5V VDD",
           "5CB": "1.5V VDD",
           "5CC": "1.35V VDD",
-          "5AD": "1.2V VDD",
+          "5AD": "1.2V VDD / 1.2V VDDQ / 2.5V VPP",
           "5FF": "1.1V VDD"
         },
         "stackObj": {
@@ -99,16 +99,16 @@
           "5CC:IP": "96-ball VFBGA",
           "5CC:JQ": "78-ball TFBGA",
           "5CC:JR": "96-ball TFBGA",
-          "5AD:E3": "78-ball BGA",
-          "5AD:E4": "96-ball BGA",
-          "5AD:F3": "78-ball BGA",
-          "5AD:F4": "96-ball BGA",
-          "5AD:C3": "78-ball BGA",
-          "5AD:C4": "96-ball BGA",
-          "5AD:H3": "78-ball BGA",
-          "5AD:H4": "96-ball BGA",
-          "5AD:A3": "78-ball BGA",
-          "5AD:A4": "96-ball BGA",
+          "5AD:E3": "78-ball TFBGA (7.50x10.50mm, 0.80mm pitch)",
+          "5AD:E4": "96-ball TFBGA (7.50x13.00mm, 0.80mm pitch)",
+          "5AD:F3": "78-ball TFBGA",
+          "5AD:F4": "96-ball TFBGA",
+          "5AD:C3": "78-ball TFBGA (7.50x12.00mm, 0.80mm pitch)",
+          "5AD:C4": "96-ball TFBGA (7.50x13.00mm, 0.80mm pitch)",
+          "5AD:H3": "78-ball TFBGA",
+          "5AD:H4": "96-ball TFBGA",
+          "5AD:A3": "78-ball TFBGA",
+          "5AD:A4": "96-ball TFBGA",
           "5FF:A3": "82-ball BGA",
           "5FF:A4": "106-ball BGA",
           "5FF:C3": "82-ball BGA",
@@ -274,10 +274,10 @@
             "dram_speed": "DDR3-2133 14-14-14"
           },
           "5AD:HR": {
-            "dram_speed": "DDR4-2666"
+            "dram_speed": "DDR4-2666 19-19-19"
           },
           "5AD:JR": {
-            "dram_speed": "DDR4-3200"
+            "dram_speed": "DDR4-3200 22-22-22"
           },
           "5FF:Q5": {
             "dram_speed": "DDR5-5600"
@@ -290,6 +290,30 @@
           },
           "5FF:WE": {
             "dram_speed": "DDR5-8000"
+          }
+        },
+        "ddr4BaseObj": {
+          "5AD": {
+            "solder_type": "Lead-free RoHS compliant and Halogen-free"
+          }
+        },
+        "ddr4BankObj": {
+          "5AD:4": {
+            "bank_count": 16
+          },
+          "5AD:8": {
+            "bank_count": 16
+          },
+          "5AD:16": {
+            "bank_count": 8
+          }
+        },
+        "ddr4DieObj": {
+          "5AD:C": {
+            "die_revision": "C-die (3rd version)"
+          },
+          "5AD:E": {
+            "die_revision": "E-die (5th version)"
           }
         },
         "gradeObj": {
@@ -375,9 +399,26 @@
           "default": {}
         },
         {
-          "op": "take",
-          "len": 2,
-          "to": "packageCode"
+          "op": "tpl",
+          "template": "{{familyCode}}:{{width}}",
+          "to": "ddr4BankKey"
+        },
+        {
+          "op": "map",
+          "from": "ddr4BankKey",
+          "table": "ddr4BankObj",
+          "to": "ddr4BankObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([A-Z])([0-9A-Z])",
+          "to": "packageCode",
+          "groups": {
+            "deviceVersionCode": 1,
+            "packageShapeCode": 2
+          },
+          "default": ""
         },
         {
           "op": "tpl",
@@ -390,6 +431,25 @@
           "table": "packageActual",
           "to": "package",
           "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "ddr4BaseObj",
+          "to": "ddr4BaseObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{deviceVersionCode}}",
+          "to": "ddr4DieKey"
+        },
+        {
+          "op": "map",
+          "from": "ddr4DieKey",
+          "table": "ddr4DieObj",
+          "to": "ddr4DieObj",
+          "default": {}
         },
         {
           "op": "stripIfPrefix",
@@ -444,6 +504,21 @@
           "op": "merge",
           "into": "extra",
           "from": "stackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "ddr4BaseObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "ddr4BankObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "ddr4DieObj"
         },
         {
           "op": "mergeIf",

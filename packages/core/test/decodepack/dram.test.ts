@@ -3961,14 +3961,18 @@ assertDram("NT5AD1024M8C3-HR", {
   densityMbit: 8192,
   density: "8Gb",
   widthField: "x8",
-  voltage: "1.2V VDD",
-  package: "78-ball BGA",
+  voltage: "1.2V VDD / 1.2V VDDQ / 2.5V VPP",
+  package: "78-ball TFBGA (7.50x12.00mm, 0.80mm pitch)",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "C3",
     "Config Code": "1024M8",
-    "DRAM Speed": "DDR4-2666"
+    "DRAM Speed": "DDR4-2666 19-19-19",
+    "Operation Temperature": "Commercial (0C~95C)",
+    "Bank Count": 16,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "C-die (3rd version)"
   }
 });
 
@@ -3977,15 +3981,38 @@ assertDram("NT5AD1024M8C3", {
   densityMbit: 8192,
   density: "8Gb",
   widthField: "x8",
-  voltage: "1.2V VDD",
-  package: "78-ball BGA",
+  voltage: "1.2V VDD / 1.2V VDDQ / 2.5V VPP",
+  package: "78-ball TFBGA (7.50x12.00mm, 0.80mm pitch)",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
     "Package Code": "C3",
-    "Config Code": "1024M8"
+    "Config Code": "1024M8",
+    "Bank Count": 16,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "C-die (3rd version)"
   },
   absentExtra: ["DRAM Speed", "Operation Temperature"]
+});
+
+assertDram("NT5AD256M16E4-HRT", {
+  vendor: "nanya",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD / 1.2V VDDQ / 2.5V VPP",
+  package: "96-ball TFBGA (7.50x13.00mm, 0.80mm pitch)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "E4",
+    "Config Code": "256M16",
+    "DRAM Speed": "DDR4-2666 19-19-19",
+    "Operation Temperature": "Quasi Industrial (-40C~95C)",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "E-die (5th version)"
+  }
 });
 
 assertDram("NT5FF1024M16A4-Q5", {
@@ -4834,6 +4861,8 @@ assertSearchPnIncludes("NT5CB256M8JQ", "Nanya NT5CB256M8JQ-DIT");
 assertSearchPnIncludes("NT5CB256M8IN", "Nanya NT5CB256M8IN-DIH");
 assertSearchPnIncludes("NT5CB256M8FN", "Nanya NT5CB256M8FN-EJ");
 assertSearchPnIncludes("NT5CC512M8EQ", "Nanya NT5CC512M8EQ-DIB");
+assertSearchPnIncludes("NT5AD512M16C4-HRT", "Nanya NT5AD512M16C4-HRT");
+assertSearchPnIncludes("NT5AD256M16E4-HRT", "Nanya NT5AD256M16E4-HRT");
 assertSearchPnIncludes("NT5FF2048M8DK", "Nanya NT5FF2048M8DK-UB");
 assertSearchPnIncludes("NT6AP256F64", "Nanya NT6AP256F64BN-J1");
 assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
