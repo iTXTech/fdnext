@@ -448,6 +448,9 @@ for (const entry of dramPn) {
     assert.ok(!seenCanonicalWinbondDramPn.has(canonicalPn), `${canonicalPn} should not duplicate a dashless Winbond equivalent`);
     seenCanonicalWinbondDramPn.add(canonicalPn);
   }
+  if (record.vendor === "esmt") {
+    assert.equal(/[()]/.test(String(record.pn)), false, `${String(record.pn)} should use ESMT ordering PN form without parenthesized page-header suffixes`);
+  }
 
   const keys = Object.keys(record);
   assert.deepEqual(
@@ -6068,25 +6071,273 @@ assertDram("M16U4G16256A(2Z)", {
   package: "96-ball BGA",
   extra: {
     "DRAM Type": "DDR4",
-    "Package Code": "2Z",
-    "Config Code": "256M16",
     "DRAM Speed": "DDR4 1333/1600MHz"
   },
   absentExtra: ["DRAM Die Stack"]
 });
 
-assertDram("M15T4G8512A(2S)", {
+assertDram("M15T1G1664A-EFBIG2S", {
+  vendor: "esmt",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.35V / 1.5V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
+    "Operation Temperature": "Industrial (-40C~95C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M15T4G16256A-EFBG2G", {
   vendor: "esmt",
   densityMbit: 4096,
   density: "4Gb",
-  widthField: "x8",
-  voltage: "1.35V or 1.5V VDD",
-  package: "78-ball BGA",
+  widthField: "x16",
+  voltage: "1.35V / 1.5V VDD",
+  package: "96-ball BGA",
   extra: {
     "DRAM Type": "DDR3",
-    "Package Code": "2S",
-    "Config Code": "512M8",
-    "DRAM Speed": "DDR3 800/933/1066MHz"
+    "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack", "Operation Temperature"]
+});
+
+assertDram("M13S64164A-4TVAG2Y", {
+  vendor: "esmt",
+  densityMbit: 64,
+  density: "64Mb",
+  widthField: "x16",
+  voltage: "2.5V VDD",
+  package: "66-pin TSOP II",
+  extra: {
+    "DRAM Type": "DDR",
+    "DRAM Speed": "DDR-500 (250MHz)",
+    "Operation Temperature": "Automotive VA (-40C~105C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M12L128168A-5TIG2S", {
+  vendor: "esmt",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x16",
+  voltage: "3.3V VDD",
+  package: "54-pin TSOP II",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "SDR 200MHz",
+    "Operation Temperature": "Industrial (-40C~85C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M14D5121632A-1.5BG2A", {
+  vendor: "esmt",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball BGA (A(max) = 1.2mm)",
+  extra: {
+    "DRAM Type": "DDR2",
+    "DRAM Speed": "DDR2-1333 (667MHz, 7-10-10)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack", "Operation Temperature"]
+});
+
+assertDram("M15T2G16128A-EFBIG2P", {
+  vendor: "esmt",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.35V / 1.5V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
+    "Operation Temperature": "Industrial (-40C~95C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M15T8G16512A-BDBIG2S", {
+  vendor: "esmt",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.35V / 1.5V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3(L)-1600 (800MHz, 11-11-11)",
+    "Operation Temperature": "Industrial (-40C~95C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M14D1G1664A-1.8BIG2S", {
+  vendor: "esmt",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball BGA",
+  extra: {
+    "DRAM Type": "DDR2",
+    "DRAM Speed": "DDR2-1066 (533MHz, 6-6-6)",
+    "Operation Temperature": "Industrial (-40C~95C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M14D1G8128A-1.5BG2P", {
+  vendor: "esmt",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x8",
+  voltage: "1.8V VDD",
+  package: "60-ball BGA",
+  extra: {
+    "DRAM Type": "DDR2",
+    "DRAM Speed": "DDR2-1333 (667MHz, 7-9-9)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack", "Operation Temperature"]
+});
+
+assertDram("M15F1G1664A-GHBG2S", {
+  vendor: "esmt",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-2400 (1200MHz, 16-16-16)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack", "Operation Temperature"]
+});
+
+assertDram("M55D4G16256A-GFBG2R", {
+  vendor: "esmt",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "178-ball BGA",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Speed": "LPDDR3-2133 (1066MHz, RL16/WL8)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack", "Operation Temperature"]
+});
+
+assertDram("M15T2G16128A-EFBVAG2R", {
+  vendor: "esmt",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.35V / 1.5V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
+    "Operation Temperature": "Automotive VA (-40C~105C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M15T4G16256A-EFBIAG2S", {
+  vendor: "esmt",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.35V / 1.5V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
+    "Operation Temperature": "Industrial Plus (-40C~105C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M12L2561616A-5TVAG2S", {
+  vendor: "esmt",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x16",
+  voltage: "3.3V VDD",
+  package: "54-pin TSOP II",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "SDR 200MHz",
+    "Operation Temperature": "Automotive VA (-40C~105C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M12L128168A-5TG2N", {
+  vendor: "esmt",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x16",
+  voltage: "3.3V VDD",
+  package: "54-pin TSOP II",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "SDR 200MHz",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack", "Operation Temperature"]
+});
+
+assertDram("M53D256328A-5BIG2F", {
+  vendor: "esmt",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x32",
+  voltage: "1.8V VDD",
+  package: "90-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR",
+    "DRAM Speed": "LPDDR 200MHz",
+    "Operation Temperature": "Industrial (-40C~85C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M52S32321A-7.5BIG", {
+  vendor: "esmt",
+  densityMbit: 32,
+  density: "32Mb",
+  widthField: "x32",
+  voltage: "2.5V VDD",
+  package: "90-ball VFBGA",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "SDR 133MHz",
+    "Operation Temperature": "Industrial (-40C~85C)",
+    "Solder Type": "Pb-free"
   },
   absentExtra: ["DRAM Die Stack"]
 });
@@ -6100,8 +6351,6 @@ assertDram("M56Z8G32256A(2H)", {
   package: "200-ball BGA",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "Package Code": "2H",
-    "Config Code": "256M32",
     "DRAM Speed": "LPDDR4X 2133MHz"
   },
   absentExtra: ["DRAM Die Stack"]
@@ -6397,8 +6646,25 @@ const winbondMobileDramPns = [
 for (const pn of winbondMobileDramPns) {
   assertSearchPnIncludes(pn, "Winbond " + pn);
 }
-assertSearchPnIncludes("M16U4G16256", "ESMT M16U4G16256A(2Z)");
-assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A(2H)");
+assertSearchPnIncludes("M15T1G1664A-EF", "ESMT M15T1G1664A-EFBIG2S");
+assertSearchPnIncludes("M15T4G16256A-EF", "ESMT M15T4G16256A-EFBG2G");
+assertSearchPnIncludes("M15T2G16128A-EF", "ESMT M15T2G16128A-EFBIG2P");
+assertSearchPnIncludes("M15T2G16128A-EFBVA", "ESMT M15T2G16128A-EFBVAG2R");
+assertSearchPnIncludes("M15T8G16512A-BD", "ESMT M15T8G16512A-BDBIG2S");
+assertSearchPnIncludes("M15T4G16256A-EFBI", "ESMT M15T4G16256A-EFBIAG2S");
+assertSearchPnIncludes("M15F1G1664A-GH", "ESMT M15F1G1664A-GHBG2S");
+assertSearchPnIncludes("M13S64164A-4T", "ESMT M13S64164A-4TVG2Y");
+assertSearchPnIncludes("M12L128168A-5", "ESMT M12L128168A-5TIG2S");
+assertSearchPnIncludes("M12L128168A-5TG", "ESMT M12L128168A-5TG2N");
+assertSearchPnIncludes("M12L2561616A-5TVA", "ESMT M12L2561616A-5TVAG2S");
+assertSearchPnIncludes("M14D5121632A-15", "ESMT M14D5121632A-15BG2A");
+assertSearchPnIncludes("M14D1G1664A-18", "ESMT M14D1G1664A-18BIG2S");
+assertSearchPnIncludes("M14D1G8128A-16", "ESMT M14D1G8128A-16BG2P");
+assertSearchPnIncludes("M52S32321A-75", "ESMT M52S32321A-75BIG");
+assertSearchPnIncludes("M53D256328A-5", "ESMT M53D256328A-5BIG2F");
+assertSearchPnIncludes("M55D4G16256A-GF", "ESMT M55D4G16256A-GFBG2R");
+assertSearchPnIncludes("M16U4G16256", "ESMT M16U4G16256A");
+assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A");
 assertSearchPnIncludes("EM6OF08", "Etron EM6OF08NWALE");
 assertSearchPnIncludes("EM6PF32", "Etron EM6PF32MBAJB");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
