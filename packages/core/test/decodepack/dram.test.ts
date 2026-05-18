@@ -5520,6 +5520,68 @@ assertDram("W9425G6KH-5K", {
   absentExtra: ["DRAM Die Stack"]
 });
 
+assertDram("W948D6KBHX", {
+  vendor: "winbond",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD/VDDQ",
+  package: "60-ball VFBGA",
+  extra: {
+    "DRAM Type": "LPDDR",
+    "Bank Count": 4
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W948V6KBHX6I", {
+  vendor: "winbond",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD/VDDQ",
+  package: "60-ball VFBGA",
+  extra: {
+    "DRAM Type": "LPDDR",
+    "DRAM Speed": "LPDDR 166MHz",
+    "Bank Count": 4,
+    "Operation Temperature": "Industrial (-40C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W949D2DBJX5E", {
+  vendor: "winbond",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x32",
+  voltage: "1.8V VDD/VDDQ",
+  package: "90-ball VFBGA",
+  extra: {
+    "DRAM Type": "LPDDR",
+    "DRAM Speed": "LPDDR 200MHz",
+    "Bank Count": 4,
+    "Operation Temperature": "Extended (-25C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W94AD6KBHX6I", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD/VDDQ",
+  package: "60-ball VFBGA",
+  extra: {
+    "DRAM Type": "LPDDR",
+    "DRAM Speed": "LPDDR 166MHz",
+    "Bank Count": 4,
+    "Operation Temperature": "Industrial (-40C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
 assertDram("W9712G6KB", {
   vendor: "winbond",
   densityMbit: 128,
@@ -5615,6 +5677,82 @@ assertDram("W972GG8KS", {
   absentExtra: ["DRAM Speed", "CAS Latency", "Operation Temperature", "DRAM Die Stack"]
 });
 
+assertDram("W978H6KB", {
+  vendor: "winbond",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
+  package: "134-ball VFBGA (10mm x 11.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "Bank Count": 4
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W978H2KBVX1E", {
+  vendor: "winbond",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
+  package: "134-ball VFBGA (10mm x 11.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "DRAM Speed": "LPDDR2-1066",
+    "Bank Count": 4,
+    "Operation Temperature": "Extended (-25C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W979H6RBVA2I", {
+  vendor: "winbond",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
+  package: "134-ball VFBGA (10mm x 11.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "DRAM Speed": "LPDDR2-800",
+    "Bank Count": 4,
+    "Operation Temperature": "Industrial (-40C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W97AH6KB", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
+  package: "134-ball VFBGA (10mm x 11.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "Bank Count": 8
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W97AH2KBVX1I", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
+  package: "134-ball VFBGA (10mm x 11.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "DRAM Speed": "LPDDR2-1066",
+    "Bank Count": 8,
+    "Operation Temperature": "Industrial (-40C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
 assertDram("W668GG6TB-06", {
   vendor: "winbond",
   densityMbit: 8192,
@@ -5704,6 +5842,38 @@ assertDram("W631GU6NB09J", {
     "CAS Latency": 14,
     "Bank Count": 8,
     "Operation Temperature": "Industrial Plus (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W639H6RBVADI", {
+  vendor: "winbond",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "178-ball VFBGA (11mm x 11.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Speed": "LPDDR3-2133",
+    "Bank Count": 2,
+    "Operation Temperature": "Industrial (-40C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W63AH2NBVACE", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "178-ball VFBGA (11mm x 11.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Speed": "LPDDR3-1866",
+    "Bank Count": 8,
+    "Operation Temperature": "Extended (-25C~85C)"
   },
   absentExtra: ["DRAM Die Stack"]
 });
@@ -6143,6 +6313,90 @@ assertSearchPnIncludes("W631GG6NB", "Winbond W631GG6NB");
 assertSearchPnIncludes("W631GG8NB-09J", "Winbond W631GG8NB-09J");
 assertSearchPnIncludes("W664GG6RB", "Winbond W664GG6RB");
 assertSearchPnIncludes("W664GG8RB-06J", "Winbond W664GG8RB-06J");
+const winbondMobileDramPns = [
+  "W948D6KBHX",
+  "W948D6KBHX5E",
+  "W948D6KBHX5I",
+  "W948D6KBHX6E",
+  "W948D6KBHX6I",
+  "W948V6KBHX",
+  "W948V6KBHX5E",
+  "W948V6KBHX5I",
+  "W948V6KBHX6E",
+  "W948V6KBHX6I",
+  "W949D6DB",
+  "W949D6DBHX5I",
+  "W949D6DBHX5E",
+  "W949D6DBHX6E",
+  "W949D2DB",
+  "W949D2DBJX5I",
+  "W949D2DBJX5E",
+  "W949D2DBJX6E",
+  "W94AD6KB",
+  "W94AD6KBHX5I",
+  "W94AD6KBHX5E",
+  "W94AD6KBHX6I",
+  "W94AD6KBHX6E",
+  "W94AD2KB",
+  "W94AD2KBJX5I",
+  "W94AD2KBJX5E",
+  "W94AD2KBJX6I",
+  "W94AD2KBJX6E",
+  "W978H6KB",
+  "W978H6KBVX2I",
+  "W978H6KBVX1I",
+  "W978H6KBVX2E",
+  "W978H6KBVX1E",
+  "W978H2KB",
+  "W978H2KBVX2I",
+  "W978H2KBVX1I",
+  "W978H2KBVX2E",
+  "W978H2KBVX1E",
+  "W979H6KB",
+  "W979H6KBVX2I",
+  "W979H6KBVX1I",
+  "W979H6KBVX2E",
+  "W979H6KBVX1E",
+  "W979H2KB",
+  "W979H2KBVX2I",
+  "W979H2KBVX1I",
+  "W979H2KBVX2E",
+  "W979H2KBVX1E",
+  "W979H6RB",
+  "W979H6RBVA2I",
+  "W979H6RBVA1I",
+  "W97AH6KB",
+  "W97AH6KBVX2I",
+  "W97AH6KBVX2E",
+  "W97AH6KBVX1I",
+  "W97AH6KBVX1E",
+  "W97AH2KB",
+  "W97AH2KBVX2I",
+  "W97AH2KBVX2E",
+  "W97AH2KBVX1I",
+  "W97AH2KBVX1E",
+  "W639H6RB",
+  "W639H6RBVABI",
+  "W639H6RBVACI",
+  "W639H6RBVADI",
+  "W63AH6NB",
+  "W63AH6NBVABE",
+  "W63AH6NBVACE",
+  "W63AH6NBVADE",
+  "W63AH6NBVABI",
+  "W63AH6NBVACI",
+  "W63AH6NBVADI",
+  "W63AH2NB",
+  "W63AH2NBVABE",
+  "W63AH2NBVACE",
+  "W63AH2NBVADE",
+  "W63AH2NBVABI",
+  "W63AH2NBVACI",
+  "W63AH2NBVADI"
+];
+for (const pn of winbondMobileDramPns) {
+  assertSearchPnIncludes(pn, "Winbond " + pn);
+}
 assertSearchPnIncludes("M16U4G16256", "ESMT M16U4G16256A(2Z)");
 assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A(2H)");
 assertSearchPnIncludes("EM6OF08", "Etron EM6OF08NWALE");

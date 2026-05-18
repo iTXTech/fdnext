@@ -40,6 +40,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-05-18 根据 Winbond 2026 PSG 与用户提供的 ordering 表补齐 `W631GG6/8NB`、`W664GG6/8RB` 基础 family PN：suffix 最后两位输出 DDR3/DDR4 speed + timing，最后一位字母输出温度档；基础 family PN 加入 `dram-pn.json`，缺 suffix 时只输出容量、位宽、电压、封装等确定字段。
 - 2026-05-18 根据 Winbond 2026 PSG 与用户提供的 ordering 表新增 `W94` DDR 与 `W97` DDR2 token：覆盖 DDR 128Mb/256Mb x16 TSOP、DDR2 128Mb/256Mb/1Gb/2Gb x8/x16 TFBGA、4-bank / 8-bank、speed/timing suffix 与温度等级，并把对应 PN 加入 `dram-pn.json`。
 - 2026-05-18 根据 Winbond LPDDR4/LPDDR4X datasheet 与 ordering 表补齐 `W66AP6NB`、`W66AQ6NB`、`W66BP2NQ`、`W66BQ2NQ` 基础 family，以及 `W66BP6RB` / `W66CP2RQ` LPDDR4/4X Combo：base PN 加入 `dram-pn.json`，combo 输出 VDDQ=1.1V LPDDR4 mode / VDDQ=0.6V LPDDR4X mode 与 `LPDDR4/4X-*` speed。
+- 2026-05-18 根据用户提供的 Winbond LPDDR / LPDDR2 / LPDDR3 datasheet 补齐 `W948/W949/W94AD`、`W978/W979/W97AH`、`W639/W63AH` token：覆盖 256Mb~1Gb、x16/x32、4-bank / 8-bank 与 LPDDR3 2-bank、VFBGA60/90/134/178、速度和 E/I 温度档，并把 ordering table 中的 base / exact PN 加入 `dram-pn.json`。
 
 ## 当前覆盖进度
 
@@ -53,7 +54,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 | CXMT | DDR4, DDR5 inferred `CXDR` | LPDDR4X, LPDDR5 `CDTQ` alias | - | - |
 | GigaDevice | DDR3/DDR3L, DDR4 | LPDDR4X | - | - |
 | ISSI | DDR3/DDR3L, DDR4 | LPDDR4, LPDDR4X | - | - |
-| Winbond | DDR, DDR2, DDR3/DDR3L, DDR4 | LPDDR4, LPDDR4X | - | - |
+| Winbond | DDR, DDR2, DDR3/DDR3L, DDR4 | LPDDR, LPDDR2, LPDDR3, LPDDR4, LPDDR4X | - | - |
 | ESMT | SDR, DDR, DDR2, DDR3/DDR3L, DDR4 | LPDDR2, LPDDR3, LPDDR4X | - | - |
 | Etron | SDR, DDR, DDR2, DDR3/DDR3L, DDR4 | LPDDR4, LPDDR4X | - | - |
 | SpecTek | DDR, DDR2, DDR3, DDR4, DDR5 | LPDDR, LPDDR2, LPDDR4 | 待调研 | - |
@@ -62,4 +63,4 @@ SK hynix 仍需继续补齐 LPDDR/LPDDR2、GDDR/GDDR2/GDDR3/GDDR4/GDDR7 等公�
 
 当前大容量 config 已覆盖 Micron DDR5 24Gb / 32Gb、SK hynix DDR5 24Gb / 32Gb / 64Gb、Samsung DDR4 32Gb / DDR5 24Gb / 32Gb / LPDDR5X 64Gb，以及 Nanya DDR5-8000 `2048M8` 样例。CXMT 已扩展 DDR4 x8/x16、16Gb DDR4、LPDDR4X 2GB/4GB discrete 颗粒，并加入 `CXDR4E8BM-*` DDR5 G4 / 16nm-class 推断与 `CDTQ` LPDDR5 G3 / 12Gb die 标记别名；GigaDevice 当前覆盖 DDR3L 1Gb/2Gb/4Gb/8Gb、DDR4 4Gb/8Gb 与 LPDDR4X 16Gb/32Gb standalone 颗粒。CXMT LPDDR5X 与 GigaDevice LPDDR5/LPDDR5X 仍缺少公开 PN token breakdown，暂不进入 iTXTech fdnext DecodePack。
 
-Nanya 官方产品线未列 GDDR；Elpida 独立品牌 standard DDR 世代到 DDR3 结束，后续 DDR4/DDR5 不作为待补缺口；CXMT 官方资料确认 DDR5/LPDDR5/LPDDR5X 产品存在，但公开页面没有足够 LPDDR5X PN breakdown，当前只把 DDR4、DDR5 `CXDR` 推断、LPDDR4X 与 LPDDR5 `CDTQ` 别名写入 iTXTech fdnext DecodePack。ISSI 官方 PSG 明确列出更早 DDR/SDR 与 RLDRAM 产品，但本轮只把 DDR3/DDR3L、DDR4、LPDDR4/4X 写入 iTXTech fdnext DecodePack；Winbond 官方 2026 PSG 明确列出 SDR、DDR、DDR2 与 LPDDR3，本轮已覆盖 DDR/DDR2/DDR3/DDR4/LPDDR4/4X，SDR 与 LPDDR3 仍待后续外部 ordering 细化。ESMT 与 Etron 本轮按官方产品页补入成熟制程 / specialty DRAM 颗粒：ESMT 覆盖 SDR 到 DDR4 以及 LPDDR2/3/4X，Etron 覆盖 automotive SDR、specialty DDR 到 DDR4 以及 LPDDR4/4X。
+Nanya 官方产品线未列 GDDR；Elpida 独立品牌 standard DDR 世代到 DDR3 结束，后续 DDR4/DDR5 不作为待补缺口；CXMT 官方资料确认 DDR5/LPDDR5/LPDDR5X 产品存在，但公开页面没有足够 LPDDR5X PN breakdown，当前只把 DDR4、DDR5 `CXDR` 推断、LPDDR4X 与 LPDDR5 `CDTQ` 别名写入 iTXTech fdnext DecodePack。ISSI 官方 PSG 明确列出更早 DDR/SDR 与 RLDRAM 产品，但本轮只把 DDR3/DDR3L、DDR4、LPDDR4/4X 写入 iTXTech fdnext DecodePack；Winbond 当前已覆盖 DDR/DDR2/DDR3/DDR4 与 LPDDR/LPDDR2/LPDDR3/LPDDR4/LPDDR4X，SDR 仍待后续外部 ordering 细化。ESMT 与 Etron 本轮按官方产品页补入成熟制程 / specialty DRAM 颗粒：ESMT 覆盖 SDR 到 DDR4 以及 LPDDR2/3/4X，Etron 覆盖 automotive SDR、specialty DDR 到 DDR4 以及 LPDDR4/4X。

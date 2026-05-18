@@ -152,6 +152,189 @@
     }
   },
   {
+    "id": "vendor.winbond.dram.lpddr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W94(?:8[DV]6KB(?:HX(?:[56][EI])?)?|9D(?:6DB(?:HX(?:[56][EI])?)?|2DB(?:JX(?:[56][EI])?)?)|AD(?:6KB(?:HX(?:[56][EI])?)?|2KB(?:JX(?:[56][EI])?)?))$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "W94"
+      ],
+      "tables": {
+        "density": {
+          "8D": 256,
+          "8V": 256,
+          "9D": 512,
+          "AD": 1024
+        },
+        "deviceWidth": {
+          "2": 32,
+          "6": 16
+        },
+        "package": {
+          "2:": "90-ball VFBGA",
+          "2:JX": "90-ball VFBGA",
+          "6:": "60-ball VFBGA",
+          "6:HX": "60-ball VFBGA"
+        },
+        "speedObj": {
+          "5": {
+            "dram_speed": "LPDDR 200MHz"
+          },
+          "6": {
+            "dram_speed": "LPDDR 166MHz"
+          }
+        },
+        "gradeObj": {
+          "E": {
+            "operation_temperature": "Extended (-25C~85C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "familyCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(HX|JX)",
+          "to": "packageToken",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([56])([EI])$",
+          "to": "suffixToken",
+          "groups": {
+            "speedCode": 1,
+            "gradeCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "tpl",
+          "template": "{{widthCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR",
+            "bank_count": 4
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "suffixToken"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "gradeObj",
+          "if": "suffixToken"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.8V VDD/VDDQ",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.winbond.dram.lpddr.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
     "id": "vendor.winbond.dram.ddr2.component.v1",
     "priority": 1010,
     "normalize": [
@@ -393,6 +576,182 @@
     }
   },
   {
+    "id": "vendor.winbond.dram.lpddr2.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W97(?:8H[62]KB(?:VX[12][EI])?|9H(?:[62]KB(?:VX[12][EI])?|6RB(?:VA[12]I)?)|AH[62]KB(?:VX[12][EI])?)$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "W97"
+      ],
+      "tables": {
+        "density": {
+          "8H": 256,
+          "9H": 512,
+          "AH": 1024
+        },
+        "bankCount": {
+          "8H": 4,
+          "9H": 4,
+          "AH": 8
+        },
+        "deviceWidth": {
+          "2": 32,
+          "6": 16
+        },
+        "speedObj": {
+          "1": {
+            "dram_speed": "LPDDR2-1066"
+          },
+          "2": {
+            "dram_speed": "LPDDR2-800"
+          }
+        },
+        "gradeObj": {
+          "E": {
+            "operation_temperature": "Extended (-25C~85C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "familyCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(VX|VA)",
+          "to": "packageToken",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([12])([EI])$",
+          "to": "suffixToken",
+          "groups": {
+            "speedCode": 1,
+            "gradeCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "bankCount",
+          "to": "bankCount",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR2",
+            "bank_count": {
+              "$var": "bankCount"
+            }
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "suffixToken"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "gradeObj",
+          "if": "suffixToken"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
+        "fields.package": "134-ball VFBGA (10mm x 11.5mm)",
+        "meta.ruleId": "vendor.winbond.dram.lpddr2.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
     "id": "vendor.winbond.dram.ddr3.component.v1",
     "priority": 1010,
     "normalize": [
@@ -608,6 +967,183 @@
           "$var": "package"
         },
         "meta.ruleId": "vendor.winbond.dram.ddr3.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.winbond.dram.lpddr3.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W63(?:9H6RB(?:VA[BCD]I)?|AH[62]NB(?:VA[BCD][EI])?)$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "W63"
+      ],
+      "tables": {
+        "density": {
+          "9H": 512,
+          "AH": 1024
+        },
+        "bankCount": {
+          "9H": 2,
+          "AH": 8
+        },
+        "deviceWidth": {
+          "2": 32,
+          "6": 16
+        },
+        "speedObj": {
+          "B": {
+            "dram_speed": "LPDDR3-1600"
+          },
+          "C": {
+            "dram_speed": "LPDDR3-1866"
+          },
+          "D": {
+            "dram_speed": "LPDDR3-2133"
+          }
+        },
+        "gradeObj": {
+          "E": {
+            "operation_temperature": "Extended (-25C~85C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "familyCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(VA)",
+          "to": "packageToken",
+          "groups": {
+            "packageCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([BCD])([EI])$",
+          "to": "suffixToken",
+          "groups": {
+            "speedCode": 1,
+            "gradeCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "bankCount",
+          "to": "bankCount",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR3",
+            "bank_count": {
+              "$var": "bankCount"
+            }
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "suffixToken"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "gradeObj",
+          "if": "suffixToken"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.8V VDD1 / 1.2V VDD2/VDDQ",
+        "fields.package": "178-ball VFBGA (11mm x 11.5mm)",
+        "meta.ruleId": "vendor.winbond.dram.lpddr3.component.v1",
         "meta.fieldProfile": "dram",
         "meta.capabilities": [
           "part.decode",

@@ -3869,6 +3869,118 @@
   },
   {
     "vendor": "winbond",
+    "pn": "W948D6KBHX"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W948D6KBHX5E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W948D6KBHX5I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W948D6KBHX6E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W948D6KBHX6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W948V6KBHX"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W948V6KBHX5E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W948V6KBHX5I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W948V6KBHX6E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W948V6KBHX6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W949D6DB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W949D6DBHX5I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W949D6DBHX5E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W949D6DBHX6E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W949D2DB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W949D2DBJX5I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W949D2DBJX5E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W949D2DBJX6E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W94AD6KB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W94AD6KBHX5I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W94AD6KBHX5E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W94AD6KBHX6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W94AD6KBHX6E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W94AD2KB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W94AD2KBJX5I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W94AD2KBJX5E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W94AD2KBJX6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W94AD2KBJX6E"
+  },
+  {
+    "vendor": "winbond",
     "pn": "W9712G6KB"
   },
   {
@@ -4050,6 +4162,138 @@
   {
     "vendor": "winbond",
     "pn": "W972GG8KS-3"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W978H6KB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W978H6KBVX2I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W978H6KBVX1I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W978H6KBVX2E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W978H6KBVX1E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W978H2KB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W978H2KBVX2I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W978H2KBVX1I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W978H2KBVX2E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W978H2KBVX1E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H6KB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H6KBVX2I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H6KBVX1I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H6KBVX2E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H6KBVX1E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H2KB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H2KBVX2I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H2KBVX1I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H2KBVX2E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H2KBVX1E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H6RB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H6RBVA2I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W979H6RBVA1I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W97AH6KB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W97AH6KBVX2I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W97AH6KBVX2E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W97AH6KBVX1I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W97AH6KBVX1E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W97AH2KB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W97AH2KBVX2I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W97AH2KBVX2E"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W97AH2KBVX1I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W97AH2KBVX1E"
   },
   {
     "vendor": "winbond",
@@ -5514,6 +5758,78 @@
   {
     "vendor": "winbond",
     "pn": "W638GU6QB-12I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W639H6RB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W639H6RBVABI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W639H6RBVACI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W639H6RBVADI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH6NB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH6NBVABE"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH6NBVACE"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH6NBVADE"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH6NBVABI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH6NBVACI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH6NBVADI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH2NB"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH2NBVABE"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH2NBVACE"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH2NBVADE"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH2NBVABI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH2NBVACI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W63AH2NBVADI"
   },
   {
     "vendor": "winbond",
