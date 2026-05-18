@@ -2,8 +2,9 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createEngine, fdnextFieldRegistry, type PartDecodeResult } from "../../src/index";
-import { embeddedResourceBundle } from "../../src/index";
+import { createEngine, type PartDecodeResult } from "../../src/index";
+import { fdnextFieldRegistry } from "../../src/field-registry";
+import { embeddedResourceBundle } from "../../src/resources";
 import {
   checkDecodePack,
   compileDecodePack,
@@ -14,7 +15,7 @@ import {
   explainIdentifierDecode,
   explainPartDecode,
   type PartDecodeSpec
-} from "../../src/index";
+} from "../../src/decodepack";
 
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
 

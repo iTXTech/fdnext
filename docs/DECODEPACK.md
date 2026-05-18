@@ -1,6 +1,6 @@
 # iTXTech fdnext DecodePack 规范（JSON）
 
-本仓库把“厂商料号解码”做成纯数据的 iTXTech fdnext DecodePack（JSON）。`@itxtech/fdnext-core` 负责把 DecodePack JSON specs 编译成 `@itxtech/fdnext-core` 可消费的 decoder，默认入口是 `defaultDecodePack` + `compileDecodePack(defaultDecodePack)`。
+本仓库把“厂商料号解码”做成纯数据的 iTXTech fdnext DecodePack（JSON）。`@itxtech/fdnext-core/decodepack` 负责把 DecodePack JSON specs 编译成 `@itxtech/fdnext-core` 可消费的 decoder，默认入口是 `defaultDecodePack` + `compileDecodePack(defaultDecodePack)`。
 
 ## 1. PartDecodeSpec
 
@@ -263,7 +263,7 @@ import rules from "./packs/xxx.json" with { type: "json" };
 DecodePack 维护工具面向 AI 和人工 review，既可通过 TypeScript API 调用，也可通过 CLI 使用。
 
 ```ts
-import { checkDecodePack, compileDecodePack, defaultDecodePack, explainPartDecode } from "@itxtech/fdnext-core";
+import { checkDecodePack, compileDecodePack, defaultDecodePack, explainPartDecode } from "@itxtech/fdnext-core/decodepack";
 
 const check = checkDecodePack(defaultDecodePack);
 const compiled = compileDecodePack(defaultDecodePack);

@@ -12,12 +12,12 @@ import {
   fdnextChipKinds,
   fdnextControllerGroupIds,
   fdnextDomains,
-  fdnextFieldKeys,
   fdnextIdSchemes,
   fdnextProductTypes,
-  embeddedResourceBundle,
-  FDNEXT_CORS_ORIGINS_ENV
 } from "../../core/src/index";
+import { FDNEXT_CORS_ORIGINS_ENV } from "../../core/src/runtime";
+import { fdnextFieldKeys } from "../../core/src/field-registry";
+import { embeddedResourceBundle } from "../../core/src/resources";
 import { createContractEngine, runContractChecks } from "../src/index";
 import { createHttpServer } from "../../server/src/index";
 import { createCfWorkersAdapter } from "../../cf-workers/src/index";

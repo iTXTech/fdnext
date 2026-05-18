@@ -1,6 +1,6 @@
 {
   "name": "@itxtech/fdnext-server",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "Hapi HTTP server adapter for fdnext",
   "license": "AGPL-3.0-or-later",
   "type": "module",

@@ -1,4 +1,4 @@
-import { createFdnextCorsOptionsFromEnv, createRuntime, type FdnextRuntimeOptions } from "@itxtech/fdnext-core";
+import { createFdnextCorsOptionsFromEnv, createRuntime, type FdnextRuntimeOptions } from "@itxtech/fdnext-core/runtime";
 
 export interface CfWorkersContext {
   waitUntil?(promise: Promise<unknown>): void;

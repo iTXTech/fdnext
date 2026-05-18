@@ -1,6 +1,6 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import type { FdnextResourceBundle, LangPacks, ResourceJson } from "../types";
+import type { FdnextResourceBundle, LangPacks, ResourceJson } from "@itxtech/fdnext-core";
 
 function readJson(path: string): ResourceJson {
   return JSON.parse(readFileSync(path, "utf8")) as ResourceJson;

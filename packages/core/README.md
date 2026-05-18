@@ -53,8 +53,9 @@ console.log(engine.searchParts({ query: "MT29", lang: "eng", limit: 10 }));
 
 | Export Path | Description |
 | :--- | :--- |
-| `@itxtech/fdnext-core` | Main entry — `createEngine`, `createRuntime`, DecodePack APIs, embedded resources, types, result schema, field registry, field profiles |
-| `@itxtech/fdnext-core/node` | Node.js resource loader — `loadResourcesFromDir()` for loading resources from a filesystem directory |
+| `@itxtech/fdnext-core` | Main entry — `createEngine`, operation input/result types, capabilities, and JSON schemas |
+| `@itxtech/fdnext-core/runtime` | Runtime entry — `createRuntime`, HTTP dispatch/fetch helpers, CORS options, and External Link provider types |
+| `@itxtech/fdnext-core/decodepack` | DecodePack maintenance entry — compiler, checker, explain tools, default pack, and NAND die profile tables |
 
 ## SDK Methods
 
@@ -65,10 +66,6 @@ console.log(engine.searchParts({ query: "MT29", lang: "eng", limit: 10 }));
 | `engine.decodeIdentifier(input)` | Decode a typed identifier (e.g. NAND Flash ID) |
 | `engine.searchIdentifiers(input)` | Search typed identifiers |
 | `engine.getCapabilities(input?)` | Query server/engine capabilities, resource inventory, and decoder list |
-| `engine.registerProcessor(processor)` | Register a before/after operation processor |
-| `engine.getFdb()` / `getMdb()` / `getLang()` | Access raw resource bundles |
-| `engine.translateString(key, lang)` | Translate a field key using the loaded language pack |
-| `engine.getHumanReadableDensity(density, useByte)` | Format a density value (Mbit) to human-readable string |
 
 ## Documentation
 

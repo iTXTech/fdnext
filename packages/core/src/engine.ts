@@ -19,7 +19,6 @@ import {
   applyDramPublicType,
   canonicalNandDieProfileKey,
   collectDecoderProfileTables,
-  getHumanReadableDensity,
   isFdnextFieldKey,
   isKnownClassificationValue,
   parseDieDensityMbit,
@@ -156,9 +155,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return snapshots;
   };
   let cachedCapabilities = buildCachedCapabilities();
-  const refreshCapabilities = (): void => {
-    cachedCapabilities = buildCachedCapabilities();
-  };
   const cachedCapabilitiesForLang = (lang?: string | null): FdnextCapabilities => {
     const targetLang = lang && cachedCapabilities.has(lang) ? lang : fallbackLang;
     return cachedCapabilities.get(targetLang) ?? cachedCapabilities.get(fallbackLang) ?? ([...cachedCapabilities.values()][0] as FdnextCapabilities);
@@ -1120,28 +1116,9 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   return {
     getVersion,
     getCapabilities,
-    getFdb: () => fdb,
-    getMdb: () => mdb,
-    getLang: () => langPacks,
-    getProcessors: () => processors,
     decodePart,
     searchParts,
     decodeIdentifier,
-    searchIdentifiers,
-    translateString,
-    getHumanReadableDensity,
-    registerDecoder(decoder: PartNumberDecoder): void {
-      decoders.push(decoder);
-      decoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
-      refreshCapabilities();
-    },
-    registerIdentifierDecoder(decoder: IdentifierDecoder): void {
-      identifierDecoders.push(decoder);
-      identifierDecoders.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
-      refreshCapabilities();
-    },
-    registerProcessor(processor: ProcessorHooks): void {
-      processors.push(processor);
-    }
+    searchIdentifiers
   };
 }

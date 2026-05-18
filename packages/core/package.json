@@ -1,6 +1,6 @@
 {
   "name": "@itxtech/fdnext-core",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "Core fdnext memory chip parsing engine, rules, resources, runtime, CLI, and result contracts",
   "license": "AGPL-3.0-or-later",
   "type": "module",
@@ -16,9 +16,13 @@
       "types": "./dist/src/index.d.ts",
       "default": "./dist/index.js"
     },
-    "./node": {
-      "types": "./dist/src/loaders/node.d.ts",
-      "default": "./dist/loaders/node.js"
+    "./decodepack": {
+      "types": "./dist/src/decodepack/index.d.ts",
+      "default": "./dist/decodepack.js"
+    },
+    "./runtime": {
+      "types": "./dist/src/runtime/index.d.ts",
+      "default": "./dist/runtime.js"
     }
   },
   "bin": {
@@ -48,7 +52,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "tsc -b --emitDeclarationOnly && tsx ../../scripts/bundle-package.ts",
+    "build": "rm -rf dist && tsc -b --emitDeclarationOnly && tsx ../../scripts/bundle-package.ts",
     "test": "tsx test/result-contract.test.ts && tsx test/cli/decodepack.test.ts && tsx --test 'test/decodepack/*.test.ts'",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   }

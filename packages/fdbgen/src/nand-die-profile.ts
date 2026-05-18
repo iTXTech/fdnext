@@ -1,4 +1,4 @@
-import { isNandDieProfileKey, nandDieProfileKeys, nandDieProfileTable } from "@itxtech/fdnext-core";
+import { isNandDieProfileKey, nandDieProfileKeys, nandDieProfileTable } from "@itxtech/fdnext-core/decodepack";
 
 const profileByCompact = new Map<string, string>();
 const profileByAliasCompact = new Map<string, string | null>();

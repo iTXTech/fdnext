@@ -8,15 +8,13 @@ import {
   createEngine,
   fdnextCapabilitiesJsonSchema,
   FDNEXT_VERSION,
-  fdnextFieldRegistry,
   fdnextOperationInputJsonSchemas,
   fdnextResultJsonSchema,
-  formatFdnextFieldValue,
   searchIdentifiersInputJsonSchema,
   searchPartsInputJsonSchema,
-  type FdnextFieldKey,
   type JsonSchema
 } from "../src/index";
+import { fdnextFieldRegistry, formatFdnextFieldValue, type FdnextFieldKey } from "../src/field-registry";
 import { buildFdb, findPartNumberAcrossVendors, getPartNumberRecord } from "../src/fdb";
 
 const fixtureRoot = fileURLToPath(new URL("./fixtures/", import.meta.url));

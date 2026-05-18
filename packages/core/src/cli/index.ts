@@ -1,21 +1,5 @@
-import { resolve } from "node:path";
-import {
-  checkDecodePack,
-  createEngine,
-  defaultDecodePack,
-  explainIdentifierDecode,
-  explainPartDecode,
-  type ControllerGroupSelection
-} from "../index";
-import { loadResourcesFromDir } from "../loaders/node";
-
-function resourceDirFromEnv(): string | null {
-  const fromEnv = process.env.FDNEXT_RESOURCES?.trim();
-  if (!fromEnv) {
-    return null;
-  }
-  return resolve(fromEnv);
-}
+import { createEngine, type ControllerGroupSelection } from "../index";
+import { checkDecodePack, defaultDecodePack, explainIdentifierDecode, explainPartDecode } from "../decodepack";
 
 function print(value: unknown): void {
   process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
@@ -134,10 +118,7 @@ async function main() {
     return;
   }
 
-  const resourceDir = resourceDirFromEnv();
-  const engine = createEngine({
-    ...(resourceDir ? { resources: loadResourcesFromDir(resourceDir) } : {})
-  });
+  const engine = createEngine();
 
   if (scope === "capabilities") {
     print(engine.getCapabilities({ lang: args.positionals[1] ?? null }));

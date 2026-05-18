@@ -28,7 +28,7 @@ export default worker;
 
 ```ts
 import { createCfWorkersAdapter } from "@itxtech/fdnext-cf-workers";
-import type { ExternalLinkProvider } from "@itxtech/fdnext-core";
+import type { ExternalLinkProvider } from "@itxtech/fdnext-core/runtime";
 
 const myLinks: ExternalLinkProvider = {
   id: "product-page",

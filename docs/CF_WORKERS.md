@@ -148,7 +148,7 @@ curl 'https://<worker>.<account>.workers.dev/parts/search?query=MT29'
 
 ```ts
 import { createCfWorkersAdapter } from "@itxtech/fdnext-cf-workers";
-import type { ExternalLinkProvider } from "@itxtech/fdnext-core";
+import type { ExternalLinkProvider } from "@itxtech/fdnext-core/runtime";
 
 const productPageLinks: ExternalLinkProvider = {
   id: "product-page",

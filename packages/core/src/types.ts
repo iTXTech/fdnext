@@ -237,17 +237,8 @@ export interface EngineOptions {
 export interface FdnextEngine {
   getVersion(): string;
   getCapabilities(input?: CapabilitiesInput): FdnextCapabilities;
-  getFdb(): FdbDataset;
-  getMdb(): MdbDataset;
-  getLang(): LangPacks;
-  getProcessors(): readonly ProcessorHooks[];
   decodePart(input: DecodePartInput): PartDecodeResult;
   searchParts(input: SearchPartsInput): PartSearchResult;
   decodeIdentifier(input: DecodeIdentifierInput): IdentifierDecodeResult;
   searchIdentifiers(input: SearchIdentifiersInput): IdentifierSearchResult;
-  translateString(key: string, lang?: string | null): string;
-  getHumanReadableDensity(density: number, useByte?: boolean): string;
-  registerDecoder(decoder: PartNumberDecoder): void;
-  registerIdentifierDecoder(decoder: IdentifierDecoder): void;
-  registerProcessor(processor: ProcessorHooks): void;
 }

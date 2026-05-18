@@ -4,8 +4,8 @@ import { createEngine } from "../../src/index";
 import dramPnJson from "../../resources/dram-pn.json" with { type: "json" };
 import mdbJson from "../../resources/mdb.json" with { type: "json" };
 import micronFbgaCodesJson from "../../../../references/micron-fbga-codes.json" with { type: "json" };
-import { embeddedResourceBundle } from "../../src/index";
-import { compileDecodePack, defaultDecodePack } from "../../src/index";
+import { embeddedResourceBundle } from "../../src/resources";
+import { compileDecodePack, defaultDecodePack } from "../../src/decodepack";
 
 const compiledPack = compileDecodePack(defaultDecodePack);
 

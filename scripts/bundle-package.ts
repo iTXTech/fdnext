@@ -172,10 +172,15 @@ async function main() {
         define
       });
       await bundleEntry(esbuild, {
-        entry: resolve(root, "packages/core/src/loaders/node.ts"),
-        outfile: resolve(root, "packages/core/dist/loaders/node.js"),
-        platform: "node",
-        banner: nodeBanner({ shebang: false }),
+        entry: resolve(root, "packages/core/src/decodepack/index.ts"),
+        outfile: resolve(root, "packages/core/dist/decodepack.js"),
+        platform: "neutral",
+        define
+      });
+      await bundleEntry(esbuild, {
+        entry: resolve(root, "packages/core/src/runtime/index.ts"),
+        outfile: resolve(root, "packages/core/dist/runtime.js"),
+        platform: "neutral",
         define
       });
       await bundleEntry(esbuild, {

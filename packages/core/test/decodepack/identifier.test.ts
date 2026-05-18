@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createEngine } from "../../src/index";
-import { embeddedResourceBundle } from "../../src/index";
-import { compileDecodePack, defaultDecodePack, explainIdentifierDecode } from "../../src/index";
+import { embeddedResourceBundle } from "../../src/resources";
+import { compileDecodePack, defaultDecodePack, explainIdentifierDecode } from "../../src/decodepack";
 
 const engine = createEngine({
   resources: embeddedResourceBundle,

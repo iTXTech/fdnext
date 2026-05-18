@@ -17,11 +17,10 @@ console.log(engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" }));
 如需覆盖默认资源（例如热更新数据）：
 
 ```ts
-import { loadResourcesFromDir } from "@itxtech/fdnext-core/node";
+import { createEngine, type FdnextResourceBundle } from "@itxtech/fdnext-core";
 
-const engine = createEngine({
-  resources: process.env.FDNEXT_RESOURCES ? loadResourcesFromDir(process.env.FDNEXT_RESOURCES) : undefined
-});
+const resources: FdnextResourceBundle = await loadResourcesFromYourStore();
+const engine = createEngine({ resources });
 ```
 
 ### 1.1 Processor 管线与 SDK 方法
@@ -29,15 +28,19 @@ const engine = createEngine({
 `@itxtech/fdnext-core` 支持 operation 级 Processor 管线：
 
 ```ts
-engine.registerProcessor({
-  beforeOperation(ctx) {
-    if (ctx.operation === "part.decode") {
-      console.log(ctx.query);
+const engine = createEngine({
+  processors: [
+    {
+      beforeOperation(ctx) {
+        if (ctx.operation === "part.decode") {
+          console.log(ctx.query);
+        }
+      },
+      afterOperation(ctx, result) {
+        return result;
+      }
     }
-  },
-  afterOperation(ctx, result) {
-    return result;
-  }
+  ]
 });
 
 const response = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
@@ -45,20 +48,16 @@ const response = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 
 常用 SDK 方法：
 
-- `engine.getFdb()` / `engine.getMdb()` / `engine.getLang()`
-- `engine.getProcessors()`
 - `engine.decodePart(input)` / `engine.searchParts(input)`
 - `engine.decodeIdentifier(input)` / `engine.searchIdentifiers(input)`
 - `engine.getCapabilities()`
-- `engine.translateString(key, lang)`
-- `engine.getHumanReadableDensity(density, useByte)`
 
 ### 1.2 Runtime dispatch 与 External Link
 
 `@itxtech/fdnext-core` 是平台无关入口，负责统一 dispatch、HTTP 路由和 External Link provider。Hapi、Cloudflare Workers、阿里云 FC 等 adapter 都应调用同一个 runtime，而不是各自维护路由。
 
 ```ts
-import { createRuntime } from "@itxtech/fdnext-core";
+import { createRuntime } from "@itxtech/fdnext-core/runtime";
 
 const runtime = createRuntime({
   externalLinkProviders: [
@@ -108,7 +107,6 @@ runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https
 
 浏览器侧推荐用 Vite / Webpack / Rollup / esbuild 打包，关键点：
 
-- 不要在浏览器使用 `@itxtech/fdnext-core/node`（它依赖 Node 的 `fs`）
 - 资源（`fdb/mdb/lang`，以及用于 PN 补全的 `managed-nand-pn/dram-pn`）建议用 `fetch()` 加载静态 JSON
 - `managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`；Micron DRAM FBGA code 反查统一来自 `mdb.json`
 - 默认解码器（PN / typed identifier）已由 `@itxtech/fdnext-core` 内置；只有裁剪规则或注入自定义规则时才需要显式传入 `decoders` / `identifierDecoders`

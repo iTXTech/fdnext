@@ -5,7 +5,7 @@ import {
   type FdnextCorsOptions,
   type FdnextRuntime,
   type FdnextRuntimeOptions
-} from "@itxtech/fdnext-core";
+} from "@itxtech/fdnext-core/runtime";
 
 export interface AliyunFcHandlerOptions {
   runtime?: FdnextRuntime;
