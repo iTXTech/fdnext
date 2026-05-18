@@ -28,13 +28,16 @@
           "3": 8192,
           "4": 16384
         },
-        "deviceWidth": {
-          "A": 8,
-          "B": 16
-        },
         "packageActual": {
-          "8AM": "78-ball FBGA",
-          "FAM": "96-ball FBGA"
+          "A": "78-ball FBGA",
+          "B": "96-ball FBGA"
+        },
+        "deviceWidth": {
+          "8": 8,
+          "F": 16
+        },
+        "voltage": {
+          "A": "1.2V VDD"
         },
         "densityProcessObj": {
           "4": {
@@ -42,27 +45,25 @@
           }
         },
         "speedObj": {
-          "CQ": {
-            "dram_speed": "DDR4-2666",
+          "Q": {
+            "dram_speed": "DDR4-2666 19-19-19"
+          },
+          "J": {
+            "dram_speed": "DDR4-3200 22-22-22"
+          },
+          "G": {
+            "dram_speed": "DDR4-2666 18-18-18"
+          }
+        },
+        "temperatureObj": {
+          "C": {
             "operation_temperature": "Commercial (0C~95C)"
           },
-          "CJ": {
-            "dram_speed": "DDR4-3200",
-            "operation_temperature": "Commercial (0C~95C)"
-          },
-          "IJ": {
-            "dram_speed": "DDR4-3200",
+          "I": {
             "operation_temperature": "Industrial (-40C~95C)"
           },
-          "WQ": {
-            "dram_speed": "DDR4-2666",
-            "operation_temperature": "Wide temperature (-40C~95C)"
-          },
-          "WG": {
-            "dram_speed": "DDR4-2666",
-            "operation_temperature": "Wide temperature (-40C~95C)",
-            "die_revision": "M-die",
-            "process_node": "CXMT G3 / 18nm-class"
+          "W": {
+            "operation_temperature": "Wide (-40C~95C)"
           }
         },
         "dieRevisionObj": {
@@ -78,19 +79,16 @@
       "steps": [
         {
           "op": "takeRegex",
-          "pattern": "^([0-9])([A-Z])([0-9A-Z]{3})(?=-|$)",
+          "pattern": "^([0-9])([A-Z])([0-9A-Z])([A-Z])([A-Z])(?=-|$)",
           "to": "configFull",
           "groups": {
             "densityCode": 1,
-            "widthCode": 2,
-            "packageCode": 3
+            "packageTypeCode": 2,
+            "widthCode": 3,
+            "voltageCode": 4,
+            "materialOrVersionCode": 5
           },
           "default": ""
-        },
-        {
-          "op": "tpl",
-          "template": "{{densityCode}}{{widthCode}}",
-          "to": "configCode"
         },
         {
           "op": "map",
@@ -101,6 +99,13 @@
         },
         {
           "op": "map",
+          "from": "packageTypeCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
           "from": "widthCode",
           "table": "deviceWidth",
           "to": "deviceWidth",
@@ -108,9 +113,9 @@
         },
         {
           "op": "map",
-          "from": "packageCode",
-          "table": "packageActual",
-          "to": "package",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "dramVoltage",
           "default": "Unknown"
         },
         {
@@ -126,7 +131,25 @@
           "to": "hasSuffix"
         },
         {
-          "op": "takeLongest",
+          "op": "takeRegex",
+          "pattern": "^([CIW])([QJG])(?=-|$)",
+          "to": "suffixCode",
+          "groups": {
+            "temperatureCode": 1,
+            "speedCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
           "table": "speedObj",
           "to": "speedObj",
           "default": {}
@@ -148,12 +171,6 @@
           "value": {
             "dram_type": "DDR4",
             "dram_die_stack": "1 die, 1 CS",
-            "config_code": {
-              "$var": "configCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
-            },
             "die_count": 1
           }
         },
@@ -161,6 +178,12 @@
           "op": "merge",
           "into": "extra",
           "from": "densityProcessObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "temperatureObj",
+          "if": "hasSuffix"
         },
         {
           "op": "mergeIf",
@@ -191,7 +214,9 @@
         "fields.dram_width": {
           "$var": "deviceWidth"
         },
-        "fields.dram_voltage": "1.2V VDD",
+        "fields.dram_voltage": {
+          "$var": "dramVoltage"
+        },
         "fields.package": {
           "$var": "package"
         },
@@ -396,11 +421,6 @@
           "4": 16384,
           "5": 32768
         },
-        "deviceWidth": {
-          "A": 32,
-          "B": 32,
-          "C": 32
-        },
         "dieStackObj": {
           "BAM": {
             "dram_die_stack": "2 dies, 1 CS",
@@ -416,29 +436,30 @@
           }
         },
         "packageActual": {
-          "BAM": "200-ball FBGA",
-          "CAM": "200-ball FBGA",
-          "CBM": "200-ball FBGA"
+          "A": "200-ball FBGA",
+          "C": "200-ball FBGA"
+        },
+        "deviceWidth": {
+          "A": 32,
+          "B": 32,
+          "C": 32
         },
         "speedObj": {
-          "MJ": {
+          "J": {
             "dram_speed": "LPDDR4X-3200"
           },
-          "MK": {
+          "K": {
             "dram_speed": "LPDDR4X-3733"
           },
-          "ML": {
+          "L": {
             "dram_speed": "LPDDR4X-4266"
           },
-          "MA": {
+          "A": {
             "dram_speed": "LPDDR4X-4266"
           }
         },
-        "gradeObj": {
-          "A": {
-            "operation_temperature": "-25C~85C"
-          },
-          "B": {
+        "temperatureObj": {
+          "M": {
             "operation_temperature": "-25C~85C"
           }
         }
@@ -446,19 +467,21 @@
       "steps": [
         {
           "op": "takeRegex",
-          "pattern": "^([0-9])([A-Z])([0-9A-Z]{3})(?=-|$)",
+          "pattern": "^([0-9])([A-Z])([A-Z])([A-Z])([A-Z])(?=-|$)",
           "to": "configFull",
           "groups": {
             "densityCode": 1,
-            "widthCode": 2,
-            "packageCode": 3
+            "packageTypeCode": 2,
+            "configCode": 3,
+            "stackCode": 4,
+            "materialOrVersionCode": 5
           },
           "default": ""
         },
         {
           "op": "tpl",
-          "template": "{{densityCode}}{{widthCode}}",
-          "to": "configCode"
+          "template": "{{configCode}}{{stackCode}}{{materialOrVersionCode}}",
+          "to": "stackKey"
         },
         {
           "op": "map",
@@ -469,21 +492,21 @@
         },
         {
           "op": "map",
-          "from": "widthCode",
+          "from": "configCode",
           "table": "deviceWidth",
           "to": "deviceWidth",
           "default": -1
         },
         {
           "op": "map",
-          "from": "packageCode",
+          "from": "stackKey",
           "table": "dieStackObj",
           "to": "dieStackObj",
           "default": {}
         },
         {
           "op": "map",
-          "from": "packageCode",
+          "from": "packageTypeCode",
           "table": "packageActual",
           "to": "package",
           "default": "Unknown"
@@ -494,7 +517,25 @@
           "to": "hasSuffix"
         },
         {
-          "op": "takeLongest",
+          "op": "takeRegex",
+          "pattern": "^([M])([AJKL])(?=-|$)",
+          "to": "suffixCode",
+          "groups": {
+            "temperatureCode": 1,
+            "speedCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
           "table": "speedObj",
           "to": "speedObj",
           "default": {}
@@ -504,23 +545,11 @@
           "prefix": "-"
         },
         {
-          "op": "takeLongest",
-          "table": "gradeObj",
-          "to": "gradeObj",
-          "default": {}
-        },
-        {
           "op": "set",
           "to": "extra",
           "value": {
             "dram_type": "LPDDR4X",
-            "process_node": "CXMT G3 / 18nm-class",
-            "config_code": {
-              "$var": "configCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
-            }
+            "process_node": "CXMT G3 / 18nm-class"
           }
         },
         {
@@ -531,13 +560,13 @@
         {
           "op": "mergeIf",
           "into": "extra",
-          "from": "speedObj",
+          "from": "temperatureObj",
           "if": "hasSuffix"
         },
         {
           "op": "mergeIf",
           "into": "extra",
-          "from": "gradeObj",
+          "from": "speedObj",
           "if": "hasSuffix"
         }
       ],

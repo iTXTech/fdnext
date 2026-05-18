@@ -33,6 +33,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-05-18 根据 Nanya DDR4 8Gb C-Die / 4Gb E-Die ordering 截图补齐 `NT5AD` DDR4 的 C/E die revision、VDD/VDDQ/VPP、电压与速度时序、TFBGA 封装尺寸、bank count、温度 grade，并把 ordering table 中的 C/E exact PN 加入 `dram-pn.json`。
 - 2026-05-18 根据 Nanya LPDDR3 4Gb / 8Gb / 16Gb / 32Gb ordering 截图补齐 `NT6CL` 的 A/B/D device version、M/P/Q/R package、H0/H1/H2 speed + RL、DDP/QDP CS、x64 2-channel 组合，并把 ordering table 中的 exact PN 加入 `dram-pn.json`。
 - 2026-05-18 根据 Nanya LPDDR4 2Gb / 4Gb、4Gb / 8Gb、8Gb / 16Gb / 32Gb ordering 截图补齐 `NT6AN` 的 LVSTL、A version、M/T/F die、x16/x32 channel、200-ball FBGA 厚度差异、J1/J2/J3 speed + RL，并把 ordering table 中的 exact PN 加入 `dram-pn.json`。
+- 2026-05-18 根据 CXMT DDR4 / LPDDR4X ordering 截图细化 `CXDQ` 与 `CXDB` token：DDR4 speed 输出 2666/3200 timing，LPDDR4X suffix 拆为 temp + speed，`WG` 无 final die-version 时不再输出 die revision，并把 `CXDQ3A8AM-WG` 加入 `dram-pn.json`。
 
 ## 当前覆盖进度
 
