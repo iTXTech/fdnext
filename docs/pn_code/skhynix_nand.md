@@ -181,6 +181,8 @@ H25 目前分成两类结构处理：
 | `HYV7Q` | 4D V7 | QLC | 176 | 1Tb | Toggle 4.0 / 1600MT/s | `H25GQA0` |
 | `HYV8` | 4D V8 | TLC | 238 | 512Gb / 1Tb | Toggle 5.0 / 2400MT/s | `H25FTD0` |
 | `HYV8Q` | 4D V8 | QLC | 238 | 1Tb | Toggle 5.0 / 2400MT/s | - |
+| `HYV9` | 4D V9 | TLC | 321 | 1Tb | 见具体 package 表 | - |
+| `HYV9Q` | 4D V9 | QLC | 321 | 2Tb | - | - |
 
 `HYV6` 的公开 die density 需要按 die marking 区分：`H25FTB0` 为 512Gb，`H25GTM0` 为 1Tb。共享 `nand.die_profile` 只保留 `HYV6` 的层数、cell 与接口信息，H25T package 规则按具体 alias 输出 die density。
 
@@ -190,7 +192,7 @@ H25 目前分成两类结构处理：
 | --- | --- |
 | `H25T` + density(2) + generation(1) + config(3) + optional package tail | SK hynix NAND package |
 | product key | `density code + generation` 组合；同一个 density code 在不同 generation 下不能直接复用容量 |
-| config | 例如 `88E` / `88C` / `48C`，当前只作为结构 token 输出 |
+| config | 例如 `18C` / `28C` / `48C` / `88C` / `G8C`，HYV9 表可由 config 推出 die count；未知 config 仍只作结构 token |
 
 公开结果中，H25T package 容量统一放在 `density`，不再重复输出 `component_density`；已知 package 堆叠使用数值 `die_count` / `ce_count`，不再输出字符串 `die_stack`。
 
@@ -207,6 +209,27 @@ H25 目前分成两类结构处理：
 | `3T:C` / `H25T3TC88CX658` | `HYV8`, TLC, 238L profile, 512Gbit package | `external_table_confirmed` |
 | `3Q:A` / `H25T3QA88CX548` | `HYV7Q`, QLC, 176L profile, 1Tbit package | `external_table_confirmed` |
 | `0Q:A` / `H25T0QA18CX542` | 本地 fdb/fdfdb 指向 `HYV7Q`, QLC, 176L profile, 1Tbit package；尚未找到稳定外部网页 | `local_pending_external_reference` |
+
+维护者补充的 HYV9 package 表给出 128GB die 与 `D18/D28/D48/D88/DG8` 结构。`00h` Address ID 按每个 CE 的 stack 选择：SDP = `AD89284B00E0`，DDP = `AD89294B00E0`，QDP = `AD892A4B00E0`。Package 表中的 `T` 是厚度，公开 `package` 统一写成 `x1.0mm` / `x1.35mm` / `x1.5mm`。
+
+| PN | ID | 可确定内容 |
+| --- | --- | --- |
+| `H25T0TD18CX655` | `AD89284B00E0` | `HYV9`, 128GB package, 1 x 1Tb die, 1 CE / 1 R/B, 152-ball BGA 14x18x1.0mm |
+| `H25T1TD28CX656` | `AD89284B00E0` | `HYV9`, 256GB package, 2 x 1Tb die, 2 CE / 2 R/B, 152-ball BGA 14x18x1.0mm |
+| `H25T2TD48CX657` | `AD89284B00E0` | `HYV9`, 512GB package, 4 x 1Tb die, 4 CE / 4 R/B, 152-ball BGA 14x18x1.0mm |
+| `H25T3TD88CX676` | `AD89294B00E0` | `HYV9`, 1TB package, 8 x 1Tb die, 4 CE / 4 R/B, 152-ball BGA 14x18x1.35mm |
+| `H25T3TD88CX658` | `AD89294B00E0` | `HYV9`, 1TB package, 8 x 1Tb die, 4 CE / 4 R/B, 152-ball BGA 14x18x1.35mm |
+| `H25T4TDG8CX658` | `AD892A4B00E0` | `HYV9`, 2TB package, 16 x 1Tb die, 4 CE / 4 R/B, 152-ball BGA 14x18x1.35mm |
+| `H25T2TD48CX659` | `AD89284B00E0` | `HYV9`, 512GB package, 4 x 1Tb die, 4 CE / 4 R/B, 316-ball BGA 14x18x1.0mm |
+| `H25T3TD88CX660` | `AD89294B00E0` | `HYV9`, 1TB package, 8 x 1Tb die, 4 CE / 4 R/B, 316-ball BGA 14x18x1.35mm |
+| `H25T4TDG8CX660` | `AD892A4B00E0` | `HYV9`, 2TB package, 16 x 1Tb die, 4 CE / 4 R/B, 316-ball BGA 14x18x1.35mm |
+| `H25T2TD48CX862` | `AD89284B00E0` | `HYV9`, 512GB package, 4 x 1Tb die, 4 CE / 4 R/B, 154-ball BGA 11.5x13.5x1.0mm |
+| `H25T3TD88CX860` | `AD89294B00E0` | `HYV9`, 1TB package, 8 x 1Tb die, 4 CE / 4 R/B, 154-ball BGA 11.5x13.5x1.35mm |
+| `H25T0TD18CX826` | `AD89284B00E0` | `HYV9`, 128GB package, 1 x 1Tb die, 1 CE / 1 R/B, 154-ball BGA 11.5x13.5x1.0mm |
+| `H25T1TD28CX828` | `AD89284B00E0` | `HYV9`, 256GB package, 2 x 1Tb die, 2 CE / 2 R/B, 154-ball BGA 11.5x13.5x1.0mm |
+| `H25T2TD48CX809` | `AD89284B00E0` | `HYV9`, 512GB package, 4 x 1Tb die, 4 CE / 4 R/B, 154-ball BGA 11.5x13.5x1.0mm |
+| `H25T3TD88CX811` | `AD89294B00E0` | `HYV9`, 1TB package, 8 x 1Tb die, 4 CE / 4 R/B, 154-ball BGA 11.5x13.5x1.35mm |
+| `H25T4TDG8CX813` | `AD892A4B00E0` | `HYV9`, 2TB package, 16 x 1Tb die, 4 CE / 4 R/B, 154-ball BGA 11.5x13.5x1.5mm |
 
 ### H25 raw NAND token
 
@@ -236,7 +259,7 @@ H25 目前分成两类结构处理：
 
 ## 已知缺口
 
-- H25T package tail（如 `X321N` / `X535` / `X630`）仍缺原厂 ordering table，目前只保留前段稳定 token。
+- H25T package tail 仍只有部分表格确认：HYV9 `X655` / `X656` / `X657` / `X676` / `X658` / `X659` / `X660` / `X862` / `X860` / `X826` / `X828` / `X809` / `X811` / `X813` 已可输出封装尺寸和厚度；其他如 `X321N` / `X535` / `X630` 仍只保留前段稳定 token。
 - 没有外部 reference 的 H25/H25T 候选不删除，但必须在 iTXTech fdnext DecodePack metadata 标记为 `local_pending_external_reference` 或进入本文档待确认列表，不能输出到用户可见解析结果。
 - `H2` / `HY27` 的 topology、mode、generation 表来自既有规则表，后续应逐步补对应资料出处。
 - `H26`、`HN8`、`H28S` 已被更高优先级 managed NAND 规则拦截，不应在 raw NAND 文档中重复解析。

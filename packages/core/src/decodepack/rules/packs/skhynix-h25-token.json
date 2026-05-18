@@ -31,12 +31,15 @@
           "4Q:M": 4,
           "4T:M": 3,
           "0T:C": 3,
+          "0T:D": 3,
           "1T:C": 3,
           "1T:D": 3,
           "2T:B": 3,
           "2T:C": 3,
           "2T:D": 3,
-          "3T:C": 3
+          "3T:C": 3,
+          "3T:D": 3,
+          "4T:D": 3
         },
         "density": {
           "0Q:A": 1048576,
@@ -44,12 +47,15 @@
           "4Q:M": 2097152,
           "4T:M": 16777216,
           "0T:C": 524288,
+          "0T:D": 1048576,
           "1T:C": 2097152,
           "1T:D": 2097152,
           "2T:B": 4194304,
           "2T:C": 4194304,
           "2T:D": 4194304,
-          "3T:C": 524288
+          "3T:C": 524288,
+          "3T:D": 8388608,
+          "4T:D": 16777216
         },
         "processNode": {
           "0Q:A": "HYV7Q",
@@ -57,12 +63,24 @@
           "4Q:M": "HYV9Q",
           "4T:M": "HYV6",
           "0T:C": "HYV7",
+          "0T:D": "HYV9",
           "1T:C": "HYV7",
           "1T:D": "HYV8",
           "2T:B": "HYV6",
           "2T:C": "HYV7",
           "2T:D": "HYV8",
-          "3T:C": "HYV8"
+          "3T:C": "HYV8",
+          "3T:D": "HYV9",
+          "4T:D": "HYV9"
+        },
+        "productConfigProcessNode": {
+          "0T:D:18C": "HYV9",
+          "1T:D:28C": "HYV9",
+          "1T:D:48C": "HYV8",
+          "2T:D:48C": "HYV9",
+          "2T:D:88C": "HYV8",
+          "3T:D:88C": "HYV9",
+          "4T:D:G8C": "HYV9"
         },
         "productObj": {
           "1T:C": {
@@ -85,6 +103,104 @@
             "die_density": "1Tb",
             "die_count": 16,
             "ce_count": 4
+          }
+        },
+        "productConfigObj": {
+          "0T:D:18C": {
+            "die_density": "1Tb",
+            "die_count": 1,
+            "ce_count": 1,
+            "rb_count": 1
+          },
+          "1T:D:28C": {
+            "die_density": "1Tb",
+            "die_count": 2,
+            "ce_count": 2,
+            "rb_count": 2
+          },
+          "1T:D:48C": {
+            "die_density": "512Gb",
+            "die_count": 4
+          },
+          "2T:D:48C": {
+            "die_density": "1Tb",
+            "die_count": 4,
+            "ce_count": 4,
+            "rb_count": 4
+          },
+          "2T:D:88C": {
+            "die_density": "512Gb",
+            "die_count": 8
+          },
+          "3T:D:88C": {
+            "die_density": "1Tb",
+            "die_count": 8,
+            "ce_count": 4,
+            "rb_count": 4
+          },
+          "4T:D:G8C": {
+            "die_density": "1Tb",
+            "die_count": 16,
+            "ce_count": 4,
+            "rb_count": 4
+          }
+        },
+        "packageObj": {
+          "655": {
+            "package": "152-ball BGA 14x18x1.0mm",
+            "channel_count": 1
+          },
+          "656": {
+            "package": "152-ball BGA 14x18x1.0mm",
+            "channel_count": 2
+          },
+          "657": {
+            "package": "152-ball BGA 14x18x1.0mm",
+            "channel_count": 2
+          },
+          "676": {
+            "package": "152-ball BGA 14x18x1.35mm",
+            "channel_count": 2
+          },
+          "658": {
+            "package": "152-ball BGA 14x18x1.35mm",
+            "channel_count": 2
+          },
+          "659": {
+            "package": "316-ball BGA 14x18x1.0mm",
+            "channel_count": 4
+          },
+          "660": {
+            "package": "316-ball BGA 14x18x1.35mm",
+            "channel_count": 4
+          },
+          "862": {
+            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "channel_count": 2
+          },
+          "860": {
+            "package": "154-ball BGA 11.5x13.5x1.35mm",
+            "channel_count": 2
+          },
+          "826": {
+            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "channel_count": 1
+          },
+          "828": {
+            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "channel_count": 2
+          },
+          "809": {
+            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "channel_count": 2
+          },
+          "811": {
+            "package": "154-ball BGA 11.5x13.5x1.35mm",
+            "channel_count": 2
+          },
+          "813": {
+            "package": "154-ball BGA 11.5x13.5x1.5mm",
+            "channel_count": 2
           }
         },
         "reference": {
@@ -135,11 +251,13 @@
         },
         "processAlias": {
           "1T:C": "H25FTC0",
-          "1T:D": "H25FTD0",
           "2T:B": "H25FTB0",
           "2T:C": "H25FTC0",
-          "2T:D": "H25FTD0",
           "4T:M": "H25GTM0"
+        },
+        "productConfigProcessAlias": {
+          "1T:D:48C": "H25FTD0",
+          "2T:D:88C": "H25FTD0"
         }
       },
       "steps": [
@@ -159,6 +277,20 @@
           "to": "productKey"
         },
         {
+          "op": "takeRegex",
+          "pattern": "([1248G]8[CE])(?:X([0-9]{3}))?",
+          "groups": {
+            "configToken": 1,
+            "packageCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{productKey}}:{{configToken}}",
+          "to": "productConfigKey"
+        },
+        {
           "op": "map",
           "from": "productKey",
           "table": "cellLevel",
@@ -176,8 +308,21 @@
           "op": "map",
           "from": "productKey",
           "table": "processNode",
-          "to": "processNode",
+          "to": "productProcessNode",
           "default": ""
+        },
+        {
+          "op": "map",
+          "from": "productConfigKey",
+          "table": "productConfigProcessNode",
+          "to": "configProcessNode",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "configProcessNode",
+          "secondary": "productProcessNode",
+          "to": "processNode"
         },
         {
           "op": "map",
@@ -190,6 +335,18 @@
           "op": "map",
           "from": "productKey",
           "table": "processAlias",
+          "to": "productProcessAlias"
+        },
+        {
+          "op": "map",
+          "from": "productConfigKey",
+          "table": "productConfigProcessAlias",
+          "to": "configProcessAlias"
+        },
+        {
+          "op": "fallback",
+          "primary": "configProcessAlias",
+          "secondary": "productProcessAlias",
           "to": "processAlias"
         },
         {
@@ -197,6 +354,25 @@
           "from": "productKey",
           "table": "productObj",
           "to": "productObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "productConfigKey",
+          "table": "productConfigObj",
+          "to": "productConfigObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "productObj",
+          "from": "productConfigObj"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj",
           "default": {}
         }
       ],
@@ -230,6 +406,15 @@
         },
         "fields.ce_count": {
           "$path": "productObj.ce_count"
+        },
+        "fields.rb_count": {
+          "$path": "productObj.rb_count"
+        },
+        "fields.channel_count": {
+          "$path": "packageObj.channel_count"
+        },
+        "fields.package": {
+          "$path": "packageObj.package"
         },
         "fields.device_width": 8,
         "meta.ruleId": "vendor.skhynix.h25t.package.v1"

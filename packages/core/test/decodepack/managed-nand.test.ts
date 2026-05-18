@@ -2172,6 +2172,173 @@ assertPart("H25T2TD88C", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
+const skhynixH25Hyv9KnownPackages = [
+  {
+    partNumber: "H25T0TD18CX655",
+    densityMbit: 1048576,
+    dieCount: 1,
+    ceCount: 1,
+    rbCount: 1,
+    channelCount: 1,
+    package: "152-ball BGA 14x18x1.0mm"
+  },
+  {
+    partNumber: "H25T1TD28CX656",
+    densityMbit: 2097152,
+    dieCount: 2,
+    ceCount: 2,
+    rbCount: 2,
+    channelCount: 2,
+    package: "152-ball BGA 14x18x1.0mm"
+  },
+  {
+    partNumber: "H25T2TD48CX657",
+    densityMbit: 4194304,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "152-ball BGA 14x18x1.0mm"
+  },
+  {
+    partNumber: "H25T3TD88CX676",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "152-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T3TD88CX658",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "152-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T4TDG8CX658",
+    densityMbit: 16777216,
+    dieCount: 16,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "152-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T2TD48CX659",
+    densityMbit: 4194304,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.0mm"
+  },
+  {
+    partNumber: "H25T3TD88CX660",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T4TDG8CX660",
+    densityMbit: 16777216,
+    dieCount: 16,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T2TD48CX862",
+    densityMbit: 4194304,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T3TD88CX860",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.35mm"
+  },
+  {
+    partNumber: "H25T0TD18CX826",
+    densityMbit: 1048576,
+    dieCount: 1,
+    ceCount: 1,
+    rbCount: 1,
+    channelCount: 1,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T1TD28CX828",
+    densityMbit: 2097152,
+    dieCount: 2,
+    ceCount: 2,
+    rbCount: 2,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T2TD48CX809",
+    densityMbit: 4194304,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T3TD88CX811",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.35mm"
+  },
+  {
+    partNumber: "H25T4TDG8CX813",
+    densityMbit: 16777216,
+    dieCount: 16,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.5mm"
+  }
+];
+
+for (const item of skhynixH25Hyv9KnownPackages) {
+  assertPart(item.partNumber, {
+    vendor: "skhynix",
+    type: "NAND",
+    densityMbit: item.densityMbit,
+    dieProfileField: "HYV9",
+    cellField: "TLC",
+    package: item.package,
+    extra: {
+      "Layer Count": 321,
+      "Die Density": "1Tb",
+      "Die Count": item.dieCount,
+      "CE Count": item.ceCount,
+      "R/B Count": item.rbCount,
+      "Channel Count": item.channelCount
+    },
+    absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+  });
+}
+
 assertPart("H25T0QA18CX542", {
   vendor: "skhynix",
   type: "NAND",
