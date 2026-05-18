@@ -4812,7 +4812,7 @@ assertDram("IS43TR81280CL-107MBLI-TR", {
     "CAS Latency": 13,
     "Package Code": "B (BGA)",
     "Solder Type": "100% matte Sn for non-BGA or SnAgCu for BGA",
-    "Operation Temperature": "Industrial Grade (-40C to +85C)"
+    "Operation Temperature": "Industrial Grade (-40C to +95C)"
   }
 });
 
@@ -4916,6 +4916,74 @@ assertDram("IS43LQ32256BL", {
     "DRAM Speed": "LPDDR4X-3733/3200"
   },
   absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("IS43LQ32K01B-046BLI", {
+  vendor: "issi",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+  package: "200-ball BGA",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Generation": "LPDDR4/LPDDR4X",
+    "DRAM Speed": "LPDDR4/LPDDR4X-4266",
+    "Operation Temperature": "Industrial Grade (-40C to +95C)",
+    "Channel Count": 2
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("IS46LQ32K01B-053BLA3", {
+  vendor: "issi",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+  package: "200-ball BGA",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Generation": "LPDDR4/LPDDR4X",
+    "DRAM Speed": "LPDDR4/LPDDR4X-3733",
+    "Operation Temperature": "Automotive Grade (-40C to +125C)",
+    "Channel Count": 2
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("IS43QR81024B-062AABLI", {
+  vendor: "issi",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball BGA",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Die Revision": "B",
+    "DRAM Speed": "1600MHz (DDR-3200)",
+    "CAS Latency": 22,
+    "Solder Type": "100% matte Sn for non-BGA or SnAgCu for BGA",
+    "Operation Temperature": "Industrial Grade (-40C to +95C)"
+  }
+});
+
+assertDram("IS43TR16128DL-107MBLI", {
+  vendor: "issi",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.35V or 1.5V VDD",
+  package: "96-ball BGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Die Revision": "D",
+    "DRAM Speed": "933MHz (DDR-1866)",
+    "CAS Latency": 13,
+    "Solder Type": "100% matte Sn for non-BGA or SnAgCu for BGA",
+    "Operation Temperature": "Industrial Grade (-40C to +95C)"
+  }
 });
 
 assertDram("W668GG6TB-06", {
@@ -5138,6 +5206,10 @@ assertSearchPnIncludes("CXDB5C", "CXMT CXDB5CCAM-MK");
 assertSearchPnIncludes("CXDB5CCBM", "CXMT CXDB5CCBM-MA-A");
 assertSearchPnIncludes("CXDB6CCBM", "CXMT CXDB6CCBM-MA-A");
 assertSearchPnIncludes("IS43QR8K02", "ISSI IS43QR8K02S2A");
+assertSearchPnIncludes("IS43LQ32K01B", "ISSI IS43LQ32K01B-046BLI");
+assertSearchPnIncludes("IS43QR81024B-062", "ISSI IS43QR81024B-062AABLI");
+assertSearchPnIncludes("IS43TR16128DL-107", "ISSI IS43TR16128DL-107MBLI");
+assertSearchPnIncludes("IS46TR82560DL-125", "ISSI IS46TR82560DL-125KBLA1");
 assertSearchPnIncludes("W66DP2RQQA", "Winbond W66DP2RQQAHJ");
 assertSearchPnIncludes("M16U4G16256", "ESMT M16U4G16256A(2Z)");
 assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A(2H)");

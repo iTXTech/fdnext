@@ -2828,6 +2828,350 @@
     "pn": "IS46LQ32256EAL"
   },
   {
+    "vendor": "issi",
+    "pn": "IS43LQ32K01B-053BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LQ32K01B-046BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32K01B-053BLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32K01B-046BLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32K01B-053BLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32K01B-046BLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32K01B-053BLA3"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46LQ32K01B-046BLA3"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR85120B-083RBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR85120B-075UBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR85120B-083RBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR85120B-075UBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR85120B-083RBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR85120B-075UBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR85120B-083RBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR85120B-075UBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16256B-083RBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16256B-075UBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16256B-083RBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16256B-075UBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16256B-083RBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16256B-075UBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16256B-083RBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16256B-075UBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16256B-083RBLA3"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR81024B-083TBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR81024B-075VBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR81024B-062AABL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR81024B-083TBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR81024B-075VBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR81024B-062AABLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR81024B-083TBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR81024B-075VBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR81024B-083TBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR81024B-075VBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR81024B-062AABLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16512B-083TBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16512B-075VBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16512B-062AABL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16512B-083TBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16512B-075VBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43QR16512B-062AABLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16512B-083TBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16512B-075VBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16512B-083TBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16512B-075VBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46QR16512B-062AABLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16K01S2AL-125KBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16K01S2AL-125KBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16K01S2AL-125KBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16K01S2AL-125KBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128D-125KBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128D-107MBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128D-093NBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128D-125KBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128D-107MBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128D-093NBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128D-125KBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128D-107MBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128D-125KBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128D-107MBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128DL-125KBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128DL-107MBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128DL-125KBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR16128DL-107MBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128DL-125KBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128DL-107MBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128DL-125KBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128DL-107MBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128DL-125KBLA25"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128DL-107MBLA25"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128DL-125KBLA3"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128DL-107MBLA3"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR16128DL-093NBLA3"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560D-125KBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560D-107MBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560D-125KBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560D-107MBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR82560D-125KBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR82560D-125KBLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560DL-125KBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560DL-107MBL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560DL-125KBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43TR82560DL-107MBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR82560DL-125KBLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS46TR82560DL-125KBLA2"
+  },
+  {
     "vendor": "winbond",
     "pn": "W631GG6NB-09"
   },

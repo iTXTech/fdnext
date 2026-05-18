@@ -270,7 +270,7 @@
             "operation_temperature": "Automotive Grade (-40C to +115C)"
           },
           "A1": {
-            "operation_temperature": "Automotive Grade (-40C to +85C)"
+            "operation_temperature": "Automotive Grade (-40C to +95C)"
           },
           "A2": {
             "operation_temperature": "Automotive Grade (-40C to +105C)"
@@ -279,7 +279,7 @@
             "operation_temperature": "Automotive Grade (-40C to +125C)"
           },
           "I": {
-            "operation_temperature": "Industrial Grade (-40C to +85C)"
+            "operation_temperature": "Industrial Grade (-40C to +95C)"
           }
         }
       },
@@ -560,6 +560,17 @@
             "config_code": "2x16 256M",
             "dram_speed": "LPDDR4-3733/3200"
           },
+          "32K01B": {
+            "density": 32768,
+            "device_width": 32,
+            "dram_type": "LPDDR4",
+            "dram_generation": "LPDDR4/LPDDR4X",
+            "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+            "package": "200-ball BGA",
+            "config_code": "2x16 1G",
+            "channel_count": 2,
+            "dram_speed": "LPDDR4/LPDDR4X-4266/3733"
+          },
           "16128EA": {
             "density": 2048,
             "device_width": 16,
@@ -722,6 +733,34 @@
             "config_code": "2x16 256M ECC",
             "dram_speed": "LPDDR4X-3200"
           }
+        },
+        "speedObj": {
+          "046": {
+            "dram_speed": "LPDDR4/LPDDR4X-4266"
+          },
+          "053": {
+            "dram_speed": "LPDDR4/LPDDR4X-3733"
+          }
+        },
+        "packageSuffixToken": {
+          "B": "B"
+        },
+        "packagingContentToken": {
+          "L": "L"
+        },
+        "temperatureObj": {
+          "A1": {
+            "operation_temperature": "Automotive Grade (-40C to +95C)"
+          },
+          "A2": {
+            "operation_temperature": "Automotive Grade (-40C to +105C)"
+          },
+          "A3": {
+            "operation_temperature": "Automotive Grade (-40C to +125C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial Grade (-40C to +95C)"
+          }
         }
       },
       "steps": [
@@ -748,8 +787,52 @@
             },
             "dram_speed": {
               "$path": "productObj.dram_speed"
+            },
+            "dram_generation": {
+              "$path": "productObj.dram_generation"
+            },
+            "channel_count": {
+              "$path": "productObj.channel_count"
             }
           }
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "packageSuffixToken",
+          "to": "packageSuffixToken",
+          "default": ""
+        },
+        {
+          "op": "takeLongest",
+          "table": "packagingContentToken",
+          "to": "packagingContentToken",
+          "default": ""
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
         }
       ],
       "assign": {
