@@ -2,7 +2,7 @@
 
 采集日期：2026-05-18
 
-本页记录 Winbond standalone DRAM 颗粒的 PN 结构。当前覆盖官方 2026 PSG 中可直接确认的 DDR、DDR2、DDR3、DDR4、LPDDR4/LPDDR4X；SDR 与 LPDDR3 已在 PSG 中出现，但未在本轮落 iTXTech fdnext DecodePack。
+本页记录 Winbond standalone DRAM 颗粒的 PN 结构。当前覆盖官方 2026 PSG 中可直接确认的 DDR、DDR2、DDR3、DDR4、LPDDR4、LPDDR4X；SDR 与 LPDDR3 已在 PSG 中出现，但未在本轮落 iTXTech fdnext DecodePack。
 
 ## 外部资料
 
@@ -11,7 +11,8 @@
 - DDR2 表确认 `W9712G6KB`、`W971GG6/8NB`、`W9725G6/8KB`、`W972GG6KB`、`W972GG8KS` 系列的 128Mb/256Mb/1Gb/2Gb、x8/x16、1.8V、4-bank / 8-bank、TFBGA(60/84) 8mm x 12.5mm 与 DDR2-667/800/1066 ordering suffix。
 - DDR3 表确认 `W631/W632/W634/W638` 系列的 1Gb/2Gb/4Gb/8Gb、x8/x16、1.5V / 1.35V、DDR3-1333~2133、VFBGA(78/96) 与温度等级。`W631GG6NB` / `W631GG8NB` 表行确认 8-bank 结构、x16 7.5mm x 13mm 96-ball VFBGA 与 x8 8mm x 10.5mm 78-ball VFBGA。
 - DDR4 表确认 `W664GG6/8RB` 与 `W668GG6/8TB` 系列的 4Gb/8Gb、x8/x16、1.2V、DDR4-2400/2666/3200、VFBGA(78/96) 与温度等级；`W664GG6RB` / `W664GG8RB` 表行确认 x16 7.5mm x 13mm 96-ball VFBGA 与 x8 7.5mm x 11mm 78-ball VFBGA，8Gb DDR4 表中状态列标注 2026。
-- LPDDR4/4X 表确认 `W66*` 系列 1Gb/2Gb/4Gb/8Gb、x16/x32、1.8/1.1/1.1 或 1.8/1.1/0.6 电压、3200/3733/4267 MT/s、VFBGA/TFBGA/WFBGA 封装与工业 / 车规等级。
+- LPDDR4 与 LPDDR4X 表确认 `W66*` 系列 1Gb/2Gb/4Gb/8Gb、x16/x32、1.8/1.1/1.1 或 1.8/1.1/0.6 电压、3200/3733/4267 MT/s、VFBGA/TFBGA/WFBGA 封装与工业 / 车规等级。
+- 用户提供的 Winbond `W66BP6RB_W66CP2RQ` datasheet 确认 2Gb / 4Gb LPDDR4/4X Combo SDRAM：VDDQ = 1.1V 时工作为 LPDDR4 mode，VDDQ = 0.6V 时工作为 LPDDR4X mode；ordering 表的 `F/G/H` 分别对应 3200/3733/4267。
 
 ## iTXTech fdnext DecodePack 范围
 
@@ -22,7 +23,7 @@
   - `W97(12|25|1G|2G)G(6|8)...`：DDR2 SDRAM。
   - `W63[1248]G[GU][68]...`：DDR3 / DDR3L。
   - `W66[48]GG[68]...`：DDR4。
-  - `W66[ABCD][PQ][26][NR]...`：LPDDR4 / LPDDR4X。
+  - `W66[ABCD][PQ][26][NR]...`：LPDDR4、LPDDR4X 或 LPDDR4/4X Combo。
 
 ## PN 结构
 
@@ -57,7 +58,7 @@ suffix = optional dash + speed(2 digits) + optional grade
 LPDDR4/4X：
 
 ```text
-W66 + density + P/Q + width + N/R + package + speed + grade
+W66 + density + P/Q + width + N/R + package family + optional package/speed/grade tail
 ```
 
 ## 输出约定
@@ -72,6 +73,7 @@ W66 + density + P/Q + width + N/R + package + speed + grade
 - suffix 最后两位数字表示 speed grade：DDR3 `09/11/12/15` 分别输出 DDR3-2133 14-14-14、DDR3-1866 13-13-13、DDR3-1600 11-11-11、DDR3-1333 9-9-9；DDR4 `06/07/08` 分别输出 DDR4-3200 22-22-22、DDR4-2666 19-19-19、DDR4-2400 17-17-17。
 - suffix 最后一位字母表示温度档；空字母且有 dash 的 commercial PN 输出 Commercial (0C~95C)，`I` 输出 Industrial (-40C~95C)，`J` 输出 Industrial Plus (-40C~105C)，DDR3 车规 `S/K/W/A` 分别输出 AG1/AG2/AG2 Plus/AG3。
 - Winbond DDR/DDR2/DDR3/DDR4 ordering PN 中 dash 与无 dash suffix 写法完全同义；`dram-pn.json` 只保留带 dash 的 canonical 展示项，例如 `W631GG8NB-09J`，不同时保留 `W631GG8NB09J`。
-- LPDDR4/4X 的 `P/Q + N/R` 组合区分 LPDDR4 与 LPDDR4X；`F/G/H` 输出 3200/3733/4267 MT/s。
+- `W66AP6NB`、`W66AQ6NB`、`W66BP2NQ`、`W66BQ2NQ`、`W66BP6RB`、`W66CP2RQ` 这类基础 family PN 可输出已确认的容量、位宽、电压域、bank/channel 与 LPDDR 类型；缺完整 package/speed/grade tail 时不输出封装、速度和温度等级。
+- LPDDR4 与 LPDDR4X 的 `P/Q + N/R` 组合区分 LPDDR4、LPDDR4X 或 combo family；`F/G/H` 输出 3200/3733/4267 MT/s。Combo family 输出 `dram_type=LPDDR4`，并用 `dram_generation=LPDDR4/4X Combo` 与 `special_option` 描述 VDDQ=1.1V 的 LPDDR4 mode、VDDQ=0.6V 的 LPDDR4X mode；速度按 datasheet ordering 表输出 `LPDDR4/4X-3200` 这类形式。
 - 官方 PSG 表未提供可直接落到 die stack / CS 的 Winbond token，本轮不推断 `dram_die_stack`。
 - `packages/core/resources/dram-pn.json` 收录本轮 iTXTech fdnext DecodePack 能解析的官方 Winbond PN 样例与基础 family PN，用于搜索补全；解码仍由 token 规则完成。

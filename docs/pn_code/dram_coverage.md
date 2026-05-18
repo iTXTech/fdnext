@@ -39,6 +39,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-05-18 根据 GigaDevice DDR3L 产品页、XCMemory 产品页和 GDP ordering 截图补齐 `GDP` DDR3L token：覆盖 1Gb/2Gb/4Gb/8Gb、x8/x16、78/96-ball FBGA、1.35V/1.5V、商业/宽温与 1866/2133 timing，并把 exact PN 加入 `dram-pn.json`。
 - 2026-05-18 根据 Winbond 2026 PSG 与用户提供的 ordering 表补齐 `W631GG6/8NB`、`W664GG6/8RB` 基础 family PN：suffix 最后两位输出 DDR3/DDR4 speed + timing，最后一位字母输出温度档；基础 family PN 加入 `dram-pn.json`，缺 suffix 时只输出容量、位宽、电压、封装等确定字段。
 - 2026-05-18 根据 Winbond 2026 PSG 与用户提供的 ordering 表新增 `W94` DDR 与 `W97` DDR2 token：覆盖 DDR 128Mb/256Mb x16 TSOP、DDR2 128Mb/256Mb/1Gb/2Gb x8/x16 TFBGA、4-bank / 8-bank、speed/timing suffix 与温度等级，并把对应 PN 加入 `dram-pn.json`。
+- 2026-05-18 根据 Winbond LPDDR4/LPDDR4X datasheet 与 ordering 表补齐 `W66AP6NB`、`W66AQ6NB`、`W66BP2NQ`、`W66BQ2NQ` 基础 family，以及 `W66BP6RB` / `W66CP2RQ` LPDDR4/4X Combo：base PN 加入 `dram-pn.json`，combo 输出 VDDQ=1.1V LPDDR4 mode / VDDQ=0.6V LPDDR4X mode 与 `LPDDR4/4X-*` speed。
 
 ## 当前覆盖进度
 

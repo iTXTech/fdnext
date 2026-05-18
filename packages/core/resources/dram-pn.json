@@ -5629,6 +5629,10 @@
   },
   {
     "vendor": "winbond",
+    "pn": "W66AP6NB"
+  },
+  {
+    "vendor": "winbond",
     "pn": "W66AP6NBHAFA"
   },
   {
@@ -5749,6 +5753,10 @@
   },
   {
     "vendor": "winbond",
+    "pn": "W66AQ6NB"
+  },
+  {
+    "vendor": "winbond",
     "pn": "W66AQ6NBHAFA"
   },
   {
@@ -5866,6 +5874,10 @@
   {
     "vendor": "winbond",
     "pn": "W66AQ6NBUAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BP2NQ"
   },
   {
     "vendor": "winbond",
@@ -6045,6 +6057,10 @@
   },
   {
     "vendor": "winbond",
+    "pn": "W66BP6RB"
+  },
+  {
+    "vendor": "winbond",
     "pn": "W66BP6RBHAFJ"
   },
   {
@@ -6066,6 +6082,10 @@
   {
     "vendor": "winbond",
     "pn": "W66BP6RBQAHJ"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66BQ2NQ"
   },
   {
     "vendor": "winbond",
@@ -6306,6 +6326,10 @@
   {
     "vendor": "winbond",
     "pn": "W66CP2NQUAGS"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W66CP2RQ"
   },
   {
     "vendor": "winbond",

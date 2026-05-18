@@ -5708,6 +5708,172 @@ assertDram("W631GU6NB09J", {
   absentExtra: ["DRAM Die Stack"]
 });
 
+assertDram("W66AP6NB", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "Bank Count": 8,
+    "Channel Count": 1
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W66BP2NQ", {
+  vendor: "winbond",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "Bank Count": 8,
+    "Channel Count": 2
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W66AQ6NB", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "Bank Count": 8,
+    "Channel Count": 1
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W66BQ2NQ", {
+  vendor: "winbond",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "Bank Count": 8,
+    "Channel Count": 2
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W66BP6RB", {
+  vendor: "winbond",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1, 1.1V VDD2, 1.1V VDDQ (LPDDR4) or 0.6V VDDQ (LPDDR4X)",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Generation": "LPDDR4/4X Combo",
+    "Bank Count": 8,
+    "Channel Count": 1,
+    "Special Option": "LPDDR4 mode at 1.1V VDDQ; LPDDR4X mode at 0.6V VDDQ"
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W66CP2RQ", {
+  vendor: "winbond",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1, 1.1V VDD2, 1.1V VDDQ (LPDDR4) or 0.6V VDDQ (LPDDR4X)",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Generation": "LPDDR4/4X Combo",
+    "Bank Count": 8,
+    "Channel Count": 2,
+    "Special Option": "LPDDR4 mode at 1.1V VDDQ; LPDDR4X mode at 0.6V VDDQ"
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W66AP6NBHAHI", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "100-ball VFBGA (10mm x 7.5mm, 1.0mm thickness)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "LPDDR4-4267",
+    "Bank Count": 8,
+    "Channel Count": 1,
+    "Operation Temperature": "Industrial (-40C~95C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W66AQ6NBQAGJ", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball TFBGA (10mm x 14.5mm, 1.1mm thickness)",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-3733",
+    "Bank Count": 8,
+    "Channel Count": 1,
+    "Operation Temperature": "Industrial Plus (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W66BP6RBHAHJ", {
+  vendor: "winbond",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1, 1.1V VDD2, 1.1V VDDQ (LPDDR4) or 0.6V VDDQ (LPDDR4X)",
+  package: "100-ball VFBGA (10mm x 7.5mm, 1.0mm thickness)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Generation": "LPDDR4/4X Combo",
+    "DRAM Speed": "LPDDR4/4X-4267",
+    "Bank Count": 8,
+    "Channel Count": 1,
+    "Operation Temperature": "Industrial Plus (-40C~105C)",
+    "Special Option": "LPDDR4 mode at 1.1V VDDQ; LPDDR4X mode at 0.6V VDDQ"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W66CP2RQQAFJ", {
+  vendor: "winbond",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1, 1.1V VDD2, 1.1V VDDQ (LPDDR4) or 0.6V VDDQ (LPDDR4X)",
+  package: "200-ball TFBGA (10mm x 14.5mm, 1.1mm thickness)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Generation": "LPDDR4/4X Combo",
+    "DRAM Speed": "LPDDR4/4X-3200",
+    "Bank Count": 8,
+    "Channel Count": 2,
+    "Operation Temperature": "Industrial Plus (-40C~105C)",
+    "Special Option": "LPDDR4 mode at 1.1V VDDQ; LPDDR4X mode at 0.6V VDDQ"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
 assertDram("W66DP2RQQAHJ", {
   vendor: "winbond",
   densityMbit: 8192,
@@ -5960,6 +6126,12 @@ for (const pn of issiLpddrOrderingPns) {
 }
 
 assertSearchPnIncludes("W66DP2RQQA", "Winbond W66DP2RQQAHJ");
+assertSearchPnIncludes("W66AP6NB", "Winbond W66AP6NB");
+assertSearchPnIncludes("W66AQ6NB", "Winbond W66AQ6NB");
+assertSearchPnIncludes("W66BP2NQ", "Winbond W66BP2NQ");
+assertSearchPnIncludes("W66BQ2NQ", "Winbond W66BQ2NQ");
+assertSearchPnIncludes("W66BP6RB", "Winbond W66BP6RB");
+assertSearchPnIncludes("W66CP2RQ", "Winbond W66CP2RQ");
 assertSearchPnIncludes("W9412G6KH", "Winbond W9412G6KH");
 assertSearchPnIncludes("W9425G6KH-5K", "Winbond W9425G6KH-5K");
 assertSearchPnIncludes("W9712G6KB", "Winbond W9712G6KB");
