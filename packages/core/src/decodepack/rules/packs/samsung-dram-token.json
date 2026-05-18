@@ -1104,6 +1104,9 @@
         "bankObj": {
           "5": {
             "bank_count": 16
+          },
+          "6": {
+            "bank_count": 32
           }
         },
         "packageActual": {
@@ -1115,7 +1118,7 @@
           "BH:04": "78-ball FBGA"
         },
         "voltage": {
-          "V": "1.1V VDD"
+          "V": "VDD/VDDQ = 1.1V; VPP = 1.8V"
         },
         "suffixPackageStackObj": {
           "B": {
