@@ -36,6 +36,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-05-18 根据 CXMT DDR4 / LPDDR4X ordering 截图细化 `CXDQ` 与 `CXDB` token：DDR4 speed 输出 2666/3200 timing，LPDDR4X suffix 拆为 temp + speed，`WG` 无 final die-version 时不再输出 die revision，并把 `CXDQ3A8AM-WG` 加入 `dram-pn.json`。
 - 2026-05-18 根据 GigaDevice 官方 DDR4 / LPDDR4X 产品页与 GDQ/GDB ordering 截图新增 GigaDevice DRAM token：覆盖 `GDQ` DDR4 4Gb/8Gb x8/x16、`GDB` LPDDR4X 16Gb/32Gb x32、温度/速度 suffix，并把 exact PN 加入 `dram-pn.json`。
 - 2026-05-18 根据 GigaDevice DDR3L 产品页、XCMemory 产品页和 GDP ordering 截图补齐 `GDP` DDR3L token：覆盖 1Gb/2Gb/4Gb/8Gb、x8/x16、78/96-ball FBGA、1.35V/1.5V、商业/宽温与 1866/2133 timing，并把 exact PN 加入 `dram-pn.json`。
+- 2026-05-18 根据 Winbond 2026 PSG 与用户提供的 ordering 表补齐 `W631GG6/8NB`、`W664GG6/8RB` 基础 family PN：suffix 最后两位输出 DDR3/DDR4 speed + timing，最后一位字母输出温度档；基础 family PN 加入 `dram-pn.json`，缺 suffix 时只输出容量、位宽、电压、封装等确定字段。
 
 ## 当前覆盖进度
 

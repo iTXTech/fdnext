@@ -5452,13 +5452,72 @@ assertDram("W668GG6TB-06", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball VFBGA",
+  package: "96-ball VFBGA (7.5mm x 13mm)",
   extra: {
     "DRAM Type": "DDR4",
-    "Package Code": "TB",
-    "Config Code": "8GG6TB",
-    "DRAM Speed": "DDR4-3200",
+    "DRAM Speed": "DDR4-3200 22-22-22",
+    "CAS Latency": 22,
     "Operation Temperature": "Commercial (0C~95C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W664GG6RB", {
+  vendor: "winbond",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "96-ball VFBGA (7.5mm x 13mm)",
+  extra: {
+    "DRAM Type": "DDR4"
+  },
+  absentExtra: ["DRAM Speed", "CAS Latency", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W664GG8RB06J", {
+  vendor: "winbond",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball VFBGA (7.5mm x 11mm)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-3200 22-22-22",
+    "CAS Latency": 22,
+    "Operation Temperature": "Industrial Plus (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W631GG6NB", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD",
+  package: "96-ball VFBGA (7.5mm x 13mm)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Bank Count": 8
+  },
+  absentExtra: ["DRAM Speed", "CAS Latency", "Operation Temperature", "DRAM Die Stack"]
+});
+
+assertDram("W631GG8NB09J", {
+  vendor: "winbond",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "78-ball VFBGA (8mm x 10.5mm)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-2133 14-14-14",
+    "CAS Latency": 14,
+    "Bank Count": 8,
+    "Operation Temperature": "Industrial Plus (-40C~105C)"
   },
   absentExtra: ["DRAM Die Stack"]
 });
@@ -5469,12 +5528,12 @@ assertDram("W631GU6NB09J", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball VFBGA",
+  package: "96-ball VFBGA (7.5mm x 13mm)",
   extra: {
     "DRAM Type": "DDR3",
-    "Package Code": "NB",
-    "Config Code": "1GU6NB",
-    "DRAM Speed": "DDR3-2133",
+    "DRAM Speed": "DDR3-2133 14-14-14",
+    "CAS Latency": 14,
+    "Bank Count": 8,
     "Operation Temperature": "Industrial Plus (-40C~105C)"
   },
   absentExtra: ["DRAM Die Stack"]
@@ -5489,8 +5548,6 @@ assertDram("W66DP2RQQAHJ", {
   package: "200-ball WFBGA",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "Package Code": "QQA",
-    "Config Code": "DP2RQQA",
     "DRAM Speed": "LPDDR4X-4267",
     "Operation Temperature": "Industrial Plus (-40C~105C)"
   },
@@ -5734,6 +5791,10 @@ for (const pn of issiLpddrOrderingPns) {
 }
 
 assertSearchPnIncludes("W66DP2RQQA", "Winbond W66DP2RQQAHJ");
+assertSearchPnIncludes("W631GG6NB", "Winbond W631GG6NB");
+assertSearchPnIncludes("W631GG8NB09J", "Winbond W631GG8NB09J");
+assertSearchPnIncludes("W664GG6RB", "Winbond W664GG6RB");
+assertSearchPnIncludes("W664GG8RB06J", "Winbond W664GG8RB06J");
 assertSearchPnIncludes("M16U4G16256", "ESMT M16U4G16256A(2Z)");
 assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A(2H)");
 assertSearchPnIncludes("EM6OF08", "Etron EM6OF08NWALE");

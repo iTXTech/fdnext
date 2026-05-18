@@ -3825,6 +3825,10 @@
   },
   {
     "vendor": "winbond",
+    "pn": "W631GG6NB"
+  },
+  {
+    "vendor": "winbond",
     "pn": "W631GG6NB-09"
   },
   {
@@ -3918,6 +3922,10 @@
   {
     "vendor": "winbond",
     "pn": "W631GG6NB15S"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W631GG8NB"
   },
   {
     "vendor": "winbond",
@@ -5281,6 +5289,10 @@
   },
   {
     "vendor": "winbond",
+    "pn": "W664GG6RB"
+  },
+  {
+    "vendor": "winbond",
     "pn": "W664GG6RB-06"
   },
   {
@@ -5314,6 +5326,10 @@
   {
     "vendor": "winbond",
     "pn": "W664GG6RB08J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W664GG8RB"
   },
   {
     "vendor": "winbond",

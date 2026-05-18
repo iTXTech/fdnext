@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^W63[1248]G[GU][68][A-Z]{2}-?[0-9]{2}[A-Z]?$"
+      "value": "^W63[1248]G[GU][68][A-Z]{2}(?:-?[0-9]{2}[A-Z]?)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -35,8 +35,8 @@
           "8": 8
         },
         "package": {
-          "6": "96-ball VFBGA",
-          "8": "78-ball VFBGA"
+          "6": "96-ball VFBGA (7.5mm x 13mm)",
+          "8": "78-ball VFBGA (8mm x 10.5mm)"
         },
         "voltage": {
           "G:NB": "1.5V VDD",
@@ -48,16 +48,20 @@
         },
         "speedObj": {
           "11": {
-            "dram_speed": "DDR3-1866"
+            "dram_speed": "DDR3-1866 13-13-13",
+            "cas_latency": 13
           },
           "12": {
-            "dram_speed": "DDR3-1600"
+            "dram_speed": "DDR3-1600 11-11-11",
+            "cas_latency": 11
           },
           "15": {
-            "dram_speed": "DDR3-1333"
+            "dram_speed": "DDR3-1333 9-9-9",
+            "cas_latency": 9
           },
           "09": {
-            "dram_speed": "DDR3-2133"
+            "dram_speed": "DDR3-2133 14-14-14",
+            "cas_latency": 14
           }
         },
         "gradeObj": {
@@ -111,19 +115,14 @@
           "to": "packageCode"
         },
         {
-          "op": "stripIfPrefix",
-          "prefix": "-",
-          "to": "hasDash"
-        },
-        {
-          "op": "take",
-          "len": 2,
-          "to": "speedCode"
-        },
-        {
-          "op": "take",
-          "len": 1,
-          "to": "gradeCode"
+          "op": "takeRegex",
+          "pattern": "^-?([0-9]{2})([A-Z]?)",
+          "to": "suffixToken",
+          "groups": {
+            "speedCode": 1,
+            "gradeCode": 2
+          },
+          "default": ""
         },
         {
           "op": "map",
@@ -173,32 +172,24 @@
           "default": {}
         },
         {
-          "op": "tpl",
-          "template": "{{densityCode}}G{{voltageCode}}{{widthCode}}{{packageCode}}",
-          "to": "configCode"
-        },
-        {
           "op": "set",
           "to": "extra",
           "value": {
             "dram_type": "DDR3",
-            "config_code": {
-              "$var": "configCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
-            }
+            "bank_count": 8
           }
         },
         {
-          "op": "merge",
+          "op": "mergeIf",
           "into": "extra",
-          "from": "speedObj"
+          "from": "speedObj",
+          "if": "suffixToken"
         },
         {
-          "op": "merge",
+          "op": "mergeIf",
           "into": "extra",
-          "from": "gradeObj"
+          "from": "gradeObj",
+          "if": "suffixToken"
         }
       ],
       "assign": {
@@ -250,7 +241,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^W66[48]GG[68][A-Z]{2}-?[0-9]{2}[A-Z]?$"
+      "value": "^W66[48]GG[68][A-Z]{2}(?:-?[0-9]{2}[A-Z]?)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -266,18 +257,21 @@
           "8": 8
         },
         "package": {
-          "6": "96-ball VFBGA",
-          "8": "78-ball VFBGA"
+          "6": "96-ball VFBGA (7.5mm x 13mm)",
+          "8": "78-ball VFBGA (7.5mm x 11mm)"
         },
         "speedObj": {
           "06": {
-            "dram_speed": "DDR4-3200"
+            "dram_speed": "DDR4-3200 22-22-22",
+            "cas_latency": 22
           },
           "07": {
-            "dram_speed": "DDR4-2666"
+            "dram_speed": "DDR4-2666 19-19-19",
+            "cas_latency": 19
           },
           "08": {
-            "dram_speed": "DDR4-2400"
+            "dram_speed": "DDR4-2400 17-17-17",
+            "cas_latency": 17
           }
         },
         "gradeObj": {
@@ -314,19 +308,14 @@
           "to": "packageCode"
         },
         {
-          "op": "stripIfPrefix",
-          "prefix": "-",
-          "to": "hasDash"
-        },
-        {
-          "op": "take",
-          "len": 2,
-          "to": "speedCode"
-        },
-        {
-          "op": "take",
-          "len": 1,
-          "to": "gradeCode"
+          "op": "takeRegex",
+          "pattern": "^-?([0-9]{2})([A-Z]?)",
+          "to": "suffixToken",
+          "groups": {
+            "speedCode": 1,
+            "gradeCode": 2
+          },
+          "default": ""
         },
         {
           "op": "map",
@@ -364,32 +353,23 @@
           "default": {}
         },
         {
-          "op": "tpl",
-          "template": "{{densityCode}}GG{{widthCode}}{{packageCode}}",
-          "to": "configCode"
-        },
-        {
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR4",
-            "config_code": {
-              "$var": "configCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
-            }
+            "dram_type": "DDR4"
           }
         },
         {
-          "op": "merge",
+          "op": "mergeIf",
           "into": "extra",
-          "from": "speedObj"
+          "from": "speedObj",
+          "if": "suffixToken"
         },
         {
-          "op": "merge",
+          "op": "mergeIf",
           "into": "extra",
-          "from": "gradeObj"
+          "from": "gradeObj",
+          "if": "suffixToken"
         }
       ],
       "assign": {
@@ -629,21 +609,9 @@
           "default": {}
         },
         {
-          "op": "tpl",
-          "template": "{{densityCode}}{{modeCode}}{{widthCode}}{{voltageFlag}}{{packageCode}}",
-          "to": "configCode"
-        },
-        {
           "op": "set",
           "to": "extra",
-          "value": {
-            "config_code": {
-              "$var": "configCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
-            }
-          }
+          "value": {}
         },
         {
           "op": "merge",
