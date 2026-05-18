@@ -26,19 +26,19 @@
 | die stack `1/2/4/8/A` | SDP / DDP / QDP / ODP / HDP |
 | controller `D/G/J/H/K` | UFS G4/G5 controller family |
 | version `E/G/H` | UFS 3.1 / 4.0 / 4.1 |
-| `dumpedPartObj` exact base PN | 用户测试点 dump 得到的 `ce_count`、`die_count`、`nand_component` |
+| `dumpedPartObj` exact base PN | 用户测试点 dump 得到的 `ce_count` 与 `nand_component` |
 
-这里的 `die_stack` 是既有封装堆叠展示字段；CE 数和 die 数只来自 dump 表，不从 `die stack` token 或其他 PN token 推导。
+这里的 `die_stack` 是封装堆叠展示字段；CE 数只来自 dump 表，不从 `die stack` token 或其他 PN token 推导。
 
 ## 统一输出字段
 
-Samsung UFS 现在与 SK hynix 共用：
+Samsung UFS 输出：
 
-- `component_density`：封装总容量，例如 `512GB`
+- `density`：封装总容量，例如 `512GB`
 - `die_density`：单 die 容量，例如 `512Gb`
 - `die_stack`：封装堆叠，例如 `ODP (8-die)`
 - `nand_component`：特定基础 PN 的单 die NAND marking，例如 `K9AFGD8J0B`
-- `die_count` / `ce_count`：仅对 dump 表中列出的特定基础 PN 输出；不按 UFS PN token 泛化推断
+- `ce_count`：仅对 dump 表中列出的特定基础 PN 输出；不按 UFS PN token 泛化推断
 - `die_codename`：NAND die profile key，例如 `SSV8`；2D/3D 代际说明如需展示由 `generation_info` 承接
 
 可信度 metadata 只在 iTXTech fdnext DecodePack `tables.reference` 内维护，不进入 `fields`。

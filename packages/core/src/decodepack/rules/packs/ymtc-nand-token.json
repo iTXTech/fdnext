@@ -540,7 +540,8 @@
           "keys": [
             "meta",
             "firmware_match",
-            "die_mark"
+            "die_mark",
+            "die_stack"
           ]
         },
         {

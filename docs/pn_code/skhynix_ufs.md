@@ -102,7 +102,7 @@ Preduo 等灰市 / 分销页可信度低于原厂新闻图、原厂 datasheet �
 | `fields.product_version` / `fields.storage_interface` | `UFS 2.0` / `UFS 2.2` / `UFS 3.1` / `UFS 4.1` | `UFS 2.1` |
 | `fields.die_codename` | UD310 / UD220 / Automotive UFS3.1 标准化为 `HYV7`；UC220 暂不输出 die codename | HN8 series `2E` / `DE` / `DZ` 标准化为 SK hynix 4D V7 |
 | `fields.layer_count` | `176` | 随 `HYV7` profile 补出 |
-| `fields.generation_info` / `fields.die_density` / `fields.die_stack` | H28U 输出 `1xnm NAND` / `3D-V2 NAND`、64Gb / 128Gb die 与 4/8/16-die stack | H28S 暂不输出 |
+| `fields.generation_info` / `fields.die_density` / `fields.die_count` | H28U 输出 `1xnm NAND` / `3D-V2 NAND`、64Gb / 128Gb die 与 4/8/16 die count | H28S 暂不输出 |
 
 ## 示例
 

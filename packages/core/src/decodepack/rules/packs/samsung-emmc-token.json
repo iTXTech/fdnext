@@ -34,40 +34,6 @@
           "EG": 2097152,
           "FG": 4194304
         },
-        "componentDensityObj": {
-          "32768": {
-            "component_density": "4GB"
-          },
-          "65536": {
-            "component_density": "8GB"
-          },
-          "131072": {
-            "component_density": "16GB"
-          },
-          "262144": {
-            "component_density": "32GB"
-          },
-          "524288": {
-            "component_density": "64GB"
-          },
-          "1048576": {
-            "component_density": "128GB"
-          },
-          "2097152": {
-            "component_density": "256GB"
-          },
-          "4194304": {
-            "component_density": "512GB"
-          }
-        },
-        "dieStack": {
-          "1": 1,
-          "2": 2,
-          "4": 4,
-          "8": 8,
-          "A": 16,
-          "I": 1
-        },
         "dieStackInfo": {
           "1": {
             "die_stack": "SDP (1-die)"
@@ -209,23 +175,9 @@
           "default": 0
         },
         {
-          "op": "map",
-          "from": "density",
-          "table": "componentDensityObj",
-          "to": "componentDensityObj",
-          "default": {}
-        },
-        {
           "op": "take",
           "len": 1,
           "to": "dieStackCode"
-        },
-        {
-          "op": "map",
-          "from": "dieStackCode",
-          "table": "dieStack",
-          "to": "die",
-          "default": -1
         },
         {
           "op": "map",
@@ -363,11 +315,6 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "componentDensityObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
           "from": "dieDensityObj"
         },
         {
@@ -423,9 +370,6 @@
         },
         "fields.package": {
           "$var": "package"
-        },
-        "fields.die_count": {
-          "$var": "die"
         },
         "meta.ruleId": "vendor.samsung.emmc.token.v1",
         "fields.generation_info": {

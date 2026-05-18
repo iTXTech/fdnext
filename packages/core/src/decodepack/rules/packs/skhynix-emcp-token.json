@@ -324,9 +324,6 @@
         "fields": {
           "$var": "extra"
         },
-        "fields.density": {
-          "$var": "density"
-        },
         "fields.voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
         "fields.package": {
           "$path": "packageObj.package"
@@ -385,19 +382,22 @@
         },
         "densityObj": {
           "17": {
-            "storage_density": "16GB e-NAND",
-            "dram_density": "16Gb LPDDR3",
-            "product_version": "eMMC 5.0 / LPDDR3"
+            "storage_density": 131072,
+            "dram_density": 16384,
+            "product_version": "eMMC 5.0 / LPDDR3",
+            "dram_type": "LPDDR3"
           },
           "32": {
-            "storage_density": "4GB e-NAND",
-            "dram_density": "4Gb LPDDR2",
-            "product_version": "eMMC 4.41 / LPDDR2"
+            "storage_density": 32768,
+            "dram_density": 4096,
+            "product_version": "eMMC 4.41 / LPDDR2",
+            "dram_type": "LPDDR2"
           },
           "52": {
-            "storage_density": "64GB eMMC",
-            "dram_density": "32Gb LPDDR4X",
-            "product_version": "eMMC 5.1 / LPDDR4X"
+            "storage_density": 524288,
+            "dram_density": 32768,
+            "product_version": "eMMC 5.1 / LPDDR4X",
+            "dram_type": "LPDDR4X"
           }
         },
         "package": {
@@ -529,9 +529,6 @@
         "device.productType": "emcp",
         "fields": {
           "$var": "extra"
-        },
-        "fields.density": {
-          "$var": "density"
         },
         "fields.package": {
           "$var": "package"
@@ -769,9 +766,6 @@
         "device.productType": "emcp",
         "fields": {
           "$var": "extra"
-        },
-        "fields.density": {
-          "$var": "density"
         },
         "fields.voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
         "fields.package": {

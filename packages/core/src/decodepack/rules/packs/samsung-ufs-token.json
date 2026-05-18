@@ -35,39 +35,6 @@
           "GG": 8388608,
           "HG": 16777216
         },
-        "componentDensityObj": {
-          "AG": {
-            "component_density": "16GB"
-          },
-          "BG": {
-            "component_density": "32GB"
-          },
-          "CG": {
-            "component_density": "64GB"
-          },
-          "DG": {
-            "component_density": "128GB"
-          },
-          "EG": {
-            "component_density": "256GB"
-          },
-          "FG": {
-            "component_density": "512GB"
-          },
-          "GG": {
-            "component_density": "1TB"
-          },
-          "HG": {
-            "component_density": "2TB"
-          }
-        },
-        "dieStack": {
-          "1": 1,
-          "2": 2,
-          "4": 4,
-          "8": 8,
-          "A": 16
-        },
         "dieStackInfo": {
           "1": {
             "die_stack": "SDP (1-die)"
@@ -213,132 +180,106 @@
         },
         "dumpedPartObj": {
           "KLUBG4G1ZF": {
-            "ce_count": 4,
-            "die_count": 4
+            "ce_count": 4
           },
           "KLUCG4J1BB": {
             "ce_count": 4,
-            "die_count": 4,
             "nand_component": "K9GDGD8U0B"
           },
           "KLUCG4J1BD": {
             "ce_count": 4,
-            "die_count": 4,
             "nand_component": "K9GDGD8U0D"
           },
           "KLUCG4J1CB": {
             "ce_count": 4,
-            "die_count": 4,
             "nand_component": "K9GDGD8U0B"
           },
           "KLUCG4J1ZD": {
             "ce_count": 4,
-            "die_count": 4,
             "nand_component": "K9GDGD8U0D"
           },
           "KLUCG2K1EA": {
             "ce_count": 2,
-            "die_count": 2,
             "nand_component": "K9AFGD8H0A"
           },
           "KLUCG2U1YB": {
             "ce_count": 2,
-            "die_count": 2,
             "nand_component": "K9AFGD8H0B"
           },
           "KLUDGAG1BD": {
             "ce_count": 8,
-            "die_count": 16,
             "nand_component": "K9GCGD8U0D"
           },
           "KLUDG8J1CB": {
             "ce_count": 8,
-            "die_count": 8,
             "nand_component": "K9GDGD8U0B"
           },
           "KLUDG8J1ZD": {
             "ce_count": 8,
-            "die_count": 8,
             "nand_component": "K9GDGD8U0D"
           },
           "KLUDG4U1EA": {
             "ce_count": 4,
-            "die_count": 4,
             "nand_component": "K9AFGD8H0A"
           },
           "KLUDG4U1FB": {
             "ce_count": 4,
-            "die_count": 4,
             "nand_component": "K9AFGD8H0B"
           },
           "KLUDG4U1YB": {
             "ce_count": 4,
-            "die_count": 4,
             "nand_component": "K9AFGD8H0B"
           },
           "KLUDG4UHDB": {
             "ce_count": 4,
-            "die_count": 4,
             "nand_component": "K9ADGD8J0B"
           },
           "KLUDG4UHDC": {
             "ce_count": 4,
-            "die_count": 4,
             "nand_component": "K9AFGD8J0C"
           },
           "KLUDG8V1EE": {
             "ce_count": 8,
-            "die_count": 8,
             "nand_component": "K9ADGD8U0E"
           },
           "KLUEGAJ1ZD": {
             "ce_count": 8,
-            "die_count": 16,
             "nand_component": "K9GDGD8U0D"
           },
           "KLUEG8U1EA": {
             "ce_count": 8,
-            "die_count": 8,
             "nand_component": "K9AFGD8H0A"
           },
           "KLUEG8U1YB": {
             "ce_count": 8,
-            "die_count": 8,
             "nand_component": "K9AFGD8H0B"
           },
           "KLUEG8UHDB": {
             "ce_count": 8,
-            "die_count": 8,
             "nand_component": "K9AFGD8J0B"
           },
           "KLUEG8UHDC": {
             "ce_count": 8,
-            "die_count": 8,
             "nand_component": "K9AFGD8J0C"
           },
           "KLUFG8R1EM": {
             "ce_count": 8,
-            "die_count": 8,
             "nand_component": "K9AHGD8H0M"
           },
           "KLUFG8RHDA": {
             "ce_count": 8,
-            "die_count": 8,
             "nand_component": "K9AHGD8J0A"
           },
           "KLUFG8RHGB": {
             "ce_count": 8,
-            "die_count": 8,
             "nand_component": "K9AHGD8J0B"
           },
           "KLUGGAR1FA": {
             "ce_count": 8,
-            "die_count": 16,
             "nand_component": "K9AHGD8H0M"
           },
           "KLUGGARHDA": {
             "ce_count": 8,
-            "die_count": 16,
             "nand_component": "K9AHGD8J0A"
           }
         },
@@ -412,23 +353,9 @@
           "default": 0
         },
         {
-          "op": "map",
-          "from": "densityCode",
-          "table": "componentDensityObj",
-          "to": "componentDensityObj",
-          "default": {}
-        },
-        {
           "op": "take",
           "len": 1,
           "to": "dieStackCode"
-        },
-        {
-          "op": "map",
-          "from": "dieStackCode",
-          "table": "dieStack",
-          "to": "die",
-          "default": -1
         },
         {
           "op": "map",
@@ -585,11 +512,6 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "componentDensityObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
           "from": "dieDensityObj"
         },
         {
@@ -655,9 +577,6 @@
         },
         "fields.package": {
           "$var": "package"
-        },
-        "fields.die_count": {
-          "$path": "dumpedPartObj.die_count"
         },
         "fields.ce_count": {
           "$path": "dumpedPartObj.ce_count"

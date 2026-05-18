@@ -78,13 +78,6 @@
           "C": 3,
           "E": 4
         },
-        "dieStack": {
-          "1": 1,
-          "2": 2,
-          "3": 4,
-          "4": 8,
-          "5": 16
-        },
         "dieStackInfo": {
           "1": {
             "die_stack": "SDP (1-die)"
@@ -215,13 +208,6 @@
         {
           "op": "map",
           "from": "dieStackCode",
-          "table": "dieStack",
-          "to": "die",
-          "default": -1
-        },
-        {
-          "op": "map",
-          "from": "dieStackCode",
           "table": "dieStackInfo",
           "to": "dieStackObj",
           "default": {}
@@ -335,9 +321,6 @@
         },
         "fields.package": {
           "$var": "package"
-        },
-        "fields.die_count": {
-          "$var": "die"
         },
         "meta.ruleId": "vendor.ymtc.ufs-label.v1",
         "fields.layer_count": {

@@ -36,32 +36,26 @@
         "configObj": {
           "8T2": {
             "die_density": "64Gb",
-            "die_stack": "1-die",
             "die_count": 1
           },
           "8UD": {
             "die_density": "64Gb",
-            "die_stack": "2-die",
             "die_count": 2
           },
           "8VD": {
             "die_density": "64Gb",
-            "die_stack": "4-die",
             "die_count": 4
           },
           "8YD": {
             "die_density": "64Gb",
-            "die_stack": "8-die",
             "die_count": 8
           },
           "8PD": {
             "die_density": "128Gb",
-            "die_stack": "4-die",
             "die_count": 4
           },
           "8QD": {
             "die_density": "128Gb",
-            "die_stack": "8-die",
             "die_count": 8
           }
         },
@@ -318,27 +312,22 @@
         "configObj": {
           "G8UD": {
             "die_density": "64Gb",
-            "die_stack": "2-die",
             "die_count": 2
           },
           "G8VG": {
             "die_density": "64Gb",
-            "die_stack": "4-die",
             "die_count": 4
           },
           "G8YK": {
             "die_density": "64Gb",
-            "die_stack": "8-die",
             "die_count": 8
           },
           "G8PG": {
             "die_density": "128Gb",
-            "die_stack": "4-die",
             "die_count": 4
           },
           "8QK": {
             "die_density": "128Gb",
-            "die_stack": "8-die",
             "die_count": 8
           }
         },

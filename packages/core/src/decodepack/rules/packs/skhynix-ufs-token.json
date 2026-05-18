@@ -989,34 +989,29 @@
           "8": 1048576
         },
         "componentObj": {
+          "4201": {
+            "generation_info": "3D-V2 NAND",
+            "die_density": "128Gb",
+            "die_count": 4
+          },
           "4222": {
             "generation_info": "1xnm NAND",
             "die_density": "64Gb",
-            "die_stack": "4-die",
             "die_count": 4
-          },
-          "8222": {
-            "generation_info": "1xnm NAND",
-            "die_density": "64Gb",
-            "die_stack": "8-die",
-            "die_count": 8
           },
           "6222": {
             "generation_info": "1xnm NAND",
             "die_density": "64Gb",
-            "die_stack": "16-die",
             "die_count": 16
-          },
-          "4201": {
-            "generation_info": "3D-V2 NAND",
-            "die_density": "128Gb",
-            "die_stack": "4-die",
-            "die_count": 4
           },
           "8201": {
             "generation_info": "3D-V2 NAND",
             "die_density": "128Gb",
-            "die_stack": "8-die",
+            "die_count": 8
+          },
+          "8222": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
             "die_count": 8
           }
         },

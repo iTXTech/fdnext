@@ -229,9 +229,6 @@
         "fields": {
           "$var": "extra"
         },
-        "fields.density": {
-          "$var": "density"
-        },
         "fields.voltage": "UFS: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
         "fields.dram_voltage": "VDD1: 1.8V, VDD2: 1.1V, VDDQ: 0.6V",
         "fields.package": {
@@ -272,9 +269,11 @@
         },
         "densityObj": {
           "15": {
-            "storage_density": "128GB UFS",
-            "dram_density": "32Gb LPDDR4X",
-            "product_version": "UFS + LPDDR4X"
+            "storage_density": 1048576,
+            "dram_density": 32768,
+            "product_version": "UFS + LPDDR4X",
+            "dram_type": "LPDDR4X",
+            "storage_interface": "UFS"
           }
         }
       },
@@ -349,9 +348,6 @@
         "device.productType": "umcp",
         "fields": {
           "$var": "extra"
-        },
-        "fields.density": {
-          "$var": "density"
         },
         "fields.package": "254Ball FBGA",
         "meta.ruleId": "vendor.skhynix.umcp.h9hq.v1"

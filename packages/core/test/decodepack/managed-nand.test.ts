@@ -1819,7 +1819,6 @@ assertPart("H26M78208CMRX", {
     "Storage Interface": "eMMC 5.1",
     "Product Generation": "1xnm NAND",
     "Die Density": "64Gb",
-    "Die Stack": "8-die",
     "Die Count": 8,
     "Product Class": "Automotive Grade 2/3"
   }
@@ -1835,7 +1834,6 @@ assertPart("H26M78208CMRN", {
     "Storage Interface": "eMMC 5.1",
     "Product Generation": "1xnm NAND",
     "Die Density": "64Gb",
-    "Die Stack": "8-die",
     "Die Count": 8,
     "Product Class": "Commercial / Mobile"
   }
@@ -1851,7 +1849,6 @@ assertPart("H26M31001HPR", {
     "Storage Interface": "eMMC 4.5",
     "Product Generation": "1xnm NAND",
     "Die Density": "32Gb",
-    "Die Stack": "1-die",
     "Die Count": 1
   }
 });
@@ -1866,7 +1863,6 @@ assertPart("H26M88002AMR", {
     "Storage Interface": "eMMC 5.1",
     "Product Generation": "3D-V2 NAND",
     "Die Density": "128Gb",
-    "Die Stack": "8-die",
     "Die Count": 8
   }
 });
@@ -2075,7 +2071,6 @@ assertPart("H28U64222MMR", {
     "Product Generation": "1xnm NAND",
     "Interface Type": "1-lane / 2-lane",
     "Die Density": "64Gb",
-    "Die Stack": "4-die",
     "Die Count": 4
   },
   absentExtra: ["System", "Group", "Package Code", "Component Code"]
@@ -2091,7 +2086,6 @@ assertPart("H28U86222MCR", {
     "Product Generation": "1xnm NAND",
     "Interface Type": "1-lane / 2-lane",
     "Die Density": "64Gb",
-    "Die Stack": "16-die",
     "Die Count": 16
   },
   absentExtra: ["System", "Group", "Package Code", "Component Code"]
@@ -2456,7 +2450,6 @@ assertPart("H2JTDG8UD1BMS", {
     "ECC enabled": "Yes",
     "Special Option": "EMI Shielded",
     "Die Density": "64Gb",
-    "Die Stack": "2-die",
     "Die Count": 2
   }
 });
@@ -2474,7 +2467,6 @@ assertPart("H2JT1T8QD1MMR", {
     "Block size": "4MB",
     "Special Option": "Non Shielded",
     "Die Density": "128Gb",
-    "Die Stack": "8-die",
     "Die Count": 8
   }
 });
@@ -2491,7 +2483,6 @@ assertPart("H23QDG8UD1ACS", {
     "ECC enabled": "Yes",
     "Special Option": "EMI Shielded",
     "Die Density": "64Gb",
-    "Die Stack": "2-die",
     "Die Count": 2
   }
 });
@@ -2508,10 +2499,21 @@ assertPart("H23Q1T8QK1MYR", {
     "ECC enabled": "Yes",
     "Special Option": "Non Shielded",
     "Die Density": "128Gb",
-    "Die Stack": "8-die",
     "Die Count": 8
   }
 });
+
+for (const partNumber of [
+  "H26M31001HPR",
+  "H26M78208CMRX",
+  "H28U64222MMR",
+  "H2JTDG8UD1BMS",
+  "H23Q1T8QK1MYR"
+]) {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(firstField(result, "die_stack"), undefined, `${partNumber} should not expose die_stack`);
+  assert.ok(firstField(result, "die_count"), `${partNumber} should expose die_count`);
+}
 
 assertPart("H9TQ17ABJTMCUR-KUM", {
   vendor: "skhynix",
@@ -2520,8 +2522,9 @@ assertPart("H9TQ17ABJTMCUR-KUM", {
   package: "221Ball FBGA",
   extra: {
     "Product Mode": "CI-MCP NAND DDR3",
-    "Storage Density": "16GB e-NAND",
-    "DRAM Density": "16Gb LPDDR3"
+    "Storage Density": "16GB",
+    "DRAM Density": "16Gb",
+    "DRAM Type": "LPDDR3"
   }
 });
 
@@ -2532,7 +2535,9 @@ assertPart("H9TP32A4GDBCPR-KGM", {
   package: "162Ball FBGA",
   extra: {
     "Product Mode": "CI-MCP NAND DDR2",
-    "Storage Density": "4GB e-NAND"
+    "Storage Density": "4GB",
+    "DRAM Density": "4Gb",
+    "DRAM Type": "LPDDR2"
   }
 });
 
@@ -2654,8 +2659,10 @@ assertPart("H9HQ15ACPMADAR-KEM", {
   densityMbit: 1048576,
   package: "254Ball FBGA",
   extra: {
-    "Storage Density": "128GB UFS",
-    "DRAM Density": "32Gb LPDDR4X"
+    "Storage Density": "128GB",
+    "Storage Interface": "UFS",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR4X"
   },
   absentExtra: ["System"]
 });
@@ -2924,7 +2931,7 @@ assertPart("YMC6G001TB51AA1C0", {
     "Process Alias": "X3-9070",
     "Layer Count": 232,
     "Die Density": "256Gb",
-    "Die Stack": "SDP (1-die)",
+    "Die Count": 1,
     "Plane Count": 6,
     "Product Class": "Commercial"
   },
@@ -3029,7 +3036,6 @@ assertPart("KLMAG1JETD-B041", {
   densityMbit: 131072,
   dieProfileField: "14nm",
   extra: {
-    "Component Density": "16GB",
     "Die Density": "128Gb",
     "Die Stack": "SDP (1-die)",
     "Product Version": "eMMC 5.1",
@@ -3044,7 +3050,6 @@ assertPart("KLM8G1GETF-B041", {
   densityMbit: 65536,
   dieProfileField: "14nm",
   extra: {
-    "Component Density": "8GB",
     "Die Density": "64Gb",
     "Die Stack": "SDP (1-die)",
     "Product Version": "eMMC 5.1",
@@ -3059,7 +3064,6 @@ assertPart("KLMBG2JETD-B041", {
   densityMbit: 262144,
   dieProfileField: "14nm",
   extra: {
-    "Component Density": "32GB",
     "Die Density": "128Gb",
     "Product Version": "eMMC 5.1",
     "Die Stack": "DDP (2-die)"
@@ -3074,7 +3078,6 @@ assertPart("KLMDG1NCAB-B041", {
   dieProfileField: "SSV8",
   cellField: "TLC",
   extra: {
-    "Component Density": "128GB",
     "Die Density": "1Tb",
     "Die Stack": "SDP (1-die)",
     "Product Version": "eMMC 5.1",
@@ -3304,11 +3307,9 @@ assertPart("KLUCG4J1BB", {
   dieProfileField: "14nm",
   cellField: "MLC",
   extra: {
-    "Component Density": "64GB",
     "NAND Component": "K9GDGD8U0B",
     "Die Density": "128Gb",
     "Die Stack": "QDP (4-die)",
-    "Die Count": 4,
     "CE Count": 4,
     "Product Version": "UFS 2.0",
     "Controller": "UFS 2.0 G2-2Lane Controller"
@@ -3323,11 +3324,9 @@ assertPart("KLUDGAG1BD", {
   dieProfileField: "16nm",
   cellField: "MLC",
   extra: {
-    "Component Density": "128GB",
     "NAND Component": "K9GCGD8U0D",
     "Die Density": "64Gb",
     "Die Stack": "HDP (16-die)",
-    "Die Count": 16,
     "CE Count": 8,
     "Product Version": "UFS 2.0",
     "Controller": "UFS 2.0 G2-2Lane Controller"
@@ -3341,11 +3340,9 @@ assertPart("KLUEG8UHDB-C2E1", {
   densityMbit: 2097152,
   dieProfileField: "SSV5",
   extra: {
-    "Component Density": "256GB",
     "NAND Component": "K9AFGD8J0B",
     "Die Density": "256Gb",
     "Die Stack": "ODP (8-die)",
-    "Die Count": 8,
     "CE Count": 8,
     "Product Version": "UFS 3.1",
     "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller"
@@ -3360,7 +3357,6 @@ assertPart("KLUFG8RHHF-F0G1", {
   dieProfileField: "SSV8",
   package: "BGA-153 9x13",
   extra: {
-    "Component Density": "512GB",
     "Die Density": "512Gb",
     "Die Stack": "ODP (8-die)",
     "Product Version": "UFS 4.0",
@@ -3376,7 +3372,6 @@ assertPart("KLUEG4RHKF-F0H1", {
   dieProfileField: "SSV8",
   package: "BGA-153 9x13",
   extra: {
-    "Component Density": "256GB",
     "Die Density": "512Gb",
     "Die Stack": "QDP (4-die)",
     "Product Version": "UFS 4.1",
@@ -3392,7 +3387,6 @@ assertPart("KLUFG4NHKH-F0H1", {
   cellField: "TLC",
   package: "BGA-153 9x13",
   extra: {
-    "Component Density": "512GB",
     "Die Density": "1Tb",
     "Die Stack": "QDP (4-die)",
     "Product Version": "UFS 4.1",

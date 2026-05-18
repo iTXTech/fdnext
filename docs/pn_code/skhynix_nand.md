@@ -123,7 +123,7 @@ H2D / H2J 系列不是通用 raw NAND fallback。公开 catalog mirror 与 USBDe
 | `H2` + series + product + density(2) + config(3) + tech + package(3) + optional suffix | H2D/H2J E2NAND |
 | series `D/J` | `D` -> E2NAND2.0；`J` -> E2NAND3.0 |
 | density `CG/DF/DG/EG/FG/VG/1T` | 64Gb / 64Gb / 128Gb / 256Gb / 512Gb / 768Gb / 1Tb |
-| config `8T2/8UD/8VD/8YD/8PD/8QD` | stack 与 die density 组合；公开输出 die_count / die_stack / die_density，不输出 config code |
+| config `8T2/8UD/8VD/8YD/8PD/8QD` | stack 与 die density 组合；公开输出 die_count / die_density，不输出 config code 或 die_stack |
 | tech | 与 series 组合判断 die profile，例如 `D:1` -> `HY26`，`J:1` -> `HY16M`，`J:2` -> `HY20` |
 | package | H2D 输出 VLGA；H2J 输出 WLGA；原始 package code 只作为内部解析 token |
 | package suffix `R/S` | Non Shielded / EMI Shielded，输出到 `special_option` |
@@ -142,7 +142,7 @@ H23Q 系列按 Q1'2016 databook line-up 进入 managed NAND，不归入 raw NAND
 | --- | --- |
 | `H23Q` + density(1/2) + config(3/4) + tech(1) + package(3) | H23Q E3NAND |
 | density `D/E/F/1T` | 128Gb / 256Gb / 512Gb / 1024Gb |
-| config `G8UD/G8VG/G8YK/G8PG/8QK` | stack 与 die density 组合；公开输出 die_count / die_stack / die_density |
+| config `G8UD/G8VG/G8YK/G8PG/8QK` | stack 与 die density 组合；公开输出 die_count / die_density，不输出 die_stack |
 | tech `1` | 1ynm E3NAND |
 | package | WLGA |
 | package suffix `R/S` | Non Shielded / EMI Shielded，输出到 `special_option` |

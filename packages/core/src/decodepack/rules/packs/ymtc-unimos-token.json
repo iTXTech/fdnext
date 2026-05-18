@@ -72,26 +72,6 @@
           "8": 8,
           "A": 16
         },
-        "dieStackInfo": {
-          "1": {
-            "die_stack": "SDP (1-die)"
-          },
-          "2": {
-            "die_stack": "DDP (2-die)"
-          },
-          "3": {
-            "die_stack": "3-die"
-          },
-          "4": {
-            "die_stack": "QDP (4-die)"
-          },
-          "8": {
-            "die_stack": "ODP (8-die)"
-          },
-          "A": {
-            "die_stack": "HDP (16-die)"
-          }
-        },
         "ce": {
           "A": 1,
           "B": 2,
@@ -216,13 +196,6 @@
           "default": -1
         },
         {
-          "op": "map",
-          "from": "dieStackCode",
-          "table": "dieStackInfo",
-          "to": "dieStackObj",
-          "default": {}
-        },
-        {
           "op": "take",
           "len": 1,
           "to": "configCode"
@@ -287,11 +260,6 @@
           "op": "merge",
           "into": "extra",
           "from": "dieDensityObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "dieStackObj"
         },
         {
           "op": "merge",

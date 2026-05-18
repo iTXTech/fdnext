@@ -43,61 +43,51 @@
             "storage_interface": "eMMC 4.5",
             "generation_info": "1xnm NAND",
             "die_density": "32Gb",
-            "die_stack": "1-die",
+            "die_count": 1
+          },
+          "1002": {
+            "generation_info": "3D-V2 NAND",
+            "die_density": "128Gb",
             "die_count": 1
           },
           "1204": {
             "generation_info": "1xnm NAND",
             "die_density": "64Gb",
-            "die_stack": "1-die",
             "die_count": 1
           },
           "1208": {
             "generation_info": "1xnm NAND",
             "die_density": "64Gb",
-            "die_stack": "1-die",
-            "die_count": 1
-          },
-          "2208": {
-            "generation_info": "1xnm NAND",
-            "die_density": "64Gb",
-            "die_stack": "2-die",
-            "die_count": 2
-          },
-          "4208": {
-            "generation_info": "1xnm NAND",
-            "die_density": "64Gb",
-            "die_stack": "4-die",
-            "die_count": 4
-          },
-          "8208": {
-            "generation_info": "1xnm NAND",
-            "die_density": "64Gb",
-            "die_stack": "8-die",
-            "die_count": 8
-          },
-          "1002": {
-            "generation_info": "3D-V2 NAND",
-            "die_density": "128Gb",
-            "die_stack": "1-die",
             "die_count": 1
           },
           "2002": {
             "generation_info": "3D-V2 NAND",
             "die_density": "128Gb",
-            "die_stack": "2-die",
+            "die_count": 2
+          },
+          "2208": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
             "die_count": 2
           },
           "4002": {
             "generation_info": "3D-V2 NAND",
             "die_density": "128Gb",
-            "die_stack": "4-die",
+            "die_count": 4
+          },
+          "4208": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
             "die_count": 4
           },
           "8002": {
             "generation_info": "3D-V2 NAND",
             "die_density": "128Gb",
-            "die_stack": "8-die",
+            "die_count": 8
+          },
+          "8208": {
+            "generation_info": "1xnm NAND",
+            "die_density": "64Gb",
             "die_count": 8
           }
         },

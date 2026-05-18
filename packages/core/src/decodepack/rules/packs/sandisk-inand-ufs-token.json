@@ -37,7 +37,6 @@
             "group": "UFS",
             "product_version": "UFS 2.1",
             "storage_interface": "UFS 2.1",
-            "interface_type": "UFS 2.1",
             "nand_technology": "3D NAND",
             "generation_info": "3D NAND"
           },

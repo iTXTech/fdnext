@@ -53,7 +53,7 @@
 | `fields.managed_family` | `e-NAND` |
 | `fields.generation_info` | `1xnm NAND` / `3D-V2 NAND` |
 | `fields.die_density` | `32Gb` / `64Gb` / `128Gb` |
-| `fields.die_stack` / `fields.die_count` | 1/2/4/8-die |
+| `fields.die_count` | 1/2/4/8 |
 
 ## 示例
 
