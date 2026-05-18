@@ -160,6 +160,9 @@ export function inferVendorFromPartNumber(partNumber: string): string | null {
   if (/^(YM|YMN|XT|YMC|YME|YMUS)/.test(normalized)) {
     return "ymtc";
   }
+  if (/^(GDP|GDQ|GDB)/.test(normalized)) {
+    return "gigadevice";
+  }
   if (/^[TIKHDCN][APCOKFTBY][135678ABC][0-9A-Z]{7}$/.test(normalized)) {
     return "phison";
   }

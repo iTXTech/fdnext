@@ -6838,5 +6838,221 @@
   {
     "vendor": "etron",
     "pn": "EM6PH32MVAJA"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP0BFLM-CB"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP1BFLA-CB"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP1BFLA-CA"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP1BFLA-WB"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP2A8LM-CB"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP2A8LM-CA"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP2A8LM-WB"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP2A8LM-WA"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP2BFLM-CB"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP2BFLM-CA"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP2BFLM-WB"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP2BFLM-WA"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP3BELM-CB"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDP3BELM-WB"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2A8AA-CQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2A8AA-WQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAA-CE"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAA-CQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAA-CJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAA-WQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAA-WJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAC-CQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAC-CJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAC-WQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAC-WJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAC-IQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ2BFAC-IJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3A8AM-CQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3A8AM-CJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3A8AM-WQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3A8AM-WJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3A8AM-IQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3A8AM-IJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3BFAM-CQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3BFAM-CJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3BFAM-WQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3BFAM-WJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3BFAM-IQ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDQ3BFAM-IJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB4CBQA-MJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB4CBQA-MK"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB4CBQA-ML"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB4CBQN-MJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB4CBQN-MK"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB4CBQN-ML"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB5CBQN-MJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB5CBQN-MK"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB5CBQN-ML"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB5CCQA-MJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB5CCQA-MK"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB5CCQA-ML"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB5CCQN-MJ"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB5CCQN-MK"
+  },
+  {
+    "vendor": "gigadevice",
+    "pn": "GDB5CCQN-ML"
   }
 ]

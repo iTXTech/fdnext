@@ -4801,6 +4801,164 @@ assertDram("CXDB5CCBM-MK-A", {
   }
 });
 
+assertDram("GDP0BFLM-CB", {
+  vendor: "gigadevice",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.35V / 1.5V",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3L-1866 13-13-13",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("GDP1BFLA-CA", {
+  vendor: "gigadevice",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.35V / 1.5V",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3L-2133 14-14-14",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("GDP2A8LM-WA", {
+  vendor: "gigadevice",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.35V / 1.5V",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3L-2133 14-14-14",
+    "Operation Temperature": "Wide (-40C~95C)"
+  }
+});
+
+assertDram("GDP2BFLM-WB", {
+  vendor: "gigadevice",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.35V / 1.5V",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3L-1866 13-13-13",
+    "Operation Temperature": "Wide (-40C~95C)"
+  }
+});
+
+assertDram("GDP3BELM-CB", {
+  vendor: "gigadevice",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.35V / 1.5V",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3L-1866 13-13-13",
+    "Operation Temperature": "Commercial (0C~95C)",
+    "Special Option": "DDP"
+  }
+});
+assertDecodedField("GDP3BELM-CB", "die_count", 2);
+
+assertDram("GDQ3A8AM-CQ", {
+  vendor: "gigadevice",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.2V",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2666 19-19-19",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("GDQ3BFAM-IJ", {
+  vendor: "gigadevice",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.2V",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-3200 22-22-22",
+    "Operation Temperature": "Industrial II (-40C~105C)"
+  }
+});
+
+assertDram("GDQ2BFAC-WQ", {
+  vendor: "gigadevice",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2666 19-19-19",
+    "Operation Temperature": "Industrial I (-40C~95C)"
+  }
+});
+
+assertDram("GDQ2BFAA-CE", {
+  vendor: "gigadevice",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2400 17-17-17",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("GDB5CBQN-ML", {
+  vendor: "gigadevice",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 1.1V and 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("GDB5CCQN-MK", {
+  vendor: "gigadevice",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 1.1V and 0.6V VDDQ",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Speed": "LPDDR4X-3733",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
 assertDram("IS43QR8K02S2A", {
   vendor: "issi",
   densityMbit: 16384,
@@ -5507,6 +5665,14 @@ assertSearchPnIncludes("CXDR4E8", "CXMT CXDR4E8BM-CS-A");
 assertSearchPnIncludes("CXDB5C", "CXMT CXDB5CCAM-MK");
 assertSearchPnIncludes("CXDB5CCBM", "CXMT CXDB5CCBM-MA-A");
 assertSearchPnIncludes("CXDB6CCBM", "CXMT CXDB6CCBM-MA-A");
+assertSearchPnIncludes("GDP0BFLM", "GigaDevice GDP0BFLM-CB");
+assertSearchPnIncludes("GDP2A8LM", "GigaDevice GDP2A8LM-CB");
+assertSearchPnIncludes("GDP2BFLM", "GigaDevice GDP2BFLM-CB");
+assertSearchPnIncludes("GDP3BELM", "GigaDevice GDP3BELM-CB");
+assertSearchPnIncludes("GDQ3A8", "GigaDevice GDQ3A8AM-CQ");
+assertSearchPnIncludes("GDQ2BFAC", "GigaDevice GDQ2BFAC-CQ");
+assertSearchPnIncludes("GDB5CBQN", "GigaDevice GDB5CBQN-MJ");
+assertSearchPnIncludes("GDB5CCQN", "GigaDevice GDB5CCQN-MJ");
 assertSearchPnIncludes("IS43QR8K02", "ISSI IS43QR8K02S2A");
 assertSearchPnIncludes("IS43LQ32K01B", "ISSI IS43LQ32K01B-046BLI");
 assertSearchPnIncludes("IS43QR81024B-062", "ISSI IS43QR81024B-062AABLI");

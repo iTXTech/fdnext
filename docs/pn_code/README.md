@@ -18,6 +18,7 @@
 | Nanya | - | - | - | - | - | - | [nanya_dram.md](nanya_dram.md) |
 | Elpida | - | - | - | - | - | - | [elpida_dram.md](elpida_dram.md) |
 | CXMT | - | - | - | - | - | - | [cxmt_dram.md](cxmt_dram.md) |
+| GigaDevice | - | - | - | - | - | - | [gigadevice_dram.md](gigadevice_dram.md) |
 | ISSI | - | - | - | - | - | - | [issi_dram.md](issi_dram.md) |
 | Winbond | - | - | - | - | - | - | [winbond_dram.md](winbond_dram.md) |
 | ESMT | - | - | - | - | - | - | [esmt_dram.md](esmt_dram.md) |

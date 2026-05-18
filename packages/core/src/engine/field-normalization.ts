@@ -10,6 +10,7 @@ const vendorAliases: Record<string, string[]> = {
   biwin: ["biwin"],
   esmt: ["esmt", "elite semiconductor"],
   etron: ["etron", "etron technology"],
+  gigadevice: ["gigadevice", "giga device", "gd", "兆易创新"],
   intel: ["intel"],
   issi: ["issi"],
   kingston: ["kingston"],

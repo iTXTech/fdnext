@@ -1,0 +1,572 @@
+[
+  {
+    "id": "vendor.gigadevice.dram.ddr3l.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^GDP[0-9A-Z]+(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "GDP"
+      ],
+      "tables": {
+        "densityMb": {
+          "0": 1024,
+          "1": 2048,
+          "2": 4096,
+          "3": 8192
+        },
+        "packageActual": {
+          "A": "78-ball FBGA",
+          "B": "96-ball FBGA"
+        },
+        "deviceWidth": {
+          "8": 8,
+          "E": 16,
+          "F": 16
+        },
+        "voltage": {
+          "L": "1.35V / 1.5V"
+        },
+        "organizationObj": {
+          "E": {
+            "special_option": "DDP",
+            "die_count": 2
+          }
+        },
+        "speedObj": {
+          "A": {
+            "dram_speed": "DDR3L-2133 14-14-14"
+          },
+          "B": {
+            "dram_speed": "DDR3L-1866 13-13-13"
+          }
+        },
+        "temperatureObj": {
+          "C": {
+            "operation_temperature": "Commercial (0C~95C)"
+          },
+          "W": {
+            "operation_temperature": "Wide (-40C~95C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9])([A-Z])([0-9A-Z])([A-Z])([A-Z])(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "packageTypeCode": 2,
+            "organizationCode": 3,
+            "voltageCode": 4,
+            "versionCode": 5
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "packageTypeCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "organizationCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "dramVoltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "organizationCode",
+          "table": "organizationObj",
+          "to": "organizationObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([A-Z])([A-Z])(?=-|$)",
+          "to": "suffixCode",
+          "groups": {
+            "temperatureCode": 1,
+            "speedCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR3"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "organizationObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "temperatureObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "gigadevice",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "dramVoltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.gigadevice.dram.ddr3l.component.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.gigadevice.dram.ddr4.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^GDQ[0-9A-Z]+(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "GDQ"
+      ],
+      "tables": {
+        "densityMb": {
+          "2": 4096,
+          "3": 8192
+        },
+        "packageActual": {
+          "A": "78-ball FBGA",
+          "B": "96-ball FBGA"
+        },
+        "deviceWidth": {
+          "8": 8,
+          "F": 16
+        },
+        "voltage": {
+          "A": "1.2V"
+        },
+        "speedObj": {
+          "E": {
+            "dram_speed": "DDR4-2400 17-17-17"
+          },
+          "Q": {
+            "dram_speed": "DDR4-2666 19-19-19"
+          },
+          "J": {
+            "dram_speed": "DDR4-3200 22-22-22"
+          }
+        },
+        "temperatureObj": {
+          "C": {
+            "operation_temperature": "Commercial (0C~95C)"
+          },
+          "W": {
+            "operation_temperature": "Industrial I (-40C~95C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial II (-40C~105C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9])([A-Z])([0-9A-Z])([A-Z])([A-Z])(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "packageTypeCode": 2,
+            "widthCode": 3,
+            "voltageCode": 4,
+            "versionCode": 5
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "packageTypeCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "dramVoltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([CWI])([EQJ])(?=-|$)",
+          "to": "suffixCode",
+          "groups": {
+            "temperatureCode": 1,
+            "speedCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR4"
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "temperatureObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "gigadevice",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "dramVoltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.gigadevice.dram.ddr4.component.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.gigadevice.dram.lpddr4x.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^GDB[0-9A-Z]+(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "GDB"
+      ],
+      "tables": {
+        "densityMb": {
+          "4": 16384,
+          "5": 32768
+        },
+        "packageActual": {
+          "C": "200-ball FBGA"
+        },
+        "deviceWidth": {
+          "B": 32,
+          "C": 32
+        },
+        "voltage": {
+          "Q": "1.8V VDD1 / 1.1V VDD2 / 1.1V and 0.6V VDDQ"
+        },
+        "organizationObj": {
+          "B": {
+            "dram_die_stack": "2 dies, 1 CS",
+            "die_count": 2
+          },
+          "C": {
+            "dram_die_stack": "4 dies, 2 CS",
+            "die_count": 4
+          }
+        },
+        "speedObj": {
+          "J": {
+            "dram_speed": "LPDDR4X-3200"
+          },
+          "K": {
+            "dram_speed": "LPDDR4X-3733"
+          },
+          "L": {
+            "dram_speed": "LPDDR4X-4266"
+          }
+        },
+        "temperatureObj": {
+          "M": {
+            "operation_temperature": "-25C~85C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9])([A-Z])([A-Z])([A-Z])([A-Z])(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "densityCode": 1,
+            "packageTypeCode": 2,
+            "organizationCode": 3,
+            "voltageCode": 4,
+            "versionCode": 5
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "packageTypeCode",
+          "table": "packageActual",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "organizationCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "dramVoltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "organizationCode",
+          "table": "organizationObj",
+          "to": "organizationObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-",
+          "to": "hasSuffix"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([M])([JKL])(?=-|$)",
+          "to": "suffixCode",
+          "groups": {
+            "temperatureCode": 1,
+            "speedCode": 2
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR4X"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "organizationObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "temperatureObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "hasSuffix"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "gigadevice",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "dramVoltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.gigadevice.dram.lpddr4x.component.v1"
+      }
+    }
+  }
+]

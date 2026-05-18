@@ -16,6 +16,7 @@ import samsungRawTokenRules from "./packs/samsung-raw-token.json" with { type: "
 import nanyaDramTokenRules from "./packs/nanya-dram-token.json" with { type: "json" };
 import elpidaDramTokenRules from "./packs/elpida-dram-token.json" with { type: "json" };
 import cxmtDramTokenRules from "./packs/cxmt-dram-token.json" with { type: "json" };
+import gigadeviceDramTokenRules from "./packs/gigadevice-dram-token.json" with { type: "json" };
 import issiDramTokenRules from "./packs/issi-dram-token.json" with { type: "json" };
 import winbondDramTokenRules from "./packs/winbond-dram-token.json" with { type: "json" };
 import esmtDramTokenRules from "./packs/esmt-dram-token.json" with { type: "json" };
@@ -77,6 +78,7 @@ export const defaultPartDecodeSpecs = [
   ...nanyaDramTokenRules,
   ...elpidaDramTokenRules,
   ...cxmtDramTokenRules,
+  ...gigadeviceDramTokenRules,
   ...issiDramTokenRules,
   ...winbondDramTokenRules,
   ...esmtDramTokenRules,

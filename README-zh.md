@@ -74,7 +74,7 @@ pnpm test
 | 范围 | 产品族 | 当前覆盖厂商 |
 | :--- | :--- | :--- |
 | **NAND PN** | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk/WD, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion |
-| **DRAM PN** | DDR, LPDDR (容量, 代际, 封装, 速度等) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, ISSI, Winbond |
+| **DRAM PN** | DDR, LPDDR (容量, 代际, 封装, 速度等) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, GigaDevice, ISSI, Winbond |
 
 ---
 

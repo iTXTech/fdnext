@@ -74,7 +74,7 @@ pnpm test
 | Area | Product Families | Supported Vendors |
 | :--- | :--- | :--- |
 | **NAND PN** | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk/WD, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion |
-| **DRAM PN** | DDR, LPDDR (Density, Gen, Package, Speed, etc.) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, ISSI, Winbond |
+| **DRAM PN** | DDR, LPDDR (Density, Gen, Package, Speed, etc.) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, GigaDevice, ISSI, Winbond |
 
 ---
 
