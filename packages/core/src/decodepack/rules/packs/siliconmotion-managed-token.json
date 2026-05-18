@@ -64,20 +64,6 @@
           "D": 1048576,
           "E": 2097152,
           "F": 4194304
-        },
-        "densityObj": {
-          "C": {
-            "storage_density": "64GB eMMC"
-          },
-          "D": {
-            "storage_density": "128GB eMMC"
-          },
-          "E": {
-            "storage_density": "256GB eMMC"
-          },
-          "F": {
-            "storage_density": "512GB eMMC"
-          }
         }
       },
       "steps": [
@@ -118,13 +104,6 @@
           "default": 0
         },
         {
-          "op": "map",
-          "from": "densityCode",
-          "table": "densityObj",
-          "to": "densityObj",
-          "default": {}
-        },
-        {
           "op": "set",
           "to": "extra",
           "value": {
@@ -143,11 +122,6 @@
           "op": "merge",
           "into": "extra",
           "from": "tempObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "densityObj"
         }
       ],
       "assign": {
@@ -230,20 +204,6 @@
           "D": 1048576,
           "E": 2097152,
           "F": 4194304
-        },
-        "densityObj": {
-          "C": {
-            "storage_density": "64GB UFS"
-          },
-          "D": {
-            "storage_density": "128GB UFS"
-          },
-          "E": {
-            "storage_density": "256GB UFS"
-          },
-          "F": {
-            "storage_density": "512GB UFS"
-          }
         }
       },
       "steps": [
@@ -284,13 +244,6 @@
           "default": 0
         },
         {
-          "op": "map",
-          "from": "densityCode",
-          "table": "densityObj",
-          "to": "densityObj",
-          "default": {}
-        },
-        {
           "op": "set",
           "to": "extra",
           "value": {
@@ -309,11 +262,6 @@
           "op": "merge",
           "into": "extra",
           "from": "tempObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "densityObj"
         }
       ],
       "assign": {

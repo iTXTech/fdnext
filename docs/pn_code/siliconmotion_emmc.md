@@ -31,8 +31,8 @@ PN 结构：
 
 ## 输出字段
 
+- `density`
 - `product_family`
-- `storage_density`
 - `storage_interface`
 - `interface_type`
 - `nand_technology`

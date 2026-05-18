@@ -22,7 +22,7 @@ PN 结构：
 | 结构 | 含义 |
 | --- | --- |
 | `YMUS` + density(1) + controller(2) + cell(1) + generation(1) + die stack(1) + package(2) + class/temp(2) | YMTC UFS label |
-| density `6..A` | 32GB 到 512GB，输出 `storage_density` |
+| density `6..A` | 32GB 到 512GB，输出 `density` |
 | controller `A1` | UFS 3.1 controller token |
 | controller `A4/B2` | UFS 2.2 controller token |
 | cell `T/Q` | TLC / QLC |
@@ -33,7 +33,7 @@ PN 结构：
 ## 输出字段
 
 - `controller`
-- `storage_density`
+- `density`
 - `storage_interface`
 - `die_stack`
 - `product_class`
@@ -45,5 +45,5 @@ PN 结构：
 
 ## 注意
 
-本轮只用 YMTC 官方产品页补强 `storage_interface` 与 `storage_density` 等 canonical 字段，不把 UC341 转载资料中的未验证 ordering 信息扩展成新 iTXTech fdnext DecodePack 样本。
+本轮只用 YMTC 官方产品页补强 `storage_interface` 与 `density` 等 canonical 字段，不把 UC341 转载资料中的未验证 ordering 信息扩展成新 iTXTech fdnext DecodePack 样本。
 可信度 metadata 只保留在 iTXTech fdnext DecodePack `tables.reference`，不得输出到 `fields`。

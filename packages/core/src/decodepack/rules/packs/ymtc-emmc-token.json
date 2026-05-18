@@ -44,29 +44,6 @@
           "9": 2097152,
           "A": 4194304
         },
-        "storageDensityObj": {
-          "4": {
-            "storage_density": "8GB eMMC"
-          },
-          "5": {
-            "storage_density": "16GB eMMC"
-          },
-          "6": {
-            "storage_density": "32GB eMMC"
-          },
-          "7": {
-            "storage_density": "64GB eMMC"
-          },
-          "8": {
-            "storage_density": "128GB eMMC"
-          },
-          "9": {
-            "storage_density": "256GB eMMC"
-          },
-          "A": {
-            "storage_density": "512GB eMMC"
-          }
-        },
         "controller": {
           "A1": {
             "controller": "eMMC 5.1 Controller EC000",
@@ -145,13 +122,6 @@
           "table": "deviceDensity",
           "to": "density",
           "default": 0
-        },
-        {
-          "op": "map",
-          "from": "densityCode",
-          "table": "storageDensityObj",
-          "to": "storageDensityObj",
-          "default": {}
         },
         {
           "op": "take",
@@ -271,11 +241,6 @@
           "op": "merge",
           "into": "extra",
           "from": "controllerObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "storageDensityObj"
         },
         {
           "op": "merge",

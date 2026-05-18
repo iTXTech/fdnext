@@ -21,7 +21,7 @@ PN 结构：
 | 结构 | 含义 |
 | --- | --- |
 | `YMEC` + density(1) + controller(2) + cell(1) + generation(1) + die stack(1) + package(2) + class/temp(2) | YMTC eMMC label |
-| density `4..A` | 8GB 到 512GB，输出 `storage_density` |
+| density `4..A` | 8GB 到 512GB，输出 `density` |
 | controller `A1/A2/B0` | EC000 / EC110 / EC230 controller token |
 | cell `M/T` | MLC / TLC |
 | generation `A/B/C/E` | X0 / X1 / X2 / X3 process token |
@@ -31,7 +31,7 @@ PN 结构：
 ## 输出字段
 
 - `controller`
-- `storage_density`
+- `density`
 - `storage_interface`
 - `product_family`
 - `die_stack`

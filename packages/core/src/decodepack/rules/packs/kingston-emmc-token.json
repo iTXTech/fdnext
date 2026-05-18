@@ -53,29 +53,6 @@
           "32G": 262144,
           "64G": 524288
         },
-        "densityObj": {
-          "128": {
-            "storage_density": "128GB eMMC"
-          },
-          "256": {
-            "storage_density": "256GB eMMC"
-          },
-          "04G": {
-            "storage_density": "4GB eMMC"
-          },
-          "08G": {
-            "storage_density": "8GB eMMC"
-          },
-          "16G": {
-            "storage_density": "16GB eMMC"
-          },
-          "32G": {
-            "storage_density": "32GB eMMC"
-          },
-          "64G": {
-            "storage_density": "64GB eMMC"
-          }
-        },
         "configObj": {
           "MT32": {
             "package_code": "MT32",
@@ -183,13 +160,6 @@
           "default": 0
         },
         {
-          "op": "map",
-          "from": "densityCode",
-          "table": "densityObj",
-          "to": "densityObj",
-          "default": {}
-        },
-        {
           "op": "take",
           "len": 4,
           "to": "configCode"
@@ -243,11 +213,6 @@
               "$var": "configCode"
             }
           }
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "densityObj"
         },
         {
           "op": "merge",

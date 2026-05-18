@@ -43,7 +43,7 @@ PN 结构：
 
 ## 输出字段
 
-- `storage_density`
+- `density`
 - `product_family`
 - `product_class`
 - `storage_interface`

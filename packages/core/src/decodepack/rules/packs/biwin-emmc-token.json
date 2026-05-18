@@ -65,32 +65,6 @@
           "256G": 2097152,
           "512G": 4194304
         },
-        "densityObj": {
-          "04G": {
-            "storage_density": "4GB eMMC"
-          },
-          "08G": {
-            "storage_density": "8GB eMMC"
-          },
-          "16G": {
-            "storage_density": "16GB eMMC"
-          },
-          "32G": {
-            "storage_density": "32GB eMMC"
-          },
-          "64G": {
-            "storage_density": "64GB eMMC"
-          },
-          "128G": {
-            "storage_density": "128GB eMMC"
-          },
-          "256G": {
-            "storage_density": "256GB eMMC"
-          },
-          "512G": {
-            "storage_density": "512GB eMMC"
-          }
-        },
         "package": {
           "04G": "FBGA153 11.50x13.00",
           "08G": "FBGA153 9.00x11.00",
@@ -125,13 +99,6 @@
         {
           "op": "map",
           "from": "densityCode",
-          "table": "densityObj",
-          "to": "densityObj",
-          "default": {}
-        },
-        {
-          "op": "map",
-          "from": "densityCode",
           "table": "package",
           "to": "package",
           "default": "FBGA153"
@@ -148,11 +115,6 @@
               "$var": "configCode"
             }
           }
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "densityObj"
         }
       ],
       "assign": {

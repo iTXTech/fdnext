@@ -127,32 +127,6 @@
           "0128G": 1048576,
           "128G": 1048576,
           "256G": 2097152
-        },
-        "densityObj": {
-          "004G": {
-            "storage_density": "4GB eMMC"
-          },
-          "008G": {
-            "storage_density": "8GB eMMC"
-          },
-          "016G": {
-            "storage_density": "16GB eMMC"
-          },
-          "032G": {
-            "storage_density": "32GB eMMC"
-          },
-          "064G": {
-            "storage_density": "64GB eMMC"
-          },
-          "0128G": {
-            "storage_density": "128GB eMMC"
-          },
-          "128G": {
-            "storage_density": "128GB eMMC"
-          },
-          "256G": {
-            "storage_density": "256GB eMMC"
-          }
         }
       },
       "steps": [
@@ -189,13 +163,6 @@
           "table": "density",
           "to": "density",
           "default": 0
-        },
-        {
-          "op": "map",
-          "from": "densityCode",
-          "table": "densityObj",
-          "to": "densityObj",
-          "default": {}
         },
         {
           "op": "tpl",
@@ -239,11 +206,6 @@
           "op": "merge",
           "into": "extra",
           "from": "seriesObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "densityObj"
         },
         {
           "op": "omit",

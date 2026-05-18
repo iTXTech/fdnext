@@ -38,23 +38,6 @@
           "9": 2097152,
           "A": 4194304
         },
-        "storageDensityObj": {
-          "6": {
-            "storage_density": "32GB UFS"
-          },
-          "7": {
-            "storage_density": "64GB UFS"
-          },
-          "8": {
-            "storage_density": "128GB UFS"
-          },
-          "9": {
-            "storage_density": "256GB UFS"
-          },
-          "A": {
-            "storage_density": "512GB UFS"
-          }
-        },
         "controller": {
           "A1": {
             "controller": "UFS 3.1 Controller",
@@ -128,13 +111,6 @@
           "table": "deviceDensity",
           "to": "density",
           "default": 0
-        },
-        {
-          "op": "map",
-          "from": "densityCode",
-          "table": "storageDensityObj",
-          "to": "storageDensityObj",
-          "default": {}
         },
         {
           "op": "take",
@@ -254,11 +230,6 @@
           "op": "merge",
           "into": "extra",
           "from": "controllerObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "storageDensityObj"
         },
         {
           "op": "merge",

@@ -28,8 +28,8 @@ PN 结构：
 
 ## 输出字段
 
+- `density`
 - `product_family`
-- `storage_density`
 - `storage_interface`
 - `speed_grade`
 - `nand_technology`

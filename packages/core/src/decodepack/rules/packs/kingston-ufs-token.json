@@ -41,17 +41,6 @@
           "256": 2097152,
           "64G": 524288
         },
-        "densityObj": {
-          "128": {
-            "storage_density": "128GB UFS"
-          },
-          "256": {
-            "storage_density": "256GB UFS"
-          },
-          "64G": {
-            "storage_density": "64GB UFS"
-          }
-        },
         "package": {
           "128": "11x13x0.85",
           "256": "11x13x0.95",
@@ -85,13 +74,6 @@
         {
           "op": "map",
           "from": "densityCode",
-          "table": "densityObj",
-          "to": "densityObj",
-          "default": {}
-        },
-        {
-          "op": "map",
-          "from": "densityCode",
           "table": "package",
           "to": "package",
           "default": "Unknown"
@@ -116,11 +98,6 @@
               "$var": "configCode"
             }
           }
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "densityObj"
         },
         {
           "op": "merge",

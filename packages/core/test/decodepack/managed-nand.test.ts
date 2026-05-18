@@ -547,7 +547,6 @@ assertPart("SM662GXC-BFS", {
   package: "100-ball BGA",
   extra: {
     "Product Family": "Ferri-eMMC",
-    "Storage Density": "64GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "Interface Type": "HS400",
     "NAND Technology": "3D TLC NAND",
@@ -555,7 +554,7 @@ assertPart("SM662GXC-BFS", {
     "Operation Temperature": "-25°C ~ +85°C",
     "Package Code": "100-b"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("SM662PBC-BFS", {
@@ -566,14 +565,13 @@ assertPart("SM662PBC-BFS", {
   package: "153-ball BGA",
   extra: {
     "Product Family": "Ferri-eMMC",
-    "Storage Density": "64GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "NAND Technology": "3D TLC NAND",
     "Product Class": "Automotive AEC-Q100 Grade 2",
     "Operation Temperature": "-40°C ~ +105°C",
     "Package Code": "153-b"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("SM671PEF-BFS", {
@@ -584,7 +582,6 @@ assertPart("SM671PEF-BFS", {
   package: "153-ball BGA",
   extra: {
     "Product Family": "Ferri-UFS",
-    "Storage Density": "512GB UFS",
     "Storage Interface": "UFS 3.1",
     "Speed Grade": "HS-Gear4 x2",
     "NAND Technology": "3D TLC NAND",
@@ -592,7 +589,7 @@ assertPart("SM671PEF-BFS", {
     "Operation Temperature": "-40°C ~ +85°C",
     "Package Code": "153-b"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("FNNL63A51K3WG-AF", {
@@ -2870,14 +2867,13 @@ assertPart("YMEC6A1TC1A2C1", {
   extra: {
     Controller: "eMMC 5.1 Controller EC000",
     "Product Family": "YMTC EC000 eMMC",
-    "Storage Density": "32GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "Process Alias": "X2-9060",
     "Layer Count": 128,
     "Die Stack": "SDP (1-die)",
     "Product Class": "Commercial"
   },
-  absentExtra: ["System", "Group", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("YMEC8A2TB3A2C3", {
@@ -2890,7 +2886,6 @@ assertPart("YMEC8A2TB3A2C3", {
   extra: {
     Controller: "eMMC 5.1 Controller EC110",
     "Product Family": "YMTC EC110 eMMC",
-    "Storage Density": "128GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "Process Alias": "X1-9050",
     "Layer Count": 64,
@@ -2898,7 +2893,7 @@ assertPart("YMEC8A2TB3A2C3", {
     "Product Class": "Commercial",
     "Operation Temperature": "-25°C ~ 85°C"
   },
-  absentExtra: ["System", "Group", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("YMUS8A1TC1A2C1", {
@@ -2910,14 +2905,13 @@ assertPart("YMUS8A1TC1A2C1", {
   package: "BGA-153 11.5x13x1.0/1.2",
   extra: {
     Controller: "UFS 3.1 Controller",
-    "Storage Density": "128GB UFS",
     "Storage Interface": "UFS 3.1",
     "Process Alias": "X2-9060",
     "Layer Count": 128,
     "Die Stack": "SDP (1-die)",
     "Product Class": "Commercial"
   },
-  absentExtra: ["System", "Group", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("YMC6G001TB51AA1C0", {
@@ -3404,10 +3398,9 @@ assertPart("EMMC64G-TY29", {
   extra: {
     "Storage Interface": "eMMC 5.1",
     "Config Code": "TY29",
-    "Storage Density": "64GB eMMC",
     "Product Class": "Commercial"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("EMMC128-IY29", {
@@ -3431,10 +3424,9 @@ assertPart("UFS128-CY14", {
   cellField: "TLC",
   extra: {
     "Storage Interface": "UFS 3.1",
-    "Speed Grade": "G4 4P",
-    "Storage Density": "128GB UFS"
+    "Speed Grade": "G4 4P"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("64EM32-M4GTY9B", {
@@ -3459,10 +3451,9 @@ assertPart("FEMDNN256G-A3A5607-08", {
   package: "FBGA153 11.5x13x1.0",
   extra: {
     "Product Family": "Commercial eMMC",
-    "Storage Interface": "eMMC 5.1",
-    "Storage Density": "256GB eMMC"
+    "Storage Interface": "eMMC 5.1"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("FEUDNN128G-C2H14", {
@@ -3527,10 +3518,9 @@ assertPart("BWCMMQ511G08G", {
   cellField: "TLC",
   extra: {
     "Storage Interface": "eMMC 5.1",
-    "Interface Type": "HS400",
-    "Storage Density": "8GB eMMC"
+    "Interface Type": "HS400"
   },
-  absentExtra: ["Interface info", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Interface info", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("BWU2A0526B128G", {
@@ -3539,10 +3529,9 @@ assertPart("BWU2A0526B128G", {
   densityMbit: 1048576,
   package: "FBGA153 11.50x13.00",
   extra: {
-    "Storage Interface": "UFS 2.2",
-    "Storage Density": "128GB UFS"
+    "Storage Interface": "UFS 2.2"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("FEUDME128G-C8H09", {
@@ -3566,10 +3555,9 @@ assertPart("FEUDNN512G-C2G07", {
   package: "FBGA153 11.5x13x1.0",
   cellField: "TLC",
   extra: {
-    "Storage Interface": "UFS 2.2",
-    "Storage Density": "512GB UFS"
+    "Storage Interface": "UFS 2.2"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("BWCA2KZC-64G", {

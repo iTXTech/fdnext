@@ -67,20 +67,6 @@
           "256G": 2097152,
           "512G": 4194304
         },
-        "densityObj": {
-          "064G": {
-            "storage_density": "64GB UFS"
-          },
-          "128G": {
-            "storage_density": "128GB UFS"
-          },
-          "256G": {
-            "storage_density": "256GB UFS"
-          },
-          "512G": {
-            "storage_density": "512GB UFS"
-          }
-        },
         "configCode": {
           "C2A56": "C2A56",
           "C2H14": "C2H14",
@@ -153,13 +139,6 @@
           "default": 0
         },
         {
-          "op": "map",
-          "from": "densityCode",
-          "table": "densityObj",
-          "to": "densityObj",
-          "default": {}
-        },
-        {
           "op": "takeLongest",
           "table": "configCode",
           "to": "configCode",
@@ -191,11 +170,6 @@
           "op": "merge",
           "into": "extra",
           "from": "seriesObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "densityObj"
         },
         {
           "op": "merge",

@@ -24,7 +24,7 @@ PN 结构：
 
 ## 输出字段
 
-- `storage_density`
+- `density`
 - `storage_interface`
 - `speed_grade`
 - `product_class`

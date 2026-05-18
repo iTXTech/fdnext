@@ -487,6 +487,7 @@ const vendorAliases: Record<string, string[]> = {
   longsys: ["longsys", "foresee", "lexar"],
   micron: ["micron"],
   samsung: ["samsung"],
+  siliconmotion: ["silicon motion", "smi"],
   sndk: ["sandisk", "western digital", "wd"],
   skhynix: ["sk hynix", "skhynix"],
   ymtc: ["ymtc"]
@@ -541,6 +542,8 @@ function assertManagedNandOutputIsCanonical(): void {
     const productVersion = normalizeText(extra["Product Version"]);
     const productFamily = removeVendorPrefix(extra["Product Family"], info.device?.vendor.id);
     const managedFamily = normalizeText(extra["Managed Family"]);
+    const density = normalizeText(extra.Density);
+    const storageDensity = normalizeText(extra["Storage Density"]);
     const aliases = (vendorAliases[String(info.device?.vendor.id)] ?? [String(info.device?.vendor.id)])
       .map((alias) => normalizeText(alias))
       .filter(Boolean);
@@ -562,6 +565,9 @@ function assertManagedNandOutputIsCanonical(): void {
     }
     if (managedFamily && (managedFamily === type || managedFamily === system || managedFamily === normalizeText(extra["Product Family"]))) {
       findings.push(`${partNumber}: redundant Managed Family=${extra["Managed Family"]}`);
+    }
+    if (density && storageDensity && !["emcp", "umcp"].includes(type) && storageDensity.startsWith(density)) {
+      findings.push(`${partNumber}: redundant Storage Density=${extra["Storage Density"]}`);
     }
   }
 
