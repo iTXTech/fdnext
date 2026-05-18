@@ -949,6 +949,13 @@
           "default": {}
         },
         {
+          "op": "set",
+          "to": "basePackage",
+          "value": {
+            "$path": "productObj.package"
+          }
+        },
+        {
           "op": "takeLongest",
           "table": "packageObj",
           "to": "suffixPackageObj",
@@ -964,7 +971,7 @@
         {
           "op": "fallback",
           "primary": "suffixPackage",
-          "secondary": "productObj.package",
+          "secondary": "basePackage",
           "to": "package"
         },
         {

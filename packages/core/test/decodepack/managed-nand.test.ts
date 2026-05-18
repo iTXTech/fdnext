@@ -3224,6 +3224,35 @@ assertPart("K9DVGY8J5E", {
   }
 });
 
+assertPart("K9DYGY8J5B", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "SSV8",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 236,
+    "Die Count": 16,
+    "CE Count": 4
+  }
+});
+
+assertPart("K9DYGY8J5D", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "SSV9",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 280,
+    "Die Count": 16,
+    "CE Count": 4
+  }
+});
+
+assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9DYGY8J5B", "SSV8");
+assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9DYGY8J5D", "SSV9");
+
 assertPart("K9OVGD8J2B", {
   vendor: "samsung",
   type: "NAND",

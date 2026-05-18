@@ -44,6 +44,14 @@ Known package-level exception:
 | PN structure | Profile |
 | --- | --- |
 | `K9D...VG...5E` 1TB TLC 16-die package | `SSV6P` |
+| `K9D...YG...5B` 2TB TLC 16-die package | `SSV8` |
+| `K9D...YG...5D` 2TB TLC 16-die package | `SSV9` |
+
+- `K9DYGY8J5B-CCK0`：TechInsights 确认其为 16 die package，内部 die 为 1Tb 236L TLC V8；外部 Flash ID 表和本地 FDB 同向记录 `EC52EA3F8ECF`。单个 `EC52EA3F8ECF` ID decode 为 512GB，4 组组成 `K9D...YG...` 的 2TB package。
+  <https://www.techinsights.com/blog/samsung-k9dygy8j5b-cck0-236-layer-3d-nand-flash-advanced-memory-essentials>
+  <https://www.techinsights.com/products/iwo-2310-801>
+  <https://bbs.wuyou.net/forum.php?mod=viewthread&tid=449091>
+- `K9DYGY8J5D`：由用户补充为同拓扑 `SSV9`；当前未在本地 FDB 或公开检索中找到对应 Flash ID。
 
 ## 输出字段
 
@@ -89,3 +97,5 @@ Known package-level exception:
 - `K9AHGD8J0F`
 - `K9AHGD8J0M`
 - `K9DVGY8J5E`
+- `K9DYGY8J5B`
+- `K9DYGY8J5D`
