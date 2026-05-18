@@ -28,6 +28,8 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 已知 DRAM PN 样例维护在 `packages/core/resources/dram-pn.json`，用于 PN 补全和搜索，只保留 `vendor/pn`；Micron / Crucial / Micron legacy Elpida DRAM FBGA code 映射统一维护在 `packages/core/resources/mdb.json`，用于 code 反查和补全。两者都不是解码规则来源，字段仍必须由 iTXTech fdnext DecodePack token 解析得出。`crawl-mdb` 默认按 Micron FBGA prefix profile 生成候选：`C9/D8/D9/Z8/Z9` 使用后三位字母网格，`NC/NW/NY/NX/NQ/NV` 使用数字段；`--codes` 补充输入按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
 - 2026-05-12 网络补全只刷新非 Micron exact PN：Samsung DDR4 Product Guide、SK hynix DDR4/DDR5 datasheet / listing、Nanya 官方产品列表、CXMT LCSC exact PN 列表、ESMT / Etron 官方产品表。ISSI / Winbond 已由官方 PSG 批量展开，Micron 继续由 `mdb.json` / Micron FBGA 路径覆盖。
 - 2026-05-17 根据 SK hynix DDR5 component ordering / decoder / serial-code 表扩展 H5C DDR5 token：补齐 8Gb/16Gb/24Gb/32Gb/64Gb density、4800/5600/6400/7200/8000 speed、82/106-ball package、serial die count/TSV，并把已知 exact PN 加入 `dram-pn.json`。
+- 2026-05-18 根据 Samsung Product Selection Guide 1H 2017 补齐 Samsung DDR3/DDR4 exact PN 种子，并只把 `K4B8G1646Q` 作为 DDR3 8Gb x16 规则补充；表中误列到 DDR3 区域的 `K4G...` 仍按 GDDR5 family 规则处理。
+- 2026-05-18 根据 Samsung LPDDR4/4X ordering diagrams 优化 `K4F/K4U` mobile DRAM token：补齐 8Gb/16Gb/32Gb/64Gb density、Mono/DDP/QDP/2CS organization、8-bank、LVSTL_11/LVSTLE_06、generation 与 exact PN 种子，并保持 `K4U` LPDDR4X ordering 优先于 legacy GDDR4 `K4U` 规则。
 
 ## 当前覆盖进度
 

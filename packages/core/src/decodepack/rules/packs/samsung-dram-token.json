@@ -37,7 +37,8 @@
           "B:08:B": "78-ball FBGA",
           "B:08:H": "82-ball FBGA",
           "B:16:B": "96-ball FBGA",
-          "B:16:H": "96-ball FBGA"
+          "B:16:H": "96-ball FBGA",
+          "B:16:M": "96-ball FBGA"
         },
         "packageStackObj": {
           "B": {
@@ -1590,7 +1591,7 @@
     }
   },
   {
-    "id": "vendor.samsung.dram.lpddr4x.ordering.component.v1",
+    "id": "vendor.samsung.dram.lpddr4_ordering.component.v1",
     "priority": 1020,
     "normalize": [
       "trim",
@@ -1607,50 +1608,90 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^K4U(?:6E|BE)[0-9A-Z]{5}(?:-[0-9A-Z]+)?$"
+      "value": "^K4(?:F(?:6E|8E)(?:30|3S)4H[A-Z]|U(?:6E|BE|CE)(?:3S|3D|3Q)4A[A-Z])(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
-        "K4U"
+        "K4"
       ],
       "tables": {
+        "deviceTypeObj": {
+          "F": {
+            "dram_type": "LPDDR4"
+          },
+          "U": {
+            "dram_type": "LPDDR4X"
+          }
+        },
         "densityToken": {
           "6E": "6E",
-          "BE": "BE"
+          "8E": "8E",
+          "BE": "BE",
+          "CE": "CE"
         },
         "densityMb": {
           "6E": 16384,
-          "BE": 32768
+          "8E": 8192,
+          "BE": 32768,
+          "CE": 65536
         },
         "organizationObj": {
+          "30": {
+            "ce_count": 2,
+            "channel_count": 2,
+            "special_option": "2 CKE"
+          },
           "3S": {
-            "dram_type": "LPDDR4X",
             "dram_die_stack": "1 die, 1 CS",
             "die_count": 1,
             "channel_count": 2
           },
           "3D": {
-            "dram_type": "LPDDR4X",
-            "dram_die_stack": "2 dies",
             "die_count": 2,
-            "channel_count": 2
+            "channel_count": 2,
+            "special_option": "DDP"
+          },
+          "3Q": {
+            "die_count": 4,
+            "channel_count": 2,
+            "special_option": "QDP"
           }
         },
         "deviceWidth": {
+          "30": 32,
           "3S": 32,
-          "3D": 32
+          "3D": 32,
+          "3Q": 32
+        },
+        "bankObj": {
+          "4": {
+            "bank_count": 8
+          }
         },
         "interfaceObj": {
+          "H": {
+            "interface_type": "LVSTL_11"
+          },
           "A": {
             "interface_type": "LVSTLE_06"
           }
         },
         "voltage": {
+          "H": "1.8V / 1.1V / 1.1V",
           "A": "1.8V / 1.1V / 0.6V"
         },
         "generationObj": {
+          "M": {
+            "dram_generation": "1st Generation"
+          },
           "A": {
             "dram_generation": "2nd Generation"
+          },
+          "B": {
+            "dram_generation": "3rd Generation"
+          },
+          "D": {
+            "dram_generation": "5th Generation"
           }
         },
         "packageActual": {
@@ -1667,12 +1708,30 @@
           }
         },
         "speedObj": {
-          "CL": {
+          "F:CJ": {
+            "dram_speed": "LPDDR4-3733"
+          },
+          "F:CL": {
+            "dram_speed": "LPDDR4-4266"
+          },
+          "U:CL": {
             "dram_speed": "LPDDR4X-4266"
           }
         }
       },
       "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "deviceTypeCode"
+        },
+        {
+          "op": "map",
+          "from": "deviceTypeCode",
+          "table": "deviceTypeObj",
+          "to": "deviceTypeObj",
+          "default": {}
+        },
         {
           "op": "takeLongest",
           "table": "densityToken",
@@ -1709,6 +1768,13 @@
           "op": "take",
           "len": 1,
           "to": "bankCode"
+        },
+        {
+          "op": "map",
+          "from": "bankCode",
+          "table": "bankObj",
+          "to": "bankObj",
+          "default": {}
         },
         {
           "op": "take",
@@ -1787,15 +1853,20 @@
           "default": ""
         },
         {
+          "op": "tpl",
+          "template": "{{deviceTypeCode}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
           "op": "map",
-          "from": "speedCode",
+          "from": "speedKey",
           "table": "speedObj",
           "to": "speedObj",
           "default": {}
         },
         {
           "op": "tpl",
-          "template": "4U{{densityCode}}{{organizationCode}}",
+          "template": "4{{deviceTypeCode}}{{densityCode}}{{organizationCode}}",
           "to": "configCode"
         },
         {
@@ -1810,7 +1881,17 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "deviceTypeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "organizationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "bankObj"
         },
         {
           "op": "mergeIf",
@@ -1863,7 +1944,7 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.samsung.dram.lpddr4x.ordering.component.v1"
+        "meta.ruleId": "vendor.samsung.dram.lpddr4_ordering.component.v1"
       }
     }
   },

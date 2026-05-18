@@ -2974,6 +2974,27 @@ assertDram("K4B2G1646B-HKK0", {
   }
 });
 
+assertDram("K4B8G1646Q-MCK0", {
+  vendor: "samsung",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD",
+  package: "96-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Package Code": "M",
+    "Config Code": "8G16",
+    "DRAM Speed": "DDR3-1600 11-11-11",
+    "Operation Temperature": "Commercial (0C~85C), normal power",
+    "Die Revision": "Q-die"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+assertDecodedField("K4B8G1646Q-MCK0", "die_count", 2);
+assertDecodedField("K4B8G1646Q-MCMA", "dram_speed", "DDR3-1866 13-13-13");
+assert.notEqual(detect("K4G8G1646D-MCK0").type, "DDR3", "K4G rows in the 2017 table must not override the GDDR5 family rule");
+
 assertDram("K4RAH086VB-BCQK", {
   vendor: "samsung",
   densityMbit: 16384,
@@ -3146,10 +3167,59 @@ assertDram("K4F6E304HB-MGCJ", {
   package: "200-ball FBGA",
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "2 dies, 1 CS",
     "Package Code": "E304HB",
-    "Config Code": "4F6",
+    "Config Code": "4F6E30",
     "DRAM Speed": "LPDDR4-3733",
+    "DRAM Generation": "3rd Generation",
+    "CE Count": 2,
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Interface Type": "LVSTL_11",
+    "Special Option": "2 CKE",
+    "Operation Temperature": "-25C~85C"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("K4F8E3S4HD-MGCL", {
+  vendor: "samsung",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.8V / 1.1V / 1.1V",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "M",
+    "Config Code": "4F8E3S",
+    "DRAM Speed": "LPDDR4-4266",
+    "DRAM Generation": "5th Generation",
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Interface Type": "LVSTL_11",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+assertDecodedField("K4F8E3S4HD-MGCL", "die_count", 1);
+
+assertDram("K4F6E3S4HM-MGCJ", {
+  vendor: "samsung",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V / 1.1V / 1.1V",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "M",
+    "Config Code": "4F6E3S",
+    "DRAM Speed": "LPDDR4-3733",
+    "DRAM Generation": "1st Generation",
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Interface Type": "LVSTL_11",
     "Operation Temperature": "-25C~85C"
   }
 });
@@ -3223,11 +3293,33 @@ assertDram("K4U6E3S4AA-MGCL", {
     "DRAM Speed": "LPDDR4X-4266",
     "DRAM Generation": "2nd Generation",
     "Channel Count": 2,
+    "Bank Count": 8,
     "Interface Type": "LVSTLE_06",
     "Operation Temperature": "-25C~85C"
   }
 });
 assertDecodedField("K4U6E3S4AA-MGCL", "die_count", 1);
+
+assertDram("K4U6E3S4AB-MGCL", {
+  vendor: "samsung",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V / 1.1V / 0.6V",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "Package Code": "M",
+    "Config Code": "4U6E3S",
+    "DRAM Speed": "LPDDR4X-4266",
+    "DRAM Generation": "3rd Generation",
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Interface Type": "LVSTLE_06",
+    "Operation Temperature": "-25C~85C"
+  }
+});
 
 assertDram("K4UBE3D4AA-MGCL", {
   vendor: "samsung",
@@ -3238,17 +3330,66 @@ assertDram("K4UBE3D4AA-MGCL", {
   package: "200-ball FBGA",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "2 dies",
     "Package Code": "M",
     "Config Code": "4UBE3D",
     "DRAM Speed": "LPDDR4X-4266",
     "DRAM Generation": "2nd Generation",
     "Channel Count": 2,
+    "Bank Count": 8,
     "Interface Type": "LVSTLE_06",
+    "Special Option": "DDP",
     "Operation Temperature": "-25C~85C"
-  }
+  },
+  absentExtra: ["DRAM Die Stack"]
 });
 assertDecodedField("K4UBE3D4AA-MGCL", "die_count", 2);
+
+assertDram("K4UBE3D4AB-MGCL", {
+  vendor: "samsung",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.8V / 1.1V / 0.6V",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "Package Code": "M",
+    "Config Code": "4UBE3D",
+    "DRAM Speed": "LPDDR4X-4266",
+    "DRAM Generation": "3rd Generation",
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Interface Type": "LVSTLE_06",
+    "Special Option": "DDP",
+    "Operation Temperature": "-25C~85C"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+assertDecodedField("K4UBE3D4AB-MGCL", "die_count", 2);
+
+assertDram("K4UCE3Q4AB-MGCL", {
+  vendor: "samsung",
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x32",
+  voltage: "1.8V / 1.1V / 0.6V",
+  package: "200-ball FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "Package Code": "M",
+    "Config Code": "4UCE3Q",
+    "DRAM Speed": "LPDDR4X-4266",
+    "DRAM Generation": "3rd Generation",
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Interface Type": "LVSTLE_06",
+    "Special Option": "QDP",
+    "Operation Temperature": "-25C~85C"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+assertDecodedField("K4UCE3Q4AB-MGCL", "die_count", 4);
+assert.notEqual(detect("K4UCE3Q4AB-MGCL").type, "GDDR4", "K4U LPDDR4X ordering should outrank the legacy K4U GDDR4 rule");
 
 assertDram("K4X51163PC", {
   vendor: "samsung",
@@ -4524,16 +4665,27 @@ assertDram("EM6PF32MBAJB", {
 
 assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC32");
 assertSearchPnIncludes("K4UBE3D4AA", "Samsung K4UBE3D4AA-MGCL");
+assertSearchPnIncludes("K4F6E3S4HM", "Samsung K4F6E3S4HM-MGCJ");
+assertSearchPnIncludes("K4F8E3S4HD", "Samsung K4F8E3S4HD-MGCL");
+assertSearchPnIncludes("K4U6E3S4AB", "Samsung K4U6E3S4AB-MGCL");
+assertSearchPnIncludes("K4UCE3Q4AB", "Samsung K4UCE3Q4AB-MGCL");
+assertSearchPnIncludes("K4UBE3D4AB", "Samsung K4UBE3D4AB-MGCL");
 assertSearchPnIncludes("K4J55323Q", "Samsung K4J55323Q");
 assertSearchPnIncludes("K4N51163Q", "Samsung K4N51163Q");
 assertSearchPnIncludes("K4D261638", "Samsung K4D261638");
 assertSearchPnIncludes("K4W2G1646", "Samsung K4W2G1646Q-BC1A");
 assertSearchPnIncludes("K4W4G1646E", "Samsung K4W4G1646E-BC1A");
+assertSearchPnIncludes("K4A4G045WE", "Samsung K4A4G045WE-BCPB");
+assertSearchPnIncludes("K4A4G085WE", "Samsung K4A4G085WE-BCPB");
+assertSearchPnIncludes("K4AAG085WB", "Samsung K4AAG085WB-MCPB");
+assertSearchPnIncludes("K4AAG165WB", "Samsung K4AAG165WB-MCPB");
 assertSearchPnIncludes("K4AAG165WB", "Samsung K4AAG165WB-MCTD");
 assertSearchPnIncludes("K4A4G045WD", "Samsung K4A4G045WD-BCPB");
 assertSearchPnIncludes("K4A4G165WE", "Samsung K4A4G165WE-BIPB");
 assertSearchPnIncludes("K4B4G0846D", "Samsung K4B4G0846D-BCNB");
 assertSearchPnIncludes("K4B4G0846E", "Samsung K4B4G0846E-BCNB");
+assertSearchPnIncludes("K4B4G1646E", "Samsung K4B4G1646E-BCNB");
+assertSearchPnIncludes("K4B8G1646Q", "Samsung K4B8G1646Q-MCK0");
 assertSearchPnIncludes("K4B4G1646Q", "Samsung K4B4G1646Q-HYK0");
 assertSearchPnIncludes("K4RAH046VB", "Samsung K4RAH046VB-BCQK");
 assertSearchPnIncludes("K4RAH165VB", "Samsung K4RAH165VB-BCWM");

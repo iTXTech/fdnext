@@ -10,6 +10,7 @@
 - Samsung DDR4 datasheet 镜像确认 `K4A8G085WB-BCRC` ordering table：`1Gx8`、78 FBGA、DDR4-2400，并说明 `K4A8G085WB` 为 8Gb B-die DDR4 SDRAM。来源：<https://www.alldatasheet.com/html-pdf/1179089/SAMSUNG/K4A8G085WB-BCRC/1778/5/K4A8G085WB-BCRC.html>
 - Samsung DDR4 Product Guide 确认 DDR4 suffix package type `M` 表示 FBGA DDP，`K4AAG085WB-MCPB/MCRC` 与 `K4AAG165WB-MCPB/MCRC` 是 16Gb B-die DDP；官方 `K4AAG085WB-MCPB` 页面确认 16Gb、2G x8、78 FBGA。Intel 社区设计讨论进一步确认 `K4AAG085WB-MCRC` 是 16Gb x8 dual-die、two ranks / separate chip selects；`K4AAG165WB` datasheet 摘要确认 1Gx16、96 FBGA、DDP。来源：<https://www.alldatasheetcn.com/html-pdf/1643768/SAMSUNG/K4AAG085WB/697/2/K4AAG085WB.html>、<https://semiconductor.samsung.com/dram/ddr/ddr4/k4aag085wb-mcpb/>、<https://community.intel.com/t5/Embedded-Intel-Core-Processors/Xeon-D-1500-CPU-state-of-the-RAS-n-A16-pin-during-Row-Address-RA/td-p/1613915>、<https://www.memory-distributor.com/pub/media/downloads/datasheets/K4AAG165WB.pdf>
 - Samsung DDR4 SDRAM Memory Product Guide May 2018 列出 PC/SVR 与 Consumer DDR4 component 表，确认 `K4A8G045WB/085WB/165WB`、`K4A8G045WC/085WC/165WC`、`K4A4G085WD/165WD`、`K4A4G085WE/165WE`、`K4A4G085WF/165WF`、`K4AAG085WA/165WA`、`K4AAG085WB/165WB` 等 base PN 与 `PB/RC/TD/VF/WE` speed、`C/I` temp、78/96-ball FBGA 封装组合；这些 exact PN 进入 `dram-pn.json` 用于补全。来源：<https://image.semiconductor.samsung.com/resources/product-guide/DDR4_Product_guide_May.18.pdf>
+- 用户提供的 Samsung Product Selection Guide 1H 2017 补充确认 DDR4 component 表中的 `K4A4G045WE-BCPB/BCRC`、`K4A4G085WE-BCPB`、`K4AAG085WB-MCPB`、`K4AAG165WB-MCPB`，以及 DDR3 component 表中的 `K4B4G0446E-BYMA`、`K4B4G1646E-BCK0/BCMA/BCNB/BYK0/BYMA`、`K4B8G1646Q-MCK0/MCMA`；这些 exact PN 进入 `dram-pn.json` 用于补全。该表把 `K4G8G1646D` 放在 DDR3 component 区域，但 Samsung ordering info 中 `K4G` 属于 GDDR5 family，按表格错误处理，不进入 DDR3 规则或 DDR3 PN 补全。来源：用户提供的 `12psg2017_1h_hr_singles.pdf`
 - 用户提供的 Samsung DDR4 numbering diagram 补充确认 `K4A` 主结构：`4G/8G/AG/BG` density、`04/08/16` bit organization、bank token `5` = 16 banks、interface token `W` = POD 1.2V VDD/VDDQ、revision `M/A/B/C/D/E/F/G`，以及 suffix package type `B/M/2/3/4/5` = Flip Chip / DDP / 2H TSV / 2H 3DS / 4H TSV / 4H 3DS。
 - 用户提供的 Samsung DDR4 ordering table 截图补充确认 `K4A8G165WB-BCPB/BCRC`、`K4A4G165WE-BCPB/BCRC/BCTD/BIPB/BIRC/BITD`、`K4A4G045WD-BCPB/BCRC`、`K4A4G085WD-BCPB/BCRC` 等 exact PN；其中此前缺失的 exact PN 已加入 `dram-pn.json`。
 - Samsung DDR3 SDRAM Memory Product Guide Oct. 2016 component 表确认 `K4B1G0846I/1646I`、`K4B2G0846F/1646F`、`K4B4G0446D/0846D/1646D` 的 DDR3 suffix 组合：`C/Y/M` 温度/电压档与 `H9/K0/MA/NB` speed bin；这些 exact `K4B` PN 进入 `dram-pn.json` 用于补全。该 PDF 中出现的 `K4A...` 行属于 DDR4 family，不作为 DDR3 规则依据。来源：用户提供的 `DDR3_Product_guide_Oct.16[2]-0.pdf`
@@ -23,6 +24,7 @@
 - Samsung 官方 LPDDR4 页面确认 `K4F6E304HB-MGCJ` 为 16Gb、x32、200 FBGA、3733Mbps、1.8/1.1/1.1V、-25C~85C。来源：<https://semiconductor.samsung.com/us/dram/lpddr/lpddr4/k4f6e304hb-mgcj/>
 - Samsung 官方 LPDDR4X 页面确认 `K4U6E3S4AA-MGCL` 为 16Gb、x32、200 FBGA、4266Mbps、1.8/1.1/0.6V；datasheet ordering info 确认其标准拆分为 `K4 U 6E 3S 4 A A - M G CL`，其中 `6E` 为 16G refresh、`3S` 为 x32 Mono LPDDR4X、`4` 为 8 banks、`A` 为 LVSTLE_06 电压接口、`A` 为 2nd generation、`M/G/CL` 分别对应 200-FBGA / -25C~85C / 0.468ns。来源：<https://semiconductor.samsung.com/us/dram/lpddr/lpddr4x/k4u6e3s4aa-mgcl/>、<https://atta.szlcsc.com/upload/public/pdf/source/20240929/7BB50846226B2390715312BE2DCC442F.pdf>
 - Samsung `K4UBE3D4AA-MGCL` 官方页面存档确认 LPDDR4X、32Gb、x32、200 FBGA、4266Mbps、1.8/1.1/0.6V、-25C~85C；datasheet ordering info 进一步确认 token：`BE` 为 32G refresh、`3D` 为 x32 DDP LPDDR4X、`4` 为 8 banks、`A` 为 LVSTLE_06 电压接口、`A` 为 2nd generation、`M/G/CL` 分别对应 200-FBGA / -25C~85C / 0.468ns。来源：<https://static6.arrow.com/aropdfconversion/899b75e80d91e9809ccf1ae585751547de913ff4/k4ube3d4aa-mgcl.pdf>、<https://datasheet.lcsc.com/lcsc/2310241557_Samsung-K4UBE3D4AA-MGCL_C2920257.pdf>
+- 用户提供的 Samsung LPDDR4 / LPDDR4X ordering diagrams 补充确认 `K4F6E304HB-MGCJ`、`K4F8E3S4HD-MGCL`、`K4F6E3S4HM-MGCJ`、`K4U6E3S4AB-MGCL`、`K4UBE3D4AB-MGCL`、`K4UCE3Q4AB-MGCL` 的 token：`F/U` 分别为 LPDDR4 / LPDDR4X，`6E/8E/BE/CE` 分别为 16G/8G/32G/64G refresh，`30/3S/3D/3Q` 分别表达 x32 2CS+2CKE / Mono / DDP / QDP，`4` 为 8 banks，`H/A` 分别为 LVSTL_11 1.8/1.1/1.1V 与 LVSTLE_06 1.8/1.1/0.6V，`M/A/B/D` 为 1st/2nd/3rd/5th generation，`M/G/CJ|CL` 为 200-FBGA / -25C~85C / 3733 或 4266Mbps。来源：用户提供的 ordering 截图。
 - Samsung 官方 LPDDR5 页面确认 `K3LKBKB0BM-MGCP` 为 32Gb、x32、315 FBGA、6400Mbps、1.8/1.05/0.9/0.5V。来源：<https://semiconductor.samsung.com/us/dram/lpddr/lpddr5/k3lkbkb0bm-mgcp/>
 - Samsung 官方 LPDDR5X 页面确认 `K3KL3L30CM-JGCT` / `K3KL3L30CM-BGCU` 为 64Gb high-capacity LPDDR5X，分别输出 x64 / 441 FBGA / 7500Mbps 与 x16 / 496 FBGA / 8533Mbps。来源：<https://semiconductor.samsung.com/dram/lpddr/lpddr5x/k3kl3l30cm-jgct/>、<https://semiconductor.samsung.com/dram/lpddr/lpddr5x/k3kl3l30cm-bgcu/>
 - Intel LPDDR3 validation table 确认 `K3QF1F10DM-AGCE` 为 8Gb package、4Gb die、DDP、x64；`K3QF2F20DM-AGCE` 为 16Gb package、4Gb die、QDP、x64。来源：<https://www.intel.cn/content/dam/www/public/us/en/documents/platform-memory/lpddr3-low-power-1600-validation-results.pdf>
@@ -42,7 +44,7 @@
 ## iTXTech fdnext DecodePack 范围
 
 - 规则文件：`packages/core/src/decodepack/rules/packs/samsung-dram-token.json`
-- 规则 ID：`vendor.samsung.dram.ddr3.component.v1`、`vendor.samsung.dram.legacy_standard.component.v1`、`vendor.samsung.dram.standard.component.v1`、`vendor.samsung.dram.ddr5.component.v1`、`vendor.samsung.dram.lpddr1.component.v1`、`vendor.samsung.dram.lpddr4x.ordering.component.v1`、`vendor.samsung.dram.lpddr.component.v1`、`vendor.samsung.dram.legacy_gddr.component.v1`、`vendor.samsung.dram.gddr.component.v1`
+- 规则 ID：`vendor.samsung.dram.ddr3.component.v1`、`vendor.samsung.dram.legacy_standard.component.v1`、`vendor.samsung.dram.standard.component.v1`、`vendor.samsung.dram.ddr5.component.v1`、`vendor.samsung.dram.lpddr1.component.v1`、`vendor.samsung.dram.lpddr4_ordering.component.v1`、`vendor.samsung.dram.lpddr.component.v1`、`vendor.samsung.dram.legacy_gddr.component.v1`、`vendor.samsung.dram.gddr.component.v1`
 - 当前覆盖：
   - SDR / DDR：`K4S/K4H/K4T/K4B/K4A`，覆盖 SDR、DDR、DDR2、DDR3、DDR4。
   - DDR5：`K4R`，当前落地 `AH/HE/BH` density token。
@@ -68,7 +70,7 @@ LPDDR：
 
 ```text
 LPDDR1: K4X + density + bit organization + bank + interface + revision + -package/temp/speed
-LPDDR4X ordering: K4 + U + density/refresh + organization + bank + interface/voltage + generation + -package/temp/speed
+LPDDR4/4X ordering: K4 + F/U + density/refresh + organization + bank + interface/voltage + generation + -package/temp/speed
 LPDDR2+: K + family + density/stack token + package token + -suffix-package/temp/speed
 ```
 
@@ -93,6 +95,8 @@ modern: K4 + family + density token + 325 organization token + package token + -
 - Samsung DDR3L 仍按标准化 `dram_type=DDR3` 输出，低电压由 `dram_voltage=1.35V VDD` 与 `DDR3L-*` speed label 表达；`Y/M` temp/power token 输出 normal power，`K` token 输出 1.35V 并把 Reduced Standby 放入 `special_option`；不新增公开 `temp_code` / `power_code`。
 - Samsung DRAM `-` 后缀按 token 拆解：标准 DDR/DDR5 为 suffix package / temp / speed，LPDDR 为 suffix package / temp / speed，GDDR 为 speed-prefix / temp / speed-grade；规则不以 `BCIF`、`MCRC`、`MGCL`、`SC32` 这类完整尾缀作为整体枚举键。
 - `Config Code` 只保留结构主配置，例如 `8G08`、`AH08`、`3QF1`、`263238`、`52324`、`80325`，不把完整 PN 或完整 base code 当配置码。
+- `K4G` family 继续按 GDDR5 规则处理；即使个别 Product Selection Guide 表格把 `K4G...` 行放在 DDR3 component 区域，也不能让 DDR3 规则以更高优先级覆盖 `K4G` 的 family 语义。
+- `K4U` 同时存在 LPDDR4X 与 legacy GDDR4 编码线；当 PN 命中 `K4U + density refresh + organization + bank + LVSTLE_06 + generation` ordering 结构时，LPDDR4X 规则优先于 legacy graphics `K4U52324Q` 规则。
 
 ## DDR4 package stack
 
@@ -118,7 +122,11 @@ Samsung DDR4 component PN 的 suffix 第一位是 package type：`B` 表示 flip
 | DDR5 | `HE08` / `HE16` | `K4RHE086VB-BCWM` / `K4RHE165VB-BCWM` | `24Gb`, `x8/x16`, `DDR5-5600 46-45-45` |
 | DDR5 | `BH04` | `K4RBH046VM-BCWM` | `32Gb`, `x4`, `78-ball FBGA`, `DDR5-5600 46-45-45` |
 | LPDDR4X | `4U6E3S4AA` + suffix `MGCL` | `K4U6E3S4AA-MGCL` | `16Gb`, `x32`, `1 die`, `2 channels`, `LVSTLE_06`, `200-ball FBGA`, `LPDDR4X-4266` |
-| LPDDR4X | `4UBE3D4AA` + suffix `MGCL` | `K4UBE3D4AA-MGCL` | `32Gb`, `x32`, `2 dies`, `2 channels`, `LVSTLE_06`, `200-ball FBGA`, `LPDDR4X-4266` |
+| LPDDR4 | `4F6E30` + suffix `MGCJ` | `K4F6E304HB-MGCJ` | `16Gb`, `x32`, `2 CS`, `2 channels`, `LVSTL_11`, `200-ball FBGA`, `LPDDR4-3733` |
+| LPDDR4 | `4F8E3S` + suffix `MGCL` | `K4F8E3S4HD-MGCL` | `8Gb`, `x32`, `1 die`, `2 channels`, `LVSTL_11`, `200-ball FBGA`, `LPDDR4-4266` |
+| LPDDR4X | `4U6E3S` + suffix `MGCL` | `K4U6E3S4AB-MGCL` | `16Gb`, `x32`, `1 die`, `2 channels`, `LVSTLE_06`, `200-ball FBGA`, `LPDDR4X-4266` |
+| LPDDR4X | `4UBE3D` + suffix `MGCL` | `K4UBE3D4AB-MGCL` | `32Gb`, `x32`, `DDP`, `2 channels`, `LVSTLE_06`, `200-ball FBGA`, `LPDDR4X-4266` |
+| LPDDR4X | `4UCE3Q` + suffix `MGCL` | `K4UCE3Q4AB-MGCL` | `64Gb`, `x32`, `QDP`, `2 channels`, `LVSTLE_06`, `200-ball FBGA`, `LPDDR4X-4266` |
 | LPDDR5X | `3K:L3` + suffix | `K3KL3L30CM-JGCT` / `K3KL3L30CM-BGCU` | `64Gb`, suffix 决定 `x64/441 FBGA/7500` 或 `x16/496 FBGA/8533` |
 
 ## Graphics Memory Selection Guide
