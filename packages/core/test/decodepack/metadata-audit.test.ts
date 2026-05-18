@@ -692,6 +692,77 @@ function assertDecodePackCheckRejectsPublicCodeFields(): void {
   );
 }
 
+function assertDecodePackCheckRejectsFullStringPartMatch(): void {
+  const result = checkDecodePack({
+    partSpecs: [
+      {
+        id: "test.full-string-match",
+        match: {
+          kind: "regex",
+          value: "^ABC123$"
+        },
+        set: {
+          "device.partNumber": {
+            $var: "partNumber"
+          }
+        }
+      }
+    ],
+    identifierSpecs: []
+  } satisfies DecodePack);
+
+  assert.equal(result.ok, false);
+  assert.ok(
+    result.findings.some(
+      (finding) =>
+        finding.code === "full_string_match" &&
+        finding.specId === "test.full-string-match" &&
+        finding.path === "partSpecs[0].match.value"
+    ),
+    `expected full string part match finding, got ${JSON.stringify(result.findings)}`
+  );
+}
+
+function assertDecodePackCheckAllowsFixedLengthPartMatch(): void {
+  const result = checkDecodePack({
+    partSpecs: [
+      {
+        id: "test.fixed-length-match",
+        match: {
+          kind: "regex",
+          value: "^ABC[0-9]{3}$"
+        },
+        set: {
+          "device.partNumber": {
+            $var: "partNumber"
+          }
+        }
+      }
+    ],
+    identifierSpecs: []
+  } satisfies DecodePack);
+
+  assert.deepEqual(result.findings, [], `fixed-length structural PN match should be allowed, got ${JSON.stringify(result.findings)}`);
+  assert.equal(result.ok, true);
+}
+
+function assertPartMatchersAllowUnknownTail(): void {
+  for (const { partNumber, unknownTail } of [
+    { partNumber: "K4UCE3Q4AB-MGCL", unknownTail: "ZZ" },
+    { partNumber: "MT29F8G08ABACAH4", unknownTail: "ZZ" },
+    { partNumber: "MTFC32GBCAQTC-AAT", unknownTail: "ZZ" },
+    { partNumber: "SDINBDG4-64G", unknownTail: "-ZZ" }
+  ]) {
+    const exact = explainPartDecode(defaultDecodePack, partNumber);
+    assert.equal(exact.status, "matched", `${partNumber} should have a baseline DecodePack match`);
+
+    const query = `${partNumber}${unknownTail}`;
+    const withUnknownTail = explainPartDecode(defaultDecodePack, query);
+    assert.equal(withUnknownTail.status, "matched", `${query} should keep matching by known PN head`);
+    assert.equal(withUnknownTail.specId, exact.specId, `${query} should keep the same DecodePack rule as ${partNumber}`);
+  }
+}
+
 function assertDecodePackExplainTools(): void {
   const partExplain = explainPartDecode(defaultDecodePack, "BWCA2KZC-64G");
   assert.equal(partExplain.status, "matched");
@@ -778,5 +849,8 @@ assertDecodePackCompositeComponents();
 assertDefaultDecodePackMaintainsItself();
 assertDecodePackCheckRejectsUndefinedTokenVariables();
 assertDecodePackCheckRejectsPublicCodeFields();
+assertDecodePackCheckRejectsFullStringPartMatch();
+assertDecodePackCheckAllowsFixedLengthPartMatch();
+assertPartMatchersAllowUnknownTail();
 assertDecodePackExplainTools();
 assertRemovedNamesStayRemoved();

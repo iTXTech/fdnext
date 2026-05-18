@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^[ATIKHDCNS][APCOKFTBYUGJ][135678ABC][0-9A-Z]{7}$"
+      "value": "^[ATIKHDCNS][APCOKFTBYUGJ][135678ABC](?:0G|1G|2G|3G|4G|5G|6G|7G|8G|9G|AG|BG|EG|HG|IG|JG)[0-9A-Z]{5}$"
     },
     "tokenDecoder": {
       "tables": {

@@ -90,6 +90,37 @@ function checkComponentRoles(value: unknown, path: string, specId: string, findi
   });
 }
 
+function hasTerminalEndAnchor(pattern: string): boolean {
+  if (!pattern.endsWith("$")) {
+    return false;
+  }
+  let slashCount = 0;
+  for (let index = pattern.length - 2; index >= 0 && pattern[index] === "\\"; index--) {
+    slashCount++;
+  }
+  return slashCount % 2 === 0;
+}
+
+function isExactLiteralFullMatch(pattern: string): boolean {
+  if (!pattern.startsWith("^") || !hasTerminalEndAnchor(pattern)) {
+    return false;
+  }
+  return /^[A-Z0-9:_-]+$/i.test(pattern.slice(1, -1));
+}
+
+function checkPartMatch(spec: PartDecodeSpec, path: string, findings: DecodePackCheckFinding[]): void {
+  if (spec.match.kind === "regex" && isExactLiteralFullMatch(spec.match.value)) {
+    addFinding(
+      findings,
+      "error",
+      "full_string_match",
+      `${path}.match.value`,
+      "Part DecodePack match regex must not match one complete literal PN; use structured token classes and preserve known fields when later tokens are unknown.",
+      spec.id
+    );
+  }
+}
+
 function templateVariableNames(template: string): string[] {
   return [...template.matchAll(/\{\{([a-zA-Z0-9_.]+)\}\}/g)].map((match) => match[1]).filter((name): name is string => Boolean(name));
 }
@@ -331,6 +362,7 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
       }
       if (kind === "part") {
         const partSpec = spec as PartDecodeSpec;
+        checkPartMatch(partSpec, path, findings);
         checkPartSetVariables(partSpec, path, findings);
         checkTokenDecoderProgram(partSpec, path, findings, sharedTables);
         checkOutputSurface(partSpec.set, `${path}.set`, partSpec.id, findings);

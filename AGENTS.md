@@ -41,6 +41,9 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 
 - 按前缀、固定长度 token、最长前缀表、组合 key 表来解析。
 - 对未知 token 保留已能确定的字段，不应让整条 PN 直接失效。
+- `partSpecs.match` 用于识别厂商 / 产品线 / 已知头部结构；非定长或带可扩展尾缀的 PN，不要用完整已知后缀把未知后续 token 排除掉，头部结构符合时应继续命中对应类型并输出已确定字段。
+- 官方 ordering 明确定长的 PN 可以在 `match` 里规定 token 长度 / 总长度，但必须是结构化长度和字符类别，不得退化成完整料号字面量或已知 PN 白名单。
+- 后续 token 的未知情况应通过 `tokenDecoder` 的 `default`、`takeLongest`、`map`、剩余 `rest` 等结构化步骤自然降级，不能为了完整料号格式把规则写成完整料号特判。
 - 规则文件尽量按厂商和芯片 / 产品类型拆分。一个 JSON pack 中最好只放一种芯片或产品线的解析规则，例如 `samsung-ufs-token.json`、`skhynix-emcp-token.json`。
 - 新 pack 需要在 `packages/core/src/decodepack/rules/default-rules.ts` 导入并加入 `defaultPartDecodeSpecs`。
 - `fields.density` / `fields.dram_density` 继续使用项目既有单位 Mbit，例如 8GB = `65536`。
@@ -55,6 +58,7 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 特别禁止：
 
 - 用完整料号数组做直接匹配。
+- 在 PN `match.value` 里写完整料号字面量或等价的完整料号白名单；定长 PN 只能用结构化 token 长度表达。
 - 把外部引用状态、来源 URL、推断来源等维护信息 merge 到 `fields` 或公开结果。
 - 只根据厂商前缀判断 eMMC / UFS / MCP 类型；需要结合后续 token。
 - 把 package/config/controller/die/feature 等 code 字段作为“有用细节”展示给用户。
