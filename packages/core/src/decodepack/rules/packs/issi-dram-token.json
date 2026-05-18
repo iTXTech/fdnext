@@ -601,10 +601,12 @@
             "density": 8192,
             "device_width": 32,
             "dram_type": "LPDDR4",
-            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V VDDQ",
+            "package": "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter",
             "config_code": "2x16 256M",
-            "dram_speed": "LPDDR4-3200"
+            "dram_speed": "LPDDR4-3200",
+            "channel_count": 2,
+            "bank_count": 8
           },
           "32256B": {
             "density": 8192,
@@ -633,7 +635,8 @@
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 128M ECC",
-            "dram_speed": "LPDDR4-3200"
+            "dram_speed": "LPDDR4-3200",
+            "ecc_enabled": true
           },
           "32640EA": {
             "density": 2048,
@@ -642,7 +645,8 @@
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 64M ECC",
-            "dram_speed": "LPDDR4-3200"
+            "dram_speed": "LPDDR4-3200",
+            "ecc_enabled": true
           },
           "16256EA": {
             "density": 4096,
@@ -651,7 +655,8 @@
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 256M ECC",
-            "dram_speed": "LPDDR4-3200"
+            "dram_speed": "LPDDR4-3200",
+            "ecc_enabled": true
           },
           "32128EA": {
             "density": 4096,
@@ -660,16 +665,20 @@
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 128M ECC",
-            "dram_speed": "LPDDR4-3200"
+            "dram_speed": "LPDDR4-3200",
+            "ecc_enabled": true
           },
           "32256EA": {
             "density": 8192,
             "device_width": 32,
             "dram_type": "LPDDR4",
-            "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V VDDQ",
+            "package": "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter",
             "config_code": "2x16 256M ECC",
-            "dram_speed": "LPDDR4-3200"
+            "dram_speed": "LPDDR4-3200",
+            "ecc_enabled": true,
+            "channel_count": 2,
+            "bank_count": 8
           },
           "16128AL": {
             "density": 2048,
@@ -729,10 +738,12 @@
             "density": 8192,
             "device_width": 32,
             "dram_type": "LPDDR4X",
-            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 0.57-0.65V VDDQ",
+            "package": "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter",
             "config_code": "2x16 256M",
-            "dram_speed": "LPDDR4X-3200"
+            "dram_speed": "LPDDR4X-3200",
+            "channel_count": 2,
+            "bank_count": 8
           },
           "32256BL": {
             "density": 8192,
@@ -750,7 +761,8 @@
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 128M ECC",
-            "dram_speed": "LPDDR4X-3200"
+            "dram_speed": "LPDDR4X-3200",
+            "ecc_enabled": true
           },
           "32640EAL": {
             "density": 2048,
@@ -759,7 +771,8 @@
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 64M ECC",
-            "dram_speed": "LPDDR4X-3200"
+            "dram_speed": "LPDDR4X-3200",
+            "ecc_enabled": true
           },
           "16256EAL": {
             "density": 4096,
@@ -768,7 +781,8 @@
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "1x16 256M ECC",
-            "dram_speed": "LPDDR4X-3200"
+            "dram_speed": "LPDDR4X-3200",
+            "ecc_enabled": true
           },
           "32128EAL": {
             "density": 4096,
@@ -777,16 +791,70 @@
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
             "package": "200-ball BGA",
             "config_code": "2x16 128M ECC",
-            "dram_speed": "LPDDR4X-3200"
+            "dram_speed": "LPDDR4X-3200",
+            "ecc_enabled": true
           },
           "32256EAL": {
             "density": 8192,
             "device_width": 32,
             "dram_type": "LPDDR4X",
-            "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 0.57-0.65V VDDQ",
+            "package": "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter",
             "config_code": "2x16 256M ECC",
-            "dram_speed": "LPDDR4X-3200"
+            "dram_speed": "LPDDR4X-3200",
+            "ecc_enabled": true,
+            "channel_count": 2,
+            "bank_count": 8
+          },
+          "16512B": {
+            "density": 8192,
+            "device_width": 16,
+            "dram_type": "LPDDR4",
+            "dram_generation": "LPDDR4/LPDDR4X",
+            "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+            "package": "200-ball BGA (10mm x 14.5mm)",
+            "config_code": "1x16 512M",
+            "channel_count": 1,
+            "bank_count": 8,
+            "dram_speed": "LPDDR4/LPDDR4X-4266/3733"
+          },
+          "32512A": {
+            "density": 16384,
+            "device_width": 32,
+            "dram_type": "LPDDR4",
+            "dram_generation": "LPDDR4/LPDDR4X",
+            "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+            "package": "200-ball BGA (10mm x 14.5mm)",
+            "config_code": "2x16 512M",
+            "channel_count": 2,
+            "bank_count": 8,
+            "dram_speed": "LPDDR4/LPDDR4X-4266/3733"
+          },
+          "32K01S2A": {
+            "density": 32768,
+            "device_width": 32,
+            "dram_type": "LPDDR4",
+            "dram_generation": "LPDDR4/LPDDR4X",
+            "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+            "package": "200-ball BGA (10mm x 14.5mm)",
+            "config_code": "2x16 1G S2",
+            "channel_count": 2,
+            "ce_count": 2,
+            "bank_count": 8,
+            "dram_speed": "LPDDR4/LPDDR4X-4266/3733"
+          },
+          "32K02S2A": {
+            "density": 65536,
+            "device_width": 32,
+            "dram_type": "LPDDR4",
+            "dram_generation": "LPDDR4/LPDDR4X",
+            "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+            "package": "200-ball BGA (10mm x 14.5mm)",
+            "config_code": "2x16 2G S2",
+            "channel_count": 2,
+            "ce_count": 2,
+            "bank_count": 8,
+            "dram_speed": "LPDDR4/LPDDR4X-4266/3733"
           }
         },
         "speedObj": {
@@ -795,7 +863,8 @@
           },
           "053": {
             "dram_speed": "LPDDR4/LPDDR4X-3733"
-          }
+          },
+          "062": {}
         },
         "packageSuffixToken": {
           "B": "B"
@@ -815,6 +884,15 @@
           },
           "I": {
             "operation_temperature": "Industrial Grade (-40C to +95C)"
+          }
+        },
+        "packageObj": {
+          "B": {},
+          "BH": {
+            "package": "200-ball BGA, 1.2mm max thickness, 0.4mm ball diameter"
+          },
+          "TB": {
+            "package": "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter"
           }
         }
       },
@@ -848,6 +926,15 @@
             },
             "channel_count": {
               "$path": "productObj.channel_count"
+            },
+            "bank_count": {
+              "$path": "productObj.bank_count"
+            },
+            "ce_count": {
+              "$path": "productObj.ce_count"
+            },
+            "ecc_enabled": {
+              "$path": "productObj.ecc_enabled"
             }
           }
         },
@@ -863,9 +950,22 @@
         },
         {
           "op": "takeLongest",
-          "table": "packageSuffixToken",
-          "to": "packageSuffixToken",
-          "default": ""
+          "table": "packageObj",
+          "to": "suffixPackageObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "suffixPackage",
+          "value": {
+            "$path": "suffixPackageObj.package"
+          }
+        },
+        {
+          "op": "fallback",
+          "primary": "suffixPackage",
+          "secondary": "productObj.package",
+          "to": "package"
         },
         {
           "op": "takeLongest",
@@ -910,7 +1010,7 @@
           "$path": "productObj.voltage"
         },
         "fields.package": {
-          "$path": "productObj.package"
+          "$var": "package"
         },
         "meta.ruleId": "vendor.issi.dram.lpddr4.component.v1",
         "meta.fieldProfile": "dram",

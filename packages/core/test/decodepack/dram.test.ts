@@ -4903,6 +4903,108 @@ assertDram("IS46LD16128A-25BB", {
   }
 });
 
+assertDram("IS43LQ16512B-046BLI", {
+  vendor: "issi",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+  package: "200-ball BGA (10mm x 14.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "LPDDR4/LPDDR4X-4266",
+    "DRAM Generation": "LPDDR4/LPDDR4X",
+    "Channel Count": 1,
+    "Bank Count": 8,
+    "Operation Temperature": "Industrial Grade (-40C to +95C)"
+  }
+});
+
+assertDram("IS43LQ32512A-053BLI", {
+  vendor: "issi",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+  package: "200-ball BGA (10mm x 14.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "LPDDR4/LPDDR4X-3733",
+    "DRAM Generation": "LPDDR4/LPDDR4X",
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Operation Temperature": "Industrial Grade (-40C to +95C)"
+  }
+});
+
+assertDram("IS46LQ32K01S2A-046BLA2", {
+  vendor: "issi",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+  package: "200-ball BGA (10mm x 14.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "LPDDR4/LPDDR4X-4266",
+    "DRAM Generation": "LPDDR4/LPDDR4X",
+    "CE Count": 2,
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Operation Temperature": "Automotive Grade (-40C to +105C)"
+  }
+});
+
+assertDram("IS46LQ32K02S2A-053BLA3", {
+  vendor: "issi",
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x32",
+  voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
+  package: "200-ball BGA (10mm x 14.5mm)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "LPDDR4/LPDDR4X-3733",
+    "DRAM Generation": "LPDDR4/LPDDR4X",
+    "CE Count": 2,
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Operation Temperature": "Automotive Grade (-40C to +125C)"
+  }
+});
+
+assertDram("IS46LQ32256A-062BHLA2", {
+  vendor: "issi",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V VDDQ",
+  package: "200-ball BGA, 1.2mm max thickness, 0.4mm ball diameter",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "LPDDR4-3200",
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Operation Temperature": "Automotive Grade (-40C to +105C)"
+  }
+});
+
+assertDram("IS46LQ32256AL-062BLA3", {
+  vendor: "issi",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 0.57-0.65V VDDQ",
+  package: "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-3200",
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Operation Temperature": "Automotive Grade (-40C to +125C)"
+  }
+});
+
 assertDram("IS43LQ32256BL", {
   vendor: "issi",
   densityMbit: 8192,
@@ -5387,6 +5489,52 @@ assertSearchPnIncludes("IS46TR16640CL-125JB2", "ISSI IS46TR16640CL-125JB2LA2");
 assertSearchPnIncludes("IS46TR81280C-125", "ISSI IS46TR81280C-125JBLA25");
 assertSearchPnIncludes("IS46TR16256DL-107", "ISSI IS46TR16256DL-107MBLA3");
 assertSearchPnIncludes("IS43TR85120DL-125", "ISSI IS43TR85120DL-125KBL");
+const issiLpddrOrderingPns = [
+  "IS43LQ16512B-053BLI",
+  "IS43LQ16512B-046BLI",
+  "IS46LQ16512B-053BLA1",
+  "IS46LQ16512B-046BLA1",
+  "IS46LQ16512B-053BLA2",
+  "IS46LQ16512B-046BLA2",
+  "IS46LQ16512B-053BLA3",
+  "IS46LQ16512B-046BLA3",
+  "IS43LQ32512A-053BLI",
+  "IS43LQ32512A-046BLI",
+  "IS46LQ32512A-053BLA1",
+  "IS46LQ32512A-046BLA1",
+  "IS46LQ32512A-053BLA2",
+  "IS46LQ32512A-046BLA2",
+  "IS46LQ32512A-053BLA3",
+  "IS46LQ32512A-046BLA3",
+  "IS43LQ32K02S2A-053BLI",
+  "IS43LQ32K02S2A-046BLI",
+  "IS46LQ32K02S2A-053BLA1",
+  "IS46LQ32K02S2A-046BLA1",
+  "IS46LQ32K02S2A-053BLA2",
+  "IS46LQ32K02S2A-046BLA2",
+  "IS46LQ32K02S2A-053BLA3",
+  "IS46LQ32K02S2A-046BLA3",
+  "IS43LQ32K01S2A-053BLI",
+  "IS43LQ32K01S2A-046BLI",
+  "IS46LQ32K01S2A-053BLA1",
+  "IS46LQ32K01S2A-046BLA1",
+  "IS46LQ32K01S2A-053BLA2",
+  "IS46LQ32K01S2A-046BLA2",
+  "IS43LQ32256A-062BLI",
+  "IS46LQ32256A-062BLA1",
+  "IS46LQ32256A-062BLA2",
+  "IS46LQ32256A-062BHLA2",
+  "IS46LQ32256A-062TBLA2",
+  "IS46LQ32256A-062BLA3",
+  "IS43LQ32256AL-062BLI",
+  "IS46LQ32256AL-062BLA1",
+  "IS46LQ32256AL-062BLA2",
+  "IS46LQ32256AL-062BLA3"
+];
+for (const pn of issiLpddrOrderingPns) {
+  assertSearchPnIncludes(pn, "ISSI " + pn);
+}
+
 assertSearchPnIncludes("W66DP2RQQA", "Winbond W66DP2RQQAHJ");
 assertSearchPnIncludes("M16U4G16256", "ESMT M16U4G16256A(2Z)");
 assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A(2H)");

@@ -12,6 +12,7 @@
 - LPDDR4/4X 表确认 `IS43/IS46LQ*` 系列的 2Gb/4Gb/8Gb、single channel `(1 x16)` 或 two channel `(2 x16)`、VDDQ/VDD2/VDD1、3200/3733 MT/s 与 BGA(200) 封装。
 - ISSI DRAM Part Decoder 图给出 `41/42/43/45/46` product family、`LV/S/VS/R/DR/TR/QR/SM/RM/VM/LR/LD/LQ` 电压/低功耗 token、bus width、word count、die revision、speed、CAS、package、solder、temperature 与 packing 后缀结构。
 - 用户提供的 ISSI `IS43/46LQ32K01B` datasheet / ordering 截图确认 32Gb `(x16 x 2 channel)` LPDDR4/LPDDR4X、`32K01` = `1Gb x32`、`B` = 2nd generation、`-046/-053` = 4266/3733Mbps、200-ball BGA、I/A1/A2/A3 温度档。
+- 用户继续提供的 ISSI `IS43/46LQ16512B`、`IS43/46LQ32512A`、`IS43/46LQ32K01S2A`、`IS43/46LQ32K02S2A`、`IS43/46LQ32256A`、`IS43/46LQ32256AL` datasheet / ordering 截图确认 8Gb / 16Gb / 32Gb / 64Gb LPDDR4/LPDDR4X 结构：`16512B` = 512Mb x16、`32512A` = 512Mb x32、`32K01S2A` = 1Gb x32 dual-rank、`32K02S2A` = 2Gb x32 dual-rank、`32256A/AL` = 256Mb x32；`-046/-053/-062` 分别对应 4266/3733/3200Mbps，`B/BH/TB` package suffix、`L` green package、I/A1/A2/A3 温度档按 ordering table 进入规则和 `dram-pn.json`。
 - 用户提供的 ISSI DDR4 datasheet / ordering 截图确认 `IS43/46QR85120B`、`QR16256B`、`QR81024B`、`QR16512B` 的 4Gb / 8Gb DDR4 料号、`-083R/-075U` 与 `-083T/-075V/-062AA` speed / CL token、78/96-ball FBGA/BGA 封装和 I/A1/A2/A3 温度档。
 - 用户提供的 ISSI DDR3 / DDR3L datasheet / ordering 截图确认 `IS43/46TR16256B(L)`、`TR85120B(L)`、`TR16512B(L)`、`TR81024B(L)` 这批 4Gb / 8Gb DDR3(L) 料号，以及既有 `TR16K01S2AL`、`TR16128D(L)`、`TR82560D(L)` 的 16Gb / 2Gb 料号；`-125K/-107M/-093N` speed / CL token、78/96-ball BGA 封装和 I/A1/A2/A25/A3 温度档均由 ordering 表确认。
 - 用户继续提供的 ISSI DDR3 / DDR3L ordering 截图确认 `TR16640C(L)` / `TR81280C(L)` 1Gb、`TR16256DL` / `TR85120DL` 4Gb、`TR16512S2DL` dual-rank 8Gb；`125J` 对应 DDR3-1600J / CL10，`TR16640CL` 的 `B2` 封装后缀对应 96-ball BGA (7.5mm x 13mm)。
@@ -26,7 +27,7 @@
   - `IS43/IS46TR`：DDR3 / DDR3L。
     - 本轮补充 `TR16256B(L)` / `TR85120B(L)` 4Gb、`TR16512B(L)` / `TR81024B(L)` 8Gb，以及 `C/CL`、`DL`、`S2DL` 变体 ordering PN 到 `dram-pn.json`。
   - `IS43/IS46QR`：DDR4，含 4Gb / 8Gb / 16Gb 与 ordering suffix speed / temperature 样例。
-  - `IS43/IS46LQ`：LPDDR4 / LPDDR4X，含 ECC token 与 `LQ32K01B` 32Gb 样例。
+  - `IS43/IS46LQ`：LPDDR4 / LPDDR4X，含 ECC token、`LQ16512B`、`LQ32512A`、`LQ32256A/AL`、`LQ32K01S2A`、`LQ32K02S2A` ordering 样例与 `LQ32K01B` 32Gb 样例。
   - `IS43/IS46DR`、`LR`、`LD`、`SM/RM/VM` 等：按 Part Decoder 通用 token 输出 DDR2、LPDDR、LPDDR2 和 mobile SDR 基础字段。
 
 ## PN 结构
