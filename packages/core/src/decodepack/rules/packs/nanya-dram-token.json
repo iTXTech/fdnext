@@ -626,13 +626,57 @@
             "die_count": 4
           }
         },
+        "familyStackObj": {
+          "6CL:M": {
+            "dram_die_stack": "1 die, 1 CS",
+            "die_count": 1,
+            "ce_count": 1
+          },
+          "6CL:T": {
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2,
+            "ce_count": 2
+          },
+          "6CL:F": {
+            "dram_die_stack": "4 dies, 2 CS",
+            "die_count": 4,
+            "ce_count": 2
+          }
+        },
+        "lowPowerBaseObj": {
+          "6CL": {
+            "interface_type": "HSUL_12",
+            "bank_count": 8,
+            "solder_type": "Lead-free RoHS compliant and Halogen-free"
+          }
+        },
+        "deviceVersionObj": {
+          "6CL:A": {
+            "die_revision": "1st version"
+          },
+          "6CL:B": {
+            "die_revision": "2nd version"
+          },
+          "6CL:D": {
+            "die_revision": "4th version"
+          }
+        },
+        "channelObj": {
+          "6CL:64": {
+            "channel_count": 2
+          }
+        },
         "packageActual": {
           "6TL:BA": "134-ball BGA",
           "6TL:BQ": "168-ball PoP",
           "6TL:CA": "134-ball BGA",
-          "6CL:DM": "178-ball BGA",
-          "6CL:AM": "178-ball BGA",
-          "6CL:AP": "178-ball BGA",
+          "6CL:AM": "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+          "6CL:AP": "178-ball FBGA (10.50x11.50x1.05mm, 0.65/0.80mm mixed pitch)",
+          "6CL:BM": "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+          "6CL:BQ": "168-ball PoP BGA (12.00x12.00mm, 0.50mm pitch)",
+          "6CL:BR": "216-ball 2-CH PoP-BGA (12.00x12.00x0.83mm, 0.40mm pitch)",
+          "6CL:DM": "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+          "6CL:DR": "216-ball 2-CH PoP-FBGA (12.00x12.00x0.83mm, 0.40mm pitch)",
           "6AN:AC": "200-ball BGA",
           "6AN:AV": "200-ball BGA",
           "6AN:DV": "200-ball BGA",
@@ -650,10 +694,19 @@
             "dram_speed": "LPDDR2-1066"
           },
           "6CL:H0": {
-            "dram_speed": "LPDDR3-2133"
+            "dram_speed": "LPDDR3-2133",
+            "cas_latency": 16,
+            "speed_grade": "H0 2133Mbps @ RL=16"
           },
           "6CL:H1": {
-            "dram_speed": "LPDDR3-1866"
+            "dram_speed": "LPDDR3-1866",
+            "cas_latency": 14,
+            "speed_grade": "H1 1866Mbps @ RL=14"
+          },
+          "6CL:H2": {
+            "dram_speed": "LPDDR3-1600",
+            "cas_latency": 12,
+            "speed_grade": "H2 1600Mbps @ RL=12"
           },
           "6AN:J1": {
             "dram_speed": "LPDDR4-4267"
@@ -738,6 +791,11 @@
           "6BR:J": {
             "operation_temperature": "Automotive (-40C~95C)"
           }
+        },
+        "gradeOverrideObj": {
+          "6CL:B:": {
+            "operation_temperature": "Commercial (-25C~85C)"
+          }
         }
       },
       "steps": [
@@ -798,9 +856,45 @@
           "default": {}
         },
         {
-          "op": "take",
-          "len": 2,
-          "to": "packageCode"
+          "op": "tpl",
+          "template": "{{familyCode}}:{{stackCode}}",
+          "to": "familyStackKey"
+        },
+        {
+          "op": "map",
+          "from": "familyStackKey",
+          "table": "familyStackObj",
+          "to": "familyStackObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "lowPowerBaseObj",
+          "to": "baseObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{deviceWidth}}",
+          "to": "channelKey"
+        },
+        {
+          "op": "map",
+          "from": "channelKey",
+          "table": "channelObj",
+          "to": "channelObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([A-Z])([0-9A-Z])",
+          "to": "packageCode",
+          "groups": {
+            "deviceVersionCode": 1,
+            "packageShapeCode": 2
+          },
+          "default": ""
         },
         {
           "op": "tpl",
@@ -813,6 +907,18 @@
           "table": "packageActual",
           "to": "package",
           "default": "Unknown"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{deviceVersionCode}}",
+          "to": "deviceVersionKey"
+        },
+        {
+          "op": "map",
+          "from": "deviceVersionKey",
+          "table": "deviceVersionObj",
+          "to": "deviceVersionObj",
+          "default": {}
         },
         {
           "op": "stripIfPrefix",
@@ -854,6 +960,18 @@
           "default": {}
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{deviceVersionCode}}:{{gradeCode}}",
+          "to": "gradeOverrideKey"
+        },
+        {
+          "op": "map",
+          "from": "gradeOverrideKey",
+          "table": "gradeOverrideObj",
+          "to": "gradeOverrideObj",
+          "default": {}
+        },
+        {
           "op": "set",
           "to": "extra",
           "value": {
@@ -876,6 +994,26 @@
           "from": "stackObj"
         },
         {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyStackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "baseObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "channelObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "deviceVersionObj"
+        },
+        {
           "op": "mergeIf",
           "into": "extra",
           "from": "speedObj",
@@ -885,6 +1023,12 @@
           "op": "mergeIf",
           "into": "extra",
           "from": "gradeObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "gradeOverrideObj",
           "if": "hasSuffix"
         }
       ],

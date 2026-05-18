@@ -265,6 +265,98 @@
   },
   {
     "vendor": "nanya",
+    "pn": "NT6CL256M32AM-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL512T32AM-H0"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL512T32AM-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL1024F32AP-H0"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL1024F32AP-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL128M32DM-H0"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL128M32DM-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL256M16DM-H0"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL256M16DM-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL128M32BQ-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL128M32BQ-H2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL128M32BM-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL128M32BM-H2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL256M16BM-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL256M16BM-H2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL256T32BQ-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL256T32BQ-H2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL256T32BM-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL256T32BM-H2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL512T16BM-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL512T16BM-H2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL128T64BR-H1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6CL128T64DR-H1"
+  },
+  {
+    "vendor": "nanya",
     "pn": "NT6AN512T32AV-J1"
   },
   {

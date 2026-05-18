@@ -31,6 +31,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-05-18 根据 Samsung Product Selection Guide 1H 2017 补齐 Samsung DDR3/DDR4 exact PN 种子，并只把 `K4B8G1646Q` 作为 DDR3 8Gb x16 规则补充；表中误列到 DDR3 区域的 `K4G...` 仍按 GDDR5 family 规则处理。
 - 2026-05-18 根据 Samsung LPDDR4/4X ordering diagrams 优化 `K4F/K4U` mobile DRAM token：补齐 8Gb/16Gb/32Gb/64Gb density、Mono/DDP/QDP/2CS organization、8-bank、LVSTL_11/LVSTLE_06、generation 与 exact PN 种子，并保持 `K4U` LPDDR4X ordering 优先于 legacy GDDR4 `K4U` 规则。
 - 2026-05-18 根据 Nanya DDR4 8Gb C-Die / 4Gb E-Die ordering 截图补齐 `NT5AD` DDR4 的 C/E die revision、VDD/VDDQ/VPP、电压与速度时序、TFBGA 封装尺寸、bank count、温度 grade，并把 ordering table 中的 C/E exact PN 加入 `dram-pn.json`。
+- 2026-05-18 根据 Nanya LPDDR3 4Gb / 8Gb / 16Gb / 32Gb ordering 截图补齐 `NT6CL` 的 A/B/D device version、M/P/Q/R package、H0/H1/H2 speed + RL、DDP/QDP CS、x64 2-channel 组合，并把 ordering table 中的 exact PN 加入 `dram-pn.json`。
 
 ## 当前覆盖进度
 

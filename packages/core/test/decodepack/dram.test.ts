@@ -4089,14 +4089,174 @@ assertDram("NT6CL256M32AM-H0", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball BGA",
+  package: "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "1 die, 1 CS",
-    "Package Code": "AM",
-    "Config Code": "256M32",
     "DRAM Speed": "LPDDR3-2133",
-    "Operation Temperature": "Commercial (-30C~105C)"
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "CE Count": 1,
+    "Interface Type": "HSUL_12",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "1st version",
+    "CAS Latency": 16,
+    "Speed Grade": "H0 2133Mbps @ RL=16"
+  }
+});
+
+assertDram("NT6CL512T32AM-H1", {
+  vendor: "nanya",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Speed": "LPDDR3-1866",
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "CE Count": 2,
+    "Interface Type": "HSUL_12",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "1st version",
+    "CAS Latency": 14,
+    "Speed Grade": "H1 1866Mbps @ RL=14"
+  }
+});
+
+assertDram("NT6CL1024F32AP-H0", {
+  vendor: "nanya",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "178-ball FBGA (10.50x11.50x1.05mm, 0.65/0.80mm mixed pitch)",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Speed": "LPDDR3-2133",
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "CE Count": 2,
+    "Interface Type": "HSUL_12",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "1st version",
+    "CAS Latency": 16,
+    "Speed Grade": "H0 2133Mbps @ RL=16"
+  }
+});
+
+assertDram("NT6CL128M32DM-H1", {
+  vendor: "nanya",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Speed": "LPDDR3-1866",
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "CE Count": 1,
+    "Interface Type": "HSUL_12",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "4th version",
+    "CAS Latency": 14,
+    "Speed Grade": "H1 1866Mbps @ RL=14"
+  }
+});
+
+assertDram("NT6CL256M16DM-H0", {
+  vendor: "nanya",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Speed": "LPDDR3-2133",
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "CE Count": 1,
+    "Interface Type": "HSUL_12",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "4th version",
+    "CAS Latency": 16,
+    "Speed Grade": "H0 2133Mbps @ RL=16"
+  }
+});
+
+assertDram("NT6CL128M32BQ-H2", {
+  vendor: "nanya",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "168-ball PoP BGA (12.00x12.00mm, 0.50mm pitch)",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Speed": "LPDDR3-1600",
+    "Operation Temperature": "Commercial (-25C~85C)",
+    "CE Count": 1,
+    "Interface Type": "HSUL_12",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "2nd version",
+    "CAS Latency": 12,
+    "Speed Grade": "H2 1600Mbps @ RL=12"
+  }
+});
+
+assertDram("NT6CL256T32BM-H2", {
+  vendor: "nanya",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Speed": "LPDDR3-1600",
+    "Operation Temperature": "Commercial (-25C~85C)",
+    "CE Count": 2,
+    "Interface Type": "HSUL_12",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "2nd version",
+    "CAS Latency": 12,
+    "Speed Grade": "H2 1600Mbps @ RL=12"
+  }
+});
+
+assertDram("NT6CL128T64DR-H1", {
+  vendor: "nanya",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x64",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "216-ball 2-CH PoP-FBGA (12.00x12.00x0.83mm, 0.40mm pitch)",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Speed": "LPDDR3-1866",
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "CE Count": 2,
+    "Channel Count": 2,
+    "Interface Type": "HSUL_12",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "4th version",
+    "CAS Latency": 14,
+    "Speed Grade": "H1 1866Mbps @ RL=14"
   }
 });
 
@@ -4864,6 +5024,9 @@ assertSearchPnIncludes("NT5CC512M8EQ", "Nanya NT5CC512M8EQ-DIB");
 assertSearchPnIncludes("NT5AD512M16C4-HRT", "Nanya NT5AD512M16C4-HRT");
 assertSearchPnIncludes("NT5AD256M16E4-HRT", "Nanya NT5AD256M16E4-HRT");
 assertSearchPnIncludes("NT5FF2048M8DK", "Nanya NT5FF2048M8DK-UB");
+assertSearchPnIncludes("NT6CL512T32", "Nanya NT6CL512T32AM-H0");
+assertSearchPnIncludes("NT6CL128M32BQ", "Nanya NT6CL128M32BQ-H1");
+assertSearchPnIncludes("NT6CL128T64DR", "Nanya NT6CL128T64DR-H1");
 assertSearchPnIncludes("NT6AP256F64", "Nanya NT6AP256F64BN-J1");
 assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
 assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");

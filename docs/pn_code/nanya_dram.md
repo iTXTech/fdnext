@@ -1,6 +1,6 @@
 # Nanya DRAM PN 规则
 
-采集日期：2026-05-12
+采集日期：2026-05-18
 
 本页记录 Nanya standalone DRAM 颗粒的 PN 结构。Nanya 规则按 family、organization、stack、package、suffix token 解析，不维护完整 PN 枚举。
 
@@ -18,6 +18,7 @@
 - 用户提供的 `常见几种DDR3_DDR3L的命名规则.pdf` 和本轮 Nanya DDR3(L) 1Gb / 2Gb / 4Gb 截图确认 `NT5CB(C)128M8GN` / `64M16GP`、`256M8JQ` / `128M16JR`、`256M8IN` / `128M16IP`、`256M8FN` / `128M16FP`、`512M8EQ` / `256M16ER` 等结构，`B/C` 电压 token、`GN/GP` VFBGA、`JQ/JR` / `FN/FP` / `EQ/ER` TFBGA、`IN/IP` VFBGA package token，以及 DDR3 speed token `AC/AD/BE/BF/CF/CG/DG/DH/DI/EJ/EK/FK/FL` 的时序含义。
 - Nanya 官方 `NT6TL128M32BA-G0` 页面确认 LPDDR2、4Gb、x32、134-ball BGA、1066Mbps、-25C~85C；`NT6TL128M32BA-G0I/G0H` 分别确认 Industrial / Automotive grade token。来源：<https://www.nanya.com/en/Product/4069/NT6TL128M32BA-G0>、<https://www.nanya.com/en/Product/4072/NT6TL128M32BA-G0I>、<https://www.nanya.com/en/Product/4074/NT6TL128M32BA-G0H>
 - Nanya 官方 `NT6CL256M32AM-H0` 页面确认 LPDDR3、8Gb、x32、178-ball BGA、2133Mbps、-30C~105C。来源：<https://www.nanya.com/en/Product/4324/NT6CL256M32AM-H0>
+- 本轮用户提供的 Nanya LPDDR3 4Gb / 8Gb / 16Gb / 32Gb datasheet / ordering 截图确认 `NT6CL` 命名：`6C = LPDDR3`、`L = HSUL_12 (1.8V, 1.2V, 1.2V, 1.2V)`；`128M32` / `256M16` 为 4Gb，`256M32` 为 8Gb，`512T32` 为 16Gb DDP，`1024F32` 为 32Gb QDP，`128T64` 为 8Gb DDP 2-channel；`A/B/D` 分别为 1st / 2nd / 4th version；`M/P` 为 178-ball FBGA，`Q` 为 168-ball PoP BGA，`R` 为 216-ball 2-CH PoP-BGA / PoP-FBGA；`H0/H1/H2` 分别为 2133Mbps RL=16、1866Mbps RL=14、1600Mbps RL=12。截图 ordering table 中的 exact PN 已加入 `dram-pn.json`。
 - Nanya 官方 `NT6AN512T32AV-J1` / `NT6AP512T32AV-J1` 页面确认 LPDDR4 / LPDDR4X、16Gb、x32、200-ball BGA、4267Mbps。来源：<https://www.nanya.com/en/Product/4330/NT6AN512T32AV-J1>、<https://www.nanya.com/en/Product/4588/NT6AP512T32AV-J1>
 - Nanya 官方 `NT6BR1024M16A3-K2` 页面确认 LPDDR5/5X 类别、16Gb、x16、315-ball BGA、7500Mbps；`NT6BR1024M16A3-K1` 确认 8533Mbps 与 LPDDR5X speed bin。来源：<https://www.nanya.com/en/Product/10086/NT6BR1024M16A3-K2>、<https://www.nanya.com/en/Product/10082/NT6BR1024M16A3-K1>
 - 2026-05-09 复查 `NT5CB/NT5CC/NT5AD/NT5FF + DDP`：公开结果主要仍是 `M` stack-code 的 standard DDR3/DDR4/DDR5 页面，以及已覆盖的 low-power DRAM DDP/QDP 页面；暂未找到可直接加入 testcase 的 standard DDR `T/F` exact PN。检索到的 `NT5CB256M16ER-EKA` / `NT5CC256M16ER-EKA` 等公开 datasheet 仍是 standard DDR3(L) 4Gb `M`/单 die 组合。来源：<https://www.alldatasheet.net/html-marking/1145497/NANYA/NT5CB256M16ER-EKA/7060/37/NT5CB256M16ER-EKA.html>
@@ -42,6 +43,7 @@ NT + family + depth + stack-code + width + package + -speed + optional grade
 ```text
 NT5AD1024M8C3-HR
 NT6AP512T32AV-J1
+NT6CL128T64DR-H1
 ```
 
 ## 输出约定
@@ -55,6 +57,10 @@ NT6AP512T32AV-J1
 - DDR4 `5AD` 输出完整 `dram_voltage = 1.2V VDD / 1.2V VDDQ / 2.5V VPP`；`C/E` device version 输出为 `die_revision = C-die (3rd version)` / `E-die (5th version)`；`HR/JR` 输出完整 `DDR4-2666 19-19-19` / `DDR4-3200 22-22-22`。
 - DDR4 package code `3/4` 输出 TFBGA 语义；C/E 截图确认了具体尺寸时输出 `7.50x12.00mm`、`7.50x10.50mm` 或 `7.50x13.00mm` 与 `0.80mm pitch`。`5AD` 还输出 `solder_type = Lead-free RoHS compliant and Halogen-free`；C/E density-addressing 表确认 x4/x8 为 16 banks、x16 为 8 banks。
 - 低功耗 speed token 以 `family + speed` 做组合 key，避免 LPDDR4 与 LPDDR4X 共用 `J1` 时混淆。
+- LPDDR3 `NT6CL` 输出 `interface_type = HSUL_12`、`bank_count = 8`、`solder_type = Lead-free RoHS compliant and Halogen-free`；`A/B/D` device version 以 `die_revision` 表达为 `1st version` / `2nd version` / `4th version`。
+- LPDDR3 `M/T/F` 分别输出 `1 die, 1 CS`、`2 dies, 2 CS`、`4 dies, 2 CS`；`x64` 2-channel PoP 组合额外输出 `channel_count = 2`。
+- LPDDR3 `H0/H1/H2` 输出 `dram_speed`、`cas_latency` 与保留原始 token 的 `speed_grade`；`B` version ordering 截图中的 commercial grade 温度为 `-25C~85C`，`A/D` version 截图为 `-30C~105C`。
+- LPDDR3 package 输出使用截图确认的实际封装：178-ball FBGA 10.50x11.50mm（SDP/DDP 0.83mm、QDP 1.05mm 高度，0.65/0.80mm mixed pitch）、168-ball PoP BGA 12.00x12.00mm 0.50mm pitch、216-ball 2-CH PoP-BGA / PoP-FBGA 12.00x12.00x0.83mm 0.40mm pitch。
 - standard DDR 的 `T/F` stack-code 先维持结构化规则支持，但本轮不新增确定样例；只有找到公开 exact PN / datasheet 后再补 testcase 和 source tier。
 - standard DDR5 新封装示例仍走算术 config：`NT5FF2048M8EK-WEU` 输出 16Gb / x8、`EK` 78-ball BGA、`WE` DDR5-8000、`U` Industrial (-40C~105C)；`NT5FF2048M8DK-UB` 输出 `DK` 78-ball BGA 与 DDR5-7200。
 - 低功耗 PN 中 `NT6AP256F64BN-J1` 这类 PoP 组合输出 `BN` 376-ball PoP，并按 `F64` 输出 `4 dies, 2 CS`。
