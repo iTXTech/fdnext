@@ -4,30 +4,26 @@ Cloudflare Workers adapter for fdnext.
 
 ## Overview
 
-`@itxtech/fdnext-cf-workers` exposes the fdnext engine as a Cloudflare Worker. It wraps `@itxtech/fdnext-core` in a standard Workers `fetch()` handler, providing a zero-infrastructure deployment path for the fdnext HTTP API.
+`packages/cf-workers` exposes the fdnext engine as a Cloudflare Worker source entry. It wraps `@itxtech/fdnext-core` in a standard Workers `fetch()` handler, providing a zero-infrastructure deployment path for the fdnext HTTP API.
 
 The adapter is a thin bridge — all HTTP routing, response contracts, CORS, and External Link handling are delegated to the shared runtime.
 
-## Installation
+The current repository deployment lets Wrangler bundle this adapter directly from `packages/cf-workers/src/index.ts`. The package metadata intentionally does not declare a runtime `main` / `exports` target until a publish bundle is added.
 
-```bash
-pnpm add @itxtech/fdnext-cf-workers
-```
+## Source Entry
 
-## Quick Start
-
-### Default Export
+The default deployment entry is:
 
 ```ts
-import worker from "@itxtech/fdnext-cf-workers";
+import worker from "./src/index";
 
 export default worker;
 ```
 
-### Custom Runtime Options
+For custom runtime options, create a custom Worker source entry in this package and point `wrangler.jsonc` `main` at it:
 
 ```ts
-import { createCfWorkersAdapter } from "@itxtech/fdnext-cf-workers";
+import { createCfWorkersAdapter } from "./src/index";
 import type { ExternalLinkProvider } from "@itxtech/fdnext-core/runtime";
 
 const myLinks: ExternalLinkProvider = {
@@ -76,7 +72,7 @@ pnpm cf-workers:deploy
 
 See `wrangler.jsonc` in the repository root for the Wrangler configuration.
 
-## Exports
+## Source API
 
 | Export | Description |
 | :--- | :--- |

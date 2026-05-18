@@ -57,6 +57,8 @@ console.log(engine.searchParts({ query: "MT29", lang: "eng", limit: 10 }));
 | `@itxtech/fdnext-core/runtime` | Runtime entry — `createRuntime`, HTTP dispatch/fetch helpers, CORS options, and External Link provider types |
 | `@itxtech/fdnext-core/decodepack` | DecodePack maintenance entry — compiler, checker, explain tools, default pack, and NAND die profile tables |
 
+Browser integrations that run fdnext locally should use the main `createEngine()` entry. The `runtime` entry is for HTTP adapters, and the `decodepack` entry is for rule maintenance tooling.
+
 ## SDK Methods
 
 | Method | Description |

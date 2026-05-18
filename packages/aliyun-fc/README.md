@@ -4,20 +4,16 @@ Aliyun Function Compute (FC) adapter for fdnext.
 
 ## Overview
 
-`@itxtech/fdnext-aliyun-fc` provides a Node.js HTTP handler and a standalone custom runtime entry for deploying fdnext on Alibaba Cloud Function Compute. It wraps `@itxtech/fdnext-core` in a standard `http.createServer` handler.
+`packages/aliyun-fc` provides a Node.js HTTP handler and a source-level custom runtime entry for deploying fdnext on Alibaba Cloud Function Compute. It wraps `@itxtech/fdnext-core` in a standard `http.createServer` handler.
 
-## Installation
+The current repository build only emits declarations for this adapter. Runtime deployments should bundle the source entry from `packages/aliyun-fc/src/index.ts`; package metadata intentionally does not declare a runtime `main` / `exports` / `bin` target until a publish bundle is added.
 
-```bash
-pnpm add @itxtech/fdnext-aliyun-fc
-```
-
-## Quick Start
+## Source Usage
 
 ### Custom Runtime Entry
 
 ```ts
-import { startAliyunFc } from "@itxtech/fdnext-aliyun-fc";
+import { startAliyunFc } from "./src/index";
 
 startAliyunFc();
 ```
@@ -27,7 +23,7 @@ The server listens on `FC_SERVER_PORT`, `PORT`, or `9000` by default, binding to
 ### As a Handler
 
 ```ts
-import { createAliyunFcHandler } from "@itxtech/fdnext-aliyun-fc";
+import { createAliyunFcHandler } from "./src/index";
 import { createServer } from "node:http";
 
 const handler = createAliyunFcHandler();
@@ -35,12 +31,12 @@ const server = createServer(handler);
 server.listen(9000);
 ```
 
-### Binary
+### Local Source Runtime
 
-After building, the `fdnext-aliyun-fc` binary starts the custom runtime:
+For a local smoke run of the source entry:
 
 ```bash
-fdnext-aliyun-fc
+pnpm -C packages/aliyun-fc exec tsx src/bin.ts
 ```
 
 ## CORS
@@ -56,7 +52,7 @@ FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
 - Multi-origin — comma, space, or newline separated; matched exactly against request `Origin`
 - `OPTIONS` preflight returns `204`
 
-## Exports
+## Source API
 
 | Export | Description |
 | :--- | :--- |

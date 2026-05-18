@@ -3,14 +3,6 @@
   "version": "3.0.0",
   "homepage": "https://github.com/iTXTech/fdnext/tree/master/packages/cf-workers",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
-    }
-  },
   "dependencies": {
     "@itxtech/fdnext-core": "workspace:*"
   },

@@ -1,4 +1,6 @@
-import { compileDecodePack, defaultDecodePack, type CompileDecodePackResult } from "../decodepack";
+import { compileDecodePack } from "../decodepack/compiler";
+import { defaultDecodePack } from "../decodepack/default-decodepack";
+import type { CompileDecodePackResult } from "../decodepack/types";
 
 let cachedDefaultDecodePack: CompileDecodePackResult | undefined;
 

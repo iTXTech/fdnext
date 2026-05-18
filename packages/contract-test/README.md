@@ -4,11 +4,13 @@ Result contract and schema validation test suite for fdnext.
 
 ## Overview
 
-`@itxtech/fdnext-contract-test` validates that the fdnext engine's output conforms to the published result schemas (`fdnext.result.v1` and `fdnext.capabilities.v2`). It provides:
+`packages/contract-test` validates that the fdnext engine's output conforms to the published result schemas (`fdnext.result.v1` and `fdnext.capabilities.v2`). It provides:
 
 - **Schema Validator** — A lightweight JSON Schema validator (`validateSchema`) that checks fdnext results against their declared schemas without external dependencies.
 - **Contract Checks** — `runContractChecks()` exercises all core operations (part decode, part search, identifier decode, identifier search, capabilities) and validates each response against the schema.
 - **Contract Engine** — `createContractEngine()` assembles a fully-configured engine with default DecodePack and embedded resources for testing.
+
+The current repository build only emits declarations for this package. Package metadata intentionally does not declare a runtime `main` / `exports` target until a publish bundle is added.
 
 ## Usage
 
@@ -24,10 +26,10 @@ Or from the monorepo root:
 pnpm contract:check
 ```
 
-### Programmatic API
+### Source API
 
 ```ts
-import { runContractChecks, validateSchema, createContractEngine } from "@itxtech/fdnext-contract-test";
+import { runContractChecks, validateSchema, createContractEngine } from "./src/index";
 
 // Run all contract checks
 const summary = runContractChecks();

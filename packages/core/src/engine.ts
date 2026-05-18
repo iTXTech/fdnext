@@ -1,6 +1,6 @@
 import { LANGUAGES, UNKNOWN } from "./constants";
 import { buildControllerGroupIndex, projectControllersByGroup } from "./controller-groups";
-import type { CompileDecodePackResult } from "./decodepack";
+import type { CompileDecodePackResult } from "./decodepack/types";
 import {
   draftDensity,
   draftField,

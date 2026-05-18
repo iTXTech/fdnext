@@ -107,13 +107,15 @@ runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https
 
 浏览器侧推荐用 Vite / Webpack / Rollup / esbuild 打包，关键点：
 
+- 浏览器内嵌解析应使用 `createEngine()`，直接调用 `decodePart()` / `searchParts()` / `decodeIdentifier()` / `searchIdentifiers()` / `getCapabilities()`；`@itxtech/fdnext-core/runtime` 只面向 HTTP adapter，不是前端本地解析入口。
 - 资源（`fdb/mdb/lang`，以及用于 PN 补全的 `managed-nand-pn/dram-pn`）建议用 `fetch()` 加载静态 JSON
 - `managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`；Micron DRAM FBGA code 反查统一来自 `mdb.json`
 - 默认解码器（PN / typed identifier）已由 `@itxtech/fdnext-core` 内置；只有裁剪规则或注入自定义规则时才需要显式传入 `decoders` / `identifierDecoders`
+- `@itxtech/fdnext-core/decodepack` 是规则维护入口，面向 check / explain / compile 等工具链；普通前端查询不需要直接引用它。
 
 ### 2.1 方式 A：fetch 静态 JSON（推荐）
 
-将仓库内的 `packages/core/resources/` 目录作为静态资源发布。下面示例假设挂载到 `/fdnext-core/`：
+将 `@itxtech/fdnext-core` 的资源 JSON 目录作为静态资源发布。仓库内路径是 `packages/core/resources/`；发布包内对应路径是 `resources/`。这些 JSON 资源用于 `fetch()` 加载，不作为 package subpath import 使用。下面示例假设挂载到 `/fdnext-core/`：
 
 - `/fdnext-core/fdb.json`
 - `/fdnext-core/mdb.json`
@@ -211,10 +213,10 @@ Hapi server、Cloudflare Workers 和阿里云 FC 使用同一套 runtime HTTP �
 
 ### 4.1 Cloudflare Workers
 
-`@itxtech/fdnext-cf-workers` 暴露默认 Worker，也可以用 `createCfWorkersAdapter()` 注入自定义 runtime options。独立部署说明和 `wrangler.jsonc` 约定见 [Cloudflare Workers 部署](CF_WORKERS.md)。
+Cloudflare Workers adapter 由仓库内 `packages/cf-workers/src/index.ts` 暴露默认 Worker，也可以用 `createCfWorkersAdapter()` 注入自定义 runtime options。独立部署说明和 `wrangler.jsonc` 约定见 [Cloudflare Workers 部署](CF_WORKERS.md)。
 
 ```ts
-import worker from "@itxtech/fdnext-cf-workers";
+import worker from "./packages/cf-workers/src/index";
 
 export default worker;
 ```
@@ -227,10 +229,10 @@ FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
 
 ### 4.2 阿里云函数计算 / 自定义运行时
 
-`@itxtech/fdnext-aliyun-fc` 提供 Node HTTP handler 和可直接启动的自定义运行时入口：
+阿里云 FC adapter 由仓库内 `packages/aliyun-fc/src/index.ts` 提供 Node HTTP handler 和可直接启动的自定义运行时入口：
 
 ```ts
-import { startAliyunFc } from "@itxtech/fdnext-aliyun-fc";
+import { startAliyunFc } from "./packages/aliyun-fc/src/index";
 
 startAliyunFc();
 ```

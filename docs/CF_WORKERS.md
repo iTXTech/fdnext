@@ -142,12 +142,12 @@ curl 'https://<worker>.<account>.workers.dev/parts/search?query=MT29'
 
 ## 8. 自定义 External Link
 
-默认入口不会注入 External Link provider。如果部署环境需要对结果追加平台侧链接，可以维护一个自定义 Worker 入口，并把 `wrangler.jsonc` 的 `main` 指向该入口构建后的文件。
+默认入口不会注入 External Link provider。如果部署环境需要对结果追加平台侧链接，可以维护一个自定义 Worker 源码入口，并把 `wrangler.jsonc` 的 `main` 指向该入口。
 
 示例：
 
 ```ts
-import { createCfWorkersAdapter } from "@itxtech/fdnext-cf-workers";
+import { createCfWorkersAdapter } from "./packages/cf-workers/src/index";
 import type { ExternalLinkProvider } from "@itxtech/fdnext-core/runtime";
 
 const productPageLinks: ExternalLinkProvider = {
