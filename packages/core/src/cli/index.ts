@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { createEngine, type ControllerGroupSelection } from "../index";
 import { checkDecodePack, defaultDecodePack, explainIdentifierDecode, explainPartDecode } from "../decodepack";
 

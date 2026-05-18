@@ -23,9 +23,10 @@
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
     "types": ["node"],
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true
   },
-  "include": ["scripts/**/*.ts"]
+  "include": ["build.config.ts", "packages/core/tsdown.config.ts", "packages/server/tsdown.config.ts", "packages/fdbgen/tsdown.config.ts"]
 }

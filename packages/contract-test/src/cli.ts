@@ -1,4 +1,4 @@
-import { runContractChecks } from "../packages/contract-test/src/index";
+import { runContractChecks } from "./index";
 
 const summary = runContractChecks();
 

@@ -24,7 +24,7 @@ pnpm dlx wrangler login
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "fdnext",
-  "main": "packages/cf-workers/dist/index.js",
+  "main": "packages/cf-workers/src/index.ts",
   "compatibility_date": "2026-05-10",
   "workers_dev": true,
   "minify": true,
@@ -39,8 +39,8 @@ pnpm dlx wrangler login
 
 关键点：
 
-- `main` 指向已打包的 Worker 入口，不直接让 Wrangler 解析 monorepo TypeScript 路径。
-- `build.command` 会先构建 `@itxtech/fdnext-core`，再构建 Cloudflare Workers adapter。这个配置适用于本地 `wrangler dev/deploy`。
+- `main` 指向 Worker 源码入口，由 Wrangler 负责最终 Worker bundle；仓库只预构建会发布给 npm 的 core 包。
+- `build.command` 会先构建 `@itxtech/fdnext-core`，再对 Cloudflare Workers adapter 做类型检查。这个配置适用于本地 `wrangler dev/deploy`。
 - `vars.FDNEXT_CORS_ORIGINS` 控制 CORS 允许的来源。当前仓库配置限制为 `https://fm.itxtech.org,https://fm.imlxy.net`；如需公开 API，可显式改成 `*`。
 - 当前 Worker 不需要 `nodejs_compat`，入口只依赖 Web Fetch API。
 - 默认打开 `workers_dev`，可以直接部署到 `*.workers.dev`；如果要绑定生产域名，在该配置中添加 `route` / `routes` 或在 Cloudflare 控制台绑定后保持 Wrangler 配置同步。

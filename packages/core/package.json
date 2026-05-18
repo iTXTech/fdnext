@@ -52,7 +52,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
-    "build": "rm -rf dist && tsc -b --emitDeclarationOnly && tsx ../../scripts/bundle-package.ts",
+    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly && tsdown",
     "test": "tsx test/result-contract.test.ts && tsx test/cli/decodepack.test.ts && tsx --test 'test/decodepack/*.test.ts'",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   }

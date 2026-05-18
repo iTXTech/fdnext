@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { startAliyunFc } from "./index";
 
 const server = startAliyunFc();

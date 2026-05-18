@@ -9,7 +9,8 @@
     "@itxtech/fdnext-core": "workspace:*"
   },
   "scripts": {
-    "build": "tsc -b --emitDeclarationOnly && tsx ../../scripts/bundle-package.ts",
+    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly",
+    "check": "tsx src/cli.ts",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
     "test": "tsx test/contract.test.ts"
   }

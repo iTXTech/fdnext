@@ -15,7 +15,7 @@
     "fdnext-fdbgen": "dist/cli.js"
   },
   "scripts": {
-    "build": "tsc -b --emitDeclarationOnly && tsx ../../scripts/bundle-package.ts",
+    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly && tsdown",
     "test": "tsx --test test/**/*.test.ts",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   },

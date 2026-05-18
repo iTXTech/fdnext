@@ -7,7 +7,7 @@ RUN corepack enable
 # Workspace manifests (required: build context must be repo root)
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY tsconfig.base.json tsconfig.json ./
-COPY scripts/bundle-package.ts ./scripts/bundle-package.ts
+COPY build.config.ts ./
 COPY packages/core ./packages/core
 COPY packages/server ./packages/server
 

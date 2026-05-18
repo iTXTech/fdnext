@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { resolve } from "node:path";
 import { createHttpServer } from "./index";
 
