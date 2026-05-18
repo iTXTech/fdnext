@@ -641,11 +641,28 @@
             "dram_die_stack": "4 dies, 2 CS",
             "die_count": 4,
             "ce_count": 2
+          },
+          "6AN:M": {
+            "dram_die_stack": "1 die",
+            "die_count": 1
+          },
+          "6AN:T": {
+            "dram_die_stack": "2 dies",
+            "die_count": 2
+          },
+          "6AN:F": {
+            "dram_die_stack": "4 dies",
+            "die_count": 4
           }
         },
         "lowPowerBaseObj": {
           "6CL": {
             "interface_type": "HSUL_12",
+            "bank_count": 8,
+            "solder_type": "Lead-free RoHS compliant and Halogen-free"
+          },
+          "6AN": {
+            "interface_type": "LVSTL",
             "bank_count": 8,
             "solder_type": "Lead-free RoHS compliant and Halogen-free"
           }
@@ -659,10 +676,19 @@
           },
           "6CL:D": {
             "die_revision": "4th version"
+          },
+          "6AN:A": {
+            "die_revision": "1st version"
           }
         },
         "channelObj": {
           "6CL:64": {
+            "channel_count": 2
+          },
+          "6AN:16": {
+            "channel_count": 1
+          },
+          "6AN:32": {
             "channel_count": 2
           }
         },
@@ -678,7 +704,7 @@
           "6CL:DM": "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
           "6CL:DR": "216-ball 2-CH PoP-FBGA (12.00x12.00x0.83mm, 0.40mm pitch)",
           "6AN:AC": "200-ball BGA",
-          "6AN:AV": "200-ball BGA",
+          "6AN:AV": "200-ball FBGA",
           "6AN:DV": "200-ball BGA",
           "6AP:AV": "200-ball BGA",
           "6AP:BL": "200-ball BGA",
@@ -688,6 +714,15 @@
           "6AT:DV": "200-ball BGA",
           "6AT:DN": "376-ball PoP",
           "6BR:A3": "315-ball BGA"
+        },
+        "configPackageActual": {
+          "6AN:128M16:AV": "200-ball FBGA (10.00x15.00x0.83mm, 0.65/0.80mm mixed pitch)",
+          "6AN:128T32:AV": "200-ball FBGA (10.00x15.00x0.83mm, 0.65/0.80mm mixed pitch)",
+          "6AN:256M16:AV": "200-ball FBGA (10.00x15.00x0.83mm, 0.65/0.80mm mixed pitch)",
+          "6AN:256T32:AV": "200-ball FBGA (10.00x15.00x0.83mm, 0.65/0.80mm mixed pitch)",
+          "6AN:512M16:AV": "200-ball FBGA (10.00x15.00x1.00mm, 0.65/0.80mm mixed pitch)",
+          "6AN:512T32:AV": "200-ball FBGA (10.00x15.00x1.00mm, 0.65/0.80mm mixed pitch)",
+          "6AN:1024F32:AV": "200-ball FBGA (10.00x15.00x1.20mm, 0.65/0.80mm mixed pitch)"
         },
         "speedObj": {
           "6TL:G0": {
@@ -709,10 +744,14 @@
             "speed_grade": "H2 1600Mbps @ RL=12"
           },
           "6AN:J1": {
-            "dram_speed": "LPDDR4-4267"
+            "dram_speed": "LPDDR4-4267",
+            "cas_latency": 36,
+            "speed_grade": "J1 0.468ns @ RL=36"
           },
           "6AN:J2": {
-            "dram_speed": "LPDDR4-3733"
+            "dram_speed": "LPDDR4-3733",
+            "cas_latency": 32,
+            "speed_grade": "J2 0.535ns @ RL=32"
           },
           "6AP:J1": {
             "dram_speed": "LPDDR4X-4267"
@@ -731,6 +770,18 @@
           "6BR:K3": {
             "dram_type": "LPDDR5",
             "dram_speed": "LPDDR5-6400"
+          }
+        },
+        "configSpeedObj": {
+          "6AN:128M16:J3": {
+            "dram_speed": "LPDDR4-3200",
+            "cas_latency": 28,
+            "speed_grade": "J3 0.625ns @ RL=28"
+          },
+          "6AN:128T32:J3": {
+            "dram_speed": "LPDDR4-3200",
+            "cas_latency": 28,
+            "speed_grade": "J3 0.625ns @ RL=28"
           }
         },
         "gradeObj": {
@@ -905,8 +956,26 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
+          "to": "genericPackage",
           "default": "Unknown"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{configCode}}:{{packageCode}}",
+          "to": "configPackageKey"
+        },
+        {
+          "op": "map",
+          "from": "configPackageKey",
+          "table": "configPackageActual",
+          "to": "configPackage",
+          "default": null
+        },
+        {
+          "op": "fallback",
+          "primary": "configPackage",
+          "secondary": "genericPackage",
+          "to": "package"
         },
         {
           "op": "tpl",
@@ -939,8 +1008,26 @@
           "op": "map",
           "from": "speedKey",
           "table": "speedObj",
-          "to": "speedObj",
+          "to": "genericSpeedObj",
           "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{configCode}}:{{speedCode}}",
+          "to": "configSpeedKey"
+        },
+        {
+          "op": "map",
+          "from": "configSpeedKey",
+          "table": "configSpeedObj",
+          "to": "configSpeedObj",
+          "default": null
+        },
+        {
+          "op": "fallback",
+          "primary": "configSpeedObj",
+          "secondary": "genericSpeedObj",
+          "to": "speedObj"
         },
         {
           "op": "take",

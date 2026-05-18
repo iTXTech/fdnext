@@ -725,6 +725,42 @@
   },
   {
     "vendor": "nanya",
+    "pn": "NT6AN128M16AV-J2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6AN128M16AV-J3"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6AN128T32AV-J2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6AN128T32AV-J3"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6AN256M16AV-J1"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6AN256M16AV-J2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6AN256T32AV-J2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6AN512M16AV-J2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6AN512T32AV-J2"
+  },
+  {
+    "vendor": "nanya",
     "pn": "NT5CB128M8GN-DI"
   },
   {

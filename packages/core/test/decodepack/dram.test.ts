@@ -4260,6 +4260,103 @@ assertDram("NT6CL128T64DR-H1", {
   }
 });
 
+assertDram("NT6AN128M16AV-J3", {
+  vendor: "nanya",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "200-ball FBGA (10.00x15.00x0.83mm, 0.65/0.80mm mixed pitch)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Die Stack": "1 die",
+    "Package Code": "AV",
+    "Config Code": "128M16",
+    "DRAM Speed": "LPDDR4-3200",
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "Channel Count": 1,
+    "Interface Type": "LVSTL",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "1st version",
+    "CAS Latency": 28,
+    "Speed Grade": "J3 0.625ns @ RL=28"
+  }
+});
+
+assertDram("NT6AN128T32AV-J2", {
+  vendor: "nanya",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "200-ball FBGA (10.00x15.00x0.83mm, 0.65/0.80mm mixed pitch)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Die Stack": "2 dies",
+    "Package Code": "AV",
+    "Config Code": "128T32",
+    "DRAM Speed": "LPDDR4-3733",
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "Channel Count": 2,
+    "Interface Type": "LVSTL",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "1st version",
+    "CAS Latency": 32,
+    "Speed Grade": "J2 0.535ns @ RL=32"
+  }
+});
+
+assertDram("NT6AN512T32AV-J2", {
+  vendor: "nanya",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "200-ball FBGA (10.00x15.00x1.00mm, 0.65/0.80mm mixed pitch)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Die Stack": "2 dies",
+    "Package Code": "AV",
+    "Config Code": "512T32",
+    "DRAM Speed": "LPDDR4-3733",
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "Channel Count": 2,
+    "Interface Type": "LVSTL",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "1st version",
+    "CAS Latency": 32,
+    "Speed Grade": "J2 0.535ns @ RL=32"
+  }
+});
+
+assertDram("NT6AN1024F32AV-J2", {
+  vendor: "nanya",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "200-ball FBGA (10.00x15.00x1.20mm, 0.65/0.80mm mixed pitch)",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Die Stack": "4 dies",
+    "Package Code": "AV",
+    "Config Code": "1024F32",
+    "DRAM Speed": "LPDDR4-3733",
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "Channel Count": 2,
+    "Interface Type": "LVSTL",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "1st version",
+    "CAS Latency": 32,
+    "Speed Grade": "J2 0.535ns @ RL=32"
+  }
+});
+assertDecodedFieldAbsent("NT6AN256M16AV-J3", "dram_speed");
+
 assertDram("NT6AP256F64BN-J1", {
   vendor: "nanya",
   densityMbit: 16384,
@@ -5027,6 +5124,10 @@ assertSearchPnIncludes("NT5FF2048M8DK", "Nanya NT5FF2048M8DK-UB");
 assertSearchPnIncludes("NT6CL512T32", "Nanya NT6CL512T32AM-H0");
 assertSearchPnIncludes("NT6CL128M32BQ", "Nanya NT6CL128M32BQ-H1");
 assertSearchPnIncludes("NT6CL128T64DR", "Nanya NT6CL128T64DR-H1");
+assertSearchPnIncludes("NT6AN128M16AV-J3", "Nanya NT6AN128M16AV-J3");
+assertSearchPnIncludes("NT6AN256M16", "Nanya NT6AN256M16AV-J1");
+assertSearchPnIncludes("NT6AN512T32AV-J2", "Nanya NT6AN512T32AV-J2");
+assertSearchPnIncludes("NT6AN1024F32", "Nanya NT6AN1024F32AV-J2");
 assertSearchPnIncludes("NT6AP256F64", "Nanya NT6AP256F64BN-J1");
 assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
 assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");

@@ -1,6 +1,6 @@
 # DRAM 世代覆盖约定
 
-采集日期：2026-05-17
+采集日期：2026-05-18
 
 DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalone DRAM 厂商时，不能只补少量热门 PN；需要先确认该厂商公开资料中可验证的 DDR/SDR、LPDDR、Graphics DRAM 世代，再按结构化 token 建表。
 
@@ -32,6 +32,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-05-18 根据 Samsung LPDDR4/4X ordering diagrams 优化 `K4F/K4U` mobile DRAM token：补齐 8Gb/16Gb/32Gb/64Gb density、Mono/DDP/QDP/2CS organization、8-bank、LVSTL_11/LVSTLE_06、generation 与 exact PN 种子，并保持 `K4U` LPDDR4X ordering 优先于 legacy GDDR4 `K4U` 规则。
 - 2026-05-18 根据 Nanya DDR4 8Gb C-Die / 4Gb E-Die ordering 截图补齐 `NT5AD` DDR4 的 C/E die revision、VDD/VDDQ/VPP、电压与速度时序、TFBGA 封装尺寸、bank count、温度 grade，并把 ordering table 中的 C/E exact PN 加入 `dram-pn.json`。
 - 2026-05-18 根据 Nanya LPDDR3 4Gb / 8Gb / 16Gb / 32Gb ordering 截图补齐 `NT6CL` 的 A/B/D device version、M/P/Q/R package、H0/H1/H2 speed + RL、DDP/QDP CS、x64 2-channel 组合，并把 ordering table 中的 exact PN 加入 `dram-pn.json`。
+- 2026-05-18 根据 Nanya LPDDR4 2Gb / 4Gb、4Gb / 8Gb、8Gb / 16Gb / 32Gb ordering 截图补齐 `NT6AN` 的 LVSTL、A version、M/T/F die、x16/x32 channel、200-ball FBGA 厚度差异、J1/J2/J3 speed + RL，并把 ordering table 中的 exact PN 加入 `dram-pn.json`。
 
 ## 当前覆盖进度
 
