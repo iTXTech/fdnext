@@ -7124,22 +7124,77 @@ assertDram("EM6OF08NWALE", {
   absentExtra: ["DRAM Die Stack"]
 });
 
+assertDram("EM6KA32HVAFA-18H", {
+  vendor: "etron",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
+  package: "134-ball 10 x 11.5 x 1.0mm FBGA",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "DRAM Speed": "LPDDR2-1066 (533MHz)",
+    "Interface Type": "HSUL_12",
+    "Bank Count": 4,
+    "Operation Temperature": "Commercial (-25C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
 assertDram("EM6PF32MBAJB", {
   vendor: "etron",
   densityMbit: 8192,
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "200-ball 10 x 14.5 x 1.1mm FBGA",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Package Code": "BAJB",
     "Config Code": "F32M",
-    "DRAM Speed": "LPDDR4/4X 4266/3733/3200MHz",
+    "DRAM Speed": "LPDDR4/LPDDR4X 4266/3733/3200MHz",
+    "Channel Count": 2,
+    "Bank Count": 8,
     "Operation Temperature": "Commercial (0C~85C)"
   },
   absentExtra: ["DRAM Die Stack"]
 });
+
+assertDram("EM6PF32MBAJB-46SH", {
+  vendor: "etron",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "200-ball 10 x 14.5 x 1.1mm FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266 (2133MHz)",
+    "DRAM Die Stack": "2 dies",
+    "Channel Count": 2,
+    "Bank Count": 8,
+    "Operation Temperature": "Commercial (-25C~85C)"
+  }
+});
+
+assertDram("EM6LE16MVAJA-62BPH", {
+  vendor: "etron",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "200-ball 10 x 14.5 x 0.8mm FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "LPDDR4-3200 (1600MHz)",
+    "Channel Count": 1,
+    "Bank Count": 8,
+    "Operation Temperature": "Automotive A2 (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDecodedFieldAbsent("EM6PF32MBAJB-99H", "dram_speed");
 
 assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC32");
 assertSearchPnIncludes("K4UBE3D4AA", "Samsung K4UBE3D4AA-MGCL");
@@ -7423,7 +7478,9 @@ assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A");
 assertSearchPnIncludes("M56Z8G32256A-SM", "ESMT M56Z8G32256A-SMBYIG");
 assertSearchPnIncludes("M56Z8G32256A-TN", "ESMT M56Z8G32256A-TNBYG2H");
 assertSearchPnIncludes("EM6OF08", "Etron EM6OF08NWALE");
-assertSearchPnIncludes("EM6PF32", "Etron EM6PF32MBAJB");
+assertSearchPnIncludes("EM6KA32HVAFA-18", "Etron EM6KA32HVAFA-18H");
+assertSearchPnIncludes("EM6PF32", "Etron EM6PF32MBAJB-46SH");
+assertSearchPnIncludes("EM6LE16MVAJA-62B", "Etron EM6LE16MVAJA-62BPH");
 assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
 assertSearchPnIncludes("H5CG44AGBDX018", "SKhynix H5CG44AGBDX018N");
 assertSearchPnIncludes("H5CG44AEBD", "SKhynix H5CG44AEBD");

@@ -41,6 +41,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-05-18 根据 Winbond 2026 PSG 与用户提供的 ordering 表新增 `W94` DDR 与 `W97` DDR2 token：覆盖 DDR 128Mb/256Mb x16 TSOP、DDR2 128Mb/256Mb/1Gb/2Gb x8/x16 TFBGA、4-bank / 8-bank、speed/timing suffix 与温度等级，并把对应 PN 加入 `dram-pn.json`。
 - 2026-05-18 根据 Winbond LPDDR4/LPDDR4X datasheet 与 ordering 表补齐 `W66AP6NB`、`W66AQ6NB`、`W66BP2NQ`、`W66BQ2NQ` 基础 family，以及 `W66BP6RB` / `W66CP2RQ` LPDDR4/4X Combo：base PN 加入 `dram-pn.json`，combo 输出 VDDQ=1.1V LPDDR4 mode / VDDQ=0.6V LPDDR4X mode 与 `LPDDR4/4X-*` speed。
 - 2026-05-18 根据用户提供的 Winbond LPDDR / LPDDR2 / LPDDR3 datasheet 补齐 `W948/W949/W94AD`、`W978/W979/W97AH`、`W639/W63AH` token：覆盖 256Mb~1Gb、x16/x32、4-bank / 8-bank 与 LPDDR3 2-bank、VFBGA60/90/134/178、速度和 E/I 温度档，并把 ordering table 中的 base / exact PN 加入 `dram-pn.json`。
+- 2026-05-19 根据用户提供的 Etron LPDDR2 / LPDDR4 / LPDDR4X datasheet 截图补齐 `EM6K` LPDDR2 token，并把 Etron LPDDR4/4X 补全项从页眉式 family PN 清理为带 speed suffix 的标准 ordering PN；带 speed token 的 PN 只输出具体速率，不输出 family 级速度范围。
 
 ## 当前覆盖进度
 

@@ -8169,91 +8169,179 @@
   },
   {
     "vendor": "etron",
-    "pn": "EM6LD16MVAJA"
+    "pn": "EM6KA32HVAFA-18H"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LE16MBAJB"
+    "pn": "EM6KA32HVAFA-25H"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LE16MVAJA"
+    "pn": "EM6KA32HVAFA-3H"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LE32MVAJA"
+    "pn": "EM6LD16MVAJA-08PH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LF32MBAJB"
+    "pn": "EM6LD16MVAJA-62PH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LF32MVAJA"
+    "pn": "EM6LE32MVAJA-08PH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LF32MVAPC"
+    "pn": "EM6LE32MVAJA-62PH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LG16MVAJB"
+    "pn": "EM6LE16MVAJA-08PH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LG32MVAJB"
+    "pn": "EM6LE16MVAJA-62PH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LG32MVAPD"
+    "pn": "EM6LF32MVAJA-08PSH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LH32MBAPD"
+    "pn": "EM6LF32MVAJA-62PSH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6LH32MVAJA"
+    "pn": "EM6LD16MVAJA-08IPH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6PD16MVAJA"
+    "pn": "EM6LD16MVAJA-62IPH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6PE16MBAJB"
+    "pn": "EM6LE32MVAJA-08IPH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6PE16MVAJA"
+    "pn": "EM6LE32MVAJA-62IPH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6PE32MVAJA"
+    "pn": "EM6LE16MVAJA-08IPH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6PF32MBAJB"
+    "pn": "EM6LE16MVAJA-62IPH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6PF32MVAJA"
+    "pn": "EM6LF32MVAJA-08IPSH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6PG32MVAJB"
+    "pn": "EM6LF32MVAJA-62IPSH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6PG32MVAPD"
+    "pn": "EM6LD16MVAJA-08BPH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6PH32MBAPD"
+    "pn": "EM6LD16MVAJA-62BPH"
   },
   {
     "vendor": "etron",
-    "pn": "EM6PH32MVAJA"
+    "pn": "EM6LE32MVAJA-08BPH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LE32MVAJA-62BPH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LE16MVAJA-08BPH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LE16MVAJA-62BPH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LF32MVAJA-08BPSH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LF32MVAJA-62BPSH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LH32MVAJA-53SH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LG32MVAJB-53H"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LG16MVAJB-53H"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LF32MBAJB-46SH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LF32MBAJB-53SH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LF32MBAJB-62SH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LE16MBAJB-46H"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LE16MBAJB-53H"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6LE16MBAJB-62H"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PH32MVAJA-46SH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PG32MVAJB-46H"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PF32MBAJB-46SH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PF32MBAJB-53SH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PF32MBAJB-62SH"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PE16MBAJB-46H"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PE16MBAJB-53H"
+  },
+  {
+    "vendor": "etron",
+    "pn": "EM6PE16MBAJB-62H"
   },
   {
     "vendor": "gigadevice",

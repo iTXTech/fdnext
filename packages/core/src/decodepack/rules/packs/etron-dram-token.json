@@ -999,6 +999,161 @@
     }
   },
   {
+    "id": "vendor.etron.dram.lpddr2.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^EM6K[A-Z](?:16|32)HVAF[A-Z]-[0-9]{1,2}H$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "EM6K"
+      ],
+      "tables": {
+        "density": {
+          "A": 256
+        },
+        "deviceWidth": {
+          "16": 16,
+          "32": 32
+        },
+        "package": {
+          "VAF": "134-ball 10 x 11.5 x 1.0mm FBGA"
+        },
+        "speedObj": {
+          "18H": {
+            "dram_speed": "LPDDR2-1066 (533MHz)"
+          },
+          "25H": {
+            "dram_speed": "LPDDR2-800 (400MHz)"
+          },
+          "3H": {
+            "dram_speed": "LPDDR2-667 (333MHz)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "interfaceCode"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "packageToken"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^-([0-9]{1,2}H)$",
+          "to": "suffixCode",
+          "groups": {
+            "suffixCode": 1
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "packageToken",
+          "table": "package",
+          "to": "package",
+          "default": "134-ball FBGA"
+        },
+        {
+          "op": "map",
+          "from": "suffixCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR2",
+            "interface_type": "HSUL_12",
+            "bank_count": 4,
+            "operation_temperature": "Commercial (-25C~85C)"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "etron",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.etron.dram.lpddr2.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
     "id": "vendor.etron.dram.lpddr4.component.v1",
     "priority": 1010,
     "normalize": [
@@ -1016,7 +1171,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^EM6[LP][DEFGH](?:16|32)M[0-9A-Z]+$"
+      "value": "^EM6[LP][DEFGH](?:16|32)M[0-9A-Z]{4}(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -1046,15 +1201,217 @@
           "16": 16,
           "32": 32
         },
-        "speedObj": {
+        "channelCount": {
+          "16": 1,
+          "32": 2
+        },
+        "package": {
+          "VAJ": "200-ball 10 x 14.5 x 0.8mm FBGA",
+          "BAJ": "200-ball 10 x 14.5 x 1.1mm FBGA",
+          "VAP": "200-ball FBGA",
+          "BAP": "200-ball FBGA"
+        },
+        "baseSpeedObj": {
           "BAJB": {
-            "dram_speed": "LPDDR4/4X 4266/3733/3200MHz"
+            "dram_speed": "LPDDR4/LPDDR4X 4266/3733/3200MHz"
+          },
+          "VAJA": {
+            "dram_speed": "LPDDR4/LPDDR4X 3200/2400MHz"
           },
           "VAPC": {
-            "dram_speed": "LPDDR4/4X 4266/3733MHz"
+            "dram_speed": "LPDDR4/LPDDR4X 4266/3733MHz"
           },
           "VAPD": {
-            "dram_speed": "LPDDR4/4X 4266/3733MHz"
+            "dram_speed": "LPDDR4/LPDDR4X 4266/3733MHz"
+          }
+        },
+        "speedObj": {
+          "L:": null,
+          "P:": null,
+          "L:46H": {
+            "dram_speed": "LPDDR4-4266 (2133MHz)"
+          },
+          "L:46SH": {
+            "dram_speed": "LPDDR4-4266 (2133MHz)"
+          },
+          "L:53H": {
+            "dram_speed": "LPDDR4-3733 (1866MHz)"
+          },
+          "L:53SH": {
+            "dram_speed": "LPDDR4-3733 (1866MHz)"
+          },
+          "L:62H": {
+            "dram_speed": "LPDDR4-3200 (1600MHz)"
+          },
+          "L:62SH": {
+            "dram_speed": "LPDDR4-3200 (1600MHz)"
+          },
+          "P:46H": {
+            "dram_speed": "LPDDR4X-4266 (2133MHz)"
+          },
+          "P:46SH": {
+            "dram_speed": "LPDDR4X-4266 (2133MHz)"
+          },
+          "P:53H": {
+            "dram_speed": "LPDDR4X-3733 (1866MHz)"
+          },
+          "P:53SH": {
+            "dram_speed": "LPDDR4X-3733 (1866MHz)"
+          },
+          "P:62H": {
+            "dram_speed": "LPDDR4X-3200 (1600MHz)"
+          },
+          "P:62SH": {
+            "dram_speed": "LPDDR4X-3200 (1600MHz)"
+          },
+          "L:08PH": {
+            "dram_speed": "LPDDR4-2400 (1200MHz)"
+          },
+          "L:08IPH": {
+            "dram_speed": "LPDDR4-2400 (1200MHz)"
+          },
+          "L:08BPH": {
+            "dram_speed": "LPDDR4-2400 (1200MHz)"
+          },
+          "L:08PSH": {
+            "dram_speed": "LPDDR4-2400 (1200MHz)"
+          },
+          "L:08IPSH": {
+            "dram_speed": "LPDDR4-2400 (1200MHz)"
+          },
+          "L:08BPSH": {
+            "dram_speed": "LPDDR4-2400 (1200MHz)"
+          },
+          "L:62PH": {
+            "dram_speed": "LPDDR4-3200 (1600MHz)"
+          },
+          "L:62IPH": {
+            "dram_speed": "LPDDR4-3200 (1600MHz)"
+          },
+          "L:62BPH": {
+            "dram_speed": "LPDDR4-3200 (1600MHz)"
+          },
+          "L:62PSH": {
+            "dram_speed": "LPDDR4-3200 (1600MHz)"
+          },
+          "L:62IPSH": {
+            "dram_speed": "LPDDR4-3200 (1600MHz)"
+          },
+          "L:62BPSH": {
+            "dram_speed": "LPDDR4-3200 (1600MHz)"
+          },
+          "P:08PH": {
+            "dram_speed": "LPDDR4X-2400 (1200MHz)"
+          },
+          "P:08IPH": {
+            "dram_speed": "LPDDR4X-2400 (1200MHz)"
+          },
+          "P:08BPH": {
+            "dram_speed": "LPDDR4X-2400 (1200MHz)"
+          },
+          "P:08PSH": {
+            "dram_speed": "LPDDR4X-2400 (1200MHz)"
+          },
+          "P:08IPSH": {
+            "dram_speed": "LPDDR4X-2400 (1200MHz)"
+          },
+          "P:08BPSH": {
+            "dram_speed": "LPDDR4X-2400 (1200MHz)"
+          },
+          "P:62PH": {
+            "dram_speed": "LPDDR4X-3200 (1600MHz)"
+          },
+          "P:62IPH": {
+            "dram_speed": "LPDDR4X-3200 (1600MHz)"
+          },
+          "P:62BPH": {
+            "dram_speed": "LPDDR4X-3200 (1600MHz)"
+          },
+          "P:62PSH": {
+            "dram_speed": "LPDDR4X-3200 (1600MHz)"
+          },
+          "P:62IPSH": {
+            "dram_speed": "LPDDR4X-3200 (1600MHz)"
+          },
+          "P:62BPSH": {
+            "dram_speed": "LPDDR4X-3200 (1600MHz)"
+          }
+        },
+        "suffixMetaObj": {
+          "46H": {
+            "operation_temperature": "Commercial (-25C~85C)"
+          },
+          "46SH": {
+            "operation_temperature": "Commercial (-25C~85C)",
+            "dram_die_stack": "2 dies"
+          },
+          "53H": {
+            "operation_temperature": "Commercial (-25C~85C)"
+          },
+          "53SH": {
+            "operation_temperature": "Commercial (-25C~85C)",
+            "dram_die_stack": "2 dies"
+          },
+          "62H": {
+            "operation_temperature": "Commercial (-25C~85C)"
+          },
+          "62SH": {
+            "operation_temperature": "Commercial (-25C~85C)",
+            "dram_die_stack": "2 dies"
+          },
+          "08PH": {
+            "operation_temperature": "Commercial (0C~85C)",
+            "ecc_enabled": true
+          },
+          "08IPH": {
+            "operation_temperature": "Industrial (-40C~85C)",
+            "ecc_enabled": true
+          },
+          "08BPH": {
+            "operation_temperature": "Automotive A2 (-40C~105C)",
+            "ecc_enabled": true
+          },
+          "08PSH": {
+            "operation_temperature": "Commercial (0C~85C)",
+            "ecc_enabled": true,
+            "dram_die_stack": "2 dies"
+          },
+          "08IPSH": {
+            "operation_temperature": "Industrial (-40C~85C)",
+            "ecc_enabled": true,
+            "dram_die_stack": "2 dies"
+          },
+          "08BPSH": {
+            "operation_temperature": "Automotive A2 (-40C~105C)",
+            "ecc_enabled": true,
+            "dram_die_stack": "2 dies"
+          },
+          "62PH": {
+            "operation_temperature": "Commercial (0C~85C)",
+            "ecc_enabled": true
+          },
+          "62IPH": {
+            "operation_temperature": "Industrial (-40C~85C)",
+            "ecc_enabled": true
+          },
+          "62BPH": {
+            "operation_temperature": "Automotive A2 (-40C~105C)",
+            "ecc_enabled": true
+          },
+          "62PSH": {
+            "operation_temperature": "Commercial (0C~85C)",
+            "ecc_enabled": true,
+            "dram_die_stack": "2 dies"
+          },
+          "62IPSH": {
+            "operation_temperature": "Industrial (-40C~85C)",
+            "ecc_enabled": true,
+            "dram_die_stack": "2 dies"
+          },
+          "62BPSH": {
+            "operation_temperature": "Automotive A2 (-40C~105C)",
+            "ecc_enabled": true,
+            "dram_die_stack": "2 dies"
           }
         }
       },
@@ -1081,10 +1438,12 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([0-9A-Z]+)$",
-          "to": "packageCode",
+          "pattern": "^([0-9A-Z]{3})([0-9A-Z])(?:-([0-9A-Z]+))?$",
+          "to": "packageToken",
           "groups": {
-            "packageCode": 1
+            "packageToken": 1,
+            "generationCode": 2,
+            "suffixCode": 3
           },
           "default": ""
         },
@@ -1118,39 +1477,76 @@
         },
         {
           "op": "map",
-          "from": "packageCode",
+          "from": "widthCode",
+          "table": "channelCount",
+          "to": "channelCount",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "packageToken",
+          "table": "package",
+          "to": "package",
+          "default": "200-ball FBGA"
+        },
+        {
+          "op": "tpl",
+          "template": "{{packageToken}}{{generationCode}}",
+          "to": "baseSpeedKey"
+        },
+        {
+          "op": "map",
+          "from": "baseSpeedKey",
+          "table": "baseSpeedObj",
+          "to": "baseSpeedObj",
+          "default": null
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{suffixCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
           "table": "speedObj",
           "to": "speedOverrideObj",
-          "default": null
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "suffixCode",
+          "table": "suffixMetaObj",
+          "to": "suffixMetaObj",
+          "default": {}
+        },
+        {
+          "op": "fallback",
+          "primary": "speedOverrideObj",
+          "secondary": "baseSpeedObj",
+          "to": "speedChoiceObj"
         },
         {
           "op": "set",
           "to": "defaultSpeedObj",
           "value": {
-            "dram_speed": "LPDDR4/4X 3200/2400MHz"
+            "dram_speed": "LPDDR4/LPDDR4X 3200/2400MHz"
           }
         },
         {
           "op": "fallback",
-          "primary": "speedOverrideObj",
+          "primary": "speedChoiceObj",
           "secondary": "defaultSpeedObj",
           "to": "speedObj"
-        },
-        {
-          "op": "tpl",
-          "template": "{{densityCode}}{{widthCode}}M",
-          "to": "configCode"
         },
         {
           "op": "set",
           "to": "extra",
           "value": {
-            "config_code": {
-              "$var": "configCode"
+            "channel_count": {
+              "$var": "channelCount"
             },
-            "package_code": {
-              "$var": "packageCode"
-            },
+            "bank_count": 8,
             "operation_temperature": "Commercial (0C~85C)"
           }
         },
@@ -1163,6 +1559,11 @@
           "op": "merge",
           "into": "extra",
           "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "suffixMetaObj"
         }
       ],
       "assign": {
@@ -1184,7 +1585,9 @@
         "fields.dram_voltage": {
           "$var": "voltage"
         },
-        "fields.package": "200-ball FBGA",
+        "fields.package": {
+          "$var": "package"
+        },
         "meta.ruleId": "vendor.etron.dram.lpddr4.component.v1",
         "meta.fieldProfile": "dram",
         "meta.capabilities": [
