@@ -28,5 +28,11 @@
     "noUncheckedIndexedAccess": true,
     "noImplicitOverride": true
   },
-  "include": ["build.config.ts", "packages/core/tsdown.config.ts", "packages/server/tsdown.config.ts", "packages/fdbgen/tsdown.config.ts"]
+  "include": [
+    "build.config.ts",
+    "packages/core/tsdown.config.ts",
+    "packages/server/tsdown.config.ts",
+    "packages/fdbgen/tsdown.config.ts",
+    "packages/cf-workers/tsdown.config.ts"
+  ]
 }

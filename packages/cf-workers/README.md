@@ -57,6 +57,8 @@ FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
 - `*` — allow all origins
 - Multi-origin — comma/space separated, matched exactly against request `Origin`
 
+For Cloudflare Workers Builds, keep the allowlist in the Dashboard if it should not be committed. The root `wrangler.jsonc` sets `keep_vars: true` so automatic deployments preserve existing Dashboard environment variables.
+
 ## Deployment
 
 ```bash

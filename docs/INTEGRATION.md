@@ -227,6 +227,8 @@ Worker env `FDNEXT_CORS_ORIGINS` 可设置为 `*` 或多个 origin，例如：
 FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
 ```
 
+如果使用 Cloudflare Workers Builds 自动部署，并希望 CORS allowlist 只保存在 Cloudflare Dashboard，不进入仓库配置，保留根目录 `wrangler.jsonc` 中的 `keep_vars: true`，不要在 `vars` 中声明同名变量。
+
 ### 4.2 阿里云函数计算 / 自定义运行时
 
 阿里云 FC adapter 由仓库内 `packages/aliyun-fc/src/index.ts` 提供 Node HTTP handler 和可直接启动的自定义运行时入口：

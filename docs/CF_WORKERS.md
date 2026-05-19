@@ -24,13 +24,11 @@ pnpm dlx wrangler login
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "fdnext",
-  "main": "packages/cf-workers/src/index.ts",
+  "main": "packages/cf-workers/dist/index.js",
   "compatibility_date": "2026-05-10",
   "workers_dev": true,
   "minify": true,
-  "vars": {
-    "FDNEXT_CORS_ORIGINS": "https://fm.itxtech.org,https://fm.imlxy.net"
-  },
+  "keep_vars": true,
   "build": {
     "command": "pnpm cf-workers:build"
   }
@@ -39,9 +37,9 @@ pnpm dlx wrangler login
 
 关键点：
 
-- `main` 指向 Worker 源码入口，由 Wrangler 负责最终 Worker bundle；仓库只预构建会发布给 npm 的 core 包。
-- `build.command` 会先构建 `@itxtech/fdnext-core`，再对 Cloudflare Workers adapter 做类型检查。这个配置适用于本地 `wrangler dev/deploy`。
-- `vars.FDNEXT_CORS_ORIGINS` 控制 CORS 允许的来源。当前仓库配置限制为 `https://fm.itxtech.org,https://fm.imlxy.net`；如需公开 API，可显式改成 `*`。
+- `main` 指向 Cloudflare Workers adapter 的构建产物；部署前由 `build.command` 生成。
+- `build.command` 会先构建 `@itxtech/fdnext-core`，再构建 Cloudflare Workers adapter。两层构建都会注入 fdnext 版本、短 commit hash 和 build time，避免 Worker global scope 的 `Date` fallback 把构建时间变成 epoch。
+- `keep_vars` 保留 Cloudflare Dashboard 中配置的 Worker environment variables，避免自动部署时用仓库配置清空远端变量。
 - 当前 Worker 不需要 `nodejs_compat`，入口只依赖 Web Fetch API。
 - 默认打开 `workers_dev`，可以直接部署到 `*.workers.dev`；如果要绑定生产域名，在该配置中添加 `route` / `routes` 或在 Cloudflare 控制台绑定后保持 Wrangler 配置同步。
 
@@ -71,6 +69,8 @@ Worker 运行时变量：
 | Variable | Value |
 | --- | --- |
 | `FDNEXT_CORS_ORIGINS` | `*` 或逗号 / 空格分隔的 origin 列表，例如 `https://app.example.com,https://admin.example.com` |
+
+`FDNEXT_CORS_ORIGINS` 不写入仓库 `wrangler.jsonc`，建议在 Cloudflare Dashboard 的 Worker environment variables 中维护。仓库配置设置了 `keep_vars: true`，因此 Workers Builds 自动部署时不会删除 Dashboard 中已有变量。
 
 `FDNEXT_CORS_ORIGINS=*` 会返回 `Access-Control-Allow-Origin: *`。设置多个域名时，runtime 会按请求的 `Origin` 精确匹配，命中后返回对应 origin，并附带 `Vary: Origin`。
 

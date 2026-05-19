@@ -7,7 +7,7 @@
     "@itxtech/fdnext-core": "workspace:*"
   },
   "scripts": {
-    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly",
+    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly && tsdown",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   }
 }
