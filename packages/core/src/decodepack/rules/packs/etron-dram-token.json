@@ -80,14 +80,6 @@
           "BM": {
             "package": "54-ball FBGA"
           }
-        },
-        "packageCodeObj": {
-          "TS": {
-            "package_code": "TS"
-          },
-          "BM": {
-            "package_code": "BM"
-          }
         }
       },
       "steps": [
@@ -139,28 +131,13 @@
           "to": "packageObj"
         },
         {
-          "op": "map",
-          "from": "packageCode",
-          "table": "packageCodeObj",
-          "to": "packageCodeObj",
-          "default": {}
-        },
-        {
           "op": "set",
           "to": "extra",
           "value": {
             "dram_type": "SDR",
-            "config_code": {
-              "$path": "configObj.config_code"
-            },
             "dram_speed": "SDR 200/166/143MHz",
             "operation_temperature": "Automotive (-40C~105C)"
           }
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "packageCodeObj"
         }
       ],
       "assign": {
@@ -210,7 +187,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^EM6A(?:8160|8320|9160|9320|A160|B080|B160|C160)[0-9A-Z]{3}$"
+      "value": "^EM6A(?:8160|8320|9160|9320|A160|B080|B160|C160)[0-9A-Z]{3}(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -271,19 +248,19 @@
         },
         "packageObj": {
           "BIA": {
-            "package": "144-ball BGA"
+            "package": "144-ball 12 x 12 x 1.4mm BGA"
           },
           "BIB": {
-            "package": "144-ball BGA"
+            "package": "144-ball 12 x 12 x 1.4mm BGA"
           },
           "BKA": {
-            "package": "60-ball FBGA"
+            "package": "60-ball 8 x 13 x 1.2mm FBGA"
           },
           "BKC": {
-            "package": "60-ball FBGA"
+            "package": "60-ball 8 x 13 x 1.2mm FBGA"
           },
           "BKE": {
-            "package": "60-ball FBGA"
+            "package": "60-ball 8 x 13 x 1.2mm FBGA"
           },
           "TSA": {
             "package": "66-pin TSOP II"
@@ -304,51 +281,27 @@
             "package": "66-pin TSOP II"
           },
           "WKB": {
-            "package": "60-ball FBGA"
+            "package": "60-ball 8 x 13 x 1.2mm FBGA"
           },
           "WKE": {
-            "package": "60-ball FBGA"
+            "package": "60-ball 8 x 13 x 1.2mm FBGA"
           }
         },
-        "packageCodeObj": {
-          "BIA": {
-            "package_code": "BIA"
+        "speedObj": {
+          "": {
+            "dram_speed": "DDR 500/400MHz"
           },
-          "BIB": {
-            "package_code": "BIB"
+          "4G": {
+            "dram_speed": "DDR-500 (250MHz)"
           },
-          "BKA": {
-            "package_code": "BKA"
+          "4H": {
+            "dram_speed": "DDR-500 (250MHz)"
           },
-          "BKC": {
-            "package_code": "BKC"
+          "5G": {
+            "dram_speed": "DDR-400 (200MHz)"
           },
-          "BKE": {
-            "package_code": "BKE"
-          },
-          "TSA": {
-            "package_code": "TSA"
-          },
-          "TSC": {
-            "package_code": "TSC"
-          },
-          "TSD": {
-            "package_code": "TSD"
-          },
-          "TSE": {
-            "package_code": "TSE"
-          },
-          "TSH": {
-            "package_code": "TSH"
-          },
-          "TSB": {
-            "package_code": "TSB"
-          },
-          "WKB": {
-            "package_code": "WKB"
-          },
-          "WKE": {
-            "package_code": "WKE"
+          "5H": {
+            "dram_speed": "DDR-400 (200MHz)"
           }
         }
       },
@@ -368,10 +321,11 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([0-9A-Z]{3})$",
+          "pattern": "^([0-9A-Z]{3})(?:-([0-9A-Z]+))?$",
           "to": "packageCode",
           "groups": {
-            "packageCode": 1
+            "packageCode": 1,
+            "suffixCode": 2
           },
           "default": ""
         },
@@ -383,28 +337,29 @@
           "default": {}
         },
         {
-          "op": "map",
-          "from": "packageCode",
-          "table": "packageCodeObj",
-          "to": "packageCodeObj",
-          "default": {}
-        },
-        {
           "op": "set",
           "to": "extra",
           "value": {
             "dram_type": "DDR",
-            "config_code": {
-              "$path": "configObj.config_code"
-            },
-            "dram_speed": "DDR 500/400MHz",
             "operation_temperature": "Commercial (0C~70C)"
           }
         },
         {
+          "op": "tpl",
+          "template": "{{suffixCode}}",
+          "to": "suffixKey"
+        },
+        {
+          "op": "map",
+          "from": "suffixKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
           "op": "merge",
           "into": "extra",
-          "from": "packageCodeObj"
+          "from": "speedObj"
         }
       ],
       "assign": {
@@ -454,7 +409,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^EM68[9ABCD](?:08|16)C[0-9A-Z]{3}$"
+      "value": "^EM68[9ABCD](?:08|16)C[0-9A-Z]{3}(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -480,33 +435,29 @@
           "16": "84-ball FBGA",
           "08": "60-ball FBGA"
         },
-        "packageCodeObj": {
-          "BQD": {
-            "package_code": "BQD"
+        "packagePrecise": {
+          "BQD": "84-ball 8 x 12.5 x 1.2mm FBGA",
+          "BQE": "84-ball 8 x 12.5 x 1.2mm FBGA",
+          "BQC": "84-ball 8 x 12.5 x 1.2mm FBGA",
+          "WQH": "84-ball 8 x 12.5 x 1.2mm FBGA",
+          "WQK": "84-ball 8 x 12.5 x 1.2mm FBGA",
+          "WQL": "84-ball 8 x 12.5 x 1.2mm FBGA",
+          "WQG": "84-ball 8 x 12.5 x 1.2mm FBGA",
+          "WAH": "60-ball 8 x 10 x 1.2mm FBGA",
+          "WAG": "60-ball 8 x 10 x 1.2mm FBGA"
+        },
+        "speedObj": {
+          "": {
+            "dram_speed": "DDR2 1066/800/667MHz"
           },
-          "BQE": {
-            "package_code": "BQE"
+          "18H": {
+            "dram_speed": "DDR2-1066 (533MHz)"
           },
-          "BQC": {
-            "package_code": "BQC"
+          "25H": {
+            "dram_speed": "DDR2-800 (400MHz)"
           },
-          "WAH": {
-            "package_code": "WAH"
-          },
-          "WQH": {
-            "package_code": "WQH"
-          },
-          "WQK": {
-            "package_code": "WQK"
-          },
-          "WQL": {
-            "package_code": "WQL"
-          },
-          "WAG": {
-            "package_code": "WAG"
-          },
-          "WQG": {
-            "package_code": "WQG"
+          "3H": {
+            "dram_speed": "DDR2-667 (333MHz)"
           }
         }
       },
@@ -528,10 +479,11 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([0-9A-Z]{3})$",
+          "pattern": "^([0-9A-Z]{3})(?:-([0-9A-Z]+))?$",
           "to": "packageCode",
           "groups": {
-            "packageCode": 1
+            "packageCode": 1,
+            "suffixCode": 2
           },
           "default": ""
         },
@@ -566,9 +518,15 @@
         {
           "op": "map",
           "from": "packageCode",
-          "table": "packageCodeObj",
-          "to": "packageCodeObj",
-          "default": {}
+          "table": "packagePrecise",
+          "to": "packagePrecise",
+          "default": null
+        },
+        {
+          "op": "fallback",
+          "primary": "packagePrecise",
+          "secondary": "package",
+          "to": "package"
         },
         {
           "op": "tpl",
@@ -580,17 +538,25 @@
           "to": "extra",
           "value": {
             "dram_type": "DDR2",
-            "config_code": {
-              "$var": "configCode"
-            },
-            "dram_speed": "DDR2 1066/800/667MHz",
             "operation_temperature": "Commercial (0C~85C)"
           }
         },
         {
+          "op": "tpl",
+          "template": "{{suffixCode}}",
+          "to": "suffixKey"
+        },
+        {
+          "op": "map",
+          "from": "suffixKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
           "op": "merge",
           "into": "extra",
-          "from": "packageCodeObj"
+          "from": "speedObj"
         }
       ],
       "assign": {
@@ -640,7 +606,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^EM6[GH][BCDEF](?:08|16)E[0-9A-Z]+$"
+      "value": "^EM6[GH][BCDEF](?:08|16)E[0-9A-Z]+(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -675,8 +641,236 @@
           "08": "78-ball FBGA"
         },
         "speedObj": {
-          "W3A": {
-            "dram_speed": "DDR3-2133"
+          "G:": {
+            "dram_speed": "DDR3 1866/1600/1333MHz"
+          },
+          "H:": {
+            "dram_speed": "DDR3L 1866/1600/1333MHz"
+          },
+          "G:10H": {
+            "dram_speed": "DDR3-1866 (933MHz)"
+          },
+          "G:10SH": {
+            "dram_speed": "DDR3-1866 (933MHz)"
+          },
+          "G:10IH": {
+            "dram_speed": "DDR3-1866 (933MHz)"
+          },
+          "G:10ISH": {
+            "dram_speed": "DDR3-1866 (933MHz)"
+          },
+          "G:10AH": {
+            "dram_speed": "DDR3-1866 (933MHz)"
+          },
+          "G:10ASH": {
+            "dram_speed": "DDR3-1866 (933MHz)"
+          },
+          "G:10BH": {
+            "dram_speed": "DDR3-1866 (933MHz)"
+          },
+          "G:10BSH": {
+            "dram_speed": "DDR3-1866 (933MHz)"
+          },
+          "G:12H": {
+            "dram_speed": "DDR3-1600 (800MHz)"
+          },
+          "G:12SH": {
+            "dram_speed": "DDR3-1600 (800MHz)"
+          },
+          "G:12IH": {
+            "dram_speed": "DDR3-1600 (800MHz)"
+          },
+          "G:12ISH": {
+            "dram_speed": "DDR3-1600 (800MHz)"
+          },
+          "G:12AH": {
+            "dram_speed": "DDR3-1600 (800MHz)"
+          },
+          "G:12ASH": {
+            "dram_speed": "DDR3-1600 (800MHz)"
+          },
+          "G:12BH": {
+            "dram_speed": "DDR3-1600 (800MHz)"
+          },
+          "G:12BSH": {
+            "dram_speed": "DDR3-1600 (800MHz)"
+          },
+          "G:15H": {
+            "dram_speed": "DDR3-1333 (667MHz)"
+          },
+          "G:15SH": {
+            "dram_speed": "DDR3-1333 (667MHz)"
+          },
+          "G:15IH": {
+            "dram_speed": "DDR3-1333 (667MHz)"
+          },
+          "G:15ISH": {
+            "dram_speed": "DDR3-1333 (667MHz)"
+          },
+          "G:15AH": {
+            "dram_speed": "DDR3-1333 (667MHz)"
+          },
+          "G:15ASH": {
+            "dram_speed": "DDR3-1333 (667MHz)"
+          },
+          "G:15BH": {
+            "dram_speed": "DDR3-1333 (667MHz)"
+          },
+          "G:15BSH": {
+            "dram_speed": "DDR3-1333 (667MHz)"
+          },
+          "G:09H": {
+            "dram_speed": "DDR3-2133 (1066MHz)"
+          },
+          "G:09SH": {
+            "dram_speed": "DDR3-2133 (1066MHz)"
+          },
+          "G:09IH": {
+            "dram_speed": "DDR3-2133 (1066MHz)"
+          },
+          "G:09ISH": {
+            "dram_speed": "DDR3-2133 (1066MHz)"
+          },
+          "G:09AH": {
+            "dram_speed": "DDR3-2133 (1066MHz)"
+          },
+          "G:09ASH": {
+            "dram_speed": "DDR3-2133 (1066MHz)"
+          },
+          "G:09BH": {
+            "dram_speed": "DDR3-2133 (1066MHz)"
+          },
+          "G:09BSH": {
+            "dram_speed": "DDR3-2133 (1066MHz)"
+          },
+          "H:10H": {
+            "dram_speed": "DDR3L-1866 (933MHz)"
+          },
+          "H:10SH": {
+            "dram_speed": "DDR3L-1866 (933MHz)"
+          },
+          "H:10IH": {
+            "dram_speed": "DDR3L-1866 (933MHz)"
+          },
+          "H:10ISH": {
+            "dram_speed": "DDR3L-1866 (933MHz)"
+          },
+          "H:10AH": {
+            "dram_speed": "DDR3L-1866 (933MHz)"
+          },
+          "H:10ASH": {
+            "dram_speed": "DDR3L-1866 (933MHz)"
+          },
+          "H:10BH": {
+            "dram_speed": "DDR3L-1866 (933MHz)"
+          },
+          "H:10BSH": {
+            "dram_speed": "DDR3L-1866 (933MHz)"
+          },
+          "H:12H": {
+            "dram_speed": "DDR3L-1600 (800MHz)"
+          },
+          "H:12SH": {
+            "dram_speed": "DDR3L-1600 (800MHz)"
+          },
+          "H:12IH": {
+            "dram_speed": "DDR3L-1600 (800MHz)"
+          },
+          "H:12ISH": {
+            "dram_speed": "DDR3L-1600 (800MHz)"
+          },
+          "H:12AH": {
+            "dram_speed": "DDR3L-1600 (800MHz)"
+          },
+          "H:12ASH": {
+            "dram_speed": "DDR3L-1600 (800MHz)"
+          },
+          "H:12BH": {
+            "dram_speed": "DDR3L-1600 (800MHz)"
+          },
+          "H:12BSH": {
+            "dram_speed": "DDR3L-1600 (800MHz)"
+          },
+          "H:15H": {
+            "dram_speed": "DDR3L-1333 (667MHz)"
+          },
+          "H:15SH": {
+            "dram_speed": "DDR3L-1333 (667MHz)"
+          },
+          "H:15IH": {
+            "dram_speed": "DDR3L-1333 (667MHz)"
+          },
+          "H:15ISH": {
+            "dram_speed": "DDR3L-1333 (667MHz)"
+          },
+          "H:15AH": {
+            "dram_speed": "DDR3L-1333 (667MHz)"
+          },
+          "H:15ASH": {
+            "dram_speed": "DDR3L-1333 (667MHz)"
+          },
+          "H:15BH": {
+            "dram_speed": "DDR3L-1333 (667MHz)"
+          },
+          "H:15BSH": {
+            "dram_speed": "DDR3L-1333 (667MHz)"
+          },
+          "H:09H": {
+            "dram_speed": "DDR3L-2133 (1066MHz)"
+          },
+          "H:09SH": {
+            "dram_speed": "DDR3L-2133 (1066MHz)"
+          },
+          "H:09IH": {
+            "dram_speed": "DDR3L-2133 (1066MHz)"
+          },
+          "H:09ISH": {
+            "dram_speed": "DDR3L-2133 (1066MHz)"
+          },
+          "H:09AH": {
+            "dram_speed": "DDR3L-2133 (1066MHz)"
+          },
+          "H:09ASH": {
+            "dram_speed": "DDR3L-2133 (1066MHz)"
+          },
+          "H:09BH": {
+            "dram_speed": "DDR3L-2133 (1066MHz)"
+          },
+          "H:09BSH": {
+            "dram_speed": "DDR3L-2133 (1066MHz)"
+          }
+        },
+        "packagePrecise": {
+          "WKA": "96-ball 8 x 13 x 1.0mm FBGA",
+          "WKG": "96-ball 8 x 13 x 1.0mm FBGA",
+          "WBH": "96-ball 7.5 x 13 x 1.0mm FBGA",
+          "WBJ": "96-ball 7.5 x 13 x 1.0mm FBGA",
+          "WBK": "96-ball 7.5 x 13 x 1.0mm FBGA",
+          "WAKG": "96-ball 7.5 x 13.5 x 1.2mm FBGA",
+          "WUA": "78-ball 8 x 10.5 x 1.0mm FBGA",
+          "WUG": "78-ball 8 x 10.5 x 1.0mm FBGA",
+          "WAHH": "78-ball 7.5 x 10.5 x 1.0mm FBGA",
+          "WAHK": "78-ball 7.5 x 10.5 x 1.0mm FBGA",
+          "W9G": "78-ball 7.5 x 10.6 x 1.2mm FBGA",
+          "BXB": "96-ball 9 x 13 x 1.2mm FBGA",
+          "BXC": "96-ball 9 x 13 x 1.2mm FBGA",
+          "W3A": "78-ball 9 x 10.6 x 1.2mm FBGA",
+          "BAHC": "78-ball 7.5 x 10.5 x 1.2mm FBGA"
+        },
+        "tempObj": {
+          "I": {
+            "operation_temperature": "Industrial"
+          },
+          "A": {
+            "operation_temperature": "Automotive Grade3"
+          },
+          "B": {
+            "operation_temperature": "Automotive Grade2"
+          }
+        },
+        "stackObj": {
+          "S": {
+            "dram_die_stack": "2 dies"
           }
         }
       },
@@ -703,10 +897,14 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([0-9A-Z]+)$",
+          "pattern": "^([0-9A-Z]+?)(?:-((?:(09|10|12|15)([IAB])?(S)?H)|[0-9A-Z]+))?$",
           "to": "packageCode",
           "groups": {
-            "packageCode": 1
+            "packageCode": 1,
+            "suffixCode": 2,
+            "speedCode": 3,
+            "tempCode": 4,
+            "stackCode": 5
           },
           "default": ""
         },
@@ -748,22 +946,15 @@
         {
           "op": "map",
           "from": "packageCode",
-          "table": "speedObj",
-          "to": "speedOverrideObj",
+          "table": "packagePrecise",
+          "to": "packagePrecise",
           "default": null
         },
         {
-          "op": "set",
-          "to": "defaultSpeedObj",
-          "value": {
-            "dram_speed": "DDR3 1866/1600/1333MHz"
-          }
-        },
-        {
           "op": "fallback",
-          "primary": "speedOverrideObj",
-          "secondary": "defaultSpeedObj",
-          "to": "speedObj"
+          "primary": "packagePrecise",
+          "secondary": "package",
+          "to": "package"
         },
         {
           "op": "tpl",
@@ -771,15 +962,35 @@
           "to": "configCode"
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{suffixCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "tempCode",
+          "table": "tempObj",
+          "to": "tempObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "stackCode",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
           "op": "set",
           "to": "extra",
           "value": {
-            "config_code": {
-              "$var": "configCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
-            },
             "operation_temperature": "Commercial (0C~95C)"
           }
         },
@@ -792,6 +1003,16 @@
           "op": "merge",
           "into": "extra",
           "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "tempObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
         }
       ],
       "assign": {
@@ -843,7 +1064,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^EM6O[EFG](?:08|16)N[0-9A-Z]+$"
+      "value": "^EM6O[EFG](?:08|16)N[0-9A-Z]+(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -864,18 +1085,32 @@
           "08": "78-ball FBGA"
         },
         "speedObj": {
-          "WALE": {
-            "dram_speed": "DDR4-3200"
+          "": {
+            "dram_speed": "DDR4 3200/2666/2400MHz"
           },
-          "WAND": {
-            "dram_speed": "DDR4-3200/2666"
+          "07H": {
+            "dram_speed": "DDR4-2666 (1333MHz)"
           },
-          "WAHG": {
-            "dram_speed": "DDR4-3200/2666"
+          "08H": {
+            "dram_speed": "DDR4-2400 (1200MHz)"
           },
-          "WXA": {
-            "dram_speed": "DDR4-3200"
+          "62H": {
+            "dram_speed": "DDR4-3200 (1600MHz)"
           }
+        },
+        "packagePrecise": {
+          "WAK": "96-ball 7.5 x 13.5 x 1.2mm FBGA",
+          "WBB": "96-ball 7.5 x 13 x 1.2mm FBGA",
+          "WBC": "96-ball 7.5 x 13 x 1.0mm FBGA",
+          "WBD": "96-ball 7.5 x 13 x 1.2mm FBGA",
+          "WBE": "96-ball 7.5 x 13 x 1.2mm FBGA",
+          "WBG": "96-ball 7.5 x 13 x 1.2mm FBGA",
+          "WXA": "96-ball 9 x 13 x 1.2mm FBGA",
+          "W9A": "78-ball 7.5 x 10.6 x 1.2mm FBGA",
+          "WALB": "78-ball 7.5 x 11 x 1.2mm FBGA",
+          "WAND": "78-ball 7.5 x 12 x 1.2mm FBGA",
+          "WALE": "78-ball 7.5 x 11 x 1.2mm FBGA",
+          "WAHG": "78-ball 7.5 x 10.5 x 1.2mm FBGA"
         }
       },
       "steps": [
@@ -896,10 +1131,11 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([0-9A-Z]+)$",
+          "pattern": "^([0-9A-Z]+?)(?:-([0-9A-Z]+))?$",
           "to": "packageCode",
           "groups": {
-            "packageCode": 1
+            "packageCode": 1,
+            "suffixCode": 2
           },
           "default": ""
         },
@@ -927,22 +1163,15 @@
         {
           "op": "map",
           "from": "packageCode",
-          "table": "speedObj",
-          "to": "speedOverrideObj",
+          "table": "packagePrecise",
+          "to": "packagePrecise",
           "default": null
         },
         {
-          "op": "set",
-          "to": "defaultSpeedObj",
-          "value": {
-            "dram_speed": "DDR4 3200/2666/2400MHz"
-          }
-        },
-        {
           "op": "fallback",
-          "primary": "speedOverrideObj",
-          "secondary": "defaultSpeedObj",
-          "to": "speedObj"
+          "primary": "packagePrecise",
+          "secondary": "package",
+          "to": "package"
         },
         {
           "op": "tpl",
@@ -950,16 +1179,22 @@
           "to": "configCode"
         },
         {
+          "op": "tpl",
+          "template": "{{suffixCode}}",
+          "to": "suffixKey"
+        },
+        {
+          "op": "map",
+          "from": "suffixKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
           "op": "set",
           "to": "extra",
           "value": {
             "dram_type": "DDR4",
-            "config_code": {
-              "$var": "configCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
-            },
             "operation_temperature": "Commercial (0C~95C)"
           }
         },

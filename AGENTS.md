@@ -50,7 +50,8 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - `tokenDecoder.assign` 只输出 native draft 路径：`device.*`、`fields.*`、`identifiers.*`、`controllers`、`components`、`meta.*`。用户可见字段使用 canonical snake_case key，例如 `component_density`、`generation_info`、`storage_interface`，不要直接写展示文本。
 - `package_code`、`config_code`、`controller_code`、`die_code`、`feature_code` 以及其他 `*_code` token 只用于规则内部解析，不得进入 `fields.*` 或 public result；package / config / controller 等 token 命中后，应优先输出 `package`、`controller`、`controller_revision`、`die_revision`、`process_node`、`special_option` 等语义字段。
 - `nand_component`、design ID、product generation code 等纯编码线索也默认只作内部 token；没有稳定可读语义时不要输出给用户。
-- `speed_grade` 是例外：需要保留原始 speed / grade token，并可附带可读含义，例如 `046BT Fully Tested`、`PG Partial Good Mixed Bins`。
+- 用户可见字段不应重复表达同一语义。一个 token 同时能推导出 canonical 字段和原始/派生描述时，只保留用户最有价值的字段；例如 `dram_speed` 已经输出 `DDR3L-1333 (667MHz)` 时，不要再输出仅重复 `1333Mbps/pin` 的 `speed_grade`。
+- `speed_grade` 是例外但必须有额外用户价值：只在原始 speed / grade token 带有 binning、测试等级、CAS/RL/WL 时序、温度等级等 `dram_speed` 未表达的信息时保留，并可附带可读含义，例如 `046BT Fully Tested`、`PG Partial Good Mixed Bins`。如果只是同一速率的另一种单位或 token 回显，应省略。
 - `voltage` / `dram_voltage` 只表达电压本身；不要把 DDR 代际、DRAM 类型、产品线等已在其他字段出现的信息重复塞进电压文本。
 - `package` 只在官方资料、datasheet、catalog、拆解或可信分销页能确认实际封装尺寸 / ball count / pin 信息时输出；只有厂商 package token 时应省略公开 `package`，不要退回输出 package code。
 - 不维护历史 metadata alias 或运行时兼容转换。新增或清理字段时，直接迁移 iTXTech fdnext DecodePack 源规则、语言包和 testcase，并把旧 key 加入审计测试的禁止列表。
@@ -154,7 +155,7 @@ pnpm contract:check
 - canonical fields：`density` / `dram_density` / `process_node` / `cell_level` / `device_width` / `dram_width` / `package`
 - 关键 `fields.*` 字段
 - public result 不出现 `*_code` 字段或 `Code` 标签；`packages/core/test/decodepack/metadata-audit.test.ts` 应持续防止 code/token 字段泄漏
-- `speed_grade` 保留原始 speed / grade token
+- `speed_grade` 只在比 `dram_speed` 多表达 binning、测试等级、时序或温度等级等信息时保留；只有重复速率或原始 token 回显时应检查其不存在
 - 维护 metadata 没有泄漏到 public fields
 
 ## 文档更新要求

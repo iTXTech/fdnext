@@ -7082,8 +7082,6 @@ assertDram("EM63B085TS", {
   package: "54-pin TSOP II",
   extra: {
     "DRAM Type": "SDR",
-    "Package Code": "TS",
-    "Config Code": "64M8",
     "DRAM Speed": "SDR 200/166/143MHz",
     "Operation Temperature": "Automotive (-40C~105C)"
   },
@@ -7096,15 +7094,89 @@ assertDram("EM6HE16EWBH", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball FBGA",
+  package: "96-ball 7.5 x 13 x 1.0mm FBGA",
   extra: {
     "DRAM Type": "DDR3",
-    "Package Code": "WBH",
-    "Config Code": "E16E",
-    "DRAM Speed": "DDR3 1866/1600/1333MHz",
+    "DRAM Speed": "DDR3L 1866/1600/1333MHz",
     "Operation Temperature": "Commercial (0C~95C)"
   },
   absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("EM6A8160TSC-4G", {
+  vendor: "etron",
+  densityMbit: 64,
+  density: "64Mb",
+  widthField: "x16",
+  voltage: "2.5V VDD",
+  package: "66-pin TSOP II",
+  extra: {
+    "DRAM Type": "DDR",
+    "DRAM Speed": "DDR-500 (250MHz)",
+    "Operation Temperature": "Commercial (0C~70C)"
+  },
+  absentExtra: ["DRAM Die Stack", "Speed Grade"]
+});
+
+assertDram("EM68A16CBQC-18H", {
+  vendor: "etron",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x16",
+  voltage: "1.8V VDD",
+  package: "84-ball 8 x 12.5 x 1.2mm FBGA",
+  extra: {
+    "DRAM Type": "DDR2",
+    "DRAM Speed": "DDR2-1066 (533MHz)",
+    "Operation Temperature": "Commercial (0C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack", "Speed Grade"]
+});
+
+assertDram("EM6GC16EWBH-09H", {
+  vendor: "etron",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD",
+  package: "96-ball 7.5 x 13 x 1.0mm FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-2133 (1066MHz)",
+    "Operation Temperature": "Commercial (0C~95C)"
+  },
+  absentExtra: ["DRAM Die Stack", "Speed Grade"]
+});
+
+assertDram("EM6GF08EBAHC-10BSH", {
+  vendor: "etron",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "78-ball 7.5 x 10.5 x 1.2mm FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1866 (933MHz)",
+    "DRAM Die Stack": "2 dies",
+    "Operation Temperature": "Automotive Grade2"
+  },
+  absentExtra: ["Speed Grade"]
+});
+
+assertDram("EM6HD08EWAHK-15AH", {
+  vendor: "etron",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "78-ball 7.5 x 10.5 x 1.0mm FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3L-1333 (667MHz)",
+    "Operation Temperature": "Automotive Grade3"
+  },
+  absentExtra: ["DRAM Die Stack", "Speed Grade"]
 });
 
 assertDram("EM6OF08NWALE", {
@@ -7113,15 +7185,28 @@ assertDram("EM6OF08NWALE", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "78-ball 7.5 x 11 x 1.2mm FBGA",
   extra: {
     "DRAM Type": "DDR4",
-    "Package Code": "WALE",
-    "Config Code": "F08N",
-    "DRAM Speed": "DDR4-3200",
+    "DRAM Speed": "DDR4 3200/2666/2400MHz",
     "Operation Temperature": "Commercial (0C~95C)"
   },
   absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("EM6OE08NWALB-08H", {
+  vendor: "etron",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball 7.5 x 11 x 1.2mm FBGA",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2400 (1200MHz)",
+    "Operation Temperature": "Commercial (0C~95C)"
+  },
+  absentExtra: ["DRAM Die Stack", "Speed Grade"]
 });
 
 assertDram("EM6KA32HVAFA-18H", {
@@ -7195,6 +7280,9 @@ assertDram("EM6LE16MVAJA-62BPH", {
 });
 
 assertDecodedFieldAbsent("EM6PF32MBAJB-99H", "dram_speed");
+assertDecodedFieldAbsent("EM6OF08NWALE-99H", "dram_speed");
+assertDecodedFieldAbsent("EM6GC16EWBH-99H", "dram_speed");
+assertDecodedFieldAbsent("EM6GC16EWBH-99H", "speed_grade");
 
 assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC32");
 assertSearchPnIncludes("K4UBE3D4AA", "Samsung K4UBE3D4AA-MGCL");
@@ -7478,6 +7566,8 @@ assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A");
 assertSearchPnIncludes("M56Z8G32256A-SM", "ESMT M56Z8G32256A-SMBYIG");
 assertSearchPnIncludes("M56Z8G32256A-TN", "ESMT M56Z8G32256A-TNBYG2H");
 assertSearchPnIncludes("EM6OF08", "Etron EM6OF08NWALE");
+assertSearchPnIncludes("EM6OE08NWALB-08", "Etron EM6OE08NWALB-08H");
+assertSearchPnIncludes("EM6GF08EBAHC-10B", "Etron EM6GF08EBAHC-10BSH");
 assertSearchPnIncludes("EM6KA32HVAFA-18", "Etron EM6KA32HVAFA-18H");
 assertSearchPnIncludes("EM6PF32", "Etron EM6PF32MBAJB-46SH");
 assertSearchPnIncludes("EM6LE16MVAJA-62B", "Etron EM6LE16MVAJA-62BPH");
