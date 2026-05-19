@@ -25,6 +25,10 @@ function assertExplainField(id: string, key: string, expected: unknown): void {
   assert.equal(explainFields(id)[key], expected, `${id} explain ${key}`);
 }
 
+function assertExplainFieldAbsent(id: string, key: string): void {
+  assert.equal(Object.hasOwn(explainFields(id), key), false, `${id} explain should omit ${key}`);
+}
+
 function assertResultField(id: string, key: string, expected: unknown): void {
   assert.equal(resultFields(id)[key], expected, `${id} result ${key}`);
 }
@@ -58,12 +62,54 @@ assertResultField("EC1EA88F88C1", "layer_count", 176);
 assertExplainField("EC1E981F84C2", "die_codename", "SSV6P");
 assertResultField("EC1E981F84C2", "die_codename", "SSV6P");
 assertResultField("EC1E981F84C2", "layer_count", 133);
+assertExplainField("EC1E981F84C2", "block_size", 16567500.8);
+assertResultField("EC1E981F84C2", "block_size", 16567500.8);
+assertExplainField("EC1E981F84C2", "redundant_area_size", "2KB");
+assertExplainField("EC1E981F84C2", "ecc_level", "LDPC");
 assertExplainField("EC5E981F84D2", "die_codename", "SSV6P");
 assertResultField("EC5E981F84D2", "die_codename", "SSV6P");
+assertExplainField("EC5E98BF84CC", "density", 524288);
+assertResultField("EC5E98BF84CC", "density", 524288);
+assertExplainField("EC5E98BF84CC", "die_count", 1);
+assertExplainField("EC5E98BF84CC", "cell_level", 3);
+assertExplainField("EC5E98BF84CC", "simultaneously_programmed_pages", 2);
+assertExplainField("EC5E98BF84CC", "interleave", false);
+assertExplainField("EC5E98BF84CC", "cache", true);
+assertExplainField("EC5E98BF84CC", "page_size", 16384);
+assertExplainField("EC5E98BF84CC", "block_size", 18087936);
+assertResultField("EC5E98BF84CC", "block_size", 18087936);
+assertExplainField("EC5E98BF84CC", "redundant_area_size", "2KB");
+assertResultField("EC5E98BF84CC", "redundant_area_size", "2KB");
+assertExplainField("EC5E98BF84CC", "plane_count", 2);
+assertResultField("EC5E98BF84CC", "plane_count", 2);
+assertExplainField("EC5E98BF84CC", "ecc_level", "LDPC");
+assertResultField("EC5E98BF84CC", "ecc_level", "LDPC");
+assertExplainField("EC5E98BF84CC", "edo", true);
+assertExplainField("EC5E98BF84CC", "interface_type", "ToggleDDR");
+assertExplainField("EC5E98BF84CC", "die_codename", "SSV5");
+assertResultField("EC5E98BF84CC", "die_codename", "SSV5");
+assertResultFieldAbsent("EC5E98BF84CC", "revision");
+assertExplainField("EC5E98BF8407", "die_codename", "SSV1");
+assertExplainField("EC5E98BF8408", "die_codename", "SSV2");
+assertExplainField("EC5E98BF8409", "die_codename", "SSV3");
+assertExplainField("EC5E98BF840B", "die_codename", "SSV4");
+assertExplainField("EC5E98BF840C", "die_codename", "SSV5");
 assertExplainField("ECD7147654C2", "die_codename", "SS32");
 assertResultField("ECD7147654C2", "die_codename", "32nm");
+assertExplainField("ECD7147654C2", "block_size", 1048576);
+assertResultField("ECD7147654C2", "block_size", 1048576);
+assertExplainFieldAbsent("ECD7147654C2", "redundant_area_size");
+assertResultFieldAbsent("ECD7147654C2", "redundant_area_size");
+assertExplainField("ECD7147654C2", "ecc_level", "24bit/1KB");
+assertResultField("ECD7147654C2", "ecc_level", "24bit/1KB");
 assertExplainField("ECD5843200C7", "die_codename", "SSV1");
 assertResultField("ECD5843200C7", "die_codename", "SSV1");
+assertExplainField("ECD5843200C7", "block_size", 12582912);
+assertResultField("ECD5843200C7", "block_size", 12582912);
+assertExplainField("ECD5843200C7", "redundant_area_size", "768B");
+assertResultField("ECD5843200C7", "redundant_area_size", "768B");
+assertExplainField("ECD5843200C7", "ecc_level", "1bit");
+assertResultField("ECD5843200C7", "ecc_level", "1bit");
 assertResultFieldAbsent("ECD5843200CF", "die_codename");
 assertExplainField("ECDE843200C7", "density", 65536);
 assertResultField("ECDE843200C7", "density", 65536);
@@ -77,8 +123,27 @@ assertExplainField("EC52EA3F8ECF", "die_codename", "SSV8");
 assertResultField("EC52EA3F8ECF", "die_codename", "SSV8");
 assertExplainField("EC5FA89F88C3", "die_codename", "SSV9");
 assertResultField("EC5FA89F88C3", "die_codename", "SSV9");
+assertExplainField("EC5FA89F88C3", "block_size", 8388608);
+assertResultField("EC5FA89F88C3", "block_size", 8388608);
+assertExplainField("EC5FA89F88C3", "redundant_area_size", "2KB");
+assertExplainField("EC5FA89F88C3", "plane_count", 4);
+assertExplainField("EC5FA89F88C3", "ecc_level", "LDPC");
 assertExplainField("ECD798CE74C3", "die_codename", "SS27");
 assertResultField("ECD798CE74C3", "die_codename", "27nm");
+assertExplainFieldAbsent("ECD798CE74C3", "block_size");
+assertResultFieldAbsent("ECD798CE74C3", "block_size");
+assertExplainFieldAbsent("ECD798CE74C3", "redundant_area_size");
+assertResultFieldAbsent("ECD798CE74C3", "redundant_area_size");
+assertExplainFieldAbsent("ECD798CE74C3", "ecc_level");
+assertResultFieldAbsent("ECD798CE74C3", "ecc_level");
+assertExplainField("EC3A94C3A4CA", "die_codename", "SS14");
+assertExplainField("EC3A94C3A4CA", "block_size", 16777216);
+assertResultField("EC3A94C3A4CA", "block_size", 16777216);
+assertExplainField("EC3A94C3A4CA", "redundant_area_size", "1536B");
+assertResultField("EC3A94C3A4CA", "redundant_area_size", "1536B");
+assertExplainField("EC3A94C3A4CA", "plane_count", 2);
+assertExplainField("EC3A94C3A4CA", "ecc_level", "48bit");
+assertResultField("EC3A94C3A4CA", "ecc_level", "48bit");
 
 assertExplainField("AD3A08320040", "die_codename", "HY16");
 assertResultField("AD3A08320040", "die_codename", "16nm");
