@@ -63,7 +63,7 @@
 - legacy raw NAND：`packages/core/src/decodepack/rules/packs/skhynix-legacy-token.json`
   - 规则 ID：`vendor.skhynix.legacy.token.v1`
 - H25 NAND package / token：`packages/core/src/decodepack/rules/packs/skhynix-h25-token.json`
-  - 规则 ID：`vendor.skhynix.h25t.package.v1`
+  - 规则 ID：`vendor.skhynix.h25.gt-package.v2`
   - 规则 ID：`vendor.skhynix.h25.raw.v2`
 - E2NAND：`packages/core/src/decodepack/rules/packs/skhynix-e2nand-token.json`
   - 规则 ID：`vendor.skhynix.e2nand.h2d_h2j.v1`
@@ -78,7 +78,7 @@
 | `H23Q...` | E3NAND | E3NAND managed NAND，按 density/config/package token 分类 |
 | `H2...` | raw NAND | 新式 SK hynix raw NAND PN；不覆盖 H2D/H2J E2NAND 结构 |
 | `H27...` | raw NAND | 既有 H27 raw NAND 路径覆盖 |
-| `H25T...` | H25T NAND package | H25T 开头的 SSD/mobile NAND package 型号，按 token 组合推断 V6/V7/V8/V9Q |
+| `H25T...` / `H25G...` | H25T/G NAND package | H25T/H25G 开头的 SSD/mobile NAND package 型号，按 token 组合推断 V6/V7/V8/V9Q |
 | `H25(非 T)...` | H25 3D/4D raw NAND token | 按 series/cell/layout/density/stack/generation token 推断 MLC/TLC/QLC 与代际 |
 | `H26...` | 不属于 raw NAND 文档 | 已由 eMMC / e-NAND 文档覆盖 |
 | `HN8...` / `H28S...` | 不属于 raw NAND 文档 | 已由 UFS 文档覆盖 |
@@ -158,7 +158,7 @@ H23Q 系列按 Q1'2016 databook line-up 进入 managed NAND，不归入 raw NAND
 
 H25 目前分成两类结构处理：
 
-1. `H25T...`：较新的 NAND package 标识，常见于 SSD 拆解、SSD database 和 flash-id 表。规则只解析 `density code + generation code + config`，不按完整 PN 白名单匹配。
+1. `H25T...` / `H25G...`：较新的 NAND package 标识，常见于 SSD 拆解、SSD database 和 flash-id 表。规则按 `capacity + cell + generation + geometry + width + voltage + optional package` 解析，不按完整 PN 白名单匹配。
 2. `H25(非 T)...`：raw NAND token 结构，按 `series + cell + layout + density + stack + generation` 解析。没有外部 reference 的 token 不删除，只标记待确认。
 
 规则输出只保留结构字段，例如 `density`、`cell_level`、`die_codename`、`process_alias` 和 `die_count`。3D / 4D、层数、die 容量与 Toggle 接口属于 `nand.die_profile` 统一维护的信息，不在 H25 规则内重复组装公开 `generation_info` 文案。
@@ -177,6 +177,7 @@ H25 目前分成两类结构处理：
 | `HYV5` | 4D V5 | TLC | 96 | 512Gb | Toggle 3.0 / 1200MT/s | `H25FT4MMI` |
 | `HYV5Q` | 4D V5 | QLC | 96 | 1Tb | Toggle 3.0 / 800MT/s | `H25GQM0` |
 | `HYV6` | 4D V6 | TLC | 128 | 512Gb / 1Tb | Toggle 4.0 / 1400MT/s | `H25FTB0`, `H25GTM0` |
+| `HYV6Q` | 4D V6 | QLC | 128 | 1Tb | Toggle 4.0 / 1400MT/s | - |
 | `HYV7` | 4D V7 | TLC | 176 | 512Gb | Toggle 4.0 / 1600MT/s | `H25FTC0` |
 | `HYV7Q` | 4D V7 | QLC | 176 | 1Tb | Toggle 4.0 / 1600MT/s | `H25GQA0` |
 | `HYV8` | 4D V8 | TLC | 238 | 512Gb / 1Tb | Toggle 5.0 / 2400MT/s | `H25FTD0` |
@@ -184,31 +185,34 @@ H25 目前分成两类结构处理：
 | `HYV9` | 4D V9 | TLC | 321 | 1Tb | 见具体 package 表 | - |
 | `HYV9Q` | 4D V9 | QLC | 321 | 2Tb | - | - |
 
-`HYV6` 的公开 die density 需要按 die marking 区分：`H25FTB0` 为 512Gb，`H25GTM0` 为 1Tb。共享 `nand.die_profile` 只保留 `HYV6` 的层数、cell 与接口信息，H25T package 规则按具体 alias 输出 die density。
+`HYV6` 的公开 die density 需要按 die marking 区分：`H25FTB0` 为 512Gb，`H25GTM0` 为 1Tb。共享 `nand.die_profile` 只保留 `HYV6` 的层数、cell 与接口信息，H25T/G package 规则按 package density / die count 计算并输出 die density。
 
-### H25T NAND package
+### H25T / H25G NAND package
 
 | PN 结构 | 字段 |
 | --- | --- |
-| `H25T` + density(2) + generation(1) + config(3) + optional package tail | SK hynix NAND package |
-| product key | `density code + generation` 组合；同一个 density code 在不同 generation 下不能直接复用容量 |
-| config | 例如 `18C` / `28C` / `48C` / `88C` / `G8C`，HYV9 表可由 config 推出 die count；未知 config 仍只作结构 token |
+| `H25` + capacity(2) + cell(1) + generation(1) + geometry(1) + width(1) + voltage(1) + optional package tail | SK hynix NAND package |
+| capacity `G9/T0/T1/T2/T3/T4` | 64GB / 128GB / 256GB / 512GB / 1TB / 2TB package density |
+| cell `T/Q` | TLC / QLC |
+| generation | 结合 cell 与计算出的 die density 判断 `HYVx`，不能全局写死 `M/B/C/D/E` |
+| geometry `1/2/4/8/G` | 1 / 2 / 4 / 8 / 16 die；CE/RB/channel 由该 token 和 package code 共同决定 |
+| width `8` | x8 |
+| voltage `C` | `Vcc 2.5V / VccQ 1.2V`；`E` 等未确认 token 不输出 public voltage |
 
-公开结果中，H25T package 容量统一放在 `density`，不再重复输出 `component_density`；已知 package 堆叠使用数值 `die_count` / `ce_count`，不再输出字符串 `die_stack`。
+公开结果中，H25T / H25G package 容量统一放在 `density`，不再重复输出 `component_density`；die density 由 package density / die count 计算，已知 package 堆叠使用数值 `die_count` / `ce_count`，不再输出字符串 `die_stack`。
 
-| Product key / 示例 | 可确定内容 | 佐证状态 |
+| 结构 key / 示例 | 可确定内容 | 佐证状态 |
 | --- | --- | --- |
-| `2T:B` / `H25T2TB88E-*` | `HYV6` / `H25FTB0`, TLC, 128L profile, 4Tbit package, 8 x 512Gb die | `external_confirmed` |
-| `1T:C` / `H25T1TC48C` | `HYV7` / `H25FTC0`, TLC, 176L profile, 2Tbit package, 4 x 512Gb die | `external_confirmed` |
-| `2T:C` / `H25T2TC88C-*` | `HYV7` / `H25FTC0`, TLC, 176L profile, 4Tbit package, 8 x 512Gb die | `external_confirmed` |
-| `1T:D` / `H25T1TD48C-X630` | `HYV8` / `H25FTD0`, TLC, 238L profile, 2Tbit package, 4 x 512Gb die | `external_confirmed` |
-| `2T:D` / `H25T2TD88C-X682` | `HYV8` / `H25FTD0`, TLC, 238L profile, 4Tbit package, 8 x 512Gb die | `external_confirmed` |
-| `4Q:M` / `H25T4QM88G` | `HYV9Q`, QLC, 321L profile, 2Tb die/package code family | `external_confirmed` |
-| `4T:M` / `H25T4TMG8C` | `HYV6` / `H25GTM0`, TLC, 128L profile, 16Tbit package, 16 x 1Tb die, 4 CE | `local_pending_external_reference` |
-| `0T:C` / `H25T0TC28C` | `HYV7`, TLC, 176L profile, 512Gbit package | `external_table_confirmed` |
-| `3T:C` / `H25T3TC88CX658` | `HYV8`, TLC, 238L profile, 512Gbit package | `external_table_confirmed` |
-| `3Q:A` / `H25T3QA88CX548` | `HYV7Q`, QLC, 176L profile, 1Tbit package | `external_table_confirmed` |
-| `0Q:A` / `H25T0QA18CX542` | 本地 fdb/fdfdb 指向 `HYV7Q`, QLC, 176L profile, 1Tbit package；尚未找到稳定外部网页 | `local_pending_external_reference` |
+| `T2:T:B:8:8:E` / `H25T2TB88E-*` | `HYV6` / `H25FTB0`, TLC, 128L profile, 512GB package, 8 x 512Gb die；`E` 电压不输出 | `external_confirmed` |
+| `G9:T:C:1:8:C` / `H25G9TC18CX488` | `HYV7` / `H25FTC0`, TLC, 176L profile, 64GB package, 1 x 512Gb die | `external_table_confirmed` |
+| `T2:T:C:8:8:C` / `H25T2TC88C-*` | `HYV7` / `H25FTC0`, TLC, 176L profile, 512GB package, 8 x 512Gb die | `external_confirmed` |
+| `T3:T:C:G:8:C` / `H25T3TCG8C` | `HYV7` / `H25FTC0`, TLC, 176L profile, 1TB package, 16 x 512Gb die, 4 CE | `external_table_confirmed` |
+| `G9:T:D:1:8:C` / `H25G9TD18CX576` | `HYV8` / `H25FTD0`, TLC, 238L profile, 64GB package, 1 x 512Gb die | `external_table_confirmed` |
+| `T2:T:D:8:8:C` / `H25T2TD88C-*` | `HYV8` / `H25FTD0`, TLC, 238L profile, 512GB package, 8 x 512Gb die | `external_confirmed` |
+| `T4:T:M:G:8:C` / `H25T4TMG8C` | `HYV6` / `H25GTM0`, TLC, 128L profile, 2TB package, 16 x 1Tb die, 4 CE | `local_pending_external_reference` |
+| `T0:Q:A:1:8:C` / `H25T0QA18CX542` | `HYV7Q`, QLC, 176L profile, 128GB package, 1 x 1Tb die | `local_pending_external_reference` |
+| `T3:Q:A:8:8:C` / `H25T3QA88CX548` | `HYV7Q`, QLC, 176L profile, 1TB package, 8 x 1Tb die | `external_table_confirmed` |
+| `T4:Q:M:8:8:G` / `H25T4QM88G` | `HYV9Q`, QLC, 321L profile, 2TB package, 8 x 2Tb die；`G` 电压不输出 | `external_confirmed` |
 
 维护者补充的 HYV9 package 表给出 128GB die 与 `D18/D28/D48/D88/DG8` 结构。`00h` Address ID 按每个 CE 的 stack 选择：SDP = `AD89284B00E0`，DDP = `AD89294B00E0`，QDP = `AD892A4B00E0`。Package 表中的 `T` 是厚度，公开 `package` 统一写成 `x1.0mm` / `x1.35mm` / `x1.5mm`。
 
@@ -236,7 +240,7 @@ H25 目前分成两类结构处理：
 | PN 结构 | 字段 |
 | --- | --- |
 | `H25` + series(2) + cell(1) + layout(1) + density(1) + stack(1) + generation(1) + tail | SK hynix H25 raw NAND token |
-| series `QE/QF/BF/JG/G9` | 不同 H25 token family；代际展示由 `HYVx` die profile 统一维护 |
+| series `QE/QF/BF/JG` | 不同 H25 token family；代际展示由 `HYVx` die profile 统一维护 |
 | cell `M/T/Q` | MLC / TLC / QLC |
 | density + stack | 组合判断容量，不单看单个 density 字符 |
 | generation | 与 series/cell/layout 组合判断 V4/V5/V6/V7/V8 |
@@ -252,14 +256,12 @@ H25 目前分成两类结构处理：
 | `H25BFT8A1B8R` / `BF:T:8:B` | 512Gbit package, TLC, `HYV6` profile | `external_table_confirmed` |
 | `H25JGT8A1M8R` / `JG:T:8:M` | 1Tbit package, TLC, `HYV6` profile | `external_table_confirmed` |
 | `H25JGQ8A1M8R` / `JG:Q:8:M` | 1Tbit package, QLC, `HYV5Q` profile | `external_table_confirmed` |
-| `H25G9TC18CX488` / `G9:T:C:C` | 512Gbit package, TLC, `HYV7` profile | `external_table_confirmed` |
-| `H25G9TD18CX576` / `G9:T:D:C` | 512Gbit package, TLC, `HYV8` profile | `external_table_confirmed` |
 
-当前保留但未找到稳定外部 reference 的候选包括 `QF:T:8:M`、`BF:T:8:Z`、`G9:T:B:E`，以及若干仅由本地 fdb/fdfdb 推出的 density-only token，例如 `BF:T:8:A2`、`G9:T:B:18`、`JG:T:8:B1`、`JG:T:8:F1`。这些不会删除，但待确认状态只存在于 iTXTech fdnext DecodePack metadata，不会作为解析结果输出。
+当前保留但未找到稳定外部 reference 的候选包括 `QF:T:8:M`、`BF:T:8:Z`，以及若干仅由本地 fdb/fdfdb 推出的 density-only token，例如 `BF:T:8:A2`、`JG:T:8:B1`、`JG:T:8:F1`。这些不会删除，但待确认状态只存在于 iTXTech fdnext DecodePack metadata，不会作为解析结果输出。
 
 ## 已知缺口
 
-- H25T package tail 仍只有部分表格确认：HYV9 `X655` / `X656` / `X657` / `X676` / `X658` / `X659` / `X660` / `X862` / `X860` / `X826` / `X828` / `X809` / `X811` / `X813` 已可输出封装尺寸和厚度；其他如 `X321N` / `X535` / `X630` 仍只保留前段稳定 token。
+- H25T/G package tail 仍只有部分表格确认：HYV9 `X655` / `X656` / `X657` / `X676` / `X658` / `X659` / `X660` / `X862` / `X860` / `X826` / `X828` / `X809` / `X811` / `X813` 已可输出封装尺寸和厚度；其他如 `X321N` / `X535` / `X630` 仍只保留前段稳定 token。
 - 没有外部 reference 的 H25/H25T 候选不删除，但必须在 iTXTech fdnext DecodePack metadata 标记为 `local_pending_external_reference` 或进入本文档待确认列表，不能输出到用户可见解析结果。
 - `H2` / `HY27` 的 topology、mode、generation 表来自既有规则表，后续应逐步补对应资料出处。
 - `H26`、`HN8`、`H28S` 已被更高优先级 managed NAND 规则拦截，不应在 raw NAND 文档中重复解析。

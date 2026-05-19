@@ -1,6 +1,6 @@
 [
   {
-    "id": "vendor.skhynix.h25t.package.v1",
+    "id": "vendor.skhynix.h25.gt-package.v2",
     "priority": 1008,
     "normalize": [
       "trim",
@@ -18,131 +18,115 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H25T[0-9A-Z]{5,}$"
+      "value": "^H25[GT][0-9A-Z]{6,}"
     },
     "tokenDecoder": {
       "stripPrefixes": [
-        "H25T"
+        "H25"
       ],
       "tables": {
         "cellLevel": {
-          "0Q:A": 4,
-          "3Q:A": 4,
-          "4Q:M": 4,
-          "4T:M": 3,
-          "0T:C": 3,
-          "0T:D": 3,
-          "1T:C": 3,
-          "1T:D": 3,
-          "2T:B": 3,
-          "2T:C": 3,
-          "2T:D": 3,
-          "3T:C": 3,
-          "3T:D": 3,
-          "4T:D": 3
+          "M": 2,
+          "T": 3,
+          "Q": 4
         },
-        "density": {
-          "0Q:A": 1048576,
-          "3Q:A": 1048576,
-          "4Q:M": 2097152,
-          "4T:M": 16777216,
-          "0T:C": 524288,
-          "0T:D": 1048576,
-          "1T:C": 2097152,
-          "1T:D": 2097152,
-          "2T:B": 4194304,
-          "2T:C": 4194304,
-          "2T:D": 4194304,
-          "3T:C": 524288,
-          "3T:D": 8388608,
-          "4T:D": 16777216
+        "capacity": {
+          "G9": 524288,
+          "T0": 1048576,
+          "T1": 2097152,
+          "T2": 4194304,
+          "T3": 8388608,
+          "T4": 16777216
         },
-        "processNode": {
-          "0Q:A": "HYV7Q",
-          "3Q:A": "HYV7Q",
-          "4Q:M": "HYV9Q",
-          "4T:M": "HYV6",
-          "0T:C": "HYV7",
-          "0T:D": "HYV9",
-          "1T:C": "HYV7",
-          "1T:D": "HYV8",
-          "2T:B": "HYV6",
-          "2T:C": "HYV7",
-          "2T:D": "HYV8",
-          "3T:C": "HYV8",
-          "3T:D": "HYV9",
-          "4T:D": "HYV9"
-        },
-        "productConfigProcessNode": {
-          "0T:D:18C": "HYV9",
-          "1T:D:28C": "HYV9",
-          "1T:D:48C": "HYV8",
-          "2T:D:48C": "HYV9",
-          "2T:D:88C": "HYV8",
-          "3T:D:88C": "HYV9",
-          "4T:D:G8C": "HYV9"
-        },
-        "productObj": {
-          "1T:C": {
-            "die_count": 4
-          },
-          "1T:D": {
-            "die_count": 4
-          },
-          "2T:B": {
-            "die_density": "512Gb",
-            "die_count": 8
-          },
-          "2T:C": {
-            "die_count": 8
-          },
-          "2T:D": {
-            "die_count": 8
-          },
-          "4T:M": {
-            "die_density": "1Tb",
-            "die_count": 16,
-            "ce_count": 4
-          }
-        },
-        "productConfigObj": {
-          "0T:D:18C": {
-            "die_density": "1Tb",
+        "geometryObj": {
+          "1": {
             "die_count": 1,
             "ce_count": 1,
-            "rb_count": 1
+            "rb_count": 1,
+            "channel_count": 1
           },
-          "1T:D:28C": {
-            "die_density": "1Tb",
+          "2": {
             "die_count": 2,
             "ce_count": 2,
-            "rb_count": 2
+            "rb_count": 2,
+            "channel_count": 2
           },
-          "1T:D:48C": {
-            "die_density": "512Gb",
-            "die_count": 4
-          },
-          "2T:D:48C": {
-            "die_density": "1Tb",
+          "4": {
             "die_count": 4,
             "ce_count": 4,
-            "rb_count": 4
+            "rb_count": 4,
+            "channel_count": 2
           },
-          "2T:D:88C": {
-            "die_density": "512Gb",
-            "die_count": 8
-          },
-          "3T:D:88C": {
-            "die_density": "1Tb",
+          "8": {
             "die_count": 8,
             "ce_count": 4,
-            "rb_count": 4
+            "rb_count": 4,
+            "channel_count": 2
           },
-          "4T:D:G8C": {
-            "die_density": "1Tb",
+          "G": {
             "die_count": 16,
             "ce_count": 4,
-            "rb_count": 4
+            "rb_count": 4,
+            "channel_count": 2
+          }
+        },
+        "processNode": {
+          "T:M:512Gb": "HYV4",
+          "T:A:512Gb": "HYV5",
+          "T:B:512Gb": "HYV6",
+          "T:C:512Gb": "HYV7",
+          "T:D:512Gb": "HYV8",
+          "T:E:512Gb": "HYV9",
+          "T:M:1Tb": "HYV6",
+          "T:A:1Tb": "HYV7",
+          "T:B:1Tb": "HYV8",
+          "T:C:1Tb": "HYV9",
+          "T:D:1Tb": "HYV9",
+          "Q:M:1Tb": "HYV6Q",
+          "Q:A:1Tb": "HYV7Q",
+          "Q:M:2Tb": "HYV9Q"
+        },
+        "processAlias": {
+          "T:B:512Gb": "H25FTB0",
+          "T:C:512Gb": "H25FTC0",
+          "T:D:512Gb": "H25FTD0",
+          "T:M:1Tb": "H25GTM0",
+          "Q:A:1Tb": "H25GQA0"
+        },
+        "voltage": {
+          "C": "Vcc: 2.5V, VccQ: 1.2V"
+        },
+        "deviceWidth": {
+          "8": 8
+        },
+        "reference": {
+          "T:B:512Gb": {
+            "status": "external_confirmed",
+            "source": "TechInsights / TechPowerUp / local fdb cross-check"
+          },
+          "T:C:512Gb": {
+            "status": "external_confirmed",
+            "source": "TechInsights / external flash-id table + local fdb cross-check"
+          },
+          "T:D:512Gb": {
+            "status": "external_confirmed",
+            "source": "TechInsights / TechPowerUp / local fdb cross-check"
+          },
+          "T:M:1Tb": {
+            "status": "local_pending_external_reference",
+            "source": "maintainer-supplied H25T4TMG8C token evidence; external reference pending"
+          },
+          "T:D:1Tb": {
+            "status": "external_table_confirmed",
+            "source": "maintainer-supplied package table + local fdb cross-check"
+          },
+          "Q:A:1Tb": {
+            "status": "external_table_confirmed",
+            "source": "external flash-id table + local fdb cross-check"
+          },
+          "Q:M:2Tb": {
+            "status": "external_confirmed",
+            "source": "public SK hynix 321-layer QLC material + external package photo"
           }
         },
         "packageObj": {
@@ -202,69 +186,25 @@
             "package": "154-ball BGA 11.5x13.5x1.5mm",
             "channel_count": 2
           }
-        },
-        "reference": {
-          "0Q:A": {
-            "status": "local_pending_external_reference",
-            "source": "local fdb/fdfdb cross-check; external reference pending"
-          },
-          "3Q:A": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
-          "4Q:M": {
-            "status": "external_confirmed",
-            "source": "public SK hynix 321-layer QLC material + external package photo"
-          },
-          "4T:M": {
-            "status": "local_pending_external_reference",
-            "source": "maintainer-supplied H25T4TMG8C token evidence; external reference pending"
-          },
-          "0T:C": {
-            "status": "external_table_confirmed",
-            "source": "flashinfo.top / MyDigit + local fdb cross-check"
-          },
-          "1T:C": {
-            "status": "external_confirmed",
-            "source": "TechInsights"
-          },
-          "1T:D": {
-            "status": "external_confirmed",
-            "source": "TechInsights"
-          },
-          "2T:B": {
-            "status": "external_confirmed",
-            "source": "TechInsights / TechPowerUp / local fdb cross-check"
-          },
-          "2T:C": {
-            "status": "external_confirmed",
-            "source": "TechInsights / TechPowerUp / local fdb cross-check"
-          },
-          "2T:D": {
-            "status": "external_confirmed",
-            "source": "TechInsights / TechPowerUp / local fdb cross-check"
-          },
-          "3T:C": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          }
-        },
-        "processAlias": {
-          "1T:C": "H25FTC0",
-          "2T:B": "H25FTB0",
-          "2T:C": "H25FTC0",
-          "4T:M": "H25GTM0"
-        },
-        "productConfigProcessAlias": {
-          "1T:D:48C": "H25FTD0",
-          "2T:D:88C": "H25FTD0"
         }
       },
       "steps": [
         {
           "op": "take",
           "len": 2,
-          "to": "densityCode"
+          "to": "capacityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellLevelCode"
+        },
+        {
+          "op": "map",
+          "from": "cellLevelCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
         },
         {
           "op": "take",
@@ -272,57 +212,79 @@
           "to": "generationCode"
         },
         {
-          "op": "tpl",
-          "template": "{{densityCode}}:{{generationCode}}",
-          "to": "productKey"
+          "op": "take",
+          "len": 1,
+          "to": "geometryCode"
+        },
+        {
+          "op": "map",
+          "from": "geometryCode",
+          "table": "geometryObj",
+          "to": "geometryObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "dieCount",
+          "value": {
+            "$path": "geometryObj.die_count"
+          }
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage"
         },
         {
           "op": "takeRegex",
-          "pattern": "([1248G]8[CE])(?:X([0-9]{3}))?",
+          "pattern": "X([0-9]{3})",
           "groups": {
-            "configToken": 1,
-            "packageCode": 2
+            "packageCode": 1
           },
           "default": ""
         },
         {
-          "op": "tpl",
-          "template": "{{productKey}}:{{configToken}}",
-          "to": "productConfigKey"
-        },
-        {
           "op": "map",
-          "from": "productKey",
-          "table": "cellLevel",
-          "to": "cellLevel",
-          "default": -1
-        },
-        {
-          "op": "map",
-          "from": "productKey",
-          "table": "density",
+          "from": "capacityCode",
+          "table": "capacity",
           "to": "density",
           "default": 0
         },
         {
+          "op": "dieDensity",
+          "density": "density",
+          "dieCount": "dieCount",
+          "to": "dieDensity",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{cellLevelCode}}:{{generationCode}}:{{dieDensity}}",
+          "to": "processKey"
+        },
+        {
           "op": "map",
-          "from": "productKey",
+          "from": "processKey",
           "table": "processNode",
-          "to": "productProcessNode",
+          "to": "processNode",
           "default": ""
-        },
-        {
-          "op": "map",
-          "from": "productConfigKey",
-          "table": "productConfigProcessNode",
-          "to": "configProcessNode",
-          "default": ""
-        },
-        {
-          "op": "fallback",
-          "primary": "configProcessNode",
-          "secondary": "productProcessNode",
-          "to": "processNode"
         },
         {
           "op": "map",
@@ -333,40 +295,9 @@
         },
         {
           "op": "map",
-          "from": "productKey",
+          "from": "processKey",
           "table": "processAlias",
-          "to": "productProcessAlias"
-        },
-        {
-          "op": "map",
-          "from": "productConfigKey",
-          "table": "productConfigProcessAlias",
-          "to": "configProcessAlias"
-        },
-        {
-          "op": "fallback",
-          "primary": "configProcessAlias",
-          "secondary": "productProcessAlias",
           "to": "processAlias"
-        },
-        {
-          "op": "map",
-          "from": "productKey",
-          "table": "productObj",
-          "to": "productObj",
-          "default": {}
-        },
-        {
-          "op": "map",
-          "from": "productConfigKey",
-          "table": "productConfigObj",
-          "to": "productConfigObj",
-          "default": {}
-        },
-        {
-          "op": "merge",
-          "into": "productObj",
-          "from": "productConfigObj"
         },
         {
           "op": "map",
@@ -374,6 +305,11 @@
           "table": "packageObj",
           "to": "packageObj",
           "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "geometryObj",
+          "from": "packageObj"
         }
       ],
       "assign": {
@@ -383,6 +319,9 @@
         "device.domain": "memory",
         "device.vendor": "skhynix",
         "device.chipKind": "raw_nand",
+        "fields.voltage": {
+          "$var": "voltage"
+        },
         "fields.density": {
           "$var": "density"
         },
@@ -399,25 +338,27 @@
           "$path": "processObj.layer_count"
         },
         "fields.die_density": {
-          "$path": "productObj.die_density"
+          "$var": "dieDensity"
         },
         "fields.die_count": {
-          "$path": "productObj.die_count"
+          "$path": "geometryObj.die_count"
         },
         "fields.ce_count": {
-          "$path": "productObj.ce_count"
+          "$path": "geometryObj.ce_count"
         },
         "fields.rb_count": {
-          "$path": "productObj.rb_count"
+          "$path": "geometryObj.rb_count"
         },
         "fields.channel_count": {
-          "$path": "packageObj.channel_count"
+          "$path": "geometryObj.channel_count"
         },
         "fields.package": {
-          "$path": "packageObj.package"
+          "$path": "geometryObj.package"
         },
-        "fields.device_width": 8,
-        "meta.ruleId": "vendor.skhynix.h25t.package.v1"
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "meta.ruleId": "vendor.skhynix.h25.gt-package.v2"
       }
     }
   },
@@ -439,7 +380,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H25(?!T)[A-Z0-9]{7,}"
+      "value": "^H25(?![TG])[A-Z0-9]{7,}"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -463,10 +404,6 @@
           "BF:T:8:A2": 524288,
           "BF:T:8:B3": 1048576,
           "BF:T:8:D4": 2097152,
-          "G9:T:B:18": 524288,
-          "G9:T:C:18": 524288,
-          "G9:T:C:X8": 524288,
-          "G9:T:D:18": 524288,
           "JG:Q:8:A1": 1048576,
           "JG:Q:8:F4": 1048576,
           "JG:T:4:D1": 1048576,
@@ -487,9 +424,6 @@
           "BF:T:8:M": "HYV5",
           "BF:T:8:B": "HYV6",
           "BF:T:8:Z": "HYV6",
-          "G9:T:B:E": "HYV6",
-          "G9:T:C:C": "HYV7",
-          "G9:T:D:C": "HYV8",
           "JG:Q:8:M": "HYV5Q",
           "JG:T:4:C": "HYV6",
           "JG:T:8:M": "HYV6"
@@ -531,18 +465,6 @@
             "status": "local_pending_external_reference",
             "source": "local fdb/fdfdb cross-check; external reference pending"
           },
-          "G9:T:B:E": {
-            "status": "local_pending_external_reference",
-            "source": "local fdb/fdfdb cross-check; external reference pending"
-          },
-          "G9:T:C:C": {
-            "status": "external_table_confirmed",
-            "source": "external SSD dump / flash-id table + local fdb cross-check"
-          },
-          "G9:T:D:C": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
           "JG:Q:8:M": {
             "status": "external_table_confirmed",
             "source": "external distributor listing / flash-id table + local fdb cross-check"
@@ -558,10 +480,6 @@
         },
         "densityReference": {
           "BF:T:8:A2": {
-            "status": "local_pending_external_reference",
-            "source": "local fdb/fdfdb density token; external reference pending"
-          },
-          "G9:T:B:18": {
             "status": "local_pending_external_reference",
             "source": "local fdb/fdfdb density token; external reference pending"
           },

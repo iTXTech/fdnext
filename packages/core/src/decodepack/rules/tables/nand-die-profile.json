@@ -528,6 +528,17 @@
       "H25GTM0"
     ]
   },
+  "HYV6Q": {
+    "die_codename": "HYV6Q",
+    "generation_info": "3DV6",
+    "layer_count": 128,
+    "cell_level": 4,
+    "die_density": "1Tb",
+    "speed_grade": "Toggle 4.0; Max Speed=1400MT/s",
+    "firmware_match": [
+      "HYV6Q"
+    ]
+  },
   "HYV7": {
     "die_codename": "HYV7",
     "generation_info": "3DV7",

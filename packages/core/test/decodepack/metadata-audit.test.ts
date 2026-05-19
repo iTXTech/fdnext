@@ -404,7 +404,7 @@ function assertSkhynixH25RulesAreConsolidated(): void {
     .filter((id) => id.startsWith("vendor.skhynix.") && (id.includes("h25") || id.includes("3d") || id.includes("4d")));
   assert.deepEqual(
     ids,
-    ["vendor.skhynix.h25t.package.v1", "vendor.skhynix.h25.raw.v2"],
+    ["vendor.skhynix.h25.gt-package.v2", "vendor.skhynix.h25.raw.v2"],
     "SK hynix H25 rules should stay consolidated in the H25 pack"
   );
 

@@ -2094,6 +2094,7 @@ assertPart("H25T2TB88E-X321-N", {
   densityMbit: 4194304,
   dieProfileField: "HYV6",
   cellField: "TLC",
+  voltage: "Unknown",
   extra: {
     "Process Alias": "H25FTB0",
     "Layer Count": 128,
@@ -2345,11 +2346,33 @@ assertPart("H25T0QA18CX542", {
 assertPart("H25T4QM88G", {
   vendor: "skhynix",
   type: "NAND",
-  densityMbit: 2097152,
+  densityMbit: 16777216,
   dieProfileField: "HYV9Q",
   cellField: "QLC",
   extra: {
-    "Layer Count": 321
+    "Layer Count": 321,
+    "Die Density": "2Tb",
+    "Die Count": 8,
+    "CE Count": 4
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T3TCG8C", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "HYV7",
+  cellField: "TLC",
+  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  extra: {
+    "Process Alias": "H25FTC0",
+    "Layer Count": 176,
+    "Die Density": "512Gb",
+    "Die Count": 16,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 2
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
@@ -2366,6 +2389,48 @@ assertPart("H25T4TMG8C", {
     "Die Density": "1Tb",
     "Die Count": 16,
     "CE Count": 4
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertRuleDraftDieProfile("vendor.skhynix.h25.gt-package.v2", "H25G9TC18CX488", "HYV7");
+assertRuleDoesNotMatch("vendor.skhynix.h25.raw.v2", "H25G9TC18CX488");
+assertPart("H25G9TC18CX488", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "HYV7",
+  cellField: "TLC",
+  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  extra: {
+    "Process Alias": "H25FTC0",
+    "Layer Count": 176,
+    "Die Density": "512Gb",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Channel Count": 1
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertRuleDraftDieProfile("vendor.skhynix.h25.gt-package.v2", "H25G9TD18CX576", "HYV8");
+assertRuleDoesNotMatch("vendor.skhynix.h25.raw.v2", "H25G9TD18CX576");
+assertPart("H25G9TD18CX576", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "HYV8",
+  cellField: "TLC",
+  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  extra: {
+    "Process Alias": "H25FTD0",
+    "Layer Count": 238,
+    "Die Density": "512Gb",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Channel Count": 1
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
@@ -2402,18 +2467,6 @@ assertPart("H25JGQ8A1M8R", {
   cellField: "QLC",
   extra: {
     "Layer Count": 96
-  },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
-});
-
-assertPart("H25G9TC18CX488", {
-  vendor: "skhynix",
-  type: "NAND",
-  densityMbit: 524288,
-  dieProfileField: "HYV7",
-  cellField: "TLC",
-  extra: {
-    "Layer Count": 176
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
