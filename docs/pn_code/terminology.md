@@ -108,7 +108,7 @@ DRAM / MCP DRAM 子系统使用以下字段，避免和 NAND 字段混用：
 | `dram_die_density` | 单颗 DRAM die 容量 | `16384` / `16Gb` |
 | `dram_die_stack` | DRAM 物理 die 数与 CS 数量 | `2 dies, 2 CS` |
 | `die_count` | 只确认物理 die 数、但没有 CS 资料时的 die 数量 | `4` |
-| `ce_count` / `channel_count` | 只确认 CS/rank 或 channel、但没有物理 die 数时的拓扑数量 | `2` |
+| `cs_count` / `channel_count` | 只确认 CS/rank 或 channel、但没有物理 die 数时的拓扑数量 | `2` |
 | `dram_generation` | DRAM 工艺/代际 | `1y-nm LPDDR4X`, `LPDDR5X` |
 | `dram_speed` | DRAM 速率或 speed bin | `8533 Mbps`, `DDR4-2666 CL19` |
 | `dram_width` | DRAM 组织位宽，`unit = bit` | `16` / `x16` |

@@ -147,6 +147,7 @@
   "die_stack": "Die 堆叠",
   "die_count": "Die 数",
   "ce_count": "CE 数",
+  "cs_count": "CS 数",
   "rb_count": "R/B 数",
   "bank_count": "Bank 数",
   "channel_count": "Channel 数",

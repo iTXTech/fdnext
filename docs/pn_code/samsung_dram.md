@@ -87,7 +87,7 @@ modern: K4 + family + density token + 325 organization token + package token + -
 - `K4X` LPDDR1 从 bit organization 输出可确认的 CS / layout 信息；只有物理 die 与 CS 同时明确时输出 `dram_die_stack`，`2 CKE`、JEDEC/Flexframe stack layout 等信息放 `special_option`。
 - `K4W` 输出 `DRAM Type = DDR3`，并用 `DRAM Generation = Samsung graphics gDDR3/SDDR3` 标注其不同于普通 `K4B` DDR3 命名线。
 - Graphics Selection Guide 的 base PN 行可以确认封装/电压/组织，但 speed bin 不等同于 PN 尾缀；无 `-speed` 尾缀时不得输出 `dram_speed`。表中 `GDDR1` 行在 public `DRAM Type` 中统一输出为 `GDDR`。
-- 标准 DDR/GDDR 颗粒在 datasheet 或官方页面确认单颗 die / 单 CS 语义时输出 `1 die, 1 CS`；DDR3/DDR4 suffix package type 表达 DDP/QDP 等堆叠封装但没有 CS 信息时只输出 `die_count`，不补 `dram_die_stack` / `ce_count`。
+- 标准 DDR/GDDR 颗粒在 datasheet 或官方页面确认单颗 die / 单 CS 语义时输出 `1 die, 1 CS`；DDR3/DDR4 suffix package type 表达 DDP/QDP 等堆叠封装但没有 CS 信息时只输出 `die_count`，不补 `dram_die_stack` / `cs_count`。
 - Samsung 标准 SDR / DDR / DDR2 / DDR3 / DDR4 主结构里的最后一位 revision token 输出为 `die_revision = "<token>-die"`，例如 `K4B...I` 输出 `I-die`、`K4A...WB` 输出 `B-die`。
 - Samsung DDR4 `K4A...5W...` 主结构输出 `bank_count=16`、`interface_type=POD (1.2V VDD/VDDQ)` 与 `solder_type=Lead-Free and Halogen-Free`；这些来自主结构 token，不依赖完整 PN 白名单。
 - Samsung DDR3 / DDR3L / DDR4 的 `dram_speed` 按 Product Guide speed token 输出完整 CL / tRCD / tRP 时序，例如 `DDR3-2133 14-14-14`、`DDR3L-1866 13-13-13`、`DDR4-3200 22-22-22`；`RB/TC/WD/YF/AE` 这类 DDR4 alternate timing code 也按 ordering information 保留对应时序。
@@ -108,7 +108,7 @@ Samsung DDR4 component PN 的 suffix 第一位是 package type：`B` 表示 flip
 | `2` / `3` | standard DDR suffix | `die_count = 2`, `special_option = 2H TSV / 2H 3DS` | package token |
 | `4` / `5` | standard DDR suffix | `die_count = 4`, `special_option = 4H TSV / 4H 3DS` | package token |
 
-仍不按 `AG` 或 `K4AAG...` base PN 单独推断 DDP；必须 suffix package type 为 `M`。例如同为 `AG08` 的 `B...` suffix 仍按普通 FBGA 处理。若外部资料只说明 DDP/QDP 而未稳定暴露 CS，public result 保留 `die_count`，省略 `dram_die_stack` 与 `ce_count`。
+仍不按 `AG` 或 `K4AAG...` base PN 单独推断 DDP；必须 suffix package type 为 `M`。例如同为 `AG08` 的 `B...` suffix 仍按普通 FBGA 处理。若外部资料只说明 DDP/QDP 而未稳定暴露 CS，public result 保留 `die_count`，省略 `dram_die_stack` 与 `cs_count`。
 
 ## 大容量 configuration
 

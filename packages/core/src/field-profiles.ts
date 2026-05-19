@@ -83,7 +83,7 @@ export const fdnextFieldProfiles = {
         importance: "primary",
         fields: ["dram_type", "dram_density", "density", "dram_die_density", "dram_width", "device_width", "dram_voltage", "voltage", "dram_speed", "dram_generation"]
       },
-      { id: "geometry", label: "Geometry", importance: "secondary", fields: ["dram_die_stack", "die_stack", "die_count", "process_node", "config_code"] },
+      { id: "geometry", label: "Geometry", importance: "secondary", fields: ["dram_die_stack", "die_stack", "die_count", "cs_count", "process_node", "config_code"] },
       { id: "package", label: "Package", importance: "detail", fields: ["package", "package_code", "operation_temperature", "die_revision"] },
       { id: "marking", label: "Marking", importance: "detail", fields: ["marking_code"] }
     ]

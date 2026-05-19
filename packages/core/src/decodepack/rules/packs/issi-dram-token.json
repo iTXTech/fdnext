@@ -122,16 +122,16 @@
         },
         "stackObj": {
           "16512": {
-            "ce_count": 1
+            "cs_count": 1
           },
           "16512S2": {
-            "ce_count": 2
+            "cs_count": 2
           },
           "8K02S2": {
-            "ce_count": 2
+            "cs_count": 2
           },
           "16K01S2": {
-            "ce_count": 2
+            "cs_count": 2
           }
         },
         "packageOverride": {
@@ -839,7 +839,7 @@
             "package": "200-ball BGA (10mm x 14.5mm)",
             "config_code": "2x16 1G S2",
             "channel_count": 2,
-            "ce_count": 2,
+            "cs_count": 2,
             "bank_count": 8,
             "dram_speed": "LPDDR4/LPDDR4X-4266/3733"
           },
@@ -852,7 +852,7 @@
             "package": "200-ball BGA (10mm x 14.5mm)",
             "config_code": "2x16 2G S2",
             "channel_count": 2,
-            "ce_count": 2,
+            "cs_count": 2,
             "bank_count": 8,
             "dram_speed": "LPDDR4/LPDDR4X-4266/3733"
           }
@@ -930,8 +930,8 @@
             "bank_count": {
               "$path": "productObj.bank_count"
             },
-            "ce_count": {
-              "$path": "productObj.ce_count"
+            "cs_count": {
+              "$path": "productObj.cs_count"
             },
             "ecc_enabled": {
               "$path": "productObj.ecc_enabled"
@@ -1188,10 +1188,10 @@
         },
         "stackObj": {
           "S1": {
-            "ce_count": 1
+            "cs_count": 1
           },
           "S2": {
-            "ce_count": 2
+            "cs_count": 2
           }
         },
         "speedObj": {

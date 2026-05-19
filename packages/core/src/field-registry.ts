@@ -462,6 +462,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "geometry",
     importance: "secondary"
   },
+  cs_count: {
+    key: "cs_count",
+    valueKind: "number",
+    defaultLabel: "CS Count",
+    recommendedBlock: "geometry",
+    importance: "secondary"
+  },
   rb_count: {
     key: "rb_count",
     valueKind: "number",

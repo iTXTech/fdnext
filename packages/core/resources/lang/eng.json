@@ -147,6 +147,7 @@
   "die_stack": "Die Stack",
   "die_count": "Die Count",
   "ce_count": "CE Count",
+  "cs_count": "CS Count",
   "rb_count": "R/B Count",
   "bank_count": "Bank Count",
   "channel_count": "Channel Count",

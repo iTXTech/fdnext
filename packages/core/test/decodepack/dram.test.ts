@@ -49,7 +49,7 @@ const standaloneDramExtraKeys = new Set([
   "DRAM Generation",
   "DRAM Die Density",
   "Die Count",
-  "CE Count",
+  "CS Count",
   "Bank Count",
   "Channel Count",
   "Interface Type",
@@ -125,6 +125,10 @@ function firstField(result: PartDecodeResult, ...keys: string[]): FieldValue | u
 
 function fieldText(field: FieldValue | undefined): unknown {
   return field ? field.display ?? field.value : undefined;
+}
+
+function blockIdForField(result: PartDecodeResult, key: string): string | undefined {
+  return result.blocks.find((block) => block.fields.some((field) => field.key === key))?.id;
 }
 
 function detect(partNumber: string): TestPartInfo {
@@ -361,6 +365,12 @@ function assertStackedDram(
 function assertDecodedField(partNumber: string, key: string, expected: unknown): void {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(fieldText(firstField(result, key)), expected, `${partNumber} fields.${key}`);
+}
+
+function assertFieldBlock(partNumber: string, key: string, expectedBlockId: string): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode`);
+  assert.equal(blockIdForField(result, key), expectedBlockId, `${partNumber} ${key} should be in ${expectedBlockId}`);
 }
 
 function assertDecodedPartNumber(query: string, expected: string): void {
@@ -2111,7 +2121,7 @@ assertDram("H9CCNNNBLTBLAR-NTD", {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "4 dies, 2 CS",
     "Channel Count": 1,
-    "CE Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR3-1600",
     "DRAM Generation": "3rd generation",
     "Operation Temperature": "Commercial (0 to 85C)",
@@ -2120,6 +2130,10 @@ assertDram("H9CCNNNBLTBLAR-NTD", {
   }
 });
 assertDecodedField("H9CCNNNBLTBLAR-NTD", "die_count", 4);
+assertDecodedField("H9CCNNNBLTBLAR-NTD", "cs_count", 2);
+assertDecodedFieldAbsent("H9CCNNNBLTBLAR-NTD", "ce_count");
+assertFieldBlock("H9CCNNNBLTBLAR-NTD", "die_count", "geometry");
+assertFieldBlock("H9CCNNNBLTBLAR-NTD", "cs_count", "geometry");
 
 assertDram("H9CCNNNBLTBLAR-NUD", {
   vendor: "skhynix",
@@ -2132,7 +2146,7 @@ assertDram("H9CCNNNBLTBLAR-NUD", {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "4 dies, 2 CS",
     "Channel Count": 1,
-    "CE Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR3-1866",
     "DRAM Generation": "3rd generation",
     "Operation Temperature": "Commercial (0 to 85C)",
@@ -2154,7 +2168,7 @@ assertDram("H9HCNNN8KUMLHR-NME", {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "2 dies, 1 CS",
     "Channel Count": 2,
-    "CE Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR4-3733",
     "DRAM Generation": "1st generation",
     "Operation Temperature": "-25°C ~ 85°C",
@@ -2173,7 +2187,7 @@ assertDram("H9HCNNN8KUMLHR-NLE", {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "2 dies, 1 CS",
     "Channel Count": 2,
-    "CE Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR4-3200",
     "DRAM Generation": "1st generation",
     "Operation Temperature": "-25°C ~ 85°C",
@@ -2192,7 +2206,7 @@ assertDram("H9HCNNNCPUMLXR-NEE", {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "4 dies, 2 CS",
     "Channel Count": 2,
-    "CE Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR4-4266",
     "DRAM Generation": "1st generation",
     "Operation Temperature": "-25°C ~ 85°C",
@@ -2211,7 +2225,7 @@ assertDram("H9HCNNNCPMMLXR-NEE", {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "4 dies, 2 CS",
     "Channel Count": 2,
-    "CE Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR4X-4266",
     "DRAM Generation": "1st generation",
     "Operation Temperature": "-25°C ~ 85°C",
@@ -2230,7 +2244,7 @@ assertDram("H9HCNNNCPMMLHR-NMI", {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "4 dies, 2 CS",
     "Channel Count": 2,
-    "CE Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR4X-3733",
     "DRAM Generation": "1st generation",
     "Operation Temperature": "-40°C ~ 95°C",
@@ -2249,7 +2263,7 @@ assertDram("H9HCNNNBKMMLXR-NEI", {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "2 dies, 1 CS",
     "Channel Count": 2,
-    "CE Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR4X-4266",
     "DRAM Generation": "1st generation",
     "Operation Temperature": "-40°C ~ 95°C",
@@ -2268,7 +2282,7 @@ assertDram("H9HCNNNBKMALHR-NEE", {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "2 dies, 1 CS",
     "Channel Count": 2,
-    "CE Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR4X-4266",
     "DRAM Generation": "1st generation",
     "Operation Temperature": "-25°C ~ 85°C",
@@ -2287,7 +2301,7 @@ assertDram("H9HCNNNFAMMLXR-NEE", {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "8 dies, 2 CS",
     "Channel Count": 2,
-    "CE Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR4X-4266",
     "DRAM Generation": "1st generation",
     "Operation Temperature": "-25°C ~ 85°C",
@@ -2307,7 +2321,7 @@ assertDram("H9HKNNNBTUMUBR-NLH", {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "2 dies, 1 CS",
     "Channel Count": 4,
-    "CE Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR4-3200",
     "DRAM Generation": "1st generation",
     "Operation Temperature": "-25°C ~ 105°C",
@@ -2423,7 +2437,7 @@ assertDram("H58G56CK8BX146", {
     "DRAM Type": "LPDDR5X",
     "DRAM Die Stack": "2 dies, 1 CS",
     "Channel Count": 2,
-    "CE Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR5X-8533",
     "DRAM Generation": "4th generation",
     "Operation Temperature": "-25°C ~ 85°C",
@@ -2442,7 +2456,7 @@ assertDram("H58G66CK8BX147", {
     "DRAM Type": "LPDDR5X",
     "DRAM Die Stack": "4 dies, 2 CS",
     "Channel Count": 2,
-    "CE Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR5X-8533",
     "DRAM Generation": "4th generation",
     "Operation Temperature": "-25°C ~ 85°C",
@@ -2460,7 +2474,7 @@ assertDram("H58G78CK8BX185", {
   extra: {
     "DRAM Type": "LPDDR5X",
     "Channel Count": 2,
-    "CE Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR5X-8533",
     "DRAM Generation": "4th generation",
     "Operation Temperature": "-25°C ~ 85°C",
@@ -2640,7 +2654,7 @@ assertDram("K4AAG085WB-MCRC", {
   absentExtra: ["DRAM Die Stack"]
 });
 assertDecodedField("K4AAG085WB-MCRC", "die_count", 2);
-assertDecodedFieldAbsent("K4AAG085WB-MCRC", "ce_count");
+assertDecodedFieldAbsent("K4AAG085WB-MCRC", "cs_count");
 assertDecodedField("K4A8G085WB-2CRC", "die_count", 2);
 assertDecodedField("K4A8G085WB-2CRC", "special_option", "2H TSV");
 assertDecodedField("K4A8G085WB-3CRC", "die_count", 2);
@@ -2668,7 +2682,7 @@ assertDram("K4AAG165WB-MCRC", {
   absentExtra: ["DRAM Die Stack"]
 });
 assertDecodedField("K4AAG165WB-MCRC", "die_count", 2);
-assertDecodedFieldAbsent("K4AAG165WB-MCRC", "ce_count");
+assertDecodedFieldAbsent("K4AAG165WB-MCRC", "cs_count");
 
 assertDram("K4ABG085WA-MCWE", {
   vendor: "samsung",
@@ -2688,7 +2702,7 @@ assertDram("K4ABG085WA-MCWE", {
   absentExtra: ["DRAM Die Stack"]
 });
 assertDecodedField("K4ABG085WA-MCWE", "die_count", 2);
-assertDecodedFieldAbsent("K4ABG085WA-MCWE", "ce_count");
+assertDecodedFieldAbsent("K4ABG085WA-MCWE", "cs_count");
 
 assertDram("K4ABG165WB-MCWE", {
   vendor: "samsung",
@@ -2708,7 +2722,7 @@ assertDram("K4ABG165WB-MCWE", {
   absentExtra: ["DRAM Die Stack"]
 });
 assertDecodedField("K4ABG165WB-MCWE", "die_count", 2);
-assertDecodedFieldAbsent("K4ABG165WB-MCWE", "ce_count");
+assertDecodedFieldAbsent("K4ABG165WB-MCWE", "cs_count");
 
 assertDecodedField("K4A8G085WB-BCRB", "dram_speed", "DDR4-2133 17-15-15");
 assertDecodedField("K4A8G085WB-BCRB", "operation_temperature", "Commercial (0C~85C)");
@@ -2822,7 +2836,7 @@ assertDram("K4B1G0846I-MCMA", {
   absentExtra: ["DRAM Die Stack"]
 });
 assertDecodedField("K4B1G0846I-MCMA", "die_count", 2);
-assertDecodedFieldAbsent("K4B1G0846I-MCMA", "ce_count");
+assertDecodedFieldAbsent("K4B1G0846I-MCMA", "cs_count");
 
 assertDram("K4B2G1646F-BCNB", {
   vendor: "samsung",
@@ -2878,7 +2892,7 @@ assertDram("K4B4G0846D-ECMA", {
   absentExtra: ["DRAM Die Stack"]
 });
 assertDecodedField("K4B4G0846D-ECMA", "die_count", 4);
-assertDecodedFieldAbsent("K4B4G0846D-ECMA", "ce_count");
+assertDecodedFieldAbsent("K4B4G0846D-ECMA", "cs_count");
 
 assertDram("K4B4G0446E-BYK0", {
   vendor: "samsung",
@@ -3204,7 +3218,7 @@ assertDram("K4F6E304HB-MGCJ", {
     "Config Code": "4F6E30",
     "DRAM Speed": "LPDDR4-3733",
     "DRAM Generation": "3rd Generation",
-    "CE Count": 2,
+    "CS Count": 2,
     "Channel Count": 2,
     "Bank Count": 8,
     "Interface Type": "LVSTL_11",
@@ -3458,7 +3472,9 @@ assertDram("K4X51163PC-FGC3", {
 
 assertDecodedField("K4X51263PC", "special_option", "JEDEC stacked layout");
 assertDecodedFieldAbsent("K4X51263PC", "die_count");
-assertDecodedField("K4X51303PC", "ce_count", 2);
+assertDecodedField("K4X51303PC", "cs_count", 2);
+assertDecodedFieldAbsent("K4X51303PC", "ce_count");
+assertFieldBlock("K4X51303PC", "cs_count", "geometry");
 assertDecodedField("K4X51303PC", "special_option", "2 CKE");
 assertDecodedFieldAbsent("K4X51303PC", "die_count");
 
@@ -4128,7 +4144,7 @@ assertDram("NT6CL256M32AM-H0", {
     "DRAM Die Stack": "1 die, 1 CS",
     "DRAM Speed": "LPDDR3-2133",
     "Operation Temperature": "Commercial (-30C~105C)",
-    "CE Count": 1,
+    "CS Count": 1,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
@@ -4150,7 +4166,7 @@ assertDram("NT6CL512T32AM-H1", {
     "DRAM Die Stack": "2 dies, 2 CS",
     "DRAM Speed": "LPDDR3-1866",
     "Operation Temperature": "Commercial (-30C~105C)",
-    "CE Count": 2,
+    "CS Count": 2,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
@@ -4172,7 +4188,7 @@ assertDram("NT6CL1024F32AP-H0", {
     "DRAM Die Stack": "4 dies, 2 CS",
     "DRAM Speed": "LPDDR3-2133",
     "Operation Temperature": "Commercial (-30C~105C)",
-    "CE Count": 2,
+    "CS Count": 2,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
@@ -4194,7 +4210,7 @@ assertDram("NT6CL128M32DM-H1", {
     "DRAM Die Stack": "1 die, 1 CS",
     "DRAM Speed": "LPDDR3-1866",
     "Operation Temperature": "Commercial (-30C~105C)",
-    "CE Count": 1,
+    "CS Count": 1,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
@@ -4216,7 +4232,7 @@ assertDram("NT6CL256M16DM-H0", {
     "DRAM Die Stack": "1 die, 1 CS",
     "DRAM Speed": "LPDDR3-2133",
     "Operation Temperature": "Commercial (-30C~105C)",
-    "CE Count": 1,
+    "CS Count": 1,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
@@ -4238,7 +4254,7 @@ assertDram("NT6CL128M32BQ-H2", {
     "DRAM Die Stack": "1 die, 1 CS",
     "DRAM Speed": "LPDDR3-1600",
     "Operation Temperature": "Commercial (-25C~85C)",
-    "CE Count": 1,
+    "CS Count": 1,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
@@ -4260,7 +4276,7 @@ assertDram("NT6CL256T32BM-H2", {
     "DRAM Die Stack": "2 dies, 2 CS",
     "DRAM Speed": "LPDDR3-1600",
     "Operation Temperature": "Commercial (-25C~85C)",
-    "CE Count": 2,
+    "CS Count": 2,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
@@ -4282,7 +4298,7 @@ assertDram("NT6CL128T64DR-H1", {
     "DRAM Die Stack": "2 dies, 2 CS",
     "DRAM Speed": "LPDDR3-1866",
     "Operation Temperature": "Commercial (-30C~105C)",
-    "CE Count": 2,
+    "CS Count": 2,
     "Channel Count": 2,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
@@ -5171,7 +5187,7 @@ assertDram("IS46LQ32K01S2A-046BLA2", {
     "DRAM Type": "LPDDR4",
     "DRAM Speed": "LPDDR4/LPDDR4X-4266",
     "DRAM Generation": "LPDDR4/LPDDR4X",
-    "CE Count": 2,
+    "CS Count": 2,
     "Channel Count": 2,
     "Bank Count": 8,
     "Operation Temperature": "Automotive Grade (-40C to +105C)"
@@ -5189,7 +5205,7 @@ assertDram("IS46LQ32K02S2A-053BLA3", {
     "DRAM Type": "LPDDR4",
     "DRAM Speed": "LPDDR4/LPDDR4X-3733",
     "DRAM Generation": "LPDDR4/LPDDR4X",
-    "CE Count": 2,
+    "CS Count": 2,
     "Channel Count": 2,
     "Bank Count": 8,
     "Operation Temperature": "Automotive Grade (-40C to +125C)"
@@ -5392,7 +5408,7 @@ assertDram("IS43TR16512S2DL-107MBLI", {
     "CAS Latency": 13,
     "Solder Type": "100% matte Sn for non-BGA or SnAgCu for BGA",
     "Operation Temperature": "Industrial Grade (-40C to +95C)",
-    "CE Count": 2
+    "CS Count": 2
   }
 });
 

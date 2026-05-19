@@ -228,7 +228,7 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 | --- | --- | --- |
 | `G5:146` | 32Gb | 2 dies, 1 CS；2 Channel |
 | `G6:147` | 64Gb | 4 dies, 2 CS；2 Channel |
-| `G7:185` | 128Gb | `channel_count=2`, `ce_count=2`（公开资料只确认 2Ch 2CS，不推断 die 数） |
+| `G7:185` | 128Gb | `channel_count=2`, `cs_count=2`（公开资料只确认 2Ch 2CS，不推断 die 数） |
 
 ## 尾缀处理
 

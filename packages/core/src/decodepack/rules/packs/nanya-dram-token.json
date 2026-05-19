@@ -630,17 +630,17 @@
           "6CL:M": {
             "dram_die_stack": "1 die, 1 CS",
             "die_count": 1,
-            "ce_count": 1
+            "cs_count": 1
           },
           "6CL:T": {
             "dram_die_stack": "2 dies, 2 CS",
             "die_count": 2,
-            "ce_count": 2
+            "cs_count": 2
           },
           "6CL:F": {
             "dram_die_stack": "4 dies, 2 CS",
             "die_count": 4,
-            "ce_count": 2
+            "cs_count": 2
           },
           "6AN:M": {
             "dram_die_stack": "1 die",

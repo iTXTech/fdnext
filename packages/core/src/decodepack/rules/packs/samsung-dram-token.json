@@ -1360,7 +1360,7 @@
         },
         "dieStackObj": {
           "15": {
-            "ce_count": 2
+            "cs_count": 2
           },
           "26": {
             "special_option": "JEDEC stacked layout"
@@ -1369,11 +1369,11 @@
             "special_option": "JEDEC stacked layout"
           },
           "30": {
-            "ce_count": 2,
+            "cs_count": 2,
             "special_option": "2 CKE"
           },
           "31": {
-            "ce_count": 2
+            "cs_count": 2
           },
           "06": {
             "special_option": "Flexframe stacked layout"
@@ -1637,7 +1637,7 @@
         },
         "organizationObj": {
           "30": {
-            "ce_count": 2,
+            "cs_count": 2,
             "channel_count": 2,
             "special_option": "2 CKE"
           },

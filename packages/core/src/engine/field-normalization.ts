@@ -287,11 +287,11 @@ export function applyDramClassification(info: PartDecodeDraft): void {
   const ce = parseDramCsCount(extra.dram_die_stack);
   const hasExplicitDramStack = isKnownClassificationValue(extra.dram_die_stack);
   const hasExplicitDieCount = isKnownClassificationValue(extra.die_count);
-  const hasExplicitCeCount = isKnownClassificationValue(extra.ce_count);
+  const hasExplicitCsCount = isKnownClassificationValue(extra.cs_count);
   const hasStackLayoutOption = hasDramStackLayoutOption(extra.special_option);
   const defaultDieClassification = isDdrFamilyDramType(extra.dram_type);
-  const defaultCeClassification = isPlainDdrDramType(extra.dram_type);
-  if (die == null && ce == null && !defaultDieClassification && !defaultCeClassification) {
+  const defaultCsClassification = isPlainDdrDramType(extra.dram_type);
+  if (die == null && ce == null && !defaultDieClassification && !defaultCsClassification) {
     return;
   }
 
@@ -299,7 +299,7 @@ export function applyDramClassification(info: PartDecodeDraft): void {
     setDraftField(info, "die_count", die);
   } else if (
     !hasExplicitDramStack &&
-    !hasExplicitCeCount &&
+    !hasExplicitCsCount &&
     !hasStackLayoutOption &&
     defaultDieClassification &&
     !isKnownClassificationValue(draftField(info, "die_count"))
@@ -308,9 +308,9 @@ export function applyDramClassification(info: PartDecodeDraft): void {
   }
 
   if (ce != null) {
-    setDraftField(info, "ce_count", ce);
-  } else if (!hasExplicitDieCount && defaultCeClassification && !isKnownClassificationValue(draftField(info, "ce_count"))) {
-    setDraftField(info, "ce_count", 1);
+    setDraftField(info, "cs_count", ce);
+  } else if (!hasExplicitDieCount && defaultCsClassification && !isKnownClassificationValue(draftField(info, "cs_count"))) {
+    setDraftField(info, "cs_count", 1);
   }
 }
 
