@@ -380,7 +380,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H25(?![TG])[A-Z0-9]{7,}"
+      "value": "^H25[QBJ][EFG][MTQ][8M][ABDFG][1346][A-Z0-9]"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -392,122 +392,87 @@
           "T": 3,
           "Q": 4
         },
-        "density": {
-          "QE:M:8:A1": 262144,
-          "QF:T:8:A1": 524288,
-          "QF:T:8:B3": 1048576,
-          "QF:T:8:D4": 2097152,
-          "QF:T:M:F4": 524288,
-          "BF:T:4:D1": 524288,
-          "BF:T:4:M9": 524288,
-          "BF:T:8:A1": 524288,
-          "BF:T:8:A2": 524288,
-          "BF:T:8:B3": 1048576,
-          "BF:T:8:D4": 2097152,
-          "JG:Q:8:A1": 1048576,
-          "JG:Q:8:F4": 1048576,
-          "JG:T:4:D1": 1048576,
-          "JG:T:8:A1": 1048576,
-          "JG:T:8:B1": 2097152,
-          "JG:T:8:B3": 2097152,
-          "JG:T:8:D4": 4194304,
-          "JG:T:8:F1": 8388608,
-          "JG:T:8:F4": 8388608
+        "dieDensityMbit": {
+          "E": 262144,
+          "F": 524288,
+          "G": 1048576
+        },
+        "dieDensityLabel": {
+          "E": "256Gb",
+          "F": "512Gb",
+          "G": "1Tb"
+        },
+        "deviceWidth": {
+          "8": 8,
+          "M": 8
+        },
+        "dieCountObj": {
+          "A": {
+            "die_count": 1
+          },
+          "B": {
+            "die_count": 2
+          },
+          "D": {
+            "die_count": 4
+          },
+          "F": {
+            "die_count": 8
+          },
+          "G": {
+            "die_count": 16
+          }
+        },
+        "topologyObj": {
+          "1": {
+            "ce_count": 1,
+            "channel_count": 1
+          },
+          "3": {
+            "ce_count": 2,
+            "channel_count": 2
+          },
+          "4": {
+            "ce_count": 4,
+            "channel_count": 2
+          },
+          "6": {
+            "ce_count": 8,
+            "channel_count": 2
+          }
         },
         "processNode": {
-          "QE:M:8:B": "HYV4M",
-          "QF:T:8:A": "HYV4",
-          "QF:T:M:A": "HYV4",
-          "QF:T:8:M": "HYV5Q",
-          "BF:T:4:C": "HYV6",
-          "BF:T:4:R": "HYV5",
-          "BF:T:8:M": "HYV5",
-          "BF:T:8:B": "HYV6",
-          "BF:T:8:Z": "HYV6",
-          "JG:Q:8:M": "HYV5Q",
-          "JG:T:4:C": "HYV6",
-          "JG:T:8:M": "HYV6"
-        },
-        "reference": {
-          "QE:M:8:B": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
-          "QF:T:8:A": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
-          "QF:T:M:A": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
-          "QF:T:8:M": {
-            "status": "local_pending_external_reference",
-            "source": "local fdb/fdfdb cross-check; external reference pending"
-          },
-          "BF:T:4:C": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
-          "BF:T:4:R": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
-          "BF:T:8:M": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
-          "BF:T:8:B": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
-          "BF:T:8:Z": {
-            "status": "local_pending_external_reference",
-            "source": "local fdb/fdfdb cross-check; external reference pending"
-          },
-          "JG:Q:8:M": {
-            "status": "external_table_confirmed",
-            "source": "external distributor listing / flash-id table + local fdb cross-check"
-          },
-          "JG:T:4:C": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
-          "JG:T:8:M": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          }
-        },
-        "densityReference": {
-          "BF:T:8:A2": {
-            "status": "local_pending_external_reference",
-            "source": "local fdb/fdfdb density token; external reference pending"
-          },
-          "JG:T:8:B1": {
-            "status": "local_pending_external_reference",
-            "source": "local fdb/fdfdb density token; external reference pending"
-          },
-          "JG:T:8:F1": {
-            "status": "local_pending_external_reference",
-            "source": "local fdb/fdfdb density token; external reference pending"
-          }
+          "Q:M:E:B": "HYV4M",
+          "Q:T:F:A": "HYV4",
+          "B:T:F:M": "HYV5",
+          "J:T:G:M": "HYV6",
+          "J:Q:G:M": "HYV6Q"
         }
       },
       "steps": [
         {
           "op": "take",
           "len": 1,
-          "to": "seriesCode1"
+          "to": "seriesCode"
         },
         {
           "op": "take",
           "len": 1,
-          "to": "seriesCode2"
+          "to": "dieDensityCode"
         },
         {
-          "op": "tpl",
-          "template": "{{seriesCode1}}{{seriesCode2}}",
-          "to": "seriesCode"
+          "op": "map",
+          "from": "dieDensityCode",
+          "table": "dieDensityMbit",
+          "to": "dieDensityMbit",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "dieDensityCode",
+          "table": "dieDensityLabel",
+          "to": "dieDensity",
+          "default": ""
         },
         {
           "op": "take",
@@ -524,37 +489,60 @@
         {
           "op": "take",
           "len": 1,
-          "to": "layoutCode"
-        },
-        {
-          "op": "take",
-          "len": 1,
-          "to": "densityCode"
-        },
-        {
-          "op": "take",
-          "len": 1,
-          "to": "stackCode"
-        },
-        {
-          "op": "take",
-          "len": 1,
-          "to": "generationCode"
-        },
-        {
-          "op": "tpl",
-          "template": "{{seriesCode}}:{{cellLevelCode}}:{{layoutCode}}:{{densityCode}}{{stackCode}}",
-          "to": "densityKey"
-        },
-        {
-          "op": "tpl",
-          "template": "{{seriesCode}}:{{cellLevelCode}}:{{layoutCode}}:{{generationCode}}",
-          "to": "processKey"
+          "to": "widthCode"
         },
         {
           "op": "map",
-          "from": "densityKey",
-          "table": "density",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieCountCode"
+        },
+        {
+          "op": "map",
+          "from": "dieCountCode",
+          "table": "dieCountObj",
+          "to": "dieCountObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "dieCount",
+          "value": {
+            "$path": "dieCountObj.die_count"
+          }
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "topologyCode"
+        },
+        {
+          "op": "map",
+          "from": "topologyCode",
+          "table": "topologyObj",
+          "to": "topologyObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "revisionCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{seriesCode}}:{{cellLevelCode}}:{{dieDensityCode}}:{{revisionCode}}",
+          "to": "processKey"
+        },
+        {
+          "op": "mul",
+          "a": "dieDensityMbit",
+          "b": "dieCount",
           "to": "density",
           "default": 0
         },
@@ -593,7 +581,21 @@
         "fields.layer_count": {
           "$path": "processObj.layer_count"
         },
-        "fields.device_width": 8,
+        "fields.die_density": {
+          "$var": "dieDensity"
+        },
+        "fields.die_count": {
+          "$path": "dieCountObj.die_count"
+        },
+        "fields.ce_count": {
+          "$path": "topologyObj.ce_count"
+        },
+        "fields.channel_count": {
+          "$path": "topologyObj.channel_count"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
         "meta.ruleId": "vendor.skhynix.h25.raw.v2"
       }
     }
