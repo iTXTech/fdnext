@@ -29,7 +29,7 @@ pnpm contract:check
 - 开始前先执行 `git status --short`，确认已有未提交修改。不要回退用户或其他代理的改动。
 - 搜索文件和文本优先用 `rg` / `rg --files`。
 - 小范围手工改文件用 `apply_patch`。
-- 新增或调整规则后，优先补测试；测试位置通常是 `packages/core/test/decodepack/managed-nand.test.ts`。
+- 新增或调整规则后，优先补对应产品线测试；测试位置按芯片类型选择，例如 DRAM 用 `packages/core/test/decodepack/dram.test.ts`，managed NAND 用 `packages/core/test/decodepack/managed-nand.test.ts`。
 - 新增或重命名 canonical field key 时，同步检查 `packages/core/src/field-registry.ts`、`packages/core/resources/lang/eng.json` 和 `packages/core/resources/lang/chs.json`。
 - 对 iTXTech fdnext DecodePack JSON 文件保持可读的表驱动结构。不要为了过测试引入一次性特判。
 
@@ -109,15 +109,38 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 
 ## 测试和验证
 
-规则变更建议至少运行：
+新增或调整 PN / DecodePack 规则时，默认使用定向验证，不要一上来跑全仓库长流程。常规新规则先运行：
 
 ```bash
-pnpm -C packages/core test
+pnpm cli decodepack check
+pnpm -C packages/core exec tsx test/decodepack/<对应测试文件>.test.ts
 pnpm -C packages/core typecheck
 git diff --check
 ```
 
-如果改动影响 core 输出、资源打包或 result contract 夹具，再运行：
+例如 DRAM 规则：
+
+```bash
+pnpm cli decodepack check
+pnpm -C packages/core exec tsx test/decodepack/dram.test.ts
+pnpm -C packages/core typecheck
+git diff --check
+```
+
+只有在以下情况才升级到 core 全量测试：
+
+- 修改 DecodePack 编译器、engine、搜索索引、输出转换、metadata audit 覆盖范围或共享 runtime。
+- 新增 / 重命名 public field、语言包、field registry 或 result contract 相关逻辑。
+- 同一改动跨多个产品线测试文件，或定向测试无法覆盖风险面。
+- 准备提交前需要额外兜底，且改动已经超出单一规则 pack / 单一资源文件。
+
+core 全量测试命令：
+
+```bash
+pnpm -C packages/core test
+```
+
+只有改动影响跨包构建、资源打包、server / cf-workers / fdbgen 消费面、或 result contract 夹具时，再运行：
 
 ```bash
 pnpm test

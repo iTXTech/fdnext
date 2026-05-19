@@ -6849,7 +6849,91 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M12L2561616A-5TVG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-6TVG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-7TVG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-5BVG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-6BVG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-7BVG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-5TVAG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-6TVAG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-7TVAG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-5BVAG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-6BVAG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L2561616A-7BVAG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L32321A-5BG2G"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L32321A-6BG2G"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L32321A-7BG2G"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M12L5121632A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L5121632A-5TIG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L5121632A-6TIG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L5121632A-7TIG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L5121632A-5BIG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L5121632A-6BIG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L5121632A-7BIG2T"
   },
   {
     "vendor": "esmt",
@@ -6857,7 +6941,67 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M12L64164A-5TIG2C"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-6TIG2C"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-7TIG2C"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-5BIG2C"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-6BIG2C"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-7BIG2C"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-5TIG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-6TIG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-7TIG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-5BIG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-6BIG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M12L64164A-7BIG2Y"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M12L64322A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13D64322A-4BG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13D64322A-4.5BG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13D64322A-5BG2S"
   },
   {
     "vendor": "esmt",
@@ -6865,11 +7009,183 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M13S128168A-4TIG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-5TIG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-6TIG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-4BIG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-5BIG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-6BIG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-4TVG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-5TVG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-6TVG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-4BVG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-5BVG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-6BVG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-4TVAG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-5TVAG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-6TVAG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-4BVAG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-5BVAG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-6BVAG2N"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-4TG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-4.5TG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-5TG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-6TG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-4BG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-4.5BG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-5BG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S128168A-6BG2S"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M13S2561616A"
   },
   {
     "vendor": "esmt",
+    "pn": "M13S2561616A-4TG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S2561616A-5TG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S2561616A-6TG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S2561616A-4BG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S2561616A-5BG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S2561616A-6BG2T"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M13S5121632A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S5121632A-5TG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S5121632A-6TG2T"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S64164A-4TG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S64164A-5TG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S64164A-6TG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S64164A-4BG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S64164A-5BG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S64164A-6BG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S64164A-4TG2C"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S64164A-5TG2C"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M13S64164A-6TG2C"
   },
   {
     "vendor": "esmt",
@@ -6925,11 +7241,51 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M14D128168A-1.8BIG2Y"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D128168A-2.5BIG2Y"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M14D1G1664A-1.8BIG2S"
   },
   {
     "vendor": "esmt",
     "pn": "M14D1G1664A-2.5BIG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D1G1664A-1.5BIG2P"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D1G1664A-1.6BIG2P"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D1G1664A-1.8BIG2P"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D1G1664A-2.5BIG2P"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D1G1664A-1.8BVG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D1G1664A-2.5BVG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D1G1664A-1.8BVAG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D1G1664A-2.5BVAG2S"
   },
   {
     "vendor": "esmt",
@@ -6953,6 +7309,22 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M14D2561616A-1.5BG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D2561616A-1.6BG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D2561616A-1.8BG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D2561616A-2.5BG2S"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M14D5121632A-1.5BG2A"
   },
   {
@@ -6970,6 +7342,26 @@
   {
     "vendor": "esmt",
     "pn": "M14D5121632A-2.5BBG2A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D5121632A-1.5BIG2M"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D5121632A-1.8BIG2M"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D5121632A-2.5BIG2M"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D5121632A-1.8BBIG2M"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M14D5121632A-2.5BBIG2M"
   },
   {
     "vendor": "esmt",
@@ -6993,7 +7385,35 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M15F2G16128A-DEBIG2B"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15F2G16128A-BDBIG2B"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15F4G16256A-GHBG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15F4G16256A-DEBIG2R"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15F4G16256A-BDBIG2R"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M15T1G1664A-EFBIG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T1G1664A-EFBG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T1G1664A-DEBG2S"
   },
   {
     "vendor": "esmt",
@@ -7014,6 +7434,10 @@
   {
     "vendor": "esmt",
     "pn": "M15T2G16128A-BDBIG2P"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T2G16128A-BDBIG2B"
   },
   {
     "vendor": "esmt",
@@ -7049,11 +7473,35 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M15T4G16256A-EFBG2S"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M15T4G16256A-DEBG2G"
   },
   {
     "vendor": "esmt",
+    "pn": "M15T4G16256A-DEBG2S"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M15T4G16256A-BDBG2G"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G16256A-BDBG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G16256A-EFBIG2C"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G16256A-DEBIG2C"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G16256A-BDBIG2C"
   },
   {
     "vendor": "esmt",
@@ -7069,7 +7517,23 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M15T4G16256A-DEBIAG2G"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M15T4G8512A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G8512A-BDBG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G8512A-DEBG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T4G8512A-EFBG2S"
   },
   {
     "vendor": "esmt",
@@ -7077,7 +7541,19 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M15T5121632A-BDBG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T5121632A-DEBG"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M15T8G16512A-BDBIG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T8G16512A-BDBG2S"
   },
   {
     "vendor": "esmt",
@@ -7085,7 +7561,15 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M15T8G16512A-DEBG2S"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M15T8G16512A-EFBIG2S"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M15T8G16512A-EFBG2S"
   },
   {
     "vendor": "esmt",
@@ -7093,7 +7577,59 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M16U4G16256A-QLBIG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M16U4G16256A-KJBIG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M16U4G16256A-HHBIG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M16U4G16256A-QLBIAG2Z"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M16U4G16256A-KJBIAG2Z"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M16U4G8512A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M52D2561616A-5BG2F"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M52D2561616A-6BG2F"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M52D2561616A-7BG2F"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M52D5121632A-5BG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M52D5121632A-6BG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M52D5121632A-7BG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M52D5123216A-6BIG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M52D5123216A-7BIG"
   },
   {
     "vendor": "esmt",
@@ -7117,7 +7653,67 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M53D256328A-5BG2F"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D256328A-6BG2F"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D256328A-7.5BG2F"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D2561616A-5BG2F"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D2561616A-6BG2F"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D2561616A-7.5BG2F"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D5121632A-5BG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D5121632A-6BG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D5121632A-7.5BG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D5123216A-5BG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D5123216A-6BG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M53D5123216A-7.5BG"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M54D1G1664A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D1G1664A-1.8BKIG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D1G1664A-2.5BKIG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D1G1664A-3BKIG"
   },
   {
     "vendor": "esmt",
@@ -7129,7 +7725,31 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M54D2G16128A-1.8BKG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D2G16128A-2.5BKG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D2G16128A-3BKG"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M54D2G3264A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D2G3264A-1.8BKG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D2G3264A-2.5BKG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M54D2G3264A-3BKG"
   },
   {
     "vendor": "esmt",
@@ -7165,11 +7785,31 @@
   },
   {
     "vendor": "esmt",
+    "pn": "M55D4G32128A-GFBG2R"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M55D4G32128A-EEBG2R"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M55D4G32128A-CDBG2R"
+  },
+  {
+    "vendor": "esmt",
     "pn": "M56Z4G16256A"
   },
   {
     "vendor": "esmt",
     "pn": "M56Z8G32256A"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M56Z8G32256A-SMBYIG"
+  },
+  {
+    "vendor": "esmt",
+    "pn": "M56Z8G32256A-TNBYG2H"
   },
   {
     "vendor": "etron",

@@ -20,7 +20,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^M(?:12L|13S|14D|14F|15T|15F|16U|52S|53D|54D|55D|56Z)[0-9A-Z]+$"
+      "value": "^M(?:12L|13D|13S|14D|14F|15T|15F|16U|52D|52S|53D|54D|55D|56Z)[0-9A-Z]+$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -29,12 +29,14 @@
       "tables": {
         "familyToken": {
           "12L": "12L",
+          "13D": "13D",
           "13S": "13S",
           "14D": "14D",
           "14F": "14F",
           "15T": "15T",
           "15F": "15F",
           "16U": "16U",
+          "52D": "52D",
           "52S": "52S",
           "53D": "53D",
           "54D": "54D",
@@ -44,6 +46,9 @@
         "familyObj": {
           "12L": {
             "dram_type": "SDR"
+          },
+          "13D": {
+            "dram_type": "LPDDR"
           },
           "13S": {
             "dram_type": "DDR"
@@ -63,6 +68,9 @@
           "16U": {
             "dram_type": "DDR4"
           },
+          "52D": {
+            "dram_type": "LPSDR"
+          },
           "52S": {
             "dram_type": "SDR"
           },
@@ -81,12 +89,14 @@
         },
         "voltage": {
           "12L": "3.3V VDD",
+          "13D": "1.8V VDD",
           "13S": "2.5V VDD",
           "14D": "1.8V VDD",
           "14F": "1.5V VDD",
           "15T": "1.35V / 1.5V VDD",
           "15F": "1.5V VDD",
           "16U": "1.2V VDD",
+          "52D": "1.8V VDD",
           "52S": "2.5V VDD",
           "53D": "1.8V VDD",
           "54D": "1.8V VDD1 / 1.2V VDD2/VDDQ",
@@ -96,6 +106,9 @@
         "familySpeedObj": {
           "12L": {
             "dram_speed": "SDR 100/133/166/200MHz"
+          },
+          "13D": {
+            "dram_speed": "LPDDR 400/450/500"
           },
           "13S": {
             "dram_speed": "DDR 333/400/500"
@@ -114,6 +127,9 @@
           },
           "16U": {
             "dram_speed": "DDR4 1333/1600MHz"
+          },
+          "52D": {
+            "dram_speed": "Mobile SDR 143/166MHz"
           },
           "52S": {
             "dram_speed": "SDR 100/133/166MHz"
@@ -135,7 +151,11 @@
           "12L:5": "5",
           "12L:6": "6",
           "12L:7": "7",
+          "13D:4": "4",
+          "13D:45": "45",
+          "13D:5": "5",
           "13S:4": "4",
+          "13S:45": "45",
           "13S:5": "5",
           "13S:6": "6",
           "14D:15": "15",
@@ -145,14 +165,25 @@
           "15F:GH": "GH",
           "15F:EF": "EF",
           "15F:DE": "DE",
+          "15F:BD": "BD",
           "15T:B": "B",
           "15T:D": "D",
           "15T:E": "E",
+          "16U:HH": "HH",
+          "16U:KJ": "KJ",
+          "16U:QL": "QL",
+          "52D:5": "5",
+          "52D:6": "6",
+          "52D:7": "7",
           "52S:10": "10",
           "52S:75": "75",
           "52S:6": "6",
           "53D:5": "5",
+          "53D:75": "75",
           "53D:6": "6",
+          "54D:18": "18",
+          "54D:25": "25",
+          "54D:3": "3",
           "55D:GF": "GF",
           "55D:EE": "EE",
           "55D:CD": "CD"
@@ -167,8 +198,20 @@
           "12L:7": {
             "dram_speed": "SDR 143MHz"
           },
+          "13D:4": {
+            "dram_speed": "LPDDR-500 (250MHz)"
+          },
+          "13D:45": {
+            "dram_speed": "LPDDR-450 (222MHz)"
+          },
+          "13D:5": {
+            "dram_speed": "LPDDR-400 (200MHz)"
+          },
           "13S:4": {
             "dram_speed": "DDR-500 (250MHz)"
+          },
+          "13S:45": {
+            "dram_speed": "DDR-450 (225MHz)"
           },
           "13S:5": {
             "dram_speed": "DDR-400 (200MHz)"
@@ -197,6 +240,9 @@
           "15F:DE": {
             "dram_speed": "DDR3-1866 (933MHz, 13-13-13)"
           },
+          "15F:BD": {
+            "dram_speed": "DDR3-1600 (800MHz, 11-11-11)"
+          },
           "15T:B": {
             "dram_speed": "DDR3(L)-1600 (800MHz, 11-11-11)"
           },
@@ -205,6 +251,24 @@
           },
           "15T:E": {
             "dram_speed": "DDR3(L)-2133 (1066MHz, 14-14-14)"
+          },
+          "16U:HH": {
+            "dram_speed": "DDR4-2400 (1200MHz, 17-17-17)"
+          },
+          "16U:KJ": {
+            "dram_speed": "DDR4-2666 (1333MHz, 19-19-19)"
+          },
+          "16U:QL": {
+            "dram_speed": "DDR4-3200 (1600MHz, 24-24-24)"
+          },
+          "52D:5": {
+            "dram_speed": "Mobile SDR 200MHz"
+          },
+          "52D:6": {
+            "dram_speed": "Mobile SDR 166MHz"
+          },
+          "52D:7": {
+            "dram_speed": "Mobile SDR 143MHz"
           },
           "52S:10": {
             "dram_speed": "SDR 100MHz"
@@ -218,8 +282,20 @@
           "53D:5": {
             "dram_speed": "LPDDR 200MHz"
           },
+          "53D:75": {
+            "dram_speed": "LPDDR 133MHz"
+          },
           "53D:6": {
             "dram_speed": "LPDDR 166MHz"
+          },
+          "54D:18": {
+            "dram_speed": "LPDDR2-1066 (533MHz, RL8/WL4)"
+          },
+          "54D:25": {
+            "dram_speed": "LPDDR2-800 (400MHz, RL6/WL3)"
+          },
+          "54D:3": {
+            "dram_speed": "LPDDR2-667 (333MHz, RL5/WL2)"
           },
           "55D:GF": {
             "dram_speed": "LPDDR3-2133 (1066MHz, RL16/WL8)"
@@ -232,6 +308,18 @@
           }
         },
         "configSpeedObj": {
+          "14D:2561616A:15": {
+            "dram_speed": "DDR2-1333 (667MHz, 9-10-10)"
+          },
+          "14D:2561616A:16": {
+            "dram_speed": "DDR2-1200 (600MHz, 9-9-9)"
+          },
+          "14D:2561616A:18": {
+            "dram_speed": "DDR2-1066 (533MHz, 7-7-7)"
+          },
+          "14D:2561616A:25": {
+            "dram_speed": "DDR2-800 (400MHz, 5-5-5)"
+          },
           "14D:1G1664A:18": {
             "dram_speed": "DDR2-1066 (533MHz, 6-6-6)"
           },
@@ -251,12 +339,29 @@
             "dram_speed": "DDR2-800 (400MHz, 5-5-5)"
           }
         },
+        "configTailSpeedObj": {
+          "14D:1G1664A:15:BIG:2P": {
+            "dram_speed": "DDR2-1333 (667MHz, 7-9-9)"
+          },
+          "14D:1G1664A:16:BIG:2P": {
+            "dram_speed": "DDR2-1200 (600MHz, 7-8-8)"
+          },
+          "14D:1G1664A:18:BIG:2P": {
+            "dram_speed": "DDR2-1066 (533MHz, 7-7-7)"
+          },
+          "14D:1G1664A:25:BIG:2P": {
+            "dram_speed": "DDR2-800 (400MHz, 5-5-5)"
+          },
+          "56Z:8G32256A::SMBYIG:": {
+            "dram_speed": "LPDDR4X-3733 (1866MHz)"
+          }
+        },
         "speedOverrideObj": {
           "56Z:16:2H": {
             "dram_speed": "LPDDR4X 2133MHz"
           },
           "56Z:32:2H": {
-            "dram_speed": "LPDDR4X 2133MHz"
+            "dram_speed": "LPDDR4/LPDDR4X-4266 (2133MHz)"
           }
         },
         "configToken": {
@@ -402,6 +507,18 @@
           "12L:BIG:2S": {
             "package": "54-ball FBGA"
           },
+          "12L:TIG:2Y": {
+            "package": "54-pin TSOP II"
+          },
+          "12L:BIG:2Y": {
+            "package": "54-ball VBGA"
+          },
+          "12L:TIG:2C": {
+            "package": "54-pin TSOP II"
+          },
+          "12L:BIG:2C": {
+            "package": "54-ball VBGA"
+          },
           "12L:TVG:2S": {
             "package": "54-pin TSOP II"
           },
@@ -413,6 +530,36 @@
           },
           "12L:BVAG:2S": {
             "package": "54-ball BGA"
+          },
+          "12L:TVG:2T": {
+            "package": "TSOP II"
+          },
+          "12L:BVG:2T": {
+            "package": "BGA"
+          },
+          "12L:TVAG:2T": {
+            "package": "TSOP II"
+          },
+          "12L:BVAG:2T": {
+            "package": "BGA"
+          },
+          "12L:TIG:2T": {
+            "package": "TSOP II"
+          },
+          "12L:BIG:2T": {
+            "package": "BGA"
+          },
+          "12L:BG:2G": {
+            "package": "90-ball FBGA"
+          },
+          "13D:BG:2S": {
+            "package": "144-ball FBGA"
+          },
+          "13S:TG:2S": {
+            "package": "66-pin TSOP II"
+          },
+          "13S:BG:2S": {
+            "package": "60-ball BGA"
           },
           "13S:TVG:2Y": {
             "package": "66-pin TSOP II"
@@ -426,6 +573,39 @@
           "13S:BVAG:2Y": {
             "package": "60-ball BGA"
           },
+          "13S:TG:2T": {
+            "package": "66-pin TSOP II"
+          },
+          "13S:BG:2T": {
+            "package": "60-ball BGA"
+          },
+          "13S:TIG:2N": {
+            "package": "66-pin TSOP II"
+          },
+          "13S:BIG:2N": {
+            "package": "60-ball BGA"
+          },
+          "13S:TVG:2N": {
+            "package": "66-pin TSOP II"
+          },
+          "13S:BVG:2N": {
+            "package": "60-ball BGA"
+          },
+          "13S:TVAG:2N": {
+            "package": "66-pin TSOP II"
+          },
+          "13S:BVAG:2N": {
+            "package": "60-ball BGA"
+          },
+          "13S:TG:2Y": {
+            "package": "66-pin TSOP II"
+          },
+          "13S:BG:2Y": {
+            "package": "60-ball BGA"
+          },
+          "13S:TG:2C": {
+            "package": "66-pin TSOP II"
+          },
           "14D:BG:2A": {
             "package": "84-ball BGA (A(max) = 1.2mm)"
           },
@@ -435,10 +615,37 @@
           "14D:BIG:2S": {
             "package": "84-ball BGA"
           },
+          "14D:BIG:2Y": {
+            "package": "84-ball BGA (A(max) = 1.2mm)"
+          },
+          "14D:BIG:2M": {
+            "package": "84-ball BGA (A(max) = 1.2mm)"
+          },
+          "14D:BBIG:2M": {
+            "package": "84-ball BGA (A(max) = 1.0mm)"
+          },
+          "14D:BIG:2P": {
+            "package": "84-ball BGA"
+          },
+          "14D:BVG:2S": {
+            "package": "84-ball BGA"
+          },
+          "14D:BVAG:2S": {
+            "package": "84-ball BGA"
+          },
+          "14D:BG:2S": {
+            "package": "84-ball BGA"
+          },
           "14D:BG:2P": {
             "package": "60-ball BGA"
           },
           "15F:BG:2S": {
+            "package": "96-ball BGA"
+          },
+          "15F:BIG:2B": {
+            "package": "96-ball BGA"
+          },
+          "15F:BIG:2R": {
             "package": "96-ball BGA"
           },
           "15T:FBIG:2S": {
@@ -453,10 +660,28 @@
           "15T:DBIG:2P": {
             "package": "96-ball BGA"
           },
+          "15T:FBIG:2B": {
+            "package": "96-ball BGA"
+          },
+          "15T:EBIG:2B": {
+            "package": "96-ball BGA"
+          },
+          "15T:DBIG:2B": {
+            "package": "96-ball BGA"
+          },
           "15T:EBIG:2S": {
             "package": "96-ball BGA"
           },
           "15T:DBIG:2S": {
+            "package": "96-ball BGA"
+          },
+          "15T:FBIG:2C": {
+            "package": "96-ball BGA"
+          },
+          "15T:EBIG:2C": {
+            "package": "96-ball BGA"
+          },
+          "15T:DBIG:2C": {
             "package": "96-ball BGA"
           },
           "15T:FBVG:2R": {
@@ -495,14 +720,106 @@
           "15T:DBG:2G": {
             "package": "96-ball BGA"
           },
+          "15T:FBG:2S": {
+            "package": "78-ball BGA"
+          },
+          "15T:EBG:2S": {
+            "package": "78-ball BGA"
+          },
+          "15T:DBG:2S": {
+            "package": "78-ball BGA"
+          },
+          "15T:FBG:": {
+            "package": "96-ball BGA"
+          },
+          "15T:EBG:": {
+            "package": "96-ball BGA"
+          },
+          "15T:DBG:": {
+            "package": "96-ball BGA"
+          },
+          "15T:FBIAG:2G": {
+            "package": "96-ball BGA"
+          },
+          "15T:EBIAG:2G": {
+            "package": "96-ball BGA"
+          },
+          "15T:DBIAG:2G": {
+            "package": "96-ball BGA"
+          },
+          "16U:BIG:": {
+            "package": "96-ball BGA"
+          },
+          "16U:BIAG:2Z": {
+            "package": "96-ball BGA"
+          },
+          "52D:BG:": {
+            "package": "54-ball FBGA"
+          },
+          "52D:BG:2F": {
+            "package": "54-ball FBGA"
+          },
+          "52D:BIG:": {
+            "package": "90-ball BGA"
+          },
           "52S:BIG:": {
             "package": "90-ball VFBGA"
+          },
+          "53D:BG:": {
+            "package": "60-ball BGA"
+          },
+          "53D:BG:2F": {
+            "package": "60-ball BGA"
           },
           "53D:BIG:2F": {
             "package": "90-ball FBGA"
           },
+          "54D:BKG:": {
+            "package": "134-ball BGA"
+          },
+          "54D:BKIG:": {
+            "package": "134-ball BGA"
+          },
           "55D:BG:2R": {
             "package": "178-ball BGA"
+          },
+          "56Z:SMBYIG:": {
+            "package": "200-ball BGA"
+          },
+          "56Z:TNBYG:2H": {
+            "package": "200-ball BGA"
+          }
+        },
+        "configTailPackageObj": {
+          "15T:1G1664A:FBG:2S": {
+            "package": "96-ball BGA"
+          },
+          "15T:1G1664A:EBG:2S": {
+            "package": "96-ball BGA"
+          },
+          "15T:4G16256A:FBG:2S": {
+            "package": "96-ball BGA"
+          },
+          "15T:4G16256A:EBG:2S": {
+            "package": "96-ball BGA"
+          },
+          "15T:4G16256A:DBG:2S": {
+            "package": "96-ball BGA"
+          },
+          "15T:8G16512A:FBG:2S": {
+            "package": "96-ball BGA"
+          },
+          "15T:8G16512A:EBG:2S": {
+            "package": "96-ball BGA"
+          },
+          "15T:8G16512A:DBG:2S": {
+            "package": "96-ball BGA"
+          },
+          "53D:256328A:BG:2F": {
+            "package": "144-ball FBGA"
+          },
+          "53D:5123216A:BG:": {
+            "package": "144-ball FBGA"
           }
         },
         "tailTemperatureObj": {
@@ -524,6 +841,18 @@
           "12L:BIG:2S": {
             "operation_temperature": "Industrial (-40C~85C)"
           },
+          "12L:TIG:2Y": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "12L:BIG:2Y": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "12L:TIG:2C": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "12L:BIG:2C": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
           "13S:TVG:2Y": {
             "operation_temperature": "Automotive V (-40C~85C)"
           },
@@ -536,7 +865,73 @@
           "13S:BVAG:2Y": {
             "operation_temperature": "Automotive VA (-40C~105C)"
           },
+          "12L:TVG:2T": {
+            "operation_temperature": "Automotive V (-40C~85C)"
+          },
+          "12L:BVG:2T": {
+            "operation_temperature": "Automotive V (-40C~85C)"
+          },
+          "12L:TVAG:2T": {
+            "operation_temperature": "Automotive VA (-40C~105C)"
+          },
+          "12L:BVAG:2T": {
+            "operation_temperature": "Automotive VA (-40C~105C)"
+          },
+          "12L:TIG:2T": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "12L:BIG:2T": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "13S:TG:2T": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "13S:BG:2T": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "13S:TIG:2N": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "13S:BIG:2N": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "13S:TVG:2N": {
+            "operation_temperature": "Automotive V (-40C~85C)"
+          },
+          "13S:BVG:2N": {
+            "operation_temperature": "Automotive V (-40C~85C)"
+          },
+          "13S:TVAG:2N": {
+            "operation_temperature": "Automotive VA (-40C~105C)"
+          },
+          "13S:BVAG:2N": {
+            "operation_temperature": "Automotive VA (-40C~105C)"
+          },
+          "14D:BIG:2P": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "14D:BVG:2S": {
+            "operation_temperature": "Automotive V (-40C~95C)"
+          },
+          "14D:BVAG:2S": {
+            "operation_temperature": "Automotive VA (-40C~105C)"
+          },
           "14D:BIG:2S": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "14D:BIG:2Y": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "14D:BIG:2M": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "14D:BBIG:2M": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "15F:BIG:2B": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "15F:BIG:2R": {
             "operation_temperature": "Industrial (-40C~95C)"
           },
           "15T:FBIG:2S": {
@@ -551,10 +946,28 @@
           "15T:DBIG:2P": {
             "operation_temperature": "Industrial (-40C~95C)"
           },
+          "15T:FBIG:2B": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "15T:EBIG:2B": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "15T:DBIG:2B": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
           "15T:EBIG:2S": {
             "operation_temperature": "Industrial (-40C~95C)"
           },
           "15T:DBIG:2S": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "15T:FBIG:2C": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "15T:EBIG:2C": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "15T:DBIG:2C": {
             "operation_temperature": "Industrial (-40C~95C)"
           },
           "15T:FBVG:2R": {
@@ -584,11 +997,32 @@
           "15T:DBIAG:2S": {
             "operation_temperature": "Industrial Plus (-40C~105C)"
           },
+          "15T:FBIAG:2G": {
+            "operation_temperature": "Industrial Plus (-40C~105C)"
+          },
+          "15T:EBIAG:2G": {
+            "operation_temperature": "Industrial Plus (-40C~105C)"
+          },
+          "15T:DBIAG:2G": {
+            "operation_temperature": "Industrial Plus (-40C~105C)"
+          },
+          "16U:BIAG:2Z": {
+            "operation_temperature": "Industrial Plus (-40C~105C)"
+          },
+          "52D:BIG:": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
           "52S:BIG:": {
             "operation_temperature": "Industrial (-40C~85C)"
           },
           "53D:BIG:2F": {
             "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "54D:BKIG:": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "56Z:SMBYIG:": {
+            "operation_temperature": "Industrial (-40C~95C)"
           }
         },
         "tailSolderObj": {
@@ -604,6 +1038,18 @@
           "12L:BIG:2S": {
             "solder_type": "Pb-free"
           },
+          "12L:TIG:2Y": {
+            "solder_type": "Pb-free"
+          },
+          "12L:BIG:2Y": {
+            "solder_type": "Pb-free"
+          },
+          "12L:TIG:2C": {
+            "solder_type": "Pb-free"
+          },
+          "12L:BIG:2C": {
+            "solder_type": "Pb-free"
+          },
           "12L:TVG:2S": {
             "solder_type": "Pb-free"
           },
@@ -614,6 +1060,36 @@
             "solder_type": "Pb-free"
           },
           "12L:BVAG:2S": {
+            "solder_type": "Pb-free"
+          },
+          "12L:TVG:2T": {
+            "solder_type": "Pb-free"
+          },
+          "12L:BVG:2T": {
+            "solder_type": "Pb-free"
+          },
+          "12L:TVAG:2T": {
+            "solder_type": "Pb-free"
+          },
+          "12L:BVAG:2T": {
+            "solder_type": "Pb-free"
+          },
+          "12L:TIG:2T": {
+            "solder_type": "Pb-free"
+          },
+          "12L:BIG:2T": {
+            "solder_type": "Pb-free"
+          },
+          "12L:BG:2G": {
+            "solder_type": "Pb-free"
+          },
+          "13D:BG:2S": {
+            "solder_type": "Pb-free"
+          },
+          "13S:TG:2S": {
+            "solder_type": "Pb-free"
+          },
+          "13S:BG:2S": {
             "solder_type": "Pb-free"
           },
           "13S:TVG:2Y": {
@@ -628,6 +1104,39 @@
           "13S:BVAG:2Y": {
             "solder_type": "Pb-free"
           },
+          "13S:TG:2T": {
+            "solder_type": "Pb-free"
+          },
+          "13S:BG:2T": {
+            "solder_type": "Pb-free"
+          },
+          "13S:TIG:2N": {
+            "solder_type": "Pb-free"
+          },
+          "13S:BIG:2N": {
+            "solder_type": "Pb-free"
+          },
+          "13S:TVG:2N": {
+            "solder_type": "Pb-free"
+          },
+          "13S:BVG:2N": {
+            "solder_type": "Pb-free"
+          },
+          "13S:TVAG:2N": {
+            "solder_type": "Pb-free"
+          },
+          "13S:BVAG:2N": {
+            "solder_type": "Pb-free"
+          },
+          "13S:TG:2Y": {
+            "solder_type": "Pb-free"
+          },
+          "13S:BG:2Y": {
+            "solder_type": "Pb-free"
+          },
+          "13S:TG:2C": {
+            "solder_type": "Pb-free"
+          },
           "14D:BG:2A": {
             "solder_type": "Pb-free"
           },
@@ -637,10 +1146,37 @@
           "14D:BIG:2S": {
             "solder_type": "Pb-free"
           },
+          "14D:BIG:2Y": {
+            "solder_type": "Pb-free"
+          },
+          "14D:BIG:2M": {
+            "solder_type": "Pb-free"
+          },
+          "14D:BBIG:2M": {
+            "solder_type": "Pb-free"
+          },
+          "14D:BIG:2P": {
+            "solder_type": "Pb-free"
+          },
+          "14D:BVG:2S": {
+            "solder_type": "Pb-free"
+          },
+          "14D:BVAG:2S": {
+            "solder_type": "Pb-free"
+          },
+          "14D:BG:2S": {
+            "solder_type": "Pb-free"
+          },
           "14D:BG:2P": {
             "solder_type": "Pb-free"
           },
           "15F:BG:2S": {
+            "solder_type": "Pb-free"
+          },
+          "15F:BIG:2B": {
+            "solder_type": "Pb-free"
+          },
+          "15F:BIG:2R": {
             "solder_type": "Pb-free"
           },
           "15T:FBIG:2S": {
@@ -655,10 +1191,28 @@
           "15T:DBIG:2P": {
             "solder_type": "Pb-free"
           },
+          "15T:FBIG:2B": {
+            "solder_type": "Pb-free"
+          },
+          "15T:EBIG:2B": {
+            "solder_type": "Pb-free"
+          },
+          "15T:DBIG:2B": {
+            "solder_type": "Pb-free"
+          },
           "15T:EBIG:2S": {
             "solder_type": "Pb-free"
           },
           "15T:DBIG:2S": {
+            "solder_type": "Pb-free"
+          },
+          "15T:FBIG:2C": {
+            "solder_type": "Pb-free"
+          },
+          "15T:EBIG:2C": {
+            "solder_type": "Pb-free"
+          },
+          "15T:DBIG:2C": {
             "solder_type": "Pb-free"
           },
           "15T:FBVG:2R": {
@@ -697,13 +1251,73 @@
           "15T:DBG:2G": {
             "solder_type": "Pb-free"
           },
+          "15T:FBG:2S": {
+            "solder_type": "Pb-free"
+          },
+          "15T:EBG:2S": {
+            "solder_type": "Pb-free"
+          },
+          "15T:DBG:2S": {
+            "solder_type": "Pb-free"
+          },
+          "15T:FBG:": {
+            "solder_type": "Pb-free"
+          },
+          "15T:EBG:": {
+            "solder_type": "Pb-free"
+          },
+          "15T:DBG:": {
+            "solder_type": "Pb-free"
+          },
+          "15T:FBIAG:2G": {
+            "solder_type": "Pb-free"
+          },
+          "15T:EBIAG:2G": {
+            "solder_type": "Pb-free"
+          },
+          "15T:DBIAG:2G": {
+            "solder_type": "Pb-free"
+          },
+          "16U:BIG:": {
+            "solder_type": "Pb-free"
+          },
+          "16U:BIAG:2Z": {
+            "solder_type": "Pb-free"
+          },
+          "52D:BG:": {
+            "solder_type": "Pb-free"
+          },
+          "52D:BG:2F": {
+            "solder_type": "Pb-free"
+          },
+          "52D:BIG:": {
+            "solder_type": "Pb-free"
+          },
           "52S:BIG:": {
+            "solder_type": "Pb-free"
+          },
+          "53D:BG:": {
+            "solder_type": "Pb-free"
+          },
+          "53D:BG:2F": {
             "solder_type": "Pb-free"
           },
           "53D:BIG:2F": {
             "solder_type": "Pb-free"
           },
+          "54D:BKG:": {
+            "solder_type": "Pb-free"
+          },
+          "54D:BKIG:": {
+            "solder_type": "Pb-free"
+          },
           "55D:BG:2R": {
+            "solder_type": "Pb-free"
+          },
+          "56Z:SMBYIG:": {
+            "solder_type": "Pb-free"
+          },
+          "56Z:TNBYG:2H": {
             "solder_type": "Pb-free"
           }
         },
@@ -898,6 +1512,18 @@
           "to": "tailKey"
         },
         {
+          "op": "tpl",
+          "template": "{{familyToken}}:{{configToken}}:{{suffixTail}}:{{packageCode}}",
+          "to": "configTailKey"
+        },
+        {
+          "op": "map",
+          "from": "configTailKey",
+          "table": "configTailPackageObj",
+          "to": "configTailPackageObj",
+          "default": null
+        },
+        {
           "op": "map",
           "from": "tailKey",
           "table": "tailPackageObj",
@@ -918,7 +1544,13 @@
         },
         {
           "op": "fallback",
-          "primary": "tailPackageObj",
+          "primary": "configTailPackageObj",
+          "secondary": "tailPackageObj",
+          "to": "tailPackageScopedObj"
+        },
+        {
+          "op": "fallback",
+          "primary": "tailPackageScopedObj",
           "secondary": "packageObj",
           "to": "packageOut"
         },
@@ -932,6 +1564,18 @@
           "from": "configSpeedKey",
           "table": "configSpeedObj",
           "to": "configSpeedObj",
+          "default": null
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyToken}}:{{configToken}}:{{speedCode}}:{{suffixTail}}:{{packageCode}}",
+          "to": "configTailSpeedKey"
+        },
+        {
+          "op": "map",
+          "from": "configTailSpeedKey",
+          "table": "configTailSpeedObj",
+          "to": "configTailSpeedObj",
           "default": null
         },
         {
@@ -955,7 +1599,13 @@
         },
         {
           "op": "fallback",
-          "primary": "configSpeedObj",
+          "primary": "configTailSpeedObj",
+          "secondary": "configSpeedObj",
+          "to": "configScopedSpeedObj"
+        },
+        {
+          "op": "fallback",
+          "primary": "configScopedSpeedObj",
           "secondary": "speedObj",
           "to": "suffixSpeedObj"
         },
