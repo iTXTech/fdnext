@@ -203,6 +203,25 @@ function assertPart(
   }
 }
 
+function assertKioxiaRawSuffixTopology(sample: {
+  partNumber: string;
+  package: string;
+  dieCount: number;
+  ceCount: number;
+  channelCount: number;
+}): void {
+  const result = engineWithoutFdb.decodePart({ query: sample.partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${sample.partNumber} should decode without FDB`);
+  assert.equal(result.device?.vendor.id, "kioxia", `${sample.partNumber} vendor`);
+  assert.equal(result.device?.chipKind, "raw_nand", `${sample.partNumber} chip kind`);
+  assert.equal(fieldText(firstField(result, "package")), sample.package, `${sample.partNumber} package`);
+  assert.equal(firstField(result, "die_count")?.value, sample.dieCount, `${sample.partNumber} die_count`);
+  assert.equal(firstField(result, "ce_count")?.value, sample.ceCount, `${sample.partNumber} ce_count`);
+  assert.equal(firstField(result, "channel_count")?.value, sample.channelCount, `${sample.partNumber} channel_count`);
+  assert.equal(firstField(result, "page_size"), undefined, `${sample.partNumber} should omit page_size`);
+  assert.equal(firstField(result, "block_size"), undefined, `${sample.partNumber} should omit block_size`);
+}
+
 function assertSubtitle(partNumber: string, expected: string): void {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(result.subtitle, expected, `${partNumber} subtitle`);
@@ -1244,6 +1263,7 @@ assertPart("TH58NVG7D2FTA00", {
     "Package Code": "TA",
     "Lead free": "Yes",
     "Halogen free": "Yes",
+    "Die Count": 1,
     "CE Count": 1,
     "Channel Count": 1
   }
@@ -1270,6 +1290,7 @@ assertPart("TC58NVG7D2FTA00", {
     "Lead free": "Yes",
     "Halogen free": "Yes",
     "Multi chip": "No",
+    "Die Count": 1,
     "CE Count": 1,
     "Channel Count": 1
   }
@@ -1286,10 +1307,46 @@ assertPart("TC58TFG8T23TA0D", {
   extra: {
     "Process Alias": "8T23",
     "Layer Count": 64,
+    "Die Count": 1,
+    "CE Count": 1,
+    "Channel Count": 1,
     Plane: 2
   },
   absentExtra: ["Product Generation"]
 });
+
+[
+  { partNumber: "TH58NVG7D2FTA00", package: "TSOP48", dieCount: 1, ceCount: 1, channelCount: 1 },
+  { partNumber: "TH58LJG8T24TA0D", package: "TSOP48", dieCount: 1, ceCount: 1, channelCount: 1 },
+  { partNumber: "TH58NVG3S0HTAI0", package: "TSOP48", dieCount: 1, ceCount: 1, channelCount: 1 },
+  { partNumber: "TH58NVG3S0HTA1D", package: "TSOP48", dieCount: 1, ceCount: 1, channelCount: 1 },
+  { partNumber: "TH58NVG7D2FTA20", package: "TSOP48", dieCount: 2, ceCount: 2, channelCount: 1 },
+  { partNumber: "TH58TFT0T22TA2D", package: "TSOP48", dieCount: 2, ceCount: 2, channelCount: 1 },
+  { partNumber: "TH58NVG7D2FTA80", package: "TSOP48", dieCount: 4, ceCount: 4, channelCount: 1 },
+  { partNumber: "TC58NVG7T2HBA4C", package: "BGA132", dieCount: 1, ceCount: 2, channelCount: 2 },
+  { partNumber: "TH58LJG8SA4BA4C", package: "BGA132", dieCount: 2, ceCount: 2, channelCount: 2 },
+  { partNumber: "TH58LKT0T25BA4D", package: "BGA132", dieCount: 2, ceCount: 2, channelCount: 2 },
+  { partNumber: "TH58LJG9SA4BA8C", package: "BGA132", dieCount: 4, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT0W23BASC", package: "BGA132", dieCount: 4, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LJT0SA4BA8H", package: "BGA132", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT0DDLBASH", package: "BGA132", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TEG7D2HBA49", package: "BGA132 (12 x 18 x 1.4)", dieCount: 2, ceCount: 2, channelCount: 2 },
+  { partNumber: "TH58NVG9D2JBA89", package: "BGA132 (12 x 18 x 1.4)", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58NVG9D2JBAS9", package: "BGA132 (12 x 18 x 1.4)", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58NVG8S2FBA8A", package: "BGA132 (12 x 18 x 1.85)", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TAG9D2FBASA", package: "BGA132 (12 x 18 x 1.85)", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT2T22BA8P", package: "BGA132", dieCount: 16, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT1T25BA4K", package: "BGA152", dieCount: 2, ceCount: 2, channelCount: 2 },
+  { partNumber: "TH58LKT1T25BA8K", package: "BGA152", dieCount: 4, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT3T25BA8J", package: "BGA152", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT2W23BASJ", package: "BGA152", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT1EFKBA8N", package: "BGA152", dieCount: 16, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LJT0T24BADE", package: "BGA272", dieCount: 4, ceCount: 4, channelCount: 4 },
+  { partNumber: "TH58LJT1T24BAEF", package: "BGA272", dieCount: 8, ceCount: 8, channelCount: 4 },
+  { partNumber: "TH58TFT1JFLBAEG", package: "BGA272", dieCount: 16, ceCount: 8, channelCount: 4 },
+  { partNumber: "TH58TFT0DFKLAVF", package: "LGA60-SAT", dieCount: 8, ceCount: 8, channelCount: 2 },
+  { partNumber: "TH58TFT1DFKLAVH", package: "LGA60-SAT", dieCount: 16, ceCount: 8, channelCount: 2 }
+].forEach(assertKioxiaRawSuffixTopology);
 
 assertPart("THGBMNG5D1LBAIT", {
   vendor: "kioxia",

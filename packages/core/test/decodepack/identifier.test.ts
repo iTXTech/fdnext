@@ -51,6 +51,44 @@ assertResultField("987384320024", "density", 1397760);
 assertExplainField("457384320024", "density", 1397760);
 assertResultField("457384320024", "density", 1397760);
 
+assertExplainField("983AA0B17EE3", "density", 131072);
+assertExplainField("983AA0B17EE3", "die_count", 1);
+assertExplainField("983AA0B17EE3", "cell_level", 1);
+assertExplainField("983AA0B17EE3", "page_size", 4096);
+assertExplainField("983AA0B17EE3", "plane_count", 8);
+assertExplainField("983AA0B17EE3", "interface_type", "Toggle Mode");
+assertExplainField("983AA0B17EE3", "die_codename", "KBiCS4");
+assertResultField("983AA0B17EE3", "plane_count", 8);
+assertResultField("983AA0B17EE3", "interface_type", "Toggle Mode");
+
+assertExplainField("983CA1B17EE3", "density", 262144);
+assertExplainField("983CA1B17EE3", "die_count", 2);
+assertExplainField("983CA1B17EE3", "cell_level", 1);
+assertExplainField("983CA1B17EE3", "page_size", 4096);
+assertExplainField("983CA1B17EE3", "plane_count", 16);
+assertExplainField("983CA1B17EE3", "interface_type", "Toggle Mode");
+assertExplainField("983CA1B17EE3", "die_codename", "KBiCS4");
+assertResultField("983CA1B17EE3", "plane_count", 8);
+assertResultField("983CA1B17EE3", "interface_type", "Toggle Mode");
+
+const kioxia2dProcessIds: Array<[string, string, string]> = [
+  ["983A94937651", "TSB15", "15nm"],
+  ["983A949376D1", "TSB15", "15nm"],
+  ["983A95937A50", "TSB1Y", "A19nm"],
+  ["983A95937AD0", "TSB1Y", "A19nm"],
+  ["983A95937A57", "TSB19", "19nm"],
+  ["983A95937AD7", "TSB19", "19nm"],
+  ["983A95827A55", "TSB32", "32nm"],
+  ["983A95827AD5", "TSB32", "32nm"],
+  ["983A95827A56", "TSB24", "24nm"],
+  ["983A95827AD6", "TSB24", "24nm"]
+];
+
+for (const [id, profileKey, display] of kioxia2dProcessIds) {
+  assertExplainField(id, "die_codename", profileKey);
+  assertResultField(id, "die_codename", display);
+}
+
 assertExplainField("ECC1843200C1", "die_codename", "SSV6");
 assertResultField("ECC1843200C1", "die_codename", "SSV6");
 assertResultField("ECC1843200C1", "layer_count", 128);
