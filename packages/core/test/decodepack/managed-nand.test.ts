@@ -3300,26 +3300,102 @@ assertPart("H9TQ17ABJTMCUR-KUM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 131072,
-  package: "221Ball FBGA",
+  package: "FBGA 221 Ball 11.5x13",
   extra: {
     "Product Mode": "CI-MCP NAND DDR3",
     "Storage Density": "16GB",
+    "Storage Interface": "eMMC 5.0",
+    "Cell Level": "MLC",
+    "Product Generation": "1st generation eMCP",
+    "Die Count": 2,
     "DRAM Density": "16Gb",
-    "DRAM Type": "LPDDR3"
-  }
+    "DRAM Type": "LPDDR3",
+    "DRAM Width": "x32",
+    "DRAM Die Stack": 2,
+    "Channel Count": 1,
+    "CS Count": 2,
+    "DRAM Voltage": "VDD1 1.8V / VDD2/VDDCA/VDDQ 1.2V",
+    "DRAM Speed": "LPDDR3-1866",
+    "Speed Grade": "eMMC 200MHz",
+    "Special Option": "Lead & Halogen Free"
+  },
+  absentExtra: ["CE Count", "Density Code", "Config Code"]
+});
+
+assertPart("H9TQ27ADFTMCUR-KUM", {
+  vendor: "skhynix",
+  type: "eMCP",
+  densityMbit: 262144,
+  package: "FBGA 221 Ball 11.5x13",
+  extra: {
+    "Product Mode": "CI-MCP NAND DDR3",
+    "Product Family": "eMMC + LPDDR3",
+    "Storage Density": "32GB",
+    "Storage Interface": "eMMC 5.1",
+    "Cell Level": "MLC",
+    "Product Generation": "1st generation eMCP",
+    "Die Count": 2,
+    "DRAM Density": "24Gb",
+    "DRAM Type": "LPDDR3",
+    "DRAM Width": "x32",
+    "DRAM Die Stack": 3,
+    "Channel Count": 1,
+    "CS Count": 2,
+    "DRAM Voltage": "VDD1 1.8V / VDD2/VDDCA/VDDQ 1.2V",
+    "DRAM Speed": "LPDDR3-1866",
+    "Speed Grade": "eMMC 400MHz",
+    "Special Option": "Lead & Halogen Free"
+  },
+  absentExtra: ["CE Count", "Density Code", "Config Code"]
+});
+
+assertPart("H9TQ64A8GTACUR-KUM", {
+  vendor: "skhynix",
+  type: "eMCP",
+  densityMbit: 65536,
+  package: "FBGA 221 Ball 11.5x13",
+  extra: {
+    "Product Mode": "CI-MCP NAND DDR3",
+    "Product Family": "eMMC + LPDDR3",
+    "Storage Density": "8GB",
+    "Storage Interface": "eMMC 5.1",
+    "Cell Level": "MLC",
+    "Product Generation": "2nd generation eMCP",
+    "Die Count": 1,
+    "DRAM Density": "8Gb",
+    "DRAM Type": "LPDDR3",
+    "DRAM Width": "x32",
+    "DRAM Die Stack": 1,
+    "DRAM Voltage": "VDD1 1.8V / VDD2/VDDCA/VDDQ 1.2V",
+    "DRAM Speed": "LPDDR3-1866",
+    "Speed Grade": "eMMC 200MHz",
+    "Special Option": "Lead & Halogen Free"
+  },
+  absentExtra: ["CE Count", "Density Code", "Config Code"]
 });
 
 assertPart("H9TP32A4GDBCPR-KGM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 32768,
-  package: "162Ball FBGA",
+  package: "FBGA 162 Ball 11.5x13",
   extra: {
     "Product Mode": "CI-MCP NAND DDR2",
     "Storage Density": "4GB",
+    "Storage Interface": "eMMC 4.41",
+    "Cell Level": "MLC",
+    "Product Generation": "3rd generation eMCP",
+    "Die Count": 1,
     "DRAM Density": "4Gb",
-    "DRAM Type": "LPDDR2"
-  }
+    "DRAM Type": "LPDDR2",
+    "DRAM Width": "x32",
+    "DRAM Die Stack": 1,
+    "DRAM Voltage": "1.8V/1.2V/1.2V/1.2V",
+    "DRAM Speed": "LPDDR2-1066",
+    "Speed Grade": "eMMC 52MHz",
+    "Special Option": "Lead & Halogen Free"
+  },
+  absentExtra: ["CE Count", "Density Code", "Config Code"]
 });
 
 assertSkhynixEmcpRuleMatches("H9HP52ACPMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
@@ -3333,13 +3409,18 @@ assertPart("H9HP52ACPMADAR-KMM", {
     "Product Mode": "eMCP NAND DDR4",
     "Storage Density": "64GB",
     "Storage Interface": "eMMC 5.1",
+    "Cell Level": "MLC",
+    "Die Count": 4,
     "DRAM Density": "32Gb",
+    "DRAM Die Stack": 4,
+    "Channel Count": 2,
+    "CS Count": 2,
     "DRAM Type": "LPDDR4X",
     "DRAM Voltage": "1.8V/1.1V/0.6V",
     "DRAM Width": "x16",
     "DRAM Speed": "LPDDR4X-3733"
   },
-  absentExtra: ["System"]
+  absentExtra: ["System", "CE Count"]
 });
 
 assertSkhynixEmcpRuleMatches("H9HP27ADAMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
@@ -3353,13 +3434,18 @@ assertPart("H9HP27ADAMADAR-KMM", {
     "Product Mode": "eMCP NAND DDR4",
     "Storage Density": "32GB",
     "Storage Interface": "eMMC 5.1",
+    "Cell Level": "MLC",
+    "Die Count": 2,
     "DRAM Density": "24Gb",
+    "DRAM Die Stack": 4,
+    "Channel Count": 2,
+    "CS Count": 2,
     "DRAM Type": "LPDDR4X",
     "DRAM Voltage": "1.8V/1.1V/0.6V",
     "DRAM Width": "x16",
     "DRAM Speed": "LPDDR4X-3733"
   },
-  absentExtra: ["System"]
+  absentExtra: ["System", "CE Count"]
 });
 
 assertSkhynixEmcpRuleMatches("H9HP99ADAMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
@@ -3391,6 +3477,8 @@ assertPart("H9AG9G5ANBX100", {
     "DRAM Type": "LPDDR4X",
     "DRAM Width": "x16",
     "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Speed Grade": "LPDDR4X-4266 CL32 / eMMC 52MHz",
     "Special Option": "Lead & Halogen Free"
   },
   absentExtra: ["System"]

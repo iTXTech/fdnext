@@ -33,18 +33,22 @@
           "27": {
             "storage_density": 262144,
             "dram_density": 24576,
+            "die_count": 2,
+            "cell_level": "MLC",
             "dram_die_stack": 4,
             "channel_count": 2,
-            "ce_count": 2,
+            "cs_count": 2,
             "product_version": "eMMC 5.1 / LPDDR4X",
             "storage_interface": "eMMC 5.1"
           },
           "52": {
             "storage_density": 524288,
             "dram_density": 32768,
+            "die_count": 4,
+            "cell_level": "MLC",
             "dram_die_stack": 4,
             "channel_count": 2,
-            "ce_count": 2,
+            "cs_count": 2,
             "product_version": "eMMC 5.1 / LPDDR4X",
             "storage_interface": "eMMC 5.1"
           }
@@ -375,54 +379,161 @@
             "product_family": "eMMC + LPDDR"
           }
         },
-        "density": {
+        "storageDensity": {
           "17": 131072,
+          "27": 262144,
           "32": 32768,
-          "52": 524288
+          "52": 524288,
+          "64": 65536
         },
-        "densityObj": {
+        "storageDensityObj": {
           "17": {
             "storage_density": 131072,
-            "dram_density": 16384,
             "product_version": "eMMC 5.0 / LPDDR3",
-            "dram_type": "LPDDR3"
+            "storage_interface": "eMMC 5.0",
+            "die_count": 2,
+            "cell_level": "MLC"
+          },
+          "27": {
+            "storage_density": 262144,
+            "product_family": "eMMC + LPDDR3",
+            "product_version": "eMMC 5.1 / LPDDR3",
+            "storage_interface": "eMMC 5.1",
+            "die_count": 2,
+            "cell_level": "MLC"
           },
           "32": {
             "storage_density": 32768,
-            "dram_density": 4096,
             "product_version": "eMMC 4.41 / LPDDR2",
-            "dram_type": "LPDDR2"
+            "storage_interface": "eMMC 4.41",
+            "die_count": 1,
+            "cell_level": "MLC"
           },
           "52": {
             "storage_density": 524288,
-            "dram_density": 32768,
             "product_version": "eMMC 5.1 / LPDDR4X",
-            "dram_type": "LPDDR4X"
+            "storage_interface": "eMMC 5.1"
+          },
+          "64": {
+            "storage_density": 65536,
+            "product_family": "eMMC + LPDDR3",
+            "product_version": "eMMC 5.1 / LPDDR3",
+            "storage_interface": "eMMC 5.1",
+            "die_count": 1,
+            "cell_level": "MLC"
           }
         },
-        "package": {
-          "17": "221Ball FBGA",
-          "32": "162Ball FBGA",
-          "52": "254Ball FBGA"
+        "nvmVoltageObj": {
+          "A": {
+            "component_voltage": "NVM 3.3V x8"
+          }
         },
-        "voltageIoObj": {
-          "AB": {
-            "voltage_io_code": "AB",
-            "component_voltage": "NVM 3.3V x8 / LPDDR3 1.2V x32"
+        "dramDensityObj": {
+          "4G": {
+            "dram_density": 4096,
+            "dram_die_stack": 1
           },
-          "A4": {
-            "voltage_io_code": "A4",
-            "component_voltage": "NVM 3.3V x8 / LPDDR2 1.2V x32"
+          "8G": {
+            "dram_density": 8192,
+            "dram_die_stack": 1
           },
-          "AC": {
-            "voltage_io_code": "AC",
-            "component_voltage": "NVM 3.3V x8 / LPDDR4X 1.1V/0.6V x16"
+          "BJ": {
+            "dram_density": 16384,
+            "dram_die_stack": 2,
+            "channel_count": 1,
+            "cs_count": 2
+          },
+          "CP": {
+            "dram_density": 32768
+          },
+          "DF": {
+            "dram_density": 24576,
+            "dram_die_stack": 3,
+            "channel_count": 1,
+            "cs_count": 2
+          }
+        },
+        "dramOptionObj": {
+          "D": {
+            "dram_type": "LPDDR2",
+            "dram_voltage": "1.8V/1.2V/1.2V/1.2V",
+            "dram_width": 32
+          },
+          "T": {
+            "dram_type": "LPDDR3",
+            "dram_voltage": "VDD1 1.8V / VDD2/VDDCA/VDDQ 1.2V",
+            "dram_width": 32,
+            "interface_type": "HSUL_12"
+          }
+        },
+        "generationObj": {
+          "A": {
+            "generation_info": "2nd generation eMCP"
+          },
+          "B": {
+            "generation_info": "3rd generation eMCP"
+          },
+          "M": {
+            "generation_info": "1st generation eMCP"
+          }
+        },
+        "packageObj": {
+          "CP": {
+            "package": "FBGA 162 Ball 11.5x13"
+          },
+          "CU": {
+            "package": "FBGA 221 Ball 11.5x13"
+          }
+        },
+        "packageMaterialObj": {
+          "R": {
+            "special_option": "Lead & Halogen Free"
+          }
+        },
+        "emmcSpeedObj": {
+          "H9TP:32:K": {
+            "storage_interface": "eMMC 4.41",
+            "speed_grade": "eMMC 52MHz"
+          },
+          "H9TQ:17:K": {
+            "storage_interface": "eMMC 5.0",
+            "speed_grade": "eMMC 200MHz"
+          },
+          "H9TQ:27:K": {
+            "storage_interface": "eMMC 5.1",
+            "speed_grade": "eMMC 400MHz"
+          },
+          "H9TQ:64:K": {
+            "storage_interface": "eMMC 5.1",
+            "speed_grade": "eMMC 200MHz"
+          }
+        },
+        "dramSpeedObj": {
+          "G": {
+            "dram_speed": "LPDDR2-1066"
+          },
+          "T": {
+            "dram_speed": "LPDDR3-1600"
+          },
+          "U": {
+            "dram_speed": "LPDDR3-1866"
+          }
+        },
+        "temperatureObj": {
+          "M": {
+            "operation_temperature": "-25°C ~ 85°C"
           }
         }
       },
       "steps": [
         {
-          "op": "takeLongest",
+          "op": "take",
+          "len": 4,
+          "to": "productModeCode"
+        },
+        {
+          "op": "map",
+          "from": "productModeCode",
           "table": "productModeObj",
           "to": "productModeObj",
           "default": {
@@ -438,53 +549,166 @@
         {
           "op": "map",
           "from": "densityCode",
-          "table": "density",
+          "table": "storageDensity",
           "to": "density",
           "default": 0
         },
         {
           "op": "map",
           "from": "densityCode",
-          "table": "densityObj",
-          "to": "densityObj",
+          "table": "storageDensityObj",
+          "to": "storageDensityObj",
           "default": {}
         },
         {
+          "op": "take",
+          "len": 1,
+          "to": "nvmVoltageCode"
+        },
+        {
           "op": "map",
-          "from": "densityCode",
-          "table": "package",
-          "to": "package",
-          "default": "FBGA"
+          "from": "nvmVoltageCode",
+          "table": "nvmVoltageObj",
+          "to": "nvmVoltageObj",
+          "default": {}
         },
         {
           "op": "take",
           "len": 2,
-          "to": "voltageIoCode"
+          "to": "dramDensityCode"
         },
         {
           "op": "map",
-          "from": "voltageIoCode",
-          "table": "voltageIoObj",
-          "to": "voltageIoObj",
+          "from": "dramDensityCode",
+          "table": "dramDensityObj",
+          "to": "dramDensityObj",
           "default": {}
         },
         {
           "op": "take",
-          "len": 4,
-          "to": "configCode"
+          "len": 1,
+          "to": "dramOptionCode"
+        },
+        {
+          "op": "map",
+          "from": "dramOptionCode",
+          "table": "dramOptionObj",
+          "to": "dramOptionObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "map",
+          "from": "generationCode",
+          "table": "generationObj",
+          "to": "generationObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageTypeCode"
+        },
+        {
+          "op": "map",
+          "from": "packageTypeCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageMaterialCode"
+        },
+        {
+          "op": "map",
+          "from": "packageMaterialCode",
+          "table": "packageMaterialObj",
+          "to": "packageMaterialObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "emmcSpeedCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{productModeCode}}:{{densityCode}}:{{emmcSpeedCode}}",
+          "to": "emmcSpeedKey"
+        },
+        {
+          "op": "map",
+          "from": "emmcSpeedKey",
+          "table": "emmcSpeedObj",
+          "to": "emmcSpeedObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dramSpeedCode"
+        },
+        {
+          "op": "map",
+          "from": "dramSpeedCode",
+          "table": "dramSpeedObj",
+          "to": "dramSpeedObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "temperatureCode"
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
         },
         {
           "op": "set",
           "to": "extra",
           "value": {
+            "product_mode_code": {
+              "$var": "productModeCode"
+            },
             "density_code": {
               "$var": "densityCode"
             },
-            "voltage_io_code": {
-              "$var": "voltageIoCode"
+            "nvm_voltage_code": {
+              "$var": "nvmVoltageCode"
             },
-            "config_code": {
-              "$var": "configCode"
+            "dram_density_code": {
+              "$var": "dramDensityCode"
+            },
+            "dram_option_code": {
+              "$var": "dramOptionCode"
+            },
+            "generation_code": {
+              "$var": "generationCode"
+            },
+            "package_code": {
+              "$var": "packageTypeCode"
+            },
+            "package_material_code": {
+              "$var": "packageMaterialCode"
+            },
+            "emmc_speed_code": {
+              "$var": "emmcSpeedCode"
+            },
+            "dram_speed_code": {
+              "$var": "dramSpeedCode"
+            },
+            "temperature_code": {
+              "$var": "temperatureCode"
             }
           }
         },
@@ -496,12 +720,47 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "densityObj"
+          "from": "storageDensityObj"
         },
         {
           "op": "merge",
           "into": "extra",
-          "from": "voltageIoObj"
+          "from": "nvmVoltageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramOptionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "generationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageMaterialObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "emmcSpeedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramSpeedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
         },
         {
           "op": "omit",
@@ -509,13 +768,23 @@
           "keys": [
             "system",
             "group",
+            "product_mode_code",
             "series_code",
             "cell_code",
             "layout_code",
             "density_code",
             "stack_code",
             "generation_code",
-            "voltage_io_code"
+            "nvm_voltage_code",
+            "dram_density_code",
+            "dram_option_code",
+            "package_code",
+            "package_material_code",
+            "emmc_speed_code",
+            "dram_speed_code",
+            "temperature_code",
+            "voltage_io_code",
+            "config_code"
           ]
         }
       ],
@@ -531,7 +800,7 @@
           "$var": "extra"
         },
         "fields.package": {
-          "$var": "package"
+          "$path": "packageObj.package"
         },
         "meta.ruleId": "vendor.skhynix.emcp.h9t_h9h.v1"
       }
@@ -585,7 +854,7 @@
         },
         "speedObj": {
           "N": {
-            "speed_grade": "LPDDR4X 4266 / eMMC 52MHz",
+            "speed_grade": "LPDDR4X-4266 CL32 / eMMC 52MHz",
             "dram_speed": "LPDDR4X-4266"
           }
         },
@@ -597,6 +866,7 @@
         },
         "serialObj": {
           "100": {
+            "operation_temperature": "-25°C ~ 85°C",
             "special_option": "Lead & Halogen Free"
           }
         },
