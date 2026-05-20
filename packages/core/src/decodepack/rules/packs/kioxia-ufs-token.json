@@ -24,6 +24,14 @@
         "THG"
       ],
       "tables": {
+        "voltage": {
+          "V": "3.3V",
+          "Y": "1.8V",
+          "A": "Vcc: 3.3V, VccQ: 1.8V",
+          "B": "Vcc: 3.3V, VccQ: 3.3V/1.8V",
+          "D": "Vcc: 3.3V/1.8V, VccQ: 3.3V/1.8V",
+          "J": "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V"
+        },
         "density": {
           "G8": 262144,
           "G9": 524288,
@@ -31,6 +39,24 @@
           "T1": 2097152,
           "T2": 4194304,
           "T3": 8388608
+        },
+        "cellLevel": {
+          "S": 1,
+          "D": 2,
+          "T": 3
+        },
+        "dieCount": {
+          "1": 1,
+          "2": 2,
+          "3": 3,
+          "4": 4,
+          "5": 5,
+          "6": 6,
+          "7": 7,
+          "8": 8,
+          "9": 9,
+          "A": 12,
+          "B": 16
         },
         "seriesObj": {
           "AFB": {
@@ -164,6 +190,10 @@
           "LA": "LGA"
         },
         "packageExact": {
+          "BAIP": "BGA (11.0 x 13.0 x 0.8)",
+          "BATV": "BGA (9.0 x 13.0 x 0.8)",
+          "BATW": "BGA (9.0 x 13.0 x 0.85)",
+          "BATZ": "BGA (9.0 x 13.0 x 0.9)",
           "BAIT": "BGA153",
           "LA01": "LGA60"
         },
@@ -172,7 +202,29 @@
       "steps": [
         {
           "op": "take",
-          "len": 3,
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "typeCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "controllerRevisionCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{voltageCode}}{{typeCode}}{{controllerRevisionCode}}",
           "to": "seriesCode"
         },
         {
@@ -220,16 +272,35 @@
         {
           "op": "take",
           "len": 1,
-          "to": "packagePrefixCode"
+          "to": "cellCode"
+        },
+        {
+          "op": "map",
+          "from": "cellCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
         },
         {
           "op": "take",
           "len": 1,
-          "to": "generationCode"
+          "to": "stackCode"
+        },
+        {
+          "op": "map",
+          "from": "stackCode",
+          "table": "dieCount",
+          "to": "dieCount",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "designRuleCode"
         },
         {
           "op": "tpl",
-          "template": "{{processFamily}}:{{generationCode}}",
+          "template": "{{processFamily}}:{{designRuleCode}}",
           "to": "bicsProcessKey"
         },
         {
@@ -258,11 +329,6 @@
           "table": "bicsGenerationObj",
           "to": "bicsGenerationObj",
           "default": {}
-        },
-        {
-          "op": "take",
-          "len": 1,
-          "to": "revisionCode"
         },
         {
           "op": "take",
@@ -356,6 +422,7 @@
             "density_code",
             "stack_code",
             "generation_code",
+            "type_code",
             "voltage_io_code"
           ]
         }
@@ -373,6 +440,18 @@
         },
         "fields.density": {
           "$var": "density"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.die_count": {
+          "$var": "dieCount"
+        },
+        "fields.controller_revision": {
+          "$var": "controllerRevisionCode"
         },
         "fields.package": {
           "$var": "package"

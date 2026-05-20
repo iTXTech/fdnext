@@ -37,7 +37,7 @@ PN 结构：
 - `controller`
 - `ecc_enabled`
 - `controller_revision`
-- `die_stack`
+- `die_count`
 - `lead_free`
 - `halogen_free`
 
@@ -54,4 +54,4 @@ PN 结构：
 
 `THGxR`、`THGxX`、`TCGxX` 这类 PN 属于 E2NAND / SmartNAND，内部带 ECC control chip，不按普通 raw NAND 输出，也不使用泛化 `nandcon` 类型。
 
-E2NAND 与 eMMC 共用 `NAND w/ controller` 尾部 token 表；差异由 type code 决定：`M` 输出 eMMC，`R/X` 输出 E2NAND。不要把 `THGV*` 中的 `V` 当成 family，它只表示 voltage。
+E2NAND 与 eMMC 共用 `NAND w/ controller` 尾部 token 表；差异由 type code 决定：`M` 输出 eMMC，`R/X` 输出 E2NAND。`stacked die` 只输出 `die_count`，后续 design/generation token 才用于制程或 BiCS profile 推断。不要把 `THGV*` 中的 `V` 当成 family，它只表示 voltage。

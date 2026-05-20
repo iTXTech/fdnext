@@ -1303,12 +1303,12 @@ assertPart("THGBMNG5D1LBAIT", {
     "Storage Interface": "eMMC 5.0",
     "NAND Technology": "FG NAND",
     "Controller Revision": "N",
-    "Die Stack": "1-die",
+    "Die Count": 1,
     "Package Code": "BAIT",
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["Product Version", "Product Generation"]
+  absentExtra: ["Product Version", "Product Generation", "Die Stack"]
 });
 
 assertPart("THGBM2G9DBFBAI2", {
@@ -1321,18 +1321,19 @@ assertPart("THGBM2G9DBFBAI2", {
   package: "BGA (14 x 18 x 1.4)",
   extra: {
     "Controller Revision": "2",
-    "Die Stack": "16-die",
+    "Die Count": 16,
     "Package Code": "BAI2",
     "Lead free": "Yes",
     "Halogen free": "Yes"
-  }
+  },
+  absentExtra: ["Die Stack"]
 });
 
 assertPart("THGAMVT0T43BAB8", {
   vendor: "kioxia",
   type: "eMMC",
   densityMbit: 1048576,
-  dieProfileField: "BiCS4",
+  dieProfileField: "BiCS3",
   cellField: "TLC",
   voltage: "Vcc: 3.3V, VccQ: 1.8V",
   package: "BGA (11.5 x 13 x 1.2)",
@@ -1340,12 +1341,12 @@ assertPart("THGAMVT0T43BAB8", {
     "Storage Interface": "eMMC 5.1",
     "Product Class": "Automotive AEC-Q100 Grade 2",
     "Controller Revision": "V",
-    "Die Stack": "4-die",
+    "Die Count": 4,
     "Package Code": "BAB8",
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["Product Version", "NAND Technology"]
+  absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
 });
 
 assertPart("THGJFRT3E88BATW", {
@@ -1353,40 +1354,165 @@ assertPart("THGJFRT3E88BATW", {
   type: "UFS",
   densityMbit: 8388608,
   dieProfileField: "BiCS8",
-  package: "BGA",
+  voltage: "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V",
+  package: "BGA (9.0 x 13.0 x 0.85)",
   extra: {
     "Storage Interface": "UFS 4.1",
+    "Product Class": "Consumer / Industrial",
+    "Controller Revision": "R",
+    "Die Count": 8,
     "Speed Grade": "4640 MB/s"
   },
-  absentExtra: ["Product Version", "NAND Technology"]
+  absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
 });
+
+const kioxiaConsumerUfsSamples = [
+  {
+    partNumber: "THGJFPT0E18BAIP",
+    densityMbit: 1048576,
+    storageInterface: "UFS 3.1",
+    speedGrade: "2320 MB/s",
+    controllerRevision: "P",
+    dieCount: 1,
+    dieProfileField: "BiCS8",
+    package: "BGA (11.0 x 13.0 x 0.8)"
+  },
+  {
+    partNumber: "THGJFPT1E28BAIP",
+    densityMbit: 2097152,
+    storageInterface: "UFS 3.1",
+    speedGrade: "2320 MB/s",
+    controllerRevision: "P",
+    dieCount: 2,
+    dieProfileField: "BiCS8",
+    package: "BGA (11.0 x 13.0 x 0.8)"
+  },
+  {
+    partNumber: "THGJFPT2E48BAIP",
+    densityMbit: 4194304,
+    storageInterface: "UFS 3.1",
+    speedGrade: "2320 MB/s",
+    controllerRevision: "P",
+    dieCount: 4,
+    dieProfileField: "BiCS8",
+    package: "BGA (11.0 x 13.0 x 0.8)"
+  },
+  {
+    partNumber: "THGJFMT1E45BATV",
+    densityMbit: 2097152,
+    storageInterface: "UFS 4.0",
+    speedGrade: "4640 MB/s",
+    controllerRevision: "M",
+    dieCount: 4,
+    dieProfileField: "BiCS5",
+    package: "BGA (9.0 x 13.0 x 0.8)"
+  },
+  {
+    partNumber: "THGJFMT2E46BATV",
+    densityMbit: 4194304,
+    storageInterface: "UFS 4.0",
+    speedGrade: "4640 MB/s",
+    controllerRevision: "M",
+    dieCount: 4,
+    dieProfileField: "BiCS6",
+    package: "BGA (9.0 x 13.0 x 0.8)"
+  },
+  {
+    partNumber: "THGJFMT3E86BATZ",
+    densityMbit: 8388608,
+    storageInterface: "UFS 4.0",
+    speedGrade: "4640 MB/s",
+    controllerRevision: "M",
+    dieCount: 8,
+    dieProfileField: "BiCS6",
+    package: "BGA (9.0 x 13.0 x 0.9)"
+  },
+  {
+    partNumber: "THGJFRT1E45BATV",
+    densityMbit: 2097152,
+    storageInterface: "UFS 4.1",
+    speedGrade: "4640 MB/s",
+    controllerRevision: "R",
+    dieCount: 4,
+    dieProfileField: "BiCS5",
+    package: "BGA (9.0 x 13.0 x 0.8)"
+  },
+  {
+    partNumber: "THGJFRT2E48BATV",
+    densityMbit: 4194304,
+    storageInterface: "UFS 4.1",
+    speedGrade: "4640 MB/s",
+    controllerRevision: "R",
+    dieCount: 4,
+    dieProfileField: "BiCS8",
+    package: "BGA (9.0 x 13.0 x 0.8)"
+  },
+  {
+    partNumber: "THGJFRT3E88BATW",
+    densityMbit: 8388608,
+    storageInterface: "UFS 4.1",
+    speedGrade: "4640 MB/s",
+    controllerRevision: "R",
+    dieCount: 8,
+    dieProfileField: "BiCS8",
+    package: "BGA (9.0 x 13.0 x 0.85)"
+  }
+];
+
+for (const sample of kioxiaConsumerUfsSamples) {
+  assertPart(sample.partNumber, {
+    vendor: "kioxia",
+    type: "UFS",
+    densityMbit: sample.densityMbit,
+    dieProfileField: sample.dieProfileField,
+    voltage: "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V",
+    package: sample.package,
+    extra: {
+      "Storage Interface": sample.storageInterface,
+      "Product Class": "Consumer / Industrial",
+      "Operation Temperature": "-25°C ~ 85°C",
+      "Controller Revision": sample.controllerRevision,
+      "Die Count": sample.dieCount,
+      "Speed Grade": sample.speedGrade
+    },
+    absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
+  });
+}
 
 assertPart("THGJFJT1T45BAB8", {
   vendor: "kioxia",
   type: "UFS",
   densityMbit: 2097152,
-  dieProfileField: "BiCS4",
+  dieProfileField: "BiCS5",
+  cellField: "TLC",
+  voltage: "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V",
   package: "BGA",
   extra: {
     "Storage Interface": "UFS 4.0",
     "Product Class": "Automotive AEC-Q100 Grade 2",
+    "Controller Revision": "J",
+    "Die Count": 4,
     "Speed Grade": "4640 MB/s"
   },
-  absentExtra: ["Product Version", "NAND Technology"]
+  absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
 });
 
 assertPart("THGAFBT1T83BAA5", {
   vendor: "kioxia",
   type: "UFS",
   densityMbit: 2097152,
-  dieProfileField: "BiCS8",
+  dieProfileField: "BiCS3",
+  cellField: "TLC",
+  voltage: "Vcc: 3.3V, VccQ: 1.8V",
   package: "BGA",
   extra: {
     "Storage Interface": "UFS 2.1",
     "Product Class": "Automotive AEC-Q100 Grade 3",
+    "Controller Revision": "B",
+    "Die Count": 8,
     "Speed Grade": "1160 MB/s"
   },
-  absentExtra: ["Product Version", "NAND Technology"]
+  absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
 });
 
 assertPart("THGVX1G7D2GLA08", {
@@ -1401,12 +1527,12 @@ assertPart("THGVX1G7D2GLA08", {
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
     "Controller Revision": "1",
-    "Die Stack": "2-die",
+    "Die Count": 2,
     "Package Code": "LA08",
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count", "Die Stack"]
 });
 
 assertPart("TCGVX1G7D2GLA08", {
@@ -1421,12 +1547,12 @@ assertPart("TCGVX1G7D2GLA08", {
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
     "Controller Revision": "1",
-    "Die Stack": "2-die",
+    "Die Count": 2,
     "Package Code": "LA08",
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count", "Die Stack"]
 });
 
 assertPart("THGBX2G7D2JLA01", {
@@ -1441,12 +1567,12 @@ assertPart("THGBX2G7D2JLA01", {
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
     "Controller Revision": "2",
-    "Die Stack": "2-die",
+    "Die Count": 2,
     "Package Code": "LA01",
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count", "Die Stack"]
 });
 
 assertPart("THGVR1G7D2GLA09", {
@@ -1461,12 +1587,12 @@ assertPart("THGVR1G7D2GLA09", {
     Controller: "Embedded ECC",
     "ECC enabled": "Yes",
     "Controller Revision": "1",
-    "Die Stack": "2-die",
+    "Die Count": 2,
     "Package Code": "LA09",
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count", "Die Stack"]
 });
 
 assertPart("MT29FB16T08GALAAM5-TES:B", {

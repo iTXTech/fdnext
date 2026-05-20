@@ -76,18 +76,18 @@
           "D": 2,
           "T": 3
         },
-        "dieStack": {
-          "1": "1-die",
-          "2": "2-die",
-          "3": "3-die",
-          "4": "4-die",
-          "5": "5-die",
-          "6": "6-die",
-          "7": "7-die",
-          "8": "8-die",
-          "9": "9-die",
-          "A": "12-die",
-          "B": "16-die"
+        "dieCount": {
+          "1": 1,
+          "2": 2,
+          "3": 3,
+          "4": 4,
+          "5": 5,
+          "6": 6,
+          "7": 7,
+          "8": 8,
+          "9": 9,
+          "A": 12,
+          "B": 16
         },
         "seriesObj": {
           "BMN": {
@@ -431,9 +431,9 @@
         {
           "op": "map",
           "from": "stackCode",
-          "table": "dieStack",
-          "to": "dieStack",
-          "default": "Unknown"
+          "table": "dieCount",
+          "to": "dieCount",
+          "default": 0
         },
         {
           "op": "take",
@@ -454,7 +454,7 @@
         },
         {
           "op": "tpl",
-          "template": "{{processFamily}}:{{stackCode}}",
+          "template": "{{processFamily}}:{{designRuleCode}}",
           "to": "bicsProcessKey"
         },
         {
@@ -656,8 +656,8 @@
         "fields.cell_level": {
           "$var": "cellLevel"
         },
-        "fields.die_stack": {
-          "$var": "dieStack"
+        "fields.die_count": {
+          "$var": "dieCount"
         },
         "fields.controller_revision": {
           "$var": "controllerRevisionCode"

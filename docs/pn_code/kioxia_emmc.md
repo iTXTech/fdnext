@@ -32,7 +32,7 @@ PN 结构：
 | `BMU/BMJ` | eMMC 5.1, FG NAND |
 | `AMV/AMS` | eMMC 5.1, BiCS FLASH |
 | FG design rule `A/B/C/D/E/F/G/H/J/K/L` | 130 nm 到 15 nm/1z |
-| BiCS stack/design token `2/3/4/5/6/8/M` | BiCS2/3/4/5/6/8/4.5 |
+| BiCS design/generation token `2/3/4/5/6/8/M` | BiCS2/3/4/5/6/8/4.5；该 token 位于 stacked die 之后 |
 | package `FT/TG/TA/XB/XG/BA/XL/LA` | TSOP / BGA / LGA plus lead-free and halogen-free flags |
 | package size code `0/1/2/3/6/8/9/B/E/F/G/H/I/J/K` | TSOP/LGA/BGA size table from the Toshiba decoder |
 | class `BAI` | Consumer, -25°C to 85°C |
@@ -48,7 +48,7 @@ PN 结构：
 - `die_codename`
 - `voltage`
 - `controller_revision`
-- `die_stack`
+- `die_count`
 - `package`
 - `lead_free`
 - `halogen_free`
@@ -69,4 +69,4 @@ PN 结构：
 
 KIOXIA `THG*` 还覆盖 UFS 和 E2NAND，不能只靠 `THG` 前缀判断。当前共享规则中，`THGxM` 的第二个 code `M` 才输出 eMMC；`THGxR` / `THGxX` 输出 E2NAND/SmartNAND。`THGxX` 的第一个 `x` 仍只按 voltage 解释。
 
-eMMC 仍保留既有 2D/BiCS profile 推断：BiCS 系列从 stacked/design token 推定 `KBiCS*` 这类 `die_codename`。2D FG NAND 没有稳定 die profile 时不再退回输出旧制程文本。
+eMMC 的 2D FG NAND 与 BiCS FLASH 共用同一套 `density + cell + stacked die + design/generation` 尾部结构：`stacked die` 只输出 `die_count`，BiCS 系列从其后的 design/generation token 推定 `KBiCS*` 这类 `die_codename`。2D FG NAND 没有稳定 die profile 时不再退回输出旧制程文本。
