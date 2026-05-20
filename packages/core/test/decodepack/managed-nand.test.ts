@@ -203,6 +203,23 @@ function assertPart(
   }
 }
 
+function assertMicronManagedFbgaMarking(code: string, expectedPartNumber: string, expectedProductType: string): void {
+  const decoded = engine.decodePart({ query: code, lang: "eng" });
+  assert.equal(decoded.status, "ok", `${code} should decode through Micron FBGA lookup`);
+  assert.equal(decoded.device?.vendor.id, "micron", `${code} vendor`);
+  assert.equal(decoded.device?.partNumber, expectedPartNumber, `${code} resolved PN`);
+  assert.equal(decoded.device?.markingCode, code, `${code} marking`);
+  assert.equal(decoded.device?.chipKind, "managed_nand", `${code} chip kind`);
+  assert.equal(decoded.device?.productType, expectedProductType, `${code} product type`);
+
+  const search = engine.searchParts({ query: code, lang: "eng", limit: 10 });
+  const item = search.items.find((candidate) => candidate.device.markingCode === code && candidate.device.partNumber === expectedPartNumber);
+  assert.ok(item, `${code} should return a managed Micron FBGA search candidate`);
+  assert.equal(item.device.chipKind, "managed_nand", `${code} search chip kind`);
+  assert.equal(item.device.productType, expectedProductType, `${code} search product type`);
+  assert.ok(item.badges?.includes("Micron FBGA"), `${code} should expose a Micron FBGA badge`);
+}
+
 function assertKioxiaRawSuffixTopology(sample: {
   partNumber: string;
   package: string;
@@ -3552,6 +3569,10 @@ assertPart("MTFC256GZZZZZZ-WT", {
   package: "Unknown",
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
+
+assertMicronManagedFbgaMarking("JW101", "MT29C1G12MABAAHB-75IT", "emcp");
+assertMicronManagedFbgaMarking("JZ018", "MT29VZZZ7D7DQKWL-062W97Y", "umcp");
+assertMicronManagedFbgaMarking("JZ101", "MTFC64GAOALEA-WTES", "emmc");
 
 assertPart("MTFDHBL064TDP-1AT12AIYY", {
   vendor: "micron",

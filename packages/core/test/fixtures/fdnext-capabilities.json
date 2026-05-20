@@ -95,8 +95,8 @@
       "dram": 84
     },
     "micronFbga": {
-      "total": 12951,
-      "dramLookup": 9773
+      "total": 14745,
+      "dramLookup": 9853
     }
   },
   "decoders": {
@@ -149,8 +149,8 @@
       "name": "marking.lookup.micron.fbga",
       "operation": "part.search",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "dram"],
-      "description": "Resolve Micron FBGA package markings to related DRAM and NAND part-number records."
+      "chipKinds": ["raw_nand", "managed_nand", "dram"],
+      "description": "Resolve Micron FBGA package markings to related DRAM, managed NAND, and NAND part-number records."
     }
   ]
 }

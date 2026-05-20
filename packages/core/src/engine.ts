@@ -28,7 +28,7 @@ import { buildKnownPartNumbers, buildMicronDramFbgaCodes, collectFdbControllers 
 import { buildFdb, buildMdb, findFlashIdRecord, findPartNumberAcrossVendors, getPartNumberRecord } from "./fdb";
 import { createDefaultIdentifierPostprocessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
-import { applyMicronFbgaMeta, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
+import { applyMicronFbgaMeta, parseKnownFiveDigitMicronFbgaCode, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
 import {
   buildNormalizedIndexes,
   classifyPart,
@@ -108,6 +108,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const dramPartNumbers = buildKnownPartNumbers(rawDramPn);
   const micronDramFbgaCodes = buildMicronDramFbgaCodes(rawMdb);
   const micronDramFbgaCodeSet = new Set(micronDramFbgaCodes.keys());
+  const micronFbgaCodeSet = new Set(Object.keys(mdb.micron));
   const controllerGroups = buildControllerGroupIndex(collectFdbControllers(fdb), resourceBundle.controllerIndex);
   const normalizedIndexes = buildNormalizedIndexes({
     fdb,
@@ -669,7 +670,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
   const detectRaw = (partNumber: string, opts: PartDecodeOptions, allowMicronFbga: boolean): PartDecodeDraft => {
     if (allowMicronFbga) {
-      const fbga = parseMicronFbgaCode(partNumber);
+      const fbga = parseMicronFbgaCode(partNumber) ?? parseKnownFiveDigitMicronFbgaCode(partNumber, micronFbgaCodeSet);
       if (fbga) {
         const micronHit = mdb.micron[fbga.key];
         const spectekHit = mdb.spectek[fbga.key];

@@ -17,6 +17,8 @@ export const DEFAULT_MDB_FLUSH_HITS = 20;
 export const DEFAULT_MDB_CONCURRENCY = 5;
 export const DEFAULT_MDB_FBGA_LETTER_GRID_PREFIXES = ["D9", "D8", "C9", "Z8", "Z9"] as const;
 export const DEFAULT_MDB_FBGA_NUMBERED_PREFIXES = ["NC", "NW", "NY", "NX", "NQ", "NV"] as const;
+export const DEFAULT_MDB_FBGA_MANAGED_PREFIXES = ["JQ", "JW", "JY", "JZ"] as const;
+export const DEFAULT_MDB_FBGA_MANAGED_SEGMENT_PREFIXES = ["JWA", "JWB", "JWC", "JWD", "JYA", "JYB", "JYC"] as const;
 export const DEFAULT_MDB_FBGA_LETTERS = [
   "B",
   "C",
@@ -428,6 +430,20 @@ function createDefaultMicronFbgaProfiles(options: CrawlMdbOptions): MicronFbgaPr
     prefixes: [...(options.micronNumberedPrefixes ?? DEFAULT_MDB_FBGA_NUMBERED_PREFIXES)],
     startFrom: { ...DEFAULT_MDB_FBGA_NUMBERED_START_FROM, ...(options.micronStartFrom ?? {}) },
     max: Number.isFinite(options.micronMax) && options.micronMax ? Math.max(1, Math.floor(options.micronMax)) : 1000
+  });
+  profiles.push({
+    name: "managedNumberedRange",
+    kind: "numberedRange",
+    prefixes: [...(options.micronManagedPrefixes ?? DEFAULT_MDB_FBGA_MANAGED_PREFIXES)],
+    startFrom: { ...(options.micronStartFrom ?? {}) },
+    max: Number.isFinite(options.micronMax) && options.micronMax ? Math.max(1, Math.floor(options.micronMax)) : 1000
+  });
+  profiles.push({
+    name: "managedSegmentedRange",
+    kind: "numberedRange",
+    prefixes: [...(options.micronManagedSegmentPrefixes ?? DEFAULT_MDB_FBGA_MANAGED_SEGMENT_PREFIXES)],
+    startFrom: { ...(options.micronStartFrom ?? {}) },
+    max: Number.isFinite(options.micronMax) && options.micronMax ? Math.max(1, Math.floor(options.micronMax)) : 100
   });
   return profiles;
 }

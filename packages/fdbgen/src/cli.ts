@@ -82,7 +82,7 @@ function usage(): string {
     "MDB crawl options:",
     "  --file <path>       mdb.json file path for read/write",
     "  --codes <path>      Supplemental MDB code JSON; Micron/Spectek is inferred by prefix",
-    "  --start-from <code> Start from a Micron or SpecTek code segment, e.g. D9N, NW101, or PB002",
+    "  --start-from <code> Start from a Micron or SpecTek code segment, e.g. D9N, NW101, JW101, JYA01, or PB002",
     "  --micron-max <n>    Numbered Micron FBGA upper bound (exclusive, default 1000)",
     "  --spectek-max <n>   SpecTek upper bound (exclusive, optional)",
     "  --delay-ms <n>      Delay between requests in milliseconds",

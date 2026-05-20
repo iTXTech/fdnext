@@ -127,6 +127,8 @@ export interface CrawlMdbOptions extends MdbQueryOptions {
   micronLetterGridPrefixes?: string[];
   micronFbgaLetters?: string[];
   micronNumberedPrefixes?: string[];
+  micronManagedPrefixes?: string[];
+  micronManagedSegmentPrefixes?: string[];
   spectekHeaders?: string[];
   micronStartFrom?: Record<string, number>;
   micronMax?: number;

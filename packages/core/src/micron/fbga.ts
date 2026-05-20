@@ -77,6 +77,14 @@ export function parseKnownMicronFbgaCode(input: string, knownCodes: ReadonlySet<
   return null;
 }
 
+export function parseKnownFiveDigitMicronFbgaCode(input: string, knownCodes: ReadonlySet<string>): MicronFbgaParsed | null {
+  const normalized = input.toUpperCase();
+  if (normalized.length === 5 && knownCodes.has(normalized)) {
+    return { key: normalized, display: normalized };
+  }
+  return null;
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return !!value && typeof value === "object" && !Array.isArray(value);
 }

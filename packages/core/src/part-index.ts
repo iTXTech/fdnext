@@ -158,6 +158,10 @@ function chipKindForMdbPart(partNumber: string): FdnextChipKind {
   return isDramPartNumber(partNumber) ? "dram" : "raw_nand";
 }
 
+function shouldPreferDecodedClassification(source: PartIndexSource | MarkingIndexSource): boolean {
+  return source === "mdb" || source === "micron_fbga" || source === "spectek_fbga";
+}
+
 export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): NormalizedIndexes {
   const partRecords = new Map<string, PartIndexRecord>();
   const identifierIndex = new Map<string, IdentifierIndexRecord>();
@@ -415,7 +419,9 @@ function enrichCandidate(
   const decodedChipKind = inferChipKindFromDraft(info);
   const decodedProductType = inferProductTypeFromDraft(info);
   const vendor = base.vendor === UNKNOWN && isKnownInfoValue(draftVendor(info)) ? draftVendor(info) : base.vendor;
-  const chipKind = base.chipKind === "unknown"
+  const chipKind = shouldPreferDecodedClassification(base.source) && decodedChipKind !== "unknown"
+    ? decodedChipKind
+    : base.chipKind === "unknown"
     ? decodedChipKind
     : base.chipKind;
   const productType = base.productType ?? decodedProductType;

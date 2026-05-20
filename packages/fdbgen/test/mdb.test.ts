@@ -51,6 +51,10 @@ test("buildMicronFbgaCrawlPlan includes letter-grid and numbered FBGA profiles b
 
   assert.ok(plan.entries.some((entry) => entry.code === "C9BBB" && entry.profile === "letterGrid"));
   assert.ok(plan.entries.some((entry) => entry.code === "NW101" && entry.profile === "numberedRange"));
+  assert.ok(plan.entries.some((entry) => entry.code === "JW101" && entry.profile === "managedNumberedRange"));
+  assert.ok(plan.entries.some((entry) => entry.code === "JZ001" && entry.profile === "managedNumberedRange"));
+  assert.ok(plan.entries.some((entry) => entry.code === "JYA01" && entry.profile === "managedSegmentedRange"));
+  assert.ok(plan.entries.some((entry) => entry.code === "JYB01" && entry.profile === "managedSegmentedRange"));
 });
 
 test("buildMicronFbgaCrawlPlan assigns supplemental codes by known prefix", () => {
@@ -80,6 +84,23 @@ test("buildMicronFbgaCrawlPlan assigns supplemental codes by known prefix", () =
       ["NW101", "numberedRange"],
       ["NW102", "numberedRange"],
       ["D9BBB", "letterGrid"]
+    ]
+  );
+  assert.equal(plan.skipped, 1);
+});
+
+test("buildMicronFbgaCrawlPlan routes managed Micron supplemental FBGA codes", () => {
+  const plan = buildMicronFbgaCrawlPlan({
+    generatedCodes: false,
+    micronMax: 1,
+    supplementalCodes: ["JWA01", "JZ018", "FW101"]
+  });
+
+  assert.deepEqual(
+    plan.entries.map((entry) => [entry.code, entry.profile]),
+    [
+      ["JWA01", "managedSegmentedRange"],
+      ["JZ018", "managedNumberedRange"]
     ]
   );
   assert.equal(plan.skipped, 1);
