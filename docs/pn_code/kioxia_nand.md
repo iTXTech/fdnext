@@ -153,7 +153,6 @@ process token 仍以 PN 解析为准。
 - `package`
 - `lead_free`
 - `halogen_free`
-- `multi_chip`
 - `die_count`
 - `ce_count`
 - `channel_count`

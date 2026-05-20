@@ -136,6 +136,7 @@
   "controller_code": "控制器编码",
   "controller_revision": "控制器版本",
   "package_code": "封装编码",
+  "package_configuration": "封装配置",
   "solder_type": "焊接类型",
   "special_option": "特殊选项",
   "feature_code": "特性编码",

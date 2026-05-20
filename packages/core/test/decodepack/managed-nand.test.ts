@@ -218,6 +218,7 @@ function assertKioxiaRawSuffixTopology(sample: {
   assert.equal(firstField(result, "die_count")?.value, sample.dieCount, `${sample.partNumber} die_count`);
   assert.equal(firstField(result, "ce_count")?.value, sample.ceCount, `${sample.partNumber} ce_count`);
   assert.equal(firstField(result, "channel_count")?.value, sample.channelCount, `${sample.partNumber} channel_count`);
+  assert.equal(firstField(result, "multi_chip"), undefined, `${sample.partNumber} should not expose multi_chip`);
   assert.equal(firstField(result, "page_size"), undefined, `${sample.partNumber} should omit page_size`);
   assert.equal(firstField(result, "block_size"), undefined, `${sample.partNumber} should omit block_size`);
 }
@@ -1109,6 +1110,46 @@ assertPart("SUGNM1126A6BPIET-046BT", {
   },
   absentExtra: ["NAND Component", "Package Code", "Product Generation"]
 });
+assertPart("FNUGNM1126A6BPIET-046BT", {
+  vendor: "spectek",
+  type: "eMCP",
+  cellField: "SLC",
+  voltage: "NAND Vcc: 1.8V, LPDRAM VDD: 1.1V, VDDQ: 1.1V/0.6V",
+  package: "VFBGA 149/224B, 8.0x9.5x1.0 (0.5)",
+  extra: {
+    "Storage Density": "8Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "8Gb",
+    "DRAM Type": "LPDDR4",
+    "DRAM Width": "x16",
+    "Component Width": "x8",
+    "Product Family": "SpecTek NAND MCP",
+    "Product Mode": "SLC NAND + LPDDR4",
+    "Special Option": "2 NAND, 2 LPDRAM",
+    "Speed Grade": "046BT Fully Tested"
+  },
+  absentExtra: ["NAND Component", "Package Code", "Product Generation"]
+});
+assertPart("SMCNM1126A6BPIET-062UT", {
+  vendor: "spectek",
+  type: "eMCP",
+  cellField: "SLC",
+  voltage: "NAND Vcc: 1.8V, LPDRAM VDD: 1.1V, VDDQ: 1.1V/0.6V",
+  package: "VFBGA 149/224B, 8.0x9.5x1.0 (0.5)",
+  extra: {
+    "Storage Density": "8Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "8Gb",
+    "DRAM Type": "Mobile LPDRAM",
+    "DRAM Width": "x16",
+    "Component Width": "x8",
+    "Product Family": "SpecTek NAND MCP",
+    "Product Mode": "SLC NAND + LPDRAM (MCP PoP)",
+    "Special Option": "2 NAND, 2 LPDRAM",
+    "Speed Grade": "062UT Untested"
+  },
+  absentExtra: ["NAND Component", "Package Code", "Product Generation"]
+});
 assertPart("SMKJ6Z4ZZ4D4TGFAK-PG", {
   vendor: "spectek",
   type: "eMCP",
@@ -1341,11 +1382,11 @@ assertPart("TC58NVG7D2FTA00", {
     "Package Code": "TA",
     "Lead free": "Yes",
     "Halogen free": "Yes",
-    "Multi chip": "No",
     "Die Count": 1,
     "CE Count": 1,
     "Channel Count": 1
-  }
+  },
+  absentExtra: ["Multi chip"]
 });
 
 assertPart("TC58TFG8T23TA0D", {
@@ -1856,7 +1897,7 @@ assertPart("MT29C4G96MAZAPCJA-5 IT", {
     "DRAM Width": "x32",
     "Config Code": "AZAPC",
     "Package Code": "JA",
-    "Speed Grade": "200MHz"
+    "DRAM Speed": "LPDDR-400 CL3"
   },
   absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
@@ -1876,7 +1917,7 @@ assertPart("MT29C2G24MAKLAJG-6 IT", {
     "DRAM Width": "x32",
     "Config Code": "AKLA",
     "Package Code": "JG",
-    "Speed Grade": "166MHz"
+    "DRAM Speed": "LPDDR-333 CL3"
   },
   absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
@@ -1896,7 +1937,7 @@ assertPart("MT29C1G12MAADVAKC-5 IT", {
     "DRAM Width": "x16",
     "Config Code": "AADVA",
     "Package Code": "KC",
-    "Speed Grade": "200MHz"
+    "DRAM Speed": "LPDDR-400 CL3"
   },
   absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
@@ -1916,7 +1957,7 @@ assertPart("MT29C1G12MAADAEAKC-5 IT", {
     "DRAM Width": "x16",
     "Config Code": "AADAEA",
     "Package Code": "KC",
-    "Speed Grade": "200MHz"
+    "DRAM Speed": "LPDDR-400 CL3"
   },
   absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
@@ -1936,7 +1977,7 @@ assertPart("MT29C2G48MAKLCJI-6 IT", {
     "DRAM Width": "x32",
     "Config Code": "AKLC",
     "Package Code": "JI",
-    "Speed Grade": "166MHz"
+    "DRAM Speed": "LPDDR-333 CL3"
   },
   absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
@@ -1956,7 +1997,7 @@ assertPart("MT29C4G48MAZBBAKS-48 IT", {
     "DRAM Width": "x16",
     "Config Code": "AZBBA",
     "Package Code": "KS",
-    "Speed Grade": "208MHz"
+    "DRAM Speed": "LPDDR-416"
   },
   absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
@@ -1976,7 +2017,7 @@ assertPart("MT29C4G48MAYBBAHK-48 IT", {
     "DRAM Width": "x32",
     "Config Code": "AYBBA",
     "Package Code": "HK",
-    "Speed Grade": "208MHz"
+    "DRAM Speed": "LPDDR-416"
   },
   absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
@@ -1996,7 +2037,7 @@ assertPart("MT29C8G48MAPLDJA-75ITES", {
     "DRAM Width": "x32",
     "Config Code": "APLD",
     "Package Code": "JA",
-    "Speed Grade": "133MHz",
+    "DRAM Speed": "LPDDR-266 CL3",
     "Operation Temperature": "Industrial (-40°C ~ 85°C)",
     "Production Status": "Engineering Sample"
   },
@@ -2007,44 +2048,461 @@ assertPart("MT29RZ4C4DZZMGMF-18W.80C", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 4096,
-  package: "168-VFBGA 12x12",
+  widthField: "x16",
+  voltage: "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.2V; eMMC VCCM: 1.8V",
+  package: "168-ball VFBGA 12x12x0.85, PoP",
   extra: {
-    "Product Family": "Micron NAND + LPDDR2 MCP",
-    "Product Mode": "MCP NAND + LPDDR2",
+    "Product Family": "Micron All-in-One",
+    "Product Mode": "LPDDR2-S4 + SLC NAND",
     "Storage Density": "4Gb NAND",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "4Gb",
-    "DRAM Type": "LPDDR2",
+    "DRAM Type": "LPDDR2-S4",
     "DRAM Width": "x32",
-    "Config Code": "ZZ",
-    "Package Code": "MG",
-    "DRAM Speed": "LPDDR2-533",
-    "Speed Grade": "533MHz"
+    "Package Configuration": "1 NAND Flash, 1 LPDRAM, 0 eMMC",
+    "DRAM Speed": "LPDDR2-1066 CL8",
+    "Operation Temperature": "Wireless (-25°C ~ 85°C)",
+    "Die Revision": "80C"
   },
-  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type", "Config Code", "Package Code", "Speed Grade"]
 });
 
 assertPart("MT29RZ1CVCZZHGTN-18 W.85H", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 1024,
-  package: "121-VFBGA 8x7.5",
+  widthField: "x16",
+  voltage: "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.2V",
+  package: "121-ball 7.5x8x0.8mm",
   extra: {
-    "Product Family": "Micron NAND + LPDDR2 MCP",
-    "Product Mode": "MCP NAND + LPDDR2",
+    "Product Family": "Micron All-in-One",
+    "Product Mode": "LPDDR2-S4 + SLC NAND",
     "Storage Density": "1Gb NAND",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "512Mb",
-    "DRAM Type": "LPDDR2",
+    "DRAM Type": "LPDDR2-S4",
     "DRAM Width": "x16",
-    "Config Code": "ZZ",
-    "Package Code": "HG",
-    "DRAM Speed": "LPDDR2-533",
-    "Speed Grade": "533MHz",
-    "Operation Temperature": "-25°C ~ 85°C"
+    "Package Configuration": "1 NAND Flash, 1 LPDRAM, 0 eMMC",
+    "DRAM Speed": "LPDDR2-1066 CL8",
+    "Operation Temperature": "Wireless (-25°C ~ 85°C)",
+    "Die Revision": "85H"
   },
-  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type", "Config Code", "Package Code", "Speed Grade"]
 });
+
+assertPart("MT29AZ5A3CHHWD-18AIT.84F", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 4096,
+  widthField: "x8",
+  voltage: "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.2V/1.2V",
+  package: "162-ball 8.0x10.5x0.9mm",
+  extra: {
+    "Product Family": "Micron NAND MCP",
+    "Product Mode": "SLC NAND + LPDDR2",
+    "Storage Density": "4Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "2Gb",
+    "DRAM Type": "LPDDR2",
+    "DRAM Width": "x32",
+    "Package Configuration": "1 NAND Flash, 2 LPDRAM",
+    "DRAM Speed": "LPDDR2-1066 CL8",
+    "Operation Temperature": "Automotive industrial (-40°C ~ 85°C)",
+    "Die Revision": "84F"
+  },
+  absentExtra: ["Config Code", "Package Code", "Speed Grade", "Special Option"]
+});
+
+assertPart("MT29JZZZ2DWMAFJV-6IES.63m", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 2048,
+  voltage: "LPDRAM VDD/VDDQ: 1.8V/1.8V; eMMC VCCM/VCCQM: 1.8V/1.8V",
+  package: "168-ball VFBGA 12x12x1.0, PoP",
+  extra: {
+    "Product Family": "Micron All-in-One",
+    "Product Mode": "LPDDR + SLC eMMC",
+    "Storage Density": "256MB eMMC",
+    "Storage Interface": "eMMC",
+    "Product Version": "eMMC 4.2/4.3",
+    "DRAM Density": "2Gb",
+    "DRAM Type": "LPDRAM",
+    "DRAM Width": "x32",
+    "Package Configuration": "0 NAND Flash, 2 LPDRAM (CS0#/CS1#), 1 eMMC",
+    "DRAM Speed": "LPDDR-333 CL3",
+    "Operation Temperature": "Industrial (-40°C ~ 85°C)",
+    "Production Status": "Engineering Sample",
+    "Die Revision": "63M"
+  },
+  absentExtra: ["Config Code", "Package Code", "Speed Grade", "Special Option"]
+});
+
+const micronUmcpVoltage = {
+  q: "LPDRAM VDD/VDDQ: 1.1V/0.6V; UFS VCC/VCCQ: 3.3V/1.8V",
+  s: "LPDRAM VDD/VDDQ: 1.1V/0.6V; UFS VCC/VCCQ: 2.5V/1.2V",
+  t: "LPDRAM VDD/VDDQ: 1.05V/0.5V; UFS VCC/VCCQ: 2.5V/1.2V"
+};
+
+for (const sample of [
+  {
+    partNumber: "MT29VZZZAD8HQKWL 053 W.G8C",
+    densityMbit: 524288,
+    storageDensity: "64GB UFS",
+    dramDensity: "32Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.q,
+    controller: "SM2750 100s v2.1",
+    packageConfiguration: "4 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-3733",
+    dieRevision: "G8C",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZBDAFQKWL 046 W.G0J",
+    densityMbit: 2097152,
+    storageDensity: "256GB UFS",
+    dramDensity: "48Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.q,
+    controller: "SM2752 110s v2.1/v2.2",
+    packageConfiguration: "4 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "G0J",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZBDAFQKBA 046 W.G0J",
+    densityMbit: 2097152,
+    storageDensity: "256GB UFS",
+    dramDensity: "48Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.q,
+    controller: "SM2752 110s v2.1/v2.2",
+    packageConfiguration: "4 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "G0J",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZCDAFQKWL 046 W.G0L",
+    densityMbit: 2097152,
+    storageDensity: "256GB UFS",
+    dramDensity: "64Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.q,
+    controller: "SM2752 110s v2.1/v2.2",
+    packageConfiguration: "4 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "G0L",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZCDAFQKBA 046 W.G0L",
+    densityMbit: 2097152,
+    storageDensity: "256GB UFS",
+    dramDensity: "64Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.q,
+    controller: "SM2752 110s v2.1/v2.2",
+    packageConfiguration: "4 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "G0L",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZAD9FQFSM 046 W.G9K",
+    densityMbit: 1048576,
+    storageDensity: "128GB UFS",
+    dramDensity: "32Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.q,
+    controller: "SM2752 110s v2.1/v2.2",
+    packageConfiguration: "2 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "G9K",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZ7D8FQFSL 046 W.11K",
+    densityMbit: 524288,
+    storageDensity: "64GB UFS",
+    dramDensity: "24Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.q,
+    controller: "SM2752 110s v2.1/v2.2",
+    packageConfiguration: "2 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "11K",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZAD8FQKSL 046 W.12H",
+    densityMbit: 524288,
+    storageDensity: "64GB UFS",
+    dramDensity: "32Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.q,
+    controller: "SM2752 110s v2.1/v2.2",
+    packageConfiguration: "4 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "12H",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZBD91SLSM 046 W.17X",
+    densityMbit: 1048576,
+    storageDensity: "128GB UFS",
+    dramDensity: "48Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.s,
+    controller: "SM2754 140s v2.2",
+    packageConfiguration: "3 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "17X",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZCD91SKSM 046 W.17Y",
+    densityMbit: 1048576,
+    storageDensity: "128GB UFS",
+    dramDensity: "64Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.s,
+    controller: "SM2754 140s v2.2",
+    packageConfiguration: "4 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "17Y",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZCD91SFSM 046 W.18C",
+    densityMbit: 1048576,
+    storageDensity: "128GB UFS",
+    dramDensity: "64Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.s,
+    controller: "SM2754 140s v2.2",
+    packageConfiguration: "2 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "18C",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZ7D81SFSL 046 W.22B",
+    densityMbit: 524288,
+    storageDensity: "64GB UFS",
+    dramDensity: "24Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.s,
+    controller: "SM2754 140s v2.2",
+    packageConfiguration: "2 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "22B",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZAD81SFSL 046 W.22C",
+    densityMbit: 524288,
+    storageDensity: "64GB UFS",
+    dramDensity: "32Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.s,
+    controller: "SM2754 140s v2.2",
+    packageConfiguration: "2 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-4266",
+    dieRevision: "22C",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT30AZZZCD9ZTOQS 031 W.15Q",
+    densityMbit: 1048576,
+    storageDensity: "128GB UFS",
+    dramDensity: "64Gb",
+    dramType: "LPDDR5",
+    voltage: micronUmcpVoltage.t,
+    controller: "SM2754 120s v3.1",
+    packageConfiguration: "6 LPDRAM, 1 UFS",
+    package: "297-ball uMCP",
+    dramSpeed: "LPDDR5-6400",
+    dieRevision: "15Q",
+    productMode: "UFS + Mobile LPDDR5"
+  },
+  {
+    partNumber: "MT30AZZZCDAZTPWL 031 W.16C",
+    densityMbit: 2097152,
+    storageDensity: "256GB UFS",
+    dramDensity: "64Gb",
+    dramType: "LPDDR5",
+    voltage: micronUmcpVoltage.t,
+    controller: "SM2754 120s v3.1",
+    packageConfiguration: "8 LPDRAM, 1 UFS",
+    package: "297-ball uMCP",
+    dramSpeed: "LPDDR5-6400",
+    dieRevision: "16C",
+    productMode: "UFS + Mobile LPDDR5"
+  },
+  {
+    partNumber: "MT30AZZZCDBZTPEQ 031 W.16D",
+    densityMbit: 4194304,
+    storageDensity: "512GB UFS",
+    dramDensity: "64Gb",
+    dramType: "LPDDR5",
+    voltage: micronUmcpVoltage.t,
+    controller: "SM2754 120s v3.1",
+    packageConfiguration: "8 LPDRAM, 1 UFS",
+    package: "297-ball uMCP",
+    dramSpeed: "LPDDR5-6400",
+    dieRevision: "16D",
+    productMode: "UFS + Mobile LPDDR5"
+  },
+  {
+    partNumber: "MT30AZZZDDA0TPQS 031 W.19Q",
+    densityMbit: 2097152,
+    storageDensity: "256GB UFS",
+    dramDensity: "96Gb",
+    dramType: "LPDDR5",
+    voltage: micronUmcpVoltage.t,
+    controller: "9U6A 140s v3.1",
+    packageConfiguration: "8 LPDRAM, 1 UFS",
+    package: "297-ball uMCP",
+    dramSpeed: "LPDDR5-6400",
+    dieRevision: "19Q",
+    productMode: "UFS + Mobile LPDDR5"
+  },
+  {
+    partNumber: "MT30AZZZDDA0TPQS 026 W.19Q",
+    densityMbit: 2097152,
+    storageDensity: "256GB UFS",
+    dramDensity: "96Gb",
+    dramType: "LPDDR5",
+    voltage: micronUmcpVoltage.t,
+    controller: "9U6A 140s v3.1",
+    packageConfiguration: "8 LPDRAM, 1 UFS",
+    package: "297-ball uMCP",
+    dramSpeed: "LPDDR5-8533",
+    dieRevision: "19Q",
+    productMode: "UFS + Mobile LPDDR5"
+  },
+  {
+    partNumber: "MT30AZZZDDA0TPQS 031 WL.19Q",
+    densityMbit: 2097152,
+    storageDensity: "256GB UFS",
+    dramDensity: "96Gb",
+    dramType: "LPDDR5",
+    voltage: micronUmcpVoltage.t,
+    controller: "9U6A 140s v3.1",
+    packageConfiguration: "8 LPDRAM, 1 UFS",
+    package: "297-ball uMCP",
+    dramSpeed: "LPDDR5-6400",
+    dieRevision: "19Q",
+    productMode: "UFS + Mobile LPDDR5"
+  },
+  {
+    partNumber: "MT30AZZZDDB0TPWL 031 W.19R",
+    densityMbit: 4194304,
+    storageDensity: "512GB UFS",
+    dramDensity: "96Gb",
+    dramType: "LPDDR5",
+    voltage: micronUmcpVoltage.t,
+    controller: "9U6A 140s v3.1",
+    packageConfiguration: "8 LPDRAM, 1 UFS",
+    package: "297-ball uMCP",
+    dramSpeed: "LPDDR5-6400",
+    dieRevision: "19R",
+    productMode: "UFS + Mobile LPDDR5"
+  },
+  {
+    partNumber: "MT30AZZZDDB0TPWL 031 WL.19R",
+    densityMbit: 4194304,
+    storageDensity: "512GB UFS",
+    dramDensity: "96Gb",
+    dramType: "LPDDR5",
+    voltage: micronUmcpVoltage.t,
+    controller: "9U6A 140s v3.1",
+    packageConfiguration: "8 LPDRAM, 1 UFS",
+    package: "297-ball uMCP",
+    dramSpeed: "LPDDR5-6400",
+    dieRevision: "19R",
+    productMode: "UFS + Mobile LPDDR5"
+  },
+  {
+    partNumber: "MT30AZZZCDB0TKWL 031 W.20X",
+    densityMbit: 4194304,
+    storageDensity: "512GB UFS",
+    dramDensity: "64Gb",
+    dramType: "LPDDR5",
+    voltage: micronUmcpVoltage.t,
+    controller: "9U6A 140s v3.1",
+    packageConfiguration: "4 LPDRAM, 1 UFS",
+    package: "297-ball uMCP",
+    dramSpeed: "LPDDR5-6400",
+    dieRevision: "20X",
+    productMode: "UFS + Mobile LPDDR5"
+  },
+  {
+    partNumber: "MT29VZZZ7D7HQKWL 062 W.G7A",
+    densityMbit: 262144,
+    storageDensity: "32GB UFS",
+    dramDensity: "24Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.q,
+    controller: "SM2750 100s v2.1",
+    packageConfiguration: "4 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-3200",
+    dieRevision: "G7A",
+    productMode: "UFS + Mobile LPDDR4X"
+  },
+  {
+    partNumber: "MT29VZZZBD8HQOWL 053 W.G8D",
+    densityMbit: 524288,
+    storageDensity: "64GB UFS",
+    dramDensity: "48Gb",
+    dramType: "LPDDR4X",
+    voltage: micronUmcpVoltage.q,
+    controller: "SM2750 100s v2.1",
+    packageConfiguration: "6 LPDRAM, 1 UFS",
+    package: "254-ball uMCP",
+    dramSpeed: "LPDDR4X-3733",
+    dieRevision: "G8D",
+    productMode: "UFS + Mobile LPDDR4X"
+  }
+] as const) {
+  assertPart(sample.partNumber, {
+    vendor: "micron",
+    type: "uMCP",
+    densityMbit: sample.densityMbit,
+    voltage: sample.voltage,
+    package: sample.package,
+    extra: {
+      "Product Mode": sample.productMode,
+      "Storage Density": sample.storageDensity,
+      "Storage Interface": "UFS",
+      "Controller": sample.controller,
+      "DRAM Density": sample.dramDensity,
+      "DRAM Type": sample.dramType,
+      "DRAM Width": "x32",
+      "Package Configuration": sample.packageConfiguration,
+      "DRAM Speed": sample.dramSpeed,
+      "Operation Temperature": "Wireless (-25°C ~ 85°C)",
+      "Die Revision": sample.dieRevision
+    },
+    absentExtra: ["Config Code", "Package Code", "Controller Code", "Speed Grade"]
+  });
+}
 
 assertPart("H26M78208CMRX", {
   vendor: "skhynix",
@@ -3897,6 +4355,7 @@ assertSearchPnIncludes("SDIS4BH", "Sandisk SDIS4BH-064G");
 assertSearchPnIncludes("MTFDHBL064TDP", "Micron MTFDHBL064TDP-1AT12AIYY");
 assertSearchPnIncludes("MTFDHBL064TDQ", "Micron MTFDHBL064TDQ-1AT12ATYY");
 assertSearchPnIncludes("MTFDHBK1T0TDQ", "Micron MTFDHBK1T0TDQ-1AT12ATYY");
+assertSearchPnIncludes("SUGNM1126", "SpecTek SUGNM1126A6BPIET-046BT");
 assertSearchPnIncludes("SUJ52A1G", "SpecTek SUJ52A1GCFDI-BT");
 assertSearchPnIncludes("SM662PBC", "Silicon Motion SM662PBC-BFS");
 assertSearchPnIncludes("SM671PEF", "Silicon Motion SM671PEF-BFS");

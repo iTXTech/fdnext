@@ -532,6 +532,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "package",
     importance: "detail"
   },
+  package_configuration: {
+    key: "package_configuration",
+    valueKind: "string",
+    defaultLabel: "Package Configuration",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
   die_revision: {
     key: "die_revision",
     valueKind: "string",

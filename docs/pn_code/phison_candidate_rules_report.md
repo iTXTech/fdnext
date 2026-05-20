@@ -1,6 +1,6 @@
 # Phison token 候选规则报告
 
-本报告记录从 Phison 官方 support list JSON（`/Users/peratx/dev/firstchip-cfg-editor/ps.json`）中抽出的候选规则，以及这些候选没有加入 `packages/core/src/decodepack/rules/packs/phison-token.json` 的原因。
+本报告记录从 Phison 官方 support list JSON（`ps.json`）中抽出的候选规则，以及这些候选没有加入 `packages/core/src/decodepack/rules/packs/phison-token.json` 的原因。
 
 ## 范围
 

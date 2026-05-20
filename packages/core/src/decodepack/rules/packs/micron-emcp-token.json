@@ -1,5 +1,2108 @@
 [
   {
+    "id": "vendor.micron.umcp.mt29v_mt30a.v1",
+    "priority": 1016,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^(?:MT29V|MT30A)ZZZ[1-9A-E][A-F][VWXY12456789AB][0-9A-Z][A-Y][A-P][A-Z]{2}-?(?:026|031|046|053|062)(?:WL|W)?[0-9A-Z]+$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "reference": {
+          "micron_locked_umcp_part_rows": {
+            "status": "external_confirmed",
+            "source": "Micron locked 254-ball/297-ball uMCP datasheet catalog rows provided by user"
+          }
+        },
+        "productFamilyObj": {
+          "MT29V": {
+            "product_family": "Micron uMCP",
+            "product_mode": "UFS + Mobile LPDDR4X",
+            "storage_interface": "UFS",
+            "dram_type": "LPDDR4X"
+          },
+          "MT30A": {
+            "product_family": "Micron uMCP",
+            "product_mode": "UFS + Mobile LPDDR5",
+            "storage_interface": "UFS",
+            "dram_type": "LPDDR5"
+          }
+        },
+        "dramDensityObj": {
+          "1": {
+            "dram_density": "1Gb"
+          },
+          "2": {
+            "dram_density": "2Gb"
+          },
+          "3": {
+            "dram_density": "3Gb"
+          },
+          "4": {
+            "dram_density": "4Gb"
+          },
+          "5": {
+            "dram_density": "16Gb"
+          },
+          "6": {
+            "dram_density": "6Gb"
+          },
+          "7": {
+            "dram_density": "24Gb"
+          },
+          "8": {
+            "dram_density": "8Gb"
+          },
+          "9": {
+            "dram_density": "9Gb"
+          },
+          "A": {
+            "dram_density": "32Gb"
+          },
+          "B": {
+            "dram_density": "48Gb"
+          },
+          "C": {
+            "dram_density": "64Gb"
+          },
+          "D": {
+            "dram_density": "96Gb"
+          },
+          "E": {
+            "dram_density": "128Gb"
+          }
+        },
+        "dramWidth": {
+          "A": "x4",
+          "B": "x8",
+          "C": "x16",
+          "D": "x32",
+          "E": "x64",
+          "F": "x96"
+        },
+        "storageDensityMbit": {
+          "V": 4096,
+          "W": 2048,
+          "X": 1024,
+          "Y": 512,
+          "1": 8192,
+          "2": 16384,
+          "4": 32768,
+          "5": 65536,
+          "6": 131072,
+          "7": 262144,
+          "8": 524288,
+          "9": 1048576,
+          "A": 2097152,
+          "B": 4194304
+        },
+        "storageDensityObj": {
+          "V": {
+            "storage_density": "512MB UFS"
+          },
+          "W": {
+            "storage_density": "256MB UFS"
+          },
+          "X": {
+            "storage_density": "128MB UFS"
+          },
+          "Y": {
+            "storage_density": "64MB UFS"
+          },
+          "1": {
+            "storage_density": "1GB UFS"
+          },
+          "2": {
+            "storage_density": "2GB UFS"
+          },
+          "4": {
+            "storage_density": "4GB UFS"
+          },
+          "5": {
+            "storage_density": "8GB UFS"
+          },
+          "6": {
+            "storage_density": "16GB UFS"
+          },
+          "7": {
+            "storage_density": "32GB UFS"
+          },
+          "8": {
+            "storage_density": "64GB UFS"
+          },
+          "9": {
+            "storage_density": "128GB UFS"
+          },
+          "A": {
+            "storage_density": "256GB UFS"
+          },
+          "B": {
+            "storage_density": "512GB UFS"
+          }
+        },
+        "controllerObj": {
+          "H": {
+            "controller": "SM2750 100s v2.1"
+          },
+          "F": {
+            "controller": "SM2752 110s v2.1/v2.2"
+          },
+          "1": {
+            "controller": "SM2754 140s v2.2"
+          },
+          "Z": {
+            "controller": "SM2754 120s v3.1"
+          },
+          "0": {
+            "controller": "9U6A 140s v3.1"
+          }
+        },
+        "voltage": {
+          "Q": "LPDRAM VDD/VDDQ: 1.1V/0.6V; UFS VCC/VCCQ: 3.3V/1.8V",
+          "S": "LPDRAM VDD/VDDQ: 1.1V/0.6V; UFS VCC/VCCQ: 2.5V/1.2V",
+          "T": "LPDRAM VDD/VDDQ: 1.05V/0.5V; UFS VCC/VCCQ: 2.5V/1.2V"
+        },
+        "packageConfigurationObj": {
+          "F": {
+            "package_configuration": "2 LPDRAM, 1 UFS"
+          },
+          "K": {
+            "package_configuration": "4 LPDRAM, 1 UFS"
+          },
+          "L": {
+            "package_configuration": "3 LPDRAM, 1 UFS"
+          },
+          "O": {
+            "package_configuration": "6 LPDRAM, 1 UFS"
+          },
+          "P": {
+            "package_configuration": "8 LPDRAM, 1 UFS"
+          }
+        },
+        "package": {
+          "MT29V:BA": "254-ball uMCP",
+          "MT29V:SL": "254-ball uMCP",
+          "MT29V:SM": "254-ball uMCP",
+          "MT29V:WL": "254-ball uMCP",
+          "MT30A:EQ": "297-ball uMCP",
+          "MT30A:QS": "297-ball uMCP",
+          "MT30A:WL": "297-ball uMCP"
+        },
+        "speedObj": {
+          "026": {
+            "dram_speed": "LPDDR5-8533"
+          },
+          "031": {
+            "dram_speed": "LPDDR5-6400"
+          },
+          "046": {
+            "dram_speed": "LPDDR4X-4266"
+          },
+          "053": {
+            "dram_speed": "LPDDR4X-3733"
+          },
+          "062": {
+            "dram_speed": "LPDDR4X-3200"
+          }
+        },
+        "temperatureObj": {
+          "WL": {
+            "operation_temperature": "Wireless (-25°C ~ 85°C)"
+          },
+          "W": {
+            "operation_temperature": "Wireless (-25°C ~ 85°C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(MT29V|MT30A)",
+          "to": "productLine"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "nullPlaceholders"
+        },
+        {
+          "op": "map",
+          "from": "productLine",
+          "table": "productFamilyObj",
+          "to": "productFamilyObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([1-9A-E])([A-F])",
+          "to": "dramCode",
+          "groups": {
+            "dramDensityCode": 1,
+            "dramWidthCode": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "dramDensityCode",
+          "table": "dramDensityObj",
+          "to": "dramDensityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "dramWidthCode",
+          "table": "dramWidth",
+          "to": "dramWidth",
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([VWXY12456789AB])([0-9A-Z])",
+          "to": "storageCode",
+          "groups": {
+            "storageDensityCode": 1,
+            "controllerCode": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "storageDensityCode",
+          "table": "storageDensityMbit",
+          "to": "density",
+          "default": null
+        },
+        {
+          "op": "map",
+          "from": "storageDensityCode",
+          "table": "storageDensityObj",
+          "to": "storageDensityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "controllerCode",
+          "table": "controllerObj",
+          "to": "controllerObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageConfigurationCode"
+        },
+        {
+          "op": "map",
+          "from": "packageConfigurationCode",
+          "table": "packageConfigurationObj",
+          "to": "packageConfigurationObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "package",
+          "to": "package",
+          "scope": "productLine",
+          "default": ""
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]+",
+          "to": "dieRevision",
+          "default": ""
+        },
+        {
+          "op": "set",
+          "to": "dieRevisionObj",
+          "value": {
+            "die_revision": {
+              "$var": "dieRevision"
+            }
+          }
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productFamilyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "storageDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "controllerObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageConfigurationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieRevisionObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": "umcp",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.storage_density": {
+          "$path": "storageDensityObj.storage_density"
+        },
+        "fields.storage_interface": "UFS",
+        "fields.controller": {
+          "$path": "controllerObj.controller"
+        },
+        "fields.dram_density": {
+          "$path": "dramDensityObj.dram_density"
+        },
+        "fields.dram_type": {
+          "$path": "productFamilyObj.dram_type"
+        },
+        "fields.dram_width": {
+          "$var": "dramWidth"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package_configuration": {
+          "$path": "packageConfigurationObj.package_configuration"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.dram_speed": {
+          "$path": "speedObj.dram_speed"
+        },
+        "fields.operation_temperature": {
+          "$path": "temperatureObj.operation_temperature"
+        },
+        "fields.die_revision": {
+          "$var": "dieRevision"
+        },
+        "components": [
+          {
+            "role": "storage",
+            "device": {
+              "domain": "memory",
+              "chipKind": "managed_nand",
+              "productType": "ufs"
+            },
+            "fields": {
+              "storage_density": {
+                "$path": "storageDensityObj.storage_density"
+              },
+              "storage_interface": "UFS",
+              "controller": {
+                "$path": "controllerObj.controller"
+              }
+            }
+          },
+          {
+            "role": "dram",
+            "device": {
+              "domain": "memory",
+              "chipKind": "dram"
+            },
+            "fields": {
+              "dram_density": {
+                "$path": "dramDensityObj.dram_density"
+              },
+              "dram_type": {
+                "$path": "productFamilyObj.dram_type"
+              },
+              "dram_width": {
+                "$var": "dramWidth"
+              }
+            }
+          }
+        ],
+        "meta.ruleId": "vendor.micron.umcp.mt29v_mt30a.v1",
+        "meta.fieldProfile": "managed_nand"
+      }
+    }
+  },
+  {
+    "id": "vendor.micron.emcp.nand_mcp.v1",
+    "priority": 1014,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MT29[ABCGRU]Z[1-6][ABC][1-6][ABC][BDEFHMP][GHIM][A-Z]{2}(?:-(?:107|18|25|53|62)(?:AIT|AAT|IT|WT)?E?(?:ES|MS)?[0-9A-Z]*)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT29"
+      ],
+      "tables": {
+        "reference": {
+          "micron_nummcp_nand_mcp_pdf": {
+            "status": "external_confirmed",
+            "source": "Micron NOR MCP, NAND MCP, PoP and AiO Part Numbering Systems PDF, NAND MCP page"
+          }
+        },
+        "productFamilyObj": {
+          "A": {
+            "product_mode": "SLC NAND + LPDDR2",
+            "dram_type": "LPDDR2"
+          },
+          "B": {
+            "product_mode": "SLC NAND + LPDDR3",
+            "dram_type": "LPDDR3"
+          },
+          "C": {
+            "product_mode": "SLC NAND + LPDRAM",
+            "dram_type": "Mobile LPDRAM"
+          },
+          "G": {
+            "product_mode": "SLC NAND + LPDDR4",
+            "dram_type": "LPDDR4"
+          },
+          "R": {
+            "product_mode": "SLC NAND + LPDDR2",
+            "dram_type": "LPDDR2"
+          },
+          "U": {
+            "product_mode": "SLC NAND + LPDDR3",
+            "dram_type": "LPDDR3"
+          }
+        },
+        "densityMbit": {
+          "1": 512,
+          "2": 1024,
+          "3": 2048,
+          "4": 3072,
+          "5": 4096,
+          "6": 8192
+        },
+        "storageDensityObj": {
+          "1": {
+            "storage_density": "512Mb NAND"
+          },
+          "2": {
+            "storage_density": "1Gb NAND"
+          },
+          "3": {
+            "storage_density": "2Gb NAND"
+          },
+          "4": {
+            "storage_density": "3Gb NAND"
+          },
+          "5": {
+            "storage_density": "4Gb NAND"
+          },
+          "6": {
+            "storage_density": "8Gb NAND"
+          }
+        },
+        "dramDensityObj": {
+          "1": {
+            "dram_density": "512Mb"
+          },
+          "2": {
+            "dram_density": "1Gb"
+          },
+          "3": {
+            "dram_density": "2Gb"
+          },
+          "4": {
+            "dram_density": "3Gb"
+          },
+          "5": {
+            "dram_density": "4Gb"
+          },
+          "6": {
+            "dram_density": "8Gb"
+          }
+        },
+        "nandWidth": {
+          "A": 8,
+          "B": 16,
+          "C": 32
+        },
+        "dramWidth": {
+          "A": "x8",
+          "B": "x16",
+          "C": "x32"
+        },
+        "voltage": {
+          "B": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.2V",
+          "D": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.2V/1.2V",
+          "E": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.8V",
+          "F": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.8V",
+          "H": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.2V/1.2V",
+          "M": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.2V",
+          "P": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.1V/0.6V"
+        },
+        "packageConfigurationObj": {
+          "G": {
+            "package_configuration": "1 NAND Flash, 1 LPDRAM"
+          },
+          "H": {
+            "package_configuration": "1 NAND Flash, 2 LPDRAM"
+          },
+          "I": {
+            "package_configuration": "2 NAND Flash, 2 LPDRAM"
+          },
+          "M": {
+            "package_configuration": "2 NAND Flash, 1 LPDRAM"
+          }
+        },
+        "package": {
+          "GA": "149-ball 8.0x9.5x0.8mm",
+          "GM": "240-ball 14x14x0.85mm",
+          "MF": "168-ball 12x12x0.85mm",
+          "PB": "221-ball 11.5x13x0.8mm",
+          "PL": "162-ball 11.5x13x0.8mm",
+          "SK": "162-ball 11.5x13x0.9mm",
+          "TB": "162-ball 8x10.5x0.9mm",
+          "TN": "121-ball 7.5x8x0.8mm",
+          "WD": "162-ball 8.0x10.5x0.9mm"
+        },
+        "speedObj": {
+          "107": {
+            "dram_speed": "LPDDR-1866 CL13"
+          },
+          "18": {
+            "dram_speed": "LPDDR-1066 CL8"
+          },
+          "25": {
+            "dram_speed": "LPDDR-800 CL6"
+          },
+          "53": {
+            "dram_speed": "LPDDR4-3732"
+          },
+          "62": {
+            "dram_speed": "LPDDR4-3200"
+          }
+        },
+        "speedByFamilyObj": {
+          "A:107": {
+            "dram_speed": "LPDDR2-1866 CL13"
+          },
+          "A:18": {
+            "dram_speed": "LPDDR2-1066 CL8"
+          },
+          "A:25": {
+            "dram_speed": "LPDDR2-800 CL6"
+          },
+          "B:107": {
+            "dram_speed": "LPDDR3-1866 CL13"
+          },
+          "B:18": {
+            "dram_speed": "LPDDR3-1066 CL8"
+          },
+          "B:25": {
+            "dram_speed": "LPDDR3-800 CL6"
+          },
+          "G:53": {
+            "dram_speed": "LPDDR4-3732"
+          },
+          "G:62": {
+            "dram_speed": "LPDDR4-3200"
+          },
+          "R:107": {
+            "dram_speed": "LPDDR2-1866 CL13"
+          },
+          "R:18": {
+            "dram_speed": "LPDDR2-1066 CL8"
+          },
+          "R:25": {
+            "dram_speed": "LPDDR2-800 CL6"
+          },
+          "U:107": {
+            "dram_speed": "LPDDR3-1866 CL13"
+          },
+          "U:18": {
+            "dram_speed": "LPDDR3-1066 CL8"
+          },
+          "U:25": {
+            "dram_speed": "LPDDR3-800 CL6"
+          }
+        },
+        "temperatureObj": {
+          "AIT": {
+            "operation_temperature": "Automotive industrial (-40°C ~ 85°C)"
+          },
+          "AAT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "IT": {
+            "operation_temperature": "Industrial (-40°C ~ 85°C)"
+          },
+          "WT": {
+            "operation_temperature": "Wireless (-30°C ~ 85°C)"
+          }
+        },
+        "specialOptionObj": {
+          "E": {
+            "special_option": "On-die ECC enabled"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Sample"
+          },
+          "MS": {
+            "prod_status": "Mechanical Sample"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "Z"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "productFamilyObj",
+          "to": "productFamilyObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([1-6])([ABC])",
+          "to": "nandCode",
+          "groups": {
+            "nandDensityCode": 1,
+            "nandWidthCode": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "nandDensityCode",
+          "table": "densityMbit",
+          "to": "density",
+          "default": null
+        },
+        {
+          "op": "map",
+          "from": "nandDensityCode",
+          "table": "storageDensityObj",
+          "to": "storageDensityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "nandWidthCode",
+          "table": "nandWidth",
+          "to": "nandWidth",
+          "default": null
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([1-6])([ABC])",
+          "to": "dramCode",
+          "groups": {
+            "dramDensityCode": 1,
+            "dramWidthCode": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "dramDensityCode",
+          "table": "dramDensityObj",
+          "to": "dramDensityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "dramWidthCode",
+          "table": "dramWidth",
+          "to": "dramWidth",
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageConfigurationCode"
+        },
+        {
+          "op": "map",
+          "from": "packageConfigurationCode",
+          "table": "packageConfigurationObj",
+          "to": "packageConfigurationObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(107|18|25|53|62)",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{speedCode}}",
+          "to": "speedFamilyKey"
+        },
+        {
+          "op": "map",
+          "from": "speedFamilyKey",
+          "table": "speedByFamilyObj",
+          "to": "speedByFamilyObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "speedObj",
+          "from": "speedByFamilyObj"
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "specialOptionObj",
+          "to": "specialOptionObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]+",
+          "to": "dieRevision",
+          "default": ""
+        },
+        {
+          "op": "set",
+          "to": "dieRevisionObj",
+          "value": {
+            "die_revision": {
+              "$var": "dieRevision"
+            }
+          }
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Micron NAND MCP",
+            "storage_interface": "Parallel NAND"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productFamilyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "storageDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageConfigurationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "specialOptionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieRevisionObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.storage_density": {
+          "$path": "storageDensityObj.storage_density"
+        },
+        "fields.storage_interface": "Parallel NAND",
+        "fields.device_width": {
+          "$var": "nandWidth"
+        },
+        "fields.dram_density": {
+          "$path": "dramDensityObj.dram_density"
+        },
+        "fields.dram_type": {
+          "$path": "productFamilyObj.dram_type"
+        },
+        "fields.dram_width": {
+          "$var": "dramWidth"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package_configuration": {
+          "$path": "packageConfigurationObj.package_configuration"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.dram_speed": {
+          "$path": "speedObj.dram_speed"
+        },
+        "fields.operation_temperature": {
+          "$path": "temperatureObj.operation_temperature"
+        },
+        "fields.special_option": {
+          "$path": "specialOptionObj.special_option"
+        },
+        "fields.prod_status": {
+          "$path": "productionStatusObj.prod_status"
+        },
+        "fields.die_revision": {
+          "$var": "dieRevision"
+        },
+        "components": [
+          {
+            "role": "storage",
+            "device": {
+              "domain": "memory",
+              "chipKind": "raw_nand"
+            },
+            "fields": {
+              "storage_density": {
+                "$path": "storageDensityObj.storage_density"
+              },
+              "storage_interface": "Parallel NAND",
+              "device_width": {
+                "$var": "nandWidth"
+              }
+            }
+          },
+          {
+            "role": "dram",
+            "device": {
+              "domain": "memory",
+              "chipKind": "dram"
+            },
+            "fields": {
+              "dram_density": {
+                "$path": "dramDensityObj.dram_density"
+              },
+              "dram_type": {
+                "$path": "productFamilyObj.dram_type"
+              },
+              "dram_width": {
+                "$var": "dramWidth"
+              }
+            }
+          }
+        ],
+        "meta.ruleId": "vendor.micron.emcp.nand_mcp.v1",
+        "meta.fieldProfile": "managed_nand"
+      }
+    }
+  },
+  {
+    "id": "vendor.micron.emcp.aio.v1",
+    "priority": 1014,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MT29[CDJKMPQRTUV]Z(?:ZZ|[TUVWXY1-9ABC][A-F])(?:ZZ|[TUVWXY1-9ABC][A-F])(?:ZZ|[VWXY12456789AB][0-9A-Z])[A-R][A-P][A-Z]{2}(?:-?(?:046|062|107|125|18|25|3|37|5|53|54|6|75)(?:A|I|W)?(?:A|B|E|F)?(?:ES|MS)?[0-9A-Z]*)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT29"
+      ],
+      "tables": {
+        "reference": {
+          "micron_nummcp_aio_pdf": {
+            "status": "external_confirmed",
+            "source": "Micron NOR MCP, NAND MCP, PoP and AiO Part Numbering Systems PDF, All-in-One page"
+          }
+        },
+        "productFamilyObj": {
+          "C": {
+            "product_mode": "SLC NAND + LPDDR",
+            "storage_interface": "Parallel NAND",
+            "dram_type": "LPDRAM"
+          },
+          "D": {
+            "product_mode": "SLC NAND + LPDDR + MLC eMMC",
+            "storage_interface": "eMMC + Parallel NAND",
+            "dram_type": "LPDRAM"
+          },
+          "J": {
+            "product_mode": "LPDDR + SLC eMMC",
+            "storage_interface": "eMMC",
+            "dram_type": "LPDRAM"
+          },
+          "K": {
+            "product_mode": "LPDDR + MLC eMMC",
+            "storage_interface": "eMMC",
+            "dram_type": "LPDRAM"
+          },
+          "M": {
+            "product_mode": "LPDDR2-S4 + SLC eMMC",
+            "storage_interface": "eMMC",
+            "dram_type": "LPDDR2-S4"
+          },
+          "P": {
+            "product_mode": "LPDDR2-S4 + MLC eMMC",
+            "storage_interface": "eMMC",
+            "dram_type": "LPDDR2-S4"
+          },
+          "Q": {
+            "product_mode": "SLC eMMC + MLC eMMC",
+            "storage_interface": "eMMC"
+          },
+          "R": {
+            "product_mode": "LPDDR2-S4 + SLC NAND",
+            "storage_interface": "Parallel NAND",
+            "dram_type": "LPDDR2-S4"
+          },
+          "T": {
+            "product_mode": "LPDDR3-S4 + MLC eMMC",
+            "storage_interface": "eMMC",
+            "dram_type": "LPDDR3-S4"
+          },
+          "U": {
+            "product_mode": "LPDDR3-S4 + SLC NAND",
+            "storage_interface": "Parallel NAND",
+            "dram_type": "LPDDR3-S4"
+          },
+          "V": {
+            "product_mode": "LPDDR4-S4 + MLC/TLC eMMC/UFS",
+            "storage_interface": "eMMC/UFS",
+            "dram_type": "LPDDR4-S4"
+          }
+        },
+        "nandDensityMbit": {
+          "T": 768,
+          "U": 640,
+          "V": 512,
+          "W": 256,
+          "X": 128,
+          "Y": 64,
+          "1": 1024,
+          "2": 2048,
+          "3": 3072,
+          "4": 4096,
+          "6": 6144,
+          "7": 24576,
+          "8": 8192,
+          "9": 12288,
+          "A": 16384,
+          "B": 49152,
+          "C": 65536
+        },
+        "nandDensityObj": {
+          "T": {
+            "storage_density": "768Mb NAND"
+          },
+          "U": {
+            "storage_density": "640Mb NAND"
+          },
+          "V": {
+            "storage_density": "512Mb NAND"
+          },
+          "W": {
+            "storage_density": "256Mb NAND"
+          },
+          "X": {
+            "storage_density": "128Mb NAND"
+          },
+          "Y": {
+            "storage_density": "64Mb NAND"
+          },
+          "1": {
+            "storage_density": "1Gb NAND"
+          },
+          "2": {
+            "storage_density": "2Gb NAND"
+          },
+          "3": {
+            "storage_density": "3Gb NAND"
+          },
+          "4": {
+            "storage_density": "4Gb NAND"
+          },
+          "6": {
+            "storage_density": "6Gb NAND"
+          },
+          "7": {
+            "storage_density": "24Gb NAND"
+          },
+          "8": {
+            "storage_density": "8Gb NAND"
+          },
+          "9": {
+            "storage_density": "12Gb NAND"
+          },
+          "A": {
+            "storage_density": "16Gb NAND"
+          },
+          "B": {
+            "storage_density": "48Gb NAND"
+          },
+          "C": {
+            "storage_density": "64Gb NAND"
+          }
+        },
+        "dramDensityObj": {
+          "T": {
+            "dram_density": "768Mb"
+          },
+          "U": {
+            "dram_density": "640Mb"
+          },
+          "V": {
+            "dram_density": "512Mb"
+          },
+          "W": {
+            "dram_density": "256Mb"
+          },
+          "X": {
+            "dram_density": "128Mb"
+          },
+          "Y": {
+            "dram_density": "64Mb"
+          },
+          "1": {
+            "dram_density": "1Gb"
+          },
+          "2": {
+            "dram_density": "2Gb"
+          },
+          "3": {
+            "dram_density": "3Gb"
+          },
+          "4": {
+            "dram_density": "4Gb"
+          },
+          "6": {
+            "dram_density": "6Gb"
+          },
+          "7": {
+            "dram_density": "24Gb"
+          },
+          "8": {
+            "dram_density": "8Gb"
+          },
+          "9": {
+            "dram_density": "12Gb"
+          },
+          "A": {
+            "dram_density": "16Gb"
+          },
+          "B": {
+            "dram_density": "48Gb"
+          },
+          "C": {
+            "dram_density": "64Gb"
+          }
+        },
+        "nandWidth": {
+          "A": 4,
+          "B": 8,
+          "C": 16,
+          "D": 32,
+          "E": 64,
+          "F": 96
+        },
+        "dramWidth": {
+          "A": "x4",
+          "B": "x8",
+          "C": "x16",
+          "D": "x32",
+          "E": "x64",
+          "F": "x96"
+        },
+        "emmcDensityMbit": {
+          "V": 4096,
+          "W": 2048,
+          "X": 1024,
+          "1": 8192,
+          "2": 16384,
+          "4": 32768,
+          "5": 65536,
+          "6": 131072,
+          "7": 262144,
+          "8": 524288,
+          "9": 1048576,
+          "A": 2097152,
+          "B": 4194304
+        },
+        "emmcDensityObj": {
+          "V": {
+            "storage_density": "512MB eMMC"
+          },
+          "W": {
+            "storage_density": "256MB eMMC"
+          },
+          "X": {
+            "storage_density": "128MB eMMC"
+          },
+          "1": {
+            "storage_density": "1GB eMMC"
+          },
+          "2": {
+            "storage_density": "2GB eMMC"
+          },
+          "4": {
+            "storage_density": "4GB eMMC"
+          },
+          "5": {
+            "storage_density": "8GB eMMC"
+          },
+          "6": {
+            "storage_density": "16GB eMMC"
+          },
+          "7": {
+            "storage_density": "32GB eMMC"
+          },
+          "8": {
+            "storage_density": "64GB eMMC"
+          },
+          "9": {
+            "storage_density": "128GB eMMC"
+          },
+          "A": {
+            "storage_density": "256GB eMMC"
+          },
+          "B": {
+            "storage_density": "512GB eMMC"
+          }
+        },
+        "controllerObj": {
+          "A": {
+            "product_version": "eMMC 4.41 PL_REG"
+          },
+          "B": {
+            "product_version": "eMMC 4.51 DC PL_REG"
+          },
+          "C": {
+            "product_version": "eMMC 4.41 DC PL_REG"
+          },
+          "D": {
+            "product_version": "eMMC"
+          },
+          "E": {
+            "product_version": "eMMC 5.1"
+          },
+          "F": {
+            "product_version": "eMMC 1.3"
+          },
+          "H": {
+            "product_version": "eMMC 1.8"
+          },
+          "J": {
+            "product_version": "eMMC 5.0"
+          },
+          "K": {
+            "product_version": "eMMC 4.2"
+          },
+          "L": {
+            "product_version": "eMMC 4.2/4.3"
+          },
+          "M": {
+            "product_version": "eMMC 4.2/4.3"
+          },
+          "N": {
+            "product_version": "eMMC 4.4"
+          },
+          "P": {
+            "product_version": "eMMC 4.4"
+          },
+          "Q": {
+            "product_version": "eMMC 4.4"
+          },
+          "R": {
+            "product_version": "eMMC 4.41"
+          },
+          "S": {
+            "product_version": "eMMC 4.41"
+          },
+          "T": {
+            "product_version": "eMMC 4.41"
+          },
+          "U": {
+            "product_version": "eMMC 4.41"
+          },
+          "V": {
+            "product_version": "eMMC 4.5"
+          },
+          "W": {
+            "product_version": "eMMC 4.5"
+          },
+          "X": {
+            "product_version": "eMMC 4.41"
+          },
+          "Y": {
+            "product_version": "eMMC 5.0"
+          }
+        },
+        "voltage": {
+          "A": "LPDRAM VDD/VDDQ: 1.8V/1.8V; eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "B": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.2V; eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "C": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.35V/1.2V; eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "D": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.2V/1.2V; eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "E": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.8V; eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
+          "F": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.8V; eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "G": "LPDRAM VDD/VDDQ: 1.8V/1.8V; eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
+          "H": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.2V",
+          "J": "LPDRAM VDD/VDDQ: 1.2V/1.2V; eMMC VCCM/VCCQM: 1.8V/1.8V",
+          "K": "LPDRAM VDD/VDDQ: 1.2V/1.2V; eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
+          "L": "eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
+          "M": "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.2V; eMMC VCCM: 1.8V",
+          "N": "NAND VCC: 3.3V; LPDRAM VDD/VDDQ: 1.2V/1.2V",
+          "P": "LPDRAM VDD/VDDQ: 1.1V/1.1V; eMMC VCCM/VCCQM: 3.3V/1.8V",
+          "Q": "LPDRAM VDD/VDDQ: 1.1V/0.6V; eMMC VCCM/VCCQM: 3.3V/1.8V",
+          "R": "LPDRAM VDD/VDDQ: 1.1V/0.4V; eMMC VCCM/VCCQM: 3.3V/1.8V"
+        },
+        "packageConfigurationObj": {
+          "A": {
+            "package_configuration": "1 NAND Flash (CE0), 1 LPDRAM, 1 eMMC"
+          },
+          "B": {
+            "package_configuration": "2 NAND Flash (CE0), 1 LPDRAM, 1 eMMC"
+          },
+          "C": {
+            "package_configuration": "1 NAND Flash (CE0), 2 LPDRAM (CS0#/CS1#), 1 eMMC"
+          },
+          "D": {
+            "package_configuration": "2 NAND Flash (CE0), 2 LPDRAM (CS0#/CS1#), 1 eMMC"
+          },
+          "E": {
+            "package_configuration": "0 NAND Flash, 1 LPDRAM, 1 eMMC"
+          },
+          "F": {
+            "package_configuration": "0 NAND Flash, 2 LPDRAM (CS0#/CS1#), 1 eMMC"
+          },
+          "G": {
+            "package_configuration": "1 NAND Flash, 1 LPDRAM, 0 eMMC"
+          },
+          "H": {
+            "package_configuration": "1 NAND Flash, 2 LPDRAM, 0 eMMC"
+          },
+          "I": {
+            "package_configuration": "2 NAND Flash, 2 LPDRAM, 0 eMMC"
+          },
+          "J": {
+            "package_configuration": "0 NAND Flash, 0 LPDRAM, 2 eMMC"
+          },
+          "K": {
+            "package_configuration": "0 NAND Flash, 4 LPDRAM, 1 eMMC"
+          },
+          "L": {
+            "package_configuration": "0 NAND Flash, 3 LPDRAM, 1 eMMC"
+          },
+          "M": {
+            "package_configuration": "2 NAND Flash, 1 LPDRAM, 0 eMMC"
+          },
+          "N": {
+            "package_configuration": "4 NAND Flash, 4 LPDRAM, 0 eMMC"
+          },
+          "O": {
+            "package_configuration": "0 NAND Flash, 6 LPDRAM, 1 eMMC"
+          }
+        },
+        "package": {
+          "AH": "VFBGA 221-ball, 11.5x13x1.0mm",
+          "AK": "TFBGA 153-ball, 11.5x13x1.1mm",
+          "AM": "VFBGA 153-ball, 11.5x13x1.0mm",
+          "AN": "VFBGA 240-ball, 14x14x0.95mm",
+          "AV": "VFBGA 305-ball, 11.5x13x1.1mm",
+          "BA": "VFBGA 254-ball, 11.5x13x1.3mm",
+          "BT": "TFBGA 221-ball, 11.5x13x1.2mm",
+          "CY": "LFBGA 221-ball, 11.5x13x1.3mm",
+          "DI": "TFBGA 169-ball, 12x16x1.2mm",
+          "DM": "TFBGA 153-ball, 11.5x13x1.2mm",
+          "DX": "TFBGA 169-ball, 12x16x1.1mm",
+          "EQ": "LFBGA 297-ball, 11.5x13x1.3mm",
+          "EW": "TFBGA 162-ball, 11.5x13x1.1mm",
+          "FB": "TFBGA 221-ball, 11.5x13x1.1mm",
+          "GA": "149-ball 8.0x9.5x0.8mm",
+          "GB": "WFBGA 144-ball, 8x9.5x0.8mm",
+          "GC": "WFBGA 144-ball, 8x9.5x0.765mm",
+          "GM": "240-ball 14x14x0.85mm",
+          "HG": "121-VFBGA 8x7.5",
+          "JA": "137-ball TFBGA 10.5x13x1.2, MCP",
+          "JC": "107-ball TFBGA 10.5x13x1.2, MCP",
+          "JG": "168-ball VFBGA 12x12x0.90, PoP",
+          "JI": "168-ball TFBGA 12x12x1.1, PoP",
+          "JR": "137-ball LFBGA 10.5x13x1.4, MCP",
+          "JS": "137-ball TFBGA 10.5x13x1.2, MCP",
+          "JV": "168-ball VFBGA 12x12x1.0, PoP",
+          "KC": "107-ball TFBGA 10.5x13x1.1, MCP",
+          "KD": "137-ball TFBGA 10.5x13x1.1, MCP",
+          "KN": "184-ball VFBGA 14x14x1.0, PoP",
+          "KQ": "168-ball WFBGA 12x12x0.75, PoP",
+          "KS": "137-ball VFBGA 10.5x13x1.0, MCP",
+          "MA": "168-ball WFBGA 12x12x0.70, PoP",
+          "MC": "240-ball WFBGA 14x14x0.80, PoP",
+          "MD": "130-ball VFBGA 8x9x1.0, MCP",
+          "ME": "240-ball TFBGA 14x14x1.12, PoP",
+          "MF": "168-ball VFBGA 12x12x0.85, PoP",
+          "MG": "168-VFBGA 12x12",
+          "MJ": "240-ball VFBGA 14x14x0.85, PoP",
+          "MK": "153-ball VFBGA 10x12x0.90, MCP",
+          "ML": "153-ball VFBGA 8x9x0.90, MCP",
+          "MS": "191-ball WFBGA 12x12x0.80, PoP",
+          "NE": "133-ball VFBGA 11x10x1.0, MCP",
+          "RN": "160-ball FBGA 11.5x11.5x0.94, MCP",
+          "TE": "153-ball VFBGA 10x12x1.0, MCP",
+          "TN": "121-ball 7.5x8x0.8mm",
+          "WD": "162-ball 8.0x10.5x0.9mm"
+        },
+        "speedObj": {
+          "046": {
+            "dram_speed": "LPDDR4-4266"
+          },
+          "062": {
+            "dram_speed": "LPDDR4-3200"
+          },
+          "107": {
+            "dram_speed": "LPDDR-1866 CL13"
+          },
+          "125": {
+            "dram_speed": "LPDDR-1600 CL12"
+          },
+          "18": {
+            "dram_speed": "LPDDR-1066 CL8"
+          },
+          "25": {
+            "dram_speed": "LPDDR-800 CL6"
+          },
+          "3": {
+            "dram_speed": "LPDDR-667 CL5"
+          },
+          "37": {
+            "dram_speed": "LPDDR-533 CL4"
+          },
+          "5": {
+            "dram_speed": "LPDDR-400 CL3"
+          },
+          "53": {
+            "dram_speed": "LPDDR-3732"
+          },
+          "54": {
+            "dram_speed": "LPDDR-370 CL3"
+          },
+          "6": {
+            "dram_speed": "LPDDR-333 CL3"
+          },
+          "75": {
+            "dram_speed": "LPDDR-266 CL3"
+          }
+        },
+        "speedByFamilyObj": {
+          "M:107": {
+            "dram_speed": "LPDDR2-1866 CL13"
+          },
+          "M:125": {
+            "dram_speed": "LPDDR2-1600 CL12"
+          },
+          "M:18": {
+            "dram_speed": "LPDDR2-1066 CL8"
+          },
+          "M:25": {
+            "dram_speed": "LPDDR2-800 CL6"
+          },
+          "M:3": {
+            "dram_speed": "LPDDR2-667 CL5"
+          },
+          "M:37": {
+            "dram_speed": "LPDDR2-533 CL4"
+          },
+          "M:5": {
+            "dram_speed": "LPDDR2-400 CL3"
+          },
+          "M:54": {
+            "dram_speed": "LPDDR2-370 CL3"
+          },
+          "M:6": {
+            "dram_speed": "LPDDR2-333 CL3"
+          },
+          "M:75": {
+            "dram_speed": "LPDDR2-266 CL3"
+          },
+          "P:107": {
+            "dram_speed": "LPDDR2-1866 CL13"
+          },
+          "P:125": {
+            "dram_speed": "LPDDR2-1600 CL12"
+          },
+          "P:18": {
+            "dram_speed": "LPDDR2-1066 CL8"
+          },
+          "P:25": {
+            "dram_speed": "LPDDR2-800 CL6"
+          },
+          "P:3": {
+            "dram_speed": "LPDDR2-667 CL5"
+          },
+          "P:37": {
+            "dram_speed": "LPDDR2-533 CL4"
+          },
+          "P:5": {
+            "dram_speed": "LPDDR2-400 CL3"
+          },
+          "P:54": {
+            "dram_speed": "LPDDR2-370 CL3"
+          },
+          "P:6": {
+            "dram_speed": "LPDDR2-333 CL3"
+          },
+          "P:75": {
+            "dram_speed": "LPDDR2-266 CL3"
+          },
+          "R:107": {
+            "dram_speed": "LPDDR2-1866 CL13"
+          },
+          "R:125": {
+            "dram_speed": "LPDDR2-1600 CL12"
+          },
+          "R:18": {
+            "dram_speed": "LPDDR2-1066 CL8"
+          },
+          "R:25": {
+            "dram_speed": "LPDDR2-800 CL6"
+          },
+          "R:3": {
+            "dram_speed": "LPDDR2-667 CL5"
+          },
+          "R:37": {
+            "dram_speed": "LPDDR2-533 CL4"
+          },
+          "R:5": {
+            "dram_speed": "LPDDR2-400 CL3"
+          },
+          "R:54": {
+            "dram_speed": "LPDDR2-370 CL3"
+          },
+          "R:6": {
+            "dram_speed": "LPDDR2-333 CL3"
+          },
+          "R:75": {
+            "dram_speed": "LPDDR2-266 CL3"
+          },
+          "T:107": {
+            "dram_speed": "LPDDR3-1866 CL13"
+          },
+          "T:125": {
+            "dram_speed": "LPDDR3-1600 CL12"
+          },
+          "T:18": {
+            "dram_speed": "LPDDR3-1066 CL8"
+          },
+          "T:25": {
+            "dram_speed": "LPDDR3-800 CL6"
+          },
+          "T:3": {
+            "dram_speed": "LPDDR3-667 CL5"
+          },
+          "T:37": {
+            "dram_speed": "LPDDR3-533 CL4"
+          },
+          "T:5": {
+            "dram_speed": "LPDDR3-400 CL3"
+          },
+          "T:54": {
+            "dram_speed": "LPDDR3-370 CL3"
+          },
+          "T:6": {
+            "dram_speed": "LPDDR3-333 CL3"
+          },
+          "T:75": {
+            "dram_speed": "LPDDR3-266 CL3"
+          },
+          "U:107": {
+            "dram_speed": "LPDDR3-1866 CL13"
+          },
+          "U:125": {
+            "dram_speed": "LPDDR3-1600 CL12"
+          },
+          "U:18": {
+            "dram_speed": "LPDDR3-1066 CL8"
+          },
+          "U:25": {
+            "dram_speed": "LPDDR3-800 CL6"
+          },
+          "U:3": {
+            "dram_speed": "LPDDR3-667 CL5"
+          },
+          "U:37": {
+            "dram_speed": "LPDDR3-533 CL4"
+          },
+          "U:5": {
+            "dram_speed": "LPDDR3-400 CL3"
+          },
+          "U:54": {
+            "dram_speed": "LPDDR3-370 CL3"
+          },
+          "U:6": {
+            "dram_speed": "LPDDR3-333 CL3"
+          },
+          "U:75": {
+            "dram_speed": "LPDDR3-266 CL3"
+          },
+          "V:046": {
+            "dram_speed": "LPDDR4-4266"
+          },
+          "V:062": {
+            "dram_speed": "LPDDR4-3200"
+          },
+          "V:53": {
+            "dram_speed": "LPDDR4-3732"
+          }
+        },
+        "temperatureObj": {
+          "A": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40°C ~ 85°C)"
+          },
+          "W": {
+            "operation_temperature": "Wireless (-25°C ~ 85°C)"
+          }
+        },
+        "specialOptionObj": {
+          "A": {
+            "special_option": "Customer variant"
+          },
+          "B": {
+            "special_option": "2MB boot area/2MB RPMB"
+          },
+          "E": {
+            "special_option": "On-die ECC enabled"
+          },
+          "F": {
+            "special_option": "SEC COUNT/custom boot area/custom RPMB"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Sample"
+          },
+          "MS": {
+            "prod_status": "Mechanical Sample"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyCode"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "Z"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "productFamilyObj",
+          "to": "productFamilyObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([TUVWXY1-9ABCZ])([A-FZ])",
+          "to": "nandCode",
+          "groups": {
+            "nandDensityCode": 1,
+            "nandWidthCode": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "nandDensityCode",
+          "table": "nandDensityMbit",
+          "to": "nandDensity",
+          "default": null
+        },
+        {
+          "op": "map",
+          "from": "nandDensityCode",
+          "table": "nandDensityObj",
+          "to": "nandDensityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "nandWidthCode",
+          "table": "nandWidth",
+          "to": "nandWidth",
+          "default": null
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([TUVWXY1-9ABCZ])([A-FZ])",
+          "to": "dramCode",
+          "groups": {
+            "dramDensityCode": 1,
+            "dramWidthCode": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "dramDensityCode",
+          "table": "dramDensityObj",
+          "to": "dramDensityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "dramWidthCode",
+          "table": "dramWidth",
+          "to": "dramWidth",
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([VWXY12456789ABZ])([0-9A-Z])",
+          "to": "emmcCode",
+          "groups": {
+            "emmcDensityCode": 1,
+            "controllerCode": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "emmcDensityCode",
+          "table": "emmcDensityMbit",
+          "to": "emmcDensity",
+          "default": null
+        },
+        {
+          "op": "fallback",
+          "primary": "emmcDensity",
+          "secondary": "nandDensity",
+          "to": "density"
+        },
+        {
+          "op": "map",
+          "from": "emmcDensityCode",
+          "table": "emmcDensityObj",
+          "to": "emmcDensityObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "storageDensityObj",
+          "value": {
+            "storage_density": {
+              "$path": "nandDensityObj.storage_density"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "storageDensityObj",
+          "from": "emmcDensityObj"
+        },
+        {
+          "op": "map",
+          "from": "controllerCode",
+          "table": "controllerObj",
+          "to": "controllerObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageConfigurationCode"
+        },
+        {
+          "op": "map",
+          "from": "packageConfigurationCode",
+          "table": "packageConfigurationObj",
+          "to": "packageConfigurationObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(046|062|107|125|18|25|3|37|5|53|54|6|75)",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{speedCode}}",
+          "to": "speedFamilyKey"
+        },
+        {
+          "op": "map",
+          "from": "speedFamilyKey",
+          "table": "speedByFamilyObj",
+          "to": "speedByFamilyObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "speedObj",
+          "from": "speedByFamilyObj"
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "specialOptionObj",
+          "to": "specialOptionObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]+",
+          "to": "dieRevision",
+          "default": ""
+        },
+        {
+          "op": "set",
+          "to": "dieRevisionObj",
+          "value": {
+            "die_revision": {
+              "$var": "dieRevision"
+            }
+          }
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Micron All-in-One"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productFamilyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "storageDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "controllerObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageConfigurationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "specialOptionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieRevisionObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.storage_density": {
+          "$path": "storageDensityObj.storage_density"
+        },
+        "fields.storage_interface": {
+          "$path": "productFamilyObj.storage_interface"
+        },
+        "fields.device_width": {
+          "$var": "nandWidth"
+        },
+        "fields.product_version": {
+          "$path": "controllerObj.product_version"
+        },
+        "fields.dram_density": {
+          "$path": "dramDensityObj.dram_density"
+        },
+        "fields.dram_type": {
+          "$path": "productFamilyObj.dram_type"
+        },
+        "fields.dram_width": {
+          "$var": "dramWidth"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package_configuration": {
+          "$path": "packageConfigurationObj.package_configuration"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.dram_speed": {
+          "$path": "speedObj.dram_speed"
+        },
+        "fields.operation_temperature": {
+          "$path": "temperatureObj.operation_temperature"
+        },
+        "fields.special_option": {
+          "$path": "specialOptionObj.special_option"
+        },
+        "fields.prod_status": {
+          "$path": "productionStatusObj.prod_status"
+        },
+        "fields.die_revision": {
+          "$var": "dieRevision"
+        },
+        "meta.ruleId": "vendor.micron.emcp.aio.v1",
+        "meta.fieldProfile": "managed_nand"
+      }
+    }
+  },
+  {
     "id": "vendor.micron.emcp.mt29c.v1",
     "priority": 1012,
     "normalize": [
@@ -279,25 +2382,25 @@
         },
         "speedObj": {
           "5": {
-            "speed_grade": "200MHz"
+            "dram_speed": "LPDDR-400 CL3"
           },
           "54": {
-            "speed_grade": "185MHz"
+            "dram_speed": "LPDDR-370 CL3"
           },
           "6": {
-            "speed_grade": "166MHz"
+            "dram_speed": "LPDDR-333 CL3"
           },
           "75": {
-            "speed_grade": "133MHz"
+            "dram_speed": "LPDDR-266 CL3"
           },
           "8": {
-            "speed_grade": "125MHz"
+            "dram_speed": "LPDDR-250 CL3"
           },
           "10": {
-            "speed_grade": "100MHz"
+            "dram_speed": "LPDDR-200"
           },
           "48": {
-            "speed_grade": "208MHz"
+            "dram_speed": "LPDDR-416"
           }
         },
         "specialOptionObj": {
@@ -626,12 +2729,10 @@
         },
         "speedObj": {
           "18": {
-            "dram_speed": "LPDDR2-533",
-            "speed_grade": "533MHz"
+            "dram_speed": "LPDDR2-1066 CL8"
           },
           "18W": {
-            "dram_speed": "LPDDR2-533",
-            "speed_grade": "533MHz"
+            "dram_speed": "LPDDR2-1066 CL8"
           }
         },
         "temperatureObj": {

@@ -136,6 +136,7 @@
   "controller_code": "Controller Code",
   "controller_revision": "Controller Revision",
   "package_code": "Package Code",
+  "package_configuration": "Package Configuration",
   "solder_type": "Solder Type",
   "special_option": "Special Option",
   "feature_code": "Feature Code",

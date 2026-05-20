@@ -1242,6 +1242,21 @@
           "op": "merge",
           "into": "extra",
           "from": "controller_obj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "system",
+            "group",
+            "series_code",
+            "cell_code",
+            "layout_code",
+            "density_code",
+            "stack_code",
+            "generation_code",
+            "voltage_io_code"
+          ]
         }
       ],
       "assign": {
@@ -1296,10 +1311,16 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^S[MU][ABCGURW][0-9A-Z]+[1-8][ABC][1-8][ABC][BDEFHMPQ][GHIM][A-Z]{2}(?:-?(?:18|046|053|062)(?:BT|BU|MB|PG|UT))?$"
+      "value": "^(?:S|FN|FT|FB)[MU][ABCGURW][0-9A-Z]+[1-8][ABC][1-8][ABC][BDEFHMPQ][GHIM][A-Z]{2}(?:-?(?:18|046|053|062)(?:BT|BU|MB|PG|UT))?$"
     },
     "tokenDecoder": {
       "tables": {
+        "vendor_prefix": {
+          "S": true,
+          "FN": true,
+          "FT": true,
+          "FB": true
+        },
         "design_obj": {
           "A": {
             "product_mode": "SLC NAND + LPDDR2",
@@ -1312,7 +1333,7 @@
             "cell_level": 1
           },
           "C": {
-            "product_mode": "SLC NAND + Mobile LPDRAM",
+            "product_mode": "SLC NAND + LPDRAM (MCP PoP)",
             "dram_type": "Mobile LPDRAM",
             "cell_level": 1
           },
@@ -1411,9 +1432,10 @@
       },
       "steps": [
         {
-          "op": "take",
-          "len": 1,
-          "to": "skip_vendor"
+          "op": "takeLongest",
+          "table": "vendor_prefix",
+          "to": "vendor_prefix",
+          "default": true
         },
         {
           "op": "take",

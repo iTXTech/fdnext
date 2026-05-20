@@ -320,10 +320,6 @@
             "halogen_free": true
           }
         },
-        "multiChip": {
-          "TC": false,
-          "TH": true
-        },
         "prefixDieCount": {
           "TC": 1
         },
@@ -336,13 +332,6 @@
           "op": "take",
           "len": 2,
           "to": "vendorPrefix"
-        },
-        {
-          "op": "map",
-          "from": "vendorPrefix",
-          "table": "multiChip",
-          "to": "multiChip",
-          "default": true
         },
         {
           "op": "map",
@@ -573,9 +562,6 @@
         "device.vendor": "kioxia",
         "device.chipKind": "raw_nand",
         "fields": {
-          "multi_chip": {
-            "$var": "multiChip"
-          },
           "enterprise": {
             "$var": "enterprise"
           },

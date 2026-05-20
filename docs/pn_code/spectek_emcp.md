@@ -4,12 +4,14 @@
 
 ## 外部资料
 
-- SpecTek NAND MCP Part Numbering System mirror: 覆盖 `S U G NM112 6A 6B P I ET - 046BT` 结构、NAND/LPDRAM density-width code、voltage、chip count、package code 与 speed/grade。
+- SpecTek NAND MCP Part Numbering System: 官方 2022-06-01 版，覆盖 `S U G NM112 6A 6B P I ET - 046BT` 结构、`S/FN/FT/FB` SpecTek memory prefix、NAND/LPDRAM density-width code、voltage、chip count、package code 与 dash 后 speed/grade。
+  `spectek-pns-mcppop.pdf`
+- SpecTek NAND MCP Part Numbering System mirror: 同向佐证 NAND MCP 表。
   <https://device.report/m/a61212fa2672663ea5db512aa13ce4685e0684cc9b2f8e80039bb1d4a293a5a8.pdf>
 - SpecTek All-in-One Part Numbering System: 官方 2025-02-26 版，覆盖 `S M K J6Z4 ZZ 4 D 4T G F AK - PG` 这类 AIO / eMCP 结构、LPDRAM density-width、eMMC density、controller、voltage、chip count、package code 与 speed grade。
-  `/Users/peratx/Downloads/spectek-pns-aio.pdf`
+  `spectek-pns-aio.pdf`
 - SpecTek Flash + Controller Part Numbering System: 官方 2025-02-26 版，覆盖 `S U J52A 1G C F DI - BT` 这类 e-MMC / custom card 结构、NAND density、NAND component、controller ID、package code 与 dash 后 speed grade。
-  `/Users/peratx/Downloads/spectek-pns-emmc.pdf`
+  `spectek-pns-emmc.pdf`
 - Micron Flash + Controller Part Numbering System: 可用于 `MTFC...` Micron eMMC/UFS，不直接作为 SpecTek `S...` PN 规则。
   <https://assets.micron.com/adobe/assets/urn:aaid:aem:c81e5b7e-6c40-4314-afc8-067c0034c12e/renditions/original/as/numemmc.pdf>
 
@@ -22,15 +24,15 @@ iTXTech fdnext DecodePack:
 - `vendor.spectek.flash-controller.v1`
 - `vendor.spectek.nand-mcp.v1`
 
-当前接入 NAND MCP、官方 All-in-One eMCP / AIO，以及 Flash + Controller eMMC / UFS 方向。Flash + Controller 规则按官方 token 表解析，不依赖完整 PN 白名单；dash 后 `BT/BU/FT/PG/UT` 等 speed grade 必须进入公开 `speed_grade` 字段。
+当前接入 NAND MCP、官方 All-in-One eMCP / AIO，以及 Flash + Controller eMMC / UFS 方向。NAND MCP 和 Flash + Controller 规则按官方 token 表解析，不依赖完整 PN 白名单；dash 后 `BT/BU/FT/PG/UT` 等 speed grade 必须进入公开 `speed_grade` 字段。
 
 ## NAND MCP 结构
 
 | 结构 | 含义 |
 | --- | --- |
-| `S` | SpecTek memory |
+| `S` / `FN` / `FT` / `FB` | SpecTek memory |
 | `M` / `U` | Marked / Unmarked |
-| design family `A/B/C/G/R/U/W` | NAND + LPDRAM 组合类型 |
+| design family `A/B/C/G/R/U/W` | NAND + LPDRAM 组合类型；`C` 为 MCP PoP LPDRAM 路径 |
 | design ID | 例如 `NM112` |
 | NAND code `1..8` + `A/B/C` | NAND density + width |
 | LPDRAM code `1..8` + `A/B/C` | DRAM density + width |
@@ -103,6 +105,8 @@ iTXTech fdnext DecodePack:
 ## 测试样例
 
 - `SUGNM1126A6BPIET-046BT`
+- `FNUGNM1126A6BPIET-046BT`
+- `SMCNM1126A6BPIET-062UT`
 - `SMKJ6Z4ZZ4D4TGFAK-PG`
 - `SMKJ6Z4ZZ4D4TGFAK-053BT`
 - `SUJ52A1GCFDI-BT`

@@ -10,9 +10,9 @@
   <https://www.spectek.com/menus/mpn_decoder.aspx?MpnCategory=DramComponent>
   <https://www.spectek.com/menus/mpn_decoder.aspx?MpnCategory=MobileDram>
 - SpecTek DRAM Component Part Numbering Guide: 官方 `SpecTek Components Part Number Matrix`，2024-07-09 版，覆盖 component prefix、density-width、internal designator、voltage、refresh、speed bin、package code 与 die count 表。
-  `/Users/peratx/Downloads/spectek-pns-components.pdf`
+  `spectek-pns-components.pdf`
 - SpecTek Mobile DRAM Part Numbering System: 官方 mobile DRAM PN matrix，2025-03-19 版，覆盖 mobile prefix、depth/width、speed max clock、die count、voltage、package code、speed grade 与 special option。
-  `/Users/peratx/Downloads/spectek-pns-mobile-dram.pdf`
+  `spectek-pns-mobile-dram.pdf`
 - Micron SpecTek Buyers Guide: DRAM 页列出 `PRN` / `PRM`、`TP`、`PG` 等等级和样例 PN，并把 DRAM Component Part Numbering Guide、DRAM Component Mark Reference、Laser Mark to MPN Decoder 作为官方资料入口。
   <https://www.micron.com/content/dam/micron/global/public/spectek/buyers-guide/spectekbuyersguide.pdf>
 - 2015 SpecTek Components FBGA Matrix mirror: 覆盖 `PE008` ~ `PE012` 等 `PE` DRAM mark code 到 PN 的对应关系，可用于交叉验证旧表。
