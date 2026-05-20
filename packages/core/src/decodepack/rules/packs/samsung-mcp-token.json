@@ -1,0 +1,439 @@
+[
+  {
+    "id": "vendor.samsung.mcp.token.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^KM[D3E5APRQFMG48J][0-9A-Z](?:100|200|500|600|800|900)[0-9A-Z]{3}[0-9A-Z]{4}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "KM"
+      ],
+      "tables": {
+        "typeInfo": {
+          "D": {
+            "product_mode": "eMCP"
+          },
+          "3": {
+            "product_mode": "eMCP"
+          },
+          "R": {
+            "product_mode": "eMCP"
+          },
+          "Q": {
+            "product_mode": "eMCP"
+          },
+          "F": {
+            "product_mode": "eMCP"
+          },
+          "M": {
+            "product_mode": "eMCP"
+          },
+          "G": {
+            "product_mode": "eMCP"
+          },
+          "4": {
+            "product_mode": "eMCP"
+          },
+          "E": {
+            "product_mode": "uMCP"
+          },
+          "5": {
+            "product_mode": "uMCP"
+          },
+          "A": {
+            "product_mode": "uMCP"
+          },
+          "P": {
+            "product_mode": "uMCP"
+          },
+          "8": {
+            "product_mode": "uMCP"
+          },
+          "J": {
+            "product_mode": "uMCP"
+          }
+        },
+        "productType": {
+          "D": "emcp",
+          "3": "emcp",
+          "R": "emcp",
+          "Q": "emcp",
+          "F": "emcp",
+          "M": "emcp",
+          "G": "emcp",
+          "4": "emcp",
+          "E": "umcp",
+          "5": "umcp",
+          "A": "umcp",
+          "P": "umcp",
+          "8": "umcp",
+          "J": "umcp"
+        },
+        "storageTransport": {
+          "D": "eMMC",
+          "3": "eMMC",
+          "R": "eMMC",
+          "Q": "eMMC",
+          "F": "eMMC",
+          "M": "eMMC",
+          "G": "eMMC",
+          "4": "eMMC",
+          "E": "UFS",
+          "5": "UFS",
+          "A": "UFS",
+          "P": "UFS",
+          "8": "UFS",
+          "J": "UFS"
+        },
+        "interfaceByTypeSpeed": {
+          "D:600": "eMMC 5.1",
+          "3:600": "eMMC 5.1",
+          "F:600": "eMMC 5.1",
+          "G:600": "eMMC 5.1",
+          "4:600": "eMMC 5.1",
+          "M:100": "eMMC 5.0",
+          "E:200": "UFS 2.0",
+          "5:200": "UFS 2.0",
+          "E:800": "UFS 2.1",
+          "5:800": "UFS 2.1",
+          "A:800": "UFS 2.1",
+          "P:800": "UFS 2.1",
+          "5:900": "UFS 2.2",
+          "8:900": "UFS 2.2",
+          "A:500": "UFS 3.0",
+          "P:500": "UFS 3.0",
+          "J:900": "UFS 3.1"
+        },
+        "capacityMbit": {
+          "12": 65536,
+          "1Z": 131072,
+          "0H": 131072,
+          "1B": 262144,
+          "1K": 262144,
+          "1D": 524288,
+          "18": 524288,
+          "0C": 1048576,
+          "1J": 1048576,
+          "1R": 2097152,
+          "S": 2097152
+        },
+        "capacityMbitByTypePackage": {
+          "G:E:1B": 131072
+        },
+        "storageDensity": {
+          "12:eMMC": "8GB eMMC",
+          "1Z:eMMC": "16GB eMMC",
+          "0H:eMMC": "16GB eMMC",
+          "1B:eMMC": "32GB eMMC",
+          "1K:eMMC": "32GB eMMC",
+          "1D:eMMC": "64GB eMMC",
+          "18:eMMC": "64GB eMMC",
+          "0C:UFS": "128GB UFS",
+          "1J:UFS": "128GB UFS",
+          "1R:UFS": "256GB UFS",
+          "S:UFS": "256GB UFS"
+        },
+        "storageDensityByTypePackage": {
+          "G:E:1B": "16GB eMMC"
+        },
+        "dramType": {
+          "D": "LPDDR4X",
+          "F": "LPDDR3",
+          "G": "LPDDR3",
+          "4": "LPDDR4X",
+          "5": "LPDDR4X",
+          "8": "LPDDR4X",
+          "J": "LPDDR5"
+        },
+        "dramDensity": {
+          "12:B": "8Gb",
+          "12:M": "8Gb",
+          "1B:A": "16Gb",
+          "1B:M": "24Gb",
+          "1Z:M": "16Gb",
+          "0H:M": "24Gb",
+          "1K:M": "16Gb",
+          "1D:A": "32Gb",
+          "18:M": "24Gb",
+          "0C:M": "48Gb",
+          "1J:M": "64Gb",
+          "1R:M": "96Gb"
+        },
+        "dramSpeedDefault": {
+          "D": "LPDDR4X-4266",
+          "F": "LPDDR3-1866",
+          "G": "LPDDR3-1866",
+          "4": "LPDDR4X-4266",
+          "5": "LPDDR4X-4266",
+          "8": "LPDDR4X-4266",
+          "J": "LPDDR5-6400"
+        },
+        "dramSpeedByTypePackage": {
+          "D:H": "LPDDR4X-3733"
+        },
+        "packageByType": {
+          "3": "254 FBGA",
+          "E": "254 FBGA",
+          "5": "254 FBGA",
+          "A": "297 FBGA",
+          "P": "297 FBGA",
+          "R": "221 FBGA",
+          "Q": "221 FBGA",
+          "F": "221 FBGA",
+          "M": "153 FBGA"
+        },
+        "packageByTypePackage": {
+          "D:T": "144 FBGA",
+          "D:P": "254 FBGA",
+          "D:H": "254 FBGA",
+          "F:N": "221 FBGA",
+          "G:D": "221Ball FBGA 11.5x13x1.0",
+          "G:E": "BGA221",
+          "G:P": "221 FBGA",
+          "4:X": "254 FBGA",
+          "5:L": "254 FBGA",
+          "8:V": "254 FBGA",
+          "J:S": "297 FBGA"
+        },
+        "productFamily": {
+          "eMMC:LPDDR3": "eMMC + LPDDR3",
+          "eMMC:LPDDR4X": "eMMC + LPDDR4X",
+          "UFS:LPDDR4X": "UFS + LPDDR4X",
+          "UFS:LPDDR5": "UFS + LPDDR5"
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "typeToken"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageToken"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "speedToken"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "capacityToken"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "ramToken"
+        },
+        {
+          "op": "take",
+          "len": 4,
+          "to": "tailToken"
+        },
+        {
+          "op": "tpl",
+          "template": "{{typeToken}}:{{speedToken}}",
+          "to": "typeSpeedKey"
+        },
+        {
+          "op": "tpl",
+          "template": "{{typeToken}}:{{packageToken}}",
+          "to": "typePackageKey"
+        },
+        {
+          "op": "tpl",
+          "template": "{{capacityToken}}:{{ramToken}}",
+          "to": "dramDensityKey"
+        },
+        {
+          "op": "tpl",
+          "template": "{{typePackageKey}}:{{capacityToken}}",
+          "to": "typePackageCapacityKey"
+        },
+        {
+          "op": "map",
+          "from": "typeToken",
+          "table": "typeInfo",
+          "to": "typeInfo",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "typeToken",
+          "table": "productType",
+          "to": "productType"
+        },
+        {
+          "op": "map",
+          "from": "typeToken",
+          "table": "storageTransport",
+          "to": "storageTransport"
+        },
+        {
+          "op": "map",
+          "from": "typeSpeedKey",
+          "table": "interfaceByTypeSpeed",
+          "to": "storageInterface"
+        },
+        {
+          "op": "map",
+          "from": "capacityToken",
+          "table": "capacityMbit",
+          "to": "densityByCapacity"
+        },
+        {
+          "op": "map",
+          "from": "typePackageCapacityKey",
+          "table": "capacityMbitByTypePackage",
+          "to": "densityByTypePackage"
+        },
+        {
+          "op": "fallback",
+          "primary": "densityByTypePackage",
+          "secondary": "densityByCapacity",
+          "to": "density"
+        },
+        {
+          "op": "tpl",
+          "template": "{{capacityToken}}:{{storageTransport}}",
+          "to": "storageDensityKey"
+        },
+        {
+          "op": "map",
+          "from": "storageDensityKey",
+          "table": "storageDensity",
+          "to": "storageDensityByCapacity"
+        },
+        {
+          "op": "map",
+          "from": "typePackageCapacityKey",
+          "table": "storageDensityByTypePackage",
+          "to": "storageDensityByTypePackage"
+        },
+        {
+          "op": "fallback",
+          "primary": "storageDensityByTypePackage",
+          "secondary": "storageDensityByCapacity",
+          "to": "storageDensity"
+        },
+        {
+          "op": "map",
+          "from": "typeToken",
+          "table": "dramType",
+          "to": "dramType"
+        },
+        {
+          "op": "map",
+          "from": "dramDensityKey",
+          "table": "dramDensity",
+          "to": "dramDensity"
+        },
+        {
+          "op": "map",
+          "from": "typeToken",
+          "table": "dramSpeedDefault",
+          "to": "dramSpeedDefault"
+        },
+        {
+          "op": "map",
+          "from": "typePackageKey",
+          "table": "dramSpeedByTypePackage",
+          "to": "dramSpeedSpecial"
+        },
+        {
+          "op": "fallback",
+          "primary": "dramSpeedSpecial",
+          "secondary": "dramSpeedDefault",
+          "to": "dramSpeed"
+        },
+        {
+          "op": "tpl",
+          "template": "{{storageTransport}}:{{dramType}}",
+          "to": "productFamilyKey"
+        },
+        {
+          "op": "map",
+          "from": "productFamilyKey",
+          "table": "productFamily",
+          "to": "productFamily"
+        },
+        {
+          "op": "map",
+          "from": "typeToken",
+          "table": "packageByType",
+          "to": "packageByType"
+        },
+        {
+          "op": "map",
+          "from": "typePackageKey",
+          "table": "packageByTypePackage",
+          "to": "packageByTypePackage"
+        },
+        {
+          "op": "fallback",
+          "primary": "packageByTypePackage",
+          "secondary": "packageByType",
+          "to": "package"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "managed_nand",
+        "device.productType": {
+          "$var": "productType"
+        },
+        "fields.product_mode": {
+          "$path": "typeInfo.product_mode"
+        },
+        "fields.product_family": {
+          "$var": "productFamily"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.storage_density": {
+          "$var": "storageDensity"
+        },
+        "fields.storage_interface": {
+          "$var": "storageInterface"
+        },
+        "fields.dram_density": {
+          "$var": "dramDensity"
+        },
+        "fields.dram_type": {
+          "$var": "dramType"
+        },
+        "fields.dram_speed": {
+          "$var": "dramSpeed"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.samsung.mcp.token.v1"
+      }
+    }
+  }
+]

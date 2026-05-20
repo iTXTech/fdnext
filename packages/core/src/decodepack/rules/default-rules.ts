@@ -10,7 +10,7 @@ import micronRawTokenRules from "./packs/micron-raw-token.json" with { type: "js
 import intelRawTokenRules from "./packs/intel-raw-token.json" with { type: "json" };
 import samsungUfsTokenRules from "./packs/samsung-ufs-token.json" with { type: "json" };
 import samsungEmmcTokenRules from "./packs/samsung-emmc-token.json" with { type: "json" };
-import samsungEmcpTokenRules from "./packs/samsung-emcp-token.json" with { type: "json" };
+import samsungMcpTokenRules from "./packs/samsung-mcp-token.json" with { type: "json" };
 import samsungDramTokenRules from "./packs/samsung-dram-token.json" with { type: "json" };
 import samsungRawTokenRules from "./packs/samsung-raw-token.json" with { type: "json" };
 import nanyaDramTokenRules from "./packs/nanya-dram-token.json" with { type: "json" };
@@ -72,7 +72,7 @@ export const defaultPartDecodeSpecs = [
   ...intelRawTokenRules,
   ...samsungUfsTokenRules,
   ...samsungEmmcTokenRules,
-  ...samsungEmcpTokenRules,
+  ...samsungMcpTokenRules,
   ...samsungDramTokenRules,
   ...samsungRawTokenRules,
   ...nanyaDramTokenRules,

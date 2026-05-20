@@ -3919,7 +3919,7 @@ assertPart("KMGE6001BM-B421", {
     "Product Mode": "eMCP",
     "Product Family": "eMMC + LPDDR3",
     "Storage Density": "16GB eMMC",
-    "Storage Interface": "eMMC",
+    "Storage Interface": "eMMC 5.1",
     "DRAM Density": "24Gb",
     "DRAM Type": "LPDDR3",
     "DRAM Speed": "LPDDR3-1866",
@@ -3927,6 +3927,108 @@ assertPart("KMGE6001BM-B421", {
     "Config Code": "B421"
   },
   absentExtra: ["Group", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KMDT6001ZM-A625", {
+  vendor: "samsung",
+  type: "eMCP",
+  densityMbit: 131072,
+  package: "144 FBGA",
+  extra: {
+    "Product Mode": "eMCP",
+    "Product Family": "eMMC + LPDDR4X",
+    "Storage Density": "16GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "16Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KMDP6001DA-B425", {
+  vendor: "samsung",
+  type: "eMCP",
+  densityMbit: 524288,
+  package: "254 FBGA",
+  extra: {
+    "Product Mode": "eMCP",
+    "Product Family": "eMMC + LPDDR4X",
+    "Storage Density": "64GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KMFN60012B-B214", {
+  vendor: "samsung",
+  type: "eMCP",
+  densityMbit: 65536,
+  package: "221 FBGA",
+  extra: {
+    "Product Mode": "eMCP",
+    "Product Family": "eMMC + LPDDR3",
+    "Storage Density": "8GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "8Gb",
+    "DRAM Type": "LPDDR3",
+    "DRAM Speed": "LPDDR3-1866"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KM5L9000CM-B424", {
+  vendor: "samsung",
+  type: "uMCP",
+  densityMbit: 1048576,
+  package: "254 FBGA",
+  extra: {
+    "Product Mode": "uMCP",
+    "Product Family": "UFS + LPDDR4X",
+    "Storage Density": "128GB UFS",
+    "Storage Interface": "UFS 2.2",
+    "DRAM Density": "48Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KM8V9001JM-B813", {
+  vendor: "samsung",
+  type: "uMCP",
+  densityMbit: 1048576,
+  package: "254 FBGA",
+  extra: {
+    "Product Mode": "uMCP",
+    "Product Family": "UFS + LPDDR4X",
+    "Storage Density": "128GB UFS",
+    "Storage Interface": "UFS 2.2",
+    "DRAM Density": "64Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertPart("KMJS9001RM-BG01", {
+  vendor: "samsung",
+  type: "uMCP",
+  densityMbit: 2097152,
+  package: "297 FBGA",
+  extra: {
+    "Product Mode": "uMCP",
+    "Product Family": "UFS + LPDDR5",
+    "Storage Density": "256GB UFS",
+    "Storage Interface": "UFS 3.1",
+    "DRAM Density": "96Gb",
+    "DRAM Type": "LPDDR5",
+    "DRAM Speed": "LPDDR5-6400"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("K9AFGD8J0M", {
