@@ -1,6 +1,6 @@
 # Micron UFS PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-05-20
 
 ## 外部资料
 
@@ -10,7 +10,8 @@
   <https://www.micron.com/products/storage/managed-nand/universal-flash-storage>
 - Micron UFS part detail 页面确认 `MTFC...` 位于 Universal Flash Storage 目录。
   <https://www.micron.com/products/storage/managed-nand/universal-flash-storage/part-catalog/part-detail/mtfc256gbcavtc-aat>
-- 2026-05-08 复查 Micron UFS 4.1 公开页和 part catalog 搜索结果：能确认 UFS 4.1 产品线与容量范围，但暂未找到公开 ordering table 或可进入 `MTFC` token 规则的新 part detail。
+- Micron `TN-29-85: UFS Memory Health Report for Mobile Devices` (`tn2985_accessing_ufs_health_report.pdf`) Table 1 给出 UFS Health Report 适用 PN，包括 `MTFC64GASAOEA-WT`、`MTFC128GASAOEA-WT`、`MTFC256GASAOAM-WT`、`MTFC128GARATEK-WT`、`MTFC256GARATEK-WT`、`MTFC512GARATAM-WT`、`MTFC128GAXATEA-WT`、`MTFC256GAXATEA-WT`、`MTFC512GAXATAM-WT`、`MTFC64GAXAUEA-WT`、`MTFC128GAXAUEA-WT` 和 `MTFC256GAXAUEA-WT`，并给出 `B16C` / `B27B` / `B47R` NAND die 组成与 package code。
+- Micron `128GB, 256GB, 512GB UFS Features` 页面截图确认 `MTFC128GAXATHF-WT`、`MTFC256GAXATHF-WT`、`MTFC512GAXATHJ-WT` 与 `EA/HF/AM/HJ` package code 对应关系。
 
 ## 规则状态
 
@@ -25,7 +26,7 @@ PN 结构：
 | --- | --- |
 | `MTFC` + density + component(2) + controller(2) + package(2) + optional suffix | Micron UFS Flash + Controller |
 | package `NS` | UFS v2.1 datasheet 中确认的 package code |
-| family key `component:controller` | `AS:AO` -> UFS 2.1，`BC:AV` -> UFS 3.1，`BE:AX` / `AY:AX` -> UFS 4.0 |
+| family key `component:controller` | `AS:AO` -> UFS 2.1，`AR:AT` / `AX:AT` / `AX:AU` -> UFS，`BC:AV` -> UFS 3.1，`BE:AX` / `AY:AX` -> UFS 4.0 |
 | temp `CT/WT/IT/AIT/AAT/AITI` | Commercial / Standard / Extended / Industrial 温区 |
 
 ## 输出字段
@@ -34,15 +35,18 @@ PN 结构：
 - `product_version`
 - `operation_temperature`
 
-`controller_code`、`package_code` 等 Micron token 只用于内部解析，不进入公开字段。
+`nand_component`、`controller_code`、`package_code` 等 Micron token 只用于内部解析，不进入公开字段。UFS 不额外公开 `product_family`；品牌、UFS 类型和版本已经分别由设备身份、product type 与 `product_version` / `storage_interface` 表达。
 
 ## 测试样例
 
 - `MTFC256GASAONS-IT`
+- `MTFC64GASAOEA-WT`
+- `MTFC128GARATEK-WT`
+- `MTFC512GAXATHJ-WT`
 - `MTFC64GBCAVAL-AIT`
 - `MTFC1TAYAXHR-WT`
 
 ## 注意
 
 UFS 与 eMMC 共用 `MTFC` 前缀，必须通过 component/controller 组合和外部资料确认产品线，不能用完整 PN 白名单匹配。
-UFS 4.1 目前只记录为待确认方向，不新增 iTXTech fdnext DecodePack token 映射。
+TN-29-85 的 Health Report 适用表能确认 PN、封装和 NAND die 组成，但没有单独给出所有 controller token 的接口代际；因此 `AR:AT` / `AX:AT` / `AX:AU` 当前只按 UFS 类型识别，不强行补 `UFS 3.x/4.x`。

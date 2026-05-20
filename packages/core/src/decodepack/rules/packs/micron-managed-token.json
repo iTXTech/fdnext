@@ -151,6 +151,21 @@
             "component_density": "128Gb",
             "generation_info": "Eighth"
           },
+          "AR": {
+            "component_width": "x8",
+            "component_density": "512Gb",
+            "die_codename": "B27B"
+          },
+          "AS": {
+            "component_width": "x8",
+            "component_density": "256Gb",
+            "die_codename": "B16C"
+          },
+          "AX": {
+            "component_width": "x8",
+            "component_density": "512Gb",
+            "die_codename": "B47R"
+          },
           "BC": {
             "component_width": "x8",
             "component_density": "512Gb"
@@ -159,7 +174,10 @@
         "familyType": {
           "AC:AJ": "emmc",
           "BC:AQ": "emmc",
+          "AR:AT": "ufs",
           "AS:AO": "ufs",
+          "AX:AT": "ufs",
+          "AX:AU": "ufs",
           "BC:AV": "ufs",
           "BE:AX": "ufs",
           "AY:AX": "ufs"
@@ -175,23 +193,28 @@
             "product_version": "eMMC 5.1",
             "group": "eMMC"
           },
+          "AR:AT": {
+            "group": "UFS"
+          },
           "AS:AO": {
-            "product_family": "Micron UFS v2.1",
             "product_version": "UFS 2.1",
             "group": "UFS"
           },
+          "AX:AT": {
+            "group": "UFS"
+          },
+          "AX:AU": {
+            "group": "UFS"
+          },
           "BC:AV": {
-            "product_family": "Micron UFS 3.1",
             "product_version": "UFS 3.1",
             "group": "UFS"
           },
           "BE:AX": {
-            "product_family": "Micron UFS 4.0",
             "product_version": "UFS 4.0",
             "group": "UFS"
           },
           "AY:AX": {
-            "product_family": "Micron UFS 4.0",
             "product_version": "UFS 4.0",
             "group": "UFS"
           }
@@ -255,9 +278,12 @@
           "DV": "169-ball VFBGA 12x16x1.0",
           "DX": "169-ball TFBGA 12x16x1.1",
           "EA": "153-ball WFBGA 11.5x13x0.8 (LF35)",
+          "EK": "153-ball VFBGA 11.5x13x0.9",
           "EF": "169-ball TFBGA 14.0x18x1.2",
           "EY": "153-ball LFBGA 11.5x13x1.4",
           "GT": "153-ball WFBGA 11.5x13x0.8 (SAC302)",
+          "HF": "153-ball WFBGA 11.0x13x0.8",
+          "HJ": "153-ball VFBGA 11.0x13x1.0",
           "JP": "153-ball VFBGA 11.5x13x1",
           "NA": "100-ball TBGA 14x18x1.2",
           "NS": "153-ball TFBGA 11.5x13x1.2",
@@ -466,16 +492,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "system": "Micron managed NAND",
-            "nand_component": {
-              "$var": "componentCode"
-            },
-            "controller_code": {
-              "$var": "controllerCode"
-            },
-            "package_code": {
-              "$var": "packageCode"
-            }
+            "system": "Micron managed NAND"
           }
         },
         {

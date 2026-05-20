@@ -2336,6 +2336,7 @@ for (const sample of [
     controller: "SM2754 120s v3.1",
     packageConfiguration: "6 LPDRAM, 1 UFS",
     package: "297-ball uMCP",
+    dramConfiguration: "48Gb (4 x Y2BM) + 16Gb (2 x Y21N)",
     dramSpeed: "LPDDR5-6400",
     dieRevision: "15Q",
     productMode: "UFS + Mobile LPDDR5"
@@ -2350,6 +2351,7 @@ for (const sample of [
     controller: "SM2754 120s v3.1",
     packageConfiguration: "8 LPDRAM, 1 UFS",
     package: "297-ball uMCP",
+    dramConfiguration: "64Gb (8 x Y31N)",
     dramSpeed: "LPDDR5-6400",
     dieRevision: "16C",
     productMode: "UFS + Mobile LPDDR5"
@@ -2364,6 +2366,7 @@ for (const sample of [
     controller: "SM2754 120s v3.1",
     packageConfiguration: "8 LPDRAM, 1 UFS",
     package: "297-ball uMCP",
+    dramConfiguration: "64Gb (8 x Y31N)",
     dramSpeed: "LPDDR5-6400",
     dieRevision: "16D",
     productMode: "UFS + Mobile LPDDR5"
@@ -2378,6 +2381,7 @@ for (const sample of [
     controller: "9U6A 140s v3.1",
     packageConfiguration: "8 LPDRAM, 1 UFS",
     package: "297-ball uMCP",
+    dramConfiguration: "96Gb (8 x Y2BM)",
     dramSpeed: "LPDDR5-6400",
     dieRevision: "19Q",
     productMode: "UFS + Mobile LPDDR5"
@@ -2392,6 +2396,7 @@ for (const sample of [
     controller: "9U6A 140s v3.1",
     packageConfiguration: "8 LPDRAM, 1 UFS",
     package: "297-ball uMCP",
+    dramConfiguration: "96Gb (8 x Y2BM)",
     dramSpeed: "LPDDR5-8533",
     dieRevision: "19Q",
     productMode: "UFS + Mobile LPDDR5"
@@ -2406,6 +2411,7 @@ for (const sample of [
     controller: "9U6A 140s v3.1",
     packageConfiguration: "8 LPDRAM, 1 UFS",
     package: "297-ball uMCP",
+    dramConfiguration: "96Gb (8 x Y2BM)",
     dramSpeed: "LPDDR5-6400",
     dieRevision: "19Q",
     productMode: "UFS + Mobile LPDDR5"
@@ -2420,6 +2426,7 @@ for (const sample of [
     controller: "9U6A 140s v3.1",
     packageConfiguration: "8 LPDRAM, 1 UFS",
     package: "297-ball uMCP",
+    dramConfiguration: "96Gb (8 x Y2BM)",
     dramSpeed: "LPDDR5-6400",
     dieRevision: "19R",
     productMode: "UFS + Mobile LPDDR5"
@@ -2434,6 +2441,7 @@ for (const sample of [
     controller: "9U6A 140s v3.1",
     packageConfiguration: "8 LPDRAM, 1 UFS",
     package: "297-ball uMCP",
+    dramConfiguration: "96Gb (8 x Y2BM)",
     dramSpeed: "LPDDR5-6400",
     dieRevision: "19R",
     productMode: "UFS + Mobile LPDDR5"
@@ -2493,6 +2501,7 @@ for (const sample of [
       "Storage Interface": "UFS",
       "Controller": sample.controller,
       "DRAM Density": sample.dramDensity,
+      ...("dramConfiguration" in sample ? { "DRAM Configuration": sample.dramConfiguration } : {}),
       "DRAM Type": sample.dramType,
       "DRAM Width": "x32",
       "Package Configuration": sample.packageConfiguration,
@@ -2500,7 +2509,7 @@ for (const sample of [
       "Operation Temperature": "Wireless (-25°C ~ 85°C)",
       "Die Revision": sample.dieRevision
     },
-    absentExtra: ["Config Code", "Package Code", "Controller Code", "Speed Grade"]
+    absentExtra: ["Config Code", "Package Code", "Controller Code", "Product Family", "Speed Grade"]
   });
 }
 
@@ -3428,14 +3437,11 @@ assertPart("MTFC4GACAJCN-1M WT", {
   densityMbit: 32768,
   package: "153-ball VFBGA 11.5x13x1.0 (SAC 302)",
   extra: {
-    "NAND Component": "AC",
-    "Controller Code": "AJ",
-    "Package Code": "CN",
     "Product Generation": "Fourth",
     "Product Version": "eMMC 5.0",
     "Special Option": "2MB MAX boot area / 100% MAX enhanced"
   },
-  absentExtra: ["Component Generation", "Product Family", "Group"]
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Component Generation", "Product Family", "Group"]
 });
 
 assertPart("MTFC8GLTEA-WT", {
@@ -3457,12 +3463,52 @@ assertPart("MTFC256GASAONS-IT", {
   densityMbit: 2097152,
   package: "153-ball TFBGA 11.5x13x1.2",
   extra: {
-    "NAND Component": "AS",
-    "Controller Code": "AO",
-    "Package Code": "NS",
     "Product Version": "UFS 2.1"
   },
-  absentExtra: ["Product Family", "Group"]
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Family", "Group"]
+});
+
+assertPart("MTFC64GASAOEA-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 524288,
+  dieProfileField: "B16C",
+  package: "153-ball WFBGA 11.5x13x0.8 (LF35)",
+  extra: {
+    "Component Density": "256Gb",
+    "Component Width": "x8",
+    "Product Version": "UFS 2.1",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Family", "Group"]
+});
+
+assertPart("MTFC128GARATEK-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 1048576,
+  dieProfileField: "B27B",
+  package: "153-ball VFBGA 11.5x13x0.9",
+  extra: {
+    "Component Density": "512Gb",
+    "Component Width": "x8",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Family", "Group"]
+});
+
+assertPart("MTFC512GAXATHJ-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 4194304,
+  dieProfileField: "B47R",
+  package: "153-ball VFBGA 11.0x13x1.0",
+  extra: {
+    "Component Density": "512Gb",
+    "Component Width": "x8",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Family", "Group"]
 });
 
 assertPart("MTFC64GBCAVAL-AIT", {
@@ -3470,12 +3516,9 @@ assertPart("MTFC64GBCAVAL-AIT", {
   type: "UFS",
   densityMbit: 524288,
   extra: {
-    "NAND Component": "BC",
-    "Controller Code": "AV",
-    "Package Code": "AL",
     "Product Version": "UFS 3.1"
   },
-  absentExtra: ["Group"]
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
 
 assertPart("MTFC128GBCAQTC-AIT", {
@@ -3484,15 +3527,12 @@ assertPart("MTFC128GBCAQTC-AIT", {
   densityMbit: 1048576,
   package: "153-ball LFBGA 11.5x13x1.3",
   extra: {
-    "NAND Component": "BC",
-    "Controller Code": "AQ",
-    "Package Code": "TC",
     "Component Density": "512Gb",
     "Component Width": "x8",
     "Product Family": "Micron e.MMC 5.1 TLC Pearl",
     "Product Version": "eMMC 5.1"
   },
-  absentExtra: ["Group", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertPart("MTFC1TAYAXHR-WT", {
@@ -3500,12 +3540,9 @@ assertPart("MTFC1TAYAXHR-WT", {
   type: "UFS",
   densityMbit: 8388608,
   extra: {
-    "NAND Component": "AY",
-    "Controller Code": "AX",
-    "Package Code": "HR",
     "Product Version": "UFS 4.0"
   },
-  absentExtra: ["Group"]
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
 
 assertPart("MTFC256GZZZZZZ-WT", {
@@ -3513,11 +3550,7 @@ assertPart("MTFC256GZZZZZZ-WT", {
   type: "eMMC",
   densityMbit: 2097152,
   package: "Unknown",
-  extra: {
-    "NAND Component": "ZZ",
-    "Controller Code": "ZZ",
-    "Package Code": "ZZ"
-  }
+  absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
 
 assertPart("MTFDHBL064TDP-1AT12AIYY", {

@@ -1,6 +1,6 @@
 # Micron Managed NAND PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-05-20
 
 本文档记录 Micron `MTFC` managed NAND 共享结构和未知组合 fallback。eMMC、UFS 与 MCP / eMCP / uMCP 细节分别见 [micron_emmc.md](micron_emmc.md)、[micron_ufs.md](micron_ufs.md) 和 [micron_emcp.md](micron_emcp.md)。
 
@@ -12,6 +12,7 @@
   <https://assets.micron.com/adobe/assets/urn%3Aaaid%3Aaem%3Ac81e5b7e-6c40-4314-afc8-067c0034c12e/original/as/numemmc.pdf>
 - Micron Universal Flash Storage 官方页说明 UFS 相对 e.MMC 5.1 的定位，并给出 UFS 4.1 / UFS 3.1 公开产品族入口。
   <https://www.micron.com/products/storage/managed-nand/universal-flash-storage>
+- Micron `TN-29-85: UFS Memory Health Report for Mobile Devices` (`tn2985_accessing_ufs_health_report.pdf`) 的 Table 1 给出一批 UFS / uMCP 已知 PN、容量组成、封装和 package code，可用于 `MTFC*GASAO*`、`MTFC*GARAT*`、`MTFC*GAXAT*`、`MTFC*GAXAU*` 与 `MT29V` / `MT30A` uMCP 的资源和规则校验。
 
 ## 规则状态
 
@@ -42,11 +43,13 @@ PN 结构：
 - `product_version`
 - `operation_temperature`
 
-`controller_code`、`package_code` 等 Micron token 只用于内部解析，不进入公开字段；用户可见结果优先输出 `controller`、`controller_revision`、`package` 等语义字段。
+`nand_component`、`controller_code`、`package_code` 等 Micron token 只用于内部解析，不进入公开字段；用户可见结果优先输出 `component_density`、`die_codename`、`controller`、`controller_revision`、`package` 等语义字段。UFS 输出不额外公开 `product_family`；品牌、UFS 类型与接口代际已分别由设备身份和 `product_version` / `storage_interface` 表达。
 
 ## 测试样例
 
 - `MTFC256GZZZZZZ-WT`
+- `MTFC128GARATEK-WT`
+- `MTFC512GAXATHJ-WT`
 
 ## 注意
 

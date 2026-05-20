@@ -124,6 +124,7 @@
   "sector_size": "Sector Size",
   "storage_density": "Storage Density",
   "dram_density": "DRAM Density",
+  "dram_configuration": "DRAM Configuration",
   "dram_type": "DRAM Type",
   "dram_die_density": "DRAM Die Density",
   "dram_die_stack": "DRAM Die Stack",

@@ -29,13 +29,11 @@
         },
         "productFamilyObj": {
           "MT29V": {
-            "product_family": "Micron uMCP",
             "product_mode": "UFS + Mobile LPDDR4X",
             "storage_interface": "UFS",
             "dram_type": "LPDDR4X"
           },
           "MT30A": {
-            "product_family": "Micron uMCP",
             "product_mode": "UFS + Mobile LPDDR5",
             "storage_interface": "UFS",
             "dram_type": "LPDDR5"
@@ -192,14 +190,30 @@
             "package_configuration": "8 LPDRAM, 1 UFS"
           }
         },
+        "dramConfigurationObj": {
+          "MT30A:B:K": {
+            "dram_configuration": "48Gb (4 x Y2BM)"
+          },
+          "MT30A:C:O": {
+            "dram_configuration": "48Gb (4 x Y2BM) + 16Gb (2 x Y21N)"
+          },
+          "MT30A:C:P": {
+            "dram_configuration": "64Gb (8 x Y31N)"
+          },
+          "MT30A:D:P": {
+            "dram_configuration": "96Gb (8 x Y2BM)"
+          }
+        },
         "package": {
           "MT29V:BA": "254-ball uMCP",
+          "MT29V:PR": "254-ball uMCP",
           "MT29V:SL": "254-ball uMCP",
           "MT29V:SM": "254-ball uMCP",
           "MT29V:WL": "254-ball uMCP",
           "MT30A:EQ": "297-ball uMCP",
           "MT30A:QS": "297-ball uMCP",
-          "MT30A:WL": "297-ball uMCP"
+          "MT30A:WL": "297-ball uMCP",
+          "MT30A:XM": "297-ball uMCP"
         },
         "speedObj": {
           "026": {
@@ -323,6 +337,18 @@
           "default": {}
         },
         {
+          "op": "tpl",
+          "template": "{{productLine}}:{{dramDensityCode}}:{{packageConfigurationCode}}",
+          "to": "dramConfigurationKey"
+        },
+        {
+          "op": "map",
+          "from": "dramConfigurationKey",
+          "table": "dramConfigurationObj",
+          "to": "dramConfigurationObj",
+          "default": {}
+        },
+        {
           "op": "takeLongest",
           "table": "package",
           "to": "package",
@@ -393,6 +419,11 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "dramConfigurationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "speedObj"
         },
         {
@@ -442,6 +473,9 @@
         "fields.package_configuration": {
           "$path": "packageConfigurationObj.package_configuration"
         },
+        "fields.dram_configuration": {
+          "$path": "dramConfigurationObj.dram_configuration"
+        },
         "fields.package": {
           "$var": "package"
         },
@@ -484,6 +518,9 @@
               },
               "dram_type": {
                 "$path": "productFamilyObj.dram_type"
+              },
+              "dram_configuration": {
+                "$path": "dramConfigurationObj.dram_configuration"
               },
               "dram_width": {
                 "$var": "dramWidth"

@@ -56,7 +56,7 @@ export const fdnextFieldProfiles = {
         id: "components",
         label: "Components",
         importance: "secondary",
-        fields: ["component_density", "component_width", "component_voltage", "nand_component", "dram_density", "dram_type", "dram_width"]
+        fields: ["component_density", "component_width", "component_voltage", "nand_component", "dram_density", "dram_configuration", "dram_type", "dram_width"]
       },
       {
         id: "interface",
@@ -81,7 +81,7 @@ export const fdnextFieldProfiles = {
         id: "dram",
         label: "DRAM",
         importance: "primary",
-        fields: ["dram_type", "dram_density", "density", "dram_die_density", "dram_width", "device_width", "dram_voltage", "voltage", "dram_speed", "dram_generation"]
+        fields: ["dram_type", "dram_density", "dram_configuration", "density", "dram_die_density", "dram_width", "device_width", "dram_voltage", "voltage", "dram_speed", "dram_generation"]
       },
       { id: "geometry", label: "Geometry", importance: "secondary", fields: ["dram_die_stack", "die_stack", "die_count", "cs_count", "process_node", "config_code"] },
       { id: "package", label: "Package", importance: "detail", fields: ["package", "package_code", "operation_temperature", "die_revision"] },

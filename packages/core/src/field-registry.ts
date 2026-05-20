@@ -205,6 +205,13 @@ export const fdnextFieldRegistry = {
     importance: "primary",
     format: formatMbit
   },
+  dram_configuration: {
+    key: "dram_configuration",
+    valueKind: "string",
+    defaultLabel: "DRAM Configuration",
+    recommendedBlock: "dram",
+    importance: "detail"
+  },
   cell_level: {
     key: "cell_level",
     valueKind: "string",

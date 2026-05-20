@@ -124,6 +124,7 @@
   "sector_size": "扇区大小",
   "storage_density": "存储容量",
   "dram_density": "DRAM 容量",
+  "dram_configuration": "DRAM 配置",
   "dram_type": "DRAM 类型",
   "dram_die_density": "DRAM Die 容量",
   "dram_die_stack": "DRAM Die 堆叠",

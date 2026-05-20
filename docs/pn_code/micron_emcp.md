@@ -8,6 +8,7 @@
 
 - Micron 官方 `NOR MCP, NAND MCP, PoP and AiO Part Numbering Systems` PDF (`nummcp.pdf`) 给出 NAND MCP、MCP/PoP/AiO、AiO legacy 的结构表，确认 product family、NAND/LPDRAM density/width、voltage、package configuration、package、`-` 后 speed / temperature / production status / special option / die revision 后缀。本文只使用 NAND MCP、MCP/PoP/AiO、AiO 页面，忽略 NOR。
 - 用户补充的 Micron locked datasheet catalog rows 确认 `MT29VZZZ...` 254-ball uMCP UFS + LPDDR4X 与 `MT30AZZZ...` 297-ball uMCP UFS + LPDDR5 的实际 PN、storage density、controller、DRAM density、package configuration、speed/temp/die revision 后缀。
+- Micron `TN-29-85: UFS Memory Health Report for Mobile Devices` (`tn2985_accessing_ufs_health_report.pdf`) Table 1 给出 `MT29V` / `MT30A` uMCP 已知 PN、NAND die 组成、DRAM 颗粒组成、package code 和 Health Report 适用范围。
 - Micron 168-Ball NAND Flash and LPDRAM PoP MCP datasheet mirror 给出 `MT29C2G24MAKLAJG-6 IT` 等 production part number，确认产品为 NAND Flash + LPDRAM PoP MCP，并列出 NAND product、LPDDR product 与 physical marking。
   <https://datasheet.octopart.com/MT29C2G24MAKLAJG-6-IT-Micron-datasheet-8368047.pdf>
 - DigiKey `MT29C4G96MAZAPCJA-5 IT` 页面确认 Technology 为 `FLASH - NAND, Mobile LPDRAM`，Memory Size 为 `4Gbit (NAND), 4Gbit (LPDRAM)`，package 为 `137-TFBGA (10.5x13)`。
@@ -65,6 +66,8 @@
 
 DRAM density token 独立解析；例如 `C` 始终按 64Gb 处理，`F/K/O/P` 只表达封装内 LPDRAM 颗数，不覆盖 density。测试中覆盖 `MT29VZZZCD91SFSM 046 W.18C` 与 `MT29VZZZCD91SKSM 046 W.17Y`，两者均输出 64Gb LPDDR4X，但 package configuration 分别是 `2 LPDRAM, 1 UFS` 和 `4 LPDRAM, 1 UFS`。
 
+TN-29-85 中 `MT30AZZZCD9ZTOQS-031 W.15Q` 这类 `128GB (2 x B27B) + 48Gb (4 x Y2BM) + 16Gb (2 x Y21N)` 不是两个独立 DRAM 子系统，而是同一个 LPDDR5 DRAM 容量由两种 Micron DRAM die / package token 混合组成：4 颗 `Y2BM` 合计 48Gb，再加 2 颗 `Y21N` 合计 16Gb，总 DRAM 容量为 64Gb。公开字段中 `dram_density = 64Gb` 表达总容量，`dram_configuration` 保留这类混合组成细节。
+
 Micron locked rows 中的 `046 W.G0J`、`031 WL.19Q` 等无 hyphen 后缀也作为完整规则支持；normalizer 会移除空格、点和可选 hyphen，并保留 `W` / `WL` temperature 与后续 die revision。
 
 ## DRAM Speed 输出约定
@@ -86,4 +89,5 @@ Micron raw NAND 规则只覆盖 `MT29E...` / `MT29F...`，其中 `MT29FB...` 复
 | `MT29RZ4C4DZZMGMF-18W.80C` | eMCP, 4Gb NAND + 4Gb LPDDR2-S4, package configuration, die revision `80C` |
 | `MT29VZZZBDAFQKWL 046 W.G0J` | uMCP, 256GB UFS + 48Gb LPDDR4X, SM2752 110s, `LPDDR4X-4266`, die revision `G0J` |
 | `MT29VZZZCD91SFSM 046 W.18C` | uMCP, 128GB UFS + 64Gb LPDDR4X, 2 LPDRAM + 1 UFS, die revision `18C` |
+| `MT30AZZZCD9ZTOQS 031 W.15Q` | uMCP, 128GB UFS + 64Gb LPDDR5, `48Gb (4 x Y2BM) + 16Gb (2 x Y21N)`, die revision `15Q` |
 | `MT30AZZZDDA0TPQS 031 WL.19Q` | uMCP, 256GB UFS + 96Gb LPDDR5, 9U6A 140s, `LPDDR5-6400`, `WL` temperature |
