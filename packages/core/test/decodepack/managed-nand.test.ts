@@ -1128,6 +1128,58 @@ assertPart("SMKJ6Z4ZZ4D4TGFAK-PG", {
   },
   absentExtra: ["Controller Code", "Package Code", "Product Generation"]
 });
+assertPart("SMKJ6Z4ZZ4D4TGFAK-053BT", {
+  vendor: "spectek",
+  type: "eMCP",
+  voltage: "LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
+  package: "TFBGA 153-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
+  extra: {
+    "Storage Density": "4GB eMMC",
+    "Storage Interface": "eMMC",
+    "DRAM Density": "4Gb",
+    "DRAM Type": "LPDRAM",
+    "DRAM Width": "x32",
+    "Product Family": "SpecTek All-in-One",
+    "Product Mode": "LPDDR + MLC eMMC",
+    "Special Option": "0 NAND Flash, 2 LPDRAM (CS0#/CS1#), 1 eMMC",
+    "Controller": "Phison 8200 V4.41 EF",
+    "Speed Grade": "053BT Fully Tested at 70 degrees"
+  },
+  absentExtra: ["Controller Code", "Package Code", "Product Generation"]
+});
+assertPart("SUJ52A1GCFDI-BT", {
+  vendor: "spectek",
+  type: "eMMC",
+  densityMbit: 8192,
+  package: "TFBGA 169/392-ball, 12x16x1.2",
+  extra: {
+    "Component Density": "8Gb",
+    "Component Width": "x8",
+    "Component Voltage": "3.3V",
+    "Product Family": "SpecTek Flash + Controller",
+    "Controller Revision": "Rev 6",
+    "Speed Grade": "BT B Grade Fully Tested"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Generation"]
+});
+assertPart("SUJ52A128GASAKDI-FT", {
+  vendor: "spectek",
+  type: "UFS",
+  densityMbit: 1048576,
+  package: "TFBGA 169/392-ball, 12x16x1.2",
+  extra: {
+    "Storage Interface": "UFS 2.1",
+    "Component Density": "256Gb",
+    "Component Width": "x8",
+    "Component Voltage": "3.3V",
+    "Product Family": "SpecTek Flash + Controller",
+    "Controller": "SMI SM2750",
+    "Controller Revision": "Rev 35",
+    "Special Option": "AB firmware, Standard mode",
+    "Speed Grade": "FT Fully Tested at 90 degrees"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Generation"]
+});
 
 assertPart("TF10G1BAHA", {
   vendor: "phison",
@@ -3845,6 +3897,7 @@ assertSearchPnIncludes("SDIS4BH", "Sandisk SDIS4BH-064G");
 assertSearchPnIncludes("MTFDHBL064TDP", "Micron MTFDHBL064TDP-1AT12AIYY");
 assertSearchPnIncludes("MTFDHBL064TDQ", "Micron MTFDHBL064TDQ-1AT12ATYY");
 assertSearchPnIncludes("MTFDHBK1T0TDQ", "Micron MTFDHBK1T0TDQ-1AT12ATYY");
+assertSearchPnIncludes("SUJ52A1G", "SpecTek SUJ52A1GCFDI-BT");
 assertSearchPnIncludes("SM662PBC", "Silicon Motion SM662PBC-BFS");
 assertSearchPnIncludes("SM671PEF", "Silicon Motion SM671PEF-BFS");
 assertSearchPnIncludes("THGJFRT1E45", "Kioxia THGJFRT1E45BATV");

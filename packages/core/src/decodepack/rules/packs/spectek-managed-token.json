@@ -345,34 +345,12 @@
           "XM": "VFBGA 297-ball, 11.5x13, 0.50mm pitch, 1.00mm thick",
           "ZB": "WFBGA 221-ball, 11.5x13, 0.50mm pitch, 0.80mm thick"
         },
-        "speed_grade_obj": {
-          "BT": {
-            "speed_grade": "BT Fully Tested at 70 degrees"
-          },
-          "FT": {
-            "speed_grade": "FT Fully Tested at 90 degrees"
-          },
-          "MB": {
-            "speed_grade": "MB Mixed Bins"
-          },
-          "PG": {
-            "speed_grade": "PG Partial Good Mixed Bins"
-          },
-          "UT": {
-            "speed_grade": "UT Untested"
-          },
-          "046BT": {
-            "speed_grade": "046BT Fully Tested at 70 degrees"
-          },
-          "053FT": {
-            "speed_grade": "053FT Fully Tested at 90 degrees"
-          },
-          "062MB": {
-            "speed_grade": "062MB Mixed Bins"
-          },
-          "075PG": {
-            "speed_grade": "075PG Partial Good Mixed Bins"
-          }
+        "grade": {
+          "BT": "Fully Tested at 70 degrees",
+          "FT": "Fully Tested at 90 degrees",
+          "MB": "Mixed Bins",
+          "PG": "Partial Good Mixed Bins",
+          "UT": "Untested"
         }
       },
       "steps": [
@@ -492,10 +470,26 @@
           "prefix": "-"
         },
         {
-          "op": "takeLongest",
-          "table": "speed_grade_obj",
-          "to": "speed_grade_obj",
-          "default": {}
+          "op": "takeRegex",
+          "pattern": "^((?:046|053|062|075|083|093|107|125|15E|18|25|5|6)?)(BT|FT|MB|PG|UT)$",
+          "to": "speed_grade_code",
+          "default": "",
+          "groups": {
+            "speed_code": 1,
+            "grade_code": 2
+          }
+        },
+        {
+          "op": "map",
+          "from": "grade_code",
+          "table": "grade",
+          "to": "grade_label",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{speed_code}}{{grade_code}} {{grade_label}}",
+          "to": "speed_grade"
         },
         {
           "op": "set",
@@ -525,11 +519,6 @@
           "op": "merge",
           "into": "extra",
           "from": "chip_count_obj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "speed_grade_obj"
         }
       ],
       "assign": {
@@ -561,9 +550,726 @@
           "$var": "package"
         },
         "fields.speed_grade": {
-          "$path": "speed_grade_obj.speed_grade"
+          "$var": "speed_grade"
         },
         "meta.ruleId": "vendor.spectek.aio.emcp.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.spectek.flash-controller.v1",
+    "priority": 1008,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^S[MU][0-9A-Z]+(?:512G|256G|128G|64G|32G|16G|12M|8G|4G|2G|1G|1T)(?:AA|AB|AC|AD|AE|AF|AG|AH|AK|AL|AM|AN|AO|AP|AQ|AR|AS|AT|AU|AV|AW|AX|AY|AZ|BA|BB|BC|BD|BE|BF|BG|[1A-HJ-LNPQR])(?:AA|AC|AD|AE|AF|AG|AH|AJ|AK|AL|AM|AN|AO|AP|AQ|AR|AS|AT|AU|AV|AW|AX|AY|AZ|BA|BB|BC|[A-HI-NP-Z])(?:AF|AG|AL|AM|AP|AS|BH|BN|CE|CF|CN|DE|DG|DH|DI|DK|DL|DM|DN|DP|DQ|DV|DW|DX|EA|EC|ED|EF|EG|EJ|EK|EP|EY|GT|HD|HE|HF|HJ|JP|NA|NS|TC|TD)(?:-?(?:BT|BU|FT|PG|UT))?$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "density": {
+          "12M": 4096,
+          "1G": 8192,
+          "2G": 16384,
+          "4G": 32768,
+          "8G": 65536,
+          "16G": 131072,
+          "32G": 262144,
+          "64G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304,
+          "1T": 8388608
+        },
+        "component_obj": {
+          "1": {
+            "component_density": "4Gb",
+            "component_width": "x8",
+            "component_voltage": "1.8V"
+          },
+          "A": {
+            "component_density": "2Gb",
+            "component_width": "x8",
+            "component_voltage": "1.8V"
+          },
+          "B": {
+            "component_density": "4Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "C": {
+            "component_density": "8Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "D": {
+            "component_density": "8Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "E": {
+            "component_density": "16Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "F": {
+            "component_density": "4Gb"
+          },
+          "G": {
+            "component_density": "16Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "H": {
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "J": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "K": {
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "L": {
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "N": {
+            "component_density": "4Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "P": {
+            "component_density": "8Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "Q": {
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "R": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AA": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AB": {
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AC": {
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AD": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AE": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AF": {
+            "component_density": "128Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AG": {
+            "component_density": "128Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AH": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AK": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AL": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AM": {
+            "component_density": "64Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AN": {
+            "component_density": "128Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AO": {
+            "component_density": "256Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AP": {
+            "component_density": "128Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AQ": {
+            "component_density": "512Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AR": {
+            "component_density": "512Gb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          },
+          "AS": {
+            "component_density": "256Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AT": {
+            "component_density": "256Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "AU": {
+            "component_density": "512Gb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          },
+          "AV": {
+            "component_density": "512Gb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          },
+          "AW": {
+            "component_density": "256Gb / 512Gb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          },
+          "AX": {
+            "component_density": "512Gb",
+            "component_width": "x8"
+          },
+          "AY": {
+            "component_density": "1Tb",
+            "component_width": "x8"
+          },
+          "AZ": {
+            "component_density": "256Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "BA": {
+            "component_density": "512Gb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          },
+          "BB": {
+            "component_density": "1Tb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          },
+          "BC": {
+            "component_density": "512Gb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          },
+          "BD": {
+            "component_density": "512Gb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          },
+          "BE": {
+            "component_density": "512Gb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          },
+          "BF": {
+            "component_density": "1Tb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          },
+          "BG": {
+            "component_density": "1Tb",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          }
+        },
+        "controller_obj": {
+          "A": {
+            "controller_revision": "Rev 1"
+          },
+          "B": {
+            "controller_revision": "Rev 2"
+          },
+          "C": {
+            "controller_revision": "Rev 3"
+          },
+          "D": {
+            "controller_revision": "Rev 4"
+          },
+          "E": {
+            "controller_revision": "Rev 5"
+          },
+          "F": {
+            "controller_revision": "Rev 6"
+          },
+          "G": {
+            "controller_revision": "Rev 7"
+          },
+          "H": {
+            "controller_revision": "Rev 8"
+          },
+          "I": {
+            "controller_revision": "Rev 9"
+          },
+          "J": {
+            "controller_revision": "Rev 10"
+          },
+          "K": {
+            "controller_revision": "Rev 11"
+          },
+          "L": {
+            "controller_revision": "Rev 12"
+          },
+          "M": {
+            "controller_revision": "Rev 13"
+          },
+          "N": {
+            "controller_revision": "Rev 14"
+          },
+          "P": {
+            "controller_revision": "Rev 15"
+          },
+          "Q": {
+            "controller": "Skymedi SK6632",
+            "controller_revision": "Rev 16",
+            "special_option": "52MHz MMC interface, dual-channel substrate, direct NAND access"
+          },
+          "R": {
+            "controller": "Skymedi SK6811",
+            "controller_revision": "Rev 17",
+            "special_option": "BB firmware, Standard mode, 52MHz MMC interface, dual-channel substrate, direct NAND access"
+          },
+          "S": {
+            "controller": "Phison PS8200",
+            "controller_revision": "Rev 18",
+            "special_option": "EE firmware, Standard mode"
+          },
+          "T": {
+            "controller": "Phison PS8200",
+            "controller_revision": "Rev 19",
+            "special_option": "EF firmware, Enhanced mode"
+          },
+          "U": {
+            "controller": "Phison PS8200",
+            "controller_revision": "Rev 20",
+            "special_option": "EF firmware, Combo mode"
+          },
+          "V": {
+            "controller": "Phison PS8200",
+            "controller_revision": "Rev 21",
+            "special_option": "EF firmware, Combo + RWPI mode"
+          },
+          "W": {
+            "controller": "Phison PS8210",
+            "controller_revision": "Rev 22",
+            "special_option": "BB firmware, PL Reg mode"
+          },
+          "X": {
+            "controller": "Phison PS8200",
+            "controller_revision": "Rev 23",
+            "special_option": "EF firmware, Enhanced Plus mode"
+          },
+          "Y": {
+            "controller": "Phison PS8210",
+            "controller_revision": "Rev 24",
+            "special_option": "PL Reg mode"
+          },
+          "Z": {
+            "controller": "Phison PS8210",
+            "controller_revision": "Rev 25",
+            "special_option": "BB firmware, ESG mode"
+          },
+          "AA": {
+            "controller": "Phison PS8210",
+            "controller_revision": "Rev 26",
+            "special_option": "DC firmware"
+          },
+          "AC": {
+            "controller": "Phison PS8210",
+            "controller_revision": "Rev 28",
+            "special_option": "DC firmware"
+          },
+          "AD": {
+            "controller": "Phison PS8220",
+            "controller_revision": "Rev 29",
+            "special_option": "CC firmware"
+          },
+          "AE": {
+            "controller": "Phison PS8222",
+            "controller_revision": "Rev 30"
+          },
+          "AF": {
+            "controller": "Marvell 88NV1088",
+            "controller_revision": "Rev 31",
+            "special_option": "B0 firmware"
+          },
+          "AG": {
+            "controller": "Marvell 88NV1132",
+            "controller_revision": "Rev 32"
+          },
+          "AH": {
+            "controller": "Phison PS8225",
+            "controller_revision": "Rev 33"
+          },
+          "AJ": {
+            "controller": "Phison PS8225",
+            "controller_revision": "Rev 34"
+          },
+          "AK": {
+            "controller": "SMI SM2750",
+            "controller_revision": "Rev 35",
+            "special_option": "AB firmware, Standard mode"
+          },
+          "AL": {
+            "controller": "Phison PS8226",
+            "controller_revision": "Rev 36",
+            "special_option": "CC firmware, Standard mode"
+          },
+          "AM": {
+            "controller": "SMI SM2752",
+            "controller_revision": "Rev 37",
+            "special_option": "AB firmware"
+          },
+          "AN": {
+            "controller": "HiSilicon HI1861",
+            "controller_revision": "Rev 38",
+            "special_option": "V100 firmware"
+          },
+          "AO": {
+            "controller": "SMI SM2752",
+            "controller_revision": "Rev 39",
+            "special_option": "BB firmware"
+          },
+          "AP": {
+            "controller": "HiSilicon HI1862",
+            "controller_revision": "Rev 40",
+            "special_option": "V100 firmware"
+          },
+          "AQ": {
+            "controller": "Phison PS8231",
+            "controller_revision": "Rev 41"
+          },
+          "AR": {
+            "controller": "Avalon S4E",
+            "controller_revision": "Rev 42"
+          },
+          "AS": {
+            "controller": "Avalon S5E",
+            "controller_revision": "Rev 43"
+          },
+          "AT": {
+            "controller": "SMI SM2754",
+            "controller_revision": "Rev 44",
+            "special_option": "AA firmware"
+          },
+          "AU": {
+            "controller": "SMI SM2754",
+            "controller_revision": "Rev 45"
+          },
+          "AV": {
+            "controller": "Lambeau 9U6A",
+            "controller_revision": "Rev 46",
+            "product_version": "v3.1"
+          },
+          "AW": {
+            "controller": "Lambeau 9U2B",
+            "controller_revision": "Rev 47",
+            "product_version": "v4.0"
+          },
+          "AX": {
+            "controller": "Lambeau 9U2A",
+            "controller_revision": "Rev 48",
+            "product_version": "v4.0"
+          },
+          "AY": {
+            "controller": "Lambeau 9U6A",
+            "controller_revision": "Rev 49",
+            "product_version": "v2.2"
+          },
+          "AZ": {
+            "controller": "Lambeau 9U2A",
+            "controller_revision": "Rev 50",
+            "product_version": "v3.1"
+          },
+          "BA": {
+            "controller": "Phison PS8325",
+            "controller_revision": "Rev 51"
+          },
+          "BB": {
+            "controller": "9U2A",
+            "controller_revision": "Rev 52",
+            "product_version": "v4.1"
+          },
+          "BC": {
+            "controller": "9U2C",
+            "controller_revision": "Rev 53"
+          }
+        },
+        "storage_interface": {
+          "Q": "eMMC 4.4",
+          "R": "eMMC 4.41",
+          "S": "eMMC 4.41",
+          "T": "eMMC 4.41",
+          "U": "eMMC 4.41",
+          "V": "eMMC 4.41",
+          "W": "eMMC 4.51",
+          "X": "eMMC 4.41",
+          "Y": "eMMC 4.41",
+          "Z": "eMMC 4.51",
+          "AA": "eMMC 4.51",
+          "AC": "eMMC 4.41",
+          "AD": "eMMC 4.51",
+          "AE": "eMMC 5.0",
+          "AF": "eMMC 5.0",
+          "AH": "eMMC 5.1",
+          "AJ": "eMMC 5.0",
+          "AK": "UFS 2.1",
+          "AL": "eMMC 5.1",
+          "AM": "UFS 2.1",
+          "AN": "UFS 2.1",
+          "AO": "UFS 2.1",
+          "AP": "UFS 3.0",
+          "AS": "UFS 3.0",
+          "AT": "UFS 3.1",
+          "BA": "UFS 2.2/3.1",
+          "BC": "UFS 4.0"
+        },
+        "product_type": {
+          "AK": "ufs",
+          "AM": "ufs",
+          "AN": "ufs",
+          "AO": "ufs",
+          "AP": "ufs",
+          "AS": "ufs",
+          "AT": "ufs",
+          "BA": "ufs",
+          "BC": "ufs"
+        },
+        "package": {
+          "AF": "VFBGA 153/196-ball, 9x13x0.85",
+          "AG": "VFBGA 153/196-ball, 11x10x1.0",
+          "AL": "LFBGA 153/196-ball, 11.5x13x1.0",
+          "AM": "VFBGA 153/196-ball, 11.5x13x1.0",
+          "AP": "WFBGA 153/196-ball, 9x13x0.8",
+          "AS": "VBGA 110/221-ball, 11.8x14.6x0.9",
+          "BH": "VFBGA 153/196-ball, 11.5x13x1.1",
+          "BN": "VBGA 110/221-ball, 11.8x14.6x1.0",
+          "CE": "LFBGA 169/392-ball, 14x18x1.3",
+          "CF": "VBGA 110/221-ball, 11.8x14.6x1.3",
+          "CN": "VFBGA 153/196-ball, 11.5x13x1.0 SAC302",
+          "DE": "LFBGA 153/196-ball, 11.5x13x1.4",
+          "DG": "LFBGA 169/392-ball, 12x16x1.5",
+          "DH": "LFBGA 169/392-ball, 12x18x1.4",
+          "DI": "TFBGA 169/392-ball, 12x16x1.2",
+          "DK": "LFBGA 169/392-ball, 12x16x1.4",
+          "DL": "TFBGA 169/392-ball, 12x18x1.2",
+          "DM": "TFBGA 153/196-ball, 11.5x13x1.2",
+          "DN": "LFBGA 169/392-ball, 14x18x1.4",
+          "DP": "LFBGA 169/392-ball, 14x18x1.7",
+          "DQ": "LBGA 100/170-ball, 14x18x1.4",
+          "DV": "VFBGA 169/392-ball, 12x16x1.0",
+          "DW": "LBGA 100/170-ball, 14x18x1.5",
+          "DX": "TFBGA 169/392-ball, 12x16x1.1",
+          "EA": "WFBGA 153/196-ball, 11.5x13x0.8",
+          "EC": "WFBGA 169/392-ball, 14x18x0.8",
+          "ED": "VFBGA 169/392-ball, 14x18x1.0",
+          "EF": "TFBGA 169/392-ball, 14x18x1.2",
+          "EG": "WFBGA 169/392-ball, 12x16x0.8",
+          "EJ": "LFBGA 169/392-ball, 14x18x1.3",
+          "EK": "VFBGA 153/196-ball, 11.5x13x0.9",
+          "EP": "VFBGA 169/392-ball, 12x16x0.9",
+          "EY": "LFBGA 153/196-ball, 11.5x13x1.4",
+          "GT": "VFBGA 153/196-ball, 11.5x13x0.8",
+          "HD": "VFBGA 153/196-ball, 11.5x13x0.9",
+          "HE": "VFBGA 153/196-ball, 11x13x0.9",
+          "HF": "WFBGA 153/196-ball, 11x13x0.8",
+          "HJ": "VFBGA 153/196-ball, 11.5x13x1.0",
+          "JP": "VFBGA 153/196-ball, 11.5x13x1.0 SAC302/NiAu",
+          "NA": "TBGA 100/170-ball, 14x18x1.2",
+          "NS": "TFBGA 153/196-ball, 11.5x13x1.2",
+          "TC": "LFBGA 153/196-ball, 11.5x13x1.3",
+          "TD": "TFBGA 153/196-ball, 11.5x13x1.2"
+        },
+        "grade": {
+          "BT": "B Grade Fully Tested",
+          "BU": "Untested",
+          "FT": "Fully Tested at 90 degrees",
+          "PG": "Partial Good Mixed Bins",
+          "UT": "Untested"
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "skip_vendor"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "mark_code"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]+?)(512G|256G|128G|64G|32G|16G|12M|8G|4G|2G|1G|1T)(AA|AB|AC|AD|AE|AF|AG|AH|AK|AL|AM|AN|AO|AP|AQ|AR|AS|AT|AU|AV|AW|AX|AY|AZ|BA|BB|BC|BD|BE|BF|BG|[1A-HJ-LNPQR])(AA|AC|AD|AE|AF|AG|AH|AJ|AK|AL|AM|AN|AO|AP|AQ|AR|AS|AT|AU|AV|AW|AX|AY|AZ|BA|BB|BC|[A-HI-NP-Z])(AF|AG|AL|AM|AP|AS|BH|BN|CE|CF|CN|DE|DG|DH|DI|DK|DL|DM|DN|DP|DQ|DV|DW|DX|EA|EC|ED|EF|EG|EJ|EK|EP|EY|GT|HD|HE|HF|HJ|JP|NA|NS|TC|TD)(?:-?(BT|BU|FT|PG|UT))?$",
+          "to": "body",
+          "groups": {
+            "design_id": 1,
+            "density_code": 2,
+            "component_code": 3,
+            "controller_code": 4,
+            "package_code": 5,
+            "grade_code": 6
+          }
+        },
+        {
+          "op": "map",
+          "from": "density_code",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "component_code",
+          "table": "component_obj",
+          "to": "component_obj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "controller_code",
+          "table": "controller_obj",
+          "to": "controller_obj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "controller_code",
+          "table": "storage_interface",
+          "to": "storage_interface",
+          "default": "eMMC"
+        },
+        {
+          "op": "map",
+          "from": "controller_code",
+          "table": "product_type",
+          "to": "product_type",
+          "default": "emmc"
+        },
+        {
+          "op": "map",
+          "from": "package_code",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "map",
+          "from": "grade_code",
+          "table": "grade",
+          "to": "grade_label",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{grade_code}} {{grade_label}}",
+          "to": "speed_grade"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "SpecTek Flash + Controller",
+            "storage_interface": {
+              "$var": "storage_interface"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "component_obj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "controller_obj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "spectek",
+        "device.chipKind": "managed_nand",
+        "device.productType": {
+          "$var": "product_type"
+        },
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.storage_interface": {
+          "$var": "storage_interface"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.speed_grade": {
+          "$var": "speed_grade"
+        },
+        "meta.ruleId": "vendor.spectek.flash-controller.v1",
         "meta.fieldProfile": "managed_nand",
         "meta.capabilities": [
           "part.decode",
