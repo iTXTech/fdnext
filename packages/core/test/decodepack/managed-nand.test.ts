@@ -3,7 +3,7 @@ import type { FieldValue, PartDecodeResult } from "../../src/index";
 import { createEngine } from "../../src/index";
 import { embeddedResourceBundle } from "../../src/resources";
 import managedNandPnJson from "../../resources/managed-nand-pn.json" with { type: "json" };
-import { compileDecodePack, defaultDecodePack } from "../../src/decodepack";
+import { compileDecodePack, defaultDecodePack, explainPartDecode } from "../../src/decodepack";
 
 const compiledPack = compileDecodePack(defaultDecodePack);
 
@@ -65,6 +65,11 @@ function fieldText(field: FieldValue | undefined): unknown {
   return field ? field.display ?? field.value : undefined;
 }
 
+function draftDensityMbit(partNumber: string): number | undefined {
+  const draftDensity = explainPartDecode(defaultDecodePack, partNumber).draft?.fields?.density;
+  return typeof draftDensity === "number" ? draftDensity : undefined;
+}
+
 function blockIdForField(result: PartDecodeResult, key: string): string | undefined {
   return result.blocks.find((block) => block.fields.some((field) => field.key === key))?.id;
 }
@@ -107,7 +112,7 @@ function detect(partNumber: string): TestPartInfo {
     vendor: result.device?.vendor.id,
     markingCode: result.device?.markingCode,
     type: partType(result),
-    densityMbit: typeof density?.value === "number" ? density.value : undefined,
+    densityMbit: typeof density?.value === "number" ? density.value : draftDensityMbit(partNumber),
     density: density?.display,
     dieProfileField: fieldText(firstField(result, "die_codename")) as string | undefined,
     cellField: fieldText(firstField(result, "cell_level")) as string | undefined,
@@ -243,6 +248,22 @@ function assertKioxiaRawSuffixTopology(sample: {
 function assertSubtitle(partNumber: string, expected: string): void {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(result.subtitle, expected, `${partNumber} subtitle`);
+}
+
+function assertHiddenPublicField(partNumber: string, key: string, expectedDraftValue: unknown): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(firstField(result, key), undefined, `${partNumber} should hide public ${key}`);
+  const explain = explainPartDecode(defaultDecodePack, partNumber);
+  assert.equal((explain.draft?.fields as Record<string, unknown> | undefined)?.[key], expectedDraftValue, `${partNumber} draft ${key}`);
+  assert.ok(explain.draft?.meta?.hiddenFields?.includes(key), `${partNumber} should mark ${key} hidden in draft metadata`);
+}
+
+function assertHiddenComponentRelations(partNumber: string): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.deepEqual(result.relations.filter((relation) => relation.kind === "component"), [], `${partNumber} should hide public component relations`);
+  const components = explainPartDecode(defaultDecodePack, partNumber).draft?.components ?? [];
+  assert.ok(components.length > 0, `${partNumber} should keep component drafts`);
+  assert.ok(components.every((component) => component.hidden === true), `${partNumber} component drafts should be hidden`);
 }
 
 function assertDieProfileFromFdbProcess(partNumber: string, expected: string, expectedLayerCount?: number, expectedProcessAlias?: string): void {
@@ -2529,6 +2550,16 @@ for (const sample of [
     absentExtra: ["Config Code", "Package Code", "Controller Code", "Product Family", "Speed Grade"]
   });
 }
+
+assertHiddenPublicField("MT29VZZZCD91SFSM 046 W.18C", "density", 1048576);
+assertHiddenComponentRelations("MT29VZZZCD91SFSM 046 W.18C");
+assertHiddenPublicField("MT29AZ5A3CHHWD-18AIT.84F", "density", 4096);
+assertHiddenComponentRelations("MT29AZ5A3CHHWD-18AIT.84F");
+assertHiddenPublicField("KMGD6001BM-B421", "density", 262144);
+assertHiddenPublicField("64EM32-M4GTY9B", "density", 524288);
+assertHiddenPublicField("FEPRF6432-58A1930", "density", 524288);
+assertHiddenPublicField("BWCA2KZC-64G", "density", 524288);
+assertHiddenComponentRelations("BWCA2KZC-64G");
 
 assertPart("H26M78208CMRX", {
   vendor: "skhynix",

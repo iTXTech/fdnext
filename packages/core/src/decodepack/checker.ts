@@ -87,6 +87,21 @@ function checkComponentRoles(value: unknown, path: string, specId: string, findi
     if (!isRecord(component) || typeof component.role !== "string" || component.role.length === 0) {
       addFinding(findings, "error", "component_role", `${path}[${index}]`, "Component drafts must include a non-empty role.", specId);
     }
+    if (isRecord(component) && "hidden" in component && typeof component.hidden !== "boolean") {
+      addFinding(findings, "error", "component_hidden", `${path}[${index}].hidden`, "Component hidden flag must be boolean.", specId);
+    }
+  });
+}
+
+function checkHiddenFields(value: unknown, path: string, specId: string, findings: DecodePackCheckFinding[]): void {
+  if (!Array.isArray(value)) {
+    addFinding(findings, "error", "hidden_fields", path, "meta.hiddenFields must be an array of canonical field keys.", specId);
+    return;
+  }
+  value.forEach((field, index) => {
+    if (typeof field !== "string" || !Object.hasOwn(fdnextFieldRegistry, field)) {
+      addFinding(findings, "error", "hidden_fields", `${path}[${index}]`, `Hidden field "${String(field)}" is not a registered canonical field key.`, specId);
+    }
   });
 }
 
@@ -339,6 +354,9 @@ function checkOutputSurface(output: unknown, path: string, specId: string, findi
     }
     if (key === "components") {
       checkComponentRoles(value, `${path}.${key}`, specId, findings);
+    }
+    if (key === "meta.hiddenFields") {
+      checkHiddenFields(value, `${path}.${key}`, specId, findings);
     }
     walkPolicy(value, `${path}.${key}`, specId, findings);
   }

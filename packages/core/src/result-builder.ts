@@ -264,6 +264,16 @@ function suppressDieProfileDuplicateFields(fields: Map<FdnextFieldKey, FieldValu
   fields.delete("series_info");
 }
 
+function hiddenFieldKeys(values: unknown[] | undefined): Set<FdnextFieldKey> {
+  const out = new Set<FdnextFieldKey>();
+  for (const value of values ?? []) {
+    if (typeof value === "string" && Object.hasOwn(fdnextFieldRegistry, value)) {
+      out.add(value as FdnextFieldKey);
+    }
+  }
+  return out;
+}
+
 function addDraftFields(
   fields: Map<FdnextFieldKey, FieldValue>,
   draftFields: DecodeDraftFields | undefined,
@@ -328,7 +338,8 @@ function buildBlocks(
   profileId: FdnextChipKind | "nand.flash_id",
   fields: Map<FdnextFieldKey, FieldValue>,
   ctx: ResultBuilderContext,
-  lang?: string | null
+  lang?: string | null,
+  hiddenFields = new Set<FdnextFieldKey>()
 ): ResultBlock[] {
   const profile = getFdnextFieldProfile(profileId);
   const blocks: ResultBlock[] = [];
@@ -337,7 +348,7 @@ function buildBlocks(
   for (const block of profile.blocks) {
     const blockFields = block.fields
       .map((key) => fields.get(key))
-      .filter((field): field is FieldValue => Boolean(field && !emitted.has(field.key as FdnextFieldKey)));
+      .filter((field): field is FieldValue => Boolean(field && !hiddenFields.has(field.key as FdnextFieldKey) && !emitted.has(field.key as FdnextFieldKey)));
     if (blockFields.length === 0) {
       continue;
     }
@@ -350,7 +361,7 @@ function buildBlocks(
     });
   }
 
-  const remaining = [...fields.values()].filter((field) => !emitted.has(field.key as FdnextFieldKey));
+  const remaining = [...fields.values()].filter((field) => !hiddenFields.has(field.key as FdnextFieldKey) && !emitted.has(field.key as FdnextFieldKey));
   if (remaining.length > 0) {
     blocks.push({
       id: "additional",
@@ -610,6 +621,9 @@ function partRelations(info: PartDecodeDraft, device: DeviceIdentity, ctx: Resul
     });
   }
   for (const component of info.components ?? []) {
+    if (component.hidden) {
+      continue;
+    }
     const componentDevice = component.device ?? {};
     const chipKind = componentDevice.chipKind ?? device.chipKind;
     const productType = componentDevice.productType;
@@ -663,13 +677,14 @@ export function buildPartDecodeResult(
   const detailFieldMap = detailFields(fields);
   const profileId = info.meta?.fieldProfile ?? device.chipKind;
   const known = isKnownPart(info);
+  const hiddenFields = hiddenFieldKeys(info.meta?.hiddenFields);
   return {
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "part.decode",
     status: known ? "ok" : "not_found",
     input: baseInput(input.query, input.normalized, constraints, input.lang, input.controllerGroup),
     ...(known ? { subtitle: buildPartSubtitle(device, fields, ctx, input.lang), device } : {}),
-    blocks: known ? buildBlocks(profileId, detailFieldMap, ctx, input.lang) : [],
+    blocks: known ? buildBlocks(profileId, detailFieldMap, ctx, input.lang, hiddenFields) : [],
     relations: known ? partRelations(info, device, ctx, input.lang) : [],
     warnings: info.warnings ? [...info.warnings] : []
   };
@@ -726,13 +741,14 @@ export function buildIdentifierDecodeResult(
   const known = draftVendor(info) !== UNKNOWN || isKnownInfoValue(draftDensity(info)) || isKnownInfoValue(draftField(info, "cell_level"));
   const fields = fieldMapFromIdentifier(info, device, ctx, input.lang);
   const detailFieldMap = detailFields(fields);
+  const hiddenFields = hiddenFieldKeys(info.meta?.hiddenFields);
   return {
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "identifier.decode",
     status: known ? "ok" : "not_found",
     input: baseInput(input.query, input.normalized, constraints, input.lang, input.controllerGroup),
     ...(known ? { subtitle: buildIdentifierSubtitle(device, fields, ctx, input.lang), device } : {}),
-    blocks: known ? buildBlocks("nand.flash_id", detailFieldMap, ctx, input.lang) : [],
+    blocks: known ? buildBlocks("nand.flash_id", detailFieldMap, ctx, input.lang, hiddenFields) : [],
     relations: known ? identifierRelations(info, ctx, input.lang) : [],
     warnings: info.warnings ? [...info.warnings] : []
   };

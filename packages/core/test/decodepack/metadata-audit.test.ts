@@ -594,20 +594,25 @@ function assertPublicResultsDoNotExposeInternalPackFields(): void {
 
 function assertDecodePackCompositeComponents(): void {
   const info = engine.decodePart({ query: "BWCA2KZC-64G", lang: "eng" });
-  const components = info.relations.filter((relation) => relation.kind === "component");
-  const storageComponent = components.find((relation) => relation.target.role === "storage");
-  const dramComponent = components.find((relation) => relation.target.role === "dram");
+  const publicComponents = info.relations.filter((relation) => relation.kind === "component");
+  const draftComponents = explainPartDecode(defaultDecodePack, "BWCA2KZC-64G").draft?.components ?? [];
+  const storageComponent = draftComponents.find((component) => component.role === "storage");
+  const dramComponent = draftComponents.find((component) => component.role === "dram");
   assert.equal(info.device?.chipKind, "managed_nand");
   assert.equal(info.device?.productType, "emcp");
-  assert.equal(storageComponent?.target.device?.chipKind, "managed_nand");
-  assert.equal(storageComponent?.target.device?.productType, "emmc");
-  assert.ok(storageComponent?.fields?.some((field) => field.key === "storage_density" && field.value === "64GB eMMC"));
-  assert.ok(storageComponent?.fields?.some((field) => field.key === "storage_interface" && field.value === "eMMC 5.1"));
-  assert.equal(dramComponent?.target.device?.chipKind, "dram");
-  assert.equal(dramComponent?.target.device?.productType, "lpddr4x");
-  assert.ok(dramComponent?.fields?.some((field) => field.key === "dram_density" && field.value === "32Gb"));
-  assert.ok(dramComponent?.fields?.some((field) => field.key === "dram_type" && field.value === "LPDDR4X"));
+  assert.deepEqual(publicComponents, [], "hidden component drafts should not be public relations");
+  assert.equal(storageComponent?.hidden, true);
+  assert.equal(storageComponent?.device?.chipKind, "managed_nand");
+  assert.equal(storageComponent?.device?.productType, "emmc");
+  assert.equal(storageComponent?.fields?.storage_density, "64GB eMMC");
+  assert.equal(storageComponent?.fields?.storage_interface, "eMMC 5.1");
+  assert.equal(dramComponent?.hidden, true);
+  assert.equal(dramComponent?.device?.chipKind, "dram");
+  assert.equal(dramComponent?.device?.productType, "lpddr4x");
+  assert.equal(dramComponent?.fields?.dram_density, "32Gb");
+  assert.equal(dramComponent?.fields?.dram_type, "LPDDR4X");
   assert.ok(info.blocks.some((block) => block.fields.some((field) => field.key === "storage_density" && field.value === "64GB eMMC")));
+  assert.equal(info.blocks.some((block) => block.fields.some((field) => field.key === "density")), false);
   assert.ok(info.blocks.some((block) => block.fields.some((field) => field.key === "dram_density" && field.value === "32Gb")));
   assert.equal(JSON.stringify(info).includes("__fdnext"), false, "legacy FD draft marker should not leak into public results");
 }

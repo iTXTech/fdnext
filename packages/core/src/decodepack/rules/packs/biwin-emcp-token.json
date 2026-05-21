@@ -180,6 +180,7 @@
         "components": [
           {
             "role": "storage",
+            "hidden": true,
             "device": {
               "domain": "memory",
               "chipKind": "managed_nand",
@@ -196,6 +197,7 @@
           },
           {
             "role": "dram",
+            "hidden": true,
             "device": {
               "domain": "memory",
               "chipKind": "dram",
@@ -213,6 +215,9 @@
         ],
         "meta.ruleId": "vendor.biwin.emcp.v1",
         "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": [
+          "density"
+        ],
         "meta.capabilities": [
           "part.decode",
           "part.search"
@@ -399,7 +404,10 @@
           "$var": "density"
         },
         "fields.package": "FBGA254 11.50x13.00",
-        "meta.ruleId": "vendor.biwin.umcp.v1"
+        "meta.ruleId": "vendor.biwin.umcp.v1",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   }

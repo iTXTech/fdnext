@@ -491,6 +491,7 @@
         "components": [
           {
             "role": "storage",
+            "hidden": true,
             "device": {
               "domain": "memory",
               "chipKind": "managed_nand",
@@ -508,6 +509,7 @@
           },
           {
             "role": "dram",
+            "hidden": true,
             "device": {
               "domain": "memory",
               "chipKind": "dram"
@@ -529,7 +531,10 @@
           }
         ],
         "meta.ruleId": "vendor.micron.umcp.mt29v_mt30a.v1",
-        "meta.fieldProfile": "managed_nand"
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   },
@@ -1055,6 +1060,7 @@
         "components": [
           {
             "role": "storage",
+            "hidden": true,
             "device": {
               "domain": "memory",
               "chipKind": "raw_nand"
@@ -1071,6 +1077,7 @@
           },
           {
             "role": "dram",
+            "hidden": true,
             "device": {
               "domain": "memory",
               "chipKind": "dram"
@@ -1089,7 +1096,10 @@
           }
         ],
         "meta.ruleId": "vendor.micron.emcp.nand_mcp.v1",
-        "meta.fieldProfile": "managed_nand"
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   },
@@ -2135,7 +2145,10 @@
           "$var": "dieRevision"
         },
         "meta.ruleId": "vendor.micron.emcp.aio.v1",
-        "meta.fieldProfile": "managed_nand"
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   },
@@ -2664,6 +2677,7 @@
         "components": [
           {
             "role": "storage",
+            "hidden": true,
             "device": {
               "domain": "memory",
               "chipKind": "raw_nand"
@@ -2677,6 +2691,7 @@
           },
           {
             "role": "dram",
+            "hidden": true,
             "device": {
               "domain": "memory",
               "chipKind": "dram"
@@ -2693,7 +2708,10 @@
           }
         ],
         "meta.ruleId": "vendor.micron.emcp.mt29c.v1",
-        "meta.fieldProfile": "managed_nand"
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   },
@@ -2945,6 +2963,7 @@
         "components": [
           {
             "role": "storage",
+            "hidden": true,
             "device": {
               "domain": "memory",
               "chipKind": "raw_nand"
@@ -2958,6 +2977,7 @@
           },
           {
             "role": "dram",
+            "hidden": true,
             "device": {
               "domain": "memory",
               "chipKind": "dram"
@@ -2976,7 +2996,10 @@
           }
         ],
         "meta.ruleId": "vendor.micron.emcp.mt29rz.v1",
-        "meta.fieldProfile": "managed_nand"
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   }

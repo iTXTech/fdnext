@@ -245,7 +245,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.kingston.emcp.v1"
+        "meta.ruleId": "vendor.kingston.emcp.v1",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   }

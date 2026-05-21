@@ -47,6 +47,7 @@ export interface DecodeDraftIdentifiers {
 
 export interface DecodeDraftComponent {
   role: string;
+  hidden?: boolean;
   device?: DecodeDraftDevice;
   fields?: DecodeDraftFields;
 }
@@ -55,6 +56,7 @@ export interface DecodeDraftMeta {
   ruleId?: string;
   fieldProfile?: FdnextChipKind | "nand.flash_id";
   capabilities?: FdnextCapabilityName[] | string[];
+  hiddenFields?: FdnextFieldKey[];
   references?: unknown;
 }
 

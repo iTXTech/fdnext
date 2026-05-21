@@ -185,7 +185,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.longsys.foresee.emcp.v1"
+        "meta.ruleId": "vendor.longsys.foresee.emcp.v1",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   },
@@ -326,7 +329,10 @@
           "$var": "density"
         },
         "fields.package": "FBGA254 11.5x13x1.0",
-        "meta.ruleId": "vendor.longsys.foresee.umcp.v1"
+        "meta.ruleId": "vendor.longsys.foresee.umcp.v1",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   }

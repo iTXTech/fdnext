@@ -432,7 +432,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.samsung.mcp.token.v1"
+        "meta.ruleId": "vendor.samsung.mcp.token.v1",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   }
