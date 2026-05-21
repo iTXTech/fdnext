@@ -39,6 +39,8 @@ const legacyShortProfileKeys: Record<string, string> = {
   M70: "M70M"
 };
 
+const samsungConfirmedQlcProfileBases = new Set(["SSV4", "SSV5", "SSV7", "SSV9"]);
+
 function compactToken(value: string): string {
   return value.toUpperCase().replace(/[^A-Z0-9]/g, "");
 }
@@ -160,6 +162,11 @@ function matchKioxiaSandisk2d(vendor: string, value: string, cell: string | unde
 }
 
 function matchSamsung(value: string, cell: string | undefined): string | undefined {
+  const direct = profileKey(value);
+  if (direct?.startsWith("SS")) {
+    return cellName(cell) === "QLC" && samsungConfirmedQlcProfileBases.has(direct) ? profileForCell(direct, cell) : direct;
+  }
+
   const compact = compactToken(value);
   const generation = /3DV([0-9])/.exec(compact)?.[1];
   if (generation) {
@@ -241,11 +248,11 @@ export function normalizeGeneratedFdbDieProfile(vendor: string, value: string | 
   const normalizedVendor = vendor.toLowerCase();
   return (
     legacyShortProfileKey(text) ??
+    (normalizedVendor === "samsung" ? matchSamsung(text, cell) : undefined) ??
     (!isFallbackProcessText(text) ? profileKey(text) : undefined) ??
     matchKioxiaSandiskFullCode(normalizedVendor, text) ??
     matchKioxiaSandiskGeneration(normalizedVendor, text) ??
     (normalizedVendor === "sndk" || normalizedVendor === "kioxia" ? matchKioxiaSandisk2d(normalizedVendor, text, cell) : undefined) ??
-    (normalizedVendor === "samsung" ? matchSamsung(text, cell) : undefined) ??
     (normalizedVendor === "skhynix" ? matchSkhynix(text, cell) : undefined) ??
     matchProfileAlias(text) ??
     matchEmbeddedProfile(text) ??
@@ -271,10 +278,10 @@ export function chooseGeneratedFdbDieProfile(
   const currentKey = normalizeGeneratedFdbDieProfile(vendor, currentText, cell);
   const candidateKey = normalizeGeneratedFdbDieProfile(vendor, candidateText, cell);
   if (!currentKey) {
-    return candidateText;
+    return candidateKey ?? candidateText;
   }
   if (!candidateKey) {
-    return currentText;
+    return currentKey;
   }
-  return profileSpecificity(candidateKey) >= profileSpecificity(currentKey) ? candidateText : currentText;
+  return profileSpecificity(candidateKey) >= profileSpecificity(currentKey) ? candidateKey : currentKey;
 }

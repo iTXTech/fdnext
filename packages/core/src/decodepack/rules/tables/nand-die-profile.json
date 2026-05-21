@@ -2287,6 +2287,15 @@
       "SSV5"
     ]
   },
+  "SSV5Q": {
+    "die_codename": "SSV5Q",
+    "generation_info": "V5",
+    "layer_count": 92,
+    "cell_level": 4,
+    "firmware_match": [
+      "SSV5Q"
+    ]
+  },
   "SSV6": {
     "die_codename": "SSV6",
     "generation_info": "V6",
@@ -2316,6 +2325,15 @@
       "SSV7"
     ]
   },
+  "SSV7Q": {
+    "die_codename": "SSV7Q",
+    "generation_info": "V7",
+    "layer_count": 176,
+    "cell_level": 4,
+    "firmware_match": [
+      "SSV7Q"
+    ]
+  },
   "SSV8": {
     "die_codename": "SSV8",
     "generation_info": "V8",
@@ -2332,6 +2350,15 @@
     "cell_level": 3,
     "firmware_match": [
       "SSV9"
+    ]
+  },
+  "SSV9Q": {
+    "die_codename": "SSV9Q",
+    "generation_info": "V9",
+    "layer_count": 280,
+    "cell_level": 4,
+    "firmware_match": [
+      "SSV9Q"
     ]
   },
   "TAS": {

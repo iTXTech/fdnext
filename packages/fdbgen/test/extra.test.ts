@@ -224,6 +224,12 @@ test("normalizes generated FDB l fields to NAND die profile keys", () => {
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "H25GQM0", "QLC"), "HYV5Q");
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "H27DGS8", "MLC"), "HYV2");
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "238L 3DV8", "QLC"), "HYV8Q");
+  assert.equal(normalizeGeneratedFdbDieProfile("samsung", "SSV4", "QLC"), "SSV4Q");
+  assert.equal(normalizeGeneratedFdbDieProfile("samsung", "SSV5", "QLC"), "SSV5Q");
+  assert.equal(normalizeGeneratedFdbDieProfile("samsung", "3DV7", "QLC"), "SSV7Q");
+  assert.equal(normalizeGeneratedFdbDieProfile("samsung", "SSV9", "QLC"), "SSV9Q");
+  assert.equal(normalizeGeneratedFdbDieProfile("samsung", "SSV6P", "QLC"), "SSV6P");
+  assert.equal(normalizeGeneratedFdbDieProfile("samsung", "3DV8", "QLC"), "SSV8");
   assert.equal(normalizeGeneratedFdbDieProfile("unknown", "3DV4", "TLC"), undefined);
   assert.equal(normalizeGeneratedFdbDieProfile("unknown", "3DV4P5", "TLC"), undefined);
   assert.equal(normalizeGeneratedFdbDieProfile("unknown", "1ynm", "TLC"), undefined);
@@ -258,6 +264,13 @@ test("normalizes generated FDB l fields to NAND die profile keys", () => {
               l: "3Dv3-TAS-128L(x2-9060)",
               c: "TLC"
             }
+          },
+          samsung: {
+            K9XVGY8J5M: {
+              fid: ["EC51DD1F88CB"],
+              l: "SSV4",
+              c: "QLC"
+            }
           }
         }
       }),
@@ -266,7 +279,9 @@ test("normalizes generated FDB l fields to NAND die profile keys", () => {
 
     const fdb = generateFdb({ inputDir, version: "test" });
     const ymtc = fdb.ymtc as Record<string, { l?: string }>;
+    const samsung = fdb.samsung as Record<string, { l?: string }>;
     assert.equal(ymtc.YMN09TC1B1DC6C?.l, "TAS");
+    assert.equal(samsung.K9XVGY8J5M?.l, "SSV4Q");
   } finally {
     rmSync(inputDir, { recursive: true, force: true });
   }

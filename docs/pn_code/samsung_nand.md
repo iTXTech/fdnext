@@ -39,19 +39,25 @@ This rule only applies when the PN topology token decodes to one physical die; m
 | TLC | 512Gb | `D` | `SSV7` |
 | TLC | 512Gb | `F` | `SSV8` |
 
-Known package-level exception:
+Known package-level process rule:
 
 | PN structure | Profile |
 | --- | --- |
-| `K9D...VG...5E` 1TB TLC 16-die package | `SSV6P` |
-| `K9D...YG...5B` 2TB TLC 16-die package | `SSV8` |
-| `K9D...YG...5D` 2TB TLC 16-die package | `SSV9` |
+| `K9D...VG...[mode]E` 1TB TLC 16-die package | `SSV6P` |
+| `K9D...YG...[mode]B` 2TB TLC 16-die package | `SSV8` |
+| `K9D...YG...[mode]D` 2TB TLC 16-die package | `SSV9` |
+| `K99...UG...[mode]C` 512GB QLC 8-die package | `SSV7Q` |
+| `K9X...VG...[mode]M` 1TB QLC 16-die package | `SSV4Q` |
+| `K9X...VG...[mode]A` 1TB QLC 16-die package | `SSV5Q` |
+| `K9X...VG...[mode]C` 1TB QLC 16-die package | `SSV7Q` |
+| `K9X...VG...[mode]D` 1TB QLC 16-die package | `SSV9Q` |
 
 - `K9DYGY8J5B-CCK0`：TechInsights 确认其为 16 die package，内部 die 为 1Tb 236L TLC V8；外部 Flash ID 表和本地 FDB 同向记录 `EC52EA3F8ECF`。单个 `EC52EA3F8ECF` ID decode 为 512GB，4 组组成 `K9D...YG...` 的 2TB package。
   <https://www.techinsights.com/blog/samsung-k9dygy8j5b-cck0-236-layer-3d-nand-flash-advanced-memory-essentials>
   <https://www.techinsights.com/products/iwo-2310-801>
   <https://bbs.wuyou.net/forum.php?mod=viewthread&tid=449091>
 - `K9DYGY8J5D`：由用户补充为同拓扑 `SSV9`；当前未在本地 FDB 或公开检索中找到对应 Flash ID。
+- Samsung QLC V-NAND 已确认使用 `V4Q` / `V5Q` / `V7Q` / `V9Q`。这些 QLC profile 通过 DecodePack package-level token 和 Flash ID postprocess 确定性匹配，不依赖 FDB `l` 字段补齐；PN 规则绑定 `K9` 后 classification + density 头部和末尾 revision，倒数第二位 mode 只影响 CE / R/B 拓扑，不参与制程判断。FDBGen 只在生成侧把 Samsung `SSV4` / `SSV5` / `SSV7` / `SSV9` + `QLC` 归一到对应 `SSVxQ`。
 
 ## 输出字段
 
@@ -87,8 +93,11 @@ Known package-level exception:
 
 - `K9OVGD8J2B`
 - `K9XVGB8J1M`
+- `K9XVGY8J5M`
 - `K9XVGY8J5A`
 - `K9XVGD8J5C`
+- `K99UGY8J5C`
+- `K9XVGD8J5D`
 - `K9AFGD8J0M`
 - `K9AHGD8J0A`
 - `K9AHGD8J0B`

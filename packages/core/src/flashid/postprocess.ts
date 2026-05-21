@@ -139,6 +139,13 @@ const YMTC_PROCESS_LOOKUPS: ProcessLookup[] = [
 
 const SKHYNIX_STACKED_PROCESS_BYTE6 = new Set([0x70, 0x80, 0x90, 0xa0, 0xa2, 0xb0, 0xb2, 0xc0, 0xc2, 0xd0]);
 
+const SAMSUNG_CONFIRMED_QLC_DIE_PROFILES: Record<string, string> = {
+  SSV4: "SSV4Q",
+  SSV5: "SSV5Q",
+  SSV7: "SSV7Q",
+  SSV9: "SSV9Q"
+};
+
 const NAND_PROFILE_ENRICHED_FIELDS = [
   "process_alias",
   "generation_info",
@@ -192,6 +199,76 @@ function cloneIdentifierDraft(info: IdentifierDecodeDraft): IdentifierDecodeDraf
     meta: info.meta ? { ...info.meta } : undefined,
     warnings: info.warnings ? [...info.warnings] : undefined
   };
+}
+
+function clonePartDraft(info: PartDecodeDraft): PartDecodeDraft {
+  return {
+    ...info,
+    device: { ...info.device },
+    fields: { ...(info.fields ?? {}) },
+    identifiers: info.identifiers
+      ? {
+          flashIds: [...(info.identifiers.flashIds ?? [])],
+          partNumbers: [...(info.identifiers.partNumbers ?? [])]
+        }
+      : undefined,
+    controllers: info.controllers ? [...info.controllers] : undefined,
+    components: info.components
+      ? info.components.map((component) => ({
+          ...component,
+          device: component.device ? { ...component.device } : undefined,
+          fields: component.fields ? { ...component.fields } : undefined
+        }))
+      : undefined,
+    meta: info.meta ? { ...info.meta } : undefined,
+    warnings: info.warnings ? [...info.warnings] : undefined
+  };
+}
+
+function isSamsungQlcCell(value: unknown): boolean {
+  if (value === 4) {
+    return true;
+  }
+  return typeof value === "string" && ["4", "QLC"].includes(value.trim().toUpperCase());
+}
+
+function samsungQlcDieProfile(info: IdentifierDecodeDraft | PartDecodeDraft): string | undefined {
+  if (draftVendor(info) !== "samsung" || !isSamsungQlcCell(draftField(info, "cell_level"))) {
+    return undefined;
+  }
+  const dieCodename = draftField(info, "die_codename");
+  if (typeof dieCodename !== "string") {
+    return undefined;
+  }
+  return SAMSUNG_CONFIRMED_QLC_DIE_PROFILES[dieCodename.trim().toUpperCase()];
+}
+
+function patchSamsungQlcPart(info: PartDecodeDraft): PartDecodeDraft | null {
+  const dieCodename = samsungQlcDieProfile(info);
+  if (!dieCodename) {
+    return null;
+  }
+
+  const next = clonePartDraft(info);
+  setDraftField(next, "die_codename", dieCodename);
+  for (const key of NAND_PROFILE_ENRICHED_FIELDS) {
+    deleteDraftField(next, key);
+  }
+  return next;
+}
+
+function patchSamsungQlcIdentifier(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
+  const dieCodename = samsungQlcDieProfile(info);
+  if (!dieCodename) {
+    return null;
+  }
+
+  const next = cloneIdentifierDraft(info);
+  setDraftField(next, "die_codename", dieCodename);
+  for (const key of NAND_PROFILE_ENRICHED_FIELDS) {
+    deleteDraftField(next, key);
+  }
+  return next;
 }
 
 function patchMicronLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
@@ -284,11 +361,18 @@ function patchYmtc(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
 
 export function createDefaultIdentifierPostprocessor(): DecodeDraftPostprocessor {
   return {
+    partInfo: (info): PartDecodeDraft => {
+      if (draftVendor(info) !== "samsung") {
+        return info;
+      }
+      return patchSamsungQlcPart(info) ?? info;
+    },
     identifierInfo: (info): IdentifierDecodeDraft => {
       const vendor = draftVendor(info);
 
       let patch: IdentifierDecodeDraft | null = null;
       if (vendor === "micron" || vendor === "intel" || vendor === "spectek") patch = patchMicronLike(info);
+      else if (vendor === "samsung") patch = patchSamsungQlcIdentifier(info);
       else if (vendor === "skhynix") patch = patchSkhynix(info);
       else if (vendor === "kioxia" || vendor === "sndk") patch = patchKioxiaLike(info);
       else if (vendor === "ymtc") patch = patchYmtc(info);

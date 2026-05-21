@@ -287,6 +287,15 @@ function assertMicronDecodePackDieProfile(partNumber: string, expected: string, 
   }
 }
 
+function assertDecodePackDieProfile(partNumber: string, expected: string, expectedLayerCount?: number): void {
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+  assert.equal(fieldText(firstField(result, "die_codename")), expected, `${partNumber} die profile from DecodePack`);
+  if (expectedLayerCount !== undefined) {
+    assert.equal(firstField(result, "layer_count")?.value, expectedLayerCount, `${partNumber} layer count from die profile`);
+  }
+}
+
 function assertFdbDoesNotOverrideDecodePackFields(): void {
   const precedenceEngine = createEngine({
     resources: {
@@ -4282,6 +4291,18 @@ assertPart("K9DYGY8J5D", {
 
 assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9DYGY8J5B", "SSV8");
 assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9DYGY8J5D", "SSV9");
+assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGB8J1M", "SSV4Q");
+assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGY8J5M", "SSV4Q");
+assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGY8J5A", "SSV5Q");
+assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGD8J5C", "SSV7Q");
+assertRuleDraftDieProfile("vendor.samsung.token.v1", "K99UGY8J5C", "SSV7Q");
+assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGD8J5D", "SSV9Q");
+assertDecodePackDieProfile("K9XVGB8J1M", "SSV4Q", 64);
+assertDecodePackDieProfile("K9XVGY8J5M", "SSV4Q", 64);
+assertDecodePackDieProfile("K9XVGY8J5A", "SSV5Q", 92);
+assertDecodePackDieProfile("K9XVGD8J5C", "SSV7Q", 176);
+assertDecodePackDieProfile("K99UGY8J5C", "SSV7Q", 176);
+assertDecodePackDieProfile("K9XVGD8J5D", "SSV9Q", 280);
 
 assertPart("K9OVGD8J2B", {
   vendor: "samsung",
@@ -4298,10 +4319,25 @@ assertPart("K9XVGB8J1M", {
   vendor: "samsung",
   type: "NAND",
   densityMbit: 8388608,
+  dieProfileField: "SSV4Q",
   cellField: "QLC",
   extra: {
+    "Layer Count": 64,
     "Die Count": 16,
     "CE Count": 2
+  }
+});
+
+assertPart("K9XVGY8J5M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "SSV4Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 64,
+    "Die Count": 16,
+    "CE Count": 4
   }
 });
 
@@ -4309,8 +4345,10 @@ assertPart("K9XVGY8J5A", {
   vendor: "samsung",
   type: "NAND",
   densityMbit: 8388608,
+  dieProfileField: "SSV5Q",
   cellField: "QLC",
   extra: {
+    "Layer Count": 92,
     "Die Count": 16,
     "CE Count": 4
   }
@@ -4320,8 +4358,36 @@ assertPart("K9XVGD8J5C", {
   vendor: "samsung",
   type: "NAND",
   densityMbit: 8388608,
+  dieProfileField: "SSV7Q",
   cellField: "QLC",
   extra: {
+    "Layer Count": 176,
+    "Die Count": 16,
+    "CE Count": 4
+  }
+});
+
+assertPart("K99UGY8J5C", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "SSV7Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 176,
+    "Die Count": 8,
+    "CE Count": 4
+  }
+});
+
+assertPart("K9XVGD8J5D", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "SSV9Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 280,
     "Die Count": 16,
     "CE Count": 4
   }
