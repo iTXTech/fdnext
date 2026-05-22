@@ -90,6 +90,8 @@ IMFT / Micron / Intel 旧短 key 不再作为 FDB `l` 或 `nand.die_profile` key
 
 Kioxia / SanDisk BiCS profile key 必须带厂商前缀，不能只在 `firmware_match` 中区分厂商。泛化制程 key 使用 `KBiCS3` / `SBiCS3`，full code key 使用 `K8T23` / `S8T23`。同一制程下的具体 die 差异主要由 full code 和 `die_mark` 维护。
 
+Kioxia / SanDisk BiCS4 与 BiCS4.5 的 Flash ID generation bits 仍会落在同一组 BiCS4 编码上，需要结合第 5 字节高半字节区分：`7x` 为 BiCS4，`Fx` 为 BiCS4.5。
+
 | Profile key | Firmware match | Generation | Cell | Die density | Plane | Internal die mark |
 | --- | --- | --- | --- | --- | --- | --- |
 | `KBiCS3` / `SBiCS3` | same as key | BiCS3 | TLC | - | 2 | `FRN1` / `FRN2` / `FRN4` |

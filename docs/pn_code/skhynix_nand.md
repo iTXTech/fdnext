@@ -187,6 +187,8 @@ H25 目前分成两类结构处理：
 
 `HYV6` 的公开 die density 需要按 die marking 区分：`H25FTB0` 为 512Gb，`H25GTM0` 为 1Tb。共享 `nand.die_profile` 只保留 `HYV6` 的层数、cell 与接口信息，H25T/G package 规则按 package density / die count 计算并输出 die density。
 
+`HY14` 表示旧 2D 14nm profile，公开制程仍显示为 `14nm`。SK hynix Flash ID 中 `E0` 不能单独判作 HY14；当已解析 die size 为 1Tb 级且 cell 为 TLC 时，`E*` die code 归入 `HYV9`。
+
 ### H25T / H25G NAND package
 
 | PN 结构 | 字段 |

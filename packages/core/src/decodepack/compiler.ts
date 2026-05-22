@@ -663,14 +663,25 @@ function byteHexAt(id: string, offset: number): string {
   return Number.isFinite(byte) ? byte.toString(16).toUpperCase().padStart(2, "0") : "";
 }
 
+function identifierWhenByteMatches(actual: string, expected: string): boolean {
+  const pattern = expected.toUpperCase().padStart(2, "0");
+  if (!pattern.includes("*") && !pattern.includes("?")) {
+    return actual === pattern;
+  }
+  if (pattern.length !== actual.length) {
+    return false;
+  }
+  return [...pattern].every((char, index) => char === "*" || char === "?" || char === actual[index]);
+}
+
 function identifierRuleMatchesWhen(id: string, when: Record<string, string | string[]> | undefined): boolean {
   if (!when) {
     return true;
   }
   for (const [offsetKey, expected] of Object.entries(when)) {
     const actual = byteHexAt(id, Number(offsetKey));
-    const values = (Array.isArray(expected) ? expected : [expected]).map((value) => value.toUpperCase().padStart(2, "0"));
-    if (!values.includes(actual)) {
+    const values = Array.isArray(expected) ? expected : [expected];
+    if (!values.some((value) => identifierWhenByteMatches(actual, value))) {
       return false;
     }
   }

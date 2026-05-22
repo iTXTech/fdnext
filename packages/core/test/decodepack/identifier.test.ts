@@ -51,6 +51,22 @@ assertResultField("987384320024", "density", 1397760);
 assertExplainField("457384320024", "density", 1397760);
 assertResultField("457384320024", "density", 1397760);
 
+const bics4FlashIds: Array<[string, string, string]> = [
+  ["983C98B37663", "KBiCS4", "BiCS4"],
+  ["983C98B3F663", "KBiCS4.5", "BiCS4.5"],
+  ["983E98B37663", "KBiCS4", "BiCS4"],
+  ["983E98B3F663", "KBiCS4.5", "BiCS4.5"],
+  ["453C98B376E3", "SBiCS4", "BiCS4"],
+  ["453C98B3F6E3", "SBiCS4.5", "BiCS4.5"]
+];
+
+for (const [id, profileKey, display] of bics4FlashIds) {
+  assertExplainField(id, "die_codename", profileKey);
+  assertResultField(id, "die_codename", display);
+  assertExplainField(id, "plane_count", 2);
+  assertResultField(id, "plane_count", 2);
+}
+
 assertExplainField("983AA0B17EE3", "density", 131072);
 assertExplainField("983AA0B17EE3", "die_count", 1);
 assertExplainField("983AA0B17EE3", "cell_level", 1);
@@ -209,6 +225,11 @@ assertExplainField("AD3A843200C3", "die_codename", "HY26");
 assertResultField("AD3A843200C3", "die_codename", "26nm");
 assertExplainField("AD3A843200D0", "die_codename", "HYV8");
 assertResultField("AD3A843200D0", "die_codename", "HYV8");
+assertExplainField("AD89294B00E0", "die_codename", "HYV9");
+assertResultField("AD89294B00E0", "die_codename", "HYV9");
+assertResultField("AD89294B00E0", "layer_count", 321);
+assertExplainField("AD3A180300E0", "die_codename", "HY14");
+assertResultField("AD3A180300E0", "die_codename", "14nm");
 assertExplainField("AD7E843200C0", "density", 524288);
 assertResultField("AD7E843200C0", "density", 524288);
 assertExplainField("ADEE843200E5", "density", 65536);
