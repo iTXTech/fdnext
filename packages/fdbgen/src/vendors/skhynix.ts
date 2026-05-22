@@ -1,7 +1,10 @@
 import type { VendorDecoder } from "./types";
 
 export function removeSkhynixPackage(partNumber: string): string {
-  return partNumber.startsWith("H27") || partNumber.startsWith("H25") ? partNumber.slice(0, 10) : partNumber;
+  const normalized = partNumber.replace(/^(H25[A-Z0-9]+)-X([0-9A-Z]+)(?:-([A-Z0-9]+))?$/, (_match, base: string, suffix: string, tail: string | undefined) => `${base}X${suffix}${tail ?? ""}`);
+  return normalized.startsWith("H27") || (normalized.startsWith("H25") && !/X[0-9A-Z]+$/.test(normalized))
+    ? normalized.slice(0, 10)
+    : normalized;
 }
 
 export const skhynixVendor: VendorDecoder = {

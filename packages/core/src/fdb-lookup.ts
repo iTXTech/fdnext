@@ -183,8 +183,13 @@ function removeMicronPackage(partNumber: string): string {
   return bit !== -1 && partNumber.length - bit >= 8 ? partNumber.slice(0, bit + 7) : partNumber;
 }
 
+function normalizeSkhynixH25XPackage(partNumber: string): string {
+  return partNumber.replace(/^(H25[A-Z0-9]+)-X([0-9A-Z]+)(?:-([A-Z0-9]+))?$/, (_match, base: string, suffix: string, tail: string | undefined) => `${base}X${suffix}${tail ?? ""}`);
+}
+
 function removeSkhynixPackage(partNumber: string): string {
-  const base = partNumber.split("-")[0] ?? partNumber;
+  const normalized = normalizeSkhynixH25XPackage(partNumber);
+  const base = normalized.split("-")[0] ?? normalized;
   return base.startsWith("H27") || base.startsWith("H25") ? base.slice(0, 10) : base;
 }
 
@@ -234,7 +239,7 @@ export function getPartNumberLookupKeys(vendor: string, partNumber: string): str
     case "spectek":
       return unique([normalizedPartNumber, removeSpectekPackage(normalizedPartNumber)]);
     case "skhynix":
-      return unique([normalizedPartNumber, removeSkhynixPackage(normalizedPartNumber)]);
+      return unique([normalizedPartNumber, normalizeSkhynixH25XPackage(normalizedPartNumber), removeSkhynixPackage(normalizedPartNumber)]);
     case "samsung":
       return samsungLookupKeys(normalizedPartNumber);
     default:

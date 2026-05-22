@@ -92,6 +92,14 @@ function tokenEquivalentPartNumberKey(
   return undefined;
 }
 
+function hasExactSupplementalFields(record: PartNumberRecord): boolean {
+  return Boolean(record.pkg || record.sg || record.pc || record.vol || record.so || record.d != null || record.e != null || record.r != null || record.n != null || record.pl != null);
+}
+
+function shouldPreserveExactPartNumberKey(partNumber: string, record: PartNumberRecord): boolean {
+  return /^H25[A-Z0-9]{8,}/.test(partNumber) && partNumber.length > 10 && hasExactSupplementalFields(record);
+}
+
 function mergePartNumberRecord(target: PartNumberRecord, source: PartNumberRecord): PartNumberRecord {
   return {
     ...target,
@@ -102,15 +110,24 @@ function mergePartNumberRecord(target: PartNumberRecord, source: PartNumberRecor
     l: source.l ?? target.l,
     c: source.c ?? target.c,
     m: source.m ?? target.m,
+    pkg: source.pkg ?? target.pkg,
+    sg: source.sg ?? target.sg,
+    pc: source.pc ?? target.pc,
+    vol: source.vol ?? target.vol,
+    so: source.so ?? target.so,
     d: source.d ?? target.d,
     e: source.e ?? target.e,
     r: source.r ?? target.r,
-    n: source.n ?? target.n
+    n: source.n ?? target.n,
+    pl: source.pl ?? target.pl
   };
 }
 
 function canonicalizePartNumbers(partNumbers: Map<string, PartNumberRecord>): void {
   for (const [partNumber, record] of [...partNumbers.entries()]) {
+    if (shouldPreserveExactPartNumberKey(partNumber, record)) {
+      continue;
+    }
     const canonical = canonicalPartNumberKey(partNumber, partNumbers);
     if (canonical === partNumber) {
       continue;
@@ -183,10 +200,16 @@ export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
         c: typeof pnData.c === "string" ? pnData.c : undefined,
         t: Array.isArray(pnData.t) ? pnData.t.map(String) : [],
         m: typeof pnData.m === "string" ? pnData.m : undefined,
+        pkg: typeof pnData.pkg === "string" ? pnData.pkg : undefined,
+        sg: typeof pnData.sg === "string" ? pnData.sg : undefined,
+        pc: typeof pnData.pc === "string" ? pnData.pc : undefined,
+        vol: typeof pnData.vol === "string" ? pnData.vol : undefined,
+        so: typeof pnData.so === "string" ? pnData.so : undefined,
         d: typeof pnData.d === "number" ? pnData.d : undefined,
         e: typeof pnData.e === "number" ? pnData.e : undefined,
         r: typeof pnData.r === "number" ? pnData.r : undefined,
-        n: typeof pnData.n === "number" ? pnData.n : undefined
+        n: typeof pnData.n === "number" ? pnData.n : undefined,
+        pl: typeof pnData.pl === "number" ? pnData.pl : undefined
       };
       const existing = vendorMap.get(normalizedPn) ?? existingVendorMap?.get(normalizedPn);
       vendorMap.set(normalizedPn, existing ? mergePartNumberRecord(existing, next) : next);

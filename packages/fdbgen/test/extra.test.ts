@@ -222,6 +222,7 @@ test("normalizes generated FDB l fields to NAND die profile keys", () => {
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "128L 3Dv6", "TLC"), "HYV6");
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "H25FTB0", "TLC"), "HYV6");
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "H25GQM0", "QLC"), "HYV5Q");
+  assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "HYV9H", "TLC"), "HYV9H");
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "H27DGS8", "MLC"), "HYV2");
   assert.equal(normalizeGeneratedFdbDieProfile("skhynix", "238L 3DV8", "QLC"), "HYV8Q");
   assert.equal(normalizeGeneratedFdbDieProfile("samsung", "SSV4", "QLC"), "SSV4Q");
@@ -404,9 +405,10 @@ test("fdbgen prunes cross-vendor PN ids and iddb references", () => {
   }
 });
 
-test("normalizes SK hynix H25T package suffixes before FDB ingestion", () => {
-  assert.equal(normalizeFdbPartNumber("H25T2TB88E-X321-N"), "H25T2TB88E");
-  assert.equal(normalizeFdbPartNumber("H25T1TD48C-X630"), "H25T1TD48C");
+test("normalizes SK hynix H25 package suffixes without dropping the X tail", () => {
+  assert.equal(normalizeFdbPartNumber("H25T2TB88E-X321-N"), "H25T2TB88EX321N");
+  assert.equal(normalizeFdbPartNumber("H25T1TD48C-X630"), "H25T1TD48CX630");
+  assert.equal(normalizeFdbPartNumber("H25T0TG18G X807"), "H25T0TG18GX807");
   assert.equal(normalizeFdbPartNumber("GEN2-X321"), "");
 
   const parsed = parseExtraPayload({
@@ -415,14 +417,73 @@ test("normalizes SK hynix H25T package suffixes before FDB ingestion", () => {
         "H25T2TB88E-X321-N": {
           id: ["AD5E28011000"],
           l: "HYV6",
-          c: "TLC"
+          c: "TLC",
+          pkg: "154-ball BGA 11.5x13.5x1.0mm",
+          sg: "Max Speed=3600MT/s",
+          pc: "Client",
+          vol: "Vcc: 2.5V, VccQ: 1.2V",
+          so: "IF-Chip",
+          pl: 4
         }
       }
     }
   });
 
-  assert.ok(parsed.vendors?.skhynix?.H25T2TB88E);
+  assert.ok(parsed.vendors?.skhynix?.H25T2TB88EX321N);
+  assert.equal(parsed.vendors?.skhynix?.H25T2TB88EX321N?.pkg, "154-ball BGA 11.5x13.5x1.0mm");
+  assert.equal(parsed.vendors?.skhynix?.H25T2TB88EX321N?.sg, "Max Speed=3600MT/s");
+  assert.equal(parsed.vendors?.skhynix?.H25T2TB88EX321N?.pc, "Client");
+  assert.equal(parsed.vendors?.skhynix?.H25T2TB88EX321N?.vol, "Vcc: 2.5V, VccQ: 1.2V");
+  assert.equal(parsed.vendors?.skhynix?.H25T2TB88EX321N?.so, "IF-Chip");
+  assert.equal(parsed.vendors?.skhynix?.H25T2TB88EX321N?.pl, 4);
   assert.equal(parsed.vendors?.skhynix?.["H25T2TB88E-X321-N"], undefined);
+});
+
+test("keeps exact supplemental H25 Flash IDs even without controller data", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-h25-extra-"));
+  try {
+    mkdirSync(join(inputDir, "extra"));
+    writeFileSync(
+      join(inputDir, "extra", "base.json"),
+      JSON.stringify({
+        schemaVersion: FDNEXT_FDB_EXTRA_SCHEMA_VERSION,
+        vendors: {
+          skhynix: {
+            H25T0TG18GX807: {
+              fid: ["AD79284B02E0"],
+              l: "HYV9H",
+              c: "TLC",
+              pkg: "154-ball BGA 11.5x13.5x1.0mm",
+              sg: "Max Speed=3600MT/s",
+              pc: "Client",
+              vol: "Vcc: 2.5V, VccQ: 1.2V",
+              so: "IF-Chip",
+              d: 1,
+              e: 1,
+              r: 1,
+              n: 1,
+              pl: 4
+            }
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const skhynix = fdb.skhynix as Record<string, { id?: string[]; pkg?: string; sg?: string; pc?: string; vol?: string; so?: string; pl?: number }>;
+    const iddb = fdb.iddb as Record<string, { n?: string[] }>;
+    assert.deepEqual(skhynix.H25T0TG18GX807?.id, ["AD79284B02E0"]);
+    assert.equal(skhynix.H25T0TG18GX807?.pkg, "154-ball BGA 11.5x13.5x1.0mm");
+    assert.equal(skhynix.H25T0TG18GX807?.sg, "Max Speed=3600MT/s");
+    assert.equal(skhynix.H25T0TG18GX807?.pc, "Client");
+    assert.equal(skhynix.H25T0TG18GX807?.vol, "Vcc: 2.5V, VccQ: 1.2V");
+    assert.equal(skhynix.H25T0TG18GX807?.so, "IF-Chip");
+    assert.equal(skhynix.H25T0TG18GX807?.pl, 4);
+    assert.deepEqual(iddb.AD79284B02E0?.n, ["skhynix H25T0TG18GX807"]);
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
 });
 
 test("trims overlong structured YMTC, Samsung, and Intel part numbers", () => {

@@ -138,6 +138,7 @@ const YMTC_PROCESS_LOOKUPS: ProcessLookup[] = [
 ];
 
 const SKHYNIX_STACKED_PROCESS_BYTE6 = new Set([0x70, 0x80, 0x90, 0xa0, 0xa2, 0xb0, 0xb2, 0xc0, 0xc2, 0xd0]);
+const SKHYNIX_HYV9Q_IDS = new Set(["AD780C5B30E0", "AD780D5B30E0", "AD780E5B30E0"]);
 
 const SAMSUNG_CONFIRMED_QLC_DIE_PROFILES: Record<string, string> = {
   SSV4: "SSV4Q",
@@ -320,6 +321,16 @@ function patchSkhynix(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null
       "enterprise",
       "interface_type"
     ] as const) {
+      deleteDraftField(next, key);
+    }
+    changed = true;
+  }
+
+  if (SKHYNIX_HYV9Q_IDS.has(id)) {
+    setDraftField(next, "die_codename", "HYV9Q");
+    setDraftField(next, "density", 2097152);
+    deleteDraftField(next, "die_count");
+    for (const key of NAND_PROFILE_ENRICHED_FIELDS) {
       deleteDraftField(next, key);
     }
     changed = true;

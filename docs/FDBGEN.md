@@ -364,7 +364,7 @@ Raw FlashDB 模式：
 - priority stack 中胜出的 `id/fid` 会作为该 PN 的 authoritative ID 覆盖 raw 输入，因此 sky Micron 这类不需要强制语义的记录可以写 `id`，不必写 `fid`
 - generated `fdb.json` 禁止出现 `fid`，并使用 `fdnext.fdb.v1` schema
 - generated `fdb.json` 的 `l` 只允许写 `nand.die_profile` key。生成时会先把旧制程文本规范化到 profile，例如 `3D B16A` → `B16A`、SanDisk `15nm` + `TLC` → `SNK15T`；无法确定 vendor die profile 时，只允许落到表内 2D fallback profile，例如 `50nm`。`1ynm`、`1znm`、`3D`、泛化 `3DVx`、`sky-process` 这类无明确 vendor profile 的文本不会写入输出，校验时会报 `part.invalid_die_profile`。
-- SK hynix H25T raw NAND PN 进入 FDB 前会移除封装/分档尾缀，例如 `H25T2TB88E-X321-N` → `H25T2TB88E`、`H25T1TD48C-X630` → `H25T1TD48C`；通用 `GEN2-X321` 这类合成标签仍按无效 PN 丢弃。
+- SK hynix H25 raw NAND PN 进入 FDB 前会归一化 X 尾缀但不丢弃尾缀，例如 `H25T2TB88E-X321-N` → `H25T2TB88EX321N`、`H25T1TD48C-X630` → `H25T1TD48CX630`；通用 `GEN2-X321` 这类合成标签仍按无效 PN 丢弃。H25 精确封装资料可使用 `pkg` / `sg` / `pc` / `vol` / `so` / `pl` 补充公开 `package`、`speed_grade`、`product_class`、`voltage`、`special_option` 和 `plane_count`。
 - raw PN 清理会移除明显跨厂商污染：Samsung `K9` 短 key 少于 10 位，或最后 3 字符含 `X` 时丢弃；`MT29F...` 但尾部符合 Intel process token 的记录丢弃；`29F...` / `PF29F...` 但整体符合 Micron raw token 结构（例如 `...GBLBE`、`...CUCBB`、`...EBHAF`）的记录丢弃。Intel 裸 `29F...` 且 process code 大于等于 `G` 时会归一为 `PF29F...`。
 - 数值字段（`s/p/b/d/e/r/n`）仅接受有限数值
 - 如果 `*_1` 或尾部 `-` PN 有明确 base PN，会合并回 base PN

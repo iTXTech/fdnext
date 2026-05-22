@@ -601,14 +601,34 @@
       "HYV9"
     ]
   },
+  "HYV9H": {
+    "die_codename": "HYV9H",
+    "generation_info": "3DV9H",
+    "layer_count": 321,
+    "cell_level": 3,
+    "die_density": "1Tb",
+    "plane_count": 4,
+    "speed_grade": "Max Speed=3600MT/s",
+    "firmware_match": [
+      "HYV9H"
+    ],
+    "die_mark": [
+      "G-Die"
+    ]
+  },
   "HYV9Q": {
     "die_codename": "HYV9Q",
     "generation_info": "3DV9",
     "layer_count": 321,
     "cell_level": 4,
     "die_density": "2Tb",
+    "plane_count": 6,
+    "speed_grade": "Max Speed=3200MT/s",
     "firmware_match": [
       "HYV9Q"
+    ],
+    "die_mark": [
+      "M-Die"
     ]
   },
   "JGS": {

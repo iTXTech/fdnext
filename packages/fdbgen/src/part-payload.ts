@@ -1,6 +1,6 @@
 import type { PartNumberPayload } from "./types";
 
-export const AUTHORITATIVE_PART_PAYLOAD_KEYS = ["id", "f", "a", "l", "c", "m", "d", "e", "r", "n"] as const;
+export const AUTHORITATIVE_PART_PAYLOAD_KEYS = ["id", "f", "a", "l", "c", "m", "pkg", "sg", "pc", "vol", "so", "d", "e", "r", "n", "pl"] as const;
 const PART_PAYLOAD_KEYS = [...AUTHORITATIVE_PART_PAYLOAD_KEYS, "t"] as const;
 
 export function hasPartPayloadValue(payload: PartNumberPayload, key: keyof PartNumberPayload): boolean {

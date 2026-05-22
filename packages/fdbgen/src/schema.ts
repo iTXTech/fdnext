@@ -273,6 +273,26 @@ const partPayloadProperties = {
     type: "string",
     minLength: 1
   },
+  pkg: {
+    type: "string",
+    minLength: 1
+  },
+  sg: {
+    type: "string",
+    minLength: 1
+  },
+  pc: {
+    type: "string",
+    minLength: 1
+  },
+  vol: {
+    type: "string",
+    minLength: 1
+  },
+  so: {
+    type: "string",
+    minLength: 1
+  },
   d: {
     type: "integer",
     minimum: 1
@@ -286,6 +306,10 @@ const partPayloadProperties = {
     minimum: 1
   },
   n: {
+    type: "integer",
+    minimum: 1
+  },
+  pl: {
     type: "integer",
     minimum: 1
   }

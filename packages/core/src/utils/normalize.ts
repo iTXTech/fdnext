@@ -4,7 +4,9 @@ const PN_REMOVALS = [" ", ",", "&", ".", "|"];
 const PN_TOKEN_SEPARATORS = [":"];
 
 function normalizePartNumberAlias(partNumber: string): string {
-  return partNumber.replace(/^EMT29F/, "MT29F");
+  return partNumber
+    .replace(/^EMT29F/, "MT29F")
+    .replace(/^(H25[A-Z0-9]+)-X([0-9A-Z]+)(?:-([A-Z0-9]+))?$/, (_match, base: string, suffix: string, tail: string | undefined) => `${base}X${suffix}${tail ?? ""}`);
 }
 
 export function normalizePartNumber(partNumber: string): string {

@@ -19,10 +19,16 @@ export interface PartNumberPayload {
   c?: string;
   t?: string[];
   m?: string;
+  pkg?: string;
+  sg?: string;
+  pc?: string;
+  vol?: string;
+  so?: string;
   d?: number;
   e?: number;
   r?: number;
   n?: number;
+  pl?: number;
 }
 
 export interface FlashIdPayload {

@@ -188,15 +188,32 @@ function mergePartNumber(vendor: string, target: PartNumberPayload | undefined, 
   if (typeof src.m === "string") {
     out.m = src.m;
   }
+  if (typeof src.pkg === "string") {
+    out.pkg = src.pkg;
+  }
+  if (typeof src.sg === "string") {
+    out.sg = src.sg;
+  }
+  if (typeof src.pc === "string") {
+    out.pc = src.pc;
+  }
+  if (typeof src.vol === "string") {
+    out.vol = src.vol;
+  }
+  if (typeof src.so === "string") {
+    out.so = src.so;
+  }
 
   const d = toOptionalNumber(src.d);
   const e = toOptionalNumber(src.e);
   const r = toOptionalNumber(src.r);
   const n = toOptionalNumber(src.n);
+  const pl = toOptionalNumber(src.pl);
   if (d !== undefined) out.d = d;
   if (e !== undefined) out.e = e;
   if (r !== undefined) out.r = r;
   if (n !== undefined) out.n = n;
+  if (pl !== undefined) out.pl = pl;
 
   return out;
 }
@@ -247,13 +264,13 @@ function mergeStackedExtraPartNumber(target: PartNumberPayload | undefined, sour
     out.t = mergeStringArray(out.t, controllers, false);
   }
 
-  for (const field of ["l", "c", "m"] as const) {
+  for (const field of ["l", "c", "m", "pkg", "sg", "pc", "vol", "so"] as const) {
     if (out[field] === undefined && typeof source[field] === "string") {
       out[field] = source[field];
     }
   }
 
-  for (const field of ["d", "e", "r", "n"] as const) {
+  for (const field of ["d", "e", "r", "n", "pl"] as const) {
     const value = toOptionalNumber(source[field]);
     if (out[field] === undefined && value !== undefined) {
       out[field] = value;
@@ -699,10 +716,28 @@ function removeFlashIdReferences(vendors: VendorMap, removedFlashIds: Set<string
   }
 }
 
+function hasExactSupplementalPartReference(payload: FlashIdPayload, vendors: VendorMap): boolean {
+  for (const reference of payload.n ?? []) {
+    const normalized = normalizeFdbPartReference(reference);
+    if (!normalized) {
+      continue;
+    }
+    const [vendor, partNumber] = normalized.split(" ", 2);
+    if (!vendor || !partNumber) {
+      continue;
+    }
+    const part = vendors.get(vendor)?.get(partNumber);
+    if (part && (part.pkg || part.sg || part.pc || part.vol || part.so || part.pl !== undefined)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 function pruneLowConfidenceFlashRecords(vendors: VendorMap, iddb: FlashIdMap): void {
   const removed = new Set<string>();
   for (const [flashId, payload] of [...iddb.entries()]) {
-    if (isLowConfidenceFlashPayload(payload)) {
+    if (isLowConfidenceFlashPayload(payload) && !hasExactSupplementalPartReference(payload, vendors)) {
       iddb.delete(flashId);
       removed.add(flashId);
     }
@@ -1061,10 +1096,16 @@ function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: V
         ...(payload.c !== undefined ? { c: payload.c } : {}),
         ...(payload.t && payload.t.length > 0 ? { t: [...new Set(payload.t)].sort() } : {}),
         ...(payload.m !== undefined ? { m: payload.m } : {}),
+        ...(payload.pkg !== undefined ? { pkg: payload.pkg } : {}),
+        ...(payload.sg !== undefined ? { sg: payload.sg } : {}),
+        ...(payload.pc !== undefined ? { pc: payload.pc } : {}),
+        ...(payload.vol !== undefined ? { vol: payload.vol } : {}),
+        ...(payload.so !== undefined ? { so: payload.so } : {}),
         ...(payload.d !== undefined ? { d: payload.d } : {}),
         ...(payload.e !== undefined ? { e: payload.e } : {}),
         ...(payload.r !== undefined ? { r: payload.r } : {}),
-        ...(payload.n !== undefined ? { n: payload.n } : {})
+        ...(payload.n !== undefined ? { n: payload.n } : {}),
+        ...(payload.pl !== undefined ? { pl: payload.pl } : {})
       };
       if (normalized.l === undefined) {
         delete normalized.l;

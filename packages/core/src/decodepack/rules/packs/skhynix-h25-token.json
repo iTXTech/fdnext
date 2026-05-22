@@ -36,7 +36,8 @@
           "T1": 2097152,
           "T2": 4194304,
           "T3": 8388608,
-          "T4": 16777216
+          "T4": 16777216,
+          "T5": 33554432
         },
         "geometryObj": {
           "1": {
@@ -82,6 +83,7 @@
           "T:B:1Tb": "HYV8",
           "T:C:1Tb": "HYV9",
           "T:D:1Tb": "HYV9",
+          "T:G:1Tb": "HYV9H",
           "Q:M:1Tb": "HYV6Q",
           "Q:A:1Tb": "HYV7Q",
           "Q:M:2Tb": "HYV9Q"
@@ -120,6 +122,10 @@
             "status": "external_table_confirmed",
             "source": "maintainer-supplied package table + local fdb cross-check"
           },
+          "T:G:1Tb": {
+            "status": "external_table_confirmed",
+            "source": "maintainer-supplied V9H package table"
+          },
           "Q:A:1Tb": {
             "status": "external_table_confirmed",
             "source": "external flash-id table + local fdb cross-check"
@@ -157,6 +163,58 @@
           "660": {
             "package": "316-ball BGA 14x18x1.35mm",
             "channel_count": 4
+          },
+          "807": {
+            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "channel_count": 1
+          },
+          "840": {
+            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "channel_count": 2
+          },
+          "842": {
+            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "channel_count": 2
+          },
+          "844": {
+            "package": "154-ball BGA 11.5x13.5x1.35mm",
+            "channel_count": 2
+          },
+          "846": {
+            "package": "316-ball BGA 14x18x1.0mm",
+            "channel_count": 4
+          },
+          "848": {
+            "package": "316-ball BGA 14x18x1.35mm",
+            "channel_count": 4
+          },
+          "817": {
+            "package": "316-ball BGA 14x18x1.0mm",
+            "channel_count": 4
+          },
+          "819": {
+            "package": "316-ball BGA 14x18x1.35mm",
+            "channel_count": 4
+          },
+          "834": {
+            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "channel_count": 2
+          },
+          "836": {
+            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "channel_count": 2
+          },
+          "822": {
+            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "channel_count": 2
+          },
+          "824": {
+            "package": "154-ball BGA 11.5x13.5x1.35mm",
+            "channel_count": 2
+          },
+          "830": {
+            "package": "154-ball BGA 11.5x13.5x1.7mm",
+            "channel_count": 2
           },
           "862": {
             "package": "154-ball BGA 11.5x13.5x1.0mm",

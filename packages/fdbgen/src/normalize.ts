@@ -215,7 +215,7 @@ export function normalizeFdbPartNumber(partNumber: string): string {
   if (normalized.includes("/")) {
     return "";
   }
-  normalized = normalized.replace(/^(H25T[A-Z0-9]+)-X[0-9A-Z]+(?:-[A-Z0-9]+)?$/, "$1");
+  normalized = normalized.replace(/^(H25[A-Z0-9]+)-X([0-9A-Z]+)(?:-([A-Z0-9]+))?$/, (_match, base: string, suffix: string, tail: string | undefined) => `${base}X${suffix}${tail ?? ""}`);
   if (/(?:^|[-_])X\d+(?:[-_]|$)/.test(normalized)) {
     return "";
   }

@@ -4,7 +4,7 @@
         "name": "iTXTech fdnext FDB",
         "website": "https:\/\/github.com\/iTXTech\/fdnext",
         "version": "83",
-        "time": "Sun, 17 May 2026 02:52:43 GMT",
+        "time": "Fri, 22 May 2026 03:46:24 GMT",
         "controllers": [
             "AU6987(AN)",
             "AU6989SN",
@@ -38643,6 +38643,45 @@
                 "skhynix HY27US08121A"
             ]
         },
+        "AD780C5B30E0": {
+            "n": [
+                "skhynix H25T1QM18GX834",
+                "skhynix H25T2QM28GX836",
+                "skhynix H25T3QM48GX817",
+                "skhynix H25T3QM48GX822"
+            ]
+        },
+        "AD780D5B30E0": {
+            "n": [
+                "skhynix H25T4QM88GX819",
+                "skhynix H25T4QM88GX824"
+            ]
+        },
+        "AD780E5B30E0": {
+            "n": [
+                "skhynix H25T5QMG8GX819",
+                "skhynix H25T5QMG8GX830"
+            ]
+        },
+        "AD79284B02E0": {
+            "n": [
+                "skhynix H25T0TG18GX807",
+                "skhynix H25T1TG28GX840",
+                "skhynix H25T2TG48GX842",
+                "skhynix H25T2TG48GX846"
+            ]
+        },
+        "AD79294B02E0": {
+            "n": [
+                "skhynix H25T3TG88GX844",
+                "skhynix H25T3TG88GX848"
+            ]
+        },
+        "AD792A4B02E0": {
+            "n": [
+                "skhynix H25T4TGG8GX848"
+            ]
+        },
         "AD79A5001000": {
             "t": [
                 "SM325AB"
@@ -38728,7 +38767,9 @@
                 "skhynix H25BFT9TC1",
                 "skhynix H25G9TC1",
                 "skhynix H25G9TC18C",
-                "skhynix H25G9TCX8C",
+                "skhynix H25G9TC18CX416",
+                "skhynix H25G9TC18CX448",
+                "skhynix H25G9TCX8CX326A",
                 "skhynix H25T0TC28C"
             ]
         },
@@ -38833,7 +38874,6 @@
                 "ZC3281"
             ],
             "n": [
-                "skhynix H25G9TD18C",
                 "skhynix H25G9TD18CX576"
             ]
         },
@@ -38891,7 +38931,7 @@
                 "skhynix H25BFT8A1B8R",
                 "skhynix H25BFT8B3B",
                 "skhynix H25BFT8D4B",
-                "skhynix H25G9TB18E"
+                "skhynix H25G9TB18EX256N"
             ]
         },
         "AD7E285302B2": {
@@ -38950,8 +38990,8 @@
                 "skhynix H25BFT9TC1",
                 "skhynix H25G9TC1",
                 "skhynix H25G9TC18C",
-                "skhynix H25G9TCX8C",
-                "skhynix H25T0TC28C"
+                "skhynix H25G9TCX8CX326A",
+                "skhynix H25T0TC28CX417"
             ]
         },
         "AD7E290B00C2": {
@@ -39121,7 +39161,7 @@
             ],
             "n": [
                 "skhynix H25T2TD88C",
-                "skhynix H25T3TDG8C"
+                "skhynix H25T3TDG8CX682"
             ]
         },
         "AD7E2A5302B0": {
@@ -39416,24 +39456,21 @@
                 "skhynix H25G9TD18CX576"
             ]
         },
-        "AD89283B00D2": {
-            "t": [
-                "FC1179S",
-                "FC2199S",
-                "FC2279S"
-            ],
-            "n": [
-                "skhynix H25G9TD18C"
-            ]
-        },
         "AD89284B00E0": {
             "t": [
                 "MAP1602",
                 "SM2259XT3"
             ],
             "n": [
-                "skhynix H25T0TD18C",
-                "skhynix H25T2TD48C"
+                "skhynix H25T0TD18CX655",
+                "skhynix H25T0TD18CX826",
+                "skhynix H25T1TD28CX656",
+                "skhynix H25T1TD28CX828",
+                "skhynix H25T2TD48C",
+                "skhynix H25T2TD48CX657",
+                "skhynix H25T2TD48CX659",
+                "skhynix H25T2TD48CX809",
+                "skhynix H25T2TD48CX862"
             ]
         },
         "AD89285300B0": {
@@ -39525,7 +39562,6 @@
             ],
             "n": [
                 "skhynix H25G9TD18C",
-                "skhynix H25T3TC88C",
                 "skhynix H25T3TC88CX658"
             ]
         },
@@ -39534,8 +39570,12 @@
                 "SM2259XT3"
             ],
             "n": [
-                "skhynix H25T0TD18C",
-                "skhynix H25T3TD88C"
+                "skhynix H25T3TD88C",
+                "skhynix H25T3TD88CX658",
+                "skhynix H25T3TD88CX660",
+                "skhynix H25T3TD88CX676",
+                "skhynix H25T3TD88CX811",
+                "skhynix H25T3TD88CX860"
             ]
         },
         "AD89295300B0": {
@@ -39572,6 +39612,14 @@
             ],
             "n": [
                 "skhynix H25G9TD18C"
+            ]
+        },
+        "AD892A4B00E0": {
+            "n": [
+                "skhynix H25T4TDG8C",
+                "skhynix H25T4TDG8CX658",
+                "skhynix H25T4TDG8CX660",
+                "skhynix H25T4TDG8CX813"
             ]
         },
         "AD892A5300B0": {
@@ -39630,8 +39678,8 @@
                 "YS9085N"
             ],
             "n": [
-                "skhynix H25T0QA18C",
-                "skhynix H25T0QAXXB"
+                "skhynix H25T0QA18CX542",
+                "skhynix H25T0QAXXBX569A"
             ]
         },
         "AD892C5330A0": {
@@ -39681,7 +39729,7 @@
             ],
             "n": [
                 "skhynix H25T0QA18C",
-                "skhynix H25T3QA88C",
+                "skhynix H25T0QA18CX543",
                 "skhynix H25T3QA88CX548"
             ]
         },
@@ -39701,7 +39749,8 @@
                 "YS9085N"
             ],
             "n": [
-                "skhynix H25T0QA18C"
+                "skhynix H25T0QA18C",
+                "skhynix H25T0QA18CX544"
             ]
         },
         "AD892E5330A0": {
@@ -86877,7 +86926,7 @@
             "id": [
                 "EC5FAC4B88C1"
             ],
-            "l": "SSV7",
+            "l": "SSV7Q",
             "c": "QLC"
         },
         "K9AAG08U0M": {
@@ -91371,7 +91420,7 @@
                 "ECDEA47A68C4",
                 "ECDED57E68C4"
             ],
-            "l": "SS21",
+            "l": "SS21M",
             "c": "SLC",
             "t": [
                 "AU6989SN",
@@ -95480,7 +95529,7 @@
             "id": [
                 "EC51DD1F88CB"
             ],
-            "l": "SSV4",
+            "l": "SSV4Q",
             "c": "QLC",
             "t": [
                 "SM2259XT2",
@@ -95799,7 +95848,7 @@
                 "ZC3281"
             ]
         },
-        "H25G9TB18E": {
+        "H25G9TB18EX256N": {
             "id": [
                 "AD7E285302B0"
             ],
@@ -95834,12 +95883,26 @@
                 "AD7E2A0B00C2"
             ],
             "t": [
-                "CBM2199E",
-                "CBM2199EE",
-                "MAS1102",
                 "YS9082HP",
                 "YS9082HT",
                 "YS9085N"
+            ]
+        },
+        "H25G9TC18CX416": {
+            "id": [
+                "AD7E280B00C0"
+            ],
+            "t": [
+                "MAS1102"
+            ]
+        },
+        "H25G9TC18CX448": {
+            "id": [
+                "AD7E280B00C0"
+            ],
+            "t": [
+                "CBM2199E",
+                "CBM2199EE"
             ]
         },
         "H25G9TC18CX488": {
@@ -95848,7 +95911,7 @@
             ],
             "l": "HYV7"
         },
-        "H25G9TCX8C": {
+        "H25G9TCX8CX326A": {
             "id": [
                 "AD7E280B00C0",
                 "AD7E290B00C0"
@@ -95862,13 +95925,22 @@
         },
         "H25G9TD18C": {
             "id": [
-                "AD7E283B00D0",
                 "AD7E283B00D2",
                 "AD89283B00D0",
-                "AD89283B00D2",
                 "AD89293B00D0",
                 "AD892A3B00D0"
             ],
+            "t": [
+                "YS9085N"
+            ]
+        },
+        "H25G9TD18CX576": {
+            "id": [
+                "AD7E283B00D0",
+                "AD7E283B00D2",
+                "AD89283B00D0"
+            ],
+            "l": "HYV8",
             "c": "TLC",
             "t": [
                 "FC1179S",
@@ -95881,19 +95953,11 @@
                 "ZC3281"
             ]
         },
-        "H25G9TD18CX576": {
-            "id": [
-                "AD7E283B00D0",
-                "AD7E283B00D2",
-                "AD89283B00D0"
-            ],
-            "l": "HYV8"
-        },
         "H25JGQ8A1M": {
             "id": [
                 "AD892C5330A0"
             ],
-            "l": "HYV5Q",
+            "l": "HYV5",
             "c": "QLC",
             "t": [
                 "FC1179",
@@ -96251,9 +96315,17 @@
         },
         "H25T0QA18C": {
             "id": [
-                "AD892C1B30C0",
                 "AD892D1B30C0",
                 "AD892E1B30C0"
+            ],
+            "t": [
+                "YS9082HT",
+                "YS9085N"
+            ]
+        },
+        "H25T0QA18CX542": {
+            "id": [
+                "AD892C1B30C0"
             ],
             "t": [
                 "MAS1102",
@@ -96264,7 +96336,23 @@
                 "YS9085N"
             ]
         },
-        "H25T0QAXXB": {
+        "H25T0QA18CX543": {
+            "id": [
+                "AD892D1B30C0"
+            ],
+            "t": [
+                "MAS1102"
+            ]
+        },
+        "H25T0QA18CX544": {
+            "id": [
+                "AD892E1B30C0"
+            ],
+            "t": [
+                "MAS1102"
+            ]
+        },
+        "H25T0QAXXBX569A": {
             "id": [
                 "AD892C1B30C0"
             ],
@@ -96280,23 +96368,139 @@
         "H25T0TC28C": {
             "id": [
                 "AD7E280B00C0",
-                "AD7E280B00C2",
-                "AD7E290B00C0"
+                "AD7E280B00C2"
             ],
             "t": [
-                "MAS1102",
                 "SM2259XT2",
                 "SM2259XT3"
             ]
         },
-        "H25T0TD18C": {
+        "H25T0TC28CX417": {
             "id": [
-                "AD89284B00E0",
-                "AD89294B00E0"
+                "AD7E290B00C0"
             ],
             "t": [
-                "SM2259XT3"
+                "MAS1102"
             ]
+        },
+        "H25T0TD18CX655": {
+            "id": [
+                "AD89284B00E0"
+            ],
+            "l": "HYV9",
+            "t": [
+                "SM2259XT3"
+            ],
+            "pkg": "152-ball BGA 14x18x1.0mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Client",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 1,
+            "e": 1,
+            "r": 1,
+            "n": 1
+        },
+        "H25T0TD18CX826": {
+            "id": [
+                "AD89284B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "154-ball BGA 11.5x13.5x1.0mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Enterprise",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 1,
+            "e": 1,
+            "r": 1,
+            "n": 1
+        },
+        "H25T0TG18GX807": {
+            "id": [
+                "AD79284B02E0"
+            ],
+            "l": "HYV9H",
+            "c": "TLC",
+            "pkg": "154-ball BGA 11.5x13.5x1.0mm",
+            "sg": "Max Speed=3600MT\/s",
+            "pc": "Client",
+            "d": 1,
+            "e": 1,
+            "r": 1,
+            "n": 1,
+            "pl": 4
+        },
+        "H25T1QM18GX834": {
+            "id": [
+                "AD780C5B30E0"
+            ],
+            "l": "HYV9Q",
+            "c": "QLC",
+            "pkg": "154-ball BGA 11.5x13.5x1.0mm",
+            "sg": "Max Speed=3200MT\/s",
+            "pc": "Enterprise",
+            "d": 1,
+            "e": 1,
+            "r": 1,
+            "n": 2,
+            "pl": 6
+        },
+        "H25T1TD28CX656": {
+            "id": [
+                "AD89284B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "152-ball BGA 14x18x1.0mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Client",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 2,
+            "e": 2,
+            "r": 2,
+            "n": 2
+        },
+        "H25T1TD28CX828": {
+            "id": [
+                "AD89284B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "154-ball BGA 11.5x13.5x1.0mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Enterprise",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 2,
+            "e": 2,
+            "r": 2,
+            "n": 2
+        },
+        "H25T1TG28GX840": {
+            "id": [
+                "AD79284B02E0"
+            ],
+            "l": "HYV9H",
+            "c": "TLC",
+            "pkg": "154-ball BGA 11.5x13.5x1.0mm",
+            "sg": "Max Speed=3600MT\/s",
+            "pc": "Client",
+            "d": 2,
+            "e": 2,
+            "r": 2,
+            "n": 2,
+            "pl": 4
+        },
+        "H25T2QM28GX836": {
+            "id": [
+                "AD780C5B30E0"
+            ],
+            "l": "HYV9Q",
+            "c": "QLC",
+            "pkg": "154-ball BGA 11.5x13.5x1.0mm",
+            "sg": "Max Speed=3200MT\/s",
+            "pc": "Enterprise",
+            "d": 2,
+            "e": 2,
+            "r": 2,
+            "n": 2,
+            "pl": 6
         },
         "H25T2TB88E": {
             "id": [
@@ -96324,6 +96528,62 @@
                 "AD89284B00E0"
             ]
         },
+        "H25T2TD48CX657": {
+            "id": [
+                "AD89284B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "152-ball BGA 14x18x1.0mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Client",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 4,
+            "e": 4,
+            "r": 4,
+            "n": 2
+        },
+        "H25T2TD48CX659": {
+            "id": [
+                "AD89284B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "316-ball BGA 14x18x1.0mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Client",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 4,
+            "e": 4,
+            "r": 4,
+            "n": 4
+        },
+        "H25T2TD48CX809": {
+            "id": [
+                "AD89284B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "154-ball BGA 11.5x13.5x1.0mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Enterprise",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 4,
+            "e": 4,
+            "r": 4,
+            "n": 2
+        },
+        "H25T2TD48CX862": {
+            "id": [
+                "AD89284B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "154-ball BGA 11.5x13.5x1.0mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Client",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 4,
+            "e": 4,
+            "r": 4,
+            "n": 2
+        },
         "H25T2TD88C": {
             "id": [
                 "AD7E293B00D0",
@@ -96337,35 +96597,85 @@
                 "YS9085N"
             ]
         },
-        "H25T3QA88C": {
+        "H25T2TG48GX842": {
             "id": [
-                "AD892D1B30C0"
+                "AD79284B02E0"
             ],
-            "t": [
-                "SM2259XT2",
-                "SM2259XT3"
-            ]
+            "l": "HYV9H",
+            "c": "TLC",
+            "pkg": "154-ball BGA 11.5x13.5x1.0mm",
+            "sg": "Max Speed=3600MT\/s",
+            "pc": "Client",
+            "d": 4,
+            "e": 4,
+            "r": 4,
+            "n": 2,
+            "pl": 4
+        },
+        "H25T2TG48GX846": {
+            "id": [
+                "AD79284B02E0"
+            ],
+            "l": "HYV9H",
+            "c": "TLC",
+            "pkg": "316-ball BGA 14x18x1.0mm",
+            "sg": "Max Speed=3600MT\/s",
+            "pc": "Client",
+            "d": 4,
+            "e": 4,
+            "r": 4,
+            "n": 4,
+            "pl": 4
         },
         "H25T3QA88CX548": {
             "id": [
                 "AD892D1B30C0"
             ],
-            "c": "QLC"
-        },
-        "H25T3TC88C": {
-            "id": [
-                "AD89293B00D0"
-            ],
+            "c": "QLC",
             "t": [
                 "SM2259XT2",
                 "SM2259XT3"
             ]
         },
+        "H25T3QM48GX817": {
+            "id": [
+                "AD780C5B30E0"
+            ],
+            "l": "HYV9Q",
+            "c": "QLC",
+            "pkg": "316-ball BGA 14x18x1.0mm",
+            "sg": "Max Speed=3200MT\/s",
+            "pc": "Client",
+            "d": 4,
+            "e": 4,
+            "r": 4,
+            "n": 4,
+            "pl": 6
+        },
+        "H25T3QM48GX822": {
+            "id": [
+                "AD780C5B30E0"
+            ],
+            "l": "HYV9Q",
+            "c": "QLC",
+            "pkg": "154-ball BGA 11.5x13.5x1.0mm",
+            "sg": "Max Speed=3200MT\/s",
+            "pc": "Enterprise",
+            "d": 4,
+            "e": 4,
+            "r": 4,
+            "n": 2,
+            "pl": 6
+        },
         "H25T3TC88CX658": {
             "id": [
                 "AD89293B00D0"
             ],
-            "l": "HYV8"
+            "l": "HYV8",
+            "t": [
+                "SM2259XT2",
+                "SM2259XT3"
+            ]
         },
         "H25T3TD88C": {
             "id": [
@@ -96373,7 +96683,77 @@
             ],
             "l": "HYV9"
         },
-        "H25T3TDG8C": {
+        "H25T3TD88CX658": {
+            "id": [
+                "AD89294B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "152-ball BGA 14x18x1.35mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Enterprise",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 8,
+            "e": 4,
+            "r": 4,
+            "n": 2
+        },
+        "H25T3TD88CX660": {
+            "id": [
+                "AD89294B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "316-ball BGA 14x18x1.35mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Client",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 8,
+            "e": 4,
+            "r": 4,
+            "n": 4
+        },
+        "H25T3TD88CX676": {
+            "id": [
+                "AD89294B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "152-ball BGA 14x18x1.35mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Client",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 8,
+            "e": 4,
+            "r": 4,
+            "n": 2
+        },
+        "H25T3TD88CX811": {
+            "id": [
+                "AD89294B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "154-ball BGA 11.5x13.5x1.35mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Enterprise",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 8,
+            "e": 4,
+            "r": 4,
+            "n": 2
+        },
+        "H25T3TD88CX860": {
+            "id": [
+                "AD89294B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "154-ball BGA 11.5x13.5x1.35mm",
+            "sg": "DQ Speed=2400Mbps",
+            "pc": "Client",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 8,
+            "e": 4,
+            "r": 4,
+            "n": 2
+        },
+        "H25T3TDG8CX682": {
             "id": [
                 "AD7E2A3B00D0"
             ],
@@ -96381,11 +96761,162 @@
                 "YS9085N"
             ]
         },
+        "H25T3TG88GX844": {
+            "id": [
+                "AD79294B02E0"
+            ],
+            "l": "HYV9H",
+            "c": "TLC",
+            "pkg": "154-ball BGA 11.5x13.5x1.35mm",
+            "sg": "Max Speed=3600MT\/s",
+            "pc": "Client",
+            "d": 8,
+            "e": 4,
+            "r": 4,
+            "n": 2,
+            "pl": 4
+        },
+        "H25T3TG88GX848": {
+            "id": [
+                "AD79294B02E0"
+            ],
+            "l": "HYV9H",
+            "c": "TLC",
+            "pkg": "316-ball BGA 14x18x1.35mm",
+            "sg": "Max Speed=3600MT\/s",
+            "pc": "Client",
+            "d": 8,
+            "e": 4,
+            "r": 4,
+            "n": 4,
+            "pl": 4
+        },
         "H25T3TM88C": {
             "l": "HYV6"
         },
+        "H25T4QM88GX819": {
+            "id": [
+                "AD780D5B30E0"
+            ],
+            "l": "HYV9Q",
+            "c": "QLC",
+            "pkg": "316-ball BGA 14x18x1.35mm",
+            "sg": "Max Speed=3200MT\/s",
+            "pc": "Client",
+            "d": 8,
+            "e": 4,
+            "r": 4,
+            "n": 4,
+            "pl": 6
+        },
+        "H25T4QM88GX824": {
+            "id": [
+                "AD780D5B30E0"
+            ],
+            "l": "HYV9Q",
+            "c": "QLC",
+            "pkg": "154-ball BGA 11.5x13.5x1.35mm",
+            "sg": "Max Speed=3200MT\/s",
+            "pc": "Enterprise",
+            "d": 8,
+            "e": 4,
+            "r": 4,
+            "n": 2,
+            "pl": 6
+        },
         "H25T4TDG8C": {
+            "id": [
+                "AD892A4B00E0"
+            ],
             "l": "HYV9"
+        },
+        "H25T4TDG8CX658": {
+            "id": [
+                "AD892A4B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "152-ball BGA 14x18x1.35mm",
+            "sg": "DQ Speed=1600Mbps",
+            "pc": "Enterprise",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 16,
+            "e": 4,
+            "r": 4,
+            "n": 2
+        },
+        "H25T4TDG8CX660": {
+            "id": [
+                "AD892A4B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "316-ball BGA 14x18x1.35mm",
+            "sg": "DQ Speed=1600Mbps",
+            "pc": "Client",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 16,
+            "e": 4,
+            "r": 4,
+            "n": 4
+        },
+        "H25T4TDG8CX813": {
+            "id": [
+                "AD892A4B00E0"
+            ],
+            "l": "HYV9",
+            "pkg": "154-ball BGA 11.5x13.5x1.5mm",
+            "sg": "DQ Speed=2100Mbps",
+            "pc": "Enterprise",
+            "vol": "Vcc: 2.5V, VccQ: 1.2V",
+            "d": 16,
+            "e": 4,
+            "r": 4,
+            "n": 2
+        },
+        "H25T4TGG8GX848": {
+            "id": [
+                "AD792A4B02E0"
+            ],
+            "l": "HYV9H",
+            "c": "TLC",
+            "pkg": "316-ball BGA 14x18x1.35mm",
+            "sg": "Max Speed=3600MT\/s",
+            "pc": "Client",
+            "d": 16,
+            "e": 4,
+            "r": 4,
+            "n": 4,
+            "pl": 4
+        },
+        "H25T5QMG8GX819": {
+            "id": [
+                "AD780E5B30E0"
+            ],
+            "l": "HYV9Q",
+            "c": "QLC",
+            "pkg": "316-ball BGA 14x18x1.35mm",
+            "sg": "Max Speed=3200MT\/s",
+            "pc": "Client",
+            "d": 16,
+            "e": 4,
+            "r": 4,
+            "n": 4,
+            "pl": 6
+        },
+        "H25T5QMG8GX830": {
+            "id": [
+                "AD780E5B30E0"
+            ],
+            "l": "HYV9Q",
+            "c": "QLC",
+            "pkg": "154-ball BGA 11.5x13.5x1.7mm",
+            "sg": "Max Speed=2280MT\/s",
+            "pc": "Enterprise",
+            "so": "IF-Chip",
+            "d": 16,
+            "e": 4,
+            "r": 4,
+            "n": 2,
+            "pl": 6
         },
         "H26M78003BFR": {
             "id": [

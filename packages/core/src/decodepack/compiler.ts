@@ -435,7 +435,7 @@ function runTokenDecoder(
       const into = context[step.into];
       const from = context[step.from];
       if (into && typeof into === "object" && !Array.isArray(into) && from && typeof from === "object" && !Array.isArray(from)) {
-        Object.assign(into as Record<string, unknown>, from as Record<string, unknown>);
+        context[step.into] = { ...(into as Record<string, unknown>), ...(from as Record<string, unknown>) };
       }
       traceStep(trace, {
         op: step.op,
@@ -502,7 +502,7 @@ function runTokenDecoder(
       const into = context[step.into];
       const from = context[step.from];
       if (into && typeof into === "object" && !Array.isArray(into) && from && typeof from === "object" && !Array.isArray(from)) {
-        Object.assign(into as Record<string, unknown>, from as Record<string, unknown>);
+        context[step.into] = { ...(into as Record<string, unknown>), ...(from as Record<string, unknown>) };
       }
       traceStep(trace, {
         op: step.op,
@@ -523,10 +523,10 @@ function runTokenDecoder(
         ? matchScopedFromStart(rest, table, context[step.scope], step.scopeSeparator)
         : matchFromStart(rest, table);
       if (result.matched) {
-        context[step.to] = result.value;
+        context[step.to] = cloneJson(result.value);
         context.rest = result.rest;
       } else {
-        context[step.to] = step.default;
+        context[step.to] = cloneJson(step.default);
       }
       traceStep(trace, {
         op: step.op,
@@ -546,9 +546,9 @@ function runTokenDecoder(
     const table = tables[step.table] ?? {};
     const source = String(context[step.from] ?? "");
     if (Object.hasOwn(table, source)) {
-      context[step.to] = table[source];
+      context[step.to] = cloneJson(table[source]);
     } else {
-      context[step.to] = step.default;
+      context[step.to] = cloneJson(step.default);
     }
     traceStep(trace, {
       op: step.op,

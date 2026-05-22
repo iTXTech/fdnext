@@ -617,6 +617,24 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     if (record.n != null && record.n !== -1 && !isKnownClassificationValue(draftField(info, "channel_count"))) {
       setDraftField(info, "channel_count", record.n);
     }
+    if (record.pl != null && record.pl !== -1 && !isKnownClassificationValue(draftField(info, "plane_count"))) {
+      setDraftField(info, "plane_count", record.pl);
+    }
+    if (record.pkg && !isKnownClassificationValue(draftField(info, "package"))) {
+      setDraftField(info, "package", record.pkg);
+    }
+    if (record.sg && !isKnownClassificationValue(draftField(info, "speed_grade"))) {
+      setDraftField(info, "speed_grade", record.sg);
+    }
+    if (record.pc && !isKnownClassificationValue(draftField(info, "product_class"))) {
+      setDraftField(info, "product_class", record.pc);
+    }
+    if (record.vol) {
+      setDraftField(info, "voltage", record.vol);
+    }
+    if (record.so) {
+      setDraftField(info, "special_option", mergeSpecialOption(draftField(info, "special_option"), record.so));
+    }
 
     const specialOption = samsungSpecialOptionFromFdbMetadata(recordVendor, record, info.device.chipKind);
     if (specialOption) {

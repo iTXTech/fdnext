@@ -27,7 +27,7 @@ export interface PayloadValidationResult {
 }
 
 const EXTRA_ROOT_KEYS = new Set(["schemaVersion", "priority", "info", "controllerBlacklist", "vendors", "iddb"]);
-const PART_FIELDS = new Set(["id", "fid", "f", "a", "l", "c", "t", "m", "d", "e", "r", "n"]);
+const PART_FIELDS = new Set(["id", "fid", "f", "a", "l", "c", "t", "m", "pkg", "sg", "pc", "vol", "so", "d", "e", "r", "n", "pl"]);
 const FDB_PART_FIELDS = new Set([...PART_FIELDS].filter((field) => field !== "fid"));
 const FLASH_FIELDS = new Set(["s", "p", "b", "t", "n"]);
 const KNOWN_VENDORS = new Set<string>(DEFAULT_FDB_AUDIT_VENDORS);
@@ -141,6 +141,11 @@ function normalizePartPayload(value: unknown): PartNumberPayload {
   const processNode = readString(source.l);
   const cellLevel = readString(source.c);
   const metadata = readString(source.m);
+  const packageInfo = readString(source.pkg);
+  const speedGrade = readString(source.sg);
+  const productClass = readString(source.pc);
+  const voltage = readString(source.vol);
+  const specialOption = readString(source.so);
 
   if (ids.length > 0) out.id = ids;
   if (forcedIds.length > 0) out.fid = forcedIds;
@@ -150,8 +155,13 @@ function normalizePartPayload(value: unknown): PartNumberPayload {
   if (cellLevel) out.c = cellLevel;
   if (controllers.length > 0) out.t = controllers;
   if (metadata) out.m = metadata;
+  if (packageInfo) out.pkg = packageInfo;
+  if (speedGrade) out.sg = speedGrade;
+  if (productClass) out.pc = productClass;
+  if (voltage) out.vol = voltage;
+  if (specialOption) out.so = specialOption;
 
-  for (const field of ["d", "e", "r", "n"] as const) {
+  for (const field of ["d", "e", "r", "n", "pl"] as const) {
     const value = readNumber(source[field]);
     if (value !== undefined && value > 0) {
       out[field] = value;
@@ -167,12 +177,12 @@ function mergePartPayload(target: PartNumberPayload | undefined, source: PartNum
   out.f = mergeStringArray(out.f, source.f);
   out.a = mergeStringArray(out.a, source.a);
   out.t = mergeStringArray(out.t, source.t);
-  for (const field of ["l", "c", "m"] as const) {
+  for (const field of ["l", "c", "m", "pkg", "sg", "pc", "vol", "so"] as const) {
     if (source[field]) {
       out[field] = source[field];
     }
   }
-  for (const field of ["d", "e", "r", "n"] as const) {
+  for (const field of ["d", "e", "r", "n", "pl"] as const) {
     if (source[field] !== undefined) {
       out[field] = source[field];
     }
@@ -441,7 +451,7 @@ function validatePartPayload(
       validateStringArrayField(issues, source[field], `${path}/${field}`);
     }
   }
-  for (const field of ["l", "c", "m"] as const) {
+  for (const field of ["l", "c", "m", "pkg", "sg", "pc", "vol", "so"] as const) {
     if (Object.hasOwn(source, field) && readString(source[field]) === undefined) {
       addIssue(issues, "error", "field.invalid_string", `${path}/${field}`, "Field must be a non-empty string.");
     }
@@ -450,7 +460,7 @@ function validatePartPayload(
   if (options.generated && processProfile && !isGeneratedFdbDieProfile(processProfile)) {
     addIssue(issues, "error", "part.invalid_die_profile", `${path}/l`, "Generated fdb.json l field must be a nand.die_profile key.");
   }
-  for (const field of ["d", "e", "r", "n"] as const) {
+  for (const field of ["d", "e", "r", "n", "pl"] as const) {
     if (Object.hasOwn(source, field)) {
       validateNumberField(issues, source[field], `${path}/${field}`, 1);
     }
