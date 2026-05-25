@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^[ATIKHDCNS][APCOKFTBYUGJ][135678ABC](?:0G|1G|2G|3G|4G|5G|6G|7G|8G|9G|AG|BG|EG|HG|IG|JG)[0-9A-Z]{5}$"
+      "value": "^[ATIKHDCNS][2APCOKFTBYUGJ][135678ABC](?:0G|1G|2G|3G|4G|5G|6G|7G|8G|9G|AG|BG|EG|HG|IG|JG)[0-9A-Z]{5}$"
     },
     "tokenDecoder": {
       "tables": {
@@ -32,6 +32,7 @@
           "S": "samsung"
         },
         "package": {
+          "2": "BGA154",
           "A": "BGA132",
           "P": "BGA152",
           "C": "BGA272",
@@ -84,6 +85,9 @@
         },
         "nodeVendorOverride": {
           "micron": "intel"
+        },
+        "processNodeByDensity": {
+          "kioxia:HG:1:V": "KBiCS6"
         },
         "processNode": {
           "kioxia:H": "TSBD2H",
@@ -258,6 +262,18 @@
         },
         {
           "op": "tpl",
+          "template": "{{nodeVendor}}:{{densityCode}}:{{nodeCode}}:{{rest}}",
+          "to": "nodeDensityKey"
+        },
+        {
+          "op": "map",
+          "from": "nodeDensityKey",
+          "table": "processNodeByDensity",
+          "to": "specificProcessNode",
+          "default": ""
+        },
+        {
+          "op": "tpl",
           "template": "{{nodeVendor}}:{{nodeCode}}",
           "to": "nodeKey"
         },
@@ -265,8 +281,14 @@
           "op": "map",
           "from": "nodeKey",
           "table": "processNode",
-          "to": "processNode",
+          "to": "genericProcessNode",
           "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "specificProcessNode",
+          "secondary": "genericProcessNode",
+          "to": "processNode"
         },
         {
           "op": "map",

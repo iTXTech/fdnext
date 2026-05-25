@@ -4,7 +4,7 @@
         "name": "iTXTech fdnext FDB",
         "website": "https:\/\/github.com\/iTXTech\/fdnext",
         "version": "83",
-        "time": "Fri, 22 May 2026 03:46:24 GMT",
+        "time": "Mon, 25 May 2026 03:34:53 GMT",
         "controllers": [
             "AU6987(AN)",
             "AU6989SN",
@@ -81910,6 +81910,11 @@
                 "PS2267",
                 "PS2268",
                 "PS2269"
+            ]
+        },
+        "T27HGA5A1V": {
+            "f": [
+                "9848A8037AE5"
             ]
         },
         "TA18G55IIV": {

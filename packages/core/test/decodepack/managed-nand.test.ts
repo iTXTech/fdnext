@@ -245,6 +245,14 @@ function assertKioxiaRawSuffixTopology(sample: {
   assert.equal(firstField(result, "block_size"), undefined, `${sample.partNumber} should omit block_size`);
 }
 
+function assertIdentifierRelation(partNumber: string, id: string): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  const relation = result.relations.find((item) =>
+    item.kind === "identifier_for" && item.target.identifier === id && item.action?.operation === "identifier.decode"
+  );
+  assert.ok(relation, `${partNumber} should expose ${id} identifier relation`);
+}
+
 function assertSubtitle(partNumber: string, expected: string): void {
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(result.subtitle, expected, `${partNumber} subtitle`);
@@ -1294,6 +1302,23 @@ assertPart("TU56G2LAJA", {
     "CE Count": 2
   }
 });
+
+assertPart("T27HGA5A1V", {
+  vendor: "phison",
+  type: "NAND",
+  densityMbit: 4194304,
+  density: "512GB",
+  dieProfileField: "BiCS6",
+  cellField: "TLC",
+  package: "BGA154",
+  extra: {
+    "Layer Count": 162,
+    "Original Vendor": "Kioxia",
+    "Die Count": 4,
+    "CE Count": 4
+  }
+});
+assertIdentifierRelation("T27HGA5A1V", "9848A8037AE5");
 
 assertPart("ST15G24APA", {
   vendor: "phison",

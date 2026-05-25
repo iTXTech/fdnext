@@ -18,6 +18,18 @@ V P C D D F CELL O NODE
 - “可解原厂 PN 数”只统计从 `rawNames` / `aliasPns` 中抽到的原厂 PN，并且能被现有结构化 PN decoder 解码成功的唯一 PN 数；不把完整 Phison token 自身当作证据。
 - support list 的 `c` 字段只作为候选观察值；如果缺少原厂 PN 解码证据，或 support list 内部不一致，则不进入 DecodePack 公开规则。
 
+## 已进入 DecodePack 的补充规则
+
+`T27HGA5A1V` 是 Phison 侧 NAND label，原始 NAND 厂商为 Toshiba/KIOXIA。该样例
+补充了两类结构化 token 规则：
+
+- `packageCode=2` 输出 `BGA154`。
+- `vendorCode=T`、`densityCode=HG`、`nodeCode/rest=1V` 输出 KIOXIA-scoped
+  `KBiCS6`，公开 result 显示 `BiCS6`。
+
+该 Flash ID `9848A8037AE5` 的厂商归属仍是 KIOXIA，因此 FDB 源数据只在 Phison PN
+记录上使用 `f` 建立单向 Flash ID 关联，不把该 ID 写成 Phison-owned `id`。
+
 ## 容量码候选
 
 这些候选位于 `densityCode`，但没有加入 density 表。主要原因是没有可解码的原厂 PN 作为交叉验证；部分样本只能从 Flash ID 或 support list cell 推断，不能作为 PN 规则准入依据。
