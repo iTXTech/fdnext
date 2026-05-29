@@ -157,8 +157,8 @@ assert.ok(sdkCapabilities.decoders.identifier.some((decoder) => decoder.idScheme
 const micronFbgaCapability = sdkCapabilities.capabilities.find((capability) => capability.name === "marking.lookup.micron.fbga");
 assert.deepEqual(
   micronFbgaCapability?.chipKinds,
-  ["raw_nand", "dram"],
-  "Micron FBGA lookup capability should report DRAM and raw NAND support"
+  ["raw_nand", "managed_nand", "dram"],
+  "Micron FBGA lookup capability should report raw NAND, managed NAND, and DRAM support"
 );
 const mutatedCapabilities = engine.getCapabilities();
 mutatedCapabilities.inventory.controllers.items.splice(0);

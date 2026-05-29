@@ -354,6 +354,10 @@ function productTypeMatches(actual: FdnextProductType | undefined, expected: Fdn
   return normalizeInfoText(actual) === normalizeInfoText(expected);
 }
 
+function hasSearchConstraints(constraints: Omit<OperationConstraints, "idScheme">): boolean {
+  return Boolean(constraints.vendor || constraints.chipKind || constraints.productType);
+}
+
 function constraintScore(
   candidate: Omit<PartClassificationCandidate, "score" | "warnings">,
   constraints: Omit<OperationConstraints, "idScheme">
@@ -500,7 +504,10 @@ export function classifyPart(
 
   const partialMatch = options.mode === "search" ? options.partialMatch ?? true : false;
   const bases: Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">> = [];
-  const baseLimit = options.mode === "search" ? Math.max((options.limit ?? 50) * 6, 48) : 0;
+  const constrainedSearch = hasSearchConstraints(constraints);
+  const searchLimitMultiplier = constrainedSearch ? 80 : 6;
+  const searchLimitFloor = constrainedSearch ? 1200 : 48;
+  const baseLimit = options.mode === "search" ? Math.max((options.limit ?? 50) * searchLimitMultiplier, searchLimitFloor) : 0;
   const canAddBase = (): boolean => baseLimit === 0 || bases.length < baseLimit;
 
   for (const record of options.indexes.markingIndex) {
