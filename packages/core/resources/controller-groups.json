@@ -1,5 +1,6 @@
 {
   "defaultGroups": "all",
+  "exclusiveGroups": ["all", "selected"],
   "groups": {
     "selected": [
       "AU6989SN-TA",

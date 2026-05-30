@@ -145,7 +145,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         mdb,
         managedNandPartNumbers,
         dramPartNumbers,
-        micronDramFbgaCodes,
         controllerGroups,
         decoders,
         identifierDecoders,

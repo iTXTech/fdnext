@@ -260,5 +260,9 @@
   "controller_group.era:pre18.title": "2018 年前发布",
   "controller_group.era:pre18.description": "2018 年前已发布或已存在的主控。",
   "controller_group.era:plus18.title": "2018 年及以后发布",
-  "controller_group.era:plus18.description": "2018 年及以后发布的主控。"
+  "controller_group.era:plus18.description": "2018 年及以后发布的主控。",
+  "capability_inventory_metric.controllers": "主控型号",
+  "capability_inventory_metric.flash_ids": "NAND Flash ID",
+  "capability_inventory_metric.part_numbers": "料号记录",
+  "capability_inventory_metric.micron_fbga": "Micron FBGA"
 }

@@ -13,7 +13,6 @@ export function buildCapabilitiesSnapshot(input: {
   mdb: MdbDataset;
   managedNandPartNumbers: KnownPartNumberEntry[];
   dramPartNumbers: KnownPartNumberEntry[];
-  micronDramFbgaCodes: Map<string, string[]>;
   controllerGroups: ControllerGroupIndex;
   decoders: PartNumberDecoder[];
   identifierDecoders: IdentifierDecoder[];
@@ -24,6 +23,8 @@ export function buildCapabilitiesSnapshot(input: {
   const fdbPartNumberCount = countFdbPartNumbers(input.fdb);
   const managedNandPartNumberCount = input.managedNandPartNumbers.length;
   const dramPartNumberCount = input.dramPartNumbers.length;
+  const partNumberCount = fdbPartNumberCount + managedNandPartNumberCount + dramPartNumberCount;
+  const micronFbgaCount = Object.keys(input.mdb.micron).length;
   const controllerGroups = input.controllerGroups.groups.map((group) => {
     const titleKey = `controller_group.${group.id}.title`;
     const descriptionKey = `controller_group.${group.id}.description`;
@@ -49,24 +50,33 @@ export function buildCapabilitiesSnapshot(input: {
       website: input.fdb.info.website
     },
     inventory: {
+      metrics: [
+        {
+          id: "controllers",
+          label: input.translateString("capability_inventory_metric.controllers", input.lang),
+          count: controllers.length
+        },
+        {
+          id: "flash_ids",
+          label: input.translateString("capability_inventory_metric.flash_ids", input.lang),
+          count: input.fdb.flashIds.size
+        },
+        {
+          id: "part_numbers",
+          label: input.translateString("capability_inventory_metric.part_numbers", input.lang),
+          count: partNumberCount
+        },
+        {
+          id: "micron_fbga",
+          label: input.translateString("capability_inventory_metric.micron_fbga", input.lang),
+          count: micronFbgaCount
+        }
+      ],
       controllers: {
         count: controllers.length,
         items: controllers,
         defaultGroups: input.controllerGroups.defaultGroups,
         groups: controllerGroups
-      },
-      flashIds: {
-        count: input.fdb.flashIds.size
-      },
-      partNumbers: {
-        total: fdbPartNumberCount + managedNandPartNumberCount + dramPartNumberCount,
-        fdb: fdbPartNumberCount,
-        managedNand: managedNandPartNumberCount,
-        dram: dramPartNumberCount
-      },
-      micronFbga: {
-        total: Object.keys(input.mdb.micron).length,
-        dramLookup: input.micronDramFbgaCodes.size
       }
     },
     decoders: {

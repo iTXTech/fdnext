@@ -169,6 +169,7 @@ export interface VendorResourceIndex {
 
 export interface ControllerResourceIndex {
   defaultGroups?: ControllerProjectionGroupId[] | "all";
+  exclusiveGroups?: ControllerGroupId[];
   groups?: Partial<Record<ControllerGroupId, string[]>>;
 }
 

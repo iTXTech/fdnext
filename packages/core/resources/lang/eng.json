@@ -260,5 +260,9 @@
   "controller_group.era:pre18.title": "Before 2018",
   "controller_group.era:pre18.description": "Controllers first released or already present before 2018.",
   "controller_group.era:plus18.title": "2018 and later",
-  "controller_group.era:plus18.description": "Controllers released in 2018 or later."
+  "controller_group.era:plus18.description": "Controllers released in 2018 or later.",
+  "capability_inventory_metric.controllers": "Controller models",
+  "capability_inventory_metric.flash_ids": "NAND Flash IDs",
+  "capability_inventory_metric.part_numbers": "Part numbers",
+  "capability_inventory_metric.micron_fbga": "Micron FBGA"
 }

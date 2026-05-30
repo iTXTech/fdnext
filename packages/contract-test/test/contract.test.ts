@@ -131,13 +131,16 @@ const controllerItems = new Set(sdkCapabilities.inventory.controllers.items);
 const allControllerGroup = sdkCapabilities.inventory.controllers.groups.find((group) => group.id === "all");
 assert.ok(allControllerGroup, "all controller group should be reported");
 assert.equal(allControllerGroup.title, "全部主控");
+assert.equal(allControllerGroup.exclusive, true);
 assert.equal(allControllerGroup.count, controllerItems.size);
 assert.deepEqual(allControllerGroup.items, sdkCapabilities.inventory.controllers.items);
 const selectedControllerGroup = sdkCapabilities.inventory.controllers.groups.find((group) => group.id === "selected");
 assert.ok(selectedControllerGroup, "selected controller group should be reported");
 assert.equal(selectedControllerGroup.title, "精选主控");
+assert.equal(selectedControllerGroup.exclusive, true);
 assert.ok(selectedControllerGroup.items?.includes("CBM2199EE"));
 assert.ok(selectedControllerGroup.items?.includes("SM2269XT"));
+assert.ok(!sdkCapabilities.inventory.controllers.groups.find((group) => group.id === "if:sata")?.exclusive);
 for (const group of sdkCapabilities.inventory.controllers.groups.filter((item) => item.id !== "all")) {
   for (const controller of group.items ?? []) {
     assert.ok(controllerItems.has(controller), `${group.id} should only include known controllers`);
@@ -149,9 +152,17 @@ const engSelectedControllerGroup = engCapabilities.inventory.controllers.groups.
 assert.equal(engAllControllerGroup?.title, "All controllers");
 assert.equal(engSelectedControllerGroup?.title, "Selected controllers");
 assert.deepEqual(engAllControllerGroup?.items, sdkCapabilities.inventory.controllers.items);
-assert.ok(sdkCapabilities.inventory.flashIds.count > 0);
-assert.ok(sdkCapabilities.inventory.partNumbers.total >= sdkCapabilities.inventory.partNumbers.fdb);
-assert.ok(sdkCapabilities.inventory.micronFbga.total >= sdkCapabilities.inventory.micronFbga.dramLookup);
+const capabilityMetrics = new Map(sdkCapabilities.inventory.metrics.map((item) => [item.id, item]));
+assert.deepEqual(
+  sdkCapabilities.inventory.metrics.map((item) => [item.id, item.label]),
+  [["controllers", "主控型号"], ["flash_ids", "NAND Flash ID"], ["part_numbers", "料号记录"], ["micron_fbga", "Micron FBGA"]]
+);
+assert.equal(capabilityMetrics.get("controllers")?.count, sdkCapabilities.inventory.controllers.count);
+assert.deepEqual(
+  engCapabilities.inventory.metrics.map((item) => item.label),
+  ["Controller models", "NAND Flash IDs", "Part numbers", "Micron FBGA"]
+);
+assert.ok(sdkCapabilities.inventory.metrics.every((item) => item.count > 0));
 assert.ok(sdkCapabilities.decoders.partNumber.some((decoder) => decoder.id === "vendor.micron.dram.component.v1"));
 assert.ok(sdkCapabilities.decoders.identifier.some((decoder) => decoder.idScheme === "nand.flash_id"));
 const micronFbgaCapability = sdkCapabilities.capabilities.find((capability) => capability.name === "marking.lookup.micron.fbga");

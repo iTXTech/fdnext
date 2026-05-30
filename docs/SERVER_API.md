@@ -131,8 +131,8 @@ curl 'http://127.0.0.1:8080/capabilities?lang=eng'
 - `server.build.commitHash`
 - `server.build.buildTime`
 - `fdb` 数据集信息
-- `inventory.controllers`、默认 controller groups 和各 group 的 `title` / `description` / `items`
-- Flash ID、PN、DRAM PN、Micron FBGA 等资源数量
+- `inventory.controllers`、默认 controller groups 和各 group 的 `title` / `description` / `exclusive` / `items`
+- `inventory.metrics` 展示用资源统计，由后端按请求语言直接报告 label 和 count
 - PN / identifier decoder 清单
 - 当前公开能力清单
 

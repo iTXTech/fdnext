@@ -66,6 +66,7 @@ export function buildControllerGroupIndex(controllers: string[], resource: Contr
   groups.set("all", new Set(controllers));
 
   const defaultGroups = controllerGroupSelection(resource?.defaultGroups) ?? "all";
+  const exclusiveGroups = new Set((resource?.exclusiveGroups ?? []).filter(isControllerGroupId));
   return {
     defaultGroups,
     groups: fdnextControllerGroupIds.map((id) => {
@@ -73,6 +74,7 @@ export function buildControllerGroupIndex(controllers: string[], resource: Contr
       return {
         id,
         title: id,
+        ...(exclusiveGroups.has(id) ? { exclusive: true } : {}),
         count: groupItems.length,
         items: groupItems
       };

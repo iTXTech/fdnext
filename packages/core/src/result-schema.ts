@@ -401,8 +401,21 @@ export const fdnextCapabilitiesJsonSchema = {
     },
     inventory: {
       type: "object",
-      required: ["controllers", "flashIds", "partNumbers", "micronFbga"],
+      required: ["metrics", "controllers"],
       properties: {
+        metrics: {
+          type: "array",
+          items: {
+            type: "object",
+            required: ["id", "label", "count"],
+            properties: {
+              id: { type: "string", minLength: 1 },
+              label: { type: "string", minLength: 1 },
+              count: { type: "integer", minimum: 0 }
+            },
+            additionalProperties: false
+          }
+        },
         controllers: {
           type: "object",
           required: ["count", "items", "defaultGroups", "groups"],
@@ -424,40 +437,13 @@ export const fdnextCapabilitiesJsonSchema = {
                   id: { enum: fdnextControllerGroupIds },
                   title: { type: "string", minLength: 1 },
                   description: { type: "string", minLength: 1 },
+                  exclusive: { type: "boolean" },
                   count: { type: "integer", minimum: 0 },
                   items: { type: "array", items: { type: "string", minLength: 1 } }
                 },
                 additionalProperties: false
               }
             }
-          },
-          additionalProperties: false
-        },
-        flashIds: {
-          type: "object",
-          required: ["count"],
-          properties: {
-            count: { type: "integer", minimum: 0 }
-          },
-          additionalProperties: false
-        },
-        partNumbers: {
-          type: "object",
-          required: ["total", "fdb", "managedNand", "dram"],
-          properties: {
-            total: { type: "integer", minimum: 0 },
-            fdb: { type: "integer", minimum: 0 },
-            managedNand: { type: "integer", minimum: 0 },
-            dram: { type: "integer", minimum: 0 }
-          },
-          additionalProperties: false
-        },
-        micronFbga: {
-          type: "object",
-          required: ["total", "dramLookup"],
-          properties: {
-            total: { type: "integer", minimum: 0 },
-            dramLookup: { type: "integer", minimum: 0 }
           },
           additionalProperties: false
         }
@@ -507,8 +493,7 @@ export const fdnextCapabilitiesJsonSchema = {
           domains: { type: "array", items: { enum: fdnextDomains } },
           chipKinds: { type: "array", items: { enum: fdnextChipKinds } },
           productTypes: { type: "array", items: { type: "string", minLength: 1 } },
-          idSchemes: { type: "array", items: { enum: fdnextIdSchemes } },
-          description: { type: "string", minLength: 1 }
+          idSchemes: { type: "array", items: { enum: fdnextIdSchemes } }
         },
         additionalProperties: false
       }

@@ -15,6 +15,28 @@
     "website": "https://github.com/iTXTech/fdnext"
   },
   "inventory": {
+    "metrics": [
+      {
+        "id": "controllers",
+        "label": "Controller models",
+        "count": 2
+      },
+      {
+        "id": "flash_ids",
+        "label": "NAND Flash IDs",
+        "count": 3085
+      },
+      {
+        "id": "part_numbers",
+        "label": "Part numbers",
+        "count": 4047
+      },
+      {
+        "id": "micron_fbga",
+        "label": "Micron FBGA",
+        "count": 14745
+      }
+    ],
     "controllers": {
       "count": 2,
       "items": ["SM2258XT", "YS9082HC"],
@@ -24,6 +46,7 @@
           "id": "all",
           "title": "All controllers",
           "description": "Complete controller inventory reported by the bundled FDB.",
+          "exclusive": true,
           "count": 2,
           "items": ["SM2258XT", "YS9082HC"]
         },
@@ -31,6 +54,7 @@
           "id": "selected",
           "title": "Selected controllers",
           "description": "Curated controller set for default UI filters and compact support views.",
+          "exclusive": true,
           "count": 0,
           "items": []
         },
@@ -84,19 +108,6 @@
           "items": ["YS9082HC"]
         }
       ]
-    },
-    "flashIds": {
-      "count": 3085
-    },
-    "partNumbers": {
-      "total": 4047,
-      "fdb": 3755,
-      "managedNand": 208,
-      "dram": 84
-    },
-    "micronFbga": {
-      "total": 14745,
-      "dramLookup": 9853
     }
   },
   "decoders": {
@@ -119,38 +130,33 @@
       "name": "part.decode",
       "operation": "part.decode",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "managed_nand", "dram"],
-      "description": "Decode memory-chip part numbers into fdnext result blocks."
+      "chipKinds": ["raw_nand", "managed_nand", "dram"]
     },
     {
       "name": "part.search",
       "operation": "part.search",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "managed_nand", "dram"],
-      "description": "Search and autocomplete known part numbers with structured suggestions."
+      "chipKinds": ["raw_nand", "managed_nand", "dram"]
     },
     {
       "name": "identifier.decode.nand.flash_id",
       "operation": "identifier.decode",
       "domains": ["memory"],
       "chipKinds": ["raw_nand"],
-      "idSchemes": ["nand.flash_id"],
-      "description": "Decode NAND Flash ID byte strings through the typed identifier API."
+      "idSchemes": ["nand.flash_id"]
     },
     {
       "name": "identifier.search.nand.flash_id",
       "operation": "identifier.search",
       "domains": ["memory"],
       "chipKinds": ["raw_nand"],
-      "idSchemes": ["nand.flash_id"],
-      "description": "Search known NAND Flash ID byte strings through the typed identifier API."
+      "idSchemes": ["nand.flash_id"]
     },
     {
       "name": "marking.lookup.micron.fbga",
       "operation": "part.search",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "managed_nand", "dram"],
-      "description": "Resolve Micron FBGA package markings to related DRAM, managed NAND, and NAND part-number records."
+      "chipKinds": ["raw_nand", "managed_nand", "dram"]
     }
   ]
 }

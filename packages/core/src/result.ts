@@ -349,7 +349,6 @@ export interface Capability {
   chipKinds?: FdnextChipKind[];
   productTypes?: FdnextProductType[];
   idSchemes?: FdnextIdScheme[];
-  description?: string;
 }
 
 export interface CapabilityServerInfo {
@@ -369,29 +368,24 @@ export interface CapabilityControllerGroup {
   id: ControllerGroupId;
   title: string;
   description?: string;
+  exclusive?: boolean;
   count: number;
   items?: string[];
 }
 
+export interface CapabilityInventoryMetric {
+  id: string;
+  label: string;
+  count: number;
+}
+
 export interface CapabilityInventory {
+  metrics: CapabilityInventoryMetric[];
   controllers: {
     count: number;
     items: string[];
     defaultGroups: ControllerProjectionGroupId[] | "all";
     groups: CapabilityControllerGroup[];
-  };
-  flashIds: {
-    count: number;
-  };
-  partNumbers: {
-    total: number;
-    fdb: number;
-    managedNand: number;
-    dram: number;
-  };
-  micronFbga: {
-    total: number;
-    dramLookup: number;
   };
 }
 
