@@ -52,7 +52,7 @@ const skhynixH25RawSamples = [
   ["H25BFT8F6M", 4194304, "HYV5", "TLC", 96, "512Gb", 8, 8, 2],
   ["H25JGT8A1M", 1048576, "HYV6", "TLC", 128, "1Tb", 1, 1, 1],
   ["H25JGT8B3M", 2097152, "HYV6", "TLC", 128, "1Tb", 2, 2, 2],
-  ["H25JGQ8A1M8R", 1048576, "HYV6Q", "QLC", 128, "1Tb", 1, 1, 1]
+  ["H25JGQ8A1M8R", 1048576, "HYV5Q", "QLC", 96, "1Tb", 1, 1, 1]
 ] as const;
 
 for (const [partNumber, densityMbit, dieProfileField, cellField, layerCount, dieDensity, dieCount, ceCount, channelCount] of skhynixH25RawSamples) {
@@ -73,3 +73,80 @@ for (const [partNumber, densityMbit, dieProfileField, cellField, layerCount, die
     absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
   });
 }
+
+assertPart("H25BFT8A1B", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "HYV6",
+  cellField: "TLC",
+  widthField: "x8",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
+  extra: {
+    "Layer Count": 128,
+    "Die Density": "512Gb",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Channel Count": 1
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25JGT8A1A", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "HYV5",
+  cellField: "TLC",
+  widthField: "x8",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
+  extra: {
+    "Layer Count": 96,
+    "Die Density": "1Tb",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Channel Count": 1
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25JGT8F4M9R-BDJ", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "HYV6",
+  cellField: "TLC",
+  widthField: "x8",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
+  extra: {
+    "Layer Count": 128,
+    "Die Density": "1Tb",
+    "Die Count": 8,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 2
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25JGT8FAM", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "HYV6",
+  cellField: "TLC",
+  widthField: "x8",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
+  extra: {
+    "Layer Count": 128,
+    "Die Density": "1Tb",
+    "Die Count": 8,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 2,
+    "Special Option": "IF Chip"
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+});
