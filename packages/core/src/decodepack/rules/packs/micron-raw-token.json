@@ -1,5 +1,400 @@
 [
   {
+    "id": "vendor.micron.hsc.mt29fb.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^(?:MT|EE)29FB(?:8T|16T|32T|62T|64T)08[EG][ABCD][LM][AB][ABC](?:M5|D5|D6|D7|N2)(?:[-:0-9A-Z]*)?$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "reference": {
+          "micron_hsc_ordering_chart": {
+            "status": "external_confirmed",
+            "source": "Micron Current Part Number System (HSC NAND Flash) ordering chart",
+            "examples": [
+              "MT29FB64T08GDLBBN2-QJES:B"
+            ]
+          }
+        },
+        "systemObj": {
+          "EE": {
+            "prod_status": "Early Engineering Samples"
+          }
+        },
+        "productTypeObj": {
+          "B": {
+            "product_mode": "IO Expander"
+          }
+        },
+        "density": {
+          "8T": 8388608,
+          "16T": 16777216,
+          "32T": 33554432,
+          "62T": 65011712,
+          "64T": 67108864
+        },
+        "device_width": {
+          "08": 8
+        },
+        "cell_level": {
+          "E": "TLC",
+          "G": "QLC"
+        },
+        "configurationObj": {
+          "A": {
+            "die_count": 16,
+            "ce_count": 2
+          },
+          "B": {
+            "die_count": 8,
+            "ce_count": 1
+          },
+          "C": {
+            "die_count": 16,
+            "ce_count": 2
+          },
+          "D": {
+            "die_count": 32,
+            "ce_count": 2
+          }
+        },
+        "voltage": {
+          "L": "Vcc: 3.30V (2.70–3.60V) or 2.50V (2.35–2.75V), VccQ: 1.20V (1.14–1.26V)"
+        },
+        "ioeObj": {
+          "A": {
+            "controller_revision": "IOE Gen 1 Rev.A"
+          },
+          "B": {
+            "controller_revision": "IOE Gen 2 Rev.A"
+          }
+        },
+        "interfaceType": {
+          "A": "NV-DDR3 only",
+          "B": "NV-DDR3/NV-LPDDR4",
+          "C": "NV-LPDDR4 only"
+        },
+        "package": {
+          "M5": "132-ball LBGA 12x18x1.50",
+          "D5": "154-ball LFBGA 11.5x13.5x1.30",
+          "D6": "154-ball LFBGA 11.5x13.5x1.50",
+          "D7": "154-ball LFBGA 11.5x13.5x1.60",
+          "N2": "Unknown"
+        },
+        "featureObj": {
+          "T": {
+            "special_option": "FortisMax"
+          },
+          "QC": {
+            "special_option": "Performance QC Enterprise Value"
+          },
+          "QJ": {
+            "special_option": "Performance QJ Enterprise"
+          },
+          "VJ": {
+            "special_option": "Performance VJ Enterprise EE"
+          },
+          "QK": {
+            "special_option": "Performance QK Enterprise"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Samples"
+          },
+          "EE": {
+            "prod_status": "Early Engineering Samples"
+          },
+          "MS": {
+            "prod_status": "Mechanical Samples"
+          },
+          "QS": {
+            "prod_status": "Qualification Samples"
+          }
+        },
+        "processNodeByDieDensityCellRev": {
+          "512Gb:TLC:C": "B27B",
+          "512Gb:TLC:E": "B47R",
+          "1Tb:TLC:C": "B58R",
+          "1Tb:TLC:E": "B68S",
+          "1Tb:TLC:H": "B78R",
+          "1Tb:QLC:B": "N28A",
+          "1Tb:QLC:C": "N48R",
+          "1Tb:QLC:D": "N58R",
+          "2Tb:QLC:B": "N69R"
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "systemToken"
+        },
+        {
+          "op": "map",
+          "from": "systemToken",
+          "table": "systemObj",
+          "to": "systemObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "productToken"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "productTypeToken"
+        },
+        {
+          "op": "map",
+          "from": "productTypeToken",
+          "table": "productTypeObj",
+          "to": "productTypeObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": null
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "deviceToken"
+        },
+        {
+          "op": "map",
+          "from": "deviceToken",
+          "table": "device_width",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellToken"
+        },
+        {
+          "op": "map",
+          "from": "cellToken",
+          "table": "cell_level",
+          "to": "cellLevel",
+          "default": null
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "configurationToken"
+        },
+        {
+          "op": "map",
+          "from": "configurationToken",
+          "table": "configurationObj",
+          "to": "configurationObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageToken"
+        },
+        {
+          "op": "map",
+          "from": "voltageToken",
+          "table": "voltage",
+          "to": "voltage",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "ioeToken"
+        },
+        {
+          "op": "map",
+          "from": "ioeToken",
+          "table": "ioeObj",
+          "to": "ioeObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "interfaceToken"
+        },
+        {
+          "op": "map",
+          "from": "interfaceToken",
+          "table": "interfaceType",
+          "to": "interface_type",
+          "default": "Unknown"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageToken"
+        },
+        {
+          "op": "map",
+          "from": "packageToken",
+          "table": "package",
+          "to": "package",
+          "default": "Unknown"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "featureObj",
+          "to": "featureObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": ":"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]+",
+          "to": "revisionCode",
+          "default": ""
+        },
+        {
+          "op": "set",
+          "to": "dieCount",
+          "value": {
+            "$path": "configurationObj.die_count"
+          }
+        },
+        {
+          "op": "dieDensity",
+          "density": "density",
+          "dieCount": "dieCount",
+          "to": "dieDensityClass",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{dieDensityClass}}:{{cellLevel}}:{{revisionCode}}",
+          "to": "dieDensityCellRevKey"
+        },
+        {
+          "op": "map",
+          "from": "dieDensityCellRevKey",
+          "table": "processNodeByDieDensityCellRev",
+          "to": "processNode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "nand_technology": "HSC NAND",
+            "interface_type": {
+              "$var": "interface_type"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productTypeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "systemObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "ioeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "featureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "raw_nand",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.die_count": {
+          "$path": "configurationObj.die_count"
+        },
+        "fields.ce_count": {
+          "$path": "configurationObj.ce_count"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
+        },
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
+        "meta.ruleId": "vendor.micron.hsc.mt29fb.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.micron.token.v1",
     "priority": 1000,
     "normalize": [
