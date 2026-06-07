@@ -80,16 +80,91 @@ assertPart("MT29F2G08ABDHC-ET:D", {
     rb: 1,
     die: 1
   },
-  voltage: "Vcc: 3.3V (2.70–3.60V), VccQ: 1.8V (1.70–1.95V)",
+  voltage: "Vcc: 3.30V (2.70-3.60V), VccQ: 1.80V (1.70-1.95V)",
   interface: {
     async: false,
     sync: true
   },
-  absentExtra: ["Revision Code", "Suffix Code", "Package Code"]
+  extra: {
+    "Interface Type": "Sync only",
+    "Operation Temperature": "Extended (-40C ~ 85C)"
+  },
+  absentExtra: ["Product Family", "Revision Code", "Suffix Code", "Package Code", "Die Code"]
 });
 
-assertRuleDraftDieProfile("vendor.micron.token.v1", "MT29F2T08GBLBH", "N69R");
+assertPart("MT29F16T08EWLEHD6-36ITRES:E", {
+  vendor: "micron",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "B68S",
+  cellField: "TLC",
+  widthField: "x8",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
+  package: "154-ball LFBGA 11.5x13.5x1.50",
+  extra: {
+    "Interface Type": "NV-DDR3/NV-LPDDR4",
+    "Speed Grade": "3600 MT/s",
+    "Operation Temperature": "Industrial (-40C ~ 85C)",
+    "Special Option": "MLC Plus FortisFlash Performance Client",
+    "Production Status": "Engineering Samples",
+    "Die Density": "1Tb",
+    "Die Count": 16,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 2,
+    "Layer Count": 276
+  },
+  absentExtra: ["Product Family", "Revision Code", "Suffix Code", "Package Code", "Feature Code", "Die Code"]
+});
+
+assertPart("MT29H8G08AAAC6-20ETES:A", {
+  vendor: "micron",
+  type: "NAND",
+  densityMbit: 8192,
+  dieProfileField: "M51H",
+  cellField: "SLC",
+  widthField: "x8",
+  voltage: "Vcc: 3.30V (2.70-3.60V), VccQ: 3.30V (2.70-3.60V)",
+  package: "52-pin LLGA 14x18x1.47",
+  extra: {
+    "NAND Technology": "High Speed NAND",
+    "Speed Grade": "100 MT/s",
+    "Operation Temperature": "Extended (-40C ~ 85C)",
+    "Production Status": "Engineering Samples",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Channel Count": 1
+  },
+  absentExtra: ["Product Family", "Revision Code", "Suffix Code", "Package Code", "Feature Code", "Die Code"]
+});
+
+assertPart("MT29F128G08WAAC6-ETES:A", {
+  vendor: "micron",
+  type: "NAND",
+  densityMbit: 131072,
+  dieProfileField: "50nm",
+  cellField: "MLC",
+  widthField: "x8",
+  voltage: "Vcc: 3.30V (2.70-3.60V), VccQ: 3.30V (2.70-3.60V)",
+  package: "52-pin LLGA 14x18x1.47",
+  extra: {
+    "Process Alias": "L52A",
+    "Operation Temperature": "Extended (-40C ~ 85C)",
+    "Production Status": "Engineering Samples",
+    "Die Count": 8,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 2
+  },
+  absentExtra: ["Product Family", "Speed Grade", "Revision Code", "Suffix Code", "Package Code", "Feature Code", "Die Code"]
+});
+
+assertRuleDraftDieProfile("vendor.micron.raw.current.v1", "MT29F2T08GBLBH", "N69R");
+assertRuleDraftDieProfile("vendor.micron.raw.current.v1", "MT29F16T08EWLEHD6-36ITRES:E", "B68S");
+assertRuleDraftDieProfile("vendor.micron.raw.legacy.v1", "MT29H8G08AAAC6-20ETES:A", "M51H");
 assertMicronDecodePackDieProfile("MT29F2T08GBLBH", "N69R", 276);
+assertMicronDecodePackDieProfile("MT29F16T08EWLEHD6-36ITRES:E", "B68S", 276);
 assertFdbDoesNotOverrideDecodePackFields();
 assertRuleDraftDieProfile("vendor.micron.hsc.mt29fb.v1", "MT29FB64T08GDLBBN2-QJES:B", "N69R");
 
