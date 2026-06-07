@@ -100,6 +100,7 @@
   "speed_grade": "速度等级",
   "prod_status": "生产状态",
   "prod_date": "生产日期",
+  "packing_type": "包装类型",
   "lead_free": "无铅",
   "plane": "Plane",
   "assembly": "装配",

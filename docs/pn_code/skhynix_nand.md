@@ -194,28 +194,54 @@ H25 目前分成两类结构处理：
 
 | PN 结构 | 字段 |
 | --- | --- |
-| `H25` + capacity(2) + cell(1) + generation(1) + geometry(1) + width(1) + voltage(1) + optional package tail | SK hynix NAND package |
-| capacity `G9/T0/T1/T2/T3/T4/T5` | 64GB / 128GB / 256GB / 512GB / 1TB / 2TB / 4TB package density |
-| cell `T/Q` | TLC / QLC |
+| `H25` + capacity(2) + cell(1) + generation(1) + die stack(1) + bus width(1) + voltage(1) + optional `Xddd` tail + optional packing type | SK hynix NAND package |
+| capacity `G9/T0/T1/T2/T3/T4/T5/T6` | 64GB / 128GB / 256GB / 512GB / 1TB / 2TB / 4TB / 8TB package density |
+| cell `M/T/Q` | MLC / TLC / QLC |
 | generation | 结合 cell 与计算出的 die density 判断 `HYVx`，不能全局写死 `M/B/C/D/E` |
-| geometry `1/2/4/8/G` | 1 / 2 / 4 / 8 / 16 die；CE/RB/channel 由该 token 和 package code 共同决定 |
-| width `8` | x8 |
-| voltage `C` | `Vcc 2.5V / VccQ 1.2V`；`E` 等未确认 token 不输出 public voltage |
+| die stack `1/2/4/8/G/X` | 1 / 2 / 4 / 8 / 16 die；`X` 表示 wafer；CE/RB/channel 由该 token 和 package option 共同决定 |
+| bus width `8/X` | `8` = x8；`X` 表示 wafer |
+| voltage `E/C/G` | `E` / `C` / `G` 按 current table 输出 operating voltage range；不输出原始 voltage code |
+| package option `Xddd` | 三位 package & configuration option；完整 `Xddd` tail 参与 key，不退回只按前段合并 |
+| packing type `N/R/M/A` | Normal (Tray) / Tape & Reel / Module / Wafer |
 
-公开结果中，H25T / H25G package 容量统一放在 `density`，不再重复输出 `component_density`；die density 由 package density / die count 计算，已知 package 堆叠使用数值 `die_count` / `ce_count`，不再输出字符串 `die_stack`。
+公开结果中，H25T / H25G package 容量统一放在 `density`，不再重复输出 `component_density`；die density 由 package density / die count 计算，已知 package 堆叠使用数值 `die_count` / `ce_count` / `rb_count` / `channel_count`，不再输出字符串 `die_stack`。`packing_type` 输出可读出货形态，不输出 packing code。
+
+已进入 current profile 映射的 generation key：
+
+| key | profile |
+| --- | --- |
+| `T:M:512Gb` | `HYV5`, TLC 512Gb, 4D V5 96L |
+| `T:B:512Gb` | `HYV6`, TLC 512Gb, 4D V6 128L |
+| `T:C:512Gb` | `HYV7`, TLC 512Gb, 4D V7 176L |
+| `T:D:512Gb` | `HYV8`, TLC 512Gb, 4D V8 238L |
+| `T:A:1Tb` | `HYV5`, TLC 1Tb, 4D V5 96L |
+| `T:M:1Tb` | `HYV6`, TLC 1Tb, 4D V6 128L |
+| `T:C:1Tb` | `HYV8`, TLC 1Tb, 4D V8 238L |
+| `T:D:1Tb` | `HYV9`, TLC 1Tb, 4D V9 321L |
+| `T:G:1Tb` | `HYV9H`, TLC 1Tb, 4D V9H 321L |
+| `Q:M:1Tb` | `HYV5Q`, QLC 1Tb, 4D V5 96L |
+| `Q:A:1Tb` | `HYV7Q`, QLC 1Tb, 4D V7 176L |
+| `Q:M:2Tb` | `HYV9Q`, QLC 2Tb, 4D V9 321L |
+
+图中 V10 375L 行没有清楚暴露 generation code；当前规则只解析已能确认的容量、电压、die stack、bus width 和 packing type，不把未知 code 绑定到新 profile。
 
 | 结构 key / 示例 | 可确定内容 | 佐证状态 |
 | --- | --- | --- |
-| `T2:T:B:8:8:E` / `H25T2TB88E-*` | `HYV6` / `H25FTB0`, TLC, 128L profile, 512GB package, 8 x 512Gb die；`E` 电压不输出 | `external_confirmed` |
+| `T2:T:B:8:8:E` / `H25T2TB88E-*` | `HYV6` / `H25FTB0`, TLC, 128L profile, 512GB package, 8 x 512Gb die；`E` 电压按 current table 输出 | `external_confirmed` |
+| `G9:T:M:1:8:E` / `H25G9TM18E` | `HYV5` / `H25FT4MMI`, TLC, 96L profile, 64GB package, 1 x 512Gb die；alias 来自 `nand.die_profile.die_mark` | `external_table_confirmed` |
 | `G9:T:C:1:8:C` / `H25G9TC18CX488` | `HYV7` / `H25FTC0`, TLC, 176L profile, 64GB package, 1 x 512Gb die | `external_table_confirmed` |
 | `T2:T:C:8:8:C` / `H25T2TC88C-*` | `HYV7` / `H25FTC0`, TLC, 176L profile, 512GB package, 8 x 512Gb die | `external_confirmed` |
 | `T3:T:C:G:8:C` / `H25T3TCG8C` | `HYV7` / `H25FTC0`, TLC, 176L profile, 1TB package, 16 x 512Gb die, 4 CE | `external_table_confirmed` |
+| `T3:T:C:8:8:C` / `H25T3TC88C-X658-R` | `HYV8`, TLC, 238L profile, 1TB package, 8 x 1Tb die, Tape & Reel | `external_table_confirmed` |
 | `G9:T:D:1:8:C` / `H25G9TD18CX576` | `HYV8` / `H25FTD0`, TLC, 238L profile, 64GB package, 1 x 512Gb die | `external_table_confirmed` |
 | `T2:T:D:8:8:C` / `H25T2TD88C-*` | `HYV8` / `H25FTD0`, TLC, 238L profile, 512GB package, 8 x 512Gb die | `external_confirmed` |
-| `T4:T:M:G:8:C` / `H25T4TMG8C` | `HYV6` / `H25GTM0`, TLC, 128L profile, 2TB package, 16 x 1Tb die, 4 CE | `local_pending_external_reference` |
-| `T0:Q:A:1:8:C` / `H25T0QA18CX542` | `HYV7Q`, QLC, 176L profile, 128GB package, 1 x 1Tb die | `local_pending_external_reference` |
+| `T4:T:M:G:8:C` / `H25T4TMG8C` | `HYV6` / `H25GTM0`, TLC, 128L profile, 2TB package, 16 x 1Tb die, 4 CE | `external_table_confirmed` |
+| `T0:Q:M:1:8:E` / `H25T0QM18E` | `HYV5Q` / `H25GQM0`, QLC, 96L profile, 128GB package, 1 x 1Tb die；alias 来自 `nand.die_profile.die_mark` | `external_table_confirmed` |
+| `T0:Q:A:1:8:C` / `H25T0QA18CX542` | `HYV7Q`, QLC, 176L profile, 128GB package, 1 x 1Tb die | `external_table_confirmed` |
+| `T0:Q:A:X:X:B:X569:A` / `H25T0QAXXBX569A` | QLC wafer form；`X` die stack / bus width and `A` packing type both indicate wafer | `external_table_confirmed` |
 | `T3:Q:A:8:8:C` / `H25T3QA88CX548` | `HYV7Q`, QLC, 176L profile, 1TB package, 8 x 1Tb die | `external_table_confirmed` |
-| `T4:Q:M:8:8:G` / `H25T4QM88G` | `HYV9Q`, QLC, 321L 2Tb M-Die profile, 2TB package, 8 x 2Tb die, 6-plane, 3200MT/s；`G` 电压不输出 | `external_confirmed` |
+| `T4:Q:M:8:8:G` / `H25T4QM88G` | `HYV9Q`, QLC, 321L 2Tb M-Die profile, 2TB package, 8 x 2Tb die, 6-plane, 3200MT/s；`G` 电压按 current table 输出 | `external_confirmed` |
+| `T6:Q:M:8:8:G` / `H25T6QM88G` | 8TB package density；profile 暂不绑定，避免把未确认 V10 code 写死 | `external_table_confirmed` |
 
 维护者补充的 HYV9 package 表给出 128GB die 与 `D18/D28/D48/D88/DG8` 结构。`00h` Address ID 按每个 CE 的 stack 选择：SDP = `AD89284B00E0`，DDP = `AD89294B00E0`，QDP = `AD892A4B00E0`。Package 表中的 `T` 是厚度，公开 `package` 统一写成 `x1.0mm` / `x1.35mm` / `x1.5mm`；电压按表格写入 `Vcc: 2.5V, VccQ: 1.2V`，避免仅依赖 token 推测。
 

@@ -257,6 +257,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "package",
     importance: "secondary"
   },
+  packing_type: {
+    key: "packing_type",
+    valueKind: "string",
+    defaultLabel: "Packing Type",
+    recommendedBlock: "package",
+    importance: "detail"
+  },
   assembly: {
     key: "assembly",
     valueKind: "string",

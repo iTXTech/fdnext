@@ -37,9 +37,10 @@
           "T2": 4194304,
           "T3": 8388608,
           "T4": 16777216,
-          "T5": 33554432
+          "T5": 33554432,
+          "T6": 67108864
         },
-        "geometryObj": {
+        "dieStackObj": {
           "1": {
             "die_count": 1,
             "ce_count": 1,
@@ -69,39 +70,58 @@
             "ce_count": 4,
             "rb_count": 4,
             "channel_count": 2
+          },
+          "X": {
+            "wafer": true
           }
         },
         "processNode": {
-          "T:M:512Gb": "HYV4",
-          "T:A:512Gb": "HYV5",
+          "T:M:512Gb": "HYV5",
           "T:B:512Gb": "HYV6",
           "T:C:512Gb": "HYV7",
           "T:D:512Gb": "HYV8",
-          "T:E:512Gb": "HYV9",
+          "T:A:1Tb": "HYV5",
           "T:M:1Tb": "HYV6",
-          "T:A:1Tb": "HYV7",
-          "T:B:1Tb": "HYV8",
-          "T:C:1Tb": "HYV9",
+          "T:C:1Tb": "HYV8",
           "T:D:1Tb": "HYV9",
           "T:G:1Tb": "HYV9H",
-          "Q:M:1Tb": "HYV6Q",
+          "Q:M:1Tb": "HYV5Q",
           "Q:A:1Tb": "HYV7Q",
           "Q:M:2Tb": "HYV9Q"
         },
         "processAlias": {
+          "T:M:512Gb": "H25FT4MMI",
           "T:B:512Gb": "H25FTB0",
           "T:C:512Gb": "H25FTC0",
           "T:D:512Gb": "H25FTD0",
           "T:M:1Tb": "H25GTM0",
+          "Q:M:1Tb": "H25GQM0",
           "Q:A:1Tb": "H25GQA0"
         },
         "voltage": {
-          "C": "Vcc: 2.5V, VccQ: 1.2V"
+          "E": "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
+          "C": "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
+          "G": "Vcc: 2.50V (2.35-2.75V) or 2.50V (2.28-2.75V), VccQ: 1.20V (1.14-1.26V)"
         },
-        "deviceWidth": {
-          "8": 8
+        "widthObj": {
+          "8": {
+            "device_width": 8
+          },
+          "X": {
+            "wafer": true
+          }
+        },
+        "packingType": {
+          "N": "Normal (Tray)",
+          "R": "Tape & Reel",
+          "M": "Module",
+          "A": "Wafer"
         },
         "reference": {
+          "T:M:512Gb": {
+            "status": "external_table_confirmed",
+            "source": "SK hynix H25 current part-number table"
+          },
           "T:B:512Gb": {
             "status": "external_confirmed",
             "source": "TechInsights / TechPowerUp / local fdb cross-check"
@@ -115,8 +135,12 @@
             "source": "TechInsights / TechPowerUp / local fdb cross-check"
           },
           "T:M:1Tb": {
-            "status": "local_pending_external_reference",
-            "source": "maintainer-supplied H25T4TMG8C token evidence; external reference pending"
+            "status": "external_table_confirmed",
+            "source": "SK hynix H25 current part-number table"
+          },
+          "T:C:1Tb": {
+            "status": "external_table_confirmed",
+            "source": "SK hynix H25 current part-number table"
           },
           "T:D:1Tb": {
             "status": "external_table_confirmed",
@@ -125,6 +149,10 @@
           "T:G:1Tb": {
             "status": "external_table_confirmed",
             "source": "maintainer-supplied V9H package table"
+          },
+          "Q:M:1Tb": {
+            "status": "external_table_confirmed",
+            "source": "SK hynix H25 current part-number table"
           },
           "Q:A:1Tb": {
             "status": "external_table_confirmed",
@@ -272,20 +300,20 @@
         {
           "op": "take",
           "len": 1,
-          "to": "geometryCode"
+          "to": "dieStackCode"
         },
         {
           "op": "map",
-          "from": "geometryCode",
-          "table": "geometryObj",
-          "to": "geometryObj",
+          "from": "dieStackCode",
+          "table": "dieStackObj",
+          "to": "dieStackObj",
           "default": {}
         },
         {
           "op": "set",
           "to": "dieCount",
           "value": {
-            "$path": "geometryObj.die_count"
+            "$path": "dieStackObj.die_count"
           }
         },
         {
@@ -296,8 +324,14 @@
         {
           "op": "map",
           "from": "widthCode",
-          "table": "deviceWidth",
-          "to": "deviceWidth"
+          "table": "widthObj",
+          "to": "widthObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "dieStackObj",
+          "from": "widthObj"
         },
         {
           "op": "take",
@@ -312,10 +346,18 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "X([0-9]{3})",
+          "pattern": "X([0-9]{3})([NRMA])?",
           "groups": {
-            "packageCode": 1
+            "packageCode": 1,
+            "packingTypeCode": 2
           },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "packingTypeCode",
+          "table": "packingType",
+          "to": "packingType",
           "default": ""
         },
         {
@@ -366,7 +408,7 @@
         },
         {
           "op": "merge",
-          "into": "geometryObj",
+          "into": "dieStackObj",
           "from": "packageObj"
         }
       ],
@@ -399,22 +441,28 @@
           "$var": "dieDensity"
         },
         "fields.die_count": {
-          "$path": "geometryObj.die_count"
+          "$path": "dieStackObj.die_count"
         },
         "fields.ce_count": {
-          "$path": "geometryObj.ce_count"
+          "$path": "dieStackObj.ce_count"
         },
         "fields.rb_count": {
-          "$path": "geometryObj.rb_count"
+          "$path": "dieStackObj.rb_count"
         },
         "fields.channel_count": {
-          "$path": "geometryObj.channel_count"
+          "$path": "dieStackObj.channel_count"
         },
         "fields.package": {
-          "$path": "geometryObj.package"
+          "$path": "dieStackObj.package"
+        },
+        "fields.packing_type": {
+          "$var": "packingType"
+        },
+        "fields.wafer": {
+          "$path": "dieStackObj.wafer"
         },
         "fields.device_width": {
-          "$var": "deviceWidth"
+          "$path": "dieStackObj.device_width"
         },
         "meta.ruleId": "vendor.skhynix.h25.gt-package.v2"
       }

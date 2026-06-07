@@ -37,12 +37,51 @@ assertPart("H25T2TB88E-X321-N", {
   densityMbit: 4194304,
   dieProfileField: "HYV6",
   cellField: "TLC",
-  voltage: "Unknown",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
   extra: {
     "Process Alias": "H25FTB0",
     "Layer Count": 128,
     "Die Density": "512Gb",
-    "Die Count": 8
+    "Die Count": 8,
+    "Packing Type": "Normal (Tray)"
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25G9TM18E", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "HYV5",
+  cellField: "TLC",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
+  extra: {
+    "Process Alias": "H25FT4MMI",
+    "Layer Count": 96,
+    "Die Density": "512Gb",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Channel Count": 1
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T0QM18E", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "HYV5Q",
+  cellField: "QLC",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
+  extra: {
+    "Process Alias": "H25GQM0",
+    "Layer Count": 96,
+    "Die Density": "1Tb",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Channel Count": 1
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
@@ -105,6 +144,26 @@ assertPart("H25T2TD88C", {
     "Die Count": 8
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T3TC88C-X658-R", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "HYV8",
+  cellField: "TLC",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
+  package: "152-ball BGA 14x18x1.35mm",
+  extra: {
+    "Layer Count": 238,
+    "Die Density": "1Tb",
+    "Die Count": 8,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 2,
+    "Packing Type": "Tape & Reel"
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
 });
 
 const skhynixH25Hyv9KnownPackages = [
@@ -408,6 +467,18 @@ const skhynixH25V9hDashResult = engine.decodePart({ query: "H25T0TG18G-X807", la
 assert.equal(skhynixH25V9hDashResult.input.normalized, "H25T0TG18GX807", "H25 -X package suffix should normalize without dash");
 assert.equal(skhynixH25V9hDashResult.device?.partNumber, "H25T0TG18GX807", "H25 -X package suffix should resolve to the canonical no-dash PN");
 
+assertPart("H25T0QAXXBX569A", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 1048576,
+  cellField: "QLC",
+  extra: {
+    "Wafer": "Yes",
+    "Packing Type": "Wafer"
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
 assertPart("H25T0QA18CX542", {
   vendor: "skhynix",
   type: "NAND",
@@ -426,6 +497,7 @@ assertPart("H25T4QM88G", {
   densityMbit: 16777216,
   dieProfileField: "HYV9Q",
   cellField: "QLC",
+  voltage: "Vcc: 2.50V (2.35-2.75V) or 2.50V (2.28-2.75V), VccQ: 1.20V (1.14-1.26V)",
   extra: {
     "Layer Count": 321,
     "Die Density": "2Tb",
@@ -435,6 +507,21 @@ assertPart("H25T4QM88G", {
     "Speed Grade": "Max Speed=3200MT/s"
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T6QM88G", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 67108864,
+  cellField: "QLC",
+  voltage: "Vcc: 2.50V (2.35-2.75V) or 2.50V (2.28-2.75V), VccQ: 1.20V (1.14-1.26V)",
+  extra: {
+    "Die Count": 8,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 2
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
 });
 
 const skhynixH25V9qKnownPackages = [
@@ -561,7 +648,7 @@ assertPart("H25T3TCG8C", {
   densityMbit: 8388608,
   dieProfileField: "HYV7",
   cellField: "TLC",
-  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
   extra: {
     "Process Alias": "H25FTC0",
     "Layer Count": 176,
@@ -598,7 +685,7 @@ assertPart("H25G9TC18CX488", {
   densityMbit: 524288,
   dieProfileField: "HYV7",
   cellField: "TLC",
-  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
   extra: {
     "Process Alias": "H25FTC0",
     "Layer Count": 176,
@@ -619,7 +706,7 @@ assertPart("H25G9TD18CX576", {
   densityMbit: 524288,
   dieProfileField: "HYV8",
   cellField: "TLC",
-  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
   extra: {
     "Process Alias": "H25FTD0",
     "Layer Count": 238,

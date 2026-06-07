@@ -380,7 +380,7 @@
             "nvddr2": true
           }
         },
-        "interfaceInfo": {
+        "interface_info": {
           "A": "Async only",
           "B": "Async/Sync",
           "C": "Sync only",
@@ -798,7 +798,7 @@
         {
           "op": "map",
           "from": "interfaceToken",
-          "table": "interfaceInfo",
+          "table": "interface_info",
           "to": "interfaceType",
           "default": ""
         },
