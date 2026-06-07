@@ -30,7 +30,8 @@ pnpm contract:check
 - 搜索文件和文本优先用 `rg` / `rg --files`。
 - 小范围手工改文件用 `apply_patch`。
 - 文档、源码、测试和提交信息中不得写入本机绝对路径；引用本地资料时最多写文件名，仓库内文件用相对路径。
-- 新增或调整规则后，优先补对应产品线测试；测试位置按芯片类型选择，例如 DRAM 用 `packages/core/test/decodepack/dram.test.ts`，managed NAND 用 `packages/core/test/decodepack/managed-nand.test.ts`。
+- 新增或调整规则后，优先补对应产品线测试；测试位置按芯片类型选择，例如 DRAM 用 `packages/core/test/decodepack/dram/<vendor-or-module>.test.ts`，PN / part decode 用 `packages/core/test/decodepack/part-number/<vendor-or-module>.test.ts`。
+- DRAM 搜索建议测试默认不跑；只有新增 / 调整 DRAM PN 资源、FBGA marking 或搜索建议相关行为时，额外运行 `pnpm -C packages/core test:dram:search`。如果改动影响 contract SDK 的 part search 输出，也额外运行 `pnpm -C packages/contract-test test:part-search:dram`。
 - 新增或重命名 canonical field key 时，同步检查 `packages/core/src/field-registry.ts`、`packages/core/resources/lang/eng.json` 和 `packages/core/resources/lang/chs.json`。
 - 对 iTXTech fdnext DecodePack JSON 文件保持可读的表驱动结构。不要为了过测试引入一次性特判。
 
@@ -124,7 +125,7 @@ git diff --check
 
 ```bash
 pnpm cli decodepack check
-pnpm -C packages/core exec tsx test/decodepack/dram.test.ts
+pnpm -C packages/core test:dram
 pnpm -C packages/core typecheck
 git diff --check
 ```

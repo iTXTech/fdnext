@@ -18,7 +18,7 @@
 - 规则文件：`packages/core/src/decodepack/rules/packs/skhynix-emmc-token.json`
 - 规则 ID：`vendor.skhynix.emmc.managed.v1`
 - 优先级：`1005`
-- testcase：`packages/core/test/decodepack/managed-nand.test.ts`
+- testcase：`packages/core/test/decodepack/part-number/skhynix.test.ts`
 
 ## PN 结构
 

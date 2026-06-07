@@ -10,6 +10,7 @@
     "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly",
     "check": "tsx src/cli.ts",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
-    "test": "tsx test/contract.test.ts"
+    "test": "node --import tsx --test --test-concurrency=5 'test/**/*.test.ts'",
+    "test:part-search:dram": "node --import tsx --test test/sdk-part-search-dedup-dram.pn.ts"
   }
 }

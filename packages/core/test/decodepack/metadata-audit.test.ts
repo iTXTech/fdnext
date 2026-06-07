@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createEngine, type PartDecodeResult } from "../../src/index";
+import { createEngine } from "../../src/index";
 import { fdnextFieldRegistry } from "../../src/field-registry";
 import { embeddedResourceBundle } from "../../src/resources";
 import {
@@ -231,10 +231,6 @@ const internalPackFieldKeys = [
   "voltage_io_code"
 ];
 
-function isInternalCodeFieldKey(key: string): boolean {
-  return key.endsWith("_code");
-}
-
 function containsInternalPackFieldKey(value: unknown): boolean {
   if (Array.isArray(value)) {
     return value.some(containsInternalPackFieldKey);
@@ -446,151 +442,6 @@ const engine = createEngine({
   decoders: compileDecodePack(defaultDecodePack).partDecoders,
   identifierDecoders: compileDecodePack(defaultDecodePack).identifierDecoders
 });
-
-function managedNandSamples(): string[] {
-  const testSource = readFileSync(repoPath("packages/core/test/decodepack/managed-nand.test.ts"), "utf8");
-  return [...testSource.matchAll(/assertPart\("([^"]+)"/g)]
-    .map((match) => match[1])
-    .filter((sample): sample is string => Boolean(sample));
-}
-
-function partDecodeSamples(): string[] {
-  const samples = new Set<string>();
-  for (const file of ["packages/core/test/decodepack/managed-nand.test.ts", "packages/core/test/decodepack/dram.test.ts"]) {
-    const testSource = readFileSync(repoPath(file), "utf8");
-    for (const match of testSource.matchAll(/assertPart\("([^"]+)"/g)) {
-      if (match[1]) samples.add(match[1]);
-    }
-  }
-  return [...samples];
-}
-
-function normalizeText(value: unknown): string {
-  if (typeof value !== "string") {
-    return "";
-  }
-  return value
-    .toLowerCase()
-    .replaceAll(/[^a-z0-9]+/g, " ")
-    .replaceAll(/\be\s+mmc\b/g, "emmc")
-    .replaceAll(/\be\s+mcp\b/g, "emcp")
-    .replaceAll(/\bu\s+mcp\b/g, "umcp")
-    .replaceAll(/\bv(?=\d)/g, "")
-    .trim()
-    .replaceAll(/\s+/g, " ");
-}
-
-const vendorAliases: Record<string, string[]> = {
-  biwin: ["biwin"],
-  kingston: ["kingston"],
-  kioxia: ["kioxia", "toshiba"],
-  longsys: ["longsys", "foresee", "lexar"],
-  micron: ["micron"],
-  samsung: ["samsung"],
-  siliconmotion: ["silicon motion", "smi"],
-  sndk: ["sandisk", "western digital", "wd"],
-  skhynix: ["sk hynix", "skhynix"],
-  ymtc: ["ymtc"]
-};
-
-function removeVendorPrefix(value: unknown, vendor: unknown): string {
-  let normalized = normalizeText(value);
-  for (const alias of vendorAliases[String(vendor)] ?? [String(vendor)]) {
-    const aliasText = normalizeText(alias);
-    if (aliasText && normalized.startsWith(`${aliasText} `)) {
-      normalized = normalized.slice(aliasText.length + 1);
-      break;
-    }
-  }
-  return normalized;
-}
-
-function fieldsByLabel(result: PartDecodeResult): Record<string, unknown> {
-  const fields: Record<string, unknown> = {};
-  for (const block of result.blocks) {
-    for (const field of block.fields) {
-      if (["vendor", "chip_kind", "product_type", "part_number"].includes(field.key)) {
-        continue;
-      }
-      fields[field.label] = field.display ?? field.value;
-    }
-  }
-  return fields;
-}
-
-function resultType(result: PartDecodeResult): string {
-  return String(result.device?.productType ?? result.device?.chipKind ?? "");
-}
-
-function assertManagedNandOutputIsCanonical(): void {
-  const findings: string[] = [];
-  const legacyDisplayKeys = ["Component Generation", "Interface info"];
-
-  for (const partNumber of managedNandSamples()) {
-    const info = engine.decodePart({ query: partNumber, lang: "eng" });
-    const extra = fieldsByLabel(info);
-
-    for (const key of legacyDisplayKeys) {
-      if (Object.hasOwn(extra, key)) {
-        findings.push(`${partNumber}: legacy display key ${key}`);
-      }
-    }
-
-    const type = normalizeText(resultType(info));
-    const system = normalizeText(extra.System);
-    const group = normalizeText(extra.Group);
-    const productVersion = normalizeText(extra["Product Version"]);
-    const productFamily = removeVendorPrefix(extra["Product Family"], info.device?.vendor.id);
-    const managedFamily = normalizeText(extra["Managed Family"]);
-    const density = normalizeText(extra.Density);
-    const storageDensity = normalizeText(extra["Storage Density"]);
-    const aliases = (vendorAliases[String(info.device?.vendor.id)] ?? [String(info.device?.vendor.id)])
-      .map((alias) => normalizeText(alias))
-      .filter(Boolean);
-
-    if (
-      system &&
-      (system === type || aliases.includes(system) || aliases.some((alias) => system === `${alias} ${type}` || system === `${alias} managed nand`))
-    ) {
-      findings.push(`${partNumber}: redundant System=${extra.System}`);
-    }
-    if (group && (group === type || group === `${type} flash`)) {
-      findings.push(`${partNumber}: redundant Group=${extra.Group}`);
-    }
-    if (productVersion && (productVersion === normalizeText(extra["Storage Interface"]) || productVersion === type)) {
-      findings.push(`${partNumber}: redundant Product Version=${extra["Product Version"]}`);
-    }
-    if (productFamily && (productFamily === productVersion || productFamily === normalizeText(extra["Storage Interface"]) || productFamily === type)) {
-      findings.push(`${partNumber}: redundant Product Family=${extra["Product Family"]}`);
-    }
-    if (managedFamily && (managedFamily === type || managedFamily === system || managedFamily === normalizeText(extra["Product Family"]))) {
-      findings.push(`${partNumber}: redundant Managed Family=${extra["Managed Family"]}`);
-    }
-    if (density && storageDensity && !["emcp", "umcp"].includes(type) && storageDensity.startsWith(density)) {
-      findings.push(`${partNumber}: redundant Storage Density=${extra["Storage Density"]}`);
-    }
-  }
-
-  assert.deepEqual(findings, [], "managed NAND public output should use canonical, non-duplicate metadata");
-}
-
-function assertPublicResultsDoNotExposeInternalPackFields(): void {
-  const findings: string[] = [];
-  const forbidden = new Set([...internalPackFieldKeys, "reference", "source", "status", "inference_source"]);
-
-  for (const partNumber of partDecodeSamples()) {
-    const info = engine.decodePart({ query: partNumber, lang: "eng" });
-    for (const block of info.blocks) {
-      for (const field of block.fields) {
-        if (forbidden.has(field.key) || isInternalCodeFieldKey(field.key)) {
-          findings.push(`${partNumber}: ${field.key}`);
-        }
-      }
-    }
-  }
-
-  assert.deepEqual(findings, [], "public part decode fields should not expose internal system/group/token code or reference metadata");
-}
 
 function assertDecodePackCompositeComponents(): void {
   const info = engine.decodePart({ query: "BWCA2KZC-64G", lang: "eng" });
@@ -855,8 +706,6 @@ assertIntel2dAliasDensityDigitsMatch();
 assertSkhynixH25RulesAreConsolidated();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
-assertManagedNandOutputIsCanonical();
-assertPublicResultsDoNotExposeInternalPackFields();
 assertDecodePackCompositeComponents();
 assertDefaultDecodePackMaintainsItself();
 assertDecodePackCheckRejectsUndefinedTokenVariables();

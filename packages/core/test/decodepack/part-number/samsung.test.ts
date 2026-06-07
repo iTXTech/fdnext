@@ -1,0 +1,532 @@
+import { test } from "node:test";
+import {
+  assertDecodePackDieProfile,
+  assertRuleDraftDieProfile,
+  testPart
+} from "./_helpers";
+
+testPart("KLMAG1JETD-B041", {
+  vendor: "samsung",
+  type: "eMMC",
+  densityMbit: 131072,
+  dieProfileField: "14nm",
+  extra: {
+    "Die Density": "128Gb",
+    "Die Stack": "SDP (1-die)",
+    "Product Version": "eMMC 5.1",
+    "Interface Type": "HS400"
+  },
+  absentExtra: ["Product Generation", "Interface info", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KLM8G1GETF-B041", {
+  vendor: "samsung",
+  type: "eMMC",
+  densityMbit: 65536,
+  dieProfileField: "14nm",
+  extra: {
+    "Die Density": "64Gb",
+    "Die Stack": "SDP (1-die)",
+    "Product Version": "eMMC 5.1",
+    "Interface Type": "HS400"
+  },
+  absentExtra: ["Product Generation", "Interface info", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KLMBG2JETD-B041", {
+  vendor: "samsung",
+  type: "eMMC",
+  densityMbit: 262144,
+  dieProfileField: "14nm",
+  extra: {
+    "Die Density": "128Gb",
+    "Product Version": "eMMC 5.1",
+    "Die Stack": "DDP (2-die)"
+  },
+  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KLMDG1NCAB-B041", {
+  vendor: "samsung",
+  type: "eMMC",
+  densityMbit: 1048576,
+  dieProfileField: "SSV8",
+  cellField: "TLC",
+  extra: {
+    "Die Density": "1Tb",
+    "Die Stack": "SDP (1-die)",
+    "Product Version": "eMMC 5.1",
+    "Interface Type": "HS400"
+  },
+  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KMGD6001BM-B421", {
+  vendor: "samsung",
+  type: "eMCP",
+  densityMbit: 262144,
+  package: "221Ball FBGA 11.5x13x1.0",
+  extra: {
+    "Product Mode": "eMCP",
+    "Product Family": "eMMC + LPDDR3",
+    "Storage Density": "32GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "24Gb",
+    "DRAM Type": "LPDDR3",
+    "Package Code": "221 FBGA",
+    "Config Code": "B421"
+  },
+  absentExtra: ["Group", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KMGE6001BM-B421", {
+  vendor: "samsung",
+  type: "eMCP",
+  densityMbit: 131072,
+  package: "BGA221",
+  extra: {
+    "Product Mode": "eMCP",
+    "Product Family": "eMMC + LPDDR3",
+    "Storage Density": "16GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "24Gb",
+    "DRAM Type": "LPDDR3",
+    "DRAM Speed": "LPDDR3-1866",
+    "Package Code": "221 FBGA",
+    "Config Code": "B421"
+  },
+  absentExtra: ["Group", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KMDT6001ZM-A625", {
+  vendor: "samsung",
+  type: "eMCP",
+  densityMbit: 131072,
+  package: "144 FBGA",
+  extra: {
+    "Product Mode": "eMCP",
+    "Product Family": "eMMC + LPDDR4X",
+    "Storage Density": "16GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "16Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KMDP6001DA-B425", {
+  vendor: "samsung",
+  type: "eMCP",
+  densityMbit: 524288,
+  package: "254 FBGA",
+  extra: {
+    "Product Mode": "eMCP",
+    "Product Family": "eMMC + LPDDR4X",
+    "Storage Density": "64GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KMFN60012B-B214", {
+  vendor: "samsung",
+  type: "eMCP",
+  densityMbit: 65536,
+  package: "221 FBGA",
+  extra: {
+    "Product Mode": "eMCP",
+    "Product Family": "eMMC + LPDDR3",
+    "Storage Density": "8GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "8Gb",
+    "DRAM Type": "LPDDR3",
+    "DRAM Speed": "LPDDR3-1866"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KM5L9000CM-B424", {
+  vendor: "samsung",
+  type: "uMCP",
+  densityMbit: 1048576,
+  package: "254 FBGA",
+  extra: {
+    "Product Mode": "uMCP",
+    "Product Family": "UFS + LPDDR4X",
+    "Storage Density": "128GB UFS",
+    "Storage Interface": "UFS 2.2",
+    "DRAM Density": "48Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KM8V9001JM-B813", {
+  vendor: "samsung",
+  type: "uMCP",
+  densityMbit: 1048576,
+  package: "254 FBGA",
+  extra: {
+    "Product Mode": "uMCP",
+    "Product Family": "UFS + LPDDR4X",
+    "Storage Density": "128GB UFS",
+    "Storage Interface": "UFS 2.2",
+    "DRAM Density": "64Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KMJS9001RM-BG01", {
+  vendor: "samsung",
+  type: "uMCP",
+  densityMbit: 2097152,
+  package: "297 FBGA",
+  extra: {
+    "Product Mode": "uMCP",
+    "Product Family": "UFS + LPDDR5",
+    "Storage Density": "256GB UFS",
+    "Storage Interface": "UFS 3.1",
+    "DRAM Density": "96Gb",
+    "DRAM Type": "LPDDR5",
+    "DRAM Speed": "LPDDR5-6400"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("K9AFGD8J0M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 262144,
+  dieProfileField: "SSV4",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 64,
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+testPart("K9AHGD8J0M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "SSV4",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 64,
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+testPart("K9AHGD8J0A", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "SSV5",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 92,
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+testPart("K9AHGD8J0B", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "SSV6",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 128,
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+testPart("K9AHGD8J0E", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "SSV6P",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 133,
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+testPart("K9AHGD8J0D", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "SSV7",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 176,
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+testPart("K9AHGD8J0F", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "SSV8",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 236,
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+testPart("K9DVGY8J5E", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "SSV6P",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 133,
+    "Die Count": 16,
+    "CE Count": 4
+  }
+});
+
+testPart("K9DYGY8J5B", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "SSV8",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 236,
+    "Die Count": 16,
+    "CE Count": 4
+  }
+});
+
+testPart("K9DYGY8J5D", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "SSV9",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 280,
+    "Die Count": 16,
+    "CE Count": 4
+  }
+});
+
+test("Samsung raw NAND die profiles are resolved from DecodePack rules", () => {
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9DYGY8J5B", "SSV8");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9DYGY8J5D", "SSV9");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGB8J1M", "SSV4Q");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGY8J5M", "SSV4Q");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGY8J5A", "SSV5Q");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGD8J5C", "SSV7Q");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K99UGY8J5C", "SSV7Q");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGD8J5D", "SSV9Q");
+  assertDecodePackDieProfile("K9XVGB8J1M", "SSV4Q", 64);
+  assertDecodePackDieProfile("K9XVGY8J5M", "SSV4Q", 64);
+  assertDecodePackDieProfile("K9XVGY8J5A", "SSV5Q", 92);
+  assertDecodePackDieProfile("K9XVGD8J5C", "SSV7Q", 176);
+  assertDecodePackDieProfile("K99UGY8J5C", "SSV7Q", 176);
+  assertDecodePackDieProfile("K9XVGD8J5D", "SSV9Q", 280);
+});
+
+testPart("K9OVGD8J2B", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  cellField: "TLC",
+  extra: {
+    "Die Count": 8,
+    "CE Count": 4
+  }
+});
+
+testPart("K9XVGB8J1M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "SSV4Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 64,
+    "Die Count": 16,
+    "CE Count": 2
+  }
+});
+
+testPart("K9XVGY8J5M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "SSV4Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 64,
+    "Die Count": 16,
+    "CE Count": 4
+  }
+});
+
+testPart("K9XVGY8J5A", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "SSV5Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 92,
+    "Die Count": 16,
+    "CE Count": 4
+  }
+});
+
+testPart("K9XVGD8J5C", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "SSV7Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 176,
+    "Die Count": 16,
+    "CE Count": 4
+  }
+});
+
+testPart("K99UGY8J5C", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "SSV7Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 176,
+    "Die Count": 8,
+    "CE Count": 4
+  }
+});
+
+testPart("K9XVGD8J5D", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "SSV9Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 280,
+    "Die Count": 16,
+    "CE Count": 4
+  }
+});
+
+testPart("KLUCG4J1BB", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 524288,
+  dieProfileField: "14nm",
+  cellField: "MLC",
+  extra: {
+    "NAND Component": "K9GDGD8U0B",
+    "Die Density": "128Gb",
+    "Die Stack": "QDP (4-die)",
+    "CE Count": 4,
+    "Product Version": "UFS 2.0",
+    "Controller": "UFS 2.0 G2-2Lane Controller"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KLUDGAG1BD", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 1048576,
+  dieProfileField: "16nm",
+  cellField: "MLC",
+  extra: {
+    "NAND Component": "K9GCGD8U0D",
+    "Die Density": "64Gb",
+    "Die Stack": "HDP (16-die)",
+    "CE Count": 8,
+    "Product Version": "UFS 2.0",
+    "Controller": "UFS 2.0 G2-2Lane Controller"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KLUEG8UHDB-C2E1", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 2097152,
+  dieProfileField: "SSV5",
+  extra: {
+    "NAND Component": "K9AFGD8J0B",
+    "Die Density": "256Gb",
+    "Die Stack": "ODP (8-die)",
+    "CE Count": 8,
+    "Product Version": "UFS 3.1",
+    "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KLUFG8RHHF-F0G1", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 4194304,
+  dieProfileField: "SSV8",
+  package: "BGA-153 9x13",
+  extra: {
+    "Die Density": "512Gb",
+    "Die Stack": "ODP (8-die)",
+    "Product Version": "UFS 4.0",
+    "Controller": "UFS 4.0 G5-2Lane Controller"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KLUEG4RHKF-F0H1", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 2097152,
+  dieProfileField: "SSV8",
+  package: "BGA-153 9x13",
+  extra: {
+    "Die Density": "512Gb",
+    "Die Stack": "QDP (4-die)",
+    "Product Version": "UFS 4.1",
+    "Controller": "UFS 4.1 G5-2Lane Controller"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KLUFG4NHKH-F0H1", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 4194304,
+  cellField: "TLC",
+  package: "BGA-153 9x13",
+  extra: {
+    "Die Density": "1Tb",
+    "Die Stack": "QDP (4-die)",
+    "Product Version": "UFS 4.1",
+    "Controller": "UFS 4.1 G5-2Lane Controller"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});

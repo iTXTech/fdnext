@@ -358,6 +358,39 @@ function hasSearchConstraints(constraints: Omit<OperationConstraints, "idScheme"
   return Boolean(constraints.vendor || constraints.chipKind || constraints.productType);
 }
 
+function chipKindForProductTypeConstraint(productType: FdnextProductType): FdnextChipKind | undefined {
+  const normalized = normalizeInfoText(productType);
+  if (["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(normalized)) {
+    return "managed_nand";
+  }
+  if (normalized === "dram" || /^(?:sdr|lpsdr|lpddr|ddr|gddr|rldram)/.test(normalized)) {
+    return "dram";
+  }
+  return undefined;
+}
+
+function baseMatchesSearchConstraints(
+  candidate: Omit<PartClassificationCandidate, "score" | "warnings" | "info">,
+  constraints: Omit<OperationConstraints, "idScheme">
+): boolean {
+  if (constraints.vendor && !vendorMatches(candidate.vendor, constraints.vendor)) {
+    return false;
+  }
+  if (constraints.chipKind && candidate.chipKind !== constraints.chipKind) {
+    return false;
+  }
+  if (constraints.productType) {
+    if (candidate.productType) {
+      return productTypeMatches(candidate.productType, constraints.productType);
+    }
+    const expectedChipKind = chipKindForProductTypeConstraint(constraints.productType);
+    if (expectedChipKind && candidate.chipKind !== "unknown" && candidate.chipKind !== expectedChipKind) {
+      return false;
+    }
+  }
+  return true;
+}
+
 function constraintScore(
   candidate: Omit<PartClassificationCandidate, "score" | "warnings">,
   constraints: Omit<OperationConstraints, "idScheme">
@@ -504,14 +537,31 @@ export function classifyPart(
 
   const partialMatch = options.mode === "search" ? options.partialMatch ?? true : false;
   const bases: Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">> = [];
+  const deferredBases: Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">> = [];
   const constrainedSearch = hasSearchConstraints(constraints);
+  const prioritizeConstrainedSearch = options.mode === "search" && constrainedSearch;
   const searchLimitMultiplier = constrainedSearch ? 80 : 6;
   const searchLimitFloor = constrainedSearch ? 1200 : 48;
   const baseLimit = options.mode === "search" ? Math.max((options.limit ?? 50) * searchLimitMultiplier, searchLimitFloor) : 0;
+  const preferredBaseLimit = prioritizeConstrainedSearch
+    ? Math.max((options.limit ?? 50) * 4, 64)
+    : baseLimit;
   const canAddBase = (): boolean => baseLimit === 0 || bases.length < baseLimit;
+  const canAddPreferredBase = (): boolean => preferredBaseLimit === 0 || bases.length < preferredBaseLimit;
+  const addBase = (base: Omit<PartClassificationCandidate, "score" | "warnings" | "info">): void => {
+    if (prioritizeConstrainedSearch && !baseMatchesSearchConstraints(base, constraints)) {
+      if (deferredBases.length < baseLimit) {
+        deferredBases.push(base);
+      }
+      return;
+    }
+    if (canAddPreferredBase()) {
+      bases.push(base);
+    }
+  };
 
   for (const record of options.indexes.markingIndex) {
-    if (!canAddBase()) {
+    if (!prioritizeConstrainedSearch && !canAddBase()) {
       break;
     }
     const byCode = matchKind(record.markingCode, normalized, partialMatch);
@@ -520,7 +570,7 @@ export function classifyPart(
     if (!match) {
       continue;
     }
-    bases.push({
+    addBase({
       partNumber: record.partNumber,
       normalizedPartNumber: record.normalizedPartNumber,
       vendor: record.vendor,
@@ -534,14 +584,14 @@ export function classifyPart(
   }
 
   for (const record of options.indexes.partIndex) {
-    if (!canAddBase()) {
+    if (!prioritizeConstrainedSearch && !canAddBase()) {
       break;
     }
     const match = matchKind(record.normalizedPartNumber, normalized, partialMatch);
     if (!match) {
       continue;
     }
-    bases.push({
+    addBase({
       partNumber: record.partNumber,
       normalizedPartNumber: record.normalizedPartNumber,
       vendor: record.vendor,
@@ -550,6 +600,10 @@ export function classifyPart(
       source: record.source,
       matchKind: match
     });
+  }
+
+  if (prioritizeConstrainedSearch && bases.length < Math.max(options.limit ?? 50, 1)) {
+    bases.push(...deferredBases.slice(0, Math.max(0, baseLimit - bases.length)));
   }
 
   const hasExactMarkingMatch = bases.some((base) => base.markingMatch && base.matchKind === "exact");

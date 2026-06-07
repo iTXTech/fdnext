@@ -26,6 +26,14 @@ Or from the monorepo root:
 pnpm contract:check
 ```
 
+DRAM part-search de-duplication is intentionally outside the default contract
+suite. Run it when adding or changing DRAM PN resources, FBGA markings, or
+search suggestion behavior:
+
+```bash
+pnpm -C packages/contract-test test:part-search:dram
+```
+
 ### Source API
 
 ```ts

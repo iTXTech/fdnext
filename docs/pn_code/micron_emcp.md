@@ -26,7 +26,7 @@
   - `vendor.micron.emcp.nand_mcp.v1`
   - `vendor.micron.emcp.aio.v1`
   - `vendor.micron.emcp.mt29c.v1` / `vendor.micron.emcp.mt29rz.v1` 为 lower-priority legacy fallback；`MT29RZ...` 等符合 AiO 结构的旧例优先由 `vendor.micron.emcp.aio.v1` 覆盖。
-- testcase：`packages/core/test/decodepack/managed-nand.test.ts`
+- testcase：`packages/core/test/decodepack/part-number/micron.test.ts`
 
 ## NAND MCP 结构
 

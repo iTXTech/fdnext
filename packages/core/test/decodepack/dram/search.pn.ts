@@ -1,0 +1,343 @@
+import assert from "node:assert/strict";
+import {
+  assertDecodedField,
+  assertDecodedFieldAbsent,
+  assertDecodedPartNumber,
+  assertDram,
+  assertFieldBlock,
+  assertSearchMarkingRelation,
+  assertSearchPnFirst,
+  assertSearchPnIncludes,
+  assertSpectekSearchMarkingRelation,
+  assertStackedDram,
+  assertUnknown,
+  detect,
+  dramPnJson,
+  mdbJson,
+  micronDramFbgaEntries,
+  micronFbgaCodesJson,
+  resourceEntries,
+  searchFbgaParts
+} from "./_helpers";
+
+assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC32");
+assertSearchPnIncludes("K4UBE3D4AA", "Samsung K4UBE3D4AA-MGCL");
+assertSearchPnIncludes("K4F6E3S4HM", "Samsung K4F6E3S4HM-MGCJ");
+assertSearchPnIncludes("K4F8E3S4HD", "Samsung K4F8E3S4HD-MGCL");
+assertSearchPnIncludes("K4U6E3S4AB", "Samsung K4U6E3S4AB-MGCL");
+assertSearchPnIncludes("K4UCE3Q4AB", "Samsung K4UCE3Q4AB-MGCL");
+assertSearchPnIncludes("K4UBE3D4AB", "Samsung K4UBE3D4AB-MGCL");
+assertSearchPnIncludes("K4J55323Q", "Samsung K4J55323Q");
+assertSearchPnIncludes("K4N51163Q", "Samsung K4N51163Q");
+assertSearchPnIncludes("K4D261638", "Samsung K4D261638");
+assertSearchPnIncludes("K4W2G1646", "Samsung K4W2G1646Q-BC1A");
+assertSearchPnIncludes("K4W4G1646E", "Samsung K4W4G1646E-BC1A");
+assertSearchPnIncludes("K4A4G045WE", "Samsung K4A4G045WE-BCPB");
+assertSearchPnIncludes("K4A4G085WE", "Samsung K4A4G085WE-BCPB");
+assertSearchPnIncludes("K4AAG085WB", "Samsung K4AAG085WB-MCPB");
+assertSearchPnIncludes("K4AAG165WB", "Samsung K4AAG165WB-MCPB");
+assertSearchPnIncludes("K4AAG165WB", "Samsung K4AAG165WB-MCTD");
+assertSearchPnIncludes("K4A4G045WD", "Samsung K4A4G045WD-BCPB");
+assertSearchPnIncludes("K4A4G165WE", "Samsung K4A4G165WE-BIPB");
+assertSearchPnIncludes("K4B4G0846D", "Samsung K4B4G0846D-BCNB");
+assertSearchPnIncludes("K4B4G0846E", "Samsung K4B4G0846E-BCNB");
+assertSearchPnIncludes("K4B4G1646E", "Samsung K4B4G1646E-BCNB");
+assertSearchPnIncludes("K4B8G1646Q", "Samsung K4B8G1646Q-MCK0");
+assertSearchPnIncludes("K4B4G1646Q", "Samsung K4B4G1646Q-HYK0");
+assertSearchPnIncludes("K4RAH046VB", "Samsung K4RAH046VB-BCQK");
+assertSearchPnIncludes("K4RAH165VB", "Samsung K4RAH165VB-BCWM");
+assertSearchPnIncludes("K4A8G045WD", "Samsung K4A8G045WD-BCWE");
+assertSearchPnIncludes("H5ANAG8NCJR", "SKhynix H5ANAG8NCJR-XNC");
+assertSearchPnIncludes("NT5CB128M8GN", "Nanya NT5CB128M8GN-DI");
+assertSearchPnIncludes("NT5CB256M8JQ", "Nanya NT5CB256M8JQ-DIT");
+assertSearchPnIncludes("NT5CB256M8IN", "Nanya NT5CB256M8IN-DIH");
+assertSearchPnIncludes("NT5CB256M8FN", "Nanya NT5CB256M8FN-EJ");
+assertSearchPnIncludes("NT5CC512M8EQ", "Nanya NT5CC512M8EQ-DIB");
+assertSearchPnIncludes("NT5AD512M16C4-HRT", "Nanya NT5AD512M16C4-HRT");
+assertSearchPnIncludes("NT5AD256M16E4-HRT", "Nanya NT5AD256M16E4-HRT");
+assertSearchPnIncludes("NT5FF2048M8DK", "Nanya NT5FF2048M8DK-UB");
+assertSearchPnIncludes("NT6CL512T32", "Nanya NT6CL512T32AM-H0");
+assertSearchPnIncludes("NT6CL128M32BQ", "Nanya NT6CL128M32BQ-H1");
+assertSearchPnIncludes("NT6CL128T64DR", "Nanya NT6CL128T64DR-H1");
+assertSearchPnIncludes("NT6AN128M16AV-J3", "Nanya NT6AN128M16AV-J3");
+assertSearchPnIncludes("NT6AN256M16", "Nanya NT6AN256M16AV-J1");
+assertSearchPnIncludes("NT6AN512T32AV-J2", "Nanya NT6AN512T32AV-J2");
+assertSearchPnIncludes("NT6AN1024F32", "Nanya NT6AN1024F32AV-J2");
+assertSearchPnIncludes("NT6AP256F64", "Nanya NT6AP256F64BN-J1");
+assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
+assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");
+assertSearchPnIncludes("CXDQ3A8", "CXMT CXDQ3A8AM-CQ-A");
+assertSearchPnIncludes("CXDQ4A8", "CXMT CXDQ4A8AM-CJ-M");
+assertSearchPnIncludes("CXDR4E8", "CXMT CXDR4E8BM-CS-A");
+assertSearchPnIncludes("CXDB5C", "CXMT CXDB5CCAM-MK");
+assertSearchPnIncludes("CXDB5CCBM", "CXMT CXDB5CCBM-MA-A");
+assertSearchPnIncludes("CXDB6CCBM", "CXMT CXDB6CCBM-MA-A");
+assertSearchPnIncludes("GDP0BFLM", "GigaDevice GDP0BFLM-CB");
+assertSearchPnIncludes("GDP2A8LM", "GigaDevice GDP2A8LM-CB");
+assertSearchPnIncludes("GDP2BFLM", "GigaDevice GDP2BFLM-CB");
+assertSearchPnIncludes("GDP3BELM", "GigaDevice GDP3BELM-CB");
+assertSearchPnIncludes("GDQ3A8", "GigaDevice GDQ3A8AM-CQ");
+assertSearchPnIncludes("GDQ2BFAC", "GigaDevice GDQ2BFAC-CQ");
+assertSearchPnIncludes("GDB5CBQN", "GigaDevice GDB5CBQN-MJ");
+assertSearchPnIncludes("GDB5CCQN", "GigaDevice GDB5CCQN-MJ");
+assertSearchPnIncludes("IS43QR8K02", "ISSI IS43QR8K02S2A");
+assertSearchPnIncludes("IS43LQ32K01B", "ISSI IS43LQ32K01B-046BLI");
+assertSearchPnIncludes("IS43QR81024B-062", "ISSI IS43QR81024B-062AABLI");
+assertSearchPnIncludes("IS43TR16128DL-107", "ISSI IS43TR16128DL-107MBLI");
+assertSearchPnIncludes("IS46TR82560DL-125", "ISSI IS46TR82560DL-125KBLA1");
+assertSearchPnIncludes("IS43TR16256B-093", "ISSI IS43TR16256B-093NBL");
+assertSearchPnIncludes("IS43TR85120BL-107", "ISSI IS43TR85120BL-107MBL");
+assertSearchPnIncludes("IS46TR16512BL-107MBLA25", "ISSI IS46TR16512BL-107MBLA25");
+assertSearchPnIncludes("IS46TR81024BL-107", "ISSI IS46TR81024BL-107MBLA25");
+assertSearchPnIncludes("IS43TR16512S2DL-107", "ISSI IS43TR16512S2DL-107MBL");
+assertSearchPnIncludes("IS46TR16640CL-125JB2", "ISSI IS46TR16640CL-125JB2LA2");
+assertSearchPnIncludes("IS46TR81280C-125", "ISSI IS46TR81280C-125JBLA25");
+assertSearchPnIncludes("IS46TR16256DL-107", "ISSI IS46TR16256DL-107MBLA3");
+assertSearchPnIncludes("IS43TR85120DL-125", "ISSI IS43TR85120DL-125KBL");
+const issiLpddrOrderingPns = [
+  "IS43LQ16512B-053BLI",
+  "IS43LQ16512B-046BLI",
+  "IS46LQ16512B-053BLA1",
+  "IS46LQ16512B-046BLA1",
+  "IS46LQ16512B-053BLA2",
+  "IS46LQ16512B-046BLA2",
+  "IS46LQ16512B-053BLA3",
+  "IS46LQ16512B-046BLA3",
+  "IS43LQ32512A-053BLI",
+  "IS43LQ32512A-046BLI",
+  "IS46LQ32512A-053BLA1",
+  "IS46LQ32512A-046BLA1",
+  "IS46LQ32512A-053BLA2",
+  "IS46LQ32512A-046BLA2",
+  "IS46LQ32512A-053BLA3",
+  "IS46LQ32512A-046BLA3",
+  "IS43LQ32K02S2A-053BLI",
+  "IS43LQ32K02S2A-046BLI",
+  "IS46LQ32K02S2A-053BLA1",
+  "IS46LQ32K02S2A-046BLA1",
+  "IS46LQ32K02S2A-053BLA2",
+  "IS46LQ32K02S2A-046BLA2",
+  "IS46LQ32K02S2A-053BLA3",
+  "IS46LQ32K02S2A-046BLA3",
+  "IS43LQ32K01S2A-053BLI",
+  "IS43LQ32K01S2A-046BLI",
+  "IS46LQ32K01S2A-053BLA1",
+  "IS46LQ32K01S2A-046BLA1",
+  "IS46LQ32K01S2A-053BLA2",
+  "IS46LQ32K01S2A-046BLA2",
+  "IS43LQ32256A-062BLI",
+  "IS46LQ32256A-062BLA1",
+  "IS46LQ32256A-062BLA2",
+  "IS46LQ32256A-062BHLA2",
+  "IS46LQ32256A-062TBLA2",
+  "IS46LQ32256A-062BLA3",
+  "IS43LQ32256AL-062BLI",
+  "IS46LQ32256AL-062BLA1",
+  "IS46LQ32256AL-062BLA2",
+  "IS46LQ32256AL-062BLA3"
+];
+for (const pn of issiLpddrOrderingPns) {
+  assertSearchPnIncludes(pn, "ISSI " + pn);
+}
+
+assertSearchPnIncludes("W66DP2RQQA", "Winbond W66DP2RQQAHJ");
+assertSearchPnIncludes("W66AP6NB", "Winbond W66AP6NB");
+assertSearchPnIncludes("W66AQ6NB", "Winbond W66AQ6NB");
+assertSearchPnIncludes("W66BP2NQ", "Winbond W66BP2NQ");
+assertSearchPnIncludes("W66BQ2NQ", "Winbond W66BQ2NQ");
+assertSearchPnIncludes("W66BP6RB", "Winbond W66BP6RB");
+assertSearchPnIncludes("W66CP2RQ", "Winbond W66CP2RQ");
+assertSearchPnIncludes("W9412G6KH", "Winbond W9412G6KH");
+assertSearchPnIncludes("W9425G6KH-5K", "Winbond W9425G6KH-5K");
+assertSearchPnIncludes("W9712G6KB", "Winbond W9712G6KB");
+assertSearchPnIncludes("W971GG8NB-18J", "Winbond W971GG8NB-18J");
+assertSearchPnIncludes("W9725G8KB-3", "Winbond W9725G8KB-3");
+assertSearchPnIncludes("W972GG6KB-18J", "Winbond W972GG6KB-18J");
+assertSearchPnIncludes("W972GG8KS", "Winbond W972GG8KS");
+assertSearchPnIncludes("W631GG6NB", "Winbond W631GG6NB");
+assertSearchPnIncludes("W631GG8NB-09J", "Winbond W631GG8NB-09J");
+assertSearchPnIncludes("W664GG6RB", "Winbond W664GG6RB");
+assertSearchPnIncludes("W664GG8RB-06J", "Winbond W664GG8RB-06J");
+const winbondMobileDramPns = [
+  "W948D6KBHX",
+  "W948D6KBHX5E",
+  "W948D6KBHX5I",
+  "W948D6KBHX6E",
+  "W948D6KBHX6I",
+  "W948V6KBHX",
+  "W948V6KBHX5E",
+  "W948V6KBHX5I",
+  "W948V6KBHX6E",
+  "W948V6KBHX6I",
+  "W949D6DB",
+  "W949D6DBHX5I",
+  "W949D6DBHX5E",
+  "W949D6DBHX6E",
+  "W949D2DB",
+  "W949D2DBJX5I",
+  "W949D2DBJX5E",
+  "W949D2DBJX6E",
+  "W94AD6KB",
+  "W94AD6KBHX5I",
+  "W94AD6KBHX5E",
+  "W94AD6KBHX6I",
+  "W94AD6KBHX6E",
+  "W94AD2KB",
+  "W94AD2KBJX5I",
+  "W94AD2KBJX5E",
+  "W94AD2KBJX6I",
+  "W94AD2KBJX6E",
+  "W978H6KB",
+  "W978H6KBVX2I",
+  "W978H6KBVX1I",
+  "W978H6KBVX2E",
+  "W978H6KBVX1E",
+  "W978H2KB",
+  "W978H2KBVX2I",
+  "W978H2KBVX1I",
+  "W978H2KBVX2E",
+  "W978H2KBVX1E",
+  "W979H6KB",
+  "W979H6KBVX2I",
+  "W979H6KBVX1I",
+  "W979H6KBVX2E",
+  "W979H6KBVX1E",
+  "W979H2KB",
+  "W979H2KBVX2I",
+  "W979H2KBVX1I",
+  "W979H2KBVX2E",
+  "W979H2KBVX1E",
+  "W979H6RB",
+  "W979H6RBVA2I",
+  "W979H6RBVA1I",
+  "W97AH6KB",
+  "W97AH6KBVX2I",
+  "W97AH6KBVX2E",
+  "W97AH6KBVX1I",
+  "W97AH6KBVX1E",
+  "W97AH2KB",
+  "W97AH2KBVX2I",
+  "W97AH2KBVX2E",
+  "W97AH2KBVX1I",
+  "W97AH2KBVX1E",
+  "W639H6RB",
+  "W639H6RBVABI",
+  "W639H6RBVACI",
+  "W639H6RBVADI",
+  "W63AH6NB",
+  "W63AH6NBVABE",
+  "W63AH6NBVACE",
+  "W63AH6NBVADE",
+  "W63AH6NBVABI",
+  "W63AH6NBVACI",
+  "W63AH6NBVADI",
+  "W63AH2NB",
+  "W63AH2NBVABE",
+  "W63AH2NBVACE",
+  "W63AH2NBVADE",
+  "W63AH2NBVABI",
+  "W63AH2NBVACI",
+  "W63AH2NBVADI"
+];
+for (const pn of winbondMobileDramPns) {
+  assertSearchPnIncludes(pn, "Winbond " + pn);
+}
+assertSearchPnIncludes("M15T1G1664A-EF", "ESMT M15T1G1664A-EFBIG2S");
+assertSearchPnIncludes("M15T1G1664A-DEB", "ESMT M15T1G1664A-DEBG2S");
+assertSearchPnIncludes("M15T4G16256A-EF", "ESMT M15T4G16256A-EFBG2G");
+assertSearchPnIncludes("M15T4G16256A-EFBG2S", "ESMT M15T4G16256A-EFBG2S");
+assertSearchPnIncludes("M15T4G16256A-EFBI", "ESMT M15T4G16256A-EFBIG2C");
+assertSearchPnIncludes("M15T2G16128A-EF", "ESMT M15T2G16128A-EFBIG2P");
+assertSearchPnIncludes("M15T2G16128A-BDBIG2B", "ESMT M15T2G16128A-BDBIG2B");
+assertSearchPnIncludes("M15T2G16128A-EFBVA", "ESMT M15T2G16128A-EFBVAG2R");
+assertSearchPnIncludes("M15T8G16512A-BD", "ESMT M15T8G16512A-BDBIG2S");
+assertSearchPnIncludes("M15T8G16512A-EFBG", "ESMT M15T8G16512A-EFBG2S");
+assertSearchPnIncludes("M15T4G16256A-EFBI", "ESMT M15T4G16256A-EFBIAG2S");
+assertSearchPnIncludes("M15T5121632A-DE", "ESMT M15T5121632A-DEBG");
+assertSearchPnIncludes("M15F1G1664A-GH", "ESMT M15F1G1664A-GHBG2S");
+assertSearchPnIncludes("M15F2G16128A-BD", "ESMT M15F2G16128A-BDBIG2B");
+assertSearchPnIncludes("M15F4G16256A-GH", "ESMT M15F4G16256A-GHBG2S");
+assertSearchPnIncludes("M15F4G16256A-DEB", "ESMT M15F4G16256A-DEBIG2R");
+assertSearchPnIncludes("M13D64322A-45", "ESMT M13D64322A-45BG2S");
+assertSearchPnIncludes("M13S64164A-4T", "ESMT M13S64164A-4TVG2Y");
+assertSearchPnIncludes("M13S64164A-4TG", "ESMT M13S64164A-4TG2Y");
+assertSearchPnIncludes("M13S64164A-5TG2C", "ESMT M13S64164A-5TG2C");
+assertSearchPnIncludes("M13S128168A-45", "ESMT M13S128168A-45TG2S");
+assertSearchPnIncludes("M13S128168A-4TVAG", "ESMT M13S128168A-4TVAG2N");
+assertSearchPnIncludes("M13S128168A-5BIG2N", "ESMT M13S128168A-5BIG2N");
+assertSearchPnIncludes("M13S2561616A-4B", "ESMT M13S2561616A-4BG2T");
+assertSearchPnIncludes("M13S5121632A-5", "ESMT M13S5121632A-5TG2T");
+assertSearchPnIncludes("M12L128168A-5", "ESMT M12L128168A-5TIG2S");
+assertSearchPnIncludes("M12L128168A-5TG", "ESMT M12L128168A-5TG2N");
+assertSearchPnIncludes("M12L2561616A-5TVA", "ESMT M12L2561616A-5TVAG2S");
+assertSearchPnIncludes("M12L32321A-5B", "ESMT M12L32321A-5BG2G");
+assertSearchPnIncludes("M12L5121632A-5B", "ESMT M12L5121632A-5BIG2T");
+assertSearchPnIncludes("M12L64164A-5B", "ESMT M12L64164A-5BIG2Y");
+assertSearchPnIncludes("M12L64164A-5BIG2C", "ESMT M12L64164A-5BIG2C");
+assertSearchPnIncludes("M14D5121632A-15", "ESMT M14D5121632A-15BG2A");
+assertSearchPnIncludes("M14D5121632A-15B", "ESMT M14D5121632A-15BIG2M");
+assertSearchPnIncludes("M14D128168A-18", "ESMT M14D128168A-18BIG2Y");
+assertSearchPnIncludes("M14D2561616A-15", "ESMT M14D2561616A-15BG2S");
+assertSearchPnIncludes("M14D1G1664A-15B", "ESMT M14D1G1664A-15BIG2P");
+assertSearchPnIncludes("M14D1G1664A-18BV", "ESMT M14D1G1664A-18BVG2S");
+assertSearchPnIncludes("M14D1G1664A-18", "ESMT M14D1G1664A-18BIG2S");
+assertSearchPnIncludes("M14D1G8128A-16", "ESMT M14D1G8128A-16BG2P");
+assertSearchPnIncludes("M16U4G16256A-QL", "ESMT M16U4G16256A-QLBIG");
+assertSearchPnIncludes("M16U4G16256A-QLBIA", "ESMT M16U4G16256A-QLBIAG2Z");
+assertSearchPnIncludes("M52D2561616A-5", "ESMT M52D2561616A-5BG2F");
+assertSearchPnIncludes("M52D5121632A-5", "ESMT M52D5121632A-5BG");
+assertSearchPnIncludes("M52D5123216A-6", "ESMT M52D5123216A-6BIG");
+assertSearchPnIncludes("M52S32321A-75", "ESMT M52S32321A-75BIG");
+assertSearchPnIncludes("M53D2561616A-75", "ESMT M53D2561616A-75BG2F");
+assertSearchPnIncludes("M53D256328A-5B", "ESMT M53D256328A-5BG2F");
+assertSearchPnIncludes("M53D256328A-5", "ESMT M53D256328A-5BIG2F");
+assertSearchPnIncludes("M53D5121632A-75", "ESMT M53D5121632A-75BG");
+assertSearchPnIncludes("M53D5123216A-5", "ESMT M53D5123216A-5BG");
+assertSearchPnIncludes("M54D1G1664A-18", "ESMT M54D1G1664A-18BKIG");
+assertSearchPnIncludes("M54D2G16128A-3", "ESMT M54D2G16128A-3BKG");
+assertSearchPnIncludes("M55D4G16256A-GF", "ESMT M55D4G16256A-GFBG2R");
+assertSearchPnIncludes("M55D4G32128A-GF", "ESMT M55D4G32128A-GFBG2R");
+assertSearchPnIncludes("M16U4G16256", "ESMT M16U4G16256A");
+assertSearchPnIncludes("M56Z8G32256", "ESMT M56Z8G32256A");
+assertSearchPnIncludes("M56Z8G32256A-SM", "ESMT M56Z8G32256A-SMBYIG");
+assertSearchPnIncludes("M56Z8G32256A-TN", "ESMT M56Z8G32256A-TNBYG2H");
+assertSearchPnIncludes("EM6OF08", "Etron EM6OF08NWALE");
+assertSearchPnIncludes("EM6OE08NWALB-08", "Etron EM6OE08NWALB-08H");
+assertSearchPnIncludes("EM6GF08EBAHC-10B", "Etron EM6GF08EBAHC-10BSH");
+assertSearchPnIncludes("EM6KA32HVAFA-18", "Etron EM6KA32HVAFA-18H");
+assertSearchPnIncludes("EM6PF32", "Etron EM6PF32MBAJB-46SH");
+assertSearchPnIncludes("EM6LE16MVAJA-62B", "Etron EM6LE16MVAJA-62BPH");
+assertSearchPnIncludes("H5CG48", "SKhynix H5CG48AGBD-X018");
+assertSearchPnIncludes("H5CG44AGBDX018", "SKhynix H5CG44AGBDX018N");
+assertSearchPnIncludes("H5CG44AEBD", "SKhynix H5CG44AEBD");
+assertSearchPnIncludes("H5CG54MGBD", "SKhynix H5CG54MGBDX051");
+assertSearchPnIncludes("H5CG56MMBD", "SKhynix H5CG56MMBDX052");
+assertSearchPnIncludes("H56G42AS8", "SKhynix H56G42AS8DX014");
+assertSearchPnIncludes("H56G42AS2", "SKhynix H56G42AS2DX014");
+assertSearchPnIncludes("H9CCNNNBLTBLAR-NT", "SKhynix H9CCNNNBLTBLAR-NTD");
+assertSearchPnIncludes("H9CCNNNBLTBLAR-NU", "SKhynix H9CCNNNBLTBLAR-NUD");
+assertSearchPnIncludes("H9HCNNNBKMMLXR-NE", "SKhynix H9HCNNNBKMMLXR-NEE");
+assertSearchPnIncludes("H9HCNNNFAMMLXR-NE", "SKhynix H9HCNNNFAMMLXR-NEE");
+assertSearchPnIncludes("H9HKNNNBTUMUBR-NL", "SKhynix H9HKNNNBTUMUBR-NLH");
+assertSearchPnIncludes("H58G56CK8BX", "SKhynix H58G56CK8BX146");
+assertSearchPnIncludes("H58G66CK8BX", "SKhynix H58G66CK8BX147");
+assertSearchPnIncludes("CT40A1G8SA", "Micron CT40A1G8SA-62M:E");
+assertSearchPnIncludes("MT62F512M64D4EK-031", "Micron MT62F512M64D4EK-031AIT:B");
+assertSearchPnIncludes("MT62F512M64D4EK-031FAATB", "Micron MT62F512M64D4EK-031FAAT:B");
+assertSearchPnIncludes("MT62F1G64D8EK-031F", "Micron MT62F1G64D8EK-031FAAT:B");
+assertSearchPnIncludes("MT53E128M32D2FW-046ITA", "Micron MT53E128M32D2FW-046IT:A");
+assertSearchPnIncludes("MT61K256M32JE-12A", "Micron MT61K256M32JE-12:A");
+assertSearchPnIncludes("MT68A512M32DF-28A", "Micron MT68A512M32DF-28:A");
+assertSearchPnIncludes("MT62F512M32D2DS-031AATB", "Micron MT62F512M32D2DS-031AAT:B");
+assertDecodedPartNumber("MT53E128M32D2FW-046ITA", "MT53E128M32D2FW-046IT:A");
+assertDecodedPartNumber("MT61K256M32JE-12A", "MT61K256M32JE-12:A");
+assertDecodedPartNumber("MT68A512M32DF-28A", "MT68A512M32DF-28:A");
+assertDecodedPartNumber("MT62F512M32D2DS-031AATB", "MT62F512M32D2DS-031AAT:B");
+assertSearchPnIncludes("C9BJZ", "Micron CT40A1G8SA-62M:E");
+assertSearchPnIncludes("B9DHG", "Micron MT47H32M16BT-3E");
+assertSearchPnIncludes("MT43A4G40100", "Micron MT43A4G40100NFA-S15:A");
+assertSearchPnIncludes("MT54A16G8080", "Micron MT54A16G8080A00AC-28:A-B006");
+assertSearchMarkingRelation("C9BJZ", "CT40A1G8SA-62M:E");
+assertSearchMarkingRelation("B9DHG", "MT47H32M16BT-3E");
+assertSearchMarkingRelation("D9RLQ", "MT43A4G40100NFA-S15:A");
+assertSearchMarkingRelation("D9ZFZ", "MT54A16G8080A00AC-28:A-B006");

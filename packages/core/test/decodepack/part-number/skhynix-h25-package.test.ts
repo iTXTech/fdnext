@@ -1,0 +1,633 @@
+import assert from "node:assert/strict";
+import {
+  compiledPack,
+  detect,
+  engine,
+  firstField,
+  partNumberPnJson,
+  resourceEntries,
+  skhynixH25RawInternalExtra,
+  skhynixHn8RuleIds,
+  assertDecodePackDieProfile,
+  assertDecodedPartNumber,
+  assertDieProfileFromFdbProcess,
+  assertFdbDoesNotOverrideDecodePackFields,
+  assertFieldBlock,
+  assertHiddenComponentRelations,
+  assertHiddenPublicField,
+  assertIdentifierRelation,
+  assertKioxiaManagedRuleMatches,
+  assertKioxiaRawSuffixTopology,
+  assertMicronDecodePackDieProfile,
+  assertMicronManagedFbgaMarking,
+  assertNotFound,
+  assertPart,
+  assertRuleDoesNotMatch,
+  assertRuleDraftDieProfile,
+  assertSearchPnFirst,
+  assertSearchPnIncludes,
+  assertSkhynixEmcpRuleMatches,
+  assertSkhynixHn8RuleMatches,
+  assertSubtitle
+} from "./_helpers";
+
+assertPart("H25T2TB88E-X321-N", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV6",
+  cellField: "TLC",
+  voltage: "Unknown",
+  extra: {
+    "Process Alias": "H25FTB0",
+    "Layer Count": 128,
+    "Die Density": "512Gb",
+    "Die Count": 8
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T1TD48C-X630", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 2097152,
+  dieProfileField: "HYV8",
+  cellField: "TLC",
+  extra: {
+    "Process Alias": "H25FTD0",
+    "Layer Count": 238,
+    "Die Density": "512Gb",
+    "Die Count": 4
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T2TC88C", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV7",
+  cellField: "TLC",
+  extra: {
+    "Process Alias": "H25FTC0",
+    "Layer Count": 176,
+    "Die Density": "512Gb",
+    "Die Count": 8
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T2TD88C-X682", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV8",
+  cellField: "TLC",
+  extra: {
+    "Process Alias": "H25FTD0",
+    "Layer Count": 238,
+    "Die Density": "512Gb",
+    "Die Count": 8
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T2TD88C", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV8",
+  cellField: "TLC",
+  extra: {
+    "Process Alias": "H25FTD0",
+    "Layer Count": 238,
+    "Die Density": "512Gb",
+    "Die Count": 8
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+const skhynixH25Hyv9KnownPackages = [
+  {
+    partNumber: "H25T0TD18CX655",
+    densityMbit: 1048576,
+    dieCount: 1,
+    ceCount: 1,
+    rbCount: 1,
+    channelCount: 1,
+    package: "152-ball BGA 14x18x1.0mm"
+  },
+  {
+    partNumber: "H25T1TD28CX656",
+    densityMbit: 2097152,
+    dieCount: 2,
+    ceCount: 2,
+    rbCount: 2,
+    channelCount: 2,
+    package: "152-ball BGA 14x18x1.0mm"
+  },
+  {
+    partNumber: "H25T2TD48CX657",
+    densityMbit: 4194304,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "152-ball BGA 14x18x1.0mm"
+  },
+  {
+    partNumber: "H25T3TD88CX676",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "152-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T3TD88CX658",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "152-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T4TDG8CX658",
+    densityMbit: 16777216,
+    dieCount: 16,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "152-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T2TD48CX659",
+    densityMbit: 4194304,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.0mm"
+  },
+  {
+    partNumber: "H25T3TD88CX660",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T4TDG8CX660",
+    densityMbit: 16777216,
+    dieCount: 16,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T2TD48CX862",
+    densityMbit: 4194304,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T3TD88CX860",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.35mm"
+  },
+  {
+    partNumber: "H25T0TD18CX826",
+    densityMbit: 1048576,
+    dieCount: 1,
+    ceCount: 1,
+    rbCount: 1,
+    channelCount: 1,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T1TD28CX828",
+    densityMbit: 2097152,
+    dieCount: 2,
+    ceCount: 2,
+    rbCount: 2,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T2TD48CX809",
+    densityMbit: 4194304,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T3TD88CX811",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.35mm"
+  },
+  {
+    partNumber: "H25T4TDG8CX813",
+    densityMbit: 16777216,
+    dieCount: 16,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.5mm"
+  }
+];
+
+const skhynixH25Hyv9ExtraByPartNumber: Record<string, { speedGrade: string; productClass: string }> = {
+  H25T0TD18CX655: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
+  H25T1TD28CX656: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
+  H25T2TD48CX657: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
+  H25T3TD88CX676: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
+  H25T3TD88CX658: { speedGrade: "DQ Speed=2400Mbps", productClass: "Enterprise" },
+  H25T4TDG8CX658: { speedGrade: "DQ Speed=1600Mbps", productClass: "Enterprise" },
+  H25T2TD48CX659: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
+  H25T3TD88CX660: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
+  H25T4TDG8CX660: { speedGrade: "DQ Speed=1600Mbps", productClass: "Client" },
+  H25T2TD48CX862: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
+  H25T3TD88CX860: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
+  H25T0TD18CX826: { speedGrade: "DQ Speed=2400Mbps", productClass: "Enterprise" },
+  H25T1TD28CX828: { speedGrade: "DQ Speed=2400Mbps", productClass: "Enterprise" },
+  H25T2TD48CX809: { speedGrade: "DQ Speed=2400Mbps", productClass: "Enterprise" },
+  H25T3TD88CX811: { speedGrade: "DQ Speed=2400Mbps", productClass: "Enterprise" },
+  H25T4TDG8CX813: { speedGrade: "DQ Speed=2100Mbps", productClass: "Enterprise" }
+};
+
+const skhynixH25Hyv9AbsentExtra = skhynixH25RawInternalExtra.filter((key) => key !== "Product Class");
+
+for (const item of skhynixH25Hyv9KnownPackages) {
+  const exactExtra = skhynixH25Hyv9ExtraByPartNumber[item.partNumber];
+  assert.ok(exactExtra, `${item.partNumber} should have exact HYV9 package-list extra fields`);
+  assertPart(item.partNumber, {
+    vendor: "skhynix",
+    type: "NAND",
+    densityMbit: item.densityMbit,
+    dieProfileField: "HYV9",
+    cellField: "TLC",
+    voltage: "Vcc: 2.5V, VccQ: 1.2V",
+    package: item.package,
+    extra: {
+      "Layer Count": 321,
+      "Die Density": "1Tb",
+      "Die Count": item.dieCount,
+      "CE Count": item.ceCount,
+      "R/B Count": item.rbCount,
+      "Channel Count": item.channelCount,
+      "Speed Grade": exactExtra.speedGrade,
+      "Product Class": exactExtra.productClass
+    },
+    absentExtra: [...skhynixH25Hyv9AbsentExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+  });
+}
+
+const skhynixH25V9hKnownPackages = [
+  {
+    partNumber: "H25T0TG18GX807",
+    densityMbit: 1048576,
+    dieCount: 1,
+    ceCount: 1,
+    rbCount: 1,
+    channelCount: 1,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T1TG28GX840",
+    densityMbit: 2097152,
+    dieCount: 2,
+    ceCount: 2,
+    rbCount: 2,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T2TG48GX842",
+    densityMbit: 4194304,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm"
+  },
+  {
+    partNumber: "H25T3TG88GX844",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.35mm"
+  },
+  {
+    partNumber: "H25T2TG48GX846",
+    densityMbit: 4194304,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.0mm"
+  },
+  {
+    partNumber: "H25T3TG88GX848",
+    densityMbit: 8388608,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.35mm"
+  },
+  {
+    partNumber: "H25T4TGG8GX848",
+    densityMbit: 16777216,
+    dieCount: 16,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.35mm"
+  }
+];
+
+const skhynixH25V9hAbsentExtra = skhynixH25RawInternalExtra.filter((key) => key !== "Product Class");
+
+for (const item of skhynixH25V9hKnownPackages) {
+  assertPart(item.partNumber, {
+    vendor: "skhynix",
+    type: "NAND",
+    densityMbit: item.densityMbit,
+    dieProfileField: "HYV9H",
+    cellField: "TLC",
+    package: item.package,
+    extra: {
+      "Layer Count": 321,
+      "Die Density": "1Tb",
+      "Die Count": item.dieCount,
+      "CE Count": item.ceCount,
+      "R/B Count": item.rbCount,
+      "Channel Count": item.channelCount,
+      "Plane Count": 4,
+      "Speed Grade": "Max Speed=3600MT/s",
+      "Product Class": "Client"
+    },
+    absentExtra: [...skhynixH25V9hAbsentExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+  });
+}
+
+assertPart("H25T0TG18G-X807", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "HYV9H",
+  cellField: "TLC",
+  package: "154-ball BGA 11.5x13.5x1.0mm",
+  extra: {
+    "Product Class": "Client"
+  },
+  absentExtra: [...skhynixH25V9hAbsentExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+});
+
+const skhynixH25V9hDashResult = engine.decodePart({ query: "H25T0TG18G-X807", lang: "eng" });
+assert.equal(skhynixH25V9hDashResult.input.normalized, "H25T0TG18GX807", "H25 -X package suffix should normalize without dash");
+assert.equal(skhynixH25V9hDashResult.device?.partNumber, "H25T0TG18GX807", "H25 -X package suffix should resolve to the canonical no-dash PN");
+
+assertPart("H25T0QA18CX542", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "HYV7Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 176
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T4QM88G", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "HYV9Q",
+  cellField: "QLC",
+  extra: {
+    "Layer Count": 321,
+    "Die Density": "2Tb",
+    "Die Count": 8,
+    "CE Count": 4,
+    "Plane Count": 6,
+    "Speed Grade": "Max Speed=3200MT/s"
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+const skhynixH25V9qKnownPackages = [
+  {
+    partNumber: "H25T3QM48GX817",
+    densityMbit: 8388608,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.0mm",
+    speedGrade: "Max Speed=3200MT/s",
+    productClass: "Client"
+  },
+  {
+    partNumber: "H25T4QM88GX819",
+    densityMbit: 16777216,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.35mm",
+    speedGrade: "Max Speed=3200MT/s",
+    productClass: "Client"
+  },
+  {
+    partNumber: "H25T5QMG8GX819",
+    densityMbit: 33554432,
+    dieCount: 16,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 4,
+    package: "316-ball BGA 14x18x1.35mm",
+    speedGrade: "Max Speed=3200MT/s",
+    productClass: "Client"
+  },
+  {
+    partNumber: "H25T1QM18GX834",
+    densityMbit: 2097152,
+    dieCount: 1,
+    ceCount: 1,
+    rbCount: 1,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm",
+    speedGrade: "Max Speed=3200MT/s",
+    productClass: "Enterprise"
+  },
+  {
+    partNumber: "H25T2QM28GX836",
+    densityMbit: 4194304,
+    dieCount: 2,
+    ceCount: 2,
+    rbCount: 2,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm",
+    speedGrade: "Max Speed=3200MT/s",
+    productClass: "Enterprise"
+  },
+  {
+    partNumber: "H25T3QM48GX822",
+    densityMbit: 8388608,
+    dieCount: 4,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.0mm",
+    speedGrade: "Max Speed=3200MT/s",
+    productClass: "Enterprise"
+  },
+  {
+    partNumber: "H25T4QM88GX824",
+    densityMbit: 16777216,
+    dieCount: 8,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.35mm",
+    speedGrade: "Max Speed=3200MT/s",
+    productClass: "Enterprise"
+  },
+  {
+    partNumber: "H25T5QMG8GX830",
+    densityMbit: 33554432,
+    dieCount: 16,
+    ceCount: 4,
+    rbCount: 4,
+    channelCount: 2,
+    package: "154-ball BGA 11.5x13.5x1.7mm",
+    speedGrade: "Max Speed=2280MT/s",
+    productClass: "Enterprise",
+    specialOption: "IF-Chip"
+  }
+];
+
+const skhynixH25V9qAbsentExtra = skhynixH25RawInternalExtra.filter((key) => key !== "Product Class");
+
+for (const item of skhynixH25V9qKnownPackages) {
+  assertPart(item.partNumber, {
+    vendor: "skhynix",
+    type: "NAND",
+    densityMbit: item.densityMbit,
+    dieProfileField: "HYV9Q",
+    cellField: "QLC",
+    package: item.package,
+    extra: {
+      "Layer Count": 321,
+      "Die Density": "2Tb",
+      "Die Count": item.dieCount,
+      "CE Count": item.ceCount,
+      "R/B Count": item.rbCount,
+      "Channel Count": item.channelCount,
+      "Plane Count": 6,
+      "Speed Grade": item.speedGrade,
+      "Product Class": item.productClass,
+      ...(item.specialOption ? { "Special Option": item.specialOption } : {})
+    },
+    absentExtra: [...skhynixH25V9qAbsentExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+  });
+}
+
+assertPart("H25T3TCG8C", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "HYV7",
+  cellField: "TLC",
+  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  extra: {
+    "Process Alias": "H25FTC0",
+    "Layer Count": 176,
+    "Die Density": "512Gb",
+    "Die Count": 16,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 2
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertPart("H25T4TMG8C", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "HYV6",
+  cellField: "TLC",
+  extra: {
+    "Process Alias": "H25GTM0",
+    "Layer Count": 128,
+    "Die Density": "1Tb",
+    "Die Count": 16,
+    "CE Count": 4
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertRuleDraftDieProfile("vendor.skhynix.h25.gt-package.v2", "H25G9TC18CX488", "HYV7");
+assertRuleDoesNotMatch("vendor.skhynix.h25.raw.v2", "H25G9TC18CX488");
+assertPart("H25G9TC18CX488", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "HYV7",
+  cellField: "TLC",
+  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  extra: {
+    "Process Alias": "H25FTC0",
+    "Layer Count": 176,
+    "Die Density": "512Gb",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Channel Count": 1
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});
+
+assertRuleDraftDieProfile("vendor.skhynix.h25.gt-package.v2", "H25G9TD18CX576", "HYV8");
+assertRuleDoesNotMatch("vendor.skhynix.h25.raw.v2", "H25G9TD18CX576");
+assertPart("H25G9TD18CX576", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "HYV8",
+  cellField: "TLC",
+  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  extra: {
+    "Process Alias": "H25FTD0",
+    "Layer Count": 238,
+    "Die Density": "512Gb",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Channel Count": 1
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+});

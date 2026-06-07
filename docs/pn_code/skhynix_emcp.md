@@ -35,7 +35,7 @@
   - `vendor.skhynix.emcp.h9a.v1`
   - `vendor.skhynix.umcp.h9q.v1`
   - `vendor.skhynix.umcp.h9hq.v1`
-- testcase：`packages/core/test/decodepack/managed-nand.test.ts`
+- testcase：`packages/core/test/decodepack/part-number/skhynix.test.ts`
 
 ## H9HP LPDDR4X eMCP 结构
 
