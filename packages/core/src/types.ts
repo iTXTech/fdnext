@@ -191,7 +191,6 @@ export interface PartDecodeOptions {
 export interface SearchOptions {
   lang?: Language | null;
   limit?: number;
-  controllerGroup?: ControllerGroupSelection;
   partialMatch?: boolean;
 }
 

@@ -120,13 +120,18 @@ export const decodePartInputJsonSchema = {
 } as const satisfies JsonSchema;
 
 export const searchPartsInputJsonSchema = {
-  ...decodePartInputJsonSchema,
+  $schema: "https://json-schema.org/draft/2020-12/schema",
   $id: "https://itxtech.org/fdnext/schemas/search-parts-input-v1.json",
   title: "SearchPartsInput",
+  type: "object",
+  required: ["query"],
   properties: {
-    ...decodePartInputJsonSchema.properties,
+    query: { type: "string", minLength: 1 },
+    lang: { type: ["string", "null"] },
+    constraints: decodePartInputJsonSchema.properties.constraints,
     limit: { type: "integer", minimum: 1 }
-  }
+  },
+  additionalProperties: false
 } as const satisfies JsonSchema;
 
 export const decodeIdentifierInputJsonSchema = {
@@ -146,13 +151,19 @@ export const decodeIdentifierInputJsonSchema = {
 } as const satisfies JsonSchema;
 
 export const searchIdentifiersInputJsonSchema = {
-  ...decodeIdentifierInputJsonSchema,
+  $schema: "https://json-schema.org/draft/2020-12/schema",
   $id: "https://itxtech.org/fdnext/schemas/search-identifiers-input-v1.json",
   title: "SearchIdentifiersInput",
+  type: "object",
+  required: ["query"],
   properties: {
-    ...decodeIdentifierInputJsonSchema.properties,
+    query: { type: "string", minLength: 1 },
+    lang: { type: ["string", "null"] },
+    idScheme: { enum: fdnextIdSchemes },
+    constraints: operationConstraintsSchema,
     limit: { type: "integer", minimum: 1 }
-  }
+  },
+  additionalProperties: false
 } as const satisfies JsonSchema;
 
 const resultDefs = {

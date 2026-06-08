@@ -218,7 +218,10 @@ export interface DecodePartInput {
   constraints?: Omit<OperationConstraints, "idScheme">;
 }
 
-export interface SearchPartsInput extends DecodePartInput {
+export interface SearchPartsInput {
+  query: string;
+  lang?: string | null;
+  constraints?: Omit<OperationConstraints, "idScheme">;
   limit?: number;
 }
 
@@ -230,7 +233,11 @@ export interface DecodeIdentifierInput {
   constraints?: OperationConstraints;
 }
 
-export interface SearchIdentifiersInput extends DecodeIdentifierInput {
+export interface SearchIdentifiersInput {
+  query: string;
+  lang?: string | null;
+  idScheme?: FdnextIdScheme;
+  constraints?: OperationConstraints;
   limit?: number;
 }
 

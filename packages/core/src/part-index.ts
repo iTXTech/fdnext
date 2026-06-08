@@ -16,6 +16,7 @@ export interface PartIndexRecord {
   vendor: string;
   chipKind: FdnextChipKind;
   productType?: FdnextProductType;
+  markingCode?: string;
   source: PartIndexSource;
 }
 
@@ -43,10 +44,16 @@ export interface VendorIndexRecord {
   identifiers: Set<string>;
 }
 
+type IndexRefBucket = number | number[];
+
 export interface NormalizedIndexes {
   partIndex: PartIndexRecord[];
   identifierIndex: Map<string, IdentifierIndexRecord>;
   markingIndex: MarkingIndexRecord[];
+  partExactIndex: Map<string, IndexRefBucket>;
+  markingExactIndex: Map<string, IndexRefBucket>;
+  partPrefixIndex: Map<string, IndexRefBucket>;
+  markingPrefixIndex: Map<string, IndexRefBucket>;
   vendorIndex: Map<string, VendorIndexRecord>;
 }
 
@@ -147,11 +154,100 @@ function addPartRecord(records: Map<string, PartIndexRecord>, record: PartIndexR
   const existing = records.get(key);
   if (!existing || sourceWeight(record.source) > sourceWeight(existing.source)) {
     records.set(key, record);
+  } else if (record.markingCode && !existing.markingCode) {
+    records.set(key, { ...existing, markingCode: record.markingCode });
   }
 }
 
 function normalizeMarkingCode(value: string): string {
   return value.trim().toUpperCase().replace(/[^0-9A-Z]/g, "");
+}
+
+const PART_PREFIX_PROFILES = [
+  "MT29",
+  "MTFC",
+  "MTFD",
+  "MT40",
+  "MT41",
+  "MT42",
+  "MT43",
+  "MT44",
+  "MT46",
+  "MT47",
+  "MT48",
+  "MT49",
+  "MT51",
+  "MT52",
+  "MT53",
+  "MT54",
+  "MT58",
+  "MT60",
+  "MT61",
+  "MT62",
+  "MT68",
+  "CT40",
+  "K4",
+  "K9",
+  "KLM",
+  "KLU",
+  "H25",
+  "H26",
+  "H27",
+  "H28",
+  "H9",
+  "TC58",
+  "TH",
+  "SDIN",
+  "SDT",
+  "SD"
+];
+
+const MARKING_PREFIX_PROFILES = ["C9", "D8", "D9", "Z8", "Z9", "NC", "NW", "NY", "NX", "NQ", "NV", "PF"];
+
+function addIndexRef(index: Map<string, IndexRefBucket>, key: string, ref: number): void {
+  if (!key) {
+    return;
+  }
+  const existing = index.get(key);
+  if (existing !== undefined) {
+    if (typeof existing === "number") {
+      if (existing !== ref) {
+        index.set(key, [existing, ref]);
+      }
+      return;
+    }
+    if (existing[existing.length - 1] !== ref) {
+      existing.push(ref);
+    }
+    return;
+  }
+  index.set(key, ref);
+}
+
+function matchingProfile(value: string, profiles: string[]): string | undefined {
+  let matched: string | undefined;
+  for (const profile of profiles) {
+    if (value.startsWith(profile) && (!matched || profile.length > matched.length)) {
+      matched = profile;
+    }
+  }
+  return matched;
+}
+
+function addExactIndexKeys(index: Map<string, IndexRefBucket>, value: string, ref: number): void {
+  addIndexRef(index, value, ref);
+  addIndexRef(index, normalizePartNumberTokenKey(value), ref);
+}
+
+function addPrefixIndexKeys(index: Map<string, IndexRefBucket>, value: string, ref: number, profiles: string[]): void {
+  const profile = matchingProfile(value, profiles);
+  const tokenKey = normalizePartNumberTokenKey(value);
+  const tokenProfile = matchingProfile(tokenKey, profiles);
+  for (const key of new Set([profile, tokenProfile])) {
+    if (key) {
+      addIndexRef(index, key, ref);
+    }
+  }
 }
 
 function chipKindForMdbPart(partNumber: string): FdnextChipKind {
@@ -168,8 +264,16 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
   const markingIndex: MarkingIndexRecord[] = [];
   const vendorIndex = new Map<string, VendorIndexRecord>();
 
-  const addPart = (vendor: string, partNumberRaw: string, chipKind: FdnextChipKind, source: PartIndexSource, productType?: FdnextProductType): void => {
+  const addPart = (
+    vendor: string,
+    partNumberRaw: string,
+    chipKind: FdnextChipKind,
+    source: PartIndexSource,
+    productType?: FdnextProductType,
+    markingCodeRaw?: string
+  ): void => {
     const partNumber = normalizePartNumber(partNumberRaw);
+    const markingCode = markingCodeRaw ? normalizeMarkingCode(markingCodeRaw) : "";
     if (!vendor || !partNumber) {
       return;
     }
@@ -179,6 +283,7 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
       vendor,
       chipKind,
       ...(productType ? { productType } : {}),
+      ...(markingCode ? { markingCode } : {}),
       source
     });
     createVendorIndexRecord(vendorIndex, vendor).partNumbers.add(partNumber);
@@ -215,7 +320,7 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
     };
     markingIndex.push(record);
     createVendorIndexRecord(vendorIndex, vendor).markings.add(markingCode);
-    addPart(vendor, partNumber, chipKind, "mdb");
+    addPart(vendor, partNumber, chipKind, "mdb", undefined, markingCode);
   };
 
   for (const [code, partNumbers] of input.micronDramFbgaCodes.entries()) {
@@ -253,10 +358,30 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
     }
   }
 
+  const partIndex = [...partRecords.values()];
+  const partExactIndex = new Map<string, IndexRefBucket>();
+  const markingExactIndex = new Map<string, IndexRefBucket>();
+  const partPrefixIndex = new Map<string, IndexRefBucket>();
+  const markingPrefixIndex = new Map<string, IndexRefBucket>();
+
+  partIndex.forEach((record, ref) => {
+    addExactIndexKeys(partExactIndex, record.normalizedPartNumber, ref);
+    addPrefixIndexKeys(partPrefixIndex, record.normalizedPartNumber, ref, PART_PREFIX_PROFILES);
+  });
+
+  markingIndex.forEach((record, ref) => {
+    addExactIndexKeys(markingExactIndex, record.markingCode, ref);
+    addPrefixIndexKeys(markingPrefixIndex, record.markingCode, ref, MARKING_PREFIX_PROFILES);
+  });
+
   return {
-    partIndex: [...partRecords.values()],
+    partIndex,
     identifierIndex,
     markingIndex,
+    partExactIndex,
+    markingExactIndex,
+    partPrefixIndex,
+    markingPrefixIndex,
     vendorIndex
   };
 }
@@ -548,7 +673,13 @@ export function classifyPart(
     : baseLimit;
   const canAddBase = (): boolean => baseLimit === 0 || bases.length < baseLimit;
   const canAddPreferredBase = (): boolean => preferredBaseLimit === 0 || bases.length < preferredBaseLimit;
+  const seenBaseKeys = new Set<string>();
   const addBase = (base: Omit<PartClassificationCandidate, "score" | "warnings" | "info">): void => {
+    const key = `${base.source}\0${base.vendor}\0${base.normalizedPartNumber}\0${base.chipKind}\0${base.markingCode ?? ""}\0${base.markingMatch ? "marking" : "part"}`;
+    if (seenBaseKeys.has(key)) {
+      return;
+    }
+    seenBaseKeys.add(key);
     if (prioritizeConstrainedSearch && !baseMatchesSearchConstraints(base, constraints)) {
       if (deferredBases.length < baseLimit) {
         deferredBases.push(base);
@@ -560,15 +691,16 @@ export function classifyPart(
     }
   };
 
-  for (const record of options.indexes.markingIndex) {
-    if (!prioritizeConstrainedSearch && !canAddBase()) {
-      break;
-    }
+  let usedFastIndex = false;
+  let hasExactFastMatch = false;
+  const normalizedTokenKey = normalizePartNumberTokenKey(normalized);
+
+  const addMarkingRecord = (record: MarkingIndexRecord): void => {
     const byCode = matchKind(record.markingCode, normalized, partialMatch);
     const byPart = matchKind(record.normalizedPartNumber, normalized, partialMatch);
     const match = byCode ?? byPart;
     if (!match) {
-      continue;
+      return;
     }
     addBase({
       partNumber: record.partNumber,
@@ -581,15 +713,12 @@ export function classifyPart(
       source: record.source,
       matchKind: byCode === "exact" ? "exact" : match
     });
-  }
+  };
 
-  for (const record of options.indexes.partIndex) {
-    if (!prioritizeConstrainedSearch && !canAddBase()) {
-      break;
-    }
+  const addPartRecord = (record: PartIndexRecord): void => {
     const match = matchKind(record.normalizedPartNumber, normalized, partialMatch);
     if (!match) {
-      continue;
+      return;
     }
     addBase({
       partNumber: record.partNumber,
@@ -597,9 +726,87 @@ export function classifyPart(
       vendor: record.vendor,
       chipKind: record.chipKind,
       ...(record.productType ? { productType: record.productType } : {}),
+      ...(record.markingCode ? { markingCode: record.markingCode } : {}),
       source: record.source,
       matchKind: match
     });
+  };
+
+  const addMarkingRefs = (refs: IndexRefBucket | undefined, exact: boolean): void => {
+    if (refs === undefined) {
+      return;
+    }
+    usedFastIndex = true;
+    hasExactFastMatch = hasExactFastMatch || exact;
+    for (const ref of typeof refs === "number" ? [refs] : refs) {
+      if (!prioritizeConstrainedSearch && !canAddBase()) {
+        break;
+      }
+      const record = options.indexes.markingIndex[ref];
+      if (record) {
+        addMarkingRecord(record);
+      }
+    }
+  };
+
+  const addPartRefs = (refs: IndexRefBucket | undefined, exact: boolean): void => {
+    if (refs === undefined) {
+      return;
+    }
+    usedFastIndex = true;
+    hasExactFastMatch = hasExactFastMatch || exact;
+    for (const ref of typeof refs === "number" ? [refs] : refs) {
+      if (!prioritizeConstrainedSearch && !canAddBase()) {
+        break;
+      }
+      const record = options.indexes.partIndex[ref];
+      if (record) {
+        addPartRecord(record);
+      }
+    }
+  };
+
+  for (const key of new Set([normalized, normalizedTokenKey])) {
+    addMarkingRefs(options.indexes.markingExactIndex.get(key), true);
+    addPartRefs(options.indexes.partExactIndex.get(key), true);
+  }
+
+  if (partialMatch && !hasExactFastMatch) {
+    const markingProfiles = new Set(
+      [normalized, normalizedTokenKey]
+        .map((key) => matchingProfile(key, MARKING_PREFIX_PROFILES))
+        .filter((profile): profile is string => Boolean(profile))
+    );
+    const partProfiles = new Set(
+      [normalized, normalizedTokenKey]
+        .map((key) => matchingProfile(key, PART_PREFIX_PROFILES))
+        .filter((profile): profile is string => Boolean(profile))
+    );
+    for (const profile of markingProfiles) {
+      addMarkingRefs(options.indexes.markingPrefixIndex.get(profile), false);
+    }
+    for (const profile of partProfiles) {
+      addPartRefs(options.indexes.partPrefixIndex.get(profile), false);
+    }
+  }
+
+  const fallbackThreshold = options.mode === "search" ? Math.max(1, Math.min(options.limit ?? 50, 10)) : 0;
+  const shouldFallbackScan = options.mode === "search" && (!usedFastIndex || (!hasExactFastMatch && bases.length < fallbackThreshold));
+
+  if (shouldFallbackScan) {
+    for (const record of options.indexes.markingIndex) {
+      if (!prioritizeConstrainedSearch && !canAddBase()) {
+        break;
+      }
+      addMarkingRecord(record);
+    }
+
+    for (const record of options.indexes.partIndex) {
+      if (!prioritizeConstrainedSearch && !canAddBase()) {
+        break;
+      }
+      addPartRecord(record);
+    }
   }
 
   if (prioritizeConstrainedSearch && bases.length < Math.max(options.limit ?? 50, 1)) {

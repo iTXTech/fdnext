@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { createContractEngine } from "../src/index";
-import { collectBlockIds, collectResultFields, searchItemControllerValues } from "./_helpers";
+import { collectBlockIds, collectResultFields, controllerFieldValues, searchItemControllerValues } from "./_helpers";
 
 const engine = createContractEngine();
 
@@ -48,23 +48,10 @@ const micronIdentifierSearch = engine.searchIdentifiers({ query: "2C8464", lang:
 assert.ok(micronIdentifierSearch.items.every((item) => item.device.vendor.id !== "unknown"), "identifier search should expose inferred vendors");
 const richIdentifierHit = micronIdentifierSearch.items.find((item) => item.label === "2C84643CA500");
 assert.ok(richIdentifierHit);
-const richIdentifierController = richIdentifierHit.fields?.find((field) => field.key === "controller");
-assert.ok(Array.isArray(richIdentifierController?.value), "identifier search should expose controller lists");
-assert.ok((richIdentifierController.value as unknown[]).includes("JMF608"));
-assert.ok((richIdentifierController.value as unknown[]).includes("SM3270AC"));
-const sataIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: "if:sata" }).items
-  .find((item) => item.label === "2C84643CA500");
-assert.deepEqual(searchItemControllerValues(sataIdentifierHit), ["SM2244LT", "SM2246EN", "SM2246XT", "YS9083XT"]);
-const unionIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: ["if:sata", "if:usb20"] }).items
-  .find((item) => item.label === "2C84643CA500");
-const unionIdentifierControllers = searchItemControllerValues(unionIdentifierHit);
-assert.ok(!unionIdentifierControllers.includes("JMF608"));
-assert.ok(unionIdentifierControllers.includes("SM2246EN"));
-assert.ok(unionIdentifierControllers.includes("SM3270AC"));
-const nvmeIdentifierHit = engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: "if:nvme" }).items
-  .find((item) => item.label === "2C84643CA500");
-assert.deepEqual(searchItemControllerValues(nvmeIdentifierHit), []);
-assert.equal(engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10, controllerGroup: "if:nvme" }).status, "ok");
-const partSearchControllerHit = engine.searchParts({ query: "MT29F512G08CMCAB", lang: "eng", limit: 5, controllerGroup: "if:usb20" }).items
+assert.deepEqual(searchItemControllerValues(richIdentifierHit), [], "identifier search should not expose controller fields");
+assert.ok((richIdentifierHit.relations ?? []).some((relation) => relation.target.partNumber), "identifier search should retain part-number relations");
+const sataIdentifierDecode = engine.decodeIdentifier({ query: "2C84643CA500", lang: "eng", controllerGroup: "if:sata" });
+assert.deepEqual(controllerFieldValues(sataIdentifierDecode), ["SM2244LT", "SM2246EN", "SM2246XT", "YS9083XT"]);
+const partSearchControllerHit = engine.searchParts({ query: "MT29F512G08CMCAB", lang: "eng", limit: 5 }).items
   .find((item) => item.device.partNumber === "MT29F512G08CMCAB");
-assert.ok(searchItemControllerValues(partSearchControllerHit).includes("SM3270AC"));
+assert.deepEqual(searchItemControllerValues(partSearchControllerHit), [], "part search should not expose controller fields");

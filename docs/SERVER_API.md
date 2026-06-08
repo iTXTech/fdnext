@@ -30,7 +30,7 @@
 | `query` | decode / search | 查询文本。PN 保留原始格式即可；NAND Flash ID 可使用连续 hex，也可包含常见分隔符。 |
 | `lang` | 全部正式接口 | 可选语言，例如 `eng`、`chs`。`/capabilities?lang=eng` 会返回英文 controller group 标题。 |
 | `limit` | search | 正整数，限制搜索结果数量。非法或缺省时使用默认行为。 |
-| `controllerGroup` | decode / search | 控制器投影视图。支持单值、逗号分隔或 repeated query，例如 `controllerGroup=if:sata,if:nvme`。 |
+| `controllerGroup` | decode | 控制器投影视图。支持单值、逗号分隔或 repeated query，例如 `controllerGroup=if:sata,if:nvme`。search 接口会忽略该参数。 |
 | `idScheme` | identifiers | typed identifier namespace。当前默认 `nand.flash_id`，通常不需要显式传入。 |
 
 当前公开 controller group：
@@ -78,10 +78,22 @@ curl 'http://127.0.0.1:8080/parts/decode?query=MT62F1G64D4EK-023%20WT:B&lang=chs
 
 ```bash
 curl 'http://127.0.0.1:8080/parts/search?query=MTFC&lang=eng&limit=10&productType=ufs'
-curl 'http://127.0.0.1:8080/parts/search?query=MT29&controllerGroup=if:sata&controllerGroup=if:nvme'
+curl 'http://127.0.0.1:8080/parts/search?query=C9BJZ&lang=eng&limit=5'
 ```
 
-参数与 `/parts/decode` 相同，另支持 `limit`。
+参数：
+
+| 参数 | 必填 | 说明 |
+| --- | --- | --- |
+| `query` | 是 | PN、FBGA / marking code 或 part API 可识别的查询文本。 |
+| `lang` | 否 | 输出语言。 |
+| `limit` | 否 | 正整数，限制搜索结果数量。 |
+| `vendor` | 否 | 约束 vendor key，例如 `micron`、`samsung`。 |
+| `chipKind` | 否 | 约束 chip kind，例如 `raw_nand`、`managed_nand`、`dram`。 |
+| `productType` | 否 | 约束产品类型，例如 `emmc`、`ufs`、`emcp`。 |
+| `strict` | 否 | `true/false`、`1/0` 或 `yes/no`。开启后约束不满足会返回不匹配结果。 |
+
+`/parts/search` 返回 summary 候选，不输出 controller 字段；完整 controller 和 FDB 补全信息由 `/parts/decode` 返回。为兼容旧 URL，额外传入 `controllerGroup` 会被忽略。
 
 ## 5. Identifier API
 
@@ -109,10 +121,19 @@ curl 'http://127.0.0.1:8080/identifiers/decode?query=2C,64,44,4B,A9,00&lang=chs&
 
 ```bash
 curl 'http://127.0.0.1:8080/identifiers/search?query=2C64&lang=eng&limit=10'
-curl 'http://127.0.0.1:8080/identifiers/search?query=2C8464&controllerGroup=if:sata,if:nvme'
+curl 'http://127.0.0.1:8080/identifiers/search?query=2C8464&lang=eng&limit=10'
 ```
 
-参数与 `/identifiers/decode` 相同，另支持 `limit`。
+参数：
+
+| 参数 | 必填 | 说明 |
+| --- | --- | --- |
+| `query` | 是 | typed identifier。当前主要是 NAND Flash ID。 |
+| `lang` | 否 | 输出语言。 |
+| `idScheme` | 否 | 默认 `nand.flash_id`。未来有多个 identifier scheme 时再显式选择。 |
+| `limit` | 否 | 正整数，限制搜索结果数量。 |
+
+`/identifiers/search` 保留 geometry 和关联 PN 列表，但不输出 controller 字段；完整 controller 投影由 `/identifiers/decode` 返回。为兼容旧 URL，额外传入 `controllerGroup` 会被忽略。
 
 ## 6. Capabilities
 

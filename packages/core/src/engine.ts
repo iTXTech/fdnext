@@ -25,14 +25,15 @@ import {
   pruneRedundantFields
 } from "./engine/field-normalization";
 import { buildKnownPartNumbers, buildMicronDramFbgaCodes, collectFdbControllers } from "./engine/resources";
-import { buildFdb, buildMdb, findFlashIdRecord, findPartNumberAcrossVendors, getPartNumberRecord } from "./fdb";
+import { buildFdb, buildMdb, findFlashIdRecord, getPartNumberRecord } from "./fdb";
 import { createDefaultIdentifierPostprocessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
 import { applyMicronFbgaMeta, parseKnownFiveDigitMicronFbgaCode, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
 import {
   buildNormalizedIndexes,
   classifyPart,
-  type PartClassificationCandidate
+  type PartClassificationCandidate,
+  type PartIndexRecord
 } from "./part-index";
 import { normalizeVendor } from "./fdb-lookup";
 import {
@@ -44,7 +45,7 @@ import {
   type PartSearchSuggestion
 } from "./result-builder";
 import { translateString as doTranslateString } from "./translate";
-import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize";
+import { normalizeFlashId, normalizePartNumber, normalizePartNumberTokenKey, padFlashId } from "./utils/normalize";
 import { contains } from "./utils/string";
 import type {
   PartDecodeOptions,
@@ -475,15 +476,54 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
   };
 
+  const indexedPartRecords = (partNumber: string): PartIndexRecord[] => {
+    const normalized = normalizePartNumber(partNumber);
+    if (!normalized) {
+      return [];
+    }
+    const records: PartIndexRecord[] = [];
+    const seen = new Set<string>();
+    for (const key of new Set([normalized, normalizePartNumberTokenKey(normalized)])) {
+      const refs = normalizedIndexes.partExactIndex.get(key);
+      for (const ref of refs === undefined ? [] : typeof refs === "number" ? [refs] : refs) {
+        const record = normalizedIndexes.partIndex[ref];
+        if (!record) {
+          continue;
+        }
+        const recordKey = `${record.vendor}\0${record.normalizedPartNumber}\0${record.chipKind}`;
+        if (seen.has(recordKey)) {
+          continue;
+        }
+        seen.add(recordKey);
+        records.push(record);
+      }
+    }
+    return records;
+  };
+
+  const indexedFdbRecords = (partNumber: string): Array<{ vendor: string; record: PartNumberRecord }> => {
+    const result: Array<{ vendor: string; record: PartNumberRecord }> = [];
+    const seen = new Set<string>();
+    for (const indexed of indexedPartRecords(partNumber)) {
+      const record = getPartNumberRecord(fdb, indexed.vendor, partNumber);
+      if (!record) {
+        continue;
+      }
+      const key = `${indexed.vendor}\0${record.pn}`;
+      if (seen.has(key)) {
+        continue;
+      }
+      seen.add(key);
+      result.push({ vendor: indexed.vendor, record });
+    }
+    return result;
+  };
+
   const matchingFdbRecords = (partNumbers: string[]): Array<{ vendor: string; record: PartNumberRecord }> => {
     const result: Array<{ vendor: string; record: PartNumberRecord }> = [];
     const seen = new Set<string>();
     for (const rawPartNumber of partNumbers) {
-      for (const vendor of fdb.vendors.keys()) {
-        const record = getPartNumberRecord(fdb, vendor, rawPartNumber);
-        if (!record) {
-          continue;
-        }
+      for (const { vendor, record } of indexedFdbRecords(rawPartNumber)) {
         const key = `${vendor}\0${record.pn}`;
         if (seen.has(key)) {
           continue;
@@ -514,7 +554,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     let byAny: { vendor: string; record: PartNumberRecord } | undefined;
     if (!byVendor) {
       for (const partNumber of lookupPartNumbers) {
-        byAny = findPartNumberAcrossVendors(fdb, partNumber);
+        byAny = indexedFdbRecords(partNumber)[0];
         if (byAny) {
           break;
         }
@@ -740,7 +780,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
 
     if (!info) {
-      const found = findPartNumberAcrossVendors(fdb, partNumber);
+      const found = indexedFdbRecords(partNumber)[0];
       info = unknownPartDraft(partNumber, found?.vendor ?? UNKNOWN);
     }
 
@@ -761,8 +801,16 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return priority;
   };
 
-  const inspectPartForClassification = (partNumber: string): PartDecodeDraft => {
+  const inspectPartForDecodeClassification = (partNumber: string): PartDecodeDraft => {
     const info = detectRaw(partNumber, { combineFdb: true }, true);
+    applyDramClassification(info);
+    applyDramPublicType(info);
+    pruneRedundantFields(info);
+    return info;
+  };
+
+  const inspectPartForSearchClassification = (partNumber: string): PartDecodeDraft => {
+    const info = detectRaw(partNumber, { combineFdb: false }, true);
     applyDramClassification(info);
     applyDramPublicType(info);
     pruneRedundantFields(info);
@@ -773,17 +821,13 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     indexes: normalizedIndexes,
     mode,
     ...(limit ? { limit } : {}),
-    inspectPart: inspectPartForClassification,
-    decoderPriority: partDecoderPriority
+    inspectPart: mode === "search" ? inspectPartForSearchClassification : inspectPartForDecodeClassification,
+    decoderPriority: mode === "search" ? () => 0 : partDecoderPriority
   });
 
-  const suggestionFromPartCandidate = (
-    candidate: PartClassificationCandidate,
-    controllerGroup: ControllerGroupSelection | undefined
-  ): PartSearchSuggestion => {
-    const info = candidate.info ?? inspectPartForClassification(candidate.partNumber);
+  const suggestionFromPartCandidate = (candidate: PartClassificationCandidate): PartSearchSuggestion => {
+    const info = candidate.info ?? inspectPartForSearchClassification(candidate.partNumber);
     const density = draftDensity(info);
-    const controllers = projectedControllers(info.controllers, controllerGroup);
     return {
       vendor: candidate.vendor,
       partNumber: candidate.partNumber,
@@ -791,13 +835,12 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       ...(candidate.productType ? { productType: candidate.productType } : {}),
       ...(candidate.markingCode ? { markingCode: candidate.markingCode } : {}),
       ...(density ? { density } : {}),
-      ...(controllers.length > 0 ? { controllers } : {}),
       ...(candidate.warnings.length > 0 ? { warnings: candidate.warnings } : {})
     };
   };
 
   const publicCandidatesFromPartClassification = (candidates: PartClassificationCandidate[], lang?: string | null): Candidate[] =>
-    candidates.slice(0, 5).map((candidate) => buildPartCandidate(suggestionFromPartCandidate(candidate, undefined), resultBuilderContext, lang));
+    candidates.slice(0, 5).map((candidate) => buildPartCandidate(suggestionFromPartCandidate(candidate), resultBuilderContext, lang));
 
   const withMarkingCode = (info: PartDecodeDraft, markingCode: string | undefined): PartDecodeDraft => {
     if (!markingCode) {
@@ -836,7 +879,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     warnings: ResultWarning[] = []
   ): PartDecodeResult => {
     const info = withMarkingCode(
-      candidate.info ?? inspectPartForClassification(candidate.partNumber),
+      candidate.info ?? inspectPartForDecodeClassification(candidate.partNumber),
       candidate.markingMatch ? candidate.markingCode : undefined
     );
     const result = buildPartDecodeResult(
@@ -866,7 +909,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       partialMatch: opts.partialMatch
     });
     return {
-      suggestions: classification.candidates.map((candidate) => suggestionFromPartCandidate(candidate, opts.controllerGroup)),
+      suggestions: classification.candidates.map((candidate) => suggestionFromPartCandidate(candidate)),
       warnings: classification.warnings
     };
   };
@@ -1004,7 +1047,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return runOperation("part.search", input, () => {
       const normalized = normalizePartNumber(input.query);
       const search = normalized
-        ? searchPartSuggestions(input.query, input.constraints, { lang: input.lang, limit: input.limit, controllerGroup: input.controllerGroup })
+        ? searchPartSuggestions(input.query, input.constraints, { lang: input.lang, limit: input.limit })
         : { suggestions: [], warnings: [] };
       const result = buildPartSearchResult(
         search.suggestions,
@@ -1012,8 +1055,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           query: input.query,
           normalized: normalized || input.query,
           constraints: input.constraints as OperationConstraints | undefined,
-          lang: input.lang,
-          controllerGroup: input.controllerGroup
+          lang: input.lang
         },
         resultBuilderContext
       );
@@ -1036,7 +1078,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized: normalized || input.query,
             ...(input.lang ? { lang: input.lang } : {}),
-            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints
           },
           blocks: [],
@@ -1053,7 +1094,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized: normalized || input.query,
             ...(input.lang ? { lang: input.lang } : {}),
-            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints
           },
           blocks: [],
@@ -1090,7 +1130,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized: normalized || input.query,
             ...(input.lang ? { lang: input.lang } : {}),
-            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints
           },
           items: [],
@@ -1106,7 +1145,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             query: input.query,
             normalized: normalized || input.query,
             ...(input.lang ? { lang: input.lang } : {}),
-            ...(input.controllerGroup ? { controllerGroup: input.controllerGroup } : {}),
             constraints
           },
           items: [],
@@ -1117,14 +1155,12 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         normalized
           ? searchNandFlashIds(normalized, { lang: input.lang, limit: input.limit })
               .map(decodeNandFlashIdSearchHit)
-              .map((info) => projectIdentifierControllers(info, input.controllerGroup))
           : [],
         {
           query: input.query,
           normalized: normalized || input.query,
           constraints,
-          lang: input.lang,
-          controllerGroup: input.controllerGroup
+          lang: input.lang
         },
         resultBuilderContext
       );

@@ -337,7 +337,6 @@ assertValid("decodePart input", decodePartInputJsonSchema, {
 });
 assertValid("searchParts input", searchPartsInputJsonSchema, {
   query: "MTFC",
-  controllerGroup: ["if:sata", "if:nvme"],
   constraints: { productType: "emmc" },
   limit: 10
 });
@@ -348,7 +347,6 @@ assertValid("decodeIdentifier input", decodeIdentifierInputJsonSchema, {
 });
 assertValid("searchIdentifiers input", searchIdentifiersInputJsonSchema, {
   query: "2C",
-  controllerGroup: "all",
   constraints: { idScheme: "nand.flash_id" },
   limit: 5
 });
@@ -356,6 +354,14 @@ assertValid("searchIdentifiers input", searchIdentifiersInputJsonSchema, {
 assertInvalid("part input must not accept identifier constraints", decodePartInputJsonSchema, {
   query: "MT62",
   constraints: { idScheme: "nand.flash_id" }
+});
+assertInvalid("searchParts input must not accept controllerGroup", searchPartsInputJsonSchema, {
+  query: "MTFC",
+  controllerGroup: "if:sata"
+});
+assertInvalid("searchIdentifiers input must not accept controllerGroup", searchIdentifiersInputJsonSchema, {
+  query: "2C",
+  controllerGroup: "all"
 });
 assertInvalid("identifier input must reject unknown schemes", decodeIdentifierInputJsonSchema, {
   query: "2C",

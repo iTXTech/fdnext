@@ -59,7 +59,6 @@ export interface PartSearchSuggestion {
   productType?: FdnextProductType;
   markingCode?: string;
   density?: number;
-  controllers?: string[];
   badges?: string[];
   warnings?: ResultWarning[];
 }
@@ -756,7 +755,7 @@ export function buildIdentifierDecodeResult(
 
 export function buildPartSearchResult(
   suggestions: PartSearchSuggestion[],
-  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null; controllerGroup?: NormalizedOperationInput["controllerGroup"] },
+  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null },
   ctx: ResultBuilderContext
 ): PartSearchResult {
   const constraints = input.constraints ?? {};
@@ -767,10 +766,6 @@ export function buildPartSearchResult(
     const fields: FieldValue[] = [];
     if (suggestion.density) {
       fields.push(createField(chipKind === "dram" ? "dram_density" : "density", suggestion.density, ctx, input.lang));
-    }
-    const controllers = knownStringList(suggestion.controllers);
-    if (controllers.length > 0) {
-      fields.push(createField("controller", controllers, ctx, input.lang));
     }
     const badges = suggestion.badges ?? [
       ...(suggestion.markingCode ? [`${device.vendor.name} FBGA`] : [device.vendor.name]),
@@ -811,7 +806,7 @@ export function buildPartSearchResult(
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "part.search",
     status: items.length > 0 ? "ok" : "not_found",
-    input: baseInput(input.query, input.normalized, constraints, input.lang, input.controllerGroup),
+    input: baseInput(input.query, input.normalized, constraints, input.lang),
     items,
     ...(relations.length > 0 ? { relations } : {}),
     warnings: []
@@ -820,13 +815,14 @@ export function buildPartSearchResult(
 
 export function buildIdentifierSearchResult(
   hits: IdentifierDecodeDraft[],
-  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null; controllerGroup?: NormalizedOperationInput["controllerGroup"] },
+  input: { query: string; normalized: string; constraints?: OperationConstraints; lang?: string | null },
   ctx: ResultBuilderContext
 ): IdentifierSearchResult {
   const constraints = { idScheme: "nand.flash_id", ...(input.constraints ?? {}) } as OperationConstraints;
   const items: SearchResultItem[] = hits.map((info) => {
     const device = deviceIdentityFromIdentifier(info, ctx, input.lang);
     const fields = detailFields(fieldMapFromIdentifier(info, device, ctx, input.lang));
+    fields.delete("controller");
     return {
       label: draftIdentifier(info),
       device,
@@ -839,7 +835,7 @@ export function buildIdentifierSearchResult(
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "identifier.search",
     status: items.length > 0 ? "ok" : "not_found",
-    input: baseInput(input.query, input.normalized, constraints, input.lang, input.controllerGroup),
+    input: baseInput(input.query, input.normalized, constraints, input.lang),
     items,
     warnings: []
   };

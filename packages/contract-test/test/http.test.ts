@@ -33,9 +33,10 @@ assert.equal((httpIdentifierDecode.input as { constraints?: { idScheme?: string 
 const httpIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C64&lang=eng&limit=3");
 assert.equal(httpIdentifierSearch.operation, "identifier.search");
 assert.ok(Array.isArray(httpIdentifierSearch.items));
-const httpGroupedIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C8464&lang=eng&limit=10&controllerGroup=if:sata,if:nvme");
+const httpGroupedIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C64&lang=eng&limit=3&controllerGroup=if:sata,if:nvme");
 assert.equal(httpGroupedIdentifierSearch.operation, "identifier.search");
-const httpRepeatedGroupedIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C8464&lang=eng&limit=10&controllerGroup=if:sata&controllerGroup=if:nvme");
+assert.deepEqual(httpGroupedIdentifierSearch, httpIdentifierSearch);
+const httpRepeatedGroupedIdentifierSearch = await injectJson("GET", "/identifiers/search?query=2C64&lang=eng&limit=3&controllerGroup=if:sata&controllerGroup=if:nvme");
 assert.deepEqual(httpRepeatedGroupedIdentifierSearch, httpGroupedIdentifierSearch);
 const httpCapabilities = await injectJson("GET", "/capabilities");
 assert.equal(httpCapabilities.schemaVersion, "fdnext.capabilities.v2");

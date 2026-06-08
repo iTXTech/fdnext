@@ -93,7 +93,9 @@ function partInput(params: URLSearchParams, ...queryKeys: string[]): DecodePartI
 function partSearchInput(params: URLSearchParams, ...queryKeys: string[]): SearchPartsInput {
   const limit = limitParam(params);
   return {
-    ...partInput(params, ...queryKeys),
+    query: queryParam(params, ...queryKeys),
+    lang: stringParam(params, "lang") ?? null,
+    constraints: constraintsParam(params) as SearchPartsInput["constraints"] | undefined,
     ...(limit ? { limit } : {})
   };
 }
@@ -111,8 +113,11 @@ function identifierInput(params: URLSearchParams, ...queryKeys: string[]): Decod
 
 function identifierSearchInput(params: URLSearchParams, ...queryKeys: string[]): SearchIdentifiersInput {
   const limit = limitParam(params);
+  const idScheme = stringParam(params, "idScheme") as SearchIdentifiersInput["idScheme"] | undefined;
   return {
-    ...identifierInput(params, ...queryKeys),
+    query: queryParam(params, ...queryKeys),
+    lang: stringParam(params, "lang") ?? null,
+    ...(idScheme ? { idScheme } : {}),
     ...(limit ? { limit } : {})
   };
 }

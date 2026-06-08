@@ -13,10 +13,7 @@ assert.equal(cliIdentifierDecode.operation, "identifier.decode");
 assert.equal((cliIdentifierDecode.input as { constraints?: { idScheme?: string } } | undefined)?.constraints?.idScheme, "nand.flash_id");
 const cliGroupedIdentifierSearch = runCli(["id", "search", "2C8464", "eng", "10", "nand.flash_id", "--controller-group", "if:sata", "--controller-group", "if:nvme"]);
 assert.equal(cliGroupedIdentifierSearch.operation, "identifier.search");
-assert.deepEqual(
-  ((cliGroupedIdentifierSearch.input as { controllerGroup?: unknown } | undefined)?.controllerGroup),
-  ["if:sata", "if:nvme"]
-);
+assert.equal((cliGroupedIdentifierSearch.input as { controllerGroup?: unknown } | undefined)?.controllerGroup, undefined);
 const cliCapabilities = runCli(["capabilities"]);
 assert.equal(cliCapabilities.schemaVersion, "fdnext.capabilities.v2");
 assertCapabilitiesBuildTime(cliCapabilities);

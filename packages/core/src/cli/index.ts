@@ -146,7 +146,7 @@ async function main() {
       process.stderr.write("Missing part query\n");
       process.exit(1);
     }
-    print(engine.searchParts({ query, lang, ...(limit ? { limit } : {}), ...(controllerGroup ? { controllerGroup } : {}) }));
+    print(engine.searchParts({ query, lang, ...(limit ? { limit } : {}) }));
     return;
   }
 
@@ -171,7 +171,7 @@ async function main() {
       process.stderr.write("Missing identifier query\n");
       process.exit(1);
     }
-    print(engine.searchIdentifiers({ query, lang, ...(idScheme ? { idScheme } : {}), ...(limit ? { limit } : {}), ...(controllerGroup ? { controllerGroup } : {}) }));
+    print(engine.searchIdentifiers({ query, lang, ...(idScheme ? { idScheme } : {}), ...(limit ? { limit } : {}) }));
     return;
   }
 
