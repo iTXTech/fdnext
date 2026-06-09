@@ -358,6 +358,85 @@ testPart("K9OVGD8J2B", {
   }
 });
 
+testPart("K9NAGD8D0M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 16384,
+  cellField: "SLC",
+  extra: {
+    "Die Stack": "DSP (Dual Stack Package, 4-die x2)",
+    "Die Count": 8,
+    "CE Count": 1
+  }
+});
+
+testPart("K9MAGD8D0M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 16384,
+  cellField: "MLC",
+  extra: {
+    "Die Stack": "DSP (Dual Stack Package, 4-die x2)",
+    "Die Count": 8,
+    "CE Count": 1
+  }
+});
+
+testPart("K9T20D8D0M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 2,
+  cellField: "SLC",
+  extra: {
+    "Die Stack": "SDP (1-die)",
+    "Die Count": 1
+  }
+});
+
+testPart("K91AGD8D0M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 16384,
+  cellField: "TLC",
+  extra: {
+    "Die Stack": "HDP (16-die)",
+    "Die Count": 16
+  }
+});
+
+testPart("K9JAGD8D0M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 16384,
+  cellField: "MLC",
+  extra: {
+    "Die Stack": "3DP (3-die)",
+    "Die Count": 3
+  }
+});
+
+testPart("K98VGD8D0M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  cellField: "QLC",
+  extra: {
+    "Die Stack": "32DP (32-die)",
+    "Die Count": 32
+  }
+});
+
+testPart("K9YVGD8D0M", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 8388608,
+  cellField: "QLC",
+  extra: {
+    "Die Stack": "HDP (16-die)",
+    "Die Count": 16
+  }
+});
+
 testPart("K9XVGB8J1M", {
   vendor: "samsung",
   type: "NAND",
@@ -366,7 +445,8 @@ testPart("K9XVGB8J1M", {
   cellField: "QLC",
   extra: {
     "Layer Count": 64,
-    "Die Count": 16,
+    "Die Stack": "ODP (8-die)",
+    "Die Count": 8,
     "CE Count": 2
   }
 });
@@ -379,7 +459,8 @@ testPart("K9XVGY8J5M", {
   cellField: "QLC",
   extra: {
     "Layer Count": 64,
-    "Die Count": 16,
+    "Die Stack": "ODP (8-die)",
+    "Die Count": 8,
     "CE Count": 4
   }
 });
@@ -392,7 +473,8 @@ testPart("K9XVGY8J5A", {
   cellField: "QLC",
   extra: {
     "Layer Count": 92,
-    "Die Count": 16,
+    "Die Stack": "ODP (8-die)",
+    "Die Count": 8,
     "CE Count": 4
   }
 });
@@ -405,7 +487,8 @@ testPart("K9XVGD8J5C", {
   cellField: "QLC",
   extra: {
     "Layer Count": 176,
-    "Die Count": 16,
+    "Die Stack": "ODP (8-die)",
+    "Die Count": 8,
     "CE Count": 4
   }
 });
@@ -418,7 +501,8 @@ testPart("K99UGY8J5C", {
   cellField: "QLC",
   extra: {
     "Layer Count": 176,
-    "Die Count": 8,
+    "Die Stack": "QDP (4-die)",
+    "Die Count": 4,
     "CE Count": 4
   }
 });
@@ -431,7 +515,8 @@ testPart("K9XVGD8J5D", {
   cellField: "QLC",
   extra: {
     "Layer Count": 280,
-    "Die Count": 16,
+    "Die Stack": "ODP (8-die)",
+    "Die Count": 8,
     "CE Count": 4
   }
 });
