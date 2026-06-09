@@ -1,0 +1,218 @@
+[
+  {
+    "id": "vendor.micron.xpoint.mtx.v1",
+    "priority": 1009,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MTXP(?:128G|256G|512G|1T|2T|4T)[ACJN][12][ABD](?:RJ|RS)(?:-?[0-9]{3})?(?:AM|RM|A|B|C|P|R)?(?:ES)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT",
+        "XP"
+      ],
+      "tables": {
+        "density": {
+          "128G": 131072,
+          "256G": 262144,
+          "512G": 524288,
+          "1T": 1048576,
+          "2T": 2097152,
+          "4T": 4194304
+        },
+        "dieCount": {
+          "A": 1,
+          "C": 2,
+          "J": 4,
+          "N": 8
+        },
+        "ceCount": {
+          "A": 1,
+          "C": 2,
+          "J": 4,
+          "N": 8
+        },
+        "channelCount": {
+          "1": 1,
+          "2": 2
+        },
+        "package": {
+          "RJ": "256-ball LFBGA 14x18x1.30",
+          "RS": "256-ball LFBGA 14x18x1.50"
+        },
+        "dieGenerationObj": {
+          "128Gb:A": {
+            "die_codename": "S15C",
+            "die_stack": "2-Deck"
+          },
+          "128Gb:B": {
+            "die_stack": "2-Deck"
+          },
+          "128Gb:D": {
+            "die_codename": "S25D",
+            "die_stack": "2-Deck"
+          },
+          "256Gb:A": {
+            "die_codename": "S26A",
+            "die_stack": "4-Deck"
+          },
+          "512Gb:D": {
+            "die_codename": "S37D",
+            "die_stack": "8-Deck"
+          }
+        },
+        "featureToken": {
+          "A": "A",
+          "AM": "AM",
+          "B": "B",
+          "C": "C",
+          "P": "P",
+          "R": "R",
+          "RM": "RM"
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering samples"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "configurationCode"
+        },
+        {
+          "op": "map",
+          "from": "configurationCode",
+          "table": "dieCount",
+          "to": "dieCount",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "configurationCode",
+          "table": "ceCount",
+          "to": "ceCount",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "channelCode"
+        },
+        {
+          "op": "map",
+          "from": "channelCode",
+          "table": "channelCount",
+          "to": "channelCount",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "takeLongest",
+          "table": "package",
+          "to": "package",
+          "default": null
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9]{3}",
+          "to": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "takeLongest",
+          "table": "featureToken",
+          "to": "featureCode",
+          "default": ""
+        },
+        {
+          "op": "takeLongest",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "dieDensity",
+          "density": "density",
+          "dieCount": "dieCount",
+          "to": "dieDensityClass",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{dieDensityClass}}:{{generationCode}}",
+          "to": "dieGenerationKey"
+        },
+        {
+          "op": "map",
+          "from": "dieGenerationKey",
+          "table": "dieGenerationObj",
+          "to": "dieGenerationObj",
+          "default": {}
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "3d_xpoint",
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.die_count": {
+          "$var": "dieCount"
+        },
+        "fields.ce_count": {
+          "$var": "ceCount"
+        },
+        "fields.channel_count": {
+          "$var": "channelCount"
+        },
+        "fields.die_codename": {
+          "$path": "dieGenerationObj.die_codename"
+        },
+        "fields.die_stack": {
+          "$path": "dieGenerationObj.die_stack"
+        },
+        "fields.prod_status": {
+          "$path": "productionStatusObj.prod_status"
+        },
+        "meta.ruleId": "vendor.micron.xpoint.mtx.v1"
+      }
+    }
+  }
+]

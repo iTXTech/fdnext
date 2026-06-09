@@ -1,5 +1,6 @@
 import type { PartDecodeSpec } from "../types";
 import micronManagedTokenRules from "./packs/micron-managed-token.json" with { type: "json" };
+import micronXpointTokenRules from "./packs/micron-xpoint-token.json" with { type: "json" };
 import micronSsdTokenRules from "./packs/micron-ssd-token.json" with { type: "json" };
 import micronEmmcTokenRules from "./packs/micron-emmc-token.json" with { type: "json" };
 import micronEmcpTokenRules from "./packs/micron-emcp-token.json" with { type: "json" };
@@ -62,6 +63,7 @@ import spectekRawTokenRules from "./packs/spectek-raw-token.json" with { type: "
 import vendorPrefixRules from "./packs/vendor-prefix.json" with { type: "json" };
 
 export const defaultPartDecodeSpecs = [
+  ...micronXpointTokenRules,
   ...micronManagedTokenRules,
   ...micronSsdTokenRules,
   ...micronEmmcTokenRules,
