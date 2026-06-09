@@ -12,7 +12,6 @@ import {
   assertDecodedPartNumber,
   assertDieProfileFromFdbProcess,
   assertFdbDoesNotOverrideDecodePackFields,
-  assertFieldBlock,
   assertHiddenComponentRelations,
   assertHiddenPublicField,
   assertIdentifierRelation,
@@ -45,18 +44,7 @@ assertPart("FNNL63A51K3WG-AF", {
     "Package functionality partial type": "Single Die Package, CE only"
   }
 });
-assertPart("FBMB17A4T1KDUAN", {
-  vendor: "spectek",
-  type: "NAND",
-  densityMbit: 4194304,
-  dieProfileField: "B17A",
-  cellField: "TLC",
-  extra: {
-    "Layer Count": 64
-  },
-  absentExtra: ["Product Generation"]
-});
-assertFieldBlock("FBMB17A4T1KDUAN", "layer_count", "storage");
+assertNotFound("FBMB17A4T1KDUAN");
 assertDecodedPartNumber("PFE02", "FBML63BNAKDBAAH1");
 assertPart("PFE02", {
   vendor: "spectek",
@@ -78,17 +66,65 @@ assertPart("PF232", {
     "Process Alias": "M60A"
   }
 });
-assertPart("PFA02", {
+function assertM84CQuadCeMarking(markingCode: string, expectedPartNumber: string): void {
+  assertDecodedPartNumber(markingCode, expectedPartNumber);
+  assertPart(markingCode, {
+    vendor: "spectek",
+    markingCode,
+    type: "NAND",
+    density: "32GB",
+    dieProfileField: "20nm",
+    cellField: "SLC",
+    widthField: "x8",
+    voltage: "Vcc: 3.3V, VccQ: 1.8V, VssQ: 0V",
+    package: "152/221 ball TBGA, 14 x 18 x 1.2 (QDP)",
+    extra: {
+      "Die Density": "64Gb",
+      "Die Count": 4,
+      "CE Count": 4,
+      "Channel Count": 2,
+      "Package functionality partial type": "All CE(s) are valid and usable",
+      "Process Alias": "M84C"
+    }
+  });
+}
+assertM84CQuadCeMarking("PF285", "FBMM84CNAKDMABH7");
+assertM84CQuadCeMarking("PF580", "FBMM84C81KDMABH7");
+assertPart("FBMM84C81KDMABH7", {
   vendor: "spectek",
-  markingCode: "PFA02",
   type: "NAND",
-  density: "128MB",
-  dieProfileField: "50nm",
+  density: "32GB",
+  dieProfileField: "20nm",
   cellField: "SLC",
+  widthField: "x8",
+  voltage: "Vcc: 3.3V, VccQ: 1.8V, VssQ: 0V",
+  package: "152/221 ball TBGA, 14 x 18 x 1.2 (QDP)",
   extra: {
-    "Process Alias": "M58A"
+    "Die Density": "64Gb",
+    "Die Count": 4,
+    "CE Count": 4,
+    "Channel Count": 2,
+    "Density grade": "94-100%",
+    "Package functionality partial type": "All CE(s) are valid and usable",
+    "Process Alias": "M84C"
   }
 });
+assertDecodedPartNumber("PFA01", "FXM3B8ANAK3BAAH4");
+assertPart("PFA01", {
+  vendor: "spectek",
+  markingCode: "PFA01",
+  type: "NAND",
+  cellField: "SLC",
+  widthField: "x8",
+  voltage: "Vcc: 3.3V, VccQ:3.3V",
+  package: "63/120 ball VFBGA, 9 x 11 x 1.0",
+  extra: {
+    "Die Count": 1,
+    "CE Count": 1,
+    "Package functionality partial type": "All CE(s) are valid and usable"
+  }
+});
+assertNotFound("PFA02");
 assertPart("PFF21", {
   vendor: "spectek",
   markingCode: "PFF21",
@@ -102,16 +138,16 @@ assertPart("PFF21", {
 assertPart("FBML84A61KDBABH1", {
   vendor: "spectek",
   type: "NAND",
-  density: "16GB",
+  density: "8GB",
   dieProfileField: "20nm",
   cellField: "MLC",
   extra: {
     "Die Density": "64Gb",
-    "Die Count": 2,
+    "Die Count": 1,
     "Process Alias": "L84A"
   }
 });
-assertSubtitle("FBML84A61KDBABH1", "NAND Flash · SpecTek · 16GB MLC · L84A");
+assertSubtitle("FBML84A61KDBABH1", "NAND Flash · SpecTek · 8GB MLC · L84A");
 assertPart("FBMM60A21G3BAAWP", {
   vendor: "spectek",
   type: "NAND",
@@ -124,42 +160,9 @@ assertPart("FBMM60A21G3BAAWP", {
     "Process Alias": "M60A"
   }
 });
-assertPart("FBNL7BT65KDUAB", {
-  vendor: "spectek",
-  type: "NAND",
-  density: "10.5GB",
-  dieProfileField: "25nm",
-  cellField: "MLC",
-  extra: {
-    "Die Density": "42Gb",
-    "Die Count": 2,
-    "Process Alias": "L7BT"
-  }
-});
-assertPart("FNNL06B512G1KDFAB", {
-  vendor: "spectek",
-  type: "NAND",
-  density: "64GB",
-  dieProfileField: "L06B",
-  cellField: "MLC",
-  extra: {
-    "Die Density": "256Gb",
-    "Die Count": 2,
-    "Layer Count": 32
-  }
-});
-assertPart("FXXB47R512G1KLXAE", {
-  vendor: "spectek",
-  type: "NAND",
-  density: "256GB",
-  dieProfileField: "B47R",
-  cellField: "TLC",
-  extra: {
-    "Die Density": "512Gb",
-    "Die Count": 4,
-    "Layer Count": 176
-  }
-});
+assertNotFound("FBNL7BT65KDUAB");
+assertNotFound("FNNL06B512G1KDFAB");
+assertNotFound("FXXB47R512G1KLXAE");
 assertPart("FBMB68S8T0KLUAHD5", {
   vendor: "spectek",
   type: "NAND",
@@ -196,30 +199,8 @@ assertPart("FBMB78R2T0KLEAHD4", {
   },
   absentExtra: ["Layer Count"]
 });
-assertPart("FNNN48R1T1KLBAE", {
-  vendor: "spectek",
-  type: "NAND",
-  density: "128GB",
-  dieProfileField: "N48R",
-  cellField: "QLC",
-  extra: {
-    "Die Density": "1Tb",
-    "Die Count": 1,
-    "Layer Count": 176
-  }
-});
-assertPart("FNNL84CNAK3BAA", {
-  vendor: "spectek",
-  type: "NAND",
-  density: "64GB",
-  dieProfileField: "20nm",
-  cellField: "MLC",
-  extra: {
-    "Die Density": "64Gb",
-    "Die Count": 8,
-    "Process Alias": "L84C"
-  }
-});
+assertNotFound("FNNN48R1T1KLBAE");
+assertNotFound("FNNL84CNAK3BAA");
 assertPart("PX001", {
   vendor: "spectek",
   markingCode: "PX001",
@@ -227,7 +208,7 @@ assertPart("PX001", {
   dieProfileField: "M2XA",
   cellField: "SLC",
   extra: {
-    "Package functionality partial type": "CE1 Valid, CE2 not guaranteed"
+    "Package functionality partial type": "All CE(s) are valid and usable"
   }
 });
 assertDieProfileFromFdbProcess("FNNL29F256G08EBHAFES", "B16A");
