@@ -1,5 +1,793 @@
 [
   {
+    "id": "vendor.sndk.raw.ecb.current.v1",
+    "priority": 940,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^SD[TQXUZYRS][QRSABCDEF][FGHCIKJL][ABCDEF][MPR][ABC]-(?:016G|032G|064G|128G|256G|512G|1T00|2T00|4T00|8T00)-E[A-Z0-9]{3}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "SD"
+      ],
+      "tables": {
+        "package": {
+          "T": "TSOP",
+          "Q": "BGA-132",
+          "X": "BGA-132 w/ MUX",
+          "U": "BGA-154",
+          "Z": "BGA-154 w/ MUX",
+          "Y": "BGA-170",
+          "R": "BGA-304",
+          "S": "BGA-272"
+        },
+        "processNode": {
+          "Q": "SNK19",
+          "R": "SNK1Y",
+          "S": "SNK15",
+          "A": "SBiCS2",
+          "B": "SBiCS3",
+          "C": "SBiCS4",
+          "D": "SBiCS5",
+          "E": "SBiCS6",
+          "F": "SBiCS8"
+        },
+        "cellLevel": {
+          "F": 2,
+          "G": 2,
+          "H": 2,
+          "C": 3,
+          "I": 3,
+          "K": 3,
+          "J": 4,
+          "L": 4
+        },
+        "planeObj": {
+          "F": {
+            "plane": 1
+          },
+          "G": {
+            "plane": 2
+          },
+          "H": {
+            "plane": 4
+          },
+          "C": {
+            "plane": 1
+          },
+          "I": {
+            "plane": 2
+          },
+          "K": {
+            "plane": 4
+          },
+          "J": {
+            "plane": 2
+          },
+          "L": {
+            "plane": 4
+          }
+        },
+        "dieStackObj": {
+          "A": {
+            "die_count": 1,
+            "package_configuration": "SDP (1-die)"
+          },
+          "B": {
+            "die_count": 2,
+            "package_configuration": "DDP (2-die)"
+          },
+          "C": {
+            "die_count": 4,
+            "package_configuration": "QDP (4-die)"
+          },
+          "D": {
+            "die_count": 8,
+            "package_configuration": "ODP (8-die)"
+          },
+          "E": {
+            "die_count": 16,
+            "package_configuration": "HDP (16-die)"
+          },
+          "F": {
+            "die_count": 12,
+            "package_configuration": "12DP (12-die)"
+          }
+        },
+        "assemblyObj": {
+          "M": {
+            "lead_free": true,
+            "assembly": "Pb-free (others)"
+          },
+          "P": {
+            "lead_free": true,
+            "assembly": "Pb-free (SAC 105)"
+          },
+          "R": {
+            "lead_free": true,
+            "assembly": "Pb-free (100% tin)"
+          }
+        },
+        "channel": {
+          "A": 1,
+          "B": 2,
+          "C": 4
+        },
+        "density": {
+          "016G": 131072,
+          "032G": 262144,
+          "064G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304,
+          "1T00": 8388608,
+          "2T00": 16777216,
+          "4T00": 33554432,
+          "8T00": 67108864
+        },
+        "productClassObj": {
+          "E": {
+            "product_class": "Enterprise"
+          }
+        },
+        "dinObj": {
+          "9": {
+            "special_option": "D_IN unmatched"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "processCode"
+        },
+        {
+          "op": "map",
+          "from": "processCode",
+          "table": "processNode",
+          "to": "processNode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellCode"
+        },
+        {
+          "op": "map",
+          "from": "cellCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "cellCode",
+          "table": "planeObj",
+          "to": "planeObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieStackCode"
+        },
+        {
+          "op": "map",
+          "from": "dieStackCode",
+          "table": "dieStackObj",
+          "to": "dieStackObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "assemblyCode"
+        },
+        {
+          "op": "map",
+          "from": "assemblyCode",
+          "table": "assemblyObj",
+          "to": "assemblyObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "channelCode"
+        },
+        {
+          "op": "map",
+          "from": "channelCode",
+          "table": "channel",
+          "to": "channel",
+          "default": -1
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "productClassCode"
+        },
+        {
+          "op": "map",
+          "from": "productClassCode",
+          "table": "productClassObj",
+          "to": "productClassObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "customizationCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dinCode"
+        },
+        {
+          "op": "map",
+          "from": "dinCode",
+          "table": "dinObj",
+          "to": "dinObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "customizationTailCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "planeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieStackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "assemblyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productClassObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dinObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "sndk",
+        "device.chipKind": "raw_nand",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.channel_count": {
+          "$var": "channel"
+        },
+        "meta.ruleId": "vendor.sndk.raw.ecb.current.v1",
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
+      }
+    }
+  },
+  {
+    "id": "vendor.sndk.raw.wcs.current.v1",
+    "priority": 930,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^SD[TXYZWURVOPS]N[QRSABCDE][FGHCIKJL][ABCDE0123][12MPR][ABCGHIM]-?(?:008G|008GB|016G|016GB|16G|16GB|032G|032GB|32G|32GB|0064GB|064G|064GB|64G|64GB|0128G|0128GB|128G|128GB|0256GB|256G|256GB|0512GB|512G|512GB|1T00|1TB|2T00|2TB|4T00|4TB)[A-Z0-9-]*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "SD"
+      ],
+      "tables": {
+        "package": {
+          "T": "48-pin TSOP",
+          "X": "BGA132 12x18",
+          "Y": "BGA132 12x18",
+          "U": "BGA132/BGA304",
+          "Z": "BGA132 13x18",
+          "W": "BGA132 13x18x1.40",
+          "R": "BGA304 14x18x1.40",
+          "V": "BGA304 14x18"
+        },
+        "processNode": {
+          "Q": "SNK19",
+          "R": "SNK1Y",
+          "S": "SNK15",
+          "A": "SBiCS2",
+          "B": "SBiCS3",
+          "C": "SBiCS4",
+          "D": "SBiCS4.5",
+          "E": "SBiCS5"
+        },
+        "cellLevel": {
+          "F": 2,
+          "G": 2,
+          "H": 2,
+          "C": 3,
+          "I": 3,
+          "K": 3,
+          "J": 4,
+          "L": 4
+        },
+        "planeObj": {
+          "F": {
+            "plane": 1
+          },
+          "G": {
+            "plane": 2
+          },
+          "H": {
+            "plane": 4
+          },
+          "C": {
+            "plane": 1
+          },
+          "I": {
+            "plane": 2
+          },
+          "K": {
+            "plane": 4
+          },
+          "J": {
+            "plane": 2
+          },
+          "L": {
+            "plane": 4
+          }
+        },
+        "dieStackObj": {
+          "A": {
+            "die_count": 1,
+            "package_configuration": "SDP (1-die), 0 ODT"
+          },
+          "0": {
+            "die_count": 1,
+            "package_configuration": "SDP (1-die), 0 ODT"
+          },
+          "B": {
+            "die_count": 2,
+            "package_configuration": "DDP (2-die), 1 ODT"
+          },
+          "1": {
+            "die_count": 2,
+            "package_configuration": "DDP (2-die), 1 ODT"
+          },
+          "C": {
+            "die_count": 4,
+            "package_configuration": "QDP (4-die), 2 ODT"
+          },
+          "2": {
+            "die_count": 4,
+            "package_configuration": "QDP (4-die), 2 ODT"
+          },
+          "D": {
+            "die_count": 8,
+            "package_configuration": "ODP (8-die), 3 ODT"
+          },
+          "3": {
+            "die_count": 8,
+            "package_configuration": "ODP (8-die), 3 ODT"
+          },
+          "E": {
+            "die_count": 16,
+            "package_configuration": "HDP (16-die)"
+          }
+        },
+        "assemblyObj": {
+          "M": {
+            "lead_free": true,
+            "assembly": "Pb-free (100% tin)"
+          },
+          "P": {
+            "lead_free": true,
+            "assembly": "Pb-free (SAC 105)"
+          },
+          "R": {
+            "lead_free": true,
+            "assembly": "Pb-free (others)"
+          }
+        },
+        "configurationObj": {
+          "A": {
+            "ce_count": 1,
+            "rb_count": 1
+          },
+          "B": {
+            "ce_count": 2,
+            "rb_count": 1
+          },
+          "C": {
+            "ce_count": 4,
+            "rb_count": 1
+          },
+          "G": {
+            "ce_count": 2,
+            "rb_count": 2
+          },
+          "H": {
+            "ce_count": 4,
+            "rb_count": 2
+          },
+          "I": {
+            "ce_count": 8,
+            "rb_count": 2
+          },
+          "M": {
+            "ce_count": 4,
+            "rb_count": 4
+          }
+        },
+        "density": {
+          "008G": 65536,
+          "008GB": 65536,
+          "016G": 131072,
+          "016GB": 131072,
+          "16G": 131072,
+          "16GB": 131072,
+          "032G": 262144,
+          "032GB": 262144,
+          "32G": 262144,
+          "32GB": 262144,
+          "0064GB": 524288,
+          "064G": 524288,
+          "064GB": 524288,
+          "64G": 524288,
+          "64GB": 524288,
+          "0128G": 1048576,
+          "0128GB": 1048576,
+          "128G": 1048576,
+          "128GB": 1048576,
+          "0256GB": 2097152,
+          "256G": 2097152,
+          "256GB": 2097152,
+          "0512GB": 4194304,
+          "512G": 4194304,
+          "512GB": 4194304,
+          "1T00": 8388608,
+          "1TB": 8388608,
+          "2T00": 16777216,
+          "2TB": 16777216,
+          "4T00": 33554432,
+          "4TB": 33554432
+        },
+        "modeObj": {
+          "U": {
+            "product_mode": "Toggle Mode DDR1.0/DDR2.0"
+          },
+          "K": {
+            "product_mode": "Legacy wake, toggle-switchable mode; tR 65us for 1-plane, tR 45us for 2-plane"
+          }
+        },
+        "featureObj": {
+          "L": {
+            "special_option": "Standard Endurance"
+          },
+          "F": {
+            "special_option": "High Endurance"
+          },
+          "C": {
+            "special_option": "Standard Commercial"
+          },
+          "I": {
+            "special_option": "Industrial"
+          },
+          "W": {
+            "special_option": "Industrial Wide Temp"
+          }
+        },
+        "maturityObj": {
+          "D": {
+            "prod_status": "1st Generation"
+          },
+          "E": {
+            "prod_status": "2nd Generation"
+          },
+          "R": {
+            "prod_status": "Retail"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "N"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "processCode"
+        },
+        {
+          "op": "map",
+          "from": "processCode",
+          "table": "processNode",
+          "to": "processNode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "cellCode"
+        },
+        {
+          "op": "map",
+          "from": "cellCode",
+          "table": "cellLevel",
+          "to": "cellLevel",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "cellCode",
+          "table": "planeObj",
+          "to": "planeObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieStackCode"
+        },
+        {
+          "op": "map",
+          "from": "dieStackCode",
+          "table": "dieStackObj",
+          "to": "dieStackObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "assemblyCode"
+        },
+        {
+          "op": "map",
+          "from": "assemblyCode",
+          "table": "assemblyObj",
+          "to": "assemblyObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "configurationCode"
+        },
+        {
+          "op": "map",
+          "from": "configurationCode",
+          "table": "configurationObj",
+          "to": "configurationObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(?:(?<modeCode>[UKXP])?(?<featureCode>[LFCIW])?(?<maturityCode>[DER])?)$",
+          "groups": {
+            "modeCode": "modeCode",
+            "featureCode": "featureCode",
+            "maturityCode": "maturityCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "modeCode",
+          "table": "modeObj",
+          "to": "modeObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "featureCode",
+          "table": "featureObj",
+          "to": "featureObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "maturityCode",
+          "table": "maturityObj",
+          "to": "maturityObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_class": "Consumer"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "planeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dieStackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "assemblyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "configurationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "modeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "featureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "maturityObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "sndk",
+        "device.chipKind": "raw_nand",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.cell_level": {
+          "$var": "cellLevel"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "meta.ruleId": "vendor.sndk.raw.wcs.current.v1",
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
+      }
+    }
+  },
+  {
     "id": "vendor.sndk.token.v1",
     "priority": 910,
     "normalize": [

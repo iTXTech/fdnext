@@ -47,6 +47,92 @@ assertPart("SDINBDA6-256G-XI1", {
 
 assertDieProfileFromFdbProcess("SDTNMMAHSM-001G", "43nm");
 
+assertPart("SDZFLDMA-2T00-E503", {
+  vendor: "sndk",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "BiCS8",
+  cellField: "QLC",
+  package: "BGA-154 w/ MUX",
+  extra: {
+    "Die Count": 8,
+    "Channel Count": 1,
+    "Plane": 4,
+    "Package Configuration": "ODP (8-die)",
+    "Product Class": "Enterprise",
+    "Assembly": "Pb-free (others)"
+  }
+});
+
+assertPart("SDUNEI3MM-1T00CE", {
+  vendor: "sndk",
+  type: "NAND",
+  densityMbit: 8388608,
+  dieProfileField: "BiCS5",
+  cellField: "TLC",
+  package: "BGA132/BGA304",
+  extra: {
+    "Layer Count": 112,
+    "Die Count": 8,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Plane": 2,
+    "Package Configuration": "ODP (8-die), 3 ODT",
+    "Product Class": "Consumer",
+    "Assembly": "Pb-free (100% tin)",
+    "Special Option": "Standard Commercial",
+    "Production Status": "2nd Generation"
+  },
+  absentExtra: ["Channel Count"]
+});
+
+assertPart("SDUNCIAMA-032G", {
+  vendor: "sndk",
+  type: "NAND",
+  densityMbit: 262144,
+  dieProfileField: "BiCS4",
+  cellField: "TLC",
+  package: "BGA132/BGA304",
+  extra: {
+    "Layer Count": 96,
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Plane": 2,
+    "Package Configuration": "SDP (1-die), 0 ODT",
+    "Product Class": "Consumer",
+    "Assembly": "Pb-free (100% tin)"
+  },
+  absentExtra: ["Channel Count"]
+});
+
+assertPart("SDUNCIAMA-032GB-DDR300", {
+  vendor: "sndk",
+  type: "NAND",
+  densityMbit: 262144,
+  dieProfileField: "BiCS4",
+  cellField: "TLC",
+  package: "BGA132/BGA304",
+  extra: {
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Product Class": "Consumer"
+  },
+  absentExtra: ["Channel Count", "Special Option", "Production Status"]
+});
+
+assertPart("SDZNNMDHER-032G", {
+  vendor: "sndk",
+  type: "NAND",
+  cellField: "MLC",
+  package: "LGA",
+  extra: {
+    "Die Count": 8,
+    "Segment": "Enterprise Component"
+  }
+});
+
 assertPart("SDINBDG4-32G-ZA3", {
   vendor: "sndk",
   type: "eMMC",
