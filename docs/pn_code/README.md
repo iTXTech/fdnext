@@ -13,6 +13,7 @@
 | Silicon Motion | - | [siliconmotion_emmc.md](siliconmotion_emmc.md) | [siliconmotion_ufs.md](siliconmotion_ufs.md) | - | - | - | - |
 | SanDisk | [sandisk_raw.md](sandisk_raw.md) | [sandisk_emmc.md](sandisk_emmc.md) | [sandisk_ufs.md](sandisk_ufs.md) | [sandisk_emcp.md](sandisk_emcp.md) | - | [sandisk_issd.md](sandisk_issd.md) | - |
 | SpecTek | [spectek_nand.md](spectek_nand.md) | - | - | [spectek_emcp.md](spectek_emcp.md) | - | - | [spectek_dram.md](spectek_dram.md) |
+| Intel / Solidigm | [intel_nand.md](intel_nand.md) (NAND / 3D XPoint PN) | - | - | - | - | - | - |
 | KIOXIA | [kioxia_nand.md](kioxia_nand.md) (legacy/current raw NAND) | [kioxia_emmc.md](kioxia_emmc.md) | [kioxia_ufs.md](kioxia_ufs.md) | [kioxia_emcp.md](kioxia_emcp.md) | [kioxia_e2nand.md](kioxia_e2nand.md) | - | - |
 | Micron | [micron_nand.md](micron_nand.md) (current, legacy, MT29FB HSC) | [micron_emmc.md](micron_emmc.md) | [micron_ufs.md](micron_ufs.md) | [micron_emcp.md](micron_emcp.md) | - | [micron_ssd.md](micron_ssd.md) | [micron_dram.md](micron_dram.md), [micron_hbm.md](micron_hbm.md), [micron_hmc.md](micron_hmc.md) |
 | Phison label | [phison_candidate_rules_report.md](phison_candidate_rules_report.md) | - | - | - | - | - | - |

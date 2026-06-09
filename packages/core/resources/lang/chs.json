@@ -72,6 +72,7 @@
   "dram": "DRAM",
   "nor": "NOR",
   "pmic": "PMIC",
+  "3d_xpoint": "3D XPoint",
   "3dxpoint": "3D XPoint",
   "sandisk_code": "code锁",
   "skhynix_ot_c": "商用 (0~70C)",

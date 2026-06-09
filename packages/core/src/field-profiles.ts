@@ -73,6 +73,31 @@ export const fdnextFieldProfiles = {
       { id: "controllers", label: "Controllers", importance: "detail", fields: ["controller", "controller_code", "controller_revision"] }
     ]
   },
+  "3d_xpoint": {
+    id: "3d_xpoint",
+    blocks: [
+      { id: "identity", label: "Identity", importance: "primary", fields: identityFields },
+      {
+        id: "storage",
+        label: "Storage",
+        importance: "primary",
+        fields: ["density", "die_stack", "die_codename", "generation_info", "series_info"]
+      },
+      {
+        id: "geometry",
+        label: "Geometry",
+        importance: "secondary",
+        fields: ["die_count", "ce_count", "rb_count", "channel_count"]
+      },
+      { id: "interface", label: "Interface", importance: "secondary", fields: ["voltage", "storage_interface", "interface_type"] },
+      {
+        id: "package",
+        label: "Package",
+        importance: "detail",
+        fields: ["package", "lead_free", "wafer", "sku", "special_option"]
+      }
+    ]
+  },
   dram: {
     id: "dram",
     blocks: [

@@ -130,13 +130,13 @@
       "name": "part.decode",
       "operation": "part.decode",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "managed_nand", "dram"]
+      "chipKinds": ["raw_nand", "managed_nand", "3d_xpoint", "dram"]
     },
     {
       "name": "part.search",
       "operation": "part.search",
       "domains": ["memory"],
-      "chipKinds": ["raw_nand", "managed_nand", "dram"]
+      "chipKinds": ["raw_nand", "managed_nand", "3d_xpoint", "dram"]
     },
     {
       "name": "identifier.decode.nand.flash_id",

@@ -428,6 +428,9 @@ function subtitleKind(device: DeviceIdentity, fields: Map<FdnextFieldKey, FieldV
   if (device.chipKind === "managed_nand") {
     return productTypeDisplay(device.productType, ctx, lang) ?? translateText(ctx, "subtitle.kind.managed_nand", "Managed NAND", lang);
   }
+  if (device.chipKind === "3d_xpoint") {
+    return translateText(ctx, "3d_xpoint", "3D XPoint", lang);
+  }
   if (device.chipKind === "dram") {
     return displayField(fields, "dram_type") ?? productTypeDisplay(device.productType, ctx, lang) ?? translateText(ctx, "subtitle.kind.dram", "DRAM", lang);
   }
@@ -449,7 +452,9 @@ function buildPartSubtitle(
   const width = device.chipKind === "dram"
     ? displayField(fields, "dram_width") ?? displayField(fields, "device_width")
     : undefined;
-  const dieProfile = device.chipKind === "raw_nand" ? rawNandDieSubtitle(device, fields) : undefined;
+  const dieProfile = device.chipKind === "raw_nand"
+    ? rawNandDieSubtitle(device, fields)
+    : device.chipKind === "3d_xpoint" ? displayField(fields, "die_codename") : undefined;
   return [
     subtitleKind(device, fields, ctx, lang),
     device.vendor.name,
@@ -854,13 +859,13 @@ export function buildCapabilities(options: BuildCapabilitiesOptions): FdnextCapa
       name: "part.decode",
       operation: "part.decode",
       domains: ["memory"],
-      chipKinds: ["raw_nand", "managed_nand", "dram"]
+      chipKinds: ["raw_nand", "managed_nand", "3d_xpoint", "dram"]
     },
     {
       name: "part.search",
       operation: "part.search",
       domains: ["memory"],
-      chipKinds: ["raw_nand", "managed_nand", "dram"]
+      chipKinds: ["raw_nand", "managed_nand", "3d_xpoint", "dram"]
     },
     {
       name: "identifier.decode.nand.flash_id",

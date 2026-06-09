@@ -247,6 +247,7 @@ export function partType(result: PartDecodeResult): string | undefined {
     return productTypes[result.device.productType] ?? result.device.productType.toUpperCase();
   }
   if (result.device?.chipKind === "raw_nand") return "NAND";
+  if (result.device?.chipKind === "3d_xpoint") return "3D XPoint";
   if (result.device?.chipKind === "dram") return "DRAM";
   return typeof product?.value === "string" ? product.value : result.device?.chipKind;
 }

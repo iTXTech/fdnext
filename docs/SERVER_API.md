@@ -66,7 +66,7 @@ curl 'http://127.0.0.1:8080/parts/decode?query=MT62F1G64D4EK-023%20WT:B&lang=chs
 | `lang` | 否 | 输出语言。 |
 | `controllerGroup` | 否 | 控制器投影视图。 |
 | `vendor` | 否 | 约束 vendor key，例如 `micron`、`samsung`。 |
-| `chipKind` | 否 | 约束 chip kind，例如 `raw_nand`、`managed_nand`、`dram`。 |
+| `chipKind` | 否 | 约束 chip kind，例如 `raw_nand`、`managed_nand`、`3d_xpoint`、`dram`。 |
 | `productType` | 否 | 约束产品类型，例如 `emmc`、`ufs`、`emcp`。 |
 | `strict` | 否 | `true/false`、`1/0` 或 `yes/no`。开启后约束不满足会返回不匹配结果。 |
 
@@ -89,7 +89,7 @@ curl 'http://127.0.0.1:8080/parts/search?query=C9BJZ&lang=eng&limit=5'
 | `lang` | 否 | 输出语言。 |
 | `limit` | 否 | 正整数，限制搜索结果数量。 |
 | `vendor` | 否 | 约束 vendor key，例如 `micron`、`samsung`。 |
-| `chipKind` | 否 | 约束 chip kind，例如 `raw_nand`、`managed_nand`、`dram`。 |
+| `chipKind` | 否 | 约束 chip kind，例如 `raw_nand`、`managed_nand`、`3d_xpoint`、`dram`。 |
 | `productType` | 否 | 约束产品类型，例如 `emmc`、`ufs`、`emcp`。 |
 | `strict` | 否 | `true/false`、`1/0` 或 `yes/no`。开启后约束不满足会返回不匹配结果。 |
 

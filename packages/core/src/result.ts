@@ -55,6 +55,7 @@ export type FdnextDomain = (typeof fdnextDomains)[number];
 export const fdnextChipKinds = [
   "raw_nand",
   "managed_nand",
+  "3d_xpoint",
   "dram",
   "nor",
   "pmic",
@@ -96,6 +97,7 @@ export const fdnextCapabilityNames = [
   "marking.lookup.micron.fbga",
   "field_profile.raw_nand",
   "field_profile.managed_nand",
+  "field_profile.3d_xpoint",
   "field_profile.dram",
   "field_profile.nand.flash_id"
 ] as const;

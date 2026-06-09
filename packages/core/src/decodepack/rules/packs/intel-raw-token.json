@@ -50,6 +50,48 @@
           "F": "nand",
           "P": "3dxpoint"
         },
+        "densityToken": {
+          "1G": "1G",
+          "2G": "2G",
+          "4G": "4G",
+          "8G": "8G",
+          "01G": "01G",
+          "02G": "02G",
+          "04G": "04G",
+          "08G": "08G",
+          "16G": "16G",
+          "32G": "32G",
+          "64G": "64G",
+          "128G": "128G",
+          "256G": "256G",
+          "384G": "384G",
+          "512G": "512G",
+          "16B": "16B",
+          "32B": "32B",
+          "48B": "48B",
+          "64B": "64B",
+          "80B": "80B",
+          "96B": "96B",
+          "1T": "1T",
+          "2T": "2T",
+          "3T": "3T",
+          "4T": "4T",
+          "6T": "6T",
+          "8T": "8T",
+          "01T": "01T",
+          "02T": "02T",
+          "03T": "03T",
+          "04T": "04T",
+          "06T": "06T",
+          "08T": "08T",
+          "09T": "09T",
+          "16T": "16T",
+          "01P": "01P",
+          "02P": "02P",
+          "04P": "04P",
+          "08P": "08P",
+          "16P": "16P"
+        },
         "density": {
           "1G": 1024,
           "2G": 2048,
@@ -70,6 +112,7 @@
           "32B": 262144,
           "48B": 393216,
           "64B": 524288,
+          "80B": 655360,
           "96B": 786432,
           "1T": 1048576,
           "2T": 2097152,
@@ -83,18 +126,43 @@
           "04T": 4194304,
           "06T": 6291456,
           "08T": 8388608,
-          "16T": 16777216
+          "09T": 9437184,
+          "16T": 16777216,
+          "01P": 1400832,
+          "02P": 2801664,
+          "04P": 5603328,
+          "08P": 11206656,
+          "16P": 22413312
+        },
+        "densityOverrideByCellProcess": {
+          "T:G:32B": 393216,
+          "T:G:64B": 786432,
+          "T:G:01T": 1572864,
+          "T:G:02T": 3145728,
+          "T:G:04T": 6291456
         },
         "deviceWidth": {
           "16": 16,
           "08": 8,
-          "2A": 8,
-          "4A": 8,
+          "32": 32,
           "A8": 8
         },
         "ch": {
+          "1A": 1,
           "4A": 4,
-          "2A": 2
+          "2A": 2,
+          "3A": 3,
+          "1B": 1,
+          "2B": 2,
+          "4B": 4,
+          "1F": 1,
+          "2F": 2,
+          "1G": 1,
+          "2G": 2,
+          "1C": 1,
+          "1D": 1,
+          "11": 1,
+          "21": 2
         },
         "die": {
           "A": 1,
@@ -110,9 +178,11 @@
           "L": 1,
           "M": 2,
           "N": 4,
+          "5": 5,
           "O": 8,
           "P": 8,
           "Q": 8,
+          "7": 9,
           "S": 16,
           "W": 16,
           "Y": 16
@@ -131,9 +201,11 @@
           "L": 1,
           "M": 2,
           "N": 4,
+          "5": 5,
           "O": 8,
           "P": 8,
           "Q": 2,
+          "7": 9,
           "S": 4,
           "W": 8,
           "Y": 4
@@ -152,9 +224,11 @@
           "L": 1,
           "M": 2,
           "N": 4,
+          "5": 5,
           "O": 4,
           "P": 4,
           "Q": -1,
+          "7": 9,
           "S": 4,
           "W": 4,
           "Y": 4
@@ -173,25 +247,49 @@
           "L": true,
           "M": true,
           "N": true,
+          "5": true,
           "O": true,
           "P": true,
           "Q": true,
+          "7": true,
           "S": true,
           "W": true,
           "Y": true
         },
         "voltage": {
-          "A": "3.3V (2.70V-3.60V)",
+          "A": "Vcc: 3.3V (2.70V-3.60V), VccQ: 3.3V (2.70V-3.60V)",
           "B": "1.8V (1.70V-1.95V)",
-          "C": "Vcc: 3.3V, VccQ: 1.8V/1.2V"
+          "C": "Vcc: 3.3V (2.70V-3.60V), VccQ: 3.3V/1.8V/1.2V"
         },
-        "cellLevel": {
-          "N": 1,
-          "M": 2,
-          "T": 3,
-          "Q": 4
+        "cellLevelByType": {
+          "nand:N": 1,
+          "nand:M": 2,
+          "nand:T": 3,
+          "nand:Q": 4
         },
-        "processNode": {},
+        "xpointProductType": {
+          "3dxpoint:N": {
+            "die_stack": "2-Deck"
+          },
+          "3dxpoint:S": {
+            "die_stack": "4-Deck"
+          }
+        },
+        "processNodeByType": {
+          "nand:A": "90nm",
+          "nand:B": "72nm",
+          "nand:C": "50nm",
+          "nand:D": "34nm",
+          "nand:E": "25nm",
+          "nand:F": "20nm",
+          "nand:G": "3D1 32L",
+          "nand:H": "3D2 64L",
+          "nand:J": "3D3 96L",
+          "nand:K": "3D4 144L",
+          "nand:L": "3D5 192L",
+          "3dxpoint:F": "3D-XP G1",
+          "3dxpoint:G": "3D-XP G2"
+        },
         "processNodeOverrideByDieDensity": {
           "M:D2:16Gb": "L62A",
           "M:DB:16Gb": "L62A",
@@ -248,15 +346,32 @@
           "7": "7",
           "8": "8",
           "9": "9",
-          "A": "A"
+          "A": "A",
+          "B": "B",
+          "C": "C",
+          "D": "D",
+          "E": "E",
+          "F": "F",
+          "G": "G",
+          "H": "H"
         },
         "skuObj": {
+          "P": {
+            "sku": "High Endurance Technology"
+          },
           "S": {
             "sku": "intel_sku_s"
+          },
+          "E": {
+            "sku": "Engineering Samples"
+          },
+          "Q": {
+            "sku": "Qualification Samples"
           }
         },
         "draftChipKind": {
           "nand": "raw_nand",
+          "3dxpoint": "3d_xpoint",
           "dram": "dram",
           "emmc": "managed_nand",
           "ufs": "managed_nand",
@@ -313,8 +428,15 @@
         },
         {
           "op": "takeLongest",
+          "table": "densityToken",
+          "to": "densityCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
           "table": "density",
-          "to": "density",
+          "to": "densityBase",
           "default": 0
         },
         {
@@ -387,11 +509,23 @@
           "to": "cellCode"
         },
         {
+          "op": "tpl",
+          "template": "{{type}}:{{cellCode}}",
+          "to": "typeCellKey"
+        },
+        {
           "op": "map",
-          "from": "cellCode",
-          "table": "cellLevel",
+          "from": "typeCellKey",
+          "table": "cellLevelByType",
           "to": "cellLevel",
           "default": -1
+        },
+        {
+          "op": "map",
+          "from": "typeCellKey",
+          "table": "xpointProductType",
+          "to": "xpointObj",
+          "default": {}
         },
         {
           "op": "take",
@@ -399,9 +533,32 @@
           "to": "processCode"
         },
         {
+          "op": "tpl",
+          "template": "{{cellCode}}:{{processCode}}:{{densityCode}}",
+          "to": "cellProcessDensityKey"
+        },
+        {
           "op": "map",
-          "from": "processCode",
-          "table": "processNode",
+          "from": "cellProcessDensityKey",
+          "table": "densityOverrideByCellProcess",
+          "to": "densityOverride",
+          "default": null
+        },
+        {
+          "op": "fallback",
+          "primary": "densityOverride",
+          "secondary": "densityBase",
+          "to": "density"
+        },
+        {
+          "op": "tpl",
+          "template": "{{type}}:{{processCode}}",
+          "to": "typeProcessKey"
+        },
+        {
+          "op": "map",
+          "from": "typeProcessKey",
+          "table": "processNodeByType",
           "to": "processNodeBase",
           "default": ""
         },
@@ -494,6 +651,11 @@
           "op": "merge",
           "into": "extra",
           "from": "skuObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "xpointObj"
         },
         {
           "op": "map",
