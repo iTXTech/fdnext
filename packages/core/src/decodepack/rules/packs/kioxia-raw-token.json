@@ -25,19 +25,40 @@
           "T": true,
           "L": true
         },
+        "interfaceType": {
+          "N": "Conventional NAND (large block)",
+          "D": "Conventional NAND (small block)",
+          "T": "Toggle DDR 1.0/2.0",
+          "L": "Very Low Voltage Toggle DDR 3.0/4.0/5.x/6.x",
+          "X": "Toggle DDR Apple X-Para",
+          "V": "Toggle DDR Dual x8 TSV",
+          "B": "BENAND (Built-in ECC NAND Flash)",
+          "C": "SPI NAND",
+          "M": "Mobile Disk-On-Chip (mDOC)"
+        },
         "voltage": {
-          "V": "3.3V",
-          "Y": "1.8V",
-          "A": "Vcc: 3.3V, VccQ: 1.8V",
-          "B": "Vcc: 3.3V, VccQ: 1.65V-3.6V",
-          "D": "Vcc: 3.3V/1.8V, VccQ: 3.3V/1.8V",
-          "E": "Vcc: 2.7V-3.6V, VccQ: 2.7V-3.6V/1.7V-1.95V",
-          "F": "Vcc: 2.7V-3.6V, VccQ: 3.3V/1.8V (UNOFFICIAL)",
-          "G": "Vcc: 2.7V~3.6V, VccQ: 1.8V  (UNOFFICIAL)",
-          "J": "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V",
-          "K": "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V"
+          "V": "Vcc: 3.30V (2.70V-3.60V)",
+          "Y": "Vcc: 1.80V (1.70V-1.95V)",
+          "A": "Vcc: 3.30V (2.70V-3.60V), VccQ: 1.80V (1.70V-1.95V)",
+          "B": "Vcc: 3.30V (2.70V-3.60V), VccQ: 3.30V (2.70V-3.60V) / 1.80V (1.65V-1.95V)",
+          "D": "Vcc: 3.30V (2.70V-3.60V) / 1.80V (1.70V-1.95V), VccQ: 3.30V (2.70V-3.60V) / 1.80V (1.70V-1.95V)",
+          "E": "Vcc: 3.30V (2.70V-3.60V), VccQ: 3.30V (2.70V-3.60V) / 1.80V (1.70V-1.95V)",
+          "F": "Vcc: 3.30V (2.70V-3.60V) / 2.50V (2.35V-2.75V), VccQ: 3.30V (2.70V-3.60V) / 1.80V (1.70V-1.95V)",
+          "G": "Vcc: 3.30V (2.70V-3.60V), VccQ: 1.80V (1.70V-1.95V)",
+          "H": "Vcc: 1.80V (1.70V-1.95V), VccQ: 1.20V (1.14V-1.26V)",
+          "J": "Vcc: 3.30V (2.70V-3.60V) / 2.50V (2.35V-2.75V), VccQ: 1.80V (1.70V-1.95V) / 1.20V (1.14V-1.26V)",
+          "K": "Vcc: 3.30V (2.70V-3.60V) / 2.50V (2.35V-2.75V), VccQ: 1.20V (1.14V-1.26V)",
+          "L": "Vcc: 3.30V (2.70V-3.60V) / 2.50V (2.35V-2.75V), VccQ: 1.20V (1.14V-1.26V), VccQL: 0.60V (0.57V-0.63V)"
         },
         "density": {
+          "M0": 1,
+          "M1": 2,
+          "M2": 4,
+          "M3": 8,
+          "M4": 16,
+          "M5": 32,
+          "M6": 64,
+          "M7": 128,
           "M8": 256,
           "M9": 512,
           "G0": 1024,
@@ -60,7 +81,26 @@
           "T1": 2097152,
           "T2": 4194304,
           "T3": 8388608,
-          "TG": 1572864
+          "T4": 16777216,
+          "T5": 33554432,
+          "T6": 67108864,
+          "T7": 134217728,
+          "T8": 268435456,
+          "T9": 536870912,
+          "TG": 1572864,
+          "TH": 3145728,
+          "TJ": 6291456,
+          "TK": 12582912,
+          "B1": 1397760,
+          "B2": 2795520,
+          "B4": 5591040,
+          "B8": 11182080,
+          "BD": 18170880,
+          "Y1": 1048576,
+          "Y2": 2097152,
+          "Y3": 4194304,
+          "Y4": 8388608,
+          "Y5": 16777216
         },
         "cellLevel": {
           "S": 1,
@@ -73,15 +113,19 @@
           "U": 3,
           "V": 3,
           "X": 3,
+          "Z": 3,
           "W": 3,
           "Y": 3,
-          "F": 4
+          "F": 4,
+          "A": 4,
+          "R": "PLC"
         },
         "enterpriseFlag": {
           "H": true,
           "E": true,
           "U": true,
-          "V": true
+          "V": true,
+          "Y": true
         },
         "deviceWidth": {
           "0": 8,
@@ -148,6 +192,7 @@
           "5": "KBiCS5",
           "6": "KBiCS6",
           "8": "KBiCS8",
+          "9": "KBiCS9",
           "A": "TSB130",
           "B": "TSB90",
           "C": "TSB70",
@@ -165,21 +210,30 @@
           "FT": "TSOP48",
           "TG": "TSOP48",
           "TA": "TSOP48",
+          "QA": "SOP",
+          "RA": "WSON",
           "XB": "BGA",
           "XG": "BGA",
           "BA": "BGA",
           "BB": "BGA",
+          "BS": "BGA",
+          "VA": "BGA",
           "XL": "LGA",
-          "LA": "LGA"
+          "LA": "LGA",
+          "LD": "LGA"
         },
         "ch": {
           "0": 1,
+          "1": 1,
           "2": 1,
+          "3": 1,
           "4": 2,
           "7": 1,
           "8": 2,
           "I": 1,
+          "J": 1,
           "K": 1,
+          "L": 1,
           "M": 2,
           "R": 1,
           "S": 2,
@@ -188,16 +242,21 @@
           "B": 2,
           "V": 2,
           "D": 4,
-          "E": 4
+          "E": 4,
+          "X": 4
         },
         "ce": {
           "0": 1,
+          "1": 1,
           "2": 2,
+          "3": 4,
           "4": 2,
           "7": 4,
           "8": 4,
           "I": 1,
+          "J": 1,
           "K": 2,
+          "L": 4,
           "M": 2,
           "R": 4,
           "S": 4,
@@ -206,9 +265,10 @@
           "B": 8,
           "V": 8,
           "D": 4,
-          "E": 8
+          "E": 8,
+          "X": 4
         },
-        "detailPackage": {
+        "packageByTail": {
           "LGA:1": "LGA40 (12 x 18 x 0.7)",
           "LGA:2": "LGA40 (12 x 18 x 1.15)",
           "LGA:3": "LGA40 (12 x 17 x 0.65)",
@@ -221,52 +281,92 @@
           "LGA:A": "LGA52 (12 x 17 x 1.04/1.0)",
           "LGA:B": "LGA52 (12 x 17 x 1.4)",
           "LGA:C": "LGA52 (11 x 14 x 0.9)",
-          "BGA:1": "BGA224 (14 x 18 x 1.46)",
-          "BGA:2": "BGA224 (14 x 18 x 1.46)",
-          "BGA:3": "BGA60 (8.5 x 13)",
-          "BGA:4": "BGA60 (9 x 11)",
-          "BGA:5": "BGA60 (10 x 13)",
-          "BGA:6": "BGA60 (8.5 x 13)",
-          "BGA:7": "BGA60 (9 x 11)",
-          "BGA:8": "BGA60 (10 x 13)",
-          "BGA:9": "BGA132 (12 x 18 x 1.4)",
-          "BGA:A": "BGA132 (12 x 18 x 1.85)",
-          "BGA:B": "BGA224 (14 x 18 x 1.35)",
-          "BGA:C": "BGA132",
-          "BGA:D": "BGA132",
-          "BGA:E": "BGA272",
-          "BGA:F": "BGA272",
-          "BGA:G": "BGA272",
-          "BGA:H": "BGA132",
-          "BGA:J": "BGA152",
-          "BGA:K": "BGA152",
-          "BGA:N": "BGA152",
-          "BGA:P": "BGA132",
-          "BGA:S": "BGA154",
+          "SOP:E": "SOP16 (10.3 x 10.3 x 2.65)",
+          "WSON:F": "WSON8 (6 x 8 x 0.8)",
+          "WSON:G": "WSON8 (6 x 8 x 0.8)",
+          "WSON:J": "WSON8 (6 x 8 x 0.8)",
           "LGA:F": "LGA60-SAT",
-          "LGA:H": "LGA60-SAT"
+          "LGA:H": "LGA60-SAT",
+          "BA:0M": "BGA132",
+          "BA:IM": "BGA132",
+          "BA:0L": "BGA152",
+          "BA:4C": "BGA132",
+          "BA:4D": "BGA132",
+          "BA:4M": "BGA132",
+          "BA:49": "BGA132 (12 x 18 x 1.4)",
+          "BA:MC": "BGA132",
+          "BA:4K": "BGA152",
+          "BA:4L": "BGA152",
+          "BS:2K": "BGA152",
+          "BA:4R": "BGA154",
+          "BA:8C": "BGA132",
+          "BA:8M": "BGA132",
+          "BS:8C": "BGA132",
+          "BA:SC": "BGA132",
+          "BA:8K": "BGA152",
+          "BS:8K": "BGA152",
+          "BA:8R": "BGA154",
+          "BA:DE": "BGA272",
+          "BA:XE": "BGA272",
+          "BA:8H": "BGA132",
+          "BA:89": "BGA132 (12 x 18 x 1.4)",
+          "BA:S9": "BGA132 (12 x 18 x 1.4)",
+          "BA:8A": "BGA132 (12 x 18 x 1.85)",
+          "BA:SA": "BGA132 (12 x 18 x 1.85)",
+          "BA:SH": "BGA132",
+          "BA:8J": "BGA152",
+          "BB:8J": "BGA152",
+          "BA:SJ": "BGA152",
+          "BA:8S": "BGA154",
+          "BA:EF": "BGA272",
+          "BA:8P": "BGA132",
+          "BA:8N": "BGA152",
+          "BB:8N": "BGA152",
+          "BB:8R": "BGA152",
+          "BB:8T": "BGA154",
+          "BA:EG": "BGA272",
+          "BB:8U": "BGA154"
         },
-        "suffixDieCount": {
-          "BGA:4C": 2,
-          "BGA:4D": 2,
-          "BGA:8C": 4,
-          "BGA:SC": 4,
-          "BGA:8H": 8,
-          "BGA:SH": 8,
-          "BGA:49": 2,
-          "BGA:89": 8,
-          "BGA:S9": 8,
-          "BGA:8A": 8,
-          "BGA:SA": 8,
-          "BGA:8P": 16,
-          "BGA:4K": 2,
-          "BGA:8K": 4,
-          "BGA:8J": 8,
-          "BGA:SJ": 8,
-          "BGA:8N": 16,
-          "BGA:DE": 4,
-          "BGA:EF": 8,
-          "BGA:EG": 16,
+        "dieCountByTail": {
+          "BA:0M": 1,
+          "BA:IM": 1,
+          "BA:0L": 1,
+          "BA:4C": 2,
+          "BA:4D": 2,
+          "BA:4M": 2,
+          "BA:49": 2,
+          "BA:MC": 2,
+          "BA:4K": 2,
+          "BA:4L": 2,
+          "BS:2K": 2,
+          "BA:4R": 2,
+          "BA:8C": 4,
+          "BA:8M": 4,
+          "BS:8C": 4,
+          "BA:SC": 4,
+          "BA:8K": 4,
+          "BS:8K": 4,
+          "BA:8R": 4,
+          "BA:DE": 4,
+          "BA:XE": 4,
+          "BA:8H": 8,
+          "BA:89": 8,
+          "BA:S9": 8,
+          "BA:8A": 8,
+          "BA:SA": 8,
+          "BA:SH": 8,
+          "BA:8J": 8,
+          "BB:8J": 8,
+          "BA:SJ": 8,
+          "BA:8S": 8,
+          "BA:EF": 8,
+          "BA:8P": 16,
+          "BA:8N": 16,
+          "BB:8N": 16,
+          "BB:8R": 16,
+          "BB:8T": 16,
+          "BA:EG": 16,
+          "BB:8U": 32,
           "LGA:VF": 8,
           "LGA:VH": 16,
           "TSOP48:00": 1,
@@ -299,6 +399,19 @@
             "lead_free": true,
             "halogen_free": true
           },
+          "XL": {
+            "lead_free": true,
+            "halogen_free": false
+          },
+          "LA": {
+            "lead_free": true,
+            "halogen_free": true
+          },
+          "LD": {
+            "lead_free": true,
+            "halogen_free": true,
+            "special_option": "LGA for SAT only"
+          },
           "XB": {
             "lead_free": false,
             "halogen_free": false
@@ -311,13 +424,20 @@
             "lead_free": true,
             "halogen_free": true
           },
-          "XL": {
+          "BB": {
             "lead_free": true,
-            "halogen_free": false
+            "halogen_free": true,
+            "special_option": "BGA with IF Chip"
           },
-          "LA": {
+          "BS": {
             "lead_free": true,
-            "halogen_free": true
+            "halogen_free": true,
+            "special_option": "BGA for downgrade"
+          },
+          "VA": {
+            "lead_free": true,
+            "halogen_free": true,
+            "special_option": "BGA for TSV only"
           }
         },
         "prefixDieCount": {
@@ -355,6 +475,13 @@
           "table": "toggleFlag",
           "to": "toggle",
           "default": false
+        },
+        {
+          "op": "map",
+          "from": "ifCode",
+          "table": "interfaceType",
+          "to": "interfaceType",
+          "default": ""
         },
         {
           "op": "take",
@@ -508,14 +635,25 @@
         },
         {
           "op": "tpl",
+          "template": "{{packageCode}}:{{classificationCode}}{{detailCode}}",
+          "to": "fullSuffixKey"
+        },
+        {
+          "op": "map",
+          "from": "fullSuffixKey",
+          "table": "dieCountByTail",
+          "to": "fullTailDieCount"
+        },
+        {
+          "op": "tpl",
           "template": "{{basePackage}}:{{classificationCode}}{{detailCode}}",
           "to": "suffixKey"
         },
         {
           "op": "map",
           "from": "suffixKey",
-          "table": "suffixDieCount",
-          "to": "suffixDieCountValue"
+          "table": "dieCountByTail",
+          "to": "familyTailDieCount"
         },
         {
           "op": "map",
@@ -531,9 +669,22 @@
         },
         {
           "op": "fallback",
+          "primary": "fullTailDieCount",
+          "secondary": "familyTailDieCount",
+          "to": "resolvedSuffixDieCount"
+        },
+        {
+          "op": "fallback",
           "primary": "prefixDieCount",
-          "secondary": "suffixDieCountValue",
+          "secondary": "resolvedSuffixDieCount",
           "to": "dieCount"
+        },
+        {
+          "op": "map",
+          "from": "fullSuffixKey",
+          "table": "packageByTail",
+          "to": "fullTailPackage",
+          "default": ""
         },
         {
           "op": "tpl",
@@ -543,13 +694,19 @@
         {
           "op": "map",
           "from": "detailKey",
-          "table": "detailPackage",
-          "to": "detailPackageValue",
+          "table": "packageByTail",
+          "to": "familyDetailPackage",
           "default": ""
         },
         {
           "op": "fallback",
-          "primary": "detailPackageValue",
+          "primary": "fullTailPackage",
+          "secondary": "familyDetailPackage",
+          "to": "resolvedPackageValue"
+        },
+        {
+          "op": "fallback",
+          "primary": "resolvedPackageValue",
           "secondary": "basePackage",
           "to": "packageFinal"
         }
@@ -581,6 +738,9 @@
         "fields.voltage": {
           "$var": "voltage"
         },
+        "fields.interface_type": {
+          "$var": "interfaceType"
+        },
         "fields.package": {
           "$var": "packageFinal"
         },
@@ -594,6 +754,12 @@
           "$path": [
             "packageEnvObj",
             "halogen_free"
+          ]
+        },
+        "fields.special_option": {
+          "$path": [
+            "packageEnvObj",
+            "special_option"
           ]
         },
         "fields.ce_count": {

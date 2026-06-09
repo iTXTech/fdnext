@@ -5,14 +5,14 @@
 ## 外部资料
 
 - Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3, 2010-09-24: raw NAND large-block 页给出 `TC58` / `TH58` 单/多芯片、NAND interface、voltage、density、cell level、width/page/block、design rule、package、channel/CE 和 package size token。
+- Toshiba / KIOXIA `NAND Flash Part Numbering Decoder`, current part number system `(130nm ~ now)`: 补充 current raw NAND 的 product type、`B*` / `Y*` density、BiCS generation、ECB-style package/config 和 package size token。
 
 ## 规则状态
 
 iTXTech fdnext DecodePack:
 
 - `packages/core/src/decodepack/rules/packs/kioxia-raw-token.json`
-- `vendor.kioxia.token.tc.v1`
-- `vendor.kioxia.token.th.v1`
+- `vendor.kioxia.raw.tc-th.v1`
 
 PN 结构：
 
@@ -20,53 +20,48 @@ PN 结构：
 | --- | --- |
 | `TC58/TH58` + interface + voltage + density + cell + width + process + package + channel/CE + package size | Toshiba/KIOXIA raw NAND large-block form |
 | prefix `TC58` / `TH58` | single-chip / multi-chip |
-| interface/flag `N/D/T` | token position from Toshiba raw NAND decoder; `T` marks Toggle mode internally, current rule also recognizes `L`; no public `interface_type` output |
-| voltage `V/Y/A/B/D` | Vcc/VccQ 组合 |
-| density `M8/M9/G0..G9/GA/GB/GC/GD/GE/GF/T0/T1` | 256Mbit 到 2Tbit |
+| product/interface `N/D/T/L/X/V/B/C/M` | 公开 `interface_type`，覆盖 large/small block NAND、Toggle DDR、Apple X-Para、dual x8 TSV、BENAND、SPI NAND 和 mDOC |
+| voltage `V/Y/A/B/D/E/F/G/H/J/K/L` | Vcc/VccQ/VccQL 组合，按 current decoder 官方电压范围输出 |
+| density `M0..M9/G0..G9/GA..GF/T0..T9/TG/TH/TJ/TK/B1/B2/B4/B8/BD/Y1..Y5` | 1Mbit 到 512Tbit；`B*` 按项目既有 1.33Tbit = `1397760` Mbit 口径，`Y*` 为 PLC 1Tbit x N |
 | cell `S/H` | SLC |
 | cell `D/E/J/C` | MLC |
-| cell `T/U/V/X` | TLC |
-| cell `F` | QLC |
+| cell `T/U/V/X/Z/W/Y` | TLC |
+| cell `F/A` | QLC |
+| cell `R` | PLC |
 | width/page/block `0..4` / `5..9` | x8 / x16 and page/block size |
 | process `A/B/C/D/E/F/G/H/J/K/L` | 130 nm 到 15 nm/1z，对应 legacy profile `TSB130/TSB90/TSB70/TSB56/TSB43/TSB32/TSB24A/TSB24B/TSB19/TSB1Y/TSB15` |
-| package `FT/TG/TA/XB/XG/BA/XL/LA` | TSOP/BGA/LGA plus lead-free and halogen-free flags |
-| classification `0/2/4/7/8/A/B` and industrial `I/K/M/R/S/U/V` | channel / CE count |
-| package size code | TSOP/LGA/BGA package dimensions |
+| process `2/3/4/M/5/6/8/9` | BiCS2/BiCS3/BiCS4/BiCS4.5/BiCS5/BiCS6/BiCS8/BiCS9；current decoder 图中 BiCS10 行的 code 不清晰，暂不编码 |
+| package `FT/TG/TA/QA/RA/XB/XG/BA/BB/BS/VA/XL/LA/LD` | TSOP/SOP/WSON/BGA/LGA plus lead-free、halogen-free 和 IF Chip/Downgrade/TSV/SAT-only 语义选项 |
+| classification `0/1/2/3/4/7/8/A/B/D/E` and industrial `I/J/K/L/M/R/S/U/V/X` | channel / CE count |
+| package size code | TSOP/SOP/WSON/LGA/BGA package dimensions；同一 code 在多封装族冲突时只输出能由 package family 确定的尺寸 |
 
 ## Die stack / package suffix notes
 
 Toshiba/KIOXIA raw NAND 的末两位不能只按一个独立 die token 理解：第一位仍先按
-classification 解释 CE / channel，第二位再结合封装族推断 package detail 和 die-per-CE。
+classification 解释 CE / channel；BGA 需要结合两位 package code 形成完整 4 字符 tail
+解释 package / die stack，TSOP/LGA 则继续按封装族和末两位 suffix 解释。
 下面表格来自 Toshiba raw NAND decoder 的 CE / channel 结构、本地 `fdb.json` PN 聚合、
 以及 `../fdfdb` 中带 die / controller support 标注的交叉样本。当前 DecodePack 已把
 `TC58` / `TH58` raw NAND 合并为同一套 token 规则：`TC` 前缀强制输出 `die_count = 1`，
-`TH` 前缀按下表稳定 suffix 输出 `die_count`，同时继续输出 `ce_count`、`channel_count`
+`TH` 前缀按下表稳定 tail 输出 `die_count`，同时继续输出 `ce_count`、`channel_count`
 和 `package`；证据不足的 suffix 只保留 CE / channel / package 解析，不公开 `die_count`。
 
 ### BGA suffix inference
 
-| End | Typical PN tail | Package | Total die | CE | Channel | Notes |
-| --- | --- | --- | ---: | ---: | ---: | --- |
-| `4C` | `BA4C` | BGA132 | 2DP | 2CE | 2CH | 1 die / CE |
-| `4D` | `BA4D` | BGA132 | 2DP | 2CE | 2CH | Same topology as `4C` |
-| `8C` | `BA8C` | BGA132 | 4DP | 4CE | 2CH | 1 die / CE |
-| `SC` | `BASC` | BGA132 | 4DP | 4CE | 2CH | Industrial / extended suffix equivalent to `8C` |
-| `8H` | `BA8H` | BGA132 | 8DP | 4CE | 2CH | 2 die / CE |
-| `SH` | `BASH` | BGA132 | 8DP | 4CE | 2CH | Industrial / extended suffix equivalent to `8H` |
-| `49` | `BA49` | BGA132 | 2DP | 2CE | 2CH | Observed BGA132 2-die form |
-| `89` | `BA89` | BGA132 | 8DP | 4CE | 2CH | Observed alongside 4-die BGA132 variants; keep exact suffix distinction |
-| `S9` | `BAS9` | BGA132 | 8DP | 4CE | 2CH | Industrial / extended suffix equivalent to `89` |
-| `8A` | `BA8A` | BGA132 | 8DP | 4CE | 2CH | BGA132 high-stack variant |
-| `SA` | `BASA` | BGA132 | 8DP | 4CE | 2CH | Industrial / extended suffix equivalent to `8A` |
-| `8P` | `BA8P` | BGA132 | 16DP | 4CE | 2CH | 4 die / CE |
-| `4K` | `BA4K` | BGA152 | 2DP | 2CE | 2CH | 1 die / CE |
-| `8K` | `BA8K` | BGA152 | 4DP | 4CE | 2CH | 1 die / CE |
-| `8J` | `BA8J` | BGA152 | 8DP | 4CE | 2CH | 2 die / CE |
-| `SJ` | `BASJ` | BGA152 | 8DP | 4CE | 2CH | Industrial / extended suffix equivalent to `8J` |
-| `8N` | `BA8N` | BGA152 | 16DP | 4CE | 2CH | 4 die / CE |
-| `DE` | `BADE` | BGA272 | 4DP | 4CE | 4CH | 1 die / CE |
-| `EF` | `BAEF` | BGA272 | 8DP | 8CE | 4CH | 1 die / CE |
-| `EG` | `BAEG` | BGA272 | 16DP | 8CE | 4CH | 2 die / CE |
+Current decoder 底部绿色表给出 BGA package/config code `(12~15)` 的官方 die stack。
+DecodePack 对 BGA package / die count 均按完整 4 字符 tail 解释，不再用末两位
+suffix 兜底；这样可以处理 `BA8R` = BGA154 / 4-die 与 `BB8R` = BGA152 /
+16-die 这类同 suffix 不同含义的冲突。旧样本中已经确认的 BGA 组合也迁入同一张
+完整 tail 表，例如 `BA4D`、`BA89`、`BAS9`、`BA8A`、`BASA`。
+
+| Die stack | BGA132 | BGA152 | BGA154 | BGA272 |
+| --- | --- | --- | --- | --- |
+| SDP 1-die | `BA0M`, `BAIM` | `BA0L` | - | - |
+| DDP 2-die | `BA4C`, `BA4M`, `BA49`, `BAMC` | `BA4K`, `BA4L`, `BS2K` | `BA4R` | - |
+| QDP 4-die | `BA8C`, `BA8M`, `BS8C`, `BASC` | `BA8K`, `BS8K` | `BA8R` | `BADE`, `BAXE` |
+| ODP 8-die | `BA8H`, `BASH` | `BA8J`, `BB8J`, `BASJ` | `BA8S` | `BAEF` |
+| HDP 16-die | `BA8P` | `BA8N`, `BB8N`, `BB8R` | `BB8T` | `BAEG` |
+| 32DP 32-die | - | - | `BB8U` | - |
 
 ### LGA suffix inference
 
@@ -102,7 +97,7 @@ datasheet evidence confirms the die stack.
 
 | Package family | Observed suffixes | Current handling note |
 | --- | --- | --- |
-| BGA | `0D`, `1C`, `2K`, `4B`, `8S`, `BC`, `I6`, `IC`, `ID`, `K0`, `K2`, `SB`, `XC`, `X9`, `XX` | CE / channel may be inferred for known classification chars, but die-per-CE is not stable enough yet. |
+| BGA | `BA0D`, `BA1C`, `BA4B`, `BABC`, `BAI6`, `BAIC`, `BAID`, `BAK0`, `BAK2`, `BASB`, `BAXC`, `BAX9`, `BAXX` | CE / channel may be inferred for known classification chars, but die-per-CE is not stable enough yet. |
 | LGA | `19`, `29`, `45`, `48`, `49`, `8A`, `8C`, `89`, `KF`, `LF`, `M8`, `MC`, `SA` | Package detail is LGA-specific and should not reuse BGA detail-to-die rules. |
 | TSOP | `01`, `02`, `03`, `05`, `0X`, `10`, `28`, `2A`, `2H`, `30`, `4K`, `8H`, `8J`, `8K`, `A0`, `I1`, `ID`, `K0`, `KD`, `KH`, `X0` | TSOP samples are mostly legacy / planar parts; infer CE / channel only unless a profile confirms total die. |
 
@@ -149,10 +144,12 @@ process token 仍以 PN 解析为准。
 - `die_codename`
 - `device_width`
 - `voltage`
+- `interface_type`
 - `plane`
 - `package`
 - `lead_free`
 - `halogen_free`
+- `special_option`
 - `die_count`
 - `ce_count`
 - `channel_count`
@@ -163,6 +160,12 @@ process token 仍以 PN 解析为准。
 
 - `TH58NVG7D2FTA00`
 - `TC58NVG7D2FTA00`
+- `TH58LKT4X46BAEG`
+- `TH58LKB1F48BAEG`
+- `TH58LKY1R48BAEG`
+- `TH58LKT4X46BA8R`
+- `TH58LKT4X46BB8R`
+- `TH58LKT4X46BB8U`
 - `TC58NVG7T2HBA4C`
 - `TH58LJG8SA4BA4C`
 - `TH58TFT1DFKLAVH`

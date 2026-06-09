@@ -1113,6 +1113,13 @@
       "KBiCS8"
     ]
   },
+  "KBiCS9": {
+    "die_codename": "BiCS9",
+    "generation_info": "BiCS9",
+    "firmware_match": [
+      "KBiCS9"
+    ]
+  },
   "TSBD2H": {
     "die_codename": "24nm",
     "plane_count": 2,

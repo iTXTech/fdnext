@@ -11,9 +11,10 @@ testPart("TH58NVG7D2FTA00", {
   densityMbit: 131072,
   dieProfileField: "32nm",
   cellField: "MLC",
-  voltage: "3.3V",
+  voltage: "Vcc: 3.30V (2.70V-3.60V)",
   package: "TSOP48",
   extra: {
+    "Interface Type": "Conventional NAND (large block)",
     "Package Code": "TA",
     "Lead free": "Yes",
     "Halogen free": "Yes",
@@ -43,9 +44,10 @@ testPart("TC58NVG7D2FTA00", {
   densityMbit: 131072,
   dieProfileField: "32nm",
   cellField: "MLC",
-  voltage: "3.3V",
+  voltage: "Vcc: 3.30V (2.70V-3.60V)",
   package: "TSOP48",
   extra: {
+    "Interface Type": "Conventional NAND (large block)",
     "Package Code": "TA",
     "Lead free": "Yes",
     "Halogen free": "Yes",
@@ -62,9 +64,10 @@ testPart("TC58TFG8T23TA0D", {
   densityMbit: 262144,
   dieProfileField: "BiCS3",
   cellField: "TLC",
-  voltage: "Vcc: 2.7V-3.6V, VccQ: 3.3V/1.8V (UNOFFICIAL)",
+  voltage: "Vcc: 3.30V (2.70V-3.60V) / 2.50V (2.35V-2.75V), VccQ: 3.30V (2.70V-3.60V) / 1.80V (1.70V-1.95V)",
   package: "TSOP48",
   extra: {
+    "Interface Type": "Toggle DDR 1.0/2.0",
     "Process Alias": "8T23",
     "Layer Count": 64,
     "Die Count": 1,
@@ -74,6 +77,54 @@ testPart("TC58TFG8T23TA0D", {
   },
   absentExtra: ["Product Generation"]
 });
+
+testPart("TH58LKT4X46BAEG", {
+  vendor: "kioxia",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "BiCS6",
+  cellField: "TLC",
+  voltage: "Vcc: 3.30V (2.70V-3.60V) / 2.50V (2.35V-2.75V), VccQ: 1.20V (1.14V-1.26V)",
+  package: "BGA272",
+  extra: {
+    "Interface Type": "Very Low Voltage Toggle DDR 3.0/4.0/5.x/6.x",
+    "Layer Count": 162,
+    "Die Count": 16,
+    "CE Count": 8,
+    "Channel Count": 4,
+    Plane: 4
+  }
+});
+
+testPart("TH58LKB1F48BAEG", {
+  vendor: "kioxia",
+  type: "NAND",
+  densityMbit: 1397760,
+  dieProfileField: "BiCS8",
+  cellField: "QLC",
+  package: "BGA272",
+  extra: {
+    "Interface Type": "Very Low Voltage Toggle DDR 3.0/4.0/5.x/6.x",
+    "Die Count": 16,
+    "CE Count": 8,
+    "Channel Count": 4
+  }
+}, "decodes KIOXIA 1.33Tb density-family token");
+
+testPart("TH58LKY1R48BAEG", {
+  vendor: "kioxia",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "BiCS8",
+  cellField: "PLC",
+  package: "BGA272",
+  extra: {
+    "Interface Type": "Very Low Voltage Toggle DDR 3.0/4.0/5.x/6.x",
+    "Die Count": 16,
+    "CE Count": 8,
+    "Channel Count": 4
+  }
+}, "decodes KIOXIA PLC density-family token");
 
 test("KIOXIA raw NAND suffix topology resolves package and die layout", () => {
   [
@@ -105,6 +156,14 @@ test("KIOXIA raw NAND suffix topology resolves package and die layout", () => {
   { partNumber: "TH58LJT0T24BADE", package: "BGA272", dieCount: 4, ceCount: 4, channelCount: 4 },
   { partNumber: "TH58LJT1T24BAEF", package: "BGA272", dieCount: 8, ceCount: 8, channelCount: 4 },
   { partNumber: "TH58TFT1JFLBAEG", package: "BGA272", dieCount: 16, ceCount: 8, channelCount: 4 },
+  { partNumber: "TH58NVG7D2FBA0M", package: "BGA132", dieCount: 1, ceCount: 1, channelCount: 1 },
+  { partNumber: "TH58LKT4X46BS2K", package: "BGA152", dieCount: 2, ceCount: 2, channelCount: 1 },
+  { partNumber: "TH58LKT4X46BAXE", package: "BGA272", dieCount: 4, ceCount: 4, channelCount: 4 },
+  { partNumber: "TH58LKT4X46BA8R", package: "BGA154", dieCount: 4, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT4X46BA8S", package: "BGA154", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT4X46BB8R", package: "BGA152", dieCount: 16, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT4X46BB8T", package: "BGA154", dieCount: 16, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT4X46BB8U", package: "BGA154", dieCount: 32, ceCount: 4, channelCount: 2 },
   { partNumber: "TH58TFT0DFKLAVF", package: "LGA60-SAT", dieCount: 8, ceCount: 8, channelCount: 2 },
   { partNumber: "TH58TFT1DFKLAVH", package: "LGA60-SAT", dieCount: 16, ceCount: 8, channelCount: 2 }
   ].forEach(assertKioxiaRawSuffixTopology);
