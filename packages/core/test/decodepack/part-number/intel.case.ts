@@ -63,9 +63,10 @@ assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQH2", "N18A");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQJ1", "N28A");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQJ2", "N28A");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQK1", "N38A");
-assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQK2", "N38B");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQK2", "N38A");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQKA", "N38B");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2BLCQKM", "N38E");
+assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F16P2BWCQKM", "N38E");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQL1", "N4PA");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F16P2BWCQL1", "3D5 192L");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29P64G2ALDNF1", "3D-XP G1");
@@ -287,7 +288,7 @@ assertPart("PF29F01T2ALCQK2", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 1048576,
-  dieProfileField: "N38B",
+  dieProfileField: "N38A",
   cellField: "QLC",
   package: "BGA",
   extra: {
@@ -304,6 +305,21 @@ assertPart("PF29F01T2BLCQKM", {
   package: "BGA",
   extra: {
     "Layer Count": 144
+  },
+  absentExtra: ["Product Generation"]
+});
+assertPart("PF29F16P2BWCQKM", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 22413312,
+  dieProfileField: "N38E",
+  cellField: "QLC",
+  package: "BGA",
+  extra: {
+    "Layer Count": 144,
+    "Die Count": 16,
+    "CE Count": 8,
+    "Channel Count": 2
   },
   absentExtra: ["Product Generation"]
 });

@@ -91,6 +91,7 @@
 - `29P` 输出 chip kind `3d_xpoint`，不再归类为 `raw_nand`。
 - 3D XPoint 下的 `N` 和 `S` 不输出 `cell_level`，而是输出 `die_stack`。
 - 3D XPoint 电压 code `D` 目前只作为内部 code 识别；在确认实际电压范围前，不输出公开 `voltage` 字段。
+- Intel QLC 3D4 的 `K` + generation / SKU suffix `M` 归一为 `N38E`，优先于基础 `3D4 144L` lithography 输出。
 - 已有 Intel / Solidigm die-profile 覆盖逻辑仍然优先，例如 `B0KB`、`N38E`、`N4PA` 等，在 cell / process / die-density key 可确定时继续覆盖基础光刻/代际信息。
 
 ## 示例

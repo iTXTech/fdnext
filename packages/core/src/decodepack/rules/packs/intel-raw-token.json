@@ -330,10 +330,13 @@
           "Q:J1:1Tb": "N28A",
           "Q:J2:1Tb": "N28A",
           "Q:K1:1Tb": "N38A",
-          "Q:K2:1Tb": "N38B",
+          "Q:K2:1Tb": "N38A",
           "Q:KA:1Tb": "N38B",
           "Q:KM:1Tb": "N38E",
           "Q:L1:1Tb": "N4PA"
+        },
+        "processNodeOverrideByProcessGen": {
+          "Q:KM": "N38E"
         },
         "generationDigit": {
           "0": "0",
@@ -573,6 +576,18 @@
           "to": "processGenKey"
         },
         {
+          "op": "tpl",
+          "template": "{{cellCode}}:{{processGenKey}}",
+          "to": "cellProcessGenKey"
+        },
+        {
+          "op": "map",
+          "from": "cellProcessGenKey",
+          "table": "processNodeOverrideByProcessGen",
+          "to": "processNodeOverrideProcessGen",
+          "default": ""
+        },
+        {
           "op": "dieDensity",
           "density": "density",
           "dieCount": "die",
@@ -594,6 +609,12 @@
         {
           "op": "fallback",
           "primary": "processNodeOverrideDieDensity",
+          "secondary": "processNodeOverrideProcessGen",
+          "to": "processNodeOverride"
+        },
+        {
+          "op": "fallback",
+          "primary": "processNodeOverride",
           "secondary": "processNodeBase",
           "to": "processNodeFinal"
         },
