@@ -270,6 +270,30 @@ export function canonicalNandDieProfileKey(
   if (upper === "HY16" && normalizeNandCellLevel(draftField(info, "cell_level")) === "MLC") {
     return "HY16M";
   }
+  if (draftVendor(info) === "samsung") {
+    const cellLevel = normalizeNandCellLevel(draftField(info, "cell_level"));
+    if (cellLevel === "MLC") {
+      if (/^SS(?:14|16|19|21|27)$/.test(upper)) {
+        return `${upper}M`;
+      }
+      if (/^SSV[1-9](?:HS)?$/.test(upper)) {
+        return `${upper}M`;
+      }
+    }
+    if (cellLevel === "QLC") {
+      if (/^SSV[1-9](?:HS)?$/.test(upper)) {
+        return `${upper}Q`;
+      }
+    }
+    if (cellLevel === "SLC") {
+      if (/^SS(?:14|16|19|21|27)$/.test(upper)) {
+        return `${upper}S`;
+      }
+      if (/^SSV[1-9](?:HS)?$/.test(upper)) {
+        return `${upper}S`;
+      }
+    }
+  }
   return key;
 }
 

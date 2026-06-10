@@ -1,9 +1,18 @@
+import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   assertDecodePackDieProfile,
   assertRuleDraftDieProfile,
+  engineWithoutFdb,
+  firstField,
   testPart
 } from "./_helpers";
+
+function assertDecodePackDieProfileAbsent(partNumber: string): void {
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+  assert.equal(firstField(result, "die_codename"), undefined, `${partNumber} should not emit an ambiguous die profile`);
+}
 
 testPart("KLMAG1JETD-B041", {
   vendor: "samsung",
@@ -204,10 +213,23 @@ testPart("K9AFGD8J0M", {
   vendor: "samsung",
   type: "NAND",
   densityMbit: 262144,
-  dieProfileField: "SSV4",
+  dieProfileField: "SSV3",
   cellField: "TLC",
   extra: {
-    "Layer Count": 64,
+    "Layer Count": 48,
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+testPart("K9AFGD8J0E", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 262144,
+  dieProfileField: "SSV6C",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 120,
     "Die Count": 1,
     "CE Count": 1
   }
@@ -234,6 +256,20 @@ testPart("K9AHGD8J0A", {
   cellField: "TLC",
   extra: {
     "Layer Count": 92,
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
+testPart("K9AHGD8H0A", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "SSV5",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 92,
+    "Die Density": "512Gb",
     "Die Count": 1,
     "CE Count": 1
   }
@@ -291,6 +327,19 @@ testPart("K9AHGD8J0F", {
   }
 });
 
+testPart("K9AHGD8J0H", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "SSV8P",
+  cellField: "TLC",
+  extra: {
+    "Layer Count": 236,
+    "Die Count": 1,
+    "CE Count": 1
+  }
+});
+
 testPart("K9DVGY8J5E", {
   vendor: "samsung",
   type: "NAND",
@@ -339,12 +388,65 @@ test("Samsung raw NAND die profiles are resolved from DecodePack rules", () => {
   assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGD8J5C", "SSV7Q");
   assertRuleDraftDieProfile("vendor.samsung.token.v1", "K99UGY8J5C", "SSV7Q");
   assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XVGD8J5D", "SSV9Q");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9AHGD8H0A", "SSV5");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9UKGB8S7F", "SS14M");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9PKGY8S4B", "SS14M");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9PMGY8S7M", "SSV3M");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9UUGB8S7M", "SSV3M");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9GBG08U0A", "SS27M");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9ABGD8U0B", "SS27");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9F1GD8D0E", "SS21S");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9F1GD8D0F", "SS16S");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9F2GD8D0D", "SS16S");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9F4GD8D0E", "SS21S");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9F8GD8D0C", "SS27S");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9F8GD8D0D", "SS21S");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9FBGD8D0A", "SS14S");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9FCGD8D0M", "SSV3S");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9GCG08U0M", "SS21M");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9MRGD8D0M", "SSV2M");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9GFG08U0A", "SSV4M");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9GFG08U0B", "SSV5M");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9ADGD8J0C", "SSV2");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9AFGD8J0M", "SSV3");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9AFGD8J0E", "SSV6C");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9AHGD8J0H", "SSV8P");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9AKGD8D0E", "SSV9HS");
+  assertRuleDraftDieProfile("vendor.samsung.token.v1", "K9XYGD8D0M", "SSV9HSQ");
   assertDecodePackDieProfile("K9XVGB8J1M", "SSV4Q", 64);
   assertDecodePackDieProfile("K9XVGY8J5M", "SSV4Q", 64);
   assertDecodePackDieProfile("K9XVGY8J5A", "SSV5Q", 92);
   assertDecodePackDieProfile("K9XVGD8J5C", "SSV7Q", 176);
   assertDecodePackDieProfile("K99UGY8J5C", "SSV7Q", 176);
   assertDecodePackDieProfile("K9XVGD8J5D", "SSV9Q", 280);
+  assertDecodePackDieProfile("K9AHGD8H0A", "SSV5", 92);
+  assertDecodePackDieProfile("K9UKGB8S7F", "14nm");
+  assertDecodePackDieProfile("K9PKGY8S4B", "14nm");
+  assertDecodePackDieProfile("K9PMGY8S7M", "SSV3M", 48);
+  assertDecodePackDieProfile("K9UUGB8S7M", "SSV3M", 48);
+  assertDecodePackDieProfile("K9GBG08U0A", "27nm");
+  assertDecodePackDieProfile("K9ABGD8U0B", "27nm");
+  assertDecodePackDieProfile("K9F1GD8D0E", "21nm");
+  assertDecodePackDieProfile("K9F1GD8D0F", "16nm");
+  assertDecodePackDieProfile("K9F2GD8D0D", "16nm");
+  assertDecodePackDieProfile("K9F4GD8D0E", "21nm");
+  assertDecodePackDieProfile("K9F8GD8D0C", "27nm");
+  assertDecodePackDieProfile("K9F8GD8D0D", "21nm");
+  assertDecodePackDieProfile("K9FBGD8D0A", "14nm");
+  assertDecodePackDieProfile("K9FCGD8D0M", "SSV3S", 48);
+  assertDecodePackDieProfile("K9GCG08U0M", "21nm");
+  assertDecodePackDieProfile("K9MRGD8D0M", "SSV2M", 32);
+  assertDecodePackDieProfile("K9GFG08U0A", "SSV4M", 64);
+  assertDecodePackDieProfile("K9GFG08U0B", "SSV5M", 92);
+  assertDecodePackDieProfile("K9ADGD8J0C", "SSV2", 32);
+  assertDecodePackDieProfile("K9AFGD8J0M", "SSV3", 48);
+  assertDecodePackDieProfile("K9AFGD8J0E", "SSV6C", 120);
+  assertDecodePackDieProfile("K9AHGD8J0H", "SSV8P", 236);
+  assertDecodePackDieProfile("K9AKGD8D0E", "SSV9HS", 286);
+  assertDecodePackDieProfile("K9XYGD8D0M", "SSV9HSQ", 280);
+  assertDecodePackDieProfileAbsent("K9ABGD8D0M");
+  assertDecodePackDieProfileAbsent("K9ABGD8D0A");
+  assertDecodePackDieProfileAbsent("K9ADGD8D0A");
 });
 
 testPart("K9OVGD8J2B", {

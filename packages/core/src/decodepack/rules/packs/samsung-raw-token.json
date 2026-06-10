@@ -240,24 +240,81 @@
           "Y": 25,
           "Z": 26
         },
-        "singleDieProfile": {
-          "1:3:FG:M": "SSV4",
-          "1:3:HG:M": "SSV4",
-          "1:3:HG:A": "SSV5",
-          "1:3:HG:B": "SSV6",
-          "1:3:HG:E": "SSV6P",
-          "1:3:HG:D": "SSV7",
-          "1:3:HG:F": "SSV8"
-        },
-        "packageProfile": {
-          "9:UG:C": "SSV7Q",
-          "D:VG:E": "SSV6P",
-          "D:YG:B": "SSV8",
-          "D:YG:D": "SSV9",
-          "X:VG:A": "SSV5Q",
-          "X:VG:C": "SSV7Q",
-          "X:VG:D": "SSV9Q",
-          "X:VG:M": "SSV4Q"
+        "dieDensityProfile": {
+          "1:4Gb:F": "SS16S",
+          "1:1Gb:E": "SS21S",
+          "1:1Gb:F": "SS16S",
+          "1:2Gb:D": "SS16S",
+          "1:4Gb:E": "SS21S",
+          "1:8Gb:D": "SS21S",
+          "1:8Gb:E": "SS19S",
+          "1:8Gb:F": "SS16S",
+          "1:8Gb:C": "SS27S",
+          "1:32Gb:A": "SS14S",
+          "1:32Gb:M": "SS21S",
+          "1:64Gb:M": "SSV3S",
+          "1:128Gb:M": "SSV5S",
+          "2:16Gb:F": "SS27M",
+          "2:32Gb:A": "SS27M",
+          "2:32Gb:B": "SS21M",
+          "2:32Gb:C": "SS19M",
+          "2:32Gb:D": "SS16M",
+          "2:32Gb:E": "SS14M",
+          "2:64Gb:M": "SS21M",
+          "2:64Gb:A": "SS21M",
+          "2:64Gb:C": "SS19M",
+          "2:64Gb:D": "SS16M",
+          "2:64Gb:E": "SS14M",
+          "2:64Gb:F": "SS14M",
+          "2:128Gb:B": "SS14M",
+          "2:128Gb:D": "SS14M",
+          "2:128Gb:M": "SSV1M",
+          "2:128Gb:A": "SSV2M",
+          "2:87296Mb:M": "SSV2M",
+          "2:87360Mb:M": "SSV2M",
+          "2:87424Mb:M": "SSV2M",
+          "2:87552Mb:M": "SSV2M",
+          "2:256Gb:B": "SSV5M",
+          "2:256Gb:A": "SSV4M",
+          "2:256Gb:M": "SSV3M",
+          "3:16Gb:A": "SS21",
+          "3:16Gb:B": "SS19",
+          "3:32Gb:B": "SS27",
+          "3:32Gb:C": "SS21",
+          "3:32Gb:D": "SS19",
+          "3:32Gb:E": "SS16",
+          "3:64Gb:A": "SS21",
+          "3:64Gb:M": "SS27",
+          "3:64Gb:B": "SS19",
+          "3:64Gb:C": "SS19",
+          "3:64Gb:D": "SS16",
+          "3:128Gb:D": "SS16",
+          "3:128Gb:F": "SS14",
+          "3:128Gb:C": "SSV2",
+          "3:128Gb:E": "SSV3",
+          "3:128Gb:M": "SS19",
+          "3:256Gb:A": "SSV4",
+          "3:256Gb:B": "SSV5",
+          "3:256Gb:C": "SSV6",
+          "3:256Gb:E": "SSV6C",
+          "3:256Gb:M": "SSV3",
+          "3:512Gb:A": "SSV5",
+          "3:512Gb:B": "SSV6",
+          "3:512Gb:D": "SSV7",
+          "3:512Gb:E": "SSV6P",
+          "3:512Gb:F": "SSV8",
+          "3:512Gb:G": "SSV7",
+          "3:512Gb:H": "SSV8P",
+          "3:512Gb:M": "SSV4",
+          "3:1Tb:B": "SSV8",
+          "3:1Tb:D": "SSV9",
+          "3:1Tb:E": "SSV9HS",
+          "4:512Gb:M": "SSV4Q",
+          "4:1Tb:M": "SSV4Q",
+          "4:1Tb:A": "SSV5Q",
+          "4:1Tb:C": "SSV7Q",
+          "4:1Tb:D": "SSV9Q",
+          "4:2Tb:M": "SSV9HSQ"
         },
         "package": {
           "1": "BGA108",
@@ -453,31 +510,20 @@
           "default": -1
         },
         {
-          "op": "tpl",
-          "template": "{{die}}:{{cellLevel}}:{{densityCode}}:{{generationCode}}",
-          "to": "singleDieProfileKey"
-        },
-        {
-          "op": "map",
-          "from": "singleDieProfileKey",
-          "table": "singleDieProfile",
-          "to": "singleDieProcessNode"
+          "op": "dieDensity",
+          "density": "density",
+          "dieCount": "die",
+          "to": "dieDensity"
         },
         {
           "op": "tpl",
-          "template": "{{classificationCode}}:{{densityCode}}:{{generationCode}}",
-          "to": "packageProfileKey"
+          "template": "{{cellLevel}}:{{dieDensity}}:{{generationCode}}",
+          "to": "dieDensityProfileKey"
         },
         {
           "op": "map",
-          "from": "packageProfileKey",
-          "table": "packageProfile",
-          "to": "packageProcessNode"
-        },
-        {
-          "op": "fallback",
-          "primary": "singleDieProcessNode",
-          "secondary": "packageProcessNode",
+          "from": "dieDensityProfileKey",
+          "table": "dieDensityProfile",
           "to": "processNode"
         },
         {
@@ -581,6 +627,9 @@
         },
         "fields.density": {
           "$var": "density"
+        },
+        "fields.die_density": {
+          "$var": "dieDensity"
         },
         "fields.device_width": {
           "$var": "deviceWidth"

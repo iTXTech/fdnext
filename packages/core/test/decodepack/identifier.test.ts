@@ -106,10 +106,10 @@ for (const [id, profileKey, display] of kioxia2dProcessIds) {
 }
 
 assertExplainField("ECC1843200C1", "die_codename", "SSV6");
-assertResultField("ECC1843200C1", "die_codename", "SSV6");
+assertResultField("ECC1843200C1", "die_codename", "SSV6M");
 assertResultField("ECC1843200C1", "layer_count", 128);
 assertExplainField("ECC1843200CD", "die_codename", "SSV6");
-assertResultField("ECC1843200CD", "die_codename", "SSV6");
+assertResultField("ECC1843200CD", "die_codename", "SSV6M");
 assertExplainField("EC1EA88F88C1", "die_codename", "SSV7");
 assertResultField("EC1EA88F88C1", "die_codename", "SSV7");
 assertResultField("EC1EA88F88C1", "layer_count", 176);
@@ -172,7 +172,7 @@ assertResultFieldAbsent("ECD7147654C2", "redundant_area_size");
 assertExplainField("ECD7147654C2", "ecc_level", "24bit/1KB");
 assertResultField("ECD7147654C2", "ecc_level", "24bit/1KB");
 assertExplainField("ECD5843200C7", "die_codename", "SSV1");
-assertResultField("ECD5843200C7", "die_codename", "SSV1");
+assertResultField("ECD5843200C7", "die_codename", "SSV1M");
 assertExplainField("ECD5843200C7", "block_size", 12582912);
 assertResultField("ECD5843200C7", "block_size", 12582912);
 assertExplainField("ECD5843200C7", "redundant_area_size", "768B");

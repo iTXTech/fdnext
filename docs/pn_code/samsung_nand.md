@@ -70,44 +70,54 @@ PN 结构：
 
 第 4/5 位为 package density。当前补入用户表中的 `20 = 2Mb (256KB)`。`LG` / `ZG` / `NG` / `EG` / `GG` 等 token 在 General / Legacy 表中存在重叠；为兼容已有 legacy 和本地 FDB 样例，本轮不把这些重叠 token 全局迁移到新 General 容量，后续若有可区分上下文再做结构化覆盖。
 
-## Single-die profile rule
+## Die Density 工艺归一规则
 
-Samsung 3D V-NAND single-die PN can be mapped by `cell_level + die density + generation suffix`.
-This rule only applies when the PN topology token decodes to one physical die; multi-die package PN must use a separate package-level mapping because the package suffix may not equal the equivalent single-die suffix.
+Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也不再维护 single-die / package-level 两套表。DecodePack 先由第 3 位 die stack 算出 die count，再用 `package density / die count` 得到 `die_density`，最后按 `cell_level + die_density + generation suffix` 匹配 die profile。
+
+这条规则用于覆盖 FDB 中的旧 `l` 标记和错误 FlashID 关联：只要 DecodePack 根据 PN token 解析出 `die_codename`，FDB 不再覆盖该字段。
+
+内部 profile key 使用 cell 后缀避免同一代际跨 SLC / MLC / TLC / QLC 混淆：MLC 后缀 `M`，QLC 后缀 `Q`，SLC 后缀 `S`，无后缀默认为 TLC。2D Samsung profile 对外只显示 `xxnm`，例如内部 `SS14M` / `SS14S` 均展示为 `14nm`；3D profile 对外保留 `SSVxM` / `SSVxQ` / `SSVxS`。
 
 | Cell | Die density | Suffix | Profile |
 | --- | --- | --- | --- |
-| TLC | 256Gb | `M` | `SSV4` |
-| TLC | 512Gb | `M` | `SSV4` |
-| TLC | 512Gb | `A` | `SSV5` |
-| TLC | 512Gb | `B` | `SSV6` |
-| TLC | 512Gb | `E` | `SSV6P` |
-| TLC | 512Gb | `D` | `SSV7` |
-| TLC | 512Gb | `F` | `SSV8` |
+| SLC | 1Gb | `E` / `F` | `SS21S` / `SS16S` |
+| SLC | 2Gb | `D` | `SS16S` |
+| SLC | 4Gb | `E` / `F` | `SS21S` / `SS16S` |
+| SLC | 8Gb | `C` / `D` / `E` / `F` | `SS27S` / `SS21S` / `SS19S` / `SS16S` |
+| SLC | 32Gb | `A` / `M` | `SS14S` / `SS21S` |
+| SLC | 64Gb | `M` | `SSV3S` |
+| SLC | 128Gb | `M` | `SSV5S` |
+| MLC | 16Gb | `F` | `SS27M` |
+| MLC | 32Gb | `A` / `B` / `C` / `D` / `E` | `SS27M` / `SS21M` / `SS19M` / `SS16M` / `SS14M` |
+| MLC | 64Gb | `M` / `A` / `C` / `D` / `E` / `F` | `SS21M` / `SS21M` / `SS19M` / `SS16M` / `SS14M` / `SS14M` |
+| MLC | 128Gb | `B` / `D` / `M` / `A` | `SS14M` / `SS14M` / `SSV1M` / `SSV2M` |
+| MLC | 86Gb pMLC | `M` | `SSV2M` |
+| MLC | 256Gb | `M` / `A` / `B` | `SSV3M` / `SSV4M` / `SSV5M` |
+| TLC | 16Gb | `A` / `B` | `SS21` / `SS19` |
+| TLC | 32Gb | `B` / `C` / `D` / `E` | `SS27` / `SS21` / `SS19` / `SS16` |
+| TLC | 64Gb | `M` / `A` / `B` / `C` / `D` | `SS27` / `SS21` / `SS19` / `SS19` / `SS16` |
+| TLC | 128Gb | `M` / `D` / `F` / `C` / `E` | `SS19` / `SS16` / `SS14` / `SSV2` / `SSV3` |
+| TLC | 256Gb | `M` / `A` / `B` / `C` / `E` | `SSV3` / `SSV4` / `SSV5` / `SSV6` / `SSV6C` |
+| TLC | 512Gb | `M` / `A` / `B` / `D` / `E` / `F` / `G` / `H` | `SSV4` / `SSV5` / `SSV6` / `SSV7` / `SSV6P` / `SSV8` / `SSV7` / `SSV8P` |
+| TLC | 1Tb | `B` / `D` / `E` | `SSV8` / `SSV9` / `SSV9HS` |
+| QLC | 512Gb | `M` | `SSV4Q` |
+| QLC | 1Tb | `M` / `A` / `C` / `D` | `SSV4Q` / `SSV5Q` / `SSV7Q` / `SSV9Q` |
+| QLC | 2Tb | `M` | `SSV9HSQ` |
 
-Known package-level process rule:
-
-| PN structure | Profile |
-| --- | --- |
-| `K9D...VG...[mode]E` 1TB TLC 16-die package | `SSV6P` |
-| `K9D...YG...[mode]B` 2TB TLC 16-die package | `SSV8` |
-| `K9D...YG...[mode]D` 2TB TLC 16-die package | `SSV9` |
-| `K99...UG...[mode]C` 512GB QLC QDP package | `SSV7Q` |
-| `K9X...VG...[mode]M` 1TB QLC ODP package | `SSV4Q` |
-| `K9X...VG...[mode]A` 1TB QLC ODP package | `SSV5Q` |
-| `K9X...VG...[mode]C` 1TB QLC ODP package | `SSV7Q` |
-| `K9X...VG...[mode]D` 1TB QLC ODP package | `SSV9Q` |
-
+- `K9AHGD8H0A`：按 PN token 解析为 TLC 512Gb die density，suffix `A`，归一为 `SSV5`。FDB 中挂到该 PN 的 `EC1E98AF84CD` 会解到 `SSV6`，但它同时属于 `K9AHGD8H0B` / `K9AHGD8J0B` 等 V6 PN，视为 FDB FlashID 关联脏数据，不覆盖 DecodePack。
+- `K9UKGB8S7F` / `K9PKGY8S4B`：FDB `l=SSV3`，但 PN die density 规则分别归一到内部 `SS14M`，对外显示 `14nm`，用于纠正旧标记。
+- `K9PMGY8S7M`：FDB `l=SSV2`，但 PN die density 规则归一到 `SSV3M`。
 - `K9DYGY8J5B-CCK0`：TechInsights 确认其为 16 die package，内部 die 为 1Tb 236L TLC V8；外部 Flash ID 表和本地 FDB 同向记录 `EC52EA3F8ECF`。单个 `EC52EA3F8ECF` ID decode 为 512GB，4 组组成 `K9D...YG...` 的 2TB package。
   <https://www.techinsights.com/blog/samsung-k9dygy8j5b-cck0-236-layer-3d-nand-flash-advanced-memory-essentials>
   <https://www.techinsights.com/products/iwo-2310-801>
   <https://bbs.wuyou.net/forum.php?mod=viewthread&tid=449091>
 - `K9DYGY8J5D`：由用户补充为同拓扑 `SSV9`；当前未在本地 FDB 或公开检索中找到对应 Flash ID。
-- Samsung QLC V-NAND 已确认使用 `V4Q` / `V5Q` / `V7Q` / `V9Q`。这些 QLC profile 通过 DecodePack package-level token 和 Flash ID postprocess 确定性匹配，不依赖 FDB `l` 字段补齐；PN 规则绑定 `K9` 后 classification + density 头部和末尾 revision，倒数第二位 mode 只影响 CE / R/B 拓扑，不参与制程判断。FDBGen 只在生成侧把 Samsung `SSV4` / `SSV5` / `SSV7` / `SSV9` + `QLC` 归一到对应 `SSVxQ`。
+- Samsung QLC V-NAND 使用 `V4Q` / `V5Q` / `V6Q` / `V7Q` / `V8Q` / `V9Q` / `V9HSQ`。QLC profile 由 DecodePack 的 `cell_level + die_density + suffix` 规则确定，不依赖 FDB `l` 字段补齐；PN 规则绑定 `K9` 后 classification + density 头部和末尾 revision，倒数第二位 mode 只影响 CE / R/B 拓扑，不参与制程判断。运行时会把 Samsung `SSV4` / `SSV5` / `SSV6` / `SSV7` / `SSV8` / `SSV9` / `SSV9HS` + `QLC` 归一到对应 `SSVxQ`。
 
 ## 输出字段
 
 - `density`
+- `die_density`
 - `cell_level`
 - `die_codename`
 - `layer_count`
