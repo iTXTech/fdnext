@@ -57,19 +57,23 @@
         "configurationObj": {
           "A": {
             "die_count": 16,
-            "ce_count": 2
+            "ce_count": 2,
+            "channel_count": 1
           },
           "B": {
             "die_count": 8,
-            "ce_count": 1
+            "ce_count": 1,
+            "channel_count": 1
           },
           "C": {
             "die_count": 16,
-            "ce_count": 2
+            "ce_count": 2,
+            "channel_count": 2
           },
           "D": {
             "die_count": 32,
-            "ce_count": 2
+            "ce_count": 2,
+            "channel_count": 2
           }
         },
         "voltage": {
@@ -377,6 +381,9 @@
         },
         "fields.ce_count": {
           "$path": "configurationObj.ce_count"
+        },
+        "fields.channel_count": {
+          "$path": "configurationObj.channel_count"
         },
         "fields.voltage": {
           "$var": "voltage"

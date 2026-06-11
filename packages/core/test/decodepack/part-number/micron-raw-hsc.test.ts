@@ -31,6 +31,17 @@ import {
   assertSubtitle
 } from "./_helpers";
 
+function assertHscConfiguration(
+  partNumber: string,
+  expected: { dieCount: number; ceCount: number; channelCount: number }
+): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode`);
+  assert.equal(firstField(result, "die_count")?.value, expected.dieCount, `${partNumber} die_count`);
+  assert.equal(firstField(result, "ce_count")?.value, expected.ceCount, `${partNumber} ce_count`);
+  assert.equal(firstField(result, "channel_count")?.value, expected.channelCount, `${partNumber} channel_count`);
+}
+
 assertPart("MT29FB16T08GALAAM5-TES:B", {
   vendor: "micron",
   type: "NAND",
@@ -50,6 +61,7 @@ assertPart("MT29FB16T08GALAAM5-TES:B", {
     "Die Density": "1Tb",
     "Die Count": 16,
     "CE Count": 2,
+    "Channel Count": 1,
     "Layer Count": 96
   },
   absentExtra: [
@@ -168,6 +180,11 @@ assertMicronDecodePackDieProfile("MT29F16T08EWLEHD6-36ITRES:E", "B68S", 276);
 assertFdbDoesNotOverrideDecodePackFields();
 assertRuleDraftDieProfile("vendor.micron.hsc.mt29fb.v1", "MT29FB64T08GDLBBN2-QJES:B", "N69R");
 
+assertHscConfiguration("MT29FB16T08GALAAM5-TES:B", { dieCount: 16, ceCount: 2, channelCount: 1 });
+assertHscConfiguration("MT29FB8T08GBLAAM5-QK:E", { dieCount: 8, ceCount: 1, channelCount: 1 });
+assertHscConfiguration("MT29FB16T08GCLAAM5-TES:B", { dieCount: 16, ceCount: 2, channelCount: 2 });
+assertHscConfiguration("MT29FB64T08GDLBBN2-QJES:B", { dieCount: 32, ceCount: 2, channelCount: 2 });
+
 assertDecodedPartNumber("MT29F2G08ABDHC-ETD", "MT29F2G08ABDHC-ET:D");
 assertDecodedPartNumber("MT29FB16T08GALAAM5-TESB", "MT29FB16T08GALAAM5-TES:B");
 assertSearchPnIncludes("MT29F2G08ABDHC-ETD", "Micron MT29F2G08ABDHC-ET:D");
@@ -191,6 +208,7 @@ assertPart("MT29FB8T08EALAAM5-QK:E", {
     "Die Density": "512Gb",
     "Die Count": 16,
     "CE Count": 2,
+    "Channel Count": 1,
     "Layer Count": 176
   },
   absentExtra: [
@@ -228,6 +246,7 @@ assertPart("MT29FB64T08GDLBBN2-QJES:B", {
     "Die Density": "2Tb",
     "Die Count": 32,
     "CE Count": 2,
+    "Channel Count": 2,
     "Layer Count": 276
   },
   absentExtra: [
@@ -265,6 +284,7 @@ assertPart("NC103", {
     "Die Density": "1Tb",
     "Die Count": 16,
     "CE Count": 2,
+    "Channel Count": 1,
     "Layer Count": 96
   },
   absentExtra: [

@@ -62,7 +62,7 @@ PN 结构：
 | density `8T/16T/32T/62T/64T` | 8Tb / 16Tb / 32Tb / 62Tb / 64Tb，落库为 Mbit |
 | bus width `08` | x8 |
 | die type `E/G` | TLC / QLC |
-| configuration `A/B/C/D` | `A=16 die, 2 nCE`; `B=8 die, 1 nCE`; `C=16 die, 2 nCE`; `D=32 die, 2 nCE` |
+| configuration `A/B/C/D` | `A=16 die, 2 nCE, 1 I/O`; `B=8 die, 1 nCE, 1 I/O`; `C=16 die, 2 nCE, 2 I/O`; `D=32 die, 2 nCE, 2 I/O` |
 | voltage `L` | Vcc 3.30V or 2.50V, VccQ 1.20V |
 | IOE `A/B` | IOE Gen 1 Rev.A / IOE Gen 2 Rev.A |
 | interface `A/B/C` | NV-DDR3 only / NV-DDR3 + NV-LPDDR4 / NV-LPDDR4 only |
@@ -88,7 +88,7 @@ Design revision 映射：
 公开输出：
 
 - `density`、`device_width`、`cell_level`
-- `die_count`、`ce_count`
+- `die_count`、`ce_count`、`channel_count`
 - `voltage`
 - `interface_type`
 - `package`，仅限 `M5/D5/D6/D7` 这种资料给出实际尺寸的 token
@@ -155,8 +155,7 @@ Legacy 20-series ~ 60-series 结构与 current 结构不同：width 后直接是
 - `MT29FB` 使用专用 HSC token 规则，但这只是 Raw NAND 下的系列备注，不是独立 chip kind。
 - Raw NAND 结果不额外补 `product_family`；HSC 信息只通过 `nand_technology` 备注。
 - `N2` 目前只有 package token，ordering 图没有给出实际封装尺寸 / ball count，因此不公开 `package`。
-- HSC configuration 图中 `I/O` 列暂不映射到 `channel_count`；当前只公开可稳定对应的 `die_count`
-  与 `ce_count`。
+- HSC configuration 图中的 `I/O` 列映射到公开 `channel_count`。
 - `MT29A/B/C/D/G/J/K/M/P/Q/R/T/U/V...` MCP / AiO / uMCP 组合封装不属于 raw NAND parser。
 - `package_code`、`config_code`、`die_code`、`feature_code`、design revision code 等 token
   只用于内部解析，不进入 public fields。
