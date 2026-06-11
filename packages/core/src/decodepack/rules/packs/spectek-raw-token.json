@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^F[BNTS][0-9A-Z][ML][0-9A-Z]{3}(?:1G|18|2G|4G|8G|F8|HG|31|32|38|64|78|NX|NY|NZ|[0-9ABN])[0-9A][KLH][13DS][BCDGJLPTVW][G1-9](?:-[A-Z0-9]+)?$"
+      "value": "^F[BNTS][0-9A-Z][ML][0-9A-Z]{3}(?:1G|18|2G|4G|8G|F8|HG|31|32|38|64|78|NX|NY|NZ|[0-9ABN])[0-9A][KLH][13DS][BCDGJLPTVW][G1-9](?:-?[A-Z0-9]+)?$"
     },
     "tokenDecoder": {
       "tables": {

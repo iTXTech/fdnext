@@ -153,6 +153,14 @@ assertPart("MTFC256GZZZZZZ-WT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
 
+assertPart("MTFC256GZZZZZZWT", {
+  vendor: "micron",
+  type: "eMMC",
+  densityMbit: 2097152,
+  package: "Unknown",
+  absentExtra: ["NAND Component", "Controller Code", "Package Code"]
+});
+
 assertMicronManagedFbgaMarking("JW101", "MT29C1G12MABAAHB-75IT", "emcp");
 assertMicronManagedFbgaMarking("JZ018", "MT29VZZZ7D7DQKWL-062W97Y", "umcp");
 assertMicronManagedFbgaMarking("JZ101", "MTFC64GAOALEA-WTES", "emmc");

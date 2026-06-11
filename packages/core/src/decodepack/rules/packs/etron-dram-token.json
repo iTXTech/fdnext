@@ -1406,7 +1406,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^EM6[LP][DEFGH](?:16|32)M[0-9A-Z]{4}(?:-[0-9A-Z]+)?$"
+      "value": "^EM6[LP][DEFGH](?:16|32)M[0-9A-Z]{4}(?:-?[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -1673,7 +1673,7 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([0-9A-Z]{3})([0-9A-Z])(?:-([0-9A-Z]+))?$",
+          "pattern": "^([0-9A-Z]{3})([0-9A-Z])(?:-?([0-9A-Z]+))?$",
           "to": "packageToken",
           "groups": {
             "packageToken": 1,

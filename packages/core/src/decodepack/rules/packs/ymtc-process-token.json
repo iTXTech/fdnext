@@ -16,7 +16,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^X[0-9]-[0-9A-Z]+$"
+      "value": "^X[0-9]-?[0-9A-Z]+$"
     },
     "tokenDecoder": {
       "tables": {

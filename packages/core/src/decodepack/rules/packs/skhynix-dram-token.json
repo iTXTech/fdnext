@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H5(?:TQ|TC|AN)(?:1G|2G|4G|8G|AG)[468][0-9A-Z]{4}(?:-[0-9A-Z]{3,4})?$"
+      "value": "^H5(?:TQ|TC|AN)(?:1G|2G|4G|8G|AG)[468][0-9A-Z]{4}(?:-?[0-9A-Z]{3,4})?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [

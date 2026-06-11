@@ -161,7 +161,33 @@ function matchFromStart(
       return { matched: true, rest: value.slice(key.length), key, value: table[key] };
     }
   }
+  for (const key of keys) {
+    const consumed = matchOptionalDashPrefix(value, key);
+    if (consumed !== null) {
+      return { matched: true, rest: value.slice(consumed), key, value: table[key] };
+    }
+  }
   return { matched: false, rest: value };
+}
+
+function matchOptionalDashPrefix(value: string, key: string): number | null {
+  if (!key.includes("-")) {
+    return null;
+  }
+  let valueIndex = 0;
+  for (const char of key) {
+    if (char === "-") {
+      if (value[valueIndex] === "-") {
+        valueIndex += 1;
+      }
+      continue;
+    }
+    if (value[valueIndex] !== char) {
+      return null;
+    }
+    valueIndex += 1;
+  }
+  return valueIndex;
 }
 
 function matchScopedFromStart(

@@ -122,6 +122,21 @@ testPart("KLMDG1NCAB-B041", {
   absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
+testPart("KLMDG1NCABB041", {
+  vendor: "samsung",
+  type: "eMMC",
+  densityMbit: 1048576,
+  dieProfileField: "SSV8",
+  cellField: "TLC",
+  extra: {
+    "Die Density": "1Tb",
+    "Die Stack": "SDP (1-die)",
+    "Product Version": "eMMC 5.1",
+    "Interface Type": "HS400"
+  },
+  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
+});
+
 testPart("KMGD6001BM-B421", {
   vendor: "samsung",
   type: "eMCP",

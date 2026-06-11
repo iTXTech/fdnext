@@ -72,6 +72,24 @@ assertDram("H5TC4G83CFR-TEA", {
   }
 });
 
+assertDram("H5TC4G83CFRTEA", {
+  vendor: "skhynix",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "78-ball FBGA",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Package Code": "F",
+    "Config Code": "4G83",
+    "DRAM Speed": "DDR3L-2133 14-14-14",
+    "Operation Temperature": "Commercial",
+    "Solder Type": "Lead Free and Halogen Free (RoHS compliant)",
+    "Die Revision": "CFR"
+  }
+});
+
 assertDram("H5TQ2G63BFK-H9K", {
   vendor: "skhynix",
   densityMbit: 2048,
@@ -168,6 +186,24 @@ assertDram("H5ANAG8NCMR-XNC", {
   voltage: "1.2V VDD",
   package: "78-ball FBGA",
   topology: { ce: 2, die: 2 },
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Die Stack": "2 dies, 2 CS",
+    "Package Code": "M",
+    "Config Code": "AG8N",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "CMR"
+  }
+});
+
+assertDram("H5ANAG8NCMRXNC", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "78-ball FBGA",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "2 dies, 2 CS",

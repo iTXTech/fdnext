@@ -139,6 +139,21 @@ assertPart("X3-9060", {
   absentExtra: ["Product Generation"]
 });
 
+assertPart("X39060", {
+  vendor: "ymtc",
+  type: "NAND",
+  dieProfileField: "WYS",
+  cellField: "TLC",
+  extra: {
+    "Process Alias": "X3-9060",
+    "Layer Count": 128,
+    "Die Density": "512Gb",
+    "Plane Count": 4,
+    "Speed Grade": "ONFI 5.0; Max Speed=2400MT/s"
+  },
+  absentExtra: ["Product Generation"]
+});
+
 assertPart("X3-9070", {
   vendor: "ymtc",
   type: "NAND",

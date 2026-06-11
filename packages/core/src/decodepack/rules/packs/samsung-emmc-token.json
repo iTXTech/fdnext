@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^KLM(?:4G|8G|AG|BG|CG|DG|EG|FG)[1248AI][FGJKVURNL][CE][0-9A-Z][0-9A-Z](?:-[BCEF][0-9A-Z][0-9A-Z][12PQ])?$"
+      "value": "^KLM(?:4G|8G|AG|BG|CG|DG|EG|FG)[1248AI][FGJKVURNL][CE][0-9A-Z][0-9A-Z](?:-?[BCEF][0-9A-Z][0-9A-Z][12PQ])?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [

@@ -230,9 +230,19 @@ assert.equal(
   "FDB PN lookup should treat colon revision tokens as optional separators"
 );
 assert.equal(
+  getPartNumberRecord(colonTokenFdb, "micron", "MT62F512M64D4EK031FAATB")?.pn,
+  "MT62F512M64D4EK-031FAAT:B",
+  "FDB PN lookup should treat ordered dash suffix tokens as optional separators"
+);
+assert.equal(
   findPartNumberAcrossVendors(colonTokenFdb, "MT62F512M64D4EK-031FAATB")?.record.pn,
   "MT62F512M64D4EK-031FAAT:B",
   "cross-vendor FDB lookup should treat colon revision tokens as optional separators"
+);
+assert.equal(
+  findPartNumberAcrossVendors(colonTokenFdb, "MT62F512M64D4EK031FAATB")?.record.pn,
+  "MT62F512M64D4EK-031FAAT:B",
+  "cross-vendor FDB lookup should treat ordered dash suffix tokens as optional separators"
 );
 assert.equal(
   getPartNumberRecord(colonTokenFdb, "micron", "MT29FB16T08GALAAM5-TESB")?.pn,
@@ -240,9 +250,19 @@ assert.equal(
   "FDB Micron NAND PN lookup should treat colon revision tokens as optional separators"
 );
 assert.equal(
+  getPartNumberRecord(colonTokenFdb, "micron", "MT29FB16T08GALAAM5TESB")?.pn,
+  "MT29FB16T08GALAAM5-TES:B",
+  "FDB Micron NAND PN lookup should treat ordered dash suffix tokens as optional separators"
+);
+assert.equal(
   findPartNumberAcrossVendors(colonTokenFdb, "MT29FB16T08GALAAM5-TESB")?.record.pn,
   "MT29FB16T08GALAAM5-TES:B",
   "cross-vendor FDB Micron NAND lookup should treat colon revision tokens as optional separators"
+);
+assert.equal(
+  findPartNumberAcrossVendors(colonTokenFdb, "MT29FB16T08GALAAM5TESB")?.record.pn,
+  "MT29FB16T08GALAAM5-TES:B",
+  "cross-vendor FDB Micron NAND lookup should treat ordered dash suffix tokens as optional separators"
 );
 
 const samsungFdbMetadataEngine = createEngine({
@@ -251,7 +271,7 @@ const samsungFdbMetadataEngine = createEngine({
       rawNand: {
         info: { version: "test" },
         samsung: {
-          K9SPECIALTEST: { id: ["EC5C94D364CB"], m: "SSV4_MLC(CERCE3)" },
+          K9CERTEST00: { id: ["EC5C94D364CB"], m: "SSV4_MLC(CERCE3)" },
           K9NORMALNOTE: { id: ["EC5C98BF84CC"], m: "Toggle" }
         }
       }
@@ -259,7 +279,7 @@ const samsungFdbMetadataEngine = createEngine({
     translationIndex: { eng: engLang }
   }
 });
-const samsungCerResult = samsungFdbMetadataEngine.decodePart({ query: "K9SPECIALTEST", lang: "eng" });
+const samsungCerResult = samsungFdbMetadataEngine.decodePart({ query: "K9CERTEST00", lang: "eng" });
 assert.equal(samsungCerResult.status, "ok", "Samsung CER FDB metadata test PN should decode");
 assert.equal(
   collectResultBlockFields(samsungCerResult).find((field) => field.key === "special_option")?.value,

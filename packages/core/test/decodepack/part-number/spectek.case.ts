@@ -44,6 +44,20 @@ assertPart("FNNL63A51K3WG-AF", {
     "Package functionality partial type": "Single Die Package, CE only"
   }
 });
+assertPart("FNNL63A51K3WGAF", {
+  vendor: "spectek",
+  type: "NAND",
+  densityMbit: 32768,
+  dieProfileField: "34nm",
+  cellField: "MLC",
+  package: "48-pin TSOP I Center Package Leads (CPL) PB free",
+  extra: {
+    "Process Alias": "L63A",
+    "Product Family": "SpecTek NAND Flash",
+    "Density grade": "94-100%",
+    "Package functionality partial type": "Single Die Package, CE only"
+  }
+});
 assertNotFound("FBMB17A4T1KDUAN");
 assertDecodedPartNumber("PFE02", "FBML63BNAKDBAAH1");
 assertPart("PFE02", {

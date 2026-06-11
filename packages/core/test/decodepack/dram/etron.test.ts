@@ -226,7 +226,25 @@ assertDram("EM6LE16MVAJA-62BPH", {
   absentExtra: ["DRAM Die Stack"]
 });
 
+assertDram("EM6LE16MVAJA62BPH", {
+  vendor: "etron",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "200-ball 10 x 14.5 x 0.8mm FBGA",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "LPDDR4-3200 (1600MHz)",
+    "Channel Count": 1,
+    "Bank Count": 8,
+    "Operation Temperature": "Automotive A2 (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
 assertDecodedFieldAbsent("EM6PF32MBAJB-99H", "dram_speed");
+assertDecodedFieldAbsent("EM6PF32MBAJB99H", "dram_speed");
 assertDecodedFieldAbsent("EM6OF08NWALE-99H", "dram_speed");
 assertDecodedFieldAbsent("EM6GC16EWBH-99H", "dram_speed");
 assertDecodedFieldAbsent("EM6GC16EWBH-99H", "speed_grade");

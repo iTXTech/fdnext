@@ -612,6 +612,24 @@ assertStackedDram("MT54A8G8040A00BF-32:A", {
   }
 });
 
+assertStackedDram("MT54A8G8040A00BF32:A", {
+  type: "HBM2E",
+  densityMbit: 65536,
+  density: "64Gb",
+  voltage: "1.2V",
+  fields: {
+    channel_count: 8,
+    die_count: 4
+  },
+  extra: {
+    "Channel Count": 8,
+    "DRAM Speed": "3.2 Gb/s",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A",
+    "ECC enabled": true
+  }
+});
+
 assertStackedDram("MT43A4G40100NFA-S15:A", {
   type: "HMC",
   densityMbit: 16384,

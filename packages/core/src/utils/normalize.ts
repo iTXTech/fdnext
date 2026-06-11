@@ -1,7 +1,7 @@
 import { removeChars } from "./string";
 
 const PN_REMOVALS = [" ", ",", "&", ".", "|"];
-const PN_TOKEN_SEPARATORS = [":"];
+const PN_TOKEN_SEPARATORS = [":", "-"];
 
 function normalizePartNumberAlias(partNumber: string): string {
   return partNumber

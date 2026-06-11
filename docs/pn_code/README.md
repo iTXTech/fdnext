@@ -43,6 +43,7 @@
 - iTXTech fdnext DecodePack 中 `density` 继续使用项目现有单位：Mbit。
 - Managed NAND 与混合封装必须按具体产品线输出 `emmc`、`ufs`、`emcp`、`umcp`、`e2nand` 或 `e3nand`，不要使用泛化 controller 兜底类型；补充信息放入 `fields`。
 - 规则实现禁止完整 PN 白名单匹配，只允许按 PN 结构切 token，再用规则库解释已知 token。
+- 文档和 canonical PN 中的 `-` / `:` 是 token separator；用户输入按原 token 顺序省略 `-` 时，解析和搜索应按同一 PN 处理。
 - 未知 token 不应阻断 vendor、type、density 等已能确定字段的解析。
 - 用户可见字段统一使用跨厂商 canonical key；厂商原始 token、可信度 metadata 和外部确认状态只能留在 iTXTech fdnext DecodePack 内部或厂商文档中。
 - 新增厂商或产品线时，先创建独立文档，再补 iTXTech fdnext DecodePack pack 和 testcase。

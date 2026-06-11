@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^MTFC(?:12M|[0-9]{1,3}G)[0-9A-Z]{4}(?:-[0-9A-Z]+)?(?:ES|MS|QS)?$"
+      "value": "^MTFC(?:12M|[0-9]{1,3}G)[0-9A-Z]{4}(?:-?[0-9A-Z]+)?(?:ES|MS|QS)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
