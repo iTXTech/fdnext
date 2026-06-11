@@ -95,39 +95,8 @@
           "Y": 16
         },
         "dieStack": {
-          "1": "HDP (16-die)",
-          "2": "DDP (2-die)",
-          "3": "SDP (1-die)",
-          "4": "QDP (4-die)",
-          "5": "SDP (1-die)",
-          "6": "DDP (2-die)",
-          "7": "QDP (4-die)",
-          "8": "32DP (32-die)",
-          "9": "QDP (4-die)",
-          "A": "SDP (1-die)",
-          "B": "DDP (2-die)",
-          "C": "QDP (4-die)",
-          "D": "HDP (16-die)",
-          "E": "DDP (2-die)",
-          "F": "SDP (1-die)",
-          "G": "SDP (1-die)",
-          "H": "QDP (4-die)",
-          "J": "3DP (3-die)",
-          "K": "DDP (2-die)",
-          "L": "DDP (2-die)",
-          "M": "DSP (Dual Stack Package, 4-die x2)",
-          "N": "DSP (Dual Stack Package, 4-die x2)",
-          "O": "ODP (8-die)",
-          "P": "ODP (8-die)",
-          "Q": "ODP (8-die)",
-          "R": "12DP (12-die)",
-          "S": "6DP (6-die)",
-          "T": "SDP (1-die)",
-          "U": "HDP (16-die)",
-          "V": "HDP (16-die)",
-          "W": "QDP (4-die)",
-          "X": "ODP (8-die)",
-          "Y": "HDP (16-die)"
+          "M": "DSP (4-die x2)",
+          "N": "DSP (4-die x2)"
         },
         "density": {
           "12": 512,
@@ -182,50 +151,85 @@
         },
         "voltage": {
           "0": "samsung_none",
-          "A": "1.65V~3.6V",
-          "B": "2.7V (2.5V~2.9V)",
-          "C": "5.0V (4.5V~5.5V)",
-          "D": "2.65V (2.4V ~ 2.9V)",
-          "E": "2.3V~3.6V",
-          "R": "1.8V (1.65V~1.95V)",
-          "Q": "1.8V (1.7V ~ 1.95V)",
-          "T": "2.4V~3.0V",
-          "S": "Vcc: 3.3V (3V~3.6V), VccQ: 1.8V (1.65V~1.95V)",
-          "U": "2.7V~3.6V",
-          "V": "3.3V (3.0V~3.6V)",
-          "W": "2.7V~5.5V, 3.0V~5.5V",
-          "H": "Vcc: 3.3V, VccQ: 1.8V (UNOFFICIAL)"
+          "A": "Vcc: 1.65V~3.60V",
+          "B": "Vcc: 2.70V (2.50V~2.90V)",
+          "C": "Vcc: 5.00V (4.50V~5.50V)",
+          "D": "Vcc: 2.65V (2.40V~2.90V)",
+          "E": "Vcc: 2.30V~3.60V",
+          "F": "Vcc: 3.30V (2.70V~3.60V); VccQ: 1.80V (1.70V~1.95V)",
+          "H": "Vcc: 3.30V (2.70V~3.60V); VccQ: 1.80V (1.70V~1.95V)",
+          "J": "Vcc: 2.50V (2.35V~2.75V); VccQ: 1.20V (1.14V~1.26V)",
+          "Q": "Vcc: 1.80V (1.70V~1.95V)",
+          "R": "Vcc: 1.80V (1.65V~1.95V)",
+          "S": "Vcc: 3.30V (2.70V~3.60V); VccQ: 1.80V (1.65V~1.95V)",
+          "T": "Vcc: 2.40V~3.00V",
+          "U": "Vcc: 3.30V (2.70V~3.60V)",
+          "V": "Vcc: 3.30V (3.00V~3.60V)",
+          "W": "Vcc: 2.70V~5.50V"
         },
-        "ce": {
-          "0": 1,
-          "1": 2,
-          "2": 4,
-          "3": 3,
-          "4": 4,
-          "5": 4,
-          "6": 6,
-          "7": 8,
-          "8": 8,
-          "9": -1,
-          "A": -1,
-          "L": -1,
-          "C": 16,
-          "J": 16
-        },
-        "rb": {
-          "0": 1,
-          "1": 2,
-          "3": 3,
-          "4": 1,
-          "5": 4,
-          "6": 2,
-          "7": 4,
-          "8": 2,
-          "9": -1,
-          "A": -1,
-          "L": -1,
-          "C": 2,
-          "J": 4
+        "configuration": {
+          "0": {
+            "ce_count": 1,
+            "rb_count": 1
+          },
+          "1": {
+            "ce_count": 2,
+            "rb_count": 2
+          },
+          "2": {
+            "ce_count": 4,
+            "rb_count": 2
+          },
+          "3": {
+            "ce_count": 3,
+            "rb_count": 3
+          },
+          "4": {
+            "ce_count": 4,
+            "rb_count": 1
+          },
+          "5": {
+            "ce_count": 4,
+            "rb_count": 4
+          },
+          "6": {
+            "ce_count": 6,
+            "rb_count": 2
+          },
+          "7": {
+            "ce_count": 8,
+            "rb_count": 4
+          },
+          "8": {
+            "ce_count": 8,
+            "rb_count": 2
+          },
+          "9": {
+            "special_option": "1st Block OTP"
+          },
+          "A": {
+            "special_option": "Mask Option 1"
+          },
+          "B": {
+            "ce_count": 2,
+            "rb_count": 2,
+            "special_option": "V4 512Gb eTLC HDP 168-FBGA"
+          },
+          "C": {
+            "ce_count": 16,
+            "rb_count": 4
+          },
+          "F": {
+            "special_option": "Fuse Option 1"
+          },
+          "J": {
+            "ce_count": 2,
+            "rb_count": 2,
+            "special_option": "V3 256Gb eTLC HDP 316-FBGA"
+          },
+          "L": {
+            "special_option": "Low Grade"
+          }
         },
         "generation": {
           "M": 1,
@@ -420,8 +424,7 @@
           "op": "map",
           "from": "classificationCode",
           "table": "dieStack",
-          "to": "dieStack",
-          "default": "Unknown"
+          "to": "dieStack"
         },
         {
           "op": "take",
@@ -486,16 +489,9 @@
         {
           "op": "map",
           "from": "modeCode",
-          "table": "ce",
-          "to": "ce",
-          "default": -1
-        },
-        {
-          "op": "map",
-          "from": "modeCode",
-          "table": "rb",
-          "to": "rb",
-          "default": -1
+          "table": "configuration",
+          "to": "configurationObj",
+          "default": {}
         },
         {
           "op": "take",
@@ -656,10 +652,13 @@
           "$var": "dieStack"
         },
         "fields.ce_count": {
-          "$var": "ce"
+          "$path": "configurationObj.ce_count"
         },
         "fields.rb_count": {
-          "$var": "rb"
+          "$path": "configurationObj.rb_count"
+        },
+        "fields.special_option": {
+          "$path": "configurationObj.special_option"
         },
         "meta.ruleId": "vendor.samsung.token.v1"
       }

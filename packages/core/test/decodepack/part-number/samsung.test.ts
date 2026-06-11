@@ -4,6 +4,7 @@ import {
   assertDecodePackDieProfile,
   assertRuleDraftDieProfile,
   engineWithoutFdb,
+  fieldText,
   firstField,
   testPart
 } from "./_helpers";
@@ -12,6 +13,37 @@ function assertDecodePackDieProfileAbsent(partNumber: string): void {
   const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
   assert.equal(firstField(result, "die_codename"), undefined, `${partNumber} should not emit an ambiguous die profile`);
+}
+
+function assertSamsungRawDieStack(partNumber: string, expected: string | undefined): void {
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+  assert.equal(result.device?.vendor.id, "samsung", `${partNumber} vendor`);
+  assert.equal(result.device?.chipKind, "raw_nand", `${partNumber} chip kind`);
+  assert.equal(fieldText(firstField(result, "die_stack")), expected, `${partNumber} die_stack`);
+  assert.ok(firstField(result, "die_count"), `${partNumber} should keep die_count`);
+}
+
+function assertSamsungRawConfiguration(
+  partNumber: string,
+  expected: { ceCount?: number; rbCount?: number; specialOption?: string }
+): void {
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+  assert.equal(result.device?.vendor.id, "samsung", `${partNumber} vendor`);
+  assert.equal(result.device?.chipKind, "raw_nand", `${partNumber} chip kind`);
+  assert.equal(firstField(result, "ce_count")?.value, expected.ceCount, `${partNumber} ce_count`);
+  assert.equal(firstField(result, "rb_count")?.value, expected.rbCount, `${partNumber} rb_count`);
+  assert.equal(fieldText(firstField(result, "special_option")), expected.specialOption, `${partNumber} special_option`);
+}
+
+function assertSamsungRawVoltage(voltageCode: string, expected: string): void {
+  const partNumber = `K9XVGY8${voltageCode}5M`;
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+  assert.equal(result.device?.vendor.id, "samsung", `${partNumber} vendor`);
+  assert.equal(result.device?.chipKind, "raw_nand", `${partNumber} chip kind`);
+  assert.equal(fieldText(firstField(result, "voltage")), expected, `${partNumber} voltage`);
 }
 
 testPart("KLMAG1JETD-B041", {
@@ -456,7 +488,8 @@ testPart("K9OVGD8J2B", {
   cellField: "TLC",
   extra: {
     "Die Count": 8,
-    "CE Count": 4
+    "CE Count": 4,
+    "R/B Count": 2
   }
 });
 
@@ -466,7 +499,7 @@ testPart("K9NAGD8D0M", {
   densityMbit: 16384,
   cellField: "SLC",
   extra: {
-    "Die Stack": "DSP (Dual Stack Package, 4-die x2)",
+    "Die Stack": "DSP (4-die x2)",
     "Die Count": 8,
     "CE Count": 1
   }
@@ -478,7 +511,7 @@ testPart("K9MAGD8D0M", {
   densityMbit: 16384,
   cellField: "MLC",
   extra: {
-    "Die Stack": "DSP (Dual Stack Package, 4-die x2)",
+    "Die Stack": "DSP (4-die x2)",
     "Die Count": 8,
     "CE Count": 1
   }
@@ -490,7 +523,6 @@ testPart("K9T20D8D0M", {
   densityMbit: 2,
   cellField: "SLC",
   extra: {
-    "Die Stack": "SDP (1-die)",
     "Die Count": 1
   }
 });
@@ -501,7 +533,6 @@ testPart("K91AGD8D0M", {
   densityMbit: 16384,
   cellField: "TLC",
   extra: {
-    "Die Stack": "HDP (16-die)",
     "Die Count": 16
   }
 });
@@ -512,7 +543,6 @@ testPart("K9JAGD8D0M", {
   densityMbit: 16384,
   cellField: "MLC",
   extra: {
-    "Die Stack": "3DP (3-die)",
     "Die Count": 3
   }
 });
@@ -523,7 +553,6 @@ testPart("K98VGD8D0M", {
   densityMbit: 8388608,
   cellField: "QLC",
   extra: {
-    "Die Stack": "32DP (32-die)",
     "Die Count": 32
   }
 });
@@ -534,7 +563,6 @@ testPart("K9YVGD8D0M", {
   densityMbit: 8388608,
   cellField: "QLC",
   extra: {
-    "Die Stack": "HDP (16-die)",
     "Die Count": 16
   }
 });
@@ -547,7 +575,6 @@ testPart("K9XVGB8J1M", {
   cellField: "QLC",
   extra: {
     "Layer Count": 64,
-    "Die Stack": "ODP (8-die)",
     "Die Count": 8,
     "CE Count": 2
   }
@@ -561,7 +588,6 @@ testPart("K9XVGY8J5M", {
   cellField: "QLC",
   extra: {
     "Layer Count": 64,
-    "Die Stack": "ODP (8-die)",
     "Die Count": 8,
     "CE Count": 4
   }
@@ -575,7 +601,6 @@ testPart("K9XVGY8J5A", {
   cellField: "QLC",
   extra: {
     "Layer Count": 92,
-    "Die Stack": "ODP (8-die)",
     "Die Count": 8,
     "CE Count": 4
   }
@@ -589,7 +614,6 @@ testPart("K9XVGD8J5C", {
   cellField: "QLC",
   extra: {
     "Layer Count": 176,
-    "Die Stack": "ODP (8-die)",
     "Die Count": 8,
     "CE Count": 4
   }
@@ -603,7 +627,6 @@ testPart("K99UGY8J5C", {
   cellField: "QLC",
   extra: {
     "Layer Count": 176,
-    "Die Stack": "QDP (4-die)",
     "Die Count": 4,
     "CE Count": 4
   }
@@ -617,10 +640,75 @@ testPart("K9XVGD8J5D", {
   cellField: "QLC",
   extra: {
     "Layer Count": 280,
-    "Die Stack": "ODP (8-die)",
     "Die Count": 8,
     "CE Count": 4
   }
+});
+
+test("Samsung raw NAND exposes die_stack only for DSP topology", () => {
+  assertSamsungRawDieStack("K9NAGD8D0M", "DSP (4-die x2)");
+  assertSamsungRawDieStack("K9MAGD8D0M", "DSP (4-die x2)");
+  for (const partNumber of [
+    "K9T20D8D0M",
+    "K91AGD8D0M",
+    "K9JAGD8D0M",
+    "K98VGD8D0M",
+    "K9YVGD8D0M",
+    "K9XVGB8J1M",
+    "K9XVGY8J5M",
+    "K9XVGY8J5A",
+    "K9XVGD8J5C",
+    "K99UGY8J5C",
+    "K9XVGD8J5D"
+  ]) {
+    assertSamsungRawDieStack(partNumber, undefined);
+  }
+});
+
+test("Samsung raw NAND mode configuration follows nCE/RnB table", () => {
+  assertSamsungRawConfiguration("K9XVGY8J0M", { ceCount: 1, rbCount: 1 });
+  assertSamsungRawConfiguration("K9XVGY8J1M", { ceCount: 2, rbCount: 2 });
+  assertSamsungRawConfiguration("K9XVGY8J2M", { ceCount: 4, rbCount: 2 });
+  assertSamsungRawConfiguration("K9XVGY8J3M", { ceCount: 3, rbCount: 3 });
+  assertSamsungRawConfiguration("K9XVGY8J4M", { ceCount: 4, rbCount: 1 });
+  assertSamsungRawConfiguration("K9XVGY8J5M", { ceCount: 4, rbCount: 4 });
+  assertSamsungRawConfiguration("K9XVGY8J6M", { ceCount: 6, rbCount: 2 });
+  assertSamsungRawConfiguration("K9XVGY8J7M", { ceCount: 8, rbCount: 4 });
+  assertSamsungRawConfiguration("K9XVGY8J8M", { ceCount: 8, rbCount: 2 });
+  assertSamsungRawConfiguration("K9XVGY8J9M", { specialOption: "1st Block OTP" });
+  assertSamsungRawConfiguration("K9XVGY8JAM", { specialOption: "Mask Option 1" });
+  assertSamsungRawConfiguration("K9XVGY8JBM", {
+    ceCount: 2,
+    rbCount: 2,
+    specialOption: "V4 512Gb eTLC HDP 168-FBGA"
+  });
+  assertSamsungRawConfiguration("K9XVGY8JCM", { ceCount: 16, rbCount: 4 });
+  assertSamsungRawConfiguration("K9XVGY8JFM", { specialOption: "Fuse Option 1" });
+  assertSamsungRawConfiguration("K9XVGY8JJM", {
+    ceCount: 2,
+    rbCount: 2,
+    specialOption: "V3 256Gb eTLC HDP 316-FBGA"
+  });
+  assertSamsungRawConfiguration("K9XVGY8JLM", { specialOption: "Low Grade" });
+});
+
+test("Samsung raw NAND voltage follows operating-voltage table", () => {
+  assertSamsungRawVoltage("0", "NONE");
+  assertSamsungRawVoltage("A", "Vcc: 1.65V~3.60V");
+  assertSamsungRawVoltage("B", "Vcc: 2.70V (2.50V~2.90V)");
+  assertSamsungRawVoltage("C", "Vcc: 5.00V (4.50V~5.50V)");
+  assertSamsungRawVoltage("D", "Vcc: 2.65V (2.40V~2.90V)");
+  assertSamsungRawVoltage("E", "Vcc: 2.30V~3.60V");
+  assertSamsungRawVoltage("F", "Vcc: 3.30V (2.70V~3.60V); VccQ: 1.80V (1.70V~1.95V)");
+  assertSamsungRawVoltage("H", "Vcc: 3.30V (2.70V~3.60V); VccQ: 1.80V (1.70V~1.95V)");
+  assertSamsungRawVoltage("J", "Vcc: 2.50V (2.35V~2.75V); VccQ: 1.20V (1.14V~1.26V)");
+  assertSamsungRawVoltage("Q", "Vcc: 1.80V (1.70V~1.95V)");
+  assertSamsungRawVoltage("R", "Vcc: 1.80V (1.65V~1.95V)");
+  assertSamsungRawVoltage("S", "Vcc: 3.30V (2.70V~3.60V); VccQ: 1.80V (1.65V~1.95V)");
+  assertSamsungRawVoltage("T", "Vcc: 2.40V~3.00V");
+  assertSamsungRawVoltage("U", "Vcc: 3.30V (2.70V~3.60V)");
+  assertSamsungRawVoltage("V", "Vcc: 3.30V (3.00V~3.60V)");
+  assertSamsungRawVoltage("W", "Vcc: 2.70V~5.50V");
 });
 
 testPart("KLUCG4J1BB", {

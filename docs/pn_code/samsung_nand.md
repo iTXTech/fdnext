@@ -21,14 +21,68 @@ PN 结构：
 | technology | Toggle DDR generation flag |
 | width | device width |
 | voltage | voltage option |
-| mode | CE / R/B count |
+| mode | configuration: CE / R/B count and option notes |
 | generation | generation code; may also feed process profile matching through FDB / die profile rules |
 
-## 第 3 位 Die Stack / Cell Level
+## 第 8 位 Operating Voltage Range
 
-第 3 位 classification token 同时决定 cell level 和封装内 die stack。当前 DecodePack 按用户提供的 Samsung 表更新这些结构化 token；其中 `N` / `M` 的 `DSP` 解释为 Dual Stack Package，即两个 4-die stack，总 die 数输出为 8。
+第 8 位 voltage token 按 Samsung operating-voltage 表输出。表中同一 code 有多行可选 VccQ 或宽范围组合时，public result 只保留一个合并后的主值；固定双电源组合才同时输出 `Vcc` / `VccQ`。完整来源行保留在下方 source table，避免丢失截图资料。
 
-| Token | Cell | Die stack | die_count |
+| Code | public voltage |
+| --- | --- |
+| `0` | `NONE` |
+| `A` | `Vcc: 1.65V~3.60V` |
+| `B` | `Vcc: 2.70V (2.50V~2.90V)` |
+| `C` | `Vcc: 5.00V (4.50V~5.50V)` |
+| `D` | `Vcc: 2.65V (2.40V~2.90V)` |
+| `E` | `Vcc: 2.30V~3.60V` |
+| `F` / `H` | `Vcc: 3.30V (2.70V~3.60V); VccQ: 1.80V (1.70V~1.95V)` |
+| `J` | `Vcc: 2.50V (2.35V~2.75V); VccQ: 1.20V (1.14V~1.26V)` |
+| `Q` | `Vcc: 1.80V (1.70V~1.95V)` |
+| `R` | `Vcc: 1.80V (1.65V~1.95V)` |
+| `S` | `Vcc: 3.30V (2.70V~3.60V); VccQ: 1.80V (1.65V~1.95V)` |
+| `T` | `Vcc: 2.40V~3.00V` |
+| `U` | `Vcc: 3.30V (2.70V~3.60V)` |
+| `V` | `Vcc: 3.30V (3.00V~3.60V)` |
+| `W` | `Vcc: 2.70V~5.50V` |
+
+完整来源表：
+
+| Code | Vcc | VccQ |
+| --- | --- | --- |
+| `0` | NONE | NONE |
+| `A` | 1.65V~3.60V | - |
+| `B` | 2.70V (2.50V~2.90V) | - |
+| `B` | 2.70V (2.50V~2.90V) | 2.70V (2.50V~2.90V) |
+| `C` | 5.00V (4.50V~5.50V) | - |
+| `D` | 2.65V (2.40V~2.90V) | - |
+| `D` | 2.65V (2.40V~2.90V) | 2.65V (2.40V~2.90V) |
+| `E` | 2.30V~3.60V | - |
+| `F` | 3.30V (2.70V~3.60V) | 1.80V (1.70V~1.95V) |
+| `H` | 3.30V (2.70V~3.60V) | 1.80V (1.70V~1.95V) |
+| `J` | 2.50V (2.35V~2.75V) | 1.20V (1.14V~1.26V) |
+| `Q` | 1.80V (1.70V~1.95V) | - |
+| `Q` | 1.80V (1.70V~1.95V) | 1.80V (1.70V~1.95V) |
+| `R` | 1.80V (1.65V~1.95V) | - |
+| `R` | 1.80V (1.65V~1.95V) | 1.80V (1.65V~1.95V) |
+| `S` | 3.30V (2.70V~3.60V) | 1.80V (1.70V~1.95V) |
+| `S` | 3.30V (2.70V~3.60V) | 1.80V (1.65V~1.95V) |
+| `T` | 2.40V~3.00V | - |
+| `U` | 3.30V (2.70V~3.60V) | - |
+| `U` | 3.30V (2.70V~3.60V) | 3.30V (2.70V~3.60V) |
+| `U` | 3.30V (2.70V~3.60V) | 2.70V~5.50V |
+| `V` | 3.30V (2.70V~3.60V) | - |
+| `V` | 3.30V (3.00V~3.60V) | - |
+| `V` | 3.30V (3.00V~3.60V) | 3.00V~5.50V |
+| `W` | 3.00V~5.50V | - |
+| `W` | 2.70V~5.50V | - |
+| `W` | 2.70V~5.50V | 2.70V~5.50V |
+
+## 第 3 位 Cell Level / Die Count
+
+第 3 位 classification token 同时决定 cell level 和 die count。当前 DecodePack 按用户提供的 Samsung 表更新这些结构化 token；普通 SDP / DDP / QDP / ODP / HDP 等 stack mnemonic 只重复 die 数量，不进入公开输出。`N` / `M` 的 `DSP (Dual Stack Package, 4-die x2)` 比 `die_count = 8` 多表达封装拓扑，因此公开输出保留短写 `die_stack = DSP (4-die x2)`。
+
+| Token | Cell | Stack note | die_count |
 | --- | --- | --- | --- |
 | `T` | SLC Small Block | SDP (1-die) | 1 |
 | `E` | SLC Small Block | DDP (2-die) | 2 |
@@ -72,7 +126,7 @@ PN 结构：
 
 ## Die Density 工艺归一规则
 
-Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也不再维护 single-die / package-level 两套表。DecodePack 先由第 3 位 die stack 算出 die count，再用 `package density / die count` 得到 `die_density`，最后按 `cell_level + die_density + generation suffix` 匹配 die profile。
+Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也不再维护 single-die / package-level 两套表。DecodePack 先由第 3 位 classification 算出 `die_count`，再用 `package density / die_count` 得到 `die_density`，最后按 `cell_level + die_density + generation suffix` 匹配 die profile。
 
 这条规则用于覆盖 FDB 中的旧 `l` 标记和错误 FlashID 关联：只要 DecodePack 根据 PN token 解析出 `die_codename`，FDB 不再覆盖该字段。
 
@@ -121,10 +175,11 @@ Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也�
 - `cell_level`
 - `die_codename`
 - `layer_count`
-- `die_stack`
+- `die_stack`（仅 `N` / `M` 的 DSP 拓扑）
 - `die_count`
 - `ce_count`
 - `rb_count`
+- `special_option`
 - `device_width`
 - `voltage`
 - `toggle`
@@ -137,16 +192,30 @@ Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也�
 
 `classificationCode`、`densityCode`、`modeCode`、`generationCode`、`packageCode` 等 token 只用于内部解析，不进入公开字段。
 
-## 已知拓扑规则
+## 第 9 位 Configuration
 
-| Token | 输出 |
-| --- | --- |
-| classification `N` / `M` | `die_stack = DSP (Dual Stack Package, 4-die x2)`，`die_count = 8` |
-| classification `X` | `die_count = 8` |
-| classification `9` | `die_count = 4` |
-| mode `2` | `ce_count = 4` |
+该位是 generation 前一位，当前公开输出 `ce_count` / `rb_count`，以及非数值配置的 `special_option`。截图表中 `2` / `3` 另有 revoked option 行，本轮只采用未标记 revoked 的 nCE / RnB 拓扑，不把 revoked option 输出到 public result。
 
-这些规则用于补齐 `K9X...` / `K99...` 等 QLC 拓扑，以及 `K9OVGD8J2B` 这类 mode `2` 的 4 CE 拓扑。
+| Code | nCE | RnB | public note |
+| --- | --- | --- | --- |
+| `0` | 1 | 1 |  |
+| `1` | 2 | 2 |  |
+| `2` | 4 | 2 | revoked Mask Option 1 row is not public |
+| `3` | 3 | 3 | revoked Fuse Option 1 row is not public |
+| `4` | 4 | 1 |  |
+| `5` | 4 | 4 |  |
+| `6` | 6 | 2 |  |
+| `7` | 8 | 4 |  |
+| `8` | 8 | 2 |  |
+| `9` | - | - | `special_option = 1st Block OTP` |
+| `A` | - | - | `special_option = Mask Option 1` |
+| `B` | 2 | 2 | `special_option = V4 512Gb eTLC HDP 168-FBGA` |
+| `C` | 16 | 4 |  |
+| `F` | - | - | `special_option = Fuse Option 1` |
+| `J` | 2 | 2 | `special_option = V3 256Gb eTLC HDP 316-FBGA` |
+| `L` | - | - | `special_option = Low Grade` |
+
+这些规则用于补齐 `K9X...` / `K99...` 等 QLC 拓扑，以及 `K9OVGD8J2B` 这类 mode `2` 的 4 CE / 2 R/B 拓扑。除 DSP 外，Samsung raw NAND 不公开 `die_stack`，只输出 `die_count`。
 
 ## 测试样例
 
