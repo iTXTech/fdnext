@@ -321,67 +321,36 @@
           "4:2Tb:M": "SSV9HSQ"
         },
         "package": {
-          "1": "BGA108",
-          "8": "TSOP1",
-          "9": "56-TSOP1",
-          "A": "COB",
-          "B": "FBGA",
-          "C": "BGA316",
-          "D": "BGA316",
-          "E": "ISM",
-          "F": "WSOP",
-          "G": "FBGA",
-          "H": "BGA132 or 136",
-          "I": "ULGA (12*17)",
-          "J": "FBGA",
-          "K": "ULGA (12*17)",
-          "L": "ULGA (14*18)",
-          "M": "ULGA52 (13*18)",
-          "P": "TSOP1",
-          "Q": "TSOP2",
-          "R": "56-TSOP1",
-          "S": "TSOP1",
-          "T": "WSOP",
+          "1": "FBGA-168",
+          "5": "FBGA-63",
+          "7": "FBGA-168",
+          "8": "TSOP-I-48",
+          "9": "TSOP-I-56",
+          "A": "FBGA-154",
+          "B": "FBGA-63",
+          "C": "FBGA-316",
+          "D": "FBGA-316",
+          "E": "FBGA-316",
+          "F": "FBGA-308",
+          "G": "FBGA-63",
+          "H": "BGA-132/136",
+          "I": "LGA-52",
+          "J": "FBGA-63",
+          "K": "LGA-52",
+          "L": "LGA-52",
+          "M": "LGA-52",
+          "N": "LGA-52",
+          "P": "TSOP-I-48",
+          "Q": "TSOP-II-44(40)",
+          "R": "TSOP-I-56",
+          "S": "TSOP-I-48",
+          "T": "BGA-152",
           "U": "COB (MMC)",
-          "V": "WSOP",
+          "V": "WSOP-I-48",
           "W": "Wafer",
-          "Y": "TSOP1",
-          "Z": "WELP",
-          "X": "BGA108"
-        },
-        "lead_free": {
-          "8": true,
-          "9": true,
-          "B": true,
-          "E": true,
-          "F": true,
-          "I": true,
-          "J": true,
-          "K": true,
-          "L": true,
-          "M": true,
-          "P": true,
-          "Q": true,
-          "R": true,
-          "S": true,
-          "T": true,
-          "Z": true
-        },
-        "halogen_free": {
-          "8": true,
-          "9": true,
-          "B": true,
-          "E": true,
-          "K": true,
-          "L": true,
-          "M": true,
-          "R": true,
-          "S": true,
-          "T": true
-        },
-        "cu": {
-          "8": true,
-          "9": true
+          "X": "FBGA-108",
+          "Y": "FBGA-108",
+          "Z": "WELP-48"
         },
         "operation_temperature": {
           "0": "samsung_none",
@@ -542,29 +511,7 @@
           "op": "map",
           "from": "packageCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
-        },
-        {
-          "op": "map",
-          "from": "packageCode",
-          "table": "lead_free",
-          "to": "lead_free",
-          "default": false
-        },
-        {
-          "op": "map",
-          "from": "packageCode",
-          "table": "halogen_free",
-          "to": "halogen_free",
-          "default": false
-        },
-        {
-          "op": "map",
-          "from": "packageCode",
-          "table": "cu",
-          "to": "cu",
-          "default": false
+          "to": "package"
         },
         {
           "op": "take",
@@ -601,15 +548,6 @@
         "fields": {
           "toggle": {
             "$var": "toggleVer"
-          },
-          "lead_free": {
-            "$var": "lead_free"
-          },
-          "halogen_free": {
-            "$var": "halogen_free"
-          },
-          "cu": {
-            "$var": "cu"
           },
           "operation_temperature": {
             "$var": "operation_temperature"

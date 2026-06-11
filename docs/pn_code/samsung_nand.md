@@ -184,13 +184,49 @@ Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也�
 - `voltage`
 - `toggle`
 - `package`
-- `lead_free`
-- `halogen_free`
-- `cu`
 - `operation_temperature`
 - `bad_block`
 
 `classificationCode`、`densityCode`、`modeCode`、`generationCode`、`packageCode` 等 token 只用于内部解析，不进入公开字段。
+
+## 第 10 位 Package
+
+该位位于 generation 后，可选 `-` 分隔。只有 PN 中实际提供 package token 时才输出 `package`；没有 package token 或 token 未识别时不输出封装信息。公开输出只保留基础封装标签，格式统一为“封装类型-脚位 / ball 数”，例如 `FBGA-316`。资料表中的 dimension、Leaded / Pb-Free / Pb/Halo-Free、CU、Apple / ENT / V8 & later 等 notes 只用于文档和内部判断，不进入 public fields。
+
+Samsung package code 在资料表中存在重复行，同一个 code 可能同时出现在 TSOP、LGA、BGA/FBGA、Card 或 Other 类别。当前 DecodePack 采用下表的公开默认标签；`packageCode` 本身不输出。
+
+| Code | public package |
+| --- | --- |
+| `1` | `FBGA-168` |
+| `5` | `FBGA-63` |
+| `7` | `FBGA-168` |
+| `8` | `TSOP-I-48` |
+| `9` | `TSOP-I-56` |
+| `A` | `FBGA-154` |
+| `B` | `FBGA-63` |
+| `C` | `FBGA-316` |
+| `D` | `FBGA-316` |
+| `E` | `FBGA-316` |
+| `F` | `FBGA-308` |
+| `G` | `FBGA-63` |
+| `H` | `BGA-132/136` |
+| `I` | `LGA-52` |
+| `J` | `FBGA-63` |
+| `K` | `LGA-52` |
+| `L` | `LGA-52` |
+| `M` | `LGA-52` |
+| `N` | `LGA-52` |
+| `P` | `TSOP-I-48` |
+| `Q` | `TSOP-II-44(40)` |
+| `R` | `TSOP-I-56` |
+| `S` | `TSOP-I-48` |
+| `T` | `BGA-152` |
+| `U` | `COB (MMC)` |
+| `V` | `WSOP-I-48` |
+| `W` | `Wafer` |
+| `X` | `FBGA-108` |
+| `Y` | `FBGA-108` |
+| `Z` | `WELP-48` |
 
 ## 第 9 位 Configuration
 

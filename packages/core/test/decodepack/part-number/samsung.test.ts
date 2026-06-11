@@ -46,6 +46,26 @@ function assertSamsungRawVoltage(voltageCode: string, expected: string): void {
   assert.equal(fieldText(firstField(result, "voltage")), expected, `${partNumber} voltage`);
 }
 
+function assertSamsungRawPackage(packageCode: string, expected: string): void {
+  const partNumber = `K9XVGY8J5M-${packageCode}`;
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+  assert.equal(result.device?.vendor.id, "samsung", `${partNumber} vendor`);
+  assert.equal(result.device?.chipKind, "raw_nand", `${partNumber} chip kind`);
+  assert.equal(fieldText(firstField(result, "package")), expected, `${partNumber} package`);
+  assert.equal(firstField(result, "lead_free"), undefined, `${partNumber} should not expose lead_free`);
+  assert.equal(firstField(result, "halogen_free"), undefined, `${partNumber} should not expose halogen_free`);
+  assert.equal(firstField(result, "cu"), undefined, `${partNumber} should not expose cu`);
+}
+
+function assertSamsungRawPackageAbsent(partNumber: string): void {
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+  assert.equal(result.device?.vendor.id, "samsung", `${partNumber} vendor`);
+  assert.equal(result.device?.chipKind, "raw_nand", `${partNumber} chip kind`);
+  assert.equal(firstField(result, "package"), undefined, `${partNumber} should not expose package without package token`);
+}
+
 testPart("KLMAG1JETD-B041", {
   vendor: "samsung",
   type: "eMMC",
@@ -398,6 +418,23 @@ testPart("K9DYGY8J5B", {
   }
 });
 
+testPart("K9DYGY8J5B-CCK0", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 16777216,
+  dieProfileField: "SSV8",
+  cellField: "TLC",
+  package: "FBGA-316",
+  extra: {
+    "Layer Count": 236,
+    "Die Count": 16,
+    "CE Count": 4,
+    "Operation Temperature": "Commercial",
+    "Bad block": "Special Handling"
+  },
+  absentExtra: ["Lead free", "Halogen free", "CU"]
+});
+
 testPart("K9DYGY8J5D", {
   vendor: "samsung",
   type: "NAND",
@@ -709,6 +746,22 @@ test("Samsung raw NAND voltage follows operating-voltage table", () => {
   assertSamsungRawVoltage("U", "Vcc: 3.30V (2.70V~3.60V)");
   assertSamsungRawVoltage("V", "Vcc: 3.30V (3.00V~3.60V)");
   assertSamsungRawVoltage("W", "Vcc: 2.70V~5.50V");
+});
+
+test("Samsung raw NAND package code emits package-first short labels only", () => {
+  assertSamsungRawPackageAbsent("K9XVGY8J5M");
+  assertSamsungRawPackageAbsent("K9DYGY8J5B");
+  assertSamsungRawPackage("C", "FBGA-316");
+  assertSamsungRawPackage("D", "FBGA-316");
+  assertSamsungRawPackage("F", "FBGA-308");
+  assertSamsungRawPackage("X", "FBGA-108");
+  assertSamsungRawPackage("1", "FBGA-168");
+  assertSamsungRawPackage("8", "TSOP-I-48");
+  assertSamsungRawPackage("9", "TSOP-I-56");
+  assertSamsungRawPackage("Q", "TSOP-II-44(40)");
+  assertSamsungRawPackage("S", "TSOP-I-48");
+  assertSamsungRawPackage("T", "BGA-152");
+  assertSamsungRawPackage("Z", "WELP-48");
 });
 
 testPart("KLUCG4J1BB", {
