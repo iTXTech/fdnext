@@ -85,6 +85,23 @@ assertDram("MT40A512M8WE-107E:E", {
   }
 });
 
+assertDram("MT40A1G8WE-083EAAT:B", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "FBGA-78 (8x12)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "WE",
+    "Config Code": "1G8",
+    "DRAM Speed": "DDR4-2400 CL16",
+    "Special Option": "Automotive certified",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Die Revision": "Rev B"
+  }
+});
+
 assertDram("MT40A1G16GE-068:B", {
   densityMbit: 16384,
   density: "16Gb",
@@ -183,12 +200,61 @@ assertDram("MT40A256M16AD-083EAIT:F", {
   }
 });
 
+assertDram("MT40A2G4PM-062E:A", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x4",
+  voltage: "1.2V VDD",
+  package: "FBGA-78 (9x13.2)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "PM",
+    "Config Code": "2G4",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT40A512M16JY-075E:B", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "FBGA-96 (8x14)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "JY",
+    "Config Code": "512M16",
+    "DRAM Speed": "DDR4-2666 CL18",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT40A512M16TD-062EAUT:R", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "FBGA-96 (7.5x13)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "TD",
+    "Config Code": "512M16",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Special Option": "Automotive certified",
+    "Operation Temperature": "Ultra-high (-40°C ~ 125°C)",
+    "Die Revision": "Rev R"
+  }
+});
+
 assertDram("MT40A2G4TRF-093E:A", {
   densityMbit: 8192,
   density: "8Gb",
   widthField: "x4",
   voltage: "1.2V VDD",
-  package: "FBGA-78 (9.5x11.5)",
+  package: "FBGA-78 (9.5x11.5x1.2)",
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
@@ -201,12 +267,31 @@ assertDram("MT40A2G4TRF-093E:A", {
   }
 });
 
+assertDram("MT40A4G4FSE-093:A", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.2V VDD",
+  package: "FBGA-78 (9.5x13x1.2)",
+  topology: { ce: 2, die: 2 },
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Die Stack": "2 dies, 2 CS",
+    "Package Code": "FSE",
+    "Config Code": "4G4",
+    "DRAM Speed": "DDR4-2133 CL16",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
 assertDram("MT40A2G8NRE-083E:B", {
   densityMbit: 16384,
   density: "16Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "FBGA-78 (8x12)",
+  package: "FBGA-78 (8x12x1.2)",
+  topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -223,7 +308,8 @@ assertDram("MT40A4G8NEA-062E:F", {
   density: "32Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "FBGA-78 (7.5x11)",
+  package: "FBGA-78 (7.5x11x1.2)",
+  topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "2 dies, 2 CS",

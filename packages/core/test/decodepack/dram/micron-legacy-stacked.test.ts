@@ -108,7 +108,7 @@ assertDram("MT41J1G8TRF-107:E", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "FBGA-78 (9.5x11.5)",
+  package: "FBGA-78 (9.5x11.5x1.2)",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -285,7 +285,7 @@ assertDram("MT41K2G4TRF", {
   density: "8Gb",
   widthField: "x4",
   voltage: "1.35V VDD",
-  package: "FBGA-78 (9.5x11.5)",
+  package: "FBGA-78 (9.5x11.5x1.2)",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",

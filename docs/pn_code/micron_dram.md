@@ -44,7 +44,8 @@
   <https://docslib.org/doc/10329358/dram-component-part-numbering-system>
 - 用户提供的 `常见几种DDR3_DDR3L的命名规则.pdf` 中 Micron `DRAM Component Part Numbering System` 页面确认 DDR3 speed token `187E/15E/125/125E/107/093` 对应 1066/1333/1600/1600/1866/2133 与 CL7/9/11/10/13/14；规则使用 family-scoped `41:*` speed，避免 `093` 落到 LPDDR4 通用含义。
 - 用户补充的 Micron DDR3 / DDR3L ordering 截图确认 package code 为 1-3 字符，并确认 `DA/JT/RH/HA/RA/RE/HX/THA/SMA/TNA/SLD` 的实际 FBGA 封装尺寸；输出统一使用 `xBGA-xx (dimension)` 风格，例如 `HA = FBGA-96 (9x14)`、`RH = FBGA-78 (9x10.5)`、`HX = FBGA-78 (9x11.5)`、`THA = FBGA-78 (10x11.5x1.45)`、`SMA = FBGA-78 (9.5x11.5x1.45)`、`TNA = FBGA-96 (10x14x1.2)`、`SLD = FBGA-136 (10x14x1.2)`；同组截图确认 `A` 为 Automotive product certification，`M` 为 TCSR power saving，`IT` 为 `-40°C ~ 95°C`，`AT` 为 `-40°C ~ 105°C`。Die/CS 按 package-only 判断：`THA/SMA = 4 dies, 4 CS`，`TNA = 2 dies, 2 CS`，`SLD = 2 dies, 1 CS`。
-- 用户补充的 Micron DDR4 ordering 截图确认 `MT40A` 普通 / automotive DDR4 的 package code 可跨 family 复用，公共 FBGA package 先按 package code 查表，少数冲突再用 `family:package` override；新增确认 `HX/RH/WE/SA/HA/GE/LY/TB/VA/JC/RC/KD/AG/AD`，以及 DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E` timing token，其中 `093` 为 `DDR4-2133 CL16`，`107E` 为 `DDR4-1866 CL13`。Automotive DDR4 中 `A` 为 automotive grade，`IT/AT/UT` 分别为 `-40°C ~ 95°C`、`-40°C ~ 105°C`、`-40°C ~ 125°C`。
+- 用户补充的 Micron DDR4 ordering 截图确认 `MT40A` 普通 / automotive DDR4 的 package code 可跨 family 复用，公共 FBGA package 先按 package code 查表，少数冲突再用 `family:package` override；新增确认 `HX/RH/WE/SA/HA/GE/LY/TB/VA/JC/RC/KD/PM/JY/TD/AG/AD`，以及 DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E` timing token，其中 `093` 为 `DDR4-2133 CL16`，`107E` 为 `DDR4-1866 CL13`。Automotive DDR4 中 `A` 为 automotive grade，`IT/AT/UT` 分别为 `-40°C ~ 95°C`、`-40°C ~ 105°C`、`-40°C ~ 125°C`。
+- 用户补充的 Micron DDR4 TwinDie 截图确认 `TRF/FSE/NRE/NEA` 为 low-profile `x1.2` FBGA，且 TwinDie 必须显式输出 `2 dies, 2 CS`，而不是只输出 package 或只靠名称暗示。
 - 公开评测记录了 Crucial/Ballistix 颗粒 `C9BJZ` / `CT40A1G8SA-62M:E` 的实物和 Micron FBGA decoder 结果；该资料只用于确认 `CT40` namespace 形态，不作为完整 PN 白名单。
   <https://aphnetworks.com/reviews/ballistix-elite-pc4-28800-4x8gb/2>
 - Micron 官方 `Legacy LPDRAM Part Numbering System / Legacy DDR4, DDR3/L, & DDR2 SDRAM Part Numbering System` PDF 记录了 Micron 收购 Elpida 后的 legacy Elpida PN 命名；Micron FBGA code 反查可能返回 `EDB/EDF...` Elpida LPDRAM PN，也可能返回 `ED/EE + 40/41/47/...` 这类 legacy PN。
@@ -161,22 +162,25 @@ Micron DDR5 仍按 `depth x width` 推导容量。24Gb 组件已确认 `6G4` / `
 | `HA` | `FBGA-96 (9x14)` |
 | `HX` | `FBGA-78 (9x11.5)` |
 | `JC` | `FBGA-78 (9x11)` |
+| `JY` | `FBGA-96 (8x14)` |
 | `KD` | `FBGA-96 (9x13)` |
 | `LY` | `FBGA-96 (7.5x13.5)` |
+| `PM` | `FBGA-78 (9x13.2)` |
 | `RC` | `FBGA-96 (10x13)` |
 | `RH` | `FBGA-78 (9x10.5)` |
 | `TB` | `FBGA-96 (7.5x13)` |
+| `TD` | `FBGA-96 (7.5x13)` |
 | `VA` | `FBGA-78 (10x11)` |
 | `WE` | `FBGA-78 (8x12)` |
 | `40:BAF` | `FBGA-78 (10.5x11)` |
-| `40:FSE` | `FBGA-78 (9.5x13)` |
+| `40:FSE` | `FBGA-78 (9.5x13x1.2)` |
 | `40:HBA` | `FBGA-96 (9.5x14)` |
 | `40:KNR` | `FBGA-96 (7.5x13.5)` |
-| `40:NEA` | `FBGA-78 (7.5x11)` |
-| `40:NRE` | `FBGA-78 (8x12)` |
+| `40:NEA` | `FBGA-78 (7.5x11x1.2)` |
+| `40:NRE` | `FBGA-78 (8x12x1.2)` |
 | `40:SA` | `FBGA-78 (7.5x11)` |
 | `40:TBB` | `FBGA-96 (7.5x13)` |
-| `40:TRF` | `FBGA-78 (9.5x11.5)` |
+| `40:TRF` | `FBGA-78 (9.5x11.5x1.2)` |
 | `40:WBU` | `FBGA-96 (8x14)` |
 | `41:DA` | `FBGA-78 (8x10.5)` |
 | `41:DGA` | `FBGA-96 (9.5x14)` |
@@ -196,7 +200,7 @@ Micron DDR5 仍按 `depth x width` 推导容量。24Gb 组件已确认 `6G4` / `
 | `41:THU` | `FBGA-82 (12.5x15)` |
 | `41:THV` | `FBGA-78 (8x11.5)` |
 | `41:TNA` | `FBGA-96 (10x14x1.2)` |
-| `41:TRF` | `FBGA-78 (9.5x11.5)` |
+| `41:TRF` | `FBGA-78 (9.5x11.5x1.2)` |
 | `42:LF` | `WFBGA-168 (12x12)` |
 | `46:B5` | `VFBGA-90 (8x13)` |
 | `46:P` | `66-pin TSOP` |
@@ -224,14 +228,18 @@ Micron DDR5 仍按 `depth x width` 推导容量。24Gb 组件已确认 `6G4` / `
 | PN | 产品线 | 关键输出 |
 | --- | --- | --- |
 | `MT40A1G8SA-075-E` | DDR4 SDRAM | `8Gb`, `x8`, `FBGA-78 (7.5x11)`, `DDR4-2666 CL19`, `Rev E` |
-| `MT40A2G4TRF-093E:A` | DDR4 SDRAM | `8Gb`, `x4`, `FBGA-78 (9.5x11.5)`, `2 dies, 2 CS`, `DDR4-2133 CL15`, `Rev A` |
-| `MT40A2G8NRE-083E:B` | DDR4 SDRAM | `16Gb`, `x8`, `FBGA-78 (8x12)`, `2 dies, 2 CS`, `DDR4-2400 CL16`, `Rev B` |
-| `MT40A4G8NEA-062E:F` | DDR4 SDRAM | `32Gb`, `x8`, `FBGA-78 (7.5x11)`, `2 dies, 2 CS`, `DDR4-3200 CL22`, `Rev F` |
+| `MT40A2G4TRF-093E:A` | DDR4 TwinDie SDRAM | `8Gb`, `x4`, `FBGA-78 (9.5x11.5x1.2)`, `2 dies, 2 CS`, `DDR4-2133 CL15`, `Rev A` |
+| `MT40A4G4FSE-093:A` | DDR4 TwinDie SDRAM | `16Gb`, `x4`, `FBGA-78 (9.5x13x1.2)`, `2 dies, 2 CS`, `DDR4-2133 CL16`, `Rev A` |
+| `MT40A2G8NRE-083E:B` | DDR4 TwinDie SDRAM | `16Gb`, `x8`, `FBGA-78 (8x12x1.2)`, `2 dies, 2 CS`, `DDR4-2400 CL16`, `Rev B` |
+| `MT40A4G8NEA-062E:F` | DDR4 TwinDie SDRAM | `32Gb`, `x8`, `FBGA-78 (7.5x11x1.2)`, `2 dies, 2 CS`, `DDR4-3200 CL22`, `Rev F` |
 | `MT40A1G16WBU-083E:B` | DDR4 SDRAM | `16Gb`, `x16`, `FBGA-96 (8x14)`, `2 dies, 1 CS`, `DDR4-2400 CL16`, `Rev B` |
 | `MT40A2G16TBB-062E:F` | DDR4 SDRAM | `32Gb`, `x16`, `FBGA-96 (7.5x13)`, `2 dies, 1 CS`, `DDR4-3200 CL22`, `Rev F` |
 | `MT40A512M8RH-093:B` | DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78 (9x10.5)`, `DDR4-2133 CL16`, `Rev B` |
 | `MT40A512M8WE-107E:E` | DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78 (8x12)`, `DDR4-1866 CL13`, `Rev E` |
+| `MT40A2G4PM-062E:A` | DDR4 SDRAM | `8Gb`, `x4`, `FBGA-78 (9x13.2)`, `DDR4-3200 CL22`, `Rev A` |
+| `MT40A512M16JY-075E:B` | DDR4 SDRAM | `8Gb`, `x16`, `FBGA-96 (8x14)`, `DDR4-2666 CL18`, `Rev B` |
 | `MT40A512M8AG-075EAUT:F` | Automotive DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78 (7.5x11)`, `DDR4-2666 CL18`, `Automotive certified`, `Ultra-high (-40°C ~ 125°C)`, `Rev F` |
+| `MT40A512M16TD-062EAUT:R` | Automotive DDR4 SDRAM | `8Gb`, `x16`, `FBGA-96 (7.5x13)`, `DDR4-3200 CL22`, `Automotive certified`, `Ultra-high (-40°C ~ 125°C)`, `Rev R` |
 | `CT40A1G8SA-62M:E` | Crucial DDR4 SDRAM | `8Gb`, `x8`, `FBGA-78 (7.5x11)`, `Crucial DDR4-62M`, `Rev E` |
 | `MT60B2G8HB-48B-IT-A` | DDR5 SDRAM | `16Gb`, `x8`, `VFBGA-82`, `DDR5-4800B`, `Industrial`, `Rev A` |
 | `MT60B3G8RW-64B:B` | DDR5 SDRAM | `24Gb`, `x8`, `VFBGA-78`, `DDR5-6400B`, `Rev B` |

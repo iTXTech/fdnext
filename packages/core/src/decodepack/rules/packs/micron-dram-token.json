@@ -361,6 +361,7 @@
           "JC": "JC",
           "JE": "JE",
           "JT": "JT",
+          "JY": "JY",
           "KD": "KD",
           "KJR": "KJR",
           "KL": "KL",
@@ -369,6 +370,7 @@
           "LY": "LY",
           "P": "P",
           "PF": "PF",
+          "PM": "PM",
           "RA": "RA",
           "RC": "RC",
           "RE": "RE",
@@ -383,6 +385,7 @@
           "SMA": "SMA",
           "TB": "TB",
           "TC": "TC",
+          "TD": "TD",
           "TG": "TG",
           "THA": "THA",
           "THD": "THD",
@@ -477,6 +480,9 @@
           "JT": {
             "package_code": "JT"
           },
+          "JY": {
+            "package_code": "JY"
+          },
           "KD": {
             "package_code": "KD"
           },
@@ -500,6 +506,9 @@
           },
           "PF": {
             "package_code": "PF"
+          },
+          "PM": {
+            "package_code": "PM"
           },
           "RA": {
             "package_code": "RA"
@@ -542,6 +551,9 @@
           },
           "TC": {
             "package_code": "TC"
+          },
+          "TD": {
+            "package_code": "TD"
           },
           "TG": {
             "package_code": "TG"
@@ -619,19 +631,21 @@
           "BAF": "FBGA-78 (10.5x11)",
           "DA": "FBGA-78 (8x10.5)",
           "DGA": "FBGA-96 (9.5x14)",
-          "FSE": "FBGA-78 (9.5x13)",
+          "FSE": "FBGA-78 (9.5x13x1.2)",
           "GE": "FBGA-96 (9x14)",
           "HA": "FBGA-96 (9x14)",
           "HBA": "FBGA-96 (9.5x14)",
           "HX": "FBGA-78 (9x11.5)",
           "JC": "FBGA-78 (9x11)",
           "JT": "FBGA-96 (8x14)",
+          "JY": "FBGA-96 (8x14)",
           "KD": "FBGA-96 (9x13)",
           "KJR": "FBGA-78 (9.5x13)",
           "KNR": "FBGA-96 (7.5x13.5)",
           "LY": "FBGA-96 (7.5x13.5)",
-          "NEA": "FBGA-78 (7.5x11)",
-          "NRE": "FBGA-78 (8x12)",
+          "NEA": "FBGA-78 (7.5x11x1.2)",
+          "NRE": "FBGA-78 (8x12x1.2)",
+          "PM": "FBGA-78 (9x13.2)",
           "RA": "FBGA-78 (10.5x12)",
           "RC": "FBGA-96 (10x13)",
           "RE": "FBGA-96 (10x14)",
@@ -642,36 +656,40 @@
           "SMA": "FBGA-78 (9.5x11.5x1.45)",
           "TB": "FBGA-96 (7.5x13)",
           "TBB": "FBGA-96 (7.5x13)",
+          "TD": "FBGA-96 (7.5x13)",
           "THA": "FBGA-78 (10x11.5x1.45)",
           "THD": "FBGA-78 (9x11.5)",
           "THE": "FBGA-78 (10.5x12)",
           "THU": "FBGA-82 (12.5x15)",
           "THV": "FBGA-78 (8x11.5)",
           "TNA": "FBGA-96 (10x14x1.2)",
-          "TRF": "FBGA-78 (9.5x11.5)",
+          "TRF": "FBGA-78 (9.5x11.5x1.2)",
           "VA": "FBGA-78 (10x11)",
           "WBU": "FBGA-96 (8x14)",
           "WE": "FBGA-78 (8x12)",
           "40:AD": "FBGA-96 (7.5x13.5)",
           "40:AG": "FBGA-78 (7.5x11)",
           "40:BAF": "FBGA-78 (10.5x11)",
-          "40:FSE": "FBGA-78 (9.5x13)",
+          "40:FSE": "FBGA-78 (9.5x13x1.2)",
           "40:GE": "FBGA-96 (9x14)",
           "40:HBA": "FBGA-96 (9.5x14)",
           "40:HA": "FBGA-96 (9x14)",
           "40:HX": "FBGA-78 (9x11.5)",
           "40:JC": "FBGA-78 (9x11)",
+          "40:JY": "FBGA-96 (8x14)",
           "40:KD": "FBGA-96 (9x13)",
           "40:KNR": "FBGA-96 (7.5x13.5)",
           "40:LY": "FBGA-96 (7.5x13.5)",
-          "40:NEA": "FBGA-78 (7.5x11)",
-          "40:NRE": "FBGA-78 (8x12)",
+          "40:NEA": "FBGA-78 (7.5x11x1.2)",
+          "40:NRE": "FBGA-78 (8x12x1.2)",
+          "40:PM": "FBGA-78 (9x13.2)",
           "40:RC": "FBGA-96 (10x13)",
           "40:RH": "FBGA-78 (9x10.5)",
           "40:SA": "FBGA-78 (7.5x11)",
           "40:TB": "FBGA-96 (7.5x13)",
           "40:TBB": "FBGA-96 (7.5x13)",
-          "40:TRF": "FBGA-78 (9.5x11.5)",
+          "40:TD": "FBGA-96 (7.5x13)",
+          "40:TRF": "FBGA-78 (9.5x11.5x1.2)",
           "40:VA": "FBGA-78 (10x11)",
           "40:WBU": "FBGA-96 (8x14)",
           "40:WE": "FBGA-78 (8x12)",
@@ -693,7 +711,7 @@
           "41:THU": "FBGA-82 (12.5x15)",
           "41:THV": "FBGA-78 (8x11.5)",
           "41:TNA": "FBGA-96 (10x14x1.2)",
-          "41:TRF": "FBGA-78 (9.5x11.5)",
+          "41:TRF": "FBGA-78 (9.5x11.5x1.2)",
           "42:LF": "WFBGA-168 (12x12)",
           "46:B5": "VFBGA-90 (8x13)",
           "46:P": "66-pin TSOP",
@@ -1386,6 +1404,9 @@
           "40:GE:A": {
             "special_option": "Automotive certified"
           },
+          "40:JY:A": {
+            "special_option": "Automotive certified"
+          },
           "40:LY:A": {
             "special_option": "Automotive certified"
           },
@@ -1393,6 +1414,12 @@
             "special_option": "Automotive certified"
           },
           "40:SA:A": {
+            "special_option": "Automotive certified"
+          },
+          "40:TD:A": {
+            "special_option": "Automotive certified"
+          },
+          "40:WE:A": {
             "special_option": "Automotive certified"
           },
           "41:DA:A": {
@@ -1498,6 +1525,15 @@
           "40:JC:IT": {
             "operation_temperature": "Industrial (-40°C ~ 95°C)"
           },
+          "40:JY:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "40:JY:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:JY:UT": {
+            "operation_temperature": "Ultra-high (-40°C ~ 125°C)"
+          },
           "40:KD:IT": {
             "operation_temperature": "Industrial (-40°C ~ 95°C)"
           },
@@ -1517,6 +1553,9 @@
             "operation_temperature": "Industrial (-40°C ~ 95°C)"
           },
           "40:NRE:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:PM:IT": {
             "operation_temperature": "Industrial (-40°C ~ 95°C)"
           },
           "40:RC:IT": {
@@ -1546,6 +1585,15 @@
           "40:TBB:IT": {
             "operation_temperature": "Industrial (-40°C ~ 95°C)"
           },
+          "40:TD:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "40:TD:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:TD:UT": {
+            "operation_temperature": "Ultra-high (-40°C ~ 125°C)"
+          },
           "40:TRF:IT": {
             "operation_temperature": "Industrial (-40°C ~ 95°C)"
           },
@@ -1555,8 +1603,14 @@
           "40:WBU:IT": {
             "operation_temperature": "Industrial (-40°C ~ 95°C)"
           },
+          "40:WE:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
           "40:WE:IT": {
             "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:WE:UT": {
+            "operation_temperature": "Ultra-high (-40°C ~ 125°C)"
           },
           "62:EK:AIT": {
             "operation_temperature": "Automotive Industrial (-40°C ~ 95°C)"
