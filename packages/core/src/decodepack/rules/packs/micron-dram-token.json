@@ -357,10 +357,13 @@
           "HA": "HA",
           "HJ": "HJ",
           "HX": "HX",
+          "HZ": "HZ",
           "JA": "JA",
           "JC": "JC",
           "JE": "JE",
           "JT": "JT",
+          "JF": "JF",
+          "JFA": "JFA",
           "JY": "JY",
           "KD": "KD",
           "KJR": "KJR",
@@ -468,6 +471,9 @@
           "HX": {
             "package_code": "HX"
           },
+          "HZ": {
+            "package_code": "HZ"
+          },
           "JA": {
             "package_code": "JA"
           },
@@ -476,6 +482,12 @@
           },
           "JE": {
             "package_code": "JE"
+          },
+          "JF": {
+            "package_code": "JF"
+          },
+          "JFA": {
+            "package_code": "JFA"
           },
           "JT": {
             "package_code": "JT"
@@ -722,12 +734,15 @@
           "52:PF": "FBGA-178 (11.5x11)",
           "53:FW": "TFBGA-200 (10x14.5)",
           "58:JA": "FBGA-190 (10x14)",
-          "60:AT": "VFBGA-78/117",
-          "60:HB": "VFBGA-82 (9x11)",
-          "60:HD": "VFBGA-102 (7.5x14)",
-          "60:RV": "VFBGA-102/153",
-          "60:RW": "VFBGA-78 (8x11)",
-          "60:RZ": "VFBGA-78 (7.5x11)",
+          "60:AT": "FBGA-78 (7.5x11.5)",
+          "60:HB": "FBGA-82 (9x11)",
+          "60:HC": "FBGA-102 (9x14)",
+          "60:HD": "FBGA-102 (7.5x14)",
+          "60:HZ": "FBGA-102 (9.5x14)",
+          "60:JF": "FBGA-82 (9.5x11)",
+          "60:RV": "FBGA-102 (8x14)",
+          "60:RW": "FBGA-78 (8x11)",
+          "60:RZ": "FBGA-78 (7.5x11)",
           "61:JE": "FBGA-180 (12x14)",
           "61:KPA": "FBGA-180 (12x14)",
           "62:DS": "WFBGA-200 (10x14.5)",
@@ -988,6 +1003,14 @@
           "60:36B": "60:36B",
           "60:40B": "60:40B",
           "60:44B": "60:44B",
+          "60:48B": "60:48B",
+          "60:52B": "60:52B",
+          "60:56B": "60:56B",
+          "60:64B": "60:64B",
+          "60:72B": "60:72B",
+          "60:80B": "60:80B",
+          "60:88B": "60:88B",
+          "60:92B": "60:92B",
           "61:10": "61:10",
           "61:15": "61:15",
           "61:19": "61:19",
@@ -1166,6 +1189,30 @@
           "60:44B": {
             "dram_speed": "DDR5-4400B"
           },
+          "60:48B": {
+            "dram_speed": "DDR5-4800B CL40"
+          },
+          "60:52B": {
+            "dram_speed": "DDR5-5200B CL42"
+          },
+          "60:56B": {
+            "dram_speed": "DDR5-5600B CL46"
+          },
+          "60:64B": {
+            "dram_speed": "DDR5-6400B CL52"
+          },
+          "60:72B": {
+            "dram_speed": "DDR5-7200B CL58"
+          },
+          "60:80B": {
+            "dram_speed": "DDR5-8000B CL64"
+          },
+          "60:88B": {
+            "dram_speed": "DDR5-8800B CL72"
+          },
+          "60:92B": {
+            "dram_speed": "DDR5-9200B CL74"
+          },
           "61:10": {
             "dram_speed": "GDDR6-10Gbps",
             "dram_type": "GDDR6"
@@ -1337,34 +1384,34 @@
             "dram_speed": "1066MHz (LPDDR4-2133)"
           },
           "48B": {
-            "dram_speed": "DDR5-4800B"
+            "dram_speed": "DDR5-4800B CL40"
           },
           "52B": {
-            "dram_speed": "DDR5-5200B"
+            "dram_speed": "DDR5-5200B CL42"
           },
           "56B": {
-            "dram_speed": "DDR5-5600B"
+            "dram_speed": "DDR5-5600B CL46"
           },
           "60B": {
             "dram_speed": "DDR5-6000B"
           },
           "64B": {
-            "dram_speed": "DDR5-6400B"
+            "dram_speed": "DDR5-6400B CL52"
           },
           "68B": {
             "dram_speed": "DDR5-6800B"
           },
           "72B": {
-            "dram_speed": "DDR5-7200B"
+            "dram_speed": "DDR5-7200B CL58"
           },
           "76B": {
             "dram_speed": "DDR5-7600B"
           },
           "80B": {
-            "dram_speed": "DDR5-8000B"
+            "dram_speed": "DDR5-8000B CL64"
           },
           "88B": {
-            "dram_speed": "DDR5-8800B"
+            "dram_speed": "DDR5-8800B CL72"
           },
           "5B": {
             "dram_speed": "DDR-400"
@@ -1441,6 +1488,12 @@
             "special_option": "Automotive certified"
           },
           "41:RH:A": {
+            "special_option": "Automotive certified"
+          },
+          "60:HD:A": {
+            "special_option": "Automotive certified"
+          },
+          "60:RZ:A": {
             "special_option": "Automotive certified"
           }
         },
@@ -1611,6 +1664,39 @@
           },
           "40:WE:UT": {
             "operation_temperature": "Ultra-high (-40°C ~ 125°C)"
+          },
+          "60:AT:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "60:HB:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "60:HB:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "60:HC:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "60:HC:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "60:HD:AAT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "60:HD:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "60:HD:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "60:RZ:AAT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "60:RZ:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "60:RZ:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
           },
           "62:EK:AIT": {
             "operation_temperature": "Automotive Industrial (-40°C ~ 95°C)"

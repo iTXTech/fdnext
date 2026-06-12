@@ -12,7 +12,7 @@
 - Micron 官方 part detail / part catalog 页面可直接确认样例 PN 属于对应 DRAM 产品线。
   - DDR4 `MT40A1G8SA-075-E`: <https://www.micron.com/products/memory/dram-components/ddr4-sdram/part-catalog/part-detail/mt40a1g8sa-075-e>
   - DDR5 `MT60B2G8HB-48B-IT-A`: <https://www.micron.com/products/memory/dram-components/ddr5-sdram/part-catalog/part-detail/mt60b2g8hb-48b-it-a>
-  - DDR5 high-capacity configs `MT60B6G4RW-56B:B` / `MT60B3G8RW-64B:B` / `MT60B1536M16RV-56B:B` and `MT60B4G8AT-64B:B` confirm 24Gb / 32Gb component configuration forms. Sources: <https://www.micron.com/products/memory/dram-components/ddr5-sdram/part-catalog/part-detail/mt60b3g8rw-64b-b>、<https://www.micron.com/products/memory/dram-components/ddr5-sdram/part-catalog/part-detail/mt60b6g4rw-56b-b>、<https://www.micron.com/products/memory/dram-components/ddr5-sdram/part-catalog/part-detail/mt60b1536m16rv-56b-b>、<https://www.micron.com/products/memory/dram-components/ddr5-sdram/part-catalog/part-detail/mt60b4g8at-64b-b>
+  - DDR5 high-capacity configs `MT60B6G4RW-56B:B` / `MT60B3G8RW-64B:B` / `MT60B1536M16RV-56B:B` and `MT60B4G8AT-64B:B` confirm 24Gb / 32Gb component configuration forms. 16Gb/24Gb/32Gb DDR5 addendum screenshots confirm package dimensions and CL-bearing speed bins through `-92B`. Sources: <https://www.micron.com/products/memory/dram-components/ddr5-sdram/part-catalog/part-detail/mt60b3g8rw-64b-b>、<https://www.micron.com/products/memory/dram-components/ddr5-sdram/part-catalog/part-detail/mt60b6g4rw-56b-b>、<https://www.micron.com/products/memory/dram-components/ddr5-sdram/part-catalog/part-detail/mt60b1536m16rv-56b-b>、<https://www.micron.com/products/memory/dram-components/ddr5-sdram/part-catalog/part-detail/mt60b4g8at-64b-b>
   - DDR3 `MT41K512M8DA-107`: <https://www.micron.com/products/memory/dram-components/ddr3-sdram/part-catalog/part-detail/mt41k512m8da-107>
   - DDR2 `MT47H128M16RT-25E-IT`: <https://www.micron.com/products/memory/dram-components/ddr2-sdram/part-catalog/part-detail/mt47h128m16rt-25e-it>
   - LPDDR4 `MT53E1G32D2FW-046-AIT-A`: <https://www.micron.com/products/memory/dram-components/lpddr4/part-catalog/part-detail/mt53e1g32d2fw-046-ait-a>
@@ -112,10 +112,11 @@
 - standalone DRAM 的 `fields` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
 - `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`die_count`、`dram_speed`、`operation_temperature`、`die_revision`、`special_option`。
 - `device version` 先按 family scope 匹配，避免 `DA/DE/LF` 等 token 与 package code 冲突；`D1/D2/D3/D4/D6/D8/DA/DB/DC/DD/DE/LF/L2/L4` 只标准化为 `die_count`，例如 `D4` 输出 `die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`，`DD/DE` 保留官方 LPDDR4 mixed die stack 描述；没有 CS 资料时不输出 `dram_die_stack`。
-- `speed` token 同样优先按 family scope 匹配：DDR5 `32B/36B/40B/44B`、DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E`、DDR3 `125E`、DDR2 `3`、DDR `6T`、SDR `7E`、GDDR5 `50/60/70`、GDDR5X `110/120/140`、GDDR6 `10/15` 与 GDDR6X `19/20/22/23` 来自官方 2023 PNS 或公开 ordering 截图；`18` 同时出现在 GDDR6/GDDR6X 表中，当前不在 decodepack 中强行判定。
+- `speed` token 同样优先按 family scope 匹配：DDR5 `32B/36B/40B/44B/48B/52B/56B/64B/72B/80B/88B/92B`、DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E`、DDR3 `125E`、DDR2 `3`、DDR `6T`、SDR `7E`、GDDR5 `50/60/70`、GDDR5X `110/120/140`、GDDR6 `10/15` 与 GDDR6X `19/20/22/23` 来自官方 2023 PNS 或公开 ordering 截图；`18` 同时出现在 GDDR6/GDDR6X 表中，当前不在 decodepack 中强行判定。
+- DDR5 `60:*` speed 对 addendum 明确给出 CL 的 bin 保留 CL 时序：`48B = DDR5-4800B CL40`、`52B = DDR5-5200B CL42`、`56B = DDR5-5600B CL46`、`64B = DDR5-6400B CL52`、`72B = DDR5-7200B CL58`、`80B = DDR5-8000B CL64`、`88B = DDR5-8800B CL72`、`92B = DDR5-9200B CL74`。
 - DDR4 `40:*` speed 保留 CL 时序：`062Y/062E = DDR4-3200 CL22`、`068E = DDR4-2933 CL20`、`068 = DDR4-2933 CL21`、`075E = DDR4-2666 CL18`、`075 = DDR4-2666 CL19`、`083E = DDR4-2400 CL16`、`083 = DDR4-2400 CL17`、`093E = DDR4-2133 CL15`、`093 = DDR4-2133 CL16`、`107E = DDR4-1866 CL13`。
 - DDR3 `41:*` speed 额外保留 `187E/15E/125/125E/107/093` 的 CL 时序：`DDR3-1066 CL7`、`DDR3-1333 CL9`、`DDR3-1600 CL11/CL10`、`DDR3-1866 CL13`、`DDR3-2133 CL14`。
-- DDR3 / DDR3L 截图确认的 automotive certification `A` 在对应 package scope 下输出为 `special_option = Automotive certified`，随后继续解析 `AT/IT` 温度与 revision，例如 `-125AAT:D` 解析为 `DDR3-1600 CL11`、Automotive、`Rev D`；`M` 只在截图确认的 power-saving scope 下输出 `special_option = TCSR power saving`，避免把 `:M` revision 误解为 option。
+- DDR3 / DDR3L 与 DDR5 Automotive 截图确认的 automotive certification `A` 在对应 package scope 下输出为 `special_option = Automotive certified`，随后继续解析 `AT/IT` 温度与 revision，例如 `-125AAT:D` 解析为 `DDR3-1600 CL11`、Automotive、`Rev D`，`-64BAAT:D` 解析为 `DDR5-6400B CL52`、Automotive certified、Automotive、`Rev D`；`M` 只在截图确认的 power-saving scope 下输出 `special_option = TCSR power saving`，避免把 `:M` revision 误解为 option。
 - 对尚未确认实际封装尺寸的 1-3 字符 package token，规则只结构化消费 package code 以继续解析后续 speed / temperature / revision，不公开 `package` 或 `package_code`。对 legacy / Crucial 中当前尚未结构化建模的主体 token，规则可作为未公开 body 消费到 `-speed`，只保留已确定的 speed / temperature / revision 等后缀字段。
 - TFBGA-441 x64 Automotive LPDDR5 (`family=62`, `package=EK`) 的 `-031` 按 6400 Mb/s 输出 `LPDDR5-6400`；该分支的温度 token 使用图中范围：`IT=-40°C~95°C`、`AT=-40°C~105°C`、`UT=-40°C~125°C`，前置 `F` 输出 `special_option=Functional safety features`。
 - `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / die stack，只减少 `dram_speed` / `die_revision` 等后缀信息。
@@ -139,14 +140,19 @@ Micron DDR3 / DDR3L / DDR4 die stack 按 package-only 判断，不再用 `family
 
 ## DDR5 大容量 configuration
 
-Micron DDR5 仍按 `depth x width` 推导容量。24Gb 组件已确认 `6G4` / `3G8` / `1536M16` 这三类结构；32Gb 组件已确认 `4G8`，已有通用表也覆盖 `4G4` / `2G16` 等同密度结构。这里只扩展 density / width / package / speed，不因为 24Gb 或 32Gb 直接推断 stacked die：
+Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum 覆盖 `4G4` / `2G8` / `1G16`、`6G4` / `3G8` / `1536M16`、`8G4` / `4G8` / `2G16` 这几类结构。这里只扩展 density / width / package / speed，不因为 24Gb 或 32Gb 直接推断 stacked die：
 
 | Config | 示例 | 输出 |
 | --- | --- | --- |
+| `4G4` | `MT60B4G4RZ-92B:H` | `16Gb`, `x4` |
+| `2G8` | `MT60B2G8HB-56B:G` | `16Gb`, `x8` |
+| `1G16` | `MT60B1G16HD-72BAAT:H` | `16Gb`, `x16` |
 | `6G4` | `MT60B6G4RW-56B:B` | `24Gb`, `x4` |
 | `3G8` | `MT60B3G8RW-64B:B` | `24Gb`, `x8` |
 | `1536M16` | `MT60B1536M16RV-56B:B` | `24Gb`, `x16` |
+| `8G4` | `MT60B8G4AT-72B:B` | `32Gb`, `x4` |
 | `4G8` | `MT60B4G8AT-64B:B` | `32Gb`, `x8` |
+| `2G16` | `MT60B2G16HD-64B:B` | `32Gb`, `x16` |
 
 本轮未找到 Micron standalone DDR5 component 公开 datasheet 明确使用 TwinDie / DDP。MRDIMM、RDIMM 或 SOCAMM2 模块层面的多 die / 3DS 资料不进入 standalone component PN 的 `dram_die_stack` 规则。
 
@@ -211,12 +217,15 @@ Micron DDR5 仍按 `depth x width` 推导容量。24Gb 组件已确认 `6G4` / `
 | `52:PF` | `FBGA-178 (11.5x11)` |
 | `53:FW` | `TFBGA-200 (10x14.5)` |
 | `58:JA` | `FBGA-190 (10x14)` |
-| `60:AT` | `VFBGA-78/117` |
-| `60:HB` | `VFBGA-82 (9x11)` |
-| `60:HD` | `VFBGA-102 (7.5x14)` |
-| `60:RV` | `VFBGA-102/153` |
-| `60:RW` | `VFBGA-78 (8x11)` |
-| `60:RZ` | `VFBGA-78 (7.5x11)` |
+| `60:AT` | `FBGA-78 (7.5x11.5)` |
+| `60:HB` | `FBGA-82 (9x11)` |
+| `60:HC` | `FBGA-102 (9x14)` |
+| `60:HD` | `FBGA-102 (7.5x14)` |
+| `60:HZ` | `FBGA-102 (9.5x14)` |
+| `60:JF` | `FBGA-82 (9.5x11)` |
+| `60:RV` | `FBGA-102 (8x14)` |
+| `60:RW` | `FBGA-78 (8x11)` |
+| `60:RZ` | `FBGA-78 (7.5x11)` |
 | `61:JE` | `FBGA-180 (12x14)` |
 | `61:KPA` | `FBGA-180 (12x14)` |
 | `62:DS` | `WFBGA-200 (10x14.5)` |
@@ -241,10 +250,17 @@ Micron DDR5 仍按 `depth x width` 推导容量。24Gb 组件已确认 `6G4` / `
 | `MT40A512M8AG-075EAUT:F` | Automotive DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78 (7.5x11)`, `DDR4-2666 CL18`, `Automotive certified`, `Ultra-high (-40°C ~ 125°C)`, `Rev F` |
 | `MT40A512M16TD-062EAUT:R` | Automotive DDR4 SDRAM | `8Gb`, `x16`, `FBGA-96 (7.5x13)`, `DDR4-3200 CL22`, `Automotive certified`, `Ultra-high (-40°C ~ 125°C)`, `Rev R` |
 | `CT40A1G8SA-62M:E` | Crucial DDR4 SDRAM | `8Gb`, `x8`, `FBGA-78 (7.5x11)`, `Crucial DDR4-62M`, `Rev E` |
-| `MT60B2G8HB-48B-IT-A` | DDR5 SDRAM | `16Gb`, `x8`, `VFBGA-82`, `DDR5-4800B`, `Industrial`, `Rev A` |
-| `MT60B3G8RW-64B:B` | DDR5 SDRAM | `24Gb`, `x8`, `VFBGA-78`, `DDR5-6400B`, `Rev B` |
-| `MT60B1536M16RV-56B:B` | DDR5 SDRAM | `24Gb`, `x16`, `VFBGA-102/153`, `DDR5-5600B`, `Rev B` |
-| `MT60B4G8AT-64B:B` | DDR5 SDRAM | `32Gb`, `x8`, `VFBGA-78/117`, `DDR5-6400B`, `Rev B` |
+| `MT60B2G8HB-48B-IT-A` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82 (9x11)`, `DDR5-4800B CL40`, `Industrial`, `Rev A` |
+| `MT60B2G8HB-48BAT:A` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82 (9x11)`, `DDR5-4800B CL40`, `Automotive`, `Rev A` |
+| `MT60B2G8HB-56B:G` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82 (9x11)`, `DDR5-5600B CL46`, `Rev G` |
+| `MT60B2G8RZ-64BAAT:D` | Automotive DDR5 SDRAM | `16Gb`, `x8`, `FBGA-78 (7.5x11)`, `DDR5-6400B CL52`, `Automotive certified`, `Automotive`, `Rev D` |
+| `MT60B1G16HD-72BAAT:H` | DDR5 SDRAM | `16Gb`, `x16`, `FBGA-102 (7.5x14)`, `DDR5-7200B CL58`, `Automotive certified`, `Automotive`, `Rev H` |
+| `MT60B3G8RW-64B:B` | DDR5 SDRAM | `24Gb`, `x8`, `FBGA-78 (8x11)`, `DDR5-6400B CL52`, `Rev B` |
+| `MT60B1536M16RV-56B:B` | DDR5 SDRAM | `24Gb`, `x16`, `FBGA-102 (8x14)`, `DDR5-5600B CL46`, `Rev B` |
+| `MT60B6G4JF-64B:C` | DDR5 SDRAM | `24Gb`, `x4`, `FBGA-82 (9.5x11)`, `DDR5-6400B CL52`, `Rev C` |
+| `MT60B1536M16HZ-80B:C` | DDR5 SDRAM | `24Gb`, `x16`, `FBGA-102 (9.5x14)`, `DDR5-8000B CL64`, `Rev C` |
+| `MT60B4G8AT-64B:B` | DDR5 SDRAM | `32Gb`, `x8`, `FBGA-78 (7.5x11.5)`, `DDR5-6400B CL52`, `Rev B` |
+| `MT60B2G16HD-64B:B` | DDR5 SDRAM | `32Gb`, `x16`, `FBGA-102 (7.5x14)`, `DDR5-6400B CL52`, `Rev B` |
 | `MT41K512M8DA-107:P` | DDR3 SDRAM | `4Gb`, `x8`, `FBGA-78`, `933MHz (DDR-1866)`, `Rev P` |
 | `MT41K512M16HA-125:A` / `D9STQ` | DDR3 SDRAM | `8Gb`, `x16`, `FBGA-96 (9x14)`, `DDR3-1600 CL11`, `Rev A` |
 | `CT41K1024M8RH-125:A` | DDR3 SDRAM | `8Gb`, `x8`, `FBGA-78 (9x10.5)`, `DDR3-1600 CL11`, `Rev A` |

@@ -511,13 +511,13 @@ const ddr5Expected = {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "VFBGA-82 (9x11)",
+  package: "FBGA-82 (9x11)",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
     "Config Code": "2G8",
-    "DRAM Speed": "DDR5-4800B",
-    "Operation Temperature": "Industrial (-40°C ~ 85°C)",
+    "DRAM Speed": "DDR5-4800B CL40",
+    "Operation Temperature": "Industrial (-40°C ~ 95°C)",
     "Die Revision": "Rev A"
   }
 };
@@ -530,7 +530,7 @@ assertDram("MT60B2G8HB-32B:A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "VFBGA-82 (9x11)",
+  package: "FBGA-82 (9x11)",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -546,7 +546,7 @@ assertDram("MT60B2G8HB-44B:A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "VFBGA-82 (9x11)",
+  package: "FBGA-82 (9x11)",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -562,12 +562,12 @@ assertDram("MT60B3G8RW-64B:B", {
   density: "24Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "VFBGA-78 (8x11)",
+  package: "FBGA-78 (8x11)",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "RW",
     "Config Code": "3G8",
-    "DRAM Speed": "DDR5-6400B",
+    "DRAM Speed": "DDR5-6400B CL52",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev B"
   }
@@ -578,12 +578,12 @@ assertDram("MT60B1536M16RV-56B:B", {
   density: "24Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "VFBGA-102/153",
+  package: "FBGA-102 (8x14)",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "RV",
     "Config Code": "1536M16",
-    "DRAM Speed": "DDR5-5600B",
+    "DRAM Speed": "DDR5-5600B CL46",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev B"
   }
@@ -594,14 +594,248 @@ assertDram("MT60B4G8AT-64B:B", {
   density: "32Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "VFBGA-78/117",
+  package: "FBGA-78 (7.5x11.5)",
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "AT",
     "Config Code": "4G8",
-    "DRAM Speed": "DDR5-6400B",
+    "DRAM Speed": "DDR5-6400B CL52",
     "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT60B2G8HB-56B:G", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "FBGA-82 (9x11)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HB",
+    "Config Code": "2G8",
+    "DRAM Speed": "DDR5-5600B CL46",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev G"
+  }
+});
+
+assertDram("MT60B4G4HB-48B:A", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.1V VDD",
+  package: "FBGA-82 (9x11)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HB",
+    "Config Code": "4G4",
+    "DRAM Speed": "DDR5-4800B CL40",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT60B2G8HB-48BAT:A", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "FBGA-82 (9x11)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HB",
+    "Config Code": "2G8",
+    "DRAM Speed": "DDR5-4800B CL40",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT60B1G16HC-52B IT:G", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "FBGA-102 (9x14)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HC",
+    "Config Code": "1G16",
+    "DRAM Speed": "DDR5-5200B CL42",
+    "Operation Temperature": "Industrial (-40°C ~ 95°C)",
+    "Die Revision": "Rev G"
+  }
+});
+
+assertDram("MT60B4G4RZ-92B:H", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.1V VDD",
+  package: "FBGA-78 (7.5x11)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "RZ",
+    "Config Code": "4G4",
+    "DRAM Speed": "DDR5-9200B CL74",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev H"
+  }
+});
+
+assertDram("MT60B1G16HD-72BAAT:H", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "FBGA-102 (7.5x14)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HD",
+    "Config Code": "1G16",
+    "DRAM Speed": "DDR5-7200B CL58",
+    "Special Option": "Automotive certified",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Die Revision": "Rev H"
+  }
+});
+
+assertDram("MT60B2G8RZ-64BAAT:D", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "FBGA-78 (7.5x11)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "RZ",
+    "Config Code": "2G8",
+    "DRAM Speed": "DDR5-6400B CL52",
+    "Special Option": "Automotive certified",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Die Revision": "Rev D"
+  }
+});
+
+assertDram("MT60B1G16HD-56BAAT:D", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "FBGA-102 (7.5x14)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HD",
+    "Config Code": "1G16",
+    "DRAM Speed": "DDR5-5600B CL46",
+    "Special Option": "Automotive certified",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Die Revision": "Rev D"
+  }
+});
+
+assertDecodedField("MT60B4G4RZ-80B:H", "dram_speed", "DDR5-8000B CL64");
+assertDecodedField("MT60B2G8RZ-88B:H", "dram_speed", "DDR5-8800B CL72");
+
+assertDram("MT60B6G4RW-48B:B", {
+  densityMbit: 24576,
+  density: "24Gb",
+  widthField: "x4",
+  voltage: "1.1V VDD",
+  package: "FBGA-78 (8x11)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "RW",
+    "Config Code": "6G4",
+    "DRAM Speed": "DDR5-4800B CL40",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT60B6G4JF-64B:C", {
+  densityMbit: 24576,
+  density: "24Gb",
+  widthField: "x4",
+  voltage: "1.1V VDD",
+  package: "FBGA-82 (9.5x11)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "JF",
+    "Config Code": "6G4",
+    "DRAM Speed": "DDR5-6400B CL52",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev C"
+  }
+});
+
+assertDram("MT60B1536M16HZ-80B:C", {
+  densityMbit: 24576,
+  density: "24Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "FBGA-102 (9.5x14)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HZ",
+    "Config Code": "1536M16",
+    "DRAM Speed": "DDR5-8000B CL64",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev C"
+  }
+});
+
+assertDecodedField("MT60B3G8JF-72B:C", "dram_speed", "DDR5-7200B CL58");
+assertDecodedField("MT60B6G4JFA-72B:C", "dram_speed", "DDR5-7200B CL58");
+assertDecodedFieldAbsent("MT60B6G4JFA-72B:C", "package");
+
+assertDram("MT60B1536M16RV-64B:B", {
+  densityMbit: 24576,
+  density: "24Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "FBGA-102 (8x14)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "RV",
+    "Config Code": "1536M16",
+    "DRAM Speed": "DDR5-6400B CL52",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT60B8G4AT-72B:B", {
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x4",
+  voltage: "1.1V VDD",
+  package: "FBGA-78 (7.5x11.5)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "AT",
+    "Config Code": "8G4",
+    "DRAM Speed": "DDR5-7200B CL58",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT60B2G16HD-64B IT:B", {
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "FBGA-102 (7.5x14)",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HD",
+    "Config Code": "2G16",
+    "DRAM Speed": "DDR5-6400B CL52",
+    "Operation Temperature": "Industrial (-40°C ~ 95°C)",
     "Die Revision": "Rev B"
   }
 });
