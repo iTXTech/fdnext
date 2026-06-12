@@ -25,7 +25,7 @@ assertDram("MT40A1G8SA-075-E", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA (7.5x11)",
+  package: "FBGA-78 (7.5x11)",
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR4",
@@ -37,12 +37,158 @@ assertDram("MT40A1G8SA-075-E", {
   }
 });
 
+assertDram("MT40A1G4HX-062Y:A", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x4",
+  voltage: "1.2V VDD",
+  package: "FBGA-78 (9x11.5)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "HX",
+    "Config Code": "1G4",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT40A512M8RH-093:B", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "FBGA-78 (9x10.5)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "RH",
+    "Config Code": "512M8",
+    "DRAM Speed": "DDR4-2133 CL16",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT40A512M8WE-107E:E", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "FBGA-78 (8x12)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "WE",
+    "Config Code": "512M8",
+    "DRAM Speed": "DDR4-1866 CL13",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev E"
+  }
+});
+
+assertDram("MT40A1G16GE-068:B", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "FBGA-96 (9x14)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "GE",
+    "Config Code": "1G16",
+    "DRAM Speed": "DDR4-2933 CL21",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT40A4G4VA-062E:B", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.2V VDD",
+  package: "FBGA-78 (10x11)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "VA",
+    "Config Code": "4G4",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+assertDram("MT40A2G8JC-068:E", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "FBGA-78 (9x11)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "JC",
+    "Config Code": "2G8",
+    "DRAM Speed": "DDR4-2933 CL21",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev E"
+  }
+});
+
+assertDram("MT40A1G16KD-068:E", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "FBGA-96 (9x13)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "KD",
+    "Config Code": "1G16",
+    "DRAM Speed": "DDR4-2933 CL21",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev E"
+  }
+});
+
+assertDram("MT40A512M8AG-075EAUT:F", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "FBGA-78 (7.5x11)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "AG",
+    "Config Code": "512M8",
+    "DRAM Speed": "DDR4-2666 CL18",
+    "Special Option": "Automotive certified",
+    "Operation Temperature": "Ultra-high (-40°C ~ 125°C)",
+    "Die Revision": "Rev F"
+  }
+});
+
+assertDram("MT40A256M16AD-083EAIT:F", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "FBGA-96 (7.5x13.5)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Package Code": "AD",
+    "Config Code": "256M16",
+    "DRAM Speed": "DDR4-2400 CL16",
+    "Special Option": "Automotive certified",
+    "Operation Temperature": "Industrial (-40°C ~ 95°C)",
+    "Die Revision": "Rev F"
+  }
+});
+
 assertDram("MT40A2G4TRF-093E:A", {
   densityMbit: 8192,
   density: "8Gb",
   widthField: "x4",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA (9.5x11.5)",
+  package: "FBGA-78 (9.5x11.5)",
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
@@ -60,7 +206,7 @@ assertDram("MT40A2G8NRE-083E:B", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA (8x12)",
+  package: "FBGA-78 (8x12)",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -77,7 +223,7 @@ assertDram("MT40A4G8NEA-062E:F", {
   density: "32Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA (7.5x11)",
+  package: "FBGA-78 (7.5x11)",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -94,7 +240,7 @@ assertDram("MT40A1G16WBU-083E:B", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball FBGA (8x14)",
+  package: "FBGA-96 (8x14)",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -111,7 +257,7 @@ assertDram("MT40A2G16TBB-062E:F", {
   density: "32Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball FBGA (7.5x13)",
+  package: "FBGA-96 (7.5x13)",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -128,7 +274,7 @@ const crucialDdr4Expected = {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA (7.5x11)",
+  package: "FBGA-78 (7.5x11)",
   extra: {
     "DRAM Type": "DDR4",
     "Package Code": "SA",
@@ -170,12 +316,13 @@ assertDram("EE40A512M16HA-093E:A", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "Unknown",
+  package: "FBGA-96 (9x14)",
   extra: {
     "DRAM Type": "DDR4",
     "Config Code": "512M16",
+    "DRAM Speed": "DDR4-2133 CL15",
     "Operation Temperature": "Commercial",
-    "Die Revision": "Rev H"
+    "Die Revision": "Rev A"
   }
 });
 assertDram("EE51K256M32HF-60:B", {
@@ -183,7 +330,7 @@ assertDram("EE51K256M32HF-60:B", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.35V VDD",
-  package: "170-ball FBGA (12x14)",
+  package: "FBGA-170 (12x14)",
   extra: {
     "DRAM Type": "GDDR5",
     "Package Code": "HF",
@@ -192,6 +339,69 @@ assertDram("EE51K256M32HF-60:B", {
   }
 });
 assert.deepEqual(searchFbgaParts("B9DHG"), ["MT47H32M16BT-3E"]);
+const ddr3KnownPackageExpected = {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "FBGA-96 (9x14)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+};
+assertDram("MT41K512M16HA-125:A", ddr3KnownPackageExpected);
+assertDram("D9STQ", {
+  ...ddr3KnownPackageExpected,
+  extra: {
+    ...ddr3KnownPackageExpected.extra,
+    "Marking Code": "D9STQ"
+  }
+});
+assertDecodedPartNumber("D9STQ", "MT41K512M16HA-125:A");
+assertDram("CT41K1024M8RH-125:A", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "FBGA-78 (9x10.5)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+assertDram("MT41K512M8HX-125AAT:D", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "FBGA-78 (9x11.5)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Special Option": "Automotive certified",
+    "Die Revision": "Rev D"
+  }
+});
+assertDram("MT41K512M16HA-125AAT:D", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "FBGA-96 (9x14)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Special Option": "Automotive certified",
+    "Die Revision": "Rev D"
+  }
+});
 assertUnknown("AMD41J128M16HA-107G:D");
 assertDram("79JMM", {
   densityMbit: 1024,
@@ -202,8 +412,10 @@ assertDram("79JMM", {
   extra: {
     "DRAM Type": "DDR2",
     "Config Code": "64M16",
+    "DRAM Speed": "DDR2-666 CL5",
     "Operation Temperature": "Commercial",
-    "Die Revision": "Rev H",
+    "Production Status": "Engineering Sample",
+    "Die Revision": "Rev E",
     "Marking Code": "79JMM"
   }
 });
@@ -213,7 +425,7 @@ const ddr5Expected = {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "82-ball VFBGA (9x11)",
+  package: "VFBGA-82 (9x11)",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -232,7 +444,7 @@ assertDram("MT60B2G8HB-32B:A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "82-ball VFBGA (9x11)",
+  package: "VFBGA-82 (9x11)",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -248,7 +460,7 @@ assertDram("MT60B2G8HB-44B:A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "82-ball VFBGA (9x11)",
+  package: "VFBGA-82 (9x11)",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -264,7 +476,7 @@ assertDram("MT60B3G8RW-64B:B", {
   density: "24Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "78-ball VFBGA (8x11)",
+  package: "VFBGA-78 (8x11)",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "RW",
@@ -280,7 +492,7 @@ assertDram("MT60B1536M16RV-56B:B", {
   density: "24Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "102/153-ball VFBGA",
+  package: "VFBGA-102/153",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "RV",
@@ -296,7 +508,7 @@ assertDram("MT60B4G8AT-64B:B", {
   density: "32Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "78/117-ball VFBGA",
+  package: "VFBGA-78/117",
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR5",

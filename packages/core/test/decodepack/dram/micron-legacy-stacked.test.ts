@@ -25,7 +25,7 @@ assertDram("MT62F1G32D4DS", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "200-ball WFBGA (10x14.5)",
+  package: "WFBGA-200 (10x14.5)",
   extra: {
     "DRAM Type": "LPDDR5",
     "Package Code": "DS",
@@ -40,7 +40,7 @@ assertDram("MT41K512M8DA-107:P", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA (8x10.5)",
+  package: "FBGA-78 (8x10.5)",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "DA",
@@ -57,7 +57,7 @@ assertDram("MT41K512M8DA-125E:P", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA (8x10.5)",
+  package: "FBGA-78 (8x10.5)",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "DA",
@@ -74,7 +74,7 @@ assertDram("MT41K1G4DA-107:P", {
   density: "4Gb",
   widthField: "x4",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA (8x10.5)",
+  package: "FBGA-78 (8x10.5)",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "DA",
@@ -91,7 +91,7 @@ assertDram("MT41J1G4THD-15E:D", {
   density: "4Gb",
   widthField: "x4",
   voltage: "1.5V VDD",
-  package: "78-ball FBGA (9x11.5)",
+  package: "FBGA-78 (9x11.5)",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -108,7 +108,7 @@ assertDram("MT41J1G8TRF-107:E", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball FBGA (9.5x11.5)",
+  package: "FBGA-78 (9.5x11.5)",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -125,7 +125,7 @@ assertDram("MT41K512M8THV-125:M", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA (8x11.5)",
+  package: "FBGA-78 (8x11.5)",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -142,7 +142,7 @@ assertDram("MT41K2G4RKB-107:P", {
   density: "8Gb",
   widthField: "x4",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA (8x10.5)",
+  package: "FBGA-78 (8x10.5)",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -159,7 +159,7 @@ assertDram("MT41K512M16TNA-125:E", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball FBGA (10x14)",
+  package: "FBGA-96 (10x14x1.2)",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -170,13 +170,87 @@ assertDram("MT41K512M16TNA-125:E", {
     "Die Revision": "Rev E"
   }
 });
+assertDecodedField("MT41K512M16TNA-125:E", "die_count", 2);
+
+assertDram("MT41K512M16TNA-125 M:E", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "FBGA-96 (10x14x1.2)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "2 dies, 2 CS",
+    "Package Code": "TNA",
+    "Config Code": "512M16",
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Special Option": "TCSR power saving",
+    "Die Revision": "Rev E"
+  }
+});
+
+assertDram("MT41K4G4SMA-125:E", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.35V VDD",
+  package: "FBGA-78 (9.5x11.5x1.45)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "4 dies, 4 CS",
+    "Package Code": "SMA",
+    "Config Code": "4G4",
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev E"
+  }
+});
+assertDecodedField("MT41K4G4SMA-125:E", "die_count", 4);
+
+assertDram("MT41K2G4THA-187E:D", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x4",
+  voltage: "1.35V VDD",
+  package: "FBGA-78 (10x11.5x1.45)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "4 dies, 4 CS",
+    "Package Code": "THA",
+    "Config Code": "2G4",
+    "DRAM Speed": "DDR3-1066 CL7",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev D"
+  }
+});
+assertDecodedField("MT41K2G4THA-187E:D", "die_count", 4);
+
+assertDram("MT41K256M32SLD-125 M:E", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.35V VDD",
+  package: "FBGA-136 (10x14x1.2)",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Stack": "2 dies, 1 CS",
+    "Package Code": "SLD",
+    "Config Code": "256M32",
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Special Option": "TCSR power saving",
+    "Die Revision": "Rev E"
+  }
+});
+assertDecodedField("MT41K256M32SLD-125 M:E", "die_count", 2);
 
 assertDram("MT41K4G4KJR-125:A", {
   densityMbit: 16384,
   density: "16Gb",
   widthField: "x4",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA (9.5x13)",
+  package: "FBGA-78 (9.5x13)",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -193,7 +267,7 @@ assertDram("MT41K1G16DGA-125:A", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball FBGA (9.5x14)",
+  package: "FBGA-96 (9.5x14)",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -211,7 +285,7 @@ assertDram("MT41K2G4TRF", {
   density: "8Gb",
   widthField: "x4",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA (9.5x11.5)",
+  package: "FBGA-78 (9.5x11.5)",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -227,7 +301,7 @@ assertDram("MT47H128M16RT-25E:C", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball FBGA (9x12.5)",
+  package: "FBGA-84 (9x12.5)",
   extra: {
     "DRAM Type": "DDR2",
     "Package Code": "RT",
@@ -243,7 +317,7 @@ assertDram("MT47H128M16RT-3:C", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball FBGA (9x12.5)",
+  package: "FBGA-84 (9x12.5)",
   extra: {
     "DRAM Type": "DDR2",
     "Package Code": "RT",
@@ -291,7 +365,7 @@ assertDram("MT46H32M32LFB5-5 IT:B", {
   density: "1Gb",
   widthField: "x32",
   voltage: "1.8V VDD",
-  package: "90-ball VFBGA (8x13)",
+  package: "VFBGA-90 (8x13)",
   extra: {
     "DRAM Type": "LPDDR",
     "Package Code": "B5",
@@ -339,7 +413,7 @@ assertDram("MT48H16M32LFB5-75:A", {
   density: "512Mb",
   widthField: "x32",
   voltage: "1.8V VDD",
-  package: "90-ball VFBGA (8x13)",
+  package: "VFBGA-90 (8x13)",
   extra: {
     "DRAM Type": "LPSDR",
     "Package Code": "B5",
@@ -355,7 +429,7 @@ assertDram("MT48H16M32LGB5-75:A", {
   density: "512Mb",
   widthField: "x32",
   voltage: "1.8V VDD",
-  package: "90-ball VFBGA (8x13)",
+  package: "VFBGA-90 (8x13)",
   extra: {
     "DRAM Type": "LPSDR",
     "Package Code": "B5",
@@ -372,7 +446,7 @@ assertDram("MT42L128M32D1LF-25 WT:A", {
   density: "4Gb",
   widthField: "x32",
   voltage: "1.2V VDD",
-  package: "168-ball WFBGA (12x12)",
+  package: "WFBGA-168 (12x12)",
   extra: {
     "DRAM Type": "LPDDR2",
     "Package Code": "LF",
@@ -388,7 +462,7 @@ assertDram("MT52L512M32D2PF-107 WT:B", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.2V VDD",
-  package: "178-ball FBGA (11.5x11)",
+  package: "FBGA-178 (11.5x11)",
   extra: {
     "DRAM Type": "LPDDR3",
     "Package Code": "PF",
@@ -404,7 +478,7 @@ assertDram("MT52K512M32PF-107-WT:B", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.35V VDD",
-  package: "178-ball FBGA (11.5x11)",
+  package: "FBGA-178 (11.5x11)",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "PF",
@@ -420,7 +494,7 @@ assertDram("MT51J256M32HF-80:A", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.5V VDD",
-  package: "170-ball FBGA (12x14)",
+  package: "FBGA-170 (12x14)",
   extra: {
     "DRAM Type": "GDDR5",
     "Package Code": "HF",
@@ -436,7 +510,7 @@ assertDram("MT51J256M32HF-50:A", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.5V VDD",
-  package: "170-ball FBGA (12x14)",
+  package: "FBGA-170 (12x14)",
   extra: {
     "DRAM Type": "GDDR5",
     "Package Code": "HF",
@@ -452,7 +526,7 @@ assertDram("MT58K256M32JA-100:A", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.35V VDD",
-  package: "190-ball FBGA (10x14)",
+  package: "FBGA-190 (10x14)",
   extra: {
     "DRAM Type": "GDDR5X",
     "Package Code": "JA",
@@ -468,7 +542,7 @@ assertDram("MT58K256M32JA-120:A", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.35V VDD",
-  package: "190-ball FBGA (10x14)",
+  package: "FBGA-190 (10x14)",
   extra: {
     "DRAM Type": "GDDR5X",
     "Package Code": "JA",
@@ -484,7 +558,7 @@ assertDram("MT61A256M32JE-10:A", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.2V VDD",
-  package: "180-ball FBGA (12x14)",
+  package: "FBGA-180 (12x14)",
   extra: {
     "DRAM Type": "GDDR6",
     "Package Code": "JE",
@@ -500,7 +574,7 @@ assertDram("MT61K256M32JE-14:A", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.35V VDD",
-  package: "180-ball FBGA (12x14)",
+  package: "FBGA-180 (12x14)",
   topology: { ce: "Unknown", die: 1 },
   extra: {
     "DRAM Type": "GDDR6",
@@ -517,7 +591,7 @@ assertDram("MT61K256M32JE-15:A", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.35V VDD",
-  package: "180-ball FBGA (12x14)",
+  package: "FBGA-180 (12x14)",
   extra: {
     "DRAM Type": "GDDR6",
     "Package Code": "JE",
@@ -533,7 +607,7 @@ assertDram("MT61K512M32KPA-24-U", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.35V VDD",
-  package: "180-ball FBGA (12x14)",
+  package: "FBGA-180 (12x14)",
   extra: {
     "DRAM Type": "GDDR6X",
     "Package Code": "KPA",
@@ -549,7 +623,7 @@ assertDram("MT61K512M32KPA-22:U", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.35V VDD",
-  package: "180-ball FBGA (12x14)",
+  package: "FBGA-180 (12x14)",
   extra: {
     "DRAM Type": "GDDR6X",
     "Package Code": "KPA",
@@ -565,7 +639,7 @@ assertDram("MT68A512M32DF-32:A", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.2V VDD",
-  package: "266-ball FBGA (12x14x1.1)",
+  package: "FBGA-266 (12x14x1.1)",
   extra: {
     "DRAM Type": "GDDR7",
     "Package Code": "DF",

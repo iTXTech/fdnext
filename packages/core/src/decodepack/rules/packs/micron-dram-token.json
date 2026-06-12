@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(?:MT|CT|ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
+      "value": "^(?:MT|CT|ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?(?:-[0-9A-Z]+)*$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -123,6 +123,7 @@
           "512M64": "512M64",
           "768M32": "768M32",
           "768M64": "768M64",
+          "1024M8": "1024M8",
           "1536M16": "1536M16",
           "1536M32": "1536M32",
           "1536M64": "1536M64",
@@ -173,6 +174,7 @@
           "512M64": 32768,
           "768M32": 24576,
           "768M64": 49152,
+          "1024M8": 8192,
           "1536M16": 24576,
           "1536M32": 49152,
           "1536M64": 98304,
@@ -223,6 +225,7 @@
           "512M64": 64,
           "768M32": 32,
           "768M64": 64,
+          "1024M8": 8,
           "1536M16": 16,
           "1536M32": 32,
           "1536M64": 64,
@@ -335,6 +338,8 @@
           }
         },
         "packageToken": {
+          "AD": "AD",
+          "AG": "AG",
           "AT": "AT",
           "DA": "DA",
           "DE": "DE",
@@ -344,35 +349,50 @@
           "DGA": "DGA",
           "EK": "EK",
           "FW": "FW",
+          "GE": "GE",
           "HB": "HB",
           "HD": "HD",
           "HC": "HC",
           "HF": "HF",
+          "HA": "HA",
           "HJ": "HJ",
+          "HX": "HX",
           "JA": "JA",
+          "JC": "JC",
           "JE": "JE",
           "JT": "JT",
+          "KD": "KD",
           "KJR": "KJR",
           "KL": "KL",
           "KPA": "KPA",
           "LF": "LF",
+          "LY": "LY",
           "P": "P",
           "PF": "PF",
+          "RA": "RA",
+          "RC": "RC",
+          "RE": "RE",
+          "RH": "RH",
           "RKB": "RKB",
           "RT": "RT",
           "RW": "RW",
           "RV": "RV",
           "RZ": "RZ",
           "SA": "SA",
+          "SLD": "SLD",
+          "SMA": "SMA",
           "TB": "TB",
           "TC": "TC",
           "TG": "TG",
+          "THA": "THA",
           "THD": "THD",
           "THE": "THE",
           "THU": "THU",
           "THV": "THV",
           "TNA": "TNA",
           "TRF": "TRF",
+          "VA": "VA",
+          "WE": "WE",
           "ZW": "ZW",
           "B5": "B5",
           "BAF": "BAF",
@@ -388,6 +408,12 @@
           "WBU": "WBU"
         },
         "packageObj": {
+          "AD": {
+            "package_code": "AD"
+          },
+          "AG": {
+            "package_code": "AG"
+          },
           "AT": {
             "package_code": "AT"
           },
@@ -415,6 +441,9 @@
           "FW": {
             "package_code": "FW"
           },
+          "GE": {
+            "package_code": "GE"
+          },
           "HB": {
             "package_code": "HB"
           },
@@ -427,17 +456,29 @@
           "HF": {
             "package_code": "HF"
           },
+          "HA": {
+            "package_code": "HA"
+          },
           "HJ": {
             "package_code": "HJ"
           },
+          "HX": {
+            "package_code": "HX"
+          },
           "JA": {
             "package_code": "JA"
+          },
+          "JC": {
+            "package_code": "JC"
           },
           "JE": {
             "package_code": "JE"
           },
           "JT": {
             "package_code": "JT"
+          },
+          "KD": {
+            "package_code": "KD"
           },
           "KJR": {
             "package_code": "KJR"
@@ -451,11 +492,26 @@
           "LF": {
             "package_code": "LF"
           },
+          "LY": {
+            "package_code": "LY"
+          },
           "P": {
             "package_code": "P"
           },
           "PF": {
             "package_code": "PF"
+          },
+          "RA": {
+            "package_code": "RA"
+          },
+          "RC": {
+            "package_code": "RC"
+          },
+          "RE": {
+            "package_code": "RE"
+          },
+          "RH": {
+            "package_code": "RH"
           },
           "RKB": {
             "package_code": "RKB"
@@ -475,6 +531,12 @@
           "SA": {
             "package_code": "SA"
           },
+          "SLD": {
+            "package_code": "SLD"
+          },
+          "SMA": {
+            "package_code": "SMA"
+          },
           "TB": {
             "package_code": "TB"
           },
@@ -483,6 +545,9 @@
           },
           "TG": {
             "package_code": "TG"
+          },
+          "THA": {
+            "package_code": "THA"
           },
           "THD": {
             "package_code": "THD"
@@ -501,6 +566,12 @@
           },
           "TRF": {
             "package_code": "TRF"
+          },
+          "VA": {
+            "package_code": "VA"
+          },
+          "WE": {
+            "package_code": "WE"
           },
           "ZW": {
             "package_code": "ZW"
@@ -543,183 +614,187 @@
           }
         },
         "packageActual": {
-          "40:BAF": "78-ball FBGA (10.5x11)",
-          "40:FSE": "78-ball FBGA (9.5x13)",
-          "40:HBA": "96-ball FBGA (9.5x14)",
-          "40:KNR": "96-ball FBGA (7.5x13.5)",
-          "40:NEA": "78-ball FBGA (7.5x11)",
-          "40:NRE": "78-ball FBGA (8x12)",
-          "40:SA": "78-ball FBGA (7.5x11)",
-          "40:TBB": "96-ball FBGA (7.5x13)",
-          "40:TRF": "78-ball FBGA (9.5x11.5)",
-          "40:WBU": "96-ball FBGA (8x14)",
-          "41:DA": "78-ball FBGA (8x10.5)",
-          "41:DGA": "96-ball FBGA (9.5x14)",
-          "41:KJR": "78-ball FBGA (9.5x13)",
-          "41:RKB": "78-ball FBGA (8x10.5)",
-          "41:THD": "78-ball FBGA (9x11.5)",
-          "41:THE": "78-ball FBGA (10.5x12)",
-          "41:THU": "82-ball FBGA (12.5x15)",
-          "41:THV": "78-ball FBGA (8x11.5)",
-          "41:TNA": "96-ball FBGA (10x14)",
-          "41:TRF": "78-ball FBGA (9.5x11.5)",
-          "42:LF": "168-ball WFBGA (12x12)",
-          "46:B5": "90-ball VFBGA (8x13)",
+          "AD": "FBGA-96 (7.5x13.5)",
+          "AG": "FBGA-78 (7.5x11)",
+          "BAF": "FBGA-78 (10.5x11)",
+          "DA": "FBGA-78 (8x10.5)",
+          "DGA": "FBGA-96 (9.5x14)",
+          "FSE": "FBGA-78 (9.5x13)",
+          "GE": "FBGA-96 (9x14)",
+          "HA": "FBGA-96 (9x14)",
+          "HBA": "FBGA-96 (9.5x14)",
+          "HX": "FBGA-78 (9x11.5)",
+          "JC": "FBGA-78 (9x11)",
+          "JT": "FBGA-96 (8x14)",
+          "KD": "FBGA-96 (9x13)",
+          "KJR": "FBGA-78 (9.5x13)",
+          "KNR": "FBGA-96 (7.5x13.5)",
+          "LY": "FBGA-96 (7.5x13.5)",
+          "NEA": "FBGA-78 (7.5x11)",
+          "NRE": "FBGA-78 (8x12)",
+          "RA": "FBGA-78 (10.5x12)",
+          "RC": "FBGA-96 (10x13)",
+          "RE": "FBGA-96 (10x14)",
+          "RH": "FBGA-78 (9x10.5)",
+          "RKB": "FBGA-78 (8x10.5)",
+          "SA": "FBGA-78 (7.5x11)",
+          "SLD": "FBGA-136 (10x14x1.2)",
+          "SMA": "FBGA-78 (9.5x11.5x1.45)",
+          "TB": "FBGA-96 (7.5x13)",
+          "TBB": "FBGA-96 (7.5x13)",
+          "THA": "FBGA-78 (10x11.5x1.45)",
+          "THD": "FBGA-78 (9x11.5)",
+          "THE": "FBGA-78 (10.5x12)",
+          "THU": "FBGA-82 (12.5x15)",
+          "THV": "FBGA-78 (8x11.5)",
+          "TNA": "FBGA-96 (10x14x1.2)",
+          "TRF": "FBGA-78 (9.5x11.5)",
+          "VA": "FBGA-78 (10x11)",
+          "WBU": "FBGA-96 (8x14)",
+          "WE": "FBGA-78 (8x12)",
+          "40:AD": "FBGA-96 (7.5x13.5)",
+          "40:AG": "FBGA-78 (7.5x11)",
+          "40:BAF": "FBGA-78 (10.5x11)",
+          "40:FSE": "FBGA-78 (9.5x13)",
+          "40:GE": "FBGA-96 (9x14)",
+          "40:HBA": "FBGA-96 (9.5x14)",
+          "40:HA": "FBGA-96 (9x14)",
+          "40:HX": "FBGA-78 (9x11.5)",
+          "40:JC": "FBGA-78 (9x11)",
+          "40:KD": "FBGA-96 (9x13)",
+          "40:KNR": "FBGA-96 (7.5x13.5)",
+          "40:LY": "FBGA-96 (7.5x13.5)",
+          "40:NEA": "FBGA-78 (7.5x11)",
+          "40:NRE": "FBGA-78 (8x12)",
+          "40:RC": "FBGA-96 (10x13)",
+          "40:RH": "FBGA-78 (9x10.5)",
+          "40:SA": "FBGA-78 (7.5x11)",
+          "40:TB": "FBGA-96 (7.5x13)",
+          "40:TBB": "FBGA-96 (7.5x13)",
+          "40:TRF": "FBGA-78 (9.5x11.5)",
+          "40:VA": "FBGA-78 (10x11)",
+          "40:WBU": "FBGA-96 (8x14)",
+          "40:WE": "FBGA-78 (8x12)",
+          "41:DA": "FBGA-78 (8x10.5)",
+          "41:DGA": "FBGA-96 (9.5x14)",
+          "41:HA": "FBGA-96 (9x14)",
+          "41:HX": "FBGA-78 (9x11.5)",
+          "41:JT": "FBGA-96 (8x14)",
+          "41:KJR": "FBGA-78 (9.5x13)",
+          "41:RA": "FBGA-78 (10.5x12)",
+          "41:RE": "FBGA-96 (10x14)",
+          "41:RH": "FBGA-78 (9x10.5)",
+          "41:RKB": "FBGA-78 (8x10.5)",
+          "41:SLD": "FBGA-136 (10x14x1.2)",
+          "41:SMA": "FBGA-78 (9.5x11.5x1.45)",
+          "41:THA": "FBGA-78 (10x11.5x1.45)",
+          "41:THD": "FBGA-78 (9x11.5)",
+          "41:THE": "FBGA-78 (10.5x12)",
+          "41:THU": "FBGA-82 (12.5x15)",
+          "41:THV": "FBGA-78 (8x11.5)",
+          "41:TNA": "FBGA-96 (10x14x1.2)",
+          "41:TRF": "FBGA-78 (9.5x11.5)",
+          "42:LF": "WFBGA-168 (12x12)",
+          "46:B5": "VFBGA-90 (8x13)",
           "46:P": "66-pin TSOP",
-          "47:RT": "84-ball FBGA (9x12.5)",
-          "48:B5": "90-ball VFBGA (8x13)",
+          "47:RT": "FBGA-84 (9x12.5)",
+          "48:B5": "VFBGA-90 (8x13)",
           "48:P": "54-pin TSOP II",
-          "51:HF": "170-ball FBGA (12x14)",
-          "52:PF": "178-ball FBGA (11.5x11)",
-          "53:FW": "200-ball TFBGA (10x14.5)",
-          "58:JA": "190-ball FBGA (10x14)",
-          "60:AT": "78/117-ball VFBGA",
-          "60:HB": "82-ball VFBGA (9x11)",
-          "60:HD": "102-ball VFBGA (7.5x14)",
-          "60:RV": "102/153-ball VFBGA",
-          "60:RW": "78-ball VFBGA (8x11)",
-          "60:RZ": "78-ball VFBGA (7.5x11)",
-          "61:JE": "180-ball FBGA (12x14)",
-          "61:KPA": "180-ball FBGA (12x14)",
-          "62:DS": "200-ball WFBGA (10x14.5)",
-          "62:EK": "441-ball TFBGA",
-          "68:DF": "266-ball FBGA (12x14x1.1)"
+          "51:HF": "FBGA-170 (12x14)",
+          "52:PF": "FBGA-178 (11.5x11)",
+          "53:FW": "TFBGA-200 (10x14.5)",
+          "58:JA": "FBGA-190 (10x14)",
+          "60:AT": "VFBGA-78/117",
+          "60:HB": "VFBGA-82 (9x11)",
+          "60:HD": "VFBGA-102 (7.5x14)",
+          "60:RV": "VFBGA-102/153",
+          "60:RW": "VFBGA-78 (8x11)",
+          "60:RZ": "VFBGA-78 (7.5x11)",
+          "61:JE": "FBGA-180 (12x14)",
+          "61:KPA": "FBGA-180 (12x14)",
+          "62:DS": "WFBGA-200 (10x14.5)",
+          "62:EK": "TFBGA-441",
+          "68:DF": "FBGA-266 (12x14x1.1)"
         },
-        "twinDieObj": {
-          "40:A:1G8:TRF": {
+        "packageDieStackObj": {
+          "BAF": {
             "dram_die_stack": "2 dies, 2 CS",
             "die_count": 2
           },
-          "40:A:2G4:TRF": {
+          "DGA": {
             "dram_die_stack": "2 dies, 2 CS",
             "die_count": 2
           },
-          "40:A:2G8:FSE": {
+          "FSE": {
             "dram_die_stack": "2 dies, 2 CS",
             "die_count": 2
           },
-          "40:A:2G8:NRE": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "40:A:4G4:FSE": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "40:A:4G4:NRE": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "40:A:4G8:BAF": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "40:A:4G8:NEA": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "40:A:8G4:BAF": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "40:A:8G4:NEA": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "40:A:1G16:HBA": {
+          "HBA": {
             "dram_die_stack": "2 dies, 1 CS",
             "die_count": 2
           },
-          "40:A:1G16:KNR": {
+          "KJR": {
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
+          },
+          "KNR": {
             "dram_die_stack": "2 dies, 1 CS",
             "die_count": 2
           },
-          "40:A:1G16:WBU": {
+          "NEA": {
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
+          },
+          "NRE": {
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
+          },
+          "RKB": {
+            "dram_die_stack": "2 dies, 2 CS",
+            "die_count": 2
+          },
+          "SLD": {
             "dram_die_stack": "2 dies, 1 CS",
             "die_count": 2
           },
-          "40:A:2G16:TBB": {
+          "SMA": {
+            "dram_die_stack": "4 dies, 4 CS",
+            "die_count": 4
+          },
+          "TBB": {
             "dram_die_stack": "2 dies, 1 CS",
             "die_count": 2
           },
-          "41:J:1G4:THD": {
+          "THA": {
+            "dram_die_stack": "4 dies, 4 CS",
+            "die_count": 4
+          },
+          "THD": {
             "dram_die_stack": "2 dies, 2 CS",
             "die_count": 2
           },
-          "41:J:1G4:THU": {
+          "THE": {
             "dram_die_stack": "2 dies, 2 CS",
             "die_count": 2
           },
-          "41:J:512M8:THD": {
+          "THU": {
             "dram_die_stack": "2 dies, 2 CS",
             "die_count": 2
           },
-          "41:J:512M8:THU": {
+          "THV": {
             "dram_die_stack": "2 dies, 2 CS",
             "die_count": 2
           },
-          "41:J:1G8:THE": {
+          "TNA": {
             "dram_die_stack": "2 dies, 2 CS",
             "die_count": 2
           },
-          "41:J:1G8:TRF": {
+          "TRF": {
             "dram_die_stack": "2 dies, 2 CS",
             "die_count": 2
           },
-          "41:J:2G4:THE": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:J:2G4:TRF": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:1G4:THD": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:1G4:THV": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:512M8:THD": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:512M8:THV": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:1G8:RKB": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:1G8:TRF": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:2G4:RKB": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:2G4:TRF": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:512M16:TNA": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:2G8:KJR": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:4G4:KJR": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
-          },
-          "41:K:1G16:DGA": {
-            "dram_die_stack": "2 dies, 2 CS",
+          "WBU": {
+            "dram_die_stack": "2 dies, 1 CS",
             "die_count": 2
           }
         },
@@ -862,11 +937,23 @@
           }
         },
         "speedToken": {
+          "40:062Y": "40:062Y",
+          "40:062E": "40:062E",
+          "40:068E": "40:068E",
+          "40:068": "40:068",
+          "40:075E": "40:075E",
+          "40:075": "40:075",
+          "40:083E": "40:083E",
+          "40:083": "40:083",
+          "40:093E": "40:093E",
+          "40:093": "40:093",
+          "40:107E": "40:107E",
           "41:15E": "41:15E",
           "41:125": "41:125",
           "41:125E": "41:125E",
           "41:107": "41:107",
           "41:093": "41:093",
+          "41:187E": "41:187E",
           "46:6T": "46:6T",
           "47:3": "47:3",
           "48:7E": "48:7E",
@@ -953,6 +1040,39 @@
           "19G": "19G"
         },
         "speedObj": {
+          "40:062Y": {
+            "dram_speed": "DDR4-3200 CL22"
+          },
+          "40:062E": {
+            "dram_speed": "DDR4-3200 CL22"
+          },
+          "40:068E": {
+            "dram_speed": "DDR4-2933 CL20"
+          },
+          "40:068": {
+            "dram_speed": "DDR4-2933 CL21"
+          },
+          "40:075E": {
+            "dram_speed": "DDR4-2666 CL18"
+          },
+          "40:075": {
+            "dram_speed": "DDR4-2666 CL19"
+          },
+          "40:083E": {
+            "dram_speed": "DDR4-2400 CL16"
+          },
+          "40:083": {
+            "dram_speed": "DDR4-2400 CL17"
+          },
+          "40:093E": {
+            "dram_speed": "DDR4-2133 CL15"
+          },
+          "40:093": {
+            "dram_speed": "DDR4-2133 CL16"
+          },
+          "40:107E": {
+            "dram_speed": "DDR4-1866 CL13"
+          },
           "41:15E": {
             "dram_speed": "DDR3-1333 CL9"
           },
@@ -967,6 +1087,9 @@
           },
           "41:093": {
             "dram_speed": "DDR3-2133 CL14"
+          },
+          "41:187E": {
+            "dram_speed": "DDR3-1066 CL7"
           },
           "46:6T": {
             "dram_speed": "DDR-332 CL2.5"
@@ -1253,7 +1376,188 @@
             "special_option": "Functional safety features"
           }
         },
+        "productCertificationObj": {
+          "40:AD:A": {
+            "special_option": "Automotive certified"
+          },
+          "40:AG:A": {
+            "special_option": "Automotive certified"
+          },
+          "40:GE:A": {
+            "special_option": "Automotive certified"
+          },
+          "40:LY:A": {
+            "special_option": "Automotive certified"
+          },
+          "40:RH:A": {
+            "special_option": "Automotive certified"
+          },
+          "40:SA:A": {
+            "special_option": "Automotive certified"
+          },
+          "41:DA:A": {
+            "special_option": "Automotive certified"
+          },
+          "41:HA:A": {
+            "special_option": "Automotive certified"
+          },
+          "41:HX:A": {
+            "special_option": "Automotive certified"
+          },
+          "41:JT:A": {
+            "special_option": "Automotive certified"
+          },
+          "41:RA:A": {
+            "special_option": "Automotive certified"
+          },
+          "41:RE:A": {
+            "special_option": "Automotive certified"
+          },
+          "41:RH:A": {
+            "special_option": "Automotive certified"
+          }
+        },
+        "powerSavingObj": {
+          "41:SLD:M": {
+            "special_option": "TCSR power saving"
+          },
+          "41:TNA:M": {
+            "special_option": "TCSR power saving"
+          }
+        },
+        "suffixOptionToken": {
+          "AV": "AV",
+          "B": "B",
+          "C": "C",
+          "D": "D",
+          "EE": "EE",
+          "F": "F",
+          "G": "G",
+          "H": "H",
+          "J": "J",
+          "JP": "JP",
+          "KF": "KF",
+          "L": "L",
+          "M": "M",
+          "N": "N",
+          "OS": "OS",
+          "P": "P",
+          "PS": "PS",
+          "R": "R",
+          "RF": "RF",
+          "RS": "RS",
+          "S": "S",
+          "TC": "TC",
+          "V": "V",
+          "Y": "Y",
+          "Z": "Z"
+        },
         "temperatureObj": {
+          "40:AD:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "40:AD:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:AD:UT": {
+            "operation_temperature": "Ultra-high (-40°C ~ 125°C)"
+          },
+          "40:AG:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "40:AG:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:AG:UT": {
+            "operation_temperature": "Ultra-high (-40°C ~ 125°C)"
+          },
+          "40:BAF:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:FSE:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:GE:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "40:GE:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:GE:UT": {
+            "operation_temperature": "Ultra-high (-40°C ~ 125°C)"
+          },
+          "40:HA:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:HBA:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:HX:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:JC:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:KD:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:KNR:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:LY:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "40:LY:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:LY:UT": {
+            "operation_temperature": "Ultra-high (-40°C ~ 125°C)"
+          },
+          "40:NEA:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:NRE:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:RC:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:RH:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "40:RH:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:RH:UT": {
+            "operation_temperature": "Ultra-high (-40°C ~ 125°C)"
+          },
+          "40:SA:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "40:SA:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:SA:UT": {
+            "operation_temperature": "Ultra-high (-40°C ~ 125°C)"
+          },
+          "40:TB:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:TBB:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:TRF:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:VA:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:WBU:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "40:WE:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
           "62:EK:AIT": {
             "operation_temperature": "Automotive Industrial (-40°C ~ 95°C)"
           },
@@ -1271,6 +1575,48 @@
           },
           "62:EK:UT": {
             "operation_temperature": "Ultra temperature (-40°C ~ 125°C)"
+          },
+          "41:DA:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "41:DA:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "41:HA:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "41:HA:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "41:HX:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "41:HX:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "41:JT:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "41:JT:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "41:RA:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "41:RA:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "41:RE:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "41:RE:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "41:RH:AT": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "41:RH:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
           },
           "AAT": {
             "operation_temperature": "Automotive Grade (-40°C ~ 105°C)"
@@ -1480,6 +1826,18 @@
           "default": ""
         },
         {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]{1,3}(?=-)",
+          "to": "unknownPackageCode",
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]+(?=-)",
+          "to": "unparsedBodyBeforeSpeed",
+          "default": ""
+        },
+        {
           "op": "map",
           "from": "packageCode",
           "table": "packageObj",
@@ -1495,19 +1853,27 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
-        },
-        {
-          "op": "tpl",
-          "template": "{{familyCode}}:{{voltageCode}}:{{configCode}}:{{packageCode}}",
-          "to": "twinDieKey"
+          "to": "packageScoped",
+          "default": ""
         },
         {
           "op": "map",
-          "from": "twinDieKey",
-          "table": "twinDieObj",
-          "to": "twinDieObj",
+          "from": "packageCode",
+          "table": "packageActual",
+          "to": "packageByCode",
+          "default": "Unknown"
+        },
+        {
+          "op": "fallback",
+          "primary": "packageScoped",
+          "secondary": "packageByCode",
+          "to": "package"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageDieStackObj",
+          "to": "packageDieStackObj",
           "default": {}
         },
         {
@@ -1543,6 +1909,36 @@
           "to": "functionalSafetyObj",
           "scope": "temperatureScope",
           "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "productCertificationObj",
+          "to": "productCertificationObj",
+          "scope": "temperatureScope",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "powerSavingObj",
+          "to": "powerSavingObj",
+          "scope": "temperatureScope",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "suffixOptionToken",
+          "to": "suffixOptionCode",
+          "default": ""
+        },
+        {
+          "op": "takeLongest",
+          "table": "suffixOptionToken",
+          "to": "suffixOptionCode2",
+          "default": ""
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
         },
         {
           "op": "takeLongest",
@@ -1610,7 +2006,7 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "twinDieObj"
+          "from": "packageDieStackObj"
         },
         {
           "op": "merge",
@@ -1626,6 +2022,16 @@
           "op": "merge",
           "into": "extra",
           "from": "functionalSafetyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productCertificationObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "powerSavingObj"
         },
         {
           "op": "merge",

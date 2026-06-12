@@ -13,12 +13,15 @@ import {
   assertUnknown,
   detect,
   dramPnJson,
+  engine,
+  firstField,
   mdbJson,
   micronDramFbgaEntries,
   micronFbgaCodesJson,
   resourceEntries,
   searchFbgaParts
 } from "./_helpers";
+import micronDramRules from "../../../src/decodepack/rules/packs/micron-dram-token.json" with { type: "json" };
 
 for (const entry of dramPnJson.filter((item) => item.vendor === "esmt")) {
   assert.doesNotMatch(entry.pn, /[()]/, `ESMT known PN should use ordering Product ID form: ${entry.pn}`);
@@ -34,6 +37,31 @@ const dramPnForbiddenKeys = new Set(["source", "status", "reference", "inference
 const micronNandFbgaHeaders = ["NC", "NW", "NY", "NX", "NQ", "NV"];
 const seenDramPn = new Set<string>();
 const seenCanonicalWinbondDramPn = new Set<string>();
+const micronDramTables = ((micronDramRules as Array<Record<string, unknown>>)[0].tokenDecoder as Record<string, unknown>).tables as Record<string, unknown>;
+const micronDramSpeedToken = micronDramTables.speedToken as Record<string, string>;
+const micronDramSpeedContinuationTokens = [
+  ...Object.keys(micronDramTables.productCertificationObj as Record<string, unknown>).map((key) => key.includes(":") ? key.split(":").pop() ?? key : key),
+  ...Object.keys(micronDramTables.powerSavingObj as Record<string, unknown>).map((key) => key.includes(":") ? key.split(":").pop() ?? key : key),
+  ...Object.keys(micronDramTables.suffixOptionToken as Record<string, string>),
+  ...Object.keys(micronDramTables.temperatureObj as Record<string, unknown>).map((key) => key.includes(":") ? key.split(":").pop() ?? key : key),
+  ...Object.keys(micronDramTables.productionStatusObj as Record<string, unknown>)
+].sort((a, b) => b.length - a.length || a.localeCompare(b));
+const micronDramScopedSpeedTokens = new Map<string, string[]>();
+const micronDramUnscopedSpeedTokens: string[] = [];
+for (const key of Object.keys(micronDramSpeedToken)) {
+  const scoped = /^(\d\d):(.+)$/.exec(key);
+  if (scoped) {
+    const tokens = micronDramScopedSpeedTokens.get(scoped[1]) ?? [];
+    tokens.push(scoped[2]);
+    micronDramScopedSpeedTokens.set(scoped[1], tokens);
+  } else {
+    micronDramUnscopedSpeedTokens.push(key);
+  }
+}
+for (const tokens of [...micronDramScopedSpeedTokens.values(), micronDramUnscopedSpeedTokens]) {
+  tokens.sort((a, b) => b.length - a.length || a.localeCompare(b));
+}
+
 function canonicalWinbondDramPn(partNumber: string): string {
   const ddrMatch = /^(W94(?:12|25)G6KH)([56][A-Z]?)$/.exec(partNumber);
   if (ddrMatch) {
@@ -53,6 +81,54 @@ function canonicalWinbondDramPn(partNumber: string): string {
   }
   return partNumber;
 }
+
+function normalizeMicronDramPartNumber(partNumber: string): string {
+  return partNumber.toUpperCase().replace(/[ ,&.|]/g, "");
+}
+
+function micronDramFamily(partNumber: string): string {
+  return /^(?:MT|CT|ED|EE)(\d\d)/.exec(partNumber)?.[1] ?? "";
+}
+
+function isMicronDramSpeedBoundary(rest: string): boolean {
+  return rest === "" ||
+    rest.startsWith(":") ||
+    rest.startsWith("-") ||
+    micronDramSpeedContinuationTokens.some((token) => rest.startsWith(token));
+}
+
+function expectedMicronDramSpeedToken(partNumber: string): string | undefined {
+  const normalized = normalizeMicronDramPartNumber(partNumber);
+  const speedStart = normalized.indexOf("-");
+  if (speedStart < 0) {
+    return undefined;
+  }
+  const suffix = normalized.slice(speedStart + 1);
+  const family = micronDramFamily(normalized);
+  for (const token of micronDramScopedSpeedTokens.get(family) ?? []) {
+    if (suffix.startsWith(token) && isMicronDramSpeedBoundary(suffix.slice(token.length))) {
+      return `${family}:${token}`;
+    }
+  }
+  for (const token of micronDramUnscopedSpeedTokens) {
+    if (suffix.startsWith(token) && isMicronDramSpeedBoundary(suffix.slice(token.length))) {
+      return token;
+    }
+  }
+  return undefined;
+}
+
+function assertMicronDramKnownSpeed(partNumber: string, source: string): void {
+  const expectedSpeedToken = expectedMicronDramSpeedToken(partNumber);
+  if (!expectedSpeedToken) {
+    return;
+  }
+  const result = engine.decodePart({ query: partNumber, lang: "eng", chipKind: "dram", strict: true });
+  assert.equal(result.status, "ok", `${source} ${partNumber} should decode`);
+  assert.equal(result.device?.chipKind, "dram", `${source} ${partNumber} should stay classified as DRAM`);
+  assert.ok(firstField(result, "dram_speed"), `${source} ${partNumber} should expose dram_speed for token ${expectedSpeedToken}`);
+}
+
 for (const entry of dramPn) {
   assert.equal(typeof entry, "object", "DRAM PN entry should be an object");
   assert.ok(entry !== null && !Array.isArray(entry), "DRAM PN entry should be keyed");
@@ -72,6 +148,9 @@ for (const entry of dramPn) {
   }
   if (record.vendor === "esmt") {
     assert.equal(/[()]/.test(String(record.pn)), false, `${String(record.pn)} should use ESMT ordering PN form without parenthesized page-header suffixes`);
+  }
+  if (record.vendor === "micron") {
+    assertMicronDramKnownSpeed(String(record.pn), "dram-pn.json");
   }
 
   const keys = Object.keys(record);
@@ -121,4 +200,5 @@ for (const entry of micronDramFbga) {
     [],
     `Micron DRAM FBGA entry should not expose maintenance keys: ${JSON.stringify(entry)}`
   );
+  assertMicronDramKnownSpeed(String(record.pn), `mdb.json ${String(record.code)}`);
 }

@@ -25,7 +25,7 @@ assertDram("MT53E1G32D2FW-046-AIT-A", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
-  package: "200-ball TFBGA (10x14.5)",
+  package: "TFBGA-200 (10x14.5)",
   topology: { ce: "Unknown", die: 2 },
   extra: {
     "DRAM Type": "LPDDR4X",
@@ -42,7 +42,7 @@ assertDram("MT53E1G32DDFW-046-AIT:A", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
-  package: "200-ball TFBGA (10x14.5)",
+  package: "TFBGA-200 (10x14.5)",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Package Code": "FW",
@@ -60,7 +60,7 @@ assertDram("MT62F1G32D4DS-031-WT-B", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "200-ball WFBGA (10x14.5)",
+  package: "WFBGA-200 (10x14.5)",
   extra: {
     "DRAM Type": "LPDDR5",
     "Package Code": "DS",
@@ -76,7 +76,7 @@ assertDram("MT62F1G32D3DS-031-WT:B", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "200-ball WFBGA (10x14.5)",
+  package: "WFBGA-200 (10x14.5)",
   extra: {
     "DRAM Type": "LPDDR5",
     "Package Code": "DS",
@@ -93,7 +93,7 @@ assertDram("MT62F1G64D4EK-023 WT:B", {
   density: "64Gb",
   widthField: "x64",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "441-ball TFBGA",
+  package: "TFBGA-441",
   extra: {
     "DRAM Type": "LPDDR5X",
     "Package Code": "EK",
@@ -103,6 +103,37 @@ assertDram("MT62F1G64D4EK-023 WT:B", {
     "Die Revision": "Rev B"
   }
 });
+
+assertDram("MT62F2G32D4DS-023 RS WT:C-DNU", {
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x32",
+  voltage: "1.05V VDD / 0.5V VDDQ",
+  package: "WFBGA-200 (10x14.5)",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Speed": "4266MHz (LPDDR5X-8533)",
+    "Operation Temperature": "Wireless (-25°C ~ 85°C)",
+    "Die Revision": "Rev C"
+  }
+});
+assertDecodedField("MT62F2G32D4DS-023 RS WT:C-DNU", "die_count", 4);
+
+assertDram("MT62F1G64D4AM-031 XT ES:B-DNU", {
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x64",
+  voltage: "1.05V VDD / 0.5V VDDQ",
+  package: "Unknown",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "DRAM Speed": "3200MHz (LPDDR5-6400)",
+    "Operation Temperature": "Wide temperature",
+    "Production Status": "Engineering Sample",
+    "Die Revision": "Rev B"
+  }
+});
+assertDecodedField("MT62F1G64D4AM-031 XT ES:B-DNU", "die_count", 4);
 
 const micronLpddr5Automotive441bSamples = [
   {
@@ -180,7 +211,7 @@ for (const sample of micronLpddr5Automotive441bSamples) {
     density: sample.density,
     widthField: "x64",
     voltage: "1.05V VDD / 0.5V VDDQ",
-    package: "441-ball TFBGA",
+    package: "TFBGA-441",
     extra: {
       "DRAM Type": "LPDDR5",
       "Package Code": "EK",
@@ -200,7 +231,7 @@ assertDram("MT62F512M64D4EK-031FAATB", {
   density: "32Gb",
   widthField: "x64",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "441-ball TFBGA",
+  package: "TFBGA-441",
   extra: {
     "DRAM Type": "LPDDR5",
     "Package Code": "EK",
