@@ -382,6 +382,59 @@ assertDram("C9BJZ", {
 });
 assert.deepEqual(searchFbgaParts("C9BJZ"), ["CT40A1G8SA-62M:E"]);
 assert.deepEqual(searchFbgaParts("FX454"), []);
+assertDram("EDY4016AABG-JD-F-D", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD/VDDQ; 2.5V VPP",
+  package: "FBGA-96 (7.5x13.5)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-3200 24-24-24",
+    "Bank Count": 8,
+    "Interface Type": "POD (1.2V pseudo open-drain I/O)",
+    "Operation Temperature": "Commercial (0°C ~ 95°C)",
+    "Die Revision": "Rev A",
+    "Solder Type": "Lead-free (RoHS-compliant) and halogen-free",
+    "Packing Type": "Dry pack (tray)"
+  }
+});
+assertDram("EDY4016AABG-GX-F-R", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD/VDDQ; 2.5V VPP",
+  package: "FBGA-96 (7.5x13.5)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2666 19-19-19",
+    "Bank Count": 8,
+    "Interface Type": "POD (1.2V pseudo open-drain I/O)",
+    "Operation Temperature": "Commercial (0°C ~ 95°C)",
+    "Die Revision": "Rev A",
+    "Solder Type": "Lead-free (RoHS-compliant) and halogen-free",
+    "Packing Type": "Tape and Reel"
+  }
+});
+assertDram("EDY4016AABG-DR-F-D", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD/VDDQ; 2.5V VPP",
+  package: "FBGA-96 (7.5x13.5)",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2400 16-16-16",
+    "Bank Count": 8,
+    "Interface Type": "POD (1.2V pseudo open-drain I/O)",
+    "Operation Temperature": "Commercial (0°C ~ 95°C)",
+    "Die Revision": "Rev A",
+    "Solder Type": "Lead-free (RoHS-compliant) and halogen-free",
+    "Packing Type": "Dry pack (tray)"
+  }
+});
+assertDecodedPartNumber("EDY4016AABG-JD-F-R TR", "EDY4016AABG-JD-F-R");
+assertSearchPnIncludes("EDY4016", "Micron EDY4016AABG-JD-F-D");
 assertDram("EDB2432B4MA-1DAAT-F-D", {
   vendor: "elpida",
   densityMbit: 2048,

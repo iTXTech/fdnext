@@ -86,6 +86,7 @@ export const standaloneDramExtraKeys = new Set([
   "Interface Type",
   "Revision",
   "Operation Temperature",
+  "Packing Type",
   "Solder Type",
   "Production Status",
   "Die Revision",
@@ -458,7 +459,7 @@ export function resourceEntries(raw: unknown): unknown[] {
 export function isMicronDramPartNumber(partNumber: string): boolean {
   return /^(?:MT|CT)(?:40|41|42|43|44|46|47|48|49|51|52|53|54|58|60|61|62|68)/.test(partNumber) ||
     /^(?:ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
-    /^ED(?:B|D|E|F|J|S|W)/.test(partNumber);
+    /^ED(?:B|D|E|F|J|S|W|Y)/.test(partNumber);
 }
 
 export function micronDramFbgaEntries(raw: unknown): Array<{ code: string; pn: string }> {

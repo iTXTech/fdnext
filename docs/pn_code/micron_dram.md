@@ -40,6 +40,8 @@
   - <https://www.digikey.com/htmldatasheets/production/1959024/0/0/1/mt41k1g16.html>
   - <https://e-nexty.dxp.nexty-ele.com/en/product_files/download?lc_code=ja&maker_code=MICRONT&product_file_id=4801656&product_id=5843368&product_part_number=MT41J2G4TRF-125%3AE&search_log_id=7616014>
   - <https://pdf.elecfans.com/MICRON/MT41K2G8KJR-125%3AA%20TR.html>
+- Micron Memory Japan `EDY4016A` 4Gb x16 DDR4 datasheet 确认 legacy DDR4 `EDY 40 16 A A BG - speed - F - packing` 结构：`40=4Gb`、`16=x16`、`A=1.2V VDD/VDDQ`、`BG=96-ball FBGA (7.5x13.5)`、`JD/GX/DR` 分别为 DDR4-3200/2666/2400 timing、`F=Lead-free RoHS-compliant and halogen-free`、`D/R=tray/tape reel`；features 页确认 VPP=2.5V、POD I/O、8 internal banks 和 commercial `0°C ~ 95°C`。来源：<https://media.digikey.com/pdf/Data%20Sheets/Micron%20Technology%20Inc%20PDFs/EDY4016A.pdf>
+- DigiKey / Micron part catalog 页面交叉确认 `EDY4016AABG-DR-F-D`、`EDY4016AABG-GX-F-D`、`EDY4016AABG-JD-F-D` 及 `-R TR` 订货形态属于 Micron DDR4 4Gbit 256M x16 96-FBGA；资源中 canonical PN 只保留 `-R`，不保留分销包装后缀 `TR`。来源：<https://www.digikey.com/en/products/detail/micron-technology-inc/EDY4016AABG-DR-F-D/6024312>、<https://www.digikey.com/en/products/detail/micron-technology-inc/EDY4016AABG-GX-F-D/6024313>、<https://www.digikey.com/en/products/detail/micron-technology-inc/EDY4016AABG-JD-F-D/6024314>、<https://my.micron.com/products/memory/dram-components/ddr4-sdram/part-catalog/part-detail/edy4016aabg-dr-f>
 - 公开镜像 `DRAM Component Part Numbering System` 可核对字段顺序、family/voltage/device version/temperature/status/revision/speed 等 token 含义；镜像版本较旧，只用于字段结构交叉验证。
   <https://docslib.org/doc/10329358/dram-component-part-numbering-system>
 - 用户提供的 `常见几种DDR3_DDR3L的命名规则.pdf` 中 Micron `DRAM Component Part Numbering System` 页面确认 DDR3 speed token `187E/15E/125/125E/107/093` 对应 1066/1333/1600/1600/1866/2133 与 CL7/9/11/10/13/14；规则使用 family-scoped `41:*` speed，避免 `093` 落到 LPDDR4 通用含义。
@@ -57,14 +59,14 @@
 
 - 主线 DRAM 规则文件：`packages/core/src/decodepack/rules/packs/micron-dram-token.json`
 - Stacked / specialty DRAM 规则文件：`packages/core/src/decodepack/rules/packs/micron-hbm-token.json`、`packages/core/src/decodepack/rules/packs/micron-hmc-token.json`
-- 规则 ID：`vendor.micron.dram.component.v1`
-- 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62/68`、Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62/68`，以及 Micron legacy Elpida namespace `ED/EE + 40/41/42/44/46/47/48/49/51/52/53/58/60/61/62/68`。
+- 规则 ID：`vendor.micron.dram.component.v1`、`vendor.micron.dram.memory_japan_ddr4.component.v1`
+- 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62/68`、Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62/68`，以及 Micron legacy Elpida namespace `ED/EE + 40/41/42/44/46/47/48/49/51/52/53/58/60/61/62/68`。Micron Memory Japan legacy DDR4 `EDY4016...` 使用独立规则，不混入 `MT40` token 流。
 - Stacked / specialty 覆盖见 [micron_hbm.md](micron_hbm.md) 和 [micron_hmc.md](micron_hmc.md)：当前加入 Micron HBM2E `MT54A...` 与 HMC `MT43A...`，用于修正这类 PN 被 fallback 误判为 raw NAND 的问题。
 - 不使用完整 PN 白名单；只按 Micron DRAM part-numbering token 解析字段。
 
 ## 搜索资源
 
-- `packages/core/resources/dram-pn.json` 收录已知 Micron / Crucial DRAM PN，用于 `searchParts()` PN 补全，不是解码依据。
+- `packages/core/resources/dram-pn.json` 收录已知 Micron / Crucial DRAM PN，用于 `searchParts()` PN 补全，不是解码依据。本轮加入 `EDY4016AABG-{DR,GX,JD}-F-{D,R}` canonical PN。
 - `pnpm fdbgen:crawl-mdb` 默认按 Micron FBGA prefix profile 生成候选，通过 Micron 官方 FBGA decoder API 写入统一 `packages/core/resources/mdb.json`。当前默认 profile 包括 `C9/D8/D9/Z8/Z9` 后三位字母网格，以及 `NC/NW/NY/NX/NQ/NV` 数字段；`--codes` 补充输入按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
 - `packages/core/resources/mdb.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchParts()` code 查询，以及 `decodePart({ query: "C9BJZ" })` 这类 code 输入时先反查 PN 再走 iTXTech fdnext DecodePack。
 - 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA code 反查统一来自 `mdb.json` 的 code -> PN 映射。真正输出的 `density`、`package`、`dram_type`、`dram_die_stack` 等字段仍由 iTXTech fdnext DecodePack token 解析。
@@ -79,6 +81,14 @@
 ```
 
 `CT` 前缀来自 Crucial / Ballistix namespace，后续 token 仍沿用 Micron DRAM 结构解析。输出保留原始 `CT...` PN，不强行改写为 `MT...`，因为 Crucial 的 speed/bin token 不一定与公开 `MT...` catalog token 一一对应。
+
+Micron Memory Japan legacy DDR4 `EDY4016...` 使用独立结构：
+
+```text
+EDY + density + width + voltage + die revision + package + -speed + -solder + -packing
+```
+
+当前外部确认的 `EDY4016A` 表示 4Gb x16 DDR4；`JD/GX/DR` 分别输出 `DDR4-3200 24-24-24`、`DDR4-2666 19-19-19`、`DDR4-2400 16-16-16`。`-R TR` 这类分销订货写法归一为 canonical `-R`。
 
 首批 family token：
 
@@ -110,7 +120,7 @@
 - `fields.voltage` 输出 Micron voltage token 对应说明。
 - `fields.package` 输出实际封装，例如 `FBGA-78 (7.5x11)`；Micron FBGA package code 优先按 package-only 公共表复用，少数跨产品线冲突保留 `family + package code` override。
 - standalone DRAM 的 `fields` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
-- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`die_count`、`dram_speed`、`operation_temperature`、`die_revision`、`special_option`。
+- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`die_count`、`bank_count`、`interface_type`、`dram_speed`、`operation_temperature`、`die_revision`、`solder_type`、`packing_type`、`special_option`。
 - `device version` 先按 family scope 匹配，避免 `DA/DE/LF` 等 token 与 package code 冲突；`D1/D2/D3/D4/D6/D8/DA/DB/DC/DD/DE/LF/L2/L4` 只标准化为 `die_count`，例如 `D4` 输出 `die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`，`DD/DE` 保留官方 LPDDR4 mixed die stack 描述；没有 CS 资料时不输出 `dram_die_stack`。
 - `speed` token 同样优先按 family scope 匹配：DDR5 `32B/36B/40B/44B/48B/52B/56B/64B/72B/80B/88B/92B`、DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E`、DDR3 `125E`、DDR2 `3`、DDR `6T`、SDR `7E/10`、GDDR5 `50/60/70`、GDDR5X `110/120/140`、GDDR6 `10/15` 与 GDDR6X `19/20/22/23` 来自官方 2023 PNS 或公开 ordering 截图；`18` 同时出现在 GDDR6/GDDR6X 表中，当前不在 decodepack 中强行判定。
 - DDR5 `60:*` speed 对 addendum 明确给出 CL 的 bin 保留 CL 时序：`48B = DDR5-4800B CL40`、`52B = DDR5-5200B CL42`、`56B = DDR5-5600B CL46`、`64B = DDR5-6400B CL52`、`72B = DDR5-7200B CL58`、`80B = DDR5-8000B CL64`、`88B = DDR5-8800B CL72`、`92B = DDR5-9200B CL74`。
@@ -123,6 +133,7 @@
 - Micron revision token 可带冒号分隔，例如 `FAAT:B`；core PN 查询、FDB lookup 和 `dram-pn.json` 补全按冒号等价匹配，同时保留带冒号的官方 PN 展示。
 - `dram_type` 必须使用跨厂商标准名，不带厂商名，不写组合候选。
 - Micron 原始 config / package token 只用于内部解析，不进入公开字段；不要把未确认的 token 硬推成封装尺寸或 ball count。
+- Micron Memory Japan `EDY4016...` 的 `A/BG/F/D/R/JD/GX/DR` 等 marking token 只作为内部 code；公开输出为 `die_revision`、`package`、`solder_type`、`packing_type` 和 `dram_speed`。
 - Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4-45M` / `55M` / `62M`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
 - 维护用来源、外部确认状态或推断来源不得进入 `fields`。
 
@@ -250,6 +261,8 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 | `MT40A512M8AG-075EAUT:F` | Automotive DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78 (7.5x11)`, `DDR4-2666 CL18`, `Automotive certified`, `Ultra-high (-40°C ~ 125°C)`, `Rev F` |
 | `MT40A512M16TD-062EAUT:R` | Automotive DDR4 SDRAM | `8Gb`, `x16`, `FBGA-96 (7.5x13)`, `DDR4-3200 CL22`, `Automotive certified`, `Ultra-high (-40°C ~ 125°C)`, `Rev R` |
 | `CT40A1G8SA-62M:E` | Crucial DDR4 SDRAM | `8Gb`, `x8`, `FBGA-78 (7.5x11)`, `Crucial DDR4-62M`, `Rev E` |
+| `EDY4016AABG-JD-F-D` | Micron Memory Japan DDR4 SDRAM | `4Gb`, `x16`, `FBGA-96 (7.5x13.5)`, `DDR4-3200 24-24-24`, `Rev A`, `Dry pack (tray)` |
+| `EDY4016AABG-GX-F-R` | Micron Memory Japan DDR4 SDRAM | `4Gb`, `x16`, `FBGA-96 (7.5x13.5)`, `DDR4-2666 19-19-19`, `Rev A`, `Tape and Reel` |
 | `MT60B2G8HB-48B-IT-A` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82 (9x11)`, `DDR5-4800B CL40`, `Industrial`, `Rev A` |
 | `MT60B2G8HB-48BAT:A` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82 (9x11)`, `DDR5-4800B CL40`, `Automotive`, `Rev A` |
 | `MT60B2G8HB-56B:G` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82 (9x11)`, `DDR5-5600B CL46`, `Rev G` |
