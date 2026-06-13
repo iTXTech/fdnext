@@ -5,7 +5,14 @@ import { resolve } from "node:path";
 import { auditFdb, auditFdbFile, formatFdbAuditText } from "./audit";
 import { auditExtra, type ExtraAuditDecodePart, formatExtraAuditText } from "./extra-audit";
 import { generateFdb, generateFdbWithTrace } from "./fdbgen";
-import { crawlMdb } from "./mdb";
+import {
+  DEFAULT_MDB_FBGA_LETTER_GRID_PREFIXES,
+  DEFAULT_MDB_FBGA_MANAGED_PREFIXES,
+  DEFAULT_MDB_FBGA_MANAGED_SEGMENT_PREFIXES,
+  DEFAULT_MDB_FBGA_NUMBERED_PREFIXES,
+  crawlMdb
+} from "./mdb";
+import type { CrawlMdbOptions } from "./types";
 
 interface CliOptions {
   inputDir?: string;
@@ -33,6 +40,9 @@ interface CliOptions {
   userAgent?: string;
   codesFile?: string;
   startFromCode?: string;
+  mdbHeaders?: string[];
+  micronHeaders?: string[];
+  spectekHeaders?: string[];
   format?: "text" | "json";
   maxSamples?: number;
   failOnIssues?: boolean;
@@ -82,7 +92,12 @@ function usage(): string {
     "MDB crawl options:",
     "  --file <path>       mdb.json file path for read/write",
     "  --codes <path>      Supplemental MDB code JSON; Micron/Spectek is inferred by prefix",
-    "  --start-from <code> Start from a Micron or SpecTek code segment, e.g. D9N, NW101, JW101, JYA01, or PB002",
+    "  --header <prefix>   Limit crawl to MDB header(s); repeatable/comma-separated, auto-routes P* to SpecTek and known Micron prefixes to Micron",
+    "  --micron-header <prefix>",
+    "                      Limit Micron crawl to header(s); repeatable/comma-separated",
+    "  --spectek-header <prefix>",
+    "                      Limit SpecTek crawl to header(s); repeatable/comma-separated",
+    "  --start-from <code> Start from a Micron or SpecTek code segment, e.g. D9N, NW101, JW101, JYA01, PB002, or PEB01",
     "  --micron-max <n>    Numbered Micron FBGA upper bound (exclusive, default 1000)",
     "  --spectek-max <n>   SpecTek upper bound (exclusive, optional)",
     "  --delay-ms <n>      Delay between requests in milliseconds",
@@ -109,6 +124,25 @@ function addControllerBlacklist(options: CliOptions, raw: string): void {
     return;
   }
   options.controllerBlacklist = [...(options.controllerBlacklist ?? []), ...items];
+}
+
+function normalizeMdbHeader(input: string): string {
+  return input.trim().toUpperCase().replace(/[^0-9A-Z]/g, "");
+}
+
+function splitMdbHeaders(raw: string): string[] {
+  return raw
+    .split(/[,\s]+/)
+    .map((item) => normalizeMdbHeader(item))
+    .filter(Boolean);
+}
+
+function addMdbHeaders(options: CliOptions, key: "mdbHeaders" | "micronHeaders" | "spectekHeaders", raw: string): void {
+  const headers = splitMdbHeaders(raw);
+  if (headers.length === 0) {
+    return;
+  }
+  options[key] = [...(options[key] ?? []), ...headers];
 }
 
 function parseBuildOptions(args: string[]): CliOptions {
@@ -197,6 +231,21 @@ function parseCrawlOptions(args: string[]): CliOptions {
     }
     if (arg === "--codes") {
       options.codesFile = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--header" || arg === "--mdb-header" || arg === "--fbga-header") {
+      addMdbHeaders(options, "mdbHeaders", requireValue(args, i, arg));
+      i += 1;
+      continue;
+    }
+    if (arg === "--micron-header") {
+      addMdbHeaders(options, "micronHeaders", requireValue(args, i, arg));
+      i += 1;
+      continue;
+    }
+    if (arg === "--spectek-header") {
+      addMdbHeaders(options, "spectekHeaders", requireValue(args, i, arg));
       i += 1;
       continue;
     }
@@ -437,6 +486,84 @@ function writeReport(text: string, file?: string): void {
   process.stdout.write(text);
 }
 
+interface CrawlHeaderRoutes {
+  micronLetterGridPrefixes: string[];
+  micronNumberedPrefixes: string[];
+  micronManagedPrefixes: string[];
+  micronManagedSegmentPrefixes: string[];
+  spectekHeaders: string[];
+}
+
+function emptyCrawlHeaderRoutes(): CrawlHeaderRoutes {
+  return {
+    micronLetterGridPrefixes: [],
+    micronNumberedPrefixes: [],
+    micronManagedPrefixes: [],
+    micronManagedSegmentPrefixes: [],
+    spectekHeaders: []
+  };
+}
+
+function addUniqueHeader(target: string[], header: string): void {
+  if (!target.includes(header)) {
+    target.push(header);
+  }
+}
+
+function routeMicronHeader(routes: CrawlHeaderRoutes, header: string): void {
+  if ((DEFAULT_MDB_FBGA_LETTER_GRID_PREFIXES as readonly string[]).includes(header) || /^[CDZ][0-9]$/.test(header)) {
+    addUniqueHeader(routes.micronLetterGridPrefixes, header);
+    return;
+  }
+  if ((DEFAULT_MDB_FBGA_MANAGED_SEGMENT_PREFIXES as readonly string[]).includes(header) || /^J[0-9A-Z]{2}$/.test(header)) {
+    addUniqueHeader(routes.micronManagedSegmentPrefixes, header);
+    return;
+  }
+  if ((DEFAULT_MDB_FBGA_MANAGED_PREFIXES as readonly string[]).includes(header) || /^J[0-9A-Z]$/.test(header)) {
+    addUniqueHeader(routes.micronManagedPrefixes, header);
+    return;
+  }
+  if ((DEFAULT_MDB_FBGA_NUMBERED_PREFIXES as readonly string[]).includes(header) || /^N[0-9A-Z]$/.test(header)) {
+    addUniqueHeader(routes.micronNumberedPrefixes, header);
+    return;
+  }
+  throw new Error(`Cannot infer Micron FBGA profile for header: ${header}`);
+}
+
+function routeAutoHeader(routes: CrawlHeaderRoutes, header: string): void {
+  if (header.startsWith("P")) {
+    addUniqueHeader(routes.spectekHeaders, header);
+    return;
+  }
+  routeMicronHeader(routes, header);
+}
+
+function resolveCrawlHeaderRoutes(options: CliOptions): Partial<CrawlMdbOptions> {
+  const hasHeaders = Boolean(options.mdbHeaders?.length || options.micronHeaders?.length || options.spectekHeaders?.length);
+  if (!hasHeaders) {
+    return {};
+  }
+
+  const routes = emptyCrawlHeaderRoutes();
+  for (const header of options.mdbHeaders ?? []) {
+    routeAutoHeader(routes, header);
+  }
+  for (const header of options.micronHeaders ?? []) {
+    routeMicronHeader(routes, header);
+  }
+  for (const header of options.spectekHeaders ?? []) {
+    addUniqueHeader(routes.spectekHeaders, header);
+  }
+
+  return {
+    micronLetterGridPrefixes: routes.micronLetterGridPrefixes,
+    micronNumberedPrefixes: routes.micronNumberedPrefixes,
+    micronManagedPrefixes: routes.micronManagedPrefixes,
+    micronManagedSegmentPrefixes: routes.micronManagedSegmentPrefixes,
+    spectekHeaders: routes.spectekHeaders
+  };
+}
+
 interface DecodeResultLike {
   status?: unknown;
   device?: {
@@ -543,6 +670,7 @@ async function runCrawlMdb(args: string[]): Promise<void> {
   }
 
   const targetFile = resolve(opts.file);
+  const headerRoutes = resolveCrawlHeaderRoutes(opts);
   const result = await crawlMdb({
     file: targetFile,
     pretty: opts.pretty ?? true,
@@ -555,6 +683,7 @@ async function runCrawlMdb(args: string[]): Promise<void> {
     spectekMax: opts.spectekMax,
     delayMs: opts.delayMs,
     userAgent: opts.userAgent,
+    ...headerRoutes,
     logger: (line) => {
       console.debug(line);
     }

@@ -54,7 +54,8 @@ node packages/fdbgen/dist/cli.js crawl-mdb --file <mdb.json> [options]
 pnpm fdbgen:crawl-mdb -- --file <mdb.json> [options]
 ```
 
-说明：SpecTek 查询沿用旧版 ASPX 页面流程（`https://www.spectek.com/menus/mark_code.aspx`），通过提交表单后解析页面 DOM 表格，不依赖新接口；默认覆盖 NAND `PF*` / `PX*` 以及 DRAM `PB*` / `PE*` / `PP*` / `PU*` mark code 前缀。
+说明：SpecTek 查询沿用旧版 ASPX 页面流程（`https://www.spectek.com/menus/mark_code.aspx`），通过提交表单后解析页面 DOM 表格，不依赖新接口；默认覆盖 NAND `PF*` / `PX*` 以及 DRAM `PB*` / `PE*` / `PEB*` / `PP*` / `PPE*` / `PU*` mark code 前缀。
+SpecTek 返回的 slash 前缀合并料号会在写入 MDB 前展开成完整 PN，例如 `SGG/SMA256M16V70SG8REF` 写为 `SGG256M16V70SG8REF` 和 `SMA256M16V70SG8REF`。
 
 Micron 查询统一按 FBGA code 前缀 profile 生成候选并调用官方 FBGA decoder API。默认 profile 包括 `C9/D8/D9/Z8/Z9` 两位前缀后三位字母网格，以及 `NC/NW/NY/NX/NQ/NV` 数字段。后续新增 Micron 数字段或字母网格段时扩展 profile，不再新增 crawler 入口。`--codes` 补充输入会按前缀路由：命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
 
@@ -78,7 +79,9 @@ Micron 查询统一按 FBGA code 前缀 profile 生成候选并调用官方 FBGA
 
 - `--file <path>`：`mdb.json` 文件路径（必填）
 - `--codes <path>`：可选补充 MDB code JSON，当前参考文件为 `references/micron-fbga-codes.json`，使用顶层字符串数组保存非默认 profile 的历史例外；读取时按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek，未知前缀跳过。
-- `--start-from <code>`：从 Micron 或 SpecTek code 段开始，例如 `D9N` 从 Micron 字母网格段继续跑，`NW101` 从 Micron 数字段继续跑，`PB002` 从 SpecTek 队列继续跑。
+- `--header <prefix>`：限制本次 MDB 爬取到指定 header，可重复或逗号分隔；`P*` 自动走 SpecTek，已知 Micron prefix 自动归入对应 Micron profile，例如 `--header PEB --header PPE` 只跑 SpecTek DRAM `PEB*` / `PPE*`，`--header D9 --header NW` 只跑 Micron 对应段。
+- `--micron-header <prefix>` / `--spectek-header <prefix>`：显式限制 Micron 或 SpecTek header，可重复或逗号分隔。
+- `--start-from <code>`：从 Micron 或 SpecTek code 段开始，例如 `D9N` 从 Micron 字母网格段继续跑，`NW101` 从 Micron 数字段继续跑，`PB002` / `PEB01` 从 SpecTek 队列继续跑。
 - `--micron-max <n>`：Micron 数字段 FBGA 上界（不含，默认 `1000`）
 - `--spectek-max <n>`：SpecTek 爬取上界（不含，默认按前缀自动计算）
 - `--delay-ms <n>`：每次请求间隔（毫秒）

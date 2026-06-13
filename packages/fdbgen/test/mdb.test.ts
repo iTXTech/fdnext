@@ -3,7 +3,7 @@ import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
-import { buildMicronFbgaCrawlPlan, crawlMdb } from "../src/mdb";
+import { DEFAULT_SPECTEK_HEADERS, buildMicronFbgaCrawlPlan, crawlMdb } from "../src/mdb";
 import type { MdbPayload, MdbQueryOptions, MicronFbgaPrefixProfile } from "../src/types";
 
 function jsonResponse(payload: unknown): Awaited<ReturnType<NonNullable<MdbQueryOptions["fetchImpl"]>>> {
@@ -254,6 +254,101 @@ test("crawlMdb applies P-prefixed start-from to the SpecTek queue", async () => 
     assert.equal(result.stats.micronFbga.requests, 0);
     assert.equal(result.stats.spectek.requests, 3);
     assert.equal(result.stats.spectek.hits, 3);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("crawlMdb includes probed SpecTek PE/PP DRAM letter segments", async () => {
+  assert.ok(DEFAULT_SPECTEK_HEADERS.includes("PEB"), "SpecTek DRAM PEB segment should be crawled by default");
+  assert.ok(DEFAULT_SPECTEK_HEADERS.includes("PPE"), "SpecTek DRAM PPE segment should be crawled by default");
+
+  const dir = mkdtempSync(join(tmpdir(), "fdnext-mdb-"));
+  const file = join(dir, "mdb.json");
+  writeFileSync(file, JSON.stringify({ micron: {}, spectek: {} } satisfies MdbPayload));
+
+  const requestedSpectek: string[] = [];
+  const fetchImpl: NonNullable<MdbQueryOptions["fetchImpl"]> = async (input, init) => {
+    const url = String(input);
+    if (url.includes("fbga-parts-decoder")) {
+      return jsonResponse({ details: [] });
+    }
+
+    if (url.includes("spectek.com") && init?.method === "POST") {
+      const body = new URLSearchParams(init.body ?? "");
+      const code = body.get("ctl00$MainCPH$MarkCodeTextBox") ?? "";
+      requestedSpectek.push(code);
+      return textResponse(`<table class="bdrBlackTbl"><tr><td>${code}</td><td>${code}-PN</td><td></td></tr></table>`);
+    }
+
+    if (url.includes("spectek.com")) {
+      return textResponse(
+        '<input name="__VIEWSTATE" value="vs"><input name="__VIEWSTATEGENERATOR" value="vsg"><input name="__EVENTVALIDATION" value="ev">'
+      );
+    }
+
+    throw new Error(`Unexpected request: ${url}`);
+  };
+
+  try {
+    const result = await crawlMdb({
+      file,
+      generatedCodes: false,
+      startFromCode: "PEB01",
+      spectekHeaders: ["PEB", "PPE"],
+      spectekMax: 3,
+      fetchImpl
+    });
+    const saved = JSON.parse(readFileSync(file, "utf8")) as MdbPayload;
+
+    assert.deepEqual(requestedSpectek, ["PEB01", "PEB02", "PPE01", "PPE02"]);
+    assert.deepEqual(Object.keys(saved.spectek), ["PEB01", "PEB02", "PPE01", "PPE02"]);
+    assert.equal(result.stats.spectek.requests, 4);
+    assert.equal(result.stats.spectek.hits, 4);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("crawlMdb expands slash-prefixed SpecTek DRAM part numbers", async () => {
+  const dir = mkdtempSync(join(tmpdir(), "fdnext-mdb-"));
+  const file = join(dir, "mdb.json");
+  writeFileSync(file, JSON.stringify({ micron: {}, spectek: {} } satisfies MdbPayload));
+
+  const fetchImpl: NonNullable<MdbQueryOptions["fetchImpl"]> = async (input, init) => {
+    const url = String(input);
+    if (url.includes("fbga-parts-decoder")) {
+      return jsonResponse({ details: [] });
+    }
+
+    if (url.includes("spectek.com") && init?.method === "POST") {
+      const body = new URLSearchParams(init.body ?? "");
+      const code = body.get("ctl00$MainCPH$MarkCodeTextBox") ?? "";
+      return textResponse(
+        `<table class="bdrBlackTbl"><tr><td>${code}</td><td>SGG/SMA256M16V70SG8REF</td><td></td></tr></table>`
+      );
+    }
+
+    if (url.includes("spectek.com")) {
+      return textResponse(
+        '<input name="__VIEWSTATE" value="vs"><input name="__VIEWSTATEGENERATOR" value="vsg"><input name="__EVENTVALIDATION" value="ev">'
+      );
+    }
+
+    throw new Error(`Unexpected request: ${url}`);
+  };
+
+  try {
+    await crawlMdb({
+      file,
+      generatedCodes: false,
+      spectekHeaders: ["PEB"],
+      spectekMax: 2,
+      fetchImpl
+    });
+    const saved = JSON.parse(readFileSync(file, "utf8")) as MdbPayload;
+
+    assert.deepEqual(saved.spectek.PEB01, ["SGG256M16V70SG8REF", "SMA256M16V70SG8REF"]);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

@@ -12,7 +12,24 @@ import type {
   MicronFbgaPrefixProfileKind
 } from "./types";
 
-export const DEFAULT_SPECTEK_HEADERS = ["PB", "PE", "PF", "PFA", "PFB", "PFC", "PFD", "PFE", "PFF", "PFG", "PFH", "PP", "PU", "PX"] as const;
+export const DEFAULT_SPECTEK_HEADERS = [
+  "PB",
+  "PE",
+  "PEB",
+  "PF",
+  "PFA",
+  "PFB",
+  "PFC",
+  "PFD",
+  "PFE",
+  "PFF",
+  "PFG",
+  "PFH",
+  "PP",
+  "PPE",
+  "PU",
+  "PX"
+] as const;
 export const DEFAULT_MDB_FLUSH_HITS = 20;
 export const DEFAULT_MDB_CONCURRENCY = 5;
 export const DEFAULT_MDB_FBGA_LETTER_GRID_PREFIXES = ["D9", "D8", "C9", "Z8", "Z9"] as const;
@@ -75,15 +92,33 @@ function normalizePartNumber(input: string): string {
   return input.trim().toUpperCase();
 }
 
+function expandSlashPrefixedPartNumber(input: string): string[] {
+  const normalized = normalizePartNumber(input);
+  if (!normalized) {
+    return [];
+  }
+  const match = normalized.match(/^([A-Z]{2,5}(?:\/[A-Z]{2,5})*)\/([A-Z]{2,5})([0-9].*)$/);
+  if (!match) {
+    return [normalized];
+  }
+  const [, prefixText, finalPrefix, suffix] = match;
+  if (!prefixText || !finalPrefix || !suffix) {
+    return [normalized];
+  }
+  const prefixes = [...prefixText.split("/"), finalPrefix];
+  return prefixes.map((prefix) => `${prefix}${suffix}`);
+}
+
 function normalizePartList(value: unknown): string[] {
   if (!Array.isArray(value)) {
     return [];
   }
   const out = new Set<string>();
   for (const item of value) {
-    const text = normalizePartNumber(String(item));
-    if (text) {
-      out.add(text);
+    for (const text of expandSlashPrefixedPartNumber(String(item))) {
+      if (text) {
+        out.add(text);
+      }
     }
   }
   return [...out];
@@ -649,7 +684,7 @@ function parseSpectekPartNumbers(html: string, targetCode: string): string[] {
 
     const values = partText
       .split(",")
-      .map((value) => normalizePartNumber(value))
+      .flatMap((value) => expandSlashPrefixedPartNumber(value))
       .filter((value) => value.length > 0);
     return sortUnique(values);
   }

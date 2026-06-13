@@ -22227,6 +22227,396 @@
     ],
     "PX234": [
       "FXM3D0A4GK3BAAWP"
+    ],
+    "PEB01": [
+      "SMG512M4V69AG8YCF"
+    ],
+    "PEB02": [
+      "PRM512M8V70SG8RAF",
+      "SMG512M8V70SG8RAF",
+      "SAA512M8V70SG8RAF",
+      "SGG512M8V70SG8RAF"
+    ],
+    "PEB03": [
+      "PRN512M8V70SG8RAF"
+    ],
+    "PEB04": [
+      "PRA512M8V70SG8RAF"
+    ],
+    "PEB06": [
+      "SUD128M16V70SG8REF"
+    ],
+    "PEB07": [
+      "SAA512M8V70SH8RAF"
+    ],
+    "PEB08": [
+      "PRN512M8V80AG8RHF",
+      "SAA512M8V80AG8RHF"
+    ],
+    "PEB09": [
+      "PRN512M8V70SGDRAF"
+    ],
+    "PEB10": [
+      "PRM512M8V80AG8RHF"
+    ],
+    "PEB11": [
+      "PRA512M8V80AG8RHF"
+    ],
+    "PEB12": [
+      "PRN512M8V80AGDRHF",
+      "SAA512M8V80AGDRHF"
+    ],
+    "PEB13": [
+      "SGG256M16V70SG8REF",
+      "SMA256M16V70SG8REF"
+    ],
+    "PEB14": [
+      "SMG256M16V70SG8REF"
+    ],
+    "PEB15": [
+      "PRN256M16V80AG8GPF",
+      "SAA256M16V80AG8GPF"
+    ],
+    "PEB16": [
+      "PRM256M16V80AG8GPF"
+    ],
+    "PEB17": [
+      "SMG256M16V80AG8GPF"
+    ],
+    "PEB19": [
+      "PRN512M8V80AG8GPF",
+      "SAA512M8V80AG8GPF"
+    ],
+    "PEB20": [
+      "PRN512M8V80AJ8RHF",
+      "SAA512M8V80AJ8RHF"
+    ],
+    "PEB21": [
+      "SAD512M8V80AJ8RHF"
+    ],
+    "PEB22": [
+      "PRN512M8V80BG8RHF",
+      "SAA512M8V80BG8RHF"
+    ],
+    "PEB23": [
+      "PRM512M8V80BG8RHF"
+    ],
+    "PEB24": [
+      "PRA512M8V80BG8RHF"
+    ],
+    "PEB25": [
+      "PRN512M8V80BGDRHF",
+      "SAA512M8V80BGDRHF"
+    ],
+    "PEB26": [
+      "PRN512M8V80BJ8RHF",
+      "SAA512M8V80BJ8RHF"
+    ],
+    "PEB27": [
+      "PRN512M8V80AH8RHF",
+      "SAA512M8V80AH8RHF"
+    ],
+    "PEB28": [
+      "PRN512M8V80AG8DSF",
+      "SAA512M8V80AG8DSF"
+    ],
+    "PEB29": [
+      "PRN512M8V90BK8RGF",
+      "SAA512M8V90BK8RGF"
+    ],
+    "PEB30": [
+      "PRM512M8V90BG8RGF"
+    ],
+    "PEB31": [
+      "PRA512M8V90BG8RGF"
+    ],
+    "PPE01": [
+      "SGG512M8Z80AD8GKF"
+    ],
+    "PPE02": [
+      "PRN512M8Z80AD8GKF"
+    ],
+    "PPE03": [
+      "PRM256M16Z90BD8GE"
+    ],
+    "PPE04": [
+      "PRN512M8Z90BD8RH"
+    ],
+    "PPE05": [
+      "PRN256M16Z90BD8GE"
+    ],
+    "PPE06": [
+      "SUM512M8Z90BD8RH"
+    ],
+    "PPE07": [
+      "SUM256M16Z90BD8GE"
+    ],
+    "PPE08": [
+      "SUU512M8Z90BD8RH"
+    ],
+    "PPE09": [
+      "SUU256M16Z90BD8GE"
+    ],
+    "PPE10": [
+      "XBA512M8Z90BD8RH"
+    ],
+    "PPE11": [
+      "XAA512M8Z90BD8RH"
+    ],
+    "PPE12": [
+      "XBA256M16Z90BD8GE"
+    ],
+    "PPE13": [
+      "XAA256M16Z90BD8GE"
+    ],
+    "PPE14": [
+      "PRN1G8Z01BD8WE"
+    ],
+    "PPE15": [
+      "PRM1G8Z01BD8WE"
+    ],
+    "PPE16": [
+      "PRA1G8Z01BD8WE"
+    ],
+    "PPE17": [
+      "SUU1G8Z01BD8WE"
+    ],
+    "PPE18": [
+      "SUM1G8Z01BD8WE"
+    ],
+    "PPE19": [
+      "XAA1G8Z01BD8WE"
+    ],
+    "PPE20": [
+      "XBA1G8Z01BD8WE"
+    ],
+    "PPE21": [
+      "PRA512M8Z01AD8WE"
+    ],
+    "PPE22": [
+      "SUU512M8Z01AD8WE"
+    ],
+    "PPE23": [
+      "XAA512M8Z01AD8WE"
+    ],
+    "PPE24": [
+      "PRA512M8Z01BD8WE"
+    ],
+    "PPE25": [
+      "SUU512M8Z01BD8WE"
+    ],
+    "PPE26": [
+      "XAA512M8Z01BD8WE"
+    ],
+    "PPE27": [
+      "PRA512M8Z91BD8PM"
+    ],
+    "PPE28": [
+      "SUU512M8Z91BD8PM"
+    ],
+    "PPE29": [
+      "XAA512M8Z91BD8PM"
+    ],
+    "PPE30": [
+      "SUU512M16Z91BD8HA"
+    ],
+    "PPE31": [
+      "SUM512M16Z91BD8HA"
+    ],
+    "PPE32": [
+      "PRN1G8Z11CD8SA"
+    ],
+    "PPE33": [
+      "PRM1G8Z11CD8SA"
+    ],
+    "PPE34": [
+      "SUU1G8Z11CD8SA"
+    ],
+    "PPE35": [
+      "SUM1G8Z11CD8SA"
+    ],
+    "PPE36": [
+      "XAA1G8Z11CD8SA"
+    ],
+    "PPE37": [
+      "XBA1G8Z11CD8SA"
+    ],
+    "PPE38": [
+      "PRN512M16Z11CD8LY"
+    ],
+    "PPE39": [
+      "PRM512M16Z11CD8LY"
+    ],
+    "PPE40": [
+      "SUU512M16Z11CD8LY"
+    ],
+    "PPE41": [
+      "SUM512M16Z11CD8LY"
+    ],
+    "PPE42": [
+      "XAA512M16Z11CD8LY"
+    ],
+    "PPE43": [
+      "XBA512M16Z11CD8LY"
+    ],
+    "PPE44": [
+      "PRA1G8Z91BD8PM"
+    ],
+    "PPE45": [
+      "SUU1G8Z01CD8WE"
+    ],
+    "PPE46": [
+      "SUM1G8Z01CD8WE"
+    ],
+    "PPE47": [
+      "XAA1G8Z01CD8WE"
+    ],
+    "PPE48": [
+      "XBA1G8Z01CD8WE"
+    ],
+    "PPE49": [
+      "PRN1G8Z01CD8WE"
+    ],
+    "PPE50": [
+      "PRM1G8Z01CD8WE"
+    ],
+    "PPE51": [
+      "PRA1G8Z01CD8WE"
+    ],
+    "PPE52": [
+      "PRA1G8Z11CD8SA"
+    ],
+    "PPE53": [
+      "PRA512M8Z11CD8SA"
+    ],
+    "PPE54": [
+      "SUU512M8Z11CD8SA"
+    ],
+    "PPE55": [
+      "XAA512M8Z11CD8SA"
+    ],
+    "PPE56": [
+      "PRA512M8Z00BD8WE"
+    ],
+    "PPE57": [
+      "PRN512M8Z00BD8WE"
+    ],
+    "PPE58": [
+      "PRM512M8Z00BD8WE"
+    ],
+    "PPE59": [
+      "SUU512M8Z00BD8WE"
+    ],
+    "PPE60": [
+      "XAA512M8Z00BD8WE"
+    ],
+    "PPE61": [
+      "PRA512M8Z10BD8SA"
+    ],
+    "PPE62": [
+      "SUU512M8Z10BD8SA"
+    ],
+    "PPE63": [
+      "XAA512M8Z10BD8SA"
+    ],
+    "PPE64": [
+      "PRN512M8Z10BD8SA"
+    ],
+    "PPE65": [
+      "PRM512M8Z10BD8SA"
+    ],
+    "PPE66": [
+      "SUM512M8Z10BD8SA"
+    ],
+    "PPE67": [
+      "XBA512M8Z10BD8SA"
+    ],
+    "PPE68": [
+      "SUM512M8Z00BD8WE"
+    ],
+    "PPE69": [
+      "XBA512M8Z00BD8WE"
+    ],
+    "PPE70": [
+      "PRN1G8Z21CD8SA"
+    ],
+    "PPE71": [
+      "PRA1G8Z21CD8SA"
+    ],
+    "PPE72": [
+      "PRM1G8Z21CD8SA"
+    ],
+    "PPE73": [
+      "SUU1G8Z21CD8SA"
+    ],
+    "PPE74": [
+      "SUM1G8Z21CD8SA"
+    ],
+    "PPE75": [
+      "XAA1G8Z21CD8SA"
+    ],
+    "PPE76": [
+      "XBA1G8Z21CD8SA"
+    ],
+    "PPE77": [
+      "PRN512M16Z21CD8TB"
+    ],
+    "PPE78": [
+      "PRM512M16Z21CD8TB"
+    ],
+    "PPE79": [
+      "SUU512M16Z21CD8TB"
+    ],
+    "PPE80": [
+      "SUM512M16Z21CD8TB"
+    ],
+    "PPE81": [
+      "XAA512M16Z21CD8TB"
+    ],
+    "PPE82": [
+      "XBA512M16Z21CD8TB"
+    ],
+    "PPE83": [
+      "PRN256M16Z10BD8LY"
+    ],
+    "PPE84": [
+      "PRM256M16Z10BD8LY"
+    ],
+    "PPE85": [
+      "SUU256M16Z10BD8LY"
+    ],
+    "PPE86": [
+      "SUM256M16Z10BD8LY"
+    ],
+    "PPE87": [
+      "XAA256M16Z10BD8LY"
+    ],
+    "PPE88": [
+      "XBA256M16Z10BD8LY"
+    ],
+    "PPE89": [
+      "SUM512M8Z20AD8SA"
+    ],
+    "PPE90": [
+      "PRN512M8Z20AD8SA"
+    ],
+    "PPE91": [
+      "PRA512M8Z20AD8SA"
+    ],
+    "PPE92": [
+      "PRM512M8Z20AD8SA"
+    ],
+    "PPE94": [
+      "SUU512M8Z20AD8SA"
+    ],
+    "PPE95": [
+      "XAA512M8Z20AD8SA"
+    ],
+    "PPE96": [
+      "XBA512M8Z20AD8SA"
+    ],
+    "PPE97": [
+      "PRN256M16Z20AD8TB"
     ]
   }
 }
