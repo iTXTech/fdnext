@@ -36,7 +36,7 @@ assertPart("BWCTAKL11X128G", {
   vendor: "biwin",
   type: "eMMC",
   densityMbit: 1048576,
-  package: "FBGA153 11.50x13.00",
+  package: "FBGA-153, 11.50x13.00",
   cellField: "TLC",
   extra: {
     "Storage Interface": "eMMC 5.1",
@@ -49,7 +49,7 @@ assertPart("BWCMMQ511G08G", {
   vendor: "biwin",
   type: "eMMC",
   densityMbit: 65536,
-  package: "FBGA153 9.00x11.00",
+  package: "FBGA-153, 9.00x11.00",
   cellField: "TLC",
   extra: {
     "Storage Interface": "eMMC 5.1",
@@ -62,7 +62,7 @@ assertPart("BWU2A0526B128G", {
   vendor: "biwin",
   type: "UFS",
   densityMbit: 1048576,
-  package: "FBGA153 11.50x13.00",
+  package: "FBGA-153, 11.50x13.00",
   extra: {
     "Storage Interface": "UFS 2.2"
   },
@@ -72,7 +72,7 @@ assertPart("BWCA2KZC-64G", {
   vendor: "biwin",
   type: "eMCP",
   densityMbit: 524288,
-  package: "FBGA254 11.50x13.00",
+  package: "FBGA-254, 11.50x13.00",
   extra: {
     "Storage Density": "64GB eMMC",
     "DRAM Density": "32Gb",
@@ -87,7 +87,7 @@ assertPart("BW2A2MZC02-256G", {
   vendor: "biwin",
   type: "uMCP",
   densityMbit: 2097152,
-  package: "FBGA254 11.50x13.00",
+  package: "FBGA-254, 11.50x13.00",
   extra: {
     "Storage Density": "256GB UFS",
     "DRAM Density": "64Gb",

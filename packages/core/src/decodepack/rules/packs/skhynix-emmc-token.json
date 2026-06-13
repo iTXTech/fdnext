@@ -92,12 +92,12 @@
           }
         },
         "package": {
-          "HPR": "153FBGA 11.5x13x0.8mm",
-          "FPR": "153FBGA 11.5x13x0.8mm",
-          "GPR": "153FBGA 11.5x13x0.8mm",
-          "AMR": "153FBGA 11.5x13x1.0mm",
-          "CMR": "153FBGA 11.5x13x1.0mm",
-          "EMR": "153FBGA 11.5x13x1.0mm"
+          "HPR": "FBGA-153, 11.5x13x0.8",
+          "FPR": "FBGA-153, 11.5x13x0.8",
+          "GPR": "FBGA-153, 11.5x13x0.8",
+          "AMR": "FBGA-153, 11.5x13x1.0",
+          "CMR": "FBGA-153, 11.5x13x1.0",
+          "EMR": "FBGA-153, 11.5x13x1.0"
         },
         "gradeObj": {
           "A": {
@@ -174,7 +174,7 @@
           "from": "packageCode",
           "table": "package",
           "to": "package",
-          "default": "153FBGA"
+          "default": "FBGA-153"
         },
         {
           "op": "takeLongest",

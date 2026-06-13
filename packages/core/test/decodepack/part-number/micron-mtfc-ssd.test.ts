@@ -35,7 +35,7 @@ assertPart("MTFC4GACAJCN-1M WT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 32768,
-  package: "153-ball VFBGA 11.5x13x1.0 (SAC 302)",
+  package: "VFBGA-153, 11.5x13x1.0, SAC 302",
   extra: {
     "Product Generation": "Fourth",
     "Product Version": "eMMC 5.0",
@@ -48,7 +48,7 @@ assertPart("MTFC8GLTEA-WT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 65536,
-  package: "153-ball WFBGA 11.5x13x0.8",
+  package: "WFBGA-153, 11.5x13x0.8",
   extra: {
     "NAND Component": "L",
     "Controller Code": "T",
@@ -61,7 +61,7 @@ assertPart("MTFC256GASAONS-IT", {
   vendor: "micron",
   type: "UFS",
   densityMbit: 2097152,
-  package: "153-ball TFBGA 11.5x13x1.2",
+  package: "TFBGA-153, 11.5x13x1.2",
   extra: {
     "Product Version": "UFS 2.1"
   },
@@ -73,7 +73,7 @@ assertPart("MTFC64GASAOEA-WT", {
   type: "UFS",
   densityMbit: 524288,
   dieProfileField: "B16C",
-  package: "153-ball WFBGA 11.5x13x0.8 (LF35)",
+  package: "WFBGA-153, 11.5x13x0.8, LF35",
   extra: {
     "Component Density": "256Gb",
     "Component Width": "x8",
@@ -88,7 +88,7 @@ assertPart("MTFC128GARATEK-WT", {
   type: "UFS",
   densityMbit: 1048576,
   dieProfileField: "B27B",
-  package: "153-ball VFBGA 11.5x13x0.9",
+  package: "VFBGA-153, 11.5x13x0.9",
   extra: {
     "Component Density": "512Gb",
     "Component Width": "x8",
@@ -102,7 +102,7 @@ assertPart("MTFC512GAXATHJ-WT", {
   type: "UFS",
   densityMbit: 4194304,
   dieProfileField: "B47R",
-  package: "153-ball VFBGA 11.0x13x1.0",
+  package: "VFBGA-153, 11.0x13x1.0",
   extra: {
     "Component Density": "512Gb",
     "Component Width": "x8",
@@ -125,7 +125,7 @@ assertPart("MTFC128GBCAQTC-AIT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 1048576,
-  package: "153-ball LFBGA 11.5x13x1.3",
+  package: "LFBGA-153, 11.5x13x1.3",
   extra: {
     "Component Density": "512Gb",
     "Component Width": "x8",
@@ -149,7 +149,6 @@ assertPart("MTFC256GZZZZZZ-WT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 2097152,
-  package: "Unknown",
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
 
@@ -157,7 +156,6 @@ assertPart("MTFC256GZZZZZZWT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 2097152,
-  package: "Unknown",
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
 
@@ -170,7 +168,7 @@ assertPart("MTFDHBL064TDP-1AT12AIYY", {
   type: "NVMe",
   densityMbit: 524288,
   cellField: "TLC",
-  package: "BGA291 type 1620, 16mm x 20mm x 1.2mm",
+  package: "BGA-291, 16x20x1.2, type 1620",
   extra: {
     "Product Family": "Micron 2100AI SSD",
     "Product Version": "NVMe 1.3c",
@@ -193,7 +191,7 @@ assertPart("MTFDHBM1T0TDP-1AT12AIYY", {
   type: "NVMe",
   densityMbit: 8388608,
   cellField: "TLC",
-  package: "BGA291 type 1620, 16mm x 20mm x 1.6mm",
+  package: "BGA-291, 16x20x1.6, type 1620",
   extra: {
     "Product Family": "Micron 2100AI SSD",
     "Sector Size": "512B",
@@ -207,7 +205,7 @@ assertPart("MTFDHBK1T0TDP-1AT12AIYY", {
   type: "NVMe",
   densityMbit: 8388608,
   cellField: "TLC",
-  package: "M.2 Type 2230 M-key, 22mm x 30mm x 2.4mm",
+  package: "M.2-2230, 22x30x2.4, M-key",
   extra: {
     "Product Family": "Micron 2100AI SSD",
     "Special Option": "Self-encrypting drive (SED)"
@@ -220,7 +218,7 @@ assertPart("MTFDHBL064TDQ-1AT12ATYY", {
   type: "NVMe",
   densityMbit: 524288,
   cellField: "TLC",
-  package: "BGA291 type 1620, 16mm x 20mm x 1.2mm",
+  package: "BGA-291, 16x20x1.2, type 1620",
   extra: {
     "Product Family": "Micron 2100AT SSD",
     "Product Version": "NVMe 1.3c",
@@ -235,7 +233,7 @@ assertPart("MTFDHBK128TDQ-1AT12ATYY", {
   type: "NVMe",
   densityMbit: 1048576,
   cellField: "TLC",
-  package: "M.2 Type 2230 M-key, 22mm x 30mm x 2.0mm",
+  package: "M.2-2230, 22x30x2.0, M-key",
   extra: {
     "Product Family": "Micron 2100AT SSD",
     "Storage Interface": "PCIe Gen3 x4",
@@ -249,7 +247,7 @@ assertPart("MTFDHBL128TDP-AAT12AIYYES", {
   type: "NVMe",
   densityMbit: 1048576,
   cellField: "TLC",
-  package: "BGA291 type 1620, 16mm x 20mm x 1.2mm",
+  package: "BGA-291, 16x20x1.2, type 1620",
   extra: {
     "Product Family": "Micron 2100AI SSD",
     "Product Class": "Engineering samples",

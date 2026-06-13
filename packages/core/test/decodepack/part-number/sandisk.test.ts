@@ -53,7 +53,7 @@ assertPart("SDZFLDMA-2T00-E503", {
   densityMbit: 16777216,
   dieProfileField: "BiCS8",
   cellField: "QLC",
-  package: "BGA-154 w/ MUX",
+  package: "BGA-154, MUX",
   extra: {
     "Die Count": 8,
     "Channel Count": 1,
@@ -70,7 +70,7 @@ assertPart("SDUNEI3MM-1T00CE", {
   densityMbit: 8388608,
   dieProfileField: "BiCS5",
   cellField: "TLC",
-  package: "BGA132/BGA304",
+  package: "BGA-132/304",
   extra: {
     "Layer Count": 112,
     "Die Count": 8,
@@ -92,7 +92,7 @@ assertPart("SDUNCIAMA-032G", {
   densityMbit: 262144,
   dieProfileField: "BiCS4",
   cellField: "TLC",
-  package: "BGA132/BGA304",
+  package: "BGA-132/304",
   extra: {
     "Layer Count": 96,
     "Die Count": 1,
@@ -112,7 +112,7 @@ assertPart("SDUNCIAMA-032GB-DDR300", {
   densityMbit: 262144,
   dieProfileField: "BiCS4",
   cellField: "TLC",
-  package: "BGA132/BGA304",
+  package: "BGA-132/304",
   extra: {
     "Die Count": 1,
     "CE Count": 1,

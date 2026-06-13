@@ -75,7 +75,7 @@
         },
         "packageObj": {
           "A": {
-            "package": "254Ball FBGA 11.5x13"
+            "package": "FBGA-254, 11.5x13"
           }
         },
         "packageMaterialObj": {
@@ -466,10 +466,10 @@
         },
         "packageObj": {
           "CP": {
-            "package": "FBGA 162 Ball 11.5x13"
+            "package": "FBGA-162, 11.5x13"
           },
           "CU": {
-            "package": "FBGA 221 Ball 11.5x13"
+            "package": "FBGA-221, 11.5x13"
           }
         },
         "packageMaterialObj": {
@@ -858,7 +858,7 @@
         },
         "serialPackageObj": {
           "100": {
-            "package": "254Ball FBGA"
+            "package": "FBGA-254"
           }
         }
       },

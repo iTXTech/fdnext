@@ -93,11 +93,10 @@
           "C": "NV-LPDDR4 only"
         },
         "package": {
-          "M5": "132-ball LBGA 12x18x1.50",
-          "D5": "154-ball LFBGA 11.5x13.5x1.30",
-          "D6": "154-ball LFBGA 11.5x13.5x1.50",
-          "D7": "154-ball LFBGA 11.5x13.5x1.60",
-          "N2": "Unknown"
+          "M5": "LBGA-132, 12x18x1.50",
+          "D5": "LFBGA-154, 11.5x13.5x1.30",
+          "D6": "LFBGA-154, 11.5x13.5x1.50",
+          "D7": "LFBGA-154, 11.5x13.5x1.60"
         },
         "featureObj": {
           "T": {
@@ -263,8 +262,7 @@
           "op": "map",
           "from": "packageToken",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",

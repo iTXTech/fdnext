@@ -60,9 +60,9 @@
           "8": 8
         },
         "packageActual": {
-          "4": "78-ball FBGA",
-          "6": "96-ball FBGA",
-          "8": "78-ball FBGA"
+          "4": "FBGA-78",
+          "6": "FBGA-96",
+          "8": "FBGA-78"
         },
         "speedToken": [
           "G7",
@@ -278,8 +278,7 @@
           "op": "map",
           "from": "widthCode",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -485,9 +484,9 @@
           }
         },
         "packageByWidth": {
-          "4": "82-ball FBGA",
-          "8": "82-ball FBGA",
-          "6": "106-ball FBGA"
+          "4": "FBGA-82",
+          "6": "FBGA-106",
+          "8": "FBGA-82"
         },
         "serialDieCount": {
           "012": 2,
@@ -504,18 +503,18 @@
           "052": 1
         },
         "serialPackage": {
-          "012": "82-ball FBGA",
-          "013": "82-ball FBGA",
-          "014": "82-ball FBGA",
-          "015": "106-ball FBGA",
-          "017": "106-ball FBGA",
-          "018": "82-ball FBGA",
-          "021": "82-ball FBGA",
-          "022": "106-ball FBGA",
-          "023": "82-ball FBGA",
-          "024": "82-ball FBGA",
-          "051": "82-ball FBGA",
-          "052": "106-ball FBGA"
+          "012": "FBGA-82",
+          "013": "FBGA-82",
+          "014": "FBGA-82",
+          "015": "FBGA-106",
+          "017": "FBGA-106",
+          "018": "FBGA-82",
+          "021": "FBGA-82",
+          "022": "FBGA-106",
+          "023": "FBGA-82",
+          "024": "FBGA-82",
+          "051": "FBGA-82",
+          "052": "FBGA-106"
         },
         "serialObj": {
           "012": {
@@ -913,7 +912,7 @@
         },
         "fields.dram_width": 32,
         "fields.dram_voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
-        "fields.package": "170-ball BGA",
+        "fields.package": "BGA-170",
         "meta.ruleId": "vendor.skhynix.dram.gddr5.component.v1"
       }
     }
@@ -1044,7 +1043,7 @@
           "$var": "width"
         },
         "fields.dram_voltage": "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
-        "fields.package": "178-ball FBGA",
+        "fields.package": "FBGA-178",
         "meta.ruleId": "vendor.skhynix.dram.lpddr3.component.v1"
       }
     }
@@ -1141,10 +1140,10 @@
         },
         "packageObj": {
           "H": {
-            "package": "200-ball FBGA"
+            "package": "FBGA-200"
           },
           "X": {
-            "package": "200-ball FBGA"
+            "package": "FBGA-200"
           }
         },
         "materialObj": {
@@ -1430,7 +1429,7 @@
         },
         "packageObj": {
           "B": {
-            "package": "366-ball FBGA (15x15)"
+            "package": "FBGA-366, 15x15"
           }
         },
         "materialObj": {
@@ -1749,7 +1748,7 @@
         },
         "fields.dram_width": 16,
         "fields.dram_voltage": "3.3V VDD",
-        "fields.package": "54-pin TSOP-II",
+        "fields.package": "TSOP-II-54",
         "meta.ruleId": "vendor.skhynix.dram.legacy_sdr.component.v1"
       }
     }
@@ -1792,8 +1791,8 @@
           "PS": "1.8V VDD"
         },
         "packageActual": {
-          "DTP": "66-pin TSOP-II",
-          "CFP": "84-ball FBGA"
+          "DTP": "TSOP-II-66",
+          "CFP": "FBGA-84"
         },
         "speedObj": {
           "DU:D43": {
@@ -1846,8 +1845,7 @@
           "op": "map",
           "from": "packageCode",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -1973,7 +1971,7 @@
         },
         "packageObj": {
           "Y": {
-            "package": "315-ball FBGA"
+            "package": "FBGA-315"
           }
         },
         "materialObj": {
@@ -2187,13 +2185,13 @@
         },
         "serialObj": {
           "146": {
-            "package": "315-ball FBGA"
+            "package": "FBGA-315"
           },
           "147": {
-            "package": "315-ball FBGA"
+            "package": "FBGA-315"
           },
           "185": {
-            "package": "315-ball FBGA"
+            "package": "FBGA-315"
           }
         },
         "dieStackObj": {
@@ -2457,7 +2455,7 @@
         "fields.dram_density": 8192,
         "fields.dram_width": 32,
         "fields.dram_voltage": "1.8V / 1.35V / 1.35V",
-        "fields.package": "180-ball FBGA",
+        "fields.package": "FBGA-180",
         "meta.ruleId": "vendor.skhynix.dram.gddr6.component.v1"
       }
     }
@@ -2569,7 +2567,7 @@
         "fields.dram_density": 16384,
         "fields.dram_width": 32,
         "fields.dram_voltage": "1.8V VPP; 1.35V / 1.25V / 1.20V VDD/VDDQ",
-        "fields.package": "180-ball BGA",
+        "fields.package": "BGA-180",
         "meta.ruleId": "vendor.skhynix.dram.gddr6.16gb.component.v1"
       }
     }

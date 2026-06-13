@@ -88,11 +88,11 @@
           }
         },
         "package": {
-          "NA1608": "FBGA221 11.5x13x1.0",
-          "NA3208": "FBGA221 11.5x13x1.0",
-          "RF6432": "FBGA254 11.5x13x1.0",
-          "RB6432": "FBGA254 11.5x13x1.0",
-          "RFA832": "FBGA254 11.5x13x1.0"
+          "NA1608": "FBGA-221, 11.5x13x1.0",
+          "NA3208": "FBGA-221, 11.5x13x1.0",
+          "RF6432": "FBGA-254, 11.5x13x1.0",
+          "RB6432": "FBGA-254, 11.5x13x1.0",
+          "RFA832": "FBGA-254, 11.5x13x1.0"
         }
       },
       "steps": [
@@ -321,7 +321,7 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.package": "FBGA254 11.5x13x1.0",
+        "fields.package": "FBGA-254, 11.5x13x1.0",
         "meta.ruleId": "vendor.longsys.foresee.umcp.v1",
         "meta.hiddenFields": [
           "density"

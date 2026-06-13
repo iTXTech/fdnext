@@ -224,7 +224,6 @@ assertDram("SU512M8V80A11ARH", {
   density: "4Gb",
   widthField: "x8",
   voltage: "Unknown",
-  package: "Unknown",
   extra: {
     "DRAM Type": "DDR3"
   },
@@ -236,7 +235,6 @@ assertDram("PE002", {
   density: "4Gb",
   widthField: "x8",
   voltage: "Unknown",
-  package: "Unknown",
   extra: {
     "DRAM Type": "DDR3",
     "Marking Code": "PE002"
@@ -250,7 +248,6 @@ assertDram("PB001", {
   density: "16Gb",
   widthField: "x32",
   voltage: "Unknown",
-  package: "Unknown",
   extra: {
     "DRAM Type": "DDR3",
     "Marking Code": "PB001"
@@ -360,7 +357,6 @@ assertDram("PU001", {
   density: "12Gb",
   widthField: "x16",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "Unknown",
   extra: {
     "DRAM Type": "LPDDR",
     "Marking Code": "PU001"

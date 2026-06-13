@@ -32,16 +32,16 @@
           "S": "samsung"
         },
         "package": {
-          "2": "BGA154",
-          "A": "BGA132",
-          "P": "BGA152",
-          "C": "BGA272",
-          "O": "LGA60-SAT",
-          "K": "LGA60-SAT",
-          "F": "TSOP48",
-          "T": "TSOP48",
-          "B": "BGA132 / LGA110",
-          "Y": "BGA56-UFS"
+          "2": "BGA-154",
+          "A": "BGA-132",
+          "P": "BGA-152",
+          "C": "BGA-272",
+          "O": "LGA-60, SAT",
+          "K": "LGA-60, SAT",
+          "F": "TSOP-48",
+          "T": "TSOP-48",
+          "B": "BGA-132 / LGA-110",
+          "Y": "BGA-56, -UFS"
         },
         "ce": {
           "1": 1,
@@ -193,8 +193,7 @@
           "op": "map",
           "from": "packageCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "take",

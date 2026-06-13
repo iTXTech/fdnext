@@ -169,7 +169,7 @@ assertPart("JS29F16G08AAMD2", {
   densityMbit: 16384,
   dieProfileField: "34nm",
   cellField: "MLC",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Process Alias": "L62A"
   }
@@ -180,7 +180,7 @@ assertPart("JS29F32G08AAMD1", {
   densityMbit: 32768,
   dieProfileField: "34nm",
   cellField: "MLC",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Process Alias": "L63A"
   }
@@ -191,7 +191,7 @@ assertPart("JS29F32G08AAMDB", {
   densityMbit: 32768,
   dieProfileField: "34nm",
   cellField: "MLC",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Process Alias": "L63B"
   }
@@ -202,7 +202,7 @@ assertPart("JS29F16G08AAME1", {
   densityMbit: 16384,
   dieProfileField: "25nm",
   cellField: "MLC",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Process Alias": "L72A"
   }
@@ -213,7 +213,7 @@ assertPart("JS29F32G08AAME1", {
   densityMbit: 32768,
   dieProfileField: "25nm",
   cellField: "MLC",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Process Alias": "L73A"
   }
@@ -224,7 +224,7 @@ assertPart("JS29F64G08AATE1", {
   densityMbit: 65536,
   dieProfileField: "25nm",
   cellField: "TLC",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Process Alias": "B74A"
   }
@@ -235,7 +235,7 @@ assertPart("JS29F32G08ACNE1", {
   densityMbit: 32768,
   dieProfileField: "25nm",
   cellField: "SLC",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Process Alias": "M73A"
   }

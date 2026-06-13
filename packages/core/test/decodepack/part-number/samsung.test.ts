@@ -180,13 +180,13 @@ testPart("KMGD6001BM-B421", {
   vendor: "samsung",
   type: "eMCP",
   densityMbit: 262144,
-  package: "221Ball FBGA 11.5x13x1.0",
+  package: "FBGA-221, 11.5x13x1.0",
   extra: {
     "Storage Density": "32GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "24Gb",
     "DRAM Type": "LPDDR3",
-    "Package Code": "221 FBGA",
+    "Package Code": "FBGA-221",
     "Config Code": "B421"
   },
   absentExtra: ["Group", "Product Mode", "Product Family", "Reference Status", "Inference Source", "source", "status"]
@@ -196,14 +196,14 @@ testPart("KMGE6001BM-B421", {
   vendor: "samsung",
   type: "eMCP",
   densityMbit: 131072,
-  package: "BGA221",
+  package: "BGA-221",
   extra: {
     "Storage Density": "16GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "24Gb",
     "DRAM Type": "LPDDR3",
     "DRAM Speed": "LPDDR3-1866",
-    "Package Code": "221 FBGA",
+    "Package Code": "FBGA-221",
     "Config Code": "B421"
   },
   absentExtra: ["Group", "Product Mode", "Product Family", "Reference Status", "Inference Source", "source", "status"]
@@ -213,7 +213,7 @@ testPart("KMDT6001ZM-A625", {
   vendor: "samsung",
   type: "eMCP",
   densityMbit: 131072,
-  package: "144 FBGA",
+  package: "FBGA-144",
   extra: {
     "Storage Density": "16GB eMMC",
     "Storage Interface": "eMMC 5.1",
@@ -228,7 +228,7 @@ testPart("KMDP6001DA-B425", {
   vendor: "samsung",
   type: "eMCP",
   densityMbit: 524288,
-  package: "254 FBGA",
+  package: "FBGA-254",
   extra: {
     "Storage Density": "64GB eMMC",
     "Storage Interface": "eMMC 5.1",
@@ -243,7 +243,7 @@ testPart("KMFN60012B-B214", {
   vendor: "samsung",
   type: "eMCP",
   densityMbit: 65536,
-  package: "221 FBGA",
+  package: "FBGA-221",
   extra: {
     "Storage Density": "8GB eMMC",
     "Storage Interface": "eMMC 5.1",
@@ -258,7 +258,7 @@ testPart("KM5L9000CM-B424", {
   vendor: "samsung",
   type: "uMCP",
   densityMbit: 1048576,
-  package: "254 FBGA",
+  package: "FBGA-254",
   extra: {
     "Storage Density": "128GB UFS",
     "Storage Interface": "UFS 2.2",
@@ -273,7 +273,7 @@ testPart("KM8V9001JM-B813", {
   vendor: "samsung",
   type: "uMCP",
   densityMbit: 1048576,
-  package: "254 FBGA",
+  package: "FBGA-254",
   extra: {
     "Storage Density": "128GB UFS",
     "Storage Interface": "UFS 2.2",
@@ -288,7 +288,7 @@ testPart("KMJS9001RM-BG01", {
   vendor: "samsung",
   type: "uMCP",
   densityMbit: 2097152,
-  package: "297 FBGA",
+  package: "FBGA-297",
   extra: {
     "Storage Density": "256GB UFS",
     "Storage Interface": "UFS 3.1",
@@ -874,7 +874,7 @@ test("Samsung raw NAND package code emits package-first short labels only", () =
   assertSamsungRawPackage("1", "FBGA-168");
   assertSamsungRawPackage("8", "TSOP-I-48");
   assertSamsungRawPackage("9", "TSOP-I-56");
-  assertSamsungRawPackage("Q", "TSOP-II-44(40)");
+  assertSamsungRawPackage("Q", "TSOP-II-44/40");
   assertSamsungRawPackage("S", "TSOP-I-48");
   assertSamsungRawPackage("T", "BGA-152");
   assertSamsungRawPackage("Z", "WELP-48");
@@ -935,7 +935,7 @@ testPart("KLUFG8RHHF-F0G1", {
   type: "UFS",
   densityMbit: 4194304,
   dieProfileField: "SSV8",
-  package: "BGA-153 9x13",
+  package: "BGA-153, 9x13",
   extra: {
     "Die Density": "512Gb",
     "Die Stack": "ODP (8-die)",
@@ -950,7 +950,7 @@ testPart("KLUEG4RHKF-F0H1", {
   type: "UFS",
   densityMbit: 2097152,
   dieProfileField: "SSV8",
-  package: "BGA-153 9x13",
+  package: "BGA-153, 9x13",
   extra: {
     "Die Density": "512Gb",
     "Die Stack": "QDP (4-die)",
@@ -965,7 +965,7 @@ testPart("KLUFG4NHKH-F0H1", {
   type: "UFS",
   densityMbit: 4194304,
   cellField: "TLC",
-  package: "BGA-153 9x13",
+  package: "BGA-153, 9x13",
   extra: {
     "Die Density": "1Tb",
     "Die Stack": "QDP (4-die)",

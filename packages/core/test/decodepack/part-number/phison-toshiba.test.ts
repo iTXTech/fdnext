@@ -36,7 +36,7 @@ assertPart("SUGNM1126A6BPIET-046BT", {
   type: "eMCP",
   cellField: "SLC",
   voltage: "NAND Vcc: 1.8V, LPDRAM VDD: 1.1V, VDDQ: 1.1V/0.6V",
-  package: "VFBGA 149/224B, 8.0x9.5x1.0 (0.5)",
+  package: "VFBGA-149/224, 8.0x9.5x1.0, 0.5",
   extra: {
     "Storage Density": "8Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -54,7 +54,7 @@ assertPart("FNUGNM1126A6BPIET-046BT", {
   type: "eMCP",
   cellField: "SLC",
   voltage: "NAND Vcc: 1.8V, LPDRAM VDD: 1.1V, VDDQ: 1.1V/0.6V",
-  package: "VFBGA 149/224B, 8.0x9.5x1.0 (0.5)",
+  package: "VFBGA-149/224, 8.0x9.5x1.0, 0.5",
   extra: {
     "Storage Density": "8Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -72,7 +72,7 @@ assertPart("SMCNM1126A6BPIET-062UT", {
   type: "eMCP",
   cellField: "SLC",
   voltage: "NAND Vcc: 1.8V, LPDRAM VDD: 1.1V, VDDQ: 1.1V/0.6V",
-  package: "VFBGA 149/224B, 8.0x9.5x1.0 (0.5)",
+  package: "VFBGA-149/224, 8.0x9.5x1.0, 0.5",
   extra: {
     "Storage Density": "8Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -90,7 +90,7 @@ assertPart("SMKJ6Z4ZZ4D4TGFAK-PG", {
   vendor: "spectek",
   type: "eMCP",
   voltage: "LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
-  package: "TFBGA 153-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
+  package: "TFBGA-153, 11.5x13, 0.50 pitch 1.10 thick",
   extra: {
     "Storage Density": "4GB eMMC",
     "Storage Interface": "eMMC",
@@ -109,7 +109,7 @@ assertPart("SMKJ6Z4ZZ4D4TGFAK-053BT", {
   vendor: "spectek",
   type: "eMCP",
   voltage: "LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
-  package: "TFBGA 153-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
+  package: "TFBGA-153, 11.5x13, 0.50 pitch 1.10 thick",
   extra: {
     "Storage Density": "4GB eMMC",
     "Storage Interface": "eMMC",
@@ -128,7 +128,7 @@ assertPart("SUJ52A1GCFDI-BT", {
   vendor: "spectek",
   type: "eMMC",
   densityMbit: 8192,
-  package: "TFBGA 169/392-ball, 12x16x1.2",
+  package: "TFBGA-169/392, 12x16x1.2",
   extra: {
     "Component Density": "8Gb",
     "Component Width": "x8",
@@ -143,7 +143,7 @@ assertPart("SUJ52A128GASAKDI-FT", {
   vendor: "spectek",
   type: "UFS",
   densityMbit: 1048576,
-  package: "TFBGA 169/392-ball, 12x16x1.2",
+  package: "TFBGA-169/392, 12x16x1.2",
   extra: {
     "Storage Interface": "UFS 2.1",
     "Component Density": "256Gb",
@@ -164,7 +164,7 @@ assertPart("TF10G1BAHA", {
   densityMbit: 1024,
   dieProfileField: "24nm",
   cellField: "SLC",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Original Vendor": "Kioxia",
     "Die Count": 1,
@@ -191,7 +191,7 @@ assertPart("T27HGA5A1V", {
   density: "512GB",
   dieProfileField: "BiCS6",
   cellField: "TLC",
-  package: "BGA154",
+  package: "BGA-154",
   extra: {
     "Layer Count": 162,
     "Original Vendor": "Kioxia",
@@ -206,7 +206,7 @@ assertPart("ST15G24APA", {
   type: "NAND",
   densityMbit: 32768,
   cellField: "TLC",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Original Vendor": "Samsung",
     "Die Count": 1,
@@ -220,7 +220,7 @@ assertPart("HA5AG64AVA", {
   densityMbit: 1048576,
   dieProfileField: "HYV5",
   cellField: "TLC",
-  package: "BGA132",
+  package: "BGA-132",
   extra: {
     "Original Vendor": "SKhynix",
     "Die Count": 2,
@@ -234,7 +234,7 @@ assertPart("IA1AG67AWA", {
   densityMbit: 1048576,
   dieProfileField: "N28A",
   cellField: "QLC",
-  package: "BGA132",
+  package: "BGA-132",
   extra: {
     "Original Vendor": "Micron",
     "Die Count": 1,
@@ -248,7 +248,7 @@ assertPart("IA1AG6KAVA", {
   densityMbit: 1048576,
   dieProfileField: "B27A",
   cellField: "TLC",
-  package: "BGA132",
+  package: "BGA-132",
   extra: {
     "Layer Count": 96,
     "Original Vendor": "Micron",
@@ -264,7 +264,7 @@ assertPart("IA1AG6KAIA", {
   densityMbit: 1048576,
   dieProfileField: "B27B",
   cellField: "TLC",
-  package: "BGA132",
+  package: "BGA-132",
   extra: {
     "Layer Count": 96,
     "Original Vendor": "Micron",
@@ -280,7 +280,7 @@ assertPart("DT57G2LALC", {
   densityMbit: 131072,
   dieProfileField: "19nm",
   cellField: "MLC",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Original Vendor": "Sandisk",
     "Die Count": 2,

@@ -126,7 +126,7 @@ standalone DRAM 约定：
 - `device.chipKind = "dram"`，`device.productType` 使用 `ddr4`、`lpddr5x` 等短 product type。
 - `dram_type` 和 `product_type` 不写厂商名，也不保留冗余 `SDRAM` / `SGRAM` 后缀，例如不要使用 `Micron DDR5 SDRAM`。
 - `dram_density` / `dram_width` 已在主 DRAM block 输出时，不再复制到其他字段。
-- package / config 等厂商 code 只保留在规则内部；只有外部资料确认封装尺寸、pin 或 ball count 时才输出 `package`。
+- package / config 等厂商 code 只保留在规则内部；只有外部资料确认封装类型、脚位、尺寸或特殊封装信息时才输出 `package`。公开格式为 `TYPE[-PIN][, DIM][, SPECIAL]`；缺 pin 时输出 TYPE，不得推断脚位；未知 package 省略，不输出 `Unknown`。
 - `dram_die_stack` 只在物理 die 数和 CS 数同时明确时输出；PoP/MCP 等封装信息放 `package`，reduced page address、2 CKE、JEDEC/Flexframe stack layout 这类非 die/CS 信息放 `special_option`。
 - `-` 后面的 speed / temperature / revision 后缀不作为主结构强制条件；缺失时仍应输出 vendor、product type、density、width、package、die stack 等已能确认的信息。
 

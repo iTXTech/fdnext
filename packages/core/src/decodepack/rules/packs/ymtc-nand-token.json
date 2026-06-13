@@ -119,14 +119,14 @@
         },
         "package": {
           "W0": "Wafer",
-          "T1": "TSOP-48 12x20",
-          "L1": "LGA-52 12x17",
-          "B1": "BGA-132 12x18",
-          "B2": "BGA-152 14x18",
-          "B3": "BGA-272 14x18",
-          "B4": "BGA-252 12x18",
-          "B5": "BGA-154 11.5x13.5",
-          "B": "BGA Special Custom"
+          "T1": "TSOP-48, 12x20",
+          "L1": "LGA-52, 12x17",
+          "B1": "BGA-132, 12x18",
+          "B2": "BGA-152, 14x18",
+          "B3": "BGA-272, 14x18",
+          "B4": "BGA-252, 12x18",
+          "B5": "BGA-154, 11.5x13.5",
+          "B": "BGA, Special Custom"
         },
         "dieCount": {
           "0": 1,
@@ -435,8 +435,7 @@
         {
           "op": "takeLongest",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "take",

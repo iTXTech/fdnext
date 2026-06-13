@@ -51,7 +51,7 @@ MDB mark code:
 | mobile design id `Y*` / `Z*` | `Z*` 可确认到 LPDDR4，`Y*` 在没有 speed token 时保守输出 `LPDDR`；若尾部 speed token 命中官方 LPDDR3/4/5 速度表，则由 speed table 收敛到具体 LPDDR 代际；`Y52P` 按官方 LPDDR5X addendum 输出 `LPDDR5X` |
 | mobile `D1` / `D2` / `D3` / `D4` / `D6` / `D8` / `DA` / `DB` / `DD` / `DE` | 官方 die count 表，输出 `die_count` |
 | mobile `A` / `B` / `C` / `D` / `F` / `L` / `M` voltage token | 官方 mobile voltage 表，输出纯电压字段 |
-| 尾部 package code | 仅作为内部解析 token；有官方 package 表命中时输出 `package`，不单独向用户展示 token；公开封装统一为 `xxBGA-xx, dim` 格式，例如 `VFBGA-78/117, 7.5x11x1.0`，不带 `ball` / `B` / `mm` |
+| 尾部 package code | 仅作为内部解析 token；有官方 package 表命中时输出 `package`，不单独向用户展示 token；公开封装统一为 `TYPE[-PIN][, DIM][, SPECIAL]`，例如 `VFBGA-78/117, 7.5x11x1.0` 或 `FBGA`，不带 `mm` / `ball` / `pin` 单位词；缺 pin 时不补猜 |
 | mobile `DS` package code | 官方 package 表中 `DS` 同时存在 LPDDR4 与 LPDDR5 两种封装，需先由 speed table / design id 判断 LPDDR profile，再输出对应 package |
 | DDR5 `B8` / OC `PN` 等 voltage / refresh / feature token | 按官方 DDR5 / DDR5 OC addendum 输出纯电压，例如 `1.1V`、`1.25V`；OC trim 进入 `special_option`，不输出 raw code |
 | `-023`、`-053`、`-062`、`-107`、`-125`、`-15E`、`-48B`、`-56B`、`-64B`、`-72B`、`-60P`、`-64P`、`-062E` 等 | JEDEC / Micron-style speed token，按已有 DRAM 速度术语输出 `dram_speed`；mobile speed table 同时用于判断 LPDDR3/4/5 |

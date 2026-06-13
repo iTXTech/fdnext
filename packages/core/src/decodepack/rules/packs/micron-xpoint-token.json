@@ -50,8 +50,8 @@
           "2": 2
         },
         "package": {
-          "RJ": "256-ball LFBGA 14x18x1.30",
-          "RS": "256-ball LFBGA 14x18x1.50"
+          "RJ": "LFBGA-256, 14x18x1.30",
+          "RS": "LFBGA-256, 14x18x1.50"
         },
         "dieGenerationObj": {
           "128Gb:A": {

@@ -165,111 +165,111 @@
         },
         "packageObj": {
           "655": {
-            "package": "152-ball BGA 14x18x1.0mm",
+            "package": "BGA-152, 14x18x1.0",
             "channel_count": 1
           },
           "656": {
-            "package": "152-ball BGA 14x18x1.0mm",
+            "package": "BGA-152, 14x18x1.0",
             "channel_count": 2
           },
           "657": {
-            "package": "152-ball BGA 14x18x1.0mm",
-            "channel_count": 2
-          },
-          "676": {
-            "package": "152-ball BGA 14x18x1.35mm",
+            "package": "BGA-152, 14x18x1.0",
             "channel_count": 2
           },
           "658": {
-            "package": "152-ball BGA 14x18x1.35mm",
+            "package": "BGA-152, 14x18x1.35",
             "channel_count": 2
           },
           "659": {
-            "package": "316-ball BGA 14x18x1.0mm",
+            "package": "BGA-316, 14x18x1.0",
             "channel_count": 4
           },
           "660": {
-            "package": "316-ball BGA 14x18x1.35mm",
+            "package": "BGA-316, 14x18x1.35",
             "channel_count": 4
+          },
+          "676": {
+            "package": "BGA-152, 14x18x1.35",
+            "channel_count": 2
           },
           "807": {
-            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "package": "BGA-154, 11.5x13.5x1.0",
             "channel_count": 1
-          },
-          "840": {
-            "package": "154-ball BGA 11.5x13.5x1.0mm",
-            "channel_count": 2
-          },
-          "842": {
-            "package": "154-ball BGA 11.5x13.5x1.0mm",
-            "channel_count": 2
-          },
-          "844": {
-            "package": "154-ball BGA 11.5x13.5x1.35mm",
-            "channel_count": 2
-          },
-          "846": {
-            "package": "316-ball BGA 14x18x1.0mm",
-            "channel_count": 4
-          },
-          "848": {
-            "package": "316-ball BGA 14x18x1.35mm",
-            "channel_count": 4
-          },
-          "817": {
-            "package": "316-ball BGA 14x18x1.0mm",
-            "channel_count": 4
-          },
-          "819": {
-            "package": "316-ball BGA 14x18x1.35mm",
-            "channel_count": 4
-          },
-          "834": {
-            "package": "154-ball BGA 11.5x13.5x1.0mm",
-            "channel_count": 2
-          },
-          "836": {
-            "package": "154-ball BGA 11.5x13.5x1.0mm",
-            "channel_count": 2
-          },
-          "822": {
-            "package": "154-ball BGA 11.5x13.5x1.0mm",
-            "channel_count": 2
-          },
-          "824": {
-            "package": "154-ball BGA 11.5x13.5x1.35mm",
-            "channel_count": 2
-          },
-          "830": {
-            "package": "154-ball BGA 11.5x13.5x1.7mm",
-            "channel_count": 2
-          },
-          "862": {
-            "package": "154-ball BGA 11.5x13.5x1.0mm",
-            "channel_count": 2
-          },
-          "860": {
-            "package": "154-ball BGA 11.5x13.5x1.35mm",
-            "channel_count": 2
-          },
-          "826": {
-            "package": "154-ball BGA 11.5x13.5x1.0mm",
-            "channel_count": 1
-          },
-          "828": {
-            "package": "154-ball BGA 11.5x13.5x1.0mm",
-            "channel_count": 2
           },
           "809": {
-            "package": "154-ball BGA 11.5x13.5x1.0mm",
+            "package": "BGA-154, 11.5x13.5x1.0",
             "channel_count": 2
           },
           "811": {
-            "package": "154-ball BGA 11.5x13.5x1.35mm",
+            "package": "BGA-154, 11.5x13.5x1.35",
             "channel_count": 2
           },
           "813": {
-            "package": "154-ball BGA 11.5x13.5x1.5mm",
+            "package": "BGA-154, 11.5x13.5x1.5",
+            "channel_count": 2
+          },
+          "817": {
+            "package": "BGA-316, 14x18x1.0",
+            "channel_count": 4
+          },
+          "819": {
+            "package": "BGA-316, 14x18x1.35",
+            "channel_count": 4
+          },
+          "822": {
+            "package": "BGA-154, 11.5x13.5x1.0",
+            "channel_count": 2
+          },
+          "824": {
+            "package": "BGA-154, 11.5x13.5x1.35",
+            "channel_count": 2
+          },
+          "826": {
+            "package": "BGA-154, 11.5x13.5x1.0",
+            "channel_count": 1
+          },
+          "828": {
+            "package": "BGA-154, 11.5x13.5x1.0",
+            "channel_count": 2
+          },
+          "830": {
+            "package": "BGA-154, 11.5x13.5x1.7",
+            "channel_count": 2
+          },
+          "834": {
+            "package": "BGA-154, 11.5x13.5x1.0",
+            "channel_count": 2
+          },
+          "836": {
+            "package": "BGA-154, 11.5x13.5x1.0",
+            "channel_count": 2
+          },
+          "840": {
+            "package": "BGA-154, 11.5x13.5x1.0",
+            "channel_count": 2
+          },
+          "842": {
+            "package": "BGA-154, 11.5x13.5x1.0",
+            "channel_count": 2
+          },
+          "844": {
+            "package": "BGA-154, 11.5x13.5x1.35",
+            "channel_count": 2
+          },
+          "846": {
+            "package": "BGA-316, 14x18x1.0",
+            "channel_count": 4
+          },
+          "848": {
+            "package": "BGA-316, 14x18x1.35",
+            "channel_count": 4
+          },
+          "860": {
+            "package": "BGA-154, 11.5x13.5x1.35",
+            "channel_count": 2
+          },
+          "862": {
+            "package": "BGA-154, 11.5x13.5x1.0",
             "channel_count": 2
           }
         }

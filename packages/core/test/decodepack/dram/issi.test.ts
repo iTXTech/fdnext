@@ -26,7 +26,7 @@ assertDram("IS43QR8K02S2A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball BGA",
+  package: "BGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "Config Code": "2G8 S2",
@@ -40,7 +40,7 @@ assertDram("IS43TR16512S2DL", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.35V or 1.5V VDD",
-  package: "96-ball BGA (9mm x 13mm)",
+  package: "BGA-96, 9x13",
   extra: {
     "DRAM Type": "DDR3",
     "Config Code": "512M16 S2",
@@ -54,7 +54,7 @@ assertDram("IS43TR81280CL-107MBLI-TR", {
   density: "1Gb",
   widthField: "x8",
   voltage: "1.35V or 1.5V VDD",
-  package: "78-ball BGA (8mm x 10.5mm)",
+  package: "BGA-78, 8x10.5",
   extra: {
     "DRAM Type": "DDR3",
     "Config Code": "128M8",
@@ -160,7 +160,7 @@ assertDram("IS43LQ16512B-046BLI", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-  package: "200-ball BGA (10mm x 14.5mm)",
+  package: "BGA-200, 10x14.5",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Speed": "LPDDR4/LPDDR4X-4266",
@@ -177,7 +177,7 @@ assertDram("IS43LQ32512A-053BLI", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-  package: "200-ball BGA (10mm x 14.5mm)",
+  package: "BGA-200, 10x14.5",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Speed": "LPDDR4/LPDDR4X-3733",
@@ -194,7 +194,7 @@ assertDram("IS46LQ32K01S2A-046BLA2", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-  package: "200-ball BGA (10mm x 14.5mm)",
+  package: "BGA-200, 10x14.5",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Speed": "LPDDR4/LPDDR4X-4266",
@@ -212,7 +212,7 @@ assertDram("IS46LQ32K02S2A-053BLA3", {
   density: "64Gb",
   widthField: "x32",
   voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-  package: "200-ball BGA (10mm x 14.5mm)",
+  package: "BGA-200, 10x14.5",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Speed": "LPDDR4/LPDDR4X-3733",
@@ -230,7 +230,7 @@ assertDram("IS46LQ32256A-062BHLA2", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V VDDQ",
-  package: "200-ball BGA, 1.2mm max thickness, 0.4mm ball diameter",
+  package: "BGA-200, 1.2 max thickness 0.4 diameter",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Speed": "LPDDR4-3200",
@@ -246,7 +246,7 @@ assertDram("IS46LQ32256AL-062BLA3", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 0.57-0.65V VDDQ",
-  package: "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter",
+  package: "BGA-200, 1.1 max thickness 0.35 diameter",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4X-3200",
@@ -262,7 +262,7 @@ assertDram("IS43LQ32256BL", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball BGA",
+  package: "BGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Config Code": "2x16 256M",
@@ -277,7 +277,7 @@ assertDram("IS43LQ32K01B-046BLI", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-  package: "200-ball BGA",
+  package: "BGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Generation": "LPDDR4/LPDDR4X",
@@ -294,7 +294,7 @@ assertDram("IS46LQ32K01B-053BLA3", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-  package: "200-ball BGA",
+  package: "BGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Generation": "LPDDR4/LPDDR4X",
@@ -311,7 +311,7 @@ assertDram("IS43QR81024B-062AABLI", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball BGA",
+  package: "BGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "Die Revision": "B",
@@ -328,7 +328,7 @@ assertDram("IS43TR16128DL-107MBLI", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V or 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "Die Revision": "D",
@@ -345,7 +345,7 @@ assertDram("IS43TR16256B-093NBL", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball BGA (9mm x 13mm)",
+  package: "BGA-96, 9x13",
   extra: {
     "DRAM Type": "DDR3",
     "Die Revision": "B",
@@ -361,7 +361,7 @@ assertDram("IS43TR85120BL-107MBLI", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V or 1.5V VDD",
-  package: "78-ball BGA (8mm x 10.5mm)",
+  package: "BGA-78, 8x10.5",
   extra: {
     "DRAM Type": "DDR3",
     "Die Revision": "B",
@@ -378,7 +378,7 @@ assertDram("IS46TR16512BL-107MBLA25", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.35V or 1.5V VDD",
-  package: "96-ball BGA (10mm x 14mm)",
+  package: "BGA-96, 10x14",
   extra: {
     "DRAM Type": "DDR3",
     "Die Revision": "B",
@@ -395,7 +395,7 @@ assertDram("IS46TR81024B-125KBLA2", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball BGA (10mm x 14mm)",
+  package: "BGA-78, 10x14",
   extra: {
     "DRAM Type": "DDR3",
     "Die Revision": "B",
@@ -412,7 +412,7 @@ assertDram("IS43TR16512S2DL-107MBLI", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.35V or 1.5V VDD",
-  package: "96-ball BGA (9mm x 13mm)",
+  package: "BGA-96, 9x13",
   extra: {
     "DRAM Type": "DDR3",
     "Die Revision": "D",
@@ -430,7 +430,7 @@ assertDram("IS46TR16640CL-125JB2LA2", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.35V or 1.5V VDD",
-  package: "96-ball BGA (7.5mm x 13mm)",
+  package: "BGA-96, 7.5x13",
   extra: {
     "DRAM Type": "DDR3",
     "Die Revision": "C",
@@ -447,7 +447,7 @@ assertDram("IS46TR81280C-125JBLA25", {
   density: "1Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball BGA (8mm x 10.5mm)",
+  package: "BGA-78, 8x10.5",
   extra: {
     "DRAM Type": "DDR3",
     "Die Revision": "C",
@@ -464,7 +464,7 @@ assertDram("IS46TR16256DL-107MBLA3", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V or 1.5V VDD",
-  package: "96-ball BGA (7.5mm x 13mm)",
+  package: "BGA-96, 7.5x13",
   extra: {
     "DRAM Type": "DDR3",
     "Die Revision": "D",
@@ -481,7 +481,7 @@ assertDram("IS43TR85120DL-125KBL", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V or 1.5V VDD",
-  package: "78-ball BGA (8mm x 10.5mm)",
+  package: "BGA-78, 8x10.5",
   extra: {
     "DRAM Type": "DDR3",
     "Die Revision": "D",
@@ -497,7 +497,7 @@ assertDram("IS43QR16256B-083RBL", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball FBGA (7.5mm x 13.5mm, 0.8mm ball pitch)",
+  package: "FBGA-96, 7.5x13.5, 0.8 pitch",
   extra: {
     "DRAM Type": "DDR4",
     "Die Revision": "B",

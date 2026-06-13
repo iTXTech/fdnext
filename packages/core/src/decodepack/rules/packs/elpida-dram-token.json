@@ -42,11 +42,11 @@
           "51": 512
         },
         "packageActual": {
-          "S:AATA": "54-pin TSOP-II",
-          "S:AABH": "90-ball FBGA",
-          "D:AATA": "66-pin TSOP-II",
-          "D:AFTA": "66-pin TSOP-II",
-          "D:AKTA": "66-pin TSOP-II"
+          "S:AATA": "TSOP-II-54",
+          "S:AABH": "FBGA-90",
+          "D:AATA": "TSOP-II-66",
+          "D:AFTA": "TSOP-II-66",
+          "D:AKTA": "TSOP-II-66"
         },
         "speedObj": {
           "5": {
@@ -139,8 +139,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -248,13 +247,13 @@
           "42": 4096
         },
         "packageActual": {
-          "E:ACBG": "84-ball FBGA",
-          "E:ACSE": "60-ball FBGA",
-          "J:BDBG": "78-ball FBGA",
-          "J:BBSE": "78-ball FBGA",
-          "J:BASE": "78-ball FBGA",
-          "J:BFBG": "78-ball FBGA",
-          "J:EFBG": "78-ball FBGA"
+          "E:ACBG": "FBGA-84",
+          "E:ACSE": "FBGA-60",
+          "J:BDBG": "FBGA-78",
+          "J:BBSE": "FBGA-78",
+          "J:BASE": "FBGA-78",
+          "J:BFBG": "FBGA-78",
+          "J:EFBG": "FBGA-78"
         },
         "speedObj": {
           "5C": {
@@ -344,8 +343,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -467,10 +465,10 @@
           }
         },
         "packageActual": {
-          "B:B3PF": "216-ball FBGA",
-          "B:B3MC": "134-ball FBGA",
-          "F:A2MA": "216-ball FBGA",
-          "F:A3MA": "216-ball FBGA"
+          "B:B3PF": "FBGA-216",
+          "B:B3MC": "FBGA-134",
+          "F:A2MA": "FBGA-216",
+          "F:A3MA": "FBGA-216"
         },
         "speedObj": {
           "8D": {
@@ -554,8 +552,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -747,7 +744,7 @@
           "$var": "deviceWidth"
         },
         "fields.dram_voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
-        "fields.package": "170-ball FBGA",
+        "fields.package": "FBGA-170",
         "meta.ruleId": "vendor.elpida.dram.gddr5.component.v1"
       }
     }

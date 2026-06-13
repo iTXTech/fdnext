@@ -36,7 +36,7 @@ assertPart("FEMDNN256G-A3A5607-08", {
   vendor: "longsys",
   type: "eMMC",
   densityMbit: 2097152,
-  package: "FBGA153 11.5x13x1.0",
+  package: "FBGA-153, 11.5x13x1.0",
   extra: {
     "Product Family": "Commercial eMMC",
     "Storage Interface": "eMMC 5.1"
@@ -48,7 +48,7 @@ assertPart("FEUDNN128G-C2H14", {
   vendor: "longsys",
   type: "UFS",
   densityMbit: 1048576,
-  package: "FBGA153 11.5x13x1.0",
+  package: "FBGA-153, 11.5x13x1.0",
   cellField: "TLC",
   extra: {
     "Storage Interface": "UFS 2.2",
@@ -61,7 +61,7 @@ assertPart("FEPRF6432-58A1930", {
   vendor: "longsys",
   type: "eMCP",
   densityMbit: 524288,
-  package: "FBGA254 11.5x13x1.0",
+  package: "FBGA-254, 11.5x13x1.0",
   extra: {
     "Storage Density": "64GB eMMC",
     "DRAM Density": "32Gb",
@@ -76,7 +76,7 @@ assertPart("FUPRFA832-C2A56N1", {
   vendor: "longsys",
   type: "uMCP",
   densityMbit: 1048576,
-  package: "FBGA254 11.5x13x1.0",
+  package: "FBGA-254, 11.5x13x1.0",
   extra: {
     "Storage Density": "128GB UFS",
     "DRAM Density": "32Gb",
@@ -90,7 +90,7 @@ assertPart("FEUDME128G-C8H09", {
   vendor: "longsys",
   type: "UFS",
   densityMbit: 1048576,
-  package: "FBGA153 11.5x13x1.2",
+  package: "FBGA-153, 11.5x13x1.2",
   cellField: "TLC",
   extra: {
     "Storage Interface": "UFS 3.1",
@@ -104,7 +104,7 @@ assertPart("FEUDNN512G-C2G07", {
   vendor: "longsys",
   type: "UFS",
   densityMbit: 4194304,
-  package: "FBGA153 11.5x13x1.0",
+  package: "FBGA-153, 11.5x13x1.0",
   cellField: "TLC",
   extra: {
     "Storage Interface": "UFS 2.2"

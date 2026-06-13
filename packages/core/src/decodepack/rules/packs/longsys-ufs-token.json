@@ -52,8 +52,8 @@
           }
         },
         "package": {
-          "NN": "FBGA153 11.5x13x1.0",
-          "ME": "FBGA153 11.5x13x1.2"
+          "NN": "FBGA-153, 11.5x13x1.0",
+          "ME": "FBGA-153, 11.5x13x1.2"
         },
         "densityCode": [
           "064G",

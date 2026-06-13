@@ -98,7 +98,7 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.package": "FBGA153 11.50x13.00",
+        "fields.package": "FBGA-153, 11.50x13.00",
         "meta.ruleId": "vendor.biwin.ufs.v1"
       }
     }

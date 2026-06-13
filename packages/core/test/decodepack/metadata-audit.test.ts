@@ -468,6 +468,123 @@ function assertDecodePackCompositeComponents(): void {
   assert.equal(JSON.stringify(info).includes("__fdnext"), false, "legacy FD draft marker should not leak into public results");
 }
 
+const packageDimensionPattern = /^\d+(?:\.\d+)?(?:x\d+(?:\.\d+)?)+(?:\/\d+(?:\.\d+)?(?:x\d+(?:\.\d+)?)*)?$/;
+const packageTypePattern = /^[A-Za-z0-9][A-Za-z0-9+./ -]*(?:-\d[A-Za-z0-9./-]*)?(?: \/ [A-Za-z0-9][A-Za-z0-9+./ -]*(?:-\d[A-Za-z0-9./-]*)?)*$/;
+
+function isPublicPackageValuePath(path: string[]): boolean {
+  if (
+    path.some((part) =>
+      /package_code|packageCode|package_configuration|packageConfiguration|packageEnv|reference|source|notes|special_option/i.test(part)
+    )
+  ) {
+    return false;
+  }
+
+  const leaf = path[path.length - 1] ?? "";
+  if (leaf === "package" || leaf === "fields.package") {
+    return true;
+  }
+
+  const tableIndex = path.findIndex((part) => part === "tables" || part === "sharedTables");
+  if (tableIndex < 0) {
+    return false;
+  }
+  const tableName = path[tableIndex + 1] ?? "";
+  if (/^(?:basePackage|packageToken)$/i.test(tableName)) {
+    return false;
+  }
+  return /package/i.test(tableName);
+}
+
+function validatePublicPackageValue(value: string, path: string, findings: string[]): void {
+  const addFinding = (reason: string): void => findings.push(`${path}=${value} (${reason})`);
+
+  if (!value || value === "Unknown") {
+    addFinding("unknown-or-empty");
+    return;
+  }
+  if (/\b(?:mm|ball|pin|pad)\b/i.test(value)) {
+    addFinding("unit-word");
+  }
+  if (/[()]/.test(value)) {
+    addFinding("parenthesized-detail");
+  }
+  const parts = value.split(",").map((part) => part.trim());
+  if (parts.some((part) => part.length === 0)) {
+    addFinding("empty-segment");
+    return;
+  }
+  const [head, ...tail] = parts;
+  if (head && (/\b\d+\s+[A-Z]*BGA\b/i.test(head) || /\b\d+(?:[A-Z]*BGA|LGA|TSOP|WSON)\b/i.test(head))) {
+    addFinding("pin-before-type");
+  }
+  if (head && /\b(?:[A-Z]*BGA|LGA|TSOP|WSON)\d+(?![-/])\b/i.test(head)) {
+    addFinding("missing-pin-separator");
+  }
+  if (!head || (!packageTypePattern.test(head) && !packageDimensionPattern.test(head))) {
+    addFinding("head-shape");
+  }
+  for (const part of tail) {
+    if (/^\d+(?:\.\d+)?x/.test(part) && !packageDimensionPattern.test(part)) {
+      addFinding("dimension-shape");
+    }
+  }
+}
+
+function collectPublicPackageValues(value: unknown, path: string[], findings: string[]): void {
+  if (typeof value === "string") {
+    if (isPublicPackageValuePath(path)) {
+      validatePublicPackageValue(value, path.join("."), findings);
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectPublicPackageValues(item, [...path, `[${index}]`], findings));
+    return;
+  }
+  if (!value || typeof value !== "object") {
+    return;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    collectPublicPackageValues(item, [...path, key], findings);
+  }
+}
+
+function assertDecodePackPackageValuesUseCanonicalShape(): void {
+  const findings: string[] = [];
+  collectPublicPackageValues(defaultPartDecodeSpecs, ["defaultPartDecodeSpecs"], findings);
+  assert.deepEqual(
+    findings,
+    [],
+    "public DecodePack package values should use TYPE[-PIN][, DIM][, SPECIAL] without guessed pins, Unknown, or unit words"
+  );
+}
+
+function collectInvalidLpddrGenerationLabels(value: unknown, path: string[], findings: string[]): void {
+  if (typeof value === "string") {
+    if (/LPDDR-[2-5](?![0-9])/.test(value)) {
+      findings.push(`${path.join(".")}=${value}`);
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectInvalidLpddrGenerationLabels(item, [...path, `[${index}]`], findings));
+    return;
+  }
+  if (!value || typeof value !== "object") {
+    return;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    collectInvalidLpddrGenerationLabels(item, [...path, key], findings);
+  }
+}
+
+function assertDecodePackLpddrGenerationLabelsUseJedecShape(): void {
+  const findings: string[] = [];
+  collectInvalidLpddrGenerationLabels(defaultPartDecodeSpecs, ["defaultPartDecodeSpecs"], findings);
+  assert.deepEqual(findings, [], "LPDDR generation labels should use LPDDR3/LPDDR4/LPDDR5 without an internal dash");
+}
+
 function collectIdentityObjectTables(value: unknown, path: string, findings: string[]): void {
   if (Array.isArray(value)) {
     value.forEach((item, index) => collectIdentityObjectTables(item, `${path}[${index}]`, findings));
@@ -634,7 +751,7 @@ function assertArrayDecodeTablesSupportIdentityAndSharedValues(): void {
               {
                 keys: ["AB", "CD"],
                 value: {
-                  package: "Shared package"
+                  package: "BGA, Shared"
                 }
               }
             ]
@@ -673,7 +790,7 @@ function assertArrayDecodeTablesSupportIdentityAndSharedValues(): void {
   for (const partNumber of ["XAB", "XCD"]) {
     const result = explainPartDecode(pack, partNumber);
     assert.equal(result.status, "matched");
-    assert.equal(result.draft?.fields?.package, "Shared package");
+    assert.equal(result.draft?.fields?.package, "BGA, Shared");
   }
   const trace = explainPartDecode(pack, "XCD").steps.find((step) => step.target === "code");
   assert.equal(trace?.value, "CD", "identity array tables should output the matched key");
@@ -849,6 +966,8 @@ assertSkhynixH25RulesAreConsolidated();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertDecodePackCompositeComponents();
+assertDecodePackPackageValuesUseCanonicalShape();
+assertDecodePackLpddrGenerationLabelsUseJedecShape();
 assertDecodePackIdentityTablesUseArraySyntax();
 assertDefaultDecodePackMaintainsItself();
 assertDecodePackCheckRejectsUndefinedTokenVariables();

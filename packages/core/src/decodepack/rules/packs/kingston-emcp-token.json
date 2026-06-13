@@ -98,16 +98,16 @@
           }
         },
         "package": {
-          "N3": "FBGA221 11.5x13.0x1.0",
-          "M4": "FBGA254"
+          "N3": "FBGA-221, 11.5x13.0x1.0",
+          "M4": "FBGA-254"
         },
         "packageConfig": {
-          "GMV36": "FBGA221 11.5x13.0x1.0",
-          "GMW8E": "FBGA221 11.5x13.0x1.0",
-          "JTQ0A": "FBGA254 11.5x13.0x1.0",
-          "KTQ0A": "FBGA254 11.5x13.0x1.0",
-          "GTY9B": "FBGA254 11.5x13.0x1.0",
-          "HTY9B": "FBGA254 11.5x13.0x1.1"
+          "GMV36": "FBGA-221, 11.5x13.0x1.0",
+          "GMW8E": "FBGA-221, 11.5x13.0x1.0",
+          "JTQ0A": "FBGA-254, 11.5x13.0x1.0",
+          "KTQ0A": "FBGA-254, 11.5x13.0x1.0",
+          "GTY9B": "FBGA-254, 11.5x13.0x1.0",
+          "HTY9B": "FBGA-254, 11.5x13.0x1.1"
         }
       },
       "steps": [

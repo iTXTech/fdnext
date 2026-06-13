@@ -243,6 +243,7 @@ iTXTech fdnext DecodePack 的 `assign` 应输出 **core 的 native decoder draft
 
 - `fields.*` 和 `components[].fields.*` 中会进入公开结果的字段应使用 canonical snake_case key（例如 `operation_temperature`、`speed_grade`、`marking_code`、`storage_interface`），不要直接写 “Operation Temperature” 这类展示字符串。
 - PN / identifier iTXTech fdnext DecodePack 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
+- 公开 `package` 使用 `TYPE[-PIN][, DIM][, SPECIAL]`。PIN 缺失时保留 TYPE，不得补猜；TYPE 缺失但 DIM 确认时只输出 DIM；未知 package 直接省略，不输出 `Unknown`，也不要在值里保留 `mm`、`ball`、`pin` 等单位词。
 - 新增或重命名 metadata key 时，直接迁移全部 iTXTech fdnext DecodePack 源规则、语言包和测试。旧 key 应进入 `packages/core/test/decodepack/metadata-audit.test.ts` 的禁止列表，而不是进入兼容层。
 - 外部链接不要从 iTXTech fdnext DecodePack 直接泄漏到公开结果；平台侧应通过 runtime 的 External Link provider 输出到正式 `links` contract。
 

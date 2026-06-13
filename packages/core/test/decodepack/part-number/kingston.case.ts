@@ -76,7 +76,7 @@ assertPart("64EM32-M4GTY9B", {
   vendor: "kingston",
   type: "eMCP",
   densityMbit: 524288,
-  package: "FBGA254 11.5x13.0x1.0",
+  package: "FBGA-254, 11.5x13.0x1.0",
   extra: {
     "Storage Interface": "eMMC 5.1",
     "Storage Density": "64GB eMMC",

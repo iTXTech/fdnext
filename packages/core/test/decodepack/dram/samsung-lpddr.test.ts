@@ -26,7 +26,7 @@ assertDram("K3PE7E700M-XGC1", {
   density: "8Gb",
   widthField: "x64",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "216-ball FBGA",
+  package: "FBGA-216",
   extra: {
     "DRAM Type": "LPDDR2",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -43,7 +43,7 @@ assertDram("K3QF1F10DM-AGCE", {
   density: "8Gb",
   widthField: "x64",
   voltage: "1.8V / 1.2V / 1.2V",
-  package: "253-ball FBGA",
+  package: "FBGA-253",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -60,7 +60,7 @@ assertDram("K4F6E304HB-MGCJ", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V / 1.1V / 1.1V",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
     "Package Code": "E304HB",
@@ -83,7 +83,7 @@ assertDram("K4F8E3S4HD-MGCL", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V / 1.1V / 1.1V",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -105,7 +105,7 @@ assertDram("K4F6E3S4HM-MGCJ", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V / 1.1V / 1.1V",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -126,7 +126,7 @@ assertDram("K3LKBKB0BM-MGCP", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V / 1.05V / 0.9V / 0.5V",
-  package: "315-ball FBGA",
+  package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -143,7 +143,7 @@ assertDram("K3KL3L30CM-JGCT", {
   density: "64Gb",
   widthField: "x64",
   voltage: "1.8V / 1.05V / 0.9V / 0.5V",
-  package: "441-ball FBGA",
+  package: "FBGA-441",
   extra: {
     "DRAM Type": "LPDDR5X",
     "Package Code": "L30CM",
@@ -159,7 +159,7 @@ assertDram("K3KL3L30CM-BGCU", {
   density: "64Gb",
   widthField: "x16",
   voltage: "1.8V / 1.05V / 0.9V / 0.5V",
-  package: "496-ball FBGA",
+  package: "FBGA-496",
   extra: {
     "DRAM Type": "LPDDR5X",
     "Package Code": "L30CM",
@@ -169,7 +169,7 @@ assertDram("K3KL3L30CM-BGCU", {
   }
 });
 
-assertDecodedField("K3KL3L30CM-EUCV", "package", "561-ball FBGA");
+assertDecodedField("K3KL3L30CM-EUCV", "package", "FBGA-561");
 assertDecodedField("K3KL3L30CM-EUCV", "dram_width", "x64");
 assertDecodedField("K3KL3L30CM-EUCV", "dram_speed", "LPDDR5X-9600");
 assertDecodedField("K3KL3L30CM-EUCV", "operation_temperature", "-40C~125C");
@@ -180,7 +180,7 @@ assertDram("K4U6E3S4AA-MGCL", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V / 1.1V / 0.6V",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -202,7 +202,7 @@ assertDram("K4U6E3S4AB-MGCL", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V / 1.1V / 0.6V",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -223,7 +223,7 @@ assertDram("K4UBE3D4AA-MGCL", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V / 1.1V / 0.6V",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Package Code": "M",
@@ -246,7 +246,7 @@ assertDram("K4UBE3D4AB-MGCL", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V / 1.1V / 0.6V",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Package Code": "M",
@@ -269,7 +269,7 @@ assertDram("K4UCE3Q4AB-MGCL", {
   density: "64Gb",
   widthField: "x32",
   voltage: "1.8V / 1.1V / 0.6V",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Package Code": "M",

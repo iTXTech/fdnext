@@ -130,7 +130,7 @@ assertPart("H9TQ17ABJTMCUR-KUM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 131072,
-  package: "FBGA 221 Ball 11.5x13",
+  package: "FBGA-221, 11.5x13",
   extra: {
     "Product Mode": "CI-MCP",
     "Product Family": "e-NAND",
@@ -157,7 +157,7 @@ assertPart("H9TQ27ADFTMCUR-KUM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 262144,
-  package: "FBGA 221 Ball 11.5x13",
+  package: "FBGA-221, 11.5x13",
   extra: {
     "Product Mode": "CI-MCP",
     "Product Family": "e-NAND",
@@ -184,7 +184,7 @@ assertPart("H9TQ64A8GTACUR-KUM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 65536,
-  package: "FBGA 221 Ball 11.5x13",
+  package: "FBGA-221, 11.5x13",
   extra: {
     "Product Mode": "CI-MCP",
     "Product Family": "e-NAND",
@@ -209,7 +209,7 @@ assertPart("H9TP32A4GDBCPR-KGM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 32768,
-  package: "FBGA 162 Ball 11.5x13",
+  package: "FBGA-162, 11.5x13",
   extra: {
     "Product Mode": "CI-MCP",
     "Product Family": "e-NAND",
@@ -236,7 +236,7 @@ assertPart("H9HP52ACPMADAR-KMM", {
   type: "eMCP",
   densityMbit: 524288,
   voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
-  package: "254Ball FBGA 11.5x13",
+  package: "FBGA-254, 11.5x13",
   extra: {
     "Storage Density": "64GB",
     "Storage Interface": "eMMC 5.1",
@@ -260,7 +260,7 @@ assertPart("H9HP27ADAMADAR-KMM", {
   type: "eMCP",
   densityMbit: 262144,
   voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
-  package: "254Ball FBGA 11.5x13",
+  package: "FBGA-254, 11.5x13",
   extra: {
     "Storage Density": "32GB",
     "Storage Interface": "eMMC 5.1",
@@ -283,7 +283,7 @@ assertPart("H9HP99ADAMADAR-KMM", {
   vendor: "skhynix",
   type: "eMCP",
   voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
-  package: "254Ball FBGA 11.5x13",
+  package: "FBGA-254, 11.5x13",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Width": "x16",
@@ -297,7 +297,7 @@ assertPart("H9AG9G5ANBX100", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 524288,
-  package: "254Ball FBGA",
+  package: "FBGA-254",
   extra: {
     "Storage Density": "64GB",
     "Storage Interface": "eMMC 5.0",
@@ -317,7 +317,7 @@ assertPart("H9QT0GECN6X145", {
   type: "uMCP",
   densityMbit: 1048576,
   voltage: "UFS: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
-  package: "254Ball FBGA",
+  package: "FBGA-254",
   extra: {
     "Storage Density": "128GB",
     "Storage Interface": "UFS 2.2",
@@ -337,7 +337,7 @@ assertPart("H9QXXXXCN6X145", {
   vendor: "skhynix",
   type: "uMCP",
   voltage: "UFS: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
-  package: "254Ball FBGA",
+  package: "FBGA-254",
   extra: {
     "Storage Interface": "UFS 2.2",
     "Product Generation": "4th generation uMCP",
@@ -351,7 +351,7 @@ assertPart("H9HQ15ACPMADAR-KEM", {
   vendor: "skhynix",
   type: "uMCP",
   densityMbit: 1048576,
-  package: "254Ball FBGA",
+  package: "FBGA-254",
   extra: {
     "Storage Density": "128GB",
     "Storage Interface": "UFS",

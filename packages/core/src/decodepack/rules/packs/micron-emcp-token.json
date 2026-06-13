@@ -24,7 +24,7 @@
         "reference": {
           "micron_locked_umcp_part_rows": {
             "status": "external_confirmed",
-            "source": "Micron locked 254-ball/297-ball uMCP datasheet catalog rows provided by user"
+            "source": "Micron locked 254/297 uMCP datasheet catalog rows provided by user"
           }
         },
         "productFamilyObj": {
@@ -90,10 +90,6 @@
           "F": "x96"
         },
         "storageDensityMbit": {
-          "V": 4096,
-          "W": 2048,
-          "X": 1024,
-          "Y": 512,
           "1": 8192,
           "2": 16384,
           "4": 32768,
@@ -102,22 +98,14 @@
           "7": 262144,
           "8": 524288,
           "9": 1048576,
+          "V": 4096,
+          "W": 2048,
+          "X": 1024,
+          "Y": 512,
           "A": 2097152,
           "B": 4194304
         },
         "storageDensityObj": {
-          "V": {
-            "storage_density": "512MB UFS"
-          },
-          "W": {
-            "storage_density": "256MB UFS"
-          },
-          "X": {
-            "storage_density": "128MB UFS"
-          },
-          "Y": {
-            "storage_density": "64MB UFS"
-          },
           "1": {
             "storage_density": "1GB UFS"
           },
@@ -142,6 +130,18 @@
           "9": {
             "storage_density": "128GB UFS"
           },
+          "V": {
+            "storage_density": "512MB UFS"
+          },
+          "W": {
+            "storage_density": "256MB UFS"
+          },
+          "X": {
+            "storage_density": "128MB UFS"
+          },
+          "Y": {
+            "storage_density": "64MB UFS"
+          },
           "A": {
             "storage_density": "256GB UFS"
           },
@@ -150,20 +150,20 @@
           }
         },
         "controllerObj": {
+          "0": {
+            "controller": "9U6A 140s v3.1"
+          },
+          "1": {
+            "controller": "SM2754 140s v2.2"
+          },
           "H": {
             "controller": "SM2750 100s v2.1"
           },
           "F": {
             "controller": "SM2752 110s v2.1/v2.2"
           },
-          "1": {
-            "controller": "SM2754 140s v2.2"
-          },
           "Z": {
             "controller": "SM2754 120s v3.1"
-          },
-          "0": {
-            "controller": "9U6A 140s v3.1"
           }
         },
         "voltage": {
@@ -203,15 +203,15 @@
           }
         },
         "package": {
-          "MT29V:BA": "254-ball uMCP",
-          "MT29V:PR": "254-ball uMCP",
-          "MT29V:SL": "254-ball uMCP",
-          "MT29V:SM": "254-ball uMCP",
-          "MT29V:WL": "254-ball uMCP",
-          "MT30A:EQ": "297-ball uMCP",
-          "MT30A:QS": "297-ball uMCP",
-          "MT30A:WL": "297-ball uMCP",
-          "MT30A:XM": "297-ball uMCP"
+          "MT29V:BA": "uMCP-254",
+          "MT29V:PR": "uMCP-254",
+          "MT29V:SL": "uMCP-254",
+          "MT29V:SM": "uMCP-254",
+          "MT29V:WL": "uMCP-254",
+          "MT30A:EQ": "uMCP-297",
+          "MT30A:QS": "uMCP-297",
+          "MT30A:WL": "uMCP-297",
+          "MT30A:XM": "uMCP-297"
         },
         "speedObj": {
           "026": {
@@ -675,20 +675,17 @@
           }
         },
         "package": {
-          "GA": "149-ball 8.0x9.5x0.8mm",
-          "GM": "240-ball 14x14x0.85mm",
-          "MF": "168-ball 12x12x0.85mm",
-          "PB": "221-ball 11.5x13x0.8mm",
-          "PL": "162-ball 11.5x13x0.8mm",
-          "SK": "162-ball 11.5x13x0.9mm",
-          "TB": "162-ball 8x10.5x0.9mm",
-          "TN": "121-ball 7.5x8x0.8mm",
-          "WD": "162-ball 8.0x10.5x0.9mm"
+          "GA": "BGA-149, 8.0x9.5x0.8",
+          "GM": "BGA-240, 14x14x0.85",
+          "MF": "VFBGA-168, 12x12x0.85, PoP",
+          "PB": "BGA-221, 11.5x13x0.8",
+          "PL": "WFBGA-162, 11.5x13x0.8",
+          "SK": "VFBGA-162, 11.5x13x0.9",
+          "TB": "BGA-162, 8x10.5x0.9",
+          "TN": "BGA-121, 7.5x8x0.8",
+          "WD": "BGA-162, 8.0x10.5x0.9"
         },
         "speedObj": {
-          "107": {
-            "dram_speed": "LPDDR-1866 CL13"
-          },
           "18": {
             "dram_speed": "LPDDR-1066 CL8"
           },
@@ -700,6 +697,9 @@
           },
           "62": {
             "dram_speed": "LPDDR4-3200"
+          },
+          "107": {
+            "dram_speed": "LPDDR-1866 CL13"
           }
         },
         "speedByFamilyObj": {
@@ -1188,12 +1188,6 @@
           }
         },
         "nandDensityMbit": {
-          "T": 768,
-          "U": 640,
-          "V": 512,
-          "W": 256,
-          "X": 128,
-          "Y": 64,
           "1": 1024,
           "2": 2048,
           "3": 3072,
@@ -1202,29 +1196,17 @@
           "7": 24576,
           "8": 8192,
           "9": 12288,
+          "T": 768,
+          "U": 640,
+          "V": 512,
+          "W": 256,
+          "X": 128,
+          "Y": 64,
           "A": 16384,
           "B": 49152,
           "C": 65536
         },
         "nandDensityObj": {
-          "T": {
-            "storage_density": "768Mb NAND"
-          },
-          "U": {
-            "storage_density": "640Mb NAND"
-          },
-          "V": {
-            "storage_density": "512Mb NAND"
-          },
-          "W": {
-            "storage_density": "256Mb NAND"
-          },
-          "X": {
-            "storage_density": "128Mb NAND"
-          },
-          "Y": {
-            "storage_density": "64Mb NAND"
-          },
           "1": {
             "storage_density": "1Gb NAND"
           },
@@ -1249,6 +1231,24 @@
           "9": {
             "storage_density": "12Gb NAND"
           },
+          "T": {
+            "storage_density": "768Mb NAND"
+          },
+          "U": {
+            "storage_density": "640Mb NAND"
+          },
+          "V": {
+            "storage_density": "512Mb NAND"
+          },
+          "W": {
+            "storage_density": "256Mb NAND"
+          },
+          "X": {
+            "storage_density": "128Mb NAND"
+          },
+          "Y": {
+            "storage_density": "64Mb NAND"
+          },
           "A": {
             "storage_density": "16Gb NAND"
           },
@@ -1260,24 +1260,6 @@
           }
         },
         "dramDensityObj": {
-          "T": {
-            "dram_density": "768Mb"
-          },
-          "U": {
-            "dram_density": "640Mb"
-          },
-          "V": {
-            "dram_density": "512Mb"
-          },
-          "W": {
-            "dram_density": "256Mb"
-          },
-          "X": {
-            "dram_density": "128Mb"
-          },
-          "Y": {
-            "dram_density": "64Mb"
-          },
           "1": {
             "dram_density": "1Gb"
           },
@@ -1301,6 +1283,24 @@
           },
           "9": {
             "dram_density": "12Gb"
+          },
+          "T": {
+            "dram_density": "768Mb"
+          },
+          "U": {
+            "dram_density": "640Mb"
+          },
+          "V": {
+            "dram_density": "512Mb"
+          },
+          "W": {
+            "dram_density": "256Mb"
+          },
+          "X": {
+            "dram_density": "128Mb"
+          },
+          "Y": {
+            "dram_density": "64Mb"
           },
           "A": {
             "dram_density": "16Gb"
@@ -1329,9 +1329,6 @@
           "F": "x96"
         },
         "emmcDensityMbit": {
-          "V": 4096,
-          "W": 2048,
-          "X": 1024,
           "1": 8192,
           "2": 16384,
           "4": 32768,
@@ -1340,19 +1337,13 @@
           "7": 262144,
           "8": 524288,
           "9": 1048576,
+          "V": 4096,
+          "W": 2048,
+          "X": 1024,
           "A": 2097152,
           "B": 4194304
         },
         "emmcDensityObj": {
-          "V": {
-            "storage_density": "512MB eMMC"
-          },
-          "W": {
-            "storage_density": "256MB eMMC"
-          },
-          "X": {
-            "storage_density": "128MB eMMC"
-          },
           "1": {
             "storage_density": "1GB eMMC"
           },
@@ -1376,6 +1367,15 @@
           },
           "9": {
             "storage_density": "128GB eMMC"
+          },
+          "V": {
+            "storage_density": "512MB eMMC"
+          },
+          "W": {
+            "storage_density": "256MB eMMC"
+          },
+          "X": {
+            "storage_density": "128MB eMMC"
           },
           "A": {
             "storage_density": "256GB eMMC"
@@ -1518,65 +1518,62 @@
           }
         },
         "package": {
-          "AH": "VFBGA 221-ball, 11.5x13x1.0mm",
-          "AK": "TFBGA 153-ball, 11.5x13x1.1mm",
-          "AM": "VFBGA 153-ball, 11.5x13x1.0mm",
-          "AN": "VFBGA 240-ball, 14x14x0.95mm",
-          "AV": "VFBGA 305-ball, 11.5x13x1.1mm",
-          "BA": "VFBGA 254-ball, 11.5x13x1.3mm",
-          "BT": "TFBGA 221-ball, 11.5x13x1.2mm",
-          "CY": "LFBGA 221-ball, 11.5x13x1.3mm",
-          "DI": "TFBGA 169-ball, 12x16x1.2mm",
-          "DM": "TFBGA 153-ball, 11.5x13x1.2mm",
-          "DX": "TFBGA 169-ball, 12x16x1.1mm",
-          "EQ": "LFBGA 297-ball, 11.5x13x1.3mm",
-          "EW": "TFBGA 162-ball, 11.5x13x1.1mm",
-          "FB": "TFBGA 221-ball, 11.5x13x1.1mm",
-          "GA": "149-ball 8.0x9.5x0.8mm",
-          "GB": "WFBGA 144-ball, 8x9.5x0.8mm",
-          "GC": "WFBGA 144-ball, 8x9.5x0.765mm",
-          "GM": "240-ball 14x14x0.85mm",
-          "HG": "121-VFBGA 8x7.5",
-          "JA": "137-ball TFBGA 10.5x13x1.2, MCP",
-          "JC": "107-ball TFBGA 10.5x13x1.2, MCP",
-          "JG": "168-ball VFBGA 12x12x0.90, PoP",
-          "JI": "168-ball TFBGA 12x12x1.1, PoP",
-          "JR": "137-ball LFBGA 10.5x13x1.4, MCP",
-          "JS": "137-ball TFBGA 10.5x13x1.2, MCP",
-          "JV": "168-ball VFBGA 12x12x1.0, PoP",
-          "KC": "107-ball TFBGA 10.5x13x1.1, MCP",
-          "KD": "137-ball TFBGA 10.5x13x1.1, MCP",
-          "KN": "184-ball VFBGA 14x14x1.0, PoP",
-          "KQ": "168-ball WFBGA 12x12x0.75, PoP",
-          "KS": "137-ball VFBGA 10.5x13x1.0, MCP",
-          "MA": "168-ball WFBGA 12x12x0.70, PoP",
-          "MC": "240-ball WFBGA 14x14x0.80, PoP",
-          "MD": "130-ball VFBGA 8x9x1.0, MCP",
-          "ME": "240-ball TFBGA 14x14x1.12, PoP",
-          "MF": "168-ball VFBGA 12x12x0.85, PoP",
-          "MG": "168-VFBGA 12x12",
-          "MJ": "240-ball VFBGA 14x14x0.85, PoP",
-          "MK": "153-ball VFBGA 10x12x0.90, MCP",
-          "ML": "153-ball VFBGA 8x9x0.90, MCP",
-          "MS": "191-ball WFBGA 12x12x0.80, PoP",
-          "NE": "133-ball VFBGA 11x10x1.0, MCP",
-          "RN": "160-ball FBGA 11.5x11.5x0.94, MCP",
-          "TE": "153-ball VFBGA 10x12x1.0, MCP",
-          "TN": "121-ball 7.5x8x0.8mm",
-          "WD": "162-ball 8.0x10.5x0.9mm"
+          "AH": "VFBGA-221, 11.5x13x1.0",
+          "AK": "TFBGA-153, 11.5x13x1.1",
+          "AM": "VFBGA-153, 11.5x13x1.0",
+          "AN": "VFBGA-240, 14x14x0.95",
+          "AV": "VFBGA-305, 11.5x13x1.1",
+          "BA": "VFBGA-254, 11.5x13x1.3",
+          "BT": "TFBGA-221, 11.5x13x1.2",
+          "CY": "LFBGA-221, 11.5x13x1.3",
+          "DI": "TFBGA-169, 12x16x1.2",
+          "DM": "TFBGA-153, 11.5x13x1.2",
+          "DX": "TFBGA-169, 12x16x1.1",
+          "EQ": "LFBGA-297, 11.5x13x1.3",
+          "EW": "TFBGA-162, 11.5x13x1.1",
+          "FB": "TFBGA-221, 11.5x13x1.1",
+          "GA": "BGA-149, 8.0x9.5x0.8",
+          "GB": "WFBGA-144, 8x9.5x0.8",
+          "GC": "WFBGA-144, 8x9.5x0.765",
+          "GM": "BGA-240, 14x14x0.85",
+          "HG": "VFBGA-121, 8x7.5",
+          "JA": "TFBGA-137, 10.5x13x1.2, MCP",
+          "JC": "TFBGA-107, 10.5x13x1.2, MCP",
+          "JG": "VFBGA-168, 12x12x0.90, PoP",
+          "JI": "TFBGA-168, 12x12x1.1, PoP",
+          "JR": "LFBGA-137, 10.5x13x1.4, MCP",
+          "JS": "TFBGA-137, 10.5x13x1.2, MCP",
+          "JV": "VFBGA-168, 12x12x1.0, PoP",
+          "KC": "TFBGA-107, 10.5x13x1.1, MCP",
+          "KD": "TFBGA-137, 10.5x13x1.1, MCP",
+          "KN": "VFBGA-184, 14x14x1.0, PoP",
+          "KQ": "WFBGA-168, 12x12x0.75, PoP",
+          "KS": "VFBGA-137, 10.5x13x1.0, MCP",
+          "MA": "WFBGA-168, 12x12x0.70, PoP",
+          "MC": "WFBGA-240, 14x14x0.80, PoP",
+          "MD": "VFBGA-130, 8x9x1.0, MCP",
+          "ME": "TFBGA-240, 14x14x1.12, PoP",
+          "MF": "VFBGA-168, 12x12x0.85, PoP",
+          "MG": "VFBGA-168, 12x12",
+          "MJ": "VFBGA-240, 14x14x0.85, PoP",
+          "MK": "VFBGA-153, 10x12x0.90, MCP",
+          "ML": "VFBGA-153, 8x9x0.90, MCP",
+          "MS": "WFBGA-191, 12x12x0.80, PoP",
+          "NE": "VFBGA-133, 11x10x1.0, MCP",
+          "RN": "FBGA-160, 11.5x11.5x0.94, MCP",
+          "TE": "VFBGA-153, 10x12x1.0, MCP",
+          "TN": "BGA-121, 7.5x8x0.8",
+          "WD": "BGA-162, 8.0x10.5x0.9"
         },
         "speedObj": {
-          "046": {
-            "dram_speed": "LPDDR4-4266"
+          "3": {
+            "dram_speed": "LPDDR-667 CL5"
           },
-          "062": {
-            "dram_speed": "LPDDR4-3200"
+          "5": {
+            "dram_speed": "LPDDR-400 CL3"
           },
-          "107": {
-            "dram_speed": "LPDDR-1866 CL13"
-          },
-          "125": {
-            "dram_speed": "LPDDR-1600 CL12"
+          "6": {
+            "dram_speed": "LPDDR-333 CL3"
           },
           "18": {
             "dram_speed": "LPDDR-1066 CL8"
@@ -1584,14 +1581,8 @@
           "25": {
             "dram_speed": "LPDDR-800 CL6"
           },
-          "3": {
-            "dram_speed": "LPDDR-667 CL5"
-          },
           "37": {
             "dram_speed": "LPDDR-533 CL4"
-          },
-          "5": {
-            "dram_speed": "LPDDR-400 CL3"
           },
           "53": {
             "dram_speed": "LPDDR-3732"
@@ -1599,11 +1590,20 @@
           "54": {
             "dram_speed": "LPDDR-370 CL3"
           },
-          "6": {
-            "dram_speed": "LPDDR-333 CL3"
-          },
           "75": {
             "dram_speed": "LPDDR-266 CL3"
+          },
+          "107": {
+            "dram_speed": "LPDDR-1866 CL13"
+          },
+          "125": {
+            "dram_speed": "LPDDR-1600 CL12"
+          },
+          "046": {
+            "dram_speed": "LPDDR4-4266"
+          },
+          "062": {
+            "dram_speed": "LPDDR4-3200"
           }
         },
         "speedByFamilyObj": {
@@ -2392,53 +2392,47 @@
           }
         },
         "package": {
-          "CA": "152-ball PoP VFBGA 14x14x0.9",
-          "CG": "152-ball PoP VFBGA 14x14x1.0",
-          "HC": "149-ball TFBGA 16.5x10.5x1.2",
-          "HK": "137-VFBGA 13x10.5",
-          "HP": "168-ball VFBGA",
-          "JA": "137-ball TFBGA 13x10.5x1.2",
-          "JC": "107-ball TFBGA 13x10.2x1.2",
-          "JG": "168-ball PoP VFBGA 12x12x0.9",
-          "JI": "168-ball PoP TFBGA 12x12x1.1",
-          "JQ": "152-ball PoP TFBGA 14x14x1.1",
-          "JR": "137-ball LFBGA 13x10.5x1.4",
-          "JS": "137-ball TFBGA 13x10.5x1.4",
-          "JV": "168-ball PoP VFBGA 12x12x1.0",
-          "KC": "107-ball TFBGA 13x10.5x1.1",
-          "KD": "137-ball TFBGA 13x10.5x1.1",
-          "KN": "184-ball PoP VFBGA 14x14x1.0",
-          "KQ": "168-ball PoP WFBGA 12x12x0.75",
-          "KS": "137-ball VFBGA 13x10.5x1.0",
-          "MA": "168-ball PoP WFBGA 12x12x0.7",
-          "MC": "240-ball PoP WFBGA 14x14x0.8",
-          "MD": "130-ball VFBGA 9x8x1.0",
-          "ME": "240-ball PoP TFBGA 14x14x1.12",
-          "MF": "168-ball PoP VFBGA 12x12x0.85",
-          "MJ": "240-ball PoP VFBGA 14x14x0.85",
-          "MK": "153-ball VFBGA 12x10x0.9",
-          "ML": "153-ball VFBGA 9x8x0.9",
-          "MR": "130-VFBGA 8x9",
-          "MS": "191-ball PoP WFBGA 12x12x0.8",
-          "NE": "133-ball VFBGA 11x10x1.0",
-          "PL": "162-ball WFBGA 13x11.5x0.8",
-          "RN": "160-ball FBGA 11.5x11.5x0.94",
-          "SK": "162-ball VFBGA 13x11.5x0.9",
-          "SP": "192-ball WFBGA 10.5x8x0.8",
-          "TE": "153-ball VFBGA 12x10x1.0"
+          "CA": "VFBGA-152, 14x14x0.9, PoP",
+          "CG": "VFBGA-152, 14x14x1.0, PoP",
+          "HC": "TFBGA-149, 16.5x10.5x1.2",
+          "HK": "VFBGA-137, 13x10.5",
+          "HP": "VFBGA-168",
+          "JA": "TFBGA-137, 13x10.5x1.2",
+          "JC": "TFBGA-107, 13x10.2x1.2",
+          "JG": "VFBGA-168, 12x12x0.9, PoP",
+          "JI": "TFBGA-168, 12x12x1.1, PoP",
+          "JQ": "TFBGA-152, 14x14x1.1, PoP",
+          "JR": "LFBGA-137, 13x10.5x1.4",
+          "JS": "TFBGA-137, 13x10.5x1.4",
+          "JV": "VFBGA-168, 12x12x1.0, PoP",
+          "KC": "TFBGA-107, 13x10.5x1.1",
+          "KD": "TFBGA-137, 13x10.5x1.1",
+          "KN": "VFBGA-184, 14x14x1.0, PoP",
+          "KQ": "WFBGA-168, 12x12x0.75, PoP",
+          "KS": "VFBGA-137, 13x10.5x1.0",
+          "MA": "WFBGA-168, 12x12x0.7, PoP",
+          "MC": "WFBGA-240, 14x14x0.8, PoP",
+          "MD": "VFBGA-130, 9x8x1.0",
+          "ME": "TFBGA-240, 14x14x1.12, PoP",
+          "MF": "VFBGA-168, 12x12x0.85, PoP",
+          "MJ": "VFBGA-240, 14x14x0.85, PoP",
+          "MK": "VFBGA-153, 12x10x0.9",
+          "ML": "VFBGA-153, 9x8x0.9",
+          "MR": "VFBGA-130, 8x9",
+          "MS": "WFBGA-191, 12x12x0.8, PoP",
+          "NE": "VFBGA-133, 11x10x1.0",
+          "PL": "WFBGA-162, 13x11.5x0.8",
+          "RN": "FBGA-160, 11.5x11.5x0.94",
+          "SK": "VFBGA-162, 13x11.5x0.9",
+          "SP": "WFBGA-192, 10.5x8x0.8",
+          "TE": "VFBGA-153, 12x10x1.0"
         },
         "speedObj": {
           "5": {
             "dram_speed": "LPDDR-400 CL3"
           },
-          "54": {
-            "dram_speed": "LPDDR-370 CL3"
-          },
           "6": {
             "dram_speed": "LPDDR-333 CL3"
-          },
-          "75": {
-            "dram_speed": "LPDDR-266 CL3"
           },
           "8": {
             "dram_speed": "LPDDR-250 CL3"
@@ -2448,6 +2442,12 @@
           },
           "48": {
             "dram_speed": "LPDDR-416"
+          },
+          "54": {
+            "dram_speed": "LPDDR-370 CL3"
+          },
+          "75": {
+            "dram_speed": "LPDDR-266 CL3"
           }
         },
         "specialOptionObj": {
@@ -2556,8 +2556,7 @@
           "op": "map",
           "from": "packageCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -2774,8 +2773,8 @@
           }
         },
         "package": {
-          "HG": "121-VFBGA 8x7.5",
-          "MG": "168-VFBGA 12x12"
+          "HG": "VFBGA-121, 8x7.5",
+          "MG": "VFBGA-168, 12x12"
         },
         "speedObj": {
           "18": {
@@ -2849,8 +2848,7 @@
           "op": "map",
           "from": "packageCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "take",

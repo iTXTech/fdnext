@@ -26,7 +26,7 @@ assertDram("K4A8G085WB-BCRC", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR4",
@@ -48,7 +48,7 @@ assertDram("K4A8G085WB", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -65,7 +65,7 @@ assertDram("K4A4G085WE-BITD", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -83,7 +83,7 @@ assertDram("K4A4G045WD-BCPB", {
   density: "4Gb",
   widthField: "x4",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -104,7 +104,7 @@ assertDram("K4A4G165WE-BIPB", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -125,7 +125,7 @@ assertDram("K4AAG085WB-MCRC", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "Package Code": "5WB",
@@ -157,7 +157,7 @@ assertDram("K4AAG165WB-MCRC", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "Package Code": "5WB",
@@ -177,7 +177,7 @@ assertDram("K4ABG085WA-MCWE", {
   density: "32Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "Package Code": "5WA",
@@ -197,7 +197,7 @@ assertDram("K4ABG165WB-MCWE", {
   density: "32Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "Package Code": "5WB",
@@ -221,7 +221,7 @@ assertDram("K4S511632D-UC75", {
   density: "512Mb",
   widthField: "x16",
   voltage: "3.3V VDD",
-  package: "54-pin TSOP-II",
+  package: "TSOP-II-54",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -239,7 +239,7 @@ assertDram("K4H510838F-HCCC", {
   density: "512Mb",
   widthField: "x8",
   voltage: "2.5V VDD",
-  package: "60-ball FBGA",
+  package: "FBGA-60",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -257,7 +257,7 @@ assertDram("K4T56163QI-ZCE6", {
   density: "256Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball FBGA",
+  package: "FBGA-84",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -275,7 +275,7 @@ assertDram("K4B1G0846D-HCF7", {
   density: "1Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -293,7 +293,7 @@ assertDram("K4B1G0846I-BCNB", {
   density: "1Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -311,7 +311,6 @@ assertDram("K4B1G0846I-MCMA", {
   density: "1Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "Unknown",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "M",
@@ -331,7 +330,7 @@ assertDram("K4B2G1646F-BCNB", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -349,7 +348,7 @@ assertDram("K4B2G1646F-BYMA", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -367,7 +366,6 @@ assertDram("K4B4G0846D-ECMA", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "Unknown",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "E",
@@ -387,7 +385,7 @@ assertDram("K4B4G0446E-BYK0", {
   density: "4Gb",
   widthField: "x4",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -405,7 +403,7 @@ assertDram("K4B4G0846E-BMMA", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -423,7 +421,7 @@ assertDram("K4B4G0846E-BCNB", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -441,7 +439,7 @@ assertDram("K4B4G1646Q-HYF8", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -459,7 +457,7 @@ assertDram("K4B4G1646D-BYMA", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -477,7 +475,7 @@ assertDram("K4BAG0846B-HCK0", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -495,7 +493,7 @@ assertDram("K4B2G1646B-HKK0", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -514,7 +512,7 @@ assertDram("K4B8G1646Q-MCK0", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "M",

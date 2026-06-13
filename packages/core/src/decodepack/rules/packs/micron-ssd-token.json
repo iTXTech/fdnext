@@ -25,39 +25,39 @@
       ],
       "tables": {
         "density": {
-          "064": 524288,
           "128": 1048576,
           "256": 2097152,
           "512": 4194304,
+          "064": 524288,
           "1T0": 8388608
         },
         "packageObj": {
           "BL:064": {
-            "package": "BGA291 type 1620, 16mm x 20mm x 1.2mm"
+            "package": "BGA-291, 16x20x1.2, type 1620"
           },
           "BL:128": {
-            "package": "BGA291 type 1620, 16mm x 20mm x 1.2mm"
+            "package": "BGA-291, 16x20x1.2, type 1620"
           },
           "BL:256": {
-            "package": "BGA291 type 1620, 16mm x 20mm x 1.2mm"
+            "package": "BGA-291, 16x20x1.2, type 1620"
           },
           "BL:512": {
-            "package": "BGA291 type 1620, 16mm x 20mm x 1.2mm"
+            "package": "BGA-291, 16x20x1.2, type 1620"
           },
           "BM:1T0": {
-            "package": "BGA291 type 1620, 16mm x 20mm x 1.6mm"
+            "package": "BGA-291, 16x20x1.6, type 1620"
           },
           "BK:128": {
-            "package": "M.2 Type 2230 M-key, 22mm x 30mm x 2.0mm"
+            "package": "M.2-2230, 22x30x2.0, M-key"
           },
           "BK:256": {
-            "package": "M.2 Type 2230 M-key, 22mm x 30mm x 2.0mm"
+            "package": "M.2-2230, 22x30x2.0, M-key"
           },
           "BK:512": {
-            "package": "M.2 Type 2230 M-key, 22mm x 30mm x 2.0mm"
+            "package": "M.2-2230, 22x30x2.0, M-key"
           },
           "BK:1T0": {
-            "package": "M.2 Type 2230 M-key, 22mm x 30mm x 2.4mm"
+            "package": "M.2-2230, 22x30x2.4, M-key"
           }
         },
         "nandTypeObj": {

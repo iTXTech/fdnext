@@ -72,9 +72,9 @@
           "64T": 67108864
         },
         "device_width": {
+          "16": 16,
           "01": 1,
-          "08": 8,
-          "16": 16
+          "08": 8
         },
         "cell_level": {
           "A": "SLC",
@@ -83,6 +83,30 @@
           "G": "QLC"
         },
         "configurationObj": {
+          "1": {
+            "die": 16,
+            "ce": 2,
+            "rb": 2,
+            "ch": 1
+          },
+          "2": {
+            "die": 64,
+            "ce": 8,
+            "rb": 4,
+            "ch": 2
+          },
+          "3": {
+            "die": 8,
+            "ce": 4,
+            "rb": 2,
+            "ch": 2
+          },
+          "4": {
+            "die": 4,
+            "ce": 4,
+            "rb": 2,
+            "ch": 1
+          },
           "A": {
             "die": 1,
             "ce": 0,
@@ -220,30 +244,6 @@
             "ce": 7,
             "rb": 4,
             "ch": 4
-          },
-          "1": {
-            "die": 16,
-            "ce": 2,
-            "rb": 2,
-            "ch": 1
-          },
-          "2": {
-            "die": 64,
-            "ce": 8,
-            "rb": 4,
-            "ch": 2
-          },
-          "3": {
-            "die": 8,
-            "ce": 4,
-            "rb": 2,
-            "ch": 2
-          },
-          "4": {
-            "die": 4,
-            "ce": 4,
-            "rb": 2,
-            "ch": 1
           }
         },
         "voltage": {
@@ -394,111 +394,105 @@
           "N": "Async/NV-DDR2"
         },
         "package": {
-          "WB": "8-pin U-PDFN 6x8x0.65",
-          "W9": "8-pin W-PDFN 6x8x0.80",
-          "WP": "48-pin TSOP I 12x20x1.20 CPL",
-          "WC": "48-pin TSOP I 12x20x1.20 OCPL",
-          "SWP": "48-pin TSOP I DSP CPL",
-          "SWC": "48-pin TSOP I DSP OCPL",
-          "SF": "16-pin SOP2 10.3x10.3x2.65",
-          "C2": "52-pin XLGA 12x17x0.40",
-          "C3": "52-pin ULGA 12x17x0.65",
-          "C4": "52-pin VLGA 12x17x1.00",
-          "C8": "52-pin WGA 14x18x0.75",
-          "C5": "52-pin VLGA 14x18x1.00",
-          "C6": "52-pin LLGA 14x18x1.47",
-          "C7": "48-pin LLGA 12x20x1.47",
-          "D1": "52-pin VLGA 11x14x0.90",
-          "K3": "100-pin VLGA 12x18x0.90",
-          "K4": "100-pin TLGA 12x18x1.10",
-          "K7": "152-pin VLGA 14x18x0.90",
-          "K8": "152-pin TLGA 14x18x1.10",
-          "K9": "132-pin VLGA 12x18x1.00",
-          "12": "24-ball T-PBGA 6x8x1.20",
-          "M8Z": "55-ball TFBGA 8x10x1.20",
-          "H5": "56-ball VFBGA 9.5x12.8x1.00",
-          "H4": "63-ball VFBGA 9x11x1.00",
-          "HC": "63-ball VFBGA 10.5x13x1.00",
-          "MD": "130-ball VFBGA 8x9x1.00",
-          "SX": "153-ball VFBGA 9x11x1.00",
-          "H1": "100-ball VBGA 12x18x1.00",
-          "H2": "100-ball TBGA 12x18x1.20",
-          "H3": "100-ball LBGA 12x18x1.40",
-          "H9": "100-ball LBGA 12x18x1.60",
-          "PB": "100-ball LBGA 12x18x1.40 LEADED",
-          "H6": "152-ball VBGA 14x18x1.00",
-          "H7": "152-ball TBGA 14x18x1.20",
-          "K6": "152-ball LBGA 14x18x1.30",
-          "H8": "152-ball LBGA 14x18x1.40",
-          "J7": "152-ball LBGA 14x18x1.50",
-          "J1": "132-ball VBGA 12x18x1.00",
-          "J2": "132-ball TBGA 12x18x1.20",
-          "J3": "132-ball LBGA 12x18x1.40",
-          "J4": "132-ball VBGA 12x18x0.90",
-          "J5": "132-ball TBGA 12x18x1.20",
-          "M4": "132-ball LBGA 12x18x1.30",
-          "J6": "132-ball LBGA 12x18x1.40",
-          "M5": "132-ball LBGA 12x18x1.50",
-          "J9": "132-ball LBGA 12x18x1.60",
-          "G1": "272-ball VFBGA 14x18x1.00",
-          "G2": "272-ball LFBGA 14x18x1.30",
-          "G5": "272-ball LFBGA 14x18x1.40",
-          "G6": "272-ball LFBGA 14x18x1.50",
-          "G7": "252-ball VFBGA 12x18x1.00",
-          "G8": "252-ball LFBGA 12x18x1.30",
-          "G9": "252-ball LFBGA 12x18x1.40",
-          "M9": "252-ball LFBGA 14x18x1.45",
-          "G4": "252-ball LFBGA 12x18x1.50",
-          "D4": "154-ball VFBGA 11.5x13.5x1.00",
-          "D5": "154-ball LFBGA 11.5x13.5x1.30",
-          "D8": "154-ball LFBGA 11.5x13.5x1.45",
-          "D6": "154-ball LFBGA 11.5x13.5x1.50",
-          "D7": "154-ball LFBGA 11.5x13.5x1.60",
-          "L4": "308-ball VFBGA 11.5x15.5x1.00",
-          "L5": "308-ball LFBGA 11.5x15.5x1.30",
-          "L8": "308-ball LFBGA 11.5x15.5x1.45",
-          "L6": "308-ball LFBGA 11.5x15.5x1.50",
-          "L7": "308-ball LFBGA 11.5x15.5x1.70"
+          "12": "T-PBGA-24, 6x8x1.20",
+          "WB": "U-PDFN-8, 6x8x0.65",
+          "W9": "W-PDFN-8, 6x8x0.80",
+          "WP": "TSOP-I-48, 12x20x1.20, CPL",
+          "WC": "TSOP-I-48, 12x20x1.20, OCPL",
+          "SWP": "TSOP-I-48, DSP CPL",
+          "SWC": "TSOP-I-48, DSP OCPL",
+          "SF": "SOP2-16, 10.3x10.3x2.65",
+          "C2": "XLGA-52, 12x17x0.40",
+          "C3": "ULGA-52, 12x17x0.65",
+          "C4": "VLGA-52, 12x17x1.00",
+          "C8": "WGA-52, 14x18x0.75",
+          "C5": "VLGA-52, 14x18x1.00",
+          "C6": "LLGA-52, 14x18x1.47",
+          "C7": "LLGA-48, 12x20x1.47",
+          "D1": "VLGA-52, 11x14x0.90",
+          "K3": "VLGA-100, 12x18x0.90",
+          "K4": "TLGA-100, 12x18x1.10",
+          "K7": "VLGA-152, 14x18x0.90",
+          "K8": "TLGA-152, 14x18x1.10",
+          "K9": "VLGA-132, 12x18x1.00",
+          "M8Z": "TFBGA-55, 8x10x1.20",
+          "H5": "VFBGA-56, 9.5x12.8x1.00",
+          "H4": "VFBGA-63, 9x11x1.00",
+          "HC": "VFBGA-63, 10.5x13x1.00",
+          "MD": "VFBGA-130, 8x9x1.00",
+          "SX": "VFBGA-153, 9x11x1.00",
+          "H1": "VBGA-100, 12x18x1.00",
+          "H2": "TBGA-100, 12x18x1.20",
+          "H3": "LBGA-100, 12x18x1.40",
+          "H9": "LBGA-100, 12x18x1.60",
+          "PB": "LBGA-100, 12x18x1.40, LEADED",
+          "H6": "VBGA-152, 14x18x1.00",
+          "H7": "TBGA-152, 14x18x1.20",
+          "K6": "LBGA-152, 14x18x1.30",
+          "H8": "LBGA-152, 14x18x1.40",
+          "J7": "LBGA-152, 14x18x1.50",
+          "J1": "VBGA-132, 12x18x1.00",
+          "J2": "TBGA-132, 12x18x1.20",
+          "J3": "LBGA-132, 12x18x1.40",
+          "J4": "VBGA-132, 12x18x0.90",
+          "J5": "TBGA-132, 12x18x1.20",
+          "M4": "LBGA-132, 12x18x1.30",
+          "J6": "LBGA-132, 12x18x1.40",
+          "M5": "LBGA-132, 12x18x1.50",
+          "J9": "LBGA-132, 12x18x1.60",
+          "G1": "VFBGA-272, 14x18x1.00",
+          "G2": "LFBGA-272, 14x18x1.30",
+          "G5": "LFBGA-272, 14x18x1.40",
+          "G6": "LFBGA-272, 14x18x1.50",
+          "G7": "VFBGA-252, 12x18x1.00",
+          "G8": "LFBGA-252, 12x18x1.30",
+          "G9": "LFBGA-252, 12x18x1.40",
+          "M9": "LFBGA-252, 14x18x1.45",
+          "G4": "LFBGA-252, 12x18x1.50",
+          "D4": "VFBGA-154, 11.5x13.5x1.00",
+          "D5": "LFBGA-154, 11.5x13.5x1.30",
+          "D8": "LFBGA-154, 11.5x13.5x1.45",
+          "D6": "LFBGA-154, 11.5x13.5x1.50",
+          "D7": "LFBGA-154, 11.5x13.5x1.60",
+          "L4": "VFBGA-308, 11.5x15.5x1.00",
+          "L5": "LFBGA-308, 11.5x15.5x1.30",
+          "L8": "LFBGA-308, 11.5x15.5x1.45",
+          "L6": "LFBGA-308, 11.5x15.5x1.50",
+          "L7": "LFBGA-308, 11.5x15.5x1.70"
         },
         "speedObj": {
-          "15": {
-            "speed_grade": "133 MT/s"
-          },
-          "12": {
-            "speed_grade": "166 MT/s"
-          },
-          "10": {
-            "speed_grade": "200 MT/s"
-          },
-          "75": {
-            "speed_grade": "266 MT/s"
-          },
-          "6": {
-            "speed_grade": "333 MT/s"
-          },
-          "5": {
-            "speed_grade": "400 MT/s"
-          },
-          "37": {
-            "speed_grade": "533 MT/s"
+          "1": {
+            "speed_grade": "1200 MT/s"
           },
           "3": {
             "speed_grade": "667 MT/s"
           },
-          "25": {
-            "speed_grade": "800 MT/s"
+          "5": {
+            "speed_grade": "400 MT/s"
           },
-          "18": {
-            "speed_grade": "1066 MT/s"
+          "6": {
+            "speed_grade": "333 MT/s"
           },
-          "1": {
-            "speed_grade": "1200 MT/s"
+          "10": {
+            "speed_grade": "200 MT/s"
+          },
+          "12": {
+            "speed_grade": "166 MT/s"
+          },
+          "15": {
+            "speed_grade": "133 MT/s"
           },
           "16": {
             "speed_grade": "1600 MT/s"
           },
+          "18": {
+            "speed_grade": "1066 MT/s"
+          },
           "24": {
             "speed_grade": "2400 MT/s"
+          },
+          "25": {
+            "speed_grade": "800 MT/s"
           },
           "32": {
             "speed_grade": "3200 MT/s"
@@ -506,11 +500,17 @@
           "36": {
             "speed_grade": "3600 MT/s"
           },
+          "37": {
+            "speed_grade": "533 MT/s"
+          },
           "42": {
             "speed_grade": "4200 MT/s"
           },
           "48": {
             "speed_grade": "4800 MT/s"
+          },
+          "75": {
+            "speed_grade": "266 MT/s"
           }
         },
         "temperatureObj": {
@@ -1025,9 +1025,9 @@
           "256G": 262144
         },
         "device_width": {
+          "16": 16,
           "01": 1,
-          "08": 8,
-          "16": 16
+          "08": 8
         },
         "cellLevelByConfig": {
           "A": "SLC",
@@ -1203,23 +1203,23 @@
           "32Gb:MLC:B": "L63B"
         },
         "package": {
-          "WP": "48-pin TSOP I 12x20x1.20 CPL",
-          "WC": "48-pin TSOP I 12x20x1.20 OCPL",
-          "WA": "48-pin TSOP I 12x20x1.20 exposed metal paddle",
-          "WG": "48-pin TSOP I 12x20x1.20",
-          "SWP": "48-pin TSOP I DSP CPL",
-          "SWC": "48-pin TSOP I DSP OCPL",
-          "C2": "52-pin XLGA 12x17x0.40",
-          "C3": "52-pin ULGA 12x17x0.65",
-          "C4": "52-pin VLGA 12x17x1.00",
-          "C8": "52-pin WGA 14x18x0.75",
-          "C5": "52-pin VLGA 14x18x1.00",
-          "C6": "52-pin LLGA 14x18x1.47",
-          "C7": "48-pin LLGA 12x20x1.47",
-          "H1": "100-ball VBGA 12x18x1.00",
-          "H2": "100-ball TBGA 12x18x1.20",
-          "H4": "63-ball VFBGA 9x11x1.00",
-          "HC": "63-ball VFBGA 10.5x13x1.00"
+          "WP": "TSOP-I-48, 12x20x1.20, CPL",
+          "WC": "TSOP-I-48, 12x20x1.20, OCPL",
+          "WA": "TSOP-I-48, 12x20x1.20, exposed metal paddle",
+          "WG": "TSOP-I-48, 12x20x1.20",
+          "SWP": "TSOP-I-48, DSP CPL",
+          "SWC": "TSOP-I-48, DSP OCPL",
+          "C2": "XLGA-52, 12x17x0.40",
+          "C3": "ULGA-52, 12x17x0.65",
+          "C4": "VLGA-52, 12x17x1.00",
+          "C8": "WGA-52, 14x18x0.75",
+          "C5": "VLGA-52, 14x18x1.00",
+          "C6": "LLGA-52, 14x18x1.47",
+          "C7": "LLGA-48, 12x20x1.47",
+          "H1": "VBGA-100, 12x18x1.00",
+          "H2": "TBGA-100, 12x18x1.20",
+          "H4": "VFBGA-63, 9x11x1.00",
+          "HC": "VFBGA-63, 10.5x13x1.00"
         },
         "speedObj": {
           "H:20": {

@@ -153,7 +153,7 @@ assertPart("H25T3TC88C-X658-R", {
   dieProfileField: "HYV8",
   cellField: "TLC",
   voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
-  package: "152-ball BGA 14x18x1.35mm",
+  package: "BGA-152, 14x18x1.35",
   extra: {
     "Layer Count": 238,
     "Die Density": "1Tb",
@@ -174,7 +174,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 1,
     rbCount: 1,
     channelCount: 1,
-    package: "152-ball BGA 14x18x1.0mm"
+    package: "BGA-152, 14x18x1.0"
   },
   {
     partNumber: "H25T1TD28CX656",
@@ -183,7 +183,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 2,
     rbCount: 2,
     channelCount: 2,
-    package: "152-ball BGA 14x18x1.0mm"
+    package: "BGA-152, 14x18x1.0"
   },
   {
     partNumber: "H25T2TD48CX657",
@@ -192,7 +192,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "152-ball BGA 14x18x1.0mm"
+    package: "BGA-152, 14x18x1.0"
   },
   {
     partNumber: "H25T3TD88CX676",
@@ -201,7 +201,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "152-ball BGA 14x18x1.35mm"
+    package: "BGA-152, 14x18x1.35"
   },
   {
     partNumber: "H25T3TD88CX658",
@@ -210,7 +210,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "152-ball BGA 14x18x1.35mm"
+    package: "BGA-152, 14x18x1.35"
   },
   {
     partNumber: "H25T4TDG8CX658",
@@ -219,7 +219,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "152-ball BGA 14x18x1.35mm"
+    package: "BGA-152, 14x18x1.35"
   },
   {
     partNumber: "H25T2TD48CX659",
@@ -228,7 +228,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "316-ball BGA 14x18x1.0mm"
+    package: "BGA-316, 14x18x1.0"
   },
   {
     partNumber: "H25T3TD88CX660",
@@ -237,7 +237,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "316-ball BGA 14x18x1.35mm"
+    package: "BGA-316, 14x18x1.35"
   },
   {
     partNumber: "H25T4TDG8CX660",
@@ -246,7 +246,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "316-ball BGA 14x18x1.35mm"
+    package: "BGA-316, 14x18x1.35"
   },
   {
     partNumber: "H25T2TD48CX862",
@@ -255,7 +255,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.0mm"
+    package: "BGA-154, 11.5x13.5x1.0"
   },
   {
     partNumber: "H25T3TD88CX860",
@@ -264,7 +264,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.35mm"
+    package: "BGA-154, 11.5x13.5x1.35"
   },
   {
     partNumber: "H25T0TD18CX826",
@@ -273,7 +273,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 1,
     rbCount: 1,
     channelCount: 1,
-    package: "154-ball BGA 11.5x13.5x1.0mm"
+    package: "BGA-154, 11.5x13.5x1.0"
   },
   {
     partNumber: "H25T1TD28CX828",
@@ -282,7 +282,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 2,
     rbCount: 2,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.0mm"
+    package: "BGA-154, 11.5x13.5x1.0"
   },
   {
     partNumber: "H25T2TD48CX809",
@@ -291,7 +291,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.0mm"
+    package: "BGA-154, 11.5x13.5x1.0"
   },
   {
     partNumber: "H25T3TD88CX811",
@@ -300,7 +300,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.35mm"
+    package: "BGA-154, 11.5x13.5x1.35"
   },
   {
     partNumber: "H25T4TDG8CX813",
@@ -309,7 +309,7 @@ const skhynixH25Hyv9KnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.5mm"
+    package: "BGA-154, 11.5x13.5x1.5"
   }
 ];
 
@@ -367,7 +367,7 @@ const skhynixH25V9hKnownPackages = [
     ceCount: 1,
     rbCount: 1,
     channelCount: 1,
-    package: "154-ball BGA 11.5x13.5x1.0mm"
+    package: "BGA-154, 11.5x13.5x1.0"
   },
   {
     partNumber: "H25T1TG28GX840",
@@ -376,7 +376,7 @@ const skhynixH25V9hKnownPackages = [
     ceCount: 2,
     rbCount: 2,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.0mm"
+    package: "BGA-154, 11.5x13.5x1.0"
   },
   {
     partNumber: "H25T2TG48GX842",
@@ -385,7 +385,7 @@ const skhynixH25V9hKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.0mm"
+    package: "BGA-154, 11.5x13.5x1.0"
   },
   {
     partNumber: "H25T3TG88GX844",
@@ -394,7 +394,7 @@ const skhynixH25V9hKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.35mm"
+    package: "BGA-154, 11.5x13.5x1.35"
   },
   {
     partNumber: "H25T2TG48GX846",
@@ -403,7 +403,7 @@ const skhynixH25V9hKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "316-ball BGA 14x18x1.0mm"
+    package: "BGA-316, 14x18x1.0"
   },
   {
     partNumber: "H25T3TG88GX848",
@@ -412,7 +412,7 @@ const skhynixH25V9hKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "316-ball BGA 14x18x1.35mm"
+    package: "BGA-316, 14x18x1.35"
   },
   {
     partNumber: "H25T4TGG8GX848",
@@ -421,7 +421,7 @@ const skhynixH25V9hKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "316-ball BGA 14x18x1.35mm"
+    package: "BGA-316, 14x18x1.35"
   }
 ];
 
@@ -456,7 +456,7 @@ assertPart("H25T0TG18G-X807", {
   densityMbit: 1048576,
   dieProfileField: "HYV9H",
   cellField: "TLC",
-  package: "154-ball BGA 11.5x13.5x1.0mm",
+  package: "BGA-154, 11.5x13.5x1.0",
   extra: {
     "Product Class": "Client"
   },
@@ -532,7 +532,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "316-ball BGA 14x18x1.0mm",
+    package: "BGA-316, 14x18x1.0",
     speedGrade: "Max Speed=3200MT/s",
     productClass: "Client"
   },
@@ -543,7 +543,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "316-ball BGA 14x18x1.35mm",
+    package: "BGA-316, 14x18x1.35",
     speedGrade: "Max Speed=3200MT/s",
     productClass: "Client"
   },
@@ -554,7 +554,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "316-ball BGA 14x18x1.35mm",
+    package: "BGA-316, 14x18x1.35",
     speedGrade: "Max Speed=3200MT/s",
     productClass: "Client"
   },
@@ -565,7 +565,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 1,
     rbCount: 1,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.0mm",
+    package: "BGA-154, 11.5x13.5x1.0",
     speedGrade: "Max Speed=3200MT/s",
     productClass: "Enterprise"
   },
@@ -576,7 +576,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 2,
     rbCount: 2,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.0mm",
+    package: "BGA-154, 11.5x13.5x1.0",
     speedGrade: "Max Speed=3200MT/s",
     productClass: "Enterprise"
   },
@@ -587,7 +587,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.0mm",
+    package: "BGA-154, 11.5x13.5x1.0",
     speedGrade: "Max Speed=3200MT/s",
     productClass: "Enterprise"
   },
@@ -598,7 +598,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.35mm",
+    package: "BGA-154, 11.5x13.5x1.35",
     speedGrade: "Max Speed=3200MT/s",
     productClass: "Enterprise"
   },
@@ -609,7 +609,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "154-ball BGA 11.5x13.5x1.7mm",
+    package: "BGA-154, 11.5x13.5x1.7",
     speedGrade: "Max Speed=2280MT/s",
     productClass: "Enterprise",
     specialOption: "IF-Chip"

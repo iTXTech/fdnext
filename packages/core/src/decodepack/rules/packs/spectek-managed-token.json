@@ -87,15 +87,6 @@
           "F": 96
         },
         "emmc_density_obj": {
-          "V": {
-            "storage_density": "512MB eMMC"
-          },
-          "W": {
-            "storage_density": "256MB eMMC"
-          },
-          "X": {
-            "storage_density": "128MB eMMC"
-          },
           "1": {
             "storage_density": "1GB eMMC"
           },
@@ -120,6 +111,15 @@
           "9": {
             "storage_density": "128GB eMMC"
           },
+          "V": {
+            "storage_density": "512MB eMMC"
+          },
+          "W": {
+            "storage_density": "256MB eMMC"
+          },
+          "X": {
+            "storage_density": "128MB eMMC"
+          },
           "A": {
             "storage_density": "256GB eMMC"
           },
@@ -131,6 +131,21 @@
           }
         },
         "controller_obj": {
+          "0": {
+            "controller": "Micron Lambeau 9U6A V3.1"
+          },
+          "1": {
+            "controller": "SMI SM2754 V2.2"
+          },
+          "2": {
+            "controller": "Micron Lambeau 9U6A V2.2"
+          },
+          "3": {
+            "controller": "Micron Milehigh 9U2A V4.0"
+          },
+          "4": {
+            "controller": "Micron Milehigh 9U2A V3.1"
+          },
           "A": {
             "controller": "Phison 8200 V4.41 PL_REG"
           },
@@ -202,21 +217,6 @@
           },
           "Z": {
             "controller": "SMI SM2754 V3.1"
-          },
-          "0": {
-            "controller": "Micron Lambeau 9U6A V3.1"
-          },
-          "1": {
-            "controller": "SMI SM2754 V2.2"
-          },
-          "2": {
-            "controller": "Micron Lambeau 9U6A V2.2"
-          },
-          "3": {
-            "controller": "Micron Milehigh 9U2A V4.0"
-          },
-          "4": {
-            "controller": "Micron Milehigh 9U2A V3.1"
           }
         },
         "voltage": {
@@ -295,55 +295,55 @@
           }
         },
         "package": {
-          "AH": "VFBGA 221-ball, 11.5x13, 0.50mm pitch, 1.00mm thick",
-          "AK": "TFBGA 153-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
-          "AM": "VFBGA 153-ball, 11.5x13, 0.65mm pitch, 1.00mm thick",
-          "AN": "VFBGA 240-ball, 14x14, 0.65mm pitch, 0.95mm thick",
-          "AV": "VFBGA 305-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
-          "BA": "VFBGA 254-ball, 11.5x13, 0.50mm pitch, 1.30mm thick",
-          "BT": "TFBGA 221-ball, 11.5x13, 0.50mm pitch, 1.20mm thick",
-          "CT": "TFBGA 529-ball, 15x15, 0.50mm pitch, 1.03mm thick",
-          "CY": "LFBGA 221-ball, 11.5x13, 0.50mm pitch, 1.30mm thick",
-          "DI": "TFBGA 169-ball, 12x16, 0.50mm pitch, 1.20mm thick",
-          "DM": "TFBGA 153-ball, 11.5x13, 0.50mm pitch, 1.20mm thick",
-          "DX": "TFBGA 169-ball, 12x16, 0.50mm pitch, 1.10mm thick, uMPC w/LPDDR5",
-          "EQ": "LFBGA 297-ball, 11.5x13, 0.50mm pitch, 1.30mm thick",
-          "EW": "TFBGA 162-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
-          "FB": "TFBGA 221-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
-          "GB": "WFBGA 144-ball, 8x9.5, 0.40mm pitch, 0.80mm thick",
-          "GC": "WFBGA 144-ball, 8x9.5, 0.40mm pitch, 0.765mm thick",
-          "GM": "VFBGA 240-ball, 14x14, 0.50mm pitch, 0.85mm thick",
-          "HS": "LFBGA 199-ball, 12x18, 0.65mm pitch, 1.40mm thick",
-          "JD": "LFBGA 199-ball, 12x18, 0.65mm pitch, 1.20mm thick",
-          "KK": "VFBGA 168-ball, 12x12, 0.50mm pitch, 0.90mm thick",
-          "MF": "VFBGA 168-ball, 12x12, 0.50mm pitch, 0.85mm thick",
-          "MJ": "VFBGA 240-ball, 14x14, 0.50mm pitch, 0.85mm thick",
-          "MM": "VFBGA 162-ball, 11.5x13, 0.65mm pitch, 1.00mm thick",
-          "MR": "VFBGA 121-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
-          "MU": "VFBGA 240-ball, 14x14, 0.50mm pitch, 0.85mm thick",
-          "MW": "TFBGA 162-ball, 11.5x13, 0.50mm pitch, 1.20mm thick",
-          "MX": "VFBGA 152-ball, 14x14, 0.65mm pitch, 1.20mm thick",
-          "PB": "WFBGA 221-ball, 11.5x13, 0.50mm pitch, 0.80mm thick",
-          "PD": "VFBGA 221-ball, 11.5x13, 0.50mm pitch, 0.85mm thick",
-          "PL": "WFBGA 162-ball, 11.5x13, 0.50mm pitch, 0.80mm thick",
-          "PR": "TFBGA 254-ball, 11.5x13, 0.50mm pitch, 1.10mm thick",
-          "QS": "TFBGA 297-ball, 13x11.5, 0.50mm pitch, 1.10mm thick",
-          "RD": "VFBGA 168-ball, 12x12, 0.50mm pitch, 1.10mm thick",
-          "RL": "VFBGA 221-ball, 11.5x13, 0.50mm pitch, 0.90mm thick",
-          "SK": "VFBGA 162-ball, 11.5x13, 0.50mm pitch, 0.90mm thick",
-          "SL": "VFBGA 254-ball, 11.5x13, 0.50mm pitch, 0.90mm thick",
-          "SM": "VFBGA 254-ball, 11.5x13, 0.50mm pitch, 1.00mm thick",
-          "SP": "WFBGA 162-ball, 8x10.5, 0.50mm pitch, 0.80mm thick",
-          "TA": "TFBGA 162-ball, 11x13, 0.65mm pitch, 1.10mm thick",
-          "TB": "VFBGA 162-ball, 8x10.5, 0.50mm pitch, 0.90mm thick",
-          "TF": "VFBGA 162-ball, 11x13.5, 0.50mm pitch, 1.00mm thick",
-          "TN": "WFBGA 121-ball, 7.5x8, 0.50mm pitch, 0.80mm thick",
-          "TS": "VFBGA 168-ball, 12x12, 0.50mm pitch, 0.95mm thick",
-          "WD": "VFBGA 162-ball, 8x10.5, 0.50mm pitch, 0.90mm thick",
-          "WL": "TFBGA 297-ball, 11.5x13, 0.50mm pitch, 1.20mm thick",
-          "XL": "VFBGA 297-ball, 11.5x13, 0.50mm pitch, 0.90mm thick",
-          "XM": "VFBGA 297-ball, 11.5x13, 0.50mm pitch, 1.00mm thick",
-          "ZB": "WFBGA 221-ball, 11.5x13, 0.50mm pitch, 0.80mm thick"
+          "AH": "VFBGA-221, 11.5x13, 0.50 pitch 1.00 thick",
+          "AK": "TFBGA-153, 11.5x13, 0.50 pitch 1.10 thick",
+          "AM": "VFBGA-153, 11.5x13, 0.65 pitch 1.00 thick",
+          "AN": "VFBGA-240, 14x14, 0.65 pitch 0.95 thick",
+          "AV": "VFBGA-305, 11.5x13, 0.50 pitch 1.10 thick",
+          "BA": "VFBGA-254, 11.5x13, 0.50 pitch 1.30 thick",
+          "BT": "TFBGA-221, 11.5x13, 0.50 pitch 1.20 thick",
+          "CT": "TFBGA-529, 15x15, 0.50 pitch 1.03 thick",
+          "CY": "LFBGA-221, 11.5x13, 0.50 pitch 1.30 thick",
+          "DI": "TFBGA-169, 12x16, 0.50 pitch 1.20 thick",
+          "DM": "TFBGA-153, 11.5x13, 0.50 pitch 1.20 thick",
+          "DX": "TFBGA-169, 12x16, 0.50 pitch 1.10 thick uMPC w/LPDDR5",
+          "EQ": "LFBGA-297, 11.5x13, 0.50 pitch 1.30 thick",
+          "EW": "TFBGA-162, 11.5x13, 0.50 pitch 1.10 thick",
+          "FB": "TFBGA-221, 11.5x13, 0.50 pitch 1.10 thick",
+          "GB": "WFBGA-144, 8x9.5, 0.40 pitch 0.80 thick",
+          "GC": "WFBGA-144, 8x9.5, 0.40 pitch 0.765 thick",
+          "GM": "VFBGA-240, 14x14, 0.50 pitch 0.85 thick",
+          "HS": "LFBGA-199, 12x18, 0.65 pitch 1.40 thick",
+          "JD": "LFBGA-199, 12x18, 0.65 pitch 1.20 thick",
+          "KK": "VFBGA-168, 12x12, 0.50 pitch 0.90 thick",
+          "MF": "VFBGA-168, 12x12, 0.50 pitch 0.85 thick",
+          "MJ": "VFBGA-240, 14x14, 0.50 pitch 0.85 thick",
+          "MM": "VFBGA-162, 11.5x13, 0.65 pitch 1.00 thick",
+          "MR": "VFBGA-121, 11.5x13, 0.50 pitch 1.10 thick",
+          "MU": "VFBGA-240, 14x14, 0.50 pitch 0.85 thick",
+          "MW": "TFBGA-162, 11.5x13, 0.50 pitch 1.20 thick",
+          "MX": "VFBGA-152, 14x14, 0.65 pitch 1.20 thick",
+          "PB": "WFBGA-221, 11.5x13, 0.50 pitch 0.80 thick",
+          "PD": "VFBGA-221, 11.5x13, 0.50 pitch 0.85 thick",
+          "PL": "WFBGA-162, 11.5x13, 0.50 pitch 0.80 thick",
+          "PR": "TFBGA-254, 11.5x13, 0.50 pitch 1.10 thick",
+          "QS": "TFBGA-297, 13x11.5, 0.50 pitch 1.10 thick",
+          "RD": "VFBGA-168, 12x12, 0.50 pitch 1.10 thick",
+          "RL": "VFBGA-221, 11.5x13, 0.50 pitch 0.90 thick",
+          "SK": "VFBGA-162, 11.5x13, 0.50 pitch 0.90 thick",
+          "SL": "VFBGA-254, 11.5x13, 0.50 pitch 0.90 thick",
+          "SM": "VFBGA-254, 11.5x13, 0.50 pitch 1.00 thick",
+          "SP": "WFBGA-162, 8x10.5, 0.50 pitch 0.80 thick",
+          "TA": "TFBGA-162, 11x13, 0.65 pitch 1.10 thick",
+          "TB": "VFBGA-162, 8x10.5, 0.50 pitch 0.90 thick",
+          "TF": "VFBGA-162, 11x13.5, 0.50 pitch 1.00 thick",
+          "TN": "WFBGA-121, 7.5x8, 0.50 pitch 0.80 thick",
+          "TS": "VFBGA-168, 12x12, 0.50 pitch 0.95 thick",
+          "WD": "VFBGA-162, 8x10.5, 0.50 pitch 0.90 thick",
+          "WL": "TFBGA-297, 11.5x13, 0.50 pitch 1.20 thick",
+          "XL": "VFBGA-297, 11.5x13, 0.50 pitch 0.90 thick",
+          "XM": "VFBGA-297, 11.5x13, 0.50 pitch 1.00 thick",
+          "ZB": "WFBGA-221, 11.5x13, 0.50 pitch 0.80 thick"
         },
         "grade": {
           "BT": "Fully Tested at 70 degrees",
@@ -462,8 +462,7 @@
         {
           "op": "takeLongest",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -1093,49 +1092,49 @@
           "BC": "ufs"
         },
         "package": {
-          "AF": "VFBGA 153/196-ball, 9x13x0.85",
-          "AG": "VFBGA 153/196-ball, 11x10x1.0",
-          "AL": "LFBGA 153/196-ball, 11.5x13x1.0",
-          "AM": "VFBGA 153/196-ball, 11.5x13x1.0",
-          "AP": "WFBGA 153/196-ball, 9x13x0.8",
-          "AS": "VBGA 110/221-ball, 11.8x14.6x0.9",
-          "BH": "VFBGA 153/196-ball, 11.5x13x1.1",
-          "BN": "VBGA 110/221-ball, 11.8x14.6x1.0",
-          "CE": "LFBGA 169/392-ball, 14x18x1.3",
-          "CF": "VBGA 110/221-ball, 11.8x14.6x1.3",
-          "CN": "VFBGA 153/196-ball, 11.5x13x1.0 SAC302",
-          "DE": "LFBGA 153/196-ball, 11.5x13x1.4",
-          "DG": "LFBGA 169/392-ball, 12x16x1.5",
-          "DH": "LFBGA 169/392-ball, 12x18x1.4",
-          "DI": "TFBGA 169/392-ball, 12x16x1.2",
-          "DK": "LFBGA 169/392-ball, 12x16x1.4",
-          "DL": "TFBGA 169/392-ball, 12x18x1.2",
-          "DM": "TFBGA 153/196-ball, 11.5x13x1.2",
-          "DN": "LFBGA 169/392-ball, 14x18x1.4",
-          "DP": "LFBGA 169/392-ball, 14x18x1.7",
-          "DQ": "LBGA 100/170-ball, 14x18x1.4",
-          "DV": "VFBGA 169/392-ball, 12x16x1.0",
-          "DW": "LBGA 100/170-ball, 14x18x1.5",
-          "DX": "TFBGA 169/392-ball, 12x16x1.1",
-          "EA": "WFBGA 153/196-ball, 11.5x13x0.8",
-          "EC": "WFBGA 169/392-ball, 14x18x0.8",
-          "ED": "VFBGA 169/392-ball, 14x18x1.0",
-          "EF": "TFBGA 169/392-ball, 14x18x1.2",
-          "EG": "WFBGA 169/392-ball, 12x16x0.8",
-          "EJ": "LFBGA 169/392-ball, 14x18x1.3",
-          "EK": "VFBGA 153/196-ball, 11.5x13x0.9",
-          "EP": "VFBGA 169/392-ball, 12x16x0.9",
-          "EY": "LFBGA 153/196-ball, 11.5x13x1.4",
-          "GT": "VFBGA 153/196-ball, 11.5x13x0.8",
-          "HD": "VFBGA 153/196-ball, 11.5x13x0.9",
-          "HE": "VFBGA 153/196-ball, 11x13x0.9",
-          "HF": "WFBGA 153/196-ball, 11x13x0.8",
-          "HJ": "VFBGA 153/196-ball, 11.5x13x1.0",
-          "JP": "VFBGA 153/196-ball, 11.5x13x1.0 SAC302/NiAu",
-          "NA": "TBGA 100/170-ball, 14x18x1.2",
-          "NS": "TFBGA 153/196-ball, 11.5x13x1.2",
-          "TC": "LFBGA 153/196-ball, 11.5x13x1.3",
-          "TD": "TFBGA 153/196-ball, 11.5x13x1.2"
+          "AF": "VFBGA-153/196, 9x13x0.85",
+          "AG": "VFBGA-153/196, 11x10x1.0",
+          "AL": "LFBGA-153/196, 11.5x13x1.0",
+          "AM": "VFBGA-153/196, 11.5x13x1.0",
+          "AP": "WFBGA-153/196, 9x13x0.8",
+          "AS": "VBGA-110/221, 11.8x14.6x0.9",
+          "BH": "VFBGA-153/196, 11.5x13x1.1",
+          "BN": "VBGA-110/221, 11.8x14.6x1.0",
+          "CE": "LFBGA-169/392, 14x18x1.3",
+          "CF": "VBGA-110/221, 11.8x14.6x1.3",
+          "CN": "VFBGA-153/196, 11.5x13x1.0, SAC302",
+          "DE": "LFBGA-153/196, 11.5x13x1.4",
+          "DG": "LFBGA-169/392, 12x16x1.5",
+          "DH": "LFBGA-169/392, 12x18x1.4",
+          "DI": "TFBGA-169/392, 12x16x1.2",
+          "DK": "LFBGA-169/392, 12x16x1.4",
+          "DL": "TFBGA-169/392, 12x18x1.2",
+          "DM": "TFBGA-153/196, 11.5x13x1.2",
+          "DN": "LFBGA-169/392, 14x18x1.4",
+          "DP": "LFBGA-169/392, 14x18x1.7",
+          "DQ": "LBGA-100/170, 14x18x1.4",
+          "DV": "VFBGA-169/392, 12x16x1.0",
+          "DW": "LBGA-100/170, 14x18x1.5",
+          "DX": "TFBGA-169/392, 12x16x1.1",
+          "EA": "WFBGA-153/196, 11.5x13x0.8",
+          "EC": "WFBGA-169/392, 14x18x0.8",
+          "ED": "VFBGA-169/392, 14x18x1.0",
+          "EF": "TFBGA-169/392, 14x18x1.2",
+          "EG": "WFBGA-169/392, 12x16x0.8",
+          "EJ": "LFBGA-169/392, 14x18x1.3",
+          "EK": "VFBGA-153/196, 11.5x13x0.9",
+          "EP": "VFBGA-169/392, 12x16x0.9",
+          "EY": "LFBGA-153/196, 11.5x13x1.4",
+          "GT": "VFBGA-153/196, 11.5x13x0.8",
+          "HD": "VFBGA-153/196, 11.5x13x0.9",
+          "HE": "VFBGA-153/196, 11x13x0.9",
+          "HF": "WFBGA-153/196, 11x13x0.8",
+          "HJ": "VFBGA-153/196, 11.5x13x1.0",
+          "JP": "VFBGA-153/196, 11.5x13x1.0, SAC302/NiAu",
+          "NA": "TBGA-100/170, 14x18x1.2",
+          "NS": "TFBGA-153/196, 11.5x13x1.2",
+          "TC": "LFBGA-153/196, 11.5x13x1.3",
+          "TD": "TFBGA-153/196, 11.5x13x1.2"
         },
         "grade": {
           "BT": "B Grade Fully Tested",
@@ -1208,8 +1207,7 @@
           "op": "map",
           "from": "package_code",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "map",
@@ -1403,18 +1401,18 @@
           }
         },
         "package": {
-          "AD": "UFBGA 194/1026, 12.5x9x0.545 (0.32)",
-          "ET": "VFBGA 149/224B, 8.0x9.5x1.0 (0.5)",
-          "GA": "WFBGA 149/224, 8x9.5x0.8 (0.5)",
-          "GM": "VBGA 240/729, 14x14x0.85 (0.5)",
-          "MF": "VFBGA 168/529, 12x12x0.85 (0.5)",
-          "PB": "WFBGA 221/308, 11.5x13x0.8 (0.5)",
-          "PL": "WFBGA 162/200, 11.5x13x0.8 (0.5)",
-          "SK": "VFBGA 162/200, 11.5x13x0.9 (0.5)",
-          "SQ": "VFBGA 162/200, 9.5x10.5x0.9 (0.5)",
-          "TB": "VFBGA 162/200B, 8.0x10.5x0.9 (0.5)",
-          "TN": "WFBGA 121/165B, 7.5x8.0x0.8 (0.5)",
-          "WD": "VFBGA 162/200, 8x10.5x0.9 (0.5) SAC302"
+          "AD": "UFBGA-194/1026, 12.5x9x0.545, 0.32 pitch",
+          "ET": "VFBGA-149/224, 8.0x9.5x1.0, 0.5",
+          "GA": "WFBGA-149/224, 8x9.5x0.8, 0.5 pitch",
+          "GM": "VBGA-240/729, 14x14x0.85, 0.5 pitch",
+          "MF": "VFBGA-168/529, 12x12x0.85, 0.5 pitch",
+          "PB": "WFBGA-221/308, 11.5x13x0.8, 0.5 pitch",
+          "PL": "WFBGA-162/200, 11.5x13x0.8, 0.5 pitch",
+          "SK": "VFBGA-162/200, 11.5x13x0.9, 0.5 pitch",
+          "SQ": "VFBGA-162/200, 9.5x10.5x0.9, 0.5 pitch",
+          "TB": "VFBGA-162/200, 8.0x10.5x0.9, 0.5",
+          "TN": "WFBGA-121/165, 7.5x8.0x0.8, 0.5",
+          "WD": "VFBGA-162/200, 8x10.5x0.9, 0.5 pitch SAC302"
         },
         "grade": {
           "BT": "Fully Tested",
@@ -1552,8 +1550,7 @@
           "op": "map",
           "from": "package_code",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",

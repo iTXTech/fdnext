@@ -87,26 +87,26 @@
           }
         },
         "packageBase": {
-          "DME": "FBGA153 11.5x13x1.0",
-          "DRM": "FBGA153 11.5x13x1.0",
-          "DRW": "FBGA153 11.5x13x1.0",
-          "DMW": "FBGA153 11.5x13x1.0",
-          "DNN": "FBGA153",
-          "KNN": "FBGA153 9x7.5x0.8",
-          "JNM": "FBGA153 9x10x0.8"
+          "DME": "FBGA-153, 11.5x13x1.0",
+          "DRM": "FBGA-153, 11.5x13x1.0",
+          "DRW": "FBGA-153, 11.5x13x1.0",
+          "DMW": "FBGA-153, 11.5x13x1.0",
+          "DNN": "FBGA-153",
+          "KNN": "FBGA-153, 9x7.5x0.8",
+          "JNM": "FBGA-153, 9x10x0.8"
         },
         "packageSpecific": {
-          "DME:004G": "FBGA153 11.5x13x1.0",
-          "DME:008G": "FBGA153 11.5x13x1.0",
-          "DME:016G": "FBGA153 11.5x13x1.0",
-          "DME:032G": "FBGA153 11.5x13x1.0",
-          "DME:064G": "FBGA153 11.5x13x1.2",
-          "DNN:064G": "FBGA153 11.5x13x0.8",
-          "DNN:128G": "FBGA153 11.5x13x0.8",
-          "DNN:256G": "FBGA153 11.5x13x1.0",
-          "KNN:004G": "FBGA153 9x7.5x0.8",
-          "KNN:008G": "FBGA153 9x7.5x0.8",
-          "JNM:032G": "FBGA153 9x10x0.8"
+          "DME:004G": "FBGA-153, 11.5x13x1.0",
+          "DME:008G": "FBGA-153, 11.5x13x1.0",
+          "DME:016G": "FBGA-153, 11.5x13x1.0",
+          "DME:032G": "FBGA-153, 11.5x13x1.0",
+          "DME:064G": "FBGA-153, 11.5x13x1.2",
+          "DNN:064G": "FBGA-153, 11.5x13x0.8",
+          "DNN:128G": "FBGA-153, 11.5x13x0.8",
+          "DNN:256G": "FBGA-153, 11.5x13x1.0",
+          "KNN:004G": "FBGA-153, 9x7.5x0.8",
+          "KNN:008G": "FBGA-153, 9x7.5x0.8",
+          "JNM:032G": "FBGA-153, 9x10x0.8"
         },
         "densityCode": [
           "004G",

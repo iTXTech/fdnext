@@ -75,8 +75,7 @@
           "op": "map",
           "from": "densityCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "take",

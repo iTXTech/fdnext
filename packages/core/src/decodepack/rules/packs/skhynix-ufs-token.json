@@ -35,7 +35,7 @@
           "D": "HYV7"
         },
         "package": {
-          "J": "153-ball JEDEC FBGA 11.5x13.0x1.2 TFBGA"
+          "J": "TFBGA-153, 11.5x13.0x1.2, JEDEC FBGA"
         },
         "temperatureObj": {
           "Q": {
@@ -100,7 +100,7 @@
           "from": "packageCode",
           "table": "package",
           "to": "package",
-          "default": "153-ball JEDEC FBGA"
+          "default": "FBGA-153, JEDEC"
         },
         {
           "op": "take",
@@ -254,8 +254,8 @@
           "D": "HYV7"
         },
         "package": {
-          "E": "153FBGA 11.0x13.0x0.8 WFBGA",
-          "Z": "153FBGA 11.0x13.0x1.0 VFBGA"
+          "E": "WFBGA-153, 11.0x13.0x0.8",
+          "Z": "VFBGA-153, 11.0x13.0x1.0"
         },
         "temperatureObj": {
           "K": {
@@ -316,7 +316,7 @@
           "from": "packageCode",
           "table": "package",
           "to": "package",
-          "default": "153FBGA"
+          "default": "FBGA-153"
         },
         {
           "op": "take",
@@ -610,7 +610,7 @@
           "$var": "density"
         },
         "fields.voltage": "Vcc: 3.3V, VccQ: 1.8V",
-        "fields.package": "153FBGA 11.5x13.0x0.8",
+        "fields.package": "FBGA-153, 11.5x13.0x0.8",
         "fields.layer_count": {
           "$path": "processObj.layer_count"
         },
@@ -779,7 +779,7 @@
           "$var": "density"
         },
         "fields.voltage": "Vcc: 2.7V-3.6V, VccQ2: 1.7V-1.95V",
-        "fields.package": "153FBGA 11.5x13.0x1.0",
+        "fields.package": "FBGA-153, 11.5x13.0x1.0",
         "meta.ruleId": "vendor.skhynix.ufs.hn8.ufs22-v6.v1"
       }
     }
@@ -815,8 +815,8 @@
           "T37": 8388608
         },
         "package": {
-          "E": "153FBGA",
-          "Z": "153FBGA"
+          "E": "FBGA-153",
+          "Z": "FBGA-153"
         },
         "temperatureObj": {
           "K": {
@@ -852,7 +852,7 @@
           "from": "packageCode",
           "table": "package",
           "to": "package",
-          "default": "153FBGA"
+          "default": "FBGA-153"
         },
         {
           "op": "take",
@@ -1016,9 +1016,9 @@
           }
         },
         "package": {
-          "AMR": "11.5x13x1.0mm",
-          "MMR": "11.5x13x1.0mm",
-          "MCR": "11.5x13x1.2mm"
+          "AMR": "11.5x13x1.0",
+          "MMR": "11.5x13x1.0",
+          "MCR": "11.5x13x1.2"
         }
       },
       "steps": [

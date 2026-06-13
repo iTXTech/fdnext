@@ -133,7 +133,7 @@
           "L:D": "SSV9"
         },
         "package": {
-          "B": "BGA-153 11.5x13"
+          "B": "BGA-153, 11.5x13"
         },
         "versionObj": {
           "4": {
@@ -266,8 +266,7 @@
           "op": "map",
           "from": "packageCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "take",

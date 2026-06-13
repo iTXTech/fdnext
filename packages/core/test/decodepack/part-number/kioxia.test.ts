@@ -12,7 +12,7 @@ testPart("TH58NVG7D2FTA00", {
   dieProfileField: "32nm",
   cellField: "MLC",
   voltage: "Vcc: 3.30V (2.70V-3.60V)",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Interface Type": "Conventional NAND (large block)",
     "Package Code": "TA",
@@ -45,7 +45,7 @@ testPart("TC58NVG7D2FTA00", {
   dieProfileField: "32nm",
   cellField: "MLC",
   voltage: "Vcc: 3.30V (2.70V-3.60V)",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Interface Type": "Conventional NAND (large block)",
     "Package Code": "TA",
@@ -65,7 +65,7 @@ testPart("TC58TFG8T23TA0D", {
   dieProfileField: "BiCS3",
   cellField: "TLC",
   voltage: "Vcc: 3.30V (2.70V-3.60V) / 2.50V (2.35V-2.75V), VccQ: 3.30V (2.70V-3.60V) / 1.80V (1.70V-1.95V)",
-  package: "TSOP48",
+  package: "TSOP-48",
   extra: {
     "Interface Type": "Toggle DDR 1.0/2.0",
     "Process Alias": "8T23",
@@ -85,7 +85,7 @@ testPart("TH58LKT4X46BAEG", {
   dieProfileField: "BiCS6",
   cellField: "TLC",
   voltage: "Vcc: 3.30V (2.70V-3.60V) / 2.50V (2.35V-2.75V), VccQ: 1.20V (1.14V-1.26V)",
-  package: "BGA272",
+  package: "BGA-272",
   extra: {
     "Interface Type": "Very Low Voltage Toggle DDR 3.0/4.0/5.x/6.x",
     "Layer Count": 162,
@@ -102,7 +102,7 @@ testPart("TH58LKB1F48BAEG", {
   densityMbit: 1397760,
   dieProfileField: "BiCS8",
   cellField: "QLC",
-  package: "BGA272",
+  package: "BGA-272",
   extra: {
     "Interface Type": "Very Low Voltage Toggle DDR 3.0/4.0/5.x/6.x",
     "Die Count": 16,
@@ -117,7 +117,7 @@ testPart("TH58LKY1R48BAEG", {
   densityMbit: 1048576,
   dieProfileField: "BiCS8",
   cellField: "PLC",
-  package: "BGA272",
+  package: "BGA-272",
   extra: {
     "Interface Type": "Very Low Voltage Toggle DDR 3.0/4.0/5.x/6.x",
     "Die Count": 16,
@@ -128,44 +128,44 @@ testPart("TH58LKY1R48BAEG", {
 
 test("KIOXIA raw NAND suffix topology resolves package and die layout", () => {
   [
-  { partNumber: "TH58NVG7D2FTA00", package: "TSOP48", dieCount: 1, ceCount: 1, channelCount: 1 },
-  { partNumber: "TH58LJG8T24TA0D", package: "TSOP48", dieCount: 1, ceCount: 1, channelCount: 1 },
-  { partNumber: "TH58NVG3S0HTAI0", package: "TSOP48", dieCount: 1, ceCount: 1, channelCount: 1 },
-  { partNumber: "TH58NVG3S0HTA1D", package: "TSOP48", dieCount: 1, ceCount: 1, channelCount: 1 },
-  { partNumber: "TH58NVG7D2FTA20", package: "TSOP48", dieCount: 2, ceCount: 2, channelCount: 1 },
-  { partNumber: "TH58TFT0T22TA2D", package: "TSOP48", dieCount: 2, ceCount: 2, channelCount: 1 },
-  { partNumber: "TH58NVG7D2FTA80", package: "TSOP48", dieCount: 4, ceCount: 4, channelCount: 1 },
-  { partNumber: "TC58NVG7T2HBA4C", package: "BGA132", dieCount: 1, ceCount: 2, channelCount: 2 },
-  { partNumber: "TH58LJG8SA4BA4C", package: "BGA132", dieCount: 2, ceCount: 2, channelCount: 2 },
-  { partNumber: "TH58LKT0T25BA4D", package: "BGA132", dieCount: 2, ceCount: 2, channelCount: 2 },
-  { partNumber: "TH58LJG9SA4BA8C", package: "BGA132", dieCount: 4, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58TFT0W23BASC", package: "BGA132", dieCount: 4, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58LJT0SA4BA8H", package: "BGA132", dieCount: 8, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58TFT0DDLBASH", package: "BGA132", dieCount: 8, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58TEG7D2HBA49", package: "BGA132 (12 x 18 x 1.4)", dieCount: 2, ceCount: 2, channelCount: 2 },
-  { partNumber: "TH58NVG9D2JBA89", package: "BGA132 (12 x 18 x 1.4)", dieCount: 8, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58NVG9D2JBAS9", package: "BGA132 (12 x 18 x 1.4)", dieCount: 8, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58NVG8S2FBA8A", package: "BGA132 (12 x 18 x 1.85)", dieCount: 8, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58TAG9D2FBASA", package: "BGA132 (12 x 18 x 1.85)", dieCount: 8, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58TFT2T22BA8P", package: "BGA132", dieCount: 16, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58LKT1T25BA4K", package: "BGA152", dieCount: 2, ceCount: 2, channelCount: 2 },
-  { partNumber: "TH58LKT1T25BA8K", package: "BGA152", dieCount: 4, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58LKT3T25BA8J", package: "BGA152", dieCount: 8, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58TFT2W23BASJ", package: "BGA152", dieCount: 8, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58TFT1EFKBA8N", package: "BGA152", dieCount: 16, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58LJT0T24BADE", package: "BGA272", dieCount: 4, ceCount: 4, channelCount: 4 },
-  { partNumber: "TH58LJT1T24BAEF", package: "BGA272", dieCount: 8, ceCount: 8, channelCount: 4 },
-  { partNumber: "TH58TFT1JFLBAEG", package: "BGA272", dieCount: 16, ceCount: 8, channelCount: 4 },
-  { partNumber: "TH58NVG7D2FBA0M", package: "BGA132", dieCount: 1, ceCount: 1, channelCount: 1 },
-  { partNumber: "TH58LKT4X46BS2K", package: "BGA152", dieCount: 2, ceCount: 2, channelCount: 1 },
-  { partNumber: "TH58LKT4X46BAXE", package: "BGA272", dieCount: 4, ceCount: 4, channelCount: 4 },
-  { partNumber: "TH58LKT4X46BA8R", package: "BGA154", dieCount: 4, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58LKT4X46BA8S", package: "BGA154", dieCount: 8, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58LKT4X46BB8R", package: "BGA152", dieCount: 16, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58LKT4X46BB8T", package: "BGA154", dieCount: 16, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58LKT4X46BB8U", package: "BGA154", dieCount: 32, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58TFT0DFKLAVF", package: "LGA60-SAT", dieCount: 8, ceCount: 8, channelCount: 2 },
-  { partNumber: "TH58TFT1DFKLAVH", package: "LGA60-SAT", dieCount: 16, ceCount: 8, channelCount: 2 }
+  { partNumber: "TH58NVG7D2FTA00", package: "TSOP-48", dieCount: 1, ceCount: 1, channelCount: 1 },
+  { partNumber: "TH58LJG8T24TA0D", package: "TSOP-48", dieCount: 1, ceCount: 1, channelCount: 1 },
+  { partNumber: "TH58NVG3S0HTAI0", package: "TSOP-48", dieCount: 1, ceCount: 1, channelCount: 1 },
+  { partNumber: "TH58NVG3S0HTA1D", package: "TSOP-48", dieCount: 1, ceCount: 1, channelCount: 1 },
+  { partNumber: "TH58NVG7D2FTA20", package: "TSOP-48", dieCount: 2, ceCount: 2, channelCount: 1 },
+  { partNumber: "TH58TFT0T22TA2D", package: "TSOP-48", dieCount: 2, ceCount: 2, channelCount: 1 },
+  { partNumber: "TH58NVG7D2FTA80", package: "TSOP-48", dieCount: 4, ceCount: 4, channelCount: 1 },
+  { partNumber: "TC58NVG7T2HBA4C", package: "BGA-132", dieCount: 1, ceCount: 2, channelCount: 2 },
+  { partNumber: "TH58LJG8SA4BA4C", package: "BGA-132", dieCount: 2, ceCount: 2, channelCount: 2 },
+  { partNumber: "TH58LKT0T25BA4D", package: "BGA-132", dieCount: 2, ceCount: 2, channelCount: 2 },
+  { partNumber: "TH58LJG9SA4BA8C", package: "BGA-132", dieCount: 4, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT0W23BASC", package: "BGA-132", dieCount: 4, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LJT0SA4BA8H", package: "BGA-132", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT0DDLBASH", package: "BGA-132", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TEG7D2HBA49", package: "BGA-132, 12x18x1.4", dieCount: 2, ceCount: 2, channelCount: 2 },
+  { partNumber: "TH58NVG9D2JBA89", package: "BGA-132, 12x18x1.4", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58NVG9D2JBAS9", package: "BGA-132, 12x18x1.4", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58NVG8S2FBA8A", package: "BGA-132, 12x18x1.85", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TAG9D2FBASA", package: "BGA-132, 12x18x1.85", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT2T22BA8P", package: "BGA-132", dieCount: 16, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT1T25BA4K", package: "BGA-152", dieCount: 2, ceCount: 2, channelCount: 2 },
+  { partNumber: "TH58LKT1T25BA8K", package: "BGA-152", dieCount: 4, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT3T25BA8J", package: "BGA-152", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT2W23BASJ", package: "BGA-152", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT1EFKBA8N", package: "BGA-152", dieCount: 16, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LJT0T24BADE", package: "BGA-272", dieCount: 4, ceCount: 4, channelCount: 4 },
+  { partNumber: "TH58LJT1T24BAEF", package: "BGA-272", dieCount: 8, ceCount: 8, channelCount: 4 },
+  { partNumber: "TH58TFT1JFLBAEG", package: "BGA-272", dieCount: 16, ceCount: 8, channelCount: 4 },
+  { partNumber: "TH58NVG7D2FBA0M", package: "BGA-132", dieCount: 1, ceCount: 1, channelCount: 1 },
+  { partNumber: "TH58LKT4X46BS2K", package: "BGA-152", dieCount: 2, ceCount: 2, channelCount: 1 },
+  { partNumber: "TH58LKT4X46BAXE", package: "BGA-272", dieCount: 4, ceCount: 4, channelCount: 4 },
+  { partNumber: "TH58LKT4X46BA8R", package: "BGA-154", dieCount: 4, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT4X46BA8S", package: "BGA-154", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT4X46BB8R", package: "BGA-152", dieCount: 16, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT4X46BB8T", package: "BGA-154", dieCount: 16, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT4X46BB8U", package: "BGA-154", dieCount: 32, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58TFT0DFKLAVF", package: "LGA-60, SAT", dieCount: 8, ceCount: 8, channelCount: 2 },
+  { partNumber: "TH58TFT1DFKLAVH", package: "LGA-60, SAT", dieCount: 16, ceCount: 8, channelCount: 2 }
   ].forEach(assertKioxiaRawSuffixTopology);
 });
 
@@ -176,7 +176,7 @@ testPart("THGBMNG5D1LBAIT", {
   dieProfileField: "15nm",
   cellField: "MLC",
   voltage: "Vcc: 3.3V, VccQ: 3.3V/1.8V",
-  package: "BGA153",
+  package: "BGA-153",
   extra: {
     "Storage Interface": "eMMC 5.0",
     "NAND Technology": "FG NAND",
@@ -196,7 +196,7 @@ testPart("THGBM2G9DBFBAI2", {
   dieProfileField: "32nm",
   cellField: "MLC",
   voltage: "Vcc: 3.3V, VccQ: 3.3V/1.8V",
-  package: "BGA (14 x 18 x 1.4)",
+  package: "BGA, 14x18x1.4",
   extra: {
     "Controller Revision": "2",
     "Die Count": 16,
@@ -214,7 +214,7 @@ testPart("THGAMVT0T43BAB8", {
   dieProfileField: "BiCS3",
   cellField: "TLC",
   voltage: "Vcc: 3.3V, VccQ: 1.8V",
-  package: "BGA (11.5 x 13 x 1.2)",
+  package: "BGA, 11.5x13x1.2",
   extra: {
     "Storage Interface": "eMMC 5.1",
     "Product Class": "Automotive AEC-Q100 Grade 2",
@@ -233,7 +233,7 @@ testPart("THGJFRT3E88BATW", {
   densityMbit: 8388608,
   dieProfileField: "BiCS8",
   voltage: "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V",
-  package: "BGA (9.0 x 13.0 x 0.85)",
+  package: "BGA, 9.0x13.0x0.85",
   extra: {
     "Storage Interface": "UFS 4.1",
     "Product Class": "Consumer / Industrial",
@@ -253,7 +253,7 @@ const kioxiaConsumerUfsSamples = [
     controllerRevision: "P",
     dieCount: 1,
     dieProfileField: "BiCS8",
-    package: "BGA (11.0 x 13.0 x 0.8)"
+    package: "BGA, 11.0x13.0x0.8"
   },
   {
     partNumber: "THGJFPT1E28BAIP",
@@ -263,7 +263,7 @@ const kioxiaConsumerUfsSamples = [
     controllerRevision: "P",
     dieCount: 2,
     dieProfileField: "BiCS8",
-    package: "BGA (11.0 x 13.0 x 0.8)"
+    package: "BGA, 11.0x13.0x0.8"
   },
   {
     partNumber: "THGJFPT2E48BAIP",
@@ -273,7 +273,7 @@ const kioxiaConsumerUfsSamples = [
     controllerRevision: "P",
     dieCount: 4,
     dieProfileField: "BiCS8",
-    package: "BGA (11.0 x 13.0 x 0.8)"
+    package: "BGA, 11.0x13.0x0.8"
   },
   {
     partNumber: "THGJFMT1E45BATV",
@@ -283,7 +283,7 @@ const kioxiaConsumerUfsSamples = [
     controllerRevision: "M",
     dieCount: 4,
     dieProfileField: "BiCS5",
-    package: "BGA (9.0 x 13.0 x 0.8)"
+    package: "BGA, 9.0x13.0x0.8"
   },
   {
     partNumber: "THGJFMT2E46BATV",
@@ -293,7 +293,7 @@ const kioxiaConsumerUfsSamples = [
     controllerRevision: "M",
     dieCount: 4,
     dieProfileField: "BiCS6",
-    package: "BGA (9.0 x 13.0 x 0.8)"
+    package: "BGA, 9.0x13.0x0.8"
   },
   {
     partNumber: "THGJFMT3E86BATZ",
@@ -303,7 +303,7 @@ const kioxiaConsumerUfsSamples = [
     controllerRevision: "M",
     dieCount: 8,
     dieProfileField: "BiCS6",
-    package: "BGA (9.0 x 13.0 x 0.9)"
+    package: "BGA, 9.0x13.0x0.9"
   },
   {
     partNumber: "THGJFRT1E45BATV",
@@ -313,7 +313,7 @@ const kioxiaConsumerUfsSamples = [
     controllerRevision: "R",
     dieCount: 4,
     dieProfileField: "BiCS5",
-    package: "BGA (9.0 x 13.0 x 0.8)"
+    package: "BGA, 9.0x13.0x0.8"
   },
   {
     partNumber: "THGJFRT2E48BATV",
@@ -323,7 +323,7 @@ const kioxiaConsumerUfsSamples = [
     controllerRevision: "R",
     dieCount: 4,
     dieProfileField: "BiCS8",
-    package: "BGA (9.0 x 13.0 x 0.8)"
+    package: "BGA, 9.0x13.0x0.8"
   },
   {
     partNumber: "THGJFRT3E88BATW",
@@ -333,7 +333,7 @@ const kioxiaConsumerUfsSamples = [
     controllerRevision: "R",
     dieCount: 8,
     dieProfileField: "BiCS8",
-    package: "BGA (9.0 x 13.0 x 0.85)"
+    package: "BGA, 9.0x13.0x0.85"
   }
 ];
 
@@ -399,7 +399,7 @@ testPart("THGVX1G7D2GLA08", {
   densityMbit: 131072,
   dieProfileField: "24nm",
   cellField: "MLC",
-  package: "LGA52 (14 x 18 x 1.04)",
+  package: "LGA-52, 14x18x1.04",
   extra: {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
@@ -419,7 +419,7 @@ testPart("TCGVX1G7D2GLA08", {
   densityMbit: 131072,
   dieProfileField: "24nm",
   cellField: "MLC",
-  package: "LGA52 (14 x 18 x 1.04)",
+  package: "LGA-52, 14x18x1.04",
   extra: {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
@@ -439,7 +439,7 @@ testPart("THGBX2G7D2JLA01", {
   densityMbit: 131072,
   dieProfileField: "19nm",
   cellField: "MLC",
-  package: "LGA60",
+  package: "LGA-60",
   extra: {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",
@@ -459,7 +459,7 @@ testPart("THGVR1G7D2GLA09", {
   densityMbit: 131072,
   dieProfileField: "24nm",
   cellField: "MLC",
-  package: "LGA52 (14 x 18 x 1.0)",
+  package: "LGA-52, 14x18x1.0",
   extra: {
     "Managed Family": "SmartNAND",
     Controller: "Embedded ECC",

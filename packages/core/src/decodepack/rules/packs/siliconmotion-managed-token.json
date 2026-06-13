@@ -34,11 +34,11 @@
         "packageObj": {
           "G": {
             "package_code": "100-b",
-            "package": "100-ball BGA"
+            "package": "BGA-100"
           },
           "P": {
             "package_code": "153-b",
-            "package": "153-ball BGA"
+            "package": "BGA-153"
           }
         },
         "tempObj": {
@@ -186,7 +186,7 @@
         "packageObj": {
           "P": {
             "package_code": "153-b",
-            "package": "153-ball BGA"
+            "package": "BGA-153"
           }
         },
         "tempObj": {

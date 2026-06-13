@@ -26,7 +26,7 @@ assertDram("H58G56CK8BX146", {
   density: "32Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
-  package: "315-ball FBGA",
+  package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5X",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -45,7 +45,7 @@ assertDram("H58G66CK8BX147", {
   density: "64Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
-  package: "315-ball FBGA",
+  package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5X",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -64,7 +64,7 @@ assertDram("H58G78CK8BX185", {
   density: "128Gb",
   widthField: "x8",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
-  package: "315-ball FBGA",
+  package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5X",
     "Channel Count": 2,
@@ -84,7 +84,7 @@ assertDram("H56C8H24MJR-S2C", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V / 1.35V / 1.35V",
-  package: "180-ball FBGA",
+  package: "FBGA-180",
   extra: {
     "DRAM Type": "GDDR6",
     "Package Code": "FBGA-180",
@@ -101,7 +101,7 @@ assertDram("H56G42AS8DX014", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V VPP; 1.35V / 1.25V / 1.20V VDD/VDDQ",
-  package: "180-ball BGA",
+  package: "BGA-180",
   extra: {
     "DRAM Type": "GDDR6",
     "DRAM Speed": "GDDR6-20Gbps/pin max (10.0GHz WCK)",
@@ -117,7 +117,7 @@ assertDram("H56G42AS2DX014", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V VPP; 1.35V / 1.25V / 1.20V VDD/VDDQ",
-  package: "180-ball BGA",
+  package: "BGA-180",
   extra: {
     "DRAM Type": "GDDR6",
     "DRAM Speed": "GDDR6-14Gbps/pin max (7.0GHz WCK)",

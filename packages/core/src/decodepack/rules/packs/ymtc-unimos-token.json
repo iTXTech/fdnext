@@ -97,9 +97,9 @@
           "F": 4
         },
         "package": {
-          "A1": "BGA-132 12x18",
-          "A2": "BGA-152 14x18",
-          "A3": "BGA-272 14x18"
+          "A1": "BGA-132, 12x18",
+          "A2": "BGA-152, 14x18",
+          "A3": "BGA-272, 14x18"
         },
         "productClass": {
           "C": {
@@ -224,8 +224,7 @@
         {
           "op": "takeLongest",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "take",

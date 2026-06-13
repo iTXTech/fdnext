@@ -26,7 +26,7 @@ assertDram("M16U4G16256A(2Z)", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4 1333/1600MHz"
@@ -40,7 +40,7 @@ assertDram("M15T1G1664A-EFBIG2S", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
@@ -56,7 +56,7 @@ assertDram("M15T1G1664A-DEBG2S", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-1866 (933MHz, 13-13-13)",
@@ -71,7 +71,7 @@ assertDram("M15T4G16256A-EFBG2G", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
@@ -86,7 +86,7 @@ assertDram("M15T4G16256A-EFBG2S", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
@@ -101,7 +101,7 @@ assertDram("M13S64164A-4TVAG2Y", {
   density: "64Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-500 (250MHz)",
@@ -117,7 +117,7 @@ assertDram("M13S64164A-4TG2Y", {
   density: "64Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-500 (250MHz)",
@@ -132,7 +132,7 @@ assertDram("M13S64164A-5TG2C", {
   density: "64Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-400 (200MHz)",
@@ -147,7 +147,7 @@ assertDram("M13D64322A-4.5BG2S", {
   density: "64Mb",
   widthField: "x32",
   voltage: "1.8V VDD",
-  package: "144-ball FBGA",
+  package: "FBGA-144",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Speed": "LPDDR-450 (222MHz)",
@@ -162,7 +162,7 @@ assertDram("M13S128168A-4.5BG2S", {
   density: "128Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "60-ball BGA",
+  package: "BGA-60",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-450 (225MHz)",
@@ -177,7 +177,7 @@ assertDram("M13S128168A-4TVAG2N", {
   density: "128Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-500 (250MHz)",
@@ -193,7 +193,7 @@ assertDram("M13S128168A-5BIG2N", {
   density: "128Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "60-ball BGA",
+  package: "BGA-60",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-400 (200MHz)",
@@ -209,7 +209,7 @@ assertDram("M13S2561616A-4BG2T", {
   density: "256Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "60-ball BGA",
+  package: "BGA-60",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-500 (250MHz)",
@@ -225,7 +225,7 @@ assertDram("M13S5121632A-5TG2T", {
   density: "512Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-400 (200MHz)",
@@ -241,7 +241,7 @@ assertDram("M12L128168A-5TIG2S", {
   density: "128Mb",
   widthField: "x16",
   voltage: "3.3V VDD",
-  package: "54-pin TSOP II",
+  package: "TSOP-II-54",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Speed": "SDR 200MHz",
@@ -257,7 +257,7 @@ assertDram("M12L32321A-5BG2G", {
   density: "32Mb",
   widthField: "x32",
   voltage: "3.3V VDD",
-  package: "90-ball FBGA",
+  package: "FBGA-90",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Speed": "SDR 200MHz",
@@ -272,7 +272,7 @@ assertDram("M14D5121632A-1.5BG2A", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball BGA (A(max) = 1.2mm)",
+  package: "BGA-84, A max=1.2",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1333 (667MHz, 7-10-10)",
@@ -287,7 +287,7 @@ assertDram("M14D5121632A-1.5BIG2M", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball BGA (A(max) = 1.2mm)",
+  package: "BGA-84, A max=1.2",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1333 (667MHz, 7-10-10)",
@@ -303,7 +303,7 @@ assertDram("M14D1G1664A-1.5BIG2P", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball BGA",
+  package: "BGA-84",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1333 (667MHz, 7-9-9)",
@@ -319,7 +319,7 @@ assertDram("M14D1G1664A-1.8BVG2S", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball BGA",
+  package: "BGA-84",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1066 (533MHz, 6-6-6)",
@@ -335,7 +335,7 @@ assertDram("M14D2561616A-1.5BG2S", {
   density: "256Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball BGA",
+  package: "BGA-84",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1333 (667MHz, 9-10-10)",
@@ -350,7 +350,7 @@ assertDram("M15T2G16128A-EFBIG2P", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
@@ -366,7 +366,7 @@ assertDram("M15T2G16128A-BDBIG2B", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-1600 (800MHz, 11-11-11)",
@@ -382,7 +382,7 @@ assertDram("M15T8G16512A-BDBIG2S", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-1600 (800MHz, 11-11-11)",
@@ -398,7 +398,7 @@ assertDram("M15T8G16512A-EFBG2S", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
@@ -413,7 +413,7 @@ assertDram("M14D1G1664A-1.8BIG2S", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball BGA",
+  package: "BGA-84",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1066 (533MHz, 6-6-6)",
@@ -429,7 +429,7 @@ assertDram("M14D1G8128A-1.5BG2P", {
   density: "1Gb",
   widthField: "x8",
   voltage: "1.8V VDD",
-  package: "60-ball BGA",
+  package: "BGA-60",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1333 (667MHz, 7-9-9)",
@@ -444,7 +444,7 @@ assertDram("M15F1G1664A-GHBG2S", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3-2400 (1200MHz, 16-16-16)",
@@ -459,7 +459,7 @@ assertDram("M15F2G16128A-DEBIG2B", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3-1866 (933MHz, 13-13-13)",
@@ -475,7 +475,7 @@ assertDram("M15F2G16128A-BDBIG2B", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3-1600 (800MHz, 11-11-11)",
@@ -491,7 +491,7 @@ assertDram("M15F4G16256A-GHBG2S", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3-2400 (1200MHz, 16-16-16)",
@@ -506,7 +506,7 @@ assertDram("M15F4G16256A-DEBIG2R", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3-1866 (933MHz, 13-13-13)",
@@ -522,7 +522,7 @@ assertDram("M55D4G16256A-GFBG2R", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball BGA",
+  package: "BGA-178",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Speed": "LPDDR3-2133 (1066MHz, RL16/WL8)",
@@ -537,7 +537,7 @@ assertDram("M15T4G8512A-EFBG2S", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V / 1.5V VDD",
-  package: "78-ball BGA",
+  package: "BGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
@@ -552,7 +552,7 @@ assertDram("M15T4G16256A-EFBIG2C", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
@@ -568,7 +568,7 @@ assertDram("M16U4G16256A-QLBIG", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4-3200 (1600MHz, 24-24-24)",
@@ -583,7 +583,7 @@ assertDram("M16U4G16256A-QLBIAG2Z", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4-3200 (1600MHz, 24-24-24)",
@@ -599,7 +599,7 @@ assertDram("M15T2G16128A-EFBVAG2R", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
@@ -615,7 +615,7 @@ assertDram("M15T4G16256A-DEBIAG2G", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-1866 (933MHz, 13-13-13)",
@@ -631,7 +631,7 @@ assertDram("M15T5121632A-DEBG", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-1866 (933MHz, 13-13-13)",
@@ -646,7 +646,7 @@ assertDram("M15T4G16256A-EFBIAG2S", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V VDD",
-  package: "96-ball BGA",
+  package: "BGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3(L)-2133 (1066MHz, 14-14-14)",
@@ -662,7 +662,7 @@ assertDram("M12L2561616A-5TVAG2S", {
   density: "256Mb",
   widthField: "x16",
   voltage: "3.3V VDD",
-  package: "54-pin TSOP II",
+  package: "TSOP-II-54",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Speed": "SDR 200MHz",
@@ -678,7 +678,7 @@ assertDram("M12L2561616A-5TVG2T", {
   density: "256Mb",
   widthField: "x16",
   voltage: "3.3V VDD",
-  package: "TSOP II",
+  package: "TSOP-II",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Speed": "SDR 200MHz",
@@ -710,7 +710,7 @@ assertDram("M12L64164A-5BIG2Y", {
   density: "64Mb",
   widthField: "x16",
   voltage: "3.3V VDD",
-  package: "54-ball VBGA",
+  package: "VBGA-54",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Speed": "SDR 200MHz",
@@ -726,7 +726,7 @@ assertDram("M12L64164A-5BIG2C", {
   density: "64Mb",
   widthField: "x16",
   voltage: "3.3V VDD",
-  package: "54-ball VBGA",
+  package: "VBGA-54",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Speed": "SDR 200MHz",
@@ -758,7 +758,7 @@ assertDram("M12L128168A-5TG2N", {
   density: "128Mb",
   widthField: "x16",
   voltage: "3.3V VDD",
-  package: "54-pin TSOP II",
+  package: "TSOP-II-54",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Speed": "SDR 200MHz",

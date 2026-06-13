@@ -496,330 +496,330 @@
         },
         "tailPackageObj": {
           "12L:TG:2N": {
-            "package": "54-pin TSOP II"
+            "package": "TSOP-II-54"
           },
           "12L:BG:2N": {
-            "package": "54-ball FBGA"
+            "package": "FBGA-54"
           },
           "12L:TIG:2S": {
-            "package": "54-pin TSOP II"
+            "package": "TSOP-II-54"
           },
           "12L:BIG:2S": {
-            "package": "54-ball FBGA"
+            "package": "FBGA-54"
           },
           "12L:TIG:2Y": {
-            "package": "54-pin TSOP II"
+            "package": "TSOP-II-54"
           },
           "12L:BIG:2Y": {
-            "package": "54-ball VBGA"
+            "package": "VBGA-54"
           },
           "12L:TIG:2C": {
-            "package": "54-pin TSOP II"
+            "package": "TSOP-II-54"
           },
           "12L:BIG:2C": {
-            "package": "54-ball VBGA"
+            "package": "VBGA-54"
           },
           "12L:TVG:2S": {
-            "package": "54-pin TSOP II"
+            "package": "TSOP-II-54"
           },
           "12L:TVAG:2S": {
-            "package": "54-pin TSOP II"
+            "package": "TSOP-II-54"
           },
           "12L:BVG:2S": {
-            "package": "54-ball BGA"
+            "package": "BGA-54"
           },
           "12L:BVAG:2S": {
-            "package": "54-ball BGA"
+            "package": "BGA-54"
           },
           "12L:TVG:2T": {
-            "package": "TSOP II"
+            "package": "TSOP-II"
           },
           "12L:BVG:2T": {
             "package": "BGA"
           },
           "12L:TVAG:2T": {
-            "package": "TSOP II"
+            "package": "TSOP-II"
           },
           "12L:BVAG:2T": {
             "package": "BGA"
           },
           "12L:TIG:2T": {
-            "package": "TSOP II"
+            "package": "TSOP-II"
           },
           "12L:BIG:2T": {
             "package": "BGA"
           },
           "12L:BG:2G": {
-            "package": "90-ball FBGA"
+            "package": "FBGA-90"
           },
           "13D:BG:2S": {
-            "package": "144-ball FBGA"
+            "package": "FBGA-144"
           },
           "13S:TG:2S": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "13S:BG:2S": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "13S:TVG:2Y": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "13S:TVAG:2Y": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "13S:BVG:2Y": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "13S:BVAG:2Y": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "13S:TG:2T": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "13S:BG:2T": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "13S:TIG:2N": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "13S:BIG:2N": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "13S:TVG:2N": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "13S:BVG:2N": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "13S:TVAG:2N": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "13S:BVAG:2N": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "13S:TG:2Y": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "13S:BG:2Y": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "13S:TG:2C": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "14D:BG:2A": {
-            "package": "84-ball BGA (A(max) = 1.2mm)"
+            "package": "BGA-84, A max=1.2"
           },
           "14D:BBG:2A": {
-            "package": "84-ball BGA (A(max) = 1.0mm)"
+            "package": "BGA-84, A max=1.0"
           },
           "14D:BIG:2S": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:BIG:2Y": {
-            "package": "84-ball BGA (A(max) = 1.2mm)"
+            "package": "BGA-84, A max=1.2"
           },
           "14D:BIG:2M": {
-            "package": "84-ball BGA (A(max) = 1.2mm)"
+            "package": "BGA-84, A max=1.2"
           },
           "14D:BBIG:2M": {
-            "package": "84-ball BGA (A(max) = 1.0mm)"
+            "package": "BGA-84, A max=1.0"
           },
           "14D:BIG:2P": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:BVG:2S": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:BVAG:2S": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:BG:2S": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:BG:2P": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "15F:BG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15F:BIG:2B": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15F:BIG:2R": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:FBIG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:FBIG:2P": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:EBIG:2P": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:DBIG:2P": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:FBIG:2B": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:EBIG:2B": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:DBIG:2B": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:EBIG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:DBIG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:FBIG:2C": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:EBIG:2C": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:DBIG:2C": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:FBVG:2R": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:EBVG:2R": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:DBVG:2R": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:FBVAG:2R": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:EBVAG:2R": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:DBVAG:2R": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:FBIAG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:EBIAG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:DBIAG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:FBG:2G": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:EBG:2G": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:DBG:2G": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:FBG:2S": {
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "15T:EBG:2S": {
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "15T:DBG:2S": {
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "15T:FBG:": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:EBG:": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:DBG:": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:FBIAG:2G": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:EBIAG:2G": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:DBIAG:2G": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "16U:BIG:": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "16U:BIAG:2Z": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "52D:BG:": {
-            "package": "54-ball FBGA"
+            "package": "FBGA-54"
           },
           "52D:BG:2F": {
-            "package": "54-ball FBGA"
+            "package": "FBGA-54"
           },
           "52D:BIG:": {
-            "package": "90-ball BGA"
+            "package": "BGA-90"
           },
           "52S:BIG:": {
-            "package": "90-ball VFBGA"
+            "package": "VFBGA-90"
           },
           "53D:BG:": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "53D:BG:2F": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "53D:BIG:2F": {
-            "package": "90-ball FBGA"
+            "package": "FBGA-90"
           },
           "54D:BKG:": {
-            "package": "134-ball BGA"
+            "package": "BGA-134"
           },
           "54D:BKIG:": {
-            "package": "134-ball BGA"
+            "package": "BGA-134"
           },
           "55D:BG:2R": {
-            "package": "178-ball BGA"
+            "package": "BGA-178"
           },
           "56Z:SMBYIG:": {
-            "package": "200-ball BGA"
+            "package": "BGA-200"
           },
           "56Z:TNBYG:2H": {
-            "package": "200-ball BGA"
+            "package": "BGA-200"
           }
         },
         "configTailPackageObj": {
           "15T:1G1664A:FBG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:1G1664A:EBG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:4G16256A:FBG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:4G16256A:EBG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:4G16256A:DBG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:8G16512A:FBG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:8G16512A:EBG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:8G16512A:DBG:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "53D:256328A:BG:2F": {
-            "package": "144-ball FBGA"
+            "package": "FBGA-144"
           },
           "53D:5123216A:BG:": {
-            "package": "144-ball FBGA"
+            "package": "FBGA-144"
           }
         },
         "tailTemperatureObj": {
@@ -1323,121 +1323,121 @@
         },
         "packageObj": {
           "12L:16:2S": {
-            "package": "54-pin TSOP II"
+            "package": "TSOP-II-54"
           },
           "12L:16:2C": {
-            "package": "54-pin TSOP II"
+            "package": "TSOP-II-54"
           },
           "12L:16:2R": {
-            "package": "50-pin TSOP II"
+            "package": "TSOP-II-50"
           },
           "12L:16:2T": {
-            "package": "54-pin TSOP II"
+            "package": "TSOP-II-54"
           },
           "12L:32:2C": {
-            "package": "90-ball BGA"
+            "package": "BGA-90"
           },
           "12L:32:2S": {
-            "package": "90-ball BGA"
+            "package": "BGA-90"
           },
           "13S:16:2S": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "13S:16:2T": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "13S:16:2C": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "14D:8:2P": {
-            "package": "60-ball BGA"
+            "package": "BGA-60"
           },
           "14D:16:2C": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:16:2G": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:16:2M": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:16:2P": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:16:2S": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:16:2T": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14D:16:2Y": {
-            "package": "84-ball FBGA"
+            "package": "FBGA-84"
           },
           "14F:16:2C": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "14F:16:2G": {
-            "package": "84-ball BGA"
+            "package": "BGA-84"
           },
           "15F:16:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:8:2C": {
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "15T:8:2D": {
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "15T:8:2R": {
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "15T:8:2S": {
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "15T:16:2C": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:16:2D": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:16:2P": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:16:2R": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:16:2S": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:16:2T": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "15T:16:2Z": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "16U:8:2Z": {
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "16U:16:2Z": {
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "55D:16:2R": {
-            "package": "178-ball BGA"
+            "package": "BGA-178"
           },
           "55D:16:2Y": {
-            "package": "178-ball BGA"
+            "package": "BGA-178"
           },
           "55D:32:2R": {
-            "package": "178-ball BGA"
+            "package": "BGA-178"
           },
           "55D:32:2Y": {
-            "package": "178-ball BGA"
+            "package": "BGA-178"
           },
           "56Z:16:2H": {
-            "package": "200-ball BGA"
+            "package": "BGA-200"
           },
           "56Z:32:2H": {
-            "package": "200-ball BGA"
+            "package": "BGA-200"
           }
         }
       },

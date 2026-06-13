@@ -141,7 +141,7 @@
         },
         "fields.dram_width": 16,
         "fields.dram_voltage": "2.5V VDD",
-        "fields.package": "66-pin TSOP (400 mil)",
+        "fields.package": "TSOP-66, 400 mil",
         "meta.ruleId": "vendor.winbond.dram.ddr.component.v1",
         "meta.fieldProfile": "dram",
         "meta.capabilities": [
@@ -187,10 +187,10 @@
           "6": 16
         },
         "package": {
-          "2:": "90-ball VFBGA",
-          "2:JX": "90-ball VFBGA",
-          "6:": "60-ball VFBGA",
-          "6:HX": "60-ball VFBGA"
+          "2:": "VFBGA-90",
+          "2:JX": "VFBGA-90",
+          "6:": "VFBGA-60",
+          "6:HX": "VFBGA-60"
         },
         "speedObj": {
           "5": {
@@ -267,8 +267,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "map",
@@ -376,8 +375,8 @@
           "8": 8
         },
         "package": {
-          "6": "84-ball TFBGA (8mm x 12.5mm)",
-          "8": "60-ball TFBGA (8mm x 12.5mm)"
+          "6": "TFBGA-84, 8x12.5",
+          "8": "TFBGA-60, 8x12.5"
         },
         "speedObj": {
           "12:25": {
@@ -501,8 +500,7 @@
           "op": "map",
           "from": "widthCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "tpl",
@@ -741,7 +739,7 @@
           "$var": "deviceWidth"
         },
         "fields.dram_voltage": "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
-        "fields.package": "134-ball VFBGA (10mm x 11.5mm)",
+        "fields.package": "VFBGA-134, 10x11.5",
         "meta.ruleId": "vendor.winbond.dram.lpddr2.component.v1",
         "meta.fieldProfile": "dram",
         "meta.capabilities": [
@@ -787,8 +785,8 @@
           "8": 8
         },
         "package": {
-          "6": "96-ball VFBGA (7.5mm x 13mm)",
-          "8": "78-ball VFBGA (8mm x 10.5mm)"
+          "6": "VFBGA-96, 7.5x13",
+          "8": "VFBGA-78, 8x10.5"
         },
         "voltage": {
           "G:NB": "1.5V VDD",
@@ -894,8 +892,7 @@
           "op": "map",
           "from": "widthCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "tpl",
@@ -1142,7 +1139,7 @@
           "$var": "deviceWidth"
         },
         "fields.dram_voltage": "1.8V VDD1 / 1.2V VDD2/VDDQ",
-        "fields.package": "178-ball VFBGA (11mm x 11.5mm)",
+        "fields.package": "VFBGA-178, 11x11.5",
         "meta.ruleId": "vendor.winbond.dram.lpddr3.component.v1",
         "meta.fieldProfile": "dram",
         "meta.capabilities": [
@@ -1186,8 +1183,8 @@
           "8": 8
         },
         "package": {
-          "6": "96-ball VFBGA (7.5mm x 13mm)",
-          "8": "78-ball VFBGA (7.5mm x 11mm)"
+          "6": "VFBGA-96, 7.5x13",
+          "8": "VFBGA-78, 7.5x11"
         },
         "speedObj": {
           "06": {
@@ -1264,8 +1261,7 @@
           "op": "map",
           "from": "widthCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "map",
@@ -1398,19 +1394,19 @@
           "LPDDR4_COMBO": "1.8V VDD1, 1.1V VDD2, 1.1V VDDQ (LPDDR4) or 0.6V VDDQ (LPDDR4X)"
         },
         "package": {
-          "N:BHA": "100-ball VFBGA (10mm x 7.5mm, 1.0mm thickness)",
-          "R:BHA": "100-ball VFBGA (10mm x 7.5mm, 1.0mm thickness)",
-          "N:BQA": "200-ball TFBGA (10mm x 14.5mm, 1.1mm thickness)",
-          "R:BQA": "200-ball TFBGA (10mm x 14.5mm, 1.1mm thickness)",
-          "N:BUA": "200-ball WFBGA (10mm x 14.5mm, 0.8mm thickness)",
-          "R:BUA": "200-ball WFBGA (10mm x 14.5mm, 0.8mm thickness)",
-          "N:QQA": "200-ball TFBGA (10mm x 14.5mm, 1.1mm thickness)",
-          "R:QQA": "200-ball WFBGA",
-          "N:QUA": "200-ball WFBGA (10mm x 14.5mm, 0.8mm thickness)",
-          "R:QUA": "200-ball WFBGA (10mm x 14.5mm, 0.8mm thickness)"
+          "N:BHA": "VFBGA-100, 10x7.5, 1.0 thickness",
+          "R:BHA": "VFBGA-100, 10x7.5, 1.0 thickness",
+          "N:BQA": "TFBGA-200, 10x14.5, 1.1 thickness",
+          "R:BQA": "TFBGA-200, 10x14.5, 1.1 thickness",
+          "N:BUA": "WFBGA-200, 10x14.5, 0.8 thickness",
+          "R:BUA": "WFBGA-200, 10x14.5, 0.8 thickness",
+          "N:QQA": "TFBGA-200, 10x14.5, 1.1 thickness",
+          "R:QQA": "WFBGA-200",
+          "N:QUA": "WFBGA-200, 10x14.5, 0.8 thickness",
+          "R:QUA": "WFBGA-200, 10x14.5, 0.8 thickness"
         },
         "packageOverride": {
-          "C:R:QQA": "200-ball TFBGA (10mm x 14.5mm, 1.1mm thickness)"
+          "C:R:QQA": "TFBGA-200, 10x14.5, 1.1 thickness"
         },
         "speedObj": {
           "LPDDR4:F": {
@@ -1573,8 +1569,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "package",
-          "to": "packageBase",
-          "default": "Unknown"
+          "to": "packageBase"
         },
         {
           "op": "tpl",

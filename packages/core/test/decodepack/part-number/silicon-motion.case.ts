@@ -36,7 +36,7 @@ assertPart("SM662GXC-BFS", {
   type: "eMMC",
   densityMbit: 524288,
   cellField: "TLC",
-  package: "100-ball BGA",
+  package: "BGA-100",
   extra: {
     "Product Family": "Ferri-eMMC",
     "Storage Interface": "eMMC 5.1",
@@ -54,7 +54,7 @@ assertPart("SM662PBC-BFS", {
   type: "eMMC",
   densityMbit: 524288,
   cellField: "TLC",
-  package: "153-ball BGA",
+  package: "BGA-153",
   extra: {
     "Product Family": "Ferri-eMMC",
     "Storage Interface": "eMMC 5.1",
@@ -71,7 +71,7 @@ assertPart("SM671PEF-BFS", {
   type: "UFS",
   densityMbit: 4194304,
   cellField: "TLC",
-  package: "153-ball BGA",
+  package: "BGA-153",
   extra: {
     "Product Family": "Ferri-UFS",
     "Storage Interface": "UFS 3.1",

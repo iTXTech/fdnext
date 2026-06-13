@@ -26,7 +26,7 @@ assertDram("EM63B085TS", {
   density: "512Mb",
   widthField: "x8",
   voltage: "3.3V VDD",
-  package: "54-pin TSOP II",
+  package: "TSOP-II-54",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Speed": "SDR 200/166/143MHz",
@@ -41,7 +41,7 @@ assertDram("EM6HE16EWBH", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball 7.5 x 13 x 1.0mm FBGA",
+  package: "FBGA-96, 7.5x13x1.0",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3L 1866/1600/1333MHz",
@@ -56,7 +56,7 @@ assertDram("EM6A8160TSC-4G", {
   density: "64Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-500 (250MHz)",
@@ -71,7 +71,7 @@ assertDram("EM68A16CBQC-18H", {
   density: "256Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball 8 x 12.5 x 1.2mm FBGA",
+  package: "FBGA-84, 8x12.5x1.2",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1066 (533MHz)",
@@ -86,7 +86,7 @@ assertDram("EM6GC16EWBH-09H", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball 7.5 x 13 x 1.0mm FBGA",
+  package: "FBGA-96, 7.5x13x1.0",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3-2133 (1066MHz)",
@@ -101,7 +101,7 @@ assertDram("EM6GF08EBAHC-10BSH", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball 7.5 x 10.5 x 1.2mm FBGA",
+  package: "FBGA-78, 7.5x10.5x1.2",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3-1866 (933MHz)",
@@ -117,7 +117,7 @@ assertDram("EM6HD08EWAHK-15AH", {
   density: "2Gb",
   widthField: "x8",
   voltage: "1.35V VDD",
-  package: "78-ball 7.5 x 10.5 x 1.0mm FBGA",
+  package: "FBGA-78, 7.5x10.5x1.0",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3L-1333 (667MHz)",
@@ -132,7 +132,7 @@ assertDram("EM6OF08NWALE", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball 7.5 x 11 x 1.2mm FBGA",
+  package: "FBGA-78, 7.5x11x1.2",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4 3200/2666/2400MHz",
@@ -147,7 +147,7 @@ assertDram("EM6OE08NWALB-08H", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball 7.5 x 11 x 1.2mm FBGA",
+  package: "FBGA-78, 7.5x11x1.2",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4-2400 (1200MHz)",
@@ -162,7 +162,7 @@ assertDram("EM6KA32HVAFA-18H", {
   density: "256Mb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
-  package: "134-ball 10 x 11.5 x 1.0mm FBGA",
+  package: "FBGA-134, 10x11.5x1.0",
   extra: {
     "DRAM Type": "LPDDR2",
     "DRAM Speed": "LPDDR2-1066 (533MHz)",
@@ -179,7 +179,7 @@ assertDram("EM6PF32MBAJB", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball 10 x 14.5 x 1.1mm FBGA",
+  package: "FBGA-200, 10x14.5x1.1",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Package Code": "BAJB",
@@ -198,7 +198,7 @@ assertDram("EM6PF32MBAJB-46SH", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball 10 x 14.5 x 1.1mm FBGA",
+  package: "FBGA-200, 10x14.5x1.1",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4X-4266 (2133MHz)",
@@ -215,7 +215,7 @@ assertDram("EM6LE16MVAJA-62BPH", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "200-ball 10 x 14.5 x 0.8mm FBGA",
+  package: "FBGA-200, 10x14.5x0.8",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Speed": "LPDDR4-3200 (1600MHz)",
@@ -232,7 +232,7 @@ assertDram("EM6LE16MVAJA62BPH", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "200-ball 10 x 14.5 x 0.8mm FBGA",
+  package: "FBGA-200, 10x14.5x0.8",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Speed": "LPDDR4-3200 (1600MHz)",

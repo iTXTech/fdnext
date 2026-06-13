@@ -36,7 +36,7 @@ assertPart("FNNL63A51K3WG-AF", {
   densityMbit: 32768,
   dieProfileField: "34nm",
   cellField: "MLC",
-  package: "48-pin TSOP I Center Package Leads (CPL) PB free",
+  package: "TSOP-I-48, Center Package Leads CPL PB free",
   extra: {
     "Process Alias": "L63A",
     "Product Family": "SpecTek NAND Flash",
@@ -50,7 +50,7 @@ assertPart("FNNL63A51K3WGAF", {
   densityMbit: 32768,
   dieProfileField: "34nm",
   cellField: "MLC",
-  package: "48-pin TSOP I Center Package Leads (CPL) PB free",
+  package: "TSOP-I-48, Center Package Leads CPL PB free",
   extra: {
     "Process Alias": "L63A",
     "Product Family": "SpecTek NAND Flash",
@@ -91,7 +91,7 @@ function assertM84CQuadCeMarking(markingCode: string, expectedPartNumber: string
     cellField: "SLC",
     widthField: "x8",
     voltage: "Vcc: 3.3V, VccQ: 1.8V, VssQ: 0V",
-    package: "152/221 ball TBGA, 14 x 18 x 1.2 (QDP)",
+    package: "TBGA-152/221, 14x18x1.2, QDP",
     extra: {
       "Die Density": "64Gb",
       "Die Count": 4,
@@ -112,7 +112,7 @@ assertPart("FBMM84C81KDMABH7", {
   cellField: "SLC",
   widthField: "x8",
   voltage: "Vcc: 3.3V, VccQ: 1.8V, VssQ: 0V",
-  package: "152/221 ball TBGA, 14 x 18 x 1.2 (QDP)",
+  package: "TBGA-152/221, 14x18x1.2, QDP",
   extra: {
     "Die Density": "64Gb",
     "Die Count": 4,
@@ -131,7 +131,7 @@ assertPart("PFA01", {
   cellField: "SLC",
   widthField: "x8",
   voltage: "Vcc: 3.3V, VccQ:3.3V",
-  package: "63/120 ball VFBGA, 9 x 11 x 1.0",
+  package: "VFBGA-63/120, 9x11x1.0",
   extra: {
     "Die Count": 1,
     "CE Count": 1,

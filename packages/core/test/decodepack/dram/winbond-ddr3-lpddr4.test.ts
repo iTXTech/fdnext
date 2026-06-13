@@ -26,7 +26,7 @@ assertDram("W668GG6TB-06", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball VFBGA (7.5mm x 13mm)",
+  package: "VFBGA-96, 7.5x13",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4-3200 22-22-22",
@@ -42,7 +42,7 @@ assertDram("W664GG6RB", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball VFBGA (7.5mm x 13mm)",
+  package: "VFBGA-96, 7.5x13",
   extra: {
     "DRAM Type": "DDR4"
   },
@@ -55,7 +55,7 @@ assertDram("W664GG8RB06J", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball VFBGA (7.5mm x 11mm)",
+  package: "VFBGA-78, 7.5x11",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4-3200 22-22-22",
@@ -71,7 +71,7 @@ assertDram("W631GG6NB", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball VFBGA (7.5mm x 13mm)",
+  package: "VFBGA-96, 7.5x13",
   extra: {
     "DRAM Type": "DDR3",
     "Bank Count": 8
@@ -85,7 +85,7 @@ assertDram("W631GG8NB09J", {
   density: "1Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball VFBGA (8mm x 10.5mm)",
+  package: "VFBGA-78, 8x10.5",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3-2133 14-14-14",
@@ -102,7 +102,7 @@ assertDram("W631GU6NB09J", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball VFBGA (7.5mm x 13mm)",
+  package: "VFBGA-96, 7.5x13",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3-2133 14-14-14",
@@ -119,7 +119,7 @@ assertDram("W639H6RBVADI", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball VFBGA (11mm x 11.5mm)",
+  package: "VFBGA-178, 11x11.5",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Speed": "LPDDR3-2133",
@@ -135,7 +135,7 @@ assertDram("W63AH2NBVACE", {
   density: "1Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball VFBGA (11mm x 11.5mm)",
+  package: "VFBGA-178, 11x11.5",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Speed": "LPDDR3-1866",
@@ -151,7 +151,6 @@ assertDram("W66AP6NB", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "Unknown",
   extra: {
     "DRAM Type": "LPDDR4",
     "Bank Count": 8,
@@ -166,7 +165,6 @@ assertDram("W66BP2NQ", {
   density: "2Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "Unknown",
   extra: {
     "DRAM Type": "LPDDR4",
     "Bank Count": 8,
@@ -181,7 +179,6 @@ assertDram("W66AQ6NB", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "Unknown",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Bank Count": 8,
@@ -196,7 +193,6 @@ assertDram("W66BQ2NQ", {
   density: "2Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "Unknown",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Bank Count": 8,
@@ -211,7 +207,6 @@ assertDram("W66BP6RB", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.8V VDD1, 1.1V VDD2, 1.1V VDDQ (LPDDR4) or 0.6V VDDQ (LPDDR4X)",
-  package: "Unknown",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Generation": "LPDDR4/4X Combo",
@@ -228,7 +223,6 @@ assertDram("W66CP2RQ", {
   density: "4Gb",
   widthField: "x32",
   voltage: "1.8V VDD1, 1.1V VDD2, 1.1V VDDQ (LPDDR4) or 0.6V VDDQ (LPDDR4X)",
-  package: "Unknown",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Generation": "LPDDR4/4X Combo",
@@ -245,7 +239,7 @@ assertDram("W66AP6NBHAHI", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "100-ball VFBGA (10mm x 7.5mm, 1.0mm thickness)",
+  package: "VFBGA-100, 10x7.5, 1.0 thickness",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Speed": "LPDDR4-4267",
@@ -262,7 +256,7 @@ assertDram("W66AQ6NBQAGJ", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball TFBGA (10mm x 14.5mm, 1.1mm thickness)",
+  package: "TFBGA-200, 10x14.5, 1.1 thickness",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4X-3733",
@@ -279,7 +273,7 @@ assertDram("W66BP6RBHAHJ", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.8V VDD1, 1.1V VDD2, 1.1V VDDQ (LPDDR4) or 0.6V VDDQ (LPDDR4X)",
-  package: "100-ball VFBGA (10mm x 7.5mm, 1.0mm thickness)",
+  package: "VFBGA-100, 10x7.5, 1.0 thickness",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Generation": "LPDDR4/4X Combo",
@@ -298,7 +292,7 @@ assertDram("W66CP2RQQAFJ", {
   density: "4Gb",
   widthField: "x32",
   voltage: "1.8V VDD1, 1.1V VDD2, 1.1V VDDQ (LPDDR4) or 0.6V VDDQ (LPDDR4X)",
-  package: "200-ball TFBGA (10mm x 14.5mm, 1.1mm thickness)",
+  package: "TFBGA-200, 10x14.5, 1.1 thickness",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Generation": "LPDDR4/4X Combo",
@@ -317,7 +311,7 @@ assertDram("W66DP2RQQAHJ", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball WFBGA",
+  package: "WFBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4X-4267",

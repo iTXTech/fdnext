@@ -57,7 +57,7 @@ assertPart("MT29FB16T08GALAAM5-TES:B", {
   cellField: "QLC",
   widthField: "x8",
   voltage: "Vcc: 3.30V (2.70–3.60V) or 2.50V (2.35–2.75V), VccQ: 1.20V (1.14–1.26V)",
-  package: "132-ball LBGA 12x18x1.50",
+  package: "LBGA-132, 12x18x1.50",
   extra: {
     "NAND Technology": "HSC NAND",
     "Product Mode": "IO Expander",
@@ -119,7 +119,7 @@ assertPart("MT29F16T08EWLEHD6-36ITRES:E", {
   cellField: "TLC",
   widthField: "x8",
   voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
-  package: "154-ball LFBGA 11.5x13.5x1.50",
+  package: "LFBGA-154, 11.5x13.5x1.50",
   extra: {
     "Interface Type": "NV-DDR3/NV-LPDDR4",
     "Speed Grade": "3600 MT/s",
@@ -144,7 +144,7 @@ assertPart("MT29H8G08AAAC6-20ETES:A", {
   cellField: "SLC",
   widthField: "x8",
   voltage: "Vcc: 3.30V (2.70-3.60V), VccQ: 3.30V (2.70-3.60V)",
-  package: "52-pin LLGA 14x18x1.47",
+  package: "LLGA-52, 14x18x1.47",
   extra: {
     "NAND Technology": "High Speed NAND",
     "Speed Grade": "100 MT/s",
@@ -166,7 +166,7 @@ assertPart("MT29F128G08WAAC6-ETES:A", {
   cellField: "MLC",
   widthField: "x8",
   voltage: "Vcc: 3.30V (2.70-3.60V), VccQ: 3.30V (2.70-3.60V)",
-  package: "52-pin LLGA 14x18x1.47",
+  package: "LLGA-52, 14x18x1.47",
   extra: {
     "Process Alias": "L52A",
     "Operation Temperature": "Extended (-40C ~ 85C)",
@@ -212,7 +212,7 @@ assertPart("MT29FB8T08EALAAM5-QK:E", {
   cellField: "TLC",
   widthField: "x8",
   voltage: "Vcc: 3.30V (2.70–3.60V) or 2.50V (2.35–2.75V), VccQ: 1.20V (1.14–1.26V)",
-  package: "132-ball LBGA 12x18x1.50",
+  package: "LBGA-132, 12x18x1.50",
   extra: {
     "NAND Technology": "HSC NAND",
     "Product Mode": "IO Expander",
@@ -287,7 +287,7 @@ assertPart("NC103", {
   cellField: "QLC",
   widthField: "x8",
   voltage: "Vcc: 3.30V (2.70–3.60V) or 2.50V (2.35–2.75V), VccQ: 1.20V (1.14–1.26V)",
-  package: "132-ball LBGA 12x18x1.50",
+  package: "LBGA-132, 12x18x1.50",
   extra: {
     "NAND Technology": "HSC NAND",
     "Product Mode": "IO Expander",

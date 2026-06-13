@@ -26,7 +26,7 @@ assertDram("H5TQ4G63AFR-TEC", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "F",
@@ -43,7 +43,7 @@ assertDram("H5TC4G83CFR-PBA", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "F",
@@ -60,7 +60,7 @@ assertDram("H5TC4G83CFR-TEA", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "F",
@@ -78,7 +78,7 @@ assertDram("H5TC4G83CFRTEA", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "F",
@@ -96,7 +96,7 @@ assertDram("H5TQ2G63BFK-H9K", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "Package Code": "F",
@@ -113,7 +113,7 @@ assertDram("H5TC8G83AMR-PBA", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.35V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -131,7 +131,7 @@ assertDram("H5TC8G63AMR-PBA", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -149,7 +149,7 @@ assertDram("H5AN8G8NAFR-UHC", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR4",
@@ -167,7 +167,7 @@ assertDram("H5AN8G8NCJR-XNC", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "Package Code": "J",
@@ -184,7 +184,7 @@ assertDram("H5ANAG8NCMR-XNC", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
@@ -203,7 +203,7 @@ assertDram("H5ANAG8NCMRXNC", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -221,7 +221,7 @@ assertDram("H5ANAG6NCMR-UHC", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -239,7 +239,7 @@ assertDram("H5CG48AGBD-X018", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR5",
@@ -258,7 +258,7 @@ assertDram("H5CGD8MHBD-X021", {
   density: "24Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Density": "24Gb",
@@ -276,7 +276,7 @@ assertDram("H5CG44AEBD", {
   density: "16Gb",
   widthField: "x4",
   voltage: "1.1V VDD",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Speed": "DDR5-4800 40-39-39",
@@ -293,7 +293,7 @@ assertDram("H5CG44AGBJX018N", {
   density: "16Gb",
   widthField: "x4",
   voltage: "1.1V VDD",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Density": "16Gb",
@@ -311,7 +311,7 @@ assertDram("H5CG48AGEDX013", {
   density: "64Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Density": "16Gb",
@@ -330,7 +330,7 @@ assertDram("H5CG56MMBDX052", {
   density: "32Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "106-ball FBGA",
+  package: "FBGA-106",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Density": "32Gb",
@@ -348,7 +348,7 @@ assertDram("H5AN8G8NAFR", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "Package Code": "F",
@@ -364,7 +364,7 @@ assertDram("H5GQ2H24AFR-R0C", {
   density: "2Gb",
   widthField: "x32",
   voltage: "1.35V/1.5V/1.6V VDD/VDDQ",
-  package: "170-ball BGA",
+  package: "BGA-170",
   extra: {
     "DRAM Type": "GDDR5",
     "Package Code": "F",

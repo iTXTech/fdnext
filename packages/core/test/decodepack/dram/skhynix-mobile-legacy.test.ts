@@ -26,7 +26,7 @@ assertDram("H9CCNNNBLTBLAR-NTD", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
-  package: "178-ball FBGA",
+  package: "FBGA-178",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -51,7 +51,7 @@ assertDram("H9CCNNNBLTBLAR-NUD", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
-  package: "178-ball FBGA",
+  package: "FBGA-178",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -72,7 +72,7 @@ assertDram("H9HCNNN8KUMLHR-NME", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   topology: { ce: 1, die: 2 },
   extra: {
     "DRAM Type": "LPDDR4",
@@ -92,7 +92,7 @@ assertDram("H9HCNNN8KUMLHR-NLE", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -111,7 +111,7 @@ assertDram("H9HCNNNCPUMLXR-NEE", {
   density: "32Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -130,7 +130,7 @@ assertDram("H9HCNNNCPMMLXR-NEE", {
   density: "32Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -149,7 +149,7 @@ assertDram("H9HCNNNCPMMLHR-NMI", {
   density: "32Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -168,7 +168,7 @@ assertDram("H9HCNNNBKMMLXR-NEI", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -187,7 +187,7 @@ assertDram("H9HCNNNBKMALHR-NEE", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -206,7 +206,7 @@ assertDram("H9HCNNNFAMMLXR-NEE", {
   density: "64Gb",
   widthField: "x8",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "8 dies, 2 CS",
@@ -226,7 +226,7 @@ assertDram("H9HKNNNBTUMUBR-NLH", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "366-ball FBGA (15x15)",
+  package: "FBGA-366, 15x15",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -246,7 +246,7 @@ assertDram("HY57V561620FTP-H", {
   density: "256Mb",
   widthField: "x16",
   voltage: "3.3V VDD",
-  package: "54-pin TSOP-II",
+  package: "TSOP-II-54",
   extra: {
     "DRAM Type": "SDR",
     "Package Code": "FTP",
@@ -261,7 +261,7 @@ assertDram("HY5DU121622DTP-D43", {
   density: "512Mb",
   widthField: "x16",
   voltage: "2.6V VDD",
-  package: "66-pin TSOP-II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
     "Package Code": "DTP",
@@ -276,7 +276,7 @@ assertDram("HY5PS121621CFP-Y5", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball FBGA",
+  package: "FBGA-84",
   extra: {
     "DRAM Type": "DDR2",
     "Package Code": "CFP",
@@ -291,7 +291,7 @@ assertDram("H9JCNNNCP3MLYR-N6E", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
-  package: "315-ball FBGA",
+  package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -308,7 +308,7 @@ assertDram("H9JCNNNBK3MLYR-N6E", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
-  package: "315-ball FBGA",
+  package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -325,7 +325,7 @@ assertDram("H9JCNNNFA5MLYR-N6E", {
   density: "64Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
-  package: "315-ball FBGA",
+  package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5",
     "DRAM Die Stack": "8 dies, 2 CS",

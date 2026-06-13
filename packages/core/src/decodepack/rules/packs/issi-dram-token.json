@@ -57,67 +57,67 @@
             "density": 2048,
             "device_width": 16,
             "config_code": "128M16",
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "16256": {
             "density": 4096,
             "device_width": 16,
             "config_code": "256M16",
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "16512": {
             "density": 8192,
             "device_width": 16,
             "config_code": "512M16",
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "16640": {
             "density": 1024,
             "device_width": 16,
             "config_code": "64M16",
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "81024": {
             "density": 8192,
             "device_width": 8,
             "config_code": "1G8",
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "81280": {
             "density": 1024,
             "device_width": 8,
             "config_code": "128M8",
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "82560": {
             "density": 2048,
             "device_width": 8,
             "config_code": "256M8",
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "85120": {
             "density": 4096,
             "device_width": 8,
             "config_code": "512M8",
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "16512S2": {
             "density": 8192,
             "device_width": 16,
             "config_code": "512M16 S2",
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           },
           "8K02S2": {
             "density": 16384,
             "device_width": 8,
             "config_code": "2G8 S2",
-            "package": "78-ball BGA"
+            "package": "BGA-78"
           },
           "16K01S2": {
             "density": 16384,
             "device_width": 16,
             "config_code": "1G16 S2",
-            "package": "96-ball BGA"
+            "package": "BGA-96"
           }
         },
         "stackObj": {
@@ -135,17 +135,17 @@
           }
         },
         "packageOverride": {
-          "TR:16256:B": "96-ball BGA (9mm x 13mm)",
-          "TR:16256:D": "96-ball BGA (7.5mm x 13mm)",
-          "TR:85120:B": "78-ball BGA (8mm x 10.5mm)",
-          "TR:85120:D": "78-ball BGA (8mm x 10.5mm)",
-          "TR:16512:B": "96-ball BGA (10mm x 14mm)",
-          "TR:16512S2:D": "96-ball BGA (9mm x 13mm)",
-          "TR:81024:B": "78-ball BGA (10mm x 14mm)",
-          "TR:16640:C": "96-ball BGA (9mm x 13mm)",
-          "TR:81280:C": "78-ball BGA (8mm x 10.5mm)",
-          "QR:16256:B": "96-ball FBGA (7.5mm x 13.5mm, 0.8mm ball pitch)",
-          "QR:85120:B": "78-ball FBGA"
+          "TR:16256:B": "BGA-96, 9x13",
+          "TR:16256:D": "BGA-96, 7.5x13",
+          "TR:85120:B": "BGA-78, 8x10.5",
+          "TR:85120:D": "BGA-78, 8x10.5",
+          "TR:16512:B": "BGA-96, 10x14",
+          "TR:16512S2:D": "BGA-96, 9x13",
+          "TR:81024:B": "BGA-78, 10x14",
+          "TR:16640:C": "BGA-96, 9x13",
+          "TR:81280:C": "BGA-78, 8x10.5",
+          "QR:16256:B": "FBGA-96, 7.5x13.5, 0.8 pitch",
+          "QR:85120:B": "FBGA-78"
         },
         "speedObj": {
           "3": {
@@ -259,23 +259,36 @@
             "cas_latency": 22
           }
         },
+        "packageToken": [
+          "BP",
+          "CT",
+          "B2",
+          "B",
+          "T"
+        ],
         "packageObj": {
           "BP": {
+            "package": "BGA, PoP",
             "package_code": "BP (PoP BGA)"
           },
           "CT": {
+            "package": "TSOP, Copper",
             "package_code": "CT (Copper TSOP)"
           },
           "B": {
             "package_code": "B (BGA)"
           },
           "B2": {
-            "package": "96-ball BGA (7.5mm x 13mm)",
+            "package": "BGA-96, 7.5x13",
             "package_code": "B2 (BGA)"
           },
           "T": {
             "package_code": "T (TSOP)"
           }
+        },
+        "packageType": {
+          "B": "BGA",
+          "T": "TSOP"
         },
         "solderObj": {
           "L": {
@@ -408,6 +421,13 @@
         },
         {
           "op": "takeLongest",
+          "table": "packageToken",
+          "to": "suffixPackageCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "suffixPackageCode",
           "table": "packageObj",
           "to": "suffixPackageObj",
           "default": {}
@@ -420,9 +440,22 @@
           }
         },
         {
+          "op": "map",
+          "from": "suffixPackageCode",
+          "table": "packageType",
+          "to": "suffixPackageType",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "basePackage",
+          "secondary": "suffixPackageType",
+          "to": "basePackageOrSuffixType"
+        },
+        {
           "op": "fallback",
           "primary": "suffixPackage",
-          "secondary": "basePackage",
+          "secondary": "basePackageOrSuffixType",
           "to": "package"
         },
         {
@@ -548,7 +581,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 128M",
             "dram_speed": "LPDDR4-3200"
           },
@@ -557,7 +590,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 64M",
             "dram_speed": "LPDDR4-3200"
           },
@@ -566,7 +599,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 256M",
             "dram_speed": "LPDDR4-3200"
           },
@@ -575,7 +608,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 256M",
             "dram_speed": "LPDDR4-3733/3200"
           },
@@ -584,7 +617,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 128M",
             "dram_speed": "LPDDR4-3200"
           },
@@ -593,7 +626,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 512M",
             "dram_speed": "LPDDR4-3733/3200"
           },
@@ -602,7 +635,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4",
             "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V VDDQ",
-            "package": "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter",
+            "package": "BGA-200, 1.1 max thickness 0.35 diameter",
             "config_code": "2x16 256M",
             "dram_speed": "LPDDR4-3200",
             "channel_count": 2,
@@ -613,7 +646,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 256M",
             "dram_speed": "LPDDR4-3733/3200"
           },
@@ -623,7 +656,7 @@
             "dram_type": "LPDDR4",
             "dram_generation": "LPDDR4/LPDDR4X",
             "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 1G",
             "channel_count": 2,
             "dram_speed": "LPDDR4/LPDDR4X-4266/3733"
@@ -633,7 +666,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 128M ECC",
             "dram_speed": "LPDDR4-3200",
             "ecc_enabled": true
@@ -643,7 +676,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 64M ECC",
             "dram_speed": "LPDDR4-3200",
             "ecc_enabled": true
@@ -653,7 +686,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 256M ECC",
             "dram_speed": "LPDDR4-3200",
             "ecc_enabled": true
@@ -663,7 +696,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4",
             "voltage": "1.8V VDD1 / 1.1V VDD2/VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 128M ECC",
             "dram_speed": "LPDDR4-3200",
             "ecc_enabled": true
@@ -673,7 +706,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4",
             "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V VDDQ",
-            "package": "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter",
+            "package": "BGA-200, 1.1 max thickness 0.35 diameter",
             "config_code": "2x16 256M ECC",
             "dram_speed": "LPDDR4-3200",
             "ecc_enabled": true,
@@ -685,7 +718,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 128M",
             "dram_speed": "LPDDR4X-3200"
           },
@@ -694,7 +727,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 64M",
             "dram_speed": "LPDDR4X-3200"
           },
@@ -703,7 +736,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 256M",
             "dram_speed": "LPDDR4X-3200"
           },
@@ -712,7 +745,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 256M",
             "dram_speed": "LPDDR4X-3733/3200"
           },
@@ -721,7 +754,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 128M",
             "dram_speed": "LPDDR4X-3200"
           },
@@ -730,7 +763,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 512M",
             "dram_speed": "LPDDR4X-3733/3200"
           },
@@ -739,7 +772,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4X",
             "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 0.57-0.65V VDDQ",
-            "package": "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter",
+            "package": "BGA-200, 1.1 max thickness 0.35 diameter",
             "config_code": "2x16 256M",
             "dram_speed": "LPDDR4X-3200",
             "channel_count": 2,
@@ -750,7 +783,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 256M",
             "dram_speed": "LPDDR4X-3733/3200"
           },
@@ -759,7 +792,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 128M ECC",
             "dram_speed": "LPDDR4X-3200",
             "ecc_enabled": true
@@ -769,7 +802,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 64M ECC",
             "dram_speed": "LPDDR4X-3200",
             "ecc_enabled": true
@@ -779,7 +812,7 @@
             "device_width": 16,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "1x16 256M ECC",
             "dram_speed": "LPDDR4X-3200",
             "ecc_enabled": true
@@ -789,7 +822,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4X",
             "voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-            "package": "200-ball BGA",
+            "package": "BGA-200",
             "config_code": "2x16 128M ECC",
             "dram_speed": "LPDDR4X-3200",
             "ecc_enabled": true
@@ -799,7 +832,7 @@
             "device_width": 32,
             "dram_type": "LPDDR4X",
             "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 0.57-0.65V VDDQ",
-            "package": "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter",
+            "package": "BGA-200, 1.1 max thickness 0.35 diameter",
             "config_code": "2x16 256M ECC",
             "dram_speed": "LPDDR4X-3200",
             "ecc_enabled": true,
@@ -812,7 +845,7 @@
             "dram_type": "LPDDR4",
             "dram_generation": "LPDDR4/LPDDR4X",
             "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-            "package": "200-ball BGA (10mm x 14.5mm)",
+            "package": "BGA-200, 10x14.5",
             "config_code": "1x16 512M",
             "channel_count": 1,
             "bank_count": 8,
@@ -824,7 +857,7 @@
             "dram_type": "LPDDR4",
             "dram_generation": "LPDDR4/LPDDR4X",
             "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-            "package": "200-ball BGA (10mm x 14.5mm)",
+            "package": "BGA-200, 10x14.5",
             "config_code": "2x16 512M",
             "channel_count": 2,
             "bank_count": 8,
@@ -836,7 +869,7 @@
             "dram_type": "LPDDR4",
             "dram_generation": "LPDDR4/LPDDR4X",
             "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-            "package": "200-ball BGA (10mm x 14.5mm)",
+            "package": "BGA-200, 10x14.5",
             "config_code": "2x16 1G S2",
             "channel_count": 2,
             "cs_count": 2,
@@ -849,7 +882,7 @@
             "dram_type": "LPDDR4",
             "dram_generation": "LPDDR4/LPDDR4X",
             "voltage": "1.70-1.95V VDD1 / 1.06-1.17V VDD2 / 1.06-1.17V or 0.57-0.65V VDDQ",
-            "package": "200-ball BGA (10mm x 14.5mm)",
+            "package": "BGA-200, 10x14.5",
             "config_code": "2x16 2G S2",
             "channel_count": 2,
             "cs_count": 2,
@@ -889,10 +922,10 @@
         "packageObj": {
           "B": {},
           "BH": {
-            "package": "200-ball BGA, 1.2mm max thickness, 0.4mm ball diameter"
+            "package": "BGA-200, 1.2 max thickness 0.4 diameter"
           },
           "TB": {
-            "package": "200-ball BGA, 1.1mm max thickness, 0.35mm ball diameter"
+            "package": "BGA-200, 1.1 max thickness 0.35 diameter"
           }
         }
       },
@@ -1308,11 +1341,11 @@
         },
         "packageObj": {
           "BP": {
-            "package": "PoP BGA",
+            "package": "BGA, PoP",
             "package_code": "BP (PoP BGA)"
           },
           "CT": {
-            "package": "Copper TSOP",
+            "package": "TSOP, Copper",
             "package_code": "CT (Copper TSOP)"
           },
           "B": {

@@ -26,7 +26,7 @@ assertDram("M14D128168A-1.8BIG2Y", {
   density: "128Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball BGA (A(max) = 1.2mm)",
+  package: "BGA-84, A max=1.2",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1066 (533MHz, 7-7-7)",
@@ -42,7 +42,7 @@ assertDram("M52D2561616A-7BG2F", {
   density: "256Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "54-ball FBGA",
+  package: "FBGA-54",
   extra: {
     "DRAM Type": "LPSDR",
     "DRAM Speed": "Mobile SDR 143MHz",
@@ -57,7 +57,7 @@ assertDram("M52D5121632A-5BG", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "54-ball FBGA",
+  package: "FBGA-54",
   extra: {
     "DRAM Type": "LPSDR",
     "DRAM Speed": "Mobile SDR 200MHz",
@@ -72,7 +72,7 @@ assertDram("M53D256328A-5BIG2F", {
   density: "256Mb",
   widthField: "x32",
   voltage: "1.8V VDD",
-  package: "90-ball FBGA",
+  package: "FBGA-90",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Speed": "LPDDR 200MHz",
@@ -88,7 +88,7 @@ assertDram("M53D256328A-5BG2F", {
   density: "256Mb",
   widthField: "x32",
   voltage: "1.8V VDD",
-  package: "144-ball FBGA",
+  package: "FBGA-144",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Speed": "LPDDR 200MHz",
@@ -103,7 +103,7 @@ assertDram("M53D2561616A-7.5BG2F", {
   density: "256Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "60-ball BGA",
+  package: "BGA-60",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Speed": "LPDDR 133MHz",
@@ -118,7 +118,7 @@ assertDram("M53D5121632A-7.5BG", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "60-ball BGA",
+  package: "BGA-60",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Speed": "LPDDR 133MHz",
@@ -133,7 +133,7 @@ assertDram("M53D5123216A-5BG", {
   density: "512Mb",
   widthField: "x32",
   voltage: "1.8V VDD",
-  package: "144-ball FBGA",
+  package: "FBGA-144",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Speed": "LPDDR 200MHz",
@@ -148,7 +148,7 @@ assertDram("M52D5123216A-6BIG", {
   density: "512Mb",
   widthField: "x32",
   voltage: "1.8V VDD",
-  package: "90-ball BGA",
+  package: "BGA-90",
   extra: {
     "DRAM Type": "LPSDR",
     "DRAM Speed": "Mobile SDR 166MHz",
@@ -164,7 +164,7 @@ assertDram("M54D1G1664A-1.8BKIG", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "134-ball BGA",
+  package: "BGA-134",
   extra: {
     "DRAM Type": "LPDDR2",
     "DRAM Speed": "LPDDR2-1066 (533MHz, RL8/WL4)",
@@ -180,7 +180,7 @@ assertDram("M54D2G3264A-1.8BKG", {
   density: "2Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "134-ball BGA",
+  package: "BGA-134",
   extra: {
     "DRAM Type": "LPDDR2",
     "DRAM Speed": "LPDDR2-1066 (533MHz, RL8/WL4)",
@@ -195,7 +195,7 @@ assertDram("M54D2G16128A-3BKG", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "134-ball BGA",
+  package: "BGA-134",
   extra: {
     "DRAM Type": "LPDDR2",
     "DRAM Speed": "LPDDR2-667 (333MHz, RL5/WL2)",
@@ -210,7 +210,7 @@ assertDram("M55D4G32128A-GFBG2R", {
   density: "4Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball BGA",
+  package: "BGA-178",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Speed": "LPDDR3-2133 (1066MHz, RL16/WL8)",
@@ -225,7 +225,7 @@ assertDram("M52S32321A-7.5BIG", {
   density: "32Mb",
   widthField: "x32",
   voltage: "2.5V VDD",
-  package: "90-ball VFBGA",
+  package: "VFBGA-90",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Speed": "SDR 133MHz",
@@ -241,7 +241,7 @@ assertDram("M56Z8G32256A(2H)", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball BGA",
+  package: "BGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4/LPDDR4X-4266 (2133MHz)"
@@ -255,7 +255,7 @@ assertDram("M56Z8G32256A-SMBYIG", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball BGA",
+  package: "BGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4X-3733 (1866MHz)",
@@ -271,7 +271,7 @@ assertDram("M56Z8G32256A-TNBYG2H", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball BGA",
+  package: "BGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4/LPDDR4X-4266 (2133MHz)",

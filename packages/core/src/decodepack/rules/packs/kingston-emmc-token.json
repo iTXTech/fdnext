@@ -175,8 +175,7 @@
           "op": "map",
           "from": "configCode",
           "table": "package",
-          "to": "packageBase",
-          "default": "Unknown"
+          "to": "packageBase"
         },
         {
           "op": "tpl",

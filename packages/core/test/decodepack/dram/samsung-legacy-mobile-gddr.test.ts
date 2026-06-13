@@ -26,7 +26,6 @@ assertDram("K4X51163PC", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
-  package: "Unknown",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -41,7 +40,7 @@ assertDram("K4X51163PC-FGC3", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
-  package: "60-ball FBGA",
+  package: "FBGA-60",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -66,7 +65,7 @@ assertDram("K4U52324Q", {
   density: "512Mb",
   widthField: "x32",
   voltage: "1.8V VDD/VDDQ",
-  package: "136-ball FBGA",
+  package: "FBGA-136",
   extra: {
     "DRAM Type": "GDDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -82,7 +81,7 @@ assertDram("K4J52324Q", {
   density: "512Mb",
   widthField: "x32",
   voltage: "1.8V VDD/VDDQ",
-  package: "136-ball FBGA",
+  package: "FBGA-136",
   extra: {
     "DRAM Type": "GDDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -98,7 +97,7 @@ assertDram("K4J55323Q", {
   density: "256Mb",
   widthField: "x32",
   voltage: "1.8V VDD/VDDQ",
-  package: "136-ball FBGA",
+  package: "FBGA-136",
   extra: {
     "DRAM Type": "GDDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -114,7 +113,7 @@ assertDram("K4N51163Q", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
-  package: "84-ball FBGA",
+  package: "FBGA-84",
   extra: {
     "DRAM Type": "GDDR2",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -130,7 +129,7 @@ assertDram("K4N56163Q", {
   density: "256Mb",
   widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
-  package: "84-ball FBGA",
+  package: "FBGA-84",
   extra: {
     "DRAM Type": "GDDR2",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -146,7 +145,7 @@ assertDram("K4D551638", {
   density: "256Mb",
   widthField: "x16",
   voltage: "2.5V VDD/VDDQ",
-  package: "66-pin TSOP-II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "GDDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -161,7 +160,7 @@ assertDram("K4D263238", {
   density: "128Mb",
   widthField: "x32",
   voltage: "2.5V VDD/VDDQ",
-  package: "144-ball FBGA",
+  package: "FBGA-144",
   extra: {
     "DRAM Type": "GDDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -176,7 +175,7 @@ assertDram("K4D261638", {
   density: "128Mb",
   widthField: "x16",
   voltage: "2.5V VDD/VDDQ",
-  package: "66-pin TSOP-II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "GDDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -191,7 +190,7 @@ assertDram("K4D263238E-GC33", {
   density: "128Mb",
   widthField: "x32",
   voltage: "2.5V VDD/VDDQ",
-  package: "144-ball FBGA",
+  package: "FBGA-144",
   extra: {
     "DRAM Type": "GDDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -207,7 +206,7 @@ assertDram("K4N56163QF-GC37", {
   density: "256Mb",
   widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
-  package: "84-ball FBGA",
+  package: "FBGA-84",
   extra: {
     "DRAM Type": "GDDR2",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -223,7 +222,7 @@ assertDram("K4J52324QC-BC14", {
   density: "512Mb",
   widthField: "x32",
   voltage: "1.8V VDD/VDDQ",
-  package: "136-ball FBGA",
+  package: "FBGA-136",
   extra: {
     "DRAM Type": "GDDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -239,7 +238,7 @@ assertDram("K4U52324QE-BC08", {
   density: "512Mb",
   widthField: "x32",
   voltage: "1.8V VDD/VDDQ",
-  package: "136-ball FBGA",
+  package: "FBGA-136",
   extra: {
     "DRAM Type": "GDDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -255,7 +254,7 @@ assertDram("K4W1G1646E-HC12", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.5V VDD/VDDQ",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -272,7 +271,7 @@ assertDram("K4W2G1646Q-BC1A", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.5V VDD/VDDQ",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -289,7 +288,7 @@ assertDram("K4W4G1646D-BY12", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V VDD/VDDQ",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -306,7 +305,7 @@ assertDram("K4G80325FB-HC25", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.35V/1.5V/1.6V VDD/VDDQ",
-  package: "170-ball FBGA",
+  package: "FBGA-170",
   extra: {
     "DRAM Type": "GDDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -322,7 +321,7 @@ assertDram("K4Z80325BC-HC14", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.35V VDD",
-  package: "180-ball FBGA",
+  package: "FBGA-180",
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "GDDR6",
@@ -339,7 +338,7 @@ assertDram("K4VAF325ZC-SC32", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.2V VDD",
-  package: "266-ball FBGA",
+  package: "FBGA-266",
   extra: {
     "DRAM Type": "GDDR7",
     "DRAM Die Stack": "1 die, 1 CS",

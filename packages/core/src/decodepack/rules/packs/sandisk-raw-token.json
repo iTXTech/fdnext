@@ -27,9 +27,9 @@
         "package": {
           "T": "TSOP",
           "Q": "BGA-132",
-          "X": "BGA-132 w/ MUX",
+          "X": "BGA-132, MUX",
           "U": "BGA-154",
-          "Z": "BGA-154 w/ MUX",
+          "Z": "BGA-154, MUX",
           "Y": "BGA-170",
           "R": "BGA-304",
           "S": "BGA-272"
@@ -373,14 +373,14 @@
       ],
       "tables": {
         "package": {
-          "T": "48-pin TSOP",
-          "X": "BGA132 12x18",
-          "Y": "BGA132 12x18",
-          "U": "BGA132/BGA304",
-          "Z": "BGA132 13x18",
-          "W": "BGA132 13x18x1.40",
-          "R": "BGA304 14x18x1.40",
-          "V": "BGA304 14x18"
+          "T": "TSOP-48",
+          "X": "BGA-132, 12x18",
+          "Y": "BGA-132, 12x18",
+          "U": "BGA-132/304",
+          "Z": "BGA-132, 13x18",
+          "W": "BGA-132, 13x18x1.40",
+          "R": "BGA-304, 14x18x1.40",
+          "V": "BGA-304, 14x18"
         },
         "processNode": {
           "Q": "SNK19",
@@ -429,11 +429,23 @@
           }
         },
         "dieStackObj": {
-          "A": {
+          "0": {
             "die_count": 1,
             "package_configuration": "SDP (1-die), 0 ODT"
           },
-          "0": {
+          "1": {
+            "die_count": 2,
+            "package_configuration": "DDP (2-die), 1 ODT"
+          },
+          "2": {
+            "die_count": 4,
+            "package_configuration": "QDP (4-die), 2 ODT"
+          },
+          "3": {
+            "die_count": 8,
+            "package_configuration": "ODP (8-die), 3 ODT"
+          },
+          "A": {
             "die_count": 1,
             "package_configuration": "SDP (1-die), 0 ODT"
           },
@@ -441,23 +453,11 @@
             "die_count": 2,
             "package_configuration": "DDP (2-die), 1 ODT"
           },
-          "1": {
-            "die_count": 2,
-            "package_configuration": "DDP (2-die), 1 ODT"
-          },
           "C": {
             "die_count": 4,
             "package_configuration": "QDP (4-die), 2 ODT"
           },
-          "2": {
-            "die_count": 4,
-            "package_configuration": "QDP (4-die), 2 ODT"
-          },
           "D": {
-            "die_count": 8,
-            "package_configuration": "ODP (8-die), 3 ODT"
-          },
-          "3": {
             "die_count": 8,
             "package_configuration": "ODP (8-die), 3 ODT"
           },
@@ -814,11 +814,11 @@
       "tables": {
         "package": {
           "T": "TSOP",
-          "Q": "BGA132",
-          "R": "BGA304",
-          "S": "BGA272",
-          "X": "BGA132+MUX",
-          "Y": "BGA170",
+          "Q": "BGA-132",
+          "R": "BGA-304",
+          "S": "BGA-272",
+          "X": "BGA-132, +MUX",
+          "Y": "BGA-170",
           "Z": "LGA"
         },
         "processNode": {
@@ -929,8 +929,7 @@
           "op": "map",
           "from": "packageCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",

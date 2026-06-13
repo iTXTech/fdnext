@@ -26,7 +26,7 @@ assertDram("W9412G6KH", {
   density: "128Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP (400 mil)",
+  package: "TSOP-66, 400 mil",
   extra: {
     "DRAM Type": "DDR",
     "Bank Count": 4
@@ -40,7 +40,7 @@ assertDram("W9412G6KH-6I", {
   density: "128Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP (400 mil)",
+  package: "TSOP-66, 400 mil",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-333 CL3",
@@ -57,7 +57,7 @@ assertDram("W9425G6KH-5K", {
   density: "256Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP (400 mil)",
+  package: "TSOP-66, 400 mil",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Speed": "DDR-400 CL3",
@@ -74,7 +74,7 @@ assertDram("W948D6KBHX", {
   density: "256Mb",
   widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
-  package: "60-ball VFBGA",
+  package: "VFBGA-60",
   extra: {
     "DRAM Type": "LPDDR",
     "Bank Count": 4
@@ -88,7 +88,7 @@ assertDram("W948V6KBHX6I", {
   density: "256Mb",
   widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
-  package: "60-ball VFBGA",
+  package: "VFBGA-60",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Speed": "LPDDR 166MHz",
@@ -104,7 +104,7 @@ assertDram("W949D2DBJX5E", {
   density: "512Mb",
   widthField: "x32",
   voltage: "1.8V VDD/VDDQ",
-  package: "90-ball VFBGA",
+  package: "VFBGA-90",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Speed": "LPDDR 200MHz",
@@ -120,7 +120,7 @@ assertDram("W94AD6KBHX6I", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
-  package: "60-ball VFBGA",
+  package: "VFBGA-60",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Speed": "LPDDR 166MHz",
@@ -136,7 +136,7 @@ assertDram("W9712G6KB", {
   density: "128Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball TFBGA (8mm x 12.5mm)",
+  package: "TFBGA-84, 8x12.5",
   extra: {
     "DRAM Type": "DDR2",
     "Bank Count": 4
@@ -150,7 +150,7 @@ assertDram("W9712G6KB25I", {
   density: "128Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball TFBGA (8mm x 12.5mm)",
+  package: "TFBGA-84, 8x12.5",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-800 5-5-5/6-6-6",
@@ -166,7 +166,7 @@ assertDram("W971GG8NB18J", {
   density: "1Gb",
   widthField: "x8",
   voltage: "1.8V VDD",
-  package: "60-ball TFBGA (8mm x 12.5mm)",
+  package: "TFBGA-60, 8x12.5",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1066 6-6-6",
@@ -183,7 +183,7 @@ assertDram("W9725G8KB-3", {
   density: "256Mb",
   widthField: "x8",
   voltage: "1.8V VDD",
-  package: "60-ball TFBGA (8mm x 12.5mm)",
+  package: "TFBGA-60, 8x12.5",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-667 5-5-5",
@@ -200,7 +200,7 @@ assertDram("W972GG6KB18J", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball TFBGA (8mm x 12.5mm)",
+  package: "TFBGA-84, 8x12.5",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Speed": "DDR2-1066 7-7-7",
@@ -217,7 +217,7 @@ assertDram("W972GG8KS", {
   density: "2Gb",
   widthField: "x8",
   voltage: "1.8V VDD",
-  package: "60-ball TFBGA (8mm x 12.5mm)",
+  package: "TFBGA-60, 8x12.5",
   extra: {
     "DRAM Type": "DDR2",
     "Bank Count": 8
@@ -231,7 +231,7 @@ assertDram("W978H6KB", {
   density: "256Mb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
-  package: "134-ball VFBGA (10mm x 11.5mm)",
+  package: "VFBGA-134, 10x11.5",
   extra: {
     "DRAM Type": "LPDDR2",
     "Bank Count": 4
@@ -245,7 +245,7 @@ assertDram("W978H2KBVX1E", {
   density: "256Mb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
-  package: "134-ball VFBGA (10mm x 11.5mm)",
+  package: "VFBGA-134, 10x11.5",
   extra: {
     "DRAM Type": "LPDDR2",
     "DRAM Speed": "LPDDR2-1066",
@@ -261,7 +261,7 @@ assertDram("W979H6RBVA2I", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
-  package: "134-ball VFBGA (10mm x 11.5mm)",
+  package: "VFBGA-134, 10x11.5",
   extra: {
     "DRAM Type": "LPDDR2",
     "DRAM Speed": "LPDDR2-800",
@@ -277,7 +277,7 @@ assertDram("W97AH6KB", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
-  package: "134-ball VFBGA (10mm x 11.5mm)",
+  package: "VFBGA-134, 10x11.5",
   extra: {
     "DRAM Type": "LPDDR2",
     "Bank Count": 8
@@ -291,7 +291,7 @@ assertDram("W97AH2KBVX1I", {
   density: "1Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ",
-  package: "134-ball VFBGA (10mm x 11.5mm)",
+  package: "VFBGA-134, 10x11.5",
   extra: {
     "DRAM Type": "LPDDR2",
     "DRAM Speed": "LPDDR2-1066",

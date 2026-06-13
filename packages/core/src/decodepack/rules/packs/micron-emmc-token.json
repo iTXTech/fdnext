@@ -180,24 +180,24 @@
           }
         },
         "package": {
-          "AM": "153-ball VFBGA 11.5x13x1.0",
-          "DE": "153-ball LFBGA 11.5x13x1.4",
-          "DG": "169-ball LFBGA 12x16x1.5",
-          "DH": "169-ball LFBGA 12x18x1.4",
-          "DI": "169-ball TFBGA 12x16x1.2",
-          "DK": "169-ball LFBGA 12x16x1.4",
-          "DL": "169-ball TFBGA 12x18x1.2",
-          "DM": "153-ball TFBGA 11.5x13x1.2",
-          "DN": "169-ball LFBGA 14x18x1.4",
-          "DP": "169-ball LFBGA 14x18x1.7",
-          "DQ": "100-ball LBGA 14x18x1.4",
-          "DV": "169-ball VFBGA 12x16x1.0",
-          "EA": "153-ball WFBGA 11.5x13x0.8",
-          "EC": "169-ball WFBGA 14x18x0.8",
-          "ED": "169-ball VFBGA 14x18x1.0",
-          "EF": "169-ball TFBGA 14.0x18x1.2",
-          "EG": "169-ball WFBGA 12x16x0.8",
-          "EJ": "169-ball LFBGA 14x18x1.3"
+          "AM": "VFBGA-153, 11.5x13x1.0",
+          "DE": "LFBGA-153, 11.5x13x1.4",
+          "DG": "LFBGA-169, 12x16x1.5",
+          "DH": "LFBGA-169, 12x18x1.4",
+          "DI": "TFBGA-169, 12x16x1.2",
+          "DK": "LFBGA-169, 12x16x1.4",
+          "DL": "TFBGA-169, 12x18x1.2",
+          "DM": "TFBGA-153, 11.5x13x1.2",
+          "DN": "LFBGA-169, 14x18x1.4",
+          "DP": "LFBGA-169, 14x18x1.7",
+          "DQ": "LBGA-100, 14x18x1.4",
+          "DV": "VFBGA-169, 12x16x1.0",
+          "EA": "WFBGA-153, 11.5x13x0.8",
+          "EC": "WFBGA-169, 14x18x0.8",
+          "ED": "VFBGA-169, 14x18x1.0",
+          "EF": "TFBGA-169, 14.0x18x1.2",
+          "EG": "WFBGA-169, 12x16x0.8",
+          "EJ": "LFBGA-169, 14x18x1.3"
         },
         "temperatureObj": {
           "WT": {
@@ -265,8 +265,7 @@
           "op": "map",
           "from": "packageCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",

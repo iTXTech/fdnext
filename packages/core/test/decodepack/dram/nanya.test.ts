@@ -26,7 +26,7 @@ assertDram("NT5DS32M16CS-5T", {
   density: "512Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP-II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -42,7 +42,7 @@ assertDram("NT5TU32M16FG-ACI", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball BGA",
+  package: "BGA-84",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -59,7 +59,7 @@ assertDram("NT5CB128M8GN-DI", {
   density: "1Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball VFBGA",
+  package: "VFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -76,7 +76,7 @@ assertDram("NT5CC64M16GP-EKI", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball VFBGA",
+  package: "VFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -93,7 +93,7 @@ assertDram("NT5CB128M16JR-DI", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.5V VDD",
-  package: "96-ball TFBGA",
+  package: "TFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -109,7 +109,7 @@ assertDram("NT5CC128M16JR-DI", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball TFBGA",
+  package: "TFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -125,7 +125,7 @@ assertDram("NT5CB256M8JQ-DIT", {
   density: "2Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball TFBGA",
+  package: "TFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -142,7 +142,7 @@ assertDram("NT5CC128M16JR-DIB", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball TFBGA",
+  package: "TFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -160,7 +160,7 @@ assertDram("NT5CB256M8IN-DIH", {
   density: "2Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball VFBGA",
+  package: "VFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -177,7 +177,7 @@ assertDram("NT5CB256M8FN-EJ", {
   density: "2Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball TFBGA",
+  package: "TFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -194,7 +194,7 @@ assertDram("NT5CB512M8CN-AC", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball TFBGA",
+  package: "TFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -211,7 +211,7 @@ assertDram("NT5CC256M16CP-FL", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball TFBGA",
+  package: "TFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -228,7 +228,7 @@ assertDram("NT5CC512M8EQ-DIB", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V VDD",
-  package: "78-ball TFBGA",
+  package: "TFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -246,7 +246,7 @@ assertDram("NT5CC256M16ER-EKT", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V VDD",
-  package: "96-ball TFBGA",
+  package: "TFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -263,7 +263,7 @@ assertDram("NT5AD1024M8C3-HR", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD / 1.2V VDDQ / 2.5V VPP",
-  package: "78-ball TFBGA (7.50x12.00mm, 0.80mm pitch)",
+  package: "TFBGA-78, 7.50x12.00, 0.80 pitch",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -283,7 +283,7 @@ assertDram("NT5AD1024M8C3", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD / 1.2V VDDQ / 2.5V VPP",
-  package: "78-ball TFBGA (7.50x12.00mm, 0.80mm pitch)",
+  package: "TFBGA-78, 7.50x12.00, 0.80 pitch",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -302,7 +302,7 @@ assertDram("NT5AD256M16E4-HRT", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.2V VDD / 1.2V VDDQ / 2.5V VPP",
-  package: "96-ball TFBGA (7.50x13.00mm, 0.80mm pitch)",
+  package: "TFBGA-96, 7.50x13.00, 0.80 pitch",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -322,7 +322,7 @@ assertDram("NT5FF1024M16A4-Q5", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "106-ball BGA",
+  package: "BGA-106",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -339,7 +339,7 @@ assertDram("NT5FF2048M8EK-WEU", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "78-ball BGA",
+  package: "BGA-78",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -356,7 +356,7 @@ assertDram("NT5FF2048M8DK-UB", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "78-ball BGA",
+  package: "BGA-78",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -373,7 +373,7 @@ assertDram("NT6TL128M32BA-G0", {
   density: "4Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "134-ball BGA",
+  package: "BGA-134",
   extra: {
     "DRAM Type": "LPDDR2",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -390,7 +390,7 @@ assertDram("NT6CL256M32AM-H0", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+  package: "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -412,7 +412,7 @@ assertDram("NT6CL512T32AM-H1", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+  package: "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -434,7 +434,7 @@ assertDram("NT6CL1024F32AP-H0", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball FBGA (10.50x11.50x1.05mm, 0.65/0.80mm mixed pitch)",
+  package: "FBGA-178, 10.50x11.50x1.05, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -456,7 +456,7 @@ assertDram("NT6CL128M32DM-H1", {
   density: "4Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+  package: "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -478,7 +478,7 @@ assertDram("NT6CL256M16DM-H0", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+  package: "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -500,7 +500,7 @@ assertDram("NT6CL128M32BQ-H2", {
   density: "4Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "168-ball PoP BGA (12.00x12.00mm, 0.50mm pitch)",
+  package: "BGA-168, 12.00x12.00, 0.50 pitch PoP",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -522,7 +522,7 @@ assertDram("NT6CL256T32BM-H2", {
   density: "8Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "178-ball FBGA (10.50x11.50x0.83mm, 0.65/0.80mm mixed pitch)",
+  package: "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -544,7 +544,7 @@ assertDram("NT6CL128T64DR-H1", {
   density: "8Gb",
   widthField: "x64",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "216-ball 2-CH PoP-FBGA (12.00x12.00x0.83mm, 0.40mm pitch)",
+  package: "PoP-FBGA-216, 12.00x12.00x0.83, 0.40 pitch 2-CH",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -567,7 +567,7 @@ assertDram("NT6AN128M16AV-J3", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "200-ball FBGA (10.00x15.00x0.83mm, 0.65/0.80mm mixed pitch)",
+  package: "FBGA-200, 10.00x15.00x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "1 die",
@@ -591,7 +591,7 @@ assertDram("NT6AN128T32AV-J2", {
   density: "4Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "200-ball FBGA (10.00x15.00x0.83mm, 0.65/0.80mm mixed pitch)",
+  package: "FBGA-200, 10.00x15.00x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "2 dies",
@@ -615,7 +615,7 @@ assertDram("NT6AN512T32AV-J2", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "200-ball FBGA (10.00x15.00x1.00mm, 0.65/0.80mm mixed pitch)",
+  package: "FBGA-200, 10.00x15.00x1.00, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "2 dies",
@@ -639,7 +639,7 @@ assertDram("NT6AN1024F32AV-J2", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
-  package: "200-ball FBGA (10.00x15.00x1.20mm, 0.65/0.80mm mixed pitch)",
+  package: "FBGA-200, 10.00x15.00x1.20, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR4",
     "DRAM Die Stack": "4 dies",
@@ -664,7 +664,7 @@ assertDram("NT6AP256F64BN-J1", {
   density: "16Gb",
   widthField: "x64",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "376-ball PoP",
+  package: "BGA-376, PoP",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -681,7 +681,7 @@ assertDram("NT6AP512T32AV-J1", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball BGA",
+  package: "BGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -698,7 +698,7 @@ assertDram("NT6BR1024M16A3-K2", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
-  package: "315-ball BGA",
+  package: "BGA-315",
   extra: {
     "DRAM Type": "LPDDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -715,7 +715,7 @@ assertDram("NT6BR1024M16A3-K1", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
-  package: "315-ball BGA",
+  package: "BGA-315",
   extra: {
     "DRAM Type": "LPDDR5X",
     "DRAM Die Stack": "1 die, 1 CS",

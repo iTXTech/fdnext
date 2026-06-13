@@ -160,7 +160,7 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.package": "FBGA254 11.50x13.00",
+        "fields.package": "FBGA-254, 11.50x13.00",
         "fields.storage_density": {
           "$path": "densityKeyObj.storage_density"
         },
@@ -394,7 +394,7 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.package": "FBGA254 11.50x13.00",
+        "fields.package": "FBGA-254, 11.50x13.00",
         "meta.ruleId": "vendor.biwin.umcp.v1",
         "meta.hiddenFields": [
           "density"

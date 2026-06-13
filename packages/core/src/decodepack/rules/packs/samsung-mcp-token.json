@@ -26,35 +26,35 @@
       ],
       "tables": {
         "productType": {
-          "D": "emcp",
           "3": "emcp",
+          "4": "emcp",
+          "5": "umcp",
+          "8": "umcp",
+          "D": "emcp",
           "R": "emcp",
           "Q": "emcp",
           "F": "emcp",
           "M": "emcp",
           "G": "emcp",
-          "4": "emcp",
           "E": "umcp",
-          "5": "umcp",
           "A": "umcp",
           "P": "umcp",
-          "8": "umcp",
           "J": "umcp"
         },
         "storageTransport": {
-          "D": "eMMC",
           "3": "eMMC",
+          "4": "eMMC",
+          "5": "UFS",
+          "8": "UFS",
+          "D": "eMMC",
           "R": "eMMC",
           "Q": "eMMC",
           "F": "eMMC",
           "M": "eMMC",
           "G": "eMMC",
-          "4": "eMMC",
           "E": "UFS",
-          "5": "UFS",
           "A": "UFS",
           "P": "UFS",
-          "8": "UFS",
           "J": "UFS"
         },
         "interfaceByTypeSpeed": {
@@ -78,12 +78,12 @@
         },
         "capacityMbit": {
           "12": 65536,
+          "18": 524288,
           "1Z": 131072,
           "0H": 131072,
           "1B": 262144,
           "1K": 262144,
           "1D": 524288,
-          "18": 524288,
           "0C": 1048576,
           "1J": 1048576,
           "1R": 2097152,
@@ -109,12 +109,12 @@
           "G:E:1B": "16GB eMMC"
         },
         "dramType": {
-          "D": "LPDDR4X",
-          "F": "LPDDR3",
-          "G": "LPDDR3",
           "4": "LPDDR4X",
           "5": "LPDDR4X",
           "8": "LPDDR4X",
+          "D": "LPDDR4X",
+          "F": "LPDDR3",
+          "G": "LPDDR3",
           "J": "LPDDR5"
         },
         "dramDensity": {
@@ -132,40 +132,40 @@
           "1R:M": "96Gb"
         },
         "dramSpeedDefault": {
-          "D": "LPDDR4X-4266",
-          "F": "LPDDR3-1866",
-          "G": "LPDDR3-1866",
           "4": "LPDDR4X-4266",
           "5": "LPDDR4X-4266",
           "8": "LPDDR4X-4266",
+          "D": "LPDDR4X-4266",
+          "F": "LPDDR3-1866",
+          "G": "LPDDR3-1866",
           "J": "LPDDR5-6400"
         },
         "dramSpeedByTypePackage": {
           "D:H": "LPDDR4X-3733"
         },
         "packageByType": {
-          "3": "254 FBGA",
-          "E": "254 FBGA",
-          "5": "254 FBGA",
-          "A": "297 FBGA",
-          "P": "297 FBGA",
-          "R": "221 FBGA",
-          "Q": "221 FBGA",
-          "F": "221 FBGA",
-          "M": "153 FBGA"
+          "3": "FBGA-254",
+          "5": "FBGA-254",
+          "E": "FBGA-254",
+          "A": "FBGA-297",
+          "P": "FBGA-297",
+          "R": "FBGA-221",
+          "Q": "FBGA-221",
+          "F": "FBGA-221",
+          "M": "FBGA-153"
         },
         "packageByTypePackage": {
-          "D:T": "144 FBGA",
-          "D:P": "254 FBGA",
-          "D:H": "254 FBGA",
-          "F:N": "221 FBGA",
-          "G:D": "221Ball FBGA 11.5x13x1.0",
-          "G:E": "BGA221",
-          "G:P": "221 FBGA",
-          "4:X": "254 FBGA",
-          "5:L": "254 FBGA",
-          "8:V": "254 FBGA",
-          "J:S": "297 FBGA"
+          "D:T": "FBGA-144",
+          "D:P": "FBGA-254",
+          "D:H": "FBGA-254",
+          "F:N": "FBGA-221",
+          "G:D": "FBGA-221, 11.5x13x1.0",
+          "G:E": "BGA-221",
+          "G:P": "FBGA-221",
+          "4:X": "FBGA-254",
+          "5:L": "FBGA-254",
+          "8:V": "FBGA-254",
+          "J:S": "FBGA-297"
         }
       },
       "steps": [

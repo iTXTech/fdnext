@@ -63,7 +63,7 @@
         },
         "serialPackageObj": {
           "145": {
-            "package": "254Ball FBGA"
+            "package": "FBGA-254"
           }
         }
       },
@@ -344,7 +344,7 @@
         "fields": {
           "$var": "extra"
         },
-        "fields.package": "254Ball FBGA",
+        "fields.package": "FBGA-254",
         "meta.ruleId": "vendor.skhynix.umcp.h9hq.v1"
       }
     }

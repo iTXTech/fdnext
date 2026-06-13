@@ -55,7 +55,7 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - 用户可见字段不应重复表达同一语义。一个 token 同时能推导出 canonical 字段和原始/派生描述时，只保留用户最有价值的字段；例如 `dram_speed` 已经输出 `DDR3L-1333 (667MHz)` 时，不要再输出仅重复 `1333Mbps/pin` 的 `speed_grade`。
 - `speed_grade` 是例外但必须有额外用户价值：只在原始 speed / grade token 带有 binning、测试等级、CAS/RL/WL 时序、温度等级等 `dram_speed` 未表达的信息时保留，并可附带可读含义，例如 `046BT Fully Tested`、`PG Partial Good Mixed Bins`。如果只是同一速率的另一种单位或 token 回显，应省略。
 - `voltage` / `dram_voltage` 只表达电压本身；不要把 DDR 代际、DRAM 类型、产品线等已在其他字段出现的信息重复塞进电压文本。
-- `package` 只在官方资料、datasheet、catalog、拆解或可信分销页能确认实际封装尺寸 / ball count / pin 信息时输出；只有厂商 package token 时应省略公开 `package`，不要退回输出 package code。
+- `package` 只在官方资料、datasheet、catalog、拆解或可信分销页能确认封装类型、脚位、尺寸或特殊封装信息时输出；公开格式统一为 `TYPE[-PIN][, DIM][, SPECIAL]`，例如 `FBGA-153, 11.5x13x1.0`、`BGA, 11.0x13.0x0.8`、`WLGA`。缺 pin 时只输出已确认的 TYPE，不得补猜脚位；只有 DIM 被确认而 TYPE 未确认时只保留 DIM；不要输出 `mm`、`ball`、`pin` 等单位词或 `Unknown`。只有厂商 package token 时应省略公开 `package`，不要退回输出 package code。
 - 不维护历史 metadata alias 或运行时兼容转换。新增或清理字段时，直接迁移 iTXTech fdnext DecodePack 源规则、语言包和 testcase，并把旧 key 加入审计测试的禁止列表。
 
 特别禁止：

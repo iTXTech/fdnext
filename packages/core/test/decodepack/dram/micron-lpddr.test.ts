@@ -25,7 +25,7 @@ assertDram("MT53E1G32D2FW-046-AIT-A", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
-  package: "TFBGA-200 (10x14.5)",
+  package: "TFBGA-200, 10x14.5",
   topology: { ce: "Unknown", die: 2 },
   extra: {
     "DRAM Type": "LPDDR4X",
@@ -42,7 +42,7 @@ assertDram("MT53E1G32DDFW-046-AIT:A", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
-  package: "TFBGA-200 (10x14.5)",
+  package: "TFBGA-200, 10x14.5",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Package Code": "FW",
@@ -60,7 +60,7 @@ assertDram("MT62F1G32D4DS-031-WT-B", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "WFBGA-200 (10x14.5)",
+  package: "WFBGA-200, 10x14.5",
   extra: {
     "DRAM Type": "LPDDR5",
     "Package Code": "DS",
@@ -76,7 +76,7 @@ assertDram("MT62F1G32D3DS-031-WT:B", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "WFBGA-200 (10x14.5)",
+  package: "WFBGA-200, 10x14.5",
   extra: {
     "DRAM Type": "LPDDR5",
     "Package Code": "DS",
@@ -109,7 +109,7 @@ assertDram("MT62F2G32D4DS-023 RS WT:C-DNU", {
   density: "64Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "WFBGA-200 (10x14.5)",
+  package: "WFBGA-200, 10x14.5",
   extra: {
     "DRAM Type": "LPDDR5X",
     "DRAM Speed": "4266MHz (LPDDR5X-8533)",
@@ -124,7 +124,6 @@ assertDram("MT62F1G64D4AM-031 XT ES:B-DNU", {
   density: "64Gb",
   widthField: "x64",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "Unknown",
   extra: {
     "DRAM Type": "LPDDR5",
     "DRAM Speed": "3200MHz (LPDDR5-6400)",

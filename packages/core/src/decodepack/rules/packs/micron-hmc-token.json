@@ -48,7 +48,7 @@
           "00": {}
         },
         "package": {
-          "NFA": "BGA, 4-link, 896-ball (31x31), 2GB"
+          "NFA": "BGA-896, 31x31, 4-link 2GB"
         },
         "speedObj": {
           "S15": {

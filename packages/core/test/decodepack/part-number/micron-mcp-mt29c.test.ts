@@ -35,7 +35,7 @@ assertPart("MT29C4G96MAZAPCJA-5 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 4096,
-  package: "137-ball TFBGA 13x10.5x1.2",
+  package: "TFBGA-137, 13x10.5x1.2",
   extra: {
     "Storage Density": "4Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -53,7 +53,7 @@ assertPart("MT29C2G24MAKLAJG-6 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 2048,
-  package: "168-ball PoP VFBGA 12x12x0.9",
+  package: "VFBGA-168, 12x12x0.9, PoP",
   extra: {
     "Storage Density": "2Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -71,7 +71,7 @@ assertPart("MT29C1G12MAADVAKC-5 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 1024,
-  package: "107-ball TFBGA 13x10.5x1.1",
+  package: "TFBGA-107, 13x10.5x1.1",
   extra: {
     "Storage Density": "1Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -89,7 +89,7 @@ assertPart("MT29C1G12MAADAEAKC-5 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 1024,
-  package: "107-ball TFBGA 13x10.5x1.1",
+  package: "TFBGA-107, 13x10.5x1.1",
   extra: {
     "Storage Density": "1Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -107,7 +107,7 @@ assertPart("MT29C2G48MAKLCJI-6 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 2048,
-  package: "168-ball PoP TFBGA 12x12x1.1",
+  package: "TFBGA-168, 12x12x1.1, PoP",
   extra: {
     "Storage Density": "2Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -125,7 +125,7 @@ assertPart("MT29C4G48MAZBBAKS-48 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 4096,
-  package: "137-ball VFBGA 13x10.5x1.0",
+  package: "VFBGA-137, 13x10.5x1.0",
   extra: {
     "Storage Density": "4Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -143,7 +143,7 @@ assertPart("MT29C4G48MAYBBAHK-48 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 4096,
-  package: "137-VFBGA 13x10.5",
+  package: "VFBGA-137, 13x10.5",
   extra: {
     "Storage Density": "4Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -161,7 +161,7 @@ assertPart("MT29C8G48MAPLDJA-75ITES", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 8192,
-  package: "137-ball TFBGA 13x10.5x1.2",
+  package: "TFBGA-137, 13x10.5x1.2",
   extra: {
     "Storage Density": "8Gb NAND",
     "Storage Interface": "Parallel NAND",

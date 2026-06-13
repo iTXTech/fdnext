@@ -26,7 +26,7 @@ assertDram("EDS1216AATA-75", {
   density: "128Mb",
   widthField: "x16",
   voltage: "3.3V VDD",
-  package: "54-pin TSOP-II",
+  package: "TSOP-II-54",
   extra: {
     "DRAM Type": "SDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -42,7 +42,7 @@ assertDram("EDD2516AKTA-5B", {
   density: "256Mb",
   widthField: "x16",
   voltage: "2.5V VDD",
-  package: "66-pin TSOP-II",
+  package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -58,7 +58,7 @@ assertDram("EDE1116ACBG-8E", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.8V VDD",
-  package: "84-ball FBGA",
+  package: "FBGA-84",
   extra: {
     "DRAM Type": "DDR2",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -74,7 +74,7 @@ assertDram("EDJ4208BASE-GN", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.5V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -90,7 +90,7 @@ assertDram("EDF8164A3MA-GD-F", {
   density: "8Gb",
   widthField: "x64",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "216-ball FBGA",
+  package: "FBGA-216",
   extra: {
     "DRAM Type": "LPDDR3",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -106,7 +106,7 @@ assertDram("EDB8164B3PF-8D", {
   density: "8Gb",
   widthField: "x64",
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
-  package: "216-ball FBGA",
+  package: "FBGA-216",
   extra: {
     "DRAM Type": "LPDDR2",
     "DRAM Die Stack": "2 dies, 2 CS",
@@ -122,7 +122,7 @@ assertDram("EDW2032BBBG-60", {
   density: "2Gb",
   widthField: "x32",
   voltage: "1.35V/1.5V/1.6V VDD/VDDQ",
-  package: "170-ball FBGA",
+  package: "FBGA-170",
   extra: {
     "DRAM Type": "GDDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -138,7 +138,7 @@ assertDram("CXDQ3BFAM-CJ", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -155,7 +155,7 @@ assertDram("CXDQ3BFAM", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -171,7 +171,7 @@ assertDram("CXDQ3A8AM-CQ-A", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -189,7 +189,7 @@ assertDram("CXDQ3A8AM-IJ-A", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -207,7 +207,7 @@ assertDram("CXDQ3BFAM-WG", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.2V VDD",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -225,7 +225,7 @@ assertDram("CXDQ3A8AM-WG", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -241,7 +241,7 @@ assertDram("CXDQ4A8AM-CJ-M", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.2V VDD",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -260,7 +260,7 @@ assertDram("CXDR4E8BM-CS-A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -279,7 +279,7 @@ assertDram("CXDR4E8BM-CR-A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -298,7 +298,7 @@ assertDram("CDTQ", {
   density: "96Gb",
   widthField: "Unknown",
   voltage: "Unknown",
-  package: "BGA PoP MCP",
+  package: "BGA, PoP MCP",
   extra: {
     "DRAM Type": "LPDDR5",
     "DRAM Die Density": "12Gb",
@@ -314,7 +314,7 @@ assertDram("CXDB5CCAM-MK", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -332,7 +332,7 @@ assertDram("CXDB4CBAM-MK-A", {
   density: "16Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -350,7 +350,7 @@ assertDram("CXDB5CCBM-MA-A", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -368,7 +368,7 @@ assertDram("CXDB5CBAM-MA-B", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -384,7 +384,7 @@ assertDram("CXDB5CCBM-MK-A", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "4 dies, 2 CS",
@@ -402,7 +402,7 @@ assertDram("GDP0BFLM-CB", {
   density: "1Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3L-1866 13-13-13",
@@ -416,7 +416,7 @@ assertDram("GDP1BFLA-CA", {
   density: "2Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3L-2133 14-14-14",
@@ -430,7 +430,7 @@ assertDram("GDP2A8LM-WA", {
   density: "4Gb",
   widthField: "x8",
   voltage: "1.35V / 1.5V",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3L-2133 14-14-14",
@@ -444,7 +444,7 @@ assertDram("GDP2BFLM-WB", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3L-1866 13-13-13",
@@ -458,7 +458,7 @@ assertDram("GDP3BELM-CB", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.35V / 1.5V",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3L-1866 13-13-13",
@@ -474,7 +474,7 @@ assertDram("GDQ3A8AM-CQ", {
   density: "8Gb",
   widthField: "x8",
   voltage: "1.2V",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4-2666 19-19-19",
@@ -488,7 +488,7 @@ assertDram("GDQ3BFAM-IJ", {
   density: "8Gb",
   widthField: "x16",
   voltage: "1.2V",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4-3200 22-22-22",
@@ -502,7 +502,7 @@ assertDram("GDQ2BFAC-WQ", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.2V",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4-2666 19-19-19",
@@ -516,7 +516,7 @@ assertDram("GDQ2BFAA-CE", {
   density: "4Gb",
   widthField: "x16",
   voltage: "1.2V",
-  package: "96-ball FBGA",
+  package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
     "DRAM Speed": "DDR4-2400 17-17-17",
@@ -530,7 +530,7 @@ assertDram("GDB5CBQN-ML", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 1.1V and 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "2 dies, 1 CS",
@@ -545,7 +545,7 @@ assertDram("GDB5CCQN-MK", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 1.1V and 0.6V VDDQ",
-  package: "200-ball FBGA",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Stack": "4 dies, 2 CS",

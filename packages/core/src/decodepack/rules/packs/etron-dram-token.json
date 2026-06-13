@@ -72,13 +72,13 @@
         },
         "packageObj": {
           "6165:TS": {
-            "package": "50-pin TSOP II"
+            "package": "TSOP-II-50"
           },
           "TS": {
-            "package": "54-pin TSOP II"
+            "package": "TSOP-II-54"
           },
           "BM": {
-            "package": "54-ball FBGA"
+            "package": "FBGA-54"
           }
         }
       },
@@ -248,43 +248,43 @@
         },
         "packageObj": {
           "BIA": {
-            "package": "144-ball 12 x 12 x 1.4mm BGA"
+            "package": "BGA-144, 12x12x1.4"
           },
           "BIB": {
-            "package": "144-ball 12 x 12 x 1.4mm BGA"
+            "package": "BGA-144, 12x12x1.4"
           },
           "BKA": {
-            "package": "60-ball 8 x 13 x 1.2mm FBGA"
+            "package": "FBGA-60, 8x13x1.2"
           },
           "BKC": {
-            "package": "60-ball 8 x 13 x 1.2mm FBGA"
+            "package": "FBGA-60, 8x13x1.2"
           },
           "BKE": {
-            "package": "60-ball 8 x 13 x 1.2mm FBGA"
+            "package": "FBGA-60, 8x13x1.2"
           },
           "TSA": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "TSC": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "TSD": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "TSE": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "TSH": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "TSB": {
-            "package": "66-pin TSOP II"
+            "package": "TSOP-II-66"
           },
           "WKB": {
-            "package": "60-ball 8 x 13 x 1.2mm FBGA"
+            "package": "FBGA-60, 8x13x1.2"
           },
           "WKE": {
-            "package": "60-ball 8 x 13 x 1.2mm FBGA"
+            "package": "FBGA-60, 8x13x1.2"
           }
         },
         "speedObj": {
@@ -432,19 +432,19 @@
           "08": "8"
         },
         "package": {
-          "16": "84-ball FBGA",
-          "08": "60-ball FBGA"
+          "16": "FBGA-84",
+          "08": "FBGA-60"
         },
         "packagePrecise": {
-          "BQD": "84-ball 8 x 12.5 x 1.2mm FBGA",
-          "BQE": "84-ball 8 x 12.5 x 1.2mm FBGA",
-          "BQC": "84-ball 8 x 12.5 x 1.2mm FBGA",
-          "WQH": "84-ball 8 x 12.5 x 1.2mm FBGA",
-          "WQK": "84-ball 8 x 12.5 x 1.2mm FBGA",
-          "WQL": "84-ball 8 x 12.5 x 1.2mm FBGA",
-          "WQG": "84-ball 8 x 12.5 x 1.2mm FBGA",
-          "WAH": "60-ball 8 x 10 x 1.2mm FBGA",
-          "WAG": "60-ball 8 x 10 x 1.2mm FBGA"
+          "BQD": "FBGA-84, 8x12.5x1.2",
+          "BQE": "FBGA-84, 8x12.5x1.2",
+          "BQC": "FBGA-84, 8x12.5x1.2",
+          "WQH": "FBGA-84, 8x12.5x1.2",
+          "WQK": "FBGA-84, 8x12.5x1.2",
+          "WQL": "FBGA-84, 8x12.5x1.2",
+          "WQG": "FBGA-84, 8x12.5x1.2",
+          "WAH": "FBGA-60, 8x10x1.2",
+          "WAG": "FBGA-60, 8x10x1.2"
         },
         "speedObj": {
           "": {
@@ -512,8 +512,7 @@
           "op": "map",
           "from": "widthCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "map",
@@ -637,8 +636,8 @@
           "08": 8
         },
         "package": {
-          "16": "96-ball FBGA",
-          "08": "78-ball FBGA"
+          "16": "FBGA-96",
+          "08": "FBGA-78"
         },
         "speedObj": {
           "G:": {
@@ -841,21 +840,21 @@
           }
         },
         "packagePrecise": {
-          "WKA": "96-ball 8 x 13 x 1.0mm FBGA",
-          "WKG": "96-ball 8 x 13 x 1.0mm FBGA",
-          "WBH": "96-ball 7.5 x 13 x 1.0mm FBGA",
-          "WBJ": "96-ball 7.5 x 13 x 1.0mm FBGA",
-          "WBK": "96-ball 7.5 x 13 x 1.0mm FBGA",
-          "WAKG": "96-ball 7.5 x 13.5 x 1.2mm FBGA",
-          "WUA": "78-ball 8 x 10.5 x 1.0mm FBGA",
-          "WUG": "78-ball 8 x 10.5 x 1.0mm FBGA",
-          "WAHH": "78-ball 7.5 x 10.5 x 1.0mm FBGA",
-          "WAHK": "78-ball 7.5 x 10.5 x 1.0mm FBGA",
-          "W9G": "78-ball 7.5 x 10.6 x 1.2mm FBGA",
-          "BXB": "96-ball 9 x 13 x 1.2mm FBGA",
-          "BXC": "96-ball 9 x 13 x 1.2mm FBGA",
-          "W3A": "78-ball 9 x 10.6 x 1.2mm FBGA",
-          "BAHC": "78-ball 7.5 x 10.5 x 1.2mm FBGA"
+          "WKA": "FBGA-96, 8x13x1.0",
+          "WKG": "FBGA-96, 8x13x1.0",
+          "WBH": "FBGA-96, 7.5x13x1.0",
+          "WBJ": "FBGA-96, 7.5x13x1.0",
+          "WBK": "FBGA-96, 7.5x13x1.0",
+          "WAKG": "FBGA-96, 7.5x13.5x1.2",
+          "WUA": "FBGA-78, 8x10.5x1.0",
+          "WUG": "FBGA-78, 8x10.5x1.0",
+          "WAHH": "FBGA-78, 7.5x10.5x1.0",
+          "WAHK": "FBGA-78, 7.5x10.5x1.0",
+          "W9G": "FBGA-78, 7.5x10.6x1.2",
+          "BXB": "FBGA-96, 9x13x1.2",
+          "BXC": "FBGA-96, 9x13x1.2",
+          "W3A": "FBGA-78, 9x10.6x1.2",
+          "BAHC": "FBGA-78, 7.5x10.5x1.2"
         },
         "tempObj": {
           "I": {
@@ -940,8 +939,7 @@
           "op": "map",
           "from": "widthCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "map",
@@ -1081,8 +1079,8 @@
           "08": 8
         },
         "package": {
-          "16": "96-ball FBGA",
-          "08": "78-ball FBGA"
+          "16": "FBGA-96",
+          "08": "FBGA-78"
         },
         "speedObj": {
           "": {
@@ -1099,18 +1097,18 @@
           }
         },
         "packagePrecise": {
-          "WAK": "96-ball 7.5 x 13.5 x 1.2mm FBGA",
-          "WBB": "96-ball 7.5 x 13 x 1.2mm FBGA",
-          "WBC": "96-ball 7.5 x 13 x 1.0mm FBGA",
-          "WBD": "96-ball 7.5 x 13 x 1.2mm FBGA",
-          "WBE": "96-ball 7.5 x 13 x 1.2mm FBGA",
-          "WBG": "96-ball 7.5 x 13 x 1.2mm FBGA",
-          "WXA": "96-ball 9 x 13 x 1.2mm FBGA",
-          "W9A": "78-ball 7.5 x 10.6 x 1.2mm FBGA",
-          "WALB": "78-ball 7.5 x 11 x 1.2mm FBGA",
-          "WAND": "78-ball 7.5 x 12 x 1.2mm FBGA",
-          "WALE": "78-ball 7.5 x 11 x 1.2mm FBGA",
-          "WAHG": "78-ball 7.5 x 10.5 x 1.2mm FBGA"
+          "WAK": "FBGA-96, 7.5x13.5x1.2",
+          "WBB": "FBGA-96, 7.5x13x1.2",
+          "WBC": "FBGA-96, 7.5x13x1.0",
+          "WBD": "FBGA-96, 7.5x13x1.2",
+          "WBE": "FBGA-96, 7.5x13x1.2",
+          "WBG": "FBGA-96, 7.5x13x1.2",
+          "WXA": "FBGA-96, 9x13x1.2",
+          "W9A": "FBGA-78, 7.5x10.6x1.2",
+          "WALB": "FBGA-78, 7.5x11x1.2",
+          "WAND": "FBGA-78, 7.5x12x1.2",
+          "WALE": "FBGA-78, 7.5x11x1.2",
+          "WAHG": "FBGA-78, 7.5x10.5x1.2"
         }
       },
       "steps": [
@@ -1157,8 +1155,7 @@
           "op": "map",
           "from": "widthCode",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "map",
@@ -1266,7 +1263,7 @@
           "32": 32
         },
         "package": {
-          "VAF": "134-ball 10 x 11.5 x 1.0mm FBGA"
+          "VAF": "FBGA-134, 10x11.5x1.0"
         },
         "speedObj": {
           "18H": {
@@ -1334,7 +1331,7 @@
           "from": "packageToken",
           "table": "package",
           "to": "package",
-          "default": "134-ball FBGA"
+          "default": "FBGA-134"
         },
         {
           "op": "map",
@@ -1441,10 +1438,10 @@
           "32": 2
         },
         "package": {
-          "VAJ": "200-ball 10 x 14.5 x 0.8mm FBGA",
-          "BAJ": "200-ball 10 x 14.5 x 1.1mm FBGA",
-          "VAP": "200-ball FBGA",
-          "BAP": "200-ball FBGA"
+          "VAJ": "FBGA-200, 10x14.5x0.8",
+          "BAJ": "FBGA-200, 10x14.5x1.1",
+          "VAP": "FBGA-200",
+          "BAP": "FBGA-200"
         },
         "baseSpeedObj": {
           "BAJB": {
@@ -1722,7 +1719,7 @@
           "from": "packageToken",
           "table": "package",
           "to": "package",
-          "default": "200-ball FBGA"
+          "default": "FBGA-200"
         },
         {
           "op": "tpl",

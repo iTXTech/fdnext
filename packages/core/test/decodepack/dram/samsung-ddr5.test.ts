@@ -26,7 +26,7 @@ assertDram("K4RAH086VB-BCQK", {
   density: "16Gb",
   widthField: "x8",
   voltage: "VDD/VDDQ = 1.1V; VPP = 1.8V",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -44,7 +44,7 @@ assertDram("K4RAH046VB-BCQK", {
   density: "16Gb",
   widthField: "x4",
   voltage: "VDD/VDDQ = 1.1V; VPP = 1.8V",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -62,7 +62,7 @@ assertDram("K4RAH165VB-BCQK", {
   density: "16Gb",
   widthField: "x16",
   voltage: "VDD/VDDQ = 1.1V; VPP = 1.8V",
-  package: "106-ball FBGA",
+  package: "FBGA-106",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -80,7 +80,7 @@ assertDram("K4RAH165VB-BCWM", {
   density: "16Gb",
   widthField: "x16",
   voltage: "VDD/VDDQ = 1.1V; VPP = 1.8V",
-  package: "106-ball FBGA",
+  package: "FBGA-106",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -98,7 +98,7 @@ assertDram("K4RHE086VB-BCWM", {
   density: "24Gb",
   widthField: "x8",
   voltage: "VDD/VDDQ = 1.1V; VPP = 1.8V",
-  package: "82-ball FBGA",
+  package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -116,7 +116,7 @@ assertDram("K4RHE165VB-BCWM", {
   density: "24Gb",
   widthField: "x16",
   voltage: "VDD/VDDQ = 1.1V; VPP = 1.8V",
-  package: "106-ball FBGA",
+  package: "FBGA-106",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",
@@ -134,7 +134,7 @@ assertDram("K4RBH046VM-BCWM", {
   density: "32Gb",
   widthField: "x4",
   voltage: "VDD/VDDQ = 1.1V; VPP = 1.8V",
-  package: "78-ball FBGA",
+  package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Stack": "1 die, 1 CS",

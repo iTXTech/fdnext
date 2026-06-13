@@ -37,7 +37,7 @@ assertPart("YMEC6A1TC1A2C1", {
   densityMbit: 262144,
   dieProfileField: "TAS",
   cellField: "TLC",
-  package: "BGA-153 11.5x13x1.0",
+  package: "BGA-153, 11.5x13x1.0",
   extra: {
     Controller: "eMMC 5.1 Controller EC000",
     "Product Family": "YMTC EC000 eMMC",
@@ -56,7 +56,7 @@ assertPart("YMEC8A2TB3A2C3", {
   densityMbit: 1048576,
   dieProfileField: "JGS",
   cellField: "TLC",
-  package: "BGA-153 11.5x13x1.0",
+  package: "BGA-153, 11.5x13x1.0",
   extra: {
     Controller: "eMMC 5.1 Controller EC110",
     "Product Family": "YMTC EC110 eMMC",
@@ -76,7 +76,7 @@ assertPart("YMUS8A1TC1A2C1", {
   densityMbit: 1048576,
   dieProfileField: "TAS",
   cellField: "TLC",
-  package: "BGA-153 11.5x13x1.0/1.2",
+  package: "BGA-153, 11.5x13x1.0/1.2",
   extra: {
     Controller: "UFS 3.1 Controller",
     "Storage Interface": "UFS 3.1",
@@ -94,7 +94,7 @@ assertPart("YMC6G001TB51AA1C0", {
   densityMbit: 1048576,
   dieProfileField: "WDS",
   cellField: "TLC",
-  package: "BGA-132 12x18",
+  package: "BGA-132, 12x18",
   extra: {
     "Process Alias": "X3-9070",
     "Layer Count": 232,
@@ -112,7 +112,7 @@ assertPart("YMN0WQA2B1CC4C", {
   densityMbit: 2789212.16,
   dieProfileField: "HUS",
   cellField: "QLC",
-  package: "BGA-132 12x18",
+  package: "BGA-132, 12x18",
   extra: {
     "Process Alias": "X2-6070",
     "Layer Count": 128,

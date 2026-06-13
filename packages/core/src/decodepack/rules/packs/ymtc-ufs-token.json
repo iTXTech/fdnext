@@ -79,9 +79,9 @@
           }
         },
         "package": {
-          "A2": "BGA-153 11.5x13x1.0/1.2",
-          "D1": "BGA-153 11x13x0.8",
-          "D2": "BGA-153 11x13x1.0"
+          "A2": "BGA-153, 11.5x13x1.0/1.2",
+          "D1": "BGA-153, 11x13x0.8",
+          "D2": "BGA-153, 11x13x1.0"
         },
         "productClass": {
           "C": {
@@ -191,8 +191,7 @@
         {
           "op": "takeLongest",
           "table": "package",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "take",

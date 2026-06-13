@@ -12,7 +12,7 @@ assertPart("MTXP2TN2ARS-125AES", {
   type: "3D XPoint",
   densityMbit: 2097152,
   dieProfileField: "S26A",
-  package: "256-ball LFBGA 14x18x1.50",
+  package: "LFBGA-256, 14x18x1.50",
   extra: {
     "Die Stack": "4-Deck",
     "Die Count": 8,
@@ -27,7 +27,7 @@ assertPart("MTXP128GA1BRJ-125", {
   vendor: "micron",
   type: "3D XPoint",
   densityMbit: 131072,
-  package: "256-ball LFBGA 14x18x1.30",
+  package: "LFBGA-256, 14x18x1.30",
   extra: {
     "Die Stack": "2-Deck",
     "Die Count": 1,

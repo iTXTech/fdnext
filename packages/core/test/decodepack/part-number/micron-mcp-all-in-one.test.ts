@@ -38,7 +38,7 @@ assertPart("MT29RZ4C4DZZMGMF-18W.80C", {
   densityMbit: 4096,
   widthField: "x16",
   voltage: "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.2V; eMMC VCCM: 1.8V",
-  package: "168-ball VFBGA 12x12x0.85, PoP",
+  package: "VFBGA-168, 12x12x0.85, PoP",
   extra: {
     "Product Family": "Micron All-in-One",
     "Product Mode": "LPDDR2-S4 + SLC NAND",
@@ -61,7 +61,7 @@ assertPart("MT29RZ1CVCZZHGTN-18 W.85H", {
   densityMbit: 1024,
   widthField: "x16",
   voltage: "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.8V/1.2V",
-  package: "121-ball 7.5x8x0.8mm",
+  package: "BGA-121, 7.5x8x0.8",
   extra: {
     "Product Family": "Micron All-in-One",
     "Product Mode": "LPDDR2-S4 + SLC NAND",
@@ -84,7 +84,7 @@ assertPart("MT29AZ5A3CHHWD-18AIT.84F", {
   densityMbit: 4096,
   widthField: "x8",
   voltage: "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.2V/1.2V",
-  package: "162-ball 8.0x10.5x0.9mm",
+  package: "BGA-162, 8.0x10.5x0.9",
   extra: {
     "Product Mode": "SLC NAND + LPDDR2",
     "Storage Density": "4Gb NAND",
@@ -105,7 +105,7 @@ assertPart("MT29JZZZ2DWMAFJV-6IES.63m", {
   type: "eMCP",
   densityMbit: 2048,
   voltage: "LPDRAM VDD/VDDQ: 1.8V/1.8V; eMMC VCCM/VCCQM: 1.8V/1.8V",
-  package: "168-ball VFBGA 12x12x1.0, PoP",
+  package: "VFBGA-168, 12x12x1.0, PoP",
   extra: {
     "Product Family": "Micron All-in-One",
     "Product Mode": "LPDDR + SLC eMMC",

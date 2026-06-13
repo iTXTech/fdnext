@@ -29,8 +29,8 @@
           "4": 16384
         },
         "packageActual": {
-          "A": "78-ball FBGA",
-          "B": "96-ball FBGA"
+          "A": "FBGA-78",
+          "B": "FBGA-96"
         },
         "deviceWidth": {
           "8": 8,
@@ -101,8 +101,7 @@
           "op": "map",
           "from": "packageTypeCode",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "map",
@@ -256,7 +255,7 @@
           "E8": 8
         },
         "packageActual": {
-          "E8:BM": "82-ball FBGA"
+          "E8:BM": "FBGA-82"
         },
         "speedObj": {
           "CR": {
@@ -314,8 +313,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -436,8 +434,8 @@
           }
         },
         "packageActual": {
-          "A": "200-ball FBGA",
-          "C": "200-ball FBGA"
+          "A": "FBGA-200",
+          "C": "FBGA-200"
         },
         "deviceWidth": {
           "A": 32,
@@ -508,8 +506,7 @@
           "op": "map",
           "from": "packageTypeCode",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -640,7 +637,7 @@
           "$var": "extra"
         },
         "fields.dram_density": 98304,
-        "fields.package": "BGA PoP MCP",
+        "fields.package": "BGA, PoP MCP",
         "meta.ruleId": "vendor.cxmt.dram.lpddr5.cdtq-process-alias.v1"
       }
     }

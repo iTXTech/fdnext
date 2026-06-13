@@ -33,12 +33,12 @@
           "AG": 16384
         },
         "packageActual": {
-          "B:04:B": "78-ball FBGA",
-          "B:08:B": "78-ball FBGA",
-          "B:08:H": "82-ball FBGA",
-          "B:16:B": "96-ball FBGA",
-          "B:16:H": "96-ball FBGA",
-          "B:16:M": "96-ball FBGA"
+          "B:04:B": "FBGA-78",
+          "B:08:B": "FBGA-78",
+          "B:08:H": "FBGA-82",
+          "B:16:B": "FBGA-96",
+          "B:16:H": "FBGA-96",
+          "B:16:M": "FBGA-96"
         },
         "packageStackObj": {
           "B": {
@@ -259,8 +259,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "map",
@@ -406,10 +405,10 @@
           "4G": 4096
         },
         "packageActual": {
-          "S:16:U": "54-pin TSOP-II",
-          "H:08:H": "60-ball FBGA",
-          "T:16:Z": "84-ball FBGA",
-          "B:08:H": "82-ball FBGA"
+          "S:16:U": "TSOP-II-54",
+          "H:08:H": "FBGA-60",
+          "T:16:Z": "FBGA-84",
+          "B:08:H": "FBGA-82"
         },
         "tempObj": {
           "C": {
@@ -542,8 +541,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "take",
@@ -713,38 +711,31 @@
           "BG": 32768
         },
         "packageActual": {
-          "S:32H": "54-pin TSOP-II",
-          "H:38J": "66-pin TSOP-II",
-          "T:4QF": "60-ball FBGA",
-          "B:46D": "96-ball FBGA",
-          "B:46Q": "96-ball FBGA",
-          "A:5WB": "78-ball FBGA",
-          "A:5WC": "78-ball FBGA",
-          "A:04:5WB": "78-ball FBGA",
-          "A:08:5WA": "78-ball FBGA",
-          "A:08:5WB": "78-ball FBGA",
-          "A:16:5WA": "96-ball FBGA",
-          "A:16:5WB": "96-ball FBGA",
-          "A:04:5WC": "78-ball FBGA",
-          "A:08:5WC": "78-ball FBGA",
-          "A:16:5WC": "96-ball FBGA",
-          "A:04:5WD": "78-ball FBGA",
-          "A:08:5WD": "78-ball FBGA",
-          "A:16:5WD": "96-ball FBGA",
-          "A:04:5WE": "78-ball FBGA",
-          "A:08:5WE": "78-ball FBGA",
-          "A:16:5WE": "96-ball FBGA",
-          "A:08:5WF": "78-ball FBGA",
-          "A:16:5WF": "96-ball FBGA"
+          "S:32H": "TSOP-II-54",
+          "H:38J": "TSOP-II-66",
+          "T:4QF": "FBGA-60",
+          "B:46D": "FBGA-96",
+          "B:46Q": "FBGA-96",
+          "A:5WB": "FBGA-78",
+          "A:5WC": "FBGA-78",
+          "A:04:5WB": "FBGA-78",
+          "A:08:5WA": "FBGA-78",
+          "A:08:5WB": "FBGA-78",
+          "A:16:5WA": "FBGA-96",
+          "A:16:5WB": "FBGA-96",
+          "A:04:5WC": "FBGA-78",
+          "A:08:5WC": "FBGA-78",
+          "A:16:5WC": "FBGA-96",
+          "A:04:5WD": "FBGA-78",
+          "A:08:5WD": "FBGA-78",
+          "A:16:5WD": "FBGA-96",
+          "A:04:5WE": "FBGA-78",
+          "A:08:5WE": "FBGA-78",
+          "A:16:5WE": "FBGA-96",
+          "A:08:5WF": "FBGA-78",
+          "A:16:5WF": "FBGA-96"
         },
         "suffixPackageStackObj": {
-          "B": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
-          },
-          "M": {
-            "die_count": 2
-          },
           "2": {
             "die_count": 2
           },
@@ -756,6 +747,13 @@
           },
           "5": {
             "die_count": 4
+          },
+          "B": {
+            "dram_die_stack": "1 die, 1 CS",
+            "die_count": 1
+          },
+          "M": {
+            "die_count": 2
           }
         },
         "ddr4BaseObj": {
@@ -930,8 +928,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -1111,12 +1108,12 @@
           }
         },
         "packageActual": {
-          "AH:04": "82-ball FBGA",
-          "AH:08": "82-ball FBGA",
-          "AH:16": "106-ball FBGA",
-          "HE:08": "82-ball FBGA",
-          "HE:16": "106-ball FBGA",
-          "BH:04": "78-ball FBGA"
+          "AH:04": "FBGA-82",
+          "AH:08": "FBGA-82",
+          "AH:16": "FBGA-106",
+          "HE:08": "FBGA-82",
+          "HE:16": "FBGA-106",
+          "BH:04": "FBGA-78"
         },
         "voltage": {
           "V": "VDD/VDDQ = 1.1V; VPP = 1.8V"
@@ -1210,8 +1207,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -1384,24 +1380,24 @@
         },
         "packageActual": {
           "1": "MCP",
-          "2": "90-ball FBGA DDP",
-          "3": "90-ball FBGA DDP",
-          "4": "96-ball FBGA",
-          "5": "96-ball FBGA",
-          "6": "FBGA POP",
-          "7": "90-ball FBGA",
-          "8": "90-ball FBGA",
-          "9": "110-ball FBGA",
-          "A": "168-ball FBGA DDP",
-          "F": "60-ball FBGA",
-          "G": "60-ball LGA",
-          "K": "104-ball FBGA",
-          "L": "WBGA 0.8mm",
-          "M": "152-ball FBGA POP",
-          "N": "168-ball FBGA POP",
-          "P": "60-ball FBGA DDP",
+          "2": "FBGA-90, DDP",
+          "3": "FBGA-90, DDP",
+          "4": "FBGA-96",
+          "5": "FBGA-96",
+          "6": "FBGA, POP",
+          "7": "FBGA-90",
+          "8": "FBGA-90",
+          "9": "FBGA-110",
+          "A": "FBGA-168, DDP",
+          "F": "FBGA-60",
+          "G": "LGA-60",
+          "K": "FBGA-104",
+          "L": "WBGA, 0.8",
+          "M": "FBGA-152, POP",
+          "N": "FBGA-168, POP",
+          "P": "FBGA-60, DDP",
           "Q": "ISM",
-          "R": "102-ball FBGA",
+          "R": "FBGA-102",
           "S": "POP DDP"
         },
         "tempObj": {
@@ -1502,8 +1498,7 @@
           "op": "map",
           "from": "packageCode",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "take",
@@ -1695,7 +1690,7 @@
           }
         },
         "packageActual": {
-          "M": "200-ball FBGA"
+          "M": "FBGA-200"
         },
         "packageObj": {
           "M": {
@@ -1821,8 +1816,7 @@
           "op": "map",
           "from": "packageCode",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "map",
@@ -2070,18 +2064,18 @@
           "3K:L3": "1.8V / 1.05V / 0.9V / 0.5V"
         },
         "packageActual": {
-          "3P:E700M": "216-ball FBGA",
-          "3P:E000A": "220-ball FBGA",
-          "3Q:F10DM": "253-ball FBGA",
-          "3Q:F20DM": "253-ball FBGA",
-          "3Q:F40CM": "253-ball FBGA",
-          "3Q:FA0CM": "253-ball FBGA",
-          "4F:E304HB": "200-ball FBGA",
-          "4F:E3S4HB": "200-ball FBGA",
-          "4F:E3S4HM": "200-ball FBGA",
-          "4U:E3S4AA": "200-ball FBGA",
-          "4U:E3S4AB": "200-ball FBGA",
-          "3L:KB0BM": "315-ball FBGA"
+          "3P:E700M": "FBGA-216",
+          "3P:E000A": "FBGA-220",
+          "3Q:F10DM": "FBGA-253",
+          "3Q:F20DM": "FBGA-253",
+          "3Q:F40CM": "FBGA-253",
+          "3Q:FA0CM": "FBGA-253",
+          "4F:E304HB": "FBGA-200",
+          "4F:E3S4HB": "FBGA-200",
+          "4F:E3S4HM": "FBGA-200",
+          "4U:E3S4AA": "FBGA-200",
+          "4U:E3S4AB": "FBGA-200",
+          "3L:KB0BM": "FBGA-315"
         },
         "suffixDeviceWidth": {
           "3K:B": 16,
@@ -2089,9 +2083,9 @@
           "3K:E": 64
         },
         "suffixPackageActual": {
-          "3K:B": "496-ball FBGA",
-          "3K:J": "441-ball FBGA",
-          "3K:E": "561-ball FBGA"
+          "3K:B": "FBGA-496",
+          "3K:J": "FBGA-441",
+          "3K:E": "FBGA-561"
         },
         "suffixTempObj": {
           "3P:G": {
@@ -2227,8 +2221,7 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -2423,25 +2416,24 @@
           "4G": 4096
         },
         "packageActual": {
-          "D:": "",
-          "D:E": "144-ball FBGA",
-          "D:F": "144-ball FBGA",
-          "J:Q": "136-ball FBGA",
-          "N:QF": "84-ball FBGA",
-          "N:QG": "84-ball FBGA",
-          "N:Q": "84-ball FBGA",
-          "J:QC": "136-ball FBGA",
-          "J:QE": "136-ball FBGA",
-          "U:Q": "136-ball FBGA",
-          "U:QE": "136-ball FBGA",
-          "W:D": "96-ball FBGA",
-          "W:E": "96-ball FBGA",
-          "W:Q": "96-ball FBGA"
+          "D:E": "FBGA-144",
+          "D:F": "FBGA-144",
+          "J:Q": "FBGA-136",
+          "N:QF": "FBGA-84",
+          "N:QG": "FBGA-84",
+          "N:Q": "FBGA-84",
+          "J:QC": "FBGA-136",
+          "J:QE": "FBGA-136",
+          "U:Q": "FBGA-136",
+          "U:QE": "FBGA-136",
+          "W:D": "FBGA-96",
+          "W:E": "FBGA-96",
+          "W:Q": "FBGA-96"
         },
         "packageByConfig": {
-          "D:263238": "144-ball FBGA",
-          "D:551638": "66-pin TSOP-II",
-          "D:261638": "66-pin TSOP-II"
+          "D:263238": "FBGA-144",
+          "D:551638": "TSOP-II-66",
+          "D:261638": "TSOP-II-66"
         },
         "voltageByConfig": {
           "D:263238": "2.5V VDD/VDDQ",
@@ -2823,9 +2815,9 @@
           "CF": 24576
         },
         "packageActual": {
-          "G": "170-ball FBGA",
-          "Z": "180-ball FBGA",
-          "V": "266-ball FBGA"
+          "G": "FBGA-170",
+          "Z": "FBGA-180",
+          "V": "FBGA-266"
         },
         "suffixSpeedObj": {
           "G:28": {
@@ -2898,8 +2890,7 @@
           "op": "map",
           "from": "familyCode",
           "table": "packageActual",
-          "to": "package",
-          "default": "Unknown"
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",

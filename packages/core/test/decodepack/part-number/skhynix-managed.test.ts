@@ -35,7 +35,7 @@ assertPart("H26M78208CMRX", {
   vendor: "skhynix",
   type: "eMMC",
   densityMbit: 524288,
-  package: "153FBGA 11.5x13x1.0mm",
+  package: "FBGA-153, 11.5x13x1.0",
   extra: {
     "Managed Family": "e-NAND",
     "Storage Interface": "eMMC 5.1",
@@ -50,7 +50,7 @@ assertPart("H26M78208CMRN", {
   vendor: "skhynix",
   type: "eMMC",
   densityMbit: 524288,
-  package: "153FBGA 11.5x13x1.0mm",
+  package: "FBGA-153, 11.5x13x1.0",
   extra: {
     "Managed Family": "e-NAND",
     "Storage Interface": "eMMC 5.1",
@@ -65,7 +65,7 @@ assertPart("H26M31001HPR", {
   vendor: "skhynix",
   type: "eMMC",
   densityMbit: 32768,
-  package: "153FBGA 11.5x13x0.8mm",
+  package: "FBGA-153, 11.5x13x0.8",
   extra: {
     "Managed Family": "e-NAND",
     "Storage Interface": "eMMC 4.5",
@@ -79,7 +79,7 @@ assertPart("H26M88002AMR", {
   vendor: "skhynix",
   type: "eMMC",
   densityMbit: 1048576,
-  package: "153FBGA 11.5x13x1.0mm",
+  package: "FBGA-153, 11.5x13x1.0",
   extra: {
     "Managed Family": "e-NAND",
     "Storage Interface": "eMMC 5.1",
@@ -93,7 +93,7 @@ assertPart("H26M91208HPRX", {
   vendor: "skhynix",
   type: "eMMC",
   density: "Unknown",
-  package: "153FBGA 11.5x13x0.8mm",
+  package: "FBGA-153, 11.5x13x0.8",
   extra: {
     "Managed Family": "e-NAND",
     "Storage Interface": "eMMC 5.1",
@@ -107,7 +107,7 @@ assertPart("HN8G95DJHQX148", {
   type: "UFS",
   densityMbit: 524288,
   dieProfileField: "HYV7",
-  package: "153-ball JEDEC FBGA 11.5x13.0x1.2 TFBGA",
+  package: "TFBGA-153, 11.5x13.0x1.2, JEDEC FBGA",
   extra: {
     "Storage Interface": "UFS 3.1",
     "Layer Count": 176,
@@ -123,7 +123,7 @@ assertPart("HN8T25DJHVX111", {
   type: "UFS",
   densityMbit: 4194304,
   dieProfileField: "HYV7",
-  package: "153-ball JEDEC FBGA 11.5x13.0x1.2 TFBGA",
+  package: "TFBGA-153, 11.5x13.0x1.2, JEDEC FBGA",
   extra: {
     "Storage Interface": "UFS 3.1",
     "Layer Count": 176,
@@ -140,7 +140,7 @@ assertPart("HN8T25DEHKX077N", {
   densityMbit: 4194304,
   dieProfileField: "HYV7",
   voltage: "Vcc: 2.4V-2.7V, VccQ: 1.14V-1.26V",
-  package: "153FBGA 11.0x13.0x0.8 WFBGA",
+  package: "WFBGA-153, 11.0x13.0x0.8",
   extra: {
     "Storage Interface": "UFS 3.1",
     "Layer Count": 176,
@@ -156,7 +156,7 @@ assertPart("HN8T35DZHKX079", {
   densityMbit: 8388608,
   dieProfileField: "HYV7",
   voltage: "Vcc: 2.4V-2.7V, VccQ: 1.14V-1.26V",
-  package: "153FBGA 11.0x13.0x1.0 VFBGA",
+  package: "VFBGA-153, 11.0x13.0x1.0",
   extra: {
     "Storage Interface": "UFS 3.1",
     "Layer Count": 176
@@ -171,7 +171,7 @@ assertPart("HN8G962EHKX037N", {
   densityMbit: 524288,
   dieProfileField: "HYV7",
   voltage: "Vcc: 3.3V, VccQ: 1.8V",
-  package: "153FBGA 11.5x13.0x0.8",
+  package: "FBGA-153, 11.5x13.0x0.8",
   extra: {
     "Storage Interface": "UFS 2.2",
     "Layer Count": 176
@@ -186,7 +186,7 @@ assertPart("HN8T062EHKX039", {
   densityMbit: 1048576,
   dieProfileField: "HYV7",
   voltage: "Vcc: 3.3V, VccQ: 1.8V",
-  package: "153FBGA 11.5x13.0x0.8",
+  package: "FBGA-153, 11.5x13.0x0.8",
   extra: {
     "Storage Interface": "UFS 2.2",
     "Layer Count": 176
@@ -201,7 +201,7 @@ assertPart("HN8T162EHKX041", {
   densityMbit: 2097152,
   dieProfileField: "HYV7",
   voltage: "Vcc: 3.3V, VccQ: 1.8V",
-  package: "153FBGA 11.5x13.0x0.8",
+  package: "FBGA-153, 11.5x13.0x0.8",
   extra: {
     "Storage Interface": "UFS 2.2",
     "Layer Count": 176
@@ -215,7 +215,7 @@ assertPart("HN8G961ZGKX031", {
   type: "UFS",
   densityMbit: 524288,
   voltage: "Vcc: 2.7V-3.6V, VccQ2: 1.7V-1.95V",
-  package: "153FBGA 11.5x13.0x1.0",
+  package: "FBGA-153, 11.5x13.0x1.0",
   extra: {
     "Storage Interface": "UFS 2.2"
   },
@@ -228,7 +228,7 @@ assertPart("HN8T261ZGKX014", {
   type: "UFS",
   densityMbit: 4194304,
   voltage: "Vcc: 2.7V-3.6V, VccQ2: 1.7V-1.95V",
-  package: "153FBGA 11.5x13.0x1.0",
+  package: "FBGA-153, 11.5x13.0x1.0",
   extra: {
     "Storage Interface": "UFS 2.2"
   },
@@ -240,7 +240,7 @@ assertPart("HN8T274EJKX130", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 4194304,
-  package: "153FBGA",
+  package: "FBGA-153",
   extra: {
     "Product Family": "SK hynix ZUFS 4.1",
     "Storage Interface": "UFS 4.1",
@@ -254,7 +254,7 @@ assertPart("HN8T374ZJKX141", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 8388608,
-  package: "153FBGA",
+  package: "FBGA-153",
   extra: {
     "Product Family": "SK hynix ZUFS 4.1",
     "Storage Interface": "UFS 4.1",
@@ -287,7 +287,7 @@ assertPart("H28U64222MMR", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 262144,
-  package: "11.5x13x1.0mm",
+  package: "11.5x13x1.0",
   extra: {
     "Storage Interface": "UFS 2.0",
     "Product Generation": "1xnm NAND",
@@ -302,7 +302,7 @@ assertPart("H28U86222MCR", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 1048576,
-  package: "11.5x13x1.2mm",
+  package: "11.5x13x1.2",
   extra: {
     "Storage Interface": "UFS 2.0",
     "Product Generation": "1xnm NAND",
