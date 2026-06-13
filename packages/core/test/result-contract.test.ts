@@ -289,21 +289,25 @@ assert.deepEqual(
   "Samsung single-die PN should not inherit multi-die Flash ID references"
 );
 
+let lookupMetadataDecodeCalls = 0;
 const lookupMetadataDecoder = {
   id: "test.lookup-metadata",
   check: (partNumber: string) => partNumber === "K9LOOKUPPKG",
-  decode: (partNumber: string) => ({
-    device: {
-      partNumber,
-      vendor: "samsung",
-      domain: "memory",
-      chipKind: "raw_nand"
-    },
-    fields: {},
-    meta: {
-      lookupPartNumbers: ["K9LOOKUPCORE"]
-    }
-  })
+  decode: (partNumber: string) => {
+    lookupMetadataDecodeCalls += 1;
+    return {
+      device: {
+        partNumber,
+        vendor: "samsung",
+        domain: "memory",
+        chipKind: "raw_nand"
+      },
+      fields: {},
+      meta: {
+        lookupPartNumbers: ["K9LOOKUPCORE"]
+      }
+    };
+  }
 } satisfies PartNumberDecoder;
 const lookupMetadataEngine = createEngine({
   resources: {
@@ -319,8 +323,14 @@ const lookupMetadataEngine = createEngine({
   },
   decoders: [lookupMetadataDecoder]
 });
+assert.equal(
+  lookupMetadataDecodeCalls,
+  0,
+  "DecodePack lookup metadata should not be evaluated during FDB startup canonicalization"
+);
 const lookupMetadataResult = lookupMetadataEngine.decodePart({ query: "K9LOOKUPPKG", lang: "eng" });
 assert.equal(lookupMetadataResult.status, "ok", "DecodePack lookup metadata test PN should decode");
+assert.ok(lookupMetadataDecodeCalls > 0, "DecodePack lookup metadata should be evaluated for the active PN decode");
 const lookupMetadataController = collectResultBlockFields(lookupMetadataResult).find((field) => field.key === "controller")?.value;
 assert.ok(
   Array.isArray(lookupMetadataController) && lookupMetadataController.includes("LOOKUPCTRL"),

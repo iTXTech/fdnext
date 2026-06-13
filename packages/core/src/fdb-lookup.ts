@@ -1,8 +1,6 @@
 import { VENDOR_PATCH } from "./constants";
 import { normalizePartNumber } from "./utils/normalize";
 
-export type PartNumberLookupKeyResolver = (vendor: string, partNumber: string) => string[];
-
 const SNDK_TWELVE_DIGIT_MARKING = /^[0-9]{4}[0-9A-Z][HKRPQVXEFCJGU][0-9A-Z]{6}$/;
 
 function unique(values: string[]): string[] {
@@ -70,23 +68,22 @@ function samsungLookupKeys(partNumber: string): string[] {
   return unique([partNumber, base]);
 }
 
-export function getPartNumberLookupKeys(vendor: string, partNumber: string, resolveLookupKeys?: PartNumberLookupKeyResolver): string[] {
+export function getPartNumberLookupKeys(vendor: string, partNumber: string): string[] {
   const normalizedPartNumber = normalizePartNumber(partNumber);
   if (!normalizedPartNumber) {
     return [];
   }
-  const decodepackLookupKeys = resolveLookupKeys?.(vendor, normalizedPartNumber).map(normalizePartNumber) ?? [];
 
   switch (normalizeVendor(vendor)) {
     case "micron":
-      return unique([normalizedPartNumber, ...decodepackLookupKeys]);
+      return unique([normalizedPartNumber]);
     case "spectek":
-      return unique([normalizedPartNumber, ...decodepackLookupKeys]);
+      return unique([normalizedPartNumber]);
     case "skhynix":
-      return unique([normalizedPartNumber, ...decodepackLookupKeys, normalizeSkhynixH25XPackage(normalizedPartNumber), removeSkhynixPackage(normalizedPartNumber)]);
+      return unique([normalizedPartNumber, normalizeSkhynixH25XPackage(normalizedPartNumber), removeSkhynixPackage(normalizedPartNumber)]);
     case "samsung":
-      return unique([normalizedPartNumber, ...decodepackLookupKeys, ...samsungLookupKeys(normalizedPartNumber)]);
+      return samsungLookupKeys(normalizedPartNumber);
     default:
-      return unique([normalizedPartNumber, ...decodepackLookupKeys]);
+      return [normalizedPartNumber];
   }
 }

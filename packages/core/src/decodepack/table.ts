@@ -1,4 +1,18 @@
-import type { DecodeJson, DecodeTable } from "./types";
+import type { DecodeJson, DecodePack, DecodeTable, PartDecodeSpec } from "./types";
+
+export type DecodePackStringMatcher = string | RegExp | ((value: string) => boolean);
+export type PartDecodeSpecMatcher = string | RegExp | ((spec: PartDecodeSpec) => boolean);
+
+export interface ReadPartDecodeSpecTablesOptions {
+  specId?: PartDecodeSpecMatcher;
+  tableName?: DecodePackStringMatcher;
+}
+
+export interface PartDecodeSpecTable {
+  specId: string;
+  tableName: string;
+  table: Record<string, DecodeJson>;
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -36,6 +50,53 @@ export function normalizeDecodeTables(tables: Record<string, DecodeTable> | unde
   const out: Record<string, Record<string, DecodeJson>> = {};
   for (const [name, table] of Object.entries(tables ?? {})) {
     out[name] = normalizeDecodeTable(table);
+  }
+  return out;
+}
+
+function matchesString(value: string, matcher: DecodePackStringMatcher | undefined): boolean {
+  if (matcher === undefined) {
+    return true;
+  }
+  if (typeof matcher === "string") {
+    return value === matcher;
+  }
+  if (matcher instanceof RegExp) {
+    matcher.lastIndex = 0;
+    return matcher.test(value);
+  }
+  return matcher(value);
+}
+
+function matchesPartSpec(spec: PartDecodeSpec, matcher: ReadPartDecodeSpecTablesOptions["specId"]): boolean {
+  if (matcher === undefined) {
+    return true;
+  }
+  if (typeof matcher === "function") {
+    return matcher(spec);
+  }
+  return matchesString(spec.id, matcher);
+}
+
+export function readPartDecodeSpecTables(
+  pack: DecodePack,
+  options: ReadPartDecodeSpecTablesOptions = {}
+): PartDecodeSpecTable[] {
+  const out: PartDecodeSpecTable[] = [];
+  for (const spec of pack.partSpecs) {
+    if (!matchesPartSpec(spec, options.specId)) {
+      continue;
+    }
+    for (const [tableName, table] of Object.entries(spec.tokenDecoder?.tables ?? {})) {
+      if (!matchesString(tableName, options.tableName)) {
+        continue;
+      }
+      out.push({
+        specId: spec.id,
+        tableName,
+        table: normalizeDecodeTable(table)
+      });
+    }
   }
   return out;
 }

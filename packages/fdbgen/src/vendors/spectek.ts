@@ -1,8 +1,9 @@
-import { decodepackLookupPartNumber } from "./decodepack";
+import { decodepackLookupPartNumber, removeMicronPackageSuffix } from "./decodepack";
 import type { VendorDecoder } from "./types";
 
 export function normalizeSpectekPartNumber(partNumber: string): string {
-  return decodepackLookupPartNumber("spectek", partNumber);
+  const lookupPartNumber = decodepackLookupPartNumber("spectek", partNumber);
+  return lookupPartNumber === partNumber ? removeMicronPackageSuffix(partNumber) : lookupPartNumber;
 }
 
 export const spectekVendor: VendorDecoder = {

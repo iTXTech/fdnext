@@ -14,7 +14,8 @@ import {
   type DecodePack,
   explainIdentifierDecode,
   explainPartDecode,
-  type PartDecodeSpec
+  type PartDecodeSpec,
+  readPartDecodeSpecTables
 } from "../../src/decodepack";
 
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
@@ -794,6 +795,18 @@ function assertArrayDecodeTablesSupportIdentityAndSharedValues(): void {
   }
   const trace = explainPartDecode(pack, "XCD").steps.find((step) => step.target === "code");
   assert.equal(trace?.value, "CD", "identity array tables should output the matched key");
+
+  const tables = readPartDecodeSpecTables(pack, {
+    specId: /^test\.array-table$/,
+    tableName: /^(token|packageObj)$/
+  });
+  assert.deepEqual(
+    tables.map(({ specId, tableName }) => `${specId}:${tableName}`),
+    ["test.array-table:token", "test.array-table:packageObj"]
+  );
+  assert.deepEqual(Object.keys(tables[0]?.table ?? {}), ["AB", "CD"]);
+  assert.deepEqual(tables[1]?.table.AB, { package: "BGA, Shared" });
+  assert.deepEqual(tables[1]?.table.CD, { package: "BGA, Shared" });
 }
 
 function assertDecodePackCheckRejectsDuplicateArrayTableKeys(): void {

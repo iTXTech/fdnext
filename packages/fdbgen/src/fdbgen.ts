@@ -618,7 +618,12 @@ function loadRawInputDirectory(inputDir: string, vendors: VendorMap, iddb: Flash
   return true;
 }
 
-function canonicalPartNumber(partNumber: string, records: PartNumberMap): string {
+function canonicalPartNumber(vendor: string, partNumber: string, records: PartNumberMap): string {
+  const packageCanonical = normalizeKnownPackage(vendor, partNumber);
+  if (packageCanonical && packageCanonical !== partNumber) {
+    return packageCanonical;
+  }
+
   const duplicateSuffix = /^(.*)_1$/.exec(partNumber);
   if (duplicateSuffix?.[1] && records.has(duplicateSuffix[1])) {
     return duplicateSuffix[1];
@@ -637,7 +642,7 @@ function canonicalPartNumber(partNumber: string, records: PartNumberMap): string
 function canonicalizeVendorRecords(vendors: VendorMap): void {
   for (const [vendor, records] of vendors.entries()) {
     for (const [partNumber, payload] of [...records.entries()]) {
-      const canonical = canonicalPartNumber(partNumber, records);
+      const canonical = canonicalPartNumber(vendor, partNumber, records);
       if (canonical === partNumber) {
         continue;
       }
@@ -758,7 +763,7 @@ function canonicalizePartReference(value: string, vendors: VendorMap): string | 
   if (!records) {
     return null;
   }
-  const canonical = records ? canonicalPartNumber(partNumber, records) : partNumber;
+  const canonical = records ? canonicalPartNumber(vendor, partNumber, records) : partNumber;
   if (!records.has(canonical)) {
     return null;
   }

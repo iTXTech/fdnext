@@ -231,7 +231,7 @@ test("normalizes generated FDB l fields to NAND die profile keys", () => {
   assert.equal(normalizeGeneratedFdbDieProfile("samsung", "3DV7", "QLC"), "SSV7Q");
   assert.equal(normalizeGeneratedFdbDieProfile("samsung", "SSV9", "QLC"), "SSV9Q");
   assert.equal(normalizeGeneratedFdbDieProfile("samsung", "SSV6P", "QLC"), "SSV6P");
-  assert.equal(normalizeGeneratedFdbDieProfile("samsung", "3DV8", "QLC"), "SSV8");
+  assert.equal(normalizeGeneratedFdbDieProfile("samsung", "3DV8", "QLC"), "SSV8Q");
   assert.equal(normalizeGeneratedFdbDieProfile("unknown", "3DV4", "TLC"), undefined);
   assert.equal(normalizeGeneratedFdbDieProfile("unknown", "3DV4P5", "TLC"), undefined);
   assert.equal(normalizeGeneratedFdbDieProfile("unknown", "1ynm", "TLC"), undefined);
@@ -443,7 +443,60 @@ test("normalizes SK hynix H25 package suffixes without dropping the X tail", () 
 test("normalizes Micron and SpecTek package suffixes through DecodePack lookup metadata", () => {
   assert.equal(normalizeKnownFdbPackage("micron", "MT29F16T08EWLEHD6-36ITRES:E"), "MT29F16T08EWLEH");
   assert.equal(normalizeKnownFdbPackage("micron", "MT29F64G08CBCBBH1-12:B"), "MT29F64G08CBCBB");
+  assert.equal(normalizeKnownFdbPackage("micron", "FBMB17A4T1KDUANM4"), "FBMB17A4T1KDUAN");
   assert.equal(normalizeKnownFdbPackage("spectek", "FBNL06B256G1KDBABH4"), "FBNL06B256G1KDBAB");
+});
+
+test("fdbgen writes DecodePack lookup PN metadata as canonical FDB keys", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-lookup-pn-"));
+  try {
+    writeFileSync(
+      join(inputDir, "fdb.json"),
+      JSON.stringify({
+        info: { version: "raw" },
+        micron: {
+          "MT29F16T08EWLEHD6-36ITRES:E": {
+            id: ["2C844863A904"],
+            l: "B74A",
+            c: "TLC",
+            t: ["RAWCTRL"]
+          }
+        },
+        spectek: {
+          FBNL06B256G1KDBABH4: {
+            id: ["B5844432AA04"],
+            l: "B74A",
+            c: "TLC",
+            t: ["RAWCTRL"]
+          }
+        },
+        iddb: {
+          "2C844863A904": {
+            n: ["micron MT29F16T08EWLEHD6-36ITRES:E"],
+            t: ["RAWCTRL"]
+          },
+          B5844432AA04: {
+            n: ["spectek FBNL06B256G1KDBABH4"],
+            t: ["RAWCTRL"]
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const micron = fdb.micron as Record<string, { id?: string[] }>;
+    const spectek = fdb.spectek as Record<string, { id?: string[] }>;
+    const iddb = fdb.iddb as Record<string, { n?: string[] }>;
+    assert.deepEqual(micron.MT29F16T08EWLEH?.id, ["2C844863A904"]);
+    assert.equal(micron["MT29F16T08EWLEHD6-36ITRES:E"], undefined);
+    assert.deepEqual(spectek.FBNL06B256G1KDBAB?.id, ["B5844432AA04"]);
+    assert.equal(spectek.FBNL06B256G1KDBABH4, undefined);
+    assert.deepEqual(iddb["2C844863A904"]?.n, ["micron MT29F16T08EWLEH"]);
+    assert.deepEqual(iddb.B5844432AA04?.n, ["spectek FBNL06B256G1KDBAB"]);
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
 });
 
 test("keeps exact supplemental H25 Flash IDs even without controller data", () => {

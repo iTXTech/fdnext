@@ -1,8 +1,11 @@
-import { decodepackLookupPartNumber } from "./decodepack";
+import { decodepackLookupPartNumber, removeMicronPackageSuffix } from "./decodepack";
 import type { VendorDecoder } from "./types";
 
 export function normalizeMicronPartNumber(partNumber: string): string {
-  return decodepackLookupPartNumber("micron", partNumber);
+  const lookupPartNumber = decodepackLookupPartNumber("micron", partNumber);
+  return lookupPartNumber === partNumber && /^(FN|FT|FB|FX|CB)/.test(partNumber)
+    ? removeMicronPackageSuffix(partNumber)
+    : lookupPartNumber;
 }
 
 export const micronVendor: VendorDecoder = {
