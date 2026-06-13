@@ -468,6 +468,37 @@ function assertDecodePackCompositeComponents(): void {
   assert.equal(JSON.stringify(info).includes("__fdnext"), false, "legacy FD draft marker should not leak into public results");
 }
 
+function collectIdentityObjectTables(value: unknown, path: string, findings: string[]): void {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectIdentityObjectTables(item, `${path}[${index}]`, findings));
+    return;
+  }
+  if (!value || typeof value !== "object") {
+    return;
+  }
+
+  for (const [key, item] of Object.entries(value)) {
+    if ((key === "tables" || key === "sharedTables") && item && typeof item === "object" && !Array.isArray(item)) {
+      for (const [tableName, table] of Object.entries(item)) {
+        if (!table || typeof table !== "object" || Array.isArray(table)) {
+          continue;
+        }
+        const entries = Object.entries(table);
+        if (entries.length >= 2 && entries.every(([entryKey, entryValue]) => entryValue === entryKey)) {
+          findings.push(`${path}.${key}.${tableName}`);
+        }
+      }
+    }
+    collectIdentityObjectTables(item, `${path}.${key}`, findings);
+  }
+}
+
+function assertDecodePackIdentityTablesUseArraySyntax(): void {
+  const findings: string[] = [];
+  collectIdentityObjectTables(defaultDecodePack, "defaultDecodePack", findings);
+  assert.deepEqual(findings, [], "identity DecodePack tables should use array syntax instead of duplicate key/value objects");
+}
+
 function assertDefaultDecodePackMaintainsItself(): void {
   const result = checkDecodePack(defaultDecodePack);
   assert.deepEqual(result.findings, [], "default iTXTech fdnext DecodePack should pass maintenance checks");
@@ -583,6 +614,117 @@ function assertDecodePackCheckRejectsFullStringPartMatch(): void {
         finding.path === "partSpecs[0].match.value"
     ),
     `expected full string part match finding, got ${JSON.stringify(result.findings)}`
+  );
+}
+
+function assertArrayDecodeTablesSupportIdentityAndSharedValues(): void {
+  const pack = {
+    partSpecs: [
+      {
+        id: "test.array-table",
+        match: {
+          kind: "prefix",
+          value: "X"
+        },
+        tokenDecoder: {
+          stripPrefixes: ["X"],
+          tables: {
+            token: ["AB", "CD"],
+            packageObj: [
+              {
+                keys: ["AB", "CD"],
+                value: {
+                  package: "Shared package"
+                }
+              }
+            ]
+          },
+          steps: [
+            {
+              op: "takeLongest",
+              table: "token",
+              to: "code",
+              default: ""
+            },
+            {
+              op: "map",
+              from: "code",
+              table: "packageObj",
+              to: "packageObj",
+              default: {}
+            }
+          ],
+          assign: {
+            "device.partNumber": {
+              $var: "partNumber"
+            },
+            "fields.package": {
+              $path: "packageObj.package"
+            }
+          }
+        }
+      }
+    ],
+    identifierSpecs: []
+  } satisfies DecodePack;
+
+  assert.deepEqual(checkDecodePack(pack).findings, []);
+
+  for (const partNumber of ["XAB", "XCD"]) {
+    const result = explainPartDecode(pack, partNumber);
+    assert.equal(result.status, "matched");
+    assert.equal(result.draft?.fields?.package, "Shared package");
+  }
+  const trace = explainPartDecode(pack, "XCD").steps.find((step) => step.target === "code");
+  assert.equal(trace?.value, "CD", "identity array tables should output the matched key");
+}
+
+function assertDecodePackCheckRejectsDuplicateArrayTableKeys(): void {
+  const result = checkDecodePack({
+    partSpecs: [
+      {
+        id: "test.duplicate-array-table-key",
+        match: {
+          kind: "prefix",
+          value: "X"
+        },
+        tokenDecoder: {
+          tables: {
+            token: [
+              "AB",
+              {
+                keys: ["AB"],
+                value: "duplicate"
+              }
+            ]
+          },
+          steps: [
+            {
+              op: "takeLongest",
+              table: "token",
+              to: "code"
+            }
+          ],
+          assign: {
+            "device.partNumber": {
+              $var: "partNumber"
+            }
+          }
+        }
+      }
+    ],
+    identifierSpecs: []
+  } satisfies DecodePack);
+
+  assert.equal(result.ok, false);
+  assert.ok(
+    result.findings.some(
+      (finding) =>
+        finding.code === "duplicate_table_key" &&
+        finding.specId === "test.duplicate-array-table-key" &&
+        finding.path === "partSpecs[0].tokenDecoder.tables.token[1].keys[0]"
+    ),
+    `expected duplicate array table key finding, got ${JSON.stringify(result.findings)}`
   );
 }
 
@@ -707,10 +849,13 @@ assertSkhynixH25RulesAreConsolidated();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertDecodePackCompositeComponents();
+assertDecodePackIdentityTablesUseArraySyntax();
 assertDefaultDecodePackMaintainsItself();
 assertDecodePackCheckRejectsUndefinedTokenVariables();
 assertDecodePackCheckRejectsPublicCodeFields();
 assertDecodePackCheckRejectsFullStringPartMatch();
+assertArrayDecodeTablesSupportIdentityAndSharedValues();
+assertDecodePackCheckRejectsDuplicateArrayTableKeys();
 assertDecodePackCheckAllowsFixedLengthPartMatch();
 assertPartMatchersAllowUnknownTail();
 assertDecodePackExplainTools();

@@ -32,13 +32,13 @@
             "source": "Kingston eMCP product flyer"
           }
         },
-        "storageDensityCode": {
-          "16": "16",
-          "32": "32",
-          "64": "64",
-          "128": "128",
-          "08": "08"
-        },
+        "storageDensityCode": [
+          "16",
+          "32",
+          "64",
+          "128",
+          "08"
+        ],
         "storageDensity": {
           "16": 131072,
           "32": 262144,
@@ -63,12 +63,12 @@
             "storage_density": "8GB eMMC"
           }
         },
-        "dramDensityCode": {
-          "16": "16",
-          "32": "32",
-          "64": "64",
-          "08": "08"
-        },
+        "dramDensityCode": [
+          "16",
+          "32",
+          "64",
+          "08"
+        ],
         "dramDensityObj": {
           "16": {
             "dram_density": "16Gb"

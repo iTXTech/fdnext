@@ -74,15 +74,15 @@
             "die_stack": "8-Deck"
           }
         },
-        "featureToken": {
-          "A": "A",
-          "AM": "AM",
-          "B": "B",
-          "C": "C",
-          "P": "P",
-          "R": "R",
-          "RM": "RM"
-        },
+        "featureToken": [
+          "A",
+          "AM",
+          "B",
+          "C",
+          "P",
+          "R",
+          "RM"
+        ],
         "productionStatusObj": {
           "ES": {
             "prod_status": "Engineering samples"

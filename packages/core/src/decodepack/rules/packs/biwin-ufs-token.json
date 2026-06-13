@@ -31,18 +31,18 @@
             "source": "BIWIN UFS 2.2 order information"
           }
         },
-        "configCode": {
-          "0516B": "0516B",
-          "0526B": "0526B",
-          "0546B": "0546B",
-          "NY46B": "NY46B"
-        },
-        "densityCode": {
-          "064G": "064G",
-          "128G": "128G",
-          "256G": "256G",
-          "512G": "512G"
-        },
+        "configCode": [
+          "0516B",
+          "0526B",
+          "0546B",
+          "NY46B"
+        ],
+        "densityCode": [
+          "064G",
+          "128G",
+          "256G",
+          "512G"
+        ],
         "density": {
           "064G": 524288,
           "128G": 1048576,

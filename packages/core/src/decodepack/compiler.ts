@@ -6,6 +6,7 @@ import type {
   DecodePack,
   DecodePackTraceStep,
   DecodeProgram,
+  DecodeTable,
   IdentifierDecodeExplainBitfield,
   IdentifierDecodeExplainResult,
   IdentifierBitRule,
@@ -15,6 +16,7 @@ import type {
   PartDecodeExplainResult,
   PartDecodeSpec
 } from "./types";
+import { normalizeDecodeTables } from "./table";
 
 function normalize(input: string, steps: NormalizeStep[] = []): string {
   let value = input;
@@ -223,12 +225,18 @@ function traceStep(trace: DecodePackTraceStep[] | undefined, step: DecodePackTra
 
 function resolveDecodeTables(
   decoder: DecodeProgram,
-  sharedTables?: Record<string, Record<string, DecodeJson>>
+  sharedTables?: Record<string, DecodeTable>
 ): Record<string, Record<string, DecodeJson>> {
-  return {
+  return normalizeDecodeTables({
     ...(sharedTables ?? {}),
     ...(decoder.tables ?? {})
-  };
+  });
+}
+
+function normalizeOptionalDecodeTables(
+  tables: Record<string, DecodeTable> | undefined
+): Record<string, Record<string, DecodeJson>> | undefined {
+  return tables ? normalizeDecodeTables(tables) : undefined;
 }
 
 function formatDieDensityMbit(value: number): string {
@@ -251,7 +259,7 @@ function runTokenDecoder(
   partNumber: string,
   decoder: DecodeProgram,
   trace?: DecodePackTraceStep[],
-  sharedTables?: Record<string, Record<string, DecodeJson>>
+  sharedTables?: Record<string, DecodeTable>
 ): PartDecodeDraft {
   const context: Record<string, unknown> = {
     partNumber,
@@ -621,7 +629,7 @@ function decodePartBySpec(
   rule: PartDecodeSpec,
   normalized: string,
   trace?: DecodePackTraceStep[],
-  sharedTables?: Record<string, Record<string, DecodeJson>>
+  sharedTables?: Record<string, DecodeTable>
 ): PartDecodeDraft {
   if (rule.tokenDecoder) {
     return runTokenDecoder(normalized, rule.tokenDecoder, trace, sharedTables);
@@ -653,8 +661,9 @@ function decodePartBySpec(
 
 function compilePartDecodeSpecs(
   rules: PartDecodeSpec[],
-  sharedTables?: Record<string, Record<string, DecodeJson>>
+  sharedTables?: Record<string, DecodeTable>
 ): PartNumberDecoder[] {
+  const profileTables = normalizeOptionalDecodeTables(sharedTables);
   return rules.map((rule) => {
     const check = (partNumber: string): boolean => {
       const normalized = normalize(partNumber, rule.normalize);
@@ -672,7 +681,7 @@ function compilePartDecodeSpecs(
     return {
       id: rule.id,
       priority: rule.priority,
-      profileTables: sharedTables,
+      profileTables,
       check,
       decode
     } satisfies PartNumberDecoder;
@@ -854,8 +863,9 @@ function decodeIdentifierByDefinition(
 
 function compileIdentifierDecodeSpecs(
   rules: IdentifierDecodeSpec[],
-  sharedTables?: Record<string, Record<string, DecodeJson>>
+  sharedTables?: Record<string, DecodeTable>
 ): IdentifierDecoder[] {
+  const profileTables = normalizeOptionalDecodeTables(sharedTables);
   return rules.map((rule) => {
     const check = (id: string): boolean => checkMatch(id.toUpperCase(), rule.match);
     const decode = (id: string): IdentifierDecodeDraft | null => {
@@ -870,7 +880,7 @@ function compileIdentifierDecodeSpecs(
       id: rule.id,
       idScheme: rule.idScheme,
       priority: rule.priority,
-      profileTables: sharedTables,
+      profileTables,
       check,
       decode
     } satisfies IdentifierDecoder;
@@ -881,7 +891,7 @@ export function compileDecodePack(pack: DecodePack): CompileDecodePackResult {
   return {
     partDecoders: compilePartDecodeSpecs(pack.partSpecs, pack.sharedTables),
     identifierDecoders: compileIdentifierDecodeSpecs(pack.identifierSpecs, pack.sharedTables),
-    profileTables: pack.sharedTables
+    profileTables: normalizeOptionalDecodeTables(pack.sharedTables)
   };
 }
 

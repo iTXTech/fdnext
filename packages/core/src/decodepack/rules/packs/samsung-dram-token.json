@@ -1623,12 +1623,12 @@
             "dram_type": "LPDDR4X"
           }
         },
-        "densityToken": {
-          "6E": "6E",
-          "8E": "8E",
-          "BE": "BE",
-          "CE": "CE"
-        },
+        "densityToken": [
+          "6E",
+          "8E",
+          "BE",
+          "CE"
+        ],
         "densityMb": {
           "6E": 16384,
           "8E": 8192,
@@ -1973,17 +1973,17 @@
         "K"
       ],
       "tables": {
-        "densityStackToken": {
-          "6": "6",
-          "E7": "E7",
-          "E0": "E0",
-          "F1": "F1",
-          "F2": "F2",
-          "F4": "F4",
-          "FA": "FA",
-          "L3": "L3",
-          "KB": "KB"
-        },
+        "densityStackToken": [
+          "6",
+          "E7",
+          "E0",
+          "F1",
+          "F2",
+          "F4",
+          "FA",
+          "L3",
+          "KB"
+        ],
         "configObj": {
           "3P:E7": {
             "dram_type": "LPDDR2",

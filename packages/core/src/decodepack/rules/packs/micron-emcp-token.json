@@ -2195,19 +2195,19 @@
             "source": "Elnec MT29C8G48MAPLDJA device page with MT29C PN description table"
           }
         },
-        "storageDensityCode": {
-          "DM": "DM",
-          "EM": "EM",
-          "FM": "FM",
-          "1G": "1G",
-          "2G": "2G",
-          "4G": "4G",
-          "8G": "8G",
-          "AG": "AG",
-          "BG": "BG",
-          "CG": "CG",
-          "DG": "DG"
-        },
+        "storageDensityCode": [
+          "DM",
+          "EM",
+          "FM",
+          "1G",
+          "2G",
+          "4G",
+          "8G",
+          "AG",
+          "BG",
+          "CG",
+          "DG"
+        ],
         "storageDensity": {
           "DM": 128,
           "EM": 256,
@@ -2256,17 +2256,17 @@
             "storage_density": "128Gb NAND"
           }
         },
-        "dramDensityCode": {
-          "56M": "56M",
-          "12M": "12M",
-          "40M": "40M",
-          "24M": "24M",
-          "52M": "52M",
-          "48M": "48M",
-          "72M": "72M",
-          "96M": "96M",
-          "92M": "92M"
-        },
+        "dramDensityCode": [
+          "56M",
+          "12M",
+          "40M",
+          "24M",
+          "52M",
+          "48M",
+          "72M",
+          "96M",
+          "92M"
+        ],
         "dramDensityObj": {
           "56M": {
             "dram_density": "256Mb"

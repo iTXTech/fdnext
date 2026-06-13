@@ -35,15 +35,15 @@
             "source": "Kingston eMMC and I-Temp eMMC product flyers"
           }
         },
-        "densityCode": {
-          "128": "128",
-          "256": "256",
-          "04G": "04G",
-          "08G": "08G",
-          "16G": "16G",
-          "32G": "32G",
-          "64G": "64G"
-        },
+        "densityCode": [
+          "128",
+          "256",
+          "04G",
+          "08G",
+          "16G",
+          "32G",
+          "64G"
+        ],
         "density": {
           "128": 1048576,
           "256": 2097152,

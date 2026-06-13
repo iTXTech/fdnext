@@ -35,26 +35,26 @@
             "source": "BIWIN eMMC 5.1 specifications PDF"
           }
         },
-        "configCode": {
-          "MAB811G": "MAB811G",
-          "MMQ511G": "MMQ511G",
-          "TAK611G": "TAK611G",
-          "TARJ11X": "TARJ11X",
-          "TAKC11X": "TAKC11X",
-          "TAKL11X": "TAKL11X",
-          "TAKL21X": "TAKL21X",
-          "TAKL41X": "TAKL41X"
-        },
-        "densityCode": {
-          "04G": "04G",
-          "08G": "08G",
-          "16G": "16G",
-          "32G": "32G",
-          "64G": "64G",
-          "128G": "128G",
-          "256G": "256G",
-          "512G": "512G"
-        },
+        "configCode": [
+          "MAB811G",
+          "MMQ511G",
+          "TAK611G",
+          "TARJ11X",
+          "TAKC11X",
+          "TAKL11X",
+          "TAKL21X",
+          "TAKL41X"
+        ],
+        "densityCode": [
+          "04G",
+          "08G",
+          "16G",
+          "32G",
+          "64G",
+          "128G",
+          "256G",
+          "512G"
+        ],
         "density": {
           "04G": 32768,
           "08G": 65536,

@@ -38,17 +38,35 @@ const micronNandFbgaHeaders = ["NC", "NW", "NY", "NX", "NQ", "NV"];
 const seenDramPn = new Set<string>();
 const seenCanonicalWinbondDramPn = new Set<string>();
 const micronDramTables = ((micronDramRules as Array<Record<string, unknown>>)[0].tokenDecoder as Record<string, unknown>).tables as Record<string, unknown>;
-const micronDramSpeedToken = micronDramTables.speedToken as Record<string, string>;
+
+function tableKeys(table: unknown): string[] {
+  if (Array.isArray(table)) {
+    return table.flatMap((entry) => {
+      if (typeof entry === "string") {
+        return [entry];
+      }
+      if (entry && typeof entry === "object" && !Array.isArray(entry) && Array.isArray((entry as { keys?: unknown }).keys)) {
+        return ((entry as { keys: unknown[] }).keys).filter((key): key is string => typeof key === "string");
+      }
+      return [];
+    });
+  }
+  if (table && typeof table === "object") {
+    return Object.keys(table);
+  }
+  return [];
+}
+
 const micronDramSpeedContinuationTokens = [
-  ...Object.keys(micronDramTables.productCertificationObj as Record<string, unknown>).map((key) => key.includes(":") ? key.split(":").pop() ?? key : key),
-  ...Object.keys(micronDramTables.powerSavingObj as Record<string, unknown>).map((key) => key.includes(":") ? key.split(":").pop() ?? key : key),
-  ...Object.keys(micronDramTables.suffixOptionToken as Record<string, string>),
-  ...Object.keys(micronDramTables.temperatureObj as Record<string, unknown>).map((key) => key.includes(":") ? key.split(":").pop() ?? key : key),
-  ...Object.keys(micronDramTables.productionStatusObj as Record<string, unknown>)
+  ...tableKeys(micronDramTables.productCertificationObj).map((key) => key.includes(":") ? key.split(":").pop() ?? key : key),
+  ...tableKeys(micronDramTables.powerSavingObj).map((key) => key.includes(":") ? key.split(":").pop() ?? key : key),
+  ...tableKeys(micronDramTables.suffixOptionToken),
+  ...tableKeys(micronDramTables.temperatureObj).map((key) => key.includes(":") ? key.split(":").pop() ?? key : key),
+  ...tableKeys(micronDramTables.productionStatusObj)
 ].sort((a, b) => b.length - a.length || a.localeCompare(b));
 const micronDramScopedSpeedTokens = new Map<string, string[]>();
 const micronDramUnscopedSpeedTokens: string[] = [];
-for (const key of Object.keys(micronDramSpeedToken)) {
+for (const key of tableKeys(micronDramTables.speedToken)) {
   const scoped = /^(\d\d):(.+)$/.exec(key);
   if (scoped) {
     const tokens = micronDramScopedSpeedTokens.get(scoped[1]) ?? [];

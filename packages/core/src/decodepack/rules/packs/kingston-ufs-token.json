@@ -31,11 +31,11 @@
             "source": "Kingston UFS Part Numbers and Specifications"
           }
         },
-        "densityCode": {
-          "128": "128",
-          "256": "256",
-          "64G": "64G"
-        },
+        "densityCode": [
+          "128",
+          "256",
+          "64G"
+        ],
         "density": {
           "128": 1048576,
           "256": 2097152,

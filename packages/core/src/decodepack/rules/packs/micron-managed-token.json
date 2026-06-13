@@ -381,15 +381,15 @@
           "umcp": "managed_nand",
           "e2nand": "managed_nand"
         },
-        "draftProductType": {
-          "emmc": "emmc",
-          "ufs": "ufs",
-          "sata": "sata",
-          "nvme": "nvme",
-          "emcp": "emcp",
-          "umcp": "umcp",
-          "e2nand": "e2nand"
-        }
+        "draftProductType": [
+          "emmc",
+          "ufs",
+          "sata",
+          "nvme",
+          "emcp",
+          "umcp",
+          "e2nand"
+        ]
       },
       "steps": [
         {

@@ -40,13 +40,13 @@
           "TC": "1.35V VDD",
           "AN": "1.2V VDD"
         },
-        "densityToken": {
-          "1G": "1G",
-          "2G": "2G",
-          "4G": "4G",
-          "8G": "8G",
-          "AG": "AG"
-        },
+        "densityToken": [
+          "1G",
+          "2G",
+          "4G",
+          "8G",
+          "AG"
+        ],
         "density": {
           "1G": 1024,
           "2G": 2048,
@@ -64,18 +64,18 @@
           "6": "96-ball FBGA",
           "8": "78-ball FBGA"
         },
-        "speedToken": {
-          "G7": "G7",
-          "H9": "H9",
-          "PB": "PB",
-          "RD": "RD",
-          "TE": "TE",
-          "TF": "TF",
-          "UH": "UH",
-          "VK": "VK",
-          "WM": "WM",
-          "XN": "XN"
-        },
+        "speedToken": [
+          "G7",
+          "H9",
+          "PB",
+          "RD",
+          "TE",
+          "TF",
+          "UH",
+          "VK",
+          "WM",
+          "XN"
+        ],
         "speedObj": {
           "TQ:G7": {
             "dram_speed": "DDR3-1066 7-7-7"
@@ -401,13 +401,13 @@
         "H5C"
       ],
       "tables": {
-        "densityToken": {
-          "G3": "G3",
-          "G4": "G4",
-          "GD": "GD",
-          "G5": "G5",
-          "G6": "G6"
-        },
+        "densityToken": [
+          "G3",
+          "G4",
+          "GD",
+          "G5",
+          "G6"
+        ],
         "density": {
           "G3": 8192,
           "G4": 16384,
@@ -765,23 +765,23 @@
         "H5GQ"
       ],
       "tables": {
-        "densityToken": {
-          "1H": "1H",
-          "2H": "2H",
-          "4H": "4H",
-          "8H": "8H"
-        },
+        "densityToken": [
+          "1H",
+          "2H",
+          "4H",
+          "8H"
+        ],
         "density": {
           "1H": 1024,
           "2H": 2048,
           "4H": 4096,
           "8H": 8192
         },
-        "speedToken": {
-          "R0": "R0",
-          "T2": "T2",
-          "T0": "T0"
-        },
+        "speedToken": [
+          "R0",
+          "T2",
+          "T0"
+        ],
         "speedObj": {
           "2H:R0": {
             "dram_speed": "GDDR5-6Gbps/pin"
@@ -1074,13 +1074,13 @@
         "H9HCNNN"
       ],
       "tables": {
-        "densityToken": {
-          "4K": "4K",
-          "8K": "8K",
-          "BK": "BK",
-          "FA": "FA",
-          "CP": "CP"
-        },
+        "densityToken": [
+          "4K",
+          "8K",
+          "BK",
+          "FA",
+          "CP"
+        ],
         "density": {
           "4K": 4096,
           "8K": 8192,
@@ -1806,11 +1806,11 @@
             "dram_speed": "DDR2-C4"
           }
         },
-        "speedToken": {
-          "D43": "D43",
-          "Y5": "Y5",
-          "C4": "C4"
-        }
+        "speedToken": [
+          "D43",
+          "Y5",
+          "C4"
+        ]
       },
       "steps": [
         {
@@ -2156,11 +2156,11 @@
         "H58"
       ],
       "tables": {
-        "densityToken": {
-          "G5": "G5",
-          "G6": "G6",
-          "G7": "G7"
-        },
+        "densityToken": [
+          "G5",
+          "G6",
+          "G7"
+        ],
         "density": {
           "G5": 32768,
           "G6": 65536,

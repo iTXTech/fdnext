@@ -31,16 +31,16 @@
             "source": "BIWIN eMCP LPDDR4X order information"
           }
         },
-        "configCode": {
-          "EZA": "EZA",
-          "KZC": "KZC",
-          "KZA": "KZA"
-        },
-        "densityCode": {
-          "32G": "32G",
-          "64G": "64G",
-          "128G": "128G"
-        },
+        "configCode": [
+          "EZA",
+          "KZC",
+          "KZA"
+        ],
+        "densityCode": [
+          "32G",
+          "64G",
+          "128G"
+        ],
         "density": {
           "32G": 262144,
           "64G": 524288,
@@ -257,18 +257,18 @@
             "source": "BIWIN uMCP LPDDR4X order information"
           }
         },
-        "configCode": {
-          "KZC02": "KZC02",
-          "LEI02": "LEI02",
-          "MZC02": "MZC02",
-          "MZCNY": "MZCNY"
-        },
-        "densityCode": {
-          "64G": "64G",
-          "128G": "128G",
-          "256G": "256G",
-          "512G": "512G"
-        },
+        "configCode": [
+          "KZC02",
+          "LEI02",
+          "MZC02",
+          "MZCNY"
+        ],
+        "densityCode": [
+          "64G",
+          "128G",
+          "256G",
+          "512G"
+        ],
         "density": {
           "64G": 524288,
           "128G": 1048576,

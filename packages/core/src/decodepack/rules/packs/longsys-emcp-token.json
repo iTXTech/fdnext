@@ -31,13 +31,13 @@
             "source": "FORESEE Embedded Storage Product Catalogue 2023"
           }
         },
-        "densityPairCode": {
-          "NA1608": "NA1608",
-          "NA3208": "NA3208",
-          "RF6432": "RF6432",
-          "RB6432": "RB6432",
-          "RFA832": "RFA832"
-        },
+        "densityPairCode": [
+          "NA1608",
+          "NA3208",
+          "RF6432",
+          "RB6432",
+          "RFA832"
+        ],
         "density": {
           "NA1608": 131072,
           "NA3208": 262144,
@@ -224,10 +224,10 @@
             "source": "FORESEE Embedded Storage Product Catalogue 2023"
           }
         },
-        "densityPairCode": {
-          "RB6432": "RB6432",
-          "RFA832": "RFA832"
-        },
+        "densityPairCode": [
+          "RB6432",
+          "RFA832"
+        ],
         "density": {
           "RB6432": 524288,
           "RFA832": 1048576

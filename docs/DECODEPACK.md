@@ -99,6 +99,16 @@ DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `
 - 多个 PN / Flash ID / MPTool 规则都需要引用的 key-value 表。
 - 只作为规则推导输入的维护信息，例如 `firmware_match`、`die_mark`、reference metadata。
 
+#### table 形态
+
+`tables` 的单张表支持三种写法，`map` 和 `takeLongest` 都会先归一化后再查询：
+
+- 普通 object 表：`{ "AB": { "package": "FBGA-78" } }`，适合每个 key 有独立 value 的场景。
+- identity 数组表：`["AB", "CD"]`，等价于 `{ "AB": "AB", "CD": "CD" }`，适合 token 白名单 / 最长前缀匹配，不需要再写 `"AB": "AB"` 这类重复映射。
+- alias-entry 数组表：`[{ "keys": ["AB", "CD"], "value": { "package": "FBGA-78" } }]`，适合多个 token 共享同一个结构化 value。`value` 省略时，每个 key 仍按 identity 输出自身。
+
+数组表中的 key 不应重复；`pnpm cli decodepack check` 会报告重复 key，避免后写项静默覆盖前写项。
+
 #### `nand.die_profile`
 
 `nand.die_profile` 是最重要的共享表之一。它以 die codename、firmware full code 或规则归一化后的 profile key 为索引，让 PN / Flash ID / MPTool 规则可以 cross-reference 出以下公开字段：
@@ -188,10 +198,10 @@ DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `
   - 行为：若 `rest.length < len`，则 `to=""`，且不消耗 `rest`
 - `map`: 表映射
   - 参数：`from`, `table`, `to`, `default`
-  - 行为：`tables[table][context[from]]` 存在则赋值，否则使用 `default`；`tables` 包含顶层 `sharedTables` 与当前 `tokenDecoder.tables`
+  - 行为：`tables[table][context[from]]` 存在则赋值，否则使用 `default`；`tables` 包含顶层 `sharedTables` 与当前 `tokenDecoder.tables`，并支持 object / identity 数组 / alias-entry 数组三种表形态
 - `takeLongest`: 最长前缀匹配 + 消费
   - 参数：`table`, `to`, `default`，可选 `scope`, `scopeSeparator`
-  - 行为：对 `tables[table]` 的 key 按长度降序匹配 `rest` 开头，匹配成功会消耗相应长度并写入值；`tables` 同样包含顶层 `sharedTables` 与当前 `tokenDecoder.tables`；如设置 `scope`，会先按 `${scope}${scopeSeparator ?? ":"}${token}` 形式匹配 scoped key，未命中时再回退到普通 key
+  - 行为：对 `tables[table]` 的 key 按长度降序匹配 `rest` 开头，匹配成功会消耗相应长度并写入值；`tables` 同样包含顶层 `sharedTables` 与当前 `tokenDecoder.tables`，并支持 object / identity 数组 / alias-entry 数组三种表形态；如设置 `scope`，会先按 `${scope}${scopeSeparator ?? ":"}${token}` 形式匹配 scoped key，未命中时再回退到普通 key
 - `stripIfPrefix`: 条件剥离前缀
   - 参数：`prefix`, 可选 `to`
   - 行为：若 `rest` 以 `prefix` 开头则剥离；如提供 `to` 则写入布尔值（是否剥离成功）

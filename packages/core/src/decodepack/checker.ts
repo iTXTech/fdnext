@@ -6,12 +6,72 @@ import type {
   DecodePackCheckFinding,
   DecodePackCheckResult,
   DecodeProgram,
+  DecodeTable,
   IdentifierDecodeSpec,
   PartDecodeSpec
 } from "./types";
+import { normalizeDecodeTables } from "./table";
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function checkDecodeTable(
+  table: DecodeTable,
+  path: string,
+  specId: string | undefined,
+  findings: DecodePackCheckFinding[]
+): void {
+  if (!Array.isArray(table)) {
+    return;
+  }
+  const seen = new Map<string, string>();
+  table.forEach((entry, index) => {
+    const entryPath = `${path}[${index}]`;
+    const keys = typeof entry === "string"
+      ? [entry]
+      : isRecord(entry) && Array.isArray(entry.keys)
+        ? entry.keys
+        : undefined;
+    if (!keys) {
+      addFinding(
+        findings,
+        "error",
+        "invalid_table_entry",
+        entryPath,
+        "Array DecodePack table entries must be strings or objects with a string keys array.",
+        specId
+      );
+      return;
+    }
+    keys.forEach((key, keyIndex) => {
+      const keyPath = typeof entry === "string" ? entryPath : `${entryPath}.keys[${keyIndex}]`;
+      if (typeof key !== "string" || key.length === 0) {
+        addFinding(
+          findings,
+          "error",
+          "invalid_table_key",
+          keyPath,
+          "DecodePack table alias keys must be non-empty strings.",
+          specId
+        );
+        return;
+      }
+      const previous = seen.get(key);
+      if (previous) {
+        addFinding(
+          findings,
+          "error",
+          "duplicate_table_key",
+          keyPath,
+          `DecodePack table key "${key}" also appears at ${previous}.`,
+          specId
+        );
+        return;
+      }
+      seen.set(key, typeof entry === "string" ? entryPath : `${entryPath}.keys[${keyIndex}]`);
+    });
+  });
 }
 
 function isInternalCodeFieldKey(key: string): boolean {
@@ -20,12 +80,12 @@ function isInternalCodeFieldKey(key: string): boolean {
 
 function resolveDecodeTables(
   decoder: DecodeProgram,
-  sharedTables?: Record<string, Record<string, DecodeJson>>
+  sharedTables?: Record<string, DecodeTable>
 ): Record<string, Record<string, DecodeJson>> {
-  return {
+  return normalizeDecodeTables({
     ...(sharedTables ?? {}),
     ...(decoder.tables ?? {})
-  };
+  });
 }
 
 function addFinding(
@@ -213,7 +273,7 @@ function checkTokenDecoderProgram(
   spec: PartDecodeSpec,
   path: string,
   findings: DecodePackCheckFinding[],
-  sharedTables?: Record<string, Record<string, DecodeJson>>
+  sharedTables?: Record<string, DecodeTable>
 ): void {
   const decoder = spec.tokenDecoder;
   if (!decoder) {
@@ -222,6 +282,10 @@ function checkTokenDecoderProgram(
 
   const defined = new Set(["partNumber", "rest"]);
   const tables = resolveDecodeTables(decoder, sharedTables);
+
+  for (const [tableName, table] of Object.entries(decoder.tables ?? {})) {
+    checkDecodeTable(table, `${path}.tokenDecoder.tables.${tableName}`, spec.id, findings);
+  }
 
   decoder.steps.forEach((step, index) => {
     const stepPath = `${path}.tokenDecoder.steps[${index}]`;
@@ -366,6 +430,9 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
   const findings: DecodePackCheckFinding[] = [];
   const ids = new Map<string, string>();
   const sharedTables = pack.sharedTables ?? {};
+  for (const [tableName, table] of Object.entries(sharedTables)) {
+    checkDecodeTable(table, `sharedTables.${tableName}`, undefined, findings);
+  }
   for (const [kind, specs] of [
     ["part", pack.partSpecs],
     ["identifier", pack.identifierSpecs]

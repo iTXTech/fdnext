@@ -18,6 +18,14 @@ export type DecodeMatch = DecodeMatchPrefix | DecodeMatchRegex;
 export type DecodeScalar = string | number | boolean | null;
 export type DecodeJson = DecodeScalar | DecodeJson[] | { [key: string]: DecodeJson };
 
+export interface DecodeTableAliasEntry {
+  keys: string[];
+  value?: DecodeJson;
+}
+
+export type DecodeTableEntry = string | DecodeTableAliasEntry;
+export type DecodeTable = Record<string, DecodeJson> | DecodeTableEntry[];
+
 export interface DecodeExprVar {
   $var: string;
 }
@@ -149,7 +157,7 @@ export type DecodeStep =
 
 export interface DecodeProgram {
   stripPrefixes?: string[];
-  tables?: Record<string, Record<string, DecodeJson>>;
+  tables?: Record<string, DecodeTable>;
   steps: DecodeStep[];
   assign: Record<string, DecodeExpr>;
 }
@@ -195,7 +203,7 @@ export interface IdentifierDecodeSpec {
 }
 
 export interface DecodePack {
-  sharedTables?: Record<string, Record<string, DecodeJson>>;
+  sharedTables?: Record<string, DecodeTable>;
   partSpecs: PartDecodeSpec[];
   identifierSpecs: IdentifierDecodeSpec[];
 }
