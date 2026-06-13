@@ -275,6 +275,11 @@
             "dram_type": "LPDDR4"
           }
         },
+        "designCodeObj": {
+          "Y52P": {
+            "dram_type": "LPDDR5X"
+          }
+        },
         "dieCountObj": {
           "D1": {
             "die_count": 1
@@ -381,41 +386,44 @@
           }
         },
         "packageObj": {
+          "DV": {
+            "package": "LFBGA-315, 12.4x15.0x1.30"
+          },
           "DT": {
-            "package": "VFBGA 200/264-ball, 10.0x14.5x0.95"
+            "package": "VFBGA-200/264, 10.0x14.5x0.95"
           },
           "NQ": {
-            "package": "VFBGA 200/264-ball, 10.0x14.5x0.95"
+            "package": "VFBGA-200/264, 10.0x14.5x0.95"
           },
           "H6": {
-            "package": "TFBGA 178/221-ball, 11.5x13.0x1.1"
+            "package": "TFBGA-178/221, 11.5x13.0x1.1"
           },
           "FH": {
-            "package": "VFBGA 496/756-ball, 14x12.4x0.81"
+            "package": "VFBGA-496/756, 14x12.4x0.81"
           },
           "FS": {
-            "package": "FBGA 96/144-ball, 9.0x14.0x1.2"
+            "package": "FBGA-96/144, 9.0x14.0x1.2"
           },
           "RG": {
-            "package": "TFBGA 78/117-ball, 7.5x10.6x1.2"
+            "package": "TFBGA-78/117, 7.5x10.6x1.2"
           },
           "RH": {
-            "package": "FBGA 78/117-ball, 9.0x10.5x1.2"
+            "package": "FBGA-78/117, 9.0x10.5x1.2"
           },
           "LY": {
-            "package": "TFBGA 96/144-ball, 7.5x13.5x1.2"
+            "package": "TFBGA-96/144, 7.5x13.5x1.2"
           },
           "LZ": {
-            "package": "WFBGA 216/841-ball, 12.0x12.0x0.8"
+            "package": "WFBGA-216/841, 12.0x12.0x0.8"
           },
           "MV": {
-            "package": "VFBGA 253/289-ball, 11.0x11.0x1.0"
+            "package": "VFBGA-253/289, 11.0x11.0x1.0"
           },
           "QD": {
-            "package": "VFBGA 200/264-ball, 10.0x14.5x1.0"
+            "package": "VFBGA-200/264, 10.0x14.5x1.0"
           },
           "TT": {
-            "package": "VFBGA 196/841-ball, 12x12x0.87"
+            "package": "VFBGA-196/841, 12x12x0.87"
           }
         },
         "speedGradeToken": [
@@ -473,10 +481,10 @@
         },
         "profiledPackageObj": {
           "DS:LPDDR4": {
-            "package": "WFBGA 200/264-ball, 10x14.5x0.8 .325mm"
+            "package": "WFBGA-200/264, 10x14.5x0.8"
           },
           "DS:LPDDR5": {
-            "package": "TFBGA 315/315-ball, 12.4x15.0x1.1"
+            "package": "TFBGA-315/315, 12.4x15.0x1.1"
           }
         }
       },
@@ -523,6 +531,13 @@
           "from": "designFamilyCode",
           "table": "designTypeObj",
           "to": "designTypeObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "designCode",
+          "table": "designCodeObj",
+          "to": "designCodeObj",
           "default": {}
         },
         {
@@ -657,6 +672,11 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "designCodeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "dieCountObj"
         },
         {
@@ -724,10 +744,102 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(?:XCBB|XCB|PR[A-Z]|S[A-Z]{1,2})(?:(?:16|32|64|128|256|384|512|768|1024)M(?:4|8|16|32|64)|[12]G(?:4|8|16|32|64))[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
+      "value": "^(?:PNL|PRA|PRN|PRM|SGG|SMG|SNL|SUM|SUU|SCD|SCM|SCT|SMC|SMD|SMM|SMU|XAA|XBA|XCBB|XCB|SM|SU)(?:(?:16|32|64|128|256|384|512|768|1024)M(?:4|8|16|32|64)|[12]G(?:4|8|16|32|64)|4G8)[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "tables": {
+        "prefixToken": [
+          "PNL",
+          "PRA",
+          "PRN",
+          "PRM",
+          "SGG",
+          "SMG",
+          "SNL",
+          "SUM",
+          "SUU",
+          "SCD",
+          "SCM",
+          "SCT",
+          "SMC",
+          "SMD",
+          "SMM",
+          "SMU",
+          "SM",
+          "SU",
+          "XAA",
+          "XBA",
+          "XCBB",
+          "XCB"
+        ],
+        "prefixObj": {
+          "PNL": {
+            "special_option": "No SpecTek Logo"
+          },
+          "PRA": {
+            "special_option": "SpecTek Mark Assembly, 8 chip only"
+          },
+          "PRN": {
+            "special_option": "SpecTek Mark; 8 chip only"
+          },
+          "PRM": {
+            "special_option": "Logo Blast Mark, 8 chip only"
+          },
+          "SGG": {
+            "special_option": "SpecTek Mark; component sale"
+          },
+          "SMG": {
+            "special_option": "Logo Blast Mark; component sale"
+          },
+          "SNL": {
+            "special_option": "Micron tested OC Materials, no logo"
+          },
+          "SUM": {
+            "special_option": "Marked TP/DG/SSMB"
+          },
+          "SUU": {
+            "special_option": "Unmarked TP/DG"
+          },
+          "SCD": {
+            "special_option": "Crucial FBGA code, Micron logo for SSDs"
+          },
+          "SCM": {
+            "special_option": "Crucial FBGA code, Micron logo"
+          },
+          "SCT": {
+            "special_option": "Crucial C build"
+          },
+          "SMC": {
+            "special_option": "Crucial Ballistix (prime marked)"
+          },
+          "SMD": {
+            "special_option": "Crucial Micron Marked w/CPG FBGA Code for SSDs"
+          },
+          "SMM": {
+            "special_option": "Crucial Micron Marked/Reball w/CPG FBGA Code"
+          },
+          "SMU": {
+            "special_option": "Crucial Ballistix (prime unmarked)"
+          },
+          "SM": {
+            "special_option": "Legacy SpecTek mark"
+          },
+          "SU": {
+            "special_option": "Legacy SpecTek mark"
+          },
+          "XAA": {
+            "special_option": "SpecTek Generic (Generic Mark)"
+          },
+          "XBA": {
+            "special_option": "SpecTek Generic (3 line Mark)"
+          },
+          "XCB": {
+            "special_option": "Chip on Board (3 line Mark)"
+          },
+          "XCBB": {
+            "special_option": "Chip on Board Reconfigured Component"
+          }
+        },
         "configToken": [
           "16M8",
           "16M16",
@@ -770,7 +882,8 @@
           "2G8",
           "2G16",
           "2G32",
-          "2G64"
+          "2G64",
+          "4G8"
         ],
         "density": {
           "16M8": 128,
@@ -814,7 +927,8 @@
           "2G8": 16384,
           "2G16": 32768,
           "2G32": 65536,
-          "2G64": 131072
+          "2G64": 131072,
+          "4G8": 32768
         },
         "deviceWidth": {
           "16M8": 8,
@@ -858,7 +972,8 @@
           "2G8": 8,
           "2G16": 16,
           "2G32": 32,
-          "2G64": 64
+          "2G64": 64,
+          "4G8": 8
         },
         "voltage": {
           "B": "1.1V",
@@ -870,8 +985,19 @@
           "M": "1.65V",
           "N": "1.4V",
           "O": "1.8V",
+          "P": "1.25V",
           "U": "Undetermined",
           "V": "2.5V"
+        },
+        "featureObj": {
+          "N": {
+            "special_option": "OC Trimmed"
+          }
+        },
+        "prefixFeatureObj": {
+          "SNL:N": {
+            "special_option": "Micron tested OC Materials, no logo; OC Trimmed"
+          }
         },
         "packageToken": [
           "BAF",
@@ -880,6 +1006,7 @@
           "DVN",
           "EFN",
           "FSE",
+          "FS",
           "HBA",
           "HPR",
           "KJR",
@@ -888,6 +1015,7 @@
           "NEA",
           "NRE",
           "RFE",
+          "RHF",
           "RKB",
           "SKL",
           "SMA",
@@ -918,6 +1046,7 @@
           "H6",
           "HX",
           "JC",
+          "JF",
           "JP",
           "JT",
           "JY",
@@ -945,163 +1074,279 @@
         ],
         "packageObj": {
           "AT": {
-            "package": "VFBGA 78/117B, 7.5x11.5x1",
+            "package": "VFBGA-78/117, 7.5x11.5x1",
             "die_count": 1
           },
           "BAF": {
-            "package": "FBGA 78/117B, 10.5x11x1.2",
+            "package": "FBGA-78/117, 10.5x11x1.2",
             "die_count": 2
           },
           "CF": {
-            "package": "FBGA 60/99B, 8x10x1.2",
+            "package": "FBGA-60/99, 8x10x1.2",
             "die_count": 1
           },
           "CHB": {
-            "package": "FBGA 96/144B, 9.5x14x1.2",
+            "package": "FBGA-96/144, 9.5x14x1.2",
             "die_count": 2
           },
+          "CLU": {
+            "package": "TFBGA-78/117, 7.5x11x1.2",
+            "die_count": 4
+          },
           "DA": {
-            "package": "TFBGA 78/117B, 8x10.5x1.2",
+            "package": "TFBGA-78/117, 8x10.5x1.2",
             "die_count": 1
+          },
+          "DGA": {
+            "package": "TFBGA-96/144, 9.5x14x1.2",
+            "die_count": 2
           },
           "DS": {
-            "package": "FBGA 78/117B, 9.5x11.5x1.2",
+            "package": "FBGA-78/117, 9.5x11.5x1.2",
             "die_count": 1
           },
+          "DVN": {
+            "package": "TFBGA-78/117, 7.5x11.5x1.2",
+            "die_count": 2
+          },
           "EB": {
-            "package": "FBGA 60/99B, 9x11.5x1.2",
+            "package": "FBGA-60/99, 9x11.5x1.2",
             "die_count": 1
           },
           "EF": {
-            "package": "TFBGA 78/117B, 8x10.5x1.2",
+            "package": "TFBGA-78/117, 8x10.5x1.2",
             "die_count": 1
           },
+          "EFN": {
+            "package": "VFBGA-78/117, 7.5x11x1",
+            "die_count": 4
+          },
+          "FS": {
+            "package": "FBGA-96/144, 9x14x1.2",
+            "die_count": 1
+          },
+          "FSE": {
+            "package": "FBGA-78/117, 9.5x13x1.2",
+            "die_count": 2
+          },
           "GE": {
-            "package": "TFBGA 96/144B, 9x14x1.2",
+            "package": "TFBGA-96/144, 9x14x1.2",
             "die_count": 1
           },
           "HA": {
-            "package": "FBGA 96/144B, 9x14x1.2",
+            "package": "FBGA-96/144, 9x14x1.2",
             "die_count": 1
           },
           "HB": {
-            "package": "VFBGA 82/143B, 9x11x1.0",
+            "package": "VFBGA-82/143, 9x11x1.0",
             "die_count": 1
           },
+          "HBA": {
+            "package": "TFBGA-96/144, 9.5x14x1.2",
+            "die_count": 2
+          },
           "HC": {
-            "package": "VFBGA 102/153B, 9x14x1.0",
+            "package": "VFBGA-102/153, 9x14x1.0",
             "die_count": 1
           },
           "HD": {
-            "package": "VFBGA 102/153B, 7.5x14x1.0",
+            "package": "VFBGA-102/153, 7.5x14x1.0",
             "die_count": 1
           },
           "HM": {
-            "package": "VFBGA 102/153B, 8.5x14x1.0",
+            "package": "VFBGA-102/153, 8.5x14x1.0",
             "die_count": 1
           },
+          "HPR": {
+            "package": "TFBGA-78/117, 8x12x1.2",
+            "die_count": 2
+          },
           "HX": {
-            "package": "FBGA 78/117B, 9x11.5x1.2",
+            "package": "FBGA-78/117, 9x11.5x1.2",
             "die_count": 1
           },
           "JC": {
-            "package": "TFBGA 78/117B, 9x11x1.2",
+            "package": "TFBGA-78/117, 9x11x1.2",
+            "die_count": 1
+          },
+          "JF": {
+            "package": "VFBGA-82, 9.5x11",
             "die_count": 1
           },
           "JP": {
-            "package": "FBGA 78/117B, 8x11.5x1.2",
+            "package": "FBGA-78/117, 8x11.5x1.2",
             "die_count": 1
           },
           "JT": {
-            "package": "TFBGA 96/144B, 8x14x1.2",
+            "package": "TFBGA-96/144, 8x14x1.2",
             "die_count": 1
           },
           "JY": {
-            "package": "TFBGA 96/144B, 8x14x1.2",
+            "package": "TFBGA-96/144, 8x14x1.2",
             "die_count": 1
           },
           "KD": {
-            "package": "TFBGA 96/144B, 9x13x1.2",
+            "package": "TFBGA-96/144, 9x13x1.2",
             "die_count": 1
+          },
+          "KJR": {
+            "package": "FBGA-78/117, 9.5x13x1.2",
+            "die_count": 2
           },
           "KL": {
-            "package": "TFBGA 78/117B, 9x11x1.2",
+            "package": "TFBGA-78/117, 9x11x1.2",
             "die_count": 1
+          },
+          "KNR": {
+            "package": "TFBGA-96, 7.5x13.5x1.2",
+            "die_count": 2
+          },
+          "KVA": {
+            "package": "TFBGA-78/117, 8x12x1.2",
+            "die_count": 4
           },
           "LY": {
-            "package": "TFBGA 96/144B, 7.5x13.5x1.2",
+            "package": "TFBGA-96/144, 7.5x13.5x1.2",
             "die_count": 1
+          },
+          "NEA": {
+            "package": "TFBGA-78/117, 7.5x11x1.2",
+            "die_count": 2
           },
           "NF": {
-            "package": "FBGA 84/135B, 8x12.5x1.2",
+            "package": "FBGA-84/135, 8x12.5x1.2",
             "die_count": 1
           },
+          "NRE": {
+            "package": "FBGA-78/117, 8x12x1.2",
+            "die_count": 2
+          },
           "PA": {
-            "package": "BGA 168/169B, 13.5x13.5x1.2",
+            "package": "BGA-168/169, 13.5x13.5x1.2",
             "die_count": 1
           },
           "PM": {
-            "package": "FBGA 78/117B, 9x13.2x1.2",
+            "package": "FBGA-78/117, 9x13.2x1.2",
             "die_count": 1
           },
           "RC": {
-            "package": "TFBGA 96/144B, 10x13x1.2",
+            "package": "TFBGA-96/144, 10x13x1.2",
             "die_count": 1
           },
+          "RFE": {
+            "package": "FBGA-78/117, 8x10.5x1.45",
+            "die_count": 4
+          },
           "RG": {
-            "package": "FBGA 78/117B, 7.5x10.6x1.2",
+            "package": "FBGA-78/117, 7.5x10.6x1.2",
             "die_count": 1
           },
           "RH": {
-            "package": "FBGA 78/117B, 9x10.5x1.2",
+            "package": "FBGA-78/117, 9x10.5x1.2",
             "die_count": 1
           },
+          "RHF": {
+            "package": "FBGA-78, 9x10.5",
+            "die_count": 1
+          },
+          "RKB": {
+            "package": "TFBGA-78/117, 8x10.5x1.2",
+            "die_count": 2
+          },
           "RW": {
-            "package": "VFBGA 78/117B, 8x11x1.0",
+            "package": "VFBGA-78/117, 8x11x1.0",
             "die_count": 1
           },
           "RV": {
-            "package": "VFBGA 102/153B, 8x14x1.0",
+            "package": "VFBGA-102/153, 8x14x1.0",
             "die_count": 1
           },
           "RZ": {
-            "package": "VFBGA 78/117B, 7.5x11x1.0",
+            "package": "VFBGA-78/117, 7.5x11x1.0",
             "die_count": 1
           },
           "SA": {
-            "package": "TFBGA 78/117B, 7.5x11x1.2",
+            "package": "TFBGA-78/117, 7.5x11x1.2",
             "die_count": 1
           },
           "SH": {
-            "package": "FBGA 60/117B, 8x10x1.2",
+            "package": "FBGA-60/117, 8x10x1.2",
             "die_count": 1
           },
+          "SKL": {
+            "package": "TFBGA-96/144, 10.5x13x1.2",
+            "die_count": 2
+          },
+          "SMA": {
+            "package": "TFBGA-78/117, 9.5x11.5x1.45",
+            "die_count": 4
+          },
           "SN": {
-            "package": "FBGA 78/117B, 9x13.2x1.2",
+            "package": "FBGA-78/117, 9x13.2x1.2",
             "die_count": 1
           },
           "ST": {
-            "package": "VFBGA 78/117B, 7.5x11.2x1.0",
+            "package": "VFBGA-78/117, 7.5x11.2x1.0",
             "die_count": 1
           },
           "TB": {
-            "package": "TFBGA 96/144B, 7.5x13x1.2",
+            "package": "TFBGA-96/144, 7.5x13x1.2",
             "die_count": 1
           },
+          "TBB": {
+            "package": "TFBGA-96/144, 7.5x13x1.2",
+            "die_count": 2
+          },
+          "THD": {
+            "package": "FBGA-78/117, 9x11.5x1.2",
+            "die_count": 2
+          },
+          "THE": {
+            "package": "FBGA-78/112, 10.5x12x1.2",
+            "die_count": 2
+          },
+          "THN": {
+            "package": "FBGA-63/99, 8x10x1.2",
+            "die_count": 2
+          },
+          "TRF": {
+            "package": "FBGA-78/117, 9.5x11.5x1.2",
+            "die_count": 2
+          },
           "TW": {
-            "package": "FBGA 96/144B, 8x14x1.2",
+            "package": "FBGA-96/144, 8x14x1.2",
             "die_count": 1
           },
           "VA": {
-            "package": "TFBGA 78/117B, 10x11x1.2",
+            "package": "TFBGA-78/117, 10x11x1.2",
             "die_count": 1
+          },
+          "VNE": {
+            "package": "TFBGA-78/117, 10x11x1.2",
+            "die_count": 2
+          },
+          "VRN": {
+            "package": "TFBGA-96/144, 8x14x1.2",
+            "die_count": 2
+          },
+          "WBU": {
+            "package": "FBGA-96/144, 8x14x1.2",
+            "die_count": 2
           },
           "WE": {
-            "package": "TFBGA 78/117B, 8x12x1.2",
+            "package": "TFBGA-78/117, 8x12x1.2",
             "die_count": 1
           },
+          "WPF": {
+            "package": "TFBGA-96/144, 10.5x13x1.2",
+            "die_count": 4
+          },
+          "WTR": {
+            "package": "FBGA-63/99, 9x11.5x1.2",
+            "die_count": 2
+          },
           "GQ": {
-            "package": "FBGA 78/117B, 8x10.5MM"
+            "package": "FBGA-78/117, 8x10.5"
           }
         },
         "dramTypeObj": {
@@ -1163,6 +1408,9 @@
           "56B",
           "60B",
           "64B",
+          "72B",
+          "60P",
+          "64P",
           "062E",
           "071",
           "075",
@@ -1181,20 +1429,14 @@
           "5": {
             "dram_speed": "200MHz"
           },
-          "6A": {
-            "dram_speed": "166MHz"
-          },
           "15": {
-            "dram_speed": "667MHz (DDR-1333)"
-          },
-          "15E": {
             "dram_speed": "667MHz (DDR-1333)"
           },
           "25": {
             "dram_speed": "400MHz"
           },
-          "25E": {
-            "dram_speed": "DDR2-800"
+          "68": {
+            "dram_speed": "DDR4-2933 CL20"
           },
           "75": {
             "dram_speed": "133MHz"
@@ -1207,6 +1449,15 @@
           },
           "187": {
             "dram_speed": "533MHz (DDR-1066)"
+          },
+          "6A": {
+            "dram_speed": "166MHz"
+          },
+          "15E": {
+            "dram_speed": "667MHz (DDR3-1333) CL9"
+          },
+          "25E": {
+            "dram_speed": "DDR2-800"
           },
           "18E": {
             "dram_speed": "533MHz (DDR-1066) CL7"
@@ -1260,19 +1511,28 @@
             "dram_speed": "1066MHz (DDR3-2133) CL9"
           },
           "48B": {
-            "dram_speed": "DDR5-4800"
+            "dram_speed": "DDR5-4800 CL40"
           },
           "52B": {
             "dram_speed": "DDR5-5200"
           },
           "56B": {
-            "dram_speed": "DDR5-5600"
+            "dram_speed": "DDR5-5600 CL46"
           },
           "60B": {
             "dram_speed": "DDR5-6000"
           },
           "64B": {
-            "dram_speed": "DDR5-6400"
+            "dram_speed": "DDR5-6400 CL52"
+          },
+          "72B": {
+            "dram_speed": "DDR5-7200 CL58"
+          },
+          "60P": {
+            "dram_speed": "OC DDR5-6000 CL36"
+          },
+          "64P": {
+            "dram_speed": "OC DDR5-6400 CL38"
           },
           "062E": {
             "dram_speed": "DDR4-3200 CL22"
@@ -1301,9 +1561,6 @@
           "093E": {
             "dram_speed": "DDR4-2133 CL15"
           },
-          "68": {
-            "dram_speed": "DDR4-2933 CL20"
-          },
           "68X": {
             "dram_speed": "DDR4-2933 CL20"
           },
@@ -1317,12 +1574,17 @@
       },
       "steps": [
         {
-          "op": "takeRegex",
-          "pattern": "^(XCBB|XCB|PR[A-Z]|S[A-Z]{1,2})",
-          "to": "gradeCode",
-          "groups": {
-            "gradeCode": 1
-          }
+          "op": "takeLongest",
+          "table": "prefixToken",
+          "to": "markCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "markCode",
+          "table": "prefixObj",
+          "to": "prefixObj",
+          "default": {}
         },
         {
           "op": "takeLongest",
@@ -1368,6 +1630,25 @@
           "default": "Unknown"
         },
         {
+          "op": "map",
+          "from": "refreshCode",
+          "table": "featureObj",
+          "to": "featureObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{markCode}}:{{refreshCode}}",
+          "to": "prefixFeatureKey"
+        },
+        {
+          "op": "map",
+          "from": "prefixFeatureKey",
+          "table": "prefixFeatureObj",
+          "to": "prefixFeatureObj",
+          "default": {}
+        },
+        {
           "op": "takeLongest",
           "table": "packageToken",
           "to": "packageCode",
@@ -1405,7 +1686,22 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "prefixObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "dramTypeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "featureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "prefixFeatureObj"
         },
         {
           "op": "merge",

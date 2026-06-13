@@ -41,19 +41,20 @@ MDB mark code:
 
 | 结构 | 含义 |
 | --- | --- |
-| `PR*` / `S*` / `XCB*` grade prefix | SpecTek DRAM grade / sales bin 前缀 |
-| `128M8`、`256M16`、`512M8`、`1024M4` 等 | component configuration，按 depth * width 输出 `dram_density` 和 `dram_width` |
+| `PNL` / `PRA` / `PRN` / `PRM` / `SGG` / `SMG` / `SNL` / `SUM` / `SUU` / `SCD` / `SCM` / `SCT` / `SMC` / `SMD` / `SMM` / `SMU` / `XAA` / `XBA` / `XCB` / `XCBB` prefix | SpecTek DRAM component mark / customer mark 前缀；只输出官方解释到 `special_option`，不输出 raw `marking_code` 字段 |
+| `128M8`、`256M16`、`512M8`、`1024M4`、`4G8` 等 | component configuration，按 depth * width 输出 `dram_density` 和 `dram_width` |
 | `V` | DDR3；由 `PE` 官方 decoder 样本和旧 FBGA Matrix / 第三方 DRAM 表交叉确认 |
 | `Z` | DDR4；由 Buyers Guide 的 `PRN1G16Z22AD8RC-062E` 等样例确认 |
 | `Y` | DDR5；由官方 MPN decoder 的 `PRM2G8Y52KBFRZ-56B` 样例确认 |
 | `U` / `T` / `G` | 旧表辅助映射为 DDR2 / DDR / LPDDR2 |
 | `S*` / `PC` / `X` + mobile depth-width | Mobile DRAM；官方 mobile matrix 覆盖 `8M` ~ `8G` depth 与 `x16` / `x32` / `x64` / `x128` width，按 depth * width 输出 `dram_density` 和 `dram_width` |
-| mobile design id `Y*` / `Z*` | `Z*` 可确认到 LPDDR4，`Y*` 在没有 speed token 时保守输出 `LPDDR`；若尾部 speed token 命中官方 LPDDR3/4/5 速度表，则由 speed table 收敛到具体 LPDDR 代际 |
+| mobile design id `Y*` / `Z*` | `Z*` 可确认到 LPDDR4，`Y*` 在没有 speed token 时保守输出 `LPDDR`；若尾部 speed token 命中官方 LPDDR3/4/5 速度表，则由 speed table 收敛到具体 LPDDR 代际；`Y52P` 按官方 LPDDR5X addendum 输出 `LPDDR5X` |
 | mobile `D1` / `D2` / `D3` / `D4` / `D6` / `D8` / `DA` / `DB` / `DD` / `DE` | 官方 die count 表，输出 `die_count` |
 | mobile `A` / `B` / `C` / `D` / `F` / `L` / `M` voltage token | 官方 mobile voltage 表，输出纯电压字段 |
-| 尾部 package code | 仅作为内部解析 token；有官方 package 表命中时输出 `package`，不单独向用户展示 token |
+| 尾部 package code | 仅作为内部解析 token；有官方 package 表命中时输出 `package`，不单独向用户展示 token；公开封装统一为 `xxBGA-xx, dim` 格式，例如 `VFBGA-78/117, 7.5x11x1.0`，不带 `ball` / `B` / `mm` |
 | mobile `DS` package code | 官方 package 表中 `DS` 同时存在 LPDDR4 与 LPDDR5 两种封装，需先由 speed table / design id 判断 LPDDR profile，再输出对应 package |
-| `-023`、`-053`、`-062`、`-107`、`-125`、`-15E`、`-062E` 等 | JEDEC / Micron-style speed token，按已有 DRAM 速度术语输出 `dram_speed`；mobile speed table 同时用于判断 LPDDR3/4/5 |
+| DDR5 `B8` / OC `PN` 等 voltage / refresh / feature token | 按官方 DDR5 / DDR5 OC addendum 输出纯电压，例如 `1.1V`、`1.25V`；OC trim 进入 `special_option`，不输出 raw code |
+| `-023`、`-053`、`-062`、`-107`、`-125`、`-15E`、`-48B`、`-56B`、`-64B`、`-72B`、`-60P`、`-64P`、`-062E` 等 | JEDEC / Micron-style speed token，按已有 DRAM 速度术语输出 `dram_speed`；mobile speed table 同时用于判断 LPDDR3/4/5 |
 | mobile `BT` / `FT` / `MB` / `PG` / `UT` | 官方 speed grade / test bin，输出 `speed_grade` |
 | mobile `A` / `B` special option | 官方 mobile special option，输出 `special_option` |
 
@@ -67,7 +68,7 @@ MDB mark code:
 - `die_count`
 - `dram_speed`
 - `speed_grade`
-- `special_option`
+- `special_option`（用于 SpecTek/customer mark、mobile special option 等解释性信息；不输出 raw prefix code）
 
 ## 测试样例
 
@@ -77,7 +78,14 @@ MDB mark code:
 - `PE002`
 - `PB001`
 - `PRM2G8Y52KBFRZ-56B`
+- `PRN1G8Y52KB8RZ-64B`
+- `PRN4G8Y53AB8AT-64B`
+- `PRM4G8Y53BB8AT-72B`
+- `SNL2G8Y52KPNRZ-60P`
+- `SNL2G8Y52KPNRZ-64P`
+- `PRA512M8V80AG8RHF-15E`
 - `PU001`
+- `SM8G32Y52PDAFDV-UT`
 - `SN512M32Z42MD1DNQ-053BT`
 - `SM1G32Z11MD4DDT-062BTA`
 - `SM1G32Z11MD4DDS-062BTA`
