@@ -32,10 +32,9 @@ import { applyMicronFbgaMeta, parseKnownFiveDigitMicronFbgaCode, parseKnownMicro
 import {
   buildNormalizedIndexes,
   classifyPart,
-  type PartClassificationCandidate,
-  type PartIndexRecord
+  type PartClassificationCandidate
 } from "./part-index";
-import { normalizeVendor } from "./fdb-lookup";
+import { inferVendorFromPartNumber, normalizeVendor } from "./fdb-lookup";
 import {
   buildPartCandidate,
   buildIdentifierDecodeResult,
@@ -476,45 +475,28 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
   };
 
-  const indexedPartRecords = (partNumber: string): PartIndexRecord[] => {
+  const fdbRecordsForPartNumber = (partNumber: string): Array<{ vendor: string; record: PartNumberRecord }> => {
     const normalized = normalizePartNumber(partNumber);
     if (!normalized) {
       return [];
     }
-    const records: PartIndexRecord[] = [];
-    const seen = new Set<string>();
-    for (const key of new Set([normalized, normalizePartNumberTokenKey(normalized)])) {
-      const refs = normalizedIndexes.partExactIndex.get(key);
-      for (const ref of refs === undefined ? [] : typeof refs === "number" ? [refs] : refs) {
-        const record = normalizedIndexes.partIndex[ref];
-        if (!record) {
-          continue;
-        }
-        const recordKey = `${record.vendor}\0${record.normalizedPartNumber}\0${record.chipKind}`;
-        if (seen.has(recordKey)) {
-          continue;
-        }
-        seen.add(recordKey);
-        records.push(record);
-      }
-    }
-    return records;
-  };
-
-  const indexedFdbRecords = (partNumber: string): Array<{ vendor: string; record: PartNumberRecord }> => {
     const result: Array<{ vendor: string; record: PartNumberRecord }> = [];
     const seen = new Set<string>();
-    for (const indexed of indexedPartRecords(partNumber)) {
-      const record = getPartNumberRecord(fdb, indexed.vendor, partNumber);
+    const addVendor = (vendor: string | undefined): void => {
+      if (!vendor || seen.has(vendor)) {
+        return;
+      }
+      seen.add(vendor);
+      const record = getPartNumberRecord(fdb, vendor, normalized);
       if (!record) {
-        continue;
+        return;
       }
-      const key = `${indexed.vendor}\0${record.pn}`;
-      if (seen.has(key)) {
-        continue;
-      }
-      seen.add(key);
-      result.push({ vendor: indexed.vendor, record });
+      result.push({ vendor, record });
+    };
+
+    addVendor(inferVendorFromPartNumber(normalized) ?? undefined);
+    for (const vendor of fdb.vendors.keys()) {
+      addVendor(vendor);
     }
     return result;
   };
@@ -523,7 +505,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     const result: Array<{ vendor: string; record: PartNumberRecord }> = [];
     const seen = new Set<string>();
     for (const rawPartNumber of partNumbers) {
-      for (const { vendor, record } of indexedFdbRecords(rawPartNumber)) {
+      for (const { vendor, record } of fdbRecordsForPartNumber(rawPartNumber)) {
         const key = `${vendor}\0${record.pn}`;
         if (seen.has(key)) {
           continue;
@@ -554,7 +536,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     let byAny: { vendor: string; record: PartNumberRecord } | undefined;
     if (!byVendor) {
       for (const partNumber of lookupPartNumbers) {
-        byAny = indexedFdbRecords(partNumber)[0];
+        byAny = fdbRecordsForPartNumber(partNumber)[0];
         if (byAny) {
           break;
         }
@@ -743,25 +725,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         }
       }
 
-      const knownDramFbga = parseKnownMicronFbgaCode(partNumber, micronDramFbgaCodeSet);
-      if (knownDramFbga) {
-        const candidates = micronDramFbgaCodes.get(knownDramFbga.key) ?? [];
-        for (const resolved of candidates) {
-          const base = detectRaw(resolved, opts, false);
-          if (draftVendor(base) === UNKNOWN) {
-            continue;
-          }
-
-          const withMeta = applyMicronFbgaMeta(base, knownDramFbga, resolved);
-          if (opts.combineFdb ?? true) {
-            combineFromFdb(withMeta, partNumber);
-          }
-          return withMeta;
-        }
-
-        return unknownPartDraft(knownDramFbga.display);
-      }
-
       if (fbga) {
         return unknownPartDraft(fbga.display);
       }
@@ -780,7 +743,30 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
 
     if (!info) {
-      const found = indexedFdbRecords(partNumber)[0];
+      const knownDramFbga = /^(?:[0-9A-Z]{5}|[0-9A-Z]{10})$/.test(partNumber)
+        ? parseKnownMicronFbgaCode(partNumber, micronDramFbgaCodeSet)
+        : null;
+      if (knownDramFbga) {
+        const candidates = micronDramFbgaCodes.get(knownDramFbga.key) ?? [];
+        for (const resolved of candidates) {
+          const base = detectRaw(resolved, opts, false);
+          if (draftVendor(base) === UNKNOWN) {
+            continue;
+          }
+
+          const withMeta = applyMicronFbgaMeta(base, knownDramFbga, resolved);
+          if (opts.combineFdb ?? true) {
+            combineFromFdb(withMeta, partNumber);
+          }
+          return withMeta;
+        }
+
+        return unknownPartDraft(knownDramFbga.display);
+      }
+    }
+
+    if (!info) {
+      const found = fdbRecordsForPartNumber(partNumber)[0];
       info = unknownPartDraft(partNumber, found?.vendor ?? UNKNOWN);
     }
 
@@ -878,10 +864,23 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     normalized: string,
     warnings: ResultWarning[] = []
   ): PartDecodeResult => {
-    const info = withMarkingCode(
-      candidate.info ?? inspectPartForDecodeClassification(candidate.partNumber),
-      candidate.markingMatch ? candidate.markingCode : undefined
-    );
+    const baseInfo = candidate.info ?? inspectPartForDecodeClassification(candidate.partNumber);
+    const baseFields = { ...(baseInfo.fields ?? {}) };
+    const hasDetailFields = Object.entries(baseFields).some(([key, value]) => key !== "marking_code" && value !== undefined);
+    const candidateInfo = candidate.markingMatch
+      ? {
+          ...baseInfo,
+          device: {
+            ...baseInfo.device,
+            vendor: draftVendor(baseInfo) === UNKNOWN ? candidate.vendor : baseInfo.device.vendor,
+            chipKind: baseInfo.device.chipKind === "unknown" ? candidate.chipKind : baseInfo.device.chipKind,
+            productType: baseInfo.device.productType ?? candidate.productType,
+            partNumber: candidate.partNumber
+          },
+          fields: hasDetailFields ? baseFields : { ...baseFields, micron_part_number: candidate.partNumber }
+        }
+      : baseInfo;
+    const info = withMarkingCode(candidateInfo, candidate.markingMatch ? candidate.markingCode : undefined);
     const result = buildPartDecodeResult(
       projectPartControllers(info, input.controllerGroup),
       {
@@ -895,6 +894,36 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     );
     result.warnings.push(...warnings, ...candidate.warnings);
     return result;
+  };
+
+  const hasPartConstraints = (input: DecodePartInput): boolean =>
+    Boolean(input.constraints && Object.keys(input.constraints).length > 0);
+
+  const isPotentialMarkingDecode = (normalized: string): boolean => {
+    const fbga = parseMicronFbgaCode(normalized) ?? parseKnownFiveDigitMicronFbgaCode(normalized, micronFbgaCodeSet);
+    if (fbga) {
+      return true;
+    }
+    const key = normalized.length === 10 ? normalized.slice(5) : normalized;
+    return key.length === 5 && (mdb.micron[key] !== undefined || mdb.spectek[key] !== undefined);
+  };
+
+  const tryFastPartDecode = (input: DecodePartInput, normalized: string): PartDecodeResult | undefined => {
+    if (options.resources || options.decoders || hasPartConstraints(input) || isPotentialMarkingDecode(normalized)) {
+      return undefined;
+    }
+    const info = inspectPartForDecodeClassification(normalized);
+    const result = buildPartDecodeResult(
+      projectPartControllers(info, input.controllerGroup),
+      {
+        query: input.query,
+        normalized,
+        lang: input.lang,
+        controllerGroup: input.controllerGroup
+      },
+      resultBuilderContext
+    );
+    return result.status === "ok" ? result : undefined;
   };
 
   const getVersion = (): string => String(fdb.info.version);
@@ -920,13 +949,12 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     const limit = opts.limit ?? 0;
 
     if (!partMatch) {
-      const exact = normalizedIndexes.identifierIndex.get(query);
-      return exact ? [query] : [];
+      return fdb.flashIds.has(query) ? [query] : [];
     }
 
     const result: string[] = [];
 
-    for (const flashId of normalizedIndexes.identifierIndex.keys()) {
+    for (const flashId of fdb.flashIds.keys()) {
       if (limit > 0 && result.length >= limit) {
         break;
       }
@@ -997,6 +1025,10 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           relations: [],
           warnings: [{ code: "empty_query", message: "Part query is empty", severity: "warning" }]
         };
+      }
+      const fastResult = tryFastPartDecode(input, normalized);
+      if (fastResult) {
+        return fastResult;
       }
       const classification = classifyPart(input.query, input.constraints, partClassificationOptions("decode"));
       if (classification.status === "not_found" || !classification.selected) {

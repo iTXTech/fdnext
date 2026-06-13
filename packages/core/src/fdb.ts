@@ -185,8 +185,11 @@ export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
         continue;
       }
       const correctedVendor = inferVendorFromPartNumber(normalizedPn) ?? vendor;
-      const existingVendorMap = vendors.get(correctedVendor);
-      const vendorMap = new Map<string, PartNumberRecord>(existingVendorMap);
+      let vendorMap = vendors.get(correctedVendor);
+      if (!vendorMap) {
+        vendorMap = new Map<string, PartNumberRecord>();
+        vendors.set(correctedVendor, vendorMap);
+      }
       const pnData = asRecord(pnDataRaw);
       const id = Array.isArray(pnData.id) ? pnData.id.map((item) => normalizeFlashIdKey(String(item))).filter((item): item is string => !!item) : [];
       const f = Array.isArray(pnData.f) ? pnData.f.map((item) => normalizeFlashIdKey(String(item))).filter((item): item is string => !!item) : [];
@@ -211,9 +214,8 @@ export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
         n: typeof pnData.n === "number" ? pnData.n : undefined,
         pl: typeof pnData.pl === "number" ? pnData.pl : undefined
       };
-      const existing = vendorMap.get(normalizedPn) ?? existingVendorMap?.get(normalizedPn);
+      const existing = vendorMap.get(normalizedPn);
       vendorMap.set(normalizedPn, existing ? mergePartNumberRecord(existing, next) : next);
-      vendors.set(correctedVendor, vendorMap);
     }
   }
 
