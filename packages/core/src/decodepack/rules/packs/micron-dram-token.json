@@ -1989,7 +1989,7 @@
     }
   },
   {
-    "id": "vendor.micron.dram.memory_japan_ddr4.component.v1",
+    "id": "vendor.micron.dram.japan.component.v1",
     "priority": 1020,
     "normalize": [
       "trim",
@@ -2223,7 +2223,7 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.micron.dram.memory_japan_ddr4.component.v1",
+        "meta.ruleId": "vendor.micron.dram.japan.component.v1",
         "meta.fieldProfile": "dram",
         "meta.capabilities": [
           "part.decode",

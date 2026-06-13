@@ -61,6 +61,11 @@ export interface DecodeStepStripIfPrefix {
   if?: string;
 }
 
+export interface DecodeStepMarkLookupPartNumber {
+  op: "markLookupPartNumber";
+  to: string;
+}
+
 export interface DecodeStepTemplate {
   op: "tpl";
   template: string;
@@ -143,6 +148,7 @@ export type DecodeStep =
   | DecodeStepTake
   | DecodeStepTakeRegex
   | DecodeStepStripIfPrefix
+  | DecodeStepMarkLookupPartNumber
   | DecodeStepTemplate
   | DecodeStepFallback
   | DecodeStepMul

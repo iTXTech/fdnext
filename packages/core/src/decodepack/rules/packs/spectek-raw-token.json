@@ -233,6 +233,10 @@
           "default": "Unknown"
         },
         {
+          "op": "markLookupPartNumber",
+          "to": "lookupPartNumber"
+        },
+        {
           "op": "take",
           "len": 1,
           "to": "packageCode"
@@ -305,6 +309,11 @@
         "fields.package": {
           "$var": "package"
         },
+        "meta.lookupPartNumbers": [
+          {
+            "$var": "lookupPartNumber"
+          }
+        ],
         "meta.ruleId": "vendor.spectek.old-numbering.v1"
       }
     }
@@ -839,6 +848,10 @@
           "default": {}
         },
         {
+          "op": "markLookupPartNumber",
+          "to": "lookupPartNumber"
+        },
+        {
           "op": "takeLongest",
           "table": "package",
           "to": "package",
@@ -888,6 +901,11 @@
         "fields.package": {
           "$var": "package"
         },
+        "meta.lookupPartNumbers": [
+          {
+            "$var": "lookupPartNumber"
+          }
+        ],
         "meta.ruleId": "vendor.spectek.parent-density-token.v1"
       }
     }
@@ -1437,6 +1455,10 @@
           "default": {}
         },
         {
+          "op": "markLookupPartNumber",
+          "to": "lookupPartNumber"
+        },
+        {
           "op": "takeLongest",
           "table": "package",
           "to": "package",
@@ -1486,6 +1508,11 @@
         "fields.package": {
           "$var": "package"
         },
+        "meta.lookupPartNumbers": [
+          {
+            "$var": "lookupPartNumber"
+          }
+        ],
         "meta.ruleId": "vendor.spectek.token.v1"
       }
     }

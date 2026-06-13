@@ -16,6 +16,7 @@ import {
   generateFdb,
   normalizeGeneratedFdbDieProfile,
   normalizeFdbPartNumber,
+  normalizeKnownFdbPackage,
   parseExtraPayload,
   validateExtraPayload,
   validateFdbPayload
@@ -437,6 +438,12 @@ test("normalizes SK hynix H25 package suffixes without dropping the X tail", () 
   assert.equal(parsed.vendors?.skhynix?.H25T2TB88EX321N?.so, "IF-Chip");
   assert.equal(parsed.vendors?.skhynix?.H25T2TB88EX321N?.pl, 4);
   assert.equal(parsed.vendors?.skhynix?.["H25T2TB88E-X321-N"], undefined);
+});
+
+test("normalizes Micron and SpecTek package suffixes through DecodePack lookup metadata", () => {
+  assert.equal(normalizeKnownFdbPackage("micron", "MT29F16T08EWLEHD6-36ITRES:E"), "MT29F16T08EWLEH");
+  assert.equal(normalizeKnownFdbPackage("micron", "MT29F64G08CBCBBH1-12:B"), "MT29F64G08CBCBB");
+  assert.equal(normalizeKnownFdbPackage("spectek", "FBNL06B256G1KDBABH4"), "FBNL06B256G1KDBAB");
 });
 
 test("keeps exact supplemental H25 Flash IDs even without controller data", () => {

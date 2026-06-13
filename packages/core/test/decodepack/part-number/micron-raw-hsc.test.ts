@@ -42,6 +42,13 @@ function assertHscConfiguration(
   assert.equal(firstField(result, "channel_count")?.value, expected.channelCount, `${partNumber} channel_count`);
 }
 
+function assertLookupPartNumbers(ruleId: string, partNumber: string, expected: string[]): void {
+  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === ruleId && candidate.check(partNumber));
+  assert.ok(decoder, `${partNumber} should match ${ruleId}`);
+  const draft = decoder.decode(partNumber);
+  assert.deepEqual(draft?.meta?.lookupPartNumbers, expected, `${partNumber} FDB lookup PN candidates`);
+}
+
 assertPart("MT29FB16T08GALAAM5-TES:B", {
   vendor: "micron",
   type: "NAND",
@@ -175,6 +182,9 @@ assertPart("MT29F128G08WAAC6-ETES:A", {
 assertRuleDraftDieProfile("vendor.micron.raw.current.v1", "MT29F2T08GBLBH", "N69R");
 assertRuleDraftDieProfile("vendor.micron.raw.current.v1", "MT29F16T08EWLEHD6-36ITRES:E", "B68S");
 assertRuleDraftDieProfile("vendor.micron.raw.legacy.v1", "MT29H8G08AAAC6-20ETES:A", "M51H");
+assertLookupPartNumbers("vendor.micron.raw.current.v1", "MT29F16T08EWLEHD6-36ITRES:E", ["MT29F16T08EWLEH"]);
+assertLookupPartNumbers("vendor.micron.raw.legacy.v1", "MT29H8G08AAAC6-20ETES:A", ["MT29H8G08AAA"]);
+assertLookupPartNumbers("vendor.micron.hsc.mt29fb.v1", "MT29FB16T08GALAAM5-TES:B", ["MT29FB16T08GALAA"]);
 assertMicronDecodePackDieProfile("MT29F2T08GBLBH", "N69R", 276);
 assertMicronDecodePackDieProfile("MT29F16T08EWLEHD6-36ITRES:E", "B68S", 276);
 assertFdbDoesNotOverrideDecodePackFields();

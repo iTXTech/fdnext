@@ -12,7 +12,8 @@ import {
   fdnextResultJsonSchema,
   searchIdentifiersInputJsonSchema,
   searchPartsInputJsonSchema,
-  type JsonSchema
+  type JsonSchema,
+  type PartNumberDecoder
 } from "../src/index";
 import { fdnextFieldRegistry, formatFdnextFieldValue, type FdnextFieldKey } from "../src/field-registry";
 import { buildFdb, findPartNumberAcrossVendors, getPartNumberRecord } from "../src/fdb";
@@ -263,6 +264,67 @@ assert.equal(
   findPartNumberAcrossVendors(colonTokenFdb, "MT29FB16T08GALAAM5TESB")?.record.pn,
   "MT29FB16T08GALAAM5-TES:B",
   "cross-vendor FDB Micron NAND lookup should treat ordered dash suffix tokens as optional separators"
+);
+
+const samsungMultiDieFdb = buildFdb({
+  info: { version: "test" },
+  samsung: {
+    K9GBGD8U0M: { id: ["EC00"], l: "SS32", c: "MLC", t: ["SINGLE"] },
+    K9HDGD8U5M: { id: ["EC01"], l: "SS32_MULTI", c: "MLC", t: ["MULTI"] }
+  }
+});
+assert.equal(
+  getPartNumberRecord(samsungMultiDieFdb, "samsung", "K9HDGD8U5M")?.pn,
+  "K9HDGD8U5M",
+  "Samsung FDB PN lookup must not canonicalize multi-die parts through synthetic single-die keys"
+);
+assert.deepEqual(
+  getPartNumberRecord(samsungMultiDieFdb, "samsung", "K9HDGD8U5M")?.id,
+  ["EC01"],
+  "Samsung multi-die exact PN should keep its own Flash ID references"
+);
+assert.deepEqual(
+  getPartNumberRecord(samsungMultiDieFdb, "samsung", "K9GBGD8U0M")?.id,
+  ["EC00"],
+  "Samsung single-die PN should not inherit multi-die Flash ID references"
+);
+
+const lookupMetadataDecoder = {
+  id: "test.lookup-metadata",
+  check: (partNumber: string) => partNumber === "K9LOOKUPPKG",
+  decode: (partNumber: string) => ({
+    device: {
+      partNumber,
+      vendor: "samsung",
+      domain: "memory",
+      chipKind: "raw_nand"
+    },
+    fields: {},
+    meta: {
+      lookupPartNumbers: ["K9LOOKUPCORE"]
+    }
+  })
+} satisfies PartNumberDecoder;
+const lookupMetadataEngine = createEngine({
+  resources: {
+    partIndex: {
+      rawNand: {
+        info: { version: "test" },
+        samsung: {
+          K9LOOKUPCORE: { id: ["EC02"], t: ["LOOKUPCTRL"] }
+        }
+      }
+    },
+    translationIndex: { eng: engLang }
+  },
+  decoders: [lookupMetadataDecoder]
+});
+const lookupMetadataResult = lookupMetadataEngine.decodePart({ query: "K9LOOKUPPKG", lang: "eng" });
+assert.equal(lookupMetadataResult.status, "ok", "DecodePack lookup metadata test PN should decode");
+const lookupMetadataController = collectResultBlockFields(lookupMetadataResult).find((field) => field.key === "controller")?.value;
+assert.ok(
+  Array.isArray(lookupMetadataController) && lookupMetadataController.includes("LOOKUPCTRL"),
+  "DecodePack meta.lookupPartNumbers should participate in FDB controller lookup"
 );
 
 const samsungFdbMetadataEngine = createEngine({

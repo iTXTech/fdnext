@@ -4,6 +4,7 @@ import {
   assertDecodePackDieProfile,
   assertNoAdditionalFields,
   assertRuleDraftDieProfile,
+  compiledPack,
   engineWithoutFdb,
   fieldText,
   firstField,
@@ -60,6 +61,13 @@ function assertSamsungRawPostDashSuffix(
   assert.equal(fieldText(firstField(result, "product_class")), expected.productClass, `${partNumber} product_class`);
   assert.equal(fieldText(firstField(result, "operation_temperature")), expected.operationTemperature, `${partNumber} operation_temperature`);
   assert.equal(fieldText(firstField(result, "bad_block")), expected.badBlock, `${partNumber} bad_block`);
+}
+
+function assertSamsungRawLookupPartNumbers(partNumber: string, expected: string[]): void {
+  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === "vendor.samsung.token.v1" && candidate.check(partNumber));
+  assert.ok(decoder, `${partNumber} should match Samsung raw NAND rule`);
+  const draft = decoder.decode(partNumber);
+  assert.deepEqual(draft?.meta?.lookupPartNumbers, expected, `${partNumber} FDB lookup PN candidates`);
 }
 
 function assertSamsungRawOrganization(
@@ -805,6 +813,11 @@ test("Samsung raw NAND post-dash temperature token splits class and range", () =
   assertSamsungRawPostDashSuffix("CH0", { productClass: "Automotive Grade 2", operationTemperature: "-40~105C" });
   assertSamsungRawPostDashSuffix("CS0", { productClass: "SmartMedia BLACK", operationTemperature: "0~55C" });
   assertSamsungRawPostDashSuffix("CB0", { productClass: "SmartMedia BLUE", operationTemperature: "0~55C" });
+});
+
+test("Samsung raw NAND records DecodePack-derived FDB lookup PN before package suffix", () => {
+  assertSamsungRawLookupPartNumbers("K9DYGY8J5B", ["K9DYGY8J5B"]);
+  assertSamsungRawLookupPartNumbers("K9DYGY8J5B-CCK0", ["K9DYGY8J5B"]);
 });
 
 test("Samsung raw NAND post-dash bad-block token emits strategy labels only", () => {

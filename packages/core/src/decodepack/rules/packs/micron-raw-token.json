@@ -251,6 +251,10 @@
           "default": "Unknown"
         },
         {
+          "op": "markLookupPartNumber",
+          "to": "lookupPartNumber"
+        },
+        {
           "op": "take",
           "len": 2,
           "to": "packageToken"
@@ -397,6 +401,11 @@
         "fields.layer_count": {
           "$path": "processObj.layer_count"
         },
+        "meta.lookupPartNumbers": [
+          {
+            "$var": "lookupPartNumber"
+          }
+        ],
         "meta.ruleId": "vendor.micron.hsc.mt29fb.v1"
       }
     }

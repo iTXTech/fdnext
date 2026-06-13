@@ -1,6 +1,10 @@
-import { getPartNumberLookupKeys, inferVendorFromPartNumber, normalizeVendor } from "./fdb-lookup";
+import { getPartNumberLookupKeys, inferVendorFromPartNumber, normalizeVendor, type PartNumberLookupKeyResolver } from "./fdb-lookup";
 import type { FdbDataset, FlashIdRecord, MdbDataset, PartNumberRecord } from "./types";
 import { normalizePartNumber, normalizePartNumberTokenKey } from "./utils/normalize";
+
+export interface FdbLookupOptions {
+  lookupKeys?: PartNumberLookupKeyResolver;
+}
 
 function normalizeFlashIdKey(id: string): string | null {
   const normalized = id.replace(/\s+/g, "").toUpperCase();
@@ -41,7 +45,7 @@ function parsePartReference(value: unknown): { vendor: string; partNumber: strin
   return { vendor, partNumber };
 }
 
-function toPartReference(value: unknown, vendors: Map<string, Map<string, PartNumberRecord>>): string | null {
+function toPartReference(value: unknown, vendors: Map<string, Map<string, PartNumberRecord>>, options: FdbLookupOptions = {}): string | null {
   const parsed = parsePartReference(value);
   if (!parsed) {
     return null;
@@ -50,17 +54,17 @@ function toPartReference(value: unknown, vendors: Map<string, Map<string, PartNu
   if (!vendorParts) {
     return null;
   }
-  const partNumber = canonicalPartNumberKey(parsed.partNumber, vendorParts);
+  const partNumber = canonicalPartNumberKey(parsed.partNumber, vendorParts, options);
   if (!vendorParts.has(partNumber)) {
     return null;
   }
   return `${parsed.vendor} ${partNumber}`;
 }
 
-function canonicalPartNumberKey(partNumber: string, partNumbers: Map<string, PartNumberRecord>): string {
+function canonicalPartNumberKey(partNumber: string, partNumbers: Map<string, PartNumberRecord>, options: FdbLookupOptions = {}): string {
   const inferredVendor = inferVendorFromPartNumber(partNumber);
   if (inferredVendor) {
-    for (const candidate of getPartNumberLookupKeys(inferredVendor, partNumber)) {
+    for (const candidate of getPartNumberLookupKeys(inferredVendor, partNumber, options.lookupKeys)) {
       if (candidate !== partNumber && partNumbers.has(candidate)) {
         return candidate;
       }
@@ -123,12 +127,12 @@ function mergePartNumberRecord(target: PartNumberRecord, source: PartNumberRecor
   };
 }
 
-function canonicalizePartNumbers(partNumbers: Map<string, PartNumberRecord>): void {
+function canonicalizePartNumbers(partNumbers: Map<string, PartNumberRecord>, options: FdbLookupOptions = {}): void {
   for (const [partNumber, record] of [...partNumbers.entries()]) {
     if (shouldPreserveExactPartNumberKey(partNumber, record)) {
       continue;
     }
-    const canonical = canonicalPartNumberKey(partNumber, partNumbers);
+    const canonical = canonicalPartNumberKey(partNumber, partNumbers, options);
     if (canonical === partNumber) {
       continue;
     }
@@ -146,7 +150,7 @@ function asRecord(value: unknown): Record<string, unknown> {
   return typeof value === "object" && value !== null ? (value as Record<string, unknown>) : {};
 }
 
-export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
+export function buildFdb(rawInput: Record<string, unknown>, options: FdbLookupOptions = {}): FdbDataset {
   const raw = asRecord(rawInput);
   const info = asRecord(raw.info);
   const infoControllers = Array.isArray(info.controllers) ? info.controllers.map(String) : [];
@@ -220,14 +224,14 @@ export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
   }
 
   for (const partNumbers of vendors.values()) {
-    canonicalizePartNumbers(partNumbers);
+    canonicalizePartNumbers(partNumbers, options);
   }
 
   for (const partNumbers of vendors.values()) {
     for (const [partNumber, record] of partNumbers.entries()) {
       const refs = mergeStringArray(
         [],
-        (record.a ?? []).map((item) => toPartReference(item, vendors)).filter((item): item is string => !!item)
+        (record.a ?? []).map((item) => toPartReference(item, vendors, options)).filter((item): item is string => !!item)
       );
       partNumbers.set(partNumber, {
         ...record,
@@ -239,7 +243,7 @@ export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
   for (const [flashId, record] of flashIds.entries()) {
     const refs = mergeStringArray(
       [],
-      (record.n ?? []).map((item) => toPartReference(item, vendors)).filter((item): item is string => !!item)
+      (record.n ?? []).map((item) => toPartReference(item, vendors, options)).filter((item): item is string => !!item)
     );
     flashIds.set(flashId, {
       ...record,
@@ -283,10 +287,11 @@ export function buildMdb(rawInput: Record<string, unknown>): MdbDataset {
 export function getPartNumberRecord(
   fdb: FdbDataset,
   vendor: string,
-  partNumber: string
+  partNumber: string,
+  options: FdbLookupOptions = {}
 ): PartNumberRecord | undefined {
   const vendorData = fdb.vendors.get(normalizeVendor(vendor));
-  const lookupKeys = getPartNumberLookupKeys(vendor, partNumber);
+  const lookupKeys = getPartNumberLookupKeys(vendor, partNumber, options.lookupKeys);
   for (const lookupKey of lookupKeys) {
     const record = vendorData?.get(lookupKey);
     if (record) {
@@ -302,18 +307,19 @@ export function getPartNumberRecord(
 
 export function findPartNumberAcrossVendors(
   fdb: FdbDataset,
-  partNumber: string
+  partNumber: string,
+  options: FdbLookupOptions = {}
 ): { vendor: string; record: PartNumberRecord } | undefined {
   const target = normalizePartNumber(partNumber);
   const inferredVendor = inferVendorFromPartNumber(target);
   if (inferredVendor) {
-    const record = getPartNumberRecord(fdb, inferredVendor, target);
+    const record = getPartNumberRecord(fdb, inferredVendor, target, options);
     if (record) {
       return { vendor: inferredVendor, record };
     }
   }
   for (const [vendor, partNumbers] of fdb.vendors.entries()) {
-    const lookupKeys = getPartNumberLookupKeys(vendor, target);
+    const lookupKeys = getPartNumberLookupKeys(vendor, target, options.lookupKeys);
     for (const lookupKey of lookupKeys) {
       const record = partNumbers.get(lookupKey);
       if (record) {

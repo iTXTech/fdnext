@@ -301,6 +301,8 @@ function checkTokenDecoderProgram(
       case "stripIfPrefix":
         checkTokenVariable(step.if, `${stepPath}.if`, spec.id, defined, findings);
         break;
+      case "markLookupPartNumber":
+        break;
       case "tpl":
         for (const name of templateVariableNames(step.template)) {
           addUndefinedVariableFinding(findings, spec.id, `${stepPath}.template`, name, defined);

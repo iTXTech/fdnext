@@ -548,6 +548,10 @@
           "default": -1
         },
         {
+          "op": "markLookupPartNumber",
+          "to": "lookupPartNumber"
+        },
+        {
           "op": "dieDensity",
           "density": "density",
           "dieCount": "die",
@@ -674,6 +678,11 @@
         "fields.special_option": {
           "$path": "configurationObj.special_option"
         },
+        "meta.lookupPartNumbers": [
+          {
+            "$var": "lookupPartNumber"
+          }
+        ],
         "meta.ruleId": "vendor.samsung.token.v1"
       }
     }

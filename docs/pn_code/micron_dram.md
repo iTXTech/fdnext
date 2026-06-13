@@ -59,7 +59,7 @@
 
 - 主线 DRAM 规则文件：`packages/core/src/decodepack/rules/packs/micron-dram-token.json`
 - Stacked / specialty DRAM 规则文件：`packages/core/src/decodepack/rules/packs/micron-hbm-token.json`、`packages/core/src/decodepack/rules/packs/micron-hmc-token.json`
-- 规则 ID：`vendor.micron.dram.component.v1`、`vendor.micron.dram.memory_japan_ddr4.component.v1`
+- 规则 ID：`vendor.micron.dram.component.v1`、`vendor.micron.dram.japan.component.v1`
 - 首批覆盖：DDR/SDR/LPDDR/GDDR 主线 component PN，包括 Micron catalog `MT40/41/42/46/47/48/51/52/53/58/60/61/62/68`、Crucial namespace `CT40/41/42/46/47/48/51/52/53/58/60/61/62/68`，以及 Micron legacy Elpida namespace `ED/EE + 40/41/42/44/46/47/48/49/51/52/53/58/60/61/62/68`。Micron Memory Japan legacy DDR4 `EDY4016...` 使用独立规则，不混入 `MT40` token 流。
 - Stacked / specialty 覆盖见 [micron_hbm.md](micron_hbm.md) 和 [micron_hmc.md](micron_hmc.md)：当前加入 Micron HBM2E `MT54A...` 与 HMC `MT43A...`，用于修正这类 PN 被 fallback 误判为 raw NAND 的问题。
 - 不使用完整 PN 白名单；只按 Micron DRAM part-numbering token 解析字段。

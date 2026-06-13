@@ -57,6 +57,7 @@ export interface DecodeDraftMeta {
   fieldProfile?: FdnextChipKind | "nand.flash_id";
   capabilities?: FdnextCapabilityName[] | string[];
   hiddenFields?: FdnextFieldKey[];
+  lookupPartNumbers?: string[];
   references?: unknown;
 }
 

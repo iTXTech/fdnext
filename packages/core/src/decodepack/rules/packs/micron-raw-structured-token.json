@@ -803,6 +803,10 @@
           "default": ""
         },
         {
+          "op": "markLookupPartNumber",
+          "to": "lookupPartNumber"
+        },
+        {
           "op": "takeLongest",
           "table": "package",
           "to": "package",
@@ -958,6 +962,11 @@
         "fields.layer_count": {
           "$path": "processObj.layer_count"
         },
+        "meta.lookupPartNumbers": [
+          {
+            "$var": "lookupPartNumber"
+          }
+        ],
         "meta.ruleId": "vendor.micron.raw.current.v1"
       }
     }
@@ -1373,6 +1382,10 @@
           "default": {}
         },
         {
+          "op": "markLookupPartNumber",
+          "to": "lookupPartNumber"
+        },
+        {
           "op": "takeLongest",
           "table": "package",
           "to": "package",
@@ -1503,6 +1516,11 @@
         "fields.layer_count": {
           "$path": "processObj.layer_count"
         },
+        "meta.lookupPartNumbers": [
+          {
+            "$var": "lookupPartNumber"
+          }
+        ],
         "meta.ruleId": "vendor.micron.raw.legacy.v1"
       }
     }

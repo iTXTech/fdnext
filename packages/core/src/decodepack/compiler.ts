@@ -375,6 +375,21 @@ function runTokenDecoder(
       continue;
     }
 
+    if (step.op === "markLookupPartNumber") {
+      const rest = String(context.rest ?? "");
+      const consumedLength = Math.max(0, partNumber.length - rest.length);
+      context[step.to] = partNumber.slice(0, consumedLength);
+      traceStep(trace, {
+        op: step.op,
+        path,
+        target: step.to,
+        value: context[step.to],
+        restBefore: rest,
+        restAfter: rest
+      });
+      continue;
+    }
+
     if (step.op === "tpl") {
       const rest = String(context.rest ?? "");
       const value = renderTemplate(step.template, context);

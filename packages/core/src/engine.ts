@@ -34,7 +34,7 @@ import {
   classifyPart,
   type PartClassificationCandidate
 } from "./part-index";
-import { inferVendorFromPartNumber, normalizeVendor } from "./fdb-lookup";
+import { inferVendorFromPartNumber, normalizeVendor, type PartNumberLookupKeyResolver } from "./fdb-lookup";
 import {
   buildPartCandidate,
   buildIdentifierDecodeResult,
@@ -96,8 +96,58 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const rawDramPn = partResources.dram ?? [];
   const translationIndex = (resourceBundle.translationIndex ?? {}) as LangPacks;
 
-  const partFdb = buildFdb(rawPartFdb);
-  const identifierFdb = rawIdentifierFdb === rawPartFdb ? partFdb : buildFdb(rawIdentifierFdb);
+  const processors: ProcessorHooks[] = [...(options.processors ?? [])];
+  const internalDecodeHooks = [createDefaultIdentifierPostprocessor()];
+  let defaultPack: CompileDecodePackResult | undefined;
+  const getDefaultPack = () => (defaultPack ??= defaultCompiledDecodePack());
+  const decoders: PartNumberDecoder[] = [...(options.decoders ?? getDefaultPack().partDecoders)].sort(
+    (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
+  );
+  const identifierDecoders: IdentifierDecoder[] = [...(options.identifierDecoders ?? getDefaultPack().identifierDecoders)].sort(
+    (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
+  );
+  const decodepackLookupKeyCache = new Map<string, string[]>();
+  const decodepackLookupKeys: PartNumberLookupKeyResolver = (vendor, partNumber) => {
+    const normalizedVendor = normalizeVendor(vendor);
+    const normalizedPartNumber = normalizePartNumber(partNumber);
+    const cacheKey = `${normalizedVendor}\0${normalizedPartNumber}`;
+    const cached = decodepackLookupKeyCache.get(cacheKey);
+    if (cached) {
+      return cached;
+    }
+
+    const lookupPartNumbers: string[] = [];
+    for (const decoder of decoders) {
+      if (!decoder.check(normalizedPartNumber)) {
+        continue;
+      }
+      const decoded = decoder.decode(normalizedPartNumber);
+      if (!decoded) {
+        continue;
+      }
+      const decodedVendor = decoded.device.vendor ? normalizeVendor(decoded.device.vendor) : "";
+      if (decodedVendor && decodedVendor !== normalizedVendor) {
+        continue;
+      }
+      for (const value of decoded.meta?.lookupPartNumbers ?? []) {
+        const lookupPartNumber = normalizePartNumber(String(value));
+        if (lookupPartNumber) {
+          lookupPartNumbers.push(lookupPartNumber);
+        }
+      }
+      if (lookupPartNumbers.length > 0) {
+        break;
+      }
+    }
+
+    const uniqueLookupPartNumbers = [...new Set(lookupPartNumbers)];
+    decodepackLookupKeyCache.set(cacheKey, uniqueLookupPartNumbers);
+    return uniqueLookupPartNumbers;
+  };
+  const fdbLookupOptions = { lookupKeys: decodepackLookupKeys };
+
+  const partFdb = buildFdb(rawPartFdb, fdbLookupOptions);
+  const identifierFdb = rawIdentifierFdb === rawPartFdb ? partFdb : buildFdb(rawIdentifierFdb, fdbLookupOptions);
   const fdb = {
     info: partFdb.info,
     vendors: partFdb.vendors,
@@ -122,16 +172,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     ...translationIndex
   };
 
-  const processors: ProcessorHooks[] = [...(options.processors ?? [])];
-  const internalDecodeHooks = [createDefaultIdentifierPostprocessor()];
-  let defaultPack: CompileDecodePackResult | undefined;
-  const getDefaultPack = () => (defaultPack ??= defaultCompiledDecodePack());
-  const decoders: PartNumberDecoder[] = [...(options.decoders ?? getDefaultPack().partDecoders)].sort(
-    (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
-  );
-  const identifierDecoders: IdentifierDecoder[] = [...(options.identifierDecoders ?? getDefaultPack().identifierDecoders)].sort(
-    (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
-  );
   const profileTables = collectDecoderProfileTables(options.profileTables, [...decoders, ...identifierDecoders]);
   const nandDieProfileTable = profileTables["nand.die_profile"] ?? {};
   const translateString = (key: string, lang?: string | null) => doTranslateString(langPacks, fallbackLang, key, lang);
@@ -487,7 +527,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         return;
       }
       seen.add(vendor);
-      const record = getPartNumberRecord(fdb, vendor, normalized);
+      const record = getPartNumberRecord(fdb, vendor, normalized, fdbLookupOptions);
       if (!record) {
         return;
       }
@@ -527,7 +567,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
     let byVendor: PartNumberRecord | undefined;
     for (const partNumber of lookupPartNumbers) {
-      byVendor = getPartNumberRecord(fdb, draftVendor(info), partNumber);
+      byVendor = getPartNumberRecord(fdb, draftVendor(info), partNumber, fdbLookupOptions);
       if (byVendor) {
         break;
       }
