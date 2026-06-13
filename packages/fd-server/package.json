@@ -1,0 +1,56 @@
+{
+  "name": "@itxtech/fd-server",
+  "version": "3.1.0",
+  "description": "FlashDetector-compatible HTTP server for fdnext",
+  "license": "AGPL-3.0-or-later",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "ecosystem.config.cjs",
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "fd-server": "dist/bin.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iTXTech/fdnext.git",
+    "directory": "packages/fd-server"
+  },
+  "homepage": "https://github.com/iTXTech/fdnext/tree/master/packages/fd-server",
+  "bugs": {
+    "url": "https://github.com/iTXTech/fdnext/issues"
+  },
+  "keywords": [
+    "fdnext",
+    "flashdetector",
+    "fdwebserver",
+    "server",
+    "hapi",
+    "flash",
+    "nand"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "@hapi/hapi": "^21.4.4",
+    "@itxtech/fdnext-core": "workspace:*"
+  },
+  "scripts": {
+    "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly && tsdown",
+    "dev": "tsx src/bin.ts",
+    "start": "node dist/bin.js",
+    "test": "node --import tsx --test test/*.test.ts",
+    "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
+  }
+}

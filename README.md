@@ -35,6 +35,7 @@
 
 - **Core ([`@itxtech/fdnext-core`](packages/core)):** Engine, DecodePack rules/compiler, embedded resources, result contract, and shared runtime.
 - **Adapters:** Native support for [Hapi](packages/server), [Cloudflare Workers](packages/cf-workers), and [Aliyun FC](packages/aliyun-fc).
+- **Legacy compatibility:** [`@itxtech/fd-server`](packages/fd-server) exposes the old FlashDetector / FDWebServer HTTP API for FlashMaster Classic migration deployments.
 
 ---
 
@@ -84,6 +85,7 @@ The unified documentation index can be found in [**docs/README.md**](docs/README
 
 - [**Integration Guide**](docs/INTEGRATION.md): SDK, HTTP server, and deployment.
 - [**Server API**](docs/SERVER_API.md): Routes, parameters, and response contracts.
+- [**FlashDetector Compatibility Server**](packages/fd-server/README.md): `fd-server` deployment for FlashMaster Classic clients.
 - [**DecodePack Spec**](docs/DECODEPACK.md): Writing PN and identifier rules.
 - [**FDBGen Guide**](docs/FDBGEN.md): Database generation and crawling.
 - [**Terminology**](docs/pn_code/terminology.md): Canonical field keys and naming conventions.

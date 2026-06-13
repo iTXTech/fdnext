@@ -41,6 +41,15 @@ importers:
 
   packages/core: {}
 
+  packages/fd-server:
+    dependencies:
+      '@hapi/hapi':
+        specifier: ^21.4.4
+        version: 21.4.4
+      '@itxtech/fdnext-core':
+        specifier: workspace:*
+        version: link:../core
+
   packages/fdbgen:
     dependencies:
       '@itxtech/fdnext-core':
