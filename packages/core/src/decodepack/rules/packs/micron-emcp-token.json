@@ -29,12 +29,10 @@
         },
         "productFamilyObj": {
           "MT29V": {
-            "product_mode": "UFS + Mobile LPDDR4X",
             "storage_interface": "UFS",
             "dram_type": "LPDDR4X"
           },
           "MT30A": {
-            "product_mode": "UFS + Mobile LPDDR5",
             "storage_interface": "UFS",
             "dram_type": "LPDDR5"
           }
@@ -953,7 +951,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "product_family": "Micron NAND MCP",
             "storage_interface": "Parallel NAND"
           }
         },
@@ -2605,8 +2602,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "product_family": "Micron NAND + LPDRAM MCP",
-            "product_mode": "MCP NAND + LPDRAM",
             "storage_interface": "Parallel NAND",
             "dram_type": "Mobile LPDRAM",
             "voltage": "1.7V ~ 1.95V",
@@ -2901,8 +2896,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "product_family": "Micron NAND + LPDDR2 MCP",
-            "product_mode": "MCP NAND + LPDDR2",
             "storage_interface": "Parallel NAND",
             "config_code": {
               "$var": "configCode"

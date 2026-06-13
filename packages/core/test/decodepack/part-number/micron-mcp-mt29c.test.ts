@@ -37,8 +37,6 @@ assertPart("MT29C4G96MAZAPCJA-5 IT", {
   densityMbit: 4096,
   package: "137-ball TFBGA 13x10.5x1.2",
   extra: {
-    "Product Family": "Micron NAND + LPDRAM MCP",
-    "Product Mode": "MCP NAND + LPDRAM",
     "Storage Density": "4Gb NAND",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "4Gb",
@@ -48,7 +46,7 @@ assertPart("MT29C4G96MAZAPCJA-5 IT", {
     "Package Code": "JA",
     "DRAM Speed": "LPDDR-400 CL3"
   },
-  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+  absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
 assertPart("MT29C2G24MAKLAJG-6 IT", {
@@ -57,8 +55,6 @@ assertPart("MT29C2G24MAKLAJG-6 IT", {
   densityMbit: 2048,
   package: "168-ball PoP VFBGA 12x12x0.9",
   extra: {
-    "Product Family": "Micron NAND + LPDRAM MCP",
-    "Product Mode": "MCP NAND + LPDRAM",
     "Storage Density": "2Gb NAND",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "1Gb",
@@ -68,7 +64,7 @@ assertPart("MT29C2G24MAKLAJG-6 IT", {
     "Package Code": "JG",
     "DRAM Speed": "LPDDR-333 CL3"
   },
-  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+  absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
 assertPart("MT29C1G12MAADVAKC-5 IT", {
@@ -77,8 +73,6 @@ assertPart("MT29C1G12MAADVAKC-5 IT", {
   densityMbit: 1024,
   package: "107-ball TFBGA 13x10.5x1.1",
   extra: {
-    "Product Family": "Micron NAND + LPDRAM MCP",
-    "Product Mode": "MCP NAND + LPDRAM",
     "Storage Density": "1Gb NAND",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "512Mb",
@@ -88,7 +82,7 @@ assertPart("MT29C1G12MAADVAKC-5 IT", {
     "Package Code": "KC",
     "DRAM Speed": "LPDDR-400 CL3"
   },
-  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+  absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
 assertPart("MT29C1G12MAADAEAKC-5 IT", {
@@ -97,8 +91,6 @@ assertPart("MT29C1G12MAADAEAKC-5 IT", {
   densityMbit: 1024,
   package: "107-ball TFBGA 13x10.5x1.1",
   extra: {
-    "Product Family": "Micron NAND + LPDRAM MCP",
-    "Product Mode": "MCP NAND + LPDRAM",
     "Storage Density": "1Gb NAND",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "1Gb",
@@ -108,7 +100,7 @@ assertPart("MT29C1G12MAADAEAKC-5 IT", {
     "Package Code": "KC",
     "DRAM Speed": "LPDDR-400 CL3"
   },
-  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+  absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
 assertPart("MT29C2G48MAKLCJI-6 IT", {
@@ -117,8 +109,6 @@ assertPart("MT29C2G48MAKLCJI-6 IT", {
   densityMbit: 2048,
   package: "168-ball PoP TFBGA 12x12x1.1",
   extra: {
-    "Product Family": "Micron NAND + LPDRAM MCP",
-    "Product Mode": "MCP NAND + LPDRAM",
     "Storage Density": "2Gb NAND",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "1Gb",
@@ -128,7 +118,7 @@ assertPart("MT29C2G48MAKLCJI-6 IT", {
     "Package Code": "JI",
     "DRAM Speed": "LPDDR-333 CL3"
   },
-  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+  absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
 assertPart("MT29C4G48MAZBBAKS-48 IT", {
@@ -137,8 +127,6 @@ assertPart("MT29C4G48MAZBBAKS-48 IT", {
   densityMbit: 4096,
   package: "137-ball VFBGA 13x10.5x1.0",
   extra: {
-    "Product Family": "Micron NAND + LPDRAM MCP",
-    "Product Mode": "MCP NAND + LPDRAM",
     "Storage Density": "4Gb NAND",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "2Gb",
@@ -148,7 +136,7 @@ assertPart("MT29C4G48MAZBBAKS-48 IT", {
     "Package Code": "KS",
     "DRAM Speed": "LPDDR-416"
   },
-  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+  absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
 assertPart("MT29C4G48MAYBBAHK-48 IT", {
@@ -157,8 +145,6 @@ assertPart("MT29C4G48MAYBBAHK-48 IT", {
   densityMbit: 4096,
   package: "137-VFBGA 13x10.5",
   extra: {
-    "Product Family": "Micron NAND + LPDRAM MCP",
-    "Product Mode": "MCP NAND + LPDRAM",
     "Storage Density": "4Gb NAND",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "2Gb",
@@ -168,7 +154,7 @@ assertPart("MT29C4G48MAYBBAHK-48 IT", {
     "Package Code": "HK",
     "DRAM Speed": "LPDDR-416"
   },
-  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+  absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
 assertPart("MT29C8G48MAPLDJA-75ITES", {
@@ -177,8 +163,6 @@ assertPart("MT29C8G48MAPLDJA-75ITES", {
   densityMbit: 8192,
   package: "137-ball TFBGA 13x10.5x1.2",
   extra: {
-    "Product Family": "Micron NAND + LPDRAM MCP",
-    "Product Mode": "MCP NAND + LPDRAM",
     "Storage Density": "8Gb NAND",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "2Gb",
@@ -190,5 +174,5 @@ assertPart("MT29C8G48MAPLDJA-75ITES", {
     "Operation Temperature": "Industrial (-40°C ~ 85°C)",
     "Production Status": "Engineering Sample"
   },
-  absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type"]
+  absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });

@@ -1323,39 +1323,33 @@
         },
         "design_obj": {
           "A": {
-            "product_mode": "SLC NAND + LPDDR2",
             "dram_type": "LPDDR2",
             "cell_level": 1
           },
           "B": {
-            "product_mode": "SLC NAND + LPDDR3",
             "dram_type": "LPDDR3",
             "cell_level": 1
           },
           "C": {
-            "product_mode": "SLC NAND + LPDRAM (MCP PoP)",
+            "product_mode": "MCP PoP",
             "dram_type": "Mobile LPDRAM",
             "cell_level": 1
           },
           "G": {
-            "product_mode": "SLC NAND + LPDDR4",
             "dram_type": "LPDDR4",
             "cell_level": 1
           },
           "R": {
-            "product_mode": "SLC NAND + LPDDR2",
             "dram_type": "LPDDR2",
             "cell_level": 1,
             "special_option": "Legacy AIO"
           },
           "U": {
-            "product_mode": "SLC NAND + LPDDR3",
             "dram_type": "LPDDR3",
             "cell_level": 1,
             "special_option": "Legacy existing MPN"
           },
           "W": {
-            "product_mode": "TLC NAND + LPDDR4",
             "dram_type": "LPDDR4",
             "cell_level": 3
           }
@@ -1591,7 +1585,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "product_family": "SpecTek NAND MCP",
             "product_mode": {
               "$path": "design_obj.product_mode"
             }

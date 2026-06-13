@@ -25,50 +25,6 @@
         "KM"
       ],
       "tables": {
-        "typeInfo": {
-          "D": {
-            "product_mode": "eMCP"
-          },
-          "3": {
-            "product_mode": "eMCP"
-          },
-          "R": {
-            "product_mode": "eMCP"
-          },
-          "Q": {
-            "product_mode": "eMCP"
-          },
-          "F": {
-            "product_mode": "eMCP"
-          },
-          "M": {
-            "product_mode": "eMCP"
-          },
-          "G": {
-            "product_mode": "eMCP"
-          },
-          "4": {
-            "product_mode": "eMCP"
-          },
-          "E": {
-            "product_mode": "uMCP"
-          },
-          "5": {
-            "product_mode": "uMCP"
-          },
-          "A": {
-            "product_mode": "uMCP"
-          },
-          "P": {
-            "product_mode": "uMCP"
-          },
-          "8": {
-            "product_mode": "uMCP"
-          },
-          "J": {
-            "product_mode": "uMCP"
-          }
-        },
         "productType": {
           "D": "emcp",
           "3": "emcp",
@@ -210,12 +166,6 @@
           "5:L": "254 FBGA",
           "8:V": "254 FBGA",
           "J:S": "297 FBGA"
-        },
-        "productFamily": {
-          "eMMC:LPDDR3": "eMMC + LPDDR3",
-          "eMMC:LPDDR4X": "eMMC + LPDDR4X",
-          "UFS:LPDDR4X": "UFS + LPDDR4X",
-          "UFS:LPDDR5": "UFS + LPDDR5"
         }
       },
       "steps": [
@@ -268,13 +218,6 @@
           "op": "tpl",
           "template": "{{typePackageKey}}:{{capacityToken}}",
           "to": "typePackageCapacityKey"
-        },
-        {
-          "op": "map",
-          "from": "typeToken",
-          "table": "typeInfo",
-          "to": "typeInfo",
-          "default": {}
         },
         {
           "op": "map",
@@ -366,17 +309,6 @@
           "to": "dramSpeed"
         },
         {
-          "op": "tpl",
-          "template": "{{storageTransport}}:{{dramType}}",
-          "to": "productFamilyKey"
-        },
-        {
-          "op": "map",
-          "from": "productFamilyKey",
-          "table": "productFamily",
-          "to": "productFamily"
-        },
-        {
           "op": "map",
           "from": "typeToken",
           "table": "packageByType",
@@ -404,12 +336,6 @@
         "device.chipKind": "managed_nand",
         "device.productType": {
           "$var": "productType"
-        },
-        "fields.product_mode": {
-          "$path": "typeInfo.product_mode"
-        },
-        "fields.product_family": {
-          "$var": "productFamily"
         },
         "fields.density": {
           "$var": "density"

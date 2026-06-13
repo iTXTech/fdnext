@@ -20,6 +20,7 @@ import {
   assertKioxiaRawSuffixTopology,
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
+  assertNoAdditionalFields,
   assertNotFound,
   assertPart,
   assertRuleDoesNotMatch,
@@ -77,11 +78,12 @@ assertPart("64EM32-M4GTY9B", {
   densityMbit: 524288,
   package: "FBGA254 11.5x13.0x1.0",
   extra: {
-    "Product Family": "eMCP LPDDR4X",
     "Storage Interface": "eMMC 5.1",
     "Storage Density": "64GB eMMC",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Family", "Reference Status", "Inference Source", "source", "status"]
 });
+
+assertNoAdditionalFields("64EM32-M4GTY9B");

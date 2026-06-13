@@ -84,7 +84,6 @@ iTXTech fdnext DecodePack:
 
 ## 输出字段
 
-- `product_family`
 - `product_mode`
 - `storage_density`
 - `storage_interface`
@@ -115,4 +114,4 @@ iTXTech fdnext DecodePack:
 ## 注意
 
 SpecTek NAND MCP 是 NAND + LPDRAM 复合封装，不能归入 standalone raw NAND 或 standalone DRAM。当前用 `device.productType = emcp` 承载，storage 子系统输出 `Parallel NAND`。Flash + Controller 结构根据 controller protocol 输出 `emmc` 或 `ufs`；旧单字符 controller revision 无协议细节时保守输出 `emmc`。
-`package_code`、`controller_code`、`nand_component` 和 design ID 这类编码只用于内部解析，不进入公开字段；可读信息优先输出为 `package`、`controller`、`component_width` 等字段。`speed_grade` 例外保留原始 speed/grade token，并附带可读含义。
+`product_mode` 只保留 `MCP PoP` 等未被结构化字段覆盖的增量信息；`SLC NAND + LPDDR4` 这类组合已分别由 `cell_level`、`storage_interface` 和 `dram_type` 表达，不重复输出。`package_code`、`controller_code`、`nand_component` 和 design ID 这类编码只用于内部解析，不进入公开字段；可读信息优先输出为 `package`、`controller`、`component_width` 等字段。`speed_grade` 例外保留原始 speed/grade token，并附带可读含义。

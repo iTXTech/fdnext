@@ -44,12 +44,10 @@ assertPart("SUGNM1126A6BPIET-046BT", {
     "DRAM Type": "LPDDR4",
     "DRAM Width": "x16",
     "Component Width": "x8",
-    "Product Family": "SpecTek NAND MCP",
-    "Product Mode": "SLC NAND + LPDDR4",
     "Special Option": "2 NAND, 2 LPDRAM",
     "Speed Grade": "046BT Fully Tested"
   },
-  absentExtra: ["NAND Component", "Package Code", "Product Generation"]
+  absentExtra: ["Product Family", "Product Mode", "NAND Component", "Package Code", "Product Generation"]
 });
 assertPart("FNUGNM1126A6BPIET-046BT", {
   vendor: "spectek",
@@ -64,12 +62,10 @@ assertPart("FNUGNM1126A6BPIET-046BT", {
     "DRAM Type": "LPDDR4",
     "DRAM Width": "x16",
     "Component Width": "x8",
-    "Product Family": "SpecTek NAND MCP",
-    "Product Mode": "SLC NAND + LPDDR4",
     "Special Option": "2 NAND, 2 LPDRAM",
     "Speed Grade": "046BT Fully Tested"
   },
-  absentExtra: ["NAND Component", "Package Code", "Product Generation"]
+  absentExtra: ["Product Family", "Product Mode", "NAND Component", "Package Code", "Product Generation"]
 });
 assertPart("SMCNM1126A6BPIET-062UT", {
   vendor: "spectek",
@@ -84,12 +80,11 @@ assertPart("SMCNM1126A6BPIET-062UT", {
     "DRAM Type": "Mobile LPDRAM",
     "DRAM Width": "x16",
     "Component Width": "x8",
-    "Product Family": "SpecTek NAND MCP",
-    "Product Mode": "SLC NAND + LPDRAM (MCP PoP)",
+    "Product Mode": "MCP PoP",
     "Special Option": "2 NAND, 2 LPDRAM",
     "Speed Grade": "062UT Untested"
   },
-  absentExtra: ["NAND Component", "Package Code", "Product Generation"]
+  absentExtra: ["Product Family", "NAND Component", "Package Code", "Product Generation"]
 });
 assertPart("SMKJ6Z4ZZ4D4TGFAK-PG", {
   vendor: "spectek",

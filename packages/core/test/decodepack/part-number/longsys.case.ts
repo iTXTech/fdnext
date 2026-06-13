@@ -20,6 +20,7 @@ import {
   assertKioxiaRawSuffixTopology,
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
+  assertNoAdditionalFields,
   assertNotFound,
   assertPart,
   assertRuleDoesNotMatch,
@@ -62,13 +63,14 @@ assertPart("FEPRF6432-58A1930", {
   densityMbit: 524288,
   package: "FBGA254 11.5x13x1.0",
   extra: {
-    "Product Family": "eMCP4x",
     "Storage Density": "64GB eMMC",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Family", "Reference Status", "Inference Source", "source", "status"]
 });
+
+assertNoAdditionalFields("FEPRF6432-58A1930");
 
 assertPart("FUPRFA832-C2A56N1", {
   vendor: "longsys",
@@ -76,13 +78,14 @@ assertPart("FUPRFA832-C2A56N1", {
   densityMbit: 1048576,
   package: "FBGA254 11.5x13x1.0",
   extra: {
-    "Product Family": "uMCP4x",
     "Storage Density": "128GB UFS",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Family", "Reference Status", "Inference Source", "source", "status"]
 });
+
+assertNoAdditionalFields("FUPRFA832-C2A56N1");
 assertPart("FEUDME128G-C8H09", {
   vendor: "longsys",
   type: "UFS",

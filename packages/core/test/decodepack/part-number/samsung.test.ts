@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
   assertDecodePackDieProfile,
+  assertNoAdditionalFields,
   assertRuleDraftDieProfile,
   engineWithoutFdb,
   fieldText,
@@ -173,8 +174,6 @@ testPart("KMGD6001BM-B421", {
   densityMbit: 262144,
   package: "221Ball FBGA 11.5x13x1.0",
   extra: {
-    "Product Mode": "eMCP",
-    "Product Family": "eMMC + LPDDR3",
     "Storage Density": "32GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "24Gb",
@@ -182,7 +181,7 @@ testPart("KMGD6001BM-B421", {
     "Package Code": "221 FBGA",
     "Config Code": "B421"
   },
-  absentExtra: ["Group", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Group", "Product Mode", "Product Family", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KMGE6001BM-B421", {
@@ -191,8 +190,6 @@ testPart("KMGE6001BM-B421", {
   densityMbit: 131072,
   package: "BGA221",
   extra: {
-    "Product Mode": "eMCP",
-    "Product Family": "eMMC + LPDDR3",
     "Storage Density": "16GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "24Gb",
@@ -201,7 +198,7 @@ testPart("KMGE6001BM-B421", {
     "Package Code": "221 FBGA",
     "Config Code": "B421"
   },
-  absentExtra: ["Group", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Group", "Product Mode", "Product Family", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KMDT6001ZM-A625", {
@@ -210,15 +207,13 @@ testPart("KMDT6001ZM-A625", {
   densityMbit: 131072,
   package: "144 FBGA",
   extra: {
-    "Product Mode": "eMCP",
-    "Product Family": "eMMC + LPDDR4X",
     "Storage Density": "16GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "16Gb",
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4X-4266"
   },
-  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KMDP6001DA-B425", {
@@ -227,15 +222,13 @@ testPart("KMDP6001DA-B425", {
   densityMbit: 524288,
   package: "254 FBGA",
   extra: {
-    "Product Mode": "eMCP",
-    "Product Family": "eMMC + LPDDR4X",
     "Storage Density": "64GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4X-4266"
   },
-  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KMFN60012B-B214", {
@@ -244,15 +237,13 @@ testPart("KMFN60012B-B214", {
   densityMbit: 65536,
   package: "221 FBGA",
   extra: {
-    "Product Mode": "eMCP",
-    "Product Family": "eMMC + LPDDR3",
     "Storage Density": "8GB eMMC",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "8Gb",
     "DRAM Type": "LPDDR3",
     "DRAM Speed": "LPDDR3-1866"
   },
-  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KM5L9000CM-B424", {
@@ -261,15 +252,13 @@ testPart("KM5L9000CM-B424", {
   densityMbit: 1048576,
   package: "254 FBGA",
   extra: {
-    "Product Mode": "uMCP",
-    "Product Family": "UFS + LPDDR4X",
     "Storage Density": "128GB UFS",
     "Storage Interface": "UFS 2.2",
     "DRAM Density": "48Gb",
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4X-4266"
   },
-  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KM8V9001JM-B813", {
@@ -278,15 +267,13 @@ testPart("KM8V9001JM-B813", {
   densityMbit: 1048576,
   package: "254 FBGA",
   extra: {
-    "Product Mode": "uMCP",
-    "Product Family": "UFS + LPDDR4X",
     "Storage Density": "128GB UFS",
     "Storage Interface": "UFS 2.2",
     "DRAM Density": "64Gb",
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4X-4266"
   },
-  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KMJS9001RM-BG01", {
@@ -295,16 +282,18 @@ testPart("KMJS9001RM-BG01", {
   densityMbit: 2097152,
   package: "297 FBGA",
   extra: {
-    "Product Mode": "uMCP",
-    "Product Family": "UFS + LPDDR5",
     "Storage Density": "256GB UFS",
     "Storage Interface": "UFS 3.1",
     "DRAM Density": "96Gb",
     "DRAM Type": "LPDDR5",
     "DRAM Speed": "LPDDR5-6400"
   },
-  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
 });
+
+for (const partNumber of ["KMGD6001BM-B421", "KM5L9000CM-B424", "KMJS9001RM-BG01"]) {
+  assertNoAdditionalFields(partNumber);
+}
 
 testPart("K9AFGD8J0M", {
   vendor: "samsung",

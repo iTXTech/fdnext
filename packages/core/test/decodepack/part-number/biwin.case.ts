@@ -20,6 +20,7 @@ import {
   assertKioxiaRawSuffixTopology,
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
+  assertNoAdditionalFields,
   assertNotFound,
   assertPart,
   assertRuleDoesNotMatch,
@@ -73,13 +74,14 @@ assertPart("BWCA2KZC-64G", {
   densityMbit: 524288,
   package: "FBGA254 11.50x13.00",
   extra: {
-    "Product Family": "eMCP4X",
     "Storage Density": "64GB eMMC",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Family", "Reference Status", "Inference Source", "source", "status"]
 });
+
+assertNoAdditionalFields("BWCA2KZC-64G");
 
 assertPart("BW2A2MZC02-256G", {
   vendor: "biwin",
@@ -87,10 +89,11 @@ assertPart("BW2A2MZC02-256G", {
   densityMbit: 2097152,
   package: "FBGA254 11.50x13.00",
   extra: {
-    "Product Family": "uMCP LPDDR4X",
     "Storage Density": "256GB UFS",
     "DRAM Density": "64Gb",
     "Storage Interface": "UFS 2.2"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Family", "Reference Status", "Inference Source", "source", "status"]
 });
+
+assertNoAdditionalFields("BW2A2MZC02-256G");

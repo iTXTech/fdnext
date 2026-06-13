@@ -85,14 +85,12 @@
         },
         "dramTypeObj": {
           "N3": {
-            "product_family": "eMCP LPDDR3",
             "storage_interface": "eMMC 5.1",
             "dram_type": "LPDDR3",
             "package_code": "221 FBGA",
             "operation_temperature": "-25°C ~ +85°C"
           },
           "M4": {
-            "product_family": "eMCP LPDDR4X",
             "storage_interface": "eMMC 5.1",
             "dram_type": "LPDDR4X",
             "package_code": "254 FBGA",

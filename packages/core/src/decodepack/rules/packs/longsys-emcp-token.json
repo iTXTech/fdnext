@@ -47,7 +47,6 @@
         },
         "densityPairObj": {
           "NA1608": {
-            "product_family": "eMCP3",
             "storage_interface": "eMMC",
             "storage_density": "16GB eMMC",
             "dram_density": "8Gb",
@@ -56,7 +55,6 @@
             "package_code": "FBGA221"
           },
           "NA3208": {
-            "product_family": "eMCP3",
             "storage_interface": "eMMC",
             "storage_density": "32GB eMMC",
             "dram_density": "8Gb",
@@ -65,7 +63,6 @@
             "package_code": "FBGA221"
           },
           "RF6432": {
-            "product_family": "eMCP4x",
             "storage_interface": "eMMC",
             "storage_density": "64GB eMMC",
             "dram_density": "32Gb",
@@ -74,7 +71,6 @@
             "package_code": "FBGA254"
           },
           "RB6432": {
-            "product_family": "eMCP4x",
             "storage_interface": "eMMC",
             "storage_density": "64GB eMMC",
             "dram_density": "32Gb",
@@ -83,7 +79,6 @@
             "package_code": "FBGA254"
           },
           "RFA832": {
-            "product_family": "eMCP4x",
             "storage_interface": "eMMC",
             "storage_density": "128GB eMMC",
             "dram_density": "32Gb",
@@ -234,7 +229,6 @@
         },
         "densityPairObj": {
           "RB6432": {
-            "product_family": "uMCP4x",
             "storage_interface": "UFS",
             "storage_density": "64GB UFS",
             "dram_density": "32Gb",
@@ -243,7 +237,6 @@
             "package_code": "FBGA254"
           },
           "RFA832": {
-            "product_family": "uMCP4x",
             "storage_interface": "UFS",
             "storage_density": "128GB UFS",
             "dram_density": "32Gb",

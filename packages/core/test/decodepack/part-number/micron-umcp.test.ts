@@ -20,6 +20,7 @@ import {
   assertKioxiaRawSuffixTopology,
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
+  assertNoAdditionalFields,
   assertNotFound,
   assertPart,
   assertRuleDoesNotMatch,
@@ -390,7 +391,6 @@ for (const sample of [
     voltage: sample.voltage,
     package: sample.package,
     extra: {
-      "Product Mode": sample.productMode,
       "Storage Density": sample.storageDensity,
       "Storage Interface": "UFS",
       "Controller": sample.controller,
@@ -403,9 +403,13 @@ for (const sample of [
       "Operation Temperature": "Wireless (-25°C ~ 85°C)",
       "Die Revision": sample.dieRevision
     },
-    absentExtra: ["Config Code", "Package Code", "Controller Code", "Product Family", "Speed Grade"]
+    absentExtra: ["Config Code", "Package Code", "Controller Code", "Product Mode", "Product Family", "Speed Grade"]
   });
 }
 
 assertHiddenPublicField("MT29VZZZCD91SFSM 046 W.18C", "density", 1048576);
 assertHiddenComponentRelations("MT29VZZZCD91SFSM 046 W.18C");
+
+for (const partNumber of ["MT29VZZZBDAFQKWL 046 W.G0J", "MT30AZZZCD9ZTOQS 031 W.15Q"]) {
+  assertNoAdditionalFields(partNumber);
+}

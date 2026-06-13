@@ -20,6 +20,7 @@ import {
   assertKioxiaRawSuffixTopology,
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
+  assertNoAdditionalFields,
   assertNotFound,
   assertPart,
   assertRuleDoesNotMatch,
@@ -131,7 +132,8 @@ assertPart("H9TQ17ABJTMCUR-KUM", {
   densityMbit: 131072,
   package: "FBGA 221 Ball 11.5x13",
   extra: {
-    "Product Mode": "CI-MCP NAND DDR3",
+    "Product Mode": "CI-MCP",
+    "Product Family": "e-NAND",
     "Storage Density": "16GB",
     "Storage Interface": "eMMC 5.0",
     "Cell Level": "MLC",
@@ -157,8 +159,8 @@ assertPart("H9TQ27ADFTMCUR-KUM", {
   densityMbit: 262144,
   package: "FBGA 221 Ball 11.5x13",
   extra: {
-    "Product Mode": "CI-MCP NAND DDR3",
-    "Product Family": "eMMC + LPDDR3",
+    "Product Mode": "CI-MCP",
+    "Product Family": "e-NAND",
     "Storage Density": "32GB",
     "Storage Interface": "eMMC 5.1",
     "Cell Level": "MLC",
@@ -175,7 +177,7 @@ assertPart("H9TQ27ADFTMCUR-KUM", {
     "Speed Grade": "eMMC 400MHz",
     "Special Option": "Lead & Halogen Free"
   },
-  absentExtra: ["CE Count", "Density Code", "Config Code"]
+  absentExtra: ["Product Version", "CE Count", "Density Code", "Config Code"]
 });
 
 assertPart("H9TQ64A8GTACUR-KUM", {
@@ -184,8 +186,8 @@ assertPart("H9TQ64A8GTACUR-KUM", {
   densityMbit: 65536,
   package: "FBGA 221 Ball 11.5x13",
   extra: {
-    "Product Mode": "CI-MCP NAND DDR3",
-    "Product Family": "eMMC + LPDDR3",
+    "Product Mode": "CI-MCP",
+    "Product Family": "e-NAND",
     "Storage Density": "8GB",
     "Storage Interface": "eMMC 5.1",
     "Cell Level": "MLC",
@@ -200,7 +202,7 @@ assertPart("H9TQ64A8GTACUR-KUM", {
     "Speed Grade": "eMMC 200MHz",
     "Special Option": "Lead & Halogen Free"
   },
-  absentExtra: ["CE Count", "Density Code", "Config Code"]
+  absentExtra: ["Product Version", "CE Count", "Density Code", "Config Code"]
 });
 
 assertPart("H9TP32A4GDBCPR-KGM", {
@@ -209,7 +211,8 @@ assertPart("H9TP32A4GDBCPR-KGM", {
   densityMbit: 32768,
   package: "FBGA 162 Ball 11.5x13",
   extra: {
-    "Product Mode": "CI-MCP NAND DDR2",
+    "Product Mode": "CI-MCP",
+    "Product Family": "e-NAND",
     "Storage Density": "4GB",
     "Storage Interface": "eMMC 4.41",
     "Cell Level": "MLC",
@@ -235,7 +238,6 @@ assertPart("H9HP52ACPMADAR-KMM", {
   voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
   package: "254Ball FBGA 11.5x13",
   extra: {
-    "Product Mode": "eMCP NAND DDR4",
     "Storage Density": "64GB",
     "Storage Interface": "eMMC 5.1",
     "Cell Level": "MLC",
@@ -249,7 +251,7 @@ assertPart("H9HP52ACPMADAR-KMM", {
     "DRAM Width": "x16",
     "DRAM Speed": "LPDDR4X-3733"
   },
-  absentExtra: ["System", "CE Count"]
+  absentExtra: ["System", "Product Mode", "Product Family", "Product Version", "CE Count"]
 });
 
 assertSkhynixEmcpRuleMatches("H9HP27ADAMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
@@ -260,7 +262,6 @@ assertPart("H9HP27ADAMADAR-KMM", {
   voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
   package: "254Ball FBGA 11.5x13",
   extra: {
-    "Product Mode": "eMCP NAND DDR4",
     "Storage Density": "32GB",
     "Storage Interface": "eMMC 5.1",
     "Cell Level": "MLC",
@@ -274,7 +275,7 @@ assertPart("H9HP27ADAMADAR-KMM", {
     "DRAM Width": "x16",
     "DRAM Speed": "LPDDR4X-3733"
   },
-  absentExtra: ["System", "CE Count"]
+  absentExtra: ["System", "Product Mode", "Product Family", "Product Version", "CE Count"]
 });
 
 assertSkhynixEmcpRuleMatches("H9HP99ADAMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
@@ -284,12 +285,11 @@ assertPart("H9HP99ADAMADAR-KMM", {
   voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
   package: "254Ball FBGA 11.5x13",
   extra: {
-    "Product Mode": "eMCP NAND DDR4",
     "DRAM Type": "LPDDR4X",
     "DRAM Width": "x16",
     "DRAM Speed": "LPDDR4X-3733"
   },
-  absentExtra: ["System", "Density Code", "Config Code"]
+  absentExtra: ["System", "Product Mode", "Product Family", "Product Version", "Density Code", "Config Code"]
 });
 
 assertSkhynixEmcpRuleMatches("H9AG9G5ANBX100", ["vendor.skhynix.emcp.h9a.v1"]);
@@ -299,7 +299,6 @@ assertPart("H9AG9G5ANBX100", {
   densityMbit: 524288,
   package: "254Ball FBGA",
   extra: {
-    "Product Mode": "LPDDR4 eMCP",
     "Storage Density": "64GB",
     "Storage Interface": "eMMC 5.0",
     "DRAM Density": "32Gb",
@@ -310,7 +309,7 @@ assertPart("H9AG9G5ANBX100", {
     "Speed Grade": "LPDDR4X-4266 CL32 / eMMC 52MHz",
     "Special Option": "Lead & Halogen Free"
   },
-  absentExtra: ["System"]
+  absentExtra: ["System", "Product Mode", "Product Family", "Product Version"]
 });
 
 assertPart("H9QT0GECN6X145", {
@@ -320,7 +319,6 @@ assertPart("H9QT0GECN6X145", {
   voltage: "UFS: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
   package: "254Ball FBGA",
   extra: {
-    "Product Mode": "LPDDR4 uMCP",
     "Storage Density": "128GB",
     "Storage Interface": "UFS 2.2",
     "Product Generation": "4th generation uMCP",
@@ -329,11 +327,10 @@ assertPart("H9QT0GECN6X145", {
     "DRAM Width": "x8",
     "DRAM Voltage": "VDD1: 1.8V, VDD2: 1.1V, VDDQ: 0.6V",
     "DRAM Speed": "LPDDR4X-4266",
-    "Product Version": "UFS 2.2 / LPDDR4X",
     "Operation Temperature": "-25°C ~ 85°C",
     "Special Option": "Lead & Halogen Free"
   },
-  absentExtra: ["System", "Config Code", "Reserved Code", "Serial Code"]
+  absentExtra: ["System", "Product Mode", "Product Family", "Product Version", "Config Code", "Reserved Code", "Serial Code"]
 });
 
 assertPart("H9QXXXXCN6X145", {
@@ -342,13 +339,12 @@ assertPart("H9QXXXXCN6X145", {
   voltage: "UFS: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
   package: "254Ball FBGA",
   extra: {
-    "Product Mode": "LPDDR4 uMCP",
     "Storage Interface": "UFS 2.2",
     "Product Generation": "4th generation uMCP",
     "DRAM Speed": "LPDDR4X-4266",
     "Special Option": "Lead & Halogen Free"
   },
-  absentExtra: ["System", "Storage Density", "DRAM Width", "Config Code", "Reserved Code", "Serial Code"]
+  absentExtra: ["System", "Product Mode", "Product Family", "Product Version", "Storage Density", "DRAM Width", "Config Code", "Reserved Code", "Serial Code"]
 });
 
 assertPart("H9HQ15ACPMADAR-KEM", {
@@ -362,5 +358,15 @@ assertPart("H9HQ15ACPMADAR-KEM", {
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
   },
-  absentExtra: ["System"]
+  absentExtra: ["System", "Product Family", "Product Version"]
 });
+
+for (const partNumber of [
+  "H9TQ17ABJTMCUR-KUM",
+  "H9HP52ACPMADAR-KMM",
+  "H9AG9G5ANBX100",
+  "H9QT0GECN6X145",
+  "H9HQ15ACPMADAR-KEM"
+]) {
+  assertNoAdditionalFields(partNumber);
+}

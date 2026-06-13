@@ -142,6 +142,26 @@ function removeVendorPrefix(value: unknown, vendor: unknown): string {
   return normalized;
 }
 
+const compositeDescriptorFillerTokens = new Set(["flash", "mobile"]);
+
+function compositeDescriptorTokens(value: unknown, vendor?: unknown): string[] {
+  const text = vendor == null ? normalizeText(value) : removeVendorPrefix(value, vendor);
+  const rawTokens = text.split(" ").filter(Boolean);
+  const tokens: string[] = [];
+  for (const token of rawTokens) {
+    if (token === "emcp4x") {
+      tokens.push("emcp", "lpddr4x");
+      continue;
+    }
+    if (token === "umcp4x") {
+      tokens.push("umcp", "lpddr4x");
+      continue;
+    }
+    tokens.push(token);
+  }
+  return tokens;
+}
+
 function fieldsByLabel(result: PartDecodeResult): Record<string, unknown> {
   const fieldMap: Record<string, unknown> = {};
   for (const block of result.blocks) {
@@ -157,6 +177,75 @@ function fieldsByLabel(result: PartDecodeResult): Record<string, unknown> {
 
 function resultType(result: PartDecodeResult): string {
   return String(result.device?.productType ?? result.device?.chipKind ?? "");
+}
+
+function managedNandCompositeCoverage(result: PartDecodeResult, extraFields: Record<string, unknown>): Set<string> {
+  const covered = new Set<string>();
+  const add = (value: unknown): void => {
+    for (const token of compositeDescriptorTokens(value)) {
+      covered.add(token);
+    }
+  };
+
+  add(result.device?.chipKind);
+  add(result.device?.productType);
+  add(extraFields["Product Type"]);
+  add(extraFields["Storage Interface"]);
+  add(extraFields["Storage Density"]);
+  add(extraFields["DRAM Type"]);
+  add(extraFields["DRAM Speed"]);
+  add(extraFields["Cell Level"]);
+  return covered;
+}
+
+function coversDramFamilyToken(token: string, covered: Set<string>): boolean {
+  if (/^lpddr[2-5]$/.test(token) && covered.has(`${token}x`)) {
+    return true;
+  }
+  if (/^ddr[2-5]$/.test(token)) {
+    return covered.has(`lp${token}`) || covered.has(`lp${token}x`);
+  }
+  if (token === "lpddr") {
+    return [...covered].some((item) => item === "lpdram" || item.startsWith("lpddr"));
+  }
+  if (token === "lpdram") {
+    return [...covered].some((item) => item === "lpdram" || item.startsWith("lpddr"));
+  }
+  return false;
+}
+
+function isCompositeDescriptorTokenCovered(token: string, type: string, covered: Set<string>): boolean {
+  if (compositeDescriptorFillerTokens.has(token) || covered.has(token)) {
+    return true;
+  }
+  if (token === "mcp" && ["mcp", "emcp", "umcp"].includes(type)) {
+    return true;
+  }
+  if (token === "nand" && covered.has("nand")) {
+    return true;
+  }
+  if (token === "emmc" && (covered.has("emmc") || type === "emcp")) {
+    return true;
+  }
+  if (token === "ufs" && (covered.has("ufs") || type === "umcp")) {
+    return true;
+  }
+  return coversDramFamilyToken(token, covered);
+}
+
+function isRedundantManagedNandCompositeDescriptor(value: unknown, result: PartDecodeResult, extraFields: Record<string, unknown>): boolean {
+  const type = normalizeText(resultType(result));
+  if (!["mcp", "emcp", "umcp"].includes(type)) {
+    return false;
+  }
+
+  const tokens = compositeDescriptorTokens(value, result.device?.vendor.id);
+  if (tokens.length === 0) {
+    return false;
+  }
+
+  const covered = managedNandCompositeCoverage(result, extraFields);
+  return tokens.every((token) => isCompositeDescriptorTokenCovered(token, type, covered));
 }
 
 function isInternalCodeFieldKey(key: string): boolean {
@@ -198,6 +287,15 @@ function collectPublicOutputFindings(partNumber: string, result: PartDecodeResul
   }
   if (productFamily && (productFamily === productVersion || productFamily === normalizeText(extraFields["Storage Interface"]) || productFamily === type)) {
     findings.push(`${partNumber}: redundant Product Family=${extraFields["Product Family"]}`);
+  }
+  if (isRedundantManagedNandCompositeDescriptor(extraFields["Product Version"], result, extraFields)) {
+    findings.push(`${partNumber}: redundant Product Version=${extraFields["Product Version"]}`);
+  }
+  if (isRedundantManagedNandCompositeDescriptor(extraFields["Product Family"], result, extraFields)) {
+    findings.push(`${partNumber}: redundant Product Family=${extraFields["Product Family"]}`);
+  }
+  if (isRedundantManagedNandCompositeDescriptor(extraFields["Product Mode"], result, extraFields)) {
+    findings.push(`${partNumber}: redundant Product Mode=${extraFields["Product Mode"]}`);
   }
   if (managedFamily && (managedFamily === type || managedFamily === system || managedFamily === normalizeText(extraFields["Product Family"]))) {
     findings.push(`${partNumber}: redundant Managed Family=${extraFields["Managed Family"]}`);
@@ -528,6 +626,13 @@ export function assertFieldBlock(partNumber: string, key: string, expectedBlockI
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(result.status, "ok", `${partNumber} should decode`);
   assert.equal(blockIdForField(result, key), expectedBlockId, `${partNumber} ${key} should be in ${expectedBlockId}`);
+}
+
+export function assertNoAdditionalFields(partNumber: string): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode`);
+  const additional = result.blocks.find((block) => block.id === "additional");
+  assert.equal(additional, undefined, `${partNumber} should not expose an Additional Fields block`);
 }
 
 export function assertFdbProcessFallback(partNumber: string, expected: string): void {

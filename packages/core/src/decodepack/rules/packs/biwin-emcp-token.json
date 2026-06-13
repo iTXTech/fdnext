@@ -48,7 +48,6 @@
         },
         "densityKeyObj": {
           "EZA:32G": {
-            "product_family": "eMCP4X",
             "storage_interface": "eMMC 5.1",
             "storage_density": "32GB eMMC",
             "dram_density": "16Gb",
@@ -57,7 +56,6 @@
             "operation_temperature": "-25°C ~ +85°C"
           },
           "KZC:32G": {
-            "product_family": "eMCP4X",
             "storage_interface": "eMMC 5.1",
             "storage_density": "32GB eMMC",
             "dram_density": "32Gb",
@@ -66,7 +64,6 @@
             "operation_temperature": "-25°C ~ +85°C"
           },
           "KZC:64G": {
-            "product_family": "eMCP4X",
             "storage_interface": "eMMC 5.1",
             "storage_density": "64GB eMMC",
             "dram_density": "32Gb",
@@ -75,7 +72,6 @@
             "operation_temperature": "-25°C ~ +85°C"
           },
           "KZA:128G": {
-            "product_family": "eMCP4X",
             "storage_interface": "eMMC 5.1",
             "storage_density": "128GB eMMC",
             "dram_type": "LPDDR4X",
@@ -277,7 +273,6 @@
         },
         "densityKeyObj": {
           "KZC02:64G": {
-            "product_family": "uMCP LPDDR4X",
             "storage_interface": "UFS 2.2",
             "storage_density": "64GB UFS",
             "dram_density": "32Gb",
@@ -286,7 +281,6 @@
             "operation_temperature": "-25°C ~ +85°C"
           },
           "LEI02:128G": {
-            "product_family": "uMCP LPDDR4X",
             "storage_interface": "UFS 2.2",
             "storage_density": "128GB UFS",
             "dram_density": "48Gb",
@@ -295,7 +289,6 @@
             "operation_temperature": "-25°C ~ +85°C"
           },
           "MZC02:128G": {
-            "product_family": "uMCP LPDDR4X",
             "storage_interface": "UFS 2.2",
             "storage_density": "128GB UFS",
             "dram_density": "64Gb",
@@ -304,7 +297,6 @@
             "operation_temperature": "-25°C ~ +85°C"
           },
           "MZC02:256G": {
-            "product_family": "uMCP LPDDR4X",
             "storage_interface": "UFS 2.2",
             "storage_density": "256GB UFS",
             "dram_density": "64Gb",
@@ -313,7 +305,6 @@
             "operation_temperature": "-25°C ~ +85°C"
           },
           "MZCNY:512G": {
-            "product_family": "uMCP LPDDR4X",
             "storage_interface": "UFS 2.2",
             "storage_density": "512GB UFS",
             "dram_density": "64Gb",

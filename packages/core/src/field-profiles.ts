@@ -50,25 +50,78 @@ export const fdnextFieldProfiles = {
         id: "storage",
         label: "Storage",
         importance: "primary",
-        fields: ["storage_density", "density", "storage_interface", "sector_size", "cell_level", "die_codename", "process_alias", "generation_info", "layer_count", "product_generation", "series_info"]
+        fields: [
+          "storage_density",
+          "density",
+          "storage_interface",
+          "sector_size",
+          "cell_level",
+          "nand_technology",
+          "die_codename",
+          "process_alias",
+          "generation_info",
+          "layer_count",
+          "product_generation",
+          "product_version",
+          "product_family",
+          "product_mode",
+          "series_info"
+        ]
       },
       {
         id: "components",
         label: "Components",
         importance: "secondary",
-        fields: ["component_density", "component_width", "component_voltage", "nand_component", "dram_density", "dram_configuration", "dram_type", "dram_width"]
+        fields: [
+          "component_density",
+          "component_width",
+          "component_voltage",
+          "nand_component",
+          "die_density",
+          "die_stack",
+          "die_count",
+          "ce_count",
+          "dram_density",
+          "dram_configuration",
+          "dram_type",
+          "dram_width",
+          "dram_die_density",
+          "dram_die_stack",
+          "channel_count",
+          "cs_count",
+          "dram_voltage",
+          "dram_speed"
+        ]
       },
       {
         id: "interface",
         label: "Interface",
         importance: "secondary",
-        fields: ["storage_interface", "device_width", "voltage"]
+        fields: ["storage_interface", "device_width", "voltage", "interface_type", "speed_grade"]
       },
       {
         id: "package",
         label: "Package",
         importance: "detail",
-        fields: ["package", "package_code", "product_class", "assembly", "segment", "lead_free", "halogen_free", "wafer", "bad_block", "sku", "multi_chip", "cu", "operation_temperature", "special_option"]
+        fields: [
+          "package",
+          "package_code",
+          "package_configuration",
+          "product_class",
+          "assembly",
+          "segment",
+          "lead_free",
+          "halogen_free",
+          "wafer",
+          "bad_block",
+          "sku",
+          "multi_chip",
+          "cu",
+          "operation_temperature",
+          "prod_status",
+          "die_revision",
+          "special_option"
+        ]
       },
       { id: "controllers", label: "Controllers", importance: "detail", fields: ["controller", "controller_code", "controller_revision"] }
     ]

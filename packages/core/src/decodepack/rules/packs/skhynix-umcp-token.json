@@ -52,7 +52,6 @@
         },
         "interfaceObj": {
           "6": {
-            "product_version": "UFS 2.2 / LPDDR4X",
             "storage_interface": "UFS 2.2"
           }
         },
@@ -161,8 +160,6 @@
           "value": {
             "system": "SK hynix uMCP",
             "group": "uMCP",
-            "product_mode": "LPDDR4 uMCP",
-            "product_family": "UFS + LPDDR4X",
             "density_code": {
               "$var": "densityCode"
             },
@@ -271,7 +268,6 @@
           "15": {
             "storage_density": 1048576,
             "dram_density": 32768,
-            "product_version": "UFS + LPDDR4X",
             "dram_type": "LPDDR4X",
             "storage_interface": "UFS"
           }
@@ -308,7 +304,6 @@
           "value": {
             "system": "SK hynix uMCP",
             "group": "uMCP",
-            "product_family": "UFS + LPDDR4X",
             "density_code": {
               "$var": "densityCode"
             },

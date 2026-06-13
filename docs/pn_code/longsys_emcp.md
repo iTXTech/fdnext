@@ -33,11 +33,10 @@ PN 结构：
 - `storage_interface`
 - `dram_density`
 - `dram_type`
-- `product_family`
 - `nand_technology`
 - `operation_temperature`
 
-`package_code` 等 ordering token 只用于内部解析，不进入公开字段。
+`eMCP3/eMCP4x/uMCP4x` 这类组合由 `device.productType`、`storage_interface`、`storage_density` 和 `dram_type` 分别表达，不额外输出 `product_family`。`package_code` 等 ordering token 只用于内部解析，不进入公开字段。
 
 ## 测试样例
 

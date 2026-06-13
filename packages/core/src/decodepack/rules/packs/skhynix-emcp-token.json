@@ -38,7 +38,6 @@
             "dram_die_stack": 4,
             "channel_count": 2,
             "cs_count": 2,
-            "product_version": "eMMC 5.1 / LPDDR4X",
             "storage_interface": "eMMC 5.1"
           },
           "52": {
@@ -49,7 +48,6 @@
             "dram_die_stack": 4,
             "channel_count": 2,
             "cs_count": 2,
-            "product_version": "eMMC 5.1 / LPDDR4X",
             "storage_interface": "eMMC 5.1"
           }
         },
@@ -223,8 +221,6 @@
           "value": {
             "system": "SK hynix eMCP",
             "group": "eMCP",
-            "product_mode": "eMCP NAND DDR4",
-            "product_family": "eMMC + LPDDR4X",
             "density_code": {
               "$var": "densityCode"
             },
@@ -363,20 +359,18 @@
           "H9TP": {
             "system": "SK hynix CI-MCP",
             "group": "eMCP",
-            "product_mode": "CI-MCP NAND DDR2",
-            "product_family": "e-NAND + LPDDR2"
+            "product_mode": "CI-MCP",
+            "product_family": "e-NAND"
           },
           "H9TQ": {
             "system": "SK hynix CI-MCP",
             "group": "eMCP",
-            "product_mode": "CI-MCP NAND DDR3",
-            "product_family": "e-NAND + LPDDR3"
+            "product_mode": "CI-MCP",
+            "product_family": "e-NAND"
           },
           "H9HC": {
             "system": "SK hynix eMCP",
-            "group": "eMCP",
-            "product_mode": "eMCP",
-            "product_family": "eMMC + LPDDR"
+            "group": "eMCP"
           }
         },
         "storageDensity": {
@@ -389,35 +383,28 @@
         "storageDensityObj": {
           "17": {
             "storage_density": 131072,
-            "product_version": "eMMC 5.0 / LPDDR3",
             "storage_interface": "eMMC 5.0",
             "die_count": 2,
             "cell_level": "MLC"
           },
           "27": {
             "storage_density": 262144,
-            "product_family": "eMMC + LPDDR3",
-            "product_version": "eMMC 5.1 / LPDDR3",
             "storage_interface": "eMMC 5.1",
             "die_count": 2,
             "cell_level": "MLC"
           },
           "32": {
             "storage_density": 32768,
-            "product_version": "eMMC 4.41 / LPDDR2",
             "storage_interface": "eMMC 4.41",
             "die_count": 1,
             "cell_level": "MLC"
           },
           "52": {
             "storage_density": 524288,
-            "product_version": "eMMC 5.1 / LPDDR4X",
             "storage_interface": "eMMC 5.1"
           },
           "64": {
             "storage_density": 65536,
-            "product_family": "eMMC + LPDDR3",
-            "product_version": "eMMC 5.1 / LPDDR3",
             "storage_interface": "eMMC 5.1",
             "die_count": 1,
             "cell_level": "MLC"
@@ -860,7 +847,6 @@
         },
         "interfaceObj": {
           "B": {
-            "product_version": "eMMC 5.0 / LPDDR4X",
             "storage_interface": "eMMC 5.0"
           }
         },
@@ -969,8 +955,6 @@
           "value": {
             "system": "SK hynix eMCP",
             "group": "eMCP",
-            "product_mode": "LPDDR4 eMCP",
-            "product_family": "eMMC + LPDDR4X",
             "density_code": {
               "$var": "densityCode"
             },

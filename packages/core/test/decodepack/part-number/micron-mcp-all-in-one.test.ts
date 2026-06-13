@@ -20,6 +20,7 @@ import {
   assertKioxiaRawSuffixTopology,
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
+  assertNoAdditionalFields,
   assertNotFound,
   assertPart,
   assertRuleDoesNotMatch,
@@ -85,7 +86,6 @@ assertPart("MT29AZ5A3CHHWD-18AIT.84F", {
   voltage: "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.2V/1.2V",
   package: "162-ball 8.0x10.5x0.9mm",
   extra: {
-    "Product Family": "Micron NAND MCP",
     "Product Mode": "SLC NAND + LPDDR2",
     "Storage Density": "4Gb NAND",
     "Storage Interface": "Parallel NAND",
@@ -97,7 +97,7 @@ assertPart("MT29AZ5A3CHHWD-18AIT.84F", {
     "Operation Temperature": "Automotive industrial (-40°C ~ 85°C)",
     "Die Revision": "84F"
   },
-  absentExtra: ["Config Code", "Package Code", "Speed Grade", "Special Option"]
+  absentExtra: ["Product Family", "Config Code", "Package Code", "Speed Grade", "Special Option"]
 });
 
 assertPart("MT29JZZZ2DWMAFJV-6IES.63m", {
@@ -125,3 +125,11 @@ assertPart("MT29JZZZ2DWMAFJV-6IES.63m", {
 });
 assertHiddenPublicField("MT29AZ5A3CHHWD-18AIT.84F", "density", 4096);
 assertHiddenComponentRelations("MT29AZ5A3CHHWD-18AIT.84F");
+
+for (const partNumber of [
+  "MT29RZ4C4DZZMGMF-18W.80C",
+  "MT29AZ5A3CHHWD-18AIT.84F",
+  "MT29JZZZ2DWMAFJV-6IES.63m"
+]) {
+  assertNoAdditionalFields(partNumber);
+}
