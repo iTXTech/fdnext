@@ -4,10 +4,10 @@ This directory is the canonical home for fdnext usage, maintenance, and rule-aut
 
 | Document | Scope |
 | --- | --- |
-| [Integration guide](INTEGRATION.md) | SDK setup, browser resources, server startup, and deployment notes |
+| [Integration guide](INTEGRATION.md) | SDK setup, browser runtime data, server startup, and deployment notes |
 | [Server API](SERVER_API.md) | Canonical HTTP routes, query parameters, response contract, status behavior, and CORS rules |
 | [Cloudflare Workers deployment](CF_WORKERS.md) | Wrangler config, local dev, deployment, and Worker-specific External Link notes |
-| [FDBGen documentation](FDBGEN.md) | FDB generation, MDB crawling, raw input layout, cleanup rules, and crawler behavior |
+| [FDBGen documentation](FDBGEN.md) | FDB generation, MDB crawling, runtime data generation, raw input layout, cleanup rules, and crawler behavior |
 | [fdnext fdbgen v1 support list](FDBGEN_FORMAT_V1.md) | Standard post-extraction support-list JSON format for fdbgen import tools |
 | [DecodePack specification](DECODEPACK.md) | PN and typed identifier iTXTech fdnext DecodePack authoring, output fields, and validation commands |
 | [PN code reference index](pn_code/README.md) | Vendor/product-line PN reference documents and maintenance boundaries |

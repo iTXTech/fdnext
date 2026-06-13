@@ -20,6 +20,12 @@ export default defineConfig([
     },
     platform: "neutral"
   }),
+  fdnextBundleConfig({
+    entry: {
+      external: "src/external.ts"
+    },
+    platform: "neutral"
+  }),
   fdnextNodeBundleConfig(
     {
       entry: {

@@ -1,10 +1,8 @@
 import assert from "node:assert/strict";
 import { createEngine } from "../../src/index";
-import { embeddedResourceBundle } from "../../src/resources";
 import { compileDecodePack, defaultDecodePack, explainIdentifierDecode } from "../../src/decodepack";
 
-const engine = createEngine({
-  resources: embeddedResourceBundle,
+const engine = await createEngine({
   decoders: compileDecodePack(defaultDecodePack).partDecoders,
   identifierDecoders: compileDecodePack(defaultDecodePack).identifierDecoders
 });

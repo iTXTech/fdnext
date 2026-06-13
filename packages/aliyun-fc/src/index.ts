@@ -41,9 +41,11 @@ function writeJsonResponse(response: ServerResponse, status: number, headers: Re
 
 export function createAliyunFcHandler(options: AliyunFcHandlerOptions = {}) {
   const cors = options.cors ?? createFdnextCorsOptionsFromEnv(process.env);
-  const runtime = options.runtime ?? createRuntime({ ...options.runtimeOptions, ...(cors ? { cors } : {}) });
+  let runtimePromise: Promise<FdnextRuntime> | undefined = options.runtime ? Promise.resolve(options.runtime) : undefined;
   return async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
     try {
+      runtimePromise ??= createRuntime({ ...options.runtimeOptions, ...(cors ? { cors } : {}) });
+      const runtime = await runtimePromise;
       const result = await runtime.handleHttp({
         method: request.method ?? "GET",
         url: nodeRequestUrl(request),

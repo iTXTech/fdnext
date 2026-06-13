@@ -23,10 +23,12 @@
     "cli": "pnpm -s tsx ./packages/core/src/cli/index.ts",
     "fdbgen:build": "pnpm -C packages/fdbgen build",
     "fdbgen:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build",
-    "fdbgen:audit": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/core/resources/fdb.json",
+    "fdbgen:audit": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/core/data-source/fdb.json",
     "fdbgen:audit-extra": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit-extra",
     "fdbgen:audit:trace": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --trace-sources",
     "fdbgen:crawl-mdb": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb",
+    "runtime-data:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build-runtime --source packages/core/data-source --output packages/core/runtime-data/fdnext-runtime-data.json",
+    "runtime-data:check": "pnpm -s tsx ./packages/fdbgen/src/cli.ts check-runtime --source packages/core/data-source --file packages/core/runtime-data/fdnext-runtime-data.json",
     "contract:check": "pnpm -C packages/contract-test check"
   },
   "devDependencies": {

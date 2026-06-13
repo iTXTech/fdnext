@@ -10,13 +10,16 @@ export interface CfWorkersEntrypoint {
 }
 
 export function createCfWorkersAdapter(options: FdnextRuntimeOptions = {}): CfWorkersEntrypoint {
-  const runtime = createRuntime(options);
+  let runtimePromise: ReturnType<typeof createRuntime> | undefined;
   return {
     fetch(request, env) {
-      return runtime.fetch(request, {
-        adapter: "cf-workers",
-        cors: createFdnextCorsOptionsFromEnv(env)
-      });
+      runtimePromise ??= createRuntime(options);
+      return runtimePromise.then((runtime) =>
+        runtime.fetch(request, {
+          adapter: "cf-workers",
+          cors: createFdnextCorsOptionsFromEnv(env)
+        })
+      );
     }
   };
 }

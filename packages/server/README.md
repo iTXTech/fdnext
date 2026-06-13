@@ -23,10 +23,10 @@ pnpm install
 pnpm server:dev
 ```
 
-With a custom resource directory:
+With a custom runtime data file:
 
 ```bash
-pnpm -C packages/server dev -- --resources /path/to/resources
+pnpm -C packages/server dev -- --runtime-data packages/core/runtime-data/fdnext-runtime-data.json
 ```
 
 ### Production
@@ -41,14 +41,14 @@ pnpm server:start
 After building, the `fdnext-server` binary is available:
 
 ```bash
-fdnext-server [--host 0.0.0.0] [--port 8080] [--resources /path/to/resources]
+fdnext-server [--host 0.0.0.0] [--port 8080] [--runtime-data /path/to/fdnext-runtime-data.json]
 ```
 
 | Flag | Default | Description |
 | :--- | :--- | :--- |
 | `--host` | `0.0.0.0` | Bind address |
 | `--port` | `8080` | Listen port |
-| `--resources` | embedded | External resource directory (overrides built-in resources) |
+| `--runtime-data` | embedded | External runtime data JSON file (overrides built-in runtime data) |
 
 ### PM2 Deployment
 
@@ -69,10 +69,10 @@ See `Dockerfile` in the repository root for a minimal container image.
 ```ts
 import { createHttpServer } from "@itxtech/fdnext-server";
 
-const app = createHttpServer({
+const app = await createHttpServer({
   host: "0.0.0.0",
   port: 8080,
-  resourceDir: "/path/to/resources"  // optional
+  runtimeDataFile: "/path/to/fdnext-runtime-data.json"  // optional
 });
 
 await app.listen();

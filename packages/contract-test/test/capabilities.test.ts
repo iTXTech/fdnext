@@ -9,11 +9,11 @@ import {
   fdnextProductTypes
 } from "../../core/src/index";
 import { fdnextFieldKeys } from "../../core/src/field-registry";
-import { embeddedResourceBundle } from "../../core/src/resources";
+import { getEmbeddedRuntimeData, languagePacksFromRuntimeData } from "../../core/src/index";
 import { createContractEngine } from "../src/index";
 import { assertCapabilitiesBuildTime, fdnextPackageVersion } from "./_helpers";
 
-const engine = createContractEngine();
+const engine = await createContractEngine();
 const sdkCapabilities = engine.getCapabilities();
 assert.equal(FDNEXT_VERSION, fdnextPackageVersion);
 assert.equal(sdkCapabilities.server.version, fdnextPackageVersion);
@@ -82,14 +82,15 @@ assert.equal(
   sdkCapabilities.inventory.controllers.groups[0]?.items?.length
 );
 
-assert.ok(embeddedResourceBundle.partIndex.rawNand);
-assert.ok(embeddedResourceBundle.identifierIndex.nandFlash);
-assert.ok(embeddedResourceBundle.markingIndex.packageMarkings);
-assert.ok(embeddedResourceBundle.translationIndex.eng);
-assert.equal("embeddedResources" in { embeddedResourceBundle }, false);
-assert.equal("fdbRaw" in { embeddedResourceBundle }, false);
+const embeddedRuntimeData = getEmbeddedRuntimeData();
+assert.equal(embeddedRuntimeData.v, "fdnext.runtime.v1");
+assert.match(embeddedRuntimeData.src, /^[0-9A-F]{8}$/);
+assert.ok(embeddedRuntimeData.d.f.p);
+assert.ok(embeddedRuntimeData.d.f.id);
+assert.ok(embeddedRuntimeData.d.m.mi);
+assert.ok(embeddedRuntimeData.d.l.eng);
 
-const lang = embeddedResourceBundle.translationIndex;
+const lang = languagePacksFromRuntimeData(embeddedRuntimeData.d.l);
 assert.deepEqual(Object.keys(lang.chs).sort(), Object.keys(lang.eng).sort(), "language packs must have 100% matching keys");
 const requiredTranslationKeys = new Set([
   ...fdnextFieldKeys,

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { performance } from "node:perf_hooks";
 import { createContractEngine } from "../src/index";
 
-const engine = createContractEngine();
+const engine = await createContractEngine();
 const SEARCH_MEDIAN_BUDGET_MS = 100;
 const IDENTIFIER_SEARCH_MEDIAN_BUDGET_MS = 30;
 

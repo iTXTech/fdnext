@@ -58,4 +58,4 @@ EM6 + family/generation token + density token + width token + revision/core toke
 - DDR3/DDR3L datasheet suffix 中的 `S` 输出 `dram_die_stack`，`I/A/B` 输出对应温度 /车规等级；没有这些 suffix token 时不推断。
 - LPDDR4/4X 如果有 speed token，只输出该 token 对应的具体速率；遇到未知 speed token 时也不回退输出 family 级速度范围。没有 speed token 的 family/base PN 才保留产品族速度范围。
 - LPDDR4/4X suffix 中的 `S` 输出 `dram_die_stack`，`P` 输出 `ecc_enabled`，`I/B` 输出对应温度等级；没有这些 suffix token 时不推断。
-- `packages/core/resources/dram-pn.json` 收录标准 ordering PN，用于搜索补全；本轮从 DDR~DDR4 datasheet 前两页新增 181 个带 speed suffix 的 Etron ordering PN。解码仍由 token 规则完成，不把补全表当作白名单。
+- `packages/core/data-source/dram-pn.json` 收录标准 ordering PN，用于搜索补全；本轮从 DDR~DDR4 datasheet 前两页新增 181 个带 speed suffix 的 Etron ordering PN。解码仍由 token 规则完成，不把补全表当作白名单。

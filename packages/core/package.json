@@ -1,7 +1,7 @@
 {
   "name": "@itxtech/fdnext-core",
   "version": "3.1.0",
-  "description": "Core fdnext memory chip parsing engine, rules, resources, runtime, CLI, and result contracts",
+  "description": "Core fdnext memory chip parsing engine, rules, runtime data, runtime, CLI, and result contracts",
   "license": "AGPL-3.0-or-later",
   "type": "module",
   "sideEffects": false,
@@ -10,7 +10,7 @@
   "files": [
     "dist/**/*.js",
     "dist/**/*.d.ts",
-    "resources/**/*.json"
+    "runtime-data/fdnext-runtime-data.json"
   ],
   "exports": {
     ".": {
@@ -24,19 +24,19 @@
     "./runtime": {
       "types": "./dist/src/runtime/index.d.ts",
       "default": "./dist/runtime.js"
-    }
+    },
+    "./external": {
+      "types": "./dist/src/external.d.ts",
+      "default": "./dist/external.js"
+    },
+    "./runtime-data/fdnext-runtime-data.json": "./runtime-data/fdnext-runtime-data.json"
   },
-  "bin": {
-    "fdnext": "dist/cli.js"
+  "imports": {
+    "#runtime-data": "./runtime-data/fdnext-runtime-data.json"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/iTXTech/fdnext.git",
-    "directory": "packages/core"
-  },
-  "homepage": "https://github.com/iTXTech/fdnext/tree/master/packages/core",
-  "bugs": {
-    "url": "https://github.com/iTXTech/fdnext/issues"
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "keywords": [
     "fdnext",
@@ -48,9 +48,17 @@
     "cli",
     "parser"
   ],
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iTXTech/fdnext.git",
+    "directory": "packages/core"
+  },
+  "homepage": "https://github.com/iTXTech/fdnext/tree/master/packages/core",
+  "bugs": {
+    "url": "https://github.com/iTXTech/fdnext/issues"
+  },
+  "bin": {
+    "fdnext": "dist/cli.js"
   },
   "scripts": {
     "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly && tsdown",

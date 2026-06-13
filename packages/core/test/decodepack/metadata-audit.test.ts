@@ -4,7 +4,6 @@ import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { createEngine } from "../../src/index";
 import { fdnextFieldRegistry } from "../../src/field-registry";
-import { embeddedResourceBundle } from "../../src/resources";
 import {
   checkDecodePack,
   compileDecodePack,
@@ -21,6 +20,10 @@ const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
 
 function repoPath(path: string): string {
   return join(repoRoot, path);
+}
+
+function readJson(file: string): unknown {
+  return JSON.parse(readFileSync(file, "utf8"));
 }
 
 const legacyMetadataKeys = new Set([
@@ -127,7 +130,12 @@ function collectPotentialSamples(value: unknown, samples: Set<string> = new Set(
 
 function assertRuntimeDecodePackFieldsAreRegistered(): void {
   const decoders = compileDecodePack(defaultDecodePack).partDecoders;
-  const samples = collectPotentialSamples(embeddedResourceBundle.partIndex);
+  const samples = collectPotentialSamples([
+    readJson(repoPath("packages/core/data-source/fdb.json")),
+    readJson(repoPath("packages/core/data-source/managed-nand-pn.json")),
+    readJson(repoPath("packages/core/data-source/dram-pn.json")),
+    readJson(repoPath("packages/core/data-source/mdb.json"))
+  ]);
   const missing = new Map<string, number>();
 
   for (const sample of samples) {
@@ -333,7 +341,7 @@ function readNandDieProfileTable(): Record<string, Record<string, unknown>> {
 }
 
 function assertLangPacksAreConsistent(): void {
-  const langDir = "packages/core/resources/lang";
+  const langDir = "packages/core/data-source/lang";
   assert.deepEqual(
     readdirSync(repoPath(langDir)).sort(),
     ["chs.json", "eng.json"],
@@ -413,7 +421,7 @@ function assertSkhynixH25RulesAreConsolidated(): void {
 
 function assertLangKeysUseSnakeCase(): void {
   const allowed = new Set(["eMMC"]);
-  for (const file of ["packages/core/resources/lang/eng.json", "packages/core/resources/lang/chs.json"]) {
+  for (const file of ["packages/core/data-source/lang/eng.json", "packages/core/data-source/lang/chs.json"]) {
     const lang = readLangPack(file);
     const camelKeys = Object.keys(lang).filter((key) => /[a-z][A-Z]/.test(key) && !allowed.has(key));
     assert.deepEqual(camelKeys, [], `${file} should not contain camelCase keys`);
@@ -437,8 +445,7 @@ function assertReadmeIsOnlyIndex(): void {
   }
 }
 
-const engine = createEngine({
-  resources: embeddedResourceBundle,
+const engine = await createEngine({
   decoders: compileDecodePack(defaultDecodePack).partDecoders,
   identifierDecoders: compileDecodePack(defaultDecodePack).identifierDecoders
 });

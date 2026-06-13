@@ -2,8 +2,9 @@ import { UNKNOWN } from "./constants";
 import { draftDensity, draftField, draftVendor } from "./draft";
 import { asRecord, inferChipKindFromDraft, inferProductTypeFromDraft, isKnownInfoValue, normalizeInfoText } from "./device-inference";
 import type { FdnextChipKind, FdnextProductType, OperationConstraints, ResultWarning } from "./result";
-import type { FdbDataset, FlashIdRecord, KnownPartNumberEntry, MdbDataset, PartDecodeDraft } from "./types";
-import { normalizeFlashId, normalizePartNumber, normalizePartNumberTokenKey } from "./utils/normalize";
+import type { RuntimeIndexRefBucket, RuntimeMarkingIndexRow, RuntimePartIndexRow, RuntimeSearchSection } from "./runtime-data";
+import type { PartDecodeDraft } from "./types";
+import { normalizePartNumber, normalizePartNumberTokenKey } from "./utils/normalize";
 import { contains } from "./utils/string";
 
 export type PartIndexSource = "managed_nand" | "dram" | "fdb" | "mdb" | "fallback";
@@ -18,13 +19,6 @@ export interface PartIndexRecord {
   productType?: FdnextProductType;
   markingCode?: string;
   source: PartIndexSource;
-}
-
-export interface IdentifierIndexRecord {
-  identifier: string;
-  idScheme: "nand.flash_id";
-  record: FlashIdRecord;
-  source: IdentifierIndexSource;
 }
 
 export interface MarkingIndexRecord {
@@ -44,17 +38,38 @@ export interface VendorIndexRecord {
   identifiers: Set<string>;
 }
 
-type IndexRefBucket = number | number[];
-
 export interface NormalizedIndexes {
-  partIndex: PartIndexRecord[];
-  identifierIndex: Map<string, IdentifierIndexRecord>;
-  markingIndex: MarkingIndexRecord[];
-  partExactIndex: Map<string, IndexRefBucket>;
-  markingExactIndex: Map<string, IndexRefBucket>;
-  partPrefixIndex: Map<string, IndexRefBucket>;
-  markingPrefixIndex: Map<string, IndexRefBucket>;
-  vendorIndex: Map<string, VendorIndexRecord>;
+  partIndex: RuntimePartIndexRow[];
+  identifierIndex: string[];
+  markingIndex: RuntimeMarkingIndexRow[];
+  partExactIndex: Record<string, RuntimeIndexRefBucket>;
+  markingExactIndex: Record<string, RuntimeIndexRefBucket>;
+  partPrefixIndex: Record<string, RuntimeIndexRefBucket>;
+  markingPrefixIndex: Record<string, RuntimeIndexRefBucket>;
+}
+
+export function partIndexRecordFromRow(row: RuntimePartIndexRow): PartIndexRecord {
+  return {
+    partNumber: row[0],
+    normalizedPartNumber: row[1],
+    vendor: row[2],
+    chipKind: row[3] as FdnextChipKind,
+    ...(row[4] ? { productType: row[4] as FdnextProductType } : {}),
+    ...(row[5] ? { markingCode: row[5] } : {}),
+    source: row[6] as PartIndexSource
+  };
+}
+
+export function markingIndexRecordFromRow(row: RuntimeMarkingIndexRow): MarkingIndexRecord {
+  return {
+    markingCode: row[0],
+    vendor: row[1],
+    partNumber: row[2],
+    normalizedPartNumber: row[3],
+    chipKind: row[4] as FdnextChipKind,
+    ...(row[5] ? { productType: row[5] as FdnextProductType } : {}),
+    source: row[6] as MarkingIndexSource
+  };
 }
 
 export interface PartClassificationCandidate {
@@ -80,14 +95,6 @@ export interface PartClassification {
   selected?: PartClassificationCandidate;
   candidates: PartClassificationCandidate[];
   warnings: ResultWarning[];
-}
-
-export interface BuildNormalizedIndexesInput {
-  fdb: FdbDataset;
-  mdb: MdbDataset;
-  managedNandPartNumbers: KnownPartNumberEntry[];
-  dramPartNumbers: KnownPartNumberEntry[];
-  micronDramFbgaCodes: Map<string, string[]>;
 }
 
 export interface ClassifyPartOptions {
@@ -204,7 +211,7 @@ const PART_PREFIX_PROFILES = [
 
 const MARKING_PREFIX_PROFILES = ["C9", "D8", "D9", "Z8", "Z9", "NC", "NW", "NY", "NX", "NQ", "NV", "PF"];
 
-function addIndexRef(index: Map<string, IndexRefBucket>, key: string, ref: number): void {
+function addIndexRef(index: Map<string, RuntimeIndexRefBucket>, key: string, ref: number): void {
   if (!key) {
     return;
   }
@@ -234,12 +241,12 @@ function matchingProfile(value: string, profiles: string[]): string | undefined 
   return matched;
 }
 
-function addExactIndexKeys(index: Map<string, IndexRefBucket>, value: string, ref: number): void {
+function addExactIndexKeys(index: Map<string, RuntimeIndexRefBucket>, value: string, ref: number): void {
   addIndexRef(index, value, ref);
   addIndexRef(index, normalizePartNumberTokenKey(value), ref);
 }
 
-function addPrefixIndexKeys(index: Map<string, IndexRefBucket>, value: string, ref: number, profiles: string[]): void {
+function addPrefixIndexKeys(index: Map<string, RuntimeIndexRefBucket>, value: string, ref: number, profiles: string[]): void {
   const profile = matchingProfile(value, profiles);
   const tokenKey = normalizePartNumberTokenKey(value);
   const tokenProfile = matchingProfile(tokenKey, profiles);
@@ -256,134 +263,6 @@ function chipKindForMdbPart(partNumber: string): FdnextChipKind {
 
 function shouldPreferDecodedClassification(source: PartIndexSource | MarkingIndexSource): boolean {
   return source === "mdb" || source === "micron_fbga" || source === "spectek_fbga";
-}
-
-export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): NormalizedIndexes {
-  const partRecords = new Map<string, PartIndexRecord>();
-  const identifierIndex = new Map<string, IdentifierIndexRecord>();
-  const markingIndex: MarkingIndexRecord[] = [];
-  const vendorIndex = new Map<string, VendorIndexRecord>();
-
-  const addPart = (
-    vendor: string,
-    partNumberRaw: string,
-    chipKind: FdnextChipKind,
-    source: PartIndexSource,
-    productType?: FdnextProductType,
-    markingCodeRaw?: string
-  ): void => {
-    const partNumber = normalizePartNumber(partNumberRaw);
-    const markingCode = markingCodeRaw ? normalizeMarkingCode(markingCodeRaw) : "";
-    if (!vendor || !partNumber) {
-      return;
-    }
-    addPartRecord(partRecords, {
-      partNumber,
-      normalizedPartNumber: partNumber,
-      vendor,
-      chipKind,
-      ...(productType ? { productType } : {}),
-      ...(markingCode ? { markingCode } : {}),
-      source
-    });
-    createVendorIndexRecord(vendorIndex, vendor).partNumbers.add(partNumber);
-  };
-
-  for (const entry of input.managedNandPartNumbers) {
-    addPart(entry.vendor, entry.pn, "managed_nand", "managed_nand");
-  }
-
-  for (const entry of input.dramPartNumbers) {
-    addPart(entry.vendor, entry.pn, "dram", "dram");
-  }
-
-  for (const [vendor, partNumbers] of input.fdb.vendors.entries()) {
-    for (const partNumber of partNumbers.keys()) {
-      addPart(vendor, partNumber, "raw_nand", "fdb");
-    }
-  }
-
-  const addMarking = (vendor: string, codeRaw: string, partNumberRaw: string, source: MarkingIndexSource): void => {
-    const markingCode = normalizeMarkingCode(codeRaw);
-    const partNumber = normalizePartNumber(partNumberRaw);
-    if (!markingCode || !partNumber) {
-      return;
-    }
-    const chipKind = chipKindForMdbPart(partNumber);
-    const record: MarkingIndexRecord = {
-      markingCode,
-      vendor,
-      partNumber,
-      normalizedPartNumber: partNumber,
-      chipKind,
-      source
-    };
-    markingIndex.push(record);
-    createVendorIndexRecord(vendorIndex, vendor).markings.add(markingCode);
-    addPart(vendor, partNumber, chipKind, "mdb", undefined, markingCode);
-  };
-
-  for (const [code, partNumbers] of input.micronDramFbgaCodes.entries()) {
-    for (const partNumber of partNumbers) {
-      addMarking("micron", code, partNumber, "micron_fbga");
-    }
-  }
-
-  for (const [code, partNumber] of Object.entries(input.mdb.micron)) {
-    addMarking("micron", code, partNumber, "micron_fbga");
-  }
-
-  for (const [code, partNumbers] of Object.entries(input.mdb.spectek)) {
-    for (const partNumber of partNumbers) {
-      addMarking("spectek", code, partNumber, "spectek_fbga");
-    }
-  }
-
-  for (const [identifier, record] of input.fdb.flashIds.entries()) {
-    const normalized = normalizeFlashId(identifier);
-    if (!normalized) {
-      continue;
-    }
-    identifierIndex.set(normalized, {
-      identifier: normalized,
-      idScheme: "nand.flash_id",
-      record,
-      source: "fdb"
-    });
-    for (const part of record.n ?? []) {
-      const vendor = /^(\S+)\s+/.exec(part)?.[1];
-      if (vendor) {
-        createVendorIndexRecord(vendorIndex, vendor).identifiers.add(normalized);
-      }
-    }
-  }
-
-  const partIndex = [...partRecords.values()];
-  const partExactIndex = new Map<string, IndexRefBucket>();
-  const markingExactIndex = new Map<string, IndexRefBucket>();
-  const partPrefixIndex = new Map<string, IndexRefBucket>();
-  const markingPrefixIndex = new Map<string, IndexRefBucket>();
-
-  partIndex.forEach((record, ref) => {
-    addExactIndexKeys(partExactIndex, record.normalizedPartNumber, ref);
-    addPrefixIndexKeys(partPrefixIndex, record.normalizedPartNumber, ref, PART_PREFIX_PROFILES);
-  });
-
-  markingIndex.forEach((record, ref) => {
-    addExactIndexKeys(markingExactIndex, record.markingCode, ref);
-    addPrefixIndexKeys(markingPrefixIndex, record.markingCode, ref, MARKING_PREFIX_PROFILES);
-  });
-
-  return {
-    partIndex,
-    identifierIndex,
-    markingIndex,
-    partExactIndex,
-    markingExactIndex,
-    partPrefixIndex,
-    markingPrefixIndex,
-    vendorIndex
-  };
 }
 
 function sourceWeight(source: PartIndexSource | MarkingIndexSource): number {
@@ -732,7 +611,7 @@ export function classifyPart(
     });
   };
 
-  const addMarkingRefs = (refs: IndexRefBucket | undefined, exact: boolean): void => {
+  const addMarkingRefs = (refs: RuntimeIndexRefBucket | undefined, exact: boolean): void => {
     if (refs === undefined) {
       return;
     }
@@ -742,14 +621,14 @@ export function classifyPart(
       if (!prioritizeConstrainedSearch && !canAddBase()) {
         break;
       }
-      const record = options.indexes.markingIndex[ref];
-      if (record) {
-        addMarkingRecord(record);
+      const row = options.indexes.markingIndex[ref];
+      if (row) {
+        addMarkingRecord(markingIndexRecordFromRow(row));
       }
     }
   };
 
-  const addPartRefs = (refs: IndexRefBucket | undefined, exact: boolean): void => {
+  const addPartRefs = (refs: RuntimeIndexRefBucket | undefined, exact: boolean): void => {
     if (refs === undefined) {
       return;
     }
@@ -759,16 +638,16 @@ export function classifyPart(
       if (!prioritizeConstrainedSearch && !canAddBase()) {
         break;
       }
-      const record = options.indexes.partIndex[ref];
-      if (record) {
-        addPartRecord(record);
+      const row = options.indexes.partIndex[ref];
+      if (row) {
+        addPartRecord(partIndexRecordFromRow(row));
       }
     }
   };
 
   for (const key of new Set([normalized, normalizedTokenKey])) {
-    addMarkingRefs(options.indexes.markingExactIndex.get(key), true);
-    addPartRefs(options.indexes.partExactIndex.get(key), true);
+    addMarkingRefs(options.indexes.markingExactIndex[key], true);
+    addPartRefs(options.indexes.partExactIndex[key], true);
   }
 
   if (partialMatch && !hasExactFastMatch) {
@@ -783,10 +662,10 @@ export function classifyPart(
         .filter((profile): profile is string => Boolean(profile))
     );
     for (const profile of markingProfiles) {
-      addMarkingRefs(options.indexes.markingPrefixIndex.get(profile), false);
+      addMarkingRefs(options.indexes.markingPrefixIndex[profile], false);
     }
     for (const profile of partProfiles) {
-      addPartRefs(options.indexes.partPrefixIndex.get(profile), false);
+      addPartRefs(options.indexes.partPrefixIndex[profile], false);
     }
   }
 
@@ -794,18 +673,18 @@ export function classifyPart(
   const shouldFallbackScan = options.mode === "search" && (!usedFastIndex || (!hasExactFastMatch && bases.length < fallbackThreshold));
 
   if (shouldFallbackScan) {
-    for (const record of options.indexes.markingIndex) {
+    for (const row of options.indexes.markingIndex) {
       if (!prioritizeConstrainedSearch && !canAddBase()) {
         break;
       }
-      addMarkingRecord(record);
+      addMarkingRecord(markingIndexRecordFromRow(row));
     }
 
-    for (const record of options.indexes.partIndex) {
+    for (const row of options.indexes.partIndex) {
       if (!prioritizeConstrainedSearch && !canAddBase()) {
         break;
       }
-      addPartRecord(record);
+      addPartRecord(partIndexRecordFromRow(row));
     }
   }
 

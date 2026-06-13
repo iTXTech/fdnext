@@ -1,30 +1,23 @@
 import type { ControllerGroupIndex } from "../controller-groups";
 import { buildCapabilities } from "../result-builder";
 import { FDNEXT_BUILD_METADATA, FDNEXT_VERSION, type FdnextCapabilities } from "../result";
-import type { FdbDataset, IdentifierDecoder, KnownPartNumberEntry, MdbDataset, PartNumberDecoder } from "../types";
-import { collectFdbControllers, countFdbPartNumbers } from "./resources";
+import type { RuntimeCapabilitySection, RuntimeFdbSection } from "../runtime-data";
+import type { IdentifierDecoder, PartNumberDecoder } from "../types";
 
 function decoderPriority(priority: number | undefined): { priority?: number } {
   return typeof priority === "number" ? { priority } : {};
 }
 
 export function buildCapabilitiesSnapshot(input: {
-  fdb: FdbDataset;
-  mdb: MdbDataset;
-  managedNandPartNumbers: KnownPartNumberEntry[];
-  dramPartNumbers: KnownPartNumberEntry[];
+  fdb: RuntimeFdbSection;
+  capability: RuntimeCapabilitySection;
   controllerGroups: ControllerGroupIndex;
   decoders: PartNumberDecoder[];
   identifierDecoders: IdentifierDecoder[];
   lang: string;
   translateString(key: string, lang?: string | null): string;
 }): FdnextCapabilities {
-  const controllers = collectFdbControllers(input.fdb);
-  const fdbPartNumberCount = countFdbPartNumbers(input.fdb);
-  const managedNandPartNumberCount = input.managedNandPartNumbers.length;
-  const dramPartNumberCount = input.dramPartNumbers.length;
-  const partNumberCount = fdbPartNumberCount + managedNandPartNumberCount + dramPartNumberCount;
-  const micronFbgaCount = Object.keys(input.mdb.micron).length;
+  const controllers = input.capability.ct;
   const controllerGroups = input.controllerGroups.groups.map((group) => {
     const titleKey = `controller_group.${group.id}.title`;
     const descriptionKey = `controller_group.${group.id}.description`;
@@ -44,10 +37,10 @@ export function buildCapabilitiesSnapshot(input: {
       build: FDNEXT_BUILD_METADATA
     },
     fdb: {
-      name: input.fdb.info.name,
-      version: input.fdb.info.version,
-      time: input.fdb.info.time,
-      website: input.fdb.info.website
+      name: input.fdb.i[0],
+      version: input.fdb.i[1],
+      time: input.fdb.i[3],
+      website: input.fdb.i[2]
     },
     inventory: {
       metrics: [
@@ -59,17 +52,17 @@ export function buildCapabilitiesSnapshot(input: {
         {
           id: "flash_ids",
           label: input.translateString("capability_inventory_metric.flash_ids", input.lang),
-          count: input.fdb.flashIds.size
+          count: input.capability.n.fid
         },
         {
           id: "part_numbers",
           label: input.translateString("capability_inventory_metric.part_numbers", input.lang),
-          count: partNumberCount
+          count: input.capability.n.pn
         },
         {
           id: "micron_fbga",
           label: input.translateString("capability_inventory_metric.micron_fbga", input.lang),
-          count: micronFbgaCount
+          count: input.capability.n.fbga
         }
       ],
       controllers: {

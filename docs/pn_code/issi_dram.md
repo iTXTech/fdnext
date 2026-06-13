@@ -60,4 +60,4 @@ IS43/IS46 + LQ + product token
 - 官方表标注 rank 的 `S1` / `S2` token 只标准化为 `cs_count=1` / `cs_count=2`；rank 不等同于 die，未确认物理 die 数时不输出 `dram_die_stack`。
 - LPDDR4X 通过产品 token 的 `L` 输出 `LPDDR4X` 与 `1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ`。
 - `LQ32K01B` 同一 ordering 结构可初始化为 LPDDR4 或 LPDDR4X，规则输出 `dram_type=LPDDR4`，并用 `dram_generation=LPDDR4/LPDDR4X` 标注可选 I/O 形态。
-- `packages/core/resources/dram-pn.json` 展开收录官方表中可确认的 `IS43` / `IS46` PN 样例与 ordering part number，用于搜索补全；解码仍由 token 规则完成。
+- `packages/core/data-source/dram-pn.json` 展开收录官方表中可确认的 `IS43` / `IS46` PN 样例与 ordering part number，用于搜索补全；解码仍由 token 规则完成。

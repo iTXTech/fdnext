@@ -12,14 +12,17 @@ import {
   fdnextResultJsonSchema,
   searchIdentifiersInputJsonSchema,
   searchPartsInputJsonSchema,
+  type FdnextRuntimeData,
   type JsonSchema
 } from "../src/index";
 import { fdnextFieldRegistry, formatFdnextFieldValue, type FdnextFieldKey } from "../src/field-registry";
-import { buildFdb, findPartNumberAcrossVendors, getPartNumberRecord } from "../src/fdb";
+import { findPartNumberAcrossVendors, getPartNumberRecord } from "../src/fdb";
+import { getEmbeddedRuntimeData } from "../src/index";
+import type { RuntimeFdbSection } from "../src/runtime-data";
 
 const fixtureRoot = fileURLToPath(new URL("./fixtures/", import.meta.url));
 const resultFixtureRoot = join(fixtureRoot, "fdnext-result");
-const engLang = parseJson(fileURLToPath(new URL("../resources/lang/eng.json", import.meta.url))) as Record<string, string>;
+const engLang = parseJson(fileURLToPath(new URL("../data-source/lang/eng.json", import.meta.url))) as Record<string, string>;
 const rootPackageMetadata = parseJson(fileURLToPath(new URL("../../../package.json", import.meta.url))) as { version?: unknown };
 assert.equal(typeof rootPackageMetadata.version, "string", "root package metadata must expose a version");
 const fdnextPackageVersion = rootPackageMetadata.version as string;
@@ -32,6 +35,35 @@ function isObject(value: unknown): value is Record<string, unknown> {
 
 function parseJson(path: string): unknown {
   return JSON.parse(readFileSync(path, "utf8"));
+}
+
+const embeddedRuntimeData = getEmbeddedRuntimeData();
+
+function testRuntimeData(fdb: RuntimeFdbSection, searchPartRows: FdnextRuntimeData["d"]["s"]["p"]): FdnextRuntimeData {
+  const pe: Record<string, number> = {};
+  searchPartRows.forEach((row, index) => {
+    pe[row[1]] = index;
+  });
+  return {
+    ...embeddedRuntimeData,
+    src: "00000000",
+    d: {
+      ...embeddedRuntimeData.d,
+      f: fdb,
+      m: { mi: {}, sp: {}, dc: {}, mk: [] },
+      s: { p: searchPartRows, m: [], id: [], pe, pp: {}, me: {}, mp: {} },
+      c: {
+        n: {
+          fid: Object.keys(fdb.id).length,
+          pn: searchPartRows.length,
+          fbga: 0
+        },
+        ct: fdb.ct,
+        dg: "all",
+        g: embeddedRuntimeData.d.c.g.map(([id, _count, _items, exclusive]) => [id, id === "all" ? fdb.ct.length : 0, id === "all" ? fdb.ct : [], exclusive])
+      }
+    }
+  };
 }
 
 function sameJson(a: unknown, b: unknown): boolean {
@@ -217,13 +249,23 @@ const expectedResultFixtures = [
 
 assert.deepEqual(resultFixtureNames(), expectedResultFixtures, "result contract must keep one schema fixture per current product family");
 
-const colonTokenFdb = buildFdb({
-  info: { version: "test" },
-  micron: {
-    "MT62F512M64D4EK-031FAAT:B": { id: ["2C00"] },
-    "MT29FB16T08GALAAM5-TES:B": { id: ["2C01"] }
-  }
-});
+const colonTokenFdb: RuntimeFdbSection = {
+  i: ["test", "test", "", ""],
+  p: {
+    micron: {
+      "MT62F512M64D4EK-031FAAT:B": ["MT62F512M64D4EK-031FAAT:B", ["2C00"]],
+      "MT29FB16T08GALAAM5-TES:B": ["MT29FB16T08GALAAM5-TES:B", ["2C01"]]
+    }
+  },
+  id: {},
+  tk: {
+    micron: {
+      MT62F512M64D4EK031FAATB: "MT62F512M64D4EK-031FAAT:B",
+      MT29FB16T08GALAAM5TESB: "MT29FB16T08GALAAM5-TES:B"
+    }
+  },
+  ct: []
+};
 assert.equal(
   getPartNumberRecord(colonTokenFdb, "micron", "MT62F512M64D4EK-031FAATB")?.pn,
   "MT62F512M64D4EK-031FAAT:B",
@@ -265,19 +307,30 @@ assert.equal(
   "cross-vendor FDB Micron NAND lookup should treat ordered dash suffix tokens as optional separators"
 );
 
-const samsungFdbMetadataEngine = createEngine({
-  resources: {
-    partIndex: {
-      rawNand: {
-        info: { version: "test" },
+const samsungFdbMetadataEngine = await createEngine({
+  runtimeData: testRuntimeData(
+    {
+      i: ["test", "test", "", ""],
+      p: {
         samsung: {
-          K9CERTEST00: { id: ["EC5C94D364CB"], m: "SSV4_MLC(CERCE3)" },
-          K9NORMALNOTE: { id: ["EC5C98BF84CC"], m: "Toggle" }
+          K9CERTEST00: ["K9CERTEST00", ["EC5C94D364CB"], null, null, null, null, null, "SSV4_MLC(CERCE3)"],
+          K9NORMALNOTE: ["K9NORMALNOTE", ["EC5C98BF84CC"], null, null, null, null, null, "Toggle"]
         }
-      }
+      },
+      id: {},
+      tk: {
+        samsung: {
+          K9CERTEST00: "K9CERTEST00",
+          K9NORMALNOTE: "K9NORMALNOTE"
+        }
+      },
+      ct: []
     },
-    translationIndex: { eng: engLang }
-  }
+    [
+      ["K9CERTEST00", "K9CERTEST00", "samsung", "raw_nand", null, null, "fdb"],
+      ["K9NORMALNOTE", "K9NORMALNOTE", "samsung", "raw_nand", null, null, "fdb"]
+    ]
+  )
 });
 const samsungCerResult = samsungFdbMetadataEngine.decodePart({ query: "K9CERTEST00", lang: "eng" });
 assert.equal(samsungCerResult.status, "ok", "Samsung CER FDB metadata test PN should decode");

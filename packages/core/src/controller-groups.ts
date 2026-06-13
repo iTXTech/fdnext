@@ -5,7 +5,7 @@ import {
   type ControllerGroupSelection,
   type ControllerProjectionGroupId
 } from "./result";
-import type { ControllerResourceIndex } from "./types";
+import type { RuntimeCapabilitySection } from "./runtime-data";
 
 const controllerGroupIdSet = new Set<string>(fdnextControllerGroupIds);
 export interface ControllerGroupIndex {
@@ -13,12 +13,8 @@ export interface ControllerGroupIndex {
   groups: CapabilityControllerGroup[];
 }
 
-function isControllerGroupId(value: string): value is ControllerGroupId {
-  return controllerGroupIdSet.has(value);
-}
-
 function isProjectionControllerGroupId(value: string): value is ControllerProjectionGroupId {
-  return isControllerGroupId(value) && value !== "all";
+  return controllerGroupIdSet.has(value) && value !== "all";
 }
 
 function controllerGroupSelection(value: unknown): ControllerProjectionGroupId[] | "all" | undefined {
@@ -44,44 +40,6 @@ function controllerGroupSelection(value: unknown): ControllerProjectionGroupId[]
   return groups.length > 0 ? groups : undefined;
 }
 
-export function buildControllerGroupIndex(controllers: string[], resource: ControllerResourceIndex | undefined): ControllerGroupIndex {
-  const groups = new Map<ControllerGroupId, Set<string>>();
-  const controllerSet = new Set(controllers);
-  for (const id of fdnextControllerGroupIds) {
-    groups.set(id, new Set());
-  }
-
-  for (const [rawId, items] of Object.entries(resource?.groups ?? {})) {
-    if (!isControllerGroupId(rawId) || !Array.isArray(items)) {
-      continue;
-    }
-    const group = groups.get(rawId);
-    for (const item of items) {
-      if (typeof item === "string" && controllerSet.has(item)) {
-        group?.add(item);
-      }
-    }
-  }
-
-  groups.set("all", new Set(controllers));
-
-  const defaultGroups = controllerGroupSelection(resource?.defaultGroups) ?? "all";
-  const exclusiveGroups = new Set((resource?.exclusiveGroups ?? []).filter(isControllerGroupId));
-  return {
-    defaultGroups,
-    groups: fdnextControllerGroupIds.map((id) => {
-      const groupItems = controllers.filter((controller) => groups.get(id)?.has(controller));
-      return {
-        id,
-        title: id,
-        ...(exclusiveGroups.has(id) ? { exclusive: true } : {}),
-        count: groupItems.length,
-        items: groupItems
-      };
-    })
-  };
-}
-
 export function projectControllersByGroup(
   controllers: string[] | undefined,
   index: ControllerGroupIndex,
@@ -103,4 +61,17 @@ export function projectControllersByGroup(
     }
   }
   return controllers.filter((controller) => allowed.has(controller));
+}
+
+export function controllerGroupIndexFromRuntimeData(section: RuntimeCapabilitySection): ControllerGroupIndex {
+  return {
+    defaultGroups: section.dg === "all" ? "all" : section.dg.filter(isProjectionControllerGroupId),
+    groups: section.g.map(([id, count, items, exclusive]) => ({
+      id: id as ControllerGroupId,
+      title: id,
+      ...(exclusive ? { exclusive: true } : {}),
+      count,
+      items
+    }))
+  };
 }

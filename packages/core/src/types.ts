@@ -3,8 +3,6 @@ export type Language = string;
 import type {
   CapabilitiesInput,
   Capability,
-  ControllerGroupId,
-  ControllerProjectionGroupId,
   ControllerGroupSelection,
   DecodeIdentifierInput,
   DecodePartInput,
@@ -26,6 +24,7 @@ import type {
   SearchPartsInput
 } from "./result";
 import type { FdnextFieldKey } from "./field-registry";
+import type { FdnextRuntimeData, RuntimeDataFetch } from "./runtime-data";
 
 export type DecodeDraftFields = Partial<Record<FdnextFieldKey, FdnextFieldValueData>>;
 
@@ -147,41 +146,6 @@ export interface LangPacks {
   [language: string]: LangPack;
 }
 
-export type ResourceJson = Record<string, unknown> | unknown[];
-
-export interface PartResourceIndex {
-  rawNand?: Record<string, unknown>;
-  managedNand?: ResourceJson;
-  dram?: ResourceJson;
-}
-
-export interface IdentifierResourceIndex {
-  nandFlash?: Record<string, unknown>;
-}
-
-export interface MarkingResourceIndex {
-  packageMarkings?: Record<string, unknown>;
-}
-
-export interface VendorResourceIndex {
-  aliases?: Record<string, string[]>;
-}
-
-export interface ControllerResourceIndex {
-  defaultGroups?: ControllerProjectionGroupId[] | "all";
-  exclusiveGroups?: ControllerGroupId[];
-  groups?: Partial<Record<ControllerGroupId, string[]>>;
-}
-
-export interface FdnextResourceBundle {
-  partIndex?: PartResourceIndex;
-  identifierIndex?: IdentifierResourceIndex;
-  markingIndex?: MarkingResourceIndex;
-  vendorIndex?: VendorResourceIndex;
-  controllerIndex?: ControllerResourceIndex;
-  translationIndex?: LangPacks;
-}
-
 export interface PartDecodeOptions {
   lang?: Language | null;
   controllerGroup?: ControllerGroupSelection;
@@ -234,7 +198,9 @@ export interface ProcessorHooks {
 }
 
 export interface EngineOptions {
-  resources?: FdnextResourceBundle;
+  runtimeData?: FdnextRuntimeData;
+  runtimeDataUrl?: string | URL;
+  fetch?: RuntimeDataFetch;
   fallbackLang?: string;
   decoders?: PartNumberDecoder[];
   identifierDecoders?: IdentifierDecoder[];

@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { runContractChecks } from "../src/index";
 
-const summary = runContractChecks();
+const summary = await runContractChecks();
 
 assert.equal(summary.checked, 5);
 assert.deepEqual(summary.operations, ["part.decode", "part.search", "identifier.decode", "identifier.search", "capabilities"]);

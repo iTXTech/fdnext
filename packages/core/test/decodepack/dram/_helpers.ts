@@ -1,42 +1,51 @@
 import assert from "node:assert/strict";
-import type { FdnextResourceBundle, FieldValue, PartDecodeResult } from "../../../src/index";
-import { createEngine } from "../../../src/index";
-import dramPnJson from "../../../resources/dram-pn.json" with { type: "json" };
-import mdbJson from "../../../resources/mdb.json" with { type: "json" };
+import type { FdnextEngine, FdnextRuntimeData, FieldValue, PartDecodeResult } from "../../../src/index";
+import { createEngine, getEmbeddedRuntimeData } from "../../../src/index";
+import dramPnJson from "../../../data-source/dram-pn.json" with { type: "json" };
+import mdbJson from "../../../data-source/mdb.json" with { type: "json" };
 import micronFbgaCodesJson from "../../../../../references/micron-fbga-codes.json" with { type: "json" };
-import { embeddedResourceBundle } from "../../../src/resources";
 import { compileDecodePack, defaultDecodePack } from "../../../src/decodepack";
 
 export { dramPnJson, mdbJson, micronFbgaCodesJson };
 
 export const compiledPack = compileDecodePack(defaultDecodePack);
 
-const decodeOnlyResourceBundle = {
-  partIndex: { rawNand: {}, managedNand: [], dram: [] },
-  identifierIndex: { nandFlash: {} },
-  markingIndex: { packageMarkings: {} },
-  vendorIndex: {},
-  controllerIndex: embeddedResourceBundle.controllerIndex,
-  translationIndex: embeddedResourceBundle.translationIndex
-} satisfies FdnextResourceBundle;
+const embeddedRuntimeData = getEmbeddedRuntimeData();
 
-const decodeEngine = createEngine({
-  resources: decodeOnlyResourceBundle,
+function emptyRuntimeData(): FdnextRuntimeData {
+  return {
+    ...embeddedRuntimeData,
+    src: "00000000",
+    d: {
+      ...embeddedRuntimeData.d,
+      f: { i: ["test", "test", "", ""], p: {}, id: {}, tk: {}, ct: [] },
+      m: { mi: {}, sp: {}, dc: {}, mk: [] },
+      s: { p: [], m: [], id: [], pe: {}, pp: {}, me: {}, mp: {} },
+      c: {
+        n: { fid: 0, pn: 0, fbga: 0 },
+        ct: [],
+        dg: "all",
+        g: embeddedRuntimeData.d.c.g.map(([id, _count, _items, exclusive]) => [id, 0, [], exclusive])
+      }
+    }
+  };
+}
+
+const decodeEngine = await createEngine({
+  runtimeData: emptyRuntimeData(),
   decoders: compiledPack.partDecoders
 });
 
-let fullEngineCache: ReturnType<typeof createEngine> | undefined;
+const fullEngineInstance = await createEngine({
+  decoders: compiledPack.partDecoders,
+  profileTables: compiledPack.profileTables
+});
 
-function fullEngine(): ReturnType<typeof createEngine> {
-  fullEngineCache ??= createEngine({
-    resources: embeddedResourceBundle,
-    decoders: compiledPack.partDecoders,
-    profileTables: compiledPack.profileTables
-  });
-  return fullEngineCache;
+function fullEngine(): FdnextEngine {
+  return fullEngineInstance;
 }
 
-export const engine: ReturnType<typeof createEngine> = {
+export const engine: FdnextEngine = {
   getVersion: () => decodeEngine.getVersion(),
   getCapabilities: (input) => fullEngine().getCapabilities(input),
   decodePart: (input) => decodeEngine.decodePart(input),

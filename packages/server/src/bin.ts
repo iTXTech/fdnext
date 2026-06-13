@@ -31,10 +31,10 @@ function parsePort(raw: string): number {
 async function main() {
   const host = readArg("--host", "0.0.0.0");
   const port = parsePort(readArg("--port", "8080"));
-  const resourcesArg = readArgOptional("--resources");
-  const resourceDir = resourcesArg ? resolve(resourcesArg) : undefined;
+  const runtimeDataArg = readArgOptional("--runtime-data");
+  const runtimeDataFile = runtimeDataArg ? resolve(runtimeDataArg) : undefined;
 
-  const app = createHttpServer({ host, port, resourceDir });
+  const app = await createHttpServer({ host, port, runtimeDataFile });
   await app.listen();
   process.stdout.write(`fdnext server listening on http://${host}:${port}\n`);
 }

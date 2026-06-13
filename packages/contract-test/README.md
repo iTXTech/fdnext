@@ -8,7 +8,7 @@ Result contract and schema validation test suite for fdnext.
 
 - **Schema Validator** — A lightweight JSON Schema validator (`validateSchema`) that checks fdnext results against their declared schemas without external dependencies.
 - **Contract Checks** — `runContractChecks()` exercises all core operations (part decode, part search, identifier decode, identifier search, capabilities) and validates each response against the schema.
-- **Contract Engine** — `createContractEngine()` assembles a fully-configured engine with default DecodePack and embedded resources for testing.
+- **Contract Engine** — `createContractEngine()` asynchronously assembles a fully-configured engine with default DecodePack and embedded runtime data for testing.
 
 The current repository build only emits declarations for this package. Package metadata intentionally does not declare a runtime `main` / `exports` target until a publish bundle is added.
 
@@ -27,7 +27,7 @@ pnpm contract:check
 ```
 
 DRAM part-search de-duplication is intentionally outside the default contract
-suite. Run it when adding or changing DRAM PN resources, FBGA markings, or
+suite. Run it when adding or changing DRAM PN source data, FBGA markings, or
 search suggestion behavior:
 
 ```bash
@@ -40,7 +40,7 @@ pnpm -C packages/contract-test test:part-search:dram
 import { runContractChecks, validateSchema, createContractEngine } from "./src/index";
 
 // Run all contract checks
-const summary = runContractChecks();
+const summary = await runContractChecks();
 console.log(`Checked ${summary.checked} operations: ${summary.operations.join(", ")}`);
 
 // Validate a single result against the schema

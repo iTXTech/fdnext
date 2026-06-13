@@ -4,6 +4,7 @@
     "paths": {
       "@itxtech/fdnext-core": ["./packages/core/src/index.ts"],
       "@itxtech/fdnext-core/decodepack": ["./packages/core/src/decodepack/index.ts"],
+      "@itxtech/fdnext-core/external": ["./packages/core/src/external.ts"],
       "@itxtech/fdnext-core/runtime": ["./packages/core/src/runtime/index.ts"],
       "@itxtech/fdnext-server": ["./packages/server/src/index.ts"],
       "@itxtech/fdnext-cf-workers": ["./packages/cf-workers/src/index.ts"],

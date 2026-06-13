@@ -97,12 +97,12 @@ export function validateSchema(schema: JsonSchema, value: unknown, root: JsonSch
   return errors;
 }
 
-export function createContractEngine() {
+export async function createContractEngine() {
   return createEngine();
 }
 
-export function runContractChecks(): ContractCheckSummary {
-  const engine = createContractEngine();
+export async function runContractChecks(): Promise<ContractCheckSummary> {
+  const engine = await createContractEngine();
   const results: Array<FdnextResult | FdnextCapabilities> = [
     engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng" }),
     engine.searchParts({ query: "MT62", lang: "eng", limit: 2 }),

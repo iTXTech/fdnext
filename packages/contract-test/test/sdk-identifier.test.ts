@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createContractEngine } from "../src/index";
 import { collectBlockIds, collectResultFields, controllerFieldValues, searchItemControllerValues } from "./_helpers";
 
-const engine = createContractEngine();
+const engine = await createContractEngine();
 
 const inferredIdentifier = engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" });
 assert.equal(inferredIdentifier.status, "ok");

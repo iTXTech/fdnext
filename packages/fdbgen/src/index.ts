@@ -72,6 +72,24 @@ export { createFdbProvenanceTrace } from "./trace";
 export { generateFdb, generateFdbWithTrace } from "./fdbgen";
 export { isGeneratedFdbDieProfile, normalizeGeneratedFdbDieProfile } from "./nand-die-profile";
 export {
+  FDNEXT_RUNTIME_DATA_VERSION,
+  RUNTIME_DATA_SOURCE_FILES,
+  auditRuntimeData,
+  auditRuntimeDataFile,
+  buildRuntimeData,
+  checkRuntimeData,
+  formatRuntimeDataAuditText,
+  loadRuntimeDataSources,
+  runtimeDataSourceCrc32,
+  writeRuntimeData
+} from "./runtime-data";
+export type {
+  RuntimeDataAuditIssue,
+  RuntimeDataAuditResult,
+  RuntimeDataCheckResult,
+  RuntimeDataFile
+} from "./runtime-data";
+export {
   FDNEXT_FDBGEN_V1_COMPACT_VERSION,
   FDNEXT_FDBGEN_V1_FULL_VERSION,
   buildFdnextFdbgenV1CompactEntry,

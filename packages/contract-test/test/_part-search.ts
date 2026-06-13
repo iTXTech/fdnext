@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createContractEngine } from "../src/index";
 
-export const engine = createContractEngine();
+export const engine = await createContractEngine();
 
 export function assertNoDuplicatePartSearchItems(query: string): void {
   const result = engine.searchParts({ query, lang: "eng", limit: 50 });

@@ -1,22 +1,44 @@
 import assert from "node:assert/strict";
-import { createEngine } from "../../core/src/index";
+import { createEngine, getEmbeddedRuntimeData, type FdnextRuntimeData } from "../../core/src/index";
 
-const ambiguousEngine = createEngine({
-  resources: {
-    partIndex: {
-      rawNand: {},
-      managedNand: [{ vendor: "micron", pn: "TESTPART" }],
-      dram: [{ vendor: "micron", pn: "TESTPART" }]
-    },
-    identifierIndex: {
-      nandFlash: {}
-    },
-    markingIndex: {
-      packageMarkings: {}
-    },
-    vendorIndex: {},
-    translationIndex: {}
-  },
+const embeddedRuntimeData = getEmbeddedRuntimeData();
+
+function testRuntimeData(rows: FdnextRuntimeData["d"]["s"]["p"] = []): FdnextRuntimeData {
+  const pe: Record<string, number | number[]> = {};
+  rows.forEach((row, index) => {
+    const key = row[1];
+    const existing = pe[key];
+    if (existing === undefined) {
+      pe[key] = index;
+    } else if (typeof existing === "number") {
+      pe[key] = [existing, index];
+    } else {
+      existing.push(index);
+    }
+  });
+  return {
+    ...embeddedRuntimeData,
+    src: "00000000",
+    d: {
+      ...embeddedRuntimeData.d,
+      f: { i: ["test", "test", "", ""], p: {}, id: {}, tk: {}, ct: [] },
+      m: { mi: {}, sp: {}, dc: {}, mk: [] },
+      s: { p: rows, m: [], id: [], pe, pp: {}, me: {}, mp: {} },
+      c: {
+        n: { fid: 0, pn: rows.length, fbga: 0 },
+        ct: [],
+        dg: "all",
+        g: embeddedRuntimeData.d.c.g.map(([id, _count, _items, exclusive]) => [id, 0, [], exclusive])
+      }
+    }
+  };
+}
+
+const ambiguousEngine = await createEngine({
+  runtimeData: testRuntimeData([
+    ["TESTPART", "TESTPART", "micron", "managed_nand", null, null, "managed_nand"],
+    ["TESTPART", "TESTPART", "micron", "dram", null, null, "dram"]
+  ]),
   decoders: [{
     id: "test-dram",
     priority: 100,
@@ -42,14 +64,8 @@ assert.ok(ambiguous.candidates?.some((candidate) => candidate.device.chipKind ==
 assert.ok(ambiguous.candidates?.some((candidate) => candidate.device.chipKind === "managed_nand"));
 
 const hookEvents: string[] = [];
-const hookEngine = createEngine({
-  resources: {
-    partIndex: { rawNand: {}, managedNand: [], dram: [] },
-    identifierIndex: { nandFlash: {} },
-    markingIndex: { packageMarkings: {} },
-    vendorIndex: {},
-    translationIndex: {}
-  },
+const hookEngine = await createEngine({
+  runtimeData: testRuntimeData(),
   processors: [{
     beforeOperation: (context) => {
       hookEvents.push(`before:${context.operation}`);

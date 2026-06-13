@@ -2,12 +2,12 @@ import { server as createHapiServer } from "@hapi/hapi";
 import type { Request, ResponseToolkit } from "@hapi/hapi";
 import { FDNEXT_VERSION, type FdnextEngine } from "@itxtech/fdnext-core";
 import { createRuntime, type FdnextRuntime } from "@itxtech/fdnext-core/runtime";
-import { loadResourcesFromDir } from "./resources";
+import { loadRuntimeDataFile } from "./runtime-data";
 
 export interface HttpServerOptions {
   host?: string;
   port?: number;
-  resourceDir?: string;
+  runtimeDataFile?: string;
   serverName?: string;
 }
 
@@ -25,9 +25,9 @@ function hasHeaderMethod(value: unknown): value is { header: (name: string, valu
   return !!value && typeof value === "object" && "header" in value && typeof value.header === "function";
 }
 
-function createDefaultRuntimeFromResources(resourceDir?: string, serverName?: string): FdnextRuntime {
+async function createDefaultRuntime(runtimeDataFile?: string, serverName?: string): Promise<FdnextRuntime> {
   return createRuntime({
-    ...(resourceDir ? { resources: loadResourcesFromDir(resourceDir) } : {}),
+    ...(runtimeDataFile ? { runtimeData: loadRuntimeDataFile(runtimeDataFile) } : {}),
     serverName
   });
 }
@@ -59,10 +59,10 @@ async function replyRuntimeJson(runtime: FdnextRuntime, request: Request, h: Res
   return reply;
 }
 
-export function createHttpServer(options: HttpServerOptions) {
+export async function createHttpServer(options: HttpServerOptions) {
   const host = options.host ?? "0.0.0.0";
   const port = parsePort(options.port);
-  const runtime = createDefaultRuntimeFromResources(options.resourceDir, options.serverName);
+  const runtime = await createDefaultRuntime(options.runtimeDataFile, options.serverName);
 
   const server = createHapiServer({
     host,
@@ -99,6 +99,6 @@ export function createHttpServer(options: HttpServerOptions) {
   };
 }
 
-export function createDefaultEngine(resourceDir: string): FdnextEngine {
-  return createDefaultRuntimeFromResources(resourceDir).engine;
+export async function createDefaultEngine(runtimeDataFile?: string): Promise<FdnextEngine> {
+  return (await createDefaultRuntime(runtimeDataFile)).engine;
 }

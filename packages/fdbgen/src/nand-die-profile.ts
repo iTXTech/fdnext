@@ -103,6 +103,13 @@ function profileForCell(base: string, cell: string | undefined): string | undefi
   ]);
 }
 
+function samsungProfileForCell(base: string, cell: string | undefined): string | undefined {
+  if (cellName(cell) === "QLC" && !samsungConfirmedQlcProfileBases.has(base)) {
+    return profileKey(base);
+  }
+  return profileForCell(base, cell);
+}
+
 function normalizedFallbackProfile(value: string): string | undefined {
   const compact = compactToken(value);
   if (/A19NM/.test(compact)) {
@@ -164,13 +171,13 @@ function matchKioxiaSandisk2d(vendor: string, value: string, cell: string | unde
 function matchSamsung(value: string, cell: string | undefined): string | undefined {
   const direct = profileKey(value);
   if (direct?.startsWith("SS")) {
-    return cellName(cell) === "QLC" && samsungConfirmedQlcProfileBases.has(direct) ? profileForCell(direct, cell) : direct;
+    return cellName(cell) === "QLC" && samsungConfirmedQlcProfileBases.has(direct) ? samsungProfileForCell(direct, cell) : direct;
   }
 
   const compact = compactToken(value);
   const generation = /3DV([0-9])/.exec(compact)?.[1];
   if (generation) {
-    return profileForCell(`SSV${generation}`, cell);
+    return samsungProfileForCell(`SSV${generation}`, cell);
   }
   if (/14NM/.test(compact)) return profileKey("SS14");
   if (/16NM/.test(compact)) return profileForCell("SS16", cell);

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createContractEngine } from "../src/index";
 import { collectBlockIds, collectResultFields } from "./_helpers";
 
-const engine = createContractEngine();
+const engine = await createContractEngine();
 
 const dramDecode = engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng" });
 assert.equal(dramDecode.subtitle, "LPDDR5X · Micron · 64Gb · x64");

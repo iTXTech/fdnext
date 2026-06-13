@@ -73,6 +73,7 @@ export function fdnextBundleConfig(config: UserConfig): UserConfig {
     alias: {
       "@itxtech/fdnext-core": resolve(REPO_ROOT, "packages/core/src/index.ts"),
       "@itxtech/fdnext-core/decodepack": resolve(REPO_ROOT, "packages/core/src/decodepack/index.ts"),
+      "@itxtech/fdnext-core/external": resolve(REPO_ROOT, "packages/core/src/external.ts"),
       "@itxtech/fdnext-core/runtime": resolve(REPO_ROOT, "packages/core/src/runtime/index.ts"),
       ...config.alias
     },

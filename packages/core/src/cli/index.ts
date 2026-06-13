@@ -120,7 +120,7 @@ async function main() {
     return;
   }
 
-  const engine = createEngine();
+  const engine = await createEngine();
 
   if (scope === "capabilities") {
     print(engine.getCapabilities({ lang: args.positionals[1] ?? null }));

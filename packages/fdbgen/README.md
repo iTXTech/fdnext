@@ -1,13 +1,15 @@
 # @itxtech/fdnext-fdbgen
 
-FDB generation, MDB crawling, auditing, and data maintenance tools for fdnext.
+FDB generation, MDB crawling, runtime data building, auditing, and data maintenance tools for fdnext.
 
 ## Overview
 
-`@itxtech/fdnext-fdbgen` is the data pipeline toolkit for maintaining fdnext's Flash Database (FDB) and Marking Database (MDB). It provides:
+`@itxtech/fdnext-fdbgen` is the data pipeline toolkit for maintaining fdnext's Flash Database (FDB), Marking Database (MDB), and compact runtime data artifact. It provides:
 
 - **FDB Generation** — Build `fdb.json` from raw vendor datasets with normalization, deduplication, and controller blacklisting.
 - **FDB Audit** — Quality checks on generated FDB files (vendor stats, fanout analysis, issue detection).
+- **Runtime Data Build** — Compile maintainable source JSON into `fdnext-runtime-data.json` for core runtime embedding and distribution.
+- **Runtime Data Check** — Verify the committed runtime data artifact is current with its source JSON.
 - **Extra Audit** — Validate candidate `extra.json` merge files against existing FDB/extra data and optionally cross-check with the DecodePack engine.
 - **MDB Crawling** — Automated crawling of Micron FBGA and SpecTek marking codes with concurrent HTTP requests, incremental save, and resume support.
 - **Normalization** — Part number, Flash ID, vendor name, controller name, and package normalization utilities.
@@ -21,7 +23,7 @@ pnpm add @itxtech/fdnext-fdbgen
 
 ## CLI Usage
 
-The `fdnext-fdbgen` binary provides four subcommands:
+The `fdnext-fdbgen` binary provides these subcommands:
 
 ### Build FDB
 
@@ -44,6 +46,21 @@ fdnext-fdbgen build --input <dir> --output <file> --version <ver> [options]
 ```bash
 fdnext-fdbgen audit --file <fdb.json> [--json] [--max-samples <n>] [--fail-on-issues]
 fdnext-fdbgen audit --input <dir> --version <ver> --trace-sources [--json]
+```
+
+### Build Runtime Data
+
+```bash
+fdnext-fdbgen build-runtime --source <dir> --output <fdnext-runtime-data.json>
+fdnext-fdbgen check-runtime --source <dir> --file <fdnext-runtime-data.json>
+fdnext-fdbgen audit-runtime --file <fdnext-runtime-data.json>
+```
+
+The repository root scripts use:
+
+```bash
+pnpm runtime-data:generate
+pnpm runtime-data:check
 ```
 
 ### Audit Extra

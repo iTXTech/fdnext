@@ -8,10 +8,10 @@ import {
   parseJsonObject
 } from "./_helpers";
 
-const engine = createContractEngine();
+const engine = await createContractEngine();
 const sdkCapabilities = engine.getCapabilities();
 
-const http = createHttpServer({ host: "127.0.0.1", port: 8080 });
+const http = await createHttpServer({ host: "127.0.0.1", port: 8080 });
 async function injectJson(method: "GET" | "POST", url: string): Promise<Record<string, unknown>> {
   const response = await http.server.inject({ method, url });
   assert.equal(response.statusCode, 200, response.payload);

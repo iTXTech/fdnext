@@ -1,6 +1,6 @@
 # 集成指南（Node / 浏览器 / 服务端）
 
-本项目核心是 `@itxtech/fdnext-core`（纯逻辑、无运行时网络依赖）。它已经内置 iTXTech fdnext DecodePack JSON 规则、编译器、默认资源和平台无关 runtime。
+本项目核心是 `@itxtech/fdnext-core`（纯逻辑、无运行时网络依赖）。它已经内置 iTXTech fdnext DecodePack JSON 规则、编译器、默认 runtime data 和平台无关 runtime。
 
 本文档说明如何把 fdnext 嵌入 Node、浏览器和服务端部署。HTTP 路由、query 参数、响应结构和 CORS 规则统一维护在 [Server 接口文档](SERVER_API.md)。
 
@@ -8,19 +8,29 @@
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
-const engine = createEngine();
+const engine = await createEngine();
 
 console.log(engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" }));
 console.log(engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" }));
 ```
 
-如需覆盖默认资源（例如热更新数据）：
+如需覆盖默认 runtime data（例如热更新数据），只接受 `fdnext-runtime-data.json` 新格式：
 
 ```ts
-import { createEngine, type FdnextResourceBundle } from "@itxtech/fdnext-core";
+import { createEngine, type FdnextRuntimeData } from "@itxtech/fdnext-core";
 
-const resources: FdnextResourceBundle = await loadResourcesFromYourStore();
-const engine = createEngine({ resources });
+const runtimeData: FdnextRuntimeData = await loadRuntimeDataFromYourStore();
+const engine = await createEngine({ runtimeData });
+```
+
+如果 runtime data 作为静态文件发布，也可以让 core 自行 fetch：
+
+```ts
+import { createEngine } from "@itxtech/fdnext-core";
+
+const engine = await createEngine({
+  runtimeDataUrl: "/fdnext-core/fdnext-runtime-data.json"
+});
 ```
 
 ### 1.1 Processor 管线与 SDK 方法
@@ -28,7 +38,7 @@ const engine = createEngine({ resources });
 `@itxtech/fdnext-core` 支持 operation 级 Processor 管线：
 
 ```ts
-const engine = createEngine({
+const engine = await createEngine({
   processors: [
     {
       beforeOperation(ctx) {
@@ -59,7 +69,7 @@ const response = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 ```ts
 import { createRuntime } from "@itxtech/fdnext-core/runtime";
 
-const runtime = createRuntime({
+const runtime = await createRuntime({
   externalLinkProviders: [
     {
       id: "docs",
@@ -108,62 +118,49 @@ runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https
 浏览器侧推荐用 Vite / Webpack / Rollup / esbuild 打包，关键点：
 
 - 浏览器内嵌解析应使用 `createEngine()`，直接调用 `decodePart()` / `searchParts()` / `decodeIdentifier()` / `searchIdentifiers()` / `getCapabilities()`；`@itxtech/fdnext-core/runtime` 只面向 HTTP adapter，不是前端本地解析入口。
-- 资源（`fdb/mdb/lang`，以及用于 PN 补全的 `managed-nand-pn/dram-pn`）建议用 `fetch()` 加载静态 JSON
-- `managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`；Micron DRAM FBGA code 反查统一来自 `mdb.json`
+- 默认入口会把内嵌 `fdnext-runtime-data.json` 打进 bundle；如果需要 code-only bundle，应从 `@itxtech/fdnext-core/external` 导入并通过 `runtimeData` / `runtimeDataUrl` 注入单文件 runtime data。
+- 用户自定义资源必须先由 fdbgen 生成 `fdnext-runtime-data.json`，runtime 不再接受旧的多文件 raw JSON 资源。
 - 默认解码器（PN / typed identifier）已由 `@itxtech/fdnext-core` 内置；只有裁剪规则或注入自定义规则时才需要显式传入 `decoders` / `identifierDecoders`
 - `@itxtech/fdnext-core/decodepack` 是规则维护入口，面向 check / explain / compile 等工具链；普通前端查询不需要直接引用它。
 
-### 2.1 方式 A：fetch 静态 JSON（推荐）
+### 2.1 方式 A：fetch 单文件 runtime data（推荐）
 
-将 `@itxtech/fdnext-core` 的资源 JSON 目录作为静态资源发布。仓库内路径是 `packages/core/resources/`；发布包内对应路径是 `resources/`。这些 JSON 资源用于 `fetch()` 加载，不作为 package subpath import 使用。下面示例假设挂载到 `/fdnext-core/`：
-
-- `/fdnext-core/fdb.json`
-- `/fdnext-core/mdb.json`
-- `/fdnext-core/managed-nand-pn.json`
-- `/fdnext-core/dram-pn.json`
-- `/fdnext-core/lang/chs.json`
-- `/fdnext-core/lang/eng.json`
+将 `@itxtech/fdnext-core` 的 runtime data JSON 作为静态资源发布。仓库内路径和发布包 subpath 都是 `runtime-data/fdnext-runtime-data.json`。下面示例假设挂载到 `/fdnext-core/fdnext-runtime-data.json`：
 
 ```ts
-import { createEngine } from "@itxtech/fdnext-core";
+import { createEngine } from "@itxtech/fdnext-core/external";
 
-async function loadJson(path: string) {
+const engine = await createEngine({
+  runtimeDataUrl: "/fdnext-core/fdnext-runtime-data.json"
+});
+```
+
+也可以自己 fetch 后传入。loader 只检查 `v` 和 `src`，其余结构按生成器输出约定消费：
+
+```ts
+import { createEngine, type FdnextRuntimeData } from "@itxtech/fdnext-core/external";
+
+async function loadRuntimeData(path: string): Promise<FdnextRuntimeData> {
   const res = await fetch(path);
   if (!res.ok) throw new Error(`${res.status} ${res.statusText}: ${path}`);
   return res.json();
 }
 
-const [flashDatabase, packageMarkings, managedNandParts, dramParts, chs, eng] = await Promise.all([
-  loadJson("/fdnext-core/fdb.json"),
-  loadJson("/fdnext-core/mdb.json"),
-  loadJson("/fdnext-core/managed-nand-pn.json"),
-  loadJson("/fdnext-core/dram-pn.json"),
-  loadJson("/fdnext-core/lang/chs.json"),
-  loadJson("/fdnext-core/lang/eng.json")
-]);
-
-const engine = createEngine({
-  resources: {
-    partIndex: {
-      rawNand: flashDatabase,
-      managedNand: managedNandParts,
-      dram: dramParts
-    },
-    identifierIndex: {
-      nandFlash: flashDatabase
-    },
-    markingIndex: {
-      packageMarkings
-    },
-    vendorIndex: {},
-    translationIndex: { chs, eng }
-  }
+const runtimeData = await loadRuntimeData("/fdnext-core/fdnext-runtime-data.json");
+const engine = await createEngine({
+  runtimeData
 });
 ```
 
-### 2.2 方式 B：bundler 直接 import JSON
+### 2.2 方式 B：使用内嵌 runtime data
 
-如需把资源打进前端包里，请按你的工具链配置 JSON loader（写法依赖 bundler，不在此展开）。
+如果允许 bundle 直接携带 runtime data，使用主入口即可：
+
+```ts
+import { createEngine } from "@itxtech/fdnext-core";
+
+const engine = await createEngine();
+```
 
 ## 3. 服务端（HTTP Server）
 
@@ -176,10 +173,10 @@ pnpm install
 pnpm server:dev
 ```
 
-如需指定外部资源目录，增加参数：
+如需指定外部 runtime data 文件，增加参数：
 
 ```bash
-pnpm -C packages/server dev -- --resources /path/to/packages/core/resources
+pnpm -C packages/server dev -- --runtime-data packages/core/runtime-data/fdnext-runtime-data.json
 ```
 
 构建后运行生产入口：

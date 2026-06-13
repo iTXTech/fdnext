@@ -6,5 +6,5 @@
     "rootDir": ".",
     "outDir": "dist"
   },
-  "include": ["src/**/*.ts", "src/**/*.json", "resources/**/*.json", "package.json"]
+  "include": ["src/**/*.ts", "src/**/*.json", "runtime-data/**/*.json", "package.json"]
 }

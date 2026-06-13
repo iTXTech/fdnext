@@ -1,4 +1,4 @@
-import { createEngine } from "../engine";
+import { createEngine } from "../engine-default";
 import { FDNEXT_VERSION } from "../result";
 import type {
   CapabilitiesInput,
@@ -40,9 +40,11 @@ export type {
   FdnextRuntimeOptions
 } from "./types";
 
-function createDefaultEngine(options: FdnextRuntimeOptions): FdnextEngine {
+async function createDefaultEngine(options: FdnextRuntimeOptions): Promise<FdnextEngine> {
   return createEngine({
-    resources: options.resources,
+    runtimeData: options.runtimeData,
+    runtimeDataUrl: options.runtimeDataUrl,
+    fetch: options.fetch,
     fallbackLang: options.fallbackLang,
     decoders: options.decoders,
     identifierDecoders: options.identifierDecoders,
@@ -50,8 +52,8 @@ function createDefaultEngine(options: FdnextRuntimeOptions): FdnextEngine {
   });
 }
 
-export function createRuntime(options: FdnextRuntimeOptions = {}): FdnextRuntime {
-  const engine = options.engine ?? createDefaultEngine(options);
+export async function createRuntime(options: FdnextRuntimeOptions = {}): Promise<FdnextRuntime> {
+  const engine = options.engine ?? await createDefaultEngine(options);
   const externalLinkProviders = [...(options.externalLinkProviders ?? [])];
   const headers = baseHeaders(options.responseHeaders);
   const runtimeCors = options.cors;

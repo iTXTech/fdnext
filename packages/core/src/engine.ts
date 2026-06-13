@@ -1,5 +1,5 @@
 import { LANGUAGES, UNKNOWN } from "./constants";
-import { buildControllerGroupIndex, projectControllersByGroup } from "./controller-groups";
+import { controllerGroupIndexFromRuntimeData, projectControllersByGroup } from "./controller-groups";
 import type { CompileDecodePackResult } from "./decodepack/types";
 import {
   draftDensity,
@@ -24,14 +24,13 @@ import {
   parseDieDensityMbit,
   pruneRedundantFields
 } from "./engine/field-normalization";
-import { buildKnownPartNumbers, buildMicronDramFbgaCodes, collectFdbControllers } from "./engine/resources";
-import { buildFdb, buildMdb, findFlashIdRecord, getPartNumberRecord } from "./fdb";
+import { findFlashIdRecord, getPartNumberRecord } from "./fdb";
 import { createDefaultIdentifierPostprocessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
 import { applyMicronFbgaMeta, parseKnownFiveDigitMicronFbgaCode, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
 import {
-  buildNormalizedIndexes,
   classifyPart,
+  partIndexRecordFromRow,
   type PartClassificationCandidate,
   type PartIndexRecord
 } from "./part-index";
@@ -44,6 +43,7 @@ import {
   buildPartSearchResult,
   type PartSearchSuggestion
 } from "./result-builder";
+import { languagePacksFromRuntimeData, type FdnextRuntimeData } from "./runtime-data";
 import { translateString as doTranslateString } from "./translate";
 import { normalizeFlashId, normalizePartNumber, normalizePartNumberTokenKey, padFlashId } from "./utils/normalize";
 import { contains } from "./utils/string";
@@ -79,45 +79,31 @@ import type {
   SearchIdentifiersInput,
   SearchPartsInput
 } from "./result";
-import { embeddedResourceBundle } from "./resources";
 
-export function createEngine(options: EngineOptions = {}): FdnextEngine {
+export function createEngineFromRuntimeData(runtimeData: FdnextRuntimeData, options: EngineOptions = {}): FdnextEngine {
   const fallbackLang = options.fallbackLang && LANGUAGES.includes(options.fallbackLang as (typeof LANGUAGES)[number])
     ? options.fallbackLang
     : LANGUAGES[0];
 
-  const resourceBundle = options.resources ?? embeddedResourceBundle;
-  const partResources = resourceBundle.partIndex ?? {};
-  const identifierResources = resourceBundle.identifierIndex ?? {};
-  const markingResources = resourceBundle.markingIndex ?? {};
-  const rawPartFdb = (partResources.rawNand ?? {}) as Record<string, unknown>;
-  const rawIdentifierFdb = (identifierResources.nandFlash ?? rawPartFdb) as Record<string, unknown>;
-  const rawMdb = (markingResources.packageMarkings ?? {}) as Record<string, unknown>;
-  const rawManagedNandPn = partResources.managedNand ?? [];
-  const rawDramPn = partResources.dram ?? [];
-  const translationIndex = (resourceBundle.translationIndex ?? {}) as LangPacks;
-
-  const partFdb = buildFdb(rawPartFdb);
-  const identifierFdb = rawIdentifierFdb === rawPartFdb ? partFdb : buildFdb(rawIdentifierFdb);
-  const fdb = {
-    info: partFdb.info,
-    vendors: partFdb.vendors,
-    flashIds: identifierFdb.flashIds
+  const fdb = runtimeData.d.f;
+  const mdb = {
+    micron: runtimeData.d.m.mi,
+    spectek: runtimeData.d.m.sp
   };
-  const mdb = buildMdb(rawMdb);
-  const managedNandPartNumbers = buildKnownPartNumbers(rawManagedNandPn);
-  const dramPartNumbers = buildKnownPartNumbers(rawDramPn);
-  const micronDramFbgaCodes = buildMicronDramFbgaCodes(rawMdb);
-  const micronDramFbgaCodeSet = new Set(micronDramFbgaCodes.keys());
+  const micronDramFbgaCodes = runtimeData.d.m.dc;
+  const micronDramFbgaCodeSet = new Set(runtimeData.d.m.mk);
   const micronFbgaCodeSet = new Set(Object.keys(mdb.micron));
-  const controllerGroups = buildControllerGroupIndex(collectFdbControllers(fdb), resourceBundle.controllerIndex);
-  const normalizedIndexes = buildNormalizedIndexes({
-    fdb,
-    mdb,
-    managedNandPartNumbers,
-    dramPartNumbers,
-    micronDramFbgaCodes
-  });
+  const controllerGroups = controllerGroupIndexFromRuntimeData(runtimeData.d.c);
+  const normalizedIndexes = {
+    partIndex: runtimeData.d.s.p,
+    identifierIndex: runtimeData.d.s.id,
+    markingIndex: runtimeData.d.s.m,
+    partExactIndex: runtimeData.d.s.pe,
+    markingExactIndex: runtimeData.d.s.me,
+    partPrefixIndex: runtimeData.d.s.pp,
+    markingPrefixIndex: runtimeData.d.s.mp
+  };
+  const translationIndex = languagePacksFromRuntimeData(runtimeData.d.l) as LangPacks;
   const langPacks: LangPacks = {
     [fallbackLang]: {},
     ...translationIndex
@@ -143,9 +129,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     for (const lang of capabilityLanguages()) {
       snapshots.set(lang, buildCapabilitiesSnapshot({
         fdb,
-        mdb,
-        managedNandPartNumbers,
-        dramPartNumbers,
+        capability: runtimeData.d.c,
         controllerGroups,
         decoders,
         identifierDecoders,
@@ -484,12 +468,13 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     const records: PartIndexRecord[] = [];
     const seen = new Set<string>();
     for (const key of new Set([normalized, normalizePartNumberTokenKey(normalized)])) {
-      const refs = normalizedIndexes.partExactIndex.get(key);
+      const refs = normalizedIndexes.partExactIndex[key];
       for (const ref of refs === undefined ? [] : typeof refs === "number" ? [refs] : refs) {
-        const record = normalizedIndexes.partIndex[ref];
-        if (!record) {
+        const row = normalizedIndexes.partIndex[ref];
+        if (!row) {
           continue;
         }
+        const record = partIndexRecordFromRow(row);
         const recordKey = `${record.vendor}\0${record.normalizedPartNumber}\0${record.chipKind}`;
         if (seen.has(recordKey)) {
           continue;
@@ -745,7 +730,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
       const knownDramFbga = parseKnownMicronFbgaCode(partNumber, micronDramFbgaCodeSet);
       if (knownDramFbga) {
-        const candidates = micronDramFbgaCodes.get(knownDramFbga.key) ?? [];
+        const candidates = micronDramFbgaCodes[knownDramFbga.key] ?? [];
         for (const resolved of candidates) {
           const base = detectRaw(resolved, opts, false);
           if (draftVendor(base) === UNKNOWN) {
@@ -859,6 +844,32 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     };
   };
 
+  const withCandidateIdentity = (info: PartDecodeDraft, candidate: PartClassificationCandidate): PartDecodeDraft => {
+    const unknownInfo = !isKnownClassificationValue(draftVendor(info)) &&
+      !isKnownClassificationValue(info.device.chipKind) &&
+      !isKnownClassificationValue(info.device.productType) &&
+      !isKnownClassificationValue(draftDensity(info)) &&
+      !isKnownClassificationValue(draftField(info, "cell_level")) &&
+      !isKnownClassificationValue(draftField(info, "dram_type"));
+    if (!unknownInfo) {
+      return info;
+    }
+    return {
+      ...info,
+      device: {
+        ...info.device,
+        vendor: candidate.vendor,
+        chipKind: candidate.chipKind,
+        ...(candidate.productType ? { productType: candidate.productType } : {}),
+        partNumber: candidate.partNumber
+      },
+      fields: {
+        ...(info.fields ?? {}),
+        ...(candidate.markingMatch ? { micron_part_number: candidate.partNumber } : {})
+      }
+    };
+  };
+
   const shouldDefaultToFirstMarkingCandidate = (
     candidates: PartClassificationCandidate[],
     selected: PartClassificationCandidate | undefined
@@ -879,7 +890,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     warnings: ResultWarning[] = []
   ): PartDecodeResult => {
     const info = withMarkingCode(
-      candidate.info ?? inspectPartForDecodeClassification(candidate.partNumber),
+      withCandidateIdentity(candidate.info ?? inspectPartForDecodeClassification(candidate.partNumber), candidate),
       candidate.markingMatch ? candidate.markingCode : undefined
     );
     const result = buildPartDecodeResult(
@@ -897,7 +908,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return result;
   };
 
-  const getVersion = (): string => String(fdb.info.version);
+  const getVersion = (): string => String(fdb.i[1]);
 
   const searchPartSuggestions = (
     query: string,
@@ -920,13 +931,12 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     const limit = opts.limit ?? 0;
 
     if (!partMatch) {
-      const exact = normalizedIndexes.identifierIndex.get(query);
-      return exact ? [query] : [];
+      return fdb.id[query] ? [query] : [];
     }
 
     const result: string[] = [];
 
-    for (const flashId of normalizedIndexes.identifierIndex.keys()) {
+    for (const flashId of normalizedIndexes.identifierIndex) {
       if (limit > 0 && result.length >= limit) {
         break;
       }

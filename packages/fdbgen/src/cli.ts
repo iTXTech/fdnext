@@ -6,6 +6,12 @@ import { auditFdb, auditFdbFile, formatFdbAuditText } from "./audit";
 import { auditExtra, type ExtraAuditDecodePart, formatExtraAuditText } from "./extra-audit";
 import { generateFdb, generateFdbWithTrace } from "./fdbgen";
 import {
+  auditRuntimeDataFile,
+  checkRuntimeData,
+  formatRuntimeDataAuditText,
+  writeRuntimeData
+} from "./runtime-data";
+import {
   DEFAULT_MDB_FBGA_LETTER_GRID_PREFIXES,
   DEFAULT_MDB_FBGA_MANAGED_PREFIXES,
   DEFAULT_MDB_FBGA_MANAGED_SEGMENT_PREFIXES,
@@ -43,6 +49,7 @@ interface CliOptions {
   mdbHeaders?: string[];
   micronHeaders?: string[];
   spectekHeaders?: string[];
+  sourceDir?: string;
   format?: "text" | "json";
   maxSamples?: number;
   failOnIssues?: boolean;
@@ -53,6 +60,9 @@ function usage(): string {
   return [
     "Usage:",
     "  fdnext-fdbgen build --input <dir> --output <file> --version <ver> [options]",
+    "  fdnext-fdbgen build-runtime --source <dir> --output <file>",
+    "  fdnext-fdbgen check-runtime --source <dir> --file <fdnext-runtime-data.json>",
+    "  fdnext-fdbgen audit-runtime --file <fdnext-runtime-data.json>",
     "  fdnext-fdbgen audit --file <fdb.json> [options]",
     "  fdnext-fdbgen audit --input <dir> --version <ver> --trace-sources [options]",
     "  fdnext-fdbgen audit-extra --candidate <extra.json> [options]",
@@ -69,6 +79,11 @@ function usage(): string {
     "  --exclude-controller <name>",
     "                      Exclude a controller from generated FDB output; repeatable",
     "  --pretty            Write pretty JSON (default for MDB crawls)",
+    "",
+    "Runtime data options:",
+    "  --source <dir>      Runtime data source directory",
+    "  --output <file>     Runtime data output file",
+    "  --file <path>       Runtime data file for check/audit",
     "",
     "Audit options:",
     "  --file <path>       fdb.json file path to audit",
@@ -195,6 +210,79 @@ function parseBuildOptions(args: string[]): CliOptions {
     }
     if (arg === "--pretty") {
       options.pretty = true;
+      continue;
+    }
+    if (arg === "-h" || arg === "--help") {
+      process.stdout.write(`${usage()}\n`);
+      process.exit(0);
+    }
+    throw new Error(`Unknown argument: ${arg}`);
+  }
+  return options;
+}
+
+function parseRuntimeBuildOptions(args: string[]): CliOptions {
+  const options: CliOptions = {};
+  for (let i = 0; i < args.length; i += 1) {
+    const arg = args[i];
+    if (arg === "--") {
+      continue;
+    }
+    if (arg === "--source") {
+      options.sourceDir = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--output") {
+      options.outputFile = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "-h" || arg === "--help") {
+      process.stdout.write(`${usage()}\n`);
+      process.exit(0);
+    }
+    throw new Error(`Unknown argument: ${arg}`);
+  }
+  return options;
+}
+
+function parseRuntimeCheckOptions(args: string[]): CliOptions {
+  const options: CliOptions = {};
+  for (let i = 0; i < args.length; i += 1) {
+    const arg = args[i];
+    if (arg === "--") {
+      continue;
+    }
+    if (arg === "--source") {
+      options.sourceDir = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "--file") {
+      options.file = requireValue(args, i, arg);
+      i += 1;
+      continue;
+    }
+    if (arg === "-h" || arg === "--help") {
+      process.stdout.write(`${usage()}\n`);
+      process.exit(0);
+    }
+    throw new Error(`Unknown argument: ${arg}`);
+  }
+  return options;
+}
+
+function parseRuntimeAuditOptions(args: string[]): CliOptions {
+  const options: CliOptions = {};
+  for (let i = 0; i < args.length; i += 1) {
+    const arg = args[i];
+    if (arg === "--") {
+      continue;
+    }
+    if (arg === "--file") {
+      options.file = requireValue(args, i, arg);
+      i += 1;
       continue;
     }
     if (arg === "-h" || arg === "--help") {
@@ -440,6 +528,49 @@ function runBuild(args: string[]): void {
   process.stdout.write(`FDB generated: ${resolve(opts.outputFile)}\n`);
 }
 
+function runBuildRuntime(args: string[]): void {
+  const opts = parseRuntimeBuildOptions(args);
+  if (!opts.sourceDir) {
+    throw new Error("Missing required --source");
+  }
+  if (!opts.outputFile) {
+    throw new Error("Missing required --output");
+  }
+  writeRuntimeData(resolve(opts.sourceDir), resolve(opts.outputFile));
+  process.stdout.write(`Runtime data generated: ${resolve(opts.outputFile)}\n`);
+}
+
+function runCheckRuntime(args: string[]): void {
+  const opts = parseRuntimeCheckOptions(args);
+  if (!opts.sourceDir) {
+    throw new Error("Missing required --source");
+  }
+  if (!opts.file) {
+    throw new Error("Missing required --file");
+  }
+  const result = checkRuntimeData(resolve(opts.sourceDir), resolve(opts.file));
+  if (result.ok) {
+    process.stdout.write(`Runtime data is current: ${resolve(opts.file)}\n`);
+    return;
+  }
+  process.stderr.write(`Runtime data is stale: ${resolve(opts.file)}\n`);
+  process.stderr.write("Run runtime-data:generate to refresh the committed artifact.\n");
+  process.exitCode = 2;
+}
+
+function runAuditRuntime(args: string[]): void {
+  const opts = parseRuntimeAuditOptions(args);
+  if (!opts.file) {
+    throw new Error("Missing required --file");
+  }
+  const file = resolve(opts.file);
+  const result = auditRuntimeDataFile(file);
+  process.stdout.write(formatRuntimeDataAuditText(result, file));
+  if (!result.ok) {
+    process.exitCode = 2;
+  }
+}
+
 function runAudit(args: string[]): void {
   const opts = parseAuditOptions(args);
   if (!opts.file && !opts.inputDir) {
@@ -581,9 +712,9 @@ interface DecodeResultLike {
 }
 
 interface CoreModuleLike {
-  createEngine(options?: Record<string, unknown>): {
+  createEngine(options?: Record<string, unknown>): Promise<{
     decodePart(input: { query: string; lang?: string | null }): DecodeResultLike;
-  };
+  }>;
 }
 
 async function importPackageOrRepoSource<T>(packageName: string, repoSourcePath: string): Promise<T> {
@@ -629,7 +760,7 @@ function collectDecodeFields(result: DecodeResultLike): Record<string, unknown> 
 
 async function loadDecodepackAuditDecoder(): Promise<ExtraAuditDecodePart> {
   const core = await importPackageOrRepoSource<CoreModuleLike>("@itxtech/fdnext-core", "../../core/src/index.ts");
-  const engine = core.createEngine();
+  const engine = await core.createEngine();
 
   return (partNumber) => {
     const result = engine.decodePart({ query: partNumber, lang: "eng" });
@@ -707,6 +838,18 @@ async function main(): Promise<void> {
   }
   if (command === "build") {
     runBuild(process.argv.slice(3));
+    return;
+  }
+  if (command === "build-runtime") {
+    runBuildRuntime(process.argv.slice(3));
+    return;
+  }
+  if (command === "check-runtime") {
+    runCheckRuntime(process.argv.slice(3));
+    return;
+  }
+  if (command === "audit-runtime") {
+    runAuditRuntime(process.argv.slice(3));
     return;
   }
   if (command === "audit") {

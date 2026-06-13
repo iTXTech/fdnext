@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createContractEngine } from "../src/index";
 import { collectResultFields } from "./_helpers";
 
-const engine = createContractEngine();
+const engine = await createContractEngine();
 
 assert.equal(
   engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng", constraints: { chipKind: "dram", strict: true } }).status,

@@ -1,41 +1,91 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import type { FdnextResourceBundle, FieldValue, PartDecodeResult } from "../../../src/index";
-import { createEngine } from "../../../src/index";
-import { embeddedResourceBundle } from "../../../src/resources";
-import partNumberPnJson from "../../../resources/managed-nand-pn.json" with { type: "json" };
+import type { FdnextEngine, FdnextRuntimeData, FieldValue, PartDecodeResult } from "../../../src/index";
+import { createEngine, getEmbeddedRuntimeData } from "../../../src/index";
+import partNumberPnJson from "../../../data-source/managed-nand-pn.json" with { type: "json" };
 import { compileDecodePack, defaultDecodePack, explainPartDecode } from "../../../src/decodepack";
 
 export { defaultDecodePack, partNumberPnJson };
 
 export const compiledPack = compileDecodePack(defaultDecodePack);
 
-const decodeOnlyResourceBundle = {
-  partIndex: { rawNand: {}, managedNand: [], dram: [] },
-  identifierIndex: { nandFlash: {} },
-  markingIndex: { packageMarkings: {} },
-  vendorIndex: {},
-  controllerIndex: embeddedResourceBundle.controllerIndex,
-  translationIndex: embeddedResourceBundle.translationIndex
-} satisfies FdnextResourceBundle;
+const embeddedRuntimeData = getEmbeddedRuntimeData();
 
-const decodeEngine = createEngine({
-  resources: decodeOnlyResourceBundle,
+function emptyRuntimeData(): FdnextRuntimeData {
+  return {
+    ...embeddedRuntimeData,
+    src: "00000000",
+    d: {
+      ...embeddedRuntimeData.d,
+      f: { i: ["test", "test", "", ""], p: {}, id: {}, tk: {}, ct: [] },
+      m: { mi: {}, sp: {}, dc: {}, mk: [] },
+      s: { p: [], m: [], id: [], pe: {}, pp: {}, me: {}, mp: {} },
+      c: {
+        n: { fid: 0, pn: 0, fbga: 0 },
+        ct: [],
+        dg: "all",
+        g: embeddedRuntimeData.d.c.g.map(([id, _count, _items, exclusive]) => [id, 0, [], exclusive])
+      }
+    }
+  };
+}
+
+function runtimeDataWithSingleFdbPart(): FdnextRuntimeData {
+  return {
+    ...emptyRuntimeData(),
+    d: {
+      ...emptyRuntimeData().d,
+      f: {
+        i: ["test", "test", "", ""],
+        p: {
+          micron: {
+            MT29F2T08GBLBH: ["MT29F2T08GBLBH", ["2C00"], null, null, "B47R", "MLC", ["FDB_ONLY_CTRL"], null, null, null, null, null, null, 16, 8, 4, 2]
+          }
+        },
+        id: {},
+        tk: {
+          micron: {
+            MT29F2T08GBLBH: "MT29F2T08GBLBH"
+          }
+        },
+        ct: ["FDB_ONLY_CTRL"]
+      },
+      s: {
+        p: [["MT29F2T08GBLBH", "MT29F2T08GBLBH", "micron", "raw_nand", null, null, "fdb"]],
+        m: [],
+        id: [],
+        pe: { MT29F2T08GBLBH: 0 },
+        pp: {},
+        me: {},
+        mp: {}
+      },
+      c: {
+        n: { fid: 0, pn: 1, fbga: 0 },
+        ct: ["FDB_ONLY_CTRL"],
+        dg: "all",
+        g: embeddedRuntimeData.d.c.g.map(([id, _count, _items, exclusive]) => [id, id === "all" ? 1 : 0, id === "all" ? ["FDB_ONLY_CTRL"] : [], exclusive])
+      }
+    }
+  };
+}
+
+const decodeOnlyRuntimeData = emptyRuntimeData();
+
+const decodeEngine = await createEngine({
+  runtimeData: decodeOnlyRuntimeData,
   decoders: compiledPack.partDecoders
 });
 
-let fullEngineCache: ReturnType<typeof createEngine> | undefined;
+const fullEngineInstance = await createEngine({
+  decoders: compiledPack.partDecoders,
+  profileTables: compiledPack.profileTables
+});
 
-function fullEngine(): ReturnType<typeof createEngine> {
-  fullEngineCache ??= createEngine({
-    resources: embeddedResourceBundle,
-    decoders: compiledPack.partDecoders,
-    profileTables: compiledPack.profileTables
-  });
-  return fullEngineCache;
+function fullEngine(): FdnextEngine {
+  return fullEngineInstance;
 }
 
-export const engine: ReturnType<typeof createEngine> = {
+export const engine: FdnextEngine = {
   getVersion: () => decodeEngine.getVersion(),
   getCapabilities: (input) => fullEngine().getCapabilities(input),
   decodePart: (input) => decodeEngine.decodePart(input),
@@ -44,10 +94,15 @@ export const engine: ReturnType<typeof createEngine> = {
   searchIdentifiers: (input) => fullEngine().searchIdentifiers(input)
 };
 
-export const engineWithoutFdb = createEngine({
-  resources: decodeOnlyResourceBundle,
+export const engineWithoutFdb = await createEngine({
+  runtimeData: decodeOnlyRuntimeData,
   decoders: compiledPack.partDecoders,
   profileTables: compiledPack.profileTables
+});
+
+const precedenceEngine = await createEngine({
+  runtimeData: runtimeDataWithSingleFdbPart(),
+  decoders: compiledPack.partDecoders
 });
 
 export const hiddenPublicCodeExtraKeys = new Set([
@@ -490,30 +545,6 @@ export function assertDecodePackDieProfile(partNumber: string, expected: string,
 }
 
 export function assertFdbDoesNotOverrideDecodePackFields(): void {
-  const precedenceEngine = createEngine({
-    resources: {
-      ...embeddedResourceBundle,
-      partIndex: {
-        ...embeddedResourceBundle.partIndex,
-        rawNand: {
-          info: { version: "test", controllers: ["FDB_ONLY_CTRL"] },
-          micron: {
-            MT29F2T08GBLBH: {
-              id: ["2C00"],
-              l: "B47R",
-              c: "MLC",
-              d: 16,
-              e: 8,
-              r: 4,
-              n: 2,
-              t: ["FDB_ONLY_CTRL"]
-            }
-          }
-        }
-      }
-    },
-    decoders: compiledPack.partDecoders
-  });
   const result = precedenceEngine.decodePart({ query: "MT29F2T08GBLBH", lang: "eng" });
   assert.equal(result.status, "ok", "conflicting FDB fixture should still decode");
   assert.equal(fieldText(firstField(result, "die_codename")), "N69R", "DecodePack die profile should win over FDB process");

@@ -2,7 +2,7 @@ import assert from "node:assert/strict";
 import { createContractEngine } from "../src/index";
 import { assertCapabilitiesBuildTime, normalizeCapabilitiesForComparison, runCli } from "./_helpers";
 
-const engine = createContractEngine();
+const engine = await createContractEngine();
 const sdkCapabilities = engine.getCapabilities();
 
 const cliPartDecode = runCli(["part", "decode", "MT62F1G64D4EK-023", "eng"]);
