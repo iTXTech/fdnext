@@ -61,14 +61,14 @@
 | `series_info` | 厂商系列说明 | `3D-V4` |
 | `storage_interface` | managed NAND 或 MCP storage 接口 | `eMMC 5.1`, `UFS 4.0` |
 | `interface_type` | 接口模式、Gear、lane 或 HS 模式 | `HS400`, `Gear 4 / 2-Lane` |
-| `toggle` | Toggle DDR 版本或标记 | `4.0` |
+| `toggle` | Toggle DDR 标记 | `DDR` |
 | `controller` / `controller_revision` | 支持控制器列表或控制器版本 | `["SM2244LT", "SM3270AC"]`, `V4.41 EF` |
 | `package_configuration` | MCP/eMCP/uMCP 封装内 storage / DRAM / eMMC / UFS 颗数组合，不表达封装尺寸 | `4 LPDRAM, 1 UFS` |
 | `dram_configuration` | MCP/eMCP/uMCP 中 DRAM 子系统的实际颗粒组成；当同一 PN 混用多种 DRAM die/part token 时用于保留组成细节 | `48Gb (4 x Y2BM) + 16Gb (2 x Y21N)` |
-| `operation_temperature` | 工作温度范围或温度等级 | `-40C ~ 105C`, `Automotive Grade 2` |
-| `assembly` / `segment` / `sku` | 厂商封装、产品分段或 SKU token 展开 | `Client Component` |
+| `product_class` / `assembly` / `segment` / `sku` | 厂商产品等级、封装、产品分段或 SKU token 展开 | `Automotive Grade 2`, `Client Component` |
+| `operation_temperature` | 工作温度范围 | `-40~105C` |
 | `lead_free` / `halogen_free` / `wafer` / `multi_chip` / `cu` | 环保、晶圆、多芯片或铜工艺标记 | `true` |
-| `bad_block` | 坏块策略 | `samsung_cbb_b` |
+| `bad_block` | 坏块策略 | `Include Bad Block` |
 | `ecc_enabled` | 内部 ECC 状态 | `true` / `Yes` |
 
 约定：

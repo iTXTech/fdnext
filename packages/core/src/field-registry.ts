@@ -709,7 +709,7 @@ export const fdnextFieldRegistry = {
   toggle: {
     key: "toggle",
     valueKind: "string",
-    defaultLabel: "Toggle DDR version",
+    defaultLabel: "Toggle DDR",
     recommendedBlock: "interface",
     importance: "detail"
   },

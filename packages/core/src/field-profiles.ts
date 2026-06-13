@@ -37,7 +37,7 @@ export const fdnextFieldProfiles = {
         id: "package",
         label: "Package",
         importance: "detail",
-        fields: ["package", "package_code", "assembly", "segment", "lead_free", "halogen_free", "wafer", "bad_block", "sku", "multi_chip", "cu", "operation_temperature", "special_option"]
+        fields: ["package", "package_code", "product_class", "assembly", "segment", "lead_free", "halogen_free", "wafer", "bad_block", "sku", "multi_chip", "cu", "operation_temperature", "special_option"]
       },
       { id: "controllers", label: "Controllers", importance: "detail", fields: ["controller"] }
     ]

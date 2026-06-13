@@ -15,14 +15,36 @@ PN 结构：
 
 | 结构 | 含义 |
 | --- | --- |
-| `K9` + classification + density + technology + width + voltage + mode + generation + optional package / temperature / bad-block | Samsung raw NAND token form |
+| `K9` + classification + density + organization + voltage + mode + generation + optional package / temperature / bad-block | Samsung raw NAND token form |
 | classification | cell level and die count |
 | density | package density |
-| technology | Toggle DDR generation flag |
-| width | device width |
+| organization | bus width and SDR / Toggle DDR interface marker |
 | voltage | voltage option |
 | mode | configuration: CE / R/B count and option notes |
 | generation | generation code; may also feed process profile matching through FDB / die profile rules |
+
+## 第 6/7 位 Organization
+
+第 6/7 位按 Samsung organization 表整体解析。DecodePack 公开输出只保留 `device_width` 和 `interface_type`：`D8` / `Y8` / `B8` / `W8` / `K8` / `S8` / `A8` / `C8` 均只标注为 `Toggle DDR`，不再输出 Toggle DDR 版本号。`K8` / `S8` / `A8` / `C8` 的 Channel / 封装厂 note 不进入 DecodePack note，也不进入 public fields。
+
+| Code | Bus width | public interface | Source note |
+| --- | --- | --- | --- |
+| `00` | NONE | NONE |  |
+| `08` | x8 | SDR | Normal |
+| `16` | x16 | SDR | Normal |
+| `32` | x32 | SDR | Normal |
+| `64` | x64 | SDR | Normal |
+| `28` | x8 | SDR | SSD |
+| `D8` | x8 | Toggle DDR | DDR Normal |
+| `Y8` | x8 | Toggle DDR | HP |
+| `B8` | x8 | Toggle DDR | HP w/ FBI Chip |
+| `W8` | x8 | Toggle DDR | Wafer |
+| `K8` | x8 | Toggle DDR |  |
+| `S8` | x8 | Toggle DDR |  |
+| `A8` | x8 | Toggle DDR |  |
+| `C8` | x8 | Toggle DDR |  |
+
+`FBI` 指 `Frequency Boosting Interface`。DecodePack 内部 note 保持 `FBI` 缩写，不把展开文本写入规则输出。
 
 ## 第 8 位 Operating Voltage Range
 
@@ -181,13 +203,14 @@ Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也�
 - `rb_count`
 - `special_option`
 - `device_width`
+- `interface_type`
 - `voltage`
-- `toggle`
 - `package`
+- `product_class`
 - `operation_temperature`
 - `bad_block`
 
-`classificationCode`、`densityCode`、`modeCode`、`generationCode`、`packageCode` 等 token 只用于内部解析，不进入公开字段。
+`classificationCode`、`densityCode`、`organizationCode`、`modeCode`、`generationCode`、`packageCode`、`opTempCode`、`badBlockCode` 等 token 只用于内部解析，不进入公开字段。
 
 ## 第 10 位 Package
 
@@ -227,6 +250,39 @@ Samsung package code 在资料表中存在重复行，同一个 code 可能同�
 | `X` | `FBGA-108` |
 | `Y` | `FBGA-108` |
 | `Z` | `WELP-48` |
+
+## 第 12 位 Temperature & SmartMedia Color
+
+该位位于 package token 后。DecodePack 把 product class 与温度范围分开输出：`product_class` 保存产品等级 / SmartMedia 颜色线索，`operation_temperature` 只保存温度范围。`0` 是 NONE / Wafer / CHIP BIZ / Exception Handling，不进入公开字段；SmartMedia 的 BLACK / BLUE 颜色折叠进 `product_class`，不新增单独 color 字段。
+
+| Code | public product_class | public operation_temperature | Source note |
+| --- | --- | --- | --- |
+| `0` |  |  | NONE (Wafer, CHIP BIZ, Exception Handling) |
+| `3` | `Wafer Level 3` |  |  |
+| `C` | `Commercial` | `0~70C` |  |
+| `E` | `Extended Commercial` | `-25~85C` |  |
+| `I` | `Industrial` | `-40~85C` |  |
+| `F` | `Automotive Grade 3` | `-40~85C` |  |
+| `H` | `Automotive Grade 2` | `-40~105C` |  |
+| `S` | `SmartMedia BLACK` | `0~55C` |  |
+| `B` | `SmartMedia BLUE` | `0~55C` |  |
+
+## 第 13 位 Customer Bad Block
+
+该位位于 temperature token 后。DecodePack 只输出明确的坏块策略；`0` 的 NONE / Wafer / CHIP BIZ / Exception Handling 以及空白 `J` 不进入公开字段。`K` 的 legacy 状态只保留在文档中，公开输出保持短标签 `SanDisk Bin`。
+
+| Code | public bad_block | Source note |
+| --- | --- | --- |
+| `0` |  | NONE (Wafer, CHIP BIZ, Exception Handling) |
+| `A` | `Apple Bad Block` |  |
+| `B` | `Include Bad Block` |  |
+| `D` | `Daisychain Sample` |  |
+| `E` | `Enterprise MLC` |  |
+| `J` |  | blank / reserved |
+| `K` | `SanDisk Bin` | legacy / Special Handling |
+| `L` | `1-5 Bad Block` |  |
+| `N` | `ini 0 blk, add 10 blk` |  |
+| `S` | `All Good Block` |  |
 
 ## 第 9 位 Configuration
 

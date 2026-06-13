@@ -46,6 +46,36 @@ function assertSamsungRawVoltage(voltageCode: string, expected: string): void {
   assert.equal(fieldText(firstField(result, "voltage")), expected, `${partNumber} voltage`);
 }
 
+function assertSamsungRawPostDashSuffix(
+  suffix: string,
+  expected: { productClass?: string; operationTemperature?: string; badBlock?: string }
+): void {
+  const partNumber = `K9XVGY8J5M-${suffix}`;
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+  assert.equal(result.device?.vendor.id, "samsung", `${partNumber} vendor`);
+  assert.equal(result.device?.chipKind, "raw_nand", `${partNumber} chip kind`);
+  assert.equal(fieldText(firstField(result, "package")), "FBGA-316", `${partNumber} package`);
+  assert.equal(fieldText(firstField(result, "product_class")), expected.productClass, `${partNumber} product_class`);
+  assert.equal(fieldText(firstField(result, "operation_temperature")), expected.operationTemperature, `${partNumber} operation_temperature`);
+  assert.equal(fieldText(firstField(result, "bad_block")), expected.badBlock, `${partNumber} bad_block`);
+}
+
+function assertSamsungRawOrganization(
+  organizationCode: string,
+  expected: { width?: string; interfaceType: string; specialOption?: string }
+): void {
+  const partNumber = `K9XVG${organizationCode}J5M`;
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+  assert.equal(result.device?.vendor.id, "samsung", `${partNumber} vendor`);
+  assert.equal(result.device?.chipKind, "raw_nand", `${partNumber} chip kind`);
+  assert.equal(fieldText(firstField(result, "device_width")), expected.width, `${partNumber} device_width`);
+  assert.equal(fieldText(firstField(result, "interface_type")), expected.interfaceType, `${partNumber} interface_type`);
+  assert.equal(firstField(result, "toggle"), undefined, `${partNumber} should not expose legacy toggle field`);
+  assert.equal(fieldText(firstField(result, "special_option")), expected.specialOption, `${partNumber} special_option`);
+}
+
 function assertSamsungRawPackage(packageCode: string, expected: string): void {
   const partNumber = `K9XVGY8J5M-${packageCode}`;
   const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
@@ -444,8 +474,9 @@ testPart("K9DYGY8J5B-CCK0", {
     "Layer Count": 236,
     "Die Count": 16,
     "CE Count": 4,
-    "Operation Temperature": "Commercial",
-    "Bad block": "Special Handling"
+    "Product Class": "Commercial",
+    "Operation Temperature": "0~70C",
+    "Bad block": "SanDisk Bin"
   },
   absentExtra: ["Lead free", "Halogen free", "CU"]
 });
@@ -744,6 +775,18 @@ test("Samsung raw NAND mode configuration follows nCE/RnB table", () => {
   assertSamsungRawConfiguration("K9XVGY8JLM", { specialOption: "Low Grade" });
 });
 
+test("Samsung raw NAND organization emits interface marker without legacy toggle notes", () => {
+  assertSamsungRawOrganization("00", { interfaceType: "NONE" });
+  assertSamsungRawOrganization("08", { width: "x8", interfaceType: "SDR" });
+  assertSamsungRawOrganization("16", { width: "x16", interfaceType: "SDR" });
+  assertSamsungRawOrganization("32", { width: "x32", interfaceType: "SDR" });
+  assertSamsungRawOrganization("64", { width: "x64", interfaceType: "SDR" });
+  assertSamsungRawOrganization("28", { width: "x8", interfaceType: "SDR" });
+  for (const organizationCode of ["D8", "Y8", "B8", "W8", "K8", "S8", "A8", "C8"]) {
+    assertSamsungRawOrganization(organizationCode, { width: "x8", interfaceType: "Toggle DDR" });
+  }
+});
+
 test("Samsung raw NAND voltage follows operating-voltage table", () => {
   assertSamsungRawVoltage("0", "NONE");
   assertSamsungRawVoltage("A", "Vcc: 1.65V~3.60V");
@@ -761,6 +804,62 @@ test("Samsung raw NAND voltage follows operating-voltage table", () => {
   assertSamsungRawVoltage("U", "Vcc: 3.30V (2.70V~3.60V)");
   assertSamsungRawVoltage("V", "Vcc: 3.30V (3.00V~3.60V)");
   assertSamsungRawVoltage("W", "Vcc: 2.70V~5.50V");
+});
+
+test("Samsung raw NAND post-dash temperature token splits class and range", () => {
+  assertSamsungRawPostDashSuffix("C0B", { badBlock: "Include Bad Block" });
+  assertSamsungRawPostDashSuffix("C30", { productClass: "Wafer Level 3" });
+  assertSamsungRawPostDashSuffix("CC0", { productClass: "Commercial", operationTemperature: "0~70C" });
+  assertSamsungRawPostDashSuffix("CE0", { productClass: "Extended Commercial", operationTemperature: "-25~85C" });
+  assertSamsungRawPostDashSuffix("CI0", { productClass: "Industrial", operationTemperature: "-40~85C" });
+  assertSamsungRawPostDashSuffix("CF0", { productClass: "Automotive Grade 3", operationTemperature: "-40~85C" });
+  assertSamsungRawPostDashSuffix("CH0", { productClass: "Automotive Grade 2", operationTemperature: "-40~105C" });
+  assertSamsungRawPostDashSuffix("CS0", { productClass: "SmartMedia BLACK", operationTemperature: "0~55C" });
+  assertSamsungRawPostDashSuffix("CB0", { productClass: "SmartMedia BLUE", operationTemperature: "0~55C" });
+});
+
+test("Samsung raw NAND post-dash bad-block token emits strategy labels only", () => {
+  assertSamsungRawPostDashSuffix("CCA", {
+    productClass: "Commercial",
+    operationTemperature: "0~70C",
+    badBlock: "Apple Bad Block"
+  });
+  assertSamsungRawPostDashSuffix("CCB", {
+    productClass: "Commercial",
+    operationTemperature: "0~70C",
+    badBlock: "Include Bad Block"
+  });
+  assertSamsungRawPostDashSuffix("CCD", {
+    productClass: "Commercial",
+    operationTemperature: "0~70C",
+    badBlock: "Daisychain Sample"
+  });
+  assertSamsungRawPostDashSuffix("CCE", {
+    productClass: "Commercial",
+    operationTemperature: "0~70C",
+    badBlock: "Enterprise MLC"
+  });
+  assertSamsungRawPostDashSuffix("CCJ", { productClass: "Commercial", operationTemperature: "0~70C" });
+  assertSamsungRawPostDashSuffix("CCK", {
+    productClass: "Commercial",
+    operationTemperature: "0~70C",
+    badBlock: "SanDisk Bin"
+  });
+  assertSamsungRawPostDashSuffix("CCL", {
+    productClass: "Commercial",
+    operationTemperature: "0~70C",
+    badBlock: "1-5 Bad Block"
+  });
+  assertSamsungRawPostDashSuffix("CCN", {
+    productClass: "Commercial",
+    operationTemperature: "0~70C",
+    badBlock: "ini 0 blk, add 10 blk"
+  });
+  assertSamsungRawPostDashSuffix("CCS", {
+    productClass: "Commercial",
+    operationTemperature: "0~70C",
+    badBlock: "All Good Block"
+  });
 });
 
 test("Samsung raw NAND package code emits package-first short labels only", () => {
