@@ -386,17 +386,110 @@
           }
         },
         "packageObj": {
-          "DV": {
-            "package": "LFBGA-315, 12.4x15.0x1.30"
+          "AE": {
+            "package": "WFBGA-436/1156, 14.0x14.0x0.74"
+          },
+          "AH": {
+            "package": "WFBGA-563/570, 7.0x12.4x0.67"
+          },
+          "AJ": {
+            "package": "VFBGA-563/570, 7.0x12.4x0.91"
+          },
+          "B7": {
+            "package": "VFBGA-60/90, 10.0x10.0x1.0"
+          },
+          "BD": {
+            "package": "WFBGA-320/870, 12.0x12.7x0.7"
+          },
+          "BE": {
+            "package": "VFBGA-320/870, 12.0x12.7x0.81"
+          },
+          "BF": {
+            "package": "VFBGA-54, 8.0x9.0x1.0"
+          },
+          "BG": {
+            "package": "WFBGA-496/756, 14.0x12.4x0.67"
+          },
+          "BQ": {
+            "package": "VFBGA-90/135, 8.0x13.0x1.0"
+          },
+          "BW": {
+            "package": "UFBGA-374/2040, 12.5x15.7x0.61"
+          },
+          "C2": {
+            "package": "WFBGA-426/1480, 13.5x14.5x0.74"
+          },
+          "C3": {
+            "package": "WFBGA-456/1677, 14.0x15.5x0.66"
+          },
+          "C4": {
+            "package": "WFBGA-456/1677, 15.5x14.0x0.66"
+          },
+          "C5": {
+            "package": "WFBGA-280/1360, 14.0x16.5x0.76"
+          },
+          "C6": {
+            "package": "WFBGA-244/1054, 13.0x14.0x0.68"
+          },
+          "C7": {
+            "package": "WFBGA-504/841, 15.0x15.0x0.7"
+          },
+          "CA": {
+            "package": "UFBGA-406/2296, 12.63x17.26x0.61"
+          },
+          "CH": {
+            "package": "WFBGA-496/756, 14.0x12.4x0.77"
+          },
+          "CK": {
+            "package": "VFBGA-60/90, 10.0x11.5x1.0"
+          },
+          "CL": {
+            "package": "WFBGA-496/756, 14x12.4x0.69"
+          },
+          "CM": {
+            "package": "VFBGA-90/135, 10.0x13.0x1.0"
+          },
+          "CX": {
+            "package": "VFBGA-90/135, 9.0x13.0x1.0"
+          },
+          "CY": {
+            "package": "TFBGA-200/264, 10.0x14.0x1.1"
+          },
+          "CZ": {
+            "package": "TFBGA-561/570, 8.0x12.4x1.2"
+          },
+          "DE": {
+            "package": "TFBGA-200/264, 10.0x14.0x1.14"
+          },
+          "DG": {
+            "package": "WFBGA-877/968, 6.6x13.1x0.79"
+          },
+          "DR": {
+            "package": "TFBGA-315/315, 12.4x15.0x1.1"
           },
           "DT": {
             "package": "VFBGA-200/264, 10.0x14.5x0.95"
           },
-          "NQ": {
-            "package": "VFBGA-200/264, 10.0x14.5x0.95"
+          "DV": {
+            "package": "LFBGA-315/315, 12.4x15x1.3"
           },
-          "H6": {
-            "package": "TFBGA-178/221, 11.5x13.0x1.1"
+          "DX": {
+            "package": "LFBGA-315/315, 12.8x15x1.3"
+          },
+          "EA": {
+            "package": "WFBGA-877/968, 6.6x13.1x0.78"
+          },
+          "EG": {
+            "package": "TFBGA-556/841, 12.4x12.4x1.1"
+          },
+          "EJ": {
+            "package": "TFBGA-441/441, 14x14x1.1"
+          },
+          "EK": {
+            "package": "TFBGA-441/441, 14x14x1.1"
+          },
+          "EZ": {
+            "package": "WFBGA-342/992, 14.5x15.0x0.73"
           },
           "FH": {
             "package": "VFBGA-496/756, 14x12.4x0.81"
@@ -404,11 +497,146 @@
           "FS": {
             "package": "FBGA-96/144, 9.0x14.0x1.2"
           },
-          "RG": {
-            "package": "TFBGA-78/117, 7.5x10.6x1.2"
+          "FW": {
+            "package": "TFBGA-200/264, 10.0x14.5x1.1"
           },
-          "RH": {
-            "package": "FBGA-78/117, 9.0x10.5x1.2"
+          "G1": {
+            "package": "UFBGA-426/1480, 13.5x14.5x0.64"
+          },
+          "GE": {
+            "package": "TFBGA-877/968, 6.6x13.1x1.09"
+          },
+          "GL": {
+            "package": "VFBGA-220/729, 14.0x14.0x0.99"
+          },
+          "GN": {
+            "package": "WFBGA-256/1156, 14.0x14.0x0.7"
+          },
+          "GS": {
+            "package": "LFBGA-200/264, 10x14.5x1.3"
+          },
+          "H1": {
+            "package": "VFBGA-253/289, 11x11x0.85"
+          },
+          "H2": {
+            "package": "TFBGA-134/170, 11.5x13.0x1.2"
+          },
+          "H3": {
+            "package": "WFBGA-134/170, 11.5x11.5x0.8"
+          },
+          "H4": {
+            "package": "VFBGA-168/529, 12.0x12.0x0.92"
+          },
+          "H5": {
+            "package": "TFBGA-168/529, 12.0x12.0x1.02"
+          },
+          "H6": {
+            "package": "TFBGA-178/221, 11.5x13.0x1.1"
+          },
+          "H7": {
+            "package": "VFBGA-178/221, 11.5x12.0x0.9"
+          },
+          "H8": {
+            "package": "VFBGA-178/221, 11.5x12.5x1.0"
+          },
+          "H9": {
+            "package": "BFBGA-261/441, 10.0x10.0x0.77"
+          },
+          "HA": {
+            "package": "TFBGA-96/144, 9.0x14.0x1.2"
+          },
+          "HC": {
+            "package": "VFBGA-178/221, 10.5x11.5x0.9"
+          },
+          "HJ": {
+            "package": "TFBGA-556/841, 12.4x12.4x1.1"
+          },
+          "HL": {
+            "package": "VFBGA-178/221, 10.5x11.5x1.0"
+          },
+          "HR": {
+            "package": "WFBGA-366/841, 12.0x12.7x0.68"
+          },
+          "JL": {
+            "package": "WFBGA-376/1156, 14.0x14.0x0.74"
+          },
+          "JS": {
+            "package": "VFBGA-366/841, 12.0x12.7x0.92"
+          },
+          "JU": {
+            "package": "VFBGA-253/289, 12.5x12.5x0.95"
+          },
+          "K1": {
+            "package": "WFBGA-216/841, 12.0x12.0x0.7"
+          },
+          "K2": {
+            "package": "VFBGA-253/289, 11.0x11.0x0.85"
+          },
+          "K3": {
+            "package": "TFBGA-361/729, 13.0x13.0x1.1"
+          },
+          "KA": {
+            "package": "VFBGA-716/726, 8.0x12.0x0.9"
+          },
+          "KE": {
+            "package": "WFBGA-244/1054, 13.0x14.0x0.76"
+          },
+          "KH": {
+            "package": "WFBGA-216/841, 12.0x12.0x0.8"
+          },
+          "KJ": {
+            "package": "VFBGA-216/841, 12.0x12.0x1.0"
+          },
+          "KL": {
+            "package": "WFBGA-168/529, 12.0x12.0x0.8"
+          },
+          "KN": {
+            "package": "TFBGA-366/841, 15.0x15.0x1.1"
+          },
+          "KP": {
+            "package": "VFBGA-168/529, 12.0x12.0x1.0"
+          },
+          "KQ": {
+            "package": "WFBGA-168/529, 12.0x12.0x0.75"
+          },
+          "KU": {
+            "package": "VFBGA-216/841, 12.0x12.0x0.9"
+          },
+          "LD": {
+            "package": "VFBGA-220/729, 14.0x14.0x1.0"
+          },
+          "LE": {
+            "package": "VFBGA-168/529, 12.0x12.0x1.0"
+          },
+          "LF": {
+            "package": "WFBGA-168/529, 12.0x12.0x0.75"
+          },
+          "LG": {
+            "package": "WFBGA-168/529, 12.0x12.0x0.8"
+          },
+          "LH": {
+            "package": "UFGA-216/841, 12.0x12.0x0.65"
+          },
+          "LK": {
+            "package": "WFBGA-216/841, 12.0x12.0x0.8"
+          },
+          "LL": {
+            "package": "WFBGA-216/841, 12.0x12.0x0.8"
+          },
+          "LM": {
+            "package": "VFBGA-216/841, 12.0x12.0x1.0"
+          },
+          "LP": {
+            "package": "VFBGA-216/841, 12.0x12.0x0.82"
+          },
+          "LR": {
+            "package": "WFBGA-216/841, 15.0x15.0x0.8"
+          },
+          "LT": {
+            "package": "VFBGA-216/841, 15.0x15.0x1.0"
+          },
+          "LW": {
+            "package": "WFBGA-256/1156, 14.0x14.0x0.8"
           },
           "LY": {
             "package": "TFBGA-96/144, 7.5x13.5x1.2"
@@ -416,14 +644,195 @@
           "LZ": {
             "package": "WFBGA-216/841, 12.0x12.0x0.8"
           },
+          "MA": {
+            "package": "WFBGA-168/529, 12.0x12.0x0.7"
+          },
+          "MC": {
+            "package": "VFBGA-240/729, 14.0x14.0x0.8"
+          },
+          "MG": {
+            "package": "TFBGA-134/170, 11.5x11.5x1.2"
+          },
+          "MH": {
+            "package": "VFBGA-134/170, 11.0x11.5x1.0"
+          },
+          "MP": {
+            "package": "WFBGA-220/729, 14.0x14.0x0.8"
+          },
           "MV": {
             "package": "VFBGA-253/289, 11.0x11.0x1.0"
+          },
+          "MZ": {
+            "package": "VFBGA-178/221, 12.5x11.5x1.0"
+          },
+          "NC": {
+            "package": "VFBGA-168/529, 12.0x12.0x0.82"
+          },
+          "NH": {
+            "package": "WFBGA-272/1296, 15.0x15.0x0.7"
+          },
+          "NJ": {
+            "package": "WFBGA-272/1296, 15.0x15.0x0.8"
+          },
+          "NK": {
+            "package": "WFBGA-366/841, 15.0x15.0x0.7"
+          },
+          "NL": {
+            "package": "UFBGA-450/1640, 14.46x14.8x0.61"
+          },
+          "NP": {
+            "package": "WFBGA-200/264, 10.0x14.5x0.8"
+          },
+          "NQ": {
+            "package": "VFBGA-200/264, 10.0x14.5x0.95"
+          },
+          "NW": {
+            "package": "VFBGA-432/675, 15.0x15.0x0.85"
+          },
+          "NY": {
+            "package": "UFBGA-366/2160, 13.73x14.65x0.61"
+          },
+          "PD": {
+            "package": "WFBGA-216/841, 15.0x15.0x0.72"
+          },
+          "PE": {
+            "package": "VFBGA-216/841, 15.0x15.0x0.82"
+          },
+          "PF": {
+            "package": "VFBGA-178/221, 11.0x11.5x0.85"
+          },
+          "PG": {
+            "package": "VFBGA-178/221, 12.0x11.5x1.0"
+          },
+          "PP": {
+            "package": "WFBGA-253/289, 11.0x14.0x0.7"
+          },
+          "PQ": {
+            "package": "VFBGA-253/289, 11.0x11.5x0.95"
+          },
+          "PU": {
+            "package": "WFBGA-168/529, 12.0x12.0x0.80"
+          },
+          "PX": {
+            "package": "VFBGA-480/779, 8.0x17.0x1.0"
+          },
+          "QC": {
+            "package": "VFBGA-253/289, 12.0x12.0x1.0"
           },
           "QD": {
             "package": "VFBGA-200/264, 10.0x14.5x1.0"
           },
+          "RD": {
+            "package": "VFBGA-376/1156, 14.0x14.0x0.9"
+          },
+          "RG": {
+            "package": "TFBGA-78/117, 7.5x10.6x1.2"
+          },
+          "RH": {
+            "package": "FBGA-78/117, 9.0x10.5x1.2"
+          },
+          "RN": {
+            "package": "VFBGA-196/841, 12.0x12.0x0.86"
+          },
+          "RQ": {
+            "package": "WFBGA-556/841, 12.4x12.4x0.68"
+          },
+          "RR": {
+            "package": "WFBGA-556/841, 12.4x12.4x0.72"
+          },
+          "SB": {
+            "package": "UFBGA-350, 14.21x13.41x0.61"
+          },
+          "SP": {
+            "package": "VFBGA-556/841, 12.4x12.4x0.89"
+          },
+          "SQ": {
+            "package": "VFBGA-556/841, 12.4x12.4x0.85"
+          },
+          "SU": {
+            "package": "VFBGA-196/841, 12.0x12.0x0.89"
+          },
+          "TE": {
+            "package": "VFBGA-2406/2600, 14.5x14.0x0.82"
+          },
+          "TG": {
+            "package": "WFBGA-480/1848, 15.0x15.7x0.66"
+          },
+          "TN": {
+            "package": "TFBGA-556/841, 12.4x12.4x1.23"
+          },
+          "TP": {
+            "package": "UFBGA-386/2346, 14.2x15.51x0.61"
+          },
+          "TR": {
+            "package": "UFBGA-400/2255, 12.75x16.98x0.61"
+          },
           "TT": {
             "package": "VFBGA-196/841, 12x12x0.87"
+          },
+          "UA": {
+            "package": "UFBGA-352/1927, 12.75x14.5x0.6"
+          },
+          "WA": {
+            "package": "VFBGA-2406/2600, 14.5x14.0x0.98"
+          },
+          "WF": {
+            "package": "WFBGA-376/1156, 14.0x14.0x0.7"
+          },
+          "WS": {
+            "package": "WFBGA-640/968, 6.8x13.1x0.79"
+          },
+          "ZA": {
+            "package": "WFBGA-496/756, 14x12.4x0.71"
+          },
+          "ZU": {
+            "package": "UFBGA-496/756, 14x12.4x0.65"
+          },
+          "ZV": {
+            "package": "UFBGA-496/756, 14x12.4x0.63"
+          },
+          "ZW": {
+            "package": "TFBGA-200/264, 10x14.5x1.05"
+          },
+          "ZX": {
+            "package": "UFBGA-496/756, 14x12.4x0.65"
+          }
+        },
+        "profiledPackageObj": {
+          "DS:LPDDR4": {
+            "package": "WFBGA-200/264, 10x14.5x0.8"
+          },
+          "DS:LPDDR5": {
+            "package": "TFBGA-315/315, 12.4x15.0x1.1"
+          },
+          "FL:LPDDR4": {
+            "package": "UFBGA-362/2064, 13.2x14.7x0.59"
+          },
+          "FL:LPDDR5": {
+            "package": "VFBGA-496/756, 14x12.4x0.96"
+          },
+          "WT:LPDDR4": {
+            "package": "UFBGA-366/841, 13.76x14.65x0.61"
+          },
+          "WT:LPDDR5": {
+            "package": "TFBGA-640/968, 6.8x13.1x1.01"
+          }
+        },
+        "designProfiledPackageObj": {
+          "NZ:Z00M": {
+            "package": "WFBGA-376/1156, 14.0x14.0x0.66"
+          },
+          "NZ:Z11M": {
+            "package": "WFBGA-376/1156, 14.0x14.0x0.66"
+          },
+          "NZ:Z1AM": {
+            "package": "WFBGA-376/1156, 14.0x14.0x0.66"
+          },
+          "NZ:Z11N": {
+            "package": "WFBGA-376/1156, 14.0x14.0x0.71"
+          },
+          "NZ:Z2BM": {
+            "package": "WFBGA-376/1156, 14.0x14.0x0.71"
           }
         },
         "speedGradeToken": [
@@ -478,14 +887,6 @@
         },
         "packageProfileByDesign": {
           "Z": "LPDDR4"
-        },
-        "profiledPackageObj": {
-          "DS:LPDDR4": {
-            "package": "WFBGA-200/264, 10x14.5x0.8"
-          },
-          "DS:LPDDR5": {
-            "package": "TFBGA-315/315, 12.4x15.0x1.1"
-          }
         }
       },
       "steps": [
@@ -632,6 +1033,23 @@
           "op": "merge",
           "into": "packageObj",
           "from": "profiledPackageObj"
+        },
+        {
+          "op": "tpl",
+          "template": "{{packageCode}}:{{designCode}}",
+          "to": "packageDesignKey"
+        },
+        {
+          "op": "map",
+          "from": "packageDesignKey",
+          "table": "designProfiledPackageObj",
+          "to": "designProfiledPackageObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "packageObj",
+          "from": "designProfiledPackageObj"
         },
         {
           "op": "takeLongest",

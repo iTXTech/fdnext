@@ -11,7 +11,7 @@
   <https://www.spectek.com/menus/mpn_decoder.aspx?MpnCategory=MobileDram>
 - SpecTek DRAM Component Part Numbering Guide: 官方 `SpecTek Components Part Number Matrix`，2024-07-09 版，覆盖 component prefix、density-width、internal designator、voltage、refresh、speed bin、package code 与 die count 表。
   `spectek-pns-components.pdf`
-- SpecTek Mobile DRAM Part Numbering System: 官方 mobile DRAM PN matrix，2025-03-19 版，覆盖 mobile prefix、depth/width、speed max clock、die count、voltage、package code、speed grade 与 special option。
+- SpecTek Mobile DRAM Part Numbering System: 官方 mobile DRAM PN matrix，2025-03-19 版，覆盖 mobile prefix、depth/width、speed max clock、die count、voltage、完整 package code 表、speed grade 与 special option。
   `spectek-pns-mobile-dram.pdf`
 - 用户补充的 SpecTek DDR3 / DDR4 datasheet / addendum 截图覆盖 1Gb / 2Gb / 4Gb DDR3 component samples、4Gb / 8Gb / 16Gb component DDR4、16Gb / 32Gb x4 3DS DDR4、16Gb x16 TwinDie single-rank DDR4，以及 Micron 32Gb x4/x8 TwinDie DDR4 对应 package / speed 表；本轮用于补齐 DDR3 `V:*` scoped speed bin、`GD` speed-trimmed refresh option、`GFF/GHF/GKF/GNF/GPF/GQF/GQL/RAF/ZRF` 封装，以及 DDR4 大容量 configuration、`Z` product-code scoped speed bin、3DS `H/J` speed bin 和 `GK` 封装。
 - Micron SpecTek Buyers Guide: DRAM 页列出 `PRN` / `PRM`、`TP`、`PG` 等等级和样例 PN，并把 DRAM Component Part Numbering Guide、DRAM Component Mark Reference、Laser Mark to MPN Decoder 作为官方资料入口。
@@ -53,7 +53,7 @@ MDB mark code:
 | mobile `D1` / `D2` / `D3` / `D4` / `D6` / `D8` / `DA` / `DB` / `DD` / `DE` | 官方 die count 表，输出 `dram_die_count` |
 | mobile `A` / `B` / `C` / `D` / `F` / `L` / `M` voltage token | 官方 mobile voltage 表，输出纯电压字段 |
 | 尾部 package code | 仅作为内部解析 token；有官方 package 表命中时输出 `package`，不单独向用户展示 token；公开封装统一为 `TYPE[-PIN][, DIM][, SPECIAL]`，例如 `VFBGA-78/117, 7.5x11x1.0` 或 `FBGA`，不带 `mm` / `ball` / `pin` 单位词，且不输出 datasheet Rev 信息；缺 pin 时不补猜 |
-| mobile `DS` package code | 官方 package 表中 `DS` 同时存在 LPDDR4 与 LPDDR5 两种封装，需先由 speed table / design id 判断 LPDDR profile，再输出对应 package |
+| mobile package code | 官方 mobile package 表已接入唯一 code；`DS` / `FL` / `WT` 这类同 code 多封装项需先由 speed table / design id 判断 LPDDR profile，再输出对应 package；`NZ` 由 `Z00M/Z11M/Z1AM` 与 `Z11N/Z2BM` design ID 区分。公开 `package` 仍只保留 type-pin-dim，不输出 ball pitch、LPDDR 注记或 source notes |
 | DDR3 `GD` voltage / refresh | `G` 输出 `1.5V`；`D` 输出 `speed_grade=Speed trimmed for performance`，不把 raw refresh code 暴露到 public fields |
 | DDR5 `B8` / OC `PN` 等 voltage / refresh / feature token | 按官方 DDR5 / DDR5 OC addendum 输出纯电压，例如 `1.1V`、`1.25V`；OC trim 进入 `special_option`，不输出 raw code |
 | `-023`、`-053`、`-062`、`-107`、`-125`、`-15E`、`-48B`、`-56B`、`-64B`、`-72B`、`-60P`、`-64P`、`-062E` 等 | JEDEC / Micron-style speed token，按已有 DRAM 速度术语输出 `dram_speed`；mobile speed table 同时用于判断 LPDDR3/4/5 |
@@ -110,6 +110,13 @@ MDB mark code:
 - `SM1G32Z11MD4DDT-062BTA`
 - `SM1G32Z11MD4DDS-062BTA`
 - `SM1G32Y11MD4BDS-023FTB`
+- `SM1G32Z11MD4DNH-062BT`
+- `SM1G32Z11MD4DFL-062BT`
+- `SM1G32Y11MD4FFL-023FT`
+- `SM1G32Z11MD4DWT-062BT`
+- `SM1G32Y11MD4FWT-023FT`
+- `SM1G32Z11MD4DNZ-062BT`
+- `SM1G32Z11ND4DNZ-062BT`
 - `PRN1G8V91AG8SN-107`
 
 ## 注意

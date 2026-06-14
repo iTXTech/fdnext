@@ -149,10 +149,10 @@ const spectekComponentRule = (spectekDramRules as Array<{ id: string; tokenDecod
 );
 assert.ok(spectekComponentRule?.tokenDecoder?.tables, "SpecTek component DRAM rule should expose token tables");
 const spectekComponentTables = spectekComponentRule.tokenDecoder.tables;
-const spectekPackageFormat = /^\w*BGA-[0-9/]+, [0-9]+(?:\.[0-9]+)?(?:x[0-9]+(?:\.[0-9]+)?){1,2}$/;
+const spectekPackageFormat = /^[A-Z]+-[0-9/]+, [0-9]+(?:\.[0-9]+)?(?:x[0-9]+(?:\.[0-9]+)?){1,2}$/;
 
 for (const rule of spectekDramRules as Array<{ id: string; tokenDecoder?: { tables?: Record<string, unknown> } }>) {
-  for (const tableName of ["packageObj", "profiledPackageObj"]) {
+  for (const tableName of ["packageObj", "profiledPackageObj", "designProfiledPackageObj"]) {
     const table = rule.tokenDecoder?.tables?.[tableName];
     if (!table || typeof table !== "object" || Array.isArray(table)) {
       continue;
@@ -616,7 +616,7 @@ assertDram("SM8G32Y52PDAFDV-UT", {
   density: "256Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "LFBGA-315, 12.4x15.0x1.30",
+  package: "LFBGA-315/315, 12.4x15x1.3",
   extra: {
     "DRAM Type": "LPDDR5X",
     "Speed Grade": "UT Untested"
@@ -726,6 +726,104 @@ assertDram("SM1G32Y11MD4BDS023FTB", {
     "DRAM Speed": "4266MHz (LPDDR5-8533)",
     "Speed Grade": "FT Fully Tested at 90 degrees",
     "Special Option": "Solder Down"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
+assertDram("SM1G32Z11MD4DNH-062BT", {
+  vendor: "spectek",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.1V VDD / 0.6V VDDQ",
+  package: "WFBGA-272/1296, 15.0x15.0x0.7",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "1600MHz (LPDDR4-3200)",
+    "Speed Grade": "BT Fully Tested at 70 degrees"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
+assertDram("SM1G32Z11MD4DFL-062BT", {
+  vendor: "spectek",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.1V VDD / 0.6V VDDQ",
+  package: "UFBGA-362/2064, 13.2x14.7x0.59",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "1600MHz (LPDDR4-3200)",
+    "Speed Grade": "BT Fully Tested at 70 degrees"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
+assertDram("SM1G32Y11MD4FFL-023FT", {
+  vendor: "spectek",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.05V VDD / 0.5V VDDQ",
+  package: "VFBGA-496/756, 14x12.4x0.96",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "DRAM Speed": "4266MHz (LPDDR5-8533)",
+    "Speed Grade": "FT Fully Tested at 90 degrees"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
+assertDram("SM1G32Z11MD4DWT-062BT", {
+  vendor: "spectek",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.1V VDD / 0.6V VDDQ",
+  package: "UFBGA-366/841, 13.76x14.65x0.61",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "1600MHz (LPDDR4-3200)",
+    "Speed Grade": "BT Fully Tested at 70 degrees"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
+assertDram("SM1G32Y11MD4FWT-023FT", {
+  vendor: "spectek",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.05V VDD / 0.5V VDDQ",
+  package: "TFBGA-640/968, 6.8x13.1x1.01",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "DRAM Speed": "4266MHz (LPDDR5-8533)",
+    "Speed Grade": "FT Fully Tested at 90 degrees"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
+assertDram("SM1G32Z11MD4DNZ-062BT", {
+  vendor: "spectek",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.1V VDD / 0.6V VDDQ",
+  package: "WFBGA-376/1156, 14.0x14.0x0.66",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "1600MHz (LPDDR4-3200)",
+    "Speed Grade": "BT Fully Tested at 70 degrees"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
+assertDram("SM1G32Z11ND4DNZ-062BT", {
+  vendor: "spectek",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.1V VDD / 0.6V VDDQ",
+  package: "WFBGA-376/1156, 14.0x14.0x0.71",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "1600MHz (LPDDR4-3200)",
+    "Speed Grade": "BT Fully Tested at 70 degrees"
   },
   absentExtra: ["Config Code", "Package Code"]
 });
