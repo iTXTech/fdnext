@@ -2,13 +2,15 @@
 
 Cloudflare Workers adapter for fdnext.
 
+This package exposes the current fdnext HTTP API. For FlashMaster Classic or old FlashDetector / FDWebServer routes, deploy `@itxtech/fd-server` instead.
+
 ## Overview
 
 `packages/cf-workers` exposes the fdnext engine as a Cloudflare Worker source entry. It wraps `@itxtech/fdnext-core` in a standard Workers `fetch()` handler, providing a zero-infrastructure deployment path for the fdnext HTTP API.
 
 The adapter is a thin bridge — all HTTP routing, response contracts, CORS, and External Link handling are delegated to the shared runtime.
 
-The current repository deployment lets Wrangler bundle this adapter directly from `packages/cf-workers/src/index.ts`. The package metadata intentionally does not declare a runtime `main` / `exports` target until a publish bundle is added.
+The current repository deployment builds this adapter to `packages/cf-workers/dist/index.js` and deploys it with the Wrangler config in this package directory. The package metadata intentionally does not declare a runtime `main` / `exports` target until a publish bundle is added.
 
 ## Source Entry
 
@@ -57,7 +59,7 @@ FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
 - `*` — allow all origins
 - Multi-origin — comma/space separated, matched exactly against request `Origin`
 
-For Cloudflare Workers Builds, keep the allowlist in the Dashboard if it should not be committed. The root `wrangler.jsonc` sets `keep_vars: true` so automatic deployments preserve existing Dashboard environment variables.
+For Cloudflare Workers Builds, keep the allowlist in the Dashboard if it should not be committed. `packages/cf-workers/wrangler.jsonc` sets `keep_vars: true` so automatic deployments preserve existing Dashboard environment variables.
 
 ## Deployment
 
@@ -72,7 +74,7 @@ pnpm cf-workers:deploy:dry-run
 pnpm cf-workers:deploy
 ```
 
-See `wrangler.jsonc` in the repository root for the Wrangler configuration.
+See `packages/cf-workers/wrangler.jsonc` for the Wrangler configuration.
 
 ## Source API
 

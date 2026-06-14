@@ -1,0 +1,17 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "fdnext",
+  "main": "dist/index.js",
+  "compatibility_date": "2026-05-10",
+  "workers_dev": true,
+  "minify": true,
+  "keep_vars": true,
+  "build": {
+    "command": "pnpm -C ../core build && pnpm build",
+    "watch_dir": [
+      "../core/src",
+      "../core/resources",
+      "src"
+    ]
+  }
+}

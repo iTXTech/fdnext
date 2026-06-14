@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { createFdServer, FD_SERVER_NAME } from "../src/index";
+import { createFdServer, createFdServerHandler, FD_SERVER_NAME } from "../src/index";
 
 const flashInfoKeys = new Set([
   "partNumber",
@@ -55,6 +55,18 @@ async function inject(path: string) {
   return {
     response,
     body: JSON.parse(response.payload) as Record<string, unknown>
+  };
+}
+
+async function fetchJson(path: string, env: Record<string, string | undefined> = {}) {
+  const handler = createFdServerHandler({
+    env,
+    warn: () => undefined
+  });
+  const response = handler.handleRequest(new Request(`https://fd.example.test${path}`));
+  return {
+    response,
+    body: JSON.parse(await response.text()) as Record<string, unknown>
   };
 }
 
@@ -150,8 +162,45 @@ test("extra URLs are limited to decode outputs", async () => {
   assert.equal(JSON.stringify(summary.body).includes("FlashMaster Web"), false);
 });
 
+test("node server reads process env by default", async () => {
+  const previous = process.env.FD_SERVER_EXTRA_URLS;
+  process.env.FD_SERVER_EXTRA_URLS = "{\"Env Link\":\"https://fm.itxtech.org\"}";
+  try {
+    const app = createFdServer({ warn: () => undefined });
+    const response = await app.server.inject({ method: "GET", url: "/decode?pn=MT29F4G08ABAEA&lang=eng" });
+    const body = JSON.parse(response.payload) as { data?: { url?: Record<string, string> } };
+    assert.equal(body.data?.url?.["Env Link"], "https://fm.itxtech.org");
+  } finally {
+    if (previous === undefined) {
+      delete process.env.FD_SERVER_EXTRA_URLS;
+    } else {
+      process.env.FD_SERVER_EXTRA_URLS = previous;
+    }
+  }
+});
+
 test("fdnext HTTP routes are not exposed", async () => {
   const { response, body } = await inject("/parts/decode?query=MT29F4G08ABAEA");
   assert.equal(response.statusCode, 200);
   assert.deepEqual(body, { result: false, message: "Not found" });
+});
+
+test("worker handler serves the same legacy routes", async () => {
+  const { response, body } = await fetchJson("/decodeId?id=2C64444BA900&lang=eng", {
+    FD_SERVER_EXTRA_URLS: "{\"FlashMaster Web\":\"https://fm.itxtech.org\"}"
+  });
+  assert.equal(response.status, 200);
+  assert.equal(response.headers.get("Access-Control-Allow-Origin"), "*");
+  assert.equal(body.result, true);
+  const data = body.data as Record<string, unknown>;
+  assert.deepEqual(Object.keys(data).filter((key) => !flashIdInfoKeys.has(key)), []);
+  assert.equal(data.vendor, "Micron");
+  assert.equal((data.url as Record<string, string>)["FlashMaster Web"], "https://fm.itxtech.org");
+});
+
+test("worker handler replies to OPTIONS preflight", () => {
+  const handler = createFdServerHandler({ warn: () => undefined });
+  const response = handler.handleRequest(new Request("https://fd.example.test/decode", { method: "OPTIONS" }));
+  assert.equal(response.status, 204);
+  assert.equal(response.headers.get("Access-Control-Allow-Origin"), "*");
 });

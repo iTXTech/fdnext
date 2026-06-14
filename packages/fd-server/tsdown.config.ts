@@ -1,5 +1,5 @@
 import { defineConfig } from "tsdown";
-import { fdnextCoreDependencyPattern, fdnextNodeBundleConfig } from "../../build.config.ts";
+import { fdnextBundleConfig, fdnextCoreDependencyPattern, fdnextNodeBundleConfig } from "../../build.config.ts";
 
 export default defineConfig([
   fdnextNodeBundleConfig(
@@ -22,5 +22,16 @@ export default defineConfig([
       }
     },
     { executable: ["dist/bin.js"] }
+  ),
+  fdnextBundleConfig(
+    {
+      entry: {
+        worker: "src/worker.ts"
+      },
+      deps: {
+        alwaysBundle: [fdnextCoreDependencyPattern]
+      },
+      platform: "neutral"
+    }
   )
 ]);

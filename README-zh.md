@@ -35,7 +35,7 @@
 
 - **核心 ([`@itxtech/fdnext-core`](packages/core)):** 引擎、DecodePack 规则 / 编译器、内置资源、result contract 和共享 runtime。
 - **适配器:** 原生支持 [Hapi](packages/server), [Cloudflare Workers](packages/cf-workers), 和 [阿里云 FC](packages/aliyun-fc)。
-- **旧接口兼容:** [`@itxtech/fd-server`](packages/fd-server) 为 FlashMaster Classic 迁移部署提供旧 FlashDetector / FDWebServer HTTP API。
+- **旧接口兼容:** [`@itxtech/fd-server`](packages/fd-server) 为 FlashMaster Classic 迁移部署提供旧 FlashDetector / FDWebServer HTTP API，并以 Cloudflare Workers 作为首选部署方式。
 
 ---
 
@@ -85,7 +85,7 @@ pnpm test
 
 - [**集成指南**](docs/INTEGRATION.md)：SDK、HTTP 服务和部署说明。
 - [**Server 接口文档**](docs/SERVER_API.md)：路由、参数和响应 contract。
-- [**FlashDetector 兼容服务**](packages/fd-server/README.md)：面向 FlashMaster Classic 客户端的 `fd-server` 部署说明。
+- [**FlashDetector 兼容服务**](packages/fd-server/README.md)：面向 FlashMaster Classic 客户端的 `fd-server` 部署说明，包含 Cloudflare Workers 和 Node.js 方案。
 - [**DecodePack 规范**](docs/DECODEPACK.md)：编写 PN 和 identifier 规则。
 - [**FDBGen 文档**](docs/FDBGEN.md)：数据库生成和爬取。
 - [**术语表**](docs/pn_code/terminology.md)：规范字段 key 和命名约定。

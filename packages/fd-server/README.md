@@ -4,6 +4,8 @@ FlashDetector / FDWebServer 兼容服务，用于把当前 fdnext core 暴露成
 
 本包面向 FlashMaster Classic 存量用户迁移。它内部使用 `@itxtech/fdnext-core` 的当前解析引擎和内置资源，对外只提供旧 FlashDetector HTTP 响应约定。
 
+首选部署方式是 Cloudflare Workers。Node.js HTTP server、PM2 和 systemd 仍然保留，用于本地调试、自托管或反向代理部署。
+
 它不是 fdnext v3 HTTP server，不暴露 `/parts/*`、`/identifiers/*` 或 `/capabilities`。
 
 ## 部署目标
@@ -23,11 +25,165 @@ FlashDetector / FDWebServer 兼容服务，用于把当前 fdnext core 暴露成
 
 ## 运行要求
 
-- Node.js 24+
-- 使用 monorepo 部署时需要 pnpm 10+
-- 生产环境建议在前面放反向代理并由反向代理处理 HTTPS
+- Cloudflare Workers 部署：Cloudflare 账号、pnpm 10+，以及 Wrangler 登录状态。
+- 本地构建和 Node.js HTTP server：Node.js 24+。
+- 自托管 Node.js 生产环境建议在前面放反向代理并由反向代理处理 HTTPS。
 
-## 开发启动
+## Cloudflare Workers 部署（首选）
+
+该部署只提供旧 FlashDetector / FDWebServer HTTP API，用于 FlashMaster Classic 迁移。不要把它当作 fdnext v3 HTTP API 使用；需要 `/parts/*`、`/identifiers/*` 或 `/capabilities` 时应部署 `@itxtech/fdnext-cf-workers`。
+
+### 配置文件
+
+Worker 配置文件位于：
+
+```text
+packages/fd-server/wrangler.jsonc
+```
+
+关键配置：
+
+```jsonc
+{
+  "name": "fdnext-fd-server",
+  "main": "dist/worker.js",
+  "compatibility_date": "2026-06-13",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "minify": true,
+  "keep_vars": true,
+  "build": {
+    "command": "pnpm build",
+    "watch_dir": [
+      "../core/src",
+      "../core/resources",
+      "src"
+    ]
+  },
+  "dev": {
+    "port": 8080,
+    "local_protocol": "http"
+  }
+}
+```
+
+说明：
+
+- `main` 指向 `fd-server` 的 Worker bundle；部署前由 `build.command` 生成。
+- `build.command` 在 `packages/fd-server` 目录内执行 `pnpm build`，生成 `dist/worker.js`。
+- `watch_dir` 覆盖 `fd-server` 源码和 `core` 源码 / 资源，便于本地 `wrangler dev` 监听相关变更。
+- `compatibility_flags` 启用 `nodejs_compat`，用于兼容 bundled dependency 中可能出现的 Node.js 内置模块引用。
+- `keep_vars` 保留 Cloudflare Dashboard 中配置的 Worker environment variables，避免部署时清空远端变量。
+- `workers_dev` 默认开启，可先部署到 `*.workers.dev`；生产域名可在 Cloudflare Dashboard 绑定，也可在 `wrangler.jsonc` 中维护 `route` / `routes`。
+
+### 本地开发
+
+仓库根目录执行：
+
+```bash
+pnpm install --frozen-lockfile
+pnpm fdserver:worker:dev
+```
+
+本地 Wrangler 服务默认监听：
+
+```text
+http://127.0.0.1:8080
+```
+
+Wrangler 会先执行 `packages/fd-server/wrangler.jsonc` 中的 `build.command`，再启动本地 Worker。Classic 客户端本地调试时可把服务器地址设为：
+
+```text
+http://127.0.0.1:8080
+```
+
+### 手动部署
+
+部署前先预览 Wrangler 产物：
+
+```bash
+pnpm fdserver:worker:deploy:dry-run
+```
+
+发布到 Cloudflare Workers：
+
+```bash
+pnpm fdserver:worker:deploy
+```
+
+部署后把 FlashMaster Classic 的服务器地址改成 Worker 根路径，例如：
+
+```text
+https://fdnext-fd-server.<account>.workers.dev
+```
+
+或绑定后的自有域名：
+
+```text
+https://fd.example.com
+```
+
+不要在 Classic 中追加 path prefix。旧接口必须直接位于服务根路径，例如 `/decode`、`/decodeId`。
+
+### Cloudflare Workers Builds 设置
+
+如果使用 Cloudflare Dashboard 连接 Git 仓库自动部署，建议按下表设置：
+
+| Setting | Value |
+| --- | --- |
+| Root directory | 留空或仓库根目录 |
+| Build command | `pnpm install --frozen-lockfile=false && pnpm -C packages/fd-server build` |
+| Deploy command | `pnpm fdserver:worker:deploy` |
+| Non-production branch deploy command | `pnpm --dir packages/fd-server dlx wrangler versions upload --config wrangler.jsonc` |
+
+建议同时添加 Build variable：
+
+| Variable | Value |
+| --- | --- |
+| `SKIP_DEPENDENCY_INSTALL` | `1` |
+
+这样可以避免 Workers Builds 自动选择其他包管理器，确保依赖安装和构建都走 pnpm。
+
+### Worker 环境变量
+
+Wrangler 配置使用 `keep_vars: true`，生产环境建议在 Cloudflare Dashboard 中维护变量，这样后续部署不会清空 Dashboard 中已有配置。
+
+本地调试可在 `packages/fd-server/.dev.vars` 中放置变量：
+
+```dotenv
+FD_SERVER_DEFAULT_LANG=chs
+FD_SERVER_CONTROLLER_GROUP=selected
+FD_SERVER_EXTRA_URLS='{"迁移到新版 FlashMaster":"https://fm.itxtech.org"}'
+```
+
+不要提交 `.dev.vars` 或 `.env` 文件。
+
+可配置变量：
+
+- `FD_SERVER_DEFAULT_LANG`：默认语言，允许 `chs` 或 `eng`，空值或非法值回退到 `chs`。
+- `FD_SERVER_CONTROLLER_GROUP`：decode 类输出使用的服务端控制器投影视图，默认 `selected`。
+- `FD_SERVER_EXTRA_URLS`：JSON object，只追加到 `/decode` 和 `/decodeId` 响应的 `data.url` 中。
+
+### Workers Smoke Test
+
+本地 `wrangler dev` 或部署后执行，部署后把示例中的 `http://127.0.0.1:8080` 换成 Worker URL：
+
+```bash
+curl 'http://127.0.0.1:8080/'
+curl 'http://127.0.0.1:8080/info'
+curl 'http://127.0.0.1:8080/decode?pn=MT29F4G08ABAEA&lang=chs'
+curl 'http://127.0.0.1:8080/decodeId?id=2C64444BA900&lang=chs'
+curl 'http://127.0.0.1:8080/parts/decode?query=MT29F4G08ABAEA'
+```
+
+高层检查项：
+
+- `/` 返回 `{ "result": true, "server": "fdnext-fd-server" }`。
+- `/info.info.fdb.controllers` 是非空控制器列表。
+- `/decode` 和 `/decodeId` 返回 FlashDetector 旧字段集合。
+- `/parts/decode` 等 fdnext v3 路由返回 `{ "result": false, "message": "Not found" }`。
+
+## Node.js 开发启动
 
 在仓库根目录执行：
 
@@ -48,7 +204,7 @@ http://0.0.0.0:8080
 pnpm fdserver:dev -- --host 127.0.0.1 --port 8081
 ```
 
-## 生产构建
+## Node.js 生产构建
 
 在仓库根目录执行：
 
@@ -242,7 +398,7 @@ https://fd.example.com
 
 不要额外加 path prefix，除非上游代理会把 prefix rewrite 掉。FlashMaster Classic 期望旧接口直接位于服务根路径。
 
-## Smoke Test
+## Node.js Smoke Test
 
 服务启动后执行：
 
@@ -295,6 +451,7 @@ Classic UI 会直接渲染旧字段，包括 `extraInfo` 和 `ext` 的 key。`fd
 pnpm -C packages/fd-server typecheck
 pnpm -C packages/fd-server test
 pnpm -C packages/fd-server build
+pnpm fdserver:worker:deploy:dry-run
 ```
 
 发布前可做更宽的检查：

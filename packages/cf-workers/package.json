@@ -8,6 +8,9 @@
   },
   "scripts": {
     "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly && tsdown",
+    "dev": "pnpm dlx wrangler dev --config wrangler.jsonc",
+    "deploy": "pnpm dlx wrangler deploy --config wrangler.jsonc",
+    "deploy:dry-run": "pnpm dlx wrangler deploy --dry-run --outdir ../../.wrangler-bundle/cf-workers --config wrangler.jsonc",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
   }
 }

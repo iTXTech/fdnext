@@ -3,6 +3,8 @@ node_modules
 dist
 coverage
 *.log
+.env*
+.dev.vars*
 .tmp
 *.tsbuildinfo
 .idea

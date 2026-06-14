@@ -1,0 +1,22 @@
+{
+  "$schema": "../../node_modules/wrangler/config-schema.json",
+  "name": "fdnext-fd-server",
+  "main": "dist/worker.js",
+  "compatibility_date": "2026-06-13",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "minify": true,
+  "keep_vars": true,
+  "build": {
+    "command": "pnpm build",
+    "watch_dir": [
+      "../core/src",
+      "../core/resources",
+      "src"
+    ]
+  },
+  "dev": {
+    "port": 8080,
+    "local_protocol": "http"
+  }
+}

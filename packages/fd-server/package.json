@@ -8,6 +8,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "ecosystem.config.cjs",
+    "wrangler.jsonc",
     "dist/**/*.js",
     "dist/**/*.d.ts"
   ],
@@ -15,6 +16,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./worker": {
+      "types": "./dist/worker.d.ts",
+      "default": "./dist/worker.js"
     }
   },
   "bin": {
@@ -51,6 +56,9 @@
     "dev": "tsx src/bin.ts",
     "start": "node dist/bin.js",
     "test": "node --import tsx --test test/*.test.ts",
-    "typecheck": "tsc -b --pretty false --emitDeclarationOnly"
+    "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
+    "worker:dev": "pnpm dlx wrangler dev --config wrangler.jsonc",
+    "worker:deploy": "pnpm dlx wrangler deploy --config wrangler.jsonc",
+    "worker:deploy:dry-run": "pnpm dlx wrangler deploy --dry-run --outdir ../../.wrangler-bundle/fd-server --config wrangler.jsonc"
   }
 }

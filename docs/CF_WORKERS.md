@@ -2,6 +2,8 @@
 
 本文档只覆盖 `@itxtech/fdnext-cf-workers` 的 Cloudflare Workers 部署。该入口复用 `@itxtech/fdnext-core` 的 HTTP route 和 External Link provider 机制，不维护独立兼容路由。
 
+如果目标是 FlashMaster Classic 迁移，或客户端仍然请求旧 FlashDetector / FDWebServer 路由，请部署 `@itxtech/fd-server`，部署说明见 [`packages/fd-server/README.md`](../packages/fd-server/README.md)。
+
 ## 1. 前置条件
 
 - 已安装 Node.js `>= 24` 和 `pnpm`
@@ -18,26 +20,31 @@ pnpm dlx wrangler login
 
 ## 2. 配置文件
 
-根目录的 `wrangler.jsonc` 是 Workers 部署入口：
+`packages/cf-workers/wrangler.jsonc` 是 Workers 部署入口：
 
 ```jsonc
 {
-  "$schema": "./node_modules/wrangler/config-schema.json",
+  "$schema": "../../node_modules/wrangler/config-schema.json",
   "name": "fdnext",
-  "main": "packages/cf-workers/dist/index.js",
+  "main": "dist/index.js",
   "compatibility_date": "2026-05-10",
   "workers_dev": true,
   "minify": true,
   "keep_vars": true,
   "build": {
-    "command": "pnpm cf-workers:build"
+    "command": "pnpm -C ../core build && pnpm build",
+    "watch_dir": [
+      "../core/src",
+      "../core/resources",
+      "src"
+    ]
   }
 }
 ```
 
 关键点：
 
-- `main` 指向 Cloudflare Workers adapter 的构建产物；部署前由 `build.command` 生成。
+- `main` 指向包目录内的 Cloudflare Workers adapter 构建产物；根目录脚本会进入 `packages/cf-workers` 后执行 Wrangler。
 - `build.command` 会先构建 `@itxtech/fdnext-core`，再构建 Cloudflare Workers adapter。两层构建都会注入 fdnext 版本、短 commit hash 和 build time，避免 Worker global scope 的 `Date` fallback 把构建时间变成 epoch。
 - `keep_vars` 保留 Cloudflare Dashboard 中配置的 Worker environment variables，避免自动部署时用仓库配置清空远端变量。
 - 当前 Worker 不需要 `nodejs_compat`，入口只依赖 Web Fetch API。
@@ -53,8 +60,8 @@ Workers Builds 目前不会执行 `wrangler.jsonc` 里的 custom build 配置，
 | --- | --- |
 | Root directory | 留空或仓库根目录 |
 | Build command | `pnpm install --frozen-lockfile=false && pnpm cf-workers:build` |
-| Deploy command | `pnpm dlx wrangler deploy --config wrangler.jsonc` |
-| Non-production branch deploy command | `pnpm dlx wrangler versions upload --config wrangler.jsonc` |
+| Deploy command | `pnpm cf-workers:deploy` |
+| Non-production branch deploy command | `pnpm --dir packages/cf-workers dlx wrangler versions upload --config wrangler.jsonc` |
 
 建议同时添加 Build variable：
 
@@ -70,7 +77,7 @@ Worker 运行时变量：
 | --- | --- |
 | `FDNEXT_CORS_ORIGINS` | `*` 或逗号 / 空格分隔的 origin 列表，例如 `https://app.example.com,https://admin.example.com` |
 
-`FDNEXT_CORS_ORIGINS` 不写入仓库 `wrangler.jsonc`，建议在 Cloudflare Dashboard 的 Worker environment variables 中维护。仓库配置设置了 `keep_vars: true`，因此 Workers Builds 自动部署时不会删除 Dashboard 中已有变量。
+`FDNEXT_CORS_ORIGINS` 不写入仓库 `packages/cf-workers/wrangler.jsonc`，建议在 Cloudflare Dashboard 的 Worker environment variables 中维护。仓库配置设置了 `keep_vars: true`，因此 Workers Builds 自动部署时不会删除 Dashboard 中已有变量。
 
 `FDNEXT_CORS_ORIGINS=*` 会返回 `Access-Control-Allow-Origin: *`。设置多个域名时，runtime 会按请求的 `Origin` 精确匹配，命中后返回对应 origin，并附带 `Vary: Origin`。
 
@@ -80,7 +87,7 @@ Worker 运行时变量：
 pnpm cf-workers:dev
 ```
 
-Wrangler 会先执行 `build.command`，然后启动本地 Worker。默认地址通常是 `http://127.0.0.1:8787`。
+Wrangler 会先执行 `packages/cf-workers/wrangler.jsonc` 中的 `build.command`，然后启动本地 Worker。默认地址通常是 `http://127.0.0.1:8787`。
 
 Smoke test:
 
@@ -142,12 +149,12 @@ curl 'https://<worker>.<account>.workers.dev/parts/search?query=MT29'
 
 ## 8. 自定义 External Link
 
-默认入口不会注入 External Link provider。如果部署环境需要对结果追加平台侧链接，可以维护一个自定义 Worker 源码入口，并把 `wrangler.jsonc` 的 `main` 指向该入口。
+默认入口不会注入 External Link provider。如果部署环境需要对结果追加平台侧链接，可以在 `packages/cf-workers` 内维护一个自定义 Worker 源码入口，并把 `packages/cf-workers/wrangler.jsonc` 的 `main` 指向该入口。
 
 示例：
 
 ```ts
-import { createCfWorkersAdapter } from "./packages/cf-workers/src/index";
+import { createCfWorkersAdapter } from "./src/index";
 import type { ExternalLinkProvider } from "@itxtech/fdnext-core/runtime";
 
 const productPageLinks: ExternalLinkProvider = {
