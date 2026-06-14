@@ -698,7 +698,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^MTFD[BDEFG](?:AA|AC|AG|AH|AK|AL|AR|AT|AV|AW|AY)(?:032|050|060|064|100|120|128|175|200|240|256|350|400|480|500|512|700|800|960|1T0|0700|1400)[SM](?:AV|AY|AX|AZ|BB|BD|BP)(?:-?[0-9A-Z]+)?$"
+      "value": "^MTFD[BDEFG](?:AA|AC|AG|AH|AK|AL|AR|AT|AV|AW|AY)(?:032|050|060|064|100|120|128|160|175|200|240|256|350|400|480|500|512|700|800|960|1T0|0700|1400)[SM](?:AV|AY|AX|AZ|BB|BD|BP)(?:-?[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -713,6 +713,7 @@
           "100": 819200,
           "120": 983040,
           "128": 1048576,
+          "160": 1310720,
           "175": 1433600,
           "200": 1638400,
           "240": 1966080,
@@ -1651,6 +1652,243 @@
     }
   },
   {
+    "id": "vendor.micron.ssd.ek470.v1",
+    "priority": 1007.95,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MTEDBTH(?:008|016)MBA(?:-?[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MTED"
+      ],
+      "tables": {
+        "density": {
+          "008": 65536,
+          "016": 131072
+        },
+        "interfaceObj": {
+          "B": {
+            "storage_interface": "SATA 3.0 Gb/s"
+          }
+        },
+        "productType": {
+          "B": "sata"
+        },
+        "formFactorObj": {
+          "TH": {
+            "form_factor": "SSD, 40mm x 50mm"
+          }
+        },
+        "productFamilyObj": {
+          "BA": {
+            "product_family": "Micron EK470 SSD"
+          }
+        },
+        "sectorSize": {
+          "1": 512
+        },
+        "componentObj": {
+          "K": {
+            "nand_component": "32Gb NAND x8 3.3V (25nm)",
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V",
+            "process_node": "25nm"
+          }
+        },
+        "bomObj": {
+          "1": {
+            "generation_info": "1st Gen"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Sample"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "interfaceCode"
+        },
+        {
+          "op": "map",
+          "from": "interfaceCode",
+          "table": "interfaceObj",
+          "to": "interfaceObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "interfaceCode",
+          "table": "productType",
+          "to": "productType",
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "formCode"
+        },
+        {
+          "op": "map",
+          "from": "formCode",
+          "table": "formFactorObj",
+          "to": "formFactorObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "nandFlashCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productFamilyCode"
+        },
+        {
+          "op": "map",
+          "from": "productFamilyCode",
+          "table": "productFamilyObj",
+          "to": "productFamilyObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "sectorCode"
+        },
+        {
+          "op": "map",
+          "from": "sectorCode",
+          "table": "sectorSize",
+          "to": "sectorSize",
+          "default": null
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "componentCode"
+        },
+        {
+          "op": "map",
+          "from": "componentCode",
+          "table": "componentObj",
+          "to": "componentObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "bomCode"
+        },
+        {
+          "op": "map",
+          "from": "bomCode",
+          "table": "bomObj",
+          "to": "bomObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(?:ES)",
+          "to": "productionStatusCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "productionStatusCode",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "interfaceObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "formFactorObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productFamilyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "bomObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "componentObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": {
+          "$var": "productType"
+        },
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.sector_size": {
+          "$var": "sectorSize"
+        },
+        "meta.ruleId": "vendor.micron.ssd.ek470.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.micron.ssd.5400.v1",
     "priority": 1007.9,
     "normalize": [
@@ -2231,6 +2469,424 @@
           "$var": "sectorSize"
         },
         "meta.ruleId": "vendor.micron.ssd.6500-ion.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.micron.ssd.datacenter-gen4-gen5.v1",
+    "priority": 1007.75,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MTFD[KL](?:AL|BN|BQ|BA|BG|BZ|CE|BU|CC|BT)(?:400|480|800|960|1T6|1T9|3T2|3T8|6T4|7T6|12T8|15T3|30T7|61T4)T(?:FR|FS|GP|GQ|HG|HS|HL)(?:-?[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MTFD"
+      ],
+      "tables": {
+        "density": {
+          "400": 3276800,
+          "480": 3932160,
+          "800": 6553600,
+          "960": 7864320,
+          "1T6": 13107200,
+          "1T9": 15728640,
+          "3T2": 26214400,
+          "3T8": 31457280,
+          "6T4": 52428800,
+          "7T6": 62914560,
+          "12T8": 104857600,
+          "15T3": 125829120,
+          "30T7": 251658240,
+          "61T4": 503316480
+        },
+        "interfaceObj": {
+          "K": {
+            "storage_interface": "PCIe Gen4"
+          },
+          "L": {
+            "storage_interface": "PCIe Gen5"
+          }
+        },
+        "productType": {
+          "K": "nvme",
+          "L": "nvme"
+        },
+        "formFactorObj": {
+          "AL": {
+            "form_factor": "U.2, 2.5-inch, 15mm, SFF-8639"
+          },
+          "BA": {
+            "form_factor": "M.2, 80mm x 22mm"
+          },
+          "BG": {
+            "form_factor": "M.2, 110mm x 22mm"
+          },
+          "BN": {
+            "form_factor": "E1.L, 9.5mm"
+          },
+          "BQ": {
+            "form_factor": "E3.S 1T, 7.5mm"
+          },
+          "BT": {
+            "form_factor": "E1.S, 9.5mm"
+          },
+          "BU": {
+            "form_factor": "E1.S, 25mm including enclosure"
+          },
+          "BZ": {
+            "form_factor": "E1.S bare board, 5.9mm"
+          },
+          "CC": {
+            "form_factor": "U.3, 2.5-inch, 15mm, SFF-8639"
+          },
+          "CE": {
+            "form_factor": "E1.S, 15mm"
+          }
+        },
+        "nandTypeObj": {
+          "T": {
+            "cell_level": "TLC"
+          }
+        },
+        "productFamilyObj": {
+          "FR": {
+            "product_family": "Micron 7450 PRO SSD"
+          },
+          "FS": {
+            "product_family": "Micron 7450 MAX SSD"
+          },
+          "GP": {
+            "product_family": "Micron 7500 PRO SSD"
+          },
+          "GQ": {
+            "product_family": "Micron 7500 MAX SSD"
+          },
+          "HG": {
+            "product_family": "Micron 7600 PRO SSD"
+          },
+          "HL": {
+            "product_family": "Micron 6550 ION SSD"
+          },
+          "HS": {
+            "product_family": "Micron 7600 MAX SSD"
+          }
+        },
+        "bomObj": {
+          "1": {
+            "generation_info": "1st Gen"
+          },
+          "2": {
+            "generation_info": "2nd Gen"
+          }
+        },
+        "componentObj": {
+          "BP": {
+            "nand_component": "1024Gb TLC x8 2.5V",
+            "component_density": "1024Gb",
+            "cell_level": "TLC",
+            "component_width": "x8",
+            "component_voltage": "2.5V"
+          }
+        },
+        "sectorSize": {
+          "1": 512,
+          "4": 4096
+        },
+        "firmwareObj": {
+          "FR:5": {
+            "special_option": "SED Opal 2.01"
+          },
+          "FR:D": {
+            "special_option": "OCP 1.0a + SED Opal 2.01"
+          },
+          "FR:Z": {
+            "special_option": "Non-SED"
+          },
+          "FS:5": {
+            "special_option": "SED Opal 2.01"
+          },
+          "FS:D": {
+            "special_option": "OCP 1.0a + SED Opal 2.01"
+          },
+          "FS:Z": {
+            "special_option": "Non-SED"
+          },
+          "GP:D": {
+            "special_option": "OCP 2.0 + TCG Opal 2.01"
+          },
+          "GP:J": {
+            "special_option": "OCP 2.0 + Non-SED"
+          },
+          "GQ:D": {
+            "special_option": "OCP 2.0 + TCG Opal 2.01"
+          },
+          "GQ:J": {
+            "special_option": "OCP 2.0 + Non-SED"
+          },
+          "HG:D": {
+            "special_option": "OCP 2.5 + TCG Opal"
+          },
+          "HG:J": {
+            "special_option": "OCP 2.5 + Non-SED"
+          },
+          "HL:D": {
+            "special_option": "OCP 2.5 + SED (TCG Opal)"
+          },
+          "HL:J": {
+            "special_option": "OCP 2.5 (non-SED)"
+          },
+          "HS:D": {
+            "special_option": "OCP 2.5 + TCG Opal"
+          },
+          "HS:J": {
+            "special_option": "OCP 2.5 + Non-SED"
+          }
+        },
+        "hardwareObj": {
+          "FC": {
+            "product_class": "FIPS"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Sample"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "interfaceCode"
+        },
+        {
+          "op": "map",
+          "from": "interfaceCode",
+          "table": "interfaceObj",
+          "to": "interfaceObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "interfaceCode",
+          "table": "productType",
+          "to": "productType",
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "formCode"
+        },
+        {
+          "op": "map",
+          "from": "formCode",
+          "table": "formFactorObj",
+          "to": "formFactorObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "nandTypeCode"
+        },
+        {
+          "op": "map",
+          "from": "nandTypeCode",
+          "table": "nandTypeObj",
+          "to": "nandTypeObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productFamilyCode"
+        },
+        {
+          "op": "map",
+          "from": "productFamilyCode",
+          "table": "productFamilyObj",
+          "to": "productFamilyObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "bomCode"
+        },
+        {
+          "op": "map",
+          "from": "bomCode",
+          "table": "bomObj",
+          "to": "bomObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "componentCode"
+        },
+        {
+          "op": "map",
+          "from": "componentCode",
+          "table": "componentObj",
+          "to": "componentObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "sectorCode"
+        },
+        {
+          "op": "map",
+          "from": "sectorCode",
+          "table": "sectorSize",
+          "to": "sectorSize",
+          "default": null
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "firmwareCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{productFamilyCode}}:{{firmwareCode}}",
+          "to": "firmwareKey"
+        },
+        {
+          "op": "map",
+          "from": "firmwareKey",
+          "table": "firmwareObj",
+          "to": "firmwareObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "hardwareCode"
+        },
+        {
+          "op": "map",
+          "from": "hardwareCode",
+          "table": "hardwareObj",
+          "to": "hardwareObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "customerCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(?:ES)",
+          "to": "productionStatusCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "productionStatusCode",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "interfaceObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "formFactorObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productFamilyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "nandTypeObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "bomObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "componentObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "firmwareObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "hardwareObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": {
+          "$var": "productType"
+        },
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.sector_size": {
+          "$var": "sectorSize"
+        },
+        "meta.ruleId": "vendor.micron.ssd.datacenter-gen4-gen5.v1"
       }
     }
   },
@@ -3679,7 +4335,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^MTFD[0-9A-Z][0-9A-Z]{2}(?:001|002|004|008|014|016|025|030|032|050|060|064|100|120|128|175|200|240|256|350|400|480|500|512|700|800|960|1T0|2T0|4T0)[QSMT][0-9A-Z]{2}(?:-?[0-9A-Z]+)?$"
+      "value": "^MTFD[0-9A-Z][0-9A-Z]{2}(?:001|002|004|008|014|016|025|030|032|050|060|064|100|120|128|160|175|200|240|256|350|400|480|500|512|700|800|960|1T0|1T6|1T9|2T0|3T2|3T8|4T0|6T4|7T6|12T8|12TB|15T3|25T6|30T7|61T4)[QSMT][0-9A-Z]{2}(?:-?[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -3702,6 +4358,7 @@
           "100": 819200,
           "120": 983040,
           "128": 1048576,
+          "160": 1310720,
           "175": 1433600,
           "200": 1638400,
           "240": 1966080,
@@ -3715,8 +4372,20 @@
           "800": 6553600,
           "960": 7864320,
           "1T0": 8388608,
+          "1T6": 13107200,
+          "1T9": 15728640,
           "2T0": 16777216,
-          "4T0": 33554432
+          "3T2": 26214400,
+          "3T8": 31457280,
+          "4T0": 33554432,
+          "6T4": 52428800,
+          "7T6": 62914560,
+          "12T8": 104857600,
+          "12TB": 104857600,
+          "15T3": 125829120,
+          "25T6": 209715200,
+          "30T7": 251658240,
+          "61T4": 503316480
         },
         "interfaceObj": {
           "A": {
@@ -3769,8 +4438,14 @@
           "AH": {
             "form_factor": "Full height, half length x8"
           },
+          "AL": {
+            "form_factor": "U.2, 2.5-inch, 15mm, SFF-8639"
+          },
           "BA": {
             "form_factor": "M.2, 80mm x 22mm, x4 PCIe"
+          },
+          "BG": {
+            "form_factor": "M.2, 110mm x 22mm"
           },
           "BK": {
             "form_factor": "M.2, 30mm x 22mm, x4 PCIe"
@@ -3778,11 +4453,26 @@
           "BN": {
             "form_factor": "E1.L, 9.5mm including enclosure"
           },
+          "BQ": {
+            "form_factor": "E3.S 1T, 7.5mm"
+          },
+          "BT": {
+            "form_factor": "E1.S, 9.5mm"
+          },
+          "BU": {
+            "form_factor": "E1.S, 25mm including enclosure"
+          },
+          "BZ": {
+            "form_factor": "E1.S bare board, 5.9mm"
+          },
           "CC": {
             "form_factor": "U.3/U.2, 2.5-inch, 15mm, SFF-8639"
           },
           "CD": {
             "form_factor": "M.2, 42mm x 22mm, x4 PCIe"
+          },
+          "CE": {
+            "form_factor": "E1.S, 15mm"
           },
           "AK": {
             "form_factor": "2.5-inch, 7mm"
@@ -3879,11 +4569,32 @@
           "GN": {
             "product_family": "Micron 2500 SSD"
           },
+          "GP": {
+            "product_family": "Micron 7500 PRO SSD"
+          },
+          "GQ": {
+            "product_family": "Micron 7500 MAX SSD"
+          },
           "GW": {
             "product_family": "Micron 2650 SSD"
           },
+          "FR": {
+            "product_family": "Micron 7450 PRO SSD"
+          },
+          "FS": {
+            "product_family": "Micron 7450 MAX SSD"
+          },
+          "HG": {
+            "product_family": "Micron 7600 PRO SSD"
+          },
           "HJ": {
             "product_family": "Micron 4600 SSD"
+          },
+          "HL": {
+            "product_family": "Micron 6550 ION SSD"
+          },
+          "HS": {
+            "product_family": "Micron 7600 MAX SSD"
           }
         }
       },

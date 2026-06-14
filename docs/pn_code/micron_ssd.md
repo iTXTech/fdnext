@@ -13,8 +13,11 @@
 - Micron 官方 2100AT SSD datasheet 截图：标题页列出 `MTFDHBL064`、`MTFDHBL128`、`MTFDHBL256`、`MTFDHBL512`、`MTFDHBM1T0`、`MTFDHBK1T0`；ordering 图给出同一结构，其中 `DQ = 2100AT`，公开 PN 表列出 `MTFDHBL064TDQ-1AT12ATYY`、`MTFDHBL128TDQ-1AT12ATYY`、`MTFDHBL256TDQ-1AT12ATYY`、`MTFDHBL512TDQ-1AT12ATYY`、`MTFDHBM1T0TDQ-1AT12ATYY`、`MTFDHBK1T0TDQ-1AT12ATYY`。
 - Micron 官方 P320h/P320s/P420m PCIe NAND SSD datasheet：给出 `G = PCIe Gen2`，P320 的 `AL/AR/AU` form factor、`AH = P320`、`N = 16Gb SLC x8 3.3V (34nm)`，以及 P420m 的 `AL/AR` form factor、`AX = P420m`、`J = 32Gb MLC x8 3.3V (25nm)`。
 - Micron 官方 M510 / M500IT / 5400 / 6500 ION ordering 图：确认 M510/M500IT 的 `AZ/BD` 系列 token、M500IT 的 `032` 容量、`AY = M.2 60mm x 22mm x 3.5mm`、`AI` auto industrial temperature 与 `IT` 工业等级；确认 5400 的 `GA/GB/GC` 系列、`BC = 512Gb TLC x8 2.5V (3D)`；确认 6500 ION 的 `K = PCIe Gen4`、`CC/BN` form factor、`30T7 = 30,720GB`、`GR = 6500 ION`、sector size 和 OCP firmware token。
+- Micron 官方 M500IT mSATA / 2.5-inch ordering 图：确认 `AT = mSATA`、`AK = 2.5-inch 7mm`、`060/120/160/240` 容量、`AE/AH/AK` NAND component、BOM `A/1/2`、`AI` auto industrial temperature、`IT` industrial temperature、`RA = Bosch` customer designator、`ES/MS` production status。
+- Micron 官方 M510 mSATA ordering 图：确认 M510 `AT = mSATA` form factor，`HA = HP (Client)` customer designator，`AA/AB/AC/Z/ZZ` feature-set tail token，以及 `1/2` BOM revision。
 - Micron 官方 4100AT part catalog 和 4150AT product flyer / press release：确认 `MTFDKEL128THE-1BM15ATYY` 属于 4100AT，PCIe Gen4，-40°C to +105°C，BGA-291 16x20x1.3；确认 4150AT 是 PCIe Gen4/NVMe automotive SSD，容量覆盖 220GB、440GB、900GB 和 1.8TB，工作温区 -40°C to +115°C。
 - Micron 官方 2500 / 2650 / 3500 / 4600 / 9400 ordering 图：确认 2500/2650/3500 的 PCIe Gen4 M.2 token、容量和 family；确认 4600 的 `L = PCIe Gen5`、`HJ = 4600`、`BP = 1024Gb TLC x8 2.5V (3D)`；确认 9400 的 `CC = U.3/U.2`、`GH/GJ = 9400 PRO/MAX` 和容量 token。
+- Micron 官方 EK470 / 6550 ION / 7450 / 7500 / 7600 ordering 图：确认 `MTED` embedded flash drive EK470 的 SATA 3.0、40mm x 50mm、8GB/16GB、`K = 32Gb NAND x8 3.3V (25nm)`；确认 6550 ION / 7600 的 PCIe Gen5、7450 / 7500 的 PCIe Gen4、各系列 form factor、容量、family、sector size、OCP firmware token 和 7600 `BP = 1024Gb TLC x8 2.5V`。
 
 ## 规则状态
 
@@ -25,8 +28,10 @@ iTXTech fdnext DecodePack:
 - `vendor.micron.ssd.p420m.v1`
 - `vendor.micron.ssd.420-5xx.v1`
 - `vendor.micron.ssd.3xx-4xx.v1`
+- `vendor.micron.ssd.ek470.v1`
 - `vendor.micron.ssd.5400.v1`
 - `vendor.micron.ssd.6500-ion.v1`
+- `vendor.micron.ssd.datacenter-gen4-gen5.v1`
 - `vendor.micron.ssd.4100at.v1`
 - `vendor.micron.ssd.4150at.v1`
 - `vendor.micron.ssd.client-gen4.v1`
@@ -40,6 +45,7 @@ iTXTech fdnext DecodePack:
 | --- | --- |
 | `MT` | Micron Technology |
 | `FD` | Flash Drive / SSD |
+| `ED` | Embedded Flash Drive |
 | interface `A/B/D` | SATA 1.5 / 3.0 / 6.0 Gb/s，`device.productType = "sata"` |
 | interface `E` | SAS 6.0 Gb/s，`device.productType = "sas"` |
 | interface `F/G` | PCIe Gen1 / Gen2；当前只输出 `storage_interface`，不强行标成 NVMe |
@@ -77,9 +83,13 @@ P320h/P320s datasheet 的 suffix 末尾为 production status；规则用可选 `
 | --- | --- |
 | `MTFD` + interface + form factor + density + NAND type + product family + optional suffix | Micron 420 / 5xx SSD |
 | product family `AV/AY/AZ/BB/BD/BP` | `M500`、`M550`、`M510`、`M500DC`、`M500IT`、`M510DC` |
+| M500IT form factor `AK/AT/AY` | `2.5-inch, 7mm`、`mSATA`、`M.2, 60mm x 22mm x 3.50mm` |
+| M500IT density `032/060/064/120/128/160/240/256` | 32GB、60GB、64GB、120GB、128GB、160GB、240GB、256GB |
 | suffix | BOM revision、2-character NAND component、sector size、extended firmware、additional features、customer designator、production status |
 
-M500IT chart 中部分 `AH/AK` component token 只给出 density、x8、3.3V 和 20nm，没有稳定声明 SLC/MLC；公开 `cell_level` 由 NAND type token `S/M` 决定，component 文本不重复 cell level。`AI` 输出为 `Auto industrial temperature`，`IT` 输出为 `Industrial temperature and grade`。
+M500IT chart 中部分 `AH/AK` component token 只给出 density、x8、3.3V 和 20nm，没有稳定声明 SLC/MLC；公开 `cell_level` 由 NAND type token `S/M` 决定，component 文本不重复 cell level。`AE` 明确为 `128Gb MLC x8 3.3V (20nm)`。`AI` 输出为 `Auto industrial temperature`，`IT` 输出为 `Industrial temperature and grade`。
+
+M500 / M510 / M500IT chart 中 `YY/HA/RA` 等 customer designator 当前只作为内部 token 消费，避免在公开 fields 中输出客户代码或把 customer code 当作产品属性。
 
 ## 5400
 
@@ -92,6 +102,18 @@ M500IT chart 中部分 `AH/AK` component token 只给出 density、x8、3.3V 和
 | firmware `5/6` | SED TCG OPAL / SED TCG eSSC |
 | hardware `TA` | TAA Compliant |
 
+## EK470
+
+| 结构 | 含义 |
+| --- | --- |
+| `MT ED B TH <008/016> M BA - 1 K 1 <optional status>` | Micron EK470 embedded SATA SSD |
+| interface `B` | SATA 3.0 Gb/s |
+| form factor `TH` | SSD, 40mm x 50mm |
+| density `008/016` | 8GB / 16GB |
+| NAND component `K` | 32Gb NAND x8 3.3V (25nm) |
+
+EK470 图中 `M` 位只标注为 NAND Flash，本规则只消费该 token，不从它推断公开 `cell_level`。
+
 ## 6500 ION
 
 | 结构 | 含义 |
@@ -103,6 +125,24 @@ M500IT chart 中部分 `AH/AK` component token 只给出 density、x8、3.3V 和
 | firmware `D/J` | OCP 2.0 + TCG Opal / OCP 2.0 + Non-SED |
 
 6500 ION 截图未给出 `BK` component token 的公开释义，规则只把它作为内部 token 消耗，不输出 `nand_component`。
+
+## 6550 ION / 7450 / 7500 / 7600
+
+| 结构 | 含义 |
+| --- | --- |
+| `MT FD <K/L> <form> <density> T <family> - <BOM> <component> <sector> <firmware> <feature> YY <status>` | Micron data-center PCIe SSD |
+| interface `K/L` | PCIe Gen4 / PCIe Gen5 |
+| 6550 form factor `AL/BN/BQ` | U.2 15mm / E1.L 9.5mm / E3.S 1T 7.5mm |
+| 7450 form factor `BA/BG/BZ/CE/BU` | M.2 80mm / M.2 110mm / E1.S 5.9mm / E1.S 15mm / E1.S 25mm |
+| 7500 form factor `CC` | U.3, 2.5-inch, 15mm, SFF-8639 |
+| 7600 form factor `AL/BT/CE/BQ` | U.2 / E1.S 9.5mm / E1.S 15mm / E3.S 1T 7.5mm |
+| product family `HL/FR/FS/GP/GQ/HG/HS` | 6550 ION / 7450 PRO / 7450 MAX / 7500 PRO / 7500 MAX / 7600 PRO / 7600 MAX |
+| 6550 density `30T7/61T4` | 30.72TB / 61.44TB |
+| 7450 density `400/480/800/960/1T6/1T9/3T2/3T8/6T4/7T6` | 400GB ... 7680GB |
+| 7500 / 7600 density `800/960/1T6/1T9/3T2/3T8/6T4/7T6/12T8/15T3` | 800GB ... 15,360GB |
+| 7600 NAND component `BP` | 1024Gb TLC x8 2.5V |
+
+7450 / 7500 的 `BC/BK` component token 和 6550 的 `BK` component token 当前没有公开 component 释义，规则只消费 token，不输出 component 描述。Firmware 由 family + firmware token 组合解析，避免把不同系列的 `D/J/Z/5` 混用。
 
 ## 4100AT / 4150AT
 
@@ -201,6 +241,11 @@ M500IT chart 中部分 `AH/AK` component token 只给出 density、x8、3.3V 和
 - `MTFDDAV1T9TGB-1BC15TAYY`
 - `MTFDKCC30T7TGR-1BK1JABYY`
 - `MTFDKBN30T7TGR-1BK4DABYY`
+- `MTEDBTH008MBA-1K1`
+- `MTFDLAL61T4THL-1BK4DABYY`
+- `MTFDKBZ480TFR-1BC4ZABYY`
+- `MTFDKCC15T3TGQ-1BK1DABYYES`
+- `MTFDLBQ3T8THG-2BP1JFCYY`
 - `MTFDKEL128THE-1BM15ATYY`
 - `MTFDKEL128THE-ABM15ATYYES`
 - `MTFDKEL220TGK-1BM45A2YY`
@@ -208,6 +253,14 @@ M500IT chart 中部分 `AH/AK` component token 只给出 density、x8、3.3V 和
 - `MTFDDAY120MBD-AAK12AIYYES`
 - `MTFDDAY240MBD-1AK12AIYY`
 - `MTFDDAK060MBD-2AH12ITYY`
+- `MTFDDAT060MBD-1AH12AIYY`
+- `MTFDDAT120MBD-AAK12AIYYES`
+- `MTFDDAT120MAZ-1AE12ABHAES`
+- `MTFDDAK120MBD-1AE12ITYY`
+- `MTFDDAK060MBD-1AH12AIRA`
+- `MTFDDAK240MBD-AAK12AIRAES`
+- `MTFDDAK160MBD-1AE12AIYY`
+- `MTFDDAK060MBD-2AH12AIYY`
 - `MTFDKBA512QGN-1BD1AABYYES`
 - `MTFDKCD256TGW-1BP15ABYYES`
 - `MTFDKBA2T0TGD-1BK15ABYYES`
