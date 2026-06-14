@@ -32,7 +32,7 @@ export const fdnextFieldProfiles = {
         importance: "secondary",
         fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
       },
-      { id: "interface", label: "Interface", importance: "secondary", fields: ["device_width", "voltage", "storage_interface", "interface_type", "toggle", "ecc_level"] },
+      { id: "interface", label: "Interface", importance: "secondary", fields: ["device_width", "voltage", "storage_interface", "interface_type", "interface_note", "toggle", "ecc_level"] },
       {
         id: "package",
         label: "Package",

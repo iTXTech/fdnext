@@ -706,6 +706,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "interface",
     importance: "secondary"
   },
+  interface_note: {
+    key: "interface_note",
+    valueKind: "string",
+    defaultLabel: "Interface Note",
+    recommendedBlock: "interface",
+    importance: "detail"
+  },
   toggle: {
     key: "toggle",
     valueKind: "string",

@@ -139,10 +139,10 @@
             "device_width": 16,
             "interface_type": "SDR"
           },
-          "28": {
+          "Z8": {
             "device_width": 8,
             "interface_type": "SDR",
-            "note": "SSD"
+            "interface_note": "samsung_note_ssd"
           },
           "32": {
             "device_width": 32,
@@ -166,17 +166,17 @@
           "Y8": {
             "device_width": 8,
             "interface_type": "Toggle DDR",
-            "note": "HP"
+            "interface_note": "samsung_note_hp"
           },
           "B8": {
             "device_width": 8,
             "interface_type": "Toggle DDR",
-            "note": "HP w/ FBI Chip"
+            "interface_note": "samsung_note_hp_fbi"
           },
           "W8": {
             "device_width": 8,
             "interface_type": "Toggle DDR",
-            "note": "Wafer"
+            "interface_note": "samsung_note_wafer"
           },
           "K8": {
             "device_width": 8,
@@ -448,7 +448,7 @@
           },
           "J": {},
           "K": {
-            "bad_block": "samsung_cbb_k"
+            "special_option": "samsung_special_handling"
           },
           "L": {
             "bad_block": "samsung_cbb_l"
@@ -613,6 +613,26 @@
           "table": "bad_block",
           "to": "badBlockObj",
           "default": {}
+        },
+        {
+          "op": "set",
+          "to": "configurationSpecialOption",
+          "value": {
+            "$path": "configurationObj.special_option"
+          }
+        },
+        {
+          "op": "set",
+          "to": "badBlockSpecialOption",
+          "value": {
+            "$path": "badBlockObj.special_option"
+          }
+        },
+        {
+          "op": "fallback",
+          "primary": "badBlockSpecialOption",
+          "secondary": "configurationSpecialOption",
+          "to": "specialOption"
         }
       ],
       "assign": {
@@ -645,6 +665,9 @@
         "fields.interface_type": {
           "$path": "organizationObj.interface_type"
         },
+        "fields.interface_note": {
+          "$path": "organizationObj.interface_note"
+        },
         "fields.voltage": {
           "$var": "voltage"
         },
@@ -676,7 +699,7 @@
           "$path": "configurationObj.rb_count"
         },
         "fields.special_option": {
-          "$path": "configurationObj.special_option"
+          "$var": "specialOption"
         },
         "meta.lookupPartNumbers": [
           {

@@ -25,24 +25,24 @@ PN 结构：
 
 ## 第 6/7 位 Organization
 
-第 6/7 位按 Samsung organization 表整体解析。DecodePack 公开输出只保留 `device_width` 和 `interface_type`：`D8` / `Y8` / `B8` / `W8` / `K8` / `S8` / `A8` / `C8` 均只标注为 `Toggle DDR`，不再输出 Toggle DDR 版本号。`K8` / `S8` / `A8` / `C8` 的 Channel / 封装厂 note 不进入 DecodePack note，也不进入 public fields。
+第 6/7 位按 Samsung organization 表整体解析。DecodePack 公开输出 `device_width`、`interface_type` 和有增量信息的 `interface_note`：`D8` / `Y8` / `B8` / `W8` / `K8` / `S8` / `A8` / `C8` 均只标注为 `Toggle DDR`，不再输出 Toggle DDR 版本号。`Normal` / `DDR Normal` 这类默认 note 不进入 public fields；`K8` / `S8` / `A8` / `C8` 的 Channel / 封装厂 note 仍不进入 DecodePack note，也不进入 public fields。
 
-| Code | Bus width | public interface | Source note |
-| --- | --- | --- | --- |
-| `00` | NONE | NONE |  |
-| `08` | x8 | SDR | Normal |
-| `16` | x16 | SDR | Normal |
-| `32` | x32 | SDR | Normal |
-| `64` | x64 | SDR | Normal |
-| `28` | x8 | SDR | SSD |
-| `D8` | x8 | Toggle DDR | DDR Normal |
-| `Y8` | x8 | Toggle DDR | HP |
-| `B8` | x8 | Toggle DDR | HP w/ FBI Chip |
-| `W8` | x8 | Toggle DDR | Wafer |
-| `K8` | x8 | Toggle DDR |  |
-| `S8` | x8 | Toggle DDR |  |
-| `A8` | x8 | Toggle DDR |  |
-| `C8` | x8 | Toggle DDR |  |
+| Code | Bus width | public interface | public interface_note | Source note |
+| --- | --- | --- | --- | --- |
+| `00` | NONE | NONE |  |  |
+| `08` | x8 | SDR |  | Normal |
+| `16` | x16 | SDR |  | Normal |
+| `32` | x32 | SDR |  | Normal |
+| `64` | x64 | SDR |  | Normal |
+| `Z8` | x8 | SDR | `SSD` | SSD |
+| `D8` | x8 | Toggle DDR |  | DDR Normal |
+| `Y8` | x8 | Toggle DDR | `HP` | HP |
+| `B8` | x8 | Toggle DDR | `HP w/ FBI Chip` | HP w/ FBI Chip |
+| `W8` | x8 | Toggle DDR | `Wafer` | Wafer |
+| `K8` | x8 | Toggle DDR |  |  |
+| `S8` | x8 | Toggle DDR |  |  |
+| `A8` | x8 | Toggle DDR |  |  |
+| `C8` | x8 | Toggle DDR |  |  |
 
 `FBI` 指 `Frequency Boosting Interface`。DecodePack 内部 note 保持 `FBI` 缩写，不把展开文本写入规则输出。
 
@@ -204,6 +204,7 @@ Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也�
 - `special_option`
 - `device_width`
 - `interface_type`
+- `interface_note`
 - `voltage`
 - `package`
 - `product_class`
@@ -269,20 +270,20 @@ Samsung package code 在资料表中存在重复行，同一个 code 可能同�
 
 ## 第 13 位 Customer Bad Block
 
-该位位于 temperature token 后。DecodePack 只输出明确的坏块策略；`0` 的 NONE / Wafer / CHIP BIZ / Exception Handling 以及空白 `J` 不进入公开字段。`K` 的 legacy 状态只保留在文档中，公开输出保持短标签 `SanDisk Bin`。
+该位位于 temperature token 后。DecodePack 只输出明确的坏块策略；`0` 的 NONE / Wafer / CHIP BIZ / Exception Handling 以及空白 `J` 不进入公开字段。`K` 是 Samsung `Special Handling` note，不再按 SanDisk bin 或坏块策略输出，公开落到 `special_option`。
 
-| Code | public bad_block | Source note |
-| --- | --- | --- |
-| `0` |  | NONE (Wafer, CHIP BIZ, Exception Handling) |
-| `A` | `Apple Bad Block` |  |
-| `B` | `Include Bad Block` |  |
-| `D` | `Daisychain Sample` |  |
-| `E` | `Enterprise MLC` |  |
-| `J` |  | blank / reserved |
-| `K` | `SanDisk Bin` | legacy / Special Handling |
-| `L` | `1-5 Bad Block` |  |
-| `N` | `ini 0 blk, add 10 blk` |  |
-| `S` | `All Good Block` |  |
+| Code | public bad_block | public special_option | Source note |
+| --- | --- | --- | --- |
+| `0` |  |  | NONE (Wafer, CHIP BIZ, Exception Handling) |
+| `A` | `Apple Bad Block` |  |  |
+| `B` | `Include Bad Block` |  |  |
+| `D` | `Daisychain Sample` |  |  |
+| `E` | `Enterprise MLC` |  |  |
+| `J` |  |  | blank / reserved |
+| `K` |  | `Special Handling` | Special Handling |
+| `L` | `1-5 Bad Block` |  |  |
+| `N` | `ini 0 blk, add 10 blk` |  |  |
+| `S` | `All Good Block` |  |  |
 
 ## 第 9 位 Configuration
 

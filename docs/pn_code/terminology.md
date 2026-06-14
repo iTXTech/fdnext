@@ -61,6 +61,7 @@
 | `series_info` | 厂商系列说明 | `3D-V4` |
 | `storage_interface` | managed NAND 或 MCP storage 接口 | `eMMC 5.1`, `UFS 4.0` |
 | `interface_type` | 接口模式、Gear、lane 或 HS 模式 | `HS400`, `Gear 4 / 2-Lane` |
+| `interface_note` | 接口 / 位宽组合表中有增量信息的 note，不用于默认 `Normal` | `HP w/ FBI Chip` |
 | `toggle` | Toggle DDR 标记 | `DDR` |
 | `controller` / `controller_revision` | 支持控制器列表或控制器版本 | `["SM2244LT", "SM3270AC"]`, `V4.41 EF` |
 | `package_configuration` | MCP/eMCP/uMCP 封装内 storage / DRAM / eMMC / UFS 颗数组合，不表达封装尺寸 | `4 LPDRAM, 1 UFS` |
