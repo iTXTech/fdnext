@@ -336,6 +336,7 @@ export function partType(result: PartDecodeResult): string | undefined {
       emmc: "eMMC",
       ufs: "UFS",
       sata: "SATA",
+      sas: "SAS",
       nvme: "NVMe",
       emcp: "eMCP",
       umcp: "uMCP",

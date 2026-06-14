@@ -163,6 +163,271 @@ assertMicronManagedFbgaMarking("JW101", "MT29C1G12MABAAHB-75IT", "emcp");
 assertMicronManagedFbgaMarking("JZ018", "MT29VZZZ7D7DQKWL-062W97Y", "umcp");
 assertMicronManagedFbgaMarking("JZ101", "MTFC64GAOALEA-WTES", "emmc");
 
+assertPart("MTFDDAC128MAG-1G12AA", {
+  vendor: "micron",
+  type: "SATA",
+  densityMbit: 1048576,
+  cellField: "MLC",
+  extra: {
+    "Storage Interface": "SATA 6.0 Gb/s",
+    "Form Factor": "2.5-inch, 9.5mm",
+    "Product Family": "Micron C300 SSD",
+    "Sector Size": "512B",
+    "Product Generation": "1st Generation",
+    "NAND Component": "32Gb MLC x8 3.3V (34nm)",
+    "Component Density": "32Gb",
+    "Component Width": "x8",
+    "Component Voltage": "3.3V",
+    "Special Option": "Self-encrypting drive (SED)"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Hardware Feature Code"]
+});
+
+assertPart("MTFDDAK120MAV-1AE12ABYYES", {
+  vendor: "micron",
+  type: "SATA",
+  densityMbit: 983040,
+  cellField: "MLC",
+  extra: {
+    "Storage Interface": "SATA 6.0 Gb/s",
+    "Form Factor": "2.5-inch, 7mm",
+    "Product Family": "Micron M500 SSD",
+    "Sector Size": "512B",
+    "Product Generation": "1st Generation",
+    "NAND Component": "128Gb MLC x8 3.3V (20nm)",
+    "Component Density": "128Gb",
+    "Component Width": "x8",
+    "Component Voltage": "3.3V",
+    "Special Option": "Self-encrypting drive (SED)",
+    "Production Status": "Engineering samples"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
+});
+
+assertPart("MTFDEAC200MBB-1AE12ABYY", {
+  vendor: "micron",
+  type: "SAS",
+  densityMbit: 1638400,
+  cellField: "MLC",
+  extra: {
+    "Storage Interface": "SAS 6.0 Gb/s",
+    "Form Factor": "2.5-inch, 9.5mm",
+    "Product Family": "Micron M500DC SSD",
+    "Product Generation": "1st Generation",
+    "NAND Component": "128Gb MLC x8 3.3V (20nm)",
+    "Special Option": "Self-encrypting drive (SED)"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
+});
+
+assertPart("MTFDDAV120MAZ-1AE12ABHAES", {
+  vendor: "micron",
+  type: "SATA",
+  densityMbit: 983040,
+  cellField: "MLC",
+  extra: {
+    "Storage Interface": "SATA 6.0 Gb/s",
+    "Form Factor": "M.2, 80mm x 22mm x 3.50mm",
+    "Product Family": "Micron M510 SSD",
+    "NAND Component": "128Gb MLC x8 3.3V (20nm)",
+    "Special Option": "Self-encrypting drive (SED)",
+    "Production Status": "Engineering samples"
+  },
+  absentExtra: ["Customer Designator", "Product Family Code", "NAND Component Code", "Hardware Feature Code"]
+});
+
+assertPart("MTFDDAK032SBD-1AH12ITYY", {
+  vendor: "micron",
+  type: "SATA",
+  densityMbit: 262144,
+  cellField: "SLC",
+  extra: {
+    "Storage Interface": "SATA 6.0 Gb/s",
+    "Form Factor": "2.5-inch, 7mm",
+    "Product Family": "Micron M500IT SSD",
+    "NAND Component": "64Gb x8 3.3V (20nm)",
+    "Product Class": "Industrial",
+    "Special Option": "Self-encrypting drive (SED)"
+  },
+  absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
+});
+
+assertPart("MTFDDAK064SBD-1AK12ITYY", {
+  vendor: "micron",
+  type: "SATA",
+  densityMbit: 524288,
+  cellField: "SLC",
+  extra: {
+    "Storage Interface": "SATA 6.0 Gb/s",
+    "Product Family": "Micron M500IT SSD",
+    "NAND Component": "128Gb x8 3.3V (20nm)",
+    "Product Class": "Industrial"
+  },
+  absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
+});
+
+assertPart("MTFDGAL175SAH-1NA4ABES", {
+  vendor: "micron",
+  type: "managed_nand",
+  densityMbit: 1433600,
+  cellField: "SLC",
+  extra: {
+    "Storage Interface": "PCIe Gen2",
+    "Form Factor": "2.5-inch, 15mm",
+    "Product Family": "Micron P320 SSD",
+    "NAND Component": "16Gb SLC x8 3.3V (34nm)",
+    "Special Option": "Bootable",
+    "Production Status": "Engineering samples"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Hardware Feature Code"]
+});
+
+assertPart("MTFDGAR1400MAX-1JAABES", {
+  vendor: "micron",
+  type: "managed_nand",
+  densityMbit: 11468800,
+  cellField: "MLC",
+  extra: {
+    "Storage Interface": "PCIe Gen2",
+    "Form Factor": "Half height, half length x8",
+    "Product Family": "Micron P420m SSD",
+    "NAND Component": "32Gb MLC x8 3.3V (25nm)",
+    "Production Status": "Engineering samples"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Hardware Feature Code"]
+});
+
+assertPart("MTFDDAK480TGA-1BC16ABYYES", {
+  vendor: "micron",
+  type: "SATA",
+  densityMbit: 3932160,
+  cellField: "TLC",
+  extra: {
+    "Storage Interface": "SATA 6.0 Gb/s",
+    "Form Factor": "2.5-inch, 7mm",
+    "Product Family": "Micron 5400 PRO SSD",
+    "NAND Component": "512Gb TLC x8 2.5V (3D)",
+    "Special Option": "Self-encrypting drive (TCG eSSC)",
+    "Production Status": "Engineering samples"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
+});
+
+assertPart("MTFDDAV1T9TGB-1BC15TAYY", {
+  vendor: "micron",
+  type: "SATA",
+  densityMbit: 15728640,
+  cellField: "TLC",
+  extra: {
+    "Storage Interface": "SATA 6.0 Gb/s",
+    "Form Factor": "M.2, 80mm x 22mm",
+    "Product Family": "Micron 5400 MAX SSD",
+    "Product Class": "TAA Compliant",
+    "Special Option": "Self-encrypting drive (TCG OPAL)"
+  },
+  absentExtra: ["Form Factor Code", "Product Family Code", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
+});
+
+assertPart("MTFDKCC30T7TGR-1BK1JABYY", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 251658240,
+  cellField: "TLC",
+  extra: {
+    "Storage Interface": "PCIe Gen4",
+    "Form Factor": "U.3, 2.5-inch, 15mm, SFF-8639",
+    "Product Family": "Micron 6500 ION SSD",
+    "Sector Size": "512B",
+    "Special Option": "OCP 2.0 + Non-SED"
+  },
+  absentExtra: ["NAND Component", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
+});
+
+assertPart("MTFDKBN30T7TGR-1BK4DABYY", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 251658240,
+  cellField: "TLC",
+  extra: {
+    "Storage Interface": "PCIe Gen4",
+    "Form Factor": "E1.L, 9.5mm including enclosure",
+    "Product Family": "Micron 6500 ION SSD",
+    "Sector Size": "4KiB",
+    "Special Option": "OCP 2.0 + TCG Opal"
+  },
+  absentExtra: ["NAND Component", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
+});
+
+assertPart("MTFDKEL128THE-1BM15ATYY", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 1048576,
+  cellField: "TLC",
+  package: "BGA-291, 16x20x1.3",
+  extra: {
+    "Storage Interface": "PCIe Gen4",
+    "Product Family": "Micron 4100AT SSD",
+    "Sector Size": "512B",
+    "Operation Temperature": "Automotive (-40°C to +105°C)"
+  },
+  absentExtra: ["NAND Component", "NAND Component Code", "Firmware Code", "Customer Designator"]
+});
+
+assertPart("MTFDKEL128THE-ABM15ATYYES", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 1048576,
+  cellField: "TLC",
+  package: "BGA-291, 16x20x1.3",
+  extra: {
+    "Storage Interface": "PCIe Gen4",
+    "Product Family": "Micron 4100AT SSD",
+    "Product Class": "Engineering samples, 1st Generation",
+    "Production Status": "Engineering samples"
+  },
+  absentExtra: ["NAND Component", "NAND Component Code", "Firmware Code", "Customer Designator"]
+});
+
+assertPart("MTFDKEL220TGK-1BM45A2YY", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 1802240,
+  cellField: "TLC",
+  extra: {
+    "Storage Interface": "PCIe Gen4",
+    "Product Family": "Micron 4150AT SSD",
+    "Sector Size": "4KiB",
+    "Operation Temperature": "Automotive (-40°C to +115°C)"
+  },
+  absentExtra: ["NAND Component", "NAND Component Code", "Firmware Code", "Hardware Feature Code", "Customer Designator"]
+});
+
+assertPart("MTFDKER1T8TGK-ABM45A2YYES", {
+  vendor: "micron",
+  type: "NVMe",
+  densityMbit: 14745600,
+  cellField: "TLC",
+  extra: {
+    "Storage Interface": "PCIe Gen4",
+    "Product Family": "Micron 4150AT SSD",
+    "Product Class": "Engineering samples",
+    "Production Status": "Engineering samples"
+  },
+  absentExtra: ["NAND Component", "NAND Component Code", "Firmware Code", "Hardware Feature Code", "Customer Designator"]
+});
+
+assertPart("MTFDDAC256MZZ-XYZ", {
+  vendor: "micron",
+  type: "SATA",
+  densityMbit: 2097152,
+  cellField: "MLC",
+  extra: {
+    "Storage Interface": "SATA 6.0 Gb/s",
+    "Form Factor": "2.5-inch, 9.5mm"
+  },
+  absentExtra: ["Product Family", "Sector Size", "NAND Component", "Product Family Code", "NAND Component Code"]
+});
+
 assertPart("MTFDHBL064TDP-1AT12AIYY", {
   vendor: "micron",
   type: "NVMe",
@@ -256,4 +521,4 @@ assertPart("MTFDHBL128TDP-AAT12AIYYES", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
 });
 
-assertRuleDoesNotMatch("vendor.micron.ssd.2100ai-at.v1", "MTFDHBL064TDP-1AT12ITYY");
+assertRuleDoesNotMatch("vendor.micron.ssd.modern.v1", "MTFDHBL064TDP-1AT12ITYY");

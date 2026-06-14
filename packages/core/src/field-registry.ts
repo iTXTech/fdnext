@@ -257,6 +257,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "package",
     importance: "secondary"
   },
+  form_factor: {
+    key: "form_factor",
+    valueKind: "string",
+    defaultLabel: "Form Factor",
+    recommendedBlock: "package",
+    importance: "secondary"
+  },
   packing_type: {
     key: "packing_type",
     valueKind: "string",

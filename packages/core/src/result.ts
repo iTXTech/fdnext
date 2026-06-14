@@ -69,6 +69,7 @@ export const fdnextProductTypes = [
   "emmc",
   "ufs",
   "sata",
+  "sas",
   "nvme",
   "emcp",
   "umcp",

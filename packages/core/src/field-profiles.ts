@@ -106,6 +106,7 @@ export const fdnextFieldProfiles = {
         importance: "detail",
         fields: [
           "package",
+          "form_factor",
           "package_code",
           "package_configuration",
           "product_class",

@@ -139,7 +139,7 @@ function isRedundantNandTechnology(value: unknown, info: PartDecodeDraft, extra:
 
 function isManagedNandType(info: PartDecodeDraft): boolean {
   return info.device.chipKind === "managed_nand" ||
-    ["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(partTypeText(info));
+    ["emmc", "ufs", "sata", "sas", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(partTypeText(info));
 }
 
 function isNandDieProfileType(info: PartDecodeDraft): boolean {

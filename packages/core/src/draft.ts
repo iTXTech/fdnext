@@ -84,7 +84,7 @@ export function managedProductType(value: unknown): FdnextProductType | undefine
     return undefined;
   }
   const normalized = value.trim().toLowerCase();
-  return ["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(normalized)
+  return ["emmc", "ufs", "sata", "sas", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(normalized)
     ? normalized as FdnextProductType
     : undefined;
 }

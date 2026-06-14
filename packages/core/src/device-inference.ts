@@ -62,7 +62,7 @@ export function inferChipKindFromDraft(info: PartDecodeDraft, constraints: Opera
   }
 
   const productType = inferProductTypeFromDraft(info);
-  if (productType && ["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(String(productType))) {
+  if (productType && ["emmc", "ufs", "sata", "sas", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(String(productType))) {
     return "managed_nand";
   }
   if (productType && /^(?:sdr|lpsdr|lpddr|ddr|gddr|rldram)/.test(String(productType))) {

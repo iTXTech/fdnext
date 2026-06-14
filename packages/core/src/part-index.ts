@@ -485,7 +485,7 @@ function hasSearchConstraints(constraints: Omit<OperationConstraints, "idScheme"
 
 function chipKindForProductTypeConstraint(productType: FdnextProductType): FdnextChipKind | undefined {
   const normalized = normalizeInfoText(productType);
-  if (["emmc", "ufs", "sata", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(normalized)) {
+  if (["emmc", "ufs", "sata", "sas", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(normalized)) {
     return "managed_nand";
   }
   if (normalized === "dram" || /^(?:sdr|lpsdr|lpddr|ddr|gddr|rldram)/.test(normalized)) {

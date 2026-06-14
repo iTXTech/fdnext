@@ -20,7 +20,7 @@
 | `part_number` | 规范化后的 PN | `device.partNumber` |
 | `vendor` | 厂商展示名 | `device.vendor` |
 | `chip_kind` | `raw_nand`、`managed_nand`、`dram` 等芯片类别 | `device.chipKind` |
-| `product_type` | eMMC、UFS、SATA、NVMe、eMCP/uMCP、E2NAND/E3NAND、LPDDR5X、DDR4 等产品线 subtype | `device.productType` |
+| `product_type` | eMMC、UFS、SATA、SAS、NVMe、eMCP/uMCP、E2NAND/E3NAND、LPDDR5X、DDR4 等产品线 subtype | `device.productType` |
 | `identifier` | typed identifier 值，例如 NAND Flash ID | `device.identifier` |
 | `id_scheme` | identifier namespace，例如 `nand.flash_id` | `device.idScheme` |
 | `marking_code` | FBGA / package marking code | `device.markingCode` |
@@ -64,6 +64,7 @@
 | `toggle` | Toggle DDR 标记 | `DDR` |
 | `controller` / `controller_revision` | 支持控制器列表或控制器版本 | `["SM2244LT", "SM3270AC"]`, `V4.41 EF` |
 | `package_configuration` | MCP/eMCP/uMCP 封装内 storage / DRAM / eMMC / UFS 颗数组合，不表达封装尺寸 | `4 LPDRAM, 1 UFS` |
+| `form_factor` | SSD / 模组类产品的整机或模组外形规格，不等同于芯片封装 | `2.5-inch, 7mm` |
 | `dram_configuration` | MCP/eMCP/uMCP 中 DRAM 子系统的实际颗粒组成；当同一 PN 混用多种 DRAM die/part token 时用于保留组成细节 | `48Gb (4 x Y2BM) + 16Gb (2 x Y21N)` |
 | `product_class` / `assembly` / `segment` / `sku` | 厂商产品等级、封装、产品分段或 SKU token 展开 | `Automotive Grade 2`, `Client Component` |
 | `operation_temperature` | 工作温度范围 | `-40~105C` |
@@ -77,7 +78,7 @@
 - Micron / Intel 2D raw NAND 详情字段仍保留 litho 作为 `die_codename`，但 subtitle 优先使用 `process_alias` 中的 die codename，例如 `M70M` / `L84A`，避免列表摘要只显示泛化制程。
 - `nand.die_profile` 中的 `firmware_match` / `die_mark` 是匹配和维护 metadata，不默认输出到公开 result；整理过的 `process_alias` 可以公开展示。Kioxia / SanDisk 2D 固件侧默认归一为 `2DM` / `2DT`；BiCS profile key 必须带厂商前缀，例如 `KBiCS3` / `SBiCS3`，full code profile key 也必须带厂商前缀，例如 `K7T23` / `S7T23`。Micron / Intel 3D 直接用 `B16A` 这类 die codename；2D 一般使用 `IM2DS` / `IM2DM` / `IM2DT` 区分 SLC / MLC / TLC，但 `L7x` / `M7x` / `B7x`、`L8x` / `M8x` / `B8x`、`L9x` / `B9x` 可直接用 die codename 匹配，公开制程分别补齐为 `25nm`、`20nm`、`16nm`。
 - `storage_interface` 与 `product_type` 完全重复时，优先保留更结构化的 identity 字段，除非接口字段含有版本、lane、gear 等增量信息。
-- `iNAND`、`iSSD`、`moviNAND` 等厂商品牌或系列名不作为 `product_type`；需要展示时放入 `product_family` 等稳定语义字段，解析中间用的 `system` / `group` 不进入公开 fields。SSD 类封装按接口归类为 `sata` / `nvme`。
+- `iNAND`、`iSSD`、`moviNAND` 等厂商品牌或系列名不作为 `product_type`；需要展示时放入 `product_family` 等稳定语义字段，解析中间用的 `system` / `group` 不进入公开 fields。SSD 类封装按接口归类为 `sata` / `sas` / `nvme`。
 
 ## NAND Flash ID
 
