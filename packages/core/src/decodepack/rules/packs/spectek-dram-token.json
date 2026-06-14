@@ -744,7 +744,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(?:PNL|PRA|PRN|PRM|SGG|SMG|SNL|SUM|SUU|SCD|SCM|SCT|SMC|SMD|SMM|SMU|XAA|XBA|XCBB|XCB|SM|SU)(?:(?:16|32|64|128|256|384|512|768|1024)M(?:4|8|16|32|64)|[12]G(?:4|8|16|32|64)|4G8)[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
+      "value": "^(?:PNL|PRA|PRN|PRM|SGG|SMG|SNL|SUM|SUU|SCD|SCM|SCT|SMC|SMD|SMM|SMU|XAA|XBA|XCBB|XCB|SM|SU)(?:(?:16|32|64|128|256|384|512|768|1024|2048|4096|8192)M(?:4|8|16|32|64)|(?:[1248]G)(?:4|8|16|32|64))[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "tables": {
@@ -873,6 +873,15 @@
           "1024M4",
           "1024M8",
           "1024M16",
+          "2048M4",
+          "2048M8",
+          "2048M16",
+          "4096M4",
+          "4096M8",
+          "4096M16",
+          "8192M4",
+          "8192M8",
+          "8192M16",
           "1G4",
           "1G8",
           "1G16",
@@ -883,7 +892,16 @@
           "2G16",
           "2G32",
           "2G64",
-          "4G8"
+          "4G4",
+          "4G8",
+          "4G16",
+          "4G32",
+          "4G64",
+          "8G4",
+          "8G8",
+          "8G16",
+          "8G32",
+          "8G64"
         ],
         "density": {
           "16M8": 128,
@@ -918,6 +936,15 @@
           "1024M4": 4096,
           "1024M8": 8192,
           "1024M16": 16384,
+          "2048M4": 8192,
+          "2048M8": 16384,
+          "2048M16": 32768,
+          "4096M4": 16384,
+          "4096M8": 32768,
+          "4096M16": 65536,
+          "8192M4": 32768,
+          "8192M8": 65536,
+          "8192M16": 131072,
           "1G4": 4096,
           "1G8": 8192,
           "1G16": 16384,
@@ -928,7 +955,16 @@
           "2G16": 32768,
           "2G32": 65536,
           "2G64": 131072,
-          "4G8": 32768
+          "4G4": 16384,
+          "4G8": 32768,
+          "4G16": 65536,
+          "4G32": 131072,
+          "4G64": 262144,
+          "8G4": 32768,
+          "8G8": 65536,
+          "8G16": 131072,
+          "8G32": 262144,
+          "8G64": 524288
         },
         "deviceWidth": {
           "16M8": 8,
@@ -963,6 +999,15 @@
           "1024M4": 4,
           "1024M8": 8,
           "1024M16": 16,
+          "2048M4": 4,
+          "2048M8": 8,
+          "2048M16": 16,
+          "4096M4": 4,
+          "4096M8": 8,
+          "4096M16": 16,
+          "8192M4": 4,
+          "8192M8": 8,
+          "8192M16": 16,
           "1G4": 4,
           "1G8": 8,
           "1G16": 16,
@@ -973,7 +1018,16 @@
           "2G16": 16,
           "2G32": 32,
           "2G64": 64,
-          "4G8": 8
+          "4G4": 4,
+          "4G8": 8,
+          "4G16": 16,
+          "4G32": 32,
+          "4G64": 64,
+          "8G4": 4,
+          "8G8": 8,
+          "8G16": 16,
+          "8G32": 32,
+          "8G64": 64
         },
         "voltage": {
           "B": "1.1V",
@@ -990,6 +1044,9 @@
           "V": "2.5V"
         },
         "featureObj": {
+          "D": {
+            "speed_grade": "Speed trimmed for performance"
+          },
           "N": {
             "special_option": "OC Trimmed"
           }
@@ -1014,6 +1071,7 @@
           "KVA",
           "NEA",
           "NRE",
+          "RAF",
           "RFE",
           "RHF",
           "RKB",
@@ -1038,6 +1096,14 @@
           "EB",
           "EF",
           "GE",
+          "GFF",
+          "GHF",
+          "GKF",
+          "GNF",
+          "GPF",
+          "GQF",
+          "GQL",
+          "GK",
           "HA",
           "HB",
           "HC",
@@ -1070,6 +1136,7 @@
           "TW",
           "VA",
           "WE",
+          "ZRF",
           "GQ"
         ],
         "packageObj": {
@@ -1131,6 +1198,38 @@
           },
           "GE": {
             "package": "TFBGA-96/144, 9x14x1.2",
+            "dram_die_count": 1
+          },
+          "GFF": {
+            "package": "FBGA-78/117, 8x11.5",
+            "dram_die_count": 1
+          },
+          "GHF": {
+            "package": "FBGA-82, 12.5x15.5",
+            "dram_die_count": 1
+          },
+          "GKF": {
+            "package": "FBGA-78/117, 9x11.5",
+            "dram_die_count": 1
+          },
+          "GNF": {
+            "package": "FBGA-96, 8x14",
+            "dram_die_count": 1
+          },
+          "GPF": {
+            "package": "FBGA-96, 9x14",
+            "dram_die_count": 1
+          },
+          "GQF": {
+            "package": "FBGA-78/117, 8x10.5",
+            "dram_die_count": 1
+          },
+          "GQL": {
+            "package": "FBGA-78/117, 8x10.5",
+            "dram_die_count": 1
+          },
+          "GK": {
+            "package": "FBGA-78/117, 9x11.5",
             "dram_die_count": 1
           },
           "HA": {
@@ -1223,6 +1322,10 @@
           },
           "PA": {
             "package": "BGA-168/169, 13.5x13.5x1.2",
+            "dram_die_count": 1
+          },
+          "RAF": {
+            "package": "FBGA-78/117, 10.5x12",
             "dram_die_count": 1
           },
           "PM": {
@@ -1345,10 +1448,24 @@
             "package": "FBGA-63/99, 9x11.5x1.2",
             "dram_die_count": 2
           },
+          "ZRF": {
+            "package": "FBGA-86, 9x15.5",
+            "dram_die_count": 1
+          },
           "GQ": {
             "package": "FBGA-78/117, 8x10.5"
           }
         },
+        "dramTypeToken": [
+          "2C",
+          "2E",
+          "G",
+          "T",
+          "U",
+          "V",
+          "Y",
+          "Z"
+        ],
         "dramTypeObj": {
           "2C": {
             "dram_type": "DDR3"
@@ -1411,14 +1528,45 @@
           "72B",
           "60P",
           "64P",
+          "V:187E",
+          "V:187",
+          "V:15E",
+          "V:15",
+          "V:125E",
+          "V:125",
+          "V:107",
+          "V:093",
+          "Z:062Y",
+          "Z:062E",
+          "Z:062H",
+          "Z:068E",
+          "Z:068H",
+          "Z:068",
+          "Z:075E",
+          "Z:075H",
+          "Z:075",
+          "Z:083E",
+          "Z:083H",
+          "Z:083J",
+          "Z:083",
+          "Z:093F",
+          "Z:093E",
+          "Z:093H",
+          "Z:093",
+          "Z:107E",
           "062E",
           "071",
+          "068",
           "075",
+          "075H",
           "075E",
           "75M",
           "083",
+          "083H",
+          "083J",
           "083E",
           "093",
+          "093H",
           "093E",
           "68",
           "68X",
@@ -1534,17 +1682,101 @@
           "64P": {
             "dram_speed": "OC DDR5-6400 CL38"
           },
+          "V:187E": {
+            "dram_speed": "DDR3-1066 CL7"
+          },
+          "V:187": {
+            "dram_speed": "DDR3-1066 CL8"
+          },
+          "V:15E": {
+            "dram_speed": "DDR3-1333 CL9"
+          },
+          "V:15": {
+            "dram_speed": "DDR3-1333 CL10"
+          },
+          "V:125E": {
+            "dram_speed": "DDR3-1600 CL10"
+          },
+          "V:125": {
+            "dram_speed": "DDR3-1600 CL11"
+          },
+          "V:107": {
+            "dram_speed": "DDR3-1866 CL13"
+          },
+          "V:093": {
+            "dram_speed": "DDR3-2133 CL14"
+          },
+          "Z:062Y": {
+            "dram_speed": "DDR4-3200 CL22"
+          },
+          "Z:062E": {
+            "dram_speed": "DDR4-3200 CL22"
+          },
+          "Z:062H": {
+            "dram_speed": "DDR4-3200 CL26"
+          },
+          "Z:068E": {
+            "dram_speed": "DDR4-2933 CL20"
+          },
+          "Z:068H": {
+            "dram_speed": "DDR4-2933 CL24"
+          },
+          "Z:068": {
+            "dram_speed": "DDR4-2933 CL21"
+          },
+          "Z:075E": {
+            "dram_speed": "DDR4-2666 CL18"
+          },
+          "Z:075H": {
+            "dram_speed": "DDR4-2666 CL22"
+          },
+          "Z:075": {
+            "dram_speed": "DDR4-2666 CL19"
+          },
+          "Z:083E": {
+            "dram_speed": "DDR4-2400 CL16"
+          },
+          "Z:083H": {
+            "dram_speed": "DDR4-2400 CL20"
+          },
+          "Z:083J": {
+            "dram_speed": "DDR4-2400 CL19"
+          },
+          "Z:083": {
+            "dram_speed": "DDR4-2400 CL17"
+          },
+          "Z:093F": {
+            "dram_speed": "DDR4-2133 CL14"
+          },
+          "Z:093E": {
+            "dram_speed": "DDR4-2133 CL15"
+          },
+          "Z:093H": {
+            "dram_speed": "DDR4-2133 CL18"
+          },
+          "Z:093": {
+            "dram_speed": "DDR4-2133 CL16"
+          },
+          "Z:107E": {
+            "dram_speed": "DDR4-1866 CL13"
+          },
           "062E": {
             "dram_speed": "DDR4-3200 CL22"
           },
           "071": {
             "dram_speed": "DDR4-2800 CL20"
           },
+          "068": {
+            "dram_speed": "DDR4-2933 CL21"
+          },
           "075": {
             "dram_speed": "DDR4-2666 CL19"
           },
           "075E": {
             "dram_speed": "DDR4-2666 CL18"
+          },
+          "075H": {
+            "dram_speed": "DDR4-2666 CL22"
           },
           "75M": {
             "dram_speed": "DDR4-2666 CL16"
@@ -1555,11 +1787,20 @@
           "083E": {
             "dram_speed": "DDR4-2400 CL16"
           },
+          "083H": {
+            "dram_speed": "DDR4-2400 CL20"
+          },
+          "083J": {
+            "dram_speed": "DDR4-2400 CL19"
+          },
           "093": {
             "dram_speed": "DDR4-2133"
           },
           "093E": {
             "dram_speed": "DDR4-2133 CL15"
+          },
+          "093H": {
+            "dram_speed": "DDR4-2133 CL18"
           },
           "68X": {
             "dram_speed": "DDR4-2933 CL20"
@@ -1608,6 +1849,13 @@
         },
         {
           "op": "takeLongest",
+          "table": "dramTypeToken",
+          "to": "dramTypeCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "dramTypeCode",
           "table": "dramTypeObj",
           "to": "dramTypeObj",
           "default": {}
@@ -1668,6 +1916,7 @@
         {
           "op": "takeLongest",
           "table": "speedToken",
+          "scope": "dramTypeCode",
           "to": "speedCode",
           "default": ""
         },

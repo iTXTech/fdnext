@@ -61,6 +61,14 @@ const spectekComponentPackageExpectations = {
   FS: ["FBGA-96/144, 9x14x1.2", 1],
   FSE: ["FBGA-78/117, 9.5x13x1.2", 2],
   GE: ["TFBGA-96/144, 9x14x1.2", 1],
+  GFF: ["FBGA-78/117, 8x11.5", 1],
+  GHF: ["FBGA-82, 12.5x15.5", 1],
+  GKF: ["FBGA-78/117, 9x11.5", 1],
+  GNF: ["FBGA-96, 8x14", 1],
+  GPF: ["FBGA-96, 9x14", 1],
+  GQF: ["FBGA-78/117, 8x10.5", 1],
+  GQL: ["FBGA-78/117, 8x10.5", 1],
+  GK: ["FBGA-78/117, 9x11.5", 1],
   HA: ["FBGA-96/144, 9x14x1.2", 1],
   HB: ["VFBGA-82/143, 9x11x1.0", 1],
   HBA: ["TFBGA-96/144, 9.5x14x1.2", 2],
@@ -84,6 +92,7 @@ const spectekComponentPackageExpectations = {
   NF: ["FBGA-84/135, 8x12.5x1.2", 1],
   NRE: ["FBGA-78/117, 8x12x1.2", 2],
   PA: ["BGA-168/169, 13.5x13.5x1.2", 1],
+  RAF: ["FBGA-78/117, 10.5x12", 1],
   PM: ["FBGA-78/117, 9x13.2x1.2", 1],
   RC: ["TFBGA-96/144, 10x13x1.2", 1],
   RFE: ["FBGA-78/117, 8x10.5x1.45", 4],
@@ -113,7 +122,8 @@ const spectekComponentPackageExpectations = {
   WBU: ["FBGA-96/144, 8x14x1.2", 2],
   WE: ["TFBGA-78/117, 8x12x1.2", 1],
   WPF: ["TFBGA-96/144, 10.5x13x1.2", 4],
-  WTR: ["FBGA-63/99, 9x11.5x1.2", 2]
+  WTR: ["FBGA-63/99, 9x11.5x1.2", 2],
+  ZRF: ["FBGA-86, 9x15.5", 1]
 } as const satisfies Record<string, readonly [string, number]>;
 
 function tableKeys(table: unknown): string[] {
@@ -151,6 +161,11 @@ for (const rule of spectekDramRules as Array<{ id: string; tokenDecoder?: { tabl
       if (!value || typeof value !== "object" || Array.isArray(value) || typeof (value as { package?: unknown }).package !== "string") {
         continue;
       }
+      assert.equal(
+        Object.hasOwn(value as Record<string, unknown>, "die_revision"),
+        false,
+        `${rule.id} ${tableName}.${code} should not expose datasheet Rev as die_revision`
+      );
       assert.match(
         (value as { package: string }).package,
         spectekPackageFormat,
@@ -346,11 +361,243 @@ assertDram("PRA512M8V80AG8RHF-15E", {
   package: "FBGA-78, 9x10.5",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Speed": "667MHz (DDR3-1333) CL9",
+    "DRAM Speed": "DDR3-1333 CL9",
     "Special Option": "SpecTek Mark Assembly, 8 chip only"
   },
   absentExtra: ["Config Code", "Package Code"]
 });
+assertDram("PRN512M8V70SGDRAF-15E", {
+  vendor: "spectek",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.5V",
+  package: "FBGA-78/117, 10.5x12",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1333 CL9",
+    "Speed Grade": "Speed trimmed for performance",
+    "Special Option": "SpecTek Mark; 8 chip only"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
+});
+assertDram("PRN256M8V79DG8GQF-15E", {
+  vendor: "spectek",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x8",
+  voltage: "1.5V",
+  package: "FBGA-78/117, 8x10.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1333 CL9",
+    "Special Option": "SpecTek Mark; 8 chip only"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
+});
+assertDram("PRN512M8V00HG8GQF-125", {
+  vendor: "spectek",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.5V",
+  package: "FBGA-78/117, 8x10.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Special Option": "SpecTek Mark; 8 chip only"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
+});
+assertSpectekSearchMarkingRelation("PEB09", "PRN512M8V70SGDRAF");
+assertSpectekSearchMarkingRelation("PE918", "PRN256M8V79DG8GQF");
+assertSpectekSearchMarkingRelation("PE027", "PRN512M8V00HG8GQF");
+assertDram("SGG256M4V88AG8GFF-125E", {
+  vendor: "spectek",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x4",
+  voltage: "1.5V",
+  package: "FBGA-78/117, 8x11.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1600 CL10",
+    "Special Option": "SpecTek Mark; component sale"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
+});
+assertDram("SMG128M8V88AG8GKF-15", {
+  vendor: "spectek",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x8",
+  voltage: "1.5V",
+  package: "FBGA-78/117, 9x11.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1333 CL10",
+    "Special Option": "Logo Blast Mark; component sale"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
+});
+assertDram("SGG64M16V88AG8GNF-187E", {
+  vendor: "spectek",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.5V",
+  package: "FBGA-96, 8x14",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1066 CL7",
+    "Special Option": "SpecTek Mark; component sale"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
+});
+assertDram("SGG256M4V88AG8ZRF-187", {
+  vendor: "spectek",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x4",
+  voltage: "1.5V",
+  package: "FBGA-86, 9x15.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1066 CL8",
+    "Special Option": "SpecTek Mark; component sale"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
+});
+assertDram("SGG512M4V69AG8GHF-107", {
+  vendor: "spectek",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x4",
+  voltage: "1.5V",
+  package: "FBGA-82, 12.5x15.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1866 CL13",
+    "Special Option": "SpecTek Mark; component sale"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
+});
+assertDram("SGG128M16V69AG8GPF-093", {
+  vendor: "spectek",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.5V",
+  package: "FBGA-96, 9x14",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-2133 CL14",
+    "Special Option": "SpecTek Mark; component sale"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
+});
+assertDram("SMG128M16V69AG8GNF-15E", {
+  vendor: "spectek",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.5V",
+  package: "FBGA-96, 8x14",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1333 CL9",
+    "Special Option": "Logo Blast Mark; component sale"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
+});
+assertDram("PRN512M8Z80AD8GK-093F", {
+  vendor: "spectek",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.2V",
+  package: "FBGA-78/117, 9x11.5",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2133 CL14",
+    "Special Option": "SpecTek Mark; 8 chip only"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code"]
+});
+assertDram("SGG1024M8Z80AD8JC-068", {
+  vendor: "spectek",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.2V",
+  package: "TFBGA-78/117, 9x11x1.2",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2933 CL21",
+    "Special Option": "SpecTek Mark; component sale"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code"]
+});
+assertDram("PRN4096M4Z22AD8DVN-075H", {
+  vendor: "spectek",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.2V",
+  package: "TFBGA-78/117, 7.5x11.5x1.2",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2666 CL22",
+    "Special Option": "SpecTek Mark; 8 chip only"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code"]
+});
+assertDecodedField("PRN4096M4Z22AD8DVN-075H", "dram_die_count", 2);
+assertDram("SUM8192M4Z22AD8CLU-083J", {
+  vendor: "spectek",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x4",
+  voltage: "1.2V",
+  package: "TFBGA-78/117, 7.5x11x1.2",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2400 CL19",
+    "Special Option": "Marked TP/DG/SSMB"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code"]
+});
+assertDecodedField("SUM8192M4Z22AD8CLU-083J", "dram_die_count", 4);
+assertDram("PRM1G16Z22AD8KNR-107E", {
+  vendor: "spectek",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.2V",
+  package: "TFBGA-96, 7.5x13.5x1.2",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-1866 CL13",
+    "Special Option": "Logo Blast Mark, 8 chip only"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code"]
+});
+assertDecodedField("PRM1G16Z22AD8KNR-107E", "dram_die_count", 2);
+assertDram("PRN4G8Z22AD8BAF-062E", {
+  vendor: "spectek",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x8",
+  voltage: "1.2V",
+  package: "FBGA-78/117, 10.5x11x1.2",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Special Option": "SpecTek Mark; 8 chip only"
+  },
+  absentExtra: ["Config Code", "Package Code", "Product Code"]
+});
+assertDecodedField("PRN4G8Z22AD8BAF-062E", "dram_die_count", 2);
 assertDram("PU001", {
   vendor: "spectek",
   densityMbit: 12288,
@@ -491,7 +738,7 @@ assertDram("PRN1G8V91AG8SN-107", {
   package: "FBGA-78/117, 9x13.2x1.2",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Speed": "933MHz (DDR-1866)"
+    "DRAM Speed": "DDR3-1866 CL13"
   },
   absentExtra: ["Config Code", "Package Code"]
 });

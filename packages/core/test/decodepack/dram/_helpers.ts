@@ -68,6 +68,7 @@ export const hiddenPublicCodeExtraKeys = new Set([
   "Controller Code",
   "Die Code",
   "Feature Code",
+  "Product Code",
   "Marking Code"
 ]);
 
