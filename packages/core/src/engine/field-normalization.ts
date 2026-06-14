@@ -148,37 +148,6 @@ function isNandDieProfileType(info: PartDecodeDraft): boolean {
     info.device.idScheme === "nand.flash_id";
 }
 
-function parseDramDieStackCount(value: unknown): number | undefined {
-  if (typeof value !== "string") {
-    return undefined;
-  }
-
-  const text = value.toLowerCase();
-  if (/\bsingle\s+die\b/.test(text)) {
-    return 1;
-  }
-
-  const numeric = /\b(\d+)\s*-?\s*die(?:s)?\b/.exec(text);
-  if (numeric) {
-    return Number.parseInt(numeric[1] ?? "", 10);
-  }
-
-  if (/\bddp\b/.test(text)) return 2;
-  if (/\bqdp\b/.test(text)) return 4;
-  if (/\bodp\b/.test(text)) return 8;
-  if (/\bhdp\b/.test(text)) return 16;
-  return undefined;
-}
-
-function parseDramCsCount(value: unknown): number | undefined {
-  if (typeof value !== "string") {
-    return undefined;
-  }
-
-  const numeric = /\b(\d+)\s*cs\b/i.exec(value);
-  return numeric ? Number.parseInt(numeric[1] ?? "", 10) : undefined;
-}
-
 function publicDramType(value: unknown): string | undefined {
   if (typeof value !== "string") {
     return undefined;
@@ -307,33 +276,25 @@ export function applyDramClassification(info: PartDecodeDraft): void {
   }
 
   const extra = draftFields(info);
-  const die = parseDramDieStackCount(extra.dram_die_stack);
-  const ce = parseDramCsCount(extra.dram_die_stack);
-  const hasExplicitDramStack = isKnownClassificationValue(extra.dram_die_stack);
-  const hasExplicitDieCount = isKnownClassificationValue(extra.die_count);
+  const hasExplicitDramDieCount = isKnownClassificationValue(extra.dram_die_count);
   const hasExplicitCsCount = isKnownClassificationValue(extra.cs_count);
   const hasStackLayoutOption = hasDramStackLayoutOption(extra.special_option);
   const defaultDieClassification = isDdrFamilyDramType(extra.dram_type);
   const defaultCsClassification = isPlainDdrDramType(extra.dram_type);
-  if (die == null && ce == null && !defaultDieClassification && !defaultCsClassification) {
+  if (!defaultDieClassification && !defaultCsClassification) {
     return;
   }
 
-  if (die != null) {
-    setDraftField(info, "die_count", die);
-  } else if (
-    !hasExplicitDramStack &&
+  if (
     !hasExplicitCsCount &&
     !hasStackLayoutOption &&
     defaultDieClassification &&
-    !isKnownClassificationValue(draftField(info, "die_count"))
+    !isKnownClassificationValue(draftField(info, "dram_die_count"))
   ) {
-    setDraftField(info, "die_count", 1);
+    setDraftField(info, "dram_die_count", 1);
   }
 
-  if (ce != null) {
-    setDraftField(info, "cs_count", ce);
-  } else if (!hasExplicitDieCount && defaultCsClassification && !isKnownClassificationValue(draftField(info, "cs_count"))) {
+  if (!hasExplicitDramDieCount && defaultCsClassification && !isKnownClassificationValue(draftField(info, "cs_count"))) {
     setDraftField(info, "cs_count", 1);
   }
 }

@@ -73,7 +73,7 @@ testPart("TC58TFG8T23TA0D", {
     "Die Count": 1,
     "CE Count": 1,
     "Channel Count": 1,
-    Plane: 2
+    "Plane Count": 2
   },
   absentExtra: ["Product Generation"]
 });
@@ -92,7 +92,7 @@ testPart("TH58LKT4X46BAEG", {
     "Die Count": 16,
     "CE Count": 8,
     "Channel Count": 4,
-    Plane: 4
+    "Plane Count": 4
   }
 });
 
@@ -410,7 +410,7 @@ testPart("THGVX1G7D2GLA08", {
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count", "Die Stack"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane Count", "CE Count", "Channel Count", "Die Stack"]
 });
 
 testPart("TCGVX1G7D2GLA08", {
@@ -430,7 +430,7 @@ testPart("TCGVX1G7D2GLA08", {
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count", "Die Stack"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane Count", "CE Count", "Channel Count", "Die Stack"]
 });
 
 testPart("THGBX2G7D2JLA01", {
@@ -450,7 +450,7 @@ testPart("THGBX2G7D2JLA01", {
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count", "Die Stack"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane Count", "CE Count", "Channel Count", "Die Stack"]
 });
 
 testPart("THGVR1G7D2GLA09", {
@@ -470,5 +470,5 @@ testPart("THGVR1G7D2GLA09", {
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane", "CE Count", "Channel Count", "Die Stack"]
+  absentExtra: ["System", "Product Family", "Storage Interface", "Page Size", "Block Size", "Plane Count", "CE Count", "Channel Count", "Die Stack"]
 });

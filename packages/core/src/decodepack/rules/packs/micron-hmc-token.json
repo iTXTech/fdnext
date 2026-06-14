@@ -28,12 +28,12 @@
           "4G4": {
             "dram_density": 16384,
             "dram_die_density": 4096,
-            "die_count": 4
+            "dram_die_count": 4
           },
           "4G8": {
             "dram_density": 32768,
             "dram_die_density": 4096,
-            "die_count": 8
+            "dram_die_count": 8
           }
         },
         "logicRevisionObj": {

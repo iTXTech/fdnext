@@ -145,7 +145,7 @@ process token 仍以 PN 解析为准。
 - `device_width`
 - `voltage`
 - `interface_type`
-- `plane`
+- `plane_count`
 - `package`
 - `lead_free`
 - `halogen_free`

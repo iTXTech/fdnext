@@ -170,7 +170,7 @@
         "fields.channel_count": {
           "$var": "channelCount"
         },
-        "fields.die_count": {
+        "fields.dram_die_count": {
           "$var": "dieCount"
         },
         "meta.ruleId": "vendor.micron.hbm2e.mt54.v1",

@@ -53,7 +53,7 @@ assertDram("MT53E1G32DDFW-046-AIT:A", {
     "Special Option": "LPDDR4 mixed die stack (1x Z42M + 2x Z42N)"
   }
 });
-assertDecodedField("MT53E1G32DDFW-046-AIT:A", "die_count", 3);
+assertDecodedField("MT53E1G32DDFW-046-AIT:A", "dram_die_count", 3);
 
 assertDram("MT62F1G32D4DS-031-WT-B", {
   densityMbit: 32768,
@@ -86,7 +86,7 @@ assertDram("MT62F1G32D3DS-031-WT:B", {
     "Die Revision": "Rev B"
   }
 });
-assertDecodedField("MT62F1G32D3DS-031-WT:B", "die_count", 3);
+assertDecodedField("MT62F1G32D3DS-031-WT:B", "dram_die_count", 3);
 
 assertDram("MT62F1G64D4EK-023 WT:B", {
   densityMbit: 65536,
@@ -117,7 +117,7 @@ assertDram("MT62F2G32D4DS-023 RS WT:C-DNU", {
     "Die Revision": "Rev C"
   }
 });
-assertDecodedField("MT62F2G32D4DS-023 RS WT:C-DNU", "die_count", 4);
+assertDecodedField("MT62F2G32D4DS-023 RS WT:C-DNU", "dram_die_count", 4);
 
 assertDram("MT62F1G64D4AM-031 XT ES:B-DNU", {
   densityMbit: 65536,
@@ -132,7 +132,7 @@ assertDram("MT62F1G64D4AM-031 XT ES:B-DNU", {
     "Die Revision": "Rev B"
   }
 });
-assertDecodedField("MT62F1G64D4AM-031 XT ES:B-DNU", "die_count", 4);
+assertDecodedField("MT62F1G64D4AM-031 XT ES:B-DNU", "dram_die_count", 4);
 
 const micronLpddr5Automotive441bSamples = [
   {
@@ -222,7 +222,7 @@ for (const sample of micronLpddr5Automotive441bSamples) {
     },
     absentExtra: specialOption ? [] : ["Special Option"]
   });
-  assertDecodedField(sample.partNumber, "die_count", sample.dieCount);
+  assertDecodedField(sample.partNumber, "dram_die_count", sample.dieCount);
 }
 
 assertDram("MT62F512M64D4EK-031FAATB", {
@@ -241,4 +241,4 @@ assertDram("MT62F512M64D4EK-031FAATB", {
     "Special Option": "Functional safety features"
   }
 });
-assertDecodedField("MT62F512M64D4EK-031FAATB", "die_count", 4);
+assertDecodedField("MT62F512M64D4EK-031FAATB", "dram_die_count", 4);

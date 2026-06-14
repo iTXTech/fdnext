@@ -63,19 +63,19 @@
         },
         "dieStackInfo": {
           "1": {
-            "die_stack": "SDP (1-die)"
+            "die_count": 1
           },
           "2": {
-            "die_stack": "DDP (2-die)"
+            "die_count": 2
           },
           "3": {
-            "die_stack": "QDP (4-die)"
+            "die_count": 4
           },
           "4": {
-            "die_stack": "ODP (8-die)"
+            "die_count": 8
           },
           "5": {
-            "die_stack": "HDP (16-die)"
+            "die_count": 16
           }
         },
         "package": {

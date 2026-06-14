@@ -29,7 +29,8 @@ assertDram("K3PE7E700M-XGC1", {
   package: "FBGA-216",
   extra: {
     "DRAM Type": "LPDDR2",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "E700M",
     "Config Code": "3PE7",
     "DRAM Speed": "LPDDR2-1066",
@@ -46,7 +47,8 @@ assertDram("K3QF1F10DM-AGCE", {
   package: "FBGA-253",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Package Code": "F10DM",
     "Config Code": "3QF1",
     "DRAM Speed": "LPDDR3-1600",
@@ -86,7 +88,8 @@ assertDram("K4F8E3S4HD-MGCL", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "M",
     "Config Code": "4F8E3S",
     "DRAM Speed": "LPDDR4-4266",
@@ -97,7 +100,7 @@ assertDram("K4F8E3S4HD-MGCL", {
     "Operation Temperature": "-25C~85C"
   }
 });
-assertDecodedField("K4F8E3S4HD-MGCL", "die_count", 1);
+assertDecodedField("K4F8E3S4HD-MGCL", "dram_die_count", 1);
 
 assertDram("K4F6E3S4HM-MGCJ", {
   vendor: "samsung",
@@ -108,7 +111,8 @@ assertDram("K4F6E3S4HM-MGCJ", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "M",
     "Config Code": "4F6E3S",
     "DRAM Speed": "LPDDR4-3733",
@@ -129,7 +133,8 @@ assertDram("K3LKBKB0BM-MGCP", {
   package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Package Code": "KB0BM",
     "Config Code": "3LKB",
     "DRAM Speed": "LPDDR5-6400",
@@ -183,7 +188,8 @@ assertDram("K4U6E3S4AA-MGCL", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "M",
     "Config Code": "4U6E3S",
     "DRAM Speed": "LPDDR4X-4266",
@@ -194,7 +200,7 @@ assertDram("K4U6E3S4AA-MGCL", {
     "Operation Temperature": "-25C~85C"
   }
 });
-assertDecodedField("K4U6E3S4AA-MGCL", "die_count", 1);
+assertDecodedField("K4U6E3S4AA-MGCL", "dram_die_count", 1);
 
 assertDram("K4U6E3S4AB-MGCL", {
   vendor: "samsung",
@@ -205,7 +211,8 @@ assertDram("K4U6E3S4AB-MGCL", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "M",
     "Config Code": "4U6E3S",
     "DRAM Speed": "LPDDR4X-4266",
@@ -238,7 +245,7 @@ assertDram("K4UBE3D4AA-MGCL", {
   },
   absentExtra: ["DRAM Die Stack"]
 });
-assertDecodedField("K4UBE3D4AA-MGCL", "die_count", 2);
+assertDecodedField("K4UBE3D4AA-MGCL", "dram_die_count", 2);
 
 assertDram("K4UBE3D4AB-MGCL", {
   vendor: "samsung",
@@ -261,7 +268,7 @@ assertDram("K4UBE3D4AB-MGCL", {
   },
   absentExtra: ["DRAM Die Stack"]
 });
-assertDecodedField("K4UBE3D4AB-MGCL", "die_count", 2);
+assertDecodedField("K4UBE3D4AB-MGCL", "dram_die_count", 2);
 
 assertDram("K4UCE3Q4AB-MGCL", {
   vendor: "samsung",
@@ -284,5 +291,5 @@ assertDram("K4UCE3Q4AB-MGCL", {
   },
   absentExtra: ["DRAM Die Stack"]
 });
-assertDecodedField("K4UCE3Q4AB-MGCL", "die_count", 4);
+assertDecodedField("K4UCE3Q4AB-MGCL", "dram_die_count", 4);
 assert.notEqual(detect("K4UCE3Q4AB-MGCL").type, "GDDR4", "K4U LPDDR4X ordering should outrank the legacy K4U GDDR4 rule");

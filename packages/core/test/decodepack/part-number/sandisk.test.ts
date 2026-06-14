@@ -57,7 +57,7 @@ assertPart("SDZFLDMA-2T00-E503", {
   extra: {
     "Die Count": 8,
     "Channel Count": 1,
-    "Plane": 4,
+    "Plane Count": 4,
     "Package Configuration": "ODP (8-die)",
     "Product Class": "Enterprise",
     "Assembly": "Pb-free (others)"
@@ -76,7 +76,7 @@ assertPart("SDUNEI3MM-1T00CE", {
     "Die Count": 8,
     "CE Count": 4,
     "R/B Count": 4,
-    "Plane": 2,
+    "Plane Count": 2,
     "Package Configuration": "ODP (8-die), 3 ODT",
     "Product Class": "Consumer",
     "Assembly": "Pb-free (100% tin)",
@@ -98,7 +98,7 @@ assertPart("SDUNCIAMA-032G", {
     "Die Count": 1,
     "CE Count": 1,
     "R/B Count": 1,
-    "Plane": 2,
+    "Plane Count": 2,
     "Package Configuration": "SDP (1-die), 0 ODT",
     "Product Class": "Consumer",
     "Assembly": "Pb-free (100% tin)"

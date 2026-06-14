@@ -73,13 +73,12 @@ export const hiddenPublicCodeExtraKeys = new Set([
 
 export const standaloneDramExtraKeys = new Set([
   "Config Code",
-  "DRAM Die Stack",
   "Package Code",
   "DRAM Speed",
   "CAS Latency",
   "DRAM Generation",
   "DRAM Die Density",
-  "Die Count",
+  "DRAM Die Count",
   "CS Count",
   "Bank Count",
   "Channel Count",
@@ -183,7 +182,6 @@ export function detect(partNumber: string, useFullEngine = false): TestPartInfo 
       "voltage",
       "package",
       "die_count",
-      "plane",
       "plane_count"
     ].includes(field.key)) {
       continue;

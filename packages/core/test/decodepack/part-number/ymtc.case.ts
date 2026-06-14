@@ -44,7 +44,7 @@ assertPart("YMEC6A1TC1A2C1", {
     "Storage Interface": "eMMC 5.1",
     "Process Alias": "X2-9060",
     "Layer Count": 128,
-    "Die Stack": "SDP (1-die)",
+    "Die Count": 1,
     "Product Class": "Commercial"
   },
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
@@ -63,7 +63,7 @@ assertPart("YMEC8A2TB3A2C3", {
     "Storage Interface": "eMMC 5.1",
     "Process Alias": "X1-9050",
     "Layer Count": 64,
-    "Die Stack": "QDP (4-die)",
+    "Die Count": 4,
     "Product Class": "Commercial",
     "Operation Temperature": "-25°C ~ 85°C"
   },
@@ -82,7 +82,7 @@ assertPart("YMUS8A1TC1A2C1", {
     "Storage Interface": "UFS 3.1",
     "Process Alias": "X2-9060",
     "Layer Count": 128,
-    "Die Stack": "SDP (1-die)",
+    "Die Count": 1,
     "Product Class": "Commercial"
   },
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]

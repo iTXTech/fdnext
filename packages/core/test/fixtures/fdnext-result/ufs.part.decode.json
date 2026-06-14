@@ -111,9 +111,9 @@
       "importance": "detail",
       "fields": [
         {
-          "key": "die_stack",
-          "label": "Die Stack",
-          "value": "ODP (8-die)",
+          "key": "die_count",
+          "label": "Die Count",
+          "value": 8,
           "importance": "secondary"
         },
         {

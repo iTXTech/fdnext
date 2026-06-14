@@ -117,10 +117,10 @@
         },
         "planeObj": {
           "P": {
-            "plane": 2
+            "plane_count": 2
           },
           "Q": {
-            "plane": 4
+            "plane_count": 4
           }
         }
       },

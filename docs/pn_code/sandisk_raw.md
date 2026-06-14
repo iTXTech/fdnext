@@ -26,7 +26,7 @@ SD [package] [die generation] [die type] [die stack] [package material] [package
 - product class: fixed `E=Enterprise`
 - `D_IN`: `0=Matched`、`9=Unmatched`
 
-公开输出使用 `density`、`die_codename`、`cell_level`、`plane`、`die_count`、`package_configuration`、`channel_count`、`assembly`、`lead_free`、`product_class`。customization token 不输出；`D_IN=9` 仅作为异常特殊选项输出。
+公开输出使用 `density`、`die_codename`、`cell_level`、`plane_count`、`die_count`、`package_configuration`、`channel_count`、`assembly`、`lead_free`、`product_class`。customization token 不输出；`D_IN=9` 仅作为异常特殊选项输出。
 
 ## Current WCB/WCS
 

@@ -386,13 +386,6 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "dram",
     importance: "secondary"
   },
-  dram_die_stack: {
-    key: "dram_die_stack",
-    valueKind: "number",
-    defaultLabel: "DRAM Die Stack",
-    recommendedBlock: "dram",
-    importance: "secondary"
-  },
   page_size: {
     key: "page_size",
     valueKind: "number",
@@ -448,20 +441,6 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "geometry",
     importance: "detail"
   },
-  plane_count: {
-    key: "plane_count",
-    valueKind: "number",
-    defaultLabel: "Plane Count",
-    recommendedBlock: "geometry",
-    importance: "secondary"
-  },
-  plane: {
-    key: "plane",
-    valueKind: "number",
-    defaultLabel: "Plane",
-    recommendedBlock: "geometry",
-    importance: "secondary"
-  },
   die_count: {
     key: "die_count",
     valueKind: "number",
@@ -501,6 +480,13 @@ export const fdnextFieldRegistry = {
     key: "channel_count",
     valueKind: "number",
     defaultLabel: "Channel Count",
+    recommendedBlock: "geometry",
+    importance: "secondary"
+  },
+  plane_count: {
+    key: "plane_count",
+    valueKind: "number",
+    defaultLabel: "Plane Count",
     recommendedBlock: "geometry",
     importance: "secondary"
   },
@@ -684,6 +670,13 @@ export const fdnextFieldRegistry = {
     recommendedBlock: "dram",
     importance: "secondary",
     format: formatMbit
+  },
+  dram_die_count: {
+    key: "dram_die_count",
+    valueKind: "number",
+    defaultLabel: "DRAM Die Count",
+    recommendedBlock: "dram",
+    importance: "secondary"
   },
   dram_generation: {
     key: "dram_generation",

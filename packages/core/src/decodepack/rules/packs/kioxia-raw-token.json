@@ -178,7 +178,7 @@
           "D": "4MB",
           "F": "4MB"
         },
-        "plane": {
+        "planeCount": {
           "2": 2,
           "4": 4,
           "C": 1,
@@ -562,8 +562,8 @@
         {
           "op": "map",
           "from": "widthCode",
-          "table": "plane",
-          "to": "plane",
+          "table": "planeCount",
+          "to": "planeCount",
           "default": -1
         },
         {
@@ -734,8 +734,8 @@
           "enterprise": {
             "$var": "enterprise"
           },
-          "plane": {
-            "$var": "plane"
+          "plane_count": {
+            "$var": "planeCount"
           }
         },
         "fields.density": {

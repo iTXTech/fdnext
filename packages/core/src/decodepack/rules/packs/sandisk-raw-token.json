@@ -57,28 +57,28 @@
         },
         "planeObj": {
           "F": {
-            "plane": 1
+            "plane_count": 1
           },
           "G": {
-            "plane": 2
+            "plane_count": 2
           },
           "H": {
-            "plane": 4
+            "plane_count": 4
           },
           "C": {
-            "plane": 1
+            "plane_count": 1
           },
           "I": {
-            "plane": 2
+            "plane_count": 2
           },
           "K": {
-            "plane": 4
+            "plane_count": 4
           },
           "J": {
-            "plane": 2
+            "plane_count": 2
           },
           "L": {
-            "plane": 4
+            "plane_count": 4
           }
         },
         "dieStackObj": {
@@ -404,28 +404,28 @@
         },
         "planeObj": {
           "F": {
-            "plane": 1
+            "plane_count": 1
           },
           "G": {
-            "plane": 2
+            "plane_count": 2
           },
           "H": {
-            "plane": 4
+            "plane_count": 4
           },
           "C": {
-            "plane": 1
+            "plane_count": 1
           },
           "I": {
-            "plane": 2
+            "plane_count": 2
           },
           "K": {
-            "plane": 4
+            "plane_count": 4
           },
           "J": {
-            "plane": 2
+            "plane_count": 2
           },
           "L": {
-            "plane": 4
+            "plane_count": 4
           }
         },
         "dieStackObj": {
@@ -843,22 +843,22 @@
         },
         "planeObj": {
           "G": {
-            "plane": 2
+            "plane_count": 2
           },
           "H": {
-            "plane": 4
+            "plane_count": 4
           },
           "I": {
-            "plane": 2
+            "plane_count": 2
           },
           "J": {
-            "plane": 2
+            "plane_count": 2
           },
           "K": {
-            "plane": 4
+            "plane_count": 4
           },
           "L": {
-            "plane": 4
+            "plane_count": 4
           }
         },
         "die": {

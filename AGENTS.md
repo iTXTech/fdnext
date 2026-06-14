@@ -102,10 +102,10 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 
 跨厂商字段统一见 `docs/pn_code/terminology.md`。新增规则时优先使用以下内部 key：
 
-- NAND / managed NAND: `component_density`、`die_density`、`die_stack`、`generation_info`
+- NAND / managed NAND: `component_density`、`die_density`、`die_count`、`ce_count`、`rb_count`、`channel_count`、`plane_count`、`generation_info`
 - MCP storage: `storage_density`、`storage_interface`
 - Controller: `controller`、`controller_revision`
-- DRAM / MCP DRAM: `dram_type`、`dram_density`、`dram_die_density`、`dram_die_stack`、`dram_generation`、`dram_speed`、`dram_width`、`dram_voltage`
+- DRAM / MCP DRAM: `dram_type`、`dram_density`、`dram_die_density`、`dram_die_count`、`cs_count`、`dram_generation`、`dram_speed`、`dram_width`、`dram_voltage`
 
 不要让 Samsung、SK hynix、Micron、KIOXIA 等厂商输出同一概念时使用不同字段风格。
 不要新增公开 `*_code` 字段来表达跨厂商概念；如果确实需要保留原始 token，应先判断它是否属于 `speed_grade` 这类用户有直接价值的例外，否则只留在规则内部变量、表 key 或 metadata 中。

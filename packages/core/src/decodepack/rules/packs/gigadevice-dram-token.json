@@ -45,7 +45,7 @@
         "organizationObj": {
           "E": {
             "special_option": "DDP",
-            "die_count": 2
+            "dram_die_count": 2
           }
         },
         "speedObj": {
@@ -413,12 +413,12 @@
         },
         "organizationObj": {
           "B": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "C": {
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 2
           }
         },
         "speedObj": {

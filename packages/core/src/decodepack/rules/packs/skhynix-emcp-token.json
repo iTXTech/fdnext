@@ -34,8 +34,8 @@
             "storage_density": 262144,
             "dram_density": 24576,
             "die_count": 2,
+            "dram_die_count": 4,
             "cell_level": "MLC",
-            "dram_die_stack": 4,
             "channel_count": 2,
             "cs_count": 2,
             "storage_interface": "eMMC 5.1"
@@ -44,8 +44,8 @@
             "storage_density": 524288,
             "dram_density": 32768,
             "die_count": 4,
+            "dram_die_count": 4,
             "cell_level": "MLC",
-            "dram_die_stack": 4,
             "channel_count": 2,
             "cs_count": 2,
             "storage_interface": "eMMC 5.1"
@@ -418,15 +418,15 @@
         "dramDensityObj": {
           "4G": {
             "dram_density": 4096,
-            "dram_die_stack": 1
+            "dram_die_count": 1
           },
           "8G": {
             "dram_density": 8192,
-            "dram_die_stack": 1
+            "dram_die_count": 1
           },
           "BJ": {
             "dram_density": 16384,
-            "dram_die_stack": 2,
+            "dram_die_count": 2,
             "channel_count": 1,
             "cs_count": 2
           },
@@ -435,7 +435,7 @@
           },
           "DF": {
             "dram_density": 24576,
-            "dram_die_stack": 3,
+            "dram_die_count": 3,
             "channel_count": 1,
             "cs_count": 2
           }

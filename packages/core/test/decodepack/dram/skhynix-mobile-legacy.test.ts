@@ -29,7 +29,8 @@ assertDram("H9CCNNNBLTBLAR-NTD", {
   package: "FBGA-178",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Channel Count": 1,
     "CS Count": 2,
     "DRAM Speed": "LPDDR3-1600",
@@ -39,10 +40,10 @@ assertDram("H9CCNNNBLTBLAR-NTD", {
     "Solder Type": "Lead and Halogen Free"
   }
 });
-assertDecodedField("H9CCNNNBLTBLAR-NTD", "die_count", 4);
+assertDecodedField("H9CCNNNBLTBLAR-NTD", "dram_die_count", 4);
 assertDecodedField("H9CCNNNBLTBLAR-NTD", "cs_count", 2);
 assertDecodedFieldAbsent("H9CCNNNBLTBLAR-NTD", "ce_count");
-assertFieldBlock("H9CCNNNBLTBLAR-NTD", "die_count", "geometry");
+assertFieldBlock("H9CCNNNBLTBLAR-NTD", "dram_die_count", "geometry");
 assertFieldBlock("H9CCNNNBLTBLAR-NTD", "cs_count", "geometry");
 
 assertDram("H9CCNNNBLTBLAR-NUD", {
@@ -54,7 +55,8 @@ assertDram("H9CCNNNBLTBLAR-NUD", {
   package: "FBGA-178",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Channel Count": 1,
     "CS Count": 2,
     "DRAM Speed": "LPDDR3-1866",
@@ -64,7 +66,7 @@ assertDram("H9CCNNNBLTBLAR-NUD", {
     "Solder Type": "Lead and Halogen Free"
   }
 });
-assertDecodedField("H9CCNNNBLTBLAR-NUD", "die_count", 4);
+assertDecodedField("H9CCNNNBLTBLAR-NUD", "dram_die_count", 4);
 
 assertDram("H9HCNNN8KUMLHR-NME", {
   vendor: "skhynix",
@@ -76,7 +78,8 @@ assertDram("H9HCNNN8KUMLHR-NME", {
   topology: { ce: 1, die: 2 },
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR4-3733",
@@ -95,7 +98,8 @@ assertDram("H9HCNNN8KUMLHR-NLE", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR4-3200",
@@ -114,7 +118,8 @@ assertDram("H9HCNNNCPUMLXR-NEE", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR4-4266",
@@ -133,7 +138,8 @@ assertDram("H9HCNNNCPMMLXR-NEE", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR4X-4266",
@@ -152,7 +158,8 @@ assertDram("H9HCNNNCPMMLHR-NMI", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR4X-3733",
@@ -171,7 +178,8 @@ assertDram("H9HCNNNBKMMLXR-NEI", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR4X-4266",
@@ -190,7 +198,8 @@ assertDram("H9HCNNNBKMALHR-NEE", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR4X-4266",
@@ -209,7 +218,8 @@ assertDram("H9HCNNNFAMMLXR-NEE", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "8 dies, 2 CS",
+    "DRAM Die Count": 8,
+    "CS Count": 2,
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR4X-4266",
@@ -218,7 +228,7 @@ assertDram("H9HCNNNFAMMLXR-NEE", {
     "Solder Type": "Lead and Halogen Free"
   }
 });
-assertDecodedField("H9HCNNNFAMMLXR-NEE", "die_count", 8);
+assertDecodedField("H9HCNNNFAMMLXR-NEE", "dram_die_count", 8);
 
 assertDram("H9HKNNNBTUMUBR-NLH", {
   vendor: "skhynix",
@@ -229,7 +239,8 @@ assertDram("H9HKNNNBTUMUBR-NLH", {
   package: "FBGA-366, 15x15",
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Channel Count": 4,
     "CS Count": 1,
     "DRAM Speed": "LPDDR4-3200",
@@ -238,7 +249,7 @@ assertDram("H9HKNNNBTUMUBR-NLH", {
     "Solder Type": "Lead and Halogen Free"
   }
 });
-assertDecodedField("H9HKNNNBTUMUBR-NLH", "die_count", 2);
+assertDecodedField("H9HKNNNBTUMUBR-NLH", "dram_die_count", 2);
 
 assertDram("HY57V561620FTP-H", {
   vendor: "skhynix",
@@ -294,7 +305,8 @@ assertDram("H9JCNNNCP3MLYR-N6E", {
   package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Package Code": "MLYR",
     "Config Code": "CP3",
     "DRAM Speed": "LPDDR5-6400",
@@ -311,7 +323,8 @@ assertDram("H9JCNNNBK3MLYR-N6E", {
   package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Package Code": "MLYR",
     "Config Code": "BK3",
     "DRAM Speed": "LPDDR5-6400",
@@ -328,7 +341,8 @@ assertDram("H9JCNNNFA5MLYR-N6E", {
   package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5",
-    "DRAM Die Stack": "8 dies, 2 CS",
+    "DRAM Die Count": 8,
+    "CS Count": 2,
     "Package Code": "MLYR",
     "Config Code": "FA5",
     "DRAM Speed": "LPDDR5-6400",

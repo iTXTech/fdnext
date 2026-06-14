@@ -28,7 +28,8 @@ assertDram("K4X51163PC", {
   voltage: "1.8V VDD/VDDQ",
   extra: {
     "DRAM Type": "LPDDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "51163"
   },
   absentExtra: ["Package Code", "DRAM Speed", "Operation Temperature"]
@@ -43,7 +44,8 @@ assertDram("K4X51163PC-FGC3", {
   package: "FBGA-60",
   extra: {
     "DRAM Type": "LPDDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "F",
     "Config Code": "51163",
     "DRAM Speed": "Mobile DDR-133 CL3",
@@ -52,12 +54,12 @@ assertDram("K4X51163PC-FGC3", {
 });
 
 assertDecodedField("K4X51263PC", "special_option", "JEDEC stacked layout");
-assertDecodedFieldAbsent("K4X51263PC", "die_count");
+assertDecodedFieldAbsent("K4X51263PC", "dram_die_count");
 assertDecodedField("K4X51303PC", "cs_count", 2);
 assertDecodedFieldAbsent("K4X51303PC", "ce_count");
 assertFieldBlock("K4X51303PC", "cs_count", "geometry");
 assertDecodedField("K4X51303PC", "special_option", "2 CKE");
-assertDecodedFieldAbsent("K4X51303PC", "die_count");
+assertDecodedFieldAbsent("K4X51303PC", "dram_die_count");
 
 assertDram("K4U52324Q", {
   vendor: "samsung",
@@ -68,7 +70,8 @@ assertDram("K4U52324Q", {
   package: "FBGA-136",
   extra: {
     "DRAM Type": "GDDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "Q",
     "Config Code": "52324"
   },
@@ -84,7 +87,8 @@ assertDram("K4J52324Q", {
   package: "FBGA-136",
   extra: {
     "DRAM Type": "GDDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "Q",
     "Config Code": "52324"
   },
@@ -100,7 +104,8 @@ assertDram("K4J55323Q", {
   package: "FBGA-136",
   extra: {
     "DRAM Type": "GDDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "Q",
     "Config Code": "55323"
   },
@@ -116,7 +121,8 @@ assertDram("K4N51163Q", {
   package: "FBGA-84",
   extra: {
     "DRAM Type": "GDDR2",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "Q",
     "Config Code": "51163"
   },
@@ -132,7 +138,8 @@ assertDram("K4N56163Q", {
   package: "FBGA-84",
   extra: {
     "DRAM Type": "GDDR2",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "Q",
     "Config Code": "56163"
   },
@@ -148,7 +155,8 @@ assertDram("K4D551638", {
   package: "TSOP-II-66",
   extra: {
     "DRAM Type": "GDDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "551638"
   },
   absentExtra: ["Package Code", "DRAM Speed"]
@@ -163,7 +171,8 @@ assertDram("K4D263238", {
   package: "FBGA-144",
   extra: {
     "DRAM Type": "GDDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "263238"
   },
   absentExtra: ["Package Code", "DRAM Speed"]
@@ -178,7 +187,8 @@ assertDram("K4D261638", {
   package: "TSOP-II-66",
   extra: {
     "DRAM Type": "GDDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "261638"
   },
   absentExtra: ["Package Code", "DRAM Speed"]
@@ -193,7 +203,8 @@ assertDram("K4D263238E-GC33", {
   package: "FBGA-144",
   extra: {
     "DRAM Type": "GDDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "E",
     "Config Code": "263238",
     "DRAM Speed": "GDDR-GC33"
@@ -209,7 +220,8 @@ assertDram("K4N56163QF-GC37", {
   package: "FBGA-84",
   extra: {
     "DRAM Type": "GDDR2",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "QF",
     "Config Code": "56163",
     "DRAM Speed": "GDDR2-533Mbps/pin"
@@ -225,7 +237,8 @@ assertDram("K4J52324QC-BC14", {
   package: "FBGA-136",
   extra: {
     "DRAM Type": "GDDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "QC",
     "Config Code": "52324",
     "DRAM Speed": "GDDR3-1.4Gbps/pin"
@@ -241,7 +254,8 @@ assertDram("K4U52324QE-BC08", {
   package: "FBGA-136",
   extra: {
     "DRAM Type": "GDDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "QE",
     "Config Code": "52324",
     "DRAM Speed": "GDDR4-BC08"
@@ -257,7 +271,8 @@ assertDram("K4W1G1646E-HC12", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "DRAM Generation": "Samsung graphics gDDR3/SDDR3",
     "Package Code": "E",
     "Config Code": "1G1646",
@@ -274,7 +289,8 @@ assertDram("K4W2G1646Q-BC1A", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "DRAM Generation": "Samsung graphics gDDR3/SDDR3",
     "Package Code": "Q",
     "Config Code": "2G1646",
@@ -291,7 +307,8 @@ assertDram("K4W4G1646D-BY12", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "DRAM Generation": "Samsung graphics gDDR3/SDDR3",
     "Package Code": "D",
     "Config Code": "4G1646",
@@ -308,7 +325,8 @@ assertDram("K4G80325FB-HC25", {
   package: "FBGA-170",
   extra: {
     "DRAM Type": "GDDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "FB",
     "Config Code": "80325",
     "DRAM Speed": "GDDR5-8Gbps"
@@ -325,7 +343,8 @@ assertDram("K4Z80325BC-HC14", {
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "GDDR6",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "BC",
     "Config Code": "80325",
     "DRAM Speed": "GDDR6-14Gbps"
@@ -341,7 +360,8 @@ assertDram("K4VAF325ZC-SC32", {
   package: "FBGA-266",
   extra: {
     "DRAM Type": "GDDR7",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "ZC",
     "Config Code": "AF325",
     "DRAM Speed": "GDDR7-32Gbps"

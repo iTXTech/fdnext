@@ -30,7 +30,8 @@ assertDram("K4A8G085WB-BCRC", {
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "5WB",
     "Config Code": "8G08",
     "DRAM Speed": "DDR4-2400 17-17-17",
@@ -51,7 +52,8 @@ assertDram("K4A8G085WB", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "5WB",
     "Config Code": "8G08",
     "Die Revision": "B-die"
@@ -68,7 +70,8 @@ assertDram("K4A4G085WE-BITD", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "5WE",
     "Config Code": "4G08",
     "DRAM Speed": "DDR4-2666 19-19-19",
@@ -86,7 +89,8 @@ assertDram("K4A4G045WD-BCPB", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "5WD",
     "Config Code": "4G04",
     "DRAM Speed": "DDR4-2133 15-15-15",
@@ -107,7 +111,8 @@ assertDram("K4A4G165WE-BIPB", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "5WE",
     "Config Code": "4G16",
     "DRAM Speed": "DDR4-2133 15-15-15",
@@ -140,15 +145,15 @@ assertDram("K4AAG085WB-MCRC", {
   },
   absentExtra: ["DRAM Die Stack"]
 });
-assertDecodedField("K4AAG085WB-MCRC", "die_count", 2);
+assertDecodedField("K4AAG085WB-MCRC", "dram_die_count", 2);
 assertDecodedFieldAbsent("K4AAG085WB-MCRC", "cs_count");
-assertDecodedField("K4A8G085WB-2CRC", "die_count", 2);
+assertDecodedField("K4A8G085WB-2CRC", "dram_die_count", 2);
 assertDecodedField("K4A8G085WB-2CRC", "special_option", "2H TSV");
-assertDecodedField("K4A8G085WB-3CRC", "die_count", 2);
+assertDecodedField("K4A8G085WB-3CRC", "dram_die_count", 2);
 assertDecodedField("K4A8G085WB-3CRC", "special_option", "2H 3DS");
-assertDecodedField("K4A8G085WB-4CRC", "die_count", 4);
+assertDecodedField("K4A8G085WB-4CRC", "dram_die_count", 4);
 assertDecodedField("K4A8G085WB-4CRC", "special_option", "4H TSV");
-assertDecodedField("K4A8G085WB-5CRC", "die_count", 4);
+assertDecodedField("K4A8G085WB-5CRC", "dram_die_count", 4);
 assertDecodedField("K4A8G085WB-5CRC", "special_option", "4H 3DS");
 
 assertDram("K4AAG165WB-MCRC", {
@@ -168,7 +173,7 @@ assertDram("K4AAG165WB-MCRC", {
   },
   absentExtra: ["DRAM Die Stack"]
 });
-assertDecodedField("K4AAG165WB-MCRC", "die_count", 2);
+assertDecodedField("K4AAG165WB-MCRC", "dram_die_count", 2);
 assertDecodedFieldAbsent("K4AAG165WB-MCRC", "cs_count");
 
 assertDram("K4ABG085WA-MCWE", {
@@ -188,7 +193,7 @@ assertDram("K4ABG085WA-MCWE", {
   },
   absentExtra: ["DRAM Die Stack"]
 });
-assertDecodedField("K4ABG085WA-MCWE", "die_count", 2);
+assertDecodedField("K4ABG085WA-MCWE", "dram_die_count", 2);
 assertDecodedFieldAbsent("K4ABG085WA-MCWE", "cs_count");
 
 assertDram("K4ABG165WB-MCWE", {
@@ -208,7 +213,7 @@ assertDram("K4ABG165WB-MCWE", {
   },
   absentExtra: ["DRAM Die Stack"]
 });
-assertDecodedField("K4ABG165WB-MCWE", "die_count", 2);
+assertDecodedField("K4ABG165WB-MCWE", "dram_die_count", 2);
 assertDecodedFieldAbsent("K4ABG165WB-MCWE", "cs_count");
 
 assertDecodedField("K4A8G085WB-BCRB", "dram_speed", "DDR4-2133 17-15-15");
@@ -224,7 +229,8 @@ assertDram("K4S511632D-UC75", {
   package: "TSOP-II-54",
   extra: {
     "DRAM Type": "SDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "U",
     "Config Code": "5116",
     "DRAM Speed": "SDR-133",
@@ -242,7 +248,8 @@ assertDram("K4H510838F-HCCC", {
   package: "FBGA-60",
   extra: {
     "DRAM Type": "DDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "H",
     "Config Code": "5108",
     "DRAM Speed": "DDR-400",
@@ -260,7 +267,8 @@ assertDram("K4T56163QI-ZCE6", {
   package: "FBGA-84",
   extra: {
     "DRAM Type": "DDR2",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "Z",
     "Config Code": "5616",
     "DRAM Speed": "DDR2-667",
@@ -278,7 +286,8 @@ assertDram("K4B1G0846D-HCF7", {
   package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "H",
     "Config Code": "1G08",
     "DRAM Speed": "DDR3-800 6-6-6",
@@ -296,7 +305,8 @@ assertDram("K4B1G0846I-BCNB", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "B",
     "Config Code": "1G08",
     "DRAM Speed": "DDR3-2133 14-14-14",
@@ -321,7 +331,7 @@ assertDram("K4B1G0846I-MCMA", {
   },
   absentExtra: ["DRAM Die Stack"]
 });
-assertDecodedField("K4B1G0846I-MCMA", "die_count", 2);
+assertDecodedField("K4B1G0846I-MCMA", "dram_die_count", 2);
 assertDecodedFieldAbsent("K4B1G0846I-MCMA", "cs_count");
 
 assertDram("K4B2G1646F-BCNB", {
@@ -333,7 +343,8 @@ assertDram("K4B2G1646F-BCNB", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "B",
     "Config Code": "2G16",
     "DRAM Speed": "DDR3-2133 14-14-14",
@@ -351,7 +362,8 @@ assertDram("K4B2G1646F-BYMA", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "B",
     "Config Code": "2G16",
     "DRAM Speed": "DDR3L-1866 13-13-13",
@@ -376,7 +388,7 @@ assertDram("K4B4G0846D-ECMA", {
   },
   absentExtra: ["DRAM Die Stack"]
 });
-assertDecodedField("K4B4G0846D-ECMA", "die_count", 4);
+assertDecodedField("K4B4G0846D-ECMA", "dram_die_count", 4);
 assertDecodedFieldAbsent("K4B4G0846D-ECMA", "cs_count");
 
 assertDram("K4B4G0446E-BYK0", {
@@ -388,7 +400,8 @@ assertDram("K4B4G0446E-BYK0", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "B",
     "Config Code": "4G04",
     "DRAM Speed": "DDR3L-1600 11-11-11",
@@ -406,7 +419,8 @@ assertDram("K4B4G0846E-BMMA", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "B",
     "Config Code": "4G08",
     "DRAM Speed": "DDR3L-1866 13-13-13",
@@ -424,7 +438,8 @@ assertDram("K4B4G0846E-BCNB", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "B",
     "Config Code": "4G08",
     "DRAM Speed": "DDR3-2133 14-14-14",
@@ -442,7 +457,8 @@ assertDram("K4B4G1646Q-HYF8", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "H",
     "Config Code": "4G16",
     "DRAM Speed": "DDR3L-1066 7-7-7",
@@ -460,7 +476,8 @@ assertDram("K4B4G1646D-BYMA", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "B",
     "Config Code": "4G16",
     "DRAM Speed": "DDR3L-1866 13-13-13",
@@ -478,7 +495,8 @@ assertDram("K4BAG0846B-HCK0", {
   package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "H",
     "Config Code": "AG08",
     "DRAM Speed": "DDR3-1600 11-11-11",
@@ -496,7 +514,8 @@ assertDram("K4B2G1646B-HKK0", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "H",
     "Config Code": "2G16",
     "DRAM Speed": "DDR3L-1600 11-11-11",
@@ -523,6 +542,6 @@ assertDram("K4B8G1646Q-MCK0", {
   },
   absentExtra: ["DRAM Die Stack"]
 });
-assertDecodedField("K4B8G1646Q-MCK0", "die_count", 2);
+assertDecodedField("K4B8G1646Q-MCK0", "dram_die_count", 2);
 assertDecodedField("K4B8G1646Q-MCMA", "dram_speed", "DDR3-1866 13-13-13");
 assert.notEqual(detect("K4G8G1646D-MCK0").type, "DDR3", "K4G rows in the 2017 table must not override the GDDR5 family rule");

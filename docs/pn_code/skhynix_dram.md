@@ -81,7 +81,7 @@ H5C + density + width + generation + speed + temperature + [X + serial]
 | `M/A/B/C/D/E/J` | `dram_generation` / `die_revision` | 1st / 2nd / 3rd / 4th / 5th / 6th / 10th-or-special generation，同时保留 `M-die` / `A-die` 等简短 die revision |
 | `EB/EE/GB/GE/HB/KB/MB` | `dram_speed` | DDR5-4800 / 5600 / 6400 / 7200 / 8000 及对应 timing；`EE` / `GE` 标注 3DS speed bin |
 | `D/J/T` | `operation_temperature` | Commercial 0 to 95C；Industrial -40 to 95C |
-| `X012` 等 | serial token | 只作内部解析；公开输出 `dram_die_density`、`die_count`、`package`，TSV 通过 `special_option` 输出 |
+| `X012` 等 | serial token | 只作内部解析；公开输出 `dram_die_density`、`dram_die_count`、`package`，TSV 通过 `special_option` 输出 |
 
 已确认 serial code:
 
@@ -155,7 +155,7 @@ H9CCNNN + BLTBLAR + -N + speed + D
 | `T/U` | `dram_speed` | LPDDR3-1600 / LPDDR3-1866 |
 | `D` | `operation_temperature` | Commercial 0 to 85C |
 
-公开输出固定 `dram_density = 16Gb`、`dram_width = x32`、`dram_die_stack = 4 dies, 2 CS`、`channel_count = 1`、`package = 178-ball FBGA`、`dram_generation = 3rd generation`、`interface_type = HSUL_12` 和 `solder_type = Lead and Halogen Free`。
+公开输出固定 `dram_density = 16Gb`、`dram_width = x32`、`dram_die_count = 4`、`cs_count = 2`、`channel_count = 1`、`package = 178-ball FBGA`、`dram_generation = 3rd generation`、`interface_type = HSUL_12` 和 `solder_type = Lead and Halogen Free`。
 
 ## H9HC LPDDR4 颗粒
 
@@ -170,10 +170,10 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 | Token | 字段 | 说明 |
 | --- | --- | --- |
 | `4K/8K/BK/CP/FA` | density | 4Gb / 8Gb / 16Gb / 32Gb / 64Gb |
-| `8K` | `dram_die_stack`, `channel_count` | 2 dies, 1 CS；2 Channel |
-| `BK` | `dram_die_stack`, `channel_count` | 2 dies, 1 CS；2 Channel |
-| `CP` | `dram_die_stack`, `channel_count` | 4 dies, 2 CS；2 Channel |
-| `FA` | `dram_die_stack`, `channel_count` | 8 dies, 2 CS；2 Channel |
+| `8K` | `dram_die_count`, `cs_count`, `channel_count` | 2 dies, 1 CS；2 Channel |
+| `BK` | `dram_die_count`, `cs_count`, `channel_count` | 2 dies, 1 CS；2 Channel |
+| `CP` | `dram_die_count`, `cs_count`, `channel_count` | 4 dies, 2 CS；2 Channel |
+| `FA` | `dram_die_count`, `cs_count`, `channel_count` | 8 dies, 2 CS；2 Channel |
 | `UM/MM/MA` | DRAM Voltage / I/O / Option | LPDDR4 或 LPDDR4X、电压域与 `dram_width` |
 | `L` | `dram_generation` | 1st generation |
 | package `H/X` | `package` | 200-ball FBGA |
@@ -222,7 +222,7 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 | `X` | reserved | 内部 reserved token，不作为公开 code 字段输出 |
 | `146/147/185` | package | 315-ball FBGA |
 
-其中有功能框图或公开 ordering 资料确认的组合输出 `dram_die_stack`：
+其中有功能框图或公开 ordering 资料确认的组合输出 `dram_die_count` / `cs_count`：
 
 | Key | density | topology fields |
 | --- | --- | --- |
@@ -234,7 +234,7 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 
 - `-` 后面的 speed / temperature / revision 不作为主结构强制条件。
 - 例如 `H5AN8G8NAFR` 没有 `-UHC` 时仍输出 SK hynix、DDR4、8Gb、x8、package code 与 die revision，只是不输出 `dram_speed` / `operation_temperature`。
-- 对已有可确认 speed 的完整 PN，`dram_speed` 必须输出频率或明确 speed bin；对可确认物理 die 数和 CS 的 LPDDR PN，`dram_die_stack` 必须输出 `N die(s), M CS`。
+- 对已有可确认 speed 的完整 PN，`dram_speed` 必须输出频率或明确 speed bin；对可确认物理 die 数和 CS 的 LPDDR PN，必须分别输出 `dram_die_count=N` 与 `cs_count=M`。
 
 ## 输出约定
 

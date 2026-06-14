@@ -94,7 +94,8 @@ assertDram("MT41J1G4THD-15E:D", {
   package: "FBGA-78, 9x11.5",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "THD",
     "Config Code": "1G4",
     "DRAM Speed": "DDR3-1333 CL9",
@@ -111,7 +112,8 @@ assertDram("MT41J1G8TRF-107:E", {
   package: "FBGA-78, 9.5x11.5x1.2",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "TRF",
     "Config Code": "1G8",
     "DRAM Speed": "DDR3-1866 CL13",
@@ -128,7 +130,8 @@ assertDram("MT41K512M8THV-125:M", {
   package: "FBGA-78, 8x11.5",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "THV",
     "Config Code": "512M8",
     "DRAM Speed": "DDR3-1600 CL11",
@@ -145,7 +148,8 @@ assertDram("MT41K2G4RKB-107:P", {
   package: "FBGA-78, 8x10.5",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "RKB",
     "Config Code": "2G4",
     "DRAM Speed": "DDR3-1866 CL13",
@@ -162,7 +166,8 @@ assertDram("MT41K512M16TNA-125:E", {
   package: "FBGA-96, 10x14x1.2",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "TNA",
     "Config Code": "512M16",
     "DRAM Speed": "DDR3-1600 CL11",
@@ -170,7 +175,7 @@ assertDram("MT41K512M16TNA-125:E", {
     "Die Revision": "Rev E"
   }
 });
-assertDecodedField("MT41K512M16TNA-125:E", "die_count", 2);
+assertDecodedField("MT41K512M16TNA-125:E", "dram_die_count", 2);
 
 assertDram("MT41K512M16TNA-125 M:E", {
   densityMbit: 8192,
@@ -180,7 +185,8 @@ assertDram("MT41K512M16TNA-125 M:E", {
   package: "FBGA-96, 10x14x1.2",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "TNA",
     "Config Code": "512M16",
     "DRAM Speed": "DDR3-1600 CL11",
@@ -198,7 +204,8 @@ assertDram("MT41K4G4SMA-125:E", {
   package: "FBGA-78, 9.5x11.5x1.45",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "4 dies, 4 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 4,
     "Package Code": "SMA",
     "Config Code": "4G4",
     "DRAM Speed": "DDR3-1600 CL11",
@@ -206,7 +213,7 @@ assertDram("MT41K4G4SMA-125:E", {
     "Die Revision": "Rev E"
   }
 });
-assertDecodedField("MT41K4G4SMA-125:E", "die_count", 4);
+assertDecodedField("MT41K4G4SMA-125:E", "dram_die_count", 4);
 
 assertDram("MT41K2G4THA-187E:D", {
   densityMbit: 8192,
@@ -216,7 +223,8 @@ assertDram("MT41K2G4THA-187E:D", {
   package: "FBGA-78, 10x11.5x1.45",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "4 dies, 4 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 4,
     "Package Code": "THA",
     "Config Code": "2G4",
     "DRAM Speed": "DDR3-1066 CL7",
@@ -224,7 +232,7 @@ assertDram("MT41K2G4THA-187E:D", {
     "Die Revision": "Rev D"
   }
 });
-assertDecodedField("MT41K2G4THA-187E:D", "die_count", 4);
+assertDecodedField("MT41K2G4THA-187E:D", "dram_die_count", 4);
 
 assertDram("MT41K256M32SLD-125 M:E", {
   densityMbit: 8192,
@@ -234,7 +242,8 @@ assertDram("MT41K256M32SLD-125 M:E", {
   package: "FBGA-136, 10x14x1.2",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Package Code": "SLD",
     "Config Code": "256M32",
     "DRAM Speed": "DDR3-1600 CL11",
@@ -243,7 +252,7 @@ assertDram("MT41K256M32SLD-125 M:E", {
     "Die Revision": "Rev E"
   }
 });
-assertDecodedField("MT41K256M32SLD-125 M:E", "die_count", 2);
+assertDecodedField("MT41K256M32SLD-125 M:E", "dram_die_count", 2);
 
 assertDram("MT41K4G4KJR-125:A", {
   densityMbit: 16384,
@@ -253,7 +262,8 @@ assertDram("MT41K4G4KJR-125:A", {
   package: "FBGA-78, 9.5x13",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "KJR",
     "Config Code": "4G4",
     "DRAM Speed": "DDR3-1600 CL11",
@@ -270,7 +280,8 @@ assertDram("MT41K1G16DGA-125:A", {
   package: "FBGA-96, 9.5x14",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "DGA",
     "Config Code": "1G16",
     "DRAM Speed": "DDR3-1600 CL11",
@@ -288,7 +299,8 @@ assertDram("MT41K2G4TRF", {
   package: "FBGA-78, 9.5x11.5x1.2",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "TRF",
     "Config Code": "2G4",
     "Operation Temperature": "Commercial"
@@ -657,7 +669,7 @@ assertStackedDram("MT54A16G8080A00AC-28:A-B006", {
   voltage: "1.2V",
   fields: {
     channel_count: 8,
-    die_count: 8
+    dram_die_count: 8
   },
   extra: {
     "Channel Count": 8,
@@ -675,7 +687,7 @@ assertStackedDram("MT54A8G8040A00BF-32:A", {
   voltage: "1.2V",
   fields: {
     channel_count: 8,
-    die_count: 4
+    dram_die_count: 4
   },
   extra: {
     "Channel Count": 8,
@@ -693,7 +705,7 @@ assertStackedDram("MT54A8G8040A00BF32:A", {
   voltage: "1.2V",
   fields: {
     channel_count: 8,
-    die_count: 4
+    dram_die_count: 4
   },
   extra: {
     "Channel Count": 8,
@@ -711,7 +723,7 @@ assertStackedDram("MT43A4G40100NFA-S15:A", {
   voltage: "VDDM 1.2V / VCCP 2.5V",
   package: "BGA-896, 31x31, 4-link 2GB",
   fields: {
-    die_count: 4
+    dram_die_count: 4
   },
   extra: {
     "DRAM Die Density": "4Gb",
@@ -730,7 +742,7 @@ assertStackedDram("MT43A4G40200NFA-S15:A", {
   voltage: "VDDM 1.2V / VCCP 2.5V",
   package: "BGA-896, 31x31, 4-link 2GB",
   fields: {
-    die_count: 4
+    dram_die_count: 4
   },
   extra: {
     "DRAM Die Density": "4Gb",

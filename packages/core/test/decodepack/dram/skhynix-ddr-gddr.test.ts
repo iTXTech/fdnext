@@ -116,7 +116,8 @@ assertDram("H5TC8G83AMR-PBA", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "M",
     "Config Code": "8G83",
     "DRAM Speed": "DDR3L-1600 11-11-11",
@@ -134,7 +135,8 @@ assertDram("H5TC8G63AMR-PBA", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "M",
     "Config Code": "8G63",
     "DRAM Speed": "DDR3L-1600 11-11-11",
@@ -188,7 +190,8 @@ assertDram("H5ANAG8NCMR-XNC", {
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "M",
     "Config Code": "AG8N",
     "DRAM Speed": "DDR4-3200 CL22",
@@ -206,7 +209,8 @@ assertDram("H5ANAG8NCMRXNC", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "M",
     "Config Code": "AG8N",
     "DRAM Speed": "DDR4-3200 CL22",
@@ -224,7 +228,8 @@ assertDram("H5ANAG6NCMR-UHC", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Package Code": "M",
     "Config Code": "AG6N",
     "DRAM Speed": "DDR4-2400T 17-17-17",
@@ -250,7 +255,7 @@ assertDram("H5CG48AGBD-X018", {
     "Die Revision": "A-die"
   }
 });
-assertDecodedField("H5CG48AGBD-X018", "die_count", 1);
+assertDecodedField("H5CG48AGBD-X018", "dram_die_count", 1);
 
 assertDram("H5CGD8MHBD-X021", {
   vendor: "skhynix",
@@ -268,7 +273,7 @@ assertDram("H5CGD8MHBD-X021", {
     "Die Revision": "M-die"
   }
 });
-assertDecodedField("H5CGD8MHBD-X021", "die_count", 1);
+assertDecodedField("H5CGD8MHBD-X021", "dram_die_count", 1);
 
 assertDram("H5CG44AEBD", {
   vendor: "skhynix",
@@ -303,7 +308,7 @@ assertDram("H5CG44AGBJX018N", {
     "Die Revision": "A-die"
   }
 });
-assertDecodedField("H5CG44AGBJX018N", "die_count", 1);
+assertDecodedField("H5CG44AGBJX018N", "dram_die_count", 1);
 
 assertDram("H5CG48AGEDX013", {
   vendor: "skhynix",
@@ -322,7 +327,7 @@ assertDram("H5CG48AGEDX013", {
     "Die Revision": "A-die"
   }
 });
-assertDecodedField("H5CG48AGEDX013", "die_count", 4);
+assertDecodedField("H5CG48AGEDX013", "dram_die_count", 4);
 
 assertDram("H5CG56MMBDX052", {
   vendor: "skhynix",
@@ -340,7 +345,7 @@ assertDram("H5CG56MMBDX052", {
     "Die Revision": "M-die"
   }
 });
-assertDecodedField("H5CG56MMBDX052", "die_count", 1);
+assertDecodedField("H5CG56MMBDX052", "dram_die_count", 1);
 
 assertDram("H5AN8G8NAFR", {
   vendor: "skhynix",

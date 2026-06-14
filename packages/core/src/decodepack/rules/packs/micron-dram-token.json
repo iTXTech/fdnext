@@ -289,52 +289,52 @@
         },
         "deviceVersionObj": {
           "D1": {
-            "die_count": 1
+            "dram_die_count": 1
           },
           "D2": {
-            "die_count": 2
+            "dram_die_count": 2
           },
           "D3": {
-            "die_count": 3
+            "dram_die_count": 3
           },
           "D4": {
-            "die_count": 4
+            "dram_die_count": 4
           },
           "D6": {
-            "die_count": 6
+            "dram_die_count": 6
           },
           "D8": {
-            "die_count": 8
+            "dram_die_count": 8
           },
           "DA": {
-            "die_count": 16
+            "dram_die_count": 16
           },
           "DB": {
-            "die_count": 12
+            "dram_die_count": 12
           },
           "DC": {
-            "die_count": 32
+            "dram_die_count": 32
           },
           "DD": {
-            "die_count": 3,
+            "dram_die_count": 3,
             "special_option": "LPDDR4 mixed die stack (1x Z42M + 2x Z42N)"
           },
           "DE": {
-            "die_count": 6,
+            "dram_die_count": 6,
             "special_option": "LPDDR4 mixed die stack (2x Z42M + 4x Z42N)"
           },
           "LF": {
-            "die_count": 1
+            "dram_die_count": 1
           },
           "LG": {
-            "die_count": 1,
+            "dram_die_count": 1,
             "special_option": "Reduced page-size addressing"
           },
           "L2": {
-            "die_count": 2
+            "dram_die_count": 2
           },
           "L4": {
-            "die_count": 4
+            "dram_die_count": 4
           }
         },
         "packageToken": [
@@ -529,84 +529,84 @@
         },
         "packageDieStackObj": {
           "BAF": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "DGA": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "FSE": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "HBA": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "KJR": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "KNR": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "NEA": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "NRE": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "RKB": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "SLD": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "SMA": {
-            "dram_die_stack": "4 dies, 4 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 4
           },
           "TBB": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "THA": {
-            "dram_die_stack": "4 dies, 4 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 4
           },
           "THD": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "THE": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "THU": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "THV": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "TNA": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "TRF": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "WBU": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           }
         },
         "reference": {

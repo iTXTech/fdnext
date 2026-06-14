@@ -76,6 +76,8 @@
 | speed tail | eMMC speed uses product-family + density + token combination; DRAM speed `G/T/U` = LPDDR2-1066 / LPDDR3-1600 / LPDDR3-1866 |
 | temp `M` | Standard -25~85°C |
 
+eMCP 输出中 storage side 的 NAND die 数使用 `die_count`，DRAM side 的 die 数使用 `dram_die_count`，两者可同时存在；`cs_count` 只表达 DRAM CS/rank。
+
 ## H9A eMCP 结构
 
 | PN 结构 | 字段 |

@@ -159,24 +159,24 @@
         },
         "ddpStackObj": {
           "TC:8G:4:3:AMR": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "TC:8G:8:3:AMR": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "TC:8G:6:3:AMR": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "AN:AG:8:N:CMR": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "AN:AG:6:N:CMR": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           }
         }
       },
@@ -519,55 +519,55 @@
         "serialObj": {
           "012": {
             "dram_die_density": 16384,
-            "die_count": 2,
+            "dram_die_count": 2,
             "special_option": "TSV"
           },
           "013": {
             "dram_die_density": 16384,
-            "die_count": 4,
+            "dram_die_count": 4,
             "special_option": "TSV"
           },
           "014": {
             "dram_die_density": 16384,
-            "die_count": 1
+            "dram_die_count": 1
           },
           "015": {
             "dram_die_density": 16384,
-            "die_count": 1
+            "dram_die_count": 1
           },
           "017": {
             "dram_die_density": 16384,
-            "die_count": 1
+            "dram_die_count": 1
           },
           "018": {
             "dram_die_density": 16384,
-            "die_count": 1
+            "dram_die_count": 1
           },
           "021": {
             "dram_die_density": 24576,
-            "die_count": 1
+            "dram_die_count": 1
           },
           "022": {
             "dram_die_density": 24576,
-            "die_count": 1
+            "dram_die_count": 1
           },
           "023": {
             "dram_die_density": 16384,
-            "die_count": 4,
+            "dram_die_count": 4,
             "special_option": "TSV"
           },
           "024": {
             "dram_die_density": 16384,
-            "die_count": 2,
+            "dram_die_count": 2,
             "special_option": "TSV"
           },
           "051": {
             "dram_die_density": 32768,
-            "die_count": 1
+            "dram_die_count": 1
           },
           "052": {
             "dram_die_density": 32768,
-            "die_count": 1
+            "dram_die_count": 1
           }
         }
       },
@@ -1010,7 +1010,8 @@
           "to": "extra",
           "value": {
             "dram_type": "LPDDR3",
-            "dram_die_stack": "4 dies, 2 CS",
+            "dram_die_count": 4,
+            "cs_count": 2,
             "dram_generation": "3rd generation",
             "channel_count": 1,
             "interface_type": "HSUL_12",
@@ -1089,23 +1090,23 @@
         },
         "dieStackObj": {
           "8K": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2,
+            "dram_die_count": 2,
+            "cs_count": 1,
             "channel_count": 2
           },
           "BK": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2,
+            "dram_die_count": 2,
+            "cs_count": 1,
             "channel_count": 2
           },
           "CP": {
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4,
+            "dram_die_count": 4,
+            "cs_count": 2,
             "channel_count": 2
           },
           "FA": {
-            "dram_die_stack": "8 dies, 2 CS",
-            "die_count": 8,
+            "dram_die_count": 8,
+            "cs_count": 2,
             "channel_count": 2
           }
         },
@@ -1409,8 +1410,8 @@
         },
         "dieStackObj": {
           "BT": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2,
+            "dram_die_count": 2,
+            "cs_count": 1,
             "channel_count": 4
           }
         },
@@ -1946,16 +1947,16 @@
         },
         "dieStackObj": {
           "BK3": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "CP3": {
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 2
           },
           "FA5": {
-            "dram_die_stack": "8 dies, 2 CS",
-            "die_count": 8
+            "dram_die_count": 8,
+            "cs_count": 2
           }
         },
         "dramOptionObj": {
@@ -2196,13 +2197,13 @@
         },
         "dieStackObj": {
           "G5:146": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2,
+            "dram_die_count": 2,
+            "cs_count": 1,
             "channel_count": 2
           },
           "G6:147": {
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4,
+            "dram_die_count": 4,
+            "cs_count": 2,
             "channel_count": 2
           },
           "G7:185": {

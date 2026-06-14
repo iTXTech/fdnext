@@ -282,34 +282,34 @@
         },
         "dieCountObj": {
           "D1": {
-            "die_count": 1
+            "dram_die_count": 1
           },
           "D2": {
-            "die_count": 2
+            "dram_die_count": 2
           },
           "D3": {
-            "die_count": 3
+            "dram_die_count": 3
           },
           "D4": {
-            "die_count": 4
+            "dram_die_count": 4
           },
           "D6": {
-            "die_count": 6
+            "dram_die_count": 6
           },
           "D8": {
-            "die_count": 8
+            "dram_die_count": 8
           },
           "DA": {
-            "die_count": 16
+            "dram_die_count": 16
           },
           "DB": {
-            "die_count": 12
+            "dram_die_count": 12
           },
           "DD": {
-            "die_count": 3
+            "dram_die_count": 3
           },
           "DE": {
-            "die_count": 6
+            "dram_die_count": 6
           }
         },
         "voltage": {
@@ -1075,275 +1075,275 @@
         "packageObj": {
           "AT": {
             "package": "VFBGA-78/117, 7.5x11.5x1",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "BAF": {
             "package": "FBGA-78/117, 10.5x11x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "CF": {
             "package": "FBGA-60/99, 8x10x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "CHB": {
             "package": "FBGA-96/144, 9.5x14x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "CLU": {
             "package": "TFBGA-78/117, 7.5x11x1.2",
-            "die_count": 4
+            "dram_die_count": 4
           },
           "DA": {
             "package": "TFBGA-78/117, 8x10.5x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "DGA": {
             "package": "TFBGA-96/144, 9.5x14x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "DS": {
             "package": "FBGA-78/117, 9.5x11.5x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "DVN": {
             "package": "TFBGA-78/117, 7.5x11.5x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "EB": {
             "package": "FBGA-60/99, 9x11.5x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "EF": {
             "package": "TFBGA-78/117, 8x10.5x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "EFN": {
             "package": "VFBGA-78/117, 7.5x11x1",
-            "die_count": 4
+            "dram_die_count": 4
           },
           "FS": {
             "package": "FBGA-96/144, 9x14x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "FSE": {
             "package": "FBGA-78/117, 9.5x13x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "GE": {
             "package": "TFBGA-96/144, 9x14x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "HA": {
             "package": "FBGA-96/144, 9x14x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "HB": {
             "package": "VFBGA-82/143, 9x11x1.0",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "HBA": {
             "package": "TFBGA-96/144, 9.5x14x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "HC": {
             "package": "VFBGA-102/153, 9x14x1.0",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "HD": {
             "package": "VFBGA-102/153, 7.5x14x1.0",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "HM": {
             "package": "VFBGA-102/153, 8.5x14x1.0",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "HPR": {
             "package": "TFBGA-78/117, 8x12x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "HX": {
             "package": "FBGA-78/117, 9x11.5x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "JC": {
             "package": "TFBGA-78/117, 9x11x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "JF": {
             "package": "VFBGA-82, 9.5x11",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "JP": {
             "package": "FBGA-78/117, 8x11.5x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "JT": {
             "package": "TFBGA-96/144, 8x14x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "JY": {
             "package": "TFBGA-96/144, 8x14x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "KD": {
             "package": "TFBGA-96/144, 9x13x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "KJR": {
             "package": "FBGA-78/117, 9.5x13x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "KL": {
             "package": "TFBGA-78/117, 9x11x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "KNR": {
             "package": "TFBGA-96, 7.5x13.5x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "KVA": {
             "package": "TFBGA-78/117, 8x12x1.2",
-            "die_count": 4
+            "dram_die_count": 4
           },
           "LY": {
             "package": "TFBGA-96/144, 7.5x13.5x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "NEA": {
             "package": "TFBGA-78/117, 7.5x11x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "NF": {
             "package": "FBGA-84/135, 8x12.5x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "NRE": {
             "package": "FBGA-78/117, 8x12x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "PA": {
             "package": "BGA-168/169, 13.5x13.5x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "PM": {
             "package": "FBGA-78/117, 9x13.2x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "RC": {
             "package": "TFBGA-96/144, 10x13x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "RFE": {
             "package": "FBGA-78/117, 8x10.5x1.45",
-            "die_count": 4
+            "dram_die_count": 4
           },
           "RG": {
             "package": "FBGA-78/117, 7.5x10.6x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "RH": {
             "package": "FBGA-78/117, 9x10.5x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "RHF": {
             "package": "FBGA-78, 9x10.5",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "RKB": {
             "package": "TFBGA-78/117, 8x10.5x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "RW": {
             "package": "VFBGA-78/117, 8x11x1.0",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "RV": {
             "package": "VFBGA-102/153, 8x14x1.0",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "RZ": {
             "package": "VFBGA-78/117, 7.5x11x1.0",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "SA": {
             "package": "TFBGA-78/117, 7.5x11x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "SH": {
             "package": "FBGA-60/117, 8x10x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "SKL": {
             "package": "TFBGA-96/144, 10.5x13x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "SMA": {
             "package": "TFBGA-78/117, 9.5x11.5x1.45",
-            "die_count": 4
+            "dram_die_count": 4
           },
           "SN": {
             "package": "FBGA-78/117, 9x13.2x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "ST": {
             "package": "VFBGA-78/117, 7.5x11.2x1.0",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "TB": {
             "package": "TFBGA-96/144, 7.5x13x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "TBB": {
             "package": "TFBGA-96/144, 7.5x13x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "THD": {
             "package": "FBGA-78/117, 9x11.5x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "THE": {
             "package": "FBGA-78/112, 10.5x12x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "THN": {
             "package": "FBGA-63/99, 8x10x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "TRF": {
             "package": "FBGA-78/117, 9.5x11.5x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "TW": {
             "package": "FBGA-96/144, 8x14x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "VA": {
             "package": "TFBGA-78/117, 10x11x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "VNE": {
             "package": "TFBGA-78/117, 10x11x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "VRN": {
             "package": "TFBGA-96/144, 8x14x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "WBU": {
             "package": "FBGA-96/144, 8x14x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "WE": {
             "package": "TFBGA-78/117, 8x12x1.2",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "WPF": {
             "package": "TFBGA-96/144, 10.5x13x1.2",
-            "die_count": 4
+            "dram_die_count": 4
           },
           "WTR": {
             "package": "FBGA-63/99, 9x11.5x1.2",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "GQ": {
             "package": "FBGA-78/117, 8x10.5"
@@ -1736,8 +1736,8 @@
         "fields.package": {
           "$path": "packageObj.package"
         },
-        "fields.die_count": {
-          "$path": "packageObj.die_count"
+        "fields.dram_die_count": {
+          "$path": "packageObj.dram_die_count"
         },
         "meta.ruleId": "vendor.spectek.dram.component.v1",
         "meta.fieldProfile": "dram",

@@ -34,7 +34,7 @@ PN 结构：
 - `density`
 - `storage_interface`
 - `product_family`
-- `die_stack`
+- `die_count`
 - `product_class`
 - `operation_temperature`
 

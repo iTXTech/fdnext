@@ -31,7 +31,7 @@ PN 结构：
 | channel count `8` | 8 channels |
 | memory die count `04/08` | 4 / 8 memory die |
 | data rate `28/32` | 2.8 / 3.2 Gb/s |
-| package `BF/AC` | 4-High / 8-High code，当前不直接输出公开 `package`，以 `die_count` 表达堆叠数量 |
+| package `BF/AC` | 4-High / 8-High code，当前不直接输出公开 `package`，以 `dram_die_count` 表达 DRAM 堆叠数量 |
 | blank temperature | Commercial |
 | die revision `A` | Rev A |
 
@@ -41,7 +41,7 @@ PN 结构：
 - `dram_density`：按 density per channel x channel count 计算，单位 Mbit。
 - `dram_voltage`
 - `channel_count`
-- `die_count`
+- `dram_die_count`
 - `dram_speed`
 - `operation_temperature`
 - `die_revision`
@@ -53,4 +53,3 @@ PN 结构：
 
 - `MT54A16G8080A00AC-28:A-B006`
 - `MT54A8G8040ABF-32:A`
-

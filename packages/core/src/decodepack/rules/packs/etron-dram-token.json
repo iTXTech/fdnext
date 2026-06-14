@@ -869,7 +869,7 @@
         },
         "stackObj": {
           "S": {
-            "dram_die_stack": "2 dies"
+            "dram_die_count": 2
           }
         }
       },
@@ -1575,21 +1575,21 @@
           },
           "46SH": {
             "operation_temperature": "Commercial (-25C~85C)",
-            "dram_die_stack": "2 dies"
+            "dram_die_count": 2
           },
           "53H": {
             "operation_temperature": "Commercial (-25C~85C)"
           },
           "53SH": {
             "operation_temperature": "Commercial (-25C~85C)",
-            "dram_die_stack": "2 dies"
+            "dram_die_count": 2
           },
           "62H": {
             "operation_temperature": "Commercial (-25C~85C)"
           },
           "62SH": {
             "operation_temperature": "Commercial (-25C~85C)",
-            "dram_die_stack": "2 dies"
+            "dram_die_count": 2
           },
           "08PH": {
             "operation_temperature": "Commercial (0C~85C)",
@@ -1606,17 +1606,17 @@
           "08PSH": {
             "operation_temperature": "Commercial (0C~85C)",
             "ecc_enabled": true,
-            "dram_die_stack": "2 dies"
+            "dram_die_count": 2
           },
           "08IPSH": {
             "operation_temperature": "Industrial (-40C~85C)",
             "ecc_enabled": true,
-            "dram_die_stack": "2 dies"
+            "dram_die_count": 2
           },
           "08BPSH": {
             "operation_temperature": "Automotive A2 (-40C~105C)",
             "ecc_enabled": true,
-            "dram_die_stack": "2 dies"
+            "dram_die_count": 2
           },
           "62PH": {
             "operation_temperature": "Commercial (0C~85C)",
@@ -1633,17 +1633,17 @@
           "62PSH": {
             "operation_temperature": "Commercial (0C~85C)",
             "ecc_enabled": true,
-            "dram_die_stack": "2 dies"
+            "dram_die_count": 2
           },
           "62IPSH": {
             "operation_temperature": "Industrial (-40C~85C)",
             "ecc_enabled": true,
-            "dram_die_stack": "2 dies"
+            "dram_die_count": 2
           },
           "62BPSH": {
             "operation_temperature": "Automotive A2 (-40C~105C)",
             "ecc_enabled": true,
-            "dram_die_stack": "2 dies"
+            "dram_die_count": 2
           }
         }
       },

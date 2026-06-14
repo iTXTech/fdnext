@@ -30,7 +30,7 @@ export const fdnextFieldProfiles = {
         id: "geometry",
         label: "Geometry",
         importance: "secondary",
-        fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "plane_count", "plane", "page_size", "block_size", "half_page_and_size"]
+        fields: ["die_density", "die_stack", "die_count", "ce_count", "rb_count", "channel_count", "plane_count", "page_size", "block_size", "half_page_and_size"]
       },
       { id: "interface", label: "Interface", importance: "secondary", fields: ["device_width", "voltage", "storage_interface", "interface_type", "interface_note", "toggle", "ecc_level"] },
       {
@@ -78,16 +78,17 @@ export const fdnextFieldProfiles = {
           "component_voltage",
           "nand_component",
           "die_density",
-          "die_stack",
           "die_count",
           "ce_count",
+          "rb_count",
+          "channel_count",
+          "plane_count",
           "dram_density",
           "dram_configuration",
           "dram_type",
           "dram_width",
           "dram_die_density",
-          "dram_die_stack",
-          "channel_count",
+          "dram_die_count",
           "cs_count",
           "dram_voltage",
           "dram_speed"
@@ -161,7 +162,7 @@ export const fdnextFieldProfiles = {
         importance: "primary",
         fields: ["dram_type", "dram_density", "dram_configuration", "density", "dram_die_density", "dram_width", "device_width", "dram_voltage", "voltage", "dram_speed", "dram_generation"]
       },
-      { id: "geometry", label: "Geometry", importance: "secondary", fields: ["dram_die_stack", "die_stack", "die_count", "cs_count", "process_node", "config_code"] },
+      { id: "geometry", label: "Geometry", importance: "secondary", fields: ["dram_die_count", "cs_count", "process_node", "config_code"] },
       { id: "package", label: "Package", importance: "detail", fields: ["package", "package_code", "operation_temperature", "die_revision"] },
       { id: "marking", label: "Marking", importance: "detail", fields: ["marking_code"] }
     ]

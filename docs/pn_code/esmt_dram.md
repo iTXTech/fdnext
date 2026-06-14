@@ -70,5 +70,5 @@ M56Z + 8G32256A + -SMBYIG
 - `M15F` / `M16U` / `M55D` 等系列存在两位速度 token，例如 `GH`、`EF`、`DE`、`QL`、`KJ`、`HH`、`GF`、`EE`、`CD`；同样只输出具体速度 / timing。
 - suffix `2C/2F/2G/2H/2M/2N/2P/2S/2T/2Y/2Z` 或 `TIG/BIG/TVG/BVG/BG/BBG/BBIG/BKG/BKIG/BIAG/FBIG/SMBYIG/TNBYG` 等只作为封装、温区、Pb-free 与速度补充，不作为识别 PN 主结构的必要条件。
 - datasheet 页眉中的 `M15T1G1664A (2S)`、`M13S64164A (2Y)`、`M13S128168A (2N)`、`M12L128168A (2S)`、`M55D4G16256A (2R)` 等是系列 / 页面标记；`packages/core/resources/dram-pn.json` 收录订货表中的 `M15T1G1664A-EFBG2S`、`M13S64164A-4TVAG2Y`、`M13S128168A-4TVAG2N`、`M12L128168A-5TIG2S`、`M55D4G16256A-GFBG2R` 等 Product ID，不收录括号式页眉标记。
-- 官方产品表只确认容量、组织、电压、速度与封装；没有明确 die stack / CS token，本轮不推断 `dram_die_stack`。
+- 官方产品表只确认容量、组织、电压、速度与封装；没有明确 die stack / CS token，本轮不推断 `dram_die_count`。
 - `packages/core/resources/dram-pn.json` 收录官方产品页 PN，用于搜索补全；解码仍由 token 规则完成。

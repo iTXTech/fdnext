@@ -36,22 +36,22 @@
         },
         "dieStackInfo": {
           "1": {
-            "die_stack": "SDP (1-die)"
+            "die_count": 1
           },
           "2": {
-            "die_stack": "DDP (2-die)"
+            "die_count": 2
           },
           "4": {
-            "die_stack": "QDP (4-die)"
+            "die_count": 4
           },
           "8": {
-            "die_stack": "ODP (8-die)"
+            "die_count": 8
           },
           "A": {
-            "die_stack": "HDP (16-die)"
+            "die_count": 16
           },
           "I": {
-            "die_stack": "SDP (1-die)"
+            "die_count": 1
           }
         },
         "cellLevel": {

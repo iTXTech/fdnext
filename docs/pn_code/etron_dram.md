@@ -55,7 +55,7 @@ EM6 + family/generation token + density token + width token + revision/core toke
 - DDR4 `E/F/G` token 输出 4Gb/8Gb/16Gb，LPDDR4 `D/E/F/G/H` token 输出 2Gb/4Gb/8Gb/16Gb/32Gb。
 - x8 / x16 DDR3/DDR4 分别输出 78/96-ball FBGA；LPDDR2 `VAF` 输出 134-ball 10 x 11.5 x 1.0mm FBGA；LPDDR4/4X `VAJ` 输出 200-ball 10 x 14.5 x 0.8mm FBGA，`BAJ` 输出 200-ball 10 x 14.5 x 1.1mm FBGA。
 - DDR、DDR2、DDR3/DDR3L、DDR4 如果有 datasheet speed suffix，只输出 suffix 对应的具体 `dram_speed`，不再额外输出重复速率含义的 `speed_grade`；未知 suffix 不回退输出 family 级速度范围。缺 suffix 的产品页 PN 继续保留 family 级速度范围。
-- DDR3/DDR3L datasheet suffix 中的 `S` 输出 `dram_die_stack`，`I/A/B` 输出对应温度 /车规等级；没有这些 suffix token 时不推断。
+- DDR3/DDR3L datasheet suffix 中的 `S` 输出 `dram_die_count` / `cs_count`，`I/A/B` 输出对应温度 /车规等级；没有这些 suffix token 时不推断。
 - LPDDR4/4X 如果有 speed token，只输出该 token 对应的具体速率；遇到未知 speed token 时也不回退输出 family 级速度范围。没有 speed token 的 family/base PN 才保留产品族速度范围。
-- LPDDR4/4X suffix 中的 `S` 输出 `dram_die_stack`，`P` 输出 `ecc_enabled`，`I/B` 输出对应温度等级；没有这些 suffix token 时不推断。
+- LPDDR4/4X suffix 中的 `S` 输出 `dram_die_count` / `cs_count`，`P` 输出 `ecc_enabled`，`I/B` 输出对应温度等级；没有这些 suffix token 时不推断。
 - `packages/core/resources/dram-pn.json` 收录标准 ordering PN，用于搜索补全；本轮从 DDR~DDR4 datasheet 前两页新增 181 个带 speed suffix 的 Etron ordering PN。解码仍由 token 规则完成，不把补全表当作白名单。

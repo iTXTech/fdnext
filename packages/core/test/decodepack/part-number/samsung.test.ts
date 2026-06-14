@@ -114,7 +114,7 @@ testPart("KLMAG1JETD-B041", {
   dieProfileField: "14nm",
   extra: {
     "Die Density": "128Gb",
-    "Die Stack": "SDP (1-die)",
+    "Die Count": 1,
     "Product Version": "eMMC 5.1",
     "Interface Type": "HS400"
   },
@@ -128,7 +128,7 @@ testPart("KLM8G1GETF-B041", {
   dieProfileField: "14nm",
   extra: {
     "Die Density": "64Gb",
-    "Die Stack": "SDP (1-die)",
+    "Die Count": 1,
     "Product Version": "eMMC 5.1",
     "Interface Type": "HS400"
   },
@@ -143,7 +143,7 @@ testPart("KLMBG2JETD-B041", {
   extra: {
     "Die Density": "128Gb",
     "Product Version": "eMMC 5.1",
-    "Die Stack": "DDP (2-die)"
+    "Die Count": 2
   },
   absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
@@ -156,7 +156,7 @@ testPart("KLMDG1NCAB-B041", {
   cellField: "TLC",
   extra: {
     "Die Density": "1Tb",
-    "Die Stack": "SDP (1-die)",
+    "Die Count": 1,
     "Product Version": "eMMC 5.1",
     "Interface Type": "HS400"
   },
@@ -171,7 +171,7 @@ testPart("KLMDG1NCABB041", {
   cellField: "TLC",
   extra: {
     "Die Density": "1Tb",
-    "Die Stack": "SDP (1-die)",
+    "Die Count": 1,
     "Product Version": "eMMC 5.1",
     "Interface Type": "HS400"
   },
@@ -895,7 +895,7 @@ testPart("KLUCG4J1BB", {
   extra: {
     "NAND Component": "K9GDGD8U0B",
     "Die Density": "128Gb",
-    "Die Stack": "QDP (4-die)",
+    "Die Count": 4,
     "CE Count": 4,
     "Product Version": "UFS 2.0",
     "Controller": "UFS 2.0 G2-2Lane Controller"
@@ -912,7 +912,7 @@ testPart("KLUDGAG1BD", {
   extra: {
     "NAND Component": "K9GCGD8U0D",
     "Die Density": "64Gb",
-    "Die Stack": "HDP (16-die)",
+    "Die Count": 16,
     "CE Count": 8,
     "Product Version": "UFS 2.0",
     "Controller": "UFS 2.0 G2-2Lane Controller"
@@ -928,7 +928,7 @@ testPart("KLUEG8UHDB-C2E1", {
   extra: {
     "NAND Component": "K9AFGD8J0B",
     "Die Density": "256Gb",
-    "Die Stack": "ODP (8-die)",
+    "Die Count": 8,
     "CE Count": 8,
     "Product Version": "UFS 3.1",
     "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller"
@@ -944,7 +944,7 @@ testPart("KLUFG8RHHF-F0G1", {
   package: "BGA-153, 9x13",
   extra: {
     "Die Density": "512Gb",
-    "Die Stack": "ODP (8-die)",
+    "Die Count": 8,
     "Product Version": "UFS 4.0",
     "Controller": "UFS 4.0 G5-2Lane Controller"
   },
@@ -959,7 +959,7 @@ testPart("KLUEG4RHKF-F0H1", {
   package: "BGA-153, 9x13",
   extra: {
     "Die Density": "512Gb",
-    "Die Stack": "QDP (4-die)",
+    "Die Count": 4,
     "Product Version": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"
   },
@@ -974,7 +974,7 @@ testPart("KLUFG4NHKH-F0H1", {
   package: "BGA-153, 9x13",
   extra: {
     "Die Density": "1Tb",
-    "Die Stack": "QDP (4-die)",
+    "Die Count": 4,
     "Product Version": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"
   },

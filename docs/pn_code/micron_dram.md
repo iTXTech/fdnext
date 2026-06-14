@@ -69,7 +69,7 @@
 - `packages/core/resources/dram-pn.json` 收录已知 Micron / Crucial DRAM PN，用于 `searchParts()` PN 补全，不是解码依据。本轮加入 `EDY4016AABG-{DR,GX,JD}-F-{D,R}` canonical PN。
 - `pnpm fdbgen:crawl-mdb` 默认按 Micron FBGA prefix profile 生成候选，通过 Micron 官方 FBGA decoder API 写入统一 `packages/core/resources/mdb.json`。当前默认 profile 包括 `C9/D8/D9/Z8/Z9` 后三位字母网格，以及 `NC/NW/NY/NX/NQ/NV` 数字段；`--codes` 补充输入按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
 - `packages/core/resources/mdb.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchParts()` code 查询，以及 `decodePart({ query: "C9BJZ" })` 这类 code 输入时先反查 PN 再走 iTXTech fdnext DecodePack。
-- 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA code 反查统一来自 `mdb.json` 的 code -> PN 映射。真正输出的 `density`、`package`、`dram_type`、`dram_die_stack` 等字段仍由 iTXTech fdnext DecodePack token 解析。
+- 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA code 反查统一来自 `mdb.json` 的 code -> PN 映射。真正输出的 `density`、`package`、`dram_type`、`dram_die_count` 等字段仍由 iTXTech fdnext DecodePack token 解析。
 - `mdb.json` 中有大量带冒号 revision 的 DRAM PN，例如 `D8BBF -> MT53E128M32D2FW-046 IT:A`、`D9WCR -> MT61K256M32JE-12:A`、`D8FHL -> MT68A512M32DF-28:A`、`D8BCJ -> MT62F512M32D2DS-031 AAT:B`。PN 补全和 decode classification 支持用户省略冒号查询，并回到带冒号的官方 PN 展示。
 
 ## PN 结构
@@ -120,8 +120,8 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
 - `fields.voltage` 输出 Micron voltage token 对应说明。
 - `fields.package` 输出实际封装，例如 `FBGA-78 (7.5x11)`；Micron FBGA package code 优先按 package-only 公共表复用，少数跨产品线冲突保留 `family + package code` override。
 - standalone DRAM 的 `fields` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
-- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_stack`、`die_count`、`bank_count`、`interface_type`、`dram_speed`、`operation_temperature`、`die_revision`、`solder_type`、`packing_type`、`special_option`。
-- `device version` 先按 family scope 匹配，避免 `DA/DE/LF` 等 token 与 package code 冲突；`D1/D2/D3/D4/D6/D8/DA/DB/DC/DD/DE/LF/L2/L4` 只标准化为 `die_count`，例如 `D4` 输出 `die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`，`DD/DE` 保留官方 LPDDR4 mixed die stack 描述；没有 CS 资料时不输出 `dram_die_stack`。
+- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_count`、`cs_count`、`bank_count`、`interface_type`、`dram_speed`、`operation_temperature`、`die_revision`、`solder_type`、`packing_type`、`special_option`。
+- `device version` 先按 family scope 匹配，避免 `DA/DE/LF` 等 token 与 package code 冲突；`D1/D2/D3/D4/D6/D8/DA/DB/DC/DD/DE/LF/L2/L4` 只标准化为 `dram_die_count`，例如 `D4` 输出 `dram_die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`，`DD/DE` 保留官方 LPDDR4 mixed die stack 描述；没有 CS 资料时不输出 `cs_count`。
 - `speed` token 同样优先按 family scope 匹配：DDR5 `32B/36B/40B/44B/48B/52B/56B/64B/72B/80B/88B/92B`、DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E`、DDR3 `125E`、DDR2 `3`、DDR `6T`、SDR `7E/10`、GDDR5 `50/60/70`、GDDR5X `110/120/140`、GDDR6 `10/15` 与 GDDR6X `19/20/22/23` 来自官方 2023 PNS 或公开 ordering 截图；`18` 同时出现在 GDDR6/GDDR6X 表中，当前不在 decodepack 中强行判定。
 - DDR5 `60:*` speed 对 addendum 明确给出 CL 的 bin 保留 CL 时序：`48B = DDR5-4800B CL40`、`52B = DDR5-5200B CL42`、`56B = DDR5-5600B CL46`、`64B = DDR5-6400B CL52`、`72B = DDR5-7200B CL58`、`80B = DDR5-8000B CL64`、`88B = DDR5-8800B CL72`、`92B = DDR5-9200B CL74`。
 - DDR4 `40:*` speed 保留 CL 时序：`062Y/062E = DDR4-3200 CL22`、`068E = DDR4-2933 CL20`、`068 = DDR4-2933 CL21`、`075E = DDR4-2666 CL18`、`075 = DDR4-2666 CL19`、`083E = DDR4-2400 CL16`、`083 = DDR4-2400 CL17`、`093E = DDR4-2133 CL15`、`093 = DDR4-2133 CL16`、`107E = DDR4-1866 CL13`。
@@ -129,7 +129,7 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
 - DDR3 / DDR3L 与 DDR5 Automotive 截图确认的 automotive certification `A` 在对应 package scope 下输出为 `special_option = Automotive certified`，随后继续解析 `AT/IT` 温度与 revision，例如 `-125AAT:D` 解析为 `DDR3-1600 CL11`、Automotive、`Rev D`，`-64BAAT:D` 解析为 `DDR5-6400B CL52`、Automotive certified、Automotive、`Rev D`；`M` 只在截图确认的 power-saving scope 下输出 `special_option = TCSR power saving`，避免把 `:M` revision 误解为 option。
 - 对尚未确认实际封装尺寸的 1-3 字符 package token，规则只结构化消费 package code 以继续解析后续 speed / temperature / revision，不公开 `package` 或 `package_code`。对 legacy / Crucial 中当前尚未结构化建模的主体 token，规则可作为未公开 body 消费到 `-speed`，只保留已确定的 speed / temperature / revision 等后缀字段。
 - TFBGA-441 x64 Automotive LPDDR5 (`family=62`, `package=EK`) 的 `-031` 按 6400 Mb/s 输出 `LPDDR5-6400`；该分支的温度 token 使用图中范围：`IT=-40°C~95°C`、`AT=-40°C~105°C`、`UT=-40°C~125°C`，前置 `F` 输出 `special_option=Functional safety features`。
-- `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / die stack，只减少 `dram_speed` / `die_revision` 等后缀信息。
+- `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / DRAM die count 等已确认字段，只减少 `dram_speed` / `die_revision` 等后缀信息。
 - Micron revision token 可带冒号分隔，例如 `FAAT:B`；core PN 查询、FDB lookup 和 `dram-pn.json` 补全按冒号等价匹配，同时保留带冒号的官方 PN 展示。
 - `dram_type` 必须使用跨厂商标准名，不带厂商名，不写组合候选。
 - Micron 原始 config / package token 只用于内部解析，不进入公开字段；不要把未确认的 token 硬推成封装尺寸或 ball count。
@@ -137,11 +137,11 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
 - Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4-45M` / `55M` / `62M`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
 - 维护用来源、外部确认状态或推断来源不得进入 `fields`。
 
-## Die Stack Packages
+## Die / CS Packages
 
-Micron DDR3 / DDR3L / DDR4 die stack 按 package-only 判断，不再用 `family + voltage + config + package` 组合 key。Package code 在已确认资料中唯一对应 die/CS 结构；同一 config 若换到普通封装，例如 `DA/HA/RH`，不输出 `dram_die_stack`。
+Micron DDR3 / DDR3L / DDR4 die / CS topology 按 package-only 判断，不再用 `family + voltage + config + package` 组合 key。Package code 在已确认资料中唯一对应 die/CS 结构；同一 config 若换到普通封装，例如 `DA/HA/RH`，不输出 `dram_die_count` / `cs_count`。
 
-| Package | die stack / CS | notes |
+| Package | die / CS | notes |
 | --- | --- | --- |
 | `THA` / `SMA` | `4 dies, 4 CS` | QuadDie |
 | `TNA` | `2 dies, 2 CS` | TwinDie |
@@ -165,7 +165,7 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 | `4G8` | `MT60B4G8AT-64B:B` | `32Gb`, `x8` |
 | `2G16` | `MT60B2G16HD-64B:B` | `32Gb`, `x16` |
 
-本轮未找到 Micron standalone DDR5 component 公开 datasheet 明确使用 TwinDie / DDP。MRDIMM、RDIMM 或 SOCAMM2 模块层面的多 die / 3DS 资料不进入 standalone component PN 的 `dram_die_stack` 规则。
+本轮未找到 Micron standalone DDR5 component 公开 datasheet 明确使用 TwinDie / DDP。MRDIMM、RDIMM 或 SOCAMM2 模块层面的多 die / 3DS 资料不进入 standalone component PN 的 `dram_die_count` 规则。
 
 ## 封装映射
 
@@ -286,17 +286,17 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 | `MT41K256M32SLD-125 M:E` | DDR3 SDRAM | `8Gb`, `x32`, `FBGA-136 (10x14x1.2)`, `2 dies, 1 CS`, `DDR3-1600 CL11`, `TCSR power saving`, `Rev E` |
 | `MT47H128M16RT-25E:C` | DDR2 SDRAM | `2Gb`, `x16`, `FBGA-84 (9x12.5)`, `DDR2-800`, `Rev C` |
 | `MT46V32M16P-5B-IT-J` | DDR SDRAM | `512Mb`, `x16`, `66-pin TSOP`, `DDR-400`, `Industrial`, `Rev J` |
-| `MT46H32M32LFB5-5 IT:B` | LPDDR | `1Gb`, `x32`, `VFBGA-90`, `die_count=1`, `200MHz`, `Rev B` |
+| `MT46H32M32LFB5-5 IT:B` | LPDDR | `1Gb`, `x32`, `VFBGA-90`, `dram_die_count=1`, `200MHz`, `Rev B` |
 | `MT48LC16M8A2P-6A:L` | SDRAM | `128Mb`, `x8`, `54-pin TSOP II`, `166MHz`, `Rev L` |
-| `MT48H16M32LFB5-75:A` | LPSDR | `512Mb`, `x32`, `VFBGA-90`, `die_count=1`, `133MHz`, `Rev A` |
-| `MT48H16M32LGB5-75:A` | LPSDR | `512Mb`, `x32`, `VFBGA-90`, `die_count=1`, `Reduced page-size addressing`, `133MHz`, `Rev A` |
-| `MT42L128M32D1LF-25 WT:A` | LPDDR2 | `4Gb`, `x32`, `WFBGA-168`, `die_count=1`, `Rev A` |
-| `MT52L512M32D2PF-107 WT:B` | LPDDR3 | `16Gb`, `x32`, `FBGA-178`, `die_count=2`, `Rev B` |
-| `MT53E1G32D2FW-046-AIT-A` | LPDDR4 | `32Gb`, `x32`, `TFBGA-200`, `die_count=2`, `2133MHz (LPDDR4-4266)`, `Rev A` |
-| `MT62F1G32D4DS-031-WT-B` | LPDDR5 | `32Gb`, `x32`, `WFBGA-200`, `die_count=4`, `3200MHz (LPDDR5-6400)`, `Rev B` |
-| `MT62F512M64D4EK-031 AIT:B` | LPDDR5 | `32Gb`, `x64`, `TFBGA-441`, `die_count=4`, `3200MHz (LPDDR5-6400)`, `Automotive Industrial (-40°C ~ 95°C)`, `Rev B` |
-| `MT62F512M64D4EK-031 FAAT:B` | LPDDR5 | `32Gb`, `x64`, `TFBGA-441`, `die_count=4`, `3200MHz (LPDDR5-6400)`, `Functional safety features`, `Rev B` |
-| `MT62F1G64D8EK-031 AUT:B` | LPDDR5 | `64Gb`, `x64`, `TFBGA-441`, `die_count=8`, `3200MHz (LPDDR5-6400)`, `Automotive Ultra (-40°C ~ 125°C)`, `Rev B` |
+| `MT48H16M32LFB5-75:A` | LPSDR | `512Mb`, `x32`, `VFBGA-90`, `dram_die_count=1`, `133MHz`, `Rev A` |
+| `MT48H16M32LGB5-75:A` | LPSDR | `512Mb`, `x32`, `VFBGA-90`, `dram_die_count=1`, `Reduced page-size addressing`, `133MHz`, `Rev A` |
+| `MT42L128M32D1LF-25 WT:A` | LPDDR2 | `4Gb`, `x32`, `WFBGA-168`, `dram_die_count=1`, `Rev A` |
+| `MT52L512M32D2PF-107 WT:B` | LPDDR3 | `16Gb`, `x32`, `FBGA-178`, `dram_die_count=2`, `Rev B` |
+| `MT53E1G32D2FW-046-AIT-A` | LPDDR4 | `32Gb`, `x32`, `TFBGA-200`, `dram_die_count=2`, `2133MHz (LPDDR4-4266)`, `Rev A` |
+| `MT62F1G32D4DS-031-WT-B` | LPDDR5 | `32Gb`, `x32`, `WFBGA-200`, `dram_die_count=4`, `3200MHz (LPDDR5-6400)`, `Rev B` |
+| `MT62F512M64D4EK-031 AIT:B` | LPDDR5 | `32Gb`, `x64`, `TFBGA-441`, `dram_die_count=4`, `3200MHz (LPDDR5-6400)`, `Automotive Industrial (-40°C ~ 95°C)`, `Rev B` |
+| `MT62F512M64D4EK-031 FAAT:B` | LPDDR5 | `32Gb`, `x64`, `TFBGA-441`, `dram_die_count=4`, `3200MHz (LPDDR5-6400)`, `Functional safety features`, `Rev B` |
+| `MT62F1G64D8EK-031 AUT:B` | LPDDR5 | `64Gb`, `x64`, `TFBGA-441`, `dram_die_count=8`, `3200MHz (LPDDR5-6400)`, `Automotive Ultra (-40°C ~ 125°C)`, `Rev B` |
 | `MT51J256M32HF-80:A` | GDDR5 | `8Gb`, `x32`, `FBGA-170`, `GDDR5-8Gbps`, `Rev A` |
 | `MT58K256M32JA-100:A` | GDDR5X | `8Gb`, `x32`, `FBGA-190`, `GDDR5X-10Gbps`, `Rev A` |
 | `MT61K256M32JE-14:A` | GDDR6 | `8Gb`, `x32`, `FBGA-180`, `GDDR6-14Gbps`, `Rev A` |

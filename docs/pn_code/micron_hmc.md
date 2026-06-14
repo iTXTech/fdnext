@@ -36,7 +36,7 @@ PN 结构：
 - `dram_type = HMC`
 - `dram_density`
 - `dram_die_density`
-- `die_count`
+- `dram_die_count`
 - `dram_voltage`
 - `package`
 - `revision`：用于 logic design revision。
@@ -51,4 +51,3 @@ PN 结构：
 
 - `MT43A4G40100NFA-S15:A`
 - `MT43A4G40200NFA-S15:A`
-

@@ -66,6 +66,6 @@ CDTQ
 - DDR5 `CXDR4E8BM-CR/CS-A` 输出 16Gb x8、82-ball FBGA、DDR5-4800/5600、`process_node = CXMT G4 / 16nm-class`。
 - LPDDR4X `4` 输出 16Gb，`5` 输出 32Gb；package type `A/C` 当前均输出 200-ball FBGA；config `A/B/C` 当前均输出 x32；`BAM` 输出 `2 dies, 1 CS`，`CAM` 与 `CBM` 输出 `4 dies, 2 CS`，并推断 `process_node = CXMT G3 / 18nm-class`。
 - LPDDR4X suffix 拆为 temp `M` 与 speed `J/K/L/A`，其中 `K=3733Mbps`、`L/A=4266Mbps`；final `A/B` 是 product version，不进入 public fields。
-- `CDTQ` 输出 LPDDR5、96Gb package、12Gb die、`die_count=8`、`process_node = CXMT G3 / 18nm-class`；没有 CS 资料时不输出 `dram_die_stack`。
+- `CDTQ` 输出 LPDDR5、96Gb package、12Gb die、`dram_die_count=8`、`process_node = CXMT G3 / 18nm-class`；没有 CS 资料时不输出 `cs_count`。
 - suffix 不存在时不输出 speed/temp。
 - LPDDR5X、GDDR 当前只作为资料缺口记录，不进入 iTXTech fdnext DecodePack；即使官方新闻已确认 LPDDR5X 24GB package 级别能力，也必须等到公开 PN token 表、die/package 标记或 exact PN 样例后再落规则。

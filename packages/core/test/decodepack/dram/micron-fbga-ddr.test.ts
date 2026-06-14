@@ -258,7 +258,8 @@ assertDram("MT40A2G4TRF-093E:A", {
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "TRF",
     "Config Code": "2G4",
     "DRAM Speed": "DDR4-2133 CL15",
@@ -276,7 +277,8 @@ assertDram("MT40A4G4FSE-093:A", {
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "FSE",
     "Config Code": "4G4",
     "DRAM Speed": "DDR4-2133 CL16",
@@ -294,7 +296,8 @@ assertDram("MT40A2G8NRE-083E:B", {
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "NRE",
     "Config Code": "2G8",
     "DRAM Speed": "DDR4-2400 CL16",
@@ -312,7 +315,8 @@ assertDram("MT40A4G8NEA-062E:F", {
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "NEA",
     "Config Code": "4G8",
     "DRAM Speed": "DDR4-3200 CL22",
@@ -329,7 +333,8 @@ assertDram("MT40A1G16WBU-083E:B", {
   package: "FBGA-96, 8x14",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Package Code": "WBU",
     "Config Code": "1G16",
     "DRAM Speed": "DDR4-2400 CL16",
@@ -346,7 +351,8 @@ assertDram("MT40A2G16TBB-062E:F", {
   package: "FBGA-96, 7.5x13",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Package Code": "TBB",
     "Config Code": "2G16",
     "DRAM Speed": "DDR4-3200 CL22",
@@ -443,7 +449,8 @@ assertDram("EDB2432B4MA-1DAAT-F-D", {
   voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
   extra: {
     "DRAM Type": "LPDDR2",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "B4MA",
     "Config Code": "2432",
     "DRAM Speed": "LPDDR2-1066"

@@ -18,9 +18,9 @@
 
 | PN 结构 | 字段 |
 | --- | --- |
-| `KLM` + density(2) + die stack(1) + die type(1) + voltage(1) + controller(1) + generation(1) + optional package/version/temp | Samsung eMMC / moviNAND |
+| `KLM` + density(2) + die count(1) + die type(1) + voltage(1) + controller(1) + generation(1) + optional package/version/temp | Samsung eMMC / moviNAND |
 | density `4G/8G/AG/BG/CG/DG/EG/FG` | 4GB / 8GB / 16GB / 32GB / 64GB / 128GB / 256GB / 512GB |
-| die stack `1/2/4/8/A/I` | SDP / DDP / QDP / ODP / HDP |
+| die count `1/2/4/8/A/I` | 1 / 2 / 4 / 8 / 16 die |
 | die type `G/J/K/V/U/R/N/L` | cell level 与 die density |
 | generation key `die type + generation` | 推定 `fields.die_codename` |
 | version `4` | eMMC 5.1 |
@@ -31,7 +31,7 @@ Samsung eMMC 输出：
 
 - `density`：封装总容量，例如 `16GB`
 - `die_density`：单 die 容量，例如 `128Gb`
-- `die_stack`：封装堆叠，例如 `SDP (1-die)`
+- `die_count`：封装内 NAND die 数，例如 `1`
 - `die_codename`：NAND die profile key，例如 `SS14` / `SS16`
 
 可信度 metadata 只在 iTXTech fdnext DecodePack `tables.reference` 内维护，不进入 `fields`。

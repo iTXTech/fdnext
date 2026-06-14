@@ -67,9 +67,9 @@
       "importance": "secondary",
       "fields": [
         {
-          "key": "dram_die_stack",
-          "label": "DRAM Die Stack",
-          "value": "4-die stack",
+          "key": "dram_die_count",
+          "label": "DRAM Die Count",
+          "value": 4,
           "importance": "secondary"
         },
         {

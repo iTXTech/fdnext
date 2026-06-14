@@ -29,7 +29,8 @@ assertDram("K4RAH086VB-BCQK", {
   package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "AH08",
     "Bank Count": 32,
     "Die Revision": "B-die",
@@ -47,7 +48,8 @@ assertDram("K4RAH046VB-BCQK", {
   package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "AH04",
     "Bank Count": 32,
     "Die Revision": "B-die",
@@ -65,7 +67,8 @@ assertDram("K4RAH165VB-BCQK", {
   package: "FBGA-106",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "AH16",
     "Bank Count": 16,
     "Die Revision": "B-die",
@@ -83,7 +86,8 @@ assertDram("K4RAH165VB-BCWM", {
   package: "FBGA-106",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "AH16",
     "Bank Count": 16,
     "Die Revision": "B-die",
@@ -101,7 +105,8 @@ assertDram("K4RHE086VB-BCWM", {
   package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "HE08",
     "Bank Count": 32,
     "Die Revision": "B-die",
@@ -119,7 +124,8 @@ assertDram("K4RHE165VB-BCWM", {
   package: "FBGA-106",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "HE16",
     "Bank Count": 16,
     "Die Revision": "B-die",
@@ -137,7 +143,8 @@ assertDram("K4RBH046VM-BCWM", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Config Code": "BH04",
     "Bank Count": 32,
     "Die Revision": "M-die",

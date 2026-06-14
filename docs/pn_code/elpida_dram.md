@@ -46,5 +46,5 @@ EDW + density-code + width + voltage/interface/package tokens + -speed
 ## 输出约定
 
 - `Config Code` 只输出容量/位宽主配置，例如 `1216`、`4208`、`8164`、`2032`。
-- LPDDR stack 只对 Intel validation table 明确的 DDP/QDP token 输出标准化 `dram_die_stack = N die(s), M CS`。
+- LPDDR stack 只对 Intel validation table 明确的 DDP/QDP token 输出标准化 `dram_die_count = N` 与 `cs_count = M`。
 - Elpida 独立品牌的 standard DDR 世代到 DDR3 结束；DDR4 / DDR5 不是待补规则，不用 Micron 后续 PN 体系替代。LPSDR 缺少足够公开 PN breakdown，GDDR6 / GDDR7 也不存在独立 Elpida 产品线。

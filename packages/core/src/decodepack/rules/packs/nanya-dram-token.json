@@ -54,16 +54,16 @@
         },
         "stackObj": {
           "M": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
+            "dram_die_count": 1,
+            "cs_count": 1
           },
           "T": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "F": {
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 2
           }
         },
         "packageActual": {
@@ -484,14 +484,15 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_stack": "1 die, 1 CS",
+            "dram_die_count": 1,
+            "cs_count": 1,
             "config_code": {
               "$var": "configCode"
             },
             "package_code": {
               "$var": "packageCode"
             },
-            "die_count": 1
+            "dram_die_count": 1
           }
         },
         {
@@ -613,45 +614,39 @@
         },
         "stackObj": {
           "M": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
+            "dram_die_count": 1,
+            "cs_count": 1
           },
           "T": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "F": {
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 2
           }
         },
         "familyStackObj": {
           "6CL:M": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1,
+            "dram_die_count": 1,
             "cs_count": 1
           },
           "6CL:T": {
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2,
+            "dram_die_count": 2,
             "cs_count": 2
           },
           "6CL:F": {
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4,
+            "dram_die_count": 4,
             "cs_count": 2
           },
           "6AN:M": {
-            "dram_die_stack": "1 die",
-            "die_count": 1
+            "dram_die_count": 1
           },
           "6AN:T": {
-            "dram_die_stack": "2 dies",
-            "die_count": 2
+            "dram_die_count": 2
           },
           "6AN:F": {
-            "dram_die_stack": "4 dies",
-            "die_count": 4
+            "dram_die_count": 4
           }
         },
         "lowPowerBaseObj": {

@@ -29,7 +29,8 @@ assertDram("EDS1216AATA-75", {
   package: "TSOP-II-54",
   extra: {
     "DRAM Type": "SDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "AATA",
     "Config Code": "1216",
     "DRAM Speed": "133MHz"
@@ -45,7 +46,8 @@ assertDram("EDD2516AKTA-5B", {
   package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "AKTA",
     "Config Code": "2516",
     "DRAM Speed": "DDR-400"
@@ -61,7 +63,8 @@ assertDram("EDE1116ACBG-8E", {
   package: "FBGA-84",
   extra: {
     "DRAM Type": "DDR2",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "ACBG",
     "Config Code": "1116",
     "DRAM Speed": "DDR2-800"
@@ -77,7 +80,8 @@ assertDram("EDJ4208BASE-GN", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "BASE",
     "Config Code": "4208",
     "DRAM Speed": "DDR3-1600K (11-11-11)"
@@ -93,7 +97,8 @@ assertDram("EDF8164A3MA-GD-F", {
   package: "FBGA-216",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Package Code": "A3MA",
     "Config Code": "8164",
     "DRAM Speed": "LPDDR3-1066"
@@ -109,7 +114,8 @@ assertDram("EDB8164B3PF-8D", {
   package: "FBGA-216",
   extra: {
     "DRAM Type": "LPDDR2",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "Package Code": "B3PF",
     "Config Code": "8164",
     "DRAM Speed": "LPDDR2-1066"
@@ -125,7 +131,8 @@ assertDram("EDW2032BBBG-60", {
   package: "FBGA-170",
   extra: {
     "DRAM Type": "GDDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "BBBG",
     "Config Code": "2032",
     "DRAM Speed": "GDDR5-6Gbps"
@@ -141,7 +148,8 @@ assertDram("CXDQ3BFAM-CJ", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "FAM",
     "Config Code": "3B",
     "DRAM Speed": "DDR4-3200 22-22-22",
@@ -158,7 +166,8 @@ assertDram("CXDQ3BFAM", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "FAM",
     "Config Code": "3B"
   },
@@ -174,7 +183,8 @@ assertDram("CXDQ3A8AM-CQ-A", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "8AM",
     "Config Code": "3A",
     "DRAM Speed": "DDR4-2666 19-19-19",
@@ -192,7 +202,8 @@ assertDram("CXDQ3A8AM-IJ-A", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "8AM",
     "Config Code": "3A",
     "DRAM Speed": "DDR4-3200 22-22-22",
@@ -210,7 +221,8 @@ assertDram("CXDQ3BFAM-WG", {
   package: "FBGA-96",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "FAM",
     "Config Code": "3B",
     "DRAM Speed": "DDR4-2666 18-18-18",
@@ -228,7 +240,8 @@ assertDram("CXDQ3A8AM-WG", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "DDR4-2666 18-18-18",
     "Operation Temperature": "Wide (-40C~95C)"
   },
@@ -244,7 +257,8 @@ assertDram("CXDQ4A8AM-CJ-M", {
   package: "FBGA-78",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "8AM",
     "Config Code": "4A",
     "DRAM Speed": "DDR4-3200 22-22-22",
@@ -263,7 +277,8 @@ assertDram("CXDR4E8BM-CS-A", {
   package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "BM",
     "Config Code": "4E8",
     "DRAM Speed": "DDR5-5600",
@@ -282,7 +297,8 @@ assertDram("CXDR4E8BM-CR-A", {
   package: "FBGA-82",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "BM",
     "Config Code": "4E8",
     "DRAM Speed": "DDR5-4800",
@@ -317,7 +333,8 @@ assertDram("CXDB5CCAM-MK", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Package Code": "CAM",
     "Config Code": "5C",
     "DRAM Speed": "LPDDR4X-3733",
@@ -335,7 +352,8 @@ assertDram("CXDB4CBAM-MK-A", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Package Code": "BAM",
     "Config Code": "4C",
     "DRAM Speed": "LPDDR4X-3733",
@@ -353,7 +371,8 @@ assertDram("CXDB5CCBM-MA-A", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Package Code": "CBM",
     "Config Code": "5C",
     "DRAM Speed": "LPDDR4X-4266",
@@ -371,7 +390,8 @@ assertDram("CXDB5CBAM-MA-B", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR4X-4266",
     "Operation Temperature": "-25C~85C",
     "Process Node": "CXMT G3 / 18nm-class"
@@ -387,7 +407,8 @@ assertDram("CXDB5CCBM-MK-A", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Package Code": "CBM",
     "Config Code": "5C",
     "DRAM Speed": "LPDDR4X-3733",
@@ -466,7 +487,7 @@ assertDram("GDP3BELM-CB", {
     "Special Option": "DDP"
   }
 });
-assertDecodedField("GDP3BELM-CB", "die_count", 2);
+assertDecodedField("GDP3BELM-CB", "dram_die_count", 2);
 
 assertDram("GDQ3A8AM-CQ", {
   vendor: "gigadevice",
@@ -533,7 +554,8 @@ assertDram("GDB5CBQN-ML", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR4X-4266",
     "Operation Temperature": "-25C~85C"
   }
@@ -548,7 +570,8 @@ assertDram("GDB5CCQN-MK", {
   package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR4X-3733",
     "Operation Temperature": "-25C~85C"
   }

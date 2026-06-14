@@ -21,14 +21,14 @@
 
 | PN 结构 | 字段 |
 | --- | --- |
-| `KLU` + density(2) + die stack(1) + die type(1) + voltage(1) + controller(1) + generation(1) + package/version/temp | Samsung UFS |
+| `KLU` + density(2) + die count(1) + die type(1) + voltage(1) + controller(1) + generation(1) + package/version/temp | Samsung UFS |
 | density `AG/BG/CG/DG/EG/FG/GG/HG` | 16GB 到 2TB |
-| die stack `1/2/4/8/A` | SDP / DDP / QDP / ODP / HDP |
+| die count `1/2/4/8/A` | 1 / 2 / 4 / 8 / 16 die |
 | controller `D/G/J/H/K` | UFS G4/G5 controller family |
 | version `E/G/H` | UFS 3.1 / 4.0 / 4.1 |
 | `dumpedPartObj` exact base PN | 用户测试点 dump 得到的 `ce_count` 与 `nand_component` |
 
-这里的 `die_stack` 是封装堆叠展示字段；CE 数只来自 dump 表，不从 `die stack` token 或其他 PN token 推导。
+这里的纯堆叠数量输出为 `die_count`；CE 数只来自 dump 表，不从 die-count token 或其他 PN token 推导。
 
 ## 统一输出字段
 
@@ -36,7 +36,7 @@ Samsung UFS 输出：
 
 - `density`：封装总容量，例如 `512GB`
 - `die_density`：单 die 容量，例如 `512Gb`
-- `die_stack`：封装堆叠，例如 `ODP (8-die)`
+- `die_count`：封装内 NAND die 数，例如 `8`
 - `nand_component`：特定基础 PN 的单 die NAND marking，例如 `K9AFGD8J0B`
 - `ce_count`：仅对 dump 表中列出的特定基础 PN 输出；不按 UFS PN token 泛化推断
 - `die_codename`：NAND die profile key，例如 `SSV8`；2D/3D 代际说明如需展示由 `generation_info` 承接

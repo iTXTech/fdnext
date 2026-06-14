@@ -51,7 +51,7 @@ NT6AN1024F32AV-J2
 ## 输出约定
 
 - `depth x width` 直接推导 `fields.density`，例如 `1024M8` 输出 `8192` Mbit。
-- `M/T/F` stack code 默认分别输出 `1 die, 1 CS`、`2 dies, 1 CS`、`4 dies, 2 CS`，并同步写入 `die_count`；LPDDR3 / LPDDR4 等 low-power family 根据 ordering table 额外覆盖 CS / channel 语义。
+- `M/T/F` stack code 默认分别输出 `dram_die_count=1, cs_count=1`、`dram_die_count=2, cs_count=1`、`dram_die_count=4, cs_count=2`；LPDDR3 / LPDDR4 等 low-power family 根据 ordering table 额外覆盖 CS / channel 语义。
 - suffix 不存在时不输出 `dram_speed` / `operation_temperature`；suffix 存在但 grade token 不存在时只输出 speed。
 - standard DDR speed token 以 `family + speed` 做组合 key，避免 DDR2 `AC/BE` 与 DDR3 `AC/BE` 冲突；DDR3/DDR3L `AC..FL` 输出 PDF 中给出的 CL-tRCD-tRP 时序。
 - DDR3(L) suffix grade `B` 输出 `special_option = Reduced Standby`；`T` 输出 Quasi Industrial，`A/H` 分别输出 Automotive Grade 3 / Grade 2。
@@ -60,11 +60,11 @@ NT6AN1024F32AV-J2
 - DDR4 package code `3/4` 输出 TFBGA 语义；C/E 截图确认了具体尺寸时输出 `7.50x12.00mm`、`7.50x10.50mm` 或 `7.50x13.00mm` 与 `0.80mm pitch`。`5AD` 还输出 `solder_type = Lead-free RoHS compliant and Halogen-free`；C/E density-addressing 表确认 x4/x8 为 16 banks、x16 为 8 banks。
 - 低功耗 speed token 以 `family + speed` 做组合 key，避免 LPDDR4 与 LPDDR4X 共用 `J1` 时混淆。
 - LPDDR3 `NT6CL` 输出 `interface_type = HSUL_12`、`bank_count = 8`、`solder_type = Lead-free RoHS compliant and Halogen-free`；`A/B/D` device version 以 `die_revision` 表达为 `1st version` / `2nd version` / `4th version`。
-- LPDDR3 `M/T/F` 分别输出 `1 die, 1 CS`、`2 dies, 2 CS`、`4 dies, 2 CS`；`x64` 2-channel PoP 组合额外输出 `channel_count = 2`。
+- LPDDR3 `M/T/F` 分别输出 `dram_die_count=1, cs_count=1`、`dram_die_count=2, cs_count=2`、`dram_die_count=4, cs_count=2`；`x64` 2-channel PoP 组合额外输出 `channel_count = 2`。
 - LPDDR3 `H0/H1/H2` 输出 `dram_speed`、`cas_latency` 与保留原始 token 的 `speed_grade`；`B` version ordering 截图中的 commercial grade 温度为 `-25C~85C`，`A/D` version 截图为 `-30C~105C`。
 - LPDDR3 package 输出使用截图确认的实际封装：178-ball FBGA 10.50x11.50mm（SDP/DDP 0.83mm、QDP 1.05mm 高度，0.65/0.80mm mixed pitch）、168-ball PoP BGA 12.00x12.00mm 0.50mm pitch、216-ball 2-CH PoP-BGA / PoP-FBGA 12.00x12.00x0.83mm 0.40mm pitch。
 - LPDDR4 `NT6AN` 输出 `interface_type = LVSTL`、`bank_count = 8`、`solder_type = Lead-free RoHS compliant and Halogen-free`；`A` device version 输出为 `die_revision = 1st version`，`x16` / `x32` 分别输出 `channel_count = 1` / `2`。`J1/J2` 输出 `dram_speed`、`cas_latency` 和 `speed_grade`；`J3` 仅对 `128M16` / `128T32` 已确认组合输出 `LPDDR4-3200`。
 - LPDDR4 `AV` package 按 config 输出截图确认的实际厚度：`128M16` / `128T32` / `256M16` / `256T32` 为 200-ball FBGA 10.00x15.00x0.83mm，`512M16` / `512T32` 为 10.00x15.00x1.00mm，`1024F32` 为 10.00x15.00x1.20mm，均为 0.65/0.80mm mixed pitch。
 - standard DDR 的 `T/F` stack-code 先维持结构化规则支持，但本轮不新增确定样例；只有找到公开 exact PN / datasheet 后再补 testcase 和 source tier。
 - standard DDR5 新封装示例仍走算术 config：`NT5FF2048M8EK-WEU` 输出 16Gb / x8、`EK` 78-ball BGA、`WE` DDR5-8000、`U` Industrial (-40C~105C)；`NT5FF2048M8DK-UB` 输出 `DK` 78-ball BGA 与 DDR5-7200。
-- 低功耗 PN 中 `NT6AP256F64BN-J1` 这类 PoP 组合输出 `BN` 376-ball PoP，并按 `F64` 输出 `4 dies, 2 CS`。
+- 低功耗 PN 中 `NT6AP256F64BN-J1` 这类 PoP 组合输出 `BN` 376-ball PoP，并按 `F64` 输出 `dram_die_count=4, cs_count=2`。

@@ -190,7 +190,7 @@ for (const [prefix, meaning] of Object.entries(spectekComponentPrefixMeanings)) 
 for (const [packageCode, [packageText, dieCount]] of Object.entries(spectekComponentPackageExpectations)) {
   const partNumber = `PRN1G8V91AG8${packageCode}-107`;
   assertDecodedField(partNumber, "package", packageText);
-  assertDecodedField(partNumber, "die_count", dieCount);
+  assertDecodedField(partNumber, "dram_die_count", dieCount);
 }
 
 assertDram("PRA128M8V88AG8GQF", {
@@ -376,7 +376,7 @@ assertDram("SM8G32Y52PDAFDV-UT", {
   },
   absentExtra: ["Config Code", "Package Code"]
 });
-assertDecodedField("SM8G32Y52PDAFDV-UT", "die_count", 16);
+assertDecodedField("SM8G32Y52PDAFDV-UT", "dram_die_count", 16);
 assertSpectekSearchMarkingRelation("PB001", "SM512M322C0FD4LH6");
 assertSpectekSearchMarkingRelation("PU001", "SM768M16Y2BMD1FDS");
 assertDram("SN512M32Z42MD1DNQ-053BT", {

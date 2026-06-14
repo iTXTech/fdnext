@@ -169,8 +169,8 @@
           "to": "extra",
           "value": {
             "dram_type": "DDR4",
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
+            "dram_die_count": 1,
+            "cs_count": 1
           }
         },
         {
@@ -342,7 +342,8 @@
           "to": "extra",
           "value": {
             "dram_type": "DDR5",
-            "dram_die_stack": "1 die, 1 CS",
+            "dram_die_count": 1,
+            "cs_count": 1,
             "process_node": "CXMT G4 / 16nm-class",
             "config_code": {
               "$var": "configCode"
@@ -350,7 +351,7 @@
             "package_code": {
               "$var": "packageCode"
             },
-            "die_count": 1
+            "dram_die_count": 1
           }
         },
         {
@@ -421,16 +422,16 @@
         },
         "dieStackObj": {
           "BAM": {
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "CAM": {
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 2
           },
           "CBM": {
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 2
           }
         },
         "packageActual": {
@@ -619,7 +620,7 @@
           "value": {
             "dram_type": "LPDDR5",
             "dram_die_density": 12288,
-            "die_count": 8,
+            "dram_die_count": 8,
             "process_node": "CXMT G3 / 18nm-class",
             "dram_generation": "CXMT G3",
             "package_code": "CDTQ"

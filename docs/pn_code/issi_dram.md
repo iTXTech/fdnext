@@ -57,7 +57,7 @@ IS43/IS46 + LQ + product token
 - DDR3 ordering 截图明确封装尺寸时，`package` 输出完整封装信息：4Gb `B/BL` x16 为 `96-ball BGA (9mm x 13mm)`，4Gb `DL` x16 为 `96-ball BGA (7.5mm x 13mm)`，1Gb / 4Gb x8 为 `78-ball BGA (8mm x 10.5mm)`，8Gb `B/BL` x16 / x8 分别为 `96-ball BGA (10mm x 14mm)` / `78-ball BGA (10mm x 14mm)`，8Gb `S2DL` dual-rank x16 为 `96-ball BGA (9mm x 13mm)`；DDR4 `QR16256B` / `QR85120B` 输出资料确认的 FBGA 封装。
 - 通用 decoder 规则会按图中的 word count 与 bus width 计算 `dram_density`，例如 `8 + 1280` 输出 128M x8 = 1Gb。
 - `speed`、`CAS latency`、`solder type`、`operation_temperature` 来自 `-` 后缀；speed 输出直接频率，DDR 类 token 额外标注等效 DDR 速率，例如 `933MHz (DDR-1866)`；`B2` 等 package 后缀只有在 ordering 表确认封装含义时影响 `package`，原始 package / packing code 不输出为公开字段。
-- 官方表标注 rank 的 `S1` / `S2` token 只标准化为 `cs_count=1` / `cs_count=2`；rank 不等同于 die，未确认物理 die 数时不输出 `dram_die_stack`。
+- 官方表标注 rank 的 `S1` / `S2` token 只标准化为 `cs_count=1` / `cs_count=2`；rank 不等同于 die，未确认物理 die 数时不输出 `dram_die_count`。
 - LPDDR4X 通过产品 token 的 `L` 输出 `LPDDR4X` 与 `1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ`。
 - `LQ32K01B` 同一 ordering 结构可初始化为 LPDDR4 或 LPDDR4X，规则输出 `dram_type=LPDDR4`，并用 `dram_generation=LPDDR4/LPDDR4X` 标注可选 I/O 形态。
 - `packages/core/resources/dram-pn.json` 展开收录官方表中可确认的 `IS43` / `IS46` PN 样例与 ordering part number，用于搜索补全；解码仍由 token 规则完成。

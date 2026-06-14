@@ -105,7 +105,7 @@ assertDram("EM6GF08EBAHC-10BSH", {
   extra: {
     "DRAM Type": "DDR3",
     "DRAM Speed": "DDR3-1866 (933MHz)",
-    "DRAM Die Stack": "2 dies",
+    "DRAM Die Count": 2,
     "Operation Temperature": "Automotive Grade2"
   },
   absentExtra: ["Speed Grade"]
@@ -202,7 +202,7 @@ assertDram("EM6PF32MBAJB-46SH", {
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Speed": "LPDDR4X-4266 (2133MHz)",
-    "DRAM Die Stack": "2 dies",
+    "DRAM Die Count": 2,
     "Channel Count": 2,
     "Bank Count": 8,
     "Operation Temperature": "Commercial (-25C~85C)"

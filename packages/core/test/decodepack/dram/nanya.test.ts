@@ -29,7 +29,8 @@ assertDram("NT5DS32M16CS-5T", {
   package: "TSOP-II-66",
   extra: {
     "DRAM Type": "DDR",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "CS",
     "Config Code": "32M16",
     "DRAM Speed": "DDR-400 3-3-3"
@@ -45,7 +46,8 @@ assertDram("NT5TU32M16FG-ACI", {
   package: "BGA-84",
   extra: {
     "DRAM Type": "DDR2",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "FG",
     "Config Code": "32M16",
     "DRAM Speed": "DDR2-800 5-5-5",
@@ -62,7 +64,8 @@ assertDram("NT5CB128M8GN-DI", {
   package: "VFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "GN",
     "Config Code": "128M8",
     "DRAM Speed": "DDR3-1600 11-11-11",
@@ -79,7 +82,8 @@ assertDram("NT5CC64M16GP-EKI", {
   package: "VFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "GP",
     "Config Code": "64M16",
     "DRAM Speed": "DDR3-1866 13-13-13",
@@ -96,7 +100,8 @@ assertDram("NT5CB128M16JR-DI", {
   package: "TFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "JR",
     "Config Code": "128M16",
     "DRAM Speed": "DDR3-1600 11-11-11"
@@ -112,7 +117,8 @@ assertDram("NT5CC128M16JR-DI", {
   package: "TFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "JR",
     "Config Code": "128M16",
     "DRAM Speed": "DDR3-1600 11-11-11"
@@ -128,7 +134,8 @@ assertDram("NT5CB256M8JQ-DIT", {
   package: "TFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "JQ",
     "Config Code": "256M8",
     "DRAM Speed": "DDR3-1600 11-11-11",
@@ -145,7 +152,8 @@ assertDram("NT5CC128M16JR-DIB", {
   package: "TFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "JR",
     "Config Code": "128M16",
     "DRAM Speed": "DDR3-1600 11-11-11",
@@ -163,7 +171,8 @@ assertDram("NT5CB256M8IN-DIH", {
   package: "VFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "IN",
     "Config Code": "256M8",
     "DRAM Speed": "DDR3-1600 11-11-11",
@@ -180,7 +189,8 @@ assertDram("NT5CB256M8FN-EJ", {
   package: "TFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "FN",
     "Config Code": "256M8",
     "DRAM Speed": "DDR3-1866 12-12-12",
@@ -197,7 +207,8 @@ assertDram("NT5CB512M8CN-AC", {
   package: "TFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "CN",
     "Config Code": "512M8",
     "DRAM Speed": "DDR3-800 5-5-5",
@@ -214,7 +225,8 @@ assertDram("NT5CC256M16CP-FL", {
   package: "TFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "CP",
     "Config Code": "256M16",
     "DRAM Speed": "DDR3-2133 14-14-14",
@@ -231,7 +243,8 @@ assertDram("NT5CC512M8EQ-DIB", {
   package: "TFBGA-78",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "EQ",
     "Config Code": "512M8",
     "DRAM Speed": "DDR3-1600 11-11-11",
@@ -249,7 +262,8 @@ assertDram("NT5CC256M16ER-EKT", {
   package: "TFBGA-96",
   extra: {
     "DRAM Type": "DDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "ER",
     "Config Code": "256M16",
     "DRAM Speed": "DDR3-1866 13-13-13",
@@ -266,7 +280,8 @@ assertDram("NT5AD1024M8C3-HR", {
   package: "TFBGA-78, 7.50x12.00, 0.80 pitch",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "C3",
     "Config Code": "1024M8",
     "DRAM Speed": "DDR4-2666 19-19-19",
@@ -286,7 +301,8 @@ assertDram("NT5AD1024M8C3", {
   package: "TFBGA-78, 7.50x12.00, 0.80 pitch",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "C3",
     "Config Code": "1024M8",
     "Bank Count": 16,
@@ -305,7 +321,8 @@ assertDram("NT5AD256M16E4-HRT", {
   package: "TFBGA-96, 7.50x13.00, 0.80 pitch",
   extra: {
     "DRAM Type": "DDR4",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "E4",
     "Config Code": "256M16",
     "DRAM Speed": "DDR4-2666 19-19-19",
@@ -325,7 +342,8 @@ assertDram("NT5FF1024M16A4-Q5", {
   package: "BGA-106",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "A4",
     "Config Code": "1024M16",
     "DRAM Speed": "DDR5-5600",
@@ -342,7 +360,8 @@ assertDram("NT5FF2048M8EK-WEU", {
   package: "BGA-78",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "EK",
     "Config Code": "2048M8",
     "DRAM Speed": "DDR5-8000",
@@ -359,7 +378,8 @@ assertDram("NT5FF2048M8DK-UB", {
   package: "BGA-78",
   extra: {
     "DRAM Type": "DDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "DK",
     "Config Code": "2048M8",
     "DRAM Speed": "DDR5-7200",
@@ -376,7 +396,8 @@ assertDram("NT6TL128M32BA-G0", {
   package: "BGA-134",
   extra: {
     "DRAM Type": "LPDDR2",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "BA",
     "Config Code": "128M32",
     "DRAM Speed": "LPDDR2-1066",
@@ -393,7 +414,8 @@ assertDram("NT6CL256M32AM-H0", {
   package: "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR3-2133",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 1,
@@ -415,7 +437,8 @@ assertDram("NT6CL512T32AM-H1", {
   package: "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR3-1866",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 2,
@@ -437,7 +460,8 @@ assertDram("NT6CL1024F32AP-H0", {
   package: "FBGA-178, 10.50x11.50x1.05, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR3-2133",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 2,
@@ -459,7 +483,8 @@ assertDram("NT6CL128M32DM-H1", {
   package: "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR3-1866",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 1,
@@ -481,7 +506,8 @@ assertDram("NT6CL256M16DM-H0", {
   package: "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR3-2133",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 1,
@@ -503,7 +529,8 @@ assertDram("NT6CL128M32BQ-H2", {
   package: "BGA-168, 12.00x12.00, 0.50 pitch PoP",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "DRAM Speed": "LPDDR3-1600",
     "Operation Temperature": "Commercial (-25C~85C)",
     "CS Count": 1,
@@ -525,7 +552,8 @@ assertDram("NT6CL256T32BM-H2", {
   package: "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR3-1600",
     "Operation Temperature": "Commercial (-25C~85C)",
     "CS Count": 2,
@@ -547,7 +575,8 @@ assertDram("NT6CL128T64DR-H1", {
   package: "PoP-FBGA-216, 12.00x12.00x0.83, 0.40 pitch 2-CH",
   extra: {
     "DRAM Type": "LPDDR3",
-    "DRAM Die Stack": "2 dies, 2 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
     "DRAM Speed": "LPDDR3-1866",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 2,
@@ -570,7 +599,7 @@ assertDram("NT6AN128M16AV-J3", {
   package: "FBGA-200, 10.00x15.00x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "1 die",
+    "DRAM Die Count": 1,
     "Package Code": "AV",
     "Config Code": "128M16",
     "DRAM Speed": "LPDDR4-3200",
@@ -594,7 +623,7 @@ assertDram("NT6AN128T32AV-J2", {
   package: "FBGA-200, 10.00x15.00x0.83, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "2 dies",
+    "DRAM Die Count": 2,
     "Package Code": "AV",
     "Config Code": "128T32",
     "DRAM Speed": "LPDDR4-3733",
@@ -618,7 +647,7 @@ assertDram("NT6AN512T32AV-J2", {
   package: "FBGA-200, 10.00x15.00x1.00, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "2 dies",
+    "DRAM Die Count": 2,
     "Package Code": "AV",
     "Config Code": "512T32",
     "DRAM Speed": "LPDDR4-3733",
@@ -642,7 +671,7 @@ assertDram("NT6AN1024F32AV-J2", {
   package: "FBGA-200, 10.00x15.00x1.20, 0.65/0.80 mixed pitch",
   extra: {
     "DRAM Type": "LPDDR4",
-    "DRAM Die Stack": "4 dies",
+    "DRAM Die Count": 4,
     "Package Code": "AV",
     "Config Code": "1024F32",
     "DRAM Speed": "LPDDR4-3733",
@@ -667,7 +696,8 @@ assertDram("NT6AP256F64BN-J1", {
   package: "BGA-376, PoP",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Package Code": "BN",
     "Config Code": "256F64",
     "DRAM Speed": "LPDDR4X-4267",
@@ -684,7 +714,8 @@ assertDram("NT6AP512T32AV-J1", {
   package: "BGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Package Code": "AV",
     "Config Code": "512T32",
     "DRAM Speed": "LPDDR4X-4267",
@@ -701,7 +732,8 @@ assertDram("NT6BR1024M16A3-K2", {
   package: "BGA-315",
   extra: {
     "DRAM Type": "LPDDR5",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "A3",
     "Config Code": "1024M16",
     "DRAM Speed": "LPDDR5-7500",
@@ -718,7 +750,8 @@ assertDram("NT6BR1024M16A3-K1", {
   package: "BGA-315",
   extra: {
     "DRAM Type": "LPDDR5X",
-    "DRAM Die Stack": "1 die, 1 CS",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Package Code": "A3",
     "Config Code": "1024M16",
     "DRAM Speed": "LPDDR5X-8533",

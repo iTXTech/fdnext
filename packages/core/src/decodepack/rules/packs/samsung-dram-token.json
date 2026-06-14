@@ -42,21 +42,21 @@
         },
         "packageStackObj": {
           "B": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
+            "dram_die_count": 1,
+            "cs_count": 1
           },
           "H": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
+            "dram_die_count": 1,
+            "cs_count": 1
           },
           "M": {
-            "die_count": 2
+            "dram_die_count": 2
           },
           "E": {
-            "die_count": 4
+            "dram_die_count": 4
           },
           "O": {
-            "die_count": 4
+            "dram_die_count": 4
           }
         },
         "tempObj": {
@@ -576,14 +576,15 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_stack": "1 die, 1 CS",
+            "dram_die_count": 1,
+            "cs_count": 1,
             "die_revision": {
               "$var": "dieRevision"
             },
             "config_code": {
               "$var": "configCode"
             },
-            "die_count": 1
+            "dram_die_count": 1
           }
         },
         {
@@ -737,23 +738,23 @@
         },
         "suffixPackageStackObj": {
           "2": {
-            "die_count": 2
+            "dram_die_count": 2
           },
           "3": {
-            "die_count": 2
+            "dram_die_count": 2
           },
           "4": {
-            "die_count": 4
+            "dram_die_count": 4
           },
           "5": {
-            "die_count": 4
+            "dram_die_count": 4
           },
           "B": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
+            "dram_die_count": 1,
+            "cs_count": 1
           },
           "M": {
-            "die_count": 2
+            "dram_die_count": 2
           }
         },
         "ddr4BaseObj": {
@@ -969,8 +970,8 @@
           "table": "suffixPackageStackObj",
           "to": "suffixPackageStackObj",
           "default": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
+            "dram_die_count": 1,
+            "cs_count": 1
           }
         },
         {
@@ -1120,8 +1121,8 @@
         },
         "suffixPackageStackObj": {
           "B": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
+            "dram_die_count": 1,
+            "cs_count": 1
           }
         },
         "suffixTempObj": {
@@ -1480,8 +1481,8 @@
           "table": "dieStackObj",
           "to": "dieStackObj",
           "default": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1
+            "dram_die_count": 1,
+            "cs_count": 1
           }
         },
         {
@@ -1637,17 +1638,17 @@
             "special_option": "2 CKE"
           },
           "3S": {
-            "dram_die_stack": "1 die, 1 CS",
-            "die_count": 1,
+            "dram_die_count": 1,
+            "cs_count": 1,
             "channel_count": 2
           },
           "3D": {
-            "die_count": 2,
+            "dram_die_count": 2,
             "channel_count": 2,
             "special_option": "DDP"
           },
           "3Q": {
-            "die_count": 4,
+            "dram_die_count": 4,
             "channel_count": 2,
             "special_option": "QDP"
           }
@@ -1981,48 +1982,48 @@
         "configObj": {
           "3P:E7": {
             "dram_type": "LPDDR2",
-            "dram_die_stack": "2 dies, 2 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 2
           },
           "3P:E0": {
             "dram_type": "LPDDR2",
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 2
           },
           "3Q:F1": {
             "dram_type": "LPDDR3",
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "3Q:F2": {
             "dram_type": "LPDDR3",
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 2
           },
           "3Q:F4": {
             "dram_type": "LPDDR3",
-            "dram_die_stack": "4 dies, 2 CS",
-            "die_count": 4
+            "dram_die_count": 4,
+            "cs_count": 2
           },
           "3Q:FA": {
             "dram_type": "LPDDR3",
-            "dram_die_stack": "8 dies, 2 CS",
-            "die_count": 8
+            "dram_die_count": 8,
+            "cs_count": 2
           },
           "4F:6": {
             "dram_type": "LPDDR4",
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "4U:6": {
             "dram_type": "LPDDR4X",
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "3L:KB": {
             "dram_type": "LPDDR5",
-            "dram_die_stack": "2 dies, 1 CS",
-            "die_count": 2
+            "dram_die_count": 2,
+            "cs_count": 1
           },
           "3K:L3": {
             "dram_type": "LPDDR5X"
@@ -2713,14 +2714,15 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_stack": "1 die, 1 CS",
+            "dram_die_count": 1,
+            "cs_count": 1,
             "config_code": {
               "$var": "configCode"
             },
             "package_code": {
               "$var": "packageCode"
             },
-            "die_count": 1
+            "dram_die_count": 1
           }
         },
         {
@@ -2924,14 +2926,15 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_stack": "1 die, 1 CS",
+            "dram_die_count": 1,
+            "cs_count": 1,
             "config_code": {
               "$var": "configCode"
             },
             "package_code": {
               "$var": "packageCode"
             },
-            "die_count": 1
+            "dram_die_count": 1
           }
         },
         {

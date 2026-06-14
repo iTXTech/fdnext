@@ -52,9 +52,8 @@
 | `die_density` | 单颗 NAND die 容量，`display` 用 Bytes | `1024` / `128MB` |
 | `die_codename` | NAND 用户可见制程名，公开 label 渲染为 `Process` / `制程`；`nand.die_profile` lookup key 可以比公开值更具体 | `BiCS4` / `20nm` |
 | `process_alias` | 制程代号或厂商工艺 alias，用于独立展示 `X3-9060`、`8T23` 这类匹配线索 | `X3-9060` |
-| `die_stack` | 封装内 die 堆叠数量或厂商堆叠代号 | `8-die package` |
-| `die_count` / `plane_count` | die / plane 数量 | `2` / `4` |
-| `ce_count` / `rb_count` / `channel_count` | CE / R/B / channel 数量 | `2` / `2` / `4` |
+| `die_stack` | 非纯数量的 NAND 堆叠结构或厂商结构代号；纯数量使用 `die_count` | `DSP (4-die x2)`, `2-Deck` |
+| `die_count` / `ce_count` / `rb_count` / `channel_count` / `plane_count` | NAND topology 数量字段，统一使用 `*_count` key | `2` / `2` / `2` / `4` / `4` |
 | `page_size` / `block_size` / `sector_size` | page / block / sector 几何信息，字节字段使用 `unit = byte` | `16384` / `16KiB` |
 | `half_page_and_size` | 半页 / page-size 相关封装特征 | `true` |
 | `generation_info` | NAND 产品代际、层数或制程节点 | `V8 236L` |
@@ -90,7 +89,7 @@ NAND Flash ID 通过 `decodeIdentifier` / `searchIdentifiers` 输出，`input.co
 | `id_scheme` | `nand.flash_id` | `identity` |
 | `density` | ID 推导出的容量 | `geometry` |
 | `cell_level` | SLC / MLC / TLC / QLC | `geometry` |
-| `die_count` / `plane_count` | die / plane 数 | `geometry` |
+| `die_count` / `ce_count` / `rb_count` / `channel_count` / `plane_count` | topology 数量字段 | `geometry` |
 | `page_size` / `block_size` / `pages_per_block` / `blocks_per_lun` | NAND 几何信息 | `geometry` |
 | `redundant_area_size` / `simultaneously_programmed_pages` | 冗余区大小和可同时编程页面数 | `geometry` |
 | `voltage` / `interface_type` / `ecc_level` | 电压、接口模式和 ECC 要求 | `interface` |
@@ -109,9 +108,8 @@ DRAM / MCP DRAM 子系统使用以下字段，避免和 NAND 字段混用：
 | `dram_type` | DRAM 类型来源 | `LPDDR5X`, `DDR4`, `GDDR7` |
 | `dram_density` | DRAM 子系统或 component 总容量，`unit = Mbit` | `65536` / `64Gb` |
 | `dram_die_density` | 单颗 DRAM die 容量 | `16384` / `16Gb` |
-| `dram_die_stack` | DRAM 物理 die 数与 CS 数量 | `2 dies, 2 CS` |
-| `die_count` | 只确认物理 die 数、但没有 CS 资料时的 die 数量 | `4` |
-| `cs_count` / `channel_count` | 只确认 CS/rank 或 channel、但没有物理 die 数时的拓扑数量 | `2` |
+| `dram_die_count` | DRAM 子系统物理 die 数量，避免和 NAND `die_count` 混用 | `4` |
+| `cs_count` / `channel_count` | DRAM CS/rank 或 channel 数量；可与 `dram_die_count` 同时输出 | `2` |
 | `dram_generation` | DRAM 工艺/代际 | `1y-nm LPDDR4X`, `LPDDR5X` |
 | `dram_speed` | DRAM 速率或 speed bin | `8533 Mbps`, `DDR4-2666 CL19` |
 | `dram_width` | DRAM 组织位宽，`unit = bit` | `16` / `x16` |
@@ -128,11 +126,11 @@ standalone DRAM 约定：
 - `dram_type` 和 `product_type` 不写厂商名，也不保留冗余 `SDRAM` / `SGRAM` 后缀，例如不要使用 `Micron DDR5 SDRAM`。
 - `dram_density` / `dram_width` 已在主 DRAM block 输出时，不再复制到其他字段。
 - package / config 等厂商 code 只保留在规则内部；只有外部资料确认封装类型、脚位、尺寸或特殊封装信息时才输出 `package`。公开格式为 `TYPE[-PIN][, DIM][, SPECIAL]`；缺 pin 时输出 TYPE，不得推断脚位；未知 package 省略，不输出 `Unknown`。
-- `dram_die_stack` 只在物理 die 数和 CS 数同时明确时输出；PoP/MCP 等封装信息放 `package`，reduced page address、2 CKE、JEDEC/Flexframe stack layout 这类非 die/CS 信息放 `special_option`。
+- `dram_die_count` 只表达 DRAM 物理 die 数；CS/rank 数用 `cs_count`，PoP/MCP 等封装信息放 `package`，reduced page address、2 CKE、JEDEC/Flexframe stack layout 这类非 die/CS 信息放 `special_option`。
 - `-` 后面的 speed / temperature / revision 后缀不作为主结构强制条件；缺失时仍应输出 vendor、product type、density、width、package、die stack 等已能确认的信息。
 
 MCP/eMCP/uMCP 同时有 NAND 和 DRAM 时：
 
-- NAND storage 使用 `storage_*`、`component_density`、`die_density`、`generation_info`。
-- DRAM 使用 `dram_*`。
+- NAND storage 使用 `storage_*`、`component_density`、`die_density`、`die_count`、`generation_info`。
+- DRAM 使用 `dram_*`，其中 DRAM die 数使用 `dram_die_count`，不要复用 storage `die_count`。
 - 子组件用 `component` relation 表达，不把 storage 和 DRAM 字段压平成一个产品专属 key。

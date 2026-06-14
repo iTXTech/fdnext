@@ -29,7 +29,8 @@ assertDram("H58G56CK8BX146", {
   package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5X",
-    "DRAM Die Stack": "2 dies, 1 CS",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR5X-8533",
@@ -48,7 +49,8 @@ assertDram("H58G66CK8BX147", {
   package: "FBGA-315",
   extra: {
     "DRAM Type": "LPDDR5X",
-    "DRAM Die Stack": "4 dies, 2 CS",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR5X-8533",
@@ -76,7 +78,7 @@ assertDram("H58G78CK8BX185", {
   }
 });
 
-assertDecodedFieldAbsent("H58G78CK8BX185", "die_count");
+assertDecodedFieldAbsent("H58G78CK8BX185", "dram_die_count");
 
 assertDram("H56C8H24MJR-S2C", {
   vendor: "skhynix",
