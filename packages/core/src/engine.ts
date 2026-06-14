@@ -269,7 +269,13 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       return info;
     }
 
-    const profileKey = canonicalNandDieProfileKey(dieCodename, info);
+    const profileKey = canonicalNandDieProfileKey(dieCodename, info, (candidate) => Object.hasOwn(nandDieProfileTable, candidate));
+    if (typeof info.meta?.nandDieProfileKey === "string" && info.meta.nandDieProfileKey.trim()) {
+      info.meta = {
+        ...info.meta,
+        nandDieProfileKey: profileKey
+      };
+    }
     if (profileKey !== dieCodename.trim()) {
       setDraftField(info, "die_codename", profileKey);
     }
@@ -1009,8 +1015,52 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     return compact === normalized && normalized.length >= 2 && normalized.length <= 12 && normalized.length % 2 === 0;
   };
 
+  const decodeIdentifierDraft = (input: DecodeIdentifierInput): IdentifierDecodeDraft | null => {
+    const idScheme = input.idScheme ?? input.constraints?.idScheme ?? "nand.flash_id";
+    if (idScheme !== "nand.flash_id" || !isNandFlashIdShape(input.query)) {
+      return null;
+    }
+    return projectIdentifierControllers(decodeNandFlashIdRaw(input.query), input.controllerGroup);
+  };
+
   const getCapabilities = (input: CapabilitiesInput = {}): FdnextCapabilities =>
     runOperation("capabilities", input, () => cloneObject(cachedCapabilitiesForLang(input.lang)));
+
+  const decodePartDraft = (input: DecodePartInput): PartDecodeDraft | null => {
+    const normalized = normalizePartNumber(input.query);
+    if (!normalized) {
+      return null;
+    }
+    const classification = classifyPart(input.query, input.constraints, partClassificationOptions("decode"));
+    if (classification.status === "not_found" || !classification.selected) {
+      return null;
+    }
+    if (classification.status === "ambiguous" && !shouldDefaultToFirstMarkingCandidate(classification.candidates, classification.selected)) {
+      return null;
+    }
+    const candidate = classification.selected;
+    const baseInfo = candidate.info ?? inspectPartForDecodeClassification(candidate.partNumber);
+    const baseFields = { ...(baseInfo.fields ?? {}) };
+    const hasDetailFields = Object.entries(baseFields).some(([key, value]) => key !== "marking_code" && value !== undefined);
+    const candidateInfo = candidate.markingMatch
+      ? {
+          ...baseInfo,
+          device: {
+            ...baseInfo.device,
+            vendor: draftVendor(baseInfo) === UNKNOWN ? candidate.vendor : baseInfo.device.vendor,
+            chipKind: baseInfo.device.chipKind === "unknown" ? candidate.chipKind : baseInfo.device.chipKind,
+            productType: baseInfo.device.productType ?? candidate.productType,
+            partNumber: candidate.partNumber
+          },
+          fields: hasDetailFields ? baseFields : { ...baseFields, micron_part_number: candidate.partNumber }
+        }
+      : baseInfo;
+    const info = withMarkingCode(candidateInfo, candidate.markingMatch ? candidate.markingCode : undefined);
+    if (classification.warnings.length > 0 || candidate.warnings.length > 0) {
+      info.warnings = [...(info.warnings ?? []), ...classification.warnings, ...candidate.warnings];
+    }
+    return projectPartControllers(info, input.controllerGroup);
+  };
 
   const decodePart = (input: DecodePartInput): PartDecodeResult => {
     return runOperation("part.decode", input, () => {
@@ -1208,8 +1258,10 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   return {
     getVersion,
     getCapabilities,
+    decodePartDraft,
     decodePart,
     searchParts,
+    decodeIdentifierDraft,
     decodeIdentifier,
     searchIdentifiers
   };

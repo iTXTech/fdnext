@@ -303,6 +303,9 @@
         "fields.package": {
           "$var": "package"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processKey"
+        },
         "meta.ruleId": "vendor.ymtc.emmc-label.v1",
         "fields.layer_count": {
           "$path": [

@@ -176,6 +176,9 @@
         "fields.density": {
           "$var": "density"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.sndk.inand.legacy-emmc.v1",
         "fields.die_codename": {
           "$var": "processNode"

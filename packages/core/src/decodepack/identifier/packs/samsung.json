@@ -452,7 +452,10 @@
               "12": "SSV5"
             }
           }
-        ]
+        ],
+        "meta.nandDieProfileKey": {
+          "from": "die_codename"
+        }
       }
     }
   }

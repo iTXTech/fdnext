@@ -671,6 +671,13 @@ export function assertRuleDraftDieProfile(ruleId: string, partNumber: string, ex
   assert.equal(draft?.fields?.die_codename, expected, `${partNumber} ${ruleId} draft die profile`);
 }
 
+export function assertRuleDraftDieProfileMeta(ruleId: string, partNumber: string, expected: string | undefined): void {
+  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === ruleId && candidate.check(partNumber));
+  assert.ok(decoder, `${partNumber} should match ${ruleId}`);
+  const draft = decoder.decode(partNumber);
+  assert.equal(draft?.meta?.nandDieProfileKey, expected, `${partNumber} ${ruleId} draft die profile metadata`);
+}
+
 export const kioxiaManagedRuleIds = new Set(["vendor.kioxia.managed.thg.v1"]);
 
 export function assertKioxiaManagedRuleMatches(partNumber: string, expected: string[]): void {

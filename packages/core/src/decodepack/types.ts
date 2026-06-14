@@ -131,6 +131,7 @@ export interface DecodeStepTakeLongest {
   op: "takeLongest";
   table: string;
   to: string;
+  keyTo?: string;
   default?: DecodeJson;
   scope?: string;
   scopeSeparator?: string;
@@ -141,6 +142,7 @@ export interface DecodeStepMap {
   from: string;
   table: string;
   to: string;
+  keyTo?: string;
   default?: DecodeJson;
 }
 
@@ -197,7 +199,13 @@ export type IdentifierFieldCondition = DecodeScalar | DecodeScalar[] | Identifie
 
 export type IdentifierBitRuleSet = IdentifierBitRule | IdentifierBitRule[];
 
-export type IdentifierDefinition = Record<string, Record<string, IdentifierBitRuleSet>>;
+export interface IdentifierFieldReuse {
+  from: string;
+}
+
+export type IdentifierDefinitionEntry = IdentifierBitRuleSet | IdentifierFieldReuse;
+
+export type IdentifierDefinition = Record<string, Record<string, IdentifierDefinitionEntry>>;
 
 export interface IdentifierDecodeSpec {
   id: string;

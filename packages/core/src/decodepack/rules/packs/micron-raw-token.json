@@ -404,6 +404,9 @@
             "$var": "lookupPartNumber"
           }
         ],
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.micron.hsc.mt29fb.v1"
       }
     }

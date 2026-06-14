@@ -97,6 +97,9 @@
             "speed_grade"
           ]
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processKey"
+        },
         "meta.ruleId": "vendor.ymtc.process-alias.v1",
         "meta.processKey": {
           "$var": "processKey"

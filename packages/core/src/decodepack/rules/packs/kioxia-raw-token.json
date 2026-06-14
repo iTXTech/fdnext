@@ -783,6 +783,9 @@
         "fields.die_count": {
           "$var": "dieCount"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.kioxia.raw.tc-th.v1",
         "fields.layer_count": {
           "$path": "processObj.layer_count"

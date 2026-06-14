@@ -271,6 +271,9 @@
         "fields.density": {
           "$var": "density"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.sndk.inand.ufs.v1",
         "fields.layer_count": {
           "$path": "processObj.layer_count"

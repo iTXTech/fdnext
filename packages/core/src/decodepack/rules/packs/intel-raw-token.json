@@ -623,6 +623,7 @@
           "from": "processNodeFinal",
           "table": "nand.die_profile",
           "to": "processObj",
+          "keyTo": "processProfileKey",
           "default": {}
         },
         {
@@ -737,6 +738,9 @@
         },
         "fields.channel_count": {
           "$var": "ch"
+        },
+        "meta.nandDieProfileKey": {
+          "$var": "processProfileKey"
         },
         "meta.ruleId": "vendor.intel.token.v1",
         "fields.die_codename": {

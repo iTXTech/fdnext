@@ -180,6 +180,9 @@
         "fields.cell_level": {
           "$var": "cellLevel"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.sndk.marking.12digit.v1",
         "fields.die_codename": {
           "$var": "processNode"

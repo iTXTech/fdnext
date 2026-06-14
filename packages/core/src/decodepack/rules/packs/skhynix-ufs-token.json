@@ -214,6 +214,9 @@
         "fields.die_codename": {
           "$var": "processNode"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.skhynix.ufs.hn8.automotive-ufs31.v1"
       }
     }
@@ -431,6 +434,9 @@
         "fields.die_codename": {
           "$var": "processNode"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.skhynix.ufs.hn8.mobile-ufs31.v1"
       }
     }
@@ -615,6 +621,9 @@
           "$path": "processObj.layer_count"
         },
         "fields.die_codename": {
+          "$var": "processNode"
+        },
+        "meta.nandDieProfileKey": {
           "$var": "processNode"
         },
         "meta.ruleId": "vendor.skhynix.ufs.hn8.ufs22-v7.v1"

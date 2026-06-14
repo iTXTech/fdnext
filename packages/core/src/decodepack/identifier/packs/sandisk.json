@@ -153,7 +153,10 @@
               "14": "SBiCS8"
             }
           }
-        ]
+        ],
+        "meta.nandDieProfileKey": {
+          "from": "die_codename"
+        }
       }
     }
   }

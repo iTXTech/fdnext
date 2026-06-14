@@ -230,36 +230,75 @@ function normalizeNandCellLevel(value: unknown): "SLC" | "MLC" | "TLC" | "QLC" |
   return "";
 }
 
+const kioxiaSandiskBicsProfileByCell: Record<string, Partial<Record<"SLC" | "MLC" | "QLC", string>>> = {
+  KBICS2: { MLC: "KBiCS2M" },
+  KBICS3: { MLC: "KBiCS3M" },
+  KBICS4: { SLC: "KBiCS4S", MLC: "KBiCS4M", QLC: "KBiCS4Q" },
+  "KBICS4.5": { MLC: "KBiCS4.5M", QLC: "KBiCS4.5Q" },
+  KBICS5: { MLC: "KBiCS5M", QLC: "KBiCS5Q" },
+  KBICS6: { MLC: "KBiCS6M", QLC: "KBiCS6Q" },
+  SBICS2: { MLC: "SBiCS2M" },
+  SBICS3: { MLC: "SBiCS3M" },
+  SBICS4: { MLC: "SBiCS4M", QLC: "SBiCS4Q" },
+  "SBICS4.5": { MLC: "SBiCS4.5M", QLC: "SBiCS4.5Q" },
+  SBICS5: { MLC: "SBiCS5M", QLC: "SBiCS5Q" },
+  SBICS6: { MLC: "SBiCS6M", QLC: "SBiCS6Q" }
+};
+
 export function canonicalNandDieProfileKey(
   dieCodename: string,
-  info: PartDecodeDraft | IdentifierDecodeDraft
+  info: PartDecodeDraft | IdentifierDecodeDraft,
+  hasProfileKey?: (key: string) => boolean
 ): string {
   const key = dieCodename.trim();
   const upper = key.toUpperCase();
-  if (upper === "HY16" && normalizeNandCellLevel(draftField(info, "cell_level")) === "MLC") {
-    return "HY16M";
+  const cellLevel = normalizeNandCellLevel(draftField(info, "cell_level"));
+  const knownProfile = (candidate: string): string | undefined => {
+    if (!hasProfileKey || hasProfileKey(candidate)) {
+      return candidate;
+    }
+    return undefined;
+  };
+  if (draftVendor(info) === "kioxia" || draftVendor(info) === "sndk") {
+    const bicsProfile = kioxiaSandiskBicsProfileByCell[upper]?.[cellLevel as "SLC" | "MLC" | "QLC"];
+    if (bicsProfile && knownProfile(bicsProfile)) {
+      return bicsProfile;
+    }
+  }
+  if (draftVendor(info) === "skhynix") {
+    if (cellLevel === "MLC") {
+      const hynixMlcProfile = knownProfile(upper.endsWith("M") ? upper : `${upper}M`);
+      if (hynixMlcProfile) {
+        return hynixMlcProfile;
+      }
+    }
+    if (cellLevel === "QLC") {
+      const hynixQlcProfile = knownProfile(upper.endsWith("Q") ? upper : `${upper}Q`);
+      if (hynixQlcProfile) {
+        return hynixQlcProfile;
+      }
+    }
   }
   if (draftVendor(info) === "samsung") {
-    const cellLevel = normalizeNandCellLevel(draftField(info, "cell_level"));
     if (cellLevel === "MLC") {
       if (/^SS(?:14|16|19|21|27)$/.test(upper)) {
-        return `${upper}M`;
+        return knownProfile(`${upper}M`) ?? key;
       }
       if (/^SSV[1-9](?:HS)?$/.test(upper)) {
-        return `${upper}M`;
+        return knownProfile(`${upper}M`) ?? key;
       }
     }
     if (cellLevel === "QLC") {
       if (/^SSV[1-9](?:HS)?$/.test(upper)) {
-        return `${upper}Q`;
+        return knownProfile(`${upper}Q`) ?? key;
       }
     }
     if (cellLevel === "SLC") {
       if (/^SS(?:14|16|19|21|27)$/.test(upper)) {
-        return `${upper}S`;
+        return knownProfile(`${upper}S`) ?? key;
       }
       if (/^SSV[1-9](?:HS)?$/.test(upper)) {
-        return `${upper}S`;
+        return knownProfile(`${upper}S`) ?? key;
       }
     }
   }

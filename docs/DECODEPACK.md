@@ -127,6 +127,7 @@ DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `
 - 已有 `die_codename` 时，不再重复公开 `generation_info` / `series_info`。
 - 层数和 `X3-9060`、`8T23` 这类代号分别由 `layer_count` / `process_alias` 表达。
 - `firmware_match` / `die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields。
+- 当 PN / Flash ID 规则需要给生成工具提供精确工艺关系时，应由规则显式输出 `meta.nandDieProfileKey` 或 `meta.nandDieProfileKeys`。compiler 不会根据公开 `fields.*` 自动反推该 metadata。
 
 详细 key 命名、fallback profile 和厂商差异见 [NAND Die Profile 标准化](pn_code/nand_die_profile.md)。
 
@@ -148,6 +149,29 @@ DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `
 - `{ "$var": "name" }`：从上下文读取变量
 - `{ "$tpl": "..." }`：模板字符串替换 `{{var}}` 或 `{{obj.key}}`（用于 URL、拼 key 等）
 - `{ "$path": "obj.key" }` 或 `{ "$path": ["obj", "key"] }`：读取上下文对象内的嵌套字段
+
+当 PN 规则已经把 token 归一化成 `nand.die_profile` key（常见变量名如 `processNode` / `processKey`）时，直接复用该 key 输出 metadata：
+
+```json
+{
+  "op": "map",
+  "from": "processNode",
+  "table": "nand.die_profile",
+  "to": "processObj",
+  "default": {}
+}
+```
+
+```json
+{
+  "fields.die_codename": { "$var": "processNode" },
+  "meta.nandDieProfileKey": { "$var": "processNode" }
+}
+```
+
+`takeLongest` 可设置 `keyTo`，在输入本身不是已有 profile key、需要捕获命中的表 key 时再把 key 写入上下文变量。
+
+Identifier DecodePack 的 bitfield definition 也可以直接使用 `meta.nandDieProfileKey` 或 `meta.nandDieProfileKeys` 作为输出 key；如果该值已经由同一个 definition 解出，应使用 `{"from": "die_codename"}` 复用已有输出，避免复制同一张 bitfield 表。这个 `from` 仍然是 DecodePack 显式声明，不是 compiler 自动从公开字段反推 metadata。
 
 上下文默认提供：
 

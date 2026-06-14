@@ -967,6 +967,9 @@
             "$var": "lookupPartNumber"
           }
         ],
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.micron.raw.current.v1"
       }
     }
@@ -1521,6 +1524,9 @@
             "$var": "lookupPartNumber"
           }
         ],
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.micron.raw.legacy.v1"
       }
     }

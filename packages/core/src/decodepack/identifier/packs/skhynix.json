@@ -285,7 +285,10 @@
               "11": "HYV6"
             }
           }
-        ]
+        ],
+        "meta.nandDieProfileKey": {
+          "from": "die_codename"
+        }
       }
     }
   },
@@ -594,7 +597,10 @@
               "10": "HY16"
             }
           }
-        ]
+        ],
+        "meta.nandDieProfileKey": {
+          "from": "die_codename"
+        }
       }
     }
   }

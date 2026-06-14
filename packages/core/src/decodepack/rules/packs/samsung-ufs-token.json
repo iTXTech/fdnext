@@ -580,6 +580,9 @@
         "fields.ce_count": {
           "$path": "dumpedPartObj.ce_count"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.samsung.ufs.token.v1",
         "fields.generation_info": {
           "$path": "processObj.generation_info"

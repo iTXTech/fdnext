@@ -24,6 +24,7 @@ import {
   assertPart,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
+  assertRuleDraftDieProfileMeta,
   assertSearchPnFirst,
   assertSearchPnIncludes,
   assertSkhynixEmcpRuleMatches,
@@ -70,6 +71,9 @@ assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F16P2BWCQKM", "N38E");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F01T2ALCQL1", "N4PA");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29F16P2BWCQL1", "3D5 192L");
 assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29P64G2ALDNF1", "3D-XP G1");
+assertRuleDraftDieProfileMeta("vendor.intel.token.v1", "PF29F01T2ANCMG2", "L06B");
+assertRuleDraftDieProfileMeta("vendor.intel.token.v1", "PF29F16P2BWCQL1", undefined);
+assertRuleDraftDieProfileMeta("vendor.intel.token.v1", "PF29P64G2ALDNF1", undefined);
 assertPart("PF29F01T2ANCMG2", {
   vendor: "intel",
   type: "NAND",

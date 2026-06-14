@@ -337,6 +337,9 @@
         "fields.channel_count": {
           "$var": "channel"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.sndk.raw.ecb.current.v1",
         "fields.layer_count": {
           "$path": "processObj.layer_count"
@@ -777,6 +780,9 @@
         "fields.density": {
           "$var": "density"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.sndk.raw.wcs.current.v1",
         "fields.layer_count": {
           "$path": "processObj.layer_count"
@@ -1092,6 +1098,9 @@
         },
         "fields.channel_count": {
           "$var": "channel"
+        },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
         },
         "meta.ruleId": "vendor.sndk.token.v1",
         "fields.layer_count": {

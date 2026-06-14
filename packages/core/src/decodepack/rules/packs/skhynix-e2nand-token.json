@@ -270,6 +270,9 @@
         "fields.package": {
           "$var": "package"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.skhynix.e2nand.h2d_h2j.v1",
         "fields.die_codename": {
           "$var": "processNode"

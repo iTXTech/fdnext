@@ -187,7 +187,10 @@
               "14": "KBiCS8"
             }
           }
-        ]
+        ],
+        "meta.nandDieProfileKey": {
+          "from": "die_codename"
+        }
       }
     }
   }

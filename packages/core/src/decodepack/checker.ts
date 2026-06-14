@@ -349,6 +349,9 @@ function checkTokenDecoderProgram(
     if ("to" in step) {
       defineTokenVariable(defined, step.to);
     }
+    if ((step.op === "takeLongest" || step.op === "map") && step.keyTo) {
+      defineTokenVariable(defined, step.keyTo);
+    }
     if (step.op === "takeRegex") {
       Object.keys(step.groups ?? {}).forEach((target) => defineTokenVariable(defined, target));
     }
@@ -370,11 +373,29 @@ function checkPartSetVariables(spec: PartDecodeSpec, path: string, findings: Dec
 }
 
 function checkIdentifierDefinition(spec: IdentifierDecodeSpec, path: string, findings: DecodePackCheckFinding[]): void {
+  const allowedMetaKeys = new Set(["meta.nandDieProfileKey", "meta.nandDieProfileKeys"]);
   for (const [offsetKey, fields] of Object.entries(spec.definition)) {
-    for (const fieldName of Object.keys(fields)) {
+    for (const [fieldName, ruleSet] of Object.entries(fields)) {
       const fieldKey = fieldName.startsWith("field:") ? fieldName.slice(6) : fieldName;
-      if (!Object.hasOwn(fdnextFieldRegistry, fieldKey)) {
+      if (allowedMetaKeys.has(fieldKey)) {
+        // allowed
+      } else if (!Object.hasOwn(fdnextFieldRegistry, fieldKey)) {
         addFinding(findings, "error", "unknown_field", `${path}.${offsetKey}.${fieldName}`, `Unknown canonical identifier field key "${fieldKey}".`, spec.id);
+      }
+
+      if (!isRecord(ruleSet) || Array.isArray(ruleSet) || typeof ruleSet.from !== "string") {
+        continue;
+      }
+      const fromKey = ruleSet.from.startsWith("field:") ? ruleSet.from.slice(6) : ruleSet.from;
+      if (!allowedMetaKeys.has(fromKey) && !Object.hasOwn(fdnextFieldRegistry, fromKey)) {
+        addFinding(
+          findings,
+          "error",
+          "unknown_identifier_reuse_field",
+          `${path}.${offsetKey}.${fieldName}.from`,
+          `Unknown identifier reuse source field "${fromKey}".`,
+          spec.id
+        );
       }
     }
   }

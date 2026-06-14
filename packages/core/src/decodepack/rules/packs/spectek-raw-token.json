@@ -313,6 +313,9 @@
             "$var": "lookupPartNumber"
           }
         ],
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.spectek.old-numbering.v1"
       }
     }
@@ -904,6 +907,9 @@
             "$var": "lookupPartNumber"
           }
         ],
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.spectek.parent-density-token.v1"
       }
     }
@@ -1510,6 +1516,9 @@
             "$var": "lookupPartNumber"
           }
         ],
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.spectek.token.v1"
       }
     }

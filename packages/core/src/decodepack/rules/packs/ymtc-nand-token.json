@@ -661,6 +661,9 @@
         "fields.channel_count": {
           "$var": "ch"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processKey"
+        },
         "meta.ruleId": "vendor.ymtc.nand-label.v2",
         "fields.layer_count": {
           "$path": [

@@ -706,6 +706,9 @@
             "$var": "lookupPartNumber"
           }
         ],
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.samsung.token.v1"
       }
     }

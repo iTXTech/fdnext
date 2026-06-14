@@ -6,6 +6,7 @@ import { test } from "node:test";
 import {
   auditExtra,
   buildFdnextFdbgenV1SupportList,
+  classifyFdbPartNumber,
   extraJsonSchema,
   FDNEXT_FDB_EXTRA_SCHEMA_VERSION,
   FDNEXT_FDB_SCHEMA_VERSION,
@@ -406,6 +407,151 @@ test("fdbgen prunes cross-vendor PN ids and iddb references", () => {
   }
 });
 
+test("fdbgen trims PN and Flash ID edges with conflicting DecodePack profile metadata", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-process-trim-"));
+  try {
+    writeFileSync(
+      join(inputDir, "fdb.json"),
+      JSON.stringify({
+        info: { version: "raw" },
+        samsung: {
+          K9AAGD8U0B: {
+            id: ["ECD788BF90C5", "ECD788BF90C6"],
+            t: ["RAWCTRL"]
+          }
+        },
+        iddb: {
+          ECD788BF90C5: {
+            t: ["RAWCTRL"],
+            n: ["samsung K9AAGD8U0B"]
+          },
+          ECD788BF90C6: {
+            t: ["RAWCTRL"],
+            n: ["samsung K9AAGD8U0B"]
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const samsung = fdb.samsung as Record<string, { id?: string[] }>;
+    const iddb = fdb.iddb as Record<string, { n?: string[] }>;
+    assert.deepEqual(samsung.K9AAGD8U0B?.id, ["ECD788BF90C5"]);
+    assert.deepEqual(iddb.ECD788BF90C5?.n, ["samsung K9AAGD8U0B"]);
+    assert.deepEqual(iddb.ECD788BF90C6, { t: ["RAWCTRL"] });
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
+});
+
+test("fdbgen keeps Kioxia generalized 24nm Flash ID relations for finer PN profile keys", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-process-label-"));
+  try {
+    writeFileSync(
+      join(inputDir, "fdb.json"),
+      JSON.stringify({
+        info: { version: "raw" },
+        kioxia: {
+          TH58NVG8T2HTA20: {
+            id: ["983A99927656"],
+            t: ["RAWCTRL"],
+            l: "TSB24"
+          }
+        },
+        iddb: {
+          "983A99927656": {
+            t: ["RAWCTRL"],
+            n: ["kioxia TH58NVG8T2HTA20"]
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const kioxia = fdb.kioxia as Record<string, { id?: string[] }>;
+    const iddb = fdb.iddb as Record<string, { n?: string[] }>;
+    assert.deepEqual(kioxia.TH58NVG8T2HTA20?.id, ["983A99927656"]);
+    assert.deepEqual(iddb["983A99927656"]?.n, ["kioxia TH58NVG8T2HTA20"]);
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
+});
+
+test("fdbgen keeps SK hynix QLC Flash ID relations after ID profile canonicalization", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-hynix-profile-"));
+  try {
+    writeFileSync(
+      join(inputDir, "fdb.json"),
+      JSON.stringify({
+        info: { version: "raw" },
+        skhynix: {
+          H25JGQ8B3M: {
+            id: ["AD892D5330A0"],
+            t: ["MAS1102"],
+            l: "HYV5",
+            c: "QLC"
+          }
+        },
+        iddb: {
+          AD892D5330A0: {
+            t: ["MAS1102"],
+            n: ["skhynix H25JGQ8B3M"]
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const skhynix = fdb.skhynix as Record<string, { id?: string[] }>;
+    const iddb = fdb.iddb as Record<string, { n?: string[] }>;
+    assert.deepEqual(skhynix.H25JGQ8B3M?.id, ["AD892D5330A0"]);
+    assert.deepEqual(iddb.AD892D5330A0?.n, ["skhynix H25JGQ8B3M"]);
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
+});
+
+test("fdbgen removes only mismatched PN references from shared iddb records", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-process-iddb-"));
+  try {
+    writeFileSync(
+      join(inputDir, "fdb.json"),
+      JSON.stringify({
+        info: { version: "raw" },
+        samsung: {
+          K9AAGD8U0B: {
+            id: ["ECD788BF90C5"],
+            t: ["RAWCTRL"]
+          },
+          K9GBG08U0A: {
+            id: ["ECD788BF90C5"],
+            t: ["RAWCTRL"]
+          }
+        },
+        iddb: {
+          ECD788BF90C5: {
+            t: ["RAWCTRL"],
+            n: ["samsung K9AAGD8U0B", "samsung K9GBG08U0A"]
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const samsung = fdb.samsung as Record<string, { id?: string[] }>;
+    const iddb = fdb.iddb as Record<string, { n?: string[] }>;
+    assert.deepEqual(samsung.K9AAGD8U0B?.id, ["ECD788BF90C5"]);
+    assert.equal(samsung.K9GBG08U0A?.id, undefined);
+    assert.deepEqual(iddb.ECD788BF90C5?.n, ["samsung K9AAGD8U0B"]);
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
+});
+
 test("normalizes SK hynix H25 package suffixes without dropping the X tail", () => {
   assert.equal(normalizeFdbPartNumber("H25T2TB88E-X321-N"), "H25T2TB88EX321N");
   assert.equal(normalizeFdbPartNumber("H25T1TD48C-X630"), "H25T1TD48CX630");
@@ -566,6 +712,10 @@ test("trims overlong structured YMTC, Samsung, and Intel part numbers", () => {
   assert.equal(normalizeFdbPartNumber("PF29F2T08CUCBB"), "");
   assert.equal(normalizeFdbPartNumber("MT29F01T2ALCQK1"), "");
   assert.equal(normalizeFdbPartNumber("MT29F512G08EBHAF"), "MT29F512G08EBHAF");
+  assert.equal(classifyFdbPartNumber("TC58NVG5E2FTA00").kind, "exact_pn");
+  assert.equal(classifyFdbPartNumber("TC58NVG5E2FTA0").kind, "family_label");
+  assert.equal(classifyFdbPartNumber("TH58NVG5E2FTA0").kind, "family_label");
+  assert.equal(classifyFdbPartNumber("TC58NVG").kind, "family_label");
 });
 
 test("fdbgen drops malformed and cross-vendor raw NAND PN pollution", () => {

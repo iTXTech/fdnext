@@ -1,6 +1,7 @@
 import type { ControllerMergeContext } from "./controllers";
 import {
   cleanSupportListPartNumberText,
+  isShortKioxiaRawPartNumber,
   normalizeFdbVendorName,
   normalizeSupportControllerName,
   normalizeSupportFlashId
@@ -155,7 +156,7 @@ function isSyntheticPartNumber(partNumber: string): boolean {
 }
 
 function isGenericPartNumber(partNumber: string): boolean {
-  if (/^K9-/.test(partNumber) || partNumber === "TC58NVG") {
+  if (/^K9-/.test(partNumber) || isShortKioxiaRawPartNumber(partNumber)) {
     return true;
   }
   if (/^MT29F(?:[0-9]+G?(?:08|16)?|[0-9]*)?$/.test(partNumber)) {

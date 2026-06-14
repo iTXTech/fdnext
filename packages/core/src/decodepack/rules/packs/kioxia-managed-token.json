@@ -665,6 +665,9 @@
         "fields.package": {
           "$var": "package"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.kioxia.managed.thg.v1",
         "fields.layer_count": {
           "$path": "processObj.layer_count"

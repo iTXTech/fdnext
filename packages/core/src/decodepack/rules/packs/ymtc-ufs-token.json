@@ -292,6 +292,9 @@
         "fields.package": {
           "$var": "package"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processKey"
+        },
         "meta.ruleId": "vendor.ymtc.ufs-label.v1",
         "fields.layer_count": {
           "$path": [

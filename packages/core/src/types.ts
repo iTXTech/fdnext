@@ -57,6 +57,8 @@ export interface DecodeDraftMeta {
   fieldProfile?: FdnextChipKind | "nand.flash_id";
   capabilities?: FdnextCapabilityName[] | string[];
   hiddenFields?: FdnextFieldKey[];
+  nandDieProfileKey?: string;
+  nandDieProfileKeys?: string[];
   lookupPartNumbers?: string[];
   references?: unknown;
 }
@@ -246,8 +248,10 @@ export interface EngineOptions {
 export interface FdnextEngine {
   getVersion(): string;
   getCapabilities(input?: CapabilitiesInput): FdnextCapabilities;
+  decodePartDraft(input: DecodePartInput): PartDecodeDraft | null;
   decodePart(input: DecodePartInput): PartDecodeResult;
   searchParts(input: SearchPartsInput): PartSearchResult;
+  decodeIdentifierDraft(input: DecodeIdentifierInput): IdentifierDecodeDraft | null;
   decodeIdentifier(input: DecodeIdentifierInput): IdentifierDecodeResult;
   searchIdentifiers(input: SearchIdentifiersInput): IdentifierSearchResult;
 }

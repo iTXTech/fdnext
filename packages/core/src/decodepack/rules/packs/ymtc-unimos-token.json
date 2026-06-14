@@ -318,6 +318,9 @@
         "fields.channel_count": {
           "$var": "ch"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processKey"
+        },
         "meta.ruleId": "vendor.ymtc.unimos-label.v1",
         "fields.layer_count": {
           "$path": [

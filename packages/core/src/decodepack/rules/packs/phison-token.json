@@ -338,6 +338,9 @@
         "fields.ce_count": {
           "$var": "ce"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.phison.token.v1",
         "fields.die_codename": {
           "$var": "processNode"

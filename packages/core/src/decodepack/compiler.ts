@@ -12,6 +12,7 @@ import type {
   IdentifierBitRule,
   IdentifierFieldCondition,
   IdentifierDecodeSpec,
+  IdentifierFieldReuse,
   NormalizeStep,
   PartDecodeExplainResult,
   PartDecodeSpec
@@ -573,6 +574,9 @@ function runTokenDecoder(
         : matchFromStart(rest, table);
       if (result.matched) {
         context[step.to] = cloneJson(result.value);
+        if (step.keyTo) {
+          context[step.keyTo] = result.key;
+        }
         context.rest = result.rest;
       } else {
         context[step.to] = cloneJson(step.default);
@@ -594,15 +598,19 @@ function runTokenDecoder(
     const rest = String(context.rest ?? "");
     const table = tables[step.table] ?? {};
     const source = String(context[step.from] ?? "");
-    if (Object.hasOwn(table, source)) {
+    const matched = Object.hasOwn(table, source);
+    if (matched) {
       context[step.to] = cloneJson(table[source]);
+      if (step.keyTo) {
+        context[step.keyTo] = source;
+      }
     } else {
       context[step.to] = cloneJson(step.default);
     }
     traceStep(trace, {
       op: step.op,
       path,
-      matched: Object.hasOwn(table, source),
+      matched,
       table: step.table,
       key: source,
       target: step.to,
@@ -807,15 +815,43 @@ function identifierRuleMatches(id: string, rule: IdentifierBitRule, fields: Reco
   );
 }
 
-function canonicalIdentifierField(name: string): { key: string; scale?: number } {
+type IdentifierDecodeTarget = "fields" | "meta";
+
+function canonicalIdentifierField(name: string): { target: IdentifierDecodeTarget; key: string; outputKey: string; scale?: number } {
   const raw = name.startsWith("field:") ? name.slice(6) : name;
+  if (raw === "meta.nandDieProfileKey" || raw === "meta.nandDieProfileKeys") {
+    return { target: "meta", key: raw.slice("meta.".length), outputKey: raw };
+  }
   switch (raw) {
     case "page_size":
-      return { key: "page_size", scale: 1024 };
+      return { target: "fields", key: "page_size", outputKey: "page_size", scale: 1024 };
     case "block_size":
-      return { key: "block_size", scale: 1024 };
+      return { target: "fields", key: "block_size", outputKey: "block_size", scale: 1024 };
     default:
-      return { key: raw };
+      return { target: "fields", key: raw, outputKey: raw };
+  }
+}
+
+function isIdentifierFieldReuse(value: unknown): value is IdentifierFieldReuse {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value) && typeof (value as IdentifierFieldReuse).from === "string";
+}
+
+function readIdentifierOutput(out: Record<string, unknown>, name: string): unknown {
+  const field = canonicalIdentifierField(name);
+  const source = field.target === "meta"
+    ? out.meta as Record<string, unknown> | undefined
+    : out.fields as Record<string, unknown> | undefined;
+  return source?.[field.key];
+}
+
+function writeIdentifierOutput(out: Record<string, unknown>, name: string, value: unknown): void {
+  const field = canonicalIdentifierField(name);
+  if (field.target === "meta") {
+    const meta = out.meta as Record<string, unknown>;
+    meta[field.key] = value;
+  } else {
+    const fields = out.fields as Record<string, unknown>;
+    fields[field.key] = value;
   }
 }
 
@@ -843,6 +879,13 @@ function decodeIdentifierByDefinition(
   for (const [offsetKey, rules] of Object.entries(rule.definition)) {
     const byte = byteAt(id, Number(offsetKey));
     for (const [name, ruleSet] of Object.entries(rules)) {
+      if (isIdentifierFieldReuse(ruleSet)) {
+        const value = readIdentifierOutput(out, ruleSet.from);
+        if (value !== undefined) {
+          writeIdentifierOutput(out, name, value);
+        }
+        continue;
+      }
       const entries = Array.isArray(ruleSet) ? ruleSet : [ruleSet];
       for (const rule of entries) {
         if (!identifierRuleMatches(id, rule, fields)) {
@@ -858,12 +901,12 @@ function decodeIdentifierByDefinition(
         }
         const field = canonicalIdentifierField(name);
         const value = typeof resolved === "number" && field.scale ? resolved * field.scale : resolved;
-        fields[field.key] = value;
+        writeIdentifierOutput(out, name, value);
         bitfields?.push({
           offset: Number(offsetKey),
           byte,
           field: name,
-          outputKey: field.key,
+          outputKey: field.outputKey,
           bits: rule.dq,
           data,
           value

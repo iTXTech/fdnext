@@ -464,6 +464,9 @@
         "fields.device_width": {
           "$path": "dieStackObj.device_width"
         },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
         "meta.ruleId": "vendor.skhynix.h25.gt-package.v2"
       }
     }
@@ -743,6 +746,9 @@
         },
         "fields.device_width": {
           "$var": "deviceWidth"
+        },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
         },
         "meta.ruleId": "vendor.skhynix.h25.raw.v2"
       }

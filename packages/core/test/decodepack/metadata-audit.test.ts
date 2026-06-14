@@ -414,6 +414,48 @@ function assertSkhynixH25RulesAreConsolidated(): void {
   }
 }
 
+function outputValue(source: Record<string, unknown> | undefined, dottedKey: string): unknown {
+  if (!source) {
+    return undefined;
+  }
+  if (Object.hasOwn(source, dottedKey)) {
+    return source[dottedKey];
+  }
+  const [root, key] = dottedKey.split(".", 2);
+  const nested = root ? source[root] : undefined;
+  return nested && typeof nested === "object" && !Array.isArray(nested) && key ? (nested as Record<string, unknown>)[key] : undefined;
+}
+
+function assertNandProcessOutputsExposeProfileMeta(): void {
+  const missing: string[] = [];
+  for (const spec of defaultPartDecodeSpecs) {
+    const assign = spec.tokenDecoder?.assign;
+    if (!assign) {
+      continue;
+    }
+    const hasProcessOutput = outputValue(assign, "fields.die_codename") !== undefined || outputValue(assign, "fields.process_node") !== undefined;
+    const isNandProfile = outputValue(assign, "device.chipKind") !== "3d_xpoint";
+    const hasProfileMeta =
+      outputValue(assign, "meta.nandDieProfileKey") !== undefined ||
+      outputValue(assign, "meta.nandDieProfileKeys") !== undefined;
+    if (hasProcessOutput && isNandProfile && !hasProfileMeta) {
+      missing.push(spec.id);
+    }
+  }
+
+  for (const spec of defaultIdentifierDecodeSpecs) {
+    for (const [offset, fields] of Object.entries(spec.definition)) {
+      const hasProcessOutput = Object.hasOwn(fields, "die_codename");
+      const hasProfileMeta = Object.hasOwn(fields, "meta.nandDieProfileKey") || Object.hasOwn(fields, "meta.nandDieProfileKeys");
+      if (hasProcessOutput && !hasProfileMeta) {
+        missing.push(`${spec.id}@${offset}`);
+      }
+    }
+  }
+
+  assert.deepEqual(missing, [], "NAND DecodePack process outputs must also expose nand die profile metadata");
+}
+
 function assertLangKeysUseSnakeCase(): void {
   const allowed = new Set(["eMMC"]);
   for (const file of ["packages/core/resources/lang/eng.json", "packages/core/resources/lang/chs.json"]) {
@@ -978,6 +1020,7 @@ assertLangPacksAreConsistent();
 assertMicronSolidigmDieProfileNaming();
 assertIntel2dAliasDensityDigitsMatch();
 assertSkhynixH25RulesAreConsolidated();
+assertNandProcessOutputsExposeProfileMeta();
 assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertDecodePackCompositeComponents();

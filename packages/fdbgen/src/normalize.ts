@@ -10,6 +10,7 @@ export interface FdbPartNumberClassification {
 export const FDB_FLASH_ID_BYTES = 6;
 export const FDB_FLASH_ID_HEX_LENGTH = FDB_FLASH_ID_BYTES * 2;
 
+const KIOXIA_RAW_MIN_PART_NUMBER_LENGTH = "TC58NVG5E2FTA00".length;
 const SUPPORT_LIST_MAX_FLASH_ID_HEX_LENGTH = 16;
 const CONTROLLER_NAME = /^(?=.*[A-Z])(?=.*\d)[A-Z0-9][A-Z0-9()-]*$/;
 const PART_METADATA_SUFFIX =
@@ -206,6 +207,10 @@ function trimKnownStructuredPartNumber(partNumber: string): string {
   );
 }
 
+export function isShortKioxiaRawPartNumber(partNumber: string): boolean {
+  return /^(?:TC|TH)58[A-Z0-9]*$/.test(partNumber) && partNumber.length < KIOXIA_RAW_MIN_PART_NUMBER_LENGTH;
+}
+
 export function normalizeFdbPartNumber(partNumber: string): string {
   let normalized = partNumber
     .trim()
@@ -366,8 +371,7 @@ export function classifyFdbPartNumber(partNumber: string): FdbPartNumberClassifi
       normalized
     ) ||
     /^K9-/.test(normalized) ||
-    normalized === "TC58NVG" ||
-    /^TC58(?:BVG|NVG|TEG|TVG)[0-9][A-Z][0-9]$/.test(normalized) ||
+    isShortKioxiaRawPartNumber(normalized) ||
     /^MT29F(?:[0-9]+G?(?:08|16)?|[0-9]*)?$/.test(normalized) ||
     /^(?:I|JS|PF|PC|PD)29F[0-9]+[GB]?$/.test(normalized) ||
     (/^SD[A-Z0-9]+$/.test(normalized) && !/[0-9](?:G|GB|T|TB)/.test(normalized))
