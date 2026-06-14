@@ -630,6 +630,66 @@ function assertDecodePackLpddrGenerationLabelsUseJedecShape(): void {
   assert.deepEqual(findings, [], "LPDDR generation labels should use LPDDR3/LPDDR4/LPDDR5 without an internal dash");
 }
 
+const expandedGenerationLabelPattern =
+  /\b(?:[1-9](?:st|nd|rd|th)|First|Second|Third|Fourth|Fifth|Sixth|Seventh|Eighth|Ninth|Tenth)\s+generation\b/i;
+
+function collectExpandedGenerationLabels(value: unknown, path: string[], findings: string[]): void {
+  if (typeof value === "string") {
+    if (expandedGenerationLabelPattern.test(value)) {
+      findings.push(`${path.join(".")}=${value}`);
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectExpandedGenerationLabels(item, [...path, `[${index}]`], findings));
+    return;
+  }
+  if (!value || typeof value !== "object") {
+    return;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    collectExpandedGenerationLabels(item, [...path, key], findings);
+  }
+}
+
+function assertDecodePackGenerationLabelsUseShortGenShape(): void {
+  const findings: string[] = [];
+  collectExpandedGenerationLabels(defaultPartDecodeSpecs, ["defaultPartDecodeSpecs"], findings);
+  collectExpandedGenerationLabels(defaultIdentifierDecodeSpecs, ["defaultIdentifierDecodeSpecs"], findings);
+  assert.deepEqual(findings, [], "DecodePack generation labels should use short ordinal labels such as 1st Gen and 2nd Gen");
+}
+
+const engineeringSamplePattern = /\b(?:Early\s+)?Engineering Samples?\b/i;
+
+function collectNonProductionStatusEngineeringSamples(value: unknown, path: string[], findings: string[]): void {
+  if (typeof value === "string") {
+    if (engineeringSamplePattern.test(value)) {
+      const leaf = path[path.length - 1] ?? "";
+      if (leaf !== "prod_status" && leaf !== "fields.prod_status") {
+        findings.push(`${path.join(".")}=${value}`);
+      }
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectNonProductionStatusEngineeringSamples(item, [...path, `[${index}]`], findings));
+    return;
+  }
+  if (!value || typeof value !== "object") {
+    return;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    collectNonProductionStatusEngineeringSamples(item, [...path, key], findings);
+  }
+}
+
+function assertEngineeringSampleOnlyUsesProductionStatus(): void {
+  const findings: string[] = [];
+  collectNonProductionStatusEngineeringSamples(defaultPartDecodeSpecs, ["defaultPartDecodeSpecs"], findings);
+  collectNonProductionStatusEngineeringSamples(defaultIdentifierDecodeSpecs, ["defaultIdentifierDecodeSpecs"], findings);
+  assert.deepEqual(findings, [], "Engineering Sample labels should only be exposed once through prod_status");
+}
+
 function collectIdentityObjectTables(value: unknown, path: string, findings: string[]): void {
   if (Array.isArray(value)) {
     value.forEach((item, index) => collectIdentityObjectTables(item, `${path}[${index}]`, findings));
@@ -1026,6 +1086,8 @@ assertReadmeIsOnlyIndex();
 assertDecodePackCompositeComponents();
 assertDecodePackPackageValuesUseCanonicalShape();
 assertDecodePackLpddrGenerationLabelsUseJedecShape();
+assertDecodePackGenerationLabelsUseShortGenShape();
+assertEngineeringSampleOnlyUsesProductionStatus();
 assertDecodePackIdentityTablesUseArraySyntax();
 assertDefaultDecodePackMaintainsItself();
 assertDecodePackCheckRejectsUndefinedTokenVariables();

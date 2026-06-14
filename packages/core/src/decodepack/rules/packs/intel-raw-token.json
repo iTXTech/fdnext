@@ -366,7 +366,7 @@
             "sku": "intel_sku_s"
           },
           "E": {
-            "sku": "Engineering Samples"
+            "prod_status": "Engineering Samples"
           },
           "Q": {
             "sku": "Qualification Samples"

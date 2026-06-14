@@ -1678,16 +1678,16 @@
         },
         "generationObj": {
           "M": {
-            "dram_generation": "1st Generation"
+            "dram_generation": "1st Gen"
           },
           "A": {
-            "dram_generation": "2nd Generation"
+            "dram_generation": "2nd Gen"
           },
           "B": {
-            "dram_generation": "3rd Generation"
+            "dram_generation": "3rd Gen"
           },
           "D": {
-            "dram_generation": "5th Generation"
+            "dram_generation": "5th Gen"
           }
         },
         "packageActual": {

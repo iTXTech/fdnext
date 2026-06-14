@@ -34,7 +34,7 @@ assertDram("H58G56CK8BX146", {
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR5X-8533",
-    "DRAM Generation": "4th generation",
+    "DRAM Generation": "4th Gen",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -54,7 +54,7 @@ assertDram("H58G66CK8BX147", {
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR5X-8533",
-    "DRAM Generation": "4th generation",
+    "DRAM Generation": "4th Gen",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -72,7 +72,7 @@ assertDram("H58G78CK8BX185", {
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR5X-8533",
-    "DRAM Generation": "4th generation",
+    "DRAM Generation": "4th Gen",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }

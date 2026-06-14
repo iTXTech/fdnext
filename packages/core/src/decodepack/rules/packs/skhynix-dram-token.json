@@ -421,27 +421,27 @@
         },
         "generationObj": {
           "M": {
-            "dram_generation": "1st generation",
+            "dram_generation": "1st Gen",
             "die_revision": "M-die"
           },
           "A": {
-            "dram_generation": "2nd generation",
+            "dram_generation": "2nd Gen",
             "die_revision": "A-die"
           },
           "B": {
-            "dram_generation": "3rd generation",
+            "dram_generation": "3rd Gen",
             "die_revision": "B-die"
           },
           "C": {
-            "dram_generation": "4th generation",
+            "dram_generation": "4th Gen",
             "die_revision": "C-die"
           },
           "D": {
-            "dram_generation": "5th generation",
+            "dram_generation": "5th Gen",
             "die_revision": "D-die"
           },
           "E": {
-            "dram_generation": "6th generation",
+            "dram_generation": "6th Gen",
             "die_revision": "E-die"
           },
           "J": {
@@ -1012,7 +1012,7 @@
             "dram_type": "LPDDR3",
             "dram_die_count": 4,
             "cs_count": 2,
-            "dram_generation": "3rd generation",
+            "dram_generation": "3rd Gen",
             "channel_count": 1,
             "interface_type": "HSUL_12",
             "solder_type": "Lead and Halogen Free"
@@ -1136,7 +1136,7 @@
         },
         "generationObj": {
           "L": {
-            "dram_generation": "1st generation"
+            "dram_generation": "1st Gen"
           }
         },
         "packageObj": {
@@ -1425,7 +1425,7 @@
         },
         "generationObj": {
           "U": {
-            "dram_generation": "1st generation"
+            "dram_generation": "1st Gen"
           }
         },
         "packageObj": {
@@ -2171,7 +2171,7 @@
         },
         "generationObj": {
           "C": {
-            "dram_generation": "4th generation"
+            "dram_generation": "4th Gen"
           }
         },
         "speedObj": {

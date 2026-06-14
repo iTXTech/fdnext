@@ -573,10 +573,10 @@
         },
         "maturityObj": {
           "D": {
-            "prod_status": "1st Generation"
+            "prod_status": "1st Gen"
           },
           "E": {
-            "prod_status": "2nd Generation"
+            "prod_status": "2nd Gen"
           },
           "R": {
             "prod_status": "Retail"

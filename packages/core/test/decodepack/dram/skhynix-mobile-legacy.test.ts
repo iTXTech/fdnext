@@ -34,7 +34,7 @@ assertDram("H9CCNNNBLTBLAR-NTD", {
     "Channel Count": 1,
     "CS Count": 2,
     "DRAM Speed": "LPDDR3-1600",
-    "DRAM Generation": "3rd generation",
+    "DRAM Generation": "3rd Gen",
     "Operation Temperature": "Commercial (0 to 85C)",
     "Interface Type": "HSUL_12",
     "Solder Type": "Lead and Halogen Free"
@@ -60,7 +60,7 @@ assertDram("H9CCNNNBLTBLAR-NUD", {
     "Channel Count": 1,
     "CS Count": 2,
     "DRAM Speed": "LPDDR3-1866",
-    "DRAM Generation": "3rd generation",
+    "DRAM Generation": "3rd Gen",
     "Operation Temperature": "Commercial (0 to 85C)",
     "Interface Type": "HSUL_12",
     "Solder Type": "Lead and Halogen Free"
@@ -83,7 +83,7 @@ assertDram("H9HCNNN8KUMLHR-NME", {
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR4-3733",
-    "DRAM Generation": "1st generation",
+    "DRAM Generation": "1st Gen",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -103,7 +103,7 @@ assertDram("H9HCNNN8KUMLHR-NLE", {
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR4-3200",
-    "DRAM Generation": "1st generation",
+    "DRAM Generation": "1st Gen",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -123,7 +123,7 @@ assertDram("H9HCNNNCPUMLXR-NEE", {
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR4-4266",
-    "DRAM Generation": "1st generation",
+    "DRAM Generation": "1st Gen",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -143,7 +143,7 @@ assertDram("H9HCNNNCPMMLXR-NEE", {
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR4X-4266",
-    "DRAM Generation": "1st generation",
+    "DRAM Generation": "1st Gen",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -163,7 +163,7 @@ assertDram("H9HCNNNCPMMLHR-NMI", {
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR4X-3733",
-    "DRAM Generation": "1st generation",
+    "DRAM Generation": "1st Gen",
     "Operation Temperature": "-40°C ~ 95°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -183,7 +183,7 @@ assertDram("H9HCNNNBKMMLXR-NEI", {
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR4X-4266",
-    "DRAM Generation": "1st generation",
+    "DRAM Generation": "1st Gen",
     "Operation Temperature": "-40°C ~ 95°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -203,7 +203,7 @@ assertDram("H9HCNNNBKMALHR-NEE", {
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR4X-4266",
-    "DRAM Generation": "1st generation",
+    "DRAM Generation": "1st Gen",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -223,7 +223,7 @@ assertDram("H9HCNNNFAMMLXR-NEE", {
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR4X-4266",
-    "DRAM Generation": "1st generation",
+    "DRAM Generation": "1st Gen",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -244,7 +244,7 @@ assertDram("H9HKNNNBTUMUBR-NLH", {
     "Channel Count": 4,
     "CS Count": 1,
     "DRAM Speed": "LPDDR4-3200",
-    "DRAM Generation": "1st generation",
+    "DRAM Generation": "1st Gen",
     "Operation Temperature": "-25°C ~ 105°C",
     "Solder Type": "Lead and Halogen Free"
   }
