@@ -21,7 +21,7 @@
   - 441b x64 Automotive LPDDR5 ordering chart confirms `MT62F512M64D4EK-031 AIT:B` / `AAT:B` / `AUT:B` / `FAAT:B` and `MT62F1G64D8EK-031 AIT:B` / `AAT:B` / `AUT:B` / `FAAT:B`: `512M64` = 32Gb x64, `1G64` = 64Gb x64, `D4` / `D8` = 4 / 8 die, `EK` = TFBGA-441, `-031` = 313ps tWCK / 6400 Mb/s, optional `F` = functional safety features, optional `A` = automotive grade, and `:B` = second generation.
   - LPDDR3 `MT52L512M32D2PF-107-WT-B`: <https://www.micron.com/products/memory/dram-components/lpddr-components/part-catalog/part-detail/mt52l512m32d2pf-107-wt-b>
   - GDDR6X `MT61K512M32KPA-24-U`: <https://www.micron.com/products/memory/graphics-memory/gddr6x/part-catalog/part-detail/mt61k512m32kpa-24-u>
-  - GDDR7 `MT68A512M32DF-32:A`: Micron GDDR7 product brief 明确 `68 = GDDR7 SGRAM`、`A = 1.2V`、`512M32`、`DF = FBGA-266 (12x14x1.1)`、`-28/-32 = 28/32Gbps`。
+  - GDDR7 `MT68A512M32DF-32:A`: Micron GDDR7 product brief 明确 `68 = GDDR7 SGRAM`、`A = 1.2V`、`512M32`、`DF = FBGA-266, 12x14x1.1`、`-28/-32 = 28/32Gbps`。
     <https://www.micron.com/content/dam/micron/global/public/products/product-flyer/gddr7-product-brief.pdf>
 - 公开分销页面和 datasheet 镜像用于交叉确认实际封装输出，例如 DigiKey `MT40A1G8SA-075:E` / `MT41K512M8DA-107:P` / `MT61K256M32JE-14:A` / `MT61K512M32KPA-24:U`、Microchip USA `MT53E1G32D2FW-046 WT:B`、Allelco `MT62F1G32D4DS-031 WT:B`，以及公开的 Micron GDDR5X datasheet 镜像。
   - <https://www.digikey.kr/ko/products/detail/micron-technology-inc/MT40A1G8SA-075-E/7597774>
@@ -45,7 +45,7 @@
 - 公开镜像 `DRAM Component Part Numbering System` 可核对字段顺序、family/voltage/device version/temperature/status/revision/speed 等 token 含义；镜像版本较旧，只用于字段结构交叉验证。
   <https://docslib.org/doc/10329358/dram-component-part-numbering-system>
 - 用户提供的 `常见几种DDR3_DDR3L的命名规则.pdf` 中 Micron `DRAM Component Part Numbering System` 页面确认 DDR3 speed token `187E/15E/125/125E/107/093` 对应 1066/1333/1600/1600/1866/2133 与 CL7/9/11/10/13/14；规则使用 family-scoped `41:*` speed，避免 `093` 落到 LPDDR4 通用含义。
-- 用户补充的 Micron DDR3 / DDR3L ordering 截图确认 package code 为 1-3 字符，并确认 `DA/JT/RH/HA/RA/RE/HX/THA/SMA/TNA/SLD` 的实际 FBGA 封装尺寸；输出统一使用 `xBGA-xx (dimension)` 风格，例如 `HA = FBGA-96 (9x14)`、`RH = FBGA-78 (9x10.5)`、`HX = FBGA-78 (9x11.5)`、`THA = FBGA-78 (10x11.5x1.45)`、`SMA = FBGA-78 (9.5x11.5x1.45)`、`TNA = FBGA-96 (10x14x1.2)`、`SLD = FBGA-136 (10x14x1.2)`；同组截图确认 `A` 为 Automotive product certification，`M` 为 TCSR power saving，`IT` 为 `-40°C ~ 95°C`，`AT` 为 `-40°C ~ 105°C`。Die/CS 按 package-only 判断：`THA/SMA = 4 dies, 4 CS`，`TNA = 2 dies, 2 CS`，`SLD = 2 dies, 1 CS`。
+- 用户补充的 Micron DDR3 / DDR3L ordering 截图确认 package code 为 1-3 字符，并确认 `DA/JT/RH/HA/RA/RE/HX/THA/SMA/TNA/SLD` 的实际 FBGA 封装尺寸；输出统一使用 `TYPE-PIN, DIM`，例如 `HA = FBGA-96, 9x14`、`RH = FBGA-78, 9x10.5`、`HX = FBGA-78, 9x11.5`、`THA = FBGA-78, 10x11.5x1.45`、`SMA = FBGA-78, 9.5x11.5x1.45`、`TNA = FBGA-96, 10x14x1.2`、`SLD = FBGA-136, 10x14x1.2`；package 不输出 Rev / ball / mm 等资料注记。同组截图确认 `A` 为 Automotive product certification，`M` 为 TCSR power saving，`IT` 为 `-40°C ~ 95°C`，`AT` 为 `-40°C ~ 105°C`。Die/CS 按 package-only 判断：`THA/SMA = 4 dies, 4 CS`，`TNA = 2 dies, 2 CS`，`SLD = 2 dies, 1 CS`。
 - 用户补充的 Micron DDR4 ordering 截图确认 `MT40A` 普通 / automotive DDR4 的 package code 可跨 family 复用，公共 FBGA package 先按 package code 查表，少数冲突再用 `family:package` override；新增确认 `HX/RH/WE/SA/HA/GE/LY/TB/VA/JC/RC/KD/PM/JY/TD/AG/AD`，以及 DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E` timing token，其中 `093` 为 `DDR4-2133 CL16`，`107E` 为 `DDR4-1866 CL13`。Automotive DDR4 中 `A` 为 automotive grade，`IT/AT/UT` 分别为 `-40°C ~ 95°C`、`-40°C ~ 105°C`、`-40°C ~ 125°C`。
 - 用户补充的 Micron DDR4 TwinDie 截图确认 `TRF/FSE/NRE/NEA` 为 low-profile `x1.2` FBGA，且 TwinDie 必须显式输出 `2 dies, 2 CS`，而不是只输出 package 或只靠名称暗示。
 - 公开评测记录了 Crucial/Ballistix 颗粒 `C9BJZ` / `CT40A1G8SA-62M:E` 的实物和 Micron FBGA decoder 结果；该资料只用于确认 `CT40` namespace 形态，不作为完整 PN 白名单。
@@ -118,7 +118,7 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
 - `fields.density` 使用项目统一 Mbit 单位，由 `component configuration` 的 depth x width 推导，例如 `1G8` 输出 `8192`。
 - `fields.device_width` 输出组织位宽，例如 `1G32` 输出 `x32`。
 - `fields.voltage` 输出 Micron voltage token 对应说明。
-- `fields.package` 输出实际封装，例如 `FBGA-78 (7.5x11)`；Micron FBGA package code 优先按 package-only 公共表复用，少数跨产品线冲突保留 `family + package code` override。
+- `fields.package` 输出实际封装，例如 `FBGA-78, 7.5x11`；Micron FBGA package code 优先按 package-only 公共表复用，少数跨产品线冲突保留 `family + package code` override。
 - standalone DRAM 的 `fields` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
 - `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_count`、`cs_count`、`bank_count`、`interface_type`、`dram_speed`、`operation_temperature`、`die_revision`、`solder_type`、`packing_type`、`special_option`。
 - `device version` 先按 family scope 匹配，避免 `DA/DE/LF` 等 token 与 package code 冲突；`D1/D2/D3/D4/D6/D8/DA/DB/DC/DD/DE/LF/L2/L4` 只标准化为 `dram_die_count`，例如 `D4` 输出 `dram_die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`，`DD/DE` 保留官方 LPDDR4 mixed die stack 描述；没有 CS 资料时不输出 `cs_count`。
@@ -173,121 +173,128 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 
 | Key / Package | 实际封装 |
 | --- | --- |
-| `AD` | `FBGA-96 (7.5x13.5)` |
-| `AG` | `FBGA-78 (7.5x11)` |
-| `GE` | `FBGA-96 (9x14)` |
-| `HA` | `FBGA-96 (9x14)` |
-| `HX` | `FBGA-78 (9x11.5)` |
-| `JC` | `FBGA-78 (9x11)` |
-| `JY` | `FBGA-96 (8x14)` |
-| `KD` | `FBGA-96 (9x13)` |
-| `LY` | `FBGA-96 (7.5x13.5)` |
-| `PM` | `FBGA-78 (9x13.2)` |
-| `RC` | `FBGA-96 (10x13)` |
-| `RH` | `FBGA-78 (9x10.5)` |
-| `TB` | `FBGA-96 (7.5x13)` |
-| `TD` | `FBGA-96 (7.5x13)` |
-| `VA` | `FBGA-78 (10x11)` |
-| `WE` | `FBGA-78 (8x12)` |
-| `40:BAF` | `FBGA-78 (10.5x11)` |
-| `40:FSE` | `FBGA-78 (9.5x13x1.2)` |
-| `40:HBA` | `FBGA-96 (9.5x14)` |
-| `40:KNR` | `FBGA-96 (7.5x13.5)` |
-| `40:NEA` | `FBGA-78 (7.5x11x1.2)` |
-| `40:NRE` | `FBGA-78 (8x12x1.2)` |
-| `40:SA` | `FBGA-78 (7.5x11)` |
-| `40:TBB` | `FBGA-96 (7.5x13)` |
-| `40:TRF` | `FBGA-78 (9.5x11.5x1.2)` |
-| `40:WBU` | `FBGA-96 (8x14)` |
-| `41:DA` | `FBGA-78 (8x10.5)` |
-| `41:DGA` | `FBGA-96 (9.5x14)` |
-| `41:HA` | `FBGA-96 (9x14)` |
-| `41:HX` | `FBGA-78 (9x11.5)` |
-| `41:JT` | `FBGA-96 (8x14)` |
-| `41:KJR` | `FBGA-78 (9.5x13)` |
-| `41:RA` | `FBGA-78 (10.5x12)` |
-| `41:RE` | `FBGA-96 (10x14)` |
-| `41:RH` | `FBGA-78 (9x10.5)` |
-| `41:RKB` | `FBGA-78 (8x10.5)` |
-| `41:SLD` | `FBGA-136 (10x14x1.2)` |
-| `41:SMA` | `FBGA-78 (9.5x11.5x1.45)` |
-| `41:THA` | `FBGA-78 (10x11.5x1.45)` |
-| `41:THD` | `FBGA-78 (9x11.5)` |
-| `41:THE` | `FBGA-78 (10.5x12)` |
-| `41:THU` | `FBGA-82 (12.5x15)` |
-| `41:THV` | `FBGA-78 (8x11.5)` |
-| `41:TNA` | `FBGA-96 (10x14x1.2)` |
-| `41:TRF` | `FBGA-78 (9.5x11.5x1.2)` |
-| `42:LF` | `WFBGA-168 (12x12)` |
-| `46:B5` | `VFBGA-90 (8x13)` |
-| `46:P` | `66-pin TSOP` |
-| `47:RT` | `FBGA-84 (9x12.5)` |
-| `48:B5` | `VFBGA-90 (8x13)` |
-| `48:P` | `54-pin TSOP II` |
-| `51:HF` | `FBGA-170 (12x14)` |
-| `52:PF` | `FBGA-178 (11.5x11)` |
-| `53:FW` | `TFBGA-200 (10x14.5)` |
-| `58:JA` | `FBGA-190 (10x14)` |
-| `60:AT` | `FBGA-78 (7.5x11.5)` |
-| `60:HB` | `FBGA-82 (9x11)` |
-| `60:HC` | `FBGA-102 (9x14)` |
-| `60:HD` | `FBGA-102 (7.5x14)` |
-| `60:HZ` | `FBGA-102 (9.5x14)` |
-| `60:JF` | `FBGA-82 (9.5x11)` |
-| `60:RV` | `FBGA-102 (8x14)` |
-| `60:RW` | `FBGA-78 (8x11)` |
-| `60:RZ` | `FBGA-78 (7.5x11)` |
-| `61:JE` | `FBGA-180 (12x14)` |
-| `61:KPA` | `FBGA-180 (12x14)` |
-| `62:DS` | `WFBGA-200 (10x14.5)` |
+| `AD` | `FBGA-96, 7.5x13.5` |
+| `AG` | `FBGA-78, 7.5x11` |
+| `GE` | `FBGA-96, 9x14` |
+| `HA` | `FBGA-96, 9x14` |
+| `HX` | `FBGA-78, 9x11.5` |
+| `JC` | `FBGA-78, 9x11` |
+| `JY` | `FBGA-96, 8x14` |
+| `KD` | `FBGA-96, 9x13` |
+| `LY` | `FBGA-96, 7.5x13.5` |
+| `PM` | `FBGA-78, 9x13.2` |
+| `RC` | `FBGA-96, 10x13` |
+| `RH` | `FBGA-78, 9x10.5` |
+| `TB` | `FBGA-96, 7.5x13` |
+| `TD` | `FBGA-96, 7.5x13` |
+| `VA` | `FBGA-78, 10x11` |
+| `WE` | `FBGA-78, 8x12` |
+| `40:BAF` | `FBGA-78, 10.5x11` |
+| `40:FSE` | `FBGA-78, 9.5x13x1.2` |
+| `40:HBA` | `FBGA-96, 9.5x14` |
+| `40:KNR` | `FBGA-96, 7.5x13.5` |
+| `40:NEA` | `FBGA-78, 7.5x11x1.2` |
+| `40:NRE` | `FBGA-78, 8x12x1.2` |
+| `40:SA` | `FBGA-78, 7.5x11` |
+| `40:TBB` | `FBGA-96, 7.5x13` |
+| `40:TRF` | `FBGA-78, 9.5x11.5x1.2` |
+| `40:WBU` | `FBGA-96, 8x14` |
+| `41:DA` | `FBGA-78, 8x10.5` |
+| `41:DGA` | `FBGA-96, 9.5x14` |
+| `41:HA` | `FBGA-96, 9x14` |
+| `41:HX` | `FBGA-78, 9x11.5` |
+| `41:JT` | `FBGA-96, 8x14` |
+| `41:KJR` | `FBGA-78, 9.5x13` |
+| `41:RA` | `FBGA-78, 10.5x12` |
+| `41:RE` | `FBGA-96, 10x14` |
+| `41:RH` | `FBGA-78, 9x10.5` |
+| `41:RKB` | `FBGA-78, 8x10.5` |
+| `41:SLD` | `FBGA-136, 10x14x1.2` |
+| `41:SMA` | `FBGA-78, 9.5x11.5x1.45` |
+| `41:THA` | `FBGA-78, 10x11.5x1.45` |
+| `41:THD` | `FBGA-78, 9x11.5` |
+| `41:THE` | `FBGA-78, 10.5x12` |
+| `41:THU` | `FBGA-82, 12.5x15` |
+| `41:THV` | `FBGA-78, 8x11.5` |
+| `41:TNA` | `FBGA-96, 10x14x1.2` |
+| `41:TRF` | `FBGA-78, 9.5x11.5x1.2` |
+| `42:LF` | `WFBGA-168, 12x12` |
+| `46:B5` | `VFBGA-90, 8x13` |
+| `46:P` | `TSOP-66` |
+| `47:RT` | `FBGA-84, 9x12.5` |
+| `48:B5` | `VFBGA-90, 8x13` |
+| `48:P` | `TSOP-II-54` |
+| `51:HF` | `FBGA-170, 12x14` |
+| `52:PF` | `FBGA-178, 11.5x11` |
+| `53:FW` | `TFBGA-200, 10x14.5` |
+| `58:JA` | `FBGA-190, 10x14` |
+| `60:AT` | `FBGA-78, 7.5x11.5` |
+| `60:HB` | `FBGA-82, 9x11` |
+| `60:HC` | `FBGA-102, 9x14` |
+| `60:HD` | `FBGA-102, 7.5x14` |
+| `60:HZ` | `FBGA-102, 9.5x14` |
+| `60:JF` | `FBGA-82, 9.5x11` |
+| `60:RV` | `FBGA-102, 8x14` |
+| `60:RW` | `FBGA-78, 8x11` |
+| `60:RZ` | `FBGA-78, 7.5x11` |
+| `61:JE` | `FBGA-180, 12x14` |
+| `61:KPA` | `FBGA-180, 12x14` |
+| `62:DS` | `WFBGA-200, 10x14.5` |
 | `62:EK` | `TFBGA-441` |
-| `68:DF` | `FBGA-266 (12x14x1.1)` |
+| `68:DF` | `FBGA-266, 12x14x1.1` |
 
 ## 首批样例
 
 | PN | 产品线 | 关键输出 |
 | --- | --- | --- |
-| `MT40A1G8SA-075-E` | DDR4 SDRAM | `8Gb`, `x8`, `FBGA-78 (7.5x11)`, `DDR4-2666 CL19`, `Rev E` |
-| `MT40A2G4TRF-093E:A` | DDR4 TwinDie SDRAM | `8Gb`, `x4`, `FBGA-78 (9.5x11.5x1.2)`, `2 dies, 2 CS`, `DDR4-2133 CL15`, `Rev A` |
-| `MT40A4G4FSE-093:A` | DDR4 TwinDie SDRAM | `16Gb`, `x4`, `FBGA-78 (9.5x13x1.2)`, `2 dies, 2 CS`, `DDR4-2133 CL16`, `Rev A` |
-| `MT40A2G8NRE-083E:B` | DDR4 TwinDie SDRAM | `16Gb`, `x8`, `FBGA-78 (8x12x1.2)`, `2 dies, 2 CS`, `DDR4-2400 CL16`, `Rev B` |
-| `MT40A4G8NEA-062E:F` | DDR4 TwinDie SDRAM | `32Gb`, `x8`, `FBGA-78 (7.5x11x1.2)`, `2 dies, 2 CS`, `DDR4-3200 CL22`, `Rev F` |
-| `MT40A1G16WBU-083E:B` | DDR4 SDRAM | `16Gb`, `x16`, `FBGA-96 (8x14)`, `2 dies, 1 CS`, `DDR4-2400 CL16`, `Rev B` |
-| `MT40A2G16TBB-062E:F` | DDR4 SDRAM | `32Gb`, `x16`, `FBGA-96 (7.5x13)`, `2 dies, 1 CS`, `DDR4-3200 CL22`, `Rev F` |
-| `MT40A512M8RH-093:B` | DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78 (9x10.5)`, `DDR4-2133 CL16`, `Rev B` |
-| `MT40A512M8WE-107E:E` | DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78 (8x12)`, `DDR4-1866 CL13`, `Rev E` |
-| `MT40A2G4PM-062E:A` | DDR4 SDRAM | `8Gb`, `x4`, `FBGA-78 (9x13.2)`, `DDR4-3200 CL22`, `Rev A` |
-| `MT40A512M16JY-075E:B` | DDR4 SDRAM | `8Gb`, `x16`, `FBGA-96 (8x14)`, `DDR4-2666 CL18`, `Rev B` |
-| `MT40A512M8AG-075EAUT:F` | Automotive DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78 (7.5x11)`, `DDR4-2666 CL18`, `Automotive certified`, `Ultra-high (-40°C ~ 125°C)`, `Rev F` |
-| `MT40A512M16TD-062EAUT:R` | Automotive DDR4 SDRAM | `8Gb`, `x16`, `FBGA-96 (7.5x13)`, `DDR4-3200 CL22`, `Automotive certified`, `Ultra-high (-40°C ~ 125°C)`, `Rev R` |
-| `CT40A1G8SA-62M:E` | Crucial DDR4 SDRAM | `8Gb`, `x8`, `FBGA-78 (7.5x11)`, `Crucial DDR4-62M`, `Rev E` |
-| `EDY4016AABG-JD-F-D` | Micron Memory Japan DDR4 SDRAM | `4Gb`, `x16`, `FBGA-96 (7.5x13.5)`, `DDR4-3200 24-24-24`, `Rev A`, `Dry pack (tray)` |
-| `EDY4016AABG-GX-F-R` | Micron Memory Japan DDR4 SDRAM | `4Gb`, `x16`, `FBGA-96 (7.5x13.5)`, `DDR4-2666 19-19-19`, `Rev A`, `Tape and Reel` |
-| `MT60B2G8HB-48B-IT-A` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82 (9x11)`, `DDR5-4800B CL40`, `Industrial`, `Rev A` |
-| `MT60B2G8HB-48BAT:A` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82 (9x11)`, `DDR5-4800B CL40`, `Automotive`, `Rev A` |
-| `MT60B2G8HB-56B:G` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82 (9x11)`, `DDR5-5600B CL46`, `Rev G` |
-| `MT60B2G8RZ-64BAAT:D` | Automotive DDR5 SDRAM | `16Gb`, `x8`, `FBGA-78 (7.5x11)`, `DDR5-6400B CL52`, `Automotive certified`, `Automotive`, `Rev D` |
-| `MT60B1G16HD-72BAAT:H` | DDR5 SDRAM | `16Gb`, `x16`, `FBGA-102 (7.5x14)`, `DDR5-7200B CL58`, `Automotive certified`, `Automotive`, `Rev H` |
-| `MT60B3G8RW-64B:B` | DDR5 SDRAM | `24Gb`, `x8`, `FBGA-78 (8x11)`, `DDR5-6400B CL52`, `Rev B` |
-| `MT60B1536M16RV-56B:B` | DDR5 SDRAM | `24Gb`, `x16`, `FBGA-102 (8x14)`, `DDR5-5600B CL46`, `Rev B` |
-| `MT60B6G4JF-64B:C` | DDR5 SDRAM | `24Gb`, `x4`, `FBGA-82 (9.5x11)`, `DDR5-6400B CL52`, `Rev C` |
-| `MT60B1536M16HZ-80B:C` | DDR5 SDRAM | `24Gb`, `x16`, `FBGA-102 (9.5x14)`, `DDR5-8000B CL64`, `Rev C` |
-| `MT60B4G8AT-64B:B` | DDR5 SDRAM | `32Gb`, `x8`, `FBGA-78 (7.5x11.5)`, `DDR5-6400B CL52`, `Rev B` |
-| `MT60B2G16HD-64B:B` | DDR5 SDRAM | `32Gb`, `x16`, `FBGA-102 (7.5x14)`, `DDR5-6400B CL52`, `Rev B` |
+| `MT40A1G8SA-075-E` | DDR4 SDRAM | `8Gb`, `x8`, `FBGA-78, 7.5x11`, `DDR4-2666 CL19`, `Rev E` |
+| `MT40A2G4TRF-093E:A` | DDR4 TwinDie SDRAM | `8Gb`, `x4`, `FBGA-78, 9.5x11.5x1.2`, `2 dies, 2 CS`, `DDR4-2133 CL15`, `Rev A` |
+| `MT40A4G4FSE-093:A` | DDR4 TwinDie SDRAM | `16Gb`, `x4`, `FBGA-78, 9.5x13x1.2`, `2 dies, 2 CS`, `DDR4-2133 CL16`, `Rev A` |
+| `MT40A2G8NRE-083E:B` | DDR4 TwinDie SDRAM | `16Gb`, `x8`, `FBGA-78, 8x12x1.2`, `2 dies, 2 CS`, `DDR4-2400 CL16`, `Rev B` |
+| `MT40A4G8NEA-062E:F` | DDR4 TwinDie SDRAM | `32Gb`, `x8`, `FBGA-78, 7.5x11x1.2`, `2 dies, 2 CS`, `DDR4-3200 CL22`, `Rev F` |
+| `MT40A1G16WBU-083E:B` | DDR4 SDRAM | `16Gb`, `x16`, `FBGA-96, 8x14`, `2 dies, 1 CS`, `DDR4-2400 CL16`, `Rev B` |
+| `MT40A2G16TBB-062E:F` | DDR4 SDRAM | `32Gb`, `x16`, `FBGA-96, 7.5x13`, `2 dies, 1 CS`, `DDR4-3200 CL22`, `Rev F` |
+| `MT40A512M8RH-093:B` | DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78, 9x10.5`, `DDR4-2133 CL16`, `Rev B` |
+| `MT40A512M8WE-107E:E` | DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78, 8x12`, `DDR4-1866 CL13`, `Rev E` |
+| `MT40A2G4PM-062E:A` | DDR4 SDRAM | `8Gb`, `x4`, `FBGA-78, 9x13.2`, `DDR4-3200 CL22`, `Rev A` |
+| `MT40A512M16JY-075E:B` | DDR4 SDRAM | `8Gb`, `x16`, `FBGA-96, 8x14`, `DDR4-2666 CL18`, `Rev B` |
+| `MT40A512M8AG-075EAUT:F` | Automotive DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78, 7.5x11`, `DDR4-2666 CL18`, `Automotive certified`, `Ultra-high (-40°C ~ 125°C)`, `Rev F` |
+| `MT40A512M16TD-062EAUT:R` | Automotive DDR4 SDRAM | `8Gb`, `x16`, `FBGA-96, 7.5x13`, `DDR4-3200 CL22`, `Automotive certified`, `Ultra-high (-40°C ~ 125°C)`, `Rev R` |
+| `CT40A1G8SA-62M:E` | Crucial DDR4 SDRAM | `8Gb`, `x8`, `FBGA-78, 7.5x11`, `Crucial DDR4-62M`, `Rev E` |
+| `EDY4016AABG-JD-F-D` | Micron Memory Japan DDR4 SDRAM | `4Gb`, `x16`, `FBGA-96, 7.5x13.5`, `DDR4-3200 24-24-24`, `Rev A`, `Dry pack (tray)` |
+| `EDY4016AABG-GX-F-R` | Micron Memory Japan DDR4 SDRAM | `4Gb`, `x16`, `FBGA-96, 7.5x13.5`, `DDR4-2666 19-19-19`, `Rev A`, `Tape and Reel` |
+| `MT60B2G8HB-48B-IT-A` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82, 9x11`, `DDR5-4800B CL40`, `Industrial`, `Rev A` |
+| `MT60B2G8HB-48BAT:A` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82, 9x11`, `DDR5-4800B CL40`, `Automotive`, `Rev A` |
+| `MT60B2G8HB-56B:G` | DDR5 SDRAM | `16Gb`, `x8`, `FBGA-82, 9x11`, `DDR5-5600B CL46`, `Rev G` |
+| `MT60B2G8RZ-64BAAT:D` | Automotive DDR5 SDRAM | `16Gb`, `x8`, `FBGA-78, 7.5x11`, `DDR5-6400B CL52`, `Automotive certified`, `Automotive`, `Rev D` |
+| `MT60B1G16HD-72BAAT:H` | DDR5 SDRAM | `16Gb`, `x16`, `FBGA-102, 7.5x14`, `DDR5-7200B CL58`, `Automotive certified`, `Automotive`, `Rev H` |
+| `MT60B3G8RW-64B:B` | DDR5 SDRAM | `24Gb`, `x8`, `FBGA-78, 8x11`, `DDR5-6400B CL52`, `Rev B` |
+| `MT60B1536M16RV-56B:B` | DDR5 SDRAM | `24Gb`, `x16`, `FBGA-102, 8x14`, `DDR5-5600B CL46`, `Rev B` |
+| `MT60B6G4JF-64B:C` | DDR5 SDRAM | `24Gb`, `x4`, `FBGA-82, 9.5x11`, `DDR5-6400B CL52`, `Rev C` |
+| `MT60B1536M16HZ-80B:C` | DDR5 SDRAM | `24Gb`, `x16`, `FBGA-102, 9.5x14`, `DDR5-8000B CL64`, `Rev C` |
+| `MT60B4G8AT-64B:B` | DDR5 SDRAM | `32Gb`, `x8`, `FBGA-78, 7.5x11.5`, `DDR5-6400B CL52`, `Rev B` |
+| `MT60B2G16HD-64B:B` | DDR5 SDRAM | `32Gb`, `x16`, `FBGA-102, 7.5x14`, `DDR5-6400B CL52`, `Rev B` |
 | `MT41K512M8DA-107:P` | DDR3 SDRAM | `4Gb`, `x8`, `FBGA-78`, `933MHz (DDR-1866)`, `Rev P` |
-| `MT41K512M16HA-125:A` / `D9STQ` | DDR3 SDRAM | `8Gb`, `x16`, `FBGA-96 (9x14)`, `DDR3-1600 CL11`, `Rev A` |
-| `CT41K1024M8RH-125:A` | DDR3 SDRAM | `8Gb`, `x8`, `FBGA-78 (9x10.5)`, `DDR3-1600 CL11`, `Rev A` |
-| `MT41K512M8HX-125AAT:D` | DDR3 SDRAM | `4Gb`, `x8`, `FBGA-78 (9x11.5)`, `DDR3-1600 CL11`, `Automotive certified`, `Automotive (-40°C ~ 105°C)`, `Rev D` |
-| `MT41K2G4RKB-107:P` | DDR3 SDRAM | `8Gb`, `x4`, `FBGA-78 (8x10.5)`, `2 dies, 2 CS`, `933MHz (DDR-1866)`, `Rev P` |
-| `MT41K1G16DGA-125:A` | DDR3 SDRAM | `16Gb`, `x16`, `FBGA-96 (9.5x14)`, `2 dies, 2 CS`, `800MHz (DDR-1600)`, `Rev A` |
-| `MT41K512M16TNA-125 M:E` | DDR3 SDRAM | `8Gb`, `x16`, `FBGA-96 (10x14x1.2)`, `2 dies, 2 CS`, `DDR3-1600 CL11`, `TCSR power saving`, `Rev E` |
-| `MT41K4G4SMA-125:E` | DDR3 SDRAM | `16Gb`, `x4`, `FBGA-78 (9.5x11.5x1.45)`, `4 dies, 4 CS`, `DDR3-1600 CL11`, `Rev E` |
-| `MT41K2G4THA-187E:D` | DDR3 SDRAM | `8Gb`, `x4`, `FBGA-78 (10x11.5x1.45)`, `4 dies, 4 CS`, `DDR3-1066 CL7`, `Rev D` |
-| `MT41K256M32SLD-125 M:E` | DDR3 SDRAM | `8Gb`, `x32`, `FBGA-136 (10x14x1.2)`, `2 dies, 1 CS`, `DDR3-1600 CL11`, `TCSR power saving`, `Rev E` |
-| `MT47H128M16RT-25E:C` | DDR2 SDRAM | `2Gb`, `x16`, `FBGA-84 (9x12.5)`, `DDR2-800`, `Rev C` |
-| `MT46V32M16P-5B-IT-J` | DDR SDRAM | `512Mb`, `x16`, `66-pin TSOP`, `DDR-400`, `Industrial`, `Rev J` |
+| `MT41K512M16HA-125:A` / `D9STQ` | DDR3 SDRAM | `8Gb`, `x16`, `FBGA-96, 9x14`, `DDR3-1600 CL11`, `Rev A` |
+| `CT41K1024M8RH-125:A` | DDR3 SDRAM | `8Gb`, `x8`, `FBGA-78, 9x10.5`, `DDR3-1600 CL11`, `Rev A` |
+| `MT41K1G4RA-107:D` | DDR3L SDRAM | `4Gb`, `x4`, `FBGA-78, 10.5x12`, `DDR3-1866 CL13`, `Rev D` |
+| `MT41K512M8RH-107IT:E` | DDR3L SDRAM | `4Gb`, `x8`, `FBGA-78, 9x10.5`, `DDR3-1866 CL13`, `Industrial`, `Rev E` |
+| `MT41K256M16RE-125:A` | DDR3L SDRAM | `4Gb`, `x16`, `FBGA-96, 10x14`, `DDR3-1600 CL11`, `Rev A` |
+| `MT41K512M8HX-125AAT:D` | DDR3 SDRAM | `4Gb`, `x8`, `FBGA-78, 9x11.5`, `DDR3-1600 CL11`, `Automotive certified`, `Automotive (-40°C ~ 105°C)`, `Rev D` |
+| `MT41J512M4DA-093AAT:K` | Automotive DDR3 SDRAM | `2Gb`, `x4`, `FBGA-78, 8x10.5`, `DDR3-2133 CL14`, `Automotive certified`, `Automotive`, `Rev K` |
+| `MT41J128M16JT-093AAT:K` | Automotive DDR3 SDRAM | `2Gb`, `x16`, `FBGA-96, 8x14`, `DDR3-2133 CL14`, `Automotive certified`, `Automotive`, `Rev K` |
+| `MT41J256M8HX-107AAT:D` | Automotive DDR3 SDRAM | `2Gb`, `x8`, `FBGA-78, 9x11.5`, `DDR3-1866 CL13`, `Automotive certified`, `Automotive`, `Rev D` |
+| `MT41J128M16HA-107AAT:D` | Automotive DDR3 SDRAM | `2Gb`, `x16`, `FBGA-96, 9x14`, `DDR3-1866 CL13`, `Automotive certified`, `Automotive`, `Rev D` |
+| `MT41K2G4RKB-107:P` | DDR3 SDRAM | `8Gb`, `x4`, `FBGA-78, 8x10.5`, `2 dies, 2 CS`, `933MHz (DDR-1866)`, `Rev P` |
+| `MT41K1G16DGA-125:A` | DDR3 SDRAM | `16Gb`, `x16`, `FBGA-96, 9.5x14`, `2 dies, 2 CS`, `800MHz (DDR-1600)`, `Rev A` |
+| `MT41K512M16TNA-125 M:E` | DDR3 SDRAM | `8Gb`, `x16`, `FBGA-96, 10x14x1.2`, `2 dies, 2 CS`, `DDR3-1600 CL11`, `TCSR power saving`, `Rev E` |
+| `MT41K4G4SMA-125:E` | DDR3 SDRAM | `16Gb`, `x4`, `FBGA-78, 9.5x11.5x1.45`, `4 dies, 4 CS`, `DDR3-1600 CL11`, `Rev E` |
+| `MT41K2G4THA-187E:D` | DDR3 SDRAM | `8Gb`, `x4`, `FBGA-78, 10x11.5x1.45`, `4 dies, 4 CS`, `DDR3-1066 CL7`, `Rev D` |
+| `MT41K256M32SLD-125 M:E` | DDR3 SDRAM | `8Gb`, `x32`, `FBGA-136, 10x14x1.2`, `2 dies, 1 CS`, `DDR3-1600 CL11`, `TCSR power saving`, `Rev E` |
+| `MT47H128M16RT-25E:C` | DDR2 SDRAM | `2Gb`, `x16`, `FBGA-84, 9x12.5`, `DDR2-800`, `Rev C` |
+| `MT46V32M16P-5B-IT-J` | DDR SDRAM | `512Mb`, `x16`, `TSOP-66`, `DDR-400`, `Industrial`, `Rev J` |
 | `MT46H32M32LFB5-5 IT:B` | LPDDR | `1Gb`, `x32`, `VFBGA-90`, `dram_die_count=1`, `200MHz`, `Rev B` |
-| `MT48LC16M8A2P-6A:L` | SDRAM | `128Mb`, `x8`, `54-pin TSOP II`, `166MHz`, `Rev L` |
+| `MT48LC16M8A2P-6A:L` | SDRAM | `128Mb`, `x8`, `TSOP-II-54`, `166MHz`, `Rev L` |
 | `MT48H16M32LFB5-75:A` | LPSDR | `512Mb`, `x32`, `VFBGA-90`, `dram_die_count=1`, `133MHz`, `Rev A` |
 | `MT48H16M32LGB5-75:A` | LPSDR | `512Mb`, `x32`, `VFBGA-90`, `dram_die_count=1`, `Reduced page-size addressing`, `133MHz`, `Rev A` |
 | `MT42L128M32D1LF-25 WT:A` | LPDDR2 | `4Gb`, `x32`, `WFBGA-168`, `dram_die_count=1`, `Rev A` |

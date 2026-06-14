@@ -519,6 +519,45 @@ assertDram("CT41K1024M8RH-125:A", {
     "Die Revision": "Rev A"
   }
 });
+assertDram("MT41K1G4RA-107:D", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x4",
+  voltage: "1.35V VDD",
+  package: "FBGA-78, 10.5x12",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1866 CL13",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev D"
+  }
+});
+assertDram("MT41K512M8RH-107IT:E", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "FBGA-78, 9x10.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1866 CL13",
+    "Operation Temperature": "Industrial (-40°C ~ 95°C)",
+    "Die Revision": "Rev E"
+  }
+});
+assertDram("MT41K256M16RE-125:A", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "FBGA-96, 10x14",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
 assertDram("MT41K512M8HX-125AAT:D", {
   densityMbit: 4096,
   density: "4Gb",
@@ -547,6 +586,76 @@ assertDram("MT41K512M16HA-125AAT:D", {
     "Die Revision": "Rev D"
   }
 });
+assertDram("MT41J512M4DA-093AAT:K", {
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x4",
+  voltage: "1.5V VDD",
+  package: "FBGA-78, 8x10.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-2133 CL14",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Special Option": "Automotive certified",
+    "Die Revision": "Rev K"
+  }
+});
+assertDram("MT41J128M16JT-093AAT:K", {
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD",
+  package: "FBGA-96, 8x14",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-2133 CL14",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Special Option": "Automotive certified",
+    "Die Revision": "Rev K"
+  }
+});
+assertDram("MT41J256M8HX-107AAT:D", {
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "FBGA-78, 9x11.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1866 CL13",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Special Option": "Automotive certified",
+    "Die Revision": "Rev D"
+  }
+});
+assertDram("MT41J128M16HA-107AAT:D", {
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD",
+  package: "FBGA-96, 9x14",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Speed": "DDR3-1866 CL13",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Special Option": "Automotive certified",
+    "Die Revision": "Rev D"
+  }
+});
+for (const partNumber of [
+  "MT41K1G4RA-107:D",
+  "MT41K512M8RH-107IT:E",
+  "MT41K256M16RE-125:A",
+  "MT41J512M4DA-093AAT:K",
+  "MT41J128M16JT-093AAT:K",
+  "MT41J256M8HX-107AAT:D",
+  "MT41J128M16HA-107AAT:D"
+]) {
+  const packageValue = detect(partNumber).package;
+  assert.ok(packageValue, `${partNumber} should expose confirmed package`);
+  assert.match(packageValue, /^FBGA-\d+, [0-9.x]+$/, `${partNumber} should expose package as type-pin, dim`);
+  assert.doesNotMatch(packageValue, /Rev|ball|mm|pin|Unknown/i, `${partNumber} should not leak package notes`);
+}
 assertUnknown("AMD41J128M16HA-107G:D");
 assertDram("79JMM", {
   densityMbit: 1024,
