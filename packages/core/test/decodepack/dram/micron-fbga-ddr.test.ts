@@ -506,6 +506,24 @@ assertDram("D9STQ", {
   }
 });
 assertDecodedPartNumber("D9STQ", "MT41K512M16HA-125:A");
+assertDram("D9XLQ", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "FBGA-96, 8x14",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
+    "DRAM Speed": "DDR3-1866 CL13",
+    "Operation Temperature": "Industrial (-40°C ~ 95°C)",
+    "Solder Type": "Pb-free SAC302",
+    "Die Revision": "Rev P",
+    "Marking Code": "D9XLQ"
+  }
+});
+assertDecodedPartNumber("D9XLQ", "MT41K512M16VRN-107IT:P");
 assertDram("CT41K1024M8RH-125:A", {
   densityMbit: 8192,
   density: "8Gb",

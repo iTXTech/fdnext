@@ -46,6 +46,7 @@
   <https://docslib.org/doc/10329358/dram-component-part-numbering-system>
 - 用户提供的 `常见几种DDR3_DDR3L的命名规则.pdf` 中 Micron `DRAM Component Part Numbering System` 页面确认 DDR3 speed token `187E/15E/125/125E/107/093` 对应 1066/1333/1600/1600/1866/2133 与 CL7/9/11/10/13/14；规则使用 family-scoped `41:*` speed，避免 `093` 落到 LPDDR4 通用含义。
 - 用户补充的 Micron DDR3 / DDR3L ordering 截图确认 package code 为 1-3 字符，并确认 `DA/JT/RH/HA/RA/RE/HX/THA/SMA/TNA/SLD` 的实际 FBGA 封装尺寸；输出统一使用 `TYPE-PIN, DIM`，例如 `HA = FBGA-96, 9x14`、`RH = FBGA-78, 9x10.5`、`HX = FBGA-78, 9x11.5`、`THA = FBGA-78, 10x11.5x1.45`、`SMA = FBGA-78, 9.5x11.5x1.45`、`TNA = FBGA-96, 10x14x1.2`、`SLD = FBGA-136, 10x14x1.2`；package 不输出 Rev / ball / mm 等资料注记。同组截图确认 `A` 为 Automotive product certification，`M` 为 TCSR power saving，`IT` 为 `-40°C ~ 95°C`，`AT` 为 `-40°C ~ 105°C`。Die/CS 按 package-only 判断：`THA/SMA = 4 dies, 4 CS`，`TNA = 2 dies, 2 CS`，`SLD = 2 dies, 1 CS`。
+- 用户补充的 Micron DDR3L `MT41K512M16` TwinDie 截图确认 `VRN/VRP` 为 `FBGA-96, 8x14`，x16 TwinDie 是 single-rank `2 dies, 1 CS`，`IT` 温度为 Industrial (-40°C ~ 95°C)，`VRN/VRP` 的焊球材料分别为 `Pb-free SAC302` / `Pb-free SACQ`。
 - 用户补充的 Micron DDR4 ordering 截图确认 `MT40A` 普通 / automotive DDR4 的 package code 可跨 family 复用，公共 FBGA package 先按 package code 查表，少数冲突再用 `family:package` override；新增确认 `HX/RH/WE/SA/HA/GE/LY/TB/VA/JC/RC/KD/PM/JY/TD/AG/AD`，以及 DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E` timing token，其中 `093` 为 `DDR4-2133 CL16`，`107E` 为 `DDR4-1866 CL13`。Automotive DDR4 中 `A` 为 automotive grade，`IT/AT/UT` 分别为 `-40°C ~ 95°C`、`-40°C ~ 105°C`、`-40°C ~ 125°C`。
 - 用户补充的 Micron DDR4 TwinDie 截图确认 `TRF/FSE/NRE/NEA` 为 low-profile `x1.2` FBGA，且 TwinDie 必须显式输出 `2 dies, 2 CS`，而不是只输出 package 或只靠名称暗示。
 - 公开评测记录了 Crucial/Ballistix 颗粒 `C9BJZ` / `CT40A1G8SA-62M:E` 的实物和 Micron FBGA decoder 结果；该资料只用于确认 `CT40` namespace 形态，不作为完整 PN 白名单。
@@ -280,6 +281,7 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 | `MT41K1G4RA-107:D` | DDR3L SDRAM | `4Gb`, `x4`, `FBGA-78, 10.5x12`, `DDR3-1866 CL13`, `Rev D` |
 | `MT41K512M8RH-107IT:E` | DDR3L SDRAM | `4Gb`, `x8`, `FBGA-78, 9x10.5`, `DDR3-1866 CL13`, `Industrial`, `Rev E` |
 | `MT41K256M16RE-125:A` | DDR3L SDRAM | `4Gb`, `x16`, `FBGA-96, 10x14`, `DDR3-1600 CL11`, `Rev A` |
+| `MT41K512M16VRN-107 IT:P` / `D9XLQ` | DDR3L TwinDie SDRAM | `8Gb`, `x16`, `FBGA-96, 8x14`, `2 dies, 1 CS`, `DDR3-1866 CL13`, `Industrial`, `Pb-free SAC302`, `Rev P` |
 | `MT41K512M8HX-125AAT:D` | DDR3 SDRAM | `4Gb`, `x8`, `FBGA-78, 9x11.5`, `DDR3-1600 CL11`, `Automotive certified`, `Automotive (-40°C ~ 105°C)`, `Rev D` |
 | `MT41J512M4DA-093AAT:K` | Automotive DDR3 SDRAM | `2Gb`, `x4`, `FBGA-78, 8x10.5`, `DDR3-2133 CL14`, `Automotive certified`, `Automotive`, `Rev K` |
 | `MT41J128M16JT-093AAT:K` | Automotive DDR3 SDRAM | `2Gb`, `x16`, `FBGA-96, 8x14`, `DDR3-2133 CL14`, `Automotive certified`, `Automotive`, `Rev K` |

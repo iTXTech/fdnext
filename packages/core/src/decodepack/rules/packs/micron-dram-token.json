@@ -398,6 +398,8 @@
           "TNA",
           "TRF",
           "VA",
+          "VRN",
+          "VRP",
           "WE",
           "ZW",
           "B-5",
@@ -500,6 +502,8 @@
           "41:THV": "FBGA-78, 8x11.5",
           "41:TNA": "FBGA-96, 10x14x1.2",
           "41:TRF": "FBGA-78, 9.5x11.5x1.2",
+          "41:VRN": "FBGA-96, 8x14",
+          "41:VRP": "FBGA-96, 8x14",
           "42:LF": "WFBGA-168, 12x12",
           "46:B5": "VFBGA-90, 8x13",
           "46:B-5": "VFBGA-90, 8x13",
@@ -604,9 +608,25 @@
             "dram_die_count": 2,
             "cs_count": 2
           },
+          "VRN": {
+            "dram_die_count": 2,
+            "cs_count": 1
+          },
+          "VRP": {
+            "dram_die_count": 2,
+            "cs_count": 1
+          },
           "WBU": {
             "dram_die_count": 2,
             "cs_count": 1
+          }
+        },
+        "packageSolderObj": {
+          "VRN": {
+            "solder_type": "Pb-free SAC302"
+          },
+          "VRP": {
+            "solder_type": "Pb-free SACQ"
           }
         },
         "reference": {
@@ -731,6 +751,14 @@
             "source": "Micron MT41K2G4/MT41K1G8 TwinDie DDR3L SDRAM datasheet"
           },
           "41:K:512M16:TNA": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K512M16 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:512M16:VRN": {
+            "status": "external_confirmed",
+            "source": "Micron MT41K512M16 TwinDie DDR3L SDRAM datasheet"
+          },
+          "41:K:512M16:VRP": {
             "status": "external_confirmed",
             "source": "Micron MT41K512M16 TwinDie DDR3L SDRAM datasheet"
           },
@@ -1540,6 +1568,12 @@
           "41:RH:IT": {
             "operation_temperature": "Industrial (-40°C ~ 95°C)"
           },
+          "41:VRN:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
+          "41:VRP:IT": {
+            "operation_temperature": "Industrial (-40°C ~ 95°C)"
+          },
           "AAT": {
             "operation_temperature": "Automotive Grade (-40°C ~ 105°C)"
           },
@@ -1791,6 +1825,13 @@
           "default": {}
         },
         {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageSolderObj",
+          "to": "packageSolderObj",
+          "default": {}
+        },
+        {
           "op": "tpl",
           "template": "{{familyCode}}:{{packageCode}}",
           "to": "temperatureScope"
@@ -1921,6 +1962,11 @@
           "op": "merge",
           "into": "extra",
           "from": "packageDieStackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageSolderObj"
         },
         {
           "op": "merge",
