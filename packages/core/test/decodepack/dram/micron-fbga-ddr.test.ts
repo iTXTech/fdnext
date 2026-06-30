@@ -150,6 +150,22 @@ assertDram("MT40A2G8JC-068:E", {
   }
 });
 
+assertDram("MT40A2G8JE-062E AUT:E", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD",
+  package: "FBGA-78, 9x11x1.2",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "Operation Temperature": "Automotive Ultra (-40°C ~ 125°C)",
+    "Die Revision": "Rev E"
+  }
+});
+
 assertDram("MT40A1G16KD-068:E", {
   densityMbit: 16384,
   density: "16Gb",
@@ -161,6 +177,22 @@ assertDram("MT40A1G16KD-068:E", {
     "Package Code": "KD",
     "Config Code": "1G16",
     "DRAM Speed": "DDR4-2933 CL21",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev E"
+  }
+});
+
+assertDram("MT40A1G16KH-062E:E", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "FBGA-96, 9x13x1.2",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev E"
   }
