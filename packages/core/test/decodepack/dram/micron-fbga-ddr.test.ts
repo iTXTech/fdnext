@@ -405,6 +405,25 @@ assertDram("MT40A2G16TBB-062E:F", {
   }
 });
 
+assertDram("MT40A2G16SKL-062E:B", {
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "FBGA-96, 10.5x13x1.2",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Series": "TwinDie",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
+    "Package Code": "SKL",
+    "Config Code": "2G16",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
 const crucialDdr4Expected = {
   densityMbit: 8192,
   density: "8Gb",
@@ -569,6 +588,158 @@ assertDram("D9XLQ", {
   }
 });
 assertDecodedPartNumber("D9XLQ", "MT41K512M16VRN-107IT:P");
+assertDram("MT41J128M8JP-125:F", {
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "FBGA-78, 8x11.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev F"
+  }
+});
+assertDram("MT41J256M4BY-125:B", {
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x4",
+  voltage: "1.5V VDD",
+  package: "FBGA-86, 9x15.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+assertDram("MT41J64M16LA-125:B", {
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD",
+  package: "FBGA-96, 9x15.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+assertDram("MT41J256M8JE-125:A", {
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x8",
+  voltage: "1.5V VDD",
+  package: "FBGA-82, 12.5x15",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+assertDram("MT41J512M4EF-107:N", {
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x4",
+  voltage: "1.5V VDD",
+  package: "FBGA-78, 8x10.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR3-1866 CL13",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev N"
+  }
+});
+assertDram("MT41K512M8RG-107:N", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "FBGA-78, 7.5x10.6",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR3-1866 CL13",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev N"
+  }
+});
+assertDram("MT41K256M16TW-107:P", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.35V VDD",
+  package: "FBGA-96, 8x14",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR3-1866 CL13",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev P"
+  }
+});
+assertDram("MT41K1G8SN-125:A", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.35V VDD",
+  package: "FBGA-78, 9x13.2",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev A"
+  }
+});
+assertDram("MT41K256M32SGB-125:D", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.35V VDD",
+  package: "FBGA-136, 11x14x1.2",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Series": "TwinDie",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
+    "DRAM Speed": "DDR3-1600 CL11",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev D"
+  }
+});
+assertDram("MT41J512M4THR-15:D", {
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x4",
+  voltage: "1.5V VDD",
+  package: "FBGA-78, 9x11.5",
+  extra: {
+    "DRAM Type": "DDR3",
+    "Series": "TwinDie",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
+    "DRAM Speed": "667MHz (DDR-1333)",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev D"
+  }
+});
 assertDram("CT41K1024M8RH-125:A", {
   densityMbit: 8192,
   density: "8Gb",
@@ -754,6 +925,37 @@ const ddr5Expected = {
 
 assertDram("MT60B2G8HB-48B-IT-A", ddr5Expected);
 assertDram("MT60B2G8HB-48B IT:A", ddr5Expected);
+
+assertDram("MT60B2G8HS-48B AAT:A", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "FBGA-82, 9x11",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR5-4800B CL40",
+    "Operation Temperature": "Automotive Grade (-40°C ~ 105°C)",
+    "Die Revision": "Rev A"
+  }
+});
+assertDram("MT60B1G16HT-48B AAT:A", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "FBGA-102, 9x14",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR5-4800B CL40",
+    "Operation Temperature": "Automotive Grade (-40°C ~ 105°C)",
+    "Die Revision": "Rev A"
+  }
+});
 
 assertDram("MT60B2G8HB-32B:A", {
   densityMbit: 16384,

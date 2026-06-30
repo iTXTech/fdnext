@@ -50,6 +50,7 @@
 - 用户补充的 Micron DDR3L `MT41K512M16` TwinDie 截图确认 `VRN/VRP` 为 `FBGA-96, 8x14`，两个 x8 die 组成一个 x16 device，输出 `2 dies, 1 CS`，`IT` 温度为 Industrial (-40°C ~ 95°C)，`VRN/VRP` 的焊球材料分别为 `Pb-free SAC302` / `Pb-free SACQ`。
 - 用户补充的 Micron DDR4 ordering 截图确认 `MT40A` 普通 / automotive DDR4 的 package code 可跨 family 复用，公共 FBGA package 先按 package code 查表，少数冲突再用 `family:package` override；新增确认 `HX/RH/WE/SA/HA/GE/LY/TB/VA/JC/RC/KD/PM/JY/TD/AG/AD`，以及 DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E` timing token，其中 `093` 为 `DDR4-2133 CL16`，`107E` 为 `DDR4-1866 CL13`。Automotive DDR4 中 `A` 为 automotive grade，`IT/AT/UT` 分别为 `-40°C ~ 95°C`、`-40°C ~ 105°C`、`-40°C ~ 125°C`。
 - 用户补充的 Micron DDR4 TwinDie 截图确认 `TRF/FSE/NRE/NEA` 为 low-profile `x1.2` FBGA，且 TwinDie 必须显式输出 `2 dies, 2 CS`，而不是只输出 package 或只靠名称暗示。
+- 本轮继续扫描 Micron DDR3 / DDR3L / DDR4 / DDR5 package 后，公开 datasheet / catalog 直接确认 `JP/BY/LA/JE/EF/RG/TW/SN/SGB/SKL/HS/HT`，并通过外部表 + RDIMM datasheet 交叉确认 `THR`。`SGB` 为 x32 TwinDie `2 dies, 1 CS`；`SKL` 为 x16 TwinDie single-rank `2 dies, 1 CS`；`THR` 为 DDR3 x4 TwinDie `2 dies, 2 CS`。来源：<https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/588/MT41J256M4%2C128M8%2C64M16.pdf>、<https://uttc.com.tw/wp-content/uploads/2025/12/2Gb-x4-x8-x16-DDR3-SDRAM_Rev.N-0111-EN_Data-sheet.pdf>、<https://www.alliancememory.com/wp-content/uploads/Micron_2Gb_DDR3_SDRAM_PartNo.MT41J128M16JT-107.pdf>、<https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/6128/MT41K1G4_MT41K512M8_MT41K256M16_RevR_Sep2018.pdf>、<https://www.ic-components.ru/files/7b/MT41K1G8SN-125-A.pdf>、<https://datasheet.octopart.com/MT41K256M32SLD-125%3AE-Micron-datasheet-180657479.pdf>、<https://www.farnell.com/datasheets/3760671.pdf>、<https://www.micron.com/content/micron/us/en/products/memory/dram-components/ddr5-sdram/part-catalog/_jcr_content.products.json/getpartcatalog/memory/ddr5-sdram/-/en_US>、<https://www.findchips.com/compare/MT41J256M4JP-125EAT%3AF--vs--MT41J512M4THR-15%3AD>、<https://datasheet.octopart.com/MT36JDZS1G72PZ-1G4D1-Micron-datasheet-11776295.pdf>
 - 公开评测记录了 Crucial/Ballistix 颗粒 `C9BJZ` / `CT40A1G8SA-62M:E` 的实物和 Micron FBGA decoder 结果；该资料只用于确认 `CT40` namespace 形态，不作为完整 PN 白名单。
   <https://aphnetworks.com/reviews/ballistix-elite-pc4-28800-4x8gb/2>
 - Micron 官方 `Legacy LPDRAM Part Numbering System / Legacy DDR4, DDR3/L, & DDR2 SDRAM Part Numbering System` PDF 记录了 Micron 收购 Elpida 后的 legacy Elpida PN 命名；Micron FBGA code 反查可能返回 `EDB/EDF...` Elpida LPDRAM PN，也可能返回 `ED/EE + 40/41/47/...` 这类 legacy PN。
@@ -148,8 +149,10 @@ Micron DDR3 / DDR3L / DDR4 TwinDie / QuadDie die / CS topology 按 package-only 
 | `THA` / `SMA` | QuadDie | `4 dies, 4 CS` | QuadDie |
 | `TNA` | TwinDie | `2 dies, 2 CS` | TwinDie |
 | `SLD` | TwinDie | `2 dies, 1 CS` | TwinDie |
-| `BAF` / `FSE` / `KJR` / `NEA` / `NRE` / `RKB` / `THD` / `THE` / `THU` / `THV` / `TRF` / `DGA` | TwinDie | `2 dies, 2 CS` | x4/x8 TwinDie |
+| `BAF` / `FSE` / `KJR` / `NEA` / `NRE` / `RKB` / `THD` / `THE` / `THR` / `THU` / `THV` / `TRF` / `DGA` | TwinDie | `2 dies, 2 CS` | x4/x8 TwinDie |
 | `HBA` / `KNR` / `TBB` / `WBU` / `VRN` / `VRP` | TwinDie | `2 dies, 1 CS` | single-rank x16 TwinDie |
+| `41:256M32:SGB` | TwinDie | `2 dies, 1 CS` | DDR3L x32 TwinDie |
+| `40:2G16:SKL` | TwinDie | `2 dies, 1 CS` | DDR4 x16 TwinDie |
 | `40:2G8:DVN` / `40:2G8:HPR` / `40:4G4:DVN` / `40:4G4:HPR` | 3DS 2H | `2 dies, 1 CS` | DDR4 2H 3DS |
 | `40:4G8:CLU` / `40:4G8:KVA` / `40:8G4:CLU` / `40:8G4:KVA` | 3DS 4H | `4 dies, 1 CS` | DDR4 4H 3DS |
 
@@ -204,28 +207,39 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 | `40:NEA` | `FBGA-78, 7.5x11x1.2` |
 | `40:NRE` | `FBGA-78, 8x12x1.2` |
 | `40:SA` | `FBGA-78, 7.5x11` |
+| `40:SKL` | `FBGA-96, 10.5x13x1.2` |
 | `40:TBB` | `FBGA-96, 7.5x13` |
 | `40:TRF` | `FBGA-78, 9.5x11.5x1.2` |
 | `40:WBU` | `FBGA-96, 8x14` |
+| `41:BY` | `FBGA-86, 9x15.5` |
 | `41:DA` | `FBGA-78, 8x10.5` |
 | `41:DGA` | `FBGA-96, 9.5x14` |
+| `41:EF` | `FBGA-78, 8x10.5` |
 | `41:HA` | `FBGA-96, 9x14` |
 | `41:HX` | `FBGA-78, 9x11.5` |
+| `41:JE` | `FBGA-82, 12.5x15` |
+| `41:JP` | `FBGA-78, 8x11.5` |
 | `41:JT` | `FBGA-96, 8x14` |
 | `41:KJR` | `FBGA-78, 9.5x13` |
+| `41:LA` | `FBGA-96, 9x15.5` |
 | `41:RA` | `FBGA-78, 10.5x12` |
 | `41:RE` | `FBGA-96, 10x14` |
+| `41:RG` | `FBGA-78, 7.5x10.6` |
 | `41:RH` | `FBGA-78, 9x10.5` |
 | `41:RKB` | `FBGA-78, 8x10.5` |
+| `41:SGB` | `FBGA-136, 11x14x1.2` |
 | `41:SLD` | `FBGA-136, 10x14x1.2` |
 | `41:SMA` | `FBGA-78, 9.5x11.5x1.45` |
+| `41:SN` | `FBGA-78, 9x13.2` |
 | `41:THA` | `FBGA-78, 10x11.5x1.45` |
 | `41:THD` | `FBGA-78, 9x11.5` |
 | `41:THE` | `FBGA-78, 10.5x12` |
+| `41:THR` | `FBGA-78, 9x11.5` |
 | `41:THU` | `FBGA-82, 12.5x15` |
 | `41:THV` | `FBGA-78, 8x11.5` |
 | `41:TNA` | `FBGA-96, 10x14x1.2` |
 | `41:TRF` | `FBGA-78, 9.5x11.5x1.2` |
+| `41:TW` | `FBGA-96, 8x14` |
 | `42:LF` | `WFBGA-168, 12x12` |
 | `46:B5` | `VFBGA-90, 8x13` |
 | `46:P` | `TSOP-66` |
@@ -240,6 +254,8 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 | `60:HB` | `FBGA-82, 9x11` |
 | `60:HC` | `FBGA-102, 9x14` |
 | `60:HD` | `FBGA-102, 7.5x14` |
+| `60:HS` | `FBGA-82, 9x11` |
+| `60:HT` | `FBGA-102, 9x14` |
 | `60:HZ` | `FBGA-102, 9.5x14` |
 | `60:JF` | `FBGA-82, 9.5x11` |
 | `60:RV` | `FBGA-102, 8x14` |
