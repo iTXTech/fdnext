@@ -84,6 +84,7 @@ export const standaloneDramExtraKeys = new Set([
   "Bank Count",
   "Channel Count",
   "Interface Type",
+  "Series",
   "Revision",
   "Operation Temperature",
   "Packing Type",

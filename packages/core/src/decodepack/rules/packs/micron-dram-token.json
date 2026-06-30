@@ -407,7 +407,11 @@
           "CM",
           "FSE",
           "HBA",
+          "HPR",
           "KNR",
+          "KVA",
+          "CLU",
+          "DVN",
           "KQ",
           "MA",
           "NEA",
@@ -461,14 +465,18 @@
           "40:AG": "FBGA-78, 7.5x11",
           "40:BAF": "FBGA-78, 10.5x11",
           "40:FSE": "FBGA-78, 9.5x13x1.2",
+          "40:CLU": "FBGA-78, 7.5x11x1.2",
+          "40:DVN": "FBGA-78, 7.5x12x1.2",
           "40:GE": "FBGA-96, 9x14",
           "40:HBA": "FBGA-96, 9.5x14",
           "40:HA": "FBGA-96, 9x14",
+          "40:HPR": "FBGA-78, 8x12x1.2",
           "40:HX": "FBGA-78, 9x11.5",
           "40:JC": "FBGA-78, 9x11",
           "40:JY": "FBGA-96, 8x14",
           "40:KD": "FBGA-96, 9x13",
           "40:KNR": "FBGA-96, 7.5x13.5",
+          "40:KVA": "FBGA-78, 8x12x1.2",
           "40:LY": "FBGA-96, 7.5x13.5",
           "40:NEA": "FBGA-78, 7.5x11x1.2",
           "40:NRE": "FBGA-78, 8x12x1.2",
@@ -533,91 +541,155 @@
         },
         "packageDieStackObj": {
           "BAF": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "DGA": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "FSE": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "HBA": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 1
           },
           "KJR": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "KNR": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 1
           },
           "NEA": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "NRE": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "RKB": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "SLD": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 1
           },
           "SMA": {
+            "series_info": "QuadDie",
             "dram_die_count": 4,
             "cs_count": 4
           },
           "TBB": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 1
           },
           "THA": {
+            "series_info": "QuadDie",
             "dram_die_count": 4,
             "cs_count": 4
           },
           "THD": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "THE": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "THU": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "THV": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "TNA": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "TRF": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 2
           },
           "VRN": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 1
           },
           "VRP": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
             "cs_count": 1
           },
           "WBU": {
+            "series_info": "TwinDie",
             "dram_die_count": 2,
+            "cs_count": 1
+          }
+        },
+        "packageDieStackScopedObj": {
+          "40:2G8:DVN": {
+            "series_info": "3DS 2H",
+            "dram_die_count": 2,
+            "cs_count": 1
+          },
+          "40:2G8:HPR": {
+            "series_info": "3DS 2H",
+            "dram_die_count": 2,
+            "cs_count": 1
+          },
+          "40:4G4:DVN": {
+            "series_info": "3DS 2H",
+            "dram_die_count": 2,
+            "cs_count": 1
+          },
+          "40:4G4:HPR": {
+            "series_info": "3DS 2H",
+            "dram_die_count": 2,
+            "cs_count": 1
+          },
+          "40:4G8:CLU": {
+            "series_info": "3DS 4H",
+            "dram_die_count": 4,
+            "cs_count": 1
+          },
+          "40:4G8:KVA": {
+            "series_info": "3DS 4H",
+            "dram_die_count": 4,
+            "cs_count": 1
+          },
+          "40:8G4:CLU": {
+            "series_info": "3DS 4H",
+            "dram_die_count": 4,
+            "cs_count": 1
+          },
+          "40:8G4:KVA": {
+            "series_info": "3DS 4H",
+            "dram_die_count": 4,
             "cs_count": 1
           }
         },
@@ -669,6 +741,38 @@
           "40:A:8G4:NEA": {
             "status": "external_table_confirmed",
             "source": "Micron MT40A8G4/MT40A4G8 TwinDie DDR4 SDRAM datasheet mirror"
+          },
+          "40:A:2G8:DVN": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A4G4/MT40A2G8 2H 3DS DDR4 SDRAM datasheet"
+          },
+          "40:A:2G8:HPR": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A4G4/MT40A2G8 2H 3DS DDR4 SDRAM datasheet"
+          },
+          "40:A:4G4:DVN": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A4G4/MT40A2G8 2H 3DS DDR4 SDRAM datasheet"
+          },
+          "40:A:4G4:HPR": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A4G4/MT40A2G8 2H 3DS DDR4 SDRAM datasheet"
+          },
+          "40:A:4G8:CLU": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A8G4/MT40A4G8 4H 3DS DDR4 SDRAM datasheet"
+          },
+          "40:A:4G8:KVA": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A8G4/MT40A4G8 4H 3DS DDR4 SDRAM datasheet"
+          },
+          "40:A:8G4:CLU": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A8G4/MT40A4G8 4H 3DS DDR4 SDRAM datasheet"
+          },
+          "40:A:8G4:KVA": {
+            "status": "external_confirmed",
+            "source": "Micron MT40A8G4/MT40A4G8 4H 3DS DDR4 SDRAM datasheet"
           },
           "40:A:1G16:HBA": {
             "status": "external_confirmed",
@@ -1799,6 +1903,11 @@
           "to": "packageKey"
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{configCode}}:{{packageCode}}",
+          "to": "packageStackKey"
+        },
+        {
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
@@ -1819,10 +1928,22 @@
         },
         {
           "op": "map",
+          "from": "packageStackKey",
+          "table": "packageDieStackScopedObj",
+          "to": "packageDieStackScopedObj"
+        },
+        {
+          "op": "map",
           "from": "packageCode",
           "table": "packageDieStackObj",
-          "to": "packageDieStackObj",
+          "to": "packageDieStackByCodeObj",
           "default": {}
+        },
+        {
+          "op": "fallback",
+          "primary": "packageDieStackScopedObj",
+          "secondary": "packageDieStackByCodeObj",
+          "to": "packageDieStackObj"
         },
         {
           "op": "map",

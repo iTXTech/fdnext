@@ -258,6 +258,7 @@ assertDram("MT40A2G4TRF-093E:A", {
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
+    "Series": "TwinDie",
     "DRAM Die Count": 2,
     "CS Count": 2,
     "Package Code": "TRF",
@@ -277,6 +278,7 @@ assertDram("MT40A4G4FSE-093:A", {
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
+    "Series": "TwinDie",
     "DRAM Die Count": 2,
     "CS Count": 2,
     "Package Code": "FSE",
@@ -296,6 +298,7 @@ assertDram("MT40A2G8NRE-083E:B", {
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
+    "Series": "TwinDie",
     "DRAM Die Count": 2,
     "CS Count": 2,
     "Package Code": "NRE",
@@ -315,6 +318,7 @@ assertDram("MT40A4G8NEA-062E:F", {
   topology: { ce: 2, die: 2 },
   extra: {
     "DRAM Type": "DDR4",
+    "Series": "TwinDie",
     "DRAM Die Count": 2,
     "CS Count": 2,
     "Package Code": "NEA",
@@ -322,6 +326,44 @@ assertDram("MT40A4G8NEA-062E:F", {
     "DRAM Speed": "DDR4-3200 CL22",
     "Operation Temperature": "Commercial",
     "Die Revision": "Rev F"
+  }
+});
+
+assertDram("MT40A4G4HPR-075H:G", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.2V VDD",
+  package: "FBGA-78, 8x12x1.2",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Series": "3DS 2H",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
+    "Package Code": "HPR",
+    "Config Code": "4G4",
+    "DRAM Speed": "DDR4-2666 CL19",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev G"
+  }
+});
+
+assertDram("MT40A8G4KVA-075H:G", {
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x4",
+  voltage: "1.2V VDD",
+  package: "FBGA-78, 8x12x1.2",
+  extra: {
+    "DRAM Type": "DDR4",
+    "Series": "3DS 4H",
+    "DRAM Die Count": 4,
+    "CS Count": 1,
+    "Package Code": "KVA",
+    "Config Code": "8G4",
+    "DRAM Speed": "DDR4-2666 CL19",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev G"
   }
 });
 
@@ -333,6 +375,7 @@ assertDram("MT40A1G16WBU-083E:B", {
   package: "FBGA-96, 8x14",
   extra: {
     "DRAM Type": "DDR4",
+    "Series": "TwinDie",
     "DRAM Die Count": 2,
     "CS Count": 1,
     "Package Code": "WBU",
@@ -351,6 +394,7 @@ assertDram("MT40A2G16TBB-062E:F", {
   package: "FBGA-96, 7.5x13",
   extra: {
     "DRAM Type": "DDR4",
+    "Series": "TwinDie",
     "DRAM Die Count": 2,
     "CS Count": 1,
     "Package Code": "TBB",
@@ -514,6 +558,7 @@ assertDram("D9XLQ", {
   package: "FBGA-96, 8x14",
   extra: {
     "DRAM Type": "DDR3",
+    "Series": "TwinDie",
     "DRAM Die Count": 2,
     "CS Count": 1,
     "DRAM Speed": "DDR3-1866 CL13",

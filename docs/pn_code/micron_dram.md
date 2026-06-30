@@ -32,7 +32,6 @@
   - <https://www.digikey.com/en/products/detail/micron-technology-inc/MT61K512M32KPA-24-U-TR/17632186>
   - <https://datasheet.octopart.com/MT58K256M32JA-100%3AA-Micron-datasheet-180658177.pdf>
 - Micron DDR3/DDR3L TwinDie datasheet 用于确认 `MT41J/MT41K` 的双 die / 2CS 规则。DigiKey 镜像可确认 `MT41J1G4/MT41J512M8`、`MT41K1G4/MT41K512M8`、`MT41K2G4/MT41K1G8`、`MT41K512M16`、`MT41K1G16`；公开 datasheet 镜像交叉确认 `MT41J2G4/MT41J1G8` 与 `MT41K4G4/MT41K2G8`。
-- Micron DDR4 TwinDie datasheet 用于确认 `MT40A` 双 die 规则。`MT40A2G4/MT40A1G8` 和 `MT40A4G4/MT40A2G8` 公开 datasheet 明确 x4/x8 TwinDie 是 two ranks / dual CS；`MT40A1G16` 和 `MT40A2G16` 公开 datasheet 明确 x16 TwinDie 是 two x8 die 组合成 single-rank x16；`MT40A8G4/MT40A4G8` 的公开 datasheet 镜像确认 32Gb x4/x8 TwinDie。来源：<https://www.digikey.ch/htmldatasheets/production/1922660/0/0/1/mt40a2g4-mt40a1g8.html>、<https://www.digikey.com/htmldatasheets/production/1952763/0/0/1/mt40a4g4-mt40a2g8.pdf>、<https://www.alldatasheet.net/datasheet-pdf/pdf/2168610/MICRON/MT40A2G16.html>、<https://en.sekorm.com/doc/2000552.html>
   - <https://www.digikey.com/htmldatasheets/production/848961/0/0/1/mt41j1g4-512m8.html>
   - <https://www.digikey.bg/htmldatasheets/production/1004675/0/0/1/mt41k1g4-mt41k512m8.html>
   - <https://www.digikey.com/htmldatasheets/production/1959025/0/0/1/mt41k2g4-mt41k1g8.html>
@@ -40,13 +39,15 @@
   - <https://www.digikey.com/htmldatasheets/production/1959024/0/0/1/mt41k1g16.html>
   - <https://e-nexty.dxp.nexty-ele.com/en/product_files/download?lc_code=ja&maker_code=MICRONT&product_file_id=4801656&product_id=5843368&product_part_number=MT41J2G4TRF-125%3AE&search_log_id=7616014>
   - <https://pdf.elecfans.com/MICRON/MT41K2G8KJR-125%3AA%20TR.html>
+- Micron DDR4 TwinDie datasheet 用于确认 `MT40A` 双 die 规则。`MT40A2G4/MT40A1G8` 和 `MT40A4G4/MT40A2G8` 公开 datasheet 明确 x4/x8 TwinDie 是 two ranks / dual CS；`MT40A1G16` 和 `MT40A2G16` 公开 datasheet 明确 x16 TwinDie 是 two x8 die 组合成 single-rank x16；`MT40A8G4/MT40A4G8` 的公开 datasheet 镜像确认 32Gb x4/x8 TwinDie。来源：<https://www.digikey.ch/htmldatasheets/production/1922660/0/0/1/mt40a2g4-mt40a1g8.html>、<https://www.digikey.com/htmldatasheets/production/1952763/0/0/1/mt40a4g4-mt40a2g8.pdf>、<https://www.alldatasheet.net/datasheet-pdf/pdf/2168610/MICRON/MT40A2G16.html>、<https://en.sekorm.com/doc/2000552.html>
+- Micron DDR4 3DS datasheet 用于确认 `MT40A4G4/MT40A2G8` 2H 3DS 与 `MT40A8G4/MT40A4G8` 4H 3DS。2H 3DS 输出 `series_info = 3DS 2H`、`2 dies`、`1 CS`；4H 3DS 输出 `series_info = 3DS 4H`、`4 dies`、`1 CS`。该 `CS Count` 表示外部 chip select，3DS 内部 logical ranks 由 C[2:0] 选择，不按外部 CS 数累加。来源：<https://www.rxelectronics.sg/datasheet/b9/MT40A4G8KVA-083H-G.pdf>
 - Micron Memory Japan `EDY4016A` 4Gb x16 DDR4 datasheet 确认 legacy DDR4 `EDY 40 16 A A BG - speed - F - packing` 结构：`40=4Gb`、`16=x16`、`A=1.2V VDD/VDDQ`、`BG=96-ball FBGA (7.5x13.5)`、`JD/GX/DR` 分别为 DDR4-3200/2666/2400 timing、`F=Lead-free RoHS-compliant and halogen-free`、`D/R=tray/tape reel`；features 页确认 VPP=2.5V、POD I/O、8 internal banks 和 commercial `0°C ~ 95°C`。来源：<https://media.digikey.com/pdf/Data%20Sheets/Micron%20Technology%20Inc%20PDFs/EDY4016A.pdf>
 - DigiKey / Micron part catalog 页面交叉确认 `EDY4016AABG-DR-F-D`、`EDY4016AABG-GX-F-D`、`EDY4016AABG-JD-F-D` 及 `-R TR` 订货形态属于 Micron DDR4 4Gbit 256M x16 96-FBGA；资源中 canonical PN 只保留 `-R`，不保留分销包装后缀 `TR`。来源：<https://www.digikey.com/en/products/detail/micron-technology-inc/EDY4016AABG-DR-F-D/6024312>、<https://www.digikey.com/en/products/detail/micron-technology-inc/EDY4016AABG-GX-F-D/6024313>、<https://www.digikey.com/en/products/detail/micron-technology-inc/EDY4016AABG-JD-F-D/6024314>、<https://my.micron.com/products/memory/dram-components/ddr4-sdram/part-catalog/part-detail/edy4016aabg-dr-f>
 - 公开镜像 `DRAM Component Part Numbering System` 可核对字段顺序、family/voltage/device version/temperature/status/revision/speed 等 token 含义；镜像版本较旧，只用于字段结构交叉验证。
   <https://docslib.org/doc/10329358/dram-component-part-numbering-system>
 - 用户提供的 `常见几种DDR3_DDR3L的命名规则.pdf` 中 Micron `DRAM Component Part Numbering System` 页面确认 DDR3 speed token `187E/15E/125/125E/107/093` 对应 1066/1333/1600/1600/1866/2133 与 CL7/9/11/10/13/14；规则使用 family-scoped `41:*` speed，避免 `093` 落到 LPDDR4 通用含义。
 - 用户补充的 Micron DDR3 / DDR3L ordering 截图确认 package code 为 1-3 字符，并确认 `DA/JT/RH/HA/RA/RE/HX/THA/SMA/TNA/SLD` 的实际 FBGA 封装尺寸；输出统一使用 `TYPE-PIN, DIM`，例如 `HA = FBGA-96, 9x14`、`RH = FBGA-78, 9x10.5`、`HX = FBGA-78, 9x11.5`、`THA = FBGA-78, 10x11.5x1.45`、`SMA = FBGA-78, 9.5x11.5x1.45`、`TNA = FBGA-96, 10x14x1.2`、`SLD = FBGA-136, 10x14x1.2`；package 不输出 Rev / ball / mm 等资料注记。同组截图确认 `A` 为 Automotive product certification，`M` 为 TCSR power saving，`IT` 为 `-40°C ~ 95°C`，`AT` 为 `-40°C ~ 105°C`。Die/CS 按 package-only 判断：`THA/SMA = 4 dies, 4 CS`，`TNA = 2 dies, 2 CS`，`SLD = 2 dies, 1 CS`。
-- 用户补充的 Micron DDR3L `MT41K512M16` TwinDie 截图确认 `VRN/VRP` 为 `FBGA-96, 8x14`，x16 TwinDie 是 single-rank `2 dies, 1 CS`，`IT` 温度为 Industrial (-40°C ~ 95°C)，`VRN/VRP` 的焊球材料分别为 `Pb-free SAC302` / `Pb-free SACQ`。
+- 用户补充的 Micron DDR3L `MT41K512M16` TwinDie 截图确认 `VRN/VRP` 为 `FBGA-96, 8x14`，两个 x8 die 组成一个 x16 device，输出 `2 dies, 1 CS`，`IT` 温度为 Industrial (-40°C ~ 95°C)，`VRN/VRP` 的焊球材料分别为 `Pb-free SAC302` / `Pb-free SACQ`。
 - 用户补充的 Micron DDR4 ordering 截图确认 `MT40A` 普通 / automotive DDR4 的 package code 可跨 family 复用，公共 FBGA package 先按 package code 查表，少数冲突再用 `family:package` override；新增确认 `HX/RH/WE/SA/HA/GE/LY/TB/VA/JC/RC/KD/PM/JY/TD/AG/AD`，以及 DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E` timing token，其中 `093` 为 `DDR4-2133 CL16`，`107E` 为 `DDR4-1866 CL13`。Automotive DDR4 中 `A` 为 automotive grade，`IT/AT/UT` 分别为 `-40°C ~ 95°C`、`-40°C ~ 105°C`、`-40°C ~ 125°C`。
 - 用户补充的 Micron DDR4 TwinDie 截图确认 `TRF/FSE/NRE/NEA` 为 low-profile `x1.2` FBGA，且 TwinDie 必须显式输出 `2 dies, 2 CS`，而不是只输出 package 或只靠名称暗示。
 - 公开评测记录了 Crucial/Ballistix 颗粒 `C9BJZ` / `CT40A1G8SA-62M:E` 的实物和 Micron FBGA decoder 结果；该资料只用于确认 `CT40` namespace 形态，不作为完整 PN 白名单。
@@ -121,7 +122,7 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
 - `fields.voltage` 输出 Micron voltage token 对应说明。
 - `fields.package` 输出实际封装，例如 `FBGA-78, 7.5x11`；Micron FBGA package code 优先按 package-only 公共表复用，少数跨产品线冲突保留 `family + package code` override。
 - standalone DRAM 的 `fields` 避免重复顶层输出：不再输出 `product_family`、`product_version`、`dram_density`、`dram_width`。
-- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`dram_die_count`、`cs_count`、`bank_count`、`interface_type`、`dram_speed`、`operation_temperature`、`die_revision`、`solder_type`、`packing_type`、`special_option`。
+- `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`series_info`、`dram_die_count`、`cs_count`、`bank_count`、`interface_type`、`dram_speed`、`operation_temperature`、`die_revision`、`solder_type`、`packing_type`、`special_option`。
 - `device version` 先按 family scope 匹配，避免 `DA/DE/LF` 等 token 与 package code 冲突；`D1/D2/D3/D4/D6/D8/DA/DB/DC/DD/DE/LF/L2/L4` 只标准化为 `dram_die_count`，例如 `D4` 输出 `dram_die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`，`DD/DE` 保留官方 LPDDR4 mixed die stack 描述；没有 CS 资料时不输出 `cs_count`。
 - `speed` token 同样优先按 family scope 匹配：DDR5 `32B/36B/40B/44B/48B/52B/56B/64B/72B/80B/88B/92B`、DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E`、DDR3 `125E`、DDR2 `3`、DDR `6T`、SDR `7E/10`、GDDR5 `50/60/70`、GDDR5X `110/120/140`、GDDR6 `10/15` 与 GDDR6X `19/20/22/23` 来自官方 2023 PNS 或公开 ordering 截图；`18` 同时出现在 GDDR6/GDDR6X 表中，当前不在 decodepack 中强行判定。
 - DDR5 `60:*` speed 对 addendum 明确给出 CL 的 bin 保留 CL 时序：`48B = DDR5-4800B CL40`、`52B = DDR5-5200B CL42`、`56B = DDR5-5600B CL46`、`64B = DDR5-6400B CL52`、`72B = DDR5-7200B CL58`、`80B = DDR5-8000B CL64`、`88B = DDR5-8800B CL72`、`92B = DDR5-9200B CL74`。
@@ -140,15 +141,17 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
 
 ## Die / CS Packages
 
-Micron DDR3 / DDR3L / DDR4 die / CS topology 按 package-only 判断，不再用 `family + voltage + config + package` 组合 key。Package code 在已确认资料中唯一对应 die/CS 结构；同一 config 若换到普通封装，例如 `DA/HA/RH`，不输出 `dram_die_count` / `cs_count`。
+Micron DDR3 / DDR3L / DDR4 TwinDie / QuadDie die / CS topology 按 package-only 判断；DDR4 3DS 按 `family + config + package` 判断，避免同一 package code 在普通件与 3DS 件之间误用。Package code 在已确认资料中唯一对应 TwinDie / QuadDie 结构；同一 config 若换到普通封装，例如 `DA/HA/RH`，不输出 stacked 系列。
 
-| Package | die / CS | notes |
-| --- | --- | --- |
-| `THA` / `SMA` | `4 dies, 4 CS` | QuadDie |
-| `TNA` | `2 dies, 2 CS` | TwinDie |
-| `SLD` | `2 dies, 1 CS` | TwinDie |
-| `BAF` / `FSE` / `KJR` / `NEA` / `NRE` / `RKB` / `THD` / `THE` / `THU` / `THV` / `TRF` / `DGA` | `2 dies, 2 CS` | TwinDie |
-| `HBA` / `KNR` / `TBB` / `WBU` | `2 dies, 1 CS` | TwinDie single-rank x16 |
+| Package / scope | series | die / CS | notes |
+| --- | --- | --- | --- |
+| `THA` / `SMA` | QuadDie | `4 dies, 4 CS` | QuadDie |
+| `TNA` | TwinDie | `2 dies, 2 CS` | TwinDie |
+| `SLD` | TwinDie | `2 dies, 1 CS` | TwinDie |
+| `BAF` / `FSE` / `KJR` / `NEA` / `NRE` / `RKB` / `THD` / `THE` / `THU` / `THV` / `TRF` / `DGA` | TwinDie | `2 dies, 2 CS` | x4/x8 TwinDie |
+| `HBA` / `KNR` / `TBB` / `WBU` / `VRN` / `VRP` | TwinDie | `2 dies, 1 CS` | single-rank x16 TwinDie |
+| `40:2G8:DVN` / `40:2G8:HPR` / `40:4G4:DVN` / `40:4G4:HPR` | 3DS 2H | `2 dies, 1 CS` | DDR4 2H 3DS |
+| `40:4G8:CLU` / `40:4G8:KVA` / `40:8G4:CLU` / `40:8G4:KVA` | 3DS 4H | `4 dies, 1 CS` | DDR4 4H 3DS |
 
 ## DDR5 大容量 configuration
 
@@ -192,8 +195,12 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 | `WE` | `FBGA-78, 8x12` |
 | `40:BAF` | `FBGA-78, 10.5x11` |
 | `40:FSE` | `FBGA-78, 9.5x13x1.2` |
+| `40:CLU` | `FBGA-78, 7.5x11x1.2` |
+| `40:DVN` | `FBGA-78, 7.5x12x1.2` |
 | `40:HBA` | `FBGA-96, 9.5x14` |
+| `40:HPR` | `FBGA-78, 8x12x1.2` |
 | `40:KNR` | `FBGA-96, 7.5x13.5` |
+| `40:KVA` | `FBGA-78, 8x12x1.2` |
 | `40:NEA` | `FBGA-78, 7.5x11x1.2` |
 | `40:NRE` | `FBGA-78, 8x12x1.2` |
 | `40:SA` | `FBGA-78, 7.5x11` |
@@ -253,6 +260,8 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 | `MT40A4G4FSE-093:A` | DDR4 TwinDie SDRAM | `16Gb`, `x4`, `FBGA-78, 9.5x13x1.2`, `2 dies, 2 CS`, `DDR4-2133 CL16`, `Rev A` |
 | `MT40A2G8NRE-083E:B` | DDR4 TwinDie SDRAM | `16Gb`, `x8`, `FBGA-78, 8x12x1.2`, `2 dies, 2 CS`, `DDR4-2400 CL16`, `Rev B` |
 | `MT40A4G8NEA-062E:F` | DDR4 TwinDie SDRAM | `32Gb`, `x8`, `FBGA-78, 7.5x11x1.2`, `2 dies, 2 CS`, `DDR4-3200 CL22`, `Rev F` |
+| `MT40A4G4HPR-075H:G` | DDR4 3DS SDRAM | `16Gb`, `x4`, `FBGA-78, 8x12x1.2`, `3DS 2H`, `2 dies, 1 CS`, `DDR4-2666 CL19`, `Rev G` |
+| `MT40A8G4KVA-075H:G` | DDR4 3DS SDRAM | `32Gb`, `x4`, `FBGA-78, 8x12x1.2`, `3DS 4H`, `4 dies, 1 CS`, `DDR4-2666 CL19`, `Rev G` |
 | `MT40A1G16WBU-083E:B` | DDR4 SDRAM | `16Gb`, `x16`, `FBGA-96, 8x14`, `2 dies, 1 CS`, `DDR4-2400 CL16`, `Rev B` |
 | `MT40A2G16TBB-062E:F` | DDR4 SDRAM | `32Gb`, `x16`, `FBGA-96, 7.5x13`, `2 dies, 1 CS`, `DDR4-3200 CL22`, `Rev F` |
 | `MT40A512M8RH-093:B` | DDR4 SDRAM | `4Gb`, `x8`, `FBGA-78, 9x10.5`, `DDR4-2133 CL16`, `Rev B` |
