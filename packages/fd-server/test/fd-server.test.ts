@@ -110,6 +110,18 @@ test("/decode maps known PN to FlashInfo field set", async () => {
   assert.equal((data.url as Record<string, string>)["FlashMaster Web"], "https://fm.itxtech.org");
 });
 
+test("/decode maps DRAM die and CS counts into legacy classification", async () => {
+  const { body } = await inject("/decode?pn=H9CCNNNBLTBLAR-NTD&lang=eng");
+  assert.equal(body.result, true);
+  const data = body.data as Record<string, unknown>;
+  const classification = data.classification as Record<string, unknown>;
+  assert.equal(classification.die, 4);
+  assert.equal(classification.ce, 2);
+  assert.equal((data.extraInfo as Record<string, unknown>)["DRAM Type"], undefined);
+  assert.equal((data.extraInfo as Record<string, unknown>)["DRAM Die Count"], undefined);
+  assert.equal((data.extraInfo as Record<string, unknown>)["CS Count"], undefined);
+});
+
 test("/decodeId maps known flash id to FlashIdInfo field set", async () => {
   const { body } = await inject("/decodeId?id=2C64444BA900&lang=eng");
   assert.equal(body.result, true);

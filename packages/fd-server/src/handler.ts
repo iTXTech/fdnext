@@ -146,6 +146,7 @@ const consumedPartFieldKeys = new Set([
   "vendor",
   "chip_kind",
   "product_type",
+  "dram_type",
   "part_number",
   "marking_code",
   "density",
@@ -166,9 +167,11 @@ const consumedPartFieldKeys = new Set([
   "package",
   "controller",
   "ce_count",
+  "cs_count",
   "channel_count",
   "rb_count",
-  "die_count"
+  "die_count",
+  "dram_die_count"
 ]);
 
 const consumedIdentifierFieldKeys = new Set([
@@ -505,10 +508,10 @@ function legacyPartNumber(result: PartDecodeResult, rawQuery: string): string {
 function classification(fields: Map<string, FieldValue>, lang: LegacyLang): LegacyFlashInfo["classification"] {
   const fallback = unknown(lang);
   return {
-    ce: fieldDisplay(firstField(fields, ["ce_count"]), lang) ?? fallback,
+    ce: fieldDisplay(firstField(fields, ["ce_count", "cs_count"]), lang) ?? fallback,
     ch: fieldDisplay(firstField(fields, ["channel_count"]), lang) ?? fallback,
     rb: fieldDisplay(firstField(fields, ["rb_count"]), lang) ?? fallback,
-    die: fieldDisplay(firstField(fields, ["die_count"]), lang) ?? fallback
+    die: fieldDisplay(firstField(fields, ["die_count", "dram_die_count"]), lang) ?? fallback
   };
 }
 
