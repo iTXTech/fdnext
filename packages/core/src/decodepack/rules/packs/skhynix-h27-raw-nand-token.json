@@ -31,6 +31,14 @@
           "B": "Vcc: 3.30V (2.70~3.60V), VccQ: 1.80V (1.70~1.95V) or 1.20V (1.14~1.26V)",
           "C": "Vcc: 1.80V (1.70~1.95V), VccQ: 1.20V (1.14~1.26V)"
         },
+        "productTypeObj": {
+          "H2E": {
+            "special_option": "Emulated"
+          },
+          "H2N": {
+            "special_option": "NVDIMM"
+          }
+        },
         "density": {
           "12": 128,
           "13": 1396736,
@@ -269,12 +277,14 @@
           "1": {
             "ce_count": 1,
             "rb_count": 1,
-            "channel_count": 1
+            "channel_count": 1,
+            "product_mode": "Sequential Row Read Enable"
           },
           "2": {
             "ce_count": 1,
             "rb_count": 1,
-            "channel_count": 1
+            "channel_count": 1,
+            "product_mode": "Sequential Row Read Disable"
           },
           "3": {
             "ce_count": 1,
@@ -284,12 +294,14 @@
           "4": {
             "ce_count": 2,
             "rb_count": 2,
-            "channel_count": 1
+            "channel_count": 1,
+            "product_mode": "Sequential Row Read Enable"
           },
           "5": {
             "ce_count": 2,
             "rb_count": 2,
-            "channel_count": 1
+            "channel_count": 1,
+            "product_mode": "Sequential Row Read Disable"
           },
           "7": {
             "ce_count": 2,
@@ -309,22 +321,26 @@
           "F": {
             "ce_count": 4,
             "rb_count": 4,
-            "channel_count": 1
+            "channel_count": 1,
+            "product_mode": "Sequential Row Read Disable"
           },
           "T": {
             "ce_count": 5,
             "rb_count": 5,
-            "channel_count": 1
+            "channel_count": 1,
+            "product_mode": "Sequential Row Read Disable"
           },
           "U": {
             "ce_count": 6,
             "rb_count": 6,
-            "channel_count": 1
+            "channel_count": 1,
+            "product_mode": "Sequential Row Read Disable"
           },
           "V": {
             "ce_count": 8,
             "rb_count": 8,
-            "channel_count": 1
+            "channel_count": 1,
+            "product_mode": "Sequential Row Read Disable"
           },
           "D": {
             "ce_count": 2,
@@ -500,13 +516,15 @@
             "lead_free": false
           },
           "1": {
-            "wafer": true
+            "wafer": true,
+            "packing_type": "Whole Wafer"
           },
           "2": {
-            "wafer": true
+            "wafer": true,
+            "packing_type": "Partial Wafer"
           },
           "3": {
-            "special_option": "LAS"
+            "special_option": "LAS (Limited Appl. Solution)"
           },
           "4": {
             "special_option": "Connecting ZQ PAD"
@@ -515,7 +533,7 @@
             "special_option": "pKGD (Pseudo KGD), Material 1"
           },
           "6": {
-            "special_option": "Stock PGD"
+            "special_option": "Stock PGD (Internal Use Only)"
           },
           "7": {
             "special_option": "pKGD (Pseudo KGD), Material 2"
@@ -528,13 +546,16 @@
             "halogen_free": true
           },
           "A": {
-            "wafer": true
+            "wafer": true,
+            "packing_type": "Wafer (Material 1)"
           },
           "B": {
-            "wafer": true
+            "wafer": true,
+            "packing_type": "Wafer (Material 2)"
           },
           "C": {
-            "wafer": true
+            "wafer": true,
+            "packing_type": "Partial Wafer (Packing Type 1)"
           }
         },
         "badBlockObj": {
@@ -590,6 +611,13 @@
           "op": "take",
           "len": 3,
           "to": "model"
+        },
+        {
+          "op": "map",
+          "from": "model",
+          "table": "productTypeObj",
+          "to": "productTypeObj",
+          "default": {}
         },
         {
           "op": "take",
@@ -736,7 +764,17 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "configObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "packageMaterialObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productTypeObj"
         },
         {
           "op": "stripIfPrefix",

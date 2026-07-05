@@ -105,14 +105,15 @@ H27 / H2E / H2N 使用同一张 ordering chart 规则，不再只把第 10 位�
 | PN 结构 | 字段 |
 | --- | --- |
 | `H` + product type(`27`/`2E`/`2N`) + voltage + density(2) + bus width + die stack + configuration + die generation + package + material + optional `-` + bad block + temperature + I/O speed | raw NAND |
+| product type `27/2E/2N` | `27` 为普通 NAND Flash；`2E` 输出 `special_option = Emulated`；`2N` 输出 `special_option = NVDIMM` |
 | voltage `U/L/S/T/Q/J/B/C` | Vcc / VccQ 组合 |
 | density | device density，先输出 `density`，再结合 die stack 计算 `die_density` |
 | bus width `8/6/2/M/N/O/L/I/D` | x8 / x16 / x32；`M/N` 输出 Enterprise，`O` 输出 Structure 2，`L/I/D` 输出 Customized ECC，不输出 bus width code |
 | die stack | 输出 `cell_level` 与 `die_count`；TLC `L` = 16 die，`X` = 3 die，`0` = 6 die |
-| configuration | 输出 CE / R/B / channel count |
+| configuration | 输出 CE / R/B / channel count；带 Sequential Row Read Enable / Disable note 的行额外输出 `product_mode` |
 | die generation | 结合 cell family 与计算出的 die density 判断 `die_codename` |
 | package | 输出确认过的 package type / pin / dimension，不输出 package code |
-| material / bad block / temperature / I/O speed | 输出 leaded / lead-free / halogen-free / wafer、bad block policy、operation temperature 与 `speed_grade` |
+| material / bad block / temperature / I/O speed | 输出 leaded / lead-free / halogen-free / wafer、wafer packing type、PGD/LAS/ZQ special option、bad block policy、operation temperature 与 `speed_grade` |
 
 H27 process key 使用 `cell family:die density:generation code`。其中 cell family 不是公开字段，只用于规则内部：`S` = SLC，`M` = MLC/eMLC/channel MLC，`T` = TLC/channel TLC。例：`H27Q4T8LQA3R-BDH` 为 4Tb package、TLC `L` 16-die，derived die density 是 256Gb；`T:256Gb:A` 映射 `HYV4`，不是按整包 4Tb 判断。
 

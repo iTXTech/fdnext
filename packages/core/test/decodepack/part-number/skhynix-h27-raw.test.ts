@@ -39,6 +39,46 @@ assertRuleDraftDieProfile("vendor.skhynix.h27.raw.v2", "H27Q4T8LQA3R-BDH", "HYV4
 assertRuleDraftDieProfileMeta("vendor.skhynix.h27.raw.v2", "H27Q4T8LQA3R-BDH", "HYV4");
 assertDecodePackDieProfile("H27Q4T8LQA3R-BDH", "HYV4", 72);
 
+assertPart("H2EQ4T8LQA3R-BDH", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV4",
+  cellField: "TLC",
+  widthField: "x8",
+  package: "LFBGA-316, 14x18x1.35 (B)",
+  extra: {
+    "Special Option": "Emulated",
+    "Layer Count": 72,
+    "Die Density": "256Gb",
+    "Die Count": 16,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 4
+  },
+  absentExtra: h27AbsentExtra
+});
+
+assertPart("H2NQ4T8LQA3R-BDH", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV4",
+  cellField: "TLC",
+  widthField: "x8",
+  package: "LFBGA-316, 14x18x1.35 (B)",
+  extra: {
+    "Special Option": "NVDIMM",
+    "Layer Count": 72,
+    "Die Density": "256Gb",
+    "Die Count": 16,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 4
+  },
+  absentExtra: h27AbsentExtra
+});
+
 assertPart("H27Q4T8LQA3R-BDH", {
   vendor: "skhynix",
   type: "NAND",
@@ -60,6 +100,24 @@ assertPart("H27Q4T8LQA3R-BDH", {
     "Bad block": "Include Bad Block",
     "Operation Temperature": "Commercial 2 (0~85C)",
     "Speed Grade": "667 MT/s"
+  },
+  absentExtra: h27AbsentExtra
+});
+
+assertPart("H27Q4T8L4A3R-BDH", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV4",
+  cellField: "TLC",
+  widthField: "x8",
+  extra: {
+    "Product Mode": "Sequential Row Read Enable",
+    "Die Density": "256Gb",
+    "Die Count": 16,
+    "CE Count": 2,
+    "R/B Count": 2,
+    "Channel Count": 1
   },
   absentExtra: h27AbsentExtra
 });
@@ -99,6 +157,63 @@ assertPart("H27Q4TLLQA3R-BDH", {
   widthField: "x8",
   extra: {
     "Interface Note": "Customized ECC"
+  },
+  absentExtra: h27AbsentExtra
+});
+
+assertPart("H27Q4T8LQA3A-BDH", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV4",
+  cellField: "TLC",
+  widthField: "x8",
+  extra: {
+    "Wafer": "Yes",
+    "Packing Type": "Wafer (Material 1)",
+    "Die Density": "256Gb",
+    "Die Count": 16,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 4
+  },
+  absentExtra: h27AbsentExtra
+});
+
+assertPart("H27Q4T8LQA31-BDH", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV4",
+  cellField: "TLC",
+  widthField: "x8",
+  extra: {
+    "Wafer": "Yes",
+    "Packing Type": "Whole Wafer",
+    "Die Density": "256Gb",
+    "Die Count": 16,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 4
+  },
+  absentExtra: h27AbsentExtra
+});
+
+assertPart("H27Q4T8LQA3C-BDH", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 4194304,
+  dieProfileField: "HYV4",
+  cellField: "TLC",
+  widthField: "x8",
+  extra: {
+    "Wafer": "Yes",
+    "Packing Type": "Partial Wafer (Packing Type 1)",
+    "Die Density": "256Gb",
+    "Die Count": 16,
+    "CE Count": 4,
+    "R/B Count": 4,
+    "Channel Count": 4
   },
   absentExtra: h27AbsentExtra
 });
@@ -172,6 +287,7 @@ assertPart("H27UCG8T2E", {
   widthField: "x8",
   voltage: "Vcc: 3.30V (2.70~3.60V), VccQ: 3.30V (2.70~3.60V)",
   extra: {
+    "Product Mode": "Sequential Row Read Disable",
     "Die Density": "64Gb",
     "Die Count": 1,
     "CE Count": 1,
