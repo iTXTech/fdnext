@@ -1,0 +1,868 @@
+[
+  {
+    "id": "vendor.skhynix.h27.raw.v2",
+    "priority": 946,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H(?:27|2E|2N)[ULSTQJBC][0-9A-Z]{2}[0-9A-Z]{4}"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "voltage": {
+          "U": "Vcc: 3.30V (2.70~3.60V), VccQ: 3.30V (2.70~3.60V)",
+          "L": "Vcc: 2.70V (2.50~2.90V)",
+          "S": "Vcc: 1.80V (1.70~1.95V)",
+          "T": "Vcc: 3.30V (2.70~3.60V), VccQ: 3.30V (2.70~3.60V) or 1.80V (1.70~1.95V)",
+          "Q": "Vcc: 3.30V (2.70~3.60V), VccQ: 1.80V (1.70~1.95V)",
+          "J": "Vcc: 3.30V (2.70~3.60V), VccQ: 1.20V (1.14~1.26V)",
+          "B": "Vcc: 3.30V (2.70~3.60V), VccQ: 1.80V (1.70~1.95V) or 1.20V (1.14~1.26V)",
+          "C": "Vcc: 1.80V (1.70~1.95V), VccQ: 1.20V (1.14~1.26V)"
+        },
+        "density": {
+          "12": 128,
+          "13": 1396736,
+          "17": 174080,
+          "25": 256,
+          "27": 2793472,
+          "34": 349184,
+          "51": 512,
+          "64": 64,
+          "68": 698368,
+          "85": 87040,
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096,
+          "8G": 8192,
+          "AG": 16384,
+          "BG": 32768,
+          "CG": 65536,
+          "DG": 131072,
+          "EG": 262144,
+          "FG": 524288,
+          "1T": 1048576,
+          "2T": 2097152,
+          "4T": 4194304,
+          "8T": 8388608,
+          "PG": 196608,
+          "RG": 393216,
+          "VG": 786432
+        },
+        "deviceWidth": {
+          "2": 32,
+          "6": 16,
+          "8": 8,
+          "M": 8,
+          "N": 16,
+          "O": 8,
+          "L": 8,
+          "I": 8,
+          "D": 8
+        },
+        "widthFeatureObj": {
+          "M": {
+            "product_class": "Enterprise"
+          },
+          "N": {
+            "product_class": "Enterprise"
+          },
+          "O": {
+            "interface_note": "Structure 2"
+          },
+          "L": {
+            "interface_note": "Customized ECC"
+          },
+          "I": {
+            "interface_note": "Customized ECC"
+          },
+          "D": {
+            "interface_note": "Customized ECC"
+          }
+        },
+        "dieStackObj": {
+          "0": {
+            "cell_level": 3,
+            "die_count": 6
+          },
+          "1": {
+            "cell_level": 2,
+            "die_count": 3
+          },
+          "2": {
+            "cell_level": 2,
+            "die_count": 1
+          },
+          "3": {
+            "cell_level": 2,
+            "die_count": 2
+          },
+          "4": {
+            "cell_level": 2,
+            "die_count": 4
+          },
+          "5": {
+            "cell_level": 2,
+            "die_count": 8
+          },
+          "6": {
+            "cell_level": 2,
+            "die_count": 12
+          },
+          "7": {
+            "cell_level": 2,
+            "die_count": 16
+          },
+          "8": {
+            "cell_level": 3,
+            "die_count": 1
+          },
+          "9": {
+            "cell_level": 3,
+            "die_count": 2
+          },
+          "S": {
+            "cell_level": 1,
+            "die_count": 1
+          },
+          "A": {
+            "cell_level": 1,
+            "die_count": 2
+          },
+          "B": {
+            "cell_level": 1,
+            "die_count": 4
+          },
+          "F": {
+            "cell_level": 1,
+            "die_count": 1
+          },
+          "G": {
+            "cell_level": 1,
+            "die_count": 2
+          },
+          "H": {
+            "cell_level": 1,
+            "die_count": 4
+          },
+          "K": {
+            "cell_level": 1,
+            "die_count": 8
+          },
+          "J": {
+            "cell_level": 1,
+            "die_count": 8
+          },
+          "T": {
+            "cell_level": 2,
+            "die_count": 1
+          },
+          "U": {
+            "cell_level": 2,
+            "die_count": 2
+          },
+          "V": {
+            "cell_level": 2,
+            "die_count": 4
+          },
+          "W": {
+            "cell_level": 2,
+            "die_count": 8
+          },
+          "Y": {
+            "cell_level": 2,
+            "die_count": 8
+          },
+          "C": {
+            "cell_level": 2,
+            "die_count": 16
+          },
+          "R": {
+            "cell_level": 2,
+            "die_count": 6
+          },
+          "Z": {
+            "cell_level": 2,
+            "die_count": 12
+          },
+          "D": {
+            "cell_level": 2,
+            "die_count": 1
+          },
+          "E": {
+            "cell_level": 2,
+            "die_count": 2
+          },
+          "M": {
+            "cell_level": 3,
+            "die_count": 1
+          },
+          "N": {
+            "cell_level": 3,
+            "die_count": 2
+          },
+          "P": {
+            "cell_level": 3,
+            "die_count": 4
+          },
+          "Q": {
+            "cell_level": 3,
+            "die_count": 8
+          },
+          "L": {
+            "cell_level": 3,
+            "die_count": 16
+          },
+          "X": {
+            "cell_level": 3,
+            "die_count": 3
+          }
+        },
+        "processCell": {
+          "0": "T",
+          "1": "M",
+          "2": "M",
+          "3": "M",
+          "4": "M",
+          "5": "M",
+          "6": "M",
+          "7": "M",
+          "8": "T",
+          "9": "T",
+          "S": "S",
+          "A": "S",
+          "B": "S",
+          "F": "S",
+          "G": "S",
+          "H": "S",
+          "K": "S",
+          "J": "S",
+          "T": "M",
+          "U": "M",
+          "V": "M",
+          "W": "M",
+          "Y": "M",
+          "C": "M",
+          "R": "M",
+          "Z": "M",
+          "D": "M",
+          "E": "M",
+          "M": "T",
+          "N": "T",
+          "P": "T",
+          "Q": "T",
+          "L": "T",
+          "X": "T"
+        },
+        "configObj": {
+          "1": {
+            "ce_count": 1,
+            "rb_count": 1,
+            "channel_count": 1
+          },
+          "2": {
+            "ce_count": 1,
+            "rb_count": 1,
+            "channel_count": 1
+          },
+          "3": {
+            "ce_count": 1,
+            "rb_count": 1,
+            "channel_count": 1
+          },
+          "4": {
+            "ce_count": 2,
+            "rb_count": 2,
+            "channel_count": 1
+          },
+          "5": {
+            "ce_count": 2,
+            "rb_count": 2,
+            "channel_count": 1
+          },
+          "7": {
+            "ce_count": 2,
+            "rb_count": 2,
+            "channel_count": 2
+          },
+          "8": {
+            "ce_count": 4,
+            "rb_count": 4,
+            "channel_count": 2
+          },
+          "9": {
+            "ce_count": 8,
+            "rb_count": 4,
+            "channel_count": 4
+          },
+          "F": {
+            "ce_count": 4,
+            "rb_count": 4,
+            "channel_count": 1
+          },
+          "T": {
+            "ce_count": 5,
+            "rb_count": 5,
+            "channel_count": 1
+          },
+          "U": {
+            "ce_count": 6,
+            "rb_count": 6,
+            "channel_count": 1
+          },
+          "V": {
+            "ce_count": 8,
+            "rb_count": 8,
+            "channel_count": 1
+          },
+          "D": {
+            "ce_count": 2,
+            "rb_count": 2,
+            "channel_count": 2
+          },
+          "M": {
+            "ce_count": 4,
+            "rb_count": 1,
+            "channel_count": 2
+          },
+          "G": {
+            "ce_count": 4,
+            "rb_count": 2,
+            "channel_count": 2
+          },
+          "E": {
+            "ce_count": 4,
+            "rb_count": 4,
+            "channel_count": 2
+          },
+          "W": {
+            "ce_count": 6,
+            "rb_count": 6,
+            "channel_count": 2
+          },
+          "A": {
+            "ce_count": 8,
+            "rb_count": 4,
+            "channel_count": 2
+          },
+          "H": {
+            "ce_count": 8,
+            "rb_count": 8,
+            "channel_count": 2
+          },
+          "Q": {
+            "ce_count": 4,
+            "rb_count": 4,
+            "channel_count": 4
+          },
+          "R": {
+            "ce_count": 8,
+            "rb_count": 8,
+            "channel_count": 4
+          },
+          "B": {
+            "ce_count": 16,
+            "rb_count": 4,
+            "channel_count": 4
+          },
+          "C": {
+            "ce_count": 16,
+            "rb_count": 8,
+            "channel_count": 4
+          },
+          "S": {
+            "ce_count": 16,
+            "rb_count": 16,
+            "channel_count": 4
+          },
+          "N": {
+            "ce_count": 2,
+            "rb_count": 2,
+            "channel_count": 2
+          },
+          "P": {
+            "ce_count": 4,
+            "rb_count": 4,
+            "channel_count": 2
+          },
+          "X": {
+            "ce_count": 8,
+            "rb_count": 4,
+            "channel_count": 2
+          },
+          "Y": {
+            "ce_count": 4,
+            "rb_count": 4,
+            "channel_count": 4
+          }
+        },
+        "processNode": {
+          "S:512Mb:C": "HY57",
+          "S:1Gb:B": "HY48",
+          "S:1Gb:C": "HY32",
+          "S:2Gb:C": "HY41",
+          "S:2Gb:D": "HY32",
+          "S:4Gb:C": "HY48",
+          "S:4Gb:D": "HY41",
+          "S:4Gb:E": "HY32",
+          "S:4Gb:F": "HY26",
+          "S:4Gb:G": "HY16",
+          "S:8Gb:M": "HY48",
+          "S:8Gb:A": "HY41",
+          "S:16Gb:M": "HY41",
+          "S:16Gb:A": "HY32",
+          "M:2Gb:M": "HY48",
+          "M:4Gb:B": "HY48",
+          "M:8Gb:B": "HY48",
+          "M:16Gb:M": "HY48",
+          "M:16Gb:A": "HY41",
+          "M:16Gb:B": "HY32",
+          "M:16Gb:C": "HY20",
+          "M:32Gb:M": "HY41",
+          "M:32Gb:A": "HY32",
+          "M:32Gb:B": "HY26",
+          "M:32Gb:C": "HY20",
+          "M:32Gb:D": "HY16",
+          "M:64Gb:M": "HY26",
+          "M:64Gb:A": "HY20",
+          "M:64Gb:B": "HY20",
+          "M:64Gb:C": "HY16",
+          "M:64Gb:D": "HY16",
+          "M:64Gb:E": "HY16",
+          "M:64Gb:F": "HY16",
+          "M:64Gb:G": "HYV3M",
+          "M:128Gb:M": "HY16",
+          "M:128Gb:A": "HYV1",
+          "M:128Gb:B": "HY16",
+          "M:128Gb:C": "HYV2",
+          "M:128Gb:D": "HY14",
+          "M:256Gb:M": "HYV2",
+          "T:16Gb:M": "HY41",
+          "T:32Gb:1": "HY48",
+          "T:32Gb:M": "HY48",
+          "T:32Gb:A": "HY32",
+          "T:64Gb:M": "HY16",
+          "T:128Gb:B": "HY14",
+          "T:128Gb:C": "HYV3",
+          "T:256Gb:A": "HYV4",
+          "T:256Gb:B": "HYV3",
+          "T:512Gb:A": "HYV4"
+        },
+        "package": {
+          "0": "FBGA-153",
+          "1": "VFBGA-56, 9.5x12.8x0.90",
+          "2": "VFBGA-316, 14x18x1.00 (B)",
+          "3": "LFBGA-316, 14x18x1.35 (B)",
+          "4": "LBGA-132, 12x18x1.35 (A)",
+          "5": "VBGA-132, 12x18x1.00 (B)",
+          "6": "LBGA-132, 12x18x1.35 (B)",
+          "7": "HS TSOP-48, 12x20x1.20",
+          "8": "VBGA-152, 14x18x1.00 (B)",
+          "9": "LBGA-152, 14x18x1.35 (B)",
+          "S": "USOP-48, 12x17x0.65",
+          "V": "WSOP-48, 12x17x0.75",
+          "T": "TSOP-48",
+          "N": "LSOP-48, 12x20x1.47",
+          "H": "XLGA-30, 7.6x10x0.50",
+          "A": "VLGA-52, 11x14x0.90",
+          "U": "ULGA-52, 12x17x0.65",
+          "B": "VLGA-52, 12x17x1.00",
+          "M": "WLGA-52, 14x18x0.75",
+          "Y": "VLGA-52, 14x18x1.00",
+          "X": "LLGA-52, 14x18x1.47",
+          "F": "VFBGA-63, 9x11x1.00",
+          "I": "VBGA-100, 12x18x1.00",
+          "J": "LBGA-100, 12x18x1.40",
+          "L": "VBGA-132, 12x18x1.00 (A)",
+          "O": "LBGA-132, 12x18x1.40 (A)",
+          "P": "VBGA-152, 14x18x1.00 (A)",
+          "R": "LBGA-152, 14x18x1.40 (A)",
+          "E": "VFBGA-272, 14x18x1.00 (B)",
+          "Z": "LFBGA-272, 14x18x1.35 (B)",
+          "C": "COB (PGD-1)",
+          "D": "Wafer (PGD-2)",
+          "K": "Wafer (KGD)",
+          "W": "Wafer"
+        },
+        "packageMaterialObj": {
+          "L": {
+            "lead_free": false
+          },
+          "1": {
+            "wafer": true
+          },
+          "2": {
+            "wafer": true
+          },
+          "3": {
+            "special_option": "LAS"
+          },
+          "4": {
+            "special_option": "Connecting ZQ PAD"
+          },
+          "5": {
+            "special_option": "pKGD (Pseudo KGD), Material 1"
+          },
+          "6": {
+            "special_option": "Stock PGD"
+          },
+          "7": {
+            "special_option": "pKGD (Pseudo KGD), Material 2"
+          },
+          "P": {
+            "lead_free": true
+          },
+          "R": {
+            "lead_free": true,
+            "halogen_free": true
+          },
+          "A": {
+            "wafer": true
+          },
+          "B": {
+            "wafer": true
+          },
+          "C": {
+            "wafer": true
+          }
+        },
+        "badBlockObj": {
+          "B": {
+            "bad_block": "samsung_cbb_b"
+          },
+          "S": {
+            "bad_block": "samsung_cbb_l"
+          },
+          "P": {
+            "bad_block": "samsung_cbb_s"
+          }
+        },
+        "opTempObj": {
+          "C": {
+            "operation_temperature": "Commercial (0~70C)"
+          },
+          "D": {
+            "operation_temperature": "Commercial 2 (0~85C)"
+          },
+          "E": {
+            "operation_temperature": "Extended (-25~85C)"
+          },
+          "M": {
+            "operation_temperature": "Mobile (-30~85C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40~85C)"
+          },
+          "Q": {
+            "operation_temperature": "Automotive Grade 3 (-40~85C)"
+          },
+          "A": {
+            "operation_temperature": "Automotive Grade 2 (-40~105C)"
+          },
+          "U": {
+            "operation_temperature": "Automotive Grade 1 (-40~125C)"
+          }
+        },
+        "ioSpeed": {
+          "A": "133 MT/s",
+          "B": "166 MT/s",
+          "C": "200 MT/s",
+          "D": "266 MT/s",
+          "E": "333 MT/s",
+          "F": "400 MT/s",
+          "G": "533 MT/s",
+          "H": "667 MT/s"
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 3,
+          "to": "model"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "voltageCode"
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "widthFeatureObj",
+          "to": "widthFeatureObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieStackCode"
+        },
+        {
+          "op": "map",
+          "from": "dieStackCode",
+          "table": "dieStackObj",
+          "to": "dieStackObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "dieStackCode",
+          "table": "processCell",
+          "to": "processCell"
+        },
+        {
+          "op": "set",
+          "to": "dieCount",
+          "value": {
+            "$path": "dieStackObj.die_count"
+          }
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "configCode"
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "configObj",
+          "to": "configObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "dieDensity",
+          "density": "density",
+          "dieCount": "dieCount",
+          "to": "dieDensity",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{processCell}}:{{dieDensity}}:{{generationCode}}",
+          "to": "processKey"
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "processNode",
+          "to": "processNode"
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageMaterialCode"
+        },
+        {
+          "op": "map",
+          "from": "packageMaterialCode",
+          "table": "packageMaterialObj",
+          "to": "packageMaterialObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "widthFeatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageMaterialObj"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "notEmpty",
+          "from": "rest",
+          "to": "hasBadBlock"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "badBlockCode"
+        },
+        {
+          "op": "map",
+          "from": "badBlockCode",
+          "table": "badBlockObj",
+          "to": "badBlockObj",
+          "default": {
+            "bad_block": "Unknown"
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "badBlockObj",
+          "if": "hasBadBlock"
+        },
+        {
+          "op": "notEmpty",
+          "from": "rest",
+          "to": "hasOpTemp"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "opTempCode"
+        },
+        {
+          "op": "map",
+          "from": "opTempCode",
+          "table": "opTempObj",
+          "to": "opTempObj",
+          "default": {
+            "operation_temperature": "Unknown"
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "opTempObj",
+          "if": "hasOpTemp"
+        },
+        {
+          "op": "notEmpty",
+          "from": "rest",
+          "to": "hasSpeed"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "ioSpeedCode"
+        },
+        {
+          "op": "map",
+          "from": "ioSpeedCode",
+          "table": "ioSpeed",
+          "to": "speedGrade"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "raw_nand",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.device_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.cell_level": {
+          "$path": "dieStackObj.cell_level"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
+        },
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
+        "fields.die_density": {
+          "$var": "dieDensity"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.die_count": {
+          "$path": "dieStackObj.die_count"
+        },
+        "fields.ce_count": {
+          "$path": "configObj.ce_count"
+        },
+        "fields.rb_count": {
+          "$path": "configObj.rb_count"
+        },
+        "fields.channel_count": {
+          "$path": "configObj.channel_count"
+        },
+        "fields.speed_grade": {
+          "$var": "speedGrade"
+        },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
+        "meta.ruleId": "vendor.skhynix.h27.raw.v2"
+      }
+    }
+  }
+]

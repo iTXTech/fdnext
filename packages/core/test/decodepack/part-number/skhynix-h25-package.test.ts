@@ -22,7 +22,6 @@ import {
   assertMicronManagedFbgaMarking,
   assertNotFound,
   assertPart,
-  assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
   assertSearchPnIncludes,
@@ -467,6 +466,25 @@ const skhynixH25V9hDashResult = engine.decodePart({ query: "H25T0TG18G-X807", la
 assert.equal(skhynixH25V9hDashResult.input.normalized, "H25T0TG18GX807", "H25 -X package suffix should normalize without dash");
 assert.equal(skhynixH25V9hDashResult.device?.partNumber, "H25T0TG18GX807", "H25 -X package suffix should resolve to the canonical no-dash PN");
 
+assertPart("H25T0TD18C-X655N", {
+  vendor: "skhynix",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "HYV9",
+  cellField: "TLC",
+  package: "BGA-152, 14x18x1.0",
+  extra: {
+    "Layer Count": 321,
+    "Die Density": "1Tb",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    "Channel Count": 1,
+    "Packing Type": "Normal (Tray)"
+  },
+  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+});
+
 assertPart("H25T0QAXXBX569A", {
   vendor: "skhynix",
   type: "NAND",
@@ -678,7 +696,6 @@ assertPart("H25T4TMG8C", {
 });
 
 assertRuleDraftDieProfile("vendor.skhynix.h25.gt-package.v2", "H25G9TC18CX488", "HYV7");
-assertRuleDoesNotMatch("vendor.skhynix.h25.raw.v2", "H25G9TC18CX488");
 assertPart("H25G9TC18CX488", {
   vendor: "skhynix",
   type: "NAND",
@@ -699,7 +716,6 @@ assertPart("H25G9TC18CX488", {
 });
 
 assertRuleDraftDieProfile("vendor.skhynix.h25.gt-package.v2", "H25G9TD18CX576", "HYV8");
-assertRuleDoesNotMatch("vendor.skhynix.h25.raw.v2", "H25G9TD18CX576");
 assertPart("H25G9TD18CX576", {
   vendor: "skhynix",
   type: "NAND",

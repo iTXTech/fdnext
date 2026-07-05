@@ -56,6 +56,17 @@ const skhynixH25RawSamples = [
 ] as const;
 
 for (const [partNumber, densityMbit, dieProfileField, cellField, layerCount, dieDensity, dieCount, ceCount, channelCount] of skhynixH25RawSamples) {
+  const expectedExtra: Record<string, unknown> = {
+    "Layer Count": layerCount,
+    "Die Density": dieDensity,
+    "Die Count": dieCount,
+    "CE Count": ceCount,
+    "Channel Count": channelCount
+  };
+  const absentInternalExtra = partNumber[6] === "M" ? skhynixH25RawInternalExtra.filter((key) => key !== "Product Class") : skhynixH25RawInternalExtra;
+  if (partNumber[6] === "M") {
+    expectedExtra["Product Class"] = "Enterprise";
+  }
   assertPart(partNumber, {
     vendor: "skhynix",
     type: "NAND",
@@ -63,14 +74,8 @@ for (const [partNumber, densityMbit, dieProfileField, cellField, layerCount, die
     dieProfileField,
     cellField,
     widthField: "x8",
-    extra: {
-      "Layer Count": layerCount,
-      "Die Density": dieDensity,
-      "Die Count": dieCount,
-      "CE Count": ceCount,
-      "Channel Count": channelCount
-    },
-    absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+    extra: expectedExtra,
+    absentExtra: [...absentInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
   });
 }
 
@@ -126,7 +131,13 @@ assertPart("H25JGT8F4M9R-BDJ", {
     "Die Count": 8,
     "CE Count": 4,
     "R/B Count": 4,
-    "Channel Count": 2
+    "Channel Count": 2,
+    "Package": "LBGA-152, 14x18x1.35",
+    "Lead free": "Yes",
+    "Halogen free": "Yes",
+    "Bad block": "Include Bad Block",
+    "Operation Temperature": "Commercial 2 (0~85C)",
+    "Speed Grade": "1200 MT/s"
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
 });
@@ -150,3 +161,105 @@ assertPart("H25JGT8FAM", {
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
 });
+
+const skhynixH25LooseRawSamples = [
+  [
+    "H25BFT4D1C",
+    {
+      densityMbit: 2097152,
+      cellField: "TLC",
+      widthField: "x8",
+      voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
+      extra: {
+        "Die Density": "512Gb",
+        "Die Count": 4,
+        "CE Count": 1,
+        "R/B Count": 1,
+        "Channel Count": 1
+      }
+    }
+  ],
+  [
+    "H25BFT4M9R",
+    {
+      cellField: "TLC",
+      widthField: "x8",
+      voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
+      extra: {
+        "Die Density": "512Gb"
+      }
+    }
+  ],
+  [
+    "H25BFT8A2B",
+    {
+      densityMbit: 524288,
+      dieProfileField: "HYV6",
+      cellField: "TLC",
+      widthField: "x8",
+      voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
+      extra: {
+        "Layer Count": 128,
+        "Die Density": "512Gb",
+        "Die Count": 1
+      }
+    }
+  ],
+  [
+    "H25BFT9TC1",
+    {
+      cellField: "TLC",
+      voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
+      extra: {
+        "Die Density": "512Gb"
+      }
+    }
+  ],
+  [
+    "H25G9TC1",
+    {
+      cellField: "TLC"
+    }
+  ],
+  [
+    "H25JGT4D1C",
+    {
+      densityMbit: 4194304,
+      cellField: "TLC",
+      widthField: "x8",
+      voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
+      extra: {
+        "Die Density": "1Tb",
+        "Die Count": 4,
+        "CE Count": 1,
+        "R/B Count": 1,
+        "Channel Count": 1
+      }
+    }
+  ],
+  [
+    "H25Q1FT8A1",
+    {
+      voltage: "Vcc: 3.30V (2.70-3.60V), VccQ: 1.80V (1.70-1.95V)",
+      extra: {
+        "CE Count": 4,
+        "R/B Count": 4,
+        "Channel Count": 2,
+        "Special Option": "IF Chip"
+      }
+    }
+  ]
+] as const;
+
+const h25RawDecoder = compiledPack.partDecoders.find((decoder) => decoder.id === "vendor.skhynix.h25.raw.v2");
+assert.ok(h25RawDecoder, "H25 raw decoder should be compiled");
+
+for (const [partNumber, expected] of skhynixH25LooseRawSamples) {
+  assert.equal(h25RawDecoder.check(partNumber), true, `${partNumber} should match the relaxed H25 raw decoder`);
+  assertPart(partNumber, {
+    vendor: "skhynix",
+    type: "NAND",
+    ...expected,
+    absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+  });
+}

@@ -32,6 +32,7 @@
   <https://www.puris.net/dir/product/flash/rawnand>
 - 本地资料：`packages/core/resources/fdb.json`、`../fdfdb/smssd/2259XT3_Y1226.SET`、`../fdfdb/smssd/2259XT2_Y0321.SET`、`../fdfdb/smufd/flash_3281BB.dbf`、`../fdfdb/smff/ForceFlash-W1116.SET`、`../fdfdb/ma/mas1102_16.ini` 中的 H25 PN、Flash ID、容量、Vx/MLC/TLC/QLC 标签。
 - 维护者补充的 SK hynix 3D NAND 表记录 `HYV2` 到 `HYV8` 的层数、cell、die 容量、Toggle 接口与 die marking。`H25FT*` / `H27*` 属于 die marking，只进入 `die_mark`；固件匹配仍使用 `HYVx` / `HYVxQ` / `HYVxM` 这类 profile key。
+- 维护者补充的 H27/H2E/H2N ordering chart 覆盖 `H27Q4T8LQA3R-BDH`、`H2E...` 和 `H2N...` 这类结构，给出 voltage、device density、die stack、configuration、die generation、package、material、bad block、temperature 与 I/O speed token。profile 判断按 `cell family + derived die density + die generation` 组合，不按完整 PN 白名单。
 - SK hynix NAND Flash catalog mirror 列出 SLC/MLC/TLC/eMMC/E2NAND3.0/SSD 分类，其中 E2NAND3.0 页面使用 `PRODUCT` / `BLOCK SIZE` 维度。
   <https://pdf.directindustry.com/pdf/sk-hynix/nand-flash/34497-603624.html>
 - `H27UCG8T2E` datasheet mirror 标注 64Gb (8192M x 8bit) MLC NAND，作为 H27 raw NAND 资料参考。
@@ -58,9 +59,9 @@
 
 ## 规则入口
 
-- 新式 raw NAND：`packages/core/src/decodepack/rules/packs/skhynix-raw-token.json`
-  - 规则 ID：`vendor.skhynix.token.v1`
-- legacy raw NAND：`packages/core/src/decodepack/rules/packs/skhynix-legacy-token.json`
+- H27 / H2E / H2N raw NAND：`packages/core/src/decodepack/rules/packs/skhynix-h27-raw-nand-token.json`
+  - 规则 ID：`vendor.skhynix.h27.raw.v2`
+- HY27 raw NAND：`packages/core/src/decodepack/rules/packs/skhynix-hy27-raw-nand-token.json`
   - 规则 ID：`vendor.skhynix.legacy.token.v1`
 - H25 NAND package / token：`packages/core/src/decodepack/rules/packs/skhynix-h25-token.json`
   - 规则 ID：`vendor.skhynix.h25.gt-package.v2`
@@ -76,8 +77,7 @@
 | `HY27...` | legacy raw NAND | 旧式 Hynix/SK hynix NAND PN |
 | `H2DT...` / `H2JT...` | E2NAND | H2D E2NAND2.0 与 H2J E2NAND3.0，按结构 token 分类 |
 | `H23Q...` | E3NAND | E3NAND managed NAND，按 density/config/package token 分类 |
-| `H2...` | raw NAND | 新式 SK hynix raw NAND PN；不覆盖 H2D/H2J E2NAND 结构 |
-| `H27...` | raw NAND | 既有 H27 raw NAND 路径覆盖 |
+| `H27...` / `H2E...` / `H2N...` | raw NAND | H27/H2E/H2N ordering chart 路径，按 die stack 推导 die density，再判断 2D litho 或 3D `HYVx` profile |
 | `H25T...` / `H25G...` | H25T/G NAND package | H25T/H25G 开头的 SSD/mobile NAND package 型号，按 token 组合推断 V6/V7/V8/V9Q |
 | `H25(非 T)...` | H25 3D/4D raw NAND token | 按 voltage/cell/density/stack/config/generation token 推断 MLC/TLC/QLC 与代际 |
 | `H26...` | 不属于 raw NAND 文档 | 已由 eMMC / e-NAND 文档覆盖 |
@@ -98,21 +98,43 @@
 | package | TSOP / WSOP / FBGA / LGA / wafer / KGD 等 |
 | optional tail | package material、operation temperature、bad block policy |
 
-## H2 raw NAND
+## H27 / H2E / H2N raw NAND
+
+H27 / H2E / H2N 使用同一张 ordering chart 规则，不再只把第 10 位输出成 numeric generation。规则仍按结构 token 解析，不维护完整 PN 白名单。
 
 | PN 结构 | 字段 |
 | --- | --- |
-| `H2` + model(3) + voltage + density(2) + width + topology + mode + generation + package + material + variety + bad block + op temp | raw NAND |
-| voltage `U/L/S/J/Q/T` | 电压 / VccQ 组合 |
-| density | 64Mb 到 4Tb，按规则表映射 |
-| width `8/6/L/I/D` | x8 / x16 等 |
-| topology | cell level 与 die count |
-| mode | CE / RB / channel |
-| generation | generation code |
-| package | TSOP / FBGA / WLGA / BGA 等 |
-| package material `P/R/L/A` | lead-free / halogen-free / wafer 等 |
-| bad block `B/S/P` | bad block policy |
-| op temp `C/E/M/I` | commercial / extended / mobile / industrial |
+| `H` + product type(`27`/`2E`/`2N`) + voltage + density(2) + bus width + die stack + configuration + die generation + package + material + optional `-` + bad block + temperature + I/O speed | raw NAND |
+| voltage `U/L/S/T/Q/J/B/C` | Vcc / VccQ 组合 |
+| density | device density，先输出 `density`，再结合 die stack 计算 `die_density` |
+| bus width `8/6/2/M/N/O/L/I/D` | x8 / x16 / x32；`M/N` 输出 Enterprise，`O` 输出 Structure 2，`L/I/D` 输出 Customized ECC，不输出 bus width code |
+| die stack | 输出 `cell_level` 与 `die_count`；TLC `L` = 16 die，`X` = 3 die，`0` = 6 die |
+| configuration | 输出 CE / R/B / channel count |
+| die generation | 结合 cell family 与计算出的 die density 判断 `die_codename` |
+| package | 输出确认过的 package type / pin / dimension，不输出 package code |
+| material / bad block / temperature / I/O speed | 输出 leaded / lead-free / halogen-free / wafer、bad block policy、operation temperature 与 `speed_grade` |
+
+H27 process key 使用 `cell family:die density:generation code`。其中 cell family 不是公开字段，只用于规则内部：`S` = SLC，`M` = MLC/eMLC/channel MLC，`T` = TLC/channel TLC。例：`H27Q4T8LQA3R-BDH` 为 4Tb package、TLC `L` 16-die，derived die density 是 256Gb；`T:256Gb:A` 映射 `HYV4`，不是按整包 4Tb 判断。
+
+已进入规则的 H27 profile 映射：
+
+| Process key | Profile |
+| --- | --- |
+| `S:512Mb:C` | `HY57` |
+| `S:1Gb:B`, `S:4Gb:C`, `S:8Gb:M`, `M:2Gb:M`, `M:4Gb:B`, `M:8Gb:B`, `M:16Gb:M`, `T:32Gb:1`, `T:32Gb:M` | `HY48` |
+| `S:1Gb:C`, `S:2Gb:D`, `S:4Gb:E`, `S:16Gb:A`, `M:16Gb:B`, `M:32Gb:A`, `T:32Gb:A` | `HY32` |
+| `S:2Gb:C`, `S:4Gb:D`, `S:8Gb:A`, `S:16Gb:M`, `M:16Gb:A`, `M:32Gb:M`, `T:16Gb:M` | `HY41` |
+| `S:4Gb:F`, `M:32Gb:B`, `M:64Gb:M` | `HY26` |
+| `S:4Gb:G`, `M:32Gb:D`, `M:64Gb:C`, `M:64Gb:D`, `M:64Gb:E`, `M:64Gb:F`, `M:128Gb:M`, `M:128Gb:B`, `T:64Gb:M` | `HY16` |
+| `M:16Gb:C`, `M:32Gb:C`, `M:64Gb:A`, `M:64Gb:B` | `HY20` |
+| `M:128Gb:D`, `T:128Gb:B` | `HY14` |
+| `M:128Gb:A` | `HYV1` |
+| `M:128Gb:C`, `M:256Gb:M` | `HYV2` |
+| `M:64Gb:G` | `HYV3M` |
+| `T:128Gb:C`, `T:256Gb:B` | `HYV3` |
+| `T:256Gb:A`, `T:512Gb:A` | `HYV4` |
+
+H27 chart 中 TLC `128Gb + M` 同时出现 16nm 与 3D V3 48L 两条，当前规则不对这个重复 key 输出确定 `die_codename`，只保留已能确定的结构字段。
 
 ## H2D / H2J E2NAND
 
@@ -159,7 +181,7 @@ H23Q 系列按 Q1'2016 databook line-up 进入 managed NAND，不归入 raw NAND
 H25 目前分成两类结构处理：
 
 1. `H25T...` / `H25G...`：较新的 NAND package 标识，常见于 SSD 拆解、SSD database 和 flash-id 表。规则按 `capacity + cell + generation + geometry + width + voltage + optional package` 解析，不按完整 PN 白名单匹配。
-2. `H25(非 T)...`：raw NAND token 结构，按 `voltage + cell + layout + density + stack + config + generation` 解析。第 4 位是 operating voltage code，不参与 `HYVx` profile 判断；没有外部 reference 的 token 不删除，只标记待确认。
+2. `H25(非 T)...`：raw NAND token 结构，按 `voltage + cell + layout + density + stack + config + generation` 解析。第 4 位是 operating voltage code，不参与 `HYVx` profile 判断；没有外部 reference 的 token 不删除，只标记待确认。为覆盖本地 FDB 中的短 PN / 局部 PN，H25 raw 规则只要求 `H25` 后存在至少 5 个 token 字符；长度不足或未在表中的 token 只跳过对应字段，仍输出 vendor / raw NAND 与已能确认的字段。
 
 规则输出只保留结构字段，例如 `density`、`cell_level`、`die_codename`、`process_alias` 和 `die_count`。3D / 4D、层数、die 容量与 Toggle 接口属于 `nand.die_profile` 统一维护的信息，不在 H25 规则内重复组装公开 `generation_info` 文案。
 
@@ -287,12 +309,17 @@ H25 的 X package tail 进入 FDB 时保留完整尾缀并去掉分隔符；带 
 | voltage `Q/B/J` | operating voltage code；`Q` = Vcc 3.30V, VccQ 1.80V；`B` = Vcc 3.30V or 2.50V, VccQ 1.80V or 1.20V；`J` = Vcc 3.30V or 2.50V, VccQ 1.20V |
 | die density `E/F/G` | 32GB / 64GB / 128GB die，即 256Gb / 512Gb / 1Tb die density |
 | cell `M/T/Q` | MLC / TLC / QLC |
-| width/layout `8/M` | x8；该 token 只用于结构解析，不输出原始 code |
+| width/layout `4/8/M` | x8；`M` 额外输出 Enterprise，`4` 由维护者按现有 FDB 候选暂定为 x8，该 token 只用于结构解析，不输出原始 code |
 | die count `A/B/D/F/G` | 1 / 2 / 4 / 8 / 16 die |
 | configuration `1/3/4/5/6/A/B` | CE / R/B / channel 组合；表内 I/O 即公开输出中的 channel，`A` 额外表示 IF Chip |
 | generation | 结合 cell + die density 判断 `HYVx` profile；第 4 位 voltage 不参与 profile 映射，不能只按 generation 全局映射 |
+| package `8/9/2/3/D` | `VBGA-152, 14x18x1.00` / `LBGA-152, 14x18x1.35` / `VFBGA-316, 14x18x1.00` / `LFBGA-316, 14x18x1.35` / `Wafer (PGD-2)` |
+| package material `A/R` | whole wafer 或 lead/halo free；公开为 `wafer`、`lead_free`、`halogen_free` |
+| bad block `B/S/P` | Include Bad Block / 1~5 Bad Block / All Good Block |
+| temperature `C/D/E/M/I` | Commercial / Commercial 2 / Extended / Mobile / Industrial |
+| I/O speed `F/G/H/I/J` | 400 / 533 / 667 / 800 / 1200 MT/s |
 
-H25 raw package density 由 die density x die count 计算；公开结果中输出 `density`、`die_density`、`die_count`、`ce_count`、`rb_count`、`channel_count` 和 `voltage`，不输出 voltage / die density / configuration / generation code 等内部 token。
+H25 raw package density 由 die density x die count 计算；公开结果中输出 `density`、`die_density`、`die_count`、`ce_count`、`rb_count`、`channel_count`、`voltage`、`package`、`operation_temperature`、`bad_block` 和 `speed_grade`，不输出 voltage / die density / configuration / generation / package code 等内部 token。长度不足或表内未知的尾部 token 继续跳过，不输出 `Unknown`。
 
 已进入 profile 映射的 generation key：
 

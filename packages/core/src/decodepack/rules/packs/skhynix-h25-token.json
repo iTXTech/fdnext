@@ -489,7 +489,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H25[QBJ][EFG][MTQ][8M][ABDFG][13456AB][A-Z0-9]"
+      "value": "^H25[0-9A-Z]{5,}"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -512,8 +512,14 @@
           "G": "1Tb"
         },
         "deviceWidth": {
+          "4": 8,
           "8": 8,
           "M": 8
+        },
+        "widthFeatureObj": {
+          "M": {
+            "product_class": "Enterprise"
+          }
         },
         "voltage": {
           "Q": "Vcc: 3.30V (2.70-3.60V), VccQ: 1.80V (1.70-1.95V)",
@@ -583,6 +589,57 @@
           "T:G:A": "HYV5",
           "T:G:M": "HYV6",
           "Q:G:M": "HYV5Q"
+        },
+        "package": {
+          "8": "VBGA-152, 14x18x1.00",
+          "9": "LBGA-152, 14x18x1.35",
+          "2": "VFBGA-316, 14x18x1.00",
+          "3": "LFBGA-316, 14x18x1.35",
+          "D": "Wafer (PGD-2)"
+        },
+        "packageMaterialObj": {
+          "A": {
+            "wafer": true
+          },
+          "R": {
+            "lead_free": true,
+            "halogen_free": true
+          }
+        },
+        "badBlockObj": {
+          "B": {
+            "bad_block": "samsung_cbb_b"
+          },
+          "S": {
+            "bad_block": "samsung_cbb_l"
+          },
+          "P": {
+            "bad_block": "samsung_cbb_s"
+          }
+        },
+        "opTempObj": {
+          "C": {
+            "operation_temperature": "Commercial (0~70C)"
+          },
+          "D": {
+            "operation_temperature": "Commercial 2 (0~85C)"
+          },
+          "E": {
+            "operation_temperature": "Extended (-25~85C)"
+          },
+          "M": {
+            "operation_temperature": "Mobile (-30~85C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40~85C)"
+          }
+        },
+        "ioSpeed": {
+          "F": "400 MT/s",
+          "G": "533 MT/s",
+          "H": "667 MT/s",
+          "I": "800 MT/s",
+          "J": "1200 MT/s"
         }
       },
       "steps": [
@@ -640,6 +697,13 @@
           "table": "deviceWidth",
           "to": "deviceWidth",
           "default": -1
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "widthFeatureObj",
+          "to": "widthFeatureObj",
+          "default": {}
         },
         {
           "op": "take",
@@ -702,6 +766,95 @@
           "table": "nand.die_profile",
           "to": "processObj",
           "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageMaterialCode"
+        },
+        {
+          "op": "map",
+          "from": "packageMaterialCode",
+          "table": "packageMaterialObj",
+          "to": "packageMaterialObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "widthFeatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageMaterialObj"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "badBlockCode"
+        },
+        {
+          "op": "map",
+          "from": "badBlockCode",
+          "table": "badBlockObj",
+          "to": "badBlockObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "badBlockObj"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "opTempCode"
+        },
+        {
+          "op": "map",
+          "from": "opTempCode",
+          "table": "opTempObj",
+          "to": "opTempObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "opTempObj"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "ioSpeedCode"
+        },
+        {
+          "op": "map",
+          "from": "ioSpeedCode",
+          "table": "ioSpeed",
+          "to": "speedGrade",
+          "default": ""
         }
       ],
       "assign": {
@@ -711,6 +864,9 @@
         "device.domain": "memory",
         "device.vendor": "skhynix",
         "device.chipKind": "raw_nand",
+        "fields": {
+          "$var": "extra"
+        },
         "fields.voltage": {
           "$var": "voltage"
         },
@@ -729,6 +885,9 @@
         "fields.die_density": {
           "$var": "dieDensity"
         },
+        "fields.package": {
+          "$var": "package"
+        },
         "fields.die_count": {
           "$path": "dieCountObj.die_count"
         },
@@ -746,6 +905,9 @@
         },
         "fields.device_width": {
           "$var": "deviceWidth"
+        },
+        "fields.speed_grade": {
+          "$var": "speedGrade"
         },
         "meta.nandDieProfileKey": {
           "$var": "processNode"

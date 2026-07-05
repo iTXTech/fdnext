@@ -25,13 +25,13 @@ import esmtDramTokenRules from "./packs/esmt-dram-token.json" with { type: "json
 import etronDramTokenRules from "./packs/etron-dram-token.json" with { type: "json" };
 import skhynixDramTokenRules from "./packs/skhynix-dram-token.json" with { type: "json" };
 import skhynixH25TokenRules from "./packs/skhynix-h25-token.json" with { type: "json" };
-import skhynixLegacyTokenRules from "./packs/skhynix-legacy-token.json" with { type: "json" };
+import skhynixHy27RawNandTokenRules from "./packs/skhynix-hy27-raw-nand-token.json" with { type: "json" };
 import skhynixUfsTokenRules from "./packs/skhynix-ufs-token.json" with { type: "json" };
 import skhynixEmmcTokenRules from "./packs/skhynix-emmc-token.json" with { type: "json" };
 import skhynixEmcpTokenRules from "./packs/skhynix-emcp-token.json" with { type: "json" };
 import skhynixUmcpTokenRules from "./packs/skhynix-umcp-token.json" with { type: "json" };
 import skhynixE2nandTokenRules from "./packs/skhynix-e2nand-token.json" with { type: "json" };
-import skhynixRawTokenRules from "./packs/skhynix-raw-token.json" with { type: "json" };
+import skhynixH27RawNandTokenRules from "./packs/skhynix-h27-raw-nand-token.json" with { type: "json" };
 import kioxiaManagedTokenRules from "./packs/kioxia-managed-token.json" with { type: "json" };
 import kioxiaUfsTokenRules from "./packs/kioxia-ufs-token.json" with { type: "json" };
 import kioxiaRawTokenRules from "./packs/kioxia-raw-token.json" with { type: "json" };
@@ -89,13 +89,13 @@ export const defaultPartDecodeSpecs = [
   ...etronDramTokenRules,
   ...skhynixDramTokenRules,
   ...skhynixH25TokenRules,
-  ...skhynixLegacyTokenRules,
+  ...skhynixHy27RawNandTokenRules,
   ...skhynixUfsTokenRules,
   ...skhynixEmmcTokenRules,
   ...skhynixEmcpTokenRules,
   ...skhynixUmcpTokenRules,
   ...skhynixE2nandTokenRules,
-  ...skhynixRawTokenRules,
+  ...skhynixH27RawNandTokenRules,
   ...kioxiaManagedTokenRules,
   ...kioxiaUfsTokenRules,
   ...kioxiaRawTokenRules,
