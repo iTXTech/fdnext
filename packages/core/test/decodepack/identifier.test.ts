@@ -252,6 +252,10 @@ assertExplainField("ADEE843200E5", "density", 65536);
 assertResultField("ADEE843200E5", "density", 65536);
 assertExplainField("AD3A0B3200C0", "density", 131072);
 assertResultField("AD3A0B3200C0", "density", 1048576);
+assertExplainFieldAbsent("AD3A0B3200C0", "die_codename");
+assertResultFieldAbsent("AD3A0B3200C0", "die_codename");
+assertResultFieldAbsent("AD3A0B3200C0", "layer_count");
+assertResultFieldAbsent("AD3A0B3200C0", "die_density");
 
 assertExplainField("2C0506840000", "density", 4194304);
 assertResultField("2C0506840000", "density", 4194304);
