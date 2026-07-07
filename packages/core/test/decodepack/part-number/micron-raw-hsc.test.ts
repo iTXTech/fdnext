@@ -3,6 +3,7 @@ import {
   compiledPack,
   detect,
   engine,
+  fieldText,
   firstField,
   partNumberPnJson,
   resourceEntries,
@@ -47,6 +48,12 @@ function assertLookupPartNumbers(ruleId: string, partNumber: string, expected: s
   assert.ok(decoder, `${partNumber} should match ${ruleId}`);
   const draft = decoder.decode(partNumber);
   assert.deepEqual(draft?.meta?.lookupPartNumbers, expected, `${partNumber} FDB lookup PN candidates`);
+}
+
+function assertSpecialOption(partNumber: string, expected: string): void {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should decode`);
+  assert.equal(fieldText(firstField(result, "special_option")), expected, `${partNumber} special_option`);
 }
 
 assertPart("MT29FB16T08GALAAM5-TES:B", {
@@ -178,6 +185,10 @@ assertPart("MT29F128G08WAAC6-ETES:A", {
   },
   absentExtra: ["Product Family", "Speed Grade", "Revision Code", "Suffix Code", "Package Code", "Feature Code", "Die Code"]
 });
+
+assertSpecialOption("MT29F16T08EWLEHD6-36ITQES:E", "Enterprise Q");
+assertSpecialOption("MT29F16T08EWLEHD6-36ITQZES:E", "Enterprise Q + Polyimide Process Applied");
+assertSpecialOption("MT29F16T08EWLEHD6-36ITZQES:E", "Enterprise Q + Polyimide Process Applied");
 
 assertRuleDraftDieProfile("vendor.micron.raw.current.v1", "MT29F2T08GBLBH", "N69R");
 assertRuleDraftDieProfile("vendor.micron.raw.current.v1", "MT29F16T08EWLEHD6-36ITRES:E", "B68S");

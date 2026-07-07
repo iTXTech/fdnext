@@ -120,7 +120,8 @@ IOE code、interface code、package code、feature code、design revision code�
 | optional suffix | 按 `speed + temperature + feature + production status` 拆分为 `speed_grade`、`operation_temperature`、`special_option`、`prod_status`；design revision code 不公开 |
 
 Current 规则额外覆盖 `64T` density、`D6/L*` 等新 package、`J` interface、`IT/AIT/AT/AUT`
-温度等级，以及 `QJ/QK/R/RZ/...` 等 feature token。`20` speed code 在资料图中存在重复含义，
+温度等级，以及 `Q/QZ/ZQ/QJ/QK/R/RZ/...` 等 feature token；其中 `Q` 为 `Enterprise Q`，
+`QZ/ZQ` 为 `Enterprise Q + Polyimide Process Applied`。`20` speed code 在资料图中存在重复含义，
 当前不公开该 code 的 `speed_grade`，避免把 `100 MT/s` / `2000 MT/s` 误判为确定值。
 
 ## Legacy MT29F / MT29H Raw NAND

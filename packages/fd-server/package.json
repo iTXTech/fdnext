@@ -1,6 +1,6 @@
 {
   "name": "@itxtech/fd-server",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "FlashDetector-compatible HTTP server for fdnext",
   "license": "AGPL-3.0-or-later",
   "type": "module",

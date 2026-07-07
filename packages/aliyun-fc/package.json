@@ -1,6 +1,6 @@
 {
   "name": "@itxtech/fdnext-aliyun-fc",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "homepage": "https://github.com/iTXTech/fdnext/tree/master/packages/aliyun-fc",
   "type": "module",
   "dependencies": {

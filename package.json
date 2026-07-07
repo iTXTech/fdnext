@@ -2,7 +2,7 @@
   "name": "fdnext",
   "private": true,
   "type": "module",
-  "version": "3.1.0",
+  "version": "3.2.0",
   "description": "Memory chip parsing and resource toolkit",
   "license": "AGPL-3.0-or-later",
   "packageManager": "pnpm@11.9.0",

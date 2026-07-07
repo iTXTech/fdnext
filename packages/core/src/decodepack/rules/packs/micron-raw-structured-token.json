@@ -583,13 +583,13 @@
             "special_option": "Prime P + Polyimide Process Applied"
           },
           "Q": {
-            "special_option": "Prime Q"
+            "special_option": "Enterprise Q"
           },
           "QZ": {
-            "special_option": "Prime Q + Polyimide Process Applied"
+            "special_option": "Enterprise Q + Polyimide Process Applied"
           },
           "ZQ": {
-            "special_option": "Prime Q + Polyimide Process Applied"
+            "special_option": "Enterprise Q + Polyimide Process Applied"
           },
           "R": {
             "special_option": "MLC Plus FortisFlash Performance Client"
@@ -818,7 +818,7 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^(?:(20|15|12|10|75|37|25|18|16|24|32|36|42|48|6|5|3|1))?(?:(AIT|AAT|AUT|WT|ET|IT|AT))?(?:(ES|EE|MS|QS)(?=:|$)|(?:(E1|KA|MA|PZ|QZ|ZQ|RZ|RR|QA|QB|QC|QD|QE|QJ|VJ|QK|QM|QN|QP|QQ|QU|[1BCDEFGKMNPQRSTUXZ]))?(?:(ES|EE|MS|QS))?)",
+          "pattern": "^(?:(20|15|12|10|75|37|25|18|16|24|32|36|42|48|6|5|3|1))?(?:(AIT|AAT|AUT|WT|ET|IT|AT))?(?:(ES|EE|MS|QS)(?=:|$)|(?:(E1|KA|MA|PZ|QZ|ZQ|RZ|RR|QA|QB|QC|QD|QE|QJ|VJ|QK|QM|QN|QP|QQ|QU|[1BCDEFGKMNPQRSTUXZ]))(?:(ES|EE|MS|QS))?)?(?=:|$)",
           "groups": {
             "speedToken": 1,
             "temperatureToken": 2,
