@@ -443,6 +443,13 @@ Classic UI 会直接渲染旧字段，包括 `extraInfo` 和 `ext` 的 key。`fd
 - `FD_SERVER_CONTROLLER_GROUP=selected` 适合默认精简控制器列表；只有客户端确实需要完整控制器集合时才使用 `all`。
 - HTTPS、缓存、访问日志和限流建议放在反向代理或平台层处理。
 
+## 代码边界
+
+- `handler.ts` 只保留稳定的创建函数与公共导出，Node 和 Worker 继续从同一入口消费。
+- `routes.ts` 只负责旧 HTTP 路由、query 参数和 Response 适配。
+- `legacy-serializer.ts` 集中维护 fdnext result 到 FlashDetector 字段形状的转换。
+- `config.ts` 和 `types.ts` 分别维护环境配置与公共类型；解码、搜索和索引仍由 `@itxtech/fdnext-core` 提供。
+
 ## 验证命令
 
 仓库部署可先验证新包：
