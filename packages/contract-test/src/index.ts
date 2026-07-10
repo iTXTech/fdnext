@@ -3,6 +3,7 @@ import {
   fdnextCapabilitiesJsonSchema,
   fdnextResultJsonSchema,
   type FdnextCapabilities,
+  type FdnextEngine,
   type FdnextResult,
   type JsonSchema
 } from "../../core/src/index";
@@ -94,11 +95,20 @@ export function validateSchema(schema: JsonSchema, value: unknown, root: JsonSch
       errors.push(...validateSchema(current.items as JsonSchema, item, root).map((error) => `[${index}].${error}`));
     });
   }
+  if (typeof value === "number" && typeof current.minimum === "number" && value < current.minimum) {
+    errors.push(`expected minimum ${current.minimum}`);
+  }
+  if (typeof value === "number" && typeof current.maximum === "number" && value > current.maximum) {
+    errors.push(`expected maximum ${current.maximum}`);
+  }
   return errors;
 }
 
-export function createContractEngine() {
-  return createEngine();
+let cachedContractEngine: FdnextEngine | undefined;
+
+export function createContractEngine(): FdnextEngine {
+  cachedContractEngine ??= createEngine();
+  return cachedContractEngine;
 }
 
 export function runContractChecks(): ContractCheckSummary {

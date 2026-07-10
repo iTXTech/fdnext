@@ -5,6 +5,7 @@ import { createContractEngine } from "../src/index";
 const engine = createContractEngine();
 const SEARCH_MEDIAN_BUDGET_MS = 100;
 const IDENTIFIER_SEARCH_MEDIAN_BUDGET_MS = 30;
+const SELECTIVE_PREFIX_SEARCH_MEDIAN_BUDGET_MS = 30;
 
 function medianRuntimeMs(fn: () => unknown, iterations = 15): number {
   fn();
@@ -40,6 +41,15 @@ assertMedianBelow("part decode Micron FBGA marking", SEARCH_MEDIAN_BUDGET_MS, ()
 );
 assertMedianBelow("part decode unmatched prefix", SEARCH_MEDIAN_BUDGET_MS, () =>
   engine.decodePart({ query: "MTFC4G", lang: "eng" })
+);
+assertMedianBelow("part search selective Biwin prefix", SELECTIVE_PREFIX_SEARCH_MEDIAN_BUDGET_MS, () =>
+  engine.searchParts({ query: "BW2A2MZCNY", lang: "eng", limit: 50 })
+);
+assertMedianBelow("part search selective Micron SSD prefix", SELECTIVE_PREFIX_SEARCH_MEDIAN_BUDGET_MS, () =>
+  engine.searchParts({ query: "MTFDHBL064TDP", lang: "eng", limit: 50 })
+);
+assertMedianBelow("part search selective Kioxia prefix", SELECTIVE_PREFIX_SEARCH_MEDIAN_BUDGET_MS, () =>
+  engine.searchParts({ query: "THGJFRT1E45", lang: "eng", limit: 50 })
 );
 assertMedianBelow("identifier search NAND Flash ID prefix", IDENTIFIER_SEARCH_MEDIAN_BUDGET_MS, () =>
   engine.searchIdentifiers({ query: "2C8464", lang: "eng", limit: 10 })

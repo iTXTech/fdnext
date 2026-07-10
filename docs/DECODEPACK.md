@@ -315,6 +315,23 @@ pnpm cli decodepack explain id 2C64444BA900
 
 发布 / 全局安装后的二进制仍是 `fdnext decodepack ...`。
 
+### 7.1 按目标字段投影解码
+
+编译后的 PN decoder 支持运行时传入任意 draft path，而不是绑定固定的“搜索字段集”：
+
+```ts
+const decoder = compiled.partDecoders.find((item) => item.check(partNumber));
+const summary = decoder?.project?.(partNumber, [
+  "device.vendor",
+  "fields.density",
+  "fields.package"
+]);
+```
+
+compiler 会按 `assign` 表达式反向追踪变量依赖，为每组 target path 缓存执行计划；无关 step 不执行，并在最后一个必要 step 后停止。目标字段的值必须与完整 `decode()` 一致。投影结果会保留 `device.partNumber`，也可能带有计算目标所需的附加依赖字段，调用方不应把“未请求字段一定不存在”作为 contract。
+
+搜索层当前所需字段由 `DEFAULT_PART_SEARCH_PROJECTION` 声明；后续结果 contract 或排序逻辑新增字段时，可通过 `createEngine({ partSearchProjection: [...] })` 追加 target path，无需修改 compiler 或新增固定 profile。
+
 ## 8. Identifier iTXTech fdnext DecodePack（NAND Flash ID 概览）
 
 NAND Flash ID 解码通过 typed identifier iTXTech fdnext DecodePack 表达，规则必须声明 `idScheme: "nand.flash_id"`。输入仍按“字节偏移 + bitfield 规则”描述，并编译为 `IdentifierDecoder`。

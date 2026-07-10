@@ -99,6 +99,109 @@ function addFinding(
   findings.push({ severity, code, path, message, ...(specId ? { specId } : {}) });
 }
 
+const packageDimensionPattern = /^\d+(?:\.\d+)?(?:x\d+(?:\.\d+)?)+(?:\/\d+(?:\.\d+)?(?:x\d+(?:\.\d+)?)*)?$/;
+const packageTypePattern = /^[A-Za-z0-9][A-Za-z0-9+./ -]*(?:-\d[A-Za-z0-9./-]*)?(?: \/ [A-Za-z0-9][A-Za-z0-9+./ -]*(?:-\d[A-Za-z0-9./-]*)?)*$/;
+
+function isPublicPackageValuePath(path: string[]): boolean {
+  if (
+    path.some((part) =>
+      /package_code|packageCode|package_configuration|packageConfiguration|packageEnv|reference|source|notes|special_option/i.test(part)
+    )
+  ) {
+    return false;
+  }
+
+  const leaf = path[path.length - 1] ?? "";
+  if (leaf === "packing_type") {
+    return false;
+  }
+  if (leaf === "package" || leaf === "fields.package") {
+    return true;
+  }
+
+  const tableIndex = path.findIndex((part) => part === "tables" || part === "sharedTables");
+  if (tableIndex < 0) {
+    return false;
+  }
+  const tableName = path[tableIndex + 1] ?? "";
+  if (/^(?:basePackage|packageToken)$/i.test(tableName)) {
+    return false;
+  }
+  return /package/i.test(tableName);
+}
+
+function checkPublicPackageValue(
+  value: string,
+  path: string,
+  specId: string | undefined,
+  findings: DecodePackCheckFinding[]
+): void {
+  const reasons: string[] = [];
+  if (!value || value === "Unknown") {
+    reasons.push("unknown-or-empty");
+  } else {
+    if (/\b(?:mm|ball|pin|pad)\b/i.test(value)) {
+      reasons.push("unit-word");
+    }
+    if (/[()]/.test(value)) {
+      reasons.push("parenthesized-detail");
+    }
+    const parts = value.split(",").map((part) => part.trim());
+    if (parts.some((part) => part.length === 0)) {
+      reasons.push("empty-segment");
+    } else {
+      const [head, ...tail] = parts;
+      if (head && (/\b\d+\s+[A-Z]*BGA\b/i.test(head) || /\b\d+(?:[A-Z]*BGA|LGA|TSOP|WSON)\b/i.test(head))) {
+        reasons.push("pin-before-type");
+      }
+      if (head && /\b(?:[A-Z]*BGA|LGA|TSOP|WSON)\d+(?![-/])\b/i.test(head)) {
+        reasons.push("missing-pin-separator");
+      }
+      if (!head || (!packageTypePattern.test(head) && !packageDimensionPattern.test(head))) {
+        reasons.push("head-shape");
+      }
+      if (tail.some((part) => /^\d+(?:\.\d+)?x/.test(part) && !packageDimensionPattern.test(part))) {
+        reasons.push("dimension-shape");
+      }
+    }
+  }
+
+  for (const reason of reasons) {
+    addFinding(
+      findings,
+      "error",
+      "package_shape",
+      path,
+      `Public package value "${value}" must use TYPE[-PIN][, DIM][, SPECIAL] (${reason}).`,
+      specId
+    );
+  }
+}
+
+function checkPublicPackageValues(
+  value: unknown,
+  path: string[],
+  findings: DecodePackCheckFinding[],
+  specId?: string
+): void {
+  if (typeof value === "string") {
+    if (isPublicPackageValuePath(path)) {
+      checkPublicPackageValue(value, path.join("."), specId, findings);
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => checkPublicPackageValues(item, [...path, `[${index}]`], findings, specId));
+    return;
+  }
+  if (!isRecord(value)) {
+    return;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    checkPublicPackageValues(item, [...path, key], findings, specId);
+  }
+}
+
 function checkFieldKeys(value: unknown, path: string, specId: string, findings: DecodePackCheckFinding[]): void {
   if (!isRecord(value)) {
     return;
@@ -456,6 +559,7 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
   for (const [tableName, table] of Object.entries(sharedTables)) {
     checkDecodeTable(table, `sharedTables.${tableName}`, undefined, findings);
   }
+  checkPublicPackageValues(sharedTables, ["sharedTables"], findings);
   for (const [kind, specs] of [
     ["part", pack.partSpecs],
     ["identifier", pack.identifierSpecs]
@@ -480,6 +584,7 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
         checkIdentifierDefinition(identifierSpec, `${path}.definition`, findings);
         walkPolicy(identifierSpec.definition, `${path}.definition`, spec.id, findings);
       }
+      checkPublicPackageValues(spec, [path], findings, spec.id);
     });
   }
   return {

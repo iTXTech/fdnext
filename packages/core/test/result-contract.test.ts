@@ -149,6 +149,9 @@ function validate(schema: JsonSchema, value: unknown, path = "$", root: JsonSche
   if (typeof value === "number" && typeof current.minimum === "number" && value < current.minimum) {
     errors.push(`${path}: expected minimum ${current.minimum}`);
   }
+  if (typeof value === "number" && typeof current.maximum === "number" && value > current.maximum) {
+    errors.push(`${path}: expected maximum ${current.maximum}`);
+  }
 
   return errors;
 }

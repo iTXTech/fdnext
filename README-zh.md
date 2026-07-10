@@ -66,7 +66,10 @@ pnpm test
 | `pnpm test` | 运行所有单元测试和集成测试 |
 | `pnpm typecheck` | 在整个仓库运行 TypeScript 类型检查 |
 | `pnpm contract:check` | 验证结果 schema 和行为 contract |
-| `pnpm lint` | 在各包提供 lint 脚本时运行对应检查 |
+| `pnpm check:decodepack` | 检查 DecodePack 结构与维护策略 |
+| `pnpm check:static` | 运行 TypeScript 与 DecodePack 静态检查 |
+| `pnpm check` | 依次运行静态检查、测试、契约检查和构建 |
+| `pnpm lint` | `pnpm check:static` 的兼容别名 |
 
 ---
 

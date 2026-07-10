@@ -13,6 +13,7 @@ export type IdentifierIndexSource = "fdb";
 export interface PartIndexRecord {
   partNumber: string;
   normalizedPartNumber: string;
+  partNumberTokenKey: string;
   vendor: string;
   chipKind: FdnextChipKind;
   productType?: FdnextProductType;
@@ -29,9 +30,11 @@ export interface IdentifierIndexRecord {
 
 export interface MarkingIndexRecord {
   markingCode: string;
+  markingTokenKey: string;
   vendor: string;
   partNumber: string;
   normalizedPartNumber: string;
+  partNumberTokenKey: string;
   chipKind: FdnextChipKind;
   productType?: FdnextProductType;
   source: MarkingIndexSource;
@@ -52,8 +55,6 @@ export interface NormalizedIndexes {
   markingIndex: MarkingIndexRecord[];
   partExactIndex: Map<string, IndexRefBucket>;
   markingExactIndex: Map<string, IndexRefBucket>;
-  partPrefixIndex: Map<string, IndexRefBucket>;
-  markingPrefixIndex: Map<string, IndexRefBucket>;
   vendorIndex: Map<string, VendorIndexRecord>;
 }
 
@@ -163,47 +164,6 @@ function normalizeMarkingCode(value: string): string {
   return value.trim().toUpperCase().replace(/[^0-9A-Z]/g, "");
 }
 
-const PART_PREFIX_PROFILES = [
-  "MT29",
-  "MTFC",
-  "MTFD",
-  "MT40",
-  "MT41",
-  "MT42",
-  "MT43",
-  "MT44",
-  "MT46",
-  "MT47",
-  "MT48",
-  "MT49",
-  "MT51",
-  "MT52",
-  "MT53",
-  "MT54",
-  "MT58",
-  "MT60",
-  "MT61",
-  "MT62",
-  "MT68",
-  "CT40",
-  "K4",
-  "K9",
-  "KLM",
-  "KLU",
-  "H25",
-  "H26",
-  "H27",
-  "H28",
-  "H9",
-  "TC58",
-  "TH",
-  "SDIN",
-  "SDT",
-  "SD"
-];
-
-const MARKING_PREFIX_PROFILES = ["C9", "D8", "D9", "Z8", "Z9", "NC", "NW", "NY", "NX", "NQ", "NV", "PF"];
-
 function addIndexRef(index: Map<string, IndexRefBucket>, key: string, ref: number): void {
   if (!key) {
     return;
@@ -224,30 +184,9 @@ function addIndexRef(index: Map<string, IndexRefBucket>, key: string, ref: numbe
   index.set(key, ref);
 }
 
-function matchingProfile(value: string, profiles: string[]): string | undefined {
-  let matched: string | undefined;
-  for (const profile of profiles) {
-    if (value.startsWith(profile) && (!matched || profile.length > matched.length)) {
-      matched = profile;
-    }
-  }
-  return matched;
-}
-
 function addExactIndexKeys(index: Map<string, IndexRefBucket>, value: string, ref: number): void {
   addIndexRef(index, value, ref);
   addIndexRef(index, normalizePartNumberTokenKey(value), ref);
-}
-
-function addPrefixIndexKeys(index: Map<string, IndexRefBucket>, value: string, ref: number, profiles: string[]): void {
-  const profile = matchingProfile(value, profiles);
-  const tokenKey = normalizePartNumberTokenKey(value);
-  const tokenProfile = matchingProfile(tokenKey, profiles);
-  for (const key of new Set([profile, tokenProfile])) {
-    if (key) {
-      addIndexRef(index, key, ref);
-    }
-  }
 }
 
 function chipKindForMdbPart(partNumber: string): FdnextChipKind {
@@ -280,6 +219,7 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
     addPartRecord(partRecords, {
       partNumber,
       normalizedPartNumber: partNumber,
+      partNumberTokenKey: normalizePartNumberTokenKey(partNumber),
       vendor,
       chipKind,
       ...(productType ? { productType } : {}),
@@ -312,9 +252,11 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
     const chipKind = chipKindForMdbPart(partNumber);
     const record: MarkingIndexRecord = {
       markingCode,
+      markingTokenKey: normalizePartNumberTokenKey(markingCode),
       vendor,
       partNumber,
       normalizedPartNumber: partNumber,
+      partNumberTokenKey: normalizePartNumberTokenKey(partNumber),
       chipKind,
       source
     };
@@ -361,17 +303,13 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
   const partIndex = [...partRecords.values()];
   const partExactIndex = new Map<string, IndexRefBucket>();
   const markingExactIndex = new Map<string, IndexRefBucket>();
-  const partPrefixIndex = new Map<string, IndexRefBucket>();
-  const markingPrefixIndex = new Map<string, IndexRefBucket>();
 
   partIndex.forEach((record, ref) => {
     addExactIndexKeys(partExactIndex, record.normalizedPartNumber, ref);
-    addPrefixIndexKeys(partPrefixIndex, record.normalizedPartNumber, ref, PART_PREFIX_PROFILES);
   });
 
   markingIndex.forEach((record, ref) => {
     addExactIndexKeys(markingExactIndex, record.markingCode, ref);
-    addPrefixIndexKeys(markingPrefixIndex, record.markingCode, ref, MARKING_PREFIX_PROFILES);
   });
 
   return {
@@ -380,8 +318,6 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
     markingIndex,
     partExactIndex,
     markingExactIndex,
-    partPrefixIndex,
-    markingPrefixIndex,
     vendorIndex
   };
 }
@@ -404,12 +340,16 @@ function sourceWeight(source: PartIndexSource | MarkingIndexSource): number {
   }
 }
 
-function matchKind(value: string, query: string, partialMatch: boolean): "exact" | "prefix" | "contains" | null {
+function matchKind(
+  value: string,
+  valueTokenKey: string,
+  query: string,
+  queryTokenKey: string,
+  partialMatch: boolean
+): "exact" | "prefix" | "contains" | null {
   if (value === query) {
     return "exact";
   }
-  const valueTokenKey = normalizePartNumberTokenKey(value);
-  const queryTokenKey = normalizePartNumberTokenKey(query);
   if (valueTokenKey === queryTokenKey) {
     return "exact";
   }
@@ -477,43 +417,6 @@ function vendorConsistency(candidateVendor: string, info: PartDecodeDraft): numb
 
 function productTypeMatches(actual: FdnextProductType | undefined, expected: FdnextProductType): boolean {
   return normalizeInfoText(actual) === normalizeInfoText(expected);
-}
-
-function hasSearchConstraints(constraints: Omit<OperationConstraints, "idScheme">): boolean {
-  return Boolean(constraints.vendor || constraints.chipKind || constraints.productType);
-}
-
-function chipKindForProductTypeConstraint(productType: FdnextProductType): FdnextChipKind | undefined {
-  const normalized = normalizeInfoText(productType);
-  if (["emmc", "ufs", "sata", "sas", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(normalized)) {
-    return "managed_nand";
-  }
-  if (normalized === "dram" || /^(?:sdr|lpsdr|lpddr|ddr|gddr|rldram)/.test(normalized)) {
-    return "dram";
-  }
-  return undefined;
-}
-
-function baseMatchesSearchConstraints(
-  candidate: Omit<PartClassificationCandidate, "score" | "warnings" | "info">,
-  constraints: Omit<OperationConstraints, "idScheme">
-): boolean {
-  if (constraints.vendor && !vendorMatches(candidate.vendor, constraints.vendor)) {
-    return false;
-  }
-  if (constraints.chipKind && candidate.chipKind !== constraints.chipKind) {
-    return false;
-  }
-  if (constraints.productType) {
-    if (candidate.productType) {
-      return productTypeMatches(candidate.productType, constraints.productType);
-    }
-    const expectedChipKind = chipKindForProductTypeConstraint(constraints.productType);
-    if (expectedChipKind && candidate.chipKind !== "unknown" && candidate.chipKind !== expectedChipKind) {
-      return false;
-    }
-  }
-  return true;
 }
 
 function constraintScore(
@@ -597,12 +500,15 @@ function enrichCandidate(
   if (constraint.rejected) {
     return null;
   }
+  // Search order must not change merely because a DecodePack starts exposing another field.
+  // Keeping search rank resource/match based also lets explicit top-K searches project only the selected candidates.
+  const decodeQualityScore = options.mode === "decode"
+    ? options.decoderPriority(base.partNumber) + tokenCompleteness(info) + vendorConsistency(constrainedBase.vendor, info)
+    : 0;
   const score =
     sourceWeight(base.source) +
     matchWeight(base.matchKind) +
-    options.decoderPriority(base.partNumber) +
-    tokenCompleteness(info) +
-    vendorConsistency(constrainedBase.vendor, info) +
+    decodeQualityScore +
     constraint.score;
 
   return {
@@ -623,6 +529,32 @@ function dedupeCandidates(candidates: PartClassificationCandidate[]): PartClassi
     }
   }
   return [...best.values()].sort((a, b) => b.score - a.score || a.normalizedPartNumber.localeCompare(b.normalizedPartNumber));
+}
+
+function dedupeCandidateBases(
+  candidates: Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">>
+): Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">> {
+  const best = new Map<string, Omit<PartClassificationCandidate, "score" | "warnings" | "info">>();
+  for (const candidate of candidates) {
+    const key = `${candidate.vendor}\0${candidate.normalizedPartNumber}\0${candidate.chipKind}`;
+    const existing = best.get(key);
+    const score = candidateBaseScore(candidate);
+    const existingScore = existing ? candidateBaseScore(existing) : -1;
+    if (!existing || score > existingScore || (score === existingScore && candidate.markingCode && !existing.markingCode)) {
+      best.set(key, candidate);
+    }
+  }
+  return [...best.values()].sort(
+    (a, b) => candidateBaseScore(b) - candidateBaseScore(a) || a.normalizedPartNumber.localeCompare(b.normalizedPartNumber)
+  );
+}
+
+function candidateBaseScore(candidate: Omit<PartClassificationCandidate, "score" | "warnings" | "info">): number {
+  return sourceWeight(candidate.source) + matchWeight(candidate.matchKind);
+}
+
+function hasPartSearchConstraints(constraints: Omit<OperationConstraints, "idScheme">): boolean {
+  return Boolean(constraints.vendor || constraints.chipKind || constraints.productType);
 }
 
 function isAmbiguous(candidates: PartClassificationCandidate[], mode: "decode" | "search"): boolean {
@@ -662,17 +594,6 @@ export function classifyPart(
 
   const partialMatch = options.mode === "search" ? options.partialMatch ?? true : false;
   const bases: Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">> = [];
-  const deferredBases: Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">> = [];
-  const constrainedSearch = hasSearchConstraints(constraints);
-  const prioritizeConstrainedSearch = options.mode === "search" && constrainedSearch;
-  const searchLimitMultiplier = constrainedSearch ? 80 : 6;
-  const searchLimitFloor = constrainedSearch ? 1200 : 48;
-  const baseLimit = options.mode === "search" ? Math.max((options.limit ?? 50) * searchLimitMultiplier, searchLimitFloor) : 0;
-  const preferredBaseLimit = prioritizeConstrainedSearch
-    ? Math.max((options.limit ?? 50) * 4, 64)
-    : baseLimit;
-  const canAddBase = (): boolean => baseLimit === 0 || bases.length < baseLimit;
-  const canAddPreferredBase = (): boolean => preferredBaseLimit === 0 || bases.length < preferredBaseLimit;
   const seenBaseKeys = new Set<string>();
   const addBase = (base: Omit<PartClassificationCandidate, "score" | "warnings" | "info">): void => {
     const key = `${base.source}\0${base.vendor}\0${base.normalizedPartNumber}\0${base.chipKind}\0${base.markingCode ?? ""}\0${base.markingMatch ? "marking" : "part"}`;
@@ -680,24 +601,20 @@ export function classifyPart(
       return;
     }
     seenBaseKeys.add(key);
-    if (prioritizeConstrainedSearch && !baseMatchesSearchConstraints(base, constraints)) {
-      if (deferredBases.length < baseLimit) {
-        deferredBases.push(base);
-      }
-      return;
-    }
-    if (canAddPreferredBase()) {
-      bases.push(base);
-    }
+    bases.push(base);
   };
 
-  let usedFastIndex = false;
-  let hasExactFastMatch = false;
   const normalizedTokenKey = normalizePartNumberTokenKey(normalized);
 
   const addMarkingRecord = (record: MarkingIndexRecord): void => {
-    const byCode = matchKind(record.markingCode, normalized, partialMatch);
-    const byPart = matchKind(record.normalizedPartNumber, normalized, partialMatch);
+    const byCode = matchKind(record.markingCode, record.markingTokenKey, normalized, normalizedTokenKey, partialMatch);
+    const byPart = matchKind(
+      record.normalizedPartNumber,
+      record.partNumberTokenKey,
+      normalized,
+      normalizedTokenKey,
+      partialMatch
+    );
     const match = byCode ?? byPart;
     if (!match) {
       return;
@@ -716,7 +633,13 @@ export function classifyPart(
   };
 
   const addPartRecord = (record: PartIndexRecord): void => {
-    const match = matchKind(record.normalizedPartNumber, normalized, partialMatch);
+    const match = matchKind(
+      record.normalizedPartNumber,
+      record.partNumberTokenKey,
+      normalized,
+      normalizedTokenKey,
+      partialMatch
+    );
     if (!match) {
       return;
     }
@@ -732,16 +655,11 @@ export function classifyPart(
     });
   };
 
-  const addMarkingRefs = (refs: IndexRefBucket | undefined, exact: boolean): void => {
+  const addMarkingRefs = (refs: IndexRefBucket | undefined): void => {
     if (refs === undefined) {
       return;
     }
-    usedFastIndex = true;
-    hasExactFastMatch = hasExactFastMatch || exact;
     for (const ref of typeof refs === "number" ? [refs] : refs) {
-      if (!prioritizeConstrainedSearch && !canAddBase()) {
-        break;
-      }
       const record = options.indexes.markingIndex[ref];
       if (record) {
         addMarkingRecord(record);
@@ -749,16 +667,11 @@ export function classifyPart(
     }
   };
 
-  const addPartRefs = (refs: IndexRefBucket | undefined, exact: boolean): void => {
+  const addPartRefs = (refs: IndexRefBucket | undefined): void => {
     if (refs === undefined) {
       return;
     }
-    usedFastIndex = true;
-    hasExactFastMatch = hasExactFastMatch || exact;
     for (const ref of typeof refs === "number" ? [refs] : refs) {
-      if (!prioritizeConstrainedSearch && !canAddBase()) {
-        break;
-      }
       const record = options.indexes.partIndex[ref];
       if (record) {
         addPartRecord(record);
@@ -766,51 +679,19 @@ export function classifyPart(
     }
   };
 
-  for (const key of new Set([normalized, normalizedTokenKey])) {
-    addMarkingRefs(options.indexes.markingExactIndex.get(key), true);
-    addPartRefs(options.indexes.partExactIndex.get(key), true);
-  }
-
-  if (partialMatch && !hasExactFastMatch) {
-    const markingProfiles = new Set(
-      [normalized, normalizedTokenKey]
-        .map((key) => matchingProfile(key, MARKING_PREFIX_PROFILES))
-        .filter((profile): profile is string => Boolean(profile))
-    );
-    const partProfiles = new Set(
-      [normalized, normalizedTokenKey]
-        .map((key) => matchingProfile(key, PART_PREFIX_PROFILES))
-        .filter((profile): profile is string => Boolean(profile))
-    );
-    for (const profile of markingProfiles) {
-      addMarkingRefs(options.indexes.markingPrefixIndex.get(profile), false);
-    }
-    for (const profile of partProfiles) {
-      addPartRefs(options.indexes.partPrefixIndex.get(profile), false);
-    }
-  }
-
-  const fallbackThreshold = options.mode === "search" ? Math.max(1, Math.min(options.limit ?? 50, 10)) : 0;
-  const shouldFallbackScan = options.mode === "search" && (!usedFastIndex || (!hasExactFastMatch && bases.length < fallbackThreshold));
-
-  if (shouldFallbackScan) {
+  if (options.mode === "search" && partialMatch) {
     for (const record of options.indexes.markingIndex) {
-      if (!prioritizeConstrainedSearch && !canAddBase()) {
-        break;
-      }
       addMarkingRecord(record);
     }
 
     for (const record of options.indexes.partIndex) {
-      if (!prioritizeConstrainedSearch && !canAddBase()) {
-        break;
-      }
       addPartRecord(record);
     }
-  }
-
-  if (prioritizeConstrainedSearch && bases.length < Math.max(options.limit ?? 50, 1)) {
-    bases.push(...deferredBases.slice(0, Math.max(0, baseLimit - bases.length)));
+  } else {
+    for (const key of new Set([normalized, normalizedTokenKey])) {
+      addMarkingRefs(options.indexes.markingExactIndex.get(key));
+      addPartRefs(options.indexes.partExactIndex.get(key));
+    }
   }
 
   const hasExactMarkingMatch = bases.some((base) => base.markingMatch && base.matchKind === "exact");
@@ -825,11 +706,28 @@ export function classifyPart(
     });
   }
 
-  const enriched = dedupeCandidates(
-    bases
-      .map((candidate) => enrichCandidate(candidate, constraints, options))
-      .filter((candidate): candidate is PartClassificationCandidate => Boolean(candidate))
-  );
+  const candidateBases = dedupeCandidateBases(bases);
+  const enrichBases = (
+    pending: Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">>
+  ): PartClassificationCandidate[] => pending
+    .map((candidate) => enrichCandidate(candidate, constraints, options))
+    .filter((candidate): candidate is PartClassificationCandidate => Boolean(candidate));
+
+  let enriched: PartClassificationCandidate[];
+  if (options.mode === "search" && options.limit && options.limit > 0 && !hasPartSearchConstraints(constraints)) {
+    const batchSize = Math.max(options.limit, 16);
+    const collected: PartClassificationCandidate[] = [];
+    enriched = [];
+    for (let offset = 0; offset < candidateBases.length; offset += batchSize) {
+      collected.push(...enrichBases(candidateBases.slice(offset, offset + batchSize)));
+      enriched = dedupeCandidates(collected);
+      if (enriched.length >= options.limit) {
+        break;
+      }
+    }
+  } else {
+    enriched = dedupeCandidates(enrichBases(candidateBases));
+  }
   const limited = options.limit && options.limit > 0 ? enriched.slice(0, options.limit) : enriched;
   const selected = limited[0];
   const warnings: ResultWarning[] = [];

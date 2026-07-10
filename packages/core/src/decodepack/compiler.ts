@@ -6,6 +6,7 @@ import type {
   DecodePack,
   DecodePackTraceStep,
   DecodeProgram,
+  DecodeStep,
   DecodeTable,
   IdentifierDecodeExplainBitfield,
   IdentifierDecodeExplainResult,
@@ -129,6 +130,178 @@ function evaluateExpr(expr: DecodeExpr, context: Record<string, unknown>): unkno
   return expr;
 }
 
+type DecodeAssignEntry = readonly [key: string, value: DecodeExpr, index: number];
+
+interface DecodeProjectionPlan {
+  activeSteps: ReadonlySet<number>;
+  lastStep: number;
+  assignEntries: DecodeAssignEntry[];
+}
+
+interface DecodeProgramRuntime {
+  tables: Record<string, Record<string, DecodeJson>>;
+  patterns: Map<number, RegExp>;
+  projectionPlans: Map<string, DecodeProjectionPlan>;
+}
+
+function expressionVariables(expr: DecodeExpr, variables = new Set<string>()): Set<string> {
+  if (isVarExpr(expr)) {
+    variables.add(expr.$var);
+    return variables;
+  }
+  if (isPathExpr(expr)) {
+    const path = Array.isArray(expr.$path) ? expr.$path[0] : expr.$path.split(".")[0];
+    if (path) {
+      variables.add(path);
+    }
+    return variables;
+  }
+  if (isTplExpr(expr)) {
+    for (const match of expr.$tpl.matchAll(/\{\{([a-zA-Z0-9_.]+)\}\}/g)) {
+      const variable = match[1]?.split(".")[0];
+      if (variable) {
+        variables.add(variable);
+      }
+    }
+    return variables;
+  }
+  if (Array.isArray(expr)) {
+    for (const item of expr) {
+      expressionVariables(item, variables);
+    }
+    return variables;
+  }
+  if (expr && typeof expr === "object") {
+    for (const value of Object.values(expr)) {
+      expressionVariables(value as DecodeExpr, variables);
+    }
+  }
+  return variables;
+}
+
+function templateVariables(template: string): string[] {
+  return [...template.matchAll(/\{\{([a-zA-Z0-9_.]+)\}\}/g)]
+    .map((match) => match[1]?.split(".")[0])
+    .filter((value): value is string => Boolean(value));
+}
+
+function decodeStepAccess(step: DecodeStep): { reads: string[]; writes: string[] } {
+  switch (step.op) {
+    case "take":
+      return { reads: ["rest"], writes: ["rest", step.to] };
+    case "takeRegex":
+      return {
+        reads: ["rest"],
+        writes: ["rest", ...(step.to ? [step.to] : []), ...Object.keys(step.groups ?? {})]
+      };
+    case "stripIfPrefix":
+      return {
+        reads: ["rest", ...(step.if ? [step.if] : [])],
+        writes: ["rest", ...(step.to ? [step.to] : [])]
+      };
+    case "markLookupPartNumber":
+      return { reads: ["partNumber", "rest"], writes: [step.to] };
+    case "tpl":
+      return { reads: templateVariables(step.template), writes: [step.to] };
+    case "fallback":
+      return { reads: [step.primary, step.secondary], writes: [step.to] };
+    case "mul":
+      return { reads: [step.a, step.b], writes: [step.to] };
+    case "dieDensity":
+      return { reads: [step.density, step.dieCount], writes: [step.to] };
+    case "set":
+      return { reads: [...expressionVariables(step.value)], writes: [step.to] };
+    case "merge":
+      return { reads: [step.into, step.from], writes: [step.into] };
+    case "omit":
+      return {
+        reads: [step.from, ...(step.to && step.to !== step.from ? [step.to] : [])],
+        writes: [step.to ?? step.from]
+      };
+    case "notEmpty":
+      return { reads: [step.from], writes: [step.to] };
+    case "mergeIf":
+      return { reads: [step.into, step.from, step.if], writes: [step.into] };
+    case "takeLongest":
+      return {
+        reads: ["rest", ...(step.scope ? [step.scope] : []), ...(step.keyTo ? [step.keyTo] : [])],
+        writes: ["rest", step.to, ...(step.keyTo ? [step.keyTo] : [])]
+      };
+    case "map":
+      return {
+        reads: [step.from, ...(step.keyTo ? [step.keyTo] : [])],
+        writes: [step.to, ...(step.keyTo ? [step.keyTo] : [])]
+      };
+  }
+}
+
+function orderedAssignEntries(assign: Record<string, DecodeExpr>): DecodeAssignEntry[] {
+  const entries = Object.entries(assign).map(([key, value], index) => [key, value, index] as const);
+  return [
+    ...entries.filter(([key]) => key !== "fields"),
+    ...entries.filter(([key]) => key === "fields")
+  ];
+}
+
+function projectedAssignEntries(assign: Record<string, DecodeExpr>, targets: readonly string[]): DecodeAssignEntry[] {
+  const entries = orderedAssignEntries(assign);
+  const selected = new Set<number>();
+  for (const target of new Set(targets.filter(Boolean))) {
+    const exact = entries.filter(([key]) => key === target);
+    const descendants = entries.filter(([key]) => key.startsWith(`${target}.`));
+    if (exact.length > 0) {
+      [...exact, ...descendants].forEach(([, , index]) => selected.add(index));
+      continue;
+    }
+    const ancestors = entries
+      .filter(([key]) => target.startsWith(`${key}.`))
+      .sort(([a], [b]) => b.length - a.length);
+    const closest = ancestors[0];
+    if (closest) {
+      selected.add(closest[2]);
+    }
+    descendants.forEach(([, , index]) => selected.add(index));
+  }
+  return entries.filter(([, , index]) => selected.has(index));
+}
+
+function projectionPlan(decoder: DecodeProgram, targets: readonly string[]): DecodeProjectionPlan {
+  const assignEntries = projectedAssignEntries(decoder.assign, targets);
+  const required = new Set<string>();
+  for (const [, value] of assignEntries) {
+    expressionVariables(value, required);
+  }
+
+  const activeSteps = new Set<number>();
+  for (let index = decoder.steps.length - 1; index >= 0; index -= 1) {
+    const step = decoder.steps[index];
+    if (!step) {
+      continue;
+    }
+    const access = decodeStepAccess(step);
+    if (!access.writes.some((variable) => required.has(variable))) {
+      continue;
+    }
+    activeSteps.add(index);
+    for (const variable of access.writes) {
+      required.delete(variable);
+    }
+    for (const variable of access.reads) {
+      required.add(variable);
+    }
+  }
+
+  return {
+    activeSteps,
+    lastStep: activeSteps.size > 0 ? Math.max(...activeSteps) : -1,
+    assignEntries
+  };
+}
+
+function projectionPlanKey(targets: readonly string[]): string {
+  return [...new Set(targets.filter(Boolean))].sort().join("\u0000");
+}
+
 function assignPath(out: Record<string, unknown>, key: string, value: unknown): void {
   if (value === undefined) {
     return;
@@ -234,6 +407,38 @@ function resolveDecodeTables(
   });
 }
 
+function createDecodeProgramRuntime(
+  decoder: DecodeProgram,
+  sharedTables?: Record<string, DecodeTable>
+): DecodeProgramRuntime {
+  const patterns = new Map<number, RegExp>();
+  decoder.steps.forEach((step, index) => {
+    if (step.op === "takeRegex") {
+      patterns.set(index, new RegExp(step.pattern));
+    }
+  });
+  return {
+    tables: resolveDecodeTables(decoder, sharedTables),
+    patterns,
+    projectionPlans: new Map()
+  };
+}
+
+function getProjectionPlan(
+  runtime: DecodeProgramRuntime,
+  decoder: DecodeProgram,
+  targets: readonly string[]
+): DecodeProjectionPlan {
+  const key = projectionPlanKey(targets);
+  const cached = runtime.projectionPlans.get(key);
+  if (cached) {
+    return cached;
+  }
+  const plan = projectionPlan(decoder, targets);
+  runtime.projectionPlans.set(key, plan);
+  return plan;
+}
+
 function normalizeOptionalDecodeTables(
   tables: Record<string, DecodeTable> | undefined
 ): Record<string, Record<string, DecodeJson>> | undefined {
@@ -259,14 +464,16 @@ function formatDieDensityMbit(value: number): string {
 function runTokenDecoder(
   partNumber: string,
   decoder: DecodeProgram,
+  runtime: DecodeProgramRuntime,
   trace?: DecodePackTraceStep[],
-  sharedTables?: Record<string, DecodeTable>
+  targets?: readonly string[]
 ): PartDecodeDraft {
   const context: Record<string, unknown> = {
     partNumber,
     rest: partNumber
   };
-  const tables = resolveDecodeTables(decoder, sharedTables);
+  const tables = runtime.tables;
+  const plan = targets ? getProjectionPlan(runtime, decoder, targets) : undefined;
 
   for (const [index, prefix] of (decoder.stripPrefixes ?? []).entries()) {
     const rest = String(context.rest ?? "");
@@ -285,6 +492,12 @@ function runTokenDecoder(
   }
 
   for (const [index, step] of decoder.steps.entries()) {
+    if (plan && index > plan.lastStep) {
+      break;
+    }
+    if (plan && !plan.activeSteps.has(index)) {
+      continue;
+    }
     const path = `steps[${index}]`;
     if (step.op === "take") {
       const rest = String(context.rest ?? "");
@@ -308,7 +521,9 @@ function runTokenDecoder(
 
     if (step.op === "takeRegex") {
       const rest = String(context.rest ?? "");
-      const match = new RegExp(step.pattern).exec(rest);
+      const pattern = runtime.patterns.get(index) ?? new RegExp(step.pattern);
+      pattern.lastIndex = 0;
+      const match = pattern.exec(rest);
       const matched = match && match.index === 0;
       if (matched) {
         if (step.to) {
@@ -621,12 +836,8 @@ function runTokenDecoder(
   }
 
   const out: Record<string, unknown> = {};
-  const assignEntries = Object.entries(decoder.assign);
-  const orderedAssignEntries = [
-    ...assignEntries.filter(([key]) => key !== "fields"),
-    ...assignEntries.filter(([key]) => key === "fields")
-  ];
-  for (const [index, [key, value]] of orderedAssignEntries.entries()) {
+  const assignments = plan?.assignEntries ?? orderedAssignEntries(decoder.assign);
+  for (const [index, [key, value]] of assignments.entries()) {
     const evaluated = evaluateExpr(value, context);
     assignPath(out, key, evaluated);
     traceStep(trace, {
@@ -635,6 +846,10 @@ function runTokenDecoder(
       target: key,
       value: evaluated
     });
+  }
+
+  if (!readPath(out, "device.partNumber")) {
+    assignPath(out, "device.partNumber", partNumber);
   }
 
   pruneInternalCodeFields(out);
@@ -652,14 +867,20 @@ function decodePartBySpec(
   rule: PartDecodeSpec,
   normalized: string,
   trace?: DecodePackTraceStep[],
-  sharedTables?: Record<string, DecodeTable>
+  sharedTables?: Record<string, DecodeTable>,
+  targets?: readonly string[],
+  programRuntime?: DecodeProgramRuntime
 ): PartDecodeDraft {
   if (rule.tokenDecoder) {
-    return runTokenDecoder(normalized, rule.tokenDecoder, trace, sharedTables);
+    const runtime = programRuntime ?? createDecodeProgramRuntime(rule.tokenDecoder, sharedTables);
+    return runTokenDecoder(normalized, rule.tokenDecoder, runtime, trace, targets);
   }
   const context = { partNumber: normalized, rest: normalized };
   const out: Record<string, unknown> = {};
-  for (const [index, [key, value]] of Object.entries(rule.set ?? {}).entries()) {
+  const entries = targets
+    ? projectedAssignEntries(rule.set ?? {}, targets)
+    : Object.entries(rule.set ?? {}).map(([key, value], index) => [key, value, index] as const);
+  for (const [index, [key, value]] of entries.entries()) {
     const evaluated = evaluateExpr(value, context);
     assignPath(out, key, evaluated);
     traceStep(trace, {
@@ -688,17 +909,35 @@ function compilePartDecodeSpecs(
 ): PartNumberDecoder[] {
   const profileTables = normalizeOptionalDecodeTables(sharedTables);
   return rules.map((rule) => {
+    const programRuntime = rule.tokenDecoder ? createDecodeProgramRuntime(rule.tokenDecoder, sharedTables) : undefined;
+    const matchPattern = rule.match.kind === "regex" ? new RegExp(rule.match.value, rule.match.flags) : undefined;
+    const matchesNormalized = (normalized: string): boolean => {
+      if (rule.match.kind === "prefix") {
+        return normalized.startsWith(rule.match.value);
+      }
+      const pattern = matchPattern as RegExp;
+      pattern.lastIndex = 0;
+      return pattern.test(normalized);
+    };
     const check = (partNumber: string): boolean => {
       const normalized = normalize(partNumber, rule.normalize);
-      return checkMatch(normalized, rule.match);
+      return matchesNormalized(normalized);
     };
 
     const decode = (partNumber: string): PartDecodeDraft | null => {
       const normalized = normalize(partNumber, rule.normalize);
-      if (!check(normalized)) {
+      if (!matchesNormalized(normalized)) {
         return null;
       }
-      return decodePartBySpec(rule, normalized, undefined, sharedTables);
+      return decodePartBySpec(rule, normalized, undefined, sharedTables, undefined, programRuntime);
+    };
+
+    const project = (partNumber: string, targets: readonly string[]): PartDecodeDraft | null => {
+      const normalized = normalize(partNumber, rule.normalize);
+      if (!matchesNormalized(normalized)) {
+        return null;
+      }
+      return decodePartBySpec(rule, normalized, undefined, sharedTables, targets, programRuntime);
     };
 
     return {
@@ -706,7 +945,8 @@ function compilePartDecodeSpecs(
       priority: rule.priority,
       profileTables,
       check,
-      decode
+      decode,
+      project
     } satisfies PartNumberDecoder;
   });
 }

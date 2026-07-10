@@ -112,6 +112,8 @@ runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https
 - `managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`；Micron DRAM FBGA code 反查统一来自 `mdb.json`
 - 默认解码器（PN / typed identifier）已由 `@itxtech/fdnext-core` 内置；只有裁剪规则或注入自定义规则时才需要显式传入 `decoders` / `identifierDecoders`
 - `@itxtech/fdnext-core/decodepack` 是规则维护入口，面向 check / explain / compile 等工具链；普通前端查询不需要直接引用它。
+- `searchParts()` / `searchIdentifiers()` 不传 `limit` 时返回全部匹配项，适合前端一次获取后在内存中分页；传入正整数 `limit` 才会启用 top-K 截断。默认 part search 同时保留 prefix 和 contains 匹配。
+- 自定义搜索结果若需要额外 DecodePack 字段，可通过 `createEngine({ partSearchProjection: ["fields.<key>"] })` 追加投影路径；默认搜索依赖仍会自动保留。
 
 ### 2.1 方式 A：fetch 静态 JSON（推荐）
 

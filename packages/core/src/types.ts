@@ -2,7 +2,6 @@ export type Language = string;
 
 import type {
   CapabilitiesInput,
-  Capability,
   ControllerGroupId,
   ControllerProjectionGroupId,
   ControllerGroupSelection,
@@ -189,6 +188,7 @@ export interface PartDecodeOptions {
   lang?: Language | null;
   controllerGroup?: ControllerGroupSelection;
   combineFdb?: boolean;
+  projection?: readonly string[];
 }
 
 export interface SearchOptions {
@@ -203,6 +203,8 @@ export interface PartNumberDecoder {
   profileTables?: Record<string, Record<string, unknown>>;
   check(partNumber: string): boolean;
   decode(partNumber: string): PartDecodeDraft | null;
+  /** Decode only the requested draft paths. Implementations may return additional dependency fields. */
+  project?(partNumber: string, targets: readonly string[]): PartDecodeDraft | null;
 }
 
 export interface IdentifierDecoder {
@@ -243,6 +245,8 @@ export interface EngineOptions {
   identifierDecoders?: IdentifierDecoder[];
   profileTables?: Record<string, Record<string, unknown>>;
   processors?: ProcessorHooks[];
+  /** Additional draft paths required by a custom part-search result or ranking pipeline. */
+  partSearchProjection?: readonly string[];
 }
 
 export interface FdnextEngine {

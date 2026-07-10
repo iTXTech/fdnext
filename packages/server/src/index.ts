@@ -9,6 +9,8 @@ export interface HttpServerOptions {
   port?: number;
   resourceDir?: string;
   serverName?: string;
+  engine?: FdnextEngine;
+  runtime?: FdnextRuntime;
 }
 
 function parsePort(value: number | undefined): number {
@@ -62,7 +64,9 @@ async function replyRuntimeJson(runtime: FdnextRuntime, request: Request, h: Res
 export function createHttpServer(options: HttpServerOptions) {
   const host = options.host ?? "0.0.0.0";
   const port = parsePort(options.port);
-  const runtime = createDefaultRuntimeFromResources(options.resourceDir, options.serverName);
+  const runtime = options.runtime ?? (options.engine
+    ? createRuntime({ engine: options.engine, serverName: options.serverName })
+    : createDefaultRuntimeFromResources(options.resourceDir, options.serverName));
 
   const server = createHapiServer({
     host,

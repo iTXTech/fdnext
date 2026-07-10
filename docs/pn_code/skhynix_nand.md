@@ -314,7 +314,7 @@ H25 的 X package tail 进入 FDB 时保留完整尾缀并去掉分隔符；带 
 | die count `A/B/D/F/G` | 1 / 2 / 4 / 8 / 16 die |
 | configuration `1/3/4/5/6/A/B` | CE / R/B / channel 组合；表内 I/O 即公开输出中的 channel，`A` 额外表示 IF Chip |
 | generation | 结合 cell + die density 判断 `HYVx` profile；第 4 位 voltage 不参与 profile 映射，不能只按 generation 全局映射 |
-| package `8/9/2/3/D` | `VBGA-152, 14x18x1.00` / `LBGA-152, 14x18x1.35` / `VFBGA-316, 14x18x1.00` / `LFBGA-316, 14x18x1.35` / `Wafer (PGD-2)` |
+| package `8/9/2/3/D` | `VBGA-152, 14x18x1.00` / `LBGA-152, 14x18x1.35` / `VFBGA-316, 14x18x1.00` / `LFBGA-316, 14x18x1.35` / `Wafer, PGD-2` |
 | package material `A/R` | whole wafer 或 lead/halo free；公开为 `wafer`、`lead_free`、`halogen_free` |
 | bad block `B/S/P` | Include Bad Block / 1~5 Bad Block / All Good Block |
 | temperature `C/D/E/M/I` | Commercial / Commercial 2 / Extended / Mobile / Industrial |

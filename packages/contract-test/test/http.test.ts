@@ -11,7 +11,7 @@ import {
 const engine = createContractEngine();
 const sdkCapabilities = engine.getCapabilities();
 
-const http = createHttpServer({ host: "127.0.0.1", port: 8080 });
+const http = createHttpServer({ host: "127.0.0.1", port: 8080, engine });
 async function injectJson(method: "GET" | "POST", url: string): Promise<Record<string, unknown>> {
   const response = await http.server.inject({ method, url });
   assert.equal(response.statusCode, 200, response.payload);
@@ -27,6 +27,8 @@ assert.equal((httpPartDecode.device as { chipKind?: string } | undefined)?.chipK
 const httpPartSearch = await injectJson("GET", "/parts/search?query=MTFC&lang=eng&limit=3&productType=ufs");
 assert.equal(httpPartSearch.operation, "part.search");
 assert.ok(Array.isArray(httpPartSearch.items));
+const httpCompletePartSearch = await injectJson("GET", "/parts/search?query=MT29&lang=eng");
+assert.ok((httpCompletePartSearch.items as unknown[]).length > 100);
 const httpIdentifierDecode = await injectJson("GET", "/identifiers/decode?query=2C64444BA900&lang=eng");
 assert.equal(httpIdentifierDecode.operation, "identifier.decode");
 assert.equal((httpIdentifierDecode.input as { constraints?: { idScheme?: string } } | undefined)?.constraints?.idScheme, "nand.flash_id");

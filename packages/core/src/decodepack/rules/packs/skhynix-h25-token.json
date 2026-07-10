@@ -595,7 +595,7 @@
           "9": "LBGA-152, 14x18x1.35",
           "2": "VFBGA-316, 14x18x1.00",
           "3": "LFBGA-316, 14x18x1.35",
-          "D": "Wafer (PGD-2)"
+          "D": "Wafer, PGD-2"
         },
         "packageMaterialObj": {
           "A": {

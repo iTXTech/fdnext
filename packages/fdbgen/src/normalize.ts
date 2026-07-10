@@ -1,4 +1,4 @@
-import { inferVendorFromPartNumber, normalizeKnownPackage, normalizeVendor } from "./vendors";
+import { normalizeKnownPackage, normalizeVendor } from "./vendors";
 
 export type FdbPartNumberClass = "exact_pn" | "synthetic_alias" | "date_code" | "family_label";
 

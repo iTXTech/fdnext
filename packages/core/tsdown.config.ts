@@ -4,18 +4,8 @@ import { fdnextBundleConfig, fdnextNodeBundleConfig } from "../../build.config.t
 export default defineConfig([
   fdnextBundleConfig({
     entry: {
-      index: "src/index.ts"
-    },
-    platform: "neutral"
-  }),
-  fdnextBundleConfig({
-    entry: {
-      decodepack: "src/decodepack/index.ts"
-    },
-    platform: "neutral"
-  }),
-  fdnextBundleConfig({
-    entry: {
+      index: "src/index.ts",
+      decodepack: "src/decodepack/index.ts",
       runtime: "src/runtime/index.ts"
     },
     platform: "neutral"

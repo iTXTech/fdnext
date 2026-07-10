@@ -19,6 +19,7 @@
 pnpm build
 pnpm test
 pnpm typecheck
+pnpm check
 pnpm -C packages/core test
 pnpm -C packages/core typecheck
 pnpm contract:check

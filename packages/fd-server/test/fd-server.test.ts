@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { createEngine } from "@itxtech/fdnext-core";
 import { createFdServer, createFdServerHandler, FD_SERVER_NAME } from "../src/index";
 
 const flashInfoKeys = new Set([
@@ -44,14 +45,17 @@ const flashIdInfoKeys = new Set([
   "rawVendor"
 ]);
 
+const sharedEngine = createEngine();
+const sharedApp = createFdServer({
+  engine: sharedEngine,
+  extraUrls: {
+    "FlashMaster Web": "https://fm.itxtech.org"
+  },
+  warn: () => undefined
+});
+
 async function inject(path: string) {
-  const app = createFdServer({
-    extraUrls: {
-      "FlashMaster Web": "https://fm.itxtech.org"
-    },
-    warn: () => undefined
-  });
-  const response = await app.server.inject({ method: "GET", url: path });
+  const response = await sharedApp.server.inject({ method: "GET", url: path });
   return {
     response,
     body: JSON.parse(response.payload) as Record<string, unknown>
@@ -60,6 +64,7 @@ async function inject(path: string) {
 
 async function fetchJson(path: string, env: Record<string, string | undefined> = {}) {
   const handler = createFdServerHandler({
+    engine: sharedEngine,
     env,
     warn: () => undefined
   });
@@ -142,6 +147,13 @@ test("/searchPn returns string array with FD vendor casing", async () => {
   assert.ok((body.data as string[]).includes("Micron MT29F4G08ABAEA"));
 });
 
+test("/searchPn preserves the legacy complete-result behavior when limit is omitted", async () => {
+  const { body } = await inject("/searchPn?pn=MT29&lang=eng");
+  assert.equal(body.result, true);
+  assert.ok(Array.isArray(body.data));
+  assert.ok((body.data as unknown[]).length > 100);
+});
+
 test("/searchId returns object keyed by flash id", async () => {
   const { body } = await inject("/searchId?id=2C64&lang=eng&limit=1");
   assert.equal(body.result, true);
@@ -178,7 +190,7 @@ test("node server reads process env by default", async () => {
   const previous = process.env.FD_SERVER_EXTRA_URLS;
   process.env.FD_SERVER_EXTRA_URLS = "{\"Env Link\":\"https://fm.itxtech.org\"}";
   try {
-    const app = createFdServer({ warn: () => undefined });
+    const app = createFdServer({ engine: sharedEngine, warn: () => undefined });
     const response = await app.server.inject({ method: "GET", url: "/decode?pn=MT29F4G08ABAEA&lang=eng" });
     const body = JSON.parse(response.payload) as { data?: { url?: Record<string, string> } };
     assert.equal(body.data?.url?.["Env Link"], "https://fm.itxtech.org");
@@ -211,7 +223,7 @@ test("worker handler serves the same legacy routes", async () => {
 });
 
 test("worker handler replies to OPTIONS preflight", () => {
-  const handler = createFdServerHandler({ warn: () => undefined });
+  const handler = createFdServerHandler({ engine: sharedEngine, warn: () => undefined });
   const response = handler.handleRequest(new Request("https://fd.example.test/decode", { method: "OPTIONS" }));
   assert.equal(response.status, 204);
   assert.equal(response.headers.get("Access-Control-Allow-Origin"), "*");

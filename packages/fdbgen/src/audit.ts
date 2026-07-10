@@ -4,7 +4,6 @@ import {
   FDB_FLASH_ID_HEX_LENGTH,
   classifyFdbPartNumber,
   normalizeFdbPartKey,
-  normalizeFdbPartNumber,
   normalizeFdbPartReference
 } from "./normalize";
 import { isGeneratedFdbDieProfile } from "./nand-die-profile";

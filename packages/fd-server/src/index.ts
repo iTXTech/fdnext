@@ -3,7 +3,6 @@ import type { Request as HapiRequest, ResponseToolkit, Server } from "@hapi/hapi
 import type { FdnextEngine } from "@itxtech/fdnext-core";
 import {
   createFdServerHandler,
-  FD_SERVER_NAME,
   type FdServerHandlerOptions,
   type FdServerHttpResponse
 } from "./handler";

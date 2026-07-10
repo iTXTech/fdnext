@@ -1,20 +1,11 @@
 import { defineConfig } from "tsdown";
 import { fdnextCoreDependencyPattern, fdnextNodeBundleConfig } from "../../build.config.ts";
 
-export default defineConfig([
+export default defineConfig(
   fdnextNodeBundleConfig(
     {
       entry: {
-        index: "src/index.ts"
-      },
-      deps: {
-        alwaysBundle: [fdnextCoreDependencyPattern]
-      }
-    }
-  ),
-  fdnextNodeBundleConfig(
-    {
-      entry: {
+        index: "src/index.ts",
         cli: "src/cli.ts"
       },
       deps: {
@@ -23,4 +14,4 @@ export default defineConfig([
     },
     { executable: ["dist/cli.js"] }
   )
-]);
+);

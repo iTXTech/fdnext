@@ -46,7 +46,7 @@ assertPart("H2EQ4T8LQA3R-BDH", {
   dieProfileField: "HYV4",
   cellField: "TLC",
   widthField: "x8",
-  package: "LFBGA-316, 14x18x1.35 (B)",
+  package: "LFBGA-316, 14x18x1.35, B",
   extra: {
     "Special Option": "Emulated",
     "Layer Count": 72,
@@ -66,7 +66,7 @@ assertPart("H2NQ4T8LQA3R-BDH", {
   dieProfileField: "HYV4",
   cellField: "TLC",
   widthField: "x8",
-  package: "LFBGA-316, 14x18x1.35 (B)",
+  package: "LFBGA-316, 14x18x1.35, B",
   extra: {
     "Special Option": "NVDIMM",
     "Layer Count": 72,
@@ -87,7 +87,7 @@ assertPart("H27Q4T8LQA3R-BDH", {
   cellField: "TLC",
   widthField: "x8",
   voltage: "Vcc: 3.30V (2.70~3.60V), VccQ: 1.80V (1.70~1.95V)",
-  package: "LFBGA-316, 14x18x1.35 (B)",
+  package: "LFBGA-316, 14x18x1.35, B",
   extra: {
     "Layer Count": 72,
     "Die Density": "256Gb",

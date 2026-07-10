@@ -35,6 +35,7 @@ export type JsonSchema =
       minLength?: number;
       pattern?: string;
       minimum?: number;
+      maximum?: number;
       oneOf?: readonly JsonSchema[];
       anyOf?: readonly JsonSchema[];
     };

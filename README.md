@@ -66,7 +66,10 @@ pnpm test
 | `pnpm test` | Run all unit and integration tests |
 | `pnpm typecheck` | Run TypeScript type checks across the repo |
 | `pnpm contract:check` | Validate result schema and behavior contracts |
-| `pnpm lint` | Run workspace lint scripts when packages provide them |
+| `pnpm check:decodepack` | Validate DecodePack structure and maintenance policies |
+| `pnpm check:static` | Run TypeScript and DecodePack static checks |
+| `pnpm check` | Run static checks, tests, contracts, and builds |
+| `pnpm lint` | Alias for `pnpm check:static` |
 
 ---
 

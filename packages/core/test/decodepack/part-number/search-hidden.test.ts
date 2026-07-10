@@ -38,5 +38,6 @@ test("part-number search suggestions include cross-vendor PN matches", () => {
   ] as const) {
     assertSearchPnIncludes(query, expected);
   }
-  assertSearchPnFirst("EMMC", "Kingston EMMC04G-WT32");
+  // Equal source/prefix matches use stable PN ordering, independent of how many fields a rule exposes.
+  assertSearchPnFirst("EMMC", "Kingston EMMC04G-CT32");
 });

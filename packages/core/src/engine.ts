@@ -4,11 +4,8 @@ import type { CompileDecodePackResult } from "./decodepack/types";
 import {
   draftDensity,
   draftField,
-  draftFields,
-  draftIdentifier,
   draftPartNumber,
   draftVendor,
-  mergeDraftStringArray,
   setDraftField
 } from "./draft";
 import { buildCapabilitiesSnapshot } from "./engine/capabilities";
@@ -44,8 +41,9 @@ import {
   type PartSearchSuggestion
 } from "./result-builder";
 import { translateString as doTranslateString } from "./translate";
-import { normalizeFlashId, normalizePartNumber, normalizePartNumberTokenKey, padFlashId } from "./utils/normalize";
+import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize";
 import { contains } from "./utils/string";
+import { embeddedResourceBundle } from "./resources";
 import type {
   PartDecodeOptions,
   EngineOptions,
@@ -78,7 +76,28 @@ import type {
   SearchIdentifiersInput,
   SearchPartsInput
 } from "./result";
-import { embeddedResourceBundle } from "./resources";
+
+const PART_SEARCH_IDENTITY_PROJECTION = [
+  "device.partNumber",
+  "device.domain",
+  "device.vendor",
+  "device.chipKind",
+  "device.productType"
+] as const;
+
+export const DEFAULT_PART_SEARCH_PROJECTION = [
+  ...PART_SEARCH_IDENTITY_PROJECTION,
+  "fields.product_type",
+  "fields.dram_type",
+  "fields.density",
+  "fields.storage_density",
+  "fields.dram_density",
+  "fields.die_codename",
+  "fields.die_density",
+  "fields.die_count",
+  "fields.cell_level",
+  "meta.nandDieProfileKey"
+] as const;
 
 export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const fallbackLang = options.fallbackLang && LANGUAGES.includes(options.fallbackLang as (typeof LANGUAGES)[number])
@@ -123,6 +142,12 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   };
 
   const processors: ProcessorHooks[] = [...(options.processors ?? [])];
+  const partSearchProjection = [
+    ...new Set([
+      ...DEFAULT_PART_SEARCH_PROJECTION,
+      ...(options.partSearchProjection ?? [])
+    ])
+  ];
   const internalDecodeHooks = [createDefaultIdentifierPostprocessor()];
   let defaultPack: CompileDecodePackResult | undefined;
   const getDefaultPack = () => (defaultPack ??= defaultCompiledDecodePack());
@@ -745,12 +770,14 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     let info: PartDecodeDraft | null = null;
 
     for (const decoder of decoders) {
-      if (decoder.check(partNumber)) {
-        const decoded = decoder.decode(partNumber);
-        if (decoded) {
-          info = normalizePartDraft(partNumber, decoded);
-          break;
-        }
+      const decoded = opts.projection && decoder.project
+        ? decoder.project(partNumber, opts.projection)
+        : decoder.check(partNumber)
+        ? decoder.decode(partNumber)
+        : null;
+      if (decoded) {
+        info = normalizePartDraft(partNumber, decoded);
+        break;
       }
     }
 
@@ -808,7 +835,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   };
 
   const inspectPartForSearchClassification = (partNumber: string): PartDecodeDraft => {
-    const info = detectRaw(partNumber, { combineFdb: false }, true);
+    const info = detectRaw(partNumber, { combineFdb: false, projection: partSearchProjection }, true);
     applyDramClassification(info);
     applyDramPublicType(info);
     pruneRedundantFields(info);

@@ -64,7 +64,7 @@ Browser integrations that run fdnext locally should use the main `createEngine()
 | Method | Description |
 | :--- | :--- |
 | `engine.decodePart(input)` | Decode a single part number |
-| `engine.searchParts(input)` | Search part numbers, returns a ranked list |
+| `engine.searchParts(input)` | Search part numbers; omitted `limit` returns every prefix/substring match, while an explicit `limit` selects top-K |
 | `engine.decodeIdentifier(input)` | Decode a typed identifier (e.g. NAND Flash ID) |
 | `engine.searchIdentifiers(input)` | Search typed identifiers |
 | `engine.getCapabilities(input?)` | Query server/engine capabilities, resource inventory, and decoder list |
