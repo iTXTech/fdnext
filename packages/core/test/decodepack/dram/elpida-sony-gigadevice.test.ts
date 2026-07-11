@@ -343,6 +343,23 @@ assertDram("CXDB5CCAM-MK", {
   }
 });
 
+assertDram("CXDBBCCAM-MK", {
+  vendor: "cxmt",
+  densityMbit: 24576,
+  density: "24Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
+    "DRAM Speed": "LPDDR4X-3733",
+    "Operation Temperature": "-25C~85C",
+    "Process Node": "CXMT G3 / 18nm-class"
+  }
+});
+
 assertDram("CXDB4CBAM-MK-A", {
   vendor: "cxmt",
   densityMbit: 16384,

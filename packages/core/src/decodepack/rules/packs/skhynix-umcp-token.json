@@ -262,14 +262,59 @@
       ],
       "tables": {
         "density": {
-          "15": 1048576
+          "15": 1048576,
+          "53": 524288,
+          "54": 524288
         },
         "densityObj": {
           "15": {
             "storage_density": 1048576,
-            "dram_density": 32768,
-            "dram_type": "LPDDR4X",
             "storage_interface": "UFS"
+          },
+          "53": {
+            "storage_density": 524288,
+            "storage_interface": "UFS 2.1"
+          },
+          "54": {
+            "storage_density": 524288,
+            "storage_interface": "UFS 2.2"
+          }
+        },
+        "dramDensity": {
+          "D": 24576,
+          "C": 32768,
+          "E": 49152
+        },
+        "dramOptionObj": {
+          "A": {
+            "dram_type": "LPDDR4X"
+          },
+          "C": {
+            "dram_type": "LPDDR4X"
+          },
+          "K": {
+            "dram_type": "LPDDR4X"
+          },
+          "P": {
+            "dram_type": "LPDDR4X"
+          }
+        },
+        "packageObj": {
+          "A": {
+            "package": "FBGA-254"
+          },
+          "M": {
+            "package": "FBGA-254"
+          }
+        },
+        "materialObj": {
+          "D": {
+            "special_option": "Lead & Halogen Free"
+          }
+        },
+        "tailObj": {
+          "KEM": {
+            "dram_speed": "LPDDR4X-4266"
           }
         }
       },
@@ -295,8 +340,77 @@
         },
         {
           "op": "take",
-          "len": 8,
-          "to": "configCode"
+          "len": 1,
+          "to": "nvmVoltageCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dramDensityCode"
+        },
+        {
+          "op": "map",
+          "from": "dramDensityCode",
+          "table": "dramDensity",
+          "to": "dramDensity",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dramOptionCode"
+        },
+        {
+          "op": "map",
+          "from": "dramOptionCode",
+          "table": "dramOptionObj",
+          "to": "dramOptionObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "materialCode"
+        },
+        {
+          "op": "map",
+          "from": "materialCode",
+          "table": "materialObj",
+          "to": "materialObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "ufsSpeedCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dramSpeedCode"
+        },
+        {
+          "op": "takeLongest",
+          "table": "tailObj",
+          "to": "tailObj",
+          "default": {}
         },
         {
           "op": "set",
@@ -307,8 +421,8 @@
             "density_code": {
               "$var": "densityCode"
             },
-            "config_code": {
-              "$var": "configCode"
+            "dram_density": {
+              "$var": "dramDensity"
             }
           }
         },
@@ -316,6 +430,26 @@
           "op": "merge",
           "into": "extra",
           "from": "densityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramOptionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "materialObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "tailObj"
         },
         {
           "op": "omit",
@@ -345,8 +479,154 @@
         "fields": {
           "$var": "extra"
         },
-        "fields.package": "FBGA-254",
+        "fields.package": {
+          "$path": "packageObj.package"
+        },
         "meta.ruleId": "vendor.skhynix.umcp.h9hq.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.umcp.h9hr-lpddr5.v1",
+    "priority": 1005,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H9HR[0-9A-Z]{10}(?:-[0-9A-Z]{3})?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H9HR"
+      ],
+      "tables": {
+        "density": {
+          "15": 1048576,
+          "21": 2097152,
+          "56": 4194304
+        },
+        "densityObj": {
+          "15": {
+            "storage_density": 1048576,
+            "storage_interface": "UFS 3.1"
+          },
+          "21": {
+            "storage_density": 2097152,
+            "storage_interface": "UFS 3.1"
+          },
+          "56": {
+            "storage_density": 4194304,
+            "storage_interface": "UFS 3.1"
+          }
+        },
+        "dramConfigObj": {
+          "JFA": {
+            "dram_density": 65536,
+            "dram_type": "LPDDR5",
+            "dram_voltage": "1.8V/1.05V/0.5V"
+          }
+        },
+        "tailObj": {
+          "K6M": {
+            "dram_speed": "LPDDR5-6400",
+            "operation_temperature": "-25°C ~ 85°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "dramConfigCode"
+        },
+        {
+          "op": "map",
+          "from": "dramConfigCode",
+          "table": "dramConfigObj",
+          "to": "dramConfigObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 5,
+          "to": "packageAndOptionTokens"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "tailObj",
+          "to": "tailObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramConfigObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "tailObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "umcp",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "meta.ruleId": "vendor.skhynix.umcp.h9hr-lpddr5.v1"
       }
     }
   }

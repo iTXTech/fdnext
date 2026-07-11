@@ -8,6 +8,10 @@
   <https://semiconductor.samsung.com/mcp/emcp/>
 - Samsung uMCP 官方页面确认 LPDDR5 uMCP 产品线：UFS 3.1、LPDDR5、128GB/256GB storage、64Gb/96Gb DRAM、297 FBGA、6400 Mbps。
   <https://semiconductor.samsung.com/mcp/umcp/>
+- Samsung 官方 obsolete uMCP 型号页与官网 sitemap 补充确认 `KM2*` LPDDR4X family。`2` 是可规则化的 UFS + LPDDR4X type token；`B/F/H/L/P/V` package token 与 `1C` capacity token 的局部组合分别覆盖 64/128/256GB UFS，RAM token `M` 为 48Gb，封装均为 254 FBGA。`700/800` family 为 UFS 2.1，`900` family 为 UFS 2.2；`2:B` / `2:V` 为 LPDDR4X-3733，其余已确认组合为 LPDDR4X-4266。规则不按这些 exact PN 查表。
+  <https://semiconductor.samsung.cn/mcp/model/lpddr5-umcp/km2f8001cm-b707/>
+  <https://semiconductor.samsung.com/jp/mcp/model/lpddr5-umcp/km2p8001cm-b518/>
+  <https://semiconductor.samsung.com/mcp/umcp/lpddr5-umcp/km2l9001cm-b518/>
 - Samsung MCP 官方页面确认 MCP 同时覆盖 uMCP 与 eMCP，组合 mobile DRAM 与 NAND/eStorage。
   <https://semiconductor.samsung.com/mcp/>
 - Samsung Newsroom 说明 uMCP 是 UFS-based multichip package，并使用 LPDDR4X DRAM。
@@ -29,13 +33,15 @@
     <https://semiconductor.samsung.com/us/mcp/model/lpddr5-umcp/kmdp60018m-b425/>
     <https://semiconductor.samsung.com/us/mcp/model/lpddr5-umcp/kmdh6001da-b425/>
 - Samsung 官方型号页确认多组 UFS + LPDDR4X/LPDDR5 uMCP 组合：
+  - `KM8F8001JA-B813`: UFS 2.1 256GB + LPDDR4X 64Gb、254 FBGA、4266 Mbps。规则按 `type 8 + speed 800`、`type 8 + package F + capacity 1J`、`capacity 1J + DRAM token A` 等实际局部 token 组合补齐，不按完整 PN 查表。
+    <https://semiconductor.samsung.com/emea/mcp/model/lpddr5-umcp/km8f8001ja-b813/>
   - `KM5L9000CM-B424`: 128GB UFS 2.2 + 48Gb LPDDR4X、254 FBGA、4266 Mbps。
     <https://semiconductor.samsung.com/mcp/model/lpddr5-umcp/km5l9000cm-b424/>
   - `KM8V9001JM-B813`: 128GB UFS 2.2 + 64Gb LPDDR4X、254 FBGA、4266 Mbps。
     <https://semiconductor.samsung.com/mcp/model/lpddr5-umcp/km8v9001jm-b813/>
   - `KMJS9001RM-BG01`: 256GB UFS 3.1 + 96Gb LPDDR5、297 FBGA、6400 Mbps。
     <https://semiconductor.samsung.com/mcp/model/lpddr5-umcp/kmjs9001rm-bg01/>
-- 上述 12 个官方 exact PN 已加入 managed NAND 搜索资源；解码继续使用 storage type、package、speed/generation、storage capacity、RAM 等结构化 token，不使用完整 PN 匹配。
+- 上述 13 个官方 exact PN 已加入 managed NAND 搜索资源；解码继续使用 storage type、package、speed/generation、storage capacity、RAM 等结构化 token，不使用完整 PN 匹配。
 - Samsung `KMGD6001BM-B421` datasheet mirror 给出 32GB e.MMC + 24Gb LPDDR3、221FBGA、eMMC 5.1。
   <https://14469692.s21i.faiusr.com/61/ABUIABA9GAAg5e-MqgYo9fmgzQE.pdf>
 - CBM209X Flash Support List 与本地 `fdfdb` 都记录 `KMGE6001BM` 对应 Samsung 16GB MLC flash id；第三方 eMCP 页面同时确认 `KMGE6001BM-B421` 是 Samsung 16+24 eMCP、eMMC+LPDDR3、221ball。
@@ -64,6 +70,7 @@ KM + storage type + package + speed/generation + storage capacity + RAM + 4-char
 | Token | 位置 | 已使用信息 |
 | --- | --- | --- |
 | storage type | 第 3 字符 | 图片确认 `D/3/R/Q/F/M` 为 eMMC，`E/5/A/P` 为 UFS；已知样本补充 `G/4` 为 eMMC，`8/J` 为 UFS |
+| storage type `2` | 第 3 字符 | obsolete 官方 `KM2*` family 确认 UFS + LPDDR4X uMCP |
 | package | 第 4 字符 | 单独或与 storage type 组合确认 144 / 221 / 254 / 297 FBGA |
 | speed/generation | 第 5-7 字符 | 图片确认 `600` = eMMC 5.1、`100` = eMMC 5.0、`200` = UFS 2.0、`800` = UFS 2.1、`500` = UFS 3.0、`900` = UFS 3.1；已知样本补充 `5:900` / `8:900` = UFS 2.2 |
 | storage capacity | 第 8-9 字符 | 已知样本确认 `12/1Z/0H/1B/1K/1D/18/0C/1J/1R` 等容量 token；图片补充 `S` = 256GB |

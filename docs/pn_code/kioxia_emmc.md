@@ -8,6 +8,8 @@
   <https://www.kioxia.com/content/dam/kioxia/shared/business/memory/mlc-nand/asset/productbrief/KIOXIA_e-MMC_Product_Brief.pdf>
 - KIOXIA Memory Selector: 给出 consumer、industrial、automotive e-MMC 表，包含 `THGAMVT1T83BAB5`、`THGAMVT0T43BAA8` 等 automotive 型号。
   <https://americas.kioxia.com/en-us/business/memory/selector.html>
+- KIOXIA current e-MMC product table: 给出 BiCS5 `THGAMSG9T15BAIL` / `THGAMST0T25BAIL`、容量和 `11.5x13.0x0.8` 封装。
+  <https://europe.kioxia.com/en-europe/business/memory/mlc-nand/emmc.html>
 - Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3, 2010-09-24: `NAND w/ controller` 页给出 `THG` 系列中 voltage、interface、controller revision、density、cell level、stacked die、design rule、package、temperature/class 和 package size token 表。
 
 ## 规则状态
@@ -34,6 +36,7 @@ PN 结构：
 | FG design rule `A/B/C/D/E/F/G/H/J/K/L` | 130 nm 到 15 nm/1z |
 | BiCS design/generation token `2/3/4/5/6/8/M` | BiCS2/3/4/5/6/8/4.5；该 token 位于 stacked die 之后 |
 | package `FT/TG/TA/XB/XG/BA/XL/LA` | TSOP / BGA / LGA plus lead-free and halogen-free flags |
+| package suffix `BAIL` | `BGA, 11.5x13x0.8` |
 | package size code `0/1/2/3/6/8/9/B/E/F/G/H/I/J/K` | TSOP/LGA/BGA size table from the Toshiba decoder |
 | class `BAI` | Consumer, -25°C to 85°C |
 | class `BAU` | Industrial, -40°C to 105°C |
@@ -64,6 +67,7 @@ PN 结构：
 - `THGBMNG5D1LBAIT`
 - `THGBM2G9DBFBAI2`
 - `THGAMVT0T43BAB8`
+- `THGAMSG9T15BAIL`
 
 ## 注意
 

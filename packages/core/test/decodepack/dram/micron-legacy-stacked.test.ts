@@ -25,7 +25,7 @@ assertDram("MT62F1G32D4DS", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "WFBGA-200, 10x14.5",
+  package: "TFBGA-315, 12.4x15x1.1",
   extra: {
     "DRAM Type": "LPDDR5",
     "Package Code": "DS",
@@ -420,6 +420,48 @@ assertDram("MT48LC16M8A2P-7E:L", {
   }
 });
 
+assertDram("MT48LC8M16A2B4-6A IT:L", {
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x16",
+  voltage: "3.3V VDD",
+  package: "VFBGA-54, 8x8x1.0",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "166MHz",
+    "Operation Temperature": "Industrial (-40°C ~ 85°C)",
+    "Die Revision": "Rev L"
+  }
+});
+
+assertDram("MT48LC4M32B2B5-6A AAT:L", {
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x32",
+  voltage: "3.3V VDD",
+  package: "VFBGA-90, 8x13",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "166MHz",
+    "Operation Temperature": "Automotive Grade (-40°C ~ 105°C)",
+    "Die Revision": "Rev L"
+  }
+});
+
+assertDram("MT48LC2M32B2P-5:J", {
+  densityMbit: 64,
+  density: "64Mb",
+  widthField: "x32",
+  voltage: "3.3V VDD",
+  package: "TSOP-II-86, 10x22x1.2",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "200MHz",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev J"
+  }
+});
+
 assertDram("MT48H16M32LFB5-75:A", {
   densityMbit: 512,
   density: "512Mb",
@@ -464,6 +506,51 @@ assertDram("MT42L128M32D1LF-25 WT:A", {
     "Package Code": "LF",
     "Config Code": "128M32",
     "DRAM Speed": "400MHz",
+    "Operation Temperature": "Wireless (-25°C ~ 85°C)",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT42L64M64D2KH-25 IT:A", {
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x64",
+  voltage: "1.2V VDD",
+  package: "FBGA-216, 12x12",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "DRAM Speed": "400MHz",
+    "DRAM Die Count": 2,
+    "Operation Temperature": "Industrial (-40°C ~ 85°C)",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT42L96M64D3KU-25 IT:A", {
+  densityMbit: 6144,
+  density: "6Gb",
+  widthField: "x64",
+  voltage: "1.2V VDD",
+  package: "FBGA-216, 12x12",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "DRAM Speed": "400MHz",
+    "DRAM Die Count": 3,
+    "Operation Temperature": "Industrial (-40°C ~ 85°C)",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertDram("MT42L128M64D2LL-25 WT:A", {
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x64",
+  voltage: "1.2V VDD",
+  package: "WFBGA-216, 12x12x0.8",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "DRAM Speed": "400MHz",
+    "DRAM Die Count": 2,
     "Operation Temperature": "Wireless (-25°C ~ 85°C)",
     "Die Revision": "Rev A"
   }

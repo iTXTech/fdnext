@@ -154,7 +154,8 @@ for (const [partNumber, densityMbit, packageName, operationTemperature] of [
   ["KLMBG4GESD-B04Q", 262144, "BGA-153, 11.5x13x1.0", "-40°C ~ 105°C Automotive Grade 2"],
   ["KLMBG4GEUF-B04Q", 262144, "BGA-153, 11.5x13x0.8", "-40°C ~ 105°C Automotive Grade 2"],
   ["KLMDG8JEUD-B04P", 1048576, "BGA-153, 11.5x13x1.2", "-40°C ~ 95°C Automotive Grade 3"],
-  ["KLMCG1RCTE-B041", 524288, "BGA-153, 11.5x13x0.8", "-25°C ~ 85°C"]
+  ["KLMCG1RCTE-B041", 524288, "BGA-153, 11.5x13x0.8", "-25°C ~ 85°C"],
+  ["KLMCG8GEND-B041", 524288, "BGA-153, 11.5x13x1.0", "-25°C ~ 85°C"]
 ] as const) {
   testPart(partNumber, {
     vendor: "samsung",
@@ -308,6 +309,21 @@ testPart("KM8V9001JM-B813", {
   absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
 });
 
+testPart("KM8F8001JA-B813", {
+  vendor: "samsung",
+  type: "uMCP",
+  densityMbit: 2097152,
+  package: "FBGA-254",
+  extra: {
+    "Storage Density": "256GB UFS",
+    "Storage Interface": "UFS 2.1",
+    "DRAM Density": "64Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266"
+  },
+  absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
 testPart("KMJS9001RM-BG01", {
   vendor: "samsung",
   type: "uMCP",
@@ -323,7 +339,29 @@ testPart("KMJS9001RM-BG01", {
   absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
 });
 
-for (const partNumber of ["KMGD6001BM-B421", "KM5L9000CM-B424", "KMJS9001RM-BG01"]) {
+for (const [partNumber, densityMbit, storageDensity, storageInterface, dramSpeed] of [
+  ["KM2B8001CM-BB01", 2097152, "256GB UFS", "UFS 2.1", "LPDDR4X-3733"],
+  ["KM2H7001CM-B518", 524288, "64GB UFS", "UFS 2.1", "LPDDR4X-4266"],
+  ["KM2L9001CM-B518", 1048576, "128GB UFS", "UFS 2.2", "LPDDR4X-4266"],
+  ["KM2V7001CM-B706", 1048576, "128GB UFS", "UFS 2.1", "LPDDR4X-3733"]
+] as const) {
+  testPart(partNumber, {
+    vendor: "samsung",
+    type: "uMCP",
+    densityMbit,
+    package: "FBGA-254",
+    extra: {
+      "Storage Density": storageDensity,
+      "Storage Interface": storageInterface,
+      "DRAM Density": "48Gb",
+      "DRAM Type": "LPDDR4X",
+      "DRAM Speed": dramSpeed
+    },
+    absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+  });
+}
+
+for (const partNumber of ["KMGD6001BM-B421", "KM5L9000CM-B424", "KM8F8001JA-B813", "KMJS9001RM-BG01", "KM2L9001CM-B518"]) {
   assertNoAdditionalFields(partNumber);
 }
 

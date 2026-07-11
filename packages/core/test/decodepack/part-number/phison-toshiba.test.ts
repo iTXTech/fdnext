@@ -288,4 +288,4 @@ assertRuleDecode("DT57G2LALC", {
 });
 
 
-assertNotFound("SM671PAC-BFS");
+assertNotFound("SM671PZC-BFS");

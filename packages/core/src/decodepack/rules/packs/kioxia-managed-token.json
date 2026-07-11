@@ -325,6 +325,7 @@
           "BGA:K": "BGA, 14x18x1.4"
         },
         "packageExact": {
+          "BAIL": "BGA, 11.5x13x0.8",
           "BAIT": "BGA-153",
           "LA01": "LGA-60",
           "LA08": "LGA-52, 14x18x1.04",

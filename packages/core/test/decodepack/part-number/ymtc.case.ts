@@ -50,6 +50,25 @@ assertRuleDecode("YMEC6A1TC1A2C1", {
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("YMEC4A1MA1A2C1", {
+  vendor: "ymtc",
+  type: "eMMC",
+  densityMbit: 65536,
+  dieProfileField: "DBS",
+  cellField: "MLC",
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    Controller: "eMMC 5.1 Controller EC000",
+    "Product Family": "YMTC EC000 eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "Process Alias": "X0-A030",
+    "Die Count": 1,
+    "Product Class": "Commercial",
+    "Operation Temperature": "-20°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Reference Status", "Inference Source", "source", "status"]
+});
+
 assertRuleDecode("YMEC8A2TB3A2C3", {
   vendor: "ymtc",
   type: "eMMC",
@@ -70,6 +89,40 @@ assertRuleDecode("YMEC8A2TB3A2C3", {
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("YMEC9C0TG3A2C3", {
+  vendor: "ymtc",
+  type: "eMMC",
+  densityMbit: 2097152,
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    Controller: "eMMC 5.1 Controller EC150",
+    "Product Family": "YMTC EC150 eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "Die Count": 4,
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertRuleDecode("YMEC9B0TE3A2C3", {
+  vendor: "ymtc",
+  type: "eMMC",
+  densityMbit: 2097152,
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    Controller: "eMMC 5.1 Controller EC230",
+    "Product Family": "YMTC EC230 eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "Die Count": 4,
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
+});
+
 assertRuleDecode("YMUS8A1TC1A2C1", {
   vendor: "ymtc",
   type: "UFS",
@@ -88,6 +141,42 @@ assertRuleDecode("YMUS8A1TC1A2C1", {
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("YMUS6A4TB1A2C1", {
+  vendor: "ymtc",
+  type: "UFS",
+  densityMbit: 262144,
+  dieProfileField: "JGS",
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x1.0/1.2",
+  extra: {
+    Controller: "UFS 2.2 Controller UC114",
+    "Storage Interface": "UFS 2.2",
+    "Process Alias": "X1-9050",
+    "Die Count": 1,
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertRuleDecode("YMUS9B2TE3A2C1", {
+  vendor: "ymtc",
+  type: "UFS",
+  densityMbit: 2097152,
+  dieProfileField: "WYS",
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x1.0/1.2",
+  extra: {
+    Controller: "UFS 2.2 Controller UC234",
+    "Storage Interface": "UFS 2.2",
+    "Process Alias": "X3-9060",
+    "Die Count": 4,
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Reference Status", "Inference Source", "source", "status"]
+});
+
 assertRuleDecode("YMUSAB5TH3A1C1", {
   vendor: "ymtc",
   type: "UFS",
@@ -97,6 +186,22 @@ assertRuleDecode("YMUSAB5TH3A1C1", {
   extra: {
     Controller: "UFS 2.2 Controller UC260",
     "Storage Interface": "UFS 2.2",
+    "Die Count": 4,
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertRuleDecode("YMUSAB4TF3D1C1", {
+  vendor: "ymtc",
+  type: "UFS",
+  densityMbit: 4194304,
+  cellField: "TLC",
+  package: "BGA-153, 11x13x0.8",
+  extra: {
+    Controller: "UFS 3.1 Controller UC341",
+    "Storage Interface": "UFS 3.1",
     "Die Count": 4,
     "Product Class": "Commercial",
     "Operation Temperature": "-25°C ~ 85°C"

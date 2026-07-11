@@ -8,7 +8,7 @@
   <https://www.kingston.com/en/embedded/emcp-embedded-flash>
 - Kingston eMCP 官方表列出 LPDDR4x eMCP：`32EM16-M4JTQ0A`、`32EM32-M4KTQ0A`、`64EM32-M4GTY9B`、`128EM32-M4GTY9B`、`128EM64-M4HTY9B`。
   <https://www.kingston.com/en/embedded/emcp-embedded-flash>
-- Kingston eMCP flyer 交叉确认 `64EM32-M4GTY9B` 为 `11.5x13.0x1.0` / FBGA254，`128EM64-M4HTY9B` 为 `11.5x13.0x1.1` / FBGA254。
+- Kingston eMCP flyer 交叉确认 `64EM32-N3HTX29` 为 64GB eMMC + 32Gb LPDDR3、`11.5x13.0x1.1` / FBGA221；并确认 `64EM32-M4GTY9B` 为 `11.5x13.0x1.0` / FBGA254，`128EM64-M4HTY9B` 为 `11.5x13.0x1.1` / FBGA254。
   <https://media.kingston.com/pdfs/emmc/eMCP_en.pdf>
 
 ## 规则状态
@@ -46,3 +46,4 @@ PN 结构：
 ## 测试样例
 
 - `64EM32-M4GTY9B`
+- `64EM32-N3HTX29`

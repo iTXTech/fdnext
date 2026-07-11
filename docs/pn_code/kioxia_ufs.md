@@ -24,8 +24,9 @@ PN 结构：
 | type `F` | UFS |
 | controller revision 组合 `AFB/AFE` | UFS 2.1 |
 | controller revision 组合 `JFG/JFP` | UFS 3.1 |
-| controller revision 组合 `JFM/JFJ` | UFS 4.0 |
+| controller revision 组合 `JFM/JFJ` | UFS 4.0；`JFJ` 的 cell token `T` 对应 automotive UFS 4.0 |
 | controller revision 组合 `JFR` | UFS 4.1 |
+| `JFJ` + cell token `E` | Automotive UFS 4.1 |
 | density `G8/G9/T0/T1/T2/T3` | 32GB/64GB/128GB/256GB/512GB/1TB |
 | cell `T` | TLC；其他 UFS cell code 在缺少外部语义表时不输出公开 `cell_level` |
 | stacked die `1..9/A/B` | 1-9 die / 12 die / 16 die，输出 `die_count` |
@@ -56,6 +57,8 @@ PN 结构：
 | `BATV` | `BGA (9.0 x 13.0 x 0.8)` |
 | `BATW` | `BGA (9.0 x 13.0 x 0.85)` |
 | `BATZ` | `BGA (9.0 x 13.0 x 0.9)` |
+| `BAA8/BAB8` | `BGA (11.5 x 13.0 x 1.2)` |
+| `BAA5/BAB5` | `BGA (11.5 x 13.0 x 1.3)` |
 
 ## 测试样例
 
@@ -69,9 +72,10 @@ PN 结构：
 - `THGJFRT2E48BATV`
 - `THGJFRT3E88BATW`
 - `THGJFJT1T45BAB8`
+- `THGJFJT3E88BAB5`
 - `THGAFBT1T83BAA5`
 
 ## 注意
 
-KIOXIA automotive UFS 4.0 使用 `JFJ` 控制器版本组合；consumer/industrial UFS 4.0 使用 `JFM`；UFS 4.1 当前使用 `JFR`。
+KIOXIA automotive UFS 4.0 与 4.1 都使用 `JFJ` 控制器版本组合，必须继续结合 cell/design token 区分；consumer/industrial UFS 4.0 使用 `JFM`，consumer/industrial UFS 4.1 使用 `JFR`。
 UFS 与 eMMC 遵循同一套 Toshiba/KIOXIA managed NAND 尾部编码：`stacked die` 只输出 `die_count`，其后的 design/generation token 才用于 BiCS profile 推断。例如 `THGAFBT1T83BAA5` 的 `T83` 表示 TLC、8 die、BiCS3，而不是 BiCS8。

@@ -227,6 +227,20 @@ testPart("THGAMVT0T43BAB8", {
   absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
 });
 
+testPart("THGAMSG9T15BAIL", {
+  vendor: "kioxia",
+  type: "eMMC",
+  densityMbit: 524288,
+  dieProfileField: "BiCS5",
+  cellField: "TLC",
+  package: "BGA, 11.5x13x0.8",
+  extra: {
+    "Storage Interface": "eMMC 5.1",
+    "Controller Revision": "S",
+    "Die Count": 1
+  }
+}, "decodes current KIOXIA eMMC BiCS5 and BAIL package tokens");
+
 testPart("THGJFRT3E88BATW", {
   vendor: "kioxia",
   type: "UFS",
@@ -364,7 +378,7 @@ testPart("THGJFJT1T45BAB8", {
   dieProfileField: "BiCS5",
   cellField: "TLC",
   voltage: "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V",
-  package: "BGA",
+  package: "BGA, 11.5x13.0x1.2",
   extra: {
     "Storage Interface": "UFS 4.0",
     "Product Class": "Automotive AEC-Q100 Grade 2",
@@ -375,6 +389,23 @@ testPart("THGJFJT1T45BAB8", {
   absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
 });
 
+testPart("THGJFJT3E88BAB5", {
+  vendor: "kioxia",
+  type: "UFS",
+  densityMbit: 8388608,
+  dieProfileField: "BiCS8",
+  voltage: "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V",
+  package: "BGA, 11.5x13.0x1.3",
+  extra: {
+    "Storage Interface": "UFS 4.1",
+    "Product Class": "Automotive AEC-Q100 Grade 2",
+    "Controller Revision": "J",
+    "Die Count": 8,
+    "Speed Grade": "4640 MB/s"
+  },
+  absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
+}, "uses JFJ plus actual cell token to distinguish automotive UFS 4.1");
+
 testPart("THGAFBT1T83BAA5", {
   vendor: "kioxia",
   type: "UFS",
@@ -382,7 +413,7 @@ testPart("THGAFBT1T83BAA5", {
   dieProfileField: "BiCS3",
   cellField: "TLC",
   voltage: "Vcc: 3.3V, VccQ: 1.8V",
-  package: "BGA",
+  package: "BGA, 11.5x13.0x1.3",
   extra: {
     "Storage Interface": "UFS 2.1",
     "Product Class": "Automotive AEC-Q100 Grade 3",

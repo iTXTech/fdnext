@@ -1948,6 +1948,186 @@
     }
   },
   {
+    "id": "vendor.skhynix.dram.lpddr5.h9jk.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H9JKNNN[0-9A-Z]{7}(?:-[0-9A-Z]{3})?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H9JKNNN"
+      ],
+      "tables": {
+        "density": {
+          "FB3": 65536,
+          "HA3": 98304
+        },
+        "dramOptionObj": {
+          "A": {
+            "dram_type": "LPDDR5",
+            "dram_voltage": "1.8V/1.05V/0.5V"
+          },
+          "M": {
+            "dram_type": "LPDDR5",
+            "dram_voltage": "1.8V/1.05V/0.5V"
+          }
+        },
+        "packageObj": {
+          "E:C": {
+            "package": "FBGA-496"
+          },
+          "V:J": {
+            "package": "FBGA-436"
+          }
+        },
+        "materialObj": {
+          "R": {
+            "solder_type": "Lead and Halogen Free"
+          }
+        },
+        "speedObj": {
+          "N6H": {
+            "dram_speed": "LPDDR5-6400",
+            "operation_temperature": "-30°C ~ 105°C"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 3,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dramOptionCode"
+        },
+        {
+          "op": "map",
+          "from": "dramOptionCode",
+          "table": "dramOptionObj",
+          "to": "dramOptionObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageTypeCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageConfigCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{packageTypeCode}}:{{packageConfigCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "materialCode"
+        },
+        {
+          "op": "map",
+          "from": "materialCode",
+          "table": "materialObj",
+          "to": "materialObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "speedCode"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramOptionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "materialObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$path": "packageObj.package"
+        },
+        "meta.ruleId": "vendor.skhynix.dram.lpddr5.h9jk.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.skhynix.dram.lpddr5.component.v1",
     "priority": 1010,
     "normalize": [

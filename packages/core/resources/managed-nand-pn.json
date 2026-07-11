@@ -293,6 +293,10 @@
   },
   {
     "vendor": "kingston",
+    "pn": "64EM32-N3HTX29"
+  },
+  {
+    "vendor": "kingston",
     "pn": "32EM16-M4JTQ0A"
   },
   {
@@ -393,7 +397,15 @@
   },
   {
     "vendor": "kioxia",
+    "pn": "THGAMSG9T15BAIL"
+  },
+  {
+    "vendor": "kioxia",
     "pn": "THGAMST0T24BAIL"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMST0T25BAIL"
   },
   {
     "vendor": "kioxia",
@@ -454,6 +466,38 @@
   {
     "vendor": "kioxia",
     "pn": "THGJFJT1T45BAB8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFJT0T25BAB8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFJT2T85BAB5"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFJT0T25BAA8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFJT1T45BAA8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFJT2T85BAA5"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFJT0E18BAB8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFJT1E28BAB8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGJFJT2E48BAB8"
   },
   {
     "vendor": "kioxia",
@@ -741,11 +785,19 @@
   },
   {
     "vendor": "samsung",
+    "pn": "KLMCG8GEND-B041"
+  },
+  {
+    "vendor": "samsung",
     "pn": "KMGD6001BM-B421"
   },
   {
     "vendor": "samsung",
     "pn": "KMGE6001BM-B421"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8F8001JA-B813"
   },
   {
     "vendor": "samsung",
@@ -797,6 +849,34 @@
   },
   {
     "vendor": "samsung",
+    "pn": "KM2B8001CM-BB01"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM2F8001CM-B707"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM2H7001CM-B518"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM2L9001CM-B518"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM2P8001CM-B518"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM2V7001CM-B706"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM2V8001CM-B707"
+  },
+  {
+    "vendor": "samsung",
     "pn": "KLUEG4RHKF-F0H1"
   },
   {
@@ -844,6 +924,298 @@
     "pn": "KLUGGAR1FA"
   },
   {
+    "vendor": "samsung",
+    "pn": "KLUBG4G1ZF-C0CP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUBG4G1ZF-C0CQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUCG2UHYB-B0EP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUCG2UHYB-B0EQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUCG4J1ZD-C0CP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUCG4J1ZD-C0CQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUDG2RHUF-F0HP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUDG2RHUF-F0HQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUDG4UHYB-B0EP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUDG4UHYB-B0EQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUDG8J1ZD-C0CP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUDG8J1ZD-C0CQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUEG4RHHD-B0G1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUEG4RHUF-F0HP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUEG4RHUF-F0HQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUEG8UHYB-B0EQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUEGAJ1ZD-C0CP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUEGAJ1ZD-C0CQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUFG4NHHB-F0G1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUFG8RHHD-B0G1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUFG8RHKF-F0H1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUFG8RHUF-F0HP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUFG8RHUF-F0HQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUFGAUHYB-B0EP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUFGAUHYB-B0EQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUGG8NHHB-F0G1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUGG8NHKB-F0H1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUGGARHHD-B0G1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUGGGRHKF-F0H1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM3H6001CA-B515"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM3P6001CM-B517"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM3V6001CA-B708"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM3V6001CM-B705"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM4X60002M-B321"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM5C7001DM-B622"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM5H7001DM-B424"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM5H80018M-B424"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM5L9001DA-B424"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM5L9001DM-B424"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM5P8001DM-B424"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM5P9001DM-B424"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM5V7001DM-B621"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM5V8001DM-B622"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8B8001JM-BC01"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8F8001JM-B813"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8F8001LM-B813"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8F8001MM-B813"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8F9001JA-B816"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8F9001JM-B813"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8F9001MM-B830"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8L9001JA-B624"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8L9001JM-B624"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8V7001JA-B813"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8V7001JM-B810"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8V8001JM-B813"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8V8001LM-B813"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMAG9001PM-B814"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMAIA001PM-B819"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMAS9001PM-BC02"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMDC6001DM-B625"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMDV6001DA-B620"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMDV6001DM-B620"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMDX60018M-B425"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMFE60012A-B214"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMFE60012M-B214"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMGP6001BM-B514"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMGX6001BA-B514"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMJIA001RM-BC07"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMQD60013M-B318"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMQE60013B-B318"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMQE60013M-B318"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMQX60013A-B419"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMRP60014M-B614"
+  },
+  {
     "vendor": "skhynix",
     "pn": "H23QDG8UD1ACS"
   },
@@ -881,6 +1253,22 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "H26M41208HPRA"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M41208HPRI"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M41208HPRN"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M41208HPRQ"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "H26M51002HPR"
   },
   {
@@ -890,6 +1278,22 @@
   {
     "vendor": "skhynix",
     "pn": "H26M52208FPR"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M52208FPRA"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M52208FPRI"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M52208FPRN"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M52208FPRQ"
   },
   {
     "vendor": "skhynix",
@@ -905,6 +1309,22 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "H26M64208EMRA"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M64208EMRI"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M64208EMRN"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M64208EMRQ"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "H26M74002EMR"
   },
   {
@@ -917,7 +1337,19 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "H26M78208CMRA"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M78208CMRI"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "H26M78208CMRN"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M78208CMRQ"
   },
   {
     "vendor": "skhynix",
@@ -1057,6 +1489,42 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "H9HQ53ADAMMDAR-KEM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HQ53ACPMMDAR-KEM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HQ53AECMMDAR-KEM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HQ54ADKMMDAR-KEM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HQ54ACPMMDAR-KEM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HQ54AECMMDAR-KEM"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HR15JFA3MEVR-K6M"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HR21JFA3MEVR-K6M"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HR56JFA3MEVR-K6M"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "H9QT0GECN6X145"
   },
   {
@@ -1070,6 +1538,30 @@
   {
     "vendor": "skhynix",
     "pn": "H28SAO301MMR"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T05BZGKX015"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T05BZGKX015N"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T15BZGKX016"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T15BZGKX016N"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T25BZGKX017"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T25BZGKX017N"
   },
   {
     "vendor": "skhynix",
@@ -1201,7 +1693,35 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDINBDA4-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA4-128G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA4-256G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-16G"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDINBDA6-16G-I1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-16G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-32G"
   },
   {
     "vendor": "sndk",
@@ -1213,6 +1733,22 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDINBDA6-32G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-32G-XA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-32G-ZA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-64G"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDINBDA6-64G-I1"
   },
   {
@@ -1221,11 +1757,35 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDINBDA6-64G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-64G-XA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-64G-ZA1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-128G"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDINBDA6-128G-I1"
   },
   {
     "vendor": "sndk",
     "pn": "SDINBDA6-128G-XI1"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-128G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-128G-XA1"
   },
   {
     "vendor": "sndk",
@@ -1241,11 +1801,31 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDINBDA6-256G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-256G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA6-256G-XA1"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDINBDA6-256G-ZA1"
   },
   {
     "vendor": "sndk",
     "pn": "SDINBDG4-8G-I2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-8G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-8G-H"
   },
   {
     "vendor": "sndk",
@@ -1257,11 +1837,27 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDINBDG4-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-16G-H"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDINBDG4-16G-XI2"
   },
   {
     "vendor": "sndk",
     "pn": "SDINBDG4-32G-I2"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-32G-H"
   },
   {
     "vendor": "sndk",
@@ -1274,6 +1870,10 @@
   {
     "vendor": "sndk",
     "pn": "SDINBDG4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-64G-H"
   },
   {
     "vendor": "sndk",
@@ -1298,6 +1898,18 @@
   {
     "vendor": "sndk",
     "pn": "SDINDDH4-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINDDH4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINDDH4-128G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINDDH4-256G"
   },
   {
     "vendor": "sndk",
@@ -1326,6 +1938,18 @@
   {
     "vendor": "sndk",
     "pn": "SDINFDO4-128G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDO4-256G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDO4-512G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFEO2-256G"
   },
   {
     "vendor": "sndk",
@@ -1580,8 +2204,112 @@
     "pn": "SM671PEF-BFS"
   },
   {
+    "vendor": "siliconmotion",
+    "pn": "SM671PAC-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PAD-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PAE-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PAF-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PBC-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PBD-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PBE-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PBF-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PXC-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PXD-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PXE-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PXF-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PEC-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PED-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PEE-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PEF-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PAC-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PAD-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PAE-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PAF-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PBC-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PBD-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PBE-L-BFS"
+  },
+  {
+    "vendor": "siliconmotion",
+    "pn": "SM671PBF-L-BFS"
+  },
+  {
     "vendor": "ymtc",
     "pn": "YMEC6A1TC1A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC4A1MA1A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC5A1MA2A2C1"
   },
   {
     "vendor": "ymtc",
@@ -1597,6 +2325,30 @@
   },
   {
     "vendor": "ymtc",
+    "pn": "YMEC7C0TG1A2C3"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC8C0TG2A2C3"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC9C0TG3A2C3"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC7B0TE1A2C3"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC8B0TE2A2C3"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMEC9B0TE3A2C3"
+  },
+  {
+    "vendor": "ymtc",
     "pn": "YMC6G001TB51AA1C0"
   },
   {
@@ -1605,7 +2357,59 @@
   },
   {
     "vendor": "ymtc",
+    "pn": "YMUS8A1TC2A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS9A1TC3A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUSAA1TC4A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS6A4TB1A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS7A4TB2A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS8A4TB3A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS9A4TB4A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS7B2TE1A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS8B2TE2A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS9B2TE3A2C1"
+  },
+  {
+    "vendor": "ymtc",
     "pn": "YMUS8B5TH1A1C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS8B4TF1D1C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS9B4TF2D1C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUSAB4TF3D1C1"
   },
   {
     "vendor": "ymtc",

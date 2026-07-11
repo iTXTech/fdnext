@@ -25,7 +25,7 @@ assertDram("MT53E1G32D2FW-046-AIT-A", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
-  package: "TFBGA-200, 10x14.5",
+  package: "TFBGA-200, 10x14.5x1.1",
   topology: { ce: "Unknown", die: 2 },
   extra: {
     "DRAM Type": "LPDDR4X",
@@ -42,7 +42,7 @@ assertDram("MT53E1G32DDFW-046-AIT:A", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.1V VDD / 1.1V or 0.6V VDDQ",
-  package: "TFBGA-200, 10x14.5",
+  package: "TFBGA-200, 10x14.5x1.1",
   extra: {
     "DRAM Type": "LPDDR4X",
     "Package Code": "FW",
@@ -60,7 +60,7 @@ assertDram("MT62F1G32D4DS-031-WT-B", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "WFBGA-200, 10x14.5",
+  package: "TFBGA-315, 12.4x15x1.1",
   extra: {
     "DRAM Type": "LPDDR5",
     "Package Code": "DS",
@@ -76,7 +76,7 @@ assertDram("MT62F1G32D3DS-031-WT:B", {
   density: "32Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "WFBGA-200, 10x14.5",
+  package: "TFBGA-315, 12.4x15x1.1",
   extra: {
     "DRAM Type": "LPDDR5",
     "Package Code": "DS",
@@ -129,7 +129,7 @@ assertDram("MT62F2G32D4DS-023 RS WT:C-DNU", {
   density: "64Gb",
   widthField: "x32",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "WFBGA-200, 10x14.5",
+  package: "TFBGA-315, 12.4x15x1.1",
   extra: {
     "DRAM Type": "LPDDR5X",
     "DRAM Speed": "4266MHz (LPDDR5X-8533)",
@@ -271,4 +271,17 @@ for (const [partNumber, dramType, packageName] of [
 ] as const) {
   assertDecodedField(partNumber, "dram_type", dramType);
   assertDecodedField(partNumber, "package", packageName);
+}
+
+for (const [partNumber, densityMbit, packageName] of [
+  ["MT53E768M64D4HJ-046 AIT:B", 49152, "TFBGA-556, 12.4x12.4x1.1"],
+  ["MT53D1024M32D4DT-046 AAT:D", 32768, "FBGA-200, 10x14.5x0.95"],
+  ["MT53D512M32D2FW-046 AIT:D", 16384, "TFBGA-556, 12.4x12.4x1.1"],
+  ["MT62F1536M64D8CL-031 WT:B", 98304, "WFBGA-496, 14x12.4x0.69"],
+  ["MT62F3072M32D8DR-031 WT:A", 98304, "TFBGA-315, 12.4x15x1.1"]
+] as const) {
+  const info = detect(partNumber);
+  assert.equal(info.vendor, "micron", partNumber);
+  assert.equal(info.densityMbit, densityMbit, partNumber);
+  assert.equal(info.package, packageName, partNumber);
 }

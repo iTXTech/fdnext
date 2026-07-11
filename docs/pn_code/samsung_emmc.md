@@ -15,6 +15,7 @@
   <https://semiconductor.samsung.com/kr/estorage/emmc/emmc-5-1/klmdg8jeud-b04p/>
   <https://semiconductor.samsung.com/kr/estorage/emmc/emmc-5-1/klmcg1rcte-b041/>
   <https://semiconductor.samsung.com/estorage/emmc/>
+- Samsung 官方历史型号页确认 `KLMCG8GEND-B041` 为 64GB、eMMC 5.1 / HS400、11.5x13x1.0、-25C~85C。其 `controller N + generation D + package B` 局部 token 组合加入 package 表，exact PN 只进入搜索资源和 testcase。来源：<https://semiconductor.samsung.com/emea/estorage/emmc/emmc-5-1/klmcg8gend-b041/>
 
 ## 规则入口
 

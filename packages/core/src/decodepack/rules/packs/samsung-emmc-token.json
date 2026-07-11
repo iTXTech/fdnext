@@ -136,6 +136,7 @@
           "B": "BGA-153, 11.5x13"
         },
         "packageByControllerGenerationPackage": {
+          "N:D:B": "BGA-153, 11.5x13x1.0",
           "S:D:B": "BGA-153, 11.5x13x1.0",
           "T:E:B": "BGA-153, 11.5x13x0.8",
           "U:D:B": "BGA-153, 11.5x13x1.2",

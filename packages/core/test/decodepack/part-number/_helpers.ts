@@ -659,6 +659,7 @@ export function assertKioxiaManagedRuleMatches(partNumber: string, expected: str
 
 export const skhynixHn8RuleIds = new Set([
   "vendor.skhynix.ufs.hn8.automotive-ufs31.v1",
+  "vendor.skhynix.ufs.hn8.uc310-v6.v1",
   "vendor.skhynix.ufs.hn8.mobile-ufs31.v1",
   "vendor.skhynix.ufs.hn8.ufs22-v6.v1",
   "vendor.skhynix.ufs.hn8.ufs22-v7.v1",

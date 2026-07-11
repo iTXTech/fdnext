@@ -101,4 +101,18 @@ assertRuleDecode("64EM32-M4GTY9B", {
   absentExtra: ["Product Family", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("64EM32-N3HTX29", {
+  vendor: "kingston",
+  type: "eMCP",
+  densityMbit: 524288,
+  package: "FBGA-221, 11.5x13.0x1.1",
+  extra: {
+    "Storage Interface": "eMMC 5.1",
+    "Storage Density": "64GB eMMC",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR3"
+  },
+  absentExtra: ["Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
 assertNoAdditionalFields("64EM32-M4GTY9B");

@@ -2041,8 +2041,14 @@
           "KJ",
           "L1",
           "L3",
+          "L4",
           "L5",
+          "L6",
           "L7",
+          "L8",
+          "L9",
+          "LA",
+          "LD",
           "KB"
         ],
         "configObj": {
@@ -2100,10 +2106,28 @@
           "3K:L3": {
             "dram_type": "LPDDR5X"
           },
+          "3K:L4": {
+            "dram_type": "LPDDR5X"
+          },
           "3K:L5": {
             "dram_type": "LPDDR5X"
           },
+          "3K:L6": {
+            "dram_type": "LPDDR5X"
+          },
           "3K:L7": {
+            "dram_type": "LPDDR5X"
+          },
+          "3K:L8": {
+            "dram_type": "LPDDR5X"
+          },
+          "3K:L9": {
+            "dram_type": "LPDDR5X"
+          },
+          "3K:LA": {
+            "dram_type": "LPDDR5X"
+          },
+          "3K:LD": {
             "dram_type": "LPDDR5X"
           }
         },
@@ -2120,8 +2144,14 @@
           "3L:KJ": 24576,
           "3K:L1": 32768,
           "3K:L3": 65536,
+          "3K:L4": 98304,
           "3K:L5": 131072,
-          "3K:L7": 24576
+          "3K:L6": 16384,
+          "3K:L7": 24576,
+          "3K:L8": 32768,
+          "3K:L9": 65536,
+          "3K:LA": 131072,
+          "3K:LD": 49152
         },
         "deviceWidth": {
           "3P:E7": 64,
@@ -2135,7 +2165,13 @@
           "3L:KB": 32,
           "3L:KJ": 32,
           "3K:L1": 64,
-          "3K:L5": 64
+          "3K:L4": 64,
+          "3K:L5": 64,
+          "3K:L6": 32,
+          "3K:L8": 32,
+          "3K:L9": 32,
+          "3K:LA": 32,
+          "3K:LD": 32
         },
         "voltage": {
           "3P:E7": "1.8V VDD1 / 1.2V VDD2/VDDQ",
@@ -2150,8 +2186,14 @@
           "3L:KJ": "1.8V / 1.05V / 0.9V / 0.5V",
           "3K:L1": "1.8V / 1.05V / 0.9V / 0.5V",
           "3K:L3": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3K:L4": "1.8V / 1.05V / 0.9V / 0.5V",
           "3K:L5": "1.8V / 1.05V / 0.9V / 0.5V",
-          "3K:L7": "1.8V / 1.05V / 0.9V / 0.5V"
+          "3K:L6": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3K:L7": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3K:L8": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3K:L9": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3K:LA": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3K:LD": "1.8V / 1.05V / 0.9V / 0.5V"
         },
         "packageActual": {
           "3P:E700M": "FBGA-216",
@@ -2171,13 +2213,15 @@
           "3K:B": 16,
           "3K:J": 64,
           "3K:E": 64,
-          "3K:M": 32
+          "3K:M": 32,
+          "3K:T": 32
         },
         "suffixPackageActual": {
           "3K:B": "FBGA-496",
           "3K:J": "FBGA-441",
           "3K:E": "FBGA-561",
-          "3K:M": "FBGA-315"
+          "3K:M": "FBGA-315",
+          "3K:T": "FBGA-245"
         },
         "suffixDeviceWidthSpecific": {
           "3K:L5:B": 64,
@@ -2999,6 +3043,15 @@
           },
           "Z:16": {
             "dram_speed": "GDDR6-16Gbps"
+          },
+          "Z:18": {
+            "dram_speed": "GDDR6-18Gbps"
+          },
+          "Z:20": {
+            "dram_speed": "GDDR6-20Gbps"
+          },
+          "Z:24": {
+            "dram_speed": "GDDR6-24Gbps"
           },
           "V:28": {
             "dram_speed": "GDDR7-28Gbps"

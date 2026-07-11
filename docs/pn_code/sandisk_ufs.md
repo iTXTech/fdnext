@@ -32,7 +32,7 @@ PN 结构：
 | family `DDH6` | iNAND AT EU312, UFS 2.1 |
 | family `EDK4` | iNAND MC EU511, UFS 3.0 |
 | family `FDK4` | iNAND MC EU521, UFS 3.1 |
-| family `FDO2/FDO4` | iNAND MC EU551, UFS 3.1 |
+| family `FDO2/FDO4/FEO2` | iNAND MC EU551, UFS 3.1；官方 brief 明列 `FEO2` 为 256GB 4-die configuration |
 | family `FDQ6` | iNAND AT EU552, UFS 3.1, 112L 3D NAND |
 | family `HDL6` | iNAND AT EU752, UFS 4.1, BiCS8 218L |
 | family `HFT4` | iNAND MC EU711, UFS 4.1, 3D TLC；256GB/512GB/1TB |
@@ -54,6 +54,7 @@ PN 结构：
 ## 测试样例
 
 - `SDINFDK4-128G`
+- `SDINFEO2-256G`
 - `SDINDDH6-128G-ZA2`
 - `SDINHFT4-256G`
 

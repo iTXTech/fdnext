@@ -2,11 +2,12 @@
 
 采集日期：2026-05-18
 
-本页记录 Winbond standalone DRAM 颗粒的 PN 结构。当前覆盖官方资料中可直接确认的 DDR、DDR2、DDR3、DDR4、LPDDR、LPDDR2、LPDDR3、LPDDR4、LPDDR4X；SDR 已在 PSG 中出现，但未在本轮落 iTXTech fdnext DecodePack。
+本页记录 Winbond standalone DRAM 颗粒的 PN 结构。当前覆盖官方资料中可直接确认的 SDR、DDR、DDR2、DDR3、DDR4、LPDDR、LPDDR2、LPDDR3、LPDDR4、LPDDR4X。
 
 ## 外部资料
 
 - Winbond 2026 Customized Memory Solution / Product Selection Guide 列出 mobile DRAM 与 specialty DRAM 产品表。来源：<https://www.winbond.com/export/sites/winbond/product-selection-guide/file/2026-Winbond-Customized-Memory-Solution.pdf?__locale=en_TW>
+- Winbond 2025 DRAM Product Selection Guide 的 SDRAM ordering 表确认 `W9864/W9812/W9825` 为 64/128/256Mb SDR，`G2/G6` 为 x32/x16，`KH/KT/KB` 为 TSOP-II-54、TFBGA-54 或 TFBGA-90 package token，`5/6/7/75` 为 200/166/143/133MHz，`I/J/K/W/A` 为工业、工业增强与车规温区；表中列出的量产 PN 进入搜索资源。来源：<https://www.winbond.com/export/sites/winbond/product-selection-guide/file/2025-DRAM-PSG-FinalJP.pdf>
 - DDR 表确认 `W9412G6KH` / `W9425G6KH` 系列的 128Mb/256Mb、x16、2.5V、66-pin TSOP 400mil、DDR400 / DDR333 CL3 与 commercial / industrial / automotive 温度等级。
 - DDR2 表确认 `W9712G6KB`、`W971GG6/8NB`、`W9725G6/8KB`、`W972GG6KB`、`W972GG8KS` 系列的 128Mb/256Mb/1Gb/2Gb、x8/x16、1.8V、4-bank / 8-bank、TFBGA(60/84) 8mm x 12.5mm 与 DDR2-667/800/1066 ordering suffix。
 - DDR3 表确认 `W631/W632/W634/W638` 系列的 1Gb/2Gb/4Gb/8Gb、x8/x16、1.5V / 1.35V、DDR3-1333~2133、VFBGA(78/96) 与温度等级。`W631GG6NB` / `W631GG8NB` 表行确认 8-bank 结构、x16 7.5mm x 13mm 96-ball VFBGA 与 x8 8mm x 10.5mm 78-ball VFBGA。
@@ -20,8 +21,9 @@
 ## iTXTech fdnext DecodePack 范围
 
 - 规则文件：`packages/core/src/decodepack/rules/packs/winbond-dram-token.json`
-- 规则 ID：`vendor.winbond.dram.ddr.component.v1`、`vendor.winbond.dram.lpddr.component.v1`、`vendor.winbond.dram.ddr2.component.v1`、`vendor.winbond.dram.lpddr2.component.v1`、`vendor.winbond.dram.ddr3.component.v1`、`vendor.winbond.dram.lpddr3.component.v1`、`vendor.winbond.dram.ddr4.component.v1`、`vendor.winbond.dram.lpddr4.component.v1`
+- 规则 ID：`vendor.winbond.dram.sdr.component.v1`、`vendor.winbond.dram.ddr.component.v1`、`vendor.winbond.dram.lpddr.component.v1`、`vendor.winbond.dram.ddr2.component.v1`、`vendor.winbond.dram.lpddr2.component.v1`、`vendor.winbond.dram.ddr3.component.v1`、`vendor.winbond.dram.lpddr3.component.v1`、`vendor.winbond.dram.ddr4.component.v1`、`vendor.winbond.dram.lpddr4.component.v1`
 - 当前覆盖：
+  - `W98(64|12|25)G(2|6)K(H|T|B)...`：SDR SDRAM。
   - `W94(12|25)G6KH...`：DDR SDRAM。
   - `W94(8D|8V|9D|AD)(6|2)...`：Mobile LPDDR SDRAM。
   - `W97(12|25|1G|2G)G(6|8)...`：DDR2 SDRAM。
@@ -32,6 +34,13 @@
   - `W66[ABCD][PQ][26][NR]...`：LPDDR4、LPDDR4X 或 LPDDR4/4X Combo。
 
 ## PN 结构
+
+SDR：
+
+```text
+W98 + density + G + width + package + optional suffix
+suffix = optional dash + speed(5/6/7/75) + optional grade
+```
 
 DDR：
 
@@ -90,6 +99,7 @@ W66 + density + P/Q + width + N/R + package family + optional package/speed/grad
 
 ## 输出约定
 
+- SDR density token `64/12/25` 输出 64/128/256Mb；width token `2/6` 输出 x32/x16；实际 `KH/KT/KB` package token 分别按 width 输出 TSOP-II-54、TFBGA-54 或 TFBGA-90。speed `5/6/7/75` 输出 200/166/143/133MHz，grade `I/J/K/W/A` 输出官方表对应温区。缺 suffix 时不输出速度和温区。
 - DDR density token `12/25` 输出 128Mb/256Mb，固定 x16、2.5V、4-bank、66-pin TSOP 400mil；缺 suffix 时只输出基础字段。
 - DDR2 density token `12/25/1G/2G` 输出 128Mb/256Mb/1Gb/2Gb；`12/25` 为 4-bank，`1G/2G` 为 8-bank；width token `6/8` 输出 x16/x8，并分别映射到 84-ball / 60-ball TFBGA (8mm x 12.5mm)。
 - LPDDR family token `8D/8V/9D/AD` 输出 256Mb/256Mb/512Mb/1Gb；width token `6/2` 输出 x16/x32，并分别映射到 60-ball / 90-ball VFBGA；speed token `5/6` 输出 LPDDR 200MHz / 166MHz，grade `E/I` 输出 Extended (-25C~85C) / Industrial (-40C~85C)。

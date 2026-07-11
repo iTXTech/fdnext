@@ -18,7 +18,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^YMUS[6789A](?:A1|A4|B2|B5)[TQ][BCEH][12345](?:A1|A2|D1|D2)C1$"
+      "value": "^YMUS[6789A](?:A1|A4|B2|B4|B5)[TQ][BCEFH][12345](?:A1|A2|D1|D2)C1$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -51,6 +51,10 @@
             "controller": "UFS 2.2 Controller UC234",
             "storage_interface": "UFS 2.2"
           },
+          "B4": {
+            "controller": "UFS 3.1 Controller UC341",
+            "storage_interface": "UFS 3.1"
+          },
           "B5": {
             "controller": "UFS 2.2 Controller UC260",
             "storage_interface": "UFS 2.2"
@@ -64,6 +68,7 @@
           "B": 2,
           "C": 3,
           "E": 4,
+          "F": 3,
           "H": 4
         },
         "dieStackInfo": {

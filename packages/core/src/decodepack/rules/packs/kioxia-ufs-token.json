@@ -125,6 +125,13 @@
             "speed_grade": "4640 MB/s"
           }
         },
+        "versionBySeriesCell": {
+          "JFJ:E": {
+            "product_version": "UFS 4.1",
+            "storage_interface": "UFS 4.1",
+            "speed_grade": "4640 MB/s"
+          }
+        },
         "processNode": {},
         "processFamily": {
           "AFB": "BICS",
@@ -190,6 +197,10 @@
           "LA": "LGA"
         },
         "packageExact": {
+          "BAA5": "BGA, 11.5x13.0x1.3",
+          "BAA8": "BGA, 11.5x13.0x1.2",
+          "BAB5": "BGA, 11.5x13.0x1.3",
+          "BAB8": "BGA, 11.5x13.0x1.2",
           "BAIP": "BGA, 11.0x13.0x0.8",
           "BATV": "BGA, 9.0x13.0x0.8",
           "BATW": "BGA, 9.0x13.0x0.85",
@@ -280,6 +291,18 @@
           "table": "cellLevel",
           "to": "cellLevel",
           "default": -1
+        },
+        {
+          "op": "tpl",
+          "template": "{{seriesCode}}:{{cellCode}}",
+          "to": "seriesCellKey"
+        },
+        {
+          "op": "map",
+          "from": "seriesCellKey",
+          "table": "versionBySeriesCell",
+          "to": "versionOverrideObj",
+          "default": {}
         },
         {
           "op": "take",
@@ -399,6 +422,11 @@
           "op": "merge",
           "into": "extra",
           "from": "versionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "versionOverrideObj"
         },
         {
           "op": "merge",

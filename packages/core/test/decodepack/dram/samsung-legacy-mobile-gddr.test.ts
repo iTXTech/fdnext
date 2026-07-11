@@ -352,6 +352,26 @@ assertDram("K4Z80325BC-HC14", {
   }
 });
 
+assertDram("K4ZAF325BC-SC24", {
+  vendor: "samsung",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.35V VDD",
+  package: "FBGA-180",
+  topology: { ce: 1, die: 1 },
+  extra: {
+    "DRAM Type": "GDDR6",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "Package Code": "BC",
+    "Config Code": "AF325",
+    "DRAM Speed": "GDDR6-24Gbps"
+  }
+});
+assertDecodedField("K4ZAF325BC-SC20", "dram_speed", "GDDR6-20Gbps");
+assertDecodedField("K4ZAF325BM-HC18", "dram_speed", "GDDR6-18Gbps");
+
 assertDram("K4VAF325ZC-SC32", {
   vendor: "samsung",
   densityMbit: 16384,

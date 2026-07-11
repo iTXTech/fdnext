@@ -177,7 +177,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^SM671P[XE][CDEF]BFS$"
+      "value": "^SM671P[XEAB][CDEF]L?BFS$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -204,6 +204,20 @@
           "E": {
             "product_class": "Industrial",
             "operation_temperature": "-40°C ~ +85°C"
+          },
+          "A": {
+            "product_class": "Automotive AEC-Q100 Grade 3",
+            "operation_temperature": "-40°C ~ +85°C"
+          },
+          "B": {
+            "product_class": "Automotive AEC-Q100 Grade 2",
+            "operation_temperature": "-40°C ~ +105°C"
+          }
+        },
+        "interfaceSuffixToken": ["L"],
+        "interfaceSuffixObj": {
+          "L": {
+            "storage_interface": "UFS 2.2"
           }
         },
         "density": {
@@ -251,12 +265,26 @@
           "default": 0
         },
         {
+          "op": "takeLongest",
+          "table": "interfaceSuffixToken",
+          "to": "interfaceSuffixCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "interfaceSuffixCode",
+          "table": "interfaceSuffixObj",
+          "to": "interfaceObj",
+          "default": {
+            "storage_interface": "UFS 3.1",
+            "speed_grade": "HS-Gear4 x2"
+          }
+        },
+        {
           "op": "set",
           "to": "extra",
           "value": {
             "product_family": "Ferri-UFS",
-            "storage_interface": "UFS 3.1",
-            "speed_grade": "HS-Gear4 x2",
             "nand_technology": "3D TLC NAND"
           }
         },
@@ -269,6 +297,11 @@
           "op": "merge",
           "into": "extra",
           "from": "tempObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "interfaceObj"
         },
         {
           "op": "omit",

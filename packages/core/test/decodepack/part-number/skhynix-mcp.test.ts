@@ -361,12 +361,60 @@ assertRuleDecode("H9HQ15ACPMADAR-KEM", {
   absentExtra: ["System", "Product Family", "Product Version"]
 });
 
+assertRuleDecode("H9HQ54AECMMDAR-KEM", {
+  vendor: "skhynix",
+  type: "uMCP",
+  densityMbit: 524288,
+  package: "FBGA-254",
+  extra: {
+    "Storage Density": "64GB",
+    "Storage Interface": "UFS 2.2",
+    "DRAM Density": "48Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266",
+    "Special Option": "Lead & Halogen Free"
+  },
+  absentExtra: ["System", "Product Family", "Product Version"]
+});
+
+assertRuleDecode("H9HQ53ADAMMDAR-KEM", {
+  vendor: "skhynix",
+  type: "uMCP",
+  densityMbit: 524288,
+  package: "FBGA-254",
+  extra: {
+    "Storage Density": "64GB",
+    "Storage Interface": "UFS 2.1",
+    "DRAM Density": "24Gb",
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266"
+  }
+});
+
+assertRuleDecode("H9HR56JFA3MEVR-K6M", {
+  vendor: "skhynix",
+  type: "uMCP",
+  densityMbit: 4194304,
+  extra: {
+    "Storage Density": "512GB",
+    "Storage Interface": "UFS 3.1",
+    "DRAM Density": "64Gb",
+    "DRAM Type": "LPDDR5",
+    "DRAM Voltage": "1.8V/1.05V/0.5V",
+    "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["Package", "Product Family", "Product Version"]
+});
+
 for (const partNumber of [
   "H9TQ17ABJTMCUR-KUM",
   "H9HP52ACPMADAR-KMM",
   "H9AG9G5ANBX100",
   "H9QT0GECN6X145",
-  "H9HQ15ACPMADAR-KEM"
+  "H9HQ15ACPMADAR-KEM",
+  "H9HQ54AECMMDAR-KEM",
+  "H9HR56JFA3MEVR-K6M"
 ]) {
   assertNoAdditionalFields(partNumber);
 }

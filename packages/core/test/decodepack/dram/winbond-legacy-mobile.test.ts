@@ -20,6 +20,68 @@ import {
   searchFbgaParts
 } from "./_helpers";
 
+assertDram("W9864G6KT-6I", {
+  vendor: "winbond",
+  densityMbit: 64,
+  density: "64Mb",
+  widthField: "x16",
+  voltage: "3.3V VDD",
+  package: "TFBGA-54, 8x8",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "SDR 166MHz",
+    "Bank Count": 4,
+    "Operation Temperature": "Industrial (-40C~85C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W9812G2KB-6", {
+  vendor: "winbond",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x32",
+  voltage: "3.3V VDD",
+  package: "TFBGA-90, 8x13",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "SDR 166MHz",
+    "Bank Count": 4,
+    "Operation Temperature": "Commercial (0C~70C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W9825G6KH75K", {
+  vendor: "winbond",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x16",
+  voltage: "3.3V VDD",
+  package: "TSOP-II-54, 400 mil",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "SDR 133MHz",
+    "Bank Count": 4,
+    "Operation Temperature": "Automotive AG2 (-40C~105C)"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("W9864G6KH", {
+  vendor: "winbond",
+  densityMbit: 64,
+  density: "64Mb",
+  widthField: "x16",
+  voltage: "3.3V VDD",
+  package: "TSOP-II-54, 400 mil",
+  extra: {
+    "DRAM Type": "SDR",
+    "Bank Count": 4
+  },
+  absentExtra: ["DRAM Speed", "Operation Temperature", "DRAM Die Stack"]
+});
+
 assertDram("W9412G6KH", {
   vendor: "winbond",
   densityMbit: 128,

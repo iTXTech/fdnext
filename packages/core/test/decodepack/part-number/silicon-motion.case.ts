@@ -83,3 +83,19 @@ assertRuleDecode("SM671PEF-BFS", {
   },
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
+
+assertRuleDecode("SM671PBC-L-BFS", {
+  vendor: "siliconmotion",
+  type: "UFS",
+  densityMbit: 524288,
+  cellField: "TLC",
+  package: "BGA-153",
+  extra: {
+    "Product Family": "Ferri-UFS",
+    "Storage Interface": "UFS 2.2",
+    "NAND Technology": "3D TLC NAND",
+    "Product Class": "Automotive AEC-Q100 Grade 2",
+    "Operation Temperature": "-40°C ~ +105°C"
+  },
+  absentExtra: ["Storage Density", "Speed Grade", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+});

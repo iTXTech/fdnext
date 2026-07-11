@@ -426,7 +426,8 @@
         "densityMb": {
           "4": 16384,
           "5": 32768,
-          "6": 65536
+          "6": 65536,
+          "B": 24576
         },
         "dieStackObj": {
           "BAM": {
@@ -479,7 +480,7 @@
       "steps": [
         {
           "op": "takeRegex",
-          "pattern": "^([0-9])([A-Z])([A-Z])([A-Z])([A-Z])(?=-|$)",
+          "pattern": "^([0-9A-Z])([A-Z])([A-Z])([A-Z])([A-Z])(?=-|$)",
           "to": "configFull",
           "groups": {
             "densityCode": 1,

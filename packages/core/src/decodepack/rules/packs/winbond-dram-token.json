@@ -1,5 +1,201 @@
 [
   {
+    "id": "vendor.winbond.dram.sdr.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W98(?:64|12|25)G[26]K[A-Z](?:-?[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "W98"
+      ],
+      "tables": {
+        "density": {
+          "64": 64,
+          "12": 128,
+          "25": 256
+        },
+        "deviceWidth": {
+          "2": 32,
+          "6": 16
+        },
+        "package": {
+          "2:KB": "TFBGA-90, 8x13",
+          "6:KB": "TFBGA-54, 8x8",
+          "6:KH": "TSOP-II-54, 400 mil",
+          "6:KT": "TFBGA-54, 8x8"
+        },
+        "speedObj": {
+          "5": {
+            "dram_speed": "SDR 200MHz"
+          },
+          "6": {
+            "dram_speed": "SDR 166MHz"
+          },
+          "7": {
+            "dram_speed": "SDR 143MHz"
+          },
+          "75": {
+            "dram_speed": "SDR 133MHz"
+          }
+        },
+        "gradeObj": {
+          "": {
+            "operation_temperature": "Commercial (0C~70C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40C~85C)"
+          },
+          "J": {
+            "operation_temperature": "Industrial Plus (-40C~105C)"
+          },
+          "K": {
+            "operation_temperature": "Automotive AG2 (-40C~105C)"
+          },
+          "W": {
+            "operation_temperature": "Automotive AG2 Plus (-40C~115C)"
+          },
+          "A": {
+            "operation_temperature": "Automotive AG3 (-40C~85C)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "gCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "widthCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^-?(75|[567])([IJKWA]?)(L?)$",
+          "to": "suffixToken",
+          "groups": {
+            "speedCode": 1,
+            "gradeCode": 2,
+            "optionCode": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "tpl",
+          "template": "{{widthCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "package",
+          "to": "package"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "gradeCode",
+          "table": "gradeObj",
+          "to": "gradeObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "SDR",
+            "bank_count": 4
+          }
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "speedObj",
+          "if": "suffixToken"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "gradeObj",
+          "if": "suffixToken"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": "3.3V VDD",
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.winbond.dram.sdr.component.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
     "id": "vendor.winbond.dram.ddr.component.v1",
     "priority": 1010,
     "normalize": [

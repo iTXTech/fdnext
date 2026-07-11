@@ -18,7 +18,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^YMEC[456789A](?:A1|A2|B0)[MT][ABCE][12345]A2C[13]$"
+      "value": "^YMEC[456789A](?:A1|A2|B0|C0)[MT][ABCEG][12345]A2C[13]$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -57,6 +57,12 @@
           },
           "B0": {
             "controller": "eMMC 5.1 Controller EC230",
+            "product_family": "YMTC EC230 eMMC",
+            "storage_interface": "eMMC 5.1"
+          },
+          "C0": {
+            "controller": "eMMC 5.1 Controller EC150",
+            "product_family": "YMTC EC150 eMMC",
             "storage_interface": "eMMC 5.1"
           }
         },
@@ -68,7 +74,8 @@
           "A": 1,
           "B": 2,
           "C": 3,
-          "E": 4
+          "E": 4,
+          "G": 4
         },
         "dieStackInfo": {
           "1": {

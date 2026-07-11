@@ -349,3 +349,31 @@ assertDram("H9JCNNNFA5MLYR-N6E", {
     "Operation Temperature": "-25°C ~ 85°C"
   }
 });
+
+assertDram("H9JKNNNFB3AECR-N6H", {
+  vendor: "skhynix",
+  densityMbit: 65536,
+  density: "64Gb",
+  voltage: "1.8V/1.05V/0.5V",
+  package: "FBGA-496",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-30°C ~ 105°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
+assertDram("H9JKNNNHA3MVJR-N6H", {
+  vendor: "skhynix",
+  densityMbit: 98304,
+  density: "96Gb",
+  voltage: "1.8V/1.05V/0.5V",
+  package: "FBGA-436",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-30°C ~ 105°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});

@@ -12,6 +12,8 @@
   <https://datasheet.lcsc.com/lcsc/2204261415_SK-HYNIX-H26M62002JPR_C3002776.pdf>
 - SK hynix e-NAND H26M Series datasheet mirror 给出 8GB/16GB/32GB/64GB eMMC 5.1、VCC 3.3V / VCCQ 1.8V、HS400+CMDQ、153FBGA 以及 automotive grade 示例。
   <https://media.digikey.com/pdf/Data%20Sheets/Netlist%20Inc%20PDF/H26M%20Series.pdf>
+- SK hynix 1ynm 64Gb eMMC 5.1 Automotive datasheet ordering table 确认 8/16/32/64GB 的 `H26M...HPR/FPR/EMR/CMR` 系列，以及 `N/I/A/Q` 分别表示 CT / IT / AIT / AAT 温度档。
+  <https://e2e.ti.com/cfs-file/__key/communityserver-discussions-components-files/791/SK-hynix-1ynm_5F00_64Gb_5F00_eMMC5.1_5F00_Automotive_5F00_ver1.5.pdf>
 - SK hynix NAND Flash Databook Q1'2016 mirror 给出 H26M eMMC line-up：4GB MMC4.5、8GB~128GB MMC5.1、1xnm / 3D-V2、base component density、stack 和 package size。
   <https://gzhls.at/blob/ldb/e/8/b/f/32b2d2b37ba8bac84be3202fa5c6425eb300.pdf>
 
@@ -34,10 +36,11 @@
 | component `1002/2002/4002/8002` | 3D-V2, 128Gb die, 1/2/4/8-die |
 | package/config `HPR/FPR/GPR/KPR/JPR` | 153FBGA 11.5x13x0.8mm |
 | package/config `AMR/CMR/EMR/HMR` | 153FBGA 11.5x13x1.0mm |
-| grade `N/A` | Commercial / Mobile, -25~85°C |
+| grade `N` | Commercial CT, -25~85°C |
 | grade `I` | Industrial, -40~85°C |
+| grade `A` | Automotive AIT, -40~85°C |
 | grade `X` | Automotive Grade 2/3, -40~105°C |
-| grade `Q` | Automotive Grade 2, -40~105°C |
+| grade `Q` | Automotive AAT, -40~105°C |
 
 ## 输出字段
 
@@ -62,7 +65,8 @@
 | PN | 解析重点 |
 | --- | --- |
 | `H26M78208CMRX` | eMMC, 64GB, automotive grade token `X` |
-| `H26M78208CMRN` | eMMC, 64GB, Commercial / Mobile token `N` |
+| `H26M78208CMRN` | eMMC, 64GB, Commercial CT token `N` |
+| `H26M78208CMRA` / `H26M78208CMRQ` | eMMC, 64GB, Automotive AIT / AAT token `A/Q` |
 | `H26M31001HPR` | eMMC 4.5, 4GB, 1xnm, 32Gb x1, 153FBGA 11.5x13x0.8mm |
 | `H26M88002AMR` | eMMC 5.1, 128GB, 3D-V2, 128Gb x8, 153FBGA 11.5x13x1.0mm |
 | `H26M51002KPR` / `H26M62002JPR` / `H26M74002HMR` | EG510 eMMC 5.1，16GB / 32GB / 64GB，package suffix 分别输出 0.8 / 0.8 / 1.0mm |
@@ -71,5 +75,5 @@
 ## 已知缺口
 
 - component token 已按 Q1'2016 databook line-up 拆出 die density / die stack / package size；更细的 controller revision、product serial 仍不解释。
-- `X/Q` grade 语义已按公开资料先收敛到 automotive，但仍需要更多原厂 ordering table 做细分复核。
+- `N/I/A/Q` grade 语义已由 automotive datasheet ordering table 确认；旧代 `X` 仍保持较宽的 Automotive Grade 2/3 解释。
 - `H9*` 常见于 eMCP / uMCP，已拆分到 [skhynix_emcp.md](skhynix_emcp.md)，不应直接并入 eMMC parser。

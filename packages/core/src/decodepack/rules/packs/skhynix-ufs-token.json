@@ -222,6 +222,249 @@
     }
   },
   {
+    "id": "vendor.skhynix.ufs.hn8.uc310-v6.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^HN8T[0-2]5BZGKX[0-9A-Z]{3}N?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "HN8"
+      ],
+      "tables": {
+        "density": {
+          "T0": 1048576,
+          "T1": 2097152,
+          "T2": 4194304
+        },
+        "densityObj": {
+          "T0": {
+            "die_density": 524288,
+            "die_count": 2
+          },
+          "T1": {
+            "die_density": 524288,
+            "die_count": 4
+          },
+          "T2": {
+            "die_density": 524288,
+            "die_count": 8
+          }
+        },
+        "nandInfo": {
+          "B": "HYV6"
+        },
+        "package": {
+          "Z": "FBGA-153, 11.5x13.0x1.0"
+        },
+        "temperatureObj": {
+          "K": {
+            "product_class": "Mobile",
+            "operation_temperature": "-25°C ~ 85°C"
+          }
+        },
+        "suffixObj": {
+          "N": {
+            "prod_status": "Mass Production"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityObj",
+          "to": "densityObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "interfaceCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "nandInfoCode"
+        },
+        {
+          "op": "map",
+          "from": "nandInfoCode",
+          "table": "nandInfo",
+          "to": "processNode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "temperatureCode"
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "featureCode"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "productSerial"
+        },
+        {
+          "op": "takeLongest",
+          "table": "suffixObj",
+          "to": "suffixObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "SK hynix UFS",
+            "group": "UFS",
+            "density_code": {
+              "$var": "densityCode"
+            },
+            "interface_code": {
+              "$var": "interfaceCode"
+            },
+            "nand_info_code": {
+              "$var": "nandInfoCode"
+            },
+            "package_code": {
+              "$var": "packageCode"
+            },
+            "generation_code": {
+              "$var": "generationCode"
+            },
+            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "densityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "suffixObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "system",
+            "group",
+            "series_code",
+            "cell_code",
+            "layout_code",
+            "density_code",
+            "stack_code",
+            "interface_code",
+            "nand_info_code",
+            "package_code",
+            "generation_code",
+            "feature_code",
+            "voltage_io_code"
+          ]
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.voltage": "Vcc: 2.5V, VccQ: 1.2V",
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
+        },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
+        "meta.ruleId": "vendor.skhynix.ufs.hn8.uc310-v6.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.skhynix.ufs.hn8.mobile-ufs31.v1",
     "priority": 1010,
     "normalize": [

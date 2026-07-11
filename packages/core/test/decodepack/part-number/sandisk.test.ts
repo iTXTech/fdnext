@@ -155,6 +155,17 @@ assertRuleDecode("SDINFDK4-128G", {
   absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("SDINFEO2-256G", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 2097152,
+  extra: {
+    "Product Family": "iNAND MC EU551",
+    "Storage Interface": "UFS 3.1"
+  },
+  absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
+});
+
 assertRuleDecode("SDINBDI4-64G-H", {
   vendor: "sndk",
   type: "eMMC",

@@ -304,6 +304,62 @@
     "pn": "K3KL3L30DM-EFCU"
   },
   {
+    "vendor": "samsung",
+    "pn": "K3KL4L40EM-JHCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL4L40EM-JUCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL6L60GM-MFCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL6L60GM-MHCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL8L80DM-MUCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL9L90QM-MHCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KLDLD0EM-TGCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KLDLD0FM-MFCV"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KLDLD0FM-MHCV"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KLALA0DM-MFCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KLALA0DM-MHCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KLALA0DM-MUCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KLALA0EM-MHCV"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KLALA0EM-MUCV"
+  },
+  {
     "vendor": "nanya",
     "pn": "NT5DS32M16CS-5T"
   },
@@ -1565,6 +1621,10 @@
   },
   {
     "vendor": "cxmt",
+    "pn": "CXDBBCCAM-MK"
+  },
+  {
+    "vendor": "cxmt",
     "pn": "CXDB4CBAM-MK-A"
   },
   {
@@ -1734,6 +1794,18 @@
   {
     "vendor": "skhynix",
     "pn": "H9JCNNNFA5MLYR-N6E"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9JKNNNFB3AECR-N6H"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9JKNNNFB3MVJR-N6H"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9JKNNNHA3MVJR-N6H"
   },
   {
     "vendor": "skhynix",
@@ -2562,6 +2634,30 @@
   {
     "vendor": "samsung",
     "pn": "K4A8G165WB-BIWE"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4ZAF325BC-SC14"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4ZAF325BC-SC16"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4ZAF325BC-SC20"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4ZAF325BC-SC24"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4ZAF325BM-HC18"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4ZAF325BM-SC14"
   },
   {
     "vendor": "cxmt",
@@ -4266,6 +4362,202 @@
   {
     "vendor": "issi",
     "pn": "IS43DR86400E-25DBLI"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-5"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-6"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-7"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KT-6"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-5I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KT-6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-6J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KT-6J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G2KB-6"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KB-6"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KH-5"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KH-6"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KH-75"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G2KB-6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KB-6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KH-5I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KH-6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KB-6J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KH-5J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KH-6J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH-5"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH-6"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH-6L"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH-75"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH75L"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KB-6"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH-5I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH-6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KB-6I"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH-5J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH-6J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH75J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KB-6J"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-5K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-6K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KH-6K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH-6K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH75K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KB-5K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KB-6K"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-6W"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-5A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9864G6KH-6A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9812G6KH-6A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH-6A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KH75A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KB-5A"
+  },
+  {
+    "vendor": "winbond",
+    "pn": "W9825G6KB-6A"
   },
   {
     "vendor": "winbond",

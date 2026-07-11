@@ -57,7 +57,29 @@ assertRuleDecode("H26M78208CMRN", {
     "Product Generation": "1xnm NAND",
     "Die Density": "64Gb",
     "Die Count": 8,
-    "Product Class": "Commercial / Mobile"
+    "Product Class": "Commercial CT"
+  }
+});
+
+assertRuleDecode("H26M78208CMRA", {
+  vendor: "skhynix",
+  type: "eMMC",
+  densityMbit: 524288,
+  package: "FBGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Class": "Automotive AIT",
+    "Operation Temperature": "-40°C ~ 85°C"
+  }
+});
+
+assertRuleDecode("H26M78208CMRQ", {
+  vendor: "skhynix",
+  type: "eMMC",
+  densityMbit: 524288,
+  package: "FBGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Class": "Automotive AAT",
+    "Operation Temperature": "-40°C ~ 105°C"
   }
 });
 
@@ -149,6 +171,43 @@ assertRuleDecode("HN8T25DJHVX111", {
     "Operation Temperature": "-40°C ~ 95°C"
   },
   absentExtra: ["System", "Product Family", "Product Generation"]
+});
+
+assertSkhynixHn8RuleMatches("HN8T05BZGKX015N", ["vendor.skhynix.ufs.hn8.uc310-v6.v1"]);
+assertRuleDecode("HN8T05BZGKX015N", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 1048576,
+  dieProfileField: "HYV6",
+  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  package: "FBGA-153, 11.5x13.0x1.0",
+  extra: {
+    "Storage Interface": "UFS 3.1",
+    "Layer Count": 128,
+    "Die Density": "64GB",
+    "Die Count": 2,
+    "Product Class": "Mobile",
+    "Production Status": "Mass Production"
+  },
+  absentExtra: ["System", "Product Family"]
+});
+
+assertSkhynixHn8RuleMatches("HN8T25BZGKX017", ["vendor.skhynix.ufs.hn8.uc310-v6.v1"]);
+assertRuleDecode("HN8T25BZGKX017", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 4194304,
+  dieProfileField: "HYV6",
+  voltage: "Vcc: 2.5V, VccQ: 1.2V",
+  package: "FBGA-153, 11.5x13.0x1.0",
+  extra: {
+    "Storage Interface": "UFS 3.1",
+    "Layer Count": 128,
+    "Die Density": "64GB",
+    "Die Count": 8,
+    "Product Class": "Mobile"
+  },
+  absentExtra: ["System", "Product Family", "Production Status"]
 });
 
 assertSkhynixHn8RuleMatches("HN8T25DEHKX077N", ["vendor.skhynix.ufs.hn8.mobile-ufs31.v1"]);

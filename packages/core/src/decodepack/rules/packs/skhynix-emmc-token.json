@@ -104,15 +104,15 @@
         },
         "gradeObj": {
           "A": {
-            "product_class": "Commercial / Mobile",
-            "operation_temperature": "-25°C ~ 85°C"
+            "product_class": "Automotive AIT",
+            "operation_temperature": "-40°C ~ 85°C"
           },
           "I": {
             "product_class": "Industrial",
             "operation_temperature": "-40°C ~ 85°C"
           },
           "N": {
-            "product_class": "Commercial / Mobile",
+            "product_class": "Commercial CT",
             "operation_temperature": "-25°C ~ 85°C"
           },
           "X": {
@@ -120,7 +120,7 @@
             "operation_temperature": "-40°C ~ 105°C"
           },
           "Q": {
-            "product_class": "Automotive Grade 2",
+            "product_class": "Automotive AAT",
             "operation_temperature": "-40°C ~ 105°C"
           }
         }
