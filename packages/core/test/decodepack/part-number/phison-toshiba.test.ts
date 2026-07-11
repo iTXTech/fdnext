@@ -21,7 +21,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -31,7 +31,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("SUGNM1126A6BPIET-046BT", {
+assertRuleDecode("SUGNM1126A6BPIET-046BT", {
   vendor: "spectek",
   type: "eMCP",
   cellField: "SLC",
@@ -49,7 +49,7 @@ assertPart("SUGNM1126A6BPIET-046BT", {
   },
   absentExtra: ["Product Family", "Product Mode", "NAND Component", "Package Code", "Product Generation"]
 });
-assertPart("FNUGNM1126A6BPIET-046BT", {
+assertRuleDecode("FNUGNM1126A6BPIET-046BT", {
   vendor: "spectek",
   type: "eMCP",
   cellField: "SLC",
@@ -67,7 +67,7 @@ assertPart("FNUGNM1126A6BPIET-046BT", {
   },
   absentExtra: ["Product Family", "Product Mode", "NAND Component", "Package Code", "Product Generation"]
 });
-assertPart("SMCNM1126A6BPIET-062UT", {
+assertRuleDecode("SMCNM1126A6BPIET-062UT", {
   vendor: "spectek",
   type: "eMCP",
   cellField: "SLC",
@@ -86,7 +86,7 @@ assertPart("SMCNM1126A6BPIET-062UT", {
   },
   absentExtra: ["Product Family", "NAND Component", "Package Code", "Product Generation"]
 });
-assertPart("SMKJ6Z4ZZ4D4TGFAK-PG", {
+assertRuleDecode("SMKJ6Z4ZZ4D4TGFAK-PG", {
   vendor: "spectek",
   type: "eMCP",
   voltage: "LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
@@ -105,7 +105,7 @@ assertPart("SMKJ6Z4ZZ4D4TGFAK-PG", {
   },
   absentExtra: ["Controller Code", "Package Code", "Product Generation"]
 });
-assertPart("SMKJ6Z4ZZ4D4TGFAK-053BT", {
+assertRuleDecode("SMKJ6Z4ZZ4D4TGFAK-053BT", {
   vendor: "spectek",
   type: "eMCP",
   voltage: "LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
@@ -124,7 +124,7 @@ assertPart("SMKJ6Z4ZZ4D4TGFAK-053BT", {
   },
   absentExtra: ["Controller Code", "Package Code", "Product Generation"]
 });
-assertPart("SUJ52A1GCFDI-BT", {
+assertRuleDecode("SUJ52A1GCFDI-BT", {
   vendor: "spectek",
   type: "eMMC",
   densityMbit: 8192,
@@ -139,7 +139,7 @@ assertPart("SUJ52A1GCFDI-BT", {
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Generation"]
 });
-assertPart("SUJ52A128GASAKDI-FT", {
+assertRuleDecode("SUJ52A128GASAKDI-FT", {
   vendor: "spectek",
   type: "UFS",
   densityMbit: 1048576,
@@ -158,7 +158,7 @@ assertPart("SUJ52A128GASAKDI-FT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Generation"]
 });
 
-assertPart("TF10G1BAHA", {
+assertRuleDecode("TF10G1BAHA", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 1024,
@@ -172,7 +172,7 @@ assertPart("TF10G1BAHA", {
   }
 });
 
-assertPart("TU56G2LAJA", {
+assertRuleDecode("TU56G2LAJA", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 65536,
@@ -184,7 +184,7 @@ assertPart("TU56G2LAJA", {
   }
 });
 
-assertPart("T27HGA5A1V", {
+assertRuleDecode("T27HGA5A1V", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 4194304,
@@ -199,9 +199,8 @@ assertPart("T27HGA5A1V", {
     "CE Count": 4
   }
 });
-assertIdentifierRelation("T27HGA5A1V", "9848A8037AE5");
 
-assertPart("ST15G24APA", {
+assertRuleDecode("ST15G24APA", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 32768,
@@ -214,7 +213,7 @@ assertPart("ST15G24APA", {
   }
 });
 
-assertPart("HA5AG64AVA", {
+assertRuleDecode("HA5AG64AVA", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 1048576,
@@ -228,7 +227,7 @@ assertPart("HA5AG64AVA", {
   }
 });
 
-assertPart("IA1AG67AWA", {
+assertRuleDecode("IA1AG67AWA", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 1048576,
@@ -242,7 +241,7 @@ assertPart("IA1AG67AWA", {
   }
 });
 
-assertPart("IA1AG6KAVA", {
+assertRuleDecode("IA1AG6KAVA", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 1048576,
@@ -258,7 +257,7 @@ assertPart("IA1AG6KAVA", {
   absentExtra: ["Product Generation"]
 });
 
-assertPart("IA1AG6KAIA", {
+assertRuleDecode("IA1AG6KAIA", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 1048576,
@@ -274,7 +273,7 @@ assertPart("IA1AG6KAIA", {
   absentExtra: ["Product Generation"]
 });
 
-assertPart("DT57G2LALC", {
+assertRuleDecode("DT57G2LALC", {
   vendor: "phison",
   type: "NAND",
   densityMbit: 131072,

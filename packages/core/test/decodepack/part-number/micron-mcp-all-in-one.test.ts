@@ -22,7 +22,7 @@ import {
   assertMicronManagedFbgaMarking,
   assertNoAdditionalFields,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -32,7 +32,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("MT29RZ4C4DZZMGMF-18W.80C", {
+assertRuleDecode("MT29RZ4C4DZZMGMF-18W.80C", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 4096,
@@ -55,7 +55,7 @@ assertPart("MT29RZ4C4DZZMGMF-18W.80C", {
   absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type", "Config Code", "Package Code", "Speed Grade"]
 });
 
-assertPart("MT29RZ1CVCZZHGTN-18 W.85H", {
+assertRuleDecode("MT29RZ1CVCZZHGTN-18 W.85H", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 1024,
@@ -78,7 +78,7 @@ assertPart("MT29RZ1CVCZZHGTN-18 W.85H", {
   absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type", "Config Code", "Package Code", "Speed Grade"]
 });
 
-assertPart("MT29AZ5A3CHHWD-18AIT.84F", {
+assertRuleDecode("MT29AZ5A3CHHWD-18AIT.84F", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 4096,
@@ -100,7 +100,7 @@ assertPart("MT29AZ5A3CHHWD-18AIT.84F", {
   absentExtra: ["Product Family", "Config Code", "Package Code", "Speed Grade", "Special Option"]
 });
 
-assertPart("MT29JZZZ2DWMAFJV-6IES.63m", {
+assertRuleDecode("MT29JZZZ2DWMAFJV-6IES.63m", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 2048,

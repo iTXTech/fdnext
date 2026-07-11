@@ -21,7 +21,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -31,7 +31,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("SDINBDA6-256G-XI1", {
+assertRuleDecode("SDINBDA6-256G-XI1", {
   vendor: "sndk",
   type: "eMMC",
   densityMbit: 2097152,
@@ -45,9 +45,8 @@ assertPart("SDINBDA6-256G-XI1", {
   absentExtra: ["Product Version", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertDieProfileFromFdbProcess("SDTNMMAHSM-001G", "43nm");
 
-assertPart("SDZFLDMA-2T00-E503", {
+assertRuleDecode("SDZFLDMA-2T00-E503", {
   vendor: "sndk",
   type: "NAND",
   densityMbit: 16777216,
@@ -64,7 +63,7 @@ assertPart("SDZFLDMA-2T00-E503", {
   }
 });
 
-assertPart("SDUNEI3MM-1T00CE", {
+assertRuleDecode("SDUNEI3MM-1T00CE", {
   vendor: "sndk",
   type: "NAND",
   densityMbit: 8388608,
@@ -86,7 +85,7 @@ assertPart("SDUNEI3MM-1T00CE", {
   absentExtra: ["Channel Count"]
 });
 
-assertPart("SDUNCIAMA-032G", {
+assertRuleDecode("SDUNCIAMA-032G", {
   vendor: "sndk",
   type: "NAND",
   densityMbit: 262144,
@@ -106,7 +105,7 @@ assertPart("SDUNCIAMA-032G", {
   absentExtra: ["Channel Count"]
 });
 
-assertPart("SDUNCIAMA-032GB-DDR300", {
+assertRuleDecode("SDUNCIAMA-032GB-DDR300", {
   vendor: "sndk",
   type: "NAND",
   densityMbit: 262144,
@@ -122,7 +121,7 @@ assertPart("SDUNCIAMA-032GB-DDR300", {
   absentExtra: ["Channel Count", "Special Option", "Production Status"]
 });
 
-assertPart("SDZNNMDHER-032G", {
+assertRuleDecode("SDZNNMDHER-032G", {
   vendor: "sndk",
   type: "NAND",
   cellField: "MLC",
@@ -133,7 +132,7 @@ assertPart("SDZNNMDHER-032G", {
   }
 });
 
-assertPart("SDINBDG4-32G-ZA3", {
+assertRuleDecode("SDINBDG4-32G-ZA3", {
   vendor: "sndk",
   type: "eMMC",
   densityMbit: 262144,
@@ -145,7 +144,7 @@ assertPart("SDINBDG4-32G-ZA3", {
   absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("SDINFDK4-128G", {
+assertRuleDecode("SDINFDK4-128G", {
   vendor: "sndk",
   type: "UFS",
   densityMbit: 1048576,
@@ -156,7 +155,7 @@ assertPart("SDINFDK4-128G", {
   absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("SDINDDH6-128G-ZA2", {
+assertRuleDecode("SDINDDH6-128G-ZA2", {
   vendor: "sndk",
   type: "UFS",
   densityMbit: 1048576,
@@ -168,7 +167,7 @@ assertPart("SDINDDH6-128G-ZA2", {
   absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("SDIN7DU2-8G", {
+assertRuleDecode("SDIN7DU2-8G", {
   vendor: "sndk",
   type: "eMMC",
   densityMbit: 65536,
@@ -180,7 +179,7 @@ assertPart("SDIN7DU2-8G", {
   }
 });
 
-assertPart("SDIN5C4-64G", {
+assertRuleDecode("SDIN5C4-64G", {
   vendor: "sndk",
   type: "eMMC",
   densityMbit: 524288,
@@ -191,7 +190,7 @@ assertPart("SDIN5C4-64G", {
   }
 });
 
-assertPart("SDIS4BH-008G", {
+assertRuleDecode("SDIS4BH-008G", {
   vendor: "sndk",
   type: "SATA",
   densityMbit: 65536,
@@ -200,7 +199,7 @@ assertPart("SDIS4BH-008G", {
   }
 });
 
-assertPart("SDIS5BK-032G", {
+assertRuleDecode("SDIS5BK-032G", {
   vendor: "sndk",
   type: "SATA",
   densityMbit: 262144,
@@ -210,7 +209,7 @@ assertPart("SDIS5BK-032G", {
   }
 });
 
-assertPart("SDIS6BM-016G", {
+assertRuleDecode("SDIS6BM-016G", {
   vendor: "sndk",
   type: "SATA",
   densityMbit: 131072,

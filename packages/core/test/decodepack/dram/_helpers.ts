@@ -36,14 +36,7 @@ function fullEngine(): ReturnType<typeof createEngine> {
   return fullEngineCache;
 }
 
-export const engine: ReturnType<typeof createEngine> = {
-  getVersion: () => decodeEngine.getVersion(),
-  getCapabilities: (input) => fullEngine().getCapabilities(input),
-  decodePart: (input) => decodeEngine.decodePart(input),
-  searchParts: (input) => fullEngine().searchParts(input),
-  decodeIdentifier: (input) => fullEngine().decodeIdentifier(input),
-  searchIdentifiers: (input) => fullEngine().searchIdentifiers(input)
-};
+export const engine = decodeEngine;
 
 export const redundantStandaloneExtra = [
   "Product Family",
@@ -164,8 +157,8 @@ export function blockIdForField(result: PartDecodeResult, key: string): string |
   return result.blocks.find((block) => block.fields.some((field) => field.key === key))?.id;
 }
 
-export function detect(partNumber: string, useFullEngine = false): TestPartInfo {
-  const result = (useFullEngine ? fullEngine() : decodeEngine).decodePart({ query: partNumber, lang: "eng" });
+export function detect(partNumber: string): TestPartInfo {
+  const result = decodeEngine.decodePart({ query: partNumber, lang: "eng" });
   const density = firstField(result, "dram_density", "density", "storage_density");
   const width = firstField(result, "dram_width", "device_width");
   const detailFields: Record<string, unknown> = {};
@@ -288,10 +281,7 @@ export function assertDram(
     absentExtra?: string[];
   }
 ): void {
-  let info = detect(partNumber);
-  if (shouldRetryFullDramDecode(info, expected)) {
-    info = detect(partNumber, true);
-  }
+  const info = detect(partNumber);
   const expectedType = publicDramType(expected.extra["DRAM Type"]);
   assert.equal(info.vendor, expected.vendor ?? "micron", partNumber);
   assert.equal(info.type, expectedType, partNumber);
@@ -308,9 +298,6 @@ export function assertDram(
 
   const detailFields = extra(info);
   for (const key of hiddenPublicCodeExtraKeys) {
-    if (key === "Marking Code") {
-      continue;
-    }
     assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
   }
   for (const key of Object.keys(detailFields)) {
@@ -322,10 +309,6 @@ export function assertDram(
     if (key === "DRAM Type") {
       continue;
     }
-    if (key === "Marking Code") {
-      assert.equal(info.markingCode, value, `${partNumber} device.markingCode`);
-      continue;
-    }
     if (hiddenPublicCodeExtraKeys.has(key)) {
       assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
       continue;
@@ -335,31 +318,6 @@ export function assertDram(
   for (const key of [...redundantStandaloneExtra, ...(expected.absentExtra ?? [])]) {
     assert.equal(Object.hasOwn(detailFields, key), false, `${partNumber} should not expose detailFields.${key}`);
   }
-}
-
-function shouldRetryFullDramDecode(
-  info: TestPartInfo,
-  expected: {
-    vendor?: string;
-    extra: Record<string, unknown>;
-  }
-): boolean {
-  if ((expected.vendor ?? "micron") !== undefined && info.vendor === undefined) {
-    return true;
-  }
-  if (expected.extra["Marking Code"] !== undefined && info.markingCode === undefined) {
-    return true;
-  }
-  const detailFields = extra(info);
-  for (const [key, value] of Object.entries(expected.extra)) {
-    if (key === "DRAM Type" || key === "Marking Code" || hiddenPublicCodeExtraKeys.has(key)) {
-      continue;
-    }
-    if (value !== undefined && detailFields[key] === undefined) {
-      return true;
-    }
-  }
-  return false;
 }
 
 export function assertStackedDram(

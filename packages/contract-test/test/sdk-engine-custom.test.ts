@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createEngine } from "../../core/src/index";
+import { createEngine } from "@itxtech/fdnext-core";
 
 const ambiguousEngine = createEngine({
   resources: {

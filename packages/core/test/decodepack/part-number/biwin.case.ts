@@ -22,7 +22,7 @@ import {
   assertMicronManagedFbgaMarking,
   assertNoAdditionalFields,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -32,7 +32,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("BWCTAKL11X128G", {
+assertRuleDecode("BWCTAKL11X128G", {
   vendor: "biwin",
   type: "eMMC",
   densityMbit: 1048576,
@@ -45,7 +45,7 @@ assertPart("BWCTAKL11X128G", {
   absentExtra: ["System", "Product Family", "Product Version", "Managed Family", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("BWCMMQ511G08G", {
+assertRuleDecode("BWCMMQ511G08G", {
   vendor: "biwin",
   type: "eMMC",
   densityMbit: 65536,
@@ -58,7 +58,7 @@ assertPart("BWCMMQ511G08G", {
   absentExtra: ["Interface info", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("BWU2A0526B128G", {
+assertRuleDecode("BWU2A0526B128G", {
   vendor: "biwin",
   type: "UFS",
   densityMbit: 1048576,
@@ -68,7 +68,7 @@ assertPart("BWU2A0526B128G", {
   },
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
-assertPart("BWCA2KZC-64G", {
+assertRuleDecode("BWCA2KZC-64G", {
   vendor: "biwin",
   type: "eMCP",
   densityMbit: 524288,
@@ -83,7 +83,7 @@ assertPart("BWCA2KZC-64G", {
 
 assertNoAdditionalFields("BWCA2KZC-64G");
 
-assertPart("BW2A2MZC02-256G", {
+assertRuleDecode("BW2A2MZC02-256G", {
   vendor: "biwin",
   type: "uMCP",
   densityMbit: 2097152,

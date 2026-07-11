@@ -21,7 +21,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -31,7 +31,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("MT29C4G96MAZAPCJA-5 IT", {
+assertRuleDecode("MT29C4G96MAZAPCJA-5 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 4096,
@@ -49,7 +49,7 @@ assertPart("MT29C4G96MAZAPCJA-5 IT", {
   absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
-assertPart("MT29C2G24MAKLAJG-6 IT", {
+assertRuleDecode("MT29C2G24MAKLAJG-6 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 2048,
@@ -67,7 +67,7 @@ assertPart("MT29C2G24MAKLAJG-6 IT", {
   absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
-assertPart("MT29C1G12MAADVAKC-5 IT", {
+assertRuleDecode("MT29C1G12MAADVAKC-5 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 1024,
@@ -85,7 +85,7 @@ assertPart("MT29C1G12MAADVAKC-5 IT", {
   absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
-assertPart("MT29C1G12MAADAEAKC-5 IT", {
+assertRuleDecode("MT29C1G12MAADAEAKC-5 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 1024,
@@ -103,7 +103,7 @@ assertPart("MT29C1G12MAADAEAKC-5 IT", {
   absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
-assertPart("MT29C2G48MAKLCJI-6 IT", {
+assertRuleDecode("MT29C2G48MAKLCJI-6 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 2048,
@@ -121,7 +121,7 @@ assertPart("MT29C2G48MAKLCJI-6 IT", {
   absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
-assertPart("MT29C4G48MAZBBAKS-48 IT", {
+assertRuleDecode("MT29C4G48MAZBBAKS-48 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 4096,
@@ -139,7 +139,7 @@ assertPart("MT29C4G48MAZBBAKS-48 IT", {
   absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
-assertPart("MT29C4G48MAYBBAHK-48 IT", {
+assertRuleDecode("MT29C4G48MAYBBAHK-48 IT", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 4096,
@@ -157,7 +157,7 @@ assertPart("MT29C4G48MAYBBAHK-48 IT", {
   absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
-assertPart("MT29C8G48MAPLDJA-75ITES", {
+assertRuleDecode("MT29C8G48MAPLDJA-75ITES", {
   vendor: "micron",
   type: "eMCP",
   densityMbit: 8192,

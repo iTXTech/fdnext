@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import Ajv2020 from "ajv/dist/2020.js";
+import type { AnySchema, ErrorObject, ValidateFunction } from "ajv";
 import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -25,8 +27,6 @@ const rootPackageMetadata = parseJson(fileURLToPath(new URL("../../../package.js
 assert.equal(typeof rootPackageMetadata.version, "string", "root package metadata must expose a version");
 const fdnextPackageVersion = rootPackageMetadata.version as string;
 
-type SchemaObject = Exclude<JsonSchema, boolean> & Record<string, unknown>;
-
 function isObject(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
@@ -35,125 +35,18 @@ function parseJson(path: string): unknown {
   return JSON.parse(readFileSync(path, "utf8"));
 }
 
-function sameJson(a: unknown, b: unknown): boolean {
-  return JSON.stringify(a) === JSON.stringify(b);
-}
+const schemaValidator = new Ajv2020({ allErrors: true, strict: true });
+const compiledSchemas = new Map<JsonSchema, ValidateFunction>();
 
-function resolveRef(root: JsonSchema, ref: string): JsonSchema {
-  assert.ok(ref.startsWith("#/"), `Only local JSON Schema refs are supported in tests: ${ref}`);
-  let current: unknown = root;
-  for (const part of ref.slice(2).split("/")) {
-    const key = part.replaceAll("~1", "/").replaceAll("~0", "~");
-    assert.ok(isObject(current), `Cannot resolve ${ref} through ${key}`);
-    current = current[key];
+function validate(schema: JsonSchema, value: unknown): string[] {
+  let validator = compiledSchemas.get(schema);
+  if (!validator) {
+    validator = schemaValidator.compile(schema as AnySchema);
+    compiledSchemas.set(schema, validator);
   }
-  assert.ok(typeof current === "boolean" || isObject(current), `Resolved ${ref} is not a schema`);
-  return current as JsonSchema;
-}
-
-function typeMatches(expected: string, value: unknown): boolean {
-  if (expected === "array") return Array.isArray(value);
-  if (expected === "integer") return Number.isInteger(value);
-  if (expected === "null") return value === null;
-  if (expected === "object") return isObject(value);
-  if (expected === "number") return typeof value === "number" && Number.isFinite(value);
-  return typeof value === expected;
-}
-
-function validate(schema: JsonSchema, value: unknown, path = "$", root: JsonSchema = schema): string[] {
-  if (typeof schema === "boolean") {
-    return schema ? [] : [`${path}: schema is false`];
-  }
-
-  const current = schema as SchemaObject;
-  const ref = current.$ref;
-  if (typeof ref === "string") {
-    return validate(resolveRef(root, ref), value, path, root);
-  }
-
-  const errors: string[] = [];
-  if (Object.hasOwn(current, "const") && !sameJson(value, current.const)) {
-    errors.push(`${path}: expected const ${JSON.stringify(current.const)}`);
-  }
-
-  if (Array.isArray(current.enum) && !current.enum.some((item) => sameJson(item, value))) {
-    errors.push(`${path}: expected one of ${JSON.stringify(current.enum)}`);
-  }
-
-  if (Array.isArray(current.anyOf)) {
-    const matched = current.anyOf.some((candidate) => validate(candidate as JsonSchema, value, path, root).length === 0);
-    if (!matched) {
-      errors.push(`${path}: did not match anyOf`);
-    }
-  }
-
-  if (Array.isArray(current.oneOf)) {
-    const matches = current.oneOf.filter((candidate) => validate(candidate as JsonSchema, value, path, root).length === 0);
-    if (matches.length !== 1) {
-      errors.push(`${path}: matched ${matches.length} oneOf branches`);
-    }
-  }
-
-  const declaredType = current.type;
-  const types = Array.isArray(declaredType) ? declaredType : typeof declaredType === "string" ? [declaredType] : [];
-  if (types.length > 0 && !types.some((type) => typeMatches(type, value))) {
-    errors.push(`${path}: expected type ${types.join(" | ")}`);
-    return errors;
-  }
-
-  if (isObject(value) && (current.properties || current.required || current.additionalProperties !== undefined)) {
-    const properties = isObject(current.properties) ? (current.properties as Record<string, JsonSchema>) : {};
-    const required = Array.isArray(current.required) ? current.required : [];
-    for (const requiredKey of required) {
-      if (typeof requiredKey === "string" && !Object.hasOwn(value, requiredKey)) {
-        errors.push(`${path}: missing required ${requiredKey}`);
-      }
-    }
-
-    for (const [key, item] of Object.entries(value)) {
-      const propertySchema = properties[key];
-      if (propertySchema) {
-        errors.push(...validate(propertySchema, item, `${path}.${key}`, root));
-      } else if (current.additionalProperties === false) {
-        errors.push(`${path}.${key}: additional property is not allowed`);
-      } else if (typeof current.additionalProperties === "object") {
-        errors.push(...validate(current.additionalProperties as JsonSchema, item, `${path}.${key}`, root));
-      }
-    }
-  }
-
-  if (Array.isArray(value) && current.items) {
-    if (typeof current.minItems === "number" && value.length < current.minItems) {
-      errors.push(`${path}: expected at least ${current.minItems} items`);
-    }
-    if (current.uniqueItems === true) {
-      const unique = new Set(value.map((item) => JSON.stringify(item)));
-      if (unique.size !== value.length) {
-        errors.push(`${path}: expected unique items`);
-      }
-    }
-    value.forEach((item, index) => {
-      errors.push(...validate(current.items as JsonSchema, item, `${path}[${index}]`, root));
-    });
-  }
-
-  if (typeof value === "string") {
-    if (typeof current.minLength === "number" && value.length < current.minLength) {
-      errors.push(`${path}: expected minLength ${current.minLength}`);
-    }
-    if (typeof current.pattern === "string" && !new RegExp(current.pattern).test(value)) {
-      errors.push(`${path}: expected pattern ${current.pattern}`);
-    }
-  }
-
-  if (typeof value === "number" && typeof current.minimum === "number" && value < current.minimum) {
-    errors.push(`${path}: expected minimum ${current.minimum}`);
-  }
-  if (typeof value === "number" && typeof current.maximum === "number" && value > current.maximum) {
-    errors.push(`${path}: expected maximum ${current.maximum}`);
-  }
-
-  return errors;
+  return validator(value)
+    ? []
+    : (validator.errors ?? []).map((error: ErrorObject) => `${error.instancePath || "$"} ${error.message ?? error.keyword}`);
 }
 
 function assertValid(name: string, schema: JsonSchema, value: unknown): void {

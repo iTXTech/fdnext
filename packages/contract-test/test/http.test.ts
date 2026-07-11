@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createHttpServer } from "../../server/src/index";
+import { createHttpServer } from "@itxtech/fdnext-server";
 import { createContractEngine } from "../src/index";
 import {
   assertCapabilitiesBuildTime,

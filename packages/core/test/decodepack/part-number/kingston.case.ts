@@ -22,7 +22,7 @@ import {
   assertMicronManagedFbgaMarking,
   assertNoAdditionalFields,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -32,7 +32,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("EMMC64G-TY29", {
+assertRuleDecode("EMMC64G-TY29", {
   vendor: "kingston",
   type: "eMMC",
   densityMbit: 524288,
@@ -46,7 +46,7 @@ assertPart("EMMC64G-TY29", {
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("EMMC128-IY29", {
+assertRuleDecode("EMMC128-IY29", {
   vendor: "kingston",
   type: "eMMC",
   densityMbit: 1048576,
@@ -59,7 +59,7 @@ assertPart("EMMC128-IY29", {
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("UFS128-CY14", {
+assertRuleDecode("UFS128-CY14", {
   vendor: "kingston",
   type: "UFS",
   densityMbit: 1048576,
@@ -72,7 +72,7 @@ assertPart("UFS128-CY14", {
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("64EM32-M4GTY9B", {
+assertRuleDecode("64EM32-M4GTY9B", {
   vendor: "kingston",
   type: "eMCP",
   densityMbit: 524288,

@@ -21,7 +21,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertRuleDraftDieProfileMeta,
@@ -74,7 +74,7 @@ assertRuleDraftDieProfile("vendor.intel.token.v1", "PF29P64G2ALDNF1", "3D-XP G1"
 assertRuleDraftDieProfileMeta("vendor.intel.token.v1", "PF29F01T2ANCMG2", "L06B");
 assertRuleDraftDieProfileMeta("vendor.intel.token.v1", "PF29F16P2BWCQL1", undefined);
 assertRuleDraftDieProfileMeta("vendor.intel.token.v1", "PF29P64G2ALDNF1", undefined);
-assertPart("PF29F01T2ANCMG2", {
+assertRuleDecode("PF29F01T2ANCMG2", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 1048576,
@@ -86,7 +86,7 @@ assertPart("PF29F01T2ANCMG2", {
   },
   absentExtra: ["Product Generation"]
 });
-assertPart("PF29F01T2ANCTG3", {
+assertRuleDecode("PF29F01T2ANCTG3", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 1572864,
@@ -98,7 +98,7 @@ assertPart("PF29F01T2ANCTG3", {
   },
   absentExtra: ["Product Generation"]
 });
-assertPart("PF29F01T2ANCTH2", {
+assertRuleDecode("PF29F01T2ANCTH2", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 1048576,
@@ -110,7 +110,7 @@ assertPart("PF29F01T2ANCTH2", {
   },
   absentExtra: ["Product Generation"]
 });
-assertPart("PF29F01T2AMCTH1", {
+assertRuleDecode("PF29F01T2AMCTH1", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 1048576,
@@ -122,7 +122,7 @@ assertPart("PF29F01T2AMCTH1", {
   },
   absentExtra: ["Product Generation"]
 });
-assertPart("PF29F64B2ALCTJ1", {
+assertRuleDecode("PF29F64B2ALCTJ1", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 524288,
@@ -134,7 +134,7 @@ assertPart("PF29F64B2ALCTJ1", {
   },
   absentExtra: ["Product Generation"]
 });
-assertPart("PF29F01T08OCMF2", {
+assertRuleDecode("PF29F01T08OCMF2", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 1048576,
@@ -145,7 +145,7 @@ assertPart("PF29F01T08OCMF2", {
     "Process Alias": "L85A"
   }
 });
-assertPart("PF29F01T08OCMFS", {
+assertRuleDecode("PF29F01T08OCMFS", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 1048576,
@@ -156,7 +156,7 @@ assertPart("PF29F01T08OCMFS", {
     "Process Alias": "L85C"
   }
 });
-assertPart("PF29F01T08OCMFP", {
+assertRuleDecode("PF29F01T08OCMFP", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 1048576,
@@ -167,7 +167,7 @@ assertPart("PF29F01T08OCMFP", {
     "Process Alias": "L85C"
   }
 });
-assertPart("JS29F16G08AAMD2", {
+assertRuleDecode("JS29F16G08AAMD2", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 16384,
@@ -178,7 +178,7 @@ assertPart("JS29F16G08AAMD2", {
     "Process Alias": "L62A"
   }
 });
-assertPart("JS29F32G08AAMD1", {
+assertRuleDecode("JS29F32G08AAMD1", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 32768,
@@ -189,7 +189,7 @@ assertPart("JS29F32G08AAMD1", {
     "Process Alias": "L63A"
   }
 });
-assertPart("JS29F32G08AAMDB", {
+assertRuleDecode("JS29F32G08AAMDB", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 32768,
@@ -200,7 +200,7 @@ assertPart("JS29F32G08AAMDB", {
     "Process Alias": "L63B"
   }
 });
-assertPart("JS29F16G08AAME1", {
+assertRuleDecode("JS29F16G08AAME1", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 16384,
@@ -211,7 +211,7 @@ assertPart("JS29F16G08AAME1", {
     "Process Alias": "L72A"
   }
 });
-assertPart("JS29F32G08AAME1", {
+assertRuleDecode("JS29F32G08AAME1", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 32768,
@@ -222,7 +222,7 @@ assertPart("JS29F32G08AAME1", {
     "Process Alias": "L73A"
   }
 });
-assertPart("JS29F64G08AATE1", {
+assertRuleDecode("JS29F64G08AATE1", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 65536,
@@ -233,7 +233,7 @@ assertPart("JS29F64G08AATE1", {
     "Process Alias": "B74A"
   }
 });
-assertPart("JS29F32G08ACNE1", {
+assertRuleDecode("JS29F32G08ACNE1", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 32768,
@@ -244,7 +244,7 @@ assertPart("JS29F32G08ACNE1", {
     "Process Alias": "M73A"
   }
 });
-assertPart("PF29F64B08OCME1", {
+assertRuleDecode("PF29F64B08OCME1", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 524288,
@@ -255,7 +255,7 @@ assertPart("PF29F64B08OCME1", {
     "Process Alias": "L74A"
   }
 });
-assertPart("PF29F16B08MCMF1", {
+assertRuleDecode("PF29F16B08MCMF1", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 131072,
@@ -266,7 +266,7 @@ assertPart("PF29F16B08MCMF1", {
     "Process Alias": "L84A"
   }
 });
-assertPart("PF29F16B08MCMFH", {
+assertRuleDecode("PF29F16B08MCMFH", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 131072,
@@ -277,7 +277,7 @@ assertPart("PF29F16B08MCMFH", {
     "Process Alias": "L84C"
   }
 });
-assertPart("PF29F16B08MCMFS", {
+assertRuleDecode("PF29F16B08MCMFS", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 131072,
@@ -288,7 +288,7 @@ assertPart("PF29F16B08MCMFS", {
     "Process Alias": "L84C"
   }
 });
-assertPart("PF29F01T2ALCQK2", {
+assertRuleDecode("PF29F01T2ALCQK2", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 1048576,
@@ -300,7 +300,7 @@ assertPart("PF29F01T2ALCQK2", {
   },
   absentExtra: ["Product Generation"]
 });
-assertPart("PF29F01T2BLCQKM", {
+assertRuleDecode("PF29F01T2BLCQKM", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 1048576,
@@ -312,7 +312,7 @@ assertPart("PF29F01T2BLCQKM", {
   },
   absentExtra: ["Product Generation"]
 });
-assertPart("PF29F16P2BWCQKM", {
+assertRuleDecode("PF29F16P2BWCQKM", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 22413312,
@@ -327,7 +327,7 @@ assertPart("PF29F16P2BWCQKM", {
   },
   absentExtra: ["Product Generation"]
 });
-assertPart("PF29F16P2BWCQL1", {
+assertRuleDecode("PF29F16P2BWCQL1", {
   vendor: "intel",
   type: "NAND",
   densityMbit: 22413312,
@@ -341,7 +341,7 @@ assertPart("PF29F16P2BWCQL1", {
   },
   absentExtra: ["Device Width"]
 });
-assertPart("PF29P64G2ALDNF1", {
+assertRuleDecode("PF29P64G2ALDNF1", {
   vendor: "intel",
   type: "3D XPoint",
   densityMbit: 65536,
@@ -355,4 +355,3 @@ assertPart("PF29P64G2ALDNF1", {
   },
   absentExtra: ["Cell Level", "Voltage"]
 });
-assertDieProfileFromFdbProcess("29F02T08SCMFP", "20nm", undefined, "L85C");

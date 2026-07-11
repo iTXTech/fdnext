@@ -35,14 +35,7 @@ function fullEngine(): ReturnType<typeof createEngine> {
   return fullEngineCache;
 }
 
-export const engine: ReturnType<typeof createEngine> = {
-  getVersion: () => decodeEngine.getVersion(),
-  getCapabilities: (input) => fullEngine().getCapabilities(input),
-  decodePart: (input) => decodeEngine.decodePart(input),
-  searchParts: (input) => fullEngine().searchParts(input),
-  decodeIdentifier: (input) => fullEngine().decodeIdentifier(input),
-  searchIdentifiers: (input) => fullEngine().searchIdentifiers(input)
-};
+export const engine = decodeEngine;
 
 export const engineWithoutFdb = createEngine({
   resources: decodeOnlyResourceBundle,
@@ -355,8 +348,8 @@ export function densityField(result: PartDecodeResult): FieldValue | undefined {
   return firstField(result, "density", "storage_density", "dram_density");
 }
 
-export function detect(partNumber: string, useFullEngine = false): TestPartInfo {
-  const result = (useFullEngine ? fullEngine() : decodeEngine).decodePart({ query: partNumber, lang: "eng" });
+export function detect(partNumber: string): TestPartInfo {
+  const result = decodeEngine.decodePart({ query: partNumber, lang: "eng" });
   assertPublicPartNumberOutput(partNumber, result);
   const density = densityField(result);
   const detailFields: Record<string, unknown> = {};
@@ -393,7 +386,6 @@ export function assertKnownOrOmitted(actual: unknown, expected: unknown, message
 
 export interface ExpectedPartInfo {
   vendor: string;
-  markingCode?: string;
   type: string;
   densityMbit?: number;
   density?: string;
@@ -408,15 +400,9 @@ export interface ExpectedPartInfo {
   absentExtra?: string[];
 }
 
-export function assertPart(partNumber: string, expected: ExpectedPartInfo): void {
-  let info = detect(partNumber);
-  if (shouldRetryFullPartDecode(info, expected)) {
-    info = detect(partNumber, true);
-  }
+export function assertRuleDecode(partNumber: string, expected: ExpectedPartInfo): void {
+  const info = detect(partNumber);
   assert.equal(info.vendor, expected.vendor, partNumber);
-  if (expected.markingCode !== undefined) {
-    assert.equal(info.markingCode, expected.markingCode, partNumber);
-  }
   assert.equal(info.type, expected.type, partNumber);
 
   if (expected.densityMbit !== undefined) {
@@ -467,28 +453,9 @@ export function assertPart(partNumber: string, expected: ExpectedPartInfo): void
   }
 }
 
-function shouldRetryFullPartDecode(info: TestPartInfo, expected: ExpectedPartInfo): boolean {
-  if (expected.markingCode !== undefined || (expected.vendor !== undefined && info.vendor === undefined)) {
-    return true;
-  }
-  if (expected.dieProfileField !== undefined && info.dieProfileField === undefined) {
-    return true;
-  }
-  const detailFields = extra(info);
-  for (const [key, value] of Object.entries(expected.extra ?? {})) {
-    if (hiddenPublicCodeExtraKeys.has(key)) {
-      continue;
-    }
-    if (value !== undefined && detailFields[key] === undefined) {
-      return true;
-    }
-  }
-  return false;
-}
-
 export function testPart(partNumber: string, expected: ExpectedPartInfo, name = `decodes ${partNumber}`): void {
   test(name, () => {
-    assertPart(partNumber, expected);
+    assertRuleDecode(partNumber, expected);
   });
 }
 

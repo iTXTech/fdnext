@@ -21,7 +21,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -31,7 +31,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("MTFC4GACAJCN-1M WT", {
+assertRuleDecode("MTFC4GACAJCN-1M WT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 32768,
@@ -44,7 +44,7 @@ assertPart("MTFC4GACAJCN-1M WT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Component Generation", "Product Family", "Group"]
 });
 
-assertPart("MTFC8GLTEA-WT", {
+assertRuleDecode("MTFC8GLTEA-WT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 65536,
@@ -57,7 +57,7 @@ assertPart("MTFC8GLTEA-WT", {
   }
 });
 
-assertPart("MTFC256GASAONS-IT", {
+assertRuleDecode("MTFC256GASAONS-IT", {
   vendor: "micron",
   type: "UFS",
   densityMbit: 2097152,
@@ -68,7 +68,7 @@ assertPart("MTFC256GASAONS-IT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Family", "Group"]
 });
 
-assertPart("MTFC64GASAOEA-WT", {
+assertRuleDecode("MTFC64GASAOEA-WT", {
   vendor: "micron",
   type: "UFS",
   densityMbit: 524288,
@@ -83,7 +83,7 @@ assertPart("MTFC64GASAOEA-WT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Family", "Group"]
 });
 
-assertPart("MTFC128GARATEK-WT", {
+assertRuleDecode("MTFC128GARATEK-WT", {
   vendor: "micron",
   type: "UFS",
   densityMbit: 1048576,
@@ -97,7 +97,7 @@ assertPart("MTFC128GARATEK-WT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Family", "Group"]
 });
 
-assertPart("MTFC512GAXATHJ-WT", {
+assertRuleDecode("MTFC512GAXATHJ-WT", {
   vendor: "micron",
   type: "UFS",
   densityMbit: 4194304,
@@ -111,7 +111,7 @@ assertPart("MTFC512GAXATHJ-WT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Family", "Group"]
 });
 
-assertPart("MTFC64GBCAVAL-AIT", {
+assertRuleDecode("MTFC64GBCAVAL-AIT", {
   vendor: "micron",
   type: "UFS",
   densityMbit: 524288,
@@ -121,7 +121,7 @@ assertPart("MTFC64GBCAVAL-AIT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
 
-assertPart("MTFC128GBCAQTC-AIT", {
+assertRuleDecode("MTFC128GBCAQTC-AIT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 1048576,
@@ -135,7 +135,7 @@ assertPart("MTFC128GBCAQTC-AIT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("MTFC1TAYAXHR-WT", {
+assertRuleDecode("MTFC1TAYAXHR-WT", {
   vendor: "micron",
   type: "UFS",
   densityMbit: 8388608,
@@ -145,25 +145,22 @@ assertPart("MTFC1TAYAXHR-WT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
 
-assertPart("MTFC256GZZZZZZ-WT", {
+assertRuleDecode("MTFC256GZZZZZZ-WT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 2097152,
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
 
-assertPart("MTFC256GZZZZZZWT", {
+assertRuleDecode("MTFC256GZZZZZZWT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 2097152,
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
 
-assertMicronManagedFbgaMarking("JW101", "MT29C1G12MABAAHB-75IT", "emcp");
-assertMicronManagedFbgaMarking("JZ018", "MT29VZZZ7D7DQKWL-062W97Y", "umcp");
-assertMicronManagedFbgaMarking("JZ101", "MTFC64GAOALEA-WTES", "emmc");
 
-assertPart("MTFDDAC128MAG-1G12AA", {
+assertRuleDecode("MTFDDAC128MAG-1G12AA", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 1048576,
@@ -183,7 +180,7 @@ assertPart("MTFDDAC128MAG-1G12AA", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Hardware Feature Code"]
 });
 
-assertPart("MTFDDAK120MAV-1AE12ABYYES", {
+assertRuleDecode("MTFDDAK120MAV-1AE12ABYYES", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 983040,
@@ -204,7 +201,7 @@ assertPart("MTFDDAK120MAV-1AE12ABYYES", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
 });
 
-assertPart("MTFDEAC200MBB-1AE12ABYY", {
+assertRuleDecode("MTFDEAC200MBB-1AE12ABYY", {
   vendor: "micron",
   type: "SAS",
   densityMbit: 1638400,
@@ -220,7 +217,7 @@ assertPart("MTFDEAC200MBB-1AE12ABYY", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAV120MAZ-1AE12ABHAES", {
+assertRuleDecode("MTFDDAV120MAZ-1AE12ABHAES", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 983040,
@@ -236,7 +233,7 @@ assertPart("MTFDDAV120MAZ-1AE12ABHAES", {
   absentExtra: ["Customer Designator", "Product Family Code", "NAND Component Code", "Hardware Feature Code"]
 });
 
-assertPart("MTFDDAT120MAZ-1AE12ABHAES", {
+assertRuleDecode("MTFDDAT120MAZ-1AE12ABHAES", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 983040,
@@ -252,7 +249,7 @@ assertPart("MTFDDAT120MAZ-1AE12ABHAES", {
   absentExtra: ["Customer Designator", "Product Family Code", "NAND Component Code", "Hardware Feature Code"]
 });
 
-assertPart("MTFDDAK032SBD-1AH12ITYY", {
+assertRuleDecode("MTFDDAK032SBD-1AH12ITYY", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 262144,
@@ -268,7 +265,7 @@ assertPart("MTFDDAK032SBD-1AH12ITYY", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAK064SBD-1AK12ITYY", {
+assertRuleDecode("MTFDDAK064SBD-1AK12ITYY", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 524288,
@@ -282,7 +279,7 @@ assertPart("MTFDDAK064SBD-1AK12ITYY", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAY120MBD-AAK12AIYYES", {
+assertRuleDecode("MTFDDAY120MBD-AAK12AIYYES", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 983040,
@@ -300,7 +297,7 @@ assertPart("MTFDDAY120MBD-AAK12AIYYES", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAY240MBD-1AK12AIYY", {
+assertRuleDecode("MTFDDAY240MBD-1AK12AIYY", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 1966080,
@@ -315,7 +312,7 @@ assertPart("MTFDDAY240MBD-1AK12AIYY", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAK060MBD-2AH12ITYY", {
+assertRuleDecode("MTFDDAK060MBD-2AH12ITYY", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 491520,
@@ -331,7 +328,7 @@ assertPart("MTFDDAK060MBD-2AH12ITYY", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAK120MBD-1AE12ITYY", {
+assertRuleDecode("MTFDDAK120MBD-1AE12ITYY", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 983040,
@@ -348,7 +345,7 @@ assertPart("MTFDDAK120MBD-1AE12ITYY", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAT060MBD-1AH12AIYY", {
+assertRuleDecode("MTFDDAT060MBD-1AH12AIYY", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 491520,
@@ -365,7 +362,7 @@ assertPart("MTFDDAT060MBD-1AH12AIYY", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAT120MBD-AAK12AIYYES", {
+assertRuleDecode("MTFDDAT120MBD-AAK12AIYYES", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 983040,
@@ -383,7 +380,7 @@ assertPart("MTFDDAT120MBD-AAK12AIYYES", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAK060MBD-1AH12AIRA", {
+assertRuleDecode("MTFDDAK060MBD-1AH12AIRA", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 491520,
@@ -400,7 +397,7 @@ assertPart("MTFDDAK060MBD-1AH12AIRA", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAK240MBD-AAK12AIRAES", {
+assertRuleDecode("MTFDDAK240MBD-AAK12AIRAES", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 1966080,
@@ -418,7 +415,7 @@ assertPart("MTFDDAK240MBD-AAK12AIRAES", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAK160MBD-1AE12AIYY", {
+assertRuleDecode("MTFDDAK160MBD-1AE12AIYY", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 1310720,
@@ -435,7 +432,7 @@ assertPart("MTFDDAK160MBD-1AE12AIYY", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAK060MBD-2AH12AIYY", {
+assertRuleDecode("MTFDDAK060MBD-2AH12AIYY", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 491520,
@@ -452,7 +449,7 @@ assertPart("MTFDDAK060MBD-2AH12AIYY", {
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDGAL175SAH-1NA4ABES", {
+assertRuleDecode("MTFDGAL175SAH-1NA4ABES", {
   vendor: "micron",
   type: "managed_nand",
   densityMbit: 1433600,
@@ -468,7 +465,7 @@ assertPart("MTFDGAL175SAH-1NA4ABES", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Hardware Feature Code"]
 });
 
-assertPart("MTFDGAR1400MAX-1JAABES", {
+assertRuleDecode("MTFDGAR1400MAX-1JAABES", {
   vendor: "micron",
   type: "managed_nand",
   densityMbit: 11468800,
@@ -483,7 +480,7 @@ assertPart("MTFDGAR1400MAX-1JAABES", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Hardware Feature Code"]
 });
 
-assertPart("MTFDDAK480TGA-1BC16ABYYES", {
+assertRuleDecode("MTFDDAK480TGA-1BC16ABYYES", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 3932160,
@@ -499,7 +496,7 @@ assertPart("MTFDDAK480TGA-1BC16ABYYES", {
   absentExtra: ["Form Factor Code", "Product Family Code", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAV1T9TGB-1BC15TAYY", {
+assertRuleDecode("MTFDDAV1T9TGB-1BC15TAYY", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 15728640,
@@ -514,7 +511,7 @@ assertPart("MTFDDAV1T9TGB-1BC15TAYY", {
   absentExtra: ["Form Factor Code", "Product Family Code", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDKCC30T7TGR-1BK1JABYY", {
+assertRuleDecode("MTFDKCC30T7TGR-1BK1JABYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 251658240,
@@ -529,7 +526,7 @@ assertPart("MTFDKCC30T7TGR-1BK1JABYY", {
   absentExtra: ["NAND Component", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDKBN30T7TGR-1BK4DABYY", {
+assertRuleDecode("MTFDKBN30T7TGR-1BK4DABYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 251658240,
@@ -544,7 +541,7 @@ assertPart("MTFDKBN30T7TGR-1BK4DABYY", {
   absentExtra: ["NAND Component", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
 });
 
-assertPart("MTEDBTH008MBA-1K1", {
+assertRuleDecode("MTEDBTH008MBA-1K1", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 65536,
@@ -562,7 +559,7 @@ assertPart("MTEDBTH008MBA-1K1", {
   absentExtra: ["NAND Component Code", "Hardware Feature Code", "Security Feature Set"]
 });
 
-assertPart("MTFDLAL61T4THL-1BK4DABYY", {
+assertRuleDecode("MTFDLAL61T4THL-1BK4DABYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 503316480,
@@ -578,7 +575,7 @@ assertPart("MTFDLAL61T4THL-1BK4DABYY", {
   absentExtra: ["NAND Component", "NAND Component Code", "Customer Designator"]
 });
 
-assertPart("MTFDKBZ480TFR-1BC4ZABYY", {
+assertRuleDecode("MTFDKBZ480TFR-1BC4ZABYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 3932160,
@@ -594,7 +591,7 @@ assertPart("MTFDKBZ480TFR-1BC4ZABYY", {
   absentExtra: ["NAND Component", "NAND Component Code", "Customer Designator"]
 });
 
-assertPart("MTFDKCC15T3TGQ-1BK1DABYYES", {
+assertRuleDecode("MTFDKCC15T3TGQ-1BK1DABYYES", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 125829120,
@@ -611,7 +608,7 @@ assertPart("MTFDKCC15T3TGQ-1BK1DABYYES", {
   absentExtra: ["NAND Component", "NAND Component Code", "Customer Designator"]
 });
 
-assertPart("MTFDLBQ3T8THG-2BP1JFCYY", {
+assertRuleDecode("MTFDLBQ3T8THG-2BP1JFCYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 31457280,
@@ -632,7 +629,7 @@ assertPart("MTFDLBQ3T8THG-2BP1JFCYY", {
   absentExtra: ["NAND Component Code", "Customer Designator"]
 });
 
-assertPart("MTFDKBA512QGN-1BD1AABYYES", {
+assertRuleDecode("MTFDKBA512QGN-1BD1AABYYES", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 4194304,
@@ -648,7 +645,7 @@ assertPart("MTFDKBA512QGN-1BD1AABYYES", {
   absentExtra: ["NAND Component", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDKCD256TGW-1BP15ABYYES", {
+assertRuleDecode("MTFDKCD256TGW-1BP15ABYYES", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 2097152,
@@ -664,7 +661,7 @@ assertPart("MTFDKCD256TGW-1BP15ABYYES", {
   absentExtra: ["NAND Component", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDKBA2T0TGD-1BK15ABYYES", {
+assertRuleDecode("MTFDKBA2T0TGD-1BK15ABYYES", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 16777216,
@@ -680,7 +677,7 @@ assertPart("MTFDKBA2T0TGD-1BK15ABYYES", {
   absentExtra: ["NAND Component", "NAND Component Code", "Hardware Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDLBA4T0THJ-1BP1KABYY", {
+assertRuleDecode("MTFDLBA4T0THJ-1BP1KABYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 33554432,
@@ -696,7 +693,7 @@ assertPart("MTFDLBA4T0THJ-1BP1KABYY", {
   absentExtra: ["NAND Component Code", "Hardware Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDKCC12TBTGJ-1BC4ZABYY", {
+assertRuleDecode("MTFDKCC12TBTGJ-1BC4ZABYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 104857600,
@@ -710,7 +707,7 @@ assertPart("MTFDKCC12TBTGJ-1BC4ZABYY", {
   absentExtra: ["NAND Component", "NAND Component Code", "Firmware Code", "Customer Designator"]
 });
 
-assertPart("MTFDKEL128THE-1BM15ATYY", {
+assertRuleDecode("MTFDKEL128THE-1BM15ATYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 1048576,
@@ -725,7 +722,7 @@ assertPart("MTFDKEL128THE-1BM15ATYY", {
   absentExtra: ["NAND Component", "NAND Component Code", "Firmware Code", "Customer Designator"]
 });
 
-assertPart("MTFDKEL128THE-ABM15ATYYES", {
+assertRuleDecode("MTFDKEL128THE-ABM15ATYYES", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 1048576,
@@ -740,7 +737,7 @@ assertPart("MTFDKEL128THE-ABM15ATYYES", {
   absentExtra: ["NAND Component", "NAND Component Code", "Firmware Code", "Customer Designator"]
 });
 
-assertPart("MTFDKEL220TGK-1BM45A2YY", {
+assertRuleDecode("MTFDKEL220TGK-1BM45A2YY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 1802240,
@@ -754,7 +751,7 @@ assertPart("MTFDKEL220TGK-1BM45A2YY", {
   absentExtra: ["NAND Component", "NAND Component Code", "Firmware Code", "Hardware Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDKER1T8TGK-ABM45A2YYES", {
+assertRuleDecode("MTFDKER1T8TGK-ABM45A2YYES", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 14745600,
@@ -767,7 +764,7 @@ assertPart("MTFDKER1T8TGK-ABM45A2YYES", {
   absentExtra: ["NAND Component", "NAND Component Code", "Firmware Code", "Hardware Feature Code", "Customer Designator"]
 });
 
-assertPart("MTFDDAC256MZZ-XYZ", {
+assertRuleDecode("MTFDDAC256MZZ-XYZ", {
   vendor: "micron",
   type: "SATA",
   densityMbit: 2097152,
@@ -779,7 +776,7 @@ assertPart("MTFDDAC256MZZ-XYZ", {
   absentExtra: ["Product Family", "Sector Size", "NAND Component", "Product Family Code", "NAND Component Code"]
 });
 
-assertPart("MTFDHBL064TDP-1AT12AIYY", {
+assertRuleDecode("MTFDHBL064TDP-1AT12AIYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 524288,
@@ -802,7 +799,7 @@ assertPart("MTFDHBL064TDP-1AT12AIYY", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
 });
 
-assertPart("MTFDHBM1T0TDP-1AT12AIYY", {
+assertRuleDecode("MTFDHBM1T0TDP-1AT12AIYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 8388608,
@@ -816,7 +813,7 @@ assertPart("MTFDHBM1T0TDP-1AT12AIYY", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
 });
 
-assertPart("MTFDHBK1T0TDP-1AT12AIYY", {
+assertRuleDecode("MTFDHBK1T0TDP-1AT12AIYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 8388608,
@@ -829,7 +826,7 @@ assertPart("MTFDHBK1T0TDP-1AT12AIYY", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
 });
 
-assertPart("MTFDHBL064TDQ-1AT12ATYY", {
+assertRuleDecode("MTFDHBL064TDQ-1AT12ATYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 524288,
@@ -844,7 +841,7 @@ assertPart("MTFDHBL064TDQ-1AT12ATYY", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
 });
 
-assertPart("MTFDHBK128TDQ-1AT12ATYY", {
+assertRuleDecode("MTFDHBK128TDQ-1AT12ATYY", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 1048576,
@@ -858,7 +855,7 @@ assertPart("MTFDHBK128TDQ-1AT12ATYY", {
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
 });
 
-assertPart("MTFDHBL128TDP-AAT12AIYYES", {
+assertRuleDecode("MTFDHBL128TDP-AAT12AIYYES", {
   vendor: "micron",
   type: "NVMe",
   densityMbit: 1048576,

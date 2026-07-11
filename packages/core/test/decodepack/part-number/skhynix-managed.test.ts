@@ -21,7 +21,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -31,7 +31,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("H26M78208CMRX", {
+assertRuleDecode("H26M78208CMRX", {
   vendor: "skhynix",
   type: "eMMC",
   densityMbit: 524288,
@@ -46,7 +46,7 @@ assertPart("H26M78208CMRX", {
   }
 });
 
-assertPart("H26M78208CMRN", {
+assertRuleDecode("H26M78208CMRN", {
   vendor: "skhynix",
   type: "eMMC",
   densityMbit: 524288,
@@ -61,7 +61,7 @@ assertPart("H26M78208CMRN", {
   }
 });
 
-assertPart("H26M31001HPR", {
+assertRuleDecode("H26M31001HPR", {
   vendor: "skhynix",
   type: "eMMC",
   densityMbit: 32768,
@@ -75,7 +75,7 @@ assertPart("H26M31001HPR", {
   }
 });
 
-assertPart("H26M88002AMR", {
+assertRuleDecode("H26M88002AMR", {
   vendor: "skhynix",
   type: "eMMC",
   densityMbit: 1048576,
@@ -89,7 +89,7 @@ assertPart("H26M88002AMR", {
   }
 });
 
-assertPart("H26M91208HPRX", {
+assertRuleDecode("H26M91208HPRX", {
   vendor: "skhynix",
   type: "eMMC",
   density: "Unknown",
@@ -102,7 +102,7 @@ assertPart("H26M91208HPRX", {
 });
 
 assertSkhynixHn8RuleMatches("HN8G95DJHQX148", ["vendor.skhynix.ufs.hn8.automotive-ufs31.v1"]);
-assertPart("HN8G95DJHQX148", {
+assertRuleDecode("HN8G95DJHQX148", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 524288,
@@ -118,7 +118,7 @@ assertPart("HN8G95DJHQX148", {
 });
 
 assertSkhynixHn8RuleMatches("HN8T25DJHVX111", ["vendor.skhynix.ufs.hn8.automotive-ufs31.v1"]);
-assertPart("HN8T25DJHVX111", {
+assertRuleDecode("HN8T25DJHVX111", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 4194304,
@@ -134,7 +134,7 @@ assertPart("HN8T25DJHVX111", {
 });
 
 assertSkhynixHn8RuleMatches("HN8T25DEHKX077N", ["vendor.skhynix.ufs.hn8.mobile-ufs31.v1"]);
-assertPart("HN8T25DEHKX077N", {
+assertRuleDecode("HN8T25DEHKX077N", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 4194304,
@@ -150,7 +150,7 @@ assertPart("HN8T25DEHKX077N", {
 });
 
 assertSkhynixHn8RuleMatches("HN8T35DZHKX079", ["vendor.skhynix.ufs.hn8.mobile-ufs31.v1"]);
-assertPart("HN8T35DZHKX079", {
+assertRuleDecode("HN8T35DZHKX079", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 8388608,
@@ -165,7 +165,7 @@ assertPart("HN8T35DZHKX079", {
 });
 
 assertSkhynixHn8RuleMatches("HN8G962EHKX037N", ["vendor.skhynix.ufs.hn8.ufs22-v7.v1"]);
-assertPart("HN8G962EHKX037N", {
+assertRuleDecode("HN8G962EHKX037N", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 524288,
@@ -180,7 +180,7 @@ assertPart("HN8G962EHKX037N", {
 });
 
 assertSkhynixHn8RuleMatches("HN8T062EHKX039", ["vendor.skhynix.ufs.hn8.ufs22-v7.v1"]);
-assertPart("HN8T062EHKX039", {
+assertRuleDecode("HN8T062EHKX039", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 1048576,
@@ -195,7 +195,7 @@ assertPart("HN8T062EHKX039", {
 });
 
 assertSkhynixHn8RuleMatches("HN8T162EHKX041", ["vendor.skhynix.ufs.hn8.ufs22-v7.v1"]);
-assertPart("HN8T162EHKX041", {
+assertRuleDecode("HN8T162EHKX041", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 2097152,
@@ -210,7 +210,7 @@ assertPart("HN8T162EHKX041", {
 });
 
 assertSkhynixHn8RuleMatches("HN8G961ZGKX031", ["vendor.skhynix.ufs.hn8.ufs22-v6.v1"]);
-assertPart("HN8G961ZGKX031", {
+assertRuleDecode("HN8G961ZGKX031", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 524288,
@@ -223,7 +223,7 @@ assertPart("HN8G961ZGKX031", {
 });
 
 assertSkhynixHn8RuleMatches("HN8T261ZGKX014", ["vendor.skhynix.ufs.hn8.ufs22-v6.v1"]);
-assertPart("HN8T261ZGKX014", {
+assertRuleDecode("HN8T261ZGKX014", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 4194304,
@@ -236,7 +236,7 @@ assertPart("HN8T261ZGKX014", {
 });
 
 assertSkhynixHn8RuleMatches("HN8T274EJKX130", ["vendor.skhynix.ufs.hn8.zufs41.v1"]);
-assertPart("HN8T274EJKX130", {
+assertRuleDecode("HN8T274EJKX130", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 4194304,
@@ -250,7 +250,7 @@ assertPart("HN8T274EJKX130", {
 });
 
 assertSkhynixHn8RuleMatches("HN8T374ZJKX141", ["vendor.skhynix.ufs.hn8.zufs41.v1"]);
-assertPart("HN8T374ZJKX141", {
+assertRuleDecode("HN8T374ZJKX141", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 8388608,
@@ -263,7 +263,7 @@ assertPart("HN8T374ZJKX141", {
   absentExtra: ["System", "Group", "Product Version"]
 });
 
-assertPart("H28SAO301MMR", {
+assertRuleDecode("H28SAO301MMR", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 4194304,
@@ -273,7 +273,7 @@ assertPart("H28SAO301MMR", {
   }
 });
 
-assertPart("H28S8Q302CMR", {
+assertRuleDecode("H28S8Q302CMR", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 1048576,
@@ -283,7 +283,7 @@ assertPart("H28S8Q302CMR", {
   }
 });
 
-assertPart("H28U64222MMR", {
+assertRuleDecode("H28U64222MMR", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 262144,
@@ -298,7 +298,7 @@ assertPart("H28U64222MMR", {
   absentExtra: ["System", "Group", "Package Code", "Component Code"]
 });
 
-assertPart("H28U86222MCR", {
+assertRuleDecode("H28U86222MCR", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 1048576,

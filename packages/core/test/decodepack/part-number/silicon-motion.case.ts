@@ -21,7 +21,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -31,7 +31,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("SM662GXC-BFS", {
+assertRuleDecode("SM662GXC-BFS", {
   vendor: "siliconmotion",
   type: "eMMC",
   densityMbit: 524288,
@@ -49,7 +49,7 @@ assertPart("SM662GXC-BFS", {
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("SM662PBC-BFS", {
+assertRuleDecode("SM662PBC-BFS", {
   vendor: "siliconmotion",
   type: "eMMC",
   densityMbit: 524288,
@@ -66,7 +66,7 @@ assertPart("SM662PBC-BFS", {
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("SM671PEF-BFS", {
+assertRuleDecode("SM671PEF-BFS", {
   vendor: "siliconmotion",
   type: "UFS",
   densityMbit: 4194304,

@@ -21,7 +21,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -31,7 +31,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("YMEC6A1TC1A2C1", {
+assertRuleDecode("YMEC6A1TC1A2C1", {
   vendor: "ymtc",
   type: "eMMC",
   densityMbit: 262144,
@@ -50,7 +50,7 @@ assertPart("YMEC6A1TC1A2C1", {
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("YMEC8A2TB3A2C3", {
+assertRuleDecode("YMEC8A2TB3A2C3", {
   vendor: "ymtc",
   type: "eMMC",
   densityMbit: 1048576,
@@ -70,7 +70,7 @@ assertPart("YMEC8A2TB3A2C3", {
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("YMUS8A1TC1A2C1", {
+assertRuleDecode("YMUS8A1TC1A2C1", {
   vendor: "ymtc",
   type: "UFS",
   densityMbit: 1048576,
@@ -88,7 +88,7 @@ assertPart("YMUS8A1TC1A2C1", {
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("YMC6G001TB51AA1C0", {
+assertRuleDecode("YMC6G001TB51AA1C0", {
   vendor: "ymtc",
   type: "NAND",
   densityMbit: 1048576,
@@ -106,7 +106,7 @@ assertPart("YMC6G001TB51AA1C0", {
   absentExtra: ["Product Generation"]
 });
 
-assertPart("YMN0WQA2B1CC4C", {
+assertRuleDecode("YMN0WQA2B1CC4C", {
   vendor: "ymtc",
   type: "NAND",
   densityMbit: 2789212.16,
@@ -124,7 +124,7 @@ assertPart("YMN0WQA2B1CC4C", {
   absentExtra: ["Product Generation"]
 });
 
-assertPart("X3-9060", {
+assertRuleDecode("X3-9060", {
   vendor: "ymtc",
   type: "NAND",
   dieProfileField: "WYS",
@@ -139,7 +139,7 @@ assertPart("X3-9060", {
   absentExtra: ["Product Generation"]
 });
 
-assertPart("X39060", {
+assertRuleDecode("X39060", {
   vendor: "ymtc",
   type: "NAND",
   dieProfileField: "WYS",
@@ -154,7 +154,7 @@ assertPart("X39060", {
   absentExtra: ["Product Generation"]
 });
 
-assertPart("X3-9070", {
+assertRuleDecode("X3-9070", {
   vendor: "ymtc",
   type: "NAND",
   dieProfileField: "WDS",
@@ -169,7 +169,7 @@ assertPart("X3-9070", {
   absentExtra: ["Product Generation"]
 });
 
-assertPart("X4-9060", {
+assertRuleDecode("X4-9060", {
   vendor: "ymtc",
   type: "NAND",
   dieProfileField: "WTS",
@@ -184,7 +184,7 @@ assertPart("X4-9060", {
   absentExtra: ["Product Generation"]
 });
 
-assertPart("X4-9070", {
+assertRuleDecode("X4-9070", {
   vendor: "ymtc",
   type: "NAND",
   dieProfileField: "SQS",
@@ -199,7 +199,7 @@ assertPart("X4-9070", {
   absentExtra: ["Product Generation"]
 });
 
-assertPart("X4-6080", {
+assertRuleDecode("X4-6080", {
   vendor: "ymtc",
   type: "NAND",
   dieProfileField: "PTS",

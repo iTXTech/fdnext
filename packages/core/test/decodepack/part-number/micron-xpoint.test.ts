@@ -1,5 +1,5 @@
 import {
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile
 } from "./_helpers";
@@ -7,7 +7,7 @@ import {
 assertRuleDoesNotMatch("vendor.micron.xpoint.mtx.v1", "MTXP2TN2ARS-125AESX");
 assertRuleDraftDieProfile("vendor.micron.xpoint.mtx.v1", "MTXP2TN2ARS-125AES", "S26A");
 
-assertPart("MTXP2TN2ARS-125AES", {
+assertRuleDecode("MTXP2TN2ARS-125AES", {
   vendor: "micron",
   type: "3D XPoint",
   densityMbit: 2097152,
@@ -23,7 +23,7 @@ assertPart("MTXP2TN2ARS-125AES", {
   absentExtra: ["Speed Grade", "Cell Level"]
 });
 
-assertPart("MTXP128GA1BRJ-125", {
+assertRuleDecode("MTXP128GA1BRJ-125", {
   vendor: "micron",
   type: "3D XPoint",
   densityMbit: 131072,

@@ -35,6 +35,7 @@
     "packages/core/tsdown.config.ts",
     "packages/server/tsdown.config.ts",
     "packages/fdbgen/tsdown.config.ts",
-    "packages/cf-workers/tsdown.config.ts"
+    "packages/cf-workers/tsdown.config.ts",
+    "packages/aliyun-fc/tsdown.config.ts"
   ]
 }

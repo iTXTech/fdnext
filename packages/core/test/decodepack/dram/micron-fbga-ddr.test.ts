@@ -474,15 +474,6 @@ const crucialDdr4Expected = {
 
 assertDram("CT40A1G8SA-62M:E", crucialDdr4Expected);
 assertDram("CT40A1G8SA-062M:E", crucialDdr4Expected);
-assertDram("C9BJZ", {
-  ...crucialDdr4Expected,
-  extra: {
-    ...crucialDdr4Expected.extra,
-    "Marking Code": "C9BJZ"
-  }
-});
-assert.deepEqual(searchFbgaParts("C9BJZ"), ["CT40A1G8SA-62M:E"]);
-assert.deepEqual(searchFbgaParts("FX454"), []);
 assertDram("EDY4016AABG-JD-F-D", {
   densityMbit: 4096,
   density: "4Gb",
@@ -534,8 +525,6 @@ assertDram("EDY4016AABG-DR-F-D", {
     "Packing Type": "Dry pack (tray)"
   }
 });
-assertDecodedPartNumber("EDY4016AABG-JD-F-R TR", "EDY4016AABG-JD-F-R");
-assertSearchPnIncludes("EDY4016", "Micron EDY4016AABG-JD-F-D");
 assertDram("EDB2432B4MA-1DAAT-F-D", {
   vendor: "elpida",
   densityMbit: 2048,
@@ -578,7 +567,6 @@ assertDram("EE51K256M32HF-60:B", {
     "Operation Temperature": "Commercial"
   }
 });
-assert.deepEqual(searchFbgaParts("B9DHG"), ["MT47H32M16BT-3E"]);
 const ddr3KnownPackageExpected = {
   densityMbit: 8192,
   density: "8Gb",
@@ -593,15 +581,7 @@ const ddr3KnownPackageExpected = {
   }
 };
 assertDram("MT41K512M16HA-125:A", ddr3KnownPackageExpected);
-assertDram("D9STQ", {
-  ...ddr3KnownPackageExpected,
-  extra: {
-    ...ddr3KnownPackageExpected.extra,
-    "Marking Code": "D9STQ"
-  }
-});
-assertDecodedPartNumber("D9STQ", "MT41K512M16HA-125:A");
-assertDram("D9XLQ", {
+assertDram("MT41K512M16VRN-107IT:P", {
   densityMbit: 8192,
   density: "8Gb",
   widthField: "x16",
@@ -615,11 +595,9 @@ assertDram("D9XLQ", {
     "DRAM Speed": "DDR3-1866 CL13",
     "Operation Temperature": "Industrial (-40°C ~ 95°C)",
     "Solder Type": "Pb-free SAC302",
-    "Die Revision": "Rev P",
-    "Marking Code": "D9XLQ"
+    "Die Revision": "Rev P"
   }
 });
-assertDecodedPartNumber("D9XLQ", "MT41K512M16VRN-107IT:P");
 assertDram("MT41J128M8JP-125:F", {
   densityMbit: 1024,
   density: "1Gb",
@@ -923,7 +901,7 @@ for (const partNumber of [
   assert.doesNotMatch(packageValue, /Rev|ball|mm|pin|Unknown/i, `${partNumber} should not leak package notes`);
 }
 assertUnknown("AMD41J128M16HA-107G:D");
-assertDram("79JMM", {
+assertDram("MT47R64M16HR-3ES:E", {
   densityMbit: 1024,
   density: "1Gb",
   widthField: "x16",
@@ -934,8 +912,7 @@ assertDram("79JMM", {
     "DRAM Speed": "DDR2-666 CL5",
     "Operation Temperature": "Commercial",
     "Production Status": "Engineering Sample",
-    "Die Revision": "Rev E",
-    "Marking Code": "79JMM"
+    "Die Revision": "Rev E"
   }
 });
 

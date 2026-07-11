@@ -220,19 +220,6 @@ assertDram("PRA128M8V88AG8GQF", {
   },
   absentExtra: ["Config Code", "Package Code"]
 });
-assertDram("PE010", {
-  vendor: "spectek",
-  densityMbit: 1024,
-  density: "1Gb",
-  widthField: "x8",
-  voltage: "1.5V",
-  package: "FBGA-78/117, 8x10.5",
-  extra: {
-    "DRAM Type": "DDR3",
-    "Marking Code": "PE010"
-  },
-  absentExtra: ["Config Code", "Package Code"]
-});
 assertDram("SU512M8V80A11ARH", {
   vendor: "spectek",
   densityMbit: 4096,
@@ -244,28 +231,14 @@ assertDram("SU512M8V80A11ARH", {
   },
   absentExtra: ["Config Code", "Package Code"]
 });
-assertDram("PE002", {
-  vendor: "spectek",
-  densityMbit: 4096,
-  density: "4Gb",
-  widthField: "x8",
-  voltage: "Unknown",
-  extra: {
-    "DRAM Type": "DDR3",
-    "Marking Code": "PE002"
-  },
-  absentExtra: ["Config Code", "Package Code"]
-});
-assertSpectekSearchMarkingRelation("PE010", "PRA128M8V88AG8GQF");
-assertDram("PB001", {
+assertDram("SM512M322C0FD4LH6", {
   vendor: "spectek",
   densityMbit: 16384,
   density: "16Gb",
   widthField: "x32",
   voltage: "Unknown",
   extra: {
-    "DRAM Type": "DDR3",
-    "Marking Code": "PB001"
+    "DRAM Type": "DDR3"
   },
   absentExtra: ["Config Code", "Package Code"]
 });
@@ -409,9 +382,6 @@ assertDram("PRN512M8V00HG8GQF-125", {
   },
   absentExtra: ["Config Code", "Package Code", "Product Code", "Die Revision"]
 });
-assertSpectekSearchMarkingRelation("PEB09", "PRN512M8V70SGDRAF");
-assertSpectekSearchMarkingRelation("PE918", "PRN256M8V79DG8GQF");
-assertSpectekSearchMarkingRelation("PE027", "PRN512M8V00HG8GQF");
 assertDram("SGG256M4V88AG8GFF-125E", {
   vendor: "spectek",
   densityMbit: 1024,
@@ -598,15 +568,14 @@ assertDram("PRN4G8Z22AD8BAF-062E", {
   absentExtra: ["Config Code", "Package Code", "Product Code"]
 });
 assertDecodedField("PRN4G8Z22AD8BAF-062E", "dram_die_count", 2);
-assertDram("PU001", {
+assertDram("SM768M16Y2BMD1FDS", {
   vendor: "spectek",
   densityMbit: 12288,
   density: "12Gb",
   widthField: "x16",
   voltage: "1.05V VDD / 0.5V VDDQ",
   extra: {
-    "DRAM Type": "LPDDR",
-    "Marking Code": "PU001"
+    "DRAM Type": "LPDDR"
   },
   absentExtra: ["Config Code", "Package Code"]
 });
@@ -624,8 +593,6 @@ assertDram("SM8G32Y52PDAFDV-UT", {
   absentExtra: ["Config Code", "Package Code"]
 });
 assertDecodedField("SM8G32Y52PDAFDV-UT", "dram_die_count", 16);
-assertSpectekSearchMarkingRelation("PB001", "SM512M322C0FD4LH6");
-assertSpectekSearchMarkingRelation("PU001", "SM768M16Y2BMD1FDS");
 assertDram("SN512M32Z42MD1DNQ-053BT", {
   vendor: "spectek",
   densityMbit: 16384,

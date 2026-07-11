@@ -22,7 +22,7 @@ import {
   assertMicronManagedFbgaMarking,
   assertNoAdditionalFields,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -32,7 +32,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("H2DTDG8UD1MYR", {
+assertRuleDecode("H2DTDG8UD1MYR", {
   vendor: "skhynix",
   type: "E2NAND",
   densityMbit: 131072,
@@ -47,7 +47,7 @@ assertPart("H2DTDG8UD1MYR", {
   }
 });
 
-assertPart("H2JTDG8UD1BMS", {
+assertRuleDecode("H2JTDG8UD1BMS", {
   vendor: "skhynix",
   type: "E2NAND",
   densityMbit: 131072,
@@ -65,7 +65,7 @@ assertPart("H2JTDG8UD1BMS", {
   }
 });
 
-assertPart("H2JT1T8QD1MMR", {
+assertRuleDecode("H2JT1T8QD1MMR", {
   vendor: "skhynix",
   type: "E2NAND",
   densityMbit: 1048576,
@@ -82,7 +82,7 @@ assertPart("H2JT1T8QD1MMR", {
   }
 });
 
-assertPart("H23QDG8UD1ACS", {
+assertRuleDecode("H23QDG8UD1ACS", {
   vendor: "skhynix",
   type: "E3NAND",
   densityMbit: 131072,
@@ -98,7 +98,7 @@ assertPart("H23QDG8UD1ACS", {
   }
 });
 
-assertPart("H23Q1T8QK1MYR", {
+assertRuleDecode("H23Q1T8QK1MYR", {
   vendor: "skhynix",
   type: "E3NAND",
   densityMbit: 1048576,
@@ -126,7 +126,7 @@ for (const partNumber of [
   assert.ok(firstField(result, "die_count"), `${partNumber} should expose die_count`);
 }
 
-assertPart("H9TQ17ABJTMCUR-KUM", {
+assertRuleDecode("H9TQ17ABJTMCUR-KUM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 131072,
@@ -153,7 +153,7 @@ assertPart("H9TQ17ABJTMCUR-KUM", {
   absentExtra: ["CE Count", "Density Code", "Config Code"]
 });
 
-assertPart("H9TQ27ADFTMCUR-KUM", {
+assertRuleDecode("H9TQ27ADFTMCUR-KUM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 262144,
@@ -180,7 +180,7 @@ assertPart("H9TQ27ADFTMCUR-KUM", {
   absentExtra: ["Product Version", "CE Count", "Density Code", "Config Code"]
 });
 
-assertPart("H9TQ64A8GTACUR-KUM", {
+assertRuleDecode("H9TQ64A8GTACUR-KUM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 65536,
@@ -205,7 +205,7 @@ assertPart("H9TQ64A8GTACUR-KUM", {
   absentExtra: ["Product Version", "CE Count", "Density Code", "Config Code"]
 });
 
-assertPart("H9TP32A4GDBCPR-KGM", {
+assertRuleDecode("H9TP32A4GDBCPR-KGM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 32768,
@@ -231,7 +231,7 @@ assertPart("H9TP32A4GDBCPR-KGM", {
 });
 
 assertSkhynixEmcpRuleMatches("H9HP52ACPMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
-assertPart("H9HP52ACPMADAR-KMM", {
+assertRuleDecode("H9HP52ACPMADAR-KMM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 524288,
@@ -255,7 +255,7 @@ assertPart("H9HP52ACPMADAR-KMM", {
 });
 
 assertSkhynixEmcpRuleMatches("H9HP27ADAMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
-assertPart("H9HP27ADAMADAR-KMM", {
+assertRuleDecode("H9HP27ADAMADAR-KMM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 262144,
@@ -279,7 +279,7 @@ assertPart("H9HP27ADAMADAR-KMM", {
 });
 
 assertSkhynixEmcpRuleMatches("H9HP99ADAMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lpddr4x.v1"]);
-assertPart("H9HP99ADAMADAR-KMM", {
+assertRuleDecode("H9HP99ADAMADAR-KMM", {
   vendor: "skhynix",
   type: "eMCP",
   voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
@@ -293,7 +293,7 @@ assertPart("H9HP99ADAMADAR-KMM", {
 });
 
 assertSkhynixEmcpRuleMatches("H9AG9G5ANBX100", ["vendor.skhynix.emcp.h9a.v1"]);
-assertPart("H9AG9G5ANBX100", {
+assertRuleDecode("H9AG9G5ANBX100", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 524288,
@@ -312,7 +312,7 @@ assertPart("H9AG9G5ANBX100", {
   absentExtra: ["System", "Product Mode", "Product Family", "Product Version"]
 });
 
-assertPart("H9QT0GECN6X145", {
+assertRuleDecode("H9QT0GECN6X145", {
   vendor: "skhynix",
   type: "uMCP",
   densityMbit: 1048576,
@@ -333,7 +333,7 @@ assertPart("H9QT0GECN6X145", {
   absentExtra: ["System", "Product Mode", "Product Family", "Product Version", "Config Code", "Reserved Code", "Serial Code"]
 });
 
-assertPart("H9QXXXXCN6X145", {
+assertRuleDecode("H9QXXXXCN6X145", {
   vendor: "skhynix",
   type: "uMCP",
   voltage: "UFS: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
@@ -347,7 +347,7 @@ assertPart("H9QXXXXCN6X145", {
   absentExtra: ["System", "Product Mode", "Product Family", "Product Version", "Storage Density", "DRAM Width", "Config Code", "Reserved Code", "Serial Code"]
 });
 
-assertPart("H9HQ15ACPMADAR-KEM", {
+assertRuleDecode("H9HQ15ACPMADAR-KEM", {
   vendor: "skhynix",
   type: "uMCP",
   densityMbit: 1048576,

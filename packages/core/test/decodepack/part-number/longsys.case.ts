@@ -22,7 +22,7 @@ import {
   assertMicronManagedFbgaMarking,
   assertNoAdditionalFields,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -32,7 +32,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("FEMDNN256G-A3A5607-08", {
+assertRuleDecode("FEMDNN256G-A3A5607-08", {
   vendor: "longsys",
   type: "eMMC",
   densityMbit: 2097152,
@@ -44,7 +44,7 @@ assertPart("FEMDNN256G-A3A5607-08", {
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("FEUDNN128G-C2H14", {
+assertRuleDecode("FEUDNN128G-C2H14", {
   vendor: "longsys",
   type: "UFS",
   densityMbit: 1048576,
@@ -57,7 +57,7 @@ assertPart("FEUDNN128G-C2H14", {
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("FEPRF6432-58A1930", {
+assertRuleDecode("FEPRF6432-58A1930", {
   vendor: "longsys",
   type: "eMCP",
   densityMbit: 524288,
@@ -72,7 +72,7 @@ assertPart("FEPRF6432-58A1930", {
 
 assertNoAdditionalFields("FEPRF6432-58A1930");
 
-assertPart("FUPRFA832-C2A56N1", {
+assertRuleDecode("FUPRFA832-C2A56N1", {
   vendor: "longsys",
   type: "uMCP",
   densityMbit: 1048576,
@@ -86,7 +86,7 @@ assertPart("FUPRFA832-C2A56N1", {
 });
 
 assertNoAdditionalFields("FUPRFA832-C2A56N1");
-assertPart("FEUDME128G-C8H09", {
+assertRuleDecode("FEUDME128G-C8H09", {
   vendor: "longsys",
   type: "UFS",
   densityMbit: 1048576,
@@ -100,7 +100,7 @@ assertPart("FEUDME128G-C8H09", {
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
-assertPart("FEUDNN512G-C2G07", {
+assertRuleDecode("FEUDNN512G-C2G07", {
   vendor: "longsys",
   type: "UFS",
   densityMbit: 4194304,

@@ -54,8 +54,10 @@
   },
   "scripts": {
     "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly && tsdown",
-    "test": "node --import tsx --test --test-isolation=none 'test/decodepack/**/*.test.ts'",
+    "test": "pnpm test:decodepack && pnpm test:integration && pnpm test:contract",
     "test:decodepack": "node --import tsx --test --test-isolation=none 'test/decodepack/**/*.test.ts'",
+    "test:integration": "node --import tsx --test --test-isolation=none 'test/integration/**/*.test.ts'",
+    "test:contract": "node --import tsx --test --test-isolation=none test/result-contract.test.ts",
     "test:dram": "node --import tsx --test --test-isolation=none 'test/decodepack/dram/**/*.test.ts'",
     "test:dram:search": "node --import tsx --test test/decodepack/dram/search.pn.ts",
     "test:parts": "node --import tsx --test --test-isolation=none 'test/decodepack/part-number/**/*.test.ts'",

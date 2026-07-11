@@ -22,7 +22,7 @@ import {
   assertMicronManagedFbgaMarking,
   assertNoAdditionalFields,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -384,7 +384,7 @@ for (const sample of [
     productMode: "UFS + Mobile LPDDR4X"
   }
 ] as const) {
-  assertPart(sample.partNumber, {
+  assertRuleDecode(sample.partNumber, {
     vendor: "micron",
     type: "uMCP",
     densityMbit: sample.densityMbit,

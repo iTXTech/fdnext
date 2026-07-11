@@ -22,7 +22,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -56,7 +56,7 @@ function assertSpecialOption(partNumber: string, expected: string): void {
   assert.equal(fieldText(firstField(result, "special_option")), expected, `${partNumber} special_option`);
 }
 
-assertPart("MT29FB16T08GALAAM5-TES:B", {
+assertRuleDecode("MT29FB16T08GALAAM5-TES:B", {
   vendor: "micron",
   type: "NAND",
   densityMbit: 16777216,
@@ -95,7 +95,7 @@ assertPart("MT29FB16T08GALAAM5-TES:B", {
   ]
 });
 
-assertPart("MT29F2G08ABDHC-ET:D", {
+assertRuleDecode("MT29F2G08ABDHC-ET:D", {
   vendor: "micron",
   type: "NAND",
   densityMbit: 2048,
@@ -118,7 +118,7 @@ assertPart("MT29F2G08ABDHC-ET:D", {
   absentExtra: ["Product Family", "Revision Code", "Suffix Code", "Package Code", "Die Code"]
 });
 
-assertPart("MT29F16T08EWLEHD6-36ITRES:E", {
+assertRuleDecode("MT29F16T08EWLEHD6-36ITRES:E", {
   vendor: "micron",
   type: "NAND",
   densityMbit: 16777216,
@@ -143,7 +143,7 @@ assertPart("MT29F16T08EWLEHD6-36ITRES:E", {
   absentExtra: ["Product Family", "Revision Code", "Suffix Code", "Package Code", "Feature Code", "Die Code"]
 });
 
-assertPart("MT29H8G08AAAC6-20ETES:A", {
+assertRuleDecode("MT29H8G08AAAC6-20ETES:A", {
   vendor: "micron",
   type: "NAND",
   densityMbit: 8192,
@@ -165,7 +165,7 @@ assertPart("MT29H8G08AAAC6-20ETES:A", {
   absentExtra: ["Product Family", "Revision Code", "Suffix Code", "Package Code", "Feature Code", "Die Code"]
 });
 
-assertPart("MT29F128G08WAAC6-ETES:A", {
+assertRuleDecode("MT29F128G08WAAC6-ETES:A", {
   vendor: "micron",
   type: "NAND",
   densityMbit: 131072,
@@ -198,7 +198,6 @@ assertLookupPartNumbers("vendor.micron.raw.legacy.v1", "MT29H8G08AAAC6-20ETES:A"
 assertLookupPartNumbers("vendor.micron.hsc.mt29fb.v1", "MT29FB16T08GALAAM5-TES:B", ["MT29FB16T08GALAA"]);
 assertMicronDecodePackDieProfile("MT29F2T08GBLBH", "N69R", 276);
 assertMicronDecodePackDieProfile("MT29F16T08EWLEHD6-36ITRES:E", "B68S", 276);
-assertFdbDoesNotOverrideDecodePackFields();
 assertRuleDraftDieProfile("vendor.micron.hsc.mt29fb.v1", "MT29FB64T08GDLBBN2-QJES:B", "N69R");
 
 assertHscConfiguration("MT29FB16T08GALAAM5-TES:B", { dieCount: 16, ceCount: 2, channelCount: 1 });
@@ -206,16 +205,7 @@ assertHscConfiguration("MT29FB8T08GBLAAM5-QK:E", { dieCount: 8, ceCount: 1, chan
 assertHscConfiguration("MT29FB16T08GCLAAM5-TES:B", { dieCount: 16, ceCount: 2, channelCount: 2 });
 assertHscConfiguration("MT29FB64T08GDLBBN2-QJES:B", { dieCount: 32, ceCount: 2, channelCount: 2 });
 
-assertDecodedPartNumber("MT29F2G08ABDHC-ETD", "MT29F2G08ABDHC-ET:D");
-assertDecodedPartNumber("MT29FB16T08GALAAM5-TESB", "MT29FB16T08GALAAM5-TES:B");
-assertDecodedPartNumber("MT29FB16T08GALAAM5TESB", "MT29FB16T08GALAAM5-TES:B");
-assertDecodedPartNumber("MT29FB64T08GDLBBN2QJESB", "MT29FB64T08GDLBBN2-QJES:B");
-assertSearchPnIncludes("MT29F2G08ABDHC-ETD", "Micron MT29F2G08ABDHC-ET:D");
-assertSearchPnIncludes("MT29FB16T08GALAAM5-TESB", "Micron MT29FB16T08GALAAM5-TES:B");
-assertSearchPnIncludes("MT29FB16T08GALAAM5TESB", "Micron MT29FB16T08GALAAM5-TES:B");
-assertSearchPnIncludes("MT29FB64T08GDLBBN2QJESB", "Micron MT29FB64T08GDLBBN2-QJES:B");
-
-assertPart("MT29FB8T08EALAAM5-QK:E", {
+assertRuleDecode("MT29FB8T08EALAAM5-QK:E", {
   vendor: "micron",
   type: "NAND",
   densityMbit: 8388608,
@@ -253,7 +243,7 @@ assertPart("MT29FB8T08EALAAM5-QK:E", {
   ]
 });
 
-assertPart("MT29FB64T08GDLBBN2-QJES:B", {
+assertRuleDecode("MT29FB64T08GDLBBN2-QJES:B", {
   vendor: "micron",
   type: "NAND",
   densityMbit: 67108864,
@@ -286,43 +276,5 @@ assertPart("MT29FB64T08GDLBBN2-QJES:B", {
     "status",
     "Reference Status",
     "Inference Source"
-  ]
-});
-
-assertPart("NC103", {
-  vendor: "micron",
-  markingCode: "NC103",
-  type: "NAND",
-  densityMbit: 16777216,
-  dieProfileField: "N28A",
-  cellField: "QLC",
-  widthField: "x8",
-  voltage: "Vcc: 3.30V (2.70–3.60V) or 2.50V (2.35–2.75V), VccQ: 1.20V (1.14–1.26V)",
-  package: "LBGA-132, 12x18x1.50",
-  extra: {
-    "NAND Technology": "HSC NAND",
-    "Product Mode": "IO Expander",
-    "Interface Type": "NV-DDR3 only",
-    "Controller Revision": "IOE Gen 1 Rev.A",
-    "Special Option": "FortisMax",
-    "Production Status": "Engineering Samples",
-    "Die Density": "1Tb",
-    "Die Count": 16,
-    "CE Count": 2,
-    "Channel Count": 1,
-    "Layer Count": 96
-  },
-  absentExtra: [
-    "System",
-    "Product Family",
-    "ECC enabled",
-    "source",
-    "status",
-    "Reference Status",
-    "Inference Source",
-    "Density Code",
-    "Config Code",
-    "Package Code",
-    "Controller"
   ]
 });

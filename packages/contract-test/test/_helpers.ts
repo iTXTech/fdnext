@@ -18,7 +18,7 @@ assert.equal(typeof rootPackageMetadata.version, "string", "root package metadat
 export const fdnextPackageVersion = rootPackageMetadata.version as string;
 
 export function runCli(args: string[]): Record<string, unknown> {
-  const result = spawnSync(process.execPath, ["--import", "tsx", "./packages/core/src/cli/index.ts", ...args], {
+  const result = spawnSync(process.execPath, ["./packages/core/dist/cli.js", ...args], {
     cwd: repoRoot,
     encoding: "utf8"
   });
@@ -32,7 +32,7 @@ export function assertCapabilitiesBuildTime(capabilities: unknown): void {
   const build = server && typeof server === "object" ? (server as { build?: unknown }).build : undefined;
   const buildTime = build && typeof build === "object" ? (build as { buildTime?: unknown }).buildTime : undefined;
   assert.equal(typeof buildTime, "string");
-  assert.ok(!Number.isNaN(Date.parse(buildTime)));
+  assert.ok(!Number.isNaN(Date.parse(String(buildTime))));
   assert.notEqual(buildTime, "1970-01-01T00:00:00.000Z");
 }
 
@@ -57,7 +57,7 @@ export async function closeNodeServer(server: NodeServer): Promise<void> {
   });
 }
 
-export function collectResultFields(value: unknown, fields: Array<{ key?: unknown }> = []): Array<{ key?: unknown }> {
+export function collectResultFields(value: unknown, fields: Array<Record<string, unknown>> = []): Array<Record<string, unknown>> {
   if (Array.isArray(value)) {
     value.forEach((item) => collectResultFields(item, fields));
     return fields;

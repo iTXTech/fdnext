@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import type { AddressInfo } from "node:net";
-import { FDNEXT_CORS_ORIGINS_ENV } from "../../core/src/runtime";
-import { createCfWorkersAdapter } from "../../cf-workers/src/index";
-import { startAliyunFc } from "../../aliyun-fc/src/index";
+import { FDNEXT_CORS_ORIGINS_ENV } from "@itxtech/fdnext-core/runtime";
+import { createCfWorkersAdapter } from "@itxtech/fdnext-cf-workers";
+import { startAliyunFc } from "@itxtech/fdnext-aliyun-fc";
 import { createContractEngine } from "../src/index";
 import { closeNodeServer, waitForListening } from "./_helpers";
 

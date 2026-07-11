@@ -2,7 +2,14 @@ import assert from "node:assert/strict";
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { createEngine } from "../../src/index";
+import {
+  createEngine,
+  fdnextBlockIds,
+  fdnextChipKinds,
+  fdnextDomains,
+  fdnextIdSchemes,
+  fdnextProductTypes
+} from "../../src/index";
 import { fdnextFieldRegistry } from "../../src/field-registry";
 import { embeddedResourceBundle } from "../../src/resources";
 import {
@@ -356,6 +363,74 @@ function assertLangPacksAreConsistent(): void {
     const missingFieldLabels = Object.keys(fdnextFieldRegistry).filter((key) => !Object.hasOwn(lang, key));
     assert.deepEqual(missingFieldLabels, [], `${file} should label every public field key`);
   }
+
+  const requiredKeys = new Set([
+    ...Object.keys(fdnextFieldRegistry),
+    ...fdnextChipKinds,
+    ...fdnextProductTypes,
+    ...fdnextIdSchemes,
+    ...fdnextDomains,
+    "true",
+    "false",
+    "Unknown",
+    ...fdnextBlockIds.map((id) => `block.${id}`),
+    "action.part.decode",
+    "action.identifier.decode.nand_flash_id",
+    "warning.empty_query",
+    "warning.invalid_nand_flash_id",
+    "warning.invalid_nand_flash_id.search",
+    "warning.unsupported_id_scheme",
+    "warning.constraint_mismatch.vendor",
+    "warning.constraint_mismatch.chip_kind",
+    "warning.constraint_mismatch.product_type",
+    "warning.constraint_mismatch.strict",
+    "warning.ambiguous_part",
+    "subtitle.kind.raw_nand",
+    "subtitle.kind.managed_nand",
+    "subtitle.kind.dram",
+    "subtitle.kind.memory",
+    "subtitle.die_count",
+    "subtitle.plane_count"
+  ]);
+  assert.deepEqual(
+    [...requiredKeys].filter((key) => !Object.hasOwn(eng, key) || !Object.hasOwn(chs, key)).sort(),
+    [],
+    "language packs should cover every current public result key"
+  );
+
+  const obsoleteKeys = [
+    "design_rev",
+    "features",
+    "intel_unsupported_3d_xpoint",
+    "micron_f_e",
+    "micron_f_m",
+    "micron_f_r",
+    "micron_f_s",
+    "micron_f_t",
+    "micron_f_x",
+    "micron_f_z",
+    "micron_otr_aat",
+    "micron_otr_ait",
+    "micron_otr_c",
+    "micron_otr_it",
+    "micron_otr_wt",
+    "micron_p_es",
+    "micron_p_ms",
+    "micron_p_qs",
+    "samsung_cbb_c",
+    "spare_area_size_per_512b",
+    "spectek_if_e",
+    "spectek_if_f",
+    "spectek_if_g",
+    "spectek_if_m",
+    "spectek_if_n",
+    "special_options"
+  ];
+  assert.deepEqual(
+    obsoleteKeys.filter((key) => Object.hasOwn(eng, key) || Object.hasOwn(chs, key)),
+    [],
+    "obsolete translation keys should stay removed"
+  );
 }
 
 function assertMicronSolidigmDieProfileNaming(): void {

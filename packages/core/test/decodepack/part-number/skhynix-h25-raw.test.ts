@@ -21,7 +21,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
@@ -67,7 +67,7 @@ for (const [partNumber, densityMbit, dieProfileField, cellField, layerCount, die
   if (partNumber[6] === "M") {
     expectedExtra["Product Class"] = "Enterprise";
   }
-  assertPart(partNumber, {
+  assertRuleDecode(partNumber, {
     vendor: "skhynix",
     type: "NAND",
     densityMbit,
@@ -79,7 +79,7 @@ for (const [partNumber, densityMbit, dieProfileField, cellField, layerCount, die
   });
 }
 
-assertPart("H25BFT8A1B", {
+assertRuleDecode("H25BFT8A1B", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 524288,
@@ -98,7 +98,7 @@ assertPart("H25BFT8A1B", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25JGT8A1A", {
+assertRuleDecode("H25JGT8A1A", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 1048576,
@@ -117,7 +117,7 @@ assertPart("H25JGT8A1A", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25JGT8F4M9R-BDJ", {
+assertRuleDecode("H25JGT8F4M9R-BDJ", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 8388608,
@@ -142,7 +142,7 @@ assertPart("H25JGT8F4M9R-BDJ", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25JGT8FAM", {
+assertRuleDecode("H25JGT8FAM", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 8388608,
@@ -256,7 +256,7 @@ assert.ok(h25RawDecoder, "H25 raw decoder should be compiled");
 
 for (const [partNumber, expected] of skhynixH25LooseRawSamples) {
   assert.equal(h25RawDecoder.check(partNumber), true, `${partNumber} should match the relaxed H25 raw decoder`);
-  assertPart(partNumber, {
+  assertRuleDecode(partNumber, {
     vendor: "skhynix",
     type: "NAND",
     ...expected,

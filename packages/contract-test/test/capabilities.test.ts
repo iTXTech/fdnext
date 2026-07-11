@@ -1,15 +1,8 @@
 import assert from "node:assert/strict";
 import {
   FDNEXT_VERSION,
-  fdnextBlockIds,
-  fdnextChipKinds,
-  fdnextControllerGroupIds,
-  fdnextDomains,
-  fdnextIdSchemes,
-  fdnextProductTypes
-} from "../../core/src/index";
-import { fdnextFieldKeys } from "../../core/src/field-registry";
-import { embeddedResourceBundle } from "../../core/src/resources";
+  fdnextControllerGroupIds
+} from "@itxtech/fdnext-core";
 import { createContractEngine } from "../src/index";
 import { assertCapabilitiesBuildTime, fdnextPackageVersion } from "./_helpers";
 
@@ -17,7 +10,8 @@ const engine = createContractEngine();
 const sdkCapabilities = engine.getCapabilities();
 assert.equal(FDNEXT_VERSION, fdnextPackageVersion);
 assert.equal(sdkCapabilities.server.version, fdnextPackageVersion);
-assert.equal(sdkCapabilities.server.build.commitHash, "dev");
+assert.match(sdkCapabilities.server.build.commitHash, /^(?:[0-9a-f]{7}|unknown)$/);
+assert.notEqual(sdkCapabilities.server.build.commitHash, "dev", "contract tests must load build metadata from dist");
 assertCapabilitiesBuildTime(sdkCapabilities);
 assert.equal(sdkCapabilities.fdb.version, engine.getVersion());
 assert.equal(sdkCapabilities.inventory.controllers.count, sdkCapabilities.inventory.controllers.items.length);
@@ -80,80 +74,4 @@ assert.equal(engine.getCapabilities().inventory.controllers.items.length, sdkCap
 assert.equal(
   engine.getCapabilities().inventory.controllers.groups[0]?.items?.length,
   sdkCapabilities.inventory.controllers.groups[0]?.items?.length
-);
-
-assert.ok(embeddedResourceBundle.partIndex.rawNand);
-assert.ok(embeddedResourceBundle.identifierIndex.nandFlash);
-assert.ok(embeddedResourceBundle.markingIndex.packageMarkings);
-assert.ok(embeddedResourceBundle.translationIndex.eng);
-assert.equal("embeddedResources" in { embeddedResourceBundle }, false);
-assert.equal("fdbRaw" in { embeddedResourceBundle }, false);
-
-const lang = embeddedResourceBundle.translationIndex;
-assert.deepEqual(Object.keys(lang.chs).sort(), Object.keys(lang.eng).sort(), "language packs must have 100% matching keys");
-const requiredTranslationKeys = new Set([
-  ...fdnextFieldKeys,
-  ...fdnextChipKinds,
-  ...fdnextProductTypes,
-  ...fdnextIdSchemes,
-  ...fdnextDomains,
-  "true",
-  "false",
-  "Unknown",
-  ...fdnextBlockIds.map((id) => `block.${id}`),
-  "action.part.decode",
-  "action.identifier.decode.nand_flash_id",
-  "warning.empty_query",
-  "warning.invalid_nand_flash_id",
-  "warning.invalid_nand_flash_id.search",
-  "warning.unsupported_id_scheme",
-  "warning.constraint_mismatch.vendor",
-  "warning.constraint_mismatch.chip_kind",
-  "warning.constraint_mismatch.product_type",
-  "warning.constraint_mismatch.strict",
-  "warning.ambiguous_part",
-  "subtitle.kind.raw_nand",
-  "subtitle.kind.managed_nand",
-  "subtitle.kind.dram",
-  "subtitle.kind.memory",
-  "subtitle.die_count",
-  "subtitle.plane_count"
-]);
-assert.deepEqual(
-  [...requiredTranslationKeys].filter((key) => !(key in lang.eng) || !(key in lang.chs)).sort(),
-  [],
-  "translation packs must cover every current public result key"
-);
-const obsoleteTranslationKeys = [
-  "design_rev",
-  "features",
-  "intel_unsupported_3d_xpoint",
-  "micron_f_e",
-  "micron_f_m",
-  "micron_f_r",
-  "micron_f_s",
-  "micron_f_t",
-  "micron_f_x",
-  "micron_f_z",
-  "micron_otr_aat",
-  "micron_otr_ait",
-  "micron_otr_c",
-  "micron_otr_it",
-  "micron_otr_wt",
-  "micron_p_es",
-  "micron_p_ms",
-  "micron_p_qs",
-  "samsung_cbb_c",
-  "spare_area_size_per_512b",
-  "spectek_if_e",
-  "spectek_if_f",
-  "spectek_if_g",
-  "spectek_if_m",
-  "spectek_if_n",
-  "special_options"
-];
-assert.deepEqual(
-  obsoleteTranslationKeys.filter((key) => key in lang.eng || key in lang.chs),
-  [],
-  "obsolete translation keys must stay removed"
 );

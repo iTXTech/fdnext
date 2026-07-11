@@ -44,7 +44,9 @@ const nandIdentifierRelations = nandDecode.relations.filter((relation) => relati
 assert.ok(nandIdentifierRelations.length > 1);
 assert.ok(nandIdentifierRelations.every((relation) => (
   relation.action?.operation === "identifier.decode" &&
-  relation.action.input.constraints?.idScheme === "nand.flash_id" &&
+  relation.action.input.constraints != null &&
+  "idScheme" in relation.action.input.constraints &&
+  relation.action.input.constraints.idScheme === "nand.flash_id" &&
   relation.action.input.query === relation.target.identifier &&
   /^[0-9A-F]+$/.test(relation.action.input.query)
 )));

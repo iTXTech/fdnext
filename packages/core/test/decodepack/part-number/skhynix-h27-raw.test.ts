@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import {
   assertDecodePackDieProfile,
-  assertPart,
+  assertRuleDecode,
   assertRuleDraftDieProfile,
   assertRuleDraftDieProfileMeta,
   compiledPack
@@ -39,7 +39,7 @@ assertRuleDraftDieProfile("vendor.skhynix.h27.raw.v2", "H27Q4T8LQA3R-BDH", "HYV4
 assertRuleDraftDieProfileMeta("vendor.skhynix.h27.raw.v2", "H27Q4T8LQA3R-BDH", "HYV4");
 assertDecodePackDieProfile("H27Q4T8LQA3R-BDH", "HYV4", 72);
 
-assertPart("H2EQ4T8LQA3R-BDH", {
+assertRuleDecode("H2EQ4T8LQA3R-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -59,7 +59,7 @@ assertPart("H2EQ4T8LQA3R-BDH", {
   absentExtra: h27AbsentExtra
 });
 
-assertPart("H2NQ4T8LQA3R-BDH", {
+assertRuleDecode("H2NQ4T8LQA3R-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -79,7 +79,7 @@ assertPart("H2NQ4T8LQA3R-BDH", {
   absentExtra: h27AbsentExtra
 });
 
-assertPart("H27Q4T8LQA3R-BDH", {
+assertRuleDecode("H27Q4T8LQA3R-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -104,7 +104,7 @@ assertPart("H27Q4T8LQA3R-BDH", {
   absentExtra: h27AbsentExtra
 });
 
-assertPart("H27Q4T8L4A3R-BDH", {
+assertRuleDecode("H27Q4T8L4A3R-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -122,7 +122,7 @@ assertPart("H27Q4T8L4A3R-BDH", {
   absentExtra: h27AbsentExtra
 });
 
-assertPart("H27Q4TMLQA3R-BDH", {
+assertRuleDecode("H27Q4TMLQA3R-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -135,7 +135,7 @@ assertPart("H27Q4TMLQA3R-BDH", {
   absentExtra: h27AbsentExtra
 });
 
-assertPart("H27Q4TOLQA3R-BDH", {
+assertRuleDecode("H27Q4TOLQA3R-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -148,7 +148,7 @@ assertPart("H27Q4TOLQA3R-BDH", {
   absentExtra: h27AbsentExtra
 });
 
-assertPart("H27Q4TLLQA3R-BDH", {
+assertRuleDecode("H27Q4TLLQA3R-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -161,7 +161,7 @@ assertPart("H27Q4TLLQA3R-BDH", {
   absentExtra: h27AbsentExtra
 });
 
-assertPart("H27Q4T8LQA3A-BDH", {
+assertRuleDecode("H27Q4T8LQA3A-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -180,7 +180,7 @@ assertPart("H27Q4T8LQA3A-BDH", {
   absentExtra: h27AbsentExtra
 });
 
-assertPart("H27Q4T8LQA31-BDH", {
+assertRuleDecode("H27Q4T8LQA31-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -199,7 +199,7 @@ assertPart("H27Q4T8LQA31-BDH", {
   absentExtra: h27AbsentExtra
 });
 
-assertPart("H27Q4T8LQA3C-BDH", {
+assertRuleDecode("H27Q4T8LQA3C-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -218,7 +218,7 @@ assertPart("H27Q4T8LQA3C-BDH", {
   absentExtra: h27AbsentExtra
 });
 
-assertPart("H27Q4T8LQA3L-BDH", {
+assertRuleDecode("H27Q4T8LQA3L-BDH", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -237,7 +237,7 @@ assertPart("H27Q4T8LQA3L-BDH", {
 assertRuleDraftDieProfile("vendor.skhynix.h27.raw.v2", "H27Q1T8PFB", "HYV3");
 assertDecodePackDieProfile("H27Q1T8PFB", "HYV3", 48);
 
-assertPart("H27Q1T8PFB", {
+assertRuleDecode("H27Q1T8PFB", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 1048576,
@@ -258,7 +258,7 @@ assertPart("H27Q1T8PFB", {
 assertRuleDraftDieProfile("vendor.skhynix.h27.raw.v2", "H27Q1T8YEC", "HYV2");
 assertDecodePackDieProfile("H27Q1T8YEC", "HYV2", 36);
 
-assertPart("H27Q1T8YEC", {
+assertRuleDecode("H27Q1T8YEC", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 1048576,
@@ -278,7 +278,7 @@ assertPart("H27Q1T8YEC", {
 
 assertRuleDraftDieProfile("vendor.skhynix.h27.raw.v2", "H27UCG8T2E", "HY16");
 
-assertPart("H27UCG8T2E", {
+assertRuleDecode("H27UCG8T2E", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 65536,

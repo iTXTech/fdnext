@@ -21,7 +21,7 @@ import {
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
   assertNotFound,
-  assertPart,
+  assertRuleDecode,
   assertRuleDraftDieProfile,
   assertSearchPnFirst,
   assertSearchPnIncludes,
@@ -30,7 +30,7 @@ import {
   assertSubtitle
 } from "./_helpers";
 
-assertPart("H25T2TB88E-X321-N", {
+assertRuleDecode("H25T2TB88E-X321-N", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -47,7 +47,7 @@ assertPart("H25T2TB88E-X321-N", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25G9TM18E", {
+assertRuleDecode("H25G9TM18E", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 524288,
@@ -66,7 +66,7 @@ assertPart("H25G9TM18E", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T0QM18E", {
+assertRuleDecode("H25T0QM18E", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 1048576,
@@ -85,7 +85,7 @@ assertPart("H25T0QM18E", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T1TD48C-X630", {
+assertRuleDecode("H25T1TD48C-X630", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 2097152,
@@ -100,7 +100,7 @@ assertPart("H25T1TD48C-X630", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T2TC88C", {
+assertRuleDecode("H25T2TC88C", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -115,7 +115,7 @@ assertPart("H25T2TC88C", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T2TD88C-X682", {
+assertRuleDecode("H25T2TD88C-X682", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -130,7 +130,7 @@ assertPart("H25T2TD88C-X682", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T2TD88C", {
+assertRuleDecode("H25T2TD88C", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 4194304,
@@ -145,7 +145,7 @@ assertPart("H25T2TD88C", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T3TC88C-X658-R", {
+assertRuleDecode("H25T3TC88C-X658-R", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 8388608,
@@ -312,37 +312,14 @@ const skhynixH25Hyv9KnownPackages = [
   }
 ];
 
-const skhynixH25Hyv9ExtraByPartNumber: Record<string, { speedGrade: string; productClass: string }> = {
-  H25T0TD18CX655: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
-  H25T1TD28CX656: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
-  H25T2TD48CX657: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
-  H25T3TD88CX676: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
-  H25T3TD88CX658: { speedGrade: "DQ Speed=2400Mbps", productClass: "Enterprise" },
-  H25T4TDG8CX658: { speedGrade: "DQ Speed=1600Mbps", productClass: "Enterprise" },
-  H25T2TD48CX659: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
-  H25T3TD88CX660: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
-  H25T4TDG8CX660: { speedGrade: "DQ Speed=1600Mbps", productClass: "Client" },
-  H25T2TD48CX862: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
-  H25T3TD88CX860: { speedGrade: "DQ Speed=2400Mbps", productClass: "Client" },
-  H25T0TD18CX826: { speedGrade: "DQ Speed=2400Mbps", productClass: "Enterprise" },
-  H25T1TD28CX828: { speedGrade: "DQ Speed=2400Mbps", productClass: "Enterprise" },
-  H25T2TD48CX809: { speedGrade: "DQ Speed=2400Mbps", productClass: "Enterprise" },
-  H25T3TD88CX811: { speedGrade: "DQ Speed=2400Mbps", productClass: "Enterprise" },
-  H25T4TDG8CX813: { speedGrade: "DQ Speed=2100Mbps", productClass: "Enterprise" }
-};
-
-const skhynixH25Hyv9AbsentExtra = skhynixH25RawInternalExtra.filter((key) => key !== "Product Class");
-
 for (const item of skhynixH25Hyv9KnownPackages) {
-  const exactExtra = skhynixH25Hyv9ExtraByPartNumber[item.partNumber];
-  assert.ok(exactExtra, `${item.partNumber} should have exact HYV9 package-list extra fields`);
-  assertPart(item.partNumber, {
+  assertRuleDecode(item.partNumber, {
     vendor: "skhynix",
     type: "NAND",
     densityMbit: item.densityMbit,
     dieProfileField: "HYV9",
     cellField: "TLC",
-    voltage: "Vcc: 2.5V, VccQ: 1.2V",
+    voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
     package: item.package,
     extra: {
       "Layer Count": 321,
@@ -350,11 +327,9 @@ for (const item of skhynixH25Hyv9KnownPackages) {
       "Die Count": item.dieCount,
       "CE Count": item.ceCount,
       "R/B Count": item.rbCount,
-      "Channel Count": item.channelCount,
-      "Speed Grade": exactExtra.speedGrade,
-      "Product Class": exactExtra.productClass
+      "Channel Count": item.channelCount
     },
-    absentExtra: [...skhynixH25Hyv9AbsentExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+    absentExtra: [...skhynixH25RawInternalExtra, "Speed Grade", "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
   });
 }
 
@@ -424,10 +399,8 @@ const skhynixH25V9hKnownPackages = [
   }
 ];
 
-const skhynixH25V9hAbsentExtra = skhynixH25RawInternalExtra.filter((key) => key !== "Product Class");
-
 for (const item of skhynixH25V9hKnownPackages) {
-  assertPart(item.partNumber, {
+  assertRuleDecode(item.partNumber, {
     vendor: "skhynix",
     type: "NAND",
     densityMbit: item.densityMbit,
@@ -442,31 +415,27 @@ for (const item of skhynixH25V9hKnownPackages) {
       "R/B Count": item.rbCount,
       "Channel Count": item.channelCount,
       "Plane Count": 4,
-      "Speed Grade": "Max Speed=3600MT/s",
-      "Product Class": "Client"
+      "Speed Grade": "Max Speed=3600MT/s"
     },
-    absentExtra: [...skhynixH25V9hAbsentExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+    absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
   });
 }
 
-assertPart("H25T0TG18G-X807", {
+assertRuleDecode("H25T0TG18G-X807", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 1048576,
   dieProfileField: "HYV9H",
   cellField: "TLC",
   package: "BGA-154, 11.5x13.5x1.0",
-  extra: {
-    "Product Class": "Client"
-  },
-  absentExtra: [...skhynixH25V9hAbsentExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
 });
 
 const skhynixH25V9hDashResult = engine.decodePart({ query: "H25T0TG18G-X807", lang: "eng" });
 assert.equal(skhynixH25V9hDashResult.input.normalized, "H25T0TG18GX807", "H25 -X package suffix should normalize without dash");
 assert.equal(skhynixH25V9hDashResult.device?.partNumber, "H25T0TG18GX807", "H25 -X package suffix should resolve to the canonical no-dash PN");
 
-assertPart("H25T0TD18C-X655N", {
+assertRuleDecode("H25T0TD18C-X655N", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 1048576,
@@ -485,7 +454,7 @@ assertPart("H25T0TD18C-X655N", {
   absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T0QAXXBX569A", {
+assertRuleDecode("H25T0QAXXBX569A", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 1048576,
@@ -497,7 +466,7 @@ assertPart("H25T0QAXXBX569A", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T0QA18CX542", {
+assertRuleDecode("H25T0QA18CX542", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 1048576,
@@ -509,7 +478,7 @@ assertPart("H25T0QA18CX542", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T4QM88G", {
+assertRuleDecode("H25T4QM88G", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 16777216,
@@ -527,7 +496,7 @@ assertPart("H25T4QM88G", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T6QM88G", {
+assertRuleDecode("H25T6QM88G", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 67108864,
@@ -550,9 +519,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "BGA-316, 14x18x1.0",
-    speedGrade: "Max Speed=3200MT/s",
-    productClass: "Client"
+    package: "BGA-316, 14x18x1.0"
   },
   {
     partNumber: "H25T4QM88GX819",
@@ -561,9 +528,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "BGA-316, 14x18x1.35",
-    speedGrade: "Max Speed=3200MT/s",
-    productClass: "Client"
+    package: "BGA-316, 14x18x1.35"
   },
   {
     partNumber: "H25T5QMG8GX819",
@@ -572,9 +537,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 4,
-    package: "BGA-316, 14x18x1.35",
-    speedGrade: "Max Speed=3200MT/s",
-    productClass: "Client"
+    package: "BGA-316, 14x18x1.35"
   },
   {
     partNumber: "H25T1QM18GX834",
@@ -583,9 +546,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 1,
     rbCount: 1,
     channelCount: 2,
-    package: "BGA-154, 11.5x13.5x1.0",
-    speedGrade: "Max Speed=3200MT/s",
-    productClass: "Enterprise"
+    package: "BGA-154, 11.5x13.5x1.0"
   },
   {
     partNumber: "H25T2QM28GX836",
@@ -594,9 +555,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 2,
     rbCount: 2,
     channelCount: 2,
-    package: "BGA-154, 11.5x13.5x1.0",
-    speedGrade: "Max Speed=3200MT/s",
-    productClass: "Enterprise"
+    package: "BGA-154, 11.5x13.5x1.0"
   },
   {
     partNumber: "H25T3QM48GX822",
@@ -605,9 +564,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "BGA-154, 11.5x13.5x1.0",
-    speedGrade: "Max Speed=3200MT/s",
-    productClass: "Enterprise"
+    package: "BGA-154, 11.5x13.5x1.0"
   },
   {
     partNumber: "H25T4QM88GX824",
@@ -616,9 +573,7 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "BGA-154, 11.5x13.5x1.35",
-    speedGrade: "Max Speed=3200MT/s",
-    productClass: "Enterprise"
+    package: "BGA-154, 11.5x13.5x1.35"
   },
   {
     partNumber: "H25T5QMG8GX830",
@@ -627,17 +582,12 @@ const skhynixH25V9qKnownPackages = [
     ceCount: 4,
     rbCount: 4,
     channelCount: 2,
-    package: "BGA-154, 11.5x13.5x1.7",
-    speedGrade: "Max Speed=2280MT/s",
-    productClass: "Enterprise",
-    specialOption: "IF-Chip"
+    package: "BGA-154, 11.5x13.5x1.7"
   }
 ];
 
-const skhynixH25V9qAbsentExtra = skhynixH25RawInternalExtra.filter((key) => key !== "Product Class");
-
 for (const item of skhynixH25V9qKnownPackages) {
-  assertPart(item.partNumber, {
+  assertRuleDecode(item.partNumber, {
     vendor: "skhynix",
     type: "NAND",
     densityMbit: item.densityMbit,
@@ -652,15 +602,13 @@ for (const item of skhynixH25V9qKnownPackages) {
       "R/B Count": item.rbCount,
       "Channel Count": item.channelCount,
       "Plane Count": 6,
-      "Speed Grade": item.speedGrade,
-      "Product Class": item.productClass,
-      ...(item.specialOption ? { "Special Option": item.specialOption } : {})
+      "Speed Grade": "Max Speed=3200MT/s"
     },
-    absentExtra: [...skhynixH25V9qAbsentExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+    absentExtra: [...skhynixH25RawInternalExtra, "Special Option", "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
   });
 }
 
-assertPart("H25T3TCG8C", {
+assertRuleDecode("H25T3TCG8C", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 8388608,
@@ -679,7 +627,7 @@ assertPart("H25T3TCG8C", {
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
 
-assertPart("H25T4TMG8C", {
+assertRuleDecode("H25T4TMG8C", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 16777216,
@@ -696,7 +644,7 @@ assertPart("H25T4TMG8C", {
 });
 
 assertRuleDraftDieProfile("vendor.skhynix.h25.gt-package.v2", "H25G9TC18CX488", "HYV7");
-assertPart("H25G9TC18CX488", {
+assertRuleDecode("H25G9TC18CX488", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 524288,
@@ -716,7 +664,7 @@ assertPart("H25G9TC18CX488", {
 });
 
 assertRuleDraftDieProfile("vendor.skhynix.h25.gt-package.v2", "H25G9TD18CX576", "HYV8");
-assertPart("H25G9TD18CX576", {
+assertRuleDecode("H25G9TD18CX576", {
   vendor: "skhynix",
   type: "NAND",
   densityMbit: 524288,
