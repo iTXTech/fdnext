@@ -113,7 +113,7 @@ assertDram("MT62F1G64D4EK-023 WT:B", {
   density: "64Gb",
   widthField: "x64",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "TFBGA-441",
+  package: "TFBGA-441, 14x14x1.1",
   extra: {
     "DRAM Type": "LPDDR5X",
     "Package Code": "EK",
@@ -230,7 +230,7 @@ for (const sample of micronLpddr5Automotive441bSamples) {
     density: sample.density,
     widthField: "x64",
     voltage: "1.05V VDD / 0.5V VDDQ",
-    package: "TFBGA-441",
+    package: "TFBGA-441, 14x14x1.1",
     extra: {
       "DRAM Type": "LPDDR5",
       "Package Code": "EK",
@@ -250,7 +250,7 @@ assertDram("MT62F512M64D4EK-031FAATB", {
   density: "32Gb",
   widthField: "x64",
   voltage: "1.05V VDD / 0.5V VDDQ",
-  package: "TFBGA-441",
+  package: "TFBGA-441, 14x14x1.1",
   extra: {
     "DRAM Type": "LPDDR5",
     "Package Code": "EK",
@@ -262,3 +262,13 @@ assertDram("MT62F512M64D4EK-031FAATB", {
   }
 });
 assertDecodedField("MT62F512M64D4EK-031FAATB", "dram_die_count", 4);
+
+for (const [partNumber, dramType, packageName] of [
+  ["MT62F2G64D8CZ-020FAAT:D", "LPDDR5X", "TFBGA-561, 8x12.4x1.2"],
+  ["MT62F4G32D8DV-020AIT:D", "LPDDR5X", "LFBGA-315, 12.4x15x1.3"],
+  ["MT62F1G64D4K2-020VWT:D", "LPDDR5X", "UFBGA-496, 14x12.4x0.58"],
+  ["MT62F768M64D4ZU-026 WT:B", "LPDDR5", "UFBGA-496, 14x12.4x0.65"]
+] as const) {
+  assertDecodedField(partNumber, "dram_type", dramType);
+  assertDecodedField(partNumber, "package", packageName);
+}

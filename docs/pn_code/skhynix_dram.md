@@ -211,17 +211,21 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 
 ## H58G LPDDR5X 颗粒
 
-当前规则覆盖 `H58(G5/G6/G7) + organization + C + K8 + B + X + serial`：
+外部 datasheet 截图补充确认三组 496-ball PoP LPDDR5X ordering PN：`H58G66BK8HX096`（64Gb、4Ch 1CS）、`H58GG6AK8HX094`（96Gb、4Ch 2CS）和 `H58G76BK8HX095`（128Gb、4Ch 2CS）。三者均为 LPDDR5X-8533、`-25~105°C`、496-ball FBGA；package drawing 给出 `14x12.4`。来源：https://bbs.16rd.com/thread-640363-1-1.html、https://bbs.16rd.com/thread-640473-1-1.html、https://bbs.16rd.com/thread-640476-1-1.html；96Gb 封装尺寸另由分销规格交叉确认：https://www.memorysolution.de/en/sk-hynix/ic-sdram-mobile-lpddr5x-8533-96gbit-sk-hynix-1-05v-fbga-496ball/AH58GG6AK8HX094
+
+当前规则覆盖 `H58 + density + organization + generation + speed + temperature + X + serial`；各字段均按实际 token 解码，serial 只有进入已确认 package 表时才输出封装：
 
 | Token | 字段 | 说明 |
 | --- | --- | --- |
-| `G5/G6/G7` | density | 32Gb / 64Gb / 128Gb |
+| `G5/G6/G7/GG` | density | 32Gb / 64Gb / 128Gb / 96Gb |
 | `6/8` | `dram_width` | x16 / x8 |
-| `C` | `dram_generation` | 4th generation |
+| `A/B/C/D` | `dram_generation` | 2nd / 3rd / 4th / 5th Gen |
 | `K8` | `dram_speed` | LPDDR5X-8533 |
 | `B` | `operation_temperature` | -25~85C |
+| `H` | `operation_temperature` | -25~105C |
 | `X` | reserved | 内部 reserved token，不作为公开 code 字段输出 |
-| `146/147/185` | package | 315-ball FBGA |
+| `067/068/146/147/185` | package | 315-ball FBGA |
+| `094/095/096` | package | 496-ball FBGA, 14x12.4, PoP |
 
 其中有功能框图或公开 ordering 资料确认的组合输出 `dram_die_count` / `cs_count`：
 
@@ -230,6 +234,9 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 | `G5:146` | 32Gb | 2 dies, 1 CS；2 Channel |
 | `G6:147` | 64Gb | 4 dies, 2 CS；2 Channel |
 | `G7:185` | 128Gb | `channel_count=2`, `cs_count=2`（公开资料只确认 2Ch 2CS，不推断 die 数） |
+| `G6:096` | 64Gb | `channel_count=4`, `cs_count=1`（不推断 die 数） |
+| `GG:094` | 96Gb | `channel_count=4`, `cs_count=2`（不推断 die 数） |
+| `G7:095` | 128Gb | `channel_count=4`, `cs_count=2`（不推断 die 数） |
 
 ## 尾缀处理
 

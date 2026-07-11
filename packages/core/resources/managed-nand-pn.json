@@ -805,6 +805,14 @@
   },
   {
     "vendor": "samsung",
+    "pn": "KLUEG8U1YB-B0CP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUFG8RHDA-B2D1"
+  },
+  {
+    "vendor": "samsung",
     "pn": "KLUFG8RHHF-F0G1"
   },
   {
@@ -1594,6 +1602,14 @@
   {
     "vendor": "ymtc",
     "pn": "YMUS8A1TC1A2C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS8B5TH1A1C1"
+  },
+  {
+    "vendor": "ymtc",
+    "pn": "YMUS9B5TH2A1C1"
   },
   {
     "vendor": "ymtc",

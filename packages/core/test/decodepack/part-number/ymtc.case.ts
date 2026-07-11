@@ -88,6 +88,22 @@ assertRuleDecode("YMUS8A1TC1A2C1", {
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("YMUSAB5TH3A1C1", {
+  vendor: "ymtc",
+  type: "UFS",
+  densityMbit: 4194304,
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x0.8",
+  extra: {
+    Controller: "UFS 2.2 Controller UC260",
+    "Storage Interface": "UFS 2.2",
+    "Die Count": 4,
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
+});
+
 assertRuleDecode("YMC6G001TB51AA1C0", {
   vendor: "ymtc",
   type: "NAND",

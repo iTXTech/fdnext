@@ -970,6 +970,38 @@ testPart("KLUEG8UHDB-C2E1", {
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
+testPart("KLUEG8U1YB-B0CP", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 2097152,
+  dieProfileField: "SSV5",
+  package: "BGA-153, 11.5x13x1.2",
+  extra: {
+    "Die Density": "256Gb",
+    "Die Count": 8,
+    "Product Version": "UFS 2.1",
+    "Controller": "UFS 2.1 G3-2Lane Controller (Automotive Grade only)",
+    "Operation Temperature": "-40°C ~ 95°C Automotive Grade 3"
+  },
+  absentExtra: ["Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KLUFG8RHDA-B2D1", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 4194304,
+  dieProfileField: "SSV5",
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    "Die Density": "512Gb",
+    "Die Count": 8,
+    "Product Version": "UFS 3.0",
+    "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller",
+    "Operation Temperature": "-25°C ~ 85°C Extended Commercial"
+  },
+  absentExtra: ["Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
 testPart("KLUFG8RHHF-F0G1", {
   vendor: "samsung",
   type: "UFS",

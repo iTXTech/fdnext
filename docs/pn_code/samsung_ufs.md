@@ -1,11 +1,14 @@
 # Samsung UFS PN 编码资料
 
-采集日期：2026-05-08；更新日期：2026-07-11
+采集日期：2026-05-08；更新日期：2026-07-12
 
 ## 来源
 
 - Samsung UFS 3.1 `KLUEG8UHDB-C2E1` 官方页面确认 256GB、UFS 3.1、G4 2Lane、BGA 信息。
   <https://semiconductor.samsung.com/jp/estorage/ufs/ufs-3-1/klueg8uhdb-c2e1/>
+- Samsung 官方历史产品页确认 `KLUEG8U1YB-B0CP` 为 256GB UFS 2.1、G3 2Lane、11.5x13x1.2、-40°C~95°C；`KLUFG8RHDA-B2D1` 为 512GB UFS 3.0、G4 2Lane、11.5x13x1.0、-25°C~85°C。规则用 `voltage + controller` 局部组合区分 `1:Y` 的 UFS 2.1 G3 与 `H:Y` 的 UFS 3.1 G4，并仅使用 PN 中实际存在的 controller + generation + package token 局部组合选择封装；两个 exact PN 只进入搜索资源与测试。
+  <https://semiconductor.samsung.com/estorage/ufs/ufs-2-1/klueg8u1yb-b0cp/>
+  <https://semiconductor.samsung.com/estorage/ufs/ufs-3-0/klufg8rhda-b2d1/>
 - Samsung UFS 4.0 官方页面确认 G5 2Lane、9x13 封装、128GB 到 1TB 容量范围。
   <https://semiconductor.samsung.com/estorage/ufs/ufs-4-0/>
 - Samsung UFS 4.1 官方页面确认 UFS 4.1 产品线、G5 2Lane 和 153 FBGA。
@@ -63,6 +66,8 @@ Samsung UFS 输出：
 | `KLUDGAG1BD` | UFS 2.0, 128GB, MLC, 8 CE / 16 die, `K9GCGD8U0D` |
 | `KLUGGAR1FA-B2C1` | UFS 2.1, 1TB, BGA-153 11.5x13x1.4 |
 | `KLUEG8UHDB-C2E1` | UFS 3.1, 256GB, ODP, 256Gb die, V5 92L |
+| `KLUEG8U1YB-B0CP` | UFS 2.1, 256GB, BGA-153 11.5x13x1.2, -40°C~95°C |
+| `KLUFG8RHDA-B2D1` | UFS 3.0, 512GB, BGA-153 11.5x13x1.0, -25°C~85°C |
 | `KLUFG8RHHF-F0G1` | UFS 4.0, 512GB, ODP, 512Gb die, V8 236L |
 | `KLUEG4RHKF-F0H1` | UFS 4.1, 256GB, QDP, 512Gb die, V8 236L |
 | `KLUGGARHUF-F0HQ` | Automotive UFS 4.1, 1TB, BGA-153 11.5x13x1.2, -40°C~105°C |

@@ -662,6 +662,13 @@ assertDram("MT68A512M32DF-32:A", {
   }
 });
 
+// Graphics data-rate tokens are family-scoped. The same leading digits occur
+// in legacy DDR3 and RLDRAM speed grades and must not change their DRAM type.
+assertDecodedField("CT41K256M8RG-12H:N2", "dram_type", "DDR3");
+assertDecodedFieldAbsent("CT41K256M8RG-12H:N2", "dram_speed");
+assertDecodedField("MT44H8M32F2FW-16", "dram_type", "RLDRAM 3");
+assertDecodedFieldAbsent("MT44H8M32F2FW-16", "dram_speed");
+
 assertStackedDram("MT54A16G8080A00AC-28:A-B006", {
   type: "HBM2E",
   densityMbit: 131072,

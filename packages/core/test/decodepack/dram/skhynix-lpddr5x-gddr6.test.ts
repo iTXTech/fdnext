@@ -80,6 +80,32 @@ assertDram("H58G78CK8BX185", {
 
 assertDecodedFieldAbsent("H58G78CK8BX185", "dram_die_count");
 
+for (const [partNumber, densityMbit, density, generation, csCount] of [
+  ["H58G66BK8HX096", 65536, "64Gb", "3rd Gen", 1],
+  ["H58GG6AK8HX094", 98304, "96Gb", "2nd Gen", 2],
+  ["H58G76BK8HX095", 131072, "128Gb", "3rd Gen", 2]
+] as const) {
+  assertDram(partNumber, {
+    vendor: "skhynix",
+    densityMbit,
+    density,
+    widthField: "x16",
+    voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+    package: "FBGA-496, 14x12.4, PoP",
+    extra: {
+      "DRAM Type": "LPDDR5X",
+      "CS Count": csCount,
+      "Channel Count": 4,
+      "DRAM Speed": "LPDDR5X-8533",
+      "DRAM Generation": generation,
+      "Operation Temperature": "-25°C ~ 105°C",
+      "Solder Type": "Lead and Halogen Free"
+    }
+  });
+}
+
+assertDecodedFieldAbsent("H58G76BK8HX095", "dram_die_count");
+
 assertDram("H58G56DK9BX068", {
   vendor: "skhynix",
   densityMbit: 32768,

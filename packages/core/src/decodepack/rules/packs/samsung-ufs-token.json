@@ -133,6 +133,11 @@
             "controller": "UFS 2.1 G3-2Lane Controller (Automotive Grade only)"
           }
         },
+        "controllerByVoltageController": {
+          "1:Y": {
+            "controller": "UFS 2.1 G3-2Lane Controller (Automotive Grade only)"
+          }
+        },
         "bodyVersionObj": {
           "1:B": {
             "product_version": "UFS 2.0"
@@ -303,6 +308,7 @@
         },
         "packageByControllerGenerationPackage": {
           "D:B:B": "BGA-153, 11.5x13x0.8",
+          "D:A:B": "BGA-153, 11.5x13x1.0",
           "F:A:B": "BGA-153, 11.5x13x1.4",
           "G:C:B": "BGA-153, 11x13x1.0",
           "U:F:F": "BGA-153, 11.5x13x1.2",
@@ -425,6 +431,18 @@
           "from": "controllerCode",
           "table": "controller",
           "to": "controllerObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{voltageCode}}:{{controllerCode}}",
+          "to": "controllerCombinationKey"
+        },
+        {
+          "op": "map",
+          "from": "controllerCombinationKey",
+          "table": "controllerByVoltageController",
+          "to": "controllerCombinationObj",
           "default": {}
         },
         {
@@ -560,6 +578,11 @@
           "op": "merge",
           "into": "extra",
           "from": "controllerObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "controllerCombinationObj"
         },
         {
           "op": "merge",

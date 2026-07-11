@@ -17,6 +17,7 @@
   - DDR2 `MT47H128M16RT-25E-IT`: <https://www.micron.com/products/memory/dram-components/ddr2-sdram/part-catalog/part-detail/mt47h128m16rt-25e-it>
   - LPDDR4 `MT53E1G32D2FW-046-AIT-A`: <https://www.micron.com/products/memory/dram-components/lpddr4/part-catalog/part-detail/mt53e1g32d2fw-046-ait-a>
   - LPDDR5 `MT62F1G32D4DS-031-WT-B`: <https://www.micron.com/products/memory/dram-components/lpddr5/part-catalog/part-detail/mt62f1g32d4ds-031-wt-b>
+  - Micron LPDDR5 live catalog confirms package tokens `CZ/DV/K2/ZU` as `TFBGA-561, 8x12.4x1.2`、`LFBGA-315, 12.4x15x1.3`、`UFBGA-496, 14x12.4x0.58`、`UFBGA-496, 14x12.4x0.65`; it also confirms `EK = TFBGA-441, 14x14x1.1`。这些映射只按 PN 中实际 package token 输出。<https://www.micron.com/products/memory/dram-components/lpddr5/part-catalog>
   - LPDDR5X `MT62F1G64D4EK-023 WT:B`: <https://www.micron.com/products/memory/dram-components/lpddr5x/part-catalog>、分销页交叉确认 `LPDDR5X SDRAM` / `8533 Mbps` / `TFBGA-441`: <https://www.absunshine.com/en/parts/MT62F1G64D4EK-023-WT-B-MICRON-5778871>
   - 441b x64 Automotive LPDDR5 ordering chart confirms `MT62F512M64D4EK-031 AIT:B` / `AAT:B` / `AUT:B` / `FAAT:B` and `MT62F1G64D8EK-031 AIT:B` / `AAT:B` / `AUT:B` / `FAAT:B`: `512M64` = 32Gb x64, `1G64` = 64Gb x64, `D4` / `D8` = 4 / 8 die, `EK` = TFBGA-441, `-031` = 313ps tWCK / 6400 Mb/s, optional `F` = functional safety features, optional `A` = automotive grade, and `:B` = second generation.
   - LPDDR3 `MT52L512M32D2PF-107-WT-B`: <https://www.micron.com/products/memory/dram-components/lpddr-components/part-catalog/part-detail/mt52l512m32d2pf-107-wt-b>
@@ -128,6 +129,7 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
 - `fields` 使用跨厂商 DRAM canonical key：`dram_type`、`series_info`、`dram_die_count`、`cs_count`、`bank_count`、`interface_type`、`dram_speed`、`operation_temperature`、`die_revision`、`solder_type`、`packing_type`、`special_option`。
 - `device version` 先按 family scope 匹配，避免 `DA/DE/LF` 等 token 与 package code 冲突；`D1/D2/D3/D4/D6/D8/DA/DB/DC/DD/DE/LF/L2/L4` 只标准化为 `dram_die_count`，例如 `D4` 输出 `dram_die_count=4`；`LG` 额外输出 `special_option = Reduced page-size addressing`，`DD/DE` 保留官方 LPDDR4 mixed die stack 描述；没有 CS 资料时不输出 `cs_count`。
 - `speed` token 同样优先按 family scope 匹配：DDR5 `32B/36B/40B/44B/48B/52B/56B/64B/72B/80B/88B/92B`、DDR4 `062Y/062E/068E/068/075E/075/083E/083/093E/093/107E`、DDR3 `125E`、DDR2 `3`、DDR `6T`、SDR `7E/10`、GDDR5 `50/60/70`、GDDR5X `110/120/140`、GDDR6 `10/15` 与 GDDR6X `19/20/22/23` 来自官方 2023 PNS 或公开 ordering 截图；`18` 同时出现在 GDDR6/GDDR6X 表中，当前不在 decodepack 中强行判定。
+- GDDR6 / GDDR6X 的 `12/13/14/16/21/24` 与 GDDR7 的 `28/32` 仅在 `61` / `68` family scope 下解释；相同数字可出现在 DDR2、DDR3、RLDRAM3 的 speed grade 中，不能跨产品族改写 `dram_type`。
 - DDR5 `60:*` speed 对 addendum 明确给出 CL 的 bin 保留 CL 时序：`48B = DDR5-4800B CL40`、`52B = DDR5-5200B CL42`、`56B = DDR5-5600B CL46`、`64B = DDR5-6400B CL52`、`72B = DDR5-7200B CL58`、`80B = DDR5-8000B CL64`、`88B = DDR5-8800B CL72`、`92B = DDR5-9200B CL74`。
 - DDR4 `40:*` speed 保留 CL 时序：`062Y/062E = DDR4-3200 CL22`、`068E = DDR4-2933 CL20`、`068 = DDR4-2933 CL21`、`075E = DDR4-2666 CL18`、`075 = DDR4-2666 CL19`、`083E = DDR4-2400 CL16`、`083 = DDR4-2400 CL17`、`093E = DDR4-2133 CL15`、`093 = DDR4-2133 CL16`、`107E = DDR4-1866 CL13`。
 - DDR3 `41:*` speed 额外保留 `187E/15E/125/125E/107/093` 的 CL 时序：`DDR3-1066 CL7`、`DDR3-1333 CL9`、`DDR3-1600 CL11/CL10`、`DDR3-1866 CL13`、`DDR3-2133 CL14`。
@@ -269,8 +271,12 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 | `60:RZ` | `FBGA-78, 7.5x11` |
 | `61:JE` | `FBGA-180, 12x14` |
 | `61:KPA` | `FBGA-180, 12x14` |
+| `62:CZ` | `TFBGA-561, 8x12.4x1.2` |
 | `62:DS` | `WFBGA-200, 10x14.5` |
-| `62:EK` | `TFBGA-441` |
+| `62:DV` | `LFBGA-315, 12.4x15x1.3` |
+| `62:EK` | `TFBGA-441, 14x14x1.1` |
+| `62:K2` | `UFBGA-496, 14x12.4x0.58` |
+| `62:ZU` | `UFBGA-496, 14x12.4x0.65` |
 | `68:DF` | `FBGA-266, 12x14x1.1` |
 
 ## 首批样例
@@ -334,9 +340,9 @@ Micron DDR5 仍按 `depth x width` 推导容量。16Gb / 24Gb / 32Gb addendum �
 | `MT52L512M32D2PF-107 WT:B` | LPDDR3 | `16Gb`, `x32`, `FBGA-178`, `dram_die_count=2`, `Rev B` |
 | `MT53E1G32D2FW-046-AIT-A` | LPDDR4 | `32Gb`, `x32`, `TFBGA-200`, `dram_die_count=2`, `2133MHz (LPDDR4-4266)`, `Rev A` |
 | `MT62F1G32D4DS-031-WT-B` | LPDDR5 | `32Gb`, `x32`, `WFBGA-200`, `dram_die_count=4`, `3200MHz (LPDDR5-6400)`, `Rev B` |
-| `MT62F512M64D4EK-031 AIT:B` | LPDDR5 | `32Gb`, `x64`, `TFBGA-441`, `dram_die_count=4`, `3200MHz (LPDDR5-6400)`, `Automotive Industrial (-40°C ~ 95°C)`, `Rev B` |
-| `MT62F512M64D4EK-031 FAAT:B` | LPDDR5 | `32Gb`, `x64`, `TFBGA-441`, `dram_die_count=4`, `3200MHz (LPDDR5-6400)`, `Functional safety features`, `Rev B` |
-| `MT62F1G64D8EK-031 AUT:B` | LPDDR5 | `64Gb`, `x64`, `TFBGA-441`, `dram_die_count=8`, `3200MHz (LPDDR5-6400)`, `Automotive Ultra (-40°C ~ 125°C)`, `Rev B` |
+| `MT62F512M64D4EK-031 AIT:B` | LPDDR5 | `32Gb`, `x64`, `TFBGA-441, 14x14x1.1`, `dram_die_count=4`, `3200MHz (LPDDR5-6400)`, `Automotive Industrial (-40°C ~ 95°C)`, `Rev B` |
+| `MT62F512M64D4EK-031 FAAT:B` | LPDDR5 | `32Gb`, `x64`, `TFBGA-441, 14x14x1.1`, `dram_die_count=4`, `3200MHz (LPDDR5-6400)`, `Functional safety features`, `Rev B` |
+| `MT62F1G64D8EK-031 AUT:B` | LPDDR5 | `64Gb`, `x64`, `TFBGA-441, 14x14x1.1`, `dram_die_count=8`, `3200MHz (LPDDR5-6400)`, `Automotive Ultra (-40°C ~ 125°C)`, `Rev B` |
 | `MT51J256M32HF-80:A` | GDDR5 | `8Gb`, `x32`, `FBGA-170`, `GDDR5-8Gbps`, `Rev A` |
 | `MT58K256M32JA-100:A` | GDDR5X | `8Gb`, `x32`, `FBGA-190`, `GDDR5X-10Gbps`, `Rev A` |
 | `MT61K256M32JE-14:A` | GDDR6 | `8Gb`, `x32`, `FBGA-180`, `GDDR6-14Gbps`, `Rev A` |

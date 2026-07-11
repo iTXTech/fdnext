@@ -18,7 +18,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^YMUS[6789A](?:A1|A4|B2)[TQ][BCE][12345](?:A2|D1|D2)C1$"
+      "value": "^YMUS[6789A](?:A1|A4|B2|B5)[TQ][BCEH][12345](?:A1|A2|D1|D2)C1$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -50,6 +50,10 @@
           "B2": {
             "controller": "UFS 2.2 Controller UC234",
             "storage_interface": "UFS 2.2"
+          },
+          "B5": {
+            "controller": "UFS 2.2 Controller UC260",
+            "storage_interface": "UFS 2.2"
           }
         },
         "cellLevel": {
@@ -59,7 +63,8 @@
         "generation": {
           "B": 2,
           "C": 3,
-          "E": 4
+          "E": 4,
+          "H": 4
         },
         "dieStackInfo": {
           "1": {
@@ -79,6 +84,7 @@
           }
         },
         "package": {
+          "A1": "BGA-153, 11.5x13x0.8",
           "A2": "BGA-153, 11.5x13x1.0/1.2",
           "D1": "BGA-153, 11x13x0.8",
           "D2": "BGA-153, 11x13x1.0"

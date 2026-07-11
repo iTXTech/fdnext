@@ -2180,7 +2180,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H58(?:G5|G6|G7)[68](?:CK8|DK9)BX[0-9A-Z]{3}N?$"
+      "value": "^H58(?:G5|G6|G7|GG)[68](?:AK8|BK8|CK8|DK9)[BH]X[0-9A-Z]{3}N?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -2190,18 +2190,26 @@
         "densityToken": [
           "G5",
           "G6",
-          "G7"
+          "G7",
+          "GG"
         ],
         "density": {
           "G5": 32768,
           "G6": 65536,
-          "G7": 131072
+          "G7": 131072,
+          "GG": 98304
         },
         "width": {
           "6": 16,
           "8": 8
         },
         "generationObj": {
+          "A": {
+            "dram_generation": "2nd Gen"
+          },
+          "B": {
+            "dram_generation": "3rd Gen"
+          },
           "C": {
             "dram_generation": "4th Gen"
           },
@@ -2220,6 +2228,9 @@
         "temperatureObj": {
           "B": {
             "operation_temperature": "-25°C ~ 85°C"
+          },
+          "H": {
+            "operation_temperature": "-25°C ~ 105°C"
           }
         },
         "serialObj": {
@@ -2228,6 +2239,15 @@
           },
           "068": {
             "package": "FBGA-315"
+          },
+          "094": {
+            "package": "FBGA-496, 14x12.4, PoP"
+          },
+          "095": {
+            "package": "FBGA-496, 14x12.4, PoP"
+          },
+          "096": {
+            "package": "FBGA-496, 14x12.4, PoP"
           },
           "146": {
             "package": "FBGA-315"
@@ -2240,6 +2260,18 @@
           }
         },
         "dieStackObj": {
+          "G6:096": {
+            "cs_count": 1,
+            "channel_count": 4
+          },
+          "GG:094": {
+            "cs_count": 2,
+            "channel_count": 4
+          },
+          "G7:095": {
+            "cs_count": 2,
+            "channel_count": 4
+          },
           "G5:068": {
             "dram_die_count": 2,
             "cs_count": 1,

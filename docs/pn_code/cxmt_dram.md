@@ -1,6 +1,6 @@
 # CXMT DRAM PN 规则
 
-采集日期：2026-05-12
+采集日期：2026-05-12；更新日期：2026-07-12
 
 本页记录 CXMT standalone DRAM 颗粒与可识别 die/package 标记的 PN 结构。DDR4 与 LPDDR4X 主要来自 datasheet；DDR5 与先进制程字段允许使用“外部料号表 + 官方产品线 + 拆解/行业制程资料”的规则推断。推断依据写在文档中，public fields 只输出规范化后的节点和值，不写入来源或可信度状态。
 
@@ -18,6 +18,7 @@
 - CXMT `CXDQ3A8AM-CQ-A` / `CXDQ3A8AM-IJ-A` datasheet 镜像确认 8Gb x8 DDR4 SDRAM、1G x8、78-ball FBGA、1.2V；part-number decoding 中 `A` package type 与 `8` bit organization 对应 78-ball x8 结构，`Q` 为 2666Mbps 19-19-19，`J` 为 3200Mbps 22-22-22，`C/I/W` 分别为 commercial / industrial / wide temperature。来源：<https://lcsc.com/datasheet/lcsc_datasheet_2409300536_CXMT-CXDQ3A8AM-CQ-A_C20598560.pdf>、<https://doc.chipmall.com/datasheet/rev_2412141843_cxmt-cxdq3a8am-ij-a_c67024723.pdf>
 - CXMT `CXDQ3A8AM-WG` / `CXDQ3BFAM-WG` datasheet 镜像与用户提供截图确认 `W` 为 wide temperature，`G` 为 2666Mbps 18-18-18；无 final die-version suffix 时不输出 `die_revision`。来源：<https://datasheet.lcsc.com/datasheet/pdf/15ea4d2ab141ea7bfb785ee5612473a9.pdf?productCode=C20598563>
 - CXMT `CXDB5CCAM-MK` LPDDR4X datasheet 镜像确认 `CXDB4ABAM-MK` 为 16Gb、`CXDB5CCAM-MK` 为 32Gb、2CH x32、3733Mbps、200 Ball Discrete，并在 part-number decoding 中列出 `4=16Gb`、`5=32Gb`、`B=x32,2CH,1CS`、`C=x32,2CH,2CS`、`A=200ball FBGA 10x15 DDP`、`C=200ball FBGA 10x15 QDP`。来源：<https://datasheet4u.com/pdf/1550200/CXDB5CCAM-MK.pdf>
+- Synaptics SL1680 QVL 另将 `CXDB4ABAM-MK` 列为 16Gb x32 LPDDR4X-3733 合格器件，与上述 datasheet token 表一致；因此补入 PN 搜索资源，decoder 仍只使用既有 token 规则。来源：<https://cp.synaptics.com/cognidox/download/NR-154842-TC-APPROVED.pdf>
 - CXMT `CXDB5CBAM-MA-B` datasheet 镜像补充确认 4GB LPDDR4X、2CH x32、4266Mbps、200 Ball Discrete，并给出 `B=x32 2CH 1CS`、`A=DDP`、`C=200-ball`、suffix `M=mobile/commercial temp`、`A=4266Mbps`、final `B=3rd generation` 这类后续版本 token。来源：<https://www.dzjie.com/wp-content/uploads/2025/03/LPDDR4X_CXDB5CBAM-MA-B.pdf>
 - CXMT `CXDB4CBAM-MK-A` datasheet 镜像确认 2GB LPDDR4X、2CH x32、3733Mbps、200 Ball Discrete；part-number decoding 中 `4=2GB`、`B=x32 2CH 1CS`、`A=DDP`、`C=200-ball`。来源：<https://pdf.elecfans.com/p/11175344.html>
 - CXMT `CXDB5CCBM-MK-A` / `CXDB5CCBM-MA-A` datasheet 镜像确认 4GB LPDDR4X、2CH x32、200 Ball Discrete；`MK` 为 3733Mbps，`MA` 为 4266Mbps，`CBM` 对应 x32 2CH 2CS / QDP / 200-ball 组合。来源：<https://atta.szlcsc.com/upload/public/pdf/source/20240112/0697417D4456C9B7A65E123D9285D203.pdf>、<https://atta.szlcsc.com/upload/public/pdf/source/20251128/2A0FA1E64CE1EFDC7BC81ECF2706B35F.pdf>

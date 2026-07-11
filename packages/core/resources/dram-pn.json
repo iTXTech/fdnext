@@ -1561,6 +1561,10 @@
   },
   {
     "vendor": "cxmt",
+    "pn": "CXDB4ABAM-MK"
+  },
+  {
+    "vendor": "cxmt",
     "pn": "CXDB4CBAM-MK-A"
   },
   {
@@ -1750,6 +1754,18 @@
   {
     "vendor": "skhynix",
     "pn": "H58G66DK9BX067"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H58G66BK8HX096"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H58GG6AK8HX094"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H58G76BK8HX095"
   },
   {
     "vendor": "skhynix",
