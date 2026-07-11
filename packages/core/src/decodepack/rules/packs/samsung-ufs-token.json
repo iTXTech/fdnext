@@ -18,7 +18,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^KLU(?:AG|BG|CG|DG|EG|FG|GG|HG)[1248A][GJKVURNL][1H][BCDEFGHJKYZ][0-9A-Z](?:[BCEF][0-9A-Z][BCDEFGH][12PQ])?$"
+      "value": "^KLU(?:AG|BG|CG|DG|EG|FG|GG|HG)[1248A][GJKVURNL][1H][BCDEFGHJKUYZ][0-9A-Z](?:[BCEF][0-9A-Z][BCDEFGH][12PQ])?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -120,6 +120,9 @@
           "K": {
             "controller": "UFS 4.1 G5-2Lane Controller"
           },
+          "U": {
+            "controller": "UFS 4.1 G5-2Lane Controller (Automotive)"
+          },
           "Y": {
             "controller": "UFS 3.1/2.1 G4-2Lane Controller (Automotive Grade only)"
           },
@@ -154,6 +157,9 @@
           },
           "H:J": {
             "product_version": "UFS 3.1"
+          },
+          "H:U": {
+            "product_version": "UFS 4.1"
           }
         },
         "nandGeneration": {
@@ -288,6 +294,9 @@
           "C": "BGA-153, 11.5x13, Revision",
           "E": "BGA-95, 11.5x13",
           "F": "BGA-153, 9x13"
+        },
+        "packageByBase": {
+          "KLUGGARHUF": "BGA-153, 11.5x13x1.2"
         },
         "versionObj": {
           "B": {
@@ -464,6 +473,19 @@
           "op": "map",
           "from": "packageCode",
           "table": "package",
+          "to": "packageDefault"
+        },
+        {
+          "op": "map",
+          "from": "basePartNumber",
+          "table": "packageByBase",
+          "to": "packageOverride",
+          "default": null
+        },
+        {
+          "op": "fallback",
+          "primary": "packageOverride",
+          "secondary": "packageDefault",
           "to": "package"
         },
         {

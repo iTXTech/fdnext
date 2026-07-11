@@ -44,6 +44,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-05-19 根据用户提供的 Etron LPDDR2 / LPDDR4 / LPDDR4X datasheet 截图补齐 `EM6K` LPDDR2 token，并把 Etron LPDDR4/4X 补全项从页眉式 family PN 清理为带 speed suffix 的标准 ordering PN；带 speed token 的 PN 只输出具体速率，不输出 family 级速度范围。
 - 2026-05-19 从 Etron 官网 specialty DRAM 页面抓取 DDR、DDR2、DDR3/DDR3L、DDR4 的 52 个公开 datasheet，只解析前两页 ordering information / specs：补齐 DDR~DDR4 speed suffix、DDR3/DDR3L 工业/车规/stacked dice suffix、精确 FBGA/BGA/TSOP 封装尺寸，并把 181 个带 speed suffix 的 ordering PN 加入 `dram-pn.json`。带 speed suffix 的 PN 只输出具体速率，不重复输出 family speed。
 - 2026-07-11 根据 Nanya 官方 Standard/Low Power Part Numbering Guide 补齐 DDR4-2933、DDR5-4800 与扩展温区 token；根据 ESMT 两份特定产品 datasheet ordering information 补齐 DDR4 8Gb x16 的 NL/KJ 速度和 LPDDR4X 16Gb x32 双通道 Product ID。
+- 2026-07-11 继续按品牌×产品线审计：补 Samsung LPDDR5X 24Gb / 新 64Gb configuration、GDDR7-28 与 Automotive UFS 4.1，补 Micron 24Gb GDDR7、Nanya LPDDR5/5X exact PN；CXMT LPDDR5X 只更新候选范围，不在缺 PN token 时推造规则。
 
 ## 当前覆盖进度
 

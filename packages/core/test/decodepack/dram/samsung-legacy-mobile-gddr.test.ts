@@ -368,3 +368,4 @@ assertDram("K4VAF325ZC-SC32", {
   }
 });
 assertDecodedField("K4VAF325ZC-SC36", "dram_speed", "GDDR7-36Gbps");
+assertDecodedField("K4VAF325ZC-SC28", "dram_speed", "GDDR7-28Gbps");

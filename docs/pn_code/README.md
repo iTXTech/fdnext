@@ -25,6 +25,7 @@
 | Winbond | - | - | - | - | - | - | [winbond_dram.md](winbond_dram.md) |
 | ESMT | - | - | - | - | - | - | [esmt_dram.md](esmt_dram.md) |
 | Etron | - | - | - | - | - | - | [etron_dram.md](etron_dram.md) |
+| ISSI | - | [issi_emmc.md](issi_emmc.md) | [issi_ufs.md](issi_ufs.md) | - | - | - | [issi_dram.md](issi_dram.md) |
 | YMTC | [ymtc_nand.md](ymtc_nand.md) | [ymtc_emmc.md](ymtc_emmc.md) | [ymtc_ufs.md](ymtc_ufs.md) | - | - | - | - |
 | Kingston | - | [kingston_emmc.md](kingston_emmc.md) | [kingston_ufs.md](kingston_ufs.md) | [kingston_emcp.md](kingston_emcp.md) | - | - | - |
 | Longsys | - | [longsys_emmc.md](longsys_emmc.md) | [longsys_ufs.md](longsys_ufs.md) | [longsys_emcp.md](longsys_emcp.md) | - | - | - |

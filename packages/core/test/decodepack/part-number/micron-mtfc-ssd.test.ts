@@ -150,6 +150,46 @@ assertRuleDecode("MTFC64GBCAVAL-AIT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
 
+assertRuleDecode("MTFC128GAZAOTD-AAT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 1048576,
+  package: "BGA-153, 11.5x13x1.2",
+  absentExtra: ["Product Version", "NAND Component", "Controller Code", "Package Code"]
+});
+
+assertRuleDecode("MTFC256GAVATTC-AAT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 2097152,
+  package: "LFBGA-153, 11.5x13x1.3",
+  extra: {
+    "Product Version": "UFS 3.1"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code"]
+});
+
+assertRuleDecode("MTFC128GAXAUEA-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 1048576,
+  package: "WFBGA-153, 11.5x13x0.8, LF35",
+  extra: {
+    "Product Version": "UFS 2.2"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code"]
+});
+
+assertRuleDecode("MTFC512GBCAVHE-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 4194304,
+  package: "BGA-153, 11x13x0.9",
+  extra: {
+    "Product Version": "UFS 3.1"
+  }
+});
+
 assertRuleDecode("MTFC128GBCAQTC-AIT", {
   vendor: "micron",
   type: "eMMC",

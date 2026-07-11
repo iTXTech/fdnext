@@ -1,0 +1,76 @@
+[
+  {
+    "id": "vendor.issi.ufs.token.v1",
+    "priority": 1007,
+    "normalize": [
+      "trim",
+      "uppercase",
+      { "remove": [" ", ",", "&", ".", "|"] }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^IS27TH(?:064G|128G|256G)(?:21|31)-[0-9A-Z]{4,6}(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["IS27TH"],
+      "tables": {
+        "densityToken": ["064G", "128G", "256G"],
+        "density": {
+          "064G": 524288,
+          "128G": 1048576,
+          "256G": 2097152
+        },
+        "interfaceObj": {
+          "21": {
+            "storage_interface": "UFS 2.1",
+            "product_version": "UFS 2.1"
+          },
+          "31": {
+            "storage_interface": "UFS 3.1",
+            "product_version": "UFS 3.1"
+          }
+        },
+        "packageObj": {
+          "C": { "package": "FBGA-153" }
+        },
+        "packagingObj": {
+          "L": { "solder_type": "RoHS compliant" }
+        },
+        "temperatureObj": {
+          "I": { "operation_temperature": "Industrial (-40°C ~ 85°C)" },
+          "A1": { "operation_temperature": "Automotive (-40°C ~ 85°C)" },
+          "A2": { "operation_temperature": "Automotive (-40°C ~ 105°C)" }
+        }
+      },
+      "steps": [
+        { "op": "takeLongest", "table": "densityToken", "to": "densityToken", "default": "" },
+        { "op": "map", "from": "densityToken", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 2, "to": "interfaceCode" },
+        { "op": "map", "from": "interfaceCode", "table": "interfaceObj", "to": "interfaceObj", "default": {} },
+        { "op": "stripIfPrefix", "prefix": "-" },
+        { "op": "take", "len": 1, "to": "optionCode" },
+        { "op": "take", "len": 1, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "packageObj", "to": "packageObj", "default": {} },
+        { "op": "take", "len": 1, "to": "packagingCode" },
+        { "op": "map", "from": "packagingCode", "table": "packagingObj", "to": "packagingObj", "default": {} },
+        { "op": "takeLongest", "table": "temperatureObj", "to": "temperatureObj", "default": {} },
+        { "op": "set", "to": "extra", "value": { "cell_level": "TLC" } },
+        { "op": "merge", "into": "extra", "from": "interfaceObj" },
+        { "op": "merge", "into": "extra", "from": "packagingObj" },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "issi",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$var": "density" },
+        "fields.package": { "$path": "packageObj.package" },
+        "meta.ruleId": "vendor.issi.ufs.token.v1",
+        "meta.fieldProfile": "managed_nand"
+      }
+    }
+  }
+]

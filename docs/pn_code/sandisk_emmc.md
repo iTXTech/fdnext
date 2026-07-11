@@ -1,6 +1,6 @@
 # SanDisk iNAND eMMC PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-05-08；更新日期：2026-07-11
 
 ## 外部资料
 
@@ -10,6 +10,8 @@
   <https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/product/embedded-flash/brochure/brochure-western-digital-eis-mobile.pdf>
 - Sandisk automotive eMMC/UFS brochure: `SDINBDA6-##G-ZA1|XA1` 对应 AT EM132，`SDINBDG4-##G-ZA3|XA3` 对应 AT EM122，接口均为 eMMC 5.1 HS400。
   <https://documents.sandisk.com/content/dam/asset-library/en_us/assets/public/sandisk/product/embedded-flash/brochure/brochure-sandisk-automotive-ufs-emmc.pdf>
+- Sandisk Industrial and IoT brochure 确认 `SDINBDI4-XXXG` 为 iNAND CL EM151、eMMC 5.1、64GB~256GB、3D TLC、-25°C~85°C。授权经销商 Satori SP Technology 列出 `SDINBDI4-64G-H/128G-H/256G-H`；Falcon、Rockchip support list、Mouser/TrustedParts 等独立来源与官方容量和 family pattern 同向。第三方只用于确认 exact PN，接口、容量范围和温区仍以原厂 brochure 为准。
+  <https://documents.sandisk.com/content/dam/asset-library/en_us/assets/public/sandisk/product/embedded-flash/brochure/brochure-sandisk-industrial-iot-storage-solutions.pdf>
 - SanDisk iNAND Ultra e.MMC 4.41 datasheet mirror: `SDIN7DU2-8G/16G/32G/64G` 订购型号，X2 MLC，e.MMC 4.41。
   <https://www.part-elec.com/datasheet/sandisk/SDIN7DU2-8G.pdf>
 - SanDisk Industrial iNAND brochure mirror: `SDIN8DE#-##G-XI/I` 与 `SDIN7DU2-##G-I` 覆盖 Industrial iNAND e.MMC 4.51+/4.41+。
@@ -33,6 +35,8 @@ PN 结构：
 | family `BDA4` | iNAND MC EM131, eMMC 5.1 HS400 |
 | family `BDA6` | iNAND IX/AT EM132-class, eMMC 5.1 HS400, BiCS3 64L 3D NAND |
 | family `BDG4` | iNAND 7250 / EM122-class, eMMC 5.1 HS400 |
+| family `BDI4` | iNAND CL EM151, eMMC 5.1 HS400, 3D TLC；64GB/128GB/256GB |
+| family `BDI4` package | 授权渠道表确认 BGA-153, 11.5x13x1.0；未确认具体 BGA subtype |
 | family `BDV4` | iNAND MC EM141, eMMC 5.1 HS400 |
 | family `5C2/5C4` | local FDB and public distributor/datasheet references point to legacy iNAND eMMC 4.41-class parts |
 | family `7DU2` | iNAND Ultra, eMMC 4.41, X2 MLC |
@@ -41,6 +45,7 @@ PN 结构：
 | legacy process profile | `5C2/5C4` -> `SNK24M`; `7DP4/7DU2/7LP4` -> `SNK19M` |
 | capacity `4G/8G/16G/32G/64G/128G/256G` | eMMC 容量，落库为 Mbit |
 | suffix `H` | Connected Home, -25°C to 95°C |
+| family `BDI4` + suffix `H` | Commercial, -25°C to 85°C；组合规则优先于全局 `H` |
 | suffix `I1/I2` | Industrial Wide Temperature, -25°C to 85°C |
 | suffix `XI1/XI2` | Industrial Extended Temperature, -40°C to 85°C |
 | suffix `XA1/XA3` | Automotive, -40°C to 85°C |
@@ -62,6 +67,7 @@ PN 结构：
 
 - `SDINBDA6-256G-XI1`
 - `SDINBDG4-32G-ZA3`
+- `SDINBDI4-64G-H`
 - `SDIN7DU2-8G`
 - `SDIN5C4-64G`
 

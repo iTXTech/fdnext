@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^SDIN(?:ADF4|BDA4|BDA6|BDG4|BDV4)-?(?:00[48]G|0(?:16|32|64)G|4G|8G|16G|32G|64G|128G|256G)(?:-[0-9A-Z]+)?$"
+      "value": "^SDIN(?:(?:ADF4|BDA4|BDA6|BDG4|BDV4)-?(?:00[48]G|0(?:16|32|64)G|4G|8G|16G|32G|64G|128G|256G)|BDI4-?(?:64G|128G|256G))(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -57,6 +57,17 @@
             "interface_type": "HS400",
             "nand_technology": "2D NAND",
             "generation_info": "2D NAND"
+          },
+          "BDI4": {
+            "product_family": "iNAND CL EM151",
+            "group": "eMMC",
+            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
+            "interface_type": "HS400",
+            "nand_technology": "3D TLC NAND",
+            "cell_level": "TLC",
+            "operation_temperature": "-25°C ~ 85°C",
+            "package": "BGA-153, 11.5x13x1.0"
           },
           "BDV4": {
             "product_family": "iNAND MC EM141",
@@ -131,6 +142,12 @@
             "product_class": "Qualification Sample"
           }
         },
+        "familySuffixObj": {
+          "BDI4:H": {
+            "product_class": "Commercial",
+            "operation_temperature": "-25°C ~ 85°C"
+          }
+        },
         "reference": {
           "BDA6": {
             "status": "external_confirmed",
@@ -146,6 +163,15 @@
             "examples": [
               "SDINBDG4-32G",
               "SDINBDG4-##G-ZA3"
+            ]
+          },
+          "BDI4": {
+            "status": "external_table_confirmed",
+            "source": "Sandisk Industrial and IoT brochure plus authorized distributor and programmer support tables",
+            "examples": [
+              "SDINBDI4-64G-H",
+              "SDINBDI4-128G-H",
+              "SDINBDI4-256G-H"
             ]
           }
         }
@@ -192,6 +218,18 @@
           "prefix": "-"
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{rest}}",
+          "to": "familySuffixKey"
+        },
+        {
+          "op": "map",
+          "from": "familySuffixKey",
+          "table": "familySuffixObj",
+          "to": "familySuffixObj",
+          "default": {}
+        },
+        {
           "op": "takeLongest",
           "table": "suffixObj",
           "to": "suffixObj",
@@ -213,6 +251,11 @@
           "op": "merge",
           "into": "extra",
           "from": "suffixObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familySuffixObj"
         },
         {
           "op": "omit",

@@ -1,6 +1,6 @@
 # Samsung UFS PN 编码资料
 
-采集日期：2026-05-08
+采集日期：2026-05-08；更新日期：2026-07-11
 
 ## 来源
 
@@ -10,6 +10,8 @@
   <https://semiconductor.samsung.com/estorage/ufs/ufs-4-0/>
 - Samsung UFS 4.1 官方页面确认 UFS 4.1 产品线、G5 2Lane 和 153 FBGA。
   <https://semiconductor.samsung.com/jp/estorage/ufs/>
+- Samsung Automotive UFS 4.1 官方页面确认 `KLUGGARHUF-F0HQ` 为 1TB、G5 2Lane、153-FBGA 11.5x13x1.2、-40°C~105°C。该 body 使用 controller token `U`，package `F` 必须按 base PN 组合覆盖，不能套用其他 UFS 4.x 的 9x13 全局值。
+  <https://semiconductor.samsung.com/emea/estorage/ufs/ufs-4-1/kluggarhuf-f0hq/>
 - 用户提供的 Samsung UFS 测试点 dump 表确认若干特定基础 PN 的 CE 数、die 数和单 die NAND marking。该表只用于 exact base PN 补充，不从 UFS PN token 泛化推断 CE / die。
 
 ## 规则入口
@@ -24,7 +26,7 @@
 | `KLU` + density(2) + die count(1) + die type(1) + voltage(1) + controller(1) + generation(1) + package/version/temp | Samsung UFS |
 | density `AG/BG/CG/DG/EG/FG/GG/HG` | 16GB 到 2TB |
 | die count `1/2/4/8/A` | 1 / 2 / 4 / 8 / 16 die |
-| controller `D/G/J/H/K` | UFS G4/G5 controller family |
+| controller `D/G/J/H/K/U` | UFS G4/G5 controller family；`U` 为 Automotive UFS 4.1 G5 2Lane |
 | version `E/G/H` | UFS 3.1 / 4.0 / 4.1 |
 | `dumpedPartObj` exact base PN | 用户测试点 dump 得到的 `ce_count` 与 `nand_component` |
 
@@ -52,3 +54,4 @@ Samsung UFS 输出：
 | `KLUEG8UHDB-C2E1` | UFS 3.1, 256GB, ODP, 256Gb die, V5 92L |
 | `KLUFG8RHHF-F0G1` | UFS 4.0, 512GB, ODP, 512Gb die, V8 236L |
 | `KLUEG4RHKF-F0H1` | UFS 4.1, 256GB, QDP, 512Gb die, V8 236L |
+| `KLUGGARHUF-F0HQ` | Automotive UFS 4.1, 1TB, BGA-153 11.5x13x1.2, -40°C~105°C |

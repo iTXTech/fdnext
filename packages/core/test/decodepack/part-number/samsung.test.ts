@@ -981,3 +981,20 @@ testPart("KLUFG4NHKH-F0H1", {
   },
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
+
+testPart("KLUGGARHUF-F0HQ", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 8388608,
+  cellField: "TLC",
+  dieProfileField: "SSV8",
+  package: "BGA-153, 11.5x13x1.2",
+  extra: {
+    "Die Density": "512Gb",
+    "Die Count": 16,
+    "Product Version": "UFS 4.1",
+    "Controller": "UFS 4.1 G5-2Lane Controller (Automotive)",
+    "Operation Temperature": "-40°C ~ 105°C Automotive Grade 2"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});

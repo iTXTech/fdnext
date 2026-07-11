@@ -178,6 +178,8 @@
           "AS:AO": "ufs",
           "AX:AT": "ufs",
           "AX:AU": "ufs",
+          "AZ:AO": "ufs",
+          "AV:AT": "ufs",
           "BC:AV": "ufs",
           "BE:AX": "ufs",
           "AY:AX": "ufs"
@@ -204,6 +206,14 @@
             "group": "UFS"
           },
           "AX:AU": {
+            "product_version": "UFS 2.2",
+            "group": "UFS"
+          },
+          "AZ:AO": {
+            "group": "UFS"
+          },
+          "AV:AT": {
+            "product_version": "UFS 3.1",
             "group": "UFS"
           },
           "BC:AV": {
@@ -262,6 +272,7 @@
         },
         "package": {
           "AG": "VFBGA-153, 11x10x1.0",
+          "AL": "BGA-153, 11.5x13x1.0",
           "AM": "VFBGA-153, 11.5x13x1.0, LF35",
           "CE": "LFBGA-169, 14x18x1.4",
           "CN": "VFBGA-153, 11.5x13x1.0, SAC 302",
@@ -282,12 +293,14 @@
           "EF": "TFBGA-169, 14.0x18x1.2",
           "EY": "LFBGA-153, 11.5x13x1.4",
           "GT": "WFBGA-153, 11.5x13x0.8, SAC302",
+          "HE": "BGA-153, 11x13x0.9",
           "HF": "WFBGA-153, 11.0x13x0.8",
           "HJ": "VFBGA-153, 11.0x13x1.0",
           "JP": "VFBGA-153, 11.5x13x1",
           "NA": "TBGA-100, 14x18x1.2",
           "NS": "TFBGA-153, 11.5x13x1.2",
-          "TC": "LFBGA-153, 11.5x13x1.3"
+          "TC": "LFBGA-153, 11.5x13x1.3",
+          "TD": "BGA-153, 11.5x13x1.2"
         },
         "specialOptionObj": {
           "0F": {

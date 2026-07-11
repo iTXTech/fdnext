@@ -20,6 +20,8 @@ import elpidaDramTokenRules from "./packs/elpida-dram-token.json" with { type: "
 import cxmtDramTokenRules from "./packs/cxmt-dram-token.json" with { type: "json" };
 import gigadeviceDramTokenRules from "./packs/gigadevice-dram-token.json" with { type: "json" };
 import issiDramTokenRules from "./packs/issi-dram-token.json" with { type: "json" };
+import issiEmmcTokenRules from "./packs/issi-emmc-token.json" with { type: "json" };
+import issiUfsTokenRules from "./packs/issi-ufs-token.json" with { type: "json" };
 import winbondDramTokenRules from "./packs/winbond-dram-token.json" with { type: "json" };
 import esmtDramTokenRules from "./packs/esmt-dram-token.json" with { type: "json" };
 import etronDramTokenRules from "./packs/etron-dram-token.json" with { type: "json" };
@@ -84,6 +86,8 @@ export const defaultPartDecodeSpecs = [
   ...cxmtDramTokenRules,
   ...gigadeviceDramTokenRules,
   ...issiDramTokenRules,
+  ...issiEmmcTokenRules,
+  ...issiUfsTokenRules,
   ...winbondDramTokenRules,
   ...esmtDramTokenRules,
   ...etronDramTokenRules,

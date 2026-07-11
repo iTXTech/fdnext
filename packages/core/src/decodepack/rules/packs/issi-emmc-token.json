@@ -1,0 +1,126 @@
+[
+  {
+    "id": "vendor.issi.emmc.token.v1",
+    "priority": 1007,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^IS(?:21|22)[ET][FS](?:04GP|08GP|04G|08G|16G|32G|64G|128G)A?-[0-9A-Z]{4,6}(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["IS"],
+      "tables": {
+        "familyObj": {
+          "21": {},
+          "22": {
+            "product_class": "Automotive Managed NAND"
+          }
+        },
+        "technologyObj": {
+          "E": {
+            "cell_level": "MLC"
+          },
+          "T": {
+            "cell_level": "TLC"
+          }
+        },
+        "interfaceObj": {
+          "S": {
+            "storage_interface": "eMMC 5.0",
+            "product_version": "eMMC 5.0"
+          },
+          "F": {
+            "storage_interface": "eMMC 5.1",
+            "product_version": "eMMC 5.1"
+          }
+        },
+        "densityToken": ["128G", "04GP", "08GP", "04G", "08G", "16G", "32G", "64G"],
+        "densityObj": {
+          "04GP": {
+            "density": 32768,
+            "special_option": "pSLC preconfigured"
+          },
+          "08GP": {
+            "density": 65536,
+            "special_option": "pSLC preconfigured"
+          },
+          "04G": { "density": 32768 },
+          "08G": { "density": 65536 },
+          "16G": { "density": 131072 },
+          "32G": { "density": 262144 },
+          "64G": { "density": 524288 },
+          "128G": { "density": 1048576 }
+        },
+        "generationObj": {
+          "A": {
+            "generation_info": "2nd Gen"
+          }
+        },
+        "packageObj": {
+          "Q": { "package": "FBGA-100" },
+          "C": { "package": "FBGA-153" }
+        },
+        "packagingObj": {
+          "L": {
+            "solder_type": "RoHS compliant, Halogen-free"
+          }
+        },
+        "temperatureObj": {
+          "I": {
+            "operation_temperature": "Industrial (-40°C ~ 85°C)"
+          },
+          "A1": {
+            "operation_temperature": "Automotive (-40°C ~ 85°C)"
+          },
+          "A2": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 2, "to": "familyCode" },
+        { "op": "map", "from": "familyCode", "table": "familyObj", "to": "familyObj", "default": {} },
+        { "op": "take", "len": 1, "to": "technologyCode" },
+        { "op": "map", "from": "technologyCode", "table": "technologyObj", "to": "technologyObj", "default": {} },
+        { "op": "take", "len": 1, "to": "interfaceCode" },
+        { "op": "map", "from": "interfaceCode", "table": "interfaceObj", "to": "interfaceObj", "default": {} },
+        { "op": "takeLongest", "table": "densityToken", "to": "densityToken", "default": "" },
+        { "op": "map", "from": "densityToken", "table": "densityObj", "to": "densityObj", "default": {} },
+        { "op": "takeLongest", "table": "generationObj", "to": "generationObj", "default": {} },
+        { "op": "stripIfPrefix", "prefix": "-" },
+        { "op": "take", "len": 1, "to": "optionCode" },
+        { "op": "take", "len": 1, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "packageObj", "to": "packageObj", "default": {} },
+        { "op": "take", "len": 1, "to": "packagingCode" },
+        { "op": "map", "from": "packagingCode", "table": "packagingObj", "to": "packagingObj", "default": {} },
+        { "op": "takeLongest", "table": "temperatureObj", "to": "temperatureObj", "default": {} },
+        { "op": "set", "to": "extra", "value": {} },
+        { "op": "merge", "into": "extra", "from": "familyObj" },
+        { "op": "merge", "into": "extra", "from": "technologyObj" },
+        { "op": "merge", "into": "extra", "from": "interfaceObj" },
+        { "op": "merge", "into": "extra", "from": "densityObj" },
+        { "op": "merge", "into": "extra", "from": "generationObj" },
+        { "op": "merge", "into": "extra", "from": "packagingObj" },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "issi",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$path": "densityObj.density" },
+        "fields.package": { "$path": "packageObj.package" },
+        "meta.ruleId": "vendor.issi.emmc.token.v1",
+        "meta.fieldProfile": "managed_nand"
+      }
+    }
+  }
+]

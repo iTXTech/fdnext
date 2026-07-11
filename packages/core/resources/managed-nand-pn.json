@@ -64,6 +64,50 @@
     "pn": "BWU2ANY46B512G"
   },
   {
+    "vendor": "issi",
+    "pn": "IS21EF04GP-JQLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS22EF04GP-JCLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS21EF08G-JCLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS22EF16G-JQLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS21TF32G-JQLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS22TF64G-JCLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS21TF128G-JCLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH064G21-JCLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH256G21-JCLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH128G31-JCLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH128G31-JCLA1"
+  },
+  {
     "vendor": "kingston",
     "pn": "EMMC04G-CT32"
   },
@@ -509,6 +553,10 @@
   },
   {
     "vendor": "micron",
+    "pn": "MTFC512GBCAVHE-WT"
+  },
+  {
+    "vendor": "micron",
     "pn": "MTFC128GASAONS-IT"
   },
   {
@@ -665,6 +713,26 @@
   },
   {
     "vendor": "micron",
+    "pn": "MTFC32GAZAOTD-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GAZAOTD-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GAZAOTD-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GAVATTC-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GAVATTC-AAT"
+  },
+  {
+    "vendor": "micron",
     "pn": "MT29VZZZ7D81SFSL-046 W.22B"
   },
   {
@@ -790,6 +858,10 @@
   {
     "vendor": "samsung",
     "pn": "KLUFG8RHHF-F0G1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUGGARHUF-F0HQ"
   },
   {
     "vendor": "samsung",
@@ -1225,6 +1297,18 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDINBDI4-64G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDI4-128G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDI4-256G-H"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDINDDH4-32G"
   },
   {
@@ -1298,6 +1382,18 @@
   {
     "vendor": "sndk",
     "pn": "SDINHDL6-1T00-ZA"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINHFT4-256G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINHFT4-512G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINHFT4-1T00"
   },
   {
     "vendor": "sndk",

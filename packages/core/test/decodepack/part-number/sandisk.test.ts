@@ -155,6 +155,44 @@ assertRuleDecode("SDINFDK4-128G", {
   absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("SDINBDI4-64G-H", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 524288,
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Family": "iNAND CL EM151",
+    "Storage Interface": "eMMC 5.1",
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  }
+});
+
+assertRuleDecode("SDINHFT4-256G", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 2097152,
+  cellField: "TLC",
+  package: "BGA-153, 9x13",
+  extra: {
+    "Product Family": "iNAND MC EU711",
+    "Storage Interface": "UFS 4.1",
+    "Operation Temperature": "-25°C ~ 85°C"
+  }
+});
+
+assertRuleDecode("SDINHFT4-1T00", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 8388608,
+  cellField: "TLC",
+  extra: {
+    "Product Family": "iNAND MC EU711",
+    "Storage Interface": "UFS 4.1"
+  }
+});
+
 assertRuleDecode("SDINDDH6-128G-ZA2", {
   vendor: "sndk",
   type: "UFS",

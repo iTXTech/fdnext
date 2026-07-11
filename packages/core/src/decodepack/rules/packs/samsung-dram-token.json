@@ -2023,6 +2023,7 @@
           "F4",
           "FA",
           "L3",
+          "L7",
           "KB"
         ],
         "configObj": {
@@ -2073,6 +2074,9 @@
           },
           "3K:L3": {
             "dram_type": "LPDDR5X"
+          },
+          "3K:L7": {
+            "dram_type": "LPDDR5X"
           }
         },
         "densityMb": {
@@ -2085,7 +2089,8 @@
           "4F:6": 16384,
           "4U:6": 16384,
           "3L:KB": 32768,
-          "3K:L3": 65536
+          "3K:L3": 65536,
+          "3K:L7": 24576
         },
         "deviceWidth": {
           "3P:E7": 64,
@@ -2108,7 +2113,8 @@
           "4F:6": "1.8V / 1.1V / 1.1V",
           "4U:6": "1.8V / 1.1V / 0.6V",
           "3L:KB": "1.8V / 1.05V / 0.9V / 0.5V",
-          "3K:L3": "1.8V / 1.05V / 0.9V / 0.5V"
+          "3K:L3": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3K:L7": "1.8V / 1.05V / 0.9V / 0.5V"
         },
         "packageActual": {
           "3P:E700M": "FBGA-216",
@@ -2127,12 +2133,14 @@
         "suffixDeviceWidth": {
           "3K:B": 16,
           "3K:J": 64,
-          "3K:E": 64
+          "3K:E": 64,
+          "3K:M": 32
         },
         "suffixPackageActual": {
           "3K:B": "FBGA-496",
           "3K:J": "FBGA-441",
-          "3K:E": "FBGA-561"
+          "3K:E": "FBGA-561",
+          "3K:M": "FBGA-315"
         },
         "suffixTempObj": {
           "3P:G": {
@@ -2164,6 +2172,9 @@
           },
           "3K:H": {
             "operation_temperature": "-40C~105C"
+          },
+          "3K:F": {
+            "operation_temperature": "-40C~95C"
           },
           "3K:U": {
             "operation_temperature": "-40C~125C"

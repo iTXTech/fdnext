@@ -22,6 +22,7 @@
   - LPDDR3 `MT52L512M32D2PF-107-WT-B`: <https://www.micron.com/products/memory/dram-components/lpddr-components/part-catalog/part-detail/mt52l512m32d2pf-107-wt-b>
   - GDDR6X `MT61K512M32KPA-24-U`: <https://www.micron.com/products/memory/graphics-memory/gddr6x/part-catalog/part-detail/mt61k512m32kpa-24-u>
   - GDDR7 `MT68A512M32DF-32:A`: Micron GDDR7 product brief 明确 `68 = GDDR7 SGRAM`、`A = 1.2V`、`512M32`、`DF = FBGA-266, 12x14x1.1`、`-28/-32 = 28/32Gbps`。
+  - Micron 官方 GDDR7 live catalog 继续确认 `MT68A768M32DF-28:A/-32:A` 为 24Gb x32 GDDR7，并与既有 `MT68A512M32DF-28:A/-32:A` 共用结构；四个 exact PN 均进入搜索资源。来源：<https://www.micron.com/products/memory/graphics-memory/gddr7/part-catalog>
     <https://www.micron.com/content/dam/micron/global/public/products/product-flyer/gddr7-product-brief.pdf>
 - 公开分销页面和 datasheet 镜像用于交叉确认实际封装输出，例如 DigiKey `MT40A1G8SA-075:E` / `MT41K512M8DA-107:P` / `MT61K256M32JE-14:A` / `MT61K512M32KPA-24:U`、Microchip USA `MT53E1G32D2FW-046 WT:B`、Allelco `MT62F1G32D4DS-031 WT:B`，以及公开的 Micron GDDR5X datasheet 镜像。
   - <https://www.digikey.kr/ko/products/detail/micron-technology-inc/MT40A1G8SA-075-E/7597774>

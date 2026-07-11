@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^SDIN(?:DDH4|DDH6|EDK4|FDK4|FDO2|FDO4|FDQ6|HDL6)-?(?:[0-9]{1,3}G|1T00)(?:-[0-9A-Z]+)?$"
+      "value": "^SDIN(?:(?:DDH4|DDH6|EDK4|FDK4|FDO2|FDO4|FDQ6|HDL6)-?(?:[0-9]{1,3}G|1T00)|HFT4-?(?:256G|512G|1T00))(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -85,6 +85,17 @@
             "interface_type": "WriteBooster",
             "nand_technology": "BiCS8 218L 3D NAND",
             "generation_info": "BiCS8 218L 3D NAND"
+          },
+          "HFT4": {
+            "product_family": "iNAND MC EU711",
+            "group": "UFS",
+            "product_version": "UFS 4.1",
+            "storage_interface": "UFS 4.1",
+            "interface_type": "Gear 5 / 2-Lane",
+            "nand_technology": "3D TLC NAND",
+            "cell_level": "TLC",
+            "operation_temperature": "-25°C ~ 85°C",
+            "package": "BGA-153, 9x13"
           }
         },
         "processNode": {
@@ -174,6 +185,16 @@
             "examples": [
               "SDINHDL6-1T00-ZA"
             ]
+          },
+          "HFT4": {
+            "status": "external_table_confirmed",
+            "source": "Sandisk Industrial and IoT brochure plus Falcon programmer table, ChromiumOS quirk and distributor listings",
+            "examples": [
+              "SDINHFT4-256G",
+              "SDINHFT4-512G",
+              "SDINHFT4-1T00"
+            ],
+            "notes": "512G follows the official 256GB-1TB capacity range and established density token structure"
           }
         }
       },

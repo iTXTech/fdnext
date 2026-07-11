@@ -208,6 +208,18 @@
     "pn": "K4VAF325ZC-SC32"
   },
   {
+    "vendor": "samsung",
+    "pn": "K4VAF325ZC-SC28"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL7L70EM-MUCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL3L30DM-EFCU"
+  },
+  {
     "vendor": "nanya",
     "pn": "NT5DS32M16CS-5T"
   },
@@ -649,7 +661,39 @@
   },
   {
     "vendor": "nanya",
+    "pn": "NT6BR512M16A3-K1I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512M16A3-K1H"
+  },
+  {
+    "vendor": "nanya",
     "pn": "NT6BR512T32A3-K2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512T32A3-K1H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512T32A3-K1J"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512T32A3-K3I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024T32A3-K2H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR2048F32A3-K2J"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024F64AT-K3"
   },
   {
     "vendor": "nanya",
@@ -2422,6 +2466,18 @@
   {
     "vendor": "micron",
     "pn": "MT68A512M32DF-32:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT68A512M32DF-28:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT68A768M32DF-28:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT68A768M32DF-32:A"
   },
   {
     "vendor": "issi",

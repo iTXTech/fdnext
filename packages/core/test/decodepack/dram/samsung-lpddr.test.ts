@@ -179,6 +179,34 @@ assertDecodedField("K3KL3L30CM-EUCV", "dram_width", "x64");
 assertDecodedField("K3KL3L30CM-EUCV", "dram_speed", "LPDDR5X-9600");
 assertDecodedField("K3KL3L30CM-EUCV", "operation_temperature", "-40C~125C");
 
+assertDram("K3KL7L70EM-MUCU", {
+  vendor: "samsung",
+  densityMbit: 24576,
+  density: "24Gb",
+  widthField: "x32",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "FBGA-315",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Speed": "LPDDR5X-8533",
+    "Operation Temperature": "-40C~125C"
+  }
+});
+
+assertDram("K3KL3L30DM-EFCU", {
+  vendor: "samsung",
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x64",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "FBGA-561",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Speed": "LPDDR5X-8533",
+    "Operation Temperature": "-40C~95C"
+  }
+});
+
 assertDram("K4U6E3S4AA-MGCL", {
   vendor: "samsung",
   densityMbit: 16384,
