@@ -39,7 +39,7 @@ import {
   type PartSearchSuggestion
 } from "./result-builder";
 import { translateString as doTranslateString } from "./translate";
-import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize";
+import { normalizeFlashId, normalizePartNumber, normalizePartNumberTokenKey, padFlashId } from "./utils/normalize";
 import { contains } from "./utils/string";
 import type {
   PartDecodeOptions,
@@ -678,7 +678,16 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       },
       resultBuilderContext
     );
-    return result.status === "ok" ? result : undefined;
+    if (result.status === "ok") {
+      return result;
+    }
+    const tokenKey = normalizePartNumberTokenKey(normalized);
+    const hasIndexedCandidate = [normalized, tokenKey].some((key) =>
+      normalizedIndexes.partExactIndex.has(key) || normalizedIndexes.markingExactIndex.has(key)
+    );
+    // Without an indexed resource candidate, classifyPart can only add the same fallback candidate
+    // and repeat this inspection. Keep classification for custom catalog-only exact records.
+    return hasIndexedCandidate ? undefined : result;
   };
 
   const getVersion = (): string => String(fdb.info.version);

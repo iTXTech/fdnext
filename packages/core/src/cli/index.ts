@@ -1,27 +1,17 @@
 #!/usr/bin/env node
 
-import { createEngine, type ControllerGroupSelection } from "../index";
+import {
+  createEngine,
+  type ControllerGroupSelection,
+  type FdnextEngine
+} from "../index";
 import { checkDecodePack, defaultDecodePack, explainIdentifierDecode, explainPartDecode } from "../decodepack";
 
-function print(value: unknown): void {
-  process.stdout.write(`${JSON.stringify(value, null, 2)}\n`);
-}
-
-function usage(): void {
-  process.stdout.write(
-    [
-      "Usage:",
-      "  fdnext part decode <partNumber> [lang]",
-      "  fdnext part search <query> [lang] [limit]",
-      "  fdnext id decode <identifier> [lang] [idScheme]",
-      "  fdnext id search <query> [lang] [limit] [idScheme]",
-      "  fdnext ... --controller-group <group|all>",
-      "  fdnext decodepack check",
-      "  fdnext decodepack explain part <partNumber> [specId]",
-      "  fdnext decodepack explain id <identifier> [idScheme]",
-      "  fdnext capabilities [lang]"
-    ].join("\n") + "\n"
-  );
+export interface CliCommandOptions {
+  /** Reuse the caller's long-lived engine when executing more than one command in-process. */
+  readonly engine?: FdnextEngine;
+  readonly stdout?: (text: string) => void;
+  readonly stderr?: (text: string) => void;
 }
 
 interface CliArgs {
@@ -29,7 +19,9 @@ interface CliArgs {
   controllerGroups: string[];
 }
 
-function parseCliArgs(args: string[]): CliArgs {
+class CliInputError extends Error {}
+
+function parseCliArgs(args: readonly string[]): CliArgs {
   const positionals: string[] = [];
   const controllerGroups: string[] = [];
   for (let index = 0; index < args.length; index += 1) {
@@ -37,8 +29,7 @@ function parseCliArgs(args: string[]): CliArgs {
     if (arg === "--controller-group") {
       const value = args[index + 1];
       if (!value) {
-        process.stderr.write("Missing --controller-group value\n");
-        process.exit(1);
+        throw new CliInputError("Missing --controller-group value");
       }
       controllerGroups.push(value);
       index += 1;
@@ -60,8 +51,7 @@ function controllerGroupArg(values: string[]): ControllerGroupSelection | undefi
   }
   if (groups.includes("all")) {
     if (groups.length > 1) {
-      process.stderr.write("--controller-group all cannot be combined with other groups\n");
-      process.exit(1);
+      throw new CliInputError("--controller-group all cannot be combined with other groups");
     }
     return "all";
   }
@@ -76,111 +66,147 @@ function limitArg(value: string | undefined): number | undefined {
   return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
 }
 
-async function main() {
-  const args = parseCliArgs(process.argv.slice(2));
-  const controllerGroup = controllerGroupArg(args.controllerGroups);
-  const scope = args.positionals[0];
-  const command = args.positionals[1];
-  if (!scope) {
-    usage();
-    process.exit(1);
-  }
-
-  if (scope === "decodepack" && command === "check") {
-    const result = checkDecodePack(defaultDecodePack);
-    print(result);
-    if (!result.ok) {
-      process.exit(1);
-    }
-    return;
-  }
-
-  if (scope === "decodepack" && command === "explain") {
-    const target = args.positionals[2];
-    const query = args.positionals[3];
-    const option = args.positionals[4];
-    if (target !== "part" && target !== "id") {
-      process.stderr.write("Expected decodepack explain target: part or id\n");
-      process.exit(1);
-    }
-    if (!query) {
-      process.stderr.write(target === "part" ? "Missing part number\n" : "Missing identifier\n");
-      process.exit(1);
-    }
-    if (target === "part") {
-      print(explainPartDecode(defaultDecodePack, query, option ? { specId: option } : {}));
-      return;
-    }
-    if (option && option !== "nand.flash_id") {
-      process.stderr.write(`Unsupported identifier scheme: ${option}\n`);
-      process.exit(1);
-    }
-    const idScheme = option as "nand.flash_id" | undefined;
-    print(explainIdentifierDecode(defaultDecodePack, query, idScheme ? { idScheme } : {}));
-    return;
-  }
-
-  const engine = createEngine();
-
-  if (scope === "capabilities") {
-    print(engine.getCapabilities({ lang: args.positionals[1] ?? null }));
-    return;
-  }
-
-  if (scope === "part" && command === "decode") {
-    const query = args.positionals[2];
-    const lang = args.positionals[3] ?? null;
-    if (!query) {
-      process.stderr.write("Missing part number\n");
-      process.exit(1);
-    }
-    print(engine.decodePart({ query, lang, ...(controllerGroup ? { controllerGroup } : {}) }));
-    return;
-  }
-
-  if (scope === "part" && command === "search") {
-    const query = args.positionals[2];
-    const lang = args.positionals[3] ?? null;
-    const limit = limitArg(args.positionals[4]);
-    if (!query) {
-      process.stderr.write("Missing part query\n");
-      process.exit(1);
-    }
-    print(engine.searchParts({ query, lang, ...(limit ? { limit } : {}) }));
-    return;
-  }
-
-  if (scope === "id" && command === "decode") {
-    const query = args.positionals[2];
-    const lang = args.positionals[3] ?? null;
-    const idScheme = args.positionals[4] as "nand.flash_id" | undefined;
-    if (!query) {
-      process.stderr.write("Missing identifier\n");
-      process.exit(1);
-    }
-    print(engine.decodeIdentifier({ query, lang, ...(idScheme ? { idScheme } : {}), ...(controllerGroup ? { controllerGroup } : {}) }));
-    return;
-  }
-
-  if (scope === "id" && command === "search") {
-    const query = args.positionals[2];
-    const lang = args.positionals[3] ?? null;
-    const limit = limitArg(args.positionals[4]);
-    const idScheme = args.positionals[5] as "nand.flash_id" | undefined;
-    if (!query) {
-      process.stderr.write("Missing identifier query\n");
-      process.exit(1);
-    }
-    print(engine.searchIdentifiers({ query, lang, ...(idScheme ? { idScheme } : {}), ...(limit ? { limit } : {}) }));
-    return;
-  }
-
-  usage();
-  process.exit(1);
+function usageText(): string {
+  return [
+    "Usage:",
+    "  fdnext part decode <partNumber> [lang]",
+    "  fdnext part search <query> [lang] [limit]",
+    "  fdnext id decode <identifier> [lang] [idScheme]",
+    "  fdnext id search <query> [lang] [limit] [idScheme]",
+    "  fdnext ... --controller-group <group|all>",
+    "  fdnext decodepack check",
+    "  fdnext decodepack explain part <partNumber> [specId]",
+    "  fdnext decodepack explain id <identifier> [idScheme]",
+    "  fdnext capabilities [lang]"
+  ].join("\n") + "\n";
 }
 
-main().catch((error: unknown) => {
-  const text = error instanceof Error ? error.stack ?? error.message : String(error);
-  process.stderr.write(`${text}\n`);
-  process.exit(1);
-});
+/** Execute one CLI command without taking ownership of process IO or process lifetime. */
+export function runCliCommand(rawArgs: readonly string[], options: CliCommandOptions = {}): number {
+  const writeStdout = options.stdout ?? ((text: string) => process.stdout.write(text));
+  const writeStderr = options.stderr ?? ((text: string) => process.stderr.write(text));
+  const print = (value: unknown): void => writeStdout(`${JSON.stringify(value, null, 2)}\n`);
+  let engine = options.engine;
+  const getEngine = (): FdnextEngine => (engine ??= createEngine());
+
+  try {
+    const args = parseCliArgs(rawArgs);
+    const controllerGroup = controllerGroupArg(args.controllerGroups);
+    const scope = args.positionals[0];
+    const command = args.positionals[1];
+    if (!scope) {
+      writeStdout(usageText());
+      return 1;
+    }
+
+    if (scope === "decodepack" && command === "check") {
+      const result = checkDecodePack(defaultDecodePack);
+      print(result);
+      return result.ok ? 0 : 1;
+    }
+
+    if (scope === "decodepack" && command === "explain") {
+      const target = args.positionals[2];
+      const query = args.positionals[3];
+      const option = args.positionals[4];
+      if (target !== "part" && target !== "id") {
+        throw new CliInputError("Expected decodepack explain target: part or id");
+      }
+      if (!query) {
+        throw new CliInputError(target === "part" ? "Missing part number" : "Missing identifier");
+      }
+      if (target === "part") {
+        print(explainPartDecode(defaultDecodePack, query, option ? { specId: option } : {}));
+        return 0;
+      }
+      if (option && option !== "nand.flash_id") {
+        throw new CliInputError(`Unsupported identifier scheme: ${option}`);
+      }
+      const idScheme = option as "nand.flash_id" | undefined;
+      print(explainIdentifierDecode(defaultDecodePack, query, idScheme ? { idScheme } : {}));
+      return 0;
+    }
+
+    if (scope === "capabilities") {
+      print(getEngine().getCapabilities({ lang: args.positionals[1] ?? null }));
+      return 0;
+    }
+
+    if (scope === "part" && command === "decode") {
+      const query = args.positionals[2];
+      const lang = args.positionals[3] ?? null;
+      if (!query) {
+        throw new CliInputError("Missing part number");
+      }
+      print(getEngine().decodePart({ query, lang, ...(controllerGroup ? { controllerGroup } : {}) }));
+      return 0;
+    }
+
+    if (scope === "part" && command === "search") {
+      const query = args.positionals[2];
+      const lang = args.positionals[3] ?? null;
+      const limit = limitArg(args.positionals[4]);
+      if (!query) {
+        throw new CliInputError("Missing part query");
+      }
+      print(getEngine().searchParts({ query, lang, ...(limit ? { limit } : {}) }));
+      return 0;
+    }
+
+    if (scope === "id" && command === "decode") {
+      const query = args.positionals[2];
+      const lang = args.positionals[3] ?? null;
+      const idScheme = args.positionals[4] as "nand.flash_id" | undefined;
+      if (!query) {
+        throw new CliInputError("Missing identifier");
+      }
+      print(getEngine().decodeIdentifier({
+        query,
+        lang,
+        ...(idScheme ? { idScheme } : {}),
+        ...(controllerGroup ? { controllerGroup } : {})
+      }));
+      return 0;
+    }
+
+    if (scope === "id" && command === "search") {
+      const query = args.positionals[2];
+      const lang = args.positionals[3] ?? null;
+      const limit = limitArg(args.positionals[4]);
+      const idScheme = args.positionals[5] as "nand.flash_id" | undefined;
+      if (!query) {
+        throw new CliInputError("Missing identifier query");
+      }
+      print(getEngine().searchIdentifiers({
+        query,
+        lang,
+        ...(idScheme ? { idScheme } : {}),
+        ...(limit ? { limit } : {})
+      }));
+      return 0;
+    }
+
+    writeStdout(usageText());
+    return 1;
+  } catch (error) {
+    if (error instanceof CliInputError) {
+      writeStderr(`${error.message}\n`);
+      return 1;
+    }
+    throw error;
+  }
+}
+
+function isDirectExecution(): boolean {
+  return process.argv[1] === import.meta.filename;
+}
+
+if (isDirectExecution()) {
+  try {
+    process.exitCode = runCliCommand(process.argv.slice(2));
+  } catch (error) {
+    const text = error instanceof Error ? error.stack ?? error.message : String(error);
+    process.stderr.write(`${text}\n`);
+    process.exitCode = 1;
+  }
+}

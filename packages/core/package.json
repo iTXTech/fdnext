@@ -24,6 +24,10 @@
     "./runtime": {
       "types": "./dist/src/runtime/index.d.ts",
       "default": "./dist/runtime.js"
+    },
+    "./cli": {
+      "types": "./dist/src/cli/index.d.ts",
+      "default": "./dist/cli.js"
     }
   },
   "bin": {

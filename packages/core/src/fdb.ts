@@ -2,6 +2,16 @@ import { getPartNumberLookupKeys, inferVendorFromPartNumber, normalizeVendor } f
 import type { FdbDataset, FlashIdRecord, MdbDataset, PartNumberRecord } from "./types";
 import { normalizePartNumber, normalizePartNumberTokenKey } from "./utils/normalize";
 
+interface PartNumberTokenIndexEntry {
+  readonly order: number;
+  readonly record: PartNumberRecord;
+}
+
+const partNumberTokenIndexes = new WeakMap<
+  Map<string, PartNumberRecord>,
+  ReadonlyMap<string, PartNumberTokenIndexEntry>
+>();
+
 function normalizeFlashIdKey(id: string): string | null {
   const normalized = id.replace(/\s+/g, "").toUpperCase();
   if (!normalized || normalized.length % 2 !== 0 || normalized.length < 4 || normalized.length > 16) {
@@ -79,17 +89,35 @@ function canonicalPartNumberKey(partNumber: string, partNumbers: Map<string, Par
   return partNumber;
 }
 
-function tokenEquivalentPartNumberKey(
+function buildPartNumberTokenIndex(
+  partNumbers: Map<string, PartNumberRecord>
+): ReadonlyMap<string, PartNumberTokenIndexEntry> {
+  const index = new Map<string, PartNumberTokenIndexEntry>();
+  let order = 0;
+  for (const [partNumber, record] of partNumbers) {
+    const tokenKey = normalizePartNumberTokenKey(partNumber);
+    if (!index.has(tokenKey)) {
+      index.set(tokenKey, { order, record });
+    }
+    order += 1;
+  }
+  partNumberTokenIndexes.set(partNumbers, index);
+  return index;
+}
+
+function tokenEquivalentPartNumberRecord(
   partNumbers: Map<string, PartNumberRecord>,
   lookupKeys: string[]
-): string | undefined {
-  const lookupTokenKeys = new Set(lookupKeys.map((lookupKey) => normalizePartNumberTokenKey(lookupKey)));
-  for (const candidate of partNumbers.keys()) {
-    if (lookupTokenKeys.has(normalizePartNumberTokenKey(candidate))) {
-      return candidate;
+): PartNumberRecord | undefined {
+  const index = partNumberTokenIndexes.get(partNumbers) ?? buildPartNumberTokenIndex(partNumbers);
+  let selected: PartNumberTokenIndexEntry | undefined;
+  for (const lookupKey of lookupKeys) {
+    const candidate = index.get(normalizePartNumberTokenKey(lookupKey));
+    if (candidate && (!selected || candidate.order < selected.order)) {
+      selected = candidate;
     }
   }
-  return undefined;
+  return selected?.record;
 }
 
 function hasExactSupplementalFields(record: PartNumberRecord): boolean {
@@ -247,6 +275,10 @@ export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
     });
   }
 
+  for (const partNumbers of vendors.values()) {
+    buildPartNumberTokenIndex(partNumbers);
+  }
+
   return {
     info: {
       name: String(info.name ?? "iTXTech fdnext Flash Database"),
@@ -293,11 +325,7 @@ export function getPartNumberRecord(
       return record;
     }
   }
-  const tokenEquivalent = vendorData ? tokenEquivalentPartNumberKey(vendorData, lookupKeys) : undefined;
-  if (tokenEquivalent) {
-    return vendorData?.get(tokenEquivalent);
-  }
-  return undefined;
+  return vendorData ? tokenEquivalentPartNumberRecord(vendorData, lookupKeys) : undefined;
 }
 
 export function findPartNumberAcrossVendors(
@@ -320,12 +348,9 @@ export function findPartNumberAcrossVendors(
         return { vendor, record };
       }
     }
-    const tokenEquivalent = tokenEquivalentPartNumberKey(partNumbers, lookupKeys);
+    const tokenEquivalent = tokenEquivalentPartNumberRecord(partNumbers, lookupKeys);
     if (tokenEquivalent) {
-      const record = partNumbers.get(tokenEquivalent);
-      if (record) {
-        return { vendor, record };
-      }
+      return { vendor, record: tokenEquivalent };
     }
   }
   return undefined;

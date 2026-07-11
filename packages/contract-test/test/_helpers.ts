@@ -1,9 +1,10 @@
-import { spawnSync } from "node:child_process";
+import { execFile } from "node:child_process";
 import assert from "node:assert/strict";
 import { once } from "node:events";
 import { readFileSync } from "node:fs";
 import type { Server as NodeServer } from "node:http";
 import { fileURLToPath } from "node:url";
+import { promisify } from "node:util";
 
 const repoRoot = fileURLToPath(new URL("../../../", import.meta.url));
 
@@ -17,12 +18,14 @@ const rootPackageMetadata = parseJsonObject(readFileSync(new URL("../../../packa
 assert.equal(typeof rootPackageMetadata.version, "string", "root package metadata must expose a version");
 export const fdnextPackageVersion = rootPackageMetadata.version as string;
 
-export function runCli(args: string[]): Record<string, unknown> {
-  const result = spawnSync(process.execPath, ["./packages/core/dist/cli.js", ...args], {
+const execFileAsync = promisify(execFile);
+
+export async function runCli(args: string[]): Promise<Record<string, unknown>> {
+  const result = await execFileAsync(process.execPath, ["./packages/core/dist/cli.js", ...args], {
     cwd: repoRoot,
-    encoding: "utf8"
+    encoding: "utf8",
+    maxBuffer: 4 * 1024 * 1024
   });
-  assert.equal(result.status, 0, result.stderr || result.stdout);
   assert.ok(result.stdout.trim(), result.stderr);
   return parseJsonObject(result.stdout);
 }
