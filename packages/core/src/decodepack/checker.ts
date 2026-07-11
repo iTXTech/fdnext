@@ -3,6 +3,7 @@ import type {
   DecodeExpr,
   DecodeJson,
   DecodePack,
+  ValidatedDecodePack,
   DecodePackCheckFinding,
   DecodePackCheckResult,
   DecodeProgram,
@@ -11,6 +12,38 @@ import type {
   PartDecodeSpec
 } from "./types";
 import { normalizeDecodeTables } from "./table";
+
+const validatedDecodePacks = new WeakSet<DecodePack>();
+
+function deepFreeze<T>(value: T, seen = new WeakSet<object>()): T {
+  if (!value || typeof value !== "object" || seen.has(value)) {
+    return value;
+  }
+  seen.add(value);
+  if (Array.isArray(value)) {
+    value.forEach((item) => deepFreeze(item, seen));
+  } else {
+    Object.values(value).forEach((item) => deepFreeze(item, seen));
+  }
+  return Object.freeze(value);
+}
+
+export class DecodePackValidationError extends Error {
+  readonly result: DecodePackCheckResult;
+
+  constructor(result: DecodePackCheckResult) {
+    const errors = result.findings
+      .filter((finding) => finding.severity === "error")
+      .map((finding) => `${finding.path}: ${finding.message}`);
+    super(`Invalid DecodePack:\n${errors.join("\n")}`);
+    this.name = "DecodePackValidationError";
+    this.result = result;
+  }
+}
+
+export function isValidatedDecodePack(pack: DecodePack): pack is ValidatedDecodePack {
+  return validatedDecodePacks.has(pack);
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
@@ -372,6 +405,49 @@ function defineTokenVariable(defined: Set<string>, name: string | undefined): vo
   }
 }
 
+function unionInternalFieldKeys(...sets: ReadonlySet<string>[]): Set<string> {
+  return new Set(sets.flatMap((set) => [...set]));
+}
+
+function internalFieldKeysFromObject(value: unknown): Set<string> {
+  if (!isRecord(value)) {
+    return new Set();
+  }
+  return new Set(Object.keys(value).filter(isInternalCodeFieldKey));
+}
+
+function internalFieldKeysFromExpr(
+  expr: unknown,
+  variables: ReadonlyMap<string, ReadonlySet<string>>
+): Set<string> {
+  if (!isRecord(expr)) {
+    return new Set();
+  }
+  if (typeof expr.$var === "string") {
+    return new Set(variables.get(expr.$var) ?? []);
+  }
+  const path = typeof expr.$path === "string"
+    ? expr.$path.split(".")
+    : Array.isArray(expr.$path)
+      ? expr.$path
+      : undefined;
+  if (path?.length === 1 && typeof path[0] === "string") {
+    return new Set(variables.get(path[0]) ?? []);
+  }
+  if ("$tpl" in expr || path) {
+    return new Set();
+  }
+  return internalFieldKeysFromObject(expr);
+}
+
+function internalFieldKeysFromTable(table: Record<string, DecodeJson> | undefined): Set<string> {
+  const keys = new Set<string>();
+  for (const value of Object.values(table ?? {})) {
+    internalFieldKeysFromObject(value).forEach((key) => keys.add(key));
+  }
+  return keys;
+}
+
 function checkTokenDecoderProgram(
   spec: PartDecodeSpec,
   path: string,
@@ -384,6 +460,7 @@ function checkTokenDecoderProgram(
   }
 
   const defined = new Set(["partNumber", "rest"]);
+  const internalFieldKeys = new Map<string, Set<string>>();
   const tables = resolveDecodeTables(decoder, sharedTables);
 
   for (const [tableName, table] of Object.entries(decoder.tables ?? {})) {
@@ -449,6 +526,43 @@ function checkTokenDecoderProgram(
         break;
     }
 
+    switch (step.op) {
+      case "set":
+        internalFieldKeys.set(step.to, internalFieldKeysFromExpr(step.value, internalFieldKeys));
+        break;
+      case "map":
+      case "takeLongest":
+        internalFieldKeys.set(step.to, unionInternalFieldKeys(
+          internalFieldKeysFromTable(tables[step.table]),
+          internalFieldKeysFromObject(step.default)
+        ));
+        break;
+      case "fallback":
+        internalFieldKeys.set(step.to, unionInternalFieldKeys(
+          internalFieldKeys.get(step.primary) ?? new Set(),
+          internalFieldKeys.get(step.secondary) ?? new Set()
+        ));
+        break;
+      case "merge":
+      case "mergeIf":
+        internalFieldKeys.set(step.into, unionInternalFieldKeys(
+          internalFieldKeys.get(step.into) ?? new Set(),
+          internalFieldKeys.get(step.from) ?? new Set()
+        ));
+        break;
+      case "omit": {
+        const remaining = new Set(internalFieldKeys.get(step.from) ?? []);
+        step.keys.forEach((key) => remaining.delete(key));
+        internalFieldKeys.set(step.to ?? step.from, remaining);
+        break;
+      }
+      default:
+        if ("to" in step && step.to) {
+          internalFieldKeys.set(step.to, new Set());
+        }
+        break;
+    }
+
     if ("to" in step) {
       defineTokenVariable(defined, step.to);
     }
@@ -462,6 +576,18 @@ function checkTokenDecoderProgram(
 
   for (const [key, value] of Object.entries(decoder.assign)) {
     checkExprVariables(value, `${path}.tokenDecoder.assign.${key}`, spec.id, defined, findings);
+    if (key === "fields") {
+      for (const internalKey of internalFieldKeysFromExpr(value, internalFieldKeys)) {
+        addFinding(
+          findings,
+          "error",
+          "internal_field",
+          `${path}.tokenDecoder.assign.fields.${internalKey}`,
+          `Internal code field "${internalKey}" may flow into public fields; remove it explicitly with an omit step.`,
+          spec.id
+        );
+      }
+    }
   }
 }
 
@@ -591,4 +717,17 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
     ok: findings.every((finding) => finding.severity !== "error"),
     findings
   };
+}
+
+export function validateDecodePack(pack: DecodePack): ValidatedDecodePack {
+  if (isValidatedDecodePack(pack)) {
+    return pack;
+  }
+  const result = checkDecodePack(pack);
+  if (!result.ok) {
+    throw new DecodePackValidationError(result);
+  }
+  deepFreeze(pack);
+  validatedDecodePacks.add(pack);
+  return pack as ValidatedDecodePack;
 }

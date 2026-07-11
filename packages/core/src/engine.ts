@@ -21,6 +21,7 @@ import {
   pruneRedundantFields
 } from "./engine/field-normalization";
 import { buildKnownPartNumbers, buildMicronDramFbgaCodes, collectFdbControllers } from "./engine/resources";
+import { createPartDecoderDispatch } from "./engine/part-decoder-dispatch";
 import { buildFdb, buildMdb, findFlashIdRecord } from "./fdb";
 import { createDefaultIdentifierPostprocessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
@@ -151,6 +152,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const decoders: PartNumberDecoder[] = [...(options.decoders ?? getDefaultPack().partDecoders)].sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
+  const partDecoderDispatch = createPartDecoderDispatch(decoders);
   const identifierDecoders: IdentifierDecoder[] = [...(options.identifierDecoders ?? getDefaultPack().identifierDecoders)].sort(
     (a, b) => (b.priority ?? 0) - (a.priority ?? 0)
   );
@@ -379,23 +381,24 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     let info: IdentifierDecodeDraft | null = null;
 
     for (const decoder of identifierDecoders) {
-      if (decoder.idScheme === "nand.flash_id" && decoder.check(padded)) {
-        const decoded = decoder.decode(padded);
-        if (decoded) {
-          info = {
-            ...decoded,
-            device: {
-              ...decoded.device,
-              domain: decoded.device.domain ?? "memory",
-              chipKind: decoded.device.chipKind ?? "raw_nand",
-              vendor: decoded.device.vendor ?? UNKNOWN,
-              identifier: decoded.device.identifier ?? padded,
-              idScheme: decoded.device.idScheme ?? "nand.flash_id"
-            },
-            fields: { ...(decoded.fields ?? {}) }
-          };
-          break;
-        }
+      if (decoder.idScheme !== "nand.flash_id") {
+        continue;
+      }
+      const decoded = decoder.decode(padded);
+      if (decoded) {
+        info = {
+          ...decoded,
+          device: {
+            ...decoded.device,
+            domain: decoded.device.domain ?? "memory",
+            chipKind: decoded.device.chipKind ?? "raw_nand",
+            vendor: decoded.device.vendor ?? UNKNOWN,
+            identifier: decoded.device.identifier ?? padded,
+            idScheme: decoded.device.idScheme ?? "nand.flash_id"
+          },
+          fields: { ...(decoded.fields ?? {}) }
+        };
+        break;
       }
     }
 
@@ -497,12 +500,14 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
     let info: PartDecodeDraft | null = null;
 
-    for (const decoder of decoders) {
+    for (const decoder of partDecoderDispatch.candidates(normalizePartNumber(partNumber))) {
+      const matched = decoder.match(partNumber);
+      if (!matched) {
+        continue;
+      }
       const decoded = opts.projection && decoder.project
-        ? decoder.project(partNumber, opts.projection)
-        : decoder.check(partNumber)
-        ? decoder.decode(partNumber)
-        : null;
+        ? decoder.project(matched, opts.projection)
+        : decoder.decode(matched);
       if (decoded) {
         info = normalizePartDraft(partNumber, decoded);
         break;
@@ -546,8 +551,8 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
   const partDecoderPriority = (partNumber: string): number => {
     let priority = 0;
-    for (const decoder of decoders) {
-      if (decoder.check(partNumber)) {
+    for (const decoder of partDecoderDispatch.candidates(normalizePartNumber(partNumber))) {
+      if (decoder.match(partNumber)) {
         priority = Math.max(priority, decoder.priority ?? 0);
       }
     }

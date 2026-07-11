@@ -81,6 +81,8 @@ export interface FdnextRuntimeOptions extends EngineOptions {
   serverName?: string;
   responseHeaders?: Record<string, string>;
   cors?: FdnextCorsOptions;
+  /** Default and hard maximum for HTTP search responses. Core SDK calls are not capped. */
+  searchLimit?: number;
 }
 
 export interface FdnextRuntime {

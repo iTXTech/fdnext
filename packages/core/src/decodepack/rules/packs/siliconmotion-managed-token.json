@@ -122,6 +122,13 @@
           "op": "merge",
           "into": "extra",
           "from": "tempObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "package_code"
+          ]
         }
       ],
       "assign": {
@@ -262,6 +269,13 @@
           "op": "merge",
           "into": "extra",
           "from": "tempObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "package_code"
+          ]
         }
       ],
       "assign": {

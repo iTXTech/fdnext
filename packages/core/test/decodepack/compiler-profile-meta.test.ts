@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createEngine, type FdnextResourceBundle } from "../../src/index";
-import { checkDecodePack, compileDecodePack, explainPartDecode, type DecodePack } from "../../src/decodepack";
+import {
+  checkDecodePack,
+  compileDecodePack,
+  explainPartDecode,
+  type DecodePack,
+  validateDecodePack
+} from "../../src/decodepack";
 
 const profileMetaPack = {
   sharedTables: {
@@ -93,6 +99,8 @@ const profileMetaPack = {
   ]
 } satisfies DecodePack;
 
+const validatedProfileMetaPack = validateDecodePack(profileMetaPack);
+
 const emptyResources = {
   partIndex: {
     rawNand: {},
@@ -112,8 +120,10 @@ const emptyResources = {
 
 test("part token decoder can assign matched profile table key to draft metadata", () => {
   assert.deepEqual(checkDecodePack(profileMetaPack).findings, []);
-  const [decoder] = compileDecodePack(profileMetaPack).partDecoders;
-  const draft = decoder?.decode("B16ATEST");
+  const [decoder] = compileDecodePack(validatedProfileMetaPack).partDecoders;
+  const matched = decoder?.match("B16ATEST");
+  assert.ok(decoder && matched);
+  const draft = decoder.decode(matched);
   assert.equal(draft?.fields?.die_codename, "B16A");
   assert.equal(draft?.meta?.nandDieProfileKey, "B16A");
 
@@ -122,14 +132,16 @@ test("part token decoder can assign matched profile table key to draft metadata"
 });
 
 test("part map step can reuse a shared profile table key as draft metadata", () => {
-  const decoder = compileDecodePack(profileMetaPack).partDecoders.find((item) => item.id === "test.part.profile-map-key");
-  const draft = decoder?.decode("MAPB17A");
+  const decoder = compileDecodePack(validatedProfileMetaPack).partDecoders.find((item) => item.id === "test.part.profile-map-key");
+  const matched = decoder?.match("MAPB17A");
+  assert.ok(decoder && matched);
+  const draft = decoder.decode(matched);
   assert.equal(draft?.fields?.die_codename, "B17A");
   assert.equal(draft?.meta?.nandDieProfileKey, "B17A");
 });
 
 test("identifier decoder can reuse a decoded profile key as metadata", () => {
-  const [decoder] = compileDecodePack(profileMetaPack).identifierDecoders;
+  const [decoder] = compileDecodePack(validatedProfileMetaPack).identifierDecoders;
   const draft = decoder?.decode("000000000000");
   assert.equal(draft?.fields?.die_codename, "B16A");
   assert.equal(draft?.meta?.nandDieProfileKey, "B16A");

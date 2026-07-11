@@ -35,13 +35,13 @@ function queryParam(url: URL, key: string): string {
   return url.searchParams.get(key) ?? "";
 }
 
-function positiveLimit(url: URL): number | undefined {
+function cappedLimit(url: URL, maximum: number): number {
   const raw = url.searchParams.get("limit")?.trim();
   if (!raw) {
-    return undefined;
+    return maximum;
   }
-  const limit = Number.parseInt(raw, 10);
-  return Number.isFinite(limit) && limit > 0 ? limit : undefined;
+  const limit = Number(raw);
+  return Number.isSafeInteger(limit) && limit > 0 ? Math.min(limit, maximum) : maximum;
 }
 
 function requestLang(url: URL, fallback: LegacyLang): LegacyLang {
@@ -83,8 +83,8 @@ export function handleFdServerUrl(engine: FdnextEngine, config: FdServerConfig, 
       return fdServerJson({ result: false, message: "Missing part number" });
     }
     const pn = queryParam(url, "pn");
-    const limit = positiveLimit(url);
-    const result: PartSearchResult = engine.searchParts({ query: pn, lang, ...(limit ? { limit } : {}) });
+    const limit = cappedLimit(url, config.searchLimit);
+    const result: PartSearchResult = engine.searchParts({ query: pn, lang, limit });
     return fdServerJson({ result: true, data: result.items.map((item) => legacySearchPart(item, lang)) });
   }
   if (path === "/searchId") {
@@ -92,8 +92,8 @@ export function handleFdServerUrl(engine: FdnextEngine, config: FdServerConfig, 
       return fdServerJson({ result: false, message: "Missing flash id" });
     }
     const id = queryParam(url, "id");
-    const limit = positiveLimit(url);
-    const result: IdentifierSearchResult = engine.searchIdentifiers({ query: id, lang, idScheme: "nand.flash_id", ...(limit ? { limit } : {}) });
+    const limit = cappedLimit(url, config.searchLimit);
+    const result: IdentifierSearchResult = engine.searchIdentifiers({ query: id, lang, idScheme: "nand.flash_id", limit });
     const data: Record<string, ReturnType<typeof toLegacySearchIdItem>> = {};
     for (const item of result.items) {
       const identifier = item.device.identifier ?? item.label;

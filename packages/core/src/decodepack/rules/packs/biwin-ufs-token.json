@@ -82,6 +82,13 @@
             },
             "operation_temperature": "-25°C ~ +85°C"
           }
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code"
+          ]
         }
       ],
       "assign": {

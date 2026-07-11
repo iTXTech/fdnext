@@ -44,10 +44,11 @@ function assertHscConfiguration(
 }
 
 function assertLookupPartNumbers(ruleId: string, partNumber: string, expected: string[]): void {
-  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === ruleId && candidate.check(partNumber));
-  assert.ok(decoder, `${partNumber} should match ${ruleId}`);
-  const draft = decoder.decode(partNumber);
-  assert.deepEqual(draft?.meta?.lookupPartNumbers, expected, `${partNumber} FDB lookup PN candidates`);
+  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === ruleId);
+  const matched = decoder?.match(partNumber);
+  assert.ok(decoder && matched, `${partNumber} should match ${ruleId}`);
+  const draft = decoder.decode(matched);
+  assert.deepEqual(draft.meta?.lookupPartNumbers, expected, `${partNumber} FDB lookup PN candidates`);
 }
 
 function assertSpecialOption(partNumber: string, expected: string): void {

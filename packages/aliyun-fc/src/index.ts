@@ -2,6 +2,7 @@ import { createServer, type IncomingMessage, type Server, type ServerResponse } 
 import {
   createFdnextCorsOptionsFromEnv,
   createRuntime,
+  fdnextSearchLimitFromEnv,
   type FdnextCorsOptions,
   type FdnextRuntime,
   type FdnextRuntimeOptions
@@ -41,7 +42,11 @@ function writeJsonResponse(response: ServerResponse, status: number, headers: Re
 
 export function createAliyunFcHandler(options: AliyunFcHandlerOptions = {}) {
   const cors = options.cors ?? createFdnextCorsOptionsFromEnv(process.env);
-  const runtime = options.runtime ?? createRuntime({ ...options.runtimeOptions, ...(cors ? { cors } : {}) });
+  const runtime = options.runtime ?? createRuntime({
+    ...options.runtimeOptions,
+    searchLimit: options.runtimeOptions?.searchLimit ?? fdnextSearchLimitFromEnv(process.env),
+    ...(cors ? { cors } : {})
+  });
   return async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
     try {
       const result = await runtime.handleHttp({

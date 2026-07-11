@@ -61,6 +61,10 @@ FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
 
 For Cloudflare Workers Builds, keep the allowlist in the Dashboard if it should not be committed. `packages/cf-workers/wrangler.jsonc` sets `keep_vars: true` so automatic deployments preserve existing Dashboard environment variables.
 
+## Search Limit
+
+HTTP search defaults to a hard maximum of 300 results. Set `FDNEXT_SEARCH_LIMIT` in Worker variables to change the server-wide maximum; a request query `limit` can only select a smaller value.
+
 ## Deployment
 
 ```bash

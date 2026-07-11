@@ -72,7 +72,8 @@ import { createHttpServer } from "@itxtech/fdnext-server";
 const app = createHttpServer({
   host: "0.0.0.0",
   port: 8080,
-  resourceDir: "/path/to/resources"  // optional
+  resourceDir: "/path/to/resources", // optional
+  searchLimit: 300                    // optional HTTP hard maximum
 });
 
 await app.listen();
@@ -84,6 +85,10 @@ const result = app.engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 ## CORS
 
 The Hapi server defaults to allowing all origins (`*`), suitable for local development or deployments where CORS is managed by an upstream gateway.
+
+## Search Limit
+
+HTTP search defaults to a hard maximum of 300 results. Set `FDNEXT_SEARCH_LIMIT` for the Node process or pass `searchLimit` to `createHttpServer()` to change it. A request query `limit` can only select a smaller value.
 
 ## Documentation
 

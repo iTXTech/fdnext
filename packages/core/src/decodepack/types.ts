@@ -222,6 +222,12 @@ export interface DecodePack {
   identifierSpecs: IdentifierDecodeSpec[];
 }
 
+declare const validatedDecodePackBrand: unique symbol;
+
+export type ValidatedDecodePack = DecodePack & {
+  readonly [validatedDecodePackBrand]: true;
+};
+
 export interface CompileDecodePackResult {
   partDecoders: PartNumberDecoder[];
   identifierDecoders: IdentifierDecoder[];

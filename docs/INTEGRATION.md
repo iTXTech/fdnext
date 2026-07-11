@@ -113,6 +113,7 @@ runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https
 - 默认解码器（PN / typed identifier）已由 `@itxtech/fdnext-core` 内置；只有裁剪规则或注入自定义规则时才需要显式传入 `decoders` / `identifierDecoders`
 - `@itxtech/fdnext-core/decodepack` 是规则维护入口，面向 check / explain / compile 等工具链；普通前端查询不需要直接引用它。
 - `searchParts()` / `searchIdentifiers()` 不传 `limit` 时返回全部匹配项，适合前端一次获取后在内存中分页；传入正整数 `limit` 才会启用 top-K 截断。默认 part search 同时保留 prefix 和 contains 匹配。
+- 上述完整结果语义只属于 Core SDK。`@itxtech/fdnext-core/runtime` 的 HTTP search 默认和硬上限为 300，可由部署方用 `FDNEXT_SEARCH_LIMIT` 调整；客户端 query 的 `limit` 只能下调。
 - 自定义搜索结果若需要额外 DecodePack 字段，可通过 `createEngine({ partSearchProjection: ["fields.<key>"] })` 追加投影路径；默认搜索依赖仍会自动保留。
 
 ### 2.1 方式 A：fetch 静态 JSON（推荐）
@@ -227,6 +228,7 @@ Worker env `FDNEXT_CORS_ORIGINS` 可设置为 `*` 或多个 origin，例如：
 
 ```text
 FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
+FDNEXT_SEARCH_LIMIT=300
 ```
 
 如果使用 Cloudflare Workers Builds 自动部署，并希望 CORS allowlist 只保存在 Cloudflare Dashboard，不进入仓库配置，保留 `packages/cf-workers/wrangler.jsonc` 中的 `keep_vars: true`，不要在 `vars` 中声明同名变量。
@@ -248,6 +250,7 @@ startAliyunFc();
 ```text
 FDNEXT_CORS_ORIGINS=*
 FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
+FDNEXT_SEARCH_LIMIT=300
 ```
 
 `*` 会放开所有来源；多个 origin 用逗号、空格或换行分隔，runtime 会按请求 `Origin` 精确匹配。preflight `OPTIONS` 会返回 `204`。

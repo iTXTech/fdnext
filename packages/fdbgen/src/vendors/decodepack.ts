@@ -29,13 +29,11 @@ export function removeMicronPackageSuffix(partNumber: string): string {
 export function decodepackLookupPartNumber(vendor: string, partNumber: string): string {
   const normalizedVendor = vendor.trim().toLowerCase();
   for (const decoder of compiledDecodePack.partDecoders) {
-    if (!decoder.check(partNumber)) {
+    const matched = decoder.match(partNumber);
+    if (!matched) {
       continue;
     }
-    const draft = decoder.decode(partNumber);
-    if (!draft) {
-      continue;
-    }
+    const draft = decoder.decode(matched);
     const draftVendor = String(draft.device.vendor ?? "").trim().toLowerCase();
     if (draftVendor && draftVendor !== normalizedVendor) {
       continue;

@@ -6,24 +6,24 @@ test("search appends future projection requirements without replacing its base c
   const targetSets: string[][] = [];
   const decoder = {
     id: "test.search.projection-extension",
-    check: (partNumber: string) => partNumber === "MT29F4G08ABAEA",
-    decode: (partNumber: string) => partNumber === "MT29F4G08ABAEA" ? {
+    dispatchPrefixes: ["MT29F4G08ABAEA"],
+    match: (partNumber: string) => partNumber === "MT29F4G08ABAEA"
+      ? { decoderId: "test.search.projection-extension", input: partNumber, normalized: partNumber }
+      : null,
+    decode: (matched) => ({
       device: {
-        partNumber,
+        partNumber: matched.normalized,
         domain: "memory",
         vendor: "micron",
         chipKind: "raw_nand"
       },
       fields: { density: 4096 }
-    } : null,
-    project: (partNumber: string, targets: readonly string[]) => {
-      if (partNumber !== "MT29F4G08ABAEA") {
-        return null;
-      }
+    }),
+    project: (matched, targets: readonly string[]) => {
       targetSets.push([...targets]);
       return {
         device: {
-          partNumber,
+          partNumber: matched.normalized,
           domain: "memory",
           vendor: "micron",
           chipKind: "raw_nand"

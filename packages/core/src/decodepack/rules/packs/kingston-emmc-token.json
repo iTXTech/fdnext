@@ -217,6 +217,14 @@
           "op": "merge",
           "into": "extra",
           "from": "configObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {

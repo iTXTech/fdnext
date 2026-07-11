@@ -491,8 +491,7 @@
             },
             "package_code": {
               "$var": "packageCode"
-            },
-            "dram_die_count": 1
+            }
           }
         },
         {
@@ -531,6 +530,14 @@
           "into": "extra",
           "from": "gradeObj",
           "if": "hasSuffix"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {
@@ -1110,6 +1117,14 @@
           "into": "extra",
           "from": "gradeOverrideObj",
           "if": "hasSuffix"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {

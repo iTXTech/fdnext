@@ -7,6 +7,7 @@ import type {
   SearchPartsInput
 } from "../result";
 import type { FdnextDispatchRequest } from "./types";
+import { DEFAULT_HTTP_SEARCH_LIMIT, parseFdnextSearchLimit } from "./search-limit";
 
 export function parseUrl(url: string): URL {
   return new URL(url, "http://fdnext.local");
@@ -32,10 +33,11 @@ function queryParam(params: URLSearchParams, ...keys: string[]): string {
   return "";
 }
 
-function limitParam(params: URLSearchParams): number | undefined {
+function limitParam(params: URLSearchParams, maximum: number): number {
   const raw = stringParam(params, "limit");
-  const parsed = raw ? Number.parseInt(raw, 10) : 0;
-  return Number.isFinite(parsed) && parsed > 0 ? parsed : undefined;
+  const requested = raw ? Number(raw) : maximum;
+  const parsed = Number.isSafeInteger(requested) && requested > 0 ? requested : maximum;
+  return Math.min(parsed, maximum);
 }
 
 function controllerGroupParam(params: URLSearchParams): ControllerGroupSelection | undefined {
@@ -90,13 +92,12 @@ function partInput(params: URLSearchParams, ...queryKeys: string[]): DecodePartI
   };
 }
 
-function partSearchInput(params: URLSearchParams, ...queryKeys: string[]): SearchPartsInput {
-  const limit = limitParam(params);
+function partSearchInput(params: URLSearchParams, maximum: number, ...queryKeys: string[]): SearchPartsInput {
   return {
     query: queryParam(params, ...queryKeys),
     lang: stringParam(params, "lang") ?? null,
     constraints: constraintsParam(params) as SearchPartsInput["constraints"] | undefined,
-    ...(limit ? { limit } : {})
+    limit: limitParam(params, maximum)
   };
 }
 
@@ -111,14 +112,13 @@ function identifierInput(params: URLSearchParams, ...queryKeys: string[]): Decod
   };
 }
 
-function identifierSearchInput(params: URLSearchParams, ...queryKeys: string[]): SearchIdentifiersInput {
-  const limit = limitParam(params);
+function identifierSearchInput(params: URLSearchParams, maximum: number, ...queryKeys: string[]): SearchIdentifiersInput {
   const idScheme = stringParam(params, "idScheme") as SearchIdentifiersInput["idScheme"] | undefined;
   return {
     query: queryParam(params, ...queryKeys),
     lang: stringParam(params, "lang") ?? null,
     ...(idScheme ? { idScheme } : {}),
-    ...(limit ? { limit } : {})
+    limit: limitParam(params, maximum)
   };
 }
 
@@ -128,7 +128,11 @@ function capabilitiesInput(params: URLSearchParams): CapabilitiesInput {
   };
 }
 
-export function resolveHttpRoute(method: string, url: URL): FdnextDispatchRequest | null | undefined {
+export function resolveHttpRoute(
+  method: string,
+  url: URL,
+  searchLimit = DEFAULT_HTTP_SEARCH_LIMIT
+): FdnextDispatchRequest | null | undefined {
   const normalizedMethod = method.toUpperCase();
   if (normalizedMethod !== "GET" && normalizedMethod !== "HEAD") {
     return null;
@@ -136,19 +140,20 @@ export function resolveHttpRoute(method: string, url: URL): FdnextDispatchReques
 
   const path = cleanPath(url.pathname);
   const params = url.searchParams;
+  const maximum = parseFdnextSearchLimit(searchLimit);
   if (path === "/") return { operation: "index" };
   if (path === "/capabilities") return { operation: "capabilities", input: capabilitiesInput(params) };
   if (path === "/parts/decode") {
     return { operation: "part.decode", input: partInput(params, "query") };
   }
   if (path === "/parts/search") {
-    return { operation: "part.search", input: partSearchInput(params, "query") };
+    return { operation: "part.search", input: partSearchInput(params, maximum, "query") };
   }
   if (path === "/identifiers/decode") {
     return { operation: "identifier.decode", input: identifierInput(params, "query") };
   }
   if (path === "/identifiers/search") {
-    return { operation: "identifier.search", input: identifierSearchInput(params, "query") };
+    return { operation: "identifier.search", input: identifierSearchInput(params, maximum, "query") };
   }
   return undefined;
 }

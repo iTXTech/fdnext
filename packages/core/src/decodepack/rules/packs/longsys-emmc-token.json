@@ -219,7 +219,8 @@
             "density_code",
             "stack_code",
             "generation_code",
-            "voltage_io_code"
+            "voltage_io_code",
+            "config_code"
           ]
         }
       ],

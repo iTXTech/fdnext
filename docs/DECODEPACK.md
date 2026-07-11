@@ -298,11 +298,21 @@ import rules from "./packs/xxx.json" with { type: "json" };
 DecodePack 维护工具面向 AI 和人工 review，既可通过 TypeScript API 调用，也可通过 CLI 使用。
 
 ```ts
-import { checkDecodePack, compileDecodePack, defaultDecodePack, explainPartDecode } from "@itxtech/fdnext-core/decodepack";
+import {
+  checkDecodePack,
+  compileDecodePack,
+  type DecodePack,
+  defaultDecodePack,
+  explainPartDecode,
+  validateDecodePack
+} from "@itxtech/fdnext-core/decodepack";
 
 const check = checkDecodePack(defaultDecodePack);
 const compiled = compileDecodePack(defaultDecodePack);
 const explain = explainPartDecode(defaultDecodePack, "BWCA2KZC-64G");
+
+// 自定义 pack 必须先通过校验；validate 会冻结 pack，compiler 只接受 branded 结果。
+const compileCustomPack = (pack: DecodePack) => compileDecodePack(validateDecodePack(pack));
 ```
 
 仓库内 CLI:
@@ -320,12 +330,16 @@ pnpm cli decodepack explain id 2C64444BA900
 编译后的 PN decoder 支持运行时传入任意 draft path，而不是绑定固定的“搜索字段集”：
 
 ```ts
-const decoder = compiled.partDecoders.find((item) => item.check(partNumber));
-const summary = decoder?.project?.(partNumber, [
-  "device.vendor",
-  "fields.density",
-  "fields.package"
-]);
+for (const decoder of compiled.partDecoders) {
+  const match = decoder.match(partNumber);
+  if (!match) continue;
+  const summary = decoder.project?.(match, [
+    "device.vendor",
+    "fields.density",
+    "fields.package"
+  ]);
+  break;
+}
 ```
 
 compiler 会按 `assign` 表达式反向追踪变量依赖，为每组 target path 缓存执行计划；无关 step 不执行，并在最后一个必要 step 后停止。目标字段的值必须与完整 `decode()` 一致。投影结果会保留 `device.partNumber`，也可能带有计算目标所需的附加依赖字段，调用方不应把“未请求字段一定不存在”作为 contract。

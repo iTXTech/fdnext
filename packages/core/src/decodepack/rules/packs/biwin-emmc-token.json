@@ -115,6 +115,13 @@
               "$var": "configCode"
             }
           }
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code"
+          ]
         }
       ],
       "assign": {

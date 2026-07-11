@@ -65,10 +65,11 @@ function assertSamsungRawPostDashSuffix(
 }
 
 function assertSamsungRawLookupPartNumbers(partNumber: string, expected: string[]): void {
-  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === "vendor.samsung.token.v1" && candidate.check(partNumber));
-  assert.ok(decoder, `${partNumber} should match Samsung raw NAND rule`);
-  const draft = decoder.decode(partNumber);
-  assert.deepEqual(draft?.meta?.lookupPartNumbers, expected, `${partNumber} FDB lookup PN candidates`);
+  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === "vendor.samsung.token.v1");
+  const matched = decoder?.match(partNumber);
+  assert.ok(decoder && matched, `${partNumber} should match Samsung raw NAND rule`);
+  const draft = decoder.decode(matched);
+  assert.deepEqual(draft.meta?.lookupPartNumbers, expected, `${partNumber} FDB lookup PN candidates`);
 }
 
 function assertSamsungRawOrganization(

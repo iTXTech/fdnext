@@ -58,6 +58,7 @@ export interface FdServerHandlerOptions {
   env?: FdServerEnv;
   defaultLang?: string | null;
   controllerGroup?: string | ControllerGroupSelection | null;
+  searchLimit?: number;
   extraUrls?: Record<string, string>;
   warn?: (message: string) => void;
 }
@@ -65,6 +66,7 @@ export interface FdServerHandlerOptions {
 export interface FdServerConfig {
   defaultLang: LegacyLang;
   controllerGroup: ControllerGroupSelection;
+  searchLimit: number;
   extraUrls: Record<string, string>;
 }
 

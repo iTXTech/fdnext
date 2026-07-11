@@ -13,6 +13,7 @@ import { applyCorsHeaders, createFdnextCorsOptionsFromEnv, FDNEXT_CORS_ORIGINS_E
 import { attachExternalLinks } from "./external-links";
 import { baseHeaders, getHeader, resultHttpStatus } from "./headers";
 import { parseUrl, resolveHttpRoute } from "./routes";
+import { parseFdnextSearchLimit } from "./search-limit";
 import type {
   FdnextCorsOptions,
   FdnextDispatchRequest,
@@ -25,6 +26,12 @@ import type {
 } from "./types";
 
 export { createFdnextCorsOptionsFromEnv, FDNEXT_CORS_ORIGINS_ENV, parseFdnextCorsOrigins };
+export {
+  DEFAULT_HTTP_SEARCH_LIMIT,
+  FDNEXT_SEARCH_LIMIT_ENV,
+  fdnextSearchLimitFromEnv,
+  parseFdnextSearchLimit
+} from "./search-limit";
 export type {
   ExternalLinkContext,
   ExternalLinkFacts,
@@ -56,6 +63,7 @@ export function createRuntime(options: FdnextRuntimeOptions = {}): FdnextRuntime
   const headers = baseHeaders(options.responseHeaders);
   const runtimeCors = options.cors;
   const serverName = options.serverName ?? "fdnext-server";
+  const searchLimit = parseFdnextSearchLimit(options.searchLimit);
 
   const dispatch = async (request: FdnextDispatchRequest): Promise<FdnextDispatchResponse> => {
     const meta: FdnextRuntimeMeta = {
@@ -107,7 +115,7 @@ export function createRuntime(options: FdnextRuntimeOptions = {}): FdnextRuntime
         body: null
       };
     }
-    const route = resolveHttpRoute(request.method, url);
+    const route = resolveHttpRoute(request.method, url, searchLimit);
     const meta: FdnextRuntimeMeta = {
       remote: request.remote,
       userAgent: getHeader(request.headers, "user-agent") ?? "",

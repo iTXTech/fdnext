@@ -153,6 +153,7 @@ Wrangler 配置使用 `keep_vars: true`，生产环境建议在 Cloudflare Dashb
 ```dotenv
 FD_SERVER_DEFAULT_LANG=chs
 FD_SERVER_CONTROLLER_GROUP=selected
+FD_SERVER_SEARCH_LIMIT=300
 FD_SERVER_EXTRA_URLS='{"迁移到新版 FlashMaster":"https://fm.itxtech.org"}'
 ```
 
@@ -162,6 +163,7 @@ FD_SERVER_EXTRA_URLS='{"迁移到新版 FlashMaster":"https://fm.itxtech.org"}'
 
 - `FD_SERVER_DEFAULT_LANG`：默认语言，允许 `chs` 或 `eng`，空值或非法值回退到 `chs`。
 - `FD_SERVER_CONTROLLER_GROUP`：decode 类输出使用的服务端控制器投影视图，默认 `selected`。
+- `FD_SERVER_SEARCH_LIMIT`：search 默认值和硬上限，默认 300；请求中的 `limit` 只能下调。也接受共享变量 `FDNEXT_SEARCH_LIMIT`。
 - `FD_SERVER_EXTRA_URLS`：JSON object，只追加到 `/decode` 和 `/decodeId` 响应的 `data.url` 中。
 
 ### Workers Smoke Test
@@ -281,6 +283,16 @@ FD_SERVER_CONTROLLER_GROUP=if:sata,if:nvme
 ```
 
 旧 HTTP API 不接受 `controllerGroup` query 参数。即使客户端传入该参数，`fd-server` 也会忽略它，并继续使用此环境变量。
+
+### `FD_SERVER_SEARCH_LIMIT`
+
+`/searchPn` 和 `/searchId` 的默认结果数及硬上限，默认值为 300。客户端显式 `limit` 只能选择更小的结果数，无法超过服务端上限。
+
+```bash
+FD_SERVER_SEARCH_LIMIT=300
+```
+
+也可使用与现代 HTTP runtime 相同的 `FDNEXT_SEARCH_LIMIT`；两者同时存在时优先使用 `FD_SERVER_SEARCH_LIMIT`。如确需更完整的旧客户端结果，由服务端管理员提高该值，而不是允许客户端用超大 `limit` 绕过保护。
 
 ### `FD_SERVER_EXTRA_URLS`
 
@@ -440,6 +452,7 @@ Classic UI 会直接渲染旧字段，包括 `extraInfo` 和 `ext` 的 key。`fd
 - `fd-server` 使用 `@itxtech/fdnext-core` 的内置资源，不支持自定义资源目录加载。
 - 业务错误遵循 FlashDetector 行为，使用 HTTP 200 和 `{ "result": false, "message": "..." }`。
 - CORS 默认放开：`Access-Control-Allow-Origin: *`。
+- search 默认和硬上限为 300；用 `FD_SERVER_SEARCH_LIMIT` 或 `FDNEXT_SEARCH_LIMIT` 由服务端统一调整。
 - `FD_SERVER_CONTROLLER_GROUP=selected` 适合默认精简控制器列表；只有客户端确实需要完整控制器集合时才使用 `all`。
 - HTTPS、缓存、访问日志和限流建议放在反向代理或平台层处理。
 

@@ -255,7 +255,7 @@ const h25RawDecoder = compiledPack.partDecoders.find((decoder) => decoder.id ===
 assert.ok(h25RawDecoder, "H25 raw decoder should be compiled");
 
 for (const [partNumber, expected] of skhynixH25LooseRawSamples) {
-  assert.equal(h25RawDecoder.check(partNumber), true, `${partNumber} should match the relaxed H25 raw decoder`);
+  assert.ok(h25RawDecoder.match(partNumber), `${partNumber} should match the relaxed H25 raw decoder`);
   assertRuleDecode(partNumber, {
     vendor: "skhynix",
     type: "NAND",

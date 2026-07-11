@@ -347,6 +347,14 @@
           "op": "merge",
           "into": "extra",
           "from": "solderObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {
@@ -895,6 +903,14 @@
           "op": "merge",
           "into": "extra",
           "from": "temperatureObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {
@@ -1732,6 +1748,14 @@
           "op": "merge",
           "into": "extra",
           "from": "speedObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {
@@ -1891,6 +1915,14 @@
           "op": "merge",
           "into": "extra",
           "from": "speedObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {
@@ -2441,6 +2473,14 @@
           "op": "merge",
           "into": "extra",
           "from": "speedObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {

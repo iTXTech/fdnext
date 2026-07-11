@@ -16,6 +16,7 @@ export type {
   IdentifierDecodeDraft,
   PartDecodeOptions,
   PartNumberDecoder,
+  PartNumberMatch,
   PartResourceIndex,
   PartDecodeDraft,
   ProcessorHooks,

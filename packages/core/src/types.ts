@@ -197,14 +197,22 @@ export interface SearchOptions {
   partialMatch?: boolean;
 }
 
+export interface PartNumberMatch {
+  readonly decoderId: string;
+  readonly input: string;
+  readonly normalized: string;
+}
+
 export interface PartNumberDecoder {
-  id: string;
-  priority?: number;
-  profileTables?: Record<string, Record<string, unknown>>;
-  check(partNumber: string): boolean;
-  decode(partNumber: string): PartDecodeDraft | null;
+  readonly id: string;
+  readonly priority?: number;
+  readonly profileTables?: Record<string, Record<string, unknown>>;
+  /** Stable literal prefixes used to dispatch this decoder before running its full matcher. */
+  readonly dispatchPrefixes: readonly string[];
+  match(partNumber: string): PartNumberMatch | null;
+  decode(match: PartNumberMatch): PartDecodeDraft;
   /** Decode only the requested draft paths. Implementations may return additional dependency fields. */
-  project?(partNumber: string, targets: readonly string[]): PartDecodeDraft | null;
+  project?(match: PartNumberMatch, targets: readonly string[]): PartDecodeDraft;
 }
 
 export interface IdentifierDecoder {

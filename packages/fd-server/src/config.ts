@@ -1,4 +1,5 @@
 import type { ControllerGroupSelection } from "@itxtech/fdnext-core";
+import { parseFdnextSearchLimit } from "@itxtech/fdnext-core/runtime";
 import type { FdServerConfig, FdServerEnv, FdServerHandlerOptions, LegacyLang } from "./types";
 
 function cleanEnvValue(value: string | undefined): string | undefined {
@@ -82,6 +83,9 @@ export function createFdServerConfig(options: FdServerHandlerOptions): FdServerC
   return {
     defaultLang: parseLegacyLang(options.defaultLang ?? cleanEnvValue(env.FD_SERVER_DEFAULT_LANG), "chs"),
     controllerGroup: parseControllerGroup(options.controllerGroup ?? cleanEnvValue(env.FD_SERVER_CONTROLLER_GROUP) ?? "selected"),
+    searchLimit: parseFdnextSearchLimit(
+      options.searchLimit ?? cleanEnvValue(env.FD_SERVER_SEARCH_LIMIT) ?? cleanEnvValue(env.FDNEXT_SEARCH_LIMIT)
+    ),
     extraUrls: options.extraUrls ? sanitizeUrlMap(options.extraUrls, warn) : parseExtraUrls(env, warn)
   };
 }

@@ -188,12 +188,15 @@ assert.deepEqual(
 let lookupMetadataDecodeCalls = 0;
 const lookupMetadataDecoder = {
   id: "test.lookup-metadata",
-  check: (partNumber: string) => partNumber === "K9LOOKUPPKG",
-  decode: (partNumber: string) => {
+  dispatchPrefixes: ["K9LOOKUPPKG"],
+  match: (partNumber: string) => partNumber === "K9LOOKUPPKG"
+    ? { decoderId: "test.lookup-metadata", input: partNumber, normalized: partNumber }
+    : null,
+  decode: (matched) => {
     lookupMetadataDecodeCalls += 1;
     return {
       device: {
-        partNumber,
+        partNumber: matched.normalized,
         vendor: "samsung",
         domain: "memory",
         chipKind: "raw_nand"

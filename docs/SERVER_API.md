@@ -29,7 +29,7 @@
 | --- | --- | --- |
 | `query` | decode / search | 查询文本。PN 保留原始格式即可；NAND Flash ID 可使用连续 hex，也可包含常见分隔符。 |
 | `lang` | 全部正式接口 | 可选语言，例如 `eng`、`chs`。`/capabilities?lang=eng` 会返回英文 controller group 标题。 |
-| `limit` | search | 正整数，限制搜索结果数量。非法或缺省时使用默认行为。 |
+| `limit` | search | 正整数，只能把结果数调低；缺省、非法或高于服务端上限时均使用服务端上限。 |
 | `controllerGroup` | decode | 控制器投影视图。支持单值、逗号分隔或 repeated query，例如 `controllerGroup=if:sata,if:nvme`。search 接口会忽略该参数。 |
 | `idScheme` | identifiers | typed identifier namespace。当前默认 `nand.flash_id`，通常不需要显式传入。 |
 
@@ -94,6 +94,8 @@ curl 'http://127.0.0.1:8080/parts/search?query=C9BJZ&lang=eng&limit=5'
 | `strict` | 否 | `true/false`、`1/0` 或 `yes/no`。开启后约束不满足会返回不匹配结果。 |
 
 `/parts/search` 返回 summary 候选，不输出 controller 字段；完整 controller 和 FDB 补全信息由 `/parts/decode` 返回。为兼容旧 URL，额外传入 `controllerGroup` 会被忽略。
+
+HTTP search 默认和硬上限均为 300。部署方可通过 `FDNEXT_SEARCH_LIMIT` 修改该上限；query 中显式传入更大的 `limit` 不会绕过上限。该约束只属于 HTTP runtime，不影响 Core SDK 省略 `limit` 时返回完整结果的行为。
 
 ## 5. Identifier API
 
@@ -202,3 +204,11 @@ FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
 - 多个 origin 可用逗号、空格或换行分隔。
 - 精确命中 origin 时返回该 origin，并附带 `Vary: Origin`。
 - `OPTIONS` preflight 返回 `204`，`Access-Control-Allow-Methods` 为 `GET, HEAD, OPTIONS`，并透传 `Access-Control-Request-Headers`。
+
+所有现代 HTTP adapter 使用同一个 search 上限变量：
+
+```text
+FDNEXT_SEARCH_LIMIT=300
+```
+
+必须是正安全整数；非法值回退到 300。

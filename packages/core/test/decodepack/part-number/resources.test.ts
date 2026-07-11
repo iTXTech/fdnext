@@ -48,7 +48,7 @@ test("known SK hynix UFS PN resources decode with a single HN8 datasheet rule", 
     assert.equal(info.type, "UFS", `${pn} should decode as SK hynix UFS`);
     assert.ok((info.densityMbit ?? 0) > 0, `${pn} should decode a UFS density`);
     if (pn.startsWith("HN8")) {
-      const hn8Matches = compiledPack.partDecoders.filter((decoder) => skhynixHn8RuleIds.has(decoder.id) && decoder.check(pn));
+      const hn8Matches = compiledPack.partDecoders.filter((decoder) => skhynixHn8RuleIds.has(decoder.id) && decoder.match(pn));
       assert.equal(hn8Matches.length, 1, `${pn} should match exactly one SK hynix HN8 datasheet rule`);
     }
   }

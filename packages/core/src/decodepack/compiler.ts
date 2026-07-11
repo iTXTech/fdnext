@@ -1,6 +1,7 @@
 import type {
   CompileDecodePackResult,
   DecodePack,
+  ValidatedDecodePack,
   DecodePackTraceStep,
   IdentifierDecodeExplainBitfield,
   IdentifierDecodeExplainResult,
@@ -8,15 +9,36 @@ import type {
   PartDecodeExplainResult,
   PartDecodeSpec
 } from "./types";
+import { isValidatedDecodePack } from "./checker";
 import { compileIdentifierDecodeSpecs, decodeIdentifierByDefinition } from "./identifier-compiler";
 import { checkMatch, compilePartDecodeSpecs, decodePartBySpec, normalize } from "./part-compiler";
 import { normalizeDecodeTables } from "./table";
 
-export function compileDecodePack(pack: DecodePack): CompileDecodePackResult {
+interface CachedDecodePack {
+  readonly partDecoders: readonly CompileDecodePackResult["partDecoders"][number][];
+  readonly identifierDecoders: readonly CompileDecodePackResult["identifierDecoders"][number][];
+  readonly profileTables: CompileDecodePackResult["profileTables"];
+}
+
+const compiledDecodePacks = new WeakMap<ValidatedDecodePack, CachedDecodePack>();
+
+export function compileDecodePack(pack: ValidatedDecodePack): CompileDecodePackResult {
+  if (!isValidatedDecodePack(pack)) {
+    throw new TypeError("compileDecodePack requires a pack returned by validateDecodePack()");
+  }
+  let compiled = compiledDecodePacks.get(pack);
+  if (!compiled) {
+    compiled = {
+      partDecoders: compilePartDecodeSpecs(pack.partSpecs, pack.sharedTables),
+      identifierDecoders: compileIdentifierDecodeSpecs(pack.identifierSpecs, pack.sharedTables),
+      profileTables: pack.sharedTables ? normalizeDecodeTables(pack.sharedTables) : undefined
+    };
+    compiledDecodePacks.set(pack, compiled);
+  }
   return {
-    partDecoders: compilePartDecodeSpecs(pack.partSpecs, pack.sharedTables),
-    identifierDecoders: compileIdentifierDecodeSpecs(pack.identifierSpecs, pack.sharedTables),
-    profileTables: pack.sharedTables ? normalizeDecodeTables(pack.sharedTables) : undefined
+    partDecoders: [...compiled.partDecoders],
+    identifierDecoders: [...compiled.identifierDecoders],
+    profileTables: compiled.profileTables
   };
 }
 

@@ -627,29 +627,31 @@ export function assertNotFound(partNumber: string): void {
 }
 
 export function assertRuleDoesNotMatch(ruleId: string, partNumber: string): void {
-  const matched = compiledPack.partDecoders.filter((decoder) => decoder.id === ruleId && decoder.check(partNumber)).map((decoder) => decoder.id);
+  const matched = compiledPack.partDecoders.filter((decoder) => decoder.id === ruleId && decoder.match(partNumber)).map((decoder) => decoder.id);
   assert.deepEqual(matched, [], `${partNumber} should not match ${ruleId}`);
 }
 
 export function assertRuleDraftDieProfile(ruleId: string, partNumber: string, expected: string): void {
-  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === ruleId && candidate.check(partNumber));
-  assert.ok(decoder, `${partNumber} should match ${ruleId}`);
-  const draft = decoder.decode(partNumber);
-  assert.equal(draft?.fields?.die_codename, expected, `${partNumber} ${ruleId} draft die profile`);
+  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === ruleId);
+  const matched = decoder?.match(partNumber);
+  assert.ok(decoder && matched, `${partNumber} should match ${ruleId}`);
+  const draft = decoder.decode(matched);
+  assert.equal(draft.fields?.die_codename, expected, `${partNumber} ${ruleId} draft die profile`);
 }
 
 export function assertRuleDraftDieProfileMeta(ruleId: string, partNumber: string, expected: string | undefined): void {
-  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === ruleId && candidate.check(partNumber));
-  assert.ok(decoder, `${partNumber} should match ${ruleId}`);
-  const draft = decoder.decode(partNumber);
-  assert.equal(draft?.meta?.nandDieProfileKey, expected, `${partNumber} ${ruleId} draft die profile metadata`);
+  const decoder = compiledPack.partDecoders.find((candidate) => candidate.id === ruleId);
+  const matched = decoder?.match(partNumber);
+  assert.ok(decoder && matched, `${partNumber} should match ${ruleId}`);
+  const draft = decoder.decode(matched);
+  assert.equal(draft.meta?.nandDieProfileKey, expected, `${partNumber} ${ruleId} draft die profile metadata`);
 }
 
 export const kioxiaManagedRuleIds = new Set(["vendor.kioxia.managed.thg.v1"]);
 
 export function assertKioxiaManagedRuleMatches(partNumber: string, expected: string[]): void {
   const actual = compiledPack.partDecoders
-    .filter((decoder) => kioxiaManagedRuleIds.has(decoder.id) && decoder.check(partNumber))
+    .filter((decoder) => kioxiaManagedRuleIds.has(decoder.id) && decoder.match(partNumber))
     .map((decoder) => decoder.id)
     .sort();
   assert.deepEqual(actual, [...expected].sort(), `${partNumber} should match only the expected KIOXIA THG rule`);
@@ -665,7 +667,7 @@ export const skhynixHn8RuleIds = new Set([
 
 export function assertSkhynixHn8RuleMatches(partNumber: string, expected: string[]): void {
   const actual = compiledPack.partDecoders
-    .filter((decoder) => skhynixHn8RuleIds.has(decoder.id) && decoder.check(partNumber))
+    .filter((decoder) => skhynixHn8RuleIds.has(decoder.id) && decoder.match(partNumber))
     .map((decoder) => decoder.id)
     .sort();
   assert.deepEqual(actual, [...expected].sort(), `${partNumber} should match only the expected SK hynix HN8 datasheet rule`);
@@ -679,7 +681,7 @@ export const skhynixEmcpRuleIds = new Set([
 
 export function assertSkhynixEmcpRuleMatches(partNumber: string, expected: string[]): void {
   const actual = compiledPack.partDecoders
-    .filter((decoder) => skhynixEmcpRuleIds.has(decoder.id) && decoder.check(partNumber))
+    .filter((decoder) => skhynixEmcpRuleIds.has(decoder.id) && decoder.match(partNumber))
     .map((decoder) => decoder.id)
     .sort();
   assert.deepEqual(actual, [...expected].sort(), `${partNumber} should match only the expected SK hynix eMCP datasheet rule`);

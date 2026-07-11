@@ -76,6 +76,7 @@ Worker 运行时变量：
 | Variable | Value |
 | --- | --- |
 | `FDNEXT_CORS_ORIGINS` | `*` 或逗号 / 空格分隔的 origin 列表，例如 `https://app.example.com,https://admin.example.com` |
+| `FDNEXT_SEARCH_LIMIT` | HTTP search 的默认值和硬上限，默认 `300`；query `limit` 只能下调 |
 
 `FDNEXT_CORS_ORIGINS` 不写入仓库 `packages/cf-workers/wrangler.jsonc`，建议在 Cloudflare Dashboard 的 Worker environment variables 中维护。仓库配置设置了 `keep_vars: true`，因此 Workers Builds 自动部署时不会删除 Dashboard 中已有变量。
 

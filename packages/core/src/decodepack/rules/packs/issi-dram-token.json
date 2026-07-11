@@ -516,6 +516,14 @@
           "op": "merge",
           "into": "extra",
           "from": "temperatureObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {
@@ -1028,6 +1036,13 @@
           "op": "merge",
           "into": "extra",
           "from": "temperatureObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code"
+          ]
         }
       ],
       "assign": {
@@ -1552,6 +1567,14 @@
           "op": "merge",
           "into": "extra",
           "from": "temperatureObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {

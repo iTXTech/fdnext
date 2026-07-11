@@ -20,13 +20,16 @@ const ambiguousEngine = createEngine({
   decoders: [{
     id: "test-dram",
     priority: 100,
-    check: (partNumber) => partNumber === "TESTPART",
-    decode: (partNumber) => ({
+    dispatchPrefixes: ["TESTPART"],
+    match: (partNumber) => partNumber === "TESTPART"
+      ? { decoderId: "test-dram", input: partNumber, normalized: partNumber }
+      : null,
+    decode: (matched) => ({
       device: {
         domain: "memory",
         chipKind: "dram",
         vendor: "micron",
-        partNumber
+        partNumber: matched.normalized
       },
       fields: {
         dram_type: "DRAM",

@@ -1,7 +1,11 @@
 import { server as createHapiServer } from "@hapi/hapi";
 import type { Request, ResponseToolkit } from "@hapi/hapi";
 import { FDNEXT_VERSION, type FdnextEngine } from "@itxtech/fdnext-core";
-import { createRuntime, type FdnextRuntime } from "@itxtech/fdnext-core/runtime";
+import {
+  createRuntime,
+  fdnextSearchLimitFromEnv,
+  type FdnextRuntime
+} from "@itxtech/fdnext-core/runtime";
 import { loadResourcesFromDir } from "./resources";
 
 export interface HttpServerOptions {
@@ -11,6 +15,7 @@ export interface HttpServerOptions {
   serverName?: string;
   engine?: FdnextEngine;
   runtime?: FdnextRuntime;
+  searchLimit?: number;
 }
 
 function parsePort(value: number | undefined): number {
@@ -27,10 +32,11 @@ function hasHeaderMethod(value: unknown): value is { header: (name: string, valu
   return !!value && typeof value === "object" && "header" in value && typeof value.header === "function";
 }
 
-function createDefaultRuntimeFromResources(resourceDir?: string, serverName?: string): FdnextRuntime {
+function createDefaultRuntimeFromResources(resourceDir?: string, serverName?: string, searchLimit?: number): FdnextRuntime {
   return createRuntime({
     ...(resourceDir ? { resources: loadResourcesFromDir(resourceDir) } : {}),
-    serverName
+    serverName,
+    searchLimit
   });
 }
 
@@ -64,9 +70,10 @@ async function replyRuntimeJson(runtime: FdnextRuntime, request: Request, h: Res
 export function createHttpServer(options: HttpServerOptions) {
   const host = options.host ?? "0.0.0.0";
   const port = parsePort(options.port);
+  const searchLimit = options.searchLimit ?? fdnextSearchLimitFromEnv(process.env);
   const runtime = options.runtime ?? (options.engine
-    ? createRuntime({ engine: options.engine, serverName: options.serverName })
-    : createDefaultRuntimeFromResources(options.resourceDir, options.serverName));
+    ? createRuntime({ engine: options.engine, serverName: options.serverName, searchLimit })
+    : createDefaultRuntimeFromResources(options.resourceDir, options.serverName, searchLimit));
 
   const server = createHapiServer({
     host,

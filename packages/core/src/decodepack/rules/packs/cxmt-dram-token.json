@@ -350,8 +350,7 @@
             },
             "package_code": {
               "$var": "packageCode"
-            },
-            "dram_die_count": 1
+            }
           }
         },
         {
@@ -365,6 +364,14 @@
           "into": "extra",
           "from": "revisionObj",
           "if": "hasRevision"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code",
+            "package_code"
+          ]
         }
       ],
       "assign": {
@@ -625,6 +632,13 @@
             "dram_generation": "CXMT G3",
             "package_code": "CDTQ"
           }
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "package_code"
+          ]
         }
       ],
       "assign": {

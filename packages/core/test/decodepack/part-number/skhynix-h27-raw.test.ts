@@ -24,13 +24,13 @@ assert.equal(
 );
 
 assert.equal(
-  compiledPack.partDecoders.some((decoder) => decoder.id === "vendor.skhynix.h27.raw.v2" && decoder.check("H2EUXG8M1MYR")),
+  compiledPack.partDecoders.some((decoder) => decoder.id === "vendor.skhynix.h27.raw.v2" && decoder.match("H2EUXG8M1MYR")),
   true,
   "H2E product type should use the H27 v2 ordering rule"
 );
 
 assert.equal(
-  compiledPack.partDecoders.some((decoder) => decoder.id === "vendor.skhynix.h27.raw.v2" && decoder.check("H2NUCG8T2E")),
+  compiledPack.partDecoders.some((decoder) => decoder.id === "vendor.skhynix.h27.raw.v2" && decoder.match("H2NUCG8T2E")),
   true,
   "H2N product type should use the H27 v2 ordering rule"
 );

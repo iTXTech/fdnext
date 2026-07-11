@@ -2166,6 +2166,13 @@
           "op": "merge",
           "into": "extra",
           "from": "revisionObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "config_code"
+          ]
         }
       ],
       "assign": {

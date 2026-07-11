@@ -3,8 +3,8 @@ import test from "node:test";
 import dramJson from "../../resources/dram-pn.json" with { type: "json" };
 import fdbJson from "../../resources/fdb.json" with { type: "json" };
 import managedNandJson from "../../resources/managed-nand-pn.json" with { type: "json" };
-import type { PartNumberDecoder } from "../../src/index";
-import { compileDecodePack, defaultDecodePack, type DecodePack } from "../../src/decodepack";
+import type { PartNumberDecoder, PartNumberMatch } from "../../src/index";
+import { compileDecodePack, defaultDecodePack, type DecodePack, validateDecodePack } from "../../src/decodepack";
 
 interface PartResourceEntry {
   pn: string;
@@ -50,12 +50,17 @@ function leafPaths(value: unknown, prefix = ""): string[] {
   return entries.flatMap(([key, child]) => leafPaths(child, prefix ? `${prefix}.${key}` : key));
 }
 
-function decoderSamples(decoders: PartNumberDecoder[]): Map<PartNumberDecoder, string> {
-  const samples = new Map<PartNumberDecoder, string>();
+function decoderSamples(decoders: PartNumberDecoder[]): Map<PartNumberDecoder, PartNumberMatch> {
+  const samples = new Map<PartNumberDecoder, PartNumberMatch>();
   for (const partNumber of knownPartNumbers()) {
-    const decoder = decoders.find((candidate) => candidate.check(partNumber));
-    if (decoder && decoder.project && !samples.has(decoder)) {
-      samples.set(decoder, partNumber);
+    for (const decoder of decoders) {
+      const matched = decoder.match(partNumber);
+      if (matched) {
+        if (decoder.project && !samples.has(decoder)) {
+          samples.set(decoder, matched);
+        }
+        break;
+      }
     }
   }
   return samples;
@@ -69,12 +74,12 @@ test("DecodePack projection matches full decoding for arbitrary requested paths"
   assert.ok(samples.size >= 110, `expected broad rule coverage, got ${samples.size}/${decoders.length}`);
 
   let checkedPaths = 0;
-  for (const [decoder, partNumber] of samples) {
-    const full = decoder.decode(partNumber);
-    assert.ok(full, `${decoder.id} should fully decode ${partNumber}`);
+  for (const [decoder, matched] of samples) {
+    const partNumber = matched.input;
+    const full = decoder.decode(matched);
 
     for (const path of leafPaths(full)) {
-      const projected = decoder.project?.(partNumber, [path]);
+      const projected = decoder.project?.(matched, [path]);
       assert.ok(projected, `${decoder.id} should project ${path} for ${partNumber}`);
       assert.equal(projected.device.partNumber, full.device.partNumber, `${decoder.id} projected identity`);
       assert.deepEqual(
@@ -90,13 +95,15 @@ test("DecodePack projection matches full decoding for arbitrary requested paths"
 });
 
 test("projection target sets are runtime data rather than a fixed search profile", () => {
+  const partNumber = "MT29F16T08EWLEHD6-36ITRES:E";
   const decoder = compileDecodePack(defaultDecodePack).partDecoders
     .sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0))
-    .find((candidate) => candidate.check("MT29F16T08EWLEHD6-36ITRES:E"));
+    .find((candidate) => candidate.match(partNumber));
   assert.ok(decoder?.project);
+  const matched = decoder.match(partNumber);
+  assert.ok(matched);
 
-  const full = decoder.decode("MT29F16T08EWLEHD6-36ITRES:E");
-  assert.ok(full);
+  const full = decoder.decode(matched);
 
   for (const targets of [
     ["fields.density"],
@@ -104,8 +111,7 @@ test("projection target sets are runtime data rather than a fixed search profile
     ["fields.die_codename", "meta.nandDieProfileKey"],
     ["device.vendor", "fields.voltage", "fields.device_width"]
   ] as const) {
-    const projected = decoder.project("MT29F16T08EWLEHD6-36ITRES:E", targets);
-    assert.ok(projected);
+    const projected = decoder.project(matched, targets);
     for (const path of targets) {
       assert.deepEqual(readPath(projected, path), readPath(full, path), `dynamic target ${path}`);
     }
@@ -147,11 +153,14 @@ test("projection stops before unrelated later DecodePack steps", () => {
     identifierSpecs: []
   } satisfies DecodePack;
 
-  const [decoder] = compileDecodePack(pack).partDecoders;
+  const [decoder] = compileDecodePack(validateDecodePack(pack)).partDecoders;
   assert.ok(decoder?.project);
-  assert.equal(decoder.project("MT4Z", ["fields.density"])?.fields?.density, 4096);
+  lateTableReads = 0;
+  const matched = decoder.match("MT4Z");
+  assert.ok(matched);
+  assert.equal(decoder.project(matched, ["fields.density"]).fields?.density, 4096);
   assert.equal(lateTableReads, 0, "the unrelated late lookup should not execute for a density projection");
 
-  assert.equal(decoder.decode("MT4Z")?.fields?.special_option, "late");
-  assert.ok(lateTableReads > 0, "full decoding should execute the late lookup");
+  assert.equal(decoder.decode(matched).fields?.special_option, "late");
+  assert.equal(lateTableReads, 0, "compiled table access should not enumerate source data during decoding");
 });

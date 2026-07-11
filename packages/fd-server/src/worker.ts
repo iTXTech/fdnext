@@ -15,6 +15,8 @@ function fdServerEnv(env: Record<string, unknown> | undefined): FdServerEnv {
   return {
     FD_SERVER_DEFAULT_LANG: envString(env, "FD_SERVER_DEFAULT_LANG"),
     FD_SERVER_CONTROLLER_GROUP: envString(env, "FD_SERVER_CONTROLLER_GROUP"),
+    FD_SERVER_SEARCH_LIMIT: envString(env, "FD_SERVER_SEARCH_LIMIT"),
+    FDNEXT_SEARCH_LIMIT: envString(env, "FDNEXT_SEARCH_LIMIT"),
     FD_SERVER_EXTRA_URLS: envString(env, "FD_SERVER_EXTRA_URLS")
   };
 }
@@ -23,6 +25,8 @@ function envSignature(env: FdServerEnv): string {
   return [
     env.FD_SERVER_DEFAULT_LANG ?? "",
     env.FD_SERVER_CONTROLLER_GROUP ?? "",
+    env.FD_SERVER_SEARCH_LIMIT ?? "",
+    env.FDNEXT_SEARCH_LIMIT ?? "",
     env.FD_SERVER_EXTRA_URLS ?? ""
   ].join("\u0000");
 }

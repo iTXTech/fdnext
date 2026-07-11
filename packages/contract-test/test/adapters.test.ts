@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import type { AddressInfo } from "node:net";
-import { FDNEXT_CORS_ORIGINS_ENV } from "@itxtech/fdnext-core/runtime";
+import { FDNEXT_CORS_ORIGINS_ENV, FDNEXT_SEARCH_LIMIT_ENV } from "@itxtech/fdnext-core/runtime";
 import { createCfWorkersAdapter } from "@itxtech/fdnext-cf-workers";
 import { startAliyunFc } from "@itxtech/fdnext-aliyun-fc";
 import { createContractEngine } from "../src/index";
@@ -40,8 +40,18 @@ assert.equal(cfPreflightResponse.headers.get("access-control-allow-methods"), "G
 assert.equal(cfPreflightResponse.headers.get("access-control-allow-headers"), "x-fdnext-client");
 assert.equal(await cfPreflightResponse.text(), "");
 
+const cappedCfWorker = createCfWorkersAdapter({ engine });
+const cappedCfResponse = await cappedCfWorker.fetch(
+  new Request("https://fdnext.example/parts/search?query=M&limit=9999"),
+  { [FDNEXT_SEARCH_LIMIT_ENV]: "2" }
+);
+const cappedCfBody = await cappedCfResponse.json() as { items?: unknown[] };
+assert.equal(cappedCfBody.items?.length, 2);
+
 const previousCorsOrigins = process.env[FDNEXT_CORS_ORIGINS_ENV];
+const previousSearchLimit = process.env[FDNEXT_SEARCH_LIMIT_ENV];
 process.env[FDNEXT_CORS_ORIGINS_ENV] = "https://fc.example https://admin.example";
+process.env[FDNEXT_SEARCH_LIMIT_ENV] = "3";
 const aliyunCorsServer = startAliyunFc({ host: "127.0.0.1", port: 0, runtimeOptions: { engine } });
 try {
   await waitForListening(aliyunCorsServer);
@@ -64,11 +74,19 @@ try {
   assert.equal(aliyunPreflightResponse.headers.get("access-control-allow-origin"), "https://fc.example");
   assert.equal(aliyunPreflightResponse.headers.get("access-control-allow-headers"), "x-fdnext-client");
   assert.equal(await aliyunPreflightResponse.text(), "");
+  const aliyunCappedResponse = await fetch(`${baseUrl}/parts/search?query=M&limit=9999`);
+  const aliyunCappedBody = await aliyunCappedResponse.json() as { items?: unknown[] };
+  assert.equal(aliyunCappedBody.items?.length, 3);
 } finally {
   await closeNodeServer(aliyunCorsServer);
   if (previousCorsOrigins === undefined) {
     delete process.env[FDNEXT_CORS_ORIGINS_ENV];
   } else {
     process.env[FDNEXT_CORS_ORIGINS_ENV] = previousCorsOrigins;
+  }
+  if (previousSearchLimit === undefined) {
+    delete process.env[FDNEXT_SEARCH_LIMIT_ENV];
+  } else {
+    process.env[FDNEXT_SEARCH_LIMIT_ENV] = previousSearchLimit;
   }
 }

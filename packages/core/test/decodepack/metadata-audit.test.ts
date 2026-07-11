@@ -15,6 +15,7 @@ import { embeddedResourceBundle } from "../../src/resources";
 import {
   checkDecodePack,
   compileDecodePack,
+  DecodePackValidationError,
   defaultDecodePack,
   defaultIdentifierDecodeSpecs,
   defaultPartDecodeSpecs,
@@ -22,7 +23,8 @@ import {
   explainIdentifierDecode,
   explainPartDecode,
   type PartDecodeSpec,
-  readPartDecodeSpecTables
+  readPartDecodeSpecTables,
+  validateDecodePack
 } from "../../src/decodepack";
 
 const repoRoot = fileURLToPath(new URL("../../../../", import.meta.url));
@@ -142,11 +144,12 @@ function assertRuntimeDecodePackFieldsAreRegistered(): void {
 
   for (const sample of samples) {
     for (const decoder of decoders) {
-      if (!decoder.check(sample)) {
+      const matched = decoder.match(sample);
+      if (!matched) {
         continue;
       }
-      const info = decoder.decode(sample);
-      const fields = info?.fields;
+      const info = decoder.decode(matched);
+      const fields = info.fields;
       if (!fields || typeof fields !== "object" || Array.isArray(fields)) {
         continue;
       }
@@ -791,6 +794,58 @@ function assertDecodePackCheckRejectsPublicCodeFields(): void {
   );
 }
 
+function assertDecodePackCheckRejectsDynamicPublicCodeFields(): void {
+  const pack: DecodePack = {
+    partSpecs: [
+      {
+        id: "test.dynamic-public-code-field",
+        match: { kind: "prefix", value: "X" },
+        tokenDecoder: {
+          steps: [
+            {
+              op: "set",
+              to: "extra",
+              value: {
+                package_code: "ABC",
+                dram_type: "DDR4"
+              }
+            }
+          ],
+          assign: {
+            "device.partNumber": { $var: "partNumber" },
+            fields: { $var: "extra" }
+          }
+        }
+      }
+    ],
+    identifierSpecs: []
+  };
+
+  const result = checkDecodePack(pack);
+  assert.equal(result.ok, false);
+  assert.ok(
+    result.findings.some(
+      (finding) =>
+        finding.code === "internal_field" &&
+        finding.path === "partSpecs[0].tokenDecoder.assign.fields.package_code"
+    ),
+    `expected dynamic public code field finding, got ${JSON.stringify(result.findings)}`
+  );
+  assert.throws(() => validateDecodePack(pack), DecodePackValidationError);
+  assert.throws(
+    () => compileDecodePack(pack as never),
+    /requires a pack returned by validateDecodePack/
+  );
+
+  pack.partSpecs[0].tokenDecoder.steps.push({
+    op: "omit",
+    from: "extra",
+    keys: ["package_code"]
+  });
+  assert.deepEqual(checkDecodePack(pack).findings, []);
+  assert.doesNotThrow(() => compileDecodePack(validateDecodePack(pack)));
+}
+
 function assertDecodePackCheckRejectsInvalidPackageShape(): void {
   const result = checkDecodePack({
     partSpecs: [
@@ -1106,6 +1161,7 @@ assertDecodePackIdentityTablesUseArraySyntax();
 assertDefaultDecodePackMaintainsItself();
 assertDecodePackCheckRejectsUndefinedTokenVariables();
 assertDecodePackCheckRejectsPublicCodeFields();
+assertDecodePackCheckRejectsDynamicPublicCodeFields();
 assertDecodePackCheckRejectsInvalidPackageShape();
 assertDecodePackCheckRejectsFullStringPartMatch();
 assertArrayDecodeTablesSupportIdentityAndSharedValues();

@@ -1,4 +1,10 @@
-import { createFdnextCorsOptionsFromEnv, createRuntime, type FdnextRuntimeOptions } from "@itxtech/fdnext-core/runtime";
+import {
+  createFdnextCorsOptionsFromEnv,
+  createRuntime,
+  fdnextSearchLimitFromEnv,
+  type FdnextRuntime,
+  type FdnextRuntimeOptions
+} from "@itxtech/fdnext-core/runtime";
 
 export interface CfWorkersContext {
   waitUntil?(promise: Promise<unknown>): void;
@@ -10,9 +16,13 @@ export interface CfWorkersEntrypoint {
 }
 
 export function createCfWorkersAdapter(options: FdnextRuntimeOptions = {}): CfWorkersEntrypoint {
-  const runtime = createRuntime(options);
+  let runtime: FdnextRuntime | undefined;
   return {
     fetch(request, env) {
+      runtime ??= createRuntime({
+        ...options,
+        searchLimit: options.searchLimit ?? fdnextSearchLimitFromEnv(env)
+      });
       return runtime.fetch(request, {
         adapter: "cf-workers",
         cors: createFdnextCorsOptionsFromEnv(env)

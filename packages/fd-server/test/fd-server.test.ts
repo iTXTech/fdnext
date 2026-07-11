@@ -147,11 +147,28 @@ test("/searchPn returns string array with FD vendor casing", async () => {
   assert.ok((body.data as string[]).includes("Micron MT29F4G08ABAEA"));
 });
 
-test("/searchPn preserves the legacy complete-result behavior when limit is omitted", async () => {
-  const { body } = await inject("/searchPn?pn=MT29&lang=eng");
-  assert.equal(body.result, true);
-  assert.ok(Array.isArray(body.data));
-  assert.ok((body.data as unknown[]).length > 100);
+test("/searchPn applies the default hard cap and only allows lower explicit limits", async () => {
+  const omitted = await inject("/searchPn?pn=M&lang=eng");
+  assert.equal(omitted.body.result, true);
+  assert.equal((omitted.body.data as unknown[]).length, 300);
+
+  const overCap = await inject("/searchPn?pn=M&lang=eng&limit=10000");
+  assert.equal((overCap.body.data as unknown[]).length, 300);
+
+  const lower = await inject("/searchPn?pn=M&lang=eng&limit=7");
+  assert.equal((lower.body.data as unknown[]).length, 7);
+});
+
+test("fd-server search cap can be overridden by environment", async () => {
+  const part = await fetchJson("/searchPn?pn=M&lang=eng&limit=10000", {
+    FD_SERVER_SEARCH_LIMIT: "3"
+  });
+  assert.equal((part.body.data as unknown[]).length, 3);
+
+  const identifier = await fetchJson("/searchId?id=98&lang=eng&limit=10000", {
+    FDNEXT_SEARCH_LIMIT: "4"
+  });
+  assert.equal(Object.keys(identifier.body.data as Record<string, unknown>).length, 4);
 });
 
 test("/searchId returns object keyed by flash id", async () => {

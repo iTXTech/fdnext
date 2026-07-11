@@ -10,16 +10,6 @@ import type {
 } from "./types";
 import { normalizeDecodeTables } from "./table";
 
-function checkMatch(
-  normalized: string,
-  match: { kind: "prefix"; value: string } | { kind: "regex"; value: string; flags?: string }
-): boolean {
-  if (match.kind === "prefix") {
-    return normalized.startsWith(match.value);
-  }
-  return new RegExp(match.value, match.flags).test(normalized);
-}
-
 function normalizeOptionalDecodeTables(
   tables: Record<string, DecodeTable> | undefined
 ): Record<string, Record<string, DecodeJson>> | undefined {
@@ -240,22 +230,32 @@ export function compileIdentifierDecodeSpecs(
 ): IdentifierDecoder[] {
   const profileTables = normalizeOptionalDecodeTables(sharedTables);
   return rules.map((rule) => {
-    const check = (id: string): boolean => checkMatch(id.toUpperCase(), rule.match);
+    const matchPrefix = rule.match.kind === "prefix" ? rule.match.value : undefined;
+    const matchPattern = rule.match.kind === "regex" ? new RegExp(rule.match.value, rule.match.flags) : undefined;
+    const matchesNormalized = (normalized: string): boolean => {
+      if (matchPrefix !== undefined) {
+        return normalized.startsWith(matchPrefix);
+      }
+      const pattern = matchPattern as RegExp;
+      pattern.lastIndex = 0;
+      return pattern.test(normalized);
+    };
+    const check = (id: string): boolean => matchesNormalized(id.toUpperCase());
     const decode = (id: string): IdentifierDecodeDraft | null => {
       const normalized = id.toUpperCase();
-      if (!check(normalized)) {
+      if (!matchesNormalized(normalized)) {
         return null;
       }
       return decodeIdentifierByDefinition(normalized, rule);
     };
 
-    return {
+    return Object.freeze({
       id: rule.id,
       idScheme: rule.idScheme,
       priority: rule.priority,
       profileTables,
       check,
       decode
-    } satisfies IdentifierDecoder;
+    } satisfies IdentifierDecoder);
   });
 }
