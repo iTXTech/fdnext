@@ -69,6 +69,11 @@
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
+          "H": {
+            "component_density": "32Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
           "J": {
             "component_density": "64Gb",
             "component_width": "x8",
@@ -86,6 +91,11 @@
           },
           "M": {
             "component_density": "16Gb",
+            "component_width": "x8",
+            "component_voltage": "3.3V"
+          },
+          "N": {
+            "component_density": "4Gb",
             "component_width": "x8",
             "component_voltage": "3.3V"
           },

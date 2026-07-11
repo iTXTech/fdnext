@@ -155,7 +155,9 @@
           "5CC:FK",
           "5CC:FL",
           "5AD:HR",
+          "5AD:IY",
           "5AD:JR",
+          "5FF:N2",
           "5FF:Q5",
           "5FF:S8",
           "5FF:UB",
@@ -276,8 +278,14 @@
           "5AD:HR": {
             "dram_speed": "DDR4-2666 19-19-19"
           },
+          "5AD:IY": {
+            "dram_speed": "DDR4-2933 21-21-21"
+          },
           "5AD:JR": {
             "dram_speed": "DDR4-3200 22-22-22"
+          },
+          "5FF:N2": {
+            "dram_speed": "DDR5-4800 40-39-39"
           },
           "5FF:Q5": {
             "dram_speed": "DDR5-5600"
@@ -333,8 +341,14 @@
           "I": {
             "operation_temperature": "Industrial (-40C~95C)"
           },
+          "R": {
+            "operation_temperature": "High Temperature Extended (0C~105C)"
+          },
           "U": {
             "operation_temperature": "Industrial (-40C~105C)"
+          },
+          "W": {
+            "operation_temperature": "Quasi Industrial (-40C~105C)"
           },
           "T": {
             "operation_temperature": "Quasi Industrial (-40C~95C)"

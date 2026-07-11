@@ -1,6 +1,6 @@
 # ESMT DRAM PN 规则
 
-采集日期：2026-05-12；订货 PN 形式补充：2026-05-19
+采集日期：2026-05-12；订货 PN 形式补充：2026-05-19；更新日期：2026-07-11
 
 本页记录 ESMT standalone DRAM 颗粒的 PN 结构。本轮覆盖官方产品页中可直接确认的 SDR、DDR、DDR2、DDR3/DDR3L、DDR4、LPDDR、LPDDR2、LPDDR3 与 LPDDR4X。2026-05-19 根据用户提供的 datasheet 截图，将 ESMT `dram-pn.json` 条目从页眉里的括号式族内标记整理为订货表中的标准 Product ID 形式，并继续补充 `M13D` LPDDR、`M52D` mobile SDR、`M54D1G1664A-*BKIG`、`M54D2G16128A-*BKG`、`M16U4G16256A-*BIG` / `*BIAG2Z`、`M12L64164A-*TIG2C` / `*BIG2C`、`M13S128168A-*2N`、`M13S2561616A-*2T`、`M15T*BG2S` / `M15T2G16128A-BDBIG2B` 与 `M56Z8G32256A-SMBYIG` 等标准 ordering PN。本轮没有联网抓取 PDF。
 
@@ -11,7 +11,9 @@
 - ESMT DDR2 SDRAM 产品页列出 `M14D*` / `M14F*` 系列 PN、容量组织、1.8V / 1.5V、电气速度与 BGA 封装。来源：<https://www.esmt.com.tw/en/Products/DRAM/DDR2%20SDRAM-1-3>
 - ESMT DDR3(L) SDRAM 产品页列出 `M15T*` / `M15F*` 系列 PN、容量组织、1.35V / 1.5V、速度与 78/96-ball BGA 封装。来源：<https://www.esmt.com.tw/en/Products/DRAM/DDR3(L)%20SDRAM>；`M15T1G1664A-*BG2S`、`M15T2G16128A-BDBIG2B`、`M15T4G16256A-*BG2S` 与 `M15T8G16512A-*BG2S` 的订货形式来自本轮截图。
 - ESMT DDR4 SDRAM 产品页列出 `M16U4G16256A(2Z)`、`M16U4G8512A(2Z)` 的 4Gb、x16/x8、1.2V、1333/1600MHz 与 BGA 封装。来源：<https://www.esmt.com.tw/en/Products/DRAM/DDR4%20SDRAM-1-60>
+- ESMT `M16U8G16512A(2W)` 官方 datasheet ordering information 确认 `M16U8G16512A-NLBG2W` 为 DDR4-3200 22-22-22、`M16U8G16512A-KJBG2W` 为 DDR4-2666 19-19-19，均为 8Gb x16、96-ball BGA。来源：<https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/M16U8G16512A%282W%29.pdf>
 - ESMT LPDDR / LPDDR2 / LPDDR3 / LPDDR4X 产品页列出 `M13D*`、`M53D*`、`M54D*`、`M55D*`、`M56Z*` 系列的容量组织、电压、速度与 BGA 封装。来源：<https://www.esmt.com.tw/en/Products/DRAM/LPDDR2%20SDRAM>、<https://www.esmt.com.tw/en/Products/DRAM/LPDDR3%20SDRAM>、<https://www.esmt.com.tw/en/Products/DRAM/LPDDR4x%20SDRAM>；`M13D64322A-*BG2S`、`M53D256328A-*BG2F`、`M53D2561616A-*BG2F`、`M53D5123216A-*BG`、`M54D1G1664A-*BKIG`、`M54D2G16128A-*BKG`、`M55D4G32128A-*BG2R`、`M56Z8G32256A-TNBYG2H` 与 `M56Z8G32256A-SMBYIG` 的订货形式来自本轮截图。
+- ESMT `M56Z16G32512A(2D)` 官方 datasheet ordering information 确认 16Gb x32、双通道、200-ball BGA，以及 `SM=3733Mbps`、`TN=4266Mbps` 的正式 Product ID。来源：<https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/M56Z16G32512A%282D%29_operation%20temperature%20condition%20-40%E2%84%83~95%E2%84%83.pdf>
 
 ## iTXTech fdnext DecodePack 范围
 
@@ -59,6 +61,8 @@ M54D + 2G16128A + -3BKG
 M55D + 4G16256A + -GFBG2R
 M16U + 4G16256A + -QLBIAG2Z
 M56Z + 8G32256A + -TNBYG2H
+M16U + 8G16512A + -NLBG2W
+M56Z + 16G32512A + -SMBYIG2D
 M56Z + 8G32256A + -SMBYIG
 ```
 

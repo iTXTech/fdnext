@@ -43,6 +43,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-05-18 根据用户提供的 Winbond LPDDR / LPDDR2 / LPDDR3 datasheet 补齐 `W948/W949/W94AD`、`W978/W979/W97AH`、`W639/W63AH` token：覆盖 256Mb~1Gb、x16/x32、4-bank / 8-bank 与 LPDDR3 2-bank、VFBGA60/90/134/178、速度和 E/I 温度档，并把 ordering table 中的 base / exact PN 加入 `dram-pn.json`。
 - 2026-05-19 根据用户提供的 Etron LPDDR2 / LPDDR4 / LPDDR4X datasheet 截图补齐 `EM6K` LPDDR2 token，并把 Etron LPDDR4/4X 补全项从页眉式 family PN 清理为带 speed suffix 的标准 ordering PN；带 speed token 的 PN 只输出具体速率，不输出 family 级速度范围。
 - 2026-05-19 从 Etron 官网 specialty DRAM 页面抓取 DDR、DDR2、DDR3/DDR3L、DDR4 的 52 个公开 datasheet，只解析前两页 ordering information / specs：补齐 DDR~DDR4 speed suffix、DDR3/DDR3L 工业/车规/stacked dice suffix、精确 FBGA/BGA/TSOP 封装尺寸，并把 181 个带 speed suffix 的 ordering PN 加入 `dram-pn.json`。带 speed suffix 的 PN 只输出具体速率，不重复输出 family speed。
+- 2026-07-11 根据 Nanya 官方 Standard/Low Power Part Numbering Guide 补齐 DDR4-2933、DDR5-4800 与扩展温区 token；根据 ESMT 两份特定产品 datasheet ordering information 补齐 DDR4 8Gb x16 的 NL/KJ 速度和 LPDDR4X 16Gb x32 双通道 Product ID。
 
 ## 当前覆盖进度
 

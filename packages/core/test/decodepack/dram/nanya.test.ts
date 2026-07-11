@@ -351,6 +351,38 @@ assertDram("NT5FF1024M16A4-Q5", {
   }
 });
 
+assertDram("NT5FF1024M16A4-N2", {
+  vendor: "nanya",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "BGA-106",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "Package Code": "A4",
+    "Config Code": "1024M16",
+    "DRAM Speed": "DDR5-4800 40-39-39",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
+assertDram("NT5AD1024M8C3-IYW", {
+  vendor: "nanya",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x8",
+  voltage: "1.2V VDD / 1.2V VDDQ / 2.5V VPP",
+  package: "TFBGA-78, 7.50x12.00, 0.80 pitch",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2933 21-21-21",
+    "Operation Temperature": "Quasi Industrial (-40C~105C)"
+  }
+});
+
 assertDram("NT5FF2048M8EK-WEU", {
   vendor: "nanya",
   densityMbit: 16384,

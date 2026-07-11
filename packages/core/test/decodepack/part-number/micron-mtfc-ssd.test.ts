@@ -37,7 +37,7 @@ assertRuleDecode("MTFC4GACAJCN-1M WT", {
   densityMbit: 32768,
   package: "VFBGA-153, 11.5x13x1.0, SAC 302",
   extra: {
-    "Product Generation": "Fourth",
+    "Product Generation": "4th Gen",
     "Product Version": "eMMC 5.0",
     "Special Option": "2MB MAX boot area / 100% MAX enhanced"
   },
@@ -55,6 +55,35 @@ assertRuleDecode("MTFC8GLTEA-WT", {
     "Package Code": "EA",
     "Controller Revision": "Rev 19"
   }
+});
+
+assertRuleDecode("MTFC32GHADM-WT", {
+  vendor: "micron",
+  type: "eMMC",
+  densityMbit: 262144,
+  package: "TFBGA-153, 11.5x13x1.2",
+  extra: {
+    "Component Density": "32Gb",
+    "Component Width": "x8",
+    "Component Voltage": "3.3V",
+    "Controller Revision": "Rev 1",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["Controller Code", "Package Code"]
+});
+
+assertRuleDecode("MTFC8GAMALBH-AAT", {
+  vendor: "micron",
+  type: "eMMC",
+  densityMbit: 65536,
+  extra: {
+    "Component Density": "64Gb",
+    "Component Width": "x8",
+    "Product Generation": "8th Gen",
+    "Controller Revision": "Rev 11",
+    "Operation Temperature": "Industrial (-40°C ~ 105°C + HR certified test flow)"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
 
 assertRuleDecode("MTFC256GASAONS-IT", {

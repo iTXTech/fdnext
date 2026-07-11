@@ -79,77 +79,77 @@
           "AA": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "generation_info": "Second"
+            "generation_info": "2nd Gen"
           },
           "AB": {
             "component_width": "x8",
             "component_density": "32Gb",
-            "generation_info": "Third"
+            "generation_info": "3rd Gen"
           },
           "AC": {
             "component_width": "x8",
             "component_density": "32Gb",
-            "generation_info": "Fourth"
+            "generation_info": "4th Gen"
           },
           "AD": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "generation_info": "Sixth"
+            "generation_info": "6th Gen"
           },
           "AE": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "generation_info": "Fifth"
+            "generation_info": "5th Gen"
           },
           "AF": {
             "component_width": "x8",
             "component_density": "128Gb",
-            "generation_info": "Fourth"
+            "generation_info": "4th Gen"
           },
           "AG": {
             "component_width": "x8",
             "component_density": "128Gb",
-            "generation_info": "Fifth"
+            "generation_info": "5th Gen"
           },
           "AH": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "generation_info": "Third"
+            "generation_info": "3rd Gen"
           },
           "AJ": {
             "component_width": "x8",
             "component_density": "128Gb",
-            "generation_info": "Sixth"
+            "generation_info": "6th Gen"
           },
           "AK": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "generation_info": "Fourth"
+            "generation_info": "4th Gen"
           },
           "AL": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "generation_info": "Seventh"
+            "generation_info": "7th Gen"
           },
           "AM": {
             "component_width": "x8",
             "component_density": "64Gb",
-            "generation_info": "Eighth"
+            "generation_info": "8th Gen"
           },
           "AN": {
             "component_width": "x8",
             "component_density": "128Gb",
-            "generation_info": "Seventh"
+            "generation_info": "7th Gen"
           },
           "AO": {
             "component_width": "x8",
             "component_density": "256Gb",
-            "generation_info": "Fourth"
+            "generation_info": "4th Gen"
           },
           "AP": {
             "component_width": "x8",
             "component_density": "128Gb",
-            "generation_info": "Eighth"
+            "generation_info": "8th Gen"
           },
           "AR": {
             "component_width": "x8",

@@ -449,6 +449,10 @@
   },
   {
     "vendor": "micron",
+    "pn": "MTFC8GAMALBH-AAT"
+  },
+  {
+    "vendor": "micron",
     "pn": "MTFC32GBCAQTC-AAT"
   },
   {

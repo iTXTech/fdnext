@@ -477,10 +477,10 @@ function buildIdentifierSubtitle(
   const planeCount = displayField(fields, "plane_count");
   const dieProfile = rawNandDieSubtitle(device, fields);
   const dieText = dieCount
-    ? translateTemplate(ctx, "subtitle.die_count", "{count} die", { count: dieCount }, lang)
+    ? translateTemplate(ctx, "subtitle.die_count", "{count} Die", { count: dieCount }, lang)
     : undefined;
   const planeText = planeCount
-    ? translateTemplate(ctx, "subtitle.plane_count", "{count} planes", { count: planeCount }, lang)
+    ? translateTemplate(ctx, "subtitle.plane_count", "{count} Plane", { count: planeCount }, lang)
     : undefined;
   return [
     device.vendor.name,

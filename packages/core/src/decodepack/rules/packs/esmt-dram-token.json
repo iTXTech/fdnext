@@ -171,6 +171,7 @@
           "15T:E": "E",
           "16U:HH": "HH",
           "16U:KJ": "KJ",
+          "16U:NL": "NL",
           "16U:QL": "QL",
           "52D:5": "5",
           "52D:6": "6",
@@ -257,6 +258,9 @@
           },
           "16U:KJ": {
             "dram_speed": "DDR4-2666 (1333MHz, 19-19-19)"
+          },
+          "16U:NL": {
+            "dram_speed": "DDR4-3200 (1600MHz, 22-22-22)"
           },
           "16U:QL": {
             "dram_speed": "DDR4-3200 (1600MHz, 24-24-24)"
@@ -354,6 +358,12 @@
           },
           "56Z:8G32256A::SMBYIG:": {
             "dram_speed": "LPDDR4X-3733 (1866MHz)"
+          },
+          "56Z:16G32512A::SMBYIG:2D": {
+            "dram_speed": "LPDDR4X-3733 (1866MHz)"
+          },
+          "56Z:16G32512A::TNBYIG:2D": {
+            "dram_speed": "LPDDR4X-4266 (2133MHz)"
           }
         },
         "speedOverrideObj": {
@@ -379,6 +389,7 @@
           "4G16256A",
           "4G8512A",
           "8G16512A",
+          "16G32512A",
           "32321A",
           "256328A",
           "5123216A",
@@ -457,6 +468,12 @@
             "density": 8192,
             "device_width": 16,
             "config": "512M16"
+          },
+          "16G32512A": {
+            "density": 16384,
+            "device_width": 32,
+            "channel_count": 2,
+            "config": "512M32"
           },
           "32321A": {
             "density": 32,
@@ -753,6 +770,9 @@
           "16U:BIAG:2Z": {
             "package": "BGA-96"
           },
+          "16U:BG:2W": {
+            "package": "BGA-96"
+          },
           "52D:BG:": {
             "package": "FBGA-54"
           },
@@ -784,6 +804,12 @@
             "package": "BGA-178"
           },
           "56Z:SMBYIG:": {
+            "package": "BGA-200"
+          },
+          "56Z:SMBYIG:2D": {
+            "package": "BGA-200"
+          },
+          "56Z:TNBYIG:2D": {
             "package": "BGA-200"
           },
           "56Z:TNBYG:2H": {
@@ -1008,6 +1034,12 @@
           },
           "16U:BIAG:2Z": {
             "operation_temperature": "Industrial Plus (-40C~105C)"
+          },
+          "56Z:SMBYIG:2D": {
+            "operation_temperature": "Industrial (-40C~95C)"
+          },
+          "56Z:TNBYIG:2D": {
+            "operation_temperature": "Industrial (-40C~95C)"
           },
           "52D:BIG:": {
             "operation_temperature": "Industrial (-40C~85C)"
@@ -1284,6 +1316,9 @@
           "16U:BIAG:2Z": {
             "solder_type": "Pb-free"
           },
+          "16U:BG:2W": {
+            "solder_type": "Pb-free"
+          },
           "52D:BG:": {
             "solder_type": "Pb-free"
           },
@@ -1315,6 +1350,12 @@
             "solder_type": "Pb-free"
           },
           "56Z:SMBYIG:": {
+            "solder_type": "Pb-free"
+          },
+          "56Z:SMBYIG:2D": {
+            "solder_type": "Pb-free"
+          },
+          "56Z:TNBYIG:2D": {
             "solder_type": "Pb-free"
           },
           "56Z:TNBYG:2H": {
@@ -1676,6 +1717,9 @@
         },
         "fields.dram_width": {
           "$path": "configObj.device_width"
+        },
+        "fields.channel_count": {
+          "$path": "configObj.channel_count"
         },
         "fields.dram_voltage": {
           "$var": "voltage"

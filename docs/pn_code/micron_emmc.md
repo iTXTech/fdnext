@@ -1,6 +1,6 @@
 # Micron eMMC PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-05-08；更新日期：2026-07-11
 
 ## 外部资料
 
@@ -30,7 +30,7 @@ PN 结构：
 | `MTFC` + density + component(1) + controller(1) + package(2) + optional suffix | 旧版 eMMC/custom card |
 | component `AA..AP` | 新版 eMMC NAND component 表，含 width / component density / generation |
 | component `BC` | e.MMC 5.1 TLC Pearl，512Gb component |
-| component `A..R` | 旧版 eMMC NAND component 表 |
+| component `A..R` | 旧版 eMMC NAND component 表；本次按原厂 decoder 补齐 `H=32Gb x8 3.3V`、`N=4Gb x8 3.3V` |
 | controller `AA..AN` / `A..Z` | controller revision 表 |
 | package `AM/CN/DM/EA/TC/...` | package code |
 | special option `0F/0M/1M/.../O1` | boot/enhanced area / firmware option |
@@ -46,6 +46,7 @@ PN 结构：
 - `product_version`
 
 `controller_code`、`package_code` 等 Micron token 只用于内部解析，不进入公开字段；用户可见结果优先输出 `controller_revision`、`package` 等语义字段。
+- 新版 component generation 按公共约定输出短 ordinal，例如 `AM` 输出 `8th Gen`，不回显 decoder 中的 `Eighth`。
 - `special_option`
 - `operation_temperature`
 

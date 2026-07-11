@@ -10,7 +10,7 @@
       "idScheme": "nand.flash_id"
     }
   },
-  "subtitle": "Micron · SLC · 1 die · 4 planes",
+  "subtitle": "Micron · SLC · 1 Die · 4 Plane",
   "device": {
     "domain": "memory",
     "chipKind": "raw_nand",

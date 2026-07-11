@@ -34,6 +34,70 @@ assertDram("M16U4G16256A(2Z)", {
   absentExtra: ["DRAM Die Stack"]
 });
 
+assertDram("M16U8G16512A-NLBG2W", {
+  vendor: "esmt",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "BGA-96",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-3200 (1600MHz, 22-22-22)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M16U8G16512A-KJBG2W", {
+  vendor: "esmt",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "BGA-96",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-2666 (1333MHz, 19-19-19)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M56Z16G32512A-SMBYIG2D", {
+  vendor: "esmt",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "BGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-3733 (1866MHz)",
+    "Channel Count": 2,
+    "Operation Temperature": "Industrial (-40C~95C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
+assertDram("M56Z16G32512A-TNBYIG2D", {
+  vendor: "esmt",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "BGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266 (2133MHz)",
+    "Channel Count": 2,
+    "Operation Temperature": "Industrial (-40C~95C)",
+    "Solder Type": "Pb-free"
+  },
+  absentExtra: ["DRAM Die Stack"]
+});
+
 assertDram("M15T1G1664A-EFBIG2S", {
   vendor: "esmt",
   densityMbit: 1024,
