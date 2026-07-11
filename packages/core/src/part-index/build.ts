@@ -1,27 +1,23 @@
-import { UNKNOWN } from "../constants";
 import type { FdnextChipKind, FdnextProductType } from "../result";
-import { normalizeFlashId, normalizePartNumber, normalizePartNumberTokenKey } from "../utils/normalize";
+import { normalizePartNumber, normalizePartNumberTokenKey } from "../utils/normalize";
 import { sourceWeight, vendorKey } from "./scoring";
 import type {
   BuildNormalizedIndexesInput,
   CompactPostingIndex,
-  IdentifierIndexRecord,
-  IndexRefBucket,
   MarkingIndexRecord,
   MarkingIndexSource,
   NormalizedIndexes,
   PartSearchIndexes,
   PartIndexRecord,
-  PartIndexSource,
-  VendorIndexRecord
+  PartIndexSource
 } from "./types";
 
 function compareText(a: string, b: string): number {
   return a < b ? -1 : a > b ? 1 : 0;
 }
 
-function sortedRefs(length: number, keyAt: (ref: number) => string): readonly number[] {
-  return Object.freeze(
+function sortedRefs(length: number, keyAt: (ref: number) => string): Uint32Array {
+  return Uint32Array.from(
     Array.from({ length }, (_, ref) => ref).sort((a, b) => compareText(keyAt(a), keyAt(b)) || a - b)
   );
 }
@@ -68,31 +64,21 @@ function buildTrigramRefs(length: number, valuesAt: (ref: number) => readonly st
   return Object.freeze({ spans, refs: flattenedRefs });
 }
 
-function lazyPostingIndex(build: () => CompactPostingIndex): () => CompactPostingIndex {
-  let cached: CompactPostingIndex | undefined;
-  return Object.freeze(() => (cached ??= build()));
-}
-
 function buildPartSearchIndexes(
   partIndex: readonly PartIndexRecord[],
   markingIndex: readonly MarkingIndexRecord[]
 ): PartSearchIndexes {
   return Object.freeze({
-    partNormalizedRefs: sortedRefs(partIndex.length, (ref) => partIndex[ref]?.normalizedPartNumber ?? ""),
+    partNormalizedRefs: sortedRefs(partIndex.length, (ref) => partIndex[ref]?.partNumber ?? ""),
     partTokenRefs: sortedRefs(partIndex.length, (ref) => partIndex[ref]?.partNumberTokenKey ?? ""),
     markingCodeRefs: sortedRefs(markingIndex.length, (ref) => markingIndex[ref]?.markingCode ?? ""),
-    markingTokenRefs: sortedRefs(markingIndex.length, (ref) => markingIndex[ref]?.markingTokenKey ?? ""),
-    markingPartRefs: sortedRefs(markingIndex.length, (ref) => markingIndex[ref]?.normalizedPartNumber ?? ""),
+    markingPartRefs: sortedRefs(markingIndex.length, (ref) => markingIndex[ref]?.partNumber ?? ""),
     markingPartTokenRefs: sortedRefs(markingIndex.length, (ref) => markingIndex[ref]?.partNumberTokenKey ?? ""),
-    partTrigramRefs: lazyPostingIndex(() =>
-      buildTrigramRefs(partIndex.length, (ref) => [partIndex[ref]?.partNumberTokenKey ?? ""])
-    ),
-    markingTrigramRefs: lazyPostingIndex(() =>
-      buildTrigramRefs(markingIndex.length, (ref) => [
-        markingIndex[ref]?.markingTokenKey ?? "",
-        markingIndex[ref]?.partNumberTokenKey ?? ""
-      ])
-    )
+    partTrigramRefs: buildTrigramRefs(partIndex.length, (ref) => [partIndex[ref]?.partNumberTokenKey ?? ""]),
+    markingTrigramRefs: buildTrigramRefs(markingIndex.length, (ref) => [
+      markingIndex[ref]?.markingCode ?? "",
+      markingIndex[ref]?.partNumberTokenKey ?? ""
+    ])
   });
 }
 
@@ -103,24 +89,8 @@ function isDramPartNumber(partNumber: string): boolean {
     /^(?:XCBB|XCB|PR[A-Z]|S[A-Z]{1,2})(?:[0-9]+M|[0-9]+G)[0-9]{1,2}[A-Z0-9]/.test(partNumber);
 }
 
-function createVendorIndexRecord(vendorIndex: Map<string, VendorIndexRecord>, vendor: string): VendorIndexRecord {
-  const key = vendorKey(vendor) || UNKNOWN;
-  const existing = vendorIndex.get(key);
-  if (existing) {
-    return existing;
-  }
-  const record = {
-    vendor: key,
-    partNumbers: new Set<string>(),
-    markings: new Set<string>(),
-    identifiers: new Set<string>()
-  };
-  vendorIndex.set(key, record);
-  return record;
-}
-
 function addPartRecord(records: Map<string, PartIndexRecord>, record: PartIndexRecord): void {
-  const key = `${vendorKey(record.vendor)}\0${record.normalizedPartNumber}\0${record.chipKind}`;
+  const key = `${vendorKey(record.vendor)}\0${record.partNumber}\0${record.chipKind}`;
   const existing = records.get(key);
   if (!existing || sourceWeight(record.source) > sourceWeight(existing.source)) {
     records.set(key, record);
@@ -133,40 +103,13 @@ function normalizeMarkingCode(value: string): string {
   return value.trim().toUpperCase().replace(/[^0-9A-Z]/g, "");
 }
 
-function addIndexRef(index: Map<string, IndexRefBucket>, key: string, ref: number): void {
-  if (!key) {
-    return;
-  }
-  const existing = index.get(key);
-  if (existing !== undefined) {
-    if (typeof existing === "number") {
-      if (existing !== ref) {
-        index.set(key, [existing, ref]);
-      }
-      return;
-    }
-    if (existing[existing.length - 1] !== ref) {
-      existing.push(ref);
-    }
-    return;
-  }
-  index.set(key, ref);
-}
-
-function addExactIndexKeys(index: Map<string, IndexRefBucket>, value: string, ref: number): void {
-  addIndexRef(index, value, ref);
-  addIndexRef(index, normalizePartNumberTokenKey(value), ref);
-}
-
 function chipKindForMdbPart(partNumber: string): FdnextChipKind {
   return isDramPartNumber(partNumber) ? "dram" : "raw_nand";
 }
 
 export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): NormalizedIndexes {
   const partRecords = new Map<string, PartIndexRecord>();
-  const identifierIndex = new Map<string, IdentifierIndexRecord>();
   const markingIndex: MarkingIndexRecord[] = [];
-  const vendorIndex = new Map<string, VendorIndexRecord>();
 
   const addPart = (
     vendor: string,
@@ -183,7 +126,6 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
     }
     addPartRecord(partRecords, {
       partNumber,
-      normalizedPartNumber: partNumber,
       partNumberTokenKey: normalizePartNumberTokenKey(partNumber),
       vendor,
       chipKind,
@@ -191,7 +133,6 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
       ...(markingCode ? { markingCode } : {}),
       source
     });
-    createVendorIndexRecord(vendorIndex, vendor).partNumbers.add(partNumber);
   };
 
   for (const entry of input.managedNandPartNumbers) {
@@ -217,24 +158,15 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
     const chipKind = chipKindForMdbPart(partNumber);
     const record: MarkingIndexRecord = {
       markingCode,
-      markingTokenKey: normalizePartNumberTokenKey(markingCode),
       vendor,
       partNumber,
-      normalizedPartNumber: partNumber,
       partNumberTokenKey: normalizePartNumberTokenKey(partNumber),
       chipKind,
       source
     };
     markingIndex.push(record);
-    createVendorIndexRecord(vendorIndex, vendor).markings.add(markingCode);
     addPart(vendor, partNumber, chipKind, "mdb", undefined, markingCode);
   };
-
-  for (const [code, partNumbers] of input.micronDramFbgaCodes.entries()) {
-    for (const partNumber of partNumbers) {
-      addMarking("micron", code, partNumber, "micron_fbga");
-    }
-  }
 
   for (const [code, partNumber] of Object.entries(input.mdb.micron)) {
     addMarking("micron", code, partNumber, "micron_fbga");
@@ -246,44 +178,11 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
     }
   }
 
-  for (const [identifier, record] of input.fdb.flashIds.entries()) {
-    const normalized = normalizeFlashId(identifier);
-    if (!normalized) {
-      continue;
-    }
-    identifierIndex.set(normalized, {
-      identifier: normalized,
-      idScheme: "nand.flash_id",
-      record,
-      source: "fdb"
-    });
-    for (const part of record.n ?? []) {
-      const vendor = /^(\S+)\s+/.exec(part)?.[1];
-      if (vendor) {
-        createVendorIndexRecord(vendorIndex, vendor).identifiers.add(normalized);
-      }
-    }
-  }
-
   const partIndex = [...partRecords.values()];
-  const partExactIndex = new Map<string, IndexRefBucket>();
-  const markingExactIndex = new Map<string, IndexRefBucket>();
-
-  partIndex.forEach((record, ref) => {
-    addExactIndexKeys(partExactIndex, record.normalizedPartNumber, ref);
-  });
-
-  markingIndex.forEach((record, ref) => {
-    addExactIndexKeys(markingExactIndex, record.markingCode, ref);
-  });
 
   return {
     partIndex,
-    identifierIndex,
     markingIndex,
-    partExactIndex,
-    markingExactIndex,
-    vendorIndex,
     search: buildPartSearchIndexes(partIndex, markingIndex)
   };
 }

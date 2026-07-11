@@ -3,7 +3,7 @@ import type { CompactPostingIndex, MarkingIndexRecord, NormalizedIndexes, PartIn
 const POSTING_LENGTH_BASE = 65_536;
 
 function lowerBound(
-  refs: readonly number[],
+  refs: Uint32Array,
   keyAt: (ref: number) => string,
   query: string
 ): number {
@@ -22,7 +22,7 @@ function lowerBound(
 }
 
 function prefixRefs(
-  refs: readonly number[],
+  refs: Uint32Array,
   keyAt: (ref: number) => string,
   query: string,
   target: Set<number>
@@ -36,6 +36,27 @@ function prefixRefs(
     }
     const key = keyAt(ref);
     if (!key.startsWith(query)) {
+      break;
+    }
+    target.add(ref);
+    index += 1;
+  }
+}
+
+function exactRefs(
+  refs: Uint32Array,
+  keyAt: (ref: number) => string,
+  query: string,
+  target: Set<number>
+): void {
+  let index = lowerBound(refs, keyAt, query);
+  while (index < refs.length) {
+    const ref = refs[index];
+    if (ref === undefined) {
+      index += 1;
+      continue;
+    }
+    if (keyAt(ref) !== query) {
       break;
     }
     target.add(ref);
@@ -87,7 +108,7 @@ export function partPrefixCandidateRefs(
   }
   const result = new Set<number>();
   const partAt = (ref: number): PartIndexRecord | undefined => indexes.partIndex[ref];
-  prefixRefs(search.partNormalizedRefs, (ref) => partAt(ref)?.normalizedPartNumber ?? "", normalized, result);
+  prefixRefs(search.partNormalizedRefs, (ref) => partAt(ref)?.partNumber ?? "", normalized, result);
   prefixRefs(search.partTokenRefs, (ref) => partAt(ref)?.partNumberTokenKey ?? "", tokenKey, result);
   return result;
 }
@@ -104,22 +125,64 @@ export function markingPrefixCandidateRefs(
   const result = new Set<number>();
   const markingAt = (ref: number): MarkingIndexRecord | undefined => indexes.markingIndex[ref];
   prefixRefs(search.markingCodeRefs, (ref) => markingAt(ref)?.markingCode ?? "", normalized, result);
-  prefixRefs(search.markingTokenRefs, (ref) => markingAt(ref)?.markingTokenKey ?? "", tokenKey, result);
-  prefixRefs(search.markingPartRefs, (ref) => markingAt(ref)?.normalizedPartNumber ?? "", normalized, result);
+  prefixRefs(search.markingCodeRefs, (ref) => markingAt(ref)?.markingCode ?? "", tokenKey, result);
+  prefixRefs(search.markingPartRefs, (ref) => markingAt(ref)?.partNumber ?? "", normalized, result);
   prefixRefs(search.markingPartTokenRefs, (ref) => markingAt(ref)?.partNumberTokenKey ?? "", tokenKey, result);
   return result;
+}
+
+export function partExactCandidateRefs(
+  indexes: NormalizedIndexes,
+  normalized: string,
+  tokenKey: string
+): ReadonlySet<number> | undefined {
+  const search = indexes.search;
+  if (!search) {
+    return undefined;
+  }
+  const result = new Set<number>();
+  const partAt = (ref: number): PartIndexRecord | undefined => indexes.partIndex[ref];
+  exactRefs(search.partNormalizedRefs, (ref) => partAt(ref)?.partNumber ?? "", normalized, result);
+  exactRefs(search.partTokenRefs, (ref) => partAt(ref)?.partNumberTokenKey ?? "", tokenKey, result);
+  return result;
+}
+
+export function markingExactCandidateRefs(
+  indexes: NormalizedIndexes,
+  normalized: string,
+  tokenKey: string
+): ReadonlySet<number> | undefined {
+  const search = indexes.search;
+  if (!search) {
+    return undefined;
+  }
+  const result = new Set<number>();
+  const markingAt = (ref: number): MarkingIndexRecord | undefined => indexes.markingIndex[ref];
+  exactRefs(search.markingCodeRefs, (ref) => markingAt(ref)?.markingCode ?? "", normalized, result);
+  exactRefs(search.markingCodeRefs, (ref) => markingAt(ref)?.markingCode ?? "", tokenKey, result);
+  return result;
+}
+
+export function hasExactCatalogCandidate(
+  indexes: NormalizedIndexes,
+  normalized: string,
+  tokenKey: string
+): boolean {
+  const partRefs = partExactCandidateRefs(indexes, normalized, tokenKey);
+  const markingRefs = markingExactCandidateRefs(indexes, normalized, tokenKey);
+  return Boolean(partRefs?.size || markingRefs?.size);
 }
 
 export function partContainsCandidateRefs(
   indexes: NormalizedIndexes,
   tokenKey: string
 ): Iterable<number> | undefined {
-  return indexes.search ? rarestPosting(indexes.search.partTrigramRefs(), tokenKey) : undefined;
+  return indexes.search ? rarestPosting(indexes.search.partTrigramRefs, tokenKey) : undefined;
 }
 
 export function markingContainsCandidateRefs(
   indexes: NormalizedIndexes,
   tokenKey: string
 ): Iterable<number> | undefined {
-  return indexes.search ? rarestPosting(indexes.search.markingTrigramRefs(), tokenKey) : undefined;
+  return indexes.search ? rarestPosting(indexes.search.markingTrigramRefs, tokenKey) : undefined;
 }

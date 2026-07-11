@@ -1,6 +1,5 @@
 import { normalizePartNumber } from "../utils/normalize";
 import type { FdbDataset, KnownPartNumberEntry } from "../types";
-import { asRecord } from "./common";
 
 function resourceEntries(raw: unknown): unknown[] {
   if (Array.isArray(raw)) {
@@ -13,14 +12,10 @@ function resourceEntries(raw: unknown): unknown[] {
   return Array.isArray(entries) ? entries : [];
 }
 
-function isDramPartNumber(partNumber: string): boolean {
+export function isMicronDramPartNumber(partNumber: string): boolean {
   return /^(?:MT|CT)(?:40|41|42|43|44|46|47|48|49|51|52|53|54|58|60|61|62|68)/.test(partNumber) ||
     /^(?:ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
     /^ED(?:B|D|E|F|J|S|W)/.test(partNumber);
-}
-
-function isFiveDigitFbgaCode(value: string): boolean {
-  return /^[0-9A-Z]{5}$/.test(value);
 }
 
 export function buildKnownPartNumbers(raw: unknown): KnownPartNumberEntry[] {
@@ -46,30 +41,6 @@ export function buildKnownPartNumbers(raw: unknown): KnownPartNumberEntry[] {
     }
     seen.add(key);
     entries.push({ pn, vendor });
-  }
-
-  return entries;
-}
-
-export function buildMicronDramFbgaCodes(raw: unknown): Map<string, string[]> {
-  const entries = new Map<string, string[]>();
-  const seen = new Set<string>();
-  const rawObject = asRecord(raw);
-  const rawMicron = asRecord(rawObject.micron);
-
-  for (const [codeRaw, pnRaw] of Object.entries(rawMicron)) {
-    const code = String(codeRaw).trim().toUpperCase().replace(/[^0-9A-Z]/g, "");
-    const pn = normalizePartNumber(String(pnRaw));
-    if (!isFiveDigitFbgaCode(code) || !isDramPartNumber(pn) || seen.has(`${code}\0${pn}`)) {
-      continue;
-    }
-    seen.add(`${code}\0${pn}`);
-    const partNumbers = entries.get(code);
-    if (partNumbers) {
-      partNumbers.push(pn);
-    } else {
-      entries.set(code, [pn]);
-    }
   }
 
   return entries;

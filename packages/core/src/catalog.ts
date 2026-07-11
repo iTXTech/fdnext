@@ -1,6 +1,6 @@
 import { buildControllerGroupIndex, type ControllerGroupIndex } from "./controller-groups";
 import { buildFdb, buildMdb } from "./fdb";
-import { buildKnownPartNumbers, buildMicronDramFbgaCodes, collectFdbControllers, countFdbPartNumbers } from "./engine/resources";
+import { buildKnownPartNumbers, collectFdbControllers, countFdbPartNumbers } from "./engine/resources";
 import { buildNormalizedIndexes, type NormalizedIndexes } from "./part-index";
 import { embeddedResourceBundle } from "./resources";
 import type {
@@ -33,9 +33,6 @@ export interface PreparedCatalogData {
   readonly mdb: MdbDataset;
   readonly managedNandPartNumbers: readonly KnownPartNumberEntry[];
   readonly dramPartNumbers: readonly KnownPartNumberEntry[];
-  readonly micronDramFbgaCodes: ReadonlyMap<string, readonly string[]>;
-  readonly micronDramFbgaCodeSet: ReadonlySet<string>;
-  readonly micronFbgaCodeSet: ReadonlySet<string>;
   readonly controllerGroups: ControllerGroupIndex;
   readonly normalizedIndexes: NormalizedIndexes;
   readonly translationIndex: LangPacks;
@@ -62,15 +59,13 @@ function buildPreparedCatalogData(resources: FdnextResourceBundle): PreparedCata
   const mdb = buildMdb(rawMdb);
   const managedNandPartNumbers = buildKnownPartNumbers(rawManagedNandPn);
   const dramPartNumbers = buildKnownPartNumbers(rawDramPn);
-  const micronDramFbgaCodes = buildMicronDramFbgaCodes(rawMdb);
   const controllers = collectFdbControllers(fdb);
   const controllerGroups = buildControllerGroupIndex(controllers, resources.controllerIndex);
   const normalizedIndexes = buildNormalizedIndexes({
     fdb,
     mdb,
     managedNandPartNumbers,
-    dramPartNumbers,
-    micronDramFbgaCodes
+    dramPartNumbers
   });
 
   return Object.freeze({
@@ -78,9 +73,6 @@ function buildPreparedCatalogData(resources: FdnextResourceBundle): PreparedCata
     mdb,
     managedNandPartNumbers,
     dramPartNumbers,
-    micronDramFbgaCodes,
-    micronDramFbgaCodeSet: new Set(micronDramFbgaCodes.keys()),
-    micronFbgaCodeSet: new Set(Object.keys(mdb.micron)),
     controllerGroups,
     normalizedIndexes,
     translationIndex: (resources.translationIndex ?? {}) as LangPacks,

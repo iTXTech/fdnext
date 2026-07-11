@@ -1,13 +1,11 @@
 import type { FdnextChipKind, FdnextProductType, OperationConstraints, ResultWarning } from "../result";
-import type { FdbDataset, FlashIdRecord, KnownPartNumberEntry, MdbDataset, PartDecodeDraft } from "../types";
+import type { FdbDataset, KnownPartNumberEntry, MdbDataset, PartDecodeDraft } from "../types";
 
 export type PartIndexSource = "managed_nand" | "dram" | "fdb" | "mdb" | "fallback";
 export type MarkingIndexSource = "micron_fbga" | "spectek_fbga";
-export type IdentifierIndexSource = "fdb";
 
 export interface PartIndexRecord {
   partNumber: string;
-  normalizedPartNumber: string;
   partNumberTokenKey: string;
   vendor: string;
   chipKind: FdnextChipKind;
@@ -16,33 +14,15 @@ export interface PartIndexRecord {
   source: PartIndexSource;
 }
 
-export interface IdentifierIndexRecord {
-  identifier: string;
-  idScheme: "nand.flash_id";
-  record: FlashIdRecord;
-  source: IdentifierIndexSource;
-}
-
 export interface MarkingIndexRecord {
   markingCode: string;
-  markingTokenKey: string;
   vendor: string;
   partNumber: string;
-  normalizedPartNumber: string;
   partNumberTokenKey: string;
   chipKind: FdnextChipKind;
   productType?: FdnextProductType;
   source: MarkingIndexSource;
 }
-
-export interface VendorIndexRecord {
-  vendor: string;
-  partNumbers: Set<string>;
-  markings: Set<string>;
-  identifiers: Set<string>;
-}
-
-export type IndexRefBucket = number | number[];
 
 export interface CompactPostingIndex {
   /** Encodes `offset * 65536 + length` for each trigram. */
@@ -51,23 +31,18 @@ export interface CompactPostingIndex {
 }
 
 export interface PartSearchIndexes {
-  readonly partNormalizedRefs: readonly number[];
-  readonly partTokenRefs: readonly number[];
-  readonly markingCodeRefs: readonly number[];
-  readonly markingTokenRefs: readonly number[];
-  readonly markingPartRefs: readonly number[];
-  readonly markingPartTokenRefs: readonly number[];
-  readonly partTrigramRefs: () => CompactPostingIndex;
-  readonly markingTrigramRefs: () => CompactPostingIndex;
+  readonly partNormalizedRefs: Uint32Array;
+  readonly partTokenRefs: Uint32Array;
+  readonly markingCodeRefs: Uint32Array;
+  readonly markingPartRefs: Uint32Array;
+  readonly markingPartTokenRefs: Uint32Array;
+  readonly partTrigramRefs: CompactPostingIndex;
+  readonly markingTrigramRefs: CompactPostingIndex;
 }
 
 export interface NormalizedIndexes {
   partIndex: PartIndexRecord[];
-  identifierIndex: Map<string, IdentifierIndexRecord>;
   markingIndex: MarkingIndexRecord[];
-  partExactIndex: Map<string, IndexRefBucket>;
-  markingExactIndex: Map<string, IndexRefBucket>;
-  vendorIndex: Map<string, VendorIndexRecord>;
   /** Optional only so test/custom index fixtures can exercise the complete-scan oracle. */
   search?: PartSearchIndexes;
 }
@@ -102,7 +77,6 @@ export interface BuildNormalizedIndexesInput {
   mdb: MdbDataset;
   managedNandPartNumbers: KnownPartNumberEntry[];
   dramPartNumbers: KnownPartNumberEntry[];
-  micronDramFbgaCodes: Map<string, string[]>;
 }
 
 export interface ClassifyPartOptions {

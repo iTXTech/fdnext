@@ -12,6 +12,7 @@ import { buildCapabilitiesSnapshot } from "./engine/capabilities";
 import { cloneObject, inferSingleVendorFromPartReferences, mergeStringArray } from "./engine/common";
 import { defaultCompiledDecodePack } from "./engine/default-decodepack";
 import { createFdbPartEnricher, findFdbPartRecords } from "./engine/fdb-part-enrichment";
+import { isMicronDramPartNumber } from "./engine/resources";
 import {
   applyDramClassification,
   applyDramPublicType,
@@ -30,6 +31,7 @@ import {
   classifyPart,
   type PartClassificationCandidate
 } from "./part-index";
+import { hasExactCatalogCandidate } from "./part-index/lookup";
 import {
   buildPartCandidate,
   buildIdentifierDecodeResult,
@@ -111,14 +113,20 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const {
     fdb,
     mdb,
-    micronDramFbgaCodes,
-    micronDramFbgaCodeSet,
-    micronFbgaCodeSet,
     controllerGroups,
     normalizedIndexes,
     translationIndex,
     inventory
   } = getPreparedCatalogData(preparedCatalog);
+  const micronFbgaCodeLookup = {
+    has: (code: string): boolean => mdb.micron[code] !== undefined
+  };
+  const micronDramFbgaCodeLookup = {
+    has: (code: string): boolean => {
+      const partNumber = mdb.micron[code];
+      return partNumber !== undefined && isMicronDramPartNumber(partNumber);
+    }
+  };
   const langPacks: LangPacks = {
     [fallbackLang]: {},
     ...translationIndex
@@ -460,7 +468,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
   const detectRaw = (partNumber: string, opts: PartDecodeOptions, allowMicronFbga: boolean): PartDecodeDraft => {
     if (allowMicronFbga) {
-      const fbga = parseMicronFbgaCode(partNumber) ?? parseKnownFiveDigitMicronFbgaCode(partNumber, micronFbgaCodeSet);
+      const fbga = parseMicronFbgaCode(partNumber) ?? parseKnownFiveDigitMicronFbgaCode(partNumber, micronFbgaCodeLookup);
       if (fbga) {
         const micronHit = mdb.micron[fbga.key];
         const spectekHit = mdb.spectek[fbga.key];
@@ -499,21 +507,19 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
     if (!info) {
       const knownDramFbga = /^(?:[0-9A-Z]{5}|[0-9A-Z]{10})$/.test(partNumber)
-        ? parseKnownMicronFbgaCode(partNumber, micronDramFbgaCodeSet)
+        ? parseKnownMicronFbgaCode(partNumber, micronDramFbgaCodeLookup)
         : null;
       if (knownDramFbga) {
-        const candidates = micronDramFbgaCodes.get(knownDramFbga.key) ?? [];
-        for (const resolved of candidates) {
+        const resolved = mdb.micron[knownDramFbga.key];
+        if (resolved) {
           const base = detectRaw(resolved, opts, false);
-          if (draftVendor(base) === UNKNOWN) {
-            continue;
+          if (draftVendor(base) !== UNKNOWN) {
+            const withMeta = applyMicronFbgaMeta(base, knownDramFbga, resolved);
+            if (opts.combineFdb ?? true) {
+              combineFromFdb(withMeta, partNumber);
+            }
+            return withMeta;
           }
-
-          const withMeta = applyMicronFbgaMeta(base, knownDramFbga, resolved);
-          if (opts.combineFdb ?? true) {
-            combineFromFdb(withMeta, partNumber);
-          }
-          return withMeta;
         }
 
         return unknownPartDraft(knownDramFbga.display);
@@ -655,7 +661,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     Boolean(input.constraints && Object.keys(input.constraints).length > 0);
 
   const isPotentialMarkingDecode = (normalized: string): boolean => {
-    const fbga = parseMicronFbgaCode(normalized) ?? parseKnownFiveDigitMicronFbgaCode(normalized, micronFbgaCodeSet);
+    const fbga = parseMicronFbgaCode(normalized) ?? parseKnownFiveDigitMicronFbgaCode(normalized, micronFbgaCodeLookup);
     if (fbga) {
       return true;
     }
@@ -682,9 +688,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       return result;
     }
     const tokenKey = normalizePartNumberTokenKey(normalized);
-    const hasIndexedCandidate = [normalized, tokenKey].some((key) =>
-      normalizedIndexes.partExactIndex.has(key) || normalizedIndexes.markingExactIndex.has(key)
-    );
+    const hasIndexedCandidate = hasExactCatalogCandidate(normalizedIndexes, normalized, tokenKey);
     // Without an indexed resource candidate, classifyPart can only add the same fallback candidate
     // and repeat this inspection. Keep classification for custom catalog-only exact records.
     return hasIndexedCandidate ? undefined : result;

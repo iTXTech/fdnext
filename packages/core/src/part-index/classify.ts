@@ -7,14 +7,15 @@ import { normalizePartNumber, normalizePartNumberTokenKey } from "../utils/norma
 import { contains } from "../utils/string";
 import {
   markingContainsCandidateRefs,
+  markingExactCandidateRefs,
   markingPrefixCandidateRefs,
   partContainsCandidateRefs,
+  partExactCandidateRefs,
   partPrefixCandidateRefs
 } from "./lookup";
 import { shouldPreferDecodedClassification, sourceWeight, vendorMatches } from "./scoring";
 import type {
   ClassifyPartOptions,
-  IndexRefBucket,
   MarkingIndexRecord,
   PartClassification,
   PartClassificationCandidate,
@@ -374,9 +375,9 @@ export function classifyPart(
   const normalizedTokenKey = normalizePartNumberTokenKey(normalized);
 
   const addMarkingRecord = (record: MarkingIndexRecord): void => {
-    const byCode = matchKind(record.markingCode, record.markingTokenKey, normalized, normalizedTokenKey, partialMatch);
+    const byCode = matchKind(record.markingCode, record.markingCode, normalized, normalizedTokenKey, partialMatch);
     const byPart = matchKind(
-      record.normalizedPartNumber,
+      record.partNumber,
       record.partNumberTokenKey,
       normalized,
       normalizedTokenKey,
@@ -388,7 +389,7 @@ export function classifyPart(
     }
     acceptBase({
       partNumber: record.partNumber,
-      normalizedPartNumber: record.normalizedPartNumber,
+      normalizedPartNumber: record.partNumber,
       vendor: record.vendor,
       chipKind: record.chipKind,
       ...(record.productType ? { productType: record.productType } : {}),
@@ -401,7 +402,7 @@ export function classifyPart(
 
   const addPartRecord = (record: PartIndexRecord): void => {
     const match = matchKind(
-      record.normalizedPartNumber,
+      record.partNumber,
       record.partNumberTokenKey,
       normalized,
       normalizedTokenKey,
@@ -412,7 +413,7 @@ export function classifyPart(
     }
     acceptBase({
       partNumber: record.partNumber,
-      normalizedPartNumber: record.normalizedPartNumber,
+      normalizedPartNumber: record.partNumber,
       vendor: record.vendor,
       chipKind: record.chipKind,
       ...(record.productType ? { productType: record.productType } : {}),
@@ -420,30 +421,6 @@ export function classifyPart(
       source: record.source,
       matchKind: match
     });
-  };
-
-  const addMarkingRefs = (refs: IndexRefBucket | undefined): void => {
-    if (refs === undefined) {
-      return;
-    }
-    for (const ref of typeof refs === "number" ? [refs] : refs) {
-      const record = options.indexes.markingIndex[ref];
-      if (record) {
-        addMarkingRecord(record);
-      }
-    }
-  };
-
-  const addPartRefs = (refs: IndexRefBucket | undefined): void => {
-    if (refs === undefined) {
-      return;
-    }
-    for (const ref of typeof refs === "number" ? [refs] : refs) {
-      const record = options.indexes.partIndex[ref];
-      if (record) {
-        addPartRecord(record);
-      }
-    }
   };
 
   const addMarkingCandidateRefs = (refs: Iterable<number>): void => {
@@ -520,9 +497,18 @@ export function classifyPart(
       }
     }
   } else {
-    for (const key of new Set([normalized, normalizedTokenKey])) {
-      addMarkingRefs(options.indexes.markingExactIndex.get(key));
-      addPartRefs(options.indexes.partExactIndex.get(key));
+    const markingExactRefs = markingExactCandidateRefs(options.indexes, normalized, normalizedTokenKey);
+    const partExactRefs = partExactCandidateRefs(options.indexes, normalized, normalizedTokenKey);
+    if (!markingExactRefs || !partExactRefs) {
+      for (const record of options.indexes.markingIndex) {
+        addMarkingRecord(record);
+      }
+      for (const record of options.indexes.partIndex) {
+        addPartRecord(record);
+      }
+    } else {
+      addMarkingCandidateRefs(markingExactRefs);
+      addPartCandidateRefs(partExactRefs);
     }
   }
 

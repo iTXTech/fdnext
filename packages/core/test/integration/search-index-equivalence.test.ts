@@ -18,10 +18,16 @@ function inspectPart(partNumber: string): PartDecodeDraft {
   };
 }
 
-function candidateKeys(query: string, limit: number | undefined, useIndexes: typeof indexes): unknown[] {
+function candidateKeys(
+  query: string,
+  limit: number | undefined,
+  useIndexes: typeof indexes,
+  partialMatch = true
+): unknown[] {
   const classification = classifyPart(query, undefined, {
     indexes: useIndexes,
     mode: "search",
+    partialMatch,
     ...(limit ? { limit } : {}),
     inspectPart,
     decoderPriority: () => 0
@@ -56,6 +62,25 @@ test("sorted/trigram search indexes preserve the complete-scan result order", ()
       candidateKeys(query, limit, indexes),
       candidateKeys(query, limit, completeScanIndexes),
       `${query} limit=${String(limit)}`
+    );
+  }
+});
+
+test("normalized marking indexes contain no duplicate source records", () => {
+  const keys = new Set(
+    indexes.markingIndex.map((record) =>
+      [record.source, record.vendor, record.markingCode, record.partNumber].join("\0")
+    )
+  );
+  assert.equal(keys.size, indexes.markingIndex.length);
+});
+
+test("sorted exact ranges preserve the complete-scan result order", () => {
+  for (const query of ["MT29F4G08ABAEA", "C9BJZ", "HBL064", "K9AHGD8J0M"]) {
+    assert.deepEqual(
+      candidateKeys(query, undefined, indexes, false),
+      candidateKeys(query, undefined, completeScanIndexes, false),
+      query
     );
   }
 });

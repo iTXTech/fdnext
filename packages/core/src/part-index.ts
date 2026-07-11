@@ -4,8 +4,6 @@ export type {
   BuildNormalizedIndexesInput,
   ClassifyPartOptions,
   CompactPostingIndex,
-  IdentifierIndexRecord,
-  IdentifierIndexSource,
   MarkingIndexRecord,
   MarkingIndexSource,
   NormalizedIndexes,
@@ -13,6 +11,5 @@ export type {
   PartClassificationCandidate,
   PartIndexRecord,
   PartSearchIndexes,
-  PartIndexSource,
-  VendorIndexRecord
+  PartIndexSource
 } from "./part-index/types";

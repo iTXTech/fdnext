@@ -28,6 +28,10 @@ export interface MicronFbgaParsed {
   };
 }
 
+export interface MicronFbgaCodeLookup {
+  has(code: string): boolean;
+}
+
 function parseProductionMeta(normalized: string, key: string): MicronFbgaParsed {
   const meta = normalized.slice(0, 5);
 
@@ -63,7 +67,7 @@ export function parseMicronFbgaCode(input: string): MicronFbgaParsed | null {
   return null;
 }
 
-export function parseKnownMicronFbgaCode(input: string, knownCodes: ReadonlySet<string>): MicronFbgaParsed | null {
+export function parseKnownMicronFbgaCode(input: string, knownCodes: MicronFbgaCodeLookup): MicronFbgaParsed | null {
   const normalized = input.toUpperCase();
   if (normalized.length === 5 && knownCodes.has(normalized)) {
     return { key: normalized, display: normalized };
@@ -77,7 +81,7 @@ export function parseKnownMicronFbgaCode(input: string, knownCodes: ReadonlySet<
   return null;
 }
 
-export function parseKnownFiveDigitMicronFbgaCode(input: string, knownCodes: ReadonlySet<string>): MicronFbgaParsed | null {
+export function parseKnownFiveDigitMicronFbgaCode(input: string, knownCodes: MicronFbgaCodeLookup): MicronFbgaParsed | null {
   const normalized = input.toUpperCase();
   if (normalized.length === 5 && knownCodes.has(normalized)) {
     return { key: normalized, display: normalized };
