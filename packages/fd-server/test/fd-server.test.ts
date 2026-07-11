@@ -4,6 +4,7 @@ import type { AddressInfo } from "node:net";
 import test, { after } from "node:test";
 import { createEngine } from "@itxtech/fdnext-core";
 import { createFdServer, createFdServerHandler, FD_SERVER_NAME } from "../src/index";
+import { createFdServerWorkerEntrypoint } from "../src/worker";
 
 const flashInfoKeys = new Set([
   "partNumber",
@@ -98,8 +99,8 @@ async function fetchJson(path: string, env: Record<string, string | undefined> =
 test("/ returns fd-server identity", async () => {
   const { response, body } = await inject("/");
   assert.equal(response.statusCode, 200);
-  assert.equal(response.headers.get("Access-Control-Allow-Origin"), null);
-  assert.match(response.headers.get("Vary") ?? "", /(?:^|,)\s*origin\s*(?:,|$)/i);
+  assert.equal(response.headers.get("Access-Control-Allow-Origin"), "*");
+  assert.doesNotMatch(response.headers.get("Vary") ?? "", /(?:^|,)\s*origin\s*(?:,|$)/i);
   assert.equal(response.headers.get("Content-Type"), "application/json; charset=utf-8");
   assert.equal(response.headers.get("Cache-Control"), "no-cache");
   assert.equal(body.result, true);
@@ -113,9 +114,33 @@ test("node server replies to OPTIONS preflight", async () => {
     headers: { origin: "https://legacy.example" }
   });
   assert.equal(response.status, 204);
-  assert.equal(response.headers.get("Access-Control-Allow-Origin"), "https://legacy.example");
-  assert.match(response.headers.get("Vary") ?? "", /(?:^|,)\s*origin\s*(?:,|$)/i);
+  assert.equal(response.headers.get("Access-Control-Allow-Origin"), "*");
+  assert.doesNotMatch(response.headers.get("Vary") ?? "", /(?:^|,)\s*origin\s*(?:,|$)/i);
   assert.equal(await response.text(), "");
+});
+
+test("node server obeys FDNEXT_CORS_ORIGINS", async () => {
+  const app = createFdServer({
+    host: "127.0.0.1",
+    port: 0,
+    engine: sharedEngine,
+    env: { FDNEXT_CORS_ORIGINS: "https://legacy.example,https://admin.example" },
+    warn: () => undefined
+  });
+  try {
+    await app.listen();
+    const address = app.server.address() as AddressInfo;
+    const baseUrl = `http://127.0.0.1:${address.port}`;
+    const allowed = await fetch(baseUrl, { headers: { origin: "https://legacy.example" } });
+    assert.equal(allowed.headers.get("access-control-allow-origin"), "https://legacy.example");
+    assert.match(allowed.headers.get("vary") ?? "", /(?:^|,)\s*origin\s*(?:,|$)/i);
+
+    const denied = await fetch(baseUrl, { headers: { origin: "https://blocked.example" } });
+    assert.equal(denied.headers.get("access-control-allow-origin"), null);
+    assert.match(denied.headers.get("vary") ?? "", /(?:^|,)\s*origin\s*(?:,|$)/i);
+  } finally {
+    await closeServer(app.server);
+  }
 });
 
 test("node server preserves the Hapi response for unsupported methods", async () => {
@@ -293,4 +318,31 @@ test("worker handler replies to OPTIONS preflight", () => {
   const response = handler.handleRequest(new Request("https://fd.example.test/decode", { method: "OPTIONS" }));
   assert.equal(response.status, 204);
   assert.equal(response.headers.get("Access-Control-Allow-Origin"), "*");
+});
+
+test("worker entrypoint obeys FDNEXT_CORS_ORIGINS and updates its cached config", async () => {
+  const worker = createFdServerWorkerEntrypoint();
+  const allowed = await worker.fetch(
+    new Request("https://fd.example.test/decode?pn=MT29F4G08ABAEA", {
+      headers: { origin: "https://worker.example" }
+    }),
+    { FDNEXT_CORS_ORIGINS: "https://worker.example,https://admin.example" }
+  );
+  assert.equal(allowed.headers.get("access-control-allow-origin"), "https://worker.example");
+
+  const denied = await worker.fetch(
+    new Request("https://fd.example.test/decode?pn=MT29F4G08ABAEA", {
+      headers: { origin: "https://worker.example" }
+    }),
+    { FDNEXT_CORS_ORIGINS: "https://other.example" }
+  );
+  assert.equal(denied.headers.get("access-control-allow-origin"), null);
+
+  const defaultOpen = await worker.fetch(
+    new Request("https://fd.example.test/decode?pn=MT29F4G08ABAEA", {
+      headers: { origin: "https://any.example" }
+    }),
+    {}
+  );
+  assert.equal(defaultOpen.headers.get("access-control-allow-origin"), "*");
 });

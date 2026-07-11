@@ -25,7 +25,7 @@ import type {
   FdnextRuntimeOptions
 } from "./types";
 
-export { createFdnextCorsOptionsFromEnv, FDNEXT_CORS_ORIGINS_ENV, parseFdnextCorsOrigins };
+export { applyCorsHeaders, createFdnextCorsOptionsFromEnv, FDNEXT_CORS_ORIGINS_ENV, parseFdnextCorsOrigins };
 export {
   DEFAULT_HTTP_SEARCH_LIMIT,
   FDNEXT_SEARCH_LIMIT_ENV,

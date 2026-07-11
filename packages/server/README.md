@@ -73,6 +73,7 @@ const app = createHttpServer({
   host: "0.0.0.0",
   port: 8080,
   resourceDir: "/path/to/resources", // optional
+  cors: { origins: ["https://app.example.com"] }, // optional; env is used when omitted
   searchLimit: 300                    // optional HTTP hard maximum
 });
 
@@ -85,7 +86,14 @@ const result = app.engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 
 ## CORS
 
-The Node.js server defaults to allowing all origins (`*`), suitable for local development or deployments where CORS is managed by an upstream gateway.
+The Node.js server reads `FDNEXT_CORS_ORIGINS`, using the same behavior as the Cloudflare Workers and Aliyun FC adapters:
+
+```text
+FDNEXT_CORS_ORIGINS=*
+FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
+```
+
+If the variable is unset, the server does not emit CORS response headers. Programmatic integrations can pass `cors` to `createHttpServer()`; an explicit option takes precedence over the environment.
 
 JSON responses use `Cache-Control: no-cache`. Responses of at least 1 KiB are gzip-compressed when the client advertises gzip support, with `Vary: Accept-Encoding` set automatically.
 

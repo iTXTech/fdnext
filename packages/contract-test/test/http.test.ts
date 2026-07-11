@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import type { AddressInfo } from "node:net";
+import { FDNEXT_CORS_ORIGINS_ENV } from "@itxtech/fdnext-core/runtime";
 import { createHttpServer } from "@itxtech/fdnext-server";
 import { createContractEngine } from "../src/index";
 import {
@@ -13,7 +14,12 @@ import {
 const engine = createContractEngine();
 const sdkCapabilities = engine.getCapabilities();
 
-const http = createHttpServer({ host: "127.0.0.1", port: 0, engine });
+const http = createHttpServer({
+  host: "127.0.0.1",
+  port: 0,
+  engine,
+  env: { [FDNEXT_CORS_ORIGINS_ENV]: "https://app.example,https://admin.example" }
+});
 await http.listen();
 const httpAddress = http.server.address() as AddressInfo;
 const httpBaseUrl = `http://127.0.0.1:${httpAddress.port}`;
@@ -76,9 +82,26 @@ for (const removedEndpoint of [
   assert.equal(removed.status, "not_found", `${removedEndpoint} should not be exposed`);
 }
 const httpHeaders = await fetch(httpBaseUrl);
-assert.equal(httpHeaders.headers.get("access-control-allow-origin"), "*");
+assert.equal(httpHeaders.headers.get("access-control-allow-origin"), null);
+assert.match(httpHeaders.headers.get("vary") ?? "", /(?:^|,)\s*origin\s*(?:,|$)/i);
 assert.equal(httpHeaders.headers.get("x-powered-by"), `fdnext/${fdnextPackageVersion}`);
 assert.equal(httpHeaders.headers.get("cache-control"), "no-cache");
+const httpAllowedCors = await fetch(httpBaseUrl, { headers: { origin: "https://app.example" } });
+assert.equal(httpAllowedCors.headers.get("access-control-allow-origin"), "https://app.example");
+const httpDeniedCors = await fetch(httpBaseUrl, { headers: { origin: "https://blocked.example" } });
+assert.equal(httpDeniedCors.headers.get("access-control-allow-origin"), null);
+const httpPreflight = await fetch(`${httpBaseUrl}/parts/search`, {
+  method: "OPTIONS",
+  headers: {
+    origin: "https://admin.example",
+    "access-control-request-method": "GET",
+    "access-control-request-headers": "x-fdnext-client"
+  }
+});
+assert.equal(httpPreflight.status, 204);
+assert.equal(httpPreflight.headers.get("access-control-allow-origin"), "https://admin.example");
+assert.equal(httpPreflight.headers.get("access-control-allow-methods"), "GET, HEAD, OPTIONS");
+assert.equal(httpPreflight.headers.get("access-control-allow-headers"), "x-fdnext-client");
 const httpCompressed = await fetch(`${httpBaseUrl}/parts/decode?query=MT29F64G08CBABA&lang=eng`, {
   headers: { "accept-encoding": "gzip" }
 });
@@ -89,3 +112,16 @@ const httpHead = await fetch(`${httpBaseUrl}/capabilities`, { method: "HEAD" });
 assert.equal(httpHead.status, 200);
 assert.equal(await httpHead.text(), "");
 await closeNodeServer(http.server);
+
+const noCorsHttp = createHttpServer({ host: "127.0.0.1", port: 0, engine, env: {} });
+await noCorsHttp.listen();
+try {
+  const address = noCorsHttp.server.address() as AddressInfo;
+  const response = await fetch(`http://127.0.0.1:${address.port}/`, {
+    headers: { origin: "https://app.example" }
+  });
+  assert.equal(response.headers.get("access-control-allow-origin"), null);
+  assert.doesNotMatch(response.headers.get("vary") ?? "", /(?:^|,)\s*origin\s*(?:,|$)/i);
+} finally {
+  await closeNodeServer(noCorsHttp.server);
+}

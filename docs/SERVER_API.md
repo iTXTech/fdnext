@@ -190,9 +190,7 @@ Search 响应同样使用 `fdnext.result.v1`，核心结果放在 `items[]`。�
 
 ## 8. CORS
 
-Node.js server 默认放开所有来源，适合本地服务或由上游网关控制跨域的部署。
-
-Cloudflare Workers 和阿里云 FC adapter 通过环境变量 `FDNEXT_CORS_ORIGINS` 控制 CORS：
+标准 Node.js server、Cloudflare Workers 和阿里云 FC adapter 都通过环境变量 `FDNEXT_CORS_ORIGINS` 控制 CORS：
 
 ```text
 FDNEXT_CORS_ORIGINS=*
@@ -205,6 +203,9 @@ FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
 - 多个 origin 可用逗号、空格或换行分隔。
 - 精确命中 origin 时返回该 origin，并附带 `Vary: Origin`。
 - `OPTIONS` preflight 返回 `204`，`Access-Control-Allow-Methods` 为 `GET, HEAD, OPTIONS`，并透传 `Access-Control-Request-Headers`。
+- 未设置时不返回 CORS response header。
+
+FlashDetector 兼容层 `fd-server` 使用同一个变量和匹配规则，但为了保持旧客户端兼容，未设置时默认回退到 `*`。
 
 所有现代 HTTP adapter 使用同一个 search 上限变量：
 

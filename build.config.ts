@@ -66,7 +66,7 @@ export function fdnextBundleConfig(config: UserConfig, options: { executable?: s
     clean: false,
     dts: false,
     fixedExtension: false,
-    minify: false,
+    minify: true,
     report: false,
     sourcemap: false,
     treeshake: true,

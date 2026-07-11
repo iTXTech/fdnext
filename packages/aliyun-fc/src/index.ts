@@ -34,9 +34,8 @@ export function createAliyunFcHandler(options: AliyunFcHandlerOptions = {}) {
       cors
     }),
     {
-      onError: (error) => {
-        const message = error instanceof Error ? error.message : String(error);
-        return new Response(JSON.stringify({ status: "error", message }), {
+      onError: () => {
+        return new Response(JSON.stringify({ status: "error", message: "Internal Server Error" }), {
           status: 500,
           headers: { "content-type": "application/json; charset=utf-8" }
         });

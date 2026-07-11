@@ -234,6 +234,12 @@ pm2 logs fdnext-server
 
 Node.js server、Cloudflare Workers 和阿里云 FC 使用同一套 runtime HTTP 接口。完整接口表、query 参数、响应结构、旧接口移除说明和 CORS 行为见 [Server 接口文档](SERVER_API.md)。
 
+三个 adapter 均通过 `FDNEXT_CORS_ORIGINS` 控制 CORS；可设为 `*` 或逗号、空格分隔的 origin allowlist。标准 Node server 未设置该变量时不返回 CORS header：
+
+```text
+FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
+```
+
 标准 bundle 构建会从 git 写入短 `commitHash`，`buildTime` 使用当前 ISO 时间。CI / serverless 平台可以显式设置 `FDNEXT_COMMIT_HASH` 和 `FDNEXT_BUILD_TIME` 覆盖。直接从源码运行 server / CLI、没有 bundler 注入 build metadata 时，`buildTime` 使用进程启动时的 ISO 时间。
 
 ## 4. Serverless adapter

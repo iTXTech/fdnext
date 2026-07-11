@@ -3,6 +3,7 @@ import type {
   IdentifierSearchResult,
   PartSearchResult
 } from "@itxtech/fdnext-core";
+import { applyCorsHeaders } from "@itxtech/fdnext-core/runtime";
 import { parseLegacyLang } from "./config";
 import {
   idSummary,
@@ -16,11 +17,6 @@ import {
 import type { FdServerConfig, FdServerHttpResponse, LegacyLang } from "./types";
 
 export const FD_SERVER_NAME = "fdnext-fd-server";
-
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "*"
-};
 
 function cleanPath(pathname: string): string {
   const withoutTrailing = pathname.replaceAll(/\/+$/g, "");
@@ -122,9 +118,18 @@ export function handleFdServerUrl(engine: FdnextEngine, config: FdServerConfig, 
   return fdServerJson({ result: false, message: "Not found" });
 }
 
-function toFetchResponse(response: FdServerHttpResponse): Response {
-  const headers = new Headers(corsHeaders);
-  headers.set("Content-Type", "application/json");
+function toFetchResponse(
+  response: FdServerHttpResponse,
+  request: Request,
+  config: FdServerConfig,
+  preflight = false
+): Response {
+  const headers = new Headers(applyCorsHeaders(
+    { "content-type": "application/json" },
+    request.headers,
+    config.cors,
+    preflight
+  ));
   return new Response(
     response.code === 204 || response.body === undefined ? null : JSON.stringify(response.body),
     { status: response.code, headers }
@@ -133,10 +138,10 @@ function toFetchResponse(response: FdServerHttpResponse): Response {
 
 export function handleFdServerFetchRequest(engine: FdnextEngine, config: FdServerConfig, request: Request): Response {
   if (request.method === "OPTIONS") {
-    return toFetchResponse(fdServerJson(undefined, 204));
+    return toFetchResponse(fdServerJson(undefined, 204), request, config, true);
   }
   if (request.method !== "GET") {
-    return toFetchResponse(fdServerJson({ result: false, message: "Not found" }));
+    return toFetchResponse(fdServerJson({ result: false, message: "Not found" }), request, config);
   }
-  return toFetchResponse(handleFdServerUrl(engine, config, new URL(request.url)));
+  return toFetchResponse(handleFdServerUrl(engine, config, new URL(request.url)), request, config);
 }

@@ -93,6 +93,24 @@ test("catalog search and marking relations stay outside DecodePack rule tests", 
   );
 });
 
+test("catalog partial search preserves dash boundaries", () => {
+  const dashless = integratedEngine.searchParts({ query: "K9D", lang: "eng", limit: 100 });
+  assert.ok(
+    dashless.items.some((item) => item.device.vendor.id === "samsung" && item.device.partNumber?.startsWith("K9D")),
+    "K9D should retain contiguous Samsung PN matches"
+  );
+  assert.ok(
+    !dashless.items.some((item) => item.device.vendor.id === "micron" && item.device.partNumber?.includes("K9-D")),
+    "K9D must not bridge the dash in a Micron PN"
+  );
+
+  const dashed = integratedEngine.searchParts({ query: "K9-D", lang: "eng", limit: 100 });
+  assert.ok(
+    dashed.items.some((item) => item.device.vendor.id === "micron" && item.device.partNumber?.includes("K9-D")),
+    "an explicit dash should retain the Micron infix match"
+  );
+});
+
 test("catalog normalization resolves canonical part numbers", () => {
   for (const [query, partNumber, chipKind] of [
     ["MT29F2G08ABDHC-ETD", "MT29F2G08ABDHC-ET:D", "raw_nand"],

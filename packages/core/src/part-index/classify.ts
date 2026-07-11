@@ -29,7 +29,8 @@ function matchKind(
   valueTokenKey: string,
   query: string,
   queryTokenKey: string,
-  partialMatch: boolean
+  partialMatch: boolean,
+  allowTokenPartialMatch: boolean
 ): "exact" | "prefix" | "contains" | null {
   if (value === query) {
     return "exact";
@@ -43,13 +44,13 @@ function matchKind(
   if (value.startsWith(query)) {
     return "prefix";
   }
-  if (valueTokenKey.startsWith(queryTokenKey)) {
+  if (allowTokenPartialMatch && valueTokenKey.startsWith(queryTokenKey)) {
     return "prefix";
   }
   if (contains(value, query)) {
     return "contains";
   }
-  if (contains(valueTokenKey, queryTokenKey)) {
+  if (allowTokenPartialMatch && contains(valueTokenKey, queryTokenKey)) {
     return "contains";
   }
   return null;
@@ -359,6 +360,10 @@ export function classifyPart(
   }
 
   const partialMatch = options.mode === "search" ? options.partialMatch ?? true : false;
+  // A full dashless PN remains an exact alias for compatibility with decode/FDB lookup.
+  // Partial search must preserve separators, otherwise a query such as K9D incorrectly
+  // matches an unrelated PN segment written as K9-D.
+  const allowTokenPartialMatch = options.mode !== "search";
   const bases: CandidateBase[] = [];
   let indexedCandidateBases: CandidateBase[] | undefined;
   const seenBaseKeys = new Set<string>();
@@ -375,13 +380,21 @@ export function classifyPart(
   const normalizedTokenKey = normalizePartNumberTokenKey(normalized);
 
   const addMarkingRecord = (record: MarkingIndexRecord): void => {
-    const byCode = matchKind(record.markingCode, record.markingCode, normalized, normalizedTokenKey, partialMatch);
+    const byCode = matchKind(
+      record.markingCode,
+      record.markingCode,
+      normalized,
+      normalizedTokenKey,
+      partialMatch,
+      allowTokenPartialMatch
+    );
     const byPart = matchKind(
       record.partNumber,
       record.partNumberTokenKey,
       normalized,
       normalizedTokenKey,
-      partialMatch
+      partialMatch,
+      allowTokenPartialMatch
     );
     const match = byCode ?? byPart;
     if (!match) {
@@ -406,7 +419,8 @@ export function classifyPart(
       record.partNumberTokenKey,
       normalized,
       normalizedTokenKey,
-      partialMatch
+      partialMatch,
+      allowTokenPartialMatch
     );
     if (!match) {
       return;

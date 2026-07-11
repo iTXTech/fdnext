@@ -1,4 +1,5 @@
 import type { ControllerGroupSelection, FdnextEngine } from "@itxtech/fdnext-core";
+import type { FdnextCorsOptions } from "@itxtech/fdnext-core/runtime";
 
 export type LegacyLang = "chs" | "eng";
 export type LegacyUnknown = string;
@@ -56,6 +57,7 @@ export type FdServerEnv = Record<string, string | undefined>;
 export interface FdServerHandlerOptions {
   engine?: FdnextEngine;
   env?: FdServerEnv;
+  cors?: FdnextCorsOptions;
   defaultLang?: string | null;
   controllerGroup?: string | ControllerGroupSelection | null;
   searchLimit?: number;
@@ -64,6 +66,7 @@ export interface FdServerHandlerOptions {
 }
 
 export interface FdServerConfig {
+  cors?: FdnextCorsOptions;
   defaultLang: LegacyLang;
   controllerGroup: ControllerGroupSelection;
   searchLimit: number;

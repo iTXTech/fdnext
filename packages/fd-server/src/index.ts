@@ -41,55 +41,23 @@ function parsePort(value: number | undefined): number {
   throw new Error(`Invalid port: ${value}`);
 }
 
-function hapiNotFound(request: Request): Response {
-  const headers = new Headers({ "content-type": "application/json" });
-  const origin = request.headers.get("origin");
-  headers.set("vary", "Origin");
-  if (origin) {
-    headers.set("access-control-allow-origin", origin);
-  }
+function hapiNotFound(handler: ReturnType<typeof createFdServerHandler>, request: Request): Response {
+  const headers = new Headers(handler.handleRequest(request).headers);
+  headers.set("content-type", "application/json");
   return new Response(JSON.stringify({ statusCode: 404, error: "Not Found", message: "Not Found" }), {
     status: 404,
     headers
   });
 }
 
-function appendVary(headers: Headers, value: string): void {
-  const current = headers.get("vary");
-  if (!current) {
-    headers.set("vary", value);
-    return;
-  }
-  const entries = current.split(",").map((entry) => entry.trim().toLowerCase());
-  if (!entries.includes(value.toLowerCase())) {
-    headers.set("vary", `${current}, ${value}`);
-  }
-}
-
-function applyHapiCors(request: Request, response: Response): Response {
-  const headers = new Headers(response.headers);
-  const origin = request.headers.get("origin");
-  headers.delete("access-control-allow-origin");
-  if (origin) {
-    headers.set("access-control-allow-origin", origin);
-  }
-  appendVary(headers, "Origin");
-  return new Response(response.body, {
-    status: response.status,
-    statusText: response.statusText,
-    headers
-  });
-}
-
 function handleNodeRequest(handler: ReturnType<typeof createFdServerHandler>, request: Request): Response {
   if (request.method === "GET" || request.method === "OPTIONS") {
-    return applyHapiCors(request, handler.handleRequest(request));
+    return handler.handleRequest(request);
   }
   if (request.method === "HEAD") {
-    const response = handler.handleRequest(new Request(request.url, { method: "GET", headers: request.headers }));
-    return applyHapiCors(request, response);
+    return handler.handleRequest(new Request(request.url, { method: "GET", headers: request.headers }));
   }
-  return hapiNotFound(request);
+  return hapiNotFound(handler, request);
 }
 
 export function createFdServer(options: FdServerOptions = {}): FdServerApp {

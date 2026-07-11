@@ -90,3 +90,28 @@ try {
     process.env[FDNEXT_SEARCH_LIMIT_ENV] = previousSearchLimit;
   }
 }
+
+const aliyunErrorServer = startAliyunFc({
+  host: "127.0.0.1",
+  port: 0,
+  runtimeOptions: {
+    processors: [{
+      beforeOperation: () => {
+        throw new Error("adapter-test internal failure");
+      }
+    }]
+  }
+});
+try {
+  await waitForListening(aliyunErrorServer);
+  const address = aliyunErrorServer.address() as AddressInfo;
+  const response = await fetch(`http://127.0.0.1:${address.port}/parts/search?query=MT29`);
+  assert.equal(response.status, 500);
+  assert.deepEqual(
+    await response.json(),
+    { status: "error", message: "Internal Server Error" },
+    "Aliyun FC must not expose internal runtime errors"
+  );
+} finally {
+  await closeNodeServer(aliyunErrorServer);
+}
