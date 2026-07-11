@@ -9,8 +9,7 @@
   "types": "dist/src/index.d.ts",
   "files": [
     "dist/**/*.js",
-    "dist/**/*.d.ts",
-    "resources/**/*.json"
+    "dist/**/*.d.ts"
   ],
   "exports": {
     ".": {

@@ -124,7 +124,7 @@ runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https
 
 - 浏览器内嵌解析应使用 `createEngine()`，直接调用 `decodePart()` / `searchParts()` / `decodeIdentifier()` / `searchIdentifiers()` / `getCapabilities()`；`@itxtech/fdnext-core/runtime` 只面向 HTTP adapter，不是前端本地解析入口。
 - 浏览器侧也应在应用启动时创建并复用一个 engine，不要在组件 render 或单次查询中重复创建。
-- 资源（`fdb/mdb/lang`，以及用于 PN 补全的 `managed-nand-pn/dram-pn`）建议用 `fetch()` 加载静态 JSON
+- 默认的 `fdb/mdb/lang` 和 PN 补全资源已嵌入 core bundle；普通集成不需要额外下载或托管 JSON。
 - `managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`；Micron DRAM FBGA code 反查统一来自 `mdb.json`
 - 默认解码器（PN / typed identifier）已由 `@itxtech/fdnext-core` 内置；只有裁剪规则或注入自定义规则时才需要显式传入 `decoders` / `identifierDecoders`
 - `@itxtech/fdnext-core/decodepack` 是规则维护入口，面向 check / explain / compile 等工具链；普通前端查询不需要直接引用它。
@@ -132,16 +132,26 @@ runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https
 - 上述完整结果语义只属于 Core SDK。`@itxtech/fdnext-core/runtime` 的 HTTP search 默认和硬上限为 300，可由部署方用 `FDNEXT_SEARCH_LIMIT` 调整；客户端 query 的 `limit` 只能下调。
 - 自定义搜索结果若需要额外 DecodePack 字段，可通过 `createEngine({ partSearchProjection: ["fields.<key>"] })` 追加投影路径；默认搜索依赖仍会自动保留。
 
-### 2.1 方式 A：fetch 静态 JSON（推荐）
+### 2.1 默认内嵌资源（推荐）
 
-将 `@itxtech/fdnext-core` 的资源 JSON 目录作为静态资源发布。仓库内路径是 `packages/core/resources/`；发布包内对应路径是 `resources/`。这些 JSON 资源用于 `fetch()` 加载，不作为 package subpath import 使用。下面示例假设挂载到 `/fdnext-core/`：
+`@itxtech/fdnext-core` 的 npm 发布包只携带已经嵌入 bundle 的资源，不再重复发布原始 `resources/*.json`。默认集成直接创建一个长期 engine：
 
-- `/fdnext-core/fdb.json`
-- `/fdnext-core/mdb.json`
-- `/fdnext-core/managed-nand-pn.json`
-- `/fdnext-core/dram-pn.json`
-- `/fdnext-core/lang/chs.json`
-- `/fdnext-core/lang/eng.json`
+```ts
+import { createEngine } from "@itxtech/fdnext-core";
+
+const engine = createEngine();
+```
+
+### 2.2 自定义外部资源
+
+只有需要替换默认数据库或语言包时，才由应用自行维护并托管资源 JSON，再将其组装为 `FdnextResourceBundle`。这些文件不由 core npm 包提供。下面示例假设应用自己的静态资源挂载到 `/fdnext-resources/`：
+
+- `/fdnext-resources/fdb.json`
+- `/fdnext-resources/mdb.json`
+- `/fdnext-resources/managed-nand-pn.json`
+- `/fdnext-resources/dram-pn.json`
+- `/fdnext-resources/lang/chs.json`
+- `/fdnext-resources/lang/eng.json`
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
@@ -153,12 +163,12 @@ async function loadJson(path: string) {
 }
 
 const [flashDatabase, packageMarkings, managedNandParts, dramParts, chs, eng] = await Promise.all([
-  loadJson("/fdnext-core/fdb.json"),
-  loadJson("/fdnext-core/mdb.json"),
-  loadJson("/fdnext-core/managed-nand-pn.json"),
-  loadJson("/fdnext-core/dram-pn.json"),
-  loadJson("/fdnext-core/lang/chs.json"),
-  loadJson("/fdnext-core/lang/eng.json")
+  loadJson("/fdnext-resources/fdb.json"),
+  loadJson("/fdnext-resources/mdb.json"),
+  loadJson("/fdnext-resources/managed-nand-pn.json"),
+  loadJson("/fdnext-resources/dram-pn.json"),
+  loadJson("/fdnext-resources/lang/chs.json"),
+  loadJson("/fdnext-resources/lang/eng.json")
 ]);
 
 const engine = createEngine({
@@ -180,10 +190,6 @@ const engine = createEngine({
 });
 ```
 
-### 2.2 方式 B：bundler 直接 import JSON
-
-如需把资源打进前端包里，请按你的工具链配置 JSON loader（写法依赖 bundler，不在此展开）。
-
 ## 3. 服务端（HTTP Server）
 
 `@itxtech/fdnext-server` 是基于原生 `node:http` 的标准 adapter。它通过 `@itxtech/fdnext-core/node-http` 在 Node request/response 与 Fetch API 之间转换，实际路由由 runtime 统一处理。
@@ -200,6 +206,8 @@ pnpm server:dev
 ```bash
 pnpm -C packages/server dev -- --resources /path/to/packages/core/resources
 ```
+
+发布包不会附带上述目录；生产部署使用 `--resources` 时，需要自行提供符合 `FdnextResourceBundle` 结构的外部资源目录。
 
 构建后运行生产入口：
 
