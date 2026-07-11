@@ -1431,6 +1431,9 @@
           "R": "FBGA-102",
           "S": "POP DDP"
         },
+        "packageByConfig": {
+          "51163": "FBGA-60, 11.5x10x1.0"
+        },
         "tempObj": {
           "C": {
             "operation_temperature": "Commercial (-25C~70C), normal"
@@ -1516,6 +1519,13 @@
           }
         },
         {
+          "op": "map",
+          "from": "configCode",
+          "table": "packageByConfig",
+          "to": "basePackage",
+          "default": null
+        },
+        {
           "op": "stripIfPrefix",
           "prefix": "-",
           "to": "hasSuffix"
@@ -1529,6 +1539,12 @@
           "op": "map",
           "from": "packageCode",
           "table": "packageActual",
+          "to": "suffixPackage"
+        },
+        {
+          "op": "fallback",
+          "primary": "basePackage",
+          "secondary": "suffixPackage",
           "to": "package"
         },
         {
@@ -2022,7 +2038,10 @@
           "F2",
           "F4",
           "FA",
+          "KJ",
+          "L1",
           "L3",
+          "L5",
           "L7",
           "KB"
         ],
@@ -2072,7 +2091,16 @@
             "dram_die_count": 2,
             "cs_count": 1
           },
+          "3L:KJ": {
+            "dram_type": "LPDDR5"
+          },
+          "3K:L1": {
+            "dram_type": "LPDDR5X"
+          },
           "3K:L3": {
+            "dram_type": "LPDDR5X"
+          },
+          "3K:L5": {
             "dram_type": "LPDDR5X"
           },
           "3K:L7": {
@@ -2089,7 +2117,10 @@
           "4F:6": 16384,
           "4U:6": 16384,
           "3L:KB": 32768,
+          "3L:KJ": 24576,
+          "3K:L1": 32768,
           "3K:L3": 65536,
+          "3K:L5": 131072,
           "3K:L7": 24576
         },
         "deviceWidth": {
@@ -2101,7 +2132,10 @@
           "3Q:FA": 64,
           "4F:6": 32,
           "4U:6": 32,
-          "3L:KB": 32
+          "3L:KB": 32,
+          "3L:KJ": 32,
+          "3K:L1": 64,
+          "3K:L5": 64
         },
         "voltage": {
           "3P:E7": "1.8V VDD1 / 1.2V VDD2/VDDQ",
@@ -2113,7 +2147,10 @@
           "4F:6": "1.8V / 1.1V / 1.1V",
           "4U:6": "1.8V / 1.1V / 0.6V",
           "3L:KB": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3L:KJ": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3K:L1": "1.8V / 1.05V / 0.9V / 0.5V",
           "3K:L3": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3K:L5": "1.8V / 1.05V / 0.9V / 0.5V",
           "3K:L7": "1.8V / 1.05V / 0.9V / 0.5V"
         },
         "packageActual": {
@@ -2142,6 +2179,20 @@
           "3K:E": "FBGA-561",
           "3K:M": "FBGA-315"
         },
+        "suffixDeviceWidthSpecific": {
+          "3K:L5:B": 64,
+          "3K:L5:D": 64,
+          "3K:L5:E": 64,
+          "3K:L5:J": 64,
+          "3L:KJ:M": 32
+        },
+        "suffixPackageSpecific": {
+          "3K:L5:B": "FBGA-496",
+          "3K:L5:D": "FBGA-563",
+          "3K:L5:E": "FBGA-561",
+          "3K:L5:J": "FBGA-441",
+          "3L:KJ:M": "FBGA-315"
+        },
         "suffixTempObj": {
           "3P:G": {
             "operation_temperature": "-25C~85C"
@@ -2166,6 +2217,15 @@
           },
           "3L:G": {
             "operation_temperature": "-25C~85C"
+          },
+          "3L:F": {
+            "operation_temperature": "-40C~95C"
+          },
+          "3L:H": {
+            "operation_temperature": "-40C~105C"
+          },
+          "3L:U": {
+            "operation_temperature": "-40C~125C"
           },
           "3K:G": {
             "operation_temperature": "-25C~85C"
@@ -2213,6 +2273,9 @@
           },
           "3K:CV": {
             "dram_speed": "LPDDR5X-9600"
+          },
+          "3K:CY": {
+            "dram_speed": "LPDDR5X-10667"
           }
         }
       },
@@ -2303,6 +2366,18 @@
           "to": "suffixPackageKey"
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{densityStackCode}}:{{suffixPackageCode}}",
+          "to": "suffixPackageSpecificKey"
+        },
+        {
+          "op": "map",
+          "from": "suffixPackageSpecificKey",
+          "table": "suffixDeviceWidthSpecific",
+          "to": "suffixDeviceWidthSpecific",
+          "default": null
+        },
+        {
           "op": "map",
           "from": "suffixPackageKey",
           "table": "suffixDeviceWidth",
@@ -2311,9 +2386,22 @@
         },
         {
           "op": "fallback",
-          "primary": "suffixDeviceWidth",
+          "primary": "suffixDeviceWidthSpecific",
+          "secondary": "suffixDeviceWidth",
+          "to": "suffixDeviceWidthResolved"
+        },
+        {
+          "op": "fallback",
+          "primary": "suffixDeviceWidthResolved",
           "secondary": "deviceWidth",
           "to": "deviceWidthFinal"
+        },
+        {
+          "op": "map",
+          "from": "suffixPackageSpecificKey",
+          "table": "suffixPackageSpecific",
+          "to": "suffixPackageSpecific",
+          "default": null
         },
         {
           "op": "map",
@@ -2324,7 +2412,13 @@
         },
         {
           "op": "fallback",
-          "primary": "suffixPackage",
+          "primary": "suffixPackageSpecific",
+          "secondary": "suffixPackage",
+          "to": "suffixPackageResolved"
+        },
+        {
+          "op": "fallback",
+          "primary": "suffixPackageResolved",
           "secondary": "package",
           "to": "packageFinal"
         },

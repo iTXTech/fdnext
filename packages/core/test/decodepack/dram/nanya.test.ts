@@ -790,3 +790,19 @@ assertDram("NT6BR1024M16A3-K1", {
     "Operation Temperature": "Commercial (-30C~105C)"
   }
 });
+
+assertDram("NT6BR1024F64AT-K3", {
+  vendor: "nanya",
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x64",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "BGA-441",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
+    "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "Commercial (-30C~105C)"
+  }
+});

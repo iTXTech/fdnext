@@ -2180,7 +2180,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H58(?:G5|G6|G7)[68]CK8BX[0-9A-Z]{3}N?$"
+      "value": "^H58(?:G5|G6|G7)[68](?:CK8|DK9)BX[0-9A-Z]{3}N?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -2204,11 +2204,17 @@
         "generationObj": {
           "C": {
             "dram_generation": "4th Gen"
+          },
+          "D": {
+            "dram_generation": "5th Gen"
           }
         },
         "speedObj": {
           "K8": {
             "dram_speed": "LPDDR5X-8533"
+          },
+          "K9": {
+            "dram_speed": "LPDDR5X-9600"
           }
         },
         "temperatureObj": {
@@ -2217,6 +2223,12 @@
           }
         },
         "serialObj": {
+          "067": {
+            "package": "FBGA-315"
+          },
+          "068": {
+            "package": "FBGA-315"
+          },
           "146": {
             "package": "FBGA-315"
           },
@@ -2228,6 +2240,16 @@
           }
         },
         "dieStackObj": {
+          "G5:068": {
+            "dram_die_count": 2,
+            "cs_count": 1,
+            "channel_count": 2
+          },
+          "G6:067": {
+            "dram_die_count": 4,
+            "cs_count": 2,
+            "channel_count": 2
+          },
           "G5:146": {
             "dram_die_count": 2,
             "cs_count": 1,

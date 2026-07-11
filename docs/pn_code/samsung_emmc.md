@@ -8,6 +8,13 @@
   <https://semiconductor.samsung.com/estorage/emmc/>
 - Samsung eMMC 5.1 `KLMAG1JETD-B041` 官方页面/目录入口用于确认 `KLM` eMMC/moviNAND 系列。
   <https://semiconductor.samsung.com/us/estorage/emmc/emmc-5-1/klmag1jetd-b041/>
+- Samsung 官方型号页确认 `KLMCG8GESD-B04Q`、`KLMBG4GESD-B04Q`、`KLMBG4GEUF-B04Q`、`KLMDG8JEUD-B04P`、`KLMCG1RCTE-B041` 均为 eMMC 5.1 / HS400 / 153 FBGA，容量覆盖 32GB~128GB，package size 覆盖 11.5x13x0.8 / 1.0 / 1.2。规则按 controller + generation + package token 的局部组合输出尺寸，不按完整 PN 或 base PN 匹配封装。
+  <https://semiconductor.samsung.com/estorage/emmc/emmc-5-1/klmcg8gesd-b04q/>
+  <https://semiconductor.samsung.com/emea/estorage/emmc/emmc-5-1/klmbg4gesd-b04q/>
+  <https://semiconductor.samsung.com/emea/estorage/emmc/emmc-5-1/klmbg4geuf-b04q/>
+  <https://semiconductor.samsung.com/kr/estorage/emmc/emmc-5-1/klmdg8jeud-b04p/>
+  <https://semiconductor.samsung.com/kr/estorage/emmc/emmc-5-1/klmcg1rcte-b041/>
+  <https://semiconductor.samsung.com/estorage/emmc/>
 
 ## 规则入口
 

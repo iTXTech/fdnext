@@ -89,6 +89,24 @@ assertRuleDecode("H26M88002AMR", {
   }
 });
 
+for (const [partNumber, densityMbit, packageValue] of [
+  ["H26M51002KPR", 131072, "FBGA-153, 11.5x13x0.8"],
+  ["H26M62002JPR", 262144, "FBGA-153, 11.5x13x0.8"],
+  ["H26M74002HMR", 524288, "FBGA-153, 11.5x13x1.0"]
+] as const) {
+  assertRuleDecode(partNumber, {
+    vendor: "skhynix",
+    type: "eMMC",
+    densityMbit,
+    package: packageValue,
+    extra: {
+      "Managed Family": "e-NAND",
+      "Storage Interface": "eMMC 5.1",
+      "Product Generation": "3D-V2 NAND"
+    }
+  });
+}
+
 assertRuleDecode("H26M91208HPRX", {
   vendor: "skhynix",
   type: "eMMC",

@@ -417,6 +417,23 @@ assertDram("CXDB5CCBM-MK-A", {
   }
 });
 
+assertDram("CXDB6CCBM-MA-A", {
+  vendor: "cxmt",
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-25C~85C",
+    "Process Node": "CXMT G4"
+  }
+});
+
 assertDram("GDP0BFLM-CB", {
   vendor: "gigadevice",
   densityMbit: 1024,

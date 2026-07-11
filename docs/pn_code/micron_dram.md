@@ -1,6 +1,6 @@
 # Micron DRAM PN 编码资料
 
-采集日期：2026-05-15；更新日期：2026-07-11
+采集日期：2026-05-15；更新日期：2026-07-12
 
 ## 资料来源
 
@@ -141,6 +141,8 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
 - Micron Memory Japan `EDY4016...` 的 `A/BG/F/D/R/JD/GX/DR` 等 marking token 只作为内部 code；公开输出为 `die_revision`、`package`、`solder_type`、`packing_type` 和 `dram_speed`。
 - Crucial namespace 的 `45M` / `55M` / `62M` 这类 speed/bin token 只输出为 `Crucial DDR4-45M` / `55M` / `62M`；没有外部公开表时不推导成 JEDEC CL 或 XMP 时序。
 - 维护用来源、外部确认状态或推断来源不得进入 `fields`。
+
+MDB 中的 Micron LPDDR4/LPDDR5 component configuration 继续按 `depth x width` 结构化解析，不按完整 PN 建表。本轮补齐较高密度 / 多通道组织 token，包括 `192M32/64`、`384M16`、`512M128`、`768M16/128`、`1024M32/64`、`1280M64`、`1536M128`、`2048M32`、`1G96/128`、`2G128`、`3G32/64`、`4G64`、`6G32`、`8G32`、`12G32`。例如 `3G64 = 192Gb x64`、`2G128 = 256Gb x128`、`1024M32 = 32Gb x32`；仅输出 token 可直接确定的 density / width，未取得 package-code 资料时不推测封装。
 
 ## Die / CS Packages
 

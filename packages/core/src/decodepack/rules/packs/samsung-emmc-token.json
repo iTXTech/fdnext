@@ -135,6 +135,12 @@
         "package": {
           "B": "BGA-153, 11.5x13"
         },
+        "packageByControllerGenerationPackage": {
+          "S:D:B": "BGA-153, 11.5x13x1.0",
+          "T:E:B": "BGA-153, 11.5x13x0.8",
+          "U:D:B": "BGA-153, 11.5x13x1.2",
+          "U:F:B": "BGA-153, 11.5x13x0.8"
+        },
         "versionObj": {
           "4": {
             "product_version": "eMMC 5.1"
@@ -266,6 +272,24 @@
           "op": "map",
           "from": "packageCode",
           "table": "package",
+          "to": "packageDefault"
+        },
+        {
+          "op": "tpl",
+          "template": "{{controllerCode}}:{{generationCode}}:{{packageCode}}",
+          "to": "packageCombinationKey"
+        },
+        {
+          "op": "map",
+          "from": "packageCombinationKey",
+          "table": "packageByControllerGenerationPackage",
+          "to": "packageOverride",
+          "default": null
+        },
+        {
+          "op": "fallback",
+          "primary": "packageOverride",
+          "secondary": "packageDefault",
           "to": "package"
         },
         {

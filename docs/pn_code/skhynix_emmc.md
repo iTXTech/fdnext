@@ -8,6 +8,8 @@
 
 - SK hynix eMMC brochure / catalog mirror 给出 eMMC 5.1 line-up，可归纳出 `H26M/H26T` 托管 NAND 结构、容量位和 automotive grade 后缀。
   <https://netlist.com/wp-content/uploads/2023/06/SK-Hynix_Managed-NAND_eMMC.pdf>
+- SK hynix EG510 e-NAND datasheet line-up 确认 `H26M51002KPR` / `H26M62002JPR` / `H26M74002HMR` 分别为 16GB / 32GB / 64GB eMMC 5.1，NAND stack 为 128Gb x1 / x2 / x4；`KPR/JPR` 为 `FBGA-153, 11.5x13x0.8`，`HMR` 为 `FBGA-153, 11.5x13x1.0`。
+  <https://datasheet.lcsc.com/lcsc/2204261415_SK-HYNIX-H26M62002JPR_C3002776.pdf>
 - SK hynix e-NAND H26M Series datasheet mirror 给出 8GB/16GB/32GB/64GB eMMC 5.1、VCC 3.3V / VCCQ 1.8V、HS400+CMDQ、153FBGA 以及 automotive grade 示例。
   <https://media.digikey.com/pdf/Data%20Sheets/Netlist%20Inc%20PDF/H26M%20Series.pdf>
 - SK hynix NAND Flash Databook Q1'2016 mirror 给出 H26M eMMC line-up：4GB MMC4.5、8GB~128GB MMC5.1、1xnm / 3D-V2、base component density、stack 和 package size。
@@ -30,8 +32,8 @@
 | component `1001` | 1xnm, 32Gb die, 1-die, eMMC 4.5 |
 | component `1204/1208/2208/4208/8208` | 1xnm, 64Gb die, 1/1/2/4/8-die |
 | component `1002/2002/4002/8002` | 3D-V2, 128Gb die, 1/2/4/8-die |
-| package/config `HPR/FPR/GPR` | 153FBGA 11.5x13x0.8mm |
-| package/config `AMR/CMR/EMR` | 153FBGA 11.5x13x1.0mm |
+| package/config `HPR/FPR/GPR/KPR/JPR` | 153FBGA 11.5x13x0.8mm |
+| package/config `AMR/CMR/EMR/HMR` | 153FBGA 11.5x13x1.0mm |
 | grade `N/A` | Commercial / Mobile, -25~85°C |
 | grade `I` | Industrial, -40~85°C |
 | grade `X` | Automotive Grade 2/3, -40~105°C |
@@ -63,6 +65,7 @@
 | `H26M78208CMRN` | eMMC, 64GB, Commercial / Mobile token `N` |
 | `H26M31001HPR` | eMMC 4.5, 4GB, 1xnm, 32Gb x1, 153FBGA 11.5x13x0.8mm |
 | `H26M88002AMR` | eMMC 5.1, 128GB, 3D-V2, 128Gb x8, 153FBGA 11.5x13x1.0mm |
+| `H26M51002KPR` / `H26M62002JPR` / `H26M74002HMR` | EG510 eMMC 5.1，16GB / 32GB / 64GB，package suffix 分别输出 0.8 / 0.8 / 1.0mm |
 | `H26M91208HPRX` | eMMC, unknown density token `9`，仍保留 vendor/type/package/grade |
 
 ## 已知缺口

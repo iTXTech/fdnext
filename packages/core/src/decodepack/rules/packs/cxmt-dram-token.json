@@ -425,7 +425,8 @@
       "tables": {
         "densityMb": {
           "4": 16384,
-          "5": 32768
+          "5": 32768,
+          "6": 65536
         },
         "dieStackObj": {
           "BAM": {
@@ -468,6 +469,11 @@
           "M": {
             "operation_temperature": "-25C~85C"
           }
+        },
+        "processSpecific": {
+          "6:CBM": {
+            "process_node": "CXMT G4"
+          }
         }
       },
       "steps": [
@@ -508,6 +514,18 @@
           "from": "stackKey",
           "table": "dieStackObj",
           "to": "dieStackObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{stackKey}}",
+          "to": "processKey"
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "processSpecific",
+          "to": "processObj",
           "default": {}
         },
         {
@@ -561,6 +579,11 @@
           "op": "merge",
           "into": "extra",
           "from": "dieStackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "processObj"
         },
         {
           "op": "mergeIf",

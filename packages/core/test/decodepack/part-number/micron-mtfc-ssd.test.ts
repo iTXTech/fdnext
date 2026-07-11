@@ -76,6 +76,7 @@ assertRuleDecode("MTFC8GAMALBH-AAT", {
   vendor: "micron",
   type: "eMMC",
   densityMbit: 65536,
+  package: "TFBGA-153, 11.5x13x1.1",
   extra: {
     "Component Density": "64Gb",
     "Component Width": "x8",
@@ -84,6 +85,36 @@ assertRuleDecode("MTFC8GAMALBH-AAT", {
     "Operation Temperature": "Industrial (-40°C ~ 105°C + HR certified test flow)"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
+});
+
+assertRuleDecode("MTFC32GASAQHD-AIT", {
+  vendor: "micron",
+  type: "eMMC",
+  densityMbit: 262144,
+  package: "VFBGA-153, 11.5x13x0.9",
+  absentExtra: ["NAND Component", "Controller Code", "Package Code"]
+});
+
+assertRuleDecode("MTFC8GAMALHT-AAT", {
+  vendor: "micron",
+  type: "eMMC",
+  densityMbit: 65536,
+  package: "VBGA-100, 14x18x1.0",
+  absentExtra: ["NAND Component", "Controller Code", "Package Code"]
+});
+
+assertRuleDecode("MTFC8GLREK-IT", {
+  vendor: "micron",
+  type: "eMMC",
+  densityMbit: 65536,
+  package: "VFBGA-153, 11.5x13x0.9"
+});
+
+assertRuleDecode("MTFC16GJDNA-4M IT", {
+  vendor: "micron",
+  type: "eMMC",
+  densityMbit: 131072,
+  package: "TBGA-100, 14x18x1.2"
 });
 
 assertRuleDecode("MTFC256GASAONS-IT", {

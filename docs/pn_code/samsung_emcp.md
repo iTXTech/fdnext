@@ -35,6 +35,7 @@
     <https://semiconductor.samsung.com/mcp/model/lpddr5-umcp/km8v9001jm-b813/>
   - `KMJS9001RM-BG01`: 256GB UFS 3.1 + 96Gb LPDDR5、297 FBGA、6400 Mbps。
     <https://semiconductor.samsung.com/mcp/model/lpddr5-umcp/kmjs9001rm-bg01/>
+- 上述 12 个官方 exact PN 已加入 managed NAND 搜索资源；解码继续使用 storage type、package、speed/generation、storage capacity、RAM 等结构化 token，不使用完整 PN 匹配。
 - Samsung `KMGD6001BM-B421` datasheet mirror 给出 32GB e.MMC + 24Gb LPDDR3、221FBGA、eMMC 5.1。
   <https://14469692.s21i.faiusr.com/61/ABUIABA9GAAg5e-MqgYo9fmgzQE.pdf>
 - CBM209X Flash Support List 与本地 `fdfdb` 都记录 `KMGE6001BM` 对应 Samsung 16GB MLC flash id；第三方 eMCP 页面同时确认 `KMGE6001BM-B421` 是 Samsung 16+24 eMCP、eMMC+LPDDR3、221ball。

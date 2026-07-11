@@ -36,6 +36,8 @@ Engine 生命周期约束：常规 Node、浏览器、Worker isolate 和服务�
 - 新增或调整规则后，优先补对应产品线测试；测试位置按芯片类型选择，例如 DRAM 用 `packages/core/test/decodepack/dram/<vendor-or-module>.test.ts`，PN / part decode 用 `packages/core/test/decodepack/part-number/<vendor-or-module>.test.ts`。
 - DRAM 搜索建议测试默认不跑；只有新增 / 调整 DRAM PN 资源、FBGA marking 或搜索建议相关行为时，额外运行 `pnpm -C packages/core test:dram:search`。如果改动影响 contract SDK 的 part search 输出，也额外运行 `pnpm -C packages/contract-test test:part-search:dram`。
 - Micron PN 搜索资源以 `packages/core/resources/mdb.json` 为优先来源。有效 MDB mapping 已包含同一 PN，或在该 PN 后通过 `-`、`:`、空格等 suffix 边界给出更详细的 speed / temperature / status / revision 时，不得再把较短或等价 PN 加入 `dram-pn.json` / `managed-nand-pn.json`。带 `DO NOT USE` 的 MDB 值不算有效覆盖。修改这些资源时必须保持 DRAM 与 managed NAND 的 MDB 去重审计测试通过。
+- 不新增厂商规则、资源或文档，除非用户明确同意该厂商；默认只完善仓库已有厂商和产品线。
+- DecodePack / PN 资料完善优先级：第一优先 SK hynix、Samsung、Micron；第二优先 YMTC、CXMT；其他现有厂商只在前两级没有更高价值缺口或属于顺手修复时处理。
 - 新增或重命名 canonical field key 时，同步检查 `packages/core/src/field-registry.ts`、`packages/core/resources/lang/eng.json` 和 `packages/core/resources/lang/chs.json`。
 - 对 iTXTech fdnext DecodePack JSON 文件保持可读的表驱动结构。不要为了过测试引入一次性特判。
 
@@ -62,12 +64,14 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - `speed_grade` 是例外但必须有额外用户价值：只在原始 speed / grade token 带有 binning、测试等级、CAS/RL/WL 时序、温度等级等 `dram_speed` 未表达的信息时保留，并可附带可读含义，例如 `046BT Fully Tested`、`PG Partial Good Mixed Bins`。如果只是同一速率的另一种单位或 token 回显，应省略。
 - `voltage` / `dram_voltage` 只表达电压本身；不要把 DDR 代际、DRAM 类型、产品线等已在其他字段出现的信息重复塞进电压文本。
 - `package` 只在官方资料、datasheet、catalog、拆解或可信分销页能确认封装类型、脚位、尺寸或特殊封装信息时输出；公开格式统一为 `TYPE[-PIN][, DIM][, SPECIAL]`，例如 `FBGA-153, 11.5x13x1.0`、`BGA, 11.0x13.0x0.8`、`WLGA`。缺 pin 时只输出已确认的 TYPE，不得补猜脚位；只有 DIM 被确认而 TYPE 未确认时只保留 DIM；不要输出 `mm`、`ball`、`pin` 等单位词或 `Unknown`。只有厂商 package token 时应省略公开 `package`，不要退回输出 package code。
+- PN 本身缺少封装 token 时不得根据同族完整 ordering PN、exact datasheet 或拆解结果反推 `package`；例如短 marking `H27UCG8T2E` 不含封装 token，因此即使完整订购料号的封装已知也保持不输出。
 - 不维护历史 metadata alias 或运行时兼容转换。新增或清理字段时，直接迁移 iTXTech fdnext DecodePack 源规则、语言包和 testcase，并把旧 key 加入审计测试的禁止列表。
 
 特别禁止：
 
 - 用完整料号数组做直接匹配。
 - 在 PN `match.value` 里写完整料号字面量或等价的完整料号白名单；定长 PN 只能用结构化 token 长度表达。
+- 为修复单个或一组 PN，在 decoder 中新增完整 PN、base PN 或等价 body 的直接查表；外部确认的 exact PN 只能进入搜索资源、资料和 testcase，公开字段必须由 PN 中实际存在的 token 或可泛化局部 token 组合推导。
 - 把外部引用状态、来源 URL、推断来源等维护信息 merge 到 `fields` 或公开结果。
 - 只根据厂商前缀判断 eMMC / UFS / MCP 类型；需要结合后续 token。
 - 把 package/config/controller/die/feature 等 code 字段作为“有用细节”展示给用户。

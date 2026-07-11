@@ -237,6 +237,70 @@
   },
   {
     "vendor": "samsung",
+    "pn": "K3KL1L10GM-JGCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL1L10GM-JHCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LKJKJ0CM-MFCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LKJKJ0CM-MHCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50DM-BGCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50DM-JFCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50DM-JUCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50EM-EFCV"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50EM-EUCV"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50EM-JFCV"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50EM-JUCV"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50QM-JGCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50QM-JHCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50QM-JUCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50EA-DGCY"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50EB-BGCY"
+  },
+  {
+    "vendor": "samsung",
     "pn": "K3KL3L30DM-EFCU"
   },
   {
@@ -730,6 +794,122 @@
   {
     "vendor": "nanya",
     "pn": "NT6BR2048F32A3-K2I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024M16A3-K2H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024M16A3-K2I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024M16A3-K2J"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024M16A3-K3"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024M16A3-K3H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024M16A3-K3I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024M16A3-K3J"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024T32A3-K2"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024T32A3-K2I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024T32A3-K2J"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024T32A3-K3H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024T32A3-K3I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR1024T32A3-K3J"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR2048F32A3-K2H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR2048F32A3-K3H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR2048F32A3-K3I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR2048F32A3-K3J"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512M16A3-K2H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512M16A3-K2I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512M16A3-K2J"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512M16A3-K3H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512M16A3-K3I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512M16A3-K3J"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512T32A3-K2H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512T32A3-K2I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512T32A3-K2J"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512T32A3-K3"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512T32A3-K3H"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT6BR512T32A3-K3J"
   },
   {
     "vendor": "nanya",
@@ -1433,6 +1613,26 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "H5CGD4MGBDX021N"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5CGD4MHBDX021N"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5CGD8MGBDX021N"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5CGD8MHBDX021N"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5CGD6MGBDX022N"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "H5GQ2H24AFR-R0C"
   },
   {
@@ -1542,6 +1742,14 @@
   {
     "vendor": "skhynix",
     "pn": "H58G78CK8BX185"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H58G56DK9BX068"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H58G66DK9BX067"
   },
   {
     "vendor": "skhynix",

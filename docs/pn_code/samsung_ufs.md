@@ -10,8 +10,18 @@
   <https://semiconductor.samsung.com/estorage/ufs/ufs-4-0/>
 - Samsung UFS 4.1 官方页面确认 UFS 4.1 产品线、G5 2Lane 和 153 FBGA。
   <https://semiconductor.samsung.com/jp/estorage/ufs/>
-- Samsung Automotive UFS 4.1 官方页面确认 `KLUGGARHUF-F0HQ` 为 1TB、G5 2Lane、153-FBGA 11.5x13x1.2、-40°C~105°C。该 body 使用 controller token `U`，package `F` 必须按 base PN 组合覆盖，不能套用其他 UFS 4.x 的 9x13 全局值。
+- Samsung UFS 2.1 `KLUGGAR1FA-B2C1` 官方页面确认 1TB、G3 2Lane、11.5x13x1.4 和 -25°C~85°C；Puris 产品页交叉确认 153-ball BGA，因此规则按 controller + generation + package token 的局部组合输出 `BGA-153, 11.5x13x1.4`。
+  <https://semiconductor.samsung.com/jp/estorage/ufs/ufs-2-1/kluggar1fa-b2c1/>
+  <https://www.puris.net/dir/product/flash/ufs>
+- Samsung Automotive UFS 4.1 官方页面确认 `KLUGGARHUF-F0HQ` 为 1TB、G5 2Lane、153-FBGA 11.5x13x1.2、-40°C~105°C。该 body 使用 controller token `U`，package `F` 按 controller + generation + package token 组合解析，不能套用其他 UFS 4.x 的 9x13 全局值。
   <https://semiconductor.samsung.com/emea/estorage/ufs/ufs-4-1/kluggarhuf-f0hq/>
+- Samsung 官方型号页补充确认 `KLUGGARHUF-F0HP`、`KLUCG1RHVF-B0EP`、`KLUEG8UHYB-B0EP`、`KLUDG4UHDB-B2E1`、`KLUFG4LHGC-B0E1`。这些型号覆盖 UFS 4.1 / UFS 3.1、64GB~1TB、移动与车规温度档，以及 11x13 / 11.5x13 的不同厚度；UFS 总览确认这些产品线使用 153 FBGA。规则只按 controller + generation + package token 的局部组合选择尺寸，不按完整 PN 或 base PN 匹配封装。
+  <https://semiconductor.samsung.com/estorage/ufs/ufs-4-1/kluggarhuf-f0hp/>
+  <https://semiconductor.samsung.com/emea/estorage/ufs/ufs-3-1/klucg1rhvf-b0ep/>
+  <https://semiconductor.samsung.cn/estorage/ufs/ufs-3-1/klueg8uhyb-b0ep/>
+  <https://semiconductor.samsung.com/jp/estorage/ufs/ufs-3-1/kludg4uhdb-b2e1/>
+  <https://semiconductor.samsung.com/us/estorage/ufs/ufs-3-1/klufg4lhgc-b0e1/>
+  <https://semiconductor.samsung.com/estorage/ufs/>
 - 用户提供的 Samsung UFS 测试点 dump 表确认若干特定基础 PN 的 CE 数、die 数和单 die NAND marking。该表只用于 exact base PN 补充，不从 UFS PN token 泛化推断 CE / die。
 
 ## 规则入口
@@ -51,7 +61,13 @@ Samsung UFS 输出：
 | --- | --- |
 | `KLUCG4J1BB` | UFS 2.0, 64GB, MLC, 4 CE / 4 die, `K9GDGD8U0B` |
 | `KLUDGAG1BD` | UFS 2.0, 128GB, MLC, 8 CE / 16 die, `K9GCGD8U0D` |
+| `KLUGGAR1FA-B2C1` | UFS 2.1, 1TB, BGA-153 11.5x13x1.4 |
 | `KLUEG8UHDB-C2E1` | UFS 3.1, 256GB, ODP, 256Gb die, V5 92L |
 | `KLUFG8RHHF-F0G1` | UFS 4.0, 512GB, ODP, 512Gb die, V8 236L |
 | `KLUEG4RHKF-F0H1` | UFS 4.1, 256GB, QDP, 512Gb die, V8 236L |
 | `KLUGGARHUF-F0HQ` | Automotive UFS 4.1, 1TB, BGA-153 11.5x13x1.2, -40°C~105°C |
+| `KLUGGARHUF-F0HP` | Automotive UFS 4.1, 1TB, BGA-153 11.5x13x1.2, -40°C~95°C |
+| `KLUCG1RHVF-B0EP` | Automotive UFS 3.1, 64GB, BGA-153 11.5x13x1.2, -40°C~95°C |
+| `KLUEG8UHYB-B0EP` | Automotive UFS 3.1, 256GB, BGA-153 11.5x13x1.2, -40°C~95°C |
+| `KLUDG4UHDB-B2E1` | UFS 3.1, 128GB, BGA-153 11.5x13x0.8, -25°C~85°C |
+| `KLUFG4LHGC-B0E1` | UFS 3.1, 512GB, BGA-153 11x13x1.0, -25°C~85°C |

@@ -207,6 +207,62 @@ assertDram("K3KL3L30DM-EFCU", {
   }
 });
 
+assertDram("K3KL1L10GM-JGCT", {
+  vendor: "samsung",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x64",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "FBGA-441",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Speed": "LPDDR5X-7500",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("K3LKJKJ0CM-MFCP", {
+  vendor: "samsung",
+  densityMbit: 24576,
+  density: "24Gb",
+  widthField: "x32",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "FBGA-315",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-40C~95C"
+  }
+});
+
+assertDram("K3KL5L50DM-BGCU", {
+  vendor: "samsung",
+  densityMbit: 131072,
+  density: "128Gb",
+  widthField: "x64",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "FBGA-496",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Speed": "LPDDR5X-8533",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("K3KL5L50EA-DGCY", {
+  vendor: "samsung",
+  densityMbit: 131072,
+  density: "128Gb",
+  widthField: "x64",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "FBGA-563",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Speed": "LPDDR5X-10667",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
 assertDram("K4U6E3S4AA-MGCL", {
   vendor: "samsung",
   densityMbit: 16384,

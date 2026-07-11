@@ -95,9 +95,12 @@
           "HPR": "FBGA-153, 11.5x13x0.8",
           "FPR": "FBGA-153, 11.5x13x0.8",
           "GPR": "FBGA-153, 11.5x13x0.8",
+          "KPR": "FBGA-153, 11.5x13x0.8",
+          "JPR": "FBGA-153, 11.5x13x0.8",
           "AMR": "FBGA-153, 11.5x13x1.0",
           "CMR": "FBGA-153, 11.5x13x1.0",
-          "EMR": "FBGA-153, 11.5x13x1.0"
+          "EMR": "FBGA-153, 11.5x13x1.0",
+          "HMR": "FBGA-153, 11.5x13x1.0"
         },
         "gradeObj": {
           "A": {

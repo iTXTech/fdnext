@@ -728,7 +728,8 @@
           "6AP:BY": "BGA-200",
           "6AT:DV": "BGA-200",
           "6AT:DN": "BGA-376, PoP",
-          "6BR:A3": "BGA-315"
+          "6BR:A3": "BGA-315",
+          "6BR:AT": "BGA-441"
         },
         "configPackageActual": {
           "6AN:128M16:AV": "FBGA-200, 10.00x15.00x0.83, 0.65/0.80 mixed pitch",

@@ -26,6 +26,7 @@ assertDram("K4X51163PC", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
+  package: "FBGA-60, 11.5x10x1.0",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Die Count": 1,
@@ -41,7 +42,7 @@ assertDram("K4X51163PC-FGC3", {
   density: "512Mb",
   widthField: "x16",
   voltage: "1.8V VDD/VDDQ",
-  package: "FBGA-60",
+  package: "FBGA-60, 11.5x10x1.0",
   extra: {
     "DRAM Type": "LPDDR",
     "DRAM Die Count": 1,

@@ -88,6 +88,26 @@ assertDram("MT62F1G32D3DS-031-WT:B", {
 });
 assertDecodedField("MT62F1G32D3DS-031-WT:B", "dram_die_count", 3);
 
+const micronMdbExtendedOrganizationSamples = [
+  ["MT62F3G64DAZA-023 WT:C", "LPDDR5X", 196608, "192Gb", "x64"],
+  ["MT62F2G128DAWA-031 XT:A", "LPDDR5", 262144, "256Gb", "x128"],
+  ["MT62F768M128D8AK-026 XT:B", "LPDDR5", 98304, "96Gb", "x128"],
+  ["MT62F12G32DADV-023S:B", "LPDDR5X", 393216, "384Gb", "x32"],
+  ["MT53D1024M32D4NQ-046 WT:D", "LPDDR4X", 32768, "32Gb", "x32"],
+  ["MT53D1024M64D8NW-046 WT:D", "LPDDR4X", 65536, "64Gb", "x64"],
+  ["MT53D2048M32D8QD-046 WT:D", "LPDDR4X", 65536, "64Gb", "x32"],
+  ["MT53E3G32D6CY-046 WT:C", "LPDDR4X", 98304, "96Gb", "x32"]
+] as const;
+
+for (const [partNumber, type, densityMbit, density, widthField] of micronMdbExtendedOrganizationSamples) {
+  const info = detect(partNumber);
+  assert.equal(info.vendor, "micron", partNumber);
+  assert.equal(info.type, type, partNumber);
+  assert.equal(info.densityMbit, densityMbit, partNumber);
+  assert.equal(info.density, density, partNumber);
+  assert.equal(info.widthField, widthField, partNumber);
+}
+
 assertDram("MT62F1G64D4EK-023 WT:B", {
   densityMbit: 65536,
   density: "64Gb",

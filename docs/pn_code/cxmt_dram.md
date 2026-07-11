@@ -21,6 +21,7 @@
 - CXMT `CXDB5CBAM-MA-B` datasheet 镜像补充确认 4GB LPDDR4X、2CH x32、4266Mbps、200 Ball Discrete，并给出 `B=x32 2CH 1CS`、`A=DDP`、`C=200-ball`、suffix `M=mobile/commercial temp`、`A=4266Mbps`、final `B=3rd generation` 这类后续版本 token。来源：<https://www.dzjie.com/wp-content/uploads/2025/03/LPDDR4X_CXDB5CBAM-MA-B.pdf>
 - CXMT `CXDB4CBAM-MK-A` datasheet 镜像确认 2GB LPDDR4X、2CH x32、3733Mbps、200 Ball Discrete；part-number decoding 中 `4=2GB`、`B=x32 2CH 1CS`、`A=DDP`、`C=200-ball`。来源：<https://pdf.elecfans.com/p/11175344.html>
 - CXMT `CXDB5CCBM-MK-A` / `CXDB5CCBM-MA-A` datasheet 镜像确认 4GB LPDDR4X、2CH x32、200 Ball Discrete；`MK` 为 3733Mbps，`MA` 为 4266Mbps，`CBM` 对应 x32 2CH 2CS / QDP / 200-ball 组合。来源：<https://atta.szlcsc.com/upload/public/pdf/source/20240112/0697417D4456C9B7A65E123D9285D203.pdf>、<https://atta.szlcsc.com/upload/public/pdf/source/20251128/2A0FA1E64CE1EFDC7BC81ECF2706B35F.pdf>
+- LCSC 的 `CXDB6CCBM-MA-A` 8GB LPDDR4X datasheet 与 TechInsights G4 16Gb die 分析同向确认 `6=64Gb package`、`CBM=4 dies/2CS`、200-ball；该组合输出 `CXMT G4`，不沿用旧容量的 G3 process。来源：<https://datasheet.lcsc.com/datasheet/pdf/11cd39d31199147ab8bf6030d2abf67c.pdf?productCode=C41416113>、<https://www.techinsights.com/blog/cxmt-cxdb6ccbm-maadie-g4-16-gb-lpddr4x-memory-floorplan-analysis>
 - CSEKER 2025-11-20 汇总表列出更多 CXMT DDR4 / LPDDR4X / DDR5 料号，例如 `CXDQ4A8AM-CJ-M`、`CXDQ4BFAM-CJ-M`、`CXDR4E8BM-CS-A`、`CXDR4E8BM-CR-A`；这些进入规则时按结构 token 推断，可信度低于 datasheet-confirmed token。来源：<https://cseker.com/zh-cn/newDetail/42>
 
 ## iTXTech fdnext DecodePack 范围

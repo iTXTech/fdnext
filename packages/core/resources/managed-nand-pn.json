@@ -160,6 +160,62 @@
     "pn": "IS27TH128G31-JCLA1"
   },
   {
+    "vendor": "issi",
+    "pn": "IS27TH064G21-JCLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH064G21-JCLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH128G21-JCLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH128G21-JCLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH128G21-JCLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH256G21-JCLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH256G21-JCLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH064G31-JCLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH064G31-JCLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH064G31-JCLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH128G31-JCLA2"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH256G31-JCLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH256G31-JCLA1"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS27TH256G31-JCLA2"
+  },
+  {
     "vendor": "kingston",
     "pn": "EMMC04G-CT32"
   },
@@ -254,6 +310,10 @@
   {
     "vendor": "kingston",
     "pn": "128EM64-M4HTY9B"
+  },
+  {
+    "vendor": "kingston",
+    "pn": "E04GS14DXI"
   },
   {
     "vendor": "kingston",
@@ -532,6 +592,18 @@
     "pn": "FEUDNN512G-C2G07"
   },
   {
+    "vendor": "longsys",
+    "pn": "FEUDNN064G-C2A46"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDNN128G-C2A44"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "FEUDNN256G-C2A44"
+  },
+  {
     "vendor": "micron",
     "pn": "MTFC32GBCAQTC-AAT"
   },
@@ -649,11 +721,79 @@
   },
   {
     "vendor": "samsung",
+    "pn": "KLMCG8GESD-B04Q"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLMBG4GESD-B04Q"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLMBG4GEUF-B04Q"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLMDG8JEUD-B04P"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLMCG1RCTE-B041"
+  },
+  {
+    "vendor": "samsung",
     "pn": "KMGD6001BM-B421"
   },
   {
     "vendor": "samsung",
     "pn": "KMGE6001BM-B421"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMFN60012B-B214"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMFN60012M-B214"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMGP6001BA-B514"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMDT6001ZM-A625"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMDT6000HM-A625"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM4X6001KM-B321"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMDP6001DA-B425"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMDP60018M-B425"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMDH6001DA-B425"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM5L9000CM-B424"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KM8V9001JM-B813"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMJS9001RM-BG01"
   },
   {
     "vendor": "samsung",
@@ -670,6 +810,26 @@
   {
     "vendor": "samsung",
     "pn": "KLUGGARHUF-F0HQ"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUGGARHUF-F0HP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUCG1RHVF-B0EP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUEG8UHYB-B0EP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUDG4UHDB-B2E1"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KLUFG4LHGC-B0E1"
   },
   {
     "vendor": "samsung",
@@ -717,6 +877,10 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "H26M51002KPR"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "H26M52208FPR"
   },
   {
@@ -725,11 +889,19 @@
   },
   {
     "vendor": "skhynix",
+    "pn": "H26M62002JPR"
+  },
+  {
+    "vendor": "skhynix",
     "pn": "H26M64208EMR"
   },
   {
     "vendor": "skhynix",
     "pn": "H26M74002EMR"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H26M74002HMR"
   },
   {
     "vendor": "skhynix",

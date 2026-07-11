@@ -80,6 +80,44 @@ assertDram("H58G78CK8BX185", {
 
 assertDecodedFieldAbsent("H58G78CK8BX185", "dram_die_count");
 
+assertDram("H58G56DK9BX068", {
+  vendor: "skhynix",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "FBGA-315",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
+    "Channel Count": 2,
+    "DRAM Speed": "LPDDR5X-9600",
+    "DRAM Generation": "5th Gen",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
+assertDram("H58G66DK9BX067", {
+  vendor: "skhynix",
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "FBGA-315",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
+    "Channel Count": 2,
+    "DRAM Speed": "LPDDR5X-9600",
+    "DRAM Generation": "5th Gen",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
 assertDram("H56C8H24MJR-S2C", {
   vendor: "skhynix",
   densityMbit: 8192,

@@ -149,6 +149,27 @@ testPart("KLMBG2JETD-B041", {
   absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
+for (const [partNumber, densityMbit, packageName, operationTemperature] of [
+  ["KLMCG8GESD-B04Q", 524288, "BGA-153, 11.5x13x1.0", "-40°C ~ 105°C Automotive Grade 2"],
+  ["KLMBG4GESD-B04Q", 262144, "BGA-153, 11.5x13x1.0", "-40°C ~ 105°C Automotive Grade 2"],
+  ["KLMBG4GEUF-B04Q", 262144, "BGA-153, 11.5x13x0.8", "-40°C ~ 105°C Automotive Grade 2"],
+  ["KLMDG8JEUD-B04P", 1048576, "BGA-153, 11.5x13x1.2", "-40°C ~ 95°C Automotive Grade 3"],
+  ["KLMCG1RCTE-B041", 524288, "BGA-153, 11.5x13x0.8", "-25°C ~ 85°C"]
+] as const) {
+  testPart(partNumber, {
+    vendor: "samsung",
+    type: "eMMC",
+    densityMbit,
+    package: packageName,
+    extra: {
+      "Product Version": "eMMC 5.1",
+      "Interface Type": "HS400",
+      "Operation Temperature": operationTemperature
+    },
+    absentExtra: ["Package Code", "Reference Status", "Inference Source", "source", "status"]
+  });
+}
+
 testPart("KLMDG1NCAB-B041", {
   vendor: "samsung",
   type: "eMMC",
@@ -921,6 +942,18 @@ testPart("KLUDGAG1BD", {
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
+testPart("KLUGGAR1FA-B2C1", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 8388608,
+  package: "BGA-153, 11.5x13x1.4",
+  extra: {
+    "Product Version": "UFS 2.1",
+    "Controller": "UFS 2.1 G3-2Lane Controller"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
 testPart("KLUEG8UHDB-C2E1", {
   vendor: "samsung",
   type: "UFS",
@@ -998,3 +1031,60 @@ testPart("KLUGGARHUF-F0HQ", {
   },
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
+
+testPart("KLUGGARHUF-F0HP", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 8388608,
+  package: "BGA-153, 11.5x13x1.2",
+  extra: {
+    "Product Version": "UFS 4.1",
+    "Controller": "UFS 4.1 G5-2Lane Controller (Automotive)",
+    "Operation Temperature": "-40°C ~ 95°C Automotive Grade 3"
+  },
+  absentExtra: ["Package Code", "Reference Status", "Inference Source", "source", "status"]
+});
+
+for (const [partNumber, densityMbit, packageName, controller, operationTemperature] of [
+  [
+    "KLUCG1RHVF-B0EP",
+    524288,
+    "BGA-153, 11.5x13x1.2",
+    "UFS 3.1 G4-2Lane Controller (Automotive)",
+    "-40°C ~ 95°C Automotive Grade 3"
+  ],
+  [
+    "KLUEG8UHYB-B0EP",
+    2097152,
+    "BGA-153, 11.5x13x1.2",
+    "UFS 3.1/2.1 G4-2Lane Controller (Automotive Grade only)",
+    "-40°C ~ 95°C Automotive Grade 3"
+  ],
+  [
+    "KLUDG4UHDB-B2E1",
+    1048576,
+    "BGA-153, 11.5x13x0.8",
+    "UFS 3.1/3.0/2.2 G4-2Lane Controller",
+    "-25°C ~ 85°C Extended Commercial"
+  ],
+  [
+    "KLUFG4LHGC-B0E1",
+    4194304,
+    "BGA-153, 11x13x1.0",
+    "UFS 3.1 G4-2Lane Controller",
+    "-25°C ~ 85°C Extended Commercial"
+  ]
+] as const) {
+  testPart(partNumber, {
+    vendor: "samsung",
+    type: "UFS",
+    densityMbit,
+    package: packageName,
+    extra: {
+      "Product Version": "UFS 3.1",
+      "Controller": controller,
+      "Operation Temperature": operationTemperature
+    },
+    absentExtra: ["Package Code", "Reference Status", "Inference Source", "source", "status"]
+  });
+}
