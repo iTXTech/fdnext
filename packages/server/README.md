@@ -1,10 +1,10 @@
 # @itxtech/fdnext-server
 
-Hapi HTTP server adapter for fdnext.
+Native Node.js HTTP server adapter for fdnext.
 
 ## Overview
 
-`@itxtech/fdnext-server` wraps the fdnext runtime in a [Hapi](https://hapi.dev/) HTTP server. It translates Hapi requests into runtime dispatch calls, providing a production-ready HTTP API for part number decoding, Flash ID inspection, and database search.
+`@itxtech/fdnext-server` exposes the fdnext runtime through the native Node.js `node:http` server. The shared `@itxtech/fdnext-core/node-http` bridge translates Node requests and responses to the Fetch API contract used by every runtime adapter.
 
 The server itself is a thin adapter — all HTTP routing, response contracts, and External Link handling are delegated to `@itxtech/fdnext-core`.
 
@@ -78,13 +78,16 @@ const app = createHttpServer({
 
 await app.listen();
 
+// app.server is a native node:http Server
 // Access the engine directly
 const result = app.engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 ```
 
 ## CORS
 
-The Hapi server defaults to allowing all origins (`*`), suitable for local development or deployments where CORS is managed by an upstream gateway.
+The Node.js server defaults to allowing all origins (`*`), suitable for local development or deployments where CORS is managed by an upstream gateway.
+
+JSON responses use `Cache-Control: no-cache`. Responses of at least 1 KiB are gzip-compressed when the client advertises gzip support, with `Vary: Accept-Encoding` set automatically.
 
 ## Search Limit
 

@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
-import test from "node:test";
+import type { Server } from "node:http";
+import type { AddressInfo } from "node:net";
+import test, { after } from "node:test";
 import { createEngine } from "@itxtech/fdnext-core";
 import { createFdServer, createFdServerHandler, FD_SERVER_NAME } from "../src/index";
 
@@ -47,18 +49,36 @@ const flashIdInfoKeys = new Set([
 
 const sharedEngine = createEngine();
 const sharedApp = createFdServer({
+  host: "127.0.0.1",
+  port: 0,
   engine: sharedEngine,
   extraUrls: {
     "FlashMaster Web": "https://fm.itxtech.org"
   },
   warn: () => undefined
 });
+await sharedApp.listen();
+const sharedAddress = sharedApp.server.address() as AddressInfo;
+const sharedBaseUrl = `http://127.0.0.1:${sharedAddress.port}`;
+
+function closeServer(server: Server): Promise<void> {
+  return new Promise<void>((resolve, reject) => {
+    server.close((error) => error ? reject(error) : resolve());
+  });
+}
+
+after(() => closeServer(sharedApp.server));
 
 async function inject(path: string) {
-  const response = await sharedApp.server.inject({ method: "GET", url: path });
+  const rawResponse = await fetch(`${sharedBaseUrl}${path}`);
+  const payload = await rawResponse.text();
   return {
-    response,
-    body: JSON.parse(response.payload) as Record<string, unknown>
+    response: {
+      statusCode: rawResponse.status,
+      payload,
+      headers: rawResponse.headers
+    },
+    body: JSON.parse(payload) as Record<string, unknown>
   };
 }
 
@@ -78,13 +98,36 @@ async function fetchJson(path: string, env: Record<string, string | undefined> =
 test("/ returns fd-server identity", async () => {
   const { response, body } = await inject("/");
   assert.equal(response.statusCode, 200);
+  assert.equal(response.headers.get("Access-Control-Allow-Origin"), null);
+  assert.match(response.headers.get("Vary") ?? "", /(?:^|,)\s*origin\s*(?:,|$)/i);
+  assert.equal(response.headers.get("Content-Type"), "application/json; charset=utf-8");
+  assert.equal(response.headers.get("Cache-Control"), "no-cache");
   assert.equal(body.result, true);
   assert.equal(body.server, FD_SERVER_NAME);
   assert.equal(typeof body.time, "number");
 });
 
+test("node server replies to OPTIONS preflight", async () => {
+  const response = await fetch(`${sharedBaseUrl}/decode`, {
+    method: "OPTIONS",
+    headers: { origin: "https://legacy.example" }
+  });
+  assert.equal(response.status, 204);
+  assert.equal(response.headers.get("Access-Control-Allow-Origin"), "https://legacy.example");
+  assert.match(response.headers.get("Vary") ?? "", /(?:^|,)\s*origin\s*(?:,|$)/i);
+  assert.equal(await response.text(), "");
+});
+
+test("node server preserves the Hapi response for unsupported methods", async () => {
+  const response = await fetch(`${sharedBaseUrl}/decode`, { method: "POST", body: "ignored" });
+  assert.equal(response.status, 404);
+  assert.deepEqual(await response.json(), { statusCode: 404, error: "Not Found", message: "Not Found" });
+});
+
 test("/info returns FlashDetector-shaped metadata", async () => {
-  const { body } = await inject("/info");
+  const { response, body } = await inject("/info");
+  assert.equal(response.headers.get("Content-Encoding"), "gzip");
+  assert.match(response.headers.get("Vary") ?? "", /(?:^|,)\s*accept-encoding\s*(?:,|$)/i);
   assert.equal(body.result, true);
   assert.ok(body.ver);
   assert.equal(typeof body.info, "object");
@@ -206,12 +249,18 @@ test("extra URLs are limited to decode outputs", async () => {
 test("node server reads process env by default", async () => {
   const previous = process.env.FD_SERVER_EXTRA_URLS;
   process.env.FD_SERVER_EXTRA_URLS = "{\"Env Link\":\"https://fm.itxtech.org\"}";
+  let app: ReturnType<typeof createFdServer> | undefined;
   try {
-    const app = createFdServer({ engine: sharedEngine, warn: () => undefined });
-    const response = await app.server.inject({ method: "GET", url: "/decode?pn=MT29F4G08ABAEA&lang=eng" });
-    const body = JSON.parse(response.payload) as { data?: { url?: Record<string, string> } };
+    app = createFdServer({ host: "127.0.0.1", port: 0, engine: sharedEngine, warn: () => undefined });
+    await app.listen();
+    const address = app.server.address() as AddressInfo;
+    const response = await fetch(`http://127.0.0.1:${address.port}/decode?pn=MT29F4G08ABAEA&lang=eng`);
+    const body = await response.json() as { data?: { url?: Record<string, string> } };
     assert.equal(body.data?.url?.["Env Link"], "https://fm.itxtech.org");
   } finally {
+    if (app) {
+      await closeServer(app.server);
+    }
     if (previous === undefined) {
       delete process.env.FD_SERVER_EXTRA_URLS;
     } else {

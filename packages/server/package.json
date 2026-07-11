@@ -1,7 +1,7 @@
 {
   "name": "@itxtech/fdnext-server",
   "version": "3.2.0",
-  "description": "Hapi HTTP server adapter for fdnext",
+  "description": "Native Node.js HTTP server adapter for fdnext",
   "license": "AGPL-3.0-or-later",
   "type": "module",
   "main": "dist/index.js",
@@ -31,7 +31,7 @@
   "keywords": [
     "fdnext",
     "server",
-    "hapi",
+    "node-http",
     "flash",
     "nand"
   ],
@@ -40,7 +40,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@hapi/hapi": "^21.4.4",
     "@itxtech/fdnext-core": "workspace:*"
   },
   "scripts": {

@@ -74,6 +74,7 @@ export function fdnextBundleConfig(config: UserConfig, options: { executable?: s
       "@itxtech/fdnext-core": resolve(REPO_ROOT, "packages/core/src/index.ts"),
       "@itxtech/fdnext-core/decodepack": resolve(REPO_ROOT, "packages/core/src/decodepack/index.ts"),
       "@itxtech/fdnext-core/runtime": resolve(REPO_ROOT, "packages/core/src/runtime/index.ts"),
+      "@itxtech/fdnext-core/node-http": resolve(REPO_ROOT, "packages/core/src/node-http/index.ts"),
       ...config.alias
     },
     deps: {

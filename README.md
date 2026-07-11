@@ -24,7 +24,7 @@
 - **Part Number Decoding:** Instant decoding of raw NAND, eMMC, UFS, DRAM, and more.
 - **Flash ID Decoding:** Deep inspection of NAND Flash IDs through a typed identifier API.
 - **Smart Resource Flow:** Bundled `fdb`, `mdb`, and language packs with Micron FBGA code lookup.
-- **Universal Dispatch:** Shared runtime layer for Hapi, Cloudflare Workers, and Aliyun FC.
+- **Universal Dispatch:** Shared runtime layer for native Node.js HTTP, Cloudflare Workers, and Aliyun FC.
 - **Data Maintenance:** CLI tools for FDB/MDB generation, crawling, and DecodePack management.
 
 ---
@@ -34,7 +34,7 @@
 `fdnext` is organized as a strict TypeScript monorepo. The main package is now batteries-included, while platform packages stay thin adapters.
 
 - **Core ([`@itxtech/fdnext-core`](packages/core)):** Engine, DecodePack rules/compiler, embedded resources, result contract, and shared runtime.
-- **Adapters:** Native support for [Hapi](packages/server), [Cloudflare Workers](packages/cf-workers), and [Aliyun FC](packages/aliyun-fc).
+- **Adapters:** Native support for [Node.js HTTP](packages/server), [Cloudflare Workers](packages/cf-workers), and [Aliyun FC](packages/aliyun-fc).
 - **Legacy compatibility:** [`@itxtech/fd-server`](packages/fd-server) exposes the old FlashDetector / FDWebServer HTTP API for FlashMaster Classic migration deployments, with Cloudflare Workers as the preferred deployment path.
 
 ---

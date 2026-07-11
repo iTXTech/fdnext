@@ -5,6 +5,7 @@
       "@itxtech/fdnext-core": ["./packages/core/src/index.ts"],
       "@itxtech/fdnext-core/decodepack": ["./packages/core/src/decodepack/index.ts"],
       "@itxtech/fdnext-core/runtime": ["./packages/core/src/runtime/index.ts"],
+      "@itxtech/fdnext-core/node-http": ["./packages/core/src/node-http/index.ts"],
       "@itxtech/fdnext-server": ["./packages/server/src/index.ts"],
       "@itxtech/fdnext-cf-workers": ["./packages/cf-workers/src/index.ts"],
       "@itxtech/fdnext-aliyun-fc": ["./packages/aliyun-fc/src/index.ts"],

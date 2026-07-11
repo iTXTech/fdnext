@@ -28,6 +28,10 @@
     "./cli": {
       "types": "./dist/src/cli/index.d.ts",
       "default": "./dist/cli.js"
+    },
+    "./node-http": {
+      "types": "./dist/src/node-http/index.d.ts",
+      "default": "./dist/node-http.js"
     }
   },
   "bin": {

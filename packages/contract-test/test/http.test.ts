@@ -1,8 +1,10 @@
 import assert from "node:assert/strict";
+import type { AddressInfo } from "node:net";
 import { createHttpServer } from "@itxtech/fdnext-server";
 import { createContractEngine } from "../src/index";
 import {
   assertCapabilitiesBuildTime,
+  closeNodeServer,
   fdnextPackageVersion,
   normalizeCapabilitiesForComparison,
   parseJsonObject
@@ -11,11 +13,15 @@ import {
 const engine = createContractEngine();
 const sdkCapabilities = engine.getCapabilities();
 
-const http = createHttpServer({ host: "127.0.0.1", port: 8080, engine });
+const http = createHttpServer({ host: "127.0.0.1", port: 0, engine });
+await http.listen();
+const httpAddress = http.server.address() as AddressInfo;
+const httpBaseUrl = `http://127.0.0.1:${httpAddress.port}`;
 async function injectJson(method: "GET" | "POST", url: string): Promise<Record<string, unknown>> {
-  const response = await http.server.inject({ method, url });
-  assert.equal(response.statusCode, 200, response.payload);
-  return parseJsonObject(response.payload);
+  const response = await fetch(`${httpBaseUrl}${url}`, { method });
+  const payload = await response.text();
+  assert.equal(response.status, 200, payload);
+  return parseJsonObject(payload);
 }
 const httpIndex = await injectJson("GET", "/");
 assert.equal(httpIndex.status, "ok");
@@ -69,4 +75,17 @@ for (const removedEndpoint of [
   const removed = await injectJson("GET", removedEndpoint);
   assert.equal(removed.status, "not_found", `${removedEndpoint} should not be exposed`);
 }
-await http.server.stop();
+const httpHeaders = await fetch(httpBaseUrl);
+assert.equal(httpHeaders.headers.get("access-control-allow-origin"), "*");
+assert.equal(httpHeaders.headers.get("x-powered-by"), `fdnext/${fdnextPackageVersion}`);
+assert.equal(httpHeaders.headers.get("cache-control"), "no-cache");
+const httpCompressed = await fetch(`${httpBaseUrl}/parts/decode?query=MT29F64G08CBABA&lang=eng`, {
+  headers: { "accept-encoding": "gzip" }
+});
+assert.equal(httpCompressed.headers.get("content-encoding"), "gzip");
+assert.match(httpCompressed.headers.get("vary") ?? "", /(?:^|,)\s*accept-encoding\s*(?:,|$)/i);
+assert.equal((await httpCompressed.json() as { status?: unknown }).status, "ok");
+const httpHead = await fetch(`${httpBaseUrl}/capabilities`, { method: "HEAD" });
+assert.equal(httpHead.status, 200);
+assert.equal(await httpHead.text(), "");
+await closeNodeServer(http.server);

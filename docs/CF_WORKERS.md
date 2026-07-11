@@ -52,7 +52,7 @@ pnpm dlx wrangler login
 
 ## 3. Cloudflare Workers Builds 设置
 
-如果使用 Cloudflare Dashboard 连接 Git 仓库自动构建，不能把 Build command 设置成 `pnpm build`。那会构建整个 monorepo，包括 Hapi server，而 Workers 部署只需要 core 和 `cf-workers` adapter。
+如果使用 Cloudflare Dashboard 连接 Git 仓库自动构建，不能把 Build command 设置成 `pnpm build`。那会构建整个 monorepo，包括 Node.js server，而 Workers 部署只需要 core 和 `cf-workers` adapter。
 
 Workers Builds 目前不会执行 `wrangler.jsonc` 里的 custom build 配置，因此 Dashboard 里需要显式设置：
 
@@ -186,5 +186,5 @@ External Link provider 只能返回 `http:`、`https:` 或 `mailto:` URL。runti
 
 - Cloudflare adapter 只负责把 `fetch()` 请求交给共享 runtime。
 - HTTP route、响应 contract 和 External Link 清理逻辑属于 `packages/core`。
-- 不新增旧接口 alias，也不在 Workers 入口维护与 Hapi server 不一致的行为。
+- 不新增旧接口 alias，也不在 Workers 入口维护与 Node.js server 不一致的行为。
 - 资源 JSON 会随 Worker bundle 打入产物；上线前以 Wrangler dry-run 输出为准检查最终 bundle 大小。

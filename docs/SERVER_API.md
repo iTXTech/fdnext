@@ -1,11 +1,12 @@
 # Server 接口文档
 
-本文档是 fdnext HTTP 接口的事实源。Hapi server、Cloudflare Workers adapter 和阿里云 FC adapter 都复用 `@itxtech/fdnext-core` 的路由解析与响应 contract；部署文档只说明平台配置，不重复维护接口表。
+本文档是 fdnext HTTP 接口的事实源。原生 Node.js server、Cloudflare Workers adapter 和阿里云 FC adapter 都复用 `@itxtech/fdnext-core` 的路由解析与响应 contract；部署文档只说明平台配置，不重复维护接口表。
 
 ## 1. 基础约定
 
 - 正式接口只使用 `GET` / `HEAD`；serverless adapter 支持 CORS preflight `OPTIONS`。
 - 所有正式接口返回 JSON，并带 `content-type: application/json; charset=utf-8`。
+- Node.js adapter 返回 `Cache-Control: no-cache`；客户端接受 gzip 时，超过 1 KiB 的 JSON 响应会压缩并附带 `Vary: Accept-Encoding`。
 - 所有 adapter 都会返回 `X-Powered-By: fdnext/<version>`。
 - 未命中的路径或非正式方法当前返回 JSON body：`{ "status": "not_found", "name": "<serverName>" }`。
 - 解码 / 搜索操作的业务状态由响应体 `status` 表达；`invalid_input` 和 `unsupported` 会使用 HTTP `400`，其他正常响应使用 HTTP `200`。
@@ -189,7 +190,7 @@ Search 响应同样使用 `fdnext.result.v1`，核心结果放在 `items[]`。�
 
 ## 8. CORS
 
-Hapi server 默认放开所有来源，适合本地服务或由上游网关控制跨域的部署。
+Node.js server 默认放开所有来源，适合本地服务或由上游网关控制跨域的部署。
 
 Cloudflare Workers 和阿里云 FC adapter 通过环境变量 `FDNEXT_CORS_ORIGINS` 控制 CORS：
 

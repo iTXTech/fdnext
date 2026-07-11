@@ -1,4 +1,5 @@
-import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
+import { createServer, type Server } from "node:http";
+import { createNodeHttpRequestListener } from "@itxtech/fdnext-core/node-http";
 import {
   createFdnextCorsOptionsFromEnv,
   createRuntime,
@@ -19,27 +20,6 @@ export interface AliyunFcStartOptions extends AliyunFcHandlerOptions {
   port?: number;
 }
 
-function nodeRequestUrl(request: IncomingMessage): string {
-  const rawUrl = request.url ?? "/";
-  if (/^https?:\/\//i.test(rawUrl)) {
-    return rawUrl;
-  }
-  const host = request.headers.host ?? "fdnext.local";
-  return `http://${host}${rawUrl.startsWith("/") ? rawUrl : `/${rawUrl}`}`;
-}
-
-function writeJsonResponse(response: ServerResponse, status: number, headers: Record<string, string>, body: unknown): void {
-  response.statusCode = status;
-  for (const [name, value] of Object.entries(headers)) {
-    response.setHeader(name, value);
-  }
-  if (body === null) {
-    response.end();
-    return;
-  }
-  response.end(JSON.stringify(body));
-}
-
 export function createAliyunFcHandler(options: AliyunFcHandlerOptions = {}) {
   const cors = options.cors ?? createFdnextCorsOptionsFromEnv(process.env);
   const runtime = options.runtime ?? createRuntime({
@@ -47,30 +27,22 @@ export function createAliyunFcHandler(options: AliyunFcHandlerOptions = {}) {
     searchLimit: options.runtimeOptions?.searchLimit ?? fdnextSearchLimitFromEnv(process.env),
     ...(cors ? { cors } : {})
   });
-  return async (request: IncomingMessage, response: ServerResponse): Promise<void> => {
-    try {
-      const result = await runtime.handleHttp({
-        method: request.method ?? "GET",
-        url: nodeRequestUrl(request),
-        headers: request.headers,
-        remote: request.socket.remoteAddress,
-        adapter: "aliyun-fc",
-        cors
-      });
-      if ((request.method ?? "GET").toUpperCase() === "HEAD") {
-        response.statusCode = result.status;
-        for (const [name, value] of Object.entries(result.headers)) {
-          response.setHeader(name, value);
-        }
-        response.end();
-        return;
+  return createNodeHttpRequestListener(
+    (request, context) => runtime.fetch(request, {
+      remote: context.remote,
+      adapter: "aliyun-fc",
+      cors
+    }),
+    {
+      onError: (error) => {
+        const message = error instanceof Error ? error.message : String(error);
+        return new Response(JSON.stringify({ status: "error", message }), {
+          status: 500,
+          headers: { "content-type": "application/json; charset=utf-8" }
+        });
       }
-      writeJsonResponse(response, result.status, result.headers, result.body);
-    } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
-      writeJsonResponse(response, 500, { "content-type": "application/json; charset=utf-8" }, { status: "error", message });
     }
-  };
+  );
 }
 
 export function startAliyunFc(options: AliyunFcStartOptions = {}): Server {

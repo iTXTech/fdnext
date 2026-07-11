@@ -69,7 +69,7 @@ const response = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 
 ### 1.2 Runtime dispatch 与 External Link
 
-`@itxtech/fdnext-core` 是平台无关入口，负责统一 dispatch、HTTP 路由和 External Link provider。Hapi、Cloudflare Workers、阿里云 FC 等 adapter 都应调用同一个 runtime，而不是各自维护路由。
+`@itxtech/fdnext-core` 是平台无关入口，负责统一 dispatch、HTTP 路由和 External Link provider。Node.js、Cloudflare Workers、阿里云 FC 等 adapter 都应调用同一个 runtime，而不是各自维护路由。
 
 ```ts
 import { createRuntime } from "@itxtech/fdnext-core/runtime";
@@ -186,7 +186,7 @@ const engine = createEngine({
 
 ## 3. 服务端（HTTP Server）
 
-`@itxtech/fdnext-server` 是基于 Hapi 的标准 adapter。它只负责把 Hapi request 转给 `@itxtech/fdnext-core`，实际路由由 runtime 统一处理。
+`@itxtech/fdnext-server` 是基于原生 `node:http` 的标准 adapter。它通过 `@itxtech/fdnext-core/node-http` 在 Node request/response 与 Fetch API 之间转换，实际路由由 runtime 统一处理。
 
 ### 3.1 仓库内运行
 
@@ -224,7 +224,7 @@ pm2 logs fdnext-server
 
 ### 3.4 HTTP 接口
 
-Hapi server、Cloudflare Workers 和阿里云 FC 使用同一套 runtime HTTP 接口。完整接口表、query 参数、响应结构、旧接口移除说明和 CORS 行为见 [Server 接口文档](SERVER_API.md)。
+Node.js server、Cloudflare Workers 和阿里云 FC 使用同一套 runtime HTTP 接口。完整接口表、query 参数、响应结构、旧接口移除说明和 CORS 行为见 [Server 接口文档](SERVER_API.md)。
 
 标准 bundle 构建会从 git 写入短 `commitHash`，`buildTime` 使用当前 ISO 时间。CI / serverless 平台可以显式设置 `FDNEXT_COMMIT_HASH` 和 `FDNEXT_BUILD_TIME` 覆盖。直接从源码运行 server / CLI、没有 bundler 注入 build metadata 时，`buildTime` 使用进程启动时的 ISO 时间。
 

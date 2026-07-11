@@ -39,7 +39,7 @@
     "flashdetector",
     "fdwebserver",
     "server",
-    "hapi",
+    "node-http",
     "flash",
     "nand"
   ],
@@ -48,7 +48,6 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@hapi/hapi": "^21.4.4",
     "@itxtech/fdnext-core": "workspace:*"
   },
   "scripts": {

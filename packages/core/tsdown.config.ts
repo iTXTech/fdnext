@@ -1,7 +1,7 @@
 import { defineConfig } from "tsdown";
-import { fdnextBundleConfig } from "../../build.config.ts";
+import { fdnextBundleConfig, fdnextNodeBundleConfig } from "../../build.config.ts";
 
-export default defineConfig(
+export default defineConfig([
   fdnextBundleConfig({
     entry: {
       index: "src/index.ts",
@@ -10,5 +10,10 @@ export default defineConfig(
       cli: "src/cli/index.ts"
     },
     platform: "neutral"
-  }, { executable: ["dist/cli.js"] })
-);
+  }, { executable: ["dist/cli.js"] }),
+  fdnextNodeBundleConfig({
+    entry: {
+      "node-http": "src/node-http/index.ts"
+    }
+  })
+]);
