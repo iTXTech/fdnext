@@ -4,15 +4,97 @@ import { normalizeFlashId, normalizePartNumber, normalizePartNumberTokenKey } fr
 import { sourceWeight, vendorKey } from "./scoring";
 import type {
   BuildNormalizedIndexesInput,
+  CompactPostingIndex,
   IdentifierIndexRecord,
   IndexRefBucket,
   MarkingIndexRecord,
   MarkingIndexSource,
   NormalizedIndexes,
+  PartSearchIndexes,
   PartIndexRecord,
   PartIndexSource,
   VendorIndexRecord
 } from "./types";
+
+function compareText(a: string, b: string): number {
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
+function sortedRefs(length: number, keyAt: (ref: number) => string): readonly number[] {
+  return Object.freeze(
+    Array.from({ length }, (_, ref) => ref).sort((a, b) => compareText(keyAt(a), keyAt(b)) || a - b)
+  );
+}
+
+function addTrigrams(target: Set<string>, value: string): void {
+  for (let index = 0; index <= value.length - 3; index += 1) {
+    target.add(value.slice(index, index + 3));
+  }
+}
+
+const POSTING_LENGTH_BASE = 65_536;
+
+function buildTrigramRefs(length: number, valuesAt: (ref: number) => readonly string[]): CompactPostingIndex {
+  const refsByTrigram = new Map<string, number[]>();
+  for (let ref = 0; ref < length; ref += 1) {
+    const recordTrigrams = new Set<string>();
+    for (const value of valuesAt(ref)) {
+      addTrigrams(recordTrigrams, value);
+    }
+    for (const trigram of recordTrigrams) {
+      const refs = refsByTrigram.get(trigram);
+      if (refs) {
+        refs.push(ref);
+      } else {
+        refsByTrigram.set(trigram, [ref]);
+      }
+    }
+  }
+  let totalRefs = 0;
+  for (const refs of refsByTrigram.values()) {
+    totalRefs += refs.length;
+  }
+  const flattenedRefs = new Uint32Array(totalRefs);
+  const spans = new Map<string, number>();
+  let offset = 0;
+  for (const [trigram, refs] of refsByTrigram) {
+    if (refs.length >= POSTING_LENGTH_BASE) {
+      throw new RangeError(`Trigram posting ${trigram} exceeds ${POSTING_LENGTH_BASE - 1} records`);
+    }
+    flattenedRefs.set(refs, offset);
+    spans.set(trigram, offset * POSTING_LENGTH_BASE + refs.length);
+    offset += refs.length;
+  }
+  return Object.freeze({ spans, refs: flattenedRefs });
+}
+
+function lazyPostingIndex(build: () => CompactPostingIndex): () => CompactPostingIndex {
+  let cached: CompactPostingIndex | undefined;
+  return Object.freeze(() => (cached ??= build()));
+}
+
+function buildPartSearchIndexes(
+  partIndex: readonly PartIndexRecord[],
+  markingIndex: readonly MarkingIndexRecord[]
+): PartSearchIndexes {
+  return Object.freeze({
+    partNormalizedRefs: sortedRefs(partIndex.length, (ref) => partIndex[ref]?.normalizedPartNumber ?? ""),
+    partTokenRefs: sortedRefs(partIndex.length, (ref) => partIndex[ref]?.partNumberTokenKey ?? ""),
+    markingCodeRefs: sortedRefs(markingIndex.length, (ref) => markingIndex[ref]?.markingCode ?? ""),
+    markingTokenRefs: sortedRefs(markingIndex.length, (ref) => markingIndex[ref]?.markingTokenKey ?? ""),
+    markingPartRefs: sortedRefs(markingIndex.length, (ref) => markingIndex[ref]?.normalizedPartNumber ?? ""),
+    markingPartTokenRefs: sortedRefs(markingIndex.length, (ref) => markingIndex[ref]?.partNumberTokenKey ?? ""),
+    partTrigramRefs: lazyPostingIndex(() =>
+      buildTrigramRefs(partIndex.length, (ref) => [partIndex[ref]?.partNumberTokenKey ?? ""])
+    ),
+    markingTrigramRefs: lazyPostingIndex(() =>
+      buildTrigramRefs(markingIndex.length, (ref) => [
+        markingIndex[ref]?.markingTokenKey ?? "",
+        markingIndex[ref]?.partNumberTokenKey ?? ""
+      ])
+    )
+  });
+}
 
 function isDramPartNumber(partNumber: string): boolean {
   return /^(?:MT|CT)(?:40|41|42|43|44|46|47|48|49|51|52|53|54|58|60|61|62|68)/.test(partNumber) ||
@@ -201,6 +283,7 @@ export function buildNormalizedIndexes(input: BuildNormalizedIndexesInput): Norm
     markingIndex,
     partExactIndex,
     markingExactIndex,
-    vendorIndex
+    vendorIndex,
+    search: buildPartSearchIndexes(partIndex, markingIndex)
   };
 }

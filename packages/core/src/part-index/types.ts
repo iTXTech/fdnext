@@ -44,6 +44,23 @@ export interface VendorIndexRecord {
 
 export type IndexRefBucket = number | number[];
 
+export interface CompactPostingIndex {
+  /** Encodes `offset * 65536 + length` for each trigram. */
+  readonly spans: ReadonlyMap<string, number>;
+  readonly refs: Uint32Array;
+}
+
+export interface PartSearchIndexes {
+  readonly partNormalizedRefs: readonly number[];
+  readonly partTokenRefs: readonly number[];
+  readonly markingCodeRefs: readonly number[];
+  readonly markingTokenRefs: readonly number[];
+  readonly markingPartRefs: readonly number[];
+  readonly markingPartTokenRefs: readonly number[];
+  readonly partTrigramRefs: () => CompactPostingIndex;
+  readonly markingTrigramRefs: () => CompactPostingIndex;
+}
+
 export interface NormalizedIndexes {
   partIndex: PartIndexRecord[];
   identifierIndex: Map<string, IdentifierIndexRecord>;
@@ -51,6 +68,8 @@ export interface NormalizedIndexes {
   partExactIndex: Map<string, IndexRefBucket>;
   markingExactIndex: Map<string, IndexRefBucket>;
   vendorIndex: Map<string, VendorIndexRecord>;
+  /** Optional only so test/custom index fixtures can exercise the complete-scan oracle. */
+  search?: PartSearchIndexes;
 }
 
 export interface PartClassificationCandidate {

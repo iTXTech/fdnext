@@ -25,6 +25,8 @@ pnpm -C packages/core typecheck
 pnpm contract:check
 ```
 
+Engine 生命周期约束：常规 Node、浏览器、Worker isolate 和服务进程都应创建并长期复用一个 `FdnextEngine`，不要为每次 decode/search 创建新 engine。`PreparedCatalog` 仅用于确实需要多个不同配置 engine 时共享不可变资源准备结果，不能把它描述成推荐的逐请求多实例模式。
+
 ## 工作习惯
 
 - 开始前先执行 `git status --short`，确认已有未提交修改。不要回退用户或其他代理的改动。

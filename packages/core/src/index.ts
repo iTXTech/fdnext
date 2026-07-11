@@ -1,4 +1,6 @@
 export { createEngine, DEFAULT_PART_SEARCH_PROJECTION } from "./engine";
+export { getDefaultPreparedCatalog, prepareCatalog } from "./catalog";
+export type { PreparedCatalog } from "./catalog";
 export * from "./result";
 export * from "./result-schema";
 export type {

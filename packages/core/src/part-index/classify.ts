@@ -5,6 +5,12 @@ import type { FdnextProductType, OperationConstraints, ResultWarning } from "../
 import type { PartDecodeDraft } from "../types";
 import { normalizePartNumber, normalizePartNumberTokenKey } from "../utils/normalize";
 import { contains } from "../utils/string";
+import {
+  markingContainsCandidateRefs,
+  markingPrefixCandidateRefs,
+  partContainsCandidateRefs,
+  partPrefixCandidateRefs
+} from "./lookup";
 import { shouldPreferDecodedClassification, sourceWeight, vendorMatches } from "./scoring";
 import type {
   ClassifyPartOptions,
@@ -14,6 +20,8 @@ import type {
   PartClassificationCandidate,
   PartIndexRecord
 } from "./types";
+
+type CandidateBase = Omit<PartClassificationCandidate, "score" | "warnings" | "info">;
 
 function matchKind(
   value: string,
@@ -58,6 +66,8 @@ function matchWeight(kind: PartClassificationCandidate["matchKind"]): number {
       return 1;
   }
 }
+
+const MAX_CONTAINS_BASE_SCORE = sourceWeight("micron_fbga") + matchWeight("contains");
 
 function tokenCompleteness(info: PartDecodeDraft): number {
   let score = 0;
@@ -206,11 +216,11 @@ function dedupeCandidates(candidates: PartClassificationCandidate[]): PartClassi
 }
 
 function dedupeCandidateBases(
-  candidates: Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">>
-): Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">> {
-  const best = new Map<string, Omit<PartClassificationCandidate, "score" | "warnings" | "info">>();
+  candidates: CandidateBase[]
+): CandidateBase[] {
+  const best = new Map<string, CandidateBase>();
   for (const candidate of candidates) {
-    const key = `${candidate.vendor}\0${candidate.normalizedPartNumber}\0${candidate.chipKind}`;
+    const key = candidateBaseKey(candidate);
     const existing = best.get(key);
     const score = candidateBaseScore(candidate);
     const existingScore = existing ? candidateBaseScore(existing) : -1;
@@ -223,8 +233,89 @@ function dedupeCandidateBases(
   );
 }
 
-function candidateBaseScore(candidate: Omit<PartClassificationCandidate, "score" | "warnings" | "info">): number {
+function candidateBaseKey(candidate: CandidateBase): string {
+  return `${candidate.vendor}\0${candidate.normalizedPartNumber}\0${candidate.chipKind}`;
+}
+
+function candidateBaseScore(candidate: CandidateBase): number {
   return sourceWeight(candidate.source) + matchWeight(candidate.matchKind);
+}
+
+function createTopCandidateBaseCollector(limit: number): { add(candidate: CandidateBase): void; values(): CandidateBase[] } {
+  interface Entry {
+    candidate: CandidateBase;
+    order: number;
+    key: string;
+  }
+
+  const firstSeenOrder = new Map<string, number>();
+  const active = new Map<string, Entry>();
+  const ranked: Entry[] = [];
+  let nextOrder = 0;
+
+  const compare = (a: Entry, b: Entry): number =>
+    candidateBaseScore(b.candidate) - candidateBaseScore(a.candidate) ||
+    a.candidate.normalizedPartNumber.localeCompare(b.candidate.normalizedPartNumber) ||
+    a.order - b.order;
+
+  const insert = (entry: Entry): void => {
+    let low = 0;
+    let high = ranked.length;
+    while (low < high) {
+      const middle = low + Math.floor((high - low) / 2);
+      const current = ranked[middle];
+      if (current && compare(current, entry) <= 0) {
+        low = middle + 1;
+      } else {
+        high = middle;
+      }
+    }
+    ranked.splice(low, 0, entry);
+    active.set(entry.key, entry);
+  };
+
+  return {
+    add(candidate): void {
+      const key = candidateBaseKey(candidate);
+      let order = firstSeenOrder.get(key);
+      if (order === undefined) {
+        order = nextOrder;
+        nextOrder += 1;
+        firstSeenOrder.set(key, order);
+      }
+
+      const existing = active.get(key);
+      if (existing) {
+        const candidateScore = candidateBaseScore(candidate);
+        const existingScore = candidateBaseScore(existing.candidate);
+        if (
+          candidateScore < existingScore ||
+          (candidateScore === existingScore && (!candidate.markingCode || existing.candidate.markingCode))
+        ) {
+          return;
+        }
+        const index = ranked.indexOf(existing);
+        if (index >= 0) {
+          ranked.splice(index, 1);
+        }
+        active.delete(key);
+      }
+
+      const entry = { candidate, order, key };
+      const worst = ranked[ranked.length - 1];
+      if (ranked.length >= limit && worst && compare(entry, worst) >= 0) {
+        return;
+      }
+      insert(entry);
+      if (ranked.length > limit) {
+        const removed = ranked.pop();
+        if (removed) {
+          active.delete(removed.key);
+        }
+      }
+    },
+    values: () => ranked.map((entry) => entry.candidate)
+  };
 }
 
 function hasPartSearchConstraints(constraints: Omit<OperationConstraints, "idScheme">): boolean {
@@ -267,7 +358,8 @@ export function classifyPart(
   }
 
   const partialMatch = options.mode === "search" ? options.partialMatch ?? true : false;
-  const bases: Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">> = [];
+  const bases: CandidateBase[] = [];
+  let indexedCandidateBases: CandidateBase[] | undefined;
   const seenBaseKeys = new Set<string>();
   const addBase = (base: Omit<PartClassificationCandidate, "score" | "warnings" | "info">): void => {
     const key = `${base.source}\0${base.vendor}\0${base.normalizedPartNumber}\0${base.chipKind}\0${base.markingCode ?? ""}\0${base.markingMatch ? "marking" : "part"}`;
@@ -277,6 +369,7 @@ export function classifyPart(
     seenBaseKeys.add(key);
     bases.push(base);
   };
+  let acceptBase: (base: CandidateBase) => void = addBase;
 
   const normalizedTokenKey = normalizePartNumberTokenKey(normalized);
 
@@ -293,7 +386,7 @@ export function classifyPart(
     if (!match) {
       return;
     }
-    addBase({
+    acceptBase({
       partNumber: record.partNumber,
       normalizedPartNumber: record.normalizedPartNumber,
       vendor: record.vendor,
@@ -317,7 +410,7 @@ export function classifyPart(
     if (!match) {
       return;
     }
-    addBase({
+    acceptBase({
       partNumber: record.partNumber,
       normalizedPartNumber: record.normalizedPartNumber,
       vendor: record.vendor,
@@ -353,13 +446,78 @@ export function classifyPart(
     }
   };
 
-  if (options.mode === "search" && partialMatch) {
-    for (const record of options.indexes.markingIndex) {
-      addMarkingRecord(record);
+  const addMarkingCandidateRefs = (refs: Iterable<number>): void => {
+    for (const ref of refs) {
+      const record = options.indexes.markingIndex[ref];
+      if (record) {
+        addMarkingRecord(record);
+      }
     }
+  };
 
-    for (const record of options.indexes.partIndex) {
-      addPartRecord(record);
+  const addPartCandidateRefs = (refs: Iterable<number>): void => {
+    for (const ref of refs) {
+      const record = options.indexes.partIndex[ref];
+      if (record) {
+        addPartRecord(record);
+      }
+    }
+  };
+
+  const addContainsCandidates = (): void => {
+    const markingContainsRefs = markingContainsCandidateRefs(options.indexes, normalizedTokenKey);
+    const partContainsRefs = partContainsCandidateRefs(options.indexes, normalizedTokenKey);
+    if (markingContainsRefs === undefined) {
+      for (const record of options.indexes.markingIndex) {
+        addMarkingRecord(record);
+      }
+    } else {
+      addMarkingCandidateRefs(markingContainsRefs);
+    }
+    if (partContainsRefs === undefined) {
+      for (const record of options.indexes.partIndex) {
+        addPartRecord(record);
+      }
+    } else {
+      addPartCandidateRefs(partContainsRefs);
+    }
+  };
+
+  if (options.mode === "search" && partialMatch) {
+    const markingPrefixRefs = markingPrefixCandidateRefs(options.indexes, normalized, normalizedTokenKey);
+    const partPrefixRefs = partPrefixCandidateRefs(options.indexes, normalized, normalizedTokenKey);
+
+    if (!markingPrefixRefs || !partPrefixRefs) {
+      for (const record of options.indexes.markingIndex) {
+        addMarkingRecord(record);
+      }
+      for (const record of options.indexes.partIndex) {
+        addPartRecord(record);
+      }
+    } else {
+      const orderedMarkingPrefixRefs = [...markingPrefixRefs].sort((a, b) => a - b);
+      const orderedPartPrefixRefs = [...partPrefixRefs].sort((a, b) => a - b);
+      const limit = options.limit ?? 0;
+      if (limit > 0 && !hasPartSearchConstraints(constraints)) {
+        const topPrefixCandidates = createTopCandidateBaseCollector(limit);
+        acceptBase = topPrefixCandidates.add;
+        addMarkingCandidateRefs(orderedMarkingPrefixRefs);
+        addPartCandidateRefs(orderedPartPrefixRefs);
+        const prefixCandidates = topPrefixCandidates.values();
+        const worstSelectedPrefix = prefixCandidates[limit - 1];
+        if (worstSelectedPrefix && candidateBaseScore(worstSelectedPrefix) > MAX_CONTAINS_BASE_SCORE) {
+          indexedCandidateBases = prefixCandidates;
+        } else {
+          acceptBase = addBase;
+          addMarkingCandidateRefs(orderedMarkingPrefixRefs);
+          addPartCandidateRefs(orderedPartPrefixRefs);
+          addContainsCandidates();
+        }
+      } else {
+        addMarkingCandidateRefs(orderedMarkingPrefixRefs);
+        addPartCandidateRefs(orderedPartPrefixRefs);
+        addContainsCandidates();
+      }
     }
   } else {
     for (const key of new Set([normalized, normalizedTokenKey])) {
@@ -380,7 +538,7 @@ export function classifyPart(
     });
   }
 
-  const candidateBases = dedupeCandidateBases(bases);
+  const candidateBases = indexedCandidateBases ?? dedupeCandidateBases(bases);
   const enrichBases = (
     pending: Array<Omit<PartClassificationCandidate, "score" | "warnings" | "info">>
   ): PartClassificationCandidate[] => pending

@@ -8,11 +8,14 @@
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
+// 应用启动时创建一次，后续所有请求复用该实例。
 const engine = createEngine();
 
 console.log(engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" }));
 console.log(engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" }));
 ```
+
+`FdnextEngine` 的首要推荐生命周期是：每个进程、应用、Worker isolate 或浏览器 runtime 只创建一个长期实例。不要在每个 HTTP 请求、decode 或 search 调用中重新执行 `createEngine()`。
 
 如需覆盖默认资源（例如热更新数据）：
 
@@ -22,6 +25,18 @@ import { createEngine, type FdnextResourceBundle } from "@itxtech/fdnext-core";
 const resources: FdnextResourceBundle = await loadResourcesFromYourStore();
 const engine = createEngine({ resources });
 ```
+
+只有确实需要在同一份资源上运行多个不同配置的 engine 时，才使用 `PreparedCatalog` 共享不可变的资源解析和搜索索引：
+
+```ts
+import { createEngine, prepareCatalog } from "@itxtech/fdnext-core";
+
+const catalog = prepareCatalog(resources);
+const primaryEngine = createEngine({ catalog });
+const chineseEngine = createEngine({ catalog, fallbackLang: "chs" });
+```
+
+`prepareCatalog()` 会按 resources 对象身份缓存；传入的 resources 在准备后应视为不可变。它是多配置场景的优化边界，不是鼓励逐请求创建 engine。
 
 ### 1.1 Processor 管线与 SDK 方法
 
@@ -108,6 +123,7 @@ runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https
 浏览器侧推荐用 Vite / Webpack / Rollup / esbuild 打包，关键点：
 
 - 浏览器内嵌解析应使用 `createEngine()`，直接调用 `decodePart()` / `searchParts()` / `decodeIdentifier()` / `searchIdentifiers()` / `getCapabilities()`；`@itxtech/fdnext-core/runtime` 只面向 HTTP adapter，不是前端本地解析入口。
+- 浏览器侧也应在应用启动时创建并复用一个 engine，不要在组件 render 或单次查询中重复创建。
 - 资源（`fdb/mdb/lang`，以及用于 PN 补全的 `managed-nand-pn/dram-pn`）建议用 `fetch()` 加载静态 JSON
 - `managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`；Micron DRAM FBGA code 反查统一来自 `mdb.json`
 - 默认解码器（PN / typed identifier）已由 `@itxtech/fdnext-core` 内置；只有裁剪规则或注入自定义规则时才需要显式传入 `decoders` / `identifierDecoders`

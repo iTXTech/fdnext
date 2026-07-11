@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { createEngine } from "@itxtech/fdnext-core";
+import { createEngine, prepareCatalog } from "@itxtech/fdnext-core";
 
 const ambiguousEngine = createEngine({
   resources: {
@@ -82,3 +82,14 @@ assert.deepEqual(hookEvents, [
 ]);
 const removedHookNames = ["search" + "Pn", "decode" + "Id", "summary" + "Id"];
 assert.ok(!hookEvents.some((event) => removedHookNames.some((name) => event.includes(name))));
+
+const sharedResources = {
+  partIndex: { rawNand: {}, managedNand: [], dram: [] },
+  identifierIndex: { nandFlash: {} },
+  markingIndex: { packageMarkings: {} },
+  vendorIndex: {},
+  translationIndex: {}
+};
+const prepared = prepareCatalog(sharedResources);
+assert.strictEqual(prepared, prepareCatalog(sharedResources));
+assert.equal(createEngine({ catalog: prepared }).getVersion(), "0");

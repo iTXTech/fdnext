@@ -68,7 +68,8 @@ pnpm test
 | `pnpm contract:check` | 验证结果 schema 和行为 contract |
 | `pnpm check:decodepack` | 检查 DecodePack 结构与维护策略 |
 | `pnpm check:static` | 运行 TypeScript 与 DecodePack 静态检查 |
-| `pnpm check` | 依次运行静态检查、测试、契约检查和构建 |
+| `pnpm check` | 运行轻量静态检查与 DecodePack 规则门禁 |
+| `pnpm check:pr` | 只构建一次并运行完整源码与发布包 contract 门禁 |
 | `pnpm lint` | `pnpm check:static` 的兼容别名 |
 
 ---

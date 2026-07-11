@@ -1,5 +1,6 @@
 import { LANGUAGES, UNKNOWN } from "./constants";
-import { buildControllerGroupIndex, projectControllersByGroup } from "./controller-groups";
+import { getDefaultPreparedCatalog, getPreparedCatalogData, prepareCatalog } from "./catalog";
+import { projectControllersByGroup } from "./controller-groups";
 import type { CompileDecodePackResult } from "./decodepack/types";
 import {
   draftDensity,
@@ -20,14 +21,12 @@ import {
   parseDieDensityMbit,
   pruneRedundantFields
 } from "./engine/field-normalization";
-import { buildKnownPartNumbers, buildMicronDramFbgaCodes, collectFdbControllers } from "./engine/resources";
 import { createPartDecoderDispatch } from "./engine/part-decoder-dispatch";
-import { buildFdb, buildMdb, findFlashIdRecord } from "./fdb";
+import { findFlashIdRecord } from "./fdb";
 import { createDefaultIdentifierPostprocessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
 import { applyMicronFbgaMeta, parseKnownFiveDigitMicronFbgaCode, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
 import {
-  buildNormalizedIndexes,
   classifyPart,
   type PartClassificationCandidate
 } from "./part-index";
@@ -42,7 +41,6 @@ import {
 import { translateString as doTranslateString } from "./translate";
 import { normalizeFlashId, normalizePartNumber, padFlashId } from "./utils/normalize";
 import { contains } from "./utils/string";
-import { embeddedResourceBundle } from "./resources";
 import type {
   PartDecodeOptions,
   EngineOptions,
@@ -97,43 +95,30 @@ export const DEFAULT_PART_SEARCH_PROJECTION = [
   "meta.nandDieProfileKey"
 ] as const;
 
+/**
+ * Create an fdnext engine. Prefer one long-lived instance per process, application, worker isolate,
+ * or frontend runtime; do not create a new engine for each decode/search operation.
+ */
 export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const fallbackLang = options.fallbackLang && LANGUAGES.includes(options.fallbackLang as (typeof LANGUAGES)[number])
     ? options.fallbackLang
     : LANGUAGES[0];
 
-  const resourceBundle = options.resources ?? embeddedResourceBundle;
-  const partResources = resourceBundle.partIndex ?? {};
-  const identifierResources = resourceBundle.identifierIndex ?? {};
-  const markingResources = resourceBundle.markingIndex ?? {};
-  const rawPartFdb = (partResources.rawNand ?? {}) as Record<string, unknown>;
-  const rawIdentifierFdb = (identifierResources.nandFlash ?? rawPartFdb) as Record<string, unknown>;
-  const rawMdb = (markingResources.packageMarkings ?? {}) as Record<string, unknown>;
-  const rawManagedNandPn = partResources.managedNand ?? [];
-  const rawDramPn = partResources.dram ?? [];
-  const translationIndex = (resourceBundle.translationIndex ?? {}) as LangPacks;
-
-  const partFdb = buildFdb(rawPartFdb);
-  const identifierFdb = rawIdentifierFdb === rawPartFdb ? partFdb : buildFdb(rawIdentifierFdb);
-  const fdb = {
-    info: partFdb.info,
-    vendors: partFdb.vendors,
-    flashIds: identifierFdb.flashIds
-  };
-  const mdb = buildMdb(rawMdb);
-  const managedNandPartNumbers = buildKnownPartNumbers(rawManagedNandPn);
-  const dramPartNumbers = buildKnownPartNumbers(rawDramPn);
-  const micronDramFbgaCodes = buildMicronDramFbgaCodes(rawMdb);
-  const micronDramFbgaCodeSet = new Set(micronDramFbgaCodes.keys());
-  const micronFbgaCodeSet = new Set(Object.keys(mdb.micron));
-  const controllerGroups = buildControllerGroupIndex(collectFdbControllers(fdb), resourceBundle.controllerIndex);
-  const normalizedIndexes = buildNormalizedIndexes({
+  if (options.catalog && options.resources) {
+    throw new TypeError("EngineOptions.catalog and EngineOptions.resources are mutually exclusive");
+  }
+  const preparedCatalog = options.catalog ?? (options.resources ? prepareCatalog(options.resources) : getDefaultPreparedCatalog());
+  const {
     fdb,
     mdb,
-    managedNandPartNumbers,
-    dramPartNumbers,
-    micronDramFbgaCodes
-  });
+    micronDramFbgaCodes,
+    micronDramFbgaCodeSet,
+    micronFbgaCodeSet,
+    controllerGroups,
+    normalizedIndexes,
+    translationIndex,
+    inventory
+  } = getPreparedCatalogData(preparedCatalog);
   const langPacks: LangPacks = {
     [fallbackLang]: {},
     ...translationIndex
@@ -166,9 +151,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     for (const lang of capabilityLanguages()) {
       snapshots.set(lang, buildCapabilitiesSnapshot({
         fdb,
-        mdb,
-        managedNandPartNumbers,
-        dramPartNumbers,
+        inventory,
         controllerGroups,
         decoders,
         identifierDecoders,

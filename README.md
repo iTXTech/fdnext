@@ -68,7 +68,8 @@ pnpm test
 | `pnpm contract:check` | Validate result schema and behavior contracts |
 | `pnpm check:decodepack` | Validate DecodePack structure and maintenance policies |
 | `pnpm check:static` | Run TypeScript and DecodePack static checks |
-| `pnpm check` | Run static checks, tests, contracts, and builds |
+| `pnpm check` | Run the fast static and DecodePack rule gate |
+| `pnpm check:pr` | Build once, then run the complete source/package contract gate |
 | `pnpm lint` | Alias for `pnpm check:static` |
 
 ---

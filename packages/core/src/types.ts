@@ -1,5 +1,7 @@
 export type Language = string;
 
+import type { PreparedCatalog } from "./catalog";
+
 import type {
   CapabilitiesInput,
   ControllerGroupId,
@@ -247,6 +249,8 @@ export interface ProcessorHooks {
 }
 
 export interface EngineOptions {
+  /** Prebuilt immutable resource state. Do not pass together with `resources`. */
+  catalog?: PreparedCatalog;
   resources?: FdnextResourceBundle;
   fallbackLang?: string;
   decoders?: PartNumberDecoder[];

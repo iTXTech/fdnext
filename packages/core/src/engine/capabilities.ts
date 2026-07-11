@@ -1,8 +1,8 @@
 import type { ControllerGroupIndex } from "../controller-groups";
+import type { PreparedCatalogInventory } from "../catalog";
 import { buildCapabilities } from "../result-builder";
 import { FDNEXT_BUILD_METADATA, FDNEXT_VERSION, type FdnextCapabilities } from "../result";
-import type { FdbDataset, IdentifierDecoder, KnownPartNumberEntry, MdbDataset, PartNumberDecoder } from "../types";
-import { collectFdbControllers, countFdbPartNumbers } from "./resources";
+import type { FdbDataset, IdentifierDecoder, PartNumberDecoder } from "../types";
 
 function decoderPriority(priority: number | undefined): { priority?: number } {
   return typeof priority === "number" ? { priority } : {};
@@ -10,21 +10,18 @@ function decoderPriority(priority: number | undefined): { priority?: number } {
 
 export function buildCapabilitiesSnapshot(input: {
   fdb: FdbDataset;
-  mdb: MdbDataset;
-  managedNandPartNumbers: KnownPartNumberEntry[];
-  dramPartNumbers: KnownPartNumberEntry[];
+  inventory: PreparedCatalogInventory;
   controllerGroups: ControllerGroupIndex;
   decoders: PartNumberDecoder[];
   identifierDecoders: IdentifierDecoder[];
   lang: string;
   translateString(key: string, lang?: string | null): string;
 }): FdnextCapabilities {
-  const controllers = collectFdbControllers(input.fdb);
-  const fdbPartNumberCount = countFdbPartNumbers(input.fdb);
-  const managedNandPartNumberCount = input.managedNandPartNumbers.length;
-  const dramPartNumberCount = input.dramPartNumbers.length;
-  const partNumberCount = fdbPartNumberCount + managedNandPartNumberCount + dramPartNumberCount;
-  const micronFbgaCount = Object.keys(input.mdb.micron).length;
+  const controllers = input.inventory.controllers;
+  const partNumberCount =
+    input.inventory.fdbPartNumberCount +
+    input.inventory.managedNandPartNumberCount +
+    input.inventory.dramPartNumberCount;
   const controllerGroups = input.controllerGroups.groups.map((group) => {
     const titleKey = `controller_group.${group.id}.title`;
     const descriptionKey = `controller_group.${group.id}.description`;
@@ -69,12 +66,12 @@ export function buildCapabilitiesSnapshot(input: {
         {
           id: "micron_fbga",
           label: input.translateString("capability_inventory_metric.micron_fbga", input.lang),
-          count: micronFbgaCount
+          count: input.inventory.micronFbgaCount
         }
       ],
       controllers: {
         count: controllers.length,
-        items: controllers,
+        items: [...controllers],
         defaultGroups: input.controllerGroups.defaultGroups,
         groups: controllerGroups
       }

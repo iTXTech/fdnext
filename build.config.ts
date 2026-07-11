@@ -57,7 +57,7 @@ function chmodExecutable(paths: string[]): void {
   }
 }
 
-export function fdnextBundleConfig(config: UserConfig): UserConfig {
+export function fdnextBundleConfig(config: UserConfig, options: { executable?: string[] } = {}): UserConfig {
   return {
     ...config,
     format: "esm",
@@ -83,6 +83,14 @@ export function fdnextBundleConfig(config: UserConfig): UserConfig {
     define: {
       ...buildMetadataDefines(REPO_ROOT),
       ...config.define
+    },
+    onSuccess: async (resolvedConfig, signal) => {
+      if (options.executable) {
+        chmodExecutable(options.executable);
+      }
+      if (typeof config.onSuccess === "function") {
+        await config.onSuccess(resolvedConfig, signal);
+      }
     }
   };
 }
@@ -92,14 +100,6 @@ export function fdnextNodeBundleConfig(config: UserConfig, options: { executable
     platform: "node",
     shims: true,
     fixedExtension: false,
-    ...config,
-    onSuccess: async (resolvedConfig, signal) => {
-      if (options.executable) {
-        chmodExecutable(options.executable);
-      }
-      if (typeof config.onSuccess === "function") {
-        await config.onSuccess(resolvedConfig, signal);
-      }
-    }
-  });
+    ...config
+  }, options);
 }
