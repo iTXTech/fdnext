@@ -109,5 +109,89 @@
         "meta.ruleId": "vendor.biwin.ufs.v1"
       }
     }
+  },
+  {
+    "id": "vendor.biwin.ufs31.v1",
+    "priority": 1002,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": { "kind": "regex", "value": "^BWU3A(?:KG16D|KG26D|KG46D)(?:128G|256G|512G)$" },
+    "tokenDecoder": {
+      "stripPrefixes": ["BWU3A"],
+      "tables": {
+        "reference": {
+          "biwin_official_ufs31_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN UFS 3.1 specifications"
+          }
+        },
+        "configCode": ["KG16D", "KG26D", "KG46D"],
+        "densityCode": ["128G", "256G", "512G"],
+        "density": { "128G": 1048576, "256G": 2097152, "512G": 4194304 }
+      },
+      "steps": [
+        { "op": "takeLongest", "table": "configCode", "to": "configCode", "default": "" },
+        { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
+        "fields.density": { "$var": "density" },
+        "fields.storage_interface": "UFS 3.1",
+        "fields.product_class": "Consumer",
+        "fields.speed_grade": "2100 MB/s read / 1800 MB/s write",
+        "fields.operation_temperature": "-25°C ~ +85°C",
+        "fields.package": "FBGA-153, 11.50x13.00",
+        "meta.ruleId": "vendor.biwin.ufs31.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
+  },
+  {
+    "id": "vendor.biwin.ufs31.automotive.v1",
+    "priority": 1002,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": { "kind": "regex", "value": "^TCUFMA(?:128G|256G|512G)NAC8$" },
+    "tokenDecoder": {
+      "stripPrefixes": ["TCUFMA"],
+      "tables": {
+        "reference": {
+          "biwin_official_tau208_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN TAU208 automotive UFS 3.1"
+          }
+        },
+        "densityCode": ["128G", "256G", "512G"],
+        "density": { "128G": 1048576, "256G": 2097152, "512G": 4194304 }
+      },
+      "steps": [
+        { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
+        { "op": "take", "len": 4, "to": "configCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
+        "fields.density": { "$var": "density" },
+        "fields.storage_interface": "UFS 3.1",
+        "fields.interface_type": "HS-Gear4 2L",
+        "fields.product_class": "Automotive, AEC-Q100 Grade 2",
+        "fields.nand_technology": "3D TLC",
+        "fields.cell_level": 3,
+        "fields.speed_grade": "2150 MB/s read / 1650 MB/s write",
+        "fields.operation_temperature": "-40°C ~ +105°C",
+        "fields.package": "FBGA-153, 11.50x13.00x1.20",
+        "meta.ruleId": "vendor.biwin.ufs31.automotive.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
   }
 ]

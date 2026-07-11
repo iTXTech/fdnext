@@ -35,6 +35,7 @@ Engine 生命周期约束：常规 Node、浏览器、Worker isolate 和服务�
 - 文档、源码、测试和提交信息中不得写入本机绝对路径；引用本地资料时最多写文件名，仓库内文件用相对路径。
 - 新增或调整规则后，优先补对应产品线测试；测试位置按芯片类型选择，例如 DRAM 用 `packages/core/test/decodepack/dram/<vendor-or-module>.test.ts`，PN / part decode 用 `packages/core/test/decodepack/part-number/<vendor-or-module>.test.ts`。
 - DRAM 搜索建议测试默认不跑；只有新增 / 调整 DRAM PN 资源、FBGA marking 或搜索建议相关行为时，额外运行 `pnpm -C packages/core test:dram:search`。如果改动影响 contract SDK 的 part search 输出，也额外运行 `pnpm -C packages/contract-test test:part-search:dram`。
+- Micron PN 搜索资源以 `packages/core/resources/mdb.json` 为优先来源。有效 MDB mapping 已包含同一 PN，或在该 PN 后通过 `-`、`:`、空格等 suffix 边界给出更详细的 speed / temperature / status / revision 时，不得再把较短或等价 PN 加入 `dram-pn.json` / `managed-nand-pn.json`。带 `DO NOT USE` 的 MDB 值不算有效覆盖。修改这些资源时必须保持 DRAM 与 managed NAND 的 MDB 去重审计测试通过。
 - 新增或重命名 canonical field key 时，同步检查 `packages/core/src/field-registry.ts`、`packages/core/resources/lang/eng.json` 和 `packages/core/resources/lang/chs.json`。
 - 对 iTXTech fdnext DecodePack JSON 文件保持可读的表驱动结构。不要为了过测试引入一次性特判。
 

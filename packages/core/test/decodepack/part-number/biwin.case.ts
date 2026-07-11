@@ -68,6 +68,59 @@ assertRuleDecode("BWU2A0526B128G", {
   },
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
+
+assertRuleDecode("BWU3AKG26D256G", {
+  vendor: "biwin",
+  type: "UFS",
+  densityMbit: 2097152,
+  package: "FBGA-153, 11.50x13.00",
+  extra: {
+    "Storage Interface": "UFS 3.1",
+    "Product Class": "Consumer"
+  },
+  absentExtra: ["Config Code", "Reference Status", "source", "status"]
+});
+
+assertRuleDecode("TCUFMA512GNAC8", {
+  vendor: "biwin",
+  type: "UFS",
+  densityMbit: 4194304,
+  package: "FBGA-153, 11.50x13.00x1.20",
+  cellField: "TLC",
+  extra: {
+    "Storage Interface": "UFS 3.1",
+    "NAND Technology": "3D TLC",
+    "Interface Type": "HS-Gear4 2L"
+  },
+  absentExtra: ["Config Code", "Reference Status", "source", "status"]
+});
+
+assertRuleDecode("BWEFMA128GN923", {
+  vendor: "biwin",
+  type: "eMMC",
+  densityMbit: 1048576,
+  package: "FBGA-153, 11.50x13.00x1.10",
+  cellField: "TLC",
+  extra: {
+    "Storage Interface": "eMMC 5.1",
+    "Controller": "SP1800",
+    "Interface Type": "HS400"
+  },
+  absentExtra: ["Grade Code", "Config Code", "Reference Status", "source", "status"]
+});
+
+assertRuleDecode("BWEFMD064GN729", {
+  vendor: "biwin",
+  type: "eMMC",
+  densityMbit: 524288,
+  package: "FBGA-153, 11.50x13.00x1.10",
+  cellField: "TLC",
+  extra: {
+    "Storage Interface": "eMMC 5.1",
+    "Product Class": "Industrial Standard"
+  },
+  absentExtra: ["Controller", "Interface Type", "Grade Code", "Config Code", "source", "status"]
+});
 assertRuleDecode("BWCA2KZC-64G", {
   vendor: "biwin",
   type: "eMCP",
@@ -97,3 +150,20 @@ assertRuleDecode("BW2A2MZC02-256G", {
 });
 
 assertNoAdditionalFields("BW2A2MZC02-256G");
+
+assertRuleDecode("BW3A2EYAKG256G", {
+  vendor: "biwin",
+  type: "uMCP",
+  densityMbit: 2097152,
+  package: "FBGA-297, 11.50x13.00",
+  extra: {
+    "Storage Density": "256GB UFS",
+    "DRAM Density": "64Gb",
+    "DRAM Type": "LPDDR5X",
+    "Storage Interface": "UFS 3.1",
+    "Controller": "SM2753"
+  },
+  absentExtra: ["Config Code", "Reference Status", "source", "status"]
+});
+
+assertNoAdditionalFields("BW3A2EYAKG256G");

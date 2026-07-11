@@ -150,6 +150,7 @@ Legacy 20-series ~ 60-series 结构与 current 结构不同：width 后直接是
 - `MT29F128G08WAAC6-ETES:A`
 - `MT29F2G08ABDHC-ET:D`
 - 去冒号输入也应匹配 mdb canonical PN，例如 `MT29FB16T08GALAAM5-TESB` -> `MT29FB16T08GALAAM5-TES:B`
+- Micron managed NAND PN 同样以有效 `mdb.json` mapping 为优先来源：MDB 已包含等价 PN 或 suffix 更详细的 PN 时，不再向 `managed-nand-pn.json` 重复加入；带 `DO NOT USE` 的 mapping 不作为覆盖依据。
 
 ## 注意
 

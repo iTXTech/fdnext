@@ -1,6 +1,6 @@
 # BIWIN eMMC PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-07-11
 
 ## 外部资料
 
@@ -8,6 +8,10 @@
   <https://www.biwintechnology.com/product/emmc-5-1/>
 - BIWIN eMMC 5.1 PDF 交叉确认 `BWCMMQ511G08G` 为 `9.00 x 11.00 mm`，其他当前公开 ordering table 样本为 `11.50 x 13.00 mm`。
   <https://www.biwintechnology.com/wp-content/uploads/2026/01/eMMC5.1-specifications.pdf>
+- BIWIN TAE308 车规 eMMC 5.1 页面给出 `BWEFMA` ordering、64GB/128GB、3D TLC、AEC-Q100 Grade 2、FBGA153 和 11.50 x 13.00 x 1.10 mm。
+  <https://www.biwintechnology.com/product/tae308-automotive-emmc-5-1/>
+- BIWIN TDE308 工业标准 eMMC 5.1 页面给出 `BWEFMD` ordering、64GB/128GB、3D TLC、FBGA153 和相同尺寸。
+  <https://www.biwintechnology.com/product/tde308-emmc-5-1/>
 
 ## 规则状态
 
@@ -15,6 +19,7 @@ iTXTech fdnext DecodePack:
 
 - `packages/core/src/decodepack/rules/packs/biwin-emmc-token.json`
 - `vendor.biwin.emmc.v1`
+- `vendor.biwin.emmc.bwefm.v1`
 
 PN 结构：
 
@@ -23,6 +28,7 @@ PN 结构：
 | `BWC` + config + density | BIWIN eMMC |
 | config `MAB811G/MMQ511G/TAK611G/TARJ11X/TAKC11X/TAKL11X/TAKL21X/TAKL41X` | 官方 ordering table config token |
 | density `04G/08G/16G/32G/64G/128G/256G/512G` | 4GB~512GB，落库为 Mbit |
+| `BWEFM` + grade + density + config | TAE308 / TDE308；grade `A` 为车规，`D` 为工业标准 |
 
 ## Reference check
 
@@ -43,3 +49,5 @@ PN 结构：
 
 - `BWCTAKL11X128G`
 - `BWCMMQ511G08G`
+- `BWEFMA128GN923`
+- `BWEFMD064GN729`

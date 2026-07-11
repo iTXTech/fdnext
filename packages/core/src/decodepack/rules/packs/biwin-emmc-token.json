@@ -145,5 +145,59 @@
         "meta.ruleId": "vendor.biwin.emmc.v1"
       }
     }
+  },
+  {
+    "id": "vendor.biwin.emmc.bwefm.v1",
+    "priority": 1002,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": { "kind": "regex", "value": "^BWEFM[AD](?:064G|128G)(?:N923|N729)$" },
+    "tokenDecoder": {
+      "stripPrefixes": ["BWEFM"],
+      "tables": {
+        "reference": {
+          "biwin_official_tae_tde308_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN TAE308 and TDE308 eMMC 5.1"
+          }
+        },
+        "grade": {
+          "A": {
+            "product_class": "Automotive, AEC-Q100 Grade 2",
+            "operation_temperature": "-40°C ~ +105°C",
+            "interface_type": "HS400",
+            "controller": "SP1800"
+          },
+          "D": {
+            "product_class": "Industrial Standard",
+            "operation_temperature": "-25°C ~ +85°C"
+          }
+        },
+        "densityCode": ["064G", "128G"],
+        "density": { "064G": 524288, "128G": 1048576 }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "gradeCode" },
+        { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
+        { "op": "take", "len": 4, "to": "configCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "map", "from": "gradeCode", "table": "grade", "to": "extra", "default": {} }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$var": "density" },
+        "fields.storage_interface": "eMMC 5.1",
+        "fields.nand_technology": "3D TLC",
+        "fields.cell_level": 3,
+        "fields.package": "FBGA-153, 11.50x13.00x1.10",
+        "meta.ruleId": "vendor.biwin.emmc.bwefm.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
   }
 ]

@@ -1,6 +1,6 @@
 # Kingston eMMC PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-05-08；更新日期：2026-07-11
 
 ## 外部资料
 
@@ -8,6 +8,7 @@
   <https://www.kingston.com/en/embedded/emmc-embedded-flash>
 - Kingston I-Temp eMMC 官方表列出 `EMMC04G-WT32`、`EMMC08G-WV28`、`EMMC16G-WW28`、`EMMC64G-IY29`、`EMMC128-IY29`、`EMMC256-IY29`，温区 -40°C~+85°C。
   <https://www.kingston.com/en/embedded/emmc-embedded-flash>
+- 同一官方表新增 alternate family `E04GS14DXI`：4GB、eMMC 5.1 HS400、MLC、-40°C~+85°C、9.0x7.5x0.8。Future Electronics 的 Kingston eMMC feature 页确认该小尺寸使用 153-ball FBGA，因此输出 `FBGA-153, 9.0x7.5x0.8`。冲突的 `E04GS14DXI-02DB0` 第三方页不进入资源。来源：<https://www.futureelectronics.com/en/resources/future-picks/kingston-emmc-flash-memory>
 - Kingston eMMC flyer / 分销商页面交叉确认 `EMMC64G-TY29` 为 `11.5x13x0.8`，`EMMC256-IY29` 为 `11.5x13x1.0`。
   <https://media.kingston.com/pdfs/emmc/emmc_flyer_fr.pdf>
   <https://media.kingston.com/pdfs/emmc/itemp-emmc_flyer_en.pdf>
@@ -29,6 +30,7 @@ PN 结构：
 | config `MT32/CT32/MV28/MW28` | MLC eMMC 5.1 HS400 |
 | config `TS0A/TB9F/TY29` | 3D TLC eMMC 5.1 HS400 |
 | config `WT32/WV28/WW28/IY29` | I-Temp eMMC，-40°C~+85°C |
+| alternate `E04G` + 6-char config | `E04GS14DXI` compact I-Temp eMMC family；未知 config 仅保留 vendor/type/density |
 
 ## Reference check
 

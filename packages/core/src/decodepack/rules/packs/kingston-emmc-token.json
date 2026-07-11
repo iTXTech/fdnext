@@ -257,5 +257,63 @@
         ]
       }
     }
+  },
+  {
+    "id": "vendor.kingston.emmc.e04.v1",
+    "priority": 1003,
+    "normalize": [
+      "trim",
+      "uppercase",
+      { "remove": [" ", ",", "&", ".", "|", "-"] }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^E04G[0-9A-Z]{6}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["E"],
+      "tables": {
+        "density": { "04G": 32768 },
+        "configObj": {
+          "S14DXI": {
+            "nand_technology": "MLC",
+            "product_class": "Industrial Temperature",
+            "operation_temperature": "-40°C ~ +85°C",
+            "package": "FBGA-153, 9.0x7.5x0.8",
+            "cell_level": 2
+          }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 3, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 6, "to": "configCode" },
+        { "op": "map", "from": "configCode", "table": "configObj", "to": "configObj", "default": {} },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "storage_interface": "eMMC 5.1",
+            "interface_type": "HS400"
+          }
+        },
+        { "op": "merge", "into": "extra", "from": "configObj" },
+        { "op": "omit", "from": "extra", "keys": ["cell_level", "package"] }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "kingston",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$var": "density" },
+        "fields.package": { "$path": "configObj.package" },
+        "fields.cell_level": { "$path": "configObj.cell_level" },
+        "meta.ruleId": "vendor.kingston.emmc.e04.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
   }
 ]

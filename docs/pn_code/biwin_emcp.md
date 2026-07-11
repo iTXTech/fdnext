@@ -1,6 +1,6 @@
 # BIWIN eMCP / uMCP PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-07-11
 
 ## 外部资料
 
@@ -8,6 +8,8 @@
   <https://www.biwintechnology.com/product/emcp-lpddr4x/>
 - BIWIN uMCP LPDDR4X 页面给出 UFS 2.2 + LPDDR4X、64GB+32Gb 到 512GB+64Gb、FBGA254、11.50 x 13.00 mm 和 ordering table。
   <https://www.biwintechnology.com/product/umcp-lpddr4x/>
+- BIWIN uMCP5X 页面和规格表给出 UFS 3.1 + 64Gb LPDDR5X、128GB~512GB、SM2753、FBGA297、11.50 x 13.00 mm 和 ordering table。
+  <https://www.biwintechnology.com/product/umcp-ufs3-1-lpddr5x-297-ball/>
 
 ## 规则状态
 
@@ -16,6 +18,7 @@ iTXTech fdnext DecodePack:
 - `packages/core/src/decodepack/rules/packs/biwin-emcp-token.json`
 - `vendor.biwin.emcp.v1`
 - `vendor.biwin.umcp.v1`
+- `vendor.biwin.umcp5x.v1`
 
 PN 结构：
 
@@ -23,6 +26,7 @@ PN 结构：
 | --- | --- |
 | `BWCA2` + config + density | BIWIN eMCP4X |
 | `BW2A2` + config + density | BIWIN uMCP LPDDR4X |
+| `BW3` + config + density | BIWIN uMCP5X（UFS 3.1 + LPDDR5X） |
 | eMCP config `EZA/KZC/KZA` | 官方 ordering table config token |
 | uMCP config `KZC02/LEI02/MZC02/MZCNY` | 官方 ordering table config token |
 | density `32G/64G/128G/256G/512G` | eMMC/UFS storage 容量，落库为 Mbit |
@@ -41,6 +45,7 @@ PN 结构：
 
 - `BWCA2KZC-64G`
 - `BW2A2MZC02-256G`
+- `BW3A2EYAKG256G`
 
 ## 注意
 

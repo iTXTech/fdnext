@@ -405,5 +405,73 @@
         ]
       }
     }
+  },
+  {
+    "id": "vendor.biwin.umcp5x.v1",
+    "priority": 1002,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": { "kind": "regex", "value": "^BW3(?:A2EYAKG(?:128G|256G)|B1MYAKG512G)$" },
+    "tokenDecoder": {
+      "stripPrefixes": ["BW3"],
+      "tables": {
+        "reference": {
+          "biwin_official_umcp5x_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN uMCP UFS 3.1 LPDDR5X specifications"
+          }
+        },
+        "configCode": ["A2EYAKG", "B1MYAKG"],
+        "densityCode": ["128G", "256G", "512G"],
+        "density": { "128G": 1048576, "256G": 2097152, "512G": 4194304 },
+        "storageDensity": {
+          "128G": "128GB UFS",
+          "256G": "256GB UFS",
+          "512G": "512GB UFS"
+        }
+      },
+      "steps": [
+        { "op": "takeLongest", "table": "configCode", "to": "configCode", "default": "" },
+        { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "map", "from": "densityCode", "table": "storageDensity", "to": "storageDensity", "default": "" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "umcp",
+        "fields.density": { "$var": "density" },
+        "fields.storage_density": { "$var": "storageDensity" },
+        "fields.storage_interface": "UFS 3.1",
+        "fields.dram_density": "64Gb",
+        "fields.dram_type": "LPDDR5X",
+        "fields.controller": "SM2753",
+        "fields.product_class": "Consumer",
+        "fields.operation_temperature": "-25°C ~ +85°C",
+        "fields.package": "FBGA-297, 11.50x13.00",
+        "components": [
+          {
+            "role": "storage",
+            "hidden": true,
+            "device": { "domain": "memory", "chipKind": "managed_nand", "productType": "ufs" },
+            "fields": {
+              "storage_density": { "$var": "storageDensity" },
+              "storage_interface": "UFS 3.1"
+            }
+          },
+          {
+            "role": "dram",
+            "hidden": true,
+            "device": { "domain": "memory", "chipKind": "dram", "productType": "lpddr5x" },
+            "fields": { "dram_density": "64Gb", "dram_type": "LPDDR5X" }
+          }
+        ],
+        "meta.ruleId": "vendor.biwin.umcp5x.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": ["density"],
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
   }
 ]

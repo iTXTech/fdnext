@@ -21,6 +21,7 @@ import {
 } from "./_helpers";
 
 assertSearchPnFirst("K4VAF325", "Samsung K4VAF325ZC-SC28");
+assertSearchPnIncludes("MT60B2G8RZ-64BAAT:D", "Micron MT60B2G8RZ-64BAAT:D");
 assertSearchPnIncludes("K4VAF325", "Samsung K4VAF325ZC-SC32");
 assertSearchPnIncludes("K4UBE3D4AA", "Samsung K4UBE3D4AA-MGCL");
 assertSearchPnIncludes("K4F6E3S4HM", "Samsung K4F6E3S4HM-MGCJ");

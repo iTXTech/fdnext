@@ -51,9 +51,14 @@
             "operation_temperature": "-40°C ~ +105°C"
           }
         },
-        "package": {
+        "packageBySeries": {
           "NN": "FBGA-153, 11.5x13x1.0",
           "ME": "FBGA-153, 11.5x13x1.2"
+        },
+        "packageSpecific": {
+          "064G:C2A46": "FBGA-153, 11.5x13x0.8",
+          "128G:C2A44": "FBGA-153, 11.5x13x0.8",
+          "256G:C2A44": "FBGA-153, 11.5x13x1.0"
         },
         "densityCode": [
           "064G",
@@ -71,6 +76,7 @@
           "C2A56",
           "C2H14",
           "C2A44",
+          "C2A46",
           "C2G07",
           "B8A19",
           "C8H09"
@@ -86,7 +92,13 @@
           },
           "C2A44": {
             "storage_interface": "UFS 2.2",
-            "nand_technology": "3D NAND"
+            "speed_grade": "HS-Gear3 2L",
+            "nand_technology": "3D TLC"
+          },
+          "C2A46": {
+            "storage_interface": "UFS 2.2",
+            "speed_grade": "HS-Gear3 2L",
+            "nand_technology": "3D TLC"
           },
           "C2G07": {
             "storage_interface": "UFS 2.2",
@@ -121,9 +133,9 @@
         {
           "op": "map",
           "from": "seriesCode",
-          "table": "package",
-          "to": "package",
-          "default": "FBGA153"
+          "table": "packageBySeries",
+          "to": "packageBase",
+          "default": "FBGA-153"
         },
         {
           "op": "takeLongest",
@@ -150,6 +162,24 @@
           "table": "configObj",
           "to": "configObj",
           "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{configCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageSpecific",
+          "to": "packageSpecific",
+          "default": null
+        },
+        {
+          "op": "fallback",
+          "primary": "packageSpecific",
+          "secondary": "packageBase",
+          "to": "package"
         },
         {
           "op": "set",

@@ -22,6 +22,7 @@ import {
   searchFbgaParts
 } from "./_helpers";
 import micronDramRules from "../../../src/decodepack/rules/packs/micron-dram-token.json" with { type: "json" };
+import { micronMdbCoverage } from "../_micron-mdb-coverage";
 
 for (const entry of dramPnJson.filter((item) => item.vendor === "esmt")) {
   assert.doesNotMatch(entry.pn, /[()]/, `ESMT known PN should use ordering Product ID form: ${entry.pn}`);
@@ -38,6 +39,14 @@ const micronNandFbgaHeaders = ["NC", "NW", "NY", "NX", "NQ", "NV"];
 const seenDramPn = new Set<string>();
 const seenCanonicalWinbondDramPn = new Set<string>();
 const micronDramTables = ((micronDramRules as Array<Record<string, unknown>>)[0].tokenDecoder as Record<string, unknown>).tables as Record<string, unknown>;
+
+for (const entry of dramPnJson.filter((item) => item.vendor === "micron")) {
+  assert.deepEqual(
+    micronMdbCoverage(mdbJson, entry.pn),
+    [],
+    `${entry.pn} should stay out of dram-pn.json when valid mdb.json data has the same or a more detailed PN`
+  );
+}
 
 function tableKeys(table: unknown): string[] {
   if (Array.isArray(table)) {

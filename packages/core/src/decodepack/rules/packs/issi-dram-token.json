@@ -1195,6 +1195,10 @@
           "32": 32
         },
         "wordToken": [
+          "1600",
+          "3200",
+          "6400",
+          "801",
           "100",
           "128",
           "160",
@@ -1213,6 +1217,10 @@
           "K01"
         ],
         "wordM": {
+          "1600": 16,
+          "3200": 32,
+          "6400": 64,
+          "801": 8,
           "100": 1,
           "128": 128,
           "160": 16,
@@ -1295,6 +1303,117 @@
             "dram_speed": "1600MHz (DDR-3200)"
           }
         },
+        "scopedSuffixObj": {
+          "S:5T": {
+            "dram_speed": "200MHz",
+            "package": "TSOP",
+            "package_code": "T (TSOP)"
+          },
+          "S:6T": {
+            "dram_speed": "166MHz",
+            "package": "TSOP",
+            "package_code": "T (TSOP)"
+          },
+          "S:7T": {
+            "dram_speed": "143MHz",
+            "package": "TSOP",
+            "package_code": "T (TSOP)"
+          },
+          "S:75ET": {
+            "dram_speed": "133MHz @ CL2 (SDR)",
+            "package": "TSOP",
+            "package_code": "T (TSOP)"
+          },
+          "S:5B": {
+            "dram_speed": "200MHz",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "S:6B": {
+            "dram_speed": "166MHz",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "S:7B": {
+            "dram_speed": "143MHz",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "S:75EB": {
+            "dram_speed": "133MHz @ CL2 (SDR)",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "VS:5B": {
+            "dram_speed": "200MHz",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "VS:6B": {
+            "dram_speed": "166MHz",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "VS:7B": {
+            "dram_speed": "143MHz",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "VS:5T": {
+            "dram_speed": "200MHz",
+            "package": "TSOP",
+            "package_code": "T (TSOP)"
+          },
+          "VS:6T": {
+            "dram_speed": "166MHz",
+            "package": "TSOP",
+            "package_code": "T (TSOP)"
+          },
+          "VS:7T": {
+            "dram_speed": "143MHz",
+            "package": "TSOP",
+            "package_code": "T (TSOP)"
+          },
+          "LR:5B": {
+            "dram_speed": "200MHz",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "LR:6B": {
+            "dram_speed": "166MHz",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "LD:3B": {
+            "dram_speed": "333MHz",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "LD:18B": {
+            "dram_speed": "533MHz (DDR-1066)",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          },
+          "LD:25B": {
+            "dram_speed": "400MHz",
+            "package": "BGA",
+            "package_code": "B (BGA)"
+          }
+        },
+        "scopedSolderObj": {
+          "S:L": {
+            "solder_type": "100% matte Sn for non-BGA or SnAgCu for BGA"
+          },
+          "VS:L": {
+            "solder_type": "100% matte Sn for non-BGA or SnAgCu for BGA"
+          },
+          "LR:L": {
+            "solder_type": "100% matte Sn for non-BGA or SnAgCu for BGA"
+          },
+          "LD:L": {
+            "solder_type": "100% matte Sn for non-BGA or SnAgCu for BGA"
+          }
+        },
         "casLatencyObj": {
           "AA": {
             "cas_latency": 22
@@ -1371,6 +1490,28 @@
             "package": "TSOP",
             "package_code": "T (TSOP)"
           }
+        },
+        "packageByOrganization": {
+          "S:8:1600": { "package": "TSOP-54" },
+          "S:8:6400": { "package": "TSOP-54" },
+          "LR:16:320": { "package": "FBGA-60, 8x10" },
+          "LR:16:640": { "package": "TFBGA-60, 8x10" },
+          "LR:16:800": { "package": "BGA-60" },
+          "LD:16:128": { "package": "FBGA-134" },
+          "LD:16:320": { "package": "FBGA-134" },
+          "LD:32:160": { "package": "FBGA-134" },
+          "LD:32:640": { "package": "FBGA-134" },
+          "DR:8:1280": { "package": "BGA-60" },
+          "DR:8:2560": { "package": "BGA-60" },
+          "DR:16:128": { "package": "BGA-84" },
+          "DR:16:160": { "package": "BGA-84" },
+          "DR:16:320": { "package": "BGA-84" },
+          "DR:16:640": { "package": "BGA-84" },
+          "DR:32:160": { "package": "BGA-126" }
+        },
+        "packageByOrganizationAndType": {
+          "S:8:3200:BGA": { "package": "TFBGA-54, 8x8" },
+          "S:8:3200:TSOP": { "package": "TSOP-54" }
         },
         "solderObj": {
           "L": {
@@ -1493,8 +1634,22 @@
         },
         {
           "op": "takeLongest",
+          "table": "scopedSuffixObj",
+          "scope": "voltageCode",
+          "to": "scopedSuffixObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
           "table": "speedObj",
           "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "scopedSolderObj",
+          "scope": "voltageCode",
+          "to": "scopedSolderObj",
           "default": {}
         },
         {
@@ -1507,6 +1662,30 @@
           "op": "takeLongest",
           "table": "packageObj",
           "to": "suffixPackageObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{voltageCode}}:{{busWidthCode}}:{{wordCode}}",
+          "to": "organizationKey"
+        },
+        {
+          "op": "map",
+          "from": "organizationKey",
+          "table": "packageByOrganization",
+          "to": "specificPackageObj",
+          "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{voltageCode}}:{{busWidthCode}}:{{wordCode}}:{{scopedSuffixObj.package}}",
+          "to": "organizationPackageKey"
+        },
+        {
+          "op": "map",
+          "from": "organizationPackageKey",
+          "table": "packageByOrganizationAndType",
+          "to": "detailedPackageObj",
           "default": {}
         },
         {
@@ -1546,7 +1725,17 @@
         {
           "op": "merge",
           "into": "extra",
+          "from": "scopedSuffixObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
           "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "scopedSolderObj"
         },
         {
           "op": "merge",
@@ -1557,6 +1746,16 @@
           "op": "merge",
           "into": "extra",
           "from": "suffixPackageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "specificPackageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "detailedPackageObj"
         },
         {
           "op": "merge",
@@ -1597,7 +1796,7 @@
           "$var": "voltage"
         },
         "fields.package": {
-          "$path": "suffixPackageObj.package"
+          "$path": "extra.package"
         },
         "meta.ruleId": "vendor.issi.dram.decoder.component.v1",
         "meta.fieldProfile": "dram",

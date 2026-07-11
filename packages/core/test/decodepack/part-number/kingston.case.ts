@@ -59,6 +59,21 @@ assertRuleDecode("EMMC128-IY29", {
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("E04GS14DXI", {
+  vendor: "kingston",
+  type: "eMMC",
+  densityMbit: 32768,
+  package: "FBGA-153, 9.0x7.5x0.8",
+  cellField: "MLC",
+  extra: {
+    "Storage Interface": "eMMC 5.1",
+    "Interface Type": "HS400",
+    "Product Class": "Industrial Temperature",
+    "Operation Temperature": "-40°C ~ +85°C"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
+
 assertRuleDecode("UFS128-CY14", {
   vendor: "kingston",
   type: "UFS",

@@ -7,6 +7,8 @@ import {
   resourceEntries,
   skhynixHn8RuleIds
 } from "./_helpers";
+import mdbJson from "../../../resources/mdb.json" with { type: "json" };
+import { micronMdbCoverage } from "../_micron-mdb-coverage";
 
 const partNumberPn = resourceEntries(partNumberPnJson);
 const partNumberPnForbiddenKeys = new Set(["source", "status", "reference", "inference_source", "external_confirmed", "external_table_confirmed"]);
@@ -32,6 +34,41 @@ test("part-number resource exposes minimal keyed PN entries", () => {
       `part-number PN entry should not expose maintenance keys: ${JSON.stringify(entry)}`
     );
   }
+});
+
+test("Micron managed NAND PN seeds do not duplicate valid MDB mappings", () => {
+  for (const entry of partNumberPnJson.filter((item) => item.vendor === "micron")) {
+    assert.deepEqual(
+      micronMdbCoverage(mdbJson, entry.pn),
+      [],
+      `${entry.pn} should stay out of managed-nand-pn.json when valid mdb.json data has the same or a more detailed PN`
+    );
+  }
+});
+
+test("Micron MDB coverage requires a valid exact PN or suffix boundary", () => {
+  const fixture = {
+    micron: {
+      AAAAA: "MT62F1G32D4DS-031 WT:B",
+      AAAAB: "MTFC64GBCAQTC-AAT",
+      AAAAC: "MTFC128GAXATEA-WT DO NOT USE"
+    }
+  };
+  assert.deepEqual(
+    micronMdbCoverage(fixture, "MT62F1G32D4DS"),
+    ["MT62F1G32D4DS-031 WT:B"],
+    "a valid MDB PN with a suffix boundary should cover its shorter seed"
+  );
+  assert.deepEqual(
+    micronMdbCoverage(fixture, "MTFC64G"),
+    [],
+    "a body-token prefix without a suffix boundary should not count as MDB coverage"
+  );
+  assert.deepEqual(
+    micronMdbCoverage(fixture, "MTFC128GAXATEA-WT"),
+    [],
+    "DO NOT USE MDB values should not cover a PN seed"
+  );
 });
 
 test("known SK hynix UFS PN resources decode with a single HN8 datasheet rule", () => {

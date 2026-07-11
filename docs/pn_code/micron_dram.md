@@ -1,6 +1,6 @@
 # Micron DRAM PN 编码资料
 
-采集日期：2026-05-15
+采集日期：2026-05-15；更新日期：2026-07-11
 
 ## 资料来源
 
@@ -71,7 +71,7 @@
 
 ## 搜索资源
 
-- `packages/core/resources/dram-pn.json` 收录已知 Micron / Crucial DRAM PN，用于 `searchParts()` PN 补全，不是解码依据。本轮加入 `EDY4016AABG-{DR,GX,JD}-F-{D,R}` canonical PN。
+- `packages/core/resources/dram-pn.json` 只收录尚未被有效 MDB mapping 覆盖的 Micron / Crucial DRAM PN，用于 `searchParts()` PN 补全，不是解码依据。MDB 已有等价 PN，或通过 suffix 边界给出更完整的 speed / temperature / status / revision 时，以 MDB 为准，不重复加入较短 seed；带 `DO NOT USE` 的 MDB 值不算覆盖。
 - `pnpm fdbgen:crawl-mdb` 默认按 Micron FBGA prefix profile 生成候选，通过 Micron 官方 FBGA decoder API 写入统一 `packages/core/resources/mdb.json`。当前默认 profile 包括 `C9/D8/D9/Z8/Z9` 后三位字母网格，以及 `NC/NW/NY/NX/NQ/NV` 数字段；`--codes` 补充输入按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
 - `packages/core/resources/mdb.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchParts()` code 查询，以及 `decodePart({ query: "C9BJZ" })` 这类 code 输入时先反查 PN 再走 iTXTech fdnext DecodePack。
 - 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA code 反查统一来自 `mdb.json` 的 code -> PN 映射。真正输出的 `density`、`package`、`dram_type`、`dram_die_count` 等字段仍由 iTXTech fdnext DecodePack token 解析。

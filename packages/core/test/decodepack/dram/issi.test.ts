@@ -120,13 +120,124 @@ assertDram("IS45S16100B-7BB", {
   }
 });
 
+assertDram("IS42S81600J-7TLI", {
+  vendor: "issi",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x8",
+  voltage: "3.3V SDR",
+  package: "TSOP-54",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "143MHz",
+    "Operation Temperature": "Industrial Grade (-40C to +85C)"
+  }
+});
+
+assertDram("IS42S83200J-7BLI", {
+  vendor: "issi",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x8",
+  voltage: "3.3V SDR",
+  package: "TFBGA-54, 8x8",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "143MHz"
+  }
+});
+
+assertDram("IS42S86400F-6TL", {
+  vendor: "issi",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x8",
+  voltage: "3.3V SDR",
+  package: "TSOP-54",
+  extra: {
+    "DRAM Type": "SDR",
+    "DRAM Speed": "166MHz"
+  }
+});
+
+assertDecodedFieldAbsent("IS42S83200J-7BLI", "cas_latency");
+
+assertDram("IS43LR16640C-6BLI", {
+  vendor: "issi",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x16",
+  voltage: "1.8V mobile DDR",
+  package: "TFBGA-60, 8x10",
+  extra: {
+    "DRAM Type": "LPDDR",
+    "DRAM Speed": "166MHz"
+  }
+});
+
+assertDram("IS43LR16800G-6BL", {
+  vendor: "issi",
+  densityMbit: 128,
+  density: "128Mb",
+  widthField: "x16",
+  voltage: "1.8V mobile DDR",
+  package: "BGA-60",
+  extra: {
+    "DRAM Type": "LPDDR",
+    "DRAM Speed": "166MHz"
+  }
+});
+
+assertDram("IS43LR16320D-5BLI", {
+  vendor: "issi",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x16",
+  voltage: "1.8V mobile DDR",
+  package: "FBGA-60, 8x10",
+  extra: {
+    "DRAM Type": "LPDDR",
+    "DRAM Speed": "200MHz"
+  }
+});
+
+assertDecodedFieldAbsent("IS43LR16640C-6BLI", "cas_latency");
+
+assertDram("IS43LD16128C-18BLI", {
+  vendor: "issi",
+  densityMbit: 2048,
+  density: "2Gb",
+  widthField: "x16",
+  voltage: "LPDDR2",
+  package: "FBGA-134",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "DRAM Speed": "533MHz (DDR-1066)"
+  }
+});
+
+assertDram("IS43LD32160A-3BL", {
+  vendor: "issi",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x32",
+  voltage: "LPDDR2",
+  package: "FBGA-134",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "DRAM Speed": "333MHz"
+  }
+});
+
+assertDecodedFieldAbsent("IS43LD16128C-18BLI", "cas_latency");
+
 assertDram("IS46DR16128A-25BB", {
   vendor: "issi",
   densityMbit: 2048,
   density: "2Gb",
   widthField: "x16",
   voltage: "DDR2",
-  package: "BGA",
+  package: "BGA-84",
   extra: {
     "DRAM Type": "DDR2",
     "Config Code": "128M16",
@@ -137,13 +248,83 @@ assertDram("IS46DR16128A-25BB", {
   }
 });
 
+assertDram("IS43DR81280C-25DBLI", {
+  vendor: "issi",
+  densityMbit: 1024,
+  density: "1Gb",
+  widthField: "x8",
+  voltage: "DDR2",
+  package: "BGA-60",
+  extra: {
+    "DRAM Type": "DDR2",
+    "Config Code": "128M8",
+    "Die Revision": "C"
+  }
+});
+
+assertDram("IS43DR16160B-25DBLI", {
+  vendor: "issi",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x16",
+  voltage: "DDR2",
+  package: "BGA-84",
+  extra: {
+    "DRAM Type": "DDR2",
+    "Config Code": "16M16",
+    "Die Revision": "B"
+  }
+});
+
+assertDram("IS43DR32160C-3DBLI", {
+  vendor: "issi",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x32",
+  voltage: "DDR2",
+  package: "BGA-126",
+  extra: {
+    "DRAM Type": "DDR2",
+    "Config Code": "16M32",
+    "Die Revision": "C"
+  }
+});
+
+assertDram("IS43DR32801B-37CBLI", {
+  vendor: "issi",
+  densityMbit: 256,
+  density: "256Mb",
+  widthField: "x32",
+  voltage: "DDR2",
+  package: "BGA",
+  extra: {
+    "DRAM Type": "DDR2",
+    "Config Code": "8M32",
+    "DRAM Speed": "266MHz"
+  }
+});
+
+assertDram("IS43DR86400E-25DBLI", {
+  vendor: "issi",
+  densityMbit: 512,
+  density: "512Mb",
+  widthField: "x8",
+  voltage: "DDR2",
+  package: "BGA",
+  extra: {
+    "DRAM Type": "DDR2",
+    "Config Code": "64M8",
+    "DRAM Speed": "400MHz"
+  }
+});
+
 assertDram("IS46LD16128A-25BB", {
   vendor: "issi",
   densityMbit: 2048,
   density: "2Gb",
   widthField: "x16",
   voltage: "LPDDR2",
-  package: "BGA",
+  package: "FBGA-134",
   extra: {
     "DRAM Type": "LPDDR2",
     "Config Code": "128M16",

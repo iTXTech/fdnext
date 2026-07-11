@@ -64,6 +64,58 @@
     "pn": "BWU2ANY46B512G"
   },
   {
+    "vendor": "biwin",
+    "pn": "BWU3AKG16D128G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWU3AKG26D256G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWU3AKG46D512G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "TCUFMA128GNAC8"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "TCUFMA256GNAC8"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "TCUFMA512GNAC8"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWEFMA064GN923"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWEFMA128GN923"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWEFMD064GN729"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWEFMD128GN729"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BW3A2EYAKG128G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BW3A2EYAKG256G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BW3B1MYAKG512G"
+  },
+  {
     "vendor": "issi",
     "pn": "IS21EF04GP-JQLI"
   },
@@ -481,22 +533,6 @@
   },
   {
     "vendor": "micron",
-    "pn": "MTFC4GACAJCN-1M WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC4GMTEA-IT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC8GLTEA-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC8GAMALBH-AAT"
-  },
-  {
-    "vendor": "micron",
     "pn": "MTFC32GBCAQTC-AAT"
   },
   {
@@ -541,23 +577,7 @@
   },
   {
     "vendor": "micron",
-    "pn": "MTFC32GASAONS-IT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC64GASAONS-IT"
-  },
-  {
-    "vendor": "micron",
     "pn": "MTFC64GBCAVAL-AIT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC512GBCAVHE-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC128GASAONS-IT"
   },
   {
     "vendor": "micron",
@@ -569,147 +589,7 @@
   },
   {
     "vendor": "micron",
-    "pn": "MTFC1TAYAXHR-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC64GASAOEA-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC128GASAOEA-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC256GASAOAM-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZ7D8FQFSL-046 W.11K"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZAD8FQFSL-046 W.G8K"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZAD8FQKSL-046 W.12H"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZBD8FQKSM-046 W.G8J"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZAD9FQFSM-046 W.G9K"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZAD9FQKSM-046 W.12I"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZBD9FQKPR-046 W.G9J"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZCD9FQKPR-046 W.G9L"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZBDAFQKWL-046 W.G0J"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZBDAFQKBA-046 W.G0J"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZCDAFQKWL-046 W.G0L"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZCDAFQKBA-046 W.G0L"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC128GARATEK-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC256GARATEK-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC512GARATAM-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT30AZZZDD9ZTPWL-031 W.14C"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT30AZZZCD9ZTOQS-031 W.15Q"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT30AZZZCDAZTOWL-031 W.13U"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT30AZZZDDAZTPEQ-031 W.13Q"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC128GAXATEA-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC128GAXATHF-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC256GAXATEA-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC256GAXATHF-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC512GAXATAM-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC512GAXATHJ-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT30AZZZCD9ZTPWL-031 W.165"
-  },
-  {
-    "vendor": "micron",
     "pn": "MT30AZZZBC9ZTKXM-031 W.20S"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT30AZZZCDAZTPWL-031 W.16C"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT30AZZZCDBZTPEQ-031 W.16D"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC64GAXAUEA-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC128GAXAUEA-WT"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFC256GAXAUEA-WT"
   },
   {
     "vendor": "micron",
@@ -733,58 +613,6 @@
   },
   {
     "vendor": "micron",
-    "pn": "MT29VZZZ7D81SFSL-046 W.22B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZAD81SFSL-046 W.22C"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZBD81SLSL-046 W.22D"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZCD91SFSM-046 W.18C"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZBD91SLSM-046 W.17X"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZCD91SKSM-046 W.17Y"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZBDA1SLPR-046 W.17Z"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT29VZZZCDA1SKPR-046 W.181"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFDHBL064TDP-1AT12AIYY"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFDHBL128TDP-1AT12AIYY"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFDHBL256TDP-1AT12AIYY"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFDHBL512TDP-1AT12AIYY"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFDHBM1T0TDP-1AT12AIYY"
-  },
-  {
-    "vendor": "micron",
     "pn": "MTFDHBK128TDP-1AT12AIYY"
   },
   {
@@ -798,26 +626,6 @@
   {
     "vendor": "micron",
     "pn": "MTFDHBK1T0TDP-1AT12AIYY"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFDHBL064TDQ-1AT12ATYY"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFDHBL128TDQ-1AT12ATYY"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFDHBL256TDQ-1AT12ATYY"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFDHBL512TDQ-1AT12ATYY"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MTFDHBM1T0TDQ-1AT12ATYY"
   },
   {
     "vendor": "micron",

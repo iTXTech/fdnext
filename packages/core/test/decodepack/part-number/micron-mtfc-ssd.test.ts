@@ -938,3 +938,5 @@ assertRuleDecode("MTFDHBL128TDP-AAT12AIYYES", {
 });
 
 assertRuleDoesNotMatch("vendor.micron.ssd.modern.v1", "MTFDHBL064TDP-1AT12ITYY");
+
+assertSearchPnIncludes("MTFC4GACAJCN-1M WT", "Micron MTFC4GACAJCN-1MWT");

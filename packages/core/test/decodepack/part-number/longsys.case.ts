@@ -111,3 +111,23 @@ assertRuleDecode("FEUDNN512G-C2G07", {
   },
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
+
+for (const [partNumber, densityMbit, packageName] of [
+  ["FEUDNN064G-C2A46", 524288, "FBGA-153, 11.5x13x0.8"],
+  ["FEUDNN128G-C2A44", 1048576, "FBGA-153, 11.5x13x0.8"],
+  ["FEUDNN256G-C2A44", 2097152, "FBGA-153, 11.5x13x1.0"]
+] as const) {
+  assertRuleDecode(partNumber, {
+    vendor: "longsys",
+    type: "UFS",
+    densityMbit,
+    package: packageName,
+    cellField: "TLC",
+    extra: {
+      "Storage Interface": "UFS 2.2",
+      "Speed Grade": "HS-Gear3 2L",
+      "NAND Technology": "3D TLC"
+    },
+    absentExtra: ["Config Code", "Package Code", "Reference Status", "source", "status"]
+  });
+}

@@ -1,6 +1,6 @@
 # Samsung DRAM PN 规则
 
-采集日期：2026-05-13
+采集日期：2026-05-13；更新日期：2026-07-11
 
 本页记录 Samsung standalone DRAM 颗粒的 PN 结构。规则只按结构化 token 解码，不把完整 PN 作为白名单；`-` 后缀缺失时仍保留可由主结构确认的容量、位宽、die/CS 以及主结构内的封装信息，只省略必须依赖 suffix 的封装、速度、温度等字段。
 
@@ -28,6 +28,7 @@
 - Samsung 官方 LPDDR5 页面确认 `K3LKBKB0BM-MGCP` 为 32Gb、x32、315 FBGA、6400Mbps、1.8/1.05/0.9/0.5V。来源：<https://semiconductor.samsung.com/us/dram/lpddr/lpddr5/k3lkbkb0bm-mgcp/>
 - Samsung 官方 LPDDR5X 页面确认 `K3KL3L30CM-JGCT` / `K3KL3L30CM-BGCU` 为 64Gb high-capacity LPDDR5X，分别输出 x64 / 441 FBGA / 7500Mbps 与 x16 / 496 FBGA / 8533Mbps。来源：<https://semiconductor.samsung.com/dram/lpddr/lpddr5x/k3kl3l30cm-jgct/>、<https://semiconductor.samsung.com/dram/lpddr/lpddr5x/k3kl3l30cm-bgcu/>
 - Samsung 官方 LPDDR5X 页面新增确认 `K3KL7L70EM-MUCU` 为 24Gb x32、8533、FBGA-315、-40C~125C，`K3KL3L30DM-EFCU` 为 64Gb x64、8533、FBGA-561、-40C~95C；容量不能用于反推 die count。来源：<https://semiconductor.samsung.com/dram/lpddr/lpddr5x/k3kl7l70em-mucu/>、<https://semiconductor.samsung.com/us/dram/lpddr/lpddr5x/k3kl3l30dm-efcu/>
+- Samsung 官方 LPDDR5X 产品页继续确认 `K3KL7L70EM-MHCU/MFCU`、`K3KL7L70FM-MUCV`、`K3KL7L70DM-MGCT` 为 24Gb x32 / FBGA-315 的不同速度温度档，`K3KL3L30EM-EFCV` 为 64Gb x64 / FBGA-561；这些 exact PN 进入搜索资源，解码仍由现有 token 规则完成。
 - Intel LPDDR3 validation table 确认 `K3QF1F10DM-AGCE` 为 8Gb package、4Gb die、DDP、x64；`K3QF2F20DM-AGCE` 为 16Gb package、4Gb die、QDP、x64。来源：<https://www.intel.cn/content/dam/www/public/us/en/documents/platform-memory/lpddr3-low-power-1600-validation-results.pdf>
 - Samsung `K4X51163PC` datasheet 镜像确认 32M x16 Mobile-DDR SDRAM、1.8V VDD/VDDQ、4 banks、1 /CS。来源：<https://www.alldatasheet.com/datasheet-pdf/pdf/146538/SAMSUNG/K4X51163PC.html>
 - Samsung 2009 Product Selection Guide 确认 `K4X` 为 Mobile DDR SDRAM，density / bit organization / bank / interface / revision token，以及 Mobile DDR suffix package、temp/power、speed token，例如 `F` 为 60-FBGA、`G` 为 extended low-power i-TCSR/PASR/DS、`C3` 为 133MHz CL3。来源：<https://docs.rs-online.com/644a/0900766b80d16e0c.pdf>

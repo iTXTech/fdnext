@@ -217,6 +217,26 @@
   },
   {
     "vendor": "samsung",
+    "pn": "K3KL7L70EM-MHCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL7L70EM-MFCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL7L70FM-MUCV"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL7L70DM-MGCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL3L30EM-EFCV"
+  },
+  {
+    "vendor": "samsung",
     "pn": "K3KL3L30DM-EFCU"
   },
   {
@@ -2361,14 +2381,6 @@
   },
   {
     "vendor": "micron",
-    "pn": "CT40A1G8SA-62M:E"
-  },
-  {
-    "vendor": "micron",
-    "pn": "CT40A1G8SA-062M:E"
-  },
-  {
-    "vendor": "micron",
     "pn": "EDY4016AABG-DR-F-D"
   },
   {
@@ -2393,91 +2405,7 @@
   },
   {
     "vendor": "micron",
-    "pn": "MT40A1G8SA-075-E"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT60B2G8HB-48B-IT-A"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT60B2G8HB-48BIT:A"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT53E1G32D2FW-046-AIT-A"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F1G32D4DS-031-WT-B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F1G32D4DS"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F1G64D4EK-023WT:B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F512M64D4EK-031AIT:B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F512M64D4EK-031AAT:B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F512M64D4EK-031AUT:B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F512M64D4EK-031FAAT:B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F1G64D8EK-031AIT:B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F1G64D8EK-031AAT:B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F1G64D8EK-031AUT:B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT62F1G64D8EK-031FAAT:B"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT46V32M16P-5B-IT-J"
-  },
-  {
-    "vendor": "micron",
     "pn": "MT48H16M32LFB5-75:A"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT61K512M32KPA-24-U"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT68A512M32DF-32:A"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT68A512M32DF-28:A"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT68A768M32DF-28:A"
-  },
-  {
-    "vendor": "micron",
-    "pn": "MT68A768M32DF-32:A"
   },
   {
     "vendor": "issi",
@@ -3902,6 +3830,218 @@
   {
     "vendor": "issi",
     "pn": "IS46LQ32256AL-062BLA3"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43DR16160B-25DBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43DR32160C-3DBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43DR16320E-25DBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43DR16640C-25DBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43DR81280C-25DBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43DR16128C-25DBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43DR82560C-25DBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S81600J-5TL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S81600J-6TL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S81600J-7TL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S81600J-5TLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S81600J-6TLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S81600J-7TLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S83200J-6TL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S83200J-7TL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S83200J-6TLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S83200J-7TLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S83200J-7BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S83200J-7BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S86400F-6TL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S86400F-7TL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S86400F-6TLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS42S86400F-7TLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LR16640C-5BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LR16640C-6BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LR16640C-5BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LR16640C-6BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LR16800G-6BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LR16800G-6BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LR16320D-5BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LR16320D-6BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD16128C-25BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD16128C-18BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD16128C-25BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD16128C-18BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD32640C-25BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD32640C-18BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD32640C-25BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD32640C-18BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD16320A-3BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD16320A-25BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD16320A-18BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD16320A-3BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD16320A-25BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD16320A-18BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD32160A-3BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD32160A-25BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD32160A-18BL"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD32160A-3BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD32160A-25BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43LD32160A-18BLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43DR32801B-37CBLI"
+  },
+  {
+    "vendor": "issi",
+    "pn": "IS43DR86400E-25DBLI"
   },
   {
     "vendor": "winbond",
