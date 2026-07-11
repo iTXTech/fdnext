@@ -134,7 +134,18 @@ const YMTC_PROCESS_LOOKUPS: ProcessLookup[] = [
   { start: 1, hex: "C5294930", dieCodename: "WYS" },
   { start: 1, hex: "C5587130", dieCodename: "WDS" },
   { start: 1, hex: "C6597130", dieCodename: "WDS" },
-  { start: 1, hex: "C55C5530", dieCodename: "EMS" }
+  { start: 1, hex: "C55C5530", dieCodename: "EMS" },
+  { start: 1, hex: "C4285540", dieCodename: "WTS" },
+  { start: 1, hex: "C4585540", dieCodename: "WTS" },
+  { start: 1, hex: "C5595540", dieCodename: "WTS" },
+  { start: 1, hex: "C5587540", dieCodename: "SQS" },
+  { start: 1, hex: "C5587940", dieCodename: "SQS" },
+  { start: 1, hex: "C6597540", dieCodename: "SQS" },
+  { start: 1, hex: "C6597940", dieCodename: "SQS" },
+  { start: 1, hex: "C65C9540", dieCodename: "PTS" },
+  { start: 1, hex: "C65D9540", dieCodename: "PTS" },
+  { start: 1, hex: "C65C9940", dieCodename: "PTS" },
+  { start: 1, hex: "C75D9940", dieCodename: "PTS" }
 ];
 
 const SKHYNIX_STACKED_PROCESS_BYTE6 = new Set([0x70, 0x80, 0x90, 0xa0, 0xa2, 0xb0, 0xb2, 0xc0, 0xc2, 0xd0]);

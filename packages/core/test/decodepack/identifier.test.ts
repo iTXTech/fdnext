@@ -301,3 +301,33 @@ assertResultField("9BC659713000", "plane_count", 6);
 assertResultField("9BC55C553000", "die_codename", "EMS");
 assertResultField("9BC55C553000", "layer_count", 232);
 assertResultField("9BC55C553000", "redundant_area_size", "2432B");
+
+const ymtcGen5FlashIds: Array<[string, "WTS" | "SQS" | "PTS"]> = [
+  ["9BC428554000", "WTS"],
+  ["9BC458554000", "WTS"],
+  ["9BC559554000", "WTS"],
+  ["9BC558754000", "SQS"],
+  ["9BC558794000", "SQS"],
+  ["9BC659754000", "SQS"],
+  ["9BC659794000", "SQS"],
+  ["9BC65C954000", "PTS"],
+  ["9BC65D954000", "PTS"],
+  ["9BC65C994000", "PTS"],
+  ["9BC75D994000", "PTS"]
+];
+
+for (const [id, profileKey] of ymtcGen5FlashIds) {
+  assertResultField(id, "die_codename", profileKey);
+  assertResultFieldAbsent(id, "generation_info");
+}
+
+assertResultField("9BC458554000", "process_alias", "X4-9060");
+assertResultField("9BC458554000", "layer_count", 160);
+assertResultField("9BC458554000", "die_density", "512Gb");
+assertResultField("9BC558754000", "process_alias", "X4-9070");
+assertResultField("9BC558754000", "layer_count", 267);
+assertResultField("9BC558754000", "die_density", "1Tb");
+assertResultField("9BC65C954000", "process_alias", "X4-6080");
+assertResultField("9BC65C954000", "layer_count", 267);
+assertResultField("9BC65C954000", "die_density", "2Tb");
+assertResultField("9BC65C954000", "cell_level", "QLC");
