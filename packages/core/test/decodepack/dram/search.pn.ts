@@ -130,6 +130,17 @@ assertSearchPnIncludes("CXDBDCCCM", "CXMT CXDBDCCCM-MA-M");
 assertSearchPnIncludes("CXDCCDCBM", "CXMT CXDCCDCBM-MT-M");
 assertSearchPnIncludes("CXDCDJEDM", "CXMT CXDCDJEDM-MT-M");
 assertSearchPnIncludes("CXDD7JEDM", "CXMT CXDD7JEDM-MX-M");
+for (const pn of [
+  "CXDB4CBAM-MJ-A",
+  "CXDB4ABAM-MJ",
+  "CXDB4CCAM-MJ",
+  "CXDBBCCBM-MK-B",
+  "CXDB5CCBM-ML-A",
+  "CXDB4CBAM-EA-M",
+  "CXDB5CCBM-EA-M"
+]) {
+  assertSearchPnIncludes(pn, `CXMT ${pn}`);
+}
 assertSearchPnIncludes("GDP0BFLM", "GigaDevice GDP0BFLM-CB");
 assertSearchPnIncludes("GDP2A8LM", "GigaDevice GDP2A8LM-CB");
 assertSearchPnIncludes("GDP2BFLM", "GigaDevice GDP2BFLM-CB");

@@ -249,6 +249,26 @@ assertDram("H56G32CS4DX005", {
   }
 });
 
+for (const [pn, speed] of [
+  ["H57G42MP4AX004N", undefined],
+  ["H57G42MP2AX004", "GDDR7-28Gbps/pin"],
+  ["H57G42MP2AX006", "GDDR7-28Gbps/pin"]
+] as const) {
+  assertDram(pn, {
+    vendor: "skhynix",
+    densityMbit: 16384,
+    density: "16Gb",
+    widthField: "x32",
+    voltage: "1.2V VDD/VDDQ",
+    package: "Unknown",
+    extra: {
+      "DRAM Type": "GDDR7",
+      ...(speed ? { "DRAM Speed": speed } : {})
+    },
+    absentExtra: speed ? [] : ["DRAM Speed"]
+  });
+}
+
 for (const pn of [
   "H5ANAG6NCMR-XNI",
   "H5TC4G63EFR-RDA",
@@ -258,6 +278,8 @@ for (const pn of [
   "H58GG6MK6GX037",
   "H58GE6AK8PX168N",
   "H57G42MP4AX004N",
+  "H57G42MP2AX004",
+  "H57G42MP2AX006",
   "H56G32CS4DX005",
   "H5WG6HMN6QX038R"
 ]) {

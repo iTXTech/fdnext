@@ -294,6 +294,27 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "spec",
+      "entry_key": "cxmt_lpddr4x_search_matrix_round7",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "CSEKER component matrix, Rockchip DDR QVL, ChromeOS non-SPD table and FCC BOM",
+        "url": "https://cseker.com/zh-cn/newDetail/42",
+        "examples": [
+          "CXDB4CBAM-MJ-A",
+          "CXDB4ABAM-MJ",
+          "CXDB4CCAM-MJ",
+          "CXDBBCCBM-MK-B",
+          "CXDB5CCBM-ML-A",
+          "CXDB4CBAM-EA-M",
+          "CXDB5CCBM-EA-M"
+        ],
+        "notes": "Exact part numbers are search seeds only; all public fields continue to come from the existing local token tables. Conflicting CXDB7CCDM-MA-M remains excluded."
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/rules/packs/kingston-emcp-token.json",
       "spec_id": "vendor.kingston.emcp.v1",
       "scope": "spec",
@@ -1975,6 +1996,22 @@
       "pack": "packages/core/src/decodepack/rules/packs/ymtc-ufs-token.json",
       "spec_id": "vendor.ymtc.ufs-label.v1",
       "scope": "spec",
+      "entry_key": "YMTC_A1_E_D1_D2_search_matrix",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Published UFS capacity table and Pandora device logs",
+        "url": "https://hostingunlock.com/threads/remover-cuenta-google-unihertz-tank3-pro-pandora-box.89828/",
+        "examples": [
+          "YMUS8A1TE2D1C1",
+          "YMUSAA1TE4D2C1"
+        ],
+        "notes": "The 512GB sample is confirmed by a 476.69GiB user LUN. YMUS9A1TE3D1C1 remains excluded because the published 128GB capacity conflicts with the established density token."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/ymtc-ufs-token.json",
+      "spec_id": "vendor.ymtc.ufs-label.v1",
+      "scope": "spec",
       "entry_key": "YMTC_UC341",
       "evidence": {
         "status": "external_confirmed",
@@ -2260,6 +2297,71 @@
         "url": "https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TC58NVG2S0HBAI4-TDE_EN_31440.pdf",
         "examples": ["98DC902676"],
         "notes": "The datasheet confirms 4Gb 3.3V x8 SLC, 4KB page, 256KB block, 256B spare, and two planes for this exact device and configuration byte profile."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-dram-token.json",
+      "spec_id": "vendor.skhynix.dram.gddr7.component.v1",
+      "scope": "spec",
+      "entry_key": "skhynix_h57g42_gddr7_family",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix GDDR7 product page and external component matrix",
+        "url": "https://www.directindustry.com/prod/hynix/product-34497-2575602.html",
+        "examples": ["H57G42MP4AX004N", "H57G42MP2AX004", "H57G42MP2AX006"],
+        "notes": "The SK hynix product page identifies H57G42MP4AX004N as GDDR7 and the external matrix independently lists two H57G42MP2 bodies as 512Mx32 (16Gb), 28Gbps. The decoder assigns the shared H57G42 family semantics and the repeated MP2 speed token only; MP4, AX, serial, and package tokens remain opaque."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
+      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "scope": "spec",
+      "entry_key": "winbond_w29n01hv_parallel_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N01HV datasheet Read ID, memory organization, and feature tables",
+        "url": "https://www.winbond.com/resource-files/W29N01HVxxNA_RevD.pdf",
+        "examples": ["EFF1009500"],
+        "notes": "The datasheet confirms the five-byte Read ID, 1Gb SLC density, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, and lack of cache programming. The same ID covers x8 and x16 ordering variants, so width is intentionally not decoded."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
+      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "scope": "spec",
+      "entry_key": "winbond_w29n02gv_parallel_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N02GV datasheet Read ID, memory organization, and feature tables",
+        "url": "https://www.winbond.com/resource-files/W29N02GVxxAA_RevD.pdf",
+        "examples": ["EFDA909504"],
+        "notes": "The datasheet confirms the five-byte Read ID, 2Gb SLC density, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, and cache programming support. The same ID covers x8 and x16 ordering variants, so width is intentionally not decoded."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
+      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "scope": "spec",
+      "entry_key": "winbond_w29n04gv_parallel_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N04GV datasheet Read ID, memory organization, and feature tables",
+        "url": "https://www.winbond.com/resource-files/W29N04GVxxAA_RevE.pdf",
+        "examples": ["EFDC909554"],
+        "notes": "The datasheet confirms the five-byte Read ID, 4Gb x8 SLC organization, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, and cache programming support."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
+      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "scope": "spec",
+      "entry_key": "winbond_w29n08gv_parallel_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N08GV datasheet Read ID, memory organization, and feature tables",
+        "url": "https://www.winbond.com/resource-files/W29N08GVxxAA_RevE.pdf",
+        "examples": ["EFD3919558"],
+        "notes": "The datasheet confirms the five-byte Read ID, 8Gb x8 SLC organization, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, and cache programming support."
       }
     }
   ]

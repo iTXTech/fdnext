@@ -8,6 +8,7 @@ import kioxiaRules from "./packs/kioxia.json" with { type: "json" };
 import sandiskRules from "./packs/sandisk.json" with { type: "json" };
 import ymtcRules from "./packs/ymtc.json" with { type: "json" };
 import spectekRules from "./packs/spectek.json" with { type: "json" };
+import winbondRules from "./packs/winbond.json" with { type: "json" };
 
 export const defaultIdentifierDecodeSpecs = [
   ...micronIntelRules,
@@ -17,5 +18,6 @@ export const defaultIdentifierDecodeSpecs = [
   ...kioxiaRules,
   ...sandiskRules,
   ...ymtcRules,
-  ...spectekRules
+  ...spectekRules,
+  ...winbondRules
 ] as IdentifierDecodeSpec[];

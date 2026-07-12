@@ -168,6 +168,48 @@ assertRuleDecode("YMUS8A1TC1A2C1", {
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("YMUS8A1TE2D1C1", {
+  vendor: "ymtc",
+  type: "UFS",
+  densityMbit: 1048576,
+  dieProfileField: "WYS",
+  cellField: "TLC",
+  package: "BGA-153, 11x13x0.8",
+  extra: {
+    Controller: "UFS 3.1 Controller",
+    "Storage Interface": "UFS 3.1",
+    "Process Alias": "X3-9060",
+    "Layer Count": 128,
+    "Die Count": 2,
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertRuleDecode("YMUSAA1TE4D2C1", {
+  vendor: "ymtc",
+  type: "UFS",
+  densityMbit: 4194304,
+  dieProfileField: "WYS",
+  cellField: "TLC",
+  package: "BGA-153, 11x13x1.0",
+  extra: {
+    Controller: "UFS 3.1 Controller",
+    "Storage Interface": "UFS 3.1",
+    "Process Alias": "X3-9060",
+    "Layer Count": 128,
+    "Die Count": 8,
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
+});
+
+for (const pn of ["YMUS8A1TE2D1C1", "YMUSAA1TE4D2C1"]) {
+  assertSearchPnIncludes(pn, `YMTC ${pn}`);
+}
+
 assertRuleDecode("YMUS6A4TB1A2C1", {
   vendor: "ymtc",
   type: "UFS",

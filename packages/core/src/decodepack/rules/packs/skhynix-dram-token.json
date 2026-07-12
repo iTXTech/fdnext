@@ -3145,5 +3145,79 @@
         "meta.ruleId": "vendor.skhynix.dram.gddr6.8gb.component.v1"
       }
     }
+  },
+  {
+    "id": "vendor.skhynix.dram.gddr7.component.v1",
+    "priority": 1012,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H57G42[0-9A-Z]{8,9}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H57G42"
+      ],
+      "tables": {
+        "speedObj": {
+          "MP2": {
+            "dram_speed": "GDDR7-28Gbps/pin"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 3,
+          "to": "speedCode"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "GDDR7"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": 16384,
+        "fields.dram_width": 32,
+        "fields.dram_voltage": "1.2V VDD/VDDQ",
+        "meta.ruleId": "vendor.skhynix.dram.gddr7.component.v1"
+      }
+    }
   }
 ]

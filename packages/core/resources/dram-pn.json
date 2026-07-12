@@ -10724,6 +10724,34 @@
     "pn": "CXDQ2BFAM-CG"
   },
   {
+    "vendor": "cxmt",
+    "pn": "CXDB4CBAM-MJ-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB4ABAM-MJ"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB4CCAM-MJ"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDBBCCBM-MK-B"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB5CCBM-ML-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB4CBAM-EA-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB5CCBM-EA-M"
+  },
+  {
     "vendor": "nanya",
     "pn": "NT5FF2048M8A3-Q5"
   },
@@ -11742,6 +11770,14 @@
   {
     "vendor": "skhynix",
     "pn": "H57G42MP4AX004N"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H57G42MP2AX004"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H57G42MP2AX006"
   },
   {
     "vendor": "skhynix",

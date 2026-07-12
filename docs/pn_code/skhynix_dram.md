@@ -35,6 +35,7 @@
 - `H9JCNNNCP3MLYR-N6E` LPDDR5 与 `H58G66CK8BX147` LPDDR5X 的公开分销资料确认 6400Mbps / 8533Mbps、315ball FBGA、电压域与容量。来源：https://www.fusionww.com/shop/product/4263986/H9JCNNNCP3MLYR-N6E 和 https://www.ipros.com/en/product/detail/2001536936/
 - SK hynix 2021 LPDDR 产品表列出 `H9JKNNNFB3AECR-N6H` / `H9JKNNNFB3MVJR-N6H` / `H9JKNNNHA3MVJR-N6H`：64Gb/96Gb LPDDR5-6400，1.8V/1.05V/0.5V，496/436 ball；MWC 2021 corporate overview 另确认 `H9JKNNNFB3AECR-N6H` 的 -30~105°C 温区。规则按 density token `FB3/HA3`、package token 组合 `E:C` / `V:J` 和 suffix `N6H` 解析。来源：https://atta.szlcsc.com/upload/public/pdf/source/20231116/D92B33AE61674A6C958A29DF0AE19494.pdf 和 https://gsma.my.site.com/mwcoem/servlet/servlet.FileDownload?file=00P6900002qXdyXEAS
 - `H56C8H24MJR-S2C` GDDR6 资料确认 8Gb、x32、FBGA-180、1.35V 与 GDDR6 speed bin。来源：https://www.digchip.com/datasheets/parts/datasheet/2/202/H56C8H24MJR.php 和 https://www.absunshine.com/en/parts/H56C8H24MJR-S2C-SK-HYNIX-5126627
+- SK hynix 的 GDDR7 产品页与 Newsroom 确认 H57G 产品族为 GDDR7、1.2V，并已进入量产；产品页列出 `H57G42MP4AX004N`，外部分销矩阵另列出同一 `H57G42` family 的 `H57G42MP2AX004` / `H57G42MP2AX006` 为 512Mx32 (16Gb)、28Gbps。结构规则确认 `H57G42` family 的 GDDR7、16Gb、x32 与 1.2V，并只对两个不同 serial 共同确认的 `MP2` 输出 28Gbps；不从 `MP4`、`AX` 或 serial 推断其他 speed/package。来源：https://www.directindustry.com/prod/hynix/product-34497-2575602.html、https://news.skhynix.com/sk-hynix-strengthens-graphics-memory-leadership-with-industrys-best-gddr7/ 和 https://www.sbit.com.tw/en/all_products.aspx?_id=330955286&_type=class
 - SK hynix HBM 产品表列出 HBM3 `H5UG7HME03X020R` / `H5UG7HMD83X020R`：16Gb die、128Gb KGSD、8Hi、6.0/5.6Gbps；HBM2E `H5WRAGESM8W-N8L` / `-N6L` 与 `H5WR64ESM4W-N8L` / `-N6L`：16Gb die、128Gb/64Gb KGSD、8Hi/4Hi、3.6/3.2Gbps；另列 Automotive `H5WG6HMN6QX038R` 为 64Gb、4Hi、3.2Gbps。该公开产品表按 `external_table_confirmed` 使用；规则不把 `8Hi/4Hi` 错写成物理 package，也不解释 serial token。来源：https://www.skhynix.glochip.com/h-pd-12.html
 - 本轮用户提供的 `H56G42AXXXX014` SK hynix 16Gb GDDR6 SGRAM datasheet 截图确认 Lead-Free / Halogen-Free / RoHS、2 independent channels、VPP/VDD/VDDQ operating points、180-ball BGA package with 0.75mm pitch，以及 ordering PN `H56G42AS8DX014` / `H56G42AS6DX014` / `H56G42AS4DX014` / `H56G42AS2DX014` 的 WCK frequency 与 max data rate。
 - 本轮用户提供的 `H9CCNNNBLTBLAR-NxD` SK hynix 16Gb LPDDR3 datasheet 截图确认 178-ball FBGA、16Gb `(x32, 2CS)`、QDP / 1Ch 2CS、VDD1 1.8V、VDD2/VDDCA/VDDQ 1.2V、HSUL_12 interface、Commercial 0~85C、Lead & Halogen Free，以及 ordering PN `H9CCNNNBLTBLAR-NTD` = LPDDR3-1600、`H9CCNNNBLTBLAR-NUD` = LPDDR3-1866。
@@ -168,6 +169,24 @@ H56G32 + C + speed + D + X + serial
 公开输出固定 `package = 180-ball BGA`、`dram_voltage = 1.8V VPP; 1.35V / 1.25V / 1.20V VDD/VDDQ`、`interface_type = POD_135 / POD_125` 和 `solder_type = Lead-Free and Halogen-Free (RoHS compliant)`。
 
 产品表另确认 `H56G32CS4DX005` / `H56G32CS2DX005` 为 8Gb GDDR6、16/14Gbps per pin、1.35V VDD/VDDQ、FCBGA。独立结构规则按 `H56G32 + die revision + speed + D + X + serial` 解析，未知 speed / serial 自然降级，不把两条完整 PN 写成 whitelist。
+
+## H57 GDDR7 颗粒
+
+当前仅解码多条外部产品行共同确认的稳定头部结构：
+
+```text
+H57G42 + local configuration / speed / serial tokens
+```
+
+| Token | 字段 | 说明 |
+| --- | --- | --- |
+| `H57G` | `dram_type` | GDDR7 |
+| `42` | `dram_density` / `dram_width` | 16Gb，512Mx32 |
+| `MP2` | `dram_speed` | 两个不同 serial 产品行均为 GDDR7-28Gbps/pin |
+
+`MP4`、`AX004/AX006` 与末尾 `N` 尚无公开 ordering breakdown，因此只作为结构字符
+被消费，不输出 package、revision 或原始 code，也不从营销页反推 `MP4` speed。三条 exact PN 进入
+`dram-pn.json`；decoder 仍按 family + 固定长度字符结构匹配，不维护完整 PN 白名单。
 
 ## H9CC LPDDR3 颗粒
 

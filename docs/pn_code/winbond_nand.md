@@ -12,6 +12,11 @@
   <https://www.digikey.com/en/htmldatasheets/production/1853910/0/0/1/w25n01gv.html>
 - Winbond 官方 ONFI NAND 产品页确认当前 `W29N08/04/02/01` 系列。
   <https://www.winbond.com/hq/product/code-storage-flash/onfi-nand/?__locale=en>
+- Winbond 官方 `W29N01HV`、`W29N02GV`、`W29N04GV`、`W29N08GV` datasheet 的 Read ID、memory organization 与 feature 表确认四组并行 NAND ID 和 geometry。
+  <https://www.winbond.com/resource-files/W29N01HVxxNA_RevD.pdf>
+  <https://www.winbond.com/resource-files/W29N02GVxxAA_RevD.pdf>
+  <https://www.winbond.com/resource-files/W29N04GVxxAA_RevE.pdf>
+  <https://www.winbond.com/resource-files/W29N08GVxxAA_RevE.pdf>
 
 ## 规则入口
 
@@ -19,6 +24,21 @@
   - `vendor.winbond.raw.w29n.v1`
   - `vendor.winbond.raw.w25n.v1`
   - `vendor.winbond.raw.w35n.v1`
+- `packages/core/src/decodepack/identifier/packs/winbond.json`
+  - `identifier.nand_flash_id.winbond.w29n.v1`
+
+## W29N 并行 NAND Read ID
+
+规则以 Winbond manufacturer ID `EF` 命中，再用第 2~5 byte 的完整配置条件解释官方 datasheet 已确认的四组 W29N profile。未确认的 `EF` 配置仍只识别厂商，不借用这些 profile 的 geometry。
+
+| Read ID | 产品 | 容量 | page / block / spare | 位宽 | cache programming |
+| --- | --- | --- | --- | --- | --- |
+| `EF F1 00 95 00` | W29N01HV | 1Gbit SLC | 2KB / 128KB / 64B | ID 同时用于 x8/x16 ordering PN，不从 ID 猜位宽 | 不支持 |
+| `EF DA 90 95 04` | W29N02GV | 2Gbit SLC | 2KB / 128KB / 64B | ID 同时用于 x8/x16 ordering PN，不从 ID 猜位宽 | 支持 |
+| `EF DC 90 95 54` | W29N04GV | 4Gbit SLC | 2KB / 128KB / 64B | x8 | 支持 |
+| `EF D3 91 95 58` | W29N08GV | 8Gbit SLC | 2KB / 128KB / 64B | x8 | 支持 |
+
+四份 datasheet 均确认 `Vcc=2.7V~3.6V`。来源、URL 与确认状态只维护在本文档和 `evidence/decodepack-references.json`，不进入运行时 DecodePack 字段。
 
 ## 结构化 token
 
