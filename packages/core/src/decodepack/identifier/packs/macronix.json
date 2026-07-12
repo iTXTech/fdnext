@@ -224,5 +224,165 @@
         }
       }
     }
+  },
+  {
+    "id": "identifier.nand_flash_id.macronix.mx30uf_mx60uf.28ad.v1",
+    "idScheme": "nand.flash_id",
+    "priority": 406,
+    "match": {
+      "kind": "regex",
+      "value": "^C2(?:A1801103|AA901107|AC902257|A3D1225B)03(?:00)?$"
+    },
+    "vendor": "mxic",
+    "definition": {
+      "2": {
+        "density": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": { "161": 1024, "163": 8192, "170": 2048, "172": 4096 }
+        },
+        "voltage": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "161": "Vcc: 1.7V~1.95V",
+            "163": "Vcc: 1.7V~1.95V",
+            "170": "Vcc: 1.7V~1.95V",
+            "172": "Vcc: 1.7V~1.95V"
+          }
+        }
+      },
+      "3": {
+        "die_count": { "dq": [1, 0], "def": { "0": 1, "1": 2 } },
+        "cell_level": { "dq": [3, 2], "def": { "0": 1 } },
+        "simultaneously_programmed_pages": { "dq": [5, 4], "def": { "0": 1, "1": 2 } },
+        "interleave": { "dq": [6], "def": { "0": false, "1": true } },
+        "cache": { "dq": [7], "def": { "1": true } }
+      },
+      "4": {
+        "page_size": { "dq": [1, 0], "def": { "1": 2, "2": 4 } },
+        "redundant_area_size": [
+          {
+            "when": { "4": "11" },
+            "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+            "def": { "17": "128B" }
+          },
+          {
+            "when": { "4": "22" },
+            "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+            "def": { "34": "256B" }
+          }
+        ],
+        "block_size": { "dq": [5, 4], "def": { "1": 128, "2": 256 } },
+        "device_width": { "dq": [6], "def": { "0": "x8" } }
+      },
+      "5": {
+        "ecc_level": { "dq": [1, 0], "def": { "3": "8bit/544B" } },
+        "plane_count": { "dq": [3, 2], "def": { "0": 1, "1": 2, "2": 4 } }
+      }
+    }
+  },
+  {
+    "id": "identifier.nand_flash_id.macronix.mx30uf_mx60uf.16_18ac_ab.v1",
+    "idScheme": "nand.flash_id",
+    "priority": 405,
+    "match": {
+      "kind": "regex",
+      "value": "^C2(?:A1801502|B1805502|AA901506|BA905506|AC901556|BC905556|A3D1155A)(?:00)?$"
+    },
+    "vendor": "mxic",
+    "definition": {
+      "2": {
+        "density": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": { "161": 1024, "163": 8192, "170": 2048, "172": 4096, "177": 1024, "186": 2048, "188": 4096 }
+        },
+        "voltage": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "161": "Vcc: 1.7V~1.95V", "163": "Vcc: 1.7V~1.95V", "170": "Vcc: 1.7V~1.95V",
+            "172": "Vcc: 1.7V~1.95V", "177": "Vcc: 1.7V~1.95V", "186": "Vcc: 1.7V~1.95V",
+            "188": "Vcc: 1.7V~1.95V"
+          }
+        }
+      },
+      "3": {
+        "die_count": { "dq": [1, 0], "def": { "0": 1, "1": 2 } },
+        "cell_level": { "dq": [3, 2], "def": { "0": 1 } },
+        "simultaneously_programmed_pages": { "dq": [5, 4], "def": { "0": 1, "1": 2 } },
+        "interleave": { "dq": [6], "def": { "0": false, "1": true } },
+        "cache": { "dq": [7], "def": { "1": true } }
+      },
+      "4": {
+        "page_size": { "dq": [1, 0], "def": { "1": 2 } },
+        "redundant_area_size": { "dq": [2], "def": { "1": "64B" } },
+        "block_size": { "dq": [5, 4], "def": { "1": 128 } },
+        "device_width": { "dq": [6], "def": { "0": "x8", "1": "x16" } }
+      },
+      "5": {
+        "ecc_level": { "dq": [1, 0], "def": { "2": "4bit/512B" } },
+        "plane_count": { "dq": [3, 2], "def": { "0": 1, "1": 2, "2": 4 } }
+      }
+    }
+  },
+  {
+    "id": "identifier.nand_flash_id.macronix.mx30uf4g28ac.v1",
+    "idScheme": "nand.flash_id",
+    "priority": 405,
+    "match": { "kind": "regex", "value": "^C2AC901157(?:00)?$" },
+    "vendor": "mxic",
+    "definition": {
+      "2": {
+        "density": { "dq": [7, 6, 5, 4, 3, 2, 1, 0], "def": { "172": 4096 } },
+        "voltage": { "dq": [7, 6, 5, 4, 3, 2, 1, 0], "def": { "172": "Vcc: 1.7V~1.95V" } }
+      },
+      "3": {
+        "die_count": { "dq": [1, 0], "def": { "0": 1 } },
+        "cell_level": { "dq": [3, 2], "def": { "0": 1 } },
+        "cache": { "dq": [7], "def": { "1": true } }
+      },
+      "4": {
+        "page_size": { "dq": [1, 0], "def": { "1": 2 } },
+        "redundant_area_size": { "dq": [2], "def": { "0": "128B" } },
+        "block_size": { "dq": [5, 4], "def": { "1": 128 } },
+        "device_width": { "dq": [6], "def": { "0": "x8" } }
+      },
+      "5": {
+        "ecc_level": { "dq": [1, 0], "def": { "3": "8bit/512B" } },
+        "plane_count": { "dq": [3, 2], "def": { "1": 2 } }
+      }
+    }
+  },
+  {
+    "id": "identifier.nand_flash_id.macronix.mx30lf.ge8ab.v1",
+    "idScheme": "nand.flash_id",
+    "priority": 405,
+    "match": { "kind": "regex", "value": "^C2(?:F1809582|DA909586|DC9095D6)(?:00)?$" },
+    "vendor": "mxic",
+    "definition": {
+      "2": {
+        "density": { "dq": [7, 6, 5, 4, 3, 2, 1, 0], "def": { "218": 2048, "220": 4096, "241": 1024 } },
+        "voltage": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": { "218": "Vcc: 2.7V~3.6V", "220": "Vcc: 2.7V~3.6V", "241": "Vcc: 2.7V~3.6V" }
+        }
+      },
+      "3": {
+        "die_count": { "dq": [1, 0], "def": { "0": 1 } },
+        "cell_level": { "dq": [3, 2], "def": { "0": 1 } },
+        "cache": { "dq": [7], "def": { "1": true } }
+      },
+      "4": {
+        "page_size": { "dq": [1, 0], "def": { "1": 2 } },
+        "redundant_area_size": { "dq": [2], "def": { "1": "64B" } },
+        "block_size": { "dq": [5, 4], "def": { "1": 128 } },
+        "device_width": { "dq": [6], "def": { "0": "x8" } }
+      },
+      "5": {
+        "ecc_level": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": { "130": "Internal 4bit ECC", "134": "Internal 4bit ECC", "214": "Internal 4bit ECC" }
+        },
+        "plane_count": { "dq": [3, 2], "def": { "0": 1, "1": 2 } }
+      }
+    }
   }
 ]

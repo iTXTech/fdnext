@@ -38,7 +38,7 @@
 - SanDisk：在确认 PN 没有独立 package token 后，按 family+density 外部表推断 iNAND package；不使用完整 PN 查表。
 - Intel / SpecTek：legacy identifier、structured raw NAND suffix/status/package 与 `I29F` 厂商前缀变体。
 - Winbond：SDR DRAM 与 16 条官方 4Gb LPDDR4/LPDDR4X 4267 MT/s ordering PN 已覆盖；本轮按四份官方 datasheet 新增 W29N01/02/04/08 并行 SLC NAND Read ID 规则。此前加入的 SPI NAND 保留但不再扩展。
-- Macronix：按官方 MX30LF/MX60LF datasheet 新增 18AC 与 28AD 两代 1/2/4/8Gbit 并行 SLC NAND Read ID 规则；不同代际和容量的 page/block/spare/ECC geometry 逐 profile 保留，不扩展到 SPI NAND。
+- Macronix：按官方 datasheet 覆盖 MX30LF/MX60LF 18AC、28AD，MX30UF/MX60UF 16/18AC/28AD、MX30UF4G28AC 与 MX30LF GE8AB internal-ECC 并行 SLC NAND Read ID；电压、位宽及不同代际/容量的 page/block/spare/ECC geometry 均逐 profile 保留，不扩展到 SPI NAND。
 - Nanya：对 11 个官方 standalone component 页面合计 364 个 PN 做完整矩阵审计，补入此前缺少的 178 条 DDR2/DDR3/DDR3L/DDR4/DDR5 与 LPDDR2/3/4/4X exact 搜索 PN；package、speed、grade token 覆盖缺口均为 0，并新增 `6AT:I/H` 温区。KGD、Elixir 与所有模组产品未纳入。
 
 ## 已检索但资料不足，暂不写规则
