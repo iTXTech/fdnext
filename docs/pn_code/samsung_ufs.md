@@ -56,7 +56,7 @@ Samsung UFS 输出：
 - `die_count`：封装内 NAND die 数，例如 `8`
 - `die_codename`：NAND die profile key，例如 `SSV8`；2D/3D 代际说明如需展示由 `generation_info` 承接
 
-可信度 metadata 只在 iTXTech fdnext DecodePack `tables.reference` 内维护，不进入 `fields`。
+可信度、来源和外部确认状态只在 `evidence/decodepack-references.json` 与本文档中维护，不进入 iTXTech fdnext DecodePack 或 `fields`。
 
 ## 示例
 

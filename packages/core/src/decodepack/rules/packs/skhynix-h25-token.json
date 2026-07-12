@@ -117,52 +117,6 @@
           "M": "Module",
           "A": "Wafer"
         },
-        "reference": {
-          "T:M:512Gb": {
-            "status": "external_table_confirmed",
-            "source": "SK hynix H25 current part-number table"
-          },
-          "T:B:512Gb": {
-            "status": "external_confirmed",
-            "source": "TechInsights / TechPowerUp / local fdb cross-check"
-          },
-          "T:C:512Gb": {
-            "status": "external_confirmed",
-            "source": "TechInsights / external flash-id table + local fdb cross-check"
-          },
-          "T:D:512Gb": {
-            "status": "external_confirmed",
-            "source": "TechInsights / TechPowerUp / local fdb cross-check"
-          },
-          "T:M:1Tb": {
-            "status": "external_table_confirmed",
-            "source": "SK hynix H25 current part-number table"
-          },
-          "T:C:1Tb": {
-            "status": "external_table_confirmed",
-            "source": "SK hynix H25 current part-number table"
-          },
-          "T:D:1Tb": {
-            "status": "external_table_confirmed",
-            "source": "maintainer-supplied package table + local fdb cross-check"
-          },
-          "T:G:1Tb": {
-            "status": "external_table_confirmed",
-            "source": "maintainer-supplied V9H package table"
-          },
-          "Q:M:1Tb": {
-            "status": "external_table_confirmed",
-            "source": "SK hynix H25 current part-number table"
-          },
-          "Q:A:1Tb": {
-            "status": "external_table_confirmed",
-            "source": "external flash-id table + local fdb cross-check"
-          },
-          "Q:M:2Tb": {
-            "status": "external_confirmed",
-            "source": "public SK hynix 321-layer QLC material + external package photo"
-          }
-        },
         "packageObj": {
           "655": {
             "package": "BGA-152, 14x18x1.0",

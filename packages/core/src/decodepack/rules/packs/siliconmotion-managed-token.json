@@ -25,12 +25,6 @@
         "SM662"
       ],
       "tables": {
-        "reference": {
-          "siliconmotion_ferri_emmc_selection_guide": {
-            "status": "external_table_confirmed",
-            "source": "Silicon Motion Ferri-eMMC Selection Guide"
-          }
-        },
         "packageObj": {
           "G": {
             "package_code": "100-b",
@@ -184,12 +178,6 @@
         "SM671"
       ],
       "tables": {
-        "reference": {
-          "siliconmotion_ferri_ufs_selection_guide": {
-            "status": "external_table_confirmed",
-            "source": "Silicon Motion Ferri-UFS Selection Guide"
-          }
-        },
         "packageObj": {
           "P": {
             "package_code": "153-b",

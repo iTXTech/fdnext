@@ -56,4 +56,4 @@ PN 结构：
 ## 注意
 
 EC000 / EC110 flyer 中出现的样本进入 testcase。EC150 的具体 PN 由官方产品矩阵、实物 marking 与外部料号表多源确认；decoder 仍只按 token 解析。
-可信度 metadata 只保留在 iTXTech fdnext DecodePack `tables.reference`，不得输出到 `fields`。
+可信度、来源和外部确认状态只保留在 `evidence/decodepack-references.json` 与本文档中，不得放入 iTXTech fdnext DecodePack 或输出到 `fields`。

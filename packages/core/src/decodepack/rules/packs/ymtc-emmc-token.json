@@ -25,16 +25,6 @@
         "YMEC"
       ],
       "tables": {
-        "reference": {
-          "YMEC_A1_A2": {
-            "status": "external_confirmed",
-            "source": "YMTC EC000/EC110 eMMC flyer with product model examples"
-          },
-          "YMTC_EC150": {
-            "status": "external_confirmed",
-            "source": "YMTC EC150 official product page"
-          }
-        },
         "deviceDensity": {
           "4": 65536,
           "5": 131072,

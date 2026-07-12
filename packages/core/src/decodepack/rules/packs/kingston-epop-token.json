@@ -9,12 +9,6 @@
     },
     "tokenDecoder": {
       "tables": {
-        "reference": {
-          "kingston_official_epop_table": {
-            "status": "external_table_confirmed",
-            "source": "Kingston ePoP Part Numbers and Specifications"
-          }
-        },
         "storageDensityCode": ["16", "32", "64", "128", "08"],
         "storageDensity": { "16": 131072, "32": 262144, "64": 524288, "128": 1048576, "08": 65536 },
         "storageDensityText": {

@@ -176,21 +176,6 @@
           "Q": {
             "operation_temperature": "-40°C ~ 105°C Automotive Grade 2"
           }
-        },
-        "reference": {
-          "KLM": {
-            "status": "external_confirmed",
-            "source": "Samsung eMMC 2013 brochure, eMMC 5.1 product pages and eStorage overview",
-            "examples": [
-              "KLM4G1YEMD-C031",
-              "KLMAG2WEMB-B031",
-              "KLMDGAGEAC-B001",
-              "KLMAG1JETD-B041",
-              "KLM8G1GETF-B041",
-              "KLMBG2JETD-B041"
-            ],
-            "notes": "The official 2013 matrix confirms W/Y NAND tokens, eMMC 4.5/5.0 suffix versions, HS200/HS400, die density/count and BGA packaging; current product pages confirm eMMC 5.1, HS400, 153 FBGA, and the published capacity range."
-          }
         }
       },
       "steps": [

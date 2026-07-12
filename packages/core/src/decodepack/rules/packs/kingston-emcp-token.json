@@ -22,16 +22,6 @@
     },
     "tokenDecoder": {
       "tables": {
-        "reference": {
-          "kingston_official_emcp_table": {
-            "status": "external_table_confirmed",
-            "source": "Kingston eMCP Part Numbers and Specifications"
-          },
-          "kingston_emcp_flyer_package_check": {
-            "status": "external_table_confirmed",
-            "source": "Kingston eMCP product flyer"
-          }
-        },
         "storageDensityCode": [
           "16",
           "32",

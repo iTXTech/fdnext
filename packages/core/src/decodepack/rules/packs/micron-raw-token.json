@@ -21,15 +21,6 @@
     },
     "tokenDecoder": {
       "tables": {
-        "reference": {
-          "micron_hsc_ordering_chart": {
-            "status": "external_confirmed",
-            "source": "Micron Current Part Number System (HSC NAND Flash) ordering chart",
-            "examples": [
-              "MT29FB64T08GDLBBN2-QJES:B"
-            ]
-          }
-        },
         "systemObj": {
           "EE": {
             "prod_status": "Early Engineering Samples"

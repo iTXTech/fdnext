@@ -116,7 +116,7 @@ KM + storage type + package + speed/generation + storage capacity + RAM + 4-char
 | `dram_speed` | DRAM 速率 |
 | `package` | 144 FBGA / 254 FBGA 等 |
 
-可信度 metadata 必须留在 iTXTech fdnext DecodePack `tables.reference`，不得输出到 `fields`。
+可信度、来源和外部确认状态必须留在 `evidence/decodepack-references.json` 与本文档中，不得放入 iTXTech fdnext DecodePack 或输出到 `fields`。
 
 ## 待确认
 

@@ -25,16 +25,6 @@
         "BWC"
       ],
       "tables": {
-        "reference": {
-          "biwin_official_emmc_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN eMMC 5.1 order information"
-          },
-          "biwin_emmc51_pdf_package_check": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN eMMC 5.1 specifications PDF"
-          }
-        },
         "configCode": [
           "MAB811G",
           "MMQ511G",
@@ -154,16 +144,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["BWEFM"],
       "tables": {
-        "reference": {
-          "biwin_official_tae_tde308_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN TAE308 and TDE308 eMMC 5.1"
-          },
-          "biwin_current_automotive_industrial_emmc_tables": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN TAE208/318, TDE208/218 and TGE208 order information"
-          }
-        },
         "grade": {
           "A": {
             "product_class": "Automotive, AEC-Q100 Grade 2",
@@ -245,12 +225,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["BWC"],
       "tables": {
-        "reference": {
-          "biwin_official_tge218_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN TGE218 eMMC 5.1 order information"
-          }
-        },
         "densityCode": ["08G", "16G"],
         "density": { "08G": 65536, "16G": 131072 },
         "configObj": {

@@ -25,20 +25,6 @@
         "FEUD"
       ],
       "tables": {
-        "reference": {
-          "foresee_catalog_ufs_table": {
-            "status": "external_table_confirmed",
-            "source": "FORESEE Embedded Storage Product Catalogue 2023"
-          },
-          "foresee_automotive_ufs_table": {
-            "status": "external_table_confirmed",
-            "source": "Longsys Automotive UFS product table"
-          },
-          "lexar_enterprise_ufs22_table": {
-            "status": "external_table_confirmed",
-            "source": "Lexar Enterprise UFS 2.2 product table"
-          }
-        },
         "seriesObj": {
           "NN": {
             "product_family": "Commercial UFS",

@@ -707,6 +707,129 @@ function assertDecodePackIdentityTablesUseArraySyntax(): void {
   assert.deepEqual(findings, [], "identity DecodePack tables should use array syntax instead of duplicate key/value objects");
 }
 
+const decodePackMaintenanceKeys = new Set([
+  "reference",
+  "references",
+  "source",
+  "sources",
+  "citation",
+  "citations",
+  "url",
+  "urls",
+  "notes",
+  "status",
+  "confidence",
+  "collected_at",
+  "retrieved_at",
+  "inference_source",
+  "external_confirmed",
+  "external_table_confirmed",
+  "local_pending_external_reference"
+]);
+const decodePackMaintenanceValues = new Set([
+  "external_confirmed",
+  "external_table_confirmed",
+  "local_pending_external_reference"
+]);
+
+function collectDecodePackMaintenanceData(value: unknown, path: string, findings: string[]): void {
+  if (typeof value === "string") {
+    if (decodePackMaintenanceValues.has(value)) {
+      findings.push(`${path}=${value}`);
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => collectDecodePackMaintenanceData(item, `${path}[${index}]`, findings));
+    return;
+  }
+  if (!value || typeof value !== "object") {
+    return;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    const itemPath = path ? `${path}.${key}` : key;
+    if (decodePackMaintenanceKeys.has(key)) {
+      findings.push(itemPath);
+    }
+    collectDecodePackMaintenanceData(item, itemPath, findings);
+  }
+}
+
+function walkJsonFiles(path: string, files: string[] = []): string[] {
+  const stat = statSync(path);
+  if (stat.isDirectory()) {
+    for (const entry of readdirSync(path)) {
+      walkJsonFiles(join(path, entry), files);
+    }
+  } else if (stat.isFile() && path.endsWith(".json")) {
+    files.push(path);
+  }
+  return files;
+}
+
+function assertDecodePackJsonContainsOnlyRuntimeData(): void {
+  const findings: string[] = [];
+  const sourceRoot = repoPath("packages/core/src/decodepack");
+  for (const file of walkJsonFiles(sourceRoot)) {
+    const relative = file.slice(repoRoot.length).replace(/^\/+/, "");
+    const value = JSON.parse(readFileSync(file, "utf8")) as unknown;
+    collectDecodePackMaintenanceData(value, relative, findings);
+  }
+  assert.deepEqual(findings, [], "DecodePack JSON sources must keep external evidence, confidence and maintenance status out of runtime data");
+
+  const semanticStatusFindings: string[] = [];
+  collectDecodePackMaintenanceData({ fields: { prod_status: "Production" } }, "semantic-status", semanticStatusFindings);
+  assert.deepEqual(semanticStatusFindings, [], "prod_status is decode semantics and must remain allowed");
+}
+
+function assertDecodePackEvidenceManifestIsValid(): void {
+  const manifestPath = repoPath("docs/pn_code/evidence/decodepack-references.json");
+  const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as {
+    format_version?: unknown;
+    description?: unknown;
+    entries?: unknown;
+  };
+  assert.equal(manifest.format_version, 1, "DecodePack evidence manifest should use format version 1");
+  assert.equal(typeof manifest.description, "string", "DecodePack evidence manifest should describe its purpose");
+  assert.ok(Array.isArray(manifest.entries) && manifest.entries.length > 0, "DecodePack evidence manifest should contain entries");
+
+  const allowedStatuses = new Set([
+    "external_confirmed",
+    "external_table_confirmed",
+    "local_pending_external_reference"
+  ]);
+  const uniqueKeys = new Set<string>();
+  for (const [index, value] of (manifest.entries as unknown[]).entries()) {
+    const path = `entries[${index}]`;
+    assert.ok(value && typeof value === "object" && !Array.isArray(value), `${path} should be an object`);
+    const entry = value as Record<string, unknown>;
+    const pack = entry.pack;
+    const specId = entry.spec_id;
+    const tableKey = entry.table_key;
+    const entryKey = entry.entry_key;
+    const evidence = entry.evidence;
+    assert.ok(typeof pack === "string" && /^packages\/core\/src\/decodepack\/.+\.json$/.test(pack), `${path}.pack should be a DecodePack JSON path`);
+    assert.ok(typeof specId === "string" && specId.length > 0, `${path}.spec_id should be non-empty`);
+    assert.equal(tableKey, "reference", `${path}.table_key should preserve the original reference table key`);
+    assert.ok(typeof entryKey === "string" && entryKey.length > 0, `${path}.entry_key should be non-empty`);
+    assert.ok(evidence && typeof evidence === "object" && !Array.isArray(evidence), `${path}.evidence should be an object`);
+
+    const evidenceRecord = evidence as Record<string, unknown>;
+    assert.ok(allowedStatuses.has(String(evidenceRecord.status)), `${path}.evidence.status should use a supported confidence tier`);
+    assert.ok(typeof evidenceRecord.source === "string" && evidenceRecord.source.length > 0, `${path}.evidence.source should be non-empty`);
+
+    const uniqueKey = `${pack}\u0000${specId}\u0000${tableKey}\u0000${entryKey}`;
+    assert.equal(uniqueKeys.has(uniqueKey), false, `${path} duplicates an existing evidence identity`);
+    uniqueKeys.add(uniqueKey);
+
+    const packPath = repoPath(pack as string);
+    assert.equal(existsSync(packPath), true, `${path}.pack should exist`);
+    const specs = JSON.parse(readFileSync(packPath, "utf8")) as Array<{ id?: unknown }>;
+    assert.ok(Array.isArray(specs), `${path}.pack should contain a spec array`);
+    assert.ok(specs.some((spec) => spec.id === specId), `${path}.spec_id should exist in its pack`);
+  }
+}
+
 function assertDefaultDecodePackMaintainsItself(): void {
   const result = checkDecodePack(defaultDecodePack);
   assert.deepEqual(result.findings, [], "default iTXTech fdnext DecodePack should pass maintenance checks");
@@ -747,6 +870,54 @@ function assertDecodePackCheckRejectsUndefinedTokenVariables(): void {
         finding.path === "partSpecs[0].tokenDecoder.assign.fields.die_count.$path"
     ),
     `expected undefined token variable finding, got ${JSON.stringify(result.findings)}`
+  );
+}
+
+function assertDecodePackCheckRejectsMaintenanceData(): void {
+  const result = checkDecodePack({
+    partSpecs: [
+      {
+        id: "test.maintenance-data",
+        match: { kind: "prefix", value: "X" },
+        tokenDecoder: {
+          tables: {
+            reference: {
+              X: {
+                status: "external_confirmed",
+                source: "Vendor datasheet"
+              }
+            },
+            semantic: {
+              X: {
+                prod_status: "Production"
+              }
+            }
+          },
+          steps: [],
+          assign: {
+            "device.partNumber": { $var: "partNumber" }
+          }
+        }
+      }
+    ],
+    identifierSpecs: []
+  } satisfies DecodePack);
+
+  assert.equal(result.ok, false);
+  for (const path of [
+    "partSpecs[0].tokenDecoder.tables.reference",
+    "partSpecs[0].tokenDecoder.tables.reference.X.status",
+    "partSpecs[0].tokenDecoder.tables.reference.X.source"
+  ]) {
+    assert.ok(
+      result.findings.some((finding) => finding.code === "maintenance_data" && finding.path === path),
+      `expected maintenance data finding at ${path}, got ${JSON.stringify(result.findings)}`
+    );
+  }
+  assert.equal(
+    result.findings.some((finding) => finding.path.includes("prod_status")),
+    false,
+    "checker should allow semantic prod_status fields"
   );
 }
 
@@ -1158,8 +1329,11 @@ assertDecodePackLpddrGenerationLabelsUseJedecShape();
 assertDecodePackGenerationLabelsUseShortGenShape();
 assertEngineeringSampleOnlyUsesProductionStatus();
 assertDecodePackIdentityTablesUseArraySyntax();
+assertDecodePackJsonContainsOnlyRuntimeData();
+assertDecodePackEvidenceManifestIsValid();
 assertDefaultDecodePackMaintainsItself();
 assertDecodePackCheckRejectsUndefinedTokenVariables();
+assertDecodePackCheckRejectsMaintenanceData();
 assertDecodePackCheckRejectsPublicCodeFields();
 assertDecodePackCheckRejectsDynamicPublicCodeFields();
 assertDecodePackCheckRejectsInvalidPackageShape();

@@ -7,12 +7,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["BWCD2"],
       "tables": {
-        "reference": {
-          "biwin_official_epop3_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN ePoP3 order information"
-          }
-        },
         "dramDensity": { "4": "4Gb", "8": "8Gb" },
         "package": {
           "NL": "FBGA-136, 10.00x10.00",
@@ -78,12 +72,6 @@
         "BWC"
       ],
       "tables": {
-        "reference": {
-          "biwin_official_epop4x_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN ePoP LPDDR4X order information"
-          }
-        },
         "package": {
           "K": "FBGA-144, 8.00x9.50",
           "L": "FBGA-144, 8.60x10.40"
@@ -222,12 +210,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["BWCSA"],
       "tables": {
-        "reference": {
-          "biwin_official_epop5x_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN 201-ball ePoP5X order information"
-          }
-        },
         "dramDensity": { "E": "16Gb", "F": "24Gb", "K": "32Gb" },
         "package": {
           "YA02": "FBGA-201, 8.00x9.50",

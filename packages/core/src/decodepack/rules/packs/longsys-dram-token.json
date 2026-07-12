@@ -10,12 +10,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["F60C1A"],
       "tables": {
-        "reference": {
-          "longsys_official_ddr3l_product_table": {
-            "status": "external_table_confirmed",
-            "source": "FORESEE DDR3L official product parameter table"
-          }
-        },
         "density": {
           "0002": 2048,
           "0004": 4096

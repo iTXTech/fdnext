@@ -25,15 +25,6 @@
         "29"
       ],
       "tables": {
-        "reference": {
-          "micron_current_raw_ordering_chart": {
-            "status": "external_confirmed",
-            "source": "Micron Current Part Number System (NAND Flash 50-series to now)",
-            "examples": [
-              "MT29F16T08EWLEHD6-36ITRES:E"
-            ]
-          }
-        },
         "productTypeObj": {
           "E": {
             "enterprise": true
@@ -1000,16 +991,6 @@
         "29"
       ],
       "tables": {
-        "reference": {
-          "micron_legacy_raw_ordering_chart": {
-            "status": "external_confirmed",
-            "source": "Micron Legacy Part Number System (NAND Flash 20-series to 60-series)",
-            "examples": [
-              "MT29H8G08AAAC6-20ETES:A",
-              "MT29F128G08WAAC6-ETES:A"
-            ]
-          }
-        },
         "productObj": {
           "F": {},
           "H": {

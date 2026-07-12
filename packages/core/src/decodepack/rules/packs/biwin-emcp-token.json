@@ -7,12 +7,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["BWCE2"],
       "tables": {
-        "reference": {
-          "biwin_official_emcp3_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN eMCP LPDDR3 order information"
-          }
-        },
         "configObj": {
           "4NL": { "dram_density": "4Gb", "package": "FBGA-221, 11.50x13.00" },
           "8NH": { "dram_density": "8Gb", "package": "FBGA-221, 11.50x13.00" },
@@ -89,12 +83,6 @@
         "BWCA2"
       ],
       "tables": {
-        "reference": {
-          "biwin_official_emcp4x_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN eMCP LPDDR4X order information"
-          }
-        },
         "configCode": [
           "EZA",
           "KZC",
@@ -313,12 +301,6 @@
         "BW2A2"
       ],
       "tables": {
-        "reference": {
-          "biwin_official_umcp4x_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN uMCP LPDDR4X order information"
-          }
-        },
         "configCode": [
           "KZC02",
           "LEI02",
@@ -478,12 +460,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["BW3"],
       "tables": {
-        "reference": {
-          "biwin_official_umcp5x_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN uMCP UFS 3.1 LPDDR5X specifications"
-          }
-        },
         "package": { "KG": "FBGA-297, 11.50x13.00" },
         "densityCode": ["128G", "256G", "512G"],
         "density": { "128G": 1048576, "256G": 2097152, "512G": 4194304 },

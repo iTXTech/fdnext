@@ -210,7 +210,7 @@ Identifier DecodePack 的 bitfield definition 也可以直接使用 `meta.nandDi
 
 - `assign` 必须输出 fdnext-native draft，不再输出旧 FD 形态的扁平顶层字段。
 - `fields.*` 必须使用 `packages/core/src/field-registry.ts` 中的 canonical key。
-- 可信度、来源、reference status 等维护信息只能留在内部表（例如 `tables.reference`），不能写进 `fields` 或公开 result。
+- 可信度、来源、reference status 等维护信息统一放入 `docs/pn_code/evidence/decodepack-references.json` 或 PN 文档，不能进入 DecodePack 内部表、`fields` 或公开 result。
 - composite 产品（例如 eMCP/uMCP）应使用 `components` 表达 storage / DRAM 子组件，不新增产品专属 public key。
 
 ## 3. Steps 操作符（op）

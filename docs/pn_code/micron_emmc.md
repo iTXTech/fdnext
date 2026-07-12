@@ -73,4 +73,4 @@ PN 结构：
 ## 注意
 
 新版与旧版 `MTFC` 结构长度不同，规则需先按 token 位宽区分，再判断 family。
-`BC:AQ:TC` / `BC:AQ:DQ` 进入 iTXTech fdnext DecodePack 的 reference metadata；用户可见输出只暴露 component、controller、package、产品线等 canonical 字段。
+`BC:AQ:TC` / `BC:AQ:DQ` 的 reference evidence 进入 `evidence/decodepack-references.json`；iTXTech fdnext DecodePack 和用户可见输出只保留实际参与解析的 component、controller、package、产品线等 canonical 数据。

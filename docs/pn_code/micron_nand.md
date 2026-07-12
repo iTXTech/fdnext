@@ -111,7 +111,7 @@ Design revision 映射：
 - `die_codename`，并由 `nand.die_profile` 补 `layer_count`、`die_density` 等标准字段
 
 以下 token 不进入 public fields：system code、density code、configuration code、voltage code、
-IOE code、interface code、package code、feature code、design revision code、reference / status metadata。
+IOE code、interface code、package code、feature code、design revision code，以及由 evidence manifest 单独维护的 reference / status 信息。
 
 ## Current MT29E / MT29F Raw NAND
 

@@ -25,12 +25,6 @@
         "FEP"
       ],
       "tables": {
-        "reference": {
-          "foresee_catalog_emcp_table": {
-            "status": "external_table_confirmed",
-            "source": "FORESEE Embedded Storage Product Catalogue 2023"
-          }
-        },
         "densityPairCode": [
           "NA1608",
           "NA3208",
@@ -215,12 +209,6 @@
         "FUP"
       ],
       "tables": {
-        "reference": {
-          "foresee_catalog_umcp_table": {
-            "status": "external_table_confirmed",
-            "source": "FORESEE Embedded Storage Product Catalogue 2023"
-          }
-        },
         "densityPairCode": [
           "RB6432",
           "RFA832"

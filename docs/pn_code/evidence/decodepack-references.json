@@ -1,0 +1,1308 @@
+{
+  "format_version": 1,
+  "description": "DecodePack rule evidence kept outside runtime rule packs. Each entry preserves its original pack, spec id, table key, entry key, and evidence payload.",
+  "entries": [
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-dram-token.json",
+      "spec_id": "vendor.biwin.dram.lpddr4x.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_lpddr4x_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN LPDDR4/4X and TGL268 order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-dram-token.json",
+      "spec_id": "vendor.biwin.dram.lpddr5x.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_lpddr5x_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN LPDDR5X specifications"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-emcp-token.json",
+      "spec_id": "vendor.biwin.emcp3.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_emcp3_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN eMCP LPDDR3 order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-emcp-token.json",
+      "spec_id": "vendor.biwin.emcp.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_emcp4x_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN eMCP LPDDR4X order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-emcp-token.json",
+      "spec_id": "vendor.biwin.umcp.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_umcp4x_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN uMCP LPDDR4X order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-emcp-token.json",
+      "spec_id": "vendor.biwin.umcp5x.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_umcp5x_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN uMCP UFS 3.1 LPDDR5X specifications"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-emmc-token.json",
+      "spec_id": "vendor.biwin.emmc.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_emmc_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN eMMC 5.1 order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-emmc-token.json",
+      "spec_id": "vendor.biwin.emmc.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_emmc51_pdf_package_check",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN eMMC 5.1 specifications PDF"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-emmc-token.json",
+      "spec_id": "vendor.biwin.emmc.bwefm.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_tae_tde308_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN TAE308 and TDE308 eMMC 5.1"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-emmc-token.json",
+      "spec_id": "vendor.biwin.emmc.bwefm.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_current_automotive_industrial_emmc_tables",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN TAE208/318, TDE208/218 and TGE208 order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-emmc-token.json",
+      "spec_id": "vendor.biwin.emmc.bwcmaqb.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_tge218_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN TGE218 eMMC 5.1 order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-epop-token.json",
+      "spec_id": "vendor.biwin.epop3.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_epop3_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN ePoP3 order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-epop-token.json",
+      "spec_id": "vendor.biwin.epop4x.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_epop4x_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN ePoP LPDDR4X order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-epop-token.json",
+      "spec_id": "vendor.biwin.epop5x.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_epop5x_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN 201-ball ePoP5X order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-ufs-token.json",
+      "spec_id": "vendor.biwin.ufs.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_ufs22_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN UFS 2.2 order information"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-ufs-token.json",
+      "spec_id": "vendor.biwin.ufs31.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_ufs31_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN UFS 3.1 specifications"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/biwin-ufs-token.json",
+      "spec_id": "vendor.biwin.ufs31.automotive.v1",
+      "table_key": "reference",
+      "entry_key": "biwin_official_tau208_order_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "BIWIN TAU208 automotive UFS 3.1"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/kingston-emcp-token.json",
+      "spec_id": "vendor.kingston.emcp.v1",
+      "table_key": "reference",
+      "entry_key": "kingston_official_emcp_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Kingston eMCP Part Numbers and Specifications"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/kingston-emcp-token.json",
+      "spec_id": "vendor.kingston.emcp.v1",
+      "table_key": "reference",
+      "entry_key": "kingston_emcp_flyer_package_check",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Kingston eMCP product flyer"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/kingston-emmc-token.json",
+      "spec_id": "vendor.kingston.emmc.v1",
+      "table_key": "reference",
+      "entry_key": "kingston_official_emmc_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Kingston eMMC Part Numbers and Specifications"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/kingston-emmc-token.json",
+      "spec_id": "vendor.kingston.emmc.v1",
+      "table_key": "reference",
+      "entry_key": "kingston_emmc_flyer_package_check",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Kingston eMMC and I-Temp eMMC product flyers"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/kingston-epop-token.json",
+      "spec_id": "vendor.kingston.epop.v1",
+      "table_key": "reference",
+      "entry_key": "kingston_official_epop_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Kingston ePoP Part Numbers and Specifications"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/kingston-ufs-token.json",
+      "spec_id": "vendor.kingston.ufs.v1",
+      "table_key": "reference",
+      "entry_key": "kingston_official_ufs_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Kingston UFS Part Numbers and Specifications"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/kingston-ufs-token.json",
+      "spec_id": "vendor.kingston.ufs.v1",
+      "table_key": "reference",
+      "entry_key": "kingston_official_design_in_ufs_flyer",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Kingston Design-in UFS flyer MKF-959.2EN"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-dram-token.json",
+      "spec_id": "vendor.longsys.dram.ddr3l.v1",
+      "table_key": "reference",
+      "entry_key": "longsys_official_ddr3l_product_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "FORESEE DDR3L official product parameter table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-emcp-token.json",
+      "spec_id": "vendor.longsys.foresee.emcp.v1",
+      "table_key": "reference",
+      "entry_key": "foresee_catalog_emcp_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "FORESEE Embedded Storage Product Catalogue 2023"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-emcp-token.json",
+      "spec_id": "vendor.longsys.foresee.umcp.v1",
+      "table_key": "reference",
+      "entry_key": "foresee_catalog_umcp_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "FORESEE Embedded Storage Product Catalogue 2023"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-emmc-token.json",
+      "spec_id": "vendor.longsys.foresee.emmc.v1",
+      "table_key": "reference",
+      "entry_key": "foresee_catalog_emmc_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "FORESEE Embedded Storage Product Catalogue 2023"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-emmc-token.json",
+      "spec_id": "vendor.longsys.foresee.emmc.v1",
+      "table_key": "reference",
+      "entry_key": "foresee_emmc_datasheet_package_check",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "FORESEE eMMC datasheets and distributor package tables"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-emmc-token.json",
+      "spec_id": "vendor.longsys.foresee.emmc.v1",
+      "table_key": "reference",
+      "entry_key": "foresee_subsize_emmc_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Longsys and Lexar Enterprise Subsize eMMC tables"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-spi-nand-token.json",
+      "spec_id": "vendor.longsys.foresee.spi-nand.f35.v1",
+      "table_key": "reference",
+      "entry_key": "foresee_f35_official_ordering",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Longsys FORESEE SPI NAND product table and F35 datasheets"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-spi-nand-token.json",
+      "spec_id": "vendor.longsys.foresee.spi-nand.fs35.v1",
+      "table_key": "reference",
+      "entry_key": "foresee_fs35_official_ordering",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Longsys FS35ND01G datasheet marketing part number chart"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-ufs-token.json",
+      "spec_id": "vendor.longsys.foresee.ufs.v1",
+      "table_key": "reference",
+      "entry_key": "foresee_catalog_ufs_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "FORESEE Embedded Storage Product Catalogue 2023"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-ufs-token.json",
+      "spec_id": "vendor.longsys.foresee.ufs.v1",
+      "table_key": "reference",
+      "entry_key": "foresee_automotive_ufs_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Longsys Automotive UFS product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/longsys-ufs-token.json",
+      "spec_id": "vendor.longsys.foresee.ufs.v1",
+      "table_key": "reference",
+      "entry_key": "lexar_enterprise_ufs22_table",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Lexar Enterprise UFS 2.2 product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:1G8:TRF",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A2G4/MT40A1G8 TwinDie DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:2G4:TRF",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A2G4/MT40A1G8 TwinDie DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:2G8:FSE",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A4G4/MT40A2G8 TwinDie DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:2G8:NRE",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A4G4/MT40A2G8 TwinDie DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:4G4:FSE",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A4G4/MT40A2G8 TwinDie DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:4G4:NRE",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A4G4/MT40A2G8 TwinDie DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:4G8:BAF",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron MT40A8G4/MT40A4G8 TwinDie DDR4 SDRAM datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:4G8:NEA",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron MT40A8G4/MT40A4G8 TwinDie DDR4 SDRAM datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:8G4:BAF",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron MT40A8G4/MT40A4G8 TwinDie DDR4 SDRAM datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:8G4:NEA",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron MT40A8G4/MT40A4G8 TwinDie DDR4 SDRAM datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:2G8:DVN",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A4G4/MT40A2G8 2H 3DS DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:2G8:HPR",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A4G4/MT40A2G8 2H 3DS DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:4G4:DVN",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A4G4/MT40A2G8 2H 3DS DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:4G4:HPR",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A4G4/MT40A2G8 2H 3DS DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:4G8:CLU",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A8G4/MT40A4G8 4H 3DS DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:4G8:KVA",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A8G4/MT40A4G8 4H 3DS DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:8G4:CLU",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A8G4/MT40A4G8 4H 3DS DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:8G4:KVA",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A8G4/MT40A4G8 4H 3DS DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:1G16:HBA",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A1G16 TwinDie single-rank DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:1G16:KNR",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A1G16 TwinDie single-rank DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:1G16:WBU",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A1G16 TwinDie single-rank DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "40:A:2G16:TBB",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT40A2G16 TwinDie single-rank DDR4 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:J:1G4:THD",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41J1G4/MT41J512M8 TwinDie DDR3 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:J:1G4:THU",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41J1G4/MT41J512M8 TwinDie DDR3 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:J:512M8:THD",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41J1G4/MT41J512M8 TwinDie DDR3 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:J:512M8:THU",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41J1G4/MT41J512M8 TwinDie DDR3 SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:J:1G8:THE",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron MT41J2G4/MT41J1G8 TwinDie DDR3 SDRAM datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:J:1G8:TRF",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron MT41J2G4/MT41J1G8 TwinDie DDR3 SDRAM datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:J:2G4:THE",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron MT41J2G4/MT41J1G8 TwinDie DDR3 SDRAM datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:J:2G4:TRF",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron MT41J2G4/MT41J1G8 TwinDie DDR3 SDRAM datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:1G4:THD",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K1G4/MT41K512M8 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:1G4:THV",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K1G4/MT41K512M8 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:512M8:THD",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K1G4/MT41K512M8 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:512M8:THV",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K1G4/MT41K512M8 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:1G8:RKB",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K2G4/MT41K1G8 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:1G8:TRF",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K2G4/MT41K1G8 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:2G4:RKB",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K2G4/MT41K1G8 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:2G4:TRF",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K2G4/MT41K1G8 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:512M16:TNA",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K512M16 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:512M16:VRN",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K512M16 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:512M16:VRP",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K512M16 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:2G8:KJR",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron MT41K4G4/MT41K2G8 TwinDie DDR3L SDRAM datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:4G4:KJR",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron MT41K4G4/MT41K2G8 TwinDie DDR3L SDRAM datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "table_key": "reference",
+      "entry_key": "41:K:1G16:DGA",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MT41K1G16 TwinDie DDR3L SDRAM datasheet"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.umcp.mt29v_mt30a.v1",
+      "table_key": "reference",
+      "entry_key": "micron_locked_umcp_part_rows",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron locked 254/297 uMCP datasheet catalog rows provided by user"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.nand_mcp.v1",
+      "table_key": "reference",
+      "entry_key": "micron_nummcp_nand_mcp_pdf",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron NOR MCP, NAND MCP, PoP and AiO Part Numbering Systems PDF, NAND MCP page"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.aio.v1",
+      "table_key": "reference",
+      "entry_key": "micron_nummcp_aio_pdf",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron NOR MCP, NAND MCP, PoP and AiO Part Numbering Systems PDF, All-in-One page"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.mt29c.v1",
+      "table_key": "reference",
+      "entry_key": "micron_mt29c_168ball_pdf",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron 168-Ball NAND Flash and LPDRAM PoP MCP datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.mt29c.v1",
+      "table_key": "reference",
+      "entry_key": "micron_mt29c_137tfbga_distributor",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "DigiKey MT29C4G96MAZAPCJA-5 IT listing"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.mt29c.v1",
+      "table_key": "reference",
+      "entry_key": "micron_mt29c_legacy_distributor_rows",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Public distributor rows for MT29C1G12, MT29C2G48, and MT29C4G48 legacy MCP variants"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.mt29c.v1",
+      "table_key": "reference",
+      "entry_key": "micron_mt29c_programmer_pn_decode",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Elnec MT29C8G48MAPLDJA device page with MT29C PN description table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.mt29rz.v1",
+      "table_key": "reference",
+      "entry_key": "micron_mt29rz_obsolete_part_detail",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron obsolete NAND MCP catalog part detail"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.mt29rz.v1",
+      "table_key": "reference",
+      "entry_key": "micron_mt29rz_distributor_specs",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "MT29RZ4C4DZZMGMF distributor listings"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-managed-token.json",
+      "spec_id": "vendor.micron.managed.mtfc.nextgen.v1",
+      "table_key": "reference",
+      "entry_key": "BC:AQ:TC",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron e.MMC 5.1 32GB-256GB automotive data sheet",
+        "examples": [
+          "MTFC32GBCAQTC-AIT",
+          "MTFC128GBCAQTC-AAT",
+          "MTFC256GBCAQTC-AAT"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-managed-token.json",
+      "spec_id": "vendor.micron.managed.mtfc.nextgen.v1",
+      "table_key": "reference",
+      "entry_key": "BC:AQ:DQ",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron e.MMC 5.1 32GB-256GB automotive data sheet",
+        "examples": [
+          "MTFC32GBCAQDQ-AAT",
+          "MTFC64GBCAQDQ-AAT"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-raw-structured-token.json",
+      "spec_id": "vendor.micron.raw.current.v1",
+      "table_key": "reference",
+      "entry_key": "micron_current_raw_ordering_chart",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron Current Part Number System (NAND Flash 50-series to now)",
+        "examples": [
+          "MT29F16T08EWLEHD6-36ITRES:E"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-raw-structured-token.json",
+      "spec_id": "vendor.micron.raw.legacy.v1",
+      "table_key": "reference",
+      "entry_key": "micron_legacy_raw_ordering_chart",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron Legacy Part Number System (NAND Flash 20-series to 60-series)",
+        "examples": [
+          "MT29H8G08AAAC6-20ETES:A",
+          "MT29F128G08WAAC6-ETES:A"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-raw-token.json",
+      "spec_id": "vendor.micron.hsc.mt29fb.v1",
+      "table_key": "reference",
+      "entry_key": "micron_hsc_ordering_chart",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron Current Part Number System (HSC NAND Flash) ordering chart",
+        "examples": [
+          "MT29FB64T08GDLBBN2-QJES:B"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/samsung-emmc-token.json",
+      "spec_id": "vendor.samsung.emmc.token.v1",
+      "table_key": "reference",
+      "entry_key": "KLM",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Samsung eMMC 2013 brochure, eMMC 5.1 product pages and eStorage overview",
+        "examples": [
+          "KLM4G1YEMD-C031",
+          "KLMAG2WEMB-B031",
+          "KLMDGAGEAC-B001",
+          "KLMAG1JETD-B041",
+          "KLM8G1GETF-B041",
+          "KLMBG2JETD-B041"
+        ],
+        "notes": "The official 2013 matrix confirms W/Y NAND tokens, eMMC 4.5/5.0 suffix versions, HS200/HS400, die density/count and BGA packaging; current product pages confirm eMMC 5.1, HS400, 153 FBGA, and the published capacity range."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/samsung-ufs-token.json",
+      "spec_id": "vendor.samsung.ufs.token.v1",
+      "table_key": "reference",
+      "entry_key": "KLU",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Samsung UFS 3.1 / 4.0 / 4.1 product pages and eStorage overview",
+        "examples": [
+          "KLUEG8UHDB-C2E1",
+          "KLUFG8RHHF-F0G1",
+          "KLUEG4RHKF-F0H1"
+        ],
+        "notes": "Official UFS pages confirm UFS 3.1, UFS 4.0, UFS 4.1, G4/G5 controller class, package and capacity families."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
+      "spec_id": "vendor.sndk.inand.managed.v1",
+      "table_key": "reference",
+      "entry_key": "BDA6",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Sandisk iNAND IX EM132 product brief and automotive brochure",
+        "examples": [
+          "SDINBDA6-256G-XI1",
+          "SDINBDA6-##G-ZA1"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
+      "spec_id": "vendor.sndk.inand.managed.v1",
+      "table_key": "reference",
+      "entry_key": "BDG4",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Western Digital mobile brochure and Sandisk automotive brochure",
+        "examples": [
+          "SDINBDG4-32G",
+          "SDINBDG4-##G-ZA3"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
+      "spec_id": "vendor.sndk.inand.managed.v1",
+      "table_key": "reference",
+      "entry_key": "BDI4",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Sandisk Industrial and IoT brochure plus authorized distributor and programmer support tables",
+        "examples": [
+          "SDINBDI4-64G-H",
+          "SDINBDI4-128G-H",
+          "SDINBDI4-256G-H"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
+      "spec_id": "vendor.sndk.inand.managed.v1",
+      "table_key": "reference",
+      "entry_key": "DDH6",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Sandisk automotive e.MMC/UFS brochure",
+        "examples": [
+          "SDINDDH6-##G-ZA2",
+          "SDINDDH6-##G-XA2"
+        ],
+        "notes": "iNAND AT EU312, UFS 2.1"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
+      "spec_id": "vendor.sndk.inand.managed.v1",
+      "table_key": "reference",
+      "entry_key": "FDQ6",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Sandisk iNAND AT EU552 product brief and automotive brochure",
+        "examples": [
+          "SDINFDQ6-128G-ZA1"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
+      "spec_id": "vendor.sndk.inand.managed.v1",
+      "table_key": "reference",
+      "entry_key": "HDL6",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Sandisk iNAND AT EU752 product brief and automotive brochure",
+        "examples": [
+          "SDINHDL6-1T00-ZA"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
+      "spec_id": "vendor.sndk.inand.managed.v1",
+      "table_key": "reference",
+      "entry_key": "HFT4",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Sandisk Industrial and IoT brochure plus Falcon programmer and distributor tables",
+        "examples": [
+          "SDINHFT4-128G",
+          "SDINHFT4-256G",
+          "SDINHFT4-1T00"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
+      "spec_id": "vendor.sndk.inand.managed.v1",
+      "table_key": "reference",
+      "entry_key": "HFR4",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Sandisk commercial warranty family list and Sandisk/MemoryS EU721 material",
+        "examples": [
+          "SDINHFR4-###G"
+        ],
+        "notes": "EU721 uses BiCS8 218-layer QLC; exact commercial ordering suffix remains pending"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/siliconmotion-managed-token.json",
+      "spec_id": "vendor.siliconmotion.ferri.emmc.v1",
+      "table_key": "reference",
+      "entry_key": "siliconmotion_ferri_emmc_selection_guide",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Silicon Motion Ferri-eMMC Selection Guide"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/siliconmotion-managed-token.json",
+      "spec_id": "vendor.siliconmotion.ferri.ufs.v1",
+      "table_key": "reference",
+      "entry_key": "siliconmotion_ferri_ufs_selection_guide",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Silicon Motion Ferri-UFS Selection Guide"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "T:M:512Gb",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix H25 current part-number table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "T:B:512Gb",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "TechInsights / TechPowerUp / local fdb cross-check"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "T:C:512Gb",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "TechInsights / external flash-id table + local fdb cross-check"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "T:D:512Gb",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "TechInsights / TechPowerUp / local fdb cross-check"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "T:M:1Tb",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix H25 current part-number table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "T:C:1Tb",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix H25 current part-number table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "T:D:1Tb",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "maintainer-supplied package table + local fdb cross-check"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "T:G:1Tb",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "maintainer-supplied V9H package table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "Q:M:1Tb",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix H25 current part-number table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "Q:A:1Tb",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "external flash-id table + local fdb cross-check"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
+      "spec_id": "vendor.skhynix.h25.gt-package.v2",
+      "table_key": "reference",
+      "entry_key": "Q:M:2Tb",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "public SK hynix 321-layer QLC material + external package photo"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/winbond-nand-token.json",
+      "spec_id": "vendor.winbond.raw.w29n.v1",
+      "table_key": "reference",
+      "entry_key": "W29N",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond SLC NAND Flash Product Brief and W29N02GV ordering information",
+        "examples": [
+          "W29N02GV",
+          "W29N02GVSIAA",
+          "W29N02GVBJAA"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/winbond-nand-token.json",
+      "spec_id": "vendor.winbond.raw.w25n.v1",
+      "table_key": "reference",
+      "entry_key": "W25N",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond QspiNAND product brief and W25N01GV ordering information",
+        "examples": [
+          "W25N01GV",
+          "W25N01GVZEIG",
+          "W25N01GVTBIT"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/winbond-nand-token.json",
+      "spec_id": "vendor.winbond.raw.w35n.v1",
+      "table_key": "reference",
+      "entry_key": "W35N",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond SLC NAND Flash Product Brief",
+        "examples": [
+          "W35N01JW",
+          "W35N02JW",
+          "W35N04JW"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/ymtc-emmc-token.json",
+      "spec_id": "vendor.ymtc.emmc-label.v1",
+      "table_key": "reference",
+      "entry_key": "YMEC_A1_A2",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "YMTC EC000/EC110 eMMC flyer with product model examples"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/ymtc-emmc-token.json",
+      "spec_id": "vendor.ymtc.emmc-label.v1",
+      "table_key": "reference",
+      "entry_key": "YMTC_EC150",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "YMTC EC150 official product page"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/ymtc-ufs-token.json",
+      "spec_id": "vendor.ymtc.ufs-label.v1",
+      "table_key": "reference",
+      "entry_key": "YMTC_UC260",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "YMTC UC260 official product page"
+      }
+    }
+  ]
+}

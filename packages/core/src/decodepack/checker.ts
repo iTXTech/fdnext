@@ -132,6 +132,71 @@ function addFinding(
   findings.push({ severity, code, path, message, ...(specId ? { specId } : {}) });
 }
 
+const maintenanceDataKeys = new Set([
+  "reference",
+  "references",
+  "source",
+  "sources",
+  "citation",
+  "citations",
+  "url",
+  "urls",
+  "notes",
+  "status",
+  "confidence",
+  "collected_at",
+  "retrieved_at",
+  "inference_source",
+  "external_confirmed",
+  "external_table_confirmed",
+  "local_pending_external_reference"
+]);
+
+const maintenanceDataValues = new Set([
+  "external_confirmed",
+  "external_table_confirmed",
+  "local_pending_external_reference"
+]);
+
+function checkMaintenanceData(
+  value: unknown,
+  path: string,
+  findings: DecodePackCheckFinding[]
+): void {
+  if (typeof value === "string") {
+    if (maintenanceDataValues.has(value)) {
+      addFinding(
+        findings,
+        "error",
+        "maintenance_data",
+        path,
+        `DecodePack must not contain external evidence status "${value}"; keep it in the evidence manifest.`
+      );
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => checkMaintenanceData(item, `${path}[${index}]`, findings));
+    return;
+  }
+  if (!isRecord(value)) {
+    return;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    const itemPath = path ? `${path}.${key}` : key;
+    if (maintenanceDataKeys.has(key)) {
+      addFinding(
+        findings,
+        "error",
+        "maintenance_data",
+        itemPath,
+        `DecodePack key "${key}" is maintenance-only; keep external evidence and confidence outside runtime rules.`
+      );
+    }
+    checkMaintenanceData(item, itemPath, findings);
+  }
+}
+
 const packageDimensionPattern = /^\d+(?:\.\d+)?(?:x\d+(?:\.\d+)?)+(?:\/\d+(?:\.\d+)?(?:x\d+(?:\.\d+)?)*)?$/;
 const packageTypePattern = /^[A-Za-z0-9][A-Za-z0-9+./ -]*(?:-\d[A-Za-z0-9./-]*)?(?: \/ [A-Za-z0-9][A-Za-z0-9+./ -]*(?:-\d[A-Za-z0-9./-]*)?)*$/;
 
@@ -680,6 +745,7 @@ function checkOutputSurface(output: unknown, path: string, specId: string, findi
 
 export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
   const findings: DecodePackCheckFinding[] = [];
+  checkMaintenanceData(pack, "", findings);
   const ids = new Map<string, string>();
   const sharedTables = pack.sharedTables ?? {};
   for (const [tableName, table] of Object.entries(sharedTables)) {

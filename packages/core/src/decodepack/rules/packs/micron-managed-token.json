@@ -24,25 +24,6 @@
         "MTFC"
       ],
       "tables": {
-        "reference": {
-          "BC:AQ:TC": {
-            "status": "external_confirmed",
-            "source": "Micron e.MMC 5.1 32GB-256GB automotive data sheet",
-            "examples": [
-              "MTFC32GBCAQTC-AIT",
-              "MTFC128GBCAQTC-AAT",
-              "MTFC256GBCAQTC-AAT"
-            ]
-          },
-          "BC:AQ:DQ": {
-            "status": "external_confirmed",
-            "source": "Micron e.MMC 5.1 32GB-256GB automotive data sheet",
-            "examples": [
-              "MTFC32GBCAQDQ-AAT",
-              "MTFC64GBCAQDQ-AAT"
-            ]
-          }
-        },
         "density": {
           "12M": 4096,
           "1G": 8192,

@@ -21,12 +21,6 @@
     },
     "tokenDecoder": {
       "tables": {
-        "reference": {
-          "micron_locked_umcp_part_rows": {
-            "status": "external_confirmed",
-            "source": "Micron locked 254/297 uMCP datasheet catalog rows provided by user"
-          }
-        },
         "productFamilyObj": {
           "MT29V": {
             "storage_interface": "UFS",
@@ -565,12 +559,6 @@
         "MT29"
       ],
       "tables": {
-        "reference": {
-          "micron_nummcp_nand_mcp_pdf": {
-            "status": "external_confirmed",
-            "source": "Micron NOR MCP, NAND MCP, PoP and AiO Part Numbering Systems PDF, NAND MCP page"
-          }
-        },
         "productFamilyObj": {
           "A": {
             "product_mode": "SLC NAND + LPDDR2",
@@ -1129,12 +1117,6 @@
         "MT29"
       ],
       "tables": {
-        "reference": {
-          "micron_nummcp_aio_pdf": {
-            "status": "external_confirmed",
-            "source": "Micron NOR MCP, NAND MCP, PoP and AiO Part Numbering Systems PDF, All-in-One page"
-          }
-        },
         "productFamilyObj": {
           "C": {
             "product_mode": "SLC NAND + LPDDR",
@@ -2178,24 +2160,6 @@
         "MT29C"
       ],
       "tables": {
-        "reference": {
-          "micron_mt29c_168ball_pdf": {
-            "status": "external_confirmed",
-            "source": "Micron 168-Ball NAND Flash and LPDRAM PoP MCP datasheet mirror"
-          },
-          "micron_mt29c_137tfbga_distributor": {
-            "status": "external_table_confirmed",
-            "source": "DigiKey MT29C4G96MAZAPCJA-5 IT listing"
-          },
-          "micron_mt29c_legacy_distributor_rows": {
-            "status": "external_table_confirmed",
-            "source": "Public distributor rows for MT29C1G12, MT29C2G48, and MT29C4G48 legacy MCP variants"
-          },
-          "micron_mt29c_programmer_pn_decode": {
-            "status": "external_table_confirmed",
-            "source": "Elnec MT29C8G48MAPLDJA device page with MT29C PN description table"
-          }
-        },
         "storageDensityCode": [
           "DM",
           "EM",
@@ -2745,16 +2709,6 @@
         "MT29RZ"
       ],
       "tables": {
-        "reference": {
-          "micron_mt29rz_obsolete_part_detail": {
-            "status": "external_confirmed",
-            "source": "Micron obsolete NAND MCP catalog part detail"
-          },
-          "micron_mt29rz_distributor_specs": {
-            "status": "external_table_confirmed",
-            "source": "MT29RZ4C4DZZMGMF distributor listings"
-          }
-        },
         "storageDensity": {
           "1C": 1024,
           "4C": 4096

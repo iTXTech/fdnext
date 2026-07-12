@@ -60,8 +60,8 @@
 | 状态 | 含义 | 处理 |
 | --- | --- | --- |
 | `external_confirmed` | 原厂、TechInsights、TechPowerUp 等拆解/规格资料直接确认 PN、层数、die 或 package 容量 | 可作为确定规则与 testcase |
-| `external_table_confirmed` | flashinfo.top、论坛 flash-id 表、SSD dump、分销页面等外部网页与本地 fdb/fdfdb 同向 | 可进规则，但只在 iTXTech fdnext DecodePack `tables.reference` 内标明来源档位，不输出到 `fields` |
-| `local_pending_external_reference` | 仅本地 fdb/fdfdb 或 MPTool 数据，暂未找到外部网页 | 不删除候选，只在 iTXTech fdnext DecodePack 内部 metadata 标记；不作为“已确定”结论 |
+| `external_table_confirmed` | flashinfo.top、论坛 flash-id 表、SSD dump、分销页面等外部网页与本地 fdb/fdfdb 同向 | 可进规则，但来源档位只在 `evidence/decodepack-references.json` 与本文档中维护，不输出到 `fields` |
+| `local_pending_external_reference` | 仅本地 fdb/fdfdb 或 MPTool 数据，暂未找到外部网页 | 不删除候选，只在 evidence manifest 或本文档待确认列表标记；不作为“已确定”结论 |
 
 单个 MPTool / fdfdb 条目可能乱写，不能单独提升为确定结论；至少需要本地多源一致或外部网页交叉确认。
 
@@ -414,7 +414,7 @@ H25 raw package density 由 die density x die count 计算；公开结果中输�
 ## 已知缺口
 
 - H25T/G package tail 仍只有部分表格确认：HYV9 `X655` / `X656` / `X657` / `X676` / `X658` / `X659` / `X660` / `X862` / `X860` / `X826` / `X828` / `X809` / `X811` / `X813`，V9Q `X817` / `X819` / `X834` / `X836` / `X822` / `X824` / `X830` 已可输出封装尺寸和厚度；其他如 `X321N` / `X535` / `X630` 仍只保留前段稳定 token。
-- 没有外部 reference 的 H25/H25T 候选不删除，但必须在 iTXTech fdnext DecodePack metadata 标记为 `local_pending_external_reference` 或进入本文档待确认列表，不能输出到用户可见解析结果。
+- 没有外部 reference 的 H25/H25T 候选不删除，但必须在 `evidence/decodepack-references.json` 标记为 `local_pending_external_reference` 或进入本文档待确认列表，不能写入 DecodePack 维护字段或输出到用户可见解析结果。
 - `H2` / `HY27` 的 topology、mode、generation 表来自既有规则表，后续应逐步补对应资料出处。
 - `H26`、`HN8`、`H28S` 已被更高优先级 managed NAND 规则拦截，不应在 raw NAND 文档中重复解析。
 - `H9` 已拆到 eMCP / uMCP 文档，不能用 raw NAND 规则兜底解释。

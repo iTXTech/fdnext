@@ -38,6 +38,7 @@
 - [NAND Die Profile 标准化](nand_die_profile.md)
 - [输出术语](terminology.md)
 - [PN 规则可信度策略](reference_policy.md)
+- [DecodePack 规则证据清单](evidence/decodepack-references.json)
 
 ## 通用约定
 
@@ -46,5 +47,5 @@
 - 规则实现禁止完整 PN 白名单匹配，只允许按 PN 结构切 token，再用规则库解释已知 token。
 - 文档和 canonical PN 中的 `-` / `:` 是 token separator；用户输入按原 token 顺序省略 `-` 时，解析和搜索应按同一 PN 处理。
 - 未知 token 不应阻断 vendor、type、density 等已能确定字段的解析。
-- 用户可见字段统一使用跨厂商 canonical key；厂商原始 token、可信度 metadata 和外部确认状态只能留在 iTXTech fdnext DecodePack 内部或厂商文档中。
+- 用户可见字段统一使用跨厂商 canonical key；厂商原始 token 只在确实参与解析时留在规则内部，可信度、来源和外部确认状态统一放入 `evidence/decodepack-references.json` 或厂商文档，禁止放入 iTXTech fdnext DecodePack。
 - 新增厂商或产品线时，先创建独立文档，再补 iTXTech fdnext DecodePack pack 和 testcase。

@@ -66,4 +66,4 @@ PN 结构：
 ## 注意
 
 本轮只用 YMTC 官方产品页补强 `storage_interface` 与 `density` 等 canonical 字段，不把 UC341 转载资料中的未验证 ordering 信息扩展成新 iTXTech fdnext DecodePack 样本。
-可信度 metadata 只保留在 iTXTech fdnext DecodePack `tables.reference`，不得输出到 `fields`。
+可信度、来源和外部确认状态只保留在 `evidence/decodepack-references.json` 与本文档中，不得放入 iTXTech fdnext DecodePack 或输出到 `fields`。

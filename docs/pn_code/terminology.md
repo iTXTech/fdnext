@@ -7,7 +7,7 @@
 维护规则：
 
 - iTXTech fdnext DecodePack 规则应直接输出 canonical snake_case field key，不维护旧 key alias。
-- 可信度、reference status、source、inference note 等维护信息只能留在 iTXTech fdnext DecodePack metadata 或文档中，不能进入公开 fields。
+- 可信度、reference status、source、inference note 等维护信息只能留在 `evidence/decodepack-references.json` 或 PN 文档中，不能进入 iTXTech fdnext DecodePack 或公开 fields。
 - 未知值直接省略；不要为了填满旧响应形状输出 `Unknown`、空数组或 NAND-only 默认槽位。
 - `vendor`、`chip_kind`、`product_type`、`part_number`、`identifier`、`id_scheme`、`marking_code` 已由 `device` 承载，不再复制进 `blocks[].fields[]`。
 - `config_code`、`package_code`、`controller_code`、`die_code`、`feature_code` 以及其他 `*_code` token 只用于 DecodePack 内部解析，不进入用户可见 `blocks[].fields[]`；应优先输出 `package`、`controller`、`die_revision`、`die_codename`、`special_option` 等语义字段。`speed_grade` 例外，可保留原始 speed / grade token 并附带可读含义。

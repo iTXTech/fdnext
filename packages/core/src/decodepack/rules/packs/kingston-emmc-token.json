@@ -25,16 +25,6 @@
         "EMMC"
       ],
       "tables": {
-        "reference": {
-          "kingston_official_emmc_table": {
-            "status": "external_table_confirmed",
-            "source": "Kingston eMMC Part Numbers and Specifications"
-          },
-          "kingston_emmc_flyer_package_check": {
-            "status": "external_table_confirmed",
-            "source": "Kingston eMMC and I-Temp eMMC product flyers"
-          }
-        },
         "densityCode": [
           "128",
           "256",

@@ -91,13 +91,13 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 
 可信度策略见 `docs/pn_code/reference_policy.md`。规则准入时按以下原则处理：
 
-- `external_confirmed`: 原厂页面、公开 datasheet、TechInsights、TechPowerUp 等可直接确认 PN、产品线、容量、die 或代际。可进入规则和 testcase。
-- `external_table_confirmed`: FlashInfo、论坛 flash-id 表、SSD dump、分销页面等外部网页与本地 `fdb` / `fdfdb` 同向。可进入规则，但文档应说明来源档位。
-- `local_pending_external_reference`: 仅本地 `fdb` / `fdfdb` 或 MPTool 数据，暂未找到外部网页。不要删除候选，可保留在 iTXTech fdnext DecodePack 内部 metadata 或工作总结中，但不要写成确定结论。
+- `external_confirmed`: 原厂页面、公开 datasheet、TechInsights、TechPowerUp 等可直接确认 PN、产品线、容量、die 或代际。可进入规则和 testcase；可信度与来源本身只记入 `docs/pn_code/evidence/decodepack-references.json` 和文档。
+- `external_table_confirmed`: FlashInfo、论坛 flash-id 表、SSD dump、分销页面等外部网页与本地 `fdb` / `fdfdb` 同向。可进入规则，但来源档位只记入 evidence manifest 和文档。
+- `local_pending_external_reference`: 仅本地 `fdb` / `fdfdb` 或 MPTool 数据，暂未找到外部网页。不要删除候选；只保留在 evidence manifest 或工作总结中，不要写成确定结论，也不要放入 DecodePack。
 
-官方 PDF、datasheet、ordering information、part catalog 和 selection guide 如果清楚暴露 token 结构，可直接作为规则和 testcase 依据。本地 `../fdfdb` 可以用于辅助推断，但 MPTool 数据质量不稳定。进入确定规则前必须找外部网页确认；找不到 reference 时，总结哪些字段可确定、哪些仍待确认。
+官方 PDF、datasheet、ordering information、part catalog 和 selection guide 如果清楚暴露 token 结构，可直接作为规则和 testcase 依据。本地 `../fdfdb` 可以用于辅助推断，但 MPTool 数据质量不稳定。进入确定规则前必须找外部网页确认；找不到 reference 时，在 evidence manifest 或工作总结中区分哪些字段可确定、哪些仍待确认。
 
-可信度字段只允许留在 iTXTech fdnext DecodePack 内部 metadata，例如 `tables.reference`。以下字段不得出现在用户可见输出中：
+`docs/pn_code/evidence/decodepack-references.json` 是不参与运行时的机器可审计证据清单，顶层 `entries` 按仓库相对 `pack` 路径、`spec_id`、原 `table_key` / `entry_key` 和 `evidence` 关联来源。以下维护字段及其同义信息不得进入 DecodePack、identifier pack、共享 decode table、compiled catalog 或用户可见输出：
 
 - `local_pending_external_reference`
 - `external_confirmed`
@@ -105,9 +105,12 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 - `status`
 - `source`
 - `reference`
+- `references`
+- `confidence`
 - `inference_source`
+- 来源 URL、采集日期和不参与 decode 的维护备注
 
-测试中应明确防止这些字段泄漏到 public fields。
+DecodePack table 只保留解码语义数据；编译器当前不会消费的来源、置信度等孤立维护表也必须迁出。暂未接线但属于 decoder mapping 的既有表不在本次证据迁移范围内，不得借迁移删除。测试中应同时防止维护字段回流规则源码和泄漏到 public fields。迁移证据时不得顺带改动、覆盖或删除既有 decode mapping。
 
 ## 跨厂商输出术语
 

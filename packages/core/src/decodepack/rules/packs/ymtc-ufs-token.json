@@ -25,12 +25,6 @@
         "YMUS"
       ],
       "tables": {
-        "reference": {
-          "YMTC_UC260": {
-            "status": "external_confirmed",
-            "source": "YMTC UC260 official product page"
-          }
-        },
         "deviceDensity": {
           "6": 262144,
           "7": 524288,

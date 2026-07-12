@@ -25,16 +25,6 @@
         "UFS"
       ],
       "tables": {
-        "reference": {
-          "kingston_official_ufs_table": {
-            "status": "external_table_confirmed",
-            "source": "Kingston UFS Part Numbers and Specifications"
-          },
-          "kingston_official_design_in_ufs_flyer": {
-            "status": "external_table_confirmed",
-            "source": "Kingston Design-in UFS flyer MKF-959.2EN"
-          }
-        },
         "densityCode": [
           "128",
           "256",

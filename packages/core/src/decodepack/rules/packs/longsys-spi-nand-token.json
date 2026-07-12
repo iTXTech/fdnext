@@ -16,12 +16,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["F35"],
       "tables": {
-        "reference": {
-          "foresee_f35_official_ordering": {
-            "status": "external_confirmed",
-            "source": "Longsys FORESEE SPI NAND product table and F35 datasheets"
-          }
-        },
         "voltage": {
           "S": "Vcc: 2.7V-3.6V",
           "U": "Vcc: 1.7V-1.95V"
@@ -143,12 +137,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["FS35ND"],
       "tables": {
-        "reference": {
-          "foresee_fs35_official_ordering": {
-            "status": "external_confirmed",
-            "source": "Longsys FS35ND01G datasheet marketing part number chart"
-          }
-        },
         "densityCodes": ["01G", "02G", "04G"],
         "density": {
           "01G": 1024,

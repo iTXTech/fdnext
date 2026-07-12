@@ -10,12 +10,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["BW"],
       "tables": {
-        "reference": {
-          "biwin_official_lpddr4x_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN LPDDR4/4X and TGL268 order information"
-          }
-        },
         "package": {
           "H2A": "FBGA-200, 10.00x14.50",
           "N2A": "FBGA-200, 10.00x14.50"
@@ -81,12 +75,6 @@
     "tokenDecoder": {
       "stripPrefixes": ["BW"],
       "tables": {
-        "reference": {
-          "biwin_official_lpddr5x_order_table": {
-            "status": "external_table_confirmed",
-            "source": "BIWIN LPDDR5X specifications"
-          }
-        },
         "deviceWidth": { "32": 32, "64": 64 },
         "package": {
           "P8A": "FBGA-315, 12.40x15.00",

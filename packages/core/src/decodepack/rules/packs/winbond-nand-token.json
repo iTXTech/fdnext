@@ -47,13 +47,6 @@
           "J": {
             "operation_temperature": "-40°C ~ 105°C"
           }
-        },
-        "reference": {
-          "W29N": {
-            "status": "external_confirmed",
-            "source": "Winbond SLC NAND Flash Product Brief and W29N02GV ordering information",
-            "examples": ["W29N02GV", "W29N02GVSIAA", "W29N02GVBJAA"]
-          }
         }
       },
       "steps": [
@@ -129,13 +122,6 @@
         "temperatureObj": {
           "I": { "operation_temperature": "-40°C ~ 85°C" },
           "J": { "operation_temperature": "-40°C ~ 105°C" }
-        },
-        "reference": {
-          "W25N": {
-            "status": "external_confirmed",
-            "source": "Winbond QspiNAND product brief and W25N01GV ordering information",
-            "examples": ["W25N01GV", "W25N01GVZEIG", "W25N01GVTBIT"]
-          }
         }
       },
       "steps": [
@@ -188,13 +174,6 @@
           "01": 1024,
           "02": 2048,
           "04": 4096
-        },
-        "reference": {
-          "W35N": {
-            "status": "external_confirmed",
-            "source": "Winbond SLC NAND Flash Product Brief",
-            "examples": ["W35N01JW", "W35N02JW", "W35N04JW"]
-          }
         }
       },
       "steps": [

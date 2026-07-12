@@ -25,20 +25,6 @@
         "FEM"
       ],
       "tables": {
-        "reference": {
-          "foresee_catalog_emmc_table": {
-            "status": "external_table_confirmed",
-            "source": "FORESEE Embedded Storage Product Catalogue 2023"
-          },
-          "foresee_emmc_datasheet_package_check": {
-            "status": "external_table_confirmed",
-            "source": "FORESEE eMMC datasheets and distributor package tables"
-          },
-          "foresee_subsize_emmc_table": {
-            "status": "external_table_confirmed",
-            "source": "Longsys and Lexar Enterprise Subsize eMMC tables"
-          }
-        },
         "seriesObj": {
           "DME": {
             "product_family": "Automotive eMMC Grade2",

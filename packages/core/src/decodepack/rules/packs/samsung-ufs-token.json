@@ -246,18 +246,6 @@
           "Q": {
             "operation_temperature": "-40°C ~ 105°C Automotive Grade 2"
           }
-        },
-        "reference": {
-          "KLU": {
-            "status": "external_confirmed",
-            "source": "Samsung UFS 3.1 / 4.0 / 4.1 product pages and eStorage overview",
-            "examples": [
-              "KLUEG8UHDB-C2E1",
-              "KLUFG8RHHF-F0G1",
-              "KLUEG4RHKF-F0H1"
-            ],
-            "notes": "Official UFS pages confirm UFS 3.1, UFS 4.0, UFS 4.1, G4/G5 controller class, package and capacity families."
-          }
         }
       },
       "steps": [
