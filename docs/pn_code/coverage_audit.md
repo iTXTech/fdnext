@@ -18,21 +18,22 @@
 
 | 面向 | 当前证据 |
 | --- | --- |
-| DRAM 搜索资源 | `dram-pn.json` 共 2661 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
-| Managed NAND 搜索资源 | `managed-nand-pn.json` 共 698 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
+| DRAM 搜索资源 | `dram-pn.json` 共 2664 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
+| Managed NAND 搜索资源 | `managed-nand-pn.json` 共 810 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
 | Micron 去重 | MDB exact / suffix-boundary 审计通过；有效 MDB 已覆盖的 Micron PN 不重复加入 DRAM / managed PN 资源 |
 | Controller | FDB / IDDB 中 165 个 controller 全部包含在 `controller-groups.json`；`all` 另保留 2 个外部已知 controller，167 个均已分类 |
 | 规则约束 | 资源 PN 对所有 `partSpecs.match.value` 的逐项扫描未发现完整 PN 命中；DecodePack checker 与 metadata audit 通过 |
 
 ## 本轮新增资料已落地
 
-- Samsung：官方 DRAM/UFS/MCP 型号资源补齐；LPDDR4/4X、LPDDR5/5X、raw NAND 局部 token 完善。
-- SK hynix：HBM2E/HBM3、32Gb DDR4、modern LPDDR4X、eMCP 独立 storage/DRAM token；无 package token 的条目继续不输出封装。
-- Micron：HBM3E、MTFC UFS family token、uMCP package/speed、GDDR6 18Gbps；MDB 去重保持。
+- Samsung：官方 DRAM/UFS/MCP 型号资源补齐；LPDDR4/4X、LPDDR5/5X、raw NAND 局部 token 完善；补入 legacy eMMC `W/Y` die token、eMMC 4.5/5.0 version 与 11 条官方搜索 PN。
+- SK hynix：HBM2E/HBM3、32Gb DDR4、modern LPDDR4X、eMCP 独立 storage/DRAM token；按 byte3 条件化补入 legacy SLC Read ID geometry，无 package token 的条目继续不输出封装。
+- Micron：HBM3E、MTFC UFS family token、uMCP package/speed、GDDR6 18Gbps；补入 eMMC 5.1 `AM:AL` / `AP:AL` / `AX:AQ` / `AZ:AQ` family 与 `DW` package，MDB 去重保持。
+- CXMT：按 Rockchip/CSEKER 外部料号表补入 `CXDC/CXDD` LPDDR5/LPDDR5X family、density、layout/package 局部 token 与 3 条搜索 PN。
 - BIWIN：standalone LPDDR4X/LPDDR5X、uMCP5X、TGE408 eMMC、ePoP/eMCP/current eMMC catalog。
 - Longsys / FORESEE：DDR3L、current eMMC/UFS/eMCP catalog；已有 SPI NAND 保留但不继续扩展。
 - ESMT：FC51 eMMC 5.1 与 F59L/F59D parallel SLC NAND；F50 SPI family 明确不命中。
-- KIOXIA：XL-FLASH BA4R/BA8R/BA8S package token 与 legacy identifier 补齐。
+- KIOXIA：XL-FLASH BA4R/BA8R/BA8S package token 与 legacy identifier 补齐；官方 Automotive UFS 4.1 的 128GB/256GB/512GB/1TB PN 已做全容量定向回归。
 - SanDisk：在确认 PN 没有独立 package token 后，按 family+density 外部表推断 iNAND package；不使用完整 PN 查表。
 - Intel / SpecTek：legacy identifier、structured raw NAND suffix/status/package 与 `I29F` 厂商前缀变体。
 - Winbond：SDR DRAM 已覆盖；此前加入的 SPI NAND 保留，不再扩展。
@@ -44,7 +45,7 @@
 | Samsung HBM3/HBM3E、V9/V10 NAND | 有容量、速率、层数或营销代际，但无公开可泛化 ordering PN/token breakdown |
 | SK hynix HBM3E/HBM4、V9T/V9Q NAND | 无公开 ordering PN/token breakdown；单一 automotive HBM PN 不足以证明 token 语义 |
 | Micron HBM4、UFS 4.1 | HBM4 无公开 PN；UFS 4.1 未绑定到公开 MTFC component/controller token，`BG:BE` 也缺可靠产品线绑定 |
-| CXMT LPDDR5X | 官方确认产品、容量和速率，但未公开 PN token breakdown |
+| CXMT LPDDR5X speed / temperature / die topology | 已有 `CXDC/CXDD` family、density、layout/package 局部 token；仍缺公开 suffix 与 die topology breakdown |
 | YMTC UC341 / 4 个 YMN 异常候选 | UC341 无可下载 ordering table；YMN 候选没有外部交叉样本 |
 | KIOXIA / SanDisk eMCP | 未找到原厂公开 ordering token 表 |
 | Longsys LPDDR | 官方页面只给容量、封装和速率矩阵，不给逐容量 PN |

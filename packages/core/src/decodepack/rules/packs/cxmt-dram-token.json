@@ -627,6 +627,111 @@
     }
   },
   {
+    "id": "vendor.cxmt.dram.lpddr5.component.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^CXD[CD][0-9A-Z]{5}(?:-[0-9A-Z]+)*$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "CXD"
+      ],
+      "tables": {
+        "dramType": {
+          "C": "LPDDR5",
+          "D": "LPDDR5X"
+        },
+        "densityMb": {
+          "C": 49152,
+          "D": 98304,
+          "7": 131072
+        },
+        "layoutObj": {
+          "C:DCBM": {
+            "dram_width": 32,
+            "package": "FBGA-315"
+          },
+          "C:JEDM": {
+            "dram_width": 64,
+            "package": "FBGA-496"
+          },
+          "D:JEDM": {
+            "package": "FBGA-315"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([CD])([0-9A-Z])([0-9A-Z]{4})(?=-|$)",
+          "to": "configFull",
+          "groups": {
+            "familyCode": 1,
+            "densityCode": 2,
+            "layoutCode": 3
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "dramType",
+          "to": "dramType"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityMb",
+          "to": "density"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{layoutCode}}",
+          "to": "layoutKey"
+        },
+        {
+          "op": "map",
+          "from": "layoutKey",
+          "table": "layoutObj",
+          "to": "extra",
+          "default": {}
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "cxmt",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_type": {
+          "$var": "dramType"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "meta.ruleId": "vendor.cxmt.dram.lpddr5.component.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.cxmt.dram.lpddr5.cdtq-process-alias.v1",
     "priority": 1005,
     "normalize": [

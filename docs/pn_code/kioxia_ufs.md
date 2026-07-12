@@ -8,6 +8,8 @@
   <https://americas.kioxia.com/en-us/business/memory/selector.html>
 - KIOXIA UFS product brief: 汇总 UFS 产品容量、版本和 package。
   <https://europe.kioxia.com/content/dam/kioxia/shared/business/memory/mlc-nand/asset/productbrief/KIOXIA_UFS_Product_Brief.pdf>
+- KIOXIA Automotive UFS 官方产品页：确认 UFS 4.1 `THGJFJT0E18BAB8`、`THGJFJT1E28BAB8`、`THGJFJT2E48BAB8`、`THGJFJT3E88BAB5`，容量依次为 128GB / 256GB / 512GB / 1TB，均为 4640 MB/s、AEC-Q100 / 104 Grade 2、-40°C 至 105°C；`BAB8` 为 11.5x13.0x1.2，`BAB5` 为 11.5x13.0x1.3。
+  <https://www.kioxia.com/en-jp/business/memory/automotive.html>
 
 ## 规则状态
 
@@ -72,6 +74,9 @@ PN 结构：
 - `THGJFRT2E48BATV`
 - `THGJFRT3E88BATW`
 - `THGJFJT1T45BAB8`
+- `THGJFJT0E18BAB8`
+- `THGJFJT1E28BAB8`
+- `THGJFJT2E48BAB8`
 - `THGJFJT3E88BAB5`
 - `THGAFBT1T83BAA5`
 
@@ -79,3 +84,5 @@ PN 结构：
 
 KIOXIA automotive UFS 4.0 与 4.1 都使用 `JFJ` 控制器版本组合，必须继续结合 cell/design token 区分；consumer/industrial UFS 4.0 使用 `JFM`，consumer/industrial UFS 4.1 使用 `JFR`。
 UFS 与 eMMC 遵循同一套 Toshiba/KIOXIA managed NAND 尾部编码：`stacked die` 只输出 `die_count`，其后的 design/generation token 才用于 BiCS profile 推断。例如 `THGAFBT1T83BAA5` 的 `T83` 表示 TLC、8 die、BiCS3，而不是 BiCS8。
+
+Automotive UFS 官方页面给上述 UFS 4.1 PN 的 Vcc 为 2.4V 至 2.7V、VccQ 为 1.14V 至 1.26V，并注明不需要 VccQ2；当前共享 `J` voltage mapping 仍保留既有 2.7V 至 3.6V / 双 VccQ 范围。两者存在来源冲突，本轮遵循“不覆盖已有 mapping”约束只记录，不修改公开 voltage 输出，等待专门的系列级电压证据审计。

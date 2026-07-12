@@ -10642,5 +10642,17 @@
   {
     "vendor": "longsys",
     "pn": "F60C1A0004-M79W"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDCCDCBM-MT-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDCDJEDM-MT-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDD7JEDM-MX-M"
   }
 ]

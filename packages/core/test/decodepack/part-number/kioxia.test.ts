@@ -437,22 +437,31 @@ testPart("THGJFJT1T45BAB8", {
   absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
 });
 
-testPart("THGJFJT3E88BAB5", {
-  vendor: "kioxia",
-  type: "UFS",
-  densityMbit: 8388608,
-  dieProfileField: "BiCS8",
-  voltage: "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V",
-  package: "BGA, 11.5x13.0x1.3",
-  extra: {
-    "Storage Interface": "UFS 4.1",
-    "Product Class": "Automotive AEC-Q100 Grade 2",
-    "Controller Revision": "J",
-    "Die Count": 8,
-    "Speed Grade": "4640 MB/s"
-  },
-  absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
-}, "uses JFJ plus actual cell token to distinguish automotive UFS 4.1");
+const kioxiaAutomotiveUfs41Samples = [
+  { partNumber: "THGJFJT0E18BAB8", densityMbit: 1048576, dieCount: 1, package: "BGA, 11.5x13.0x1.2" },
+  { partNumber: "THGJFJT1E28BAB8", densityMbit: 2097152, dieCount: 2, package: "BGA, 11.5x13.0x1.2" },
+  { partNumber: "THGJFJT2E48BAB8", densityMbit: 4194304, dieCount: 4, package: "BGA, 11.5x13.0x1.2" },
+  { partNumber: "THGJFJT3E88BAB5", densityMbit: 8388608, dieCount: 8, package: "BGA, 11.5x13.0x1.3" }
+];
+
+for (const sample of kioxiaAutomotiveUfs41Samples) {
+  testPart(sample.partNumber, {
+    vendor: "kioxia",
+    type: "UFS",
+    densityMbit: sample.densityMbit,
+    dieProfileField: "BiCS8",
+    voltage: "Vcc: 2.7V-3.6V, VccQ: 1.14V-1.26V/1.7V-1.95V",
+    package: sample.package,
+    extra: {
+      "Storage Interface": "UFS 4.1",
+      "Product Class": "Automotive AEC-Q100 Grade 2",
+      "Controller Revision": "J",
+      "Die Count": sample.dieCount,
+      "Speed Grade": "4640 MB/s"
+    },
+    absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
+  }, `uses JFJ plus the E cell token to decode automotive UFS 4.1 ${sample.partNumber}`);
+}
 
 testPart("THGAFBT1T83BAA5", {
   vendor: "kioxia",

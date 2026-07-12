@@ -12,7 +12,7 @@
   <https://sg.micron.com/sales-support/downloads/software-drivers/emmc-software>
 - Micron e.MMC 5.1 automotive datasheet mirror 给出 `MTFC32GBCAQTC-AIT`、`MTFC128GBCAQTC-AAT`、`MTFC256GBCAQTC-AAT` 等 ordering information，并确认 component `BC`、controller `AQ`、package `TC` / `DQ`。
   <https://cdn.promelec.ru/upload/grab/datasheet.lcsc.com/lcsc/2601221102_micron-MTFC32GBCAQTC-AAT_C31550066.pdf>
-- Micron 官方 current / obsolete e.MMC catalog 与公开 Micron datasheet 确认 `BH`、`HD`、`HT` package token：`BH = TFBGA-153, 11.5x13x1.1`，`HD = VFBGA-153, 11.5x13x0.9`，`HT = VBGA-100, 14x18x1.0`。两套 MTFC token grammar 共用已确认的 package-code 语义，避免相同 package token 因新版 / legacy 主体长度不同而丢失封装。
+- Micron 官方 current / obsolete e.MMC catalog 与公开 Micron datasheet 确认 `BH`、`HD`、`HT` package token：`BH = TFBGA-153, 11.5x13x1.1`，`HD = VFBGA-153, 11.5x13x0.9`，`HT = VBGA-100, 14x18x1.0`。官方 catalog 还确认 `DW = LFBGA-100, 14x18x1.5`。两套 MTFC token grammar 共用已确认的 package-code 语义，避免相同 package token 因新版 / legacy 主体长度不同而丢失封装。
   <https://www.micron.com/products/storage/managed-nand/emmc/part-catalog>
   <https://www.micron.com/products/obsolete/obsolete-emmc/part-catalog>
   <https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8611/emmc-industrial-8-128gb-v5-1.pdf>
@@ -37,9 +37,9 @@ PN 结构：
 | component `BC` | e.MMC 5.1 TLC Pearl，512Gb component |
 | component `A..R` | 旧版 eMMC NAND component 表；本次按原厂 decoder 补齐 `H=32Gb x8 3.3V`、`N=4Gb x8 3.3V` |
 | controller `AA..AN` / `A..Z` | controller revision 表 |
-| package `AM/BH/CN/DM/EA/HD/HT/TC/...` | package code；`BH/HD/HT` 分别为 153-ball TFBGA、153-ball VFBGA、100-ball VBGA |
+| package `AM/BH/CN/DM/DW/EA/HD/HT/TC/...` | package code；`BH/HD/HT` 分别为 153-ball TFBGA、153-ball VFBGA、100-ball VBGA，`DW` 为 100-ball LFBGA |
 | special option `0F/0M/1M/.../O1` | boot/enhanced area / firmware option |
-| family key `component:controller` | `AC:AJ` -> eMMC 5.0，`BC:AQ` -> eMMC 5.1 TLC Pearl |
+| family key `component:controller` | `AC:AJ` -> eMMC 5.0；`AM:AL`、`AP:AL`、`AX:AQ`、`AZ:AQ`、`BC:AQ` -> eMMC 5.1 |
 
 ## 输出字段
 
@@ -60,6 +60,10 @@ PN 结构：
 - `MTFC4GACAJCN-1M WT`
 - `MTFC8GLTEA-WT`
 - `MTFC128GBCAQTC-AIT`
+- `MTFC8GAMALBH-AAT`
+- `MTFC16GAPALNA-AAT`
+- `MTFC128GAXAQEA-WT`
+- `MTFC32GAZAQDW-AAT`
 
 ## 注意
 

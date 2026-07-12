@@ -44,7 +44,8 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-05-19 根据用户提供的 Etron LPDDR2 / LPDDR4 / LPDDR4X datasheet 截图补齐 `EM6K` LPDDR2 token，并把 Etron LPDDR4/4X 补全项从页眉式 family PN 清理为带 speed suffix 的标准 ordering PN；带 speed token 的 PN 只输出具体速率，不输出 family 级速度范围。
 - 2026-05-19 从 Etron 官网 specialty DRAM 页面抓取 DDR、DDR2、DDR3/DDR3L、DDR4 的 52 个公开 datasheet，只解析前两页 ordering information / specs：补齐 DDR~DDR4 speed suffix、DDR3/DDR3L 工业/车规/stacked dice suffix、精确 FBGA/BGA/TSOP 封装尺寸，并把 181 个带 speed suffix 的 ordering PN 加入 `dram-pn.json`。带 speed suffix 的 PN 只输出具体速率，不重复输出 family speed。
 - 2026-07-11 根据 Nanya 官方 Standard/Low Power Part Numbering Guide 补齐 DDR4-2933、DDR5-4800 与扩展温区 token；根据 ESMT 两份特定产品 datasheet ordering information 补齐 DDR4 8Gb x16 的 NL/KJ 速度和 LPDDR4X 16Gb x32 双通道 Product ID。
-- 2026-07-11 继续按品牌×产品线审计：补 Samsung LPDDR5X 24Gb / 新 64Gb configuration、GDDR7-28 与 Automotive UFS 4.1，补 Micron 24Gb GDDR7、Nanya LPDDR5/5X exact PN；CXMT LPDDR5X 只更新候选范围，不在缺 PN token 时推造规则。
+- 2026-07-11 继续按品牌×产品线审计：补 Samsung LPDDR5X 24Gb / 新 64Gb configuration、GDDR7-28 与 Automotive UFS 4.1，补 Micron 24Gb GDDR7、Nanya LPDDR5/5X exact PN；当时 CXMT LPDDR5X 只更新候选范围，不在缺 PN token 时推造规则。
+- 2026-07-12 根据 Rockchip DDR 兼容清单的两个 `CXDC` 样本与 CSEKER 的 `CXDD` 样本，新增 CXMT LPDDR5/LPDDR5X family、density、layout/package 局部 token；完整 PN 只进入搜索资源和 testcase。
 
 ## 当前覆盖进度
 
@@ -55,7 +56,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 | Samsung | SDR, DDR, DDR2, DDR3, DDR4, DDR5 | LPDDR, LPDDR2, LPDDR3, LPDDR4, LPDDR4X, LPDDR5, LPDDR5X | GDDR, GDDR2, GDDR3, GDDR4, GDDR5, GDDR6, GDDR7 | - |
 | Nanya | DDR, DDR2, DDR3/DDR3L, DDR4, DDR5 | LPDDR2, LPDDR3, LPDDR4, LPDDR4X, LPDDR5/5X | - | - |
 | Elpida | SDR, DDR, DDR2, DDR3 | LPDDR2, LPDDR3 | GDDR5 | - |
-| CXMT | DDR4, DDR5 inferred `CXDR` | LPDDR4X, LPDDR5 `CDTQ` alias | - | - |
+| CXMT | DDR4, DDR5 inferred `CXDR` | LPDDR4X, LPDDR5/LPDDR5X `CXDC/CXDD`, LPDDR5 `CDTQ` alias | - | - |
 | GigaDevice | DDR3/DDR3L, DDR4 | LPDDR4X | - | - |
 | ISSI | DDR3/DDR3L, DDR4 | LPDDR4, LPDDR4X | - | - |
 | Winbond | DDR, DDR2, DDR3/DDR3L, DDR4 | LPDDR, LPDDR2, LPDDR3, LPDDR4, LPDDR4X | - | - |
@@ -65,8 +66,8 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 
 SK hynix 仍需继续补齐 LPDDR/LPDDR2、GDDR/GDDR2/GDDR3/GDDR4/GDDR7 等公开 ordering table；没有外部 PN 证据前不把推测写成确定结论。
 
-当前大容量 config 已覆盖 Micron DDR5 24Gb / 32Gb、SK hynix DDR5 24Gb / 32Gb / 64Gb、Samsung DDR4 32Gb / DDR5 24Gb / 32Gb / LPDDR5X 64Gb，以及 Nanya DDR5-8000 `2048M8` 样例。CXMT 已扩展 DDR4 x8/x16、16Gb DDR4、LPDDR4X 2GB/4GB discrete 颗粒，并加入 `CXDR4E8BM-*` DDR5 G4 / 16nm-class 推断与 `CDTQ` LPDDR5 G3 / 12Gb die 标记别名；GigaDevice 当前覆盖 DDR3L 1Gb/2Gb/4Gb/8Gb、DDR4 4Gb/8Gb 与 LPDDR4X 16Gb/32Gb standalone 颗粒。CXMT LPDDR5X 与 GigaDevice LPDDR5/LPDDR5X 仍缺少公开 PN token breakdown，暂不进入 iTXTech fdnext DecodePack。
+当前大容量 config 已覆盖 Micron DDR5 24Gb / 32Gb、SK hynix DDR5 24Gb / 32Gb / 64Gb、Samsung DDR4 32Gb / DDR5 24Gb / 32Gb / LPDDR5X 64Gb，以及 Nanya DDR5-8000 `2048M8` 样例。CXMT 已扩展 DDR4 x8/x16、16Gb DDR4、LPDDR4X 2GB/4GB discrete 颗粒，并加入 `CXDR4E8BM-*` DDR5 G4 / 16nm-class 推断、`CXDC/CXDD` LPDDR5/LPDDR5X 局部 token 与 `CDTQ` LPDDR5 G3 / 12Gb die 标记别名；GigaDevice 当前覆盖 DDR3L 1Gb/2Gb/4Gb/8Gb、DDR4 4Gb/8Gb 与 LPDDR4X 16Gb/32Gb standalone 颗粒。GigaDevice LPDDR5/LPDDR5X 仍缺少公开 PN token breakdown，暂不进入 iTXTech fdnext DecodePack。
 
 现有封测/品牌厂商中，BIWIN 已按 2026 官方 ordering 表加入 LPDDR4X 8Gb~64Gb 与 LPDDR5X 32Gb~128Gb standalone 颗粒；Longsys / FORESEE 已按官方 P/N 表加入 2Gb/4Gb DDR3L。Longsys LPDDR 页面仍只公开容量/封装矩阵而无逐容量 P/N，因此不反推料号。
 
-Nanya 官方产品线未列 GDDR；Elpida 独立品牌 standard DDR 世代到 DDR3 结束，后续 DDR4/DDR5 不作为待补缺口；CXMT 官方资料确认 DDR5/LPDDR5/LPDDR5X 产品存在，但公开页面没有足够 LPDDR5X PN breakdown，当前只把 DDR4、DDR5 `CXDR` 推断、LPDDR4X 与 LPDDR5 `CDTQ` 别名写入 iTXTech fdnext DecodePack。ISSI 官方 PSG 明确列出更早 DDR/SDR 与 RLDRAM 产品，但本轮只把 DDR3/DDR3L、DDR4、LPDDR4/4X 写入 iTXTech fdnext DecodePack；Winbond 当前已覆盖 DDR/DDR2/DDR3/DDR4 与 LPDDR/LPDDR2/LPDDR3/LPDDR4/LPDDR4X，SDR 仍待后续外部 ordering 细化。ESMT 与 Etron 本轮按官方产品页补入成熟制程 / specialty DRAM 颗粒：ESMT 覆盖 SDR 到 DDR4 以及 LPDDR2/3/4X，Etron 覆盖 automotive SDR、specialty DDR 到 DDR4 以及 LPDDR2/4/4X。
+Nanya 官方产品线未列 GDDR；Elpida 独立品牌 standard DDR 世代到 DDR3 结束，后续 DDR4/DDR5 不作为待补缺口；CXMT 官方资料确认 DDR5/LPDDR5/LPDDR5X 产品存在，当前按 Rockchip/CSEKER 外部料号表补入 `CXDC/CXDD` 的 family、density、layout/package 局部 token，尚未确认的 speed、temperature 和 die topology 继续省略。ISSI 官方 PSG 明确列出更早 DDR/SDR 与 RLDRAM 产品，但本轮只把 DDR3/DDR3L、DDR4、LPDDR4/4X 写入 iTXTech fdnext DecodePack；Winbond 当前已覆盖 DDR/DDR2/DDR3/DDR4 与 LPDDR/LPDDR2/LPDDR3/LPDDR4/LPDDR4X，SDR 仍待后续外部 ordering 细化。ESMT 与 Etron 本轮按官方产品页补入成熟制程 / specialty DRAM 颗粒：ESMT 覆盖 SDR 到 DDR4 以及 LPDDR2/3/4X，Etron 覆盖 automotive SDR、specialty DDR 到 DDR4 以及 LPDDR2/4/4X。

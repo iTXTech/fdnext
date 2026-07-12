@@ -32,6 +32,10 @@
   <https://www.puris.net/dir/product/flash/rawnand>
 - 本地资料：`packages/core/resources/fdb.json`、`../fdfdb/smssd/2259XT3_Y1226.SET`、`../fdfdb/smssd/2259XT2_Y0321.SET`、`../fdfdb/smufd/flash_3281BB.dbf`、`../fdfdb/smff/ForceFlash-W1116.SET`、`../fdfdb/ma/mas1102_16.ini` 中的 H25 PN、Flash ID、容量、Vx/MLC/TLC/QLC 标签。
 - SK hynix `H27U2G8F2C` 2Gbit datasheet 的 Legacy Read ID 表：确认 `AA/BA/CA/DA` device ID 分别编码 1.8V/3.3V 与 x8/x16，并确认 3rd/4th/5th byte 的 die/cell、page/block/spare、plane 位段。公开镜像：<https://www.alldatasheet.fr/datasheet-pdf/pdf/2079233/HYNIX/H27U2G8F2CTR.html>。
+- Hynix `HY27UF081G2A` 1Gbit datasheet 的 Read ID 表确认 `F1/C1` 分别为 3.3V x8/x16，byte3=`80`，并给出 2KB page、128KB block 与 64B spare；公开 PDF 镜像：<https://docs.rs-online.com/af21/0900766b80d6fc8d.pdf>。
+- Hynix `H27U4G8F2D` datasheet 的 legacy Read ID supported-configurations 表同时列出 4Gbit `AC/BC/CC/DC + 90`、8Gbit `A3/B3/C3/D3 + D1` 和 16Gbit `A5/B5/C5/D5 + D2` 的电压/位宽组合；公开镜像：<https://www.datasheetq.com/pdf-html/384049/Hynix/24page/H27U4G8F2DTR-BC.html>。
+- Hynix `HY27UG088G(5/D)M` 8Gbit datasheet 确认 `AD DC 80 95`，组织为 2KB page、128KB block；公开 PDF 镜像：<https://wiki.laptop.org/mediawiki/images/1/1b/CL1_NAND_Hynix.pdf>。
+- SK hynix `H27UAG8T2B` 16Gbit MLC datasheet 确认 `AD D5 94 9A 74 42` 仍使用 `D5`，但组织为 8KB page、2MB block、448B spare。因此 Flash ID 规则必须结合 byte3 条件化旧式 SLC geometry，不能仅按 device code 全局覆盖；公开 PDF 镜像：<https://www.farnell.com/datasheets/1382715.pdf>。
 - 维护者补充的 SK hynix 3D NAND 表记录 `HYV2` 到 `HYV8` 的层数、cell、die 容量、Toggle 接口与 die marking。`H25FT*` / `H27*` 属于 die marking，只进入 `die_mark`；固件匹配仍使用 `HYVx` / `HYVxQ` / `HYVxM` 这类 profile key。
 - 维护者补充的 H27/H2E/H2N ordering chart 覆盖 `H27Q4T8LQA3R-BDH`、`H2E...` 和 `H2N...` 这类结构，给出 voltage、device density、die stack、configuration、die generation、package、material、bad block、temperature 与 I/O speed token。profile 判断按 `cell family + derived die density + die generation` 组合，不按完整 PN 白名单。
 - SK hynix NAND Flash catalog mirror 列出 SLC/MLC/TLC/eMMC/E2NAND3.0/SSD 分类，其中 E2NAND3.0 页面使用 `PRODUCT` / `BLOCK SIZE` 维度。
@@ -226,6 +230,20 @@ H25 目前分成两类结构处理：
 | `DA` | 3.3V | x8 | 2Gbit |
 
 这组 legacy device ID 使第 4 byte 按旧表解释为 page `1/2/4/8KB`、block `64/128/256/512KB`；不能套用后期 SK hynix ID 的扩大一档几何表。四个已确认配置均输出 `2KB` page、`128KB` block 和 `64B` spare。
+
+### Legacy SLC Flash ID 条件化
+
+旧式 Hynix SLC device code 同时编码 voltage / width，但 `DC/D3/D5` 也会在其他组织或后期 MLC 中出现。规则只对 datasheet 明确给出的 `byte2 + byte3` 组合启用旧 geometry，保留其余 ID 的现有解释：
+
+| Byte 2 + Byte 3 | Die density | Voltage / width | Legacy geometry |
+| --- | --- | --- | --- |
+| `F1/C1 + 80` | 1Gbit | 3.3V, x8/x16 | 2KB page, 128KB block, 64B spare |
+| `AC/BC/CC/DC + 90` | 4Gbit | 1.8V/3.3V, x8/x16 | 2KB page, 128KB block, 64B spare |
+| `DC + 80` | 8Gbit | 3.3V, x8 | 2KB page, 128KB block, 64B spare |
+| `A3/B3/C3/D3 + D1` | 8Gbit die configuration | 1.8V/3.3V, x8/x16 | 2KB page, 128KB block, 64B spare |
+| `A5/B5/C5/D5 + D2` | 16Gbit die configuration | 1.8V/3.3V, x8/x16 | 2KB page, 128KB block, 64B spare |
+
+`D5 + 94` 的 `H27UAG8T2B` 是反例：它继续走后期 bitfield，输出 8KB page、2MB block 和 448B spare。该条件化避免旧 datasheet 的 geometry 覆盖已经确认的新式编码。
 
 ### H25T / H25G NAND package
 

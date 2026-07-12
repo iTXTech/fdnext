@@ -470,6 +470,54 @@ assertDram("CXDB6CCBM-MA-A", {
   }
 });
 
+assertDram("CXDCCDCBM-MT-M", {
+  vendor: "cxmt",
+  densityMbit: 49152,
+  density: "48Gb",
+  widthField: "x32",
+  voltage: "Unknown",
+  package: "FBGA-315",
+  extra: {
+    "DRAM Type": "LPDDR5"
+  }
+});
+
+assertDram("CXDCDJEDM-MT-M", {
+  vendor: "cxmt",
+  densityMbit: 98304,
+  density: "96Gb",
+  widthField: "x64",
+  voltage: "Unknown",
+  package: "FBGA-496",
+  extra: {
+    "DRAM Type": "LPDDR5"
+  }
+});
+
+assertDram("CXDD7JEDM-MX-M", {
+  vendor: "cxmt",
+  densityMbit: 131072,
+  density: "128Gb",
+  widthField: "Unknown",
+  voltage: "Unknown",
+  package: "FBGA-315",
+  extra: {
+    "DRAM Type": "LPDDR5X"
+  }
+});
+
+assertDram("CXDD7JEDM-MZ-Z", {
+  vendor: "cxmt",
+  densityMbit: 131072,
+  density: "128Gb",
+  widthField: "Unknown",
+  voltage: "Unknown",
+  package: "FBGA-315",
+  extra: {
+    "DRAM Type": "LPDDR5X"
+  }
+});
+
 assertDram("GDP0BFLM-CB", {
   vendor: "gigadevice",
   densityMbit: 1024,

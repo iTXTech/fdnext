@@ -23,6 +23,8 @@
 - CXMT `CXDB5CBAM-MA-B` datasheet 镜像补充确认 4GB LPDDR4X、2CH x32、4266Mbps、200 Ball Discrete，并给出 `B=x32 2CH 1CS`、`A=DDP`、`C=200-ball`、suffix `M=mobile/commercial temp`、`A=4266Mbps`、final `B=3rd generation` 这类后续版本 token。来源：<https://www.dzjie.com/wp-content/uploads/2025/03/LPDDR4X_CXDB5CBAM-MA-B.pdf>
 - CXMT `CXDB4CBAM-MK-A` datasheet 镜像确认 2GB LPDDR4X、2CH x32、3733Mbps、200 Ball Discrete；part-number decoding 中 `4=2GB`、`B=x32 2CH 1CS`、`A=DDP`、`C=200-ball`。来源：<https://pdf.elecfans.com/p/11175344.html>
 - CXMT `CXDB5CCBM-MK-A` / `CXDB5CCBM-MA-A` datasheet 镜像确认 4GB LPDDR4X、2CH x32、200 Ball Discrete；`MK` 为 3733Mbps，`MA` 为 4266Mbps，`CBM` 对应 x32 2CH 2CS / QDP / 200-ball 组合。来源：<https://atta.szlcsc.com/upload/public/pdf/source/20240112/0697417D4456C9B7A65E123D9285D203.pdf>、<https://atta.szlcsc.com/upload/public/pdf/source/20251128/2A0FA1E64CE1EFDC7BC81ECF2706B35F.pdf>
+- Rockchip DDR SDRAM Support List 2.61 将 `CXDCCDCBM-MT-M` 列为 48Gbit、1536M x32、LPDDR5/LPDDR5X、315-ball，将 `CXDCDJEDM-MT-M` 列为 96Gbit、1536M x64、LPDDR5、496-ball；这里按外部料号表档位建立 `CXDC` 的 family/density/layout 局部 token，不把完整 PN 写入规则查表。来源：<https://lo01.g77k.com/aeb/docs/cn/Common/AVL/Rockchip_Support_List_DDR_Ver2.61.pdf>
+- CSEKER 料号页将 `CXDD7JEDM-MX-M` 列为 LPDDR5X、16GB、BGA315；与前述 `CXD*...JEDM` 结构同向，可补 `D` family 与 `7=128Gb` density token。来源：<https://cseker.com/en/product/cxdd7jedm-mx-m/5000005000.html>
 - LCSC 的 `CXDB6CCBM-MA-A` 8GB LPDDR4X datasheet 与 TechInsights G4 16Gb die 分析同向确认 `6=64Gb package`、`CBM=4 dies/2CS`、200-ball；该组合输出 `CXMT G4`，不沿用旧容量的 G3 process。来源：<https://datasheet.lcsc.com/datasheet/pdf/11cd39d31199147ab8bf6030d2abf67c.pdf?productCode=C41416113>、<https://www.techinsights.com/blog/cxmt-cxdb6ccbm-maadie-g4-16-gb-lpddr4x-memory-floorplan-analysis>
 - CSEKER 2025-11-20 汇总表列出更多 CXMT DDR4 / LPDDR4X / DDR5 料号，例如 `CXDQ4A8AM-CJ-M`、`CXDQ4BFAM-CJ-M`、`CXDR4E8BM-CS-A`、`CXDR4E8BM-CR-A`；这些进入规则时按结构 token 推断，可信度低于 datasheet-confirmed token。来源：<https://cseker.com/zh-cn/newDetail/42>
 - 上海证券交易所披露的资产评估说明以库存抽盘案例明确列出 `CXDR4E8BM-UP-A`，并给出 CXMT A-die DDR5、`2Gx8x1`、4800、9x11mm。这里把实际存在的 `UP` 后缀作为 DDR5-4800 token 补入结构化规则，将 `E8:BM` 封装组合补全为 `FBGA-82, 9x11`，并将 exact PN 加入搜索资源；不从单一料号进一步猜测 `U` 的温度等级或 `P` 的独立含义。来源：<https://static.sse.com.cn/stock/disclosure/announcement/c/202605/605178_20260514_1Z6P.pdf>
@@ -30,12 +32,12 @@
 ## iTXTech fdnext DecodePack 范围
 
 - 规则文件：`packages/core/src/decodepack/rules/packs/cxmt-dram-token.json`
-- 规则 ID：`vendor.cxmt.dram.ddr4.component.v1`、`vendor.cxmt.dram.ddr5.component.v1`、`vendor.cxmt.dram.lpddr4x.component.v1`、`vendor.cxmt.dram.lpddr5.cdtq-process-alias.v1`
+- 规则 ID：`vendor.cxmt.dram.ddr4.component.v1`、`vendor.cxmt.dram.ddr5.component.v1`、`vendor.cxmt.dram.lpddr4x.component.v1`、`vendor.cxmt.dram.lpddr5.component.v1`、`vendor.cxmt.dram.lpddr5.cdtq-process-alias.v1`
 - 当前覆盖：
   - DDR4：`CXDQ3BFAM-*`、`CXDQ3A8AM-*`、`CXDQ4A8AM-*`、`CXDQ4BFAM-*` 同类 token 结构
   - DDR5：`CXDR4E8BM-*`，按 `CXDR + density + organization + package + -speed/temp + optional revision` 推断
   - LPDDR4X：`CXDB4ABAM-*`、`CXDB4CBAM-*`、`CXDB5CBAM-*`、`CXDB5CCAM-*`、`CXDB5CCBM-*` 同类 token 结构
-  - LPDDR5：`CDTQ` package/die 标记别名，用于输出 G3 / 12Gb die 信息
+  - LPDDR5/LPDDR5X：`CXDC/CXDD + density + layout + suffix` 局部 token；`CDTQ` package/die 标记别名用于输出 G3 / 12Gb die 信息
 
 ## PN 结构
 
@@ -63,6 +65,12 @@ LPDDR5 package/die alias：
 CDTQ
 ```
 
+LPDDR5/LPDDR5X component：
+
+```text
+CXD + family + density + layout + -suffix
+```
+
 ## 输出约定
 
 - DDR4 `3` 输出 8Gb，`4` 输出 16Gb；package type `A/B` 输出 78-ball / 96-ball FBGA；bit organization `8/F` 输出 x8 / x16；suffix 拆为 temp `C/I/W` 与 speed `Q/J/G`，分别输出 2666 19-19-19、3200 22-22-22、2666 18-18-18。
@@ -70,6 +78,7 @@ CDTQ
 - DDR5 `CXDR4E8BM-CR/CS-A` 输出 16Gb x8、82-ball FBGA、DDR5-4800/5600、`process_node = CXMT G4 / 16nm-class`。
 - LPDDR4X `4` 输出 16Gb，`5` 输出 32Gb；package type `A/C` 当前均输出 200-ball FBGA；config `A/B/C` 当前均输出 x32；`BAM` 输出 `2 dies, 1 CS`，`CAM` 与 `CBM` 输出 `4 dies, 2 CS`，并推断 `process_node = CXMT G3 / 18nm-class`。
 - LPDDR4X suffix 拆为 temp `M` 与 speed `J/K/L/A`，其中 `K=3733Mbps`、`L/A=4266Mbps`；final `A/B` 是 product version，不进入 public fields。
+- `CXDC` 保守输出 LPDDR5，`CXDD` 输出 LPDDR5X；density `C/D/7` 分别输出 48Gb/96Gb/128Gb，已确认 layout 组合输出 x32/x64 与 315/496-ball。suffix 的 speed、temperature 与 die topology 尚未确认，因此不猜测。
 - `CDTQ` 输出 LPDDR5、96Gb package、12Gb die、`dram_die_count=8`、`process_node = CXMT G3 / 18nm-class`；没有 CS 资料时不输出 `cs_count`。
 - suffix 不存在时不输出 speed/temp。
-- LPDDR5X、GDDR 当前只作为资料缺口记录，不进入 iTXTech fdnext DecodePack；即使官方新闻已确认 LPDDR5X 24GB package 级别能力，也必须等到公开 PN token 表、die/package 标记或 exact PN 样例后再落规则。
+- GDDR 当前只作为资料缺口记录，不进入 iTXTech fdnext DecodePack；LPDDR5X 尚未确认的 suffix 与 die topology 继续等待公开 PN token 表或更多一致样本。

@@ -173,6 +173,10 @@
         },
         "familyType": {
           "AC:AJ": "emmc",
+          "AM:AL": "emmc",
+          "AP:AL": "emmc",
+          "AX:AQ": "emmc",
+          "AZ:AQ": "emmc",
           "BC:AQ": "emmc",
           "AM:AK": "ufs",
           "AO:AM": "ufs",
@@ -203,6 +207,22 @@
           "AC:AJ": {
             "product_family": "Micron e.MMC",
             "product_version": "eMMC 5.0",
+            "group": "eMMC"
+          },
+          "AM:AL": {
+            "product_version": "eMMC 5.1",
+            "group": "eMMC"
+          },
+          "AP:AL": {
+            "product_version": "eMMC 5.1",
+            "group": "eMMC"
+          },
+          "AX:AQ": {
+            "product_version": "eMMC 5.1",
+            "group": "eMMC"
+          },
+          "AZ:AQ": {
+            "product_version": "eMMC 5.1",
             "group": "eMMC"
           },
           "BC:AQ": {
@@ -362,6 +382,7 @@
           "DP": "LFBGA-169, 14x18x1.7",
           "DQ": "LBGA-100, 14x18x1.4",
           "DV": "VFBGA-169, 12x16x1.0",
+          "DW": "LFBGA-100, 14x18x1.5",
           "DX": "TFBGA-169, 12x16x1.1",
           "EA": "WFBGA-153, 11.5x13x0.8, LF35",
           "EC": "WFBGA-169, 14x18x0.8",

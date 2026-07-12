@@ -4,6 +4,7 @@ import {
   assertDecodePackDieProfile,
   assertNoAdditionalFields,
   assertRuleDraftDieProfile,
+  assertSearchPnIncludes,
   compiledPack,
   engineWithoutFdb,
   fieldText,
@@ -150,6 +151,37 @@ testPart("KLMBG2JETD-B041", {
   },
   absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
+
+for (const [partNumber, densityMbit, dieDensity, dieCount, productVersion, controller, interfaceType, packageName] of [
+  ["KLM4G1YEMD-C031", 32768, "32Gb", 1, "eMMC 5.0", "eMMC 5.0 Controller", "HS400", undefined],
+  ["KLMAG2WEMB-B031", 131072, "64Gb", 2, "eMMC 5.0", "eMMC 5.0 Controller", "HS400", "BGA-153, 11.5x13"],
+  ["KLMDGAGEAC-B001", 1048576, "64Gb", 16, "eMMC 4.5", "eMMC 4.5 Controller", "HS200", "BGA-153, 11.5x13"]
+] as const) {
+  testPart(partNumber, {
+    vendor: "samsung",
+    type: "eMMC",
+    densityMbit,
+    package: packageName,
+    extra: {
+      "Die Density": dieDensity,
+      "Die Count": dieCount,
+      "Product Version": productVersion,
+      "Controller": controller,
+      "Interface Type": interfaceType
+    },
+    absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  });
+}
+
+test("Samsung legacy eMMC W/Y NAND tokens do not guess cell level", () => {
+  for (const partNumber of ["KLM4G1YEMD-C031", "KLMAG2WEMB-B031"]) {
+    const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+    assert.equal(result.status, "ok", `${partNumber} should decode without FDB fallback`);
+    assert.equal(firstField(result, "cell_level"), undefined, `${partNumber} cell_level`);
+  }
+});
+
+assertSearchPnIncludes("KLM4G1YEMD-C031", "Samsung KLM4G1YEMD-C031");
 
 for (const [partNumber, densityMbit, packageName, operationTemperature] of [
   ["KLMCG8GESD-B04Q", 524288, "BGA-153, 11.5x13x1.0", "-40°C ~ 105°C Automotive Grade 2"],
