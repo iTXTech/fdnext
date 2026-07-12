@@ -10718,5 +10718,341 @@
   {
     "vendor": "cxmt",
     "pn": "CXDD7JEDM-MX-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDQ2BFAM-CG"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF2048M8A3-Q5"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF4096M4A3-Q5"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF2048M8C3-S8I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF4096M4DK-S8"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF2048M8DK-S8I"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF2048M8DK-UBI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF2048M8DK-S8U"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF2048M8DK-UBU"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF1024M16EL-UBI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF2048M8EK-UBI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF1024M16EL-WEI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF2048M8EK-WEI"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF1024M16EL-UBU"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF2048M8EK-UBU"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF1024M16EL-WEU"
+  },
+  {
+    "vendor": "nanya",
+    "pn": "NT5FF2048M8EK-WEU"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT41K256M16V00HWC1"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT53E1G16D1Z42NWC1"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2TG-7E IT:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2P-75:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC8M16A2P-6A XIT:L"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC4M16A2P-6A AAT:J"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC64M4A2P-7E:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2TG-6A:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M8A2P-75 IT:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC4M16A2P-7E IT:J"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M16A2TG-75:C"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M8A2TG-75:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M8A2P-6A:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2TG-75:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC8M32B2TG-7 IT:F"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC4M16A2P-7E AIT:J"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2TG-75 L:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2P-7E:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC8M16A2P-7E IT:L"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2P-7E IT:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2P-7E IT:G"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC4M32B2P-6A XIT:L"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC8M16A2P-7E:L"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M8A2TG-75 IT:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC8M16A2P-6A AAT:L"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M8A2P-7E:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2P-6A XIT:G"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2P-75 L:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M16A2P-75 IT:C"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2P-6A:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2P-7E L:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M8A2TG-75 L:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M16A2P-75:C"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2TG-75 IT:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M8A2TG-6A:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC64M4A2P-75:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2P-75 IT:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M8A2TG-7E:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC32M8A2P-75:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC64M4A2TG-7E:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT48LC16M16A2TG-7E:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT46V16M16P-5B IT:M"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT46V32M8P-5B IT:M"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT46V32M16P-5B XIT:J"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT46V16M16TG-5B IT:M"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT46V16M16P-5B:M"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT46V32M8P-5B:M"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT40A512M16Z11BWC1"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT40A2G4Z11BWC1"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT40A1G8Z11BWC1"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT53D512M32D1NP-046 WT:B"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT53E1024M32D4BA-046 AAT:D"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT53D512M64D4BP-046 WT:E"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT53E1G16D1FW-046 AAT:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT53B128M32D1Z00NWC2 AT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT53D1024M32D4DT-046 AAT:E"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT53E1G16D1FW-046 AIT:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT53B512M32D2DS-053 AAT:E"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT53E1G16D1FW-046 WT:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G32D2DS-023RFWT:F"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G64D8EK-031 WT:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G32D4DS-031 AIT:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G64D8EJ-031 IT:B"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G64D8EK-031 AIT:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G64D8EK-031 AUT:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G32D4DS-031 AAT:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1G64D4EK-026 IT:B"
   }
 ]

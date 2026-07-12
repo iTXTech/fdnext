@@ -25,6 +25,7 @@
       ],
       "tables": {
         "densityMb": {
+          "2": 4096,
           "3": 8192,
           "4": 16384
         },
@@ -53,6 +54,11 @@
           },
           "G": {
             "dram_speed": "DDR4-2666 18-18-18"
+          }
+        },
+        "densitySpeedObj": {
+          "2:G": {
+            "dram_speed": "DDR4-2400"
           }
         },
         "temperatureObj": {
@@ -154,6 +160,18 @@
           "default": {}
         },
         {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{speedCode}}",
+          "to": "densitySpeedKey"
+        },
+        {
+          "op": "map",
+          "from": "densitySpeedKey",
+          "table": "densitySpeedObj",
+          "to": "densitySpeedObj",
+          "default": {}
+        },
+        {
           "op": "stripIfPrefix",
           "prefix": "-",
           "to": "hasRevision"
@@ -188,6 +206,12 @@
           "op": "mergeIf",
           "into": "extra",
           "from": "speedObj",
+          "if": "hasSuffix"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "densitySpeedObj",
           "if": "hasSuffix"
         },
         {

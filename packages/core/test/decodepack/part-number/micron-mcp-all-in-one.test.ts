@@ -100,6 +100,75 @@ assertRuleDecode("MT29AZ5A3CHHWD-18AIT.84F", {
   absentExtra: ["Product Family", "Config Code", "Package Code", "Speed Grade", "Special Option"]
 });
 
+assertRuleDecode("MT29GZ9A9BPMET-046AUT.265", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 16384,
+  widthField: "x8",
+  voltage: "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.1V/0.6V",
+  package: "VFBGA-149, 8.0x9.5x1.0",
+  extra: {
+    "Product Mode": "SLC NAND + LPDDR4",
+    "Storage Density": "16Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "16Gb",
+    "DRAM Type": "LPDDR4",
+    "DRAM Width": "x16",
+    "Package Configuration": "2 NAND Flash, 1 LPDRAM",
+    "DRAM Speed": "LPDDR4-4266",
+    "Operation Temperature": "Automotive Ultra (-40°C ~ 125°C)",
+    "Die Revision": "265"
+  },
+  absentExtra: ["Product Family", "Config Code", "Package Code", "Speed Grade", "Special Option"]
+});
+
+assertRuleDecode("MT29GZ6A9BPGET-046AIT.293", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 8192,
+  widthField: "x8",
+  voltage: "NAND VCC: 1.8V; LPDRAM VDD/VDDQ: 1.1V/0.6V",
+  package: "VFBGA-149, 8.0x9.5x1.0",
+  extra: {
+    "Product Mode": "SLC NAND + LPDDR4",
+    "Storage Density": "8Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "16Gb",
+    "DRAM Type": "LPDDR4",
+    "DRAM Width": "x16",
+    "Package Configuration": "1 NAND Flash, 1 LPDRAM",
+    "DRAM Speed": "LPDDR4-4266",
+    "Operation Temperature": "Automotive industrial (-40°C ~ 85°C)",
+    "Die Revision": "293"
+  },
+  absentExtra: ["Product Family", "Config Code", "Package Code", "Speed Grade", "Special Option"]
+});
+
+for (const partNumber of [
+  "MT29GZ9A9BPMET-046AIT.265",
+  "MT29GZ9A9BPMET-046AAT.265",
+  "MT29GZ9A9BPMET-046AUT.265",
+  "MT29GZ6A9BPGET-046AIT.293",
+  "MT29GZ6A9BPGET-046AAT.293"
+]) {
+  assertSearchPnIncludes(partNumber, `Micron ${partNumber.replace(".", "")}`);
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.device.vendor?.id, "micron", `${partNumber} should decode as Micron`);
+  assert.equal(result.device.productType, "emcp", `${partNumber} should decode as eMCP`);
+  assert.equal(firstField(result, "storage_density")?.value, partNumber.includes("GZ9A") ? "16Gb NAND" : "8Gb NAND");
+  assert.equal(firstField(result, "dram_density")?.value, "16Gb");
+  assert.equal(firstField(result, "package")?.value, "VFBGA-149, 8.0x9.5x1.0");
+  assert.equal(firstField(result, "dram_speed")?.value, "LPDDR4-4266");
+  assert.equal(
+    firstField(result, "operation_temperature")?.value,
+    partNumber.includes("AUT")
+      ? "Automotive Ultra (-40°C ~ 125°C)"
+      : partNumber.includes("AAT")
+        ? "Automotive (-40°C ~ 105°C)"
+        : "Automotive industrial (-40°C ~ 85°C)"
+  );
+}
+
 assertRuleDecode("MT29JZZZ2DWMAFJV-6IES.63m", {
   vendor: "micron",
   type: "eMCP",

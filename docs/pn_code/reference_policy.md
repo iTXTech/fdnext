@@ -25,11 +25,13 @@
 
 ## Evidence manifest
 
-`docs/pn_code/evidence/decodepack-references.json` 是 DecodePack 规则证据的单一机器可审计清单。顶层 `entries` 的每条记录按以下稳定标识关联规则：
+`docs/pn_code/evidence/decodepack-references.json` 是 DecodePack 规则证据的单一机器可审计清单。manifest v2 不保留旧格式兼容分支；顶层 `entries` 的每条记录按以下稳定标识关联规则：
 
 - `pack`: 仓库相对路径形式的规则 pack 路径；
 - `spec_id`: pack 中的 spec `id`；
-- `table_key` / `entry_key`: 原维护表及其 entry key，用于无损追溯；
+- `scope`: `spec` 表示整条规则证据；`table_entry` 表示具体 mapping 证据；
+- `entry_key`: 证据自身的稳定标识；
+- `table_key`: 仅 `scope: table_entry` 时存在，并必须指向实际 decode table，`entry_key` 同时必须是该表的真实 entry；
 - `evidence`: 从该 spec 剥离的来源、可信度、样例和维护备注。
 
 同一 spec 有多组独立依据时，在顶层 `entries` 中分别记录，避免用一条宽泛来源为整个表背书。token、组合 key 或局部映射需要精确关联时，应通过 `entry_key` 或 evidence 内容保留原维护 key；不要把维护 key 反向加回 DecodePack。

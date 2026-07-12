@@ -174,6 +174,24 @@ assertDram("CXDQ3BFAM", {
   absentExtra: ["DRAM Speed", "Operation Temperature"]
 });
 
+assertDram("CXDQ2BFAM-CG", {
+  vendor: "cxmt",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.2V VDD",
+  package: "FBGA-96",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "Package Code": "FAM",
+    "Config Code": "2B",
+    "DRAM Speed": "DDR4-2400",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+
 assertDram("CXDQ3A8AM-CQ-A", {
   vendor: "cxmt",
   densityMbit: 8192,

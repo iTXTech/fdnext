@@ -1,11 +1,11 @@
 {
-  "format_version": 1,
-  "description": "DecodePack rule evidence kept outside runtime rule packs. Each entry preserves its original pack, spec id, table key, entry key, and evidence payload.",
+  "format_version": 2,
+  "description": "DecodePack rule evidence kept outside runtime rule packs. Spec-level evidence uses scope=spec; mapping-level evidence uses scope=table_entry and points to a live decode table entry.",
   "entries": [
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-dram-token.json",
       "spec_id": "vendor.biwin.dram.lpddr4x.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_lpddr4x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -15,7 +15,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-dram-token.json",
       "spec_id": "vendor.biwin.dram.lpddr5x.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_lpddr5x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -25,7 +25,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-emcp-token.json",
       "spec_id": "vendor.biwin.emcp3.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_emcp3_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -35,7 +35,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-emcp-token.json",
       "spec_id": "vendor.biwin.emcp.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_emcp4x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -45,7 +45,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-emcp-token.json",
       "spec_id": "vendor.biwin.umcp.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_umcp4x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -55,7 +55,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-emcp-token.json",
       "spec_id": "vendor.biwin.umcp5x.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_umcp5x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -65,7 +65,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-emmc-token.json",
       "spec_id": "vendor.biwin.emmc.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_emmc_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -75,7 +75,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-emmc-token.json",
       "spec_id": "vendor.biwin.emmc.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_emmc51_pdf_package_check",
       "evidence": {
         "status": "external_table_confirmed",
@@ -85,7 +85,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-emmc-token.json",
       "spec_id": "vendor.biwin.emmc.bwefm.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_tae_tde308_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -95,7 +95,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-emmc-token.json",
       "spec_id": "vendor.biwin.emmc.bwefm.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_current_automotive_industrial_emmc_tables",
       "evidence": {
         "status": "external_table_confirmed",
@@ -105,7 +105,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-emmc-token.json",
       "spec_id": "vendor.biwin.emmc.bwcmaqb.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_tge218_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -115,7 +115,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-epop-token.json",
       "spec_id": "vendor.biwin.epop3.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_epop3_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -125,7 +125,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-epop-token.json",
       "spec_id": "vendor.biwin.epop4x.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_epop4x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -135,7 +135,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-epop-token.json",
       "spec_id": "vendor.biwin.epop5x.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_epop5x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -145,7 +145,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-ufs-token.json",
       "spec_id": "vendor.biwin.ufs.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_ufs22_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -155,7 +155,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-ufs-token.json",
       "spec_id": "vendor.biwin.ufs31.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_ufs31_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -165,7 +165,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/biwin-ufs-token.json",
       "spec_id": "vendor.biwin.ufs31.automotive.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "biwin_official_tau208_order_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -173,9 +173,31 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.ddr4.component.v1",
+      "scope": "table_entry",
+      "table_key": "densityMb",
+      "entry_key": "2",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "EDN CXDQ2BFAM-CG teardown and ALINX board manuals"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.ddr4.component.v1",
+      "scope": "table_entry",
+      "table_key": "densitySpeedObj",
+      "entry_key": "2:G",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "EDN CXDQ2BFAM-CG teardown"
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/rules/packs/kingston-emcp-token.json",
       "spec_id": "vendor.kingston.emcp.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "kingston_official_emcp_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -185,7 +207,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/kingston-emcp-token.json",
       "spec_id": "vendor.kingston.emcp.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "kingston_emcp_flyer_package_check",
       "evidence": {
         "status": "external_table_confirmed",
@@ -195,7 +217,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/kingston-emmc-token.json",
       "spec_id": "vendor.kingston.emmc.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "kingston_official_emmc_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -205,7 +227,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/kingston-emmc-token.json",
       "spec_id": "vendor.kingston.emmc.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "kingston_emmc_flyer_package_check",
       "evidence": {
         "status": "external_table_confirmed",
@@ -215,7 +237,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/kingston-epop-token.json",
       "spec_id": "vendor.kingston.epop.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "kingston_official_epop_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -225,7 +247,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/kingston-ufs-token.json",
       "spec_id": "vendor.kingston.ufs.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "kingston_official_ufs_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -235,7 +257,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/kingston-ufs-token.json",
       "spec_id": "vendor.kingston.ufs.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "kingston_official_design_in_ufs_flyer",
       "evidence": {
         "status": "external_table_confirmed",
@@ -245,7 +267,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-dram-token.json",
       "spec_id": "vendor.longsys.dram.ddr3l.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "longsys_official_ddr3l_product_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -255,7 +277,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-emcp-token.json",
       "spec_id": "vendor.longsys.foresee.emcp.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "foresee_catalog_emcp_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -265,7 +287,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-emcp-token.json",
       "spec_id": "vendor.longsys.foresee.umcp.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "foresee_catalog_umcp_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -275,7 +297,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-emmc-token.json",
       "spec_id": "vendor.longsys.foresee.emmc.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "foresee_catalog_emmc_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -285,7 +307,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-emmc-token.json",
       "spec_id": "vendor.longsys.foresee.emmc.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "foresee_emmc_datasheet_package_check",
       "evidence": {
         "status": "external_table_confirmed",
@@ -295,7 +317,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-emmc-token.json",
       "spec_id": "vendor.longsys.foresee.emmc.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "foresee_subsize_emmc_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -305,7 +327,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-spi-nand-token.json",
       "spec_id": "vendor.longsys.foresee.spi-nand.f35.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "foresee_f35_official_ordering",
       "evidence": {
         "status": "external_confirmed",
@@ -315,7 +337,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-spi-nand-token.json",
       "spec_id": "vendor.longsys.foresee.spi-nand.fs35.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "foresee_fs35_official_ordering",
       "evidence": {
         "status": "external_confirmed",
@@ -325,7 +347,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-ufs-token.json",
       "spec_id": "vendor.longsys.foresee.ufs.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "foresee_catalog_ufs_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -335,7 +357,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-ufs-token.json",
       "spec_id": "vendor.longsys.foresee.ufs.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "foresee_automotive_ufs_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -345,7 +367,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/longsys-ufs-token.json",
       "spec_id": "vendor.longsys.foresee.ufs.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "lexar_enterprise_ufs22_table",
       "evidence": {
         "status": "external_table_confirmed",
@@ -355,7 +377,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:1G8:TRF",
       "evidence": {
         "status": "external_confirmed",
@@ -365,7 +387,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:2G4:TRF",
       "evidence": {
         "status": "external_confirmed",
@@ -375,7 +397,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:2G8:FSE",
       "evidence": {
         "status": "external_confirmed",
@@ -385,7 +407,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:2G8:NRE",
       "evidence": {
         "status": "external_confirmed",
@@ -395,7 +417,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:4G4:FSE",
       "evidence": {
         "status": "external_confirmed",
@@ -405,7 +427,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:4G4:NRE",
       "evidence": {
         "status": "external_confirmed",
@@ -415,7 +437,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:4G8:BAF",
       "evidence": {
         "status": "external_table_confirmed",
@@ -425,7 +447,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:4G8:NEA",
       "evidence": {
         "status": "external_table_confirmed",
@@ -435,7 +457,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:8G4:BAF",
       "evidence": {
         "status": "external_table_confirmed",
@@ -445,7 +467,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:8G4:NEA",
       "evidence": {
         "status": "external_table_confirmed",
@@ -455,7 +477,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:2G8:DVN",
       "evidence": {
         "status": "external_confirmed",
@@ -465,7 +487,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:2G8:HPR",
       "evidence": {
         "status": "external_confirmed",
@@ -475,7 +497,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:4G4:DVN",
       "evidence": {
         "status": "external_confirmed",
@@ -485,7 +507,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:4G4:HPR",
       "evidence": {
         "status": "external_confirmed",
@@ -495,7 +517,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:4G8:CLU",
       "evidence": {
         "status": "external_confirmed",
@@ -505,7 +527,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:4G8:KVA",
       "evidence": {
         "status": "external_confirmed",
@@ -515,7 +537,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:8G4:CLU",
       "evidence": {
         "status": "external_confirmed",
@@ -525,7 +547,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:8G4:KVA",
       "evidence": {
         "status": "external_confirmed",
@@ -535,7 +557,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:1G16:HBA",
       "evidence": {
         "status": "external_confirmed",
@@ -545,7 +567,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:1G16:KNR",
       "evidence": {
         "status": "external_confirmed",
@@ -555,7 +577,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:1G16:WBU",
       "evidence": {
         "status": "external_confirmed",
@@ -565,7 +587,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "40:A:2G16:TBB",
       "evidence": {
         "status": "external_confirmed",
@@ -575,7 +597,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:J:1G4:THD",
       "evidence": {
         "status": "external_confirmed",
@@ -585,7 +607,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:J:1G4:THU",
       "evidence": {
         "status": "external_confirmed",
@@ -595,7 +617,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:J:512M8:THD",
       "evidence": {
         "status": "external_confirmed",
@@ -605,7 +627,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:J:512M8:THU",
       "evidence": {
         "status": "external_confirmed",
@@ -615,7 +637,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:J:1G8:THE",
       "evidence": {
         "status": "external_table_confirmed",
@@ -625,7 +647,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:J:1G8:TRF",
       "evidence": {
         "status": "external_table_confirmed",
@@ -635,7 +657,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:J:2G4:THE",
       "evidence": {
         "status": "external_table_confirmed",
@@ -645,7 +667,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:J:2G4:TRF",
       "evidence": {
         "status": "external_table_confirmed",
@@ -655,7 +677,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:1G4:THD",
       "evidence": {
         "status": "external_confirmed",
@@ -665,7 +687,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:1G4:THV",
       "evidence": {
         "status": "external_confirmed",
@@ -675,7 +697,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:512M8:THD",
       "evidence": {
         "status": "external_confirmed",
@@ -685,7 +707,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:512M8:THV",
       "evidence": {
         "status": "external_confirmed",
@@ -695,7 +717,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:1G8:RKB",
       "evidence": {
         "status": "external_confirmed",
@@ -705,7 +727,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:1G8:TRF",
       "evidence": {
         "status": "external_confirmed",
@@ -715,7 +737,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:2G4:RKB",
       "evidence": {
         "status": "external_confirmed",
@@ -725,7 +747,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:2G4:TRF",
       "evidence": {
         "status": "external_confirmed",
@@ -735,7 +757,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:512M16:TNA",
       "evidence": {
         "status": "external_confirmed",
@@ -745,7 +767,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:512M16:VRN",
       "evidence": {
         "status": "external_confirmed",
@@ -755,7 +777,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:512M16:VRP",
       "evidence": {
         "status": "external_confirmed",
@@ -765,7 +787,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:2G8:KJR",
       "evidence": {
         "status": "external_table_confirmed",
@@ -775,7 +797,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:4G4:KJR",
       "evidence": {
         "status": "external_table_confirmed",
@@ -785,7 +807,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "41:K:1G16:DGA",
       "evidence": {
         "status": "external_confirmed",
@@ -795,7 +817,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
       "spec_id": "vendor.micron.umcp.mt29v_mt30a.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_locked_umcp_part_rows",
       "evidence": {
         "status": "external_confirmed",
@@ -805,7 +827,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
       "spec_id": "vendor.micron.emcp.nand_mcp.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_nummcp_nand_mcp_pdf",
       "evidence": {
         "status": "external_confirmed",
@@ -814,8 +836,24 @@
     },
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.nand_mcp.v1",
+      "scope": "spec",
+      "entry_key": "micron_current_emmc_mcp_catalog_20260712",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron current eMMC-based MCP catalog",
+        "url": "https://www.micron.com/products/multichip-packages/emmc-based-mcp/part-catalog",
+        "examples": [
+          "MT29GZ9A9BPMET-046AIT.265",
+          "MT29GZ6A9BPGET-046AIT.293"
+        ],
+        "notes": "Catalog combinations confirm density code 9 as 16Gb, package ET as VFBGA-149 8.0x9.5x1.0, and AUT as -40C to +125C."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
       "spec_id": "vendor.micron.emcp.aio.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_nummcp_aio_pdf",
       "evidence": {
         "status": "external_confirmed",
@@ -825,7 +863,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
       "spec_id": "vendor.micron.emcp.mt29c.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_mt29c_168ball_pdf",
       "evidence": {
         "status": "external_confirmed",
@@ -835,7 +873,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
       "spec_id": "vendor.micron.emcp.mt29c.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_mt29c_137tfbga_distributor",
       "evidence": {
         "status": "external_table_confirmed",
@@ -845,7 +883,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
       "spec_id": "vendor.micron.emcp.mt29c.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_mt29c_legacy_distributor_rows",
       "evidence": {
         "status": "external_table_confirmed",
@@ -855,7 +893,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
       "spec_id": "vendor.micron.emcp.mt29c.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_mt29c_programmer_pn_decode",
       "evidence": {
         "status": "external_table_confirmed",
@@ -865,7 +903,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
       "spec_id": "vendor.micron.emcp.mt29rz.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_mt29rz_obsolete_part_detail",
       "evidence": {
         "status": "external_confirmed",
@@ -875,7 +913,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
       "spec_id": "vendor.micron.emcp.mt29rz.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_mt29rz_distributor_specs",
       "evidence": {
         "status": "external_table_confirmed",
@@ -885,7 +923,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-managed-token.json",
       "spec_id": "vendor.micron.managed.mtfc.nextgen.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "BC:AQ:TC",
       "evidence": {
         "status": "external_confirmed",
@@ -900,7 +938,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-managed-token.json",
       "spec_id": "vendor.micron.managed.mtfc.nextgen.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "BC:AQ:DQ",
       "evidence": {
         "status": "external_confirmed",
@@ -914,7 +952,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-raw-structured-token.json",
       "spec_id": "vendor.micron.raw.current.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_current_raw_ordering_chart",
       "evidence": {
         "status": "external_confirmed",
@@ -927,7 +965,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-raw-structured-token.json",
       "spec_id": "vendor.micron.raw.legacy.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_legacy_raw_ordering_chart",
       "evidence": {
         "status": "external_confirmed",
@@ -941,7 +979,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-raw-token.json",
       "spec_id": "vendor.micron.hsc.mt29fb.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "micron_hsc_ordering_chart",
       "evidence": {
         "status": "external_confirmed",
@@ -952,9 +990,119 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "5FF:A3",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "5FF:DK",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "5FF:EL",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "5FF:EK",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "table_entry",
+      "table_key": "speedObj",
+      "entry_key": "5FF:Q5",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "table_entry",
+      "table_key": "speedObj",
+      "entry_key": "5FF:S8",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "table_entry",
+      "table_key": "speedObj",
+      "entry_key": "5FF:UB",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "table_entry",
+      "table_key": "speedObj",
+      "entry_key": "5FF:WE",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "table_entry",
+      "table_key": "gradeObj",
+      "entry_key": "I",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "table_entry",
+      "table_key": "gradeObj",
+      "entry_key": "U",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/rules/packs/samsung-emmc-token.json",
       "spec_id": "vendor.samsung.emmc.token.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "KLM",
       "evidence": {
         "status": "external_confirmed",
@@ -971,9 +1119,29 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/rules/packs/samsung-legacy-emcp-token.json",
+      "spec_id": "vendor.samsung.emcp.legacy-class100.v1",
+      "scope": "spec",
+      "entry_key": "class100_5U000",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Samsung 2012 Class 100 eMCP official brochure",
+        "url": "https://datasheet.datasheetarchive.com/originals/crawler/samsung.com/f1b38fb1b915c3d6621354e5dd98145a.pdf",
+        "examples": [
+          "KMS5U000KM-B308",
+          "KMJ5U000WA-B409",
+          "KML5U000HM-B505",
+          "KMN5U000FM-B203",
+          "KMN5U000ZM-B203",
+          "KMK5U000VM-B309"
+        ],
+        "notes": "The six-row official table confirms the fixed 5U000 family structure, 4GB eMMC storage, LPDDR1/LPDDR2 class tokens, DRAM density/width tokens, and semantic package tails. It does not state an eMMC version or DRAM speed."
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/rules/packs/samsung-ufs-token.json",
       "spec_id": "vendor.samsung.ufs.token.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "KLU",
       "evidence": {
         "status": "external_confirmed",
@@ -989,7 +1157,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
       "spec_id": "vendor.sndk.inand.managed.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "BDA6",
       "evidence": {
         "status": "external_confirmed",
@@ -1003,7 +1171,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
       "spec_id": "vendor.sndk.inand.managed.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "BDG4",
       "evidence": {
         "status": "external_confirmed",
@@ -1017,7 +1185,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
       "spec_id": "vendor.sndk.inand.managed.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "BDI4",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1032,7 +1200,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
       "spec_id": "vendor.sndk.inand.managed.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "DDH6",
       "evidence": {
         "status": "external_confirmed",
@@ -1047,7 +1215,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
       "spec_id": "vendor.sndk.inand.managed.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "FDQ6",
       "evidence": {
         "status": "external_confirmed",
@@ -1060,7 +1228,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
       "spec_id": "vendor.sndk.inand.managed.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "HDL6",
       "evidence": {
         "status": "external_confirmed",
@@ -1073,7 +1241,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
       "spec_id": "vendor.sndk.inand.managed.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "HFT4",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1088,7 +1256,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
       "spec_id": "vendor.sndk.inand.managed.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "HFR4",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1102,7 +1270,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/siliconmotion-managed-token.json",
       "spec_id": "vendor.siliconmotion.ferri.emmc.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "siliconmotion_ferri_emmc_selection_guide",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1112,7 +1280,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/siliconmotion-managed-token.json",
       "spec_id": "vendor.siliconmotion.ferri.ufs.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "siliconmotion_ferri_ufs_selection_guide",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1122,7 +1290,7 @@
     {
       "pack": "packages/core/src/decodepack/identifier/packs/skhynix.json",
       "spec_id": "identifier.nand_flash_id.skhynix.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "h27_2g_legacy_read_id",
       "evidence": {
         "status": "external_confirmed",
@@ -1139,7 +1307,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-e2nand-token.json",
       "spec_id": "vendor.skhynix.e2nand.h2d_h2j.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "H2DTDG8UD1MYR",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1153,7 +1321,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "T:M:512Gb",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1163,7 +1331,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "T:B:512Gb",
       "evidence": {
         "status": "external_confirmed",
@@ -1173,7 +1341,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "T:C:512Gb",
       "evidence": {
         "status": "external_confirmed",
@@ -1183,7 +1351,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "T:D:512Gb",
       "evidence": {
         "status": "external_confirmed",
@@ -1193,7 +1361,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "T:M:1Tb",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1203,7 +1371,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "T:C:1Tb",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1213,7 +1381,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "T:D:1Tb",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1223,7 +1391,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "T:G:1Tb",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1233,7 +1401,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "Q:M:1Tb",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1243,7 +1411,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "Q:A:1Tb",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1253,7 +1421,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "Q:M:2Tb",
       "evidence": {
         "status": "external_confirmed",
@@ -1263,7 +1431,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-ufs-token.json",
       "spec_id": "vendor.skhynix.ufs.hn8.mobile-ufs31.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "HN8T25DEHKX077",
       "evidence": {
         "status": "external_confirmed",
@@ -1277,7 +1445,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-ufs-token.json",
       "spec_id": "vendor.skhynix.ufs.hn8.ufs22-v7.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "HN8G962EHKX037",
       "evidence": {
         "status": "external_table_confirmed",
@@ -1291,7 +1459,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/winbond-nand-token.json",
       "spec_id": "vendor.winbond.raw.w29n.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "W29N",
       "evidence": {
         "status": "external_confirmed",
@@ -1306,7 +1474,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/winbond-nand-token.json",
       "spec_id": "vendor.winbond.raw.w25n.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "W25N",
       "evidence": {
         "status": "external_confirmed",
@@ -1321,7 +1489,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/winbond-nand-token.json",
       "spec_id": "vendor.winbond.raw.w35n.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "W35N",
       "evidence": {
         "status": "external_confirmed",
@@ -1336,7 +1504,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/ymtc-emmc-token.json",
       "spec_id": "vendor.ymtc.emmc-label.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "YMEC_A1_A2",
       "evidence": {
         "status": "external_confirmed",
@@ -1346,7 +1514,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/ymtc-emmc-token.json",
       "spec_id": "vendor.ymtc.emmc-label.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "YMTC_EC150",
       "evidence": {
         "status": "external_confirmed",
@@ -1356,7 +1524,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/ymtc-ufs-token.json",
       "spec_id": "vendor.ymtc.ufs-label.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "YMTC_UC260",
       "evidence": {
         "status": "external_confirmed",
@@ -1366,7 +1534,7 @@
     {
       "pack": "packages/core/src/decodepack/rules/packs/ymtc-ufs-token.json",
       "spec_id": "vendor.ymtc.ufs-label.v1",
-      "table_key": "reference",
+      "scope": "spec",
       "entry_key": "YMTC_UC341",
       "evidence": {
         "status": "external_confirmed",

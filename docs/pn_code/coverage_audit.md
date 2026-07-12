@@ -18,18 +18,18 @@
 
 | 面向 | 当前证据 |
 | --- | --- |
-| DRAM 搜索资源 | `dram-pn.json` 共 2680 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
-| Managed NAND 搜索资源 | `managed-nand-pn.json` 共 862 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
+| DRAM 搜索资源 | `dram-pn.json` 共 2764 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
+| Managed NAND 搜索资源 | `managed-nand-pn.json` 共 874 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
 | Micron 去重 | MDB exact / suffix-boundary 审计通过；有效 MDB 已覆盖的 Micron PN 不重复加入 DRAM / managed PN 资源 |
 | Controller | FDB / IDDB 中 165 个 controller 全部包含在 `controller-groups.json`；`all` 另保留 2 个外部已知 controller，167 个均已分类 |
 | 规则约束 | 资源 PN 对所有 `partSpecs.match.value` 的逐项扫描未发现完整 PN 命中；DecodePack checker 与 metadata audit 通过 |
 
 ## 本轮新增资料已落地
 
-- Samsung：官方 DRAM/UFS/MCP 型号资源补齐；LPDDR4/4X、LPDDR5/5X、raw NAND 局部 token 完善；补入 legacy eMMC `W/Y` die token、eMMC 4.5/5.0 version 与 11 条官方搜索 PN。
+- Samsung：官方 DRAM/UFS/MCP 型号资源补齐；LPDDR4/4X、LPDDR5/5X、raw NAND 局部 token 完善；补入 legacy eMMC `W/Y` die token、eMMC 4.5/5.0 version 与 11 条官方搜索 PN；按官方 Class 100 brochure 补入 `5U000` legacy eMCP 结构规则与 6 条搜索 PN，不猜资料未给出的 eMMC version / DRAM speed。
 - SK hynix：HBM2E/HBM3、32Gb DDR4、modern LPDDR4X、eMCP 独立 storage/DRAM token；按 byte3 条件化补入 legacy SLC Read ID geometry，并用 H27 2Gbit datasheet 锁定四种电压/位宽回归；补入 1 条 E2NAND 与 2 条无后缀 UFS exact 搜索 PN，无 package token 的条目继续不输出封装。
-- Micron：HBM3E、MTFC UFS family token、uMCP package/speed、GDDR6 18Gbps；补入 eMMC 4.51/5.0/5.1 的 12 组 `component:controller` family 与 `DW` package；从官方 current / obsolete eMMC、UFS catalog 补入 42 条未被有效 MDB 覆盖的非样品 exact PN，排除 2 条容量结构异常记录，MDB 去重保持。
-- CXMT：按 Rockchip/CSEKER 外部料号表补入 `CXDC/CXDD` LPDDR5/LPDDR5X family、density、layout/package 局部 token 与 3 条搜索 PN。
+- Micron：HBM3E、MTFC UFS family token、uMCP package/speed、GDDR6 18Gbps；补入 eMMC 4.51/5.0/5.1 的 12 组 `component:controller` family 与 `DW` package；从官方 current / obsolete eMMC、UFS catalog 补入 42 条未被有效 MDB 覆盖的非样品 exact PN，排除 2 条容量结构异常记录，MDB 去重保持。继续审计 15 条 current eMMC-based MCP、14 条 UFS-based MCP、519 条 current DRAM 与 1238 条 obsolete DRAM catalog 记录，新增 6 条 managed NAND 与 67 条 DRAM 非 MDB exact 搜索 PN，并补齐 `MT29GZ...` density `9`、package `ET`、speed `046`、temperature `AUT` token。
+- CXMT：按 Rockchip/CSEKER 外部料号表补入 `CXDC/CXDD` LPDDR5/LPDDR5X family、density、layout/package 局部 token 与 3 条搜索 PN；按 EDN 实物拆解与开发板手册补入 `CXDQ2BFAM-CG` 的 4Gb x16 / DDR4-2400 组合 token 与搜索 PN。
 - BIWIN：standalone LPDDR4X/LPDDR5X、uMCP5X、TGE408 eMMC、ePoP/eMCP/current eMMC catalog。
 - Longsys / FORESEE：DDR3L、current eMMC/UFS/eMCP catalog；已有 SPI NAND 保留但不继续扩展。
 - ESMT：FC51 eMMC 5.1 与 F59L/F59D parallel SLC NAND；F50 SPI family 明确不命中。
@@ -37,6 +37,7 @@
 - SanDisk：在确认 PN 没有独立 package token 后，按 family+density 外部表推断 iNAND package；不使用完整 PN 查表。
 - Intel / SpecTek：legacy identifier、structured raw NAND suffix/status/package 与 `I29F` 厂商前缀变体。
 - Winbond：SDR DRAM 已覆盖；新增 16 条官方 4Gb LPDDR4/LPDDR4X 4267 MT/s ordering PN；此前加入的 SPI NAND 保留，不再扩展。
+- Nanya：对当前官方 DDR5 component 表的 32 条 PN 做完整矩阵回归，补入此前遗漏的 16 条 standalone DDR5 exact 搜索 PN；未纳入官网同时列出的模组产品。
 
 ## 已检索但资料不足，暂不写规则
 

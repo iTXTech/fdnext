@@ -10,6 +10,8 @@
 - 用户补充的 Micron locked datasheet catalog rows 确认 `MT29VZZZ...` 254-ball uMCP UFS + LPDDR4X 与 `MT30AZZZ...` 297-ball uMCP UFS + LPDDR5 的实际 PN、storage density、controller、DRAM density、package configuration、speed/temp/die revision 后缀。
 - Micron `TN-29-85: UFS Memory Health Report for Mobile Devices` (`tn2985_accessing_ufs_health_report.pdf`) Table 1 给出 `MT29V` / `MT30A` uMCP 已知 PN、NAND die 组成、DRAM 颗粒组成、package code 和 Health Report 适用范围。
 - Micron 官方 UFS-based MCP live catalog JSON 的 14 条记录用于全量回归，补齐 `023 = LPDDR5-8533`，使 `MT30AZZZCDA4TKXL-023 W.273` / `MT30AZZZDDA4TOXM-023 W.274` 不再回退为 NAND；同一 catalog 直接确认 `SL/PR/SM` 的 254-ball package 与 `EQ/QS/WL/XL/XM` 的 297-ball package 类型和尺寸。<https://www.micron.com/content/micron/us/en/products/storage/managed-nand/universal-flash-storage/part-catalog/_jcr_content.products.json/getpartcatalog/multichip-packages/ufs-based-mcp/-/en_US>
+- 2026-07-12 复查 Micron 官方 eMMC-based MCP live catalog 的 15 条记录。`MT29GZ9A9BPMET...` 与 `MT29GZ6A9BPGET...` 的组合容量确认 density token `9 = 16Gb`；同一 catalog 确认 `ET = VFBGA-149, 8x9.5x1.0` 及 `AUT = -40°C ~ 125°C`。排除已有有效 MDB 覆盖后，5 条结构化 decoder 可完整解析的 `MT29GZ...` PN 进入搜索资源；唯一 compact `MT29V5D7GVESL-046I.216` 因公开 ordering token 不足继续排除，不为单一料号扩大 match。<https://www.micron.com/products/multichip-packages/emmc-based-mcp/part-catalog>
+- 同轮复查 UFS-based MCP 14 条记录后，仅 `MT30AZZZDDA0TPQS-031 WL.19Q` 尚无有效 MDB / 搜索资源覆盖；它已由既有 `MT30A` uMCP token 规则完整解析并进入搜索资源。
 - Micron 168-Ball NAND Flash and LPDRAM PoP MCP datasheet mirror 给出 `MT29C2G24MAKLAJG-6 IT` 等 production part number，确认产品为 NAND Flash + LPDRAM PoP MCP，并列出 NAND product、LPDDR product 与 physical marking。
   <https://datasheet.octopart.com/MT29C2G24MAKLAJG-6-IT-Micron-datasheet-8368047.pdf>
 - DigiKey `MT29C4G96MAZAPCJA-5 IT` 页面确认 Technology 为 `FLASH - NAND, Mobile LPDRAM`，Memory Size 为 `4Gbit (NAND), 4Gbit (LPDRAM)`，package 为 `137-TFBGA (10.5x13)`。
@@ -35,9 +37,10 @@
 | --- | --- |
 | `MT29` + family + `Z` + NAND density/width + LPDRAM density/width + voltage + package configuration + package + optional suffix | Micron NAND MCP |
 | family `A/B/C/G/R/U` | SLC NAND + LPDDR2 / LPDDR3 / Mobile LPDRAM / LPDDR4 |
-| density code `1..6` | 512Mb ~ 8Gb NAND / LPDRAM |
+| density code `1..6/9` | 512Mb ~ 16Gb NAND / LPDRAM；current catalog 组合确认 `9 = 16Gb` |
 | width code `A/B/C` | x8 / x16 / x32 |
 | package configuration `G/H/I/M` | NAND Flash 与 LPDRAM 颗数组合 |
+| package `ET` | `VFBGA-149, 8x9.5x1.0` |
 | suffix after `-` | speed -> temperature -> production status -> special option -> die revision |
 
 示例：`MT29AZ5A3CHHWD-18AIT.84F` 解码为 4Gb SLC NAND + 2Gb LPDDR2，package `162-ball 8.0x10.5x0.9mm`，`dram_speed = LPDDR2-1066 CL8`，temperature `Automotive industrial (-40°C ~ 85°C)`，die revision `84F`。

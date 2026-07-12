@@ -789,7 +789,7 @@ function assertDecodePackEvidenceManifestIsValid(): void {
     description?: unknown;
     entries?: unknown;
   };
-  assert.equal(manifest.format_version, 1, "DecodePack evidence manifest should use format version 1");
+  assert.equal(manifest.format_version, 2, "DecodePack evidence manifest should use format version 2");
   assert.equal(typeof manifest.description, "string", "DecodePack evidence manifest should describe its purpose");
   assert.ok(Array.isArray(manifest.entries) && manifest.entries.length > 0, "DecodePack evidence manifest should contain entries");
 
@@ -805,12 +805,18 @@ function assertDecodePackEvidenceManifestIsValid(): void {
     const entry = value as Record<string, unknown>;
     const pack = entry.pack;
     const specId = entry.spec_id;
+    const scope = entry.scope;
     const tableKey = entry.table_key;
     const entryKey = entry.entry_key;
     const evidence = entry.evidence;
     assert.ok(typeof pack === "string" && /^packages\/core\/src\/decodepack\/.+\.json$/.test(pack), `${path}.pack should be a DecodePack JSON path`);
     assert.ok(typeof specId === "string" && specId.length > 0, `${path}.spec_id should be non-empty`);
-    assert.equal(tableKey, "reference", `${path}.table_key should preserve the original reference table key`);
+    assert.ok(scope === "spec" || scope === "table_entry", `${path}.scope should be spec or table_entry`);
+    if (scope === "spec") {
+      assert.equal(Object.hasOwn(entry, "table_key"), false, `${path}.table_key should not exist for spec evidence`);
+    } else {
+      assert.ok(typeof tableKey === "string" && tableKey.length > 0, `${path}.table_key should be non-empty`);
+    }
     assert.ok(typeof entryKey === "string" && entryKey.length > 0, `${path}.entry_key should be non-empty`);
     assert.ok(evidence && typeof evidence === "object" && !Array.isArray(evidence), `${path}.evidence should be an object`);
 
@@ -818,15 +824,37 @@ function assertDecodePackEvidenceManifestIsValid(): void {
     assert.ok(allowedStatuses.has(String(evidenceRecord.status)), `${path}.evidence.status should use a supported confidence tier`);
     assert.ok(typeof evidenceRecord.source === "string" && evidenceRecord.source.length > 0, `${path}.evidence.source should be non-empty`);
 
-    const uniqueKey = `${pack}\u0000${specId}\u0000${tableKey}\u0000${entryKey}`;
+    const uniqueKey = `${pack}\u0000${specId}\u0000${scope}\u0000${tableKey ?? ""}\u0000${entryKey}`;
     assert.equal(uniqueKeys.has(uniqueKey), false, `${path} duplicates an existing evidence identity`);
     uniqueKeys.add(uniqueKey);
 
     const packPath = repoPath(pack as string);
     assert.equal(existsSync(packPath), true, `${path}.pack should exist`);
-    const specs = JSON.parse(readFileSync(packPath, "utf8")) as Array<{ id?: unknown }>;
+    const specs = JSON.parse(readFileSync(packPath, "utf8")) as Array<{
+      id?: unknown;
+      tokenDecoder?: { tables?: Record<string, unknown> };
+    }>;
     assert.ok(Array.isArray(specs), `${path}.pack should contain a spec array`);
-    assert.ok(specs.some((spec) => spec.id === specId), `${path}.spec_id should exist in its pack`);
+    const spec = specs.find((candidate) => candidate.id === specId);
+    assert.ok(spec, `${path}.spec_id should exist in its pack`);
+
+    if (scope === "table_entry") {
+      const table = spec?.tokenDecoder?.tables?.[tableKey as string];
+      assert.ok(table, `${path}.table_key should identify a live decode table`);
+      const hasEntry = Array.isArray(table)
+        ? table.some((item) =>
+            typeof item === "string"
+              ? item === entryKey
+              : Boolean(
+                  item
+                  && typeof item === "object"
+                  && Array.isArray((item as { keys?: unknown }).keys)
+                  && (item as { keys: unknown[] }).keys.includes(entryKey)
+                )
+          )
+        : Boolean(table && typeof table === "object" && Object.hasOwn(table, entryKey as string));
+      assert.equal(hasEntry, true, `${path}.entry_key should exist in its live decode table`);
+    }
   }
 }
 

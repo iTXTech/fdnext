@@ -1,0 +1,136 @@
+[
+  {
+    "id": "vendor.samsung.emcp.legacy-class100.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^KM[0-9A-Z]5U000[0-9A-Z]{2}B[0-9A-Z]{3}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "KM"
+      ],
+      "tables": {
+        "dramTypeByClass": {
+          "S": "LPDDR",
+          "J": "LPDDR",
+          "L": "LPDDR",
+          "N": "LPDDR2",
+          "K": "LPDDR2"
+        },
+        "dramDensityByClass": {
+          "S": 4096,
+          "J": 6144,
+          "L": 8192,
+          "N": 4096,
+          "K": 8192
+        },
+        "dramWidthByConfig": {
+          "F": "x16",
+          "Z": "x32",
+          "V": "x32"
+        },
+        "packageByTail": {
+          "B203": "FBGA-162, 11.5x13x1.0",
+          "B308": "FBGA-153, 11.5x13x1.0",
+          "B309": "FBGA-162, 11.5x13x1.0",
+          "B409": "FBGA-153, 11.5x13x1.0",
+          "B505": "FBGA-153, 11.5x13x1.2"
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "classToken"
+        },
+        {
+          "op": "take",
+          "len": 5,
+          "to": "familyToken"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dramConfigToken"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "versionToken"
+        },
+        {
+          "op": "take",
+          "len": 4,
+          "to": "packageTail"
+        },
+        {
+          "op": "map",
+          "from": "classToken",
+          "table": "dramTypeByClass",
+          "to": "dramType"
+        },
+        {
+          "op": "map",
+          "from": "classToken",
+          "table": "dramDensityByClass",
+          "to": "dramDensity"
+        },
+        {
+          "op": "map",
+          "from": "dramConfigToken",
+          "table": "dramWidthByConfig",
+          "to": "dramWidth"
+        },
+        {
+          "op": "map",
+          "from": "packageTail",
+          "table": "packageByTail",
+          "to": "package"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields.density": 32768,
+        "fields.storage_density": "4GB eMMC",
+        "fields.storage_interface": "eMMC",
+        "fields.dram_density": {
+          "$var": "dramDensity"
+        },
+        "fields.dram_type": {
+          "$var": "dramType"
+        },
+        "fields.dram_width": {
+          "$var": "dramWidth"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.samsung.emcp.legacy-class100.v1",
+        "meta.hiddenFields": [
+          "density"
+        ]
+      }
+    }
+  }
+]

@@ -4,6 +4,14 @@
 
 ## 来源
 
+- Samsung 2012 Class 100 eMCP 官方 brochure 的完整规格表列出 6 个
+  `KM + class + 5U000 + DRAM config + version + package tail` 型号，storage
+  均为 4GB eMMC。`S/J/L` 分别对应 4/6/8Gb LPDDR1，`N/K` 对应
+  4/8Gb LPDDR2；LPDDR2 config `F/Z/V` 分别确认 x16/x32/x32。
+  `B203/B308/B309/B409/B505` tail 直接给出 153/162-ball、11.5x13 和
+  1.0/1.2 厚度。brochure 没有声明 eMMC version 或 DRAM speed，规则保持省略，
+  不从同年代单一 datasheet 反推整条 family。
+  <https://datasheet.datasheetarchive.com/originals/crawler/samsung.com/f1b38fb1b915c3d6621354e5dd98145a.pdf>
 - Samsung eMCP 官方页面确认 LPDDR4X eMCP 产品线：eMMC 5.1、LPDDR4X、16GB/32GB/64GB storage、16Gb/24Gb/32Gb DRAM、144/254 FBGA、4266 Mbps。
   <https://semiconductor.samsung.com/mcp/emcp/>
 - Samsung uMCP 官方页面确认 LPDDR5 uMCP 产品线：UFS 3.1、LPDDR5、128GB/256GB storage、64Gb/96Gb DRAM、297 FBGA、6400 Mbps。
@@ -77,10 +85,16 @@
 
 iTXTech fdnext DecodePack:
 
+- `packages/core/src/decodepack/rules/packs/samsung-legacy-emcp-token.json`
+  - `vendor.samsung.emcp.legacy-class100.v1`
 - `packages/core/src/decodepack/rules/packs/samsung-mcp-token.json`
   - `vendor.samsung.mcp.token.v1`
 
-当前用单一 MCP 规则同时覆盖 eMCP 与 uMCP，按图片中的 Samsung Memory IC Part Number Decode Chart 和已确认型号拆为：
+Class 100 legacy 规则使用固定 `5U000` family 结构，但 class、DRAM config 和
+package tail 都由独立 token 表解析；未知局部 token 仍保留 Samsung eMCP、4GB eMMC
+等已确定字段，不以 6 个完整 PN 构造白名单。6 个 brochure exact PN 仅进入搜索资源和测试。
+
+现代 MCP 规则同时覆盖 eMCP 与 uMCP，按图片中的 Samsung Memory IC Part Number Decode Chart 和已确认型号拆为：
 
 ```text
 KM + storage type + package + speed/generation + storage capacity + RAM + 4-char tail
@@ -122,5 +136,6 @@ KM + storage type + package + speed/generation + storage capacity + RAM + 4-char
 
 ## 待确认
 
-- Samsung MCP PN 中仍有 `KMS*`、`KMN*` 等未被高置信多样本覆盖的旧 family；不能只凭前缀决定 eMCP、uMCP 或 ePoP。
+- `5U000` Class 100 之外仍有其他 legacy `KM*` family 未被高置信多样本覆盖；
+  不能只凭 `KM`、`KMS`、`KMK` 或 `KMN` 前缀决定 eMCP、uMCP 或 ePoP。
 - Samsung 官网部分历史 eMMC + DRAM MCP 型号仍挂在 `lpddr5-umcp` URL path 下，规则按 `eStorage Version` 和组合规格分类为 eMCP，而不是按 URL path 分类。

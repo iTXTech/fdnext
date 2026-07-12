@@ -13,6 +13,7 @@
 - 多个行业资料把 CXMT DDR5 与 G4 / 16nm-class 关联；CXMT 官方产品页确认 DDR5 die capacity 16Gb/24Gb 与最高 8000Mbps，但未公开 `CXDR` ordering table。因此 `CXDR4E8BM-*` 只作为 PN 结构推断进入规则，`process_node` 输出 `CXMT G4 / 16nm-class`。来源：<https://www.tomshardware.com/pc-components/dram/chinas-cxmt-reportedly-delays-mass-production-of-ddr5-chips-to-late-2025-state-backed-manufacturer-could-still-be-disruptive-market-force>、<https://www.scmp.com/tech/tech-war/article/3296794/chinas-top-memory-chip-maker-cxmt-narrows-tech-gap-leaders-samsung-hynix-micron>、<https://www.cxmt.com/en/product.html>
 - TrendForce / Meritz 等行业资料把 CXMT G3 与 18nm-class、DDR4/LPDDR4X 主力量产关联；LPDDR4X 与 DDR4 M-die/16Gb 规则据此输出 `CXMT G3 / 18nm-class`。来源：<https://files.futurememorystorage.com/proceedings/2025/20250805_BMKT-101-1_Avril-Wu.pdf>、<https://consensus.hankyung.com/analysis/downpdf?report_idx=647999>
 - CXMT `CXDQ3BFAM-CQ-A` datasheet 镜像确认 8Gb x16 DDR4 SDRAM、512M x16、96-ball FBGA、1.2V，并在 part-number decoding 中列出 `CX D Q 3 B F A M C Q A` 字段：`3=8Gb`、`B=96-ball FBGA SDP`、`F=x16`、`A=1.2V`、`C=Commercial`、`Q=2666Mbps 19-19-19`、final `A=A-die`。来源：<https://datasheet.lcsc.com/lcsc/2410121538_CXMT-CXDQ3BFAM-CQ-A_C7463070.pdf>
+- EDN 对 Walmart onn. FHD streaming stick 的拆解确认 `CXDQ2BFAM-CG` 为 4Gb x16 DDR4、1200MHz（DDR4-2400）；多份 ALINX 开发板手册另以 `256M x16` 交叉确认容量与位宽。因此新增 `2=4Gb` 和组合速率 `2:G=DDR4-2400`；既有 8Gb `G=DDR4-2666 18-18-18` 映射保持不变。来源：<https://www.edn.com/walmarts-onn-fhd-streaming-stick-still-android-tv-but-less-thick/>、<https://www.alinx.com/public/upload/file/ACU2CG_User_Manual.pdf>
 - LCSC `CXDQ3BFAM-CJ-A` 页面确认 CXMT、8Gbit DDR4、FBGA-96、1.14V~1.26V、1.6GHz。来源：<https://www.lcsc.com/product-detail/C7543662.html>
 - LCSC CXMT brand/product list 补充列出 `CXDQ3A8AM-CJ-A`、`CXDQ3A8AM-WQ-A`、`CXDQ3BFAM-IJ-A`、`CXDQ3BFAM-WQ-A`、`CXDB4CBAM-ML-A`、`CXDB5CCAM-ML`、`CXDB6CCBM-MA-A` 等 exact PN，本轮只作为当前规则可解析 PN 的补全资源，不单独提高来源档位。来源：<https://www.lcsc.com/brand/1288-15160.html>
 - CXMT `CXDQ3A8AM-CQ-A` / `CXDQ3A8AM-IJ-A` datasheet 镜像确认 8Gb x8 DDR4 SDRAM、1G x8、78-ball FBGA、1.2V；part-number decoding 中 `A` package type 与 `8` bit organization 对应 78-ball x8 结构，`Q` 为 2666Mbps 19-19-19，`J` 为 3200Mbps 22-22-22，`C/I/W` 分别为 commercial / industrial / wide temperature。来源：<https://lcsc.com/datasheet/lcsc_datasheet_2409300536_CXMT-CXDQ3A8AM-CQ-A_C20598560.pdf>、<https://doc.chipmall.com/datasheet/rev_2412141843_cxmt-cxdq3a8am-ij-a_c67024723.pdf>
@@ -73,7 +74,7 @@ CXD + family + density + layout + -suffix
 
 ## 输出约定
 
-- DDR4 `3` 输出 8Gb，`4` 输出 16Gb；package type `A/B` 输出 78-ball / 96-ball FBGA；bit organization `8/F` 输出 x8 / x16；suffix 拆为 temp `C/I/W` 与 speed `Q/J/G`，分别输出 2666 19-19-19、3200 22-22-22、2666 18-18-18。
+- DDR4 `2` 输出 4Gb，`3` 输出 8Gb，`4` 输出 16Gb；package type `A/B` 输出 78-ball / 96-ball FBGA；bit organization `8/F` 输出 x8 / x16；suffix 拆为 temp `C/I/W` 与 speed `Q/J/G`。`2:G` 组合输出 DDR4-2400；其余已确认的 `Q/J/G` 分别输出 2666 19-19-19、3200 22-22-22、2666 18-18-18。
 - DDR4 final revision `A/M` 输出 `die_revision`；final `M` 或 16Gb DDR4 结构推断 `process_node = CXMT G3 / 18nm-class`。
 - DDR5 `CXDR4E8BM-CR/CS-A` 输出 16Gb x8、82-ball FBGA、DDR5-4800/5600、`process_node = CXMT G4 / 16nm-class`。
 - LPDDR4X `4` 输出 16Gb，`5` 输出 32Gb；package type `A/C` 当前均输出 200-ball FBGA；config `A/B/C` 当前均输出 x32；`BAM` 输出 `2 dies, 1 CS`，`CAM` 与 `CBM` 输出 `4 dies, 2 CS`，并推断 `process_node = CXMT G3 / 18nm-class`。

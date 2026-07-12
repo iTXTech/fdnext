@@ -1,6 +1,6 @@
 # Nanya DRAM PN 规则
 
-采集日期：2026-05-18
+采集日期：2026-05-18；更新日期：2026-07-12
 
 本页记录 Nanya standalone DRAM 颗粒的 PN 结构。Nanya 规则按 family、organization、stack、package、suffix token 解析，不维护完整 PN 枚举。
 
@@ -14,7 +14,7 @@
 - Nanya 官方 Low Power DRAM Part Numbering Guide 统一确认现有 `6BR` LPDDR5/LPDDR5X 的 package、speed 与 stack token。来源：<https://www.nanya.com/Files/1288>
 - Nanya 官方产品页补充确认 `NT6BR512M16A3-K1I/K1H`、`NT6BR512T32A3-K1H/K1J/K3I`、`NT6BR1024T32A3-K2H`、`NT6BR2048F32A3-K2J`、`NT6BR1024F64AT-K3` 等 LPDDR5/LPDDR5X stack、speed 与温区组合；规则已有对应 token，本次补 exact PN 搜索资源。示例：<https://www.nanya.com/en/Product/9017/NT6BR512M16A3-K1I>、<https://www.nanya.com/en/Product/10349/NT6BR512T32A3-K3I>、<https://www.nanya.com/en/Product/10325/NT6BR1024F64AT-K3>
 - Nanya 当前官方目录补齐 29 个 `6BR:*A3` exact PN：A3 family 均为 BGA-315，覆盖 8Gb~64Gb、x16/x32、K2/K3 speed 和 Commercial/Industrial/Automotive 温区。`NT6BR1024F64AT-K3` 产品页单独确认 64Gb x64、6400Mbps、Commercial -30~105C、BGA-441；官方未给尺寸，因此 `6BR:AT` 只输出 `BGA-441`。
-- Nanya 官方产品列表补充确认 DDR4 `E3/E4/F3/F4/C4/H3/H4/A3/A4`、DDR5 `C3/DK/EK/EL`、DDR5 speed `S8/UB/WE`，以及 LPDDR4/4X `AC/BN` package 与 LPDDR4 `J2` speed 等 exact PN 组合；这些 PN 进入 `dram-pn.json` 用于补全。来源：<https://www.nanya.com/en/Product/List/450/2264>、<https://www.nanya.com/en/Product/List/450/2478>、<https://www.nanya.com/en/Product/List/547/2356>、<https://www.nanya.com/en/Product/List/547/2343>、<https://www.nanya.com/en/Product/List/547/6587>
+- Nanya 官方产品列表补充确认 DDR4 `E3/E4/F3/F4/C4/H3/H4/A3/A4`、DDR5 `A3/C3/DK/EK/EL`、DDR5 speed `Q5/S8/UB/WE` 与 suffix grade `I/U`，以及 LPDDR4/4X `AC/BN` package 与 LPDDR4 `J2` speed 等 exact PN 组合。2026-07-12 复查当前 DDR5 component 表的 32 条 PN 后，补入此前遗漏的 16 条 A3、C3、DK、EK、EL commercial/industrial 组合；所有条目均由既有结构化 decoder 正确解析，未新增完整 PN 规则。来源：<https://www.nanya.com/en/Product/List/450/2264>、<https://www.nanya.com/en/Product/List/450/2478>、<https://www.nanya.com/en/Product/List/547/2356>、<https://www.nanya.com/en/Product/List/547/2343>、<https://www.nanya.com/en/Product/List/547/6587>
 - 本轮用户提供的 Nanya DDR4-8Gb C-Die 与 DDR4-4Gb E-Die datasheet / ordering 截图确认 `5AD` DDR4 命名：`D = 1.2V / 1.2V / 2.5V`，`C = 3rd version`、`E = 5th version`，`3 = 78-ball TFBGA`、`4 = 96-ball TFBGA`，`HR = 2666-19-19-19`、`JR = 3200-22-22-22`，grade 空 / `I` / `T` / `U` 分别对应 Commercial、Industrial、Quasi Industrial、Industrial wide temp；截图 ordering table 中的 C/E 系 exact PN 已加入 `dram-pn.json`。
 - Nanya 官方 `NT5TU32M16FG-ACI` 页面确认 DDR2、512Mb、x16、84-ball BGA、800Mbps、工业温度。来源：<https://www.nanya.com/en/Product/3873/NT5TU32M16FG-ACI>
 - Nanya 官方 `NT5CB128M16JR-DI` 页面确认 DDR3、2Gb、x16、96-ball BGA、1600Mbps、0C~95C。来源：<https://www.nanya.com/en/Product/4111/NT5CB128M16JR-DI>

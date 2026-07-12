@@ -437,6 +437,7 @@ for (const sample of [
 
 assertHiddenPublicField("MT29VZZZCD91SFSM 046 W.18C", "density", 1048576);
 assertHiddenComponentRelations("MT29VZZZCD91SFSM 046 W.18C");
+assertSearchPnIncludes("MT30AZZZDDA0TPQS-031 WL.19Q", "Micron MT30AZZZDDA0TPQS-031WL19Q");
 
 for (const partNumber of ["MT29VZZZBDAFQKWL 046 W.G0J", "MT30AZZZCD9ZTOQS 031 W.15Q"]) {
   assertNoAdditionalFields(partNumber);

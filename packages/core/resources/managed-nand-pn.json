@@ -1345,6 +1345,30 @@
   },
   {
     "vendor": "samsung",
+    "pn": "KMS5U000KM-B308"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMJ5U000WA-B409"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KML5U000HM-B505"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMN5U000FM-B203"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMN5U000ZM-B203"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "KMK5U000VM-B309"
+  },
+  {
+    "vendor": "samsung",
     "pn": "KMGD6001BM-B421"
   },
   {
@@ -3446,5 +3470,29 @@
   {
     "vendor": "skhynix",
     "pn": "HN8T25DEHKX077"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT29GZ9A9BPMET-046AIT.265"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT29GZ9A9BPMET-046AAT.265"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT29GZ9A9BPMET-046AUT.265"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT29GZ6A9BPGET-046AIT.293"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT29GZ6A9BPGET-046AAT.293"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT30AZZZDDA0TPQS-031 WL.19Q"
   }
 ]

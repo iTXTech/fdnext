@@ -235,6 +235,54 @@ testPart("KLMDG1NCABB041", {
   absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
+for (const [partNumber, dramType, dramDensity, dramWidth, packageName] of [
+  ["KMS5U000KM-B308", "LPDDR", "4Gb", undefined, "FBGA-153, 11.5x13x1.0"],
+  ["KMJ5U000WA-B409", "LPDDR", "6Gb", undefined, "FBGA-153, 11.5x13x1.0"],
+  ["KML5U000HM-B505", "LPDDR", "8Gb", undefined, "FBGA-153, 11.5x13x1.2"],
+  ["KMN5U000FM-B203", "LPDDR2", "4Gb", "x16", "FBGA-162, 11.5x13x1.0"],
+  ["KMN5U000ZM-B203", "LPDDR2", "4Gb", "x32", "FBGA-162, 11.5x13x1.0"],
+  ["KMK5U000VM-B309", "LPDDR2", "8Gb", "x32", "FBGA-162, 11.5x13x1.0"]
+] as const) {
+  testPart(partNumber, {
+    vendor: "samsung",
+    type: "eMCP",
+    densityMbit: 32768,
+    package: packageName,
+    extra: {
+      "Storage Density": "4GB eMMC",
+      "Storage Interface": "eMMC",
+      "DRAM Density": dramDensity,
+      "DRAM Type": dramType,
+      "DRAM Width": dramWidth
+    },
+    absentExtra: [
+      "DRAM Speed",
+      "Product Version",
+      "Package Code",
+      "Config Code",
+      "Reference Status",
+      "Inference Source",
+      "source",
+      "status"
+    ]
+  });
+  assertSearchPnIncludes(partNumber, `Samsung ${partNumber}`);
+}
+
+test("Samsung legacy Class 100 eMCP preserves known family fields for unknown local tokens", () => {
+  const partNumber = "KMX5U000QM-B999";
+  const result = engineWithoutFdb.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok");
+  assert.equal(result.device?.vendor.id, "samsung");
+  assert.equal(result.device?.chipKind, "managed_nand");
+  assert.equal(result.device?.productType, "emcp");
+  assert.equal(fieldText(firstField(result, "storage_density")), "4GB eMMC");
+  assert.equal(fieldText(firstField(result, "storage_interface")), "eMMC");
+  for (const field of ["dram_density", "dram_type", "dram_width", "dram_speed", "package"]) {
+    assert.equal(firstField(result, field), undefined, `${partNumber} ${field}`);
+  }
+});
+
 testPart("KMGD6001BM-B421", {
   vendor: "samsung",
   type: "eMCP",
@@ -405,12 +453,15 @@ test("Samsung MCP resource PNs expose complete structured core fields", () => {
     const item = entry as Record<string, unknown>;
     return item.vendor === "samsung" && typeof item.pn === "string" && item.pn.startsWith("KM");
   });
-  assert.equal(samsungMcpParts.length, 66, "Samsung MCP resource audit count");
+  assert.equal(samsungMcpParts.length, 72, "Samsung MCP resource audit count");
   for (const { pn } of samsungMcpParts) {
     const result = engineWithoutFdb.decodePart({ query: pn, lang: "eng" });
     assert.equal(result.status, "ok", `${pn} should decode`);
     assert.ok(result.device?.productType, `${pn} product type`);
-    for (const field of ["storage_density", "storage_interface", "dram_type", "dram_density", "dram_speed", "package"]) {
+    const expectedFields = pn.slice(3, 8) === "5U000"
+      ? ["storage_density", "storage_interface", "dram_type", "dram_density", "package"]
+      : ["storage_density", "storage_interface", "dram_type", "dram_density", "dram_speed", "package"];
+    for (const field of expectedFields) {
       assert.ok(firstField(result, field), `${pn} ${field}`);
     }
   }

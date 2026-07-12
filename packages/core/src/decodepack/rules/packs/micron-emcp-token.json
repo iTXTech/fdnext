@@ -552,7 +552,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^MT29[ABCGRU]Z[1-6][ABC][1-6][ABC][BDEFHMP][GHIM][A-Z]{2}(?:-(?:107|18|25|53|62)(?:AIT|AAT|IT|WT)?E?(?:ES|MS)?[0-9A-Z]*)?$"
+      "value": "^MT29[ABCGRU]Z[1-69][ABC][1-69][ABC][BDEFHMP][GHIM][A-Z]{2}(?:-(?:046|107|18|25|53|62)(?:AIT|AAT|AUT|IT|WT)?E?(?:ES|MS)?[0-9A-Z]*)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -591,7 +591,8 @@
           "3": 2048,
           "4": 3072,
           "5": 4096,
-          "6": 8192
+          "6": 8192,
+          "9": 16384
         },
         "storageDensityObj": {
           "1": {
@@ -611,6 +612,9 @@
           },
           "6": {
             "storage_density": "8Gb NAND"
+          },
+          "9": {
+            "storage_density": "16Gb NAND"
           }
         },
         "dramDensityObj": {
@@ -631,6 +635,9 @@
           },
           "6": {
             "dram_density": "8Gb"
+          },
+          "9": {
+            "dram_density": "16Gb"
           }
         },
         "nandWidth": {
@@ -667,6 +674,7 @@
           }
         },
         "package": {
+          "ET": "VFBGA-149, 8.0x9.5x1.0",
           "GA": "BGA-149, 8.0x9.5x0.8",
           "GM": "BGA-240, 14x14x0.85",
           "MF": "VFBGA-168, 12x12x0.85, PoP",
@@ -678,6 +686,9 @@
           "WD": "BGA-162, 8.0x10.5x0.9"
         },
         "speedObj": {
+          "046": {
+            "dram_speed": "LPDDR4-4266"
+          },
           "18": {
             "dram_speed": "LPDDR-1066 CL8"
           },
@@ -713,6 +724,9 @@
           "B:25": {
             "dram_speed": "LPDDR3-800 CL6"
           },
+          "G:046": {
+            "dram_speed": "LPDDR4-4266"
+          },
           "G:53": {
             "dram_speed": "LPDDR4-3732"
           },
@@ -744,6 +758,9 @@
           },
           "AAT": {
             "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          },
+          "AUT": {
+            "operation_temperature": "Automotive Ultra (-40°C ~ 125°C)"
           },
           "IT": {
             "operation_temperature": "Industrial (-40°C ~ 85°C)"
@@ -785,7 +802,7 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([1-6])([ABC])",
+          "pattern": "^([1-69])([ABC])",
           "to": "nandCode",
           "groups": {
             "nandDensityCode": 1,
@@ -815,7 +832,7 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([1-6])([ABC])",
+          "pattern": "^([1-69])([ABC])",
           "to": "dramCode",
           "groups": {
             "dramDensityCode": 1,
@@ -878,7 +895,7 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^(107|18|25|53|62)",
+          "pattern": "^(046|107|18|25|53|62)",
           "to": "speedCode",
           "default": ""
         },

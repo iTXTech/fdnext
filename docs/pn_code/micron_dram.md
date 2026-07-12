@@ -79,6 +79,7 @@
 ## 搜索资源
 
 - `packages/core/resources/dram-pn.json` 只收录尚未被有效 MDB mapping 覆盖的 Micron / Crucial DRAM PN，用于 `searchParts()` PN 补全，不是解码依据。MDB 已有等价 PN，或通过 suffix 边界给出更完整的 speed / temperature / status / revision 时，以 MDB 为准，不重复加入较短 seed；带 `DO NOT USE` 的 MDB 值不算覆盖。
+- 2026-07-12 复查 Micron 官方 12 个 current DRAM catalog（519 条）及 11 个 obsolete DRAM catalog（1238 条）。逐条排除既有资源、有效 MDB exact / suffix-boundary 覆盖、`DNU`、Micron catalog 中仍按 Elpida vendor 解码的 `ED*` 料号，以及 catalog 与结构化 token 解码在 width 等确定字段上冲突的记录后，67 条 Micron component / bare-die exact PN 进入 `dram-pn.json`。其中包含 2 条 current bare-die PN，以及 SDRAM、DDR、DDR4 bare die、LPDDR4/4X、LPDDR5 的 65 条 obsolete PN；decoder 仍完全依赖 family/config/package/suffix token，不加入完整 PN 白名单。带空格的官方 ordering PN 原样保存在资源中，搜索 label 按现有 normalizer 输出无空格 canonical form。
 - `pnpm fdbgen:crawl-mdb` 默认按 Micron FBGA prefix profile 生成候选，通过 Micron 官方 FBGA decoder API 写入统一 `packages/core/resources/mdb.json`。当前默认 profile 包括 `C9/D8/D9/Z8/Z9` 后三位字母网格，以及 `NC/NW/NY/NX/NQ/NV` 数字段；`--codes` 补充输入按前缀路由，命中 Micron profile 的 code 走 Micron API，`P*` code 走 SpecTek。
 - `packages/core/resources/mdb.json` 收录官方 API 返回且通过 DRAM family 过滤的 FBGA code 到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchParts()` code 查询，以及 `decodePart({ query: "C9BJZ" })` 这类 code 输入时先反查 PN 再走 iTXTech fdnext DecodePack。
 - 资源导入时只保留最小索引字段：DRAM PN 表为 `vendor/pn`，FBGA code 反查统一来自 `mdb.json` 的 code -> PN 映射。真正输出的 `density`、`package`、`dram_type`、`dram_die_count` 等字段仍由 iTXTech fdnext DecodePack token 解析。

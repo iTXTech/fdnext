@@ -48,6 +48,26 @@ for (const entry of dramPnJson.filter((item) => item.vendor === "micron")) {
   );
 }
 
+for (const sample of [
+  { pn: "MT41K256M16V00HWC1", label: "MT41K256M16V00HWC1", type: "DDR3", densityMbit: 4096 },
+  { pn: "MT48LC32M16A2TG-75:C", label: "MT48LC32M16A2TG-75:C", type: "SDR", densityMbit: 512 },
+  { pn: "MT46V32M16P-5B XIT:J", label: "MT46V32M16P-5BXIT:J", type: "DDR", densityMbit: 512 },
+  { pn: "MT40A512M16Z11BWC1", label: "MT40A512M16Z11BWC1", type: "DDR4", densityMbit: 8192 },
+  { pn: "MT53E1G16D1FW-046 AIT:A", label: "MT53E1G16D1FW-046AIT:A", type: "LPDDR4X", densityMbit: 16384 },
+  { pn: "MT62F1G64D8EK-031 AIT:A", label: "MT62F1G64D8EK-031AIT:A", type: "LPDDR5", densityMbit: 65536 }
+] as const) {
+  assert.ok(
+    dramPnJson.some((entry) => entry.vendor === "micron" && entry.pn === sample.pn),
+    `${sample.pn} should remain in the official Micron catalog search seeds`
+  );
+  assert.deepEqual(micronMdbCoverage(mdbJson, sample.pn), [], `${sample.pn} should not duplicate valid MDB data`);
+  const info = detect(sample.pn);
+  assert.equal(info.vendor, "micron", `${sample.pn} should decode as Micron`);
+  assert.equal(info.type, sample.type, `${sample.pn} should decode as ${sample.type}`);
+  assert.equal(info.densityMbit, sample.densityMbit, `${sample.pn} should decode catalog density`);
+  assertSearchPnIncludes(sample.pn, `Micron ${sample.label}`);
+}
+
 function tableKeys(table: unknown): string[] {
   if (Array.isArray(table)) {
     return table.flatMap((entry) => {

@@ -97,7 +97,7 @@ PN code 资料放在 `docs/pn_code/`，总览为 `docs/pn_code/README.md`。新�
 
 官方 PDF、datasheet、ordering information、part catalog 和 selection guide 如果清楚暴露 token 结构，可直接作为规则和 testcase 依据。本地 `../fdfdb` 可以用于辅助推断，但 MPTool 数据质量不稳定。进入确定规则前必须找外部网页确认；找不到 reference 时，在 evidence manifest 或工作总结中区分哪些字段可确定、哪些仍待确认。
 
-`docs/pn_code/evidence/decodepack-references.json` 是不参与运行时的机器可审计证据清单，顶层 `entries` 按仓库相对 `pack` 路径、`spec_id`、原 `table_key` / `entry_key` 和 `evidence` 关联来源。以下维护字段及其同义信息不得进入 DecodePack、identifier pack、共享 decode table、compiled catalog 或用户可见输出：
+`docs/pn_code/evidence/decodepack-references.json` 是不参与运行时的机器可审计证据清单。manifest v2 使用 `scope: spec` 记录整条规则证据，使用 `scope: table_entry` + `table_key` / `entry_key` 关联实际 decode mapping；不得保留旧 `reference` 伪 table 或兼容读取分支。以下维护字段及其同义信息不得进入 DecodePack、identifier pack、共享 decode table、compiled catalog 或用户可见输出：
 
 - `local_pending_external_reference`
 - `external_confirmed`

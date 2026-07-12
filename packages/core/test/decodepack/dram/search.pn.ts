@@ -58,6 +58,10 @@ assertSearchPnIncludes("NT5CC512M8EQ", "Nanya NT5CC512M8EQ-DIB");
 assertSearchPnIncludes("NT5AD512M16C4-HRT", "Nanya NT5AD512M16C4-HRT");
 assertSearchPnIncludes("NT5AD256M16E4-HRT", "Nanya NT5AD256M16E4-HRT");
 assertSearchPnIncludes("NT5FF2048M8DK", "Nanya NT5FF2048M8DK-UB");
+assertSearchPnIncludes("NT5FF2048M8A3", "Nanya NT5FF2048M8A3-Q5");
+assertSearchPnIncludes("NT5FF2048M8C3-S8I", "Nanya NT5FF2048M8C3-S8I");
+assertSearchPnIncludes("NT5FF2048M8DK-UBU", "Nanya NT5FF2048M8DK-UBU");
+assertSearchPnIncludes("NT5FF1024M16EL-WEU", "Nanya NT5FF1024M16EL-WEU");
 assertSearchPnIncludes("NT6CL512T32", "Nanya NT6CL512T32AM-H0");
 assertSearchPnIncludes("NT6CL128M32BQ", "Nanya NT6CL128M32BQ-H1");
 assertSearchPnIncludes("NT6CL128T64DR", "Nanya NT6CL128T64DR-H1");
@@ -67,8 +71,51 @@ assertSearchPnIncludes("NT6AN512T32AV-J2", "Nanya NT6AN512T32AV-J2");
 assertSearchPnIncludes("NT6AN1024F32", "Nanya NT6AN1024F32AV-J2");
 assertSearchPnIncludes("NT6AP256F64", "Nanya NT6AP256F64BN-J1");
 assertSearchPnIncludes("NT6BR1024", "Nanya NT6BR1024M16A3-K2");
+
+const nanyaCurrentDdr5ComponentPns = [
+  "NT5FF1024M16A4-Q5",
+  "NT5FF2048M8A3-Q5",
+  "NT5FF4096M4A3-Q5",
+  "NT5FF1024M16A4-Q5I",
+  "NT5FF2048M8A3-Q5I",
+  "NT5FF2048M8C3-Q5",
+  "NT5FF2048M8C3-S8",
+  "NT5FF4096M4C3-Q5",
+  "NT5FF4096M4C3-S8",
+  "NT5FF2048M8C3-S8I",
+  "NT5FF2048M8DK-S8",
+  "NT5FF2048M8DK-UB",
+  "NT5FF4096M4DK-S8",
+  "NT5FF4096M4DK-UB",
+  "NT5FF2048M8DK-S8I",
+  "NT5FF2048M8DK-UBI",
+  "NT5FF2048M8DK-S8U",
+  "NT5FF2048M8DK-UBU",
+  "NT5FF1024M16EL-UB",
+  "NT5FF2048M8EK-UB",
+  "NT5FF4096M4EK-UB",
+  "NT5FF1024M16EL-WE",
+  "NT5FF2048M8EK-WE",
+  "NT5FF4096M4EK-WE",
+  "NT5FF1024M16EL-UBI",
+  "NT5FF2048M8EK-UBI",
+  "NT5FF1024M16EL-WEI",
+  "NT5FF2048M8EK-WEI",
+  "NT5FF1024M16EL-UBU",
+  "NT5FF2048M8EK-UBU",
+  "NT5FF1024M16EL-WEU",
+  "NT5FF2048M8EK-WEU"
+];
+
+for (const pn of nanyaCurrentDdr5ComponentPns) {
+  assert.ok(
+    dramPnJson.some((entry) => entry.vendor === "nanya" && entry.pn === pn),
+    `Nanya current DDR5 component ${pn} should stay in dram-pn.json`
+  );
+}
 assertSearchPnIncludes("EDW2032", "Elpida EDW2032BBBG-60");
 assertSearchPnIncludes("CXDQ3A8", "CXMT CXDQ3A8AM-CQ-A");
+assertSearchPnIncludes("CXDQ2BFAM", "CXMT CXDQ2BFAM-CG");
 assertSearchPnIncludes("CXDQ4A8", "CXMT CXDQ4A8AM-CJ-M");
 assertSearchPnIncludes("CXDR4E8", "CXMT CXDR4E8BM-CS-A");
 assertSearchPnIncludes("CXDR4E8BM-UP", "CXMT CXDR4E8BM-UP-A");
