@@ -43,9 +43,8 @@ import skhynixH27RawNandTokenRules from "./packs/skhynix-h27-raw-nand-token.json
 import kioxiaManagedTokenRules from "./packs/kioxia-managed-token.json" with { type: "json" };
 import kioxiaUfsTokenRules from "./packs/kioxia-ufs-token.json" with { type: "json" };
 import kioxiaRawTokenRules from "./packs/kioxia-raw-token.json" with { type: "json" };
-import sandiskInandEmmcTokenRules from "./packs/sandisk-inand-emmc-token.json" with { type: "json" };
-import sandiskInandUfsTokenRules from "./packs/sandisk-inand-ufs-token.json" with { type: "json" };
-import sandiskInandTokenRules from "./packs/sandisk-inand-token.json" with { type: "json" };
+import sandiskInandManagedTokenRules from "./packs/sandisk-inand-managed-token.json" with { type: "json" };
+import sandiskInandLegacyTokenRules from "./packs/sandisk-inand-legacy-token.json" with { type: "json" };
 import sandiskIssdTokenRules from "./packs/sandisk-issd-token.json" with { type: "json" };
 import sandiskMarkingTokenRules from "./packs/sandisk-marking-token.json" with { type: "json" };
 import sandiskRawTokenRules from "./packs/sandisk-raw-token.json" with { type: "json" };
@@ -120,9 +119,8 @@ export const defaultPartDecodeSpecs = [
   ...kioxiaManagedTokenRules,
   ...kioxiaUfsTokenRules,
   ...kioxiaRawTokenRules,
-  ...sandiskInandEmmcTokenRules,
-  ...sandiskInandUfsTokenRules,
-  ...sandiskInandTokenRules,
+  ...sandiskInandManagedTokenRules,
+  ...sandiskInandLegacyTokenRules,
   ...sandiskIssdTokenRules,
   ...sandiskMarkingTokenRules,
   ...sandiskRawTokenRules,

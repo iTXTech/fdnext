@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^SDIN(?:5C2|5C4|7CP4|7DP4|7DU2|7LP4|8DE[124])-?(?:00[48]G|0(?:16|32|64)G|4G|8G|16G|32G|64G|128G)(?:[-_][0-9A-Z]+)?$"
+      "value": "^SDIN(?:5C2|5C4)-?(?:00[48]G|0(?:16|32|64)G|4G|8G|16G|32G|64G|128G)(?:[-_][0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -27,58 +27,16 @@
         "familyObj": {
           "5C2": {
             "product_family": "iNAND legacy eMMC",
-            "storage_interface": "eMMC 4.41",
-            "nand_technology": "MLC NAND"
+            "storage_interface": "eMMC 4.41"
           },
           "5C4": {
             "product_family": "iNAND legacy eMMC",
-            "storage_interface": "eMMC 4.41",
-            "nand_technology": "MLC NAND"
-          },
-          "7DP4": {
-            "product_family": "iNAND Extreme",
-            "storage_interface": "eMMC 4.5",
-            "nand_technology": "X2 MLC NAND",
-            "cell_level": "MLC"
-          },
-          "7CP4": {
-            "product_family": "iNAND Extreme",
-            "storage_interface": "eMMC 4.5",
-            "nand_technology": "X2 MLC NAND",
-            "cell_level": "MLC"
-          },
-          "7DU2": {
-            "product_family": "iNAND Ultra",
-            "storage_interface": "eMMC 4.41",
-            "nand_technology": "X2 MLC NAND"
-          },
-          "7LP4": {
-            "product_family": "iNAND legacy eMMC",
-            "storage_interface": "eMMC",
-            "nand_technology": "MLC NAND"
-          },
-          "8DE1": {
-            "product_family": "Industrial iNAND",
-            "storage_interface": "eMMC 4.51+ HS200",
-            "nand_technology": "X2 MLC NAND"
-          },
-          "8DE2": {
-            "product_family": "Industrial iNAND XT",
-            "storage_interface": "eMMC 4.51+ HS200",
-            "nand_technology": "X2 MLC NAND"
-          },
-          "8DE4": {
-            "product_family": "Industrial iNAND",
-            "storage_interface": "eMMC",
-            "nand_technology": "MLC NAND"
+            "storage_interface": "eMMC 4.41"
           }
         },
         "processNode": {
           "5C2": "SNK24M",
-          "5C4": "SNK24M",
-          "7DP4": "SNK19M",
-          "7DU2": "SNK19M",
-          "7LP4": "SNK19M"
+          "5C4": "SNK24M"
         },
         "density": {
           "4G": 32768,
@@ -99,21 +57,18 @@
         "packageByFamilyDensity": {
           "5C2:32G": "BGA-169, 12x16",
           "5C4:32G": "BGA-169, 12x16",
-          "5C4:64G": "BGA-169, 12x16",
-          "7DP4:16G": "BGA-153, 11.5x13x1.0",
-          "7DP4:32G": "BGA-153, 11.5x13x1.0",
-          "7DP4:64G": "BGA-153, 11.5x13x1.4",
-          "7CP4:128G": "BGA-169, 12x16x1.6",
-          "7DU2:8G": "BGA-153, 11.5x13x1.0",
-          "7DU2:16G": "BGA-153, 11.5x13x1.0",
-          "7DU2:32G": "BGA-153, 11.5x13x1.0",
-          "7DU2:64G": "BGA-153, 11.5x13x1.0"
+          "5C4:64G": "BGA-169, 12x16"
+        },
+        "suffixObj": {
+          "Q": {
+            "prod_status": "Engineering Sample"
+          }
         }
       },
       "steps": [
         {
           "op": "takeRegex",
-          "pattern": "^(?:5C2|5C4|7CP4|7DP4|7DU2|7LP4|8DE[124])",
+          "pattern": "^(?:5C2|5C4)",
           "to": "familyCode"
         },
         {
@@ -167,6 +122,13 @@
           "default": ""
         },
         {
+          "op": "map",
+          "from": "suffix",
+          "table": "suffixObj",
+          "to": "suffixObj",
+          "default": {}
+        },
+        {
           "op": "set",
           "to": "extra",
           "value": {
@@ -177,6 +139,11 @@
           "op": "merge",
           "into": "extra",
           "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "suffixObj"
         },
         {
           "op": "omit",

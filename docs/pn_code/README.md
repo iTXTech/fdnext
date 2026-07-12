@@ -33,7 +33,7 @@
 
 ## 跨厂商文档
 
-- [DecodePack 外部资料覆盖审计](coverage_audit.md)
+- [DecodePack 资料覆盖审计](coverage_audit.md)
 - [DRAM 世代覆盖约定](dram_coverage.md)
 - [NAND Die Profile 标准化](nand_die_profile.md)
 - [输出术语](terminology.md)

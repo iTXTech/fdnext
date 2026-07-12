@@ -146,6 +146,77 @@ assertRuleDecode("SDINBDG4-32G-ZA3", {
   absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("SDINBDG4-8G-Q", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 65536,
+  dieProfileField: "15nm",
+  cellField: "MLC",
+  package: "BGA-153, 11.5x13x0.8",
+  extra: {
+    "Product Family": "iNAND 7250 / EM122-class",
+    "Storage Interface": "eMMC 5.1",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Production Status": "Engineering Sample"
+  },
+  absentExtra: ["NAND Technology", "Product Generation"]
+});
+
+assertRuleDecode("SDINBDG4-64G-XI", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 524288,
+  dieProfileField: "15nm",
+  cellField: "MLC",
+  package: "BGA-153, 11.5x13x1.2",
+  extra: {
+    "Product Class": "Industrial Extended Temperature",
+    "Operation Temperature": "-40°C ~ 85°C"
+  },
+  absentExtra: ["NAND Technology", "Product Generation"]
+});
+
+assertRuleDecode("SDINADF4-16G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 131072,
+  dieProfileField: "15nm",
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x0.9",
+  extra: {
+    "Product Family": "iNAND 7232",
+    "Storage Interface": "eMMC 5.0",
+    "Operation Temperature": "-25°C ~ 85°C"
+  }
+});
+
+assertRuleDecode("SDINADF4-128G-HQ", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 1048576,
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x1.2",
+  extra: {
+    "Product Family": "iNAND 7232",
+    "Storage Interface": "eMMC 5.1",
+    "Product Class": "Commercial",
+    "Production Status": "Engineering Sample"
+  }
+});
+
+assertRuleDecode("SDIN9DW4-32G-Q", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 262144,
+  cellField: "MLC",
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Family": "iNAND Extreme",
+    "Storage Interface": "eMMC 5.0",
+    "Production Status": "Engineering Sample"
+  }
+});
+
 assertRuleDecode("SDINFDK4-128G", {
   vendor: "sndk",
   type: "UFS",
@@ -162,11 +233,30 @@ assertRuleDecode("SDINFEO2-256G", {
   vendor: "sndk",
   type: "UFS",
   densityMbit: 2097152,
+  dieProfileField: "BiCS4",
+  cellField: "TLC",
   extra: {
     "Product Family": "iNAND MC EU551",
-    "Storage Interface": "UFS 3.1"
+    "Storage Interface": "UFS 3.1",
+    "Layer Count": 96,
+    "Die Count": 4
   },
-  absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["NAND Technology", "Product Generation", "Product Version", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertRuleDecode("SDINFDO4-256G", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 2097152,
+  dieProfileField: "BiCS4",
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Family": "iNAND MC EU551",
+    "Storage Interface": "UFS 3.1",
+    "Layer Count": 96
+  },
+  absentExtra: ["NAND Technology", "Product Generation"]
 });
 
 assertRuleDecode("SDINBDI4-64G-H", {
@@ -225,12 +315,13 @@ assertRuleDecode("SDIN7DU2-8G", {
   type: "eMMC",
   densityMbit: 65536,
   dieProfileField: "19nm",
+  cellField: "MLC",
   package: "BGA-153, 11.5x13x1.0",
   extra: {
     "Product Family": "iNAND Ultra",
-    "Storage Interface": "eMMC 4.41",
-    "NAND Technology": "X2 MLC NAND"
-  }
+    "Storage Interface": "eMMC 4.41"
+  },
+  absentExtra: ["NAND Technology"]
 });
 
 assertRuleDecode("SDINBDA4-128G", {
@@ -272,13 +363,14 @@ assertRuleDecode("SDIN7DP4-16G", {
   vendor: "sndk",
   type: "eMMC",
   densityMbit: 131072,
+  dieProfileField: "19nm",
   cellField: "MLC",
   package: "BGA-153, 11.5x13x1.0",
   extra: {
     "Product Family": "iNAND Extreme",
-    "Storage Interface": "eMMC 4.5",
-    "NAND Technology": "X2 MLC NAND"
-  }
+    "Storage Interface": "eMMC 4.5"
+  },
+  absentExtra: ["NAND Technology"]
 });
 
 assertRuleDecode("SDIN7DP4-64G", {
@@ -319,6 +411,191 @@ assertRuleDecode("SDIN5C2-32G", {
   densityMbit: 262144,
   dieProfileField: "24nm",
   package: "BGA-169, 12x16"
+});
+
+assertRuleDecode("SDIN7DP2-4G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 32768,
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Family": "iNAND OEM",
+    "Storage Interface": "eMMC 4.51"
+  }
+});
+
+assertRuleDecode("SDIN9DS2-64G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 524288,
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Family": "iNAND 5130",
+    "Storage Interface": "eMMC 5.0"
+  }
+});
+
+assertRuleDecode("SDINADB4-16G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 131072,
+  dieProfileField: "A19nm",
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x0.8",
+  extra: {
+    "Product Family": "iNAND 7132",
+    "Storage Interface": "eMMC 5.0+"
+  }
+});
+
+assertRuleDecode("SDIN8CE4-128G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 1048576,
+  package: "BGA-169, 12x16x1.4",
+  extra: {
+    "Product Family": "Industrial iNAND",
+    "Storage Interface": "eMMC 4.51"
+  }
+});
+
+assertRuleDecode("SDINBDD4-128G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 1048576,
+  dieProfileField: "BiCS2",
+  cellField: "TLC",
+  package: "BGA-153",
+  extra: {
+    "Product Family": "iNAND 7350"
+  }
+});
+
+assertRuleDecode("SDINBDJ4-16G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 131072,
+  dieProfileField: "15nm",
+  cellField: "MLC",
+  package: "BGA-153",
+  extra: {
+    "Product Family": "iNAND CL EM102"
+  }
+});
+
+assertRuleDecode("SDIN8DR1-16G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 131072,
+  dieProfileField: "A19nm",
+  cellField: "TLC",
+  package: "BGA-153",
+  extra: {
+    "Storage Interface": "eMMC 4.51"
+  },
+  absentExtra: ["Product Family"]
+});
+
+assertRuleDecode("SDINHFR4-256G", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 2097152,
+  dieProfileField: "BiCS8",
+  cellField: "QLC",
+  package: "BGA-153",
+  extra: {
+    "Product Family": "iNAND MC EU721",
+    "Storage Interface": "UFS 4.1"
+  }
+});
+
+assertRuleDecode("SDINHFT4-128G", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 1048576,
+  dieProfileField: "BiCS6",
+  cellField: "TLC",
+  package: "BGA-153, 9x13",
+  extra: {
+    "Layer Count": 162,
+    "Storage Interface": "UFS 4.1"
+  }
+});
+
+assertRuleDecode("SDINHFT2-512G", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 4194304,
+  dieProfileField: "BiCS6",
+  cellField: "TLC",
+  package: "BGA-153, 9x13",
+  extra: {
+    "Product Family": "iNAND MC EU711",
+    "Storage Interface": "UFS 4.0"
+  }
+});
+
+assertRuleDecode("SDINFEO4-256G", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 2097152,
+  dieProfileField: "BiCS4",
+  cellField: "TLC",
+  package: "11.5x13x1.0",
+  extra: {
+    "Product Family": "iNAND MC EU561",
+    "Storage Interface": "UFS 3.1"
+  }
+});
+
+assertRuleDecode("SDINFD04-256G", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 2097152,
+  package: "BGA-153",
+  extra: {
+    "Storage Interface": "UFS 3.1"
+  },
+  absentExtra: ["Product Family", "Process", "Cell Level"]
+});
+
+const sandiskManagedDecoder = compiledPack.partDecoders.find((decoder) => decoder.id === "vendor.sndk.inand.managed.v1");
+assert.ok(sandiskManagedDecoder?.match("SDINBDG4-32G"));
+assert.ok(sandiskManagedDecoder?.match("SDINFDO4-256G"));
+assert.ok(sandiskManagedDecoder?.match("SDINHFT4-256G"));
+assert.ok(sandiskManagedDecoder?.match("SDINLDZ4-128G"));
+assertRuleDoesNotMatch("vendor.sndk.inand.managed.v1", "SDIN5C4-64G");
+assertRuleDoesNotMatch("vendor.sndk.inand.legacy-emmc.v1", "SDINBDG4-32G");
+
+assertRuleDecode("SDIN7DP4-16G-Q", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 131072,
+  cellField: "MLC",
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    "Production Status": "Engineering Sample"
+  },
+  absentExtra: ["NAND Technology"]
+});
+
+assertRuleDecode("SDINBDZ4-128G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 1048576,
+  package: "BGA-153",
+  extra: {
+    "Storage Interface": "eMMC 5.1"
+  },
+  absentExtra: ["Product Family", "NAND Technology", "Process", "Cell Level"]
+});
+
+assertRuleDecode("SDINLDZ4-128G", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 1048576,
+  package: "BGA-153",
+  absentExtra: ["Product Family", "Storage Interface", "NAND Technology", "Process", "Cell Level"]
 });
 
 assertRuleDecode("SDIS4BH-008G", {

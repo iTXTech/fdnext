@@ -2005,6 +2005,14 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDIN7CP4-128G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DP2-4G"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDIN5C2-32G"
   },
   {
@@ -2021,11 +2029,23 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDIN7DP4-16G-Q"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDIN7DP4-32G"
   },
   {
     "vendor": "sndk",
+    "pn": "SDIN7DP4-32G-Q"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDIN7DP4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DP4-64G-Q"
   },
   {
     "vendor": "sndk",
@@ -2046,6 +2066,170 @@
   {
     "vendor": "sndk",
     "pn": "SDIN7LP4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8CE4-128G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE1-8G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE2-8G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE2-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE4-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN9DS2-8G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN9DS2-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN9DS2-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN9DS2-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN9DW4-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN9DW4-16G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN9DW4-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN9DW4-32G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN9DW4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN9DW4-64G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADB4-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-16G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-16G-L"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-16G-LQ"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-16G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-16G-HQ"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-32G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-32G-L"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-32G-LQ"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-32G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-32G-HQ"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-64G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-64G-L"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-64G-LQ"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-64G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-64G-HQ"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-128G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-128G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-128G-L"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-128G-LQ"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-128G-H"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINADF4-128G-HQ"
   },
   {
     "vendor": "sndk",
@@ -2181,6 +2365,18 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDINBDG4-8G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-8G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-8G-XI"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDINBDG4-8G-H"
   },
   {
@@ -2194,6 +2390,18 @@
   {
     "vendor": "sndk",
     "pn": "SDINBDG4-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-16G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-16G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-16G-XI"
   },
   {
     "vendor": "sndk",
@@ -2213,6 +2421,18 @@
   },
   {
     "vendor": "sndk",
+    "pn": "SDINBDG4-32G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-32G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-32G-XI"
+  },
+  {
+    "vendor": "sndk",
     "pn": "SDINBDG4-32G-H"
   },
   {
@@ -2226,6 +2446,18 @@
   {
     "vendor": "sndk",
     "pn": "SDINBDG4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-64G-Q"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-64G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDG4-64G-XI"
   },
   {
     "vendor": "sndk",
@@ -2357,11 +2589,183 @@
   },
   {
     "vendor": "sndk",
-    "pn": "SDINHFT4-512G"
+    "pn": "SDINHFT4-128G"
   },
   {
     "vendor": "sndk",
     "pn": "SDINHFT4-1T00"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINHFT2-256G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINHFT2-512G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINEDK4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINEDK4-256G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINEDK4-256G-P"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDK4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDK4-256G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDO2-256G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDO4-128G-B"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDO4-256G-B"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFDO4-512G-B"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFEO4-128G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFEO4-256G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINFEO4-512G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDD4-32G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDD4-64G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDD4-128G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDD4-256G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDJ4-8G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDJ4-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DP2-8G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE2-4G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE4-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DR1-8G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DR1-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDA2-16G"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDV4-64G-V"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDV4-128G-V"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDINBDV4-256G-V"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE2-4G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE2-4G-XI"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE1-8G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE1-8G-XI"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE2-16G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE2-16G-XI"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE4-32G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE4-32G-XI"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8DE4-64G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN8CE4-64G-XI"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DU2-8G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DU2-16G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DU2-32G-I"
+  },
+  {
+    "vendor": "sndk",
+    "pn": "SDIN7DU2-64G-I"
   },
   {
     "vendor": "sndk",

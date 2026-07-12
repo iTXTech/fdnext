@@ -1,0 +1,810 @@
+[
+  {
+    "id": "vendor.sndk.inand.managed.v1",
+    "priority": 1007,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^SDIN[789ABDEFLH][A-Z0-9]{3}-?(?:00[48]G|0(?:16|32|64)G|4G|8G|16G|32G|64G|128G|256G|512G|1T00)(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "SDIN"
+      ],
+      "tables": {
+        "productType": {
+          "7": "emmc",
+          "8": "emmc",
+          "9": "emmc",
+          "A": "emmc",
+          "B": "emmc",
+          "D": "ufs",
+          "E": "ufs",
+          "F": "ufs",
+          "H": "ufs",
+          "L": "ufs"
+        },
+        "interfaceObj": {
+          "7": {
+            "storage_interface": "eMMC 4.x"
+          },
+          "8": {
+            "storage_interface": "eMMC 4.51",
+            "interface_type": "HS200"
+          },
+          "9": {
+            "storage_interface": "eMMC 5.0",
+            "interface_type": "HS400"
+          },
+          "A": {
+            "storage_interface": "eMMC 5.x",
+            "interface_type": "HS400"
+          },
+          "B": {
+            "storage_interface": "eMMC 5.1",
+            "interface_type": "HS400"
+          },
+          "D": {
+            "storage_interface": "UFS 2.1",
+            "interface_type": "Gear 3 / 2-Lane"
+          },
+          "E": {
+            "storage_interface": "UFS 3.0",
+            "interface_type": "Gear 4 / 2-Lane"
+          },
+          "F": {
+            "storage_interface": "UFS 3.1",
+            "interface_type": "Gear 4 / 2-Lane"
+          },
+          "H": {
+            "storage_interface": "UFS 4.x",
+            "interface_type": "Gear 5 / 2-Lane"
+          },
+          "L": {
+            "storage_interface": "UFS"
+          }
+        },
+        "packageObj": {
+          "C": {
+            "package": "BGA-169"
+          },
+          "D": {
+            "package": "BGA-153"
+          },
+          "E": {
+            "package": "11.5x13x1.0"
+          },
+          "F": {
+            "package": "BGA-153"
+          }
+        },
+        "nandScopedObj": {
+          "7:P": {
+            "cell_level": "MLC"
+          },
+          "7:U": {
+            "cell_level": "MLC"
+          },
+          "8:E": {
+            "cell_level": "MLC"
+          },
+          "8:R": {
+            "cell_level": "TLC"
+          },
+          "9:S": {
+            "cell_level": "TLC"
+          },
+          "9:W": {
+            "cell_level": "MLC"
+          },
+          "A:B": {
+            "cell_level": "TLC"
+          },
+          "A:F": {
+            "cell_level": "TLC"
+          },
+          "B:A": {
+            "cell_level": "TLC"
+          },
+          "B:D": {
+            "cell_level": "TLC"
+          },
+          "B:G": {
+            "cell_level": "MLC"
+          },
+          "B:I": {
+            "cell_level": "TLC"
+          },
+          "B:J": {
+            "cell_level": "MLC"
+          },
+          "B:V": {
+            "cell_level": "TLC"
+          },
+          "D:H": {
+            "cell_level": "TLC"
+          },
+          "E:K": {
+            "cell_level": "TLC"
+          },
+          "F:K": {
+            "cell_level": "TLC"
+          },
+          "F:O": {
+            "cell_level": "TLC"
+          },
+          "F:Q": {
+            "cell_level": "TLC"
+          },
+          "H:L": {
+            "cell_level": "TLC"
+          },
+          "H:R": {
+            "cell_level": "QLC"
+          },
+          "H:T": {
+            "cell_level": "TLC"
+          }
+        },
+        "nandScopedProfile": {
+          "7:P": "SNK19M",
+          "7:U": "SNK19M",
+          "8:E": "SNK19M",
+          "8:R": "SNK1YT",
+          "9:S": "SNK1YT",
+          "9:W": "SNK19M",
+          "A:B": "SNK1YT",
+          "A:F": "SNK15T",
+          "B:A": "SBiCS3",
+          "B:D": "SBiCS2",
+          "B:G": "SNK15M",
+          "B:J": "SNK15M",
+          "B:V": "SBiCS4",
+          "D:H": "SBiCS3",
+          "E:K": "SBiCS4",
+          "F:K": "SBiCS4",
+          "F:O": "SBiCS4",
+          "F:Q": "SBiCS5",
+          "H:L": "SBiCS8",
+          "H:R": "SBiCS8",
+          "H:T": "SBiCS6"
+        },
+        "familyObj": {
+          "7CP4": {
+            "product_family": "iNAND Extreme",
+            "storage_interface": "eMMC 4.5"
+          },
+          "7DP2": {
+            "product_family": "iNAND OEM",
+            "storage_interface": "eMMC 4.51"
+          },
+          "7DP4": {
+            "product_family": "iNAND Extreme",
+            "storage_interface": "eMMC 4.5"
+          },
+          "7DU2": {
+            "product_family": "iNAND Ultra",
+            "storage_interface": "eMMC 4.41"
+          },
+          "7LP4": {
+            "product_family": "iNAND legacy eMMC",
+            "storage_interface": "eMMC"
+          },
+          "8CE4": {
+            "product_family": "Industrial iNAND"
+          },
+          "8DE1": {
+            "product_family": "Industrial iNAND"
+          },
+          "8DE2": {
+            "product_family": "Industrial iNAND XT"
+          },
+          "8DE4": {
+            "product_family": "Industrial iNAND"
+          },
+          "9DS2": {
+            "product_family": "iNAND 5130"
+          },
+          "9DW4": {
+            "product_family": "iNAND Extreme",
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "ADF4": {
+            "product_family": "iNAND 7232",
+            "storage_interface": "eMMC 5.0",
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "ADB4": {
+            "product_family": "iNAND 7132",
+            "storage_interface": "eMMC 5.0+"
+          },
+          "BDA4": {
+            "product_family": "iNAND MC EM131"
+          },
+          "BDA6": {
+            "product_family": "iNAND IX EM132",
+            "component_voltage": "VCC 2.7-3.6V / VCCQ 1.7-1.95V or 2.7-3.6V"
+          },
+          "BDG4": {
+            "product_family": "iNAND 7250 / EM122-class",
+            "component_voltage": "VCC 2.7-3.6V / VCCQ 1.7-1.95V or 2.7-3.6V",
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "BDI4": {
+            "product_family": "iNAND CL EM151",
+            "operation_temperature": "-25°C ~ 85°C",
+            "package": "BGA-153, 11.5x13x1.0"
+          },
+          "BDV4": {
+            "product_family": "iNAND MC EM141",
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "BDD4": {
+            "product_family": "iNAND 7350"
+          },
+          "BDJ4": {
+            "product_family": "iNAND CL EM102"
+          },
+          "DDH4": {
+            "product_family": "iNAND MC EU311"
+          },
+          "DDH6": {
+            "product_family": "iNAND AT EU312"
+          },
+          "EDK4": {
+            "product_family": "iNAND MC EU511"
+          },
+          "FDK4": {
+            "product_family": "iNAND MC EU521"
+          },
+          "FDO2": {
+            "product_family": "iNAND MC EU551",
+            "die_count": 4
+          },
+          "FDO4": {
+            "product_family": "iNAND MC EU551"
+          },
+          "FEO2": {
+            "product_family": "iNAND MC EU551",
+            "die_count": 4
+          },
+          "FEO4": {
+            "product_family": "iNAND MC EU561"
+          },
+          "FDQ6": {
+            "product_family": "iNAND AT EU552",
+            "interface_type": "WriteBooster"
+          },
+          "HDL6": {
+            "product_family": "iNAND AT EU752",
+            "storage_interface": "UFS 4.1",
+            "interface_type": "WriteBooster"
+          },
+          "HFT4": {
+            "product_family": "iNAND MC EU711",
+            "storage_interface": "UFS 4.1",
+            "operation_temperature": "-25°C ~ 85°C",
+            "package": "BGA-153, 9x13"
+          },
+          "HFT2": {
+            "product_family": "iNAND MC EU711",
+            "storage_interface": "UFS 4.0",
+            "package": "BGA-153, 9x13"
+          },
+          "HFR4": {
+            "product_family": "iNAND MC EU721",
+            "storage_interface": "UFS 4.1"
+          }
+        },
+        "density": {
+          "4G": 32768,
+          "004G": 32768,
+          "8G": 65536,
+          "008G": 65536,
+          "16G": 131072,
+          "016G": 131072,
+          "32G": 262144,
+          "032G": 262144,
+          "64G": 524288,
+          "064G": 524288,
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304,
+          "1T00": 8388608
+        },
+        "packageByFamilyDensity": {
+          "7CP4:128G": { "package": "BGA-169, 12x16x1.6" },
+          "7DP2:4G": { "package": "BGA-153, 11.5x13x1.0" },
+          "7DP4:16G": { "package": "BGA-153, 11.5x13x1.0" },
+          "7DP4:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "7DP4:64G": { "package": "BGA-153, 11.5x13x1.4" },
+          "7DU2:8G": { "package": "BGA-153, 11.5x13x1.0" },
+          "7DU2:16G": { "package": "BGA-153, 11.5x13x1.0" },
+          "7DU2:32G": { "package": "BGA-153, 11.5x13x1.2" },
+          "7DU2:64G": { "package": "BGA-153, 11.5x13x1.4" },
+          "8CE4:128G": { "package": "BGA-169, 12x16x1.4" },
+          "8DE1:8G": { "package": "BGA-153, 11.5x13x1.0" },
+          "8DE2:8G": { "package": "BGA-153, 11.5x13x1.0" },
+          "8DE2:16G": { "package": "BGA-153, 11.5x13x1.0" },
+          "8DE4:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "8DE4:64G": { "package": "BGA-153, 11.5x13x1.2" },
+          "9DS2:8G": { "package": "BGA-153, 11.5x13x0.8" },
+          "9DS2:16G": { "package": "BGA-153, 11.5x13x0.8" },
+          "9DS2:32G": { "package": "BGA-153, 11.5x13x0.8" },
+          "9DS2:64G": { "package": "BGA-153, 11.5x13x1.0" },
+          "9DW4:16G": { "package": "BGA-153, 11.5x13x1.0" },
+          "9DW4:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "9DW4:64G": { "package": "BGA-153, 11.5x13x1.0" },
+          "ADF4:16G": { "package": "BGA-153, 11.5x13x0.9" },
+          "ADF4:32G": { "package": "BGA-153, 11.5x13x0.9" },
+          "ADF4:64G": { "package": "BGA-153, 11.5x13x1.0" },
+          "ADF4:128G": { "package": "BGA-153, 11.5x13x1.2" },
+          "ADB4:16G": { "package": "BGA-153, 11.5x13x0.8" },
+          "BDA4:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA4:64G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA4:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA4:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA6:16G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA6:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA6:64G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA6:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA6:256G": { "package": "BGA-153, 11.5x13x1.2" },
+          "BDG4:8G": { "package": "BGA-153, 11.5x13x0.8" },
+          "BDG4:16G": { "package": "BGA-153, 11.5x13x0.8" },
+          "BDG4:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDG4:64G": { "package": "BGA-153, 11.5x13x1.2" },
+          "BDD4:32G": { "package": "BGA-153" },
+          "BDD4:64G": { "package": "BGA-153" },
+          "BDD4:128G": { "package": "BGA-153" },
+          "BDD4:256G": { "package": "BGA-153" },
+          "BDJ4:8G": { "package": "BGA-153" },
+          "BDJ4:16G": { "package": "BGA-153" },
+          "DDH4:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "DDH4:64G": { "package": "BGA-153, 11.5x13x1.0" },
+          "DDH4:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "DDH4:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "DDH6:16G": { "package": "BGA-153, 11.5x13x1.2" },
+          "DDH6:32G": { "package": "BGA-153, 11.5x13x1.2" },
+          "DDH6:64G": { "package": "BGA-153, 11.5x13x1.2" },
+          "DDH6:128G": { "package": "BGA-153, 11.5x13x1.2" },
+          "DDH6:256G": { "package": "BGA-153, 11.5x13x1.2" },
+          "EDK4:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "EDK4:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDK4:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDK4:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDO2:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDO4:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDO4:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDO4:512G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FEO2:256G": { "package": "11.5x13x1.0" },
+          "FEO4:128G": { "package": "11.5x13x1.0" },
+          "FEO4:256G": { "package": "11.5x13x1.0" },
+          "FEO4:512G": { "package": "11.5x13x1.0" },
+          "FDQ6:64G": { "package": "BGA-153, 11.5x13x1.2" },
+          "FDQ6:128G": { "package": "BGA-153, 11.5x13x1.2" },
+          "FDQ6:256G": { "package": "BGA-153, 11.5x13x1.2" },
+          "FDQ6:512G": { "package": "BGA-153, 11.5x13x1.2" },
+          "HDL6:256G": { "package": "BGA-153, 11.5x13x1.2" },
+          "HDL6:512G": { "package": "BGA-153, 11.5x13x1.2" },
+          "HDL6:1T00": { "package": "BGA-153, 11.5x13x1.2" },
+          "HFT2:256G": { "package": "BGA-153, 9x13" },
+          "HFT2:512G": { "package": "BGA-153, 9x13" },
+          "HFT4:128G": { "package": "BGA-153, 9x13" },
+          "HFT4:256G": { "package": "BGA-153, 9x13" },
+          "HFT4:1T00": { "package": "BGA-153, 9x13" }
+        },
+        "suffixObj": {
+          "I": {
+            "product_class": "Industrial Wide Temperature",
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "I1": {
+            "product_class": "Industrial Wide Temperature",
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "I2": {
+            "product_class": "Industrial Wide Temperature",
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "XI1": {
+            "product_class": "Industrial Extended Temperature",
+            "operation_temperature": "-40°C ~ 85°C"
+          },
+          "XI2": {
+            "product_class": "Industrial Extended Temperature",
+            "operation_temperature": "-40°C ~ 85°C"
+          },
+          "XI": {
+            "product_class": "Industrial Extended Temperature",
+            "operation_temperature": "-40°C ~ 85°C"
+          },
+          "XA": {
+            "product_class": "Automotive",
+            "operation_temperature": "-40°C ~ 85°C"
+          },
+          "XA1": {
+            "product_class": "Automotive",
+            "operation_temperature": "-40°C ~ 85°C"
+          },
+          "ufs:XA2": {
+            "product_class": "Automotive",
+            "operation_temperature": "-40°C ~ 85°C"
+          },
+          "emmc:XA3": {
+            "product_class": "Automotive",
+            "operation_temperature": "-40°C ~ 85°C"
+          },
+          "ZA": {
+            "product_class": "Automotive",
+            "operation_temperature": "-40°C ~ 105°C"
+          },
+          "ZA1": {
+            "product_class": "Automotive",
+            "operation_temperature": "-40°C ~ 105°C"
+          },
+          "ufs:ZA2": {
+            "product_class": "Automotive",
+            "operation_temperature": "-40°C ~ 105°C"
+          },
+          "emmc:ZA3": {
+            "product_class": "Automotive",
+            "operation_temperature": "-40°C ~ 105°C"
+          },
+          "DG": {
+            "product_class": "Engineering / DG"
+          },
+          "QUAL": {
+            "product_class": "Qualification Sample"
+          }
+        },
+        "familySuffixObj": {
+          "7CP4:Q": {
+            "prod_status": "Engineering Sample"
+          },
+          "7DP4:Q": {
+            "prod_status": "Engineering Sample"
+          },
+          "9DW4:Q": {
+            "prod_status": "Engineering Sample"
+          },
+          "ADF4:Q": {
+            "prod_status": "Engineering Sample"
+          },
+          "BDG4:Q": {
+            "prod_status": "Engineering Sample"
+          },
+          "ADF4:H": {
+            "storage_interface": "eMMC 5.1",
+            "interface_type": "HS400",
+            "product_class": "Commercial",
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "ADF4:L": {
+            "storage_interface": "eMMC 5.1",
+            "interface_type": "HS400",
+            "product_class": "Commercial",
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "ADF4:HQ": {
+            "storage_interface": "eMMC 5.1",
+            "interface_type": "HS400",
+            "product_class": "Commercial",
+            "operation_temperature": "-25°C ~ 85°C",
+            "prod_status": "Engineering Sample"
+          },
+          "ADF4:LQ": {
+            "storage_interface": "eMMC 5.1",
+            "interface_type": "HS400",
+            "product_class": "Commercial",
+            "operation_temperature": "-25°C ~ 85°C",
+            "prod_status": "Engineering Sample"
+          },
+          "BDI4:H": {
+            "product_class": "Commercial",
+            "operation_temperature": "-25°C ~ 85°C"
+          },
+          "BDA6:H": {
+            "product_class": "Connected Home",
+            "operation_temperature": "-25°C ~ 95°C"
+          },
+          "BDG4:H": {
+            "product_class": "Connected Home",
+            "operation_temperature": "-25°C ~ 95°C"
+          },
+          "BDV4:V": {
+            "product_class": "PC / Compute"
+          }
+        },
+        "reference": {
+          "BDA6": {
+            "status": "external_confirmed",
+            "source": "Sandisk iNAND IX EM132 product brief and automotive brochure",
+            "examples": [
+              "SDINBDA6-256G-XI1",
+              "SDINBDA6-##G-ZA1"
+            ]
+          },
+          "BDG4": {
+            "status": "external_confirmed",
+            "source": "Western Digital mobile brochure and Sandisk automotive brochure",
+            "examples": [
+              "SDINBDG4-32G",
+              "SDINBDG4-##G-ZA3"
+            ]
+          },
+          "BDI4": {
+            "status": "external_table_confirmed",
+            "source": "Sandisk Industrial and IoT brochure plus authorized distributor and programmer support tables",
+            "examples": [
+              "SDINBDI4-64G-H",
+              "SDINBDI4-128G-H",
+              "SDINBDI4-256G-H"
+            ]
+          },
+          "DDH6": {
+            "status": "external_confirmed",
+            "source": "Sandisk automotive e.MMC/UFS brochure",
+            "examples": [
+              "SDINDDH6-##G-ZA2",
+              "SDINDDH6-##G-XA2"
+            ],
+            "notes": "iNAND AT EU312, UFS 2.1"
+          },
+          "FDQ6": {
+            "status": "external_confirmed",
+            "source": "Sandisk iNAND AT EU552 product brief and automotive brochure",
+            "examples": [
+              "SDINFDQ6-128G-ZA1"
+            ]
+          },
+          "HDL6": {
+            "status": "external_confirmed",
+            "source": "Sandisk iNAND AT EU752 product brief and automotive brochure",
+            "examples": [
+              "SDINHDL6-1T00-ZA"
+            ]
+          },
+          "HFT4": {
+            "status": "external_table_confirmed",
+            "source": "Sandisk Industrial and IoT brochure plus Falcon programmer and distributor tables",
+            "examples": [
+              "SDINHFT4-128G",
+              "SDINHFT4-256G",
+              "SDINHFT4-1T00"
+            ]
+          },
+          "HFR4": {
+            "status": "external_table_confirmed",
+            "source": "Sandisk commercial warranty family list and Sandisk/MemoryS EU721 material",
+            "examples": [
+              "SDINHFR4-###G"
+            ],
+            "notes": "EU721 uses BiCS8 218-layer QLC; exact commercial ordering suffix remains pending"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "interfaceCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "packageCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "nandCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "configCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{interfaceCode}}{{packageCode}}{{nandCode}}{{configCode}}",
+          "to": "familyCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{interfaceCode}}:{{nandCode}}",
+          "to": "nandScopeKey"
+        },
+        {
+          "op": "map",
+          "from": "interfaceCode",
+          "table": "productType",
+          "to": "productType"
+        },
+        {
+          "op": "map",
+          "from": "interfaceCode",
+          "table": "interfaceObj",
+          "to": "interfaceObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageTokenObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "nandScopeKey",
+          "table": "nandScopedObj",
+          "to": "nandObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "nandScopeKey",
+          "table": "nandScopedProfile",
+          "to": "processNode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processNode",
+          "table": "nand.die_profile",
+          "to": "processObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "density",
+          "to": "density",
+          "keyTo": "densityCode",
+          "default": 0
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{densityCode}}",
+          "to": "familyDensityKey"
+        },
+        {
+          "op": "map",
+          "from": "familyDensityKey",
+          "table": "packageByFamilyDensity",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{rest}}",
+          "to": "familySuffixKey"
+        },
+        {
+          "op": "map",
+          "from": "familySuffixKey",
+          "table": "familySuffixObj",
+          "to": "familySuffixObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "suffixObj",
+          "scope": "productType",
+          "to": "suffixObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "system": "iNAND"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "interfaceObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageTokenObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "nandObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "suffixObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "familySuffixObj"
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "system",
+            "group",
+            "series_code",
+            "cell_code",
+            "layout_code",
+            "density_code",
+            "stack_code",
+            "generation_code",
+            "voltage_io_code"
+          ]
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "sndk",
+        "device.chipKind": "managed_nand",
+        "device.productType": {
+          "$var": "productType"
+        },
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "meta.nandDieProfileKey": {
+          "$var": "processNode"
+        },
+        "meta.ruleId": "vendor.sndk.inand.managed.v1",
+        "fields.layer_count": {
+          "$path": "processObj.layer_count"
+        },
+        "fields.die_codename": {
+          "$var": "processNode"
+        }
+      }
+    }
+  }
+]
