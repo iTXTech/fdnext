@@ -126,6 +126,54 @@ testPart("TH58LKY1R48BAEG", {
   }
 }, "decodes KIOXIA PLC density-family token");
 
+testPart("TH58LKG9DA5BA4R", {
+  vendor: "kioxia",
+  type: "NAND",
+  densityMbit: 524288,
+  dieProfileField: "BiCS5",
+  cellField: "MLC",
+  package: "BGA-154, 11.5x13.5",
+  extra: {
+    "Interface Type": "Very Low Voltage Toggle DDR 3.0/4.0/5.x/6.x",
+    "Layer Count": 112,
+    "Die Count": 2,
+    "CE Count": 2,
+    "Channel Count": 2
+  }
+}, "decodes the current KIOXIA 64GB XL-FLASH package token");
+
+testPart("TH58LKT0DA5BA8R", {
+  vendor: "kioxia",
+  type: "NAND",
+  densityMbit: 1048576,
+  dieProfileField: "BiCS5",
+  cellField: "MLC",
+  package: "BGA-154, 11.5x13.5",
+  extra: {
+    "Interface Type": "Very Low Voltage Toggle DDR 3.0/4.0/5.x/6.x",
+    "Layer Count": 112,
+    "Die Count": 4,
+    "CE Count": 4,
+    "Channel Count": 2
+  }
+}, "decodes the current KIOXIA 128GB XL-FLASH package token");
+
+testPart("TH58LKT1DA5BA8S", {
+  vendor: "kioxia",
+  type: "NAND",
+  densityMbit: 2097152,
+  dieProfileField: "BiCS5",
+  cellField: "MLC",
+  package: "BGA-154, 11.5x13.5",
+  extra: {
+    "Interface Type": "Very Low Voltage Toggle DDR 3.0/4.0/5.x/6.x",
+    "Layer Count": 112,
+    "Die Count": 8,
+    "CE Count": 4,
+    "Channel Count": 2
+  }
+}, "decodes the current KIOXIA 256GB XL-FLASH package token");
+
 test("KIOXIA raw NAND suffix topology resolves package and die layout", () => {
   [
   { partNumber: "TH58NVG7D2FTA00", package: "TSOP-48", dieCount: 1, ceCount: 1, channelCount: 1 },
@@ -159,8 +207,8 @@ test("KIOXIA raw NAND suffix topology resolves package and die layout", () => {
   { partNumber: "TH58NVG7D2FBA0M", package: "BGA-132", dieCount: 1, ceCount: 1, channelCount: 1 },
   { partNumber: "TH58LKT4X46BS2K", package: "BGA-152", dieCount: 2, ceCount: 2, channelCount: 1 },
   { partNumber: "TH58LKT4X46BAXE", package: "BGA-272", dieCount: 4, ceCount: 4, channelCount: 4 },
-  { partNumber: "TH58LKT4X46BA8R", package: "BGA-154", dieCount: 4, ceCount: 4, channelCount: 2 },
-  { partNumber: "TH58LKT4X46BA8S", package: "BGA-154", dieCount: 8, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT4X46BA8R", package: "BGA-154, 11.5x13.5", dieCount: 4, ceCount: 4, channelCount: 2 },
+  { partNumber: "TH58LKT4X46BA8S", package: "BGA-154, 11.5x13.5", dieCount: 8, ceCount: 4, channelCount: 2 },
   { partNumber: "TH58LKT4X46BB8R", package: "BGA-152", dieCount: 16, ceCount: 4, channelCount: 2 },
   { partNumber: "TH58LKT4X46BB8T", package: "BGA-154", dieCount: 16, ceCount: 4, channelCount: 2 },
   { partNumber: "TH58LKT4X46BB8U", package: "BGA-154", dieCount: 32, ceCount: 4, channelCount: 2 },

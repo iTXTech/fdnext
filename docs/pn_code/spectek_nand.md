@@ -37,6 +37,16 @@ PN 结构：
 | configuration `K/L/H` | x8 / x16 / x1 |
 | package code `B/C/D/G/H/J/L/P/T/V/W` | old package family |
 
+当前 component PN 的封装 token 后可跟 `-[速度档][产品等级]` suffix。速度档来自官方 2022 numbering guide：
+
+| Token | 接口与最高速率 |
+| --- | --- |
+| `15` / `12` / `10` | NV-DDR TM3 133MT/s / TM4 166MT/s / TM5 200MT/s |
+| `75` / `6` / `5` / `37` | NV-DDR2 TM5 266MT/s / TM6 333MT/s / TM7 400MT/s / TM8 533MT/s |
+| `3` / `25` / `18` / `16` | NV-DDR3 TM9 666MT/s / TM10 800MT/s / TM11 1066MT/s / TM12 1200MT/s |
+
+产品等级 token `AS/AL/AF/AR/ES/MB/PG/UT/S7/S9` 结构化输出为 Production Status；`ES` 只通过该字段公开为 `Engineering Sample`。suffix 缺少速度 token 时仅保留可确认的产品等级。`WP/WC` 封装按同一指南补齐为 `TSOP-I-48, 12x20x1.2`，并区分 Center / Off-center leads。
+
 ## 输出字段
 
 - `density`
@@ -45,6 +55,8 @@ PN 结构：
 - `device_width`
 - `voltage`
 - `package`
+- `speed_grade`
+- `prod_status`
 - `density_grade`
 - `package_functionality_partial_type`
 - `product_family`

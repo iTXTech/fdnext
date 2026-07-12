@@ -1,0 +1,99 @@
+[
+  {
+    "id": "vendor.skhynix.dram.ddr4-32gb.h5anbg.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H5ANBG[68][0-9A-Z]{4}-?XN[CI]$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H5AN"
+      ],
+      "tables": {
+        "width": {
+          "6": 16,
+          "8": 8
+        },
+        "temperatureObj": {
+          "C": {
+            "operation_temperature": "Commercial"
+          },
+          "I": {
+            "operation_temperature": "Industrial"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<densityCode>BG)(?<widthCode>6|8)(?<configCode>[0-9A-Z]{4})-?(?<speedCode>XN)(?<temperatureCode>C|I)$",
+          "groups": {
+            "widthCode": "widthCode",
+            "temperatureCode": "temperatureCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "width",
+          "to": "width"
+        },
+        {
+          "op": "map",
+          "from": "temperatureCode",
+          "table": "temperatureObj",
+          "to": "temperatureObj"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "DDR4",
+            "dram_speed": "DDR4-3200 CL22"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": 32768,
+        "fields.dram_width": {
+          "$var": "width"
+        },
+        "fields.dram_voltage": "1.2V VDD",
+        "meta.ruleId": "vendor.skhynix.dram.ddr4-32gb.h5anbg.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  }
+]

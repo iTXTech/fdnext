@@ -1,0 +1,76 @@
+[
+  {
+    "id": "vendor.kingston.epop.v1",
+    "priority": 1002,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": {
+      "kind": "regex",
+      "value": "^(?:08|16|32|64|128)EP(?:08|16|32|64)(?:M4|M5)[0-9A-Z]{5,}$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "reference": {
+          "kingston_official_epop_table": {
+            "status": "external_table_confirmed",
+            "source": "Kingston ePoP Part Numbers and Specifications"
+          }
+        },
+        "storageDensityCode": ["16", "32", "64", "128", "08"],
+        "storageDensity": { "16": 131072, "32": 262144, "64": 524288, "128": 1048576, "08": 65536 },
+        "storageDensityText": {
+          "16": "16GB eMMC",
+          "32": "32GB eMMC",
+          "64": "64GB eMMC",
+          "128": "128GB eMMC",
+          "08": "8GB eMMC"
+        },
+        "dramDensityCode": ["16", "32", "64", "08"],
+        "dramDensity": { "16": "16Gb", "32": "32Gb", "64": "64Gb", "08": "8Gb" },
+        "dramTypeObj": {
+          "M4": { "dram_type": "LPDDR4X", "package": "FBGA-144" },
+          "M5": { "dram_type": "LPDDR5X", "package": "FBGA-201" }
+        },
+        "packageBase": { "M4": "FBGA-144", "M5": "FBGA-201" },
+        "packageConfig": {
+          "MTB9W": "FBGA-144, 8x9.5x0.6",
+          "NTB9W": "FBGA-144, 8x9.5x0.65",
+          "ATB9W": "FBGA-201, 8x9.5x0.58",
+          "BTB9M": "FBGA-201, 8x9.5x0.7"
+        }
+      },
+      "steps": [
+        { "op": "takeLongest", "table": "storageDensityCode", "to": "storageDensityCode", "default": "" },
+        { "op": "map", "from": "storageDensityCode", "table": "storageDensity", "to": "density", "default": 0 },
+        { "op": "map", "from": "storageDensityCode", "table": "storageDensityText", "to": "storageDensity", "default": "" },
+        { "op": "stripIfPrefix", "prefix": "EP" },
+        { "op": "takeLongest", "table": "dramDensityCode", "to": "dramDensityCode", "default": "" },
+        { "op": "map", "from": "dramDensityCode", "table": "dramDensity", "to": "dramDensity", "default": "" },
+        { "op": "take", "len": 2, "to": "dramTypeCode" },
+        { "op": "map", "from": "dramTypeCode", "table": "dramTypeObj", "to": "dramTypeObj", "default": {} },
+        { "op": "map", "from": "dramTypeCode", "table": "packageBase", "to": "packageBase", "default": "" },
+        { "op": "take", "len": 5, "to": "configCode" },
+        { "op": "map", "from": "configCode", "table": "packageConfig", "to": "packageSpecific", "default": "" },
+        { "op": "fallback", "primary": "packageSpecific", "secondary": "packageBase", "to": "package" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "kingston",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields.density": { "$var": "density" },
+        "fields.package": { "$var": "package" },
+        "fields.product_family": "ePoP",
+        "fields.storage_density": { "$var": "storageDensity" },
+        "fields.storage_interface": "eMMC 5.1",
+        "fields.dram_density": { "$var": "dramDensity" },
+        "fields.dram_type": { "$path": "dramTypeObj.dram_type" },
+        "fields.operation_temperature": "-25°C ~ +85°C",
+        "meta.ruleId": "vendor.kingston.epop.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": ["density"],
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
+  }
+]

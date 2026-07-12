@@ -1,0 +1,79 @@
+[
+  {
+    "id": "vendor.esmt.raw.f59.v1",
+    "priority": 1007,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|", "(", ")"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^F59[LD](?:1G|2G|4G|8G)81[0-9A-Z]{1,3}(?:-(?:25|45)(?:BC|B|T)[0-9A-Z]{1,6})?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["F59"],
+      "tables": {
+        "voltage": {
+          "L": "3.3V (2.7V-3.6V)",
+          "D": "1.8V (1.7V-1.95V)"
+        },
+        "density": {
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096,
+          "8G": 8192
+        },
+        "width": {
+          "81": 8
+        },
+        "speed": {
+          "25": "25ns",
+          "45": "45ns"
+        },
+        "package": {
+          "T": "TSOP-48",
+          "B": "BGA-63",
+          "BC": "BGA-67"
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([LD])(1G|2G|4G|8G)(81)([0-9A-Z]{1,3})(?:-(25|45)(BC|B|T)[0-9A-Z]{1,6})?$",
+          "to": "orderingCode",
+          "groups": {
+            "voltageCode": 1,
+            "densityCode": 2,
+            "widthCode": 3,
+            "designCode": 4,
+            "speedCode": 5,
+            "packageCode": 6
+          },
+          "default": ""
+        },
+        { "op": "map", "from": "voltageCode", "table": "voltage", "to": "voltage", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": -1 },
+        { "op": "map", "from": "widthCode", "table": "width", "to": "deviceWidth", "default": -1 },
+        { "op": "map", "from": "speedCode", "table": "speed", "to": "speedGrade", "default": "" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "esmt",
+        "device.chipKind": "raw_nand",
+        "fields.density": { "$var": "density" },
+        "fields.cell_level": 1,
+        "fields.device_width": { "$var": "deviceWidth" },
+        "fields.voltage": { "$var": "voltage" },
+        "fields.interface_type": "Parallel NAND",
+        "fields.speed_grade": { "$var": "speedGrade" },
+        "fields.package": { "$var": "package" },
+        "meta.ruleId": "vendor.esmt.raw.f59.v1"
+      }
+    }
+  }
+]

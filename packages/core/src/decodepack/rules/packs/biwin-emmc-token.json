@@ -150,7 +150,7 @@
     "id": "vendor.biwin.emmc.bwefm.v1",
     "priority": 1002,
     "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
-    "match": { "kind": "regex", "value": "^BWEFM[AD](?:064G|128G)(?:N923|N729)$" },
+    "match": { "kind": "regex", "value": "^BWEFM[ADI][0-9]{3}G[0-9A-Z]{4}$" },
     "tokenDecoder": {
       "stripPrefixes": ["BWEFM"],
       "tables": {
@@ -158,6 +158,10 @@
           "biwin_official_tae_tde308_order_table": {
             "status": "external_table_confirmed",
             "source": "BIWIN TAE308 and TDE308 eMMC 5.1"
+          },
+          "biwin_current_automotive_industrial_emmc_tables": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN TAE208/318, TDE208/218 and TGE208 order information"
           }
         },
         "grade": {
@@ -170,17 +174,51 @@
           "D": {
             "product_class": "Industrial Standard",
             "operation_temperature": "-25°C ~ +85°C"
+          },
+          "I": {
+            "product_class": "Industrial Wide Temperature",
+            "operation_temperature": "-40°C ~ +85°C"
           }
         },
-        "densityCode": ["064G", "128G"],
-        "density": { "064G": 524288, "128G": 1048576 }
+        "densityCode": ["008G", "016G", "032G", "064G", "128G"],
+        "density": {
+          "008G": 65536,
+          "016G": 131072,
+          "032G": 262144,
+          "064G": 524288,
+          "128G": 1048576
+        },
+        "configObj": {
+          "N1KC": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
+          "N923": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
+          "N9RE": { "nand_technology": "MLC", "cell_level": 2, "package": "FBGA-153, 11.50x13.00x1.10" },
+          "N2RE": { "nand_technology": "MLC", "cell_level": 2, "package": "FBGA-153, 11.50x13.00x1.10" },
+          "N7RJ": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
+          "N729": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
+          "N8RC": { "nand_technology": "MLC", "cell_level": 2, "package": "FBGA-153, 11.50x13.00x1.10" },
+          "N2RJ": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
+          "N223": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
+          "N929": { "package": "FBGA-153, 11.50x13.00x1.10" }
+        },
+        "densityConfigObj": {
+          "008G:N929": { "nand_technology": "Win-pSLC (TLC NAND)", "cell_level": 1, "special_option": "pSLC Mode" },
+          "016G:N929": { "nand_technology": "Win-pSLC (TLC NAND)", "cell_level": 1, "special_option": "pSLC Mode" },
+          "064G:N929": { "nand_technology": "3D TLC", "cell_level": 3 },
+          "128G:N929": { "nand_technology": "3D TLC", "cell_level": 3 }
+        }
       },
       "steps": [
         { "op": "take", "len": 1, "to": "gradeCode" },
         { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
         { "op": "take", "len": 4, "to": "configCode" },
         { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
-        { "op": "map", "from": "gradeCode", "table": "grade", "to": "extra", "default": {} }
+        { "op": "map", "from": "gradeCode", "table": "grade", "to": "extra", "default": {} },
+        { "op": "map", "from": "configCode", "table": "configObj", "to": "configObj", "default": {} },
+        { "op": "tpl", "template": "{{densityCode}}:{{configCode}}", "to": "densityConfigKey" },
+        { "op": "map", "from": "densityConfigKey", "table": "densityConfigObj", "to": "densityConfigObj", "default": {} },
+        { "op": "merge", "into": "configObj", "from": "densityConfigObj" },
+        { "op": "merge", "into": "extra", "from": "configObj" },
+        { "op": "omit", "from": "extra", "keys": ["cell_level", "package"] }
       ],
       "assign": {
         "device.partNumber": { "$var": "partNumber" },
@@ -191,10 +229,59 @@
         "fields": { "$var": "extra" },
         "fields.density": { "$var": "density" },
         "fields.storage_interface": "eMMC 5.1",
-        "fields.nand_technology": "3D TLC",
-        "fields.cell_level": 3,
-        "fields.package": "FBGA-153, 11.50x13.00x1.10",
+        "fields.cell_level": { "$path": "configObj.cell_level" },
+        "fields.package": { "$path": "configObj.package" },
         "meta.ruleId": "vendor.biwin.emmc.bwefm.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
+  },
+  {
+    "id": "vendor.biwin.emmc.bwcmaqb.v1",
+    "priority": 1002,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": { "kind": "regex", "value": "^BWC[0-9A-Z]{7}(?:08G|16G)I$" },
+    "tokenDecoder": {
+      "stripPrefixes": ["BWC"],
+      "tables": {
+        "reference": {
+          "biwin_official_tge218_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN TGE218 eMMC 5.1 order information"
+          }
+        },
+        "densityCode": ["08G", "16G"],
+        "density": { "08G": 65536, "16G": 131072 },
+        "configObj": {
+          "MAQB11T": {
+            "nand_technology": "MLC",
+            "cell_level": 2,
+            "package": "FBGA-153, 11.50x13.00x1.10"
+          }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 7, "to": "configCode" },
+        { "op": "map", "from": "configCode", "table": "configObj", "to": "configObj", "default": {} },
+        { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 1, "to": "gradeCode" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
+        "fields.density": { "$var": "density" },
+        "fields.storage_interface": "eMMC 5.1",
+        "fields.nand_technology": { "$path": "configObj.nand_technology" },
+        "fields.cell_level": { "$path": "configObj.cell_level" },
+        "fields.package": { "$path": "configObj.package" },
+        "fields.product_class": "Industrial Wide Temperature",
+        "fields.operation_temperature": "-40°C ~ +85°C",
+        "meta.ruleId": "vendor.biwin.emmc.bwcmaqb.v1",
         "meta.fieldProfile": "managed_nand",
         "meta.capabilities": ["part.decode", "part.search"]
       }

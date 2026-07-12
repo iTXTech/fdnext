@@ -4,6 +4,8 @@
 
 ## 外部资料
 
+- KIOXIA 当前 Memory Selector 的 XL-FLASH 表列出 `TH58LKG9DA5BA4R`、`TH58LKT0DA5BA8R`、`TH58LKT1DA5BA8S`，分别为 64GB / 128GB / 256GB、BiCS FLASH MLC（支持 SLC mode）、154-ball BGA、11.5x13.5mm。规则继续从既有 density/cell/process/package token 独立解码；本轮只把官方尺寸补到 `BA4R` / `BA8R` / `BA8S` package-token 映射，不按完整 PN 增加产品特判。来源：<https://americas.kioxia.com/en-us/business/memory/selector.html>
+
 - Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3, 2010-09-24: raw NAND large-block 页给出 `TC58` / `TH58` 单/多芯片、NAND interface、voltage、density、cell level、width/page/block、design rule、package、channel/CE 和 package size token。
 - Toshiba / KIOXIA `NAND Flash Part Numbering Decoder`, current part number system `(130nm ~ now)`: 补充 current raw NAND 的 product type、`B*` / `Y*` density、BiCS generation、ECB-style package/config 和 package size token。
 
@@ -105,6 +107,9 @@ datasheet evidence confirms the die stack.
 
 KIOXIA raw NAND Flash ID 使用 `98` maker code 和 6-byte ID。当前 identifier
 DecodePack 位于 `packages/core/src/decodepack/identifier/packs/kioxia.json`。
+Legacy SLC density token 由 KIOXIA/Toshiba datasheet Read ID 表确认；其中
+`F1/DA/DC/D3/D5/D7/DE` 分别覆盖 1/2/4/8/16/32/64Gbit。公开 datasheet
+包括 KIOXIA `TC58NVG0S3HBAI4`：<https://www.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/201910/DST_TC58NVG0S3HBAI4-TDE_EN_31422.pdf>，以及 Toshiba SLC middle-capacity 合集：<https://www.digikey.com/en/htmldatasheets/production/1123772/0/0/1/nand-flash-memory-slc-middle-capacity-.html>。
 
 | ID byte | 当前解析 |
 | --- | --- |

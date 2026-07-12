@@ -1,0 +1,83 @@
+[
+  {
+    "id": "vendor.esmt.emmc.fc51.v1",
+    "priority": 1008,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|", "(", ")"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^FC51[A-Z](?:04|08|16|32|64|128)[0-9A-Z]{4,6}(?:-25[0-9A-Z]{4,6})?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["FC51"],
+      "tables": {
+        "technologyObj": {
+          "E": {
+            "cell_level": 2,
+            "nand_technology": "2D NAND"
+          },
+          "J": {
+            "cell_level": 3,
+            "nand_technology": "3D NAND"
+          }
+        },
+        "densityToken": ["128", "04", "08", "16", "32", "64"],
+        "density": {
+          "04": 32768,
+          "08": 65536,
+          "16": 131072,
+          "32": 262144,
+          "64": 524288,
+          "128": 1048576
+        },
+        "speed": {
+          "25": "200MHz"
+        },
+        "packageByFamilyDensity": {
+          "E:08": "BGA-153, 11.5x13x1.0",
+          "J:32": "BGA-153, 11.5x13x1.0",
+          "L:04": "BGA-153, 11.5x13x1.0",
+          "L:08": "BGA-153, 11.5x13x1.0"
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "technologyCode" },
+        { "op": "map", "from": "technologyCode", "table": "technologyObj", "to": "technologyObj", "default": {} },
+        { "op": "takeLongest", "table": "densityToken", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": -1 },
+        { "op": "tpl", "template": "{{technologyCode}}:{{densityCode}}", "to": "familyDensityKey" },
+        { "op": "map", "from": "familyDensityKey", "table": "packageByFamilyDensity", "to": "package", "default": "" },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]{4,6}(?:-(25)[0-9A-Z]{4,6})?$",
+          "to": "orderingCode",
+          "groups": {
+            "speedCode": 1
+          },
+          "default": ""
+        },
+        { "op": "map", "from": "speedCode", "table": "speed", "to": "speedGrade", "default": "" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "esmt",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
+        "fields": { "$var": "technologyObj" },
+        "fields.density": { "$var": "density" },
+        "fields.storage_interface": "eMMC 5.1",
+        "fields.speed_grade": { "$var": "speedGrade" },
+        "fields.voltage": "Vcc: 2.7V-3.6V, VccQ: 1.70V-1.95V or 2.7V-3.6V",
+        "fields.package": { "$var": "package" },
+        "meta.ruleId": "vendor.esmt.emmc.fc51.v1",
+        "meta.fieldProfile": "managed_nand"
+      }
+    }
+  }
+]

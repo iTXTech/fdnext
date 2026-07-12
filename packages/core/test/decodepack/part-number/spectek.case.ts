@@ -98,10 +98,35 @@ assertRuleDecode("FBMM60A21G3BAAWP", {
   density: "512MB",
   dieProfileField: "34nm",
   cellField: "SLC",
+  package: "TSOP-I-48, 12x20x1.2, Center Package Leads CPL Pb-free",
   extra: {
     "Die Density": "4Gb",
     "Die Count": 1,
     "Process Alias": "M60A"
+  }
+});
+assertRuleDecode("FBMM60A21G3BAAWP-ES", {
+  vendor: "spectek",
+  type: "NAND",
+  density: "512MB",
+  dieProfileField: "34nm",
+  cellField: "SLC",
+  package: "TSOP-I-48, 12x20x1.2, Center Package Leads CPL Pb-free",
+  extra: {
+    "Production Status": "Engineering Sample"
+  },
+  absentExtra: ["Speed Grade"]
+});
+assertRuleDecode("FBMB68S8T0KLUAHD5-25AF", {
+  vendor: "spectek",
+  type: "NAND",
+  density: "1TB",
+  dieProfileField: "B68S",
+  cellField: "TLC",
+  package: "LFBGA-154/195, 13.5x11.5x1.3",
+  extra: {
+    "Speed Grade": "NV-DDR3 TM10 800MT/s",
+    "Production Status": "Full Spec for low-end USB/SD"
   }
 });
 assertNotFound("FBNL7BT65KDUAB");

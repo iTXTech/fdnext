@@ -23,9 +23,15 @@ import issiDramTokenRules from "./packs/issi-dram-token.json" with { type: "json
 import issiEmmcTokenRules from "./packs/issi-emmc-token.json" with { type: "json" };
 import issiUfsTokenRules from "./packs/issi-ufs-token.json" with { type: "json" };
 import winbondDramTokenRules from "./packs/winbond-dram-token.json" with { type: "json" };
+import winbondNandTokenRules from "./packs/winbond-nand-token.json" with { type: "json" };
 import esmtDramTokenRules from "./packs/esmt-dram-token.json" with { type: "json" };
+import esmtEmmcTokenRules from "./packs/esmt-emmc-token.json" with { type: "json" };
+import esmtRawTokenRules from "./packs/esmt-raw-token.json" with { type: "json" };
 import etronDramTokenRules from "./packs/etron-dram-token.json" with { type: "json" };
 import skhynixDramTokenRules from "./packs/skhynix-dram-token.json" with { type: "json" };
+import skhynixHbmTokenRules from "./packs/skhynix-hbm-token.json" with { type: "json" };
+import skhynixLpddr4xTokenRules from "./packs/skhynix-lpddr4x-token.json" with { type: "json" };
+import skhynixDdr4_32gbTokenRules from "./packs/skhynix-ddr4-32gb-token.json" with { type: "json" };
 import skhynixH25TokenRules from "./packs/skhynix-h25-token.json" with { type: "json" };
 import skhynixHy27RawNandTokenRules from "./packs/skhynix-hy27-raw-nand-token.json" with { type: "json" };
 import skhynixUfsTokenRules from "./packs/skhynix-ufs-token.json" with { type: "json" };
@@ -47,12 +53,17 @@ import siliconMotionManagedTokenRules from "./packs/siliconmotion-managed-token.
 import kingstonEmmcTokenRules from "./packs/kingston-emmc-token.json" with { type: "json" };
 import kingstonUfsTokenRules from "./packs/kingston-ufs-token.json" with { type: "json" };
 import kingstonEmcpTokenRules from "./packs/kingston-emcp-token.json" with { type: "json" };
+import kingstonEpopTokenRules from "./packs/kingston-epop-token.json" with { type: "json" };
 import longsysEmmcTokenRules from "./packs/longsys-emmc-token.json" with { type: "json" };
 import longsysUfsTokenRules from "./packs/longsys-ufs-token.json" with { type: "json" };
 import longsysEmcpTokenRules from "./packs/longsys-emcp-token.json" with { type: "json" };
+import longsysSpiNandTokenRules from "./packs/longsys-spi-nand-token.json" with { type: "json" };
+import longsysDramTokenRules from "./packs/longsys-dram-token.json" with { type: "json" };
 import biwinEmmcTokenRules from "./packs/biwin-emmc-token.json" with { type: "json" };
 import biwinUfsTokenRules from "./packs/biwin-ufs-token.json" with { type: "json" };
 import biwinEmcpTokenRules from "./packs/biwin-emcp-token.json" with { type: "json" };
+import biwinEpopTokenRules from "./packs/biwin-epop-token.json" with { type: "json" };
+import biwinDramTokenRules from "./packs/biwin-dram-token.json" with { type: "json" };
 import ymtcProcessTokenRules from "./packs/ymtc-process-token.json" with { type: "json" };
 import ymtcNandTokenRules from "./packs/ymtc-nand-token.json" with { type: "json" };
 import ymtcUnimosTokenRules from "./packs/ymtc-unimos-token.json" with { type: "json" };
@@ -89,9 +100,15 @@ export const defaultPartDecodeSpecs = [
   ...issiEmmcTokenRules,
   ...issiUfsTokenRules,
   ...winbondDramTokenRules,
+  ...winbondNandTokenRules,
   ...esmtDramTokenRules,
+  ...esmtEmmcTokenRules,
+  ...esmtRawTokenRules,
   ...etronDramTokenRules,
   ...skhynixDramTokenRules,
+  ...skhynixHbmTokenRules,
+  ...skhynixLpddr4xTokenRules,
+  ...skhynixDdr4_32gbTokenRules,
   ...skhynixH25TokenRules,
   ...skhynixHy27RawNandTokenRules,
   ...skhynixUfsTokenRules,
@@ -113,12 +130,17 @@ export const defaultPartDecodeSpecs = [
   ...kingstonEmmcTokenRules,
   ...kingstonUfsTokenRules,
   ...kingstonEmcpTokenRules,
+  ...kingstonEpopTokenRules,
   ...longsysEmmcTokenRules,
   ...longsysUfsTokenRules,
   ...longsysEmcpTokenRules,
+  ...longsysSpiNandTokenRules,
+  ...longsysDramTokenRules,
   ...biwinEmmcTokenRules,
   ...biwinUfsTokenRules,
   ...biwinEmcpTokenRules,
+  ...biwinEpopTokenRules,
+  ...biwinDramTokenRules,
   ...ymtcProcessTokenRules,
   ...ymtcNandTokenRules,
   ...ymtcUnimosTokenRules,

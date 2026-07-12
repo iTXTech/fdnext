@@ -1,0 +1,388 @@
+[
+  {
+    "id": "vendor.skhynix.dram.lpddr4x.h54.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H54(?:G2|G3|G4|G5|G6|GE|GG)[68][0-9A-Z]{4}X[0-9A-Z]{3}N?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H54"
+      ],
+      "tables": {
+        "density": {
+          "G2": 4096,
+          "G3": 8192,
+          "G4": 16384,
+          "G5": 32768,
+          "G6": 65536,
+          "GE": 49152,
+          "GG": 98304
+        },
+        "packageObj": {
+          "AYR:H": {
+            "package": "FBGA-556"
+          },
+          "CYR:H": {
+            "package": "FBGA-556"
+          },
+          "AYZ:V": {
+            "package": "FBGA-556"
+          },
+          "AYZ:Q": {
+            "package": "FBGA-556"
+          },
+          "AYR:P": {
+            "package": "FBGA-200"
+          },
+          "AYR:Q": {
+            "package": "FBGA-200"
+          },
+          "AYR:V": {
+            "package": "FBGA-200"
+          },
+          "BYY:J": {
+            "package": "FBGA-200"
+          },
+          "BYY:P": {
+            "package": "FBGA-200"
+          },
+          "BYY:V": {
+            "package": "FBGA-200"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<densityCode>G2|G3|G4|G5|G6|GE|GG)(?<organizationCode>6|8)(?<featureCode>[0-9A-Z]{3})(?<packageCode>[0-9A-Z])X(?<serialCode>[0-9A-Z]{3})(?<statusCode>N)?$",
+          "groups": {
+            "densityCode": "densityCode",
+            "featureCode": "featureCode",
+            "packageCode": "packageCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density"
+        },
+        {
+          "op": "tpl",
+          "template": "{{featureCode}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR4X",
+            "dram_speed": "LPDDR4X-4266",
+            "dram_voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "meta.ruleId": "vendor.skhynix.dram.lpddr4x.h54.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.lpddr4x.h9hk-modern.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H9HKNNN(?:CR|EB|FB)[0-9A-Z]{2}V[0-9A-Z]{2}-[0-9A-Z]{3}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H9HKNNN"
+      ],
+      "tables": {
+        "density": {
+          "CR": 32768,
+          "EB": 49152,
+          "FB": 65536
+        },
+        "dramOptionObj": {
+          "M": {
+            "dram_type": "LPDDR4X",
+            "dram_voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ"
+          }
+        },
+        "packageObj": {
+          "V": {
+            "package": "FBGA-556"
+          }
+        },
+        "speedObj": {
+          "E": {
+            "dram_speed": "LPDDR4X-4266"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<densityCode>CR|EB|FB)(?<dramOptionCode>[0-9A-Z])(?<featureCode>[0-9A-Z])(?<packageCode>V)(?<materialCode>[0-9A-Z])(?<revisionCode>[0-9A-Z])-(?<interfaceCode>[0-9A-Z])(?<speedCode>[0-9A-Z])(?<temperatureCode>[0-9A-Z])$",
+          "groups": {
+            "densityCode": "densityCode",
+            "dramOptionCode": "dramOptionCode",
+            "packageCode": "packageCode",
+            "speedCode": "speedCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "dramOptionCode",
+          "table": "dramOptionObj",
+          "to": "dramOptionObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramOptionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "meta.ruleId": "vendor.skhynix.dram.lpddr4x.h9hk-modern.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.lpddr4x.h9hc-432ball.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H9HCNNN(?:CR|FB)[0-9A-Z]{2}L[0-9A-Z]R-[0-9A-Z]{3}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H9HCNNN"
+      ],
+      "tables": {
+        "density": {
+          "CR": 32768,
+          "FB": 65536
+        },
+        "dramOptionObj": {
+          "M": {
+            "dram_type": "LPDDR4X",
+            "dram_voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ"
+          }
+        },
+        "packageObj": {
+          "P": {
+            "package": "FBGA-432"
+          }
+        },
+        "speedObj": {
+          "E": {
+            "dram_speed": "LPDDR4X-4266"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<densityCode>CR|FB)(?<dramOptionCode>[0-9A-Z])(?<featureCode>[0-9A-Z])(?<generationCode>L)(?<packageCode>[0-9A-Z])(?<materialCode>R)-(?<interfaceCode>[0-9A-Z])(?<speedCode>[0-9A-Z])(?<temperatureCode>[0-9A-Z])$",
+          "groups": {
+            "densityCode": "densityCode",
+            "dramOptionCode": "dramOptionCode",
+            "packageCode": "packageCode",
+            "speedCode": "speedCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density"
+        },
+        {
+          "op": "map",
+          "from": "dramOptionCode",
+          "table": "dramOptionObj",
+          "to": "dramOptionObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {}
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramOptionObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "meta.ruleId": "vendor.skhynix.dram.lpddr4x.h9hc-432ball.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  }
+]

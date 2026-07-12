@@ -94,6 +94,21 @@
           "128G": 1048576,
           "256G": 2097152
         },
+        "packageByFamilyDensity": {
+          "BDA4:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA4:64G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA4:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA4:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA6:16G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA6:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA6:64G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA6:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDA6:256G": { "package": "BGA-153, 11.5x13x1.2" },
+          "BDG4:8G": { "package": "BGA-153, 11.5x13x0.8" },
+          "BDG4:16G": { "package": "BGA-153, 11.5x13x0.8" },
+          "BDG4:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "BDG4:64G": { "package": "BGA-153, 11.5x13x1.2" }
+        },
         "suffixObj": {
           "H": {
             "product_class": "Connected Home",
@@ -211,7 +226,20 @@
           "op": "takeLongest",
           "table": "density",
           "to": "density",
+          "keyTo": "densityCode",
           "default": 0
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{densityCode}}",
+          "to": "familyDensityKey"
+        },
+        {
+          "op": "map",
+          "from": "familyDensityKey",
+          "table": "packageByFamilyDensity",
+          "to": "packageObj",
+          "default": {}
         },
         {
           "op": "stripIfPrefix",
@@ -246,6 +274,11 @@
           "op": "merge",
           "into": "extra",
           "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
         },
         {
           "op": "merge",

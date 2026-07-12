@@ -1658,7 +1658,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^K4(?:F(?:6E|8E)(?:30|3S)4H[A-Z]|U(?:6E|BE|CE)(?:3S|3D|3Q)4A[A-Z])(?:-[0-9A-Z]+)?$"
+      "value": "^K4(?:F(?:4E|6E|8E|BE|HE)(?:16|30|3S|3D)4H[A-Z]|U(?:2E|6E|8E|BE|CE|HE|JE)(?:3S|3D|3Q)4A[A-Z])(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -1674,18 +1674,27 @@
           }
         },
         "densityToken": [
+          "2E",
+          "4E",
           "6E",
           "8E",
           "BE",
-          "CE"
+          "CE",
+          "HE",
+          "JE"
         ],
         "densityMb": {
+          "2E": 12288,
+          "4E": 4096,
           "6E": 16384,
           "8E": 8192,
           "BE": 32768,
-          "CE": 65536
+          "CE": 65536,
+          "HE": 24576,
+          "JE": 49152
         },
         "organizationObj": {
+          "16": {},
           "30": {
             "cs_count": 2,
             "channel_count": 2,
@@ -1708,6 +1717,7 @@
           }
         },
         "deviceWidth": {
+          "16": 16,
           "30": 32,
           "3S": 32,
           "3D": 32,
@@ -1745,7 +1755,9 @@
           }
         },
         "packageActual": {
-          "M": "FBGA-200"
+          "K": "FBGA-200",
+          "M": "FBGA-200",
+          "T": "FBGA-200"
         },
         "packageObj": {
           "M": {
@@ -1753,8 +1765,17 @@
           }
         },
         "tempPowerObj": {
+          "F": {
+            "operation_temperature": "-40C~95C"
+          },
           "G": {
             "operation_temperature": "-25C~85C"
+          },
+          "H": {
+            "operation_temperature": "-40C~105C"
+          },
+          "U": {
+            "operation_temperature": "-40C~125C"
           }
         },
         "speedObj": {
@@ -2023,7 +2044,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^K(?:3P|3Q|3K|3L|4F6|4U6)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
+      "value": "^K(?:3P|3Q|3K|3L|3U|4F6|4U6)[0-9A-Z]+(?:-[0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -2038,8 +2059,22 @@
           "F2",
           "F4",
           "FA",
+          "H5",
+          "H6",
+          "H7",
+          "HA",
+          "HB",
+          "HD",
+          "K2",
+          "K4",
+          "K6",
+          "K7",
+          "K8",
           "KJ",
+          "KC",
+          "KD",
           "L1",
+          "L2",
           "L3",
           "L4",
           "L5",
@@ -2092,6 +2127,39 @@
             "dram_die_count": 2,
             "cs_count": 1
           },
+          "3U:H5": {
+            "dram_type": "LPDDR4X"
+          },
+          "3U:H6": {
+            "dram_type": "LPDDR4X"
+          },
+          "3U:H7": {
+            "dram_type": "LPDDR4X"
+          },
+          "3U:HA": {
+            "dram_type": "LPDDR4X"
+          },
+          "3U:HB": {
+            "dram_type": "LPDDR4X"
+          },
+          "3U:HD": {
+            "dram_type": "LPDDR4X"
+          },
+          "3L:K2": {
+            "dram_type": "LPDDR5"
+          },
+          "3L:K4": {
+            "dram_type": "LPDDR5"
+          },
+          "3L:K6": {
+            "dram_type": "LPDDR5"
+          },
+          "3L:K7": {
+            "dram_type": "LPDDR5"
+          },
+          "3L:K8": {
+            "dram_type": "LPDDR5"
+          },
           "3L:KB": {
             "dram_type": "LPDDR5",
             "dram_die_count": 2,
@@ -2100,7 +2168,16 @@
           "3L:KJ": {
             "dram_type": "LPDDR5"
           },
+          "3L:KC": {
+            "dram_type": "LPDDR5"
+          },
+          "3L:KD": {
+            "dram_type": "LPDDR5"
+          },
           "3K:L1": {
+            "dram_type": "LPDDR5X"
+          },
+          "3K:L2": {
             "dram_type": "LPDDR5X"
           },
           "3K:L3": {
@@ -2140,9 +2217,23 @@
           "3Q:FA": 65536,
           "4F:6": 16384,
           "4U:6": 16384,
+          "3U:H5": 32768,
+          "3U:H6": 49152,
+          "3U:H7": 65536,
+          "3U:HA": 98304,
+          "3U:HB": 98304,
+          "3U:HD": 131072,
+          "3L:K2": 49152,
+          "3L:K4": 98304,
+          "3L:K6": 131072,
+          "3L:K7": 65536,
+          "3L:K8": 49152,
           "3L:KB": 32768,
           "3L:KJ": 24576,
+          "3L:KC": 65536,
+          "3L:KD": 147456,
           "3K:L1": 32768,
+          "3K:L2": 49152,
           "3K:L3": 65536,
           "3K:L4": 98304,
           "3K:L5": 131072,
@@ -2162,9 +2253,23 @@
           "3Q:FA": 64,
           "4F:6": 32,
           "4U:6": 32,
+          "3U:H5": 64,
+          "3U:H6": 64,
+          "3U:H7": 64,
+          "3U:HA": 64,
+          "3U:HB": 64,
+          "3U:HD": 64,
+          "3L:K2": 64,
+          "3L:K4": 64,
+          "3L:K6": 64,
+          "3L:K7": 64,
+          "3L:K8": 32,
           "3L:KB": 32,
           "3L:KJ": 32,
+          "3L:KC": 32,
+          "3L:KD": 64,
           "3K:L1": 64,
+          "3K:L2": 64,
           "3K:L4": 64,
           "3K:L5": 64,
           "3K:L6": 32,
@@ -2182,9 +2287,23 @@
           "3Q:FA": "1.8V / 1.2V / 1.2V",
           "4F:6": "1.8V / 1.1V / 1.1V",
           "4U:6": "1.8V / 1.1V / 0.6V",
+          "3U:H5": "1.8V / 1.1V / 0.6V",
+          "3U:H6": "1.8V / 1.1V / 0.6V",
+          "3U:H7": "1.8V / 1.1V / 0.6V",
+          "3U:HA": "1.8V / 1.1V / 0.6V",
+          "3U:HB": "1.8V / 1.1V / 0.6V",
+          "3U:HD": "1.8V / 1.1V / 0.6V",
+          "3L:K2": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3L:K4": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3L:K6": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3L:K7": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3L:K8": "1.8V / 1.05V / 0.9V / 0.5V",
           "3L:KB": "1.8V / 1.05V / 0.9V / 0.5V",
           "3L:KJ": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3L:KC": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3L:KD": "1.8V / 1.05V / 0.9V / 0.5V",
           "3K:L1": "1.8V / 1.05V / 0.9V / 0.5V",
+          "3K:L2": "1.8V / 1.05V / 0.9V / 0.5V",
           "3K:L3": "1.8V / 1.05V / 0.9V / 0.5V",
           "3K:L4": "1.8V / 1.05V / 0.9V / 0.5V",
           "3K:L5": "1.8V / 1.05V / 0.9V / 0.5V",
@@ -2210,6 +2329,13 @@
           "3L:KB0BM": "FBGA-315"
         },
         "suffixDeviceWidth": {
+          "3L:B": 64,
+          "3L:J": 64,
+          "3L:M": 32,
+          "3U:A": 64,
+          "3U:E": 64,
+          "3U:J": 64,
+          "3U:T": 64,
           "3K:B": 16,
           "3K:J": 64,
           "3K:E": 64,
@@ -2217,6 +2343,13 @@
           "3K:T": 32
         },
         "suffixPackageActual": {
+          "3L:B": "FBGA-496",
+          "3L:J": "FBGA-441",
+          "3L:M": "FBGA-315",
+          "3U:A": "FBGA-556",
+          "3U:E": "FBGA-376",
+          "3U:J": "FBGA-432",
+          "3U:T": "FBGA-556",
           "3K:B": "FBGA-496",
           "3K:J": "FBGA-441",
           "3K:E": "FBGA-561",
@@ -2258,6 +2391,15 @@
           },
           "4U:U": {
             "operation_temperature": "-40C~125C"
+          },
+          "3U:G": {
+            "operation_temperature": "-25C~85C"
+          },
+          "3U:F": {
+            "operation_temperature": "-40C~95C"
+          },
+          "3U:H": {
+            "operation_temperature": "-40C~105C"
           },
           "3L:G": {
             "operation_temperature": "-25C~85C"
@@ -2304,6 +2446,9 @@
             "dram_speed": "LPDDR4-4266"
           },
           "4U:CL": {
+            "dram_speed": "LPDDR4X-4266"
+          },
+          "3U:CL": {
             "dram_speed": "LPDDR4X-4266"
           },
           "3L:CP": {

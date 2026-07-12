@@ -733,6 +733,38 @@ assertDram("MT61K512M32KPA-22:U", {
   }
 });
 
+assertDram("MT61R512M32KPA-16 AAT:E", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.35V VDD / 1.25V VDDQ",
+  package: "FBGA-180, 12x14",
+  extra: {
+    "DRAM Type": "GDDR6",
+    "Package Code": "KPA",
+    "Config Code": "512M32",
+    "DRAM Speed": "GDDR6-16Gbps",
+    "Operation Temperature": "Automotive Grade (-40°C ~ 105°C)",
+    "Die Revision": "Rev E"
+  }
+});
+
+assertDram("MT61K512M32KPA-18:E", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x32",
+  voltage: "1.35V VDD",
+  package: "FBGA-180, 12x14",
+  extra: {
+    "DRAM Type": "GDDR6",
+    "Package Code": "KPA",
+    "Config Code": "512M32",
+    "DRAM Speed": "GDDR6-18Gbps",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev E"
+  }
+});
+
 assertDram("MT68A512M32DF-32:A", {
   densityMbit: 16384,
   density: "16Gb",
@@ -808,6 +840,60 @@ assertStackedDram("MT54A8G8040A00BF32:A", {
     "Die Revision": "Rev A",
     "ECC enabled": true
   }
+});
+
+assertStackedDram("MT65B12G16080A00QG-92:A", {
+  type: "HBM3E",
+  densityMbit: 196608,
+  density: "192Gb",
+  voltage: "1.1V",
+  package: "WFPGA, 10.98x10.98x0.78",
+  fields: {
+    channel_count: 16,
+    dram_die_count: 8
+  },
+  extra: {
+    "Channel Count": 16,
+    "DRAM Speed": "9.2 GT/s",
+    "Operation Temperature": "-10C to +105C",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertStackedDram("MT65B18G16120A00QH-92-A", {
+  type: "HBM3E",
+  densityMbit: 294912,
+  density: "288Gb",
+  voltage: "1.1V",
+  package: "WFPGA, 10.98x10.98x0.78",
+  fields: {
+    channel_count: 16,
+    dram_die_count: 12
+  },
+  extra: {
+    "Channel Count": 16,
+    "DRAM Speed": "9.2 GT/s",
+    "Operation Temperature": "-10C to +105C",
+    "Die Revision": "Rev A"
+  }
+});
+
+assertStackedDram("MT65B12G16080A00QG-60:A", {
+  type: "HBM3E",
+  densityMbit: 196608,
+  density: "192Gb",
+  voltage: "1.1V",
+  package: "WFPGA, 10.98x10.98x0.78",
+  fields: {
+    channel_count: 16,
+    dram_die_count: 8
+  },
+  extra: {
+    "Channel Count": 16,
+    "Operation Temperature": "-10C to +105C",
+    "Die Revision": "Rev A"
+  },
+  absentExtra: ["DRAM Speed"]
 });
 
 assertStackedDram("MT43A4G40100NFA-S15:A", {

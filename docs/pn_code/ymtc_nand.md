@@ -5,6 +5,7 @@
 ## 外部资料
 
 - `YMTC NAND Flash Features.pdf`，标题日期 `2024.07.31`，给出 `X1-9050` 到 `X4-9060` 的 xLC、ONFI、page/block organization、device capacity、plane count、clock rate、电压和耐久信息。
+- YMTC Gen2 256Gb TLC datasheet Read ID 表：确认 `9B` maker ID，以及 density、LUN、cell、voltage、page、block、plane、technology 的 byte/bit 定义。公开镜像：<https://borecraft.com/PDF/Datasheets%2C%20WP%2C%20Specs/YMTC_Gen2_256Gb_TLC_Datasheet_Client_rev0.2.pdf>。
 - HyperFlashBase `3D NAND MP ROADMAP`，last update `2024-04-21`，可交叉参考 YMTC conventional TCAT / Xtacking CTF 路线、`X0-A030`、`X1-9050`、`X2-9060`、`X2-6070`、`X3-9060`、`X3-9070`、`X3-6070`、`X4-9060`、`X4-9070`、`X4-6080`、`X5-9080` 等代际关系。路线图是第三方资料，未来/est. 项只作弱证据。
 - 维护者更新：`X4-9060` codename 为 `WTS`，160L；`X4-9070` codename 为 `SQS`，267L；`X4-6080` codename 为 `PTS`，267L；三者均为 Xtacking 4.0 / ONFI 5.1 / 3600MT/s 资料。
 - 维护者补充资料：另有 `X4-9060` TLC / 128L / 512Gbit、`X4-9070` TLC / 267L / 1Tbit / `8Die1TB`、`X4-6080` QLC / 2Tbit / 层数未标明的记录。该补充资料只用于记录新增线索；与现有 profile 层数冲突时，不覆盖主 profile。
@@ -33,6 +34,7 @@ iTXTech fdnext DecodePack:
 - `cell_level`、`layer_count`、`die_density`、`plane_count`、`speed_grade` 分别表达 xLC、层数、die 容量、plane 数和 ONFI / max clock，不塞进 `die_codename` 文本。
 - raw NAND / UNIMOS pack 可以按 die profile key 合并共享表；eMMC / UFS pack 只使用共享表中不覆盖 PN 自带 `cell_level` 或容量 token 的字段。
 - Flash ID DecodePack 的 byte / bit 规则只输出泛化 generation、density、cell、page 等可由位段直接确定的信息；完整或子序列命中后的 die profile、die density、plane、ONFI、redundant area 和 pages-per-block 由 core postprocess 补充。
+- Flash ID 的公开 generation 文案统一为 `1st Gen`、`2nd Gen Xtacking 1.0` 等短 ordinal 形式；不再输出 `Gen 1` / `Gen 2` 倒装形式。
 - `Block Size` 资料在 YMTC feature 表中以 pages 表达；公开输出优先使用 `pages_per_block`。不要把 pages 数直接塞进 byte 语义的 `block_size`。
 
 ## 工艺 alias 摘要

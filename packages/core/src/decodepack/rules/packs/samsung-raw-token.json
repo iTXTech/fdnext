@@ -137,62 +137,75 @@
         "organization": {
           "16": {
             "device_width": 16,
-            "interface_type": "SDR"
+            "interface_type": "SDR",
+            "package_context": "legacy"
           },
           "Z8": {
             "device_width": 8,
             "interface_type": "SDR",
+            "package_context": "legacy",
             "interface_note": "samsung_note_ssd"
           },
           "32": {
             "device_width": 32,
-            "interface_type": "SDR"
+            "interface_type": "SDR",
+            "package_context": "legacy"
           },
           "64": {
             "device_width": 64,
-            "interface_type": "SDR"
+            "interface_type": "SDR",
+            "package_context": "legacy"
           },
           "00": {
             "interface_type": "NONE"
           },
           "08": {
             "device_width": 8,
-            "interface_type": "SDR"
+            "interface_type": "SDR",
+            "package_context": "legacy"
           },
           "D8": {
             "device_width": 8,
-            "interface_type": "Toggle DDR"
+            "interface_type": "Toggle DDR",
+            "package_context": "modern"
           },
           "Y8": {
             "device_width": 8,
             "interface_type": "Toggle DDR",
+            "package_context": "modern",
             "interface_note": "samsung_note_hp"
           },
           "B8": {
             "device_width": 8,
             "interface_type": "Toggle DDR",
+            "package_context": "modern",
             "interface_note": "samsung_note_hp_fbi"
           },
           "W8": {
             "device_width": 8,
             "interface_type": "Toggle DDR",
+            "package_context": "modern",
             "interface_note": "samsung_note_wafer"
           },
           "K8": {
             "device_width": 8,
-            "interface_type": "Toggle DDR"
+            "interface_type": "Toggle DDR",
+            "package_context": "modern"
           },
           "S8": {
             "device_width": 8,
-            "interface_type": "Toggle DDR"
+            "interface_type": "Toggle DDR",
+            "package_context": "modern"
           },
           "A8": {
             "device_width": 8,
-            "interface_type": "Toggle DDR"
+            "interface_type": "Toggle DDR",
+            "package_context": "modern"
           },
           "C8": {
             "device_width": 8,
-            "interface_type": "Toggle DDR"
+            "interface_type": "Toggle DDR",
+            "package_context": "modern"
           }
         },
         "voltage": {
@@ -290,6 +303,9 @@
           "Y": 25,
           "Z": 26
         },
+        "generationByDieDensity": {
+          "3:512Gb:C": 6
+        },
         "dieDensityProfile": {
           "1:4Gb:F": "SS16S",
           "1:1Gb:E": "SS21S",
@@ -350,6 +366,7 @@
           "3:256Gb:M": "SSV3",
           "3:512Gb:A": "SSV5",
           "3:512Gb:B": "SSV6",
+          "3:512Gb:C": "SSV6P",
           "3:512Gb:D": "SSV7",
           "3:512Gb:E": "SSV6P",
           "3:512Gb:F": "SSV8",
@@ -366,37 +383,61 @@
           "4:1Tb:D": "SSV9Q",
           "4:2Tb:M": "SSV9HSQ"
         },
-        "package": {
-          "1": "FBGA-168",
-          "5": "FBGA-63",
-          "7": "FBGA-168",
-          "8": "TSOP-I-48",
-          "9": "TSOP-I-56",
-          "A": "FBGA-154",
-          "B": "FBGA-63",
-          "C": "FBGA-316",
-          "D": "FBGA-316",
-          "E": "FBGA-316",
-          "F": "FBGA-308",
-          "G": "FBGA-63",
-          "H": "BGA-132/136",
-          "I": "LGA-52",
-          "J": "FBGA-63",
-          "K": "LGA-52",
-          "L": "LGA-52",
-          "M": "LGA-52",
-          "N": "LGA-52",
-          "P": "TSOP-I-48",
-          "Q": "TSOP-II-44/40",
-          "R": "TSOP-I-56",
-          "S": "TSOP-I-48",
-          "T": "BGA-152",
-          "U": "COB, MMC",
-          "V": "WSOP-I-48",
-          "W": "Wafer",
-          "X": "FBGA-108",
-          "Y": "FBGA-108",
-          "Z": "WELP-48"
+        "packageByContext": {
+          "modern:1": "FBGA-168",
+          "modern:5": "FBGA-63",
+          "modern:7": "FBGA-168",
+          "modern:8": "TSOP-I-48",
+          "modern:9": "TSOP-I-56",
+          "modern:A": "FBGA-154",
+          "modern:B": "FBGA-63",
+          "modern:C": "FBGA-316",
+          "modern:D": "FBGA-316",
+          "modern:E": "FBGA-316",
+          "modern:F": "FBGA-308",
+          "modern:G": "FBGA-63",
+          "modern:H": "BGA-132/136",
+          "modern:I": "LGA-52",
+          "modern:J": "FBGA-63",
+          "modern:K": "LGA-52",
+          "modern:L": "LGA-52",
+          "modern:M": "LGA-52",
+          "modern:N": "LGA-52",
+          "modern:P": "TSOP-I-48",
+          "modern:Q": "TSOP-II-44/40",
+          "modern:R": "TSOP-I-56",
+          "modern:S": "TSOP-I-48",
+          "modern:T": "BGA-152",
+          "modern:U": "COB, MMC",
+          "modern:V": "WSOP-I-48",
+          "modern:W": "Wafer",
+          "modern:X": "FBGA-108",
+          "modern:Y": "FBGA-108",
+          "modern:Z": "WELP-48",
+          "legacy:8": "TSOP-I-48",
+          "legacy:9": "TSOP-I-56",
+          "legacy:A": "COB",
+          "legacy:B": "FBGA",
+          "legacy:D": "TBGA-63",
+          "legacy:E": "ISM",
+          "legacy:F": "WSOP",
+          "legacy:G": "FBGA",
+          "legacy:H": "BGA",
+          "legacy:I": "ULGA, 12x17",
+          "legacy:J": "FBGA",
+          "legacy:K": "ULGA, 12x17",
+          "legacy:L": "ULGA, 14x18",
+          "legacy:M": "ULGA-52, 13x18",
+          "legacy:P": "TSOP-I-48",
+          "legacy:Q": "TSOP-II",
+          "legacy:R": "TSOP-I-56",
+          "legacy:S": "TSOP-I-48",
+          "legacy:T": "WSOP",
+          "legacy:U": "COB, MMC",
+          "legacy:V": "WSOP",
+          "legacy:W": "Wafer",
+          "legacy:Y": "TSOP-I",
+          "legacy:Z": "WELP"
         },
         "temperature": {
           "0": {},
@@ -544,7 +585,7 @@
           "op": "map",
           "from": "generationCode",
           "table": "generation",
-          "to": "generation",
+          "to": "generationDefault",
           "default": -1
         },
         {
@@ -561,6 +602,19 @@
           "op": "tpl",
           "template": "{{cellLevel}}:{{dieDensity}}:{{generationCode}}",
           "to": "dieDensityProfileKey"
+        },
+        {
+          "op": "map",
+          "from": "dieDensityProfileKey",
+          "table": "generationByDieDensity",
+          "to": "generationSpecific",
+          "default": null
+        },
+        {
+          "op": "fallback",
+          "primary": "generationSpecific",
+          "secondary": "generationDefault",
+          "to": "generation"
         },
         {
           "op": "map",
@@ -585,9 +639,24 @@
           "to": "packageCode"
         },
         {
+          "op": "set",
+          "to": "packageContext",
+          "value": {
+            "$path": [
+              "organizationObj",
+              "package_context"
+            ]
+          }
+        },
+        {
+          "op": "tpl",
+          "template": "{{packageContext}}:{{packageCode}}",
+          "to": "packageContextKey"
+        },
+        {
           "op": "map",
-          "from": "packageCode",
-          "table": "package",
+          "from": "packageContextKey",
+          "table": "packageByContext",
           "to": "package"
         },
         {

@@ -8,6 +8,8 @@ import {
   engineWithoutFdb,
   fieldText,
   firstField,
+  partNumberPnJson,
+  resourceEntries,
   testPart
 } from "./_helpers";
 
@@ -365,6 +367,50 @@ for (const partNumber of ["KMGD6001BM-B421", "KM5L9000CM-B424", "KM8F8001JA-B813
   assertNoAdditionalFields(partNumber);
 }
 
+test("Samsung MCP resource PNs expose complete structured core fields", () => {
+  const samsungMcpParts = resourceEntries(partNumberPnJson).filter((entry): entry is { vendor: string; pn: string } => {
+    if (!entry || typeof entry !== "object") return false;
+    const item = entry as Record<string, unknown>;
+    return item.vendor === "samsung" && typeof item.pn === "string" && item.pn.startsWith("KM");
+  });
+  assert.equal(samsungMcpParts.length, 66, "Samsung MCP resource audit count");
+  for (const { pn } of samsungMcpParts) {
+    const result = engineWithoutFdb.decodePart({ query: pn, lang: "eng" });
+    assert.equal(result.status, "ok", `${pn} should decode`);
+    assert.ok(result.device?.productType, `${pn} product type`);
+    for (const field of ["storage_density", "storage_interface", "dram_type", "dram_density", "dram_speed", "package"]) {
+      assert.ok(firstField(result, field), `${pn} ${field}`);
+    }
+  }
+});
+
+for (const [partNumber, type, storageDensity, storageInterface, dramDensity, dramType, dramSpeed, packageName] of [
+  ["KM3P6001CM-B517", "eMCP", "64GB eMMC", "eMMC 5.1", "48Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
+  ["KM3V6001CM-B705", "eMCP", "128GB eMMC", "eMMC 5.1", "48Gb", "LPDDR4X", "LPDDR4X-3733", "FBGA-254"],
+  ["KM3V6001CA-B708", "eMCP", "128GB eMMC", "eMMC 5.1", "48Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
+  ["KM4X60002M-B321", "eMCP", "32GB eMMC", "eMMC 5.1", "24Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
+  ["KM8F8001LM-B813", "uMCP", "256GB UFS", "UFS 2.1", "80Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
+  ["KM8F8001MM-B813", "uMCP", "256GB UFS", "UFS 2.1", "96Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
+  ["KMAIA001PM-B819", "uMCP", "256GB UFS", "UFS 3.1", "64Gb", "LPDDR5", "LPDDR5-6400", "FBGA-297"],
+  ["KMJIA001RM-BC07", "uMCP", "256GB UFS", "UFS 3.1", "96Gb", "LPDDR5", "LPDDR5-6400", "FBGA-297"],
+  ["KMQX60013A-B419", "eMCP", "32GB eMMC", "eMMC 5.1", "16Gb", "LPDDR3", "LPDDR3-1866", "FBGA-221"],
+  ["KMRP60014M-B614", "eMCP", "64GB eMMC", "eMMC 5.1", "32Gb", "LPDDR3", "LPDDR3-1866", "FBGA-221"]
+] as const) {
+  testPart(partNumber, {
+    vendor: "samsung",
+    type,
+    package: packageName,
+    extra: {
+      "Storage Density": storageDensity,
+      "Storage Interface": storageInterface,
+      "DRAM Density": dramDensity,
+      "DRAM Type": dramType,
+      "DRAM Speed": dramSpeed
+    },
+    absentExtra: ["Product Mode", "Product Family", "Config Code", "Package Code", "Reference Status", "Inference Source", "source", "status"]
+  });
+}
+
 testPart("K9AFGD8J0M", {
   vendor: "samsung",
   type: "NAND",
@@ -441,6 +487,26 @@ testPart("K9AHGD8J0B", {
     "Layer Count": 128,
     "Die Count": 1,
     "CE Count": 1
+  }
+});
+
+testPart("K9AHGD8J0C", {
+  vendor: "samsung",
+  type: "NAND",
+  densityMbit: 524288,
+  density: "64GB",
+  dieProfileField: "SSV6P",
+  cellField: "TLC",
+  widthField: "x8",
+  detailFields: {
+    "Product Generation": 6,
+    "Die Density": "512Gb",
+    "Die Count": 1,
+    "CE Count": 1,
+    "R/B Count": 1,
+    Process: "SSV6P",
+    "Layer Count": 133,
+    "Interface Type": "Toggle DDR"
   }
 });
 
@@ -946,6 +1012,28 @@ test("Samsung raw NAND package code emits package-first short labels only", () =
   assertSamsungRawPackage("Z", "WELP-48");
 });
 
+test("Samsung raw NAND separates legacy SDR and modern Toggle DDR package tables", () => {
+  const legacyJ = engineWithoutFdb.decodePart({ query: "K9F1208U0C-JIB00", lang: "eng" });
+  assert.equal(legacyJ.device?.vendor.id, "samsung", "legacy J package vendor");
+  assert.equal(legacyJ.device?.chipKind, "raw_nand", "legacy J package chip kind");
+  assert.equal(fieldText(firstField(legacyJ, "package")), "FBGA", "legacy SDR J package token");
+  assert.equal(fieldText(firstField(legacyJ, "operation_temperature")), "-40~85C", "legacy J temperature");
+
+  const legacyP = engineWithoutFdb.decodePart({ query: "K9F1208U0C-PIB00", lang: "eng" });
+  assert.equal(fieldText(firstField(legacyP, "package")), "TSOP-I-48", "legacy SDR P package token");
+  assert.equal(fieldText(firstField(legacyP, "operation_temperature")), "-40~85C", "legacy P temperature");
+
+  const legacyD = engineWithoutFdb.decodePart({ query: "K9F1208U0C-DCB0", lang: "eng" });
+  assert.equal(fieldText(firstField(legacyD, "package")), "TBGA-63", "legacy SDR D package token");
+  const legacyF = engineWithoutFdb.decodePart({ query: "K9F1208U0C-FCB0", lang: "eng" });
+  assert.equal(fieldText(firstField(legacyF, "package")), "WSOP", "legacy SDR F package token");
+  const legacySsd = engineWithoutFdb.decodePart({ query: "K9F12Z8U0C-PCB0", lang: "eng" });
+  assert.equal(fieldText(firstField(legacySsd, "package")), "TSOP-I-48", "legacy Z8 SSD package context");
+
+  assertSamsungRawPackage("D", "FBGA-316");
+  assertSamsungRawPackage("F", "FBGA-308");
+});
+
 testPart("KLUCG4J1BB", {
   vendor: "samsung",
   type: "UFS",
@@ -953,14 +1041,12 @@ testPart("KLUCG4J1BB", {
   dieProfileField: "14nm",
   cellField: "MLC",
   extra: {
-    "NAND Component": "K9GDGD8U0B",
     "Die Density": "128Gb",
     "Die Count": 4,
-    "CE Count": 4,
     "Product Version": "UFS 2.0",
     "Controller": "UFS 2.0 G2-2Lane Controller"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["NAND Component", "CE Count", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KLUDGAG1BD", {
@@ -970,14 +1056,12 @@ testPart("KLUDGAG1BD", {
   dieProfileField: "16nm",
   cellField: "MLC",
   extra: {
-    "NAND Component": "K9GCGD8U0D",
     "Die Density": "64Gb",
     "Die Count": 16,
-    "CE Count": 8,
     "Product Version": "UFS 2.0",
     "Controller": "UFS 2.0 G2-2Lane Controller"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["NAND Component", "CE Count", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KLUGGAR1FA-B2C1", {
@@ -998,14 +1082,12 @@ testPart("KLUEG8UHDB-C2E1", {
   densityMbit: 2097152,
   dieProfileField: "SSV5",
   extra: {
-    "NAND Component": "K9AFGD8J0B",
     "Die Density": "256Gb",
     "Die Count": 8,
-    "CE Count": 8,
     "Product Version": "UFS 3.1",
     "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller"
   },
-  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["NAND Component", "CE Count", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KLUEG8U1YB-B0CP", {
@@ -1068,6 +1150,21 @@ testPart("KLUEG4RHKF-F0H1", {
     "Controller": "UFS 4.1 G5-2Lane Controller"
   },
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+testPart("KLUGGGRHKF-F0H1", {
+  vendor: "samsung",
+  type: "UFS",
+  densityMbit: 8388608,
+  dieProfileField: "SSV8",
+  cellField: "TLC",
+  package: "BGA-153, 9x13",
+  extra: {
+    "Die Density": "512Gb",
+    "Product Version": "UFS 4.1",
+    "Controller": "UFS 4.1 G5-2Lane Controller"
+  },
+  absentExtra: ["Die Count", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KLUFG4NHKH-F0H1", {

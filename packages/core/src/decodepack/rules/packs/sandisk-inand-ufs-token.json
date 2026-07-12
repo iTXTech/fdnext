@@ -125,6 +125,31 @@
           "512G": 4194304,
           "1T00": 8388608
         },
+        "packageByFamilyDensity": {
+          "DDH4:32G": { "package": "BGA-153, 11.5x13x1.0" },
+          "DDH4:64G": { "package": "BGA-153, 11.5x13x1.0" },
+          "DDH4:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "DDH4:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "DDH6:16G": { "package": "BGA-153, 11.5x13x1.2" },
+          "DDH6:32G": { "package": "BGA-153, 11.5x13x1.2" },
+          "DDH6:64G": { "package": "BGA-153, 11.5x13x1.2" },
+          "DDH6:128G": { "package": "BGA-153, 11.5x13x1.2" },
+          "DDH6:256G": { "package": "BGA-153, 11.5x13x1.2" },
+          "EDK4:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "EDK4:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDK4:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDK4:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDO4:128G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDO4:256G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDO4:512G": { "package": "BGA-153, 11.5x13x1.0" },
+          "FDQ6:64G": { "package": "BGA-153, 11.5x13x1.2" },
+          "FDQ6:128G": { "package": "BGA-153, 11.5x13x1.2" },
+          "FDQ6:256G": { "package": "BGA-153, 11.5x13x1.2" },
+          "FDQ6:512G": { "package": "BGA-153, 11.5x13x1.2" },
+          "HDL6:256G": { "package": "BGA-153, 11.5x13x1.2" },
+          "HDL6:512G": { "package": "BGA-153, 11.5x13x1.2" },
+          "HDL6:1T00": { "package": "BGA-153, 11.5x13x1.2" }
+        },
         "suffixObj": {
           "I1": {
             "product_class": "Industrial Wide Temperature",
@@ -240,7 +265,20 @@
           "op": "takeLongest",
           "table": "density",
           "to": "density",
+          "keyTo": "densityCode",
           "default": 0
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{densityCode}}",
+          "to": "familyDensityKey"
+        },
+        {
+          "op": "map",
+          "from": "familyDensityKey",
+          "table": "packageByFamilyDensity",
+          "to": "packageObj",
+          "default": {}
         },
         {
           "op": "stripIfPrefix",
@@ -263,6 +301,11 @@
           "op": "merge",
           "into": "extra",
           "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
         },
         {
           "op": "merge",

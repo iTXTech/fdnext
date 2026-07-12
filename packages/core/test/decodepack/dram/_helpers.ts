@@ -117,6 +117,8 @@ export const standardDramTypes = new Set([
   "GDDR6X",
   "GDDR7",
   "HBM2E",
+  "HBM3",
+  "HBM3E",
   "HMC",
   "RLDRAM",
   "RLDRAM 3"

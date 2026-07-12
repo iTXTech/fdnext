@@ -1,0 +1,214 @@
+[
+  {
+    "id": "vendor.skhynix.hbm3.h5u.v1",
+    "priority": 1012,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H5UG7H(?:ME03|MD83)X[0-9A-Z]{3}R?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H5U"
+      ],
+      "tables": {
+        "stackObj": {
+          "G7H": {
+            "dram_density": 131072,
+            "dram_die_density": 16384,
+            "dram_die_count": 8
+          }
+        },
+        "speedObj": {
+          "ME03": {
+            "dram_speed": "6.0Gbps/pin"
+          },
+          "MD83": {
+            "dram_speed": "5.6Gbps/pin"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<stackCode>G7H)(?<speedCode>M(?:E03|D83))X(?<serialCode>[0-9A-Z]{3})(?<revisionCode>R)?$",
+          "groups": {
+            "stackCode": "stackCode",
+            "speedCode": "speedCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "stackCode",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "HBM3"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "meta.ruleId": "vendor.skhynix.hbm3.h5u.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.hbm2e.h5wr.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H5WR(?:AG|64)ESM[0-9A-Z]W-?N[68]L$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H5WR"
+      ],
+      "tables": {
+        "stackObj": {
+          "AG:8": {
+            "dram_density": 131072,
+            "dram_die_density": 16384,
+            "dram_die_count": 8
+          },
+          "64:4": {
+            "dram_density": 65536,
+            "dram_die_density": 16384,
+            "dram_die_count": 4
+          }
+        },
+        "speedObj": {
+          "N8": {
+            "dram_speed": "3.6Gbps/pin"
+          },
+          "N6": {
+            "dram_speed": "3.2Gbps/pin"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<densityCode>AG|64)ESM(?<stackCode>[0-9A-Z])W-?(?<speedCode>N6|N8)L$",
+          "groups": {
+            "densityCode": "densityCode",
+            "stackCode": "stackCode",
+            "speedCode": "speedCode"
+          }
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{stackCode}}",
+          "to": "stackKey"
+        },
+        {
+          "op": "map",
+          "from": "stackKey",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "HBM2E"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "meta.ruleId": "vendor.skhynix.hbm2e.h5wr.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  }
+]

@@ -391,6 +391,44 @@ assertRuleDecode("H9HQ53ADAMMDAR-KEM", {
   }
 });
 
+for (const [partNumber, storageDensity, dramDensity] of [
+  ["H9HP19ABUMMDAR-KEM", "16GB", "16Gb"],
+  ["H9HP27ABUMMDAR-KEM", "32GB", "16Gb"],
+  ["H9HP52ADAMADAR-KMM", "64GB", "24Gb"],
+  ["H9HP52AECMMDAR-KMM", "64GB", "48Gb"],
+  ["H9HP53ACPMMDAR-KMM", "64GB", "32Gb"],
+  ["H9HP53AECMMDAR-KMM", "64GB", "48Gb"]
+] as const) {
+  assertRuleDecode(partNumber, {
+    vendor: "skhynix",
+    type: "eMCP",
+    extra: {
+      "Storage Density": storageDensity,
+      "Storage Interface": "eMMC 5.1",
+      "DRAM Density": dramDensity,
+      "DRAM Type": "LPDDR4X"
+    }
+  });
+}
+
+for (const [partNumber, storageDensity, dramDensity] of [
+  ["H9AG8GDMNBX113", "32GB", "24Gb"],
+  ["H9AG9GDMNBX112", "64GB", "24Gb"],
+  ["H9AG9GEANBX101", "64GB", "48Gb"]
+] as const) {
+  assertRuleDecode(partNumber, {
+    vendor: "skhynix",
+    type: "eMCP",
+    extra: {
+      "Storage Density": storageDensity,
+      "Storage Interface": "eMMC 5.0",
+      "DRAM Density": dramDensity,
+      "DRAM Type": "LPDDR4X",
+      "DRAM Speed": "LPDDR4X-4266"
+    }
+  });
+}
+
 assertRuleDecode("H9HR56JFA3MEVR-K6M", {
   vendor: "skhynix",
   type: "uMCP",
@@ -411,6 +449,8 @@ for (const partNumber of [
   "H9TQ17ABJTMCUR-KUM",
   "H9HP52ACPMADAR-KMM",
   "H9AG9G5ANBX100",
+  "H9HP52AECMMDAR-KMM",
+  "H9AG9GEANBX101",
   "H9QT0GECN6X145",
   "H9HQ15ACPMADAR-KEM",
   "H9HQ54AECMMDAR-KEM",

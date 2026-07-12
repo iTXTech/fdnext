@@ -769,17 +769,47 @@
       }
     ],
     "match": {
-      "kind": "prefix",
-      "value": "I29F"
+      "kind": "regex",
+      "value": "^I29F(?:1G|2G|4G|8G|16G|32G|64G|128G|256G|512G|1T|2T)[0-9A-Z]{2,}$"
     },
-    "set": {
-      "device.partNumber": {
-        "$var": "partNumber"
+    "tokenDecoder": {
+      "tables": {
+        "densityToken": ["128G", "256G", "512G", "16G", "32G", "64G", "1G", "2G", "4G", "8G", "1T", "2T"],
+        "density": {
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096,
+          "8G": 8192,
+          "16G": 16384,
+          "32G": 32768,
+          "64G": 65536,
+          "128G": 131072,
+          "256G": 262144,
+          "512G": 524288,
+          "1T": 1048576,
+          "2T": 2097152
+        },
+        "deviceWidth": {
+          "08": 8,
+          "16": 16
+        }
       },
-      "device.domain": "memory",
-      "device.vendor": "intel",
-      "device.chipKind": "raw_nand",
-      "meta.ruleId": "vendor.intel.i29.prefix.v1"
+      "steps": [
+        { "op": "stripIfPrefix", "prefix": "I29F" },
+        { "op": "takeLongest", "table": "densityToken", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 2, "to": "widthCode" },
+        { "op": "map", "from": "widthCode", "table": "deviceWidth", "to": "deviceWidth", "default": -1 }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "intel",
+        "device.chipKind": "raw_nand",
+        "fields.density": { "$var": "density" },
+        "fields.device_width": { "$var": "deviceWidth" },
+        "meta.ruleId": "vendor.intel.i29.prefix.v1"
+      }
     }
   }
 ]

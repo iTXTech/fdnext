@@ -78,13 +78,25 @@ assertRuleDecode("UFS128-CY14", {
   vendor: "kingston",
   type: "UFS",
   densityMbit: 1048576,
-  package: "11x13x0.85",
+  package: "BGA-153, 11x13x0.85",
   cellField: "TLC",
   extra: {
     "Storage Interface": "UFS 3.1",
     "Speed Grade": "G4 4P"
   },
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
+});
+
+assertRuleDecode("UFS32G-TXA7", {
+  vendor: "kingston",
+  type: "UFS",
+  densityMbit: 262144,
+  package: "BGA-153, 11.5x13x0.85",
+  extra: {
+    "Storage Interface": "UFS 2.1",
+    "Speed Grade": "G4 2L"
+  },
+  absentExtra: ["NAND Technology", "Config Code", "Package Code", "source", "status"]
 });
 
 assertRuleDecode("64EM32-M4GTY9B", {
@@ -116,3 +128,18 @@ assertRuleDecode("64EM32-N3HTX29", {
 });
 
 assertNoAdditionalFields("64EM32-M4GTY9B");
+
+assertRuleDecode("64EP32-M5BTB9M", {
+  vendor: "kingston",
+  type: "eMCP",
+  densityMbit: 524288,
+  package: "FBGA-201, 8x9.5x0.7",
+  extra: {
+    "Product Family": "ePoP",
+    "Storage Density": "64GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR5X"
+  },
+  absentExtra: ["Config Code", "Package Code", "source", "status"]
+});

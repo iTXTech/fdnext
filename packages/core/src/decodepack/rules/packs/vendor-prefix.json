@@ -347,34 +347,5 @@
       "device.vendor": "ymtc",
       "meta.ruleId": "vendor.ymtc.prefix.xt"
     }
-  },
-  {
-    "id": "vendor.phison.prefix.ph",
-    "priority": 70,
-    "normalize": [
-      "trim",
-      "uppercase",
-      {
-        "remove": [
-          " ",
-          ",",
-          "&",
-          ".",
-          "|"
-        ]
-      }
-    ],
-    "match": {
-      "kind": "prefix",
-      "value": "PH"
-    },
-    "set": {
-      "device.partNumber": {
-        "$var": "partNumber"
-      },
-      "device.domain": "memory",
-      "device.vendor": "phison",
-      "meta.ruleId": "vendor.phison.prefix.ph"
-    }
   }
 ]

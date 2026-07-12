@@ -9,6 +9,7 @@
 - Micron 官方 `NOR MCP, NAND MCP, PoP and AiO Part Numbering Systems` PDF (`nummcp.pdf`) 给出 NAND MCP、MCP/PoP/AiO、AiO legacy 的结构表，确认 product family、NAND/LPDRAM density/width、voltage、package configuration、package、`-` 后 speed / temperature / production status / special option / die revision 后缀。本文只使用 NAND MCP、MCP/PoP/AiO、AiO 页面，忽略 NOR。
 - 用户补充的 Micron locked datasheet catalog rows 确认 `MT29VZZZ...` 254-ball uMCP UFS + LPDDR4X 与 `MT30AZZZ...` 297-ball uMCP UFS + LPDDR5 的实际 PN、storage density、controller、DRAM density、package configuration、speed/temp/die revision 后缀。
 - Micron `TN-29-85: UFS Memory Health Report for Mobile Devices` (`tn2985_accessing_ufs_health_report.pdf`) Table 1 给出 `MT29V` / `MT30A` uMCP 已知 PN、NAND die 组成、DRAM 颗粒组成、package code 和 Health Report 适用范围。
+- Micron 官方 UFS-based MCP live catalog JSON 的 14 条记录用于全量回归，补齐 `023 = LPDDR5-8533`，使 `MT30AZZZCDA4TKXL-023 W.273` / `MT30AZZZDDA4TOXM-023 W.274` 不再回退为 NAND；同一 catalog 直接确认 `SL/PR/SM` 的 254-ball package 与 `EQ/QS/WL/XL/XM` 的 297-ball package 类型和尺寸。<https://www.micron.com/content/micron/us/en/products/storage/managed-nand/universal-flash-storage/part-catalog/_jcr_content.products.json/getpartcatalog/multichip-packages/ufs-based-mcp/-/en_US>
 - Micron 168-Ball NAND Flash and LPDRAM PoP MCP datasheet mirror 给出 `MT29C2G24MAKLAJG-6 IT` 等 production part number，确认产品为 NAND Flash + LPDRAM PoP MCP，并列出 NAND product、LPDDR product 与 physical marking。
   <https://datasheet.octopart.com/MT29C2G24MAKLAJG-6-IT-Micron-datasheet-8368047.pdf>
 - DigiKey `MT29C4G96MAZAPCJA-5 IT` 页面确认 Technology 为 `FLASH - NAND, Mobile LPDRAM`，Memory Size 为 `4Gbit (NAND), 4Gbit (LPDRAM)`，package 为 `137-TFBGA (10.5x13)`。
@@ -73,7 +74,7 @@ Micron locked rows 中的 `046 W.G0J`、`031 WL.19Q` 等无 hyphen 后缀也作�
 ## DRAM Speed 输出约定
 
 - 有官方 CL 的旧 LPDRAM speed 输出为 `LPDDR2-1066 CL8`、`LPDDR-333 CL3` 这类 `LPDDR*-rate CL*` 形式，不再输出 `533MHz CL8 (LPDDR 1066)`。
-- `046/053/062/031/026` 这类 LPDDR4/LPDDR4X/LPDDR5 speed bin 在当前资料中只确认数据率，未确认 CL；规则输出 `LPDDR4X-4266`、`LPDDR4X-3733`、`LPDDR5-6400`、`LPDDR5-8533`，不补未确认的 CL。
+- `046/053/062/031/026/023` 这类 LPDDR4/LPDDR4X/LPDDR5 speed bin 在当前资料中只确认数据率，未确认 CL；规则输出 `LPDDR4X-4266`、`LPDDR4X-3733`、`LPDDR5-6400`、`LPDDR5-8533`，不补未确认的 CL。
 - `speed_grade` 只保留真正表达测试等级或 binning 的场景；Micron MCP speed token 统一输出到 `dram_speed`。
 
 ## Raw NAND 边界

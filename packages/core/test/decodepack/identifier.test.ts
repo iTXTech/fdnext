@@ -51,6 +51,17 @@ assertResultField("987384320024", "density", 1397760);
 assertExplainField("457384320024", "density", 1397760);
 assertResultField("457384320024", "density", 1397760);
 
+const kioxiaLegacySlcIds: Array<[string, number]> = [
+  ["98F18015F216", 1024],
+  ["98DA9015F600", 2048],
+  ["98DC84A50480", 4096]
+];
+
+for (const [id, density] of kioxiaLegacySlcIds) {
+  assertExplainField(id, "density", density);
+  assertResultField(id, "density", density);
+}
+
 const bics4FlashIds: Array<[string, string, string]> = [
   ["983C98B37663", "KBiCS4", "BiCS4"],
   ["983C98B3F663", "KBiCS4.5", "BiCS4.5"],
@@ -257,8 +268,49 @@ assertResultFieldAbsent("AD3A0B3200C0", "die_codename");
 assertResultFieldAbsent("AD3A0B3200C0", "layer_count");
 assertResultFieldAbsent("AD3A0B3200C0", "die_density");
 
+const skhynixLegacy2GbIds: Array<[string, string, number, string]> = [
+  ["ADDA909544", "x8", 8, "Vcc: 3.3V"],
+  ["ADCA90D544", "x16", 16, "Vcc: 3.3V"],
+  ["ADAA901544", "x8", 8, "Vcc: 1.8V"],
+  ["ADBA905544", "x16", 16, "Vcc: 1.8V"]
+];
+
+for (const [id, explainWidth, resultWidth, voltage] of skhynixLegacy2GbIds) {
+  assertExplainField(id, "density", 2048);
+  assertExplainField(id, "device_width", explainWidth);
+  assertExplainField(id, "voltage", voltage);
+  assertExplainField(id, "page_size", 2048);
+  assertExplainField(id, "block_size", 131072);
+  assertExplainField(id, "redundant_area_size", "64B");
+  assertResultField(id, "density", 2048);
+  assertResultField(id, "device_width", resultWidth);
+  assertResultField(id, "voltage", voltage);
+  assertResultField(id, "page_size", 2048);
+  assertResultField(id, "block_size", 131072);
+  assertResultField(id, "redundant_area_size", "64B");
+}
+
 assertExplainField("2C0506840000", "density", 4194304);
 assertResultField("2C0506840000", "density", 4194304);
+const micronLegacy2GbIds: Array<[string, string, number, string]> = [
+  ["2CDA809550", "x8", 8, "Vcc: 3.3V"],
+  ["2CCA80D550", "x16", 16, "Vcc: 3.3V"],
+  ["2CAA801550", "x8", 8, "Vcc: 1.8V"],
+  ["2CBA805550", "x16", 16, "Vcc: 1.8V"]
+];
+
+for (const [id, explainWidth, resultWidth, voltage] of micronLegacy2GbIds) {
+  assertExplainField(id, "density", 2048);
+  assertExplainField(id, "device_width", explainWidth);
+  assertExplainField(id, "voltage", voltage);
+  assertExplainField(id, "page_size", 2048);
+  assertExplainField(id, "block_size", 131072);
+  assertResultField(id, "density", 2048);
+  assertResultField(id, "device_width", resultWidth);
+  assertResultField(id, "voltage", voltage);
+  assertResultField(id, "page_size", 2048);
+  assertResultField(id, "block_size", 131072);
+}
 assertResultField("2CC30832E630", "die_codename", "B57T");
 assertResultField("2CC30832EA34", "die_codename", "B47T");
 assertResultField("2CC40832A600", "die_codename", "B17A");
@@ -278,9 +330,29 @@ assertResultField("890906840000", "cell_level", "TLC");
 assertResultField("89092B32C200", "die_codename", "N4PA");
 assertResultField("89050432C200", "die_codename", "N4PA");
 
+const intelGen4Ids: Array<[string, number, number, number]> = [
+  ["89D3AC32C600", 1048576, 1, 4],
+  ["89E3AD32C600", 2097152, 2, 4],
+  ["89F3AE32C600", 4194304, 4, 4],
+  ["892BAF32C600", 8388608, 8, 4],
+  ["89CB9832C600", 524288, 1, 3],
+  ["89DB9932C600", 1048576, 2, 3],
+  ["89EB9A32C600", 2097152, 4, 3],
+  ["89FB9B32C600", 4194304, 8, 3]
+];
+
+for (const [id, density, dieCount, cellLevel] of intelGen4Ids) {
+  assertExplainField(id, "density", density);
+  assertExplainField(id, "die_count", dieCount);
+  assertExplainField(id, "cell_level", cellLevel);
+  assertResultField(id, "density", density);
+  assertResultField(id, "die_count", dieCount);
+  assertResultField(id, "cell_level", cellLevel === 4 ? "QLC" : "TLC");
+}
+
 assertExplainField("9BD5588D2000", "density", 1397760);
 assertExplainField("9BD5588D2000", "cell_level", 4);
-assertExplainField("9BD5588D2000", "generation_info", "Gen 3 Xtacking 2.0");
+assertExplainField("9BD5588D2000", "generation_info", "3rd Gen Xtacking 2.0");
 assertResultField("9BD5588D2000", "density", 1397760);
 assertResultField("9BD5588D2000", "cell_level", "QLC");
 assertResultField("9BD5588D2000", "die_codename", "HUS");

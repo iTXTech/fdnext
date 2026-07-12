@@ -1,6 +1,6 @@
 # Longsys eMCP / uMCP PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-05-08；更新日期：2026-07-12
 
 ## 外部资料
 
@@ -8,6 +8,8 @@
   <https://www.longsys.com/about-longsys/news/longsys-foresee-emcp-umcp-empowering-smart-mobile-terminals.html>
 - FORESEE Embedded Storage Product Catalogue 2023 给出 eMCP/uMCP ordering table。
   <https://www.longsys.com/uploads/BP_FORESEE_Embedded-Storage-Product-Catalogue_20230423_R_1704768357.pdf>
+
+2023 官方 catalogue 的 managed MCP line-up 共 8 项，包括 `FEPNA1608/NA3208/RF6432/RB6432/RFA832` eMCP 与 `FUPRB6432/RFA832` uMCP；资源已补齐该官方矩阵。
 
 ## 规则状态
 

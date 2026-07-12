@@ -245,6 +245,155 @@ assertRuleDecode("MTFC1TAYAXHR-WT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
 
+assertRuleDecode("MTFC512GBGAZHF-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 4194304,
+  package: "WFBGA-153, 11.0x13x0.8",
+  extra: {
+    "Product Version": "UFS 4.0",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
+});
+
+assertRuleDecode("MTFC1TBGBBAF-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 8388608,
+  package: "VFBGA-153, 9x13x0.85",
+  extra: {
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["Product Version", "NAND Component", "Controller Code", "Package Code", "Group"]
+});
+
+assertRuleDecode("MTFC256GBGBCTD-AIT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 2097152,
+  package: "BGA-153, 11.5x13x1.2",
+  extra: {
+    "Operation Temperature": "Industrial (-40°C ~ 85°C + HR certified test flow)"
+  },
+  absentExtra: ["Product Version", "NAND Component", "Controller Code", "Package Code", "Group"]
+});
+
+assertRuleDecode("MTFC256GBEAZHF-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 2097152,
+  package: "WFBGA-153, 11.0x13x0.8",
+  extra: {
+    "Product Version": "UFS 3.1",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
+});
+
+assertRuleDecode("MTFC512GAYAZHF-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 4194304,
+  package: "WFBGA-153, 11.0x13x0.8",
+  extra: {
+    "Product Version": "UFS 3.1",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
+});
+
+assertRuleDecode("MTFC512GAYAXAP-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 4194304,
+  package: "WFBGA-153",
+  extra: {
+    "Product Version": "UFS 4.0",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
+});
+
+assertRuleDecode("MTFC512GBGBBAP-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 4194304,
+  package: "WFBGA-153",
+  extra: {
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["Product Version", "NAND Component", "Controller Code", "Package Code", "Group"]
+});
+
+assertRuleDecode("MTFC32GAMAKAM-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 262144,
+  package: "VFBGA-153, 11.5x13x1.0, LF35",
+  extra: {
+    "Product Version": "UFS 2.1",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  }
+});
+
+assertRuleDecode("MTFC128GARAPAM-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 1048576,
+  package: "VFBGA-153, 11.5x13x1.0, LF35",
+  extra: {
+    "Product Version": "UFS 3.0",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  }
+});
+
+assertRuleDecode("MTFC128GAVAUTC-IT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 1048576,
+  package: "LFBGA-153, 11.5x13x1.3",
+  extra: {
+    "Product Version": "UFS 3.1",
+    "Operation Temperature": "Extended (-40°C ~ 85°C)"
+  }
+});
+
+assertRuleDecode("MTFC128GAWATEA-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 1048576,
+  package: "WFBGA-153, 11.5x13x0.8, LF35",
+  extra: {
+    "Product Version": "UFS 3.1",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  }
+});
+
+for (const pn of ["MTFC128GAXAVHF-WT", "MTFC128GAYAYHF-WT", "MTFC128GBAAVHF-WT"]) {
+  assertRuleDecode(pn, {
+    vendor: "micron",
+    type: "UFS",
+    densityMbit: 1048576,
+    package: "WFBGA-153, 11.0x13x0.8",
+    extra: {
+      "Operation Temperature": "Standard (-25°C ~ 85°C)"
+    },
+    absentExtra: ["Product Version"]
+  });
+}
+
+assertRuleDecode("MTFC512GBCAXHL-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 4194304,
+  package: "VFBGA-237, 11x13x0.9",
+  extra: {
+    "Product Version": "UFS 4.0",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  }
+});
+
 assertRuleDecode("MTFC256GZZZZZZ-WT", {
   vendor: "micron",
   type: "eMMC",

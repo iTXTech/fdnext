@@ -1,0 +1,67 @@
+[
+  {
+    "id": "vendor.longsys.dram.ddr3l.v1",
+    "priority": 1010,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
+    "match": {
+      "kind": "regex",
+      "value": "^F60C1A000[24]-?M[67][A9K][RW]$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["F60C1A"],
+      "tables": {
+        "reference": {
+          "longsys_official_ddr3l_product_table": {
+            "status": "external_table_confirmed",
+            "source": "FORESEE DDR3L official product parameter table"
+          }
+        },
+        "density": {
+          "0002": 2048,
+          "0004": 4096
+        },
+        "package": {
+          "M6": "FBGA-96, 7.5x13.5",
+          "M7": "FBGA-96, 7.5x13.5"
+        },
+        "speedObj": {
+          "A": { "dram_speed": "DDR3L-1866" },
+          "9": { "dram_speed": "DDR3L-1866" },
+          "K": { "dram_speed": "DDR3L-2133" }
+        },
+        "temperatureObj": {
+          "R": { "operation_temperature": "Commercial (0C~95C)" },
+          "W": { "operation_temperature": "Wide (-40C~95C)" }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 4, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "stripIfPrefix", "prefix": "-" },
+        { "op": "take", "len": 2, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" },
+        { "op": "take", "len": 1, "to": "speedCode" },
+        { "op": "map", "from": "speedCode", "table": "speedObj", "to": "speedObj", "default": {} },
+        { "op": "take", "len": 1, "to": "temperatureCode" },
+        { "op": "map", "from": "temperatureCode", "table": "temperatureObj", "to": "temperatureObj", "default": {} },
+        { "op": "set", "to": "extra", "value": { "dram_type": "DDR3" } },
+        { "op": "merge", "into": "extra", "from": "speedObj" },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "longsys",
+        "device.chipKind": "dram",
+        "fields": { "$var": "extra" },
+        "fields.dram_density": { "$var": "density" },
+        "fields.dram_width": 16,
+        "fields.dram_voltage": "1.35V / 1.5V VDD",
+        "fields.package": { "$var": "package" },
+        "meta.ruleId": "vendor.longsys.dram.ddr3l.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
+  }
+]

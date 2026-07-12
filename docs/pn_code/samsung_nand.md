@@ -174,13 +174,14 @@ Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也�
 | TLC | 64Gb | `M` / `A` / `B` / `C` / `D` | `SS27` / `SS21` / `SS19` / `SS19` / `SS16` |
 | TLC | 128Gb | `M` / `D` / `F` / `C` / `E` | `SS19` / `SS16` / `SS14` / `SSV2` / `SSV3` |
 | TLC | 256Gb | `M` / `A` / `B` / `C` / `E` | `SSV3` / `SSV4` / `SSV5` / `SSV6` / `SSV6C` |
-| TLC | 512Gb | `M` / `A` / `B` / `D` / `E` / `F` / `G` / `H` | `SSV4` / `SSV5` / `SSV6` / `SSV7` / `SSV6P` / `SSV8` / `SSV7` / `SSV8P` |
+| TLC | 512Gb | `M` / `A` / `B` / `C` / `D` / `E` / `F` / `G` / `H` | `SSV4` / `SSV5` / `SSV6` / `SSV6P` / `SSV7` / `SSV6P` / `SSV8` / `SSV7` / `SSV8P` |
 | TLC | 1Tb | `B` / `D` / `E` | `SSV8` / `SSV9` / `SSV9HS` |
 | QLC | 512Gb | `M` | `SSV4Q` |
 | QLC | 1Tb | `M` / `A` / `C` / `D` | `SSV4Q` / `SSV5Q` / `SSV7Q` / `SSV9Q` |
 | QLC | 2Tb | `M` | `SSV9HSQ` |
 
 - `K9AHGD8H0A`：按 PN token 解析为 TLC 512Gb die density，suffix `A`，归一为 `SSV5`。FDB 中挂到该 PN 的 `EC1E98AF84CD` 会解到 `SSV6`，但它同时属于 `K9AHGD8H0B` / `K9AHGD8J0B` 等 V6 PN，视为 FDB FlashID 关联脏数据，不覆盖 DecodePack。
+- `K9AHGD8J0C`：TechInsights 的 floorplan / waveform analysis 直接确认 512Gb TLC、133L；规则按 `TLC + 512Gb + suffix C` 的局部组合归一到既有 133L `SSV6P` profile，并覆盖通用 suffix ordinal，避免错误输出 `4th Gen`。该 PN 本身没有 package token，因此不输出封装。来源：<https://www.techinsights.com/products/mfr-2402-804>、<https://www.techinsights.com/ja/node/57871>
 - `K9UKGB8S7F` / `K9PKGY8S4B`：FDB `l=SSV3`，但 PN die density 规则分别归一到内部 `SS14M`，对外显示 `14nm`，用于纠正旧标记。
 - `K9PMGY8S7M`：FDB `l=SSV2`，但 PN die density 规则归一到 `SSV3M`。
 - `K9DYGY8J5B-CCK0`：TechInsights 确认其为 16 die package，内部 die 为 1Tb 236L TLC V8；外部 Flash ID 表和本地 FDB 同向记录 `EC52EA3F8ECF`。单个 `EC52EA3F8ECF` ID decode 为 512GB，4 组组成 `K9D...YG...` 的 2TB package。
@@ -217,7 +218,28 @@ Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也�
 
 该位位于 generation 后，可选 `-` 分隔。只有 PN 中实际提供 package token 时才输出 `package`；没有 package token 或 token 未识别时不输出封装信息。公开输出只保留基础封装标签，格式统一为“封装类型-脚位 / ball 数”，例如 `FBGA-316`。资料表中的 dimension、Leaded / Pb-Free / Pb/Halo-Free、CU、Apple / ENT / V8 & later 等 notes 只用于文档和内部判断，不进入 public fields。
 
-Samsung package code 在资料表中存在重复行，同一个 code 可能同时出现在 TSOP、LGA、BGA/FBGA、Card 或 Other 类别。当前 DecodePack 采用下表的公开默认标签；`packageCode` 本身不输出。
+Samsung package code 会随年代复用。2009 年 Samsung `NAND Flash Code Information` 明确把 legacy
+SDR PN 的 `D/E/F/T/Y` 分别定义为 63-TBGA / ISM / WSOP / WSOP / TSOP1；较新的 V-NAND
+表则把同一批 code 中的 `D/E/F/T/Y` 定义成 FBGA-316 / FBGA-316 / FBGA-308 / BGA-152 /
+FBGA-108。规则因此先使用 PN 中实际存在的 organization token 分流：`08/16/32/64` 走
+legacy SDR package 表，`D8/Y8/B8/W8/K8/S8/A8/C8` 走 modern Toggle DDR 表。organization
+未知时不根据单个 package code 猜封装。
+
+Legacy 资料和 ordering page 还确认 `K9F1208U0C-JIB00` 是 63-ball FBGA 8.5x13、
+`K9F1208U0C-PIB00` 是 48-pin TSOP1 12x20；规则只泛化二者共同表明的 package type，
+不把 exact PN 当 decoder lookup。`K9F1G08U0E` datasheet 同向确认 SDR family 的 `B` 为
+FBGA、`S` 为 TSOP1。
+
+- Samsung `NAND Flash Code Information` (August 2009):
+  <https://www1.futureelectronics.com/doc/SAMSUNG/K9F2G08U0B-PIB0.pdf>
+- Samsung legacy ordering page mirror:
+  <https://www1.futureelectronics.com/doc/SAMSUNG/K9F1208U0C-JIB0.pdf>
+- `K9F1G08U0E` datasheet mirror:
+  <https://www.nyang-tech.com/static/datasheet/samsung/100/K9F1G08U0E.PDF>
+- TechInsights confirms modern `K9HQGY8S5M-CCK0` is FBGA-316:
+  <https://www.techinsights.com/products/pkg-1407-802>
+
+Modern Toggle DDR table如下；`packageCode` 本身不输出。
 
 | Code | public package |
 | --- | --- |
@@ -251,6 +273,27 @@ Samsung package code 在资料表中存在重复行，同一个 code 可能同�
 | `X` | `FBGA-108` |
 | `Y` | `FBGA-108` |
 | `Z` | `WELP-48` |
+
+Legacy SDR 中与 modern 表不同或更保守的公开值如下：
+
+| Code | legacy SDR public package |
+| --- | --- |
+| `A` | `COB` |
+| `B/G/J` | `FBGA` |
+| `D` | `TBGA-63` |
+| `E` | `ISM` |
+| `F/T/V` | `WSOP` |
+| `H` | `BGA` |
+| `I/K` | `ULGA, 12x17` |
+| `L` | `ULGA, 14x18` |
+| `M` | `ULGA-52, 13x18` |
+| `P/S` | `TSOP-I-48` |
+| `Q` | `TSOP-II` |
+| `R` | `TSOP-I-56` |
+| `U` | `COB, MMC` |
+| `W` | `Wafer` |
+| `Y` | `TSOP-I` |
+| `Z` | `WELP` |
 
 ## 第 12 位 Temperature & SmartMedia Color
 

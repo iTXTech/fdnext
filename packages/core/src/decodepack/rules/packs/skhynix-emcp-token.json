@@ -26,29 +26,53 @@
       ],
       "tables": {
         "density": {
+          "19": 131072,
           "27": 262144,
-          "52": 524288
+          "52": 524288,
+          "53": 524288
         },
-        "densityObj": {
+        "storageObj": {
+          "19": {
+            "storage_density": 131072,
+            "cell_level": "MLC",
+            "storage_interface": "eMMC 5.1"
+          },
           "27": {
             "storage_density": 262144,
-            "dram_density": 24576,
             "die_count": 2,
-            "dram_die_count": 4,
             "cell_level": "MLC",
-            "channel_count": 2,
-            "cs_count": 2,
             "storage_interface": "eMMC 5.1"
           },
           "52": {
             "storage_density": 524288,
-            "dram_density": 32768,
             "die_count": 4,
-            "dram_die_count": 4,
             "cell_level": "MLC",
-            "channel_count": 2,
-            "cs_count": 2,
             "storage_interface": "eMMC 5.1"
+          },
+          "53": {
+            "storage_density": 524288,
+            "cell_level": "MLC",
+            "storage_interface": "eMMC 5.1"
+          }
+        },
+        "dramDensityObj": {
+          "B": {
+            "dram_density": 16384
+          },
+          "C": {
+            "dram_density": 32768,
+            "dram_die_count": 4,
+            "channel_count": 2,
+            "cs_count": 2
+          },
+          "D": {
+            "dram_density": 24576,
+            "dram_die_count": 4,
+            "channel_count": 2,
+            "cs_count": 2
+          },
+          "E": {
+            "dram_density": 49152
           }
         },
         "nvmVoltageObj": {
@@ -66,6 +90,14 @@
             "dram_type": "LPDDR4X",
             "dram_voltage": "1.8V/1.1V/0.6V",
             "dram_width": 16
+          },
+          "C": {
+            "dram_type": "LPDDR4X",
+            "dram_voltage": "1.8V/1.1V/0.6V"
+          },
+          "U": {
+            "dram_type": "LPDDR4X",
+            "dram_voltage": "1.8V/1.1V/0.6V"
           }
         },
         "generationObj": {
@@ -116,8 +148,8 @@
         {
           "op": "map",
           "from": "densityCode",
-          "table": "densityObj",
-          "to": "densityObj",
+          "table": "storageObj",
+          "to": "storageObj",
           "default": {}
         },
         {
@@ -136,6 +168,13 @@
           "op": "take",
           "len": 1,
           "to": "dramDensityCode"
+        },
+        {
+          "op": "map",
+          "from": "dramDensityCode",
+          "table": "dramDensityObj",
+          "to": "dramDensityObj",
+          "default": {}
         },
         {
           "op": "take",
@@ -253,7 +292,12 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "densityObj"
+          "from": "storageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "dramDensityObj"
         },
         {
           "op": "merge",
@@ -820,18 +864,42 @@
       ],
       "tables": {
         "density": {
-          "G9G5": 524288
+          "G8GD": 262144,
+          "G9G5": 524288,
+          "G9GD": 524288,
+          "G9GE": 524288
         },
         "densityObj": {
+          "G8GD": {
+            "storage_density": 262144,
+            "dram_density": 24576
+          },
           "G9G5": {
             "storage_density": 524288,
             "dram_density": 32768
+          },
+          "G9GD": {
+            "storage_density": 524288,
+            "dram_density": 24576
+          },
+          "G9GE": {
+            "storage_density": 524288,
+            "dram_density": 49152
           }
         },
         "dramOrganizationObj": {
           "G9G5": {
             "dram_type": "LPDDR4X",
             "dram_width": 16
+          },
+          "G8GD": {
+            "dram_type": "LPDDR4X"
+          },
+          "G9GD": {
+            "dram_type": "LPDDR4X"
+          },
+          "G9GE": {
+            "dram_type": "LPDDR4X"
           }
         },
         "generationObj": {

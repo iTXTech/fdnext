@@ -1,6 +1,6 @@
 # Longsys eMMC PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-05-08；更新日期：2026-07-12
 
 ## 外部资料
 
@@ -14,6 +14,7 @@
 - Longsys / Lexar Enterprise Subsize eMMC 资料确认 `FEMKNN004G-58A42`、`FEMKNN008G-58A42` 为 `9x7.5x0.8mm`，`FEMJNM032G-58C29` 为 `9x10x0.8mm`。
   <https://www.longsys.com/embedded-storage/subsize-emmc.html>
   <https://lexarenterprise.com/product/subsize-emmc/>
+- 2023 官方 Embedded Storage Catalogue 的 eMMC line-up 共 31 项，覆盖 automotive Grade 2/3、industrial、industrial wide-temperature、commercial 和 subsize 系列；资源已补齐目录内所有完整 PN。
 
 ## 规则状态
 
@@ -53,3 +54,5 @@ PN 结构：
 ## 测试样例
 
 - `FEMDNN256G-A3A5607-08`
+- `FEMDME016G-A8A58`
+- `FEMDRW128G-88A19`

@@ -102,6 +102,50 @@ assertDram("K4F8E3S4HD-MGCL", {
 });
 assertDecodedField("K4F8E3S4HD-MGCL", "dram_die_count", 1);
 
+assertDram("K4F4E164HF-KFCL", {
+  vendor: "samsung",
+  densityMbit: 4096,
+  density: "4Gb",
+  widthField: "x16",
+  voltage: "1.8V / 1.1V / 1.1V",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "LPDDR4-4266",
+    "Operation Temperature": "-40C~95C"
+  }
+});
+
+assertDram("K4UJE3Q4AA-TFCL", {
+  vendor: "samsung",
+  densityMbit: 49152,
+  density: "48Gb",
+  widthField: "x32",
+  voltage: "1.8V / 1.1V / 0.6V",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-40C~95C",
+    "DRAM Die Count": 4,
+    "Special Option": "QDP"
+  }
+});
+
+assertDram("K3UHDHD0BM-AHCL", {
+  vendor: "samsung",
+  densityMbit: 131072,
+  density: "128Gb",
+  widthField: "x64",
+  voltage: "1.8V / 1.1V / 0.6V",
+  package: "FBGA-556",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-40C~105C"
+  }
+});
+
 assertDram("K4F6E3S4HM-MGCJ", {
   vendor: "samsung",
   densityMbit: 16384,
@@ -138,6 +182,34 @@ assertDram("K3LKBKB0BM-MGCP", {
     "Package Code": "KB0BM",
     "Config Code": "3LKB",
     "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("K3LK4K40CM-BGCP", {
+  vendor: "samsung",
+  densityMbit: 98304,
+  density: "96Gb",
+  widthField: "x64",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "FBGA-496",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "DRAM Speed": "LPDDR5-6400",
+    "Operation Temperature": "-25C~85C"
+  }
+});
+
+assertDram("K3KL2L20DM-JGCT", {
+  vendor: "samsung",
+  densityMbit: 49152,
+  density: "48Gb",
+  widthField: "x64",
+  voltage: "1.8V / 1.05V / 0.9V / 0.5V",
+  package: "FBGA-441",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Speed": "LPDDR5X-7500",
     "Operation Temperature": "-25C~85C"
   }
 });

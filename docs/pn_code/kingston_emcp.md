@@ -1,6 +1,6 @@
-# Kingston eMCP PN 编码
+# Kingston eMCP / ePoP PN 编码
 
-采集日期：2026-05-08
+采集日期：2026-05-08；更新日期：2026-07-12
 
 ## 外部资料
 
@@ -10,19 +10,24 @@
   <https://www.kingston.com/en/embedded/emcp-embedded-flash>
 - Kingston eMCP flyer 交叉确认 `64EM32-N3HTX29` 为 64GB eMMC + 32Gb LPDDR3、`11.5x13.0x1.1` / FBGA221；并确认 `64EM32-M4GTY9B` 为 `11.5x13.0x1.0` / FBGA254，`128EM64-M4HTY9B` 为 `11.5x13.0x1.1` / FBGA254。
   <https://media.kingston.com/pdfs/emmc/eMCP_en.pdf>
+- Kingston ePoP 官方表给出 LPDDR4X 和 LPDDR5X 各两项 PN，组合 64GB eMMC + 16/32Gb DRAM，并确认 FBGA144 / FBGA201 及逐 PN 厚度。
+  <https://www.kingston.com/en/embedded/epop-embedded-flash>
 
 ## 规则状态
 
 iTXTech fdnext DecodePack:
 
 - `packages/core/src/decodepack/rules/packs/kingston-emcp-token.json`
+- `packages/core/src/decodepack/rules/packs/kingston-epop-token.json`
 - `vendor.kingston.emcp.v1`
+- `vendor.kingston.epop.v1`
 
 PN 结构：
 
 | 结构 | 含义 |
 | --- | --- |
 | storage + `EM` + DRAM + `-` + DRAM type + config | Kingston eMCP |
+| storage + `EP` + DRAM + `-` + DRAM type + config | Kingston ePoP |
 | storage `08/16/32/64/128` | 8GB~128GB eMMC，落库为 Mbit |
 | DRAM `08/16/32/64` | 8Gb~64Gb DRAM |
 | DRAM type `N3` | LPDDR3 |
@@ -47,3 +52,4 @@ PN 结构：
 
 - `64EM32-M4GTY9B`
 - `64EM32-N3HTX29`
+- `64EP32-M5BTB9M`

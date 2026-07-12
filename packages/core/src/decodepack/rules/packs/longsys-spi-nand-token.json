@@ -1,0 +1,242 @@
+[
+  {
+    "id": "vendor.longsys.foresee.spi-nand.f35.v1",
+    "priority": 1002,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|", "-"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^F35[SU]Q[AB](?:512M|00[124]G)[WV][WA23][TR]$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["F35"],
+      "tables": {
+        "reference": {
+          "foresee_f35_official_ordering": {
+            "status": "external_confirmed",
+            "source": "Longsys FORESEE SPI NAND product table and F35 datasheets"
+          }
+        },
+        "voltage": {
+          "S": "Vcc: 2.7V-3.6V",
+          "U": "Vcc: 1.7V-1.95V"
+        },
+        "interfaceType": {
+          "Q": "SPI NAND x1/x2/x4"
+        },
+        "densityCodes": ["512M", "001G", "002G", "004G"],
+        "density": {
+          "512M": 512,
+          "001G": 1024,
+          "002G": 2048,
+          "004G": 4096
+        },
+        "package": {
+          "W": "WSON-8, 8x6",
+          "V": "WSON-8, 6x5"
+        },
+        "temperatureObj": {
+          "W": {
+            "operation_temperature": "-40°C ~ +85°C"
+          },
+          "A": {
+            "operation_temperature": "-40°C ~ +105°C"
+          },
+          "3": {
+            "product_class": "Automotive AEC-Q100 Grade 3"
+          },
+          "2": {
+            "product_class": "Automotive AEC-Q100 Grade 2",
+            "operation_temperature": "-40°C ~ +105°C"
+          }
+        },
+        "packingType": {
+          "T": "Tray",
+          "R": "Tape and Reel"
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "voltageCode" },
+        { "op": "map", "from": "voltageCode", "table": "voltage", "to": "voltage", "default": "" },
+        { "op": "take", "len": 1, "to": "interfaceCode" },
+        { "op": "map", "from": "interfaceCode", "table": "interfaceType", "to": "interfaceType", "default": "SPI NAND" },
+        { "op": "take", "len": 1, "to": "versionCode" },
+        { "op": "takeLongest", "table": "densityCodes", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 1, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" },
+        { "op": "take", "len": 1, "to": "temperatureCode" },
+        { "op": "map", "from": "temperatureCode", "table": "temperatureObj", "to": "temperatureObj", "default": {} },
+        { "op": "take", "len": 1, "to": "packingCode" },
+        { "op": "map", "from": "packingCode", "table": "packingType", "to": "packingType", "default": "" },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "cell_level": 1,
+            "interface_type": { "$var": "interfaceType" },
+            "packing_type": { "$var": "packingType" },
+            "voltage_code": { "$var": "voltageCode" },
+            "interface_code": { "$var": "interfaceCode" },
+            "version_code": { "$var": "versionCode" },
+            "density_code": { "$var": "densityCode" },
+            "package_code": { "$var": "packageCode" },
+            "temperature_code": { "$var": "temperatureCode" },
+            "packing_type_code": { "$var": "packingCode" }
+          }
+        },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "system",
+            "group",
+            "series_code",
+            "cell_code",
+            "layout_code",
+            "voltage_code",
+            "interface_code",
+            "version_code",
+            "density_code",
+            "stack_code",
+            "generation_code",
+            "voltage_io_code",
+            "package_code",
+            "temperature_code",
+            "packing_type_code"
+          ]
+        }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "longsys",
+        "device.chipKind": "raw_nand",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$var": "density" },
+        "fields.voltage": { "$var": "voltage" },
+        "fields.package": { "$var": "package" },
+        "meta.ruleId": "vendor.longsys.foresee.spi-nand.f35.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.longsys.foresee.spi-nand.fs35.v1",
+    "priority": 1002,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|", "-"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^FS35ND(?:01G|02G|04G)[0-9A-Z]{4}[SDQ][LW]F[IC][0-9A-Z]{3}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["FS35ND"],
+      "tables": {
+        "reference": {
+          "foresee_fs35_official_ordering": {
+            "status": "external_confirmed",
+            "source": "Longsys FS35ND01G datasheet marketing part number chart"
+          }
+        },
+        "densityCodes": ["01G", "02G", "04G"],
+        "density": {
+          "01G": 1024,
+          "02G": 2048,
+          "04G": 4096
+        },
+        "interfaceType": {
+          "S": "SPI NAND x1",
+          "D": "SPI NAND x1/x2",
+          "Q": "SPI NAND x1/x2/x4"
+        },
+        "package": {
+          "L": "LGA-8",
+          "W": "WSON-8, 8x6"
+        },
+        "temperature": {
+          "I": "-40°C ~ +85°C",
+          "C": "0°C ~ +70°C"
+        }
+      },
+      "steps": [
+        { "op": "takeLongest", "table": "densityCodes", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "take", "len": 2, "to": "versionCode" },
+        { "op": "take", "len": 2, "to": "flashTypeCode" },
+        { "op": "take", "len": 1, "to": "interfaceCode" },
+        { "op": "map", "from": "interfaceCode", "table": "interfaceType", "to": "interfaceType", "default": "SPI NAND" },
+        { "op": "take", "len": 1, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" },
+        { "op": "take", "len": 1, "to": "materialCode" },
+        { "op": "take", "len": 1, "to": "temperatureCode" },
+        { "op": "map", "from": "temperatureCode", "table": "temperature", "to": "operationTemperature", "default": "" },
+        { "op": "take", "len": 1, "to": "trackingCode" },
+        { "op": "take", "len": 2, "to": "reservedCode" },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "cell_level": 1,
+            "interface_type": { "$var": "interfaceType" },
+            "operation_temperature": { "$var": "operationTemperature" },
+            "lead_free": true,
+            "density_code": { "$var": "densityCode" },
+            "version_code": { "$var": "versionCode" },
+            "flash_type_code": { "$var": "flashTypeCode" },
+            "interface_code": { "$var": "interfaceCode" },
+            "package_code": { "$var": "packageCode" },
+            "material_code": { "$var": "materialCode" },
+            "temperature_code": { "$var": "temperatureCode" },
+            "tracking_code": { "$var": "trackingCode" },
+            "reserved_code": { "$var": "reservedCode" }
+          }
+        },
+        {
+          "op": "omit",
+          "from": "extra",
+          "keys": [
+            "system",
+            "group",
+            "series_code",
+            "cell_code",
+            "layout_code",
+            "density_code",
+            "stack_code",
+            "generation_code",
+            "voltage_io_code",
+            "version_code",
+            "flash_type_code",
+            "interface_code",
+            "package_code",
+            "material_code",
+            "temperature_code",
+            "tracking_code",
+            "reserved_code"
+          ]
+        }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "longsys",
+        "device.chipKind": "raw_nand",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$var": "density" },
+        "fields.voltage": "Vcc: 2.7V-3.6V",
+        "fields.package": { "$var": "package" },
+        "meta.ruleId": "vendor.longsys.foresee.spi-nand.fs35.v1"
+      }
+    }
+  }
+]

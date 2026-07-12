@@ -1,0 +1,270 @@
+[
+  {
+    "id": "vendor.biwin.epop3.v1",
+    "priority": 1002,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": { "kind": "regex", "value": "^BWCD2[0-9A-Z][A-Z]{2}(?:04G|08G|32G)$" },
+    "tokenDecoder": {
+      "stripPrefixes": ["BWCD2"],
+      "tables": {
+        "reference": {
+          "biwin_official_epop3_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN ePoP3 order information"
+          }
+        },
+        "dramDensity": { "4": "4Gb", "8": "8Gb" },
+        "package": {
+          "NL": "FBGA-136, 10.00x10.00",
+          "NP": "FBGA-136, 10.00x10.00"
+        },
+        "densityCode": ["04G", "08G", "32G"],
+        "density": { "04G": 32768, "08G": 65536, "32G": 262144 },
+        "storageDensity": { "04G": "4GB eMMC", "08G": "8GB eMMC", "32G": "32GB eMMC" }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "dramDensityCode" },
+        { "op": "map", "from": "dramDensityCode", "table": "dramDensity", "to": "dramDensity", "default": "" },
+        { "op": "take", "len": 2, "to": "configCode" },
+        { "op": "map", "from": "configCode", "table": "package", "to": "package", "default": "" },
+        { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "map", "from": "densityCode", "table": "storageDensity", "to": "storageDensity", "default": "" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields.density": { "$var": "density" },
+        "fields.package": { "$var": "package" },
+        "fields.product_family": "ePoP3",
+        "fields.storage_density": { "$var": "storageDensity" },
+        "fields.storage_interface": "eMMC 5.1",
+        "fields.dram_density": { "$var": "dramDensity" },
+        "fields.dram_type": "LPDDR3",
+        "fields.operation_temperature": "-25°C ~ +85°C",
+        "meta.ruleId": "vendor.biwin.epop3.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": ["density"],
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
+  },
+  {
+    "id": "vendor.biwin.epop4x.v1",
+    "priority": 1002,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|",
+          "-"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^BWC[KL]1[A-Z][0-9A-Z]{2}(?:[0-9]{2})?(?:32G|64G)X?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "BWC"
+      ],
+      "tables": {
+        "reference": {
+          "biwin_official_epop4x_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN ePoP LPDDR4X order information"
+          }
+        },
+        "package": {
+          "K": "FBGA-144, 8.00x9.50",
+          "L": "FBGA-144, 8.60x10.40"
+        },
+        "dramDensity": {
+          "E": "16Gb",
+          "K": "32Gb"
+        },
+        "density": {
+          "32G": 262144,
+          "64G": 524288
+        },
+        "storageDensity": {
+          "32G": "32GB eMMC",
+          "64G": "64GB eMMC"
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([KL])(1)([A-Z])([0-9A-Z]{2})([0-9]{0,2})(32G|64G)(X?)$",
+          "to": "orderingCode",
+          "groups": {
+            "packageCode": 1,
+            "generationCode": 2,
+            "dramDensityCode": 3,
+            "configCode": 4,
+            "controllerCode": 5,
+            "densityCode": 6,
+            "optionCode": 7
+          },
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "dramDensityCode",
+          "table": "dramDensity",
+          "to": "dramDensity",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "storageDensity",
+          "to": "storageDensity",
+          "default": ""
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.product_family": "ePoP4X",
+        "fields.storage_density": {
+          "$var": "storageDensity"
+        },
+        "fields.storage_interface": "eMMC 5.1",
+        "fields.dram_density": {
+          "$var": "dramDensity"
+        },
+        "fields.dram_type": "LPDDR4X",
+        "fields.operation_temperature": "-25°C ~ +85°C",
+        "components": [
+          {
+            "role": "storage",
+            "hidden": true,
+            "device": {
+              "domain": "memory",
+              "chipKind": "managed_nand",
+              "productType": "emmc"
+            },
+            "fields": {
+              "storage_density": {
+                "$var": "storageDensity"
+              },
+              "storage_interface": "eMMC 5.1"
+            }
+          },
+          {
+            "role": "dram",
+            "hidden": true,
+            "device": {
+              "domain": "memory",
+              "chipKind": "dram",
+              "productType": "lpddr4x"
+            },
+            "fields": {
+              "dram_density": {
+                "$var": "dramDensity"
+              },
+              "dram_type": "LPDDR4X"
+            }
+          }
+        ],
+        "meta.ruleId": "vendor.biwin.epop4x.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": [
+          "density"
+        ],
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.biwin.epop5x.v1",
+    "priority": 1002,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": { "kind": "regex", "value": "^BWCSA[A-Z][0-9A-Z]{4}(?:32G|64G)$" },
+    "tokenDecoder": {
+      "stripPrefixes": ["BWCSA"],
+      "tables": {
+        "reference": {
+          "biwin_official_epop5x_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN 201-ball ePoP5X order information"
+          }
+        },
+        "dramDensity": { "E": "16Gb", "F": "24Gb", "K": "32Gb" },
+        "package": {
+          "YA02": "FBGA-201, 8.00x9.50",
+          "EJ02": "FBGA-201, 8.00x9.50"
+        },
+        "densityCode": ["32G", "64G"],
+        "density": { "32G": 262144, "64G": 524288 },
+        "storageDensity": { "32G": "32GB eMMC", "64G": "64GB eMMC" }
+      },
+      "steps": [
+        { "op": "take", "len": 1, "to": "dramDensityCode" },
+        { "op": "map", "from": "dramDensityCode", "table": "dramDensity", "to": "dramDensity", "default": "" },
+        { "op": "take", "len": 4, "to": "configCode" },
+        { "op": "map", "from": "configCode", "table": "package", "to": "package", "default": "" },
+        { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "map", "from": "densityCode", "table": "storageDensity", "to": "storageDensity", "default": "" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields.density": { "$var": "density" },
+        "fields.package": { "$var": "package" },
+        "fields.product_family": "ePoP5X",
+        "fields.storage_density": { "$var": "storageDensity" },
+        "fields.storage_interface": "eMMC 5.1",
+        "fields.dram_density": { "$var": "dramDensity" },
+        "fields.dram_type": "LPDDR5X",
+        "fields.operation_temperature": "-25°C ~ +85°C",
+        "meta.ruleId": "vendor.biwin.epop5x.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": ["density"],
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
+  }
+]

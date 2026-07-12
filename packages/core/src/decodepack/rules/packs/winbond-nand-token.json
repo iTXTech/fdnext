@@ -1,0 +1,227 @@
+[
+  {
+    "id": "vendor.winbond.raw.w29n.v1",
+    "priority": 1005,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|", "-"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W29N(?:01|02|04|08)[GHK][VWZ](?:[SB][IJ][AB][AF])?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["W29N"],
+      "tables": {
+        "density": {
+          "01": 1024,
+          "02": 2048,
+          "04": 4096,
+          "08": 8192
+        },
+        "voltageWidthObj": {
+          "V": {
+            "voltage": "2.7V~3.6V",
+            "device_width": 8
+          },
+          "W": {
+            "voltage": "1.7V~1.95V",
+            "device_width": 16
+          },
+          "Z": {
+            "voltage": "1.7V~1.95V",
+            "device_width": 8
+          }
+        },
+        "package": {
+          "S": "TSOP-I-48",
+          "B": "VFBGA-63"
+        },
+        "temperatureObj": {
+          "I": {
+            "operation_temperature": "-40°C ~ 85°C"
+          },
+          "J": {
+            "operation_temperature": "-40°C ~ 105°C"
+          }
+        },
+        "reference": {
+          "W29N": {
+            "status": "external_confirmed",
+            "source": "Winbond SLC NAND Flash Product Brief and W29N02GV ordering information",
+            "examples": ["W29N02GV", "W29N02GVSIAA", "W29N02GVBJAA"]
+          }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 2, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density" },
+        { "op": "take", "len": 1, "to": "featureCode" },
+        { "op": "take", "len": 1, "to": "voltageWidthCode" },
+        { "op": "map", "from": "voltageWidthCode", "table": "voltageWidthObj", "to": "voltageWidthObj", "default": {} },
+        { "op": "take", "len": 1, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package" },
+        { "op": "take", "len": 1, "to": "temperatureCode" },
+        { "op": "map", "from": "temperatureCode", "table": "temperatureObj", "to": "temperatureObj", "default": {} },
+        { "op": "take", "len": 2, "to": "optionCode" },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Winbond ONFI NAND",
+            "interface_type": "ONFI parallel NAND",
+            "cell_level": "SLC"
+          }
+        },
+        { "op": "merge", "into": "extra", "from": "voltageWidthObj" },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "raw_nand",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$var": "density" },
+        "fields.package": { "$var": "package" },
+        "meta.ruleId": "vendor.winbond.raw.w29n.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.winbond.raw.w25n.v1",
+    "priority": 1005,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|", "-"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^W25N(?:512|01|02|04)[GJ][VW](?:(?:SF|ZE|TB|TC)[IJ][GTR])?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["W25N"],
+      "tables": {
+        "densityToken": ["512", "01", "02", "04"],
+        "density": {
+          "512": 512,
+          "01": 1024,
+          "02": 2048,
+          "04": 4096
+        },
+        "voltage": {
+          "V": "2.7V~3.6V",
+          "W": "1.7V~1.95V"
+        },
+        "packageToken": ["SF", "ZE", "TB", "TC"],
+        "package": {
+          "SF": "SOIC-16",
+          "ZE": "WSON-8, 8x6",
+          "TB": "TFBGA-24, 8x6, ARRAY-5x5-1",
+          "TC": "TFBGA-24, 8x6, ARRAY-6x4"
+        },
+        "temperatureObj": {
+          "I": { "operation_temperature": "-40°C ~ 85°C" },
+          "J": { "operation_temperature": "-40°C ~ 105°C" }
+        },
+        "reference": {
+          "W25N": {
+            "status": "external_confirmed",
+            "source": "Winbond QspiNAND product brief and W25N01GV ordering information",
+            "examples": ["W25N01GV", "W25N01GVZEIG", "W25N01GVTBIT"]
+          }
+        }
+      },
+      "steps": [
+        { "op": "takeLongest", "table": "densityToken", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density" },
+        { "op": "take", "len": 1, "to": "featureCode" },
+        { "op": "take", "len": 1, "to": "voltageCode" },
+        { "op": "map", "from": "voltageCode", "table": "voltage", "to": "voltage" },
+        { "op": "takeLongest", "table": "packageToken", "to": "packageCode", "default": "" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package" },
+        { "op": "take", "len": 1, "to": "temperatureCode" },
+        { "op": "map", "from": "temperatureCode", "table": "temperatureObj", "to": "temperatureObj", "default": {} },
+        { "op": "take", "len": 1, "to": "optionCode" },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Winbond QspiNAND",
+            "interface_type": "SPI / Dual SPI / Quad SPI",
+            "cell_level": "SLC"
+          }
+        },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "raw_nand",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$var": "density" },
+        "fields.voltage": { "$var": "voltage" },
+        "fields.package": { "$var": "package" },
+        "meta.ruleId": "vendor.winbond.raw.w25n.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.winbond.raw.w35n.v1",
+    "priority": 1005,
+    "normalize": ["trim", "uppercase"],
+    "match": {
+      "kind": "regex",
+      "value": "^W35N(?:01|02|04)JW$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["W35N"],
+      "tables": {
+        "density": {
+          "01": 1024,
+          "02": 2048,
+          "04": 4096
+        },
+        "reference": {
+          "W35N": {
+            "status": "external_confirmed",
+            "source": "Winbond SLC NAND Flash Product Brief",
+            "examples": ["W35N01JW", "W35N02JW", "W35N04JW"]
+          }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 2, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density" },
+        { "op": "take", "len": 1, "to": "featureCode" },
+        { "op": "take", "len": 1, "to": "voltageCode" },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Winbond High Performance QspiNAND",
+            "interface_type": "High Performance QspiNAND",
+            "cell_level": "SLC",
+            "voltage": "1.7V~1.95V"
+          }
+        }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "winbond",
+        "device.chipKind": "raw_nand",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$var": "density" },
+        "meta.ruleId": "vendor.winbond.raw.w35n.v1"
+      }
+    }
+  }
+]

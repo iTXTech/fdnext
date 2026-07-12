@@ -181,5 +181,185 @@
         ]
       }
     }
+  },
+  {
+    "id": "vendor.micron.hbm3e.mt65.v1",
+    "priority": 1013,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MT65[A-Z][0-9]{2}G[0-9]{2}[0-9]{2}[0-9A-Z][0-9A-Z]{3}[A-Z]{2}-?[0-9]{2}(?::|-)[A-Z](?:-?[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT65"
+      ],
+      "tables": {
+        "densityPerChannelMbit": {
+          "12G": 12288,
+          "18G": 18432
+        },
+        "channelCount": {
+          "16": 16
+        },
+        "dieCount": {
+          "08": 8,
+          "12": 12
+        },
+        "voltageObj": {
+          "B": {
+            "dram_voltage": "1.1V"
+          }
+        },
+        "package": {
+          "QG": "WFPGA, 10.98x10.98x0.78",
+          "QH": "WFPGA, 10.98x10.98x0.78"
+        },
+        "speedObj": {
+          "92": {
+            "dram_speed": "9.2 GT/s"
+          }
+        },
+        "revisionObj": {
+          "A": {
+            "die_revision": "Rev A"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<voltageCode>[A-Z])(?<densityCode>[0-9]{2}G)(?<channelCode>[0-9]{2})(?<dieCountCode>[0-9]{2})(?<logicDieCode>[0-9A-Z])(?<variationCode>[0-9A-Z]{3})(?<packageCode>[A-Z]{2})-?(?<speedCode>[0-9]{2})(?::|-)(?<revisionCode>[A-Z])(?:-?(?<specialCode>[0-9A-Z]+))?$",
+          "groups": {
+            "voltageCode": "voltageCode",
+            "densityCode": "densityCode",
+            "channelCode": "channelCode",
+            "dieCountCode": "dieCountCode",
+            "packageCode": "packageCode",
+            "speedCode": "speedCode",
+            "revisionCode": "revisionCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "densityPerChannelMbit",
+          "to": "densityPerChannelMbit",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "channelCode",
+          "table": "channelCount",
+          "to": "channelCount",
+          "default": 0
+        },
+        {
+          "op": "mul",
+          "a": "densityPerChannelMbit",
+          "b": "channelCount",
+          "to": "density"
+        },
+        {
+          "op": "map",
+          "from": "dieCountCode",
+          "table": "dieCount",
+          "to": "dieCount",
+          "default": null
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltageObj",
+          "to": "voltageObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "revisionCode",
+          "table": "revisionObj",
+          "to": "revisionObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "HBM3E",
+            "operation_temperature": "-10C to +105C"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "voltageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "revisionObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.channel_count": {
+          "$var": "channelCount"
+        },
+        "fields.dram_die_count": {
+          "$var": "dieCount"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.micron.hbm3e.mt65.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
   }
 ]

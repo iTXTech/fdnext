@@ -23,6 +23,7 @@
   <https://www.uttc.com.tw/wp-content/uploads/2025/12/H9QT0GECN6X145_Rev0.1.pdf>
 - `H9HQ15ACPMADAR-KEM` 分销页标注 type `uMCP`、sub-type `UFS+LPDDR4x`、package `254ball_UFS+LPD4x`、density `128+32`。
   <https://www.preduo.com/product/umcp/ufs-lpddr4x/254ball_ufs-lpd4x/h9hq15acpmadar-kem>
+- SK hynix eMCP 公开产品表补充 H9HP/H9A 当前 line-up：storage 16/32/64GB 与 LPDDR4X 2/3/4/6GB 的组合。该表用于补齐相互独立的 storage-density 与 DRAM-density token；不能再把同一 storage token（例如 `52`）固定解释为单一 DRAM 容量。来源：<https://www.skhynix.glochip.com/h-pd-18.html>
 - SK hynix uMCP 公开产品表列出 H9HQ53/H9HQ54 的 64GB UFS 2.1/2.2 + 3GB/4GB/6GB LPDDR4X 组合；分销资料交叉确认 254-ball 封装。
   <https://www.skhynix.glochip.com/h-pd-17.html>
   <https://www.preduo.com/product/umcp/ufs-lpddr4x/254ball_ufs-lpd4x/h9hq54aecmmdar-kem>
@@ -49,11 +50,10 @@
 | PN 结构 | 字段 |
 | --- | --- |
 | `H9HP` + density(2) + NVM voltage(1) + DRAM density(1) + DRAM option(1) + generation(1) + package type(1) + material(1) + eMMC speed(1) + DRAM speed(1) + optional temp tail | SK hynix eMMC + LPDDR4X eMCP |
-| density `27` | 32GB eMMC + 24Gb LPDDR4X |
-| density `52` | 64GB eMMC + 32Gb LPDDR4X |
+| storage density `19/27/52/53` | 16GB / 32GB / 64GB / 64GB eMMC；只表达 storage side |
 | NVM voltage `A` | eMMC/NVM 3.3V x8 |
-| DRAM density `D/C` | 24Gb / 32Gb LPDDR4X |
-| DRAM option `A/P` | LPDDR4X x16, 1.1V/0.6V I/O option；DRAM type / width 从该 token 输出，不从 `H9HP` 前缀或 density 推断 |
+| DRAM density `B/C/D/E` | 16Gb / 32Gb / 24Gb / 48Gb LPDDR4X；与 storage density 独立 |
+| DRAM option `A/P/C/U` | 已确认 line-up 输出 LPDDR4X 与电压；只有 ordering decoder 已确认的 `A/P` 输出 x16，`C/U` 不猜位宽 |
 | generation `M` | 2nd generation |
 | package type `A` | 254Ball FBGA 11.5x13 |
 | package material `D` | Lead & Halogen Free |
@@ -90,7 +90,7 @@ eMCP 输出中 storage side 的 NAND die 数使用 `die_count`，DRAM side 的 d
 | PN 结构 | 字段 |
 | --- | --- |
 | `H9A` + density(4) + generation + speed + interface + reserved + serial(3) | SK hynix LPDDR4 eMCP |
-| density `G9G5` | 64GB eMMC + 4GB LPDDR4X |
+| density `G8GD/G9GD/G9G5/G9GE` | 32GB+3GB / 64GB+3GB / 64GB+4GB / 64GB+6GB |
 | DRAM organization for `G9G5` | LPDDR4X x16 |
 | generation `A` | 2nd generation eMCP |
 | speed `N` | LPDDR4X-4266 CL32 / eMMC 52MHz |
@@ -138,6 +138,9 @@ eMCP 输出中 storage side 的 NAND die 数使用 `die_count`，DRAM side 的 d
 | `H9HP27ADAMADAR-KMM` | eMCP, 32GB eMMC + 24Gb LPDDR4X, eMMC 5.1, 254Ball FBGA |
 | `H9HP52ACPMADAR-KMM` | eMCP, 64GB eMMC + 32Gb LPDDR4X, eMMC 5.1, 254Ball FBGA |
 | `H9AG9G5ANBX100` | eMCP, 64GB eMMC + 4GB LPDDR4X x16, eMMC 5.0 |
+| `H9AG9GEANBX101` | eMCP, 64GB eMMC + 6GB LPDDR4X, eMMC 5.0；无已确认 package token 时不输出封装 |
+| `H9HP19ABUMMDAR-KEM` | eMCP, 16GB eMMC + 2GB LPDDR4X, eMMC 5.1 |
+| `H9HP52AECMMDAR-KMM` | eMCP, 64GB eMMC + 6GB LPDDR4X, eMMC 5.1 |
 | `H9QT0GECN6X145` | uMCP, 128GB UFS + 48Gb / 6GB LPDDR4X x8, UFS 2.2, LPDDR4X-4266, 254Ball FBGA |
 | `H9HQ15ACPMADAR-KEM` | uMCP, 128GB UFS + 32Gb LPDDR4X |
 | `H9HQ54AECMMDAR-KEM` | uMCP, 64GB UFS 2.2 + 48Gb LPDDR4X-4266, FBGA-254 |
@@ -145,7 +148,7 @@ eMCP 输出中 storage side 的 NAND die 数使用 `die_count`，DRAM side 的 d
 
 ## 已知缺口
 
-- H9HP / H9A / H9Q 已按 datasheet 拆成 token 表：density 只负责组合容量，DRAM width / type、package、temperature 等由各自 token 表命中后输出。
+- H9HP 的 storage density 与 DRAM density 已拆为独立 token；`19/27/52/53` 不再隐含固定 DRAM 容量。H9A 当前 catalog 组合仍使用 4 字符组合 token，但 serial 不参与容量解析。DRAM width / package / temperature 只在对应语义 token 有 ordering 证据时输出。
 - H9T/H9H legacy 规则已覆盖本地 H9TQ27 datasheet 与已知 H9TQ17、H9TQ64、H9TP32 样本；eMMC speed 用组合 key 处理，避免把相同 speed token 在不同 legacy 子族里误解成同一频率。
 - H9HC 子族公开资料仍较分散；H9HQ/H9HR 只对多来源一致的 density / DRAM config / interface / suffix token 做表驱动解析，未确认 package token 的 H9HR 不输出封装。
 - H9Q 新 uMCP 与 HN8/H28S 纯 UFS 不是同一类产品，不能并入 UFS parser。

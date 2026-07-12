@@ -15,6 +15,8 @@
   <https://documents.sandisk.com/content/dam/asset-library/en_us/assets/public/sandisk/product/embedded-flash/product-brief/product-brief-inand-at-eu552.pdf>
 - iNAND AT EU752 product brief: `SDINHDL6-256G/512G/1T00-ZA`，UFS 4.1，BiCS8 218L。
   <https://documents.sandisk.com/content/dam/asset-library/en_us/assets/public/sandisk/product/embedded-flash/product-brief/product-brief-inand-at-eu752.pdf>
+- Dediprog WDC UFS socket support list 逐 family 确认 `DDH4/DDH6/EDK4/FDK4/FDO2/FDO4/FDQ6` 为 BGA-153；原厂 mobile/automotive brochure 与 EU552/EU752 product brief 提供逐 family + density 尺寸。规则只按 family + density 局部组合输出 package，不按完整 PN 查表；`HDL6` 沿用同一 11.5x13 footprint 与已确认的 WDC UFS BGA-153 family layout。
+  <https://www.dediprog.com/product/3361>
 
 ## 规则状态
 
@@ -37,6 +39,8 @@ PN 结构：
 | family `HDL6` | iNAND AT EU752, UFS 4.1, BiCS8 218L |
 | family `HFT4` | iNAND MC EU711, UFS 4.1, 3D TLC；256GB/512GB/1TB |
 | family `HFT4` package | Falcon `BG153C` 与 Mouser 9x13 交叉确认，输出 `BGA-153, 9x13`，不猜具体 BGA subtype |
+| `DDH4/EDK4/FDK4/FDO4` package inference | 已确认容量组合输出 `BGA-153, 11.5x13x1.0` |
+| `DDH6/FDQ6/HDL6` package inference | 已确认容量组合输出 `BGA-153, 11.5x13x1.2` |
 | suffix `XA1/XA2` | Automotive, -40°C to 85°C |
 | suffix `ZA/ZA1/ZA2` | Automotive, -40°C to 105°C |
 
@@ -57,6 +61,8 @@ PN 结构：
 - `SDINFEO2-256G`
 - `SDINDDH6-128G-ZA2`
 - `SDINHFT4-256G`
+- `SDINFDQ6-512G-ZA1`
+- `SDINHDL6-1T00-ZA`
 
 ## 注意
 

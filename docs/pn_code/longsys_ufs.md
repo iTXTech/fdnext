@@ -1,6 +1,6 @@
 # Longsys UFS PN 编码
 
-采集日期：2026-05-08；更新日期：2026-07-11
+采集日期：2026-05-08；更新日期：2026-07-12
 
 ## 外部资料
 
@@ -13,6 +13,7 @@
 - Lexar Enterprise UFS 2.2 页面列出 `FEUDNN064G-C2G07` / `FEUDNN128G-C2G07` / `FEUDNN256G-C2G07` / `FEUDNN512G-C2G07`，尺寸 `11.5x13x1.0mm`。
   <https://lexarenterprise.com/product/ufs-2-2/>
 - Longsys 官方 UFS brochure 明确 `FEUDNN064G-C2A46` / `128G-C2A44` / `256G-C2A44` 均为 UFS 2.2 HS-Gear3 2L、3D TLC、FBGA-153；64/128GB 厚度 0.8mm，256GB 厚度 1.0mm。来源：<https://longsys.com/uploads/ueditor/file/20221205/1670210267164297.pdf>
+- 2023 官方 Embedded Storage Catalogue 还确认 `C2A56` / `C2H14` 系列的 64GB~256GB UFS 2.2 组合，资源已补齐目录差集。
 
 ## 规则状态
 

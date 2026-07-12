@@ -25,6 +25,9 @@
   <https://semiconductor.samsung.com/jp/estorage/ufs/ufs-3-1/kludg4uhdb-b2e1/>
   <https://semiconductor.samsung.com/us/estorage/ufs/ufs-3-1/klufg4lhgc-b0e1/>
   <https://semiconductor.samsung.com/estorage/ufs/>
+- 外部现货/系统清单共同确认 `KLUGGGRHKF-F0H1` 为 1TB、G5 2Lane、BGA-153。该 PN 使用新堆叠 token `G`；规则只把 `G` 纳入结构识别，不从它推断 die count，容量、UFS 4.1、V8 profile 与封装仍分别来自既有 density/controller/generation/package token。
+  <https://www.mbsystems.com.mx/listap65.html>
+  <https://www.accio.com/plp/ufs-storage-chip-smartphone-motherboard-close-up>
 - 用户提供的 Samsung UFS 测试点 dump 表确认若干特定基础 PN 的 CE 数、die 数和单 die NAND marking。该表只用于 exact base PN 补充，不从 UFS PN token 泛化推断 CE / die。
 
 ## 规则入口
@@ -38,12 +41,11 @@
 | --- | --- |
 | `KLU` + density(2) + die count(1) + die type(1) + voltage(1) + controller(1) + generation(1) + package/version/temp | Samsung UFS |
 | density `AG/BG/CG/DG/EG/FG/GG/HG` | 16GB 到 2TB |
-| die count `1/2/4/8/A` | 1 / 2 / 4 / 8 / 16 die |
+| die stack `1/2/4/8/A` | 1 / 2 / 4 / 8 / 16 die |
+| die stack `G` | 新一代堆叠编码，已确认存在但无法由公开资料稳定换算 die count，因此只参与结构匹配 |
 | controller `D/G/J/H/K/U` | UFS G4/G5 controller family；`U` 为 Automotive UFS 4.1 G5 2Lane |
 | version `E/G/H` | UFS 3.1 / 4.0 / 4.1 |
-| `dumpedPartObj` exact base PN | 用户测试点 dump 得到的 `ce_count` 与 `nand_component` |
-
-这里的纯堆叠数量输出为 `die_count`；CE 数只来自 dump 表，不从 die-count token 或其他 PN token 推导。
+这里的纯堆叠数量输出为 `die_count`；CE 数和内部 NAND marking 无法由 UFS PN 的局部 token 稳定推导，因此不进入 decoder 公开字段。exact PN 的 dump 证据仅作为外部资料记录，不做完整 PN 查表。
 
 ## 统一输出字段
 
@@ -52,8 +54,6 @@ Samsung UFS 输出：
 - `density`：封装总容量，例如 `512GB`
 - `die_density`：单 die 容量，例如 `512Gb`
 - `die_count`：封装内 NAND die 数，例如 `8`
-- `nand_component`：特定基础 PN 的单 die NAND marking，例如 `K9AFGD8J0B`
-- `ce_count`：仅对 dump 表中列出的特定基础 PN 输出；不按 UFS PN token 泛化推断
 - `die_codename`：NAND die profile key，例如 `SSV8`；2D/3D 代际说明如需展示由 `generation_info` 承接
 
 可信度 metadata 只在 iTXTech fdnext DecodePack `tables.reference` 内维护，不进入 `fields`。
@@ -62,14 +62,15 @@ Samsung UFS 输出：
 
 | PN | 解析重点 |
 | --- | --- |
-| `KLUCG4J1BB` | UFS 2.0, 64GB, MLC, 4 CE / 4 die, `K9GDGD8U0B` |
-| `KLUDGAG1BD` | UFS 2.0, 128GB, MLC, 8 CE / 16 die, `K9GCGD8U0D` |
+| `KLUCG4J1BB` | UFS 2.0, 64GB, MLC, 4 die |
+| `KLUDGAG1BD` | UFS 2.0, 128GB, MLC, 16 die |
 | `KLUGGAR1FA-B2C1` | UFS 2.1, 1TB, BGA-153 11.5x13x1.4 |
 | `KLUEG8UHDB-C2E1` | UFS 3.1, 256GB, ODP, 256Gb die, V5 92L |
 | `KLUEG8U1YB-B0CP` | UFS 2.1, 256GB, BGA-153 11.5x13x1.2, -40°C~95°C |
 | `KLUFG8RHDA-B2D1` | UFS 3.0, 512GB, BGA-153 11.5x13x1.0, -25°C~85°C |
 | `KLUFG8RHHF-F0G1` | UFS 4.0, 512GB, ODP, 512Gb die, V8 236L |
 | `KLUEG4RHKF-F0H1` | UFS 4.1, 256GB, QDP, 512Gb die, V8 236L |
+| `KLUGGGRHKF-F0H1` | UFS 4.1, 1TB, G5 2Lane, BGA-153；未知堆叠 token 不输出 die count |
 | `KLUGGARHUF-F0HQ` | Automotive UFS 4.1, 1TB, BGA-153 11.5x13x1.2, -40°C~105°C |
 | `KLUGGARHUF-F0HP` | Automotive UFS 4.1, 1TB, BGA-153 11.5x13x1.2, -40°C~95°C |
 | `KLUCG1RHVF-B0EP` | Automotive UFS 3.1, 64GB, BGA-153 11.5x13x1.2, -40°C~95°C |

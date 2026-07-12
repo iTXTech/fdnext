@@ -44,6 +44,30 @@ assertRuleDecode("FEMDNN256G-A3A5607-08", {
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("FEMDME016G-A8A58", {
+  vendor: "longsys",
+  type: "eMMC",
+  densityMbit: 131072,
+  package: "FBGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Family": "Automotive eMMC Grade2",
+    "Product Class": "Automotive AEC-Q100 Grade 2",
+    "Storage Interface": "eMMC 5.1"
+  },
+  absentExtra: ["Series Code", "Config Code", "source", "status"]
+});
+
+assertRuleDecode("FEMDRW128G-88A19", {
+  vendor: "longsys",
+  type: "eMMC",
+  densityMbit: 1048576,
+  package: "FBGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Family": "Industrial Wide-temperature eMMC",
+    "Operation Temperature": "-40°C ~ +85°C"
+  }
+});
+
 assertRuleDecode("FEUDNN128G-C2H14", {
   vendor: "longsys",
   type: "UFS",
@@ -131,3 +155,81 @@ for (const [partNumber, densityMbit, packageName] of [
     absentExtra: ["Config Code", "Package Code", "Reference Status", "source", "status"]
   });
 }
+
+assertRuleDecode("F35SQA512M-VWT", {
+  vendor: "longsys",
+  type: "NAND",
+  densityMbit: 512,
+  cellField: "SLC",
+  voltage: "Vcc: 2.7V-3.6V",
+  package: "WSON-8, 6x5",
+  extra: {
+    "Interface Type": "SPI NAND x1/x2/x4",
+    "Operation Temperature": "-40°C ~ +85°C",
+    "Packing Type": "Tray"
+  },
+  absentExtra: ["Voltage Code", "Interface Code", "Version Code", "Density Code", "Package Code", "Temperature Code", "Packing Type Code", "source", "status"]
+});
+
+assertRuleDecode("F35UQA001G-WWR", {
+  vendor: "longsys",
+  type: "NAND",
+  densityMbit: 1024,
+  cellField: "SLC",
+  voltage: "Vcc: 1.7V-1.95V",
+  package: "WSON-8, 8x6",
+  extra: {
+    "Interface Type": "SPI NAND x1/x2/x4",
+    "Operation Temperature": "-40°C ~ +85°C",
+    "Packing Type": "Tape and Reel"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertRuleDecode("F35UQB004G-W2R", {
+  vendor: "longsys",
+  type: "NAND",
+  densityMbit: 4096,
+  cellField: "SLC",
+  voltage: "Vcc: 1.7V-1.95V",
+  package: "WSON-8, 8x6",
+  extra: {
+    "Interface Type": "SPI NAND x1/x2/x4",
+    "Product Class": "Automotive AEC-Q100 Grade 2",
+    "Operation Temperature": "-40°C ~ +105°C",
+    "Packing Type": "Tape and Reel"
+  },
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
+});
+
+assertRuleDecode("FS35ND01G-S1Y2QWFI000", {
+  vendor: "longsys",
+  type: "NAND",
+  densityMbit: 1024,
+  cellField: "SLC",
+  voltage: "Vcc: 2.7V-3.6V",
+  package: "WSON-8, 8x6",
+  extra: {
+    "Interface Type": "SPI NAND x1/x2/x4",
+    "Operation Temperature": "-40°C ~ +85°C",
+    "Lead free": "Yes"
+  },
+  absentExtra: ["Version Code", "Flash Type Code", "Tracking Code", "Reserved Code", "Reference Status", "source", "status"]
+});
+
+assertRuleDecode("FS35ND04G-S2Y2QLFC000", {
+  vendor: "longsys",
+  type: "NAND",
+  densityMbit: 4096,
+  cellField: "SLC",
+  voltage: "Vcc: 2.7V-3.6V",
+  package: "LGA-8",
+  extra: {
+    "Interface Type": "SPI NAND x1/x2/x4",
+    "Operation Temperature": "0°C ~ +70°C",
+    "Lead free": "Yes"
+  },
+  absentExtra: ["Version Code", "Flash Type Code", "Package Code", "Temperature Code", "source", "status"]
+});
+
+assertNotFound("F35SQA001G");

@@ -255,9 +255,12 @@
           "E8": 8
         },
         "packageActual": {
-          "E8:BM": "FBGA-82"
+          "E8:BM": "FBGA-82, 9x11"
         },
         "speedObj": {
+          "UP": {
+            "dram_speed": "DDR5-4800"
+          },
           "CR": {
             "dram_speed": "DDR5-4800",
             "operation_temperature": "Commercial (0C~95C)"

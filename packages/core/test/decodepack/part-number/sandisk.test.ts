@@ -36,6 +36,7 @@ assertRuleDecode("SDINBDA6-256G-XI1", {
   type: "eMMC",
   densityMbit: 2097152,
   dieProfileField: "BiCS3",
+  package: "BGA-153, 11.5x13x1.2",
   extra: {
     "Product Family": "iNAND IX EM132",
     "Storage Interface": "eMMC 5.1",
@@ -136,6 +137,7 @@ assertRuleDecode("SDINBDG4-32G-ZA3", {
   vendor: "sndk",
   type: "eMMC",
   densityMbit: 262144,
+  package: "BGA-153, 11.5x13x1.0",
   extra: {
     "Product Family": "iNAND 7250 / EM122-class",
     "Storage Interface": "eMMC 5.1",
@@ -148,6 +150,7 @@ assertRuleDecode("SDINFDK4-128G", {
   vendor: "sndk",
   type: "UFS",
   densityMbit: 1048576,
+  package: "BGA-153, 11.5x13x1.0",
   extra: {
     "Product Family": "iNAND MC EU521",
     "Storage Interface": "UFS 3.1"
@@ -208,6 +211,7 @@ assertRuleDecode("SDINDDH6-128G-ZA2", {
   vendor: "sndk",
   type: "UFS",
   densityMbit: 1048576,
+  package: "BGA-153, 11.5x13x1.2",
   extra: {
     "Product Family": "iNAND AT EU312",
     "Storage Interface": "UFS 2.1",
@@ -221,10 +225,79 @@ assertRuleDecode("SDIN7DU2-8G", {
   type: "eMMC",
   densityMbit: 65536,
   dieProfileField: "19nm",
+  package: "BGA-153, 11.5x13x1.0",
   extra: {
     "Product Family": "iNAND Ultra",
     "Storage Interface": "eMMC 4.41",
     "NAND Technology": "X2 MLC NAND"
+  }
+});
+
+assertRuleDecode("SDINBDA4-128G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 1048576,
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Family": "iNAND MC EM131",
+    "Storage Interface": "eMMC 5.1"
+  }
+});
+
+assertRuleDecode("SDINFDQ6-512G-ZA1", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 4194304,
+  dieProfileField: "BiCS5",
+  package: "BGA-153, 11.5x13x1.2",
+  extra: {
+    "Product Family": "iNAND AT EU552",
+    "Storage Interface": "UFS 3.1"
+  }
+});
+
+assertRuleDecode("SDINHDL6-1T00-ZA", {
+  vendor: "sndk",
+  type: "UFS",
+  densityMbit: 8388608,
+  dieProfileField: "BiCS8",
+  package: "BGA-153, 11.5x13x1.2",
+  extra: {
+    "Product Family": "iNAND AT EU752",
+    "Storage Interface": "UFS 4.1"
+  }
+});
+
+assertRuleDecode("SDIN7DP4-16G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 131072,
+  cellField: "MLC",
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Family": "iNAND Extreme",
+    "Storage Interface": "eMMC 4.5",
+    "NAND Technology": "X2 MLC NAND"
+  }
+});
+
+assertRuleDecode("SDIN7DP4-64G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 524288,
+  cellField: "MLC",
+  package: "BGA-153, 11.5x13x1.4"
+});
+
+assertRuleDecode("SDIN7CP4-128G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 1048576,
+  cellField: "MLC",
+  package: "BGA-169, 12x16x1.6",
+  extra: {
+    "Product Family": "iNAND Extreme",
+    "Storage Interface": "eMMC 4.5"
   }
 });
 
@@ -233,10 +306,19 @@ assertRuleDecode("SDIN5C4-64G", {
   type: "eMMC",
   densityMbit: 524288,
   dieProfileField: "24nm",
+  package: "BGA-169, 12x16",
   extra: {
     "Product Family": "iNAND legacy eMMC",
     "Storage Interface": "eMMC 4.41"
   }
+});
+
+assertRuleDecode("SDIN5C2-32G", {
+  vendor: "sndk",
+  type: "eMMC",
+  densityMbit: 262144,
+  dieProfileField: "24nm",
+  package: "BGA-169, 12x16"
 });
 
 assertRuleDecode("SDIS4BH-008G", {

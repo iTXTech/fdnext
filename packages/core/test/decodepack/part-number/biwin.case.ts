@@ -121,6 +121,58 @@ assertRuleDecode("BWEFMD064GN729", {
   },
   absentExtra: ["Controller", "Interface Type", "Grade Code", "Config Code", "source", "status"]
 });
+
+assertRuleDecode("BWEFMA016GN9RE", {
+  vendor: "biwin",
+  type: "eMMC",
+  densityMbit: 131072,
+  package: "FBGA-153, 11.50x13.00x1.10",
+  cellField: "MLC",
+  extra: {
+    "Product Class": "Automotive, AEC-Q100 Grade 2",
+    "NAND Technology": "MLC"
+  },
+  absentExtra: ["Config Code", "Package Code", "source", "status"]
+});
+
+assertRuleDecode("BWEFMI128GN223", {
+  vendor: "biwin",
+  type: "eMMC",
+  densityMbit: 1048576,
+  package: "FBGA-153, 11.50x13.00x1.10",
+  cellField: "TLC",
+  extra: {
+    "Product Class": "Industrial Wide Temperature",
+    "Operation Temperature": "-40°C ~ +85°C"
+  }
+});
+
+assertRuleDecode("BWCMAQB11T16GI", {
+  vendor: "biwin",
+  type: "eMMC",
+  densityMbit: 131072,
+  package: "FBGA-153, 11.50x13.00x1.10",
+  cellField: "MLC"
+});
+
+assertRuleDecode("BWCZZZZZZZ16GI", {
+  vendor: "biwin",
+  type: "eMMC",
+  densityMbit: 131072,
+  absentExtra: ["Package", "NAND Technology", "Cell Level"]
+});
+
+assertRuleDecode("BWCE2ENH-16G", {
+  vendor: "biwin",
+  type: "eMCP",
+  densityMbit: 131072,
+  package: "FBGA-221, 11.50x13.00",
+  extra: {
+    "Storage Density": "16GB eMMC",
+    "DRAM Density": "16Gb",
+    "DRAM Type": "LPDDR3"
+  }
+});
 assertRuleDecode("BWCA2KZC-64G", {
   vendor: "biwin",
   type: "eMCP",
@@ -135,6 +187,61 @@ assertRuleDecode("BWCA2KZC-64G", {
 });
 
 assertNoAdditionalFields("BWCA2KZC-64G");
+
+assertRuleDecode("BWCK1KZC02-64G", {
+  vendor: "biwin",
+  type: "eMCP",
+  densityMbit: 524288,
+  package: "FBGA-144, 8.00x9.50",
+  extra: {
+    "Product Family": "ePoP4X",
+    "Storage Density": "64GB eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "DRAM Density": "32Gb",
+    "DRAM Type": "LPDDR4X"
+  },
+  absentExtra: ["Package Code", "Config Code", "Controller Code", "Reference Status", "source", "status"]
+});
+
+assertRuleDecode("BWCL1EZC-32G-X", {
+  vendor: "biwin",
+  type: "eMCP",
+  densityMbit: 262144,
+  package: "FBGA-144, 8.60x10.40",
+  extra: {
+    "Product Family": "ePoP4X",
+    "Storage Density": "32GB eMMC",
+    "DRAM Density": "16Gb"
+  }
+});
+
+assertRuleDoesNotMatch("BWCK1KZC02");
+
+assertRuleDecode("BWCD28NP-32G", {
+  vendor: "biwin",
+  type: "eMCP",
+  densityMbit: 262144,
+  package: "FBGA-136, 10.00x10.00",
+  extra: {
+    "Product Family": "ePoP3",
+    "Storage Density": "32GB eMMC",
+    "DRAM Density": "8Gb",
+    "DRAM Type": "LPDDR3"
+  }
+});
+
+assertRuleDecode("BWCSAFEJ02-64G", {
+  vendor: "biwin",
+  type: "eMCP",
+  densityMbit: 524288,
+  package: "FBGA-201, 8.00x9.50",
+  extra: {
+    "Product Family": "ePoP5X",
+    "Storage Density": "64GB eMMC",
+    "DRAM Density": "24Gb",
+    "DRAM Type": "LPDDR5X"
+  }
+});
 
 assertRuleDecode("BW2A2MZC02-256G", {
   vendor: "biwin",
@@ -167,3 +274,44 @@ assertRuleDecode("BW3A2EYAKG256G", {
 });
 
 assertNoAdditionalFields("BW3A2EYAKG256G");
+
+assertRuleDecode("BW3Z9ZZZKG256G", {
+  vendor: "biwin",
+  type: "uMCP",
+  densityMbit: 2097152,
+  package: "FBGA-297, 11.50x13.00",
+  extra: {
+    "Storage Density": "256GB UFS",
+    "DRAM Density": "64Gb",
+    "DRAM Type": "LPDDR5X",
+    "Storage Interface": "UFS 3.1"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
+
+assertRuleDecode("BWEFMI008GN929", {
+  vendor: "biwin",
+  type: "eMMC",
+  densityMbit: 65536,
+  package: "FBGA-153, 11.50x13.00x1.10",
+  cellField: "SLC",
+  extra: {
+    "Storage Interface": "eMMC 5.1",
+    "NAND Technology": "Win-pSLC (TLC NAND)",
+    "Special Option": "pSLC Mode",
+    "Product Class": "Industrial Wide Temperature"
+  }
+});
+
+assertRuleDecode("BWEFMI128GN929", {
+  vendor: "biwin",
+  type: "eMMC",
+  densityMbit: 1048576,
+  package: "FBGA-153, 11.50x13.00x1.10",
+  cellField: "TLC",
+  extra: {
+    "Storage Interface": "eMMC 5.1",
+    "NAND Technology": "3D TLC",
+    "Product Class": "Industrial Wide Temperature"
+  }
+});

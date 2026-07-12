@@ -1,0 +1,133 @@
+[
+  {
+    "id": "vendor.biwin.dram.lpddr4x.v1",
+    "priority": 1010,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": {
+      "kind": "regex",
+      "value": "^BW[0-9A-Z]{3}X32(?:H2A|N2A)(?:16G|24G|32G|48G|64G)(?:I)?X$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["BW"],
+      "tables": {
+        "reference": {
+          "biwin_official_lpddr4x_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN LPDDR4/4X and TGL268 order information"
+          }
+        },
+        "package": {
+          "H2A": "FBGA-200, 10.00x14.50",
+          "N2A": "FBGA-200, 10.00x14.50"
+        },
+        "densityCode": ["16G", "24G", "32G", "48G", "64G"],
+        "densityByFamily": {
+          "MZF:16G": 8192,
+          "MZE:16G": 16384,
+          "MEI:24G": 24576,
+          "MZC:32G": 32768,
+          "CGB:32G": 32768,
+          "MEI:48G": 49152,
+          "MZC:64G": 65536,
+          "CGB:64G": 65536,
+          "MZA:16G": 16384
+        },
+        "gradeObj": {
+          "X": {
+            "operation_temperature": "-25°C ~ +85°C"
+          },
+          "IX": {
+            "operation_temperature": "-40°C ~ +95°C"
+          }
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 3, "to": "familyCode" },
+        { "op": "stripIfPrefix", "prefix": "X32" },
+        { "op": "take", "len": 3, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" },
+        { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
+        { "op": "tpl", "template": "{{familyCode}}:{{densityCode}}", "to": "familyDensityKey" },
+        { "op": "map", "from": "familyDensityKey", "table": "densityByFamily", "to": "density", "default": 0 },
+        { "op": "takeRegex", "pattern": "^(?:I)?X$", "to": "gradeCode", "default": "" },
+        { "op": "map", "from": "gradeCode", "table": "gradeObj", "to": "gradeObj", "default": {} },
+        { "op": "set", "to": "extra", "value": { "dram_type": "LPDDR4X", "dram_speed": "LPDDR4X-4266" } },
+        { "op": "merge", "into": "extra", "from": "gradeObj" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "dram",
+        "fields": { "$var": "extra" },
+        "fields.dram_density": { "$var": "density" },
+        "fields.dram_width": 32,
+        "fields.dram_voltage": "VDD1: 1.8V, VDD2: 1.1V, VDDQ: 0.6V",
+        "fields.package": { "$var": "package" },
+        "meta.ruleId": "vendor.biwin.dram.lpddr4x.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
+  },
+  {
+    "id": "vendor.biwin.dram.lpddr5x.v1",
+    "priority": 1010,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": {
+      "kind": "regex",
+      "value": "^BW[0-9A-Z]{3}X(?:32|64)(?:P8A|U9A|F9B)(?:32G|48G|64G|96G|128G)$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["BW"],
+      "tables": {
+        "reference": {
+          "biwin_official_lpddr5x_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN LPDDR5X specifications"
+          }
+        },
+        "deviceWidth": { "32": 32, "64": 64 },
+        "package": {
+          "P8A": "FBGA-315, 12.40x15.00",
+          "U9A": "FBGA-245, 8.20x12.40",
+          "F9B": "FBGA-496, 12.40x14.00"
+        },
+        "densityCode": ["128G", "32G", "48G", "64G", "96G"],
+        "density": {
+          "32G": 32768,
+          "48G": 49152,
+          "64G": 65536,
+          "96G": 98304,
+          "128G": 131072
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 3, "to": "familyCode" },
+        { "op": "stripIfPrefix", "prefix": "X" },
+        { "op": "take", "len": 2, "to": "widthCode" },
+        { "op": "map", "from": "widthCode", "table": "deviceWidth", "to": "deviceWidth", "default": -1 },
+        { "op": "take", "len": 3, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" },
+        { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "dram",
+        "fields.dram_type": "LPDDR5X",
+        "fields.dram_density": { "$var": "density" },
+        "fields.dram_width": { "$var": "deviceWidth" },
+        "fields.dram_speed": "LPDDR5X-8533",
+        "fields.dram_voltage": "VDD1: 1.8V, VDD2L: 0.9V, VDD2H: 1.05V, VDDQ: 0.3V-0.5V",
+        "fields.package": { "$var": "package" },
+        "fields.operation_temperature": "-25°C ~ +85°C",
+        "meta.ruleId": "vendor.biwin.dram.lpddr5x.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
+  }
+]

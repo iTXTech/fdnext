@@ -18,7 +18,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^KLU(?:AG|BG|CG|DG|EG|FG|GG|HG)[1248A][GJKVURNL][1H][BCDEFGHJKUVYZ][0-9A-Z](?:[BCEF][0-9A-Z][BCDEFGH][12PQ])?$"
+      "value": "^KLU(?:AG|BG|CG|DG|EG|FG|GG|HG)[1248AG][GJKVURNL][1H][BCDEFGHJKUVYZ][0-9A-Z](?:[BCEF][0-9A-Z][BCDEFGH][12PQ])?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -195,111 +195,6 @@
           "L:C": "SSV7",
           "L:D": "SSV9"
         },
-        "dumpedPartObj": {
-          "KLUBG4G1ZF": {
-            "ce_count": 4
-          },
-          "KLUCG4J1BB": {
-            "ce_count": 4,
-            "nand_component": "K9GDGD8U0B"
-          },
-          "KLUCG4J1BD": {
-            "ce_count": 4,
-            "nand_component": "K9GDGD8U0D"
-          },
-          "KLUCG4J1CB": {
-            "ce_count": 4,
-            "nand_component": "K9GDGD8U0B"
-          },
-          "KLUCG4J1ZD": {
-            "ce_count": 4,
-            "nand_component": "K9GDGD8U0D"
-          },
-          "KLUCG2K1EA": {
-            "ce_count": 2,
-            "nand_component": "K9AFGD8H0A"
-          },
-          "KLUCG2U1YB": {
-            "ce_count": 2,
-            "nand_component": "K9AFGD8H0B"
-          },
-          "KLUDGAG1BD": {
-            "ce_count": 8,
-            "nand_component": "K9GCGD8U0D"
-          },
-          "KLUDG8J1CB": {
-            "ce_count": 8,
-            "nand_component": "K9GDGD8U0B"
-          },
-          "KLUDG8J1ZD": {
-            "ce_count": 8,
-            "nand_component": "K9GDGD8U0D"
-          },
-          "KLUDG4U1EA": {
-            "ce_count": 4,
-            "nand_component": "K9AFGD8H0A"
-          },
-          "KLUDG4U1FB": {
-            "ce_count": 4,
-            "nand_component": "K9AFGD8H0B"
-          },
-          "KLUDG4U1YB": {
-            "ce_count": 4,
-            "nand_component": "K9AFGD8H0B"
-          },
-          "KLUDG4UHDB": {
-            "ce_count": 4,
-            "nand_component": "K9ADGD8J0B"
-          },
-          "KLUDG4UHDC": {
-            "ce_count": 4,
-            "nand_component": "K9AFGD8J0C"
-          },
-          "KLUDG8V1EE": {
-            "ce_count": 8,
-            "nand_component": "K9ADGD8U0E"
-          },
-          "KLUEGAJ1ZD": {
-            "ce_count": 8,
-            "nand_component": "K9GDGD8U0D"
-          },
-          "KLUEG8U1EA": {
-            "ce_count": 8,
-            "nand_component": "K9AFGD8H0A"
-          },
-          "KLUEG8U1YB": {
-            "ce_count": 8,
-            "nand_component": "K9AFGD8H0B"
-          },
-          "KLUEG8UHDB": {
-            "ce_count": 8,
-            "nand_component": "K9AFGD8J0B"
-          },
-          "KLUEG8UHDC": {
-            "ce_count": 8,
-            "nand_component": "K9AFGD8J0C"
-          },
-          "KLUFG8R1EM": {
-            "ce_count": 8,
-            "nand_component": "K9AHGD8H0M"
-          },
-          "KLUFG8RHDA": {
-            "ce_count": 8,
-            "nand_component": "K9AHGD8J0A"
-          },
-          "KLUFG8RHGB": {
-            "ce_count": 8,
-            "nand_component": "K9AHGD8J0B"
-          },
-          "KLUGGAR1FA": {
-            "ce_count": 8,
-            "nand_component": "K9AHGD8H0M"
-          },
-          "KLUGGARHDA": {
-            "ce_count": 8,
-            "nand_component": "K9AHGD8J0A"
-          }
-        },
         "package": {
           "B": "BGA-153, 11.5x13/11x13",
           "C": "BGA-153, 11.5x13, Revision",
@@ -468,11 +363,6 @@
           "to": "nandGenerationKey"
         },
         {
-          "op": "tpl",
-          "template": "KLU{{densityCode}}{{dieStackCode}}{{dieTypeCode}}{{voltageCode}}{{controllerCode}}{{generationCode}}",
-          "to": "basePartNumber"
-        },
-        {
           "op": "map",
           "from": "nandGenerationKey",
           "table": "nandGeneration",
@@ -484,13 +374,6 @@
           "from": "processNode",
           "table": "nand.die_profile",
           "to": "processObj",
-          "default": {}
-        },
-        {
-          "op": "map",
-          "from": "basePartNumber",
-          "table": "dumpedPartObj",
-          "to": "dumpedPartObj",
           "default": {}
         },
         {
@@ -572,11 +455,6 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "dumpedPartObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
           "from": "controllerObj"
         },
         {
@@ -637,9 +515,6 @@
         },
         "fields.package": {
           "$var": "package"
-        },
-        "fields.ce_count": {
-          "$path": "dumpedPartObj.ce_count"
         },
         "meta.nandDieProfileKey": {
           "$var": "processNode"

@@ -18,7 +18,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^UFS(?:64G|128|256)[0-9A-Z]{4}$"
+      "value": "^UFS(?:32G|64G|128|256)[0-9A-Z]{4}$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -29,22 +29,30 @@
           "kingston_official_ufs_table": {
             "status": "external_table_confirmed",
             "source": "Kingston UFS Part Numbers and Specifications"
+          },
+          "kingston_official_design_in_ufs_flyer": {
+            "status": "external_table_confirmed",
+            "source": "Kingston Design-in UFS flyer MKF-959.2EN"
           }
         },
         "densityCode": [
           "128",
           "256",
+          "32G",
           "64G"
         ],
         "density": {
           "128": 1048576,
           "256": 2097152,
+          "32G": 262144,
           "64G": 524288
         },
         "package": {
-          "128": "11x13x0.85",
-          "256": "11x13x0.95",
-          "64G": "11x13x0.85"
+          "32G:TXA7": "BGA-153, 11.5x13x0.85",
+          "64G:TXA7": "BGA-153, 11.5x13x0.85",
+          "64G:CY14": "BGA-153, 11x13x0.85",
+          "128:CY14": "BGA-153, 11x13x0.85",
+          "256:CY14": "BGA-153, 11x13x0.95"
         },
         "configObj": {
           "CY14": {
@@ -52,6 +60,13 @@
             "storage_interface": "UFS 3.1",
             "speed_grade": "G4 4P",
             "nand_technology": "TLC",
+            "cell_level": 3,
+            "package_code": "153B",
+            "operation_temperature": "-25°C ~ +85°C"
+          },
+          "TXA7": {
+            "storage_interface": "UFS 2.1",
+            "speed_grade": "G4 2L",
             "package_code": "153B",
             "operation_temperature": "-25°C ~ +85°C"
           }
@@ -72,12 +87,6 @@
           "default": 0
         },
         {
-          "op": "map",
-          "from": "densityCode",
-          "table": "package",
-          "to": "package"
-        },
-        {
           "op": "take",
           "len": 4,
           "to": "configCode"
@@ -88,6 +97,18 @@
           "table": "configObj",
           "to": "configObj",
           "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{densityCode}}:{{configCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "package",
+          "to": "package",
+          "default": ""
         },
         {
           "op": "set",
@@ -108,6 +129,7 @@
           "from": "extra",
           "keys": [
             "config_code",
+            "cell_level",
             "package_code"
           ]
         }
@@ -126,7 +148,9 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.cell_level": 3,
+        "fields.cell_level": {
+          "$path": "configObj.cell_level"
+        },
         "fields.package": {
           "$var": "package"
         },

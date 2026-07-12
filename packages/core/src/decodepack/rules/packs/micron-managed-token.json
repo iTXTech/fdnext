@@ -174,15 +174,30 @@
         "familyType": {
           "AC:AJ": "emmc",
           "BC:AQ": "emmc",
+          "AM:AK": "ufs",
+          "AO:AM": "ufs",
+          "AR:AM": "ufs",
+          "AR:AP": "ufs",
           "AR:AT": "ufs",
           "AS:AO": "ufs",
+          "AV:AU": "ufs",
           "AX:AT": "ufs",
           "AX:AU": "ufs",
+          "AX:AV": "ufs",
+          "AY:AY": "ufs",
           "AZ:AO": "ufs",
           "AV:AT": "ufs",
+          "AW:AT": "ufs",
+          "BA:AV": "ufs",
           "BC:AV": "ufs",
+          "BC:AX": "ufs",
           "BE:AX": "ufs",
-          "AY:AX": "ufs"
+          "AY:AX": "ufs",
+          "BE:AZ": "ufs",
+          "AY:AZ": "ufs",
+          "BG:AZ": "ufs",
+          "BG:BB": "ufs",
+          "BG:BC": "ufs"
         },
         "familyObj": {
           "AC:AJ": {
@@ -195,7 +210,24 @@
             "product_version": "eMMC 5.1",
             "group": "eMMC"
           },
+          "AM:AK": {
+            "product_version": "UFS 2.1",
+            "group": "UFS"
+          },
+          "AO:AM": {
+            "product_version": "UFS 2.1",
+            "group": "UFS"
+          },
+          "AR:AM": {
+            "product_version": "UFS 2.1",
+            "group": "UFS"
+          },
+          "AR:AP": {
+            "product_version": "UFS 3.0",
+            "group": "UFS"
+          },
           "AR:AT": {
+            "product_version": "UFS 3.1",
             "group": "UFS"
           },
           "AS:AO": {
@@ -203,10 +235,17 @@
             "group": "UFS"
           },
           "AX:AT": {
+            "product_version": "UFS 3.1",
             "group": "UFS"
           },
           "AX:AU": {
             "product_version": "UFS 2.2",
+            "group": "UFS"
+          },
+          "AX:AV": {
+            "group": "UFS"
+          },
+          "AY:AY": {
             "group": "UFS"
           },
           "AZ:AO": {
@@ -216,8 +255,23 @@
             "product_version": "UFS 3.1",
             "group": "UFS"
           },
+          "AV:AU": {
+            "product_version": "UFS 3.1",
+            "group": "UFS"
+          },
+          "AW:AT": {
+            "product_version": "UFS 3.1",
+            "group": "UFS"
+          },
+          "BA:AV": {
+            "group": "UFS"
+          },
           "BC:AV": {
             "product_version": "UFS 3.1",
+            "group": "UFS"
+          },
+          "BC:AX": {
+            "product_version": "UFS 4.0",
             "group": "UFS"
           },
           "BE:AX": {
@@ -226,6 +280,24 @@
           },
           "AY:AX": {
             "product_version": "UFS 4.0",
+            "group": "UFS"
+          },
+          "BE:AZ": {
+            "product_version": "UFS 3.1",
+            "group": "UFS"
+          },
+          "AY:AZ": {
+            "product_version": "UFS 3.1",
+            "group": "UFS"
+          },
+          "BG:AZ": {
+            "product_version": "UFS 4.0",
+            "group": "UFS"
+          },
+          "BG:BB": {
+            "group": "UFS"
+          },
+          "BG:BC": {
             "group": "UFS"
           }
         },
@@ -271,9 +343,11 @@
           }
         },
         "package": {
+          "AF": "VFBGA-153, 9x13x0.85",
           "AG": "VFBGA-153, 11x10x1.0",
           "AL": "BGA-153, 11.5x13x1.0",
           "AM": "VFBGA-153, 11.5x13x1.0, LF35",
+          "AP": "WFBGA-153",
           "BH": "TFBGA-153, 11.5x13x1.1",
           "CE": "LFBGA-169, 14x18x1.4",
           "CN": "VFBGA-153, 11.5x13x1.0, SAC 302",
@@ -302,6 +376,7 @@
           "HE": "BGA-153, 11x13x0.9",
           "HF": "WFBGA-153, 11.0x13x0.8",
           "HJ": "VFBGA-153, 11.0x13x1.0",
+          "HL": "VFBGA-237, 11x13x0.9",
           "HT": "VBGA-100, 14x18x1.0",
           "JP": "VFBGA-153, 11.5x13x1",
           "NA": "TBGA-100, 14x18x1.2",

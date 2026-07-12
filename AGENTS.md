@@ -36,6 +36,7 @@ Engine 生命周期约束：常规 Node、浏览器、Worker isolate 和服务�
 - 新增或调整规则后，优先补对应产品线测试；测试位置按芯片类型选择，例如 DRAM 用 `packages/core/test/decodepack/dram/<vendor-or-module>.test.ts`，PN / part decode 用 `packages/core/test/decodepack/part-number/<vendor-or-module>.test.ts`。
 - DRAM 搜索建议测试默认不跑；只有新增 / 调整 DRAM PN 资源、FBGA marking 或搜索建议相关行为时，额外运行 `pnpm -C packages/core test:dram:search`。如果改动影响 contract SDK 的 part search 输出，也额外运行 `pnpm -C packages/contract-test test:part-search:dram`。
 - Micron PN 搜索资源以 `packages/core/resources/mdb.json` 为优先来源。有效 MDB mapping 已包含同一 PN，或在该 PN 后通过 `-`、`:`、空格等 suffix 边界给出更详细的 speed / temperature / status / revision 时，不得再把较短或等价 PN 加入 `dram-pn.json` / `managed-nand-pn.json`。带 `DO NOT USE` 的 MDB 值不算有效覆盖。修改这些资源时必须保持 DRAM 与 managed NAND 的 MDB 去重审计测试通过。
+- 新增 SSD 整盘、DIMM / SODIMM / RDIMM、LPCAMM 等模组 decoder 前必须获得用户明确批准，不能从“所有品类”或一般补全任务推断授权。Micron `MTFC` 等芯片级 BGA SSD / managed NAND 可按既有范围维护；不要据此扩展到其他厂商的盘级 SSD 或内存模组。
 - 不新增厂商规则、资源或文档，除非用户明确同意该厂商；默认只完善仓库已有厂商和产品线。
 - DecodePack / PN 资料完善优先级：第一优先 SK hynix、Samsung、Micron；第二优先 YMTC、CXMT；其他现有厂商只在前两级没有更高价值缺口或属于顺手修复时处理。
 - 新增或重命名 canonical field key 时，同步检查 `packages/core/src/field-registry.ts`、`packages/core/resources/lang/eng.json` 和 `packages/core/resources/lang/chs.json`。

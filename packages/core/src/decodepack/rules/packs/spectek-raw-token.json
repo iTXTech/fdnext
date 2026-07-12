@@ -588,9 +588,34 @@
             "async": true
           }
         },
+        "speedGrade": {
+          "37": "NV-DDR2 TM8 533MT/s",
+          "15": "NV-DDR TM3 133MT/s",
+          "3": "NV-DDR3 TM9 666MT/s",
+          "12": "NV-DDR TM4 166MT/s",
+          "25": "NV-DDR3 TM10 800MT/s",
+          "10": "NV-DDR TM5 200MT/s",
+          "18": "NV-DDR3 TM11 1066MT/s",
+          "75": "NV-DDR2 TM5 266MT/s",
+          "16": "NV-DDR3 TM12 1200MT/s",
+          "6": "NV-DDR2 TM6 333MT/s",
+          "5": "NV-DDR2 TM7 400MT/s"
+        },
+        "productStatus": {
+          "AS": { "prod_status": "Full Spec for SSD" },
+          "AL": { "prod_status": "Full Spec for USB/SD and low-end SSD" },
+          "AF": { "prod_status": "Full Spec for low-end USB/SD" },
+          "AR": { "prod_status": "Relaxed Spec" },
+          "ES": { "prod_status": "Engineering Sample" },
+          "MB": { "prod_status": "Mixed Bins" },
+          "PG": { "prod_status": "Partial Good Mixed Bins" },
+          "UT": { "prod_status": "Untested" },
+          "S7": { "prod_status": "Partially Tested" },
+          "S9": { "prod_status": "Partially Tested" }
+        },
         "package": {
-          "WP": "TSOP-I-48, Center Package Leads CPL PB free",
-          "WC": "TSOP-I-48, Off-center Package Leads OCPL PB free",
+          "WP": "TSOP-I-48, 12x20x1.2, Center Package Leads CPL Pb-free",
+          "WC": "TSOP-I-48, 12x20x1.2, Off-center Package Leads OCPL Pb-free",
           "C3": "ULGA-52, 12x17x0.65",
           "C4": "VLGA-52, 12x17x1.0",
           "C5": "VLGA-52, 14x18x1.0, SDP/DDP/QDP",
@@ -859,6 +884,28 @@
           "to": "package"
         },
         {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedGrade",
+          "to": "speedGrade",
+          "default": null
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productStatusCode"
+        },
+        {
+          "op": "map",
+          "from": "productStatusCode",
+          "table": "productStatus",
+          "to": "productStatusObj",
+          "default": {}
+        },
+        {
           "op": "mergeIf",
           "if": "hasDieProfile",
           "into": "extra",
@@ -901,6 +948,12 @@
         },
         "fields.package": {
           "$var": "package"
+        },
+        "fields.speed_grade": {
+          "$var": "speedGrade"
+        },
+        "fields.prod_status": {
+          "$path": "productStatusObj.prod_status"
         },
         "meta.lookupPartNumbers": [
           {
@@ -1197,9 +1250,34 @@
             "async": true
           }
         },
+        "speedGrade": {
+          "37": "NV-DDR2 TM8 533MT/s",
+          "15": "NV-DDR TM3 133MT/s",
+          "3": "NV-DDR3 TM9 666MT/s",
+          "12": "NV-DDR TM4 166MT/s",
+          "25": "NV-DDR3 TM10 800MT/s",
+          "10": "NV-DDR TM5 200MT/s",
+          "18": "NV-DDR3 TM11 1066MT/s",
+          "75": "NV-DDR2 TM5 266MT/s",
+          "16": "NV-DDR3 TM12 1200MT/s",
+          "6": "NV-DDR2 TM6 333MT/s",
+          "5": "NV-DDR2 TM7 400MT/s"
+        },
+        "productStatus": {
+          "AS": { "prod_status": "Full Spec for SSD" },
+          "AL": { "prod_status": "Full Spec for USB/SD and low-end SSD" },
+          "AF": { "prod_status": "Full Spec for low-end USB/SD" },
+          "AR": { "prod_status": "Relaxed Spec" },
+          "ES": { "prod_status": "Engineering Sample" },
+          "MB": { "prod_status": "Mixed Bins" },
+          "PG": { "prod_status": "Partial Good Mixed Bins" },
+          "UT": { "prod_status": "Untested" },
+          "S7": { "prod_status": "Partially Tested" },
+          "S9": { "prod_status": "Partially Tested" }
+        },
         "package": {
-          "WP": "TSOP-I-48, Center Package Leads CPL PB free",
-          "WC": "TSOP-I-48, Off-center Package Leads OCPL PB free",
+          "WP": "TSOP-I-48, 12x20x1.2, Center Package Leads CPL Pb-free",
+          "WC": "TSOP-I-48, 12x20x1.2, Off-center Package Leads OCPL Pb-free",
           "C3": "ULGA-52, 12x17x0.65",
           "C4": "VLGA-52, 12x17x1.0",
           "C5": "VLGA-52, 14x18x1.0, SDP/DDP/QDP",
@@ -1468,6 +1546,28 @@
           "to": "package"
         },
         {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speedGrade",
+          "to": "speedGrade",
+          "default": null
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productStatusCode"
+        },
+        {
+          "op": "map",
+          "from": "productStatusCode",
+          "table": "productStatus",
+          "to": "productStatusObj",
+          "default": {}
+        },
+        {
           "op": "mergeIf",
           "if": "hasDieProfile",
           "into": "extra",
@@ -1510,6 +1610,12 @@
         },
         "fields.package": {
           "$var": "package"
+        },
+        "fields.speed_grade": {
+          "$var": "speedGrade"
+        },
+        "fields.prod_status": {
+          "$path": "productStatusObj.prod_status"
         },
         "meta.lookupPartNumbers": [
           {

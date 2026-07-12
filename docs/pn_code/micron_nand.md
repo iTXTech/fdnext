@@ -28,6 +28,17 @@
   `MT29FB8T08EALAAM5-QK-E` 详情页，可作为 PN 存在性与产品线 reference。
   <https://www.micron.com/products/obsolete/obsolete-tlc-nand/part-catalog/part-detail/mt29fb16t08galaam5-t-b>
   <https://www.micron.com/products/obsolete/obsolete-tlc-nand/part-catalog/part-detail/mt29fb8t08ealaam5-qk-e>
+- Micron 官方 current SLC NAND catalog JSON 在 2026-07-12 审计时返回 107 个 PN。逐 PN 对照
+  catalog 的 capacity、bus width、technology、package pin/dimension 后，现有 current structured
+  decoder 107/107 一致；实际出现的 `WP/H4/HC/12/WB/SF/H1/H3` package token 均已有 token
+  映射，因此本轮没有为了扩大样例数重复加入完整 PN 查表。
+  <https://www.micron.com/content/micron/us/en/products/storage/nand-flash/slc-nand/part-catalog/_jcr_content.products.json/getpartcatalog/storage/slc-nand/-/en_US>
+- Micron `TN-29-19: NAND Flash 101` 的 READ ID 表逐 bit 给出旧 2Gb SLC
+  `MT29F2G08/16 AAD/ABD` 的 device ID、die 数、cell、page、block、位宽、plane
+  与电压。Identifier DecodePack 因此只对该表明确列出的 `AA/BA/CA/DA` device ID
+  补充 2Gb density、x8/x16、1.8V/3.3V、2KB page 和 128KB block；不把旧格式
+  位段泛化到现代 3D NAND ID。
+  <https://user.eng.umd.edu/~blj/CS-590.26/micron-tn2919.pdf>
 
 ## 规则状态
 

@@ -34,11 +34,12 @@ import {
 assertRuleDecode("SUGNM1126A6BPIET-046BT", {
   vendor: "spectek",
   type: "eMCP",
+  densityMbit: 8192,
   cellField: "SLC",
   voltage: "NAND Vcc: 1.8V, LPDRAM VDD: 1.1V, VDDQ: 1.1V/0.6V",
   package: "VFBGA-149/224, 8.0x9.5x1.0, 0.5",
   extra: {
-    "Storage Density": "8Gb NAND",
+    "Storage Density": "1GB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "8Gb",
     "DRAM Type": "LPDDR4",
@@ -52,11 +53,12 @@ assertRuleDecode("SUGNM1126A6BPIET-046BT", {
 assertRuleDecode("FNUGNM1126A6BPIET-046BT", {
   vendor: "spectek",
   type: "eMCP",
+  densityMbit: 8192,
   cellField: "SLC",
   voltage: "NAND Vcc: 1.8V, LPDRAM VDD: 1.1V, VDDQ: 1.1V/0.6V",
   package: "VFBGA-149/224, 8.0x9.5x1.0, 0.5",
   extra: {
-    "Storage Density": "8Gb NAND",
+    "Storage Density": "1GB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "8Gb",
     "DRAM Type": "LPDDR4",
@@ -70,11 +72,12 @@ assertRuleDecode("FNUGNM1126A6BPIET-046BT", {
 assertRuleDecode("SMCNM1126A6BPIET-062UT", {
   vendor: "spectek",
   type: "eMCP",
+  densityMbit: 8192,
   cellField: "SLC",
   voltage: "NAND Vcc: 1.8V, LPDRAM VDD: 1.1V, VDDQ: 1.1V/0.6V",
   package: "VFBGA-149/224, 8.0x9.5x1.0, 0.5",
   extra: {
-    "Storage Density": "8Gb NAND",
+    "Storage Density": "1GB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "8Gb",
     "DRAM Type": "Mobile LPDRAM",
@@ -289,3 +292,4 @@ assertRuleDecode("DT57G2LALC", {
 
 
 assertNotFound("SM671PZC-BFS");
+assertNotFound("PHONY123");

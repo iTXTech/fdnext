@@ -31,6 +31,7 @@
   <https://hisubway.online/blog/ssd/>
   <https://www.puris.net/dir/product/flash/rawnand>
 - 本地资料：`packages/core/resources/fdb.json`、`../fdfdb/smssd/2259XT3_Y1226.SET`、`../fdfdb/smssd/2259XT2_Y0321.SET`、`../fdfdb/smufd/flash_3281BB.dbf`、`../fdfdb/smff/ForceFlash-W1116.SET`、`../fdfdb/ma/mas1102_16.ini` 中的 H25 PN、Flash ID、容量、Vx/MLC/TLC/QLC 标签。
+- SK hynix `H27U2G8F2C` 2Gbit datasheet 的 Legacy Read ID 表：确认 `AA/BA/CA/DA` device ID 分别编码 1.8V/3.3V 与 x8/x16，并确认 3rd/4th/5th byte 的 die/cell、page/block/spare、plane 位段。公开镜像：<https://www.alldatasheet.fr/datasheet-pdf/pdf/2079233/HYNIX/H27U2G8F2CTR.html>。
 - 维护者补充的 SK hynix 3D NAND 表记录 `HYV2` 到 `HYV8` 的层数、cell、die 容量、Toggle 接口与 die marking。`H25FT*` / `H27*` 属于 die marking，只进入 `die_mark`；固件匹配仍使用 `HYVx` / `HYVxQ` / `HYVxM` 这类 profile key。
 - 维护者补充的 H27/H2E/H2N ordering chart 覆盖 `H27Q4T8LQA3R-BDH`、`H2E...` 和 `H2N...` 这类结构，给出 voltage、device density、die stack、configuration、die generation、package、material、bad block、temperature 与 I/O speed token。profile 判断按 `cell family + derived die density + die generation` 组合，不按完整 PN 白名单。
 - SK hynix NAND Flash catalog mirror 列出 SLC/MLC/TLC/eMMC/E2NAND3.0/SSD 分类，其中 E2NAND3.0 页面使用 `PRODUCT` / `BLOCK SIZE` 维度。
@@ -212,6 +213,19 @@ H25 目前分成两类结构处理：
 `HYV6` 的公开 die density 需要按 die marking 区分：`H25FTB0` 为 512Gb，`H25GTM0` 为 1Tb。共享 `nand.die_profile` 只保留 `HYV6` 的层数、cell 与接口信息，H25T/G package 规则按 package density / die count 计算并输出 die density。
 
 `HY14` 表示旧 2D 14nm profile，公开制程仍显示为 `14nm`。SK hynix Flash ID 中 `E0` 不能单独判作 HY14；当已解析 die size 为 1Tb 级且 cell 为 TLC 时，`E*` die code 归入 `HYV9`。
+
+### Legacy 2Gbit Flash ID
+
+`H27U2G8F2C` 的 5-byte Read ID 使用同一组结构化 token，而不是完整 ID 白名单：
+
+| 2nd byte | Voltage | Width | Density |
+| --- | --- | --- | --- |
+| `AA` | 1.8V | x8 | 2Gbit |
+| `BA` | 1.8V | x16 | 2Gbit |
+| `CA` | 3.3V | x16 | 2Gbit |
+| `DA` | 3.3V | x8 | 2Gbit |
+
+这组 legacy device ID 使第 4 byte 按旧表解释为 page `1/2/4/8KB`、block `64/128/256/512KB`；不能套用后期 SK hynix ID 的扩大一档几何表。四个已确认配置均输出 `2KB` page、`128KB` block 和 `64B` spare。
 
 ### H25T / H25G NAND package
 

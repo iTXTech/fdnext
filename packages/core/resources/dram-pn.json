@@ -1613,6 +1613,10 @@
   },
   {
     "vendor": "cxmt",
+    "pn": "CXDR4E8BM-UP-A"
+  },
+  {
+    "vendor": "cxmt",
     "pn": "CXDB5CCAM-MK"
   },
   {
@@ -2042,6 +2046,174 @@
   {
     "vendor": "skhynix",
     "pn": "H5CG56MMBDX052"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5ANBG6NAMR-XNC"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5ANBG8NABR-XNC"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54GG6AYRHX263"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G66CYRHX258"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54GE6AYRHX270"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G56BYYJX089"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G46BYYJX085"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G66AYZVX106"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G66AYZQX106"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G66BYYVX104"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G66BYYPX104"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G66BYYQX104"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G56BYYQX089"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G56BYYPX089"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G56BYYVX089"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G46BYYQX085"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G46BYYVX085"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G46BYYPX085"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G38AYRPX264"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G36AYRPX246"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G36AYRQX246"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G38AYRVX264"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G36AYRVX246"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G38AYRQX264"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G26AYRPX066"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G26AYRVX066"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H54G26AYRQX066"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HKNNNFBMAVAR-NEH"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HKNNNFBMMVAR-NEH"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HKNNNEBMAVAR-NEH"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HKNNNCRMAVAR-NEH"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HKNNNCRMBVAR-NEH"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNFBMBLPR-NEE"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNFBMALPR-NEE"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNCRMBLPR-NEE"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H9HCNNNCRMALPR-NEE"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5UG7HME03X020R"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5UG7HMD83X020R"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5WRAGESM8W-N8L"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5WRAGESM8W-N6L"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5WR64ESM4W-N8L"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H5WR64ESM4W-N6L"
   },
   {
     "vendor": "samsung",
@@ -2660,6 +2832,314 @@
     "pn": "K4ZAF325BM-SC14"
   },
   {
+    "vendor": "samsung",
+    "pn": "K4F4E164HF-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4F4E164HF-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4F6E3S4HB-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4F8E3S4HF-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4F8E3S4HF-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4FBE3D4HB-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4FBE3D4HB-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4FHE3S4HA-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4FHE3S4HA-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4FHE3S4HA-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3UH6H60AM-TFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3UHDHD0BA-AHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3UHDHD0BM-AHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U2E3S4AA-TFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U2E3S4AA-THCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U2E3S4AA-TUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U6E3S4AB-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U6E3S4AB-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U6E3S4AM-TFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U6E3S4AM-THCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U8E3S4AF-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U8E3S4AF-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UBE3D4AB-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UBE3D4AB-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UBE3D4AB-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UBE3D4AM-TFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UCE3Q4AB-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UHE3D4AA-TFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UHE3S4AA-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UJE3D4AA-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UJE3D4AA-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UJE3D4AA-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UJE3Q4AA-THCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LK7K70BM-BGCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL3L30CM-JGCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50CM-BGCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL5L50CM-MGCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL8L80DM-MGCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL9L90DM-MGCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KLALA0DM-MGCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4F4E164HF-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4F6E3S4HB-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4F6E3S4HB-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4F8E3S4HF-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4FBE3D4HB-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3UH6H60AM-THCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3UH7H70BM-AFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3UH7H70BM-AHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3UH7H70MM-TFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3UH7H70MM-THCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3UHDHD0BA-AFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3UHDHD0BM-AFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U6E3S4AB-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U6E3S4AM-TUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4U8E3S4AF-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UBE3D4AM-THCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UBE3D4AM-TUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UCE3Q4AB-KFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UCE3Q4AB-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UHE3D4AA-THCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UHE3D4AA-TUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UHE3S4AA-KHCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UHE3S4AA-KUCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K4UJE3Q4AA-TFCL"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LK4K40CM-BGCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LK4K40CM-JHCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LK4K40CM-JUCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LK6K60BM-BGCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LK6K60BM-JGCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LK7K70BM-JGCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LKCKC0BM-MGCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3LKDKD0CM-BGCP"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL2L20DM-JGCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL3L30CM-BGCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL4L40DM-BGCT"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL7L70EM-MGCU"
+  },
+  {
+    "vendor": "samsung",
+    "pn": "K3KL8L80CM-MGCT"
+  },
+  {
     "vendor": "cxmt",
     "pn": "CXDQ3BFAM-WG"
   },
@@ -2726,6 +3206,18 @@
   {
     "vendor": "micron",
     "pn": "MT48H16M32LFB5-75:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT65B12G16080A00QG-60:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT65B12G16080A00QG-92:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT65B18G16120A00QH-92:A"
   },
   {
     "vendor": "issi",
@@ -10034,5 +10526,121 @@
   {
     "vendor": "gigadevice",
     "pn": "GDB5CCQN-ML"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMZCX32H2A-64G-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWCGBX32N2A-64G-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMEIX32H2A-48G-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMZCX32H2A-32G-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWCGBX32N2A-32G-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMEIX32H2A-24G-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMZEX32H2A-16G-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMZFX32H2A-16G-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMZAX32H2A-16GI-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMZCX32H2A-32GI-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMEIX32H2A-48GI-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMZCX32H2A-64GI-X"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMYAX32P8A-128G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMYAX32P8A-64G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMEJX32P8A-48G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMYAX32P8A-32G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMYAX32U9A-64G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMEJX32U9A-48G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMYAX32U9A-32G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMYAX64F9B-128G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMEJX64F9B-96G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMYAX64F9B-64G"
+  },
+  {
+    "vendor": "biwin",
+    "pn": "BWMETX64F9B-48G"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "F60C1A0002-M6AR"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "F60C1A0002-M6KR"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "F60C1A0002-M69W"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "F60C1A0004-M79R"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "F60C1A0004-M7KR"
+  },
+  {
+    "vendor": "longsys",
+    "pn": "F60C1A0004-M79W"
   }
 ]

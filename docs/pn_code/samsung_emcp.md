@@ -41,6 +41,27 @@
     <https://semiconductor.samsung.com/mcp/model/lpddr5-umcp/km8v9001jm-b813/>
   - `KMJS9001RM-BG01`: 256GB UFS 3.1 + 96Gb LPDDR5、297 FBGA、6400 Mbps。
     <https://semiconductor.samsung.com/mcp/model/lpddr5-umcp/kmjs9001rm-bg01/>
+- Samsung 官网 sitemap 继续保留本轮审计的 15 个 MCP exact 型号 URL；可访问的 Samsung
+  地区型号页以及搜索缓存直接给出 package、speed、DRAM type/density、eStorage
+  version/density。规则只把这些型号共同暴露的局部 token 关系写入表：
+  - `KM3H/P/V6001C*`：type `3` 为 eMMC 5.1 + LPDDR4X eMCP；`H/P + 1C`
+    为 64GB，`V + 1C` 为 128GB，RAM `A/M` 为 48Gb，package 为 254 FBGA；
+    `V + tail B705/B708` 分别确认 3733/4266 Mbps。
+  - `KM4X60002M`：`4:X:02` 为 32GB eMMC，`02:M` 为 24Gb LPDDR4X。
+  - `KM8F8001L/M` 与 `KM8V8001L`：`1L:M` 为 80Gb、`1M:M` 为 96Gb；
+    `8:F + 1L/1M` 为 256GB UFS，`8:V + 1L` 为 128GB UFS。
+  - `KMAIA001PM` / `KMJIA001RM`：`A00` 为 UFS 3.1；type `A/J` 为 LPDDR5，
+    package token `I` 为 297 FBGA，分别是 256GB + 64Gb / 256GB + 96Gb、6400 Mbps。
+  <https://semiconductor.samsung.com/sitemap.xml>
+  <https://semiconductor.samsung.com/jp/mcp/model/lpddr5-umcp/kmaia001pm-b819/>
+  <https://semiconductor.samsung.com/kr/mcp/umcp/lpddr5-umcp/km8f8001mm-b813/>
+- Samsung sitemap 同时确认旧 `KMQ*` / `KMR*` 型号存在。可信产品表与 FCC BOM 同向确认
+  `Q/R + 600` 为 eMMC 5.1 + LPDDR3-1866、221 FBGA；`Q:D/E:13` 为 16GB、
+  `Q:X:13` 为 32GB、`R:P:14` 为 64GB，RAM 为 16Gb / 32Gb。它们按
+  type + package + capacity + RAM token 组合解析，不以完整 PN 查表。
+  <https://www.win-source.net/products/detail/samsung/kmqd60013m-b318.html>
+  <https://datasheets.globalspec.com/ds/samsung-electronics/kmqx60013a-b419/36440e7e-7ebe-412b-9c9d-16e04b4d4ce3>
+  <https://fcc.report/FCC-ID/2A67L-X9/6084888.pdf>
 - 上述 13 个官方 exact PN 已加入 managed NAND 搜索资源；解码继续使用 storage type、package、speed/generation、storage capacity、RAM 等结构化 token，不使用完整 PN 匹配。
 - Samsung `KMGD6001BM-B421` datasheet mirror 给出 32GB e.MMC + 24Gb LPDDR3、221FBGA、eMMC 5.1。
   <https://14469692.s21i.faiusr.com/61/ABUIABA9GAAg5e-MqgYo9fmgzQE.pdf>
@@ -72,9 +93,9 @@ KM + storage type + package + speed/generation + storage capacity + RAM + 4-char
 | storage type | 第 3 字符 | 图片确认 `D/3/R/Q/F/M` 为 eMMC，`E/5/A/P` 为 UFS；已知样本补充 `G/4` 为 eMMC，`8/J` 为 UFS |
 | storage type `2` | 第 3 字符 | obsolete 官方 `KM2*` family 确认 UFS + LPDDR4X uMCP |
 | package | 第 4 字符 | 单独或与 storage type 组合确认 144 / 221 / 254 / 297 FBGA |
-| speed/generation | 第 5-7 字符 | 图片确认 `600` = eMMC 5.1、`100` = eMMC 5.0、`200` = UFS 2.0、`800` = UFS 2.1、`500` = UFS 3.0、`900` = UFS 3.1；已知样本补充 `5:900` / `8:900` = UFS 2.2 |
-| storage capacity | 第 8-9 字符 | 已知样本确认 `12/1Z/0H/1B/1K/1D/18/0C/1J/1R` 等容量 token；图片补充 `S` = 256GB |
-| RAM | 第 10 字符 | 图片给出 RAM code 对照，但旧 eMCP 与新 uMCP 的同一 RAM token 存在复用；当前只对已知 capacity + RAM 组合输出 8Gb / 16Gb / 24Gb / 32Gb / 48Gb / 64Gb / 96Gb |
+| speed/generation | 第 5-7 字符 | 图片确认 `600` = eMMC 5.1、`100` = eMMC 5.0、`200` = UFS 2.0、`800` = UFS 2.1、`500` = UFS 3.0；type-scoped `900` 可表示 UFS 2.2 / 3.1，`A00` 在 `A/J` family 表示 UFS 3.1 |
+| storage capacity | 第 8-9 字符 | 已知样本确认 `12/1Z/0H/1B/1K/1D/18/0C/1J/1R/1P/1L/1M/02/13/14` 等 token；同一 token 跨 type/package 可能复用，必须用局部组合 key |
+| RAM | 第 10 字符 | 图片给出 RAM code 对照，但旧 eMCP 与新 uMCP 的同一 RAM token 存在复用；当前按 capacity + RAM 或 type + package + capacity + RAM 组合输出 8Gb / 16Gb / 24Gb / 32Gb / 48Gb / 64Gb / 80Gb / 96Gb |
 
 没有新增泛化到所有 Samsung `KM*` 的 decoder。原因：
 
@@ -99,6 +120,5 @@ KM + storage type + package + speed/generation + storage capacity + RAM + 4-char
 
 ## 待确认
 
-- Samsung MCP PN 前缀集合：旧资料常见 `KMS*`，部分分销页面可见 `KMQ*`，项目现有 vendor 识别还有 `KMD/KMF/KMN/KMV`。
-- 这些前缀是否分别对应 eMCP、uMCP、ePoP 或旧 MCP，需要外部 ordering table 或多个高置信样本确认后再进规则。
+- Samsung MCP PN 中仍有 `KMS*`、`KMN*` 等未被高置信多样本覆盖的旧 family；不能只凭前缀决定 eMCP、uMCP 或 ePoP。
 - Samsung 官网部分历史 eMMC + DRAM MCP 型号仍挂在 `lpddr5-umcp` URL path 下，规则按 `eStorage Version` 和组合规格分类为 eMCP，而不是按 URL path 分类。

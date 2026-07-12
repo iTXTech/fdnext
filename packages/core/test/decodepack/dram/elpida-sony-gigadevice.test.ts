@@ -274,7 +274,7 @@ assertDram("CXDR4E8BM-CS-A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "FBGA-82",
+  package: "FBGA-82, 9x11",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Count": 1,
@@ -294,7 +294,7 @@ assertDram("CXDR4E8BM-CR-A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "FBGA-82",
+  package: "FBGA-82, 9x11",
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Die Count": 1,
@@ -303,6 +303,25 @@ assertDram("CXDR4E8BM-CR-A", {
     "Config Code": "4E8",
     "DRAM Speed": "DDR5-4800",
     "Operation Temperature": "Commercial (0C~95C)",
+    "Die Revision": "Rev A",
+    "Process Node": "CXMT G4 / 16nm-class"
+  }
+});
+
+assertDram("CXDR4E8BM-UP-A", {
+  vendor: "cxmt",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "FBGA-82, 9x11",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "Package Code": "BM",
+    "Config Code": "4E8",
+    "DRAM Speed": "DDR5-4800",
     "Die Revision": "Rev A",
     "Process Node": "CXMT G4 / 16nm-class"
   }

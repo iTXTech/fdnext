@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(?:MT29V|MT30A)ZZZ[1-9A-E][A-F][VWXY12456789AB][0-9A-Z][A-Y][A-P][A-Z]{2}-?(?:026|031|046|053|062)(?:WL|W)?[0-9A-Z]+$"
+      "value": "^(?:MT29V|MT30A)ZZZ[1-9A-E][A-F][VWXY12456789AB][0-9A-Z][A-Y][A-P][A-Z]{2}-?(?:023|026|031|046|053|062)(?:WL|W)?[0-9A-Z]+$"
     },
     "tokenDecoder": {
       "tables": {
@@ -204,16 +204,20 @@
         },
         "package": {
           "MT29V:BA": "uMCP-254",
-          "MT29V:PR": "uMCP-254",
-          "MT29V:SL": "uMCP-254",
-          "MT29V:SM": "uMCP-254",
+          "MT29V:PR": "TFBGA-254, 11.5x13x1.1",
+          "MT29V:SL": "VFBGA-254, 11.5x13x0.9",
+          "MT29V:SM": "VFBGA-254, 11.5x13x1.0",
           "MT29V:WL": "uMCP-254",
-          "MT30A:EQ": "uMCP-297",
-          "MT30A:QS": "uMCP-297",
-          "MT30A:WL": "uMCP-297",
-          "MT30A:XM": "uMCP-297"
+          "MT30A:EQ": "LFBGA-297, 11.5x13x1.3",
+          "MT30A:QS": "TFBGA-297, 11.5x13x1.1",
+          "MT30A:WL": "TFBGA-297, 11.5x13x1.2",
+          "MT30A:XL": "VFBGA-297, 11.5x13x0.9",
+          "MT30A:XM": "VFBGA-297, 11.5x13x1.0"
         },
         "speedObj": {
+          "023": {
+            "dram_speed": "LPDDR5-8533"
+          },
           "026": {
             "dram_speed": "LPDDR5-8533"
           },

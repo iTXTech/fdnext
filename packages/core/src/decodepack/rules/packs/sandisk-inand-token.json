@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^SDIN(?:5C2|5C4|7DP4|7DU2|7LP4|8DE[124])-?(?:00[48]G|0(?:16|32|64)G|4G|8G|16G|32G|64G)(?:[-_][0-9A-Z]+)?$"
+      "value": "^SDIN(?:5C2|5C4|7CP4|7DP4|7DU2|7LP4|8DE[124])-?(?:00[48]G|0(?:16|32|64)G|4G|8G|16G|32G|64G|128G)(?:[-_][0-9A-Z]+)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -36,9 +36,16 @@
             "nand_technology": "MLC NAND"
           },
           "7DP4": {
-            "product_family": "iNAND legacy eMMC",
-            "storage_interface": "eMMC",
-            "nand_technology": "MLC NAND"
+            "product_family": "iNAND Extreme",
+            "storage_interface": "eMMC 4.5",
+            "nand_technology": "X2 MLC NAND",
+            "cell_level": "MLC"
+          },
+          "7CP4": {
+            "product_family": "iNAND Extreme",
+            "storage_interface": "eMMC 4.5",
+            "nand_technology": "X2 MLC NAND",
+            "cell_level": "MLC"
           },
           "7DU2": {
             "product_family": "iNAND Ultra",
@@ -88,12 +95,25 @@
           "256G": 2097152,
           "512G": 4194304,
           "1T00": 8388608
+        },
+        "packageByFamilyDensity": {
+          "5C2:32G": "BGA-169, 12x16",
+          "5C4:32G": "BGA-169, 12x16",
+          "5C4:64G": "BGA-169, 12x16",
+          "7DP4:16G": "BGA-153, 11.5x13x1.0",
+          "7DP4:32G": "BGA-153, 11.5x13x1.0",
+          "7DP4:64G": "BGA-153, 11.5x13x1.4",
+          "7CP4:128G": "BGA-169, 12x16x1.6",
+          "7DU2:8G": "BGA-153, 11.5x13x1.0",
+          "7DU2:16G": "BGA-153, 11.5x13x1.0",
+          "7DU2:32G": "BGA-153, 11.5x13x1.0",
+          "7DU2:64G": "BGA-153, 11.5x13x1.0"
         }
       },
       "steps": [
         {
           "op": "takeRegex",
-          "pattern": "^(?:5C2|5C4|7DP4|7DU2|7LP4|8DE[124])",
+          "pattern": "^(?:5C2|5C4|7CP4|7DP4|7DU2|7LP4|8DE[124])",
           "to": "familyCode"
         },
         {
@@ -118,7 +138,19 @@
           "op": "takeLongest",
           "table": "density",
           "to": "density",
+          "keyTo": "densityCode",
           "default": 0
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{densityCode}}",
+          "to": "familyDensityKey"
+        },
+        {
+          "op": "map",
+          "from": "familyDensityKey",
+          "table": "packageByFamilyDensity",
+          "to": "package"
         },
         {
           "op": "stripIfPrefix",
@@ -175,6 +207,9 @@
         },
         "fields.density": {
           "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
         },
         "meta.nandDieProfileKey": {
           "$var": "processNode"

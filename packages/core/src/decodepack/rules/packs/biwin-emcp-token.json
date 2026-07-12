@@ -1,5 +1,69 @@
 [
   {
+    "id": "vendor.biwin.emcp3.v1",
+    "priority": 1001,
+    "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
+    "match": { "kind": "regex", "value": "^BWCE2[0-9A-Z]{3}(?:04G|08G|16G)$" },
+    "tokenDecoder": {
+      "stripPrefixes": ["BWCE2"],
+      "tables": {
+        "reference": {
+          "biwin_official_emcp3_order_table": {
+            "status": "external_table_confirmed",
+            "source": "BIWIN eMCP LPDDR3 order information"
+          }
+        },
+        "configObj": {
+          "4NL": { "dram_density": "4Gb", "package": "FBGA-221, 11.50x13.00" },
+          "8NH": { "dram_density": "8Gb", "package": "FBGA-221, 11.50x13.00" },
+          "ENH": { "dram_density": "16Gb", "package": "FBGA-221, 11.50x13.00" }
+        },
+        "densityCode": ["04G", "08G", "16G"],
+        "density": { "04G": 32768, "08G": 65536, "16G": 131072 },
+        "storageDensity": { "04G": "4GB eMMC", "08G": "8GB eMMC", "16G": "16GB eMMC" }
+      },
+      "steps": [
+        { "op": "take", "len": 3, "to": "configCode" },
+        { "op": "map", "from": "configCode", "table": "configObj", "to": "configObj", "default": {} },
+        { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        { "op": "map", "from": "densityCode", "table": "storageDensity", "to": "storageDensity", "default": "" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "biwin",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields.density": { "$var": "density" },
+        "fields.package": { "$path": "configObj.package" },
+        "fields.storage_density": { "$var": "storageDensity" },
+        "fields.storage_interface": "eMMC 5.1",
+        "fields.dram_density": { "$path": "configObj.dram_density" },
+        "fields.dram_type": "LPDDR3",
+        "fields.operation_temperature": "-25°C ~ +85°C",
+        "components": [
+          {
+            "role": "storage",
+            "hidden": true,
+            "device": { "domain": "memory", "chipKind": "managed_nand", "productType": "emmc" },
+            "fields": { "storage_density": { "$var": "storageDensity" }, "storage_interface": "eMMC 5.1" }
+          },
+          {
+            "role": "dram",
+            "hidden": true,
+            "device": { "domain": "memory", "chipKind": "dram", "productType": "lpddr3" },
+            "fields": { "dram_density": { "$path": "configObj.dram_density" }, "dram_type": "LPDDR3" }
+          }
+        ],
+        "meta.ruleId": "vendor.biwin.emcp3.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": ["density"],
+        "meta.capabilities": ["part.decode", "part.search"]
+      }
+    }
+  },
+  {
     "id": "vendor.biwin.emcp.v1",
     "priority": 1001,
     "normalize": [
@@ -410,7 +474,7 @@
     "id": "vendor.biwin.umcp5x.v1",
     "priority": 1002,
     "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|", "-"] }],
-    "match": { "kind": "regex", "value": "^BW3(?:A2EYAKG(?:128G|256G)|B1MYAKG512G)$" },
+    "match": { "kind": "regex", "value": "^BW3[0-9A-Z]{5}KG(?:128G|256G|512G)$" },
     "tokenDecoder": {
       "stripPrefixes": ["BW3"],
       "tables": {
@@ -420,7 +484,7 @@
             "source": "BIWIN uMCP UFS 3.1 LPDDR5X specifications"
           }
         },
-        "configCode": ["A2EYAKG", "B1MYAKG"],
+        "package": { "KG": "FBGA-297, 11.50x13.00" },
         "densityCode": ["128G", "256G", "512G"],
         "density": { "128G": 1048576, "256G": 2097152, "512G": 4194304 },
         "storageDensity": {
@@ -430,7 +494,9 @@
         }
       },
       "steps": [
-        { "op": "takeLongest", "table": "configCode", "to": "configCode", "default": "" },
+        { "op": "take", "len": 5, "to": "configCode" },
+        { "op": "take", "len": 2, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" },
         { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
         { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
         { "op": "map", "from": "densityCode", "table": "storageDensity", "to": "storageDensity", "default": "" }
@@ -449,7 +515,7 @@
         "fields.controller": "SM2753",
         "fields.product_class": "Consumer",
         "fields.operation_temperature": "-25°C ~ +85°C",
-        "fields.package": "FBGA-297, 11.50x13.00",
+        "fields.package": { "$var": "package" },
         "components": [
           {
             "role": "storage",

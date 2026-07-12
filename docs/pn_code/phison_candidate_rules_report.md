@@ -4,6 +4,11 @@
 
 ## 范围
 
+Phison NAND label 只由下面的定长结构化 10 位 token 规则识别。旧的通用 `PH` vendor-prefix
+fallback 无法证明输入是 NAND label 或 Phison controller，且会把任意 `PH...` 字符串误标为
+Phison；本轮已删除该 fallback。Phison controller 的 `PS...` 名称仅存在于 FDB controller
+分组，不作为 memory PN decoder 的 vendor-prefix。
+
 当前 Phison 10 位 token 按如下位置观察：
 
 ```text

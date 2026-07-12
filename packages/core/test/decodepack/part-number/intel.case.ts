@@ -86,6 +86,13 @@ assertRuleDecode("PF29F01T2ANCMG2", {
   },
   absentExtra: ["Product Generation"]
 });
+assertRuleDecode("I29F256G08CBCBB", {
+  vendor: "intel",
+  type: "NAND",
+  densityMbit: 262144,
+  widthField: "x8",
+  absentExtra: ["Package", "Cell Level", "Process"]
+});
 assertRuleDecode("PF29F01T2ANCTG3", {
   vendor: "intel",
   type: "NAND",

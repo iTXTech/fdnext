@@ -1222,6 +1222,7 @@
           "61:14",
           "61:15",
           "61:16",
+          "61:18",
           "61:19",
           "61:20",
           "61:21",
@@ -1461,6 +1462,10 @@
           },
           "61:16": {
             "dram_speed": "GDDR6-16Gbps",
+            "dram_type": "GDDR6"
+          },
+          "61:18": {
+            "dram_speed": "GDDR6-18Gbps",
             "dram_type": "GDDR6"
           },
           "61:19": {
@@ -2090,6 +2095,9 @@
           "53:E": {
             "dram_type": "LPDDR4X"
           }
+        },
+        "voltageOverride": {
+          "61:R": "1.35V VDD / 1.25V VDDQ"
         }
       },
       "steps": [
@@ -2122,6 +2130,19 @@
           "op": "tpl",
           "template": "{{familyCode}}:{{voltageCode}}",
           "to": "familyVoltageKey"
+        },
+        {
+          "op": "map",
+          "from": "familyVoltageKey",
+          "table": "voltageOverride",
+          "to": "voltageOverride",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "voltageOverride",
+          "secondary": "voltage",
+          "to": "voltageResolved"
         },
         {
           "op": "map",
@@ -2465,7 +2486,7 @@
           "$var": "deviceWidth"
         },
         "fields.dram_voltage": {
-          "$var": "voltage"
+          "$var": "voltageResolved"
         },
         "fields.package": {
           "$var": "package"
