@@ -55,6 +55,12 @@
           "AYR:V": {
             "package": "FBGA-200"
           },
+          "AYR:B": {
+            "package": "FBGA-200"
+          },
+          "AYR:J": {
+            "package": "FBGA-200"
+          },
           "BYY:J": {
             "package": "FBGA-200"
           },

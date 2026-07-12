@@ -862,12 +862,106 @@
     },
     {
       "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.aio.v1",
+      "scope": "table_entry",
+      "table_key": "package",
+      "entry_key": "PB",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron obsolete NAND-based MCP catalog",
+        "url": "https://www.micron.com/products/obsolete/obsolete-nand-mcp-catalog/part-catalog",
+        "examples": [
+          "MT29UZ4B8DZZHGPB-107 W.84Z"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.aio.v1",
+      "scope": "table_entry",
+      "table_key": "package",
+      "entry_key": "PL",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron obsolete NAND-based MCP catalog",
+        "url": "https://www.micron.com/products/obsolete/obsolete-nand-mcp-catalog/part-catalog",
+        "examples": [
+          "MT29RZ4B4DZZHGPL-18 W.80U",
+          "MT29RZ4C4DZZHGPL-18 W.80U"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.aio.v1",
+      "scope": "table_entry",
+      "table_key": "package",
+      "entry_key": "SK",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron obsolete NAND-based MCP catalog",
+        "url": "https://www.micron.com/products/obsolete/obsolete-nand-mcp-catalog/part-catalog",
+        "examples": [
+          "MT29RZ4B2DZZHGSK-18 W.80E",
+          "MT29RZ4C2DZZHGSK-18 W.80E"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.aio.v1",
+      "scope": "table_entry",
+      "table_key": "package",
+      "entry_key": "SP",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron obsolete NAND-based MCP catalog",
+        "url": "https://www.micron.com/products/obsolete/obsolete-nand-mcp-catalog/part-catalog",
+        "examples": [
+          "MT29RZ2B1DZZHGSP-25W.418"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.aio.v1",
+      "scope": "table_entry",
+      "table_key": "package",
+      "entry_key": "TB",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron obsolete NAND-based MCP catalog",
+        "url": "https://www.micron.com/products/obsolete/obsolete-nand-mcp-catalog/part-catalog",
+        "examples": [
+          "MT29RZ2B2DZZHHTB-18I.88F",
+          "MT29RZ4B2DZZHHTB-18W.80F"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
       "spec_id": "vendor.micron.emcp.mt29c.v1",
       "scope": "spec",
       "entry_key": "micron_mt29c_168ball_pdf",
       "evidence": {
         "status": "external_confirmed",
         "source": "Micron 168-Ball NAND Flash and LPDRAM PoP MCP datasheet mirror"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.mt29c.v1",
+      "scope": "table_entry",
+      "table_key": "package",
+      "entry_key": "KB",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron obsolete NAND-based MCP catalog",
+        "url": "https://www.micron.com/products/obsolete/obsolete-nand-mcp-catalog/part-catalog",
+        "examples": [
+          "MT29C4G48MAZBBAKB-48 IT",
+          "MT29C4G48MAZBBAKB-48 IT ES"
+        ]
       }
     },
     {
@@ -918,6 +1012,24 @@
       "evidence": {
         "status": "external_table_confirmed",
         "source": "MT29RZ4C4DZZMGMF distributor listings"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
+      "spec_id": "identifier.nand_flash_id.micron.inteldef.v1",
+      "scope": "spec",
+      "entry_key": "micron_tn2919_legacy_2gb_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron TN-29-19 NAND Flash 101 Table 7 READ ID response",
+        "url": "https://user.eng.umd.edu/~blj/CS-590.26/micron-tn2919.pdf",
+        "examples": [
+          "2CDA809550",
+          "2CCA80D550",
+          "2CAA801550",
+          "2CBA805550"
+        ],
+        "notes": "Table 7 confirms 2Gb SLC, x8/x16, voltage, 2KB page, 64B spare area, and 128KB block semantics for AA/BA/CA/DA device IDs."
       }
     },
     {
@@ -1097,6 +1209,181 @@
       "evidence": {
         "status": "external_confirmed",
         "source": "Nanya current DDR5 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.standard.component.v1",
+      "scope": "spec",
+      "entry_key": "nanya_standard_component_catalog_2026_07_12",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official DDR2, DDR3, DDR3L, DDR4 and DDR5 standalone component product tables",
+        "examples": [
+          "NT5CB512T16EH-FL",
+          "NT5CC512T16EH-EKI",
+          "NT5AD1024M16A4-JRU"
+        ],
+        "notes": "Current official component tables were cross-deduplicated against dram-pn.json; exact PNs remain search evidence and decoding stays token-structured."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "spec",
+      "entry_key": "nanya_low_power_component_catalog_2026_07_12",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR2, LPDDR3, LPDDR4, LPDDR4X and LPDDR5/5X standalone component product tables",
+        "examples": [
+          "NT6TL256T32B9-G0",
+          "NT6CL256T64A7-H1",
+          "NT6AT1024F64AN-J1"
+        ],
+        "notes": "Current official component tables confirm exact PN coverage and the package token mappings recorded below."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6TL:B9",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR2 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6TL:BR",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR2 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6TL:CQ",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR2 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6TL:CR",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR2 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6CL:A7",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR3 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6CL:AH",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR3 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6CL:AJ",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR3 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6CL:AQ",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR3 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6CL:D4",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR3 component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6AT:AN",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR4/4X component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "6AT:AV",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR4/4X component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "gradeObj",
+      "entry_key": "6AT:I",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR4/4X component product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/nanya-dram-token.json",
+      "spec_id": "vendor.nanya.dram.low_power.component.v1",
+      "scope": "table_entry",
+      "table_key": "gradeObj",
+      "entry_key": "6AT:H",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Nanya official LPDDR4/4X component product table"
       }
     },
     {
@@ -1545,6 +1832,177 @@
           "YMUSAB4TF3D1C1"
         ],
         "notes": "The official support page confirms the UC341 UFS 3.1 flyer exists; exact PN examples remain cross-checked by teardown, device-log and programmer-table sources because the flyer download is login-gated."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-dram-token.json",
+      "spec_id": "vendor.skhynix.dram.lpddr4.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageObj",
+      "entry_key": "T",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix LPDDR4/LPDDR4X product table visible row",
+        "url": "https://www.skhynix.glochip.com/h-pd-5.html",
+        "examples": [
+          "H9HCNNNFAMALTR-NME"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-ufs-token.json",
+      "spec_id": "vendor.skhynix.ufs.h28s.v1",
+      "scope": "spec",
+      "entry_key": "skhynix_ufs_product_table_h28s",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix UFS product table visible rows",
+        "url": "https://www.skhynix.glochip.com/h-pd-15.html",
+        "examples": [
+          "H28S8D301DMR",
+          "H28S9Q301CMR",
+          "H28SAO301MMR"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/samsung-hbm-token.json",
+      "spec_id": "vendor.samsung.hbm2.kha.v1",
+      "scope": "spec",
+      "entry_key": "samsung_hbm2_product_matrix",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Samsung HBM product-table mirror and independent component catalog cross-check",
+        "url": "https://www.samsung.glochip.com/pd.jsp?fromMid=352&id=24&recommendFromPid=0",
+        "examples": [
+          "KHA843801B-MC12",
+          "KHA844801X-MC13",
+          "KHA884901X-MN13"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/samsung-hbm-token.json",
+      "spec_id": "vendor.samsung.hbm2e.khaa.v1",
+      "scope": "spec",
+      "entry_key": "samsung_hbm2e_product_matrix",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Samsung HBM product-table mirror and independent component catalog cross-check",
+        "url": "https://www.samsung.glochip.com/pd.jsp?fromMid=352&id=24&recommendFromPid=0",
+        "examples": [
+          "KHAA44801B-MC16",
+          "KHAA84901B-JC17",
+          "KHAA84901B-MC17"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/samsung-hbm-token.json",
+      "spec_id": "vendor.samsung.hbm3.khba.v1",
+      "scope": "spec",
+      "entry_key": "samsung_hbm3_official_products",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Samsung official HBM3 product pages and sitemap",
+        "url": "https://semiconductor.samsung.com/dram/hbm/hbm3/khba84a03c-mc1h/",
+        "examples": [
+          "KHBA84A03C-MC1H",
+          "KHBA84A03D-MC1H",
+          "KHBAC4A03C-MC1H",
+          "KHBAC4A03D-MC1H"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/samsung-hbm-token.json",
+      "spec_id": "vendor.samsung.hbm3e.khbb.v1",
+      "scope": "spec",
+      "entry_key": "samsung_hbm3e_official_products",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Samsung official HBM3E sitemap and product-family page with independent component-table cross-check",
+        "url": "https://semiconductor.samsung.com/dram/hbm/hbm3e/",
+        "examples": [
+          "KHBB84A03B-MC1J",
+          "KHBBC4B03C-MC1K"
+        ],
+        "notes": "The official page confirms mass-produced 12-layer HBM3E at 9.2Gbps; exact package densities are cross-checked against component product tables."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-dram-token.json",
+      "spec_id": "vendor.skhynix.dram.lpddr4.component.v1",
+      "scope": "table_entry",
+      "table_key": "density",
+      "entry_key": "BP",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix LPDDR4 product table visible rows",
+        "url": "https://www.skhynix.glochip.com/h-pd-4.html",
+        "examples": ["H9HCNNNBPUMLHR-NME", "H9HCNNNBPUMLHR-NLE"]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-lpddr4x-token.json",
+      "spec_id": "vendor.skhynix.dram.lpddr4x.h54.v1",
+      "scope": "table_entry",
+      "table_key": "packageObj",
+      "entry_key": "AYR:B",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix LPDDR4 product table visible rows",
+        "url": "https://www.skhynix.glochip.com/h-pd-4.html",
+        "examples": ["H54G36AYRBX257", "H54G38AYRBX259", "H54G26AYRBX256"]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-lpddr4x-token.json",
+      "spec_id": "vendor.skhynix.dram.lpddr4x.h54.v1",
+      "scope": "table_entry",
+      "table_key": "packageObj",
+      "entry_key": "AYR:J",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix LPDDR4 product table visible row",
+        "url": "https://www.skhynix.glochip.com/h-pd-4.html",
+        "examples": ["H54G36AYRJX246"]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-dram-token.json",
+      "spec_id": "vendor.skhynix.dram.lpddr5.h58.v1",
+      "scope": "spec",
+      "entry_key": "skhynix_lpddr5_h58_product_matrix",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix LPDDR5 product table visible rows",
+        "url": "https://www.skhynix.glochip.com/h-pd-6.html",
+        "examples": ["H58GG6MK6GX037", "H58G56AK6VX032", "H58G66MK6BX026"]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-dram-token.json",
+      "spec_id": "vendor.skhynix.dram.lpddr5x.component.v1",
+      "scope": "spec",
+      "entry_key": "skhynix_lpddr5x_current_product_matrix",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix LPDDR5X product table visible rows",
+        "url": "https://www.skhynix.glochip.com/h-pd-7.html",
+        "examples": ["H58GE6AK8PX168N", "H58GD6AK8QX091N", "H58G66DK9QX170N"]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-dram-token.json",
+      "spec_id": "vendor.skhynix.dram.gddr6.8gb.component.v1",
+      "scope": "spec",
+      "entry_key": "skhynix_gddr6_8gb_product_rows",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix GDDR6 product table visible rows",
+        "url": "https://www.skhynix.glochip.com/h-pd-11.html",
+        "examples": ["H56G32CS4DX005", "H56G32CS2DX005"]
       }
     }
   ]

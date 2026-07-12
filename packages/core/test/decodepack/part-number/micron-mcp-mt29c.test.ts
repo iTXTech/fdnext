@@ -139,6 +139,22 @@ assertRuleDecode("MT29C4G48MAZBBAKS-48 IT", {
   absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
 
+assertRuleDecode("MT29C4G48MAZBBAKB-48 IT", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 4096,
+  package: "WFBGA-168, 12x12x0.8",
+  extra: {
+    "Storage Density": "4Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "2Gb",
+    "DRAM Type": "Mobile LPDRAM",
+    "DRAM Width": "x16",
+    "DRAM Speed": "LPDDR-416"
+  },
+  absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
+});
+
 assertRuleDecode("MT29C4G48MAYBBAHK-48 IT", {
   vendor: "micron",
   type: "eMCP",

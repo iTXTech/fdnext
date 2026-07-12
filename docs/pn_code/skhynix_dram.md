@@ -25,6 +25,8 @@
 - `H9HCNNN8KUMLHR-NME` LPDDR4: datasheet / LCSC 资料确认 8Gb LPDDR4、x16、2 Channel、1 CS、DDP、200ball FBGA、3733Mbps、1.8V/1.1V 电源域。来源：https://datasheet.lcsc.com/lcsc/2410121844_SK-HYNIX-H9HCNNN8KUMLHR-NME_C2912103.pdf 和 https://lcsc.com/product-detail/ddr-sdram_sk-hynix-h9hcnnn8kumlhr-nme_C2912103.html
 - `H9HCNNNCPUMLXR-NEE` / `H9HCNNNCPMMLXR-NEE` 资料确认 32Gb、QDP、2Ch 2CS，分别为 LPDDR4 / LPDDR4X 4266Mbps、200ball FBGA。来源：https://dl.xkwy2018.com/downloads/RK3588S/03_Product%20Line%20Branch_Tablet/02_Key%20Device%20Specifications/H9HCNNNCPUMLXR.pdf 和 https://www.uttc.com.tw/wp-content/uploads/2025/12/Consumer_H9HCNNNCPMMLXR1.0-LPDDR4X-32Gb_1ynm.pdf
 - SK hynix LPDDR4X 产品表补充 H54、modern H9HK 与 432-ball H9HC line-up：H54 容量 0.5GB~12GB、4266Mbps、200/556 ball，`H9HKNNN(CR/EB/FB)M*VAR-NEH` 为 4GB/6GB/8GB、4266Mbps、556 ball，`H9HCNNN(CR/FB)M*LPR-NEE` 为 4GB/8GB、4266Mbps、432 ball。H54 `BYY:Q` 在公开表的不同容量行出现 200/556 ball 冲突，因此规则不从该冲突组合输出 package；其余 package 只由外部表确认的 package-position token（必要时连同局部 feature token）输出。来源：https://www.skhynix.glochip.com/h-pd-5.html
+- 同一产品表还直接列出此前搜索资源缺失的 12 条 legacy H9HC LPDDR4/4X PN：`H9HCNNNFAMALTR-NME`、`H9HCNNNCPMALHR-NEE`、`H9HCNNNBKMMLHR-NM[E/I/N/O]`、`H9HCNNNCPMMLHR-NM[N/O]`、`H9HCNNN4KMMLHR-NM[E/N/O/P]`。这些 exact PN 只进入搜索资源；其中 `H9HCNNNFAMALTR-NME` 行直接确认 8GB、3733Mbps、200Ball，因此 package-position token `T` 可增量映射为 `FBGA-200`。采集时发现页面链接 `title` 与表格可见 PN 存在错配，资源只采用表格实际显示文本，不采用错配属性。
+- 对公开产品表的 DDR3/DDR4、DDR5、LPDDR4、LPDDR5、LPDDR5X、GDDR7、GDDR6、HBM 页面做可见行全量审计后，`dram-pn.json` 新增 153 条 SK hynix exact PN，产品表当前 225 条非模组/非 SSD 可见 PN 均有搜索种子。LPDDR5 页面直接确认 H58 `G4/G5/G6/GG/GU` 容量、K6=6400Mbps 与 serial `024/026/032/033/037/042` 的 441/315/496-ball；LPDDR5X 页面确认 `GD/GE`=24/48Gb 与 serial `091/103/104/105/106/107/108/114/168/169/170/171` 的 315/441/561-ball。来源：https://www.skhynix.glochip.com/h-pd-1.html、https://www.skhynix.glochip.com/h-pd-3.html、https://www.skhynix.glochip.com/h-pd-4.html、https://www.skhynix.glochip.com/h-pd-6.html、https://www.skhynix.glochip.com/h-pd-7.html、https://www.skhynix.glochip.com/h-pd-8.html、https://www.skhynix.glochip.com/h-pd-11.html、https://www.skhynix.glochip.com/h-pd-12.html
 - `HY57V561620FTP-H` datasheet / 公开分销资料确认 256Mb SDRAM、16M x16、54-pin TSOP-II。来源：https://datasheet4u.com/datasheet/Hynix-Semiconductor/HY57V561620FTP-H-952232 和 https://www.etei.com/product/hy57v561620ftp-h
 - `HY5DU121622DTP-D43` / `HY5PS121621CFP-Y5` 资料确认 512Mb DDR / DDR2 SDRAM、x16、TSOP-II/FBGA 与 speed bin。来源：https://datasheet4u.com/pdf-down/H/Y/5/HY5DU121622DTP_HynixSemiconductor.pdf 和 https://www.alldatasheet.com/datasheet-pdf/pdf/333866/HYNIX/HY5PS121621CFP-Y5.html
 - Lenovo T14s Gen 2 schematic LPDDR5 source table 记录 `H9JCNNNBK3MLYR-N6E` = DDP 8Gb 1 Rank，`H9JCNNNCP3MLYR-N6E` = QDP 8Gb 2 Rank，`H9JCNNNFA5MLYR-N6E` = ODP 8Gb 2 Rank。来源：https://www.scribd.com/document/1011608984/Lenovo-ThinkPad-T14s-Gen-2-NM-E091-R1-0-Schemtic-1
@@ -54,7 +56,7 @@
 
 `8Hi/4Hi` 是 stack height，不是足以确认 ball count、尺寸或封装类型的 package token，因此公开结果只输出 `dram_die_count`，不输出 `package`。`X020/X038` 等 serial 只作结构位，不驱动规格字段；未知 serial 仍可保留其余 token 已确认字段。
 
-产品表还列出单一 Automotive 样本 `H5WG6HMN6QX038R`（64Gb、4Hi、3.2Gbps）。由于目前只有一个公开 body，尚不足以证明 `G6H` / `MN6Q` 的跨 serial token 语义；该样本保留在资料中，不进入 decoder 或搜索资源。
+产品表还列出单一 Automotive 样本 `H5WG6HMN6QX038R`（64Gb、4Hi、3.2Gbps）。exact PN 已进入搜索资源；由于目前只有一个公开 body，尚不足以证明 `G6H` / `MN6Q` 的跨 serial token 语义，因此仍不新增 decoder。
 
 ## H5TQ / H5TC / H5AN DDR3-DDR4 颗粒
 
@@ -150,6 +152,7 @@ H5GQ + density + 24 + die/package/revision + -speed + temp
 ```text
 H56C8H24 + die/package/revision + -speed + temp
 H56G42 + A + speed + D + X + 014
+H56G32 + C + speed + D + X + serial
 ```
 
 `H56G42A...014` 已进入 iTXTech fdnext DecodePack 的 token:
@@ -163,6 +166,8 @@ H56G42 + A + speed + D + X + 014
 | `X014` | 内部 serial token | 只用于匹配当前 ordering PN，不作为公开 code 输出 |
 
 公开输出固定 `package = 180-ball BGA`、`dram_voltage = 1.8V VPP; 1.35V / 1.25V / 1.20V VDD/VDDQ`、`interface_type = POD_135 / POD_125` 和 `solder_type = Lead-Free and Halogen-Free (RoHS compliant)`。
+
+产品表另确认 `H56G32CS4DX005` / `H56G32CS2DX005` 为 8Gb GDDR6、16/14Gbps per pin、1.35V VDD/VDDQ、FCBGA。独立结构规则按 `H56G32 + die revision + speed + D + X + serial` 解析，未知 speed / serial 自然降级，不把两条完整 PN 写成 whitelist。
 
 ## H9CC LPDDR3 颗粒
 
@@ -184,7 +189,7 @@ H9CCNNN + BLTBLAR + -N + speed + D
 
 ## H9HC LPDDR4 颗粒
 
-当前规则覆盖 `H9HCNNN[4K/8K/BK/CP/FA][UM/MM/MA]L[H/X]R-*` 形式：
+当前规则覆盖 `H9HCNNN[4K/8K/BK/BP/CP/FA][UM/MM/MA]L[H/X/T]R-*` 形式：
 
 ```text
 H9HCNNN + density/stack token + package/mode token + -suffix
@@ -194,14 +199,14 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 
 | Token | 字段 | 说明 |
 | --- | --- | --- |
-| `4K/8K/BK/CP/FA` | density | 4Gb / 8Gb / 16Gb / 32Gb / 64Gb |
+| `4K/8K/BK/BP/CP/FA` | density | 4Gb / 8Gb / 16Gb / 16Gb / 32Gb / 64Gb；`BP` 由多条 2GB 产品表行确认 |
 | `8K` | `dram_die_count`, `cs_count`, `channel_count` | 2 dies, 1 CS；2 Channel |
 | `BK` | `dram_die_count`, `cs_count`, `channel_count` | 2 dies, 1 CS；2 Channel |
 | `CP` | `dram_die_count`, `cs_count`, `channel_count` | 4 dies, 2 CS；2 Channel |
 | `FA` | `dram_die_count`, `cs_count`, `channel_count` | 8 dies, 2 CS；2 Channel |
 | `UM/MM/MA` | DRAM Voltage / I/O / Option | LPDDR4 或 LPDDR4X、电压域与 `dram_width` |
 | `L` | `dram_generation` | 1st generation |
-| package `H/X` | `package` | 200-ball FBGA |
+| package `H/X/T` | `package` | 200-ball FBGA；`T` 由产品表中的 8GB exact 行直接确认 |
 | material `R` | `solder_type` | Lead and Halogen Free |
 | suffix speed `L/M/E` | `dram_speed` | LPDDR4/LPDDR4X-3200 / -3733 / -4266 |
 | suffix temperature `E/I/H` | `operation_temperature` | -25~85C / -40~95C / -25~105C；只对公开资料可确认的温度范围输出 |
@@ -218,6 +223,7 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 | H54 family | `dram_type` / `dram_speed` / `dram_voltage` | LPDDR4X、4266Mbps、1.8V/1.1V/0.6V |
 | H54 `AYR:H` / `CYR:H` / `AYZ:V/Q` | `package` | FBGA-556 |
 | H54 `AYR:P/Q/V` / `BYY:J/P/V` | `package` | FBGA-200 |
+| H54 `AYR:B/J` | `package` | FBGA-200 |
 | H54 `BYY:Q` | 不输出 package | 产品表对不同 PN 给出冲突 ball count，不能泛化 |
 | H9HK density `CR/EB/FB` | `dram_density` | 32/48/64Gb |
 | H9HK package token `V` in `*VAR` | `package` | FBGA-556 |
@@ -263,7 +269,9 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 | material `R` | `solder_type` | Lead and Halogen Free |
 | suffix `N6H` | speed / temperature | LPDDR5-6400，-30~105°C |
 
-## H58G LPDDR5X 颗粒
+## H58 LPDDR5 / LPDDR5X 颗粒
+
+LPDDR5 产品表按 `H58 + density + organization + generation + K6 + option + X + serial` 列出 6400Mbps 颗粒。新规则只解释多行直接重复的字段：`G4/G5/G6/GG/GU` = 16/32/64/96/144Gb，organization `6/8` = x16/x8，`K6` = LPDDR5-6400，serial `032/033` = FBGA-315、`024/026` = FBGA-441、`037/042` = FBGA-496；generation 和 option 仍作为内部结构 token，不在缺少 ordering decoder 时补猜语义。
 
 外部 datasheet 截图补充确认三组 496-ball PoP LPDDR5X ordering PN：`H58G66BK8HX096`（64Gb、4Ch 1CS）、`H58GG6AK8HX094`（96Gb、4Ch 2CS）和 `H58G76BK8HX095`（128Gb、4Ch 2CS）。三者均为 LPDDR5X-8533、`-25~105°C`、496-ball FBGA；package drawing 给出 `14x12.4`。来源：https://bbs.16rd.com/thread-640363-1-1.html、https://bbs.16rd.com/thread-640473-1-1.html、https://bbs.16rd.com/thread-640476-1-1.html；96Gb 封装尺寸另由分销规格交叉确认：https://www.memorysolution.de/en/sk-hynix/ic-sdram-mobile-lpddr5x-8533-96gbit-sk-hynix-1-05v-fbga-496ball/AH58GG6AK8HX094
 
@@ -271,7 +279,7 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 
 | Token | 字段 | 说明 |
 | --- | --- | --- |
-| `G5/G6/G7/GG` | density | 32Gb / 64Gb / 128Gb / 96Gb |
+| `G5/G6/G7/GD/GE/GG` | density | 32Gb / 64Gb / 128Gb / 24Gb / 48Gb / 96Gb |
 | `6/8` | `dram_width` | x16 / x8 |
 | `A/B/C/D` | `dram_generation` | 2nd / 3rd / 4th / 5th Gen |
 | `K8` | `dram_speed` | LPDDR5X-8533 |
@@ -280,6 +288,9 @@ H9HCNNN + density/stack token + package/mode token + -suffix
 | `X` | reserved | 内部 reserved token，不作为公开 code 字段输出 |
 | `067/068/146/147/185` | package | 315-ball FBGA |
 | `094/095/096` | package | 496-ball FBGA, 14x12.4, PoP |
+| `091/103/104/114` | package | 315-ball FBGA |
+| `105/106/107/108` | package | 441-ball FBGA |
+| `168/169/170/171` | package | 561-ball FBGA |
 
 其中有功能框图或公开 ordering 资料确认的组合输出 `dram_die_count` / `cs_count`：
 

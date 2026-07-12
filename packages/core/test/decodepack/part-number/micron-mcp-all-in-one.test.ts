@@ -78,6 +78,21 @@ assertRuleDecode("MT29RZ1CVCZZHGTN-18 W.85H", {
   absentExtra: ["Cell Level", "Die Count", "Enterprise", "Interface Type", "Config Code", "Package Code", "Speed Grade"]
 });
 
+for (const [partNumber, packageName] of [
+  ["MT29RZ2B1DZZHGSP-25W.418", "WFBGA-162, 8x10.5x0.8"],
+  ["MT29RZ4B2DZZHHTB-18I.80F", "VFBGA-162, 8x10.5x0.9"],
+  ["MT29UZ4B8DZZHGPB-107 W.84Z", "WFBGA-221, 11.5x13x0.8"],
+  ["MT29RZ4C2DZZHGSK-18 W.80E", "WFBGA-162, 11.5x13x0.9"],
+  ["MT29RZ4B4DZZHGPL-18 W.80U", "WFBGA-162, 11.5x13x0.8"]
+] as const) {
+  assertRuleDecode(partNumber, {
+    vendor: "micron",
+    type: "eMCP",
+    package: packageName,
+    absentExtra: ["Config Code", "Package Code"]
+  });
+}
+
 assertRuleDecode("MT29AZ5A3CHHWD-18AIT.84F", {
   vendor: "micron",
   type: "eMCP",

@@ -806,3 +806,90 @@ assertDram("NT6BR1024F64AT-K3", {
     "Operation Temperature": "Commercial (-30C~105C)"
   }
 });
+
+assertDram("NT5CB512T16EH-FL", {
+  vendor: "nanya",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x16",
+  voltage: "1.5V VDD",
+  package: "BGA-96",
+  extra: {
+    "DRAM Type": "DDR3",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
+    "Package Code": "EH",
+    "Config Code": "512T16",
+    "DRAM Speed": "DDR3-2133 14-14-14",
+    "Operation Temperature": "Commercial (0C~95C)"
+  }
+});
+assertSearchPnIncludes("NT5CB512T16EH-FL", "Nanya NT5CB512T16EH-FL");
+
+assertDram("NT6TL256T32B9-G0", {
+  vendor: "nanya",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "BGA-168, PoP",
+  extra: {
+    "DRAM Type": "LPDDR2",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
+    "Package Code": "B9",
+    "Config Code": "256T32",
+    "DRAM Speed": "LPDDR2-1066",
+    "Operation Temperature": "Commercial (-25C~85C)"
+  }
+});
+assertSearchPnIncludes("NT6TL256T32B9-G0", "Nanya NT6TL256T32B9-G0");
+
+assertDram("NT6CL256T64A7-H1", {
+  vendor: "nanya",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x64",
+  voltage: "1.8V VDD1 / 1.2V VDD2/VDDQ",
+  package: "BGA-253",
+  extra: {
+    "DRAM Type": "LPDDR3",
+    "DRAM Die Count": 2,
+    "CS Count": 2,
+    "Package Code": "A7",
+    "Config Code": "256T64",
+    "DRAM Speed": "LPDDR3-1866",
+    "Operation Temperature": "Commercial (-30C~105C)",
+    "Channel Count": 2,
+    "Interface Type": "HSUL_12",
+    "Bank Count": 8,
+    "Solder Type": "Lead-free RoHS compliant and Halogen-free",
+    "Die Revision": "1st version",
+    "CAS Latency": 14,
+    "Speed Grade": "H1 1866Mbps @ RL=14"
+  }
+});
+assertSearchPnIncludes("NT6CL256T64A7-H1", "Nanya NT6CL256T64A7-H1");
+
+assertDram("NT6AT1024F64AN-J1", {
+  vendor: "nanya",
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x64",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "BGA-376, PoP",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
+    "Package Code": "AN",
+    "Config Code": "1024F64",
+    "DRAM Speed": "LPDDR4X-4267",
+    "Operation Temperature": "Commercial (-30C~105C)"
+  }
+});
+assertSearchPnIncludes("NT6AT1024F64AN-J1", "Nanya NT6AT1024F64AN-J1");
+assertDecodedField("NT6AT512M16DV-J1I", "operation_temperature", "Industrial (-40C~105C)");
+assertDecodedField("NT6AT1024M16AV-J1H", "operation_temperature", "Automotive (-40C~105C)");
+assertSearchPnIncludes("NT6AT512M16DV-J1I", "Nanya NT6AT512M16DV-J1I");
+assertSearchPnIncludes("NT6AT1024M16AV-J1H", "Nanya NT6AT1024M16AV-J1H");

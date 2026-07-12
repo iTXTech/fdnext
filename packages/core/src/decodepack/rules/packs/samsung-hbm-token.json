@@ -1,0 +1,532 @@
+[
+  {
+    "id": "vendor.samsung.hbm2.kha.v1",
+    "priority": 1034,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^KHA[0-9A-Z]{7}-[0-9A-Z]{4}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "KHA"
+      ],
+      "tables": {
+        "stackObj": {
+          "84:3:8": {
+            "dram_density": 32768,
+            "dram_die_density": 8192,
+            "dram_die_count": 4
+          },
+          "88:3:9": {
+            "dram_density": 65536,
+            "dram_die_density": 8192,
+            "dram_die_count": 8
+          },
+          "84:4:8": {
+            "dram_density": 32768,
+            "dram_die_density": 8192,
+            "dram_die_count": 4
+          },
+          "88:4:9": {
+            "dram_density": 65536,
+            "dram_die_density": 8192,
+            "dram_die_count": 8
+          }
+        },
+        "seriesObj": {
+          "3": {
+            "series_info": "Flarebolt"
+          },
+          "4": {
+            "series_info": "Aquabolt"
+          }
+        },
+        "package": {
+          "J": "MPGA",
+          "M": "MPGA"
+        },
+        "speedObj": {
+          "12": {
+            "dram_speed": "2.0Gbps/pin"
+          },
+          "13": {
+            "dram_speed": "2.4Gbps/pin"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<stackCode>[0-9A-Z]{2})(?<seriesCode>[0-9A-Z])(?<productCode>[0-9A-Z])(?<bodyTail>[0-9A-Z]{3})-(?<packageCode>[0-9A-Z])(?<variantCode>[0-9A-Z])(?<speedCode>[0-9A-Z]{2})$",
+          "groups": {
+            "stackCode": "stackCode",
+            "seriesCode": "seriesCode",
+            "productCode": "productCode",
+            "packageCode": "packageCode",
+            "speedCode": "speedCode"
+          }
+        },
+        {
+          "op": "tpl",
+          "template": "{{stackCode}}:{{seriesCode}}:{{productCode}}",
+          "to": "stackKey"
+        },
+        {
+          "op": "map",
+          "from": "stackKey",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "seriesCode",
+          "table": "seriesObj",
+          "to": "seriesObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "HBM2",
+            "dram_width": 1024
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "seriesObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.samsung.hbm2.kha.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.samsung.hbm2e.khaa.v1",
+    "priority": 1035,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^KHAA[0-9A-Z]{6}-[0-9A-Z]{4}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "KHAA"
+      ],
+      "tables": {
+        "stackObj": {
+          "4:8": {
+            "dram_density": 65536,
+            "dram_die_density": 16384,
+            "dram_die_count": 4
+          },
+          "8:9": {
+            "dram_density": 131072,
+            "dram_die_density": 16384,
+            "dram_die_count": 8
+          }
+        },
+        "package": {
+          "J": "MPGA",
+          "M": "MPGA"
+        },
+        "speedObj": {
+          "16": {
+            "dram_speed": "3.2Gbps/pin"
+          },
+          "17": {
+            "dram_speed": "3.6Gbps/pin"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<stackCode>[0-9A-Z])4(?<productCode>[0-9A-Z])01(?<revisionCode>[0-9A-Z])-(?<packageCode>[0-9A-Z])(?<variantCode>[0-9A-Z])(?<speedCode>[0-9A-Z]{2})$",
+          "groups": {
+            "stackCode": "stackCode",
+            "productCode": "productCode",
+            "packageCode": "packageCode",
+            "speedCode": "speedCode"
+          }
+        },
+        {
+          "op": "tpl",
+          "template": "{{stackCode}}:{{productCode}}",
+          "to": "stackKey"
+        },
+        {
+          "op": "map",
+          "from": "stackKey",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "HBM2E",
+            "dram_width": 1024,
+            "series_info": "Flashbolt"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.samsung.hbm2e.khaa.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.samsung.hbm3.khba.v1",
+    "priority": 1036,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^KHBA[0-9A-Z]{6}-[0-9A-Z]{4}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "KHBA"
+      ],
+      "tables": {
+        "stackObj": {
+          "84": {
+            "dram_density": 131072,
+            "dram_die_density": 16384,
+            "dram_die_count": 8
+          },
+          "C4": {
+            "dram_density": 196608,
+            "dram_die_density": 16384,
+            "dram_die_count": 12
+          }
+        },
+        "package": {
+          "M": "MPGA"
+        },
+        "speedObj": {
+          "1H": {
+            "dram_speed": "6.4Gbps/pin"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<stackCode>[0-9A-Z]{2})(?<dieCode>[0-9A-Z])03(?<revisionCode>[0-9A-Z])-(?<packageCode>[0-9A-Z])(?<variantCode>[0-9A-Z])(?<speedCode>[0-9A-Z]{2})$",
+          "groups": {
+            "stackCode": "stackCode",
+            "packageCode": "packageCode",
+            "speedCode": "speedCode"
+          }
+        },
+        {
+          "op": "map",
+          "from": "stackCode",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "HBM3",
+            "dram_width": 1024,
+            "series_info": "Icebolt"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.samsung.hbm3.khba.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.samsung.hbm3e.khbb.v1",
+    "priority": 1037,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^KHBB[0-9A-Z]{6}-[0-9A-Z]{4}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "KHBB"
+      ],
+      "tables": {
+        "stackObj": {
+          "84": {
+            "dram_density": 196608,
+            "dram_die_density": 24576,
+            "dram_die_count": 8
+          },
+          "C4": {
+            "dram_density": 294912,
+            "dram_die_density": 24576,
+            "dram_die_count": 12
+          }
+        },
+        "package": {
+          "M": "MPGA"
+        },
+        "speedObj": {
+          "C4:1K": {
+            "dram_speed": "9.2Gbps/pin"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<stackCode>[0-9A-Z]{2})(?<dieCode>[0-9A-Z])03(?<revisionCode>[0-9A-Z])-(?<packageCode>[0-9A-Z])(?<variantCode>[0-9A-Z])(?<speedCode>[0-9A-Z]{2})$",
+          "groups": {
+            "stackCode": "stackCode",
+            "packageCode": "packageCode",
+            "speedCode": "speedCode"
+          }
+        },
+        {
+          "op": "tpl",
+          "template": "{{stackCode}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "stackCode",
+          "table": "stackObj",
+          "to": "stackObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "HBM3E",
+            "dram_width": 1024
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "stackObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "samsung",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.samsung.hbm3e.khbb.v1",
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  }
+]

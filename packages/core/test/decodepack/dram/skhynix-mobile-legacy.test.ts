@@ -230,6 +230,56 @@ assertDram("H9HCNNNFAMMLXR-NEE", {
 });
 assertDecodedField("H9HCNNNFAMMLXR-NEE", "dram_die_count", 8);
 
+assertDram("H9HCNNNFAMALTR-NME", {
+  vendor: "skhynix",
+  densityMbit: 65536,
+  density: "64Gb",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Count": 8,
+    "CS Count": 2,
+    "Channel Count": 2,
+    "DRAM Speed": "LPDDR4X-3733",
+    "DRAM Generation": "1st Gen",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
+assertDram("H9HCNNNBPUMLHR-NME", {
+  vendor: "skhynix",
+  densityMbit: 16384,
+  density: "16Gb",
+  voltage: "1.8V VDD1 / 1.1V VDD2/VDDQ",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4",
+    "DRAM Speed": "LPDDR4-3733",
+    "DRAM Generation": "1st Gen",
+    "Operation Temperature": "-25°C ~ 85°C",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
+for (const pn of [
+  "H9HCNNNFAMALTR-NME",
+  "H9HCNNNCPMALHR-NEE",
+  "H9HCNNNBKMMLHR-NME",
+  "H9HCNNNBKMMLHR-NMI",
+  "H9HCNNNBKMMLHR-NMN",
+  "H9HCNNNBKMMLHR-NMO",
+  "H9HCNNNCPMMLHR-NMN",
+  "H9HCNNNCPMMLHR-NMO",
+  "H9HCNNN4KMMLHR-NME",
+  "H9HCNNN4KMMLHR-NMN",
+  "H9HCNNN4KMMLHR-NMO",
+  "H9HCNNN4KMMLHR-NMP"
+]) {
+  assertSearchPnIncludes(pn, `SKhynix ${pn}`);
+}
+
 assertDram("H9HKNNNBTUMUBR-NLH", {
   vendor: "skhynix",
   densityMbit: 16384,

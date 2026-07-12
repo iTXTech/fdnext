@@ -1,6 +1,6 @@
 # Micron Raw NAND PN 编码
 
-采集日期：2026-06-07
+采集日期：2026-07-12
 
 本文档记录 Micron `MT29E...` / `MT29F...` / `MT29H...` raw NAND 解析规则，以及
 `MT29FB...` 的 HSC NAND ordering 结构。`MT29FB` 中的 `B` 表示 `Flash + IOE ASIC`，
@@ -49,7 +49,7 @@
 - Micron `TN-29-19: NAND Flash 101` 的 READ ID 表逐 bit 给出旧 2Gb SLC
   `MT29F2G08/16 AAD/ABD` 的 device ID、die 数、cell、page、block、位宽、plane
   与电压。Identifier DecodePack 因此只对该表明确列出的 `AA/BA/CA/DA` device ID
-  补充 2Gb density、x8/x16、1.8V/3.3V、2KB page 和 128KB block；不把旧格式
+  补充 2Gb density、x8/x16、1.8V/3.3V、2KB page、64B spare area 和 128KB block；不把旧格式
   位段泛化到现代 3D NAND ID。
   <https://user.eng.umd.edu/~blj/CS-590.26/micron-tn2919.pdf>
 
@@ -59,6 +59,7 @@ iTXTech fdnext DecodePack:
 
 - `packages/core/src/decodepack/rules/packs/micron-raw-structured-token.json`
 - `packages/core/src/decodepack/rules/packs/micron-raw-token.json`
+- `packages/core/src/decodepack/identifier/packs/micron-inteldef.json`
 - `vendor.micron.hsc.mt29fb.v1`
 - `vendor.micron.raw.current.v1`
 - `vendor.micron.raw.legacy.v1`

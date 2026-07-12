@@ -709,13 +709,22 @@
         },
         "packageActual": {
           "6TL:BA": "BGA-134",
+          "6TL:B9": "BGA-168, PoP",
           "6TL:BQ": "BGA-168, PoP",
+          "6TL:BR": "BGA-216, PoP",
           "6TL:CA": "BGA-134",
+          "6TL:CQ": "BGA-168, PoP",
+          "6TL:CR": "BGA-216, PoP",
+          "6CL:A7": "BGA-253",
+          "6CL:AH": "BGA-216, PoP",
+          "6CL:AJ": "BGA-256, PoP",
           "6CL:AM": "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
           "6CL:AP": "FBGA-178, 10.50x11.50x1.05, 0.65/0.80 mixed pitch",
+          "6CL:AQ": "BGA-168, PoP",
           "6CL:BM": "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
           "6CL:BQ": "BGA-168, 12.00x12.00, 0.50 pitch PoP",
           "6CL:BR": "PoP-BGA-216, 12.00x12.00x0.83, 0.40 pitch 2-CH",
+          "6CL:D4": "BGA-256, PoP",
           "6CL:DM": "FBGA-178, 10.50x11.50x0.83, 0.65/0.80 mixed pitch",
           "6CL:DR": "PoP-FBGA-216, 12.00x12.00x0.83, 0.40 pitch 2-CH",
           "6AN:AC": "BGA-200",
@@ -726,6 +735,8 @@
           "6AP:BN": "BGA-376, PoP",
           "6AP:BV": "BGA-200",
           "6AP:BY": "BGA-200",
+          "6AT:AN": "BGA-376, PoP",
+          "6AT:AV": "BGA-200",
           "6AT:DV": "BGA-200",
           "6AT:DN": "BGA-376, PoP",
           "6BR:A3": "BGA-315",
@@ -842,6 +853,12 @@
           },
           "6AT:": {
             "operation_temperature": "Commercial (-30C~105C)"
+          },
+          "6AT:I": {
+            "operation_temperature": "Industrial (-40C~105C)"
+          },
+          "6AT:H": {
+            "operation_temperature": "Automotive (-40C~105C)"
           },
           "6AT:J": {
             "operation_temperature": "Automotive (-40C~95C)"

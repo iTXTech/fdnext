@@ -14,6 +14,7 @@ import samsungUfsTokenRules from "./packs/samsung-ufs-token.json" with { type: "
 import samsungEmmcTokenRules from "./packs/samsung-emmc-token.json" with { type: "json" };
 import samsungLegacyEmcpTokenRules from "./packs/samsung-legacy-emcp-token.json" with { type: "json" };
 import samsungMcpTokenRules from "./packs/samsung-mcp-token.json" with { type: "json" };
+import samsungHbmTokenRules from "./packs/samsung-hbm-token.json" with { type: "json" };
 import samsungDramTokenRules from "./packs/samsung-dram-token.json" with { type: "json" };
 import samsungRawTokenRules from "./packs/samsung-raw-token.json" with { type: "json" };
 import nanyaDramTokenRules from "./packs/nanya-dram-token.json" with { type: "json" };
@@ -91,6 +92,7 @@ export const defaultPartDecodeSpecs = [
   ...samsungEmmcTokenRules,
   ...samsungLegacyEmcpTokenRules,
   ...samsungMcpTokenRules,
+  ...samsungHbmTokenRules,
   ...samsungDramTokenRules,
   ...samsungRawTokenRules,
   ...nanyaDramTokenRules,

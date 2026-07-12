@@ -377,7 +377,7 @@ assertRuleDecode("H28SAO301MMR", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 4194304,
-  package: "FBGA",
+  package: "FBGA, 11.5x13x1.0",
   extra: {
     "Product Version": "UFS 2.1"
   }
@@ -387,11 +387,38 @@ assertRuleDecode("H28S8Q302CMR", {
   vendor: "skhynix",
   type: "UFS",
   densityMbit: 1048576,
-  package: "FBGA",
+  package: "FBGA, 11.5x13x1.0",
   extra: {
     "Product Version": "UFS 2.1"
   }
 });
+
+assertRuleDecode("H28S9Q301CMR", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 2097152,
+  package: "FBGA, 11.5x13x1.0",
+  extra: {
+    "Product Version": "UFS 2.1"
+  }
+});
+
+for (const pn of [
+  "H28S8D301DMR",
+  "H28S9Q301CMR",
+  "HN8T15DJHQX109N",
+  "HN8G961ZGKX031N",
+  "HN8T061ZGKX012N",
+  "HN8T161ZGKX013N",
+  "HN8T062EHKX039N",
+  "HN8T162EHKX041N",
+  "HN8T05DEHKX073N",
+  "HN8T15DEHKX075N",
+  "HN8T35DZHKX079N",
+  "HN8T039JHQX099N"
+]) {
+  assertSearchPnIncludes(pn, `SKhynix ${pn}`);
+}
 
 assertRuleDecode("H28U64222MMR", {
   vendor: "skhynix",

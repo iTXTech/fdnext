@@ -95,7 +95,19 @@ modern: K4 + family + density token + 325 organization token + package token + -
 
 ## 输出约定
 
-- Samsung HBM3/HBM3E 官方页面公开 16/24/36GB、8H/12H、MPGA 与最高速率等产品族规格，但没有公开可解析的订购 PN/marking ordering，因此本轮只记录资料缺口，不为 HBM 营销规格虚构 PN decoder。来源：<https://semiconductor.samsung.com/dram/hbm/>、<https://semiconductor.samsung.com/dram/hbm/hbm3e/>
+- Samsung 官方 sitemap 现已公开 4 个 HBM3 与 2 个 HBM3E 颗粒级 PN 页面；HBM3
+  页面确认 `KHBA84A03C-MC1H` 为 16GB、MPGA、x1024、6.4Gbps，产品矩阵还确认
+  `84/C4` 分别是 8Hi 16GB / 12Hi 24GB。HBM3E 官方页确认当前 12-layer
+  产品为 36GB、9.2Gbps，exact PN 页面和外部产品表交叉确认 `84/C4` 分别为
+  8Hi 24GB / 12Hi 36GB。来源：
+  <https://semiconductor.samsung.com/dram/hbm/hbm3/khba84a03c-mc1h/>、
+  <https://semiconductor.samsung.com/dram/hbm/hbm3e/>。
+- Samsung 历史 HBM 产品矩阵还公开 HBM2 Flarebolt/Aquabolt 与 HBM2E Flashbolt
+  的颗粒 PN、容量、MPGA、x1024 和 speed bin。规则按 `KHA/KHAA/KHBA/KHBB`
+  family、stack/density、product family、package 与 speed token 分段解析：未知的
+  stack/product 组合仍保留 Samsung HBM 类型，但不拼接单独已知 token 猜容量。
+  22 个已确认 exact PN 只进入 `dram-pn.json` 和 testcase，不作为 decoder lookup。
+  产品矩阵镜像：<https://www.samsung.glochip.com/pd.jsp?fromMid=352&id=24&recommendFromPid=0>。
 
 - 可确认的 stacked LPDDR token 拆成 `dram_die_count` 与 `cs_count` 输出，例如 `K3QF1...` 输出 `dram_die_count=2`、`cs_count=1`，不再把 DDP/QDP/ODP 作为公开表述。
 - `K4X` LPDDR1 从 bit organization 输出可确认的 CS / layout 信息；物理 die 数输出 `dram_die_count`，CS 输出 `cs_count`，`2 CKE`、JEDEC/Flexframe stack layout 等信息放 `special_option`。

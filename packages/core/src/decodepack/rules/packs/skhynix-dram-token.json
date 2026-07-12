@@ -1083,7 +1083,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H9HCNNN(?:4K|8K|BK|CP|FA)(?:UM|MM|MA)L[HX]R(?:-[0-9A-Z]{3,4})?$"
+      "value": "^H9HCNNN(?:4K|8K|BK|BP|CP|FA)(?:UM|MM|MA)L[HXT]R(?:-[0-9A-Z]{3,4})?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -1094,6 +1094,7 @@
           "4K",
           "8K",
           "BK",
+          "BP",
           "FA",
           "CP"
         ],
@@ -1101,6 +1102,7 @@
           "4K": 4096,
           "8K": 8192,
           "BK": 16384,
+          "BP": 16384,
           "FA": 65536,
           "CP": 32768
         },
@@ -1160,6 +1162,9 @@
             "package": "FBGA-200"
           },
           "X": {
+            "package": "FBGA-200"
+          },
+          "T": {
             "package": "FBGA-200"
           }
         },
@@ -2343,6 +2348,160 @@
     }
   },
   {
+    "id": "vendor.skhynix.dram.lpddr5.h58.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H58(?:G4|G5|G6|GG|GU)[68][AM]K6[BGHJPQV]X[0-9A-Z]{3}N?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H58"
+      ],
+      "tables": {
+        "densityToken": [
+          "G4",
+          "G5",
+          "G6",
+          "GG",
+          "GU"
+        ],
+        "density": {
+          "G4": 16384,
+          "G5": 32768,
+          "G6": 65536,
+          "GG": 98304,
+          "GU": 147456
+        },
+        "width": {
+          "6": 16,
+          "8": 8
+        },
+        "serialObj": {
+          "024": {
+            "package": "FBGA-441"
+          },
+          "026": {
+            "package": "FBGA-441"
+          },
+          "032": {
+            "package": "FBGA-315"
+          },
+          "033": {
+            "package": "FBGA-315"
+          },
+          "037": {
+            "package": "FBGA-496"
+          },
+          "042": {
+            "package": "FBGA-496"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "densityToken",
+          "to": "densityCode"
+        },
+        {
+          "op": "map",
+          "from": "densityCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "organizationCode"
+        },
+        {
+          "op": "map",
+          "from": "organizationCode",
+          "table": "width",
+          "to": "width",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "generationCode"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "speedCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "temperatureCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "reservedCode"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "serialCode"
+        },
+        {
+          "op": "map",
+          "from": "serialCode",
+          "table": "serialObj",
+          "to": "serialObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "LPDDR5",
+            "dram_speed": "LPDDR5-6400"
+          }
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "width"
+        },
+        "fields.dram_voltage": "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+        "fields.package": {
+          "$path": "serialObj.package"
+        },
+        "meta.ruleId": "vendor.skhynix.dram.lpddr5.h58.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.skhynix.dram.lpddr5x.component.v1",
     "priority": 1010,
     "normalize": [
@@ -2360,7 +2519,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^H58(?:G5|G6|G7|GG)[68](?:AK8|BK8|CK8|DK9)[BH]X[0-9A-Z]{3}N?$"
+      "value": "^H58(?:G5|G6|G7|GD|GE|GG)[68](?:AK8|BK8|CK8|DK9)[BHPQV]X[0-9A-Z]{3}N?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -2371,12 +2530,16 @@
           "G5",
           "G6",
           "G7",
+          "GD",
+          "GE",
           "GG"
         ],
         "density": {
           "G5": 32768,
           "G6": 65536,
           "G7": 131072,
+          "GD": 24576,
+          "GE": 49152,
           "GG": 98304
         },
         "width": {
@@ -2428,6 +2591,42 @@
           },
           "096": {
             "package": "FBGA-496, 14x12.4, PoP"
+          },
+          "091": {
+            "package": "FBGA-315"
+          },
+          "103": {
+            "package": "FBGA-315"
+          },
+          "104": {
+            "package": "FBGA-315"
+          },
+          "105": {
+            "package": "FBGA-441"
+          },
+          "106": {
+            "package": "FBGA-441"
+          },
+          "107": {
+            "package": "FBGA-441"
+          },
+          "108": {
+            "package": "FBGA-441"
+          },
+          "114": {
+            "package": "FBGA-315"
+          },
+          "168": {
+            "package": "FBGA-561"
+          },
+          "169": {
+            "package": "FBGA-561"
+          },
+          "170": {
+            "package": "FBGA-561"
+          },
+          "171": {
+            "package": "FBGA-561"
           },
           "146": {
             "package": "FBGA-315"
@@ -2844,6 +3043,106 @@
         "fields.dram_voltage": "1.8V VPP; 1.35V / 1.25V / 1.20V VDD/VDDQ",
         "fields.package": "BGA-180",
         "meta.ruleId": "vendor.skhynix.dram.gddr6.16gb.component.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.skhynix.dram.gddr6.8gb.component.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^H56G32C[0-9A-Z]{2}DX[0-9A-Z]{3}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "H56G32"
+      ],
+      "tables": {
+        "speedObj": {
+          "S4": {
+            "dram_speed": "GDDR6-16Gbps/pin max (8.0GHz WCK)"
+          },
+          "S2": {
+            "dram_speed": "GDDR6-14Gbps/pin max (7.0GHz WCK)"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dieRevision"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "speedCode"
+        },
+        {
+          "op": "map",
+          "from": "speedCode",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "powerCode"
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "reservedCode"
+        },
+        {
+          "op": "take",
+          "len": 3,
+          "to": "serialCode"
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "dram_type": "GDDR6",
+            "die_revision": {
+              "$var": "dieRevision"
+            }
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "skhynix",
+        "device.chipKind": "dram",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.dram_density": 8192,
+        "fields.dram_voltage": "1.35V VDD/VDDQ",
+        "fields.package": "FCBGA",
+        "meta.ruleId": "vendor.skhynix.dram.gddr6.8gb.component.v1"
       }
     }
   }

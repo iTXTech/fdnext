@@ -8,6 +8,8 @@ for (const [partNumber, densityMbit, density, expectedPackage] of [
   ["H54G56BYYJX089", 32768, "32Gb", "FBGA-200"],
   ["H54G66AYZQX106", 65536, "64Gb", "FBGA-556"],
   ["H54G38AYRPX264", 8192, "8Gb", "FBGA-200"],
+  ["H54G36AYRBX257", 8192, "8Gb", "FBGA-200"],
+  ["H54G36AYRJX246", 8192, "8Gb", "FBGA-200"],
   ["H54G26AYRVX066", 4096, "4Gb", "FBGA-200"]
 ] as const) {
   const info = detect(partNumber);

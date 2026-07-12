@@ -1464,7 +1464,7 @@
         "fields.density": {
           "$var": "density"
         },
-        "fields.package": "FBGA",
+        "fields.package": "FBGA, 11.5x13x1.0",
         "meta.ruleId": "vendor.skhynix.ufs.h28s.v1"
       }
     }

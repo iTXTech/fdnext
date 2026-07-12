@@ -305,11 +305,13 @@ for (const [id, explainWidth, resultWidth, voltage] of micronLegacy2GbIds) {
   assertExplainField(id, "voltage", voltage);
   assertExplainField(id, "page_size", 2048);
   assertExplainField(id, "block_size", 131072);
+  assertExplainField(id, "redundant_area_size", "64B");
   assertResultField(id, "density", 2048);
   assertResultField(id, "device_width", resultWidth);
   assertResultField(id, "voltage", voltage);
   assertResultField(id, "page_size", 2048);
   assertResultField(id, "block_size", 131072);
+  assertResultField(id, "redundant_area_size", "64B");
 }
 assertResultField("2CC30832E630", "die_codename", "B57T");
 assertResultField("2CC30832EA34", "die_codename", "B47T");

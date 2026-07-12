@@ -13,6 +13,7 @@ import { micronMdbCoverage } from "../_micron-mdb-coverage";
 
 const partNumberPn = resourceEntries(partNumberPnJson);
 const partNumberPnForbiddenKeys = new Set(["source", "status", "reference", "inference_source", "external_confirmed", "external_table_confirmed"]);
+const skhynixExactSearchOnlyPn = new Set(["HN8T039JHQX099N"]);
 
 const micronCatalogSeeds = {
   eMMC: [
@@ -148,7 +149,7 @@ test("known SK hynix UFS PN resources decode with a single HN8 datasheet rule", 
     const record = entry as Record<string, unknown>;
     const vendor = String(record.vendor);
     const pn = String(record.pn);
-    return vendor === "skhynix" && /^(?:H28[SU]|HN8)/.test(pn) ? [pn] : [];
+    return vendor === "skhynix" && /^(?:H28[SU]|HN8)/.test(pn) && !skhynixExactSearchOnlyPn.has(pn) ? [pn] : [];
   });
   assert.ok(knownSkhynixUfsPn.length > 0, "known SK hynix UFS PN resource should include H28S/H28U/HN8 entries");
   for (const pn of knownSkhynixUfsPn) {
@@ -160,6 +161,20 @@ test("known SK hynix UFS PN resources decode with a single HN8 datasheet rule", 
       const hn8Matches = compiledPack.partDecoders.filter((decoder) => skhynixHn8RuleIds.has(decoder.id) && decoder.match(pn));
       assert.equal(hn8Matches.length, 1, `${pn} should match exactly one SK hynix HN8 datasheet rule`);
     }
+  }
+});
+
+test("single-body SK hynix UFS evidence stays search-only instead of creating a one-off decoder", () => {
+  for (const pn of skhynixExactSearchOnlyPn) {
+    assert.ok(
+      partNumberPnJson.some((entry) => entry.vendor === "skhynix" && entry.pn === pn),
+      `${pn} should remain in the exact PN search resource`
+    );
+    assertSearchPnIncludes(pn, `SKhynix ${pn}`);
+    const info = detect(pn);
+    assert.equal(info.vendor, "skhynix", `${pn} should retain its externally confirmed vendor`);
+    assert.equal(info.type, "unknown", `${pn} should not gain a full-body decoder from one external sample`);
+    assert.equal(info.densityMbit, undefined, `${pn} should not guess density from one external sample`);
   }
 });
 

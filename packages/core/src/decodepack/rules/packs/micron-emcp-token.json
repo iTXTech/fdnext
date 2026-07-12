@@ -1563,7 +1563,12 @@
           "ML": "VFBGA-153, 8x9x0.90, MCP",
           "MS": "WFBGA-191, 12x12x0.80, PoP",
           "NE": "VFBGA-133, 11x10x1.0, MCP",
+          "PB": "WFBGA-221, 11.5x13x0.8",
+          "PL": "WFBGA-162, 11.5x13x0.8",
           "RN": "FBGA-160, 11.5x11.5x0.94, MCP",
+          "SK": "WFBGA-162, 11.5x13x0.9",
+          "SP": "WFBGA-162, 8x10.5x0.8",
+          "TB": "VFBGA-162, 8x10.5x0.9",
           "TE": "VFBGA-153, 10x12x1.0, MCP",
           "TN": "BGA-121, 7.5x8x0.8",
           "WD": "BGA-162, 8.0x10.5x0.9"
@@ -2390,6 +2395,7 @@
           "JR": "LFBGA-137, 13x10.5x1.4",
           "JS": "TFBGA-137, 13x10.5x1.4",
           "JV": "VFBGA-168, 12x12x1.0, PoP",
+          "KB": "WFBGA-168, 12x12x0.8",
           "KC": "TFBGA-107, 13x10.5x1.1",
           "KD": "TFBGA-137, 13x10.5x1.1",
           "KN": "VFBGA-184, 14x14x1.0, PoP",
@@ -2514,7 +2520,7 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([0-9A-Z]*?)(CA|CG|HC|HK|HP|JA|JC|JG|JI|JQ|JR|JS|JV|KC|KD|KN|KQ|KS|MA|MC|MD|ME|MF|MJ|MK|ML|MR|MS|NE|PL|RN|SK|SP|TE)(?=-|$)",
+          "pattern": "^([0-9A-Z]*?)(CA|CG|HC|HK|HP|JA|JC|JG|JI|JQ|JR|JS|JV|KB|KC|KD|KN|KQ|KS|MA|MC|MD|ME|MF|MJ|MK|ML|MR|MS|NE|PL|RN|SK|SP|TE)(?=-|$)",
           "groups": {
             "configCode": 1,
             "packageCode": 2

@@ -144,6 +144,49 @@ assertDram("H58G66DK9BX067", {
   }
 });
 
+assertDram("H58GG6MK6GX037", {
+  vendor: "skhynix",
+  densityMbit: 98304,
+  density: "96Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "FBGA-496",
+  extra: {
+    "DRAM Type": "LPDDR5",
+    "DRAM Speed": "LPDDR5-6400"
+  }
+});
+
+assertDram("H58GE6AK8PX168N", {
+  vendor: "skhynix",
+  densityMbit: 49152,
+  density: "48Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "FBGA-561",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Speed": "LPDDR5X-8533",
+    "DRAM Generation": "2nd Gen",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
+assertDram("H58GD6AK8QX091N", {
+  vendor: "skhynix",
+  densityMbit: 24576,
+  density: "24Gb",
+  widthField: "x16",
+  voltage: "1.8V VDD1 / 1.05V VDD2 / 0.5V VDDQ",
+  package: "FBGA-315",
+  extra: {
+    "DRAM Type": "LPDDR5X",
+    "DRAM Speed": "LPDDR5X-8533",
+    "DRAM Generation": "2nd Gen",
+    "Solder Type": "Lead and Halogen Free"
+  }
+});
+
 assertDram("H56C8H24MJR-S2C", {
   vendor: "skhynix",
   densityMbit: 8192,
@@ -192,3 +235,31 @@ assertDram("H56G42AS2DX014", {
     "Die Revision": "A"
   }
 });
+
+assertDram("H56G32CS4DX005", {
+  vendor: "skhynix",
+  densityMbit: 8192,
+  density: "8Gb",
+  voltage: "1.35V VDD/VDDQ",
+  package: "FCBGA",
+  extra: {
+    "DRAM Type": "GDDR6",
+    "DRAM Speed": "GDDR6-16Gbps/pin max (8.0GHz WCK)",
+    "Die Revision": "C"
+  }
+});
+
+for (const pn of [
+  "H5ANAG6NCMR-XNI",
+  "H5TC4G63EFR-RDA",
+  "H5CG48MEBDX014N",
+  "H9HCNNNBPUMLHR-NME",
+  "H54G36AYRBX257",
+  "H58GG6MK6GX037",
+  "H58GE6AK8PX168N",
+  "H57G42MP4AX004N",
+  "H56G32CS4DX005",
+  "H5WG6HMN6QX038R"
+]) {
+  assertSearchPnIncludes(pn, `SKhynix ${pn}`);
+}

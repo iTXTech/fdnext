@@ -19,6 +19,7 @@
   <https://gsma.my.site.com/mwcoem/servlet/servlet.FileDownload?file=00P6900002qWJkkEAG>
   <https://www.skhynix.glochip.com/h-pd-15.html>
   <https://patchew.org/linux/20240404122559.898930-1-peter.griffin%40linaro.org/>
+- 上述产品表的可见行还确认 12 条此前缺失的 exact 搜索 PN：UC220 的 `HN8G961ZGKX031N` / `HN8T061ZGKX012N` / `HN8T161ZGKX013N`，UD220 的 `HN8T062EHKX039N` / `HN8T162EHKX041N`，UD310 的 `HN8T05DEHKX073N` / `HN8T15DEHKX075N` / `HN8T35DZHKX079N`，UD310A 的 `HN8T15DJHQX109N`，UC210 的 `H28S8D301DMR` / `H28S9Q301CMR`，以及 UD210A `HN8T039JHQX099N`。带 `N` 与不带 `N` 的既有记录同时保留；`HN8T039JHQX099N` 只有单一 ordering body，故仅作为 exact 搜索种子，不新增等价完整 PN decoder。
 - SK hynix ZUFS 4.1 官方新闻稿确认 ZUFS 4.1 已开始供应；新闻图正面 marking 为 `HN8T274EJKX130`，背面 ball map 可确认 `153FBGA`。
   <https://news.skhynix.com/sk-hynix-begins-supplying-mobile-nand-solution-zufs-4-1/>
 - SK hynix UFS 2.1 分销页给出 `H28SAO301MMR`，类型 UFS、Sub-Type UFS 2.1、FBGA、512GB；同页相关型号列出 `H28S6D302BMR` 32GB / `H28S8Q302CMR` 128GB。
@@ -110,7 +111,7 @@ Preduo 等灰市 / 分销页可信度低于原厂新闻图、原厂 datasheet �
 | `voltage` | UC310: `Vcc: 2.5V, VccQ: 1.2V`; UD310: `Vcc: 2.4V-2.7V, VccQ: 1.14V-1.26V`; UD220: `Vcc: 3.3V, VccQ: 1.8V`; UC220: `Vcc: 2.7V-3.6V, VccQ2: 1.7V-1.95V`; Automotive UFS3.1 暂不输出；ZUFS fallback 保留既有资料 | 未确认，输出 `Unknown` |
 | `package` | UC310: `FBGA-153, 11.5x13.0x1.0`; UD310: `WFBGA-153, 11.0x13.0x0.8` / `VFBGA-153, 11.0x13.0x1.0`; Automotive: `TFBGA-153, 11.5x13.0x1.2, JEDEC FBGA`; UD220: `FBGA-153, 11.5x13.0x0.8`; UC220: `FBGA-153, 11.5x13.0x1.0` | `FBGA` |
 | `fields.product_version` / `fields.storage_interface` | `UFS 2.0` / `UFS 2.2` / `UFS 3.1` / `UFS 4.1` | `UFS 2.1` |
-| `fields.die_codename` | UD310 / UD220 / Automotive UFS3.1 标准化为 `HYV7`；UC220 暂不输出 die codename | HN8 series `2E` / `DE` / `DZ` 标准化为 SK hynix 4D V7 |
+| `fields.die_codename` | UD310 / UD220 / Automotive UFS3.1 标准化为 `HYV7`；UC220 暂不输出 die codename | 不输出 |
 | `fields.layer_count` | `176` | 随 `HYV7` profile 补出 |
 | `fields.generation_info` / `fields.die_density` / `fields.die_count` | H28U 输出 `1xnm NAND` / `3D-V2 NAND`、64Gb / 128Gb die 与 4/8/16 die count | H28S 暂不输出 |
 
@@ -132,7 +133,8 @@ Preduo 等灰市 / 分销页可信度低于原厂新闻图、原厂 datasheet �
 | `HN8T274EJKX130` | ZUFS 4.1, 512GB, 153FBGA, Mobile |
 | `HN8T374ZJKX141` | ZUFS 4.1, 1TB, 153FBGA, Mobile; `141` 只作为 serial 保留 |
 | `H28SAO301MMR` | UFS 2.1, 512GB, FBGA |
-| `H28S8Q302CMR` | UFS 2.1, 128GB, FBGA |
+| `H28S8D301DMR` | UFS 2.1, 128GB, FBGA 11.5x13x1.0mm |
+| `H28S9Q301CMR` | UFS 2.1, 256GB, FBGA 11.5x13x1.0mm |
 | `H28U64222MMR` | UFS 2.0, 32GB, 1xnm, 64Gb x4, 11.5x13x1.0mm |
 | `H28U86222MCR` | UFS 2.0, 128GB, 1xnm, 64Gb x16, 11.5x13x1.2mm |
 | `H28U88201AMR` | UFS 2.0, 128GB, 3D-V2, 128Gb x8, 11.5x13x1.0mm |
@@ -141,5 +143,5 @@ Preduo 等灰市 / 分销页可信度低于原厂新闻图、原厂 datasheet �
 
 - HN8 的 product serial 暂不解释，只作为结构位保留；例如 `037` / `073` / `130` / `141` 不作为完整语义 token 解码。
 - H28U 只按 Q1'2016 line-up 输出 UFS2.0、容量、base component、stack 和尺寸；package ball count、温区与 controller revision 仍未拆出。
-- H28S 当前只根据公开分销资料确认 UFS 2.1 和容量映射，电压、温区、package variant 仍需原厂 ordering table。
+- H28S 的公开产品表已确认 UFS 2.1、容量以及 `11.5x13x1.0mm FBGA`；ball count、温区与 serial 语义仍需原厂 ordering table。
 - 灰市/分销页常见 `H9HQ...` 多为 uMCP (UFS + LPDDR)，已拆分到 [skhynix_emcp.md](skhynix_emcp.md)，不能直接当作纯 UFS parser。
