@@ -17,6 +17,7 @@
   <https://www.micron.com/products/obsolete/obsolete-emmc/part-catalog>
   <https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8611/emmc-industrial-8-128gb-v5-1.pdf>
   <https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8611/auto-emmc-8-128gb-1-8v-5-1.pdf>
+- 2026-07-12 重新审计官方 current 40 条、obsolete 132 条 e.MMC catalog 记录。在排除 ES、已有搜索资源和有效 MDB exact / suffix-boundary 覆盖后，24 条非样品 exact PN 进入 `managed-nand-pn.json`；每条均以既有结构化规则验证为 Micron eMMC，且 numeric density 与 catalog 一致。新增 PN 为：`MTFC32GBCAQTC-AIT`、`MTFC128GAZAQJP-AAT`、`MTFC128GAZAQJP-AIT`、`MTFC32GAZAQDW-AAT`、`MTFC32GBCAQTC-IT`、`MTFC32GAZAQHD-WT`、`MTFC64GAZAQHD-AIT`、`MTFC128GBCAQTC-WT`、`MTFC32GAZAQHD-IT`、`MTFC64GAZAQHD-IT`、`MTFC32GBCAQDQ-AAT`、`MTFC32GAZAQHD-AAT`、`MTFC32GBCAQTC-WT`、`MTFC32GAZAQHD-AIT`、`MTFC64GBCAQTC-WT`、`MTFC64GAZAQHD-AAT`、`MTFC256GBCAQTC-WT`、`MTFC128GAZAQJP-IT`、`MTFC32GAKAEEF-AIT`、`MTFC64GAZAQHD-WT`、`MTFC16GAKAEEF-AIT`、`MTFC64GAJAEDQ-AIT`、`MTFC32GAKAEDQ-AIT`、`MTFC8GAMALBH-IT`。
 
 ## 规则状态
 

@@ -32,6 +32,9 @@
   <https://www.puris.net/dir/product/flash/rawnand>
 - 本地资料：`packages/core/resources/fdb.json`、`../fdfdb/smssd/2259XT3_Y1226.SET`、`../fdfdb/smssd/2259XT2_Y0321.SET`、`../fdfdb/smufd/flash_3281BB.dbf`、`../fdfdb/smff/ForceFlash-W1116.SET`、`../fdfdb/ma/mas1102_16.ini` 中的 H25 PN、Flash ID、容量、Vx/MLC/TLC/QLC 标签。
 - SK hynix `H27U2G8F2C` 2Gbit datasheet 的 Legacy Read ID 表：确认 `AA/BA/CA/DA` device ID 分别编码 1.8V/3.3V 与 x8/x16，并确认 3rd/4th/5th byte 的 die/cell、page/block/spare、plane 位段。公开镜像：<https://www.alldatasheet.fr/datasheet-pdf/pdf/2079233/HYNIX/H27U2G8F2CTR.html>。
+- Hynix `HY27US(08/16)281A` 128Mbit datasheet 的 Read ID 表确认 `73/53` 分别为 3.3V x8/x16：<https://docs.rs-online.com/2289/0900766b80d6fb37.pdf>。
+- Hynix `HY27(U/S)S(08/16)561A` 256Mbit datasheet 的 Read ID 表确认 `75/55` 为 3.3V x8/x16，`35/45` 为 1.8V x8/x16：<https://datasheet4u.com/pdf-down/H/Y/2/HY27US08561A_HynixSemiconductor.pdf>。
+- Hynix `HY27(U/S)S(08/16)121A` 512Mbit datasheet 的 Read ID 表确认 `76/56` 为 3.3V x8/x16，`36/46` 为 1.8V x8/x16：<https://images.100y.com.tw/pdf_file/HYNIX_HY27US08121A-TP.pdf>。
 - Hynix `HY27UF081G2A` 1Gbit datasheet 的 Read ID 表确认 `F1/C1` 分别为 3.3V x8/x16，byte3=`80`，并给出 2KB page、128KB block 与 64B spare；公开 PDF 镜像：<https://docs.rs-online.com/af21/0900766b80d6fc8d.pdf>。
 - Hynix `H27U4G8F2D` datasheet 的 legacy Read ID supported-configurations 表同时列出 4Gbit `AC/BC/CC/DC + 90`、8Gbit `A3/B3/C3/D3 + D1` 和 16Gbit `A5/B5/C5/D5 + D2` 的电压/位宽组合；公开镜像：<https://www.datasheetq.com/pdf-html/384049/Hynix/24page/H27U4G8F2DTR-BC.html>。
 - Hynix `HY27UG088G(5/D)M` 8Gbit datasheet 确认 `AD DC 80 95`，组织为 2KB page、128KB block；公开 PDF 镜像：<https://wiki.laptop.org/mediawiki/images/1/1b/CL1_NAND_Hynix.pdf>。
@@ -244,6 +247,20 @@ H25 目前分成两类结构处理：
 | `A5/B5/C5/D5 + D2` | 16Gbit die configuration | 1.8V/3.3V, x8/x16 | 2KB page, 128KB block, 64B spare |
 
 `D5 + 94` 的 `H27UAG8T2B` 是反例：它继续走后期 bitfield，输出 8KB page、2MB block 和 448B spare。该条件化避免旧 datasheet 的 geometry 覆盖已经确认的新式编码。
+
+### Legacy small-page 两字节 device ID
+
+早期 Hynix small-page SLC 仅返回 maker + device 两字节。当前仅追加 datasheet 直接确认且原结果完全缺失的 density、voltage、device width，不改通用 identifier 对短 ID 补零后形成的既有 geometry：
+
+| Device ID | Density | Voltage / width |
+| --- | --- | --- |
+| `73/53` | 128Mbit | 3.3V, x8/x16 |
+| `75/55` | 256Mbit | 3.3V, x8/x16 |
+| `35/45` | 256Mbit | 1.8V, x8/x16 |
+| `76/56` | 512Mbit | 3.3V, x8/x16 |
+| `36/46` | 512Mbit | 1.8V, x8/x16 |
+
+这些器件的 datasheet 同时给出 512-byte page、16KB block 和 16-byte spare，但当前短 ID 会补零后走通用 2KB/128KB/128B geometry。遵循不覆盖既有 mapping 的约束，本轮只记录冲突，不修改 page/block/spare。`HY27UA081G1M` 的 `79` device ID 由 datasheet 确认为 1Gbit，但现有 Flash ID density 输出为 1Tb，同样只记录、不覆盖。
 
 ### H25T / H25G NAND package
 

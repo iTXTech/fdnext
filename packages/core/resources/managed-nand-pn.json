@@ -597,7 +597,35 @@
   },
   {
     "vendor": "kioxia",
+    "pn": "THGAMVG8T13BAB7"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVG9T23BAB8"
+  },
+  {
+    "vendor": "kioxia",
     "pn": "THGAMVT0T43BAB8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVT1T83BAB5"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVG8T13BAA7"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVG9T23BAA8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVT0T43BAA8"
+  },
+  {
+    "vendor": "kioxia",
+    "pn": "THGAMVT1T83BAA5"
   },
   {
     "vendor": "kioxia",
@@ -1010,6 +1038,174 @@
   {
     "vendor": "micron",
     "pn": "MTFC256GBCAVTC-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GBCAQTC-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GAZAQJP-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GAZAQJP-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GAZAQDW-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GBCAQTC-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GAZAQHD-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GAZAQHD-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GBCAQTC-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GAZAQHD-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GAZAQHD-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GBCAQDQ-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GAZAQHD-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GBCAQTC-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GAZAQHD-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GBCAQTC-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GAZAQHD-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GBCAQTC-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GAZAQJP-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GAKAEEF-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GAZAQHD-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC16GAKAEEF-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GAJAEDQ-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC32GAKAEDQ-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC8GAMALBH-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC64GBCAVAL-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GBCAVTC-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GBCAVTC-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC512GBCAVTC-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GBCAVTC-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC512GBCAVTC-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GAVATTC-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GBAAVHF-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GARATEA-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GAVAUTC-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GAVATTC-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GAVATTC-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GARATEA-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC512GAVATTC-AAT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GAVATTC-AIT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC128GBAAVHF-WT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC512GAVATTC-IT"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MTFC256GAZAOTD-AAT"
   },
   {
     "vendor": "micron",

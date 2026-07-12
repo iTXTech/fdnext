@@ -2,6 +2,7 @@ import { test } from "node:test";
 import {
   assertKioxiaManagedRuleMatches,
   assertKioxiaRawSuffixTopology,
+  assertSearchPnIncludes,
   testPart
 } from "./_helpers";
 
@@ -274,6 +275,32 @@ testPart("THGAMVT0T43BAB8", {
   },
   absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
 });
+
+for (const [partNumber, densityMbit, dieCount, productClass, operationTemperature] of [
+  ["THGAMVG8T13BAB7", 262144, 1, "Automotive AEC-Q100 Grade 2", "-40°C ~ 105°C"],
+  ["THGAMVG9T23BAB8", 524288, 2, "Automotive AEC-Q100 Grade 2", "-40°C ~ 105°C"],
+  ["THGAMVT1T83BAB5", 2097152, 8, "Automotive AEC-Q100 Grade 2", "-40°C ~ 105°C"],
+  ["THGAMVG8T13BAA7", 262144, 1, "Automotive AEC-Q100 Grade 3", "-40°C ~ 85°C"],
+  ["THGAMVG9T23BAA8", 524288, 2, "Automotive AEC-Q100 Grade 3", "-40°C ~ 85°C"],
+  ["THGAMVT0T43BAA8", 1048576, 4, "Automotive AEC-Q100 Grade 3", "-40°C ~ 85°C"],
+  ["THGAMVT1T83BAA5", 2097152, 8, "Automotive AEC-Q100 Grade 3", "-40°C ~ 85°C"]
+] as const) {
+  testPart(partNumber, {
+    vendor: "kioxia",
+    type: "eMMC",
+    densityMbit,
+    dieProfileField: "BiCS3",
+    cellField: "TLC",
+    extra: {
+      "Storage Interface": "eMMC 5.1",
+      "Die Count": dieCount,
+      "Product Class": productClass,
+      "Operation Temperature": operationTemperature
+    },
+    absentExtra: ["Product Version", "NAND Technology", "Die Stack"]
+  });
+  assertSearchPnIncludes(partNumber, `Kioxia ${partNumber}`);
+}
 
 testPart("THGAMSG9T15BAIL", {
   vendor: "kioxia",

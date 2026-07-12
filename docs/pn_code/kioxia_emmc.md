@@ -8,6 +8,8 @@
   <https://www.kioxia.com/content/dam/kioxia/shared/business/memory/mlc-nand/asset/productbrief/KIOXIA_e-MMC_Product_Brief.pdf>
 - KIOXIA Memory Selector: 给出 consumer、industrial、automotive e-MMC 表，包含 `THGAMVT1T83BAB5`、`THGAMVT0T43BAA8` 等 automotive 型号。
   <https://americas.kioxia.com/en-us/business/memory/selector.html>
+- KIOXIA Embedded Flash Memory brochure 给出 Automotive e-MMC 5.1 的 Grade 2 / Grade 3 全容量 line-up：`THGAMVG8T13BAB7` / `THGAMVG8T13BAA7`、`THGAMVG9T23BAB8` / `THGAMVG9T23BAA8`、`THGAMVT0T43BAB8` / `THGAMVT0T43BAA8`、`THGAMVT1T83BAB5` / `THGAMVT1T83BAA5`，分别覆盖 32GB / 64GB / 128GB / 256GB。上述 exact PN 只进入搜索资源和 testcase，公开字段仍由既有局部 token 规则解析。
+  <https://my.avnet.com/wcm/connect/f6654e9b-a0e2-4424-80ca-8928280e5c8c/KIOXIA%2BEmbedded%2BFlash%2BMemory%2BBrochure.pdf?CACHE=NONE&CVID=oW06hid&ContentCache=NONE&MOD=AJPERES>
 - KIOXIA current e-MMC product table: 给出 BiCS5 `THGAMSG9T15BAIL` / `THGAMST0T25BAIL`、容量和 `11.5x13.0x0.8` 封装。
   <https://europe.kioxia.com/en-europe/business/memory/mlc-nand/emmc.html>
 - Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3, 2010-09-24: `NAND w/ controller` 页给出 `THG` 系列中 voltage、interface、controller revision、density、cell level、stacked die、design rule、package、temperature/class 和 package size token 表。
@@ -67,6 +69,8 @@ PN 结构：
 - `THGBMNG5D1LBAIT`
 - `THGBM2G9DBFBAI2`
 - `THGAMVT0T43BAB8`
+- `THGAMVT1T83BAB5`
+- `THGAMVT0T43BAA8`
 - `THGAMSG9T15BAIL`
 
 ## 注意

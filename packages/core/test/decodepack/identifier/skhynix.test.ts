@@ -51,6 +51,34 @@ test("SK hynix legacy SLC Read ID decodes 1Gb and 4Gb voltage/width variants", (
   assertLegacyGeometry("ADDC909554", 4096, "x8", "Vcc: 3.3V");
 });
 
+test("SK hynix legacy small-page device IDs add density, voltage, and width without rewriting geometry", () => {
+  const variants: Array<[string, number, number, "Vcc: 1.8V" | "Vcc: 3.3V"]> = [
+    ["AD73", 128, 8, "Vcc: 3.3V"],
+    ["AD53", 128, 16, "Vcc: 3.3V"],
+    ["AD75", 256, 8, "Vcc: 3.3V"],
+    ["AD55", 256, 16, "Vcc: 3.3V"],
+    ["AD35", 256, 8, "Vcc: 1.8V"],
+    ["AD45", 256, 16, "Vcc: 1.8V"],
+    ["AD76", 512, 8, "Vcc: 3.3V"],
+    ["AD56", 512, 16, "Vcc: 3.3V"],
+    ["AD36", 512, 8, "Vcc: 1.8V"],
+    ["AD46", 512, 16, "Vcc: 1.8V"]
+  ];
+
+  for (const [id, density, width, voltage] of variants) {
+    const fields = resultFields(id);
+    assert.equal(fields.density, density, `${id} density`);
+    assert.equal(fields.device_width, width, `${id} width`);
+    assert.equal(fields.voltage, voltage, `${id} voltage`);
+
+    // The two-byte legacy IDs are padded by the generic identifier path. Keep the
+    // existing generic geometry untouched until a dedicated compatibility decision.
+    assert.equal(fields.page_size, 2048, `${id} preserved page size`);
+    assert.equal(fields.block_size, 131072, `${id} preserved block size`);
+    assert.equal(fields.redundant_area_size, "128B", `${id} preserved spare size`);
+  }
+});
+
 test("SK hynix legacy stacked SLC geometry is conditioned on byte 3", () => {
   assertLegacyGeometry("ADD3D19558", 8192, "x8", "Vcc: 3.3V");
   assertLegacyGeometry("ADD5D2955C", 16384, "x8", "Vcc: 3.3V");

@@ -1,6 +1,6 @@
 # Micron UFS PN 编码
 
-采集日期：2026-05-20
+采集日期：2026-05-20；更新日期：2026-07-12
 
 ## 外部资料
 
@@ -20,6 +20,7 @@
 - Micron 官方 UFS catalog 确认 `MTFC512GAYAZHF-WT` 为 UFS 3.1，授权分销页同样确认 `MTFC256GBEAZHF-WT` 为 UFS 3.1；因此补齐 `AY:AZ` / `BE:AZ` 局部组合。两条 exact PN 已由 MDB 覆盖，不重复进入搜索资源。<https://tw.micron.com/products/storage/managed-nand/universal-flash-storage/part-catalog>、<https://www.digikey.tw/zh/products/detail/micron-technology-inc/MTFC256GBEAZHF-WT/22040998>
 - Micron 官方 part-detail 与授权 Mouser/DigiKey 页面确认 `MTFC512GAYAXAP-WT`、`MTFC256/512GBGBBAP-WT` 的 `AP` package token 是 WFBGA-153；公开页未稳定给出尺寸，因此只输出 `WFBGA-153`，不把 9x13 或厚度补猜。相关 exact PN 已由 MDB 覆盖。<https://www.micron.com/products/multichip-packages/ufs-based-mcp/part-catalog/part-detail/mtfc512gayaxap-wt>、<https://www.mouser.com/ProductDetail/Micron/MTFC512GAYAXAP-WT>
 - Micron 官方 obsolete UFS catalog JSON 的 69 条记录用于做 `component:controller` 全量差分，补齐此前会回退为 eMMC 的 `AM:AK`、`AO:AM`、`AR:AM`、`AR:AP`、`AV:AU`、`AW:AT`、`AX:AV`、`AY:AY`、`BA:AV`、`BC:AX`。catalog 明确给 protocol 时分别输出 UFS 2.1 / 3.0 / 3.1 / 4.0；`AX:AV`、`AY:AY`、`BA:AV` 的 protocol 栏为空，只识别 UFS。`HL` token 由同一 catalog 确认为 `VFBGA-237, 11x13x0.9`。<https://www.micron.com/content/micron/us/en/products/obsolete/obsolete-universal-flash-storage/part-catalog/_jcr_content.products.json/getpartcatalog/obsolete/obsolete-universal-flash-storage/-/en_US>
+- 2026-07-12 重新审计官方 current 21 条、obsolete 69 条 UFS catalog 记录。在排除 ES、已有搜索资源和有效 MDB exact / suffix-boundary 覆盖后，18 条非样品 exact PN 进入 `managed-nand-pn.json`；每条均以既有结构化规则验证为 Micron UFS，且 numeric density 与 catalog 一致。新增 PN 为：`MTFC64GBCAVAL-AAT`、`MTFC256GBCAVTC-AIT`、`MTFC128GBCAVTC-AIT`、`MTFC512GBCAVTC-AAT`、`MTFC128GBCAVTC-AAT`、`MTFC512GBCAVTC-AIT`、`MTFC128GAVATTC-IT`、`MTFC256GBAAVHF-WT`、`MTFC256GARATEA-WT`、`MTFC128GAVAUTC-IT`、`MTFC128GAVATTC-AIT`、`MTFC256GAVATTC-IT`、`MTFC128GARATEA-WT`、`MTFC512GAVATTC-AAT`、`MTFC256GAVATTC-AIT`、`MTFC128GBAAVHF-WT`、`MTFC512GAVATTC-IT`、`MTFC256GAZAOTD-AAT`。catalog 中的 `MTFC513GBAAVHJ-WT`、`MTFC51GBCAXHE-WT` 主体容量结构异常，未进入资源；已有 mapping 不因 catalog 差异被覆盖或删除。
 
 ## 规则状态
 
