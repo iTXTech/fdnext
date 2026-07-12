@@ -9,6 +9,8 @@
 - 同一 flyer 的 EC000 ordering 表另给出 8GB `YMEC4A1MA1A2C1` 与 16GB `YMEC5A1MA2A2C1`，确认 `A1/M/A/A2/C1` token family；两枚 PN 补入搜索资源。
 - YMTC EC150 官方页确认 eMMC 5.1、64GB/128GB/256GB、BGA-153 11.5x13 封装和 Xtacking 4.0 产品线。
   <https://www.ymtc.com/en/products/46.html?cat=38>
+- YMTC 官方 Technical Support 页面已列出 EC150 eMMC 5.1 英文 flyer；下载仍要求登录，因此这里只把它作为官方资料入口，不从未读取内容扩展 ordering token。
+  <https://www.ymtc.com/en/techsupport.html>
 - EC150 64GB 实物评测确认 `YMEC7C0TG1A2C3`；外部料号表列出同结构的 128GB `YMEC8C0TG2A2C3` 和 256GB `YMEC9C0TG3A2C3`，与官方容量矩阵一致，用于建立 `C0/G` token family。exact PN 只进入搜索资源和 testcase。
   <https://inf.news/en/digital/e6c5d7543d875b550ba31c8fe31ecab0.html>
   <https://gloneo.com/h-nd-1169.html>

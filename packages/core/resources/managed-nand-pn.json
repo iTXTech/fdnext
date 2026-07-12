@@ -3434,5 +3434,17 @@
   {
     "vendor": "esmt",
     "pn": "FC51L04SMSA-2.5BWGE"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "H2DTDG8UD1MYR"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8G962EHKX037"
+  },
+  {
+    "vendor": "skhynix",
+    "pn": "HN8T25DEHKX077"
   }
 ]

@@ -226,6 +226,23 @@ assertRuleDecode("HN8T25DEHKX077N", {
   absentExtra: ["System", "Product Family", "Product Generation"]
 });
 
+assertSkhynixHn8RuleMatches("HN8T25DEHKX077", ["vendor.skhynix.ufs.hn8.mobile-ufs31.v1"]);
+assertRuleDecode("HN8T25DEHKX077", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 4194304,
+  dieProfileField: "HYV7",
+  voltage: "Vcc: 2.4V-2.7V, VccQ: 1.14V-1.26V",
+  package: "WFBGA-153, 11.0x13.0x0.8",
+  extra: {
+    "Storage Interface": "UFS 3.1",
+    "Layer Count": 176,
+    "Product Class": "Mobile"
+  },
+  absentExtra: ["System", "Product Family", "Product Generation", "Production Status"]
+});
+assertSearchPnIncludes("HN8T25DEHKX077", "SKhynix HN8T25DEHKX077");
+
 assertSkhynixHn8RuleMatches("HN8T35DZHKX079", ["vendor.skhynix.ufs.hn8.mobile-ufs31.v1"]);
 assertRuleDecode("HN8T35DZHKX079", {
   vendor: "skhynix",
@@ -255,6 +272,22 @@ assertRuleDecode("HN8G962EHKX037N", {
   },
   absentExtra: ["System", "Product Family"]
 });
+
+assertSkhynixHn8RuleMatches("HN8G962EHKX037", ["vendor.skhynix.ufs.hn8.ufs22-v7.v1"]);
+assertRuleDecode("HN8G962EHKX037", {
+  vendor: "skhynix",
+  type: "UFS",
+  densityMbit: 524288,
+  dieProfileField: "HYV7",
+  voltage: "Vcc: 3.3V, VccQ: 1.8V",
+  package: "FBGA-153, 11.5x13.0x0.8",
+  extra: {
+    "Storage Interface": "UFS 2.2",
+    "Layer Count": 176
+  },
+  absentExtra: ["System", "Product Family", "Production Status"]
+});
+assertSearchPnIncludes("HN8G962EHKX037", "SKhynix HN8G962EHKX037");
 
 assertSkhynixHn8RuleMatches("HN8T062EHKX039", ["vendor.skhynix.ufs.hn8.ufs22-v7.v1"]);
 assertRuleDecode("HN8T062EHKX039", {

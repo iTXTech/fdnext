@@ -51,6 +51,13 @@ test("SK hynix legacy SLC Read ID decodes 1Gb and 4Gb voltage/width variants", (
   assertLegacyGeometry("ADDC909554", 4096, "x8", "Vcc: 3.3V");
 });
 
+test("SK hynix H27U2G/H27S2G datasheet Read IDs decode all 2Gb voltage and width variants", () => {
+  assertLegacyGeometry("ADDA909544", 2048, "x8", "Vcc: 3.3V");
+  assertLegacyGeometry("ADCA90D544", 2048, "x16", "Vcc: 3.3V");
+  assertLegacyGeometry("ADAA901544", 2048, "x8", "Vcc: 1.8V");
+  assertLegacyGeometry("ADBA905544", 2048, "x16", "Vcc: 1.8V");
+});
+
 test("SK hynix legacy small-page device IDs add density, voltage, and width without rewriting geometry", () => {
   const variants: Array<[string, number, number, "Vcc: 1.8V" | "Vcc: 3.3V"]> = [
     ["AD73", 128, 8, "Vcc: 3.3V"],

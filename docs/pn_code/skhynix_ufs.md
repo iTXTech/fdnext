@@ -14,6 +14,7 @@
   <https://www.uttc.com.tw/wp-content/uploads/2025/12/SK-hynix-UFS2.2-3D-V6-Datasheet-64-512GB-V1.0.pdf>
 - SK hynix UD310/UD220 e-catalogue mirror 给出 176-layer V7 UFS line-up：UD310 UFS3.1 `HN8T05DEHKX073` / `HN8T15DEHKX075` / `HN8T25DEHKX077` / `HN8T35DZHKX079`，UD220 UFS2.2 `HN8G962EHKX037` / `HN8T062EHKX039` / `HN8T162EHKX041`。
   <https://dfsimg1.hqewimg.com/group6/M00/01/65/wKhk6WfNRF2AFcUlAB1op25VokQ315.pdf>
+- 上述 line-up 中此前搜索资源只保留了 `HN8T25DEHKX077N` / `HN8G962EHKX037N`；本轮补入 datasheet / e-catalogue 直接列出的无后缀 exact PN `HN8T25DEHKX077` / `HN8G962EHKX037`。两种后缀形态均保留，不覆盖既有量产后缀记录。
 - SK hynix 2021 Mobile NAND catalogue 确认 UC310 是 128-layer V6 UFS3.1，容量为 128GB / 256GB / 512GB，封装尺寸 `11.5 x 13 x 1.0`；公开产品表进一步给出对应 `HN8T05BZGKX015N` / `HN8T15BZGKX016N` / `HN8T25BZGKX017N`、512Gb mono-density、FBGA 和 2.5V / 1.2V。Linux GS101 UFS 支持补丁也实机枚举了无 `N` 后缀的 `HN8T05BZGKX015`。精确 PN line-up 按 `external_table_confirmed` 处理。
   <https://gsma.my.site.com/mwcoem/servlet/servlet.FileDownload?file=00P6900002qWJkkEAG>
   <https://www.skhynix.glochip.com/h-pd-15.html>

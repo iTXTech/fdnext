@@ -33,6 +33,19 @@
   decoder 107/107 一致；实际出现的 `WP/H4/HC/12/WB/SF/H1/H3` package token 均已有 token
   映射，因此本轮没有为了扩大样例数重复加入完整 PN 查表。
   <https://www.micron.com/content/micron/us/en/products/storage/nand-flash/slc-nand/part-catalog/_jcr_content.products.json/getpartcatalog/storage/slc-nand/-/en_US>
+- 2026-07-12 继续审计 Micron 官方 current MLC/TLC/QLC 与 obsolete MLC/TLC/3D/SLC
+  catalog JSON，共 348 条 `MT29E/MT29F/MT29H` PN。逐 PN 对照 vendor、Raw NAND 类型、
+  capacity、bus width、cell type 和 component package 后，现有 structured decoder 348/348
+  均能保持这些确定字段；catalog 中存在的 component package 也均已有语义映射，因此没有
+  新增完整 PN 查表。`J4` / `H3` 的部分 catalog 行所列厚度与既有映射不一致，属于待进一步
+  核对的来源冲突，本轮按只增不改原则保留既有 mapping，不以单次 catalog 扫描覆盖。
+  <https://www.micron.com/content/micron/us/en/products/storage/nand-flash/mlc-nand/part-catalog/_jcr_content.products.json/getpartcatalog/storage/mlc-nand/-/en_US>
+  <https://www.micron.com/content/micron/us/en/products/storage/nand-flash/tlc-nand/part-catalog/_jcr_content.products.json/getpartcatalog/storage/tlc-nand/-/en_US>
+  <https://www.micron.com/content/micron/us/en/products/storage/nand-flash/qlc-nand/part-catalog/_jcr_content.products.json/getpartcatalog/storage/qlc-nand/-/en_US>
+  <https://www.micron.com/content/micron/us/en/products/obsolete/obsolete-mlc-nand/part-catalog/_jcr_content.products.json/getpartcatalog/obsolete/obsolete-mlc-nand/-/en_US>
+  <https://www.micron.com/content/micron/us/en/products/obsolete/obsolete-tlc-nand/part-catalog/_jcr_content.products.json/getpartcatalog/obsolete/obsolete-tlc-nand/-/en_US>
+  <https://www.micron.com/content/micron/us/en/products/obsolete/obsolete-3d-nand/part-catalog/_jcr_content.products.json/getpartcatalog/obsolete/obsolete-3d-nand/-/en_US>
+  <https://www.micron.com/content/micron/us/en/products/obsolete/obsolete-slc-nand/part-catalog/_jcr_content.products.json/getpartcatalog/obsolete/obsolete-slc-nand/-/en_US>
 - Micron `TN-29-19: NAND Flash 101` 的 READ ID 表逐 bit 给出旧 2Gb SLC
   `MT29F2G08/16 AAD/ABD` 的 device ID、die 数、cell、page、block、位宽、plane
   与电压。Identifier DecodePack 因此只对该表明确列出的 `AA/BA/CA/DA` device ID

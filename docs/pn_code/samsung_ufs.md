@@ -13,6 +13,12 @@
   <https://semiconductor.samsung.com/estorage/ufs/ufs-4-0/>
 - Samsung UFS 4.1 官方页面确认 UFS 4.1 产品线、G5 2Lane 和 153 FBGA。
   <https://semiconductor.samsung.com/jp/estorage/ufs/>
+- Samsung 当前 UFS 总览与 UFS 5.0 专页确认 UFS 5.0 为 G6 2Lane、153 FBGA、
+  `7.5x13x0.9`、512GB/1TB、1.2V、-25°C~85°C；协议层使用 UniPro 3.0 与
+  M-PHY 6.0。官网截至 2026-07-12 尚未公开可解析的 ordering PN 或型号页，
+  因此这里只记录产品线规格，不把 UFS 5.0 营销规格写入现有 `KLU*` token 表。
+  <https://semiconductor.samsung.com/estorage/ufs/>
+  <https://semiconductor.samsung.com/estorage/ufs/ufs-5-0/>
 - Samsung UFS 2.1 `KLUGGAR1FA-B2C1` 官方页面确认 1TB、G3 2Lane、11.5x13x1.4 和 -25°C~85°C；Puris 产品页交叉确认 153-ball BGA，因此规则按 controller + generation + package token 的局部组合输出 `BGA-153, 11.5x13x1.4`。
   <https://semiconductor.samsung.com/jp/estorage/ufs/ufs-2-1/kluggar1fa-b2c1/>
   <https://www.puris.net/dir/product/flash/ufs>
@@ -29,6 +35,11 @@
   <https://www.mbsystems.com.mx/listap65.html>
   <https://www.accio.com/plp/ufs-storage-chip-smartphone-motherboard-close-up>
 - 用户提供的 Samsung UFS 测试点 dump 表确认若干特定基础 PN 的 CE 数、die 数和单 die NAND marking。该表只用于 exact base PN 补充，不从 UFS PN token 泛化推断 CE / die。
+- 2026-07-12 重新审计 Samsung 官方 sitemap：其中 32 个 `KLU*` exact UFS
+  型号已全部存在于 `managed-nand-pn.json`，并能由现有结构化规则识别为 Samsung
+  UFS；未发现可安全新增的 exact PN。sitemap 只有 UFS 5.0 产品线页，没有 UFS 5.0
+  型号 PN，因此不推测新 controller/version token。
+  <https://semiconductor.samsung.com/sitemap.xml>
 
 ## 规则入口
 

@@ -41,7 +41,9 @@
     <https://semiconductor.samsung.com/mcp/model/lpddr5-umcp/km8v9001jm-b813/>
   - `KMJS9001RM-BG01`: 256GB UFS 3.1 + 96Gb LPDDR5、297 FBGA、6400 Mbps。
     <https://semiconductor.samsung.com/mcp/model/lpddr5-umcp/kmjs9001rm-bg01/>
-- Samsung 官网 sitemap 继续保留本轮审计的 15 个 MCP exact 型号 URL；可访问的 Samsung
+- Samsung 官网 sitemap 截至 2026-07-12 保留 64 个 MCP exact 型号 URL；这些 PN
+  已全部存在于 `managed-nand-pn.json`，并能由现有结构化规则识别为 Samsung MCP。
+  可访问的 Samsung
   地区型号页以及搜索缓存直接给出 package、speed、DRAM type/density、eStorage
   version/density。规则只把这些型号共同暴露的局部 token 关系写入表：
   - `KM3H/P/V6001C*`：type `3` 为 eMMC 5.1 + LPDDR4X eMCP；`H/P + 1C`

@@ -37,6 +37,7 @@
 - Hynix `HY27(U/S)S(08/16)121A` 512Mbit datasheet 的 Read ID 表确认 `76/56` 为 3.3V x8/x16，`36/46` 为 1.8V x8/x16：<https://images.100y.com.tw/pdf_file/HYNIX_HY27US08121A-TP.pdf>。
 - Hynix `HY27UF081G2A` 1Gbit datasheet 的 Read ID 表确认 `F1/C1` 分别为 3.3V x8/x16，byte3=`80`，并给出 2KB page、128KB block 与 64B spare；公开 PDF 镜像：<https://docs.rs-online.com/af21/0900766b80d6fc8d.pdf>。
 - Hynix `H27U4G8F2D` datasheet 的 legacy Read ID supported-configurations 表同时列出 4Gbit `AC/BC/CC/DC + 90`、8Gbit `A3/B3/C3/D3 + D1` 和 16Gbit `A5/B5/C5/D5 + D2` 的电压/位宽组合；公开镜像：<https://www.datasheetq.com/pdf-html/384049/Hynix/24page/H27U4G8F2DTR-BC.html>。
+- Hynix `H27(U/S)2G8/6F2C` datasheet 的 legacy Read ID 表确认 2Gbit 四种组合：`AD DA 90 95 44` = 3.0V x8、`AD CA 90 D5 44` = 3.0V x16、`AD AA 90 15 44` = 1.8V x8、`AD BA 90 55 44` = 1.8V x16。现有结构化规则已覆盖，本轮补齐四组回归测试：<https://e2e.ti.com/cfs-file/__key/communityserver-discussions-components-files/791/8004.2Gb-Nand-flash-H27U2G8F2C.pdf.pdf>。
 - Hynix `HY27UG088G(5/D)M` 8Gbit datasheet 确认 `AD DC 80 95`，组织为 2KB page、128KB block；公开 PDF 镜像：<https://wiki.laptop.org/mediawiki/images/1/1b/CL1_NAND_Hynix.pdf>。
 - SK hynix `H27UAG8T2B` 16Gbit MLC datasheet 确认 `AD D5 94 9A 74 42` 仍使用 `D5`，但组织为 8KB page、2MB block、448B spare。因此 Flash ID 规则必须结合 byte3 条件化旧式 SLC geometry，不能仅按 device code 全局覆盖；公开 PDF 镜像：<https://www.farnell.com/datasheets/1382715.pdf>。
 - 维护者补充的 SK hynix 3D NAND 表记录 `HYV2` 到 `HYV8` 的层数、cell、die 容量、Toggle 接口与 die marking。`H25FT*` / `H27*` 属于 die marking，只进入 `die_mark`；固件匹配仍使用 `HYVx` / `HYVxQ` / `HYVxM` 这类 profile key。
@@ -164,6 +165,8 @@ H2D / H2J 系列不是通用 raw NAND fallback。公开 catalog mirror 与 USBDe
 | `H2DTDG8UD1MYR` | E2NAND2.0, 128Gb, x8, MLC, VLGA, 2MB block | `external_table_confirmed` |
 | `H2JTDG8UD1BMS` | E2NAND3.0, 128Gb, x8, MLC, WLGA, 4MB block, 2-die, EMI Shielded | `external_table_confirmed` |
 | `H2JT1T8QD1MMR` | E2NAND3.0, 1024Gb, x8, MLC, WLGA, 4MB block, 8-die, Non Shielded | `external_table_confirmed` |
+
+`H2DTDG8UD1MYR` 另由 Electronics360 的 iPhone 4S 拆解确认 SK hynix / 16GB MLC，本轮补入 managed NAND 搜索资源；decoder 继续使用 E2NAND 结构 token，不按完整 PN 匹配。
 
 ## H23Q E3NAND
 

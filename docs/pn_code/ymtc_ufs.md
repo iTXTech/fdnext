@@ -6,6 +6,8 @@
 
 - YMTC UFS embedded memory 页面列出 UC260 UFS 2.2 与 UC341 UFS 3.1 产品入口。
   <https://www.ymtc.com/en/buslist.html?cat=39>
+- YMTC 官方 Technical Support 页面已列出 UC260 UFS 2.2 与 UC341 UFS 3.1 英文 flyer；下载仍要求登录，因此该入口用于确认官方产品线与资料存在，不把未读取的 flyer 内容写成 ordering 结论。
+  <https://www.ymtc.com/en/techsupport.html>
 - YMTC UC260 官方页确认 UFS 2.2、128GB/256GB/512GB、BGA-153 11.5x13.0x0.8。
   <https://www.ymtc.com/en/products/45.html?cat=39>
 - YMTC UC114 官方 flyer 给出完整 32/64/128/256GB ordering PN：`YMUS6A4TB1A2C1`、`YMUS7A4TB2A2C1`、`YMUS8A4TB3A2C1`、`YMUS9A4TB4A2C1`。
@@ -25,7 +27,7 @@
   <https://post.smzdm.com/p/a2qdz0mn/>
   <https://forum.gsmhosting.com/vbb/f672/update-add-supported-ufs-ymtc-3433914/>
   <https://falcon-denshi.co.jp/wp/wp-content/uploads/ALL300GU2_20260623.pdf>
-- 公开搜索可见 UC341 UFS 3.1 flyer 转载资料，但当前未找到可直接下载的官方英文 ordering table；因此不新增 UC341 具体 PN 样本。
+- UC341 官方英文 flyer 目前只能在 Technical Support 页面登录后下载；具体 PN 样本仍由上列实物拆解、UFS 日志和烧录器表交叉确认，不把登录受限但未读取的 flyer 当作 exact PN 依据。
 
 ## 规则状态
 
@@ -65,5 +67,5 @@ PN 结构：
 
 ## 注意
 
-本轮只用 YMTC 官方产品页补强 `storage_interface` 与 `density` 等 canonical 字段，不把 UC341 转载资料中的未验证 ordering 信息扩展成新 iTXTech fdnext DecodePack 样本。
+YMTC 官方产品页与 Technical Support 入口用于确认产品线；UC341 exact PN 仍只采用已读取的拆解、设备日志和烧录器表交叉证据，不从登录受限的 flyer 猜测 ordering 信息。
 可信度、来源和外部确认状态只保留在 `evidence/decodepack-references.json` 与本文档中，不得放入 iTXTech fdnext DecodePack 或输出到 `fields`。

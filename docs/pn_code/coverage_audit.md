@@ -19,7 +19,7 @@
 | 面向 | 当前证据 |
 | --- | --- |
 | DRAM 搜索资源 | `dram-pn.json` 共 2680 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
-| Managed NAND 搜索资源 | `managed-nand-pn.json` 共 859 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
+| Managed NAND 搜索资源 | `managed-nand-pn.json` 共 862 条；全量解码审计中 vendor / type / numeric density 缺失均为 0，重复 PN 为 0 |
 | Micron 去重 | MDB exact / suffix-boundary 审计通过；有效 MDB 已覆盖的 Micron PN 不重复加入 DRAM / managed PN 资源 |
 | Controller | FDB / IDDB 中 165 个 controller 全部包含在 `controller-groups.json`；`all` 另保留 2 个外部已知 controller，167 个均已分类 |
 | 规则约束 | 资源 PN 对所有 `partSpecs.match.value` 的逐项扫描未发现完整 PN 命中；DecodePack checker 与 metadata audit 通过 |
@@ -27,7 +27,7 @@
 ## 本轮新增资料已落地
 
 - Samsung：官方 DRAM/UFS/MCP 型号资源补齐；LPDDR4/4X、LPDDR5/5X、raw NAND 局部 token 完善；补入 legacy eMMC `W/Y` die token、eMMC 4.5/5.0 version 与 11 条官方搜索 PN。
-- SK hynix：HBM2E/HBM3、32Gb DDR4、modern LPDDR4X、eMCP 独立 storage/DRAM token；按 byte3 条件化补入 legacy SLC Read ID geometry，无 package token 的条目继续不输出封装。
+- SK hynix：HBM2E/HBM3、32Gb DDR4、modern LPDDR4X、eMCP 独立 storage/DRAM token；按 byte3 条件化补入 legacy SLC Read ID geometry，并用 H27 2Gbit datasheet 锁定四种电压/位宽回归；补入 1 条 E2NAND 与 2 条无后缀 UFS exact 搜索 PN，无 package token 的条目继续不输出封装。
 - Micron：HBM3E、MTFC UFS family token、uMCP package/speed、GDDR6 18Gbps；补入 eMMC 4.51/5.0/5.1 的 12 组 `component:controller` family 与 `DW` package；从官方 current / obsolete eMMC、UFS catalog 补入 42 条未被有效 MDB 覆盖的非样品 exact PN，排除 2 条容量结构异常记录，MDB 去重保持。
 - CXMT：按 Rockchip/CSEKER 外部料号表补入 `CXDC/CXDD` LPDDR5/LPDDR5X family、density、layout/package 局部 token 与 3 条搜索 PN。
 - BIWIN：standalone LPDDR4X/LPDDR5X、uMCP5X、TGE408 eMMC、ePoP/eMCP/current eMMC catalog。
@@ -46,7 +46,7 @@
 | SK hynix HBM3E/HBM4、V9T/V9Q NAND | 无公开 ordering PN/token breakdown；单一 automotive HBM PN 不足以证明 token 语义 |
 | Micron HBM4、UFS 4.1 | HBM4 无公开 PN；UFS 4.1 未绑定到公开 MTFC component/controller token，`BG:BE` 也缺可靠产品线绑定 |
 | CXMT LPDDR5X speed / temperature / die topology | 已有 `CXDC/CXDD` family、density、layout/package 局部 token；仍缺公开 suffix 与 die topology breakdown |
-| YMTC UC341 / 4 个 YMN 异常候选 | UC341 无可下载 ordering table；YMN 候选没有外部交叉样本 |
+| YMTC UC341 / 4 个 YMN 异常候选 | UC341 官方 flyer 下载需登录，exact PN 继续使用拆解、设备日志和烧录器表交叉证据；YMN 候选没有外部交叉样本 |
 | KIOXIA / SanDisk eMCP | 未找到原厂公开 ordering token 表 |
 | Longsys LPDDR | 官方页面只给容量、封装和速率矩阵，不给逐容量 PN |
 | GigaDevice LPDDR5/LPDDR5X | 未找到公开 PN token breakdown |

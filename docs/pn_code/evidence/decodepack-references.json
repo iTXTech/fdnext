@@ -1120,6 +1120,37 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/identifier/packs/skhynix.json",
+      "spec_id": "identifier.nand_flash_id.skhynix.v1",
+      "table_key": "reference",
+      "entry_key": "h27_2g_legacy_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "SK hynix H27(U/S)2G8/6F2C datasheet legacy Read ID table",
+        "url": "https://e2e.ti.com/cfs-file/__key/communityserver-discussions-components-files/791/8004.2Gb-Nand-flash-H27U2G8F2C.pdf.pdf",
+        "examples": [
+          "ADDA909544",
+          "ADCA90D544",
+          "ADAA901544",
+          "ADBA905544"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-e2nand-token.json",
+      "spec_id": "vendor.skhynix.e2nand.h2d_h2j.v1",
+      "table_key": "reference",
+      "entry_key": "H2DTDG8UD1MYR",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Electronics360 iPhone 4S teardown and SK hynix E2NAND line-up",
+        "url": "https://electronics360.globalspec.com/article/2173/apple-iphone-4s-16gb-mobile-handset-teardown",
+        "examples": [
+          "H2DTDG8UD1MYR"
+        ]
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/rules/packs/skhynix-h25-token.json",
       "spec_id": "vendor.skhynix.h25.gt-package.v2",
       "table_key": "reference",
@@ -1230,6 +1261,34 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-ufs-token.json",
+      "spec_id": "vendor.skhynix.ufs.hn8.mobile-ufs31.v1",
+      "table_key": "reference",
+      "entry_key": "HN8T25DEHKX077",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "SK hynix UFS3.1 3D V7 datasheet product line-up",
+        "url": "https://www.uttc.com.tw/wp-content/uploads/2025/12/SK-hynix-UFS3.1-3D-V7-Datasheet-128GB-1TB-V1.1.pdf",
+        "examples": [
+          "HN8T25DEHKX077"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-ufs-token.json",
+      "spec_id": "vendor.skhynix.ufs.hn8.ufs22-v7.v1",
+      "table_key": "reference",
+      "entry_key": "HN8G962EHKX037",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "SK hynix UD220 e-catalogue product line-up",
+        "url": "https://dfsimg1.hqewimg.com/group6/M00/01/65/wKhk6WfNRF2AFcUlAB1op25VokQ315.pdf",
+        "examples": [
+          "HN8G962EHKX037"
+        ]
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/rules/packs/winbond-nand-token.json",
       "spec_id": "vendor.winbond.raw.w29n.v1",
       "table_key": "reference",
@@ -1302,6 +1361,22 @@
       "evidence": {
         "status": "external_confirmed",
         "source": "YMTC UC260 official product page"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/ymtc-ufs-token.json",
+      "spec_id": "vendor.ymtc.ufs-label.v1",
+      "table_key": "reference",
+      "entry_key": "YMTC_UC341",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "YMTC UC341 official product page and Technical Support flyer listing",
+        "examples": [
+          "YMUS8B4TF1D1C1",
+          "YMUS9B4TF2D1C1",
+          "YMUSAB4TF3D1C1"
+        ],
+        "notes": "The official support page confirms the UC341 UFS 3.1 flyer exists; exact PN examples remain cross-checked by teardown, device-log and programmer-table sources because the flyer download is login-gated."
       }
     }
   ]

@@ -46,6 +46,7 @@ assertRuleDecode("H2DTDG8UD1MYR", {
     "ECC enabled": "Yes"
   }
 });
+assertSearchPnIncludes("H2DTDG8UD1MYR", "SKhynix H2DTDG8UD1MYR");
 
 assertRuleDecode("H2JTDG8UD1BMS", {
   vendor: "skhynix",
