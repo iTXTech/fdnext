@@ -137,6 +137,22 @@ assertRuleDecode("MTFC32GAZAQDW-AAT", {
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
 
+for (const [partNumber, productVersion] of [
+  ["MTFC4GACAAAM-4M IT", "eMMC 4.51"],
+  ["MTFC8GACAENS-K1 AIT", "eMMC 5.0"],
+  ["MTFC128GAJAECE-AAT", "eMMC 5.0"],
+  ["MTFC16GAKAEDQ-AAT", "eMMC 5.0"],
+  ["MTFC8GAKAJCN-4M IT", "eMMC 5.0"],
+  ["MTFC64GAOALEA-WT", "eMMC 5.1"],
+  ["MTFC128GASAQEA-WT", "eMMC 5.1"]
+] as const) {
+  const info = detect(partNumber);
+  assert.equal(info.vendor, "micron", partNumber);
+  assert.equal(info.type, "eMMC", partNumber);
+  assert.ok((info.densityMbit ?? 0) > 0, `${partNumber} should expose numeric density`);
+  assert.equal(info.detailFields["Product Version"], productVersion, `${partNumber} product version`);
+}
+
 assertRuleDecode("MTFC8GLREK-IT", {
   vendor: "micron",
   type: "eMMC",

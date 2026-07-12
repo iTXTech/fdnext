@@ -16,6 +16,7 @@
 - 用户提供的 Winbond LPDDR2 datasheet 确认 `W978H6/2KB` 256Mb、`W979H6/2KB` 与 `W979H6RB` 512Mb、`W97AH6/2KB` 1Gb LPDDR2-S4B：x16/x32、4-bank 或 8-bank、1.8V VDD1 / 1.2V VDD2/VDDCA/VDDQ、134-ball VFBGA (10mm x 11.5mm)、LPDDR2-800 / 1066 与 extended / industrial 温度等级。
 - 用户提供的 Winbond LPDDR3 datasheet 确认 `W639H6RB` 512Mb x16 2-bank 与 `W63AH6/2NB` 1Gb x16/x32 8-bank：1.8V VDD1 / 1.2V VDD2/VDDQ、178-ball VFBGA (11mm x 11.5mm)、LPDDR3-1600 / 1866 / 2133 与 extended / industrial 温度等级。
 - LPDDR4 与 LPDDR4X 表确认 `W66*` 系列 1Gb/2Gb/4Gb/8Gb、x16/x32、1.8/1.1/1.1 或 1.8/1.1/0.6 电压、3200/3733/4267 MT/s、VFBGA/TFBGA/WFBGA 封装与工业 / 车规等级。
+- 2025 PSG 的 4Gb ordering 表还明确列出 `W66CP2NQQAH*`、`W66CP2NQUAH*`、`W66CQ2NQQAH*`、`W66CQ2NQUAH*` 4267 MT/s 组合；这些 exact PN 补入搜索资源，解码继续复用结构化 `W66` token 规则。
 - 用户提供的 Winbond `W66BP6RB_W66CP2RQ` datasheet 确认 2Gb / 4Gb LPDDR4/4X Combo SDRAM：VDDQ = 1.1V 时工作为 LPDDR4 mode，VDDQ = 0.6V 时工作为 LPDDR4X mode；ordering 表的 `F/G/H` 分别对应 3200/3733/4267。
 
 ## iTXTech fdnext DecodePack 范围

@@ -12,7 +12,7 @@
   <https://sg.micron.com/sales-support/downloads/software-drivers/emmc-software>
 - Micron e.MMC 5.1 automotive datasheet mirror 给出 `MTFC32GBCAQTC-AIT`、`MTFC128GBCAQTC-AAT`、`MTFC256GBCAQTC-AAT` 等 ordering information，并确认 component `BC`、controller `AQ`、package `TC` / `DQ`。
   <https://cdn.promelec.ru/upload/grab/datasheet.lcsc.com/lcsc/2601221102_micron-MTFC32GBCAQTC-AAT_C31550066.pdf>
-- Micron 官方 current / obsolete e.MMC catalog 与公开 Micron datasheet 确认 `BH`、`HD`、`HT` package token：`BH = TFBGA-153, 11.5x13x1.1`，`HD = VFBGA-153, 11.5x13x0.9`，`HT = VBGA-100, 14x18x1.0`。官方 catalog 还确认 `DW = LFBGA-100, 14x18x1.5`。两套 MTFC token grammar 共用已确认的 package-code 语义，避免相同 package token 因新版 / legacy 主体长度不同而丢失封装。
+- Micron 官方 current / obsolete e.MMC catalog 与公开 Micron datasheet 确认 `BH`、`HD`、`HT` package token：`BH = TFBGA-153, 11.5x13x1.1`，`HD = VFBGA-153, 11.5x13x0.9`，`HT = VBGA-100, 14x18x1.0`。官方 catalog 还确认 `DW = LFBGA-100, 14x18x1.5`，并用多条 PN 直接确认 `AC:AA` 为 eMMC 4.51，`AC:AE` / `AJ:AE` / `AK:AE` / `AK:AJ` 为 eMMC 5.0，`AO:AL` / `AS:AQ` 为 eMMC 5.1。两套 MTFC token grammar 共用已确认的 family/package 语义，避免相同 token 因新版 / legacy 主体长度不同而丢失分类。
   <https://www.micron.com/products/storage/managed-nand/emmc/part-catalog>
   <https://www.micron.com/products/obsolete/obsolete-emmc/part-catalog>
   <https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8611/emmc-industrial-8-128gb-v5-1.pdf>
@@ -39,7 +39,7 @@ PN 结构：
 | controller `AA..AN` / `A..Z` | controller revision 表 |
 | package `AM/BH/CN/DM/DW/EA/HD/HT/TC/...` | package code；`BH/HD/HT` 分别为 153-ball TFBGA、153-ball VFBGA、100-ball VBGA，`DW` 为 100-ball LFBGA |
 | special option `0F/0M/1M/.../O1` | boot/enhanced area / firmware option |
-| family key `component:controller` | `AC:AJ` -> eMMC 5.0；`AM:AL`、`AP:AL`、`AX:AQ`、`AZ:AQ`、`BC:AQ` -> eMMC 5.1 |
+| family key `component:controller` | `AC:AA` -> eMMC 4.51；`AC:AE`、`AC:AJ`、`AJ:AE`、`AK:AE`、`AK:AJ` -> eMMC 5.0；`AM:AL`、`AO:AL`、`AP:AL`、`AS:AQ`、`AX:AQ`、`AZ:AQ`、`BC:AQ` -> eMMC 5.1 |
 
 ## 输出字段
 
@@ -64,6 +64,10 @@ PN 结构：
 - `MTFC16GAPALNA-AAT`
 - `MTFC128GAXAQEA-WT`
 - `MTFC32GAZAQDW-AAT`
+- `MTFC4GACAAAM-4M IT`
+- `MTFC128GAJAECE-AAT`
+- `MTFC64GAOALEA-WT`
+- `MTFC128GASAQEA-WT`
 
 ## 注意
 

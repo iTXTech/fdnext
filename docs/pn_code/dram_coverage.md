@@ -46,6 +46,7 @@ DRAM 解码模块按“厂商 + 世代矩阵”维护。新增或扩展 standalo
 - 2026-07-11 根据 Nanya 官方 Standard/Low Power Part Numbering Guide 补齐 DDR4-2933、DDR5-4800 与扩展温区 token；根据 ESMT 两份特定产品 datasheet ordering information 补齐 DDR4 8Gb x16 的 NL/KJ 速度和 LPDDR4X 16Gb x32 双通道 Product ID。
 - 2026-07-11 继续按品牌×产品线审计：补 Samsung LPDDR5X 24Gb / 新 64Gb configuration、GDDR7-28 与 Automotive UFS 4.1，补 Micron 24Gb GDDR7、Nanya LPDDR5/5X exact PN；当时 CXMT LPDDR5X 只更新候选范围，不在缺 PN token 时推造规则。
 - 2026-07-12 根据 Rockchip DDR 兼容清单的两个 `CXDC` 样本与 CSEKER 的 `CXDD` 样本，新增 CXMT LPDDR5/LPDDR5X family、density、layout/package 局部 token；完整 PN 只进入搜索资源和 testcase。
+- 2026-07-12 对照 Winbond 2025 官方 PSG 补入 16 条 4Gb LPDDR4/4X 4267 MT/s ordering PN，覆盖 `W66CP/CQ2NQQ/QUAH` 的工业与车规等级；不修改既有 token mapping。
 
 ## 当前覆盖进度
 

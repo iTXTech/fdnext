@@ -172,9 +172,16 @@
           }
         },
         "familyType": {
+          "AC:AA": "emmc",
+          "AC:AE": "emmc",
           "AC:AJ": "emmc",
+          "AJ:AE": "emmc",
+          "AK:AE": "emmc",
+          "AK:AJ": "emmc",
           "AM:AL": "emmc",
+          "AO:AL": "emmc",
           "AP:AL": "emmc",
+          "AS:AQ": "emmc",
           "AX:AQ": "emmc",
           "AZ:AQ": "emmc",
           "BC:AQ": "emmc",
@@ -204,8 +211,28 @@
           "BG:BC": "ufs"
         },
         "familyObj": {
+          "AC:AA": {
+            "product_version": "eMMC 4.51",
+            "group": "eMMC"
+          },
+          "AC:AE": {
+            "product_version": "eMMC 5.0",
+            "group": "eMMC"
+          },
           "AC:AJ": {
             "product_family": "Micron e.MMC",
+            "product_version": "eMMC 5.0",
+            "group": "eMMC"
+          },
+          "AJ:AE": {
+            "product_version": "eMMC 5.0",
+            "group": "eMMC"
+          },
+          "AK:AE": {
+            "product_version": "eMMC 5.0",
+            "group": "eMMC"
+          },
+          "AK:AJ": {
             "product_version": "eMMC 5.0",
             "group": "eMMC"
           },
@@ -213,7 +240,15 @@
             "product_version": "eMMC 5.1",
             "group": "eMMC"
           },
+          "AO:AL": {
+            "product_version": "eMMC 5.1",
+            "group": "eMMC"
+          },
           "AP:AL": {
+            "product_version": "eMMC 5.1",
+            "group": "eMMC"
+          },
+          "AS:AQ": {
             "product_version": "eMMC 5.1",
             "group": "eMMC"
           },
