@@ -134,6 +134,7 @@ for (const pn of [
   "CXDB4CBAM-MJ-A",
   "CXDB4ABAM-MJ",
   "CXDB4CCAM-MJ",
+  "CXDB5CCAM-MJ",
   "CXDBBCCBM-MK-B",
   "CXDB5CCBM-ML-A",
   "CXDB4CBAM-EA-M",

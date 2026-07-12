@@ -23,6 +23,7 @@
 | GigaDevice | - | - | - | - | - | - | [gigadevice_dram.md](gigadevice_dram.md) |
 | ISSI | - | - | - | - | - | - | [issi_dram.md](issi_dram.md) |
 | Winbond | [winbond_nand.md](winbond_nand.md) | - | - | - | - | - | [winbond_dram.md](winbond_dram.md) |
+| Macronix | [macronix_nand.md](macronix_nand.md) | - | - | - | - | - | - |
 | ESMT | [esmt_nand.md](esmt_nand.md) | [esmt_emmc.md](esmt_emmc.md) | - | - | - | - | [esmt_dram.md](esmt_dram.md) |
 | Etron | - | - | - | - | - | - | [etron_dram.md](etron_dram.md) |
 | ISSI | - | [issi_emmc.md](issi_emmc.md) | [issi_ufs.md](issi_ufs.md) | - | - | - | [issi_dram.md](issi_dram.md) |

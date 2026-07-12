@@ -315,6 +315,21 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "spec",
+      "entry_key": "cxmt_cxdb5ccam_mj_embedfire_board",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "EmbedFire LubanCat official schematic",
+        "url": "https://doc.embedfire.com/lubancat-rk/hardware/ebf_lubancat_rk_hardware/zh/latest/_downloads/a58afcdee76740520e7156083e972833/LubanCat2N_EBF410076V1_SCH_20221213.pdf",
+        "examples": [
+          "CXDB5CCAM-MJ"
+        ],
+        "notes": "Exact part number is a search seed only; public fields continue to come from the existing token tables."
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/rules/packs/kingston-emcp-token.json",
       "spec_id": "vendor.kingston.emcp.v1",
       "scope": "spec",
@@ -2362,6 +2377,71 @@
         "url": "https://www.winbond.com/resource-files/W29N08GVxxAA_RevE.pdf",
         "examples": ["EFD3919558"],
         "notes": "The datasheet confirms the five-byte Read ID, 8Gb x8 SLC organization, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, and cache programming support."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.18ac.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx30lf1g18ac_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX30LF1G18AC datasheet ID Read, feature, and organization tables",
+        "url": "https://www.macronix.com/Lists/Datasheet/Attachments/8458/MX30LF1G18AC%2C%203V%2C%201Gb%2C%20v1.2.pdf",
+        "examples": ["C2F1809502"],
+        "notes": "The official datasheet confirms the five-byte ID and the 1Gb x8 SLC, 2.7V to 3.6V, 2KB page, 128KB block, 64B spare, one-die, one-plane, cache-program, and 4-bit ECC per 528B profile."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.18ac.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx30lf2g4g18ac_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX30LF2G18AC and MX30LF4G18AC datasheet ID Read, feature, and organization tables",
+        "url": "https://www.macronix.com/Lists/Datasheet/Attachments/8461/MX30LF2G18AC%2C%203V%2C%202Gb%2C%20v1.4.pdf",
+        "examples": ["C2DA909506", "C2DC909556"],
+        "notes": "The official datasheet confirms both IDs and their 2Gb/4Gb x8 SLC densities, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, one-die, two-plane, cache-program, and 4-bit ECC per 528B profiles."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.18ac.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx60lf8g18ac_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX60LF8G18AC datasheet ID Read, feature, and organization tables",
+        "url": "https://www.macronix.com/Lists/Datasheet/Attachments/8473/MX60LF8G18AC%2C%203V%2C%208Gb%2C%20v1.1.pdf",
+        "examples": ["C2D3D1955A"],
+        "notes": "The official datasheet confirms the ID and 8Gb x8 SLC, two-die, four-plane, 2.7V to 3.6V, 2KB page, 128KB block, 64B spare, cache-program, interleave, and 4-bit ECC per 528B profile."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ad.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx30lf1g2g4g28ad_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX30LF1G28AD, MX30LF2G28AD, and MX30LF4G28AD datasheet ID Read, feature, and organization tables",
+        "url": "https://www.macronix.com/Lists/Datasheet/Attachments/8864/MX30LF4G28AD%2C%203V%2C%204Gb%2C%20v1.3.pdf",
+        "examples": ["C2F180910303", "C2DA90910703", "C2DC90A25703"],
+        "notes": "The official datasheet confirms all three six-byte IDs. The 1Gb/2Gb profiles use 2KB pages, 128KB blocks and 128B spare, while the 4Gb profile uses a 4KB page, 256KB block and 256B spare; all are x8 SLC with 8-bit ECC per 544B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ad.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx60lf8g28ad_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX60LF8G18AC to MX60LF8G28AD migration application note device identification table",
+        "url": "https://www.macronix.com/Lists/ApplicationNote/Attachments/2071/AN0739V1-MGRT-MX60LF8G18AC%20to%20MX60LF8G28AD.pdf",
+        "examples": ["C2D3D1A25B03"],
+        "notes": "The official migration note confirms the six-byte 8Gb 28AD ID and its 4KB page, 256KB block, 32B spare per 512B, 8-bit ECC, multi-die, interleave, and cache-program differences from 18AC."
       }
     }
   ]

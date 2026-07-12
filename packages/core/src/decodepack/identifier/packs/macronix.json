@@ -1,0 +1,228 @@
+[
+  {
+    "id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.18ac.v1",
+    "idScheme": "nand.flash_id",
+    "priority": 405,
+    "match": {
+      "kind": "regex",
+      "value": "^C2(?:F1809502|DA909506|DC909556|D3D1955A)(?:00)?$"
+    },
+    "vendor": "mxic",
+    "definition": {
+      "2": {
+        "density": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "211": 8192,
+            "218": 2048,
+            "220": 4096,
+            "241": 1024
+          }
+        },
+        "voltage": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "211": "Vcc: 2.7V~3.6V",
+            "218": "Vcc: 2.7V~3.6V",
+            "220": "Vcc: 2.7V~3.6V",
+            "241": "Vcc: 2.7V~3.6V"
+          }
+        }
+      },
+      "3": {
+        "die_count": {
+          "dq": [1, 0],
+          "def": {
+            "0": 1,
+            "1": 2
+          }
+        },
+        "cell_level": {
+          "dq": [3, 2],
+          "def": {
+            "0": 1
+          }
+        },
+        "simultaneously_programmed_pages": {
+          "dq": [5, 4],
+          "def": {
+            "0": 1,
+            "1": 2
+          }
+        },
+        "interleave": {
+          "dq": [6],
+          "def": {
+            "0": false,
+            "1": true
+          }
+        },
+        "cache": {
+          "dq": [7],
+          "def": {
+            "1": true
+          }
+        }
+      },
+      "4": {
+        "page_size": {
+          "dq": [1, 0],
+          "def": {
+            "1": 2
+          }
+        },
+        "redundant_area_size": {
+          "dq": [2],
+          "def": {
+            "1": "64B"
+          }
+        },
+        "block_size": {
+          "dq": [5, 4],
+          "def": {
+            "1": 128
+          }
+        },
+        "device_width": {
+          "dq": [6],
+          "def": {
+            "0": "x8"
+          }
+        }
+      },
+      "5": {
+        "ecc_level": {
+          "dq": [1, 0],
+          "def": {
+            "2": "4bit/528B"
+          }
+        },
+        "plane_count": {
+          "dq": [3, 2],
+          "def": {
+            "0": 1,
+            "1": 2,
+            "2": 4
+          }
+        }
+      }
+    }
+  },
+  {
+    "id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ad.v1",
+    "idScheme": "nand.flash_id",
+    "priority": 406,
+    "match": {
+      "kind": "regex",
+      "value": "^C2(?:F1809103|DA909107|DC90A257|D3D1A25B)03(?:00)?$"
+    },
+    "vendor": "mxic",
+    "definition": {
+      "2": {
+        "density": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "211": 8192,
+            "218": 2048,
+            "220": 4096,
+            "241": 1024
+          }
+        },
+        "voltage": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "211": "Vcc: 2.7V~3.6V",
+            "218": "Vcc: 2.7V~3.6V",
+            "220": "Vcc: 2.7V~3.6V",
+            "241": "Vcc: 2.7V~3.6V"
+          }
+        }
+      },
+      "3": {
+        "die_count": {
+          "dq": [1, 0],
+          "def": {
+            "0": 1,
+            "1": 2
+          }
+        },
+        "cell_level": {
+          "dq": [3, 2],
+          "def": {
+            "0": 1
+          }
+        },
+        "simultaneously_programmed_pages": {
+          "dq": [5, 4],
+          "def": {
+            "0": 1,
+            "1": 2
+          }
+        },
+        "interleave": {
+          "dq": [6],
+          "def": {
+            "0": false,
+            "1": true
+          }
+        },
+        "cache": {
+          "dq": [7],
+          "def": {
+            "1": true
+          }
+        }
+      },
+      "4": {
+        "page_size": {
+          "dq": [1, 0],
+          "def": {
+            "1": 2,
+            "2": 4
+          }
+        },
+        "redundant_area_size": [
+          {
+            "when": { "4": "91" },
+            "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+            "def": { "145": "128B" }
+          },
+          {
+            "when": { "4": "A2" },
+            "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+            "def": { "162": "256B" }
+          }
+        ],
+        "block_size": {
+          "dq": [5, 4],
+          "def": {
+            "1": 128,
+            "2": 256
+          }
+        },
+        "device_width": {
+          "dq": [6],
+          "def": {
+            "0": "x8"
+          }
+        }
+      },
+      "5": {
+        "ecc_level": {
+          "dq": [1, 0],
+          "def": {
+            "3": "8bit/544B"
+          }
+        },
+        "plane_count": {
+          "dq": [3, 2],
+          "def": {
+            "0": 1,
+            "1": 2,
+            "2": 4
+          }
+        }
+      }
+    }
+  }
+]
