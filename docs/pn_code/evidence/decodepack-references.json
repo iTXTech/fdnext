@@ -195,6 +195,105 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.ddr5.component.v1",
+      "scope": "table_entry",
+      "table_key": "deviceWidth",
+      "entry_key": "E4",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "CXDR4E4BM distributor specification and photographed component analysis"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.ddr5.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "E4:BM",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "CXDR4E4BM distributor specification"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "table_entry",
+      "table_key": "densityMb",
+      "entry_key": "3",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Rockchip DDR Support List CXDB3ABAM-MK"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "table_entry",
+      "table_key": "densityMb",
+      "entry_key": "C",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Rockchip DDR Support List and FCC CXDBCCCDM device tables"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "table_entry",
+      "table_key": "densityMb",
+      "entry_key": "D",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Xiaomi FCC CXDBDCCCM-MA-M material table and external device specification"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "table_entry",
+      "table_key": "dieStackObj",
+      "entry_key": "CCM",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "CXDBDCCCM 12GB G4 device table and G4 16Gb die analysis"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "table_entry",
+      "table_key": "dieStackObj",
+      "entry_key": "CDM",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "CXDB6CCDM-MA-M ordering table and TechInsights package analysis"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "table_entry",
+      "table_key": "temperatureObj",
+      "entry_key": "E",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "CXMT automotive LPDDR4X distributor table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "table_entry",
+      "table_key": "processSpecific",
+      "entry_key": "D:CCM",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "CXDBDCCCM-MA-M G4 device specification"
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/rules/packs/kingston-emcp-token.json",
       "spec_id": "vendor.kingston.emcp.v1",
       "scope": "spec",
@@ -1802,10 +1901,64 @@
       "pack": "packages/core/src/decodepack/rules/packs/ymtc-emmc-token.json",
       "spec_id": "vendor.ymtc.emmc-label.v1",
       "scope": "spec",
+      "entry_key": "YMEC_A2_revision_suffix",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "DediProg BGA-153 eMMC support table and development-board teardown",
+        "url": "https://www.dediprog.com/product/1897",
+        "examples": [
+          "YMEC6A2TB1A2C3C",
+          "YMEC7A2TB2A2C3C",
+          "YMEC8A2TB3A2C3C"
+        ],
+        "notes": "The known structured head remains authoritative; the observed trailing C is treated as an extensible suffix and is not decoded as a public field."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/ymtc-emmc-token.json",
+      "spec_id": "vendor.ymtc.emmc-label.v1",
+      "scope": "spec",
       "entry_key": "YMTC_EC150",
       "evidence": {
         "status": "external_confirmed",
         "source": "YMTC EC150 official product page"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/ymtc-emmc-token.json",
+      "spec_id": "vendor.ymtc.emmc-label.v1",
+      "scope": "table_entry",
+      "table_key": "processAlias",
+      "entry_key": "G",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "YMTC EC150 official flyer identifies X4-9060 NAND",
+        "url": "https://website-cdn.ymtc.com/en/resources/file/20250829/452f1532fb47a9c02d91d3353291957d.pdf",
+        "examples": [
+          "YMEC7C0TG1A2C3",
+          "YMEC8C0TG2A2C3",
+          "YMEC9C0TG3A2C3"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/ymtc.json",
+      "spec_id": "identifier.nand_flash_id.ymtc.v1",
+      "scope": "spec",
+      "entry_key": "ymtc_exact_flash_id_variants_2025",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Public flash-ID/process table cross-checked against local controller databases",
+        "url": "https://bbs.wuyou.net/forum.php?mod=viewthread&tid=449091",
+        "examples": [
+          "9BC449251000",
+          "9BC54A251000",
+          "9BC318251000",
+          "9BC62A492000",
+          "9BC428494000",
+          "9BC65D553000"
+        ],
+        "notes": "These variants extend only the exact-subsequence postprocess lookup for existing JGS, TAS, WYS and EMS profiles."
       }
     },
     {
@@ -2003,6 +2156,110 @@
         "source": "SK hynix GDDR6 product table visible rows",
         "url": "https://www.skhynix.glochip.com/h-pd-11.html",
         "examples": ["H56G32CS4DX005", "H56G32CS2DX005"]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
+      "spec_id": "identifier.nand_flash_id.samsung.legacy_slc.v1",
+      "scope": "spec",
+      "entry_key": "samsung_k9f1g_legacy_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Samsung K9F1G08Q0A/U0A datasheet Read ID and organization tables",
+        "url": "https://www.micros.com.pl/mediaserver/info-pefnand01g08-030.pdf",
+        "examples": ["ECA10015", "ECF1801540"],
+        "notes": "The datasheet confirms A1/F1 as the 1.8V/3.3V x8 device IDs and byte 4 value 15h as 2KB page, 128KB block, and 64B spare geometry; byte 3 is explicitly don't-care."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
+      "spec_id": "identifier.nand_flash_id.samsung.legacy_slc.v1",
+      "scope": "spec",
+      "entry_key": "samsung_k9f2g_legacy_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Samsung K9F2G08U0D datasheet 00h Address ID Cycle and organization tables",
+        "url": "https://www.szyuda88.com/home/8/a/2lhtb2/resource/2022/05/09/6278f8904b749.pdf",
+        "examples": ["ECDA109546"],
+        "notes": "The datasheet confirms 2Gb SLC, x8, 3.3V, 2KB page, 128KB block, 64B spare, and two-plane geometry for the DA 10 95 46 profile."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
+      "spec_id": "identifier.nand_flash_id.samsung.legacy_slc.v1",
+      "scope": "spec",
+      "entry_key": "samsung_k9f4g_legacy_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Samsung K9F4G08U0A datasheet Read ID and ID Definition tables",
+        "url": "https://pccomponents.com/datasheets/SAMS-K9F.PDF",
+        "examples": ["ECDC109554"],
+        "notes": "The datasheet confirms 4Gb SLC per device/CE, x8, 3.3V, 2KB page, 128KB block, 64B spare, and two-plane geometry for the DC 10 95 54 profile."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
+      "spec_id": "identifier.nand_flash_id.micron.legacy_slc.v1",
+      "scope": "spec",
+      "entry_key": "micron_m40a_legacy_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron 4Gb, 8Gb, and 16Gb x8 NAND Flash Memory datasheet Table 8",
+        "url": "https://media.digikey.com/pdf/Data%20Sheets/Micron%20Technology%20Inc%20PDFs/MT29FxG08xAA.pdf",
+        "examples": ["2CDC909554", "2CD3D19558"],
+        "notes": "Table 8 confirms the two legacy configuration profiles, their per-section 4Gb/8Gb density semantics, 3V x8 SLC organization, die/interleave/cache bits, 2KB page, 128KB block, 64B spare, and 2/4-plane geometry."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
+      "spec_id": "identifier.nand_flash_id.micron.legacy_slc.v1",
+      "scope": "spec",
+      "entry_key": "micron_m68a_1gb_legacy_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron 1Gb x8, x16 NAND Flash Memory datasheet Table 6",
+        "url": "https://www.micros.com.pl/mediaserver/PEF29f1g08abbdah4d_0001.pdf",
+        "examples": ["2CF1809502", "2CA1801502", "2CB1805502"],
+        "notes": "Table 6 confirms the F1/A1/B1 1Gb SLC device IDs, 3.3V/1.8V and x8/x16 variants, one die, one plane, 2KB page, 128KB block, and 64B spare geometry."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
+      "spec_id": "identifier.nand_flash_id.kioxia.v1",
+      "scope": "spec",
+      "entry_key": "kioxia_tc58nvg0_current_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "KIOXIA TC58NVG0S3HBAI4 datasheet Read ID and organization tables",
+        "url": "https://www.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/201910/DST_TC58NVG0S3HBAI4-TDE_EN_31422.pdf",
+        "examples": ["98F1801572"],
+        "notes": "The datasheet confirms 1Gb 3.3V x8 SLC, 2KB page, 128KB block, 128B spare, and one plane for this exact device and configuration byte profile."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
+      "spec_id": "identifier.nand_flash_id.kioxia.v1",
+      "scope": "spec",
+      "entry_key": "kioxia_tc58nvg1_current_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "KIOXIA TC58NVG1S3HTA00 datasheet Read ID and organization tables",
+        "url": "https://www.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/201910/DST_TC58NVG1S3HTA00-TDE_EN_31442.pdf",
+        "examples": ["98DA901576"],
+        "notes": "The datasheet confirms 2Gb 3.3V x8 SLC, 2KB page, 128KB block, 128B spare, and two planes for this exact device and configuration byte profile."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
+      "spec_id": "identifier.nand_flash_id.kioxia.v1",
+      "scope": "spec",
+      "entry_key": "kioxia_tc58nvg2_current_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "KIOXIA TC58NVG2S0HBAI4 datasheet Read ID and organization tables",
+        "url": "https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TC58NVG2S0HBAI4-TDE_EN_31440.pdf",
+        "examples": ["98DC902676"],
+        "notes": "The datasheet confirms 4Gb 3.3V x8 SLC, 4KB page, 256KB block, 256B spare, and two planes for this exact device and configuration byte profile."
       }
     }
   ]

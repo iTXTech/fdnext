@@ -6,6 +6,8 @@
 
 - `YMTC NAND Flash Features.pdf`，标题日期 `2024.07.31`，给出 `X1-9050` 到 `X4-9060` 的 xLC、ONFI、page/block organization、device capacity、plane count、clock rate、电压和耐久信息。
 - YMTC Gen2 256Gb TLC datasheet Read ID 表：确认 `9B` maker ID，以及 density、LUN、cell、voltage、page、block、plane、technology 的 byte/bit 定义。公开镜像：<https://borecraft.com/PDF/Datasheets%2C%20WP%2C%20Specs/YMTC_Gen2_256Gb_TLC_Datasheet_Client_rev0.2.pdf>。
+- 无忧启动的公开 Flash ID / process 对照表与本地 controller 数据同向确认 6 个既有 profile 的精确 ID 变体：JGS `9B C4 49 25 10` / `9B C5 4A 25 10` / `9B C3 18 25 10`，TAS `9B C6 2A 49 20`，WYS `9B C4 28 49 40`，EMS `9B C6 5D 55 30`。它们只追加到 exact-subsequence lookup，不据此泛化 bitfield 或覆盖既有映射。
+  <https://bbs.wuyou.net/forum.php?mod=viewthread&tid=449091>
 - HyperFlashBase `3D NAND MP ROADMAP`，last update `2024-04-21`，可交叉参考 YMTC conventional TCAT / Xtacking CTF 路线、`X0-A030`、`X1-9050`、`X2-9060`、`X2-6070`、`X3-9060`、`X3-9070`、`X3-6070`、`X4-9060`、`X4-9070`、`X4-6080`、`X5-9080` 等代际关系。路线图是第三方资料，未来/est. 项只作弱证据。
 - 维护者更新：`X4-9060` codename 为 `WTS`，160L；`X4-9070` codename 为 `SQS`，267L；`X4-6080` codename 为 `PTS`，267L；三者均为 Xtacking 4.0 / ONFI 5.1 / 3600MT/s 资料。
 - 维护者补充资料：另有 `X4-9060` TLC / 128L / 512Gbit、`X4-9070` TLC / 267L / 1Tbit / `8Die1TB`、`X4-6080` QLC / 2Tbit / 层数未标明的记录。该补充资料只用于记录新增线索；与现有 profile 层数冲突时，不覆盖主 profile。
@@ -25,7 +27,7 @@ iTXTech fdnext DecodePack:
 - `packages/core/src/decodepack/identifier/packs/ymtc.json`
   - `identifier.nand_flash_id.ymtc.v1`
 - `packages/core/src/flashid/postprocess.ts`
-  - YMTC Flash ID sequence lookup for exact process alias enrichment
+  - YMTC Flash ID exact-subsequence lookup for process alias enrichment；不同 LUN / die / reserved-byte 变体逐条确认，不用宽泛 bitfield 代替
 
 ## 输出约定
 

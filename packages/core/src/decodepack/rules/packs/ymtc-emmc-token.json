@@ -18,7 +18,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^YMEC[456789A](?:A1|A2|B0|C0)[MT][ABCEG][12345]A2C[13]$"
+      "value": "^YMEC[456789A](?:A1|A2|B0|C0)[MT][ABCEG][12345]A2C[13][0-9A-Z]*$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
@@ -104,7 +104,8 @@
           "A": "DBS",
           "B": "JGS",
           "C": "TAS",
-          "E": "WYS"
+          "E": "WYS",
+          "G": "WTS"
         }
       },
       "steps": [

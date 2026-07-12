@@ -27,6 +27,11 @@
 - Rockchip DDR SDRAM Support List 2.61 将 `CXDCCDCBM-MT-M` 列为 48Gbit、1536M x32、LPDDR5/LPDDR5X、315-ball，将 `CXDCDJEDM-MT-M` 列为 96Gbit、1536M x64、LPDDR5、496-ball；这里按外部料号表档位建立 `CXDC` 的 family/density/layout 局部 token，不把完整 PN 写入规则查表。来源：<https://lo01.g77k.com/aeb/docs/cn/Common/AVL/Rockchip_Support_List_DDR_Ver2.61.pdf>
 - CSEKER 料号页将 `CXDD7JEDM-MX-M` 列为 LPDDR5X、16GB、BGA315；与前述 `CXD*...JEDM` 结构同向，可补 `D` family 与 `7=128Gb` density token。来源：<https://cseker.com/en/product/cxdd7jedm-mx-m/5000005000.html>
 - LCSC 的 `CXDB6CCBM-MA-A` 8GB LPDDR4X datasheet 与 TechInsights G4 16Gb die 分析同向确认 `6=64Gb package`、`CBM=4 dies/2CS`、200-ball；该组合输出 `CXMT G4`，不沿用旧容量的 G3 process。来源：<https://datasheet.lcsc.com/datasheet/pdf/11cd39d31199147ab8bf6030d2abf67c.pdf?productCode=C41416113>、<https://www.techinsights.com/blog/cxmt-cxdb6ccbm-maadie-g4-16-gb-lpddr4x-memory-floorplan-analysis>
+- `CXDB6CCDM-MA-M` 原厂 datasheet 镜像的 ordering table 明确 `6=8GB`、`C=200-ball`、configuration `C=x32 2CH 2CS`、stack `D=8DP`、mobile temperature `M=-25°C~85°C` 与 speed `A=4266Mbps`；TechInsights 又确认该 exact package 为 200-ball、10x15x0.78 mm、内部八颗 8Gb LPDDR4X die。这里新增通用局部组合 `CDM=8 dies/2CS`，不把完整 PN 写入 decoder。来源：<https://pdf.elecfans.com/p/10972587.html>、<https://www.techinsights.com/blog/cxmt-cxdb6ccdm-ma-g3-8gb-lpddr4x-memory-floorplan-analysis>
+- Rockchip DDR Support List 2.61 将 `CXDB3ABAM-MK` 列为 8Gbit、256M x32、LPDDR4/LPDDR4X、200-ball，将 `CXDBCCCDM-MA-M` 列为 48Gbit、1536M x32、LPDDR4/LPDDR4X、200-ball；FCC 物料表另确认 `CXDBCCCDM-MK-M` 为 6GB LPDDR4X。由此补入 density `3=8Gb`、`C=48Gb`；`CDM` 的八 die 物理 stack 仍由上述原厂 ordering table 支撑。来源：<https://lo01.g77k.com/aeb/docs/en/Common/AVL/Rockchip_Support_List_DDR_Ver2.61.pdf>、<https://fccid.io/HLZA24005/Test-Report/FR471715D-TR-NII-WLAN-5G-B1-3-r1-1-7680147.pdf>
+- 小米公开的 FCC 设计差异表把 `CXDBDCCCM-MA-M` 明确列为 12GB CXMT RAM；外部器件目录进一步给出 LPDDR4X、200-ball、4266Mbps、G4。结合 `DCCCM` 中已知 x32/2CH/2CS configuration 与 G4 16Gb die，局部组合 `CCM` 输出 6 dies/2CS，density `D` 输出 96Gb。来源：<https://device.report/m/2e59e2c04080d19aafdc0d2c004e301eabe9c6e86478c653e64408fef57298a0.pdf>、<https://www.gys.cn/jichengdianluic/5510051569.html>
+- CXMT LPDDR4X 外部料号表一致列出 `CXDB4CBAM-EA-A`、`CXDB5CCBM-EA-A`、`CXDBCCCDM-EA-M`、`CXDB6CCDM-EA-M`，并注明 `EA` 为 4266Mbps automotive `-40°C~105°C`；唯样、JLCPCB 与公开库存页交叉确认这些 exact PN 和 200-ball package。新增 `E` temperature token 与 exact 搜索资源，不建立汽车模组规则。来源：<https://gigadevice.net/h-nd-1141.html>、<https://www.oneyac.net/product/34916350.html>、<https://jlcpcb.com/partdetail/JLCPCBAssembly-CXDB4CBAM_EAA/C9900160598>
+- `CXDR4E4BM-CR-A` 外部器件页明确给出 16Gb、82-ball、x4、4800，实物颗粒分析则交叉确认 `CXDR4E4BM-CS-A` 为 16Gb x4、5600；因此只新增 organization `E4=x4` 与 `E4:BM=FBGA-82`，不纳入承载这些颗粒的 RDIMM/UDIMM decoder 或搜索资源。来源：<https://www.gys.cn/jichengdianluic/5510051679.html>、<https://unikoshardware.com/2025/11/cxmt-ddr5-dies.html>
 - CSEKER 2025-11-20 汇总表列出更多 CXMT DDR4 / LPDDR4X / DDR5 料号，例如 `CXDQ4A8AM-CJ-M`、`CXDQ4BFAM-CJ-M`、`CXDR4E8BM-CS-A`、`CXDR4E8BM-CR-A`；这些进入规则时按结构 token 推断，可信度低于 datasheet-confirmed token。来源：<https://cseker.com/zh-cn/newDetail/42>
 - 上海证券交易所披露的资产评估说明以库存抽盘案例明确列出 `CXDR4E8BM-UP-A`，并给出 CXMT A-die DDR5、`2Gx8x1`、4800、9x11mm。这里把实际存在的 `UP` 后缀作为 DDR5-4800 token 补入结构化规则，将 `E8:BM` 封装组合补全为 `FBGA-82, 9x11`，并将 exact PN 加入搜索资源；不从单一料号进一步猜测 `U` 的温度等级或 `P` 的独立含义。来源：<https://static.sse.com.cn/stock/disclosure/announcement/c/202605/605178_20260514_1Z6P.pdf>
 
@@ -36,8 +41,8 @@
 - 规则 ID：`vendor.cxmt.dram.ddr4.component.v1`、`vendor.cxmt.dram.ddr5.component.v1`、`vendor.cxmt.dram.lpddr4x.component.v1`、`vendor.cxmt.dram.lpddr5.component.v1`、`vendor.cxmt.dram.lpddr5.cdtq-process-alias.v1`
 - 当前覆盖：
   - DDR4：`CXDQ3BFAM-*`、`CXDQ3A8AM-*`、`CXDQ4A8AM-*`、`CXDQ4BFAM-*` 同类 token 结构
-  - DDR5：`CXDR4E8BM-*`，按 `CXDR + density + organization + package + -speed/temp + optional revision` 推断
-  - LPDDR4X：`CXDB4ABAM-*`、`CXDB4CBAM-*`、`CXDB5CBAM-*`、`CXDB5CCAM-*`、`CXDB5CCBM-*` 同类 token 结构
+  - DDR5：`CXDR4E4BM-*`、`CXDR4E8BM-*`，按 `CXDR + density + organization + package + -speed/temp + optional revision` 推断
+  - LPDDR4X：`CXDB3ABAM-*`、`CXDB4ABAM-*`、`CXDB4CBAM-*`、`CXDB5CBAM-*`、`CXDB5CCAM-*`、`CXDB5CCBM-*`、`CXDBCCCDM-*`、`CXDB6CCDM-*`、`CXDBDCCCM-*` 同类 token 结构
   - LPDDR5/LPDDR5X：`CXDC/CXDD + density + layout + suffix` 局部 token；`CDTQ` package/die 标记别名用于输出 G3 / 12Gb die 信息
 
 ## PN 结构
@@ -76,9 +81,9 @@ CXD + family + density + layout + -suffix
 
 - DDR4 `2` 输出 4Gb，`3` 输出 8Gb，`4` 输出 16Gb；package type `A/B` 输出 78-ball / 96-ball FBGA；bit organization `8/F` 输出 x8 / x16；suffix 拆为 temp `C/I/W` 与 speed `Q/J/G`。`2:G` 组合输出 DDR4-2400；其余已确认的 `Q/J/G` 分别输出 2666 19-19-19、3200 22-22-22、2666 18-18-18。
 - DDR4 final revision `A/M` 输出 `die_revision`；final `M` 或 16Gb DDR4 结构推断 `process_node = CXMT G3 / 18nm-class`。
-- DDR5 `CXDR4E8BM-CR/CS-A` 输出 16Gb x8、82-ball FBGA、DDR5-4800/5600、`process_node = CXMT G4 / 16nm-class`。
-- LPDDR4X `4` 输出 16Gb，`5` 输出 32Gb；package type `A/C` 当前均输出 200-ball FBGA；config `A/B/C` 当前均输出 x32；`BAM` 输出 `2 dies, 1 CS`，`CAM` 与 `CBM` 输出 `4 dies, 2 CS`，并推断 `process_node = CXMT G3 / 18nm-class`。
-- LPDDR4X suffix 拆为 temp `M` 与 speed `J/K/L/A`，其中 `K=3733Mbps`、`L/A=4266Mbps`；final `A/B` 是 product version，不进入 public fields。
+- DDR5 `CXDR4E4BM-CR/CS-A` 输出 16Gb x4、82-ball FBGA，`CXDR4E8BM-CR/CS-A` 输出 16Gb x8、82-ball FBGA；`CR/CS` 分别输出 DDR5-4800/5600，`process_node = CXMT G4 / 16nm-class`。
+- LPDDR4X `3/4/5/6/B/C/D` 分别输出 8/16/32/64/24/48/96Gb；package type `A/C` 当前均输出 200-ball FBGA；config `A/B/C` 当前均输出 x32；`BAM` 输出 `2 dies, 1 CS`，`CAM` 与 `CBM` 输出 `4 dies, 2 CS`，`CCM` 输出 `6 dies, 2 CS`，`CDM` 输出 `8 dies, 2 CS`。`D:CCM` 组合输出 `CXMT G4`，其余既有组合继续按已确认映射输出。
+- LPDDR4X suffix 拆为 temp `M/E` 与 speed `J/K/L/A`，其中 `M=-25°C~85°C`、`E=Automotive -40°C~105°C`、`K=3733Mbps`、`L/A=4266Mbps`；final `A/B/M` 是 product version，不进入 public fields。
 - `CXDC` 保守输出 LPDDR5，`CXDD` 输出 LPDDR5X；density `C/D/7` 分别输出 48Gb/96Gb/128Gb，已确认 layout 组合输出 x32/x64 与 315/496-ball。suffix 的 speed、temperature 与 die topology 尚未确认，因此不猜测。
 - `CDTQ` 输出 LPDDR5、96Gb package、12Gb die、`dram_die_count=8`、`process_node = CXMT G3 / 18nm-class`；没有 CS 资料时不输出 `cs_count`。
 - suffix 不存在时不输出 speed/temp。

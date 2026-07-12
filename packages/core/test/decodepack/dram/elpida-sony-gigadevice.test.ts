@@ -345,6 +345,24 @@ assertDram("CXDR4E8BM-UP-A", {
   }
 });
 
+assertDram("CXDR4E4BM-CS-A", {
+  vendor: "cxmt",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x4",
+  voltage: "1.1V VDD",
+  package: "FBGA-82",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Count": 1,
+    "CS Count": 1,
+    "DRAM Speed": "DDR5-5600",
+    "Operation Temperature": "Commercial (0C~95C)",
+    "Die Revision": "Rev A",
+    "Process Node": "CXMT G4 / 16nm-class"
+  }
+});
+
 assertDram("CDTQ", {
   vendor: "cxmt",
   densityMbit: 98304,
@@ -485,6 +503,91 @@ assertDram("CXDB6CCBM-MA-A", {
     "DRAM Speed": "LPDDR4X-4266",
     "Operation Temperature": "-25C~85C",
     "Process Node": "CXMT G4"
+  }
+});
+
+assertDram("CXDB3ABAM-MK", {
+  vendor: "cxmt",
+  densityMbit: 8192,
+  density: "8Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Count": 2,
+    "CS Count": 1,
+    "DRAM Speed": "LPDDR4X-3733",
+    "Operation Temperature": "-25C~85C",
+    "Process Node": "CXMT G3 / 18nm-class"
+  }
+});
+
+assertDram("CXDBCCCDM-MA-M", {
+  vendor: "cxmt",
+  densityMbit: 49152,
+  density: "48Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Count": 8,
+    "CS Count": 2,
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-25C~85C",
+    "Process Node": "CXMT G3 / 18nm-class"
+  }
+});
+
+assertDram("CXDB6CCDM-MA-M", {
+  vendor: "cxmt",
+  densityMbit: 65536,
+  density: "64Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Count": 8,
+    "CS Count": 2,
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-25C~85C",
+    "Process Node": "CXMT G3 / 18nm-class"
+  }
+});
+
+assertDram("CXDBDCCCM-MA-M", {
+  vendor: "cxmt",
+  densityMbit: 98304,
+  density: "96Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Count": 6,
+    "CS Count": 2,
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "-25C~85C",
+    "Process Node": "CXMT G4"
+  }
+});
+
+assertDram("CXDB5CCBM-EA-A", {
+  vendor: "cxmt",
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x32",
+  voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
+  package: "FBGA-200",
+  extra: {
+    "DRAM Type": "LPDDR4X",
+    "DRAM Die Count": 4,
+    "CS Count": 2,
+    "DRAM Speed": "LPDDR4X-4266",
+    "Operation Temperature": "Automotive (-40C~105C)",
+    "Process Node": "CXMT G3 / 18nm-class"
   }
 });
 

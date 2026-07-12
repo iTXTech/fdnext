@@ -89,22 +89,49 @@ assertRuleDecode("YMEC8A2TB3A2C3", {
   absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
 });
 
+assertRuleDecode("YMEC6A2TB1A2C3C", {
+  vendor: "ymtc",
+  type: "eMMC",
+  densityMbit: 262144,
+  dieProfileField: "JGS",
+  cellField: "TLC",
+  package: "BGA-153, 11.5x13x1.0",
+  extra: {
+    Controller: "eMMC 5.1 Controller EC110",
+    "Product Family": "YMTC EC110 eMMC",
+    "Storage Interface": "eMMC 5.1",
+    "Process Alias": "X1-9050",
+    "Layer Count": 64,
+    "Die Count": 1,
+    "Product Class": "Commercial",
+    "Operation Temperature": "-25°C ~ 85°C"
+  },
+  absentExtra: ["System", "Group", "Reference Status", "Inference Source", "source", "status"]
+});
+
 assertRuleDecode("YMEC9C0TG3A2C3", {
   vendor: "ymtc",
   type: "eMMC",
   densityMbit: 2097152,
+  dieProfileField: "WTS",
   cellField: "TLC",
   package: "BGA-153, 11.5x13x1.0",
   extra: {
     Controller: "eMMC 5.1 Controller EC150",
     "Product Family": "YMTC EC150 eMMC",
     "Storage Interface": "eMMC 5.1",
+    "Process Alias": "X4-9060",
+    "Layer Count": 160,
     "Die Count": 4,
     "Product Class": "Commercial",
     "Operation Temperature": "-25°C ~ 85°C"
   },
   absentExtra: ["System", "Group", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
+
+for (const pn of ["YMEC6A2TB1A2C3C", "YMEC7A2TB2A2C3C", "YMEC8A2TB3A2C3C"]) {
+  assertSearchPnIncludes(pn, `YMTC ${pn}`);
+}
 
 assertRuleDecode("YMEC9B0TE3A2C3", {
   vendor: "ymtc",

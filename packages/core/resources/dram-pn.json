@@ -12466,5 +12466,61 @@
   {
     "vendor": "nanya",
     "pn": "NT6TL64T64CR-G0"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB3ABAM-MK"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB3ABAM-MK-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDBCCCDM-MA-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDBCCCDM-MK-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDBCCCDM-EA-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB6CCDM-MA-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB6CCDM-MK-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB6CCDM-EA-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDBDCCCM-MA-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB4CBAM-EA-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB5CCBM-EA-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB6CCBM-EA-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDR4E4BM-CR-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDR4E4BM-CS-A"
   }
 ]

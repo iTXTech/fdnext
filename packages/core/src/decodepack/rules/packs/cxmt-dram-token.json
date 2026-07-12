@@ -276,9 +276,11 @@
           "4": 16384
         },
         "deviceWidth": {
+          "E4": 4,
           "E8": 8
         },
         "packageActual": {
+          "E4:BM": "FBGA-82",
           "E8:BM": "FBGA-82, 9x11"
         },
         "speedObj": {
@@ -451,10 +453,13 @@
       ],
       "tables": {
         "densityMb": {
+          "3": 8192,
           "4": 16384,
           "5": 32768,
           "6": 65536,
-          "B": 24576
+          "B": 24576,
+          "C": 49152,
+          "D": 98304
         },
         "dieStackObj": {
           "BAM": {
@@ -467,6 +472,14 @@
           },
           "CBM": {
             "dram_die_count": 4,
+            "cs_count": 2
+          },
+          "CCM": {
+            "dram_die_count": 6,
+            "cs_count": 2
+          },
+          "CDM": {
+            "dram_die_count": 8,
             "cs_count": 2
           }
         },
@@ -494,12 +507,18 @@
           }
         },
         "temperatureObj": {
+          "E": {
+            "operation_temperature": "Automotive (-40C~105C)"
+          },
           "M": {
             "operation_temperature": "-25C~85C"
           }
         },
         "processSpecific": {
           "6:CBM": {
+            "process_node": "CXMT G4"
+          },
+          "D:CCM": {
             "process_node": "CXMT G4"
           }
         }
@@ -569,7 +588,7 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([M])([AJKL])(?=-|$)",
+          "pattern": "^([EM])([AJKL])(?=-|$)",
           "to": "suffixCode",
           "groups": {
             "temperatureCode": 1,

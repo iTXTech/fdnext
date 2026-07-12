@@ -376,6 +376,20 @@ assertResultField("9BC55C553000", "die_codename", "EMS");
 assertResultField("9BC55C553000", "layer_count", 232);
 assertResultField("9BC55C553000", "redundant_area_size", "2432B");
 
+const ymtcConfirmedFlashIdVariants: Array<[string, "JGS" | "TAS" | "WYS" | "EMS"]> = [
+  ["9BC449251000", "JGS"],
+  ["9BC54A251000", "JGS"],
+  ["9BC318251000", "JGS"],
+  ["9BC62A492000", "TAS"],
+  ["9BC428494000", "WYS"],
+  ["9BC65D553000", "EMS"]
+];
+
+for (const [id, profileKey] of ymtcConfirmedFlashIdVariants) {
+  assertResultField(id, "die_codename", profileKey);
+  assertResultFieldAbsent(id, "generation_info");
+}
+
 const ymtcGen5FlashIds: Array<[string, "WTS" | "SQS" | "PTS"]> = [
   ["9BC428554000", "WTS"],
   ["9BC458554000", "WTS"],

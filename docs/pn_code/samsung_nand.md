@@ -7,9 +7,36 @@
 iTXTech fdnext DecodePack:
 
 - `packages/core/src/decodepack/rules/packs/samsung-raw-token.json`
+- `packages/core/src/decodepack/identifier/packs/samsung.json`
 - `vendor.samsung.token.v1`
+- `identifier.nand_flash_id.samsung.legacy_slc.v1`
+- `identifier.nand_flash_id.samsung.v1`
 
-来源状态：本轮维护中由用户提供 Samsung 3D V-NAND die 标识表；外部公开 reference 待补。规则只按结构 token 落地，不维护完整 PN 白名单。
+来源状态：Samsung 3D V-NAND die 标识表由维护者提供；legacy SLC Flash ID 由公开 Samsung datasheet 镜像确认。规则只按结构 token / ID byte profile 落地，不维护完整 PN 或完整 Flash ID 白名单。
+
+## Legacy SLC Flash ID
+
+Samsung legacy SLC 使用与现代 NAND 不同的第 4/5 byte 定义。不能把现代 `page_size`、
+`block_size`、spare/ECC 位段公式直接套到这些旧 ID，也不能仅凭相同 device code 覆盖现代 ID。
+`identifier.nand_flash_id.samsung.legacy_slc.v1` 因此只在 datasheet 已确认的 legacy byte
+结构命中：
+
+| Family | Read ID profile | Confirmed output | Source |
+| --- | --- | --- | --- |
+| `K9F1G08Q0A/U0A` | `EC A1/F1 xx 15` | 1Gb SLC, x8, 1.8V/3.3V, 2KB page, 128KB block, 64B spare | Samsung K9F1G08Q0A/U0A datasheet |
+| `K9F2G08U0D` | `EC DA 10 95 46` | 2Gb SLC, x8, 3.3V, 2KB page, 128KB block, 64B spare, 2 planes | Samsung K9F2G08U0D datasheet |
+| `K9F4G08U0A` | `EC DC 10 95 54` | 4Gb SLC per device/CE, x8, 3.3V, 2KB page, 128KB block, 64B spare, 2 planes | Samsung K9F4G08U0A datasheet |
+
+公开镜像：
+
+- <https://www.micros.com.pl/mediaserver/info-pefnand01g08-030.pdf>
+- <https://www.szyuda88.com/home/8/a/2lhtb2/resource/2022/05/09/6278f8904b749.pdf>
+- <https://pccomponents.com/datasheets/SAMS-K9F.PDF>
+
+该 profile 按 device/configuration byte family 匹配；第 3 byte 为 datasheet `don't care`
+的 1Gb 系列不会被写成单一完整 ID。未命中这些 legacy 结构的 Samsung ID 仍进入既有
+`identifier.nand_flash_id.samsung.v1`，已有现代 density / geometry / die profile mapping
+保持不变。
 
 PN 结构：
 

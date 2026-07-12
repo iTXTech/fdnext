@@ -110,15 +110,23 @@ DecodePack 位于 `packages/core/src/decodepack/identifier/packs/kioxia.json`。
 Legacy SLC density token 由 KIOXIA/Toshiba datasheet Read ID 表确认；其中
 `F1/DA/DC/D3/D5/D7/DE` 分别覆盖 1/2/4/8/16/32/64Gbit。公开 datasheet
 包括 KIOXIA `TC58NVG0S3HBAI4`：<https://www.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/201910/DST_TC58NVG0S3HBAI4-TDE_EN_31422.pdf>，以及 Toshiba SLC middle-capacity 合集：<https://www.digikey.com/en/htmldatasheets/production/1123772/0/0/1/nand-flash-memory-slc-middle-capacity-.html>。
+KIOXIA 当前 datasheet 还直接确认 `98 F1 80 15 72`、`98 DA 90 15 76`、
+`98 DC 90 26 76` 三组 Read ID：均为 3.3V x8 SLC；前两组为 2KiB page、
+128KiB block、128B redundant area，后一组为 4KiB page、256KiB block、
+256B redundant area。
+规则只对这些已确认的 device/configuration byte 组合采用 datasheet 位定义；其他
+既有 ID 继续走原有 fallback，不用当前资料覆盖历史或更新的 mapping。对应 2Gbit
+和 4Gbit 资料：<https://www.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/201910/DST_TC58NVG1S3HTA00-TDE_EN_31442.pdf>、<https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TC58NVG2S0HBAI4-TDE_EN_31440.pdf>。
 
 | ID byte | 当前解析 |
 | --- | --- |
 | 2nd byte | `density`，按 per-target density 输出 Mbit |
 | 3rd byte `DQ1..DQ0` | `die_count`；KIOXIA ID 中 LUN count 与 die count 同义 |
 | 3rd byte `DQ3..DQ2` | `cell_level`，2/4/8/16 level cell 对应 SLC/MLC/TLC/QLC |
-| 4th byte `DQ1..DQ0` | `page_size`，输出 byte |
-| 4th byte `DQ7,DQ5,DQ4` | `block_size`，已知值输出 byte，reserved/others 不输出 |
+| 4th byte `DQ1..DQ0` | `page_size`，输出 byte；当前 SLC 三组已确认 configuration 使用 datasheet 位定义，其他 ID 保留既有 fallback |
+| 4th byte `DQ7,DQ5,DQ4` | `block_size`，输出 byte；当前 SLC 三组已确认 configuration 使用 datasheet 位定义，其他 ID 保留既有 fallback |
 | 5th byte `DQ3..DQ2` | target-level `plane_count`；`8/16` case 在 multi-die ID 中按 16 处理，再由 core postprocess 除以 `die_count` 输出 per-die plane count |
+| 已确认的完整 2nd–5th byte configuration | `redundant_area_size`；该值不是通用 ID 位域，不向其他 ID 泛化 |
 | 6th byte `DQ6..DQ0` | legacy 2D `die_codename`；`50/D0` = A19nm, `51/D1` = 15nm, `55/D5` = 32nm, `56/D6` = 24nm, `57/D7` = 19nm |
 | 6th byte `DQ5,DQ2..DQ0` | BiCS `die_codename`，映射到 KIOXIA-scoped BiCS profile key |
 | 6th byte `DQ7` | `interface_type`，`0` = Conventional，`1` = Toggle Mode |

@@ -52,6 +52,18 @@
   补充 2Gb density、x8/x16、1.8V/3.3V、2KB page、64B spare area 和 128KB block；不把旧格式
   位段泛化到现代 3D NAND ID。
   <https://user.eng.umd.edu/~blj/CS-590.26/micron-tn2919.pdf>
+- Micron `4Gb, 8Gb, and 16Gb x8 NAND Flash Memory` datasheet 的 Table 8 给出
+  `2C DC 90 95 54` 与 `2C D3 D1 95 58` 两组按 CE/section 读取的 legacy SLC
+  configuration profile。表中同时确认 3V x8、2KB page、128KB block、64B spare、
+  die/interleave/cache 和 2/4 planes；8Gb `DAA` 与 16Gb `FAA` 的 ID 分别反映每个
+  4Gb/8Gb section，因此 identifier 输出 ID 能确定的 section density，不从 PN 反推整包容量。
+  <https://media.digikey.com/pdf/Data%20Sheets/Micron%20Technology%20Inc%20PDFs/MT29FxG08xAA.pdf>
+- Micron `1Gb x8, x16 NAND Flash Memory` datasheet 的 Table 6 给出
+  `2C F1 80 95 02`、`2C A1 80 15 02`、`2C B1 80 55 02`：分别为 3.3V x8、
+  1.8V x8、1.8V x16，三者均为 1Gb SLC、2KB page、128KB block、64B spare、
+  single-die/single-plane。该 family 与 4/8/16Gb legacy profile 共用相同的结构化
+  identifier spec，不回落到现代 density 位段。
+  <https://www.micros.com.pl/mediaserver/PEF29f1g08abbdah4d_0001.pdf>
 
 ## 规则状态
 
@@ -60,6 +72,8 @@ iTXTech fdnext DecodePack:
 - `packages/core/src/decodepack/rules/packs/micron-raw-structured-token.json`
 - `packages/core/src/decodepack/rules/packs/micron-raw-token.json`
 - `packages/core/src/decodepack/identifier/packs/micron-inteldef.json`
+- `identifier.nand_flash_id.micron.legacy_slc.v1`
+- `identifier.nand_flash_id.micron.inteldef.v1`
 - `vendor.micron.hsc.mt29fb.v1`
 - `vendor.micron.raw.current.v1`
 - `vendor.micron.raw.legacy.v1`

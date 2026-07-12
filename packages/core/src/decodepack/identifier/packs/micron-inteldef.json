@@ -1,5 +1,119 @@
 [
   {
+    "id": "identifier.nand_flash_id.micron.legacy_slc.v1",
+    "idScheme": "nand.flash_id",
+    "priority": 415,
+    "match": {
+      "kind": "regex",
+      "value": "^2C(?:F18095|A18015|B18055|(?:DC90|D3D1)95)(?:[0-9A-F]{2})+$"
+    },
+    "vendor": "micron",
+    "definition": {
+      "2": {
+        "voltage": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "161": "Vcc: 1.8V",
+            "177": "Vcc: 1.8V",
+            "211": "Vcc: 3.3V",
+            "220": "Vcc: 3.3V",
+            "241": "Vcc: 3.3V"
+          }
+        },
+        "device_width": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "161": "x8",
+            "177": "x16",
+            "211": "x8",
+            "220": "x8",
+            "241": "x8"
+          }
+        },
+        "density": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "161": 1024,
+            "177": 1024,
+            "211": 8192,
+            "220": 4096,
+            "241": 1024
+          }
+        },
+        "cell_level": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "161": 1,
+            "177": 1,
+            "211": 1,
+            "220": 1,
+            "241": 1
+          }
+        }
+      },
+      "3": {
+        "die_count": {
+          "dq": [1, 0],
+          "def": {
+            "0": 1,
+            "1": 2
+          }
+        },
+        "simultaneously_programmed_pages": {
+          "dq": [5, 4],
+          "def": {
+            "0": 1,
+            "1": 2
+          }
+        },
+        "interleave": {
+          "dq": [6],
+          "def": {
+            "0": false,
+            "1": true
+          }
+        },
+        "cache": {
+          "dq": [7],
+          "def": {
+            "0": false,
+            "1": true
+          }
+        }
+      },
+      "4": {
+        "page_size": {
+          "dq": [1, 0],
+          "def": {
+            "1": 2
+          }
+        },
+        "block_size": {
+          "dq": [5, 4],
+          "def": {
+            "1": 128
+          }
+        },
+        "redundant_area_size": {
+          "dq": [2],
+          "def": {
+            "1": "64B"
+          }
+        }
+      },
+      "5": {
+        "plane_count": {
+          "dq": [3, 2],
+          "def": {
+            "0": 1,
+            "1": 2,
+            "2": 4
+          }
+        }
+      }
+    }
+  },
+  {
     "id": "identifier.nand_flash_id.micron.inteldef.v1",
     "idScheme": "nand.flash_id",
     "priority": 400,
