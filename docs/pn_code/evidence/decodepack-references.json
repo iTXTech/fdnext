@@ -2346,6 +2346,45 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
+      "spec_id": "identifier.nand_flash_id.samsung.legacy_large_page.v1",
+      "scope": "spec",
+      "entry_key": "samsung_k9f8g_legacy_large_page_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Samsung K9F8G08U0M datasheet Read ID and memory organization tables",
+        "url": "https://www.rcscomponents.kiev.ua/datasheets/k9f8g08u0m-pib0.pdf",
+        "examples": ["ECD310A664"],
+        "notes": "The datasheet confirms the D3 10 A6 64 profile as an 8Gb x8 SLC section with one die, 4KB page, 256KB block, 128B spare, and two-plane geometry. Voltage and multi-chip package total density are not encoded by this Read ID."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
+      "spec_id": "identifier.nand_flash_id.samsung.legacy_large_page.v1",
+      "scope": "spec",
+      "entry_key": "samsung_k9g8g_legacy_large_page_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Samsung K9G8G08U0A/B datasheet Read ID and memory organization tables",
+        "url": "https://datasheet4u.com/pdf/975328/K9G8G08U0B.pdf",
+        "examples": ["ECD314A564"],
+        "notes": "The datasheet confirms the D3 14 A5 64 profile as an 8Gb x8 MLC section with one die, 2KB page, 256KB block, 64B spare, and two-plane geometry."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
+      "spec_id": "identifier.nand_flash_id.samsung.legacy_large_page.v1",
+      "scope": "spec",
+      "entry_key": "samsung_k9gag_legacy_large_page_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Samsung K9GAG08U0M datasheet Read ID and memory organization tables",
+        "url": "https://opendevices.ru/wp-content/uploads/2011/11/K9GAG08U0M.pdf",
+        "examples": ["ECD514B674"],
+        "notes": "The datasheet confirms the D5 14 B6 74 profile as a 16Gb x8 MLC section with one die, 4KB page, 512KB block, 128B spare, and two-plane geometry. Voltage and multi-chip package total density are not inferred."
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
       "spec_id": "identifier.nand_flash_id.micron.legacy_slc.v1",
       "scope": "spec",

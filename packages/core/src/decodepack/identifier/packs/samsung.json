@@ -1,5 +1,83 @@
 [
   {
+    "id": "identifier.nand_flash_id.samsung.legacy_large_page.v1",
+    "idScheme": "nand.flash_id",
+    "priority": 410,
+    "match": {
+      "kind": "regex",
+      "value": "^EC(?:D310A664|D314A564|D514B674)(?:00)?$"
+    },
+    "vendor": "samsung",
+    "definition": {
+      "2": {
+        "density": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "211": 8192,
+            "213": 16384
+          }
+        }
+      },
+      "3": {
+        "cell_level": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "16": 1,
+            "20": 2
+          }
+        },
+        "die_count": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "16": 1,
+            "20": 1
+          }
+        },
+        "device_width": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "16": "x8",
+            "20": "x8"
+          }
+        }
+      },
+      "4": {
+        "page_size": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "165": 2,
+            "166": 4,
+            "182": 4
+          }
+        },
+        "block_size": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "165": 256,
+            "166": 256,
+            "182": 512
+          }
+        },
+        "redundant_area_size": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "165": "64B",
+            "166": "128B",
+            "182": "128B"
+          }
+        },
+        "plane_count": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "165": 2,
+            "166": 2,
+            "182": 2
+          }
+        }
+      }
+    }
+  },
+  {
     "id": "identifier.nand_flash_id.samsung.legacy_slc.v1",
     "idScheme": "nand.flash_id",
     "priority": 405,

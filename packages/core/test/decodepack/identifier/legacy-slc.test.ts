@@ -15,7 +15,7 @@ const engine = createEngine({
 function explainFields(id: string, specId: string): Record<string, unknown> {
   const explain = explainIdentifierDecode(defaultDecodePack, id);
   assert.equal(explain.status, "matched", `${id} should match an identifier DecodePack spec`);
-  assert.equal(explain.specId, specId, `${id} should use the legacy SLC identifier profile`);
+  assert.equal(explain.specId, specId, `${id} should use the expected identifier profile`);
   return explain.draft?.fields ?? {};
 }
 
@@ -57,6 +57,38 @@ test("Samsung legacy 1Gb, 2Gb, and 4Gb SLC Read IDs use the legacy geometry prof
     assert.equal(fields.voltage, voltage);
     assert.equal(fields.plane_count, planeCount);
     assertLegacyGeometry(fields);
+  }
+});
+
+test("Samsung legacy 8Gb and 16Gb large-page Read IDs use datasheet geometry", () => {
+  const cases: Array<[string, number, number, number, number, string]> = [
+    ["ECD310A664", 8192, 1, 4096, 262144, "128B"],
+    ["ECD314A564", 8192, 2, 2048, 262144, "64B"],
+    ["ECD514B674", 16384, 2, 4096, 524288, "128B"]
+  ];
+
+  for (const [id, density, cellLevel, pageSize, blockSize, spareSize] of cases) {
+    const explain = explainFields(id, "identifier.nand_flash_id.samsung.legacy_large_page.v1");
+    assert.equal(explain.density, density);
+    assert.equal(explain.cell_level, cellLevel);
+    assert.equal(explain.die_count, 1);
+    assert.equal(explain.device_width, "x8");
+    assert.equal(explain.page_size, pageSize);
+    assert.equal(explain.block_size, blockSize);
+    assert.equal(explain.redundant_area_size, spareSize);
+    assert.equal(explain.plane_count, 2);
+    assert.equal(explain.voltage, undefined);
+
+    const fields = resultFields(id);
+    assert.equal(fields.density, density);
+    assert.equal(fields.cell_level, cellLevel === 1 ? "SLC" : "MLC");
+    assert.equal(fields.die_count, 1);
+    assert.equal(fields.device_width, 8);
+    assert.equal(fields.page_size, pageSize);
+    assert.equal(fields.block_size, blockSize);
+    assert.equal(fields.redundant_area_size, spareSize);
+    assert.equal(fields.plane_count, 2);
+    assert.equal(fields.voltage, undefined);
   }
 });
 
@@ -102,5 +134,6 @@ test("Micron legacy 1Gb and 4Gb/8Gb-section SLC IDs use datasheet byte geometry"
 
 test("modern Samsung and Micron IDs remain on their existing generic specs", () => {
   assert.equal(explainIdentifierDecode(defaultDecodePack, "EC5E98BF84CC").specId, "identifier.nand_flash_id.samsung.v1");
+  assert.equal(explainIdentifierDecode(defaultDecodePack, "ECD314A664").specId, "identifier.nand_flash_id.samsung.v1");
   assert.equal(explainIdentifierDecode(defaultDecodePack, "2CC30832EA34").specId, "identifier.nand_flash_id.micron.inteldef.v1");
 });

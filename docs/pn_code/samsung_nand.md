@@ -1,6 +1,6 @@
 # Samsung Raw NAND PN 编码
 
-采集日期：2026-05-16
+采集日期：2026-05-16；更新日期：2026-07-13
 
 ## 规则状态
 
@@ -10,11 +10,12 @@ iTXTech fdnext DecodePack:
 - `packages/core/src/decodepack/identifier/packs/samsung.json`
 - `vendor.samsung.token.v1`
 - `identifier.nand_flash_id.samsung.legacy_slc.v1`
+- `identifier.nand_flash_id.samsung.legacy_large_page.v1`
 - `identifier.nand_flash_id.samsung.v1`
 
-来源状态：Samsung 3D V-NAND die 标识表由维护者提供；legacy SLC Flash ID 由公开 Samsung datasheet 镜像确认。规则只按结构 token / ID byte profile 落地，不维护完整 PN 或完整 Flash ID 白名单。
+来源状态：Samsung 3D V-NAND die 标识表由维护者提供；legacy Flash ID 由公开 Samsung datasheet 镜像确认。规则只按结构 token / datasheet-confirmed ID byte profile 落地，不用完整 PN 反推字段。
 
-## Legacy SLC Flash ID
+## Legacy Flash ID
 
 Samsung legacy SLC 使用与现代 NAND 不同的第 4/5 byte 定义。不能把现代 `page_size`、
 `block_size`、spare/ECC 位段公式直接套到这些旧 ID，也不能仅凭相同 device code 覆盖现代 ID。
@@ -37,6 +38,26 @@ Samsung legacy SLC 使用与现代 NAND 不同的第 4/5 byte 定义。不能把
 的 1Gb 系列不会被写成单一完整 ID。未命中这些 legacy 结构的 Samsung ID 仍进入既有
 `identifier.nand_flash_id.samsung.v1`，已有现代 density / geometry / die profile mapping
 保持不变。
+
+后续 8Gb/16Gb large-page 世代也不能沿用现代 generic bitfield。以下三组 datasheet
+profile 使用相同厂商/容量 byte，但第 3/4 byte 的含义不同；DecodePack 只在完整 byte
+组合吻合时采用确认 geometry，邻近但未确认的组合继续进入 generic fallback：
+
+| Family | Read ID profile | Confirmed output | Source |
+| --- | --- | --- | --- |
+| `K9F8G08U0M/B0M` | `EC D3 10 A6 64` | 8Gb SLC, x8, 1 die, 4KB page, 256KB block, 128B spare, 2 planes | Samsung K9F8G08U0M datasheet |
+| `K9G8G08U0A/B` | `EC D3 14 A5 64` | 8Gb MLC, x8, 1 die, 2KB page, 256KB block, 64B spare, 2 planes | Samsung K9G8G08U0A/B datasheet |
+| `K9GAG08U0M/B0M` | `EC D5 14 B6 74` | 16Gb MLC, x8, 1 die, 4KB page, 512KB block, 128B spare, 2 planes | Samsung K9GAG08U0M datasheet |
+
+公开镜像：
+
+- <https://www.rcscomponents.kiev.ua/datasheets/k9f8g08u0m-pib0.pdf>
+- <https://datasheet4u.com/pdf/975328/K9G8G08U0B.pdf>
+- <https://datasheet4u.com/pdf-down/K/9/G/K9G8G08U0A-Samsung.pdf>
+- <https://opendevices.ru/wp-content/uploads/2011/11/K9GAG08U0M.pdf>
+
+同一 Read ID 可由不同电压后缀或多芯片封装返回，因此该 profile 不输出电压，也不从
+封装 PN 反推 package 总容量；`density` 仅表达当前 ID section 可确认的 8Gb/16Gb。
 
 PN 结构：
 
@@ -208,7 +229,7 @@ Samsung raw NAND 的工艺归一不再使用 package density 直接匹配，也�
 | QLC | 2Tb | `M` | `SSV9HSQ` |
 
 - `K9AHGD8H0A`：按 PN token 解析为 TLC 512Gb die density，suffix `A`，归一为 `SSV5`。FDB 中挂到该 PN 的 `EC1E98AF84CD` 会解到 `SSV6`，但它同时属于 `K9AHGD8H0B` / `K9AHGD8J0B` 等 V6 PN，视为 FDB FlashID 关联脏数据，不覆盖 DecodePack。
-- `K9AHGD8J0C`：TechInsights 的 floorplan / waveform analysis 直接确认 512Gb TLC、133L；规则按 `TLC + 512Gb + suffix C` 的局部组合归一到既有 133L `SSV6P` profile，并覆盖通用 suffix ordinal，避免错误输出 `4th Gen`。该 PN 本身没有 package token，因此不输出封装。来源：<https://www.techinsights.com/products/mfr-2402-804>、<https://www.techinsights.com/ja/node/57871>
+- `K9AHGD8J0C`：TechInsights 的 floorplan / waveform analysis 直接确认 512Gb TLC、133L；规则按 `TLC + 512Gb + suffix C` 的局部组合归一到既有 133L `SSV6P` profile，并覆盖通用 suffix ordinal，避免错误输出 `Gen4`。该 PN 本身没有 package token，因此不输出封装。来源：<https://www.techinsights.com/products/mfr-2402-804>、<https://www.techinsights.com/ja/node/57871>
 - `K9UKGB8S7F` / `K9PKGY8S4B`：FDB `l=SSV3`，但 PN die density 规则分别归一到内部 `SS14M`，对外显示 `14nm`，用于纠正旧标记。
 - `K9PMGY8S7M`：FDB `l=SSV2`，但 PN die density 规则归一到 `SSV3M`。
 - `K9DYGY8J5B-CCK0`：TechInsights 确认其为 16 die package，内部 die 为 1Tb 236L TLC V8；外部 Flash ID 表和本地 FDB 同向记录 `EC52EA3F8ECF`。单个 `EC52EA3F8ECF` ID decode 为 512GB，4 组组成 `K9D...YG...` 的 2TB package。
