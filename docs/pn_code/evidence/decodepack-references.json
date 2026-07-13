@@ -1947,12 +1947,62 @@
       "entry_key": "W29N",
       "evidence": {
         "status": "external_confirmed",
-        "source": "Winbond SLC NAND Flash Product Brief and W29N02GV ordering information",
+        "source": "Winbond SLC NAND Flash Product Brief and W29N ordering information",
+        "url": "https://www.winbond.com/productResource-files/Winbond%20SLC%20NAND%20Flash%20Product%20Brief_EN_2024Q3_v1.pdf",
         "examples": [
           "W29N02GV",
           "W29N02GVSIAA",
-          "W29N02GVBJAA"
-        ]
+          "W29N02GVBJAA",
+          "W29N04LZ",
+          "W29N08LW"
+        ],
+        "notes": "The current family tables confirm 1/2/4/8Gbit W29N bases. The decoder keeps version, package, option, and ECC codes internal and exposes only datasheet-confirmed semantics."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/winbond-nand-token.json",
+      "spec_id": "vendor.winbond.raw.w29n.v1",
+      "scope": "spec",
+      "entry_key": "winbond_w29n_k_l_ordering_tokens",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N02K and W29N04/08L ordering information",
+        "url": "https://www.winbond.com/resource-files/W29N02KWZxxBE_RevC.pdf",
+        "examples": [
+          "W29N02KZDIBE",
+          "W29N02KZSIAE",
+          "W29N04LZBIBG",
+          "W29N08LWBICG"
+        ],
+        "notes": "The K/L datasheets confirm the single-character option and ECC positions, K:A OTP support, L:B/L:C legacy OTP and block-lock semantics, and A/F/E/G ECC levels. L is a product-version token and is not exposed as generation."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/winbond-nand-token.json",
+      "spec_id": "vendor.winbond.raw.w29n.v1",
+      "scope": "table_entry",
+      "table_key": "package",
+      "entry_key": "D",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N02KZ/KW ordering information",
+        "url": "https://www.winbond.com/resource-files/W29N02KWZxxBE_RevC.pdf",
+        "examples": ["W29N02KZDIBE"],
+        "notes": "Package token D is VFBGA-48, 6.5x8."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/winbond-nand-token.json",
+      "spec_id": "vendor.winbond.raw.w29n.v1",
+      "scope": "table_entry",
+      "table_key": "package",
+      "entry_key": "Y",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N01HZ/HW ordering information",
+        "url": "https://www.winbond.com/resource-files/W29N01HZWxxNA_RevG.pdf",
+        "examples": ["W29N01HZYINA"],
+        "notes": "Package token Y is WLCSP-68."
       }
     },
     {
@@ -2472,7 +2522,7 @@
         "source": "Winbond W29N01HV datasheet Read ID, memory organization, and feature tables",
         "url": "https://www.winbond.com/resource-files/W29N01HVxxNA_RevD.pdf",
         "examples": ["EFF1009500"],
-        "notes": "The datasheet confirms the five-byte Read ID, 1Gb SLC density, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, and lack of cache programming. The same ID covers x8 and x16 ordering variants, so width is intentionally not decoded."
+        "notes": "The datasheet confirms the five-byte Read ID, 1Gb x8 SLC density, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, and lack of cache programming."
       }
     },
     {
@@ -2485,7 +2535,7 @@
         "source": "Winbond W29N02GV datasheet Read ID, memory organization, and feature tables",
         "url": "https://www.winbond.com/resource-files/W29N02GVxxAA_RevD.pdf",
         "examples": ["EFDA909504"],
-        "notes": "The datasheet confirms the five-byte Read ID, 2Gb SLC density, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, and cache programming support. The same ID covers x8 and x16 ordering variants, so width is intentionally not decoded."
+        "notes": "The datasheet confirms the five-byte Read ID, 2Gb x8 SLC density, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, and cache programming support."
       }
     },
     {
@@ -2512,6 +2562,71 @@
         "url": "https://www.winbond.com/resource-files/W29N08GVxxAA_RevE.pdf",
         "examples": ["EFD3919558"],
         "notes": "The datasheet confirms the five-byte Read ID, 8Gb x8 SLC organization, 2.7V to 3.6V supply, 2KB page, 128KB block, 64B spare, and cache programming support."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
+      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "scope": "spec",
+      "entry_key": "winbond_w29n01hzw_parallel_slc_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N01HZ/HW datasheet Read ID and memory organization tables",
+        "url": "https://www.winbond.com/resource-files/W29N01HZWxxNA_RevG.pdf",
+        "examples": ["EFA1009500", "EFB100D500"],
+        "notes": "The datasheet confirms the 1Gb 1.8V x8/x16 SLC profiles, 2KB page, 128KB block, 64B spare, and lack of cache programming."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
+      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "scope": "spec",
+      "entry_key": "winbond_w29n_gzw_parallel_slc_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N GZ/GW datasheet Read ID and memory organization tables",
+        "url": "https://www.winbond.com/resource-files/W29N04GWZxxBF_RevC.pdf",
+        "examples": ["EFAA901504", "EFBA905504", "EFAC901554", "EFBC905554", "EFA3911558", "EFB3915558"],
+        "notes": "The datasheets confirm the 2/4/8Gb 1.8V x8/x16 SLC profiles with 2KB page, 128KB block, and 64B spare geometry."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
+      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "scope": "spec",
+      "entry_key": "winbond_w29n02_k_parallel_slc_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N02KZ/KW/KV datasheet Read ID and memory organization tables",
+        "url": "https://www.winbond.com/resource-files/W29N02KWZxxBE_RevC.pdf",
+        "examples": ["EFAA101507", "EFBA105507", "EFDA109507"],
+        "notes": "The datasheets confirm the 2Gb K-series 1.8V x8/x16 and 3V x8 profiles with 2KB page, 128KB block, and 128B spare geometry."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
+      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "scope": "spec",
+      "entry_key": "winbond_w29n04_k_parallel_slc_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N04KZ/KW BF and BG datasheet Read ID and memory organization tables",
+        "url": "https://media.digikey.com/pdf/Data%20Sheets/Winbond%20PDFs/W29N04KW_ZxxBF_RevB_5-11-22.pdf",
+        "examples": ["EFAC101556", "EFBC105556", "EFAC002663", "EFBC006663"],
+        "notes": "The BF profiles use 2KB page, 128KB block, and 128B spare; the BG profiles use 4KB page, 256KB block, and 256B spare. Both confirm 1.8V x8/x16 SLC organization."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
+      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "scope": "spec",
+      "entry_key": "winbond_w29n_l_parallel_slc_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Winbond W29N04/08LW/LZ datasheet Read ID and memory organization tables",
+        "url": "https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/8919/W29N04_08LWZxxxG.pdf",
+        "examples": ["EFAC00A663", "EFBC00E663", "EFA301A663", "EFB301E663"],
+        "notes": "The datasheet confirms the 4/8Gb 1.8V x8/x16 SLC profiles with 4KB page, 256KB block, and 256B spare geometry."
       }
     },
     {

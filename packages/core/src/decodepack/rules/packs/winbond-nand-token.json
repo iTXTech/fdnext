@@ -11,7 +11,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^W29N(?:01|02|04|08)[GHK][VWZ](?:[SB][IJ][AB][AF])?$"
+      "value": "^W29N(?:(?:01|02|04|08)[GHK][VWZ]|(?:04|08)L[WZ])(?:[A-Z0-9]{4})?$"
     },
     "tokenDecoder": {
       "stripPrefixes": ["W29N"],
@@ -37,8 +37,10 @@
           }
         },
         "package": {
-          "S": "TSOP-I-48",
-          "B": "VFBGA-63"
+          "S": "TSOP-I-48, 12x20",
+          "D": "VFBGA-48, 6.5x8",
+          "B": "VFBGA-63, 9x11",
+          "Y": "WLCSP-68"
         },
         "temperatureObj": {
           "I": {
@@ -46,6 +48,31 @@
           },
           "J": {
             "operation_temperature": "-40°C ~ 105°C"
+          }
+        },
+        "optionObj": {
+          "K:A": {
+            "special_option": "OTP Command Supported"
+          },
+          "L:B": {
+            "special_option": "Legacy OTP"
+          },
+          "L:C": {
+            "special_option": "Legacy OTP and Block Lock"
+          }
+        },
+        "eccObj": {
+          "A": {
+            "ecc_level": "1bit"
+          },
+          "F": {
+            "ecc_level": "4bit"
+          },
+          "E": {
+            "ecc_level": "8bit"
+          },
+          "G": {
+            "ecc_level": "8bit"
           }
         }
       },
@@ -59,7 +86,11 @@
         { "op": "map", "from": "packageCode", "table": "package", "to": "package" },
         { "op": "take", "len": 1, "to": "temperatureCode" },
         { "op": "map", "from": "temperatureCode", "table": "temperatureObj", "to": "temperatureObj", "default": {} },
-        { "op": "take", "len": 2, "to": "optionCode" },
+        { "op": "take", "len": 1, "to": "optionCode" },
+        { "op": "tpl", "template": "{{featureCode}}:{{optionCode}}", "to": "optionKey" },
+        { "op": "map", "from": "optionKey", "table": "optionObj", "to": "optionObj", "default": {} },
+        { "op": "take", "len": 1, "to": "eccCode" },
+        { "op": "map", "from": "eccCode", "table": "eccObj", "to": "eccObj", "default": {} },
         {
           "op": "set",
           "to": "extra",
@@ -70,7 +101,9 @@
           }
         },
         { "op": "merge", "into": "extra", "from": "voltageWidthObj" },
-        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+        { "op": "merge", "into": "extra", "from": "temperatureObj" },
+        { "op": "merge", "into": "extra", "from": "optionObj" },
+        { "op": "merge", "into": "extra", "from": "eccObj" }
       ],
       "assign": {
         "device.partNumber": { "$var": "partNumber" },

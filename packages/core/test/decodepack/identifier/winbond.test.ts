@@ -26,32 +26,60 @@ function resultFieldsFor(id: string): Record<string, unknown> {
 }
 
 test("Winbond W29N parallel SLC Read IDs preserve the datasheet geometry", () => {
-  const cases: Array<[string, number, boolean, string | undefined]> = [
-    ["EFF1009500", 1024, false, undefined],
-    ["EFDA909504", 2048, true, undefined],
-    ["EFDC909554", 4096, true, "x8"],
-    ["EFD3919558", 8192, true, "x8"]
+  const cases: Array<{
+    id: string;
+    density: number;
+    voltage: string;
+    pageSize: number;
+    blockSize: number;
+    spareSize: string;
+    deviceWidth?: "x8" | "x16";
+    cache?: boolean;
+  }> = [
+    { id: "EFF1009500", density: 1024, voltage: "Vcc: 2.7V~3.6V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x8", cache: false },
+    { id: "EFDA909504", density: 2048, voltage: "Vcc: 2.7V~3.6V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x8", cache: true },
+    { id: "EFDC909554", density: 4096, voltage: "Vcc: 2.7V~3.6V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x8", cache: true },
+    { id: "EFD3919558", density: 8192, voltage: "Vcc: 2.7V~3.6V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x8", cache: true },
+    { id: "EFA1009500", density: 1024, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x8", cache: false },
+    { id: "EFB100D500", density: 1024, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x16", cache: false },
+    { id: "EFAA901504", density: 2048, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x8" },
+    { id: "EFBA905504", density: 2048, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x16" },
+    { id: "EFAC901554", density: 4096, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x8" },
+    { id: "EFBC905554", density: 4096, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x16" },
+    { id: "EFA3911558", density: 8192, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x8" },
+    { id: "EFB3915558", density: 8192, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "64B", deviceWidth: "x16" },
+    { id: "EFAA101507", density: 2048, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "128B", deviceWidth: "x8" },
+    { id: "EFBA105507", density: 2048, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "128B", deviceWidth: "x16" },
+    { id: "EFDA109507", density: 2048, voltage: "Vcc: 2.7V~3.6V", pageSize: 2048, blockSize: 131072, spareSize: "128B", deviceWidth: "x8" },
+    { id: "EFAC101556", density: 4096, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "128B", deviceWidth: "x8" },
+    { id: "EFBC105556", density: 4096, voltage: "Vcc: 1.7V~1.95V", pageSize: 2048, blockSize: 131072, spareSize: "128B", deviceWidth: "x16" },
+    { id: "EFAC002663", density: 4096, voltage: "Vcc: 1.7V~1.95V", pageSize: 4096, blockSize: 262144, spareSize: "256B", deviceWidth: "x8" },
+    { id: "EFBC006663", density: 4096, voltage: "Vcc: 1.7V~1.95V", pageSize: 4096, blockSize: 262144, spareSize: "256B", deviceWidth: "x16" },
+    { id: "EFAC00A663", density: 4096, voltage: "Vcc: 1.7V~1.95V", pageSize: 4096, blockSize: 262144, spareSize: "256B", deviceWidth: "x8" },
+    { id: "EFBC00E663", density: 4096, voltage: "Vcc: 1.7V~1.95V", pageSize: 4096, blockSize: 262144, spareSize: "256B", deviceWidth: "x16" },
+    { id: "EFA301A663", density: 8192, voltage: "Vcc: 1.7V~1.95V", pageSize: 4096, blockSize: 262144, spareSize: "256B", deviceWidth: "x8" },
+    { id: "EFB301E663", density: 8192, voltage: "Vcc: 1.7V~1.95V", pageSize: 4096, blockSize: 262144, spareSize: "256B", deviceWidth: "x16" }
   ];
 
-  for (const [id, density, cache, deviceWidth] of cases) {
+  for (const { id, density, voltage, pageSize, blockSize, spareSize, deviceWidth, cache } of cases) {
     const explain = fieldsFor(id);
     assert.equal(explain.density, density);
     assert.equal(explain.cell_level, 1);
-    assert.equal(explain.voltage, "Vcc: 2.7V~3.6V");
-    assert.equal(explain.page_size, 2048);
-    assert.equal(explain.block_size, 131072);
-    assert.equal(explain.redundant_area_size, "64B");
+    assert.equal(explain.voltage, voltage);
+    assert.equal(explain.page_size, pageSize);
+    assert.equal(explain.block_size, blockSize);
+    assert.equal(explain.redundant_area_size, spareSize);
     assert.equal(explain.cache, cache);
     assert.equal(explain.device_width, deviceWidth);
 
     const result = resultFieldsFor(id);
     assert.equal(result.density, density);
-    assert.equal(result.voltage, "Vcc: 2.7V~3.6V");
-    assert.equal(result.page_size, 2048);
-    assert.equal(result.block_size, 131072);
-    assert.equal(result.redundant_area_size, "64B");
+    assert.equal(result.voltage, voltage);
+    assert.equal(result.page_size, pageSize);
+    assert.equal(result.block_size, blockSize);
+    assert.equal(result.redundant_area_size, spareSize);
     assert.equal(result.cache, cache);
-    assert.equal(result.device_width, deviceWidth === "x8" ? 8 : undefined);
+    assert.equal(result.device_width, deviceWidth === "x8" ? 8 : deviceWidth === "x16" ? 16 : undefined);
   }
 });
 
