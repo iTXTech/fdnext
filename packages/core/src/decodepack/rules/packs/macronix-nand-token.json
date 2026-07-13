@@ -1,0 +1,124 @@
+[
+  {
+    "id": "vendor.macronix.raw.mx30_mx60.v1",
+    "priority": 1006,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MX(?:30|60)[LU]F(?:12|1G|2G|4G|8G)[012E][468][AS][ABCD](?:-(?:M|T|XK|XQ|Z2|Z4)[IJSR][0-9A-Z]*)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["MX"],
+      "tables": {
+        "voltage": {
+          "L": "2.7V~3.6V",
+          "U": "1.7V~1.95V"
+        },
+        "density": {
+          "12": 512,
+          "1G": 1024,
+          "2G": 2048,
+          "4G": 4096,
+          "8G": 8192
+        },
+        "ecc": {
+          "0": "1bit (2bit automotive)",
+          "1": "4bit",
+          "2": "8bit",
+          "E": "ECC-free"
+        },
+        "deviceWidth": {
+          "4": 4,
+          "8": 8,
+          "6": 16
+        },
+        "modeObj": {
+          "S": {
+            "special_option": "Security Feature"
+          }
+        },
+        "package": {
+          "M": "SOP-16",
+          "T": "TSOP-48, 12x20",
+          "XK": "VFBGA-63, 9x11",
+          "XQ": "VFBGA-48, 6x8",
+          "Z2": "WSON-8, 8x6",
+          "Z4": "WSON-8, 8x6"
+        },
+        "temperatureObj": {
+          "I": {
+            "operation_temperature": "-40°C ~ 85°C"
+          },
+          "J": {
+            "operation_temperature": "-40°C ~ 105°C"
+          },
+          "S": {
+            "operation_temperature": "-40°C ~ 85°C",
+            "product_class": "Automotive Grade 3"
+          },
+          "R": {
+            "operation_temperature": "-40°C ~ 105°C",
+            "product_class": "Automotive Grade 2"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^(30|60)([LU])(F)(12|1G|2G|4G|8G)([012E])([468])([AS])([ABCD])(?:-(M|T|XK|XQ|Z2|Z4)([IJSR])([0-9A-Z]*))?$",
+          "to": "orderingCode",
+          "groups": {
+            "typeCode": 1,
+            "voltageCode": 2,
+            "classificationCode": 3,
+            "densityCode": 4,
+            "eccCode": 5,
+            "widthCode": 6,
+            "modeCode": 7,
+            "generationCode": 8,
+            "packageCode": 9,
+            "temperatureCode": 10,
+            "reserveCode": 11
+          },
+          "default": ""
+        },
+        { "op": "map", "from": "voltageCode", "table": "voltage", "to": "voltage", "default": "" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": -1 },
+        { "op": "map", "from": "eccCode", "table": "ecc", "to": "eccLevel", "default": "" },
+        { "op": "map", "from": "widthCode", "table": "deviceWidth", "to": "deviceWidth", "default": -1 },
+        { "op": "map", "from": "modeCode", "table": "modeObj", "to": "modeObj", "default": {} },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" },
+        { "op": "map", "from": "temperatureCode", "table": "temperatureObj", "to": "temperatureObj", "default": {} },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "interface_type": "Parallel NAND",
+            "cell_level": 1
+          }
+        },
+        { "op": "merge", "into": "extra", "from": "modeObj" },
+        { "op": "merge", "into": "extra", "from": "temperatureObj" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "mxic",
+        "device.chipKind": "raw_nand",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$var": "density" },
+        "fields.device_width": { "$var": "deviceWidth" },
+        "fields.voltage": { "$var": "voltage" },
+        "fields.ecc_level": { "$var": "eccLevel" },
+        "fields.package": { "$var": "package" },
+        "meta.ruleId": "vendor.macronix.raw.mx30_mx60.v1"
+      }
+    }
+  }
+]

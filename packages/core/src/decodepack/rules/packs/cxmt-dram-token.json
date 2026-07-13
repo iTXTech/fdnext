@@ -487,9 +487,6 @@
           "A": "FBGA-200",
           "C": "FBGA-200"
         },
-        "packageSpecific": {
-          "6:CDM": "FBGA-200, 10x15x0.78"
-        },
         "deviceWidth": {
           "A": 32,
           "B": 32,
@@ -585,19 +582,6 @@
           "to": "packageBase"
         },
         {
-          "op": "map",
-          "from": "processKey",
-          "table": "packageSpecific",
-          "to": "packageSpecific",
-          "default": ""
-        },
-        {
-          "op": "fallback",
-          "primary": "packageSpecific",
-          "secondary": "packageBase",
-          "to": "package"
-        },
-        {
           "op": "stripIfPrefix",
           "prefix": "-",
           "to": "hasSuffix"
@@ -679,7 +663,7 @@
         },
         "fields.dram_voltage": "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
         "fields.package": {
-          "$var": "package"
+          "$var": "packageBase"
         },
         "meta.ruleId": "vendor.cxmt.dram.lpddr4x.component.v1"
       }

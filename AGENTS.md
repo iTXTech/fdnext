@@ -66,6 +66,7 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - `voltage` / `dram_voltage` 只表达电压本身；不要把 DDR 代际、DRAM 类型、产品线等已在其他字段出现的信息重复塞进电压文本。
 - `package` 只在官方资料、datasheet、catalog、拆解或可信分销页能确认封装类型、脚位、尺寸或特殊封装信息时输出；公开格式统一为 `TYPE[-PIN][, DIM][, SPECIAL]`，例如 `FBGA-153, 11.5x13x1.0`、`BGA, 11.0x13.0x0.8`、`WLGA`。缺 pin 时只输出已确认的 TYPE，不得补猜脚位；只有 DIM 被确认而 TYPE 未确认时只保留 DIM；不要输出 `mm`、`ball`、`pin` 等单位词或 `Unknown`。只有厂商 package token 时应省略公开 `package`，不要退回输出 package code。
 - PN 本身缺少封装 token 时不得根据同族完整 ordering PN、exact datasheet 或拆解结果反推 `package`；例如短 marking `H27UCG8T2E` 不含封装 token，因此即使完整订购料号的封装已知也保持不输出。
+- package 等语义映射应优先来自厂商 part-numbering / ordering table；不得把 exact body 拆成 density + config/stack/material 等近似完整料号组合（例如 `C:CDM`、`6:CDM`）伪装成泛化规则。没有更强 ordering 依据时，组合 key 最多使用实际存在的 family + package 两个 token；exact 实物尺寸只记入 evidence，不参与 decode。
 - 不维护历史 metadata alias 或运行时兼容转换。新增或清理字段时，直接迁移 iTXTech fdnext DecodePack 源规则、语言包和 testcase，并把旧 key 加入审计测试的禁止列表。
 
 特别禁止：

@@ -1,0 +1,134 @@
+[
+  {
+    "id": "vendor.issi.raw.parallel-slc.v1",
+    "priority": 1005,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [" ", ",", "&", ".", "|"]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^IS(?:34|35)M[LW](?:01G|02G|04G|08G)(?:08|16)[148](?:[A-Z0-9]?-[A-Z0-9]+(?:-[A-Z0-9]+)?)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": ["IS"],
+      "tables": {
+        "familyObj": {
+          "34": {
+            "product_family": "ISSI SLC NAND"
+          },
+          "35": {
+            "product_family": "ISSI Automotive SLC NAND"
+          }
+        },
+        "voltage": {
+          "L": "2.7V~3.6V",
+          "W": "1.7V~1.95V"
+        },
+        "density": {
+          "01G": 1024,
+          "02G": 2048,
+          "04G": 4096,
+          "08G": 8192
+        },
+        "deviceWidth": {
+          "08": 8,
+          "16": 16
+        },
+        "eccObj": {
+          "1": {
+            "ecc_level": "1bit"
+          },
+          "4": {
+            "ecc_level": "4bit"
+          },
+          "8": {
+            "ecc_level": "8bit"
+          }
+        },
+        "package": {
+          "T": "TSOP-I-48",
+          "B": "VFBGA-63"
+        },
+        "solderType": {
+          "L": "RoHS compliant, Halogen-free, TSCA compliant"
+        },
+        "temperatureObj": {
+          "I": {
+            "operation_temperature": "Industrial (-40°C ~ 85°C)"
+          },
+          "E": {
+            "operation_temperature": "Industrial (-40°C ~ 105°C)"
+          },
+          "A1": {
+            "operation_temperature": "Automotive (-40°C ~ 85°C)"
+          },
+          "A2": {
+            "operation_temperature": "Automotive (-40°C ~ 105°C)"
+          }
+        },
+        "packingType": {
+          "TR": "Tape and Reel",
+          "TY": "Tray"
+        }
+      },
+      "steps": [
+        { "op": "take", "len": 2, "to": "familyCode" },
+        { "op": "map", "from": "familyCode", "table": "familyObj", "to": "familyObj", "default": {} },
+        { "op": "take", "len": 1, "to": "technologyCode" },
+        { "op": "take", "len": 1, "to": "voltageCode" },
+        { "op": "map", "from": "voltageCode", "table": "voltage", "to": "voltage" },
+        { "op": "take", "len": 3, "to": "densityCode" },
+        { "op": "map", "from": "densityCode", "table": "density", "to": "density" },
+        { "op": "take", "len": 2, "to": "widthCode" },
+        { "op": "map", "from": "widthCode", "table": "deviceWidth", "to": "deviceWidth" },
+        { "op": "take", "len": 1, "to": "eccCode" },
+        { "op": "map", "from": "eccCode", "table": "eccObj", "to": "eccObj", "default": {} },
+        {
+          "op": "takeRegex",
+          "pattern": "^([A-Z0-9]?)-",
+          "to": "orderingSeparator",
+          "groups": {
+            "dieRevisionCode": 1
+          },
+          "default": ""
+        },
+        { "op": "take", "len": 1, "to": "packageCode" },
+        { "op": "map", "from": "packageCode", "table": "package", "to": "package" },
+        { "op": "take", "len": 1, "to": "solderCode" },
+        { "op": "map", "from": "solderCode", "table": "solderType", "to": "solderType" },
+        { "op": "takeLongest", "table": "temperatureObj", "to": "temperatureObj", "default": {} },
+        { "op": "stripIfPrefix", "prefix": "-", "to": "hasPacking" },
+        { "op": "takeLongest", "table": "packingType", "to": "packingType", "default": "" },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "cell_level": "SLC",
+            "interface_type": "Parallel NAND"
+          }
+        },
+        { "op": "merge", "into": "extra", "from": "familyObj" },
+        { "op": "merge", "into": "extra", "from": "eccObj" }
+      ],
+      "assign": {
+        "device.partNumber": { "$var": "partNumber" },
+        "device.domain": "memory",
+        "device.vendor": "issi",
+        "device.chipKind": "raw_nand",
+        "fields": { "$var": "extra" },
+        "fields.density": { "$var": "density" },
+        "fields.device_width": { "$var": "deviceWidth" },
+        "fields.voltage": { "$var": "voltage" },
+        "fields.package": { "$var": "package" },
+        "fields.solder_type": { "$var": "solderType" },
+        "fields.operation_temperature": { "$path": ["temperatureObj", "operation_temperature"] },
+        "fields.packing_type": { "$var": "packingType" },
+        "meta.ruleId": "vendor.issi.raw.parallel-slc.v1"
+      }
+    }
+  }
+]

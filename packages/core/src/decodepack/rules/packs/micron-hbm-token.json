@@ -35,6 +35,10 @@
           "04": 4,
           "08": 8
         },
+        "package": {
+          "AC": "MPGA, 10x11x0.78",
+          "BF": "MPGA"
+        },
         "voltageObj": {
           "A": {
             "dram_voltage": "1.2V"
@@ -68,6 +72,7 @@
             "densityCode": "densityCode",
             "channelCode": "channelCode",
             "dieCountCode": "dieCountCode",
+            "packageCode": "packageCode",
             "speedCode": "speedCode",
             "temperatureCode": "temperatureCode",
             "revisionCode": "revisionCode"
@@ -96,6 +101,12 @@
           "from": "dieCountCode",
           "table": "dieCount",
           "to": "dieCount"
+        },
+        {
+          "op": "map",
+          "from": "packageCode",
+          "table": "package",
+          "to": "package"
         },
         {
           "op": "map",
@@ -172,6 +183,9 @@
         },
         "fields.dram_die_count": {
           "$var": "dieCount"
+        },
+        "fields.package": {
+          "$var": "package"
         },
         "meta.ruleId": "vendor.micron.hbm2e.mt54.v1",
         "meta.fieldProfile": "dram",

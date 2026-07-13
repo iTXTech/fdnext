@@ -64,6 +64,18 @@
   single-die/single-plane。该 family 与 4/8/16Gb legacy profile 共用相同的结构化
   identifier spec，不回落到现代 density 位段。
   <https://www.micros.com.pl/mediaserver/PEF29f1g08abbdah4d_0001.pdf>
+- ESMT `F59D2G81XA (2B)` datasheet 的 READ ID 与 ONFI parameter page 给出
+  `2C AA 90 15 06`，并确认 parameter-page manufacturer 为 `MICRON`。该 tuple 对应
+  2Gb、1.8V、x8 SLC、single-die/two-plane、2KB page、128B spare、128KB block、
+  cache 与双页并行编程，ECC 为 8bit/544B。identifier 只对这一完整 tuple 覆盖通用
+  Micron Intel-definition 位段，不把 ESMT 作为 `2C` maker，也不扩展相邻 ID。
+  <https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59D2G81XA%282B%29.pdf>
+- ESMT `F59L8G81XA (2Y)` datasheet 的 READ ID 与 ONFI parameter page 给出
+  `2C D3 90 A6 64`，并确认 parameter-page manufacturer 为 `MICRON`。该 tuple 对应
+  8Gb、3.3V、x8 SLC、single-die/two-plane、4KB page、224B spare、256KB block、
+  cache 与双页并行编程，ECC 为 8bit/540B。该 exact override 修正通用位段对 density、
+  spare、block 和 plane 的错误解释，但不覆盖或删除其他既有 `2C` mapping。
+  <https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59L8G81XA%282Y%29.pdf>
 
 ## 规则状态
 
@@ -73,6 +85,7 @@ iTXTech fdnext DecodePack:
 - `packages/core/src/decodepack/rules/packs/micron-raw-token.json`
 - `packages/core/src/decodepack/identifier/packs/micron-inteldef.json`
 - `identifier.nand_flash_id.micron.legacy_slc.v1`
+- `identifier.nand_flash_id.micron.esmt_slc_exact.v1`
 - `identifier.nand_flash_id.micron.inteldef.v1`
 - `vendor.micron.hsc.mt29fb.v1`
 - `vendor.micron.raw.current.v1`

@@ -788,11 +788,23 @@ assertDecodedFieldAbsent("CT41K256M8RG-12H:N2", "dram_speed");
 assertDecodedField("MT44H8M32F2FW-16", "dram_type", "RLDRAM 3");
 assertDecodedFieldAbsent("MT44H8M32F2FW-16", "dram_speed");
 
+for (const [partNumber, dieCount] of [
+  ["MT62F1DAD4CZ-DC Y62P", 4],
+  ["MT62F1DAD8CZ-DC Y62P", 8]
+] as const) {
+  assertDecodedField(partNumber, "dram_type", "LPDDR5");
+  assertDecodedField(partNumber, "dram_die_count", dieCount);
+  assertDecodedField(partNumber, "package", "TFBGA-561, 8x12.4x1.2");
+  assertDecodedFieldAbsent(partNumber, "dram_density");
+  assertDecodedFieldAbsent(partNumber, "dram_width");
+}
+
 assertStackedDram("MT54A16G8080A00AC-28:A-B006", {
   type: "HBM2E",
   densityMbit: 131072,
   density: "128Gb",
   voltage: "1.2V",
+  package: "MPGA, 10x11x0.78",
   fields: {
     channel_count: 8,
     dram_die_count: 8
@@ -811,6 +823,7 @@ assertStackedDram("MT54A8G8040A00BF-32:A", {
   densityMbit: 65536,
   density: "64Gb",
   voltage: "1.2V",
+  package: "MPGA",
   fields: {
     channel_count: 8,
     dram_die_count: 4
@@ -829,6 +842,7 @@ assertStackedDram("MT54A8G8040A00BF32:A", {
   densityMbit: 65536,
   density: "64Gb",
   voltage: "1.2V",
+  package: "MPGA",
   fields: {
     channel_count: 8,
     dram_die_count: 4

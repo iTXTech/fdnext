@@ -21,12 +21,11 @@
 | Elpida | - | - | - | - | - | - | [elpida_dram.md](elpida_dram.md) |
 | CXMT | - | - | - | - | - | - | [cxmt_dram.md](cxmt_dram.md) |
 | GigaDevice | - | - | - | - | - | - | [gigadevice_dram.md](gigadevice_dram.md) |
-| ISSI | - | - | - | - | - | - | [issi_dram.md](issi_dram.md) |
 | Winbond | [winbond_nand.md](winbond_nand.md) | - | - | - | - | - | [winbond_dram.md](winbond_dram.md) |
 | Macronix | [macronix_nand.md](macronix_nand.md) | - | - | - | - | - | - |
 | ESMT | [esmt_nand.md](esmt_nand.md) | [esmt_emmc.md](esmt_emmc.md) | - | - | - | - | [esmt_dram.md](esmt_dram.md) |
 | Etron | - | - | - | - | - | - | [etron_dram.md](etron_dram.md) |
-| ISSI | - | [issi_emmc.md](issi_emmc.md) | [issi_ufs.md](issi_ufs.md) | - | - | - | [issi_dram.md](issi_dram.md) |
+| ISSI | [issi_nand.md](issi_nand.md) | [issi_emmc.md](issi_emmc.md) | [issi_ufs.md](issi_ufs.md) | - | - | - | [issi_dram.md](issi_dram.md) |
 | YMTC | [ymtc_nand.md](ymtc_nand.md) | [ymtc_emmc.md](ymtc_emmc.md) | [ymtc_ufs.md](ymtc_ufs.md) | - | - | - | - |
 | Kingston | - | [kingston_emmc.md](kingston_emmc.md) | [kingston_ufs.md](kingston_ufs.md) | [kingston_emcp.md](kingston_emcp.md) | - | - | - |
 | Longsys | [longsys_nand.md](longsys_nand.md) | [longsys_emmc.md](longsys_emmc.md) | [longsys_ufs.md](longsys_ufs.md) | [longsys_emcp.md](longsys_emcp.md) | - | - | [longsys_dram.md](longsys_dram.md) |

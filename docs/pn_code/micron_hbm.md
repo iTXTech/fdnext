@@ -1,6 +1,6 @@
 # Micron HBM PN 编码
 
-采集日期：2026-07-12
+采集日期：2026-07-12；更新日期：2026-07-13
 
 本文档记录 Micron HBM / HBM2E / HBM3E stacked DRAM 的公开可解析 PN 结构。当前 iTXTech fdnext DecodePack 覆盖用户提供的 Micron 官方 HBM2E part-numbering 图中暴露的 `MT54A...` 结构，并以 Micron 官方 HBM3E catalog 中可相互校验的 `MT65B...` 条目补充可泛化的容量、通道、堆叠、封装、速率与电压 token。HBM4 官方产品页尚未给出同等级公开 PN token，因此不写成确定规则。
 
@@ -12,6 +12,9 @@
   <https://www.micron.com/products/memory/hbm/hbm4>
 - Micron HBM2E part detail 页面确认 `MT54A16G8080A00AC-32...` 属于 HBM2E 产品线。
   <https://my.micron.com/products/memory/hbm/hbm2e/part-catalog/part-detail/mt54a16g8080a00ac-32a-es-a-smpl>
+- Micron HBM2E 官方 catalog 页面与 live catalog JSON 共同确认 `AC = MPGA, 10x11x0.78`；同一官方 catalog 的 `MT54A8G8040A00BF...` 记录确认 `BF = MPGA`，但未公开尺寸，因此 `BF` 只输出封装类型。catalog 中的非样品 exact PN 仅进入搜索资源，Production / Obsolete 状态不从 PN 反推。
+  <https://www.micron.com/products/memory/hbm/hbm2e/part-catalog>
+  <https://www.micron.com/content/micron/us/en/products/memory/hbm/hbm2e/part-catalog/_jcr_content.products.json/getpartcatalog/memory/hbm2e/-/en_US>
 - Micron HBM3E part catalog 同时公开 `MT65B12G16080A00QG-60:A`、`MT65B12G16080A00QG-92:A` 与 `MT65B18G16120A00QH-92:A`；表中确认 24GB / 36GB、9.2GT/s、1.1V、WFPGA、10.98x10.98x0.78 和 -10C 至 +105C。规则只使用这些多条官方记录能够一致支持的局部 token，不把完整 PN 当作 decoder 白名单。
   <https://www.micron.com/products/memory/hbm/hbm3e/part-catalog>
 - 用户提供的 Micron 官方 `8GB/16GB HBM2E with ECC Features` part-numbering 图确认 `MT54A16G8080A00AC-32:A` token 顺序、density per channel、channel count、memory die count、package code、data rate、temperature range 和 die revision。
@@ -34,7 +37,8 @@ PN 结构：
 | channel count `8` | 8 channels |
 | memory die count `04/08` | 4 / 8 memory die |
 | data rate `28/32` | 2.8 / 3.2 Gb/s |
-| package `BF/AC` | 4-High / 8-High code，当前不直接输出公开 `package`，以 `dram_die_count` 表达 DRAM 堆叠数量 |
+| package `BF` | `MPGA`；官方 catalog 未公开尺寸，不补猜 |
+| package `AC` | `MPGA, 10x11x0.78` |
 | blank temperature | Commercial |
 | die revision `A` | Rev A |
 
@@ -62,13 +66,19 @@ HBM3E `MT65` 结构：
 - `operation_temperature`
 - `die_revision`
 - `ecc_enabled`
+- `package`：仅按 PN 中实际存在的 `BF/AC` package token 输出。
 
-`logic_die_code`、`product_variation_code`、`package_code` 等原始 token 只保留在规则内部，不进入公开结果。HBM2E package token 目前只确认 4-High / 8-High 堆叠语义，没有公开 ball count / 尺寸时不输出 `fields.package`。HBM3E 官方 catalog 明确给出 WFPGA 与尺寸，因此由 PN 中存在的 `QG/QH` package token 输出封装；catalog 未确认 ball/pin 数，故不补猜。
+`logic_die_code`、`product_variation_code`、`package_code` 等原始 token 只保留在规则内部，不进入公开结果。HBM2E 的 `BF/AC` 与 HBM3E 的 `QG/QH` 都只按 PN 中实际存在的 package token 输出；catalog 未确认 ball/pin 数时不补猜。
+
+## 搜索资源
+
+官方 HBM2E catalog 中排除 `ES` / `SMPL`，并按 MDB exact / suffix-boundary 去重后，新增 16 条 `MT54` exact PN 搜索种子。`AC` 覆盖 `-28/-32`、`A/32A` 与 `B000/B002/B004/B006/BJ90` 等官方后缀；`BF` 覆盖 `-28/-32` 的 `B000/B006`。这些完整 PN 只用于 `searchParts()`，decoder 继续仅按 MT54 token 结构解析。
 
 ## 测试样例
 
 - `MT54A16G8080A00AC-28:A-B006`
-- `MT54A8G8040ABF-32:A`
+- `MT54A16G8080A00AC-32:A-B006`
+- `MT54A8G8040A00BF-32:A`
 - `MT65B12G16080A00QG-60:A`
 - `MT65B12G16080A00QG-92:A`
 - `MT65B18G16120A00QH-92:A`

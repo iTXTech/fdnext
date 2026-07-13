@@ -166,11 +166,112 @@ test("Macronix MX30LF GE8AB IDs expose the internal-ECC SLC profiles", () => {
   }
 });
 
+test("Macronix legacy 08AA IDs preserve their four-byte 1-bit ECC profiles", () => {
+  const cases: Array<[string, number]> = [
+    ["C2F0801D", 512],
+    ["C2F1801D00", 1024]
+  ];
+
+  for (const [id, density] of cases) {
+    const explain = explainIdentifierDecode(defaultDecodePack, id);
+    assert.equal(explain.status, "matched");
+    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30lf.08aa.v1");
+    const fields = explain.draft?.fields ?? {};
+    assert.equal(fields.density, density);
+    assert.equal(fields.die_count, 1);
+    assert.equal(fields.plane_count, undefined);
+    assert.equal(fields.cell_level, 1);
+    assert.equal(fields.voltage, "Vcc: 2.7V~3.6V");
+    assert.equal(fields.device_width, "x8");
+    assert.equal(fields.page_size, 2048);
+    assert.equal(fields.block_size, 131072);
+    assert.equal(fields.redundant_area_size, "64B");
+    assert.equal(fields.ecc_level, "1bit/528B");
+  }
+});
+
+test("Macronix 3V 28AB and 28AC IDs preserve the 112-byte spare profiles", () => {
+  const cases: Array<[string, number, number, number, boolean]> = [
+    ["C2F1809503", 1024, 1, 1, false],
+    ["C2DA90950700", 2048, 1, 2, false],
+    ["C2DC909557", 4096, 1, 2, false],
+    ["C2D3D1955B", 8192, 2, 4, true]
+  ];
+
+  for (const [id, density, dieCount, planeCount, interleave] of cases) {
+    const explain = explainIdentifierDecode(defaultDecodePack, id);
+    assert.equal(explain.status, "matched");
+    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ab_ac.v1");
+    const fields = explain.draft?.fields ?? {};
+    assert.equal(fields.density, density);
+    assert.equal(fields.die_count, dieCount);
+    assert.equal(fields.plane_count, planeCount);
+    assert.equal(fields.cell_level, 1);
+    assert.equal(fields.voltage, "Vcc: 2.7V~3.6V");
+    assert.equal(fields.device_width, "x8");
+    assert.equal(fields.page_size, 2048);
+    assert.equal(fields.block_size, 131072);
+    assert.equal(fields.redundant_area_size, "112B");
+    assert.equal(fields.ecc_level, "8bit/540B");
+    assert.equal(fields.interleave, interleave);
+  }
+});
+
+test("Macronix 1.8V 28AB IDs preserve x8 and x16 organizations", () => {
+  const cases: Array<[string, number, string]> = [
+    ["C2AA901507", 2048, "x8"],
+    ["C2BA90550700", 2048, "x16"],
+    ["C2AC901557", 4096, "x8"],
+    ["C2BC905557", 4096, "x16"]
+  ];
+
+  for (const [id, density, width] of cases) {
+    const explain = explainIdentifierDecode(defaultDecodePack, id);
+    assert.equal(explain.status, "matched");
+    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30uf.28ab.v1");
+    const fields = explain.draft?.fields ?? {};
+    assert.equal(fields.density, density);
+    assert.equal(fields.die_count, 1);
+    assert.equal(fields.plane_count, 2);
+    assert.equal(fields.cell_level, 1);
+    assert.equal(fields.voltage, "Vcc: 1.7V~1.95V");
+    assert.equal(fields.device_width, width);
+    assert.equal(fields.page_size, 2048);
+    assert.equal(fields.block_size, 131072);
+    assert.equal(fields.redundant_area_size, "112B");
+    assert.equal(fields.ecc_level, "8bit/540B");
+  }
+});
+
+test("Macronix MX30UF GE8AB IDs expose always-enabled internal ECC", () => {
+  const cases: Array<[string, number]> = [
+    ["C2AA901586", 2048],
+    ["C2AC9015D600", 4096]
+  ];
+
+  for (const [id, density] of cases) {
+    const explain = explainIdentifierDecode(defaultDecodePack, id);
+    assert.equal(explain.status, "matched");
+    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30uf.ge8ab.v1");
+    const fields = explain.draft?.fields ?? {};
+    assert.equal(fields.density, density);
+    assert.equal(fields.die_count, 1);
+    assert.equal(fields.plane_count, 2);
+    assert.equal(fields.cell_level, 1);
+    assert.equal(fields.voltage, "Vcc: 1.7V~1.95V");
+    assert.equal(fields.device_width, "x8");
+    assert.equal(fields.page_size, 2048);
+    assert.equal(fields.block_size, 131072);
+    assert.equal(fields.redundant_area_size, "64B");
+    assert.equal(fields.ecc_level, "Internal 4bit ECC/524B");
+  }
+});
+
 test("unconfirmed Macronix IDs retain the pre-existing vendor-only fallback", () => {
-  const explain = explainIdentifierDecode(defaultDecodePack, "C2AC90155700");
+  const explain = explainIdentifierDecode(defaultDecodePack, "C2AC90155800");
   assert.equal(explain.status, "not_matched");
 
-  const fields = publicFields("C2AC90155700");
+  const fields = publicFields("C2AC90155800");
   assert.equal(fields.density, undefined);
   assert.equal(fields.page_size, undefined);
   assert.equal(fields.block_size, undefined);

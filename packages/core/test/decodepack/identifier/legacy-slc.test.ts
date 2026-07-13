@@ -132,6 +132,49 @@ test("Micron legacy 1Gb and 4Gb/8Gb-section SLC IDs use datasheet byte geometry"
   }
 });
 
+test("Micron exact SLC IDs from ESMT datasheets override the generic Intel definition", () => {
+  const cases: Array<[string, number, string, number, number, string, string]> = [
+    ["2CAA901506", 2048, "Vcc: 1.7V~1.95V", 2048, 131072, "128B", "8bit/544B"],
+    ["2CD390A66400", 8192, "Vcc: 2.7V~3.6V", 4096, 262144, "224B", "8bit/540B"]
+  ];
+
+  for (const [id, density, voltage, pageSize, blockSize, spareSize, eccLevel] of cases) {
+    const explain = explainIdentifierDecode(defaultDecodePack, id);
+    assert.equal(explain.status, "matched");
+    assert.equal(explain.specId, "identifier.nand_flash_id.micron.esmt_slc_exact.v1");
+    const fields = explain.draft?.fields ?? {};
+    assert.equal(fields.density, density);
+    assert.equal(fields.voltage, voltage);
+    assert.equal(fields.cell_level, 1);
+    assert.equal(fields.device_width, "x8");
+    assert.equal(fields.die_count, 1);
+    assert.equal(fields.plane_count, 2);
+    assert.equal(fields.simultaneously_programmed_pages, 2);
+    assert.equal(fields.interleave, false);
+    assert.equal(fields.cache, true);
+    assert.equal(fields.page_size, pageSize);
+    assert.equal(fields.block_size, blockSize);
+    assert.equal(fields.redundant_area_size, spareSize);
+    assert.equal(fields.ecc_level, eccLevel);
+
+    const result = engine.decodeIdentifier({ query: id, lang: "eng" });
+    assert.equal(result.status, "ok");
+    assert.equal(result.device?.vendor?.id, "micron");
+    const publicResultFields = Object.fromEntries(
+      result.blocks.flatMap((block) => block.fields.map((field) => [field.key, field.raw ?? field.value]))
+    );
+    assert.equal(publicResultFields.density, density);
+    assert.equal(publicResultFields.plane_count, 2);
+    assert.equal(publicResultFields.redundant_area_size, spareSize);
+    assert.equal(publicResultFields.ecc_level, eccLevel);
+  }
+
+  assert.equal(
+    explainIdentifierDecode(defaultDecodePack, "2CAA901507").specId,
+    "identifier.nand_flash_id.micron.inteldef.v1"
+  );
+});
+
 test("modern Samsung and Micron IDs remain on their existing generic specs", () => {
   assert.equal(explainIdentifierDecode(defaultDecodePack, "EC5E98BF84CC").specId, "identifier.nand_flash_id.samsung.v1");
   assert.equal(explainIdentifierDecode(defaultDecodePack, "ECD314A664").specId, "identifier.nand_flash_id.samsung.v1");

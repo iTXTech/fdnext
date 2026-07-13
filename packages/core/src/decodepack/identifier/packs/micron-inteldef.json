@@ -1,5 +1,104 @@
 [
   {
+    "id": "identifier.nand_flash_id.micron.esmt_slc_exact.v1",
+    "idScheme": "nand.flash_id",
+    "priority": 420,
+    "match": {
+      "kind": "regex",
+      "value": "^2C(?:AA901506|D390A664)(?:00)?$"
+    },
+    "vendor": "micron",
+    "definition": {
+      "2": {
+        "density": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "170": 2048,
+            "211": 8192
+          }
+        },
+        "voltage": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "170": "Vcc: 1.7V~1.95V",
+            "211": "Vcc: 2.7V~3.6V"
+          }
+        },
+        "device_width": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "170": "x8",
+            "211": "x8"
+          }
+        },
+        "cell_level": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "170": 1,
+            "211": 1
+          }
+        }
+      },
+      "3": {
+        "die_count": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": { "144": 1 }
+        },
+        "simultaneously_programmed_pages": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": { "144": 2 }
+        },
+        "interleave": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": { "144": false }
+        },
+        "cache": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": { "144": true }
+        }
+      },
+      "4": {
+        "page_size": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "21": 2,
+            "166": 4
+          }
+        },
+        "block_size": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "21": 128,
+            "166": 256
+          }
+        },
+        "redundant_area_size": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "21": "128B",
+            "166": "224B"
+          }
+        }
+      },
+      "5": {
+        "plane_count": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "6": 2,
+            "100": 2
+          }
+        },
+        "ecc_level": {
+          "dq": [7, 6, 5, 4, 3, 2, 1, 0],
+          "def": {
+            "6": "8bit/544B",
+            "100": "8bit/540B"
+          }
+        }
+      }
+    }
+  },
+  {
     "id": "identifier.nand_flash_id.micron.legacy_slc.v1",
     "idScheme": "nand.flash_id",
     "priority": 415,

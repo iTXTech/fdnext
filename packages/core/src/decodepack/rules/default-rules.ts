@@ -24,8 +24,10 @@ import gigadeviceDramTokenRules from "./packs/gigadevice-dram-token.json" with {
 import issiDramTokenRules from "./packs/issi-dram-token.json" with { type: "json" };
 import issiEmmcTokenRules from "./packs/issi-emmc-token.json" with { type: "json" };
 import issiUfsTokenRules from "./packs/issi-ufs-token.json" with { type: "json" };
+import issiNandTokenRules from "./packs/issi-nand-token.json" with { type: "json" };
 import winbondDramTokenRules from "./packs/winbond-dram-token.json" with { type: "json" };
 import winbondNandTokenRules from "./packs/winbond-nand-token.json" with { type: "json" };
+import macronixNandTokenRules from "./packs/macronix-nand-token.json" with { type: "json" };
 import esmtDramTokenRules from "./packs/esmt-dram-token.json" with { type: "json" };
 import esmtEmmcTokenRules from "./packs/esmt-emmc-token.json" with { type: "json" };
 import esmtRawTokenRules from "./packs/esmt-raw-token.json" with { type: "json" };
@@ -102,8 +104,10 @@ export const defaultPartDecodeSpecs = [
   ...issiDramTokenRules,
   ...issiEmmcTokenRules,
   ...issiUfsTokenRules,
+  ...issiNandTokenRules,
   ...winbondDramTokenRules,
   ...winbondNandTokenRules,
+  ...macronixNandTokenRules,
   ...esmtDramTokenRules,
   ...esmtEmmcTokenRules,
   ...esmtRawTokenRules,

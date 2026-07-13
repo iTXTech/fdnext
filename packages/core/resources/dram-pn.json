@@ -11120,6 +11120,78 @@
     "pn": "MT62F1G64D4EK-026 IT:B"
   },
   {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-32:A-B006"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-32:A-B002"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-32:A-B004"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-32A:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-28:A-B004"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-32:A-B000"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-28:A-B002"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-28:A-B000"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-32A:A-B006"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-32:A"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-32:A-BJ90"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A16G8080A00AC-32A:A-B000"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A8G8040A00BF-32:A-B000"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A8G8040A00BF-28:A-B006"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A8G8040A00BF-32:A-B006"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT54A8G8040A00BF-28:A-B000"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1DAD4CZ-DC Y62P"
+  },
+  {
+    "vendor": "micron",
+    "pn": "MT62F1DAD8CZ-DC Y62P"
+  },
+  {
     "vendor": "samsung",
     "pn": "KHA843801B-MC12"
   },
@@ -12546,6 +12618,14 @@
   {
     "vendor": "cxmt",
     "pn": "CXDB3ABAM-MK-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB4ABAM-ML"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDBCCCBM-MA-A"
   },
   {
     "vendor": "cxmt",

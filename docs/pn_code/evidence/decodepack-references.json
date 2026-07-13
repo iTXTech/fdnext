@@ -275,18 +275,6 @@
       "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
       "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
       "scope": "table_entry",
-      "table_key": "packageSpecific",
-      "entry_key": "6:CDM",
-      "evidence": {
-        "status": "external_confirmed",
-        "source": "TechInsights CXDB6CCDM-MA package analysis",
-        "url": "https://www.techinsights.com/blog/cxmt-cxdb6ccdm-ma-g3-8gb-lpddr4x-memory-floorplan-analysis"
-      }
-    },
-    {
-      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
-      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
-      "scope": "table_entry",
       "table_key": "temperatureObj",
       "entry_key": "E",
       "evidence": {
@@ -373,7 +361,38 @@
         "examples": [
           "CXDB6CCDM-MA"
         ],
-        "notes": "The exact body is a search seed; package dimensions are mapped only by the structured 6:CDM combination."
+        "notes": "The exact body is a search seed. The physical dimensions remain evidence only because the public package field is decoded from the family and package token, not an exact-body-like combination."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "spec",
+      "entry_key": "cxmt_cxdbcccdm_ma_techinsights",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "TechInsights CXDBCCCDM-MA package and die analysis",
+        "url": "https://www.techinsights.com/ko/node/54538",
+        "examples": [
+          "CXDBCCCDM-MA"
+        ],
+        "notes": "The 200-ball 10x15x0.68 physical dimensions remain evidence only. CXDB6CCDM-MA uses the same package token with a different confirmed height, so no density-plus-body package mapping is admitted."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "spec",
+      "entry_key": "cxmt_lpddr4x_search_seeds_round9",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Xiaomi Product Equality Declaration, Puris and Preduo device tables, and coreboot memory part list",
+        "url": "https://device.report/m/2e59e2c04080d19aafdc0d2c004e301eabe9c6e86478c653e64408fef57298a0.pdf",
+        "examples": [
+          "CXDBCCCBM-MA-A",
+          "CXDB4ABAM-ML"
+        ],
+        "notes": "Exact part numbers are search seeds only; public fields continue to come from the existing local token tables."
       }
     },
     {
@@ -569,6 +588,48 @@
       "evidence": {
         "status": "external_table_confirmed",
         "source": "Lexar Enterprise UFS 2.2 product table"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-hbm-token.json",
+      "spec_id": "vendor.micron.hbm2e.mt54.v1",
+      "scope": "table_entry",
+      "table_key": "package",
+      "entry_key": "AC",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron HBM2E official part catalog and live catalog JSON",
+        "url": "https://www.micron.com/products/memory/hbm/hbm2e/part-catalog",
+        "examples": ["MT54A16G8080A00AC-32:A-B006", "MT54A16G8080A00AC-32A:A-B000"],
+        "notes": "Official AC rows consistently identify MPGA and 10.00 x 11.00 x 0.78 mm."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-hbm-token.json",
+      "spec_id": "vendor.micron.hbm2e.mt54.v1",
+      "scope": "table_entry",
+      "table_key": "package",
+      "entry_key": "BF",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron HBM2E official part catalog",
+        "url": "https://www.micron.com/products/memory/hbm/hbm2e/part-catalog",
+        "examples": ["MT54A8G8040A00BF-28:A-B006", "MT54A8G8040A00BF-32:A-B000"],
+        "notes": "Official BF rows identify MPGA but do not expose a stable package dimension."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "configToken",
+      "entry_key": "1DA",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron LPDDR5 official live catalog JSON",
+        "url": "https://www.micron.com/content/micron/us/en/products/memory/lpddr-components/lpddr5/part-catalog/_jcr_content.products.json/getpartcatalog/memory/lpddr5/-/en_US",
+        "examples": ["MT62F1DAD4CZ-DC Y62P", "MT62F1DAD8CZ-DC Y62P"],
+        "notes": "1DA is consumed only as a structural config boundary; the catalog confirms the following D4/D8 die counts and CZ package but does not support a density or width inference for 1DA."
       }
     },
     {
@@ -2461,6 +2522,32 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
+      "spec_id": "identifier.nand_flash_id.micron.esmt_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "micron_esmt_f59d2g81xa_exact_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59D2G81XA (2B) datasheet READ ID, organization, and ONFI parameter tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59D2G81XA%282B%29.pdf",
+        "examples": ["2CAA901506"],
+        "notes": "The datasheet confirms the exact 2Gb 1.8V x8 SLC tuple, one die, two planes, 2KB page, 128B spare, 128KB block, cache and two-page programming. Its ONFI parameter page identifies the device manufacturer as MICRON, so the identifier vendor remains micron rather than ESMT."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
+      "spec_id": "identifier.nand_flash_id.micron.esmt_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "micron_esmt_f59l8g81xa_exact_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59L8G81XA (2Y) datasheet READ ID, organization, and ONFI parameter tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59L8G81XA%282Y%29.pdf",
+        "examples": ["2CD390A664"],
+        "notes": "The datasheet confirms the exact 8Gb 3.3V x8 SLC tuple, one die, two planes, 4KB page, 224B spare, 256KB block, cache and two-page programming. Its ONFI parameter page identifies the device manufacturer as MICRON, so this is an exact Micron override and does not generalize ESMT as the 2C maker."
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
       "spec_id": "identifier.nand_flash_id.kioxia.v1",
       "scope": "spec",
@@ -2783,6 +2870,136 @@
         "url": "https://www.macronix.com/Lists/Datasheet/Attachments/8449/MX30LF1GE8AB%2C%203V%2C%201Gb%2C%20v1.3.pdf",
         "examples": ["C2F1809582", "C2DA909586", "C2DC9095D6"],
         "notes": "The official datasheet confirms all three 3V x8 SLC IDs, 2KB page, 128KB block, 64B spare, one/two-plane organization, cache programming and always-enabled internal 4-bit ECC."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30lf.08aa.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx30lf1208aa_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX30LF1208AA comparison application note device identification and feature tables",
+        "url": "https://www.macronix.com/Lists/ApplicationNote/Attachments/1943/AN163V3-Comparing_TC58NVM9S3E_with_MX30LF1208AA.pdf",
+        "examples": ["C2F0801D"],
+        "notes": "The official note confirms the four-byte 512Mb 3V x8 SLC ID, 2KB page, 128KB block, 64B spare and 1-bit ECC per 528B. The ID has no plane byte, so the rule does not infer plane count."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30lf.08aa.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx30lf1g08aa_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX30LF1G08AA to MX30LF1G18AC migration note device identification table",
+        "url": "https://www.macronix.com/Lists/ApplicationNote/Attachments/2055/AN-0351V2-MGRT_MX30LF1G08AA_to_MX30LF1G18AC_REV2.pdf",
+        "examples": ["C2F1801D"],
+        "notes": "The official note confirms the four-byte 1Gb 3V x8 SLC ID and its 2KB page, 128KB block, 64B spare and host 1-bit ECC profile. The ID has no plane byte."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ab_ac.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx30lf1g28ac_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX30LF1G28AC datasheet ID Read, feature and organization tables",
+        "url": "https://www.mxic.com.tw/Lists/Datasheet/Attachments/8463/MX30LF1G28AC%2C%203V%2C%201Gb%2C%20v1.1.pdf",
+        "examples": ["C2F1809503"],
+        "notes": "The official datasheet confirms the 1Gb 3V x8 SLC ID, one-die/one-plane organization, 2KB page, 128KB block, 112B spare and 8-bit ECC per 540B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ab_ac.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx30lf2g4g28ab_ac_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX30LF2G/4G28AB to 18AC migration note device identification table",
+        "url": "https://www.macronix.com/Lists/ApplicationNote/Attachments/1923/AN-0306V3-MGRT_MX30LF2G%284G%2928AB_to_MX30LF2G%284G%2918AC.pdf",
+        "examples": ["C2DA909507", "C2DC909557"],
+        "notes": "The official note confirms the 2Gb/4Gb 3V x8 SLC IDs, 2KB page, 128KB block, 112B spare, one-die/two-plane organization and 8-bit ECC requirement. Macronix migration notes confirm the corresponding 28AC devices retain these IDs."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ab_ac.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx60lf8g28ab_ac_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX60LF8G28AB datasheet ID Read and organization tables",
+        "url": "https://www.macronix.com/Lists/Datasheet/Attachments/8464/MX60LF8G28AB%2C%203V%2C%208Gb%2C%20v1.1.pdf",
+        "examples": ["C2D3D1955B"],
+        "notes": "The official datasheet confirms the 8Gb 3V x8 SLC ID, two-die/four-plane-per-CE organization, 2KB page, 128KB block, 112B spare, cache/interleave support and 8-bit ECC per 540B. The official AB-to-AC migration note confirms both revisions share the ID."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30uf.28ab.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx30uf2g4g26_28ab_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix PM2031 MX30UF2G/4G26(28)AB datasheet mirror ID Read and organization tables",
+        "url": "https://media.digikey.com/pdf/Data%20Sheets/Macronix/MX30UFxG26%2828%29AB.pdf",
+        "examples": ["C2AA901507", "C2BA905507", "C2AC901557", "C2BC905557"],
+        "notes": "The original Macronix datasheet confirms all four 2Gb/4Gb 1.8V x8/x16 SLC IDs, 2KB page, 128KB block, 112B spare, one-die/two-plane organization and 8-bit ECC per 540B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
+      "spec_id": "identifier.nand_flash_id.macronix.mx30uf.ge8ab.v1",
+      "scope": "spec",
+      "entry_key": "macronix_mx30uf2g4ge8ab_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix MX30UF2GE8AB and MX30UF4GE8AB datasheet ID Read, organization and internal ECC tables",
+        "url": "https://www.macronix.com/Lists/Datasheet/Attachments/8454/MX30UF2GE8AB%2C%201.8V%2C%202Gb%2C%20v1.1.pdf",
+        "examples": ["C2AA901586", "C2AC9015D6"],
+        "notes": "The official datasheet confirms both 1.8V x8 SLC IDs, 2KB page, 128KB block, 64B spare, one-die/two-plane organization and always-enabled internal 4-bit ECC per 524B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/macronix-nand-token.json",
+      "spec_id": "vendor.macronix.raw.mx30_mx60.v1",
+      "scope": "spec",
+      "entry_key": "macronix_parallel_slc_part_number_ordering",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Macronix NOR and NAND Flash Cross Reference Guide product naming table",
+        "url": "https://www.macronix.com/en-us/products/Documents/Macronix%2520NOR%2520and%2520NAND%2520Flash%2520Cross%2520Reference%2520Guide.pdf",
+        "examples": ["MX30LF1G08AA", "MX30UF2G16AC-XQI", "MX60LF8G28AB-TI"],
+        "notes": "The official naming table defines the MX30/MX60 type, L/U voltage, F classification, density, ECC, bus width, mode, generation, package and temperature tokens. MX35 serial NAND is explicitly outside this rule."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/issi-nand-token.json",
+      "spec_id": "vendor.issi.raw.parallel-slc.v1",
+      "scope": "spec",
+      "entry_key": "issi_parallel_slc_part_number_ordering",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ISSI Product Selector Guide SLC NAND Flash Part Decoder",
+        "url": "https://www.issi.com/WW/pdf/psg.pdf",
+        "examples": ["IS34ML04G088-BLI-TR", "IS35MW08G168-TLA2-TY"],
+        "notes": "The official guide defines the 34/35 family, M technology, L/W voltage, density, width, ECC, package, temperature and packing tokens. Unknown die revision stays internal and is not exposed as a code field."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/issi.json",
+      "spec_id": "identifier.nand_flash_id.issi.parallel_slc.v1",
+      "scope": "spec",
+      "entry_key": "issi_4g_8g_parallel_slc_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ISSI 4Gb and 8Gb parallel SLC NAND datasheet Read ID and geometry tables",
+        "url": "https://www.issi.com/WW/pdf/34-35ML-MW08G088-168.pdf",
+        "examples": ["9D6C80193040", "9DAC80193040", "9D6380193040", "9D5380193040", "9DA380193040", "9D9380193040"],
+        "notes": "The exact 9D profiles confirm density, voltage, width, die count, one plane per die, 4KB page, 256B spare, 256KB block and 8-bit ECC per 512B. Ambiguous legacy C8 IDs remain excluded."
       }
     }
   ]

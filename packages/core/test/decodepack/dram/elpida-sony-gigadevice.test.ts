@@ -546,7 +546,7 @@ assertDram("CXDB6CCDM-MA-M", {
   density: "64Gb",
   widthField: "x32",
   voltage: "1.8V VDD1 / 1.1V VDD2 / 0.6V VDDQ",
-  package: "FBGA-200, 10x15x0.78",
+  package: "FBGA-200",
   extra: {
     "DRAM Type": "LPDDR4X",
     "DRAM Die Count": 8,
