@@ -37,7 +37,7 @@ assertRuleDecode("MTFC4GACAJCN-1M WT", {
   densityMbit: 32768,
   package: "VFBGA-153, 11.5x13x1.0, SAC 302",
   extra: {
-    "Product Generation": "4th Gen",
+    "Product Generation": "Gen4",
     "Product Version": "eMMC 5.0",
     "Special Option": "2MB MAX boot area / 100% MAX enhanced"
   },
@@ -80,7 +80,7 @@ assertRuleDecode("MTFC8GAMALBH-AAT", {
   extra: {
     "Component Density": "64Gb",
     "Component Width": "x8",
-    "Product Generation": "8th Gen",
+    "Product Generation": "Gen8",
     "Product Version": "eMMC 5.1",
     "Controller Revision": "Rev 11",
     "Operation Temperature": "Industrial (-40°C ~ 105°C + HR certified test flow)"
@@ -469,7 +469,7 @@ assertRuleDecode("MTFDDAC128MAG-1G12AA", {
     "Form Factor": "2.5-inch, 9.5mm",
     "Product Family": "Micron C300 SSD",
     "Sector Size": "512B",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Component": "32Gb MLC x8 3.3V (34nm)",
     "Component Density": "32Gb",
     "Component Width": "x8",
@@ -489,7 +489,7 @@ assertRuleDecode("MTFDDAK120MAV-1AE12ABYYES", {
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500 SSD",
     "Sector Size": "512B",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Component": "128Gb MLC x8 3.3V (20nm)",
     "Component Density": "128Gb",
     "Component Width": "x8",
@@ -509,7 +509,7 @@ assertRuleDecode("MTFDEAC200MBB-1AE12ABYY", {
     "Storage Interface": "SAS 6.0 Gb/s",
     "Form Factor": "2.5-inch, 9.5mm",
     "Product Family": "Micron M500DC SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Component": "128Gb MLC x8 3.3V (20nm)",
     "Special Option": "Self-encrypting drive (SED)"
   },
@@ -588,7 +588,7 @@ assertRuleDecode("MTFDDAY120MBD-AAK12AIYYES", {
     "Form Factor": "M.2, 60mm x 22mm x 3.50mm",
     "Product Family": "Micron M500IT SSD",
     "NAND Component": "128Gb x8 3.3V (20nm)",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "Operation Temperature": "Auto industrial temperature",
     "Production Status": "Engineering Sample",
     "Special Option": "Self-encrypting drive (SED)"
@@ -605,7 +605,7 @@ assertRuleDecode("MTFDDAY240MBD-1AK12AIYY", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "M.2, 60mm x 22mm x 3.50mm",
     "Product Family": "Micron M500IT SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "Operation Temperature": "Auto industrial temperature"
   },
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
@@ -620,7 +620,7 @@ assertRuleDecode("MTFDDAK060MBD-2AH12ITYY", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
-    "Product Generation": "2nd Gen",
+    "Product Generation": "Gen2",
     "NAND Component": "64Gb x8 3.3V (20nm)",
     "Operation Temperature": "Industrial temperature and grade"
   },
@@ -636,7 +636,7 @@ assertRuleDecode("MTFDDAK120MBD-1AE12ITYY", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Component": "128Gb MLC x8 3.3V (20nm)",
     "Operation Temperature": "Industrial temperature and grade",
     "Special Option": "Self-encrypting drive (SED)"
@@ -653,7 +653,7 @@ assertRuleDecode("MTFDDAT060MBD-1AH12AIYY", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "mSATA",
     "Product Family": "Micron M500IT SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Component": "64Gb x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Special Option": "Self-encrypting drive (SED)"
@@ -670,7 +670,7 @@ assertRuleDecode("MTFDDAT120MBD-AAK12AIYYES", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "mSATA",
     "Product Family": "Micron M500IT SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Component": "128Gb x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Production Status": "Engineering Sample",
@@ -688,7 +688,7 @@ assertRuleDecode("MTFDDAK060MBD-1AH12AIRA", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Component": "64Gb x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Special Option": "Self-encrypting drive (SED)"
@@ -705,7 +705,7 @@ assertRuleDecode("MTFDDAK240MBD-AAK12AIRAES", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Component": "128Gb x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Production Status": "Engineering Sample",
@@ -723,7 +723,7 @@ assertRuleDecode("MTFDDAK160MBD-1AE12AIYY", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Component": "128Gb MLC x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Special Option": "Self-encrypting drive (SED)"
@@ -740,7 +740,7 @@ assertRuleDecode("MTFDDAK060MBD-2AH12AIYY", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
-    "Product Generation": "2nd Gen",
+    "Product Generation": "Gen2",
     "NAND Component": "64Gb x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Special Option": "Self-encrypting drive (SED)"
@@ -849,7 +849,7 @@ assertRuleDecode("MTEDBTH008MBA-1K1", {
     "Form Factor": "SSD, 40mm x 50mm",
     "Product Family": "Micron EK470 SSD",
     "Sector Size": "512B",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Component": "32Gb NAND x8 3.3V (25nm)",
     "Component Density": "32Gb",
     "Component Width": "x8",
@@ -867,7 +867,7 @@ assertRuleDecode("MTFDLAL61T4THL-1BK4DABYY", {
     "Storage Interface": "PCIe Gen5",
     "Form Factor": "U.2, 2.5-inch, 15mm, SFF-8639",
     "Product Family": "Micron 6550 ION SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "Sector Size": "4KiB",
     "Special Option": "OCP 2.5 + SED (TCG Opal)"
   },
@@ -883,7 +883,7 @@ assertRuleDecode("MTFDKBZ480TFR-1BC4ZABYY", {
     "Storage Interface": "PCIe Gen4",
     "Form Factor": "E1.S bare board, 5.9mm",
     "Product Family": "Micron 7450 PRO SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "Sector Size": "4KiB",
     "Special Option": "Non-SED"
   },
@@ -899,7 +899,7 @@ assertRuleDecode("MTFDKCC15T3TGQ-1BK1DABYYES", {
     "Storage Interface": "PCIe Gen4",
     "Form Factor": "U.3, 2.5-inch, 15mm, SFF-8639",
     "Product Family": "Micron 7500 MAX SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "Sector Size": "512B",
     "Special Option": "OCP 2.0 + TCG Opal 2.01",
     "Production Status": "Engineering Sample"
@@ -916,7 +916,7 @@ assertRuleDecode("MTFDLBQ3T8THG-2BP1JFCYY", {
     "Storage Interface": "PCIe Gen5",
     "Form Factor": "E3.S 1T, 7.5mm",
     "Product Family": "Micron 7600 PRO SSD",
-    "Product Generation": "2nd Gen",
+    "Product Generation": "Gen2",
     "NAND Component": "1024Gb TLC x8 2.5V",
     "Component Density": "1024Gb",
     "Component Width": "x8",
@@ -1030,7 +1030,7 @@ assertRuleDecode("MTFDKEL128THE-ABM15ATYYES", {
   extra: {
     "Storage Interface": "PCIe Gen4",
     "Product Family": "Micron 4100AT SSD",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "Production Status": "Engineering Sample"
   },
   absentExtra: ["NAND Component", "NAND Component Code", "Firmware Code", "Customer Designator"]
@@ -1086,7 +1086,7 @@ assertRuleDecode("MTFDHBL064TDP-1AT12AIYY", {
     "Product Version": "NVMe 1.3c",
     "Storage Interface": "PCIe Gen3 x4",
     "Sector Size": "512B",
-    "Product Generation": "1st Gen",
+    "Product Generation": "Gen1",
     "NAND Technology": "Micron 3D TLC NAND Flash",
     "NAND Component": "512Gb TLC x8 3.3V (3D)",
     "Component Density": "512Gb",

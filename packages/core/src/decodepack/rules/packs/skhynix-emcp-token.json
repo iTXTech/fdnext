@@ -102,7 +102,7 @@
         },
         "generationObj": {
           "M": {
-            "generation_info": "2nd Gen eMCP"
+            "generation_info": "Gen2 eMCP"
           }
         },
         "packageObj": {
@@ -499,13 +499,13 @@
         },
         "generationObj": {
           "A": {
-            "generation_info": "2nd Gen eMCP"
+            "generation_info": "Gen2 eMCP"
           },
           "B": {
-            "generation_info": "3rd Gen eMCP"
+            "generation_info": "Gen3 eMCP"
           },
           "M": {
-            "generation_info": "1st Gen eMCP"
+            "generation_info": "Gen1 eMCP"
           }
         },
         "packageObj": {
@@ -904,7 +904,7 @@
         },
         "generationObj": {
           "A": {
-            "generation_info": "2nd Gen eMCP"
+            "generation_info": "Gen2 eMCP"
           }
         },
         "speedObj": {

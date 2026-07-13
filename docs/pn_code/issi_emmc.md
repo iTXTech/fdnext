@@ -22,6 +22,6 @@ IS + product family(21/22) + technology(E/T) + interface(S/F)
 - `S` 为 eMMC 5.0，`F` 为 eMMC 5.1。
 - `Q` 为 FBGA-100，`C` 为 FBGA-153；没有原厂尺寸依据时不补猜厚度。
 - `I` 为 -40°C~85°C，`A1` 为 Automotive -40°C~85°C，`A2` 为 Automotive -40°C~105°C。
-- density 后的 `A` 为 2nd Gen；option、package、temperature 原始 code 不进入公开字段。
+- density 后的 `A` 为 Gen2；option、package、temperature 原始 code 不进入公开字段。
 
 规则文件：`packages/core/src/decodepack/rules/packs/issi-emmc-token.json`。

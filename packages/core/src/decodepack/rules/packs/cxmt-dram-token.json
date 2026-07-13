@@ -820,7 +820,7 @@
             "dram_die_density": 12288,
             "dram_die_count": 8,
             "process_node": "CXMT G3 / 18nm-class",
-            "dram_generation": "CXMT G3",
+            "dram_generation": "Gen3",
             "package_code": "CDTQ"
           }
         },

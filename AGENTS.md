@@ -60,7 +60,7 @@ PN 解析必须走结构化 token + 规则库，不允许写死完整 PN 白名�
 - `package_code`、`config_code`、`controller_code`、`die_code`、`feature_code` 以及其他 `*_code` token 只用于规则内部解析，不得进入 `fields.*` 或 public result；package / config / controller 等 token 命中后，应优先输出 `package`、`controller`、`controller_revision`、`die_revision`、`process_node`、`special_option` 等语义字段。
 - `nand_component`、design ID、product generation code 等纯编码线索也默认只作内部 token；没有稳定可读语义时不要输出给用户。
 - 用户可见字段不应重复表达同一语义。一个 token 同时能推导出 canonical 字段和原始/派生描述时，只保留用户最有价值的字段；例如 `dram_speed` 已经输出 `DDR3L-1333 (667MHz)` 时，不要再输出仅重复 `1333Mbps/pin` 的 `speed_grade`。
-- 用户可见 generation 值统一使用短 ordinal 形式，例如 `1st Gen`、`2nd Gen`、`3rd Gen`；不得输出 `1st generation`、`1st Generation` 等 `generation` 全称。该约束适用于 `generation_info`、`dram_generation`、把 maturity 表达成代际的 `prod_status`，以及其他公开字段值；内部 `generation_code` / token 变量名不受影响。
+- 用户可见的数字代际统一使用紧凑 `GenN` 形式，例如 `Gen1`、`Gen2`、`Gen5 Xtacking 4.0`；不得输出 `1st Gen`、`1st generation`、`Gen 1`、`CXMT G3` 等变体。该约束适用于 `generation_info`、`product_generation`、`dram_generation`、把 maturity 表达成代际的 `prod_status`，以及其他公开代际字段值；内部 `generation_code` / token 变量名、`process_node` 中的厂商工艺别名和 `PCIe Gen4`、`USB 3.2 Gen 1` 等标准或专名不受影响。不要增加运行时归一或兼容转换，直接迁移源规则、共享表、测试和文档。
 - `Engineering Sample(s)` / `Early Engineering Sample(s)` 这类样品状态只允许通过 `prod_status` 公开一次，不要重复塞进 `product_class`、`sku`、`special_option` 或其他字段。多个 token 同时推导出样品状态时，最终 public result 也只能有一个 Production Status 字段；公开文案应保留资料中的单复数，不要为了审计机械删 `s`。
 - `speed_grade` 是例外但必须有额外用户价值：只在原始 speed / grade token 带有 binning、测试等级、CAS/RL/WL 时序、温度等级等 `dram_speed` 未表达的信息时保留，并可附带可读含义，例如 `046BT Fully Tested`、`PG Partial Good Mixed Bins`。如果只是同一速率的另一种单位或 token 回显，应省略。
 - `voltage` / `dram_voltage` 只表达电压本身；不要把 DDR 代际、DRAM 类型、产品线等已在其他字段出现的信息重复塞进电压文本。

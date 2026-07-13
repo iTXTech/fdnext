@@ -250,7 +250,7 @@ assertDram("H5CG48AGBD-X018", {
     "DRAM Type": "DDR5",
     "DRAM Die Density": "16Gb",
     "DRAM Speed": "DDR5-5600 46-45-45",
-    "DRAM Generation": "2nd Gen",
+    "DRAM Generation": "Gen2",
     "Operation Temperature": "Commercial (0 to 95C)",
     "Die Revision": "A-die"
   }
@@ -268,7 +268,7 @@ assertDram("H5CGD8MHBD-X021", {
     "DRAM Type": "DDR5",
     "DRAM Die Density": "24Gb",
     "DRAM Speed": "DDR5-6400 52-52-52",
-    "DRAM Generation": "1st Gen",
+    "DRAM Generation": "Gen1",
     "Operation Temperature": "Commercial (0 to 95C)",
     "Die Revision": "M-die"
   }
@@ -285,7 +285,7 @@ assertDram("H5CG44AEBD", {
   extra: {
     "DRAM Type": "DDR5",
     "DRAM Speed": "DDR5-4800 40-39-39",
-    "DRAM Generation": "2nd Gen",
+    "DRAM Generation": "Gen2",
     "Operation Temperature": "Commercial (0 to 95C)",
     "Die Revision": "A-die"
   },
@@ -303,7 +303,7 @@ assertDram("H5CG44AGBJX018N", {
     "DRAM Type": "DDR5",
     "DRAM Die Density": "16Gb",
     "DRAM Speed": "DDR5-5600 46-45-45",
-    "DRAM Generation": "2nd Gen",
+    "DRAM Generation": "Gen2",
     "Operation Temperature": "Industrial (-40 to 95C)",
     "Die Revision": "A-die"
   }
@@ -321,7 +321,7 @@ assertDram("H5CG48AGEDX013", {
     "DRAM Type": "DDR5",
     "DRAM Die Density": "16Gb",
     "DRAM Speed": "DDR5-5600 52-45-45 (for 3DS)",
-    "DRAM Generation": "2nd Gen",
+    "DRAM Generation": "Gen2",
     "Operation Temperature": "Commercial (0 to 95C)",
     "Special Option": "TSV",
     "Die Revision": "A-die"
@@ -340,7 +340,7 @@ assertDram("H5CG56MMBDX052", {
     "DRAM Type": "DDR5",
     "DRAM Die Density": "32Gb",
     "DRAM Speed": "DDR5-8000 64-64-64",
-    "DRAM Generation": "1st Gen",
+    "DRAM Generation": "Gen1",
     "Operation Temperature": "Commercial (0 to 95C)",
     "Die Revision": "M-die"
   }

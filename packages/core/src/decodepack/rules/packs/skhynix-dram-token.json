@@ -429,31 +429,31 @@
         },
         "generationObj": {
           "M": {
-            "dram_generation": "1st Gen",
+            "dram_generation": "Gen1",
             "die_revision": "M-die"
           },
           "A": {
-            "dram_generation": "2nd Gen",
+            "dram_generation": "Gen2",
             "die_revision": "A-die"
           },
           "B": {
-            "dram_generation": "3rd Gen",
+            "dram_generation": "Gen3",
             "die_revision": "B-die"
           },
           "C": {
-            "dram_generation": "4th Gen",
+            "dram_generation": "Gen4",
             "die_revision": "C-die"
           },
           "D": {
-            "dram_generation": "5th Gen",
+            "dram_generation": "Gen5",
             "die_revision": "D-die"
           },
           "E": {
-            "dram_generation": "6th Gen",
+            "dram_generation": "Gen6",
             "die_revision": "E-die"
           },
           "J": {
-            "dram_generation": "10th or special generation",
+            "dram_generation": "Gen10 or Special",
             "die_revision": "J-die"
           }
         },
@@ -1028,7 +1028,7 @@
             "dram_type": "LPDDR3",
             "dram_die_count": 4,
             "cs_count": 2,
-            "dram_generation": "3rd Gen",
+            "dram_generation": "Gen3",
             "channel_count": 1,
             "interface_type": "HSUL_12",
             "solder_type": "Lead and Halogen Free"
@@ -1154,7 +1154,7 @@
         },
         "generationObj": {
           "L": {
-            "dram_generation": "1st Gen"
+            "dram_generation": "Gen1"
           }
         },
         "packageObj": {
@@ -1446,7 +1446,7 @@
         },
         "generationObj": {
           "U": {
-            "dram_generation": "1st Gen"
+            "dram_generation": "Gen1"
           }
         },
         "packageObj": {
@@ -2548,16 +2548,16 @@
         },
         "generationObj": {
           "A": {
-            "dram_generation": "2nd Gen"
+            "dram_generation": "Gen2"
           },
           "B": {
-            "dram_generation": "3rd Gen"
+            "dram_generation": "Gen3"
           },
           "C": {
-            "dram_generation": "4th Gen"
+            "dram_generation": "Gen4"
           },
           "D": {
-            "dram_generation": "5th Gen"
+            "dram_generation": "Gen5"
           }
         },
         "speedObj": {

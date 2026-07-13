@@ -374,7 +374,7 @@ assertDram("CDTQ", {
     "DRAM Type": "LPDDR5",
     "DRAM Die Density": "12Gb",
     "Package Code": "CDTQ",
-    "DRAM Generation": "CXMT G3",
+    "DRAM Generation": "Gen3",
     "Process Node": "CXMT G3 / 18nm-class"
   }
 });

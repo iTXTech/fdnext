@@ -354,7 +354,7 @@ for (const [id, density, dieCount, cellLevel] of intelGen4Ids) {
 
 assertExplainField("9BD5588D2000", "density", 1397760);
 assertExplainField("9BD5588D2000", "cell_level", 4);
-assertExplainField("9BD5588D2000", "generation_info", "3rd Gen Xtacking 2.0");
+assertExplainField("9BD5588D2000", "generation_info", "Gen3 Xtacking 2.0");
 assertResultField("9BD5588D2000", "density", 1397760);
 assertResultField("9BD5588D2000", "cell_level", "QLC");
 assertResultField("9BD5588D2000", "die_codename", "HUS");

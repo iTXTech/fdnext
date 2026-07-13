@@ -34,7 +34,7 @@ assertDram("H58G56CK8BX146", {
     "Channel Count": 2,
     "CS Count": 1,
     "DRAM Speed": "LPDDR5X-8533",
-    "DRAM Generation": "4th Gen",
+    "DRAM Generation": "Gen4",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -54,7 +54,7 @@ assertDram("H58G66CK8BX147", {
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR5X-8533",
-    "DRAM Generation": "4th Gen",
+    "DRAM Generation": "Gen4",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -72,7 +72,7 @@ assertDram("H58G78CK8BX185", {
     "Channel Count": 2,
     "CS Count": 2,
     "DRAM Speed": "LPDDR5X-8533",
-    "DRAM Generation": "4th Gen",
+    "DRAM Generation": "Gen4",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -81,9 +81,9 @@ assertDram("H58G78CK8BX185", {
 assertDecodedFieldAbsent("H58G78CK8BX185", "dram_die_count");
 
 for (const [partNumber, densityMbit, density, generation, csCount] of [
-  ["H58G66BK8HX096", 65536, "64Gb", "3rd Gen", 1],
-  ["H58GG6AK8HX094", 98304, "96Gb", "2nd Gen", 2],
-  ["H58G76BK8HX095", 131072, "128Gb", "3rd Gen", 2]
+  ["H58G66BK8HX096", 65536, "64Gb", "Gen3", 1],
+  ["H58GG6AK8HX094", 98304, "96Gb", "Gen2", 2],
+  ["H58G76BK8HX095", 131072, "128Gb", "Gen3", 2]
 ] as const) {
   assertDram(partNumber, {
     vendor: "skhynix",
@@ -119,7 +119,7 @@ assertDram("H58G56DK9BX068", {
     "CS Count": 1,
     "Channel Count": 2,
     "DRAM Speed": "LPDDR5X-9600",
-    "DRAM Generation": "5th Gen",
+    "DRAM Generation": "Gen5",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -138,7 +138,7 @@ assertDram("H58G66DK9BX067", {
     "CS Count": 2,
     "Channel Count": 2,
     "DRAM Speed": "LPDDR5X-9600",
-    "DRAM Generation": "5th Gen",
+    "DRAM Generation": "Gen5",
     "Operation Temperature": "-25°C ~ 85°C",
     "Solder Type": "Lead and Halogen Free"
   }
@@ -167,7 +167,7 @@ assertDram("H58GE6AK8PX168N", {
   extra: {
     "DRAM Type": "LPDDR5X",
     "DRAM Speed": "LPDDR5X-8533",
-    "DRAM Generation": "2nd Gen",
+    "DRAM Generation": "Gen2",
     "Solder Type": "Lead and Halogen Free"
   }
 });
@@ -182,7 +182,7 @@ assertDram("H58GD6AK8QX091N", {
   extra: {
     "DRAM Type": "LPDDR5X",
     "DRAM Speed": "LPDDR5X-8533",
-    "DRAM Generation": "2nd Gen",
+    "DRAM Generation": "Gen2",
     "Solder Type": "Lead and Halogen Free"
   }
 });

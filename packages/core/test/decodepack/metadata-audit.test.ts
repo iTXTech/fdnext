@@ -616,35 +616,6 @@ function assertDecodePackLpddrGenerationLabelsUseJedecShape(): void {
   assert.deepEqual(findings, [], "LPDDR generation labels should use LPDDR3/LPDDR4/LPDDR5 without an internal dash");
 }
 
-const expandedGenerationLabelPattern =
-  /\b(?:[1-9](?:st|nd|rd|th)|First|Second|Third|Fourth|Fifth|Sixth|Seventh|Eighth|Ninth|Tenth)\s+generation\b/i;
-
-function collectExpandedGenerationLabels(value: unknown, path: string[], findings: string[]): void {
-  if (typeof value === "string") {
-    if (expandedGenerationLabelPattern.test(value)) {
-      findings.push(`${path.join(".")}=${value}`);
-    }
-    return;
-  }
-  if (Array.isArray(value)) {
-    value.forEach((item, index) => collectExpandedGenerationLabels(item, [...path, `[${index}]`], findings));
-    return;
-  }
-  if (!value || typeof value !== "object") {
-    return;
-  }
-  for (const [key, item] of Object.entries(value)) {
-    collectExpandedGenerationLabels(item, [...path, key], findings);
-  }
-}
-
-function assertDecodePackGenerationLabelsUseShortGenShape(): void {
-  const findings: string[] = [];
-  collectExpandedGenerationLabels(defaultPartDecodeSpecs, ["defaultPartDecodeSpecs"], findings);
-  collectExpandedGenerationLabels(defaultIdentifierDecodeSpecs, ["defaultIdentifierDecodeSpecs"], findings);
-  assert.deepEqual(findings, [], "DecodePack generation labels should use short ordinal labels such as 1st Gen and 2nd Gen");
-}
-
 const engineeringSamplePattern = /\b(?:Early\s+)?Engineering Samples?\b/i;
 
 function collectNonProductionStatusEngineeringSamples(value: unknown, path: string[], findings: string[]): void {
@@ -1077,6 +1048,82 @@ function assertDecodePackCheckRejectsInvalidPackageShape(): void {
   );
 }
 
+function assertDecodePackCheckRejectsLegacyGenerationShape(): void {
+  const result = checkDecodePack({
+    sharedTables: {
+      "test.generation": {
+        legacy: {
+          generation_info: "Third generation"
+        }
+      }
+    },
+    partSpecs: [
+      {
+        id: "test.invalid-generation-shape",
+        match: {
+          kind: "prefix",
+          value: "X"
+        },
+        set: {
+          "device.partNumber": {
+            $var: "partNumber"
+          },
+          "fields.dram_generation": "1st Gen",
+          "fields.product_generation": "Gen 2",
+          "fields.prod_status": "CXMT G3"
+        }
+      }
+    ],
+    identifierSpecs: []
+  } satisfies DecodePack);
+
+  const generationFindings = result.findings.filter((finding) => finding.code === "generation_shape");
+  assert.deepEqual(
+    generationFindings.map((finding) => finding.path).sort(),
+    [
+      "partSpecs[0].set.fields.dram_generation",
+      "partSpecs[0].set.fields.prod_status",
+      "partSpecs[0].set.fields.product_generation",
+      "sharedTables.test.generation.legacy.generation_info"
+    ]
+  );
+  assert.ok(generationFindings.some((finding) => finding.specId === "test.invalid-generation-shape"));
+
+  const canonicalResult = checkDecodePack({
+    sharedTables: {
+      "test.generation": {
+        current: {
+          generation_info: "Gen5 Xtacking 4.0"
+        }
+      }
+    },
+    partSpecs: [
+      {
+        id: "test.current-generation-shape",
+        match: {
+          kind: "prefix",
+          value: "Y"
+        },
+        set: {
+          "device.partNumber": {
+            $var: "partNumber"
+          },
+          "fields.dram_generation": "Gen1",
+          "fields.product_generation": "Gen2 eMCP",
+          "fields.prod_status": "Engineering Sample",
+          "fields.controller_revision": "IOE Gen 1 Rev.A"
+        }
+      }
+    ],
+    identifierSpecs: []
+  } satisfies DecodePack);
+  assert.equal(
+    canonicalResult.findings.some((finding) => finding.code === "generation_shape"),
+    false,
+    `expected canonical generation labels and proper names to pass, got ${JSON.stringify(canonicalResult.findings)}`
+  );
+}
+
 function assertDecodePackCheckRejectsFullStringPartMatch(): void {
   const result = checkDecodePack({
     partSpecs: [
@@ -1354,7 +1401,6 @@ assertLangKeysUseSnakeCase();
 assertReadmeIsOnlyIndex();
 assertDecodePackCompositeComponents();
 assertDecodePackLpddrGenerationLabelsUseJedecShape();
-assertDecodePackGenerationLabelsUseShortGenShape();
 assertEngineeringSampleOnlyUsesProductionStatus();
 assertDecodePackIdentityTablesUseArraySyntax();
 assertDecodePackJsonContainsOnlyRuntimeData();
@@ -1365,6 +1411,7 @@ assertDecodePackCheckRejectsMaintenanceData();
 assertDecodePackCheckRejectsPublicCodeFields();
 assertDecodePackCheckRejectsDynamicPublicCodeFields();
 assertDecodePackCheckRejectsInvalidPackageShape();
+assertDecodePackCheckRejectsLegacyGenerationShape();
 assertDecodePackCheckRejectsFullStringPartMatch();
 assertArrayDecodeTablesSupportIdentityAndSharedValues();
 assertDecodePackCheckRejectsDuplicateArrayTableKeys();

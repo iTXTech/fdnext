@@ -81,7 +81,7 @@ assertRuleDecode("SDUNEI3MM-1T00CE", {
     "Product Class": "Consumer",
     "Assembly": "Pb-free (100% tin)",
     "Special Option": "Standard Commercial",
-    "Production Status": "2nd Gen"
+    "Production Status": "Gen2"
   },
   absentExtra: ["Channel Count"]
 });

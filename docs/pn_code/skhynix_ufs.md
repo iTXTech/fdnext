@@ -68,7 +68,7 @@ Preduo 等灰市 / 分销页可信度低于原厂新闻图、原厂 datasheet �
 | package type `E/Z` | WFBGA / VFBGA when confirmed by ordering table; otherwise retained as an internal token |
 | UC310 package type `Z` | FBGA-153, 11.5x13.0x1.0 |
 | package type `J` | Automotive UFS3.1 TFBGA |
-| generation `H` | 4th generation in UFS3.1 ordering table; UD220 maps to 176-layer V7 from line-up |
+| generation `H` | Gen4 in UFS3.1 ordering table; UD220 maps to 176-layer V7 from line-up |
 | generation `G` | UC220 generation token, retained internally |
 | generation `J` | ZUFS 4.1 generation token |
 | temp `K` | Mobile, -25~85°C |

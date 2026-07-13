@@ -36,23 +36,23 @@ iTXTech fdnext DecodePack:
 - `cell_level`、`layer_count`、`die_density`、`plane_count`、`speed_grade` 分别表达 xLC、层数、die 容量、plane 数和 ONFI / max clock，不塞进 `die_codename` 文本。
 - raw NAND / UNIMOS pack 可以按 die profile key 合并共享表；eMMC / UFS pack 只使用共享表中不覆盖 PN 自带 `cell_level` 或容量 token 的字段。
 - Flash ID DecodePack 的 byte / bit 规则只输出泛化 generation、density、cell、page 等可由位段直接确定的信息；完整或子序列命中后的 die profile、die density、plane、ONFI、redundant area 和 pages-per-block 由 core postprocess 补充。
-- Flash ID 的公开 generation 文案统一为 `1st Gen`、`2nd Gen Xtacking 1.0` 等短 ordinal 形式；不再输出 `Gen 1` / `Gen 2` 倒装形式。
+- Flash ID 的公开 generation 文案统一为 `Gen1`、`Gen2 Xtacking 1.0` 等紧凑 `GenN` 形式；不再输出 ordinal 或 `Gen 1` / `Gen 2` 形式。
 - `Block Size` 资料在 YMTC feature 表中以 pages 表达；公开输出优先使用 `pages_per_block`。不要把 pages 数直接塞进 byte 语义的 `block_size`。
 
 ## 工艺 alias 摘要
 
 | Process | Codename | Generation | Layers | xLC | Die density | Plane | Speed / ONFI | 规则用途 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `X0-A030` | DBS | Gen 1 | 32 | MLC | 64Gb | 1 | 533MT/s | process alias / PN process token |
-| `X1-9050` | JGS | Gen 2 Xtacking 1.0 | 64 | TLC | 256Gb | 2 | ONFI 4.0 / 800MT/s | process alias / PN / Flash ID postprocess |
-| `X2-9060` | TAS | Gen 3 Xtacking 2.0 | 128 | TLC | 512Gb | 4 | ONFI 4.1 / 1600MT/s | process alias / PN / Flash ID postprocess |
-| `X2-6070` | HUS | Gen 3 Xtacking 2.0 | 128 | QLC | 1.33Tb | 6 | ONFI 4.1 / 1200MT/s | process alias / PN / Flash ID postprocess |
-| `X3-9060` | WYS | Gen 4 Xtacking 3.0 | 128 | TLC | 512Gb | 4 | ONFI 5.0 / 2400MT/s | process alias / PN / Flash ID postprocess |
-| `X3-9070` | WDS | Gen 4 Xtacking 3.0 | 232 | TLC | 1Tb | 6 | ONFI 5.0 / 2400MT/s | process alias / PN / Flash ID postprocess |
-| `X3-6070` | EMS | Gen 4 Xtacking 3.0 | 232 | QLC | 1Tb | 4 | ONFI 5.0 / 2400MT/s | process alias / PN / Flash ID postprocess |
-| `X4-9060` | WTS | Gen 5 Xtacking 4.0 | 160 | TLC | 512Gb | 4 | ONFI 5.1 / 3600MT/s | process alias / PN / Flash ID postprocess / MP |
-| `X4-9070` | SQS | Gen 5 Xtacking 4.0 | 267 | TLC | 1Tb | 6 | ONFI 5.1 / 3600MT/s; `8Die1TB` package note | process alias / PN / Flash ID postprocess |
-| `X4-6080` | PTS | Gen 5 Xtacking 4.0 | 267 | QLC | 2Tb | - | ONFI 5.1 / 3600MT/s | process alias / PN / Flash ID postprocess |
+| `X0-A030` | DBS | Gen1 | 32 | MLC | 64Gb | 1 | 533MT/s | process alias / PN process token |
+| `X1-9050` | JGS | Gen2 Xtacking 1.0 | 64 | TLC | 256Gb | 2 | ONFI 4.0 / 800MT/s | process alias / PN / Flash ID postprocess |
+| `X2-9060` | TAS | Gen3 Xtacking 2.0 | 128 | TLC | 512Gb | 4 | ONFI 4.1 / 1600MT/s | process alias / PN / Flash ID postprocess |
+| `X2-6070` | HUS | Gen3 Xtacking 2.0 | 128 | QLC | 1.33Tb | 6 | ONFI 4.1 / 1200MT/s | process alias / PN / Flash ID postprocess |
+| `X3-9060` | WYS | Gen4 Xtacking 3.0 | 128 | TLC | 512Gb | 4 | ONFI 5.0 / 2400MT/s | process alias / PN / Flash ID postprocess |
+| `X3-9070` | WDS | Gen4 Xtacking 3.0 | 232 | TLC | 1Tb | 6 | ONFI 5.0 / 2400MT/s | process alias / PN / Flash ID postprocess |
+| `X3-6070` | EMS | Gen4 Xtacking 3.0 | 232 | QLC | 1Tb | 4 | ONFI 5.0 / 2400MT/s | process alias / PN / Flash ID postprocess |
+| `X4-9060` | WTS | Gen5 Xtacking 4.0 | 160 | TLC | 512Gb | 4 | ONFI 5.1 / 3600MT/s | process alias / PN / Flash ID postprocess / MP |
+| `X4-9070` | SQS | Gen5 Xtacking 4.0 | 267 | TLC | 1Tb | 6 | ONFI 5.1 / 3600MT/s; `8Die1TB` package note | process alias / PN / Flash ID postprocess |
+| `X4-6080` | PTS | Gen5 Xtacking 4.0 | 267 | QLC | 2Tb | - | ONFI 5.1 / 3600MT/s | process alias / PN / Flash ID postprocess |
 
 ## 补充资料记录
 

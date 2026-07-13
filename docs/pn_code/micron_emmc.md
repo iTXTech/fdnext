@@ -52,7 +52,7 @@ PN 结构：
 - `product_version`
 
 `controller_code`、`package_code` 等 Micron token 只用于内部解析，不进入公开字段；用户可见结果优先输出 `controller_revision`、`package` 等语义字段。
-- 新版 component generation 按公共约定输出短 ordinal，例如 `AM` 输出 `8th Gen`，不回显 decoder 中的 `Eighth`。
+- 新版 component generation 按公共约定输出紧凑 `GenN`，例如 `AM` 输出 `Gen8`，不回显 decoder 中的 `Eighth`。
 - `special_option`
 - `operation_temperature`
 

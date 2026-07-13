@@ -47,7 +47,7 @@ SD [package] N [die generation] [die type] [die stack / ODT] [package material] 
 - density: `008G` through `4T00`，兼容已有 FDB 中常见的 `GB`、省略前导零和 `1TB` 写法
 - mode: `U=Toggle Mode DDR1.0/DDR2.0`、`K=Legacy wake, toggle-switchable mode with tR timing`
 - feature: `L=Standard Endurance`、`F=High Endurance`、`C=Standard Commercial`、`I=Industrial`、`W=Industrial Wide Temp`
-- die maturity: `D=1st Generation`、`E=2nd Generation`、`R=Retail`
+- die maturity: `D=Gen1`、`E=Gen2`、`R=Retail`
 
 WCS/WCB 公开输出 `product_class=Consumer`。configuration 输出为 `ce_count` 与 `rb_count`，不混用为 `channel_count`。mode、feature、die maturity 分别落到 `product_mode`、`special_option`、`prod_status`。
 

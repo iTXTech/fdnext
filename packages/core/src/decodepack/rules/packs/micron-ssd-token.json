@@ -117,23 +117,23 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           },
           "2": {
-            "generation_info": "2nd Gen"
+            "generation_info": "Gen2"
           },
           "3": {
-            "generation_info": "3rd Gen"
+            "generation_info": "Gen3"
           },
           "A": {
             "prod_status": "Engineering Sample"
           },
           "B": {
-            "generation_info": "2nd Gen",
+            "generation_info": "Gen2",
             "prod_status": "Engineering Sample"
           },
           "C": {
-            "generation_info": "3rd Gen",
+            "generation_info": "Gen3",
             "prod_status": "Engineering Sample"
           }
         },
@@ -462,7 +462,7 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           },
           "A": {
             "prod_status": "Engineering Sample"
@@ -820,24 +820,24 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           },
           "2": {
-            "generation_info": "2nd Gen"
+            "generation_info": "Gen2"
           },
           "3": {
-            "generation_info": "3rd Gen"
+            "generation_info": "Gen3"
           },
           "A": {
-            "generation_info": "1st Gen",
+            "generation_info": "Gen1",
             "prod_status": "Engineering Sample"
           },
           "B": {
-            "generation_info": "2nd Gen",
+            "generation_info": "Gen2",
             "prod_status": "Engineering Sample"
           },
           "C": {
-            "generation_info": "3rd Gen",
+            "generation_info": "Gen3",
             "prod_status": "Engineering Sample"
           }
         },
@@ -1303,24 +1303,24 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           },
           "2": {
-            "generation_info": "2nd Gen"
+            "generation_info": "Gen2"
           },
           "3": {
-            "generation_info": "3rd Gen"
+            "generation_info": "Gen3"
           },
           "A": {
-            "generation_info": "1st Gen",
+            "generation_info": "Gen1",
             "prod_status": "Engineering Sample"
           },
           "B": {
-            "generation_info": "2nd Gen",
+            "generation_info": "Gen2",
             "prod_status": "Engineering Sample"
           },
           "C": {
-            "generation_info": "3rd Gen",
+            "generation_info": "Gen3",
             "prod_status": "Engineering Sample"
           }
         },
@@ -1712,7 +1712,7 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           }
         },
         "productionStatusObj": {
@@ -1956,7 +1956,7 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           }
         },
         "componentObj": {
@@ -2267,7 +2267,7 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           }
         },
         "componentObj": {},
@@ -2587,10 +2587,10 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           },
           "2": {
-            "generation_info": "2nd Gen"
+            "generation_info": "Gen2"
           }
         },
         "componentObj": {
@@ -2946,17 +2946,17 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           },
           "2": {
-            "generation_info": "2nd Gen"
+            "generation_info": "Gen2"
           },
           "A": {
-            "generation_info": "1st Gen",
+            "generation_info": "Gen1",
             "prod_status": "Engineering Sample"
           },
           "B": {
-            "generation_info": "2nd Gen",
+            "generation_info": "Gen2",
             "prod_status": "Engineering Sample"
           }
         },
@@ -3250,7 +3250,7 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           },
           "A": {
             "prod_status": "Engineering Sample"
@@ -3551,7 +3551,7 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           },
           "A": {
             "prod_status": "Engineering Sample"
@@ -3843,7 +3843,7 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           }
         },
         "componentObj": {
@@ -4119,7 +4119,7 @@
         },
         "bomObj": {
           "1": {
-            "generation_info": "1st Gen"
+            "generation_info": "Gen1"
           }
         },
         "componentObj": {},

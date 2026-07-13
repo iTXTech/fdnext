@@ -39,7 +39,7 @@ assertRuleDecode("IS21EF16GA-JCLI", {
   package: "FBGA-153",
   extra: {
     "Storage Interface": "eMMC 5.1",
-    "Product Generation": "2nd Gen",
+    "Product Generation": "Gen2",
     "Operation Temperature": "Industrial (-40°C ~ 85°C)"
   }
 });

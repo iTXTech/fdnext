@@ -19,7 +19,7 @@
   <https://uttc.com.tw/wp-content/uploads/2025/12/H9HP52ACPMADAR_Rev1.0.pdf>
 - 本地 `H9AG9G5ANBX100_Rev0.2.pdf` 给出 `H9A` = LPDDR4 eMCP，`G9G5` = 64GB eMMC + 32Gb / 4GB LPDDR4X，`N` = DDR 4266/CL32 + 52MHz，`B` = MMC 5.0，`100` = PKG option，254-ball FBGA。
   <https://uttc.com.tw/wp-content/uploads/2025/12/H9AG9G5ANBX100_Rev0.2.pdf>
-- 本地 `H9QT0GECN6X145_Rev0.1.pdf` 给出 `H9Q` = LPDDR4 uMCP，`T0GE` = 128GB UFS + 48Gb / 6GB LPDDR4X，`C` = 4th generation，`N` = DDR 4266，`6` = UFS 2.2，`X` reserved，`145` = PKG option，254-ball FBGA，Lead & Halogen Free，operation temperature -25°C ~ 85°C。
+- 本地 `H9QT0GECN6X145_Rev0.1.pdf` 给出 `H9Q` = LPDDR4 uMCP，`T0GE` = 128GB UFS + 48Gb / 6GB LPDDR4X，`C` = Gen4，`N` = DDR 4266，`6` = UFS 2.2，`X` reserved，`145` = PKG option，254-ball FBGA，Lead & Halogen Free，operation temperature -25°C ~ 85°C。
   <https://www.uttc.com.tw/wp-content/uploads/2025/12/H9QT0GECN6X145_Rev0.1.pdf>
 - `H9HQ15ACPMADAR-KEM` 分销页标注 type `uMCP`、sub-type `UFS+LPDDR4x`、package `254ball_UFS+LPD4x`、density `128+32`。
   <https://www.preduo.com/product/umcp/ufs-lpddr4x/254ball_ufs-lpd4x/h9hq15acpmadar-kem>
@@ -54,7 +54,7 @@
 | NVM voltage `A` | eMMC/NVM 3.3V x8 |
 | DRAM density `B/C/D/E` | 16Gb / 32Gb / 24Gb / 48Gb LPDDR4X；与 storage density 独立 |
 | DRAM option `A/P/C/U` | 已确认 line-up 输出 LPDDR4X 与电压；只有 ordering decoder 已确认的 `A/P` 输出 x16，`C/U` 不猜位宽 |
-| generation `M` | 2nd generation |
+| generation `M` | Gen2 |
 | package type `A` | 254Ball FBGA 11.5x13 |
 | package material `D` | Lead & Halogen Free |
 | eMMC speed `A` | 400MHz |
@@ -77,7 +77,7 @@
 | NVM voltage `A` | eMMC/NVM 3.3V x8 |
 | DRAM density `4G/8G/BJ/DF` | 4Gb SDP / 8Gb SDP / 16Gb 1ch 2CS / 24Gb 1ch 2CS |
 | DRAM option `D/T` | LPDDR2 x32 / LPDDR3 x32 |
-| generation `M/A/B` | 1st / 2nd / 3rd generation eMCP |
+| generation `M/A/B` | Gen1 / Gen2 / Gen3 eMCP |
 | package type `CP/CU` | FBGA 162 Ball 11.5x13 / FBGA 221 Ball 11.5x13 |
 | package material `R` | Lead & Halogen Free |
 | speed tail | eMMC speed uses product-family + density + token combination; DRAM speed `G/T/U` = LPDDR2-1066 / LPDDR3-1600 / LPDDR3-1866 |
@@ -92,7 +92,7 @@ eMCP 输出中 storage side 的 NAND die 数使用 `die_count`，DRAM side 的 d
 | `H9A` + density(4) + generation + speed + interface + reserved + serial(3) | SK hynix LPDDR4 eMCP |
 | density `G8GD/G9GD/G9G5/G9GE` | 32GB+3GB / 64GB+3GB / 64GB+4GB / 64GB+6GB |
 | DRAM organization for `G9G5` | LPDDR4X x16 |
-| generation `A` | 2nd generation eMCP |
+| generation `A` | Gen2 eMCP |
 | speed `N` | LPDDR4X-4266 CL32 / eMMC 52MHz |
 | interface `B` | eMMC 5.0 |
 | serial `100` | 254Ball FBGA, Lead & Halogen Free |
@@ -104,7 +104,7 @@ eMCP 输出中 storage side 的 NAND die 数使用 `die_count`，DRAM side 的 d
 | `H9Q` + density(4) + generation + speed + interface + reserved + serial(3) | SK hynix LPDDR4 uMCP |
 | density `T0GE` | 128GB UFS + 48Gb / 6GB LPDDR4X |
 | DRAM organization for `T0GE` | LPDDR4X x8 |
-| generation `C` | 4th generation uMCP |
+| generation `C` | Gen4 uMCP |
 | speed `N` | LPDDR4X-4266 |
 | interface `6` | UFS 2.2 |
 | reserved `X` | 内部 reserved token，不作为公开 code 字段输出 |

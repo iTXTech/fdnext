@@ -298,7 +298,7 @@
   "DBS": {
     "die_codename": "DBS",
     "process_alias": "X0-A030",
-    "generation_info": "Gen 1",
+    "generation_info": "Gen1",
     "layer_count": 32,
     "die_density": "64Gb",
     "cell_level": 2,
@@ -312,7 +312,7 @@
   "EMS": {
     "die_codename": "EMS",
     "process_alias": "X3-6070",
-    "generation_info": "Gen 4 Xtacking 3.0",
+    "generation_info": "Gen4 Xtacking 3.0",
     "layer_count": 232,
     "die_density": "1Tb",
     "cell_level": 4,
@@ -329,7 +329,7 @@
   "HUS": {
     "die_codename": "HUS",
     "process_alias": "X2-6070",
-    "generation_info": "Gen 3 Xtacking 2.0",
+    "generation_info": "Gen3 Xtacking 2.0",
     "layer_count": 128,
     "die_density": "1.33Tb",
     "cell_level": 4,
@@ -634,7 +634,7 @@
   "JGS": {
     "die_codename": "JGS",
     "process_alias": "X1-9050",
-    "generation_info": "Gen 2 Xtacking 1.0",
+    "generation_info": "Gen2 Xtacking 1.0",
     "layer_count": 64,
     "die_density": "256Gb",
     "cell_level": 3,
@@ -1653,7 +1653,7 @@
   "PTS": {
     "die_codename": "PTS",
     "process_alias": "X4-6080",
-    "generation_info": "Gen 5 Xtacking 4.0",
+    "generation_info": "Gen5 Xtacking 4.0",
     "layer_count": 267,
     "die_density": "2Tb",
     "cell_level": 4,
@@ -2157,7 +2157,7 @@
   "SQS": {
     "die_codename": "SQS",
     "process_alias": "X4-9070",
-    "generation_info": "Gen 5 Xtacking 4.0",
+    "generation_info": "Gen5 Xtacking 4.0",
     "layer_count": 267,
     "die_density": "1Tb",
     "cell_level": 3,
@@ -2662,7 +2662,7 @@
   "TAS": {
     "die_codename": "TAS",
     "process_alias": "X2-9060",
-    "generation_info": "Gen 3 Xtacking 2.0",
+    "generation_info": "Gen3 Xtacking 2.0",
     "layer_count": 128,
     "die_density": "512Gb",
     "cell_level": 3,
@@ -2679,7 +2679,7 @@
   "WDS": {
     "die_codename": "WDS",
     "process_alias": "X3-9070",
-    "generation_info": "Gen 4 Xtacking 3.0",
+    "generation_info": "Gen4 Xtacking 3.0",
     "layer_count": 232,
     "die_density": "1Tb",
     "cell_level": 3,
@@ -2696,7 +2696,7 @@
   "WTS": {
     "die_codename": "WTS",
     "process_alias": "X4-9060",
-    "generation_info": "Gen 5 Xtacking 4.0",
+    "generation_info": "Gen5 Xtacking 4.0",
     "layer_count": 160,
     "die_density": "512Gb",
     "cell_level": 3,
@@ -2710,7 +2710,7 @@
   "WYS": {
     "die_codename": "WYS",
     "process_alias": "X3-9060",
-    "generation_info": "Gen 4 Xtacking 3.0",
+    "generation_info": "Gen4 Xtacking 3.0",
     "layer_count": 128,
     "die_density": "512Gb",
     "cell_level": 3,

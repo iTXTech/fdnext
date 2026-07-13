@@ -300,6 +300,58 @@ function checkPublicPackageValues(
   }
 }
 
+const publicGenerationFieldKeys = new Set([
+  "generation_info",
+  "product_generation",
+  "dram_generation",
+  "prod_status"
+]);
+
+const nonCanonicalGenerationPatterns = [
+  /\b\d+(?:st|nd|rd|th)\s+(?:Gen|generation)\b/i,
+  /\b(?:First|Second|Third|Fourth|Fifth|Sixth|Seventh|Eighth|Ninth|Tenth)\s+generation\b/i,
+  /\bGen(?:eration)?\s+\d+\b/i,
+  /^(?:[A-Z][A-Z0-9-]*\s+)?G\d+\b/i
+];
+
+function isPublicGenerationValuePath(path: string[]): boolean {
+  return path.some((part) => {
+    const fieldKey = part.split(".").at(-1) ?? part;
+    return publicGenerationFieldKeys.has(fieldKey);
+  });
+}
+
+function checkPublicGenerationValues(
+  value: unknown,
+  path: string[],
+  findings: DecodePackCheckFinding[],
+  specId?: string
+): void {
+  if (typeof value === "string") {
+    if (isPublicGenerationValuePath(path) && nonCanonicalGenerationPatterns.some((pattern) => pattern.test(value))) {
+      addFinding(
+        findings,
+        "error",
+        "generation_shape",
+        path.join("."),
+        `Public generation value "${value}" must use compact GenN form, for example Gen1 or Gen5 Xtacking 4.0.`,
+        specId
+      );
+    }
+    return;
+  }
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => checkPublicGenerationValues(item, [...path, `[${index}]`], findings, specId));
+    return;
+  }
+  if (!isRecord(value)) {
+    return;
+  }
+  for (const [key, item] of Object.entries(value)) {
+    checkPublicGenerationValues(item, [...path, key], findings, specId);
+  }
+}
+
 function checkFieldKeys(value: unknown, path: string, specId: string, findings: DecodePackCheckFinding[]): void {
   if (!isRecord(value)) {
     return;
@@ -752,6 +804,7 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
     checkDecodeTable(table, `sharedTables.${tableName}`, undefined, findings);
   }
   checkPublicPackageValues(sharedTables, ["sharedTables"], findings);
+  checkPublicGenerationValues(sharedTables, ["sharedTables"], findings);
   for (const [kind, specs] of [
     ["part", pack.partSpecs],
     ["identifier", pack.identifierSpecs]
@@ -777,6 +830,7 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
         walkPolicy(identifierSpec.definition, `${path}.definition`, spec.id, findings);
       }
       checkPublicPackageValues(spec, [path], findings, spec.id);
+      checkPublicGenerationValues(spec, [path], findings, spec.id);
     });
   }
   return {

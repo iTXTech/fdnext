@@ -89,11 +89,11 @@
         "generation_info": {
           "dq": [6, 5, 4],
           "def": {
-            "0": "1st Gen",
-            "1": "2nd Gen Xtacking 1.0",
-            "2": "3rd Gen Xtacking 2.0",
-            "3": "4th Gen Xtacking 3.0",
-            "4": "5th Gen Xtacking 4.0"
+            "0": "Gen1",
+            "1": "Gen2 Xtacking 1.0",
+            "2": "Gen3 Xtacking 2.0",
+            "3": "Gen4 Xtacking 3.0",
+            "4": "Gen5 Xtacking 4.0"
           }
         }
       }
