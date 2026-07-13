@@ -255,6 +255,7 @@ assertRuleDecode("YMUSAB5TH3A1C1", {
   extra: {
     Controller: "UFS 2.2 Controller UC260",
     "Storage Interface": "UFS 2.2",
+    "Product Generation": "5th Gen Xtacking 4.0",
     "Die Count": 4,
     "Product Class": "Commercial",
     "Operation Temperature": "-25°C ~ 85°C"
@@ -271,6 +272,7 @@ assertRuleDecode("YMUSAB4TF3D1C1", {
   extra: {
     Controller: "UFS 3.1 Controller UC341",
     "Storage Interface": "UFS 3.1",
+    "Product Generation": "4th Gen Xtacking 3.0",
     "Die Count": 4,
     "Product Class": "Commercial",
     "Operation Temperature": "-25°C ~ 85°C"

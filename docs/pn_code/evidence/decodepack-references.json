@@ -275,6 +275,18 @@
       "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
       "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
       "scope": "table_entry",
+      "table_key": "packageSpecific",
+      "entry_key": "6:CDM",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "TechInsights CXDB6CCDM-MA package analysis",
+        "url": "https://www.techinsights.com/blog/cxmt-cxdb6ccdm-ma-g3-8gb-lpddr4x-memory-floorplan-analysis"
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "table_entry",
       "table_key": "temperatureObj",
       "entry_key": "E",
       "evidence": {
@@ -327,6 +339,56 @@
           "CXDB5CCAM-MJ"
         ],
         "notes": "Exact part number is a search seed only; public fields continue to come from the existing token tables."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "spec",
+      "entry_key": "cxmt_standalone_search_matrix_round8",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Public CXMT component table and TechInsights package analysis",
+        "url": "https://m.gys.cn/jichengdianluic/5510051764.html",
+        "examples": [
+          "CXDB5CBAM-DA-B",
+          "CXDB5CBAM-EA-B",
+          "CXDB6CCBM-DA-A",
+          "CXDR4FFBM-CS-A",
+          "CXDQ4A8AM-EG-M",
+          "CXDB4ABAM-MJ-A"
+        ],
+        "notes": "Exact part numbers are search seeds only. Module part numbers and conflicting CXDB7CCDM-MA-M or CXDQ2BFAM-CE-B remain excluded."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "spec",
+      "entry_key": "cxmt_cxdb6ccdm_ma_techinsights",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "TechInsights CXDB6CCDM-MA package analysis",
+        "url": "https://www.techinsights.com/blog/cxmt-cxdb6ccdm-ma-g3-8gb-lpddr4x-memory-floorplan-analysis",
+        "examples": [
+          "CXDB6CCDM-MA"
+        ],
+        "notes": "The exact body is a search seed; package dimensions are mapped only by the structured 6:CDM combination."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/cxmt-dram-token.json",
+      "spec_id": "vendor.cxmt.dram.lpddr4x.component.v1",
+      "scope": "spec",
+      "entry_key": "cxmt_cxdbbccam_mk_a_search_seed",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "CSEKER and Alibaba CXDBBCCAM-MK-A product listings",
+        "url": "https://www.alibaba.com/pla/CXDBBCCAM-MK-A-LPDDR4X-3GB-3733Mbps-200FBGA-DDR_1601276093004.html",
+        "examples": [
+          "CXDBBCCAM-MK-A"
+        ],
+        "notes": "The exact part number is a search seed only; public fields continue to come from existing density and layout tokens."
       }
     },
     {
@@ -1995,6 +2057,40 @@
           "9BC65D553000"
         ],
         "notes": "These variants extend only the exact-subsequence postprocess lookup for existing JGS, TAS, WYS and EMS profiles."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/ymtc-ufs-token.json",
+      "spec_id": "vendor.ymtc.ufs-label.v1",
+      "scope": "table_entry",
+      "table_key": "controllerGenerationObj",
+      "entry_key": "B5:H",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "YMTC UC260 official product page",
+        "url": "https://www.ymtc.com/en/products/45.html?cat=39",
+        "examples": [
+          "YMUS8B5TH1A1C1",
+          "YMUS9B5TH2A1C1",
+          "YMUSAB5TH3A1C1"
+        ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/ymtc-ufs-token.json",
+      "spec_id": "vendor.ymtc.ufs-label.v1",
+      "scope": "table_entry",
+      "table_key": "controllerGenerationObj",
+      "entry_key": "B4:F",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "YMTC UC341 official product page",
+        "url": "https://www.ymtc.com/en/products/43.html?cat=39",
+        "examples": [
+          "YMUS8B4TF1D1C1",
+          "YMUS9B4TF2D1C1",
+          "YMUSAB4TF3D1C1"
+        ]
       }
     },
     {

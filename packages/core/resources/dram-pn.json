@@ -1644,6 +1644,38 @@
     "pn": "CXDB5CBAM-MA-B"
   },
   {
+    "vendor": "cxmt",
+    "pn": "CXDB5CBAM-DA-B"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB5CBAM-EA-B"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB6CCBM-DA-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDR4FFBM-CS-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDQ4A8AM-EG-M"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB4ABAM-MJ-A"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDB6CCDM-MA"
+  },
+  {
+    "vendor": "cxmt",
+    "pn": "CXDBBCCAM-MK-A"
+  },
+  {
     "vendor": "skhynix",
     "pn": "HY57V561620FTP-H"
   },

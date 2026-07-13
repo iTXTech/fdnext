@@ -102,6 +102,14 @@
           "B": "JGS",
           "C": "TAS",
           "E": "WYS"
+        },
+        "controllerGenerationObj": {
+          "B4:F": {
+            "generation_info": "4th Gen Xtacking 3.0"
+          },
+          "B5:H": {
+            "generation_info": "5th Gen Xtacking 4.0"
+          }
         }
       },
       "steps": [
@@ -180,6 +188,23 @@
           "table": "generation",
           "to": "generation",
           "default": "Unknown"
+        },
+        {
+          "op": "tpl",
+          "template": "{{controllerCode}}:{{generationCode}}",
+          "to": "controllerGenerationKey"
+        },
+        {
+          "op": "map",
+          "from": "controllerGenerationKey",
+          "table": "controllerGenerationObj",
+          "to": "controllerGenerationObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "processFields",
+          "from": "controllerGenerationObj"
         },
         {
           "op": "take",

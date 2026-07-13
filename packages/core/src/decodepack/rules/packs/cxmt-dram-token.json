@@ -487,6 +487,9 @@
           "A": "FBGA-200",
           "C": "FBGA-200"
         },
+        "packageSpecific": {
+          "6:CDM": "FBGA-200, 10x15x0.78"
+        },
         "deviceWidth": {
           "A": 32,
           "B": 32,
@@ -579,6 +582,19 @@
           "op": "map",
           "from": "packageTypeCode",
           "table": "packageActual",
+          "to": "packageBase"
+        },
+        {
+          "op": "map",
+          "from": "processKey",
+          "table": "packageSpecific",
+          "to": "packageSpecific",
+          "default": ""
+        },
+        {
+          "op": "fallback",
+          "primary": "packageSpecific",
+          "secondary": "packageBase",
           "to": "package"
         },
         {

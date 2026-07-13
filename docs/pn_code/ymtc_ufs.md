@@ -1,6 +1,6 @@
 # YMTC UFS PN 编码
 
-采集日期：2026-05-08；更新日期：2026-07-12
+采集日期：2026-05-08；更新日期：2026-07-13
 
 ## 外部资料
 
@@ -8,7 +8,7 @@
   <https://www.ymtc.com/en/buslist.html?cat=39>
 - YMTC 官方 Technical Support 页面已列出 UC260 UFS 2.2 与 UC341 UFS 3.1 英文 flyer；下载仍要求登录，因此该入口用于确认官方产品线与资料存在，不把未读取的 flyer 内容写成 ordering 结论。
   <https://www.ymtc.com/en/techsupport.html>
-- YMTC UC260 官方页确认 UFS 2.2、128GB/256GB/512GB、BGA-153 11.5x13.0x0.8。
+- YMTC UC260 官方页确认 UFS 2.2、128GB/256GB/512GB、BGA-153 11.5x13.0x0.8，并明确采用 Xtacking 4.0；结合已确认的 `B5/H` family，结构化输出 `5th Gen Xtacking 4.0`。
   <https://www.ymtc.com/en/products/45.html?cat=39>
 - YMTC UC114 官方 flyer 给出完整 32/64/128/256GB ordering PN：`YMUS6A4TB1A2C1`、`YMUS7A4TB2A2C1`、`YMUS8A4TB3A2C1`、`YMUS9A4TB4A2C1`。
   <https://www.ymtc.com/en/resources/file/20211206/d1dcb33354659b1f7787eafd8b721224.pdf>
@@ -30,7 +30,7 @@
   <https://post.smzdm.com/p/a2qdz0mn/>
   <https://forum.gsmhosting.com/vbb/f672/update-add-supported-ufs-ymtc-3433914/>
   <https://falcon-denshi.co.jp/wp/wp-content/uploads/ALL300GU2_20260623.pdf>
-- UC341 官方英文 flyer 目前只能在 Technical Support 页面登录后下载；具体 PN 样本仍由上列实物拆解、UFS 日志和烧录器表交叉确认，不把登录受限但未读取的 flyer 当作 exact PN 依据。
+- UC341 官方英文产品页明确采用 Xtacking 3.0；结合已确认的 `B4/F` family，结构化输出 `4th Gen Xtacking 3.0`。flyer 目前只能在 Technical Support 页面登录后下载；具体 PN 样本仍由上列实物拆解、UFS 日志和烧录器表交叉确认，不把登录受限但未读取的 flyer 当作 exact PN 依据。
 
 ## 规则状态
 
@@ -49,7 +49,7 @@ PN 结构：
 | controller `A4/B2/B5` | UFS 2.2 controller token；`B5` 为 UC260 |
 | controller `A1/B4` | UFS 3.1 controller token；`B4` 为 UC341 |
 | cell `T/Q` | TLC / QLC |
-| generation `B/C/E/F/H` | generation token；只有已确认映射才输出 process alias；`F` 与 UC341 Xtacking 3.0 family 对应 |
+| generation `B/C/E/F/H` | generation token；只有已确认映射才输出 process alias；`B4:F` 输出 `4th Gen Xtacking 3.0`，`B5:H` 输出 `5th Gen Xtacking 4.0` |
 | package `A1/A2/D1/D2` | BGA-153 package variants；`A1` 为 11.5x13x0.8 |
 | suffix `C1` | Commercial product class + operating temperature |
 
@@ -58,6 +58,7 @@ PN 结构：
 - `controller`
 - `density`
 - `storage_interface`
+- `generation_info`
 - `die_count`
 - `product_class`
 - `operation_temperature`
