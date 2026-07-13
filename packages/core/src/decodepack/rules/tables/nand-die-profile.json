@@ -1657,6 +1657,7 @@
     "layer_count": 267,
     "die_density": "2Tb",
     "cell_level": 4,
+    "plane_count": 8,
     "speed_grade": "ONFI 5.1; Max Speed=3600MT/s",
     "firmware_match": [
       "X4-6080",

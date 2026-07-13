@@ -434,3 +434,4 @@ assertResultField("9BC65C954000", "process_alias", "X4-6080");
 assertResultField("9BC65C954000", "layer_count", 267);
 assertResultField("9BC65C954000", "die_density", "2Tb");
 assertResultField("9BC65C954000", "cell_level", "QLC");
+assertResultField("9BC65C954000", "plane_count", 8);

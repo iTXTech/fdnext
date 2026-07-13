@@ -400,6 +400,7 @@ assertRuleDecode("X4-6080", {
     "Process Alias": "X4-6080",
     "Layer Count": 267,
     "Die Density": "2Tb",
+    "Plane Count": 8,
     "Speed Grade": "ONFI 5.1; Max Speed=3600MT/s"
   },
   absentExtra: ["Product Generation"]

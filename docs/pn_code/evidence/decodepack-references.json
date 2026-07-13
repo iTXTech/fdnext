@@ -3079,6 +3079,19 @@
         "examples": ["SD7DP26A-XXXX"],
         "notes": "The official declaration classifies the fixed SD7DP26A family with a four-character variant placeholder as MCP iNAND. It does not support capacity, interface version, package or NAND-generation decoding."
       }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/ymtc-process-token.json",
+      "spec_id": "vendor.ymtc.process-alias.v1",
+      "scope": "spec",
+      "entry_key": "ymtc_x4_6080_official_product_profile",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "YMTC X4-6080 official product page",
+        "url": "https://www.ymtc.com/en/products/51.html?cat=35",
+        "examples": ["X4-6080", "PTS", "9BC65C954000"],
+        "notes": "The official product page identifies X4-6080 as the first 2Tb 8-plane QLC die. The plane count is attached to the existing PTS profile and reused by process alias, PN and confirmed Flash ID mappings."
+      }
     }
   ]
 }

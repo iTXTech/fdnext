@@ -5,6 +5,7 @@
 ## 外部资料
 
 - `YMTC NAND Flash Features.pdf`，标题日期 `2024.07.31`，给出 `X1-9050` 到 `X4-9060` 的 xLC、ONFI、page/block organization、device capacity、plane count、clock rate、电压和耐久信息。
+- YMTC 官方 `X4-6080` 产品页明确该 die 为首款 2Tb、8-plane QLC，并采用 Xtacking 4.0 / 3600MT/s；因此 `PTS` profile 可直接输出 8 planes。<https://www.ymtc.com/en/products/51.html?cat=35>
 - YMTC Gen2 256Gb TLC datasheet Read ID 表：确认 `9B` maker ID，以及 density、LUN、cell、voltage、page、block、plane、technology 的 byte/bit 定义。公开镜像：<https://borecraft.com/PDF/Datasheets%2C%20WP%2C%20Specs/YMTC_Gen2_256Gb_TLC_Datasheet_Client_rev0.2.pdf>。
 - 无忧启动的公开 Flash ID / process 对照表与本地 controller 数据同向确认 6 个既有 profile 的精确 ID 变体：JGS `9B C4 49 25 10` / `9B C5 4A 25 10` / `9B C3 18 25 10`，TAS `9B C6 2A 49 20`，WYS `9B C4 28 49 40`，EMS `9B C6 5D 55 30`。它们只追加到 exact-subsequence lookup，不据此泛化 bitfield 或覆盖既有映射。
   <https://bbs.wuyou.net/forum.php?mod=viewthread&tid=449091>
@@ -52,7 +53,7 @@ iTXTech fdnext DecodePack:
 | `X3-6070` | EMS | Gen4 Xtacking 3.0 | 232 | QLC | 1Tb | 4 | ONFI 5.0 / 2400MT/s | process alias / PN / Flash ID postprocess |
 | `X4-9060` | WTS | Gen5 Xtacking 4.0 | 160 | TLC | 512Gb | 4 | ONFI 5.1 / 3600MT/s | process alias / PN / Flash ID postprocess / MP |
 | `X4-9070` | SQS | Gen5 Xtacking 4.0 | 267 | TLC | 1Tb | 6 | ONFI 5.1 / 3600MT/s; `8Die1TB` package note | process alias / PN / Flash ID postprocess |
-| `X4-6080` | PTS | Gen5 Xtacking 4.0 | 267 | QLC | 2Tb | - | ONFI 5.1 / 3600MT/s | process alias / PN / Flash ID postprocess |
+| `X4-6080` | PTS | Gen5 Xtacking 4.0 | 267 | QLC | 2Tb | 8 | ONFI 5.1 / 3600MT/s | process alias / PN / Flash ID postprocess |
 
 ## 补充资料记录
 
