@@ -11,7 +11,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^F59[LD](?:1G|2G|4G|8G)81[0-9A-Z]{1,3}(?:-(?:25|45)(?:BC|B|T)[0-9A-Z]{1,6})?$"
+      "value": "^F59[LD](?:1G|2G|4G|8G)(?:161|81)[0-9A-Z]{1,3}(?:-(?:25|45)(?:BC|BU|B|T)[0-9A-Z]{1,6})?$"
     },
     "tokenDecoder": {
       "stripPrefixes": ["F59"],
@@ -27,7 +27,8 @@
           "8G": 8192
         },
         "width": {
-          "81": 8
+          "81": 8,
+          "161": 16
         },
         "speed": {
           "25": "25ns",
@@ -36,13 +37,14 @@
         "package": {
           "T": "TSOP-48",
           "B": "BGA-63",
-          "BC": "BGA-67"
+          "BC": "BGA-67",
+          "BU": "BGA-48, 6.5x5"
         }
       },
       "steps": [
         {
           "op": "takeRegex",
-          "pattern": "^([LD])(1G|2G|4G|8G)(81)([0-9A-Z]{1,3})(?:-(25|45)(BC|B|T)[0-9A-Z]{1,6})?$",
+          "pattern": "^([LD])(1G|2G|4G|8G)(161|81)([0-9A-Z]{1,3})(?:-(25|45)(BC|BU|B|T)[0-9A-Z]{1,6})?$",
           "to": "orderingCode",
           "groups": {
             "voltageCode": 1,

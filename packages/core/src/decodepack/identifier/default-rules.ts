@@ -11,6 +11,7 @@ import spectekRules from "./packs/spectek.json" with { type: "json" };
 import winbondRules from "./packs/winbond.json" with { type: "json" };
 import macronixRules from "./packs/macronix.json" with { type: "json" };
 import issiRules from "./packs/issi.json" with { type: "json" };
+import esmtRules from "./packs/esmt.json" with { type: "json" };
 
 export const defaultIdentifierDecodeSpecs = [
   ...micronIntelRules,
@@ -23,5 +24,6 @@ export const defaultIdentifierDecodeSpecs = [
   ...spectekRules,
   ...winbondRules,
   ...macronixRules,
-  ...issiRules
+  ...issiRules,
+  ...esmtRules
 ] as IdentifierDecodeSpec[];

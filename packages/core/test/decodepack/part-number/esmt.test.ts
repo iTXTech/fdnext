@@ -127,4 +127,48 @@ assertRuleDecode("F59D8G81KSA", {
   absentExtra: ["Package", "Speed Grade"]
 });
 
+assertRuleDecode("F59D1G161MB-45BIG2M", {
+  vendor: "esmt",
+  type: "NAND",
+  densityMbit: 1024,
+  cellField: "SLC",
+  widthField: "x16",
+  voltage: "1.8V (1.7V-1.95V)",
+  package: "BGA-63",
+  extra: {
+    "Interface Type": "Parallel NAND",
+    "Speed Grade": "45ns"
+  }
+});
+
+assertRuleDecode("F59D1G81MB-45BUIG2M", {
+  vendor: "esmt",
+  type: "NAND",
+  densityMbit: 1024,
+  cellField: "SLC",
+  widthField: "x8",
+  voltage: "1.8V (1.7V-1.95V)",
+  package: "BGA-48, 6.5x5",
+  extra: {
+    "Interface Type": "Parallel NAND",
+    "Speed Grade": "45ns"
+  }
+});
+
+assertRuleDecode("F59L4G161KA-25BCAG2R", {
+  vendor: "esmt",
+  type: "NAND",
+  densityMbit: 4096,
+  cellField: "SLC",
+  widthField: "x16",
+  voltage: "3.3V (2.7V-3.6V)",
+  package: "BGA-67",
+  extra: {
+    "Interface Type": "Parallel NAND",
+    "Speed Grade": "25ns"
+  }
+});
+
+assertRuleDoesNotMatch("vendor.esmt.raw.f59.v1", "F59D1G16MB-45BIG2M");
+assertRuleDoesNotMatch("vendor.esmt.raw.f59.v1", "F59D1G161MB-45UCIG2M");
 assertRuleDoesNotMatch("vendor.esmt.raw.f59.v1", "F50L2G41XA-104ZG");

@@ -33,13 +33,13 @@
 - CXMT：按 Rockchip/CSEKER 外部料号表补入 `CXDC/CXDD` LPDDR5/LPDDR5X family、density、layout/package 局部 token 与搜索 PN；按 EDN 实物拆解与开发板手册补入 `CXDQ2BFAM-CG` 的 4Gb x16 / DDR4-2400 组合 token；由 CSEKER、Rockchip QVL、ChromeOS non-SPD table、FCC BOM、官方原理图与公开器件表持续补全 standalone exact 搜索 PN。TechInsights 对 `CXDB6CCDM-MA` / `CXDBCCCDM-MA` 确认的不同实物高度只进入 evidence；public package 仅按 family + package token 输出，不建立 `6:CDM` / `C:CDM` 等近似完整 body 的组合映射。容量或封装相互冲突的 `CXDB7CCDM-MA-M` / `CXDQ2BFAM-CE-B` 继续排除。
 - BIWIN：standalone LPDDR4X/LPDDR5X、uMCP5X、TGE408 eMMC、ePoP/eMCP/current eMMC catalog。
 - Longsys / FORESEE：DDR3L、current eMMC/UFS/eMCP catalog；已有 SPI NAND 保留但不继续扩展。
-- ESMT：FC51 eMMC 5.1 与 F59L/F59D parallel SLC NAND；F50 SPI family 明确不命中。
+- ESMT：FC51 eMMC 5.1 与 F59L/F59D parallel SLC NAND；按原厂 ordering 补 `161=x16`、最长 package token `BU=BGA-48, 6.5x5`，并以 12 个完整五字节 tuple 严格解析 `C8` SLC Read ID 及 geometry。`C8` 不按厂商前缀泛化，F50 SPI family 继续明确不命中。
 - KIOXIA：XL-FLASH BA4R/BA8R/BA8S package token 与 legacy identifier 补齐；官方 Automotive UFS 4.1 的 128GB/256GB/512GB/1TB PN 已做全容量定向回归；补入 Automotive eMMC 5.1 Grade 2 / Grade 3 的 32GB~256GB exact PN line-up，新增 7 条搜索资源。本轮再按原厂 24nm parallel SLC datasheet 为 `98 A1/AA/AC/A3/D3` 五组完整 tuple 建立 exact geometry override；`D3` 只表达每 CE 8Gb，不从双 CE 封装反推 16Gb 总容量。
 - SanDisk：在确认 PN 没有独立 package token 后，按 family+density 外部表推断 iNAND package；不使用完整 PN 查表。官方 DoC 明确的 `SD7DP26A-XXXX` 只按固定 family + 四位 variant 结构归类为 MCP iNAND，修正原 raw NAND fallback 误判，不猜 capacity、接口版本、package 或 NAND generation。
 - Intel / SpecTek：legacy identifier、structured raw NAND suffix/status/package 与 `I29F` 厂商前缀变体。
 - Winbond：SDR DRAM 与 16 条官方 4Gb LPDDR4/LPDDR4X 4267 MT/s ordering PN 已覆盖；本轮按官方 datasheet 把既有 W29N01/02/04/08 并行 SLC NAND 扩展到 23 组完整 Read ID profile，并原地补齐 L 系列、D/Y package、独立 option/ECC token；未知 profile 仍只识别厂商。此前加入的 SPI NAND 保留但不再扩展。
 - Macronix：按官方 datasheet 覆盖 MX30LF/MX60LF 18AC、28AB/28AC/28AD，MX30UF/MX60UF 16/18AC/28AB/28AD、MX30UF4G28AC 与 MX30LF/MX30UF GE8AB internal-ECC 并行 SLC NAND Read ID；电压、位宽及不同代际/容量的 page/block/spare/ECC geometry 均逐 profile 保留。新增规则严格按官方 naming guide 拆分 MX30/MX60、voltage、density、ECC、width、mode、generation、package 与 temperature token；MX35 SPI family 明确不命中。
-- ISSI：按官方 SLC NAND part decoder 建立 IS34/IS35 的结构化 family、voltage、density、width、ECC、package、temperature 与 packing grammar；按 4Gb/8Gb datasheet 补入 6 条完整 `9D` Read ID geometry。归属冲突的 legacy `C8` ID 继续排除，不借厂商前缀泛化。
+- ISSI：按官方 SLC NAND part decoder 建立 IS34/IS35 的结构化 family、voltage、density、width、ECC、package、temperature 与 packing grammar；按 4Gb/8Gb datasheet 补入 6 条完整 `9D` Read ID geometry。`C8` 仍不归入 ISSI；只有 ESMT 原厂确认的 12 个完整 tuple 由独立 exact spec 覆盖。
 - Nanya：对 11 个官方 standalone component 页面合计 364 个 PN 做完整矩阵审计，补入此前缺少的 178 条 DDR2/DDR3/DDR3L/DDR4/DDR5 与 LPDDR2/3/4/4X exact 搜索 PN；package、speed、grade token 覆盖缺口均为 0，并新增 `6AT:I/H` 温区。KGD、Elixir 与所有模组产品未纳入。
 
 ## 已检索但资料不足，暂不写规则

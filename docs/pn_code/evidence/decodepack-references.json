@@ -3092,6 +3092,162 @@
         "examples": ["X4-6080", "PTS", "9BC65C954000"],
         "notes": "The official product page identifies X4-6080 as the first 2Tb 8-plane QLC die. The plane count is attached to the existing PTS profile and reused by process alias, PN and confirmed Flash ID mappings."
       }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/esmt-raw-token.json",
+      "spec_id": "vendor.esmt.raw.f59.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59d1g81mb_f59d1g161mb_ordering",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59D1G81MB and F59D1G161MB datasheet ordering table",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59D1G81MB%26F59D1G161MB%282M%29_operation%20temperature%20condition%20-40~85%E2%84%83.pdf",
+        "examples": ["F59D1G161MB-45BIG2M", "F59D1G81MB-45BUIG2M"],
+        "notes": "The official ordering table confirms width tokens 81 and 161 and longest package tokens T, BU, B and BC. BU is a 48-ball BGA with a 6.5x5 body."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/esmt-raw-token.json",
+      "spec_id": "vendor.esmt.raw.f59.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59l4g161ka_ordering",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59L4G161KA datasheet ordering table",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59L4G161KA%282R%29.pdf",
+        "examples": ["F59L4G161KA-25BCAG2R"],
+        "notes": "The official ordering table confirms the x16 component structure and BC 67-ball BGA package token."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
+      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59l1g81lb_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59L1G81LB datasheet Read ID and organization tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59L1G81LB%282M%29.pdf",
+        "examples": ["C8D1809542"],
+        "notes": "The datasheet confirms the exact 1Gb 3.3V x8 SLC tuple, one die and one plane, 2KB page, 64B spare, 128KB block and 1-bit ECC per 528B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
+      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59l1g81mb_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59L1G81MB datasheet Read ID and organization tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59L1G81MB%282M%29.pdf",
+        "examples": ["C8D1809540"],
+        "notes": "The datasheet confirms the exact 1Gb 3.3V x8 SLC tuple, one die and one plane, 2KB page, 64B spare, 128KB block and 4-bit ECC per 528B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
+      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59d1g81lb_f59d1g161lb_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59D1G81LB and F59D1G161LB datasheet Read ID and organization tables",
+        "url": "https://esmt.com.tw/upload/pdf/ESMT/datasheets/F59D1G81LB%26F59D1G161LB%282M%29.pdf",
+        "examples": ["C861801542", "C871805542", "C8618015427F", "C8718055427F"],
+        "notes": "The datasheet confirms the exact 1Gb 1.8V x8 and x16 SLC tuples, one die and one plane, equivalent 2KB-byte page geometry, 64B spare, 128KB block and 1-bit ECC per 512B or 256 words. The sixth Read ID cycle is 7F."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
+      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59d1g81mb_f59d1g161mb_read_ids",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59D1G81MB and F59D1G161MB datasheet Read ID and organization tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59D1G81MB%26F59D1G161MB%282M%29_operation%20temperature%20condition%20-40~85%E2%84%83.pdf",
+        "examples": ["C861801540", "C871805540", "C8618015407F", "C8718055407F"],
+        "notes": "The datasheet confirms the exact 1Gb 1.8V x8 and x16 SLC tuples, one die and one plane, equivalent 2KB-byte page geometry, 64B spare, 128KB block and 4-bit ECC per 512B or 256 words. The sixth Read ID cycle is 7F."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
+      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59l2g81ka_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59L2G81KA datasheet Read ID and organization tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59L2G81KA%282N%29.pdf",
+        "examples": ["C86A900434"],
+        "notes": "The datasheet confirms the exact 2Gb 3.3V x8 SLC tuple, one die and two planes, 2KB page, 128B spare, 128KB block and 8-bit ECC per 512B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
+      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59d2g81ka_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59D2G81KA datasheet Read ID and organization tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59D2G81KA%282N%29.pdf",
+        "examples": ["C85A900434"],
+        "notes": "The datasheet confirms the exact 2Gb 1.8V x8 SLC tuple, one die and two planes, 2KB page, 128B spare, 128KB block and 8-bit ECC per 512B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
+      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59l4g81ka_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59L4G81KA datasheet Read ID and organization tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59L4G81KA%282R%29_operation%20temperature%20condition%20-40~85%E2%84%83.pdf",
+        "examples": ["C8DC801930"],
+        "notes": "The datasheet confirms the exact 4Gb 3.3V x8 SLC tuple, one die and one plane, 4KB page, 256B spare, 256KB block and 8-bit ECC per 512B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
+      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59l4g161ka_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59L4G161KA datasheet Read ID and organization tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59L4G161KA%282R%29.pdf",
+        "examples": ["C8AC80E657"],
+        "notes": "The datasheet confirms the exact 4Gb 3.3V x16 SLC tuple, one die and one plane, equivalent 4KB-byte page geometry, 256B spare, 256KB block and 8-bit ECC per 256 words."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
+      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59l8g81ksa_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59L8G81KSA datasheet Read ID and organization tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59L8G81KSA%282R%29.pdf",
+        "examples": ["C8D3811930"],
+        "notes": "The datasheet confirms the exact 8Gb 3.3V x8 SLC tuple, two dies and one plane per die, 4KB page, 256B spare, 256KB block and 8-bit ECC per 512B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
+      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "scope": "spec",
+      "entry_key": "esmt_f59d8g81ksa_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "ESMT F59D8G81KSA datasheet Read ID and organization tables",
+        "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59D8G81KSA%282R%29_operation%20temperature%20condition%20-40~85%E2%84%83.pdf",
+        "examples": ["C8A3811930"],
+        "notes": "The datasheet confirms the exact 8Gb 1.8V x8 SLC tuple, two dies and one plane per die, 4KB page, 256B spare, 256KB block and 8-bit ECC per 512B."
+      }
     }
   ]
 }
