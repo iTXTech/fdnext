@@ -3001,6 +3001,84 @@
         "examples": ["9D6C80193040", "9DAC80193040", "9D6380193040", "9D5380193040", "9DA380193040", "9D9380193040"],
         "notes": "The exact 9D profiles confirm density, voltage, width, die count, one plane per die, 4KB page, 256B spare, 256KB block and 8-bit ECC per 512B. Ambiguous legacy C8 IDs remain excluded."
       }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
+      "spec_id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+      "scope": "spec",
+      "entry_key": "kioxia_tc58nyg0s3hbai4_24nm_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "KIOXIA TC58NYG0S3HBAI4 datasheet Read ID and organization tables",
+        "url": "https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TC58NYG0S3HBAI4-TDE_EN_31426.pdf",
+        "examples": ["98A1801572"],
+        "notes": "The official datasheet confirms the exact 1Gb-per-target 1.8V x8 SLC tuple, Internal Chip Number 1 and Plane/District Number 1, 2KB page, 128B spare, 128KB block and 8-bit ECC per 512B. Internal Chip Number is mapped to the project's die_count field."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
+      "spec_id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+      "scope": "spec",
+      "entry_key": "kioxia_tc58nyg1s3hbai4_24nm_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "KIOXIA TC58NYG1S3HBAI4 datasheet Read ID and organization tables",
+        "url": "https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TC58NYG1S3HBAI4-TDE_EN_31443.pdf",
+        "examples": ["98AA901576"],
+        "notes": "The official datasheet confirms the exact 2Gb-per-target 1.8V x8 SLC tuple, Internal Chip Number 1 and Plane/District Number 2, 2KB page, 128B spare, 128KB block and 8-bit ECC per 512B. Internal Chip Number is mapped to the project's die_count field."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
+      "spec_id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+      "scope": "spec",
+      "entry_key": "kioxia_tc58nyg2s0hbai4_24nm_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "KIOXIA TC58NYG2S0HBAI4 datasheet Read ID and organization tables",
+        "url": "https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TC58NYG2S0HBAI4-TDE_EN_31446.pdf",
+        "examples": ["98AC902676"],
+        "notes": "The official datasheet confirms the exact 4Gb-per-target 1.8V x8 SLC tuple, Internal Chip Number 1 and Plane/District Number 2, 4KB page, 256B spare, 256KB block and 8-bit ECC per 512B. Internal Chip Number is mapped to the project's die_count field."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
+      "spec_id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+      "scope": "spec",
+      "entry_key": "kioxia_th58nyg3s0hbai4_24nm_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "KIOXIA TH58NYG3S0HBAI4 datasheet Read ID and organization tables",
+        "url": "https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TH58NYG3S0HBAI4-TDE_EN_31565.pdf",
+        "examples": ["98A3912676"],
+        "notes": "The official datasheet confirms the exact 8Gb-per-target 1.8V x8 SLC tuple, Internal Chip Number 2 and District Number 2, 4KB page, 256B spare, 256KB block and 8-bit ECC per 512B. Internal Chip Number is mapped to the project's die_count field without reinterpreting the district count per die."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
+      "spec_id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+      "scope": "spec",
+      "entry_key": "kioxia_th58nvg3s0hta00_24nm_slc_read_id",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "KIOXIA TH58NVG3S0HTA00 datasheet Read ID and organization tables",
+        "url": "https://www.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/201910/DST_TH58NVG3S0HTA00-TDE_EN_31580.pdf",
+        "examples": ["98D3912676"],
+        "notes": "The official datasheet confirms the exact 8Gb-per-target 3.3V x8 SLC tuple, Internal Chip Number 2 and Plane Number 2, 4KB page, 256B spare, 256KB block and 8-bit ECC per 512B. Internal Chip Number is mapped to the project's die_count field without dividing plane_count. A dual-CE 16Gb package returns the same 8Gb tuple per CE, so the decoder does not infer package-total density."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/sandisk-inand-managed-token.json",
+      "spec_id": "vendor.sndk.inand.mcp.sd7dp26a.v1",
+      "scope": "spec",
+      "entry_key": "sandisk_sd7dp26a_mcp_inand_family",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Western Digital and SanDisk SD7DP26A-XXXX EU RoHS Declaration of Conformity",
+        "url": "https://documents.westerndigital.com/content/dam/doc-library/en_us/assets/public/western-digital/collateral/cert/rohs/SD7DP26A-XXXX%20SanDisk%20RoHS%20DoC.pdf",
+        "examples": ["SD7DP26A-XXXX"],
+        "notes": "The official declaration classifies the fixed SD7DP26A family with a four-character variant placeholder as MCP iNAND. It does not support capacity, interface version, package or NAND-generation decoding."
+      }
     }
   ]
 }

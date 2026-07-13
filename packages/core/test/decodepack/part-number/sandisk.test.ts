@@ -31,6 +31,45 @@ import {
   assertSubtitle
 } from "./_helpers";
 
+assertRuleDecode("SD7DP26A-XXXX", {
+  vendor: "sndk",
+  type: "managed_nand",
+  extra: {
+    "Product Family": "MCP iNAND"
+  },
+  absentExtra: [
+    "Storage Density",
+    "Storage Interface",
+    "Product Version",
+    "Package",
+    "NAND Technology",
+    "Product Generation",
+    "Process",
+    "Layer Count"
+  ]
+});
+
+const sandiskMcpResult = engine.decodePart({ query: "SD7DP26A-XXXX", lang: "eng" });
+assert.equal(sandiskMcpResult.status, "ok");
+assert.equal(sandiskMcpResult.device?.chipKind, "managed_nand");
+assert.equal(sandiskMcpResult.device?.productType, undefined);
+for (const key of ["density", "storage_density", "storage_interface", "product_version", "package", "generation_info", "die_codename", "layer_count"]) {
+  assert.equal(firstField(sandiskMcpResult, key), undefined, `SD7DP26A-XXXX should not expose ${key}`);
+}
+
+const sandiskMcpDecoder = compiledPack.partDecoders.find((decoder) => decoder.id === "vendor.sndk.inand.mcp.sd7dp26a.v1");
+const sandiskRawFallbackPriority = Math.max(
+  ...compiledPack.partDecoders
+    .filter((decoder) => decoder.id.startsWith("vendor.sndk.raw.") || decoder.id === "vendor.sndk.token.v1")
+    .map((decoder) => decoder.priority ?? 0)
+);
+assert.ok(sandiskMcpDecoder?.match("SD7DP26A-XXXX"));
+assert.ok((sandiskMcpDecoder?.priority ?? 0) > sandiskRawFallbackPriority);
+assertRuleDoesNotMatch("vendor.sndk.inand.mcp.sd7dp26a.v1", "SD7DP26A-XXX");
+assertRuleDoesNotMatch("vendor.sndk.inand.mcp.sd7dp26a.v1", "SD7DP26A-XXXXX");
+assertRuleDoesNotMatch("vendor.sndk.inand.mcp.sd7dp26a.v1", "SD7DP26B-XXXX");
+assertRuleDoesNotMatch("vendor.sndk.inand.mcp.sd7dp26a.v1", "SD7DP26A_XXXX");
+
 assertRuleDecode("SDINBDA6-256G-XI1", {
   vendor: "sndk",
   type: "eMMC",

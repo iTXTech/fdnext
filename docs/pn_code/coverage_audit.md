@@ -34,8 +34,8 @@
 - BIWIN：standalone LPDDR4X/LPDDR5X、uMCP5X、TGE408 eMMC、ePoP/eMCP/current eMMC catalog。
 - Longsys / FORESEE：DDR3L、current eMMC/UFS/eMCP catalog；已有 SPI NAND 保留但不继续扩展。
 - ESMT：FC51 eMMC 5.1 与 F59L/F59D parallel SLC NAND；F50 SPI family 明确不命中。
-- KIOXIA：XL-FLASH BA4R/BA8R/BA8S package token 与 legacy identifier 补齐；官方 Automotive UFS 4.1 的 128GB/256GB/512GB/1TB PN 已做全容量定向回归；补入 Automotive eMMC 5.1 Grade 2 / Grade 3 的 32GB~256GB exact PN line-up，新增 7 条搜索资源。
-- SanDisk：在确认 PN 没有独立 package token 后，按 family+density 外部表推断 iNAND package；不使用完整 PN 查表。
+- KIOXIA：XL-FLASH BA4R/BA8R/BA8S package token 与 legacy identifier 补齐；官方 Automotive UFS 4.1 的 128GB/256GB/512GB/1TB PN 已做全容量定向回归；补入 Automotive eMMC 5.1 Grade 2 / Grade 3 的 32GB~256GB exact PN line-up，新增 7 条搜索资源。本轮再按原厂 24nm parallel SLC datasheet 为 `98 A1/AA/AC/A3/D3` 五组完整 tuple 建立 exact geometry override；`D3` 只表达每 CE 8Gb，不从双 CE 封装反推 16Gb 总容量。
+- SanDisk：在确认 PN 没有独立 package token 后，按 family+density 外部表推断 iNAND package；不使用完整 PN 查表。官方 DoC 明确的 `SD7DP26A-XXXX` 只按固定 family + 四位 variant 结构归类为 MCP iNAND，修正原 raw NAND fallback 误判，不猜 capacity、接口版本、package 或 NAND generation。
 - Intel / SpecTek：legacy identifier、structured raw NAND suffix/status/package 与 `I29F` 厂商前缀变体。
 - Winbond：SDR DRAM 与 16 条官方 4Gb LPDDR4/LPDDR4X 4267 MT/s ordering PN 已覆盖；本轮按官方 datasheet 把既有 W29N01/02/04/08 并行 SLC NAND 扩展到 23 组完整 Read ID profile，并原地补齐 L 系列、D/Y package、独立 option/ECC token；未知 profile 仍只识别厂商。此前加入的 SPI NAND 保留但不再扩展。
 - Macronix：按官方 datasheet 覆盖 MX30LF/MX60LF 18AC、28AB/28AC/28AD，MX30UF/MX60UF 16/18AC/28AB/28AD、MX30UF4G28AC 与 MX30LF/MX30UF GE8AB internal-ECC 并行 SLC NAND Read ID；电压、位宽及不同代际/容量的 page/block/spare/ECC geometry 均逐 profile 保留。新增规则严格按官方 naming guide 拆分 MX30/MX60、voltage、density、ECC、width、mode、generation、package 与 temperature token；MX35 SPI family 明确不命中。

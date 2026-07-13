@@ -1,5 +1,64 @@
 [
   {
+    "id": "vendor.sndk.inand.mcp.sd7dp26a.v1",
+    "priority": 1008,
+    "normalize": [
+      "trim",
+      "uppercase"
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^SD7DP26A-[0-9A-Z]{4}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "SD"
+      ],
+      "tables": {
+        "familyObj": {
+          "7DP26A": {
+            "product_family": "MCP iNAND"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 6,
+          "to": "familyCode"
+        },
+        {
+          "op": "map",
+          "from": "familyCode",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9A-Z]{4}$",
+          "to": "variantToken"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "sndk",
+        "device.chipKind": "managed_nand",
+        "fields": {
+          "$var": "familyObj"
+        },
+        "meta.ruleId": "vendor.sndk.inand.mcp.sd7dp26a.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.sndk.inand.managed.v1",
     "priority": 1007,
     "normalize": [

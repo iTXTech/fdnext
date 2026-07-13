@@ -118,15 +118,34 @@ KIOXIA 当前 datasheet 还直接确认 `98 F1 80 15 72`、`98 DA 90 15 76`、
 既有 ID 继续走原有 fallback，不用当前资料覆盖历史或更新的 mapping。对应 2Gbit
 和 4Gbit 资料：<https://www.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/201910/DST_TC58NVG1S3HTA00-TDE_EN_31442.pdf>、<https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TC58NVG2S0HBAI4-TDE_EN_31440.pdf>。
 
+24nm parallel SLC datasheet 进一步确认五组完整 Read ID configuration。1.8V 系列
+`98 A1 80 15 72` / `98 AA 90 15 76` / `98 AC 90 26 76` /
+`98 A3 91 26 76` 分别对应每 target 1/2/4/8Gbit；3.3V
+`98 D3 91 26 76` 对应每 target 8Gbit。A1/AA 使用 2KiB page、128KiB block、
+128B redundant area，AC/A3/D3 使用 4KiB page、256KiB block、256B
+redundant area；五组均要求 8bit/512B ECC。规则以完整 2nd–5th byte tuple 精确匹配，并只允许沿用现有的单个
+`00` padding；相邻 configuration 继续走通用 fallback。来源：
+<https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TC58NYG0S3HBAI4-TDE_EN_31426.pdf>、
+<https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TC58NYG1S3HBAI4-TDE_EN_31443.pdf>、
+<https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TC58NYG2S0HBAI4-TDE_EN_31446.pdf>、
+<https://americas.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TH58NYG3S0HBAI4-TDE_EN_31565.pdf>、
+<https://www.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/201910/DST_TH58NVG3S0HTA00-TDE_EN_31580.pdf>。
+
+`98 D3 91 26 76` 也会由双 CE 的 16Gbit `TH58NVG4` package 分 CE 返回；因此
+Flash ID decoder 只输出 tuple 能确认的每 target/CE 8Gbit，不把 package 总容量
+反推成 16Gbit。该边界由 16Gbit datasheet 的 CE-level Read ID 表交叉确认：
+<https://www.kioxia.com/content/dam/kioxia/newidr/productinfo/datasheet/202502/DST_TH58NVG4S0HTAK0-TDE_EN_35719.pdf>。
+
 | ID byte | 当前解析 |
 | --- | --- |
 | 2nd byte | `density`，按 per-target density 输出 Mbit |
-| 3rd byte `DQ1..DQ0` | `die_count`；KIOXIA ID 中 LUN count 与 die count 同义 |
+| 3rd byte `DQ1..DQ0` | 原厂 `Internal Chip Number`；项目映射为 `die_count`，文档不把该映射写成原厂逐字定义 |
 | 3rd byte `DQ3..DQ2` | `cell_level`，2/4/8/16 level cell 对应 SLC/MLC/TLC/QLC |
 | 4th byte `DQ1..DQ0` | `page_size`，输出 byte；当前 SLC 三组已确认 configuration 使用 datasheet 位定义，其他 ID 保留既有 fallback |
 | 4th byte `DQ7,DQ5,DQ4` | `block_size`，输出 byte；当前 SLC 三组已确认 configuration 使用 datasheet 位定义，其他 ID 保留既有 fallback |
-| 5th byte `DQ3..DQ2` | target-level `plane_count`；`8/16` case 在 multi-die ID 中按 16 处理，再由 core postprocess 除以 `die_count` 输出 per-die plane count |
+| 5th byte `DQ3..DQ2` | 原厂 ID table 的 plane / district count，直接输出 `plane_count`，不再按 die 数二次换算 |
 | 已确认的完整 2nd–5th byte configuration | `redundant_area_size`；该值不是通用 ID 位域，不向其他 ID 泛化 |
+| 已确认的完整 2nd–5th byte configuration | `ecc_level`；五组 24nm SLC exact tuple 输出 `8bit/512B`，不向相邻 ID 泛化 |
 | 6th byte `DQ6..DQ0` | legacy 2D `die_codename`；`50/D0` = A19nm, `51/D1` = 15nm, `55/D5` = 32nm, `56/D6` = 24nm, `57/D7` = 19nm |
 | 6th byte `DQ5,DQ2..DQ0` | BiCS `die_codename`，映射到 KIOXIA-scoped BiCS profile key |
 | 6th byte `DQ7` | `interface_type`，`0` = Conventional，`1` = Toggle Mode |
@@ -142,13 +161,18 @@ process token 仍以 PN 解析为准。
 
 | Flash ID | 关键输出 |
 | --- | --- |
+| `98A1801572` | 1Gbit per target, 1.8V x8 SLC, 1 internal chip, 1 plane/district, 24nm, 2KiB page, 128KiB block |
+| `98AA901576` | 2Gbit per target, 1.8V x8 SLC, 1 internal chip, 2 planes/districts, 24nm, 2KiB page, 128KiB block |
+| `98AC902676` | 4Gbit per target, 1.8V x8 SLC, 1 internal chip, 2 planes/districts, 24nm, 4KiB page, 256KiB block |
+| `98A3912676` | 8Gbit per target, 1.8V x8 SLC, 2 internal chips, 2 districts/planes, 24nm, 4KiB page, 256KiB block |
+| `98D3912676` | 8Gbit per target/CE, 3.3V x8 SLC, 2 internal chips, 2 districts/planes, 24nm, 4KiB page, 256KiB block |
 | `983AA0B17EE3` | 128Gbit per target, SLC, 1 die, 8 planes, Toggle Mode, BiCS4 |
-| `983CA1B17EE3` | 256Gbit per target, SLC, 2 die, 8 planes per die, Toggle Mode, BiCS4 |
+| `983CA1B17EE3` | 256Gbit per target, SLC, 2 die, 8 planes/districts, Toggle Mode, BiCS4 |
 | `983A94937651` / `983A949376D1` | 128Gbit per target, MLC, 1 die, 2 planes, 15nm |
-| `983A95937A50` / `983A95937AD0` | 128Gbit per target, MLC, 2 die, 2 planes, A19nm |
-| `983A95937A57` / `983A95937AD7` | 128Gbit per target, MLC, 2 die, 2 planes, 19nm |
-| `983A95827A55` / `983A95827AD5` | 128Gbit per target, MLC, 2 die, 2 planes, 32nm |
-| `983A95827A56` / `983A95827AD6` | 128Gbit per target, MLC, 2 die, 2 planes, 24nm |
+| `983A95937A50` / `983A95937AD0` | 128Gbit per target, MLC, 2 die, 4 planes/districts, A19nm |
+| `983A95937A57` / `983A95937AD7` | 128Gbit per target, MLC, 2 die, 4 planes/districts, 19nm |
+| `983A95827A55` / `983A95827AD5` | 128Gbit per target, MLC, 2 die, 4 planes/districts, 32nm |
+| `983A95827A56` / `983A95827AD6` | 128Gbit per target, MLC, 2 die, 4 planes/districts, 24nm |
 
 ## 输出字段
 
@@ -159,6 +183,10 @@ process token 仍以 PN 解析为准。
 - `voltage`
 - `interface_type`
 - `plane_count`
+- `page_size`
+- `block_size`
+- `redundant_area_size`
+- `ecc_level`
 - `package`
 - `lead_free`
 - `halogen_free`

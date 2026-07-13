@@ -19,6 +19,13 @@ function fieldsFor(id: string): Record<string, unknown> {
   return explain.draft?.fields ?? {};
 }
 
+function exact24nmFieldsFor(id: string): Record<string, unknown> {
+  const explain = explainIdentifierDecode(defaultDecodePack, id);
+  assert.equal(explain.status, "matched", `${id} should match the KIOXIA 24nm exact identifier spec`);
+  assert.equal(explain.specId, "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1");
+  return explain.draft?.fields ?? {};
+}
+
 function resultFieldsFor(id: string): Record<string, unknown> {
   const result = engine.decodeIdentifier({ query: id, lang: "eng" });
   assert.equal(result.status, "ok", `${id} should decode through the public identifier API`);
@@ -52,6 +59,50 @@ test("KIOXIA current SLC Read IDs preserve the datasheet page, block, and spare 
     assert.equal(result.redundant_area_size, spareSize);
     assert.equal(result.plane_count, planes);
   }
+});
+
+test("KIOXIA 24nm parallel SLC exact IDs preserve per-target density and datasheet geometry", () => {
+  const cases: Array<[string, number, string, number, number, number, number, string]> = [
+    ["98A1801572", 1024, "Vcc: 1.8V", 1, 1, 2048, 131072, "128B"],
+    ["98AA901576", 2048, "Vcc: 1.8V", 1, 2, 2048, 131072, "128B"],
+    ["98AC902676", 4096, "Vcc: 1.8V", 1, 2, 4096, 262144, "256B"],
+    ["98A3912676", 8192, "Vcc: 1.8V", 2, 2, 4096, 262144, "256B"],
+    ["98D391267600", 8192, "Vcc: 3.3V", 2, 2, 4096, 262144, "256B"]
+  ];
+
+  for (const [id, density, voltage, dieCount, planes, pageSize, blockSize, spareSize] of cases) {
+    const explain = exact24nmFieldsFor(id);
+    assert.equal(explain.density, density);
+    assert.equal(explain.cell_level, 1);
+    assert.equal(explain.device_width, "x8");
+    assert.equal(explain.voltage, voltage);
+    assert.equal(explain.die_codename, "TSB24");
+    assert.equal(explain.die_count, dieCount);
+    assert.equal(explain.page_size, pageSize);
+    assert.equal(explain.block_size, blockSize);
+    assert.equal(explain.redundant_area_size, spareSize);
+    assert.equal(explain.plane_count, planes);
+    assert.equal(explain.ecc_level, "8bit/512B");
+
+    const result = resultFieldsFor(id);
+    assert.equal(result.density, density);
+    assert.equal(result.cell_level, "SLC");
+    assert.equal(result.device_width, 8);
+    assert.equal(result.voltage, voltage);
+    assert.equal(result.die_codename, "24nm");
+    assert.equal(result.die_count, dieCount);
+    assert.equal(result.page_size, pageSize);
+    assert.equal(result.block_size, blockSize);
+    assert.equal(result.redundant_area_size, spareSize);
+    assert.equal(result.plane_count, planes);
+    assert.equal(result.ecc_level, "8bit/512B");
+  }
+});
+
+test("KIOXIA 24nm exact profiles do not broaden to neighboring Read IDs", () => {
+  const explain = explainIdentifierDecode(defaultDecodePack, "98AA901577");
+  assert.equal(explain.status, "matched");
+  assert.equal(explain.specId, "identifier.nand_flash_id.kioxia.v1");
 });
 
 test("KIOXIA legacy IDs outside the confirmed current configurations keep the existing fallback", () => {

@@ -92,7 +92,7 @@ assertExplainField("983CA1B17EE3", "density", 262144);
 assertExplainField("983CA1B17EE3", "die_count", 2);
 assertExplainField("983CA1B17EE3", "cell_level", 1);
 assertExplainField("983CA1B17EE3", "page_size", 4096);
-assertExplainField("983CA1B17EE3", "plane_count", 16);
+assertExplainField("983CA1B17EE3", "plane_count", 8);
 assertExplainField("983CA1B17EE3", "interface_type", "Toggle Mode");
 assertExplainField("983CA1B17EE3", "die_codename", "KBiCS4");
 assertResultField("983CA1B17EE3", "plane_count", 8);
@@ -114,6 +114,21 @@ const kioxia2dProcessIds: Array<[string, string, string]> = [
 for (const [id, profileKey, display] of kioxia2dProcessIds) {
   assertExplainField(id, "die_codename", profileKey);
   assertResultField(id, "die_codename", display);
+}
+
+for (const id of [
+  "983A95937A50",
+  "983A95937AD0",
+  "983A95937A57",
+  "983A95937AD7",
+  "983A95827A55",
+  "983A95827AD5",
+  "983A95827A56",
+  "983A95827AD6"
+]) {
+  assertExplainField(id, "die_count", 2);
+  assertExplainField(id, "plane_count", 4);
+  assertResultField(id, "plane_count", 4);
 }
 
 assertExplainField("ECC1843200C1", "die_codename", "SSV6");

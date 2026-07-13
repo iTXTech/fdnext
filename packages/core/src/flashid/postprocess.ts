@@ -359,23 +359,6 @@ function patchSkhynix(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null
   return changed ? next : null;
 }
 
-function patchKioxiaLike(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
-  const next = cloneIdentifierDraft(info);
-  let changed = false;
-
-  const plane = typeof draftField(info, "plane_count") === "number" ? draftField(info, "plane_count") as number : null;
-  const die = typeof draftField(info, "die_count") === "number" ? draftField(info, "die_count") as number : null;
-  if (plane && die && plane > 0 && die > 0) {
-    const div = plane / die;
-    if (Number.isInteger(div) && div > 0) {
-      setDraftField(next, "plane_count", div);
-      changed = true;
-    }
-  }
-
-  return changed ? next : null;
-}
-
 function patchYmtc(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null {
   const dieCodename = lookupDieCodename(draftIdentifier(info), YMTC_PROCESS_LOOKUPS);
   if (!dieCodename) {
@@ -405,7 +388,6 @@ export function createDefaultIdentifierPostprocessor(): DecodeDraftPostprocessor
       if (vendor === "micron" || vendor === "intel" || vendor === "spectek") patch = patchMicronLike(info);
       else if (vendor === "samsung") patch = patchSamsungQlcIdentifier(info);
       else if (vendor === "skhynix") patch = patchSkhynix(info);
-      else if (vendor === "kioxia" || vendor === "sndk") patch = patchKioxiaLike(info);
       else if (vendor === "ymtc") patch = patchYmtc(info);
 
       return patch ?? info;
