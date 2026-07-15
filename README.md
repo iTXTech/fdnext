@@ -25,7 +25,7 @@
 - **Flash ID Decoding:** Deep inspection of NAND Flash IDs through a typed identifier API.
 - **Smart Resource Flow:** Bundled `fdb`, `mdb`, and language packs with Micron FBGA code lookup.
 - **Universal Dispatch:** Shared runtime layer for native Node.js HTTP, Cloudflare Workers, and Aliyun FC.
-- **Data Maintenance:** CLI tools for FDB/MDB generation, crawling, and DecodePack management.
+- **Data Maintenance:** CLI tools for FDB/MDB generation, crawling, DecodePack management, and evidence metadata auditing.
 
 ---
 
@@ -35,6 +35,8 @@
 
 - **Core ([`@itxtech/fdnext-core`](packages/core)):** Engine, DecodePack rules/compiler, embedded resources, result contract, and shared runtime.
 - **Adapters:** Native support for [Node.js HTTP](packages/server), [Cloudflare Workers](packages/cf-workers), and [Aliyun FC](packages/aliyun-fc).
+- **Data Tools ([`@itxtech/fdbgen`](packages/fdbgen)):** Database generation, MDB crawling, and resource aggregation tools.
+- **Testing ([`@itxtech/fdnext-contract-test`](packages/contract-test)):** Result schema and behavior contract validation.
 - **Legacy compatibility:** [`@itxtech/fd-server`](packages/fd-server) exposes the old FlashDetector / FDWebServer HTTP API for FlashMaster Classic migration deployments, with Cloudflare Workers as the preferred deployment path.
 
 ---
@@ -45,7 +47,7 @@ This project uses [pnpm](https://pnpm.io/) for workspace management.
 
 ### Prerequisites
 - Node.js 24+
-- pnpm 10+
+- pnpm 11+
 
 ### Quick Start
 ```bash
@@ -71,6 +73,8 @@ pnpm test
 | `pnpm check` | Run the fast static and DecodePack rule gate |
 | `pnpm check:pr` | Build once, then run the complete source/package contract gate |
 | `pnpm lint` | Alias for `pnpm check:static` |
+| `pnpm cli` | Run the core CLI tools (DecodePack management) |
+| `pnpm fdbgen:generate` | Generate the FDB database |
 
 ---
 
@@ -78,8 +82,8 @@ pnpm test
 
 | Area | Product Families | Supported Vendors |
 | :--- | :--- | :--- |
-| **NAND PN** | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk/WD, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion |
-| **DRAM PN** | DDR, LPDDR (Density, Gen, Package, Speed, etc.) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, GigaDevice, ISSI, Winbond |
+| **NAND PN** | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk/WD, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion, ESMT, Macronix, Spectek, Intel |
+| **DRAM PN** | DDR, LPDDR (Density, Gen, Package, Speed, etc.) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, GigaDevice, ISSI, Winbond, ESMT, Etron, Spectek, BIWIN, Longsys |
 
 ---
 

@@ -25,7 +25,7 @@
 - **Flash ID 解析:** 通过 typed identifier API 对 NAND Flash ID 进行深度检查。
 - **智能资源流:** 内置 `fdb`、`mdb`、语言包，并支持 Micron FBGA 代码反查。
 - **通用调度:** 为 Hapi、Cloudflare Workers 和阿里云 FC 提供共享 runtime 层。
-- **数据维护:** 提供用于 FDB/MDB 生成、爬取和 DecodePack 管理的 CLI 工具。
+- **数据维护:** 提供用于 FDB/MDB 生成、爬取、DecodePack 管理以及证据元数据审计的 CLI 工具。
 
 ---
 
@@ -35,6 +35,8 @@
 
 - **核心 ([`@itxtech/fdnext-core`](packages/core)):** 引擎、DecodePack 规则 / 编译器、内置资源、result contract 和共享 runtime。
 - **适配器:** 原生支持 [Hapi](packages/server), [Cloudflare Workers](packages/cf-workers), 和 [阿里云 FC](packages/aliyun-fc)。
+- **数据工具 ([`@itxtech/fdbgen`](packages/fdbgen)):** 提供 FDB 数据库生成、MDB 爬虫及资源聚合等工具。
+- **测试与契约 ([`@itxtech/fdnext-contract-test`](packages/contract-test)):** 结果 schema 及行为 contract 验证。
 - **旧接口兼容:** [`@itxtech/fd-server`](packages/fd-server) 为 FlashMaster Classic 迁移部署提供旧 FlashDetector / FDWebServer HTTP API，并以 Cloudflare Workers 作为首选部署方式。
 
 ---
@@ -45,7 +47,7 @@
 
 ### 前置条件
 - Node.js 24+
-- pnpm 10+
+- pnpm 11+
 
 ### 快速开始
 ```bash
@@ -71,6 +73,8 @@ pnpm test
 | `pnpm check` | 运行轻量静态检查与 DecodePack 规则门禁 |
 | `pnpm check:pr` | 只构建一次并运行完整源码与发布包 contract 门禁 |
 | `pnpm lint` | `pnpm check:static` 的兼容别名 |
+| `pnpm cli` | 运行核心 CLI 工具（DecodePack 管理等） |
+| `pnpm fdbgen:generate` | 生成 FDB 数据库 |
 
 ---
 
@@ -78,8 +82,8 @@ pnpm test
 
 | 范围 | 产品族 | 当前覆盖厂商 |
 | :--- | :--- | :--- |
-| **NAND PN** | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk/WD, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion |
-| **DRAM PN** | DDR, LPDDR (容量, 代际, 封装, 速度等) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, GigaDevice, ISSI, Winbond |
+| **NAND PN** | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk/WD, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion, ESMT, Macronix, Spectek, Intel |
+| **DRAM PN** | DDR, LPDDR (容量, 代际, 封装, 速度等) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, GigaDevice, ISSI, Winbond, ESMT, Etron, Spectek, BIWIN, Longsys |
 
 ---
 
