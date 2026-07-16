@@ -901,6 +901,41 @@ for (const partNumber of [
   assert.doesNotMatch(packageValue, /Rev|ball|mm|pin|Unknown/i, `${partNumber} should not leak package notes`);
 }
 assertUnknown("AMD41J128M16HA-107G:D");
+
+for (const sample of [
+  { pn: "MT40A16G4GNA-062H ES:E", densityMbit: 65536, width: "x4" },
+  { pn: "MT41P512M8RH-125:J", densityMbit: 4096, width: "x8" },
+  { pn: "MT41X256M8DA-A:M", densityMbit: 2048, width: "x8" },
+  { pn: "MT42L32M64D2KH-25 IT:A", densityMbit: 2048, width: "x64" },
+  { pn: "MT44K128M18RCT-093F:A", densityMbit: 2304, width: "x18" },
+  { pn: "MT44K16M36RB-093E:A", densityMbit: 576, width: "x36" },
+  { pn: "MT44K32M18RB-093E:A", densityMbit: 576, width: "x18" },
+  { pn: "MT44K32M36RCT-125E:A", densityMbit: 1152, width: "x36" },
+  { pn: "MT44K64M18RCT-125E:A", densityMbit: 1152, width: "x18" },
+  { pn: "MT44K64M36RCT-093F:A", densityMbit: 2304, width: "x36" },
+  { pn: "MT46H24M32LACG-6:A", densityMbit: 768, width: "x32" },
+  { pn: "MT46V32M4BJ-75", densityMbit: 128, width: "x4" },
+  { pn: "MT46H32M64L2GR-54 IT ES:A", densityMbit: 2048, width: "x64" },
+  { pn: "MT46H96M32L2KQ-5 IT:A", densityMbit: 3072, width: "x32" },
+  { pn: "MT48LC16M4A2FB-8E ES", densityMbit: 64, width: "x4" },
+  { pn: "MT48LC32M4A2BB-75", densityMbit: 128, width: "x4" },
+  { pn: "MT48LC8M8A2TG-6A IT:J", densityMbit: 64, width: "x8" },
+  { pn: "MT62F1536M48D3JR-018DXT:B", densityMbit: 73728, width: "x48" },
+  { pn: "MT62F1536M96D6JR-020DXT:B", densityMbit: 147456, width: "x96" },
+  { pn: "MT62F16G32DADV-023S:D", densityMbit: 524288, width: "x32" },
+  { pn: "MT62F768M96D6KL-020 XT:D", densityMbit: 73728, width: "x96" },
+  { pn: "EE62F8G16D8DV-026 WTEE:D", densityMbit: 131072, width: "x16" }
+] as const) {
+  const info = detect(sample.pn);
+  assert.equal(info.vendor, "micron", `${sample.pn} should decode as Micron DRAM`);
+  assert.equal(info.densityMbit, sample.densityMbit, `${sample.pn} should decode structural component density`);
+  assert.equal(info.widthField, sample.width, `${sample.pn} should decode structural component width`);
+}
+
+assertDecodedFieldAbsent("MT44K128M18RCT-093F:A", "package");
+assertDecodedFieldAbsent("MT41P512M8RH-125:J", "dram_voltage");
+assertDecodedFieldAbsent("MT41X256M8DA-A:M", "dram_voltage");
+
 assertDram("MT47R64M16HR-3ES:E", {
   densityMbit: 1024,
   density: "1Gb",
@@ -921,7 +956,7 @@ const ddr5Expected = {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "FBGA-82, 9x11",
+  package: "VFBGA-82, 9x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -971,7 +1006,7 @@ assertDram("MT60B2G8HB-32B:A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "FBGA-82, 9x11",
+  package: "VFBGA-82, 9x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -987,7 +1022,7 @@ assertDram("MT60B2G8HB-44B:A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "FBGA-82, 9x11",
+  package: "VFBGA-82, 9x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -1003,7 +1038,7 @@ assertDram("MT60B3G8RW-64B:B", {
   density: "24Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "FBGA-78, 8x11",
+  package: "VFBGA-78, 8x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "RW",
@@ -1019,7 +1054,7 @@ assertDram("MT60B1536M16RV-56B:B", {
   density: "24Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "FBGA-102, 8x14",
+  package: "VFBGA-102, 8x14x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "RV",
@@ -1035,7 +1070,7 @@ assertDram("MT60B4G8AT-64B:B", {
   density: "32Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "FBGA-78, 7.5x11.5",
+  package: "VFBGA-78, 7.5x11.5x0.9",
   topology: { ce: 1, die: 1 },
   extra: {
     "DRAM Type": "DDR5",
@@ -1052,7 +1087,7 @@ assertDram("MT60B2G8HB-56B:G", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "FBGA-82, 9x11",
+  package: "VFBGA-82, 9x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -1068,7 +1103,7 @@ assertDram("MT60B4G4HB-48B:A", {
   density: "16Gb",
   widthField: "x4",
   voltage: "1.1V VDD",
-  package: "FBGA-82, 9x11",
+  package: "VFBGA-82, 9x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -1084,7 +1119,7 @@ assertDram("MT60B2G8HB-48BAT:A", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "FBGA-82, 9x11",
+  package: "VFBGA-82, 9x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HB",
@@ -1100,7 +1135,7 @@ assertDram("MT60B1G16HC-52B IT:G", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "FBGA-102, 9x14",
+  package: "VFBGA-102, 9x14x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HC",
@@ -1116,7 +1151,7 @@ assertDram("MT60B4G4RZ-92B:H", {
   density: "16Gb",
   widthField: "x4",
   voltage: "1.1V VDD",
-  package: "FBGA-78, 7.5x11",
+  package: "VFBGA-78, 7.5x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "RZ",
@@ -1132,7 +1167,7 @@ assertDram("MT60B1G16HD-72BAAT:H", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "FBGA-102, 7.5x14",
+  package: "VFBGA-102, 7.5x14x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HD",
@@ -1149,7 +1184,7 @@ assertDram("MT60B2G8RZ-64BAAT:D", {
   density: "16Gb",
   widthField: "x8",
   voltage: "1.1V VDD",
-  package: "FBGA-78, 7.5x11",
+  package: "VFBGA-78, 7.5x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "RZ",
@@ -1166,12 +1201,29 @@ assertDram("MT60B1G16HD-56BAAT:D", {
   density: "16Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "FBGA-102, 7.5x14",
+  package: "VFBGA-102, 7.5x14x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HD",
     "Config Code": "1G16",
     "DRAM Speed": "DDR5-5600B CL46",
+    "Special Option": "Automotive certified",
+    "Operation Temperature": "Automotive (-40°C ~ 105°C)",
+    "Die Revision": "Rev D"
+  }
+});
+
+assertDram("MT60B1G16HD-64BAAT:D", {
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "VFBGA-102, 7.5x14x0.9",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "HD",
+    "Config Code": "1G16",
+    "DRAM Speed": "DDR5-6400B CL52",
     "Special Option": "Automotive certified",
     "Operation Temperature": "Automotive (-40°C ~ 105°C)",
     "Die Revision": "Rev D"
@@ -1186,7 +1238,7 @@ assertDram("MT60B6G4RW-48B:B", {
   density: "24Gb",
   widthField: "x4",
   voltage: "1.1V VDD",
-  package: "FBGA-78, 8x11",
+  package: "VFBGA-78, 8x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "RW",
@@ -1202,7 +1254,7 @@ assertDram("MT60B6G4JF-64B:C", {
   density: "24Gb",
   widthField: "x4",
   voltage: "1.1V VDD",
-  package: "FBGA-82, 9.5x11",
+  package: "VFBGA-82, 9.5x11x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "JF",
@@ -1218,7 +1270,7 @@ assertDram("MT60B1536M16HZ-80B:C", {
   density: "24Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "FBGA-102, 9.5x14",
+  package: "VFBGA-102, 9.5x14x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HZ",
@@ -1238,7 +1290,7 @@ assertDram("MT60B1536M16RV-64B:B", {
   density: "24Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "FBGA-102, 8x14",
+  package: "VFBGA-102, 8x14x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "RV",
@@ -1249,12 +1301,52 @@ assertDram("MT60B1536M16RV-64B:B", {
   }
 });
 
+assertDram("MT60B1500M16RV-64B:B", {
+  densityMbit: 24576,
+  density: "24Gb",
+  widthField: "x16",
+  voltage: "1.1V VDD",
+  package: "VFBGA-102, 8x14x0.9",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Speed": "DDR5-6400B CL52",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev B"
+  }
+});
+
+for (const sample of [
+  { pn: "MT60B12G4JFA-72B:C", densityMbit: 49152, density: "48Gb", width: "x4", speed: "DDR5-7200B CL58" },
+  { pn: "MT60B6G8JFA-72B:C", densityMbit: 49152, density: "48Gb", width: "x8", speed: "DDR5-7200B CL58" },
+  { pn: "MT60B16G4EGN-64B:B", densityMbit: 65536, density: "64Gb", width: "x4", speed: "DDR5-6400B CL52" },
+  { pn: "MT60B8G8EGN-64B:B", densityMbit: 65536, density: "64Gb", width: "x8", speed: "DDR5-6400B CL52" }
+] as const) {
+  const info = detect(sample.pn);
+  assert.equal(info.densityMbit, sample.densityMbit, sample.pn);
+  assert.equal(info.density, sample.density, sample.pn);
+  assert.equal(info.widthField, sample.width, sample.pn);
+  assertDecodedField(sample.pn, "dram_speed", sample.speed);
+}
+
+const d8jjbInfo = detect("MT60B32G4EGN-88H:E");
+assert.equal(d8jjbInfo.densityMbit, 131072);
+assert.equal(d8jjbInfo.density, "128Gb");
+assert.equal(d8jjbInfo.widthField, "x4");
+assertDecodedField("MT60B32G4EGN-88H:E", "dram_speed", "DDR5-8800");
+assertDecodedField("MT60B32G4EGN-88H:E", "die_revision", "Rev E");
+assertDecodedPartNumber("D8JJB", "MT60B32G4EGN-88H:E");
+assertDecodedFieldAbsent("MT60B32G4EGN-88H:E", "package");
+assertDecodedField("MT60B16G4EGN-80H:E", "dram_speed", "DDR5-8000");
+assertDecodedField("MT60B16G4EGN-92H:E", "dram_speed", "DDR5-9200");
+assertDecodedField("MT60B32G4KC-92H:E", "dram_speed", "DDR5-9200");
+assertDecodedFieldAbsent("MT60B32G4KC-92H:E", "package");
+
 assertDram("MT60B8G4AT-72B:B", {
   densityMbit: 32768,
   density: "32Gb",
   widthField: "x4",
   voltage: "1.1V VDD",
-  package: "FBGA-78, 7.5x11.5",
+  package: "VFBGA-78, 7.5x11.5x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "AT",
@@ -1265,12 +1357,28 @@ assertDram("MT60B8G4AT-72B:B", {
   }
 });
 
+assertDram("MT60B4G8RZ-88B:E", {
+  densityMbit: 32768,
+  density: "32Gb",
+  widthField: "x8",
+  voltage: "1.1V VDD",
+  package: "VFBGA-78, 7.5x11x0.9",
+  extra: {
+    "DRAM Type": "DDR5",
+    "Package Code": "RZ",
+    "Config Code": "4G8",
+    "DRAM Speed": "DDR5-8800B CL72",
+    "Operation Temperature": "Commercial",
+    "Die Revision": "Rev E"
+  }
+});
+
 assertDram("MT60B2G16HD-64B IT:B", {
   densityMbit: 32768,
   density: "32Gb",
   widthField: "x16",
   voltage: "1.1V VDD",
-  package: "FBGA-102, 7.5x14",
+  package: "VFBGA-102, 7.5x14x0.9",
   extra: {
     "DRAM Type": "DDR5",
     "Package Code": "HD",

@@ -636,6 +636,242 @@
       "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
       "spec_id": "vendor.micron.dram.component.v1",
       "scope": "spec",
+      "entry_key": "micron_mt60_high_capacity_configs_2026_07",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official FBGA decoder API and obsolete DDR5 part catalog",
+        "url": "https://www.micron.com/sales-support/design-tools/fbga-parts-decoder",
+        "examples": [
+          "D8DCQ -> MT60B1500M16RV-56B:B",
+          "D8FWN -> MT60B12G4JFA-72B:C",
+          "D8FWP -> MT60B6G8JFA-72B:C",
+          "D8FXL -> MT60B16G4EGN-64B:B",
+          "D8FXN -> MT60B8G8EGN-64B:B",
+          "D8JJB -> MT60B32G4EGN-88H:E"
+        ],
+        "notes": "The exact official responses confirm the structural MT60 token positions. The obsolete catalog directly identifies 1500M16 as 24Gb x16; 12G4/6G8, 16G4/8G8, and 32G4 use the documented depth-times-width organization. Official DDR5 addenda and the core speed-bin table separately support the numeric 80/88/92 data rates. EGN and KC package ball count and dimensions remain unpublished."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "spec",
+      "entry_key": "micron_mt60_sdp_addenda_2024_2026",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 16Gb Automotive Die Rev D, 24Gb Die Rev B, and 32Gb Die Rev B/E DDR5 addenda",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/32gb-ddr5-sdram-diereve.pdf",
+        "examples": [
+          "MT60B2G8RZ-64BAAT:D",
+          "MT60B1536M16RV-64B:B",
+          "MT60B8G4AT-72B:B",
+          "MT60B4G8RZ-88B:E"
+        ],
+        "notes": "Ordering pp. 1-3 and mechanical drawings confirm revision-scoped configuration, speed, temperature, package, and revision tokens. The 32Gb Rev E addendum contains only 8G4/4G8/2G16 SDP parts and no 32G4, EGN, D8JJB, 88H, or 92H; it does not establish the target 3DS package or H-bin timings. Its p. 16 RZ drawing appears copied from the older AT package and conflicts with the 7.5x11 summary on pp. 1 and 3, so RZ dimensions continue to rely on the internally consistent 16Gb Rev H addendum."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "speedObj",
+      "entry_key": "60:80H",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 16Gb DDR5 Die Rev H addendum, DDR5 core speed-bin tables, and FBGA decoder API",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/16gb-ddr5-sdram-dierevh.pdf",
+        "examples": [
+          "D8HZS -> MT60B16G4EGN-80H:E",
+          "D8JCF -> MT60B32G4EGN-80H:E"
+        ],
+        "notes": "The addendum ordering diagram places the three-character value in the Speed field and maps numeric 80 to 8000 MT/s for B-bin parts. DDR5 core pp. 433-435 shows that the numeric data rate is shared across multiple trailing timing-bin letters. H timing and CL remain undisclosed, so the public value is DDR5-8000 without a CL claim."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "speedObj",
+      "entry_key": "60:88H",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 16Gb DDR5 Die Rev H addendum, DDR5 core speed-bin tables, and FBGA decoder API",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/16gb-ddr5-sdram-dierevh.pdf",
+        "examples": [
+          "D8JJB -> MT60B32G4EGN-88H:E",
+          "D8JJD -> MT60B16G4EGN-88H:E"
+        ],
+        "notes": "Addendum pp. 2-3 maps numeric 88 to 8800 MT/s and separates Speed from the colon-prefixed Revision. DDR5 core pp. 433-435 lists multiple timing-bin suffixes at the same 8800 MT/s data rate. H timing and CL remain undisclosed, so 88B CL72 is not reused."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "speedObj",
+      "entry_key": "60:92H",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 16Gb DDR5 Die Rev H addendum, DDR5 core speed-bin tables, and FBGA decoder API",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/16gb-ddr5-sdram-dierevh.pdf",
+        "examples": [
+          "D8JJM -> MT60B16G4EGN-92H:E",
+          "D8JJP -> MT60B32G4EGN-92H:E"
+        ],
+        "notes": "The addendum maps numeric 92 to 9200 MT/s and independently identifies the trailing B timing bin. Exact official decoder rows confirm H in the same Speed position. H timing and CL remain undisclosed, so the public value is DDR5-9200 without a CL claim."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "60:HB",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 16Gb DDR5 SDRAM Die Rev G addendum",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/16gb-ddr5-sdram-dierevg.pdf",
+        "examples": ["MT60B4G4HB-52B:G", "MT60B2G8HB-56B:G"],
+        "notes": "Ordering p. 3 identifies HB as the x4/x8 82-ball 9x11 package; the package drawing on p. 15 identifies VFBGA and a nominal 0.9mm height."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "60:HC",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 16Gb DDR5 SDRAM Die Rev G addendum",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/16gb-ddr5-sdram-dierevg.pdf",
+        "examples": ["MT60B1G16HC-52B:G", "MT60B1G16HC-56B:G"],
+        "notes": "Ordering p. 3 identifies HC as the x16 102-ball 9x14 package; the package drawing on p. 16 identifies VFBGA and a nominal 0.9mm height."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "60:AT",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 32Gb DDR5 SDRAM Die Rev B addendum",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/32gb-ddr5-sdram-dierevb.pdf",
+        "examples": ["MT60B8G4AT-64B:B", "MT60B4G8AT-72B:B"],
+        "notes": "Ordering p. 3 identifies AT as the x4/x8 78-ball 7.5x11.5 package; the package drawing on p. 15 identifies VFBGA and a nominal 0.9mm height. The :D on p. 1 is a document typo; exact PNs and ordering p. 3 consistently identify die revision :B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "60:RW",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 24Gb DDR5 SDRAM Die Rev B addendum",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/24gb-ddr5-sdram-dierevb.pdf",
+        "examples": ["MT60B6G4RW-48B:B", "MT60B3G8RW-64B:B"],
+        "notes": "Ordering p. 3 identifies RW as the x4/x8 78-ball 8x11 package; the package drawing on p. 15 identifies VFBGA and a nominal 0.9mm height."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "60:RV",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 24Gb DDR5 SDRAM Die Rev B addendum",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/24gb-ddr5-sdram-dierevb.pdf",
+        "examples": ["MT60B1536M16RV-56B:B", "MT60B1536M16RV-64B:B"],
+        "notes": "Ordering p. 3 identifies RV as the x16 102-ball 8x14 package; the package drawing on p. 16 identifies VFBGA and a nominal 0.9mm height."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "60:RZ",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 16Gb DDR5 SDRAM Die Rev H addendum",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/16gb-ddr5-sdram-dierevh.pdf",
+        "examples": ["MT60B4G4RZ-88B:H", "MT60B2G8RZ-92B:H"],
+        "notes": "Ordering p. 3 identifies RZ as the x4/x8 78-ball 7.5x11 package; the package drawing on p. 16 identifies VFBGA and a nominal 0.9mm height."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "60:HD",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 16Gb DDR5 SDRAM Die Rev H addendum",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/16gb-ddr5-sdram-dierevh.pdf",
+        "examples": ["MT60B1G16HD-80B:H", "MT60B1G16HD-92B:H"],
+        "notes": "Ordering p. 3 identifies HD as the x16 102-ball 7.5x14 package; the package drawing on p. 17 identifies VFBGA and a nominal 0.9mm height."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "60:JF",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 24Gb DDR5 SDRAM Die Rev C addendum",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/24gb-ddr5-sdram-dierevc.pdf",
+        "examples": ["MT60B6G4JF-64B:C", "MT60B3G8JF-80B:C"],
+        "notes": "Ordering p. 3 identifies JF as the x4/x8 82-ball 9.5x11 package; the package drawing on p. 16 identifies VFBGA and a nominal 0.9mm height. JFA is a different token and does not inherit this mapping."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "table_entry",
+      "table_key": "packageActual",
+      "entry_key": "60:HZ",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official 24Gb DDR5 SDRAM Die Rev C addendum",
+        "url": "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/dram/ddr5/24gb-ddr5-sdram-dierevc.pdf",
+        "examples": ["MT60B1536M16HZ-64B:C", "MT60B1536M16HZ-80B:C"],
+        "notes": "Ordering p. 3 identifies HZ as the x16 102-ball 9.5x14 package; the package drawing on p. 17 identifies VFBGA and a nominal 0.9mm height."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "spec",
+      "entry_key": "micron_mdb_structured_configs_2026_07",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official DRAM Component Part Numbering System and live FBGA decoder API",
+        "url": "https://www.micron.com/sales-support/design-tools/fbga-parts-decoder",
+        "examples": [
+          "Z9VQZ -> MT40A16G4GNA-062H ES:E",
+          "D9KWW -> MT42L32M64D2KH-25 IT:A",
+          "D9TJT -> MT44K128M18RCT-093F:A",
+          "D9GMK -> MT46H24M32LACG-6:A",
+          "D1CBD -> MT48LC16M4A2FB-8E ES",
+          "D9CQY -> MT62F1536M48D3JR-018DXT:B",
+          "D8JHB -> MT62F16G32DADV-023S:D"
+        ],
+        "notes": "Only explicit numeric depth-times-width configuration tokens are added. MT49 RLDRAM2 remains excluded. Internal -DC die codes and ambiguous adjacent body digits remain unresolved; no package is inferred from the exact PN alone."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "spec",
       "entry_key": "40:A:1G8:TRF",
       "evidence": {
         "status": "external_confirmed",

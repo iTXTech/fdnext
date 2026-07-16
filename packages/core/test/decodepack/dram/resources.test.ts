@@ -95,6 +95,7 @@ const micronDramSpeedContinuationTokens = [
 ].sort((a, b) => b.length - a.length || a.localeCompare(b));
 const micronDramScopedSpeedTokens = new Map<string, string[]>();
 const micronDramUnscopedSpeedTokens: string[] = [];
+const micronDramPublicSpeedTokens = new Set(tableKeys(micronDramTables.speedObj));
 for (const key of tableKeys(micronDramTables.speedToken)) {
   const scoped = /^(\d\d):(.+)$/.exec(key);
   if (scoped) {
@@ -154,12 +155,13 @@ function expectedMicronDramSpeedToken(partNumber: string): string | undefined {
   const family = micronDramFamily(normalized);
   for (const token of micronDramScopedSpeedTokens.get(family) ?? []) {
     if (suffix.startsWith(token) && isMicronDramSpeedBoundary(suffix.slice(token.length))) {
-      return `${family}:${token}`;
+      const key = `${family}:${token}`;
+      return micronDramPublicSpeedTokens.has(key) ? key : undefined;
     }
   }
   for (const token of micronDramUnscopedSpeedTokens) {
     if (suffix.startsWith(token) && isMicronDramSpeedBoundary(suffix.slice(token.length))) {
-      return token;
+      return micronDramPublicSpeedTokens.has(token) ? token : undefined;
     }
   }
   return undefined;

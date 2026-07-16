@@ -450,5 +450,6 @@ assertSearchPnIncludes("MT65B12G16080", "Micron MT65B12G16080A00QG-92:A");
 assertSearchPnIncludes("MT65B18G16120", "Micron MT65B18G16120A00QH-92:A");
 assertSearchMarkingRelation("C9BJZ", "CT40A1G8SA-62M:E");
 assertSearchMarkingRelation("B9DHG", "MT47H32M16BT-3E");
+assertSearchMarkingRelation("D8JJB", "MT60B32G4EGN-88H:E");
 assertSearchMarkingRelation("D9RLQ", "MT43A4G40100NFA-S15:A");
 assertSearchMarkingRelation("D9ZFZ", "MT54A16G8080A00AC-28:A-B006");
