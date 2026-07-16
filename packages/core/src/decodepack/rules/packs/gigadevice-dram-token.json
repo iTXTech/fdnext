@@ -97,7 +97,13 @@
           "from": "organizationCode",
           "table": "deviceWidth",
           "to": "deviceWidth",
+          "keyTo": "recognizedOrganizationCode",
           "default": -1
+        },
+        {
+          "op": "notEmpty",
+          "from": "recognizedOrganizationCode",
+          "to": "topologyTokenRecognized"
         },
         {
           "op": "map",
@@ -189,7 +195,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.gigadevice.dram.ddr3l.component.v1"
+        "meta.ruleId": "vendor.gigadevice.dram.ddr3l.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "topologyTokenRecognized"
+        }
       }
     }
   },
@@ -470,7 +479,13 @@
           "from": "organizationCode",
           "table": "deviceWidth",
           "to": "deviceWidth",
+          "keyTo": "recognizedOrganizationCode",
           "default": -1
+        },
+        {
+          "op": "notEmpty",
+          "from": "recognizedOrganizationCode",
+          "to": "topologyTokenRecognized"
         },
         {
           "op": "map",
@@ -562,7 +577,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.gigadevice.dram.lpddr4x.component.v1"
+        "meta.ruleId": "vendor.gigadevice.dram.lpddr4x.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "topologyTokenRecognized"
+        }
       }
     }
   }

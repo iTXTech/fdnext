@@ -111,6 +111,8 @@ H5C + density + width + generation + speed + temperature + [X + serial]
 | `D/J/T` | `operation_temperature` | Commercial 0 to 95C；Industrial -40 to 95C |
 | `X012` 等 | serial token | 只作内部解析；公开输出 `dram_die_density`、`dram_die_count`、`package`，TSV 通过 `special_option` 输出 |
 
+DDR5 suffix 缺失时按已知基础封装继续使用单 die / 单 CS 默认；suffix 存在时以 serial table 是否命中为准。`X999` 这类未知 serial 即使 width token 仍能输出 82/106-ball package，也不补 `dram_die_count` / `cs_count`。
+
 已确认 serial code:
 
 | Serial | die density | package | die count | special |

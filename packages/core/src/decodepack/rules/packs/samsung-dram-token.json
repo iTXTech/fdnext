@@ -549,7 +549,13 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package"
+          "to": "package",
+          "keyTo": "recognizedPackageKey"
+        },
+        {
+          "op": "notEmpty",
+          "from": "recognizedPackageKey",
+          "to": "hasKnownPackage"
         },
         {
           "op": "take",
@@ -584,8 +590,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_count": 1,
-            "cs_count": 1,
             "die_revision": {
               "$var": "dieRevision"
             },
@@ -604,9 +608,23 @@
           }
         },
         {
+          "op": "set",
+          "to": "defaultTopologyObj",
+          "value": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          }
+        },
+        {
           "op": "merge",
           "into": "extra",
           "from": "familyObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "defaultTopologyObj",
+          "if": "hasKnownPackage"
         },
         {
           "op": "mergeIf",
@@ -752,6 +770,10 @@
           "A:16:5WF": "FBGA-96"
         },
         "suffixPackageStackObj": {
+          "": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          },
           "2": {
             "dram_die_count": 2
           },
@@ -771,6 +793,15 @@
           "M": {
             "dram_die_count": 2
           }
+        },
+        "suffixTopologyRecognized": {
+          "": true,
+          "2": true,
+          "3": true,
+          "4": true,
+          "5": true,
+          "B": true,
+          "M": true
         },
         "ddr4BaseObj": {
           "A:5W": {
@@ -984,10 +1015,14 @@
           "from": "suffixPackageType",
           "table": "suffixPackageStackObj",
           "to": "suffixPackageStackObj",
-          "default": {
-            "dram_die_count": 1,
-            "cs_count": 1
-          }
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "suffixPackageType",
+          "table": "suffixTopologyRecognized",
+          "to": "topologyTokenRecognized",
+          "default": false
         },
         {
           "op": "map",
@@ -1089,7 +1124,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.samsung.dram.standard.component.v1"
+        "meta.ruleId": "vendor.samsung.dram.standard.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "topologyTokenRecognized"
+        }
       }
     }
   },
@@ -1147,6 +1185,10 @@
             "dram_die_count": 1,
             "cs_count": 1
           }
+        },
+        "suffixTopologyRecognized": {
+          "": true,
+          "B": true
         },
         "suffixTempObj": {
           "C": {
@@ -1258,6 +1300,13 @@
         },
         {
           "op": "map",
+          "from": "suffixPackageType",
+          "table": "suffixTopologyRecognized",
+          "to": "topologyTokenRecognized",
+          "default": false
+        },
+        {
+          "op": "map",
           "from": "suffixTempCode",
           "table": "suffixTempObj",
           "to": "suffixTempObj",
@@ -1336,7 +1385,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.samsung.dram.ddr5.component.v1"
+        "meta.ruleId": "vendor.samsung.dram.ddr5.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "topologyTokenRecognized"
+        }
       }
     }
   },
@@ -1386,6 +1438,22 @@
           "08": 8
         },
         "dieStackObj": {
+          "02": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          },
+          "04": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          },
+          "08": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          },
+          "16": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          },
           "15": {
             "cs_count": 2
           },
@@ -1402,12 +1470,30 @@
           "31": {
             "cs_count": 2
           },
+          "32": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          },
           "06": {
             "special_option": "Flexframe stacked layout"
           },
           "07": {
             "special_option": "Flexframe stacked layout"
           }
+        },
+        "topologyTokenRecognized": {
+          "02": true,
+          "04": true,
+          "06": true,
+          "07": true,
+          "08": true,
+          "15": true,
+          "16": true,
+          "26": true,
+          "27": true,
+          "30": true,
+          "31": true,
+          "32": true
         },
         "packageActual": {
           "1": "MCP",
@@ -1513,10 +1599,14 @@
           "from": "bitOrgCode",
           "table": "dieStackObj",
           "to": "dieStackObj",
-          "default": {
-            "dram_die_count": 1,
-            "cs_count": 1
-          }
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "bitOrgCode",
+          "table": "topologyTokenRecognized",
+          "to": "topologyTokenRecognized",
+          "default": false
         },
         {
           "op": "map",
@@ -1636,7 +1726,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.samsung.dram.lpddr1.component.v1"
+        "meta.ruleId": "vendor.samsung.dram.lpddr1.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "topologyTokenRecognized"
+        }
       }
     }
   },
@@ -2980,6 +3073,11 @@
           "to": "package"
         },
         {
+          "op": "notEmpty",
+          "from": "package",
+          "to": "hasKnownPackage"
+        },
+        {
           "op": "map",
           "from": "configKey",
           "table": "voltageByConfig",
@@ -3062,8 +3160,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_count": 1,
-            "cs_count": 1,
             "config_code": {
               "$var": "configCode"
             },
@@ -3073,9 +3169,23 @@
           }
         },
         {
+          "op": "set",
+          "to": "defaultTopologyObj",
+          "value": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          }
+        },
+        {
           "op": "merge",
           "into": "extra",
           "from": "familyObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "defaultTopologyObj",
+          "if": "hasKnownPackage"
         },
         {
           "op": "mergeIf",
@@ -3176,6 +3286,24 @@
           "Z": "FBGA-180",
           "V": "FBGA-266"
         },
+        "packageTopologyObj": {
+          "G:FB": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          },
+          "Z:BC": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          },
+          "Z:BM": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          },
+          "V:ZC": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          }
+        },
         "suffixSpeedObj": {
           "G:28": {
             "dram_speed": "GDDR5-7Gbps"
@@ -3246,6 +3374,24 @@
           "to": "configCode"
         },
         {
+          "op": "tpl",
+          "template": "{{familyCode}}:{{packageCode}}",
+          "to": "packageTopologyKey"
+        },
+        {
+          "op": "map",
+          "from": "packageTopologyKey",
+          "table": "packageTopologyObj",
+          "to": "packageTopologyObj",
+          "keyTo": "recognizedPackageTopologyKey",
+          "default": {}
+        },
+        {
+          "op": "notEmpty",
+          "from": "recognizedPackageTopologyKey",
+          "to": "topologyTokenRecognized"
+        },
+        {
           "op": "map",
           "from": "densityCode",
           "table": "densityMb",
@@ -3290,8 +3436,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_count": 1,
-            "cs_count": 1,
             "config_code": {
               "$var": "configCode"
             },
@@ -3304,6 +3448,11 @@
           "op": "merge",
           "into": "extra",
           "from": "familyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageTopologyObj"
         },
         {
           "op": "mergeIf",
@@ -3340,7 +3489,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.samsung.dram.gddr.component.v1"
+        "meta.ruleId": "vendor.samsung.dram.gddr.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "topologyTokenRecognized"
+        }
       }
     }
   }

@@ -139,7 +139,13 @@
           "op": "map",
           "from": "packageKey",
           "table": "packageActual",
-          "to": "package"
+          "to": "package",
+          "keyTo": "recognizedPackageKey"
+        },
+        {
+          "op": "notEmpty",
+          "from": "recognizedPackageKey",
+          "to": "hasKnownPackage"
         },
         {
           "op": "stripIfPrefix",
@@ -156,8 +162,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_count": 1,
-            "cs_count": 1,
             "config_code": {
               "$var": "configCode"
             },
@@ -167,9 +171,23 @@
           }
         },
         {
+          "op": "set",
+          "to": "defaultTopologyObj",
+          "value": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          }
+        },
+        {
           "op": "merge",
           "into": "extra",
           "from": "familyObj"
+        },
+        {
+          "op": "mergeIf",
+          "into": "extra",
+          "from": "defaultTopologyObj",
+          "if": "hasKnownPackage"
         },
         {
           "op": "mergeIf",
@@ -368,8 +386,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_count": 1,
-            "cs_count": 1,
             "config_code": {
               "$var": "configCode"
             },
@@ -538,7 +554,13 @@
           "from": "stackKey",
           "table": "stackObj",
           "to": "stackObj",
+          "keyTo": "recognizedStackKey",
           "default": {}
+        },
+        {
+          "op": "notEmpty",
+          "from": "recognizedStackKey",
+          "to": "topologyTokenRecognized"
         },
         {
           "op": "map",
@@ -638,7 +660,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.elpida.dram.lpddr2_lpddr3.component.v1"
+        "meta.ruleId": "vendor.elpida.dram.lpddr2_lpddr3.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "topologyTokenRecognized"
+        }
       }
     }
   },
@@ -669,6 +694,12 @@
       "tables": {
         "densityMb": {
           "20": 2048
+        },
+        "packageTopologyObj": {
+          "BBBG": {
+            "dram_die_count": 1,
+            "cs_count": 1
+          }
         },
         "speedObj": {
           "50": {
@@ -719,6 +750,19 @@
           "default": -1
         },
         {
+          "op": "map",
+          "from": "packageCode",
+          "table": "packageTopologyObj",
+          "to": "packageTopologyObj",
+          "keyTo": "recognizedPackageCode",
+          "default": {}
+        },
+        {
+          "op": "notEmpty",
+          "from": "recognizedPackageCode",
+          "to": "topologyTokenRecognized"
+        },
+        {
           "op": "stripIfPrefix",
           "prefix": "-",
           "to": "hasSuffix"
@@ -734,8 +778,6 @@
           "to": "extra",
           "value": {
             "dram_type": "GDDR5",
-            "dram_die_count": 1,
-            "cs_count": 1,
             "config_code": {
               "$var": "configCode"
             },
@@ -743,6 +785,11 @@
               "$var": "packageCode"
             }
           }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageTopologyObj"
         },
         {
           "op": "mergeIf",
@@ -777,7 +824,10 @@
         },
         "fields.dram_voltage": "1.35V/1.5V/1.6V VDD/VDDQ",
         "fields.package": "FBGA-170",
-        "meta.ruleId": "vendor.elpida.dram.gddr5.component.v1"
+        "meta.ruleId": "vendor.elpida.dram.gddr5.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "topologyTokenRecognized"
+        }
       }
     }
   }

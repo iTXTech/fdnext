@@ -114,12 +114,15 @@ modern: K4 + family + density token + 325 organization token + package token + -
 - `K4W` 输出 `DRAM Type = DDR3`，并用 `DRAM Generation = Samsung graphics gDDR3/SDDR3` 标注其不同于普通 `K4B` DDR3 命名线。
 - Graphics Selection Guide 的 base PN 行可以确认封装/电压/组织，但 speed bin 不等同于 PN 尾缀；无 `-speed` 尾缀时不得输出 `dram_speed`。表中 `GDDR1` 行在 public `DRAM Type` 中统一输出为 `GDDR`。
 - 标准 DDR/GDDR 颗粒在 datasheet 或官方页面确认单颗 die / 单 CS 语义时输出 `dram_die_count=1`、`cs_count=1`；DDR3/DDR4 suffix package type 表达 DDP/QDP 等堆叠封装但没有 CS 信息时只输出 `dram_die_count`，不补 `cs_count`。
+- Legacy SDR / DDR / DDR2 / DDR3 只有 suffix package mapping 已命中时才保留单 die / 单 CS 默认值；未知或缺失 package token 不补拓扑。
 - Samsung 标准 SDR / DDR / DDR2 / DDR3 / DDR4 主结构里的最后一位 revision token 输出为 `die_revision = "<token>-die"`，例如 `K4B...I` 输出 `I-die`、`K4A...WB` 输出 `B-die`。
 - Samsung DDR4 `K4A...5W...` 主结构输出 `bank_count=16`、`interface_type=POD (1.2V VDD/VDDQ)` 与 `solder_type=Lead-Free and Halogen-Free`；这些来自主结构 token，不依赖完整 PN 白名单。
 - Samsung DDR3 / DDR3L / DDR4 的 `dram_speed` 按 Product Guide speed token 输出完整 CL / tRCD / tRP 时序，例如 `DDR3-2133 14-14-14`、`DDR3L-1866 13-13-13`、`DDR4-3200 22-22-22`；`RB/TC/WD/YF/AE` 这类 DDR4 alternate timing code 也按 ordering information 保留对应时序。
 - Samsung DDR5 完全遵守 Samsung DRAM 主结构拆分：`AH/HE/BH` 是容量，`04/08/16` 是位宽，`5/6` 分别是 16 / 32 banks，`V` 是 VDD/VDDQ = 1.1V 且 VPP = 1.8V，末位 `B/M` 等是 die revision；`-` 后缀中的第一位 `B` 与 DDR3/DDR4 suffix package token 定义一致，输出 single-die 语义。`QK/WM` speed token 按 ordering table 输出完整 CL / tRCD / tRP 时序。
 - Samsung DDR3L 仍按标准化 `dram_type=DDR3` 输出，低电压由 `dram_voltage=1.35V VDD` 与 `DDR3L-*` speed label 表达；`Y/M` temp/power token 输出 normal power，`K` token 输出 1.35V 并把 Reduced Standby 放入 `special_option`；不新增公开 `temp_code` / `power_code`。
 - Samsung DRAM `-` 后缀按 token 拆解：标准 DDR/DDR5 为 suffix package / temp / speed，LPDDR 为 suffix package / temp / speed，GDDR 为 speed-prefix / temp / speed-grade；规则不以 `BCIF`、`MCRC`、`MGCL`、`SC32` 这类完整尾缀作为整体枚举键。
+- 标准 DDR/DDR5 的 suffix package token、LPDDR1 的 bit organization token、legacy GDDR 的 package token 未命中厂商表时，即使主结构还能确认公开封装，也不补 `dram_die_count=1` / `cs_count=1`；已知 token 未指定堆叠时继续使用单 die / 单 CS 默认值。
+- 现代 GDDR 的 package token 只对已确认的 `G:FB`、`Z:BC/BM`、`V:ZC` 组合输出单 die / 单 CS；未知组合即使 family 仍能确认 FBGA ball count，也省略拓扑。
 - `Config Code` 只保留结构主配置，例如 `8G08`、`AH08`、`3QF1`、`263238`、`52324`、`80325`，不把完整 PN 或完整 base code 当配置码。
 - `K4G` family 继续按 GDDR5 规则处理；即使个别 Product Selection Guide 表格把 `K4G...` 行放在 DDR3 component 区域，也不能让 DDR3 规则以更高优先级覆盖 `K4G` 的 family 语义。
 - `K4U` 同时存在 LPDDR4X 与 legacy GDDR4 编码线；当 PN 命中 `K4U + density refresh + organization + bank + LVSTLE_06 + generation` ordering 结构时，LPDDR4X 规则优先于 legacy graphics `K4U52324Q` 规则。

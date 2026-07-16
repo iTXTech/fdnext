@@ -510,6 +510,21 @@
           "051": 1,
           "052": 1
         },
+        "serialTopologyRecognized": {
+          "": true,
+          "012": true,
+          "013": true,
+          "014": true,
+          "015": true,
+          "017": true,
+          "018": true,
+          "021": true,
+          "022": true,
+          "023": true,
+          "024": true,
+          "051": true,
+          "052": true
+        },
         "serialPackage": {
           "012": "FBGA-82",
           "013": "FBGA-82",
@@ -662,6 +677,13 @@
           "default": 1
         },
         {
+          "op": "map",
+          "from": "serialCode",
+          "table": "serialTopologyRecognized",
+          "to": "topologyTokenRecognized",
+          "default": false
+        },
+        {
           "op": "mul",
           "a": "density",
           "b": "serialDieCount",
@@ -743,7 +765,10 @@
         "fields.package": {
           "$var": "package"
         },
-        "meta.ruleId": "vendor.skhynix.dram.ddr5.component.v1"
+        "meta.ruleId": "vendor.skhynix.dram.ddr5.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "topologyTokenRecognized"
+        }
       }
     }
   },

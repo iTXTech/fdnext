@@ -90,6 +90,7 @@ CXD + family + density + layout + -suffix
 - DDR4 final revision `A/M` 输出 `die_revision`；final `M` 或 16Gb DDR4 结构推断 `process_node = CXMT G3 / 18nm-class`。
 - DDR5 `CXDR4E4BM-CR/CS-A` 输出 16Gb x4、82-ball FBGA，`CXDR4E8BM-CR/CS-A` 输出 16Gb x8、82-ball FBGA；`CR/CS` 分别输出 DDR5-4800/5600，`process_node = CXMT G4 / 16nm-class`。
 - LPDDR4X `3/4/5/6/B/C/D` 分别输出 8/16/32/64/24/48/96Gb；package type `A/C` 当前均输出 200-ball FBGA，不根据 exact body 补推尺寸；config `A/B/C` 当前均输出 x32；`BAM` 输出 `2 dies, 1 CS`，`CAM` 与 `CBM` 输出 `4 dies, 2 CS`，`CCM` 输出 `6 dies, 2 CS`，`CDM` 输出 `8 dies, 2 CS`。`D:CCM` 组合输出 `CXMT G4`，其余既有组合继续按已确认映射输出。
+- LPDDR4X 的 package type 与 `config + stack + material/version` 拓扑组合分别判定；package type 已知但拓扑组合未知时保留 `FBGA-200`，省略 `dram_die_count` / `cs_count`。
 - LPDDR4X suffix 拆为 temp `M/E` 与 speed `J/K/L/A`，其中 `M=-25°C~85°C`、`E=Automotive -40°C~105°C`、`K=3733Mbps`、`L/A=4266Mbps`；final `A/B/M` 是 product version，不进入 public fields。
 - `CXDC` 保守输出 LPDDR5，`CXDD` 输出 LPDDR5X；density `C/D/7` 分别输出 48Gb/96Gb/128Gb，已确认 layout 组合输出 x32/x64 与 315/496-ball。suffix 的 speed、temperature 与 die topology 尚未确认，因此不猜测。
 - `CDTQ` 输出 LPDDR5、96Gb package、12Gb die、`dram_die_count=8`、`process_node = CXMT G3 / 18nm-class`；没有 CS 资料时不输出 `cs_count`。

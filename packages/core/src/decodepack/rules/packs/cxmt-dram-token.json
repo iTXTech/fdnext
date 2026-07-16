@@ -186,9 +186,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_type": "DDR4",
-            "dram_die_count": 1,
-            "cs_count": 1
+            "dram_type": "DDR4"
           }
         },
         {
@@ -371,8 +369,6 @@
           "to": "extra",
           "value": {
             "dram_type": "DDR5",
-            "dram_die_count": 1,
-            "cs_count": 1,
             "process_node": "CXMT G4 / 16nm-class",
             "config_code": {
               "$var": "configCode"
@@ -561,7 +557,13 @@
           "from": "stackKey",
           "table": "dieStackObj",
           "to": "dieStackObj",
+          "keyTo": "recognizedStackKey",
           "default": {}
+        },
+        {
+          "op": "notEmpty",
+          "from": "recognizedStackKey",
+          "to": "topologyTokenRecognized"
         },
         {
           "op": "tpl",
@@ -665,7 +667,10 @@
         "fields.package": {
           "$var": "packageBase"
         },
-        "meta.ruleId": "vendor.cxmt.dram.lpddr4x.component.v1"
+        "meta.ruleId": "vendor.cxmt.dram.lpddr4x.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "topologyTokenRecognized"
+        }
       }
     }
   },

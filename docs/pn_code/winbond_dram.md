@@ -116,5 +116,5 @@ W66 + density + P/Q + width + N/R + package family + optional package/speed/grad
 - Winbond DDR/DDR2/DDR3/DDR4 ordering PN 中 dash 与无 dash suffix 写法完全同义；`dram-pn.json` 只保留带 dash 的 canonical 展示项，例如 `W631GG8NB-09J`，不同时保留 `W631GG8NB09J`。
 - `W66AP6NB`、`W66AQ6NB`、`W66BP2NQ`、`W66BQ2NQ`、`W66BP6RB`、`W66CP2RQ` 这类基础 family PN 可输出已确认的容量、位宽、电压域、bank/channel 与 LPDDR 类型；缺完整 package/speed/grade tail 时不输出封装、速度和温度等级。
 - LPDDR4 与 LPDDR4X 的 `P/Q + N/R` 组合区分 LPDDR4、LPDDR4X 或 combo family；`F/G/H` 输出 3200/3733/4267 MT/s。Combo family 输出 `dram_type=LPDDR4`，并用 `dram_generation=LPDDR4/4X Combo` 与 `special_option` 描述 VDDQ=1.1V 的 LPDDR4 mode、VDDQ=0.6V 的 LPDDR4X mode；速度按 datasheet ordering 表输出 `LPDDR4/4X-3200` 这类形式。
-- 官方资料未提供可直接落到 die stack / CS 的 Winbond token，本轮不推断 `dram_die_count`。
+- 官方资料未提供可直接落到多 die stack / CS 的 Winbond token；封装 token 已命中时仅沿用 shared DRAM 的单 die 默认（plain DDR 同时单 CS），不建立 Winbond 专属多 die 推断。未知封装 token 不补默认拓扑。
 - `packages/core/resources/dram-pn.json` 收录本轮 iTXTech fdnext DecodePack 能解析的官方 Winbond PN 样例与基础 family PN，用于搜索补全；解码仍由 token 规则完成。

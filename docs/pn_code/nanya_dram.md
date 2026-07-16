@@ -57,6 +57,7 @@ NT6AN1024F32AV-J2
 
 - `depth x width` 直接推导 `fields.density`，例如 `1024M8` 输出 `8192` Mbit。
 - `M/T/F` stack code 默认分别输出 `dram_die_count=1, cs_count=1`、`dram_die_count=2, cs_count=1`、`dram_die_count=4, cs_count=2`；LPDDR3 / LPDDR4 等 low-power family 根据 ordering table 额外覆盖 CS / channel 语义。
+- `M/T/F` 之外的未知 stack token 不使用 shared DRAM 默认值；规则保留仍可确定的 family 等字段，但省略 `dram_die_count` / `cs_count`。
 - suffix 不存在时不输出 `dram_speed` / `operation_temperature`；suffix 存在但 grade token 不存在时只输出 speed。
 - standard DDR speed token 以 `family + speed` 做组合 key，避免 DDR2 `AC/BE` 与 DDR3 `AC/BE` 冲突；DDR3/DDR3L `AC..FL` 输出 PDF 中给出的 CL-tRCD-tRP 时序。
 - DDR3(L) suffix grade `B` 输出 `special_option = Reduced Standby`；`T` 输出 Quasi Industrial，`A/H` 分别输出 Automotive Grade 3 / Grade 2。

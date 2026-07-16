@@ -147,6 +147,7 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
 - DDR3 `41:*` speed 额外保留 `187E/15E/125/125E/107/093` 的 CL 时序：`DDR3-1066 CL7`、`DDR3-1333 CL9`、`DDR3-1600 CL11/CL10`、`DDR3-1866 CL13`、`DDR3-2133 CL14`。
 - DDR3 / DDR3L 与 DDR5 Automotive 截图确认的 automotive certification `A` 在对应 package scope 下输出为 `special_option = Automotive certified`，随后继续解析 `AT/IT` 温度与 revision，例如 `-125AAT:D` 解析为 `DDR3-1600 CL11`、Automotive、`Rev D`，`-64BAAT:D` 解析为 `DDR5-6400B CL52`、Automotive certified、Automotive、`Rev D`；`M` 只在截图确认的 power-saving scope 下输出 `special_option = TCSR power saving`，避免把 `:M` revision 误解为 option。
 - 对尚未确认实际封装尺寸的 1-3 字符 package token，规则只结构化消费 package code 以继续解析后续 speed / temperature / revision，不公开 `package` 或 `package_code`。对 legacy / Crucial 中当前尚未结构化建模的主体 token，规则可作为未公开 body 消费到 `-speed`，只保留已确定的 speed / temperature / revision 等后缀字段。
+- DRAM 默认拓扑使用 package-token 识别状态而不是公开 `package` 是否存在：例如已知 `JFA` token 即使没有可公开尺寸仍可使用单 die / 单 CS 默认；`EGN` 这类只被未知 body 消费的 token 不输出 `dram_die_count` / `cs_count`。
 - LPDDR5 `1DA` 仅作为已确认的 config token 边界消费，不输出 config code，也不推测 density/width；其后的 `D4/D8` 与 `CZ` 分别继续输出 4/8 dies 和 `TFBGA-561, 8x12.4x1.2`。
 - TFBGA-441 x64 Automotive LPDDR5 (`family=62`, `package=EK`) 的 `-031` 按 6400 Mb/s 输出 `LPDDR5-6400`；该分支的温度 token 使用图中范围：`IT=-40°C~95°C`、`AT=-40°C~105°C`、`UT=-40°C~125°C`，前置 `F` 输出 `special_option=Functional safety features`。
 - `-speed`、temperature、revision 后缀不是主结构强制项；缺少尾缀时仍解码 density / width / package / DRAM die count 等已确认字段，只减少 `dram_speed` / `die_revision` 等后缀信息。

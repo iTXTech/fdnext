@@ -320,7 +320,12 @@ export function applyDramClassification(info: PartDecodeDraft): void {
   const hasStackLayoutOption = hasDramStackLayoutOption(extra.special_option);
   const defaultDieClassification = isDdrFamilyDramType(extra.dram_type);
   const defaultCsClassification = isPlainDdrDramType(extra.dram_type);
-  if (!defaultDieClassification && !defaultCsClassification) {
+  const topologyTokenRecognized =
+    info.meta?.dramTopologyTokenRecognized ?? isKnownClassificationValue(extra.package);
+  if (
+    (!defaultDieClassification && !defaultCsClassification) ||
+    !topologyTokenRecognized
+  ) {
     return;
   }
 

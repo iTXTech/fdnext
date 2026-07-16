@@ -58,6 +58,12 @@ export interface DecodeDraftMeta {
   fieldProfile?: FdnextChipKind | "nand.flash_id";
   capabilities?: FdnextCapabilityName[] | string[];
   hiddenFields?: FdnextFieldKey[];
+  /**
+   * Vendor override for default DRAM topology eligibility. Omit when a confirmed
+   * public package is sufficient proof; use true/false when the topology token
+   * is respectively known/unknown independently of the public package.
+   */
+  dramTopologyTokenRecognized?: boolean;
   nandDieProfileKey?: string;
   nandDieProfileKeys?: string[];
   lookupPartNumbers?: string[];

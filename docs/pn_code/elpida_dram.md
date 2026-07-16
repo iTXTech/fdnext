@@ -46,5 +46,8 @@ EDW + density-code + width + voltage/interface/package tokens + -speed
 ## 输出约定
 
 - `Config Code` 只输出容量/位宽主配置，例如 `1216`、`4208`、`8164`、`2032`。
+- SDR / DDR 的 package mapping 已命中时继续输出单 die / 单 CS；未知 package token 不再继承该默认值。
 - LPDDR stack 只对 Intel validation table 明确的 DDP/QDP token 输出标准化 `dram_die_count = N` 与 `cs_count = M`。
+- LPDDR package token 与 stack token 分别解析；package 已知但 `family:density:stack` 组合未知时保留 package，省略 `dram_die_count` / `cs_count`。
+- GDDR5 的 family 可确认 `FBGA-170`，但只有已确认的 `BBBG` package token 输出单 die / 单 CS；未知 package token 保留 family 级封装信息并省略拓扑。
 - Elpida 独立品牌的 standard DDR 世代到 DDR3 结束；DDR4 / DDR5 不是待补规则，不用 Micron 后续 PN 体系替代。LPSDR 缺少足够公开 PN breakdown，GDDR6 / GDDR7 也不存在独立 Elpida 产品线。

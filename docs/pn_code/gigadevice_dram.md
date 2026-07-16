@@ -53,6 +53,7 @@ G + D + B + density + package type + bit organization + voltage + product versio
 - DDR4 `2` 输出 4Gb，`3` 输出 8Gb；package type `A/B` 输出 78-ball / 96-ball FBGA；bit organization `8/F` 输出 x8 / x16；voltage `A` 输出 1.2V。
 - DDR4 suffix 拆为 temperature + speed：`C/W/I` 输出 commercial / industrial I / industrial II，`E/Q/J` 输出 DDR4-2400 / DDR4-2666 / DDR4-3200 timing。
 - LPDDR4X `4` 输出 16Gb，`5` 输出 32Gb；package type `C` 输出 200-ball FBGA；bit organization `B` 输出 `dram_die_count=2, cs_count=1`，`C` 输出 `dram_die_count=4, cs_count=2`；width 均为 x32。
+- DDR3L / LPDDR4X 的 package type 与 bit organization 分别解析；package type 已知但 organization token 未命中厂商表时保留 package，省略默认 `dram_die_count` / `cs_count`。已知普通 DDR3L organization 仍补 `1 die / 1 CS`。
 - LPDDR4X voltage `Q` 输出 VDD1 / VDD2 / VDDQ 电压；suffix `M` 输出 -25C~85C，`J/K/L` 输出 LPDDR4X-3200 / 3733 / 4266。
 - product version `A/C/M/N` 只作为结构 token，不进入 public fields。
 - 没有公开 ordering table 的更高容量或 LPDDR5/LPDDR5X GigaDevice PN 暂不进入规则。

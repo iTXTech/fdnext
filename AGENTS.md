@@ -35,6 +35,7 @@ Engine 生命周期约束：常规 Node、浏览器、Worker isolate 和服务�
 - 文档、源码、测试和提交信息中不得写入本机绝对路径；引用本地资料时最多写文件名，仓库内文件用相对路径。
 - 新增或调整规则后，优先补对应产品线测试；测试位置按芯片类型选择，例如 DRAM 用 `packages/core/test/decodepack/dram/<vendor-or-module>.test.ts`，PN / part decode 用 `packages/core/test/decodepack/part-number/<vendor-or-module>.test.ts`。
 - DRAM 搜索建议测试默认不跑；只有新增 / 调整 DRAM PN 资源、FBGA marking 或搜索建议相关行为时，额外运行 `pnpm -C packages/core test:dram:search`。如果改动影响 contract SDK 的 part search 输出，也额外运行 `pnpm -C packages/contract-test test:part-search:dram`。
+- DRAM 默认拓扑以“厂商规则已识别封装 / topology token”为边界：已确认公开 `package` 默认可继续补单 die，plain DDR 同时补单 CS；如果厂商的 die/CS token 与公开 package 来源不同，规则必须用内部 `meta.dramTopologyTokenRecognized` 显式声明 `true` / `false`。已知 token 但没有可公开的封装尺寸时可设 `true`；未知 token 即使仍能输出其他来源的 `package` 也必须设 `false`，且不得补 `dram_die_count` / `cs_count`。不要用“公开 package 缺失”替代 token 识别判断。
 - Micron PN 搜索资源以 `packages/core/resources/mdb.json` 为优先来源。有效 MDB mapping 已包含同一 PN，或在该 PN 后通过 `-`、`:`、空格等 suffix 边界给出更详细的 speed / temperature / status / revision 时，不得再把较短或等价 PN 加入 `dram-pn.json` / `managed-nand-pn.json`。带 `DO NOT USE` 的 MDB 值不算有效覆盖。修改这些资源时必须保持 DRAM 与 managed NAND 的 MDB 去重审计测试通过。
 - 新增 SSD 整盘、DIMM / SODIMM / RDIMM、LPCAMM 等模组 decoder 前必须获得用户明确批准，不能从“所有品类”或一般补全任务推断授权。Micron `MTFC` 等芯片级 BGA SSD / managed NAND 可按既有范围维护；不要据此扩展到其他厂商的盘级 SSD 或内存模组。
 - 不新增厂商规则、资源或文档，除非用户明确同意该厂商；默认只完善仓库已有厂商和产品线。

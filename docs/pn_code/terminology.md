@@ -128,6 +128,7 @@ standalone DRAM 约定：
 - `dram_type` 和 `product_type` 不写厂商名，也不保留冗余 `SDRAM` / `SGRAM` 后缀，例如不要使用 `Micron DDR5 SDRAM`。
 - `dram_density` / `dram_width` 已在主 DRAM block 输出时，不再复制到其他字段。
 - package / config 等厂商 code 只保留在规则内部；只有外部资料确认封装类型、脚位、尺寸或特殊封装信息时才输出 `package`。公开格式为 `TYPE[-PIN][, DIM][, SPECIAL]`；缺 pin 时输出 TYPE，不得推断脚位；未知 package 省略，不输出 `Unknown`。
+- standalone DRAM 只有在封装 / topology token 被厂商规则识别后才允许补默认拓扑：已确认公开 `package` 默认可补 `dram_die_count=1`，plain DDR 同时可补 `cs_count=1`。如果公开 package 与 die/CS token 不是同一识别来源，规则使用内部 `meta.dramTopologyTokenRecognized` 区分：已知 token 但无可公开封装信息设 `true`，未知 token 即使 package 仍可由其他位置确定也设 `false`。显式 die/CS 或 stack layout 始终优先，不能用默认值覆盖。
 - `dram_die_count` 只表达 DRAM 物理 die 数；CS/rank 数用 `cs_count`，PoP/MCP 等封装信息放 `package`，reduced page address、2 CKE、JEDEC/Flexframe stack layout 这类非 die/CS 信息放 `special_option`。
 - `-` 后面的 speed / temperature / revision 后缀不作为主结构强制条件；缺失时仍应输出 vendor、product type、density、width、package、die stack 等已能确认的信息。
 

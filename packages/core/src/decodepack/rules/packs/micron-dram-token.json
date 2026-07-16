@@ -2007,6 +2007,11 @@
         },
         "voltageOverride": {
           "61:R": "1.35V VDD / 1.25V VDDQ"
+        },
+        "topologyRecognitionObj": {
+          "": {
+            "recognized": true
+          }
         }
       },
       "steps": [
@@ -2102,6 +2107,11 @@
           "default": ""
         },
         {
+          "op": "notEmpty",
+          "from": "packageCode",
+          "to": "hasKnownPackageToken"
+        },
+        {
           "op": "takeRegex",
           "pattern": "^[0-9A-Z]{1,3}(?=-)",
           "to": "unknownPackageCode",
@@ -2112,6 +2122,29 @@
           "pattern": "^[0-9A-Z]+(?=-)",
           "to": "unparsedBodyBeforeSpeed",
           "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{unknownPackageCode}}{{unparsedBodyBeforeSpeed}}",
+          "to": "packageTokenRemainder"
+        },
+        {
+          "op": "map",
+          "from": "packageTokenRemainder",
+          "table": "topologyRecognitionObj",
+          "to": "topologyRecognitionCandidateObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "topologyRecognitionObj",
+          "value": {}
+        },
+        {
+          "op": "mergeIf",
+          "into": "topologyRecognitionObj",
+          "from": "topologyRecognitionCandidateObj",
+          "if": "hasKnownPackageToken"
         },
         {
           "op": "tpl",
@@ -2402,6 +2435,9 @@
           "$var": "package"
         },
         "meta.ruleId": "vendor.micron.dram.component.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$path": "topologyRecognitionObj.recognized"
+        },
         "meta.fieldProfile": "dram",
         "meta.capabilities": [
           "part.decode",

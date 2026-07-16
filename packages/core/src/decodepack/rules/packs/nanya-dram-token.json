@@ -498,8 +498,6 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "dram_die_count": 1,
-            "cs_count": 1,
             "config_code": {
               "$var": "configCode"
             },
