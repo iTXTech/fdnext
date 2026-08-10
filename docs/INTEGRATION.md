@@ -69,7 +69,7 @@ const response = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 
 ### 1.2 Runtime dispatch 与 External Link
 
-`@itxtech/fdnext-core` 是平台无关入口，负责统一 dispatch、HTTP 路由和 External Link provider。Node.js、Cloudflare Workers、阿里云 FC 等 adapter 都应调用同一个 runtime，而不是各自维护路由。
+`@itxtech/fdnext-core` 是平台无关入口，负责统一 dispatch、HTTP 路由和 External Link provider。Node.js、Cloudflare Workers 等 adapter 都应调用同一个 runtime，而不是各自维护路由。
 
 ```ts
 import { createRuntime } from "@itxtech/fdnext-core/runtime";
@@ -232,9 +232,9 @@ pm2 logs fdnext-server
 
 ### 3.4 HTTP 接口
 
-Node.js server、Cloudflare Workers 和阿里云 FC 使用同一套 runtime HTTP 接口。完整接口表、query 参数、响应结构、旧接口移除说明和 CORS 行为见 [Server 接口文档](SERVER_API.md)。
+Node.js server 和 Cloudflare Workers 使用同一套 runtime HTTP 接口。完整接口表、query 参数、响应结构、旧接口移除说明和 CORS 行为见 [Server 接口文档](SERVER_API.md)。
 
-三个 adapter 均通过 `FDNEXT_CORS_ORIGINS` 控制 CORS；可设为 `*` 或逗号、空格分隔的 origin allowlist。标准 Node server 未设置该变量时不返回 CORS header：
+两个 adapter 均通过 `FDNEXT_CORS_ORIGINS` 控制 CORS；可设为 `*` 或逗号、空格分隔的 origin allowlist。标准 Node server 未设置该变量时不返回 CORS header：
 
 ```text
 FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
@@ -262,25 +262,3 @@ FDNEXT_SEARCH_LIMIT=300
 ```
 
 如果使用 Cloudflare Workers Builds 自动部署，并希望 CORS allowlist 只保存在 Cloudflare Dashboard，不进入仓库配置，保留 `packages/cf-workers/wrangler.jsonc` 中的 `keep_vars: true`，不要在 `vars` 中声明同名变量。
-
-### 4.2 阿里云函数计算 / 自定义运行时
-
-阿里云 FC adapter 由仓库内 `packages/aliyun-fc/src/index.ts` 提供 Node HTTP handler 和可直接启动的自定义运行时入口：
-
-```ts
-import { startAliyunFc } from "./packages/aliyun-fc/src/index";
-
-startAliyunFc();
-```
-
-默认监听 `FC_SERVER_PORT`、`PORT` 或 `9000`，host 默认为 `0.0.0.0`。
-
-阿里云 FC adapter 从环境变量读取 `FDNEXT_CORS_ORIGINS`：
-
-```text
-FDNEXT_CORS_ORIGINS=*
-FDNEXT_CORS_ORIGINS=https://app.example.com,https://admin.example.com
-FDNEXT_SEARCH_LIMIT=300
-```
-
-`*` 会放开所有来源；多个 origin 用逗号、空格或换行分隔，runtime 会按请求 `Origin` 精确匹配。preflight `OPTIONS` 会返回 `204`。

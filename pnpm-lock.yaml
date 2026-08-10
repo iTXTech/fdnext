@@ -24,12 +24,6 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
-  packages/aliyun-fc:
-    dependencies:
-      '@itxtech/fdnext-core':
-        specifier: workspace:*
-        version: link:../core
-
   packages/cf-workers:
     dependencies:
       '@itxtech/fdnext-core':
@@ -45,9 +39,6 @@ importers:
         specifier: ^8.20.0
         version: 8.20.0
     devDependencies:
-      '@itxtech/fdnext-aliyun-fc':
-        specifier: workspace:*
-        version: link:../aliyun-fc
       '@itxtech/fdnext-cf-workers':
         specifier: workspace:*
         version: link:../cf-workers

@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly",
-    "prepare:packages": "pnpm -r --filter @itxtech/fdnext-core --filter @itxtech/fdnext-server --filter @itxtech/fdnext-cf-workers --filter @itxtech/fdnext-aliyun-fc build",
+    "prepare:packages": "pnpm -r --filter @itxtech/fdnext-core --filter @itxtech/fdnext-server --filter @itxtech/fdnext-cf-workers build",
     "check": "pnpm prepare:packages && pnpm check:prepared",
     "check:prepared": "TSX_TSCONFIG_PATH=tsconfig.package-test.json tsx src/cli.ts",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
@@ -18,7 +18,6 @@
     "test:part-search:dram": "pnpm prepare:packages && TSX_TSCONFIG_PATH=tsconfig.package-test.json node --import tsx --test test/sdk-part-search-dedup-dram.pn.ts"
   },
   "devDependencies": {
-    "@itxtech/fdnext-aliyun-fc": "workspace:*",
     "@itxtech/fdnext-cf-workers": "workspace:*",
     "@itxtech/fdnext-server": "workspace:*"
   }

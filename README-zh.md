@@ -24,7 +24,7 @@
 - **料号解析:** 即时解析 Raw NAND, eMMC, UFS, DRAM 等复杂料号。
 - **Flash ID 解析:** 通过 typed identifier API 对 NAND Flash ID 进行深度检查。
 - **智能资源流:** 内置 `fdb`、`mdb`、语言包，并支持 Micron FBGA 代码反查。
-- **通用调度:** 为 Hapi、Cloudflare Workers 和阿里云 FC 提供共享 runtime 层。
+- **通用调度:** 为 Node.js HTTP 和 Cloudflare Workers 提供共享 runtime 层。
 - **数据维护:** 提供用于 FDB/MDB 生成、爬取、DecodePack 管理以及证据元数据审计的 CLI 工具。
 
 ---
@@ -34,7 +34,7 @@
 `fdnext` 采用严格的 TypeScript monorepo 组织。主包已经内置规则、资源和共享 runtime，平台包只保留薄适配器。
 
 - **核心 ([`@itxtech/fdnext-core`](packages/core)):** 引擎、DecodePack 规则 / 编译器、内置资源、result contract 和共享 runtime。
-- **适配器:** 原生支持 [Hapi](packages/server), [Cloudflare Workers](packages/cf-workers), 和 [阿里云 FC](packages/aliyun-fc)。
+- **适配器:** 原生支持 [Node.js HTTP](packages/server) 和 [Cloudflare Workers](packages/cf-workers)。
 - **数据工具 ([`@itxtech/fdbgen`](packages/fdbgen)):** 提供 FDB 数据库生成、MDB 爬虫及资源聚合等工具。
 - **测试与契约 ([`@itxtech/fdnext-contract-test`](packages/contract-test)):** 结果 schema 及行为 contract 验证。
 - **旧接口兼容:** [`@itxtech/fd-server`](packages/fd-server) 为 FlashMaster Classic 迁移部署提供旧 FlashDetector / FDWebServer HTTP API，并以 Cloudflare Workers 作为首选部署方式。

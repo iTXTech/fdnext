@@ -8,7 +8,6 @@
       "@itxtech/fdnext-core/node-http": ["./packages/core/src/node-http/index.ts"],
       "@itxtech/fdnext-server": ["./packages/server/src/index.ts"],
       "@itxtech/fdnext-cf-workers": ["./packages/cf-workers/src/index.ts"],
-      "@itxtech/fdnext-aliyun-fc": ["./packages/aliyun-fc/src/index.ts"],
       "@itxtech/fdnext-contract-test": ["./packages/contract-test/src/index.ts"],
       "@itxtech/fdnext-fdbgen": ["./packages/fdbgen/src/index.ts"]
     },
@@ -36,7 +35,6 @@
     "packages/core/tsdown.config.ts",
     "packages/server/tsdown.config.ts",
     "packages/fdbgen/tsdown.config.ts",
-    "packages/cf-workers/tsdown.config.ts",
-    "packages/aliyun-fc/tsdown.config.ts"
+    "packages/cf-workers/tsdown.config.ts"
   ]
 }

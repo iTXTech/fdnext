@@ -86,7 +86,7 @@ const result = app.engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 
 ## CORS
 
-The Node.js server reads `FDNEXT_CORS_ORIGINS`, using the same behavior as the Cloudflare Workers and Aliyun FC adapters:
+The Node.js server reads `FDNEXT_CORS_ORIGINS`, using the same behavior as the Cloudflare Workers adapter:
 
 ```text
 FDNEXT_CORS_ORIGINS=*

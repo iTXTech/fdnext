@@ -1,6 +1,6 @@
 # Server 接口文档
 
-本文档是 fdnext HTTP 接口的事实源。原生 Node.js server、Cloudflare Workers adapter 和阿里云 FC adapter 都复用 `@itxtech/fdnext-core` 的路由解析与响应 contract；部署文档只说明平台配置，不重复维护接口表。
+本文档是 fdnext HTTP 接口的事实源。原生 Node.js server 和 Cloudflare Workers adapter 都复用 `@itxtech/fdnext-core` 的路由解析与响应 contract；部署文档只说明平台配置，不重复维护接口表。
 
 ## 1. 基础约定
 
@@ -190,7 +190,7 @@ Search 响应同样使用 `fdnext.result.v1`，核心结果放在 `items[]`。�
 
 ## 8. CORS
 
-标准 Node.js server、Cloudflare Workers 和阿里云 FC adapter 都通过环境变量 `FDNEXT_CORS_ORIGINS` 控制 CORS：
+标准 Node.js server 和 Cloudflare Workers adapter 都通过环境变量 `FDNEXT_CORS_ORIGINS` 控制 CORS：
 
 ```text
 FDNEXT_CORS_ORIGINS=*
