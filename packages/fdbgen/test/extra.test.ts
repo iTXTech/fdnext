@@ -445,7 +445,82 @@ test("fdbgen trims PN and Flash ID edges with conflicting DecodePack profile met
   }
 });
 
-test("fdbgen keeps Kioxia generalized 24nm Flash ID relations for finer PN profile keys", () => {
+test("fdbgen trims conflicting per-CE topology and keeps unknown topology relations", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-topology-trim-"));
+  try {
+    writeFileSync(
+      join(inputDir, "fdb.json"),
+      JSON.stringify({
+        info: { version: "raw" },
+        samsung: {
+          K9XVGY8J5M: {
+            id: ["EC51DD1F88CB", "EC52DE1F8CCB"],
+            f: ["EC51DD1F88CB", "EC52DE1F8CCB"],
+            t: ["RAWCTRL"]
+          }
+        },
+        kioxia: {
+          TC58NVG7T2HBA4C: {
+            id: ["98DE999276D6"],
+            t: ["RAWCTRL"]
+          },
+          THGBM4G7D2GBAIE: {
+            id: ["98DE94827656"],
+            t: ["RAWCTRL"]
+          }
+        },
+        skhynix: {
+          H25T1QM18GX834: {
+            id: ["AD780C5B30E0"],
+            t: ["RAWCTRL"]
+          }
+        },
+        iddb: {
+          EC51DD1F88CB: {
+            t: ["RAWCTRL"],
+            n: ["samsung K9XVGY8J5M"]
+          },
+          EC52DE1F8CCB: {
+            t: ["RAWCTRL"],
+            n: ["samsung K9XVGY8J5M"]
+          },
+          "98DE999276D6": {
+            t: ["RAWCTRL"],
+            n: ["kioxia TC58NVG7T2HBA4C"]
+          },
+          "98DE94827656": {
+            t: ["RAWCTRL"],
+            n: ["kioxia THGBM4G7D2GBAIE"]
+          },
+          AD780C5B30E0: {
+            t: ["RAWCTRL"],
+            n: ["skhynix H25T1QM18GX834"]
+          }
+        }
+      }),
+      "utf8"
+    );
+
+    const fdb = generateFdb({ inputDir, version: "test" });
+    const samsung = fdb.samsung as Record<string, { id?: string[]; f?: string[] }>;
+    const kioxia = fdb.kioxia as Record<string, { id?: string[] }>;
+    const skhynix = fdb.skhynix as Record<string, { id?: string[] }>;
+    const iddb = fdb.iddb as Record<string, { n?: string[]; t?: string[] }>;
+
+    assert.deepEqual(samsung.K9XVGY8J5M?.id, ["EC51DD1F88CB"]);
+    assert.deepEqual(samsung.K9XVGY8J5M?.f, ["EC51DD1F88CB"]);
+    assert.deepEqual(iddb.EC51DD1F88CB?.n, ["samsung K9XVGY8J5M"]);
+    assert.deepEqual(iddb.EC52DE1F8CCB, { t: ["RAWCTRL"] });
+
+    assert.deepEqual(kioxia.TC58NVG7T2HBA4C?.id, ["98DE999276D6"]);
+    assert.deepEqual(kioxia.THGBM4G7D2GBAIE?.id, ["98DE94827656"]);
+    assert.deepEqual(skhynix.H25T1QM18GX834?.id, ["AD780C5B30E0"]);
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
+});
+
+test("fdbgen trims Kioxia relations when the process matches but per-CE topology conflicts", () => {
   const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-process-label-"));
   try {
     writeFileSync(
@@ -472,14 +547,14 @@ test("fdbgen keeps Kioxia generalized 24nm Flash ID relations for finer PN profi
     const fdb = generateFdb({ inputDir, version: "test" });
     const kioxia = fdb.kioxia as Record<string, { id?: string[] }>;
     const iddb = fdb.iddb as Record<string, { n?: string[] }>;
-    assert.deepEqual(kioxia.TH58NVG8T2HTA20?.id, ["983A99927656"]);
-    assert.deepEqual(iddb["983A99927656"]?.n, ["kioxia TH58NVG8T2HTA20"]);
+    assert.equal(kioxia.TH58NVG8T2HTA20?.id, undefined);
+    assert.equal(iddb["983A99927656"]?.n, undefined);
   } finally {
     rmSync(inputDir, { recursive: true, force: true });
   }
 });
 
-test("fdbgen keeps SK hynix QLC Flash ID relations after ID profile canonicalization", () => {
+test("fdbgen keeps topology-compatible SK hynix QLC relations after ID profile canonicalization", () => {
   const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-hynix-profile-"));
   try {
     writeFileSync(
@@ -487,17 +562,17 @@ test("fdbgen keeps SK hynix QLC Flash ID relations after ID profile canonicaliza
       JSON.stringify({
         info: { version: "raw" },
         skhynix: {
-          H25JGQ8B3M: {
-            id: ["AD892D5330A0"],
+          H25JGQ8A1M: {
+            id: ["AD892C5330A0"],
             t: ["MAS1102"],
             l: "HYV5",
             c: "QLC"
           }
         },
         iddb: {
-          AD892D5330A0: {
+          AD892C5330A0: {
             t: ["MAS1102"],
-            n: ["skhynix H25JGQ8B3M"]
+            n: ["skhynix H25JGQ8A1M"]
           }
         }
       }),
@@ -507,8 +582,8 @@ test("fdbgen keeps SK hynix QLC Flash ID relations after ID profile canonicaliza
     const fdb = generateFdb({ inputDir, version: "test" });
     const skhynix = fdb.skhynix as Record<string, { id?: string[] }>;
     const iddb = fdb.iddb as Record<string, { n?: string[] }>;
-    assert.deepEqual(skhynix.H25JGQ8B3M?.id, ["AD892D5330A0"]);
-    assert.deepEqual(iddb.AD892D5330A0?.n, ["skhynix H25JGQ8B3M"]);
+    assert.deepEqual(skhynix.H25JGQ8A1M?.id, ["AD892C5330A0"]);
+    assert.deepEqual(iddb.AD892C5330A0?.n, ["skhynix H25JGQ8A1M"]);
   } finally {
     rmSync(inputDir, { recursive: true, force: true });
   }
@@ -602,7 +677,7 @@ test("fdbgen writes DecodePack lookup PN metadata as canonical FDB keys", () => 
         info: { version: "raw" },
         micron: {
           "MT29F16T08EWLEHD6-36ITRES:E": {
-            id: ["2C844863A904"],
+            id: ["2CF38A32E834"],
             l: "B74A",
             c: "TLC",
             t: ["RAWCTRL"]
@@ -617,7 +692,7 @@ test("fdbgen writes DecodePack lookup PN metadata as canonical FDB keys", () => 
           }
         },
         iddb: {
-          "2C844863A904": {
+          "2CF38A32E834": {
             n: ["micron MT29F16T08EWLEHD6-36ITRES:E"],
             t: ["RAWCTRL"]
           },
@@ -634,11 +709,11 @@ test("fdbgen writes DecodePack lookup PN metadata as canonical FDB keys", () => 
     const micron = fdb.micron as Record<string, { id?: string[] }>;
     const spectek = fdb.spectek as Record<string, { id?: string[] }>;
     const iddb = fdb.iddb as Record<string, { n?: string[] }>;
-    assert.deepEqual(micron.MT29F16T08EWLEH?.id, ["2C844863A904"]);
+    assert.deepEqual(micron.MT29F16T08EWLEH?.id, ["2CF38A32E834"]);
     assert.equal(micron["MT29F16T08EWLEHD6-36ITRES:E"], undefined);
     assert.deepEqual(spectek.FBNL06B256G1KDBAB?.id, ["B5844432AA04"]);
     assert.equal(spectek.FBNL06B256G1KDBABH4, undefined);
-    assert.deepEqual(iddb["2C844863A904"]?.n, ["micron MT29F16T08EWLEH"]);
+    assert.deepEqual(iddb["2CF38A32E834"]?.n, ["micron MT29F16T08EWLEH"]);
     assert.deepEqual(iddb.B5844432AA04?.n, ["spectek FBNL06B256G1KDBAB"]);
   } finally {
     rmSync(inputDir, { recursive: true, force: true });
@@ -1014,13 +1089,13 @@ test("fdbgen discovers input extra directory and keeps higher-priority extra IDs
               l: "3D B16A"
             },
             MT29F512G08EBHAF: {
-              id: ["2C0011223344"],
+              id: ["2CC40832A600"],
               l: "sky-process"
             }
           }
         },
         iddb: {
-          "2C0011223344": {
+          "2CC40832A600": {
             t: ["SKYCTRL"]
           }
         }
@@ -1033,7 +1108,7 @@ test("fdbgen discovers input extra directory and keeps higher-priority extra IDs
     assert.deepEqual(micron.MT29F256G08CBCBB?.id, ["2CA46432AA04"]);
     assert.equal(micron.MT29F256G08CBCBB?.fid, undefined);
     assert.equal(micron.MT29F256G08CBCBB?.l, "B16A");
-    assert.deepEqual(micron.MT29F512G08EBHAF?.id, ["2C0011223344"]);
+    assert.deepEqual(micron.MT29F512G08EBHAF?.id, ["2CC40832A600"]);
     assert.equal(micron.MT29F512G08EBHAF?.fid, undefined);
     assert.equal(micron.MT29F512G08EBHAF?.l, undefined);
   } finally {

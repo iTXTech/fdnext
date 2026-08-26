@@ -32,19 +32,22 @@ interface LoadedExtraPayload {
 const DEFAULT_CONTROLLER_BLACKLIST = ["3281FL", "3379FL"];
 const MIN_SAMSUNG_K9_PART_NUMBER_LENGTH = "K9OKGY8S7C".length;
 
-interface DecodePackProcessMatcher {
-  partProfile(vendor: string, partNumber: string): ProcessProfile;
-  identifierProfile(flashId: string): ProcessProfile;
+interface DecodePackRelationMatcher {
+  partProfile(vendor: string, partNumber: string): RelationProfile;
+  identifierProfile(flashId: string): RelationProfile;
 }
 
-interface ProcessProfile {
+interface RelationProfile {
   keys: Set<string>;
   labels: Set<string>;
+  diesPerCe?: number;
 }
 
-let defaultProcessMatcher: DecodePackProcessMatcher | undefined;
+type RelationCompatibility = "compatible" | "conflict" | "unknown";
 
-const processMatcherResources = {
+let defaultRelationMatcher: DecodePackRelationMatcher | undefined;
+
+const relationMatcherResources = {
   partIndex: {
     rawNand: {},
     managedNand: [],
@@ -156,7 +159,25 @@ function mergeStringArray(target: string[] | undefined, source: string[], toUppe
   return [...set];
 }
 
-function readProcessProfileFromDraft(draft: PartDecodeDraft | IdentifierDecodeDraft | null | undefined): ProcessProfile {
+function positiveIntegerField(
+  draft: PartDecodeDraft | IdentifierDecodeDraft | null | undefined,
+  field: "die_count" | "ce_count"
+): number | undefined {
+  const value = draft?.fields?.[field];
+  if (typeof value === "number" && Number.isSafeInteger(value) && value > 0) {
+    return value;
+  }
+  if (typeof value !== "string" || !/^\d+$/.test(value.trim())) {
+    return undefined;
+  }
+  const parsed = Number(value);
+  return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : undefined;
+}
+
+function readRelationProfileFromDraft(
+  draft: PartDecodeDraft | IdentifierDecodeDraft | null | undefined,
+  side: "part" | "identifier"
+): RelationProfile {
   const keys = new Set<string>();
   const labels = new Set<string>();
   const meta = draft?.meta;
@@ -176,7 +197,17 @@ function readProcessProfileFromDraft(draft: PartDecodeDraft | IdentifierDecodeDr
   if (dieCodename) {
     labels.add(dieCodename);
   }
-  return { keys, labels };
+
+  const dieCount = positiveIntegerField(draft, "die_count");
+  if (side === "identifier") {
+    return { keys, labels, ...(dieCount !== undefined ? { diesPerCe: dieCount } : {}) };
+  }
+
+  const ceCount = positiveIntegerField(draft, "ce_count");
+  const diesPerCe = dieCount !== undefined && ceCount !== undefined && dieCount >= ceCount && dieCount % ceCount === 0
+    ? dieCount / ceCount
+    : undefined;
+  return { keys, labels, ...(diesPerCe !== undefined ? { diesPerCe } : {}) };
 }
 
 function draftVendor(draft: PartDecodeDraft | IdentifierDecodeDraft | null | undefined): string {
@@ -184,16 +215,16 @@ function draftVendor(draft: PartDecodeDraft | IdentifierDecodeDraft | null | und
   return typeof vendor === "string" ? normalizeVendor(vendor) : "";
 }
 
-function getDefaultProcessMatcher(): DecodePackProcessMatcher {
-  if (defaultProcessMatcher) {
-    return defaultProcessMatcher;
+function getDefaultRelationMatcher(): DecodePackRelationMatcher {
+  if (defaultRelationMatcher) {
+    return defaultRelationMatcher;
   }
 
-  const engine: FdnextEngine = createEngine({ resources: processMatcherResources });
-  const partCache = new Map<string, ProcessProfile>();
-  const identifierCache = new Map<string, ProcessProfile>();
+  const engine: FdnextEngine = createEngine({ resources: relationMatcherResources });
+  const partCache = new Map<string, RelationProfile>();
+  const identifierCache = new Map<string, RelationProfile>();
 
-  defaultProcessMatcher = {
+  defaultRelationMatcher = {
     partProfile(vendor, partNumber) {
       const normalizedVendor = normalizeVendor(vendor);
       const cacheKey = `${normalizedVendor} ${partNumber}`;
@@ -209,7 +240,7 @@ function getDefaultProcessMatcher(): DecodePackProcessMatcher {
       const decodedVendor = draftVendor(draft);
       const profile = normalizedVendor && decodedVendor && decodedVendor !== "unknown" && !isCompatibleVendor(normalizedVendor, decodedVendor)
         ? { keys: new Set<string>(), labels: new Set<string>() }
-        : readProcessProfileFromDraft(draft);
+        : readRelationProfileFromDraft(draft, "part");
       partCache.set(cacheKey, profile);
       return profile;
     },
@@ -219,12 +250,15 @@ function getDefaultProcessMatcher(): DecodePackProcessMatcher {
         return cached;
       }
 
-      const profile = readProcessProfileFromDraft(engine.decodeIdentifierDraft({ query: flashId, idScheme: "nand.flash_id" }));
+      const profile = readRelationProfileFromDraft(
+        engine.decodeIdentifierDraft({ query: flashId, idScheme: "nand.flash_id" }),
+        "identifier"
+      );
       identifierCache.set(flashId, profile);
       return profile;
     }
   };
-  return defaultProcessMatcher;
+  return defaultRelationMatcher;
 }
 
 function setsIntersect(left: Set<string>, right: Set<string>): boolean {
@@ -236,11 +270,27 @@ function setsIntersect(left: Set<string>, right: Set<string>): boolean {
   return false;
 }
 
-function shouldKeepProcessRelation(partProfile: ProcessProfile, identifierProfile: ProcessProfile): boolean {
+function processCompatibility(partProfile: RelationProfile, identifierProfile: RelationProfile): RelationCompatibility {
   if (partProfile.keys.size === 0 || identifierProfile.keys.size === 0) {
-    return true;
+    return "unknown";
   }
-  return setsIntersect(partProfile.keys, identifierProfile.keys) || setsIntersect(partProfile.labels, identifierProfile.labels);
+  return setsIntersect(partProfile.keys, identifierProfile.keys) || setsIntersect(partProfile.labels, identifierProfile.labels)
+    ? "compatible"
+    : "conflict";
+}
+
+function topologyCompatibility(partProfile: RelationProfile, identifierProfile: RelationProfile): RelationCompatibility {
+  if (partProfile.diesPerCe === undefined || identifierProfile.diesPerCe === undefined) {
+    return "unknown";
+  }
+  return partProfile.diesPerCe === identifierProfile.diesPerCe ? "compatible" : "conflict";
+}
+
+function shouldKeepRelation(partProfile: RelationProfile, identifierProfile: RelationProfile): boolean {
+  return (
+    processCompatibility(partProfile, identifierProfile) !== "conflict" &&
+    topologyCompatibility(partProfile, identifierProfile) !== "conflict"
+  );
 }
 
 function buildControllerBlacklist(...sources: Array<unknown>): Set<string> {
@@ -800,25 +850,25 @@ function pruneCrossVendorPartIds(vendors: VendorMap): void {
   }
 }
 
-function filterFlashIdRelationsByProcess(vendor: string, partNumber: string, ids: string[] | undefined, matcher: DecodePackProcessMatcher): string[] | undefined {
+function filterFlashIdRelations(vendor: string, partNumber: string, ids: string[] | undefined, matcher: DecodePackRelationMatcher): string[] | undefined {
   const partProfile = matcher.partProfile(vendor, partNumber);
-  const kept = ids?.filter((id) => shouldKeepProcessRelation(partProfile, matcher.identifierProfile(id))) ?? [];
+  const kept = ids?.filter((id) => shouldKeepRelation(partProfile, matcher.identifierProfile(id))) ?? [];
   return kept.length > 0 ? kept : undefined;
 }
 
-function trimProcessMismatchedRelations(vendors: VendorMap, iddb: FlashIdMap): Set<string> {
-  const matcher = getDefaultProcessMatcher();
-  const processTrimmedFlashIds = new Set<string>();
+function trimMismatchedRelations(vendors: VendorMap, iddb: FlashIdMap): Set<string> {
+  const matcher = getDefaultRelationMatcher();
+  const trimmedFlashIds = new Set<string>();
   for (const [vendor, parts] of vendors.entries()) {
     for (const [partNumber, payload] of parts.entries()) {
-      const ids = filterFlashIdRelationsByProcess(vendor, partNumber, payload.id, matcher);
+      const ids = filterFlashIdRelations(vendor, partNumber, payload.id, matcher);
       if (ids) {
         payload.id = ids;
       } else {
         delete payload.id;
       }
 
-      const linkedIds = filterFlashIdRelationsByProcess(vendor, partNumber, payload.f, matcher);
+      const linkedIds = filterFlashIdRelations(vendor, partNumber, payload.f, matcher);
       if (linkedIds) {
         payload.f = linkedIds;
       } else {
@@ -830,7 +880,7 @@ function trimProcessMismatchedRelations(vendors: VendorMap, iddb: FlashIdMap): S
   for (const [flashId, payload] of iddb.entries()) {
     const identifierProfile = matcher.identifierProfile(flashId);
     const refs: string[] = [];
-    let removedForProcess = false;
+    let removedForConflict = false;
     for (const rawReference of payload.n ?? []) {
       const reference = normalizeFdbPartReference(rawReference);
       if (!reference) {
@@ -840,10 +890,10 @@ function trimProcessMismatchedRelations(vendors: VendorMap, iddb: FlashIdMap): S
       if (!vendor || !partNumber || !vendors.get(vendor)?.has(partNumber)) {
         continue;
       }
-      if (shouldKeepProcessRelation(matcher.partProfile(vendor, partNumber), identifierProfile)) {
+      if (shouldKeepRelation(matcher.partProfile(vendor, partNumber), identifierProfile)) {
         refs.push(reference);
       } else {
-        removedForProcess = true;
+        removedForConflict = true;
       }
     }
     if (refs.length > 0) {
@@ -851,11 +901,11 @@ function trimProcessMismatchedRelations(vendors: VendorMap, iddb: FlashIdMap): S
     } else {
       delete payload.n;
     }
-    if (removedForProcess) {
-      processTrimmedFlashIds.add(flashId);
+    if (removedForConflict) {
+      trimmedFlashIds.add(flashId);
     }
   }
-  return processTrimmedFlashIds;
+  return trimmedFlashIds;
 }
 
 function linkPartFlashIds(vendors: VendorMap, iddb: FlashIdMap): void {
@@ -1336,10 +1386,10 @@ function generateFdbInternal(options: GenerateFdbOptions, trace?: FdbProvenanceT
   pruneLowInformationPartRecords(vendors);
   canonicalizeIddbReferences(iddb, vendors);
   linkPartFlashIds(vendors, iddb);
-  const processTrimmedFlashIds = trimProcessMismatchedRelations(vendors, iddb);
+  const trimmedFlashIds = trimMismatchedRelations(vendors, iddb);
   pruneLowInformationPartRecords(vendors);
   canonicalizeIddbReferences(iddb, vendors);
-  pruneLowConfidenceFlashRecords(vendors, iddb, processTrimmedFlashIds);
+  pruneLowConfidenceFlashRecords(vendors, iddb, trimmedFlashIds);
   pruneLowInformationPartRecords(vendors);
   const controllerBlacklist = buildControllerBlacklist(options.controllerBlacklist, extra.controllerBlacklist);
 

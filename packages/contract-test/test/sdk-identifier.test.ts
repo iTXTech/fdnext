@@ -51,7 +51,7 @@ assert.ok(richIdentifierHit);
 assert.deepEqual(searchItemControllerValues(richIdentifierHit), [], "identifier search should not expose controller fields");
 assert.ok((richIdentifierHit.relations ?? []).some((relation) => relation.target.partNumber), "identifier search should retain part-number relations");
 const sataIdentifierDecode = engine.decodeIdentifier({ query: "2C84643CA500", lang: "eng", controllerGroup: "if:sata" });
-assert.deepEqual(controllerFieldValues(sataIdentifierDecode), ["SM2244LT", "SM2246EN", "SM2246XT", "YS9083XT"]);
+assert.deepEqual(controllerFieldValues(sataIdentifierDecode), ["JMF608", "SM2244LT", "SM2246EN", "SM2246XT", "YS9083XT"]);
 const partSearchControllerHit = engine.searchParts({ query: "MT29F512G08CMCAB", lang: "eng", limit: 5 }).items
   .find((item) => item.device.partNumber === "MT29F512G08CMCAB");
 assert.deepEqual(searchItemControllerValues(partSearchControllerHit), [], "part search should not expose controller fields");
