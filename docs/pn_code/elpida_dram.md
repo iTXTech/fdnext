@@ -1,6 +1,6 @@
 # Elpida DRAM PN 规则
 
-采集日期：2026-05-08
+采集日期：2026-05-08；更新日期：2026-08-27
 
 本页记录 Elpida standalone DRAM 颗粒的 PN 结构。Elpida 已被 Micron 收购，旧 PN 资料多来自原厂 datasheet 镜像、Intel validation 表和公开分销/检索页面；规则只纳入能被外部资料交叉确认的 token。
 
@@ -16,12 +16,19 @@
 ## iTXTech fdnext DecodePack 范围
 
 - 规则文件：`packages/core/src/decodepack/rules/packs/elpida-dram-token.json`
-- 规则 ID：`vendor.elpida.dram.sdr_ddr.component.v1`、`vendor.elpida.dram.ddr2_ddr3.component.v1`、`vendor.elpida.dram.lpddr2_lpddr3.component.v1`、`vendor.elpida.dram.gddr5.component.v1`
+- 规则 ID：`vendor.elpida.dram.sdr_ddr.component.v1`、`vendor.elpida.dram.ddr2_ddr3.component.v1`、`vendor.elpida.dram.lpddr2_lpddr3.component.v1`、`vendor.elpida.dram.gddr5.component.v1`、`vendor.elpida.dram.daisy_chain_mobile.v1`
 - 当前覆盖：
   - SDR / DDR：`EDS/EDD`
   - DDR2 / DDR3：`EDE/EDJ`
   - LPDDR2 / LPDDR3：`EDB/EDF`
   - Graphics DRAM：`EDW2032...` GDDR5
+  - Daisy-chain LPDDR2 / LPDDR3：`EMB` / `EMF`，仅输出编号表已确认的 token 含义
+
+Micron 官方 legacy Elpida guide 第 11/13 页确认第二位 `D=packaged device`、
+`M=daisy-chain sample`，二者不是不同 vendor。本轮 `EMBA164B1PH-1D-F-R` /
+`EMF8132A3PB-DV-F-D` 沿用仓库已有 Elpida 归属，输出 `special_option = Daisy chain sample`；
+`PH/PB` 封装和 LPDDR2 `1D` 速度按表解析，未知 `DV` 不猜速率。
+<https://assets.micron.com/adobe/assets/urn%3Aaaid%3Aaem%3A0b279ea9-4e4c-49fa-98c6-c18ad4c67279/renditions/original/as/legacy-elpida-pns.pdf>
 
 ## PN 结构
 

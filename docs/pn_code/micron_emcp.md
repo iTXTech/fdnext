@@ -1,6 +1,6 @@
 # Micron MCP / eMCP / uMCP PN 编码资料
 
-采集日期：2026-07-12
+采集日期：2026-07-12；更新日期：2026-08-27
 
 本文档记录 Micron NAND MCP、AiO legacy MCP/eMCP 与 UFS uMCP 组合封装规则。它们不是 raw NAND，也不是单独的 `MTFC` eMMC / UFS；应作为 composite managed NAND 输出，并用 storage / DRAM 字段表达子组件。`nummcp.pdf` 中的 NOR MCP 页面本轮按需求忽略，不进入规则和测试。
 
@@ -9,7 +9,7 @@
 - Micron 官方 `NOR MCP, NAND MCP, PoP and AiO Part Numbering Systems` PDF (`nummcp.pdf`) 给出 NAND MCP、MCP/PoP/AiO、AiO legacy 的结构表，确认 product family、NAND/LPDRAM density/width、voltage、package configuration、package、`-` 后 speed / temperature / production status / special option / die revision 后缀。本文只使用 NAND MCP、MCP/PoP/AiO、AiO 页面，忽略 NOR。
 - 用户补充的 Micron locked datasheet catalog rows 确认 `MT29VZZZ...` 254-ball uMCP UFS + LPDDR4X 与 `MT30AZZZ...` 297-ball uMCP UFS + LPDDR5 的实际 PN、storage density、controller、DRAM density、package configuration、speed/temp/die revision 后缀。
 - Micron `TN-29-85: UFS Memory Health Report for Mobile Devices` (`tn2985_accessing_ufs_health_report.pdf`) Table 1 给出 `MT29V` / `MT30A` uMCP 已知 PN、NAND die 组成、DRAM 颗粒组成、package code 和 Health Report 适用范围。
-- Micron 官方 UFS-based MCP live catalog JSON 的 14 条记录用于全量回归，补齐 `023 = LPDDR5-8533`，使 `MT30AZZZCDA4TKXL-023 W.273` / `MT30AZZZDDA4TOXM-023 W.274` 不再回退为 NAND；同一 catalog 直接确认 `SL/PR/SM` 的 254-ball package 与 `EQ/QS/WL/XL/XM` 的 297-ball package 类型和尺寸。<https://www.micron.com/content/micron/us/en/products/storage/managed-nand/universal-flash-storage/part-catalog/_jcr_content.products.json/getpartcatalog/multichip-packages/ufs-based-mcp/-/en_US>
+- Micron 官方 UFS-based MCP live catalog JSON 的 14 条记录用于全量回归，补齐 `023` 的 8533 MT/s 速率，使 `MT30AZZZCDA4TKXL-023 W.273` / `MT30AZZZDDA4TOXM-023 W.274` 不再回退为 NAND；2026-08-27 根据官方 document-search metadata 将 MT30A controller `4/5` 的 DRAM 类型及对应速率细化为 `LPDDR5X` / `LPDDR5X-8533`。同一 catalog 直接确认 `SL/PR/SM` 的 254-ball package 与 `EQ/QS/WL/XL/XM` 的 297-ball package 类型和尺寸。<https://www.micron.com/content/micron/us/en/products/storage/managed-nand/universal-flash-storage/part-catalog/_jcr_content.products.json/getpartcatalog/multichip-packages/ufs-based-mcp/-/en_US>
 - 2026-07-12 复查 Micron 官方 eMMC-based MCP live catalog 的 15 条记录。`MT29GZ9A9BPMET...` 与 `MT29GZ6A9BPGET...` 的组合容量确认 density token `9 = 16Gb`；同一 catalog 确认 `ET = VFBGA-149, 8x9.5x1.0` 及 `AUT = -40°C ~ 125°C`。排除已有有效 MDB 覆盖后，5 条结构化 decoder 可完整解析的 `MT29GZ...` PN 进入搜索资源；唯一 compact `MT29V5D7GVESL-046I.216` 因公开 ordering token 不足继续排除，不为单一料号扩大 match。<https://www.micron.com/products/multichip-packages/emmc-based-mcp/part-catalog>
 - 同轮复查 UFS-based MCP 14 条记录后，仅 `MT30AZZZDDA0TPQS-031 WL.19Q` 尚无有效 MDB / 搜索资源覆盖；它已由既有 `MT30A` uMCP token 规则完整解析并进入搜索资源。
 - 同轮继续全量复查 Micron 官方 current / obsolete NAND-based MCP catalog 的 96 条记录。其中 89 条 `MT29A/C/GZ/RZ/UZ...` NAND MCP / AiO PN 均由结构化规则识别，且 exact PN 已由有效 MDB 或现有搜索资源覆盖，不重复入库。catalog 进一步确认 AiO package token `PB/PL/SK/SP/TB` 与 MT29C package token `KB` 的类型、球数和尺寸；规则仅补这些局部 token 映射，不加入完整 PN 查表。<https://www.micron.com/products/obsolete/obsolete-nand-mcp-catalog/part-catalog>
@@ -29,6 +29,7 @@
   - `vendor.micron.umcp.mt29v_mt30a.v1`
   - `vendor.micron.emcp.nand_mcp.v1`
   - `vendor.micron.emcp.aio.v1`
+  - `vendor.micron.emcp.mt29d.v1`
   - `vendor.micron.emcp.mt29c.v1` / `vendor.micron.emcp.mt29rz.v1` 为 lower-priority legacy fallback；`MT29RZ...` 等符合 AiO 结构的旧例优先由 `vendor.micron.emcp.aio.v1` 覆盖。
 - testcase：`packages/core/test/decodepack/part-number/micron-mcp-all-in-one.test.ts`、`packages/core/test/decodepack/part-number/micron-mcp-mt29c.test.ts`、`packages/core/test/decodepack/part-number/micron-umcp.test.ts`
 
@@ -61,15 +62,17 @@
 
 `MT29C...` legacy fallback 同样按 density / configuration / package / suffix token 解析。官方 obsolete catalog 的 `MT29C4G48MAZBBAKB-48 IT` 与 ES 变体确认 `KB = WFBGA-168, 12x12x0.8`；该 exact PN 只用于回归和证据，不作为 decoder match 条件。
 
-## uMCP UFS + LPDDR4X / LPDDR5 结构
+## uMCP UFS + LPDDR4X / LPDDR5 / LPDDR5X 结构
 
 | PN 结构 | 字段 |
 | --- | --- |
 | `MT29VZZZ` + DRAM density/width + UFS density/controller + voltage + package configuration + package + speed/temp/die revision | 254-ball uMCP UFS + Mobile LPDDR4X |
-| `MT30AZZZ` + DRAM density/width + UFS density/controller + voltage + package configuration + package + speed/temp/die revision | 297-ball uMCP UFS + Mobile LPDDR5 |
+| `MT30AZZZ` + DRAM density/width + UFS density/controller + voltage + package configuration + package + speed/temp/die revision | UFS + LPDDR5/LPDDR5X，package token 确认后输出 297/305-ball uMCP |
 | DRAM density `7/A/B/C/D` | 24Gb / 32Gb / 48Gb / 64Gb / 96Gb |
-| UFS density `7/8/9/A/B` | 32GB / 64GB / 128GB / 256GB / 512GB |
+| UFS density `7/8/9/A/B/C` | 32GB / 64GB / 128GB / 256GB / 512GB / 1TB |
 | controller `H/F/1/Z/0` | SM2750 100s v2.1、SM2752 110s v2.1/v2.2、SM2754 120s/140s、9U6A 140s |
+| MT30A controller `4/5` | 9U2A + UFS 3.1/4.1 + LPDDR5X；不将 150s/160s 固定到 controller token |
+| MT30A package `AV/AW` | `uMCP-305`，公开 metadata 未确认尺寸或 V/TFBGA 类型 |
 | package configuration `F/K/L/O/P` | 2 / 4 / 3 / 6 / 8 LPDRAM + 1 UFS |
 
 DRAM density token 独立解析；例如 `C` 始终按 64Gb 处理，`F/K/O/P` 只表达封装内 LPDRAM 颗数，不覆盖 density。测试中覆盖 `MT29VZZZCD91SFSM 046 W.18C` 与 `MT29VZZZCD91SKSM 046 W.17Y`，两者均输出 64Gb LPDDR4X，但 package configuration 分别是 `2 LPDRAM, 1 UFS` 和 `4 LPDRAM, 1 UFS`。
@@ -78,15 +81,42 @@ TN-29-85 中 `MT30AZZZCD9ZTOQS-031 W.15Q` 这类 `128GB (2 x B27B) + 48Gb (4 x Y
 
 Micron locked rows 中的 `046 W.G0J`、`031 WL.19Q` 等无 hyphen 后缀也作为完整规则支持；normalizer 会移除空格、点和可选 hyphen，并保留 `W` / `WL` temperature 与后续 die revision。
 
+2026-08-27 的官方 document-search metadata 确认 UM278/UM27E/UM27G 系列的
+`C` storage、MT30A `4/5` controller 和 `AV/AW` package；controller `4/5` 下 `023` 输出
+`LPDDR5X-8533`。`WN/WD` 按完整后缀 token 消费，避免污染后续 die revision；`WD` 不猜温区。
+安全 PDF 正文需登录，本轮证据限于官方公开标题/description。
+<https://www.micron.com/search-results?searchRequest=MT30AZZZDDC4TOWL>
+<https://www.micron.com/search-results?searchRequest=MT30AZZZEDC5TPAW>
+
 ## DRAM Speed 输出约定
 
 - 有官方 CL 的旧 LPDRAM speed 输出为 `LPDDR2-1066 CL8`、`LPDDR-333 CL3` 这类 `LPDDR*-rate CL*` 形式，不再输出 `533MHz CL8 (LPDDR 1066)`。
-- `046/053/062/031/026/023` 这类 LPDDR4/LPDDR4X/LPDDR5 speed bin 在当前资料中只确认数据率，未确认 CL；规则输出 `LPDDR4X-4266`、`LPDDR4X-3733`、`LPDDR5-6400`、`LPDDR5-8533`，不补未确认的 CL。
+- `046/053/062/031/026/023` 这类 LPDDR4/LPDDR4X/LPDDR5/LPDDR5X speed bin 在当前资料中只确认数据率，未确认 CL；规则输出 `LPDDR4X-4266`、`LPDDR4X-3733`、`LPDDR5-6400`、`LPDDR5-8533`，MT30A controller `4/5` 下的 `023` 输出 `LPDDR5X-8533`，不补未确认的 CL。
 - `speed_grade` 只保留真正表达测试等级或 binning 的场景；Micron MCP speed token 统一输出到 `dram_speed`。
+- speed 按已确认的 DRAM type + 三位 speed token 查表；未知 token 或未经确认的跨代组合不输出速度，但保留容量、类型及后续温区/revision。
 
 ## Raw NAND 边界
 
 Micron raw NAND 规则只覆盖 `MT29E...` / `MT29F...`，其中 `MT29FB...` 复用 `MT29F` raw NAND token 结构；`B` marker 只作内部解析，不额外输出独立 chip kind 或 `ecc_enabled`。`MT29A/B/C/D/G/J/K/M/P/Q/R/T/U/V...` MCP/AiO/uMCP 结构不应进入 raw NAND parser。
+
+## 2026-08-27 legacy backlog 研究
+
+- `MT29C8G96MAAAEBACKD-5 WT` 已通过结构化 body 长度扩展解析。
+  `MT29C1G512MAACAUAMD-5 IT ES` 的 `512M` 分段没有可公开 grammar，官方指南对应位置只定义
+  `12M`，因此仍 identity-only；其余 24 条 `MT29C[23]D...-DC` 也保持
+  search-only，不从 compact body 推导容量、daisy-chain 或 package。
+- 39 条 `MT29D` 已接入结构化 classification 规则：输出
+  `SLC NAND + LPDDR + MLC eMMC`、speed/temperature/status；三组 component triple
+  因官方未解释而只作内部 token，不公开 code 或猜测容量。
+- 52 条 `MT29Z...OTP` 可通过 package + die revision 与正式 `MT29V/MT30A` catalog PN
+  对应，但同一 compact namespace 横跨 eMMC 与 UFS；它们应作为 internal OTP/search-only，
+  不公开 OTP 语义，也不建立 exact alias 转换表。
+
+以上研究使用 Micron MCP/AiO numbering、官方 FBGA decoder、eMMC-based MCP 与 UFS-based
+MCP catalog：<https://assets.micron.com/adobe/assets/urn%3Aaaid%3Aaem%3Ac8a329b9-b44e-4bd8-b309-a75929865e96/original/as/nummcp.pdf>、
+<https://www.micron.com/sales-support/design-tools/fbga-parts-decoder>、
+<https://www.micron.com/content/micron/us/en/products/multichip-packages/emmc-based-mcp/part-catalog/_jcr_content.products.json/getpartcatalog/multichip-packages/emmc-based-mcp/-/en_US>、
+<https://www.micron.com/products/multichip-packages/ufs-based-mcp/part-catalog>。
 
 ## 示例
 

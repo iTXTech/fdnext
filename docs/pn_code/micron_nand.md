@@ -24,6 +24,10 @@
 - Micron 官方 FBGA decoder 可确认 `NC103` 对应 `MT29FB16T08GALAAM5-TES:B`，`NC104`
   对应 `MT29FB16T08GALAAM5-T:B`。
   <https://www.micron.com/sales-support/design-tools/fbga-parts-decoder>
+- 2026-08-27 对 Micron MDB 反查确认 8 个 `EE29E...` / `EE29F...` body 与 current
+  `MT29E...` / `MT29F...` ordering 的 density、width、cell、configuration、voltage、die、
+  interface、package 和 suffix 位置一致。规则把 `MT/EE` 作为独立 system token；`EE`
+  固定输出一次 `Early Engineering Samples`，并优先于尾部 `ES`，不泄漏原始 system code。
 - Micron 官方 obsolete catalog 有 `MT29FB16T08GALAAM5-T-B` 与
   `MT29FB8T08EALAAM5-QK-E` 详情页，可作为 PN 存在性与产品线 reference。
   <https://www.micron.com/products/obsolete/obsolete-tlc-nand/part-catalog/part-detail/mt29fb16t08galaam5-t-b>
@@ -94,7 +98,7 @@ iTXTech fdnext DecodePack:
 Micron Raw NAND 由三类官方 ordering 结构覆盖，不保留旧的未分型通用规则：
 
 - `vendor.micron.hsc.mt29fb.v1`：`MT29FB` HSC NAND，优先级最高。
-- `vendor.micron.raw.current.v1`：`MT29E` / `MT29F` current 50-series 及后续 raw NAND。
+- `vendor.micron.raw.current.v1`：`MT29E/F` / `EE29E/F` current 50-series 及后续 raw NAND。
 - `vendor.micron.raw.legacy.v1`：官方 legacy 20-series ~ 60-series raw NAND，包括 `29H`
   High Speed NAND Flash。
 
@@ -201,6 +205,8 @@ Legacy 20-series ~ 60-series 结构与 current 结构不同：width 后直接是
 - `MT29H8G08AAAC6-20ETES:A`
 - `MT29F128G08WAAC6-ETES:A`
 - `MT29F2G08ABDHC-ET:D`
+- `EE29E2T08CTCCBJ7-10NES:C`
+- `EE29F512G08EBLDEH6-QAES:D`
 - 去冒号输入也应匹配 mdb canonical PN，例如 `MT29FB16T08GALAAM5-TESB` -> `MT29FB16T08GALAAM5-TES:B`
 - Micron managed NAND PN 同样以有效 `mdb.json` mapping 为优先来源：MDB 已包含等价 PN 或 suffix 更详细的 PN 时，不再向 `managed-nand-pn.json` 重复加入；带 `DO NOT USE` 的 mapping 不作为覆盖依据。
 
@@ -211,5 +217,16 @@ Legacy 20-series ~ 60-series 结构与 current 结构不同：width 后直接是
 - `N2` 目前只有 package token，ordering 图没有给出实际封装尺寸 / ball count，因此不公开 `package`。
 - HSC configuration 图中的 `I/O` 列映射到公开 `channel_count`。
 - `MT29A/B/C/D/G/J/K/M/P/Q/R/T/U/V...` MCP / AiO / uMCP 组合封装不属于 raw NAND parser。
+- `MT29PZZZ...` 已由 AiO 规则按官方 `29P = LPDDR2-S4 + MLC eMMC` 解码。MDB 中另外 6 个
+  `MT29P` raw-shaped PN 虽可由 Micron FBGA decoder 确认 exact body，但缺少公开 ordering
+  资料解释 `P`、package 与无连字符 suffix；它们与 `MT29P5DAMN-DC` 一起列入 intentional
+  search-only，不能把 current raw match 从 `[EF]` 扩成 `[EFP]`，也不能让 `AT/RW` 被误读为温区。
+- MDB 中的 `MT29FCA...` / `MT29FEN...` 不是普通 raw ordering gap。Micron 官方资料确认
+  它们是 ClearNAND / Enhanced ClearNAND：使用 parallel NAND interface，但封装内集成 error
+  management，且官方旧件 catalog 把代表型号列为 ClearNAND MLC / MCP。
+  `vendor.micron.clearnand.v1` 已以独立结构规则接入 CA 8/16/32GB 与 EN 16/32/64GB；
+  EN `DQ` 封装和 `-10` 速率有公开资料时才输出，不塞入 `vendor.micron.raw.current.v1`。
+  <https://investors.micron.com/news-releases/news-release-details/micron-unveils-innovative-flash-memory-devices-extend-life-nand>
+  <https://www.micron.com/products/obsolete/obsolete-nand-mcp-catalog/part-catalog/part-detail/mt29fen64gdkcaaxdq-10-a>
 - `package_code`、`config_code`、`die_code`、`feature_code`、design revision code 等 token
   只用于内部解析，不进入 public fields。

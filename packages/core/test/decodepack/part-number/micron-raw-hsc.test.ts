@@ -191,6 +191,51 @@ assertSpecialOption("MT29F16T08EWLEHD6-36ITQES:E", "Enterprise Q");
 assertSpecialOption("MT29F16T08EWLEHD6-36ITQZES:E", "Enterprise Q + Polyimide Process Applied");
 assertSpecialOption("MT29F16T08EWLEHD6-36ITZQES:E", "Enterprise Q + Polyimide Process Applied");
 
+for (const [partNumber, expectedDensity] of [
+  ["EE29E2T08CTCCBJ7-10NES:C", 2097152],
+  ["EE29E2T08CTCCBJ7-10NES:B", 2097152],
+  ["EE29F512G08EBLDEH6-QAES:D", 524288],
+  ["EE29F256G08EBLCEJ4-QAES:C", 262144],
+  ["EE29F512G08EBLEEJ4-ES:E", 524288],
+  ["EE29F8T08ESLFEG4-ES:F", 8388608],
+  ["EE29F1T08EBLEHD4-QNES:E", 1048576],
+  ["EE29F4T08EMLEHD4-QNES:E", 4194304]
+] as const) {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should share the current Micron raw NAND grammar`);
+  assert.equal(result.device.vendor?.id, "micron", `${partNumber} vendor`);
+  assert.equal(result.device.chipKind, "raw_nand", `${partNumber} chip kind`);
+  assert.equal(firstField(result, "density")?.value, expectedDensity, `${partNumber} density`);
+  assert.equal(
+    fieldText(firstField(result, "prod_status")),
+    "Early Engineering Samples",
+    `${partNumber} EE system status should win over a trailing ES marker`
+  );
+}
+
+const eeHscResult = engine.decodePart({ query: "EE29FB16T08GALAAM5-TES:B", lang: "eng" });
+assert.equal(fieldText(firstField(eeHscResult, "prod_status")), "Early Engineering Samples");
+
+for (const partNumber of [
+  "MT29P256G08CKCBBAT:B",
+  "MT29P512G08CRCBBRW:B",
+  "MT29P256G08CKCBBA1ES:B",
+  "MT29P512G08CRCBBR1ES:B",
+  "MT29P256G08CKCBBATES:B",
+  "MT29P512G08CRCBBRWES:B",
+  "MT29P5DAMN-DC"
+]) {
+  assertRuleDoesNotMatch("vendor.micron.raw.current.v1", partNumber);
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.device.vendor?.id, "micron", `${partNumber} should retain Micron identity`);
+  assert.equal(result.device.chipKind, "unknown", `${partNumber} should stay search-only until its product grammar is evidenced`);
+  assert.equal(result.blocks.flatMap((block) => block.fields).length, 0, `${partNumber} should not expose guessed fields`);
+}
+
+const micronUnknownFamily = engine.decodePart({ query: "MT63G2P6G96DAKE-018 XT:A", lang: "eng" });
+assert.equal(micronUnknownFamily.device.vendor?.id, "micron");
+assert.equal(micronUnknownFamily.device.chipKind, "unknown", "the generic MT prefix must not label every Micron PN as raw NAND");
+
 assertRuleDraftDieProfile("vendor.micron.raw.current.v1", "MT29F2T08GBLBH", "N69R");
 assertRuleDraftDieProfile("vendor.micron.raw.current.v1", "MT29F16T08EWLEHD6-36ITRES:E", "B68S");
 assertRuleDraftDieProfile("vendor.micron.raw.legacy.v1", "MT29H8G08AAAC6-20ETES:A", "M51H");

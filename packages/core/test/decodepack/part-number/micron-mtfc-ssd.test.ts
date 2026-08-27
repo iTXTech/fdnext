@@ -20,7 +20,6 @@ import {
   assertKioxiaRawSuffixTopology,
   assertMicronDecodePackDieProfile,
   assertMicronManagedFbgaMarking,
-  assertNotFound,
   assertRuleDecode,
   assertRuleDoesNotMatch,
   assertRuleDraftDieProfile,
@@ -271,6 +270,101 @@ assertRuleDecode("MTFC512GBCAVHE-WT", {
   }
 });
 
+for (const [partNumber, expectedDensity] of [
+  ["EEFC512GBGAZHF-WT ES", 4194304],
+  ["EEFC1TBGAZHE-WT ES", 8388608]
+] as const) {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should share the structured MTFC body grammar`);
+  assert.equal(result.device.vendor?.id, "micron", `${partNumber} vendor`);
+  assert.equal(result.device.chipKind, "managed_nand", `${partNumber} chip kind`);
+  assert.equal(result.device.productType, "ufs", `${partNumber} BG:AZ family`);
+  assert.equal(firstField(result, "density")?.value, expectedDensity, `${partNumber} density`);
+  assert.equal(firstField(result, "prod_status")?.value, "Early Engineering Samples", `${partNumber} production status`);
+}
+
+for (const partNumber of ["EEFC1T5BGBEQW-WT EE", "EEFC1T5BGBEQX-WT EE"]) {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should expose only externally confirmed partial semantics`);
+  assert.equal(result.device.vendor?.id, "micron", `${partNumber} vendor`);
+  assert.equal(result.device.chipKind, "managed_nand", `${partNumber} chip kind`);
+  assert.equal(result.device.productType, undefined, `${partNumber} product type remains unconfirmed`);
+  assert.equal(firstField(result, "density"), undefined, `${partNumber} 1T5 token is not treated as a confirmed capacity`);
+  assert.equal(firstField(result, "package"), undefined, `${partNumber} package token remains opaque`);
+  assert.equal(firstField(result, "component_density")?.value, "1Tb", `${partNumber} component density`);
+  assert.equal(firstField(result, "component_width")?.value, 8, `${partNumber} component width`);
+  assert.equal(firstField(result, "die_codename")?.value, "B68S", `${partNumber} die codename`);
+  assert.equal(firstField(result, "prod_status")?.value, "Early Engineering Samples", `${partNumber} status`);
+}
+
+for (const [partNumber, expectedDensity] of [
+  ["EEFC1TBGBEAF-WT EE", 8388608],
+  ["EEFC512GBGBEAP-WT EE", 4194304],
+  ["EEFC512GBFBAHF-WT ES", 4194304]
+] as const) {
+  const result = engine.decodePart({ query: partNumber, lang: "eng" });
+  assert.equal(result.status, "ok", `${partNumber} should retain confirmed density while family stays generic`);
+  assert.equal(result.device.chipKind, "managed_nand", `${partNumber} chip kind`);
+  assert.equal(result.device.productType, undefined, `${partNumber} product type remains unconfirmed`);
+  assert.equal(firstField(result, "density")?.value, expectedDensity, `${partNumber} density`);
+}
+
+assertRuleDecode("EEFC128GAXATEAAA-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 1048576,
+  dieProfileField: "B47R",
+  package: "BGA-153, 11.5x13",
+  extra: {
+    "Product Version": "UFS 3.1",
+    "Component Density": "512Gb",
+    "Component Width": "x8",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)",
+    "Production Status": "Early Engineering Samples"
+  }
+});
+
+// Synthetic package and suffix variants must preserve independently known fields.
+const unknownExtendedPackage = engine.decodePart({ query: "EEFC128GAXATZZZZ-WTESREV", lang: "eng" });
+assert.equal(unknownExtendedPackage.device.vendor?.id, "micron");
+assert.equal(unknownExtendedPackage.device.chipKind, "managed_nand");
+assert.equal(unknownExtendedPackage.device.productType, "ufs");
+assert.equal(firstField(unknownExtendedPackage, "density")?.value, 1048576);
+assert.equal(firstField(unknownExtendedPackage, "product_version")?.value, "UFS 3.1");
+assert.equal(firstField(unknownExtendedPackage, "package"), undefined);
+assert.equal(firstField(unknownExtendedPackage, "operation_temperature")?.value, "Standard (-25°C ~ 85°C)");
+assert.equal(firstField(unknownExtendedPackage, "prod_status")?.value, "Early Engineering Samples");
+
+const unknownExtendedDensity = engine.decodePart({ query: "MTFC999GAXATEAAA-ZZ", lang: "eng" });
+assert.equal(unknownExtendedDensity.device.productType, "ufs");
+assert.equal(firstField(unknownExtendedDensity, "density"), undefined);
+assert.equal(firstField(unknownExtendedDensity, "package")?.value, "BGA-153, 11.5x13");
+assert.equal(firstField(unknownExtendedDensity, "operation_temperature"), undefined);
+
+assertRuleDoesNotMatch("vendor.micron.managed.mtfc.extended-package.v1", "MTFC128GAXATEAWT");
+assertRuleDecode("MTFC128GAXATEAWT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 1048576,
+  package: "WFBGA-153, 11.5x13x0.8, LF35",
+  extra: { "Operation Temperature": "Standard (-25°C ~ 85°C)" }
+});
+
+assertRuleDecode("EEFC512GAXATAMAA-WT", {
+  vendor: "micron",
+  type: "UFS",
+  densityMbit: 4194304,
+  dieProfileField: "B47R",
+  package: "VFBGA-153, 11.5x13x1.0",
+  extra: {
+    "Product Version": "UFS 3.1",
+    "Component Density": "512Gb",
+    "Component Width": "x8",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)",
+    "Production Status": "Early Engineering Samples"
+  }
+});
+
 assertRuleDecode("MTFC128GBCAQTC-AIT", {
   vendor: "micron",
   type: "eMMC",
@@ -313,9 +407,10 @@ assertRuleDecode("MTFC1TBGBBAF-WT", {
   densityMbit: 8388608,
   package: "VFBGA-153, 9x13x0.85",
   extra: {
+    "Product Version": "UFS 4.1",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
-  absentExtra: ["Product Version", "NAND Component", "Controller Code", "Package Code", "Group"]
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
 
 assertRuleDecode("MTFC256GBGBCTD-AIT", {
@@ -324,9 +419,10 @@ assertRuleDecode("MTFC256GBGBCTD-AIT", {
   densityMbit: 2097152,
   package: "BGA-153, 11.5x13x1.2",
   extra: {
+    "Product Version": "UFS 4.1",
     "Operation Temperature": "Industrial (-40°C ~ 85°C + HR certified test flow)"
   },
-  absentExtra: ["Product Version", "NAND Component", "Controller Code", "Package Code", "Group"]
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
 
 assertRuleDecode("MTFC256GBEAZHF-WT", {
@@ -371,9 +467,10 @@ assertRuleDecode("MTFC512GBGBBAP-WT", {
   densityMbit: 4194304,
   package: "WFBGA-153",
   extra: {
+    "Product Version": "UFS 4.1",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
-  absentExtra: ["Product Version", "NAND Component", "Controller Code", "Package Code", "Group"]
+  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
 
 assertRuleDecode("MTFC32GAMAKAM-WT", {
@@ -446,14 +543,14 @@ assertRuleDecode("MTFC512GBCAXHL-WT", {
 
 assertRuleDecode("MTFC256GZZZZZZ-WT", {
   vendor: "micron",
-  type: "eMMC",
+  type: "managed_nand",
   densityMbit: 2097152,
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
 
 assertRuleDecode("MTFC256GZZZZZZWT", {
   vendor: "micron",
-  type: "eMMC",
+  type: "managed_nand",
   densityMbit: 2097152,
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });

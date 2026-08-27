@@ -830,5 +830,229 @@
         }
       }
     }
+  },
+  {
+    "id": "vendor.elpida.dram.daisy_chain_mobile.v1",
+    "priority": 1021,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^EM[BF][0-9A-Z]{2}[0-9]{2}[A-Z][0-9A-Z][A-Z]{2}-[0-9A-Z]{2}-[A-Z]-[A-Z]$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "E"
+      ],
+      "tables": {
+        "typeObj": {
+          "M": {
+            "special_option": "Daisy chain sample"
+          }
+        },
+        "familyObj": {
+          "B": {
+            "dram_type": "LPDDR2"
+          },
+          "F": {
+            "dram_type": "LPDDR3"
+          }
+        },
+        "density": {
+          "B:A1": 16384,
+          "F:81": 8192
+        },
+        "configurationObj": {
+          "B:A1": {
+            "cs_count": 4,
+            "channel_count": 2
+          },
+          "F:81": {
+            "cs_count": 2
+          }
+        },
+        "deviceWidth": {
+          "64": 64,
+          "32": 32
+        },
+        "voltage": {
+          "A": "VDD1 1.8V; VDD2/VDDCA/VDDQ 1.2V",
+          "B": "VDD1 1.8V; VDD2/VDDCA/VDDQ 1.2V"
+        },
+        "package": {
+          "B:PH": "BGA-216, PoP",
+          "F:PB": "WFBGA-216, 12x12x0.70"
+        },
+        "speedObj": {
+          "B:1D": {
+            "dram_speed": "LPDDR2-1066"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 1,
+          "to": "typeToken"
+        },
+        {
+          "op": "map",
+          "from": "typeToken",
+          "table": "typeObj",
+          "to": "typeObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "familyToken"
+        },
+        {
+          "op": "map",
+          "from": "familyToken",
+          "table": "familyObj",
+          "to": "familyObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z]{2})([0-9]{2})([A-Z])([0-9A-Z])([A-Z]{2})(?=-)",
+          "to": "body",
+          "groups": {
+            "densityCode": 1,
+            "widthCode": 2,
+            "voltageCode": 3,
+            "revisionCode": 4,
+            "packageCode": 5
+          }
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyToken}}:{{densityCode}}",
+          "to": "densityKey"
+        },
+        {
+          "op": "map",
+          "from": "densityKey",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityKey",
+          "table": "configurationObj",
+          "to": "configurationObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "widthCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "map",
+          "from": "voltageCode",
+          "table": "voltage",
+          "to": "voltage",
+          "default": ""
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyToken}}:{{packageCode}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "package",
+          "to": "package",
+          "keyTo": "recognizedPackageKey"
+        },
+        {
+          "op": "notEmpty",
+          "from": "recognizedPackageKey",
+          "to": "hasKnownPackage"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "speedCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{familyToken}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "elpida",
+        "device.chipKind": "dram",
+        "fields.dram_type": {
+          "$path": "familyObj.dram_type"
+        },
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "fields.dram_voltage": {
+          "$var": "voltage"
+        },
+        "fields.dram_speed": {
+          "$path": "speedObj.dram_speed"
+        },
+        "fields.cs_count": {
+          "$path": "configurationObj.cs_count"
+        },
+        "fields.channel_count": {
+          "$path": "configurationObj.channel_count"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.special_option": {
+          "$path": "typeObj.special_option"
+        },
+        "meta.ruleId": "vendor.elpida.dram.daisy_chain_mobile.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "hasKnownPackage"
+        },
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
   }
 ]

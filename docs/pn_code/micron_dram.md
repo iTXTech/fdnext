@@ -1,6 +1,6 @@
 # Micron DRAM PN 编码资料
 
-采集日期：2026-05-15；更新日期：2026-07-16
+采集日期：2026-05-15；更新日期：2026-08-27
 
 ## 资料来源
 
@@ -132,6 +132,23 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
 | `68` | GDDR7 | `dram_type=GDDR7` |
 
 ## 输出约定
+
+### 2026-08-27 特殊 namespace 边界
+
+- Micron 公开 FBGA 资料与 Arrow 镜像可交叉确认 `NT41J` / `NT47H` 是 Micron/legacy
+  DDR3 / DDR2 alias；规则只放行这两个完整 family，不建立泛 `NT` 前缀，避免与 Nanya
+  `NT5...` 等 namespace 冲突。
+- `CT1G8Z...` / `CT2G8Z...` 是 Crucial/Micron component PN，仅接入已交叉确认的
+  DDR4、density 和 width。SpecTek decoder 只接受 `SCT` 而非 `CT`，因此不借用
+  VA/JC 封装和 062E/075E 速度表，也不补 die/CS 拓扑。不扩展为 DIMM/module decoder。
+- `EMBA164B...` / `EMF8132A...` 的 `M` 是 daisy-chain 样品类型，不是 Micron vendor alias。
+  本轮按仓库已有 `ED=elpida` 口径接入 [Elpida 规则](elpida_dram.md)。
+- `MT43T/M/D`、`MT55J/D`、`MT59*`、`MT63G` 和 `AMD` 前缀仍缺少能把内部 body
+  绑定到确切产品线的 ordering/catalog，只保留在 coverage/evidence backlog。
+
+来源：<https://static6.arrow.com/aropdfconversion/3586d2f02ff8bdf3c705c1963408382dfa8a3528/fbga-microntechnologyinc..pdf>、
+<https://assets.micron.com/adobe/assets/urn%3Aaaid%3Aaem%3A0b279ea9-4e4c-49fa-98c6-c18ad4c67279/renditions/original/as/legacy-elpida-pns.pdf>、
+<https://www.micron.com/products/obsolete/obsolete-lpddr/part-catalog>。
 
 - `fields.density` 使用项目统一 Mbit 单位，由 `component configuration` 的 depth x width 推导，例如 `1G8` 输出 `8192`。
 - `fields.device_width` 输出组织位宽，例如 `1G32` 输出 `x32`。

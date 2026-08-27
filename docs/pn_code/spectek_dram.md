@@ -1,6 +1,6 @@
 # SpecTek DRAM PN 编码
 
-采集日期：2026-05-14
+采集日期：2026-05-14；更新日期：2026-08-27
 
 ## 外部资料
 
@@ -43,7 +43,7 @@ MDB mark code:
 | 结构 | 含义 |
 | --- | --- |
 | `PNL` / `PRA` / `PRN` / `PRM` / `SGG` / `SMG` / `SNL` / `SUM` / `SUU` / `SCD` / `SCM` / `SCT` / `SMC` / `SMD` / `SMM` / `SMU` / `XAA` / `XBA` / `XCB` / `XCBB` prefix | SpecTek DRAM component mark / customer mark 前缀；只输出官方解释到 `special_option`，不输出 raw `marking_code` 字段 |
-| `128M8`、`256M16`、`512M8`、`1024M4`、`2048M8`、`4096M4`、`8192M4`、`4G8`、`8G4` 等 | component configuration，按 depth * width 输出 `dram_density` 和 `dram_width` |
+| `128M8`、`256M16`、`512M8`、`1024M4`、`2048M8`、`4096M4`、`8192M4`、`3G8`、`4G8`、`8G4` 等 | component configuration，按 depth * width 输出 `dram_density` 和 `dram_width`；`3G8 = 24Gb x8` |
 | `V` | DDR3；由 `PE` 官方 decoder 样本和旧 FBGA Matrix / 第三方 DRAM 表交叉确认 |
 | `Z` | DDR4 product code；作为内部 `dramTypeCode` token 用于分族解析速度 bin，公开只输出 `dram_type=DDR4`，不输出 raw product code |
 | `Y` | DDR5；由官方 MPN decoder 的 `PRM2G8Y52KBFRZ-56B` 样例确认 |
@@ -56,7 +56,8 @@ MDB mark code:
 | mobile package code | 官方 mobile package 表已接入唯一 code；`DS` / `FL` / `WT` 这类同 code 多封装项需先由 speed table / design id 判断 LPDDR profile，再输出对应 package；`NZ` 由 `Z00M/Z11M/Z1AM` 与 `Z11N/Z2BM` design ID 区分。公开 `package` 仍只保留 type-pin-dim，不输出 ball pitch、LPDDR 注记或 source notes |
 | DDR3 `GD` voltage / refresh | `G` 输出 `1.5V`；`D` 输出 `speed_grade=Speed trimmed for performance`，不把 raw refresh code 暴露到 public fields |
 | DDR5 `B8` / OC `PN` 等 voltage / refresh / feature token | 按官方 DDR5 / DDR5 OC addendum 输出纯电压，例如 `1.1V`、`1.25V`；OC trim 进入 `special_option`，不输出 raw code |
-| `-023`、`-053`、`-062`、`-107`、`-125`、`-15E`、`-48B`、`-56B`、`-64B`、`-72B`、`-60P`、`-64P`、`-062E` 等 | JEDEC / Micron-style speed token，按已有 DRAM 速度术语输出 `dram_speed`；mobile speed table 同时用于判断 LPDDR3/4/5 |
+| `-023`、`-053`、`-062`、`-107`、`-125`、`-15E`、`-48B`、`-56B`、`-64B`、`-72B`、`-80B`、`-60P`、`-64P`、`-062E` 等 | JEDEC / Micron-style speed token，按已有 DRAM 速度术语输出 `dram_speed`；`80B = DDR5-8000 CL64`；mobile speed table 同时用于判断 LPDDR3/4/5 |
+| component `TP` | SpecTek 官方 decoder 定义为 `95% tested`，作为有额外用户价值的 `speed_grade` 输出，不伪造 `dram_speed` |
 | DDR3 `V:*` scoped speed | 覆盖 `187E/187/15E/15/125E/125/107/093`；例如 `15E` 输出 `DDR3-1333 CL9`，`15` 输出 `DDR3-1333 CL10`，`125` 输出 `DDR3-1600 CL11` |
 | DDR4 `Z:*` scoped speed | 普通 DDR4 覆盖 `062Y/062E/068E/068/075E/075/083E/083/093F/093E/093/107E`；3DS DDR4 覆盖 `062H/068H/075H/083J/083H/093H`。`093F` 输出 `DDR4-2133 CL14`，`093` 输出 `DDR4-2133 CL16`，避免无 product-code scope 时把同一 token 误解到其他 DRAM family |
 | mobile `BT` / `FT` / `MB` / `PG` / `UT` | 官方 speed grade / test bin，输出 `speed_grade` |
@@ -118,6 +119,9 @@ MDB mark code:
 - `SM1G32Z11MD4DNZ-062BT`
 - `SM1G32Z11ND4DNZ-062BT`
 - `PRN1G8V91AG8SN-107`
+- `SCM3G8Z41BD8JF-062E`
+- `SCM1G16Y62EB8HD-80B`
+- `SCM1G16Y62EB8HD-TP`
 
 ## 注意
 

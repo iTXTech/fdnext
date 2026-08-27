@@ -1,5 +1,213 @@
 [
   {
+    "id": "vendor.micron.clearnand.v1",
+    "priority": 1010,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MT29F(?:CA|EN)[0-9]{1,2}G[0-9A-Z]{8}(?:-[0-9A-Z]+|[A-Z]{2})?(?::[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT29F"
+      ],
+      "tables": {
+        "productFamilyObj": {
+          "CA": {},
+          "EN": {
+            "product_mode": "Enhanced ClearNAND"
+          }
+        },
+        "density": {
+          "8G": 65536,
+          "16G": 131072,
+          "32G": 262144,
+          "64G": 524288
+        },
+        "storageDensityObj": {
+          "8G": {
+            "storage_density": "8GB ClearNAND"
+          },
+          "16G": {
+            "storage_density": "16GB ClearNAND"
+          },
+          "32G": {
+            "storage_density": "32GB ClearNAND"
+          },
+          "64G": {
+            "storage_density": "64GB ClearNAND"
+          }
+        },
+        "packageObj": {
+          "EN:DQ": {
+            "package": "LFBGA-100, 14x18x1.4"
+          }
+        },
+        "speedObj": {
+          "10": {
+            "speed_grade": "104MT/s (52MHz)"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Sample"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productFamilyToken"
+        },
+        {
+          "op": "map",
+          "from": "productFamilyToken",
+          "table": "productFamilyObj",
+          "to": "productFamilyObj",
+          "default": {}
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9]{1,2}G",
+          "to": "densityToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityToken",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityToken",
+          "table": "storageDensityObj",
+          "to": "storageDensityObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 6,
+          "to": "orderingBody"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageToken"
+        },
+        {
+          "op": "tpl",
+          "template": "{{productFamilyToken}}:{{packageToken}}",
+          "to": "packageKey"
+        },
+        {
+          "op": "map",
+          "from": "packageKey",
+          "table": "packageObj",
+          "to": "packageObj",
+          "default": {}
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9]{2}",
+          "to": "speedToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedToken",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Micron ClearNAND",
+            "storage_interface": "Parallel NAND",
+            "cell_level": "MLC",
+            "special_option": "Integrated error management"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productFamilyObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "storageDensityObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "packageObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.storage_density": {
+          "$path": "storageDensityObj.storage_density"
+        },
+        "fields.package": {
+          "$path": "packageObj.package"
+        },
+        "meta.ruleId": "vendor.micron.clearnand.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": [
+          "density"
+        ]
+      }
+    }
+  },
+  {
     "id": "vendor.micron.hsc.mt29fb.v1",
     "priority": 1011,
     "normalize": [
@@ -332,11 +540,6 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "systemObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
           "from": "ioeObj"
         },
         {
@@ -348,6 +551,11 @@
           "op": "merge",
           "into": "extra",
           "from": "productionStatusObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "systemObj"
         }
       ],
       "assign": {

@@ -1,6 +1,69 @@
 # DecodePack 外部资料覆盖审计
 
-审计日期：2026-07-13
+审计日期：2026-08-27
+
+## 2026-08-27 仓库 PN 运行时审计
+
+新增 `pnpm -C packages/core audit:pn-coverage`，使用一个长期复用的 decoder-only engine 批量检查
+`dram-pn.json`、`managed-nand-pn.json` 以及去重后的 Micron / SpecTek MDB PN。审计明确区分：
+
+- `semantic`：至少输出一个语义字段；
+- `identity-only`：只识别 identity / vendor，没有语义字段；
+- `not-found`：没有规则命中；
+- intentional search-only：exact PN 已确认，但公开 token grammar 不足，明确不建立完整 PN decoder。
+
+`pnpm -C packages/core test:pn-coverage` 会把当前未分类 backlog 与
+`test/fixtures/pn-coverage-baseline.json` 比较：新出现的未分类 PN、`identity-only -> not-found`
+回退、过期或已经可语义解析但未移除的 intentional 条目都会失败；既有 backlog 被规则覆盖后可以自然减少。
+`--format=json` 可输出逐 PN 的 source、vendor hint、status、rule id 和 field count。只有人工复核完
+新增 gap 与 intentional 清单后，才运行 `--update-baseline` 接受新的 backlog。
+
+本轮规则落地后的 decoder-only 唯一 PN 结果：
+
+| 来源 | 唯一 PN | semantic | identity-only | not-found | intentional | 未分类 backlog |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| DRAM PN | 3169 | 3168 | 1 | 0 | 1 | 0 |
+| Managed NAND PN | 891 | 890 | 1 | 0 | 1 | 0 |
+| Micron MDB | 15338 | 14984 | 321 | 33 | 7 | 347 |
+| SpecTek MDB（逗号分隔 PN 已拆分） | 2882 | 2740 | 0 | 142 | 0 | 142 |
+
+相较第 1～5 项完成时，Micron MDB semantic 从 14874 增至 14984（+110），
+未分类 backlog 从 457 降至 347。其中包括仅输出产品组合、容量或部分 component
+字段的保守解析，不等同于每条 PN 全字段已知。
+
+Micron MDB 的首要 backlog 已收敛为 `MT63G` 73、`MT29Z` 52、`MT29C` 25、
+`MT43T` 17、`MTFC` 17、`MT55J` 13、`MT59D` 12 和 `MTFCBA` 12。已确认的
+`MT29D` / ClearNAND / `N2M400` / `MT30A` 以及受限 `NT` / `CT` / `EM` / `SCM`
+namespace 已进入结构化规则；`AMD` 仍存在 ownership 冲突，不依 Micron mapping bucket 猜测。
+
+## 2026-08-27 第 6 项并行网络研究
+
+三路检索分别覆盖 legacy MCP/AiO、managed NAND/uMCP、Raw NAND/ClearNAND/
+特殊 DRAM 与 namespace ownership。表中区分已实施规则与仍需留在证据文档的冲突项。
+
+| PN 族 | 网络证据结论 | 落地状态 |
+| --- | --- | --- |
+| `MT29C` 26 | 1 条是已知 grammar 的较长 body；`1G512M` 与 24 条 compact `-DC` 没有可公开的完整 token 表 | 较长 body 已实施；余下 25 条保留 identity/search-only，不猜容量/package |
+| `MT29D` 39 | 官方 MCP guide 确认 `SLC NAND + LPDDR + MLC eMMC`，但三组 component triple 没有公开含义 | 已实施 classification + speed/temperature/status，component triple 仅内部消费 |
+| `MT29Z` 52 | compact OTP alias 可对应到多种正式 `MT29V/MT30A` eMMC/UFS PN，同前缀不能确定接口 | 保持 internal/search-only；不建立 compact PN 到正式 PN 的 exact 映射 |
+| `MT29FCA/FEN` | 官方资料确认 ClearNAND / Enhanced ClearNAND，parallel NAND + 封装内 error management | 已实施独立 ClearNAND parser，未并入普通 current raw NAND |
+| `N2M` 8 | 原厂 datasheet Figure 2 给出完整 token 分段 | 已实施 `N2M4` 定长 token grammar；温区/电压/die/package 独立降级，不暴露 firmware/media code |
+| `MTFCBA` 12 | 官方 `numemmc` 明确 `BA = BGA adapter`，不是 density | 隔离为 adapter/evidence-only；不得输出容量或 eMMC |
+| `MT30A` 12 | 官方 catalog/search metadata 确认 `C=1TB UFS`、`4/5=9U2A UFS 3.1/4.1`、`AV/AW=uMCP-305` | 已实施；`WN/WD` 后缀按官方边界消费，未知 die token 不猜 |
+| `MTFC` BG / `1T5` | 官方资料确认 `BG=x8 1Tb B68S`、`BG:BB/BC=UFS 4.1`；`1T5` 实际总容量未公开 | BG 与 UFS 4.1 已实施；`1T5` 仅输出 component semantics，不输出 density/product type/package |
+| `MT43T/M/D`、`MT55J/D`、`MT59*`、`MT63G` | 没有官方 ordering/catalog 把这些内部形态绑定到 HMC/SRAM/HBM4/DRAM 产品 | 继续 evidence pending，不按相似 body 推断产品类型 |
+| `SCM` / `CT` | SpecTek 官方 decoder 确认 `SCM`；`CT` 只有 component identity/configuration 证据 | `SCM` 补齐 24Gb/JF/80B/TP；`CT1G8/2G8` 仅输出 DDR4/density/width，不借用 SCT 封装/速度 |
+| `NT` / `EM` / `AMD` | Micron/Elpida 资料只支持部分 namespace；泛 `NT` 与 Nanya 冲突 | 仅接入 `NT41J/NT47H` 和 `EMBA/EMF`；`AMD`、其他 `NT` 保留 evidence pending |
+
+主要来源：
+
+- Micron MCP/PoP/AiO numbering：<https://assets.micron.com/adobe/assets/urn%3Aaaid%3Aaem%3Ac8a329b9-b44e-4bd8-b309-a75929865e96/original/as/nummcp.pdf>
+- Micron ClearNAND 产品说明与旧件页：<https://investors.micron.com/news-releases/news-release-details/micron-unveils-innovative-flash-memory-devices-extend-life-nand>、<https://www.micron.com/products/obsolete/obsolete-nand-mcp-catalog/part-catalog/part-detail/mt29fen64gdkcaaxdq-10-a>
+- Micron legacy Flash + Controller numbering：<https://www.micron.com/content/dam/micron/global/public/products/part-numbering-guide/numemmc.pdf>
+- Micron N2M legacy eMMC：<https://www.micron.com/products/obsolete/obsolete-emmc/part-catalog/part-detail/n2m400gdb321a3ce>
+- Micron UFS-based MCP catalog：<https://www.micron.com/products/multichip-packages/ufs-based-mcp/part-catalog>
+- Micron FBGA decoder：<https://www.micron.com/sales-support/design-tools/fbga-parts-decoder>
+- SpecTek support / marking decoder：<https://in.micron.com/sales-support/customer-support/spectek-support>、<https://www.spectek.com/menus/mark_code.aspx>
 
 ## 本轮范围
 
@@ -18,7 +81,7 @@
 
 | 面向 | 当前证据 |
 | --- | --- |
-| DRAM 搜索资源 | `dram-pn.json` 共 3149 条，重复 PN 为 0；vendor 缺失为 0。`H5WG6HMN6QX038R` 仍只有单一公开 body，作为 exact 搜索种子保留但不据此建立 decoder，因此 type / numeric density 均缺失；`CXDR4FFBM-CS-A` 可确认 16Gb DDR5，但未知 organization/package token 不推测 |
+| DRAM 搜索资源 | `dram-pn.json` 共 3169 条，重复 PN 为 0；vendor 缺失为 0。`H5WG6HMN6QX038R` 仍只有单一公开 body，作为 exact 搜索种子保留但不据此建立 decoder，因此 type / numeric density 均缺失；`CXDR4FFBM-CS-A` 可确认 16Gb DDR5，但未知 organization/package token 不推测 |
 | Managed NAND 搜索资源 | `managed-nand-pn.json` 共 891 条，重复 PN 为 0；vendor 缺失为 0。`HN8T039JHQX099N` 只有单一公开 body，作为 exact 搜索种子保留，不据此建立 decoder，因此 type / numeric density 明确缺失 1 条 |
 | Micron 去重 | MDB exact / suffix-boundary 审计通过；有效 MDB 已覆盖的 Micron PN 不重复加入 DRAM / managed PN 资源 |
 | Controller | FDB / IDDB 中 165 个 controller 全部包含在 `controller-groups.json`；`all` 另保留 2 个外部已知 controller，167 个均已分类 |
@@ -48,7 +111,7 @@
 | --- | --- |
 | Samsung HBM4、V9/V10 NAND | 只有产品族容量、速率、层数或营销代际，尚无公开颗粒 PN/token breakdown |
 | SK hynix HBM3E/HBM4、V9T/V9Q NAND | 无公开 ordering PN/token breakdown；单一 automotive HBM PN 不足以证明 token 语义 |
-| Micron HBM4、UFS 4.1 | HBM4 无公开 PN；UFS 4.1 未绑定到公开 MTFC component/controller token，`BG:BE` 也缺可靠产品线绑定 |
+| Micron HBM4、部分 UFS 4.1 token | HBM4 无公开 PN；UFS 4.1 的 `BG:BB/BC` 与 MT30A controller `5` 已实施，但 `BG:BE` 仍缺可靠产品线绑定 |
 | CXMT LPDDR5X speed / temperature / die topology | 已有 `CXDC/CXDD` family、density、layout/package 局部 token；仍缺公开 suffix 与 die topology breakdown |
 | YMTC UC341 / 4 个 YMN 异常候选 | UC341 官方 flyer 下载需登录，exact PN 继续使用拆解、设备日志和烧录器表交叉证据；YMN 候选没有外部交叉样本 |
 | KIOXIA / SanDisk eMCP | 未找到原厂公开 ordering token 表 |

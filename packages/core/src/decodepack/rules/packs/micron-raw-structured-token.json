@@ -17,14 +17,15 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^MT29[EF](?:1HT|1T2|16T|32T|64T|168G|192G|256G|336G|384G|512G|768G|128G|21G|32G|42G|64G|84G|1G|2G|4G|8G|16G|1T|2T|3T|4T|6T|8T)(?:01|08|16)[ACEG][0-9A-Z][1234ABCDEFGHJKLST][A-Z][ABCGDMNFEHJ]"
+      "value": "^(?:MT|EE)29[EF](?:1HT|1T2|16T|32T|64T|168G|192G|256G|336G|384G|512G|768G|128G|21G|32G|42G|64G|84G|1G|2G|4G|8G|16G|1T|2T|3T|4T|6T|8T)(?:01|08|16)[ACEG][0-9A-Z][1234ABCDEFGHJKLST][A-Z][ABCGDMNFEHJ]"
     },
     "tokenDecoder": {
-      "stripPrefixes": [
-        "MT",
-        "29"
-      ],
       "tables": {
+        "systemObj": {
+          "EE": {
+            "prod_status": "Early Engineering Samples"
+          }
+        },
         "productTypeObj": {
           "E": {
             "enterprise": true
@@ -664,6 +665,23 @@
       "steps": [
         {
           "op": "take",
+          "len": 2,
+          "to": "systemToken"
+        },
+        {
+          "op": "map",
+          "from": "systemToken",
+          "table": "systemObj",
+          "to": "systemObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productPrefixToken"
+        },
+        {
+          "op": "take",
           "len": 1,
           "to": "productToken"
         },
@@ -896,6 +914,11 @@
           "op": "merge",
           "into": "extra",
           "from": "productionStatusObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "systemObj"
         }
       ],
       "assign": {

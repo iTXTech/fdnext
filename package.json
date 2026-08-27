@@ -2,7 +2,7 @@
   "name": "fdnext",
   "private": true,
   "type": "module",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Memory chip parsing and resource toolkit",
   "license": "AGPL-3.0-or-later",
   "packageManager": "pnpm@11.13.1",
@@ -43,10 +43,10 @@
     "contract:check": "pnpm -C packages/contract-test check"
   },
   "devDependencies": {
-    "@types/node": "^25.8.0",
+    "@types/node": "^26.3.0",
     "ajv": "^8.20.0",
-    "tsdown": "^0.22.0",
-    "tsx": "^4.22.1",
-    "typescript": "^6.0.3"
+    "tsdown": "^0.22.14",
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
   }
 }

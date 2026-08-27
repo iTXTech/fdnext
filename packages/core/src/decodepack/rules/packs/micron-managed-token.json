@@ -1,5 +1,187 @@
 [
   {
+    "id": "vendor.micron.managed.mtfc.extended-package.v1",
+    "priority": 1008,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^(?:MT|EE)FC(?:12M|[0-9]{1,3}G|1T5|1T)AXAT[0-9A-Z]{4}-[0-9A-Z]*$"
+    },
+    "tokenDecoder": {
+      "tables": {
+        "systemObj": {
+          "EE": {
+            "prod_status": "Early Engineering Samples"
+          }
+        },
+        "density": {
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304
+        },
+        "componentObj": {
+          "AX": {
+            "component_width": "x8",
+            "component_density": "512Gb",
+            "die_codename": "B47R"
+          }
+        },
+        "package": {
+          "EAAA": "BGA-153, 11.5x13",
+          "AMAA": "VFBGA-153, 11.5x13x1.0"
+        },
+        "temperatureObj": {
+          "WT": {
+            "operation_temperature": "Standard (-25°C ~ 85°C)"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Sample"
+          },
+          "EE": {
+            "prod_status": "Early Engineering Samples"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 2,
+          "to": "systemToken"
+        },
+        {
+          "op": "map",
+          "from": "systemToken",
+          "table": "systemObj",
+          "to": "systemObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productPrefixToken"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(?:12M|[0-9]{1,3}G|1T5|1T)",
+          "to": "densityToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityToken",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "componentCode"
+        },
+        {
+          "op": "map",
+          "from": "componentCode",
+          "table": "componentObj",
+          "to": "componentObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "controllerCode"
+        },
+        {
+          "op": "take",
+          "len": 4,
+          "to": "packageToken"
+        },
+        {
+          "op": "map",
+          "from": "packageToken",
+          "table": "package",
+          "to": "package",
+          "default": null
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_version": "UFS 3.1"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "componentObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "systemObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": "ufs",
+        "fields": {
+          "$var": "extra"
+        },
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.micron.managed.mtfc.extended-package.v1"
+      }
+    }
+  },
+  {
     "id": "vendor.micron.managed.mtfc.nextgen.v1",
     "priority": 1007,
     "normalize": [
@@ -17,13 +199,15 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^MTFC(?:12M|[0-9]{1,3}G|1T)[0-9A-Z]{6}(?:-?[0-9A-Z]+)?(?:ES|MS|QS)?$"
+      "value": "^(?:MT|EE)FC(?:12M|[0-9]{1,3}G|1T5|1T)[0-9A-Z]{6}(?:-?[0-9A-Z]+)?(?:ES|MS|QS|EE)?$"
     },
     "tokenDecoder": {
-      "stripPrefixes": [
-        "MTFC"
-      ],
       "tables": {
+        "systemObj": {
+          "EE": {
+            "prod_status": "Early Engineering Samples"
+          }
+        },
         "density": {
           "12M": 4096,
           "1G": 8192,
@@ -146,6 +330,11 @@
             "component_width": "x8",
             "component_density": "512Gb",
             "die_codename": "B47R"
+          },
+          "BG": {
+            "component_width": "x8",
+            "component_density": "1Tb",
+            "die_codename": "B68S"
           },
           "BC": {
             "component_width": "x8",
@@ -331,9 +520,11 @@
             "group": "UFS"
           },
           "BG:BB": {
+            "product_version": "UFS 4.1",
             "group": "UFS"
           },
           "BG:BC": {
+            "product_version": "UFS 4.1",
             "group": "UFS"
           }
         },
@@ -525,7 +716,31 @@
       },
       "steps": [
         {
-          "op": "takeLongest",
+          "op": "take",
+          "len": 2,
+          "to": "systemToken"
+        },
+        {
+          "op": "map",
+          "from": "systemToken",
+          "table": "systemObj",
+          "to": "systemObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productPrefixToken"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(?:12M|[0-9]{1,3}G|1T5|1T)",
+          "to": "densityToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "densityToken",
           "table": "density",
           "to": "density",
           "default": 0
@@ -540,7 +755,7 @@
           "from": "componentCode",
           "table": "componentType",
           "to": "componentType",
-          "default": "emmc"
+          "default": null
         },
         {
           "op": "map",
@@ -657,11 +872,16 @@
           "from": "productionStatusObj"
         },
         {
+          "op": "merge",
+          "into": "extra",
+          "from": "systemObj"
+        },
+        {
           "op": "map",
           "from": "type",
           "table": "draftChipKind",
           "to": "draftChipKind",
-          "default": "raw_nand"
+          "default": "managed_nand"
         },
         {
           "op": "map",

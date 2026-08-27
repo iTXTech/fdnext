@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "source": "dram-pn",
+      "pn": "H5WG6HMN6QX038R",
+      "evidenceStatus": "external_confirmed",
+      "reason": "Single externally confirmed DRAM body; no public token grammar for product type or numeric density."
+    },
+    {
+      "source": "managed-nand-pn",
+      "pn": "HN8T039JHQX099N",
+      "evidenceStatus": "external_confirmed",
+      "reason": "Single externally confirmed UFS body; exact search seed must not become a full-body decoder."
+    },
+    {
+      "source": "mdb:micron",
+      "pn": "MT29P256G08CKCBBAT:B",
+      "evidenceStatus": "external_confirmed_semantics_pending",
+      "reason": "Micron FBGA mapping confirms the exact PN, but public MT29P ordering evidence conflicts with treating every 29P body as raw NAND."
+    },
+    {
+      "source": "mdb:micron",
+      "pn": "MT29P512G08CRCBBRW:B",
+      "evidenceStatus": "external_confirmed_semantics_pending",
+      "reason": "Micron FBGA mapping confirms the exact PN, but package and suffix token semantics remain unconfirmed."
+    },
+    {
+      "source": "mdb:micron",
+      "pn": "MT29P256G08CKCBBA1ES:B",
+      "evidenceStatus": "external_confirmed_semantics_pending",
+      "reason": "Micron FBGA mapping confirms the exact PN, but package and suffix token semantics remain unconfirmed."
+    },
+    {
+      "source": "mdb:micron",
+      "pn": "MT29P512G08CRCBBR1ES:B",
+      "evidenceStatus": "external_confirmed_semantics_pending",
+      "reason": "Micron FBGA mapping confirms the exact PN, but package and suffix token semantics remain unconfirmed."
+    },
+    {
+      "source": "mdb:micron",
+      "pn": "MT29P256G08CKCBBATES:B",
+      "evidenceStatus": "external_confirmed_semantics_pending",
+      "reason": "Micron FBGA mapping confirms the exact PN, but AT must not be guessed as a temperature token without a confirmed package boundary."
+    },
+    {
+      "source": "mdb:micron",
+      "pn": "MT29P512G08CRCBBRWES:B",
+      "evidenceStatus": "external_confirmed_semantics_pending",
+      "reason": "Micron FBGA mapping confirms the exact PN, but package and suffix token semantics remain unconfirmed."
+    },
+    {
+      "source": "mdb:micron",
+      "pn": "MT29P5DAMN-DC",
+      "evidenceStatus": "local_pending_external_reference",
+      "reason": "Compact contact-factory-style body lacks a public ordering grammar and remains search-only."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 # Micron eMMC PN 编码
 
-采集日期：2026-05-08；更新日期：2026-07-12
+采集日期：2026-05-08；更新日期：2026-08-27
 
 ## 外部资料
 
@@ -27,6 +27,7 @@ iTXTech fdnext DecodePack:
   - `vendor.micron.managed.mtfc.nextgen.v1`
 - `packages/core/src/decodepack/rules/packs/micron-emmc-token.json`
   - `vendor.micron.emmc.mtfc.legacy.v1`
+  - `vendor.micron.emmc.n2m400.v1`
 
 PN 结构：
 
@@ -42,9 +43,17 @@ PN 结构：
 | special option `0F/0M/1M/.../O1` | boot/enhanced area / firmware option |
 | family key `component:controller` | `AC:AA` -> eMMC 4.51；`AC:AE`、`AC:AJ`、`AJ:AE`、`AK:AE`、`AK:AJ` -> eMMC 5.0；`AM:AL`、`AO:AL`、`AP:AL`、`AS:AQ`、`AX:AQ`、`AZ:AQ`、`BC:AQ` -> eMMC 5.1 |
 
+`N2M4` 旧型号按原厂 datasheet Figure 2 逐 token 解析：
+`N2M | 4 | 00F | D | B | 3 | 1 | 1A3 | C | E`。`4=eMMC 4.41`；
+`00F/G/H/J=4/8/16/32GB`；`D=25nm`；`B=Extended (-40°C ~ 85°C)`；`3=3.0V`；
+configuration `1/2/4` 输出 die count；`1A3=LBGA-100, 14x18x1.4`。`D=25nm` 暂仅保留证据，
+在无法确定 NAND die profile 前不单独输出 process node。未知 token 独立降级，
+不限制为已知完整 PN 组合，不将 MLC/x8 作为所有未知配置的常量。
+firmware C 与 media E/F 仅作内部 token。
+<https://cdck-file-uploads-global.s3.dualstack.us-west-2.amazonaws.com/digikey/original/2X/0/0c012b26eddf736b043b3cae931df49afb5ee9e9.pdf>
+
 ## 输出字段
 
-- `nand_component`
 - `component_width`
 - `component_density`
 - `generation_info`
@@ -69,6 +78,8 @@ PN 结构：
 - `MTFC128GAJAECE-AAT`
 - `MTFC64GAOALEA-WT`
 - `MTFC128GASAQEA-WT`
+- `N2M400FDB311A3CE`
+- `N2M400JDB341A3CF`
 
 ## 注意
 

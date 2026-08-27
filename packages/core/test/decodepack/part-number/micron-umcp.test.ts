@@ -44,12 +44,12 @@ for (const sample of [
     densityMbit: 2097152,
     storageDensity: "256GB UFS",
     dramDensity: "64Gb",
-    dramType: "LPDDR5",
+    dramType: "LPDDR5X",
     voltage: micronUmcpVoltage.t,
-    controller: undefined,
+    controller: "9U2A",
     packageConfiguration: "4 LPDRAM, 1 UFS",
     package: "VFBGA-297, 11.5x13x0.9",
-    dramSpeed: "LPDDR5-8533",
+    dramSpeed: "LPDDR5X-8533",
     dieRevision: "273",
     productMode: "UFS + Mobile LPDDR5"
   },
@@ -58,12 +58,12 @@ for (const sample of [
     densityMbit: 2097152,
     storageDensity: "256GB UFS",
     dramDensity: "96Gb",
-    dramType: "LPDDR5",
+    dramType: "LPDDR5X",
     voltage: micronUmcpVoltage.t,
-    controller: undefined,
+    controller: "9U2A",
     packageConfiguration: "6 LPDRAM, 1 UFS",
     package: "VFBGA-297, 11.5x13x1.0",
-    dramSpeed: "LPDDR5-8533",
+    dramSpeed: "LPDDR5X-8533",
     dieRevision: "274",
     productMode: "UFS + Mobile LPDDR5"
   },
@@ -442,3 +442,95 @@ assertSearchPnIncludes("MT30AZZZDDA0TPQS-031 WL.19Q", "Micron MT30AZZZDDA0TPQS-0
 for (const partNumber of ["MT29VZZZBDAFQKWL 046 W.G0J", "MT30AZZZCD9ZTOQS 031 W.15Q"]) {
   assertNoAdditionalFields(partNumber);
 }
+
+for (const sample of [
+  {
+    partNumber: "MT30AZZZDDC4TOWL-023 W.278",
+    densityMbit: 8388608,
+    dramDensity: "96Gb",
+    controller: "9U2A",
+    productVersion: "UFS 3.1",
+    package: "TFBGA-297, 11.5x13x1.2",
+    dieRevision: "278"
+  },
+  {
+    partNumber: "MT30AZZZDDC5TOAV-023 W.27F",
+    densityMbit: 8388608,
+    dramDensity: "96Gb",
+    controller: "9U2A",
+    productVersion: "UFS 4.1",
+    package: "uMCP-305",
+    dieRevision: "27F"
+  },
+  {
+    partNumber: "MT30AZZZEDC5TPAW-023 W.27G",
+    densityMbit: 8388608,
+    dramDensity: "128Gb",
+    controller: "9U2A",
+    productVersion: "UFS 4.1",
+    package: "uMCP-305",
+    dieRevision: "27G"
+  }
+] as const) {
+  assertRuleDecode(sample.partNumber, {
+    vendor: "micron",
+    type: "uMCP",
+    densityMbit: sample.densityMbit,
+    package: sample.package,
+    extra: {
+      "Storage Density": "1TB UFS",
+      "Storage Interface": "UFS",
+      "Controller": sample.controller,
+      "Product Version": sample.productVersion,
+      "DRAM Density": sample.dramDensity,
+      "DRAM Type": "LPDDR5X",
+      "DRAM Width": "x32",
+      "DRAM Speed": "LPDDR5X-8533",
+      "Operation Temperature": "Wireless (-25°C ~ 85°C)",
+      "Die Revision": sample.dieRevision
+    },
+    absentExtra: ["Controller Code", "Package Code", "Speed Grade"]
+  });
+}
+
+assertRuleDecode("MT30AZZZEDA0TPWL-031 WN.20W", {
+  vendor: "micron",
+  type: "uMCP",
+  densityMbit: 2097152,
+  extra: {
+    "Operation Temperature": "Wireless (-25°C ~ 85°C)",
+    "Die Revision": "20W"
+  }
+});
+
+assertRuleDecode("MT30AZZZDDA0TPQS-031 WD.19Q", {
+  vendor: "micron",
+  type: "uMCP",
+  densityMbit: 2097152,
+  extra: {
+    "Die Revision": "19Q"
+  },
+  absentExtra: ["Operation Temperature"]
+});
+
+const unrelatedControllerScope = engine.decodePart({ query: "MT29VZZZCD94SFSM-046W18C", lang: "eng" });
+assert.equal(firstField(unrelatedControllerScope, "dram_type")?.value, "LPDDR4X");
+assert.equal(firstField(unrelatedControllerScope, "controller"), undefined);
+assert.equal(firstField(unrelatedControllerScope, "product_version"), undefined);
+
+// Synthetic speed variants check token boundaries, not newly confirmed ordering parts.
+for (const speedToken of ["999", "031", "046"]) {
+  const result = engine.decodePart({ query: `MT30AZZZDDC5TOAV-${speedToken}WN27F`, lang: "eng" });
+  assert.equal(result.device.vendor?.id, "micron");
+  assert.equal(result.device.chipKind, "managed_nand");
+  assert.equal(result.device.productType, "umcp");
+  assert.equal(firstField(result, "dram_type")?.value, "LPDDR5X");
+  assert.equal(firstField(result, "storage_density")?.value, "1TB UFS");
+  assert.equal(firstField(result, "dram_speed"), undefined);
+  assert.equal(firstField(result, "operation_temperature")?.value, "Wireless (-25°C ~ 85°C)");
+  assert.equal(firstField(result, "die_revision")?.value, "27F");
+}
+
+const crossFamilySpeed = engine.decodePart({ query: "MT29VZZZCD91SFSM-023W18C", lang: "eng" });
+assert.equal(firstField(crossFamilySpeed, "dram_type")?.value, "LPDDR4X");
+assert.equal(firstField(crossFamilySpeed, "dram_speed"), undefined);

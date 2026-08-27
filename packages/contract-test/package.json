@@ -1,6 +1,6 @@
 {
   "name": "@itxtech/fdnext-contract-test",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "homepage": "https://github.com/iTXTech/fdnext/tree/master/packages/contract-test",
   "type": "module",
   "dependencies": {

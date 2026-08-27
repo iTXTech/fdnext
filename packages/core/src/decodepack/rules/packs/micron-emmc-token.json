@@ -17,13 +17,15 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^MTFC(?:12M|[0-9]{1,3}G)[0-9A-Z]{4}(?:-?[0-9A-Z]+)?(?:ES|MS|QS)?$"
+      "value": "^(?:MT|EE)FC(?:12M|[0-9]{1,3}G)[0-9A-Z]{4}(?:-?[0-9A-Z]+)?(?:ES|MS|QS|EE)?$"
     },
     "tokenDecoder": {
-      "stripPrefixes": [
-        "MTFC"
-      ],
       "tables": {
+        "systemObj": {
+          "EE": {
+            "prod_status": "Early Engineering Samples"
+          }
+        },
         "density": {
           "12M": 4096,
           "1G": 8192,
@@ -256,6 +258,23 @@
       },
       "steps": [
         {
+          "op": "take",
+          "len": 2,
+          "to": "systemToken"
+        },
+        {
+          "op": "map",
+          "from": "systemToken",
+          "table": "systemObj",
+          "to": "systemObj",
+          "default": {}
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "productPrefixToken"
+        },
+        {
           "op": "takeLongest",
           "table": "density",
           "to": "density",
@@ -351,6 +370,11 @@
           "from": "productionStatusObj"
         },
         {
+          "op": "merge",
+          "into": "extra",
+          "from": "systemObj"
+        },
+        {
           "op": "omit",
           "from": "extra",
           "keys": [
@@ -386,6 +410,162 @@
           "$var": "package"
         },
         "meta.ruleId": "vendor.micron.emmc.mtfc.legacy.v1"
+      }
+    }
+  },
+  {
+    "id": "vendor.micron.emmc.n2m400.v1",
+    "priority": 1009,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^N2M4[0-9A-Z]{3}[0-9A-Z]{4}[0-9A-Z]{3}[0-9A-Z]{2}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "N2M"
+      ],
+      "tables": {
+        "density": {
+          "00F": 32768,
+          "00G": 65536,
+          "00H": 131072,
+          "00J": 262144
+        },
+        "storageDensityObj": {
+          "00F": {
+            "storage_density": "4GB eMMC"
+          },
+          "00G": {
+            "storage_density": "8GB eMMC"
+          },
+          "00H": {
+            "storage_density": "16GB eMMC"
+          },
+          "00J": {
+            "storage_density": "32GB eMMC"
+          }
+        },
+        "temperature": {
+          "B": "Extended (-40°C ~ 85°C)"
+        },
+        "voltage": {
+          "3": "3.0V"
+        },
+        "dieCount": {
+          "1": 1,
+          "2": 2,
+          "4": 4
+        },
+        "package": {
+          "1A3": "LBGA-100, 14x18x1.4"
+        }
+      },
+      "steps": [
+        {
+          "op": "takeRegex",
+          "pattern": "^([0-9A-Z])([0-9A-Z]{3})([0-9A-Z])([0-9A-Z])([0-9A-Z])([0-9A-Z])([0-9A-Z]{3})([0-9A-Z])([0-9A-Z])$",
+          "to": "orderingBody",
+          "groups": {
+            "versionToken": 1,
+            "densityToken": 2,
+            "technologyToken": 3,
+            "temperatureToken": 4,
+            "voltageToken": 5,
+            "configurationToken": 6,
+            "packageToken": 7,
+            "firmwareToken": 8,
+            "packingToken": 9
+          }
+        },
+        {
+          "op": "map",
+          "from": "densityToken",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "densityToken",
+          "table": "storageDensityObj",
+          "to": "storageDensityObj",
+          "default": {}
+        },
+        {
+          "op": "map",
+          "from": "temperatureToken",
+          "table": "temperature",
+          "to": "temperature",
+          "default": null
+        },
+        {
+          "op": "map",
+          "from": "voltageToken",
+          "table": "voltage",
+          "to": "voltage",
+          "default": null
+        },
+        {
+          "op": "map",
+          "from": "configurationToken",
+          "table": "dieCount",
+          "to": "dieCount",
+          "default": null
+        },
+        {
+          "op": "map",
+          "from": "packageToken",
+          "table": "package",
+          "to": "package",
+          "default": null
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emmc",
+        "fields.density": {
+          "$var": "density"
+        },
+        "fields.storage_density": {
+          "$path": "storageDensityObj.storage_density"
+        },
+        "fields.storage_interface": "eMMC",
+        "fields.product_version": "eMMC 4.41",
+        "fields.operation_temperature": {
+          "$var": "temperature"
+        },
+        "fields.voltage": {
+          "$var": "voltage"
+        },
+        "fields.die_count": {
+          "$var": "dieCount"
+        },
+        "fields.package": {
+          "$var": "package"
+        },
+        "meta.ruleId": "vendor.micron.emmc.n2m400.v1",
+        "meta.fieldProfile": "managed_nand",
+        "meta.hiddenFields": [
+          "density"
+        ]
       }
     }
   }

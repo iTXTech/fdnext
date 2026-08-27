@@ -17,14 +17,15 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(?:MT|CT|ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?(?:-[0-9A-Z]+)*$"
+      "value": "^(?:(?:MT|CT|ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)|NT(?:41J|47H))[0-9A-Z]+(?:-[0-9A-Z]+)*(?::[0-9A-Z]+)?(?:-[0-9A-Z]+)*$"
     },
     "tokenDecoder": {
       "stripPrefixes": [
         "MT",
         "CT",
         "ED",
-        "EE"
+        "EE",
+        "NT"
       ],
       "tables": {
         "familyObj": {
@@ -2438,6 +2439,106 @@
         "meta.dramTopologyTokenRecognized": {
           "$path": "topologyRecognitionObj.recognized"
         },
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  },
+  {
+    "id": "vendor.micron.dram.crucial_component.v1",
+    "priority": 1011,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^CT(?:1G8|2G8)Z[0-9A-Z]{7}-[0-9A-Z]{4}$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "CT"
+      ],
+      "tables": {
+        "configToken": [
+          "1G8",
+          "2G8"
+        ],
+        "density": {
+          "1G8": 8192,
+          "2G8": 16384
+        },
+        "deviceWidth": {
+          "1G8": 8,
+          "2G8": 8
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "configToken",
+          "to": "configCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "density",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "map",
+          "from": "configCode",
+          "table": "deviceWidth",
+          "to": "deviceWidth",
+          "default": -1
+        },
+        {
+          "op": "take",
+          "len": 1,
+          "to": "dramTypeToken"
+        },
+        {
+          "op": "take",
+          "len": 5,
+          "to": "designBody"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageCode"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "dram",
+        "device.productType": "ddr4",
+        "fields.dram_type": "DDR4",
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "deviceWidth"
+        },
+        "meta.ruleId": "vendor.micron.dram.crucial_component.v1",
+        "meta.dramTopologyTokenRecognized": false,
         "meta.fieldProfile": "dram",
         "meta.capabilities": [
           "part.decode",

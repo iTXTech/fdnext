@@ -25,7 +25,6 @@
       },
       "device.domain": "memory",
       "device.vendor": "micron",
-      "device.chipKind": "raw_nand",
       "meta.ruleId": "vendor.micron.prefix.mt"
     }
   },

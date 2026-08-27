@@ -1556,6 +1556,41 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-managed-token.json",
+      "spec_id": "vendor.micron.managed.mtfc.nextgen.v1",
+      "scope": "spec",
+      "entry_key": "micron_eefc_engineering_namespace",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron FBGA Part Marking Decoder exact EEFC mappings plus the existing MTFC Flash + Controller ordering body",
+        "url": "https://www.micron.com/sales-support/design-tools/fbga-parts-decoder",
+        "examples": [
+          "EEFC512GBGAZHF-WT ES",
+          "EEFC1TBGAZHE-WT ES"
+        ],
+        "notes": "The EE system namespace reuses existing MTFC body tables. AX:AT extended EAAA/AMAA packages use a separate structured spec; 1T5 is consumed by the generic density-token parser without assigning an unconfirmed numeric capacity."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-managed-token.json",
+      "spec_id": "vendor.micron.managed.mtfc.extended-package.v1",
+      "scope": "spec",
+      "entry_key": "micron_mtfc_axat_extended_package",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron obsolete UFS catalog AX:AT EAAA/AMAA rows and FBGA Part Marking Decoder EEFC mappings",
+        "url": "https://www.micron.com/products/obsolete/obsolete-universal-flash-storage/part-catalog",
+        "examples": [
+          "MTFC128GAXATEAAA-WT",
+          "MTFC256GAXATEAAA-WT",
+          "MTFC512GAXATAMAA-WT",
+          "EEFC128GAXATEAAA-WT",
+          "EEFC512GAXATAMAA-WT"
+        ],
+        "notes": "EAAA varies between VFBGA/WFBGA and thickness by density, so only the common BGA-153, 11.5x13 semantics are public. AMAA is confirmed as VFBGA-153, 11.5x13x1.0."
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/rules/packs/micron-raw-structured-token.json",
       "spec_id": "vendor.micron.raw.current.v1",
       "scope": "spec",
@@ -1566,6 +1601,23 @@
         "examples": [
           "MT29F16T08EWLEHD6-36ITRES:E"
         ]
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-raw-structured-token.json",
+      "spec_id": "vendor.micron.raw.current.v1",
+      "scope": "spec",
+      "entry_key": "micron_ee29_current_raw_namespace",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron FBGA Part Marking Decoder exact EE29 mappings plus the current raw NAND ordering body",
+        "url": "https://www.micron.com/sales-support/design-tools/fbga-parts-decoder",
+        "examples": [
+          "EE29E2T08CTCCBJ7-10NES:C",
+          "EE29F512G08EBLDEH6-QAES:D",
+          "EE29F8T08ESLFEG4-ES:F"
+        ],
+        "notes": "EE is parsed as a system token and overrides a less-specific trailing ES marker so Production Status is exposed once."
       }
     },
     {
@@ -3483,6 +3535,145 @@
         "url": "https://www.esmt.com.tw/upload/pdf/ESMT/datasheets/F59D8G81KSA%282R%29_operation%20temperature%20condition%20-40~85%E2%84%83.pdf",
         "examples": ["C8A3811930"],
         "notes": "The datasheet confirms the exact 8Gb 1.8V x8 SLC tuple, two dies and one plane per die, 4KB page, 256B spare, 256KB block and 8-bit ECC per 512B."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.emcp.mt29d.v1",
+      "scope": "spec",
+      "entry_key": "micron_mt29d_aio_legacy_20260827",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron MCP/PoP/AiO Part Numbering Guide and official FBGA mappings",
+        "url": "https://assets.micron.com/adobe/assets/urn%3Aaaid%3Aaem%3Ac8a329b9-b44e-4bd8-b309-a75929865e96/renditions/original/as/nummcp.pdf",
+        "notes": "29D identifies SLC NAND + LPDDR + MLC eMMC. The three component triples are consumed structurally without publishing their unconfirmed meanings; only product composition and confirmed suffix semantics are public."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-raw-token.json",
+      "spec_id": "vendor.micron.clearnand.v1",
+      "scope": "spec",
+      "entry_key": "micron_clearnand_ca_en_20260827",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron ClearNAND product announcement and obsolete NAND MCP catalog",
+        "url": "https://www.micron.com/products/obsolete/obsolete-nand-mcp-catalog/part-catalog/part-detail/mt29fen64gdkcaaxdq-10-a",
+        "examples": ["MT29FEN64GDKCAAXDQ-10:A"],
+        "notes": "CA is ClearNAND without an unsupported Standard label; EN is Enhanced ClearNAND. Catalog and ordering evidence confirm GB density, MLC, parallel NAND interface with integrated error management, EN DQ package and -10 rate. This is not ordinary raw NAND."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emmc-token.json",
+      "spec_id": "vendor.micron.emmc.n2m400.v1",
+      "scope": "spec",
+      "entry_key": "micron_n2m400_legacy_emmc_20260827",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron eMMC 4GB/8GB/16GB/32GB 100-ball industrial datasheet, Rev C 7/12, Figure 2 Marketing Part Number Chart",
+        "url": "https://cdck-file-uploads-global.s3.dualstack.us-west-2.amazonaws.com/digikey/original/2X/0/0c012b26eddf736b043b3cae931df49afb5ee9e9.pdf",
+        "examples": ["N2M400FDB311A3CE", "N2M400GDB321A3CE", "N2M400HDB321A3CE", "N2M400JDB341A3CE"],
+        "notes": "Tokens are N2M|4|00F|D|B|3|1|1A3|C|E: 4=eMMC4.41; 00F/G/H/J=4/8/16/32GB; D=25nm; B=Extended -40..85C; 3=3.0V; configuration 1/2/4=die count; 1A3=LBGA-100 14x18x1.4. Unknown tokens degrade independently. Firmware/media are internal; MLC/x8 are not unconditional family constants."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-emcp-token.json",
+      "spec_id": "vendor.micron.umcp.mt29v_mt30a.v1",
+      "scope": "spec",
+      "entry_key": "micron_mt30a_lpddr5x_9u2a_20260827",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official UFS-based MCP catalog and public document-search metadata for UM278, UM22Q, UM27E and UM27G",
+        "url": "https://www.micron.com/search-results?searchRequest=MT30AZZZDDC4TOWL",
+        "supporting_urls": [
+          "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/mcp/297ball/297ball-ufs-v31-um278-y52n-lp5x.pdf",
+          "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/mcp/305ball/305ball-ufs-v41-um27e-y52n-lp5x.pdf",
+          "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/mcp/305ball/305ball-ufs-v41-um27g-y52n-lp5x.pdf"
+        ],
+        "examples": ["MT30AZZZDDC5TOAV-023 W.27F", "MT30AZZZEDC5TPAW-023 W.27G", "MT30AZZZDDC4TOWL-023 W.278"],
+        "notes": "Public document metadata confirms C storage=1TB UFS, MT30A controller4=9U2A UFS3.1 and controller5=9U2A UFS4.1 with LPDDR5X; -023=8533Mb/s in this scope; AV/AW=uMCP-305. Secure PDF bodies were not available. WN/WD boundaries are consumed without inventing a WD temperature meaning."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-managed-token.json",
+      "spec_id": "vendor.micron.managed.mtfc.nextgen.v1",
+      "scope": "spec",
+      "entry_key": "micron_mtfc_bg_b68s_ufs41_20260827",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official public document metadata for UFS 4.1 FS26N/P/Q, automotive FS17x and B68S die",
+        "url": "https://www.micron.com/search-results?searchRequest=MTFC512GBGBBAP-WT",
+        "supporting_urls": [
+          "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/ufs/wireless/153ball-ufs-v41-160s-fs26n-fs26p-fs26q.pdf",
+          "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/ufs/automotive/auto-153ball-ufs-v41-fs17k-fs17l-fs17m-fs17n.pdf",
+          "https://www.micron.com/content/dam/micron/global/secure/products/data-sheet/nand-flash/160-series/b68s/b68s-die-1tb-nand-industrial.pdf"
+        ],
+        "examples": ["MTFC1TBGBBAF-WT", "MTFC256GBGBCTD-AIT"],
+        "notes": "Public metadata lists BG 256/512GB/1TB products using 2/4/8 B68S dies, while the B68S die title confirms 1Tb x8. This is a multi-document inference, not a direct numbering-table row. BG:BB/BC confirm UFS4.1. BG:BE and BF:BA remain generic managed NAND; secure PDF bodies were not inspected."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-managed-token.json",
+      "spec_id": "vendor.micron.managed.mtfc.nextgen.v1",
+      "scope": "spec",
+      "entry_key": "micron_eefc_1t5_partial_20260827",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron official FBGA mappings and independently confirmed BG component semantics",
+        "url": "https://www.micron.com/sales-support/design-tools/fbga-parts-decoder",
+        "examples": ["EEFC1T5BGBEQW-WT EE", "EEFC1T5BGBEQX-WT EE"],
+        "notes": "Only BG component, WT temperature and EE status are public. 1T5 total capacity, BE product/interface binding and QW/QX package remain unconfirmed and are omitted."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.component.v1",
+      "scope": "spec",
+      "entry_key": "micron_nt41j_nt47h_alias_20260827",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron FBGA Part Marking Decoder and Arrow-hosted Micron decoder PDF",
+        "url": "https://static6.arrow.com/aropdfconversion/3586d2f02ff8bdf3c705c1963408382dfa8a3528/fbga-microntechnologyinc..pdf",
+        "examples": ["NT41J128M16HA-15E:D", "NT47H64M16HR-25:H"],
+        "notes": "Only NT41J and NT47H reuse the established Micron DDR3/DDR2 body grammar. Other NT families remain excluded to avoid claiming the Nanya namespace."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-dram-token.json",
+      "spec_id": "vendor.micron.dram.crucial_component.v1",
+      "scope": "spec",
+      "entry_key": "micron_crucial_ct_component_20260827",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Micron FBGA exact mappings and Framework component inspection, limited to component identity and organization",
+        "url": "https://community.frame.work/t/memory-support-specs/2277/18",
+        "examples": ["CT1G8Z21ED8VA-062E", "CT2G8Z32DD8JC-075E"],
+        "notes": "Only bounded CT1G8/2G8 Z DDR4 component identity, density and width are decoded. SpecTek decoder rejects CT and only accepts SCT: transferring VA/JC or 062E/075E meanings across those namespaces is unconfirmed, so package, speed and topology remain absent. No DIMM/SSD decoder is enabled."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/elpida-dram-token.json",
+      "spec_id": "vendor.elpida.dram.daisy_chain_mobile.v1",
+      "scope": "spec",
+      "entry_key": "micron_legacy_elpida_em_mobile_20260827",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Micron legacy Elpida Part Numbering Guide, obsolete LPDDR catalog and PCN 31634",
+        "url": "https://assets.micron.com/adobe/assets/urn%3Aaaid%3Aaem%3A0b279ea9-4e4c-49fa-98c6-c18ad4c67279/renditions/original/as/legacy-elpida-pns.pdf",
+        "examples": ["EMBA164B1PH-1D-F-R", "EMF8132A3PB-DV-F-D"],
+        "notes": "M identifies Daisy chain sample, not a Micron vendor alias or engineering status. B/F identify LPDDR2/LPDDR3 and body tokens confirm density, width, voltage and PH/PB package. DV remains opaque. EM follows the repository's existing ED=Elpida legacy ownership policy."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/spectek-dram-token.json",
+      "spec_id": "vendor.spectek.dram.component.v1",
+      "scope": "spec",
+      "entry_key": "spectek_scm_24gb_80b_tp_20260827",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "SpecTek Marketing Part Number Decoder, DRAM Component",
+        "url": "https://www.spectek.com/menus/mpn_decoder.aspx?MpnCategory=DramComponent",
+        "examples": ["SCM3G8Z41BD8JF-062E", "SCM1G16Y62EB8HD-80B", "SCM1G16Y62EB8HD-TP"],
+        "notes": "SCM means Crucial FBGA code, Micron logo within the SpecTek component namespace. 3G8 is 24Gb x8; JF is VFBGA-82/143 9.5x11x1.0; 80B is DDR5-8000 CL64; TP is 95% tested and does not imply a speed."
       }
     }
   ]

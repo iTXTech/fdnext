@@ -1,6 +1,6 @@
 {
   "name": "@itxtech/fdnext-core",
-  "version": "3.2.0",
+  "version": "3.3.0",
   "description": "Core fdnext memory chip parsing engine, rules, resources, runtime, CLI, and result contracts",
   "license": "AGPL-3.0-or-later",
   "type": "module",
@@ -61,7 +61,9 @@
   },
   "scripts": {
     "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly && tsdown",
-    "test": "pnpm test:decodepack && pnpm test:integration && pnpm test:contract",
+    "test": "pnpm test:decodepack && pnpm test:pn-coverage && pnpm test:integration && pnpm test:contract",
+    "audit:pn-coverage": "node --import tsx scripts/audit-pn-coverage.ts",
+    "test:pn-coverage": "pnpm audit:pn-coverage --check",
     "test:decodepack": "node --import tsx --test --test-isolation=none 'test/decodepack/**/*.test.ts'",
     "test:integration": "node --import tsx --test --test-isolation=none 'test/integration/**/*.test.ts'",
     "test:contract": "node --import tsx --test --test-isolation=none test/result-contract.test.ts",

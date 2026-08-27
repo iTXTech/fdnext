@@ -78,7 +78,7 @@ const spectekComponentPackageExpectations = {
   HPR: ["TFBGA-78/117, 8x12x1.2", 2],
   HX: ["FBGA-78/117, 9x11.5x1.2", 1],
   JC: ["TFBGA-78/117, 9x11x1.2", 1],
-  JF: ["VFBGA-82, 9.5x11", 1],
+  JF: ["VFBGA-82/143, 9.5x11x1.0", 1],
   JP: ["FBGA-78/117, 8x11.5x1.2", 1],
   JT: ["TFBGA-96/144, 8x14x1.2", 1],
   JY: ["TFBGA-96/144, 8x14x1.2", 1],
@@ -806,4 +806,52 @@ assertDram("PRN1G8V91AG8SN-107", {
     "DRAM Speed": "DDR3-1866 CL13"
   },
   absentExtra: ["Config Code", "Package Code"]
+});
+
+assertDram("SCM3G8Z41BD8JF-062E", {
+  vendor: "spectek",
+  densityMbit: 24576,
+  density: "24Gb",
+  widthField: "x8",
+  voltage: "1.2V",
+  package: "VFBGA-82/143, 9.5x11x1.0",
+  extra: {
+    "DRAM Type": "DDR4",
+    "DRAM Speed": "DDR4-3200 CL22",
+    "DRAM Die Count": 1,
+    "Special Option": "Crucial FBGA code, Micron logo"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
+
+assertDram("SCM1G16Y62EB8HD-80B", {
+  vendor: "spectek",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.1V",
+  package: "VFBGA-102/153, 7.5x14x1.0",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Speed": "DDR5-8000 CL64",
+    "DRAM Die Count": 1,
+    "Special Option": "Crucial FBGA code, Micron logo"
+  },
+  absentExtra: ["Config Code", "Package Code", "Speed Grade"]
+});
+
+assertDram("SCM1G16Y62EB8HD-TP", {
+  vendor: "spectek",
+  densityMbit: 16384,
+  density: "16Gb",
+  widthField: "x16",
+  voltage: "1.1V",
+  package: "VFBGA-102/153, 7.5x14x1.0",
+  extra: {
+    "DRAM Type": "DDR5",
+    "DRAM Die Count": 1,
+    "Speed Grade": "TP 95% tested",
+    "Special Option": "Crucial FBGA code, Micron logo"
+  },
+  absentExtra: ["Config Code", "Package Code", "DRAM Speed"]
 });

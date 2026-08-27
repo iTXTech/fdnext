@@ -17,7 +17,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^(?:MT29V|MT30A)ZZZ[1-9A-E][A-F][VWXY12456789AB][0-9A-Z][A-Y][A-P][A-Z]{2}-?(?:023|026|031|046|053|062)(?:WL|W)?[0-9A-Z]+$"
+      "value": "^(?:MT29V|MT30A)ZZZ[1-9A-E][A-F][VWXY12456789ABC][0-9A-Z][A-Y][A-P][A-Z]{2}-?[0-9]{3}(?:WL|WN|WD|W)?[0-9A-Z]+$"
     },
     "tokenDecoder": {
       "tables": {
@@ -97,7 +97,8 @@
           "X": 1024,
           "Y": 512,
           "A": 2097152,
-          "B": 4194304
+          "B": 4194304,
+          "C": 8388608
         },
         "storageDensityObj": {
           "1": {
@@ -141,6 +142,9 @@
           },
           "B": {
             "storage_density": "512GB UFS"
+          },
+          "C": {
+            "storage_density": "1TB UFS"
           }
         },
         "controllerObj": {
@@ -158,6 +162,18 @@
           },
           "Z": {
             "controller": "SM2754 120s v3.1"
+          }
+        },
+        "controllerFamilyObj": {
+          "MT30A:4": {
+            "controller": "9U2A",
+            "product_version": "UFS 3.1",
+            "dram_type": "LPDDR5X"
+          },
+          "MT30A:5": {
+            "controller": "9U2A",
+            "product_version": "UFS 4.1",
+            "dram_type": "LPDDR5X"
           }
         },
         "voltage": {
@@ -206,26 +222,31 @@
           "MT30A:QS": "TFBGA-297, 11.5x13x1.1",
           "MT30A:WL": "TFBGA-297, 11.5x13x1.2",
           "MT30A:XL": "VFBGA-297, 11.5x13x0.9",
-          "MT30A:XM": "VFBGA-297, 11.5x13x1.0"
+          "MT30A:XM": "VFBGA-297, 11.5x13x1.0",
+          "MT30A:AV": "uMCP-305",
+          "MT30A:AW": "uMCP-305"
         },
         "speedObj": {
-          "023": {
+          "LPDDR5:023": {
             "dram_speed": "LPDDR5-8533"
           },
-          "026": {
+          "LPDDR5:026": {
             "dram_speed": "LPDDR5-8533"
           },
-          "031": {
+          "LPDDR5:031": {
             "dram_speed": "LPDDR5-6400"
           },
-          "046": {
+          "LPDDR4X:046": {
             "dram_speed": "LPDDR4X-4266"
           },
-          "053": {
+          "LPDDR4X:053": {
             "dram_speed": "LPDDR4X-3733"
           },
-          "062": {
+          "LPDDR4X:062": {
             "dram_speed": "LPDDR4X-3200"
+          },
+          "LPDDR5X:023": {
+            "dram_speed": "LPDDR5X-8533"
           }
         },
         "temperatureObj": {
@@ -234,7 +255,11 @@
           },
           "W": {
             "operation_temperature": "Wireless (-25°C ~ 85°C)"
-          }
+          },
+          "WN": {
+            "operation_temperature": "Wireless (-25°C ~ 85°C)"
+          },
+          "WD": {}
         }
       },
       "steps": [
@@ -280,7 +305,7 @@
         },
         {
           "op": "takeRegex",
-          "pattern": "^([VWXY12456789AB])([0-9A-Z])",
+          "pattern": "^([VWXY12456789ABC])([0-9A-Z])",
           "to": "storageCode",
           "groups": {
             "storageDensityCode": 1,
@@ -307,6 +332,28 @@
           "table": "controllerObj",
           "to": "controllerObj",
           "default": {}
+        },
+        {
+          "op": "tpl",
+          "template": "{{productLine}}:{{controllerCode}}",
+          "to": "controllerFamilyKey"
+        },
+        {
+          "op": "map",
+          "from": "controllerFamilyKey",
+          "table": "controllerFamilyObj",
+          "to": "controllerFamilyObj",
+          "default": {}
+        },
+        {
+          "op": "merge",
+          "into": "controllerObj",
+          "from": "controllerFamilyObj"
+        },
+        {
+          "op": "merge",
+          "into": "productFamilyObj",
+          "from": "controllerObj"
         },
         {
           "op": "take",
@@ -356,7 +403,18 @@
           "prefix": "-"
         },
         {
-          "op": "takeLongest",
+          "op": "take",
+          "len": 3,
+          "to": "speedCode"
+        },
+        {
+          "op": "tpl",
+          "template": "{{productFamilyObj.dram_type}}:{{speedCode}}",
+          "to": "speedKey"
+        },
+        {
+          "op": "map",
+          "from": "speedKey",
           "table": "speedObj",
           "to": "speedObj",
           "default": {}
@@ -2158,6 +2216,143 @@
     }
   },
   {
+    "id": "vendor.micron.emcp.mt29d.v1",
+    "priority": 1013,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^MT29D(?:[TUVWXYZ1-9ABC][0-9A-Z][0-9A-F]){3}[A-R][A-P][A-Z]{2}(?:-[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "MT29D"
+      ],
+      "tables": {
+        "speedObj": {
+          "5": {
+            "dram_speed": "LPDDR-400 CL3"
+          },
+          "6": {
+            "dram_speed": "LPDDR-333 CL3"
+          },
+          "75": {
+            "dram_speed": "LPDDR-266 CL3"
+          }
+        },
+        "temperatureObj": {
+          "IT": {
+            "operation_temperature": "Industrial (-40°C ~ 85°C)"
+          },
+          "I": {
+            "operation_temperature": "Industrial (-40°C ~ 85°C)"
+          }
+        },
+        "productionStatusObj": {
+          "ES": {
+            "prod_status": "Engineering Sample"
+          }
+        }
+      },
+      "steps": [
+        {
+          "op": "take",
+          "len": 9,
+          "to": "componentTriples"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "configurationToken"
+        },
+        {
+          "op": "take",
+          "len": 2,
+          "to": "packageToken"
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[0-9]{1,2}",
+          "to": "speedToken",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "speedToken",
+          "table": "speedObj",
+          "to": "speedObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "temperatureObj",
+          "to": "temperatureObj",
+          "default": {}
+        },
+        {
+          "op": "takeLongest",
+          "table": "productionStatusObj",
+          "to": "productionStatusObj",
+          "default": {}
+        },
+        {
+          "op": "set",
+          "to": "extra",
+          "value": {
+            "product_family": "Micron All-in-One",
+            "product_mode": "SLC NAND + LPDDR + MLC eMMC",
+            "storage_interface": "eMMC + Parallel NAND",
+            "dram_type": "LPDRAM"
+          }
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "speedObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "temperatureObj"
+        },
+        {
+          "op": "merge",
+          "into": "extra",
+          "from": "productionStatusObj"
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "managed_nand",
+        "device.productType": "emcp",
+        "fields": {
+          "$var": "extra"
+        },
+        "meta.ruleId": "vendor.micron.emcp.mt29d.v1",
+        "meta.fieldProfile": "managed_nand"
+      }
+    }
+  },
+  {
     "id": "vendor.micron.emcp.mt29c.v1",
     "priority": 1012,
     "normalize": [
@@ -2175,7 +2370,7 @@
     ],
     "match": {
       "kind": "regex",
-      "value": "^MT29C(?:DM|EM|FM|[1248]G|[ABCD]G)(?:56M|12M|40M|24M|52M|48M|72M|96M|92M)[0-9A-Z]{4,8}(?:-[0-9A-Z]+)?(?:L|E)?(?:IT|WT|CT|AIT|AAT|W)?(?:ES|MS|QS|DC)?(?:TR)?$"
+      "value": "^MT29C(?:DM|EM|FM|[1248]G|[ABCD]G)(?:56M|12M|40M|24M|52M|48M|72M|96M|92M)[0-9A-Z]{4,9}(?:-[0-9A-Z]+)?(?:L|E)?(?:IT|WT|CT|AIT|AAT|W)?(?:ES|MS|QS|DC)?(?:TR)?$"
     },
     "tokenDecoder": {
       "stripPrefixes": [

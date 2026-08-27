@@ -192,3 +192,19 @@ assertRuleDecode("MT29C8G48MAPLDJA-75ITES", {
   },
   absentExtra: ["Product Family", "Product Mode", "Cell Level", "Die Count", "Enterprise", "Interface Type"]
 });
+
+assertRuleDecode("MT29C8G96MAAAEBACKD-5 WT", {
+  vendor: "micron",
+  type: "eMCP",
+  densityMbit: 8192,
+  package: "TFBGA-137, 13x10.5x1.1",
+  extra: {
+    "Storage Density": "8Gb NAND",
+    "Storage Interface": "Parallel NAND",
+    "DRAM Density": "4Gb",
+    "DRAM Type": "Mobile LPDRAM",
+    "DRAM Speed": "LPDDR-400 CL3",
+    "Operation Temperature": "Standard (-25°C ~ 85°C)"
+  },
+  absentExtra: ["Config Code", "Package Code"]
+});
