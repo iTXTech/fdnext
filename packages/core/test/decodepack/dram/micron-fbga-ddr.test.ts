@@ -900,8 +900,6 @@ for (const partNumber of [
   assert.match(packageValue, /^FBGA-\d+, [0-9.x]+$/, `${partNumber} should expose package as type-pin, dim`);
   assert.doesNotMatch(packageValue, /Rev|ball|mm|pin|Unknown/i, `${partNumber} should not leak package notes`);
 }
-assertUnknown("AMD41J128M16HA-107G:D");
-
 for (const sample of [
   { pn: "MT40A16G4GNA-062H ES:E", densityMbit: 65536, width: "x4" },
   { pn: "MT41P512M8RH-125:J", densityMbit: 4096, width: "x8" },

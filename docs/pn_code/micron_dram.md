@@ -143,12 +143,19 @@ EDY + density + width + voltage + die revision + package + -speed + -solder + -p
   VA/JC 封装和 062E/075E 速度表，也不补 die/CS 拓扑。不扩展为 DIMM/module decoder。
 - `EMBA164B...` / `EMF8132A...` 的 `M` 是 daisy-chain 样品类型，不是 Micron vendor alias。
   本轮按仓库已有 `ED=elpida` 口径接入 [Elpida 规则](elpida_dram.md)。
-- `MT43T/M/D`、`MT55J/D`、`MT59*`、`MT63G` 和 `AMD` 前缀仍缺少能把内部 body
+- Micron MDB 与公开 Micron PN/FBGA 清单交叉确认 9 条 legacy `AMD` alias。规则只接受
+  `AMD41J<depth>M<width>`、`AMDJ<depth>M<width>` 和 `AMD15V<depth>X<width>` 三种
+  DDR3 component 结构，不建立泛 `AMD` 前缀。容量按 depth x width 计算；`HA` / `JT`、
+  `107` / `125` 和冒号后的 revision 沿用已确认的 Micron DDR3 语义。speed 后的 `G` 与
+  `C` / `D` / `P` 只作为内部 token 消费，不输出未经资料确认的温度、等级或特殊选项。
+- `MT43T/M/D`、`MT55J/D`、`MT59*` 和 `MT63G` 仍缺少能把内部 body
   绑定到确切产品线的 ordering/catalog，只保留在 coverage/evidence backlog。
 
 来源：<https://static6.arrow.com/aropdfconversion/3586d2f02ff8bdf3c705c1963408382dfa8a3528/fbga-microntechnologyinc..pdf>、
 <https://assets.micron.com/adobe/assets/urn%3Aaaid%3Aaem%3A0b279ea9-4e4c-49fa-98c6-c18ad4c67279/renditions/original/as/legacy-elpida-pns.pdf>、
-<https://www.micron.com/products/obsolete/obsolete-lpddr/part-catalog>。
+<https://www.micron.com/products/obsolete/obsolete-lpddr/part-catalog>、
+<https://www.preduo.com/part-number-list/micron-part-number-list>、
+<https://www.micron.com/sales-support/design-tools/fbga-parts-decoder>。
 
 - `fields.density` 使用项目统一 Mbit 单位，由 `component configuration` 的 depth x width 推导，例如 `1G8` 输出 `8192`。
 - `fields.device_width` 输出组织位宽，例如 `1G32` 输出 `x32`。

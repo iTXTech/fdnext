@@ -420,6 +420,7 @@ export function resourceEntries(raw: unknown): unknown[] {
 export function isMicronDramPartNumber(partNumber: string): boolean {
   return /^(?:MT|CT)(?:40|41|42|43|44|46|47|48|49|51|52|53|54|58|60|61|62|68)/.test(partNumber) ||
     /^(?:ED|EE)(?:40|41|42|44|46|47|48|49|51|52|53|58|60|61|62|68)/.test(partNumber) ||
+    /^AMD(?:41J[0-9]+M[0-9]+|J[0-9]+M[0-9]+|15V[0-9]+X[0-9]+)[A-Z]/.test(partNumber) ||
     /^ED(?:B|D|E|F|J|S|W|Y)/.test(partNumber);
 }
 

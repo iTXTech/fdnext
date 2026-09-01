@@ -135,7 +135,11 @@ function normalizeMicronDramPartNumber(partNumber: string): string {
 }
 
 function micronDramFamily(partNumber: string): string {
-  return /^(?:MT|CT|ED|EE)(\d\d)/.exec(partNumber)?.[1] ?? "";
+  const standardFamily = /^(?:MT|CT|ED|EE)(\d\d)/.exec(partNumber)?.[1];
+  if (standardFamily) {
+    return standardFamily;
+  }
+  return /^AMD(?:41J|J|15V)/.test(partNumber) ? "41" : "";
 }
 
 function isMicronDramSpeedBoundary(rest: string): boolean {
@@ -235,8 +239,8 @@ for (const entry of micronDramFbga) {
   assert.deepEqual(Object.keys(record).sort(), ["code", "pn"], `${String(record.code)} should only include code and pn`);
   assert.match(
     String(record.pn),
-    /^(?:MT|CT|ED|EE)/,
-    `${String(record.code)} should map only to Micron MT/Crucial CT or Micron legacy Elpida DRAM PN`
+    /^(?:MT|CT|ED|EE|AMD)/,
+    `${String(record.code)} should map only to a bounded Micron, Crucial, legacy Elpida, or AMD alias DRAM PN`
   );
 
   const key = `${String(record.code)}\0${String(record.pn)}`;

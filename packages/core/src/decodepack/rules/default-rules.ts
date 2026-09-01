@@ -4,6 +4,7 @@ import micronXpointTokenRules from "./packs/micron-xpoint-token.json" with { typ
 import micronSsdTokenRules from "./packs/micron-ssd-token.json" with { type: "json" };
 import micronEmmcTokenRules from "./packs/micron-emmc-token.json" with { type: "json" };
 import micronEmcpTokenRules from "./packs/micron-emcp-token.json" with { type: "json" };
+import micronAmdDramTokenRules from "./packs/micron-amd-dram-token.json" with { type: "json" };
 import micronDramTokenRules from "./packs/micron-dram-token.json" with { type: "json" };
 import micronHbmTokenRules from "./packs/micron-hbm-token.json" with { type: "json" };
 import micronHmcTokenRules from "./packs/micron-hmc-token.json" with { type: "json" };
@@ -84,6 +85,7 @@ export const defaultPartDecodeSpecs = [
   ...micronSsdTokenRules,
   ...micronEmmcTokenRules,
   ...micronEmcpTokenRules,
+  ...micronAmdDramTokenRules,
   ...micronDramTokenRules,
   ...micronHbmTokenRules,
   ...micronHmcTokenRules,

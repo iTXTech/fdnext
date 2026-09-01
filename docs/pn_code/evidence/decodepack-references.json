@@ -591,6 +591,29 @@
       }
     },
     {
+      "pack": "packages/core/src/decodepack/rules/packs/micron-amd-dram-token.json",
+      "spec_id": "vendor.micron.dram.amd-alias.v1",
+      "scope": "spec",
+      "entry_key": "micron_amd_legacy_ddr3_aliases_2026_09",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Public Micron part-number and FBGA list cross-checked with the bundled Micron MDB and official MT41J DDR3 catalog",
+        "url": "https://www.preduo.com/part-number-list/micron-part-number-list",
+        "examples": [
+          "D9PLL -> AMD41J64M16JT-125G D:G",
+          "D9PLM -> AMD41J64M16JT-107G D:G",
+          "D9PLN -> AMD41J128M16HA-125G D:D",
+          "D9PLP -> AMD41J128M16HA-107G D:D",
+          "D9QGR -> AMDJ128M16JT-107G P:K",
+          "D9QGS -> AMDJ128M16JT-107G C:K",
+          "D9QLL -> AMD15V128X16JT-107G C:K",
+          "D9QLM -> AMD15V128X16JT-107G P:K",
+          "D9QMK -> AMD15V128X16JT-125G C:K"
+        ],
+        "notes": "The exact list binds these three bounded AMD namespace forms to Micron FBGA parts. Public fields are limited to the shared DDR3, 1.5V, depth-times-width, HA/JT package, 107/125 speed, and colon-revision semantics. Intermediate G/C/D/P option tokens remain internal, and the evidence does not authorize a generic AMD prefix."
+      }
+    },
+    {
       "pack": "packages/core/src/decodepack/rules/packs/micron-hbm-token.json",
       "spec_id": "vendor.micron.hbm2e.mt54.v1",
       "scope": "table_entry",

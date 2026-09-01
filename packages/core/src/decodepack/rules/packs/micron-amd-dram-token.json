@@ -1,0 +1,163 @@
+[
+  {
+    "id": "vendor.micron.dram.amd-alias.v1",
+    "priority": 1015,
+    "normalize": [
+      "trim",
+      "uppercase",
+      {
+        "remove": [
+          " ",
+          ",",
+          "&",
+          ".",
+          "|"
+        ]
+      }
+    ],
+    "match": {
+      "kind": "regex",
+      "value": "^AMD(?:41J[0-9]+M[0-9]+|J[0-9]+M[0-9]+|15V[0-9]+X[0-9]+)[A-Z][0-9A-Z]{0,2}(?:-[0-9A-Z]+)?(?::[0-9A-Z]+)?$"
+    },
+    "tokenDecoder": {
+      "stripPrefixes": [
+        "AMD"
+      ],
+      "tables": {
+        "namespaceToken": [
+          "41J",
+          "15V",
+          "J"
+        ],
+        "package": {
+          "HA": "FBGA-96, 9x14",
+          "JT": "FBGA-96, 8x14"
+        },
+        "speed": {
+          "107": "DDR3-1866 CL13",
+          "125": "DDR3-1600 CL11"
+        },
+        "revision": {
+          "D": "Rev D",
+          "G": "Rev G",
+          "K": "Rev K"
+        }
+      },
+      "steps": [
+        {
+          "op": "takeLongest",
+          "table": "namespaceToken",
+          "to": "namespaceCode",
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^(?<depth>[0-9]+)[MX](?<width>[0-9]+)",
+          "groups": {
+            "depth": "depth",
+            "width": "width"
+          }
+        },
+        {
+          "op": "mul",
+          "a": "depth",
+          "b": "width",
+          "to": "density",
+          "default": 0
+        },
+        {
+          "op": "takeLongest",
+          "table": "package",
+          "to": "package",
+          "keyTo": "packageCode",
+          "default": ""
+        },
+        {
+          "op": "notEmpty",
+          "from": "packageCode",
+          "to": "hasKnownPackageToken"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[A-Z][0-9A-Z]{0,2}(?=-)",
+          "to": "unknownPackageCode",
+          "default": ""
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": "-"
+        },
+        {
+          "op": "takeLongest",
+          "table": "speed",
+          "to": "speed",
+          "keyTo": "speedCode",
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[A-Z]",
+          "to": "suffixOptionCode",
+          "default": ""
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[A-Z]",
+          "to": "suffixOptionCode2",
+          "default": ""
+        },
+        {
+          "op": "stripIfPrefix",
+          "prefix": ":"
+        },
+        {
+          "op": "takeRegex",
+          "pattern": "^[A-Z]",
+          "to": "revisionCode",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "revisionCode",
+          "table": "revision",
+          "to": "revision",
+          "default": ""
+        }
+      ],
+      "assign": {
+        "device.partNumber": {
+          "$var": "partNumber"
+        },
+        "device.domain": "memory",
+        "device.vendor": "micron",
+        "device.chipKind": "dram",
+        "fields.dram_type": "DDR3",
+        "fields.dram_density": {
+          "$var": "density"
+        },
+        "fields.dram_width": {
+          "$var": "width"
+        },
+        "fields.dram_voltage": "1.5V VDD",
+        "fields.package": {
+          "$var": "package"
+        },
+        "fields.dram_speed": {
+          "$var": "speed"
+        },
+        "fields.die_revision": {
+          "$var": "revision"
+        },
+        "meta.ruleId": "vendor.micron.dram.amd-alias.v1",
+        "meta.dramTopologyTokenRecognized": {
+          "$var": "hasKnownPackageToken"
+        },
+        "meta.fieldProfile": "dram",
+        "meta.capabilities": [
+          "part.decode",
+          "part.search"
+        ]
+      }
+    }
+  }
+]
