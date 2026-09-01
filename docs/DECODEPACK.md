@@ -368,7 +368,7 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 ```json
 {
-  "id": "identifier.nand_flash_id.micron.inteldef.v1",
+  "id": "flashid.micron.v1",
   "idScheme": "nand.flash_id",
   "priority": 400,
   "match": { "kind": "prefix", "value": "2C" },
@@ -383,12 +383,14 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 字段说明：
 
-- `id`: spec 唯一标识
+- `id`: spec 唯一标识；内置 Flash ID spec 统一使用 `flashid.<vendor>[.<family-or-profile>].vN`
 - `idScheme`: identifier namespace，目前 NAND Flash ID 使用 `nand.flash_id`
 - `priority`: 优先级（越大越优先）
 - `match`: 匹配 identifier（支持 `prefix` / `regex`）
 - `vendor`: 厂商 key（用于语言包翻译与展示）
 - `definition`: bitfield spec 定义
+
+内置 Flash ID spec 的 vendor 段必须与 `vendor` 字段一致；层级使用 `.`，复合词使用 `-`，不使用 `_`。`identifier`、`nand_flash_id`、`parallel` 等已由模块和 `idScheme` 表达的信息不再重复写入 `id`。
 
 ### 8.3 definition（字节偏移 + bitfield）
 

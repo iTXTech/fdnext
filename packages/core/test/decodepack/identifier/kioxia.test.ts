@@ -15,14 +15,14 @@ const engine = createEngine({
 function fieldsFor(id: string): Record<string, unknown> {
   const explain = explainIdentifierDecode(defaultDecodePack, id);
   assert.equal(explain.status, "matched", `${id} should match the KIOXIA identifier spec`);
-  assert.equal(explain.specId, "identifier.nand_flash_id.kioxia.v1");
+  assert.equal(explain.specId, "flashid.kioxia.v1");
   return explain.draft?.fields ?? {};
 }
 
 function exact24nmFieldsFor(id: string): Record<string, unknown> {
   const explain = explainIdentifierDecode(defaultDecodePack, id);
   assert.equal(explain.status, "matched", `${id} should match the KIOXIA 24nm exact identifier spec`);
-  assert.equal(explain.specId, "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1");
+  assert.equal(explain.specId, "flashid.kioxia.slc-24nm.v1");
   return explain.draft?.fields ?? {};
 }
 
@@ -102,7 +102,7 @@ test("KIOXIA 24nm parallel SLC exact IDs preserve per-target density and datashe
 test("KIOXIA 24nm exact profiles do not broaden to neighboring Read IDs", () => {
   const explain = explainIdentifierDecode(defaultDecodePack, "98AA901577");
   assert.equal(explain.status, "matched");
-  assert.equal(explain.specId, "identifier.nand_flash_id.kioxia.v1");
+  assert.equal(explain.specId, "flashid.kioxia.v1");
 });
 
 test("KIOXIA legacy IDs outside the confirmed current configurations keep the existing fallback", () => {

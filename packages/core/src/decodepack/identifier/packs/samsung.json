@@ -1,6 +1,6 @@
 [
   {
-    "id": "identifier.nand_flash_id.samsung.legacy_large_page.v1",
+    "id": "flashid.samsung.legacy-large-page.v1",
     "idScheme": "nand.flash_id",
     "priority": 410,
     "match": {
@@ -78,7 +78,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.samsung.legacy_slc.v1",
+    "id": "flashid.samsung.legacy-slc.v1",
     "idScheme": "nand.flash_id",
     "priority": 405,
     "match": {
@@ -161,7 +161,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.samsung.v1",
+    "id": "flashid.samsung.v1",
     "idScheme": "nand.flash_id",
     "priority": 390,
     "match": {

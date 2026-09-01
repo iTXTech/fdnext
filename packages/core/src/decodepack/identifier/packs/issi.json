@@ -1,6 +1,6 @@
 [
   {
-    "id": "identifier.nand_flash_id.issi.parallel_slc.v1",
+    "id": "flashid.issi.slc.v1",
     "idScheme": "nand.flash_id",
     "priority": 405,
     "match": {

@@ -1,6 +1,6 @@
 [
   {
-    "id": "identifier.nand_flash_id.intel.v1",
+    "id": "flashid.intel.v1",
     "idScheme": "nand.flash_id",
     "priority": 390,
     "match": { "kind": "prefix", "value": "89" },

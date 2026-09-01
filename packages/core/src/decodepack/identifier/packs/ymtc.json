@@ -1,6 +1,6 @@
 [
   {
-    "id": "identifier.nand_flash_id.ymtc.v1",
+    "id": "flashid.ymtc.v1",
     "idScheme": "nand.flash_id",
     "priority": 390,
     "match": { "kind": "prefix", "value": "9B" },

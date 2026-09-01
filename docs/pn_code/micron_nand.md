@@ -87,10 +87,10 @@ iTXTech fdnext DecodePack:
 
 - `packages/core/src/decodepack/rules/packs/micron-raw-structured-token.json`
 - `packages/core/src/decodepack/rules/packs/micron-raw-token.json`
-- `packages/core/src/decodepack/identifier/packs/micron-inteldef.json`
-- `identifier.nand_flash_id.micron.legacy_slc.v1`
-- `identifier.nand_flash_id.micron.esmt_slc_exact.v1`
-- `identifier.nand_flash_id.micron.inteldef.v1`
+- `packages/core/src/decodepack/identifier/packs/micron.json`
+- `flashid.micron.legacy-slc.v1`
+- `flashid.micron.slc-geometry.v1`
+- `flashid.micron.v1`
 - `vendor.micron.hsc.mt29fb.v1`
 - `vendor.micron.raw.current.v1`
 - `vendor.micron.raw.legacy.v1`

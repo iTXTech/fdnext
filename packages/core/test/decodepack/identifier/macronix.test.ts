@@ -29,7 +29,7 @@ test("Macronix 18AC parallel SLC IDs follow the official extended ID bit definit
   for (const [id, density, dieCount, planeCount, interleave] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30lf_mx60lf.18ac.v1");
+    assert.equal(explain.specId, "flashid.mxic.lf.18ac.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.die_count, dieCount);
@@ -57,7 +57,7 @@ test("Macronix 28AD parallel SLC IDs preserve their official geometry", () => {
   for (const [id, density, dieCount, planeCount, pageSize, blockSize, spareSize] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ad.v1");
+    assert.equal(explain.specId, "flashid.mxic.lf.28ad.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.die_count, dieCount);
@@ -83,7 +83,7 @@ test("Macronix 1.8V 28AD IDs preserve each official density profile", () => {
   for (const [id, density, dieCount, planeCount, pageSize, blockSize, spareSize] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30uf_mx60uf.28ad.v1");
+    assert.equal(explain.specId, "flashid.mxic.uf.28ad.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.die_count, dieCount);
@@ -112,7 +112,7 @@ test("Macronix 1.8V 16/18AC and same-ID legacy profiles preserve width and geome
   for (const [id, density, width, dieCount, planeCount, interleave] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30uf_mx60uf.16_18ac_ab.v1");
+    assert.equal(explain.specId, "flashid.mxic.uf.16-18ac-ab.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.device_width, width);
@@ -131,7 +131,7 @@ test("Macronix 1.8V 16/18AC and same-ID legacy profiles preserve width and geome
 test("Macronix MX30UF4G28AC uses its confirmed 2KB 8-bit profile", () => {
   const explain = explainIdentifierDecode(defaultDecodePack, "C2AC901157");
   assert.equal(explain.status, "matched");
-  assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30uf4g28ac.v1");
+  assert.equal(explain.specId, "flashid.mxic.uf4g.28ac.v1");
   const fields = explain.draft?.fields ?? {};
   assert.equal(fields.density, 4096);
   assert.equal(fields.voltage, "Vcc: 1.7V~1.95V");
@@ -153,7 +153,7 @@ test("Macronix MX30LF GE8AB IDs expose the internal-ECC SLC profiles", () => {
   for (const [id, density, planeCount] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30lf.ge8ab.v1");
+    assert.equal(explain.specId, "flashid.mxic.lf.ge8ab.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.voltage, "Vcc: 2.7V~3.6V");
@@ -175,7 +175,7 @@ test("Macronix legacy 08AA IDs preserve their four-byte 1-bit ECC profiles", () 
   for (const [id, density] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30lf.08aa.v1");
+    assert.equal(explain.specId, "flashid.mxic.lf.08aa.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.die_count, 1);
@@ -201,7 +201,7 @@ test("Macronix 3V 28AB and 28AC IDs preserve the 112-byte spare profiles", () =>
   for (const [id, density, dieCount, planeCount, interleave] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ab_ac.v1");
+    assert.equal(explain.specId, "flashid.mxic.lf.28ab-ac.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.die_count, dieCount);
@@ -228,7 +228,7 @@ test("Macronix 1.8V 28AB IDs preserve x8 and x16 organizations", () => {
   for (const [id, density, width] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30uf.28ab.v1");
+    assert.equal(explain.specId, "flashid.mxic.uf.28ab.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.die_count, 1);
@@ -252,7 +252,7 @@ test("Macronix MX30UF GE8AB IDs expose always-enabled internal ECC", () => {
   for (const [id, density] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.macronix.mx30uf.ge8ab.v1");
+    assert.equal(explain.specId, "flashid.mxic.uf.ge8ab.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.die_count, 1);

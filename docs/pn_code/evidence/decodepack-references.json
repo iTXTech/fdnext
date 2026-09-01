@@ -1532,8 +1532,8 @@
       }
     },
     {
-      "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
-      "spec_id": "identifier.nand_flash_id.micron.inteldef.v1",
+      "pack": "packages/core/src/decodepack/identifier/packs/micron.json",
+      "spec_id": "flashid.micron.v1",
       "scope": "spec",
       "entry_key": "micron_tn2919_legacy_2gb_read_id",
       "evidence": {
@@ -2145,7 +2145,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/skhynix.json",
-      "spec_id": "identifier.nand_flash_id.skhynix.v1",
+      "spec_id": "flashid.skhynix.v1",
       "scope": "spec",
       "entry_key": "h27_2g_legacy_read_id",
       "evidence": {
@@ -2463,7 +2463,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/ymtc.json",
-      "spec_id": "identifier.nand_flash_id.ymtc.v1",
+      "spec_id": "flashid.ymtc.v1",
       "scope": "spec",
       "entry_key": "ymtc_exact_flash_id_variants_2025",
       "evidence": {
@@ -2730,7 +2730,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
-      "spec_id": "identifier.nand_flash_id.samsung.legacy_slc.v1",
+      "spec_id": "flashid.samsung.legacy-slc.v1",
       "scope": "spec",
       "entry_key": "samsung_k9f1g_legacy_slc_read_id",
       "evidence": {
@@ -2743,7 +2743,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
-      "spec_id": "identifier.nand_flash_id.samsung.legacy_slc.v1",
+      "spec_id": "flashid.samsung.legacy-slc.v1",
       "scope": "spec",
       "entry_key": "samsung_k9f2g_legacy_slc_read_id",
       "evidence": {
@@ -2756,7 +2756,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
-      "spec_id": "identifier.nand_flash_id.samsung.legacy_slc.v1",
+      "spec_id": "flashid.samsung.legacy-slc.v1",
       "scope": "spec",
       "entry_key": "samsung_k9f4g_legacy_slc_read_id",
       "evidence": {
@@ -2769,7 +2769,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
-      "spec_id": "identifier.nand_flash_id.samsung.legacy_large_page.v1",
+      "spec_id": "flashid.samsung.legacy-large-page.v1",
       "scope": "spec",
       "entry_key": "samsung_k9f8g_legacy_large_page_read_id",
       "evidence": {
@@ -2782,7 +2782,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
-      "spec_id": "identifier.nand_flash_id.samsung.legacy_large_page.v1",
+      "spec_id": "flashid.samsung.legacy-large-page.v1",
       "scope": "spec",
       "entry_key": "samsung_k9g8g_legacy_large_page_read_id",
       "evidence": {
@@ -2795,7 +2795,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/samsung.json",
-      "spec_id": "identifier.nand_flash_id.samsung.legacy_large_page.v1",
+      "spec_id": "flashid.samsung.legacy-large-page.v1",
       "scope": "spec",
       "entry_key": "samsung_k9gag_legacy_large_page_read_id",
       "evidence": {
@@ -2807,8 +2807,8 @@
       }
     },
     {
-      "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
-      "spec_id": "identifier.nand_flash_id.micron.legacy_slc.v1",
+      "pack": "packages/core/src/decodepack/identifier/packs/micron.json",
+      "spec_id": "flashid.micron.legacy-slc.v1",
       "scope": "spec",
       "entry_key": "micron_m40a_legacy_slc_read_id",
       "evidence": {
@@ -2820,8 +2820,8 @@
       }
     },
     {
-      "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
-      "spec_id": "identifier.nand_flash_id.micron.legacy_slc.v1",
+      "pack": "packages/core/src/decodepack/identifier/packs/micron.json",
+      "spec_id": "flashid.micron.legacy-slc.v1",
       "scope": "spec",
       "entry_key": "micron_m68a_1gb_legacy_slc_read_id",
       "evidence": {
@@ -2833,8 +2833,8 @@
       }
     },
     {
-      "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
-      "spec_id": "identifier.nand_flash_id.micron.esmt_slc_exact.v1",
+      "pack": "packages/core/src/decodepack/identifier/packs/micron.json",
+      "spec_id": "flashid.micron.slc-geometry.v1",
       "scope": "spec",
       "entry_key": "micron_esmt_f59d2g81xa_exact_read_id",
       "evidence": {
@@ -2846,8 +2846,8 @@
       }
     },
     {
-      "pack": "packages/core/src/decodepack/identifier/packs/micron-inteldef.json",
-      "spec_id": "identifier.nand_flash_id.micron.esmt_slc_exact.v1",
+      "pack": "packages/core/src/decodepack/identifier/packs/micron.json",
+      "spec_id": "flashid.micron.slc-geometry.v1",
       "scope": "spec",
       "entry_key": "micron_esmt_f59l8g81xa_exact_read_id",
       "evidence": {
@@ -2860,7 +2860,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
-      "spec_id": "identifier.nand_flash_id.kioxia.v1",
+      "spec_id": "flashid.kioxia.v1",
       "scope": "spec",
       "entry_key": "kioxia_tc58nvg0_current_slc_read_id",
       "evidence": {
@@ -2873,7 +2873,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
-      "spec_id": "identifier.nand_flash_id.kioxia.v1",
+      "spec_id": "flashid.kioxia.v1",
       "scope": "spec",
       "entry_key": "kioxia_tc58nvg1_current_slc_read_id",
       "evidence": {
@@ -2886,7 +2886,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
-      "spec_id": "identifier.nand_flash_id.kioxia.v1",
+      "spec_id": "flashid.kioxia.v1",
       "scope": "spec",
       "entry_key": "kioxia_tc58nvg2_current_slc_read_id",
       "evidence": {
@@ -2912,7 +2912,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
-      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "spec_id": "flashid.winbond.w29n.v1",
       "scope": "spec",
       "entry_key": "winbond_w29n01hv_parallel_slc_read_id",
       "evidence": {
@@ -2925,7 +2925,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
-      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "spec_id": "flashid.winbond.w29n.v1",
       "scope": "spec",
       "entry_key": "winbond_w29n02gv_parallel_slc_read_id",
       "evidence": {
@@ -2938,7 +2938,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
-      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "spec_id": "flashid.winbond.w29n.v1",
       "scope": "spec",
       "entry_key": "winbond_w29n04gv_parallel_slc_read_id",
       "evidence": {
@@ -2951,7 +2951,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
-      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "spec_id": "flashid.winbond.w29n.v1",
       "scope": "spec",
       "entry_key": "winbond_w29n08gv_parallel_slc_read_id",
       "evidence": {
@@ -2964,7 +2964,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
-      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "spec_id": "flashid.winbond.w29n.v1",
       "scope": "spec",
       "entry_key": "winbond_w29n01hzw_parallel_slc_read_ids",
       "evidence": {
@@ -2977,7 +2977,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
-      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "spec_id": "flashid.winbond.w29n.v1",
       "scope": "spec",
       "entry_key": "winbond_w29n_gzw_parallel_slc_read_ids",
       "evidence": {
@@ -2990,7 +2990,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
-      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "spec_id": "flashid.winbond.w29n.v1",
       "scope": "spec",
       "entry_key": "winbond_w29n02_k_parallel_slc_read_ids",
       "evidence": {
@@ -3003,7 +3003,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
-      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "spec_id": "flashid.winbond.w29n.v1",
       "scope": "spec",
       "entry_key": "winbond_w29n04_k_parallel_slc_read_ids",
       "evidence": {
@@ -3016,7 +3016,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/winbond.json",
-      "spec_id": "identifier.nand_flash_id.winbond.w29n.v1",
+      "spec_id": "flashid.winbond.w29n.v1",
       "scope": "spec",
       "entry_key": "winbond_w29n_l_parallel_slc_read_ids",
       "evidence": {
@@ -3029,7 +3029,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.18ac.v1",
+      "spec_id": "flashid.mxic.lf.18ac.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30lf1g18ac_read_id",
       "evidence": {
@@ -3042,7 +3042,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.18ac.v1",
+      "spec_id": "flashid.mxic.lf.18ac.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30lf2g4g18ac_read_ids",
       "evidence": {
@@ -3055,7 +3055,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.18ac.v1",
+      "spec_id": "flashid.mxic.lf.18ac.v1",
       "scope": "spec",
       "entry_key": "macronix_mx60lf8g18ac_read_id",
       "evidence": {
@@ -3068,7 +3068,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ad.v1",
+      "spec_id": "flashid.mxic.lf.28ad.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30lf1g2g4g28ad_read_ids",
       "evidence": {
@@ -3081,7 +3081,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ad.v1",
+      "spec_id": "flashid.mxic.lf.28ad.v1",
       "scope": "spec",
       "entry_key": "macronix_mx60lf8g28ad_read_id",
       "evidence": {
@@ -3094,7 +3094,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30uf_mx60uf.28ad.v1",
+      "spec_id": "flashid.mxic.uf.28ad.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30uf1g2g4g28ad_read_ids",
       "evidence": {
@@ -3107,7 +3107,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30uf_mx60uf.28ad.v1",
+      "spec_id": "flashid.mxic.uf.28ad.v1",
       "scope": "spec",
       "entry_key": "macronix_mx60uf8g28ad_read_id",
       "evidence": {
@@ -3120,7 +3120,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30uf_mx60uf.16_18ac_ab.v1",
+      "spec_id": "flashid.mxic.uf.16-18ac-ab.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30uf1g2g16_18ac_read_ids",
       "evidence": {
@@ -3133,7 +3133,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30uf_mx60uf.16_18ac_ab.v1",
+      "spec_id": "flashid.mxic.uf.16-18ac-ab.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30uf4g16_18ac_ab_read_ids",
       "evidence": {
@@ -3146,7 +3146,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30uf_mx60uf.16_18ac_ab.v1",
+      "spec_id": "flashid.mxic.uf.16-18ac-ab.v1",
       "scope": "spec",
       "entry_key": "macronix_mx60uf8g18ac_read_id",
       "evidence": {
@@ -3159,7 +3159,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30uf4g28ac.v1",
+      "spec_id": "flashid.mxic.uf4g.28ac.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30uf4g28ac_read_id",
       "evidence": {
@@ -3172,7 +3172,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf.ge8ab.v1",
+      "spec_id": "flashid.mxic.lf.ge8ab.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30lf1g2g4ge8ab_read_ids",
       "evidence": {
@@ -3185,7 +3185,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf.08aa.v1",
+      "spec_id": "flashid.mxic.lf.08aa.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30lf1208aa_read_id",
       "evidence": {
@@ -3198,7 +3198,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf.08aa.v1",
+      "spec_id": "flashid.mxic.lf.08aa.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30lf1g08aa_read_id",
       "evidence": {
@@ -3211,7 +3211,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ab_ac.v1",
+      "spec_id": "flashid.mxic.lf.28ab-ac.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30lf1g28ac_read_id",
       "evidence": {
@@ -3224,7 +3224,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ab_ac.v1",
+      "spec_id": "flashid.mxic.lf.28ab-ac.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30lf2g4g28ab_ac_read_ids",
       "evidence": {
@@ -3237,7 +3237,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ab_ac.v1",
+      "spec_id": "flashid.mxic.lf.28ab-ac.v1",
       "scope": "spec",
       "entry_key": "macronix_mx60lf8g28ab_ac_read_id",
       "evidence": {
@@ -3250,7 +3250,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30uf.28ab.v1",
+      "spec_id": "flashid.mxic.uf.28ab.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30uf2g4g26_28ab_read_ids",
       "evidence": {
@@ -3263,7 +3263,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/macronix.json",
-      "spec_id": "identifier.nand_flash_id.macronix.mx30uf.ge8ab.v1",
+      "spec_id": "flashid.mxic.uf.ge8ab.v1",
       "scope": "spec",
       "entry_key": "macronix_mx30uf2g4ge8ab_read_ids",
       "evidence": {
@@ -3302,7 +3302,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/issi.json",
-      "spec_id": "identifier.nand_flash_id.issi.parallel_slc.v1",
+      "spec_id": "flashid.issi.slc.v1",
       "scope": "spec",
       "entry_key": "issi_4g_8g_parallel_slc_read_ids",
       "evidence": {
@@ -3315,7 +3315,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
-      "spec_id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+      "spec_id": "flashid.kioxia.slc-24nm.v1",
       "scope": "spec",
       "entry_key": "kioxia_tc58nyg0s3hbai4_24nm_slc_read_id",
       "evidence": {
@@ -3328,7 +3328,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
-      "spec_id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+      "spec_id": "flashid.kioxia.slc-24nm.v1",
       "scope": "spec",
       "entry_key": "kioxia_tc58nyg1s3hbai4_24nm_slc_read_id",
       "evidence": {
@@ -3341,7 +3341,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
-      "spec_id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+      "spec_id": "flashid.kioxia.slc-24nm.v1",
       "scope": "spec",
       "entry_key": "kioxia_tc58nyg2s0hbai4_24nm_slc_read_id",
       "evidence": {
@@ -3354,7 +3354,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
-      "spec_id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+      "spec_id": "flashid.kioxia.slc-24nm.v1",
       "scope": "spec",
       "entry_key": "kioxia_th58nyg3s0hbai4_24nm_slc_read_id",
       "evidence": {
@@ -3367,7 +3367,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/kioxia.json",
-      "spec_id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+      "spec_id": "flashid.kioxia.slc-24nm.v1",
       "scope": "spec",
       "entry_key": "kioxia_th58nvg3s0hta00_24nm_slc_read_id",
       "evidence": {
@@ -3432,7 +3432,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
-      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "spec_id": "flashid.esmt.slc.v1",
       "scope": "spec",
       "entry_key": "esmt_f59l1g81lb_read_id",
       "evidence": {
@@ -3445,7 +3445,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
-      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "spec_id": "flashid.esmt.slc.v1",
       "scope": "spec",
       "entry_key": "esmt_f59l1g81mb_read_id",
       "evidence": {
@@ -3458,7 +3458,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
-      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "spec_id": "flashid.esmt.slc.v1",
       "scope": "spec",
       "entry_key": "esmt_f59d1g81lb_f59d1g161lb_read_ids",
       "evidence": {
@@ -3471,7 +3471,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
-      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "spec_id": "flashid.esmt.slc.v1",
       "scope": "spec",
       "entry_key": "esmt_f59d1g81mb_f59d1g161mb_read_ids",
       "evidence": {
@@ -3484,7 +3484,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
-      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "spec_id": "flashid.esmt.slc.v1",
       "scope": "spec",
       "entry_key": "esmt_f59l2g81ka_read_id",
       "evidence": {
@@ -3497,7 +3497,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
-      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "spec_id": "flashid.esmt.slc.v1",
       "scope": "spec",
       "entry_key": "esmt_f59d2g81ka_read_id",
       "evidence": {
@@ -3510,7 +3510,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
-      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "spec_id": "flashid.esmt.slc.v1",
       "scope": "spec",
       "entry_key": "esmt_f59l4g81ka_read_id",
       "evidence": {
@@ -3523,7 +3523,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
-      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "spec_id": "flashid.esmt.slc.v1",
       "scope": "spec",
       "entry_key": "esmt_f59l4g161ka_read_id",
       "evidence": {
@@ -3536,7 +3536,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
-      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "spec_id": "flashid.esmt.slc.v1",
       "scope": "spec",
       "entry_key": "esmt_f59l8g81ksa_read_id",
       "evidence": {
@@ -3549,7 +3549,7 @@
     },
     {
       "pack": "packages/core/src/decodepack/identifier/packs/esmt.json",
-      "spec_id": "identifier.nand_flash_id.esmt.parallel_slc_exact.v1",
+      "spec_id": "flashid.esmt.slc.v1",
       "scope": "spec",
       "entry_key": "esmt_f59d8g81ksa_read_id",
       "evidence": {

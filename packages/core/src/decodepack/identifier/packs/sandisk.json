@@ -1,6 +1,6 @@
 [
   {
-    "id": "identifier.nand_flash_id.sndk.v1",
+    "id": "flashid.sndk.v1",
     "idScheme": "nand.flash_id",
     "priority": 390,
     "match": {

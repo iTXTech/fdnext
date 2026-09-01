@@ -4,7 +4,7 @@ import { createEngine } from "../../../src/index";
 import { embeddedResourceBundle } from "../../../src/resources";
 import { compileDecodePack, defaultDecodePack, explainIdentifierDecode } from "../../../src/decodepack";
 
-const specId = "identifier.nand_flash_id.esmt.parallel_slc_exact.v1";
+const specId = "flashid.esmt.slc.v1";
 const compiledPack = compileDecodePack(defaultDecodePack);
 const engine = createEngine({
   resources: embeddedResourceBundle,

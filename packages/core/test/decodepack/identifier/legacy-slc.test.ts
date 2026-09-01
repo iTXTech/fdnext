@@ -42,7 +42,7 @@ test("Samsung legacy 1Gb, 2Gb, and 4Gb SLC Read IDs use the legacy geometry prof
   ];
 
   for (const [id, density, voltage, planeCount] of cases) {
-    const explain = explainFields(id, "identifier.nand_flash_id.samsung.legacy_slc.v1");
+    const explain = explainFields(id, "flashid.samsung.legacy-slc.v1");
     assert.equal(explain.density, density);
     assert.equal(explain.cell_level, 1);
     assert.equal(explain.device_width, "x8");
@@ -68,7 +68,7 @@ test("Samsung legacy 8Gb and 16Gb large-page Read IDs use datasheet geometry", (
   ];
 
   for (const [id, density, cellLevel, pageSize, blockSize, spareSize] of cases) {
-    const explain = explainFields(id, "identifier.nand_flash_id.samsung.legacy_large_page.v1");
+    const explain = explainFields(id, "flashid.samsung.legacy-large-page.v1");
     assert.equal(explain.density, density);
     assert.equal(explain.cell_level, cellLevel);
     assert.equal(explain.die_count, 1);
@@ -102,7 +102,7 @@ test("Micron legacy 1Gb and 4Gb/8Gb-section SLC IDs use datasheet byte geometry"
   ];
 
   for (const [id, density, dieCount, planeCount, programmedPages, interleave, voltage, width] of cases) {
-    const explain = explainFields(id, "identifier.nand_flash_id.micron.legacy_slc.v1");
+    const explain = explainFields(id, "flashid.micron.legacy-slc.v1");
     assert.equal(explain.density, density);
     assert.equal(explain.cell_level, 1);
     assert.equal(explain.device_width, `x${width}`);
@@ -141,7 +141,7 @@ test("Micron exact SLC IDs from ESMT datasheets override the generic Intel defin
   for (const [id, density, voltage, pageSize, blockSize, spareSize, eccLevel] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.micron.esmt_slc_exact.v1");
+    assert.equal(explain.specId, "flashid.micron.slc-geometry.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.voltage, voltage);
@@ -171,12 +171,12 @@ test("Micron exact SLC IDs from ESMT datasheets override the generic Intel defin
 
   assert.equal(
     explainIdentifierDecode(defaultDecodePack, "2CAA901507").specId,
-    "identifier.nand_flash_id.micron.inteldef.v1"
+    "flashid.micron.v1"
   );
 });
 
 test("modern Samsung and Micron IDs remain on their existing generic specs", () => {
-  assert.equal(explainIdentifierDecode(defaultDecodePack, "EC5E98BF84CC").specId, "identifier.nand_flash_id.samsung.v1");
-  assert.equal(explainIdentifierDecode(defaultDecodePack, "ECD314A664").specId, "identifier.nand_flash_id.samsung.v1");
-  assert.equal(explainIdentifierDecode(defaultDecodePack, "2CC30832EA34").specId, "identifier.nand_flash_id.micron.inteldef.v1");
+  assert.equal(explainIdentifierDecode(defaultDecodePack, "EC5E98BF84CC").specId, "flashid.samsung.v1");
+  assert.equal(explainIdentifierDecode(defaultDecodePack, "ECD314A664").specId, "flashid.samsung.v1");
+  assert.equal(explainIdentifierDecode(defaultDecodePack, "2CC30832EA34").specId, "flashid.micron.v1");
 });

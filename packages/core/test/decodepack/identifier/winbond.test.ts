@@ -15,7 +15,7 @@ const engine = createEngine({
 function fieldsFor(id: string): Record<string, unknown> {
   const explain = explainIdentifierDecode(defaultDecodePack, id);
   assert.equal(explain.status, "matched", `${id} should match the Winbond identifier spec`);
-  assert.equal(explain.specId, "identifier.nand_flash_id.winbond.w29n.v1");
+  assert.equal(explain.specId, "flashid.winbond.w29n.v1");
   return explain.draft?.fields ?? {};
 }
 

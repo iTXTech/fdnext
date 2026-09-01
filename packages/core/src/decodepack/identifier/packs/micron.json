@@ -1,6 +1,6 @@
 [
   {
-    "id": "identifier.nand_flash_id.micron.esmt_slc_exact.v1",
+    "id": "flashid.micron.slc-geometry.v1",
     "idScheme": "nand.flash_id",
     "priority": 420,
     "match": {
@@ -99,7 +99,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.micron.legacy_slc.v1",
+    "id": "flashid.micron.legacy-slc.v1",
     "idScheme": "nand.flash_id",
     "priority": 415,
     "match": {
@@ -213,7 +213,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.micron.inteldef.v1",
+    "id": "flashid.micron.v1",
     "idScheme": "nand.flash_id",
     "priority": 400,
     "match": { "kind": "prefix", "value": "2C" },

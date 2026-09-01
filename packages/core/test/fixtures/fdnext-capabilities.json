@@ -119,7 +119,7 @@
     ],
     "identifier": [
       {
-        "id": "identifier.nand_flash_id.micron.inteldef.v1",
+        "id": "flashid.micron.v1",
         "idScheme": "nand.flash_id",
         "priority": 400
       }

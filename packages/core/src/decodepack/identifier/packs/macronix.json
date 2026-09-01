@@ -1,6 +1,6 @@
 [
   {
-    "id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.18ac.v1",
+    "id": "flashid.mxic.lf.18ac.v1",
     "idScheme": "nand.flash_id",
     "priority": 405,
     "match": {
@@ -109,7 +109,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ad.v1",
+    "id": "flashid.mxic.lf.28ad.v1",
     "idScheme": "nand.flash_id",
     "priority": 406,
     "match": {
@@ -226,7 +226,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.macronix.mx30uf_mx60uf.28ad.v1",
+    "id": "flashid.mxic.uf.28ad.v1",
     "idScheme": "nand.flash_id",
     "priority": 406,
     "match": {
@@ -281,7 +281,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.macronix.mx30uf_mx60uf.16_18ac_ab.v1",
+    "id": "flashid.mxic.uf.16-18ac-ab.v1",
     "idScheme": "nand.flash_id",
     "priority": 405,
     "match": {
@@ -324,7 +324,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.macronix.mx30uf4g28ac.v1",
+    "id": "flashid.mxic.uf4g.28ac.v1",
     "idScheme": "nand.flash_id",
     "priority": 405,
     "match": { "kind": "regex", "value": "^C2AC901157(?:00)?$" },
@@ -352,7 +352,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.macronix.mx30lf.ge8ab.v1",
+    "id": "flashid.mxic.lf.ge8ab.v1",
     "idScheme": "nand.flash_id",
     "priority": 405,
     "match": { "kind": "regex", "value": "^C2(?:F1809582|DA909586|DC9095D6)(?:00)?$" },
@@ -386,7 +386,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.macronix.mx30lf.08aa.v1",
+    "id": "flashid.mxic.lf.08aa.v1",
     "idScheme": "nand.flash_id",
     "priority": 405,
     "match": { "kind": "regex", "value": "^C2(?:F0|F1)801D(?:00)?$" },
@@ -422,7 +422,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ab_ac.v1",
+    "id": "flashid.mxic.lf.28ab-ac.v1",
     "idScheme": "nand.flash_id",
     "priority": 406,
     "match": {
@@ -469,7 +469,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.macronix.mx30uf.28ab.v1",
+    "id": "flashid.mxic.uf.28ab.v1",
     "idScheme": "nand.flash_id",
     "priority": 406,
     "match": {
@@ -516,7 +516,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.macronix.mx30uf.ge8ab.v1",
+    "id": "flashid.mxic.uf.ge8ab.v1",
     "idScheme": "nand.flash_id",
     "priority": 405,
     "match": { "kind": "regex", "value": "^C2(?:AA901586|AC9015D6)(?:00)?$" },

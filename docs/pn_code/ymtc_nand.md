@@ -26,7 +26,7 @@ iTXTech fdnext DecodePack:
 - `packages/core/src/decodepack/rules/packs/ymtc-unimos-token.json`
   - `vendor.ymtc.unimos-label.v1`
 - `packages/core/src/decodepack/identifier/packs/ymtc.json`
-  - `identifier.nand_flash_id.ymtc.v1`
+  - `flashid.ymtc.v1`
 - `packages/core/src/flashid/postprocess.ts`
   - YMTC Flash ID exact-subsequence lookup for process alias enrichment；不同 LUN / die / reserved-byte 变体逐条确认，不用宽泛 bitfield 代替
 

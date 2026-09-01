@@ -35,16 +35,16 @@
 ## 规则入口
 
 - `packages/core/src/decodepack/identifier/packs/macronix.json`
-  - `identifier.nand_flash_id.macronix.mx30lf_mx60lf.18ac.v1`
-  - `identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ad.v1`
-  - `identifier.nand_flash_id.macronix.mx30uf_mx60uf.28ad.v1`
-  - `identifier.nand_flash_id.macronix.mx30uf_mx60uf.16_18ac_ab.v1`
-  - `identifier.nand_flash_id.macronix.mx30uf4g28ac.v1`
-  - `identifier.nand_flash_id.macronix.mx30lf.ge8ab.v1`
-  - `identifier.nand_flash_id.macronix.mx30lf.08aa.v1`
-  - `identifier.nand_flash_id.macronix.mx30lf_mx60lf.28ab_ac.v1`
-  - `identifier.nand_flash_id.macronix.mx30uf.28ab.v1`
-  - `identifier.nand_flash_id.macronix.mx30uf.ge8ab.v1`
+  - `flashid.mxic.lf.18ac.v1`
+  - `flashid.mxic.lf.28ad.v1`
+  - `flashid.mxic.uf.28ad.v1`
+  - `flashid.mxic.uf.16-18ac-ab.v1`
+  - `flashid.mxic.uf4g.28ac.v1`
+  - `flashid.mxic.lf.ge8ab.v1`
+  - `flashid.mxic.lf.08aa.v1`
+  - `flashid.mxic.lf.28ab-ac.v1`
+  - `flashid.mxic.uf.28ab.v1`
+  - `flashid.mxic.uf.ge8ab.v1`
 - `packages/core/src/decodepack/rules/packs/macronix-nand-token.json`
   - `vendor.macronix.raw.mx30_mx60.v1`
 

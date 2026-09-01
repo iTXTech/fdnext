@@ -9,9 +9,9 @@ iTXTech fdnext DecodePack:
 - `packages/core/src/decodepack/rules/packs/samsung-raw-token.json`
 - `packages/core/src/decodepack/identifier/packs/samsung.json`
 - `vendor.samsung.token.v1`
-- `identifier.nand_flash_id.samsung.legacy_slc.v1`
-- `identifier.nand_flash_id.samsung.legacy_large_page.v1`
-- `identifier.nand_flash_id.samsung.v1`
+- `flashid.samsung.legacy-slc.v1`
+- `flashid.samsung.legacy-large-page.v1`
+- `flashid.samsung.v1`
 
 来源状态：Samsung 3D V-NAND die 标识表由维护者提供；legacy Flash ID 由公开 Samsung datasheet 镜像确认。规则只按结构 token / datasheet-confirmed ID byte profile 落地，不用完整 PN 反推字段。
 
@@ -19,7 +19,7 @@ iTXTech fdnext DecodePack:
 
 Samsung legacy SLC 使用与现代 NAND 不同的第 4/5 byte 定义。不能把现代 `page_size`、
 `block_size`、spare/ECC 位段公式直接套到这些旧 ID，也不能仅凭相同 device code 覆盖现代 ID。
-`identifier.nand_flash_id.samsung.legacy_slc.v1` 因此只在 datasheet 已确认的 legacy byte
+`flashid.samsung.legacy-slc.v1` 因此只在 datasheet 已确认的 legacy byte
 结构命中：
 
 | Family | Read ID profile | Confirmed output | Source |
@@ -36,7 +36,7 @@ Samsung legacy SLC 使用与现代 NAND 不同的第 4/5 byte 定义。不能把
 
 该 profile 按 device/configuration byte family 匹配；第 3 byte 为 datasheet `don't care`
 的 1Gb 系列不会被写成单一完整 ID。未命中这些 legacy 结构的 Samsung ID 仍进入既有
-`identifier.nand_flash_id.samsung.v1`，已有现代 density / geometry / die profile mapping
+`flashid.samsung.v1`，已有现代 density / geometry / die profile mapping
 保持不变。
 
 后续 8Gb/16Gb large-page 世代也不能沿用现代 generic bitfield。以下三组 datasheet

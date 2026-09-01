@@ -35,7 +35,7 @@
   - `vendor.winbond.raw.w25n.v1`
   - `vendor.winbond.raw.w35n.v1`
 - `packages/core/src/decodepack/identifier/packs/winbond.json`
-  - `identifier.nand_flash_id.winbond.w29n.v1`
+  - `flashid.winbond.w29n.v1`
 
 ## W29N 并行 NAND Read ID
 

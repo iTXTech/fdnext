@@ -1,6 +1,6 @@
 import type { IdentifierDecodeSpec } from "../types";
 
-import micronIntelRules from "./packs/micron-inteldef.json" with { type: "json" };
+import micronRules from "./packs/micron.json" with { type: "json" };
 import intelRules from "./packs/intel.json" with { type: "json" };
 import samsungRules from "./packs/samsung.json" with { type: "json" };
 import skhynixRules from "./packs/skhynix.json" with { type: "json" };
@@ -14,7 +14,7 @@ import issiRules from "./packs/issi.json" with { type: "json" };
 import esmtRules from "./packs/esmt.json" with { type: "json" };
 
 export const defaultIdentifierDecodeSpecs = [
-  ...micronIntelRules,
+  ...micronRules,
   ...intelRules,
   ...samsungRules,
   ...skhynixRules,

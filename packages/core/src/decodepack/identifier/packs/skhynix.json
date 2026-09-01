@@ -1,6 +1,6 @@
 [
   {
-    "id": "identifier.nand_flash_id.skhynix.new.v1",
+    "id": "flashid.skhynix.extended.v1",
     "idScheme": "nand.flash_id",
     "priority": 410,
     "match": {
@@ -319,7 +319,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.skhynix.v1",
+    "id": "flashid.skhynix.v1",
     "idScheme": "nand.flash_id",
     "priority": 390,
     "match": {

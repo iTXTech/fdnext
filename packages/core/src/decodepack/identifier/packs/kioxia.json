@@ -1,6 +1,6 @@
 [
   {
-    "id": "identifier.nand_flash_id.kioxia.parallel_slc_24nm_exact.v1",
+    "id": "flashid.kioxia.slc-24nm.v1",
     "idScheme": "nand.flash_id",
     "priority": 405,
     "match": {
@@ -111,7 +111,7 @@
     }
   },
   {
-    "id": "identifier.nand_flash_id.kioxia.v1",
+    "id": "flashid.kioxia.v1",
     "idScheme": "nand.flash_id",
     "priority": 390,
     "match": {

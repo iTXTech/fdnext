@@ -91,6 +91,22 @@ function assertPartDecodeSpecsUseCanonicalKeys(): void {
   assert.deepEqual(findings, [], "iTXTech fdnext DecodePack rules should not output legacy camelCase metadata keys");
 }
 
+function assertFlashIdSpecIdsUseCanonicalNames(): void {
+  const pattern = /^flashid\.([a-z0-9]+)(?:\.[a-z0-9]+(?:-[a-z0-9]+)*)*\.v[1-9][0-9]*$/;
+  const findings: string[] = [];
+  for (const spec of defaultIdentifierDecodeSpecs) {
+    const match = pattern.exec(spec.id);
+    if (!match) {
+      findings.push(`${spec.id}: expected flashid.<vendor>[.<family-or-profile>].vN`);
+      continue;
+    }
+    if (match[1] !== spec.vendor) {
+      findings.push(`${spec.id}: vendor segment must match ${spec.vendor}`);
+    }
+  }
+  assert.deepEqual(findings, [], "built-in Flash ID spec ids should use canonical concise names");
+}
+
 function walkEmitFields(value: unknown, path: string, findings: string[]): void {
   if (Array.isArray(value)) {
     value.forEach((item, index) => walkEmitFields(item, `${path}[${index}]`, findings));
@@ -1385,6 +1401,7 @@ function assertRemovedNamesStayRemoved(): void {
 }
 
 assertPartDecodeSpecsUseCanonicalKeys();
+assertFlashIdSpecIdsUseCanonicalNames();
 assertNativeDraftUsesCanonicalFields();
 assertRuntimeDecodePackFieldsAreRegistered();
 assertIdentifierExtFieldsTargetPublicKeys();

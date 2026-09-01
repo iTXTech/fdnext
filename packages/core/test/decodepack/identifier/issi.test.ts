@@ -25,7 +25,7 @@ test("ISSI 9D parallel SLC IDs preserve official geometry and voltage", () => {
   for (const [id, density, width, voltage, dieCount] of cases) {
     const explain = explainIdentifierDecode(defaultDecodePack, id);
     assert.equal(explain.status, "matched");
-    assert.equal(explain.specId, "identifier.nand_flash_id.issi.parallel_slc.v1");
+    assert.equal(explain.specId, "flashid.issi.slc.v1");
     const fields = explain.draft?.fields ?? {};
     assert.equal(fields.density, density);
     assert.equal(fields.cell_level, 1);
@@ -45,5 +45,5 @@ test("ISSI 9D parallel SLC IDs preserve official geometry and voltage", () => {
 
 test("ambiguous C8 legacy IDs are not attributed to ISSI", () => {
   const explain = explainIdentifierDecode(defaultDecodePack, "C8D1809542");
-  assert.notEqual(explain.specId, "identifier.nand_flash_id.issi.parallel_slc.v1");
+  assert.notEqual(explain.specId, "flashid.issi.slc.v1");
 });
