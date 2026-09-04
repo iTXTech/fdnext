@@ -8,7 +8,6 @@ import type {
   SearchIdentifiersInput,
   SearchPartsInput
 } from "../result";
-import type { FdnextEngine } from "../types";
 import { applyCorsHeaders, createFdnextCorsOptionsFromEnv, FDNEXT_CORS_ORIGINS_ENV, parseFdnextCorsOrigins } from "./cors";
 import { attachExternalLinks } from "./external-links";
 import { baseHeaders, getHeader, resultHttpStatus } from "./headers";
@@ -47,18 +46,8 @@ export type {
   FdnextRuntimeOptions
 } from "./types";
 
-function createDefaultEngine(options: FdnextRuntimeOptions): FdnextEngine {
-  return createEngine({
-    resources: options.resources,
-    fallbackLang: options.fallbackLang,
-    decoders: options.decoders,
-    identifierDecoders: options.identifierDecoders,
-    processors: options.processors
-  });
-}
-
 export function createRuntime(options: FdnextRuntimeOptions = {}): FdnextRuntime {
-  const engine = options.engine ?? createDefaultEngine(options);
+  const engine = options.engine ?? createEngine(options);
   const externalLinkProviders = [...(options.externalLinkProviders ?? [])];
   const headers = baseHeaders(options.responseHeaders);
   const runtimeCors = options.cors;

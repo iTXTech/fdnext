@@ -673,8 +673,13 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     if (options.resources || options.decoders || hasPartConstraints(input) || isPotentialMarkingDecode(normalized)) {
       return undefined;
     }
+    // Catalog candidates can canonicalize aliases or expose ambiguity even when the raw token decode succeeds.
+    const tokenKey = normalizePartNumberTokenKey(normalized);
+    if (hasExactCatalogCandidate(normalizedIndexes, normalized, tokenKey)) {
+      return undefined;
+    }
     const info = inspectPartForDecodeClassification(normalized);
-    const result = buildPartDecodeResult(
+    return buildPartDecodeResult(
       projectPartControllers(info, input.controllerGroup),
       {
         query: input.query,
@@ -684,14 +689,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       },
       resultBuilderContext
     );
-    if (result.status === "ok") {
-      return result;
-    }
-    const tokenKey = normalizePartNumberTokenKey(normalized);
-    const hasIndexedCandidate = hasExactCatalogCandidate(normalizedIndexes, normalized, tokenKey);
-    // Without an indexed resource candidate, classifyPart can only add the same fallback candidate
-    // and repeat this inspection. Keep classification for custom catalog-only exact records.
-    return hasIndexedCandidate ? undefined : result;
   };
 
   const getVersion = (): string => String(fdb.info.version);

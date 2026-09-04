@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { createEngine } from "../../src/index";
+import { createEngine, getDefaultPreparedCatalog } from "../../src/index";
 import { embeddedResourceBundle } from "../../src/resources";
 import { compileDecodePack, defaultDecodePack } from "../../src/decodepack";
 import {
@@ -112,6 +112,7 @@ test("catalog partial search preserves dash boundaries", () => {
 });
 
 test("catalog normalization resolves canonical part numbers", () => {
+  const engines = [createEngine(), createEngine({ catalog: getDefaultPreparedCatalog() })];
   for (const [query, partNumber, chipKind] of [
     ["MT29F2G08ABDHC-ETD", "MT29F2G08ABDHC-ET:D", "raw_nand"],
     ["MT29FB16T08GALAAM5-TESB", "MT29FB16T08GALAAM5-TES:B", "raw_nand"],
@@ -119,7 +120,10 @@ test("catalog normalization resolves canonical part numbers", () => {
     ["MT29FB64T08GDLBBN2QJESB", "MT29FB64T08GDLBBN2-QJES:B", "raw_nand"],
     ["EDY4016AABG-JD-F-R TR", "EDY4016AABG-JD-F-R", "dram"]
   ] as const) {
-    assertIntegratedDecode(query, { vendor: "micron", chipKind, partNumber });
+    const expected = assertIntegratedDecode(query, { vendor: "micron", chipKind, partNumber });
+    for (const engine of engines) {
+      assert.deepEqual(engine.decodePart({ query, lang: "eng" }), expected, `${query} should preserve catalog decoding`);
+    }
   }
 });
 

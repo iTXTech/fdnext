@@ -38,3 +38,13 @@ test("catalog and raw resources cannot be supplied together", () => {
     /mutually exclusive/
   );
 });
+
+test("prepared catalogs preserve ambiguous part candidates", () => {
+  const part = { vendor: "samsung", pn: "K4A8G085WB-BCTD" };
+  const resources = { partIndex: { dram: [part], managedNand: [part] } };
+  const input = { query: part.pn, lang: "eng" };
+  const expected = createEngine({ resources }).decodePart(input);
+
+  assert.equal(expected.status, "ambiguous");
+  assert.deepEqual(createEngine({ catalog: prepareCatalog(resources) }).decodePart(input), expected);
+});
