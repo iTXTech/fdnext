@@ -84,7 +84,9 @@
           {
             "key": "die_density",
             "label": "Die Density",
-            "value": "256Gb",
+            "value": 262144,
+            "unit": "Mbit",
+            "display": "32GB",
             "importance": "secondary"
           },
           {
@@ -190,7 +192,9 @@
         {
           "key": "die_density",
           "label": "Die Density",
-          "value": "256Gb",
+          "value": 262144,
+          "unit": "Mbit",
+          "display": "32GB",
           "importance": "secondary"
         },
         {

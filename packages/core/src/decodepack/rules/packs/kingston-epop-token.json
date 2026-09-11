@@ -12,14 +12,14 @@
         "storageDensityCode": ["16", "32", "64", "128", "08"],
         "storageDensity": { "16": 131072, "32": 262144, "64": 524288, "128": 1048576, "08": 65536 },
         "storageDensityText": {
-          "16": "16GB eMMC",
-          "32": "32GB eMMC",
-          "64": "64GB eMMC",
-          "128": "128GB eMMC",
-          "08": "8GB eMMC"
+          "16": 131072,
+          "32": 262144,
+          "64": 524288,
+          "128": 1048576,
+          "08": 65536
         },
         "dramDensityCode": ["16", "32", "64", "08"],
-        "dramDensity": { "16": "16Gb", "32": "32Gb", "64": "64Gb", "08": "8Gb" },
+        "dramDensity": { "16": 16384, "32": 32768, "64": 65536, "08": 8192 },
         "dramTypeObj": {
           "M4": { "dram_type": "LPDDR4X", "package": "FBGA-144" },
           "M5": { "dram_type": "LPDDR5X", "package": "FBGA-201" }

@@ -117,7 +117,7 @@ testPart("KLMAG1JETD-B041", {
   densityMbit: 131072,
   dieProfileField: "14nm",
   extra: {
-    "Die Density": "128Gb",
+    "Die Density": "16GB",
     "Die Count": 1,
     "Product Version": "eMMC 5.1",
     "Interface Type": "HS400"
@@ -131,7 +131,7 @@ testPart("KLM8G1GETF-B041", {
   densityMbit: 65536,
   dieProfileField: "14nm",
   extra: {
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 1,
     "Product Version": "eMMC 5.1",
     "Interface Type": "HS400"
@@ -145,7 +145,7 @@ testPart("KLMBG2JETD-B041", {
   densityMbit: 262144,
   dieProfileField: "14nm",
   extra: {
-    "Die Density": "128Gb",
+    "Die Density": "16GB",
     "Product Version": "eMMC 5.1",
     "Die Count": 2
   },
@@ -153,9 +153,9 @@ testPart("KLMBG2JETD-B041", {
 });
 
 for (const [partNumber, densityMbit, dieDensity, dieCount, productVersion, controller, interfaceType, packageName] of [
-  ["KLM4G1YEMD-C031", 32768, "32Gb", 1, "eMMC 5.0", "eMMC 5.0 Controller", "HS400", undefined],
-  ["KLMAG2WEMB-B031", 131072, "64Gb", 2, "eMMC 5.0", "eMMC 5.0 Controller", "HS400", "BGA-153, 11.5x13"],
-  ["KLMDGAGEAC-B001", 1048576, "64Gb", 16, "eMMC 4.5", "eMMC 4.5 Controller", "HS200", "BGA-153, 11.5x13"]
+  ["KLM4G1YEMD-C031", 32768, "4GB", 1, "eMMC 5.0", "eMMC 5.0 Controller", "HS400", undefined],
+  ["KLMAG2WEMB-B031", 131072, "8GB", 2, "eMMC 5.0", "eMMC 5.0 Controller", "HS400", "BGA-153, 11.5x13"],
+  ["KLMDGAGEAC-B001", 1048576, "8GB", 16, "eMMC 4.5", "eMMC 4.5 Controller", "HS200", "BGA-153, 11.5x13"]
 ] as const) {
   testPart(partNumber, {
     vendor: "samsung",
@@ -212,7 +212,7 @@ testPart("KLMDG1NCAB-B041", {
   dieProfileField: "SSV8",
   cellField: "TLC",
   extra: {
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 1,
     "Product Version": "eMMC 5.1",
     "Interface Type": "HS400"
@@ -227,7 +227,7 @@ testPart("KLMDG1NCABB041", {
   dieProfileField: "SSV8",
   cellField: "TLC",
   extra: {
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 1,
     "Product Version": "eMMC 5.1",
     "Interface Type": "HS400"
@@ -249,7 +249,7 @@ for (const [partNumber, dramType, dramDensity, dramWidth, packageName] of [
     densityMbit: 32768,
     package: packageName,
     extra: {
-      "Storage Density": "4GB eMMC",
+      "Storage Density": "4GB",
       "Storage Interface": "eMMC",
       "DRAM Density": dramDensity,
       "DRAM Type": dramType,
@@ -276,7 +276,7 @@ test("Samsung legacy Class 100 eMCP preserves known family fields for unknown lo
   assert.equal(result.device?.vendor.id, "samsung");
   assert.equal(result.device?.chipKind, "managed_nand");
   assert.equal(result.device?.productType, "emcp");
-  assert.equal(fieldText(firstField(result, "storage_density")), "4GB eMMC");
+  assert.equal(fieldText(firstField(result, "storage_density")), "4GB");
   assert.equal(fieldText(firstField(result, "storage_interface")), "eMMC");
   for (const field of ["dram_density", "dram_type", "dram_width", "dram_speed", "package"]) {
     assert.equal(firstField(result, field), undefined, `${partNumber} ${field}`);
@@ -289,7 +289,7 @@ testPart("KMGD6001BM-B421", {
   densityMbit: 262144,
   package: "FBGA-221, 11.5x13x1.0",
   extra: {
-    "Storage Density": "32GB eMMC",
+    "Storage Density": "32GB",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "24Gb",
     "DRAM Type": "LPDDR3",
@@ -305,7 +305,7 @@ testPart("KMGE6001BM-B421", {
   densityMbit: 131072,
   package: "BGA-221",
   extra: {
-    "Storage Density": "16GB eMMC",
+    "Storage Density": "16GB",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "24Gb",
     "DRAM Type": "LPDDR3",
@@ -322,7 +322,7 @@ testPart("KMDT6001ZM-A625", {
   densityMbit: 131072,
   package: "FBGA-144",
   extra: {
-    "Storage Density": "16GB eMMC",
+    "Storage Density": "16GB",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "16Gb",
     "DRAM Type": "LPDDR4X",
@@ -337,7 +337,7 @@ testPart("KMDP6001DA-B425", {
   densityMbit: 524288,
   package: "FBGA-254",
   extra: {
-    "Storage Density": "64GB eMMC",
+    "Storage Density": "64GB",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X",
@@ -352,7 +352,7 @@ testPart("KMFN60012B-B214", {
   densityMbit: 65536,
   package: "FBGA-221",
   extra: {
-    "Storage Density": "8GB eMMC",
+    "Storage Density": "8GB",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "8Gb",
     "DRAM Type": "LPDDR3",
@@ -367,7 +367,7 @@ testPart("KM5L9000CM-B424", {
   densityMbit: 1048576,
   package: "FBGA-254",
   extra: {
-    "Storage Density": "128GB UFS",
+    "Storage Density": "128GB",
     "Storage Interface": "UFS 2.2",
     "DRAM Density": "48Gb",
     "DRAM Type": "LPDDR4X",
@@ -382,7 +382,7 @@ testPart("KM8V9001JM-B813", {
   densityMbit: 1048576,
   package: "FBGA-254",
   extra: {
-    "Storage Density": "128GB UFS",
+    "Storage Density": "128GB",
     "Storage Interface": "UFS 2.2",
     "DRAM Density": "64Gb",
     "DRAM Type": "LPDDR4X",
@@ -397,7 +397,7 @@ testPart("KM8F8001JA-B813", {
   densityMbit: 2097152,
   package: "FBGA-254",
   extra: {
-    "Storage Density": "256GB UFS",
+    "Storage Density": "256GB",
     "Storage Interface": "UFS 2.1",
     "DRAM Density": "64Gb",
     "DRAM Type": "LPDDR4X",
@@ -412,7 +412,7 @@ testPart("KMJS9001RM-BG01", {
   densityMbit: 2097152,
   package: "FBGA-297",
   extra: {
-    "Storage Density": "256GB UFS",
+    "Storage Density": "256GB",
     "Storage Interface": "UFS 3.1",
     "DRAM Density": "96Gb",
     "DRAM Type": "LPDDR5",
@@ -422,10 +422,10 @@ testPart("KMJS9001RM-BG01", {
 });
 
 for (const [partNumber, densityMbit, storageDensity, storageInterface, dramSpeed] of [
-  ["KM2B8001CM-BB01", 2097152, "256GB UFS", "UFS 2.1", "LPDDR4X-3733"],
-  ["KM2H7001CM-B518", 524288, "64GB UFS", "UFS 2.1", "LPDDR4X-4266"],
-  ["KM2L9001CM-B518", 1048576, "128GB UFS", "UFS 2.2", "LPDDR4X-4266"],
-  ["KM2V7001CM-B706", 1048576, "128GB UFS", "UFS 2.1", "LPDDR4X-3733"]
+  ["KM2B8001CM-BB01", 2097152, "256GB", "UFS 2.1", "LPDDR4X-3733"],
+  ["KM2H7001CM-B518", 524288, "64GB", "UFS 2.1", "LPDDR4X-4266"],
+  ["KM2L9001CM-B518", 1048576, "128GB", "UFS 2.2", "LPDDR4X-4266"],
+  ["KM2V7001CM-B706", 1048576, "128GB", "UFS 2.1", "LPDDR4X-3733"]
 ] as const) {
   testPart(partNumber, {
     vendor: "samsung",
@@ -468,16 +468,16 @@ test("Samsung MCP resource PNs expose complete structured core fields", () => {
 });
 
 for (const [partNumber, type, storageDensity, storageInterface, dramDensity, dramType, dramSpeed, packageName] of [
-  ["KM3P6001CM-B517", "eMCP", "64GB eMMC", "eMMC 5.1", "48Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
-  ["KM3V6001CM-B705", "eMCP", "128GB eMMC", "eMMC 5.1", "48Gb", "LPDDR4X", "LPDDR4X-3733", "FBGA-254"],
-  ["KM3V6001CA-B708", "eMCP", "128GB eMMC", "eMMC 5.1", "48Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
-  ["KM4X60002M-B321", "eMCP", "32GB eMMC", "eMMC 5.1", "24Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
-  ["KM8F8001LM-B813", "uMCP", "256GB UFS", "UFS 2.1", "80Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
-  ["KM8F8001MM-B813", "uMCP", "256GB UFS", "UFS 2.1", "96Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
-  ["KMAIA001PM-B819", "uMCP", "256GB UFS", "UFS 3.1", "64Gb", "LPDDR5", "LPDDR5-6400", "FBGA-297"],
-  ["KMJIA001RM-BC07", "uMCP", "256GB UFS", "UFS 3.1", "96Gb", "LPDDR5", "LPDDR5-6400", "FBGA-297"],
-  ["KMQX60013A-B419", "eMCP", "32GB eMMC", "eMMC 5.1", "16Gb", "LPDDR3", "LPDDR3-1866", "FBGA-221"],
-  ["KMRP60014M-B614", "eMCP", "64GB eMMC", "eMMC 5.1", "32Gb", "LPDDR3", "LPDDR3-1866", "FBGA-221"]
+  ["KM3P6001CM-B517", "eMCP", "64GB", "eMMC 5.1", "48Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
+  ["KM3V6001CM-B705", "eMCP", "128GB", "eMMC 5.1", "48Gb", "LPDDR4X", "LPDDR4X-3733", "FBGA-254"],
+  ["KM3V6001CA-B708", "eMCP", "128GB", "eMMC 5.1", "48Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
+  ["KM4X60002M-B321", "eMCP", "32GB", "eMMC 5.1", "24Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
+  ["KM8F8001LM-B813", "uMCP", "256GB", "UFS 2.1", "80Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
+  ["KM8F8001MM-B813", "uMCP", "256GB", "UFS 2.1", "96Gb", "LPDDR4X", "LPDDR4X-4266", "FBGA-254"],
+  ["KMAIA001PM-B819", "uMCP", "256GB", "UFS 3.1", "64Gb", "LPDDR5", "LPDDR5-6400", "FBGA-297"],
+  ["KMJIA001RM-BC07", "uMCP", "256GB", "UFS 3.1", "96Gb", "LPDDR5", "LPDDR5-6400", "FBGA-297"],
+  ["KMQX60013A-B419", "eMCP", "32GB", "eMMC 5.1", "16Gb", "LPDDR3", "LPDDR3-1866", "FBGA-221"],
+  ["KMRP60014M-B614", "eMCP", "64GB", "eMMC 5.1", "32Gb", "LPDDR3", "LPDDR3-1866", "FBGA-221"]
 ] as const) {
   testPart(partNumber, {
     vendor: "samsung",
@@ -554,7 +554,7 @@ testPart("K9AHGD8H0A", {
   cellField: "TLC",
   extra: {
     "Layer Count": 92,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 1,
     "CE Count": 1
   }
@@ -583,7 +583,7 @@ testPart("K9AHGD8J0C", {
   widthField: "x8",
   detailFields: {
     "Product Generation": 6,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 1,
     "CE Count": 1,
     "R/B Count": 1,
@@ -1124,7 +1124,7 @@ testPart("KLUCG4J1BB", {
   dieProfileField: "14nm",
   cellField: "MLC",
   extra: {
-    "Die Density": "128Gb",
+    "Die Density": "16GB",
     "Die Count": 4,
     "Product Version": "UFS 2.0",
     "Controller": "UFS 2.0 G2-2Lane Controller"
@@ -1139,7 +1139,7 @@ testPart("KLUDGAG1BD", {
   dieProfileField: "16nm",
   cellField: "MLC",
   extra: {
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 16,
     "Product Version": "UFS 2.0",
     "Controller": "UFS 2.0 G2-2Lane Controller"
@@ -1165,7 +1165,7 @@ testPart("KLUEG8UHDB-C2E1", {
   densityMbit: 2097152,
   dieProfileField: "SSV5",
   extra: {
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 8,
     "Product Version": "UFS 3.1",
     "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller"
@@ -1180,7 +1180,7 @@ testPart("KLUEG8U1YB-B0CP", {
   dieProfileField: "SSV5",
   package: "BGA-153, 11.5x13x1.2",
   extra: {
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 8,
     "Product Version": "UFS 2.1",
     "Controller": "UFS 2.1 G3-2Lane Controller (Automotive Grade only)",
@@ -1196,7 +1196,7 @@ testPart("KLUFG8RHDA-B2D1", {
   dieProfileField: "SSV5",
   package: "BGA-153, 11.5x13x1.0",
   extra: {
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 8,
     "Product Version": "UFS 3.0",
     "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller",
@@ -1212,7 +1212,7 @@ testPart("KLUFG8RHHF-F0G1", {
   dieProfileField: "SSV8",
   package: "BGA-153, 9x13",
   extra: {
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 8,
     "Product Version": "UFS 4.0",
     "Controller": "UFS 4.0 G5-2Lane Controller"
@@ -1227,7 +1227,7 @@ testPart("KLUEG4RHKF-F0H1", {
   dieProfileField: "SSV8",
   package: "BGA-153, 9x13",
   extra: {
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 4,
     "Product Version": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"
@@ -1243,7 +1243,7 @@ testPart("KLUGGGRHKF-F0H1", {
   cellField: "TLC",
   package: "BGA-153, 9x13",
   extra: {
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Product Version": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"
   },
@@ -1257,7 +1257,7 @@ testPart("KLUFG4NHKH-F0H1", {
   cellField: "TLC",
   package: "BGA-153, 9x13",
   extra: {
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 4,
     "Product Version": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"
@@ -1273,7 +1273,7 @@ testPart("KLUGGARHUF-F0HQ", {
   dieProfileField: "SSV8",
   package: "BGA-153, 11.5x13x1.2",
   extra: {
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 16,
     "Product Version": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller (Automotive)",

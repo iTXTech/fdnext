@@ -87,7 +87,7 @@ assertRuleDecode("FEPRF6432-58A1930", {
   densityMbit: 524288,
   package: "FBGA-254, 11.5x13x1.0",
   extra: {
-    "Storage Density": "64GB eMMC",
+    "Storage Density": "64GB",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
   },
@@ -102,7 +102,7 @@ assertRuleDecode("FUPRFA832-C2A56N1", {
   densityMbit: 1048576,
   package: "FBGA-254, 11.5x13x1.0",
   extra: {
-    "Storage Density": "128GB UFS",
+    "Storage Density": "128GB",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
   },

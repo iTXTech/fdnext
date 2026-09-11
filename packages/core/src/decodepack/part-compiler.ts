@@ -452,22 +452,6 @@ function normalizeOptionalDecodeTables(
   ])));
 }
 
-function formatDieDensityMbit(value: number): string {
-  if (!Number.isFinite(value) || value <= 0) {
-    return "";
-  }
-  if (value >= 1024 * 1024 && value % (1024 * 1024) === 0) {
-    return `${value / (1024 * 1024)}Tb`;
-  }
-  if (value >= 1024 * 1024) {
-    return `${Number((value / (1024 * 1024)).toFixed(2))}Tb`;
-  }
-  if (value % 1024 === 0) {
-    return `${value / 1024}Gb`;
-  }
-  return `${value}Mb`;
-}
-
 function runTokenDecoder(
   partNumber: string,
   runtime: DecodeProgramRuntime,
@@ -652,10 +636,13 @@ function runTokenDecoder(
 
     if (step.op === "dieDensity") {
       const rest = String(context.rest ?? "");
-      const density = Number(context[step.density]);
-      const dieCount = Number(context[step.dieCount]);
-      const matched = Number.isFinite(density) && Number.isFinite(dieCount) && dieCount > 0;
-      context[step.to] = matched ? formatDieDensityMbit(density / dieCount) : cloneJson(step.default ?? "");
+      const density = context[step.density];
+      const dieCount = context[step.dieCount];
+      const quotient = typeof density === "number" && density > 0 && typeof dieCount === "number" && dieCount > 0
+        ? density / dieCount
+        : Number.NaN;
+      const matched = Number.isFinite(density) && Number.isInteger(dieCount) && Number.isFinite(quotient) && quotient > 0;
+      context[step.to] = matched ? quotient : step.default ?? 0;
       trace?.push({
         op: step.op,
         path,

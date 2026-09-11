@@ -1,6 +1,6 @@
 # PN 规则证据与可信度策略
 
-采集日期：2026-07-12
+采集日期：2026-07-12；更新日期：2026-09-06
 
 规则库可以使用本地 `fdb` / `fdfdb` 辅助推断，但准入需要区分可信度。来源、可信度和推断过程属于规则维护证据，不是 decode 数据；它们统一记录在 [`evidence/decodepack-references.json`](evidence/decodepack-references.json)，不得放入 iTXTech fdnext DecodePack、identifier pack、共享 decode table、compiled catalog 或用户可见输出。
 
@@ -14,7 +14,8 @@
 
 ## 准入原则
 
-- 禁止完整 PN 白名单匹配；规则必须按结构 token 解析。
+- 外部确认的 exact PN 只能证明该样品；将其推广为规则需要可泛化的 token 结构，不能变成完整 PN 白名单，具体见 [PN 编写规范](authoring.md)。
+- 官方 PDF、datasheet、ordering information、part catalog 和 selection guide 清楚暴露的 token 结构可直接作为规则与 testcase 的依据。
 - 单个 MPTool / fdfdb 条目不能单独提升为确定规则。
 - 本地多源一致时可以保留候选，但应标记 `local_pending_external_reference`。
 - 外部网页确认前，不应在文档中写成“已确定”。
@@ -25,7 +26,7 @@
 
 ## Evidence manifest
 
-`docs/pn_code/evidence/decodepack-references.json` 是 DecodePack 规则证据的单一机器可审计清单。manifest v2 不保留旧格式兼容分支；顶层 `entries` 的每条记录按以下稳定标识关联规则：
+`docs/pn_code/evidence/decodepack-references.json` 是 DecodePack 规则证据的单一机器可审计清单。manifest v2 不保留旧 `reference` 伪 table 或旧格式兼容读取分支；顶层 `entries` 的每条记录按以下稳定标识关联规则：
 
 - `pack`: 仓库相对路径形式的规则 pack 路径；
 - `spec_id`: pack 中的 spec `id`；

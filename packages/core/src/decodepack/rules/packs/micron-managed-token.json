@@ -34,7 +34,7 @@
         "componentObj": {
           "AX": {
             "component_width": "x8",
-            "component_density": "512Gb",
+            "component_density": 524288,
             "die_codename": "B47R"
           }
         },
@@ -243,102 +243,102 @@
         "componentObj": {
           "AA": {
             "component_width": "x8",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "generation_info": "Gen2"
           },
           "AB": {
             "component_width": "x8",
-            "component_density": "32Gb",
+            "component_density": 32768,
             "generation_info": "Gen3"
           },
           "AC": {
             "component_width": "x8",
-            "component_density": "32Gb",
+            "component_density": 32768,
             "generation_info": "Gen4"
           },
           "AD": {
             "component_width": "x8",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "generation_info": "Gen6"
           },
           "AE": {
             "component_width": "x8",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "generation_info": "Gen5"
           },
           "AF": {
             "component_width": "x8",
-            "component_density": "128Gb",
+            "component_density": 131072,
             "generation_info": "Gen4"
           },
           "AG": {
             "component_width": "x8",
-            "component_density": "128Gb",
+            "component_density": 131072,
             "generation_info": "Gen5"
           },
           "AH": {
             "component_width": "x8",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "generation_info": "Gen3"
           },
           "AJ": {
             "component_width": "x8",
-            "component_density": "128Gb",
+            "component_density": 131072,
             "generation_info": "Gen6"
           },
           "AK": {
             "component_width": "x8",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "generation_info": "Gen4"
           },
           "AL": {
             "component_width": "x8",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "generation_info": "Gen7"
           },
           "AM": {
             "component_width": "x8",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "generation_info": "Gen8"
           },
           "AN": {
             "component_width": "x8",
-            "component_density": "128Gb",
+            "component_density": 131072,
             "generation_info": "Gen7"
           },
           "AO": {
             "component_width": "x8",
-            "component_density": "256Gb",
+            "component_density": 262144,
             "generation_info": "Gen4"
           },
           "AP": {
             "component_width": "x8",
-            "component_density": "128Gb",
+            "component_density": 131072,
             "generation_info": "Gen8"
           },
           "AR": {
             "component_width": "x8",
-            "component_density": "512Gb",
+            "component_density": 524288,
             "die_codename": "B27B"
           },
           "AS": {
             "component_width": "x8",
-            "component_density": "256Gb",
+            "component_density": 262144,
             "die_codename": "B16C"
           },
           "AX": {
             "component_width": "x8",
-            "component_density": "512Gb",
+            "component_density": 524288,
             "die_codename": "B47R"
           },
           "BG": {
             "component_width": "x8",
-            "component_density": "1Tb",
+            "component_density": 1048576,
             "die_codename": "B68S"
           },
           "BC": {
             "component_width": "x8",
-            "component_density": "512Gb"
+            "component_density": 524288
           }
         },
         "familyType": {

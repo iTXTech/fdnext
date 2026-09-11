@@ -3,9 +3,6 @@ import { draftField, draftFields, draftVendor, setDraftField } from "../draft";
 import { fdnextFieldRegistry, type FdnextFieldKey } from "../field-registry";
 import type { IdentifierDecoder, IdentifierDecodeDraft, PartDecodeDraft, PartNumberDecoder } from "../types";
 
-const GBIT_TO_MBIT = 1024;
-const TBIT_TO_MBIT = GBIT_TO_MBIT * GBIT_TO_MBIT;
-
 const vendorAliases: Record<string, string[]> = {
   biwin: ["biwin"],
   esmt: ["esmt", "elite semiconductor"],
@@ -35,36 +32,6 @@ export function getHumanReadableDensity(density: number, useByte = false): strin
     idx += 1;
   }
   return `${numeric}${unit[idx]}`;
-}
-
-export function parseDieDensityMbit(value: unknown): number | undefined {
-  if (typeof value !== "string") {
-    return undefined;
-  }
-  const match = /^\s*(\d+(?:\.\d+)?)\s*([gmt])b(?:it)?\s*$/i.exec(value);
-  if (!match) {
-    return undefined;
-  }
-
-  const numeric = Number.parseFloat(match[1] ?? "");
-  const unit = (match[2] ?? "").toLowerCase();
-  if (!Number.isFinite(numeric) || numeric <= 0) {
-    return undefined;
-  }
-
-  if (unit === "m") {
-    return Math.round(numeric);
-  }
-  if (unit === "g") {
-    return Math.round(numeric * GBIT_TO_MBIT);
-  }
-  if (unit === "t") {
-    if (numeric > 1.32 && numeric < 1.34) {
-      return 1365 * GBIT_TO_MBIT;
-    }
-    return Math.round(numeric * TBIT_TO_MBIT);
-  }
-  return undefined;
 }
 
 function normalizeInfoText(value: unknown): string {

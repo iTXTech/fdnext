@@ -6,8 +6,9 @@ export interface NandDieProfile {
   generation_info?: string;
   layer_count?: number;
   cell_level?: number;
-  die_density?: string;
+  die_density?: number;
   plane_count?: number;
+  nand_interface?: string;
   firmware_match?: string[];
   die_mark?: string[];
 }

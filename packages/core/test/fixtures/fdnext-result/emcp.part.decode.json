@@ -8,7 +8,7 @@
     "lang": "eng",
     "constraints": {}
   },
-  "subtitle": "eMCP · BIWIN · 64GB eMMC · 32Gb LPDDR4X · eMMC 5.1",
+  "subtitle": "eMCP · BIWIN · 64GB · 32Gb LPDDR4X · eMMC 5.1",
   "device": {
     "domain": "memory",
     "chipKind": "managed_nand",
@@ -24,7 +24,9 @@
       {
         "key": "storage_density",
         "label": "Storage Density",
-        "value": "64GB eMMC",
+        "value": 524288,
+        "unit": "Mbit",
+        "display": "64GB",
         "importance": "primary"
       },
       {
@@ -42,7 +44,9 @@
       {
         "key": "dram_density",
         "label": "DRAM Density",
-        "value": "32Gb",
+        "value": 32768,
+        "unit": "Mbit",
+        "display": "32Gb",
         "importance": "primary"
       }
     ],
@@ -55,7 +59,9 @@
           {
             "key": "storage_density",
             "label": "Storage Density",
-            "value": "64GB eMMC",
+            "value": 524288,
+            "unit": "Mbit",
+            "display": "64GB",
             "importance": "primary"
           },
           {
@@ -74,7 +80,9 @@
           {
             "key": "dram_density",
             "label": "DRAM Density",
-            "value": "32Gb",
+            "value": 32768,
+            "unit": "Mbit",
+            "display": "32Gb",
             "importance": "primary"
           },
           {
@@ -115,7 +123,9 @@
         {
           "key": "storage_density",
           "label": "Storage Density",
-          "value": "64GB eMMC",
+          "value": 524288,
+          "unit": "Mbit",
+          "display": "64GB",
           "importance": "primary"
         },
         {
@@ -134,7 +144,9 @@
         {
           "key": "dram_density",
           "label": "DRAM Density",
-          "value": "32Gb",
+          "value": 32768,
+          "unit": "Mbit",
+          "display": "32Gb",
           "importance": "primary"
         },
         {

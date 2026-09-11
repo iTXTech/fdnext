@@ -52,16 +52,16 @@
         },
         "dieDensityInfo": {
           "5": {
-            "die_density": "256Gb"
+            "die_density": 262144
           },
           "6": {
-            "die_density": "512Gb"
+            "die_density": 524288
           },
           "7": {
-            "die_density": "1Tb"
+            "die_density": 1048576
           },
           "G": {
-            "die_density": "1.33Tb"
+            "die_density": 1397760
           }
         },
         "dieStack": {

@@ -11,7 +11,7 @@ import {
   inferProductTypeFromDraft,
   isKnownInfoValue
 } from "./device-inference";
-import { createFdnextFieldValue, fdnextFieldRegistry, type FdnextFieldKey } from "./field-registry";
+import { createFdnextFieldValue, fdnextFieldRegistry, type FdnextFieldDefinition, type FdnextFieldKey } from "./field-registry";
 import { getFdnextFieldProfile } from "./field-profiles";
 import { buildResultSummary } from "./result-summary";
 import { inferVendorFromPartNumber, normalizeVendor } from "./fdb-lookup";
@@ -179,8 +179,17 @@ function normalizeFieldValue(fieldKey: FdnextFieldKey, value: unknown): FdnextFi
   if (!isKnownInfoValue(value)) {
     return undefined;
   }
-  if (typeof value === "number" && value <= 0) {
+  if (typeof value === "number" && (!Number.isFinite(value) || value <= 0)) {
     return undefined;
+  }
+  const definition: FdnextFieldDefinition = fdnextFieldRegistry[fieldKey];
+  if (definition.defaultUnit === "Mbit") {
+    if (definition.valueKind === "number_list") {
+      return Array.isArray(value) && value.length > 0 && value.every((item) => typeof item === "number" && Number.isFinite(item) && item > 0)
+        ? value as number[]
+        : undefined;
+    }
+    return typeof value === "number" ? value : undefined;
   }
   if (fieldKey === "cell_level" && typeof value === "number") {
     const cellLevels: Record<number, string> = { 1: "SLC", 2: "MLC", 3: "TLC", 4: "QLC" };

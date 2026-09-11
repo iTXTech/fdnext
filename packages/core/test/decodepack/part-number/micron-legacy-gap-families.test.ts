@@ -37,7 +37,7 @@ assertRuleDecode("MT29FCA8GDACABXC5:A", {
   type: "managed_nand",
   densityMbit: 65536,
   extra: {
-    "Storage Density": "8GB ClearNAND",
+    "Storage Density": "8GB",
     "Product Family": "Micron ClearNAND",
     "Storage Interface": "Parallel NAND",
     "Cell Level": "MLC",
@@ -52,7 +52,7 @@ assertRuleDecode("MT29FEN64GDKCAAXDQ-10ES:A", {
   densityMbit: 524288,
   package: "LFBGA-100, 14x18x1.4",
   extra: {
-    "Storage Density": "64GB ClearNAND",
+    "Storage Density": "64GB",
     "Product Family": "Micron ClearNAND",
     "Product Mode": "Enhanced ClearNAND",
     "Storage Interface": "Parallel NAND",
@@ -65,10 +65,10 @@ assertRuleDecode("MT29FEN64GDKCAAXDQ-10ES:A", {
 });
 
 for (const [partNumber, densityMbit, storageDensity] of [
-  ["N2M400FDB311A3CE", 32768, "4GB eMMC"],
-  ["N2M400GDB321A3CF", 65536, "8GB eMMC"],
-  ["N2M400HDB321A3CE", 131072, "16GB eMMC"],
-  ["N2M400JDB341A3CF", 262144, "32GB eMMC"]
+  ["N2M400FDB311A3CE", 32768, "4GB"],
+  ["N2M400GDB321A3CF", 65536, "8GB"],
+  ["N2M400HDB321A3CE", 131072, "16GB"],
+  ["N2M400JDB341A3CF", 262144, "32GB"]
 ] as const) {
   assertRuleDecode(partNumber, {
     vendor: "micron",
@@ -107,6 +107,6 @@ assert.equal(firstField(unknownMt29dSpeed, "operation_temperature")?.value, "Ind
 
 const unknownClearNandSpeed = engine.decodePart({ query: "MT29FEN64GDKCAAXZZ-99ES:A", lang: "eng" });
 assert.equal(unknownClearNandSpeed.device.chipKind, "managed_nand");
-assert.equal(firstField(unknownClearNandSpeed, "storage_density")?.value, "64GB ClearNAND");
+assert.equal(firstField(unknownClearNandSpeed, "storage_density")?.value, 524288);
 assert.equal(firstField(unknownClearNandSpeed, "package"), undefined);
 assert.equal(firstField(unknownClearNandSpeed, "speed_grade"), undefined);

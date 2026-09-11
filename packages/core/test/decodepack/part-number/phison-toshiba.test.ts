@@ -95,7 +95,7 @@ assertRuleDecode("SMKJ6Z4ZZ4D4TGFAK-PG", {
   voltage: "LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
   package: "TFBGA-153, 11.5x13, 0.50 pitch 1.10 thick",
   extra: {
-    "Storage Density": "4GB eMMC",
+    "Storage Density": "4GB",
     "Storage Interface": "eMMC",
     "DRAM Density": "4Gb",
     "DRAM Type": "LPDRAM",
@@ -114,7 +114,7 @@ assertRuleDecode("SMKJ6Z4ZZ4D4TGFAK-053BT", {
   voltage: "LPDRAM VDD/VDDQ: 1.8V/1.8V, eMMC VCCM/VCCQM: 3.3V/1.8V or 3.3V",
   package: "TFBGA-153, 11.5x13, 0.50 pitch 1.10 thick",
   extra: {
-    "Storage Density": "4GB eMMC",
+    "Storage Density": "4GB",
     "Storage Interface": "eMMC",
     "DRAM Density": "4Gb",
     "DRAM Type": "LPDRAM",
@@ -133,7 +133,7 @@ assertRuleDecode("SUJ52A1GCFDI-BT", {
   densityMbit: 8192,
   package: "TFBGA-169/392, 12x16x1.2",
   extra: {
-    "Component Density": "8Gb",
+    "Component Density": "1GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V",
     "Product Family": "SpecTek Flash + Controller",
@@ -149,7 +149,7 @@ assertRuleDecode("SUJ52A128GASAKDI-FT", {
   package: "TFBGA-169/392, 12x16x1.2",
   extra: {
     "Storage Interface": "UFS 2.1",
-    "Component Density": "256Gb",
+    "Component Density": "32GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V",
     "Product Family": "SpecTek Flash + Controller",

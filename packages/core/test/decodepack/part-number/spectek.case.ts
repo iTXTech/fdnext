@@ -69,7 +69,7 @@ assertRuleDecode("FBMM84C81KDMABH7", {
   voltage: "Vcc: 3.3V, VccQ: 1.8V, VssQ: 0V",
   package: "TBGA-152/221, 14x18x1.2, QDP",
   extra: {
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 4,
     "CE Count": 4,
     "Channel Count": 2,
@@ -86,7 +86,7 @@ assertRuleDecode("FBML84A61KDBABH1", {
   dieProfileField: "20nm",
   cellField: "MLC",
   extra: {
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 1,
     "Process Alias": "L84A"
   }
@@ -100,7 +100,7 @@ assertRuleDecode("FBMM60A21G3BAAWP", {
   cellField: "SLC",
   package: "TSOP-I-48, 12x20x1.2, Center Package Leads CPL Pb-free",
   extra: {
-    "Die Density": "4Gb",
+    "Die Density": "512MB",
     "Die Count": 1,
     "Process Alias": "M60A"
   }
@@ -139,7 +139,7 @@ assertRuleDecode("FBMB68S8T0KLUAHD5", {
   dieProfileField: "B68S",
   cellField: "TLC",
   extra: {
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 8,
     "Layer Count": 276
   }
@@ -151,7 +151,7 @@ assertRuleDecode("FBMN69R2T0KLBAHD4", {
   dieProfileField: "N69R",
   cellField: "QLC",
   extra: {
-    "Die Density": "2Tb",
+    "Die Density": "256GB",
     "Die Count": 1,
     "Layer Count": 276
   }
@@ -163,7 +163,7 @@ assertRuleDecode("FBMB78R2T0KLEAHD4", {
   dieProfileField: "B78R",
   cellField: "TLC",
   extra: {
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 2
   },
   absentExtra: ["Layer Count"]

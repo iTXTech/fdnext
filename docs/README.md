@@ -4,6 +4,7 @@ This directory is the canonical home for fdnext usage, maintenance, and rule-aut
 
 | Document | Scope |
 | --- | --- |
+| [Validation guide](TESTING.md) | Choose checks by change impact; reuse completed builds and run optional search suites only when relevant |
 | [Integration guide](INTEGRATION.md) | SDK setup, browser resources, server startup, and deployment notes |
 | [Server API](SERVER_API.md) | Canonical HTTP routes, query parameters, response contract, status behavior, and CORS rules |
 | [Cloudflare Workers deployment](CF_WORKERS.md) | Wrangler config, local dev, deployment, and Worker-specific External Link notes |
@@ -12,6 +13,7 @@ This directory is the canonical home for fdnext usage, maintenance, and rule-aut
 | [fdnext fdbgen v1 support list](FDBGEN_FORMAT_V1.md) | Standard post-extraction support-list JSON format for fdbgen import tools |
 | [DecodePack specification](DECODEPACK.md) | PN and typed identifier iTXTech fdnext DecodePack authoring, output fields, and validation commands |
 | [PN code reference index](pn_code/README.md) | Vendor/product-line PN reference documents and maintenance boundaries |
+| [PN rule authoring](pn_code/authoring.md) | Structural token rules, package evidence, PN resource deduplication, and completion criteria |
 | [PN reference confidence policy](pn_code/reference_policy.md) | Rule admission tiers and where source-confidence metadata may live |
 | [Cross-vendor terminology](pn_code/terminology.md) | Canonical public field keys and display terminology |
 
@@ -22,3 +24,4 @@ Documentation boundaries:
 - Keep shared server interface facts in `SERVER_API.md`; platform deployment guides should link to it instead of duplicating route tables.
 - Put vendor-specific PN structures, source notes, token tables, and examples in `docs/pn_code/<vendor>_<product>.md`.
 - Put source-confidence rules in `docs/pn_code/reference_policy.md` and public field naming in `docs/pn_code/terminology.md`.
+- Keep repository-wide agent boundaries in `AGENTS.md`, PN authoring rules in `docs/pn_code/authoring.md`, and validation scope in `docs/TESTING.md`; link to these instead of copying workflows. Read only the documents and sections relevant to the current change.

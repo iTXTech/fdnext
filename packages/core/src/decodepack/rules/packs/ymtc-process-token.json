@@ -91,10 +91,10 @@
             "plane_count"
           ]
         },
-        "fields.speed_grade": {
+        "fields.nand_interface": {
           "$path": [
             "processObj",
-            "speed_grade"
+            "nand_interface"
           ]
         },
         "meta.nandDieProfileKey": {

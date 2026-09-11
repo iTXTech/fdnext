@@ -8,13 +8,13 @@
       "stripPrefixes": ["BWCE2"],
       "tables": {
         "configObj": {
-          "4NL": { "dram_density": "4Gb", "package": "FBGA-221, 11.50x13.00" },
-          "8NH": { "dram_density": "8Gb", "package": "FBGA-221, 11.50x13.00" },
-          "ENH": { "dram_density": "16Gb", "package": "FBGA-221, 11.50x13.00" }
+          "4NL": { "dram_density": 4096, "package": "FBGA-221, 11.50x13.00" },
+          "8NH": { "dram_density": 8192, "package": "FBGA-221, 11.50x13.00" },
+          "ENH": { "dram_density": 16384, "package": "FBGA-221, 11.50x13.00" }
         },
         "densityCode": ["04G", "08G", "16G"],
         "density": { "04G": 32768, "08G": 65536, "16G": 131072 },
-        "storageDensity": { "04G": "4GB eMMC", "08G": "8GB eMMC", "16G": "16GB eMMC" }
+        "storageDensity": { "04G": 32768, "08G": 65536, "16G": 131072 }
       },
       "steps": [
         { "op": "take", "len": 3, "to": "configCode" },
@@ -101,31 +101,31 @@
         "densityKeyObj": {
           "EZA:32G": {
             "storage_interface": "eMMC 5.1",
-            "storage_density": "32GB eMMC",
-            "dram_density": "16Gb",
+            "storage_density": 262144,
+            "dram_density": 16384,
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
             "operation_temperature": "-25°C ~ +85°C"
           },
           "KZC:32G": {
             "storage_interface": "eMMC 5.1",
-            "storage_density": "32GB eMMC",
-            "dram_density": "32Gb",
+            "storage_density": 262144,
+            "dram_density": 32768,
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
             "operation_temperature": "-25°C ~ +85°C"
           },
           "KZC:64G": {
             "storage_interface": "eMMC 5.1",
-            "storage_density": "64GB eMMC",
-            "dram_density": "32Gb",
+            "storage_density": 524288,
+            "dram_density": 32768,
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
             "operation_temperature": "-25°C ~ +85°C"
           },
           "KZA:128G": {
             "storage_interface": "eMMC 5.1",
-            "storage_density": "128GB eMMC",
+            "storage_density": 1048576,
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
             "operation_temperature": "-25°C ~ +85°C"
@@ -322,40 +322,40 @@
         "densityKeyObj": {
           "KZC02:64G": {
             "storage_interface": "UFS 2.2",
-            "storage_density": "64GB UFS",
-            "dram_density": "32Gb",
+            "storage_density": 524288,
+            "dram_density": 32768,
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
             "operation_temperature": "-25°C ~ +85°C"
           },
           "LEI02:128G": {
             "storage_interface": "UFS 2.2",
-            "storage_density": "128GB UFS",
-            "dram_density": "48Gb",
+            "storage_density": 1048576,
+            "dram_density": 49152,
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
             "operation_temperature": "-25°C ~ +85°C"
           },
           "MZC02:128G": {
             "storage_interface": "UFS 2.2",
-            "storage_density": "128GB UFS",
-            "dram_density": "64Gb",
+            "storage_density": 1048576,
+            "dram_density": 65536,
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
             "operation_temperature": "-25°C ~ +85°C"
           },
           "MZC02:256G": {
             "storage_interface": "UFS 2.2",
-            "storage_density": "256GB UFS",
-            "dram_density": "64Gb",
+            "storage_density": 2097152,
+            "dram_density": 65536,
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
             "operation_temperature": "-25°C ~ +85°C"
           },
           "MZCNY:512G": {
             "storage_interface": "UFS 2.2",
-            "storage_density": "512GB UFS",
-            "dram_density": "64Gb",
+            "storage_density": 4194304,
+            "dram_density": 65536,
             "dram_type": "LPDDR4X",
             "package_code": "FBGA254",
             "operation_temperature": "-25°C ~ +85°C"
@@ -464,9 +464,9 @@
         "densityCode": ["128G", "256G", "512G"],
         "density": { "128G": 1048576, "256G": 2097152, "512G": 4194304 },
         "storageDensity": {
-          "128G": "128GB UFS",
-          "256G": "256GB UFS",
-          "512G": "512GB UFS"
+          "128G": 1048576,
+          "256G": 2097152,
+          "512G": 4194304
         }
       },
       "steps": [
@@ -486,7 +486,7 @@
         "fields.density": { "$var": "density" },
         "fields.storage_density": { "$var": "storageDensity" },
         "fields.storage_interface": "UFS 3.1",
-        "fields.dram_density": "64Gb",
+        "fields.dram_density": 65536,
         "fields.dram_type": "LPDDR5X",
         "fields.controller": "SM2753",
         "fields.product_class": "Consumer",
@@ -506,7 +506,7 @@
             "role": "dram",
             "hidden": true,
             "device": { "domain": "memory", "chipKind": "dram", "productType": "lpddr5x" },
-            "fields": { "dram_density": "64Gb", "dram_type": "LPDDR5X" }
+            "fields": { "dram_density": 65536, "dram_type": "LPDDR5X" }
           }
         ],
         "meta.ruleId": "vendor.biwin.umcp5x.v1",

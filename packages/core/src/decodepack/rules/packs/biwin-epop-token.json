@@ -7,14 +7,14 @@
     "tokenDecoder": {
       "stripPrefixes": ["BWCD2"],
       "tables": {
-        "dramDensity": { "4": "4Gb", "8": "8Gb" },
+        "dramDensity": { "4": 4096, "8": 8192 },
         "package": {
           "NL": "FBGA-136, 10.00x10.00",
           "NP": "FBGA-136, 10.00x10.00"
         },
         "densityCode": ["04G", "08G", "32G"],
         "density": { "04G": 32768, "08G": 65536, "32G": 262144 },
-        "storageDensity": { "04G": "4GB eMMC", "08G": "8GB eMMC", "32G": "32GB eMMC" }
+        "storageDensity": { "04G": 32768, "08G": 65536, "32G": 262144 }
       },
       "steps": [
         { "op": "take", "len": 1, "to": "dramDensityCode" },
@@ -77,16 +77,16 @@
           "L": "FBGA-144, 8.60x10.40"
         },
         "dramDensity": {
-          "E": "16Gb",
-          "K": "32Gb"
+          "E": 16384,
+          "K": 32768
         },
         "density": {
           "32G": 262144,
           "64G": 524288
         },
         "storageDensity": {
-          "32G": "32GB eMMC",
-          "64G": "64GB eMMC"
+          "32G": 262144,
+          "64G": 524288
         }
       },
       "steps": [
@@ -210,14 +210,14 @@
     "tokenDecoder": {
       "stripPrefixes": ["BWCSA"],
       "tables": {
-        "dramDensity": { "E": "16Gb", "F": "24Gb", "K": "32Gb" },
+        "dramDensity": { "E": 16384, "F": 24576, "K": 32768 },
         "package": {
           "YA02": "FBGA-201, 8.00x9.50",
           "EJ02": "FBGA-201, 8.00x9.50"
         },
         "densityCode": ["32G", "64G"],
         "density": { "32G": 262144, "64G": 524288 },
-        "storageDensity": { "32G": "32GB eMMC", "64G": "64GB eMMC" }
+        "storageDensity": { "32G": 262144, "64G": 524288 }
       },
       "steps": [
         { "op": "take", "len": 1, "to": "dramDensityCode" },

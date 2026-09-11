@@ -174,7 +174,7 @@ const NAND_PROFILE_ENRICHED_FIELDS = [
   "cell_level",
   "die_density",
   "plane_count",
-  "speed_grade",
+  "nand_interface",
   "page_size",
   "redundant_area_size",
   "pages_per_block"

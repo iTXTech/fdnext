@@ -42,40 +42,40 @@
         "densityPairObj": {
           "NA1608": {
             "storage_interface": "eMMC",
-            "storage_density": "16GB eMMC",
-            "dram_density": "8Gb",
+            "storage_density": 131072,
+            "dram_density": 8192,
             "dram_type": "LPDDR3",
             "nand_technology": "MLC",
             "package_code": "FBGA221"
           },
           "NA3208": {
             "storage_interface": "eMMC",
-            "storage_density": "32GB eMMC",
-            "dram_density": "8Gb",
+            "storage_density": 262144,
+            "dram_density": 8192,
             "dram_type": "LPDDR3",
             "nand_technology": "3D NAND",
             "package_code": "FBGA221"
           },
           "RF6432": {
             "storage_interface": "eMMC",
-            "storage_density": "64GB eMMC",
-            "dram_density": "32Gb",
+            "storage_density": 524288,
+            "dram_density": 32768,
             "dram_type": "LPDDR4X",
             "nand_technology": "3D NAND",
             "package_code": "FBGA254"
           },
           "RB6432": {
             "storage_interface": "eMMC",
-            "storage_density": "64GB eMMC",
-            "dram_density": "32Gb",
+            "storage_density": 524288,
+            "dram_density": 32768,
             "dram_type": "LPDDR4X",
             "nand_technology": "3D NAND",
             "package_code": "FBGA254"
           },
           "RFA832": {
             "storage_interface": "eMMC",
-            "storage_density": "128GB eMMC",
-            "dram_density": "32Gb",
+            "storage_density": 1048576,
+            "dram_density": 32768,
             "dram_type": "LPDDR4X",
             "nand_technology": "3D NAND",
             "package_code": "FBGA254"
@@ -220,16 +220,16 @@
         "densityPairObj": {
           "RB6432": {
             "storage_interface": "UFS",
-            "storage_density": "64GB UFS",
-            "dram_density": "32Gb",
+            "storage_density": 524288,
+            "dram_density": 32768,
             "dram_type": "LPDDR4X",
             "nand_technology": "3D NAND",
             "package_code": "FBGA254"
           },
           "RFA832": {
             "storage_interface": "UFS",
-            "storage_density": "128GB UFS",
-            "dram_density": "32Gb",
+            "storage_density": 1048576,
+            "dram_density": 32768,
             "dram_type": "LPDDR4X",
             "nand_technology": "3D NAND",
             "package_code": "FBGA254"

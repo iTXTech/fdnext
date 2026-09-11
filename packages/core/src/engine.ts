@@ -19,7 +19,6 @@ import {
   canonicalNandDieProfileKey,
   collectDecoderProfileTables,
   isFdnextFieldKey,
-  parseDieDensityMbit,
   pruneRedundantFields
 } from "./engine/field-normalization";
 import { createPartDecoderDispatch } from "./engine/part-decoder-dispatch";
@@ -326,12 +325,15 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       return info;
     }
 
-    const dieDensity = parseDieDensityMbit(draftField(info, "die_density"));
-    if (dieDensity === undefined) {
+    const dieDensity = draftField(info, "die_density");
+    if (typeof dieDensity !== "number" || !Number.isFinite(dieDensity) || dieDensity <= 0) {
       return info;
     }
 
     const derivedDensity = dieDensity * dieCount;
+    if (!Number.isFinite(derivedDensity)) {
+      return info;
+    }
     if (currentDensity === undefined || currentDensity !== derivedDensity) {
       setDraftField(info, "density", derivedDensity);
     }

@@ -57,26 +57,26 @@
           }
         },
         "lpdram_density": {
-          "1": "1Gb",
-          "2": "2Gb",
-          "3": "3Gb",
-          "4": "4Gb",
-          "5": "16Gb",
-          "6": "6Gb",
-          "7": "24Gb",
-          "8": "8Gb",
-          "9": "9Gb",
-          "T": "768Mb",
-          "U": "640Mb",
-          "V": "512Mb",
-          "W": "256Mb",
-          "X": "128Mb",
-          "Y": "64Mb",
-          "A": "32Gb",
-          "B": "48Gb",
-          "C": "64Gb",
-          "D": "96Gb",
-          "E": "128Gb"
+          "1": 1024,
+          "2": 2048,
+          "3": 3072,
+          "4": 4096,
+          "5": 16384,
+          "6": 6144,
+          "7": 24576,
+          "8": 8192,
+          "9": 9216,
+          "T": 768,
+          "U": 640,
+          "V": 512,
+          "W": 256,
+          "X": 128,
+          "Y": 64,
+          "A": 32768,
+          "B": 49152,
+          "C": 65536,
+          "D": 98304,
+          "E": 131072
         },
         "lpdram_width": {
           "A": 4,
@@ -88,46 +88,46 @@
         },
         "emmc_density_obj": {
           "1": {
-            "storage_density": "1GB eMMC"
+            "storage_density": 8192
           },
           "2": {
-            "storage_density": "2GB eMMC"
+            "storage_density": 16384
           },
           "4": {
-            "storage_density": "4GB eMMC"
+            "storage_density": 32768
           },
           "5": {
-            "storage_density": "8GB eMMC"
+            "storage_density": 65536
           },
           "6": {
-            "storage_density": "16GB eMMC"
+            "storage_density": 131072
           },
           "7": {
-            "storage_density": "32GB eMMC"
+            "storage_density": 262144
           },
           "8": {
-            "storage_density": "64GB eMMC"
+            "storage_density": 524288
           },
           "9": {
-            "storage_density": "128GB eMMC"
+            "storage_density": 1048576
           },
           "V": {
-            "storage_density": "512MB eMMC"
+            "storage_density": 4096
           },
           "W": {
-            "storage_density": "256MB eMMC"
+            "storage_density": 2048
           },
           "X": {
-            "storage_density": "128MB eMMC"
+            "storage_density": 1024
           },
           "A": {
-            "storage_density": "256GB eMMC"
+            "storage_density": 2097152
           },
           "B": {
-            "storage_density": "512GB eMMC"
+            "storage_density": 4194304
           },
           "C": {
-            "storage_density": "1024GB eMMC"
+            "storage_density": 8388608
           }
         },
         "controller_obj": {
@@ -598,233 +598,236 @@
         },
         "component_obj": {
           "1": {
-            "component_density": "4Gb",
+            "component_density": 4096,
             "component_width": "x8",
             "component_voltage": "1.8V"
           },
           "A": {
-            "component_density": "2Gb",
+            "component_density": 2048,
             "component_width": "x8",
             "component_voltage": "1.8V"
           },
           "B": {
-            "component_density": "4Gb",
+            "component_density": 4096,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "C": {
-            "component_density": "8Gb",
+            "component_density": 8192,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "D": {
-            "component_density": "8Gb",
+            "component_density": 8192,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "E": {
-            "component_density": "16Gb",
+            "component_density": 16384,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "F": {
-            "component_density": "4Gb"
+            "component_density": 4096
           },
           "G": {
-            "component_density": "16Gb",
+            "component_density": 16384,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "H": {
-            "component_density": "32Gb",
+            "component_density": 32768,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "J": {
-            "component_density": "64Gb",
+            "component_density": 65536,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "K": {
-            "component_density": "32Gb",
+            "component_density": 32768,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "L": {
-            "component_density": "32Gb",
+            "component_density": 32768,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "N": {
-            "component_density": "4Gb",
+            "component_density": 4096,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "P": {
-            "component_density": "8Gb",
+            "component_density": 8192,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "Q": {
-            "component_density": "32Gb",
+            "component_density": 32768,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "R": {
-            "component_density": "64Gb",
+            "component_density": 65536,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AA": {
-            "component_density": "64Gb",
+            "component_density": 65536,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AB": {
-            "component_density": "32Gb",
+            "component_density": 32768,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AC": {
-            "component_density": "32Gb",
+            "component_density": 32768,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AD": {
-            "component_density": "64Gb",
+            "component_density": 65536,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AE": {
-            "component_density": "64Gb",
+            "component_density": 65536,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AF": {
-            "component_density": "128Gb",
+            "component_density": 131072,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AG": {
-            "component_density": "128Gb",
+            "component_density": 131072,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AH": {
-            "component_density": "64Gb",
+            "component_density": 65536,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AK": {
-            "component_density": "64Gb",
+            "component_density": 65536,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AL": {
-            "component_density": "64Gb",
+            "component_density": 65536,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AM": {
-            "component_density": "64Gb",
+            "component_density": 65536,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AN": {
-            "component_density": "128Gb",
+            "component_density": 131072,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AO": {
-            "component_density": "256Gb",
+            "component_density": 262144,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AP": {
-            "component_density": "128Gb",
+            "component_density": 131072,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AQ": {
-            "component_density": "512Gb",
+            "component_density": 524288,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AR": {
-            "component_density": "512Gb",
+            "component_density": 524288,
             "component_width": "x8",
             "component_voltage": "2.5V"
           },
           "AS": {
-            "component_density": "256Gb",
+            "component_density": 262144,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AT": {
-            "component_density": "256Gb",
+            "component_density": 262144,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "AU": {
-            "component_density": "512Gb",
+            "component_density": 524288,
             "component_width": "x8",
             "component_voltage": "2.5V"
           },
           "AV": {
-            "component_density": "512Gb",
+            "component_density": 524288,
             "component_width": "x8",
             "component_voltage": "2.5V"
           },
           "AW": {
-            "component_density": "256Gb / 512Gb",
+            "component_density_options": [
+              262144,
+              524288
+            ],
             "component_width": "x8",
             "component_voltage": "2.5V"
           },
           "AX": {
-            "component_density": "512Gb",
+            "component_density": 524288,
             "component_width": "x8"
           },
           "AY": {
-            "component_density": "1Tb",
+            "component_density": 1048576,
             "component_width": "x8"
           },
           "AZ": {
-            "component_density": "256Gb",
+            "component_density": 262144,
             "component_width": "x8",
             "component_voltage": "3.3V"
           },
           "BA": {
-            "component_density": "512Gb",
+            "component_density": 524288,
             "component_width": "x8",
             "component_voltage": "2.5V"
           },
           "BB": {
-            "component_density": "1Tb",
+            "component_density": 1048576,
             "component_width": "x8",
             "component_voltage": "2.5V"
           },
           "BC": {
-            "component_density": "512Gb",
+            "component_density": 524288,
             "component_width": "x8",
             "component_voltage": "2.5V"
           },
           "BD": {
-            "component_density": "512Gb",
+            "component_density": 524288,
             "component_width": "x8",
             "component_voltage": "2.5V"
           },
           "BE": {
-            "component_density": "512Gb",
+            "component_density": 524288,
             "component_width": "x8",
             "component_voltage": "2.5V"
           },
           "BF": {
-            "component_density": "1Tb",
+            "component_density": 1048576,
             "component_width": "x8",
             "component_voltage": "2.5V"
           },
           "BG": {
-            "component_density": "1Tb",
+            "component_density": 1048576,
             "component_width": "x8",
             "component_voltage": "2.5V"
           }

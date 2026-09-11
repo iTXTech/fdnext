@@ -62,7 +62,7 @@ assertRuleDecode("MTFC32GHADM-WT", {
   densityMbit: 262144,
   package: "TFBGA-153, 11.5x13x1.2",
   extra: {
-    "Component Density": "32Gb",
+    "Component Density": "4GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V",
     "Controller Revision": "Rev 1",
@@ -77,7 +77,7 @@ assertRuleDecode("MTFC8GAMALBH-AAT", {
   densityMbit: 65536,
   package: "TFBGA-153, 11.5x13x1.1",
   extra: {
-    "Component Density": "64Gb",
+    "Component Density": "8GB",
     "Component Width": "x8",
     "Product Generation": "Gen8",
     "Product Version": "eMMC 5.1",
@@ -184,7 +184,7 @@ assertRuleDecode("MTFC64GASAOEA-WT", {
   dieProfileField: "B16C",
   package: "WFBGA-153, 11.5x13x0.8, LF35",
   extra: {
-    "Component Density": "256Gb",
+    "Component Density": "32GB",
     "Component Width": "x8",
     "Product Version": "UFS 2.1",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
@@ -199,7 +199,7 @@ assertRuleDecode("MTFC128GARATEK-WT", {
   dieProfileField: "B27B",
   package: "VFBGA-153, 11.5x13x0.9",
   extra: {
-    "Component Density": "512Gb",
+    "Component Density": "64GB",
     "Component Width": "x8",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
@@ -213,7 +213,7 @@ assertRuleDecode("MTFC512GAXATHJ-WT", {
   dieProfileField: "B47R",
   package: "VFBGA-153, 11.0x13x1.0",
   extra: {
-    "Component Density": "512Gb",
+    "Component Density": "64GB",
     "Component Width": "x8",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
@@ -291,7 +291,7 @@ for (const partNumber of ["EEFC1T5BGBEQW-WT EE", "EEFC1T5BGBEQX-WT EE"]) {
   assert.equal(result.device.productType, undefined, `${partNumber} product type remains unconfirmed`);
   assert.equal(firstField(result, "density"), undefined, `${partNumber} 1T5 token is not treated as a confirmed capacity`);
   assert.equal(firstField(result, "package"), undefined, `${partNumber} package token remains opaque`);
-  assert.equal(firstField(result, "component_density")?.value, "1Tb", `${partNumber} component density`);
+  assert.equal(firstField(result, "component_density")?.value, 1048576, `${partNumber} component density`);
   assert.equal(firstField(result, "component_width")?.value, 8, `${partNumber} component width`);
   assert.equal(firstField(result, "die_codename")?.value, "B68S", `${partNumber} die codename`);
   assert.equal(firstField(result, "prod_status")?.value, "Early Engineering Samples", `${partNumber} status`);
@@ -317,7 +317,7 @@ assertRuleDecode("EEFC128GAXATEAAA-WT", {
   package: "BGA-153, 11.5x13",
   extra: {
     "Product Version": "UFS 3.1",
-    "Component Density": "512Gb",
+    "Component Density": "64GB",
     "Component Width": "x8",
     "Operation Temperature": "Standard (-25°C ~ 85°C)",
     "Production Status": "Early Engineering Samples"
@@ -358,7 +358,7 @@ assertRuleDecode("EEFC512GAXATAMAA-WT", {
   package: "VFBGA-153, 11.5x13x1.0",
   extra: {
     "Product Version": "UFS 3.1",
-    "Component Density": "512Gb",
+    "Component Density": "64GB",
     "Component Width": "x8",
     "Operation Temperature": "Standard (-25°C ~ 85°C)",
     "Production Status": "Early Engineering Samples"
@@ -371,7 +371,7 @@ assertRuleDecode("MTFC128GBCAQTC-AIT", {
   densityMbit: 1048576,
   package: "LFBGA-153, 11.5x13x1.3",
   extra: {
-    "Component Density": "512Gb",
+    "Component Density": "64GB",
     "Component Width": "x8",
     "Product Family": "Micron e.MMC 5.1 TLC Pearl",
     "Product Version": "eMMC 5.1"
@@ -568,7 +568,7 @@ assertRuleDecode("MTFDDAC128MAG-1G12AA", {
     "Sector Size": "512B",
     "Product Generation": "Gen1",
     "NAND Component": "32Gb MLC x8 3.3V (34nm)",
-    "Component Density": "32Gb",
+    "Component Density": "4GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V",
     "Special Option": "Self-encrypting drive (SED)"
@@ -588,7 +588,7 @@ assertRuleDecode("MTFDDAK120MAV-1AE12ABYYES", {
     "Sector Size": "512B",
     "Product Generation": "Gen1",
     "NAND Component": "128Gb MLC x8 3.3V (20nm)",
-    "Component Density": "128Gb",
+    "Component Density": "16GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V",
     "Special Option": "Self-encrypting drive (SED)",
@@ -948,7 +948,7 @@ assertRuleDecode("MTEDBTH008MBA-1K1", {
     "Sector Size": "512B",
     "Product Generation": "Gen1",
     "NAND Component": "32Gb NAND x8 3.3V (25nm)",
-    "Component Density": "32Gb",
+    "Component Density": "4GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V"
   },
@@ -1015,7 +1015,7 @@ assertRuleDecode("MTFDLBQ3T8THG-2BP1JFCYY", {
     "Product Family": "Micron 7600 PRO SSD",
     "Product Generation": "Gen2",
     "NAND Component": "1024Gb TLC x8 2.5V",
-    "Component Density": "1024Gb",
+    "Component Density": "128GB",
     "Component Width": "x8",
     "Component Voltage": "2.5V",
     "Sector Size": "512B",
@@ -1186,7 +1186,7 @@ assertRuleDecode("MTFDHBL064TDP-1AT12AIYY", {
     "Product Generation": "Gen1",
     "NAND Technology": "Micron 3D TLC NAND Flash",
     "NAND Component": "512Gb TLC x8 3.3V (3D)",
-    "Component Density": "512Gb",
+    "Component Density": "64GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V",
     "Special Option": "Self-encrypting drive (SED)",

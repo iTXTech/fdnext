@@ -1,6 +1,6 @@
 # PN 编码资料索引
 
-采集日期：2026-05-15；更新日期：2026-09-01
+采集日期：2026-05-15；更新日期：2026-09-06
 
 本目录收集 eMMC、UFS、eMCP/uMCP、E2NAND/E3NAND、raw NAND 与 DRAM 的 PN 编码资料。README 只保留目录、范围和跨厂商维护原则；任何厂商特定来源、PN 结构、token 表、样例和规则说明都必须放入对应厂商独立文档。
 
@@ -33,6 +33,7 @@
 
 ## 跨厂商文档
 
+- [PN 规则编写规范](authoring.md)：结构化 token、封装推导、搜索资源和完成条件
 - [DecodePack 资料覆盖审计](coverage_audit.md)
 - [DRAM 世代覆盖约定](dram_coverage.md)
 - [NAND Die Profile 标准化](nand_die_profile.md)
@@ -42,10 +43,7 @@
 
 ## 通用约定
 
-- iTXTech fdnext DecodePack 中 `density` 继续使用项目现有单位：Mbit。
+- 维护规则时按 [编写规范](authoring.md) 处理 token 和搜索资源；字段格式查 [术语](terminology.md)，新增依据查 [可信度策略](reference_policy.md)，验证范围查 [验证指南](../TESTING.md)。仅阅读本次改动涉及的章节。
 - Managed NAND 与混合封装必须按具体产品线输出 `emmc`、`ufs`、`emcp`、`umcp`、`e2nand` 或 `e3nand`，不要使用泛化 controller 兜底类型；补充信息放入 `fields`。
-- 规则实现禁止完整 PN 白名单匹配，只允许按 PN 结构切 token，再用规则库解释已知 token。
 - 文档和 canonical PN 中的 `-` / `:` 是 token separator；用户输入按原 token 顺序省略 `-` 时，解析和搜索应按同一 PN 处理。
-- 未知 token 不应阻断 vendor、type、density 等已能确定字段的解析。
-- 用户可见字段统一使用跨厂商 canonical key；厂商原始 token 只在确实参与解析时留在规则内部，可信度、来源和外部确认状态统一放入 `evidence/decodepack-references.json` 或厂商文档，禁止放入 iTXTech fdnext DecodePack。
-- 新增厂商或产品线时，先创建独立文档，再补 iTXTech fdnext DecodePack pack 和 testcase。
+- 厂商与模组扩展范围遵循根目录 [AGENTS.md](../../AGENTS.md)。获准新增产品线时，在同一改动中提供独立资料文档、规则和必要 testcase，无需为这些本地步骤逐项确认。

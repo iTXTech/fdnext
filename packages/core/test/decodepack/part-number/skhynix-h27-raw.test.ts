@@ -50,7 +50,7 @@ assertRuleDecode("H2EQ4T8LQA3R-BDH", {
   extra: {
     "Special Option": "Emulated",
     "Layer Count": 72,
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 16,
     "CE Count": 4,
     "R/B Count": 4,
@@ -70,7 +70,7 @@ assertRuleDecode("H2NQ4T8LQA3R-BDH", {
   extra: {
     "Special Option": "NVDIMM",
     "Layer Count": 72,
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 16,
     "CE Count": 4,
     "R/B Count": 4,
@@ -90,7 +90,7 @@ assertRuleDecode("H27Q4T8LQA3R-BDH", {
   package: "LFBGA-316, 14x18x1.35, B",
   extra: {
     "Layer Count": 72,
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 16,
     "CE Count": 4,
     "R/B Count": 4,
@@ -113,7 +113,7 @@ assertRuleDecode("H27Q4T8L4A3R-BDH", {
   widthField: "x8",
   extra: {
     "Product Mode": "Sequential Row Read Enable",
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 16,
     "CE Count": 2,
     "R/B Count": 2,
@@ -171,7 +171,7 @@ assertRuleDecode("H27Q4T8LQA3A-BDH", {
   extra: {
     "Wafer": "Yes",
     "Packing Type": "Wafer (Material 1)",
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 16,
     "CE Count": 4,
     "R/B Count": 4,
@@ -190,7 +190,7 @@ assertRuleDecode("H27Q4T8LQA31-BDH", {
   extra: {
     "Wafer": "Yes",
     "Packing Type": "Whole Wafer",
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 16,
     "CE Count": 4,
     "R/B Count": 4,
@@ -209,7 +209,7 @@ assertRuleDecode("H27Q4T8LQA3C-BDH", {
   extra: {
     "Wafer": "Yes",
     "Packing Type": "Partial Wafer (Packing Type 1)",
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 16,
     "CE Count": 4,
     "R/B Count": 4,
@@ -246,7 +246,7 @@ assertRuleDecode("H27Q1T8PFB", {
   widthField: "x8",
   extra: {
     "Layer Count": 48,
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 4,
     "CE Count": 4,
     "R/B Count": 4,
@@ -267,7 +267,7 @@ assertRuleDecode("H27Q1T8YEC", {
   widthField: "x8",
   extra: {
     "Layer Count": 36,
-    "Die Density": "128Gb",
+    "Die Density": "16GB",
     "Die Count": 8,
     "CE Count": 4,
     "R/B Count": 4,
@@ -288,7 +288,7 @@ assertRuleDecode("H27UCG8T2E", {
   voltage: "Vcc: 3.30V (2.70~3.60V), VccQ: 3.30V (2.70~3.60V)",
   extra: {
     "Product Mode": "Sequential Row Read Disable",
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 1,
     "CE Count": 1,
     "R/B Count": 1,

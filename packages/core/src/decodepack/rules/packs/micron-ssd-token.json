@@ -140,7 +140,7 @@
         "componentObj": {
           "AT": {
             "nand_component": "512Gb TLC x8 3.3V (3D)",
-            "component_density": "512Gb",
+            "component_density": 524288,
             "component_width": "x8",
             "component_voltage": "3.3V"
           }
@@ -477,7 +477,7 @@
         "componentObj": {
           "J": {
             "nand_component": "32Gb MLC x8 3.3V (25nm)",
-            "component_density": "32Gb",
+            "component_density": 32768,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -844,7 +844,7 @@
         "componentObj": {
           "AA": {
             "nand_component": "32Gb SLC x8 3.3V (25nm)",
-            "component_density": "32Gb",
+            "component_density": 32768,
             "cell_level": "SLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -852,7 +852,7 @@
           },
           "AB": {
             "nand_component": "64Gb MLC x8 3.3V (25nm)",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -860,7 +860,7 @@
           },
           "AC": {
             "nand_component": "64Gb MLC x8 3.3V (20nm)",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -868,7 +868,7 @@
           },
           "AD": {
             "nand_component": "64Gb MLC x8 3.3V (20nm)",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -876,7 +876,7 @@
           },
           "AE": {
             "nand_component": "128Gb MLC x8 3.3V (20nm)",
-            "component_density": "128Gb",
+            "component_density": 131072,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -884,7 +884,7 @@
           },
           "AF": {
             "nand_component": "32Gb MLC x8 3.3V (34nm)",
-            "component_density": "32Gb",
+            "component_density": 32768,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -892,7 +892,7 @@
           },
           "AG": {
             "nand_component": "32Gb MLC x8 3.3V (25nm)",
-            "component_density": "32Gb",
+            "component_density": 32768,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -900,14 +900,14 @@
           },
           "AH": {
             "nand_component": "64Gb x8 3.3V (20nm)",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "component_width": "x8",
             "component_voltage": "3.3V",
             "process_node": "20nm"
           },
           "AJ": {
             "nand_component": "64Gb SLC x8 3.3V (20nm)",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "cell_level": "SLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -915,7 +915,7 @@
           },
           "AK": {
             "nand_component": "128Gb x8 3.3V (20nm)",
-            "component_density": "128Gb",
+            "component_density": 131072,
             "component_width": "x8",
             "component_voltage": "3.3V",
             "process_node": "20nm"
@@ -1327,7 +1327,7 @@
         "componentObj": {
           "A": {
             "nand_component": "4Gb SLC x8 3.3V (72nm)",
-            "component_density": "4Gb",
+            "component_density": 4096,
             "cell_level": "SLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1335,7 +1335,7 @@
           },
           "B": {
             "nand_component": "8Gb SLC x8 3.3V (50nm)",
-            "component_density": "8Gb",
+            "component_density": 8192,
             "cell_level": "SLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1343,7 +1343,7 @@
           },
           "C": {
             "nand_component": "16Gb MLC x8 3.3V (50nm)",
-            "component_density": "16Gb",
+            "component_density": 16384,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1351,7 +1351,7 @@
           },
           "D": {
             "nand_component": "4Gb SLC x8 3.3V (50nm)",
-            "component_density": "4Gb",
+            "component_density": 4096,
             "cell_level": "SLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1359,7 +1359,7 @@
           },
           "E": {
             "nand_component": "16Gb MLC x8 3.3V (34nm)",
-            "component_density": "16Gb",
+            "component_density": 16384,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1367,7 +1367,7 @@
           },
           "F": {
             "nand_component": "32Gb MLC x8 3.3V (34nm)",
-            "component_density": "32Gb",
+            "component_density": 32768,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1375,7 +1375,7 @@
           },
           "G": {
             "nand_component": "32Gb MLC x8 3.3V (34nm)",
-            "component_density": "32Gb",
+            "component_density": 32768,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1383,7 +1383,7 @@
           },
           "H": {
             "nand_component": "8Gb SLC x8 3.3V (50nm)",
-            "component_density": "8Gb",
+            "component_density": 8192,
             "cell_level": "SLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1391,7 +1391,7 @@
           },
           "J": {
             "nand_component": "32Gb MLC x8 3.3V (25nm)",
-            "component_density": "32Gb",
+            "component_density": 32768,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1399,7 +1399,7 @@
           },
           "K": {
             "nand_component": "64Gb MLC x8 3.3V (25nm)",
-            "component_density": "64Gb",
+            "component_density": 65536,
             "cell_level": "MLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1407,7 +1407,7 @@
           },
           "L": {
             "nand_component": "4Gb SLC x8 3.3V (34nm)",
-            "component_density": "4Gb",
+            "component_density": 4096,
             "cell_level": "SLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1415,7 +1415,7 @@
           },
           "M": {
             "nand_component": "8Gb SLC x8 3.3V (34nm)",
-            "component_density": "8Gb",
+            "component_density": 8192,
             "cell_level": "SLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1423,7 +1423,7 @@
           },
           "N": {
             "nand_component": "16Gb SLC x8 3.3V (34nm)",
-            "component_density": "16Gb",
+            "component_density": 16384,
             "cell_level": "SLC",
             "component_width": "x8",
             "component_voltage": "3.3V",
@@ -1704,7 +1704,7 @@
         "componentObj": {
           "K": {
             "nand_component": "32Gb NAND x8 3.3V (25nm)",
-            "component_density": "32Gb",
+            "component_density": 32768,
             "component_width": "x8",
             "component_voltage": "3.3V",
             "process_node": "25nm"
@@ -1962,7 +1962,7 @@
         "componentObj": {
           "BC": {
             "nand_component": "512Gb TLC x8 2.5V (3D)",
-            "component_density": "512Gb",
+            "component_density": 524288,
             "cell_level": "TLC",
             "component_width": "x8",
             "component_voltage": "2.5V"
@@ -2596,7 +2596,7 @@
         "componentObj": {
           "BP": {
             "nand_component": "1024Gb TLC x8 2.5V",
-            "component_density": "1024Gb",
+            "component_density": 1048576,
             "cell_level": "TLC",
             "component_width": "x8",
             "component_voltage": "2.5V"
@@ -3849,7 +3849,7 @@
         "componentObj": {
           "BP": {
             "nand_component": "1024Gb TLC x8 2.5V (3D)",
-            "component_density": "1024Gb",
+            "component_density": 1048576,
             "cell_level": "TLC",
             "component_width": "x8",
             "component_voltage": "2.5V"

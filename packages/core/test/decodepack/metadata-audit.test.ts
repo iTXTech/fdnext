@@ -472,10 +472,10 @@ function assertIntel2dAliasDensityDigitsMatch(): void {
   const tables = intelRule.tokenDecoder.tables as Record<string, unknown>;
   const overrides = tables.processNodeOverrideByDieDensity as Record<string, string>;
   const densityDigits: Record<string, string> = {
-    "16Gb": "2",
-    "32Gb": "3",
-    "64Gb": "4",
-    "128Gb": "5"
+    16384: "2",
+    32768: "3",
+    65536: "4",
+    131072: "5"
   };
   const findings: string[] = [];
 
@@ -594,16 +594,16 @@ function assertDecodePackCompositeComponents(): void {
   assert.equal(storageComponent?.hidden, true);
   assert.equal(storageComponent?.device?.chipKind, "managed_nand");
   assert.equal(storageComponent?.device?.productType, "emmc");
-  assert.equal(storageComponent?.fields?.storage_density, "64GB eMMC");
+  assert.equal(storageComponent?.fields?.storage_density, 524288);
   assert.equal(storageComponent?.fields?.storage_interface, "eMMC 5.1");
   assert.equal(dramComponent?.hidden, true);
   assert.equal(dramComponent?.device?.chipKind, "dram");
   assert.equal(dramComponent?.device?.productType, "lpddr4x");
-  assert.equal(dramComponent?.fields?.dram_density, "32Gb");
+  assert.equal(dramComponent?.fields?.dram_density, 32768);
   assert.equal(dramComponent?.fields?.dram_type, "LPDDR4X");
-  assert.ok(info.blocks.some((block) => block.fields.some((field) => field.key === "storage_density" && field.value === "64GB eMMC")));
+  assert.ok(info.blocks.some((block) => block.fields.some((field) => field.key === "storage_density" && field.value === 524288)));
   assert.equal(info.blocks.some((block) => block.fields.some((field) => field.key === "density")), false);
-  assert.ok(info.blocks.some((block) => block.fields.some((field) => field.key === "dram_density" && field.value === "32Gb")));
+  assert.ok(info.blocks.some((block) => block.fields.some((field) => field.key === "dram_density" && field.value === 32768)));
   assert.equal(JSON.stringify(info).includes("__fdnext"), false, "legacy FD draft marker should not leak into public results");
 }
 
@@ -1342,9 +1342,9 @@ function assertDecodePackExplainTools(): void {
   const components = (partExplain.draft as { components?: Array<{ role?: string; fields?: Record<string, unknown> }> } | null)?.components ?? [];
   const storage = components.find((component) => component.role === "storage");
   const dram = components.find((component) => component.role === "dram");
-  assert.equal(storage?.fields?.storage_density, "64GB eMMC");
+  assert.equal(storage?.fields?.storage_density, 524288);
   assert.equal(storage?.fields?.storage_interface, "eMMC 5.1");
-  assert.equal(dram?.fields?.dram_density, "32Gb");
+  assert.equal(dram?.fields?.dram_density, 32768);
   assert.equal(dram?.fields?.dram_type, "LPDDR4X");
 
   const rawNand = engine.decodePart({ query: "AFND1208S1", lang: "eng" });

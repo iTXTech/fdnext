@@ -37,7 +37,7 @@ assertRuleDecode("MT29C4G96MAZAPCJA-5 IT", {
   densityMbit: 4096,
   package: "TFBGA-137, 13x10.5x1.2",
   extra: {
-    "Storage Density": "4Gb NAND",
+    "Storage Density": "512MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "4Gb",
     "DRAM Type": "Mobile LPDRAM",
@@ -55,7 +55,7 @@ assertRuleDecode("MT29C2G24MAKLAJG-6 IT", {
   densityMbit: 2048,
   package: "VFBGA-168, 12x12x0.9, PoP",
   extra: {
-    "Storage Density": "2Gb NAND",
+    "Storage Density": "256MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "1Gb",
     "DRAM Type": "Mobile LPDRAM",
@@ -73,7 +73,7 @@ assertRuleDecode("MT29C1G12MAADVAKC-5 IT", {
   densityMbit: 1024,
   package: "TFBGA-107, 13x10.5x1.1",
   extra: {
-    "Storage Density": "1Gb NAND",
+    "Storage Density": "128MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "512Mb",
     "DRAM Type": "Mobile LPDRAM",
@@ -91,7 +91,7 @@ assertRuleDecode("MT29C1G12MAADAEAKC-5 IT", {
   densityMbit: 1024,
   package: "TFBGA-107, 13x10.5x1.1",
   extra: {
-    "Storage Density": "1Gb NAND",
+    "Storage Density": "128MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "1Gb",
     "DRAM Type": "Mobile LPDRAM",
@@ -109,7 +109,7 @@ assertRuleDecode("MT29C2G48MAKLCJI-6 IT", {
   densityMbit: 2048,
   package: "TFBGA-168, 12x12x1.1, PoP",
   extra: {
-    "Storage Density": "2Gb NAND",
+    "Storage Density": "256MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "1Gb",
     "DRAM Type": "Mobile LPDRAM",
@@ -127,7 +127,7 @@ assertRuleDecode("MT29C4G48MAZBBAKS-48 IT", {
   densityMbit: 4096,
   package: "VFBGA-137, 13x10.5x1.0",
   extra: {
-    "Storage Density": "4Gb NAND",
+    "Storage Density": "512MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "2Gb",
     "DRAM Type": "Mobile LPDRAM",
@@ -145,7 +145,7 @@ assertRuleDecode("MT29C4G48MAZBBAKB-48 IT", {
   densityMbit: 4096,
   package: "WFBGA-168, 12x12x0.8",
   extra: {
-    "Storage Density": "4Gb NAND",
+    "Storage Density": "512MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "2Gb",
     "DRAM Type": "Mobile LPDRAM",
@@ -161,7 +161,7 @@ assertRuleDecode("MT29C4G48MAYBBAHK-48 IT", {
   densityMbit: 4096,
   package: "VFBGA-137, 13x10.5",
   extra: {
-    "Storage Density": "4Gb NAND",
+    "Storage Density": "512MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "2Gb",
     "DRAM Type": "Mobile LPDRAM",
@@ -179,7 +179,7 @@ assertRuleDecode("MT29C8G48MAPLDJA-75ITES", {
   densityMbit: 8192,
   package: "TFBGA-137, 13x10.5x1.2",
   extra: {
-    "Storage Density": "8Gb NAND",
+    "Storage Density": "1GB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "2Gb",
     "DRAM Type": "Mobile LPDRAM",
@@ -199,7 +199,7 @@ assertRuleDecode("MT29C8G96MAAAEBACKD-5 WT", {
   densityMbit: 8192,
   package: "TFBGA-137, 13x10.5x1.1",
   extra: {
-    "Storage Density": "8Gb NAND",
+    "Storage Density": "1GB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "4Gb",
     "DRAM Type": "Mobile LPDRAM",

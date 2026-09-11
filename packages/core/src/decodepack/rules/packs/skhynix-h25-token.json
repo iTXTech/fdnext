@@ -76,27 +76,27 @@
           }
         },
         "processNode": {
-          "T:M:512Gb": "HYV5",
-          "T:B:512Gb": "HYV6",
-          "T:C:512Gb": "HYV7",
-          "T:D:512Gb": "HYV8",
-          "T:A:1Tb": "HYV5",
-          "T:M:1Tb": "HYV6",
-          "T:C:1Tb": "HYV8",
-          "T:D:1Tb": "HYV9",
-          "T:G:1Tb": "HYV9H",
-          "Q:M:1Tb": "HYV5Q",
-          "Q:A:1Tb": "HYV7Q",
-          "Q:M:2Tb": "HYV9Q"
+          "T:M:524288": "HYV5",
+          "T:B:524288": "HYV6",
+          "T:C:524288": "HYV7",
+          "T:D:524288": "HYV8",
+          "T:A:1048576": "HYV5",
+          "T:M:1048576": "HYV6",
+          "T:C:1048576": "HYV8",
+          "T:D:1048576": "HYV9",
+          "T:G:1048576": "HYV9H",
+          "Q:M:1048576": "HYV5Q",
+          "Q:A:1048576": "HYV7Q",
+          "Q:M:2097152": "HYV9Q"
         },
         "processAlias": {
-          "T:M:512Gb": "H25FT4MMI",
-          "T:B:512Gb": "H25FTB0",
-          "T:C:512Gb": "H25FTC0",
-          "T:D:512Gb": "H25FTD0",
-          "T:M:1Tb": "H25GTM0",
-          "Q:M:1Tb": "H25GQM0",
-          "Q:A:1Tb": "H25GQA0"
+          "T:M:524288": "H25FT4MMI",
+          "T:B:524288": "H25FTB0",
+          "T:C:524288": "H25FTC0",
+          "T:D:524288": "H25FTD0",
+          "T:M:1048576": "H25GTM0",
+          "Q:M:1048576": "H25GQM0",
+          "Q:A:1048576": "H25GQA0"
         },
         "voltage": {
           "E": "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
@@ -326,7 +326,7 @@
           "density": "density",
           "dieCount": "dieCount",
           "to": "dieDensity",
-          "default": ""
+          "default": 0
         },
         {
           "op": "tpl",
@@ -460,11 +460,6 @@
           "F": 524288,
           "G": 1048576
         },
-        "dieDensityLabel": {
-          "E": "256Gb",
-          "F": "512Gb",
-          "G": "1Tb"
-        },
         "deviceWidth": {
           "4": 8,
           "8": 8,
@@ -545,10 +540,10 @@
           "Q:G:M": "HYV5Q"
         },
         "package": {
-          "8": "VBGA-152, 14x18x1.00",
-          "9": "LBGA-152, 14x18x1.35",
           "2": "VFBGA-316, 14x18x1.00",
           "3": "LFBGA-316, 14x18x1.35",
+          "8": "VBGA-152, 14x18x1.00",
+          "9": "LBGA-152, 14x18x1.35",
           "D": "Wafer, PGD-2"
         },
         "packageMaterialObj": {
@@ -620,13 +615,6 @@
           "table": "dieDensityMbit",
           "to": "dieDensityMbit",
           "default": 0
-        },
-        {
-          "op": "map",
-          "from": "dieDensityCode",
-          "table": "dieDensityLabel",
-          "to": "dieDensity",
-          "default": ""
         },
         {
           "op": "take",
@@ -837,7 +825,7 @@
           "$path": "processObj.layer_count"
         },
         "fields.die_density": {
-          "$var": "dieDensity"
+          "$var": "dieDensityMbit"
         },
         "fields.package": {
           "$var": "package"

@@ -92,7 +92,7 @@ export interface DecodeStepDieDensity {
   density: string;
   dieCount: string;
   to: string;
-  default?: DecodeJson;
+  default?: number;
 }
 
 export interface DecodeStepSet {

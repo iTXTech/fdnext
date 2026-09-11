@@ -95,6 +95,12 @@
             "label": "DRAM Speed",
             "value": "4266MHz (LPDDR5X-8533)",
             "importance": "secondary"
+          },
+          {
+            "key": "die_revision",
+            "label": "Die Revision",
+            "value": "Rev B",
+            "importance": "detail"
           }
         ]
       },
@@ -126,12 +132,6 @@
             "key": "operation_temperature",
             "label": "Operation Temperature",
             "value": "Wireless (-25°C ~ 85°C)",
-            "importance": "detail"
-          },
-          {
-            "key": "die_revision",
-            "label": "Die Revision",
-            "value": "Rev B",
             "importance": "detail"
           }
         ]
@@ -177,6 +177,12 @@
           "label": "DRAM Speed",
           "value": "4266MHz (LPDDR5X-8533)",
           "importance": "secondary"
+        },
+        {
+          "key": "die_revision",
+          "label": "Die Revision",
+          "value": "Rev B",
+          "importance": "detail"
         }
       ]
     },
@@ -208,12 +214,6 @@
           "key": "operation_temperature",
           "label": "Operation Temperature",
           "value": "Wireless (-25°C ~ 85°C)",
-          "importance": "detail"
-        },
-        {
-          "key": "die_revision",
-          "label": "Die Revision",
-          "value": "Rev B",
           "importance": "detail"
         }
       ]

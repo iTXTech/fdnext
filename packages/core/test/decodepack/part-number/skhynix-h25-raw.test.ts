@@ -32,27 +32,27 @@ import {
 } from "./_helpers";
 
 const skhynixH25RawSamples = [
-  ["H25QEM8A1B", 262144, "HYV4M", "MLC", 76, "256Gb", 1, 1, 1],
-  ["H25QFT8A1A", 524288, "HYV4", "TLC", 72, "512Gb", 1, 1, 1],
-  ["H25QFT8B3A", 1048576, "HYV4", "TLC", 72, "512Gb", 2, 2, 2],
-  ["H25QFT8D4A", 2097152, "HYV4", "TLC", 72, "512Gb", 4, 4, 2],
-  ["H25QFT8F4A", 4194304, "HYV4", "TLC", 72, "512Gb", 8, 4, 2],
-  ["H25QFT8F6A", 4194304, "HYV4", "TLC", 72, "512Gb", 8, 8, 2],
-  ["H25QFT8G4A", 8388608, "HYV4", "TLC", 72, "512Gb", 16, 4, 2],
-  ["H25QFTMA1A", 524288, "HYV4", "TLC", 72, "512Gb", 1, 1, 1],
-  ["H25QFTMB3A", 1048576, "HYV4", "TLC", 72, "512Gb", 2, 2, 2],
-  ["H25QFTMD4A", 2097152, "HYV4", "TLC", 72, "512Gb", 4, 4, 2],
-  ["H25QFTMF4A", 4194304, "HYV4", "TLC", 72, "512Gb", 8, 4, 2],
-  ["H25QFTMF6A", 4194304, "HYV4", "TLC", 72, "512Gb", 8, 8, 2],
-  ["H25QFTMG4A", 8388608, "HYV4", "TLC", 72, "512Gb", 16, 4, 2],
-  ["H25BFT8A1M", 524288, "HYV5", "TLC", 96, "512Gb", 1, 1, 1],
-  ["H25BFT8B3M", 1048576, "HYV5", "TLC", 96, "512Gb", 2, 2, 2],
-  ["H25BFT8D4M", 2097152, "HYV5", "TLC", 96, "512Gb", 4, 4, 2],
-  ["H25BFT8F4M", 4194304, "HYV5", "TLC", 96, "512Gb", 8, 4, 2],
-  ["H25BFT8F6M", 4194304, "HYV5", "TLC", 96, "512Gb", 8, 8, 2],
-  ["H25JGT8A1M", 1048576, "HYV6", "TLC", 128, "1Tb", 1, 1, 1],
-  ["H25JGT8B3M", 2097152, "HYV6", "TLC", 128, "1Tb", 2, 2, 2],
-  ["H25JGQ8A1M8R", 1048576, "HYV5Q", "QLC", 96, "1Tb", 1, 1, 1]
+  ["H25QEM8A1B", 262144, "HYV4M", "MLC", 76, "32GB", 1, 1, 1],
+  ["H25QFT8A1A", 524288, "HYV4", "TLC", 72, "64GB", 1, 1, 1],
+  ["H25QFT8B3A", 1048576, "HYV4", "TLC", 72, "64GB", 2, 2, 2],
+  ["H25QFT8D4A", 2097152, "HYV4", "TLC", 72, "64GB", 4, 4, 2],
+  ["H25QFT8F4A", 4194304, "HYV4", "TLC", 72, "64GB", 8, 4, 2],
+  ["H25QFT8F6A", 4194304, "HYV4", "TLC", 72, "64GB", 8, 8, 2],
+  ["H25QFT8G4A", 8388608, "HYV4", "TLC", 72, "64GB", 16, 4, 2],
+  ["H25QFTMA1A", 524288, "HYV4", "TLC", 72, "64GB", 1, 1, 1],
+  ["H25QFTMB3A", 1048576, "HYV4", "TLC", 72, "64GB", 2, 2, 2],
+  ["H25QFTMD4A", 2097152, "HYV4", "TLC", 72, "64GB", 4, 4, 2],
+  ["H25QFTMF4A", 4194304, "HYV4", "TLC", 72, "64GB", 8, 4, 2],
+  ["H25QFTMF6A", 4194304, "HYV4", "TLC", 72, "64GB", 8, 8, 2],
+  ["H25QFTMG4A", 8388608, "HYV4", "TLC", 72, "64GB", 16, 4, 2],
+  ["H25BFT8A1M", 524288, "HYV5", "TLC", 96, "64GB", 1, 1, 1],
+  ["H25BFT8B3M", 1048576, "HYV5", "TLC", 96, "64GB", 2, 2, 2],
+  ["H25BFT8D4M", 2097152, "HYV5", "TLC", 96, "64GB", 4, 4, 2],
+  ["H25BFT8F4M", 4194304, "HYV5", "TLC", 96, "64GB", 8, 4, 2],
+  ["H25BFT8F6M", 4194304, "HYV5", "TLC", 96, "64GB", 8, 8, 2],
+  ["H25JGT8A1M", 1048576, "HYV6", "TLC", 128, "128GB", 1, 1, 1],
+  ["H25JGT8B3M", 2097152, "HYV6", "TLC", 128, "128GB", 2, 2, 2],
+  ["H25JGQ8A1M8R", 1048576, "HYV5Q", "QLC", 96, "128GB", 1, 1, 1]
 ] as const;
 
 for (const [partNumber, densityMbit, dieProfileField, cellField, layerCount, dieDensity, dieCount, ceCount, channelCount] of skhynixH25RawSamples) {
@@ -89,7 +89,7 @@ assertRuleDecode("H25BFT8A1B", {
   voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
   extra: {
     "Layer Count": 128,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 1,
     "CE Count": 1,
     "R/B Count": 1,
@@ -108,7 +108,7 @@ assertRuleDecode("H25JGT8A1A", {
   voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
   extra: {
     "Layer Count": 96,
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 1,
     "CE Count": 1,
     "R/B Count": 1,
@@ -127,7 +127,7 @@ assertRuleDecode("H25JGT8F4M9R-BDJ", {
   voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
   extra: {
     "Layer Count": 128,
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 8,
     "CE Count": 4,
     "R/B Count": 4,
@@ -152,7 +152,7 @@ assertRuleDecode("H25JGT8FAM", {
   voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
   extra: {
     "Layer Count": 128,
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 8,
     "CE Count": 4,
     "R/B Count": 4,
@@ -171,7 +171,7 @@ const skhynixH25LooseRawSamples = [
       widthField: "x8",
       voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
       extra: {
-        "Die Density": "512Gb",
+        "Die Density": "64GB",
         "Die Count": 4,
         "CE Count": 1,
         "R/B Count": 1,
@@ -186,7 +186,7 @@ const skhynixH25LooseRawSamples = [
       widthField: "x8",
       voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
       extra: {
-        "Die Density": "512Gb"
+        "Die Density": "64GB"
       }
     }
   ],
@@ -200,7 +200,7 @@ const skhynixH25LooseRawSamples = [
       voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
       extra: {
         "Layer Count": 128,
-        "Die Density": "512Gb",
+        "Die Density": "64GB",
         "Die Count": 1
       }
     }
@@ -211,7 +211,7 @@ const skhynixH25LooseRawSamples = [
       cellField: "TLC",
       voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.80V (1.70-1.95V) or 1.20V (1.14-1.26V)",
       extra: {
-        "Die Density": "512Gb"
+        "Die Density": "64GB"
       }
     }
   ],
@@ -229,7 +229,7 @@ const skhynixH25LooseRawSamples = [
       widthField: "x8",
       voltage: "Vcc: 3.30V (2.70-3.60V) or 2.50V (2.35-2.75V), VccQ: 1.20V (1.14-1.26V)",
       extra: {
-        "Die Density": "1Tb",
+        "Die Density": "128GB",
         "Die Count": 4,
         "CE Count": 1,
         "R/B Count": 1,

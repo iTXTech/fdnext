@@ -33,46 +33,46 @@
         },
         "dramDensityObj": {
           "1": {
-            "dram_density": "1Gb"
+            "dram_density": 1024
           },
           "2": {
-            "dram_density": "2Gb"
+            "dram_density": 2048
           },
           "3": {
-            "dram_density": "3Gb"
+            "dram_density": 3072
           },
           "4": {
-            "dram_density": "4Gb"
+            "dram_density": 4096
           },
           "5": {
-            "dram_density": "16Gb"
+            "dram_density": 16384
           },
           "6": {
-            "dram_density": "6Gb"
+            "dram_density": 6144
           },
           "7": {
-            "dram_density": "24Gb"
+            "dram_density": 24576
           },
           "8": {
-            "dram_density": "8Gb"
+            "dram_density": 8192
           },
           "9": {
-            "dram_density": "9Gb"
+            "dram_density": 9216
           },
           "A": {
-            "dram_density": "32Gb"
+            "dram_density": 32768
           },
           "B": {
-            "dram_density": "48Gb"
+            "dram_density": 49152
           },
           "C": {
-            "dram_density": "64Gb"
+            "dram_density": 65536
           },
           "D": {
-            "dram_density": "96Gb"
+            "dram_density": 98304
           },
           "E": {
-            "dram_density": "128Gb"
+            "dram_density": 131072
           }
         },
         "dramWidth": {
@@ -102,49 +102,49 @@
         },
         "storageDensityObj": {
           "1": {
-            "storage_density": "1GB UFS"
+            "storage_density": 8192
           },
           "2": {
-            "storage_density": "2GB UFS"
+            "storage_density": 16384
           },
           "4": {
-            "storage_density": "4GB UFS"
+            "storage_density": 32768
           },
           "5": {
-            "storage_density": "8GB UFS"
+            "storage_density": 65536
           },
           "6": {
-            "storage_density": "16GB UFS"
+            "storage_density": 131072
           },
           "7": {
-            "storage_density": "32GB UFS"
+            "storage_density": 262144
           },
           "8": {
-            "storage_density": "64GB UFS"
+            "storage_density": 524288
           },
           "9": {
-            "storage_density": "128GB UFS"
+            "storage_density": 1048576
           },
           "V": {
-            "storage_density": "512MB UFS"
+            "storage_density": 4096
           },
           "W": {
-            "storage_density": "256MB UFS"
+            "storage_density": 2048
           },
           "X": {
-            "storage_density": "128MB UFS"
+            "storage_density": 1024
           },
           "Y": {
-            "storage_density": "64MB UFS"
+            "storage_density": 512
           },
           "A": {
-            "storage_density": "256GB UFS"
+            "storage_density": 2097152
           },
           "B": {
-            "storage_density": "512GB UFS"
+            "storage_density": 4194304
           },
           "C": {
-            "storage_density": "1TB UFS"
+            "storage_density": 8388608
           }
         },
         "controllerObj": {
@@ -654,48 +654,48 @@
         },
         "storageDensityObj": {
           "1": {
-            "storage_density": "512Mb NAND"
+            "storage_density": 512
           },
           "2": {
-            "storage_density": "1Gb NAND"
+            "storage_density": 1024
           },
           "3": {
-            "storage_density": "2Gb NAND"
+            "storage_density": 2048
           },
           "4": {
-            "storage_density": "3Gb NAND"
+            "storage_density": 3072
           },
           "5": {
-            "storage_density": "4Gb NAND"
+            "storage_density": 4096
           },
           "6": {
-            "storage_density": "8Gb NAND"
+            "storage_density": 8192
           },
           "9": {
-            "storage_density": "16Gb NAND"
+            "storage_density": 16384
           }
         },
         "dramDensityObj": {
           "1": {
-            "dram_density": "512Mb"
+            "dram_density": 512
           },
           "2": {
-            "dram_density": "1Gb"
+            "dram_density": 1024
           },
           "3": {
-            "dram_density": "2Gb"
+            "dram_density": 2048
           },
           "4": {
-            "dram_density": "3Gb"
+            "dram_density": 3072
           },
           "5": {
-            "dram_density": "4Gb"
+            "dram_density": 4096
           },
           "6": {
-            "dram_density": "8Gb"
+            "dram_density": 8192
           },
           "9": {
-            "dram_density": "16Gb"
+            "dram_density": 16384
           }
         },
         "nandWidth": {
@@ -1269,108 +1269,108 @@
         },
         "nandDensityObj": {
           "1": {
-            "storage_density": "1Gb NAND"
+            "storage_density": 1024
           },
           "2": {
-            "storage_density": "2Gb NAND"
+            "storage_density": 2048
           },
           "3": {
-            "storage_density": "3Gb NAND"
+            "storage_density": 3072
           },
           "4": {
-            "storage_density": "4Gb NAND"
+            "storage_density": 4096
           },
           "6": {
-            "storage_density": "6Gb NAND"
+            "storage_density": 6144
           },
           "7": {
-            "storage_density": "24Gb NAND"
+            "storage_density": 24576
           },
           "8": {
-            "storage_density": "8Gb NAND"
+            "storage_density": 8192
           },
           "9": {
-            "storage_density": "12Gb NAND"
+            "storage_density": 12288
           },
           "T": {
-            "storage_density": "768Mb NAND"
+            "storage_density": 768
           },
           "U": {
-            "storage_density": "640Mb NAND"
+            "storage_density": 640
           },
           "V": {
-            "storage_density": "512Mb NAND"
+            "storage_density": 512
           },
           "W": {
-            "storage_density": "256Mb NAND"
+            "storage_density": 256
           },
           "X": {
-            "storage_density": "128Mb NAND"
+            "storage_density": 128
           },
           "Y": {
-            "storage_density": "64Mb NAND"
+            "storage_density": 64
           },
           "A": {
-            "storage_density": "16Gb NAND"
+            "storage_density": 16384
           },
           "B": {
-            "storage_density": "48Gb NAND"
+            "storage_density": 49152
           },
           "C": {
-            "storage_density": "64Gb NAND"
+            "storage_density": 65536
           }
         },
         "dramDensityObj": {
           "1": {
-            "dram_density": "1Gb"
+            "dram_density": 1024
           },
           "2": {
-            "dram_density": "2Gb"
+            "dram_density": 2048
           },
           "3": {
-            "dram_density": "3Gb"
+            "dram_density": 3072
           },
           "4": {
-            "dram_density": "4Gb"
+            "dram_density": 4096
           },
           "6": {
-            "dram_density": "6Gb"
+            "dram_density": 6144
           },
           "7": {
-            "dram_density": "24Gb"
+            "dram_density": 24576
           },
           "8": {
-            "dram_density": "8Gb"
+            "dram_density": 8192
           },
           "9": {
-            "dram_density": "12Gb"
+            "dram_density": 12288
           },
           "T": {
-            "dram_density": "768Mb"
+            "dram_density": 768
           },
           "U": {
-            "dram_density": "640Mb"
+            "dram_density": 640
           },
           "V": {
-            "dram_density": "512Mb"
+            "dram_density": 512
           },
           "W": {
-            "dram_density": "256Mb"
+            "dram_density": 256
           },
           "X": {
-            "dram_density": "128Mb"
+            "dram_density": 128
           },
           "Y": {
-            "dram_density": "64Mb"
+            "dram_density": 64
           },
           "A": {
-            "dram_density": "16Gb"
+            "dram_density": 16384
           },
           "B": {
-            "dram_density": "48Gb"
+            "dram_density": 49152
           },
           "C": {
-            "dram_density": "64Gb"
+            "dram_density": 65536
           }
         },
         "nandWidth": {
@@ -1406,43 +1406,43 @@
         },
         "emmcDensityObj": {
           "1": {
-            "storage_density": "1GB eMMC"
+            "storage_density": 8192
           },
           "2": {
-            "storage_density": "2GB eMMC"
+            "storage_density": 16384
           },
           "4": {
-            "storage_density": "4GB eMMC"
+            "storage_density": 32768
           },
           "5": {
-            "storage_density": "8GB eMMC"
+            "storage_density": 65536
           },
           "6": {
-            "storage_density": "16GB eMMC"
+            "storage_density": 131072
           },
           "7": {
-            "storage_density": "32GB eMMC"
+            "storage_density": 262144
           },
           "8": {
-            "storage_density": "64GB eMMC"
+            "storage_density": 524288
           },
           "9": {
-            "storage_density": "128GB eMMC"
+            "storage_density": 1048576
           },
           "V": {
-            "storage_density": "512MB eMMC"
+            "storage_density": 4096
           },
           "W": {
-            "storage_density": "256MB eMMC"
+            "storage_density": 2048
           },
           "X": {
-            "storage_density": "128MB eMMC"
+            "storage_density": 1024
           },
           "A": {
-            "storage_density": "256GB eMMC"
+            "storage_density": 2097152
           },
           "B": {
-            "storage_density": "512GB eMMC"
+            "storage_density": 4194304
           }
         },
         "controllerObj": {
@@ -2405,37 +2405,37 @@
         },
         "storageDensityObj": {
           "DM": {
-            "storage_density": "128Mb NAND"
+            "storage_density": 128
           },
           "EM": {
-            "storage_density": "256Mb NAND"
+            "storage_density": 256
           },
           "FM": {
-            "storage_density": "512Mb NAND"
+            "storage_density": 512
           },
           "1G": {
-            "storage_density": "1Gb NAND"
+            "storage_density": 1024
           },
           "2G": {
-            "storage_density": "2Gb NAND"
+            "storage_density": 2048
           },
           "4G": {
-            "storage_density": "4Gb NAND"
+            "storage_density": 4096
           },
           "8G": {
-            "storage_density": "8Gb NAND"
+            "storage_density": 8192
           },
           "AG": {
-            "storage_density": "16Gb NAND"
+            "storage_density": 16384
           },
           "BG": {
-            "storage_density": "32Gb NAND"
+            "storage_density": 32768
           },
           "CG": {
-            "storage_density": "64Gb NAND"
+            "storage_density": 65536
           },
           "DG": {
-            "storage_density": "128Gb NAND"
+            "storage_density": 131072
           }
         },
         "dramDensityCode": [
@@ -2451,128 +2451,128 @@
         ],
         "dramDensityObj": {
           "56M": {
-            "dram_density": "256Mb"
+            "dram_density": 256
           },
           "12M": {
-            "dram_density": "512Mb"
+            "dram_density": 512
           },
           "40M": {
-            "dram_density": "640Mb"
+            "dram_density": 640
           },
           "24M": {
-            "dram_density": "1Gb"
+            "dram_density": 1024
           },
           "52M": {
-            "dram_density": "1152Mb"
+            "dram_density": 1152
           },
           "48M": {
-            "dram_density": "2Gb"
+            "dram_density": 2048
           },
           "72M": {
-            "dram_density": "3Gb"
+            "dram_density": 3072
           },
           "96M": {
-            "dram_density": "4Gb"
+            "dram_density": 4096
           },
           "92M": {
-            "dram_density": "8Gb"
+            "dram_density": 8192
           }
         },
         "dramOverrideObj": {
           "1G:12M:AACAE": {
-            "dram_density": "512Mb",
+            "dram_density": 512,
             "dram_width": "x32"
           },
           "1G:12M:AACAF": {
-            "dram_density": "512Mb",
+            "dram_density": 512,
             "dram_width": "x32"
           },
           "1G:12M:AADV": {
-            "dram_density": "512Mb",
+            "dram_density": 512,
             "dram_width": "x16"
           },
           "1G:12M:AADVA": {
-            "dram_density": "512Mb",
+            "dram_density": 512,
             "dram_width": "x16"
           },
           "1G:12M:AAJAF": {
-            "dram_density": "512Mb",
+            "dram_density": 512,
             "dram_width": "x32"
           },
           "1G:12M:AAJAFA": {
-            "dram_density": "512Mb",
+            "dram_density": 512,
             "dram_width": "x32"
           },
           "1G:12M:AAJV": {
-            "dram_density": "512Mb",
+            "dram_density": 512,
             "dram_width": "x32"
           },
           "1G:12M:AADAE": {
-            "dram_density": "1Gb",
+            "dram_density": 1024,
             "dram_width": "x16"
           },
           "1G:12M:AADAEA": {
-            "dram_density": "1Gb",
+            "dram_density": 1024,
             "dram_width": "x16"
           },
           "1G:12M:AADAF": {
-            "dram_density": "1Gb",
+            "dram_density": 1024,
             "dram_width": "x32"
           },
           "2G:24M:AKLA": {
-            "dram_density": "1Gb",
+            "dram_density": 1024,
             "dram_width": "x32"
           },
           "2G:48M:AKLC": {
-            "dram_density": "1Gb",
+            "dram_density": 1024,
             "dram_width": "x32"
           },
           "4G:48M:AZAM": {
-            "dram_density": "2Gb",
+            "dram_density": 2048,
             "dram_width": "x16"
           },
           "4G:48M:AZAMA": {
-            "dram_density": "2Gb",
+            "dram_density": 2048,
             "dram_width": "x16"
           },
           "4G:48M:AZAP": {
-            "dram_density": "2Gb",
+            "dram_density": 2048,
             "dram_width": "x16"
           },
           "4G:48M:AZAPA": {
-            "dram_density": "2Gb",
+            "dram_density": 2048,
             "dram_width": "x16"
           },
           "4G:48M:AZBB": {
-            "dram_density": "2Gb",
+            "dram_density": 2048,
             "dram_width": "x16"
           },
           "4G:48M:AZBBA": {
-            "dram_density": "2Gb",
+            "dram_density": 2048,
             "dram_width": "x16"
           },
           "4G:48M:AYBB": {
-            "dram_density": "2Gb",
+            "dram_density": 2048,
             "dram_width": "x32"
           },
           "4G:48M:AYBBA": {
-            "dram_density": "2Gb",
+            "dram_density": 2048,
             "dram_width": "x32"
           },
           "4G:96M:AZAP": {
-            "dram_density": "4Gb",
+            "dram_density": 4096,
             "dram_width": "x32"
           },
           "4G:96M:AZAPC": {
-            "dram_density": "4Gb",
+            "dram_density": 4096,
             "dram_width": "x32"
           },
           "8G:48M:APLD": {
-            "dram_density": "2Gb",
+            "dram_density": 2048,
             "dram_width": "x32"
           },
           "8G:48M:AZAPB": {
-            "dram_density": "2Gb",
+            "dram_density": 2048,
             "dram_width": "x32"
           }
         },
@@ -2933,25 +2933,25 @@
         },
         "storageDensityObj": {
           "1C": {
-            "storage_density": "1Gb NAND"
+            "storage_density": 1024
           },
           "4C": {
-            "storage_density": "4Gb NAND"
+            "storage_density": 4096
           }
         },
         "dramDensityObj": {
           "4D": {
-            "dram_density": "4Gb",
+            "dram_density": 4096,
             "dram_type": "LPDDR2",
             "dram_width": "x32"
           },
           "8D": {
-            "dram_density": "4Gb",
+            "dram_density": 4096,
             "dram_type": "LPDDR2",
             "dram_width": "x32"
           },
           "VC": {
-            "dram_density": "512Mb",
+            "dram_density": 512,
             "dram_type": "LPDDR2",
             "dram_width": "x16"
           }

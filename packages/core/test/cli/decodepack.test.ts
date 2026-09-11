@@ -25,4 +25,4 @@ const explain = runCli(["decodepack", "explain", "part", "BWCA2KZC-64G"]) as {
 assert.equal(explain.status, "matched");
 assert.ok(explain.specId);
 assert.ok((explain.steps ?? []).length > 0);
-assert.ok(explain.draft?.components?.some((component) => component.fields?.storage_density === "64GB eMMC"));
+assert.ok(explain.draft?.components?.some((component) => component.fields?.storage_density === 524288));

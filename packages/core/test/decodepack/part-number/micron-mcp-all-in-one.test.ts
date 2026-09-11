@@ -42,7 +42,7 @@ assertRuleDecode("MT29RZ4C4DZZMGMF-18W.80C", {
   extra: {
     "Product Family": "Micron All-in-One",
     "Product Mode": "LPDDR2-S4 + SLC NAND",
-    "Storage Density": "4Gb NAND",
+    "Storage Density": "512MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "4Gb",
     "DRAM Type": "LPDDR2-S4",
@@ -65,7 +65,7 @@ assertRuleDecode("MT29RZ1CVCZZHGTN-18 W.85H", {
   extra: {
     "Product Family": "Micron All-in-One",
     "Product Mode": "LPDDR2-S4 + SLC NAND",
-    "Storage Density": "1Gb NAND",
+    "Storage Density": "128MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "512Mb",
     "DRAM Type": "LPDDR2-S4",
@@ -102,7 +102,7 @@ assertRuleDecode("MT29AZ5A3CHHWD-18AIT.84F", {
   package: "BGA-162, 8.0x10.5x0.9",
   extra: {
     "Product Mode": "SLC NAND + LPDDR2",
-    "Storage Density": "4Gb NAND",
+    "Storage Density": "512MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "2Gb",
     "DRAM Type": "LPDDR2",
@@ -124,7 +124,7 @@ assertRuleDecode("MT29GZ9A9BPMET-046AUT.265", {
   package: "VFBGA-149, 8.0x9.5x1.0",
   extra: {
     "Product Mode": "SLC NAND + LPDDR4",
-    "Storage Density": "16Gb NAND",
+    "Storage Density": "2GB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "16Gb",
     "DRAM Type": "LPDDR4",
@@ -146,7 +146,7 @@ assertRuleDecode("MT29GZ6A9BPGET-046AIT.293", {
   package: "VFBGA-149, 8.0x9.5x1.0",
   extra: {
     "Product Mode": "SLC NAND + LPDDR4",
-    "Storage Density": "8Gb NAND",
+    "Storage Density": "1GB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "16Gb",
     "DRAM Type": "LPDDR4",
@@ -170,8 +170,8 @@ for (const partNumber of [
   const result = engine.decodePart({ query: partNumber, lang: "eng" });
   assert.equal(result.device.vendor?.id, "micron", `${partNumber} should decode as Micron`);
   assert.equal(result.device.productType, "emcp", `${partNumber} should decode as eMCP`);
-  assert.equal(firstField(result, "storage_density")?.value, partNumber.includes("GZ9A") ? "16Gb NAND" : "8Gb NAND");
-  assert.equal(firstField(result, "dram_density")?.value, "16Gb");
+  assert.equal(firstField(result, "storage_density")?.value, partNumber.includes("GZ9A") ? 16384 : 8192);
+  assert.equal(firstField(result, "dram_density")?.value, 16384);
   assert.equal(firstField(result, "package")?.value, "VFBGA-149, 8.0x9.5x1.0");
   assert.equal(firstField(result, "dram_speed")?.value, "LPDDR4-4266");
   assert.equal(
@@ -193,7 +193,7 @@ assertRuleDecode("MT29JZZZ2DWMAFJV-6IES.63m", {
   extra: {
     "Product Family": "Micron All-in-One",
     "Product Mode": "LPDDR + SLC eMMC",
-    "Storage Density": "256MB eMMC",
+    "Storage Density": "256MB",
     "Storage Interface": "eMMC",
     "Product Version": "eMMC 4.2/4.3",
     "DRAM Density": "2Gb",

@@ -38,7 +38,9 @@
       {
         "key": "component_density",
         "label": "Component Density",
-        "value": "64Gb",
+        "value": 65536,
+        "unit": "Mbit",
+        "display": "8GB",
         "importance": "secondary"
       }
     ],
@@ -78,7 +80,9 @@
           {
             "key": "component_density",
             "label": "Component Density",
-            "value": "64Gb",
+            "value": 65536,
+            "unit": "Mbit",
+            "display": "8GB",
             "importance": "secondary"
           },
           {
@@ -161,7 +165,9 @@
         {
           "key": "component_density",
           "label": "Component Density",
-          "value": "64Gb",
+          "value": 65536,
+          "unit": "Mbit",
+          "display": "8GB",
           "importance": "secondary"
         },
         {

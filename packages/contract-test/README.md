@@ -27,12 +27,18 @@ pnpm contract:check
 ```
 
 DRAM part-search de-duplication is intentionally outside the default contract
-suite. Run it when adding or changing DRAM PN resources, FBGA markings, or
-search suggestion behavior:
+suite. Run it when changes to DRAM PN resources, FBGA markings, or search
+suggestion behavior affect the contract SDK's part-search output:
 
 ```bash
 pnpm -C packages/contract-test test:part-search:dram
 ```
+
+Choose the required scope with the [validation guide](../../docs/TESTING.md).
+After the required packages have been built from the current source and configuration,
+`test:prepared` or `check:prepared` can reuse those artifacts; rerun preparation
+if the inputs have changed. A single rule-pack change normally uses targeted core
+tests rather than this package's full suite.
 
 ### Source API
 

@@ -40,7 +40,7 @@ assertRuleDecode("H26M78208CMRX", {
     "Managed Family": "e-NAND",
     "Storage Interface": "eMMC 5.1",
     "Product Generation": "1xnm NAND",
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 8,
     "Product Class": "Automotive Grade 2/3"
   }
@@ -55,7 +55,7 @@ assertRuleDecode("H26M78208CMRN", {
     "Managed Family": "e-NAND",
     "Storage Interface": "eMMC 5.1",
     "Product Generation": "1xnm NAND",
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 8,
     "Product Class": "Commercial CT"
   }
@@ -92,7 +92,7 @@ assertRuleDecode("H26M31001HPR", {
     "Managed Family": "e-NAND",
     "Storage Interface": "eMMC 4.5",
     "Product Generation": "1xnm NAND",
-    "Die Density": "32Gb",
+    "Die Density": "4GB",
     "Die Count": 1
   }
 });
@@ -106,7 +106,7 @@ assertRuleDecode("H26M88002AMR", {
     "Managed Family": "e-NAND",
     "Storage Interface": "eMMC 5.1",
     "Product Generation": "3D-V2 NAND",
-    "Die Density": "128Gb",
+    "Die Density": "16GB",
     "Die Count": 8
   }
 });
@@ -429,7 +429,7 @@ assertRuleDecode("H28U64222MMR", {
     "Storage Interface": "UFS 2.0",
     "Product Generation": "1xnm NAND",
     "Interface Type": "1-lane / 2-lane",
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 4
   },
   absentExtra: ["System", "Group", "Package Code", "Component Code"]
@@ -444,7 +444,7 @@ assertRuleDecode("H28U86222MCR", {
     "Storage Interface": "UFS 2.0",
     "Product Generation": "1xnm NAND",
     "Interface Type": "1-lane / 2-lane",
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 16
   },
   absentExtra: ["System", "Group", "Package Code", "Component Code"]

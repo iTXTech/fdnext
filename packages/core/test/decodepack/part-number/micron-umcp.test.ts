@@ -42,7 +42,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZCDA4TKXL-023 W.273",
     densityMbit: 2097152,
-    storageDensity: "256GB UFS",
+    storageDensity: "256GB",
     dramDensity: "64Gb",
     dramType: "LPDDR5X",
     voltage: micronUmcpVoltage.t,
@@ -56,7 +56,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZDDA4TOXM-023 W.274",
     densityMbit: 2097152,
-    storageDensity: "256GB UFS",
+    storageDensity: "256GB",
     dramDensity: "96Gb",
     dramType: "LPDDR5X",
     voltage: micronUmcpVoltage.t,
@@ -70,7 +70,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZAD8HQKWL 053 W.G8C",
     densityMbit: 524288,
-    storageDensity: "64GB UFS",
+    storageDensity: "64GB",
     dramDensity: "32Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.q,
@@ -84,7 +84,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZBDAFQKWL 046 W.G0J",
     densityMbit: 2097152,
-    storageDensity: "256GB UFS",
+    storageDensity: "256GB",
     dramDensity: "48Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.q,
@@ -98,7 +98,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZBDAFQKBA 046 W.G0J",
     densityMbit: 2097152,
-    storageDensity: "256GB UFS",
+    storageDensity: "256GB",
     dramDensity: "48Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.q,
@@ -112,7 +112,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZCDAFQKWL 046 W.G0L",
     densityMbit: 2097152,
-    storageDensity: "256GB UFS",
+    storageDensity: "256GB",
     dramDensity: "64Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.q,
@@ -126,7 +126,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZCDAFQKBA 046 W.G0L",
     densityMbit: 2097152,
-    storageDensity: "256GB UFS",
+    storageDensity: "256GB",
     dramDensity: "64Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.q,
@@ -140,7 +140,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZAD9FQFSM 046 W.G9K",
     densityMbit: 1048576,
-    storageDensity: "128GB UFS",
+    storageDensity: "128GB",
     dramDensity: "32Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.q,
@@ -154,7 +154,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZ7D8FQFSL 046 W.11K",
     densityMbit: 524288,
-    storageDensity: "64GB UFS",
+    storageDensity: "64GB",
     dramDensity: "24Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.q,
@@ -168,7 +168,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZAD8FQKSL 046 W.12H",
     densityMbit: 524288,
-    storageDensity: "64GB UFS",
+    storageDensity: "64GB",
     dramDensity: "32Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.q,
@@ -182,7 +182,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZBD91SLSM 046 W.17X",
     densityMbit: 1048576,
-    storageDensity: "128GB UFS",
+    storageDensity: "128GB",
     dramDensity: "48Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.s,
@@ -196,7 +196,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZCD91SKSM 046 W.17Y",
     densityMbit: 1048576,
-    storageDensity: "128GB UFS",
+    storageDensity: "128GB",
     dramDensity: "64Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.s,
@@ -210,7 +210,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZCD91SFSM 046 W.18C",
     densityMbit: 1048576,
-    storageDensity: "128GB UFS",
+    storageDensity: "128GB",
     dramDensity: "64Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.s,
@@ -224,7 +224,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZ7D81SFSL 046 W.22B",
     densityMbit: 524288,
-    storageDensity: "64GB UFS",
+    storageDensity: "64GB",
     dramDensity: "24Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.s,
@@ -238,7 +238,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZAD81SFSL 046 W.22C",
     densityMbit: 524288,
-    storageDensity: "64GB UFS",
+    storageDensity: "64GB",
     dramDensity: "32Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.s,
@@ -252,7 +252,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZCD9ZTOQS 031 W.15Q",
     densityMbit: 1048576,
-    storageDensity: "128GB UFS",
+    storageDensity: "128GB",
     dramDensity: "64Gb",
     dramType: "LPDDR5",
     voltage: micronUmcpVoltage.t,
@@ -267,7 +267,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZCDAZTPWL 031 W.16C",
     densityMbit: 2097152,
-    storageDensity: "256GB UFS",
+    storageDensity: "256GB",
     dramDensity: "64Gb",
     dramType: "LPDDR5",
     voltage: micronUmcpVoltage.t,
@@ -282,7 +282,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZCDBZTPEQ 031 W.16D",
     densityMbit: 4194304,
-    storageDensity: "512GB UFS",
+    storageDensity: "512GB",
     dramDensity: "64Gb",
     dramType: "LPDDR5",
     voltage: micronUmcpVoltage.t,
@@ -297,7 +297,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZDDA0TPQS 031 W.19Q",
     densityMbit: 2097152,
-    storageDensity: "256GB UFS",
+    storageDensity: "256GB",
     dramDensity: "96Gb",
     dramType: "LPDDR5",
     voltage: micronUmcpVoltage.t,
@@ -312,7 +312,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZDDA0TPQS 026 W.19Q",
     densityMbit: 2097152,
-    storageDensity: "256GB UFS",
+    storageDensity: "256GB",
     dramDensity: "96Gb",
     dramType: "LPDDR5",
     voltage: micronUmcpVoltage.t,
@@ -327,7 +327,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZDDA0TPQS 031 WL.19Q",
     densityMbit: 2097152,
-    storageDensity: "256GB UFS",
+    storageDensity: "256GB",
     dramDensity: "96Gb",
     dramType: "LPDDR5",
     voltage: micronUmcpVoltage.t,
@@ -342,7 +342,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZDDB0TPWL 031 W.19R",
     densityMbit: 4194304,
-    storageDensity: "512GB UFS",
+    storageDensity: "512GB",
     dramDensity: "96Gb",
     dramType: "LPDDR5",
     voltage: micronUmcpVoltage.t,
@@ -357,7 +357,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZDDB0TPWL 031 WL.19R",
     densityMbit: 4194304,
-    storageDensity: "512GB UFS",
+    storageDensity: "512GB",
     dramDensity: "96Gb",
     dramType: "LPDDR5",
     voltage: micronUmcpVoltage.t,
@@ -372,7 +372,7 @@ for (const sample of [
   {
     partNumber: "MT30AZZZCDB0TKWL 031 W.20X",
     densityMbit: 4194304,
-    storageDensity: "512GB UFS",
+    storageDensity: "512GB",
     dramDensity: "64Gb",
     dramType: "LPDDR5",
     voltage: micronUmcpVoltage.t,
@@ -386,7 +386,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZ7D7HQKWL 062 W.G7A",
     densityMbit: 262144,
-    storageDensity: "32GB UFS",
+    storageDensity: "32GB",
     dramDensity: "24Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.q,
@@ -400,7 +400,7 @@ for (const sample of [
   {
     partNumber: "MT29VZZZBD8HQOWL 053 W.G8D",
     densityMbit: 524288,
-    storageDensity: "64GB UFS",
+    storageDensity: "64GB",
     dramDensity: "48Gb",
     dramType: "LPDDR4X",
     voltage: micronUmcpVoltage.q,
@@ -478,7 +478,7 @@ for (const sample of [
     densityMbit: sample.densityMbit,
     package: sample.package,
     extra: {
-      "Storage Density": "1TB UFS",
+      "Storage Density": "1TB",
       "Storage Interface": "UFS",
       "Controller": sample.controller,
       "Product Version": sample.productVersion,
@@ -525,7 +525,7 @@ for (const speedToken of ["999", "031", "046"]) {
   assert.equal(result.device.chipKind, "managed_nand");
   assert.equal(result.device.productType, "umcp");
   assert.equal(firstField(result, "dram_type")?.value, "LPDDR5X");
-  assert.equal(firstField(result, "storage_density")?.value, "1TB UFS");
+  assert.equal(firstField(result, "storage_density")?.value, 8388608);
   assert.equal(firstField(result, "dram_speed"), undefined);
   assert.equal(firstField(result, "operation_temperature")?.value, "Wireless (-25°C ~ 85°C)");
   assert.equal(firstField(result, "die_revision")?.value, "27F");

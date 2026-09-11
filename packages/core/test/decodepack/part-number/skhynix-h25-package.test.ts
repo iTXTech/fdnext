@@ -40,7 +40,7 @@ assertRuleDecode("H25T2TB88E-X321-N", {
   extra: {
     "Process Alias": "H25FTB0",
     "Layer Count": 128,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 8,
     "Packing Type": "Normal (Tray)"
   },
@@ -57,7 +57,7 @@ assertRuleDecode("H25G9TM18E", {
   extra: {
     "Process Alias": "H25FT4MMI",
     "Layer Count": 96,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 1,
     "CE Count": 1,
     "R/B Count": 1,
@@ -76,7 +76,7 @@ assertRuleDecode("H25T0QM18E", {
   extra: {
     "Process Alias": "H25GQM0",
     "Layer Count": 96,
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 1,
     "CE Count": 1,
     "R/B Count": 1,
@@ -94,7 +94,7 @@ assertRuleDecode("H25T1TD48C-X630", {
   extra: {
     "Process Alias": "H25FTD0",
     "Layer Count": 238,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 4
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
@@ -109,7 +109,7 @@ assertRuleDecode("H25T2TC88C", {
   extra: {
     "Process Alias": "H25FTC0",
     "Layer Count": 176,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 8
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
@@ -124,7 +124,7 @@ assertRuleDecode("H25T2TD88C-X682", {
   extra: {
     "Process Alias": "H25FTD0",
     "Layer Count": 238,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 8
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
@@ -139,7 +139,7 @@ assertRuleDecode("H25T2TD88C", {
   extra: {
     "Process Alias": "H25FTD0",
     "Layer Count": 238,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 8
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
@@ -155,7 +155,7 @@ assertRuleDecode("H25T3TC88C-X658-R", {
   package: "BGA-152, 14x18x1.35",
   extra: {
     "Layer Count": 238,
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 8,
     "CE Count": 4,
     "R/B Count": 4,
@@ -323,7 +323,7 @@ for (const item of skhynixH25Hyv9KnownPackages) {
     package: item.package,
     extra: {
       "Layer Count": 321,
-      "Die Density": "1Tb",
+      "Die Density": "128GB",
       "Die Count": item.dieCount,
       "CE Count": item.ceCount,
       "R/B Count": item.rbCount,
@@ -409,13 +409,13 @@ for (const item of skhynixH25V9hKnownPackages) {
     package: item.package,
     extra: {
       "Layer Count": 321,
-      "Die Density": "1Tb",
+      "Die Density": "128GB",
       "Die Count": item.dieCount,
       "CE Count": item.ceCount,
       "R/B Count": item.rbCount,
       "Channel Count": item.channelCount,
       "Plane Count": 4,
-      "Speed Grade": "Max Speed=3600MT/s"
+      "NAND Interface": "Max Speed=3600MT/s"
     },
     absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
   });
@@ -444,7 +444,7 @@ assertRuleDecode("H25T0TD18C-X655N", {
   package: "BGA-152, 14x18x1.0",
   extra: {
     "Layer Count": 321,
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 1,
     "CE Count": 1,
     "R/B Count": 1,
@@ -487,11 +487,11 @@ assertRuleDecode("H25T4QM88G", {
   voltage: "Vcc: 2.50V (2.35-2.75V) or 2.50V (2.28-2.75V), VccQ: 1.20V (1.14-1.26V)",
   extra: {
     "Layer Count": 321,
-    "Die Density": "2Tb",
+    "Die Density": "256GB",
     "Die Count": 8,
     "CE Count": 4,
     "Plane Count": 6,
-    "Speed Grade": "Max Speed=3200MT/s"
+    "NAND Interface": "Max Speed=3200MT/s"
   },
   absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
 });
@@ -596,13 +596,13 @@ for (const item of skhynixH25V9qKnownPackages) {
     package: item.package,
     extra: {
       "Layer Count": 321,
-      "Die Density": "2Tb",
+      "Die Density": "256GB",
       "Die Count": item.dieCount,
       "CE Count": item.ceCount,
       "R/B Count": item.rbCount,
       "Channel Count": item.channelCount,
       "Plane Count": 6,
-      "Speed Grade": "Max Speed=3200MT/s"
+      "NAND Interface": "Max Speed=3200MT/s"
     },
     absentExtra: [...skhynixH25RawInternalExtra, "Special Option", "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
   });
@@ -618,7 +618,7 @@ assertRuleDecode("H25T3TCG8C", {
   extra: {
     "Process Alias": "H25FTC0",
     "Layer Count": 176,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 16,
     "CE Count": 4,
     "R/B Count": 4,
@@ -636,7 +636,7 @@ assertRuleDecode("H25T4TMG8C", {
   extra: {
     "Process Alias": "H25GTM0",
     "Layer Count": 128,
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Die Count": 16,
     "CE Count": 4
   },
@@ -654,7 +654,7 @@ assertRuleDecode("H25G9TC18CX488", {
   extra: {
     "Process Alias": "H25FTC0",
     "Layer Count": 176,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 1,
     "CE Count": 1,
     "R/B Count": 1,
@@ -674,7 +674,7 @@ assertRuleDecode("H25G9TD18CX576", {
   extra: {
     "Process Alias": "H25FTD0",
     "Layer Count": 238,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Die Count": 1,
     "CE Count": 1,
     "R/B Count": 1,

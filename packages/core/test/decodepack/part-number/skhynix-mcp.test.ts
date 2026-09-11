@@ -61,7 +61,7 @@ assertRuleDecode("H2JTDG8UD1BMS", {
     "Block size": "4MB",
     "ECC enabled": "Yes",
     "Special Option": "EMI Shielded",
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 2
   }
 });
@@ -78,7 +78,7 @@ assertRuleDecode("H2JT1T8QD1MMR", {
     "Product Version": "E2NAND3.0",
     "Block size": "4MB",
     "Special Option": "Non Shielded",
-    "Die Density": "128Gb",
+    "Die Density": "16GB",
     "Die Count": 8
   }
 });
@@ -94,7 +94,7 @@ assertRuleDecode("H23QDG8UD1ACS", {
     "Block size": "4MB",
     "ECC enabled": "Yes",
     "Special Option": "EMI Shielded",
-    "Die Density": "64Gb",
+    "Die Density": "8GB",
     "Die Count": 2
   }
 });
@@ -110,7 +110,7 @@ assertRuleDecode("H23Q1T8QK1MYR", {
     "Block size": "4MB",
     "ECC enabled": "Yes",
     "Special Option": "Non Shielded",
-    "Die Density": "128Gb",
+    "Die Density": "16GB",
     "Die Count": 8
   }
 });

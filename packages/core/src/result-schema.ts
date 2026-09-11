@@ -12,7 +12,7 @@ import {
   fdnextRelationKinds,
   fdnextResultStatuses
 } from "./result";
-import { fdnextFieldKeys } from "./field-registry";
+import { fdnextFieldKeys, fdnextFieldRegistry } from "./field-registry";
 
 export type JsonSchema =
   | boolean
@@ -35,6 +35,7 @@ export type JsonSchema =
       minLength?: number;
       pattern?: string;
       minimum?: number;
+      exclusiveMinimum?: number;
       maximum?: number;
       oneOf?: readonly JsonSchema[];
       anyOf?: readonly JsonSchema[];
@@ -219,6 +220,30 @@ const resultDefs = {
       display: { type: "string", minLength: 1 },
       importance: { enum: fdnextFieldImportances }
     },
+    allOf: [
+      {
+        if: {
+          properties: {
+            key: { enum: Object.values(fdnextFieldRegistry).filter((field) => "defaultUnit" in field && field.defaultUnit === "Mbit" && field.valueKind === "number").map((field) => field.key) }
+          },
+          required: ["key"]
+        },
+        then: {
+          properties: { value: { type: "number", exclusiveMinimum: 0 }, unit: { const: "Mbit" } },
+          required: ["unit"]
+        }
+      },
+      {
+        if: { properties: { key: { const: "component_density_options" } }, required: ["key"] },
+        then: {
+          properties: {
+            value: { type: "array", minItems: 1, uniqueItems: true, items: { type: "number", exclusiveMinimum: 0 } },
+            unit: { const: "Mbit" }
+          },
+          required: ["unit"]
+        }
+      }
+    ],
     additionalProperties: false
   },
   resultBlock: {

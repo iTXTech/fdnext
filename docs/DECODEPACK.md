@@ -2,9 +2,11 @@
 
 本仓库把“厂商料号解码”做成纯数据的 iTXTech fdnext DecodePack（JSON）。`@itxtech/fdnext-core/decodepack` 负责把 DecodePack JSON specs 编译成 `@itxtech/fdnext-core` 可消费的 decoder，默认入口是 `defaultDecodePack` + `compileDecodePack(defaultDecodePack)`。
 
+本文是语法/API 参考，按需要查阅相应章节。维护仓库 PN 规则时使用 [PN 编写规范](pn_code/authoring.md)；测试范围统一见 [验证指南](TESTING.md)。
+
 ## 1. PartDecodeSpec
 
-最基础的 PartDecodeSpec 是“匹配 + 直接赋值”（适合做 vendor/type 前置判断、简单 alias 等）。
+最基础的 PartDecodeSpec 是“匹配 + 直接赋值”。下面只演示厂商前缀判断；产品线、容量和完整 PN 不能由这个前缀直接赋值，需由后续结构化规则确定。
 
 ```json
 {
@@ -13,8 +15,7 @@
   "normalize": ["trim", "uppercase", { "remove": [" ", ",", "&", ".", "|"] }],
   "match": { "kind": "prefix", "value": "MT" },
   "set": {
-    "device": { "domain": "memory", "chipKind": "raw_nand", "vendor": "micron", "partNumber": "MT29F64G08CBABA" },
-    "fields": { "density": 65536 }
+    "device": { "domain": "memory", "vendor": "micron" }
   }
 }
 ```
@@ -47,6 +48,8 @@
 
 适用于“料号内部由固定位置/可选前缀/表驱动字段组成”的情况。通过 steps 把 `rest`（未消费的字符串）逐段解析到上下文变量，再用 `assign` 构造输出对象。
 
+下面的局部表演示语法，不是厂商 ordering 证据；实际 mapping 按 [PN 编写规范](pn_code/authoring.md) 和产品线资料准入。
+
 ```json
 {
   "id": "vendor.kioxia.token.tc.v1",
@@ -58,13 +61,13 @@
     "tables": {
       "density": { "G3": 8192 },
       "basePackage": { "XB": "BGA", "XL": "LGA" },
-      "detailPackage": { "BGA:1": "BGA224 (14 x 18 x 1.46)" }
+      "detailPackage": { "BGA:1": "BGA-224, 14x18x1.46" }
     },
     "steps": [
       { "op": "take", "len": 2, "to": "densityCode" },
-      { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+      { "op": "map", "from": "densityCode", "table": "density", "to": "density" },
       { "op": "take", "len": 2, "to": "packageCode" },
-      { "op": "map", "from": "packageCode", "table": "basePackage", "to": "basePackage", "default": "Unknown" },
+      { "op": "map", "from": "packageCode", "table": "basePackage", "to": "basePackage" },
       { "op": "take", "len": 1, "to": "detailCode" },
       { "op": "tpl", "template": "{{basePackage}}:{{detailCode}}", "to": "detailKey" },
       { "op": "map", "from": "detailKey", "table": "detailPackage", "to": "detailPackageValue", "default": "" },
@@ -97,7 +100,7 @@ DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `
 
 - 跨产品线复用的工艺、die、controller profile。
 - 多个 PN / Flash ID / MPTool 规则都需要引用的 key-value 表。
-- 只作为规则推导输入的维护信息，例如 `firmware_match`、`die_mark`、reference metadata。
+- 实际参与规则推导的匹配信息，例如 `firmware_match`、`die_mark`。来源 URL、reference metadata 和可信度等维护证据只放入 [evidence manifest](pn_code/reference_policy.md)，不进入共享表；尚未接线的既有 decode mapping 不因证据清理而删除。
 
 #### table 形态
 
@@ -240,7 +243,7 @@ Identifier DecodePack 的 bitfield definition 也可以直接使用 `meta.nandDi
   - 行为：`Number(context[a]) * Number(context[b])`，非法则使用 `default` 或 0
 - `dieDensity`: 单 die 容量派生
   - 参数：`density`, `dieCount`, `to`, 可选 `default`
-  - 行为：按 `density / dieCount` 从 Mbit 总容量派生标准 die density 字符串，例如 `262144 / 1 -> 256Gb`、`1048576 / 1 -> 1Tb`、`1394606.08 / 1 -> 1.33Tb`；非法则使用 `default` 或空串
+  - 行为：`density` 为正有限 Mbit 数值，`dieCount` 为正整数时返回 `density / dieCount` 的 Mbit 数值，例如 `262144 / 1 -> 262144`、`1048576 / 2 -> 524288`；保留数值精度，不生成容量字符串。非法输入使用数值 `default` 或 `0`。以该结果组成 lookup key 时同样使用 Mbit 数值。
 - `set`: 设置上下文常量（通常用于初始化对象）
   - 参数：`to`, `value`
 - `merge`: 合并对象（浅拷贝）
@@ -265,7 +268,7 @@ iTXTech fdnext DecodePack 的 `assign` 应输出 **core 的 native decoder draft
 
 重要约定：
 
-- `fields.*` 和 `components[].fields.*` 中会进入公开结果的字段应使用 canonical snake_case key（例如 `operation_temperature`、`speed_grade`、`marking_code`、`storage_interface`），不要直接写 “Operation Temperature” 这类展示字符串。
+- `fields.*` 和 `components[].fields.*` 中会进入公开结果的字段应使用 canonical snake_case key（例如 `operation_temperature`、`speed_grade`、`storage_interface`），不要直接写 “Operation Temperature” 这类展示字符串。`marking_code` 等身份信息由 `device` 承载，不复制进详情字段。
 - PN / identifier iTXTech fdnext DecodePack 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
 - 公开 `package` 使用 `TYPE[-PIN][, DIM][, SPECIAL]`。PIN 缺失时保留 TYPE，不得补猜；TYPE 缺失但 DIM 确认时只输出 DIM；未知 package 直接省略，不输出 `Unknown`，也不要在值里保留 `mm`、`ball`、`pin` 等单位词。
 - standalone DRAM 的默认 topology 使用内部三态证明：已确认的公开 `package` 默认允许补 `dram_die_count=1`，plain DDR 还允许补 `cs_count=1`；当厂商 die/CS token 与公开 package 的来源不同，规则必须通过 `meta.dramTopologyTokenRecognized` 显式覆盖。`true` 表示 token 已识别但可以没有公开 package，`false` 表示 topology token 未知，即使其他 token 已能输出 package 也不得补默认值。这个 metadata 不进入公开 result。
@@ -274,7 +277,7 @@ iTXTech fdnext DecodePack 的 `assign` 应输出 **core 的 native decoder draft
 
 ## 5. Pack 组织方式
 
-推荐把每个厂商的 DecodePack JSON specs 放到单独 pack 文件（JSON 数组）：
+推荐按厂商和芯片/产品线把 DecodePack JSON specs 放到单独 pack 文件（JSON 数组），例如 `samsung-ufs-token.json`，避免一个厂商的全部产品共用一个 pack：
 
 - 目录：`packages/core/src/decodepack/rules/packs`
 - 接入：`packages/core/src/decodepack/rules/default-rules.ts:1`
@@ -289,10 +292,11 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 ## 6. 如何新增/验证一个厂商解码器
 
-- 新增 pack：`packages/core/src/decodepack/rules/packs/<vendor>-token.json`
+- 新增厂商或整盘/模组 decoder 的授权范围见根目录 [AGENTS.md](../AGENTS.md)；已有产品线维护按当前任务继续。
+- 新增 pack：`packages/core/src/decodepack/rules/packs/<vendor>-<product>-token.json`
 - 在 `default-rules.ts` 中导入并加入 `defaultPartDecodeSpecs`
-- 添加/更新 contract 行为测试：`packages/contract-test/test/contract.test.ts`
-- 仓库内验证：`pnpm cli decodepack check`、`pnpm contract:check`、`pnpm -C packages/core test`
+- 在 `packages/core/test/decodepack/dram/` 或 `part-number/` 添加必要的产品线行为测试，并同步厂商文档和证据。
+- 单一 pack 执行 DecodePack 检查、定向测试和 core typecheck；影响共享逻辑或跨包 contract 时再按 [验证指南](TESTING.md) 扩大范围。
 
 ## 7. 维护工具
 
@@ -415,7 +419,8 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 ### 8.5 如何新增/验证 NAND Flash ID 解码器
 
+- 新增厂商需符合根目录 [AGENTS.md](../AGENTS.md) 的授权范围。
 - 新增 pack：`packages/core/src/decodepack/identifier/packs/<vendor>.json`
 - 在 `packages/core/src/decodepack/identifier/default-rules.ts:1` 中导入并加入 `defaultIdentifierDecodeSpecs`
-- 添加/更新 identifier contract 行为测试：`packages/contract-test/test/contract.test.ts`
-- 仓库内验证：`pnpm cli decodepack check`、`pnpm contract:check`、`pnpm -C packages/core test`
+- 在对应 identifier 测试中覆盖改变的行为；只有跨包 contract 行为改变时才更新相应 contract testcase。
+- 单一 pack 使用 DecodePack 检查、定向测试和 core typecheck；编译器或共享后处理变化按 [验证指南](TESTING.md) 运行 core 全量，跨包消费面变化再做 contract 检查。

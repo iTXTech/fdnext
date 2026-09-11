@@ -112,7 +112,7 @@
         "device.chipKind": "managed_nand",
         "device.productType": "emcp",
         "fields.density": 32768,
-        "fields.storage_density": "4GB eMMC",
+        "fields.storage_density": 32768,
         "fields.storage_interface": "eMMC",
         "fields.dram_density": {
           "$var": "dramDensity"

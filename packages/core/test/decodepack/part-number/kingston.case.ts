@@ -106,7 +106,7 @@ assertRuleDecode("64EM32-M4GTY9B", {
   package: "FBGA-254, 11.5x13.0x1.0",
   extra: {
     "Storage Interface": "eMMC 5.1",
-    "Storage Density": "64GB eMMC",
+    "Storage Density": "64GB",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
   },
@@ -120,7 +120,7 @@ assertRuleDecode("64EM32-N3HTX29", {
   package: "FBGA-221, 11.5x13.0x1.1",
   extra: {
     "Storage Interface": "eMMC 5.1",
-    "Storage Density": "64GB eMMC",
+    "Storage Density": "64GB",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR3"
   },
@@ -136,7 +136,7 @@ assertRuleDecode("64EP32-M5BTB9M", {
   package: "FBGA-201, 8x9.5x0.7",
   extra: {
     "Product Family": "ePoP",
-    "Storage Density": "64GB eMMC",
+    "Storage Density": "64GB",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR5X"

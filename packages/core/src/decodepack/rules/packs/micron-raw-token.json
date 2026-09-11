@@ -38,16 +38,16 @@
         },
         "storageDensityObj": {
           "8G": {
-            "storage_density": "8GB ClearNAND"
+            "storage_density": 65536
           },
           "16G": {
-            "storage_density": "16GB ClearNAND"
+            "storage_density": 131072
           },
           "32G": {
-            "storage_density": "32GB ClearNAND"
+            "storage_density": 262144
           },
           "64G": {
-            "storage_density": "64GB ClearNAND"
+            "storage_density": 524288
           }
         },
         "packageObj": {
@@ -329,15 +329,15 @@
           }
         },
         "processNodeByDieDensityCellRev": {
-          "512Gb:TLC:C": "B27B",
-          "512Gb:TLC:E": "B47R",
-          "1Tb:TLC:C": "B58R",
-          "1Tb:TLC:E": "B68S",
-          "1Tb:TLC:H": "B78R",
-          "1Tb:QLC:B": "N28A",
-          "1Tb:QLC:C": "N48R",
-          "1Tb:QLC:D": "N58R",
-          "2Tb:QLC:B": "N69R"
+          "524288:TLC:C": "B27B",
+          "524288:TLC:E": "B47R",
+          "1048576:TLC:C": "B58R",
+          "1048576:TLC:E": "B68S",
+          "1048576:TLC:H": "B78R",
+          "1048576:QLC:B": "N28A",
+          "1048576:QLC:C": "N48R",
+          "1048576:QLC:D": "N58R",
+          "2097152:QLC:B": "N69R"
         }
       },
       "steps": [
@@ -501,7 +501,7 @@
           "density": "density",
           "dieCount": "dieCount",
           "to": "dieDensityClass",
-          "default": ""
+          "default": 0
         },
         {
           "op": "tpl",

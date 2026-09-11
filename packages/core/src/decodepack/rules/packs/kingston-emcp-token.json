@@ -38,19 +38,19 @@
         },
         "storageDensityObj": {
           "16": {
-            "storage_density": "16GB eMMC"
+            "storage_density": 131072
           },
           "32": {
-            "storage_density": "32GB eMMC"
+            "storage_density": 262144
           },
           "64": {
-            "storage_density": "64GB eMMC"
+            "storage_density": 524288
           },
           "128": {
-            "storage_density": "128GB eMMC"
+            "storage_density": 1048576
           },
           "08": {
-            "storage_density": "8GB eMMC"
+            "storage_density": 65536
           }
         },
         "dramDensityCode": [
@@ -61,16 +61,16 @@
         ],
         "dramDensityObj": {
           "16": {
-            "dram_density": "16Gb"
+            "dram_density": 16384
           },
           "32": {
-            "dram_density": "32Gb"
+            "dram_density": 32768
           },
           "64": {
-            "dram_density": "64Gb"
+            "dram_density": 65536
           },
           "08": {
-            "dram_density": "8Gb"
+            "dram_density": 8192
           }
         },
         "dramTypeObj": {

@@ -134,6 +134,14 @@
         "importance": "secondary",
         "fields": [
           {
+            "key": "device_width",
+            "label": "Device Width",
+            "value": 8,
+            "unit": "bit",
+            "display": "x8",
+            "importance": "secondary"
+          },
+          {
             "key": "voltage",
             "label": "Voltage",
             "value": "Vcc: 3.3V",
@@ -165,14 +173,6 @@
         "label": "Additional Fields",
         "importance": "detail",
         "fields": [
-          {
-            "key": "device_width",
-            "label": "Device Width",
-            "value": 8,
-            "unit": "bit",
-            "display": "x8",
-            "importance": "secondary"
-          },
           {
             "key": "enterprise",
             "label": "Enterprise",
@@ -246,6 +246,14 @@
       "importance": "secondary",
       "fields": [
         {
+          "key": "device_width",
+          "label": "Device Width",
+          "value": 8,
+          "unit": "bit",
+          "display": "x8",
+          "importance": "secondary"
+        },
+        {
           "key": "voltage",
           "label": "Voltage",
           "value": "Vcc: 3.3V",
@@ -277,14 +285,6 @@
       "label": "Additional Fields",
       "importance": "detail",
       "fields": [
-        {
-          "key": "device_width",
-          "label": "Device Width",
-          "value": 8,
-          "unit": "bit",
-          "display": "x8",
-          "importance": "secondary"
-        },
         {
           "key": "enterprise",
           "label": "Enterprise",

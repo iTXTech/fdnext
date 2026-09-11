@@ -54,22 +54,22 @@
           "RS": "LFBGA-256, 14x18x1.50"
         },
         "dieGenerationObj": {
-          "128Gb:A": {
+          "131072:A": {
             "die_codename": "S15C",
             "die_stack": "2-Deck"
           },
-          "128Gb:B": {
+          "131072:B": {
             "die_stack": "2-Deck"
           },
-          "128Gb:D": {
+          "131072:D": {
             "die_codename": "S25D",
             "die_stack": "2-Deck"
           },
-          "256Gb:A": {
+          "262144:A": {
             "die_codename": "S26A",
             "die_stack": "4-Deck"
           },
-          "512Gb:D": {
+          "524288:D": {
             "die_codename": "S37D",
             "die_stack": "8-Deck"
           }
@@ -165,7 +165,7 @@
           "density": "density",
           "dieCount": "dieCount",
           "to": "dieDensityClass",
-          "default": ""
+          "default": 0
         },
         {
           "op": "tpl",

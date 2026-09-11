@@ -67,37 +67,37 @@
         },
         "dieDensityObj": {
           "F": {
-            "die_density": "32Gb"
+            "die_density": 32768
           },
           "G": {
-            "die_density": "64Gb"
+            "die_density": 65536
           },
           "J": {
-            "die_density": "128Gb"
+            "die_density": 131072
           },
           "K": {
-            "die_density": "256Gb"
+            "die_density": 262144
           },
           "V": {
-            "die_density": "128Gb"
+            "die_density": 131072
           },
           "U": {
-            "die_density": "256Gb"
+            "die_density": 262144
           },
           "R": {
-            "die_density": "512Gb"
+            "die_density": 524288
           },
           "N": {
-            "die_density": "1Tb"
+            "die_density": 1048576
           },
           "L": {
-            "die_density": "1Tb"
+            "die_density": 1048576
           },
           "W": {
-            "die_density": "64Gb"
+            "die_density": 65536
           },
           "Y": {
-            "die_density": "32Gb"
+            "die_density": 32768
           }
         },
         "voltage": {

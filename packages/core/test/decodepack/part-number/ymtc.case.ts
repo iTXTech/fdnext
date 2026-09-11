@@ -290,7 +290,7 @@ assertRuleDecode("YMC6G001TB51AA1C0", {
   extra: {
     "Process Alias": "X3-9070",
     "Layer Count": 232,
-    "Die Density": "256Gb",
+    "Die Density": "32GB",
     "Die Count": 1,
     "Plane Count": 6,
     "Product Class": "Commercial"
@@ -308,7 +308,7 @@ assertRuleDecode("YMN0WQA2B1CC4C", {
   extra: {
     "Process Alias": "X2-6070",
     "Layer Count": 128,
-    "Die Density": "1.33Tb",
+    "Die Density": "170.625GB",
     "Die Count": 2,
     "Plane Count": 6,
     "Product Class": "Client"
@@ -324,9 +324,9 @@ assertRuleDecode("X3-9060", {
   extra: {
     "Process Alias": "X3-9060",
     "Layer Count": 128,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Plane Count": 4,
-    "Speed Grade": "ONFI 5.0; Max Speed=2400MT/s"
+    "NAND Interface": "ONFI 5.0; Max Speed=2400MT/s"
   },
   absentExtra: ["Product Generation"]
 });
@@ -339,9 +339,9 @@ assertRuleDecode("X39060", {
   extra: {
     "Process Alias": "X3-9060",
     "Layer Count": 128,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Plane Count": 4,
-    "Speed Grade": "ONFI 5.0; Max Speed=2400MT/s"
+    "NAND Interface": "ONFI 5.0; Max Speed=2400MT/s"
   },
   absentExtra: ["Product Generation"]
 });
@@ -354,9 +354,9 @@ assertRuleDecode("X3-9070", {
   extra: {
     "Process Alias": "X3-9070",
     "Layer Count": 232,
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Plane Count": 6,
-    "Speed Grade": "ONFI 5.0; Max Speed=2400MT/s"
+    "NAND Interface": "ONFI 5.0; Max Speed=2400MT/s"
   },
   absentExtra: ["Product Generation"]
 });
@@ -369,9 +369,9 @@ assertRuleDecode("X4-9060", {
   extra: {
     "Process Alias": "X4-9060",
     "Layer Count": 160,
-    "Die Density": "512Gb",
+    "Die Density": "64GB",
     "Plane Count": 4,
-    "Speed Grade": "ONFI 5.1; Max Speed=3600MT/s"
+    "NAND Interface": "ONFI 5.1; Max Speed=3600MT/s"
   },
   absentExtra: ["Product Generation"]
 });
@@ -384,9 +384,9 @@ assertRuleDecode("X4-9070", {
   extra: {
     "Process Alias": "X4-9070",
     "Layer Count": 267,
-    "Die Density": "1Tb",
+    "Die Density": "128GB",
     "Plane Count": 6,
-    "Speed Grade": "ONFI 5.1; Max Speed=3600MT/s"
+    "NAND Interface": "ONFI 5.1; Max Speed=3600MT/s"
   },
   absentExtra: ["Product Generation"]
 });
@@ -399,9 +399,9 @@ assertRuleDecode("X4-6080", {
   extra: {
     "Process Alias": "X4-6080",
     "Layer Count": 267,
-    "Die Density": "2Tb",
+    "Die Density": "256GB",
     "Plane Count": 8,
-    "Speed Grade": "ONFI 5.1; Max Speed=3600MT/s"
+    "NAND Interface": "ONFI 5.1; Max Speed=3600MT/s"
   },
   absentExtra: ["Product Generation"]
 });

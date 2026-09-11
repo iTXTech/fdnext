@@ -29,14 +29,14 @@ test("managed summaries retain marking identity and distinct device and componen
   assert.equal(ssd.device?.markingCode, "JZ215");
   assert.equal(ssd.device?.partNumber, "MTFDHBL256TDQ-1AT12ATYY");
   assert.equal(values(ssd).get("density"), "256GB");
-  assert.equal(values(ssd).get("component_density"), "512Gb");
+  assert.equal(values(ssd).get("component_density"), "64GB");
   assert.equal(values(ssd).get("storage_interface"), "PCIe Gen3 x4");
   assert.equal(values(ssd).get("product_version"), "NVMe 1.3c");
   assert.ok(!values(ssd).has("voltage"));
   assert.equal(ssd.blocks.find((block) => block.id === "components")?.fields.find((field) => field.key === "component_voltage")?.value, "3.3V");
 
   const mcp = engine.decodePart({ query: "BWCA2KZC-64G", lang: "eng" });
-  assert.equal(values(mcp).get("storage_density"), "64GB eMMC");
+  assert.equal(values(mcp).get("storage_density"), "64GB");
   assert.equal(values(mcp).get("dram_density"), "32Gb");
   assert.equal(values(mcp).get("dram_type"), "LPDDR4X");
   assert.ok(mcp.blocks.find((block) => block.id === "dram"));

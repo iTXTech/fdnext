@@ -168,7 +168,7 @@ assertRuleDecode("BWCE2ENH-16G", {
   densityMbit: 131072,
   package: "FBGA-221, 11.50x13.00",
   extra: {
-    "Storage Density": "16GB eMMC",
+    "Storage Density": "16GB",
     "DRAM Density": "16Gb",
     "DRAM Type": "LPDDR3"
   }
@@ -179,7 +179,7 @@ assertRuleDecode("BWCA2KZC-64G", {
   densityMbit: 524288,
   package: "FBGA-254, 11.50x13.00",
   extra: {
-    "Storage Density": "64GB eMMC",
+    "Storage Density": "64GB",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
   },
@@ -195,7 +195,7 @@ assertRuleDecode("BWCK1KZC02-64G", {
   package: "FBGA-144, 8.00x9.50",
   extra: {
     "Product Family": "ePoP4X",
-    "Storage Density": "64GB eMMC",
+    "Storage Density": "64GB",
     "Storage Interface": "eMMC 5.1",
     "DRAM Density": "32Gb",
     "DRAM Type": "LPDDR4X"
@@ -210,7 +210,7 @@ assertRuleDecode("BWCL1EZC-32G-X", {
   package: "FBGA-144, 8.60x10.40",
   extra: {
     "Product Family": "ePoP4X",
-    "Storage Density": "32GB eMMC",
+    "Storage Density": "32GB",
     "DRAM Density": "16Gb"
   }
 });
@@ -224,7 +224,7 @@ assertRuleDecode("BWCD28NP-32G", {
   package: "FBGA-136, 10.00x10.00",
   extra: {
     "Product Family": "ePoP3",
-    "Storage Density": "32GB eMMC",
+    "Storage Density": "32GB",
     "DRAM Density": "8Gb",
     "DRAM Type": "LPDDR3"
   }
@@ -237,7 +237,7 @@ assertRuleDecode("BWCSAFEJ02-64G", {
   package: "FBGA-201, 8.00x9.50",
   extra: {
     "Product Family": "ePoP5X",
-    "Storage Density": "64GB eMMC",
+    "Storage Density": "64GB",
     "DRAM Density": "24Gb",
     "DRAM Type": "LPDDR5X"
   }
@@ -249,7 +249,7 @@ assertRuleDecode("BW2A2MZC02-256G", {
   densityMbit: 2097152,
   package: "FBGA-254, 11.50x13.00",
   extra: {
-    "Storage Density": "256GB UFS",
+    "Storage Density": "256GB",
     "DRAM Density": "64Gb",
     "Storage Interface": "UFS 2.2"
   },
@@ -264,7 +264,7 @@ assertRuleDecode("BW3A2EYAKG256G", {
   densityMbit: 2097152,
   package: "FBGA-297, 11.50x13.00",
   extra: {
-    "Storage Density": "256GB UFS",
+    "Storage Density": "256GB",
     "DRAM Density": "64Gb",
     "DRAM Type": "LPDDR5X",
     "Storage Interface": "UFS 3.1",
@@ -281,7 +281,7 @@ assertRuleDecode("BW3Z9ZZZKG256G", {
   densityMbit: 2097152,
   package: "FBGA-297, 11.50x13.00",
   extra: {
-    "Storage Density": "256GB UFS",
+    "Storage Density": "256GB",
     "DRAM Density": "64Gb",
     "DRAM Type": "LPDDR5X",
     "Storage Interface": "UFS 3.1"

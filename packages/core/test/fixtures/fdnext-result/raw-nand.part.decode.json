@@ -95,7 +95,9 @@
           {
             "key": "die_density",
             "label": "Die Density",
-            "value": "4Gb",
+            "value": 4096,
+            "unit": "Mbit",
+            "display": "512MB",
             "importance": "secondary"
           },
           {
@@ -216,7 +218,9 @@
         {
           "key": "die_density",
           "label": "Die Density",
-          "value": "4Gb",
+          "value": 4096,
+          "unit": "Mbit",
+          "display": "512MB",
           "importance": "secondary"
         },
         {

@@ -17,7 +17,7 @@ assert.ok(!collectResultFields(dramDecode.blocks).some((field) => field.key === 
 assert.ok(!dramDecode.relations.some((relation) => relation.kind === "identifier_for"));
 assert.equal("actions" in dramDecode, false);
 const dramDecodeChs = engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "chs" });
-assert.ok(dramDecodeChs.blocks.some((block) => block.id === "geometry" && block.label === "几何信息"));
+assert.ok(dramDecodeChs.blocks.some((block) => block.id === "geometry" && block.label === "组织结构"));
 assert.ok(dramDecodeChs.blocks.some((block) => block.id === "package" && block.label === "封装"));
 assert.ok(collectResultFields(dramDecodeChs.blocks).some((field) => field.key === "operation_temperature" && (field as { display?: string }).display === "无线温度范围 (-25°C ~ 85°C)"));
 assert.ok(!collectResultFields(dramDecodeChs).some((field) => field.key === "special_options"));

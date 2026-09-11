@@ -78,25 +78,25 @@
         },
         "dieDensityInfo": {
           "6": {
-            "die_density": "64Gb"
+            "die_density": 65536
           },
           "7": {
-            "die_density": "128Gb"
+            "die_density": 131072
           },
           "8": {
-            "die_density": "256Gb"
+            "die_density": 262144
           },
           "9": {
-            "die_density": "512Gb"
+            "die_density": 524288
           },
           "A": {
-            "die_density": "1Tb"
+            "die_density": 1048576
           },
           "B": {
-            "die_density": "2Tb"
+            "die_density": 2097152
           },
           "W": {
-            "die_density": "1.33Tb"
+            "die_density": 1397760
           }
         },
         "cellLevel": {
