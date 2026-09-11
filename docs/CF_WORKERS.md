@@ -168,7 +168,7 @@ const productPageLinks: ExternalLinkProvider = {
         id: "product-page",
         label: "Product page",
         url: `https://example.com/parts/${encodeURIComponent(partNumber)}`,
-        category: "datasheet",
+        category: "ds",
         priority: 10
       }
     ];

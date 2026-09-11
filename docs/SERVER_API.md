@@ -164,7 +164,7 @@ SDK 的 `engine.getCapabilities({ lang })` 与 HTTP `/capabilities?lang=<lang>` 
 
 ## 7. 响应结构
 
-Decode 响应使用 `fdnext.result.v1`：
+Decode 响应使用 `fdnext.result.v2`：
 
 - `schemaVersion`
 - `operation`
@@ -172,13 +172,15 @@ Decode 响应使用 `fdnext.result.v1`：
 - `input`
 - `device`
 - `subtitle`
+- `summary.brief[]`：按存储类型排序的重点参数
+- `summary.full[]`：完整参数分组，与 `blocks[]` 一致
 - `blocks[]`
 - `relations[]`
 - `links[]`
 - `warnings[]`
 - `candidates[]`
 
-Search 响应同样使用 `fdnext.result.v1`，核心结果放在 `items[]`。调用方应读取结构化字段：
+Search 响应同样使用 `fdnext.result.v2`，核心结果放在 `items[]`。调用方应读取结构化字段：
 
 - 设备身份：`device.vendor.id`、`device.chipKind`、`device.productType`、`device.partNumber`、`device.identifier`
 - 详情字段：`blocks[].fields[].key/value/display`

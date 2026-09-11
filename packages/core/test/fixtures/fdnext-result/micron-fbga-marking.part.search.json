@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "fdnext.result.v1",
+  "schemaVersion": "fdnext.result.v2",
   "operation": "part.search",
   "status": "ok",
   "input": {

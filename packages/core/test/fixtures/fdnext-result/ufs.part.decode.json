@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "fdnext.result.v1",
+  "schemaVersion": "fdnext.result.v2",
   "operation": "part.decode",
   "status": "ok",
   "input": {
@@ -8,16 +8,139 @@
     "lang": "eng",
     "constraints": {}
   },
-  "subtitle": "UFS · Samsung · 256GB TLC",
+  "subtitle": "UFS · Samsung · 256GB TLC · UFS 3.1",
   "device": {
     "domain": "memory",
     "chipKind": "managed_nand",
     "productType": "ufs",
-    "partNumber": "KLUEG8UHDC-B0E1",
+    "partNumber": "KLUEG8UHDCB0E1",
     "vendor": {
       "id": "samsung",
       "name": "Samsung"
     }
+  },
+  "summary": {
+    "brief": [
+      {
+        "key": "density",
+        "label": "Density",
+        "value": 2097152,
+        "unit": "Mbit",
+        "display": "256GB",
+        "importance": "primary"
+      },
+      {
+        "key": "product_version",
+        "label": "Product Version",
+        "value": "UFS 3.1",
+        "importance": "secondary"
+      }
+    ],
+    "full": [
+      {
+        "id": "storage",
+        "label": "Storage",
+        "importance": "primary",
+        "fields": [
+          {
+            "key": "density",
+            "label": "Density",
+            "value": 2097152,
+            "unit": "Mbit",
+            "display": "256GB",
+            "importance": "primary"
+          },
+          {
+            "key": "cell_level",
+            "label": "Cell Level",
+            "value": "TLC",
+            "importance": "primary"
+          },
+          {
+            "key": "die_codename",
+            "label": "Process",
+            "value": "SSV6",
+            "importance": "primary"
+          },
+          {
+            "key": "layer_count",
+            "label": "Layer Count",
+            "value": 128,
+            "importance": "secondary"
+          },
+          {
+            "key": "product_version",
+            "label": "Product Version",
+            "value": "UFS 3.1",
+            "importance": "secondary"
+          }
+        ]
+      },
+      {
+        "id": "components",
+        "label": "Components",
+        "importance": "secondary",
+        "fields": [
+          {
+            "key": "die_density",
+            "label": "Die Density",
+            "value": "256Gb",
+            "importance": "secondary"
+          },
+          {
+            "key": "die_count",
+            "label": "Die Count",
+            "value": 8,
+            "importance": "secondary"
+          }
+        ]
+      },
+      {
+        "id": "interface",
+        "label": "Interface",
+        "importance": "secondary",
+        "fields": [
+          {
+            "key": "voltage",
+            "label": "Voltage",
+            "value": "Vcc: 2.50V, VccQ: 1.20V",
+            "importance": "secondary"
+          }
+        ]
+      },
+      {
+        "id": "package",
+        "label": "Package",
+        "importance": "detail",
+        "fields": [
+          {
+            "key": "package",
+            "label": "Package",
+            "value": "BGA-153, 11.5x13/11x13",
+            "importance": "secondary"
+          },
+          {
+            "key": "operation_temperature",
+            "label": "Operation Temperature",
+            "value": "-25°C ~ 85°C Extended Commercial",
+            "importance": "detail"
+          }
+        ]
+      },
+      {
+        "id": "controllers",
+        "label": "Controllers",
+        "importance": "detail",
+        "fields": [
+          {
+            "key": "controller",
+            "label": "Controller",
+            "value": "UFS 3.1/3.0/2.2 G4-2Lane Controller",
+            "importance": "secondary"
+          }
+        ]
+      }
+    ]
   },
   "blocks": [
     {
@@ -40,9 +163,21 @@
           "importance": "primary"
         },
         {
-          "key": "process_node",
-          "label": "Process Node",
-          "value": "V6 128L",
+          "key": "die_codename",
+          "label": "Process",
+          "value": "SSV6",
+          "importance": "primary"
+        },
+        {
+          "key": "layer_count",
+          "label": "Layer Count",
+          "value": 128,
+          "importance": "secondary"
+        },
+        {
+          "key": "product_version",
+          "label": "Product Version",
+          "value": "UFS 3.1",
           "importance": "secondary"
         }
       ]
@@ -53,9 +188,15 @@
       "importance": "secondary",
       "fields": [
         {
-          "key": "component_density",
-          "label": "Component Density",
-          "value": "256GB package",
+          "key": "die_density",
+          "label": "Die Density",
+          "value": "256Gb",
+          "importance": "secondary"
+        },
+        {
+          "key": "die_count",
+          "label": "Die Count",
+          "value": 8,
           "importance": "secondary"
         }
       ]
@@ -81,7 +222,7 @@
         {
           "key": "package",
           "label": "Package",
-          "value": "BGA-153 11.5x13 / 11x13",
+          "value": "BGA-153, 11.5x13/11x13",
           "importance": "secondary"
         },
         {
@@ -101,31 +242,6 @@
           "key": "controller",
           "label": "Controller",
           "value": "UFS 3.1/3.0/2.2 G4-2Lane Controller",
-          "importance": "secondary"
-        }
-      ]
-    },
-    {
-      "id": "additional",
-      "label": "Additional Fields",
-      "importance": "detail",
-      "fields": [
-        {
-          "key": "die_count",
-          "label": "Die Count",
-          "value": 8,
-          "importance": "secondary"
-        },
-        {
-          "key": "die_density",
-          "label": "Die Density",
-          "value": "256Gb",
-          "importance": "secondary"
-        },
-        {
-          "key": "product_version",
-          "label": "Product Version",
-          "value": "UFS 3.1",
           "importance": "secondary"
         }
       ]

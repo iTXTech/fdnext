@@ -13,6 +13,7 @@ import {
 } from "./device-inference";
 import { createFdnextFieldValue, fdnextFieldRegistry, type FdnextFieldKey } from "./field-registry";
 import { getFdnextFieldProfile } from "./field-profiles";
+import { buildResultSummary } from "./result-summary";
 import { inferVendorFromPartNumber, normalizeVendor } from "./fdb-lookup";
 import {
   FDNEXT_CAPABILITIES_SCHEMA_VERSION,
@@ -461,7 +462,12 @@ function buildPartSubtitle(
     joinCompact(density, cellLevel),
     joinCompact(dramDensity, dramType),
     width,
-    dieProfile
+    dieProfile,
+    device.chipKind === "dram" ? displayField(fields, "dram_speed") : undefined,
+    device.chipKind === "dram" ? displayField(fields, "dram_voltage") ?? displayField(fields, "voltage") : undefined,
+    device.chipKind === "managed_nand" ? displayField(fields, "storage_interface") : undefined,
+    device.chipKind === "managed_nand" ? displayField(fields, "product_version") : undefined,
+    device.chipKind === "3d_xpoint" ? displayField(fields, "die_stack") : undefined
   ].filter((value): value is string => Boolean(value)).join(" · ");
 }
 
@@ -682,13 +688,15 @@ export function buildPartDecodeResult(
   const profileId = info.meta?.fieldProfile ?? device.chipKind;
   const known = isKnownPart(info);
   const hiddenFields = hiddenFieldKeys(info.meta?.hiddenFields);
+  const blocks = known ? buildBlocks(profileId, detailFieldMap, ctx, input.lang, hiddenFields) : [];
   return {
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "part.decode",
     status: known ? "ok" : "not_found",
     input: baseInput(input.query, input.normalized, constraints, input.lang, input.controllerGroup),
     ...(known ? { subtitle: buildPartSubtitle(device, fields, ctx, input.lang), device } : {}),
-    blocks: known ? buildBlocks(profileId, detailFieldMap, ctx, input.lang, hiddenFields) : [],
+    ...(known ? { summary: buildResultSummary(device, blocks) } : {}),
+    blocks,
     relations: known ? partRelations(info, device, ctx, input.lang) : [],
     warnings: info.warnings ? [...info.warnings] : []
   };
@@ -746,13 +754,15 @@ export function buildIdentifierDecodeResult(
   const fields = fieldMapFromIdentifier(info, device, ctx, input.lang);
   const detailFieldMap = detailFields(fields);
   const hiddenFields = hiddenFieldKeys(info.meta?.hiddenFields);
+  const blocks = known ? buildBlocks("nand.flash_id", detailFieldMap, ctx, input.lang, hiddenFields) : [];
   return {
     schemaVersion: FDNEXT_RESULT_SCHEMA_VERSION,
     operation: "identifier.decode",
     status: known ? "ok" : "not_found",
     input: baseInput(input.query, input.normalized, constraints, input.lang, input.controllerGroup),
     ...(known ? { subtitle: buildIdentifierSubtitle(device, fields, ctx, input.lang), device } : {}),
-    blocks: known ? buildBlocks("nand.flash_id", detailFieldMap, ctx, input.lang, hiddenFields) : [],
+    ...(known ? { summary: buildResultSummary(device, blocks) } : {}),
+    blocks,
     relations: known ? identifierRelations(info, ctx, input.lang) : [],
     warnings: info.warnings ? [...info.warnings] : []
   };

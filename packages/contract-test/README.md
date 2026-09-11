@@ -4,7 +4,7 @@ Result contract and schema validation test suite for fdnext.
 
 ## Overview
 
-`packages/contract-test` validates that the fdnext engine's output conforms to the published result schemas (`fdnext.result.v1` and `fdnext.capabilities.v2`). It provides:
+`packages/contract-test` validates that the fdnext engine's output conforms to the published result schemas (`fdnext.result.v2` and `fdnext.capabilities.v2`). It provides:
 
 - **Schema Validator** — A lightweight JSON Schema validator (`validateSchema`) that checks fdnext results against their declared schemas without external dependencies.
 - **Contract Checks** — `runContractChecks()` exercises all core operations (part decode, part search, identifier decode, identifier search, capabilities) and validates each response against the schema.

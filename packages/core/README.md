@@ -15,7 +15,7 @@ Core parsing engine for fdnext — the one-stop memory chip intelligence platfor
 - **Part Number Decoding** — Decode raw NAND, eMMC, UFS, DRAM, eMCP/uMCP, and other memory chip part numbers into structured results.
 - **Typed Identifier Decoding** — Deep inspection of NAND Flash IDs through a typed identifier API.
 - **FDB / MDB Search** — Database search against embedded Flash Database (FDB) and Marking Database (MDB) resources.
-- **Result Contract** — Typed result schema (`fdnext.result.v1`) and capabilities schema (`fdnext.capabilities.v2`) with JSON Schema export.
+- **Result Contract** — Typed result schema (`fdnext.result.v2`) and capabilities schema (`fdnext.capabilities.v2`) with JSON Schema export.
 - **Field Registry** — Canonical field key definitions (`field-registry.ts`) and field display profiles for consistent cross-vendor output.
 - **Processor Pipeline** — Extensible `beforeOperation` / `afterOperation` hooks for custom middleware.
 - **Runtime** — `createRuntime()` provides shared dispatch, HTTP routing, CORS, fetch, and External Link provider support.

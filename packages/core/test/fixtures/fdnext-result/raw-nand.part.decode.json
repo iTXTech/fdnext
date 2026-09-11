@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "fdnext.result.v1",
+  "schemaVersion": "fdnext.result.v2",
   "operation": "part.decode",
   "status": "ok",
   "input": {
@@ -17,6 +17,162 @@
       "id": "micron",
       "name": "Micron"
     }
+  },
+  "summary": {
+    "brief": [
+      {
+        "key": "density",
+        "label": "Density",
+        "value": 4096,
+        "unit": "Mbit",
+        "display": "512MB",
+        "importance": "primary"
+      },
+      {
+        "key": "cell_level",
+        "label": "Cell Level",
+        "value": "SLC",
+        "importance": "primary"
+      },
+      {
+        "key": "process_alias",
+        "label": "Process Alias",
+        "value": "M70M",
+        "importance": "secondary"
+      },
+      {
+        "key": "interface_type",
+        "label": "Interface Type",
+        "value": "Async only",
+        "importance": "secondary"
+      },
+      {
+        "key": "voltage",
+        "label": "Voltage",
+        "value": "Vcc: 3.30V (2.70-3.60V), VccQ: 3.30V (2.70-3.60V)",
+        "importance": "secondary"
+      }
+    ],
+    "full": [
+      {
+        "id": "storage",
+        "label": "Storage",
+        "importance": "primary",
+        "fields": [
+          {
+            "key": "density",
+            "label": "Density",
+            "value": 4096,
+            "unit": "Mbit",
+            "display": "512MB",
+            "importance": "primary"
+          },
+          {
+            "key": "cell_level",
+            "label": "Cell Level",
+            "value": "SLC",
+            "importance": "primary"
+          },
+          {
+            "key": "die_codename",
+            "label": "Process",
+            "value": "25nm",
+            "importance": "primary"
+          },
+          {
+            "key": "process_alias",
+            "label": "Process Alias",
+            "value": "M70M",
+            "importance": "secondary"
+          }
+        ]
+      },
+      {
+        "id": "geometry",
+        "label": "Geometry",
+        "importance": "secondary",
+        "fields": [
+          {
+            "key": "die_density",
+            "label": "Die Density",
+            "value": "4Gb",
+            "importance": "secondary"
+          },
+          {
+            "key": "die_count",
+            "label": "Die Count",
+            "value": 1,
+            "importance": "secondary"
+          },
+          {
+            "key": "ce_count",
+            "label": "CE Count",
+            "value": 1,
+            "importance": "secondary"
+          },
+          {
+            "key": "rb_count",
+            "label": "R/B Count",
+            "value": 1,
+            "importance": "secondary"
+          },
+          {
+            "key": "channel_count",
+            "label": "Channel Count",
+            "value": 1,
+            "importance": "secondary"
+          }
+        ]
+      },
+      {
+        "id": "interface",
+        "label": "Interface",
+        "importance": "secondary",
+        "fields": [
+          {
+            "key": "device_width",
+            "label": "Device Width",
+            "value": 8,
+            "unit": "bit",
+            "display": "x8",
+            "importance": "secondary"
+          },
+          {
+            "key": "voltage",
+            "label": "Voltage",
+            "value": "Vcc: 3.30V (2.70-3.60V), VccQ: 3.30V (2.70-3.60V)",
+            "importance": "secondary"
+          },
+          {
+            "key": "interface_type",
+            "label": "Interface Type",
+            "value": "Async only",
+            "importance": "secondary"
+          }
+        ]
+      },
+      {
+        "id": "controllers",
+        "label": "Controllers",
+        "importance": "detail",
+        "fields": [
+          {
+            "key": "controller",
+            "label": "Controller",
+            "value": [
+              "SM2244LT",
+              "SM3257AA",
+              "SM3257ENAA",
+              "SM3257ENAA_8CE",
+              "SM3257ENBA",
+              "SM3257ENBB",
+              "SM3257ENLT"
+            ],
+            "importance": "secondary"
+          }
+        ]
+      }
+    ]
   },
   "blocks": [
     {
@@ -105,13 +261,13 @@
         {
           "key": "voltage",
           "label": "Voltage",
-          "value": "Vcc: 3.3V (2.70–3.60V), VccQ: 3.3V (2.70–3.60V)",
+          "value": "Vcc: 3.30V (2.70-3.60V), VccQ: 3.30V (2.70-3.60V)",
           "importance": "secondary"
         },
         {
           "key": "interface_type",
           "label": "Interface Type",
-          "value": "Async",
+          "value": "Async only",
           "importance": "secondary"
         }
       ]
@@ -134,20 +290,6 @@
             "SM3257ENLT"
           ],
           "importance": "secondary"
-        }
-      ]
-    },
-    {
-      "id": "additional",
-      "label": "Additional Fields",
-      "importance": "detail",
-      "fields": [
-        {
-          "key": "enterprise",
-          "label": "Enterprise",
-          "value": false,
-          "display": "No",
-          "importance": "detail"
         }
       ]
     }

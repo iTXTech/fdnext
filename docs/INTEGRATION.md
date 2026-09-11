@@ -84,7 +84,7 @@ const runtime = createRuntime({
             id: "micron.home",
             label: "Micron",
             url: "https://www.micron.com/",
-            category: "vendor",
+            category: "vnd",
             priority: 10
           }];
         }
@@ -108,7 +108,7 @@ interface ExternalLink {
   id: string;
   label: string;
   url: string;
-  category?: "vendor" | "datasheet" | "marketplace" | "reference" | "tool" | "community";
+  category?: "vnd" | "ds" | "mkt" | "ref" | "tl" | "com" | "ads";
   image?: string;
   hint?: string;
   fieldKey?: string;
@@ -117,6 +117,22 @@ interface ExternalLink {
 ```
 
 runtime 会过滤缺少 `id/label/url` 的链接，并只允许 `http:`、`https:`、`mailto:` URL。
+
+### Result v2 迁移
+
+`fdnext.result.v2` 将外链类别统一为缩写：`vendor → vnd`、`datasheet → ds`、
+`marketplace → mkt`、`reference → ref`、`tool → tl`、`community → com`，并新增
+`ads`，用于广告、自有推广和服务导流。`ds/ref` 表示资料用途；其他资源不自动等同于技术证据。
+分类与 `hint` 独立，展示广告时应保留明确标记。通用结果复制应排除广告；链接可单独导出。
+旧名称不属于 v2 Schema；provider 和严格校验消费者须一起升级，不能只替换显示标签。
+
+成功的 PN/FID 解码新增 `summary: { brief: FieldValue[], full: ResultBlock[] }`：
+`brief` 按器件类型给出有序重点字段，`full` 保留全部参数和组件分组。两者
+沿用原字段的 key、翻译、单位和值。DRAM 包含类型、容量、位宽、速率和电压；managed NAND
+分别保留设备和组件容量，MCP 的 DRAM 在独立 `dram` block 中；3D XPoint 保留 Deck 语义。
+摘要仅选取可见且确实返回的字段，不推算缺失容量、组件数或供电。`full` 与 `blocks` 一致，
+关联与警告仍在 `relations/warnings`；摘要不能代替这些内容。丝印与完整 PN 从 `device`
+及 `input.query` 读取。`subtitle` 同步补充 DRAM 速率/电压、managed 接口/协议和 XPoint Deck。
 
 ## 2. 浏览器（Web / Frontend）
 

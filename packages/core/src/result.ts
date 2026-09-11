@@ -1,6 +1,6 @@
 import packageMetadata from "../package.json" with { type: "json" };
 
-export const FDNEXT_RESULT_SCHEMA_VERSION = "fdnext.result.v1" as const;
+export const FDNEXT_RESULT_SCHEMA_VERSION = "fdnext.result.v2" as const;
 export const FDNEXT_CAPABILITIES_SCHEMA_VERSION = "fdnext.capabilities.v2" as const;
 declare const __FDNEXT_VERSION__: string;
 declare const __FDNEXT_COMMIT_HASH__: string;
@@ -270,12 +270,13 @@ export interface Action {
 }
 
 export const fdnextExternalLinkCategories = [
-  "vendor",
-  "datasheet",
-  "marketplace",
-  "reference",
-  "tool",
-  "community"
+  "vnd",
+  "ds",
+  "mkt",
+  "ref",
+  "tl",
+  "com",
+  "ads"
 ] as const;
 
 export type ExternalLinkCategory = (typeof fdnextExternalLinkCategories)[number];
@@ -324,8 +325,16 @@ export interface FdnextResultBase<O extends FdnextOperation = FdnextOperation> {
   warnings: ResultWarning[];
 }
 
+export interface ResultSummary {
+  /** Ordered key specifications for a compact overview. */
+  brief: FieldValue[];
+  /** Complete specifications with component and group context preserved. */
+  full: ResultBlock[];
+}
+
 export interface PartDecodeResult extends FdnextResultBase<"part.decode"> {
   device?: DeviceIdentity;
+  summary?: ResultSummary;
   blocks: ResultBlock[];
   relations: Relation[];
   candidates?: Candidate[];
@@ -333,6 +342,7 @@ export interface PartDecodeResult extends FdnextResultBase<"part.decode"> {
 
 export interface IdentifierDecodeResult extends FdnextResultBase<"identifier.decode"> {
   device?: DeviceIdentity;
+  summary?: ResultSummary;
   blocks: ResultBlock[];
   relations: Relation[];
   candidates?: Candidate[];

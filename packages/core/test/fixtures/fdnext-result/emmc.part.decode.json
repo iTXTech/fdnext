@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "fdnext.result.v1",
+  "schemaVersion": "fdnext.result.v2",
   "operation": "part.decode",
   "status": "ok",
   "input": {
@@ -8,7 +8,7 @@
     "lang": "eng",
     "constraints": {}
   },
-  "subtitle": "eMMC · Micron · 8GB",
+  "subtitle": "eMMC · Micron · 8GB · eMMC 5.0",
   "device": {
     "domain": "memory",
     "chipKind": "managed_nand",
@@ -18,6 +18,112 @@
       "id": "micron",
       "name": "Micron"
     }
+  },
+  "summary": {
+    "brief": [
+      {
+        "key": "density",
+        "label": "Density",
+        "value": 65536,
+        "unit": "Mbit",
+        "display": "8GB",
+        "importance": "primary"
+      },
+      {
+        "key": "product_version",
+        "label": "Product Version",
+        "value": "eMMC 5.0",
+        "importance": "secondary"
+      },
+      {
+        "key": "component_density",
+        "label": "Component Density",
+        "value": "64Gb",
+        "importance": "secondary"
+      }
+    ],
+    "full": [
+      {
+        "id": "storage",
+        "label": "Storage",
+        "importance": "primary",
+        "fields": [
+          {
+            "key": "density",
+            "label": "Density",
+            "value": 65536,
+            "unit": "Mbit",
+            "display": "8GB",
+            "importance": "primary"
+          },
+          {
+            "key": "generation_info",
+            "label": "Product Generation",
+            "value": "Gen4",
+            "importance": "secondary"
+          },
+          {
+            "key": "product_version",
+            "label": "Product Version",
+            "value": "eMMC 5.0",
+            "importance": "secondary"
+          }
+        ]
+      },
+      {
+        "id": "components",
+        "label": "Components",
+        "importance": "secondary",
+        "fields": [
+          {
+            "key": "component_density",
+            "label": "Component Density",
+            "value": "64Gb",
+            "importance": "secondary"
+          },
+          {
+            "key": "component_width",
+            "label": "Component Width",
+            "value": 8,
+            "unit": "bit",
+            "display": "x8",
+            "importance": "detail"
+          }
+        ]
+      },
+      {
+        "id": "package",
+        "label": "Package",
+        "importance": "detail",
+        "fields": [
+          {
+            "key": "package",
+            "label": "Package",
+            "value": "VFBGA-153, 11.5x13x1.0, SAC 302",
+            "importance": "secondary"
+          },
+          {
+            "key": "special_option",
+            "label": "Special Option",
+            "value": "16MB MAX boot area / 100% MAX enhanced",
+            "importance": "detail"
+          }
+        ]
+      },
+      {
+        "id": "controllers",
+        "label": "Controllers",
+        "importance": "detail",
+        "fields": [
+          {
+            "key": "controller_revision",
+            "label": "Controller Revision",
+            "value": "Rev 9",
+            "importance": "detail"
+          }
+        ]
+      }
+    ]
   },
   "blocks": [
     {
@@ -36,7 +142,13 @@
         {
           "key": "generation_info",
           "label": "Product Generation",
-          "value": "Fourth",
+          "value": "Gen4",
+          "importance": "secondary"
+        },
+        {
+          "key": "product_version",
+          "label": "Product Version",
+          "value": "eMMC 5.0",
           "importance": "secondary"
         }
       ]
@@ -59,12 +171,6 @@
           "unit": "bit",
           "display": "x8",
           "importance": "detail"
-        },
-        {
-          "key": "nand_component",
-          "label": "NAND Component",
-          "value": "AK",
-          "importance": "detail"
         }
       ]
     },
@@ -76,14 +182,8 @@
         {
           "key": "package",
           "label": "Package",
-          "value": "153-ball VFBGA 11.5x13x1.0 (SAC 302)",
+          "value": "VFBGA-153, 11.5x13x1.0, SAC 302",
           "importance": "secondary"
-        },
-        {
-          "key": "package_code",
-          "label": "Package Code",
-          "value": "CN",
-          "importance": "detail"
         },
         {
           "key": "special_option",
@@ -98,12 +198,6 @@
       "label": "Controllers",
       "importance": "detail",
       "fields": [
-        {
-          "key": "controller_code",
-          "label": "Controller Code",
-          "value": "AJ",
-          "importance": "detail"
-        },
         {
           "key": "controller_revision",
           "label": "Controller Revision",

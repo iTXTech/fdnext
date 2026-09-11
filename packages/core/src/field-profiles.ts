@@ -82,7 +82,14 @@ export const fdnextFieldProfiles = {
           "ce_count",
           "rb_count",
           "channel_count",
-          "plane_count",
+          "plane_count"
+        ]
+      },
+      {
+        id: "dram",
+        label: "DRAM",
+        importance: "secondary",
+        fields: [
           "dram_density",
           "dram_configuration",
           "dram_type",

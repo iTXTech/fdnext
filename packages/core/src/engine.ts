@@ -820,7 +820,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       const normalized = normalizePartNumber(input.query);
       if (!normalized) {
         return {
-          schemaVersion: "fdnext.result.v1",
+          schemaVersion: "fdnext.result.v2",
           operation: "part.decode",
           status: "invalid_input",
           input: {
@@ -842,7 +842,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       const classification = classifyPart(input.query, input.constraints, partClassificationOptions("decode"));
       if (classification.status === "not_found" || !classification.selected) {
         return {
-          schemaVersion: "fdnext.result.v1",
+          schemaVersion: "fdnext.result.v2",
           operation: "part.decode",
           status: "not_found",
           input: {
@@ -864,7 +864,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
           return result;
         }
         return {
-          schemaVersion: "fdnext.result.v1",
+          schemaVersion: "fdnext.result.v2",
           operation: "part.decode",
           status: "ambiguous",
           input: {
@@ -912,7 +912,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       const constraints = { ...(input.constraints ?? {}), idScheme } as OperationConstraints;
       if (idScheme !== "nand.flash_id") {
         return {
-          schemaVersion: "fdnext.result.v1",
+          schemaVersion: "fdnext.result.v2",
           operation: "identifier.decode",
           status: "unsupported",
           input: {
@@ -928,7 +928,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       }
       if (!isNandFlashIdShape(input.query)) {
         return {
-          schemaVersion: "fdnext.result.v1",
+          schemaVersion: "fdnext.result.v2",
           operation: "identifier.decode",
           status: "invalid_input",
           input: {
@@ -964,7 +964,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       const constraints = { ...(input.constraints ?? {}), idScheme } as OperationConstraints;
       if (idScheme !== "nand.flash_id") {
         return {
-          schemaVersion: "fdnext.result.v1",
+          schemaVersion: "fdnext.result.v2",
           operation: "identifier.search",
           status: "unsupported",
           input: {
@@ -979,7 +979,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       }
       if (!isNandFlashIdShape(input.query)) {
         return {
-          schemaVersion: "fdnext.result.v1",
+          schemaVersion: "fdnext.result.v2",
           operation: "identifier.search",
           status: "invalid_input",
           input: {

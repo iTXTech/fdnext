@@ -38,6 +38,9 @@ export type JsonSchema =
       maximum?: number;
       oneOf?: readonly JsonSchema[];
       anyOf?: readonly JsonSchema[];
+      allOf?: readonly JsonSchema[];
+      if?: JsonSchema;
+      then?: JsonSchema;
     };
 
 const scalarValueSchema = {
@@ -325,12 +328,25 @@ function decodeResultSchema(operation: "part.decode" | "identifier.decode"): Jso
   return {
     type: "object",
     required: ["schemaVersion", "operation", "status", "input", "blocks", "relations", "warnings"],
+    allOf: [{
+      if: { properties: { status: { const: "ok" } }, required: ["status"] },
+      then: { properties: { summary: true }, required: ["summary"] }
+    }],
     properties: {
       schemaVersion: { const: FDNEXT_RESULT_SCHEMA_VERSION },
       operation: { const: operation },
       status: { enum: fdnextResultStatuses },
       input: { $ref: "#/$defs/normalizedInput" },
       subtitle: { type: "string", minLength: 1 },
+      summary: {
+        type: "object",
+        required: ["brief", "full"],
+        properties: {
+          brief: { type: "array", items: { $ref: "#/$defs/fieldValue" } },
+          full: { type: "array", items: { $ref: "#/$defs/resultBlock" } }
+        },
+        additionalProperties: false
+      },
       device: { $ref: "#/$defs/deviceIdentity" },
       blocks: { type: "array", items: { $ref: "#/$defs/resultBlock" } },
       relations: { type: "array", items: { $ref: "#/$defs/relation" } },
@@ -363,7 +379,7 @@ function searchResultSchema(operation: "part.search" | "identifier.search"): Jso
 
 export const fdnextResultJsonSchema = {
   $schema: "https://json-schema.org/draft/2020-12/schema",
-  $id: "https://itxtech.org/fdnext/schemas/result-v1.json",
+  $id: "https://itxtech.org/fdnext/schemas/result-v2.json",
   title: "FdnextResult",
   oneOf: [
     decodeResultSchema("part.decode"),

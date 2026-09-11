@@ -5,7 +5,8 @@ import { collectBlockIds, collectResultFields } from "./_helpers";
 const engine = createContractEngine();
 
 const dramDecode = engine.decodePart({ query: "MT62F1G64D4EK-023 WT:B", lang: "eng" });
-assert.equal(dramDecode.subtitle, "LPDDR5X · Micron · 64Gb · x64");
+assert.equal(dramDecode.subtitle, "LPDDR5X · Micron · 64Gb · x64 · 4266MHz (LPDDR5X-8533) · 1.05V VDD / 0.5V VDDQ");
+assert.deepEqual(dramDecode.summary?.brief.map((field) => field.key), ["dram_type", "dram_density", "dram_width", "dram_speed", "dram_voltage"]);
 assert.ok(collectResultFields(dramDecode.blocks).some((field) => (
   field.key === "dram_density" &&
   (field as { unit?: unknown }).unit === "Mbit" &&

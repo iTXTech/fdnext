@@ -383,7 +383,7 @@ assertValid("result may carry schema-safe external links", fdnextResultJsonSchem
       id: "micron.product",
       label: "Micron product page",
       url: "https://www.micron.com/",
-      category: "vendor",
+      category: "vnd",
       fieldKey: "part_number",
       priority: 10
     }
