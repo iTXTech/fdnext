@@ -43,7 +43,7 @@ assertRuleDecode("SD7DP26A-XXXX", {
     "Product Version",
     "Package",
     "NAND Technology",
-    "Product Generation",
+    ,
     "Process",
     "Layer Count"
   ]
@@ -82,7 +82,7 @@ assertRuleDecode("SDINBDA6-256G-XI1", {
     "Layer Count": 64,
     "Product Class": "Industrial Extended Temperature"
   },
-  absentExtra: ["Product Version", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
 
@@ -198,7 +198,7 @@ assertRuleDecode("SDINBDG4-8G-Q", {
     "Operation Temperature": "-25°C ~ 85°C",
     "Production Status": "Engineering Sample"
   },
-  absentExtra: ["NAND Technology", "Product Generation"]
+  absentExtra: ["NAND Technology"]
 });
 
 assertRuleDecode("SDINBDG4-64G-XI", {
@@ -212,7 +212,7 @@ assertRuleDecode("SDINBDG4-64G-XI", {
     "Product Class": "Industrial Extended Temperature",
     "Operation Temperature": "-40°C ~ 85°C"
   },
-  absentExtra: ["NAND Technology", "Product Generation"]
+  absentExtra: ["NAND Technology"]
 });
 
 assertRuleDecode("SDINADF4-16G", {
@@ -280,7 +280,7 @@ assertRuleDecode("SDINFEO2-256G", {
     "Layer Count": 96,
     "Die Count": 4
   },
-  absentExtra: ["NAND Technology", "Product Generation", "Product Version", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["NAND Technology", "Product Version", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertRuleDecode("SDINFDO4-256G", {
@@ -295,7 +295,7 @@ assertRuleDecode("SDINFDO4-256G", {
     "Storage Interface": "UFS 3.1",
     "Layer Count": 96
   },
-  absentExtra: ["NAND Technology", "Product Generation"]
+  absentExtra: ["NAND Technology"]
 });
 
 assertRuleDecode("SDINBDI4-64G-H", {

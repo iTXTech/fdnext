@@ -711,7 +711,6 @@ export const skhynixH25RawInternalExtra = [
   "Config Code",
   "Packing Type Code",
   "Product Class",
-  "NAND Technology",
   "Component Density",
   "Die Stack"
 ];

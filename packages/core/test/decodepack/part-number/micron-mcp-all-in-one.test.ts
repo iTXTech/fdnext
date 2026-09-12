@@ -41,7 +41,7 @@ assertRuleDecode("MT29RZ4C4DZZMGMF-18W.80C", {
   package: "VFBGA-168, 12x12x0.85, PoP",
   extra: {
     "Product Family": "Micron All-in-One",
-    "Product Mode": "LPDDR2-S4 + SLC NAND",
+    "Product Mode": "LPDDR2-S4 + SLC Parallel NAND",
     "Storage Density": "512MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "4Gb",
@@ -64,7 +64,7 @@ assertRuleDecode("MT29RZ1CVCZZHGTN-18 W.85H", {
   package: "BGA-121, 7.5x8x0.8",
   extra: {
     "Product Family": "Micron All-in-One",
-    "Product Mode": "LPDDR2-S4 + SLC NAND",
+    "Product Mode": "LPDDR2-S4 + SLC Parallel NAND",
     "Storage Density": "128MB",
     "Storage Interface": "Parallel NAND",
     "DRAM Density": "512Mb",
@@ -194,8 +194,7 @@ assertRuleDecode("MT29JZZZ2DWMAFJV-6IES.63m", {
     "Product Family": "Micron All-in-One",
     "Product Mode": "LPDDR + SLC eMMC",
     "Storage Density": "256MB",
-    "Storage Interface": "eMMC",
-    "Product Version": "eMMC 4.2/4.3",
+    "Storage Interface": "eMMC 4.2/4.3",
     "DRAM Density": "2Gb",
     "DRAM Type": "LPDRAM",
     "DRAM Width": "x32",

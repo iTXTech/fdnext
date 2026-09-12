@@ -3,26 +3,6 @@ import { draftField, draftFields, draftVendor, setDraftField } from "../draft";
 import { fdnextFieldRegistry, type FdnextFieldKey } from "../field-registry";
 import type { IdentifierDecoder, IdentifierDecodeDraft, PartDecodeDraft, PartNumberDecoder } from "../types";
 
-const vendorAliases: Record<string, string[]> = {
-  biwin: ["biwin"],
-  esmt: ["esmt", "elite semiconductor"],
-  etron: ["etron", "etron technology"],
-  gigadevice: ["gigadevice", "giga device", "gd", "兆易创新"],
-  intel: ["intel"],
-  issi: ["issi"],
-  kingston: ["kingston"],
-  kioxia: ["kioxia", "toshiba"],
-  longsys: ["longsys", "foresee", "lexar"],
-  micron: ["micron"],
-  samsung: ["samsung"],
-  siliconmotion: ["silicon motion", "smi"],
-  sndk: ["sandisk", "western digital", "wd"],
-  skhynix: ["sk hynix", "skhynix"],
-  spectek: ["spectek"],
-  winbond: ["winbond"],
-  ymtc: ["ymtc"]
-};
-
 export function getHumanReadableDensity(density: number, useByte = false): string {
   const unit = useByte ? ["MB", "GB", "TB"] : ["Mb", "Gb", "Tb"];
   let numeric = useByte ? density / 8 : density;
@@ -47,72 +27,6 @@ function normalizeInfoText(value: unknown): string {
     .replaceAll(/\bv(?=\d)/g, "")
     .trim()
     .replaceAll(/\s+/g, " ");
-}
-
-function aliasesForVendor(vendor: unknown): string[] {
-  if (typeof vendor !== "string") {
-    return [];
-  }
-  return vendorAliases[vendor] ?? [vendor];
-}
-
-function removeVendorPrefix(value: string, vendor: unknown): string {
-  let normalized = normalizeInfoText(value);
-  for (const alias of aliasesForVendor(vendor)) {
-    const aliasText = normalizeInfoText(alias);
-    if (aliasText.length > 0 && normalized.startsWith(`${aliasText} `)) {
-      normalized = normalized.slice(aliasText.length + 1);
-      break;
-    }
-  }
-  return normalized;
-}
-
-function partTypeText(info: PartDecodeDraft): string {
-  return normalizeInfoText(
-    info.device.productType ??
-    draftField(info, "product_type") ??
-    draftField(info, "dram_type") ??
-    info.device.chipKind
-  );
-}
-
-function isRedundantManagedFamily(value: unknown, info: PartDecodeDraft, extra: Record<string, unknown>): boolean {
-  const text = normalizeInfoText(value);
-  if (text.length === 0) {
-    return false;
-  }
-  return text === partTypeText(info) || text === normalizeInfoText(extra.product_family);
-}
-
-function matchesDieCodename(value: unknown, info: PartDecodeDraft): boolean {
-  const text = normalizeInfoText(value);
-  const dieCodename = normalizeInfoText(draftField(info, "die_codename"));
-  return text.length > 0 && dieCodename.length > 0 && text === dieCodename;
-}
-
-function isRedundantNandTechnology(value: unknown, info: PartDecodeDraft, extra: Record<string, unknown>): boolean {
-  const text = normalizeInfoText(value);
-  if (text.length === 0) {
-    return false;
-  }
-  if (matchesDieCodename(value, info) || text === normalizeInfoText(extra.generation_info)) {
-    return true;
-  }
-
-  const dieCodename = normalizeInfoText(draftField(info, "die_codename"));
-  return text === "bics flash" && dieCodename.includes("bics");
-}
-
-function isManagedNandType(info: PartDecodeDraft): boolean {
-  return info.device.chipKind === "managed_nand" ||
-    ["emmc", "ufs", "sata", "sas", "nvme", "emcp", "umcp", "e2nand", "e3nand"].includes(partTypeText(info));
-}
-
-function isNandDieProfileType(info: PartDecodeDraft): boolean {
-  return info.device.chipKind === "raw_nand" ||
-    isManagedNandType(info) ||
-    info.device.idScheme === "nand.flash_id";
 }
 
 function publicDramType(value: unknown): string | undefined {
@@ -319,55 +233,5 @@ export function applyDramPublicType(info: PartDecodeDraft): void {
   const type = publicDramType(extra.dram_type);
   if (type) {
     setDraftField(info, "dram_type", type);
-  }
-}
-
-export function pruneRedundantFields(info: PartDecodeDraft): void {
-  const extra = info.fields;
-  if (!extra || typeof extra !== "object" || Array.isArray(extra)) {
-    return;
-  }
-
-  const productVersion = extra.product_version;
-  const storageInterface = extra.storage_interface;
-  const productFamily = extra.product_family;
-  const managedNandType = isManagedNandType(info);
-
-  if (isRedundantManagedFamily(extra.managed_family, info, extra)) {
-    delete extra.managed_family;
-  }
-  if (managedNandType && matchesDieCodename(extra.generation_info, info)) {
-    delete extra.generation_info;
-  }
-  if (managedNandType && isRedundantNandTechnology(extra.nand_technology, info, extra)) {
-    delete extra.nand_technology;
-  }
-
-  const productVersionText = normalizeInfoText(productVersion);
-  if (
-    productVersionText.length > 0 &&
-    (productVersionText === normalizeInfoText(storageInterface) || productVersionText === partTypeText(info))
-  ) {
-    delete extra.product_version;
-  }
-
-  const productFamilyText = removeVendorPrefix(String(productFamily ?? ""), draftVendor(info));
-  if (
-    productFamilyText.length > 0 &&
-    (
-      productFamilyText === normalizeInfoText(productVersion) ||
-      productFamilyText === normalizeInfoText(storageInterface) ||
-      productFamilyText === partTypeText(info)
-    )
-  ) {
-    delete extra.product_family;
-  }
-
-  if (managedNandType && normalizeInfoText(storageInterface) === partTypeText(info)) {
-    delete extra.storage_interface;
-  }
-
-  if (isNandDieProfileType(info)) {
-    delete extra.process_node;
   }
 }

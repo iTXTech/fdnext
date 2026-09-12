@@ -236,7 +236,7 @@ assertRuleDecode("H9HP52ACPMADAR-KMM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 524288,
-  voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+  voltage: "eMMC Vcc: 3.3V",
   package: "FBGA-254, 11.5x13",
   extra: {
     "Storage Density": "64GB",
@@ -260,7 +260,7 @@ assertRuleDecode("H9HP27ADAMADAR-KMM", {
   vendor: "skhynix",
   type: "eMCP",
   densityMbit: 262144,
-  voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+  voltage: "eMMC Vcc: 3.3V",
   package: "FBGA-254, 11.5x13",
   extra: {
     "Storage Density": "32GB",
@@ -283,7 +283,7 @@ assertSkhynixEmcpRuleMatches("H9HP99ADAMADAR-KMM", ["vendor.skhynix.emcp.h9hp-lp
 assertRuleDecode("H9HP99ADAMADAR-KMM", {
   vendor: "skhynix",
   type: "eMCP",
-  voltage: "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+  voltage: "eMMC Vcc: 3.3V",
   package: "FBGA-254, 11.5x13",
   extra: {
     "DRAM Type": "LPDDR4X",
@@ -307,7 +307,7 @@ assertRuleDecode("H9AG9G5ANBX100", {
     "DRAM Width": "x16",
     "DRAM Speed": "LPDDR4X-4266",
     "Operation Temperature": "-25°C ~ 85°C",
-    "Speed Grade": "LPDDR4X-4266 CL32 / eMMC 52MHz",
+    "Speed Grade": "eMMC 52MHz",
     "Special Option": "Lead & Halogen Free"
   },
   absentExtra: ["System", "Product Mode", "Product Family", "Product Version"]

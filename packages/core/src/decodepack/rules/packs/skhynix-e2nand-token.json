@@ -61,13 +61,11 @@
         },
         "familyObj": {
           "D": {
-            "product_family": "SK hynix E2NAND",
             "product_version": "E2NAND2.0",
             "generation_info": "26nm E2NAND2.0",
             "block_size": "2MB (8KB page)"
           },
           "J": {
-            "product_family": "SK hynix E2NAND",
             "product_version": "E2NAND3.0",
             "block_size": "4MB"
           }
@@ -404,8 +402,6 @@
           "to": "extra",
           "value": {
             "system": "SK hynix E3NAND",
-            "product_family": "SK hynix E3NAND",
-            "product_version": "E3NAND",
             "generation_info": "1ynm E3NAND",
             "block_size": "4MB",
             "ecc_enabled": true

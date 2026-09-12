@@ -265,14 +265,6 @@ function ensureProcessAliasField(
   }
 }
 
-function suppressDieProfileDuplicateFields(fields: Map<FdnextFieldKey, FieldValue>): void {
-  if (!fields.has("die_codename")) {
-    return;
-  }
-  fields.delete("generation_info");
-  fields.delete("series_info");
-}
-
 function hiddenFieldKeys(values: unknown[] | undefined): Set<FdnextFieldKey> {
   const out = new Set<FdnextFieldKey>();
   for (const value of values ?? []) {
@@ -313,7 +305,6 @@ function fieldMapFromPart(info: PartDecodeDraft, device: DeviceIdentity, ctx: Re
   }
   addField(fields, createField("part_number", draftPartNumber(info), ctx, lang));
   addDraftFields(fields, info.fields, ctx, lang, { sourceText: draftPartNumber(info) });
-  suppressDieProfileDuplicateFields(fields);
 
   const controllers = knownStringList(info.controllers);
   if (controllers.length > 0) {
@@ -357,7 +348,7 @@ function buildBlocks(
   for (const block of profile.blocks) {
     const blockFields = block.fields
       .map((key) => fields.get(key))
-      .filter((field): field is FieldValue => Boolean(field && !hiddenFields.has(field.key as FdnextFieldKey) && !emitted.has(field.key as FdnextFieldKey)));
+      .filter((field): field is FieldValue => Boolean(field && !hiddenFields.has(field.key as FdnextFieldKey)));
     if (blockFields.length === 0) {
       continue;
     }
@@ -608,7 +599,6 @@ function normalizedFlashIds(values: unknown): string[] {
 function relationFieldsFromDraft(draftFields: DecodeDraftFields | undefined, ctx: ResultBuilderContext, lang?: string | null): FieldValue[] | undefined {
   const fields = new Map<FdnextFieldKey, FieldValue>();
   addDraftFields(fields, draftFields, ctx, lang);
-  suppressDieProfileDuplicateFields(fields);
   return fields.size > 0 ? [...fields.values()] : undefined;
 }
 
@@ -727,7 +717,6 @@ function fieldMapFromIdentifier(info: IdentifierDecodeDraft, device: DeviceIdent
   addField(fields, createField("identifier", draftIdentifier(info), ctx, lang));
   addField(fields, createField("id_scheme", info.device.idScheme, ctx, lang, { display: info.device.idScheme === "nand.flash_id" ? "NAND Flash ID" : undefined }));
   addDraftFields(fields, info.fields, ctx, lang, { sourceText: draftIdentifier(info) });
-  suppressDieProfileDuplicateFields(fields);
   const controllers = knownStringList(info.controllers);
   if (controllers.length > 0) {
     addField(fields, createField("controller", controllers, ctx, lang));

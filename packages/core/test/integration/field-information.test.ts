@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { createEngine } from "../../src/index";
-import { checkDecodePack, defaultDecodePack, explainPartDecode } from "../../src/decodepack";
+import { defaultDecodePack, explainPartDecode } from "../../src/decodepack";
 
 const engine = createEngine();
 
@@ -24,13 +24,44 @@ test("source fields carry independent technology, voltage, controller and class 
   }
 });
 
-test("source checks reject cell/type echoes but allow meaningful NAND mode qualifiers", () => {
-  for (const fields of [{ nand_technology: "MLC" }, { nand_technology: "3D TLC NAND" }, { dram_voltage: "LPDDR2" }]) {
-    const pack = structuredClone(defaultDecodePack);
-    pack.sharedTables!["test.information"] = { sample: fields };
-    assert.ok(checkDecodePack(pack).findings.some((finding) => finding.code === "field_information_overlap"));
+test("split descriptions preserve component geometry, process, supply rails and read latency", () => {
+  for (const [query, expected] of [
+    ["MTFDDAC128MAG-1G12AA", { component_density: 32768, component_width: 8, component_voltage: "3.3V", cell_level: "MLC", process_node: "34nm" }],
+    ["MTFDHBL064TDP-1AT12AIYY", { component_density: 524288, component_width: 8, component_voltage: "3.3V", cell_level: "TLC", nand_technology: "3D" }],
+    ["H9HP52ACPMADAR-KMM", { component_voltage: "3.3V", component_width: 8, voltage: "eMMC Vcc: 3.3V", dram_voltage: "1.8V/1.1V/0.6V", dram_speed: "LPDDR4X-3733", speed_grade: "eMMC 400MHz" }],
+    ["NT6AN512T32AV-J1", { dram_speed: "LPDDR4-4267", read_latency: 36, speed_grade: "J1 0.468ns" }],
+    ["MT29JZZZ2DWMAFJV-6IES.63m", { storage_interface: "eMMC 4.2/4.3", product_mode: "LPDDR + SLC eMMC" }]
+  ] as const) {
+    const result = engine.decodePart({ query, lang: "eng" });
+    const fields = Object.fromEntries(result.blocks.flatMap((block) => block.fields.map((field) => [field.key, field.value])));
+    for (const [key, value] of Object.entries(expected)) assert.deepEqual(fields[key], value, `${query}: ${key}`);
+    assert.equal(fields.nand_component, undefined, query);
   }
-  const pack = structuredClone(defaultDecodePack);
-  pack.sharedTables!["test.information"] = { sample: { nand_technology: "Win-pSLC (TLC NAND)" } };
-  assert.equal(checkDecodePack(pack).ok, true);
+});
+
+test("a die name does not hide distinct generation, series or process information", () => {
+  const fields = { die_codename: "test-die", generation_info: "Gen2", series_info: "Low-voltage series", process_node: "25nm" };
+  const fixture = createEngine({
+    decoders: [{
+      id: "test.field-information", dispatchPrefixes: ["TEST"],
+      match: (input) => ({ decoderId: "test.field-information", input, normalized: input }),
+      decode: (match) => ({ device: { partNumber: match.normalized, vendor: "micron", chipKind: "raw_nand" }, fields })
+    }]
+  });
+  for (const lang of ["eng", "chs"]) {
+    const result = fixture.decodePart({ query: "TEST-FIELD-INFORMATION", lang });
+    const actual = Object.fromEntries(result.blocks.flatMap((block) => block.fields.map((field) => [field.key, field.value])));
+    for (const [key, value] of Object.entries(fields)) assert.equal(actual[key], value);
+    assert.deepEqual(result.summary!.full, result.blocks);
+  }
+  const ymtc = engine.decodeIdentifier({ query: "9BD5588D2000", lang: "eng" });
+  assert.equal(ymtc.blocks.flatMap((block) => block.fields).find((field) => field.key === "generation_info")?.value, "Gen3 Xtacking 2.0");
+});
+
+test("die profiles avoid repeating their named generation while preserving 3D technology", () => {
+  const result = engine.decodePart({ query: "H25T0TD18CX655", lang: "eng" });
+  const fields = Object.fromEntries(result.blocks.flatMap((block) => block.fields.map((field) => [field.key, field.value])));
+  assert.equal(fields.die_codename, "HYV9");
+  assert.equal(fields.nand_technology, "3D");
+  assert.equal(fields.generation_info, undefined);
 });

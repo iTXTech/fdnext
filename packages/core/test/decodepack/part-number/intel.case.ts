@@ -84,7 +84,7 @@ assertRuleDecode("PF29F01T2ANCMG2", {
   extra: {
     "Layer Count": 32
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 assertRuleDecode("I29F256G08CBCBB", {
   vendor: "intel",
@@ -103,7 +103,7 @@ assertRuleDecode("PF29F01T2ANCTG3", {
   extra: {
     "Layer Count": 32
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 assertRuleDecode("PF29F01T2ANCTH2", {
   vendor: "intel",
@@ -115,7 +115,7 @@ assertRuleDecode("PF29F01T2ANCTH2", {
   extra: {
     "Layer Count": 64
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 assertRuleDecode("PF29F01T2AMCTH1", {
   vendor: "intel",
@@ -127,7 +127,7 @@ assertRuleDecode("PF29F01T2AMCTH1", {
   extra: {
     "Layer Count": 64
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 assertRuleDecode("PF29F64B2ALCTJ1", {
   vendor: "intel",
@@ -139,7 +139,7 @@ assertRuleDecode("PF29F64B2ALCTJ1", {
   extra: {
     "Layer Count": 96
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 assertRuleDecode("PF29F01T08OCMF2", {
   vendor: "intel",
@@ -305,7 +305,7 @@ assertRuleDecode("PF29F01T2ALCQK2", {
   extra: {
     "Layer Count": 144
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 assertRuleDecode("PF29F01T2BLCQKM", {
   vendor: "intel",
@@ -317,7 +317,7 @@ assertRuleDecode("PF29F01T2BLCQKM", {
   extra: {
     "Layer Count": 144
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 assertRuleDecode("PF29F16P2BWCQKM", {
   vendor: "intel",
@@ -332,7 +332,7 @@ assertRuleDecode("PF29F16P2BWCQKM", {
     "CE Count": 8,
     "Channel Count": 2
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 assertRuleDecode("PF29F16P2BWCQL1", {
   vendor: "intel",

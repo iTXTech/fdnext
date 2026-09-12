@@ -17,8 +17,7 @@ import {
   applyDramPublicType,
   canonicalNandDieProfileKey,
   collectDecoderProfileTables,
-  isFdnextFieldKey,
-  pruneRedundantFields
+  isFdnextFieldKey
 } from "./engine/field-normalization";
 import { createPartDecoderDispatch } from "./engine/part-decoder-dispatch";
 import { findFlashIdRecord } from "./fdb";
@@ -537,7 +536,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     const info = detectRaw(partNumber, { combineFdb: true }, true);
     applyDramClassification(info);
     applyDramPublicType(info);
-    pruneRedundantFields(info);
     return info;
   };
 
@@ -545,7 +543,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     const info = detectRaw(partNumber, { combineFdb: false, projection: partSearchProjection }, true);
     applyDramClassification(info);
     applyDramPublicType(info);
-    pruneRedundantFields(info);
     return info;
   };
 

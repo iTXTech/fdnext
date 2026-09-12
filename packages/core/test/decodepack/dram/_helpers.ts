@@ -70,6 +70,7 @@ export const standaloneDramExtraKeys = new Set([
   "Package Code",
   "DRAM Speed",
   "CAS Latency",
+  "Read Latency",
   "DRAM Generation",
   "DRAM Die Density",
   "DRAM Die Count",

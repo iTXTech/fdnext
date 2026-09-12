@@ -448,15 +448,15 @@ assertDram("NT6CL256M32AM-H0", {
     "DRAM Type": "LPDDR3",
     "DRAM Die Count": 1,
     "CS Count": 1,
-    "DRAM Speed": "LPDDR3-2133",
+    "DRAM Speed": "2133Mbps",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 1,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "1st version",
-    "CAS Latency": 16,
-    "Speed Grade": "H0 2133Mbps @ RL=16"
+    "Read Latency": 16,
+    "Speed Grade": "H0"
   }
 });
 
@@ -471,15 +471,15 @@ assertDram("NT6CL512T32AM-H1", {
     "DRAM Type": "LPDDR3",
     "DRAM Die Count": 2,
     "CS Count": 2,
-    "DRAM Speed": "LPDDR3-1866",
+    "DRAM Speed": "1866Mbps",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 2,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "1st version",
-    "CAS Latency": 14,
-    "Speed Grade": "H1 1866Mbps @ RL=14"
+    "Read Latency": 14,
+    "Speed Grade": "H1"
   }
 });
 
@@ -494,15 +494,15 @@ assertDram("NT6CL1024F32AP-H0", {
     "DRAM Type": "LPDDR3",
     "DRAM Die Count": 4,
     "CS Count": 2,
-    "DRAM Speed": "LPDDR3-2133",
+    "DRAM Speed": "2133Mbps",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 2,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "1st version",
-    "CAS Latency": 16,
-    "Speed Grade": "H0 2133Mbps @ RL=16"
+    "Read Latency": 16,
+    "Speed Grade": "H0"
   }
 });
 
@@ -517,15 +517,15 @@ assertDram("NT6CL128M32DM-H1", {
     "DRAM Type": "LPDDR3",
     "DRAM Die Count": 1,
     "CS Count": 1,
-    "DRAM Speed": "LPDDR3-1866",
+    "DRAM Speed": "1866Mbps",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 1,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "4th version",
-    "CAS Latency": 14,
-    "Speed Grade": "H1 1866Mbps @ RL=14"
+    "Read Latency": 14,
+    "Speed Grade": "H1"
   }
 });
 
@@ -540,15 +540,15 @@ assertDram("NT6CL256M16DM-H0", {
     "DRAM Type": "LPDDR3",
     "DRAM Die Count": 1,
     "CS Count": 1,
-    "DRAM Speed": "LPDDR3-2133",
+    "DRAM Speed": "2133Mbps",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 1,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "4th version",
-    "CAS Latency": 16,
-    "Speed Grade": "H0 2133Mbps @ RL=16"
+    "Read Latency": 16,
+    "Speed Grade": "H0"
   }
 });
 
@@ -563,15 +563,15 @@ assertDram("NT6CL128M32BQ-H2", {
     "DRAM Type": "LPDDR3",
     "DRAM Die Count": 1,
     "CS Count": 1,
-    "DRAM Speed": "LPDDR3-1600",
+    "DRAM Speed": "1600Mbps",
     "Operation Temperature": "Commercial (-25C~85C)",
     "CS Count": 1,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "2nd version",
-    "CAS Latency": 12,
-    "Speed Grade": "H2 1600Mbps @ RL=12"
+    "Read Latency": 12,
+    "Speed Grade": "H2"
   }
 });
 
@@ -586,15 +586,15 @@ assertDram("NT6CL256T32BM-H2", {
     "DRAM Type": "LPDDR3",
     "DRAM Die Count": 2,
     "CS Count": 2,
-    "DRAM Speed": "LPDDR3-1600",
+    "DRAM Speed": "1600Mbps",
     "Operation Temperature": "Commercial (-25C~85C)",
     "CS Count": 2,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "2nd version",
-    "CAS Latency": 12,
-    "Speed Grade": "H2 1600Mbps @ RL=12"
+    "Read Latency": 12,
+    "Speed Grade": "H2"
   }
 });
 
@@ -609,7 +609,7 @@ assertDram("NT6CL128T64DR-H1", {
     "DRAM Type": "LPDDR3",
     "DRAM Die Count": 2,
     "CS Count": 2,
-    "DRAM Speed": "LPDDR3-1866",
+    "DRAM Speed": "1866Mbps",
     "Operation Temperature": "Commercial (-30C~105C)",
     "CS Count": 2,
     "Channel Count": 2,
@@ -617,8 +617,8 @@ assertDram("NT6CL128T64DR-H1", {
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "4th version",
-    "CAS Latency": 14,
-    "Speed Grade": "H1 1866Mbps @ RL=14"
+    "Read Latency": 14,
+    "Speed Grade": "H1"
   }
 });
 
@@ -641,8 +641,8 @@ assertDram("NT6AN128M16AV-J3", {
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "1st version",
-    "CAS Latency": 28,
-    "Speed Grade": "J3 0.625ns @ RL=28"
+    "Read Latency": 28,
+    "Speed Grade": "J3 0.625ns"
   }
 });
 
@@ -665,8 +665,8 @@ assertDram("NT6AN128T32AV-J2", {
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "1st version",
-    "CAS Latency": 32,
-    "Speed Grade": "J2 0.535ns @ RL=32"
+    "Read Latency": 32,
+    "Speed Grade": "J2 0.535ns"
   }
 });
 
@@ -689,8 +689,8 @@ assertDram("NT6AN512T32AV-J2", {
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "1st version",
-    "CAS Latency": 32,
-    "Speed Grade": "J2 0.535ns @ RL=32"
+    "Read Latency": 32,
+    "Speed Grade": "J2 0.535ns"
   }
 });
 
@@ -713,8 +713,8 @@ assertDram("NT6AN1024F32AV-J2", {
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "1st version",
-    "CAS Latency": 32,
-    "Speed Grade": "J2 0.535ns @ RL=32"
+    "Read Latency": 32,
+    "Speed Grade": "J2 0.535ns"
   }
 });
 assertDecodedFieldAbsent("NT6AN256M16AV-J3", "dram_speed");
@@ -858,15 +858,15 @@ assertDram("NT6CL256T64A7-H1", {
     "CS Count": 2,
     "Package Code": "A7",
     "Config Code": "256T64",
-    "DRAM Speed": "LPDDR3-1866",
+    "DRAM Speed": "1866Mbps",
     "Operation Temperature": "Commercial (-30C~105C)",
     "Channel Count": 2,
     "Interface Type": "HSUL_12",
     "Bank Count": 8,
     "Solder Type": "Lead-free RoHS compliant and Halogen-free",
     "Die Revision": "1st version",
-    "CAS Latency": 14,
-    "Speed Grade": "H1 1866Mbps @ RL=14"
+    "Read Latency": 14,
+    "Speed Grade": "H1"
   }
 });
 assertSearchPnIncludes("NT6CL256T64A7-H1", "Nanya NT6CL256T64A7-H1");

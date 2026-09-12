@@ -36,16 +36,17 @@ PN 结构：
 
 ## 输出字段
 
-- `nand_component`
 - `component_width`
 - `component_density`
+- `component_voltage`
+- `process_node`
 - `generation_info`
 - `controller_revision`
 - `product_family`
-- `product_version`
+- `storage_interface`
 - `operation_temperature`
 
-`nand_component`、`controller_code`、`package_code` 等 Micron token 只用于内部解析，不进入公开字段；用户可见结果优先输出 `component_density`、`die_codename`、`controller`、`controller_revision`、`package` 等语义字段。UFS 输出不额外公开 `product_family`；品牌、UFS 类型与接口代际已分别由设备身份和 `product_version` / `storage_interface` 表达。
+`nand_component`、`controller_code`、`package_code` 等 Micron token 只用于内部解析，不进入公开字段；用户可见结果优先输出 `component_density`、`die_codename`、`controller`、`controller_revision`、`package` 等语义字段。UFS 输出不额外公开 `product_family`；品牌、UFS 类型与接口代际已分别由设备身份和 `storage_interface` 表达。
 
 ## 测试样例
 

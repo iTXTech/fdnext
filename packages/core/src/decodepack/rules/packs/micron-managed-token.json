@@ -136,7 +136,7 @@
           "op": "set",
           "to": "extra",
           "value": {
-            "product_version": "UFS 3.1"
+            "storage_interface": "UFS 3.1"
           }
         },
         {
@@ -382,89 +382,88 @@
         },
         "familyObj": {
           "AC:AA": {
-            "product_version": "eMMC 4.51",
+            "storage_interface": "eMMC 4.51",
             "group": "eMMC"
           },
           "AC:AE": {
-            "product_version": "eMMC 5.0",
+            "storage_interface": "eMMC 5.0",
             "group": "eMMC"
           },
           "AC:AJ": {
-            "product_family": "Micron e.MMC",
-            "product_version": "eMMC 5.0",
+            "storage_interface": "eMMC 5.0",
             "group": "eMMC"
           },
           "AJ:AE": {
-            "product_version": "eMMC 5.0",
+            "storage_interface": "eMMC 5.0",
             "group": "eMMC"
           },
           "AK:AE": {
-            "product_version": "eMMC 5.0",
+            "storage_interface": "eMMC 5.0",
             "group": "eMMC"
           },
           "AK:AJ": {
-            "product_version": "eMMC 5.0",
+            "storage_interface": "eMMC 5.0",
             "group": "eMMC"
           },
           "AM:AL": {
-            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "group": "eMMC"
           },
           "AO:AL": {
-            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "group": "eMMC"
           },
           "AP:AL": {
-            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "group": "eMMC"
           },
           "AS:AQ": {
-            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "group": "eMMC"
           },
           "AX:AQ": {
-            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "group": "eMMC"
           },
           "AZ:AQ": {
-            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "group": "eMMC"
           },
           "BC:AQ": {
             "product_family": "Micron e.MMC 5.1 TLC Pearl",
-            "product_version": "eMMC 5.1",
+            "storage_interface": "eMMC 5.1",
             "group": "eMMC"
           },
           "AM:AK": {
-            "product_version": "UFS 2.1",
+            "storage_interface": "UFS 2.1",
             "group": "UFS"
           },
           "AO:AM": {
-            "product_version": "UFS 2.1",
+            "storage_interface": "UFS 2.1",
             "group": "UFS"
           },
           "AR:AM": {
-            "product_version": "UFS 2.1",
+            "storage_interface": "UFS 2.1",
             "group": "UFS"
           },
           "AR:AP": {
-            "product_version": "UFS 3.0",
+            "storage_interface": "UFS 3.0",
             "group": "UFS"
           },
           "AR:AT": {
-            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
             "group": "UFS"
           },
           "AS:AO": {
-            "product_version": "UFS 2.1",
+            "storage_interface": "UFS 2.1",
             "group": "UFS"
           },
           "AX:AT": {
-            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
             "group": "UFS"
           },
           "AX:AU": {
-            "product_version": "UFS 2.2",
+            "storage_interface": "UFS 2.2",
             "group": "UFS"
           },
           "AX:AV": {
@@ -477,54 +476,54 @@
             "group": "UFS"
           },
           "AV:AT": {
-            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
             "group": "UFS"
           },
           "AV:AU": {
-            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
             "group": "UFS"
           },
           "AW:AT": {
-            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
             "group": "UFS"
           },
           "BA:AV": {
             "group": "UFS"
           },
           "BC:AV": {
-            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
             "group": "UFS"
           },
           "BC:AX": {
-            "product_version": "UFS 4.0",
+            "storage_interface": "UFS 4.0",
             "group": "UFS"
           },
           "BE:AX": {
-            "product_version": "UFS 4.0",
+            "storage_interface": "UFS 4.0",
             "group": "UFS"
           },
           "AY:AX": {
-            "product_version": "UFS 4.0",
+            "storage_interface": "UFS 4.0",
             "group": "UFS"
           },
           "BE:AZ": {
-            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
             "group": "UFS"
           },
           "AY:AZ": {
-            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
             "group": "UFS"
           },
           "BG:AZ": {
-            "product_version": "UFS 4.0",
+            "storage_interface": "UFS 4.0",
             "group": "UFS"
           },
           "BG:BB": {
-            "product_version": "UFS 4.1",
+            "storage_interface": "UFS 4.1",
             "group": "UFS"
           },
           "BG:BC": {
-            "product_version": "UFS 4.1",
+            "storage_interface": "UFS 4.1",
             "group": "UFS"
           }
         },

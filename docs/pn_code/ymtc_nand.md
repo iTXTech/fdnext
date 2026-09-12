@@ -33,7 +33,7 @@ iTXTech fdnext DecodePack:
 ## 输出约定
 
 - `die_codename` 保留 YMTC 具体 die profile key，例如 `TAS`、`HUS`、`WDS`，公开 label 渲染为 `Process` / `制程`。
-- `process_alias` 单独输出 `X2-9060` / `X3-9070` 这类工艺 alias；已有 `die_codename` 时不再重复公开 Xtacking `generation_info`。
+- `process_alias` 单独输出 `X2-9060` / `X3-9070` 这类工艺 alias；Xtacking `generation_info` 提供独立代际信息，与 `die_codename` 同时保留。
 - `cell_level`、`layer_count`、`die_density`、`plane_count` 分别表达 xLC、层数、die 容量和 plane 数。`nand_interface.rating` 保留 PN ONFI / 速度等级，`nand_interface.capability` 保留 die 接口能力；即使同值也保留两个作用对象，不塞进 `die_codename` 文本。
 - raw NAND / UNIMOS pack 可以按 die profile key 合并共享表；eMMC / UFS pack 只使用共享表中不覆盖 PN 自带 `cell_level` 或容量 token 的字段。
 - Flash ID DecodePack 的 byte / bit 规则只输出泛化 generation、density、cell、page 等可由位段直接确定的信息；完整或子序列命中后的 die profile、die density、plane、ONFI、redundant area 和 pages-per-block 由 core postprocess 补充。

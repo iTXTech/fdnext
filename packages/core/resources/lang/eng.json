@@ -147,6 +147,7 @@
   "dram_generation": "DRAM Generation",
   "dram_speed": "DRAM Speed",
   "cas_latency": "CAS Latency",
+  "read_latency": "Read Latency",
   "dram_width": "DRAM Width",
   "dram_voltage": "DRAM Voltage",
   "storage_interface": "Storage Interface",

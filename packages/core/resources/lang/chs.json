@@ -147,6 +147,7 @@
   "dram_generation": "DRAM 代际",
   "dram_speed": "DRAM 速度",
   "cas_latency": "CAS 延迟",
+  "read_latency": "读取延迟",
   "dram_width": "DRAM 位宽",
   "dram_voltage": "DRAM 电压",
   "storage_interface": "存储接口",

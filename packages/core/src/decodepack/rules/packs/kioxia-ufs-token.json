@@ -60,74 +60,59 @@
         },
         "seriesObj": {
           "AFB": {
-            "series_code": "AFB",
-            "nand_technology": "BiCS FLASH"
+            "series_code": "AFB"
           },
           "AFE": {
-            "series_code": "AFE",
-            "nand_technology": "BiCS FLASH"
+            "series_code": "AFE"
           },
           "JFG": {
-            "series_code": "JFG",
-            "nand_technology": "BiCS FLASH"
+            "series_code": "JFG"
           },
           "JFM": {
-            "series_code": "JFM",
-            "nand_technology": "BiCS FLASH"
+            "series_code": "JFM"
           },
           "JFP": {
-            "series_code": "JFP",
-            "nand_technology": "BiCS FLASH"
+            "series_code": "JFP"
           },
           "JFJ": {
-            "series_code": "JFJ",
-            "nand_technology": "BiCS FLASH"
+            "series_code": "JFJ"
           },
           "JFR": {
-            "series_code": "JFR",
-            "nand_technology": "BiCS FLASH"
+            "series_code": "JFR"
           }
         },
         "versionObj": {
           "AFB": {
-            "product_version": "UFS 2.1",
             "storage_interface": "UFS 2.1",
             "speed_grade": "1160 MB/s"
           },
           "AFE": {
-            "product_version": "UFS 2.1",
             "storage_interface": "UFS 2.1",
             "speed_grade": "1160 MB/s"
           },
           "JFG": {
-            "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1",
             "speed_grade": "2320 MB/s"
           },
           "JFP": {
-            "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1",
             "speed_grade": "2320 MB/s"
           },
           "JFM": {
-            "product_version": "UFS 4.0",
             "storage_interface": "UFS 4.0",
             "speed_grade": "4640 MB/s"
           },
           "JFJ": {
-            "product_version": "UFS 4.0",
             "storage_interface": "UFS 4.0",
             "speed_grade": "4640 MB/s"
           },
           "JFR": {
-            "product_version": "UFS 4.1",
             "storage_interface": "UFS 4.1",
             "speed_grade": "4640 MB/s"
           }
         },
         "versionBySeriesCell": {
           "JFJ:E": {
-            "product_version": "UFS 4.1",
             "storage_interface": "UFS 4.1",
             "speed_grade": "4640 MB/s"
           }
@@ -150,29 +135,6 @@
           "BICS:6": "KBiCS6",
           "BICS:8": "KBiCS8",
           "BICS:M": "KBiCS4.5"
-        },
-        "bicsGenerationObj": {
-          "BICS:2": {
-            "generation_info": "BiCS2"
-          },
-          "BICS:3": {
-            "generation_info": "BiCS3"
-          },
-          "BICS:4": {
-            "generation_info": "BiCS4"
-          },
-          "BICS:5": {
-            "generation_info": "BiCS5"
-          },
-          "BICS:6": {
-            "generation_info": "BiCS6"
-          },
-          "BICS:8": {
-            "generation_info": "BiCS8"
-          },
-          "BICS:M": {
-            "generation_info": "BiCS4.5"
-          }
         },
         "classObj": {
           "BAI": {
@@ -208,7 +170,12 @@
           "BAIT": "BGA-153",
           "LA01": "LGA-60"
         },
-        "twoDimensionalProcessNode": {}
+        "twoDimensionalProcessNode": {},
+        "processFallback": {
+          "BICS": {
+            "nand_technology": "BiCS FLASH"
+          }
+        }
       },
       "steps": [
         {
@@ -265,7 +232,7 @@
           "table": "versionObj",
           "to": "versionObj",
           "default": {
-            "product_version": "UFS"
+            "storage_interface": "UFS"
           }
         },
         {
@@ -344,14 +311,20 @@
           "from": "processNode",
           "table": "nand.die_profile",
           "to": "processObj",
-          "default": {}
+          "default": ""
         },
         {
           "op": "map",
-          "from": "bicsProcessKey",
-          "table": "bicsGenerationObj",
-          "to": "bicsGenerationObj",
+          "from": "processFamily",
+          "table": "processFallback",
+          "to": "processFallback",
           "default": {}
+        },
+        {
+          "op": "fallback",
+          "primary": "processObj",
+          "secondary": "processFallback",
+          "to": "processObj"
         },
         {
           "op": "take",
@@ -431,11 +404,6 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "bicsGenerationObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
           "from": "classObj"
         },
         {
@@ -493,6 +461,9 @@
         },
         "fields.die_codename": {
           "$var": "processNode"
+        },
+        "fields.nand_technology": {
+          "$path": "processObj.nand_technology"
         }
       }
     }

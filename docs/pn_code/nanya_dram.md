@@ -67,9 +67,9 @@ NT6AN1024F32AV-J2
 - 低功耗 speed token 以 `family + speed` 做组合 key，避免 LPDDR4 与 LPDDR4X 共用 `J1` 时混淆。
 - LPDDR3 `NT6CL` 输出 `interface_type = HSUL_12`、`bank_count = 8`、`solder_type = Lead-free RoHS compliant and Halogen-free`；`A/B/D` device version 以 `die_revision` 表达为 `1st version` / `2nd version` / `4th version`。
 - LPDDR3 `M/T/F` 分别输出 `dram_die_count=1, cs_count=1`、`dram_die_count=2, cs_count=2`、`dram_die_count=4, cs_count=2`；`x64` 2-channel PoP 组合额外输出 `channel_count = 2`。
-- LPDDR3 `H0/H1/H2` 输出 `dram_speed`、`cas_latency` 与保留原始 token 的 `speed_grade`；`B` version ordering 截图中的 commercial grade 温度为 `-25C~85C`，`A/D` version 截图为 `-30C~105C`。
+- LPDDR3 `H0/H1/H2` 输出保留 Mbps 单位的 `dram_speed`、`read_latency` 与原始等级 `speed_grade`（H0/H1/H2）；`B` version ordering 截图中的 commercial grade 温度为 `-25C~85C`，`A/D` version 截图为 `-30C~105C`。
 - LPDDR3 package 输出使用截图确认的实际封装：178-ball FBGA 10.50x11.50mm（SDP/DDP 0.83mm、QDP 1.05mm 高度，0.65/0.80mm mixed pitch）、168-ball PoP BGA 12.00x12.00mm 0.50mm pitch、216-ball 2-CH PoP-BGA / PoP-FBGA 12.00x12.00x0.83mm 0.40mm pitch。
-- LPDDR4 `NT6AN` 输出 `interface_type = LVSTL`、`bank_count = 8`、`solder_type = Lead-free RoHS compliant and Halogen-free`；`A` device version 输出为 `die_revision = 1st version`，`x16` / `x32` 分别输出 `channel_count = 1` / `2`。`J1/J2` 输出 `dram_speed`、`cas_latency` 和 `speed_grade`；`J3` 仅对 `128M16` / `128T32` 已确认组合输出 `LPDDR4-3200`。
+- LPDDR4 `NT6AN` 输出 `interface_type = LVSTL`、`bank_count = 8`、`solder_type = Lead-free RoHS compliant and Halogen-free`；`A` device version 输出为 `die_revision = 1st version`，`x16` / `x32` 分别输出 `channel_count = 1` / `2`。`J1/J2` 输出 `dram_speed`、`read_latency` 和保留原始等级及 ns 周期的 `speed_grade`；`J3` 仅对 `128M16` / `128T32` 已确认组合输出 `LPDDR4-3200`。
 - LPDDR4 `AV` package 按 config 输出截图确认的实际厚度：`128M16` / `128T32` / `256M16` / `256T32` 为 200-ball FBGA 10.00x15.00x0.83mm，`512M16` / `512T32` 为 10.00x15.00x1.00mm，`1024F32` 为 10.00x15.00x1.20mm，均为 0.65/0.80mm mixed pitch。
 - standard DDR 的 `T/F` stack-code 维持结构化解析；官方当前 DDR3 component 表现已确认 `NT5CB512T16EH-FL` 的 `T` 双 die exact PN，并加入搜索资源与 testcase。`F` 仍只保留结构化支持，等待公开 exact ordering PN。
 - LPDDR2 / LPDDR3 / LPDDR4X 新补的 package token 只输出官方产品表明确给出的 ball count 与 PoP 类型；没有尺寸依据时不补猜尺寸。`6AT:I/H` 分别按官方表输出 Industrial / Automotive `-40C~105C`，不再因 grade token 未登记而丢失温区。

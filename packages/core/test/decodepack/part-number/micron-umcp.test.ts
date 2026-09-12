@@ -41,6 +41,7 @@ const micronUmcpVoltage = {
 for (const sample of [
   {
     partNumber: "MT30AZZZCDA4TKXL-023 W.273",
+    storageInterface: "UFS 3.1",
     densityMbit: 2097152,
     storageDensity: "256GB",
     dramDensity: "64Gb",
@@ -55,6 +56,7 @@ for (const sample of [
   },
   {
     partNumber: "MT30AZZZDDA4TOXM-023 W.274",
+    storageInterface: "UFS 3.1",
     densityMbit: 2097152,
     storageDensity: "256GB",
     dramDensity: "96Gb",
@@ -420,7 +422,7 @@ for (const sample of [
     package: sample.package,
     extra: {
       "Storage Density": sample.storageDensity,
-      "Storage Interface": "UFS",
+      "Storage Interface": "storageInterface" in sample ? sample.storageInterface : "UFS",
       "Controller": sample.controller,
       "DRAM Density": sample.dramDensity,
       ...("dramConfiguration" in sample ? { "DRAM Configuration": sample.dramConfiguration } : {}),
@@ -479,9 +481,8 @@ for (const sample of [
     package: sample.package,
     extra: {
       "Storage Density": "1TB",
-      "Storage Interface": "UFS",
       "Controller": sample.controller,
-      "Product Version": sample.productVersion,
+      "Storage Interface": sample.productVersion,
       "DRAM Density": sample.dramDensity,
       "DRAM Type": "LPDDR5X",
       "DRAM Width": "x32",

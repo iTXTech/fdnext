@@ -127,7 +127,7 @@ DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `
 
 - 2D NAND 优先显示 `15nm`、`A19nm`、`20nm` 这类 litho。
 - Kioxia / SanDisk 3D NAND 显示 `BiCS3`、`BiCS4`、`BiCS4.5`，不带厂商前缀或 Cell 后缀。
-- 已有 `die_codename` 时，不再重复公开 `generation_info` / `series_info`。
+- 规则和共享表直接使用唯一的字段归属；已由 `die_codename` 完整表达的同一代际不再另写。独立的 `generation_info` / `series_info` 必须保留，不依赖结果生成器按字段存在与否隐藏信息。
 - 层数和 `X3-9060`、`8T23` 这类代号分别由 `layer_count` / `process_alias` 表达。
 - `firmware_match` / `die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields。
 - 当 PN / Flash ID 规则需要给生成工具提供精确工艺关系时，应由规则显式输出 `meta.nandDieProfileKey` 或 `meta.nandDieProfileKeys`。compiler 不会根据公开 `fields.*` 自动反推该 metadata。

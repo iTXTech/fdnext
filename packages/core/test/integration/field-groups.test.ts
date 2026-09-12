@@ -39,8 +39,8 @@ test("standalone DRAM groups die capacity with topology and keeps process detail
   assert.equal(ddr4.blocks.find((block) => block.id === "geometry")?.label, "组织结构");
 
   const lpddr = engine.decodePart({ query: "NT6CL256M32AM-H0", lang: "eng" });
-  assert.equal(field(lpddr, "cas_latency", "timing").value, 16);
-  assert.equal(field(lpddr, "speed_grade", "timing").value, "H0 2133Mbps @ RL=16");
+  assert.equal(field(lpddr, "read_latency", "timing").value, 16);
+  assert.equal(field(lpddr, "speed_grade", "timing").value, "H0");
 });
 
 test("managed NAND separates the host interface from the internal NAND interface and geometry", () => {

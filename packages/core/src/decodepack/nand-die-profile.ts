@@ -5,6 +5,7 @@ export interface NandDieProfile {
   die_codename?: string;
   process_alias?: string;
   generation_info?: string;
+  nand_technology?: string;
   layer_count?: number;
   cell_level?: number;
   die_density?: number;

@@ -39,7 +39,6 @@
         },
         "componentObj": {
           "1001": {
-            "product_version": "eMMC 4.5",
             "storage_interface": "eMMC 4.5",
             "generation_info": "1xnm NAND",
             "die_density": 32768,
@@ -191,7 +190,6 @@
           "value": {
             "system": "SK hynix e-NAND",
             "group": "eMMC",
-            "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
             "interface_type": "HS400+CMD Q"
           }

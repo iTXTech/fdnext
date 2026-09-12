@@ -46,7 +46,7 @@ assertRuleDecode("YMEC6A1TC1A2C1", {
     "Die Count": 1,
     "Product Class": "Commercial"
   },
-  absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["System", "Group", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertRuleDecode("YMEC4A1MA1A2C1", {
@@ -83,7 +83,7 @@ assertRuleDecode("YMEC8A2TB3A2C3", {
     "Product Class": "Commercial",
     "Operation Temperature": "-25°C ~ 85°C"
   },
-  absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["System", "Group", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertRuleDecode("YMEC6A2TB1A2C3C", {
@@ -158,7 +158,7 @@ assertRuleDecode("YMUS8A1TC1A2C1", {
     "Die Count": 1,
     "Product Class": "Commercial"
   },
-  absentExtra: ["System", "Group", "Storage Density", "Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["System", "Group", "Storage Density", "Reference Status", "Inference Source", "source", "status"]
 });
 
 assertRuleDecode("YMUS8A1TE2D1C1", {
@@ -286,7 +286,7 @@ assertRuleDecode("YMC6G001TB51AA1C0", {
     "Plane Count": 6,
     "Product Class": "Commercial"
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 
 assertRuleDecode("YMN0WQA2B1CC4C", {
@@ -304,7 +304,7 @@ assertRuleDecode("YMN0WQA2B1CC4C", {
     "Plane Count": 6,
     "Product Class": "Client"
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 
 assertRuleDecode("X3-9060", {
@@ -319,7 +319,7 @@ assertRuleDecode("X3-9060", {
     "Plane Count": 4,
     "NAND Interface": "ONFI 5.0; Max Speed=2400MT/s"
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 
 assertRuleDecode("X39060", {
@@ -334,7 +334,7 @@ assertRuleDecode("X39060", {
     "Plane Count": 4,
     "NAND Interface": "ONFI 5.0; Max Speed=2400MT/s"
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 
 assertRuleDecode("X3-9070", {
@@ -349,7 +349,7 @@ assertRuleDecode("X3-9070", {
     "Plane Count": 6,
     "NAND Interface": "ONFI 5.0; Max Speed=2400MT/s"
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 
 assertRuleDecode("X4-9060", {
@@ -364,7 +364,7 @@ assertRuleDecode("X4-9060", {
     "Plane Count": 4,
     "NAND Interface": "ONFI 5.1; Max Speed=3600MT/s"
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 
 assertRuleDecode("X4-9070", {
@@ -379,7 +379,7 @@ assertRuleDecode("X4-9070", {
     "Plane Count": 6,
     "NAND Interface": "ONFI 5.1; Max Speed=3600MT/s"
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 
 assertRuleDecode("X4-6080", {
@@ -394,5 +394,5 @@ assertRuleDecode("X4-6080", {
     "Plane Count": 8,
     "NAND Interface": "ONFI 5.1; Max Speed=3600MT/s"
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });

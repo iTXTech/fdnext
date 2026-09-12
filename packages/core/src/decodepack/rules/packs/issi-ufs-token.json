@@ -22,12 +22,10 @@
         },
         "interfaceObj": {
           "21": {
-            "storage_interface": "UFS 2.1",
-            "product_version": "UFS 2.1"
+            "storage_interface": "UFS 2.1"
           },
           "31": {
-            "storage_interface": "UFS 3.1",
-            "product_version": "UFS 3.1"
+            "storage_interface": "UFS 3.1"
           }
         },
         "packageObj": {

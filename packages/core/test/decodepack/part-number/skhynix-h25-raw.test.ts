@@ -75,7 +75,7 @@ for (const [partNumber, densityMbit, dieProfileField, cellField, layerCount, die
     cellField,
     widthField: "x8",
     extra: expectedExtra,
-    absentExtra: [...absentInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+    absentExtra: [...absentInternalExtra, "Series", "Reference Status", "Inference Source"]
   });
 }
 
@@ -95,7 +95,7 @@ assertRuleDecode("H25BFT8A1B", {
     "R/B Count": 1,
     "Channel Count": 1
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Series", "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25JGT8A1A", {
@@ -114,7 +114,7 @@ assertRuleDecode("H25JGT8A1A", {
     "R/B Count": 1,
     "Channel Count": 1
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Series", "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25JGT8F4M9R-BDJ", {
@@ -139,7 +139,7 @@ assertRuleDecode("H25JGT8F4M9R-BDJ", {
     "Operation Temperature": "Commercial 2 (0~85C)",
     "Speed Grade": "1200 MT/s"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Series", "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25JGT8FAM", {
@@ -159,7 +159,7 @@ assertRuleDecode("H25JGT8FAM", {
     "Channel Count": 2,
     "Special Option": "IF Chip"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Series", "Reference Status", "Inference Source"]
 });
 
 const skhynixH25LooseRawSamples = [
@@ -260,6 +260,6 @@ for (const [partNumber, expected] of skhynixH25LooseRawSamples) {
     vendor: "skhynix",
     type: "NAND",
     ...expected,
-    absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Series", "Reference Status", "Inference Source"]
+    absentExtra: [...skhynixH25RawInternalExtra, "Series", "Reference Status", "Inference Source"]
   });
 }

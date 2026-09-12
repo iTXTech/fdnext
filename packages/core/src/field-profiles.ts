@@ -87,7 +87,7 @@ export const fdnextFieldProfiles = {
       {
         id: "components", label: "Components", importance: "secondary",
         fields: [
-          "component_density", "component_density_options", "component_width", "component_voltage", "nand_component",
+          "component_density", "component_density_options", "component_width", "component_voltage", "nand_component", "process_node",
           ...nandGeometryFields, "nand_interface"
         ]
       },
@@ -95,7 +95,7 @@ export const fdnextFieldProfiles = {
         id: "dram", label: "DRAM", importance: "secondary",
         fields: [
           "dram_density", "dram_configuration", "dram_type", "dram_width", "dram_die_density",
-          "dram_die_count", "cs_count", "bank_count", "dram_voltage", "dram_speed", "cas_latency", "dram_generation"
+          "dram_die_count", "cs_count", "bank_count", "dram_voltage", "dram_speed", "cas_latency", "read_latency", "dram_generation"
         ]
       },
       {
@@ -141,7 +141,7 @@ export const fdnextFieldProfiles = {
         fields: ["dram_die_density", "dram_die_count", "cs_count", "bank_count", "channel_count"]
       },
       { id: "interface", label: "Interface", importance: "secondary", fields: ["interface_type", "interface_note", "ecc_enabled", "ecc_level"] },
-      { id: "timing", label: "Timing", importance: "secondary", fields: ["cas_latency", "speed_grade"] },
+      { id: "timing", label: "Timing", importance: "secondary", fields: ["cas_latency", "read_latency", "speed_grade"] },
       packageBlock,
       markingBlock
     ]

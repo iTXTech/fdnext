@@ -77,7 +77,10 @@
         },
         "nvmVoltageObj": {
           "A": {
-            "component_voltage": "NVM 3.3V x8 / LPDDR4X 1.8V/1.1V/0.6V"
+            "component_voltage": "3.3V",
+            "component_width": 8,
+            "dram_type": "LPDDR4X",
+            "dram_voltage": "1.8V/1.1V/0.6V"
           }
         },
         "dramOptionObj": {
@@ -117,7 +120,8 @@
         },
         "emmcSpeedObj": {
           "A": {
-            "speed_grade": "eMMC 400MHz / LPDDR4X-3733"
+            "speed_grade": "eMMC 400MHz",
+            "dram_speed": "LPDDR4X-3733"
           }
         },
         "dramSpeedObj": {
@@ -368,7 +372,9 @@
         "fields": {
           "$var": "extra"
         },
-        "fields.voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+        "fields.voltage": "eMMC Vcc: 3.3V",
+        "fields.dram_voltage": "1.8V/1.1V/0.6V",
+        "fields.dram_type": "LPDDR4X",
         "fields.package": {
           "$path": "packageObj.package"
         },
@@ -456,7 +462,8 @@
         },
         "nvmVoltageObj": {
           "A": {
-            "component_voltage": "NVM 3.3V x8"
+            "component_voltage": "3.3V",
+            "component_width": 8
           }
         },
         "dramDensityObj": {
@@ -909,7 +916,8 @@
         },
         "speedObj": {
           "N": {
-            "speed_grade": "LPDDR4X-4266 CL32 / eMMC 52MHz",
+            "speed_grade": "eMMC 52MHz",
+            "cas_latency": 32,
             "dram_speed": "LPDDR4X-4266"
           }
         },
@@ -1089,7 +1097,9 @@
         "fields": {
           "$var": "extra"
         },
-        "fields.voltage": "eMMC Vcc: 3.3V, LPDDR4X: 1.8V/1.1V/0.6V",
+        "fields.voltage": "eMMC Vcc: 3.3V",
+        "fields.dram_voltage": "1.8V/1.1V/0.6V",
+        "fields.dram_type": "LPDDR4X",
         "fields.package": {
           "$path": "serialPackageObj.package"
         },

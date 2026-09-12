@@ -67,22 +67,6 @@ function checkNandInterfaceValues(value: unknown, path: string, findings: Decode
   }
 }
 
-function checkFieldInformation(value: unknown, path: string, findings: DecodePackCheckFinding[], specId?: string): void {
-  if (!value || typeof value !== "object") return;
-  for (const [key, item] of Object.entries(value)) {
-    const next = `${path}.${key}`;
-    const field = key.startsWith("fields.") ? key.slice(7) : key;
-    if (typeof item === "string" && (
-      (field === "nand_technology" && /^(?:Micron )?(?:3D )?[SMTQ]LC(?: NAND(?: Flash)?)?$/i.test(item)) ||
-      (field === "dram_voltage" && /^(?:LP)?DDR\d?X?(?: SDRAM)?$/i.test(item))
-    )) {
-      addFinding(findings, "error", "field_information_overlap", next,
-        "Emit cell level in cell_level and DRAM type in dram_type; preserve independent technology and voltage facts in their own fields.", specId);
-    }
-    checkFieldInformation(item, next, findings, specId);
-  }
-}
-
 function checkDecodeTable(
   table: DecodeTable,
   path: string,
@@ -839,7 +823,6 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
   }
   checkPublicPackageValues(sharedTables, ["sharedTables"], findings);
   checkNandInterfaceValues(sharedTables, "sharedTables", findings);
-  checkFieldInformation(sharedTables, "sharedTables", findings);
   checkPublicGenerationValues(sharedTables, ["sharedTables"], findings);
   for (const [kind, specs] of [
     ["part", pack.partSpecs],
@@ -867,7 +850,6 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
       }
       checkPublicPackageValues(spec, [path], findings, spec.id);
       checkNandInterfaceValues(spec, path, findings, spec.id);
-      checkFieldInformation(spec, path, findings, spec.id);
       checkPublicGenerationValues(spec, [path], findings, spec.id);
     });
   }

@@ -48,7 +48,7 @@ assertRuleDecode("SUGNM1126A6BPIET-046BT", {
     "Special Option": "2 NAND, 2 LPDRAM",
     "Speed Grade": "046BT Fully Tested"
   },
-  absentExtra: ["Product Family", "Product Mode", "NAND Component", "Package Code", "Product Generation"]
+  absentExtra: ["Product Family", "Product Mode", "NAND Component", "Package Code"]
 });
 assertRuleDecode("FNUGNM1126A6BPIET-046BT", {
   vendor: "spectek",
@@ -67,7 +67,7 @@ assertRuleDecode("FNUGNM1126A6BPIET-046BT", {
     "Special Option": "2 NAND, 2 LPDRAM",
     "Speed Grade": "046BT Fully Tested"
   },
-  absentExtra: ["Product Family", "Product Mode", "NAND Component", "Package Code", "Product Generation"]
+  absentExtra: ["Product Family", "Product Mode", "NAND Component", "Package Code"]
 });
 assertRuleDecode("SMCNM1126A6BPIET-062UT", {
   vendor: "spectek",
@@ -87,7 +87,7 @@ assertRuleDecode("SMCNM1126A6BPIET-062UT", {
     "Special Option": "2 NAND, 2 LPDRAM",
     "Speed Grade": "062UT Untested"
   },
-  absentExtra: ["Product Family", "NAND Component", "Package Code", "Product Generation"]
+  absentExtra: ["Product Family", "NAND Component", "Package Code"]
 });
 assertRuleDecode("SMKJ6Z4ZZ4D4TGFAK-PG", {
   vendor: "spectek",
@@ -106,7 +106,7 @@ assertRuleDecode("SMKJ6Z4ZZ4D4TGFAK-PG", {
     "Controller": "Phison 8200 V4.41 EF",
     "Speed Grade": "PG Partial Good Mixed Bins"
   },
-  absentExtra: ["Controller Code", "Package Code", "Product Generation"]
+  absentExtra: ["Controller Code", "Package Code"]
 });
 assertRuleDecode("SMKJ6Z4ZZ4D4TGFAK-053BT", {
   vendor: "spectek",
@@ -125,7 +125,7 @@ assertRuleDecode("SMKJ6Z4ZZ4D4TGFAK-053BT", {
     "Controller": "Phison 8200 V4.41 EF",
     "Speed Grade": "053BT Fully Tested at 70 degrees"
   },
-  absentExtra: ["Controller Code", "Package Code", "Product Generation"]
+  absentExtra: ["Controller Code", "Package Code"]
 });
 assertRuleDecode("SUJ52A1GCFDI-BT", {
   vendor: "spectek",
@@ -140,7 +140,7 @@ assertRuleDecode("SUJ52A1GCFDI-BT", {
     "Controller Revision": "Rev 6",
     "Speed Grade": "BT B Grade Fully Tested"
   },
-  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Generation"]
+  absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
 assertRuleDecode("SUJ52A128GASAKDI-FT", {
   vendor: "spectek",
@@ -158,7 +158,7 @@ assertRuleDecode("SUJ52A128GASAKDI-FT", {
     "Special Option": "AB firmware, Standard mode",
     "Speed Grade": "FT Fully Tested at 90 degrees"
   },
-  absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Generation"]
+  absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
 
 assertRuleDecode("TF10G1BAHA", {
@@ -257,7 +257,7 @@ assertRuleDecode("IA1AG6KAVA", {
     "Die Count": 1,
     "CE Count": 1
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 
 assertRuleDecode("IA1AG6KAIA", {
@@ -273,7 +273,7 @@ assertRuleDecode("IA1AG6KAIA", {
     "Die Count": 1,
     "CE Count": 1
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 
 assertRuleDecode("DT57G2LALC", {

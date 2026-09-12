@@ -32,12 +32,10 @@
         },
         "interfaceObj": {
           "S": {
-            "storage_interface": "eMMC 5.0",
-            "product_version": "eMMC 5.0"
+            "storage_interface": "eMMC 5.0"
           },
           "F": {
-            "storage_interface": "eMMC 5.1",
-            "product_version": "eMMC 5.1"
+            "storage_interface": "eMMC 5.1"
           }
         },
         "densityToken": ["128G", "04GP", "08GP", "04G", "08G", "16G", "32G", "64G"],

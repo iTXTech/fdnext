@@ -37,7 +37,7 @@ assertRuleDecode("MTFC4GACAJCN-1M WT", {
   package: "VFBGA-153, 11.5x13x1.0, SAC 302",
   extra: {
     "Product Generation": "Gen4",
-    "Product Version": "eMMC 5.0",
+    "Storage Interface": "eMMC 5.0",
     "Special Option": "2MB MAX boot area / 100% MAX enhanced"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Component Generation", "Product Family", "Group"]
@@ -80,7 +80,7 @@ assertRuleDecode("MTFC8GAMALBH-AAT", {
     "Component Density": "8GB",
     "Component Width": "x8",
     "Product Generation": "Gen8",
-    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
     "Controller Revision": "Rev 11",
     "Operation Temperature": "Industrial (-40°C ~ 105°C + HR certified test flow)"
   },
@@ -109,7 +109,7 @@ assertRuleDecode("MTFC16GAPALNA-AAT", {
   densityMbit: 131072,
   package: "TBGA-100, 14x18x1.2",
   extra: {
-    "Product Version": "eMMC 5.1"
+    "Storage Interface": "eMMC 5.1"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
@@ -120,7 +120,7 @@ assertRuleDecode("MTFC128GAXAQEA-WT", {
   densityMbit: 1048576,
   package: "WFBGA-153, 11.5x13x0.8, LF35",
   extra: {
-    "Product Version": "eMMC 5.1"
+    "Storage Interface": "eMMC 5.1"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
@@ -131,7 +131,7 @@ assertRuleDecode("MTFC32GAZAQDW-AAT", {
   densityMbit: 262144,
   package: "LFBGA-100, 14x18x1.5",
   extra: {
-    "Product Version": "eMMC 5.1"
+    "Storage Interface": "eMMC 5.1"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
@@ -149,7 +149,7 @@ for (const [partNumber, productVersion] of [
   assert.equal(info.vendor, "micron", partNumber);
   assert.equal(info.type, "eMMC", partNumber);
   assert.ok((info.densityMbit ?? 0) > 0, `${partNumber} should expose numeric density`);
-  assert.equal(info.detailFields["Product Version"], productVersion, `${partNumber} product version`);
+  assert.equal(info.detailFields["Storage Interface"], productVersion, `${partNumber} product version`);
 }
 
 assertRuleDecode("MTFC8GLREK-IT", {
@@ -172,7 +172,7 @@ assertRuleDecode("MTFC256GASAONS-IT", {
   densityMbit: 2097152,
   package: "TFBGA-153, 11.5x13x1.2",
   extra: {
-    "Product Version": "UFS 2.1"
+    "Storage Interface": "UFS 2.1"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Family", "Group"]
 });
@@ -186,7 +186,7 @@ assertRuleDecode("MTFC64GASAOEA-WT", {
   extra: {
     "Component Density": "32GB",
     "Component Width": "x8",
-    "Product Version": "UFS 2.1",
+    "Storage Interface": "UFS 2.1",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Product Family", "Group"]
@@ -225,7 +225,7 @@ assertRuleDecode("MTFC64GBCAVAL-AIT", {
   type: "UFS",
   densityMbit: 524288,
   extra: {
-    "Product Version": "UFS 3.1"
+    "Storage Interface": "UFS 3.1"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
@@ -244,7 +244,7 @@ assertRuleDecode("MTFC256GAVATTC-AAT", {
   densityMbit: 2097152,
   package: "LFBGA-153, 11.5x13x1.3",
   extra: {
-    "Product Version": "UFS 3.1"
+    "Storage Interface": "UFS 3.1"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
@@ -255,7 +255,7 @@ assertRuleDecode("MTFC128GAXAUEA-WT", {
   densityMbit: 1048576,
   package: "WFBGA-153, 11.5x13x0.8, LF35",
   extra: {
-    "Product Version": "UFS 2.2"
+    "Storage Interface": "UFS 2.2"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code"]
 });
@@ -266,7 +266,7 @@ assertRuleDecode("MTFC512GBCAVHE-WT", {
   densityMbit: 4194304,
   package: "BGA-153, 11x13x0.9",
   extra: {
-    "Product Version": "UFS 3.1"
+    "Storage Interface": "UFS 3.1"
   }
 });
 
@@ -316,7 +316,7 @@ assertRuleDecode("EEFC128GAXATEAAA-WT", {
   dieProfileField: "B47R",
   package: "BGA-153, 11.5x13",
   extra: {
-    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
     "Component Density": "64GB",
     "Component Width": "x8",
     "Operation Temperature": "Standard (-25°C ~ 85°C)",
@@ -330,7 +330,7 @@ assert.equal(unknownExtendedPackage.device.vendor?.id, "micron");
 assert.equal(unknownExtendedPackage.device.chipKind, "managed_nand");
 assert.equal(unknownExtendedPackage.device.productType, "ufs");
 assert.equal(firstField(unknownExtendedPackage, "density")?.value, 1048576);
-assert.equal(firstField(unknownExtendedPackage, "product_version")?.value, "UFS 3.1");
+assert.equal(firstField(unknownExtendedPackage, "storage_interface")?.value, "UFS 3.1");
 assert.equal(firstField(unknownExtendedPackage, "package"), undefined);
 assert.equal(firstField(unknownExtendedPackage, "operation_temperature")?.value, "Standard (-25°C ~ 85°C)");
 assert.equal(firstField(unknownExtendedPackage, "prod_status")?.value, "Early Engineering Samples");
@@ -357,7 +357,7 @@ assertRuleDecode("EEFC512GAXATAMAA-WT", {
   dieProfileField: "B47R",
   package: "VFBGA-153, 11.5x13x1.0",
   extra: {
-    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
     "Component Density": "64GB",
     "Component Width": "x8",
     "Operation Temperature": "Standard (-25°C ~ 85°C)",
@@ -374,7 +374,7 @@ assertRuleDecode("MTFC128GBCAQTC-AIT", {
     "Component Density": "64GB",
     "Component Width": "x8",
     "Product Family": "Micron e.MMC 5.1 TLC Pearl",
-    "Product Version": "eMMC 5.1"
+    "Storage Interface": "eMMC 5.1"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group", "Reference Status", "Inference Source", "source", "status"]
 });
@@ -384,7 +384,7 @@ assertRuleDecode("MTFC1TAYAXHR-WT", {
   type: "UFS",
   densityMbit: 8388608,
   extra: {
-    "Product Version": "UFS 4.0"
+    "Storage Interface": "UFS 4.0"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
 });
@@ -395,7 +395,7 @@ assertRuleDecode("MTFC512GBGAZHF-WT", {
   densityMbit: 4194304,
   package: "WFBGA-153, 11.0x13x0.8",
   extra: {
-    "Product Version": "UFS 4.0",
+    "Storage Interface": "UFS 4.0",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
@@ -407,7 +407,7 @@ assertRuleDecode("MTFC1TBGBBAF-WT", {
   densityMbit: 8388608,
   package: "VFBGA-153, 9x13x0.85",
   extra: {
-    "Product Version": "UFS 4.1",
+    "Storage Interface": "UFS 4.1",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
@@ -419,7 +419,7 @@ assertRuleDecode("MTFC256GBGBCTD-AIT", {
   densityMbit: 2097152,
   package: "BGA-153, 11.5x13x1.2",
   extra: {
-    "Product Version": "UFS 4.1",
+    "Storage Interface": "UFS 4.1",
     "Operation Temperature": "Industrial (-40°C ~ 85°C + HR certified test flow)"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
@@ -431,7 +431,7 @@ assertRuleDecode("MTFC256GBEAZHF-WT", {
   densityMbit: 2097152,
   package: "WFBGA-153, 11.0x13x0.8",
   extra: {
-    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
@@ -443,7 +443,7 @@ assertRuleDecode("MTFC512GAYAZHF-WT", {
   densityMbit: 4194304,
   package: "WFBGA-153, 11.0x13x0.8",
   extra: {
-    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
@@ -455,7 +455,7 @@ assertRuleDecode("MTFC512GAYAXAP-WT", {
   densityMbit: 4194304,
   package: "WFBGA-153",
   extra: {
-    "Product Version": "UFS 4.0",
+    "Storage Interface": "UFS 4.0",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
@@ -467,7 +467,7 @@ assertRuleDecode("MTFC512GBGBBAP-WT", {
   densityMbit: 4194304,
   package: "WFBGA-153",
   extra: {
-    "Product Version": "UFS 4.1",
+    "Storage Interface": "UFS 4.1",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   },
   absentExtra: ["NAND Component", "Controller Code", "Package Code", "Group"]
@@ -479,7 +479,7 @@ assertRuleDecode("MTFC32GAMAKAM-WT", {
   densityMbit: 262144,
   package: "VFBGA-153, 11.5x13x1.0, LF35",
   extra: {
-    "Product Version": "UFS 2.1",
+    "Storage Interface": "UFS 2.1",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   }
 });
@@ -490,7 +490,7 @@ assertRuleDecode("MTFC128GARAPAM-WT", {
   densityMbit: 1048576,
   package: "VFBGA-153, 11.5x13x1.0, LF35",
   extra: {
-    "Product Version": "UFS 3.0",
+    "Storage Interface": "UFS 3.0",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   }
 });
@@ -501,7 +501,7 @@ assertRuleDecode("MTFC128GAVAUTC-IT", {
   densityMbit: 1048576,
   package: "LFBGA-153, 11.5x13x1.3",
   extra: {
-    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
     "Operation Temperature": "Extended (-40°C ~ 85°C)"
   }
 });
@@ -512,7 +512,7 @@ assertRuleDecode("MTFC128GAWATEA-WT", {
   densityMbit: 1048576,
   package: "WFBGA-153, 11.5x13x0.8, LF35",
   extra: {
-    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   }
 });
@@ -536,7 +536,7 @@ assertRuleDecode("MTFC512GBCAXHL-WT", {
   densityMbit: 4194304,
   package: "VFBGA-237, 11x13x0.9",
   extra: {
-    "Product Version": "UFS 4.0",
+    "Storage Interface": "UFS 4.0",
     "Operation Temperature": "Standard (-25°C ~ 85°C)"
   }
 });
@@ -567,7 +567,6 @@ assertRuleDecode("MTFDDAC128MAG-1G12AA", {
     "Product Family": "Micron C300 SSD",
     "Sector Size": "512B",
     "Product Generation": "Gen1",
-    "NAND Component": "32Gb MLC x8 3.3V (34nm)",
     "Component Density": "4GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V",
@@ -587,7 +586,6 @@ assertRuleDecode("MTFDDAK120MAV-1AE12ABYYES", {
     "Product Family": "Micron M500 SSD",
     "Sector Size": "512B",
     "Product Generation": "Gen1",
-    "NAND Component": "128Gb MLC x8 3.3V (20nm)",
     "Component Density": "16GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V",
@@ -607,7 +605,6 @@ assertRuleDecode("MTFDEAC200MBB-1AE12ABYY", {
     "Form Factor": "2.5-inch, 9.5mm",
     "Product Family": "Micron M500DC SSD",
     "Product Generation": "Gen1",
-    "NAND Component": "128Gb MLC x8 3.3V (20nm)",
     "Special Option": "Self-encrypting drive (SED)"
   },
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Sector Code", "Firmware Code", "Customer Designator"]
@@ -622,7 +619,6 @@ assertRuleDecode("MTFDDAV120MAZ-1AE12ABHAES", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "M.2, 80mm x 22mm x 3.50mm",
     "Product Family": "Micron M510 SSD",
-    "NAND Component": "128Gb MLC x8 3.3V (20nm)",
     "Special Option": "Self-encrypting drive (SED)",
     "Production Status": "Engineering Sample"
   },
@@ -638,7 +634,6 @@ assertRuleDecode("MTFDDAT120MAZ-1AE12ABHAES", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "mSATA",
     "Product Family": "Micron M510 SSD",
-    "NAND Component": "128Gb MLC x8 3.3V (20nm)",
     "Special Option": "Self-encrypting drive (SED)",
     "Production Status": "Engineering Sample"
   },
@@ -654,7 +649,6 @@ assertRuleDecode("MTFDDAK032SBD-1AH12ITYY", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
-    "NAND Component": "64Gb x8 3.3V (20nm)",
     "Operation Temperature": "Industrial temperature and grade",
     "Special Option": "Self-encrypting drive (SED)"
   },
@@ -669,7 +663,6 @@ assertRuleDecode("MTFDDAK064SBD-1AK12ITYY", {
   extra: {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Product Family": "Micron M500IT SSD",
-    "NAND Component": "128Gb x8 3.3V (20nm)",
     "Operation Temperature": "Industrial temperature and grade"
   },
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
@@ -684,7 +677,6 @@ assertRuleDecode("MTFDDAY120MBD-AAK12AIYYES", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "M.2, 60mm x 22mm x 3.50mm",
     "Product Family": "Micron M500IT SSD",
-    "NAND Component": "128Gb x8 3.3V (20nm)",
     "Product Generation": "Gen1",
     "Operation Temperature": "Auto industrial temperature",
     "Production Status": "Engineering Sample",
@@ -718,7 +710,6 @@ assertRuleDecode("MTFDDAK060MBD-2AH12ITYY", {
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
     "Product Generation": "Gen2",
-    "NAND Component": "64Gb x8 3.3V (20nm)",
     "Operation Temperature": "Industrial temperature and grade"
   },
   absentExtra: ["Product Family Code", "NAND Component Code", "Additional Feature Code", "Customer Designator"]
@@ -734,7 +725,6 @@ assertRuleDecode("MTFDDAK120MBD-1AE12ITYY", {
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
     "Product Generation": "Gen1",
-    "NAND Component": "128Gb MLC x8 3.3V (20nm)",
     "Operation Temperature": "Industrial temperature and grade",
     "Special Option": "Self-encrypting drive (SED)"
   },
@@ -751,7 +741,6 @@ assertRuleDecode("MTFDDAT060MBD-1AH12AIYY", {
     "Form Factor": "mSATA",
     "Product Family": "Micron M500IT SSD",
     "Product Generation": "Gen1",
-    "NAND Component": "64Gb x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Special Option": "Self-encrypting drive (SED)"
   },
@@ -768,7 +757,6 @@ assertRuleDecode("MTFDDAT120MBD-AAK12AIYYES", {
     "Form Factor": "mSATA",
     "Product Family": "Micron M500IT SSD",
     "Product Generation": "Gen1",
-    "NAND Component": "128Gb x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Production Status": "Engineering Sample",
     "Special Option": "Self-encrypting drive (SED)"
@@ -786,7 +774,6 @@ assertRuleDecode("MTFDDAK060MBD-1AH12AIRA", {
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
     "Product Generation": "Gen1",
-    "NAND Component": "64Gb x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Special Option": "Self-encrypting drive (SED)"
   },
@@ -803,7 +790,6 @@ assertRuleDecode("MTFDDAK240MBD-AAK12AIRAES", {
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
     "Product Generation": "Gen1",
-    "NAND Component": "128Gb x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Production Status": "Engineering Sample",
     "Special Option": "Self-encrypting drive (SED)"
@@ -821,7 +807,6 @@ assertRuleDecode("MTFDDAK160MBD-1AE12AIYY", {
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
     "Product Generation": "Gen1",
-    "NAND Component": "128Gb MLC x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Special Option": "Self-encrypting drive (SED)"
   },
@@ -838,7 +823,6 @@ assertRuleDecode("MTFDDAK060MBD-2AH12AIYY", {
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron M500IT SSD",
     "Product Generation": "Gen2",
-    "NAND Component": "64Gb x8 3.3V (20nm)",
     "Operation Temperature": "Auto industrial temperature",
     "Special Option": "Self-encrypting drive (SED)"
   },
@@ -854,7 +838,6 @@ assertRuleDecode("MTFDGAL175SAH-1NA4ABES", {
     "Storage Interface": "PCIe Gen2",
     "Form Factor": "2.5-inch, 15mm",
     "Product Family": "Micron P320 SSD",
-    "NAND Component": "16Gb SLC x8 3.3V (34nm)",
     "Special Option": "Bootable",
     "Production Status": "Engineering Sample"
   },
@@ -870,7 +853,6 @@ assertRuleDecode("MTFDGAR1400MAX-1JAABES", {
     "Storage Interface": "PCIe Gen2",
     "Form Factor": "Half height, half length x8",
     "Product Family": "Micron P420m SSD",
-    "NAND Component": "32Gb MLC x8 3.3V (25nm)",
     "Production Status": "Engineering Sample"
   },
   absentExtra: ["Form Factor Code", "Product Family Code", "BOM Code", "NAND Component Code", "Hardware Feature Code"]
@@ -885,7 +867,6 @@ assertRuleDecode("MTFDDAK480TGA-1BC16ABYYES", {
     "Storage Interface": "SATA 6.0 Gb/s",
     "Form Factor": "2.5-inch, 7mm",
     "Product Family": "Micron 5400 PRO SSD",
-    "NAND Component": "512Gb TLC x8 2.5V (3D)",
     "Special Option": "Self-encrypting drive (TCG eSSC)",
     "Production Status": "Engineering Sample"
   },
@@ -947,7 +928,6 @@ assertRuleDecode("MTEDBTH008MBA-1K1", {
     "Product Family": "Micron EK470 SSD",
     "Sector Size": "512B",
     "Product Generation": "Gen1",
-    "NAND Component": "32Gb NAND x8 3.3V (25nm)",
     "Component Density": "4GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V"
@@ -1014,7 +994,6 @@ assertRuleDecode("MTFDLBQ3T8THG-2BP1JFCYY", {
     "Form Factor": "E3.S 1T, 7.5mm",
     "Product Family": "Micron 7600 PRO SSD",
     "Product Generation": "Gen2",
-    "NAND Component": "1024Gb TLC x8 2.5V",
     "Component Density": "128GB",
     "Component Width": "x8",
     "Component Voltage": "2.5V",
@@ -1082,7 +1061,6 @@ assertRuleDecode("MTFDLBA4T0THJ-1BP1KABYY", {
     "Storage Interface": "PCIe Gen5",
     "Form Factor": "M.2, 80mm x 22mm, x4 PCIe",
     "Product Family": "Micron 4600 SSD",
-    "NAND Component": "1024Gb TLC x8 2.5V (3D)",
     "Sector Size": "512B",
     "Special Option": "MSFT"
   },
@@ -1185,7 +1163,6 @@ assertRuleDecode("MTFDHBL064TDP-1AT12AIYY", {
     "Sector Size": "512B",
     "Product Generation": "Gen1",
     "NAND Technology": "3D",
-    "NAND Component": "512Gb TLC x8 3.3V (3D)",
     "Component Density": "64GB",
     "Component Width": "x8",
     "Component Voltage": "3.3V",

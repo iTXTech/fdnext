@@ -140,37 +140,37 @@
         },
         "bodyVersionObj": {
           "1:B": {
-            "product_version": "UFS 2.0"
+            "storage_interface": "UFS 2.0"
           },
           "1:C": {
-            "product_version": "UFS 2.0"
+            "storage_interface": "UFS 2.0"
           },
           "1:E": {
-            "product_version": "UFS 2.1"
+            "storage_interface": "UFS 2.1"
           },
           "1:F": {
-            "product_version": "UFS 2.1"
+            "storage_interface": "UFS 2.1"
           },
           "1:Y": {
-            "product_version": "UFS 2.1"
+            "storage_interface": "UFS 2.1"
           },
           "1:Z": {
-            "product_version": "UFS 2.1"
+            "storage_interface": "UFS 2.1"
           },
           "H:D": {
-            "product_version": "UFS 3.1"
+            "storage_interface": "UFS 3.1"
           },
           "H:G": {
-            "product_version": "UFS 3.1"
+            "storage_interface": "UFS 3.1"
           },
           "H:J": {
-            "product_version": "UFS 3.1"
+            "storage_interface": "UFS 3.1"
           },
           "H:U": {
-            "product_version": "UFS 4.1"
+            "storage_interface": "UFS 4.1"
           },
           "H:V": {
-            "product_version": "UFS 3.1"
+            "storage_interface": "UFS 3.1"
           }
         },
         "nandGeneration": {
@@ -212,25 +212,25 @@
         },
         "versionObj": {
           "B": {
-            "product_version": "UFS 2.0"
+            "storage_interface": "UFS 2.0"
           },
           "C": {
-            "product_version": "UFS 2.1"
+            "storage_interface": "UFS 2.1"
           },
           "D": {
-            "product_version": "UFS 3.0"
+            "storage_interface": "UFS 3.0"
           },
           "E": {
-            "product_version": "UFS 3.1"
+            "storage_interface": "UFS 3.1"
           },
           "F": {
-            "product_version": "UFS 2.2"
+            "storage_interface": "UFS 2.2"
           },
           "G": {
-            "product_version": "UFS 4.0"
+            "storage_interface": "UFS 4.0"
           },
           "H": {
-            "product_version": "UFS 4.1"
+            "storage_interface": "UFS 4.1"
           }
         },
         "temperature": {

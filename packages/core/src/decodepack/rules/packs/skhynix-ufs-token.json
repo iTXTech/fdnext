@@ -156,7 +156,6 @@
             "generation_code": {
               "$var": "generationCode"
             },
-            "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1",
             "generation_info": "176-layer 4D NAND (V7)"
           }
@@ -394,7 +393,6 @@
             "generation_code": {
               "$var": "generationCode"
             },
-            "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1"
           }
         },
@@ -618,7 +616,6 @@
             "generation_code": {
               "$var": "generationCode"
             },
-            "product_version": "UFS 3.1",
             "storage_interface": "UFS 3.1",
             "generation_info": "176-layer 4D NAND (V7)"
           }
@@ -809,7 +806,6 @@
             "generation_code": {
               "$var": "generationCode"
             },
-            "product_version": "UFS 2.2",
             "storage_interface": "UFS 2.2",
             "generation_info": "176-layer 4D NAND (V7)"
           }
@@ -982,7 +978,6 @@
             "generation_code": {
               "$var": "generationCode"
             },
-            "product_version": "UFS 2.2",
             "storage_interface": "UFS 2.2"
           }
         },
@@ -1316,7 +1311,6 @@
           "value": {
             "system": "SK hynix UFS",
             "group": "UFS",
-            "product_version": "UFS 2.0",
             "storage_interface": "UFS 2.0",
             "interface_type": "1-lane / 2-lane"
           }
@@ -1427,7 +1421,7 @@
           "value": {
             "system": "SK hynix UFS",
             "group": "UFS",
-            "product_version": "UFS 2.1"
+            "storage_interface": "UFS 2.1"
           }
         },
         {

@@ -106,13 +106,13 @@
         },
         "controller": {
           "M": {
-            "controller": "eMMC 5.1 Controller"
+            "storage_interface": "eMMC 5.1"
           },
           "N": {
-            "controller": "eMMC 5.1 Controller"
+            "storage_interface": "eMMC 5.1"
           },
           "T": {
-            "controller": "eMMC 5.1 Controller"
+            "storage_interface": "eMMC 5.1"
           }
         },
         "nandGeneration": {
@@ -150,17 +150,15 @@
         },
         "versionObj": {
           "0": {
-            "controller": "eMMC 4.5 Controller",
             "interface_type": "HS200",
-            "product_version": "eMMC 4.5"
+            "storage_interface": "eMMC 4.5"
           },
           "3": {
-            "controller": "eMMC 5.0 Controller",
             "interface_type": "HS400",
-            "product_version": "eMMC 5.0"
+            "storage_interface": "eMMC 5.0"
           },
           "4": {
-            "product_version": "eMMC 5.1"
+            "storage_interface": "eMMC 5.1"
           }
         },
         "temperature": {

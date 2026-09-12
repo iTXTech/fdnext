@@ -26,16 +26,14 @@
       "tables": {
         "familyObj": {
           "4BH": {
-            "product_family": "iSSD SATA / MTR-5",
-            "storage_interface": "SATA"
+            "product_family": "iSSD SATA / MTR-5"
           },
           "5BK": {
             "product_family": "iSSD i100",
             "storage_interface": "SATA 6Gb/s"
           },
           "6BM": {
-            "product_family": "iSSD i110",
-            "storage_interface": "SATA"
+            "product_family": "iSSD i110"
           }
         },
         "density": {

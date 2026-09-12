@@ -1,3 +1,4 @@
+import { nandDieProfileTable } from "../../src/decodepack/nand-die-profile";
 import assert from "node:assert/strict";
 import { createEngine } from "../../src/index";
 import { embeddedResourceBundle } from "../../src/resources";
@@ -374,7 +375,7 @@ assertResultField("9BD5588D2000", "density", 1397760);
 assertResultField("9BD5588D2000", "cell_level", "QLC");
 assertResultField("9BD5588D2000", "die_codename", "HUS");
 assertResultField("9BD5588D2000", "process_alias", "X2-6070");
-assertResultFieldAbsent("9BD5588D2000", "generation_info");
+assertResultField("9BD5588D2000", "generation_info", "Gen3 Xtacking 2.0");
 assertResultField("9BD5588D2000", "die_density", 1397760);
 assertResultField("9BD5588D2000", "layer_count", 128);
 assertResultField("9BD5588D2000", "plane_count", 6);
@@ -402,7 +403,7 @@ const ymtcConfirmedFlashIdVariants: Array<[string, "JGS" | "TAS" | "WYS" | "EMS"
 
 for (const [id, profileKey] of ymtcConfirmedFlashIdVariants) {
   assertResultField(id, "die_codename", profileKey);
-  assertResultFieldAbsent(id, "generation_info");
+  assertResultField(id, "generation_info", nandDieProfileTable[profileKey]!.generation_info);
 }
 
 const ymtcGen5FlashIds: Array<[string, "WTS" | "SQS" | "PTS"]> = [
@@ -421,7 +422,7 @@ const ymtcGen5FlashIds: Array<[string, "WTS" | "SQS" | "PTS"]> = [
 
 for (const [id, profileKey] of ymtcGen5FlashIds) {
   assertResultField(id, "die_codename", profileKey);
-  assertResultFieldAbsent(id, "generation_info");
+  assertResultField(id, "generation_info", nandDieProfileTable[profileKey]!.generation_info);
 }
 
 assertResultField("9BC458554000", "process_alias", "X4-9060");

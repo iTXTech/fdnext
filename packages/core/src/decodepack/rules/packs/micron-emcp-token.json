@@ -167,12 +167,12 @@
         "controllerFamilyObj": {
           "MT30A:4": {
             "controller": "9U2A",
-            "product_version": "UFS 3.1",
+            "storage_interface": "UFS 3.1",
             "dram_type": "LPDDR5X"
           },
           "MT30A:5": {
             "controller": "9U2A",
-            "product_version": "UFS 4.1",
+            "storage_interface": "UFS 4.1",
             "dram_type": "LPDDR5X"
           }
         },
@@ -1194,12 +1194,12 @@
       "tables": {
         "productFamilyObj": {
           "C": {
-            "product_mode": "SLC NAND + LPDDR",
+            "product_mode": "SLC Parallel NAND + LPDDR",
             "storage_interface": "Parallel NAND",
             "dram_type": "LPDRAM"
           },
           "D": {
-            "product_mode": "SLC NAND + LPDDR + MLC eMMC",
+            "product_mode": "SLC Parallel NAND + LPDDR + MLC eMMC",
             "storage_interface": "eMMC + Parallel NAND",
             "dram_type": "LPDRAM"
           },
@@ -1228,7 +1228,7 @@
             "storage_interface": "eMMC"
           },
           "R": {
-            "product_mode": "LPDDR2-S4 + SLC NAND",
+            "product_mode": "LPDDR2-S4 + SLC Parallel NAND",
             "storage_interface": "Parallel NAND",
             "dram_type": "LPDDR2-S4"
           },
@@ -1238,7 +1238,7 @@
             "dram_type": "LPDDR3-S4"
           },
           "U": {
-            "product_mode": "LPDDR3-S4 + SLC NAND",
+            "product_mode": "LPDDR3-S4 + SLC Parallel NAND",
             "storage_interface": "Parallel NAND",
             "dram_type": "LPDDR3-S4"
           },
@@ -1447,70 +1447,70 @@
         },
         "controllerObj": {
           "A": {
-            "product_version": "eMMC 4.41 PL_REG"
+            "storage_interface": "eMMC 4.41 PL_REG"
           },
           "B": {
-            "product_version": "eMMC 4.51 DC PL_REG"
+            "storage_interface": "eMMC 4.51 DC PL_REG"
           },
           "C": {
-            "product_version": "eMMC 4.41 DC PL_REG"
+            "storage_interface": "eMMC 4.41 DC PL_REG"
           },
           "D": {
-            "product_version": "eMMC"
+            "storage_interface": "eMMC"
           },
           "E": {
-            "product_version": "eMMC 5.1"
+            "storage_interface": "eMMC 5.1"
           },
           "F": {
-            "product_version": "eMMC 1.3"
+            "storage_interface": "eMMC 1.3"
           },
           "H": {
-            "product_version": "eMMC 1.8"
+            "storage_interface": "eMMC 1.8"
           },
           "J": {
-            "product_version": "eMMC 5.0"
+            "storage_interface": "eMMC 5.0"
           },
           "K": {
-            "product_version": "eMMC 4.2"
+            "storage_interface": "eMMC 4.2"
           },
           "L": {
-            "product_version": "eMMC 4.2/4.3"
+            "storage_interface": "eMMC 4.2/4.3"
           },
           "M": {
-            "product_version": "eMMC 4.2/4.3"
+            "storage_interface": "eMMC 4.2/4.3"
           },
           "N": {
-            "product_version": "eMMC 4.4"
+            "storage_interface": "eMMC 4.4"
           },
           "P": {
-            "product_version": "eMMC 4.4"
+            "storage_interface": "eMMC 4.4"
           },
           "Q": {
-            "product_version": "eMMC 4.4"
+            "storage_interface": "eMMC 4.4"
           },
           "R": {
-            "product_version": "eMMC 4.41"
+            "storage_interface": "eMMC 4.41"
           },
           "S": {
-            "product_version": "eMMC 4.41"
+            "storage_interface": "eMMC 4.41"
           },
           "T": {
-            "product_version": "eMMC 4.41"
+            "storage_interface": "eMMC 4.41"
           },
           "U": {
-            "product_version": "eMMC 4.41"
+            "storage_interface": "eMMC 4.41"
           },
           "V": {
-            "product_version": "eMMC 4.5"
+            "storage_interface": "eMMC 4.5"
           },
           "W": {
-            "product_version": "eMMC 4.5"
+            "storage_interface": "eMMC 4.5"
           },
           "X": {
-            "product_version": "eMMC 4.41"
+            "storage_interface": "eMMC 4.41"
           },
           "Y": {
-            "product_version": "eMMC 5.0"
+            "storage_interface": "eMMC 5.0"
           }
         },
         "voltage": {
@@ -2170,9 +2170,6 @@
         },
         "fields.device_width": {
           "$var": "nandWidth"
-        },
-        "fields.product_version": {
-          "$path": "controllerObj.product_version"
         },
         "fields.dram_density": {
           "$path": "dramDensityObj.dram_density"

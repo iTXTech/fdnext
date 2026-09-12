@@ -124,10 +124,11 @@
 
 约定：
 
-- NAND 制程/代际匹配优先输出 `die_codename`，公开 label 渲染为 `Process` / `制程`；已有 `die_codename` 时不再重复公开 `generation_info` / `series_info`。2D 公开值优先是 `15nm` / `A19nm` / `20nm` 这类 litho；Kioxia / SanDisk 3D 公开值统一是 `BiCS3` / `BiCS4` / `BiCS4.5`，不带厂商和 Cell 后缀。层数使用独立 `layer_count`，并统一放在 NAND 主解析结果块，不放入封装细节；`X3-9060`、`8T23` 等工艺或 full-code 别名使用独立 `process_alias`。生成后的 FDB `l` 必须是 `nand.die_profile` key；泛化 `xxnm` 只有作为表内 fallback profile 时才允许保留，`1ynm` / `1znm` / 泛化 `3DVx` 不再保留。
+- NAND 制程/代际匹配优先输出 `die_codename`，公开 label 渲染为 `Process` / `制程`。共享表中已由制程名称完整表达的代际不再另写 `generation_info`；独立的产品代际、Xtacking 版本、系列和节点仍可同时公开，结果生成器不因存在 die 名称而删字段。2D 公开值优先是 `15nm` / `A19nm` / `20nm` 这类 litho；Kioxia / SanDisk 3D 公开值统一是 `BiCS3` / `BiCS4` / `BiCS4.5`，不带厂商和 Cell 后缀。层数使用独立 `layer_count`，并统一放在 NAND 主解析结果块，不放入封装细节；`X3-9060`、`8T23` 等工艺或 full-code 别名使用独立 `process_alias`。生成后的 FDB `l` 必须是 `nand.die_profile` key；泛化 `xxnm` 只有作为表内 fallback profile 时才允许保留，`1ynm` / `1znm` / 泛化 `3DVx` 不再保留。
 - Micron / Intel 2D raw NAND 详情字段仍保留 litho 作为 `die_codename`，但 subtitle 优先使用 `process_alias` 中的 die codename，例如 `M70M` / `L84A`，避免列表摘要只显示泛化制程。
 - `nand.die_profile` 中的 `firmware_match` / `die_mark` 是匹配和维护 metadata，不默认输出到公开 result；整理过的 `process_alias` 可以公开展示。Kioxia / SanDisk 2D 固件侧默认归一为 `2DM` / `2DT`；BiCS profile key 必须带厂商前缀，例如 `KBiCS3` / `SBiCS3`，full code profile key 也必须带厂商前缀，例如 `K7T23` / `S7T23`。Micron / Intel 3D 直接用 `B16A` 这类 die codename；2D 一般使用 `IM2DS` / `IM2DM` / `IM2DT` 区分 SLC / MLC / TLC，但 `L7x` / `M7x` / `B7x`、`L8x` / `M8x` / `B8x`、`L9x` / `B9x` 可直接用 die codename 匹配，公开制程分别补齐为 `25nm`、`20nm`、`16nm`。
 - `storage_interface` 与 `product_type` 完全重复时，优先保留更结构化的 identity 字段，除非接口字段含有版本、lane、gear 等增量信息。
+- eMMC/UFS 协议版本直接由 `storage_interface` 承载；`product_version` 保留 NVMe 等与 PCIe 物理接口不同层次的版本。MCP 的 Parallel NAND 组成在 `product_mode` 中明确标出，不能因控制器协议版本更具体而遗失其伴随接口；`PL_REG`、`DC` 和版本候选范围照原义保留。
 - NAND profile 的接口能力使用 `nand_interface.capability`；YMTC PN 和 raw NAND FDB 补充的器件等级使用 `nand_interface.rating`。同值合并显示但保留两个作用对象，不同值分别显示；迁移规则见 [跨字段信息治理](field_information_audit.md)。其他尚未迁移的 PN 等级继续保留 `speed_grade`，不得丢弃测试或 binning 信息。Managed NAND 的简短摘要不使用内部 NAND 接口作为对外接口。
 - `iNAND`、`iSSD`、`moviNAND` 等厂商品牌或系列名不作为 `product_type`；需要展示时放入 `product_family` 等稳定语义字段，解析中间用的 `system` / `group` 不进入公开 fields。SSD 类封装按接口归类为 `sata` / `sas` / `nvme`。
 
@@ -168,6 +169,7 @@ DRAM / MCP DRAM 子系统使用以下字段，避免和 NAND 字段混用：
 | `dram_width` | DRAM 组织位宽，`unit = bit` | `16` / `x16` |
 | `dram_voltage` | DRAM 电压/I/O 信息 | `VDD2 1.8V / VDDQ 0.6V` |
 | `cas_latency` | DRAM CAS latency token 展开 | `13` |
+| `read_latency` | 来源明确标为 RL 的读取延迟，不能改标为 CAS | `16` |
 | `die_revision` | DRAM die 修订或设计修订 | `Rev A`, `Rev E` |
 | `solder_type` | 焊接/镀层类型 token 展开 | `100% matte Sn` |
 | `special_option` | 不属于 die stack 的地址、CKE、layout 等特殊选项 | `Reduced page-size addressing` |

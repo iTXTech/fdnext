@@ -119,10 +119,10 @@ testPart("KLMAG1JETD-B041", {
   extra: {
     "Die Density": "16GB",
     "Die Count": 1,
-    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
     "Interface Type": "HS400"
   },
-  absentExtra: ["Product Generation", "Interface info", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Interface info", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KLM8G1GETF-B041", {
@@ -133,10 +133,10 @@ testPart("KLM8G1GETF-B041", {
   extra: {
     "Die Density": "8GB",
     "Die Count": 1,
-    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
     "Interface Type": "HS400"
   },
-  absentExtra: ["Product Generation", "Interface info", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Interface info", "Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KLMBG2JETD-B041", {
@@ -146,10 +146,10 @@ testPart("KLMBG2JETD-B041", {
   dieProfileField: "14nm",
   extra: {
     "Die Density": "16GB",
-    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
     "Die Count": 2
   },
-  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
 for (const [partNumber, densityMbit, dieDensity, dieCount, productVersion, controller, interfaceType, packageName] of [
@@ -165,11 +165,10 @@ for (const [partNumber, densityMbit, dieDensity, dieCount, productVersion, contr
     extra: {
       "Die Density": dieDensity,
       "Die Count": dieCount,
-      "Product Version": productVersion,
-      "Controller": controller,
+      "Storage Interface": productVersion,
       "Interface Type": interfaceType
     },
-    absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
+    absentExtra: ["Reference Status", "Inference Source", "source", "status"]
   });
 }
 
@@ -197,7 +196,7 @@ for (const [partNumber, densityMbit, packageName, operationTemperature] of [
     densityMbit,
     package: packageName,
     extra: {
-      "Product Version": "eMMC 5.1",
+      "Storage Interface": "eMMC 5.1",
       "Interface Type": "HS400",
       "Operation Temperature": operationTemperature
     },
@@ -214,10 +213,10 @@ testPart("KLMDG1NCAB-B041", {
   extra: {
     "Die Density": "128GB",
     "Die Count": 1,
-    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
     "Interface Type": "HS400"
   },
-  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
 testPart("KLMDG1NCABB041", {
@@ -229,10 +228,10 @@ testPart("KLMDG1NCABB041", {
   extra: {
     "Die Density": "128GB",
     "Die Count": 1,
-    "Product Version": "eMMC 5.1",
+    "Storage Interface": "eMMC 5.1",
     "Interface Type": "HS400"
   },
-  absentExtra: ["Product Generation", "Reference Status", "Inference Source", "source", "status"]
+  absentExtra: ["Reference Status", "Inference Source", "source", "status"]
 });
 
 for (const [partNumber, dramType, dramDensity, dramWidth, packageName] of [
@@ -1126,7 +1125,7 @@ testPart("KLUCG4J1BB", {
   extra: {
     "Die Density": "16GB",
     "Die Count": 4,
-    "Product Version": "UFS 2.0",
+    "Storage Interface": "UFS 2.0",
     "Controller": "UFS 2.0 G2-2Lane Controller"
   },
   absentExtra: ["NAND Component", "CE Count", "Reference Status", "Inference Source", "source", "status"]
@@ -1141,7 +1140,7 @@ testPart("KLUDGAG1BD", {
   extra: {
     "Die Density": "8GB",
     "Die Count": 16,
-    "Product Version": "UFS 2.0",
+    "Storage Interface": "UFS 2.0",
     "Controller": "UFS 2.0 G2-2Lane Controller"
   },
   absentExtra: ["NAND Component", "CE Count", "Reference Status", "Inference Source", "source", "status"]
@@ -1153,7 +1152,7 @@ testPart("KLUGGAR1FA-B2C1", {
   densityMbit: 8388608,
   package: "BGA-153, 11.5x13x1.4",
   extra: {
-    "Product Version": "UFS 2.1",
+    "Storage Interface": "UFS 2.1",
     "Controller": "UFS 2.1 G3-2Lane Controller"
   },
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
@@ -1167,7 +1166,7 @@ testPart("KLUEG8UHDB-C2E1", {
   extra: {
     "Die Density": "32GB",
     "Die Count": 8,
-    "Product Version": "UFS 3.1",
+    "Storage Interface": "UFS 3.1",
     "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller"
   },
   absentExtra: ["NAND Component", "CE Count", "Reference Status", "Inference Source", "source", "status"]
@@ -1182,7 +1181,7 @@ testPart("KLUEG8U1YB-B0CP", {
   extra: {
     "Die Density": "32GB",
     "Die Count": 8,
-    "Product Version": "UFS 2.1",
+    "Storage Interface": "UFS 2.1",
     "Controller": "UFS 2.1 G3-2Lane Controller (Automotive Grade only)",
     "Operation Temperature": "-40°C ~ 95°C Automotive Grade 3"
   },
@@ -1198,7 +1197,7 @@ testPart("KLUFG8RHDA-B2D1", {
   extra: {
     "Die Density": "64GB",
     "Die Count": 8,
-    "Product Version": "UFS 3.0",
+    "Storage Interface": "UFS 3.0",
     "Controller": "UFS 3.1/3.0/2.2 G4-2Lane Controller",
     "Operation Temperature": "-25°C ~ 85°C Extended Commercial"
   },
@@ -1214,7 +1213,7 @@ testPart("KLUFG8RHHF-F0G1", {
   extra: {
     "Die Density": "64GB",
     "Die Count": 8,
-    "Product Version": "UFS 4.0",
+    "Storage Interface": "UFS 4.0",
     "Controller": "UFS 4.0 G5-2Lane Controller"
   },
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
@@ -1229,7 +1228,7 @@ testPart("KLUEG4RHKF-F0H1", {
   extra: {
     "Die Density": "64GB",
     "Die Count": 4,
-    "Product Version": "UFS 4.1",
+    "Storage Interface": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"
   },
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
@@ -1244,7 +1243,7 @@ testPart("KLUGGGRHKF-F0H1", {
   package: "BGA-153, 9x13",
   extra: {
     "Die Density": "64GB",
-    "Product Version": "UFS 4.1",
+    "Storage Interface": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"
   },
   absentExtra: ["Die Count", "Reference Status", "Inference Source", "source", "status"]
@@ -1259,7 +1258,7 @@ testPart("KLUFG4NHKH-F0H1", {
   extra: {
     "Die Density": "128GB",
     "Die Count": 4,
-    "Product Version": "UFS 4.1",
+    "Storage Interface": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller"
   },
   absentExtra: ["Reference Status", "Inference Source", "source", "status"]
@@ -1275,7 +1274,7 @@ testPart("KLUGGARHUF-F0HQ", {
   extra: {
     "Die Density": "64GB",
     "Die Count": 16,
-    "Product Version": "UFS 4.1",
+    "Storage Interface": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller (Automotive)",
     "Operation Temperature": "-40°C ~ 105°C Automotive Grade 2"
   },
@@ -1288,7 +1287,7 @@ testPart("KLUGGARHUF-F0HP", {
   densityMbit: 8388608,
   package: "BGA-153, 11.5x13x1.2",
   extra: {
-    "Product Version": "UFS 4.1",
+    "Storage Interface": "UFS 4.1",
     "Controller": "UFS 4.1 G5-2Lane Controller (Automotive)",
     "Operation Temperature": "-40°C ~ 95°C Automotive Grade 3"
   },
@@ -1331,8 +1330,7 @@ for (const [partNumber, densityMbit, packageName, controller, operationTemperatu
     densityMbit,
     package: packageName,
     extra: {
-      "Product Version": "UFS 3.1",
-      "Controller": controller,
+      "Storage Interface": "UFS 3.1",
       "Operation Temperature": operationTemperature
     },
     absentExtra: ["Package Code", "Reference Status", "Inference Source", "source", "status"]

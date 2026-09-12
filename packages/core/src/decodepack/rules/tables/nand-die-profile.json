@@ -413,7 +413,7 @@
   },
   "HYV1": {
     "die_codename": "HYV1",
-    "generation_info": "3DV1",
+    "nand_technology": "3D",
     "layer_count": 24,
     "firmware_match": [
       "HYV1"
@@ -421,7 +421,7 @@
   },
   "HYV2": {
     "die_codename": "HYV2",
-    "generation_info": "3DV2",
+    "nand_technology": "3D",
     "layer_count": 36,
     "cell_level": 2,
     "die_density": 131072,
@@ -435,7 +435,7 @@
   },
   "HYV3": {
     "die_codename": "HYV3",
-    "generation_info": "3DV3",
+    "nand_technology": "3D",
     "layer_count": 48,
     "cell_level": 3,
     "nand_interface": { "capability": "Toggle 2.0; Max Speed=400MT/s" },
@@ -449,7 +449,7 @@
   },
   "HYV3M": {
     "die_codename": "HYV3M",
-    "generation_info": "3DV3",
+    "nand_technology": "3D",
     "layer_count": 48,
     "cell_level": 2,
     "die_density": 65536,
@@ -460,7 +460,7 @@
   },
   "HYV4": {
     "die_codename": "HYV4",
-    "generation_info": "3DV4",
+    "nand_technology": "3D",
     "layer_count": 72,
     "cell_level": 3,
     "nand_interface": { "capability": "Toggle 2.0; Max Speed=800MT/s" },
@@ -474,7 +474,7 @@
   },
   "HYV4M": {
     "die_codename": "HYV4M",
-    "generation_info": "3DV4",
+    "nand_technology": "3D",
     "layer_count": 76,
     "cell_level": 2,
     "die_density": 262144,
@@ -488,7 +488,7 @@
   },
   "HYV5": {
     "die_codename": "HYV5",
-    "generation_info": "3DV5",
+    "nand_technology": "3D",
     "layer_count": 96,
     "cell_level": 3,
     "die_density": 524288,
@@ -502,7 +502,7 @@
   },
   "HYV5Q": {
     "die_codename": "HYV5Q",
-    "generation_info": "3DV5",
+    "nand_technology": "3D",
     "layer_count": 96,
     "cell_level": 4,
     "die_density": 1048576,
@@ -516,7 +516,7 @@
   },
   "HYV6": {
     "die_codename": "HYV6",
-    "generation_info": "3DV6",
+    "nand_technology": "3D",
     "layer_count": 128,
     "cell_level": 3,
     "nand_interface": { "capability": "Toggle 4.0; Max Speed=1400MT/s" },
@@ -530,7 +530,7 @@
   },
   "HYV6Q": {
     "die_codename": "HYV6Q",
-    "generation_info": "3DV6",
+    "nand_technology": "3D",
     "layer_count": 128,
     "cell_level": 4,
     "die_density": 1048576,
@@ -541,7 +541,7 @@
   },
   "HYV7": {
     "die_codename": "HYV7",
-    "generation_info": "3DV7",
+    "nand_technology": "3D",
     "layer_count": 176,
     "cell_level": 3,
     "die_density": 524288,
@@ -555,7 +555,7 @@
   },
   "HYV7Q": {
     "die_codename": "HYV7Q",
-    "generation_info": "3DV7",
+    "nand_technology": "3D",
     "layer_count": 176,
     "cell_level": 4,
     "die_density": 1048576,
@@ -569,7 +569,7 @@
   },
   "HYV8": {
     "die_codename": "HYV8",
-    "generation_info": "3DV8",
+    "nand_technology": "3D",
     "layer_count": 238,
     "cell_level": 3,
     "die_density": 524288,
@@ -583,7 +583,7 @@
   },
   "HYV8Q": {
     "die_codename": "HYV8Q",
-    "generation_info": "3DV8",
+    "nand_technology": "3D",
     "layer_count": 238,
     "cell_level": 4,
     "die_density": 1048576,
@@ -594,7 +594,7 @@
   },
   "HYV9": {
     "die_codename": "HYV9",
-    "generation_info": "3DV9",
+    "nand_technology": "3D",
     "layer_count": 321,
     "cell_level": 3,
     "firmware_match": [
@@ -603,7 +603,7 @@
   },
   "HYV9H": {
     "die_codename": "HYV9H",
-    "generation_info": "3DV9H",
+    "nand_technology": "3D",
     "layer_count": 321,
     "cell_level": 3,
     "die_density": 1048576,
@@ -618,7 +618,7 @@
   },
   "HYV9Q": {
     "die_codename": "HYV9Q",
-    "generation_info": "3DV9",
+    "nand_technology": "3D",
     "layer_count": 321,
     "cell_level": 4,
     "die_density": 2097152,
@@ -690,7 +690,6 @@
   },
   "K0T25": {
     "die_codename": "BiCS5",
-    "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
     "die_density": 1048576,
@@ -705,7 +704,6 @@
   },
   "K0T46": {
     "die_codename": "BiCS6",
-    "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
     "die_density": 1048576,
@@ -735,7 +733,6 @@
   },
   "K7SA4": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 1,
     "die_density": 131072,
@@ -750,7 +747,6 @@
   },
   "K7T23": {
     "die_codename": "BiCS3",
-    "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
     "die_density": 128000,
@@ -765,7 +761,6 @@
   },
   "K8F24": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 4,
     "die_density": 1397760,
@@ -779,7 +774,6 @@
   },
   "K8T22": {
     "die_codename": "BiCS2",
-    "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 3,
     "die_density": 262144,
@@ -794,7 +788,6 @@
   },
   "K8T23": {
     "die_codename": "BiCS3",
-    "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
     "die_density": 262144,
@@ -809,7 +802,6 @@
   },
   "K8T24": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
     "die_density": 262144,
@@ -824,7 +816,6 @@
   },
   "K8T2M": {
     "die_codename": "BiCS4.5",
-    "generation_info": "BiCS4.5",
     "cell_level": 3,
     "die_density": 262144,
     "plane_count": 2,
@@ -838,7 +829,6 @@
   },
   "K9T23": {
     "die_codename": "BiCS3",
-    "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
     "die_density": 524288,
@@ -856,7 +846,6 @@
   },
   "K9T24": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
     "die_density": 524288,
@@ -871,7 +860,6 @@
   },
   "K9T2M": {
     "die_codename": "BiCS4.5",
-    "generation_info": "BiCS4.5",
     "cell_level": 3,
     "die_density": 524288,
     "plane_count": 2,
@@ -885,7 +873,6 @@
   },
   "K9T45": {
     "die_codename": "BiCS5",
-    "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
     "die_density": 524288,
@@ -900,7 +887,6 @@
   },
   "K9T46": {
     "die_codename": "BiCS6",
-    "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
     "die_density": 524288,
@@ -918,7 +904,6 @@
   },
   "KBiCS2": {
     "die_codename": "BiCS2",
-    "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 3,
     "die_density": 262144,
@@ -932,7 +917,6 @@
   },
   "KBiCS2M": {
     "die_codename": "BiCS2",
-    "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 2,
     "firmware_match": [
@@ -941,7 +925,6 @@
   },
   "KBiCS3": {
     "die_codename": "BiCS3",
-    "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
     "plane_count": 2,
@@ -956,7 +939,6 @@
   },
   "KBiCS3M": {
     "die_codename": "BiCS3",
-    "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 2,
     "firmware_match": [
@@ -965,7 +947,6 @@
   },
   "KBiCS4": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
     "firmware_match": [
@@ -978,7 +959,6 @@
   },
   "KBiCS4.5": {
     "die_codename": "BiCS4.5",
-    "generation_info": "BiCS4.5",
     "cell_level": 3,
     "plane_count": 2,
     "firmware_match": [
@@ -991,7 +971,6 @@
   },
   "KBiCS4.5M": {
     "die_codename": "BiCS4.5",
-    "generation_info": "BiCS4.5",
     "cell_level": 2,
     "firmware_match": [
       "KBiCS4.5M"
@@ -999,7 +978,6 @@
   },
   "KBiCS4.5Q": {
     "die_codename": "BiCS4.5",
-    "generation_info": "BiCS4.5",
     "cell_level": 4,
     "firmware_match": [
       "KBiCS4.5Q"
@@ -1007,7 +985,6 @@
   },
   "KBiCS4M": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 2,
     "firmware_match": [
@@ -1016,7 +993,6 @@
   },
   "KBiCS4Q": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 4,
     "die_density": 1397760,
@@ -1029,7 +1005,6 @@
   },
   "KBiCS4S": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 1,
     "die_density": 131072,
@@ -1043,7 +1018,6 @@
   },
   "KBiCS5": {
     "die_codename": "BiCS5",
-    "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
     "firmware_match": [
@@ -1056,7 +1030,6 @@
   },
   "KBiCS5M": {
     "die_codename": "BiCS5",
-    "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 2,
     "firmware_match": [
@@ -1065,7 +1038,6 @@
   },
   "KBiCS5Q": {
     "die_codename": "BiCS5",
-    "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 4,
     "firmware_match": [
@@ -1074,7 +1046,6 @@
   },
   "KBiCS6": {
     "die_codename": "BiCS6",
-    "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
     "plane_count": 4,
@@ -1088,7 +1059,6 @@
   },
   "KBiCS6M": {
     "die_codename": "BiCS6",
-    "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 2,
     "firmware_match": [
@@ -1097,7 +1067,6 @@
   },
   "KBiCS6Q": {
     "die_codename": "BiCS6",
-    "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 4,
     "firmware_match": [
@@ -1106,7 +1075,6 @@
   },
   "KBiCS8": {
     "die_codename": "BiCS8",
-    "generation_info": "BiCS8",
     "layer_count": 218,
     "cell_level": 3,
     "firmware_match": [
@@ -1115,7 +1083,6 @@
   },
   "KBiCS9": {
     "die_codename": "BiCS9",
-    "generation_info": "BiCS9",
     "firmware_match": [
       "KBiCS9"
     ]
@@ -1666,7 +1633,6 @@
   },
   "S0T25": {
     "die_codename": "BiCS5",
-    "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
     "die_density": 1048576,
@@ -1681,7 +1647,6 @@
   },
   "S0T46": {
     "die_codename": "BiCS6",
-    "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
     "die_density": 1048576,
@@ -1826,7 +1791,6 @@
   },
   "S7T23": {
     "die_codename": "BiCS3",
-    "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
     "die_density": 128000,
@@ -1841,7 +1805,6 @@
   },
   "S8T22": {
     "die_codename": "BiCS2",
-    "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 3,
     "die_density": 262144,
@@ -1856,7 +1819,6 @@
   },
   "S8T23": {
     "die_codename": "BiCS3",
-    "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
     "die_density": 262144,
@@ -1871,7 +1833,6 @@
   },
   "S8T24": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
     "die_density": 262144,
@@ -1886,7 +1847,6 @@
   },
   "S8T2M": {
     "die_codename": "BiCS4.5",
-    "generation_info": "BiCS4.5",
     "cell_level": 3,
     "die_density": 262144,
     "plane_count": 2,
@@ -1900,7 +1860,6 @@
   },
   "S9T23": {
     "die_codename": "BiCS3",
-    "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
     "die_density": 524288,
@@ -1915,7 +1874,6 @@
   },
   "S9T24": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
     "die_density": 524288,
@@ -1930,7 +1888,6 @@
   },
   "S9T2M": {
     "die_codename": "BiCS4.5",
-    "generation_info": "BiCS4.5",
     "cell_level": 3,
     "die_density": 524288,
     "plane_count": 2,
@@ -1944,7 +1901,6 @@
   },
   "S9T45": {
     "die_codename": "BiCS5",
-    "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
     "die_density": 524288,
@@ -1959,7 +1915,6 @@
   },
   "S9T46": {
     "die_codename": "BiCS6",
-    "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
     "die_density": 524288,
@@ -1974,7 +1929,6 @@
   },
   "SBiCS2": {
     "die_codename": "BiCS2",
-    "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 3,
     "die_density": 262144,
@@ -1988,7 +1942,6 @@
   },
   "SBiCS2M": {
     "die_codename": "BiCS2",
-    "generation_info": "BiCS2",
     "layer_count": 48,
     "cell_level": 2,
     "firmware_match": [
@@ -1997,7 +1950,6 @@
   },
   "SBiCS3": {
     "die_codename": "BiCS3",
-    "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 3,
     "plane_count": 2,
@@ -2012,7 +1964,6 @@
   },
   "SBiCS3M": {
     "die_codename": "BiCS3",
-    "generation_info": "BiCS3",
     "layer_count": 64,
     "cell_level": 2,
     "firmware_match": [
@@ -2021,7 +1972,6 @@
   },
   "SBiCS4": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 3,
     "firmware_match": [
@@ -2034,7 +1984,6 @@
   },
   "SBiCS4.5": {
     "die_codename": "BiCS4.5",
-    "generation_info": "BiCS4.5",
     "cell_level": 3,
     "plane_count": 2,
     "firmware_match": [
@@ -2047,7 +1996,6 @@
   },
   "SBiCS4.5M": {
     "die_codename": "BiCS4.5",
-    "generation_info": "BiCS4.5",
     "cell_level": 2,
     "firmware_match": [
       "SBiCS4.5M"
@@ -2055,7 +2003,6 @@
   },
   "SBiCS4.5Q": {
     "die_codename": "BiCS4.5",
-    "generation_info": "BiCS4.5",
     "cell_level": 4,
     "firmware_match": [
       "SBiCS4.5Q"
@@ -2063,7 +2010,6 @@
   },
   "SBiCS4M": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 2,
     "firmware_match": [
@@ -2072,7 +2018,6 @@
   },
   "SBiCS4Q": {
     "die_codename": "BiCS4",
-    "generation_info": "BiCS4",
     "layer_count": 96,
     "cell_level": 4,
     "die_density": 1397760,
@@ -2085,7 +2030,6 @@
   },
   "SBiCS5": {
     "die_codename": "BiCS5",
-    "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 3,
     "firmware_match": [
@@ -2098,7 +2042,6 @@
   },
   "SBiCS5M": {
     "die_codename": "BiCS5",
-    "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 2,
     "firmware_match": [
@@ -2107,7 +2050,6 @@
   },
   "SBiCS5Q": {
     "die_codename": "BiCS5",
-    "generation_info": "BiCS5",
     "layer_count": 112,
     "cell_level": 4,
     "firmware_match": [
@@ -2116,7 +2058,6 @@
   },
   "SBiCS6": {
     "die_codename": "BiCS6",
-    "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 3,
     "plane_count": 4,
@@ -2130,7 +2071,6 @@
   },
   "SBiCS6M": {
     "die_codename": "BiCS6",
-    "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 2,
     "firmware_match": [
@@ -2139,7 +2079,6 @@
   },
   "SBiCS6Q": {
     "die_codename": "BiCS6",
-    "generation_info": "BiCS6",
     "layer_count": 162,
     "cell_level": 4,
     "firmware_match": [
@@ -2148,7 +2087,6 @@
   },
   "SBiCS8": {
     "die_codename": "BiCS8",
-    "generation_info": "BiCS8",
     "layer_count": 218,
     "cell_level": 3,
     "firmware_match": [
@@ -2300,7 +2238,6 @@
   },
   "SSV1": {
     "die_codename": "SSV1",
-    "generation_info": "V1",
     "layer_count": 24,
     "cell_level": 3,
     "firmware_match": [
@@ -2309,7 +2246,6 @@
   },
   "SSV1M": {
     "die_codename": "SSV1M",
-    "generation_info": "V1",
     "layer_count": 24,
     "cell_level": 2,
     "firmware_match": [
@@ -2318,7 +2254,6 @@
   },
   "SSV1S": {
     "die_codename": "SSV1S",
-    "generation_info": "V1",
     "layer_count": 24,
     "cell_level": 1,
     "firmware_match": [
@@ -2327,7 +2262,6 @@
   },
   "SSV2": {
     "die_codename": "SSV2",
-    "generation_info": "V2",
     "layer_count": 32,
     "cell_level": 3,
     "firmware_match": [
@@ -2336,7 +2270,6 @@
   },
   "SSV2M": {
     "die_codename": "SSV2M",
-    "generation_info": "V2",
     "layer_count": 32,
     "cell_level": 2,
     "firmware_match": [
@@ -2345,7 +2278,6 @@
   },
   "SSV2S": {
     "die_codename": "SSV2S",
-    "generation_info": "V2",
     "layer_count": 32,
     "cell_level": 1,
     "firmware_match": [
@@ -2354,7 +2286,6 @@
   },
   "SSV3": {
     "die_codename": "SSV3",
-    "generation_info": "V3",
     "layer_count": 48,
     "cell_level": 3,
     "firmware_match": [
@@ -2363,7 +2294,6 @@
   },
   "SSV3M": {
     "die_codename": "SSV3M",
-    "generation_info": "V3",
     "layer_count": 48,
     "cell_level": 2,
     "firmware_match": [
@@ -2372,7 +2302,6 @@
   },
   "SSV3S": {
     "die_codename": "SSV3S",
-    "generation_info": "V3",
     "layer_count": 48,
     "cell_level": 1,
     "firmware_match": [
@@ -2381,7 +2310,6 @@
   },
   "SSV4": {
     "die_codename": "SSV4",
-    "generation_info": "V4",
     "layer_count": 64,
     "cell_level": 3,
     "firmware_match": [
@@ -2390,7 +2318,6 @@
   },
   "SSV4M": {
     "die_codename": "SSV4M",
-    "generation_info": "V4",
     "layer_count": 64,
     "cell_level": 2,
     "firmware_match": [
@@ -2399,7 +2326,6 @@
   },
   "SSV4Q": {
     "die_codename": "SSV4Q",
-    "generation_info": "V4",
     "layer_count": 64,
     "cell_level": 4,
     "firmware_match": [
@@ -2408,7 +2334,6 @@
   },
   "SSV4S": {
     "die_codename": "SSV4S",
-    "generation_info": "V4",
     "layer_count": 64,
     "cell_level": 1,
     "firmware_match": [
@@ -2417,7 +2342,6 @@
   },
   "SSV5": {
     "die_codename": "SSV5",
-    "generation_info": "V5",
     "layer_count": 92,
     "cell_level": 3,
     "firmware_match": [
@@ -2426,7 +2350,6 @@
   },
   "SSV5M": {
     "die_codename": "SSV5M",
-    "generation_info": "V5",
     "layer_count": 92,
     "cell_level": 2,
     "firmware_match": [
@@ -2435,7 +2358,6 @@
   },
   "SSV5Q": {
     "die_codename": "SSV5Q",
-    "generation_info": "V5",
     "layer_count": 92,
     "cell_level": 4,
     "firmware_match": [
@@ -2444,7 +2366,6 @@
   },
   "SSV5S": {
     "die_codename": "SSV5S",
-    "generation_info": "V5",
     "layer_count": 92,
     "cell_level": 1,
     "firmware_match": [
@@ -2453,7 +2374,6 @@
   },
   "SSV6": {
     "die_codename": "SSV6",
-    "generation_info": "V6",
     "layer_count": 128,
     "cell_level": 3,
     "firmware_match": [
@@ -2471,7 +2391,6 @@
   },
   "SSV6M": {
     "die_codename": "SSV6M",
-    "generation_info": "V6",
     "layer_count": 128,
     "cell_level": 2,
     "firmware_match": [
@@ -2480,7 +2399,6 @@
   },
   "SSV6P": {
     "die_codename": "SSV6P",
-    "generation_info": "V6P",
     "layer_count": 133,
     "cell_level": 3,
     "die_density": 524288,
@@ -2491,7 +2409,6 @@
   },
   "SSV6Q": {
     "die_codename": "SSV6Q",
-    "generation_info": "V6",
     "layer_count": 128,
     "cell_level": 4,
     "firmware_match": [
@@ -2500,7 +2417,6 @@
   },
   "SSV6S": {
     "die_codename": "SSV6S",
-    "generation_info": "V6",
     "layer_count": 128,
     "cell_level": 1,
     "firmware_match": [
@@ -2509,7 +2425,6 @@
   },
   "SSV7": {
     "die_codename": "SSV7",
-    "generation_info": "V7",
     "layer_count": 176,
     "cell_level": 3,
     "firmware_match": [
@@ -2518,7 +2433,6 @@
   },
   "SSV7M": {
     "die_codename": "SSV7M",
-    "generation_info": "V7",
     "layer_count": 176,
     "cell_level": 2,
     "firmware_match": [
@@ -2527,7 +2441,6 @@
   },
   "SSV7Q": {
     "die_codename": "SSV7Q",
-    "generation_info": "V7",
     "layer_count": 176,
     "cell_level": 4,
     "firmware_match": [
@@ -2536,7 +2449,6 @@
   },
   "SSV7S": {
     "die_codename": "SSV7S",
-    "generation_info": "V7",
     "layer_count": 176,
     "cell_level": 1,
     "firmware_match": [
@@ -2545,7 +2457,6 @@
   },
   "SSV8": {
     "die_codename": "SSV8",
-    "generation_info": "V8",
     "layer_count": 236,
     "cell_level": 3,
     "firmware_match": [
@@ -2554,7 +2465,6 @@
   },
   "SSV8P": {
     "die_codename": "SSV8P",
-    "generation_info": "V8P",
     "layer_count": 236,
     "cell_level": 3,
     "firmware_match": [
@@ -2563,7 +2473,6 @@
   },
   "SSV8M": {
     "die_codename": "SSV8M",
-    "generation_info": "V8",
     "layer_count": 236,
     "cell_level": 2,
     "firmware_match": [
@@ -2572,7 +2481,6 @@
   },
   "SSV8Q": {
     "die_codename": "SSV8Q",
-    "generation_info": "V8",
     "layer_count": 236,
     "cell_level": 4,
     "firmware_match": [
@@ -2581,7 +2489,6 @@
   },
   "SSV8S": {
     "die_codename": "SSV8S",
-    "generation_info": "V8",
     "layer_count": 236,
     "cell_level": 1,
     "firmware_match": [
@@ -2590,7 +2497,6 @@
   },
   "SSV9": {
     "die_codename": "SSV9",
-    "generation_info": "V9",
     "layer_count": 280,
     "cell_level": 3,
     "firmware_match": [
@@ -2599,7 +2505,6 @@
   },
   "SSV9M": {
     "die_codename": "SSV9M",
-    "generation_info": "V9",
     "layer_count": 280,
     "cell_level": 2,
     "firmware_match": [
@@ -2608,7 +2513,6 @@
   },
   "SSV9Q": {
     "die_codename": "SSV9Q",
-    "generation_info": "V9",
     "layer_count": 280,
     "cell_level": 4,
     "firmware_match": [
@@ -2617,7 +2521,6 @@
   },
   "SSV9S": {
     "die_codename": "SSV9S",
-    "generation_info": "V9",
     "layer_count": 280,
     "cell_level": 1,
     "firmware_match": [

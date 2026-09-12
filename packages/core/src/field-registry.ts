@@ -353,6 +353,12 @@ export const fdnextFieldRegistry = {
     defaultLabel: "CAS Latency",
     importance: "secondary"
   },
+  read_latency: {
+    key: "read_latency",
+    valueKind: "number",
+    defaultLabel: "Read Latency",
+    importance: "secondary"
+  },
   dram_width: {
     key: "dram_width",
     valueKind: "number",

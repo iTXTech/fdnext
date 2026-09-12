@@ -337,7 +337,6 @@
           "value": {
             "system": "Micron managed NAND",
             "group": "eMMC",
-            "product_version": "eMMC",
             "nand_component": {
               "$var": "componentCode"
             },
@@ -547,8 +546,7 @@
         "fields.storage_density": {
           "$path": "storageDensityObj.storage_density"
         },
-        "fields.storage_interface": "eMMC",
-        "fields.product_version": "eMMC 4.41",
+        "fields.storage_interface": "eMMC 4.41",
         "fields.operation_temperature": {
           "$var": "temperature"
         },

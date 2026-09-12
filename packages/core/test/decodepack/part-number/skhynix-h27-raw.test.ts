@@ -7,7 +7,7 @@ import {
   compiledPack
 } from "./_helpers";
 
-const h27AbsentExtra = ["Product Generation", "Reference Status", "Inference Source", "Generation Code", "Package Code", "Config Code"];
+const h27AbsentExtra = [ "Reference Status", "Inference Source", "Generation Code", "Package Code", "Config Code"];
 const obsoleteRawRuleId = ["vendor", "skhynix", "token", "v1"].join(".");
 const obsoleteH2RawRuleId = ["vendor", "skhynix", "h2", "raw", "v2"].join(".");
 

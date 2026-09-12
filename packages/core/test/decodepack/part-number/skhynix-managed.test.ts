@@ -154,7 +154,7 @@ assertRuleDecode("HN8G95DJHQX148", {
     "Product Class": "Automotive AAT",
     "Operation Temperature": "-40°C ~ 105°C"
   },
-  absentExtra: ["System", "Product Family", "Product Generation"]
+  absentExtra: ["System", "Product Family"]
 });
 
 assertSkhynixHn8RuleMatches("HN8T25DJHVX111", ["vendor.skhynix.ufs.hn8.automotive-ufs31.v1"]);
@@ -170,7 +170,7 @@ assertRuleDecode("HN8T25DJHVX111", {
     "Product Class": "Automotive AIT",
     "Operation Temperature": "-40°C ~ 95°C"
   },
-  absentExtra: ["System", "Product Family", "Product Generation"]
+  absentExtra: ["System", "Product Family"]
 });
 
 assertSkhynixHn8RuleMatches("HN8T05BZGKX015N", ["vendor.skhynix.ufs.hn8.uc310-v6.v1"]);
@@ -223,7 +223,7 @@ assertRuleDecode("HN8T25DEHKX077N", {
     "Layer Count": 176,
     "Product Class": "Mobile"
   },
-  absentExtra: ["System", "Product Family", "Product Generation"]
+  absentExtra: ["System", "Product Family"]
 });
 
 assertSkhynixHn8RuleMatches("HN8T25DEHKX077", ["vendor.skhynix.ufs.hn8.mobile-ufs31.v1"]);
@@ -239,7 +239,7 @@ assertRuleDecode("HN8T25DEHKX077", {
     "Layer Count": 176,
     "Product Class": "Mobile"
   },
-  absentExtra: ["System", "Product Family", "Product Generation", "Production Status"]
+  absentExtra: ["System", "Product Family", "Production Status"]
 });
 assertSearchPnIncludes("HN8T25DEHKX077", "SKhynix HN8T25DEHKX077");
 
@@ -255,7 +255,7 @@ assertRuleDecode("HN8T35DZHKX079", {
     "Storage Interface": "UFS 3.1",
     "Layer Count": 176
   },
-  absentExtra: ["System", "Product Family", "Product Generation"]
+  absentExtra: ["System", "Product Family"]
 });
 
 assertSkhynixHn8RuleMatches("HN8G962EHKX037N", ["vendor.skhynix.ufs.hn8.ufs22-v7.v1"]);
@@ -379,7 +379,7 @@ assertRuleDecode("H28SAO301MMR", {
   densityMbit: 4194304,
   package: "FBGA, 11.5x13x1.0",
   extra: {
-    "Product Version": "UFS 2.1"
+    "Storage Interface": "UFS 2.1"
   }
 });
 
@@ -389,7 +389,7 @@ assertRuleDecode("H28S8Q302CMR", {
   densityMbit: 1048576,
   package: "FBGA, 11.5x13x1.0",
   extra: {
-    "Product Version": "UFS 2.1"
+    "Storage Interface": "UFS 2.1"
   }
 });
 
@@ -399,7 +399,7 @@ assertRuleDecode("H28S9Q301CMR", {
   densityMbit: 2097152,
   package: "FBGA, 11.5x13x1.0",
   extra: {
-    "Product Version": "UFS 2.1"
+    "Storage Interface": "UFS 2.1"
   }
 });
 

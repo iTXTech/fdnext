@@ -76,7 +76,7 @@ testPart("TC58TFG8T23TA0D", {
     "Channel Count": 1,
     "Plane Count": 2
   },
-  absentExtra: ["Product Generation"]
+  absentExtra: []
 });
 
 testPart("TH58LKT4X46BAEG", {
@@ -235,7 +235,7 @@ testPart("THGBMNG5D1LBAIT", {
     "Lead free": "Yes",
     "Halogen free": "Yes"
   },
-  absentExtra: ["Product Version", "Product Generation", "Die Stack"]
+  absentExtra: ["Product Version", "Die Stack"]
 });
 
 testPart("THGBM2G9DBFBAI2", {

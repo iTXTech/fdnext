@@ -30,9 +30,7 @@
           "D": "Vcc: 3.3V/1.8V, VccQ: 3.3V/1.8V"
         },
         "typeObj": {
-          "M": {
-            "storage_interface": "eMMC"
-          },
+          "M": {},
           "R": {
             "managed_family": "SmartNAND",
             "controller": "Embedded ECC",
@@ -107,42 +105,34 @@
             "nand_technology": "FG NAND"
           },
           "AMV": {
-            "series_code": "AMV",
-            "nand_technology": "BiCS FLASH"
+            "series_code": "AMV"
           },
           "AMS": {
-            "series_code": "AMS",
-            "nand_technology": "BiCS FLASH"
+            "series_code": "AMS"
           }
         },
         "versionObj": {
           "BMN": {
-            "product_version": "eMMC 5.0",
             "storage_interface": "eMMC 5.0",
             "speed_grade": "400 MB/s"
           },
           "BMT": {
-            "product_version": "eMMC 5.0",
             "storage_interface": "eMMC 5.0",
             "speed_grade": "400 MB/s"
           },
           "BMU": {
-            "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
             "speed_grade": "400 MB/s"
           },
           "BMJ": {
-            "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
             "speed_grade": "400 MB/s"
           },
           "AMV": {
-            "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
             "speed_grade": "400 MB/s"
           },
           "AMS": {
-            "product_version": "eMMC 5.1",
             "storage_interface": "eMMC 5.1",
             "speed_grade": "400 MB/s"
           }
@@ -211,29 +201,6 @@
           },
           "FG:L": {
             "generation_info": "15 nm/1z"
-          }
-        },
-        "bicsGenerationObj": {
-          "BICS:2": {
-            "generation_info": "BiCS2"
-          },
-          "BICS:3": {
-            "generation_info": "BiCS3"
-          },
-          "BICS:4": {
-            "generation_info": "BiCS4"
-          },
-          "BICS:5": {
-            "generation_info": "BiCS5"
-          },
-          "BICS:6": {
-            "generation_info": "BiCS6"
-          },
-          "BICS:8": {
-            "generation_info": "BiCS8"
-          },
-          "BICS:M": {
-            "generation_info": "BiCS4.5"
           }
         },
         "classObj": {
@@ -330,6 +297,11 @@
           "LA01": "LGA-60",
           "LA08": "LGA-52, 14x18x1.04",
           "LA09": "LGA-52, 14x18x1.0"
+        },
+        "processFallback": {
+          "BICS": {
+            "nand_technology": "BiCS FLASH"
+          }
         }
       },
       "steps": [
@@ -482,20 +454,26 @@
           "from": "processNode",
           "table": "nand.die_profile",
           "to": "processObj",
+          "default": ""
+        },
+        {
+          "op": "map",
+          "from": "processFamily",
+          "table": "processFallback",
+          "to": "processFallback",
           "default": {}
+        },
+        {
+          "op": "fallback",
+          "primary": "processObj",
+          "secondary": "processFallback",
+          "to": "processObj"
         },
         {
           "op": "map",
           "from": "twoDimensionalProcessKey",
           "table": "twoDimensionalGenerationObj",
           "to": "twoDimensionalGenerationObj",
-          "default": {}
-        },
-        {
-          "op": "map",
-          "from": "bicsProcessKey",
-          "table": "bicsGenerationObj",
-          "to": "bicsGenerationObj",
           "default": {}
         },
         {
@@ -607,11 +585,6 @@
         {
           "op": "merge",
           "into": "extra",
-          "from": "bicsGenerationObj"
-        },
-        {
-          "op": "merge",
-          "into": "extra",
           "from": "classObj"
         },
         {
@@ -675,6 +648,9 @@
         },
         "fields.die_codename": {
           "$var": "processNode"
+        },
+        "fields.nand_technology": {
+          "$path": "processObj.nand_technology"
         }
       }
     }

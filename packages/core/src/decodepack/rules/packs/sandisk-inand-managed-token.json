@@ -131,9 +131,7 @@
             "storage_interface": "UFS 4.x",
             "interface_type": "Gear 5 / 2-Lane"
           },
-          "L": {
-            "storage_interface": "UFS"
-          }
+          "L": {}
         },
         "packageObj": {
           "C": {
@@ -258,8 +256,7 @@
             "storage_interface": "eMMC 4.41"
           },
           "7LP4": {
-            "product_family": "iNAND legacy eMMC",
-            "storage_interface": "eMMC"
+            "product_family": "iNAND legacy eMMC"
           },
           "8CE4": {
             "product_family": "Industrial iNAND"

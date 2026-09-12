@@ -754,29 +754,29 @@
             "dram_speed": "LPDDR2-1066"
           },
           "6CL:H0": {
-            "dram_speed": "LPDDR3-2133",
-            "cas_latency": 16,
-            "speed_grade": "H0 2133Mbps @ RL=16"
+            "dram_speed": "2133Mbps",
+            "read_latency": 16,
+            "speed_grade": "H0"
           },
           "6CL:H1": {
-            "dram_speed": "LPDDR3-1866",
-            "cas_latency": 14,
-            "speed_grade": "H1 1866Mbps @ RL=14"
+            "dram_speed": "1866Mbps",
+            "read_latency": 14,
+            "speed_grade": "H1"
           },
           "6CL:H2": {
-            "dram_speed": "LPDDR3-1600",
-            "cas_latency": 12,
-            "speed_grade": "H2 1600Mbps @ RL=12"
+            "dram_speed": "1600Mbps",
+            "read_latency": 12,
+            "speed_grade": "H2"
           },
           "6AN:J1": {
             "dram_speed": "LPDDR4-4267",
-            "cas_latency": 36,
-            "speed_grade": "J1 0.468ns @ RL=36"
+            "read_latency": 36,
+            "speed_grade": "J1 0.468ns"
           },
           "6AN:J2": {
             "dram_speed": "LPDDR4-3733",
-            "cas_latency": 32,
-            "speed_grade": "J2 0.535ns @ RL=32"
+            "read_latency": 32,
+            "speed_grade": "J2 0.535ns"
           },
           "6AP:J1": {
             "dram_speed": "LPDDR4X-4267"
@@ -800,13 +800,13 @@
         "configSpeedObj": {
           "6AN:128M16:J3": {
             "dram_speed": "LPDDR4-3200",
-            "cas_latency": 28,
-            "speed_grade": "J3 0.625ns @ RL=28"
+            "read_latency": 28,
+            "speed_grade": "J3 0.625ns"
           },
           "6AN:128T32:J3": {
             "dram_speed": "LPDDR4-3200",
-            "cas_latency": 28,
-            "speed_grade": "J3 0.625ns @ RL=28"
+            "read_latency": 28,
+            "speed_grade": "J3 0.625ns"
           }
         },
         "gradeObj": {

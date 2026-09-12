@@ -76,7 +76,7 @@ for (const [partNumber, densityMbit, storageDensity] of [
     densityMbit,
     extra: {
       "Storage Density": storageDensity,
-      "Product Version": "eMMC 4.41",
+      "Storage Interface": "eMMC 4.41",
       "Operation Temperature": "Extended (-40°C ~ 85°C)",
       "Voltage": "3.0V",
       "Package": "LBGA-100, 14x18x1.4"

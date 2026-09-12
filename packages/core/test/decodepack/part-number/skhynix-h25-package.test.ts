@@ -44,7 +44,7 @@ assertRuleDecode("H25T2TB88E-X321-N", {
     "Die Count": 8,
     "Packing Type": "Normal (Tray)"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25G9TM18E", {
@@ -63,7 +63,7 @@ assertRuleDecode("H25G9TM18E", {
     "R/B Count": 1,
     "Channel Count": 1
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T0QM18E", {
@@ -82,7 +82,7 @@ assertRuleDecode("H25T0QM18E", {
     "R/B Count": 1,
     "Channel Count": 1
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T1TD48C-X630", {
@@ -97,7 +97,7 @@ assertRuleDecode("H25T1TD48C-X630", {
     "Die Density": "64GB",
     "Die Count": 4
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T2TC88C", {
@@ -112,7 +112,7 @@ assertRuleDecode("H25T2TC88C", {
     "Die Density": "64GB",
     "Die Count": 8
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T2TD88C-X682", {
@@ -127,7 +127,7 @@ assertRuleDecode("H25T2TD88C-X682", {
     "Die Density": "64GB",
     "Die Count": 8
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T2TD88C", {
@@ -142,7 +142,7 @@ assertRuleDecode("H25T2TD88C", {
     "Die Density": "64GB",
     "Die Count": 8
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T3TC88C-X658-R", {
@@ -162,7 +162,7 @@ assertRuleDecode("H25T3TC88C-X658-R", {
     "Channel Count": 2,
     "Packing Type": "Tape & Reel"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Reference Status", "Inference Source"]
 });
 
 const skhynixH25Hyv9KnownPackages = [
@@ -329,7 +329,7 @@ for (const item of skhynixH25Hyv9KnownPackages) {
       "R/B Count": item.rbCount,
       "Channel Count": item.channelCount
     },
-    absentExtra: [...skhynixH25RawInternalExtra, "Speed Grade", "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+    absentExtra: [...skhynixH25RawInternalExtra, "Speed Grade", "Process Alias", "Reference Status", "Inference Source"]
   });
 }
 
@@ -417,7 +417,7 @@ for (const item of skhynixH25V9hKnownPackages) {
       "Plane Count": 4,
       "NAND Interface": "Max Speed=3600MT/s"
     },
-    absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+    absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Reference Status", "Inference Source"]
   });
 }
 
@@ -428,7 +428,7 @@ assertRuleDecode("H25T0TG18G-X807", {
   dieProfileField: "HYV9H",
   cellField: "TLC",
   package: "BGA-154, 11.5x13.5x1.0",
-  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Reference Status", "Inference Source"]
 });
 
 const skhynixH25V9hDashResult = engine.decodePart({ query: "H25T0TG18G-X807", lang: "eng" });
@@ -451,7 +451,7 @@ assertRuleDecode("H25T0TD18C-X655N", {
     "Channel Count": 1,
     "Packing Type": "Normal (Tray)"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T0QAXXBX569A", {
@@ -463,7 +463,7 @@ assertRuleDecode("H25T0QAXXBX569A", {
     "Wafer": "Yes",
     "Packing Type": "Wafer"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T0QA18CX542", {
@@ -475,7 +475,7 @@ assertRuleDecode("H25T0QA18CX542", {
   extra: {
     "Layer Count": 176
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T4QM88G", {
@@ -493,7 +493,7 @@ assertRuleDecode("H25T4QM88G", {
     "Plane Count": 6,
     "NAND Interface": "Max Speed=3200MT/s"
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T6QM88G", {
@@ -508,7 +508,7 @@ assertRuleDecode("H25T6QM88G", {
     "R/B Count": 4,
     "Channel Count": 2
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Process Alias", "Reference Status", "Inference Source"]
 });
 
 const skhynixH25V9qKnownPackages = [
@@ -604,7 +604,7 @@ for (const item of skhynixH25V9qKnownPackages) {
       "Plane Count": 6,
       "NAND Interface": "Max Speed=3200MT/s"
     },
-    absentExtra: [...skhynixH25RawInternalExtra, "Special Option", "Process Alias", "Product Generation", "Reference Status", "Inference Source"]
+    absentExtra: [...skhynixH25RawInternalExtra, "Special Option", "Process Alias", "Reference Status", "Inference Source"]
   });
 }
 
@@ -624,7 +624,7 @@ assertRuleDecode("H25T3TCG8C", {
     "R/B Count": 4,
     "Channel Count": 2
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDecode("H25T4TMG8C", {
@@ -640,7 +640,7 @@ assertRuleDecode("H25T4TMG8C", {
     "Die Count": 16,
     "CE Count": 4
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDraftDieProfile("vendor.skhynix.h25.gt-package.v2", "H25G9TC18CX488", "HYV7");
@@ -660,7 +660,7 @@ assertRuleDecode("H25G9TC18CX488", {
     "R/B Count": 1,
     "Channel Count": 1
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
 
 assertRuleDraftDieProfile("vendor.skhynix.h25.gt-package.v2", "H25G9TD18CX576", "HYV8");
@@ -680,5 +680,5 @@ assertRuleDecode("H25G9TD18CX576", {
     "R/B Count": 1,
     "Channel Count": 1
   },
-  absentExtra: [...skhynixH25RawInternalExtra, "Product Generation", "Reference Status", "Inference Source"]
+  absentExtra: [...skhynixH25RawInternalExtra, "Reference Status", "Inference Source"]
 });
