@@ -222,6 +222,22 @@ const resultDefs = {
     },
     allOf: [
       {
+        if: { properties: { key: { const: "nand_interface" } }, required: ["key"] },
+        then: {
+          properties: {
+            value: {
+              type: "object",
+              properties: { rating: { type: "string", minLength: 1 }, capability: { type: "string", minLength: 1 } },
+              anyOf: [
+                { properties: { rating: { type: "string" } }, required: ["rating"] },
+                { properties: { capability: { type: "string" } }, required: ["capability"] }
+              ],
+              additionalProperties: false
+            }
+          }
+        }
+      },
+      {
         if: {
           properties: {
             key: { enum: Object.values(fdnextFieldRegistry).filter((field) => "defaultUnit" in field && field.defaultUnit === "Mbit" && field.valueKind === "number").map((field) => field.key) }

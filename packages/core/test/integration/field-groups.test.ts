@@ -46,7 +46,7 @@ test("standalone DRAM groups die capacity with topology and keeps process detail
 test("managed NAND separates the host interface from the internal NAND interface and geometry", () => {
   const result = engine.decodePart({ query: "YMEC6A1TC1A2C1", lang: "eng" });
   assert.equal(field(result, "storage_interface", "storage").value, "eMMC 5.1");
-  assert.equal(field(result, "nand_interface", "components").value, "ONFI 4.1; Max Speed=1600MT/s");
+  assert.deepEqual(field(result, "nand_interface", "components").value, { capability: "ONFI 4.1; Max Speed=1600MT/s" });
   assert.equal(field(result, "die_density", "components").value, 524288);
   assert.equal(field(result, "page_size", "components").value, 16384);
   assert.equal(field(result, "pages_per_block", "components").value, "2304 pages");

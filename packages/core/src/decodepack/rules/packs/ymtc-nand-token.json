@@ -251,38 +251,34 @@
         },
         "speedClass": {
           "0": {
-            "speed_grade": "ONFI 3.2; Max Speed=400MT/s"
+            "rating": "ONFI 3.2; Max Speed=400MT/s"
           },
           "1": {
-            "speed_grade": "ONFI 3.2; Max Speed=533MT/s"
+            "rating": "ONFI 3.2; Max Speed=533MT/s"
           },
           "2": {
-            "speed_grade": "ONFI 4.0; Max Speed=667MT/s"
+            "rating": "ONFI 4.0; Max Speed=667MT/s"
           },
           "3": {
-            "speed_grade": "ONFI 4.0; Max Speed=800MT/s"
+            "rating": "ONFI 4.0; Max Speed=800MT/s"
           },
           "4": {
-            "speed_grade": "ONFI 4.1; Max Speed=1200MT/s"
+            "rating": "ONFI 4.1; Max Speed=1200MT/s"
           },
           "5": {
-            "speed_grade": "ONFI 4.2; Max Speed=1333MT/s"
+            "rating": "ONFI 4.2; Max Speed=1333MT/s"
           },
           "6": {
-            "speed_grade": "ONFI 4.2; Max Speed=1600MT/s"
+            "rating": "ONFI 4.2; Max Speed=1600MT/s"
           },
-          "8": {
-            "speed_grade": "Undefined"
-          },
+          "8": {},
           "A": {
-            "speed_grade": "ONFI 5.0; Max Speed=2400MT/s"
+            "rating": "ONFI 5.0; Max Speed=2400MT/s"
           },
           "B": {
-            "speed_grade": "ONFI 5.1; Max Speed=3600MT/s"
+            "rating": "ONFI 5.1; Max Speed=3600MT/s"
           },
-          "X": {
-            "speed_grade": "Undefined"
-          }
+          "X": {}
         },
         "generation": {
           "A": 1,
@@ -578,11 +574,12 @@
           "into": "extra",
           "from": "productClassObj"
         },
-        {
-          "op": "merge",
-          "into": "extra",
-          "from": "speedObj"
-        },
+        { "op": "set", "to": "nandInterface", "value": {} },
+        { "op": "set", "to": "profileInterface", "value": { "$path": "processObj.nand_interface" } },
+        { "op": "merge", "into": "nandInterface", "from": "profileInterface" },
+        { "op": "merge", "into": "nandInterface", "from": "speedObj" },
+        { "op": "set", "to": "interfaceFields", "value": { "nand_interface": { "$var": "nandInterface" } } },
+        { "op": "merge", "into": "extra", "from": "interfaceFields" },
         {
           "op": "map",
           "from": "type",

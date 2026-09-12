@@ -1,4 +1,5 @@
 import type { FieldValue, FdnextFieldImportance, FdnextFieldValueData } from "./result";
+import { formatNandInterface } from "./nand-interface";
 
 export const fdnextFieldValueKinds = [
   "string",
@@ -639,8 +640,9 @@ export const fdnextFieldRegistry = {
   },
   nand_interface: {
     key: "nand_interface",
-    valueKind: "string",
+    valueKind: "object",
     defaultLabel: "NAND Interface",
+    format: formatNandInterface,
     importance: "secondary"
   },
   interface_note: {

@@ -108,7 +108,7 @@
 | `generation_info` | NAND 产品代际、层数或制程节点 | `V8 236L` |
 | `series_info` | 厂商系列说明 | `3D-V4` |
 | `storage_interface` | managed NAND 或 MCP storage 接口 | `eMMC 5.1`, `UFS 4.0` |
-| `nand_interface` | 内部 NAND 的接口标准或最高速率能力，来自 NAND profile；不代表 managed NAND 对外速率 | `ONFI 4.1; Max Speed=1600MT/s` |
+| `nand_interface` | 结构化 NAND 接口规格；`rating` 为器件等级，`capability` 为 die 能力；不代表 managed NAND 对外速率 | `{ capability: "ONFI 4.1; Max Speed=1600MT/s" }` |
 | `interface_type` | 接口模式、Gear、lane 或 HS 模式 | `HS400`, `Gear 4 / 2-Lane` |
 | `interface_note` | 接口 / 位宽组合表中有增量信息的 note，不用于默认 `Normal` | `HP w/ FBI Chip` |
 | `toggle` | Toggle DDR 标记 | `DDR` |
@@ -128,7 +128,7 @@
 - Micron / Intel 2D raw NAND 详情字段仍保留 litho 作为 `die_codename`，但 subtitle 优先使用 `process_alias` 中的 die codename，例如 `M70M` / `L84A`，避免列表摘要只显示泛化制程。
 - `nand.die_profile` 中的 `firmware_match` / `die_mark` 是匹配和维护 metadata，不默认输出到公开 result；整理过的 `process_alias` 可以公开展示。Kioxia / SanDisk 2D 固件侧默认归一为 `2DM` / `2DT`；BiCS profile key 必须带厂商前缀，例如 `KBiCS3` / `SBiCS3`，full code profile key 也必须带厂商前缀，例如 `K7T23` / `S7T23`。Micron / Intel 3D 直接用 `B16A` 这类 die codename；2D 一般使用 `IM2DS` / `IM2DM` / `IM2DT` 区分 SLC / MLC / TLC，但 `L7x` / `M7x` / `B7x`、`L8x` / `M8x` / `B8x`、`L9x` / `B9x` 可直接用 die codename 匹配，公开制程分别补齐为 `25nm`、`20nm`、`16nm`。
 - `storage_interface` 与 `product_type` 完全重复时，优先保留更结构化的 identity 字段，除非接口字段含有版本、lane、gear 等增量信息。
-- NAND profile 的接口能力使用 `nand_interface`；PN 自身的工作速率或等级继续使用 `speed_grade`，不能把两者整体互换。Managed NAND 的简短摘要不使用内部 NAND 接口作为对外接口。
+- NAND profile 的接口能力使用 `nand_interface.capability`；YMTC PN 和 raw NAND FDB 补充的器件等级使用 `nand_interface.rating`。同值合并显示但保留两个作用对象，不同值分别显示；迁移规则见 [跨字段信息治理](field_information_audit.md)。其他尚未迁移的 PN 等级继续保留 `speed_grade`，不得丢弃测试或 binning 信息。Managed NAND 的简短摘要不使用内部 NAND 接口作为对外接口。
 - `iNAND`、`iSSD`、`moviNAND` 等厂商品牌或系列名不作为 `product_type`；需要展示时放入 `product_family` 等稳定语义字段，解析中间用的 `system` / `group` 不进入公开 fields。SSD 类封装按接口归类为 `sata` / `sas` / `nvme`。
 
 ## NAND Flash ID

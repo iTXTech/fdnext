@@ -49,6 +49,24 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
+function checkNandInterfaceValues(value: unknown, path: string, findings: DecodePackCheckFinding[], specId?: string): void {
+  if (!value || typeof value !== "object") return;
+  for (const [key, item] of Object.entries(value)) {
+    const next = `${path}.${key}`;
+    if (key === "nand_interface" || key === "fields.nand_interface") {
+      if (isRecord(item) && Object.keys(item).some((key) => key.startsWith("$"))) continue;
+      if (!isRecord(item) || Object.keys(item).length === 0 || Object.entries(item).some(([scope, text]) =>
+        !["rating", "capability"].includes(scope) || typeof text !== "string" || !text.trim() || /^(unknown|undefined)$/i.test(text)
+      )) {
+        addFinding(findings, "error", "invalid_nand_interface", next,
+          "NAND interface literals must preserve named rating/capability scopes with known, nonempty specification text.", specId);
+      }
+    } else {
+      checkNandInterfaceValues(item, next, findings, specId);
+    }
+  }
+}
+
 function checkDecodeTable(
   table: DecodeTable,
   path: string,
@@ -804,6 +822,7 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
     checkDecodeTable(table, `sharedTables.${tableName}`, undefined, findings);
   }
   checkPublicPackageValues(sharedTables, ["sharedTables"], findings);
+  checkNandInterfaceValues(sharedTables, "sharedTables", findings);
   checkPublicGenerationValues(sharedTables, ["sharedTables"], findings);
   for (const [kind, specs] of [
     ["part", pack.partSpecs],
@@ -830,6 +849,7 @@ export function checkDecodePack(pack: DecodePack): DecodePackCheckResult {
         walkPolicy(identifierSpec.definition, `${path}.definition`, spec.id, findings);
       }
       checkPublicPackageValues(spec, [path], findings, spec.id);
+      checkNandInterfaceValues(spec, path, findings, spec.id);
       checkPublicGenerationValues(spec, [path], findings, spec.id);
     });
   }

@@ -30,7 +30,7 @@ function assertExplainFieldAbsent(id: string, key: string): void {
 }
 
 function assertResultField(id: string, key: string, expected: unknown): void {
-  assert.equal(resultFields(id)[key], expected, `${id} result ${key}`);
+  assert.deepEqual(resultFields(id)[key], expected, `${id} result ${key}`);
 }
 
 function assertResultFieldAbsent(id: string, key: string): void {
@@ -259,7 +259,7 @@ assertExplainField("AD79284B02E0", "die_codename", "HYV9H");
 assertResultField("AD79284B02E0", "die_codename", "HYV9H");
 assertResultField("AD79284B02E0", "layer_count", 321);
 assertResultField("AD79284B02E0", "plane_count", 4);
-assertResultField("AD79284B02E0", "nand_interface", "Max Speed=3600MT/s");
+assertResultField("AD79284B02E0", "nand_interface", { capability: "Max Speed=3600MT/s" });
 assertExplainField("AD780C5B30E0", "density", 2097152);
 assertExplainField("AD780C5B30E0", "die_codename", "HYV9Q");
 assertResultField("AD780C5B30E0", "density", 2097152);
@@ -268,7 +268,7 @@ assertResultField("AD780C5B30E0", "cell_level", "QLC");
 assertResultField("AD780C5B30E0", "die_density", 2097152);
 assertResultField("AD780C5B30E0", "layer_count", 321);
 assertResultField("AD780C5B30E0", "plane_count", 6);
-assertResultField("AD780C5B30E0", "nand_interface", "Max Speed=3200MT/s");
+assertResultField("AD780C5B30E0", "nand_interface", { capability: "Max Speed=3200MT/s" });
 assertResultFieldAbsent("AD780C5B30E0", "die_count");
 assertExplainField("AD3A180300E0", "die_codename", "HY14");
 assertResultField("AD3A180300E0", "die_codename", "14nm");
@@ -378,7 +378,7 @@ assertResultFieldAbsent("9BD5588D2000", "generation_info");
 assertResultField("9BD5588D2000", "die_density", 1397760);
 assertResultField("9BD5588D2000", "layer_count", 128);
 assertResultField("9BD5588D2000", "plane_count", 6);
-assertResultField("9BD5588D2000", "nand_interface", "ONFI 4.1; Max Speed=1200MT/s");
+assertResultField("9BD5588D2000", "nand_interface", { capability: "ONFI 4.1; Max Speed=1200MT/s" });
 assertResultField("9BD5588D2000", "pages_per_block", "3048 pages");
 assertResultField("9BC529493000", "die_codename", "WYS");
 assertResultField("9BC529493000", "process_alias", "X3-9060");

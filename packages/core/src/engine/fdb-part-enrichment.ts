@@ -268,7 +268,13 @@ export function createFdbPartEnricher(
       setDraftField(info, "package", record.pkg);
     }
     if (record.sg && !isKnownClassificationValue(draftField(info, "speed_grade"))) {
-      setDraftField(info, "speed_grade", record.sg);
+      if (info.device.chipKind === "raw_nand") {
+        const current = draftField(info, "nand_interface");
+        const scopes = current && typeof current === "object" && !Array.isArray(current) ? current : {};
+        if (!scopes.rating) setDraftField(info, "nand_interface", { ...scopes, rating: record.sg });
+      } else {
+        setDraftField(info, "speed_grade", record.sg);
+      }
     }
     if (record.pc && !isKnownClassificationValue(draftField(info, "product_class"))) {
       setDraftField(info, "product_class", record.pc);

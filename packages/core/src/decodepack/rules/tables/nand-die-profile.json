@@ -303,7 +303,7 @@
     "die_density": 65536,
     "cell_level": 2,
     "plane_count": 1,
-    "nand_interface": "Max Speed=533MT/s",
+    "nand_interface": { "capability": "Max Speed=533MT/s" },
     "firmware_match": [
       "X0-A030",
       "DBS"
@@ -320,7 +320,7 @@
     "page_size": 16384,
     "redundant_area_size": "2432B",
     "pages_per_block": "5544 pages",
-    "nand_interface": "ONFI 5.0; Max Speed=2400MT/s",
+    "nand_interface": { "capability": "ONFI 5.0; Max Speed=2400MT/s" },
     "firmware_match": [
       "X3-6070",
       "EMS"
@@ -337,7 +337,7 @@
     "page_size": 16384,
     "redundant_area_size": "2048B",
     "pages_per_block": "3048 pages",
-    "nand_interface": "ONFI 4.1; Max Speed=1200MT/s",
+    "nand_interface": { "capability": "ONFI 4.1; Max Speed=1200MT/s" },
     "firmware_match": [
       "X2-6070",
       "HUS"
@@ -425,7 +425,7 @@
     "layer_count": 36,
     "cell_level": 2,
     "die_density": 131072,
-    "nand_interface": "Toggle 2.0; Max Speed=400MT/s",
+    "nand_interface": { "capability": "Toggle 2.0; Max Speed=400MT/s" },
     "firmware_match": [
       "HYV2"
     ],
@@ -438,7 +438,7 @@
     "generation_info": "3DV3",
     "layer_count": 48,
     "cell_level": 3,
-    "nand_interface": "Toggle 2.0; Max Speed=400MT/s",
+    "nand_interface": { "capability": "Toggle 2.0; Max Speed=400MT/s" },
     "firmware_match": [
       "HYV3"
     ],
@@ -453,7 +453,7 @@
     "layer_count": 48,
     "cell_level": 2,
     "die_density": 65536,
-    "nand_interface": "Toggle 2.0; Max Speed=400MT/s",
+    "nand_interface": { "capability": "Toggle 2.0; Max Speed=400MT/s" },
     "firmware_match": [
       "HYV3M"
     ]
@@ -463,7 +463,7 @@
     "generation_info": "3DV4",
     "layer_count": 72,
     "cell_level": 3,
-    "nand_interface": "Toggle 2.0; Max Speed=800MT/s",
+    "nand_interface": { "capability": "Toggle 2.0; Max Speed=800MT/s" },
     "firmware_match": [
       "HYV4"
     ],
@@ -478,7 +478,7 @@
     "layer_count": 76,
     "cell_level": 2,
     "die_density": 262144,
-    "nand_interface": "Toggle 2.0; Max Speed=800MT/s",
+    "nand_interface": { "capability": "Toggle 2.0; Max Speed=800MT/s" },
     "firmware_match": [
       "HYV4M"
     ],
@@ -492,7 +492,7 @@
     "layer_count": 96,
     "cell_level": 3,
     "die_density": 524288,
-    "nand_interface": "Toggle 3.0; Max Speed=1200MT/s",
+    "nand_interface": { "capability": "Toggle 3.0; Max Speed=1200MT/s" },
     "firmware_match": [
       "HYV5"
     ],
@@ -506,7 +506,7 @@
     "layer_count": 96,
     "cell_level": 4,
     "die_density": 1048576,
-    "nand_interface": "Toggle 3.0; Max Speed=800MT/s",
+    "nand_interface": { "capability": "Toggle 3.0; Max Speed=800MT/s" },
     "firmware_match": [
       "HYV5Q"
     ],
@@ -519,7 +519,7 @@
     "generation_info": "3DV6",
     "layer_count": 128,
     "cell_level": 3,
-    "nand_interface": "Toggle 4.0; Max Speed=1400MT/s",
+    "nand_interface": { "capability": "Toggle 4.0; Max Speed=1400MT/s" },
     "firmware_match": [
       "HYV6"
     ],
@@ -534,7 +534,7 @@
     "layer_count": 128,
     "cell_level": 4,
     "die_density": 1048576,
-    "nand_interface": "Toggle 4.0; Max Speed=1400MT/s",
+    "nand_interface": { "capability": "Toggle 4.0; Max Speed=1400MT/s" },
     "firmware_match": [
       "HYV6Q"
     ]
@@ -545,7 +545,7 @@
     "layer_count": 176,
     "cell_level": 3,
     "die_density": 524288,
-    "nand_interface": "Toggle 4.0; Max Speed=1600MT/s",
+    "nand_interface": { "capability": "Toggle 4.0; Max Speed=1600MT/s" },
     "firmware_match": [
       "HYV7"
     ],
@@ -559,7 +559,7 @@
     "layer_count": 176,
     "cell_level": 4,
     "die_density": 1048576,
-    "nand_interface": "Toggle 4.0; Max Speed=1600MT/s",
+    "nand_interface": { "capability": "Toggle 4.0; Max Speed=1600MT/s" },
     "firmware_match": [
       "HYV7Q"
     ],
@@ -573,7 +573,7 @@
     "layer_count": 238,
     "cell_level": 3,
     "die_density": 524288,
-    "nand_interface": "Toggle 5.0; Max Speed=2400MT/s",
+    "nand_interface": { "capability": "Toggle 5.0; Max Speed=2400MT/s" },
     "firmware_match": [
       "HYV8"
     ],
@@ -587,7 +587,7 @@
     "layer_count": 238,
     "cell_level": 4,
     "die_density": 1048576,
-    "nand_interface": "Toggle 5.0; Max Speed=2400MT/s",
+    "nand_interface": { "capability": "Toggle 5.0; Max Speed=2400MT/s" },
     "firmware_match": [
       "HYV8Q"
     ]
@@ -608,7 +608,7 @@
     "cell_level": 3,
     "die_density": 1048576,
     "plane_count": 4,
-    "nand_interface": "Max Speed=3600MT/s",
+    "nand_interface": { "capability": "Max Speed=3600MT/s" },
     "firmware_match": [
       "HYV9H"
     ],
@@ -623,7 +623,7 @@
     "cell_level": 4,
     "die_density": 2097152,
     "plane_count": 6,
-    "nand_interface": "Max Speed=3200MT/s",
+    "nand_interface": { "capability": "Max Speed=3200MT/s" },
     "firmware_match": [
       "HYV9Q"
     ],
@@ -642,7 +642,7 @@
     "page_size": 16384,
     "redundant_area_size": "2048B",
     "pages_per_block": "1152 pages",
-    "nand_interface": "ONFI 4.0; Max Speed=800MT/s",
+    "nand_interface": { "capability": "ONFI 4.0; Max Speed=800MT/s" },
     "firmware_match": [
       "X1-9050",
       "JGS"
@@ -1658,7 +1658,7 @@
     "die_density": 2097152,
     "cell_level": 4,
     "plane_count": 8,
-    "nand_interface": "ONFI 5.1; Max Speed=3600MT/s",
+    "nand_interface": { "capability": "ONFI 5.1; Max Speed=3600MT/s" },
     "firmware_match": [
       "X4-6080",
       "PTS"
@@ -2163,7 +2163,7 @@
     "die_density": 1048576,
     "cell_level": 3,
     "plane_count": 6,
-    "nand_interface": "ONFI 5.1; Max Speed=3600MT/s",
+    "nand_interface": { "capability": "ONFI 5.1; Max Speed=3600MT/s" },
     "firmware_match": [
       "X4-9070",
       "SQS"
@@ -2671,7 +2671,7 @@
     "page_size": 16384,
     "redundant_area_size": "2048B",
     "pages_per_block": "2304 pages",
-    "nand_interface": "ONFI 4.1; Max Speed=1600MT/s",
+    "nand_interface": { "capability": "ONFI 4.1; Max Speed=1600MT/s" },
     "firmware_match": [
       "X2-9060",
       "TAS"
@@ -2688,7 +2688,7 @@
     "page_size": 16384,
     "redundant_area_size": "1984B",
     "pages_per_block": "4176 pages",
-    "nand_interface": "ONFI 5.0; Max Speed=2400MT/s",
+    "nand_interface": { "capability": "ONFI 5.0; Max Speed=2400MT/s" },
     "firmware_match": [
       "X3-9070",
       "WDS"
@@ -2702,7 +2702,7 @@
     "die_density": 524288,
     "cell_level": 3,
     "plane_count": 4,
-    "nand_interface": "ONFI 5.1; Max Speed=3600MT/s",
+    "nand_interface": { "capability": "ONFI 5.1; Max Speed=3600MT/s" },
     "firmware_match": [
       "X4-9060",
       "WTS"
@@ -2719,7 +2719,7 @@
     "page_size": 16384,
     "redundant_area_size": "2048B",
     "pages_per_block": "2304 pages",
-    "nand_interface": "ONFI 5.0; Max Speed=2400MT/s",
+    "nand_interface": { "capability": "ONFI 5.0; Max Speed=2400MT/s" },
     "firmware_match": [
       "X3-9060",
       "WYS"

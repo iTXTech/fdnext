@@ -296,6 +296,14 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       if (value === undefined || !isFdnextFieldKey(key)) {
         continue;
       }
+      // Complete interface scopes without replacing a PN rating with die capability.
+      if (key === "nand_interface" && value && typeof value === "object" && !Array.isArray(value)) {
+        const current = draftField(info, key);
+        if (current && typeof current === "object" && !Array.isArray(current)) {
+          setDraftField(info, key, { ...value, ...current });
+          continue;
+        }
+      }
       if (key !== "die_codename" && draftField(info, key) !== undefined) {
         continue;
       }

@@ -1,4 +1,5 @@
 import nandDieProfileTableJson from "./rules/tables/nand-die-profile.json" with { type: "json" };
+import type { NandInterface } from "../nand-interface";
 
 export interface NandDieProfile {
   die_codename?: string;
@@ -8,7 +9,7 @@ export interface NandDieProfile {
   cell_level?: number;
   die_density?: number;
   plane_count?: number;
-  nand_interface?: string;
+  nand_interface?: NandInterface;
   firmware_match?: string[];
   die_mark?: string[];
 }

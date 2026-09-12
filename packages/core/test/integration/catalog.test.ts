@@ -175,7 +175,8 @@ test("FDB-only SK hynix package metadata is not asserted by rule tests", () => {
     ["H25T5QMG8GX830", "Max Speed=2280MT/s", "Enterprise", "IF-Chip"]
   ] as const) {
     const result = integratedEngine.decodePart({ query: partNumber, lang: "eng" });
-    assert.equal(resultField(result, "speed_grade"), speedGrade, `${partNumber} FDB speed grade`);
+    const nandInterface = result.blocks.flatMap((block) => block.fields).find((field) => field.key === "nand_interface");
+    assert.equal((nandInterface?.value as { rating?: string })?.rating, speedGrade, `${partNumber} FDB speed grade`);
     assert.equal(resultField(result, "product_class"), productClass, `${partNumber} FDB product class`);
     if (specialOption !== undefined) {
       assert.equal(resultField(result, "special_option"), specialOption, `${partNumber} FDB special option`);
