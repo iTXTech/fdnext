@@ -667,28 +667,35 @@ export const fdnextFieldRegistry = {
     defaultLabel: "ECC enabled",
     importance: "detail"
   },
-  micron_part_number: {
-    key: "micron_part_number",
+  marking_year_digit: {
+    key: "marking_year_digit",
     valueKind: "string",
-    defaultLabel: "Micron Part Number",
+    defaultLabel: "Year code",
     importance: "detail"
   },
-  prod_date: {
-    key: "prod_date",
+  marking_week: {
+    key: "marking_week",
+    valueKind: "number",
+    defaultLabel: "Week",
+    importance: "detail",
+    format: (value: FdnextFieldValueData) => typeof value === "number" ? String(value).padStart(2, "0") : undefined
+  },
+  marking_die_revision: {
+    key: "marking_die_revision",
     valueKind: "string",
-    defaultLabel: "Production Date",
+    defaultLabel: "Die revision",
     importance: "detail"
   },
   diffusion_loc: {
     key: "diffusion_loc",
     valueKind: "string",
-    defaultLabel: "Diffusion Location",
+    defaultLabel: "Wafer origin",
     importance: "detail"
   },
   encapsulation_loc: {
     key: "encapsulation_loc",
     valueKind: "string",
-    defaultLabel: "Encapsulation Location",
+    defaultLabel: "Package origin",
     importance: "detail"
   },
   prod_status: {

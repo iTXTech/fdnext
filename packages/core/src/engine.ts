@@ -12,7 +12,6 @@ import { buildCapabilitiesSnapshot } from "./engine/capabilities";
 import { cloneObject, inferSingleVendorFromPartReferences, mergeStringArray } from "./engine/common";
 import { defaultCompiledDecodePack } from "./engine/default-decodepack";
 import { createFdbPartEnricher, findFdbPartRecords } from "./engine/fdb-part-enrichment";
-import { isMicronDramPartNumber } from "./engine/resources";
 import {
   applyDramClassification,
   applyDramPublicType,
@@ -25,7 +24,7 @@ import { createPartDecoderDispatch } from "./engine/part-decoder-dispatch";
 import { findFlashIdRecord } from "./fdb";
 import { createDefaultIdentifierPostprocessor } from "./flashid/postprocess";
 import { inferVendorFromFlashId } from "./flashid/vendor";
-import { applyMicronFbgaMeta, parseKnownFiveDigitMicronFbgaCode, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
+import { applyMicronFbgaMeta, normalizeMicronFbgaInput, parseKnownMicronFbgaCode, parseMicronFbgaCode } from "./micron/fbga";
 import {
   classifyPart,
   type PartClassificationCandidate
@@ -119,12 +118,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   } = getPreparedCatalogData(preparedCatalog);
   const micronFbgaCodeLookup = {
     has: (code: string): boolean => mdb.micron[code] !== undefined
-  };
-  const micronDramFbgaCodeLookup = {
-    has: (code: string): boolean => {
-      const partNumber = mdb.micron[code];
-      return partNumber !== undefined && isMicronDramPartNumber(partNumber);
-    }
   };
   const langPacks: LangPacks = {
     [fallbackLang]: {},
@@ -468,9 +461,12 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     warnings: decoded.warnings ? [...decoded.warnings] : undefined
   });
 
+  const matchesFullPartDecoder = (partNumber: string): boolean => partNumber.length === 10
+    && partDecoderDispatch.candidates(partNumber).some((decoder) => decoder.match(partNumber) !== null);
+
   const detectRaw = (partNumber: string, opts: PartDecodeOptions, allowMicronFbga: boolean): PartDecodeDraft => {
-    if (allowMicronFbga) {
-      const fbga = parseMicronFbgaCode(partNumber) ?? parseKnownFiveDigitMicronFbgaCode(partNumber, micronFbgaCodeLookup);
+    if (allowMicronFbga && !matchesFullPartDecoder(partNumber)) {
+      const fbga = parseKnownMicronFbgaCode(partNumber, micronFbgaCodeLookup) ?? parseMicronFbgaCode(partNumber);
       if (fbga) {
         const micronHit = mdb.micron[fbga.key];
         const spectekHit = mdb.spectek[fbga.key];
@@ -504,27 +500,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       if (decoded) {
         info = normalizePartDraft(partNumber, decoded);
         break;
-      }
-    }
-
-    if (!info) {
-      const knownDramFbga = /^(?:[0-9A-Z]{5}|[0-9A-Z]{10})$/.test(partNumber)
-        ? parseKnownMicronFbgaCode(partNumber, micronDramFbgaCodeLookup)
-        : null;
-      if (knownDramFbga) {
-        const resolved = mdb.micron[knownDramFbga.key];
-        if (resolved) {
-          const base = detectRaw(resolved, opts, false);
-          if (draftVendor(base) !== UNKNOWN) {
-            const withMeta = applyMicronFbgaMeta(base, knownDramFbga, resolved);
-            if (opts.combineFdb ?? true) {
-              combineFromFdb(withMeta, partNumber);
-            }
-            return withMeta;
-          }
-        }
-
-        return unknownPartDraft(knownDramFbga.display);
       }
     }
 
@@ -574,6 +549,35 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     decoderPriority: mode === "search" ? () => 0 : partDecoderPriority
   });
 
+  const normalizePartQuery = (query: string): string => normalizePartNumber(normalizeMicronFbgaInput(query));
+
+  // Full markings use the same indexed candidates, constraints and ranking as their short code.
+  // Preserve the complete query separately and attach tracing fields only to matching candidates.
+  const classifyPartQuery = (
+    query: string,
+    constraints: DecodePartInput["constraints"],
+    opts: ReturnType<typeof partClassificationOptions> & { partialMatch?: boolean }
+  ) => {
+    const normalized = normalizePartQuery(query);
+    const parsed = parseKnownMicronFbgaCode(normalized, micronFbgaCodeLookup);
+    const fullMarking = parsed?.prod && !matchesFullPartDecoder(normalized) ? parsed : undefined;
+    const classification = classifyPart(fullMarking?.key ?? normalized, constraints, {
+      ...opts,
+      ...(fullMarking ? { partialMatch: false } : {})
+    });
+    if (fullMarking) {
+      for (const candidate of classification.candidates) {
+        if (candidate.markingMatch && candidate.markingCode === fullMarking.key && candidate.info) {
+          candidate.info = applyMicronFbgaMeta(candidate.info, fullMarking, candidate.partNumber);
+        }
+      }
+    }
+    return {
+      ...classification, query, normalized,
+      warnings: [...classification.warnings, ...(opts.mode === "search" ? fullMarking?.warnings ?? [] : [])]
+    };
+  };
+
   const suggestionFromPartCandidate = (candidate: PartClassificationCandidate): PartSearchSuggestion => {
     const info = candidate.info ?? inspectPartForSearchClassification(candidate.partNumber);
     const density = draftDensity(info);
@@ -600,10 +604,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       device: {
         ...info.device,
         markingCode
-      },
-      fields: {
-        ...(info.fields ?? {}),
-        marking_code: markingCode
       }
     };
   };
@@ -628,8 +628,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     warnings: ResultWarning[] = []
   ): PartDecodeResult => {
     const baseInfo = candidate.info ?? inspectPartForDecodeClassification(candidate.partNumber);
-    const baseFields = { ...(baseInfo.fields ?? {}) };
-    const hasDetailFields = Object.entries(baseFields).some(([key, value]) => key !== "marking_code" && value !== undefined);
     const candidateInfo = candidate.markingMatch
       ? {
           ...baseInfo,
@@ -639,8 +637,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             chipKind: baseInfo.device.chipKind === "unknown" ? candidate.chipKind : baseInfo.device.chipKind,
             productType: baseInfo.device.productType ?? candidate.productType,
             partNumber: candidate.partNumber
-          },
-          fields: hasDetailFields ? baseFields : { ...baseFields, micron_part_number: candidate.partNumber }
+          }
         }
       : baseInfo;
     const info = withMarkingCode(candidateInfo, candidate.markingMatch ? candidate.markingCode : undefined);
@@ -648,7 +645,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       projectPartControllers(info, input.controllerGroup),
       {
         query: input.query,
-        normalized: candidate.markingMatch ? candidate.markingCode ?? normalized : normalized,
+        normalized,
         constraints: input.constraints as OperationConstraints | undefined,
         lang: input.lang,
         controllerGroup: input.controllerGroup
@@ -663,7 +660,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     Boolean(input.constraints && Object.keys(input.constraints).length > 0);
 
   const isPotentialMarkingDecode = (normalized: string): boolean => {
-    const fbga = parseMicronFbgaCode(normalized) ?? parseKnownFiveDigitMicronFbgaCode(normalized, micronFbgaCodeLookup);
+    const fbga = parseKnownMicronFbgaCode(normalized, micronFbgaCodeLookup) ?? parseMicronFbgaCode(normalized);
     if (fbga) {
       return true;
     }
@@ -700,7 +697,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     constraints: Omit<OperationConstraints, "idScheme"> | undefined,
     opts: SearchOptions = {}
   ): { suggestions: PartSearchSuggestion[]; warnings: FdnextResult["warnings"] } => {
-    const classification = classifyPart(query, constraints, {
+    const classification = classifyPartQuery(query, constraints, {
       ...partClassificationOptions("search", opts.limit),
       partialMatch: opts.partialMatch
     });
@@ -782,11 +779,11 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     runOperation("capabilities", input, () => cloneObject(cachedCapabilitiesForLang(input.lang)));
 
   const decodePartDraft = (input: DecodePartInput): PartDecodeDraft | null => {
-    const normalized = normalizePartNumber(input.query);
+    const normalized = normalizePartQuery(input.query);
     if (!normalized) {
       return null;
     }
-    const classification = classifyPart(input.query, input.constraints, partClassificationOptions("decode"));
+    const classification = classifyPartQuery(input.query, input.constraints, partClassificationOptions("decode"));
     if (classification.status === "not_found" || !classification.selected) {
       return null;
     }
@@ -795,8 +792,6 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     }
     const candidate = classification.selected;
     const baseInfo = candidate.info ?? inspectPartForDecodeClassification(candidate.partNumber);
-    const baseFields = { ...(baseInfo.fields ?? {}) };
-    const hasDetailFields = Object.entries(baseFields).some(([key, value]) => key !== "marking_code" && value !== undefined);
     const candidateInfo = candidate.markingMatch
       ? {
           ...baseInfo,
@@ -806,8 +801,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
             chipKind: baseInfo.device.chipKind === "unknown" ? candidate.chipKind : baseInfo.device.chipKind,
             productType: baseInfo.device.productType ?? candidate.productType,
             partNumber: candidate.partNumber
-          },
-          fields: hasDetailFields ? baseFields : { ...baseFields, micron_part_number: candidate.partNumber }
+          }
         }
       : baseInfo;
     const info = withMarkingCode(candidateInfo, candidate.markingMatch ? candidate.markingCode : undefined);
@@ -819,7 +813,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
   const decodePart = (input: DecodePartInput): PartDecodeResult => {
     return runOperation("part.decode", input, () => {
-      const normalized = normalizePartNumber(input.query);
+      const normalized = normalizePartQuery(input.query);
       if (!normalized) {
         return {
           schemaVersion: "fdnext.result.v2",
@@ -841,7 +835,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       if (fastResult) {
         return fastResult;
       }
-      const classification = classifyPart(input.query, input.constraints, partClassificationOptions("decode"));
+      const classification = classifyPartQuery(input.query, input.constraints, partClassificationOptions("decode"));
       if (classification.status === "not_found" || !classification.selected) {
         return {
           schemaVersion: "fdnext.result.v2",
@@ -888,7 +882,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
 
   const searchParts = (input: SearchPartsInput): PartSearchResult => {
     return runOperation("part.search", input, () => {
-      const normalized = normalizePartNumber(input.query);
+      const normalized = normalizePartQuery(input.query);
       const search = normalized
         ? searchPartSuggestions(input.query, input.constraints, { lang: input.lang, limit: input.limit })
         : { suggestions: [], warnings: [] };

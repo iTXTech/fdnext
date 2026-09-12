@@ -37,8 +37,8 @@ const packageBlock = {
 } as const satisfies FdnextFieldProfileBlock;
 
 const markingBlock = {
-  id: "marking", label: "Marking", importance: "detail",
-  fields: ["micron_part_number", "prod_date", "diffusion_loc", "encapsulation_loc"]
+  id: "marking", label: "Marking details", importance: "detail",
+  fields: ["marking_year_digit", "marking_week", "marking_die_revision", "diffusion_loc", "encapsulation_loc"]
 } as const satisfies FdnextFieldProfileBlock;
 
 const controllersBlock = {

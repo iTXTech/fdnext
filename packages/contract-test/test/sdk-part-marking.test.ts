@@ -27,6 +27,23 @@ assert.equal(
 );
 
 const marking = engine.searchParts({ query: "C9BJZ", lang: "eng", limit: 5 });
+for (const lang of ["eng", "chs"]) {
+  const short = engine.decodePart({ query: "JZ215", lang });
+  const full = engine.decodePart({ query: "1CB2DJZ215", lang });
+  assert.equal(full.status, "ok");
+  assert.equal(full.device?.partNumber, "MTFDHBL256TDQ-1AT12ATYY");
+  assert.deepEqual(full.device, short.device);
+  assert.equal(full.input.normalized, "1CB2DJZ215");
+  assert.deepEqual(full.summary?.brief, short.summary?.brief);
+  assert.deepEqual(full.summary?.full.filter((block) => block.id !== "marking"), short.summary?.full);
+  const trace = full.blocks.find((block) => block.id === "marking");
+  assert.deepEqual(trace?.fields.map((field) => field.key), [
+    "marking_year_digit", "marking_week", "marking_die_revision", "diffusion_loc", "encapsulation_loc"
+  ]);
+  assert.equal(trace?.fields.find((field) => field.key === "marking_week")?.display, "06");
+  const search = engine.searchParts({ query: "1CB2DJZ215", lang, limit: 5 });
+  assert.deepEqual(search.items.map((item) => item.device), [full.device]);
+}
 const markingItem = marking.items.find((item) => item.device.markingCode === "C9BJZ" && item.device.partNumber === "CT40A1G8SA-62M:E");
 assert.ok(markingItem, "Micron FBGA marking search should return a structured part candidate");
 assert.equal(markingItem.device.chipKind, "dram");
@@ -54,7 +71,8 @@ for (const [markingCode, firstPartNumber] of [
   assert.equal(spectekMarkingDecode.status, "ok");
   assert.equal(spectekMarkingDecode.device?.partNumber, firstPartNumber);
   assert.equal(spectekMarkingDecode.device?.markingCode, markingCode);
-  assert.ok(spectekMarkingDecode.blocks.length > 0);
+  assert.deepEqual(spectekMarkingDecode.blocks, engine.decodePart({ query: firstPartNumber, lang: "eng" }).blocks,
+    "marking lookup should retain actual specifications without creating a duplicate PN field for mapping-only entries");
   assert.ok((spectekMarkingDecode.candidates?.length ?? 0) >= 2);
   assert.ok(!collectResultFields(spectekMarkingDecode.blocks).some((field) => field.key === "marking_code"));
   assert.ok(!spectekMarkingDecode.warnings.some((warning) => warning.code === "ambiguous_part"));

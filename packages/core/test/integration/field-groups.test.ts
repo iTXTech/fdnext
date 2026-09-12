@@ -68,7 +68,7 @@ test("Flash ID die capacity and Micron marking metadata use their semantic group
   assert.equal(density.display, "8GB");
 
   const marking = engine.decodePart({ query: "9LC2DNW965", lang: "eng" });
-  for (const key of ["prod_date", "diffusion_loc", "encapsulation_loc", "micron_part_number"]) field(marking, key, "marking");
+  for (const key of ["marking_year_digit", "marking_week", "marking_die_revision", "diffusion_loc", "encapsulation_loc"]) field(marking, key, "marking");
   assert.ok(!marking.blocks.some((block) => block.id === "additional"));
   assert.ok(validate(marking), JSON.stringify(validate.errors));
 });

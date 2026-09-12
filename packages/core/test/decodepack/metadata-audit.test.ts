@@ -47,6 +47,8 @@ const legacyMetadataKeys = new Set([
   "interfaceInfo",
   "leadFree",
   "micronPartNumber",
+  "micron_part_number",
+  "prod_date",
   "multiChip",
   "opTemp",
   "packageFunctionalityPartialType",

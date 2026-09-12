@@ -25,7 +25,7 @@
 | MCP/eMCP/uMCP 的 DRAM 子系统 | DRAM 容量、die 数、时序等集中在 `dram`，与 NAND 组件分开 |
 | 独立 DRAM 的 CAS latency 和有增量信息的 speed grade | `timing`；接口模式与 ECC 状态在 `interface` |
 | NAND Flash ID 的 die 容量、数量和页块参数 | `geometry`；NAND 接口在 `interface` |
-| 生产日期、扩散地、封装地和 Micron PN 标记信息 | `marking`；封装属性在 `package`，控制器修订在 `controllers` |
+| 丝印年码、周次、Die 版本、晶圆产地和封装地 | `marking`（丝印信息）；封装属性在 `package`，控制器修订在 `controllers` |
 
 未列入 profile 的已知公开字段仍进入 `additional`，以免丢失信息；当前有意保留的场景包括未知芯片类别和 Flash ID 的 `enterprise` 标记。常规产品线已有明确语义的字段应显式归组，不依赖 `additional` 兜底。
 
@@ -64,6 +64,30 @@
 - `component`: eMCP/uMCP 这类复合产品的 storage / DRAM 子组件。
 
 当 relation 可以直接跳转到另一个解析动作时，使用 `relations[].action` 承载该动作；不要再额外输出独立的顶层 `actions[]`。
+
+### Micron 丝印
+
+5 位 FBGA 码与前置 5 位追溯信息的完整丝印复用同一器件匹配；`device.partNumber`
+始终是真实 PN，`device.markingCode` 为 5 位 FBGA 码。`input.query` 保留原始输入，
+`input.normalized` 保留规范化后的完整输入，不截短为 FBGA 码。搜索同样返回真实 PN，
+不将 FDB 中的完整丝印展示成第二颗器件。旧 `micron_part_number`、`prod_date` 字段移除。
+
+完整丝印仅追加以下 `marking` 字段；不输出独立日期码或推测完整年份：
+
+| 字段 | 中文标签 | 含义 |
+| --- | --- | --- |
+| `marking_year_digit` | 年码 | 年份末位，字符串 `0`–`9`，保留 `0` |
+| `marking_week` | 周次 | 打标工作周，数值 2–52 中的偶数；display 为两位，如 `06` |
+| `marking_die_revision` | Die版本 | 丝印第三位修订字符；不覆盖 PN 解出的 `die_revision` |
+| `diffusion_loc` | 晶圆产地 | 晶圆扩散所在地 |
+| `encapsulation_loc` | 封装地 | 封装所在地 |
+
+例如 `1CB2DJZ215` 与 `JZ215` 均对应 `MTFDHBL256TDQ-1AT12ATYY`，前者另有
+年码 `1`、周次 `06`、Die版本 `B`、晶圆产地新加坡、封装地马来西亚。
+年码和周次分别校验，未知地点省略并给出警告，原始字符可从完整输入追溯。
+只输入 5 位码时不出现空的丝印信息组。
+
+编码依据：[Micron CSN-11 Rev.BF 05/2026，第 3、5、6 页](https://www.micron.com/content/dam/micron/global/public/products/broad-products/csns/csn11.pdf)。
 
 ## NAND / Managed NAND
 
