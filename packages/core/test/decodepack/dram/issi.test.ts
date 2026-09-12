@@ -91,7 +91,7 @@ assertDram("IS42S16100B-7BB", {
   densityMbit: 16,
   density: "16Mb",
   widthField: "x16",
-  voltage: "3.3V SDR",
+  voltage: "3.3V",
   package: "BGA",
   extra: {
     "DRAM Type": "SDR",
@@ -108,7 +108,7 @@ assertDram("IS45S16100B-7BB", {
   densityMbit: 16,
   density: "16Mb",
   widthField: "x16",
-  voltage: "3.3V SDR",
+  voltage: "3.3V",
   package: "BGA",
   extra: {
     "DRAM Type": "SDR",
@@ -125,7 +125,7 @@ assertDram("IS42S81600J-7TLI", {
   densityMbit: 128,
   density: "128Mb",
   widthField: "x8",
-  voltage: "3.3V SDR",
+  voltage: "3.3V",
   package: "TSOP-54",
   extra: {
     "DRAM Type": "SDR",
@@ -139,7 +139,7 @@ assertDram("IS42S83200J-7BLI", {
   densityMbit: 256,
   density: "256Mb",
   widthField: "x8",
-  voltage: "3.3V SDR",
+  voltage: "3.3V",
   package: "TFBGA-54, 8x8",
   extra: {
     "DRAM Type": "SDR",
@@ -152,7 +152,7 @@ assertDram("IS42S86400F-6TL", {
   densityMbit: 512,
   density: "512Mb",
   widthField: "x8",
-  voltage: "3.3V SDR",
+  voltage: "3.3V",
   package: "TSOP-54",
   extra: {
     "DRAM Type": "SDR",
@@ -167,7 +167,7 @@ assertDram("IS43LR16640C-6BLI", {
   densityMbit: 1024,
   density: "1Gb",
   widthField: "x16",
-  voltage: "1.8V mobile DDR",
+  voltage: "1.8V",
   package: "TFBGA-60, 8x10",
   extra: {
     "DRAM Type": "LPDDR",
@@ -180,7 +180,7 @@ assertDram("IS43LR16800G-6BL", {
   densityMbit: 128,
   density: "128Mb",
   widthField: "x16",
-  voltage: "1.8V mobile DDR",
+  voltage: "1.8V",
   package: "BGA-60",
   extra: {
     "DRAM Type": "LPDDR",
@@ -193,7 +193,7 @@ assertDram("IS43LR16320D-5BLI", {
   densityMbit: 512,
   density: "512Mb",
   widthField: "x16",
-  voltage: "1.8V mobile DDR",
+  voltage: "1.8V",
   package: "FBGA-60, 8x10",
   extra: {
     "DRAM Type": "LPDDR",
@@ -208,7 +208,7 @@ assertDram("IS43LD16128C-18BLI", {
   densityMbit: 2048,
   density: "2Gb",
   widthField: "x16",
-  voltage: "LPDDR2",
+  voltage: "Unknown",
   package: "FBGA-134",
   extra: {
     "DRAM Type": "LPDDR2",
@@ -221,7 +221,7 @@ assertDram("IS43LD32160A-3BL", {
   densityMbit: 512,
   density: "512Mb",
   widthField: "x32",
-  voltage: "LPDDR2",
+  voltage: "Unknown",
   package: "FBGA-134",
   extra: {
     "DRAM Type": "LPDDR2",
@@ -236,7 +236,7 @@ assertDram("IS46DR16128A-25BB", {
   densityMbit: 2048,
   density: "2Gb",
   widthField: "x16",
-  voltage: "DDR2",
+  voltage: "Unknown",
   package: "BGA-84",
   extra: {
     "DRAM Type": "DDR2",
@@ -253,7 +253,7 @@ assertDram("IS43DR81280C-25DBLI", {
   densityMbit: 1024,
   density: "1Gb",
   widthField: "x8",
-  voltage: "DDR2",
+  voltage: "Unknown",
   package: "BGA-60",
   extra: {
     "DRAM Type": "DDR2",
@@ -267,7 +267,7 @@ assertDram("IS43DR16160B-25DBLI", {
   densityMbit: 256,
   density: "256Mb",
   widthField: "x16",
-  voltage: "DDR2",
+  voltage: "Unknown",
   package: "BGA-84",
   extra: {
     "DRAM Type": "DDR2",
@@ -281,7 +281,7 @@ assertDram("IS43DR32160C-3DBLI", {
   densityMbit: 512,
   density: "512Mb",
   widthField: "x32",
-  voltage: "DDR2",
+  voltage: "Unknown",
   package: "BGA-126",
   extra: {
     "DRAM Type": "DDR2",
@@ -295,7 +295,7 @@ assertDram("IS43DR32801B-37CBLI", {
   densityMbit: 256,
   density: "256Mb",
   widthField: "x32",
-  voltage: "DDR2",
+  voltage: "Unknown",
   package: "BGA",
   extra: {
     "DRAM Type": "DDR2",
@@ -309,7 +309,7 @@ assertDram("IS43DR86400E-25DBLI", {
   densityMbit: 512,
   density: "512Mb",
   widthField: "x8",
-  voltage: "DDR2",
+  voltage: "Unknown",
   package: "BGA",
   extra: {
     "DRAM Type": "DDR2",
@@ -323,7 +323,7 @@ assertDram("IS46LD16128A-25BB", {
   densityMbit: 2048,
   density: "2Gb",
   widthField: "x16",
-  voltage: "LPDDR2",
+  voltage: "Unknown",
   package: "FBGA-134",
   extra: {
     "DRAM Type": "LPDDR2",

@@ -46,62 +46,67 @@
         "configObj": {
           "MT32": {
             "package_code": "MT32",
-            "nand_technology": "MLC",
-            "product_class": "Commercial"
+            "product_class": "Commercial",
+            "cell_level": 2
           },
           "CT32": {
             "package_code": "CT32",
-            "nand_technology": "MLC",
-            "product_class": "Commercial compact"
+            "product_class": "Commercial compact",
+            "cell_level": 2
           },
           "MV28": {
             "package_code": "MV28",
-            "nand_technology": "MLC",
-            "product_class": "Commercial"
+            "product_class": "Commercial",
+            "cell_level": 2
           },
           "MW28": {
             "package_code": "MW28",
-            "nand_technology": "MLC",
-            "product_class": "Commercial"
+            "product_class": "Commercial",
+            "cell_level": 2
           },
           "TS0A": {
             "package_code": "TS0A",
-            "nand_technology": "3D TLC",
-            "product_class": "Commercial"
+            "nand_technology": "3D",
+            "product_class": "Commercial",
+            "cell_level": 3
           },
           "TB9F": {
             "package_code": "TB9F",
-            "nand_technology": "3D TLC",
-            "product_class": "Commercial compact"
+            "nand_technology": "3D",
+            "product_class": "Commercial compact",
+            "cell_level": 3
           },
           "TY29": {
             "package_code": "TY29",
-            "nand_technology": "3D TLC",
-            "product_class": "Commercial"
+            "nand_technology": "3D",
+            "product_class": "Commercial",
+            "cell_level": 3
           },
           "WT32": {
             "package_code": "WT32",
-            "nand_technology": "MLC",
             "product_class": "Industrial Temperature",
-            "operation_temperature": "-40°C ~ +85°C"
+            "operation_temperature": "-40°C ~ +85°C",
+            "cell_level": 2
           },
           "WV28": {
             "package_code": "WV28",
-            "nand_technology": "MLC",
             "product_class": "Industrial Temperature",
-            "operation_temperature": "-40°C ~ +85°C"
+            "operation_temperature": "-40°C ~ +85°C",
+            "cell_level": 2
           },
           "WW28": {
             "package_code": "WW28",
-            "nand_technology": "3D TLC",
+            "nand_technology": "3D",
             "product_class": "Industrial Temperature",
-            "operation_temperature": "-40°C ~ +85°C"
+            "operation_temperature": "-40°C ~ +85°C",
+            "cell_level": 3
           },
           "IY29": {
             "package_code": "IY29",
-            "nand_technology": "3D TLC",
+            "nand_technology": "3D",
             "product_class": "Industrial Temperature",
-            "operation_temperature": "-40°C ~ +85°C"
+            "operation_temperature": "-40°C ~ +85°C",
+            "cell_level": 3
           }
         },
         "package": {
@@ -266,7 +271,6 @@
         "density": { "04G": 32768 },
         "configObj": {
           "S14DXI": {
-            "nand_technology": "MLC",
             "product_class": "Industrial Temperature",
             "operation_temperature": "-40°C ~ +85°C",
             "package": "FBGA-153, 9.0x7.5x0.8",

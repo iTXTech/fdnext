@@ -1184,7 +1184,7 @@ assertRuleDecode("MTFDHBL064TDP-1AT12AIYY", {
     "Storage Interface": "PCIe Gen3 x4",
     "Sector Size": "512B",
     "Product Generation": "Gen1",
-    "NAND Technology": "Micron 3D TLC NAND Flash",
+    "NAND Technology": "3D",
     "NAND Component": "512Gb TLC x8 3.3V (3D)",
     "Component Density": "64GB",
     "Component Width": "x8",

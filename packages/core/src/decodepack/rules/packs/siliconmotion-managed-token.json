@@ -104,7 +104,8 @@
             "product_family": "Ferri-eMMC",
             "storage_interface": "eMMC 5.1",
             "interface_type": "HS400",
-            "nand_technology": "3D TLC NAND"
+            "nand_technology": "3D",
+            "cell_level": 3
           }
         },
         {
@@ -273,7 +274,8 @@
           "to": "extra",
           "value": {
             "product_family": "Ferri-UFS",
-            "nand_technology": "3D TLC NAND"
+            "nand_technology": "3D",
+            "cell_level": 3
           }
         },
         {

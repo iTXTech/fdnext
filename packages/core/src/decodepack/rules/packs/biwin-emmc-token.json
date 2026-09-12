@@ -99,7 +99,8 @@
           "value": {
             "product_class": "Consumer",
             "storage_interface": "eMMC 5.1",
-            "nand_technology": "3D TLC",
+            "nand_technology": "3D",
+            "cell_level": 3,
             "interface_type": "HS400",
             "config_code": {
               "$var": "configCode"
@@ -169,22 +170,22 @@
           "128G": 1048576
         },
         "configObj": {
-          "N1KC": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
-          "N923": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
-          "N9RE": { "nand_technology": "MLC", "cell_level": 2, "package": "FBGA-153, 11.50x13.00x1.10" },
-          "N2RE": { "nand_technology": "MLC", "cell_level": 2, "package": "FBGA-153, 11.50x13.00x1.10" },
-          "N7RJ": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
-          "N729": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
-          "N8RC": { "nand_technology": "MLC", "cell_level": 2, "package": "FBGA-153, 11.50x13.00x1.10" },
-          "N2RJ": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
-          "N223": { "nand_technology": "3D TLC", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10" },
+          "N1KC": {"nand_technology": "3D", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10"},
+          "N923": {"nand_technology": "3D", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10"},
+          "N9RE": {"cell_level": 2, "package": "FBGA-153, 11.50x13.00x1.10"},
+          "N2RE": {"cell_level": 2, "package": "FBGA-153, 11.50x13.00x1.10"},
+          "N7RJ": {"nand_technology": "3D", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10"},
+          "N729": {"nand_technology": "3D", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10"},
+          "N8RC": {"cell_level": 2, "package": "FBGA-153, 11.50x13.00x1.10"},
+          "N2RJ": {"nand_technology": "3D", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10"},
+          "N223": {"nand_technology": "3D", "cell_level": 3, "package": "FBGA-153, 11.50x13.00x1.10"},
           "N929": { "package": "FBGA-153, 11.50x13.00x1.10" }
         },
         "densityConfigObj": {
           "008G:N929": { "nand_technology": "Win-pSLC (TLC NAND)", "cell_level": 1, "special_option": "pSLC Mode" },
           "016G:N929": { "nand_technology": "Win-pSLC (TLC NAND)", "cell_level": 1, "special_option": "pSLC Mode" },
-          "064G:N929": { "nand_technology": "3D TLC", "cell_level": 3 },
-          "128G:N929": { "nand_technology": "3D TLC", "cell_level": 3 }
+          "064G:N929": {"nand_technology": "3D", "cell_level": 3},
+          "128G:N929": {"nand_technology": "3D", "cell_level": 3}
         }
       },
       "steps": [
@@ -229,7 +230,6 @@
         "density": { "08G": 65536, "16G": 131072 },
         "configObj": {
           "MAQB11T": {
-            "nand_technology": "MLC",
             "cell_level": 2,
             "package": "FBGA-153, 11.50x13.00x1.10"
           }

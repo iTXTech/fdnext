@@ -40,7 +40,7 @@ assertRuleDecode("BWCTAKL11X128G", {
   cellField: "TLC",
   extra: {
     "Storage Interface": "eMMC 5.1",
-    "NAND Technology": "3D TLC"
+    "NAND Technology": "3D"
   },
   absentExtra: ["System", "Product Family", "Product Version", "Managed Family", "Reference Status", "Inference Source", "source", "status"]
 });
@@ -89,7 +89,7 @@ assertRuleDecode("TCUFMA512GNAC8", {
   cellField: "TLC",
   extra: {
     "Storage Interface": "UFS 3.1",
-    "NAND Technology": "3D TLC",
+    "NAND Technology": "3D",
     "Interface Type": "HS-Gear4 2L"
   },
   absentExtra: ["Config Code", "Reference Status", "source", "status"]
@@ -130,7 +130,7 @@ assertRuleDecode("BWEFMA016GN9RE", {
   cellField: "MLC",
   extra: {
     "Product Class": "Automotive, AEC-Q100 Grade 2",
-    "NAND Technology": "MLC"
+    "Cell Level": "MLC"
   },
   absentExtra: ["Config Code", "Package Code", "source", "status"]
 });
@@ -311,7 +311,7 @@ assertRuleDecode("BWEFMI128GN929", {
   cellField: "TLC",
   extra: {
     "Storage Interface": "eMMC 5.1",
-    "NAND Technology": "3D TLC",
+    "NAND Technology": "3D",
     "Product Class": "Industrial Wide Temperature"
   }
 });

@@ -45,8 +45,8 @@
             "storage_density": 131072,
             "dram_density": 8192,
             "dram_type": "LPDDR3",
-            "nand_technology": "MLC",
-            "package_code": "FBGA221"
+            "package_code": "FBGA221",
+            "cell_level": 2
           },
           "NA3208": {
             "storage_interface": "eMMC",

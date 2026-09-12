@@ -100,7 +100,7 @@
           },
           "T": {
             "cell_level": "TLC",
-            "nand_technology": "Micron 3D TLC NAND Flash"
+            "nand_technology": "3D"
           }
         },
         "productFamilyObj": {
@@ -1940,7 +1940,7 @@
         "nandTypeObj": {
           "T": {
             "cell_level": "TLC",
-            "nand_technology": "Micron 3D TLC NAND Flash"
+            "nand_technology": "3D"
           }
         },
         "productFamilyObj": {

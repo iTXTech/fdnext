@@ -39,8 +39,7 @@ assertRuleDecode("YMEC6A1TC1A2C1", {
   cellField: "TLC",
   package: "BGA-153, 11.5x13x1.0",
   extra: {
-    Controller: "eMMC 5.1 Controller EC000",
-    "Product Family": "YMTC EC000 eMMC",
+    Controller: "EC000",
     "Storage Interface": "eMMC 5.1",
     "Process Alias": "X2-9060",
     "Layer Count": 128,
@@ -58,8 +57,7 @@ assertRuleDecode("YMEC4A1MA1A2C1", {
   cellField: "MLC",
   package: "BGA-153, 11.5x13x1.0",
   extra: {
-    Controller: "eMMC 5.1 Controller EC000",
-    "Product Family": "YMTC EC000 eMMC",
+    Controller: "EC000",
     "Storage Interface": "eMMC 5.1",
     "Process Alias": "X0-A030",
     "Die Count": 1,
@@ -77,8 +75,7 @@ assertRuleDecode("YMEC8A2TB3A2C3", {
   cellField: "TLC",
   package: "BGA-153, 11.5x13x1.0",
   extra: {
-    Controller: "eMMC 5.1 Controller EC110",
-    "Product Family": "YMTC EC110 eMMC",
+    Controller: "EC110",
     "Storage Interface": "eMMC 5.1",
     "Process Alias": "X1-9050",
     "Layer Count": 64,
@@ -97,8 +94,7 @@ assertRuleDecode("YMEC6A2TB1A2C3C", {
   cellField: "TLC",
   package: "BGA-153, 11.5x13x1.0",
   extra: {
-    Controller: "eMMC 5.1 Controller EC110",
-    "Product Family": "YMTC EC110 eMMC",
+    Controller: "EC110",
     "Storage Interface": "eMMC 5.1",
     "Process Alias": "X1-9050",
     "Layer Count": 64,
@@ -117,8 +113,7 @@ assertRuleDecode("YMEC9C0TG3A2C3", {
   cellField: "TLC",
   package: "BGA-153, 11.5x13x1.0",
   extra: {
-    Controller: "eMMC 5.1 Controller EC150",
-    "Product Family": "YMTC EC150 eMMC",
+    Controller: "EC150",
     "Storage Interface": "eMMC 5.1",
     "Process Alias": "X4-9060",
     "Layer Count": 160,
@@ -140,8 +135,7 @@ assertRuleDecode("YMEC9B0TE3A2C3", {
   cellField: "TLC",
   package: "BGA-153, 11.5x13x1.0",
   extra: {
-    Controller: "eMMC 5.1 Controller EC230",
-    "Product Family": "YMTC EC230 eMMC",
+    Controller: "EC230",
     "Storage Interface": "eMMC 5.1",
     "Die Count": 4,
     "Product Class": "Commercial",
@@ -158,7 +152,6 @@ assertRuleDecode("YMUS8A1TC1A2C1", {
   cellField: "TLC",
   package: "BGA-153, 11.5x13x1.0/1.2",
   extra: {
-    Controller: "UFS 3.1 Controller",
     "Storage Interface": "UFS 3.1",
     "Process Alias": "X2-9060",
     "Layer Count": 128,
@@ -176,7 +169,6 @@ assertRuleDecode("YMUS8A1TE2D1C1", {
   cellField: "TLC",
   package: "BGA-153, 11x13x0.8",
   extra: {
-    Controller: "UFS 3.1 Controller",
     "Storage Interface": "UFS 3.1",
     "Process Alias": "X3-9060",
     "Layer Count": 128,
@@ -195,7 +187,6 @@ assertRuleDecode("YMUSAA1TE4D2C1", {
   cellField: "TLC",
   package: "BGA-153, 11x13x1.0",
   extra: {
-    Controller: "UFS 3.1 Controller",
     "Storage Interface": "UFS 3.1",
     "Process Alias": "X3-9060",
     "Layer Count": 128,
@@ -218,7 +209,7 @@ assertRuleDecode("YMUS6A4TB1A2C1", {
   cellField: "TLC",
   package: "BGA-153, 11.5x13x1.0/1.2",
   extra: {
-    Controller: "UFS 2.2 Controller UC114",
+    Controller: "UC114",
     "Storage Interface": "UFS 2.2",
     "Process Alias": "X1-9050",
     "Die Count": 1,
@@ -236,7 +227,7 @@ assertRuleDecode("YMUS9B2TE3A2C1", {
   cellField: "TLC",
   package: "BGA-153, 11.5x13x1.0/1.2",
   extra: {
-    Controller: "UFS 2.2 Controller UC234",
+    Controller: "UC234",
     "Storage Interface": "UFS 2.2",
     "Process Alias": "X3-9060",
     "Die Count": 4,
@@ -253,7 +244,7 @@ assertRuleDecode("YMUSAB5TH3A1C1", {
   cellField: "TLC",
   package: "BGA-153, 11.5x13x0.8",
   extra: {
-    Controller: "UFS 2.2 Controller UC260",
+    Controller: "UC260",
     "Storage Interface": "UFS 2.2",
     "Product Generation": "Gen5 Xtacking 4.0",
     "Die Count": 4,
@@ -270,7 +261,7 @@ assertRuleDecode("YMUSAB4TF3D1C1", {
   cellField: "TLC",
   package: "BGA-153, 11x13x0.8",
   extra: {
-    Controller: "UFS 3.1 Controller UC341",
+    Controller: "UC341",
     "Storage Interface": "UFS 3.1",
     "Product Generation": "Gen4 Xtacking 3.0",
     "Die Count": 4,

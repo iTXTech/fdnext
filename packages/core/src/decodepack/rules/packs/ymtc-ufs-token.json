@@ -34,23 +34,22 @@
         },
         "controller": {
           "A1": {
-            "controller": "UFS 3.1 Controller",
             "storage_interface": "UFS 3.1"
           },
           "A4": {
-            "controller": "UFS 2.2 Controller UC114",
+            "controller": "UC114",
             "storage_interface": "UFS 2.2"
           },
           "B2": {
-            "controller": "UFS 2.2 Controller UC234",
+            "controller": "UC234",
             "storage_interface": "UFS 2.2"
           },
           "B4": {
-            "controller": "UFS 3.1 Controller UC341",
+            "controller": "UC341",
             "storage_interface": "UFS 3.1"
           },
           "B5": {
-            "controller": "UFS 2.2 Controller UC260",
+            "controller": "UC260",
             "storage_interface": "UFS 2.2"
           }
         },

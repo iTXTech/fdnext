@@ -38,7 +38,6 @@ assertRuleDecode("FEMDNN256G-A3A5607-08", {
   densityMbit: 2097152,
   package: "FBGA-153, 11.5x13x1.0",
   extra: {
-    "Product Family": "Commercial eMMC",
     "Storage Interface": "eMMC 5.1"
   },
   absentExtra: ["Storage Density", "Reference Status", "Inference Source", "source", "status"]
@@ -50,7 +49,6 @@ assertRuleDecode("FEMDME016G-A8A58", {
   densityMbit: 131072,
   package: "FBGA-153, 11.5x13x1.0",
   extra: {
-    "Product Family": "Automotive eMMC Grade2",
     "Product Class": "Automotive AEC-Q100 Grade 2",
     "Storage Interface": "eMMC 5.1"
   },
@@ -63,7 +61,6 @@ assertRuleDecode("FEMDRW128G-88A19", {
   densityMbit: 1048576,
   package: "FBGA-153, 11.5x13x1.0",
   extra: {
-    "Product Family": "Industrial Wide-temperature eMMC",
     "Operation Temperature": "-40°C ~ +85°C"
   }
 });
@@ -150,7 +147,7 @@ for (const [partNumber, densityMbit, packageName] of [
     extra: {
       "Storage Interface": "UFS 2.2",
       "Speed Grade": "HS-Gear3 2L",
-      "NAND Technology": "3D TLC"
+      "NAND Technology": "3D"
     },
     absentExtra: ["Config Code", "Package Code", "Reference Status", "source", "status"]
   });

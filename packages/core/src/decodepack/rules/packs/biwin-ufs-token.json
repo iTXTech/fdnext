@@ -165,7 +165,7 @@
         "fields.storage_interface": "UFS 3.1",
         "fields.interface_type": "HS-Gear4 2L",
         "fields.product_class": "Automotive, AEC-Q100 Grade 2",
-        "fields.nand_technology": "3D TLC",
+        "fields.nand_technology": "3D",
         "fields.cell_level": 3,
         "fields.speed_grade": "2150 MB/s read / 1650 MB/s write",
         "fields.operation_temperature": "-40°C ~ +105°C",

@@ -26,3 +26,9 @@
 例如 `YMN09TC1B1AC6C` 同时保留 PN `ONFI 4.2; Max Speed=1600MT/s` 和 die `ONFI 4.1; Max Speed=1600MT/s`。差异未被认证为错误，不能自动选取版本或速率。
 
 第一阶段验证：core 的 DecodePack、integration、result contract 共 280 项测试通过；PN coverage 基线、core typecheck 和 DecodePack 检查通过。全资源逐字段比较确认 394 项接口/等级信息按上述作用对象迁移，未发现非预期字段变化；未知 `Undefined` 等级不算已知规格，输入 token 保留。
+
+## 源字段整理
+
+首批直接迁移：ISSI 电压表删除类型占位，并去掉已由 DRAM 类型表达的 SDR/mobile 修饰；没有数值依据的电压保持未知。NAND 技术中的裸 SLC/MLC/TLC/QLC 移到 `cell_level`，3D 单独保留，`Win-pSLC (TLC NAND)` 等模式与物理 Cell 的区别保持原义。YMTC 控制器字段保留 EC/UC 型号，协议继续由主机接口承载；Longsys 已由产品类别完整表达的通用产品族从规则表移除。
+
+源检查拒绝将裸 Cell 类型继续写入 NAND 技术，或把 DRAM 类型写入电压字段；回归同时检查规则草稿、中文/英文结果及完整摘要。首批迁移的 core 原有 280 项测试、PN coverage 检查通过，另增加源头信息保全与错误字段职责回归。

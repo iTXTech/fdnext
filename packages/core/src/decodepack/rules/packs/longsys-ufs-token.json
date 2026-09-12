@@ -79,17 +79,19 @@
           "C2A44": {
             "storage_interface": "UFS 2.2",
             "speed_grade": "HS-Gear3 2L",
-            "nand_technology": "3D TLC"
+            "nand_technology": "3D",
+            "cell_level": 3
           },
           "C2A46": {
             "storage_interface": "UFS 2.2",
             "speed_grade": "HS-Gear3 2L",
-            "nand_technology": "3D TLC"
+            "nand_technology": "3D",
+            "cell_level": 3
           },
           "C2G07": {
             "storage_interface": "UFS 2.2",
             "speed_grade": "UFS 2.2 HS-Gear3",
-            "nand_technology": "TLC"
+            "cell_level": 3
           },
           "B8A19": {
             "storage_interface": "UFS 2.1",

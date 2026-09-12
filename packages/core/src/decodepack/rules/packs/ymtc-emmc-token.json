@@ -36,23 +36,19 @@
         },
         "controller": {
           "A1": {
-            "controller": "eMMC 5.1 Controller EC000",
-            "product_family": "YMTC EC000 eMMC",
+            "controller": "EC000",
             "storage_interface": "eMMC 5.1"
           },
           "A2": {
-            "controller": "eMMC 5.1 Controller EC110",
-            "product_family": "YMTC EC110 eMMC",
+            "controller": "EC110",
             "storage_interface": "eMMC 5.1"
           },
           "B0": {
-            "controller": "eMMC 5.1 Controller EC230",
-            "product_family": "YMTC EC230 eMMC",
+            "controller": "EC230",
             "storage_interface": "eMMC 5.1"
           },
           "C0": {
-            "controller": "eMMC 5.1 Controller EC150",
-            "product_family": "YMTC EC150 eMMC",
+            "controller": "EC150",
             "storage_interface": "eMMC 5.1"
           }
         },
