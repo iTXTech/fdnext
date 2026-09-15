@@ -572,7 +572,6 @@
     "nand_technology": "3D",
     "layer_count": 238,
     "cell_level": 3,
-    "die_density": 524288,
     "nand_interface": { "capability": "Toggle 5.0; Max Speed=2400MT/s" },
     "firmware_match": [
       "HYV8"

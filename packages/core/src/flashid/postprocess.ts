@@ -318,6 +318,15 @@ function patchSkhynix(info: IdentifierDecodeDraft): IdentifierDecodeDraft | null
     changed = true;
   }
 
+  // HYV6 / HYV8 each cover more than one die density. In this established ID
+  // layout the device-density byte describes one die; the target total above
+  // includes die_count. Do not fill a family-wide constant from the profile.
+  if (["HYV6", "HYV8"].includes(String(draftField(info, "die_codename"))) &&
+    SKHYNIX_STACKED_PROCESS_BYTE6.has(flashIdByteAt(id, 6)) && density !== undefined && density > 0) {
+    setDraftField(next, "die_density", density);
+    changed = true;
+  }
+
   const spp = draftField(info, "simultaneously_programmed_pages");
   if (typeof spp === "number" && Number.isFinite(spp) && spp > 0) {
     setDraftField(next, "plane_count", spp);

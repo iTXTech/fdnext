@@ -155,7 +155,7 @@ test("engine draft decode exposes DecodePack profile metadata", () => {
   assert.equal(identifier?.meta?.nandDieProfileKey, "SS19");
 });
 
-test("engine draft decode canonicalizes explicit identifier profile metadata only", () => {
+test("engine draft decode preserves canonical identifier profile metadata including postprocessed profiles", () => {
   const engine = createEngine({ resources: emptyResources });
   for (const [id, expected] of [
     ["ECC1843200C1", "SSV6M"],
@@ -165,14 +165,12 @@ test("engine draft decode canonicalizes explicit identifier profile metadata onl
     ["AD780C5B30E0", "HYV9Q"],
     ["984C84320024", "KBiCS5M"],
     ["983AA0B17EE3", "KBiCS4S"],
-    ["454C84320024", "SBiCS5M"]
+    ["454C84320024", "SBiCS5M"],
+    ["2CC40832A600", "B17A"],
+    ["89092B32C200", "N4PA"],
+    ["9BD5588D2000", "HUS"]
   ] as const) {
     const identifier = engine.decodeIdentifierDraft({ query: id, idScheme: "nand.flash_id" });
     assert.equal(identifier?.meta?.nandDieProfileKey, expected, `${id} canonical identifier profile metadata`);
-  }
-
-  for (const id of ["2CC40832A600", "89092B32C200", "9BD5588D2000"]) {
-    const identifier = engine.decodeIdentifierDraft({ query: id, idScheme: "nand.flash_id" });
-    assert.equal(identifier?.meta?.nandDieProfileKey, undefined, `${id} should not invent identifier profile metadata`);
   }
 });

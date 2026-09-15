@@ -1,67 +1,43 @@
 # @itxtech/fdnext-contract-test
 
-Result contract and schema validation test suite for fdnext.
+用于验证 fdnext 结果约定与数据结构的测试套件。
 
-## Overview
+## 概览
 
-`packages/contract-test` validates that the fdnext engine's output conforms to the published result schemas (`fdnext.result.v2` and `fdnext.capabilities.v2`). It provides:
+`packages/contract-test` 验证 fdnext 引擎输出是否符合公开的结果结构定义（`fdnext.result.v2` 和 `fdnext.capabilities.v2`），提供以下功能：
 
-- **Schema Validator** — A lightweight JSON Schema validator (`validateSchema`) that checks fdnext results against their declared schemas without external dependencies.
-- **Contract Checks** — `runContractChecks()` exercises all core operations (part decode, part search, identifier decode, identifier search, capabilities) and validates each response against the schema.
-- **Contract Engine** — `createContractEngine()` assembles a fully-configured engine with default DecodePack and embedded resources for testing.
+- **结构验证器：** `validateSchema` 按声明的 JSON Schema 检查 fdnext 结果，无需外部依赖。
+- **约定检查：** `runContractChecks()` 覆盖全部核心操作（料号解码、料号搜索、标识符解码、标识符搜索和能力查询），按结构定义验证每项响应。
+- **测试引擎：** `createContractEngine()` 使用默认 DecodePack 和内置资源组装完整引擎，供测试使用。
 
-The current repository build only emits declarations for this package. Package metadata intentionally does not declare a runtime `main` / `exports` target until a publish bundle is added.
+当前仓库构建仅为此包生成类型声明。在补充发布用的打包产物前，包元数据不声明运行时 `main` / `exports` 入口。
 
-## Usage
+## 使用方法
 
-### Run Contract Checks
+### 运行约定检查
 
-```bash
-pnpm -C packages/contract-test test
-```
+检查命令与构建复用条件见[验证指南](../../docs/TESTING.md)。
 
-Or from the monorepo root:
-
-```bash
-pnpm contract:check
-```
-
-DRAM part-search de-duplication is intentionally outside the default contract
-suite. Run it when changes to DRAM PN resources, FBGA markings, or search
-suggestion behavior affect the contract SDK's part-search output:
-
-```bash
-pnpm -C packages/contract-test test:part-search:dram
-```
-
-Choose the required scope with the [validation guide](../../docs/TESTING.md).
-After the required packages have been built from the current source and configuration,
-`test:prepared` or `check:prepared` can reuse those artifacts; rerun preparation
-if the inputs have changed. A single rule-pack change normally uses targeted core
-tests rather than this package's full suite.
-
-### Source API
+### 源码 API
 
 ```ts
 import { runContractChecks, validateSchema, createContractEngine } from "./src/index";
 
-// Run all contract checks
+// 运行全部约定检查
 const summary = runContractChecks();
 console.log(`Checked ${summary.checked} operations: ${summary.operations.join(", ")}`);
 
-// Validate a single result against the schema
+// 按结构定义验证单个结果
 import { fdnextResultJsonSchema } from "@itxtech/fdnext-core";
 const errors = validateSchema(fdnextResultJsonSchema, someResult);
 ```
 
-## Fixtures
+## 基准数据
 
-The `fixtures/` directory contains reference response snapshots used by the contract test suite.
+`fixtures/` 目录存放约定测试使用的响应基准快照。
 
-## Documentation
+## 文档
 
-- [Server API](https://github.com/iTXTech/fdnext/blob/master/docs/SERVER_API.md) — Response schema and contract documentation
+- [服务 API](../../docs/SERVER_API.md)：响应结构与约定说明。
 
-## License
-
-AGPL-3.0-or-later — See [LICENSE](https://github.com/iTXTech/fdnext/blob/master/LICENSE) for details.
+[许可证](../../LICENSE)

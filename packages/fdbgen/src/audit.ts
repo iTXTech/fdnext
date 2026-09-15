@@ -9,6 +9,7 @@ import {
 import { isGeneratedFdbDieProfile } from "./nand-die-profile";
 import { hasVendorIdentityConflict, partNameAuditSignals } from "./part-name-rules";
 import { isControllerOnlyPartPayload } from "./part-payload";
+import { getDefaultRelationMatcher } from "./relation-matcher";
 import { isStrictSupportListFlashIdVendorCompatible } from "./support-list";
 import type { FdbProvenanceRecord, FdbProvenanceSource, FdbProvenanceTrace } from "./trace";
 import type { FlashIdPayload, PartNumberPayload } from "./types";
@@ -71,6 +72,7 @@ export interface FdbAuditResult {
   issues: FdbAuditIssue[];
   vendorStats: FdbAuditVendorStats[];
   topFlashIdFanout: FdbAuditFanout[];
+  relations: { compatible: number; unknown: number; conflict: number; removed: number };
   ok: boolean;
 }
 
@@ -183,7 +185,8 @@ function stringValue(value: unknown): string | undefined {
 }
 
 function hasUnexpectedPunctuation(partNumber: string): boolean {
-  return /[^A-Z0-9-]/.test(partNumber);
+  const normalized = /^MT29[FE]/.test(partNumber) ? partNumber.replace(/:[A-Z0-9]$/, "") : partNumber;
+  return /[^A-Z0-9-]/.test(normalized);
 }
 
 function addFlashIdReference(
@@ -230,6 +233,30 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
   const collector = new IssueCollector(maxSamples);
   const knownVendors = new Set(options.knownVendors ?? DEFAULT_FDB_AUDIT_VENDORS);
   const trace = options.trace;
+  const matcher = getDefaultRelationMatcher();
+  const relations = { compatible: 0, unknown: 0, conflict: 0, removed: 0 };
+  const checkedRelations = new Set<string>();
+  const checkRelation = (vendor: string, partNumber: string, flashId: string) => {
+    const sample = `${vendor} ${partNumber} -> ${flashId}`;
+    if (checkedRelations.has(sample)) return;
+    checkedRelations.add(sample);
+    const decision = matcher.evaluate(vendor, partNumber, flashId);
+    relations[decision.status] += 1;
+    for (const reason of decision.conflicts) {
+      collector.add(`relation.${reason}_conflict`, "error", "PN and Flash ID have conflicting independent DecodePack facts.", sample, trace?.part(vendor, partNumber)[0]);
+    }
+    for (const reason of decision.unknowns) {
+      collector.add(`relation.unknown.${reason}`, "info", "Relation retained without sufficient independent evidence for this comparison.", sample);
+    }
+  };
+  for (const record of trace?.records ?? []) {
+    if (record.decision !== "relation.conflict") continue;
+    relations.removed += 1;
+    const sample = `${record.vendor} ${record.partNumber} -> ${record.flashId}`;
+    for (const reason of asStringArray(record.normalized?.conflicts)) {
+      collector.add(`relation.removed.${reason}`, "info", "Generator removed a conflicting relation; raw sources and Flash ID controller data are retained.", sample, record);
+    }
+  }
   const info = asRecord(fdb.info) ?? {};
   const iddb = asRecord(fdb.iddb) ?? {};
   const controllerList = asStringArray(info.controllers);
@@ -295,7 +322,7 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
         collector.add("part.too_short", "warning", "Very short part-number keys are usually date codes or controller-local labels.", `${vendor} ${partNumber}`, partTrace);
       }
       if (hasUnexpectedPunctuation(partNumber)) {
-        collector.add("part.punctuation", "warning", "Part-number keys should avoid punctuation except hyphen.", `${vendor} ${partNumber}`, partTrace);
+        collector.add("part.punctuation", "warning", "Part-number keys should avoid punctuation except hyphen and a Micron revision separator.", `${vendor} ${partNumber}`, partTrace);
       }
       for (const signal of partNameAuditSignals(partNumber)) {
         collector.add(signal.code, "warning", signal.message, `${vendor} ${partNumber}`, partTrace);
@@ -344,10 +371,15 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
       for (const flashId of asStringArray(record.id)) {
         stat.flashIdReferences += 1;
         addFlashIdReference(collector, iddb, idFanout, flashIdReferenceCount, vendor, partNumber, flashId, "id", trace);
+        checkRelation(vendor, partNumber, flashId);
+        if (!asStringArray(asFlashIdPayload(iddb[flashId])?.n).includes(`${vendor} ${partNumber}`)) {
+          collector.add("relation.missing_reverse", "error", "PN id relations require a matching iddb.n reverse reference.", `${vendor} ${partNumber} -> ${flashId}`, partTrace);
+        }
       }
       for (const flashId of asStringArray(record.f)) {
         stat.flashIdReferences += 1;
         addFlashIdReference(collector, iddb, idFanout, flashIdReferenceCount, vendor, partNumber, flashId, "f", trace);
+        checkRelation(vendor, partNumber, flashId);
       }
       for (const alias of asStringArray(record.a)) {
         const aliasKey = normalizeFdbPartReference(alias) ?? normalizeFdbPartKey(vendor, alias);
@@ -363,6 +395,17 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
   for (const [flashId, rawRecord] of Object.entries(iddb)) {
     const record = asFlashIdPayload(rawRecord);
     const flashTrace = trace?.flash(flashId)[0];
+    const sourceRecords = trace?.flash(flashId).filter(record => record.target === "flash") ?? [];
+    for (const field of ["s", "p", "b"] as const) {
+      const values = new Set(sourceRecords.map(record => asRecord(record.normalized?.payload)?.[field]).filter((value): value is number => typeof value === "number" && Number.isFinite(value)));
+      if (values.size > 1) {
+        collector.add("source.geometry_conflict", "warning", "Controller sources disagree on Flash ID geometry; these values are excluded from PN/ID relation decisions.", `${flashId}.${field}=${[...values].sort((a, b) => a - b).join("/")}`, flashTrace);
+      }
+    }
+    const longIds = new Set(sourceRecords.map(record => String(record.raw?.flashId ?? "").replace(/\s/g, "").toUpperCase()).filter(id => /^[0-9A-F]{14,16}$/.test(id)));
+    if (longIds.size) {
+      collector.add("source.extended_id_collapsed", "warning", "The six-byte FDB key omits source ID extension bytes; do not infer full-ID equivalence or masks.", `${flashId}: ${[...longIds].sort().join(", ")}`, flashTrace);
+    }
     if (!HEX_FLASH_ID.test(flashId)) {
       collector.add("flash_id.invalid_key", "error", "iddb keys must be normalized to 6-byte / 12-hex Flash IDs.", flashId, flashTrace);
     }
@@ -386,6 +429,12 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
         collector.add("reference.missing_iddb_n", "error", "iddb.n reverse references must point to existing vendor PN records.", `${flashId}.n -> ${reference}`, flashTrace);
       }
       const referenceVendor = normalized.split(" ", 1)[0] ?? "";
+      const referencePart = normalized.slice(referenceVendor.length + 1);
+      checkRelation(referenceVendor, referencePart, flashId);
+      const part = asPartPayload(vendorPayloads.get(referenceVendor)?.[referencePart]);
+      if (part && !asStringArray(part.id).includes(flashId)) {
+        collector.add("relation.missing_forward", "error", "iddb.n relations require a matching PN id reference.", `${flashId} -> ${normalized}`, flashTrace);
+      }
       if (!isStrictSupportListFlashIdVendorCompatible(referenceVendor, flashId)) {
         collector.add("iddb.flash_id_vendor_mismatch", "error", "iddb.n reverse references must belong to the Flash ID vendor.", `${flashId}.n -> ${reference}`, flashTrace);
       }
@@ -422,6 +471,7 @@ export function auditFdb(input: unknown, options: FdbAuditOptions = {}): FdbAudi
     issues,
     vendorStats: vendorStats.sort((left, right) => left.vendor.localeCompare(right.vendor)),
     topFlashIdFanout,
+    relations,
     ok: !issues.some((issue) => issue.severity === "error")
   };
 }
@@ -454,6 +504,7 @@ export function formatFdbAuditText(result: FdbAuditResult, file?: string): strin
     `Summary: version=${summary.version ?? "unknown"} controllers=${summary.controllers} vendors=${summary.vendors} parts=${summary.partNumbers} flashIds=${summary.flashIds} flashIdRefs=${summary.flashIdReferences} iddbRefs=${summary.iddbPartReferences}`
   );
   lines.push(`Status: ${result.ok ? "no errors" : "has errors"}`);
+  lines.push(`Relations: compatible=${result.relations.compatible} unknown=${result.relations.unknown} conflict=${result.relations.conflict} removed=${result.relations.removed}`);
   lines.push("");
 
   if (result.issues.length === 0) {

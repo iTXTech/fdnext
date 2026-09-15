@@ -1,107 +1,45 @@
 # iTXTech fdnext
 
-[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/github/v/release/iTXTech/fdnext?include_prereleases)](https://github.com/iTXTech/fdnext/releases)
+[![许可证：AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![版本](https://img.shields.io/github/v/release/iTXTech/fdnext?include_prereleases)](https://github.com/iTXTech/fdnext/releases)
 
-**fdnext** is a high-performance, one-stop parsing engine for memory chips. It provides comprehensive support for part-number (PN) decoding, NAND Flash ID inspection, and database searches across multiple vendors and storage technologies.
+**fdnext** 是存储器芯片解析引擎，支持多个厂商和存储技术的料号（PN）解码、NAND Flash ID 解析及数据库搜索。
 
-[简体中文](README-zh.md)
+## 在线体验
 
----
+**[FlashMaster](https://github.com/iTXTech/FlashMaster)** 基于 `fdnext` 引擎，为工程师提供芯片信息查询和分析功能。
 
-### 🚀 Try it in Action
-**[FlashMaster](https://github.com/iTXTech/FlashMaster)** is the flagship implementation of the `fdnext` engine—a workstation-grade intelligence platform for engineers.
+[打开 FlashMaster 网页应用](https://fm.itxtech.org)
 
-[**👉 Open FlashMaster Web App**](https://fm.itxtech.org)
+## 功能概览
 
----
+`fdnext` 将厂商数据整理为结构化信息，结合本地资源补全字段，并按统一的结果约定验证输出。
 
-## ✨ Overview
+- **料号解码：** 支持裸 NAND、eMMC、UFS、DRAM 等芯片。
+- **Flash ID 解码：** 通过带类型的标识符 API 解析 NAND Flash ID。
+- **资源查询：** 内置 `fdb`、`mdb` 和语言包，支持 Micron FBGA 代码查询。
+- **请求分发：** Node.js HTTP 与 Cloudflare Workers 共用运行时分发层。
+- **数据维护：** 提供 FDB/MDB 生成、抓取、DecodePack 管理和证据元数据审计的命令行工具。
 
-`fdnext` is designed as the backbone for memory chip intelligence. It normalizes complex vendor data into structured, actionable information, enriched with local resources and verified against strict result contracts.
+## 仓库结构
 
-### Core Workflows
-- **Part Number Decoding:** Instant decoding of raw NAND, eMMC, UFS, DRAM, and more.
-- **Flash ID Decoding:** Deep inspection of NAND Flash IDs through a typed identifier API.
-- **Smart Resource Flow:** Bundled `fdb`, `mdb`, and language packs with Micron FBGA code lookup.
-- **Universal Dispatch:** Shared runtime layer for native Node.js HTTP and Cloudflare Workers.
-- **Data Maintenance:** CLI tools for FDB/MDB generation, crawling, DecodePack management, and evidence metadata auditing.
+`fdnext` 使用严格 TypeScript 多包仓库。主包内置默认规则与资源，平台包负责适配各自的运行环境。
 
----
+- **核心（[`@itxtech/fdnext-core`](packages/core)）：** 引擎、DecodePack 规则与编译器、内置资源、结果约定和共享运行时。
+- **平台适配：** 支持 [Node.js HTTP](packages/server) 和 [Cloudflare Workers](packages/cf-workers)。
+- **数据工具（[`@itxtech/fdnext-fdbgen`](packages/fdbgen)）：** 数据库生成、MDB 抓取和资源汇总。
+- **约定验证（[`@itxtech/fdnext-contract-test`](packages/contract-test)）：** 验证结果结构和行为是否符合约定。
+- **旧版兼容：** [`@itxtech/fd-server`](packages/fd-server) 提供旧版 FlashDetector / FDWebServer HTTP API，用于 FlashMaster Classic 迁移部署，优先部署到 Cloudflare Workers。
 
-## 🏗️ Architecture
+## 文档
 
-`fdnext` is organized as a strict TypeScript monorepo. The main package is now batteries-included, while platform packages stay thin adapters.
+- [文档索引与职责](docs/README.md)
+- [开发与验证](docs/TESTING.md)
+- [集成指南](docs/INTEGRATION.md)
+- [厂商与产品线资料](docs/pn_code/README.md)
 
-- **Core ([`@itxtech/fdnext-core`](packages/core)):** Engine, DecodePack rules/compiler, embedded resources, result contract, and shared runtime.
-- **Adapters:** Native support for [Node.js HTTP](packages/server) and [Cloudflare Workers](packages/cf-workers).
-- **Data Tools ([`@itxtech/fdbgen`](packages/fdbgen)):** Database generation, MDB crawling, and resource aggregation tools.
-- **Testing ([`@itxtech/fdnext-contract-test`](packages/contract-test)):** Result schema and behavior contract validation.
-- **Legacy compatibility:** [`@itxtech/fd-server`](packages/fd-server) exposes the old FlashDetector / FDWebServer HTTP API for FlashMaster Classic migration deployments, with Cloudflare Workers as the preferred deployment path.
+## 许可证
 
----
+Copyright (c) 2019-2026 iTX 技术
 
-## 🛠️ Toolchain & Development
-
-This project uses [pnpm](https://pnpm.io/) for workspace management.
-
-### Prerequisites
-- Node.js 24+
-- pnpm 11+
-
-### Quick Start
-```bash
-# Install dependencies
-pnpm install
-
-# Build all packages
-pnpm build
-
-# Run test suite
-pnpm test
-```
-
-### Useful Commands
-| Command | Description |
-| :--- | :--- |
-| `pnpm build` | Build all packages in the workspace |
-| `pnpm test` | Run all unit and integration tests |
-| `pnpm typecheck` | Run TypeScript type checks across the repo |
-| `pnpm contract:check` | Validate result schema and behavior contracts |
-| `pnpm check:decodepack` | Validate DecodePack structure and maintenance policies |
-| `pnpm check:static` | Run TypeScript and DecodePack static checks |
-| `pnpm check` | Run the fast static and DecodePack rule gate |
-| `pnpm check:pr` | Build once, then run the complete source/package contract gate |
-| `pnpm lint` | Alias for `pnpm check:static` |
-| `pnpm cli` | Run the core CLI tools (DecodePack management) |
-| `pnpm fdbgen:generate` | Generate the FDB database |
-
----
-
-## 📊 Parsing Coverage
-
-| Area | Product Families | Supported Vendors |
-| :--- | :--- | :--- |
-| **NAND PN** | Raw NAND, eMMC, UFS, eMCP/uMCP, E2NAND | Samsung, SK hynix, SanDisk/WD, KIOXIA, Micron, YMTC, Kingston, Longsys, BIWIN, Silicon Motion, ESMT, Macronix, Spectek, Intel |
-| **DRAM PN** | DDR, LPDDR (Density, Gen, Package, Speed, etc.) | Micron, Crucial, SK hynix, Samsung, Nanya, Elpida, CXMT, GigaDevice, ISSI, Winbond, ESMT, Etron, Spectek, BIWIN, Longsys |
-
----
-
-## 📖 Documentation
-
-The unified documentation index can be found in [**docs/README.md**](docs/README.md).
-
-- [**Integration Guide**](docs/INTEGRATION.md): SDK, HTTP server, and deployment.
-- [**Server API**](docs/SERVER_API.md): Routes, parameters, and response contracts.
-- [**FlashDetector Compatibility Server**](packages/fd-server/README.md): `fd-server` deployment for FlashMaster Classic clients, including Cloudflare Workers and Node.js options.
-- [**DecodePack Spec**](docs/DECODEPACK.md): Writing PN and identifier rules.
-- [**FDBGen Guide**](docs/FDBGEN.md): Database generation and crawling.
-- [**Terminology**](docs/pn_code/terminology.md): Canonical field keys and naming conventions.
-
----
-
-## ⚖️ License
-
-Copyright (c) 2019-2026 iTX Technologies
-
-This project is licensed under the **GNU Affero General Public License v3.0**. See the [LICENSE](LICENSE) file for details.
+本项目采用 **GNU Affero General 公开 License v3.0** 许可证，详见 [LICENSE](LICENSE)。

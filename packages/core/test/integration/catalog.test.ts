@@ -132,7 +132,7 @@ test("FDB enrichment and DecodePack precedence are explicit integration checks",
     ["SDTNMMAHSM-001G", "43nm"],
     ["29F02T08SCMFP", "20nm", undefined, "L85C"],
     ["FNNL29F256G08EBHAFES", "B16A"],
-    ["FBMB17A4T1KDUAN", "B17A", 64]
+    ["FBMB17A4T1KDUANM4", "B17A", 64]
   ] as const) {
     const result = integratedEngine.decodePart({ query: partNumber, lang: "eng" });
     assert.equal(result.status, "ok", `${partNumber} should decode through FDB`);

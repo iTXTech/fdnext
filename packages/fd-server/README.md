@@ -1,12 +1,12 @@
 # @itxtech/fd-server
 
-FlashDetector / FDWebServer 兼容服务，用于把当前 fdnext core 暴露成 FlashMaster Classic 可直接使用的旧 HTTP API。
+FlashDetector / FDWebServer 兼容服务，用于把当前 fdnext 核心暴露成 FlashMaster Classic 可直接使用的旧 HTTP API。
 
 本包面向 FlashMaster Classic 存量用户迁移。它内部使用 `@itxtech/fdnext-core` 的当前解析引擎和内置资源，对外只提供旧 FlashDetector HTTP 响应约定。
 
-首选部署方式是 Cloudflare Workers。Node.js HTTP server、PM2 和 systemd 仍然保留，用于本地调试、自托管或反向代理部署。
+首选部署方式是 Cloudflare Workers。Node.js HTTP 服务、PM2 和 systemd 仍然保留，用于本地调试、自托管或反向代理部署。
 
-它不是 fdnext v3 HTTP server，不暴露 `/parts/*`、`/identifiers/*` 或 `/capabilities`。
+它不是 fdnext v3 HTTP 服务，不暴露 `/parts/*`、`/identifiers/*` 或 `/capabilities`。
 
 ## 部署目标
 
@@ -25,8 +25,7 @@ FlashDetector / FDWebServer 兼容服务，用于把当前 fdnext core 暴露成
 
 ## 运行要求
 
-- Cloudflare Workers 部署：Cloudflare 账号、pnpm 10+，以及 Wrangler 登录状态。
-- 本地构建和 Node.js HTTP server：Node.js 24+。
+- 完成 [仓库开发环境](../../docs/TESTING.md#开发环境与入口)；Workers 部署另需 Cloudflare 账号和 Wrangler 登录状态。
 - 自托管 Node.js 生产环境建议在前面放反向代理并由反向代理处理 HTTPS。
 
 ## Cloudflare Workers 部署（首选）
@@ -69,11 +68,11 @@ packages/fd-server/wrangler.jsonc
 
 说明：
 
-- `main` 指向 `fd-server` 的 Worker bundle；部署前由 `build.command` 生成。
+- `main` 指向 `fd-server` 的 Worker 打包产物；部署前由 `build.command` 生成。
 - `build.command` 在 `packages/fd-server` 目录内执行 `pnpm build`，生成 `dist/worker.js`。
 - `watch_dir` 覆盖 `fd-server` 源码和 `core` 源码 / 资源，便于本地 `wrangler dev` 监听相关变更。
-- `compatibility_flags` 启用 `nodejs_compat`，用于兼容 bundled dependency 中可能出现的 Node.js 内置模块引用。
-- `keep_vars` 保留 Cloudflare Dashboard 中配置的 Worker environment variables，避免部署时清空远端变量。
+- `compatibility_flags` 启用 `nodejs_compat`，用于兼容内置依赖中可能出现的 Node.js 内置模块引用。
+- `keep_vars` 保留 Cloudflare Dashboard 中配置的 Worker 环境变量，避免部署时清空远端变量。
 - `workers_dev` 默认开启，可先部署到 `*.workers.dev`；生产域名可在 Cloudflare Dashboard 绑定，也可在 `wrangler.jsonc` 中维护 `route` / `routes`。
 
 ### 本地开发
@@ -123,22 +122,22 @@ https://fdnext-fd-server.<account>.workers.dev
 https://fd.example.com
 ```
 
-不要在 Classic 中追加 path prefix。旧接口必须直接位于服务根路径，例如 `/decode`、`/decodeId`。
+不要在 Classic 中追加路径前缀。旧接口必须直接位于服务根路径，例如 `/decode`、`/decodeId`。
 
 ### Cloudflare Workers Builds 设置
 
 如果使用 Cloudflare Dashboard 连接 Git 仓库自动部署，建议按下表设置：
 
-| Setting | Value |
+| 设置 | 值 |
 | --- | --- |
-| Root directory | 留空或仓库根目录 |
-| Build command | `pnpm install --frozen-lockfile=false && pnpm -C packages/fd-server build` |
-| Deploy command | `pnpm fdserver:worker:deploy` |
-| Non-production branch deploy command | `pnpm --dir packages/fd-server dlx wrangler versions upload --config wrangler.jsonc` |
+| 根目录 | 留空或仓库根目录 |
+| 构建命令 | `pnpm install --frozen-lockfile=false && pnpm -C packages/fd-server build` |
+| 部署命令 | `pnpm fdserver:worker:deploy` |
+| 非生产分支部署命令 | `pnpm --dir packages/fd-server dlx wrangler versions upload --config wrangler.jsonc` |
 
-建议同时添加 Build variable：
+建议同时添加构建变量：
 
-| Variable | Value |
+| 变量 | 值 |
 | --- | --- |
 | `SKIP_DEPENDENCY_INSTALL` | `1` |
 
@@ -160,32 +159,11 @@ FD_SERVER_EXTRA_URLS='{"迁移到新版 FlashMaster":"https://fm.itxtech.org"}'
 
 不要提交 `.dev.vars` 或 `.env` 文件。
 
-可配置变量：
+变量含义统一见本页 [环境变量](#环境变量)。
 
-- `FD_SERVER_DEFAULT_LANG`：默认语言，允许 `chs` 或 `eng`，空值或非法值回退到 `chs`。
-- `FD_SERVER_CONTROLLER_GROUP`：decode 类输出使用的服务端控制器投影视图，默认 `selected`。
-- `FD_SERVER_SEARCH_LIMIT`：search 默认值和硬上限，默认 300；请求中的 `limit` 只能下调。也接受共享变量 `FDNEXT_SEARCH_LIMIT`。
-- `FDNEXT_CORS_ORIGINS`：Node server 与 Worker 共用的 CORS 配置；支持 `*` 或 origin allowlist，未设置时为兼容旧客户端而默认 `*`。
-- `FD_SERVER_EXTRA_URLS`：JSON object，只追加到 `/decode` 和 `/decodeId` 响应的 `data.url` 中。
+### Workers 冒烟检查
 
-### Workers Smoke Test
-
-本地 `wrangler dev` 或部署后执行，部署后把示例中的 `http://127.0.0.1:8080` 换成 Worker URL：
-
-```bash
-curl 'http://127.0.0.1:8080/'
-curl 'http://127.0.0.1:8080/info'
-curl 'http://127.0.0.1:8080/decode?pn=MT29F4G08ABAEA&lang=chs'
-curl 'http://127.0.0.1:8080/decodeId?id=2C64444BA900&lang=chs'
-curl 'http://127.0.0.1:8080/parts/decode?query=MT29F4G08ABAEA'
-```
-
-高层检查项：
-
-- `/` 返回 `{ "result": true, "server": "fdnext-fd-server" }`。
-- `/info.info.fdb.controllers` 是非空控制器列表。
-- `/decode` 和 `/decodeId` 返回 FlashDetector 旧字段集合。
-- `/parts/decode` 等 fdnext v3 路由返回 `{ "result": false, "message": "Not found" }`。
+复用本页 [冒烟检查](#冒烟检查)，部署后将示例地址替换为 Worker URL。
 
 ## Node.js 开发启动
 
@@ -202,7 +180,7 @@ pnpm fdserver:dev
 http://0.0.0.0:8080
 ```
 
-可以通过 CLI 参数覆盖 host 或 port：
+可以通过 CLI 参数覆盖主机或端口：
 
 ```bash
 pnpm fdserver:dev -- --host 127.0.0.1 --port 8081
@@ -269,7 +247,7 @@ FD_SERVER_DEFAULT_LANG=chs
 
 ### `FD_SERVER_CONTROLLER_GROUP`
 
-服务端控制器投影视图，用于 decode 类输出。
+服务端控制器投影视图，用于解码类输出。
 
 默认值：
 
@@ -284,7 +262,7 @@ FD_SERVER_CONTROLLER_GROUP=all
 FD_SERVER_CONTROLLER_GROUP=if:sata,if:nvme
 ```
 
-旧 HTTP API 不接受 `controllerGroup` query 参数。即使客户端传入该参数，`fd-server` 也会忽略它，并继续使用此环境变量。
+旧 HTTP API 不接受 `controllerGroup` 查询参数。即使客户端传入该参数，`fd-server` 也会忽略它，并继续使用此环境变量。
 
 ### `FD_SERVER_SEARCH_LIMIT`
 
@@ -294,22 +272,15 @@ FD_SERVER_CONTROLLER_GROUP=if:sata,if:nvme
 FD_SERVER_SEARCH_LIMIT=300
 ```
 
-也可使用与现代 HTTP runtime 相同的 `FDNEXT_SEARCH_LIMIT`；两者同时存在时优先使用 `FD_SERVER_SEARCH_LIMIT`。如确需更完整的旧客户端结果，由服务端管理员提高该值，而不是允许客户端用超大 `limit` 绕过保护。
+也可使用与现代 HTTP 运行时相同的 `FDNEXT_SEARCH_LIMIT`；两者同时存在时优先使用 `FD_SERVER_SEARCH_LIMIT`。如确需更完整的旧客户端结果，由服务端管理员提高该值，而不是允许客户端用超大 `limit` 绕过保护。
 
 ### `FDNEXT_CORS_ORIGINS`
 
-Node server 和 Worker 使用同一个 CORS 配置。可设为 `*`，也可用逗号、空格或换行分隔多个 origin：
-
-```bash
-FDNEXT_CORS_ORIGINS=*
-FDNEXT_CORS_ORIGINS=https://flash.example.com,https://admin.example.com
-```
-
-allowlist 会按请求 `Origin` 精确匹配；命中时返回该 origin，并附带 `Vary: Origin`。`OPTIONS` preflight 返回允许的方法和请求头。为保持 FlashDetector 旧客户端兼容，变量未设置时默认值为 `*`。
+CORS 匹配与预检规则见 [服务 API](../../docs/SERVER_API.md#8-cors)。Classic 的差异是未设置变量时默认使用 `*`。
 
 ### `FD_SERVER_EXTRA_URLS`
 
-JSON object，用于把额外链接追加到 `/decode` 和 `/decodeId` 响应的 `data.url` 中。
+JSON 对象，用于把额外链接追加到 `/decode` 和 `/decodeId` 响应的 `data.url` 中。
 
 示例：
 
@@ -320,9 +291,9 @@ FD_SERVER_EXTRA_URLS='{"迁移到新版 FlashMaster":"https://fm.itxtech.org"}'
 规则：
 
 - 只接受 `http://` 和 `https://` URL。
-- 空 label 会被忽略。
-- 非法 JSON 会被忽略，并在启动时输出 warning。
-- 额外链接不会出现在 search 或 summary 响应中。
+- 空标签会被忽略。
+- 非法 JSON 会被忽略，并在启动时输出警告。
+- 额外链接不会出现在搜索或摘要响应中。
 
 ## PM2 部署
 
@@ -357,7 +328,7 @@ pm2 save
 
 ## systemd 部署
 
-示例 unit：
+示例服务单元：
 
 ```ini
 [Unit]
@@ -379,7 +350,7 @@ RestartSec=3
 WantedBy=multi-user.target
 ```
 
-放置 unit 文件后执行：
+放置服务单元文件后执行：
 
 ```bash
 systemctl daemon-reload
@@ -392,7 +363,7 @@ journalctl -u fd-server -f
 
 ## 反向代理
 
-建议让 `fd-server` 监听 loopback 地址，由 nginx、Caddy、Apache 或其他网关终止 HTTPS。
+建议让 `fd-server` 监听环回地址，由 nginx、Caddy、Apache 或其他网关终止 HTTPS。
 
 最小 nginx 示例：
 
@@ -421,9 +392,9 @@ FlashMaster Classic 中配置服务地址：
 https://fd.example.com
 ```
 
-不要额外加 path prefix，除非上游代理会把 prefix rewrite 掉。FlashMaster Classic 期望旧接口直接位于服务根路径。
+不要额外加路径前缀，除非上游代理会把前缀重写掉。FlashMaster Classic 期望旧接口直接位于服务根路径。
 
-## Node.js Smoke Test
+## 冒烟检查
 
 服务启动后执行：
 
@@ -458,38 +429,23 @@ http://127.0.0.1:8080
 https://fd.example.com
 ```
 
-Classic UI 会直接渲染旧字段，包括 `extraInfo` 和 `ext` 的 key。`fd-server` 会根据请求 `lang` 输出本地化 label。
+Classic UI 会直接渲染旧字段，包括 `extraInfo` 和 `ext` 的键。`fd-server` 会根据请求 `lang` 输出本地化标签。
 
 ## 运维注意事项
 
 - `fd-server` 使用 `@itxtech/fdnext-core` 的内置资源，不支持自定义资源目录加载。
 - 业务错误遵循 FlashDetector 行为，使用 HTTP 200 和 `{ "result": false, "message": "..." }`。
-- Node server 与 Worker 都使用 `FDNEXT_CORS_ORIGINS`；未设置时为兼容旧客户端默认 `*`。
-- search 默认和硬上限为 300；用 `FD_SERVER_SEARCH_LIMIT` 或 `FDNEXT_SEARCH_LIMIT` 由服务端统一调整。
+- 运行时默认值统一见本页 [环境变量](#环境变量)。
 - `FD_SERVER_CONTROLLER_GROUP=selected` 适合默认精简控制器列表；只有客户端确实需要完整控制器集合时才使用 `all`。
 - HTTPS、缓存、访问日志和限流建议放在反向代理或平台层处理。
 
 ## 代码边界
 
 - `handler.ts` 只保留稳定的创建函数与公共导出，Node 和 Worker 继续从同一入口消费。
-- `routes.ts` 只负责旧 HTTP 路由、query 参数和 Response 适配。
-- `legacy-serializer.ts` 集中维护 fdnext result 到 FlashDetector 字段形状的转换。
+- `routes.ts` 只负责旧 HTTP 路由、查询参数和响应适配。
+- `legacy-serializer.ts` 集中维护 fdnext 结果到 FlashDetector 字段形状的转换。
 - `config.ts` 和 `types.ts` 分别维护环境配置与公共类型；解码、搜索和索引仍由 `@itxtech/fdnext-core` 提供。
 
-## 验证命令
+## 验证
 
-仓库部署可先验证新包：
-
-```bash
-pnpm -C packages/fd-server typecheck
-pnpm -C packages/fd-server test
-pnpm -C packages/fd-server build
-pnpm fdserver:worker:deploy:dry-run
-```
-
-发布前可做更宽的检查：
-
-```bash
-pnpm build
-git diff --check
-```
+检查范围见 [验证指南](../../docs/TESTING.md)，Worker 产物检查见本页 [手动部署](#手动部署)。

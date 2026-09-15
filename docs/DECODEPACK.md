@@ -1,10 +1,10 @@
 # iTXTech fdnext DecodePack 规范（JSON）
 
-本仓库把“厂商料号解码”做成纯数据的 iTXTech fdnext DecodePack（JSON）。`@itxtech/fdnext-core/decodepack` 负责把 DecodePack JSON specs 编译成 `@itxtech/fdnext-core` 可消费的 decoder，默认入口是 `defaultDecodePack` + `compileDecodePack(defaultDecodePack)`。
+本仓库把“厂商料号解码”做成纯数据的 iTXTech fdnext DecodePack（JSON）。`@itxtech/fdnext-core/decodepack` 负责把 DecodePack JSON 规格编译成 `@itxtech/fdnext-core` 可消费的解码器，默认入口是 `defaultDecodePack` + `compileDecodePack(defaultDecodePack)`。
 
 本文是语法/API 参考，按需要查阅相应章节。维护仓库 PN 规则时使用 [PN 编写规范](pn_code/authoring.md)；测试范围统一见 [验证指南](TESTING.md)。
 
-## 1. PartDecodeSpec
+## 1. 料号规则 `PartDecodeSpec`
 
 最基础的 PartDecodeSpec 是“匹配 + 直接赋值”。下面只演示厂商前缀判断；产品线、容量和完整 PN 不能由这个前缀直接赋值，需由后续结构化规则确定。
 
@@ -22,14 +22,14 @@
 
 字段说明：
 
-- `id`: spec 唯一标识，建议 `vendor.<vendor>.<kind>.<name>`。
+- `id`: 规范唯一标识，建议 `vendor.<vendor>.<kind>.<name>`。
 - `priority`: 数字越大越优先（默认 0）。引擎会按优先级从高到低尝试解码器。
 - `normalize`: 对输入料号进行预处理（见下）。
 - `match`: 匹配条件（见下）。
-- `set`: 匹配成功后直接写入 native draft（无需 `tokenDecoder` 时使用）。
-- `tokenDecoder`: 结构化 token 解析（见下）。
+- `set`: 匹配成功后直接写入原生草稿（无需 `tokenDecoder` 时使用）。
+- `tokenDecoder`: 结构化编码段解析（见下）。
 
-### normalize
+### 归一化 `normalize`
 
 `normalize` 的步骤按顺序执行：
 
@@ -37,18 +37,18 @@
 - `"uppercase"`：转大写
 - `{ "remove": [...] }`：移除指定字符（逐个替换为空）
 
-### match
+### 匹配 `match`
 
 `match.kind` 支持：
 
 - `"prefix"`：`value` 为前缀字符串
 - `"regex"`：`value` 为正则表达式字符串，可选 `flags`
 
-## 2. Token 解码（tokenDecoder）
+## 2. 编码段解码（tokenDecoder）
 
-适用于“料号内部由固定位置/可选前缀/表驱动字段组成”的情况。通过 steps 把 `rest`（未消费的字符串）逐段解析到上下文变量，再用 `assign` 构造输出对象。
+适用于“料号内部由固定位置/可选前缀/表驱动字段组成”的情况。通过步骤把 `rest`（未消费的字符串）逐段解析到上下文变量，再用 `assign` 构造输出对象。
 
-下面的局部表演示语法，不是厂商 ordering 证据；实际 mapping 按 [PN 编写规范](pn_code/authoring.md) 和产品线资料准入。
+下面的局部表演示语法，不是厂商订购编码证据；实际映射按 [PN 编写规范](pn_code/authoring.md) 和产品线资料准入。
 
 ```json
 {
@@ -88,72 +88,44 @@
 }
 ```
 
-### tokenDecoder.stripPrefixes
+### 前缀移除 `tokenDecoder.stripPrefixes`
 
 在执行 `steps` 前，依次从 `rest` 开头剥离固定前缀（仅当 `rest.startsWith(prefix)` 时剥离）。
 
-### DecodePack.sharedTables
+### 共享表 `DecodePack.sharedTables`
 
 DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `map` / `takeLongest` 复用。查表顺序为“共享表 + 当前 `tokenDecoder.tables`”，同名时当前规则内的本地表覆盖共享表。
 
 适合放进 `sharedTables` 的内容：
 
-- 跨产品线复用的工艺、die、controller profile。
-- 多个 PN / Flash ID / MPTool 规则都需要引用的 key-value 表。
-- 实际参与规则推导的匹配信息，例如 `firmware_match`、`die_mark`。来源 URL、reference metadata 和可信度等维护证据只放入 [evidence manifest](pn_code/reference_policy.md)，不进入共享表；尚未接线的既有 decode mapping 不因证据清理而删除。
+- 跨产品线复用的工艺、die、控制器规格。
+- 多个 PN / Flash ID / MPTool 规则都需要引用的键-值表。
+- 实际参与规则推导的匹配信息，例如 `firmware_match`、`die_mark`；证据与映射的边界见 [可信度策略](pn_code/reference_policy.md)。
 
-#### table 形态
+#### 表形态
 
 `tables` 的单张表支持三种写法，`map` 和 `takeLongest` 都会先归一化后再查询：
 
-- 普通 object 表：`{ "AB": { "package": "FBGA-78" } }`，适合每个 key 有独立 value 的场景。
-- identity 数组表：`["AB", "CD"]`，等价于 `{ "AB": "AB", "CD": "CD" }`，适合 token 白名单 / 最长前缀匹配，不需要再写 `"AB": "AB"` 这类重复映射。
-- alias-entry 数组表：`[{ "keys": ["AB", "CD"], "value": { "package": "FBGA-78" } }]`，适合多个 token 共享同一个结构化 value。`value` 省略时，每个 key 仍按 identity 输出自身。
+- 普通对象表：`{ "AB": { "package": "FBGA-78" } }`，适合每个键有独立值的场景。
+- 身份数组表：`["AB", "CD"]`，等价于 `{ "AB": "AB", "CD": "CD" }`，适合编码段白名单 / 最长前缀匹配，不需要再写 `"AB": "AB"` 这类重复映射。
+- 别名-条目数组表：`[{ "keys": ["AB", "CD"], "value": { "package": "FBGA-78" } }]`，适合多个编码段共享同一个结构化值。`value` 省略时，每个键仍按身份输出自身。
 
-数组表中的 key 不应重复；`pnpm cli decodepack check` 会报告重复 key，避免后写项静默覆盖前写项。
+数组表中的键不应重复；`pnpm cli decodepack check` 会报告重复键，避免后写项静默覆盖前写项。
 
 #### `nand.die_profile`
 
-`nand.die_profile` 是最重要的共享表之一。它以 die codename、firmware full code 或规则归一化后的 profile key 为索引，让 PN / Flash ID / MPTool 规则可以 cross-reference 出以下公开字段：
+共享规格的键、回退和固件命名见 [NAND die 规格](pn_code/nand_die_profile.md)，公开字段见 [术语](pn_code/terminology.md#nand--受管理-nand)。精确键的显式元数据输出方式见下节。
 
-- `die_codename`
-- `process_alias`
-- `layer_count`
-- `die_density`
-- `cell_level`
-- `plane_count`
+### 赋值表达式 `assign`（`DecodeExpr`）
 
-公开结果中 `die_codename` 的 label 是 `Process` / `制程`，它是用户可见制程名，不等同于内部 profile key：
+`assign` 的值允许：
 
-- 2D NAND 优先显示 `15nm`、`A19nm`、`20nm` 这类 litho。
-- Kioxia / SanDisk 3D NAND 显示 `BiCS3`、`BiCS4`、`BiCS4.5`，不带厂商前缀或 Cell 后缀。
-- 规则和共享表直接使用唯一的字段归属；已由 `die_codename` 完整表达的同一代际不再另写。独立的 `generation_info` / `series_info` 必须保留，不依赖结果生成器按字段存在与否隐藏信息。
-- 层数和 `X3-9060`、`8T23` 这类代号分别由 `layer_count` / `process_alias` 表达。
-- `firmware_match` / `die_mark` 只作为匹配和维护 metadata，不默认进入公开 fields。
-- 当 PN / Flash ID 规则需要给生成工具提供精确工艺关系时，应由规则显式输出 `meta.nandDieProfileKey` 或 `meta.nandDieProfileKeys`。compiler 不会根据公开 `fields.*` 自动反推该 metadata。
-
-详细 key 命名、fallback profile 和厂商差异见 [NAND Die Profile 标准化](pn_code/nand_die_profile.md)。
-
-#### profile key 维护边界
-
-- Kioxia / SanDisk 2D 固件匹配先归一为 `2DM` / `2DT`。
-- Kioxia / SanDisk BiCS profile key 必须带厂商前缀，例如 `KBiCS3` / `SBiCS3`；firmware full code profile key 也必须带厂商前缀，例如 `K7T23` / `S7T23`。
-- Micron / Intel 3D 固件匹配直接使用 die codename，例如 `B16A`。
-- IMFT / Solidigm FG 体系保留 `A/B/C/D/E` 等后缀 die codename，例如 `N38A`、`N38B`、`N38C`、`N38E`、`N4PA`。
-- Micron RG 体系保留 `R/S/T` 等后缀 die codename，例如 `B47R`、`B57T`、`N58R`。
-- 3D profile 不从后缀折叠为 `xxnm`；2D `5x/6x/7x/8x/9x` die codename 可作为匹配 key，但公开制程应由 profile 表补齐。
-- YMTC PN 规则先把 PN token 组合映射到 `TAS` / `HUS` / `WDS` 这类 die profile key，再 cross-reference `nand.die_profile` 生成公开 profile 字段。
-
-### assign 表达式（DecodeExpr）
-
-`assign` 的 value 允许：
-
-- 原始 JSON（字符串/数字/布尔/null/对象/数组）
+- 原始 JSON（字符串/数字/布尔/`null`/对象/数组）
 - `{ "$var": "name" }`：从上下文读取变量
-- `{ "$tpl": "..." }`：模板字符串替换 `{{var}}` 或 `{{obj.key}}`（用于 URL、拼 key 等）
+- `{ "$tpl": "..." }`：模板字符串替换 `{{var}}` 或 `{{obj.key}}`（用于 URL、拼键等）
 - `{ "$path": "obj.key" }` 或 `{ "$path": ["obj", "key"] }`：读取上下文对象内的嵌套字段
 
-当 PN 规则已经把 token 归一化成 `nand.die_profile` key（常见变量名如 `processNode` / `processKey`）时，直接复用该 key 输出 metadata：
+当 PN 规则已经把编码段归一化成 `nand.die_profile` 键（常见变量名如 `processNode` / `processKey`）时，直接复用该键输出元数据：
 
 ```json
 {
@@ -172,9 +144,9 @@ DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `
 }
 ```
 
-`takeLongest` 可设置 `keyTo`，在输入本身不是已有 profile key、需要捕获命中的表 key 时再把 key 写入上下文变量。
+`takeLongest` 可设置 `keyTo`，在输入本身不是已有规格键、需要捕获命中的表键时再把键写入上下文变量。
 
-Identifier DecodePack 的 bitfield definition 也可以直接使用 `meta.nandDieProfileKey` 或 `meta.nandDieProfileKeys` 作为输出 key；如果该值已经由同一个 definition 解出，应使用 `{"from": "die_codename"}` 复用已有输出，避免复制同一张 bitfield 表。这个 `from` 仍然是 DecodePack 显式声明，不是 compiler 自动从公开字段反推 metadata。
+标识符 DecodePack 的位域定义 `definition` 也可以直接使用 `meta.nandDieProfileKey` 或 `meta.nandDieProfileKeys` 作为输出键；如果该值已经由同一个 `definition` 解出，应使用 `{"from": "die_codename"}` 复用已有输出，避免复制同一张位域表。这个 `from` 仍然是 DecodePack 显式声明，不是编译器自动从公开字段反推元数据。
 
 上下文默认提供：
 
@@ -182,7 +154,7 @@ Identifier DecodePack 的 bitfield definition 也可以直接使用 `meta.nandDi
 - `rest`: 当前未消费的字符串
 - 每一步 `steps` 写入的变量
 
-### Native draft 输出
+### 原生草稿输出
 
 ```json
 {
@@ -209,14 +181,9 @@ Identifier DecodePack 的 bitfield definition 也可以直接使用 `meta.nandDi
 }
 ```
 
-约束：
+原生草稿的公开字段与组件约束见 [术语](pn_code/terminology.md)，维护信息边界见 [可信度策略](pn_code/reference_policy.md)。
 
-- `assign` 必须输出 fdnext-native draft，不再输出旧 FD 形态的扁平顶层字段。
-- `fields.*` 必须使用 `packages/core/src/field-registry.ts` 中的 canonical key。
-- 可信度、来源、reference status 等维护信息统一放入 `docs/pn_code/evidence/decodepack-references.json` 或 PN 文档，不能进入 DecodePack 内部表、`fields` 或公开 result。
-- composite 产品（例如 eMCP/uMCP）应使用 `components` 表达 storage / DRAM 子组件，不新增产品专属 public key。
-
-## 3. Steps 操作符（op）
+## 3. 步骤操作符（`op`）
 
 以下是当前 `tokenDecoder.steps` 支持的 `op`（与实现保持一致）：
 
@@ -225,10 +192,10 @@ Identifier DecodePack 的 bitfield definition 也可以直接使用 `meta.nandDi
   - 行为：若 `rest.length < len`，则 `to=""`，且不消耗 `rest`
 - `map`: 表映射
   - 参数：`from`, `table`, `to`, `default`
-  - 行为：`tables[table][context[from]]` 存在则赋值，否则使用 `default`；`tables` 包含顶层 `sharedTables` 与当前 `tokenDecoder.tables`，并支持 object / identity 数组 / alias-entry 数组三种表形态
+  - 行为：`tables[table][context[from]]` 存在则赋值，否则使用 `default`；`tables` 包含顶层 `sharedTables` 与当前 `tokenDecoder.tables`，并支持对象 / 身份数组 / 别名-条目数组三种表形态
 - `takeLongest`: 最长前缀匹配 + 消费
   - 参数：`table`, `to`, `default`，可选 `scope`, `scopeSeparator`
-  - 行为：对 `tables[table]` 的 key 按长度降序匹配 `rest` 开头，匹配成功会消耗相应长度并写入值；`tables` 同样包含顶层 `sharedTables` 与当前 `tokenDecoder.tables`，并支持 object / identity 数组 / alias-entry 数组三种表形态；如设置 `scope`，会先按 `${scope}${scopeSeparator ?? ":"}${token}` 形式匹配 scoped key，未命中时再回退到普通 key
+  - 行为：对 `tables[table]` 的键按长度降序匹配 `rest` 开头，匹配成功会消耗相应长度并写入值；`tables` 同样包含顶层 `sharedTables` 与当前 `tokenDecoder.tables`，并支持对象 / 身份数组 / 别名-条目数组三种表形态；如设置 `scope`，会先按 `${scope}${scopeSeparator ?? ":"}${token}` 形式匹配限定范围的键，未命中时再回退到普通键
 - `stripIfPrefix`: 条件剥离前缀
   - 参数：`prefix`, 可选 `to`
   - 行为：若 `rest` 以 `prefix` 开头则剥离；如提供 `to` 则写入布尔值（是否剥离成功）
@@ -237,13 +204,13 @@ Identifier DecodePack 的 bitfield definition 也可以直接使用 `meta.nandDi
   - 行为：替换 `{{var}}` / `{{obj.key}}` 为对应上下文值（缺失则为空串）
 - `fallback`: 兜底选择
   - 参数：`primary`, `secondary`, `to`
-  - 行为：若 `primary` 未定义/为 null/为空字符串，则取 `secondary`
+  - 行为：若 `primary` 未定义/为 `null`/为空字符串，则取 `secondary`
 - `mul`: 乘法（用于密度等派生字段）
   - 参数：`a`, `b`, `to`, 可选 `default`
   - 行为：`Number(context[a]) * Number(context[b])`，非法则使用 `default` 或 0
 - `dieDensity`: 单 die 容量派生
   - 参数：`density`, `dieCount`, `to`, 可选 `default`
-  - 行为：`density` 为正有限 Mbit 数值，`dieCount` 为正整数时返回 `density / dieCount` 的 Mbit 数值，例如 `262144 / 1 -> 262144`、`1048576 / 2 -> 524288`；保留数值精度，不生成容量字符串。非法输入使用数值 `default` 或 `0`。以该结果组成 lookup key 时同样使用 Mbit 数值。
+  - 行为：`density` 为正有限 Mbit 数值，`dieCount` 为正整数时返回 `density / dieCount` 的 Mbit 数值，例如 `262144 / 1 -> 262144`、`1048576 / 2 -> 524288`；保留数值精度，不生成容量字符串。非法输入使用数值 `default` 或 `0`。以该结果组成查找键时同样使用 Mbit 数值。
 - `set`: 设置上下文常量（通常用于初始化对象）
   - 参数：`to`, `value`
 - `merge`: 合并对象（浅拷贝）
@@ -258,49 +225,30 @@ Identifier DecodePack 的 bitfield definition 也可以直接使用 `meta.nandDi
 
 ## 4. 输出字段与翻译约定
 
-iTXTech fdnext DecodePack 的 `assign` 应输出 **core 的 native decoder draft**（未翻译前）。公开结果由 `@itxtech/fdnext-core` 的 fdnext result builder 统一生成：
+`assign` 生成未翻译的原生草稿，结果构建器负责公开结果。字段键、分组、翻译、封装和默认拓扑统一见 [公开字段术语](pn_code/terminology.md)。平台侧外链使用 [运行时外部链接](INTEGRATION.md#12-运行时分发与外部链接)。
 
-- `device` 承载 vendor、chip kind、product type、PN / identifier / marking 等身份信息；这些身份字段不再复制到 `blocks`。
-- decode 结果提供 `subtitle` 作为列表/详情页的简短摘要，格式由 result builder 根据 chip kind、vendor、容量、cell level、DRAM 组合等字段生成。
-- `blocks` 使用 canonical key 和结构化对象；可跳转能力放在对应 `relations[].action`，不再输出独立的顶层 `actions[]`。
-- `label` / `display` / warning message / block label 由 field registry 与语言包生成，调用方不应从翻译文本反推语义。
-- 未知字段直接省略，不补旧响应里的 `Unknown`、空数组或 NAND-only 默认槽位。
+## 5. 规则包组织方式
 
-重要约定：
-
-- `fields.*` 和 `components[].fields.*` 中会进入公开结果的字段应使用 canonical snake_case key（例如 `operation_temperature`、`speed_grade`、`storage_interface`），不要直接写 “Operation Temperature” 这类展示字符串。`marking_code` 等身份信息由 `device` 承载，不复制进详情字段。
-- PN / identifier iTXTech fdnext DecodePack 规则源文件必须使用 canonical snake_case 输出 key；运行时不维护历史 camelCase alias，也不做旧 key 自动转换。
-- 公开 `package` 使用 `TYPE[-PIN][, DIM][, SPECIAL]`。PIN 缺失时保留 TYPE，不得补猜；TYPE 缺失但 DIM 确认时只输出 DIM；未知 package 直接省略，不输出 `Unknown`，也不要在值里保留 `mm`、`ball`、`pin` 等单位词。
-- standalone DRAM 的默认 topology 使用内部三态证明：已确认的公开 `package` 默认允许补 `dram_die_count=1`，plain DDR 还允许补 `cs_count=1`；当厂商 die/CS token 与公开 package 的来源不同，规则必须通过 `meta.dramTopologyTokenRecognized` 显式覆盖。`true` 表示 token 已识别但可以没有公开 package，`false` 表示 topology token 未知，即使其他 token 已能输出 package 也不得补默认值。这个 metadata 不进入公开 result。
-- 新增或重命名 metadata key 时，直接迁移全部 iTXTech fdnext DecodePack 源规则、语言包和测试。旧 key 应进入 `packages/core/test/decodepack/metadata-audit.test.ts` 的禁止列表，而不是进入兼容层。
-- 外部链接不要从 iTXTech fdnext DecodePack 直接泄漏到公开结果；平台侧应通过 runtime 的 External Link provider 输出到正式 `links` contract。
-
-## 5. Pack 组织方式
-
-推荐按厂商和芯片/产品线把 DecodePack JSON specs 放到单独 pack 文件（JSON 数组），例如 `samsung-ufs-token.json`，避免一个厂商的全部产品共用一个 pack：
+推荐按厂商和芯片/产品线把 DecodePack JSON 规格放到单独规则包文件（JSON 数组），例如 `samsung-ufs-token.json`，避免一个厂商的全部产品共用一个规则包：
 
 - 目录：`packages/core/src/decodepack/rules/packs`
 - 接入：`packages/core/src/decodepack/rules/default-rules.ts:1`
 
-源码里用 JSON module 直接导入：
+源码里用 JSON 模组直接导入：
 
 ```ts
 import rules from "./packs/xxx.json" with { type: "json" };
 ```
 
-仓库 `tsconfig` 已开启 `resolveJsonModule`，并且打包器配置了 `.json` loader。
+仓库 `tsconfig` 已开启 `resolveJsonModule`，并且打包器配置了 `.json` 加载器。
 
 ## 6. 如何新增/验证一个厂商解码器
 
-- 新增厂商或整盘/模组 decoder 的授权范围见根目录 [AGENTS.md](../AGENTS.md)；已有产品线维护按当前任务继续。
-- 新增 pack：`packages/core/src/decodepack/rules/packs/<vendor>-<product>-token.json`
-- 在 `default-rules.ts` 中导入并加入 `defaultPartDecodeSpecs`
-- 在 `packages/core/test/decodepack/dram/` 或 `part-number/` 添加必要的产品线行为测试，并同步厂商文档和证据。
-- 单一 pack 执行 DecodePack 检查、定向测试和 core typecheck；影响共享逻辑或跨包 contract 时再按 [验证指南](TESTING.md) 扩大范围。
+实施与文档完成条件见 [PN 编写规范](pn_code/authoring.md#完成条件)，检查范围见 [验证指南](TESTING.md)。
 
 ## 7. 维护工具
 
-DecodePack 维护工具面向 AI 和人工 review，既可通过 TypeScript API 调用，也可通过 CLI 使用。
+DecodePack 维护工具面向 AI 和人工审阅，既可通过 TypeScript API 调用，也可通过 CLI 使用。
 
 ```ts
 import {
@@ -316,7 +264,7 @@ const check = checkDecodePack(defaultDecodePack);
 const compiled = compileDecodePack(defaultDecodePack);
 const explain = explainPartDecode(defaultDecodePack, "BWCA2KZC-64G");
 
-// 自定义 pack 必须先通过校验；validate 会冻结 pack，compiler 只接受 branded 结果。
+// 自定义规则包必须先通过校验；validate 会冻结规则包，编译器只接受带校验标记的结果。
 const compileCustomPack = (pack: DecodePack) => compileDecodePack(validateDecodePack(pack));
 ```
 
@@ -332,7 +280,7 @@ pnpm cli decodepack explain id 2C64444BA900
 
 ### 7.1 按目标字段投影解码
 
-编译后的 PN decoder 支持运行时传入任意 draft path，而不是绑定固定的“搜索字段集”：
+编译后的 PN 解码器支持运行时传入任意草稿路径，而不是绑定固定的“搜索字段集”：
 
 ```ts
 for (const decoder of compiled.partDecoders) {
@@ -347,20 +295,20 @@ for (const decoder of compiled.partDecoders) {
 }
 ```
 
-compiler 会按 `assign` 表达式反向追踪变量依赖，为每组 target path 缓存执行计划；无关 step 不执行，并在最后一个必要 step 后停止。目标字段的值必须与完整 `decode()` 一致。投影结果会保留 `device.partNumber`，也可能带有计算目标所需的附加依赖字段，调用方不应把“未请求字段一定不存在”作为 contract。
+编译器会按 `assign` 表达式反向追踪变量依赖，为每组目标路径缓存执行计划；无关步骤不执行，并在最后一个必要步骤后停止。目标字段的值必须与完整 `decode()` 一致。投影结果会保留 `device.partNumber`，也可能带有计算目标所需的附加依赖字段，调用方不应把“未请求字段一定不存在”作为约定。
 
-搜索层当前所需字段由 `DEFAULT_PART_SEARCH_PROJECTION` 声明；后续结果 contract 或排序逻辑新增字段时，可通过 `createEngine({ partSearchProjection: [...] })` 追加 target path，无需修改 compiler 或新增固定 profile。
+搜索层默认依赖由 `DEFAULT_PART_SEARCH_PROJECTION` 声明；应用扩展投影见 [浏览器集成](INTEGRATION.md#2-浏览器web--前端)。
 
-## 8. Identifier iTXTech fdnext DecodePack（NAND Flash ID 概览）
+## 8. 标识符 DecodePack（NAND Flash ID 概览）
 
-NAND Flash ID 解码通过 typed identifier iTXTech fdnext DecodePack 表达，规则必须声明 `idScheme: "nand.flash_id"`。输入仍按“字节偏移 + bitfield 规则”描述，并编译为 `IdentifierDecoder`。
+NAND Flash ID 解码通过带类型的标识符 iTXTech fdnext DecodePack 表达，规则必须声明 `idScheme: "nand.flash_id"`。输入仍按“字节偏移 + 位域规则”描述，并编译为 `IdentifierDecoder`。
 
-### 8.1 Pack 位置
+### 8.1 规则包位置
 
-- Identifier packs：`packages/core/src/decodepack/identifier/packs/*.json`
+- 标识符规则包：`packages/core/src/decodepack/identifier/packs/*.json`
 - 接入入口：`packages/core/src/decodepack/identifier/default-rules.ts:1`
 
-源码里同样用 JSON module 直接导入：
+源码里同样用 JSON 模组直接导入：
 
 ```ts
 import rules from "./packs/xxx.json" with { type: "json" };
@@ -368,7 +316,7 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 ### 8.2 IdentifierDecodeSpec 结构
 
-每个 pack 文件是一个 JSON 数组，元素结构如下：
+每个规则包文件是一个 JSON 数组，元素结构如下：
 
 ```json
 {
@@ -387,40 +335,36 @@ import rules from "./packs/xxx.json" with { type: "json" };
 
 字段说明：
 
-- `id`: spec 唯一标识；内置 Flash ID spec 统一使用 `flashid.<vendor>[.<family-or-profile>].vN`
-- `idScheme`: identifier namespace，目前 NAND Flash ID 使用 `nand.flash_id`
+- `id`: 规范唯一标识；内置 Flash ID 规范统一使用 `flashid.<vendor>[.<family-or-profile>].vN`
+- `idScheme`: 标识符命名空间，目前 NAND Flash ID 使用 `nand.flash_id`
 - `priority`: 优先级（越大越优先）
-- `match`: 匹配 identifier（支持 `prefix` / `regex`）
-- `vendor`: 厂商 key（用于语言包翻译与展示）
-- `definition`: bitfield spec 定义
+- `match`: 匹配标识符（支持 `prefix` / `regex`）
+- `vendor`: 厂商键（用于语言包翻译与展示）
+- `definition`: 位域规范定义
 
-内置 Flash ID spec 的 vendor 段必须与 `vendor` 字段一致；层级使用 `.`，复合词使用 `-`，不使用 `_`。`identifier`、`nand_flash_id`、`parallel` 等已由模块和 `idScheme` 表达的信息不再重复写入 `id`。
+内置 Flash ID 规范的厂商段必须与 `vendor` 字段一致；层级使用 `.`，复合词使用 `-`，不使用 `_`。`identifier`、`nand_flash_id`、`parallel` 等已由模块和 `idScheme` 表达的信息不再重复写入 `id`。
 
-### 8.3 definition（字节偏移 + bitfield）
+### 8.3 字段定义 `definition`（字节偏移与位域）
 
-- `definition` 的第一层 key 是 **字节偏移（字符串数字）**，并且是 **1-based**。
+- `definition` 的第一层键是 **字节偏移（字符串数字）**，并且是 **从 1 开始计数**。
   - 例如 `"1"` 表示第 1 个字节（厂商 ID），`"2"` 表示第 2 个字节。
-- 输入 NAND Flash ID 以 12 个 hex 字符（6 字节）为基准；不足会由 core 的内部 NAND Flash ID decoder 在末尾补 `0`。
+- 输入 NAND Flash ID 以 12 个十六进制字符（6 字节）为基准；不足会由核心的内部 NAND Flash ID 解码器在末尾补 `0`。
 - 每个字段由：
-  - `dq`: bit 位列表，按 spec 定义顺序拼接
-  - `def`: 从 bitfield 数值（字符串）映射到输出值（number/string/bool）
-  - 可选 `when`: 按 1-based 字节偏移限制 rule，例如 `{ "2": ["05", "09"] }`
-- 字段名直接使用 canonical field key（例如 `interface_type`、`timing_mode_async`、`ecc_level`）。
-- 同一字段可以写成 rule 数组，编译器会按顺序使用第一个 `when` 命中且 `def` 可解析的 rule。常见用途是先放完整字节精确表，再回落到旧的 bitfield 规则。
+  - `dq`: 位位列表，按规范定义顺序拼接
+  - `def`: 从位域数值（字符串）映射到输出值（number/string/bool）
+  - 可选 `when`: 按从 1 开始计数字节偏移限制规则，例如 `{ "2": ["05", "09"] }`
+- 字段名直接使用规范字段键（例如 `interface_type`、`timing_mode_async`、`ecc_level`）。
+- 同一字段可以写成规则数组，编译器会按顺序使用第一个 `when` 命中且 `def` 可解析的规则。常见用途是先放完整字节精确表，再回落到旧的位域规则。
 
-### 8.4 NAND Flash ID 后处理（core 内置）
+### 8.4 NAND Flash ID 后处理（核心内置）
 
-部分 NAND Flash ID 需要“解码后再修正”的逻辑，无法用纯 bitfield iTXTech fdnext DecodePack 表达，因此在 `@itxtech/fdnext-core` 内置了 NAND Flash ID post-process：
+部分 NAND Flash ID 需要“解码后再修正”的逻辑，无法用纯位域 iTXTech fdnext DecodePack 表达，因此在 `@itxtech/fdnext-core` 内置了 NAND Flash ID 后处理：
 
 - Samsung：当 byte2 == `0xDE`，密度强制为 64Gbit
 - SKHynix：`plane_count = simultaneously_programmed_pages`
-- SKHynix：当 byte6 >= `0x50`（14nm+）清理不适用的 timing/interface/ECC 细节字段
+- SKHynix：当 byte6 >= `0x50`（14nm+）清理不适用的时序/接口/ECC 细节字段
 - Kioxia / WesternDigital：当 `plane_count` 与 `die_count` 都有效时，`plane_count = plane_count / die_count`
 
 ### 8.5 如何新增/验证 NAND Flash ID 解码器
 
-- 新增厂商需符合根目录 [AGENTS.md](../AGENTS.md) 的授权范围。
-- 新增 pack：`packages/core/src/decodepack/identifier/packs/<vendor>.json`
-- 在 `packages/core/src/decodepack/identifier/default-rules.ts:1` 中导入并加入 `defaultIdentifierDecodeSpecs`
-- 在对应 identifier 测试中覆盖改变的行为；只有跨包 contract 行为改变时才更新相应 contract testcase。
-- 单一 pack 使用 DecodePack 检查、定向测试和 core typecheck；编译器或共享后处理变化按 [验证指南](TESTING.md) 运行 core 全量，跨包消费面变化再做 contract 检查。
+注册位置见 [规则包位置](#81-规则包位置)，厂商扩展范围见 [AGENTS.md](../AGENTS.md)。在对应标识符测试中覆盖改变的行为；检查范围统一见 [验证指南](TESTING.md)。

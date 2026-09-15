@@ -4,11 +4,11 @@
 
 ## 当前结论
 
-本轮未找到 KIOXIA 官方公开 eMCP PN ordering table。网络上可见少量 Toshiba/KIOXIA eMCP 料号的第三方库存页或维修供应页，但信息通常只给出组合容量、LPDDR 类型或封装，缺少可验证的逐 token 规则表。
+本轮未找到 KIOXIA 官方公开 eMCP PN 订购编码表。网络上可见少量 Toshiba/KIOXIA eMCP 料号的第三方库存页或维修供应页，但信息通常只给出组合容量、LPDDR 类型或封装，缺少可验证的逐编码段规则表。
 
-Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3 覆盖 raw NAND 和 `NAND w/ controller`，可用于 KIOXIA raw NAND、eMMC 和 E2NAND/SmartNAND token 解释；该资料没有给出 NAND + DRAM MCP / eMCP 的逐 token ordering table，因此不能作为 `TYD/ TYE` 等 eMCP 候选的规则准入依据。
+Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3 覆盖裸 NAND 和 `NAND w/ controller`，可用于 KIOXIA 裸 NAND、eMMC 和 E2NAND/SmartNAND 编码段解释；该资料没有给出 NAND + DRAM MCP / eMCP 的逐编码段订购编码表，因此不能作为 `TYD/ TYE` 等 eMCP 候选的规则准入依据。
 
-2026-05-08 复查 `fdb/fdfdb` 后，未发现这些候选 PN 与本地 flash id 表形成可用交叉验证；因此仍停留在记录层。
+2026-05-08 复查 `fdb/fdfdb` 后，未发现这些候选 PN 与本地 Flash ID 表形成可用交叉验证；因此仍停留在记录层。
 
 ## 已见候选
 
@@ -25,14 +25,14 @@ Toshiba `Part Number Decoder for Toshiba NAND Flash`, Rev.1.3 覆盖 raw NAND �
 
 原因：
 
-- 未找到原厂 PN decoder 或 ordering table。
-- 第三方页面不足以推导 series、NAND 容量、DRAM 容量、LPDDR 类型、封装等 token 的稳定含义。
+- 未找到原厂 PN 解码器或订购编码表。
+- 第三方页面不足以推导系列、NAND 容量、DRAM 容量、LPDDR 类型、封装等编码段的稳定含义。
 - 不允许用完整 PN 白名单直接匹配。
 
 ## 后续准入要求
 
 若后续找到原厂资料，eMCP 输出需要使用统一 MCP 字段：
 
-- storage: `storage_density`、`storage_interface`
+- 存储: `storage_density`、`storage_interface`
 - DRAM: `dram_type`、`dram_density`、`dram_speed`、`dram_voltage`
-- package/class: `package`、`product_class`、`operation_temperature`
+- 封装/类别: `package`、`product_class`、`operation_temperature`

@@ -1,6 +1,6 @@
 import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, extname, resolve } from "node:path";
-import { createEngine, type FdnextEngine, type FdnextResourceBundle, type IdentifierDecodeDraft, type PartDecodeDraft } from "@itxtech/fdnext-core";
+import { getDefaultRelationMatcher } from "./relation-matcher";
 import { CONTROLLER_GENERATORS, type ControllerMergeContext } from "./controllers";
 import { normalizeExtraPayload } from "./extra";
 import { isLowConfidenceFlashPayload } from "./flash-payload";
@@ -31,38 +31,6 @@ interface LoadedExtraPayload {
 
 const DEFAULT_CONTROLLER_BLACKLIST = ["3281FL", "3379FL"];
 const MIN_SAMSUNG_K9_PART_NUMBER_LENGTH = "K9OKGY8S7C".length;
-
-interface DecodePackRelationMatcher {
-  partProfile(vendor: string, partNumber: string): RelationProfile;
-  identifierProfile(flashId: string): RelationProfile;
-}
-
-interface RelationProfile {
-  keys: Set<string>;
-  labels: Set<string>;
-  diesPerCe?: number;
-}
-
-type RelationCompatibility = "compatible" | "conflict" | "unknown";
-
-let defaultRelationMatcher: DecodePackRelationMatcher | undefined;
-
-const relationMatcherResources = {
-  partIndex: {
-    rawNand: {},
-    managedNand: [],
-    dram: []
-  },
-  identifierIndex: {
-    nandFlash: {}
-  },
-  markingIndex: {
-    packageMarkings: {}
-  },
-  vendorIndex: {},
-  controllerIndex: {},
-  translationIndex: {}
-} satisfies FdnextResourceBundle;
 
 function asRecord(value: unknown): Record<string, unknown> {
   return value && typeof value === "object" && !Array.isArray(value) ? (value as Record<string, unknown>) : {};
@@ -157,140 +125,6 @@ function mergeStringArray(target: string[] | undefined, source: string[], toUppe
     set.add(toUpper ? text.toUpperCase() : text);
   }
   return [...set];
-}
-
-function positiveIntegerField(
-  draft: PartDecodeDraft | IdentifierDecodeDraft | null | undefined,
-  field: "die_count" | "ce_count"
-): number | undefined {
-  const value = draft?.fields?.[field];
-  if (typeof value === "number" && Number.isSafeInteger(value) && value > 0) {
-    return value;
-  }
-  if (typeof value !== "string" || !/^\d+$/.test(value.trim())) {
-    return undefined;
-  }
-  const parsed = Number(value);
-  return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : undefined;
-}
-
-function readRelationProfileFromDraft(
-  draft: PartDecodeDraft | IdentifierDecodeDraft | null | undefined,
-  side: "part" | "identifier"
-): RelationProfile {
-  const keys = new Set<string>();
-  const labels = new Set<string>();
-  const meta = draft?.meta;
-  const primary = typeof meta?.nandDieProfileKey === "string" ? meta.nandDieProfileKey.trim() : "";
-  if (primary) {
-    keys.add(primary);
-  }
-  if (Array.isArray(meta?.nandDieProfileKeys)) {
-    for (const item of meta.nandDieProfileKeys) {
-      const text = typeof item === "string" ? item.trim() : "";
-      if (text) {
-        keys.add(text);
-      }
-    }
-  }
-  const dieCodename = typeof draft?.fields?.die_codename === "string" ? draft.fields.die_codename.trim() : "";
-  if (dieCodename) {
-    labels.add(dieCodename);
-  }
-
-  const dieCount = positiveIntegerField(draft, "die_count");
-  if (side === "identifier") {
-    return { keys, labels, ...(dieCount !== undefined ? { diesPerCe: dieCount } : {}) };
-  }
-
-  const ceCount = positiveIntegerField(draft, "ce_count");
-  const diesPerCe = dieCount !== undefined && ceCount !== undefined && dieCount >= ceCount && dieCount % ceCount === 0
-    ? dieCount / ceCount
-    : undefined;
-  return { keys, labels, ...(diesPerCe !== undefined ? { diesPerCe } : {}) };
-}
-
-function draftVendor(draft: PartDecodeDraft | IdentifierDecodeDraft | null | undefined): string {
-  const vendor = draft?.device?.vendor;
-  return typeof vendor === "string" ? normalizeVendor(vendor) : "";
-}
-
-function getDefaultRelationMatcher(): DecodePackRelationMatcher {
-  if (defaultRelationMatcher) {
-    return defaultRelationMatcher;
-  }
-
-  const engine: FdnextEngine = createEngine({ resources: relationMatcherResources });
-  const partCache = new Map<string, RelationProfile>();
-  const identifierCache = new Map<string, RelationProfile>();
-
-  defaultRelationMatcher = {
-    partProfile(vendor, partNumber) {
-      const normalizedVendor = normalizeVendor(vendor);
-      const cacheKey = `${normalizedVendor} ${partNumber}`;
-      const cached = partCache.get(cacheKey);
-      if (cached) {
-        return cached;
-      }
-
-      const draft = engine.decodePartDraft({
-        query: partNumber,
-        constraints: normalizedVendor ? { vendor: normalizedVendor } : undefined
-      });
-      const decodedVendor = draftVendor(draft);
-      const profile = normalizedVendor && decodedVendor && decodedVendor !== "unknown" && !isCompatibleVendor(normalizedVendor, decodedVendor)
-        ? { keys: new Set<string>(), labels: new Set<string>() }
-        : readRelationProfileFromDraft(draft, "part");
-      partCache.set(cacheKey, profile);
-      return profile;
-    },
-    identifierProfile(flashId) {
-      const cached = identifierCache.get(flashId);
-      if (cached) {
-        return cached;
-      }
-
-      const profile = readRelationProfileFromDraft(
-        engine.decodeIdentifierDraft({ query: flashId, idScheme: "nand.flash_id" }),
-        "identifier"
-      );
-      identifierCache.set(flashId, profile);
-      return profile;
-    }
-  };
-  return defaultRelationMatcher;
-}
-
-function setsIntersect(left: Set<string>, right: Set<string>): boolean {
-  for (const item of left) {
-    if (right.has(item)) {
-      return true;
-    }
-  }
-  return false;
-}
-
-function processCompatibility(partProfile: RelationProfile, identifierProfile: RelationProfile): RelationCompatibility {
-  if (partProfile.keys.size === 0 || identifierProfile.keys.size === 0) {
-    return "unknown";
-  }
-  return setsIntersect(partProfile.keys, identifierProfile.keys) || setsIntersect(partProfile.labels, identifierProfile.labels)
-    ? "compatible"
-    : "conflict";
-}
-
-function topologyCompatibility(partProfile: RelationProfile, identifierProfile: RelationProfile): RelationCompatibility {
-  if (partProfile.diesPerCe === undefined || identifierProfile.diesPerCe === undefined) {
-    return "unknown";
-  }
-  return partProfile.diesPerCe === identifierProfile.diesPerCe ? "compatible" : "conflict";
-}
-
-function shouldKeepRelation(partProfile: RelationProfile, identifierProfile: RelationProfile): boolean {
-  return (
-    processCompatibility(partProfile, identifierProfile) !== "conflict" &&
-    topologyCompatibility(partProfile, identifierProfile) !== "conflict"
-  );
 }
 
 function buildControllerBlacklist(...sources: Array<unknown>): Set<string> {
@@ -512,7 +346,8 @@ function recordPartTrace(
   rawVendor: string,
   rawPartNumber: string,
   normalizedVendor: string,
-  normalizedPartNumber: string
+  normalizedPartNumber: string,
+  payload: PartNumberPayload
 ): void {
   trace?.record({
     target: "part",
@@ -520,8 +355,8 @@ function recordPartTrace(
     vendor: normalizedVendor,
     partNumber: normalizedPartNumber,
     source,
-    raw: { vendor: rawVendor, partNumber: rawPartNumber },
-    normalized: { vendor: normalizedVendor, partNumber: normalizedPartNumber }
+    raw: { vendor: rawVendor, partNumber: rawPartNumber, payload: { ...payload } },
+    normalized: { vendor: normalizedVendor, partNumber: normalizedPartNumber, payload: { ...payload } }
   });
 }
 
@@ -530,15 +365,16 @@ function recordFlashTrace(
   decision: string,
   source: FdbProvenanceSource | undefined,
   rawFlashId: string,
-  normalizedFlashId: string
+  normalizedFlashId: string,
+  payload: FlashIdPayload
 ): void {
   trace?.record({
     target: "flash",
     decision,
     flashId: normalizedFlashId,
     source,
-    raw: { flashId: rawFlashId },
-    normalized: { flashId: normalizedFlashId }
+    raw: { flashId: rawFlashId, payload: { ...payload } },
+    normalized: { flashId: normalizedFlashId, payload: { ...payload } }
   });
 }
 
@@ -565,7 +401,7 @@ function mergePartPayload(
   const vendorMap = ensureVendor(vendors, correctedVendor);
   const next = mergePartNumber(correctedVendor, vendorMap.get(normalizedPn), payload);
   vendorMap.set(normalizedPn, next);
-  recordPartTrace(trace, decision, source, vendor, partNumber, correctedVendor, normalizedPn);
+  recordPartTrace(trace, decision, source, vendor, partNumber, correctedVendor, normalizedPn, payload);
   return next;
 }
 
@@ -583,7 +419,7 @@ function mergeFlashPayload(
   }
   const next = mergeFlashId(iddb.get(normalizedId), payload);
   iddb.set(normalizedId, next);
-  recordFlashTrace(trace, decision, source, id, normalizedId);
+  recordFlashTrace(trace, decision, source, id, normalizedId, payload);
   return next;
 }
 
@@ -719,7 +555,7 @@ function addControllersToMatchingFlashId(
       }
       payload.t = mergeStringArray(payload.t, controllers, false);
       mergeFlashPayload(iddb, id, { ...(patch ?? {}), t: controllers }, trace, source, "add_controllers_to_matching_flash_id");
-      recordPartTrace(trace, "add_controllers_to_matching_flash_id", source, vendor, partNumber, normalizeVendor(vendor), partNumber);
+      recordPartTrace(trace, "add_controllers_to_matching_flash_id", source, vendor, partNumber, normalizeVendor(vendor), partNumber, { id: [id], t: controllers });
       found = true;
       return false;
     }
@@ -821,9 +657,20 @@ function canonicalizeVendorRecords(vendors: VendorMap): void {
 }
 
 function pruneLowInformationPartRecords(vendors: VendorMap): void {
+  // An incoming, source-provided PN alias is useful information even after an
+  // incorrect Flash ID edge is removed. Keep that existing PN node reachable.
+  const referencedParts = new Set<string>();
+  for (const parts of vendors.values()) {
+    for (const payload of parts.values()) {
+      for (const alias of payload.a ?? []) {
+        const reference = normalizeFdbPartReference(alias);
+        if (reference) referencedParts.add(reference);
+      }
+    }
+  }
   for (const [vendor, records] of [...vendors.entries()]) {
     for (const [partNumber, payload] of [...records.entries()]) {
-      if (isLowInformationPartPayload(payload)) {
+      if (isLowInformationPartPayload(payload) && !referencedParts.has(`${vendor} ${partNumber}`)) {
         records.delete(partNumber);
       }
     }
@@ -850,25 +697,42 @@ function pruneCrossVendorPartIds(vendors: VendorMap): void {
   }
 }
 
-function filterFlashIdRelations(vendor: string, partNumber: string, ids: string[] | undefined, matcher: DecodePackRelationMatcher): string[] | undefined {
-  const partProfile = matcher.partProfile(vendor, partNumber);
-  const kept = ids?.filter((id) => shouldKeepRelation(partProfile, matcher.identifierProfile(id))) ?? [];
-  return kept.length > 0 ? kept : undefined;
-}
-
-function trimMismatchedRelations(vendors: VendorMap, iddb: FlashIdMap): Set<string> {
+function trimMismatchedRelations(vendors: VendorMap, iddb: FlashIdMap, trace?: FdbProvenanceTrace): Set<string> {
   const matcher = getDefaultRelationMatcher();
   const trimmedFlashIds = new Set<string>();
+  const recorded = new Set<string>();
+  const keep = (vendor: string, partNumber: string, flashId: string): boolean => {
+    const decision = matcher.evaluate(vendor, partNumber, flashId);
+    const key = `${vendor} ${partNumber} ${flashId}`;
+    if (trace && !recorded.has(key)) {
+      recorded.add(key);
+      trace.record({
+        target: "part", vendor, partNumber, flashId,
+        decision: `relation.${decision.status}`,
+        source: trace.part(vendor, partNumber).find(record => {
+          const payload = asRecord(record.normalized?.payload);
+          return [...toStringArray(payload.id), ...toStringArray(payload.f)].includes(flashId);
+        })?.source,
+        normalized: { ...decision, part: matcher.partFacts(vendor, partNumber), identifier: matcher.identifierFacts(flashId) }
+      });
+    }
+    if (decision.status === "conflict") trimmedFlashIds.add(flashId);
+    return decision.status !== "conflict";
+  };
+  const filter = (vendor: string, partNumber: string, ids?: string[]) => {
+    const kept = ids?.filter(id => keep(vendor, partNumber, id));
+    return kept?.length ? kept : undefined;
+  };
   for (const [vendor, parts] of vendors.entries()) {
     for (const [partNumber, payload] of parts.entries()) {
-      const ids = filterFlashIdRelations(vendor, partNumber, payload.id, matcher);
+      const ids = filter(vendor, partNumber, payload.id);
       if (ids) {
         payload.id = ids;
       } else {
         delete payload.id;
       }
 
-      const linkedIds = filterFlashIdRelations(vendor, partNumber, payload.f, matcher);
+      const linkedIds = filter(vendor, partNumber, payload.f);
       if (linkedIds) {
         payload.f = linkedIds;
       } else {
@@ -878,7 +742,6 @@ function trimMismatchedRelations(vendors: VendorMap, iddb: FlashIdMap): Set<stri
   }
 
   for (const [flashId, payload] of iddb.entries()) {
-    const identifierProfile = matcher.identifierProfile(flashId);
     const refs: string[] = [];
     let removedForConflict = false;
     for (const rawReference of payload.n ?? []) {
@@ -890,7 +753,7 @@ function trimMismatchedRelations(vendors: VendorMap, iddb: FlashIdMap): Set<stri
       if (!vendor || !partNumber || !vendors.get(vendor)?.has(partNumber)) {
         continue;
       }
-      if (shouldKeepRelation(matcher.partProfile(vendor, partNumber), identifierProfile)) {
+      if (keep(vendor, partNumber, flashId)) {
         refs.push(reference);
       } else {
         removedForConflict = true;
@@ -1386,7 +1249,7 @@ function generateFdbInternal(options: GenerateFdbOptions, trace?: FdbProvenanceT
   pruneLowInformationPartRecords(vendors);
   canonicalizeIddbReferences(iddb, vendors);
   linkPartFlashIds(vendors, iddb);
-  const trimmedFlashIds = trimMismatchedRelations(vendors, iddb);
+  const trimmedFlashIds = trimMismatchedRelations(vendors, iddb, trace);
   pruneLowInformationPartRecords(vendors);
   canonicalizeIddbReferences(iddb, vendors);
   pruneLowConfidenceFlashRecords(vendors, iddb, trimmedFlashIds);

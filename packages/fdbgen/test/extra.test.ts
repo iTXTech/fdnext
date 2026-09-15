@@ -357,19 +357,19 @@ test("fdbgen prunes cross-vendor PN ids and iddb references", () => {
         info: { version: "raw" },
         micron: {
           MT29F128G08EBEBB: {
-            id: ["2C844863A904", "89844432AA04", "B5844432AA04"],
+            id: ["2C844863A904", "89A46432AA04", "B5844863A904"],
             t: ["RAWCTRL"]
           }
         },
         intel: {
           PF29F32B2ALCMG2: {
-            id: ["2C844863A904", "89844432AA04", "B5844432AA04"],
+            id: ["2C844863A904", "89A46432AA04", "B5844863A904"],
             t: ["RAWCTRL"]
           }
         },
         spectek: {
           FBNL06B256G1KDBAB: {
-            id: ["2C844863A904", "89844432AA04", "B5844432AA04"],
+            id: ["2C844863A904", "89A46432AA04", "B5844863A904"],
             t: ["RAWCTRL"]
           }
         },
@@ -378,11 +378,11 @@ test("fdbgen prunes cross-vendor PN ids and iddb references", () => {
             t: ["RAWCTRL"],
             n: ["micron MT29F128G08EBEBB", "intel PF29F32B2ALCMG2", "spectek FBNL06B256G1KDBAB"]
           },
-          "89844432AA04": {
+          "89A46432AA04": {
             t: ["RAWCTRL"],
             n: ["micron MT29F128G08EBEBB", "intel PF29F32B2ALCMG2", "spectek FBNL06B256G1KDBAB"]
           },
-          B5844432AA04: {
+          B5844863A904: {
             t: ["RAWCTRL"],
             n: ["micron MT29F128G08EBEBB", "intel PF29F32B2ALCMG2", "spectek FBNL06B256G1KDBAB"]
           }
@@ -396,12 +396,12 @@ test("fdbgen prunes cross-vendor PN ids and iddb references", () => {
     const intel = fdb.intel as Record<string, { id?: string[] }>;
     const spectek = fdb.spectek as Record<string, { id?: string[] }>;
     const iddb = fdb.iddb as Record<string, { n?: string[] }>;
-    assert.deepEqual(micron.MT29F128G08EBEBB?.id, ["2C844863A904", "B5844432AA04"]);
-    assert.deepEqual(intel.PF29F32B2ALCMG2?.id, ["89844432AA04"]);
-    assert.deepEqual(spectek.FBNL06B256G1KDBAB?.id, ["2C844863A904", "B5844432AA04"]);
+    assert.deepEqual(micron.MT29F128G08EBEBB?.id, ["2C844863A904", "B5844863A904"]);
+    assert.deepEqual(intel.PF29F32B2ALCMG2?.id, ["89A46432AA04"]);
+    assert.deepEqual(spectek.FBNL06B256G1KDBAB?.id, ["2C844863A904", "B5844863A904"]);
     assert.deepEqual(iddb["2C844863A904"]?.n, ["micron MT29F128G08EBEBB", "spectek FBNL06B256G1KDBAB"]);
-    assert.deepEqual(iddb["89844432AA04"]?.n, ["intel PF29F32B2ALCMG2"]);
-    assert.deepEqual(iddb.B5844432AA04?.n, ["micron MT29F128G08EBEBB", "spectek FBNL06B256G1KDBAB"]);
+    assert.deepEqual(iddb["89A46432AA04"]?.n, ["intel PF29F32B2ALCMG2"]);
+    assert.deepEqual(iddb.B5844863A904?.n, ["micron MT29F128G08EBEBB", "spectek FBNL06B256G1KDBAB"]);
   } finally {
     rmSync(inputDir, { recursive: true, force: true });
   }
@@ -416,16 +416,16 @@ test("fdbgen trims PN and Flash ID edges with conflicting DecodePack profile met
         info: { version: "raw" },
         samsung: {
           K9AAGD8U0B: {
-            id: ["ECD788BF90C5", "ECD788BF90C6"],
+            id: ["ECD588BF90C5", "ECD588BF90C6"],
             t: ["RAWCTRL"]
           }
         },
         iddb: {
-          ECD788BF90C5: {
+          ECD588BF90C5: {
             t: ["RAWCTRL"],
             n: ["samsung K9AAGD8U0B"]
           },
-          ECD788BF90C6: {
+          ECD588BF90C6: {
             t: ["RAWCTRL"],
             n: ["samsung K9AAGD8U0B"]
           }
@@ -437,9 +437,9 @@ test("fdbgen trims PN and Flash ID edges with conflicting DecodePack profile met
     const fdb = generateFdb({ inputDir, version: "test" });
     const samsung = fdb.samsung as Record<string, { id?: string[] }>;
     const iddb = fdb.iddb as Record<string, { n?: string[] }>;
-    assert.deepEqual(samsung.K9AAGD8U0B?.id, ["ECD788BF90C5"]);
-    assert.deepEqual(iddb.ECD788BF90C5?.n, ["samsung K9AAGD8U0B"]);
-    assert.deepEqual(iddb.ECD788BF90C6, { t: ["RAWCTRL"] });
+    assert.deepEqual(samsung.K9AAGD8U0B?.id, ["ECD588BF90C5"]);
+    assert.deepEqual(iddb.ECD588BF90C5?.n, ["samsung K9AAGD8U0B"]);
+    assert.deepEqual(iddb.ECD588BF90C6, { t: ["RAWCTRL"] });
   } finally {
     rmSync(inputDir, { recursive: true, force: true });
   }
@@ -598,16 +598,16 @@ test("fdbgen removes only mismatched PN references from shared iddb records", ()
         info: { version: "raw" },
         samsung: {
           K9AAGD8U0B: {
-            id: ["ECD788BF90C5"],
+            id: ["ECD588BF90C5"],
             t: ["RAWCTRL"]
           },
           K9GBG08U0A: {
-            id: ["ECD788BF90C5"],
+            id: ["ECD588BF90C5"],
             t: ["RAWCTRL"]
           }
         },
         iddb: {
-          ECD788BF90C5: {
+          ECD588BF90C5: {
             t: ["RAWCTRL"],
             n: ["samsung K9AAGD8U0B", "samsung K9GBG08U0A"]
           }
@@ -619,9 +619,9 @@ test("fdbgen removes only mismatched PN references from shared iddb records", ()
     const fdb = generateFdb({ inputDir, version: "test" });
     const samsung = fdb.samsung as Record<string, { id?: string[] }>;
     const iddb = fdb.iddb as Record<string, { n?: string[] }>;
-    assert.deepEqual(samsung.K9AAGD8U0B?.id, ["ECD788BF90C5"]);
+    assert.deepEqual(samsung.K9AAGD8U0B?.id, ["ECD588BF90C5"]);
     assert.equal(samsung.K9GBG08U0A?.id, undefined);
-    assert.deepEqual(iddb.ECD788BF90C5?.n, ["samsung K9AAGD8U0B"]);
+    assert.deepEqual(iddb.ECD588BF90C5?.n, ["samsung K9AAGD8U0B"]);
   } finally {
     rmSync(inputDir, { recursive: true, force: true });
   }
@@ -661,14 +661,18 @@ test("normalizes SK hynix H25 package suffixes without dropping the X tail", () 
   assert.equal(parsed.vendors?.skhynix?.["H25T2TB88E-X321-N"], undefined);
 });
 
-test("normalizes Micron and SpecTek package suffixes through DecodePack lookup metadata", () => {
-  assert.equal(normalizeKnownFdbPackage("micron", "MT29F16T08EWLEHD6-36ITRES:E"), "MT29F16T08EWLEH");
-  assert.equal(normalizeKnownFdbPackage("micron", "MT29F64G08CBCBBH1-12:B"), "MT29F64G08CBCBB");
-  assert.equal(normalizeKnownFdbPackage("micron", "FBMB17A4T1KDUANM4"), "FBMB17A4T1KDUAN");
-  assert.equal(normalizeKnownFdbPackage("spectek", "FBNL06B256G1KDBABH4"), "FBNL06B256G1KDBAB");
+test("preserves complete Micron and SpecTek PN identity including package and grading", () => {
+  assert.equal(normalizeFdbPartNumber("MT29F64G08CBCBBH1-12"), "MT29F64G08CBCBBH1-12");
+  assert.equal(normalizeFdbPartNumber("MT29F16T08GWLCE_4LUN"), "MT29F16T08GWLCE");
+  assert.equal(normalizeFdbPartNumber("MT29F1T08EELEE_B47R"), "MT29F1T08EELEE");
+  assert.equal(normalizeFdbPartNumber("MT29F32G08EBAAWP(384"), "MT29F32G08EBAAWP");
+  assert.equal(normalizeKnownFdbPackage("micron", "MT29F16T08EWLEHD6-36ITRES:E"), "MT29F16T08EWLEHD6-36ITRES:E");
+  assert.equal(normalizeKnownFdbPackage("micron", "MT29F64G08CBCBBH1-12:B"), "MT29F64G08CBCBBH1-12:B");
+  assert.equal(normalizeKnownFdbPackage("micron", "FBMB17A4T1KDUANM4"), "FBMB17A4T1KDUANM4");
+  assert.equal(normalizeKnownFdbPackage("spectek", "FBNL06B256G1KDBABH4-6AL"), "FBNL06B256G1KDBABH4-6AL");
 });
 
-test("fdbgen writes DecodePack lookup PN metadata as canonical FDB keys", () => {
+test("fdbgen keeps full PN identity separate from DecodePack lookup keys", () => {
   const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-lookup-pn-"));
   try {
     writeFileSync(
@@ -709,12 +713,12 @@ test("fdbgen writes DecodePack lookup PN metadata as canonical FDB keys", () => 
     const micron = fdb.micron as Record<string, { id?: string[] }>;
     const spectek = fdb.spectek as Record<string, { id?: string[] }>;
     const iddb = fdb.iddb as Record<string, { n?: string[] }>;
-    assert.deepEqual(micron.MT29F16T08EWLEH?.id, ["2CF38A32E834"]);
-    assert.equal(micron["MT29F16T08EWLEHD6-36ITRES:E"], undefined);
-    assert.deepEqual(spectek.FBNL06B256G1KDBAB?.id, ["B5844432AA04"]);
-    assert.equal(spectek.FBNL06B256G1KDBABH4, undefined);
-    assert.deepEqual(iddb["2CF38A32E834"]?.n, ["micron MT29F16T08EWLEH"]);
-    assert.deepEqual(iddb.B5844432AA04?.n, ["spectek FBNL06B256G1KDBAB"]);
+    assert.deepEqual(micron["MT29F16T08EWLEHD6-36ITRES:E"]?.id, ["2CF38A32E834"]);
+    assert.equal(micron.MT29F16T08EWLEH, undefined);
+    assert.deepEqual(spectek.FBNL06B256G1KDBABH4?.id, ["B5844432AA04"]);
+    assert.equal(spectek.FBNL06B256G1KDBAB, undefined);
+    assert.deepEqual(iddb["2CF38A32E834"]?.n, ["micron MT29F16T08EWLEHD6-36ITRES:E"]);
+    assert.deepEqual(iddb.B5844432AA04?.n, ["spectek FBNL06B256G1KDBABH4"]);
   } finally {
     rmSync(inputDir, { recursive: true, force: true });
   }

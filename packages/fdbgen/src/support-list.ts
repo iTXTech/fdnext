@@ -60,8 +60,9 @@ export function vendorFromSupportListFlashId(id: string): string | null {
   const prefix = id.slice(0, 2).toUpperCase();
   switch (prefix) {
     case "2C":
-    case "B5":
       return "micron";
+    case "B5":
+      return "spectek";
     case "45":
       return "sndk";
     case "89":
@@ -80,10 +81,6 @@ export function vendorFromSupportListFlashId(id: string): string | null {
 }
 
 export function strictVendorFromSupportListFlashId(id: string): string | null {
-  const prefix = id.slice(0, 2).toUpperCase();
-  if (prefix === "B5") {
-    return "spectek";
-  }
   return vendorFromSupportListFlashId(id);
 }
 

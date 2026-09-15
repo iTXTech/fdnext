@@ -228,8 +228,14 @@ export function normalizeFdbPartNumber(partNumber: string): string {
   normalized = normalized.replace(/^INAND_/, "INAND-");
   normalized = normalized.replace(/_(?:H45|[1248]CE)-/g, "-");
   normalized = normalized.replace(/^EMT29F/, "MT29F");
-  while (PART_METADATA_SUFFIX.test(normalized)) {
-    normalized = normalized.replace(PART_METADATA_SUFFIX, "");
+  if (/^(?:MT29[FE]|(?:FN|FT|FB|FX|CB)[0-9A-Z][34MLBNQ])/.test(normalized)) {
+    // Source annotations use underscores / parentheses; hyphens belong to
+    // Micron speed/revision and SpecTek grading tokens and must survive.
+    normalized = cleanSupportListPartNumberText(normalized);
+  } else {
+    while (PART_METADATA_SUFFIX.test(normalized)) {
+      normalized = normalized.replace(PART_METADATA_SUFFIX, "");
+    }
   }
   while (/\*[0-9A-Z]*$/i.test(normalized)) {
     normalized = normalized.replace(/\*[0-9A-Z]*$/i, "");

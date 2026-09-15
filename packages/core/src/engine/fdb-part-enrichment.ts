@@ -47,7 +47,8 @@ export function createFdbPartEnricher(
     const profiles = new Set<string>();
     for (const id of ids ?? []) {
       const decoded = decodeNandFlashIdRaw(id);
-      const dieProfile = typeof draftField(decoded, "die_codename") === "string" ? String(draftField(decoded, "die_codename")).trim() : "";
+      const dieProfile = decoded.meta?.nandDieProfileKey ??
+        (typeof draftField(decoded, "die_codename") === "string" ? String(draftField(decoded, "die_codename")).trim() : "");
       if (dieProfile && dieProfile !== UNKNOWN) {
         profiles.add(dieProfile);
       }
@@ -172,6 +173,17 @@ export function createFdbPartEnricher(
       return info;
     }
 
+    const relatedFlashIds = mergeStringArray(record.id ?? [], record.f ?? []);
+    info.identifiers = {
+      ...(info.identifiers ?? {}),
+      flashIds: mergeStringArray(info.identifiers?.flashIds, relatedFlashIds),
+      partNumbers: mergeStringArray(info.identifiers?.partNumbers, record.a ?? [])
+    };
+    info.controllers = mergeStringArray(info.controllers, record.t ?? []);
+    for (const id of info.identifiers.flashIds ?? []) {
+      info.controllers = mergeStringArray(info.controllers, findFlashIdRecord(fdb, id)?.t);
+    }
+
     // SpecTek package markings resolve through the Micron-like lookup path, while SpecTek PNs should not
     // inherit Micron FDB-combined geometry. The legacy FDB process string is still useful audit data.
     if (draftVendor(info) === "spectek") {
@@ -207,17 +219,6 @@ export function createFdbPartEnricher(
 
     if (byAny?.vendor && draftVendor(info) === UNKNOWN) {
       info.device.vendor = byAny.vendor;
-    }
-
-    const relatedFlashIds = mergeStringArray(record.id ?? [], record.f ?? []);
-    info.identifiers = {
-      ...(info.identifiers ?? {}),
-      flashIds: mergeStringArray(info.identifiers?.flashIds, relatedFlashIds),
-      partNumbers: mergeStringArray(info.identifiers?.partNumbers, record.a ?? [])
-    };
-    info.controllers = mergeStringArray(info.controllers, record.t ?? []);
-    for (const id of info.identifiers.flashIds ?? []) {
-      info.controllers = mergeStringArray(info.controllers, findFlashIdRecord(fdb, id)?.t);
     }
 
     if (!isKnownClassificationValue(draftField(info, "die_codename"))) {

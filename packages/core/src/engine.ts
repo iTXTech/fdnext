@@ -275,13 +275,15 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
       return info;
     }
 
-    const profileKey = canonicalNandDieProfileKey(dieCodename, info, (candidate) => Object.hasOwn(nandDieProfileTable, candidate));
-    if (typeof info.meta?.nandDieProfileKey === "string" && info.meta.nandDieProfileKey.trim()) {
-      info.meta = {
-        ...info.meta,
-        nandDieProfileKey: profileKey
-      };
-    }
+    // Preserve the semantic key when a second hook sees its display label (20nm,
+    // BiCS4, ...). A postprocessor may still replace it with a different die.
+    const previousKey = info.meta?.nandDieProfileKey;
+    const previousProfile = previousKey ? nandDieProfileTable[previousKey] : undefined;
+    const profileInput = previousKey && previousProfile && typeof previousProfile === "object" &&
+      "die_codename" in previousProfile && previousProfile.die_codename === dieCodename
+      ? previousKey
+      : dieCodename;
+    const profileKey = canonicalNandDieProfileKey(profileInput, info, (candidate) => Object.hasOwn(nandDieProfileTable, candidate));
     if (profileKey !== dieCodename.trim()) {
       setDraftField(info, "die_codename", profileKey);
     }
@@ -290,6 +292,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
     if (!profile || typeof profile !== "object" || Array.isArray(profile)) {
       return info;
     }
+    info.meta = { ...info.meta, nandDieProfileKey: profileKey };
 
     for (const [key, value] of Object.entries(profile)) {
       if (value === undefined || !isFdnextFieldKey(key)) {
@@ -314,7 +317,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const deriveNandDensityFromDieStack = <T extends PartDecodeDraft | IdentifierDecodeDraft>(info: T): T => {
     const currentDensity = draftDensity(info);
     if (
-      (currentDensity !== undefined && draftVendor(info) !== "spectek") ||
+      (currentDensity !== undefined && (draftVendor(info) !== "spectek" || !info.device.partNumber)) ||
       info.device.chipKind !== "raw_nand"
     ) {
       return info;
@@ -416,7 +419,7 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         partNumbers: mergeStringArray(info.identifiers?.partNumbers, flashIdRecord.n)
       };
       const fdbVendor = inferSingleVendorFromPartReferences(flashIdRecord.n);
-      if (fdbVendor && draftVendor(info) !== fdbVendor) {
+      if (fdbVendor && draftVendor(info) === UNKNOWN) {
         info.device.vendor = fdbVendor;
       }
     }
@@ -748,13 +751,11 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
         }
       };
     }
-    const fdbVendor = inferSingleVendorFromPartReferences(exactRecord.n);
     return {
       ...info,
       device: {
         ...info.device,
-        identifier: id,
-        ...(fdbVendor && draftVendor(info) !== fdbVendor ? { vendor: fdbVendor } : {})
+        identifier: id
       },
       controllers: mergeStringArray(info.controllers, exactRecord.t),
       identifiers: {

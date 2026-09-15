@@ -4,14 +4,14 @@
 
 ## 外部资料
 
-- Silicon Motion Ferri-UFS 官方选购指南列出 `SM671P + X/E/A/B + C/D/E/F + optional -L + -BFS` ordering table，覆盖 UFS 3.1 / UFS 2.2、153-ball BGA、64GB~512GB、3D TLC NAND、商业 / 工业 / AEC-Q100 Grade 3 / Grade 2 温区，状态为 MP。
+- Silicon Motion Ferri-UFS 官方选购指南列出 `SM671P + X/E/A/B + C/D/E/F + optional -L + -BFS` 订购编码表，覆盖 UFS 3.1 / UFS 2.2、153 球 BGA、64GB~512GB、3D TLC NAND、商业 / 工业 / AEC-Q100 等级 3 / 等级 2 温区，状态为 MP。
   <https://www.siliconmotion.com.cn/products/Ferri-UFS_Ferri/detail>
-- Silicon Motion `SM2756` UFS 4.x controller product brief 仅确认 UFS 4.x controller 技术路线，不是 Ferri-UFS 封装存储 PN ordering table；当前不据此新增 Ferri-UFS 4.x 存储产品规则。
+- Silicon Motion `SM2756` UFS 4.x 控制器产品简介仅确认 UFS 4.x 控制器技术路线，不是 Ferri-UFS 封装存储 PN 订购编码表；当前不据此新增 Ferri-UFS 4.x 存储产品规则。
   <https://www.siliconmotion.com/download/DWfp/a/SM2756_PB_EN.pdf>
 
 ## 规则状态
 
-iTXTech fdnext DecodePack:
+DecodePack 规则：
 
 - `packages/core/src/decodepack/rules/packs/siliconmotion-managed-token.json`
 - `vendor.siliconmotion.ferri.ufs.v1`
@@ -20,25 +20,15 @@ PN 结构：
 
 | 结构 | 含义 |
 | --- | --- |
-| `SM671` + package + temperature class + density + optional `-L` + `-BFS` | Silicon Motion Ferri-UFS；`-L` 为 UFS 2.2，无 `-L` 为 UFS 3.1 |
-| package `P` | 153-ball BGA |
-| temperature `X` | Commercial, -25°C ~ +85°C |
-| temperature `E` | Industrial, -40°C ~ +85°C |
-| temperature `A` | Automotive AEC-Q100 Grade 3, -40°C ~ +85°C |
-| temperature `B` | Automotive AEC-Q100 Grade 2, -40°C ~ +105°C |
-| density `C/D/E/F` | 64GB / 128GB / 256GB / 512GB |
+| `SM671` + 封装 + 温度类别 + 容量 + 可选 `-L` + `-BFS` | Silicon Motion Ferri-UFS；`-L` 为 UFS 2.2，无 `-L` 为 UFS 3.1 |
+| 封装 `P` | 153 球 BGA |
+
+共用编码段表见 [siliconmotion_emmc](siliconmotion_emmc.md#规则状态)；本文仅列该产品线的差异。
 
 ## 输出字段
 
-- `density`
-- `product_family`
-- `storage_interface`
-- `speed_grade`
-- `nand_technology`
-- `product_class`
-- `operation_temperature`
-
-`package_code` 等 selection-guide token 只用于内部解析，不进入公开字段。
+字段名称、单位和通用输出格式见 [术语](terminology.md)。
+选型-指南编码段的公开边界见 [术语](terminology.md)。
 
 ## 测试样例
 
@@ -48,4 +38,4 @@ PN 结构：
 
 ## 注意
 
-Ferri-UFS 当前公开 selection guide 给出 UFS 3.1 与带 `-L` token 的 UFS 2.2 存储产品。SM2756 是 UFS 4.x controller，不等同于可解码的 Ferri-UFS PN。
+Ferri-UFS 当前公开选型指南给出 UFS 3.1 与带 `-L` 编码段的 UFS 2.2 存储产品。SM2756 是 UFS 4.x 控制器，不等同于可解码的 Ferri-UFS PN。
