@@ -4,7 +4,7 @@
 
 ## 开发环境与入口
 
-仓库使用 Node.js 24+、pnpm 11+ 和严格 TypeScript 多包仓库；版本声明见根目录 `package.json`。
+仓库使用 Node.js 24.11+、pnpm 12+ 和严格 TypeScript 多包仓库；版本声明见根目录 `package.json`。
 
 ```bash
 pnpm install

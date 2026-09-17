@@ -26,3 +26,7 @@
 - `BWMZCX32H2A-64GI-X`
 - `BWMYAX32U9A-64G`
 - `BWMYAX64F9B-128G`
+
+## PN 展示
+
+LPDDR4X/5X 在封装与容量之间恢复 `-`；LPDDR4X 的工业级 I 仍附于容量之后，X 前另加 `-`，例如 `BWMZCX32H2A-32GI-X`。

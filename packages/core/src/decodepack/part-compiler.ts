@@ -15,6 +15,7 @@ import {
   type DecodeProjectionPlan
 } from "./projection";
 import { normalizeDecodeTables } from "./table";
+import { displayNormalization, formatPartNumber, partNumberTokenLength, type PartNumberSeparator } from "./part-number-format";
 
 export function normalize(input: string, steps: NormalizeStep[] = []): string {
   let value = input;
@@ -456,7 +457,8 @@ function runTokenDecoder(
   partNumber: string,
   runtime: DecodeProgramRuntime,
   trace?: DecodePackTraceStep[],
-  targets?: readonly string[]
+  targets?: readonly string[],
+  displayInput = partNumber
 ): PartDecodeDraft {
   const decoder = runtime.program;
   const context: Record<string, unknown> = {
@@ -465,6 +467,7 @@ function runTokenDecoder(
   };
   const tables = runtime.tables;
   const plan = targets ? getProjectionPlan(runtime, targets) : undefined;
+  const separators: PartNumberSeparator[] = [];
 
   for (const [index, prefix] of (decoder.stripPrefixes ?? []).entries()) {
     const rest = String(context.rest ?? "");
@@ -579,6 +582,15 @@ function runTokenDecoder(
         restBefore: rest,
         restAfter: String(context.rest ?? "")
       });
+      continue;
+    }
+
+    if (step.op === "markPartNumberSeparator") {
+      const rest = String(context.rest ?? "");
+      const offset = partNumberTokenLength(partNumber.slice(0, partNumber.length - rest.length));
+      const matched = (!step.if || Boolean(context[step.if])) && offset > 0 && partNumberTokenLength(rest) > 0;
+      if (matched) separators.push({ offset, separator: step.separator });
+      trace?.push({ op: step.op, path, matched, key: step.separator, value: offset, restBefore: rest, restAfter: rest });
       continue;
     }
 
@@ -844,6 +856,13 @@ function runTokenDecoder(
     assignPath(out, DEVICE_PART_NUMBER_PATH, partNumber);
   }
 
+  // Explicit identity rewrites (e.g. distributor aliases) retain ownership of the PN.
+  if (readPath(out, DEVICE_PART_NUMBER_PATH) === partNumber) {
+    const formatted = formatPartNumber(displayInput, separators);
+    assignPath(out, DEVICE_PART_NUMBER_PATH, formatted);
+    trace?.push({ op: "formatPartNumber", path: "device.partNumber", target: "device.partNumber", value: formatted });
+  }
+
   return out as unknown as PartDecodeDraft;
 }
 
@@ -860,11 +879,12 @@ export function decodePartBySpec(
   trace?: DecodePackTraceStep[],
   sharedTables?: Record<string, DecodeTable>,
   targets?: readonly string[],
-  ruleRuntime?: PartRuleRuntime
+  ruleRuntime?: PartRuleRuntime,
+  displayInput = normalized
 ): PartDecodeDraft {
   const runtime = ruleRuntime ?? createPartRuleRuntime(rule, sharedTables);
   if (runtime.program) {
-    return runTokenDecoder(normalized, runtime.program, trace, targets);
+    return runTokenDecoder(normalized, runtime.program, trace, targets, displayInput);
   }
   const context = { partNumber: normalized, rest: normalized };
   const out: Record<string, unknown> = {};
@@ -889,6 +909,9 @@ export function decodePartBySpec(
       target: "device.partNumber",
       value: normalized
     });
+  }
+  if (readPath(out, DEVICE_PART_NUMBER_PATH) === normalized) {
+    assignPath(out, DEVICE_PART_NUMBER_PATH, displayInput);
   }
   return out as unknown as PartDecodeDraft;
 }
@@ -989,6 +1012,7 @@ export function compilePartDecodeSpecs(
     const priority = rule.priority;
     const ruleRuntime = createPartRuleRuntime(rule, sharedTables);
     const normalizeInput = compileNormalizer(rule.normalize);
+    const normalizeDisplayInput = compileNormalizer(displayNormalization(rule.normalize));
     const matchPrefix = rule.match.kind === "prefix" ? rule.match.value : undefined;
     const matchPattern = rule.match.kind === "regex" ? new RegExp(rule.match.value, rule.match.flags) : undefined;
     const matchesNormalized = (normalized: string): boolean => {
@@ -1019,9 +1043,9 @@ export function compilePartDecodeSpecs(
       dispatchPrefixes: dispatchPrefixesForRule(rule, normalizeInput),
       match,
       decode: (matched: PartNumberMatch): PartDecodeDraft =>
-        decodePartBySpec(rule, matchedPartNumber(matched), undefined, sharedTables, undefined, ruleRuntime),
+        decodePartBySpec(rule, matchedPartNumber(matched), undefined, sharedTables, undefined, ruleRuntime, normalizeDisplayInput(matched.input)),
       project: (matched: PartNumberMatch, targets: readonly string[]): PartDecodeDraft =>
-        decodePartBySpec(rule, matchedPartNumber(matched), undefined, sharedTables, targets, ruleRuntime)
+        decodePartBySpec(rule, matchedPartNumber(matched), undefined, sharedTables, targets, ruleRuntime, normalizeDisplayInput(matched.input))
     } satisfies PartNumberDecoder;
     return Object.freeze(decoder);
   });

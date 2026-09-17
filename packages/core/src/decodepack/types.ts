@@ -66,6 +66,12 @@ export interface DecodeStepMarkLookupPartNumber {
   to: string;
 }
 
+export interface DecodeStepMarkPartNumberSeparator {
+  op: "markPartNumberSeparator";
+  separator: "-" | ":";
+  if?: string;
+}
+
 export interface DecodeStepTemplate {
   op: "tpl";
   template: string;
@@ -151,6 +157,7 @@ export type DecodeStep =
   | DecodeStepTakeRegex
   | DecodeStepStripIfPrefix
   | DecodeStepMarkLookupPartNumber
+  | DecodeStepMarkPartNumberSeparator
   | DecodeStepTemplate
   | DecodeStepFallback
   | DecodeStepMul

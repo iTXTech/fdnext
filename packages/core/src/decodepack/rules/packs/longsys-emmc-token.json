@@ -162,6 +162,7 @@
           "secondary": "packageBase",
           "to": "package"
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "take",
           "len": 5,

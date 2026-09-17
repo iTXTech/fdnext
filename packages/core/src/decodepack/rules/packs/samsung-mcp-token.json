@@ -333,6 +333,7 @@
           "len": 1,
           "to": "ramToken"
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "take",
           "len": 4,

@@ -13,6 +13,7 @@ import { isValidatedDecodePack } from "./checker";
 import { compileIdentifierDecodeSpecs, decodeIdentifierByDefinition } from "./identifier-compiler";
 import { checkMatch, compilePartDecodeSpecs, decodePartBySpec, normalize } from "./part-compiler";
 import { normalizeDecodeTables } from "./table";
+import { displayNormalization } from "./part-number-format";
 
 interface CachedDecodePack {
   readonly partDecoders: readonly CompileDecodePackResult["partDecoders"][number][];
@@ -70,7 +71,8 @@ export function explainPartDecode(
       specId: spec.id,
       priority: spec.priority,
       steps,
-      draft: decodePartBySpec(spec, normalized, steps, pack.sharedTables)
+      draft: decodePartBySpec(spec, normalized, steps, pack.sharedTables, undefined, undefined,
+        normalize(input, displayNormalization(spec.normalize)))
     };
   }
   const normalized = candidates[0] ? normalize(input, candidates[0].normalize) : input;

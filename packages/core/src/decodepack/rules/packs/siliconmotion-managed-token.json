@@ -90,6 +90,7 @@
           "len": 1,
           "to": "densityCode"
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "map",
           "from": "densityCode",
@@ -253,12 +254,14 @@
           "to": "density",
           "default": 0
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "takeLongest",
           "table": "interfaceSuffixToken",
           "to": "interfaceSuffixCode",
           "default": ""
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "map",
           "from": "interfaceSuffixCode",

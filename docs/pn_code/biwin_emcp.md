@@ -67,3 +67,7 @@ PN 结构：
 官方 eMCP 表中 `BWCA2KZA-128G` 同时覆盖 128GB+32Gb 和 128GB+64Gb，公开 PN 不能区分 DRAM 容量；规则只输出存储容量和 DRAM 类型，不输出不确定的 `dram_density`。
 
 BIWIN uMCP 页面规格摘要区的容量行与 订购信息区存在文本不一致；规则以同页 订购信息中的容量/料号对应关系为准。
+
+## PN 展示
+
+现有 BWCE2/BWCA2/BW2A2、BWCD2/BWCK/BWCL/BWCSA 在配置与容量之间恢复 `-`；ePoP4X 的可选 X 尾部独立显示为 `-X`。BW3 uMCP5X 保留原连续写法。

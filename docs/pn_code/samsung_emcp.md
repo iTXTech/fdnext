@@ -139,3 +139,7 @@ KM + storage type + package + speed/generation + storage capacity + RAM + 4-char
 - `5U000` 类别 100 之外仍有其他旧版 `KM*` 系列未被高置信多样本覆盖；
   不能只凭 `KM`、`KMS`、`KMK` 或 `KMN` 前缀决定 eMCP、uMCP 或 ePoP。
 - Samsung 官网部分历史 eMMC + DRAM MCP 型号仍挂在 `lpddr5-umcp` URL 路径下，规则按 `eStorage Version` 和组合规格分类为 eMCP，而不是按 URL 路径分类。
+
+## PN 展示
+
+现有 MCP 与 class100 eMCP 的 10 字符主体和 4 字符尾部之间显示 `-`，例如 `KMGD6001BM-B421`、`KMS5U000KM-B308`。

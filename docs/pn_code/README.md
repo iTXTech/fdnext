@@ -51,5 +51,6 @@
 
 ## 历史审计
 
+- [PN 分隔符全规则审计与展示优化](part_number_format_audit.md)
 - [跨字段信息治理](field_information_audit.md)
 - [FDB 87 PN↔ID 匹配审计](evidence/pn-flash-id-matching-2026-09.md)

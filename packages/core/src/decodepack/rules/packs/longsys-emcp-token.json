@@ -117,6 +117,7 @@
           "to": "package",
           "default": "FBGA"
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "take",
           "len": 7,
@@ -257,6 +258,7 @@
           "to": "densityPairObj",
           "default": {}
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "take",
           "len": 7,

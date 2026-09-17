@@ -152,3 +152,7 @@ eMCP 输出中存储侧的 NAND die 数使用 `die_count`，DRAM 侧的 die 数�
 - H9T/H9H 旧版规则已覆盖本地 H9TQ27 数据手册与已知 H9TQ17、H9TQ64、H9TP32 样本；eMMC 速度用组合键处理，避免把相同速度编码段在不同旧版子族里误解成同一频率。
 - H9HC 子族公开资料仍较分散；H9HQ/H9HR 只对多来源一致的容量 / DRAM 配置 / 接口 / 后缀编码段做表驱动解析，未确认封装编码段的 H9HR 不输出封装。
 - H9Q 新 uMCP 与 HN8/H28S 纯 UFS 不是同一类产品，不能并入 UFS 解析器。
+
+## PN 展示
+
+H9HP、H9TP/H9TQ/H9HC 与 H9HQ 在既有 14 字符主体后恢复订购尾部前的 `-`，例如 `H9HP27ADAMADAR-KMM`；H9A/H9Q 的连续写法不插入分隔符。

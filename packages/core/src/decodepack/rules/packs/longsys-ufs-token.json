@@ -138,6 +138,7 @@
           "to": "density",
           "default": 0
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "takeLongest",
           "table": "configCode",

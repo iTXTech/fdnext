@@ -77,6 +77,11 @@ function decodeStepAccess(step: DecodeStep): { reads: string[]; writes: string[]
       };
     case "markLookupPartNumber":
       return { reads: ["partNumber", "rest"], writes: [step.to] };
+    case "markPartNumberSeparator":
+      return {
+        reads: ["partNumber", "rest", "$partNumberSeparators", ...(step.if ? [step.if] : [])],
+        writes: ["$partNumberSeparators"]
+      };
     case "tpl":
       return { reads: templateVariables(step.template), writes: [step.to] };
     case "fallback":
@@ -143,7 +148,8 @@ export function projectedAssignEntries(assign: Record<string, DecodeExpr>, targe
 
 export function projectionPlan(decoder: DecodeProgram, targets: readonly string[]): DecodeProjectionPlan {
   const assignEntries = projectedAssignEntries(decoder.assign, targets);
-  const required = new Set<string>();
+  // Every projection still returns a device PN, including the implicit default.
+  const required = new Set<string>(["$partNumberSeparators"]);
   for (const [, value] of assignEntries) {
     expressionVariables(value, required);
   }

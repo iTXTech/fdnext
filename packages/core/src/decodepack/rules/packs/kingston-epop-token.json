@@ -39,6 +39,7 @@
         { "op": "stripIfPrefix", "prefix": "EP" },
         { "op": "takeLongest", "table": "dramDensityCode", "to": "dramDensityCode", "default": "" },
         { "op": "map", "from": "dramDensityCode", "table": "dramDensity", "to": "dramDensity", "default": "" },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         { "op": "take", "len": 2, "to": "dramTypeCode" },
         { "op": "map", "from": "dramTypeCode", "table": "dramTypeObj", "to": "dramTypeObj", "default": {} },
         { "op": "map", "from": "dramTypeCode", "table": "packageBase", "to": "packageBase", "default": "" },

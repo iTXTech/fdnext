@@ -97,8 +97,8 @@ Micron 查询统一按 FBGA 编码前缀规格生成候选并调用官方 FBGA �
 ```bash
 pnpm fdbgen:audit
 pnpm fdbgen:audit -- --json
-pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/core/resources/fdb.json --max-samples 12
-pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version <ver> --trace-sources --max-samples 12
+pnpm exec tsx ./packages/fdbgen/src/cli.ts audit --file packages/core/resources/fdb.json --max-samples 12
+pnpm exec tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version <ver> --trace-sources --max-samples 12
 ```
 
 - `--file <path>`：要检查的 `fdb.json` 文件，根脚本默认指向 `packages/core/resources/fdb.json`

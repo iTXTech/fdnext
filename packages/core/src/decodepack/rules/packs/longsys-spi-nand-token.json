@@ -62,6 +62,7 @@
         { "op": "take", "len": 1, "to": "versionCode" },
         { "op": "takeLongest", "table": "densityCodes", "to": "densityCode", "default": "" },
         { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         { "op": "take", "len": 1, "to": "packageCode" },
         { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" },
         { "op": "take", "len": 1, "to": "temperatureCode" },
@@ -160,6 +161,7 @@
       "steps": [
         { "op": "takeLongest", "table": "densityCodes", "to": "densityCode", "default": "" },
         { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         { "op": "take", "len": 2, "to": "versionCode" },
         { "op": "take", "len": 2, "to": "flashTypeCode" },
         { "op": "take", "len": 1, "to": "interfaceCode" },

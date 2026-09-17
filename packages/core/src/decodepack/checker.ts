@@ -618,6 +618,13 @@ function checkTokenDecoderProgram(
         break;
       case "markLookupPartNumber":
         break;
+      case "markPartNumberSeparator":
+        checkTokenVariable(step.if, `${stepPath}.if`, spec.id, defined, findings);
+        if (step.separator !== "-" && step.separator !== ":") {
+          addFinding(findings, "error", "invalid_separator", `${stepPath}.separator`,
+            "Part-number separators must be a dash or colon.", spec.id);
+        }
+        break;
       case "tpl":
         for (const name of templateVariableNames(step.template)) {
           addUndefinedVariableFinding(findings, spec.id, `${stepPath}.template`, name, defined);

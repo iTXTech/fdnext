@@ -40,10 +40,14 @@
         { "op": "stripIfPrefix", "prefix": "X32" },
         { "op": "take", "len": 3, "to": "packageCode" },
         { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
         { "op": "tpl", "template": "{{familyCode}}:{{densityCode}}", "to": "familyDensityKey" },
         { "op": "map", "from": "familyDensityKey", "table": "densityByFamily", "to": "density", "default": 0 },
-        { "op": "takeRegex", "pattern": "^(?:I)?X$", "to": "gradeCode", "default": "" },
+        { "op": "takeRegex", "pattern": "^I?", "to": "gradePrefix", "default": "" },
+        { "op": "markPartNumberSeparator", "separator": "-" },
+        { "op": "takeRegex", "pattern": "^X$", "to": "gradeOption", "default": "" },
+        { "op": "tpl", "template": "{{gradePrefix}}{{gradeOption}}", "to": "gradeCode" },
         { "op": "map", "from": "gradeCode", "table": "gradeObj", "to": "gradeObj", "default": {} },
         { "op": "set", "to": "extra", "value": { "dram_type": "LPDDR4X", "dram_speed": "LPDDR4X-4266" } },
         { "op": "merge", "into": "extra", "from": "gradeObj" }
@@ -97,6 +101,7 @@
         { "op": "map", "from": "widthCode", "table": "deviceWidth", "to": "deviceWidth", "default": -1 },
         { "op": "take", "len": 3, "to": "packageCode" },
         { "op": "map", "from": "packageCode", "table": "package", "to": "package", "default": "" },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
         { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 }
       ],

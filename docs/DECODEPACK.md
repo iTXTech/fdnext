@@ -37,6 +37,9 @@
 - `"uppercase"`：转大写
 - `{ "remove": [...] }`：移除指定字符（逐个替换为空）
 
+这些步骤产生匹配与解析串。展示 PN 另行执行同组步骤，但保留 `-` / `:`；
+规则声明的分隔边界随后生成 `device.partNumber`。显式重写器件身份的赋值仍由规则负责。
+
 ### 匹配 `match`
 
 `match.kind` 支持：
@@ -199,6 +202,12 @@ DecodePack 顶层可声明 `sharedTables`，供所有 `tokenDecoder.steps` 的 `
 - `stripIfPrefix`: 条件剥离前缀
   - 参数：`prefix`, 可选 `to`
   - 行为：若 `rest` 以 `prefix` 开头则剥离；如提供 `to` 则写入布尔值（是否剥离成功）
+- `markPartNumberSeparator`: 在当前已消费主体与 `rest` 之间声明展示分隔符，不消费字符；
+  `separator` 为 `-` 或 `:`，可用 `if` 引用已解析的主体变量。
+  两侧都有实际字符且条件成立时才标记；解析失败或无后缀时不插入。
+  例如 `{ "op": "markPartNumberSeparator", "separator": "-", "if": "generationCode" }`。
+  分隔位置来自解析游标，投影与完整解码使用同一组位置；不改变 `partNumber`、`rest` 或 FDB 查询主体。
+  多个标记按字符偏移重建已识别部分的分隔符，最后一个边界后的未解析尾部仍保留原有标点。
 - `tpl`: 生成模板字符串
   - 参数：`template`, `to`
   - 行为：替换 `{{var}}` / `{{obj.key}}` 为对应上下文值（缺失则为空串）

@@ -19,6 +19,7 @@
       "steps": [
         { "op": "take", "len": 3, "to": "configCode" },
         { "op": "map", "from": "configCode", "table": "configObj", "to": "configObj", "default": {} },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
         { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
         { "op": "map", "from": "densityCode", "table": "storageDensity", "to": "storageDensity", "default": "" }
@@ -139,6 +140,7 @@
           "to": "configCode",
           "default": ""
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "takeLongest",
           "table": "densityCode",
@@ -369,6 +371,7 @@
           "to": "configCode",
           "default": ""
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "takeLongest",
           "table": "densityCode",

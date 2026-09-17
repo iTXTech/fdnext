@@ -1530,6 +1530,7 @@
             "$path": "configObj.device_width"
           }
         },
+        {"op": "markPartNumberSeparator", "separator": "-", "if": "configToken"},
         {
           "op": "takeLongest",
           "table": "speedToken",

@@ -79,3 +79,7 @@ FS 35 ND [density] - [product version:2] [flash type:2] [interface] [package] F 
 | `F35UQA001G-WWR` | SPI SLC NAND, 1Gbit, 1.7V~1.95V, WSON-8 8x6, 卷带 |
 | `F35UQB004G-W2R` | SPI SLC NAND, 4Gbit, AEC-Q100 等级 2, WSON-8 8x6 |
 | `FS35ND01G-S1Y2QWFI000` | SPI SLC NAND, 1Gbit, x1/x2/x4, WSON-8 8x6, 工业级 |
+
+## PN 展示
+
+F35 在容量与封装之间、FS35ND 在容量与版本之间恢复订购分隔符，例如 `F35SQA002G-WWT` 和 `FS35ND01G-S1Y2QWFI000`。

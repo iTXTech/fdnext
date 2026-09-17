@@ -5,9 +5,10 @@
   "version": "3.3.0",
   "description": "Memory chip parsing and resource toolkit",
   "license": "AGPL-3.0-or-later",
-  "packageManager": "pnpm@11.13.1",
+  "packageManager": "pnpm@12.4.2",
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=24.11.0",
+    "pnpm": ">=12.0.0"
   },
   "scripts": {
     "build": "pnpm -r --if-present build",
@@ -33,20 +34,20 @@
     "cf-workers:dev": "pnpm -C packages/cf-workers run dev",
     "cf-workers:deploy": "pnpm -C packages/cf-workers run deploy",
     "cf-workers:deploy:dry-run": "pnpm -C packages/cf-workers run deploy:dry-run",
-    "cli": "pnpm -s tsx ./packages/core/src/cli/index.ts",
+    "cli": "tsx ./packages/core/src/cli/index.ts",
     "fdbgen:build": "pnpm -C packages/fdbgen build",
-    "fdbgen:generate": "pnpm -s tsx ./packages/fdbgen/src/cli.ts build",
-    "fdbgen:audit": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --file packages/core/resources/fdb.json",
-    "fdbgen:audit-extra": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit-extra",
-    "fdbgen:audit:trace": "pnpm -s tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --trace-sources",
-    "fdbgen:crawl-mdb": "pnpm -s tsx ./packages/fdbgen/src/cli.ts crawl-mdb",
+    "fdbgen:generate": "tsx ./packages/fdbgen/src/cli.ts build",
+    "fdbgen:audit": "tsx ./packages/fdbgen/src/cli.ts audit --file packages/core/resources/fdb.json",
+    "fdbgen:audit-extra": "tsx ./packages/fdbgen/src/cli.ts audit-extra",
+    "fdbgen:audit:trace": "tsx ./packages/fdbgen/src/cli.ts audit --input ../fdfdb --version 82 --trace-sources",
+    "fdbgen:crawl-mdb": "tsx ./packages/fdbgen/src/cli.ts crawl-mdb",
     "contract:check": "pnpm -C packages/contract-test check"
   },
   "devDependencies": {
-    "@types/node": "^26.3.0",
+    "@types/node": "^26.6.1",
     "ajv": "^8.20.0",
-    "tsdown": "^0.22.14",
-    "tsx": "^4.23.12",
+    "tsdown": "^0.23.0",
+    "tsx": "^4.23.13",
     "typescript": "^7.0.2"
   }
 }

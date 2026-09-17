@@ -21,6 +21,7 @@
         { "op": "map", "from": "dramDensityCode", "table": "dramDensity", "to": "dramDensity", "default": "" },
         { "op": "take", "len": 2, "to": "configCode" },
         { "op": "map", "from": "configCode", "table": "package", "to": "package", "default": "" },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
         { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
         { "op": "map", "from": "densityCode", "table": "storageDensity", "to": "storageDensity", "default": "" }
@@ -92,19 +93,21 @@
       "steps": [
         {
           "op": "takeRegex",
-          "pattern": "^([KL])(1)([A-Z])([0-9A-Z]{2})([0-9]{0,2})(32G|64G)(X?)$",
-          "to": "orderingCode",
+          "pattern": "^([KL])(1)([A-Z])([0-9A-Z]{2})([0-9]{0,2})(?=(?:32G|64G)X?$)",
+          "to": "orderingBody",
           "groups": {
             "packageCode": 1,
             "generationCode": 2,
             "dramDensityCode": 3,
             "configCode": 4,
-            "controllerCode": 5,
-            "densityCode": 6,
-            "optionCode": 7
+            "controllerCode": 5
           },
           "default": ""
         },
+        { "op": "markPartNumberSeparator", "separator": "-", "if": "orderingBody" },
+        { "op": "take", "len": 3, "to": "densityCode" },
+        { "op": "markPartNumberSeparator", "separator": "-" },
+        { "op": "takeRegex", "pattern": "^X?$", "to": "optionCode", "default": "" },
         {
           "op": "map",
           "from": "packageCode",
@@ -224,6 +227,7 @@
         { "op": "map", "from": "dramDensityCode", "table": "dramDensity", "to": "dramDensity", "default": "" },
         { "op": "take", "len": 4, "to": "configCode" },
         { "op": "map", "from": "configCode", "table": "package", "to": "package", "default": "" },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         { "op": "takeLongest", "table": "densityCode", "to": "densityCode", "default": "" },
         { "op": "map", "from": "densityCode", "table": "density", "to": "density", "default": 0 },
         { "op": "map", "from": "densityCode", "table": "storageDensity", "to": "storageDensity", "default": "" }

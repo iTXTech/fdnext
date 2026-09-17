@@ -776,6 +776,7 @@
           "into": "extra",
           "from": "productTypeObj"
         },
+        {"op": "markPartNumberSeparator", "separator": "-", "if": "packageMaterialCode"},
         {
           "op": "stripIfPrefix",
           "prefix": "-"

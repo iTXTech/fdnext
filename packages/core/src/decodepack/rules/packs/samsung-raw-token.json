@@ -629,6 +629,7 @@
           "to": "processObj",
           "default": {}
         },
+        {"op": "markPartNumberSeparator", "separator": "-", "if": "generationCode"},
         {
           "op": "stripIfPrefix",
           "prefix": "-"

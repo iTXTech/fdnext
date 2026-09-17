@@ -29,6 +29,11 @@ DRAM 的默认 die/CS 与内部拓扑元数据见 [DRAM 术语](terminology.md#d
 
 同一官方 PN 的纯标点等价项只保留一种规范展示形态。文档和 PN 中的 `-` / `:` 是编码段分隔符；用户按原编码段顺序省略 `-` 时，解析与搜索按同一 PN 处理。
 
+解析容错不能抹掉展示用分隔符。已有明确订购编码边界的规则在对应 token 游标处使用
+`markPartNumberSeparator`，不要在前端、结果构造器或厂商全局正则中重复推导。
+匹配只确认厂商前缀时不能标记边界；主体可能解析失败时用 `if` 引用已成功消费的主体变量。
+无可靠边界时保留输入写法，未知尾部不截断，不补造缺失编码。语法见 [DecodePack](../DECODEPACK.md)。
+
 Micron PN 优先使用 `packages/core/resources/mdb.json`。有效 MDB 映射已包含同一 PN，或在该 PN 后通过 `-`、`:`、空格等后缀边界给出更详细的速度 / 温度 / 状态 / 修订版时，不再向 `dram-pn.json` / `managed-nand-pn.json` 添加较短或等价 PN。带 `DO NOT USE` 的 MDB 值不算有效覆盖。相关修改保持 DRAM 与受管理 NAND 的 MDB 去重审计通过。
 
 ## 完成条件

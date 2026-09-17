@@ -320,12 +320,14 @@ export function getPartNumberRecord(
   const vendorData = fdb.vendors.get(normalizeVendor(vendor));
   const lookupKeys = getPartNumberLookupKeys(vendor, partNumber);
   for (const lookupKey of lookupKeys) {
-    const record = vendorData?.get(lookupKey);
+    const record = vendorData?.get(lookupKey) ?? (vendorData
+      ? tokenEquivalentPartNumberRecord(vendorData, [lookupKey])
+      : undefined);
     if (record) {
       return record;
     }
   }
-  return vendorData ? tokenEquivalentPartNumberRecord(vendorData, lookupKeys) : undefined;
+  return undefined;
 }
 
 export function findPartNumberAcrossVendors(
@@ -343,14 +345,11 @@ export function findPartNumberAcrossVendors(
   for (const [vendor, partNumbers] of fdb.vendors.entries()) {
     const lookupKeys = getPartNumberLookupKeys(vendor, target);
     for (const lookupKey of lookupKeys) {
-      const record = partNumbers.get(lookupKey);
+      // A complete token-equivalent PN outranks a shorter package/body fallback.
+      const record = partNumbers.get(lookupKey) ?? tokenEquivalentPartNumberRecord(partNumbers, [lookupKey]);
       if (record) {
         return { vendor, record };
       }
-    }
-    const tokenEquivalent = tokenEquivalentPartNumberRecord(partNumbers, lookupKeys);
-    if (tokenEquivalent) {
-      return { vendor, record: tokenEquivalent };
     }
   }
   return undefined;

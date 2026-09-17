@@ -39,3 +39,7 @@ PN 结构：
 ## 注意
 
 Ferri-UFS 当前公开选型指南给出 UFS 3.1 与带 `-L` 编码段的 UFS 2.2 存储产品。SM2756 是 UFS 4.x 控制器，不等同于可解码的 Ferri-UFS PN。
+
+## PN 展示
+
+Ferri-UFS 分别恢复可选 L 版本和 BFS 封装边界：`SM671PXC-BFS`、`SM671PXC-L-BFS`。

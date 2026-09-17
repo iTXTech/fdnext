@@ -9,7 +9,8 @@
       "entry_key": "biwin_official_lpddr4x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "BIWIN LPDDR4/4X and TGL268 order information"
+        "source": "BIWIN LPDDR4/4X and TGL268 order information",
+        "notes": "This evidence tier covers display separator positions only, using the admitted ordering-code sources in the linked document. It does not upgrade confidence in other rule fields. Parsing tables are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -19,7 +20,8 @@
       "entry_key": "biwin_official_lpddr5x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "BIWIN LPDDR5X specifications"
+        "source": "BIWIN LPDDR5X specifications",
+        "notes": "This evidence tier covers display separator positions only, using the admitted ordering-code sources in the linked document. It does not upgrade confidence in other rule fields. Parsing tables are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -29,7 +31,8 @@
       "entry_key": "biwin_official_emcp3_order_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "BIWIN eMCP LPDDR3 order information"
+        "source": "BIWIN eMCP LPDDR3 order information",
+        "notes": "This evidence tier covers display separator positions only, using the admitted ordering-code sources in the linked document. It does not upgrade confidence in other rule fields. Parsing tables are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -39,7 +42,8 @@
       "entry_key": "biwin_official_emcp4x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "BIWIN eMCP LPDDR4X order information"
+        "source": "BIWIN eMCP LPDDR4X order information",
+        "notes": "This evidence tier covers display separator positions only, using the admitted ordering-code sources in the linked document. It does not upgrade confidence in other rule fields. Parsing tables are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -49,7 +53,8 @@
       "entry_key": "biwin_official_umcp4x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "BIWIN uMCP LPDDR4X order information"
+        "source": "BIWIN uMCP LPDDR4X order information",
+        "notes": "This evidence tier covers display separator positions only, using the admitted ordering-code sources in the linked document. It does not upgrade confidence in other rule fields. Parsing tables are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -119,7 +124,8 @@
       "entry_key": "biwin_official_epop3_order_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "BIWIN ePoP3 order information"
+        "source": "BIWIN ePoP3 order information",
+        "notes": "This evidence tier covers display separator positions only, using the admitted ordering-code sources in the linked document. It does not upgrade confidence in other rule fields. Parsing tables are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -129,7 +135,8 @@
       "entry_key": "biwin_official_epop4x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "BIWIN ePoP LPDDR4X order information"
+        "source": "BIWIN ePoP LPDDR4X order information",
+        "notes": "This evidence tier covers display separator positions only, using the admitted ordering-code sources in the linked document. It does not upgrade confidence in other rule fields. Parsing tables are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -139,7 +146,8 @@
       "entry_key": "biwin_official_epop5x_order_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "BIWIN 201-ball ePoP5X order information"
+        "source": "BIWIN 201-ball ePoP5X order information",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -417,7 +425,8 @@
       "entry_key": "kingston_official_emcp_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "Kingston eMCP Part Numbers and Specifications"
+        "source": "Kingston eMCP Part Numbers and Specifications",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -437,7 +446,8 @@
       "entry_key": "kingston_official_emmc_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "Kingston eMMC Part Numbers and Specifications"
+        "source": "Kingston eMMC Part Numbers and Specifications",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -457,7 +467,8 @@
       "entry_key": "kingston_official_epop_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "Kingston ePoP Part Numbers and Specifications"
+        "source": "Kingston ePoP Part Numbers and Specifications",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -467,7 +478,8 @@
       "entry_key": "kingston_official_ufs_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "Kingston UFS Part Numbers and Specifications"
+        "source": "Kingston UFS Part Numbers and Specifications",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -497,7 +509,8 @@
       "entry_key": "foresee_catalog_emcp_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "FORESEE Embedded Storage Product Catalogue 2023"
+        "source": "FORESEE Embedded Storage Product Catalogue 2023",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -507,7 +520,8 @@
       "entry_key": "foresee_catalog_umcp_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "FORESEE Embedded Storage Product Catalogue 2023"
+        "source": "FORESEE Embedded Storage Product Catalogue 2023",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -517,7 +531,8 @@
       "entry_key": "foresee_catalog_emmc_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "FORESEE Embedded Storage Product Catalogue 2023"
+        "source": "FORESEE Embedded Storage Product Catalogue 2023",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -547,7 +562,8 @@
       "entry_key": "foresee_f35_official_ordering",
       "evidence": {
         "status": "external_confirmed",
-        "source": "Longsys FORESEE SPI NAND product table and F35 datasheets"
+        "source": "Longsys FORESEE SPI NAND product table and F35 datasheets",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -557,7 +573,8 @@
       "entry_key": "foresee_fs35_official_ordering",
       "evidence": {
         "status": "external_confirmed",
-        "source": "Longsys FS35ND01G datasheet marketing part number chart"
+        "source": "Longsys FS35ND01G datasheet marketing part number chart",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -567,7 +584,8 @@
       "entry_key": "foresee_catalog_ufs_table",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "FORESEE Embedded Storage Product Catalogue 2023"
+        "source": "FORESEE Embedded Storage Product Catalogue 2023",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -1971,7 +1989,7 @@
           "KLM8G1GETF-B041",
           "KLMBG2JETD-B041"
         ],
-        "notes": "The official 2013 matrix confirms W/Y NAND tokens, eMMC 4.5/5.0 suffix versions, HS200/HS400, die density/count and BGA packaging; current product pages confirm eMMC 5.1, HS400, 153 FBGA, and the published capacity range."
+        "notes": "The official 2013 matrix confirms W/Y NAND tokens, eMMC 4.5/5.0 suffix versions, HS200/HS400, die density/count and BGA packaging; current product pages confirm eMMC 5.1, HS400, 153 FBGA, and the published capacity range. PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -1991,7 +2009,7 @@
           "KMN5U000ZM-B203",
           "KMK5U000VM-B309"
         ],
-        "notes": "The six-row official table confirms the fixed 5U000 family structure, 4GB eMMC storage, LPDDR1/LPDDR2 class tokens, DRAM density/width tokens, and semantic package tails. It does not state an eMMC version or DRAM speed."
+        "notes": "The six-row official table confirms the fixed 5U000 family structure, 4GB eMMC storage, LPDDR1/LPDDR2 class tokens, DRAM density/width tokens, and semantic package tails. It does not state an eMMC version or DRAM speed. PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -2007,7 +2025,7 @@
           "KLUFG8RHHF-F0G1",
           "KLUEG4RHKF-F0H1"
         ],
-        "notes": "Official UFS pages confirm UFS 3.1, UFS 4.0, UFS 4.1, G4/G5 controller class, package and capacity families."
+        "notes": "Official UFS pages confirm UFS 3.1, UFS 4.0, UFS 4.1, G4/G5 controller class, package and capacity families. PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -2130,7 +2148,8 @@
       "entry_key": "siliconmotion_ferri_emmc_selection_guide",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "Silicon Motion Ferri-eMMC Selection Guide"
+        "source": "Silicon Motion Ferri-eMMC Selection Guide",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -2140,7 +2159,8 @@
       "entry_key": "siliconmotion_ferri_ufs_selection_guide",
       "evidence": {
         "status": "external_table_confirmed",
-        "source": "Silicon Motion Ferri-UFS Selection Guide"
+        "source": "Silicon Motion Ferri-UFS Selection Guide",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     },
     {
@@ -3697,6 +3717,83 @@
         "url": "https://www.spectek.com/menus/mpn_decoder.aspx?MpnCategory=DramComponent",
         "examples": ["SCM3G8Z41BD8JF-062E", "SCM1G16Y62EB8HD-80B", "SCM1G16Y62EB8HD-TP"],
         "notes": "SCM means Crucial FBGA code, Micron logo within the SpecTek component namespace. 3G8 is 24Gb x8; JF is VFBGA-82/143 9.5x11x1.0; 80B is DDR5-8000 CL64; TP is 95% tested and does not imply a speed."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/esmt-dram-token.json",
+      "spec_id": "vendor.esmt.dram.component.v1",
+      "scope": "spec",
+      "entry_key": "pn_display_boundaries",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Existing ordering-code evidence documented in docs/pn_code/esmt_dram.md",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/samsung-mcp-token.json",
+      "spec_id": "vendor.samsung.mcp.token.v1",
+      "scope": "spec",
+      "entry_key": "pn_display_boundaries",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Existing ordering-code evidence documented in docs/pn_code/samsung_emcp.md",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/samsung-raw-token.json",
+      "spec_id": "vendor.samsung.token.v1",
+      "scope": "spec",
+      "entry_key": "pn_display_boundaries",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Existing ordering-code evidence documented in docs/pn_code/samsung_nand.md",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-emcp-token.json",
+      "spec_id": "vendor.skhynix.emcp.h9hp-lpddr4x.v1",
+      "scope": "spec",
+      "entry_key": "pn_display_boundaries",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Existing ordering-code evidence documented in docs/pn_code/skhynix_emcp.md",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-emcp-token.json",
+      "spec_id": "vendor.skhynix.emcp.h9t_h9h.v1",
+      "scope": "spec",
+      "entry_key": "pn_display_boundaries",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Existing ordering-code evidence documented in docs/pn_code/skhynix_emcp.md",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-h27-raw-nand-token.json",
+      "spec_id": "vendor.skhynix.h27.raw.v2",
+      "scope": "spec",
+      "entry_key": "pn_display_boundaries",
+      "evidence": {
+        "status": "external_confirmed",
+        "source": "Existing ordering-code evidence documented in docs/pn_code/skhynix_nand.md",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
+      }
+    },
+    {
+      "pack": "packages/core/src/decodepack/rules/packs/skhynix-umcp-token.json",
+      "spec_id": "vendor.skhynix.umcp.h9hq.v1",
+      "scope": "spec",
+      "entry_key": "pn_display_boundaries",
+      "evidence": {
+        "status": "external_table_confirmed",
+        "source": "Existing ordering-code evidence documented in docs/pn_code/skhynix_emcp.md",
+        "notes": "PN display separators follow the existing ordering-token boundaries; parsing tables and evidence status are unchanged. See docs/pn_code/part_number_format_audit.md."
       }
     }
   ]

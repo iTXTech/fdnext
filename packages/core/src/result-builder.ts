@@ -51,6 +51,7 @@ export interface ResultBuilderContext {
   langPacks: LangPacks;
   fallbackLang: string;
   translateString(key: string, lang?: string | null): string;
+  formatPartNumber?(partNumber: string): string;
 }
 
 export interface PartSearchSuggestion {
@@ -563,7 +564,8 @@ function partDecodeAction(partNumber: string, ctx: ResultBuilderContext, lang?: 
 function parsePartReference(value: string, ctx: ResultBuilderContext, lang?: string | null): { partNumber: string; device?: DeviceIdentity } {
   const text = value.trim();
   const prefixed = /^(\S+)\s+(.+)$/.exec(text);
-  const partNumber = normalizePartNumber(prefixed?.[2] ?? text);
+  const normalized = normalizePartNumber(prefixed?.[2] ?? text);
+  const partNumber = ctx.formatPartNumber?.(normalized) ?? normalized;
   const vendor = partNumber
     ? inferVendorFromPartNumber(partNumber) ?? (prefixed?.[1] ? normalizeVendor(prefixed[1]) : "")
     : "";

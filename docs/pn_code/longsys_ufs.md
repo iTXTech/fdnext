@@ -49,3 +49,7 @@ PN 结构：
 - `FEUDNN128G-C2H14`
 - `FEUDME128G-C8H09`
 - `FEUDNN512G-C2G07`
+
+## PN 展示
+
+FEU 系列在容量编码后、配置编码前恢复 `-`，例如 `FEUDME064G-B8A19`。

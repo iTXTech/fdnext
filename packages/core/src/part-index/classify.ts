@@ -180,13 +180,16 @@ function enrichCandidate(
   // FDB may contain a complete package marking in its PN column. Keep its search
   // match, but merge it with the actual part instead of exposing a second device.
   const resolvedMarking = info.device.markingCode && info.device.partNumber !== base.partNumber;
+  const resolvedPartNumber = resolvedMarking || (
+    normalizePartNumberTokenKey(info.device.partNumber) === normalizePartNumberTokenKey(base.partNumber)
+  );
   const constrainedBase = {
     ...base,
-    ...(resolvedMarking ? {
+    ...(resolvedPartNumber ? {
       partNumber: info.device.partNumber,
-      normalizedPartNumber: normalizePartNumber(info.device.partNumber),
-      markingCode: info.device.markingCode
+      normalizedPartNumber: normalizePartNumber(info.device.partNumber)
     } : {}),
+    ...(resolvedMarking ? { markingCode: info.device.markingCode } : {}),
     vendor,
     chipKind,
     ...(productType ? { productType } : {})

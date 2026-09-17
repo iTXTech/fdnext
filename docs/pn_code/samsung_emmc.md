@@ -57,3 +57,7 @@ Samsung eMMC 输出：
 | `KLMAG1JETD-B041` | eMMC 5.1, 16GB, SDP, 128Gb die, 14nm |
 | `KLM8G1GETF-B041` | eMMC 5.1, 8GB, SDP, 64Gb die, 14nm |
 | `KLMBG2JETD-B041` | eMMC 5.1, 32GB, DDP, 128Gb die, 14nm |
+
+## PN 展示
+
+KLM 的代际编码后、封装编码前显示 `-`，例如 `KLMAG2GEND-B031`；省略横线的输入仍使用相同字段解析。

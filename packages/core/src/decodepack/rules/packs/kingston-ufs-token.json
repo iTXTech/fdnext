@@ -75,6 +75,7 @@
           "to": "density",
           "default": 0
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "take",
           "len": 4,

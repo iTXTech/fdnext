@@ -143,7 +143,15 @@ export function createEngine(options: EngineOptions = {}): FdnextEngine {
   const profileTables = collectDecoderProfileTables(options.profileTables, [...decoders, ...identifierDecoders]);
   const nandDieProfileTable = profileTables["nand.die_profile"] ?? {};
   const translateString = (key: string, lang?: string | null) => doTranslateString(langPacks, fallbackLang, key, lang);
-  const resultBuilderContext = { langPacks, fallbackLang, translateString };
+  const resultBuilderContext = {
+    langPacks, fallbackLang, translateString,
+    formatPartNumber: (partNumber: string): string => {
+      const info = detectRaw(partNumber, { combineFdb: false, projection: ["device.partNumber"] }, false);
+      return normalizePartNumberTokenKey(info.device.partNumber) === normalizePartNumberTokenKey(partNumber)
+        ? info.device.partNumber
+        : partNumber;
+    }
+  };
   const capabilityLanguages = (): string[] => [...new Set([fallbackLang, ...Object.keys(langPacks)])];
   const buildCachedCapabilities = (): Map<string, FdnextCapabilities> => {
     const snapshots = new Map<string, FdnextCapabilities>();

@@ -406,6 +406,7 @@
           "len": 1,
           "to": "dramSpeedCode"
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "takeLongest",
           "table": "tailObj",

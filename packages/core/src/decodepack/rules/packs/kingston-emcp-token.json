@@ -139,6 +139,7 @@
           "to": "dramDensityObj",
           "default": {}
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "take",
           "len": 2,

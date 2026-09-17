@@ -73,6 +73,7 @@
           "len": 1,
           "to": "versionToken"
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "take",
           "len": 4,

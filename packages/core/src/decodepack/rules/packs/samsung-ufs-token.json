@@ -364,6 +364,7 @@
           "to": "processObj",
           "default": {}
         },
+        {"op": "markPartNumberSeparator", "separator": "-"},
         {
           "op": "take",
           "len": 1,
