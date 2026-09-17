@@ -41,7 +41,7 @@ Set Classic's server address to `http://127.0.0.1:8080`, without a path prefix. 
 
 ## Cloudflare Workers deployment
 
-The following commands use a repository checkout and require a Cloudflare account with Wrangler authentication. The configuration is `packages/fd-server/wrangler.jsonc`:
+The following commands use a repository checkout and require a Cloudflare account with Wrangler authentication. Wrangler is installed from the root development dependencies; see [Worker prerequisites](../../docs/CF_WORKERS.md#1-prerequisites) for installation and build permissions. The configuration is `packages/fd-server/wrangler.jsonc`:
 
 ```jsonc
 {
@@ -105,9 +105,9 @@ For Git-connected Dashboard deployment:
 | Setting | Value |
 | --- | --- |
 | Root directory | Empty or repository root |
-| Build command | `pnpm install --frozen-lockfile=false && pnpm -C packages/fd-server build` |
+| Build command | `pnpm install --frozen-lockfile && pnpm -C packages/fd-server build` |
 | Deploy command | `pnpm fdserver:worker:deploy` |
-| Non-production branch deploy command | `pnpm --dir packages/fd-server dlx wrangler versions upload --config wrangler.jsonc` |
+| Non-production branch deploy command | `pnpm -C packages/fd-server exec wrangler versions upload --config wrangler.jsonc` |
 
 Set build variable `SKIP_DEPENDENCY_INSTALL=1` so the explicit pnpm command handles installation rather than another package manager selected by the platform.
 

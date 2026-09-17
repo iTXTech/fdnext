@@ -56,8 +56,8 @@
     "start": "node dist/bin.js",
     "test": "node --import tsx --test test/*.test.ts",
     "typecheck": "tsc -b --pretty false --emitDeclarationOnly",
-    "worker:dev": "pnpm dlx wrangler dev --config wrangler.jsonc",
-    "worker:deploy": "pnpm dlx wrangler deploy --config wrangler.jsonc",
-    "worker:deploy:dry-run": "pnpm dlx wrangler deploy --dry-run --outdir ../../.wrangler-bundle/fd-server --config wrangler.jsonc"
+    "worker:dev": "wrangler dev --config wrangler.jsonc",
+    "worker:deploy": "wrangler deploy --config wrangler.jsonc",
+    "worker:deploy:dry-run": "wrangler deploy --dry-run --outdir ../../.wrangler-bundle/fd-server --config wrangler.jsonc"
   }
 }

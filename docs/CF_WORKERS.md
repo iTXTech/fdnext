@@ -6,13 +6,16 @@ For FlashMaster Classic or clients using legacy FlashDetector / FDWebServer rout
 
 ## 1. Prerequisites
 
-Complete [Development setup (Chinese)](TESTING.md#开发环境与入口). Deployment requires a Cloudflare account and Wrangler authentication. Wrangler can run without being added to repository dependencies:
+Complete [Development setup (Chinese)](TESTING.md#开发环境与入口). Deployment requires a Cloudflare account and Wrangler authentication. Wrangler is pinned in the root development dependencies and installed with the workspace:
 
 ```bash
-pnpm dlx wrangler login
+pnpm install --frozen-lockfile
+pnpm exec wrangler login
 ```
 
 In CI, use `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` instead of interactive login.
+
+All Worker scripts use the installed Wrangler version from the lockfile. `pnpm-workspace.yaml` allows the `esbuild` and `workerd` build scripts during installation. Keep development dependencies installed in the build environment. No `PNPM_CONFIG_STRICT_DEP_BUILDS=false` override is needed; remove it if previously configured.
 
 ## 2. Configuration
 
@@ -51,9 +54,9 @@ For Git-connected Dashboard builds, explicitly build only the core and adapter. 
 | Setting | Value |
 | --- | --- |
 | Root directory | Empty or repository root |
-| Build command | `pnpm install --frozen-lockfile=false && pnpm cf-workers:build` |
+| Build command | `pnpm install --frozen-lockfile && pnpm cf-workers:build` |
 | Deploy command | `pnpm cf-workers:deploy` |
-| Non-production branch deploy command | `pnpm --dir packages/cf-workers dlx wrangler versions upload --config wrangler.jsonc` |
+| Non-production branch deploy command | `pnpm -C packages/cf-workers exec wrangler versions upload --config wrangler.jsonc` |
 
 Set build variable `SKIP_DEPENDENCY_INSTALL=1` so the explicit pnpm command owns dependency installation instead of the platform choosing another package manager such as Bun.
 
