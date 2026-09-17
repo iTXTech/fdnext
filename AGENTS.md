@@ -13,7 +13,7 @@
 
 ## 项目边界
 
-- 引擎生命周期与 `PreparedCatalog` 用法遵循 [集成指南](docs/INTEGRATION.md#1-nodejs作为库集成)。
+- 引擎生命周期与 `PreparedCatalog` 用法遵循 [集成指南](docs/INTEGRATION.md#1-nodejs-library)。
 - 默认完善已有厂商和产品线。新增厂商规则、资源或文档需要用户明确同意该厂商。
 - 新增 SSD 整盘、DIMM / SODIMM / RDIMM、LPCAMM 等模组解码器需要用户明确批准，不能从“所有品类”或一般补全任务推断。Micron `MTFC` 等芯片级 BGA SSD / 受管理 NAND 可按既有范围维护。
 - PN 补全优先 SK hynix、Samsung、Micron，其次 YMTC、CXMT；其他现有厂商在没有更高价值缺口或属于顺手修复时处理。

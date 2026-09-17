@@ -84,7 +84,7 @@
 - 搜索资源归属和 MDB 去重规则见 [PN 编写规范](authoring.md#搜索资源)。
 - 2026-07-12 复查 Micron 官方 12 个当前版 DRAM 目录（519 条）及 11 个已停产 DRAM 目录（1238 条）。逐条排除既有资源、有效 MDB 精确 / 后缀边界覆盖、`DNU`、Micron 目录中仍按 Elpida 厂商解码的 `ED*` 料号，以及目录与结构化编码段解码在位宽等确定字段上冲突的记录后，67 条 Micron 芯片 / 裸片完整 PN 进入 `dram-pn.json`。其中包含 2 条当前版裸片 PN，以及 SDRAM、DDR、DDR4 裸片、LPDDR4/4X、LPDDR5 的 65 条已停产 PN；解码器仍完全依赖系列/配置/封装/后缀编码段，不加入完整 PN 白名单。带空格的官方订购 PN 原样保存在资源中，搜索标签按现有归一化器输出无空格规范结构。
 - 2026-07-13 继续审计 LPDDR5 当前版目录后，`MT62F1DAD4CZ-DC Y62P` / `MT62F1DAD8CZ-DC Y62P` 未被有效 MDB 精确或更详细后缀映射覆盖，作为精确搜索种子加入；Y52N / Y6CP 变体已有 MDB 映射，不重复加入。
-- MDB 爬取规格、补充输入与命令见 [FDBGen](../FDBGEN.md#cli-用法)。
+- MDB 爬取规格、补充输入与命令见 [FDBGen](../FDBGEN.md#cli-usage)。
 - `packages/core/resources/mdb.json` 收录官方 API 返回且通过 DRAM 系列过滤的 FBGA 编码到完整 PN 映射，例如 `C9BJZ -> CT40A1G8SA-62M:E`。它用于 `searchParts()` 编码查询，以及 `decodePart({ query: "C9BJZ" })` 这类编码输入时先反查 PN 再走 iTXTech fdnext DecodePack。
 - `mdb.json` 中有大量带冒号修订版的 DRAM PN，例如 `D8BBF -> MT53E128M32D2FW-046 IT:A`、`D9WCR -> MT61K256M32JE-12:A`、`D8FHL -> MT68A512M32DF-28:A`、`D8BCJ -> MT62F512M32D2DS-031 AAT:B`。PN 补全和解码分类支持用户省略冒号查询，并回到带冒号的官方 PN 展示。
 

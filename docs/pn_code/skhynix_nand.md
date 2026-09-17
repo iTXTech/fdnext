@@ -214,7 +214,7 @@ H25 目前分成两类结构处理：
 
 `HYV6` 的公开单 die 容量需要按 die 丝印区分：`H25FTB0` 为 512Gb，`H25GTM0` 为 1Tb。共享 `nand.die_profile` 只保留 `HYV6` 的层数、单元与接口信息，H25T/G 封装规则按封装总容量 / die 数计算并输出单 die 容量。
 
-`HYV8` 与 `HYV6` 的共享规格均不固定单 die 容量，PN 容量推导沿用上文规则。已支持的堆叠 Read ID 布局使用容量字节的单 die 容量，并将乘以 die_count 的结果作为目标容量。关联判断见 [FDBGen](../FDBGEN.md#制程原生容量与拓扑)，实测关系见 [FDB 87 审计](evidence/pn-flash-id-matching-2026-09.md#已验证案例)。
+`HYV8` 与 `HYV6` 的共享规格均不固定单 die 容量，PN 容量推导沿用上文规则。已支持的堆叠 Read ID 布局使用容量字节的单 die 容量，并将乘以 die_count 的结果作为目标容量。关联判断见 [FDBGen](../FDBGEN.md#process-native-density-and-topology)，实测关系见 [FDB 87 审计](evidence/pn-flash-id-matching-2026-09.md#已验证案例)。
 
 `HY14` 表示旧 2D 14nm 规格，公开制程仍显示为 `14nm`。SK hynix Flash ID 中 `E0` 不能单独判作 HY14；当已解析 die 大小为 1Tb 级且单元为 TLC 时，`E*` die 编码归入 `HYV9`。
 

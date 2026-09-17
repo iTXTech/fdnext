@@ -1,39 +1,37 @@
-# 集成指南（Node / 浏览器 / 服务端）
+# Integration guide (Node.js / browser / server)
 
-本项目核心是 `@itxtech/fdnext-core`（纯逻辑、无运行时网络依赖）。它已经内置 iTXTech fdnext DecodePack JSON 规则、编译器、默认资源和平台无关运行时。
+`@itxtech/fdnext-core` provides platform-independent parsing with no runtime network dependency. It includes DecodePack JSON rules, a compiler, default resources, and a shared runtime.
 
-本文档说明如何把 fdnext 嵌入 Node、浏览器和服务端部署。HTTP 路由、查询参数、响应结构和 CORS 规则统一维护在 [服务接口文档](SERVER_API.md)。
+This guide covers embedding fdnext in Node.js, browsers, and servers. [HTTP API](SERVER_API.md) owns routes, query parameters, response structures, and CORS behavior.
 
-## 1. Node.js（作为库集成）
+## 1. Node.js library
 
 ```bash
 pnpm add @itxtech/fdnext-core
 ```
 
-安装后可用 `fdnext` CLI，例如 `fdnext part decode MT29F64G08CBABA eng`；规则诊断见 [DecodePack 维护工具](DECODEPACK.md#7-维护工具)。
+Use the installed CLI with `pnpm exec fdnext part decode MT29F64G08CBABA eng`. Rule diagnostics are covered in [DecodePack maintenance tools](DECODEPACK.md#7-maintenance-tools).
 
-导出入口：
-
-| 入口 | 用途 |
+| Entry point | Purpose |
 | --- | --- |
-| `@itxtech/fdnext-core` | 引擎、输入输出类型、能力信息和 JSON Schema |
-| `@itxtech/fdnext-core/runtime` | HTTP 分发/fetch、CORS 和外部链接提供方 |
-| `@itxtech/fdnext-core/node-http` | Node 请求/响应与 Fetch API 桥接 |
-| `@itxtech/fdnext-core/cli` | CLI 集成入口 |
-| `@itxtech/fdnext-core/decodepack` | 规则编译、检查、解释、默认规则包和共享表 |
+| `@itxtech/fdnext-core` | Engine, input/output types, capabilities, and JSON schemas |
+| `@itxtech/fdnext-core/runtime` | HTTP dispatch/fetch, CORS, and external link providers |
+| `@itxtech/fdnext-core/node-http` | Node request/response to Fetch API bridge |
+| `@itxtech/fdnext-core/cli` | CLI integration |
+| `@itxtech/fdnext-core/decodepack` | Rule compilation, checks, explanation, default packs, and shared tables |
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
-// 应用启动时创建一次，后续所有请求复用该实例。
+// Create once at startup and reuse for all requests.
 const engine = createEngine();
 
 console.log(engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" }));
 console.log(engine.decodeIdentifier({ query: "2C64444BA900", lang: "eng" }));
 ```
 
-`FdnextEngine` 的首要推荐生命周期是：每个进程、应用、Worker 隔离实例或浏览器运行时只创建一个长期实例。不要在每个 HTTP 请求、解码或搜索调用中重新执行 `createEngine()`。
+Keep one long-lived `FdnextEngine` per process, application, Worker isolate, or browser runtime. Do not call `createEngine()` for every HTTP request, decode, or search.
 
-如需覆盖默认资源（例如热更新数据）：
+To replace default resources, for example for a data refresh, load your own `FdnextResourceBundle` (`loadResourcesFromYourStore` below is an application-provided loader):
 
 ```ts
 import { createEngine, type FdnextResourceBundle } from "@itxtech/fdnext-core";
@@ -42,7 +40,7 @@ const resources: FdnextResourceBundle = await loadResourcesFromYourStore();
 const engine = createEngine({ resources });
 ```
 
-只有确实需要在同一份资源上运行多个不同配置的引擎时，才使用 `PreparedCatalog` 共享不可变的资源解析和搜索索引：
+Use `PreparedCatalog` only when multiple engines with genuinely different configurations must share immutable resource parsing and search indexes:
 
 ```ts
 import { createEngine, prepareCatalog } from "@itxtech/fdnext-core";
@@ -52,11 +50,11 @@ const primaryEngine = createEngine({ catalog });
 const chineseEngine = createEngine({ catalog, fallbackLang: "chs" });
 ```
 
-`prepareCatalog()` 会按资源对象身份缓存；传入的资源在准备后应视为不可变。它是多配置场景的优化边界，不是鼓励逐请求创建引擎。
+`prepareCatalog()` caches by resource object identity. Treat resources as immutable after preparation. It is an optimization for multiple configurations, not a reason to create engines per request.
 
-### 1.1 处理器管线与 SDK 方法
+### 1.1 Processor pipeline and SDK methods
 
-`@itxtech/fdnext-core` 支持操作级处理器管线：
+The core supports operation-level processors:
 
 ```ts
 const engine = createEngine({
@@ -77,15 +75,15 @@ const engine = createEngine({
 const response = engine.decodePart({ query: "MT29F64G08CBABA", lang: "eng" });
 ```
 
-常用 SDK 方法：
+Common SDK methods:
 
 - `engine.decodePart(input)` / `engine.searchParts(input)`
 - `engine.decodeIdentifier(input)` / `engine.searchIdentifiers(input)`
 - `engine.getCapabilities()`
 
-### 1.2 运行时分发与外部链接
+### 1.2 Runtime dispatch and external links
 
-`@itxtech/fdnext-core` 是平台无关入口，负责统一分发、HTTP 路由和外部链接提供方。Node.js、Cloudflare Workers 等适配器都应调用同一个运行时，而不是各自维护路由。
+`@itxtech/fdnext-core/runtime` provides shared dispatch, HTTP routing, and external link providers. Node.js and Workers adapters call this runtime rather than maintaining separate routes.
 
 ```ts
 import { createRuntime } from "@itxtech/fdnext-core/runtime";
@@ -117,7 +115,7 @@ const response = await runtime.dispatch({
 });
 ```
 
-外部链接通过正式结果约定输出到 `result.links` 或搜索结果的 `items[].links`：
+External links appear in `result.links` or search `items[].links`:
 
 ```ts
 interface ExternalLink {
@@ -132,52 +130,37 @@ interface ExternalLink {
 }
 ```
 
-运行时会过滤缺少 `id/label/url` 的链接，只允许 `http:`、`https:`、`mailto:` URL，并按 `priority` 排序。
+The runtime drops links without `id/label/url`, permits only `http:`, `https:`, and `mailto:` URLs, and sorts by `priority`.
 
-### 结果 v2 迁移
+### Result v2 migration
 
-`fdnext.result.v2` 将外链类别统一为缩写：`vendor → vnd`、`datasheet → ds`、
-`marketplace → mkt`、`reference → ref`、`tool → tl`、`community → com`，并新增
-`ads`，用于广告、自有推广和服务导流。`ds/ref` 表示资料用途；其他资源不自动等同于技术证据。
-分类与 `hint` 独立，展示广告时应保留明确标记。通用结果复制应排除广告；链接可单独导出。
-旧名称不属于 v2 结构定义；提供方和严格校验消费者须一起升级，不能只替换显示标签。
+`fdnext.result.v2` abbreviates link categories: `vendor → vnd`, `datasheet → ds`, `marketplace → mkt`, `reference → ref`, `tool → tl`, and `community → com`. It adds `ads` for advertising, self-promotion, and service referrals. `ds/ref` describe reference uses; other resources are not automatically technical evidence. Category and `hint` are independent. Keep advertising visibly labeled and exclude it from general result copying; links may be exported separately. Old category names are outside the v2 schema, so update providers and strict consumers together, not just display labels.
 
-成功的 PN/FID 解码新增 `summary: { brief: FieldValue[], full: ResultBlock[] }`：
-`brief` 按器件类型给出有序重点字段，`full` 保留全部参数和组件分组。两者
-沿用原字段的键、翻译、单位和值。DRAM 包含类型、容量、位宽、速率和电压；受管理 NAND
-分别保留设备和组件容量，MCP 的 DRAM 在独立 `dram` 块中；3D XPoint 保留 Deck 语义。
-摘要仅选取可见且确实返回的字段，不推算缺失容量、组件数或供电。`full` 与 `blocks` 一致，
-关联与警告仍在 `relations/warnings`；摘要不能代替这些内容。丝印与完整 PN 从 `device`
-及 `input.query` 读取。`subtitle` 同步补充 DRAM 速率/电压、受管理接口/协议和 XPoint Deck。
+Successful PN/FID decodes include `summary: { brief: FieldValue[], full: ResultBlock[] }`. `brief` orders key fields by device type; `full` retains all parameter and component groups. Both preserve field keys, translations, units, and values. DRAM includes type, density, width, speed, and voltage. Managed NAND retains device and component capacities separately; MCP DRAM has its own `dram` block; 3D XPoint retains Deck semantics.
 
-## 2. 浏览器（Web / 前端）
+Summaries select only visible fields actually returned. They do not infer missing capacities, component counts, or supplies. `full` matches `blocks`; `relations/warnings` remain separate and are not replaced by summaries. Read marking and full PN identity from `device` and `input.query`. `subtitle` also includes DRAM speed/voltage, managed interfaces/protocols, and XPoint Deck information.
 
-浏览器侧推荐用 Vite / Webpack / Rollup / esbuild 打包，关键点：
+## 2. Browser integration
 
-- 浏览器内嵌解析应使用 `createEngine()`，直接调用 `decodePart()` / `searchParts()` / `decodeIdentifier()` / `searchIdentifiers()` / `getCapabilities()`；`@itxtech/fdnext-core/runtime` 只面向 HTTP 适配器，不是前端本地解析入口。
-- 浏览器侧也应在应用启动时创建并复用一个引擎，不要在组件渲染或单次查询中重复创建。
-- 默认的 `fdb/mdb/lang` 和 PN 补全资源已嵌入核心打包产物；普通集成不需要额外下载或托管 JSON。
-- 自定义 PN 搜索资源的结构与去重要求见 [搜索资源](pn_code/authoring.md#搜索资源)。
-- 默认解码器（PN / 带类型的标识符）已由 `@itxtech/fdnext-core` 内置；只有裁剪规则或注入自定义规则时才需要显式传入 `decoders` / `identifierDecoders`
-- `@itxtech/fdnext-core/decodepack` 是规则维护入口，面向检查 / 解释 / 编译等工具链；普通前端查询不需要直接引用它。
-- `searchParts()` / `searchIdentifiers()` 不传 `limit` 时返回全部匹配项，适合前端一次获取后在内存中分页；传入正整数 `limit` 才会启用前 K 项截断。默认料号搜索同时保留前缀和包含匹配。
-- HTTP 搜索的结果上限见 [通用参数](SERVER_API.md#3-通用参数)。
-- 自定义搜索结果若需要额外 DecodePack 字段，可通过 `createEngine({ partSearchProjection: ["fields.<key>"] })` 追加投影路径；默认搜索依赖仍会自动保留。
+Bundle fdnext with Vite, Webpack, Rollup, or esbuild:
 
-### 2.1 默认内嵌资源（推荐）
+- Use `createEngine()` and its decode/search/capabilities methods for local browser queries. `/runtime` is for HTTP adapters.
+- Create and reuse one engine at startup, not on each component render or query.
+- Default FDB/MDB, translations, and PN search resources are embedded. No extra JSON download or hosting is required.
+- Custom PN resource structures and deduplication are covered in [Search resources (Chinese)](pn_code/authoring.md#搜索资源).
+- Default PN and typed identifier decoders are included. Pass `decoders` / `identifierDecoders` only to select or replace rules.
+- `/decodepack` provides check/explain/compile tooling; ordinary frontend queries do not need it directly.
+- SDK `searchParts()` / `searchIdentifiers()` without `limit` return all matches for in-memory pagination. A positive integer enables top-K truncation. Default PN search includes prefix and substring matches.
+- HTTP search limits are defined in [Common parameters](SERVER_API.md#3-common-parameters).
+- Add custom DecodePack fields to search with `createEngine({ partSearchProjection: ["fields.<key>"] })`. Default search dependencies remain included.
 
-核心 npm 发布包仅携带已嵌入打包产物的资源，不重复发布原始 `resources/*.json`；使用上文默认引擎即可。
+### 2.1 Embedded resources
 
-### 2.2 自定义外部资源
+The core npm package ships resources embedded in its bundle, without separate raw `resources/*.json` files. Use the default engine above.
 
-只有需要替换默认数据库或语言包时，才由应用自行维护并托管资源 JSON，再将其组装为 `FdnextResourceBundle`。这些文件不由核心 npm 包提供。下面示例假设应用自己的静态资源挂载到 `/fdnext-resources/`：
+### 2.2 Custom external resources
 
-- `/fdnext-resources/fdb.json`
-- `/fdnext-resources/mdb.json`
-- `/fdnext-resources/managed-nand-pn.json`
-- `/fdnext-resources/dram-pn.json`
-- `/fdnext-resources/lang/chs.json`
-- `/fdnext-resources/lang/eng.json`
+Only host your own resource JSON when replacing the default databases or translations. Assemble these application-owned files into `FdnextResourceBundle`; the core npm package does not supply them separately. This example uses `/fdnext-resources/`:
 
 ```ts
 import { createEngine } from "@itxtech/fdnext-core";
@@ -216,39 +199,39 @@ const engine = createEngine({
 });
 ```
 
-## 3. 服务端（HTTP 服务）
+## 3. HTTP server
 
-`@itxtech/fdnext-server` 是基于原生 `node:http` 的标准适配器。它通过 `@itxtech/fdnext-core/node-http` 在 Node 请求/响应与 Fetch API 之间转换，实际路由由运行时统一处理。
+`@itxtech/fdnext-server` uses native `node:http`. It bridges Node requests/responses and the Fetch API through `@itxtech/fdnext-core/node-http`; the shared runtime handles routes.
 
-### 3.1 仓库内运行
+### 3.1 Run from the repository
 
 ```bash
 pnpm install
 pnpm server:dev
 ```
 
-如需指定外部资源目录，增加参数：
+To use an external resource directory:
 
 ```bash
-pnpm -C packages/server dev -- --resources /path/to/packages/core/resources
+pnpm -C packages/server dev -- --resources ./resources
 ```
 
-发布包不会附带上述目录；生产部署使用 `--resources` 时，需要自行提供符合 `FdnextResourceBundle` 结构的外部资源目录。
+Supply the directory yourself; it is not included in npm packages. Required files are `fdb.json`, `mdb.json`, `lang/chs.json`, and `lang/eng.json`. Optional files are `managed-nand-pn.json`, `dram-pn.json`, and `controller-groups.json`.
 
-构建后运行生产入口：
+Build and run the production entry:
 
 ```bash
 pnpm -C packages/server build
 pnpm server:start
 ```
 
-### 3.2 Docker（最小镜像）
+### 3.2 Docker
 
-使用 [Dockerfile](../Dockerfile)。
+Use the root [Dockerfile](../Dockerfile).
 
-### 3.3 PM2 部署
+### 3.3 PM2
 
-仓库根目录提供 `ecosystem.config.cjs`：
+After building, use the root `ecosystem.config.cjs`:
 
 ```bash
 pm2 start ecosystem.config.cjs
@@ -256,18 +239,18 @@ pm2 status
 pm2 logs fdnext-server
 ```
 
-### 3.4 发布包与程序化接入
+### 3.4 Published package and programmatic use
 
 ```bash
 pnpm add @itxtech/fdnext-server
-fdnext-server [--host 0.0.0.0] [--port 8080] [--resources ./resources]
+pnpm exec fdnext-server --host 0.0.0.0 --port 8080
 ```
 
-| 参数 | 默认值 | 说明 |
+| Option | Default | Meaning |
 | --- | --- | --- |
-| `--host` | `0.0.0.0` | 监听地址 |
-| `--port` | `8080` | 监听端口 |
-| `--resources` | 内嵌资源 | 自备资源目录 |
+| `--host` | `0.0.0.0` | Bind address |
+| `--port` | `8080` | Listening port |
+| `--resources` | Embedded resources | Application-supplied resource directory |
 
 ```ts
 import { createHttpServer } from "@itxtech/fdnext-server";
@@ -275,22 +258,21 @@ import { createHttpServer } from "@itxtech/fdnext-server";
 const app = createHttpServer({
   host: "0.0.0.0",
   port: 8080,
-  resourceDir: "./resources", // 可选
   cors: { origins: ["https://app.example.com"] },
   searchLimit: 300
 });
 await app.listen();
-// app.server 是 node:http 的 Server 实例；app.engine 可直接执行 SDK 操作。
+// app.server is a node:http Server; app.engine exposes SDK operations.
 ```
 
-显式 `cors` / `searchLimit` 优先于环境配置；变量语义与 HTTP 行为见 [服务 API](SERVER_API.md)。
+Add `resourceDir: "./resources"` to replace embedded resources. Explicit `cors` / `searchLimit` override environment configuration; see [HTTP API](SERVER_API.md) for variable semantics and HTTP behavior.
 
-### 3.5 构建信息
+### 3.5 Build metadata
 
-标准打包产物构建会从 git 写入短 `commitHash`，`buildTime` 使用当前 UTC 时间，格式为 ISO 8601，保留毫秒（`YYYY-MM-DDTHH:mm:ss.sssZ`）。CI / 无服务器平台可以显式设置 `FDNEXT_COMMIT_HASH` 和 `FDNEXT_BUILD_TIME` 覆盖；时间覆盖值会转换为同一格式，无效值使构建失败。直接从源码运行服务 / CLI、没有打包器注入构建元数据时，`buildTime` 使用进程启动时间，格式相同。
+Standard bundles embed a short Git `commitHash` and the current UTC `buildTime` in ISO 8601 format with milliseconds (`YYYY-MM-DDTHH:mm:ss.sssZ`). CI and serverless builds can override these with `FDNEXT_COMMIT_HASH` and `FDNEXT_BUILD_TIME`. Time overrides are normalized to the same format; invalid values fail the build. Servers/CLIs run from source without injected metadata use process startup time in that format.
 
-Worker 的核心与适配器构建都注入上述信息，避免全局范围的 `Date` 回退将构建时间记为 Unix 纪元起点。
+Both core and Worker adapter builds inject this metadata so a global-scope `Date` fallback does not record the Unix epoch as the build time.
 
-## 4. 无服务器平台适配
+## 4. Serverless adapters
 
-[Cloudflare Workers 部署](CF_WORKERS.md) 负责 Worker 入口、Wrangler 和 Dashboard 配置。
+[Cloudflare Workers](CF_WORKERS.md) covers the Worker entry, Wrangler, and Dashboard configuration.

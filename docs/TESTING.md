@@ -23,7 +23,7 @@ pnpm build
 | `pnpm check:pr` | 构建一次后执行完整源码与发布包检查 |
 | `pnpm lint` | `check:static` 的别名 |
 
-规则诊断命令见 [DecodePack 维护工具](DECODEPACK.md#7-维护工具)，数据维护命令见 [FDBGen](FDBGEN.md#cli-用法)。
+规则诊断命令见 [DecodePack 维护工具](DECODEPACK.md#7-maintenance-tools)，数据维护命令见 [FDBGen](FDBGEN.md#cli-usage)。
 
 ## 基础范围
 

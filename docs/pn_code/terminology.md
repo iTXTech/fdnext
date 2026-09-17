@@ -1,210 +1,199 @@
-# 跨厂商公开字段术语
+# Public field terminology
 
-采集日期：2026-05-15；更新日期：2026-09-12
+Collected: 2026-05-15; field contract updated: 2026-09-12.
 
-本文档定义 fdnext 结果约定中跨厂商共用的规范字段键。公开结果用 `device` 表达身份信息，用 `subtitle` 表达解码摘要，用 `blocks[].fields[]` 输出详情字段；每个字段使用稳定的 `key` / `value` / `unit` / `display`，语言包负责 `label`、`display`、块标签、警告消息 等展示文本，不改变键。
+This document defines canonical field keys shared across vendors. Results use `device` for identity, `subtitle` for a display summary, and `blocks[].fields[]` for details. Each field has stable `key/value/unit/display` semantics. Language packs supply labels, display text, block titles, and warnings without changing keys. PN means part number; die means an individual semiconductor die.
 
-本文中 die 指裸片，PN 指料号；单 die 容量与封装总容量的具体字段含义见下表。
+Maintenance rules:
 
-维护规则：
+- DecodePack rules emit canonical snake_case keys directly, without legacy aliases or runtime conversions. Adding/renaming fields requires updating source rules, shared tables, `packages/core/src/field-registry.ts`, `packages/core/resources/lang/eng.json`, `chs.json`, and tests. Add retired keys to the metadata audit denylist.
+- Maintenance metadata ownership is defined in [Reference policy (Chinese)](reference_policy.md).
+- Omit unknown values; do not emit `Unknown`, empty arrays, or NAND-only default slots to fill an old response shape.
+- `vendor`, `chip_kind`, `product_type`, `part_number`, `identifier`, `id_scheme`, and `marking_code` belong in `device`, not duplicated in detail fields.
+- Parsing tokens such as `config_code`, `package_code`, `controller_code`, `die_code`, `feature_code`, and other `*_code` values remain internal. Do not expose them in `fields.*`, detail blocks, or labels named `Code`. Prefer semantic fields such as `package`, `controller`, `controller_revision`, `die_revision`, `die_codename`, `process_node`, and `special_option`. Pure clues such as `nand_component`, design IDs, or generation codes also remain internal when they lack stable readable semantics.
+- Capacity fields use numeric Mbit throughout rules, shared tables, and results. `density`, `storage_density`, `component_density`, `die_density`, `dram_density`, and `dram_die_density` must have positive numeric `value` and `unit = Mbit`. NAND/managed-NAND displays use bytes; DRAM displays use bits. Interfaces and product types have their own fields. Omit unknown capacity rather than using zero/string placeholders or legacy string conversions.
 
-- iTXTech fdnext DecodePack 规则应直接输出规范 snake_case 字段键，不维护旧键别名或运行时兼容转换。新增/重命名字段同步源规则、共享表、`packages/core/src/field-registry.ts`、`packages/core/resources/lang/eng.json`、`chs.json` 和测试，把旧键加入元数据审计禁止列表。
-- 维护信息的存放位置见 [可信度策略](reference_policy.md)。
-- 未知值直接省略；不要为了填满旧响应形状输出 `Unknown`、空数组或仅 NAND 默认槽位。
-- `vendor`、`chip_kind`、`product_type`、`part_number`、`identifier`、`id_scheme`、`marking_code` 已由 `device` 承载，不再复制进 `blocks[].fields[]`。
-- `config_code`、`package_code`、`controller_code`、`die_code`、`feature_code` 以及其他 `*_code` 编码段只用于 DecodePack 内部解析，不进入 `fields.*` 或用户可见 `blocks[].fields[]`，也不以 `Code` 标签展示；应优先输出 `package`、`controller`、`controller_revision`、`die_revision`、`die_codename`、`process_node`、`special_option` 等语义字段。`nand_component`、设计 ID、产品代际编码等纯编码线索没有稳定可读语义时同样留在内部。
-- 容量字段从源规则、共享表到公开结果均使用数值 Mbit：`density`、`storage_density`、`component_density`、`die_density`、`dram_density`、`dram_die_density` 的 `value` 必须是正数，并带 `unit = Mbit`。NAND / 受管理 NAND 的 `display` 使用字节，DRAM 的 `display` 使用位；接口或产品类型通过各自字段表达，不拼入容量值。未知容量省略，不用 `0` 或字符串占位，也不做旧字符串兼容转换。
+## Field groups
 
-## 字段分组
+`packages/core/src/field-profiles.ts` is the single source of detail field placement and order, selected by chip kind or identifier scheme. The field registry defines types, units, labels, formatting, and importance. Add new fields to their applicable profiles, once per profile. Identity stays in `device`; internal tokens stay out of detail groups.
 
-`packages/core/src/field-profiles.ts` 是详情字段归属与顺序的唯一配置来源，按芯片类别或标识符方案选择规格；字段注册表只定义值类型、单位、标签、格式化和重要性。新增字段时同时补齐适用规格。同一规格的每个字段只声明一次；设备身份保留在 `device`，内部编码段不进入详情组。
-
-| 场景 | 归属 |
+| Context | Group |
 | --- | --- |
-| 裸 NAND 的 die 容量、die/CE/通道/平面数和页块参数 | `geometry`（组织结构） |
-| 受管理 NAND 的内部 NAND 容量、组织结构与 NAND 接口 | `components`；设备或存储总容量、对外存储接口在 `storage` |
-| 独立 DRAM 的 die 容量、die/CS/存储体/通道数 | `geometry`；制程、die 修订和系列随主规格放在 `dram` |
-| MCP/eMCP/uMCP 的 DRAM 子系统 | DRAM 容量、die 数、时序等集中在 `dram`，与 NAND 组件分开 |
-| 独立 DRAM 的 CAS 延迟和有增量信息的速度等级 | `timing`；接口模式与 ECC 状态在 `interface` |
-| NAND Flash ID 的 die 容量、数量和页块参数 | `geometry`；NAND 接口在 `interface` |
-| 丝印年码、周次、Die 版本、晶圆产地和封装地 | `marking`（丝印信息）；封装属性在 `package`，控制器修订在 `controllers` |
+| Raw NAND die density, die/CE/channel/plane counts, page/block geometry | `geometry` |
+| Managed NAND internal density, geometry, and NAND interface | `components`; device/storage capacity and external interface belong in `storage` |
+| Standalone DRAM die density, die/CS/bank/channel counts | `geometry`; process, die revision, and family stay with primary specifications in `dram` |
+| MCP/eMCP/uMCP DRAM subsystem | DRAM density, die count, and timings in `dram`, separate from NAND components |
+| Standalone DRAM CAS latency and meaningful speed grades | `timing`; interface modes and ECC state in `interface` |
+| NAND Flash ID die density/counts and page/block geometry | `geometry`; NAND interface in `interface` |
+| Marking year digit, week, die revision, diffusion and encapsulation locations | `marking`; package properties in `package`, controller revision in `controllers` |
 
-未列入规格的已知公开字段仍进入 `additional`，以免丢失信息；当前有意保留的场景包括未知芯片类别和 Flash ID 的 `enterprise` 标记。常规产品线已有明确语义的字段应显式归组，不依赖 `additional` 兜底。
+Known public fields absent from a profile still enter `additional` to preserve information. Intentional cases include unknown chip kinds and the Flash ID `enterprise` flag. Fields with established semantics in normal product lines should have explicit groups.
 
-## 公开值与去重
+## Public values and deduplication
 
-- 同一语义只保留最有价值的规范字段。`speed_grade` 仅在比 `dram_speed` 多表达分级、测试等级、CAS/RL/WL 时序或温度等级时保留，例如 `046BT Fully Tested`、`PG Partial Good Mixed Bins`；只重复速率单位或回显编码段时省略。已有 `DDR3L-1333 (667MHz)` 时不再输出 `1333Mbps/pin`。
-- `Engineering Sample(s)` / `Early Engineering Sample(s)` 只通过 `prod_status` 公开一次，不重复放进 `product_class`、`sku`、`special_option` 等字段；多个编码段推导同一状态时仍只输出一个生产状态，保留资料中的单复数。
-- `voltage` / `dram_voltage` 只表达电压，不重复 DDR 代际、DRAM 类型或产品线。
-- 用户可见的数字代际统一为紧凑 `GenN`，例如 `Gen1`、`Gen2 eMCP`、`Gen5 Xtacking 4.0`，适用于 `generation_info`、`product_generation`、`dram_generation`、代际型 `prod_status` 及其他公开代际值。不得使用 `1st Gen`、`1st generation`、`Gen 1`、`CXMT G3`；内部 `generation_code` / 编码段变量名、`process_node` 的厂商工艺别名以及 `PCIe Gen4` / `USB 3.2 Gen 1` 等标准或专名保留原写法。直接迁移源规则、共享表、测试和文档，不加运行时归一。
-- `package` 只输出官方资料、数据手册、目录、拆解或可信分销页确认的封装类型、脚位、尺寸或特殊信息，格式为 `TYPE[-PIN][, DIM][, SPECIAL]`，例如 `FBGA-153, 11.5x13x1.0`、`BGA, 11.0x13.0x0.8`、`WLGA`。缺引脚只输出类型，不猜脚位；仅 DIM 确认时只保留 DIM。省略 `mm`、`ball`、`pin`、`Unknown`，只有未解释的封装编码时不输出。PN 编码段与封装证据的对应限制见 [编写规范](authoring.md#输出与证据)。
+- Keep the most informative canonical field for each meaning. Retain `speed_grade` only when it adds grading, test quality, CAS/RL/WL timing, or temperature information beyond `dram_speed`, such as `046BT Fully Tested` or `PG Partial Good Mixed Bins`. Omit repeated speed units and token echoes; do not add `1333Mbps/pin` beside `DDR3L-1333 (667MHz)`.
+- Expose `Engineering Sample(s)` / `Early Engineering Sample(s)` only through `prod_status`, not again in `product_class`, `sku`, or `special_option`. Multiple tokens yielding the same status still produce one field; preserve source singular/plural wording.
+- `voltage` / `dram_voltage` contain voltage information, without repeated DDR generation, DRAM type, or product-line text.
+- Numeric generations use compact `GenN`, such as `Gen1`, `Gen2 eMCP`, or `Gen5 Xtacking 4.0`, in `generation_info`, `product_generation`, `dram_generation`, generation-valued `prod_status`, and other public generation values. Avoid `1st Gen`, `1st generation`, `Gen 1`, and `CXMT G3`. Internal `generation_code`/token names, vendor process aliases in `process_node`, and standards/proper names such as `PCIe Gen4` / `USB 3.2 Gen 1` retain their spelling. Migrate rules, tables, tests, and documents directly, without runtime normalization.
+- `package` contains only package types, pin counts, dimensions, or special details confirmed by official materials, datasheets, catalogs, teardowns, or trusted distributors. Format: `TYPE[-PIN][, DIM][, SPECIAL]`, such as `FBGA-153, 11.5x13x1.0`, `BGA, 11.0x13.0x0.8`, or `WLGA`. If pins are unknown, emit the type without guessing; if only dimensions are confirmed, emit dimensions alone. Omit `mm`, `ball`, `pin`, and `Unknown`. An unexplained package token alone is not a public package value. See [Output and evidence (Chinese)](authoring.md#输出与证据).
 
-## 身份 / 摘要 / 关联
+## Identity, summaries, and relations
 
-| 字段 | 含义 | 常见块 |
+| Field | Meaning | Location |
 | --- | --- | --- |
-| `part_number` | 规范化后的 PN | `device.partNumber` |
-| `vendor` | 厂商展示名 | `device.vendor` |
-| `chip_kind` | `raw_nand`、`managed_nand`、`dram` 等芯片类别 | `device.chipKind` |
-| `product_type` | eMMC、UFS、SATA、SAS、NVMe、eMCP/uMCP、E2NAND/E3NAND、LPDDR5X、DDR4 等产品线子类型 | `device.productType` |
-| `identifier` | 带类型的标识符值，例如 NAND Flash ID | `device.identifier` |
-| `id_scheme` | 标识符命名空间，例如 `nand.flash_id` | `device.idScheme` |
-| `marking_code` | FBGA / 封装丝印编码 | `device.markingCode` |
+| `part_number` | Normalized PN | `device.partNumber` |
+| `vendor` | Vendor display identity | `device.vendor` |
+| `chip_kind` | Chip kind, such as `raw_nand`, `managed_nand`, or `dram` | `device.chipKind` |
+| `product_type` | Product subtype: eMMC, UFS, SATA, SAS, NVMe, eMCP/uMCP, E2NAND/E3NAND, LPDDR5X, DDR4, etc. | `device.productType` |
+| `identifier` | Typed identifier value, such as NAND Flash ID | `device.identifier` |
+| `id_scheme` | Identifier namespace, such as `nand.flash_id` | `device.idScheme` |
+| `marking_code` | FBGA/package marking code | `device.markingCode` |
 
-`subtitle` 只用于快速展示，不作为结构化解析依据。典型形态：
+`subtitle` is for quick display, not structured parsing. Typical forms:
 
-- NAND PN：`NAND Flash · KIOXIA · 32GB MLC`
-- 受管理 NAND：`eMCP · SAMSUNG · 8GB · 32Gb LPDDR4`
-- DRAM：`LPDDR5X · Micron · 64Gb · x64`
-- NAND Flash ID：`Micron · 8GB MLC · 1 die · 2 planes`
+- NAND PN: `NAND Flash · KIOXIA · 32GB MLC`
+- Managed NAND: `eMCP · SAMSUNG · 8GB · 32Gb LPDDR4`
+- DRAM: `LPDDR5X · Micron · 64Gb · x64`
+- NAND Flash ID: `Micron · 8GB MLC · 1 die · 2 planes`
 
-关系使用 `relations[]` 表达：
+`relations[]` expresses:
 
-- `identifier_for`: PN 与 NAND Flash ID 的关系。
-- `marking_for`: 丝印编码与真实 PN 的关系。
-- `alternate_part`: 只从当前 PN 指向相关 PN 的单向关系，例如群联侧 PN 指向原厂 PN。
-- `component`: eMCP/uMCP 这类复合产品的存储 / DRAM 子组件。
+- `identifier_for`: PN–NAND Flash ID association.
+- `marking_for`: marking-code to real-PN association.
+- `alternate_part`: a one-way relation from the current PN to another PN, such as a Phison PN to an original-vendor PN.
+- `component`: storage/DRAM subcomponents of composite products such as eMCP/uMCP.
 
-当关联可以直接跳转到另一个解析动作时，使用 `relations[].action` 承载该动作；不要再额外输出独立的顶层 `actions[]`。
+Put direct navigation to another decode operation in `relations[].action`; do not add a separate top-level `actions[]`.
 
-### PN 展示与输入
+### PN display and input
 
-`input.query` 是用户原输入，`input.normalized` 是清理后的输入，`device.partNumber`
-是规则或目录确定的展示 PN。容错匹配键可以忽略 `-` / `:`，但不能直接作为展示值。
-已识别的订购后缀按产品线边界恢复分隔符；只有主体时不追加横线，也不补全不存在的后缀。
-搜索、候选与关联动作复用同一展示规则。已有明确器件别名转换仍生效，例如 H25 的 `-X` 归一化。
+`input.query` is the original input, `input.normalized` is cleaned input, and `device.partNumber` is the display PN established by a rule or catalog. Tolerant matching keys may ignore `-` / `:`, but cannot serve directly as display values. Restore recognized ordering suffix separators at product-line boundaries; do not append a hyphen to a body-only input or invent suffixes. Search, candidates, and relation actions share this display logic. Explicit device-alias conversions, such as H25 `-X` normalization, still apply.
 
-### Micron 丝印
+### Micron markings
 
-5 位 FBGA 码与前置 5 位追溯信息的完整丝印复用同一器件匹配；`device.partNumber`
-始终是真实 PN，`device.markingCode` 为 5 位 FBGA 码。`input.query` 保留原始输入，
-`input.normalized` 保留规范化后的完整输入，不截短为 FBGA 码。搜索同样返回真实 PN，
-不将 FDB 中的完整丝印展示成第二颗器件。旧 `micron_part_number`、`prod_date` 字段移除。
+A five-character FBGA code and a full marking with five leading trace characters resolve to the same device. `device.partNumber` remains the real PN; `device.markingCode` is the five-character FBGA code. `input.query` retains the original input and `input.normalized` retains the full normalized input, not just its FBGA suffix. Search also returns real PNs; full markings in FDB must not appear as additional devices. The old `micron_part_number` and `prod_date` fields are removed.
 
-完整丝印仅追加以下 `marking` 字段；不输出独立日期码或推测完整年份：
+Full markings add only these `marking` fields, without a separate date code or an inferred full year:
 
-| 字段 | 中文标签 | 含义 |
+| Field | Chinese label | Meaning |
 | --- | --- | --- |
-| `marking_year_digit` | 年码 | 年份末位，字符串 `0`–`9`，保留 `0` |
-| `marking_week` | 周次 | 打标工作周，数值 2–52 中的偶数；显示为两位，如 `06` |
-| `marking_die_revision` | Die版本 | 丝印第三位修订字符；不覆盖 PN 解出的 `die_revision` |
-| `diffusion_loc` | 晶圆产地 | 晶圆扩散所在地 |
-| `encapsulation_loc` | 封装地 | 封装所在地 |
+| `marking_year_digit` | 年码 | Final year digit as string `0`–`9`, preserving `0` |
+| `marking_week` | 周次 | Even marking workweek from 2–52; display as two digits, such as `06` |
+| `marking_die_revision` | Die版本 | Third marking character; does not override PN-decoded `die_revision` |
+| `diffusion_loc` | 晶圆产地 | Wafer diffusion location |
+| `encapsulation_loc` | 封装地 | Encapsulation location |
 
-例如 `1CB2DJZ215` 与 `JZ215` 均对应 `MTFDHBL256TDQ-1AT12ATYY`，前者另有
-年码 `1`、周次 `06`、Die版本 `B`、晶圆产地新加坡、封装地马来西亚。
-年码和周次分别校验，未知地点省略并给出警告，原始字符可从完整输入追溯。
-只输入 5 位码时不出现空的丝印信息组。
+For example, `1CB2DJZ215` and `JZ215` both identify `MTFDHBL256TDQ-1AT12ATYY`. The full marking additionally gives year digit `1`, week `06`, die revision `B`, diffusion in Singapore, and encapsulation in Malaysia. Validate year and week separately. Omit unknown locations with a warning; original characters remain traceable in the full input. A five-character code alone does not create an empty marking group.
 
-编码依据：[Micron CSN-11 Rev.BF 05/2026，第 3、5、6 页](https://www.micron.com/content/dam/micron/global/public/products/broad-products/csns/csn11.pdf)。
+Source: [Micron CSN-11 Rev.BF, 05/2026, pages 3, 5, and 6](https://www.micron.com/content/dam/micron/global/public/products/broad-products/csns/csn11.pdf).
 
-## NAND / 受管理 NAND
+## NAND / managed NAND
 
-| 字段 | 含义 | 示例 |
+| Field | Meaning | Example |
 | --- | --- | --- |
-| `density` | 当前芯片或存储结果的容量，`unit = Mbit`，`display` 用字节 | `65536` / `8GB` |
-| `component_density` | 封装或组件总容量，常用于 MCP/eMCP/uMCP 子组件，`display` 用字节 | `524288` / `64GB` |
-| `component_density_options` | 无法唯一确定的组件容量候选，`value` 是不重复的正数 Mbit 数组，不能求和或当作范围；不同时输出单值 `component_density` | `[262144, 524288]` / `32GB / 64GB` |
-| `component_voltage` | 封装或组件电压，不承载产品线或代际信息 | `3.3V` |
-| `storage_density` | MCP/eMCP/uMCP 内存储子系统容量，`display` 用字节 | `262144` / `32GB` |
-| `die_density` | 单颗 NAND die 容量，`display` 用字节 | `1024` / `128MB` |
-| `die_codename` | NAND 用户可见制程名，公开标签渲染为 `Process` / `制程`；`nand.die_profile` 查找键可以比公开值更具体 | `BiCS4` / `20nm` |
-| `process_alias` | 制程代号或厂商工艺别名，用于独立展示 `X3-9060`、`8T23` 这类匹配线索 | `X3-9060` |
-| `die_stack` | 非纯数量的 NAND 堆叠结构或厂商结构代号；纯数量使用 `die_count` | `DSP (4-die x2)`, `2-Deck` |
-| `die_count` / `ce_count` / `rb_count` / `channel_count` / `plane_count` | NAND 拓扑数量字段，统一使用 `*_count` 键 | `2` / `2` / `2` / `4` / `4` |
-| `page_size` / `block_size` / `sector_size` | 页 / 块 / 扇区几何信息，字节字段使用 `unit = byte` | `16384` / `16KiB` |
-| `half_page_and_size` | 半页 / 页大小相关封装特征 | `true` |
-| `generation_info` | NAND 产品代际、层数或制程节点 | `V8 236L` |
-| `series_info` | 厂商系列说明 | `3D-V4` |
-| `storage_interface` | 受管理 NAND 或 MCP 存储接口 | `eMMC 5.1`, `UFS 4.0` |
-| `nand_interface` | 结构化 NAND 接口规格；`rating` 为器件等级，`capability` 为 die 能力；不代表受管理 NAND 对外速率 | `{ capability: "ONFI 4.1; Max Speed=1600MT/s" }` |
-| `interface_type` | 接口模式、档位、通道或 HS 模式 | `HS400`, `Gear 4 / 2-Lane` |
-| `interface_note` | 接口 / 位宽组合表中有增量信息的说明，不用于默认 `Normal` | `HP w/ FBI Chip` |
-| `toggle` | Toggle DDR 标记 | `DDR` |
-| `controller` / `controller_revision` | 支持控制器列表或控制器版本 | `["SM2244LT", "SM3270AC"]`, `V4.41 EF` |
-| `package_configuration` | MCP/eMCP/uMCP 封装内存储 / DRAM / eMMC / UFS 颗数组合，不表达封装尺寸 | `4 LPDRAM, 1 UFS` |
-| `form_factor` | SSD / 模组类产品的整机或模组外形规格，不等同于芯片封装 | `2.5-inch, 7mm` |
-| `dram_configuration` | MCP/eMCP/uMCP 中 DRAM 子系统的实际颗粒组成；当同一 PN 混用多种 DRAM die/料号编码段时用于保留组成细节 | `48Gb (4 x Y2BM) + 16Gb (2 x Y21N)` |
-| `product_class` / `assembly` / `segment` / `sku` | 厂商产品等级、封装、产品分段或 SKU 编码段展开 | `Automotive Grade 2`, `Client Component` |
-| `operation_temperature` | 工作温度范围 | `-40~105C` |
-| `lead_free` / `halogen_free` / `wafer` / `multi_chip` / `cu` | 环保、晶圆、多芯片或铜工艺标记 | `true` |
-| `bad_block` | 坏块策略 | `Include Bad Block` |
-| `ecc_enabled` | 内部 ECC 状态 | `true` / `Yes` |
+| `density` | Current chip/storage capacity, `unit = Mbit`, byte display | `65536` / `8GB` |
+| `component_density` | Total package/component capacity, often for MCP/eMCP/uMCP components; byte display | `524288` / `64GB` |
+| `component_density_options` | Unresolved component-capacity candidates: distinct positive Mbit numbers, not a sum or range; mutually exclusive with scalar `component_density` | `[262144, 524288]` / `32GB / 64GB` |
+| `component_voltage` | Package/component voltage, without product-line or generation text | `3.3V` |
+| `storage_density` | MCP/eMCP/uMCP storage-subsystem capacity; byte display | `262144` / `32GB` |
+| `die_density` | Capacity of one NAND die; byte display | `1024` / `128MB` |
+| `die_codename` | Public NAND process name, labeled `Process` / `制程`; internal profile keys may be more specific | `BiCS4` / `20nm` |
+| `process_alias` | Process codename or vendor alias, preserving independent clues such as `X3-9060` or `8T23` | `X3-9060` |
+| `die_stack` | Non-numeric NAND stack structure or vendor structure code; pure counts use `die_count` | `DSP (4-die x2)`, `2-Deck` |
+| `die_count` / `ce_count` / `rb_count` / `channel_count` / `plane_count` | NAND topology counts, consistently using `*_count` keys | `2` / `2` / `2` / `4` / `4` |
+| `page_size` / `block_size` / `sector_size` | Page/block/sector geometry; byte fields use `unit = byte` | `16384` / `16KiB` |
+| `half_page_and_size` | Half-page/page-size package feature | `true` |
+| `generation_info` | NAND product generation, layers, or process node | `V8 236L` |
+| `series_info` | Vendor series description | `3D-V4` |
+| `storage_interface` | Managed NAND or MCP storage interface | `eMMC 5.1`, `UFS 4.0` |
+| `nand_interface` | Structured NAND specification: device `rating` and die `capability`; not the external managed-NAND speed | `{ capability: "ONFI 4.1; Max Speed=1600MT/s" }` |
+| `interface_type` | Interface mode, gear, channels, or HS mode | `HS400`, `Gear 4 / 2-Lane` |
+| `interface_note` | Additional information from interface/width tables, not a default `Normal` | `HP w/ FBI Chip` |
+| `toggle` | Toggle DDR marker | `DDR` |
+| `controller` / `controller_revision` | Supported controllers or controller revision | `["SM2244LT", "SM3270AC"]`, `V4.41 EF` |
+| `package_configuration` | Storage/DRAM/eMMC/UFS chip composition inside MCP/eMCP/uMCP, not dimensions | `4 LPDRAM, 1 UFS` |
+| `form_factor` | Whole-device/module form factor for SSD/module products, distinct from chip package | `2.5-inch, 7mm` |
+| `dram_configuration` | Actual DRAM composition when one MCP/eMCP/uMCP PN mixes die/PN tokens | `48Gb (4 x Y2BM) + 16Gb (2 x Y21N)` |
+| `product_class` / `assembly` / `segment` / `sku` | Expanded vendor class, assembly, segment, or SKU tokens | `Automotive Grade 2`, `Client Component` |
+| `operation_temperature` | Operating temperature range | `-40~105C` |
+| `lead_free` / `halogen_free` / `wafer` / `multi_chip` / `cu` | Environmental, wafer, multi-chip, or copper-process flags | `true` |
+| `bad_block` | Bad-block policy | `Include Bad Block` |
+| `ecc_enabled` | Internal ECC state | `true` / `Yes` |
 
-约定：
+Conventions:
 
-- NAND 制程/代际匹配优先输出 `die_codename`，公开标签渲染为 `Process` / `制程`。共享表中已由制程名称完整表达的代际不再另写 `generation_info`；独立的产品代际、Xtacking 版本、系列和节点仍可同时公开，结果生成器不因存在 die 名称而删字段。2D 公开值优先是 `15nm` / `A19nm` / `20nm` 这类光刻制程；Kioxia / SanDisk 3D 公开值统一是 `BiCS3` / `BiCS4` / `BiCS4.5`，不带厂商和单元后缀。层数使用独立 `layer_count`，并统一放在 NAND 主解析结果块，不放入封装细节；`X3-9060`、`8T23` 等工艺或完整编码别名使用独立 `process_alias`。内部键与 FDB 回退见 [NAND 规格](nand_die_profile.md)。
-- Micron / Intel 2D 裸 NAND 详情字段仍保留光刻制程作为 `die_codename`，但摘要优先使用 `process_alias` 中的 die 代号，例如 `M70M` / `L84A`，避免列表摘要只显示泛化制程。
-- `firmware_match` / `die_mark` 不默认进入公开结果；内部命名统一见 [NAND 规格](nand_die_profile.md)。
-- `storage_interface` 与 `product_type` 完全重复时，优先保留更结构化的身份字段，除非接口字段含有版本、通道、档位等增量信息。
-- eMMC/UFS 协议版本直接由 `storage_interface` 承载；`product_version` 保留 NVMe 等与 PCIe 物理接口不同层次的版本。MCP 的并行 NAND 组成在 `product_mode` 中明确标出，不能因控制器协议版本更具体而遗失其伴随接口；`PL_REG`、`DC` 和版本候选范围照原义保留。
-- NAND 规格的接口能力使用 `nand_interface.capability`；YMTC PN 和裸 NAND FDB 补充的器件等级使用 `nand_interface.rating`。同值合并显示但保留两个作用对象，不同值分别显示；`value` 保留两个作用对象，`display` 负责格式化；结构定义拒绝旧字符串、空对象、空规格和未知属性。其他尚未迁移的 PN 等级继续保留 `speed_grade`，不得丢弃测试或分级信息。受管理 NAND 的简短摘要不使用内部 NAND 接口作为对外接口。
-- `iNAND`、`iSSD`、`moviNAND` 等厂商品牌或系列名不作为 `product_type`；需要展示时放入 `product_family` 等稳定语义字段，解析中间用的 `system` / `group` 不进入公开字段。SSD 类封装按接口归类为 `sata` / `sas` / `nvme`。
+- Prefer `die_codename` for NAND process/generation matches, labeled `Process` / `制程`. A generation fully expressed by the process name in shared tables is not repeated in `generation_info`; independent product generations, Xtacking versions, series, and nodes may coexist. The result builder must not remove them merely because a die name exists. Public 2D values prefer lithography names such as `15nm`, `A19nm`, or `20nm`; Kioxia/SanDisk 3D values use `BiCS3`, `BiCS4`, or `BiCS4.5` without vendor/cell suffixes. `layer_count` is separate, in the main NAND decode block rather than package details. Full process aliases such as `X3-9060` and `8T23` use `process_alias`. Internal keys and FDB fallbacks are defined in [NAND profiles (Chinese)](nand_die_profile.md).
+- Micron/Intel 2D raw NAND details keep lithography in `die_codename`, while summaries prefer die codenames from `process_alias`, such as `M70M` / `L84A`, over generic process names.
+- `firmware_match` / `die_mark` are not public by default; internal naming follows the NAND profile reference.
+- When `storage_interface` exactly duplicates `product_type`, retain the structured identity unless the interface adds a version, channel, gear, or other information.
+- eMMC/UFS protocol versions belong directly in `storage_interface`. `product_version` retains versions such as NVMe at a different layer from the PCIe physical interface. Parallel NAND in MCP stays explicit in `product_mode`; a more specific controller protocol must not erase its companion interface. Preserve `PL_REG`, `DC`, and version-candidate ranges with their original meanings.
+- NAND die capability uses `nand_interface.capability`; YMTC PN and raw NAND FDB device ratings use `nand_interface.rating`. Equal text may display once while retaining both scopes; different values display separately. `value` preserves both scopes and `display` formats them. The schema rejects old strings, empty objects/specifications, and unknown properties. Unmigrated PN ratings remain in `speed_grade`; do not discard test/grading information. Managed-NAND brief summaries must not use the internal NAND interface as the external interface.
+- Vendor brands/series such as `iNAND`, `iSSD`, and `moviNAND` are not `product_type`; use stable semantic fields such as `product_family` when needed. Intermediate `system/group` variables are not public. SSD-type packages are classified by interface as `sata/sas/nvme`.
 
 ## NAND Flash ID
 
-NAND Flash ID 通过 `decodeIdentifier` / `searchIdentifiers` 输出，`input.constraints.idScheme` 和器件 `idScheme` 均为 `nand.flash_id`。
+NAND Flash IDs use `decodeIdentifier` / `searchIdentifiers`. Both `input.constraints.idScheme` and device `idScheme` are `nand.flash_id`.
 
-| 字段 | 含义 | 常见块 |
+| Field | Meaning | Location/group |
 | --- | --- | --- |
 | `identifier` | NAND Flash ID | `device.identifier` |
 | `id_scheme` | `nand.flash_id` | `device.idScheme` |
-| `density` | ID 推导出的容量 | `geometry` |
-| `die_density` / `die_stack` | 单颗 die 容量和非纯数量的堆叠结构 | `geometry` |
+| `density` | ID-derived capacity | `geometry` |
+| `die_density` / `die_stack` | Single-die capacity and non-numeric stack structure | `geometry` |
 | `cell_level` | SLC / MLC / TLC / QLC | `geometry` |
-| `die_count` / `ce_count` / `rb_count` / `channel_count` / `plane_count` | 拓扑数量字段 | `geometry` |
-| `page_size` / `block_size` / `pages_per_block` / `blocks_per_lun` | NAND 几何信息 | `geometry` |
-| `redundant_area_size` / `simultaneously_programmed_pages` | 冗余区大小和可同时编程页面数 | `geometry` |
-| `voltage` / `interface_type` / `nand_interface` / `ecc_level` | 电压、接口模式、NAND 接口能力和 ECC 要求 | `interface` |
-| `timing_mode_async` / `edo` / `interleave` / `cache` / `revision` | 时序 / EDO / 交错 / 缓存 / 修订版扩展字段 | `timing` |
-| `enterprise` | 企业级标记 | `additional` |
-| `controller` | 关联控制器列表 | `controllers` |
+| `die_count` / `ce_count` / `rb_count` / `channel_count` / `plane_count` | Topology counts | `geometry` |
+| `page_size` / `block_size` / `pages_per_block` / `blocks_per_lun` | NAND geometry | `geometry` |
+| `redundant_area_size` / `simultaneously_programmed_pages` | Spare-area size and simultaneously programmable pages | `geometry` |
+| `voltage` / `interface_type` / `nand_interface` / `ecc_level` | Voltage, interface mode, NAND capability, and ECC requirements | `interface` |
+| `timing_mode_async` / `edo` / `interleave` / `cache` / `revision` | Timing, EDO, interleave, cache, and revision extensions | `timing` |
+| `enterprise` | Enterprise flag | `additional` |
+| `controller` | Associated controllers | `controllers` |
 
-相关 PN 使用 `identifier_for` 关联，不再拼进翻译后的字符串字段；可跳转时在关联上挂 `action`。
+Related PNs use `identifier_for` relations rather than concatenated translated strings. Attach `action` when navigation is available.
 
 ## DRAM
 
-DRAM / MCP DRAM 子系统使用以下字段，避免和 NAND 字段混用：
+DRAM and MCP DRAM subsystems use these fields to distinguish them from NAND:
 
-| 字段 | 含义 | 示例 |
+| Field | Meaning | Example |
 | --- | --- | --- |
-| `dram_type` | DRAM 类型来源 | `LPDDR5X`, `DDR4`, `GDDR7` |
-| `dram_density` | DRAM 子系统或芯片总容量，`unit = Mbit` | `65536` / `64Gb` |
-| `dram_die_density` | 单颗 DRAM die 容量 | `16384` / `16Gb` |
-| `dram_die_count` | DRAM 子系统物理 die 数量，避免和 NAND `die_count` 混用 | `4` |
-| `cs_count` / `channel_count` | DRAM CS/rank 或通道数量；可与 `dram_die_count` 同时输出 | `2` |
-| `dram_generation` | DRAM 工艺/代际 | `1y-nm LPDDR4X`, `LPDDR5X` |
-| `dram_speed` | DRAM 速率或速度档位 | `8533 Mbps`, `DDR4-2666 CL19` |
-| `dram_width` | DRAM 组织位宽，`unit = bit` | `16` / `x16` |
-| `dram_voltage` | DRAM 电压/I/O 信息 | `VDD2 1.8V / VDDQ 0.6V` |
-| `cas_latency` | DRAM CAS 延迟编码段展开 | `13` |
-| `read_latency` | 来源明确标为 RL 的读取延迟，不能改标为 CAS | `16` |
-| `die_revision` | DRAM die 修订或设计修订 | `Rev A`, `Rev E` |
-| `solder_type` | 焊接/镀层类型编码段展开 | `100% matte Sn` |
-| `special_option` | 不属于 die 堆叠的地址、CKE、布局等特殊选项 | `Reduced page-size addressing` |
-| `prod_status` | ES/MS/QS 等生产状态 | `ES` |
+| `dram_type` | DRAM type | `LPDDR5X`, `DDR4`, `GDDR7` |
+| `dram_density` | Total DRAM subsystem/chip capacity, `unit = Mbit` | `65536` / `64Gb` |
+| `dram_die_density` | Capacity of one DRAM die | `16384` / `16Gb` |
+| `dram_die_count` | Physical DRAM die count, distinct from NAND `die_count` | `4` |
+| `cs_count` / `channel_count` | DRAM CS/rank or channel count; may coexist with `dram_die_count` | `2` |
+| `dram_generation` | DRAM process/generation | `1y-nm LPDDR4X`, `LPDDR5X` |
+| `dram_speed` | DRAM speed or speed bin | `8533 Mbps`, `DDR4-2666 CL19` |
+| `dram_width` | Organization width, `unit = bit` | `16` / `x16` |
+| `dram_voltage` | DRAM voltage/I/O information | `VDD2 1.8V / VDDQ 0.6V` |
+| `cas_latency` | Expanded CAS latency token | `13` |
+| `read_latency` | Source-defined RL; must not be relabeled CAS | `16` |
+| `die_revision` | DRAM die/design revision | `Rev A`, `Rev E` |
+| `solder_type` | Expanded solder/plating token | `100% matte Sn` |
+| `special_option` | Addressing, CKE, layout, or other options outside die stacking | `Reduced page-size addressing` |
+| `prod_status` | Production status, such as ES/MS/QS | `ES` |
 
-独立 DRAM 约定：
+Standalone DRAM conventions:
 
-- `device.chipKind = "dram"`，`device.productType` 使用 `ddr4`、`lpddr5x` 等短产品类型。
-- `dram_type` 和 `product_type` 不写厂商名，也不保留冗余 `SDRAM` / `SGRAM` 后缀，例如不要使用 `Micron DDR5 SDRAM`。
-- `dram_density` / `dram_width` 已在主 DRAM 块输出时，不再复制到其他字段。
-- 封装 / 配置等厂商编码和封装输出遵循上文“公开值与去重”的通用约定。
-- 独立 DRAM 只有在封装 / 拓扑编码段被厂商规则识别后才允许补默认拓扑：已确认公开 `package` 默认可补 `dram_die_count=1`，普通 DDR 同时可补 `cs_count=1`。如果公开封装与 die/CS 编码段不是同一识别来源，规则使用内部 `meta.dramTopologyTokenRecognized` 区分：已知编码段但无可公开封装信息设 `true`，未知编码段即使封装仍可由其他位置确定也设 `false`。显式 die/CS 或堆叠布局始终优先，不能用默认值覆盖。
-- LPDDR/GDDR 不缺省推断 CS；仅凭高容量配置不能推断物理 die 数，必须有拓扑依据。
-- `dram_die_count` 只表达 DRAM 物理 die 数；CS/rank 数用 `cs_count`，PoP/MCP 等封装信息放 `package`，缩减页寻址、2 CKE、JEDEC/Flexframe 堆叠布局这类非 die/CS 信息放 `special_option`。
-- `-` 后面的速度 / 温度 / 修订版后缀不作为主结构强制条件；缺失时仍应输出厂商、产品类型、容量、位宽、封装、die 堆叠等已能确认的信息。
+- `device.chipKind = "dram"`; `device.productType` uses short types such as `ddr4` or `lpddr5x`.
+- `dram_type` and `product_type` omit vendor names and redundant `SDRAM/SGRAM` suffixes; do not use `Micron DDR5 SDRAM`.
+- Do not copy `dram_density/dram_width` into other fields when already present in the main DRAM block.
+- Vendor package/configuration tokens follow the public-value and package rules above.
+- Default topology is allowed only after a vendor rule recognizes the package/topology token. A confirmed public package may default to `dram_die_count=1`; ordinary DDR may also default to `cs_count=1`. If package and die/CS recognition come from different tokens, use internal `meta.dramTopologyTokenRecognized`: `true` for a known token without publishable package details, `false` for an unknown token even when another position establishes a package. Explicit die/CS or stack layout always wins over defaults.
+- Do not infer CS for LPDDR/GDDR. High capacity alone does not prove physical die count; topology evidence is required.
+- `dram_die_count` is physical DRAM dies; `cs_count` is CS/rank count. PoP/MCP package information belongs in `package`. Reduced-page addressing, 2 CKE, and JEDEC/Flexframe layouts that are not die/CS facts belong in `special_option`.
+- Speed/temperature/revision suffixes after `-` are not mandatory for recognizing the main structure. When absent, still return confirmed vendor, type, density, width, package, and die stacking.
 
-MCP/eMCP/uMCP 同时有 NAND 和 DRAM 时：
+For MCP/eMCP/uMCP with both NAND and DRAM:
 
-- NAND 存储使用 `storage_*`、`component_density`、`die_density`、`die_count`、`generation_info`。
-- DRAM 使用 `dram_*`，其中 DRAM die 数使用 `dram_die_count`，不要复用存储 `die_count`。
-- 子组件用 `component` 关联表达，不把存储和 DRAM 字段压平成一个产品专属键。
+- NAND storage uses `storage_*`, `component_density`, `die_density`, `die_count`, and `generation_info`.
+- DRAM uses `dram_*`, with `dram_die_count` rather than storage `die_count`.
+- Express subcomponents through `component` relations, rather than flattening storage and DRAM into product-specific keys.
 
-## 结果生成与信息保全
+## Result construction and information preservation
 
-从源规则、共享表和资源接入处处理同义信息；删除前先确认所有独有值及其作用对象已有公开字段承载。数值相同的设备、组件、die 容量或不同协议不能按文本去重。
+Resolve synonymous information at source rules, shared tables, and resource ingestion. Before removing a field, verify that every unique value and its scope has another public carrier. Equal numeric capacities at device/component/die scopes, or distinct protocols, cannot be deduplicated by text.
 
-`hiddenFields` 当前仅在源规则中用于内部 `density`，分类/搜索继续使用它，公开容量由存储/DRAM 字段承载。分组已用键集合只决定哪些字段进入 `additional`；`ensureProcessAliasField` 补充独立工艺别名。结果生成器不通过 `pruneRedundantFields` 或 `suppressDieProfileDuplicateFields` 隐藏跨字段信息。
+`hiddenFields` is currently used by source rules only for internal `density`: classification/search still use it while storage/DRAM fields carry public capacity. Used-key sets in grouping only determine which fields enter `additional`; `ensureProcessAliasField` adds independent process aliases. The result builder does not hide cross-field information through `pruneRedundantFields` or `suppressDieProfileDuplicateFields`.
 
-迁移前后测量见 [字段审计](field_information_audit.md#验证结果)。
+Before/after measurements are in the [Field audit (Chinese)](field_information_audit.md#验证结果).

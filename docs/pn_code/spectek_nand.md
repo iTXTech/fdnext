@@ -59,10 +59,10 @@ PN 结构：
 
 ## 注意
 
-旧版 SpecTek 规则不再报告不支持。当前实现按公开编码指南的编码段位置解析，并只输出规则能确定的字段；设计代际会先组成 `nand.die_profile` 键，例如 `M60A`、`L74A`，再由规格表统一补齐公开制程与 `process_alias`。共享 die 命名与显示见 [NAND 规格](nand_die_profile.md) 和 [术语](terminology.md#nand--受管理-nand)。SpecTek NAND PN 不再保留宽松全匹配回退；不符合旧版编码或严格新版芯片 PN 的短尾候选应保持未找到，避免错位编码段输出。
+旧版 SpecTek 规则不再报告不支持。当前实现按公开编码指南的编码段位置解析，并只输出规则能确定的字段；设计代际会先组成 `nand.die_profile` 键，例如 `M60A`、`L74A`，再由规格表统一补齐公开制程与 `process_alias`。共享 die 命名与显示见 [NAND 规格](nand_die_profile.md) 和 [术语](terminology.md#nand--managed-nand)。SpecTek NAND PN 不再保留宽松全匹配回退；不符合旧版编码或严格新版芯片 PN 的短尾候选应保持未找到，避免错位编码段输出。
 
 ## 分级与原生 die
 
 `M16A` / `M26A` 是 SpecTek 专属 pSLC 降级规格，分别对应 `N18A` / `N28A` 的 pSLC 形态；`PX001` 对应的 `M2XA` 已作为 SpecTek / Micron SLC 旧版规格记录。
 
-PFPT A 表示全部 CE 可用。分级、半页与其他部分可用标记的关联处理见 [FDBGen](../FDBGEN.md#制程原生容量与拓扑)。
+PFPT A 表示全部 CE 可用。分级、半页与其他部分可用标记的关联处理见 [FDBGen](../FDBGEN.md#process-native-density-and-topology)。

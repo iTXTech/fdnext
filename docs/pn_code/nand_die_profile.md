@@ -6,7 +6,7 @@
 
 ## 公开字段边界
 
-公开字段、显示格式与元数据边界统一见 [NAND 术语](terminology.md#nand--受管理-nand)。精确规格键的输出语法见 [DecodePack](../DECODEPACK.md#赋值表达式-assigndecodeexpr)。
+公开字段、显示格式与元数据边界统一见 [NAND 术语](terminology.md#nand--managed-nand)。精确规格键的输出语法见 [DecodePack](../DECODEPACK.md#assignment-expressions-assign--decodeexpr)。
 
 ## 键约定
 
@@ -135,4 +135,4 @@ Intel 的编码段→规格对照见 [Intel NAND](intel_nand.md#die-规格归一
 
 例外：IMFT 2D `L/M/B` die 代号可直接作为规格键匹配，例如 `L52A`、`M60A`、`L74A`、`L84A`、`B95A`、`L95B`；公开 `die_codename` 按系列补齐为 `50nm`、`34nm`、`25nm`、`20nm`、`16nm`，原始 die 代号作为 `process_alias` 展示。
 
-公开字段选择遵循 [术语](terminology.md#nand--受管理-nand)。
+公开字段选择遵循 [术语](terminology.md#nand--managed-nand)。

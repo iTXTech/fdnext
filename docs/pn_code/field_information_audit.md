@@ -12,7 +12,7 @@
 
 ## NAND 接口迁移
 
-现行接口结构见 [NAND 术语](terminology.md#nand--受管理-nand)。本阶段将共享规格、YMTC PN 与 FDB 等级迁移到明确作用对象；历史样本 `YMN09TC1B1AC6C` 同时保留 PN 的 ONFI 4.2 和 die 的 ONFI 4.1，两侧均为 1600MT/s，差异未被认定为错误。
+现行接口结构见 [NAND 术语](terminology.md#nand--managed-nand)。本阶段将共享规格、YMTC PN 与 FDB 等级迁移到明确作用对象；历史样本 `YMN09TC1B1AC6C` 同时保留 PN 的 ONFI 4.2 和 die 的 ONFI 4.1，两侧均为 1600MT/s，差异未被认定为错误。
 
 第一阶段验证：核心的 DecodePack、集成、结果约定共 280 项测试通过；PN 覆盖率基线、核心类型检查和 DecodePack 检查通过。全资源逐字段比较确认 394 项接口/等级信息按上述作用对象迁移，未发现非预期字段变化；未知 `Undefined` 等级不算已知规格，输入编码段保留。
 
@@ -38,7 +38,7 @@
 
 已删除 `pruneRedundantFields` 和 `suppressDieProfileDuplicateFields`。尤其不再因为存在 `die_codename` 就删除 `generation_info` / `series_info`，也不再一律删除 NAND 的 `process_node`。YMTC Xtacking、Micron FG/RG 以及独立产品代际现在保留在公开结果中。固定字段分组中的重复发射过滤也已移除。
 
-结果生成器的现行分组和显示边界见 [术语](terminology.md#字段分组)。本轮保留了三星 UFS 能力范围、NVMe/PCIe 层次、Winbond 供电模式与 pSLC/物理 TLC 等独立信息。
+结果生成器的现行分组和显示边界见 [术语](terminology.md#field-groups)。本轮保留了三星 UFS 能力范围、NVMe/PCIe 层次、Winbond 供电模式与 pSLC/物理 TLC 等独立信息。
 
 ## 验证结果
 

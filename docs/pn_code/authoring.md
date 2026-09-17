@@ -8,8 +8,8 @@
 - `partSpecs.match` 识别厂商、产品线和已知头部结构。非定长或有可扩展尾缀的 PN 不用完整已知后缀排除未知编码段；官方订购编码明确定长时，可以约束编码段长度、总长度和字符类别。
 - 禁止用完整 PN 数组、`match.value` 完整料号字面量或等价白名单匹配；解码器中也不得直接查完整 PN、基础 PN 或等价主体。外部确认的完整 PN 可进入搜索资源、资料和测试用例，公开字段仍须由实际存在的编码段或可泛化局部组合推导。
 - 后续未知编码段通过 `default`、`takeLongest`、`map`、剩余 `rest` 自然降级，保留厂商、类型、容量等已知字段。eMMC / UFS / MCP 类型须结合后续编码段，不能仅靠厂商前缀。
-- `tokenDecoder.assign` 的路径与表达式见 [DecodePack](../DECODEPACK.md#原生草稿输出)。
-- 规则包组织与注册见 [DecodePack](../DECODEPACK.md#5-规则包组织方式)。
+- `tokenDecoder.assign` 的路径与表达式见 [DecodePack](../DECODEPACK.md#native-draft-output)。
+- 规则包组织与注册见 [DecodePack](../DECODEPACK.md#5-rule-organization)。
 
 ## 输出与证据
 
@@ -25,7 +25,7 @@ DRAM 的默认 die/CS 与内部拓扑元数据见 [DRAM 术语](terminology.md#d
 
 ## 搜索资源
 
-`managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`，用于补全与搜索；映射与字段推导仍来自 DecodePack。Micron / Crucial / Micron 旧版 Elpida 的 FBGA 反查由 `mdb.json` 承载，爬取流程见 [FDBGen](../FDBGEN.md#cli-用法)。
+`managed-nand-pn.json` / `dram-pn.json` 是顶层数组，只保留 `vendor/pn`，用于补全与搜索；映射与字段推导仍来自 DecodePack。Micron / Crucial / Micron 旧版 Elpida 的 FBGA 反查由 `mdb.json` 承载，爬取流程见 [FDBGen](../FDBGEN.md#cli-usage)。
 
 同一官方 PN 的纯标点等价项只保留一种规范展示形态。文档和 PN 中的 `-` / `:` 是编码段分隔符；用户按原编码段顺序省略 `-` 时，解析与搜索按同一 PN 处理。
 
