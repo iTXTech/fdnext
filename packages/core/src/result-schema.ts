@@ -459,12 +459,11 @@ export const fdnextCapabilitiesJsonSchema = {
     },
     fdb: {
       type: "object",
-      required: ["name", "version", "time", "website"],
+      required: ["name", "version", "time"],
       properties: {
         name: { type: "string", minLength: 1 },
         version: { type: "string", minLength: 1 },
-        time: { type: "string" },
-        website: { type: "string" }
+        time: { type: "string" }
       },
       additionalProperties: false
     },

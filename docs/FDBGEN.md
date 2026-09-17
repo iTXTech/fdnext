@@ -68,11 +68,10 @@ Micron 查询统一按 FBGA 编码前缀规格生成候选并调用官方 FBGA �
 - `--meta <file>`：元信息 JSON 覆盖文件（可选）
 - `--extra <file>`：额外合并补丁文件（可选，可重复）；未显式传入时自动读取 `input/extra/*.json`
 - `--name <name>`：覆盖 `info.name`
-- `--website <url>`：覆盖 `info.website`
 - `--exclude-controller <name>`：从生成的 FDB 输出中排除指定控制器，可重复传入，也可用逗号分隔；默认黑名单包含 `3281FL` / `3379FL`
 - `--pretty`：格式化输出 JSON（`crawl-mdb` 默认已格式化，便于查看差异）
 
-`info.version` 必须显式传入。`info.time` 始终在生成时写入当前 UTC 时间，不从 `meta.json` / `extra/*.json` 或命令行覆盖。
+`info.version` 必须显式传入。`info.time` 始终在生成时写入当前 UTC 时间，使用与 `server.build.buildTime` 相同的 ISO 8601 毫秒格式（`YYYY-MM-DDTHH:mm:ss.sssZ`），不从 `meta.json` / `extra/*.json` 或命令行覆盖。FDB 元数据不包含 `website` 字段。
 
 提取工具输出的标准支持列表请使用 `fdnext fdbgen v1` 格式，详见 [`FDBGEN_FORMAT_V1.md`](FDBGEN_FORMAT_V1.md)。
 
@@ -229,7 +228,6 @@ dataset/
 {
   "info": {
     "name": "iTXTech fdnext FDB",
-    "website": "https://github.com/iTXTech/fdnext",
     "controllers": ["SM2258XT"]
   }
 }

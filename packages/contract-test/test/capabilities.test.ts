@@ -13,6 +13,8 @@ assert.equal(sdkCapabilities.server.version, fdnextPackageVersion);
 assert.match(sdkCapabilities.server.build.commitHash, /^(?:[0-9a-f]{7}|unknown)$/);
 assert.notEqual(sdkCapabilities.server.build.commitHash, "dev", "contract tests must load build metadata from dist");
 assertCapabilitiesBuildTime(sdkCapabilities);
+assert.equal(new Date(sdkCapabilities.fdb.time).toISOString(), sdkCapabilities.fdb.time);
+assert.equal(Object.hasOwn(sdkCapabilities.fdb, "website"), false);
 assert.equal(sdkCapabilities.fdb.version, engine.getVersion());
 assert.equal(sdkCapabilities.inventory.controllers.count, sdkCapabilities.inventory.controllers.items.length);
 assert.equal(sdkCapabilities.inventory.controllers.defaultGroups, "all");

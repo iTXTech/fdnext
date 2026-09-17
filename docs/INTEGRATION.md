@@ -287,7 +287,7 @@ await app.listen();
 
 ### 3.5 构建信息
 
-标准打包产物构建会从 git 写入短 `commitHash`，`buildTime` 使用当前 ISO 时间。CI / 无服务器平台可以显式设置 `FDNEXT_COMMIT_HASH` 和 `FDNEXT_BUILD_TIME` 覆盖。直接从源码运行服务 / CLI、没有打包器注入构建元数据时，`buildTime` 使用进程启动时的 ISO 时间。
+标准打包产物构建会从 git 写入短 `commitHash`，`buildTime` 使用当前 UTC 时间，格式为 ISO 8601，保留毫秒（`YYYY-MM-DDTHH:mm:ss.sssZ`）。CI / 无服务器平台可以显式设置 `FDNEXT_COMMIT_HASH` 和 `FDNEXT_BUILD_TIME` 覆盖；时间覆盖值会转换为同一格式，无效值使构建失败。直接从源码运行服务 / CLI、没有打包器注入构建元数据时，`buildTime` 使用进程启动时间，格式相同。
 
 Worker 的核心与适配器构建都注入上述信息，避免全局范围的 `Date` 回退将构建时间记为 Unix 纪元起点。
 

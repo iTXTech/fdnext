@@ -958,9 +958,6 @@ function mergeExtraInfo(target: FdbInfoPayload | undefined, source: FdbInfoPaylo
   if (source.name) {
     out.name = source.name;
   }
-  if (source.website) {
-    out.website = source.website;
-  }
   out.controllers = mergeStringArray(toStringArray(out.controllers, false), toStringArray(source.controllers, false), false);
   if (out.controllers.length === 0) {
     delete out.controllers;
@@ -1158,9 +1155,8 @@ function buildOutput(infoInput: FdbInfoPayload & { version: string }, vendors: V
 
   const info = {
     name: infoInput.name ?? "iTXTech fdnext FDB",
-    website: infoInput.website ?? "https://github.com/iTXTech/fdnext",
     version: infoInput.version,
-    time: new Date().toUTCString(),
+    time: new Date().toISOString(),
     controllers: [...controllers].sort()
   };
 
@@ -1262,7 +1258,6 @@ function generateFdbInternal(options: GenerateFdbOptions, trace?: FdbProvenanceT
     ...supplementalInfo,
     controllers: mergeStringArray(toStringArray(rawInfo.controllers, false), toStringArray(supplementalInfo.controllers, false), false),
     ...(options.name ? { name: options.name } : {}),
-    ...(options.website ? { website: options.website } : {}),
     version
   };
   applyControllerBlacklist(infoInput, vendors, iddb, controllerBlacklist);

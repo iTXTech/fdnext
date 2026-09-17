@@ -354,9 +354,6 @@ export const extraJsonSchema = {
         name: {
           type: "string"
         },
-        website: {
-          type: "string"
-        },
         controllers: {
           type: "array",
           items: {

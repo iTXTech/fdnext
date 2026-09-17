@@ -60,6 +60,33 @@ test("fdbgen exports schema helpers and builds v1 full support lists", () => {
   assert.deepEqual(support.m, { source: "unit-test" });
 });
 
+test("generated metadata uses UTC milliseconds and omits website from input metadata", () => {
+  const inputDir = mkdtempSync(join(tmpdir(), "fdnext-fdbgen-metadata-"));
+  try {
+    writeFileSync(join(inputDir, "meta.json"), JSON.stringify({
+      name: "Test FDB",
+      website: "https://example.com",
+      time: "2000-01-01T00:00:00.000Z"
+    }));
+    const before = Date.now();
+    const output = generateFdb({ inputDir, version: "test" });
+    const after = Date.now();
+    const info = output.info as Record<string, unknown>;
+    assert.equal(info.name, "Test FDB");
+    assert.equal(Object.hasOwn(info, "website"), false);
+    assert.equal(typeof info.time, "string");
+    const time = String(info.time);
+    assert.match(time, /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/);
+    assert.equal(new Date(time).toISOString(), time);
+    assert.ok(Date.parse(time) >= before && Date.parse(time) <= after);
+    const validation = validateExtraPayload({ info: { website: "https://example.com" } });
+    assert.equal(validation.ok, false);
+    assert.ok(validation.errors.some((issue) => issue.code === "info.unknown_field"));
+  } finally {
+    rmSync(inputDir, { recursive: true, force: true });
+  }
+});
+
 test("extra parser normalizes wrapper/direct vendors and rejects id/fid conflicts", () => {
   const parsed = parseExtraPayload({
     schemaVersion: "fdnext.fdb.extra.v1",

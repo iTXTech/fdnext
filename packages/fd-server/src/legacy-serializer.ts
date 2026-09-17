@@ -565,7 +565,6 @@ export function legacyInfo(engine: FdnextEngine): Record<string, unknown> {
         name: capabilities.fdb.name,
         version: Number.parseInt(capabilities.fdb.version, 10) || capabilities.fdb.version,
         time: capabilities.fdb.time,
-        website: capabilities.fdb.website,
         controllers: capabilities.inventory.controllers.items
       },
       flash_cnt: capabilityMetric(capabilities, "part_numbers"),

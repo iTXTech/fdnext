@@ -6,7 +6,6 @@ export type FdbSchemaVersion = typeof FDNEXT_FDB_SCHEMA_VERSION;
 
 export interface FdbInfoPayload {
   name?: string;
-  website?: string;
   controllers?: string[];
 }
 
@@ -56,7 +55,6 @@ export interface GenerateFdbOptions {
   extraFile?: string;
   extraFiles?: string[];
   name?: string;
-  website?: string;
   pretty?: boolean;
   controllerBlacklist?: string[];
 }

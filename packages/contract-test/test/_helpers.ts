@@ -36,6 +36,7 @@ export function assertCapabilitiesBuildTime(capabilities: unknown): void {
   const buildTime = build && typeof build === "object" ? (build as { buildTime?: unknown }).buildTime : undefined;
   assert.equal(typeof buildTime, "string");
   assert.ok(!Number.isNaN(Date.parse(String(buildTime))));
+  assert.equal(new Date(String(buildTime)).toISOString(), buildTime);
   assert.notEqual(buildTime, "1970-01-01T00:00:00.000Z");
 }
 

@@ -122,7 +122,6 @@ export interface FlashIdRecord {
 export interface FdbInfo {
   name: string;
   version: string;
-  website: string;
   time: string;
   controllers: string[];
 }

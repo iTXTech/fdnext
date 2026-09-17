@@ -2,9 +2,8 @@
     "schemaVersion": "fdnext.fdb.v1",
     "info": {
         "name": "iTXTech fdnext FDB",
-        "website": "https:\/\/github.com\/iTXTech\/fdnext",
         "version": "87",
-        "time": "Tue, 15 Sep 2026 06:27:03 GMT",
+        "time": "2026-09-17T16:16:28.298Z",
         "controllers": [
             "AU6987(AN)",
             "AU6989SN",

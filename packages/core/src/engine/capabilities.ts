@@ -43,8 +43,7 @@ export function buildCapabilitiesSnapshot(input: {
     fdb: {
       name: input.fdb.info.name,
       version: input.fdb.info.version,
-      time: input.fdb.info.time,
-      website: input.fdb.info.website
+      time: input.fdb.info.time
     },
     inventory: {
       metrics: [

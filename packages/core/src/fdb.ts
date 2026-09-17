@@ -283,7 +283,6 @@ export function buildFdb(rawInput: Record<string, unknown>): FdbDataset {
     info: {
       name: String(info.name ?? "iTXTech fdnext Flash Database"),
       version: String(info.version ?? "0"),
-      website: String(info.website ?? ""),
       time: String(info.time ?? ""),
       controllers: infoControllers
     },

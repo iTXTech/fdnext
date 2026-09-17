@@ -122,10 +122,8 @@ function normalizeInfoPayload(value: unknown): FdbInfoPayload | undefined {
   }
   const info: FdbInfoPayload = {};
   const name = readString(source.name);
-  const website = readString(source.website);
   const controllers = normalizeStringArray(source.controllers);
   if (name) info.name = name;
-  if (website) info.website = website;
   if (controllers.length > 0) info.controllers = controllers;
   return Object.keys(info).length > 0 ? info : undefined;
 }
@@ -501,7 +499,7 @@ function validateExtraInfoPayload(issues: PayloadValidationIssue[], value: unkno
       validateStringArrayField(issues, item, `${path}/${key}`);
       continue;
     }
-    if ((key === "name" || key === "website") && typeof item === "string") {
+    if (key === "name" && typeof item === "string") {
       continue;
     }
     addIssue(issues, "error", "info.unknown_field", `${path}/${key}`, `Unknown info field '${key}'.`);

@@ -22,7 +22,6 @@ interface CliOptions {
   extraFiles?: string[];
   version?: string;
   name?: string;
-  website?: string;
   pretty?: boolean;
   controllerBlacklist?: string[];
   file?: string;
@@ -65,7 +64,6 @@ function usage(): string {
     "  --extra <file>      Optional extra merge JSON path; repeatable. Defaults to input/extra/*.json",
     "  --version <ver>     Required info.version",
     "  --name <name>       Override info.name",
-    "  --website <url>     Override info.website",
     "  --exclude-controller <name>",
     "                      Exclude a controller from generated FDB output; repeatable",
     "  --pretty            Write pretty JSON (default for MDB crawls)",
@@ -180,11 +178,6 @@ function parseBuildOptions(args: string[]): CliOptions {
     }
     if (arg === "--name") {
       options.name = requireValue(args, i, arg);
-      i += 1;
-      continue;
-    }
-    if (arg === "--website") {
-      options.website = requireValue(args, i, arg);
       i += 1;
       continue;
     }
@@ -432,7 +425,6 @@ function runBuild(args: string[]): void {
     extraFiles: opts.extraFiles?.map((file) => resolve(file)),
     version: opts.version,
     name: opts.name,
-    website: opts.website,
     pretty: opts.pretty ?? false,
     controllerBlacklist: opts.controllerBlacklist
   });

@@ -381,7 +381,6 @@ export interface CapabilityFdbInfo {
   name: string;
   version: string;
   time: string;
-  website: string;
 }
 
 export interface CapabilityControllerGroup {

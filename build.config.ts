@@ -40,7 +40,12 @@ function gitShortCommitHash(root: string): string {
 }
 
 function buildTime(): string {
-  return cleanEnvValue(process.env.FDNEXT_BUILD_TIME) ?? new Date().toISOString();
+  const override = cleanEnvValue(process.env.FDNEXT_BUILD_TIME);
+  const time = override ? new Date(override) : new Date();
+  if (!Number.isFinite(time.getTime())) {
+    throw new Error("FDNEXT_BUILD_TIME must be a valid timestamp.");
+  }
+  return time.toISOString();
 }
 
 function buildMetadataDefines(root: string): Record<string, string> {
