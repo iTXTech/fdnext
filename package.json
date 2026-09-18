@@ -34,7 +34,7 @@
     "cf-workers:dev": "pnpm -C packages/cf-workers run dev",
     "cf-workers:deploy": "pnpm -C packages/cf-workers run deploy",
     "cf-workers:deploy:dry-run": "pnpm -C packages/cf-workers run deploy:dry-run",
-    "cli": "tsx ./packages/core/src/cli/index.ts",
+    "cli": "tsx ./packages/core/src/cli/bin.ts",
     "fdbgen:build": "pnpm -C packages/fdbgen build",
     "fdbgen:generate": "tsx ./packages/fdbgen/src/cli.ts build",
     "fdbgen:audit": "tsx ./packages/fdbgen/src/cli.ts audit --file packages/core/resources/fdb.json",

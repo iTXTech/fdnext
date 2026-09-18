@@ -10,7 +10,7 @@ This guide covers embedding fdnext in Node.js, browsers, and servers. [HTTP API]
 pnpm add @itxtech/fdnext-core
 ```
 
-Use the installed CLI with `pnpm exec fdnext part decode MT29F64G08CBABA eng`. Rule diagnostics are covered in [DecodePack maintenance tools](DECODEPACK.md#7-maintenance-tools).
+Use the installed CLI with `pnpm exec fdnext part decode MT29F64G08CBABA --lang eng`. See [CLI usage](#13-command-line-interface) for output formats and options. Rule diagnostics are covered in [DecodePack maintenance tools](DECODEPACK.md#7-maintenance-tools).
 
 | Entry point | Purpose |
 | --- | --- |
@@ -131,6 +131,67 @@ interface ExternalLink {
 ```
 
 The runtime drops links without `id/label/url`, permits only `http:`, `https:`, and `mailto:` URLs, and sorts by `priority`.
+
+### 1.3 Command-line interface
+
+The `fdnext` executable ships with `@itxtech/fdnext-core`; no separate CLI package is needed. In a repository checkout, use `pnpm cli` instead of `pnpm exec fdnext`.
+
+```bash
+pnpm exec fdnext --help
+pnpm exec fdnext --version
+pnpm exec fdnext part decode MT62F1G64D4EK-023 --lang eng
+pnpm exec fdnext part search MT62 --lang eng --limit 5
+pnpm exec fdnext id decode 2C64444BA900 --lang eng --controller-group if:sata
+pnpm exec fdnext id search 2C64 --limit 5 --id-scheme nand.flash_id
+pnpm exec fdnext capabilities --lang eng --format json
+pnpm exec fdnext decodepack explain part BWCA2KZC-64G --format text
+```
+
+Use `--help` at any level, such as `fdnext part --help` or `fdnext part decode --help`. No arguments show help successfully. `--version` (or `-V`) prints only the version and must be used alone. Help and version do not load the engine resources.
+
+| Output option | Behavior |
+| --- | --- |
+| `--format auto` (default) | Text when stdout is a terminal; JSON otherwise |
+| `--format text` | Plain text, including when redirected or captured by an LLM tool |
+| `--format json` | Complete existing JSON result, without a banner or ANSI formatting |
+
+```bash
+pnpm exec fdnext part decode MT62F1G64D4EK-023 --lang eng --format text > result.txt
+pnpm exec fdnext part search MT62 --limit 5 --format json > result.json
+```
+
+Text output preserves field labels, keys, units, raw values, candidates, relations, warnings, and links without truncating lists. It suppresses duplicate summary projections and UI importance hints. Section labels are English; `--lang` selects the engine's field translations (bundled languages: `eng`, `chs`, with the engine's normal fallback behavior). Text layout may evolve; use JSON and its versioned result schema for machine parsing.
+
+stdout contains the requested result. The project banner appears in help, and on stderr for text commands only when both stdout and stderr are terminals. `--no-banner` suppresses it. There is no automatic banner for redirected results, explicit JSON, or embedded calls. A downstream reader closing its pipe early is handled without a stack trace.
+
+| Exit code | Meaning |
+| --- | --- |
+| `0` | Query completed, or help/version displayed |
+| `1` | Runtime failure, or `decodepack check` found rule errors |
+| `2` | Invalid CLI arguments; stderr identifies the problem and the relevant help command |
+
+Query statuses such as `not_found`, `ambiguous`, `unsupported`, and `invalid_input` remain part of the result and do not change a completed query's exit code. Runtime errors go to stderr. A failed rule check still writes its findings to stdout.
+
+Named options accept `--name value` or `--name=value`, before or after the command. Search limits must be positive safe integers; omission returns all matches. `--controller-group` applies only to decode commands and supports repeated or comma-separated group IDs; `all` must stand alone. `--spec-id` applies to `decodepack explain part`. Use `--` before a query starting with `-`.
+
+Existing positional options remain supported: `[lang]` for part decode and capabilities, `[lang] [limit]` for part search, `[lang] [idScheme]` for ID decode, `[lang] [limit] [idScheme]` for ID search, and `[specId]` / `[idScheme]` for DecodePack explanations. Supplying the same option by name and position is an error. Unknown options, unsupported options, extra arguments, invalid schemes/groups, and malformed limits now fail instead of being ignored.
+
+For in-process calls, reuse an engine and optionally capture output:
+
+```ts
+import { createEngine } from "@itxtech/fdnext-core";
+import { runCliCommand } from "@itxtech/fdnext-core/cli";
+
+const engine = createEngine();
+const code = runCliCommand(["part", "decode", "MT62F1G64D4EK-023", "--lang", "eng"], {
+  engine,
+  format: "text",
+  stdout: (text) => process.stdout.write(text),
+  stderr: (text) => process.stderr.write(text)
+});
+```
+
+`runCliCommand()` remains synchronous, defaults to JSON independently of the host terminal, and returns an exit code without exiting the process. An explicit `--format` overrides the option. The executable supplies terminal state; embedding callers need not. Importing `/cli` has no command-execution side effects. Runtime failures return `1` with a diagnostic instead of throwing.
 
 ### Result v2 migration
 

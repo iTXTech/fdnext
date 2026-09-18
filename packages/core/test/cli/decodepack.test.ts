@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const packageRoot = fileURLToPath(new URL("../../", import.meta.url));
 
 function runCli(args: string[]): unknown {
-  const output = execFileSync(process.execPath, ["--import", "tsx/esm", "src/cli/index.ts", ...args], {
+  const output = execFileSync(process.execPath, ["--import", "tsx/esm", "src/cli/bin.ts", ...args], {
     cwd: packageRoot,
     encoding: "utf8"
   });

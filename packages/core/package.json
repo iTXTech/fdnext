@@ -34,7 +34,7 @@
     }
   },
   "bin": {
-    "fdnext": "dist/cli.js"
+    "fdnext": "dist/bin.js"
   },
   "repository": {
     "type": "git",
@@ -61,7 +61,8 @@
   },
   "scripts": {
     "build": "rm -rf dist tsconfig.tsbuildinfo && tsc -b --emitDeclarationOnly && tsdown",
-    "test": "pnpm test:decodepack && pnpm test:pn-coverage && pnpm test:integration && pnpm test:contract",
+    "test": "pnpm test:decodepack && pnpm test:pn-coverage && pnpm test:integration && pnpm test:contract && pnpm test:cli",
+    "test:cli": "node --import tsx --test --test-isolation=none 'test/cli/**/*.test.ts'",
     "audit:pn-coverage": "node --import tsx scripts/audit-pn-coverage.ts",
     "test:pn-coverage": "pnpm audit:pn-coverage --check",
     "test:decodepack": "node --import tsx --test --test-isolation=none 'test/decodepack/**/*.test.ts'",

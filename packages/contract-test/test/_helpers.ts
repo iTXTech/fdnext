@@ -21,7 +21,7 @@ export const fdnextPackageVersion = rootPackageMetadata.version as string;
 const execFileAsync = promisify(execFile);
 
 export async function runCli(args: string[]): Promise<Record<string, unknown>> {
-  const result = await execFileAsync(process.execPath, ["./packages/core/dist/cli.js", ...args], {
+  const result = await execFileAsync(process.execPath, ["./packages/core/dist/bin.js", ...args], {
     cwd: repoRoot,
     encoding: "utf8",
     maxBuffer: 4 * 1024 * 1024
